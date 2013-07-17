@@ -12,7 +12,6 @@ var urls = {
 	logout: "http://localhost:8080/geocat/logout.action?",
 };
 
-
 var JSV = require("./jsv").JSV;
 var env = JSV.createEnvironment();
 
