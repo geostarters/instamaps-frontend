@@ -22,6 +22,7 @@ body {
 	max-height: 145px;
 	height: 80px;
 	width: 80px;
+	box-shadow: 1px 1px 1px 1px #AAAAAA;
 }
 
 .descobreix_color {
@@ -33,11 +34,11 @@ body {
 }
 
 .visualitza_color {
-	background-image: linear-gradient(to bottom, #0A84C1, #40B3DF);
+	background-image: linear-gradient(to bottom, #0A84C1, #59B5D6);
 }
 
 .comparteix_color {
-	background-image: linear-gradient(to bottom, #0A246A, #17649A);
+	background-image: linear-gradient(to bottom, #004ECC, #196ED1);
 }
 
 .img-circle2-small {
@@ -108,5 +109,5 @@ hr.soften {
 		transparent);
 	border: 0 none;
 	height: 1px;
-	margin: 70px 0;
+	margin: 50px 0;
 }
