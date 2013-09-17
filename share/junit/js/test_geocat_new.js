@@ -10,11 +10,6 @@ var urls = {
 	getAllUserNames: "http://localhost:8080/geocat/admin/getAllUserNames.action?",
 	deleteUser: "http://localhost:8080/geocat/admin/deleteUser.action?",
 	logout: "http://localhost:8080/geocat/logout.action?",
-	createAmbitGeo: "http://localhost:8080/geocat/admin/createAmbitGeo.action?",
-	updateAmbitGeo: "http://localhost:8080/geocat/admin/updateAmbitGeo.action?",
-	deleteAmbitGeo: "http://localhost:8080/geocat/admin/deleteAmbitGeo.action?",
-	getAllAmbitGeo: "http://localhost:8080/geocat/admin/getAllAmbitGeo.action?",
-	getAmbitGeoById: "http://localhost:8080/geocat/admin/getAmbitGeoById.action?",
 	createTipusAplicacio: "http://localhost:8080/geocat/admin/createTipusAplicacio.action?",
 	updateTipusAplicacio: "http://localhost:8080/geocat/admin/updateTipusAplicacio.action?",
 	deleteTipusAplicacio: "http://localhost:8080/geocat/admin/deleteTipusAplicacio.action?",
@@ -74,7 +69,7 @@ asyncTest( "login", 1, function() {
 
 //admin_users
 module( "admin_users" );
-
+/*
 asyncTest( "createUser", 2, function() {
 	$.ajax({
 		url: urls.createUser,
@@ -116,7 +111,6 @@ asyncTest( "createUser", 2, function() {
 	});	
 });
 
-/*
 asyncTest( "updatePassword", 1, function() {
 	$.ajax({
 		url: urls.updatePassword,
@@ -396,304 +390,6 @@ asyncTest( "deleteUser", 1, function() {
 
 //admin_tipus
 module( "admin_tipus" );
-
-asyncTest( "createAmbitGeo", 2, function() {
-	$.ajax({
-		url: urls.createAmbitGeo,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
-			nom: 'Cataluña'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						nom : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "updateAmbitGeo", 2, function() {
-	$.ajax({
-		url: urls.updateAmbitGeo,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
-			nom: 'Catalunya'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						nom : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getAmbitGeoById", 2, function() {
-	$.ajax({
-		url: urls.getAmbitGeoById,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						nom : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getAllAmbitGeo", 3, function() {
-	$.ajax({
-		url: urls.getAllAmbitGeo,
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'array', required : true, items:{type: 'object'}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		
-		var schema1 = {
-			type : 'object',
-			properties :{
-				businessId : { type: 'string', required : true},
-				nom : { type: 'string', required : true}
-			}
-		};
-		var report1 = env.validate(results.results[0], schema1);
-		equal(report1.errors.length, 0, JSON.stringify(results.results[0]));
-		
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "deleteAmbitGeo", 1, function() {
-	$.ajax({
-		url: urls.deleteAmbitGeo,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "createTipusEntitat", 2, function() {
-	$.ajax({
-		url: urls.createTipusEntitat,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
-			nom: 'Educacio'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						nom : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "updateTipusEntitat", 2, function() {
-	$.ajax({
-		url: urls.updateTipusEntitat,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
-			nom: 'Educacio ESO'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						nom : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getTipusEntitatById", 2, function() {
-	$.ajax({
-		url: urls.getTipusEntitatById,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						nom : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getAllTipusEntitat", 3, function() {
-	$.ajax({
-		url: urls.getAllTipusEntitat,
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'array', required : true, items:{type: 'object'}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		
-		var schema1 = {
-			type : 'object',
-			properties :{
-				businessId : { type: 'string', required : true},
-				nom : { type: 'string', required : true}
-			}
-		};
-		var report1 = env.validate(results.results[0], schema1);
-		equal(report1.errors.length, 0, JSON.stringify(results.results[0]));
-		
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "deleteTipusEntitat", 1, function() {
-	$.ajax({
-		url: urls.deleteTipusEntitat,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-
 /*
 asyncTest( "createTipusAplicacio", 2, function() {
 	$.ajax({
@@ -864,6 +560,311 @@ asyncTest( "getAllTipusAplicacio", 3, function() {
 asyncTest( "deleteTipusAplicacio", 1, function() {
 	$.ajax({
 		url: urls.deleteTipusAplicacio,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+
+asyncTest( "createTipusEntitat", 2, function() {
+	$.ajax({
+		url: urls.createTipusEntitat,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
+			nom: 'Educacio'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						id : { type: 'number', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "updateTipusEntitat", 2, function() {
+	$.ajax({
+		url: urls.updateTipusEntitat,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
+			nom: 'Educacio ESO'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						id : { type: 'number', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getTipusEntitatById", 2, function() {
+	$.ajax({
+		url: urls.getTipusEntitatById,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						id : { type: 'number', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getAllTipusEntitat", 3, function() {
+	$.ajax({
+		url: urls.getAllTipusEntitat,
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'array', required : true, items:{type: 'object'}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		
+		var schema1 = {
+			type : 'object',
+			properties :{
+				businessId : { type: 'string', required : true},
+				id : { type: 'number', required : true},
+				nom : { type: 'string', required : true}
+			}
+		};
+		var report1 = env.validate(results.results[0], schema1);
+		equal(report1.errors.length, 0, JSON.stringify(results.results[0]));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteTipusEntitat", 1, function() {
+	$.ajax({
+		url: urls.deleteTipusEntitat,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "createTipusOrigin", 2, function() {
+	$.ajax({
+		url: urls.createTipusOrigin,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
+			nom: 'dwg'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						id : { type: 'number', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "updateTipusOrigin", 2, function() {
+	$.ajax({
+		url: urls.updateTipusOrigin,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081', 
+			nom: 'dwg, cad'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						id : { type: 'number', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getTipusOriginById", 2, function() {
+	$.ajax({
+		url: urls.getTipusOriginById,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						id : { type: 'number', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getAllTipusOrigin", 3, function() {
+	$.ajax({
+		url: urls.getAllTipusOrigin,
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'array', required : true, items:{type: 'object'}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		
+		var schema1 = {
+			type : 'object',
+			properties :{
+				businessId : { type: 'string', required : true},
+				id : { type: 'number', required : true},
+				nom : { type: 'string', required : true}
+			}
+		};
+		var report1 = env.validate(results.results[0], schema1);
+		equal(report1.errors.length, 0, JSON.stringify(results.results[0]));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteTipusOrigin", 1, function() {
+	$.ajax({
+		url: urls.deleteTipusOrigin,
 		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -1114,7 +1115,6 @@ asyncTest( "deleteAplicacio", 1, function() {
 });
 */
 module( "servidors" );
-/*
 asyncTest( "createServidor", 2, function() {
 	$.ajax({
 		url: urls.createServidor,
@@ -1388,7 +1388,6 @@ asyncTest( "deleteServidor", 1, function() {
 		start();
 	});	
 });
-*/
 
 /*
  * Logout 
