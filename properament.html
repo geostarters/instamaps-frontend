@@ -12,9 +12,9 @@
 <meta name="language" content="ca" />
     <!-- Le styles -->
     <link href="/share/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 	
-	<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">
+	<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
     
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -23,54 +23,63 @@
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="apple-touch-glyphicon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-glyphicon-144-precomposed.png">
+    <link rel="apple-touch-glyphicon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-glyphicon-114-precomposed.png">
+    <link rel="apple-touch-glyphicon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-glyphicon-72-precomposed.png">
+                    <link rel="apple-touch-glyphicon-precomposed" href="../assets/ico/apple-touch-glyphicon-57-precomposed.png">
                                    <link rel="shortcut icon" href="../assets/ico/favicon.png">
   </head>
 
   <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="test.html">GeoCat.Online</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="index.html">Inici</a></li>
-              <li><a href="properament.html">Els meus mapes</a></li>
-              <li><a href="properament.html">Explorar</a></li>
+        <a class="navbar-brand" href="index.html">
+					<div class="img-circle2-icon descobreix_color"></div>
+					<div class="img-circle2-icon crea_color"></div>
+					<div class="img-circle2-icon visualitza_color"></div>
+					<div class="img-circle2-icon comparteix_color"></div>
+				</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              <li class="active"><a  lang="ca"  href="index.html">Inici</a></li>
+              <li><a  lang="ca" href="properament.html">Els meus mapes</a></li>
+              <li><a  lang="ca" href="properament.html">Explorar</a></li>
                 <li></li>
             </ul>
-            <form class="navbar-form pull-right">			
-             <input type="text" class="search-query" placeholder="Cercar">
+            <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+			<input lang="ca"  type="text" class="form-control" placeholder="Cercar">
+			</div>
+			<!--<button type="submit" class="btn btn-default">Submit</button>-->
             </form>
-          </div><!--/.nav-collapse -->
+          </div><!--/.navbar-collapse -->
         </div>
       </div>
-    </div>
+    
 
     <div class="container">
 
     <hr>
 <br><br>
       <div class="jumbotron">
-        <h1>GeoCat.Online encara no està operatiu. Hi estem treballant</h1>
+        <h1 lang="ca" >GeoCat.Online encara no està operatiu. Hi estem treballant</h1>
 		<br>
        <ul>
-	   <li class="lead">T'interessa? </li>
-		<li class="lead">Vols ser el primer a probar la plataforma?</li>
-		<li class="lead">Dona'ns el teu correu i et mantindrem informat</li>
+	   <li lang="ca"  class="lead">T'interessa? </li>
+		<li lang="ca"  class="lead">Vols ser el primer a probar la plataforma?</li>
+		<li  lang="ca" class="lead">Dona'ns el teu correu i et mantindrem informat</li>
         </ul>
 		    <form id="frm_email" class="navbar-form">
-			<input type="text" id="text_email" class="span2" placeholder="Correu">
-			<button type="submit" id="bt_submit" class="btn btn-large btn-success">Vull ser el primer</button>
+			 <input type="text" lang="ca"  placeholder="Email" width="20" class="input-lg">
+			<button  lang="ca" type="submit" id="bt_submit" class="btn btn-lg btn-success">Vull ser el primer</button>
 		</form>
       </div>
 
@@ -86,61 +95,25 @@
       <footer>
         <p>&copy; GeoCat.Online</p>
       </footer>
-
+		
+	
     </div> <!-- /container -->
 
-
+<p id="back-top">		
+		<button type="button" class="btn btn-default">
+		<span  lang="ca" class="glyphicon glyphicon-circle-arrow-up"></span> Tornar Inici
+		</button>
+	</p>
 	
 	
 
-    <!-- Le javascript
-    ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
     <script src="/share/js/bootstrap.min.js"></script>
-  
-  
-  <script>
-  
-  jQuery("#frm_email").submit(function(){ 
-	var correu_usuari=jQuery("#text_email").val();  
-	  if( isValidEmailAddress( correu_usuari ) ) {
-	  
-			  jQuery.ajax({
-					url: 'http://geocat02.icc.local:8080/geocat/registreEmail.action?',
-					data: {email: correu_usuari},
-					method: 'post',
-					dataType: 'jsonp',
-				}).done(function(results){
-					//console.debug(results);
-					if(results.OK){
-					jQuery('#div_msg').html('<div class="alert alert-success"> <strong>Rebut!!</strong>  Correu enviat correctament. Et mantindrem informat. Gràcies!!</div>');
-					}else{
-					jQuery('#div_msg').html('<div class="alert alert-error"> <strong>Ups!!</strong> '+results.ERROR+'</div>');
-					}
-					//deepEqual(results, {OK: "Password updated."}, "Passed:"+ results);
-					//start();
-				}).fail(function(results){
-					//console.debug(results);
-					//ok( false, "Fail!:" + results);
-					//start();
-					jQuery('#div_msg').html('<div class="alert alert-error"> <strong>Ups!!</strong> Error </div>');
-			  
-				});
-	   
-	  }else{  
-		jQuery('#div_msg').html('<div class="alert alert-error"> <strong>Ups!!</strong> Sembla que <strong>'+correu_usuari+'</strong> no és una adreça correcta</div>');  
-	 }
-  return false;
-  });
-  
- function isValidEmailAddress(emailAddress) {
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-    return pattern.test(emailAddress);
-}; 
-  
-  
-  </script>
+    <script src="/geocatweb/js/geocat.web-1.0.0.js"></script> 
+  	<script src="/share/js/jquery/plugins/jquery-lang.js"></script>
+	<script src="/geocatweb/js/language/es.js"></script>
+	<script src="/geocatweb/js/language/en.js"></script>
   
   
   

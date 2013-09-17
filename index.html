@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>GeoCat.Online - La plataforma col.laborativa de mapes i
-	localització a Catalunya</title>
+<title lang="ca">GeoCat.Online - La plataforma col.laborativa de mapes i localització a Catalunya</title>
 <meta name="author" content="GeoCat.Online">
 <meta name="description"
 	content="GeoCat.Online ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
@@ -15,7 +14,7 @@
 <!-- Le styles -->
 <link href="/share/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
-<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">
+<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
 
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -24,100 +23,101 @@
     <![endif]-->
 
 <!-- Fav and touch icons -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-57-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed" sizes="144x144"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-144-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed" sizes="114x114"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-114-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed" sizes="72x72"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-72-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
 <link rel="shortcut icon" href="../assets/ico/favicon.png">
 </head>
 
 <body>
 
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse">
+
+
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="brand" href="index.html">
+				<a class="navbar-brand" href="index.html">
 					<div class="img-circle2-icon descobreix_color"></div>
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
 				</a>
-				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li class="active"><a href="index.html">Inici</a></li>
-						<li><a href="properament.html">Informació</a></li>
-						<li><a href="properament.html">Contacte</a></li>
-						<li></li>
-					</ul>
-					<form class="navbar-form pull-right">
-
-						<input class="span2" type="text" placeholder="Email"> <input
-							class="span2" type="password" placeholder="Password">
-						<button type="submit" class="btn">Sign in</button>
-					</form>
-				</div>
-				<!--/.nav-collapse -->
 			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a lang="ca" href="/index.html">Inici</a></li>
+					<li><a lang="ca" href="/properament.html">Informació</a></li>
+					<li><a lang="ca" href="/properament.html">Contacte</a></li>
+					<li></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<!--<div class="form-group">
+						<input type="text" lang="ca" placeholder="Email"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<input type="password" lang="ca" placeholder="Password"
+							class="form-control">
+					</div>-->
+<!-- 					<button lang="ca" id="int_sessio" type="submit" class="btn btn-success bt-sessio">Inicia la sessió</button> -->
+				<a lang="ca" href="#"  class="btn btn-success bt-sessio">Inicia la sessió</a>
+				
+				</form>
+			</div>
+			<!--/.nav-collapse -->
 		</div>
 	</div>
 
-	<div class="container">
+	<div class="container theme-showcase">
 
 		<!-- Main hero unit for a primary marketing message or call to action -->
-		<div id="cap_div" class="hero-unit">
-			<h1>
+		<div id="cap_div" class="jumbotron">
+			<h1 lang="ca">
 				GeoCat.<em>Online</em>
 			</h1>
-			<p>La plataforma col.laborativa de mapes i localització a
-				Catalunya.</p>
-			<em>"Sense configuració ni instal·lació podeu crear mapes
-				personalitzats i publicar-ho a Internet per a compartir-ho"</em>
+			<p lang="ca">La plataforma col.laborativa de mapes i
+				localització a Catalunya.</p>
+			<em lang="ca">"Sense configuració ni instal·lació podeu crear mapes personalitzats i publicar-ho a Internet per a compartir-ho"</em>
 
 		</div>
 		<br>
 		<!-- Example row of columns -->
-		<div class="row-fluid">
+		<div class="row">
 
-			<div class="span3">
+			<div class="col-md-3">
 				<div id="div_D" class="img-circle2 descobreix_color">
-					<div class="circle_txt">
-						<em>D</em>escobreix
-					</div>
+					<div class="circle_txt"><p lang="ca">Descobreix</p></div>
 				</div>
 
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<div id="div_C" class="img-circle2 crea_color">
-					<div class="circle_txt">
-						<em>C</em>rea
-					</div>
+					<div class="circle_txt"><p lang="ca">Crea</p></div>
 				</div>
 			</div>
 
-			<div class="span3">
+			<div class="col-md-3">
 				<div id="div_V" class="img-circle2 visualitza_color">
-					<div class="circle_txt">
-						<em>V</em>isualitza
-					</div>
+					<div class="circle_txt"><p lang="ca">Visualitza</p></div>
 				</div>
 			</div>
 
 
 
-			<div class="span3">
+			<div class="col-md-3">
 				<div id="div_C1" class="img-circle2 comparteix_color">
-					<div class="circle_txt">
-						<em>C</em>omparteix
-					</div>
+					<div class="circle_txt"><p lang="ca">Comparteix</p></div>
 				</div>
 			</div>
 
@@ -127,21 +127,21 @@
 		<br>
 
 		<hr class="featurette-divider">
-		<div class="hero-unit">
-			<div class="row-fluid">
-				<div class="span2 offset1">
+		<div class="jumbotron">
+			<div class="row">
+				<div class="col-md-2 col-md-offset-1">
 					<p>
-						<a href="#" class="btn btn-primary btn-large">Provar &raquo;</a>
+						<a lang="ca" href="#" class="btn-default btn-primary btn-lg">Provar &raquo;</a>
 					</p>
 				</div>
-				<div class="span2   offset2">
+				<div class="col-md-2   col-md-offset-2">
 					<p>
-						<a href="#" class="btn btn-large btn-success">Entrar &raquo;</a>
+						<a lang="ca" href="#"  class="btn-default btn-lg btn-success bt-sessio">Començar &raquo;</a>
 					</p>
 				</div>
-				<div class="span2  offset2">
+				<div class="col-md-2  col-md-offset-2">
 					<p>
-						<a href="#" class="btn btn-primary btn-large">Explorar &raquo;</a>
+						<a lang="ca" href="#" class="btn-default btn-primary btn-lg">Explorar &raquo;</a>
 					</p>
 				</div>
 
@@ -162,56 +162,42 @@
 
 			<div class="img-circle2-small descobreix_color">
 				<div class="circle_txt-small">
-					<h1>
-						<em>D</em>escobreix
-					</h1>
+					<h1><p lang="ca">Descobreix</p></h1>
 				</div>
 			</div>
 
 
-			<h2>Tota la geoinformació de Catalunya:</h2>
+			<h2 lang="ca">Tota la geoinformació de Catalunya:</h2>
 
 
 
-			<div class="row-fluid">
-				<div class="span4 ">
+			<div class="row">
+				<div class="col-md-4 ">
 					<img class="marketing-img" src="/geocatweb/img/location_groc.png">
-					<h3>Mapes i imatges aèrees</h3>
-					<p>Bases topogràfiques, límits administratius, Ortofotos
-						vigents,històrics ...
-					<p>
-						Accedeix a tota la informació de <a target="_blank"
-							title="Institut Cartogràfic de Catalunya"
-							href="http://www.icc.cat">l'Institut Cartogràfic de Catalunya
-							(ICC)</a>
-					</p>
+					<h3 lang="ca">Mapes i imatges aèrees</h3>
+					<p lang="ca">Bases topogràfiques, límits administratius,Ortofotos vigents, històrics ...</p>
+					<p><span lang="ca">Accedeix a tota la informació de </span> <a lang="ca" target="_blank" title="Institut Cartogràfic de Catalunya" href="http://www.icc.cat">l'Institut Cartogràfic de Catalunya(ICC)</a></p>
 
 				</div>
 
-				<div class="span4 ">
+				<div class="col-md-4 ">
 					<img class="marketing-img" src="/geocatweb/img/location2_groc.png">
-					<h3>Dades temps real</h3>
-					<p>Estat i incidències de trànsit, transport públic, previsió
-						del temps..</p>
-					<p>
-						Visualitza totes les últimes dades de <a target="_blank"
-							title="Dades Obertes Gencat"
-							href="http://www20.gencat.cat/portal/site/dadesobertes">Dades
-							Obertes Gencat</a>
+					<h3 lang="ca">Dades temps real</h3>
+					<p lang="ca">Estat i incidències de trànsit, transport públic,previsió del temps..</p>
+					<p><span lang="ca">Visualitza totes les últimes dades de</span><a lang="ca" target="_blank" title="Dades Obertes Gencat" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a>
 					</p>
 
 				</div>
 
 
-				<div class="span4 ">
+				<div class="col-md-4 ">
 					<img class="marketing-img" src="/geocatweb/img/network_groc.png">
-					<h3>Geoserveis</h3>
-					<p>Urbanisme, Medi Ambient, Equipaments locals, Cadastre...</p>
-					<p>
-						Connecta amb els més de 500 geoserveis catalogats per la <a
-							target="_blank" title="Infraestructura de Dades de Catalunya "
-							href="http://www.geoportal-idec.cat"> Infraestructura de
-							Dades de Catalunya (IDEC)</a>
+					<h3 lang="ca">Geoserveis</h3>
+					<p lang="ca">Urbanisme, Medi Ambient, Equipaments locals,Cadastre...</p>
+					<p lang="ca">
+						<span lang="ca">Connecta amb els més de 500 geoserveis catalogats per la </span> <a
+							lang="ca" target="_blank" title="Infraestructura de Dades de Catalunya "
+							href="http://www.geoportal-idec.cat"> Infraestructura de Dades de Catalunya (IDEC)</a>
 					</p>
 
 				</div>
@@ -219,18 +205,16 @@
 
 
 			</div>
-			<br>
-			<br>
+			<br> <br>
 			<p>
-				<a class="btn" href="#">Saber més &raquo;</a>
+				<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 			</p>
-			
-				
-				
-				
-			
-			<hr class="soften">
-<a href="index.html">Tornar inici</a>
+
+
+
+
+
+
 
 
 			<!--CREA-->
@@ -240,57 +224,52 @@
 
 			<div class="img-circle2-small crea_color">
 				<div class="circle_txt-small">
-					<h1>
-						<em>C</em>rea
-					</h1>
+					<h1><p lang="ca">Crea</p></h1>
 				</div>
 			</div>
 
 
-			<h2>Els teus propis mapes:</h2>
+			<h2 lang="ca">Els teus propis mapes:</h2>
 
 
 
-			<div class="row-fluid">
-				<div class="span4 ">
+			<div class="row">
+				<div class="col-md-4 ">
 					<img class="marketing-img" src="/geocatweb/img/dibuixa_verd.png">
-					<h3>Dibuixa</h3>
-					<p>Dibuixa els punts, línies o polígons</p>
-					<p>Afegeix les teves icones i estils personalitzats</p>
+					<h3 lang="ca">Dibuixa</h3>
+					<p lang="ca">Dibuixa els punts, línies o polígons</p>
+					<p lang="ca">Afegeix les teves icones i estils personalitzats</p>
 
 				</div>
 
-				<div class="span4 ">
+				<div class="col-md-4 ">
 					<img class="marketing-img" src="/geocatweb/img/carrega_verd.png">
-					<h3>Carrega dades</h3>
+					<h3 lang="ca">Carrega dades</h3>
 
-					<p>Carrega les teves dades pròpies</p>
-					<P>Múltiples formats KML,GPX,DXF,GEOJSON,SHP,.....</p>
+					<p lang="ca">Carrega les teves dades pròpies</p>
+					<P lang="ca">Múltiples formats KML,GPX,DXF,GEOJSON,SHP,.....</p>
 
 				</div>
 
 
-				<div class="span4 ">
+				<div class="col-md-4 ">
 					<img class="marketing-img" src="/geocatweb/img/configura_verd.png">
-					<h3>Configura Atles</h3>
-					<p>Organitza els teus visors per temes</p>
-					<p>Afegeix descripcions, imatges i videos als teus mapes</p>
+					<h3 lang="ca">Configura Atles</h3>
+					<p lang="ca">Organitza els teus visors per temes</p>
+					<p lang="ca">Afegeix descripcions, imatges i videos als teus mapes</p>
 
 				</div>
 
 
 
 			</div>
-			<br>
-			<br>
+			<br> <br>
 			<p>
-				<a class="btn" href="#">Saber més &raquo;</a>
+				<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 			</p>
 
 
-			<hr class="soften">
 
-<a href="index.html">Tornar inici</a>
 
 
 
@@ -300,53 +279,46 @@
 
 			<div class="img-circle2-small visualitza_color">
 				<div class="circle_txt-small">
-					<h1>
-						<em>V</em>isualitza
-					</h1>
+					<h1><p lang="ca">Visualitza</p></h1>
 				</div>
 			</div>
-			<h2>Tots els teus mapes:</h2>
-			<div class="row-fluid">
-				<div class="span4">
+			<h2 lang="ca">Tots els teus mapes:</h2>
+			<div class="row">
+				<div class="col-md-4">
 					<img class="marketing-img" src="/geocatweb/img/mobil_blau.png">
-					<h3>Amb qualsevol dispotiu mòbil</h3>
-					<p>Aplicacions basades amb HTML5</p>
-					<p>Adaptables a qualsevol dispositu: PC,Mòbil,Tablet</p>
+					<h3 lang="ca">Amb qualsevol dispotiu mòbil</h3>
+					<p lang="ca">Aplicacions basades amb HTML5</p>
+					<p lang="ca">Adaptables a qualsevol dispositu: PC,Mòbil,Tablet</p>
 
 				</div>
 
-				<div class="span4">
+				<div class="col-md-4">
 					<img class="marketing-img" src="/geocatweb/img/imprimeix_blau.png">
-					<h3>Imprimeix</h3>
-					<p>Crea impressions de qualitat i personalitzables</p>
-					<p>Genera informes</p>
-					<p>Imprimeix a escala</p>
+					<h3 lang="ca">Imprimeix</h3>
+					<p lang="ca">Crea impressions de qualitat i personalitzables</p>
+					<p lang="ca">Genera informes</p>
+					<p lang="ca">Imprimeix a escala</p>
 
 				</div>
 
 
-				<div class="span4">
+				<div class="col-md-4">
 					<img class="marketing-img" src="/geocatweb/img/descarrega_blau.png">
-					<h3>Descarrega</h3>
-					<p>Accedeix a centre de descàrrega</p>
-					<p>Descarrega't les teves dades</p>
+					<h3 lang="ca">Descarrega</h3>
+					<p lang="ca">Accedeix a centre de descàrrega</p>
+					<p lang="ca">Descarrega't les teves dades</p>
 
 				</div>
 
 
 
 			</div>
-			<br>
-			<br>
+			<br> <br>
 			<p>
-				<a class="btn" href="#">Saber més &raquo;</a>
+				<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 			</p>
 
 
-			<hr class="soften">
-
-
-<a href="index.html">Tornar inici</a>
 
 			<!--Visualitza-->
 
@@ -355,64 +327,69 @@
 			<div class="img-circle2-small comparteix_color">
 				<div class="circle_txt-small">
 					<h1>
-						<em>C</em>omparteix
+						 <p lang="ca">Comparteix</p>
 					</h1>
 				</div>
 			</div>
-			<h2>Tots els teus mapes:</h2>
-			<div class="row-fluid">
-				<div class="span4">
+			<h2 lang="ca">Tots els teus mapes:</h2>
+			<div class="row">
+				<div class="col-md-4">
 					<img class="marketing-img" src="/geocatweb/img/xarxa_bfosc.png">
-					<h3>Amb les xarxes socials</h3>
-					<p>Comparteix amb les principal xarxes socials els teus mapes</p>
-					
+					<h3 lang="ca">Amb les xarxes socials</h3>
+					<p lang="ca">Comparteix amb les principal xarxes socials els teus mapes</p>
+
 				</div>
 
-				<div class="span4">
+				<div class="col-md-4">
 					<img class="marketing-img" src="/geocatweb/img/casa_bfosc.png">
-					<h3>Dins la teva organització</h3>
-					<p>Comaprteix mapes i dades amb altres usuari del la teva organització</p>
+					<h3 lang="ca">Dins la teva organització</h3>
+					<p lang="ca">Comaprteix mapes i dades amb altres usuari del la teva organització</p>
 
 				</div>
 
 
-				<div class="span4">
+				<div class="col-md-4">
 					<img class="marketing-img" src="/geocatweb/img/grup_bfosc.png">
-					<h3>Amb el teu grup</h3>
-					<p>Crea grups i convida altres usuaris</p>
-					<p>Genera mapes colaboratius</p>
+					<h3 lang="ca">Amb el teu grup</h3>
+					<p lang="ca">Crea grups i convida altres usuaris</p>
+					<p lang="ca">Genera mapes colaboratius</p>
 
 				</div>
 
 
 
 			</div>
-			<br>
-			<br>
+			<br> <br>
 			<p>
-				<a class="btn" href="#">Saber més &raquo;</a>
+				<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 			</p>
-			<hr class="soften">
-		<a href="index.html">Tornar inici</a>
-		<hr id="row_C1" class="soften">
+
+			<hr id="row_C1" class="soften">
 		</div>
 
-		
+
 	</div>
-
-
-
-
-
-
-
-
 
 	<hr>
 
 	<footer>
 		<p>&copy; GeoCat.Online</p>
 	</footer>
+
+
+
+
+
+
+	<p id="back-top">
+		<button class="btn btn-default">
+			<span class="glyphicon glyphicon-circle-arrow-up"></span> 
+			<span lang="ca">Tornar Inici</span>
+		</button>
+	</p>
+
+
+
 
 	</div>
 	<!-- /container -->
@@ -424,31 +401,18 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
 	<script src="/share/js/bootstrap.min.js"></script>
+	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8"
+		type="text/javascript"></script>
+
+
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+
+
 	
-
-
-	<script>
-		jQuery(document).ready(function() {
-
-			jQuery('p a').on('click', function() {
-				jQuery(this).attr('href', 'properament.html');
-			});
-
-			jQuery('#div_D').on('click', function() {
-				document.location.href = "#row_D";
-			});
-			jQuery('#div_C').on('click', function() {
-				document.location.href = "#row_C";
-			});
-			jQuery('#div_V').on('click', function() {
-				document.location.href = "#row_V";
-			});
-			jQuery('#div_C1').on('click', function() {
-				document.location.href = "#row_C1";
-			});
-
-		});
-	</script>
 
 </body>
 </html>
