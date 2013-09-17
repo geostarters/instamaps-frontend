@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edifici BT5M</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<style>
+    html, body {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    #map {
+        height: 100%;
+    }
+    </style>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css">
+    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+    <script src="/share/js/leaflet/plugin/OSMBuildings-Leaflet.debug.js"></script>
+	<script src="/share/js/leaflet/plugin/TileLayer.Grayscale.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+	
+	
+	
+    var map = new L.Map('map').setView([41.419, 2.185], 16);
+
+	 var orto=  new L.TileLayer(
+	
+     //  'http://{s}.tiles.mapbox.com/v3/osmbuildings.map-c8zdox7m/{z}/{x}/{y}.png',
+        
+		'http://norma.icc.cat/tilecache/tilecache.py/1.0.0/orto3857/{z}/{x}/{y}.png?type=google',
+		
+		{ attribution: 'ICC &copy; <a href="http://www.icc.cat">ICC</a>', maxZoom: 17 }
+    ).addTo(map);
+   var topo= new L.TileLayer(
+	
+     'http://{s}.tiles.mapbox.com/v3/osmbuildings.map-c8zdox7m/{z}/{x}/{y}.png',
+        
+		//'http://norma.icc.cat/tilecache/tilecache.py/1.0.0/topo3857/{z}/{x}/{y}.png?type=google',
+		
+		{ attribution: 'ICC &copy; <a href="http://www.icc.cat">ICC</a>', maxZoom: 17 }
+    ).addTo(map);
+
+	
+	
+	
+    //var osmb = new OSMBuildings(map).loadData('data.json');
+	 var osmb = new OSMBuildings(map).loadData('data.json3');
+	// var osmb = new OSMBuildings(map).setData(geoJSONData);
+	
+	var baseMaps = {
+	 "Orto": orto,
+    "Topo": topo
+   
+};
+
+var overlayMaps = {
+    "Edificis": osmb
+};
+	
+	
+	
+	 L.control.layers(baseMaps,overlayMaps).addTo(map);
+	
+  //  L.control.layers({}, { Buildings: osmb }).addTo(map);
+    </script>
+</body>
+</html>
