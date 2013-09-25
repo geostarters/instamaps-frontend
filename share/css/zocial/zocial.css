@@ -250,6 +250,7 @@ a.zocial {
 .zocial.cloudapp:before {content: "c";}
 .zocial.creativecommons:before {content: "C";}
 .zocial.delicious:before {content: "#";}
+.zocial.icc2:before {content: "#";}
 .zocial.digg:before {content: ";";}
 .zocial.disqus:before {content: "Q";}
 .zocial.dribbble:before {content: "D";}
@@ -352,6 +353,11 @@ a.zocial {
 .zocial.cloudapp {background-color: #fff; color: #312c2a;}
 .zocial.creativecommons {background-color: #000;}
 .zocial.delicious {background-color: #3271cb;}
+.zocial.icc {background-color: #FFFFFF;
+    background-image: url("/share/img/icc_logo_small.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #FFCC00;}
 .zocial.digg {background-color: #164673;}
 .zocial.disqus {background-color: #5d8aad;}
 .zocial.dribbble {background-color: #ea4c89;}
@@ -462,6 +468,7 @@ button:-moz-focus-inner {
     font-family: 'zocial';
     src: url('zocial-regular-webfont.eot');
 }
+
 
 @font-face {
     font-family: 'zocial';
