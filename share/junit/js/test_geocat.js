@@ -45,7 +45,6 @@ var urls = {
 	deleteServidor: "http://localhost:8080/geocat/eines/servidor/deleteServidor.action?",
 };
 
-
 var JSV = require("./jsv").JSV;
 //var JSV = require("JSV").JSV;
 var test_uid = "bcarmona";
@@ -1439,5 +1438,4 @@ asyncTest( "llistarUsuarisJson", 2, function() {
                 start();
         });     
 });
-
 */
