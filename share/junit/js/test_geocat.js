@@ -74,7 +74,7 @@ asyncTest( "login", 1, function() {
 
 //admin_users
 module( "admin_users" );
-
+/*
 asyncTest( "createUser", 2, function() {
 	$.ajax({
 		url: urls.createUser,
@@ -83,7 +83,9 @@ asyncTest( "createUser", 2, function() {
 			uid: test_uid, 
 			email: 'b.carmona@mail.com', 
 			userPassword: 'user2013',
-			tipusEntitatId: 1},
+			ambitGeo: 1,
+			tipusEntitatId: 1,
+			bbox: '260383,4491989,527495,4748184'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -101,7 +103,7 @@ asyncTest( "createUser", 2, function() {
 						cn : { type: 'string', required : true},
 						dn : { type: 'string', required : true},
 						objectclass : {type: 'array', required : true, items:{type: 'string'}},
-						options : { type: ['string','null'], required : true}
+						options : { type: 'object', required : true}
 					}
 				}
 			}
@@ -116,7 +118,6 @@ asyncTest( "createUser", 2, function() {
 	});	
 });
 
-/*
 asyncTest( "updatePassword", 1, function() {
 	$.ajax({
 		url: urls.updatePassword,
@@ -211,7 +212,11 @@ asyncTest( "updatePassword Password present in password history", 2, function() 
 asyncTest( "updateUserOptions", 2, function() {
 	$.ajax({
 		url: urls.updateUserOptions,
-		data: {uid: test_uid, options: '{bbox:"34,43,67,23",logo:"escudo.png",wisard:false}'},
+		data: {uid: test_uid, 
+			bbox: '34,43,67,23',
+			ambitGeo: 1,
+			tipusEntitatId: 1
+		},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -220,7 +225,7 @@ asyncTest( "updateUserOptions", 2, function() {
 			type : 'object',
 			properties : {
 				status: { type: 'string', required : true},
-				results: { type : ['string','null'], required : true}
+				results: { type : 'object', required : true}
 			}
 		};
 		var report = env.validate(results, schema);
@@ -258,7 +263,7 @@ asyncTest( "updateUser", 2, function() {
 						cn : { type: 'string', required : true},
 						dn : { type: 'string', required : true},
 						objectclass : {type: 'array', required : true, items:{type: 'string'}},
-						options : { type: ['string','null'], required : true}
+						options : { type: 'object', required : true}
 					}
 				}
 			}
@@ -294,7 +299,7 @@ asyncTest( "getUser", 2, function() {
 						cn : { type: 'string', required : true},
 						dn : { type: 'string', required : true},
 						objectclass : {type: 'array', required : true, items:{type: 'string'}},
-						options : { type: ['string','null'], required : true}
+						options : { type: 'object', required : true}
 					}
 				}
 			}
@@ -376,7 +381,6 @@ asyncTest( "getAllUserNames", 2, function() {
 	});	
 });
 
-
 asyncTest( "deleteUser", 1, function() {
 	$.ajax({
 		url: urls.deleteUser,
@@ -396,7 +400,7 @@ asyncTest( "deleteUser", 1, function() {
 
 //admin_tipus
 module( "admin_tipus" );
-
+/*
 asyncTest( "createAmbitGeo", 2, function() {
 	$.ajax({
 		url: urls.createAmbitGeo,
@@ -693,8 +697,6 @@ asyncTest( "deleteTipusEntitat", 1, function() {
 	});	
 });
 
-
-/*
 asyncTest( "createTipusAplicacio", 2, function() {
 	$.ajax({
 		url: urls.createTipusAplicacio,
@@ -721,7 +723,6 @@ asyncTest( "createTipusAplicacio", 2, function() {
 						businessId : { type: 'string', required : true},
 						descripcio : { type: 'string', required : true},
 						icon : { type: 'string', required : true},
-						id : { type: 'number', required : true},
 						nom : { type: 'string', required : true},
 						url : { type: 'string', required : true}
 					}
@@ -764,7 +765,6 @@ asyncTest( "updateTipusAplicacio", 2, function() {
 						businessId : { type: 'string', required : true},
 						descripcio : { type: 'string', required : true},
 						icon : { type: 'string', required : true},
-						id : { type: 'number', required : true},
 						nom : { type: 'string', required : true},
 						url : { type: 'string', required : true}
 					}
@@ -801,7 +801,6 @@ asyncTest( "getTipusAplicacioById", 2, function() {
 						businessId : { type: 'string', required : true},
 						descripcio : { type: 'string', required : true},
 						icon : { type: 'string', required : true},
-						id : { type: 'number', required : true},
 						nom : { type: 'string', required : true},
 						url : { type: 'string', required : true}
 					}
@@ -845,7 +844,6 @@ asyncTest( "getAllTipusAplicacio", 3, function() {
 				businessId : { type: 'string', required : true},
 				descripcio : { type: 'string', required : true},
 				icon : { type: 'string', required : true},
-				id : { type: 'number', required : true},
 				nom : { type: 'string', required : true},
 				url : { type: 'string', required : true}
 			}
@@ -879,7 +877,6 @@ asyncTest( "deleteTipusAplicacio", 1, function() {
 */
 
 module( "aplications" );
-/*
 asyncTest( "createAplicacio", 2, function() {
 	$.ajax({
 		url: urls.createAplicacio,
@@ -1112,7 +1109,7 @@ asyncTest( "deleteAplicacio", 1, function() {
 		start();
 	});	
 });
-*/
+
 module( "servidors" );
 /*
 asyncTest( "createServidor", 2, function() {
