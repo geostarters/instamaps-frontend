@@ -20,8 +20,8 @@ function init(){
           sphericalMercator: false
     } );
     var limits_CAT25831_wms_layer = new OpenLayers.Layer.WMS( "DadesObertes",
-        "http://172.70.1.11/geocatcache/?",{layers: 'dadesobertes'},
-        { gutter:0,buffer:0,isBaseLayer:true,transitionEffect:'resize',
+        "http://172.70.1.11/mapcache/?",{layers: 'dadesobertes',format : "image/png",},
+        {
           resolutions:[1100,550,275,100,50,25,10,5,2,1,0.50,0.25,0.10,0.05],
           units:"m",
 		  isBaseLayer:false,
@@ -33,7 +33,7 @@ function init(){
     map.addLayer(limits_CAT25831_wms_layer);
 
 	var orto = new OpenLayers.Layer.WMS("ORTO", "http://mapcache.icc.cat/map/bases/service?", {
-			layers : "orto",
+			layers : "topogris",
 			format : "image/jpeg",
 			exceptions : "application/vnd.ogc.se_xml"
 		}, {

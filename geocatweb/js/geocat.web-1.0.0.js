@@ -4,20 +4,32 @@ window.lang = new jquery_lang_js();
 
 jQuery(document).ready(function() {
 
-	jQuery('.bt-sessio').on('click', function() {
-		
-		jQuery(this).attr('href', '/geocatweb/sessio.html?hl='+window.lang.currentLang);
-		
-		
-	});
+	
 
 	
 	web_roundCircles();
-	weball_tornarInici();
-	
-	
+	weball_tornarInici();		
 	window.lang.run();
-	window.lang.change(obteValorURL("hl"));
+		
+	if(!localStorage){
+		var lsLang = localStorage.getItem('langJs_currentLang');
+		//console.info(lsLang);
+		window.lang.change(lsLang);	
+	}else{
+		
+		var lsLang =obteValorURL("hl");
+		window.lang.change(lsLang);		
+		jQuery("a[id^='hl_']").each(function(index){
+			var _href=jQuery(this).attr('href');
+			_href.indexOf('?') == -1 ? jQuery(this).attr('href',_href+'?hl='+lsLang): jQuery(this).attr('href',_href+'&hl='+lsLang);
+			//console.info(jQuery(this).attr('href'));	
+		});
+				
+	}
+	
+	
+	
+	
 
 
 });
@@ -106,10 +118,12 @@ jQuery("#frm_email").submit(function(){
   
 
 function obteValorURL(name){
+	
 	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
 	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 	        results = regex.exec(location.search);
-	    return results == null ? window.lang.defaultLang : decodeURIComponent(results[1].replace(/\+/g, " "));
+	  
+	    return results == null ? window.lang.currentLang : decodeURIComponent(results[1].replace(/\+/g, " "));
 	
 	
 }

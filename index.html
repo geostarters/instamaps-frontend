@@ -56,9 +56,9 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a lang="ca" href="/index.html">Inici</a></li>
-					<li><a lang="ca" href="/properament.html">Informació</a></li>
-					<li><a lang="ca" href="/properament.html">Contacte</a></li>
+					<li class="active"><a id="hl_index" lang="ca" href="/index.html">Inici</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
+					<li><a lang="ca"  id="hl_contact"  href="/properament.html">Contacte</a></li>
 					<li></li>
 				</ul>
 				<form class="navbar-form navbar-right">
@@ -71,7 +71,7 @@
 							class="form-control">
 					</div>-->
 <!-- 					<button lang="ca" id="int_sessio" type="submit" class="btn btn-success bt-sessio">Inicia la sessió</button> -->
-				<a lang="ca" href="#"  class="btn btn-success bt-sessio">Inicia la sessió</a>
+				<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html"  class="btn btn-success bt-sessio">Inicia la sessió</a>
 				
 				</form>
 			</div>
@@ -136,12 +136,12 @@
 				</div>
 				<div class="col-md-2   col-md-offset-2">
 					<p>
-						<a lang="ca" href="#"  class="btn-default btn-lg btn-success bt-sessio">Començar &raquo;</a>
+						<a lang="ca" id="hl_sessio2" href="/geocatweb/sessio.html"  class="btn-default btn-lg btn-success bt-sessio">Començar &raquo;</a>
 					</p>
 				</div>
 				<div class="col-md-2  col-md-offset-2">
 					<p>
-						<a lang="ca" href="#" class="btn-default btn-primary btn-lg">Explorar &raquo;</a>
+						<a lang="ca" href="#" Onclick="window.lang.change('es')" class="btn-default btn-primary btn-lg">Explorar &raquo;</a>
 					</p>
 				</div>
 
@@ -368,34 +368,27 @@
 		</div>
 
 
-	</div>
+	
 
-	<hr>
+	
 
-	<footer>
-		<p>&copy; GeoCat.Online</p>
-	</footer>
-
-
-
-
-
-
-	<p id="back-top">
-		<button class="btn btn-default">
-			<span class="glyphicon glyphicon-circle-arrow-up"></span> 
-			<span lang="ca">Tornar Inici</span>
-		</button>
-	</p>
-
-
+	
 
 
 	</div>
 	<!-- /container -->
 
-
-
+<p id="back-top">
+		<button class="btn btn-default">
+			<span class="glyphicon glyphicon-circle-arrow-up"></span> 
+			<span lang="ca">Tornar Inici</span>
+		</button>
+	</p>
+<footer>
+<div class="container">
+		<p>&copy; GeoCat.Online</p>
+</div>	
+	</footer>
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

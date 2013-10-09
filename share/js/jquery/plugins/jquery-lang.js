@@ -56,7 +56,9 @@ jquery_lang_js.prototype.defaultLang = 'ca';
 jquery_lang_js.prototype.currentLang = 'ca';
 
 jquery_lang_js.prototype.run = function () {
+	
 	var langElems = $('[lang]');
+	
 	var elemsLength = langElems.length;
 	
 	while (elemsLength--) {
@@ -96,11 +98,14 @@ jquery_lang_js.prototype.run = function () {
 				} else {
 					// Not an input element
 					//console.info(jQuery.trim(langElem.html().replace(/(\r\n|\n|\r)/gm, '').replace(/\s{2,}/g, ' ')));
+					
 					langElem.data('deftext',jQuery.trim(langElem.html().replace(/(\r\n|\n|\r)/gm, '').replace(/\s{2,}/g, ' ')));
 					//langElem.data('deftext', langElem.text());
 				}
+				
 			}
 		}
+		
 	}
 	
 	
