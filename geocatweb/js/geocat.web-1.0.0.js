@@ -4,37 +4,52 @@ window.lang = new jquery_lang_js();
 
 jQuery(document).ready(function() {
 
-	
-
-	
 	web_roundCircles();
 	weball_tornarInici();		
 	window.lang.run();
-		
-	if(!localStorage){
-		var lsLang = localStorage.getItem('langJs_currentLang');
-		//console.info(lsLang);
-		window.lang.change(lsLang);	
-	}else{
-		
-		var lsLang =obteValorURL("hl");
-		window.lang.change(lsLang);		
-		jQuery("a[id^='hl_']").each(function(index){
-			var _href=jQuery(this).attr('href');
-			_href.indexOf('?') == -1 ? jQuery(this).attr('href',_href+'?hl='+lsLang): jQuery(this).attr('href',_href+'&hl='+lsLang);
-			//console.info(jQuery(this).attr('href'));	
-		});
-				
-	}
+	web_determinaIdioma()
 	
-	
-	
-	
+	canviaIdioma();
+/*	
+$('.container').tooltip({
+selector: "[data-toggle=tooltip]",
+container: "body"
+}) 	
+*/	
 
 
 });
 
+function canviaIdioma(idiomaAC){
 	
+	//console.info(typeof idiomaAC);
+	//typeof idiomaAC != "undefined" ? alert(1) : function(){console.info("no he passat parametre");alert(2);};
+	
+	
+	
+}
+
+
+function web_determinaIdioma(){
+		
+	if(localStorage){
+		var lsLang = localStorage.getItem('langJs_currentLang');
+		
+		window.lang.change(lsLang);	
+	}else{
+		
+		var lsLang =obteValorURL("hl");
+		
+		window.lang.change(lsLang);		
+		jQuery("a[id^='hl_']").each(function(index){
+			var _href=jQuery(this).attr('href');
+			_href.indexOf('?') == -1 ? jQuery(this).attr('href',_href+'?hl='+lsLang): jQuery(this).attr('href',_href+'&hl='+lsLang);
+			
+		});
+				
+	}
+	
+}	
 
 function web_roundCircles(){
 	jQuery('#div_D').on('click', function() {
@@ -129,9 +144,5 @@ function obteValorURL(name){
 }
 
 
-function changeLanguage(lang){
-	
-	window.lang.change(lang);
-	
-}
+
 

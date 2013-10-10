@@ -10,7 +10,7 @@
 
 var paramUrl = {
 		
-		"proxy":"/cgi-bin/proxy.cgi",
+		"proxy":"/maps/proxy.cgi",
 		"wmsOpenData":"/dadesobertes/wms/service?",
 		"tmsOpenData":"/geocatcache/?"
 		

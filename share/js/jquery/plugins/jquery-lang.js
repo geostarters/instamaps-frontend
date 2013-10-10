@@ -118,7 +118,8 @@ jquery_lang_js.prototype.run = function () {
 			this.change(lsLang);
 		}
 		else
-			this.change(this.currentLang);			
+			this.change(this.currentLang);	
+		
 	}
 }
 

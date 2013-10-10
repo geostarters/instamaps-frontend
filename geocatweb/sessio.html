@@ -2,10 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title lang="ca">GeoCat.Online - La plataforma col.laborativa de mapes i localització a Catalunya</title>
-<meta name="author" content="GeoCat.Online">
+<title lang="ca">InstaMapes - La plataforma col.laborativa de mapes i localització a Catalunya</title>
+<meta name="author" content="InstaMapes">
 <meta name="description"
-	content="GeoCat.Online ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -37,8 +37,9 @@
 <body>
 
 
-<div class="container">
+
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target=".navbar-collapse">
@@ -54,14 +55,28 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a lang="ca" href="/index.html">Inici</a></li>
-					<li><a lang="ca" href="/properament.html">Informació</a></li>
-					<li><a lang="ca" href="/properament.html">Contacte</a></li>
+					<li><a id="hl_index" lang="ca" href="/index.html">Inici</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
+					<li><a lang="ca"  id="hl_contact"  href="/properament.html">Contacte</a></li>
+					<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li  class="active"><a href="#">Català</a></li>
+                <li><a href="#">Español</a></li>
+                <li><a href="#">English</a></li>
+                
+              </ul>
+            </li>
 					<li></li>
 				</ul>
-			</div>	
-	</div>		
-	
+					
+				
+				
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>	
+	<div class="container">
 	
       <form class="form-signin">
        <section>
@@ -86,11 +101,14 @@
 		<span lang="ca">o amb:</span>
 		<p></p>
 		<p>
-       	<a href="#" title="Inicia sessió amb Facebook" class="zocial icon facebook"></a>
+		
+       	<!--<a href="#" data-placement="bottom" data-toggle="tooltip" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc"></a>-->
+       	<a href="#" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc"></a>
+		<a href="#" title="Inicia sessió amb Facebook" class="zocial icon facebook"></a>
 		<a href="#" title="Inicia sessió amb  Google+" class="zocial icon googleplus"></a>
 		<a href="#" title="Inicia sessió amb Twitter" class="zocial icon twitter"></a>
-		<a href="#" title="Inicia sessió amb LinkedIn"  class="zocial  icon linkedin"></a>
-		<a href="#" title="Inicia sessió amb ICC" class="zocial  icon icc"></a>
+		<a href="#" title="Inicia sessió amb LinkedIn"   class="zocial  icon linkedin"></a>
+		
 		</p>
         <p></p>
         </div>
@@ -99,7 +117,7 @@
         
       </form>
       <div class="social-sign">
-       <h6 lang="ca">És la primera vegada que utilitzeu GeoCatOnline? <a  lang="ca" href="registre.html?hl=javascript:">Crear un compte</a></h6>
+       <h6 lang="ca">És la primera vegada que utilitzeu InstaMapes? <a  lang="ca" href="registre.html">Crear un compte</a></h6>
  </div>
 
 
