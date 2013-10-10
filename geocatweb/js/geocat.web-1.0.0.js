@@ -7,9 +7,9 @@ jQuery(document).ready(function() {
 	web_roundCircles();
 	weball_tornarInici();		
 	window.lang.run();
-	web_determinaIdioma()
+	var lsLang=web_determinaIdioma();
+	web_menusIdioma(lsLang);
 	
-	canviaIdioma();
 /*	
 $('.container').tooltip({
 selector: "[data-toggle=tooltip]",
@@ -18,14 +18,41 @@ container: "body"
 */	
 
 
+
+
+
+
+
+
+
+
+
 });
 
-function canviaIdioma(idiomaAC){
+
+function web_menusIdioma(lsLang){
+
+	jQuery('#ch_idioma li').each(function() {
+	jQuery(this).removeClass('active');
+		if (jQuery(this).attr('id') ==lsLang){
+		jQuery(this).addClass('active');
+		}
+
+	jQuery(this).click(function() {
+	jQuery('#ch_idioma li').removeClass('active');
+	jQuery(this).addClass('active');
 	
-	//console.info(typeof idiomaAC);
-	//typeof idiomaAC != "undefined" ? alert(1) : function(){console.info("no he passat parametre");alert(2);};
-	
-	
+      canviaIdioma(jQuery(this).attr('id'));
+    });
+    
+  });
+}
+
+
+
+function canviaIdioma(lsLang){
+
+window.lang.change(lsLang);	
 	
 }
 
@@ -48,7 +75,7 @@ function web_determinaIdioma(){
 		});
 				
 	}
-	
+	return lsLang;
 }	
 
 function web_roundCircles(){
