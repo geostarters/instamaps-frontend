@@ -15,16 +15,19 @@ var urls = {
 	deleteAmbitGeo: "http://localhost:8080/geocat/admin/deleteAmbitGeo.action?",
 	getAllAmbitGeo: "http://localhost:8080/geocat/admin/getAllAmbitGeo.action?",
 	getAmbitGeoById: "http://localhost:8080/geocat/admin/getAmbitGeoById.action?",
+	getAmbitGeoByBusinessId: "http://localhost:8080/geocat/admin/getAmbitGeoByBusinessId.action?",
 	createTipusAplicacio: "http://localhost:8080/geocat/admin/createTipusAplicacio.action?",
 	updateTipusAplicacio: "http://localhost:8080/geocat/admin/updateTipusAplicacio.action?",
 	deleteTipusAplicacio: "http://localhost:8080/geocat/admin/deleteTipusAplicacio.action?",
 	getAllTipusAplicacio: "http://localhost:8080/geocat/admin/getAllTipusAplicacio.action?",
 	getTipusAplicacioById: "http://localhost:8080/geocat/admin/getTipusAplicacioById.action?",
+	getTipusAplicacioByBusinessId: "http://localhost:8080/geocat/admin/getTipusAplicacioByBusinessId.action?",
 	createTipusEntitat: "http://localhost:8080/geocat/admin/createTipusEntitat.action?",
 	updateTipusEntitat: "http://localhost:8080/geocat/admin/updateTipusEntitat.action?",
 	deleteTipusEntitat: "http://localhost:8080/geocat/admin/deleteTipusEntitat.action?",
 	getAllTipusEntitat: "http://localhost:8080/geocat/admin/getAllTipusEntitat.action?",
 	getTipusEntitatById: "http://localhost:8080/geocat/admin/getTipusEntitatById.action?",
+	getTipusEntitatByBusinessId: "http://localhost:8080/geocat/admin/getTipusEntitatByBusinessId.action?",
 	createTipusOrigin: "http://localhost:8080/geocat/admin/createTipusOrigin.action?",
 	updateTipusOrigin: "http://localhost:8080/geocat/admin/updateTipusOrigin.action?",
 	deleteTipusOrigin: "http://localhost:8080/geocat/admin/deleteTipusOrigin.action?",
@@ -467,6 +470,37 @@ asyncTest( "updateAmbitGeo", 2, function() {
 asyncTest( "getAmbitGeoById", 2, function() {
 	$.ajax({
 		url: urls.getAmbitGeoById,
+		data: {id: '1'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getAmbitGeoByBusinessId", 2, function() {
+	$.ajax({
+		url: urls.getAmbitGeoByBusinessId,
 		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -612,10 +646,41 @@ asyncTest( "updateTipusEntitat", 2, function() {
 	});	
 });
 
+asyncTest( "getTipusEntitatByBusinessId", 2, function() {
+	$.ajax({
+		url: urls.getTipusEntitatByBusinessId,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						nom : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
 asyncTest( "getTipusEntitatById", 2, function() {
 	$.ajax({
 		url: urls.getTipusEntitatById,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		data: {id: '1'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -780,10 +845,46 @@ asyncTest( "updateTipusAplicacio", 2, function() {
 	});	
 });
 
+asyncTest( "getTipusAplicacioByBusinessId", 2, function() {
+	$.ajax({
+		url: urls.getTipusAplicacioByBusinessId,
+		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						abbr : { type: 'string', required : true},
+						action : { type: 'string', required : true},
+						businessId : { type: 'string', required : true},
+						descripcio : { type: 'string', required : true},
+						icon : { type: 'string', required : true},
+						nom : { type: 'string', required : true},
+						url : { type: 'string', required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
 asyncTest( "getTipusAplicacioById", 2, function() {
 	$.ajax({
 		url: urls.getTipusAplicacioById,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		data: {id: '1'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -876,14 +977,94 @@ asyncTest( "deleteTipusAplicacio", 1, function() {
 */
 
 module( "aplications" );
+
+asyncTest( "createAplicacio forbidden", 2, function() {
+	$.ajax({
+		url: urls.createAplicacio,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			uid: 'bcarmona',
+			visibilitat: 'O',
+			tipusApp: 'vis',
+			nom: 'test forbidden'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"ERROR",results.status);
+		equal(results.results,"forbidden",results.results);
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail!:" + results );
+		start();
+	});	
+});
+
 asyncTest( "createAplicacio", 2, function() {
 	$.ajax({
 		url: urls.createAplicacio,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			entitatUid: 'wszczerban',
+			uid: 'wszczerban',
 			visibilitat: 'O',
-			tipusApp: '4c216bc1cdd8b3a69440b45b2713b080'
+			tipusApp: 'vis',
+			nom: 'test'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object',
+					properties :{
+						businessId : { type: 'string', required : true},
+						entitatUid : { type: 'string', required : true},
+						id : { type: 'number', required : true},
+						options : { type: ['string','null'], required : true},
+						clau : { type: ['string','null'], required : true},
+						usuari : { type: ['string','null'], required : true},
+						rank : { type: 'number', required : true},
+						tipusAplicacio : { type: 'object', required : true},
+						visibilitat : { type: 'string', required : true},
+						capes : { type: ['array','null'], required : true},
+						contacte : { type: ['string','null'], required : true},
+						dataConfiguracio : { type: ['string','null'], required : true},
+						dataPublicacio : { type: ['string','null'], required : true},
+						logo : { type: ['string','null'], required : true},
+						nomAplicacio : { type: 'string', required : true},
+						servidorsFix : { type: ['array','null'], required : true},
+						servidorsWMS : { type: ['array','null'], required : true}
+					}
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "updateAplicacio", 2, function() {
+	$.ajax({
+		url: urls.updateAplicacio,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
+			nom: 'test',
+			uid: 'wszczerban',
+			visibilitat: 'P',
+			tipusApp: 'vis',
+			usrVisor: 'demo',
+			clauVisor: 'demo',
+			options: '{bbox:"34,43,67,23",logo:"escudo.png",wisard:false}'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -919,6 +1100,7 @@ asyncTest( "createAplicacio", 2, function() {
 	});	
 });
 
+/*
 asyncTest( "getMapById", 2, function() {
 	$.ajax({
 		url: urls.getMapById,
@@ -957,52 +1139,6 @@ asyncTest( "getMapById", 2, function() {
 	});	
 });
 
-asyncTest( "updateAplicacio", 2, function() {
-	$.ajax({
-		url: urls.updateAplicacio,
-		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			entitatUid: 'wszczerban',
-			visibilitat: 'P',
-			tipusApp: '4c216bc1cdd8b3a69440b45b2713b080',
-			usuari: 'demo',
-			clau: 'demo',
-			options: '{bbox:"34,43,67,23",logo:"escudo.png",wisard:false}'
-		},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						entitatUid : { type: 'string', required : true},
-						id : { type: 'number', required : true},
-						options : { type: ['string','null'], required : true},
-						clau : { type: ['string','null'], required : true},
-						usuari : { type: ['string','null'], required : true},
-						rank : { type: 'number', required : true},
-						tipusAplicacio : { type: 'object', required : true},
-						visibilitat : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-	
 asyncTest( "getAllMapsByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllMapsByUser,
@@ -1092,11 +1228,15 @@ asyncTest( "getAllMaps", 3, function() {
 		start();
 	});	
 });
+*/
 
 asyncTest( "deleteAplicacio", 1, function() {
 	$.ajax({
 		url: urls.deleteAplicacio,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b081'},
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
+			uid: 'wszczerban'
+		},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -1108,6 +1248,7 @@ asyncTest( "deleteAplicacio", 1, function() {
 		start();
 	});	
 });
+
 
 module( "servidors" );
 /*
