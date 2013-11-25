@@ -1,8 +1,8 @@
 /*
- * L.TileLayer.Grayscale is a regular tilelayer with grayscale makeover.
+ * L.IM_ColorLayer is a regular tilelayer with grayscale makeover.
  */
 
-L.TileLayer.Grayscale = L.TileLayer.extend({
+L.IM_ColorLayer = L.TileLayer.extend({
 	options: {
 		enableCanvas: true,
 		color:'gris'
@@ -200,6 +200,8 @@ L.TileLayer.Grayscale = L.TileLayer.extend({
 	}
 });
 
-L.tileLayer.grayscale = function (url, options) {
-	return new L.TileLayer.Grayscale(url, options);
+/*
+L.IM_ColorLayer = function (url, options) {
+	return new L.IM_ColorLayer(url, options);
 };
+*/

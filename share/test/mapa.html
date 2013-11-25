@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title lang="ca">InstaMapes - Mapes</title>
+<meta name="author" content="InstaMapes">
+<meta name="description"
+	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+<meta name="robots" content="index,follow">
+<meta name="geo.region" content="ES-CT" />
+<meta name="geo.placename" content="Barcelona" />
+<meta name="geo.position" content="41.363892;2.186279" />
+<meta name="language" content="ca" />
+<!-- Le styles -->
+<link href="/share/css/bootstrap.min.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link rel="stylesheet" href="/share/css/leaflet/leaflet.css">
+<link rel="stylesheet" href="/share/css/leaflet/L.Control.Sidebar.css">
+<link rel="stylesheet" href="/share/css/leaflet/dvf.css">
+<style>
+    html, body {
+        border: 0;         margin: 0;         padding: 0;         width: 100%;         height: 100%;         overflow: hidden;
+    }
+    #map {height: 100%;top:50px
+    }
+    </style>
+<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+<!-- Fav and touch icons --><link rel="apple-touch-glyphicon-precomposed" sizes="144x144" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-144-precomposed.png"><link rel="apple-touch-glyphicon-precomposed" sizes="114x114" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-114-precomposed.png"><link rel="apple-touch-glyphicon-precomposed" sizes="72x72" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-72-precomposed.png"><link rel="apple-touch-glyphicon-precomposed" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png"><link rel="shortcut icon" href="../assets/ico/favicon.png">
+</head>
+<body>
+
+
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">
+					<div class="img-circle2-icon descobreix_color"></div>
+					<div class="img-circle2-icon crea_color"></div>
+					<div class="img-circle2-icon visualitza_color"></div>
+					<div class="img-circle2-icon comparteix_color"></div>
+				</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a id="hl_index" lang="ca" href="/index.html">Inici</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
+					<li><a lang="ca"  id="hl_contact"  href="/properament.html">Contacte</a></li>
+					<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+              <ul id="ch_idioma"  class="dropdown-menu">
+                <li id="ca"><a href="#">Català</a></li>
+                <li id="es"><a href="#">Español</a></li>
+                <li id="en"><a href="#">English</a></li>
+              </ul>
+            </li>
+					<li></li>
+				</ul>
+					
+				
+				
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>	
+
+ <div id="sidebar"><h1>leaflet-sidebar</h1></div>
+
+	<div id="map"></div>
+	
+
+    
+
+  
+    
+
+
+	<script src="/share/js/leaflet/leaflet.js"></script>
+    <script src="/share/js/leaflet/plugin/leaflet.LayerTreeControl.js"></script>
+	<script src="/share/js/leaflet/plugin/TileLayer.WMTS.js"></script>
+	<script src="/share/js/leaflet/plugin/TileLayer.WMS.incrementalSingleTile.js"></script>
+	<script src="/share/js/jquery/jquery-2.0.2.min.js"></script>	
+	<script src="/share/js/leaflet/plugin/proj4js-compressed.js"></script>
+	<script src="/share/js/leaflet/plugin/proj4leaflet.js"></script>
+	<script src="/share/js/leaflet/plugin/epsg.leaflet.js"></script>	
+	<script src="/share/js/bootstrap.min.js"></script>
+	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+	
+	<script type="text/javascript" src="/share/js/leaflet/plugin/leaflet-dvf.min.js"></script>
+	<script type="text/javascript" src="/share/js/leaflet/plugin/L.Control.Sidebar.js"></script>
+	<script type="text/javascript" src="/share/js/leaflet/plugin/BoundaryCanvas.js"></script>
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script>
+	var map;
+    var orto;
+         
+       
+        var bbox = [258000.0, 4485000.0, 539600.0, 4766600.0];
+         
+        // Resolucions cache
+        var res = [1100, 550, 275, 100, 50, 25, 10, 5, 2, 1, 0.5, 0.25];
+          
+         
+        //Projeccio 25831
+         /* 
+        var crs25831 =new L.Proj.CRS.TMS('EPSG:25831',
+    '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs'
+    + '+ellps=WGS84 +datum=WGS84 +units=m +no_defs',
+        bbox,
+    {
+        resolutions: res
+        }
+    );
+             
+        //Escala segons resolució
+        crs25831.scale = function(zoom) {
+        return 1 / res[zoom];
+        };
+       
+       
+        map = new L.Map('map', {
+        crs: crs25831,      
+        continuousWorld: false,
+        worldCopyJump: false
+        });
+          
+       
+         var mapUrl = 'http://mapcache.icc.cat/map/bases/tms/1.0.0/topo_EPSG25831/{z}/{x}/{y}.jpeg';
+         
+     
+        var tilelayer = new L.Proj.TileLayer.TMS(mapUrl,crs25831, {       
+        tms: false,
+        maxZoom: res.length - 1,
+        minZoom: 0,
+        continuousWorld: true,
+        attribution: 'ICC'
+        });
+        map.addLayer(tilelayer);
+             
+        map.setView([41.331, 2.6680], 0);
+        
+        */
+      
+        
+        //map = L.map('viewerDiv').setView([48.845, 2.424], 15);
+        //L.marker([48.845, 2.424]).addTo(map).bindPopup("IGN<br /> 73, avenue de Paris<br /> 94165 Saint-Mandé CEDEX");
+
+         //crs: L.CRS.proj4js("EPSG:3857"),
+        /* 
+         map =  new L.map('map', {
+             crs:  L.CRS.proj4js("EPSG:3857"),      
+             continuousWorld: false,
+             worldCopyJump: false
+             });
+         */
+         
+         
+        map = new  L.map('map').setView([41.431, 1.8580], 9);
+      /*
+         var osm = new L.TileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 18,
+                            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> '
+                    });
+          
+        */
+        
+        var mapquestUrl='http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
+        var subDomains=['otile1','otile2','otile3','otile4'];
+        var mapquestAttrib=window.lang.convert('Font')+':<a class="N_labelMin" href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> .';
+        
+        
+        var carte =new L.TileLayer(mapquestUrl,{maxZoom:19, minZoom: 7,attributionControl:true,attribution:mapquestAttrib,subdomains:subDomains});
+        
+     
+       
+    
+        
+        
+       /* 
+        var mapquestUrl='http://betaportal.icc.local/tileserver/mundicatfullres/{x}/{y}/{z}.png';
+       
+        var mapquestAttrib=window.lang.convert('Font')+':<a class="N_labelMin" href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> .';
+        var carte =new L.TileLayer(mapquestUrl,
+        		{maxZoom:22,
+        	continuousWorld: false,
+            worldCopyJump: false,
+        	attributionControl:true,
+        	crs: L.Proj.CRS.TMS("EPSG:3857"),
+        	attribution:mapquestAttrib});
+        
+        
+        */
+        /*
+        var mapBounds = new L.LatLngBounds(
+                new L.LatLng(52, 0),
+                new L.LatLng(30, 5));
+            var mapMinZoom = 6;
+            var mapMaxZoom = 16;
+         // var map = L.map('map').fitBounds(mapBounds);
+        //  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+         var carte= L.tileLayer('http://betaportal.icc.local/tileserver/mundicatfullres/{z}/{x}/{y}.png', {
+              minZoom: mapMinZoom,
+              maxZoom: mapMaxZoom,
+              bounds: mapBounds,
+              opacity: 0.85
+          }).addTo(map);
+        
+        */
+        
+      
+        var limits2= L.tileLayer('http://172.70.1.11/mapcache/tms/1.0.0/mon3857@GM/{z}/{x}/{y}.png', {
+            minZoom: 0,
+            maxZoom: 7,
+            tms:true,
+            continuousWorld: true,
+            worldCopyJump: true,
+            //crs: L.Proj.CRS.TMS("EPSG:3857"),
+            opacity: 0.85
+        }).addTo(map);
+                
+        var matrixIds3857= new Array(19);
+        for (var i= 0; i<19; i++) {
+            matrixIds3857[i]= {
+                identifier    : "" + i,
+                topLeftCorner : new L.LatLng(20037508,-20037508)
+            };
+        }
+        
+        
+     
+        
+        
+        var ign = new L.TileLayer.WMTS("http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg",
+                    {
+                        
+                        matrixIds: matrixIds3857,
+                        maxZoom: 19,
+                        minZoom: 0,
+                        zoomOffset: 14,
+                        crs: L.Proj.CRS.TMS("EPSG:3857")
+                       
+                    }
+        );
+          
+          
+          
+    
+        
+        L.control.scale({'position':'bottomleft','metric':true,'imperial':false}).addTo(map);
+        var baseLayers = {"Carte OSM" : carte,"Carte ICC" : ign};
+        map.addLayer(carte);             
+        map.addLayer(ign);
+        
+        map.on('zoomend',function(){console.info(map.getZoom());});
+        
+        /*
+        var limits = L.tileLayer.wms("http://galileo.icc.cat/arcgis/services/icc_limadmin_v_r/MapServer/WMSServer?", {
+    	    layers: '4',
+    	    format: 'image/png',
+    	   crs: L.Proj.CRS.TMS("EPSG:3857"),
+    	   
+    	    transparent: true
+    	   
+    	}).addTo(map);  
+        */
+        /*
+        var limits = L.tileLayer.wms("http://172.70.1.11/maps/geocat.service?map=/opt/geocat/dades/mon/mon.map&", {
+    	    layers: 'mon',
+    	    format: 'image/jpeg',
+    	   crs: L.Proj.CRS.TMS("EPSG:3857"),
+    	   maxZoom: 7,
+           minZoom: 0,
+    	    transparent: false
+    	   
+    	}).addTo(map);  
+        */
+        
+        var layers = [];
+    	var lastLayer = null;
+        var index = 0;
+        var panoramioLayer = new L.PanoramioLayer({
+    		photoSet: 'full',
+    		onEachPhoto: function (layer, photo) {
+    			var uploaded = photo['upload_date'];
+    			var url = photo['photo_file_url'];
+    			var startMoment = moment(uploaded, 'DD MMM YYYY');
+    			var start = startMoment.toDate();
+    			var photoItem = {
+    				start: '',
+    				content: '<img class="photo" title="' + photo['photo_title'] + '" onload="this.style.opacity=1" src="' + url + '" height="64" data-id="' + index + '"/>',
+    				className: 'photo-item'
+    			};
+    			
+    			layers.push(layer);
+    			
+    			var clickFunction = function ( index, start) {
+    				return function(e) {
+    					var startDate = moment(start).subtract('days', 90).toDate();
+    					var endDate = moment(start).add('days', 90).toDate();
+    					
+    					//timeline.setVisibleChartRange(startDate, endDate);
+    					//timeline.setSelection([{row: index}]);
+    				};
+    			};
+    			
+    			layer.on('click', clickFunction( index, start));
+    			
+    			index++;
+    			
+    			//timeline.addItem(photoItem, true);
+    			//timeline.redraw();
+    			//timeline.setVisibleChartRangeAuto();
+    		},
+    		refreshEvents: 'viewreset'
+    	});
+    	
+        
+    
+    	//map.addLayer(panoramioLayer);
+    	
+
+        	var overlayMaps = {
+        			"MapQuest": carte,
+        			"ICC": ign,
+        	  
+        	    "limitsICC2": limits2
+        	   // "fotos":panoramioLayer
+        	};
+        		
+        		
+        		
+        		 L.control.layers(baseLayers,overlayMaps).addTo(map);
+        
+        
+        /*
+        		 var sidebar = L.control.sidebar('sidebar', {
+        	            closeButton: true,
+        	            position: 'left'
+        	        });
+        	        map.addControl(sidebar);
+
+        	        setTimeout(function () {
+        	            sidebar.show();
+        	        }, 500);
+*/
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //L.control.layers(baseLayers, {}).addTo(map);
+        //map.setView([41.331, 2.6680], 0);
+        
+        /*
+        map = L.map('map').setView([41.331, 2.6680], 8);
+        L.TileLayer.prototype.getTileUrl = function (tilePoint) {
+            this._adjustTilePoint(tilePoint);
+            console.log(tilePoint);
+            return L.Util.template(this._url, $.extend({
+                s: this._getSubdomain(tilePoint),
+                z: this._getZoomForUrl(),
+                x: tilePoint.x,
+                y: tilePoint.y
+            }, this.options));
+        };
+        L.tileLayer('http://mapcache.icc.cat/map/bases/wmts/topo/GRID3857/{z}/{y}/{x}.jpeg', {
+            maxZoom: 11,
+            minZoom: 0,
+            zoomOffset: 14,
+            crs: L.CRS.proj4js("EPSG:3857"),
+        }).addTo(map);
+        */
+	</script>
+</body>
+</html>

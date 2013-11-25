@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title lang="ca">InstaMapes . Benvinguda</title>
+<meta name="author" content="InstaMapes">
+<meta name="description"
+	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+<meta name="robots" content="index,follow">
+<meta name="geo.region" content="ES-CT" />
+<meta name="geo.placename" content="Barcelona" />
+<meta name="geo.position" content="41.363892;2.186279" />
+<meta name="language" content="ca" />
+<!-- Le styles -->
+<link href="/share/css/bootstrap.min.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link href="/share/css/zocial/zocial.css" rel="stylesheet">
+<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-glyphicon-precomposed" sizes="144x144"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-144-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed" sizes="114x114"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-114-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed" sizes="72x72"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-72-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
+<link rel="shortcut icon" href="../assets/ico/favicon.png">
+</head>
+<body>
+
+
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">
+					<div class="img-circle2-icon descobreix_color"></div>
+					<div class="img-circle2-icon crea_color"></div>
+					<div class="img-circle2-icon visualitza_color"></div>
+					<div class="img-circle2-icon comparteix_color"></div>
+				</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
+					<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li id="ca"><a href="#">Català</a></li>
+                <li id="es"><a href="#">Español</a></li>
+                <li id="en"><a href="#">English</a></li>
+              </ul>
+            </li>
+					<li>
+						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
+					</li>            
+					<li></li>
+				</ul>
+					
+				
+				
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>	
+ 
+ <!--  <div class="container">
+		    
+       <div class="panel panel-default col-md-8">
+		  <div class="panel-body">
+		    <h3  lang="ca" class="form-signin-heading">Et donem la benvinguda!</h3>
+            <button  lang="ca" class="btn btn-lg btn-success btdn-block" type="submit">Crear el primer mapa</button>
+		  </div>
+		</div>
+
+        
+        <div class="row">
+        	<div class="col-md-8">.col-md-8</div>
+			<div class="col-md-4">.col-md-4</div>
+		</div>
+        <p>
+         </p>
+        
+      </section>
+         
+</div>  -->
+<div class="container">
+   <div class="jumbotron">
+      <div class="container">
+	      <div class="row">
+	        <div class="col-lg-7">
+	        <h2 lang="ca">Et donem la benvinguda a Insta<em>Mapes</em>!</h2>
+	        <p><br>Per crear el teu primer mapa, <br>
+	         pots deixar anar les teves dades al panell de la dreta<br>
+	         o escollir les que vulguis de les que hi ha a baix.<br><br>
+	        <p><a class="btn btn-lg btn-success bdtn-block"">Crear el primer mapa</a></p>
+	        </div>
+	        <div class="col-lg-4">
+	        		<style>
+					#holder { border: 10px dashed #ccc; width: 300px; height: 300px; margin: 20px auto;}
+					#holder.hover { border: 10px dashed #333;} 											
+					#dropzone {
+						  border: 10px dashed #ccc; width: 300px; height: 300px; 
+						  margin: 20px auto;
+						  margin: 10px;
+						  padding: 10px;
+						}
+					</style>
+	        		<!--  <div id="drop_zone"></div> -->
+					<output id="list"></output>
+					<div id="dropzone">
+                      <span class="message">Drop files here to upload. <br /></span>
+                    </div>  
+        </div>
+			</div>
+
+			<script>
+			$('#dropzone').filedrop({
+			    fallback_id: 'upload_button',   // an identifier of a standard file input element, becomes the target of "click" events on the dropzone
+			    url: 'upload.php',              // upload handler, handles each file separately, can also be a function taking the file and returning a url
+			    paramname: 'userfile',          // POST parameter name used on serverside to reference file, can also be a function taking the filename and returning the paramname
+			    withCredentials: true,          // make a cross-origin request with cookies
+			    data: {
+			        param1: 'value1',           // send POST variables
+			        param2: function(){
+			            return calculated_data; // calculate data at time of upload
+			        },
+			    },
+			    headers: {          // Send additional request headers
+			        'header': 'value'
+			    },
+			    error: function(err, file) {
+			        switch(err) {
+			            case 'BrowserNotSupported':
+			                alert('browser does not support HTML5 drag and drop')
+			                break;
+			            case 'TooManyFiles':
+			                // user uploaded more than 'maxfiles'
+			                break;
+			            case 'FileTooLarge':
+			                // program encountered a file whose size is greater than 'maxfilesize'
+			                // FileTooLarge also has access to the file which was too large
+			                // use file.name to reference the filename of the culprit file
+			                break;
+			            case 'FileTypeNotAllowed':
+			                // The file type is not in the specified list 'allowedfiletypes'
+			                break;
+			            case 'FileExtensionNotAllowed':
+			                // The file extension is not in the specified list 'allowedfileextensions'
+			                break;
+			            default:
+			                break;
+			        }
+			    },
+			    allowedfiletypes: ['image/jpeg','image/png','image/gif'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
+			    allowedfileextensions: ['.jpg','.jpeg','.png','.gif'], // file extensions allowed. Empty array means no restrictions
+			    maxfiles: 25,
+			    maxfilesize: 20,    // max file size in MBs
+			    dragOver: function() {
+			        // user dragging files over #dropzone
+			    },
+			    dragLeave: function() {
+			        // user dragging files out of #dropzone
+			    },
+			    docOver: function() {
+			        // user dragging files anywhere inside the browser document window
+			    },
+			    docLeave: function() {
+			        // user dragging files out of the browser document window
+			    },
+			    drop: function() {
+			        // user drops file
+			    },
+			    uploadStarted: function(i, file, len){
+			        // a file began uploading
+			        // i = index => 0, 1, 2, 3, 4 etc
+			        // file is the actual file of the index
+			        // len = total files user dropped
+			    },
+			    uploadFinished: function(i, file, response, time) {
+			        // response is the data you got back from server in JSON format.
+			    },
+			    progressUpdated: function(i, file, progress) {
+			        // this function is used for large files and updates intermittently
+			        // progress is the integer value of file being uploaded percentage to completion
+			    },
+			    globalProgressUpdated: function(progress) {
+			        // progress for all the files uploaded on the current instance (percentage)
+			        // ex: $('#progress div').width(progress+"%");
+			    },
+			    speedUpdated: function(i, file, speed) {
+			        // speed in kb/s
+			    },
+			    rename: function(name) {
+			        // name in string format
+			        // must return alternate name as string
+			    },
+			    beforeEach: function(file) {
+			        // file is a file object
+			        // return false to cancel upload
+			    },
+			    beforeSend: function(file, i, done) {
+			        // file is a file object
+			        // i is the file index
+			        // call done() to start the upload
+			    },
+			    afterAll: function() {
+			        // runs after all files have been uploaded or otherwise dealt with
+			    }
+			});
+			  function handleFileSelect(evt) {
+			    evt.stopPropagation();
+			    evt.preventDefault();
+			
+			    var files = evt.dataTransfer.files; // FileList object.
+			
+			    // files is a FileList of File objects. List some properties.
+			    var output = [];
+			    for (var i = 0, f; f = files[i]; i++) {
+			      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+			                  f.size, ' bytes, last modified: ',
+			                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+			                  '</li>');
+			    }
+			    alert(output);
+			    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+			  }
+			
+			  function handleDragOver(evt) {
+			    evt.stopPropagation();
+			    evt.preventDefault();
+			    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+			  }
+			
+			  // Setup the dnd listeners.
+			  var dropZone = document.getElementById('drop_zone');
+			  dropZone.addEventListener('dragover', handleDragOver, false);
+			  dropZone.addEventListener('drop', handleFileSelect, false);
+			</script>
+			
+	         <div class="col-lg-2">	</div>
+	      </div>  
+      </div>
+   </div>
+</div>
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+       </div>
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
+	<script src="/share/js/bootstrap.min.js"></script>
+	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<!-- Including the HTML5 Uploader plugin -->
+    <script src="/share/js/filedrop/jquery.filedrop.js"></script>
+
+    <!-- The main script file -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

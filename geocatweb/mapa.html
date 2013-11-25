@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<title lang="ca">Mapa InstaMapes</title>
+<meta name="author" content="InstaMapes">
+<meta name="description" content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+<meta name="robots" content="index,follow">
+<meta name="geo.region" content="ES-CT" />
+<meta name="geo.placename" content="Barcelona" />
+<meta name="geo.position" content="41.363892;2.186279" />
+<meta name="language" content="ca" />
+<link href="/share/css/bootstrap.min.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link href="/share/css/zocial/zocial.css" rel="stylesheet"> 
+<link rel="stylesheet" href="/share/css/leaflet/dvf.css">
+<link rel="stylesheet"   href="/share/css/leaflet/leaflet.css">
+<link rel="stylesheet"   href="/share/css/leaflet/L.Control.Sidebar.css">
+<link rel="shortcut icon" href="/instamapes.ico">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+    <style>
+      html, body{ width:100%; height:100%; margin:0; padding:0; }
+	  #map { width:100%; top:50px;height:100%; margin:0; padding:0; }
+    </style>
+  </head>
+  <body>
+  <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">
+					<div class="img-circle2-icon descobreix_color"></div>
+					<div class="img-circle2-icon crea_color"></div>
+					<div class="img-circle2-icon visualitza_color"></div>
+					<div class="img-circle2-icon comparteix_color"></div>
+				</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a id="hl_index" lang="ca" href="/index.html">Inici</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
+					<li><a lang="ca"  id="hl_contact"  href="/properament.html">Contacte</a></li>
+					<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+              <ul id="ch_idioma"  class="dropdown-menu">
+                <li id="ca"><a href="#">Català</a></li>
+                <li id="es"><a href="#">Español</a></li>
+                <li id="en"><a href="#">English</a></li>
+              </ul>
+            </li>
+					<li></li>
+				</ul>
+					
+				
+				
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>	
+  <div id="sidebar"></div>
+  <div id="map"></div>
+	
+	
+	<!--Scripts-->
+	<script type="text/javascript" src="/share/js/jquery/jquery-2.0.2.min.js"></script>
+	<script src="/share/js/bootstrap.min.js"></script>
+	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+	
+    <script type="text/javascript" src="/share/js/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="/share/js/leaflet/plugin/BoundaryCanvas.js"></script>
+    <script type="text/javascript" src="/share/js/leaflet/plugin/proj4js-compressed.js"></script>
+	<script type="text/javascript" src="/share/js/leaflet/plugin/proj4leaflet.js"></script>
+	<script type="text/javascript" src="/share/js/leaflet/plugin/epsg.leaflet.js"></script>
+	<script type="text/javascript" src="/share/js/leaflet/plugin/L.Control.Sidebar.js"></script>
+	<script type="text/javascript" src="/share/js/moment.min.js"></script>
+	<script type="text/javascript" src="/share/js/underscore-min.js"></script>	
+	<script type="text/javascript" src="/share/js/leaflet/plugin/leaflet-dvf.min.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/leaflet/L.IM_Map.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/leaflet/L.IM_ColorLayer.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.mapa-1.0.0.js"></script>
+
+
+
+
+
+
+
+ </body>
+</html>

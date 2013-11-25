@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+	<link rel="stylesheet" href="/share/css/leaflet/dvf.css">
+  <link rel="stylesheet"   href="/share/css/leaflet/leaflet.css">
+  <link rel="stylesheet"   href="/share/css/leaflet/L.Control.Sidebar.css">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+	<script src="/share/js/jquery/jquery-2.0.2.min.js"></script>
+     <script type="text/javascript"  src="/share/js/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="/share/js/leaflet/plugin/BoundaryCanvas.js"></script>
+    <script type="text/javascript"  src="/share/js/leaflet/plugin/proj4js-compressed.js"></script>
+	<script type="text/javascript"  src="/share/js/leaflet/plugin/proj4leaflet.js"></script>
+	<script type="text/javascript"  src="/share/js/leaflet/plugin/epsg.leaflet.js"></script>
+	<script type="text/javascript"  src="/share/js/leaflet/plugin/L.Panoramio.js"></script>
+	<script type="text/javascript"  src="/share/js/leaflet/plugin/L.Control.Sidebar.js"></script>
+	<script type="text/javascript"  src="/geocatweb/js/leaflet/L.InstaMapes.Map.js"></script>
+	<script type="text/javascript"  src="/geocatweb/js/leaflet/L.InstaMapes.ColorLayer.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+	
+	<script type="text/javascript" src="/share/js/leaflet/plugin/leaflet-dvf.min.js"></script>
+    <script>
+	var map;var ICC_RELLEU_SEPIA;var ICC_RELLEU_RED;
+	function init(){
+	
+	  map= new L.InstaMapes('map',{typeMap:'topoMap',maxZoom:19}).setView([41.431, 1.8580], 8);
+	  var sidebar = L.control.sidebar('sidebar', {
+    position: 'left',
+	closeButton:false
+});
+
+map.addControl(sidebar);
+setTimeout(function () {
+    sidebar.show();
+}, 500);
+	 //console.info(map);
+	// var map=new L.Map('map').setView([41.431, 1.8580], 12);
+
+	 /*
+	 var limits = L.tileLayer.wms("http://172.70.1.11/maps/geocat.service?map=/opt/geocat/dades/mon/mon.map&", {
+    	    layers: 'relleu',
+    	    format: 'image/png',
+    	   crs: L.Proj.CRS.TMS("EPSG:3857"),
+    	   maxZoom: 19,
+           minZoom: 0,
+    	    transparent: true
+    	   
+    	}).addTo(map).bringToFront();
+
+		
+	  /*
+	
+	 var limits = L.tileLayer.wms("http://172.70.1.11/maps/geocat.service?map=/opt/geocat/dades/gencat/dadesobertes.map&", {
+    	    layers: 'Xarxa_transport_public_group,Xarxa_transport_viari_group',
+    	    format: 'image/png',
+    	   crs: L.Proj.CRS.TMS("EPSG:3857"),
+    	   maxZoom: 19,
+           minZoom: 0,
+    	    transparent: true
+    	   
+    	}).addTo(map);  
+	 
+	 */
+	 
+	 /*
+	  var ICC_RELLEU_L0= L.tileLayer('http://172.70.1.11/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png', {
+				   minZoom: 0,
+				   maxZoom: 14,
+				   tms:true,
+				   continuousWorld: true,
+				   worldCopyJump: true,
+			   }).addTo(map);
+	*/
+	
+	
+	
+	ICC_RELLEU_GRIS= new L.InstaMapes.ColorLayer('http://mapproxyd/map/bases_noutm/tiles/1.0.0/topogris_EPSG900913/{z}/{x}/{y}.jpeg', {
+				   minZoom: 0,
+				   maxZoom: 19,
+				   tms:true,
+				   continuousWorld: true,
+				   worldCopyJump: true,
+				   color:'gris_vermell'
+			   });
+	
+	
+	
+	
+	ICC_RELLEU_RED= new L.InstaMapes.ColorLayer('http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg', {
+				   minZoom: 0,
+				   maxZoom: 19,
+				   tms:true,
+				   continuousWorld: true,
+				   worldCopyJump: true,
+				   color:'negre_blau'
+			   });
+	
+	//console.info(ICC_RELLEU_RED);
+	
+	 map.on('zoomend',function(){ console.info(map.getZoom());});
+	 
+	 
+	 
+	 
+	//map.defautlMap();
+	//var panoramio= new L.Panoramio();
+	
+	//panoramio.addTo(map);
+	
+	/*
+	 var layers = [];
+    	var lastLayer = null;
+        var index = 0;
+        var panoramioLayer = new L.PanoramioLayer({
+    		photoSet: 'full',
+    		onEachPhoto: function (layer, photo) {
+    			var uploaded = photo['upload_date'];
+    			var url = photo['photo_file_url'];
+    			var startMoment = moment(uploaded, 'DD MMM YYYY');
+    			var start = startMoment.toDate();
+    			var photoItem = {
+    				start: '',
+    				content: '<img class="photo" title="' + photo['photo_title'] + '" onload="this.style.opacity=1" src="' + url + '" height="64" data-id="' + index + '"/>',
+    				className: 'photo-item'
+    			};
+    			
+    			layers.push(layer);
+    			
+    			var clickFunction = function ( index, start) {
+    				return function(e) {
+    					var startDate = moment(start).subtract('days', 10).toDate();
+    					var endDate = moment(start).add('days', 10).toDate();
+    				};
+    			};
+    			
+    			layer.on('click', clickFunction( index, start));
+    			
+    			index++;
+   			
+    		},
+    		refreshEvents: 'viewreset'
+    	});
+    	   
+    	map.addLayer(panoramioLayer);
+	*/
+	
+	}
+	
+	
+    </script>
+    <style>
+      html, body, #map { width:100%; height:100%; margin:0; padding:0; }
+    </style>
+  </head>
+  <body onload="init()">
+  <div id="sidebar"></div>
+    <div id="map"></div>
+	<button onclick="map.ortoMap()">Orto</button>
+	<button onclick="map.terrainMap()">Terrain</button>
+	<button onclick="map.removeLayer(ICC_RELLEU_RED);map.removeLayer(ICC_RELLEU_GRIS);ICC_RELLEU_RED.options.color='sepia';ICC_RELLEU_RED.addTo(map,true)">Sepia</button>
+	<button onclick="map.removeLayer(ICC_RELLEU_RED);map.removeLayer(ICC_RELLEU_GRIS);ICC_RELLEU_RED.options.color='nit';ICC_RELLEU_RED.addTo(map,true)">Nit</button>
+  <button onclick="map.removeLayer(ICC_RELLEU_RED);map.removeLayer(ICC_RELLEU_GRIS);ICC_RELLEU_RED.options.color='negre_blau';ICC_RELLEU_RED.addTo(map)">Negre_Blau</button>
+   <button onclick="map.removeLayer(ICC_RELLEU_RED);map.removeLayer(ICC_RELLEU_GRIS);ICC_RELLEU_GRIS.options.color='gris_verd';ICC_RELLEU_GRIS.addTo(map)">Gris_Verd (Topo GRIS)</button>
+   <button onclick="map.removeLayer(ICC_RELLEU_RED);map.removeLayer(ICC_RELLEU_GRIS);ICC_RELLEU_GRIS.options.color='nit';ICC_RELLEU_GRIS.addTo(map,true)">Nit (Topo GRIS)</button>
+   <button onclick="map.removeLayer(ICC_RELLEU_RED);map.removeLayer(ICC_RELLEU_GRIS);ICC_RELLEU_GRIS.options.color='gris_vermell_tot';ICC_RELLEU_GRIS.addTo(map,true)">gris_vermell_tot (Topo GRIS)</button>
+  </body>
+</html>
