@@ -1,0 +1,118 @@
+
+.taulaFeina{
+	color:#FFFFFF;
+	text-align:center;
+	font-size:14px; 
+	}
+
+.taulaFeina tr td{
+	
+	border-bottom: 1px solid white;
+	
+	 /*
+	 line-height:1;
+	 */
+	}
+
+.ramp_color {
+	background-image: linear-gradient(to top, #3B5998 , #196ED1,#59B5D6, #00C0F7,#569908, #A8CB17, #FF9900, #FFDE00);
+border-right: 1px solid white;
+}
+
+.dv_dragdrop {	
+ background-color: #F2F2F2;
+    border: 2px dotted #F9A312;
+    float: left;
+    height: 65px;
+    line-height: 0.45;
+    margin-left: 15px;
+    padding: 5px;
+    width: 60%;
+    color:#525252;
+    margin-bottom: 12px;
+}
+.dv_dragdrop p label {
+	font-size: 35px;	
+}
+
+.dv_dragdrop p {
+	font-size: 10px;	
+	}
+
+.titol_explora{
+	color:#FF9900;
+text-shadow:2px 2px 4px #000000;
+font-weight: bold;	
+}
+
+.titol_crea{
+	color:#569908;
+text-shadow:2px 2px 4px #000000;
+font-weight: bold;	
+}
+
+.titol_visualitza{
+	color:#33B9E3;
+text-shadow:2px 2px 4px #000000;
+font-weight: bold;	
+}
+
+.titol_comparteix{
+	color:#1F61DD;
+text-shadow:2px 2px 4px #000000;
+font-weight: bold;
+	
+}
+
+#dv_formats{
+   border: 0 solid #FF0000;
+    float: right;
+    height: 10px;
+    margin-right: 10px;
+    width: 60px;
+    height: 65px;
+    margin-bottom: 12px;
+	}
+.child_formats{
+    float:left;
+    margin-right:5px;
+    font-size: 10px;
+    line-height: 0.6;
+    text-align: left;
+    padding: 5px;  
+}
+
+.child_formats p a {
+ color: white;
+ text-decoration: underline;		
+}
+
+.div_punt{
+	width:50px;
+	height:80px;
+	background-image: url("/share/css/leaflet/images/marker-icon-2x.png");
+	background-repeat: no-repeat;
+	margin-left: 35%;
+	cursor:pointer;
+}
+
+#div_fons img{
+	
+	cursor:pointer;
+	width: 40px;
+	height: 40px;	
+}
+
+#div_resultats img{
+	
+	cursor:pointer;
+	width: 40px;
+	height: 40px;
+	
+	
+}
+
+h1, h2, h3, h4, h5, h6{
+   
+    line-height: 0.6;
+}

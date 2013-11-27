@@ -52,26 +52,28 @@ options: {
 				   maxZoom: 6,
 				   tms:true,
 				   continuousWorld: true,
-				   worldCopyJump: true,
+				   worldCopyJump:false,
 			   }).addTo(_topoLayers);
 
 
 			  var MQ_TOPO_L1 =new L.TileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',{   	   
 				   minZoom: 7,
 				   maxZoom:18,
+				   opacity:0.3,
 				   subdomains:subDomains}
 			   ).addTo(_topoLayers);
-			
+		
 	
 	/*
 	 var MQ_TOPO_L1 =new L.IM_ColorLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',{   	   
 				   minZoom: 7,
-				   color:'igual',
+				   color:'grisClar',
 				   maxZoom:18,
 				   subdomains:subDomains}
 			   ).addTo(_topoLayers);
 	*/
-			var ICC_TOPO_L1 = new L.TileLayer.boundaryCanvas("http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw",
+	
+			  var ICC_TOPO_L1 = new L.TileLayer.boundaryCanvas("http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw",
 																	  {  	    
 				 tms:false,
 				  minZoom: 7,
@@ -174,13 +176,13 @@ options: {
 			 _terrainGrisLayers=L.layerGroup();	
 	
 	
-			 var ESRI_ORTO_L1 =new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',{   	   
+			 var ESRI_ORTO_GRIS_L1 =new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',{   	   
 				   minZoom: 0,
 				   maxZoom:13}
-			   ).addTo(_terrainLayers);
+			   ).addTo(_terrainGrisLayers);
 			  
 			
-			var ICC_RELLEU_L0= new L.IM_ColorLayer('http://172.70.1.11/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png', {
+			var ICC_RELLEU_GRIS_L0= new L.IM_ColorLayer('http://172.70.1.11/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png', {
 				   minZoom: 0,
 				   maxZoom: 14,
 				   tms:true,

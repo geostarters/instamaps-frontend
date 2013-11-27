@@ -46,6 +46,24 @@ L.IM_ColorLayer = L.TileLayer.extend({
 			}
 			
 			
+			
+			if(this._layer.options.color=='grisClar'){
+				for (var i = 0; i < d.length; i += 4) {
+					var brightness = 0.44 * d[i] + 0.5 * d[i + 1] + 0.16 * d[i + 2];
+			          // r
+			          d[i] = brightness;
+			          // green
+			          d[i + 1] = brightness;
+			          // blue
+			          d[i + 2] = brightness;
+			        }
+		}
+
+			
+			
+			
+			
+			
 			if(this._layer.options.color=='sepia'){
 							 for (var i = 0; i < d.length; i += 4) {
 					  var r = d[i];

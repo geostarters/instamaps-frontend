@@ -13,10 +13,12 @@
 <meta name="language" content="ca" />
 <link href="/share/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link href="/geocatweb/css/mapa.css" rel="stylesheet">
 <link href="/share/css/zocial/zocial.css" rel="stylesheet"> 
 <link rel="stylesheet" href="/share/css/leaflet/dvf.css">
-<link rel="stylesheet"   href="/share/css/leaflet/leaflet.css">
-<link rel="stylesheet"   href="/share/css/leaflet/L.Control.Sidebar.css">
+<link rel="stylesheet" href="/share/css/leaflet/leaflet.css">
+<link rel="stylesheet" href="/share/css/leaflet/leaflet.draw.css">
+<link rel="stylesheet" href="/geocatweb/css/L.Control.Sidebar.css">
 <link rel="shortcut icon" href="/instamapes.ico">
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
@@ -44,17 +46,21 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a id="hl_index" lang="ca" href="/index.html">Inici</a></li>
+					<li class="active"><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
 					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
-					<li><a lang="ca"  id="hl_contact"  href="/properament.html">Contacte</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
 					<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
-              <ul id="ch_idioma"  class="dropdown-menu">
+              <ul class="dropdown-menu">
                 <li id="ca"><a href="#">Català</a></li>
                 <li id="es"><a href="#">Español</a></li>
                 <li id="en"><a href="#">English</a></li>
               </ul>
             </li>
+					<li>
+						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
+					</li>            
 					<li></li>
 				</ul>
 					
@@ -64,7 +70,84 @@
 			<!--/.nav-collapse -->
 		</div>
 	</div>	
-  <div id="sidebar"></div>
+  <div id="sidebar">
+  
+    <table  class="taulaFeina"  height="100%">
+     <tr border="2" >
+     <td class="ramp_color" rowSpan="4" width="15px"></td>
+	 <td class="t1" height="20%">
+	     <h3 class="titol_explora" lang="ca">EXPLORA</h3>
+	     <h4 lang="ca">LES TEVES DADES</h4>
+	    
+	    
+	     <div class="dv_dragdrop">
+		     <p lang="ca">Arrossegar</p>
+		     <p><label>+</label></p>
+		     <p lang="ca">i deixar anar</p>
+	     </div>
+	     
+	     <div id='dv_formats'>
+			<div class ='child_formats'>		
+				<p><a href="#" title="KML">KML</a></p>
+				<p><a href="#" title="CSV">CSV</a></p>
+				<p><a href="#" title="Shapefile">SHP(zip)</a></p>
+				<p><a  href="#" title="Més formats" lang="ca" >Més+</a></p>
+			</div>
+		</div>
+	     
+	     <h4 lang="ca">ALTRES FONTS</h4>
+	     <div>
+	     <span lang="ca" class="label label-warning">Dade Obertes</span>
+		 <span lang="ca" class="label label-warning">WMS</span>
+		 <span lang="ca" class="label label-warning">JSON</span> 
+		 <span lang="ca" class="label label-warning">Xarxes socials</span> 
+		  
+	     </div>
+	     </td>
+     </tr>
+     <tr>
+    
+	     <td height="20%">
+	      <h3 class="titol_crea" lang="ca">CREA</h3>
+	     <h4 lang="ca">UN MAPA</h4>
+	     <h5>Arrossegar al mapa</h5>
+		 <div class="div_punt"></div>
+		  <h5>Tria un fons </h5>
+		  <div id="div_fons">
+		  	<img id="topoMap"   src="/geocatweb/img/casa_bfosc.png" alt="Mapa" class="img-thumbnail">
+		  	<img id="ortoMap" src="/geocatweb/img/casa_bfosc.png" alt="Foto" class="img-thumbnail">
+		  	<img id="terrainMap"  src="/geocatweb/img/casa_bfosc.png" alt="Relleu" class="img-thumbnail">
+		  	<img id="terrainGrisMap"  src="/geocatweb/img/casa_bfosc.png" alt="Relleu gris" class="img-thumbnail">
+		  	<img id="colorMap"  src="/geocatweb/img/casa_bfosc.png" alt="Color" class="img-thumbnail">
+		  </div>
+	     </td>
+     </tr>
+     <tr>
+	     <td>
+	    <h3 class="titol_visualitza" lang="ca">VISUALITZA</h3>
+	     <h4 lang="ca">ELS RESULTATS</h4>
+	     <h5>Triar la representació</h5>
+	     <div id="div_resultats">
+		  	<img id="topoMap"   src="/geocatweb/img/imprimeix_blau.png" alt="Mapa" class="img-thumbnail">
+		  	<img id="ortoMap" src="/geocatweb/img/imprimeix_blau.png" alt="Foto" class="img-thumbnail">
+		  	<img id="terrainMap"  src="/geocatweb/img/imprimeix_blau.png" alt="Relleu" class="img-thumbnail">
+		  	<img id="terrainGrisMap"  src="/geocatweb/img/imprimeix_blau.png" alt="Relleu gris" class="img-thumbnail">
+		  	
+		  </div>
+	     </td>
+     </tr>
+     <tr>
+	     <td>
+	     <h3 class="titol_comparteix" lang="ca">COMPARTEIX</h3>
+	     <h4 lang="ca">LA INFORMACIÓ</h4>
+	     <h5>A les xarxes socials</h5>
+	     <h5>Enllaça, Envia,Imprimeix</h5>
+	     </td>
+     </tr>
+     
+    </table>
+  
+  </div>
   <div id="map"></div>
 	
 	
@@ -84,6 +167,8 @@
 	<script type="text/javascript" src="/share/js/moment.min.js"></script>
 	<script type="text/javascript" src="/share/js/underscore-min.js"></script>	
 	<script type="text/javascript" src="/share/js/leaflet/plugin/leaflet-dvf.min.js"></script>
+	<!--<script type="text/javascript" src="/share/js/leaflet/plugin/leaflet.draw.js"></script>-->
+	<script type="text/javascript" src="/share/js/leaflet/plugin/leaflet.draw-src.js"></script>
 	<script type="text/javascript" src="/geocatweb/js/leaflet/L.IM_Map.js"></script>
 	<script type="text/javascript" src="/geocatweb/js/leaflet/L.IM_ColorLayer.js"></script>
 	<script type="text/javascript" src="/geocatweb/js/geocat.web-1.0.0.js"></script>
