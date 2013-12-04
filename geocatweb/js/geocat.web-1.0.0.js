@@ -1,13 +1,13 @@
 
 window.lang = new jquery_lang_js();
 
-
+var lsLang;
 jQuery(document).ready(function() {
 
 //	web_roundCircles();
 	weball_tornarInici();		
 	window.lang.run();
-	var lsLang=web_determinaIdioma();
+	vlsLang=web_determinaIdioma();
 	web_menusIdioma(lsLang);
 	
 /*	
@@ -41,7 +41,7 @@ function web_menusIdioma(lsLang){
 
 
 function canviaIdioma(lsLang){
-
+console.info("entro");
 window.lang.change(lsLang);	
 	
 }

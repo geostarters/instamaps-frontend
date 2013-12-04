@@ -74,7 +74,7 @@ div.circle_txt {
 }
 
 #cap_div {
-	/* background-image:url('/share/img/cel.jpg'); */
+	/* background-image:url('/llibreries/img/cel.jpg'); */
 	color: #333333;
 	text-rendering: optimizelegibility;
 	text-shadow: 0 4px 4px rgba(255, 255, 255, 0.75);
@@ -351,7 +351,7 @@ footer .container  p {
     line-height: 1.5;
     padding: 10%;
     text-align: center;
-	background-image: url("../../share/img/background_login.jpg");
+	background-image: url("../../llibreries/img/background_login.jpg");
     background-size: cover;    
 }
 
@@ -422,7 +422,7 @@ footer .container  p {
 	}
 	
 	.my-background{
-		background-image:url(../../share/img/background_login.jpg);
+		background-image:url(../../llibreries/img/background_login.jpg);
 		padding-top: 5%;
 	}	
 	

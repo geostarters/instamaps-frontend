@@ -30,6 +30,8 @@ border-right: 1px solid white;
     width: 60%;
     color:#525252;
     margin-bottom: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.65);
+    cursor: pointer;
 }
 .dv_dragdrop p label {
 	font-size: 35px;	
@@ -72,6 +74,7 @@ font-weight: bold;
     width: 60px;
     height: 65px;
     margin-bottom: 12px;
+    opacity:1;
 	}
 .child_formats{
     float:left;
@@ -94,6 +97,7 @@ font-weight: bold;
 	background-repeat: no-repeat;
 	margin-left: 35%;
 	cursor:pointer;
+	
 }
 
 #div_fons img{
@@ -116,3 +120,89 @@ h1, h2, h3, h4, h5, h6{
    
     line-height: 0.6;
 }
+.zocial.icon.ft {
+background-color: transparent;
+box-shadow: none;
+	
+	
+}
+
+.td1{background-color:#595959; background-color: rgba(89, 89, 89, 0.7);}
+
+.td2{background-color:#404040;background-color: rgba(64, 64, 64, 0.7);}
+
+.td3{background-color:#262626;background-color: rgba(38, 38, 38, 0.7);}
+
+.td4{background-color:#0D0D0D;background-color: rgba(13, 13, 13, 0.7);}
+
+
+.green, .green a, .green span {
+  color: #00ff00;
+}
+
+.greenfort, .greenfort a, .greenfort span {
+  color: #55821D;
+  cursor:pointer;	
+}
+
+.grisfort, .grisfort a, .grisfort span {
+  color: #464646;
+  cursor:pointer;	
+}
+
+
+.white, .white a, .white span {
+	color: #ffffff;
+	font-size: 24px;
+	cursor:pointer;	
+}
+
+
+
+
+.label-explora {
+    background-color: #F6A529;
+}
+
+.leaflet-control-layers{
+	width: 250px;
+	height: 300px;
+	display:none;
+}
+
+.leaflet-draw{
+	clear: none;
+	top: 40px;
+}
+
+
+.leaflet-draw-toolbar .leaflet-draw-draw-menu {
+	background-position: -2px -2px;
+}
+
+.info {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.8);    
+    clear: left;
+    float: left;
+   
+    left: 35px;
+    
+    display: block;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    text-decoration: none;
+    width: 26px;
+    }
+
+    .info:hover {
+    background: none repeat scroll 0 0 rgba(244, 244, 244, 0.8);
+ 
+    }
+    
+     .info_actiu {
+    background: none repeat scroll 0 0 rgba(244, 0, 0, 0.8);
+ 
+    }
+    
+    
