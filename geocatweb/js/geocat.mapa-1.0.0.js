@@ -16,14 +16,14 @@ jQuery(document).ready(function() {
 
 	tradueixMenusToolbar();
 	
-	/*
+	
 	  var limits =
 	  L.tileLayer.wms("http://172.70.1.11/maps/geocat.service?map=/opt/geocat/dades/mon/mon.map&", {
 	  layers: 'cat1936', format: 'image/png', crs:
 	  L.Proj.CRS.TMS("EPSG:3857"), maxZoom: 19, minZoom: 0, transparent: true
 	  
 	  }).addTo(map);
-	*/ 
+	
 
 	editableLayers = new L.FeatureGroup();
 	map.addLayer(editableLayers);
@@ -114,13 +114,29 @@ jQuery(document).ready(function() {
 			layer.bindPopup('opcions ediciodddddd!');
 		}
 
-		console.info(e);
+	
 		
 		editableLayers.addLayer(layer);
 	});
 
 	
-	//editableLayers.on('layeradd')
+	editableLayers.on('layeradd',function(f){
+		
+		if(this.toGeoJSON().features.length==1){
+		//Add feature and Layer	
+			
+			
+			
+		}else if (this.toGeoJSON().features.length >1){
+		//Add feature	
+			
+		}
+		
+		
+		console.info(this.toGeoJSON());
+		console.info(f);
+		
+	});
 	
 	
 	
@@ -211,7 +227,7 @@ jQuery(document).on('click', "#div_DO", function (){
 	
 	console.info(jQuery('#div_DO a').attr('id'));
 	
-	obteDadesObertes('campings');
+	obteDadesObertes('hotels');
 	
 });
 
