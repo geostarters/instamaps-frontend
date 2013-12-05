@@ -74,7 +74,7 @@ div.circle_txt {
 }
 
 #cap_div {
-	/* background-image:url('/share/img/cel.jpg'); */
+	/* background-image:url('/llibreries/img/cel.jpg'); */
 	color: #333333;
 	text-rendering: optimizelegibility;
 	text-shadow: 0 4px 4px rgba(255, 255, 255, 0.75);
@@ -125,8 +125,8 @@ Back to top button
 */
 #back-top {
 	position: fixed;
-	bottom: 5px;
-	margin-left: 91%;
+	bottom: 2%;
+    right: 2%;
 }
 #back-top a {
 	width: 108px;
@@ -239,6 +239,198 @@ footer {
    
 footer .container  p {
  padding-top:20px
- 
-	
 }  
+
+/*** comuns ***/
+
+	.brand-txt {
+		text-align: center;
+		float: left;
+		margin-left: 10px;
+		margin-right: 20px;
+		font-color: #FFFFFF;
+		font-weight: bold;
+		font-size: 25px;
+	}
+	
+	.bt-sessio{
+		background-color: #00B050;
+		border-radius: 0;
+		color: #FFFFFF;
+	}	
+	.bt-sessio:hover{
+		color: #FFFFFF;
+	}	
+	
+	.my-nav{
+		font-style: normal;
+	}	
+
+/*** index.html ***/
+	.img-carousel {
+		opacity: 0.9;
+		width: 100%;
+		height: auto;
+	}
+	
+	.my-carousel-caption {
+		color: #505050;
+	    font-style: normal;
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	    font-weight: 500;
+	    font-size: 36px; 
+	    line-height: 1.1;
+	    text-shadow: none;
+	    padding-bottom: 7%;
+	}
+	
+	@media (max-width: 1000px) {
+	  .my-carousel-caption {
+	    left: 10%;
+	    right: 10%;
+	    font-size: 30px;
+	    padding-bottom: 5%;
+	  }
+	}
+	
+	.marketing{
+		padding-left: 3%;
+		padding-right: 3%;
+	}
+	
+	.main-row{
+		padding: 8% 12%;
+	}
+	
+	.my-elem{
+		padding:0.5%;
+	}
+	
+	#btn-fes-mapa{
+		background-color: #00B050;
+		color: #FFFFFF;
+		border-radius: 0;
+		width: 100%;
+		padding: 15%;
+		font-weight: bolder;
+		font-size: 28px;
+		border: 0;	
+		font-style: normal;
+	}
+	
+	
+	#btn-galeria{
+		background-color: #f38c51;
+		color: #FFFFFF;
+		border-radius: 0;
+		width: 100%;
+		padding: 15%;
+		font-size: 28px;
+		border: 0;
+		font-style: normal;		
+	}	
+
+	
+	@media (max-width: 400px) {
+	  #btn-galeria, #btn-fes-mapa{
+		font-size: 20px;
+	  }
+	}
+	
+		
+	.img-hover:hover{
+		opacity: 0.5;
+	}
+
+
+#txt-image{
+
+	color: #505050;
+    font-size: 30px;
+    font-style: normal;
+    line-height: 1.5;
+    padding: 10%;
+    text-align: center;
+	background-image: url("../../llibreries/img/background_login.jpg");
+    background-size: cover;    
+}
+
+/*** /index.html ***/
+
+/*** properament.html ***/
+
+	.my-jumbotron {
+		padding: 3% 5%;	
+		font-style: normal;
+		border-style: none;
+	    background-color: #EEEEEE;
+	    color: inherit;
+	    font-size: 21px;
+	    font-weight: 200;
+	    line-height: 2.14286;
+	    margin-bottom: 30px; 
+	    margin-left: 5%;
+    	margin-right: 5%;
+	 	background-color: #FFFFFF;
+	    border-color: #00B050;	       
+	}
+	
+	.my-jumbotron h1{
+		text-align: center;
+		font-size: 55px;
+		color: inherit;
+	    line-height: 1;	
+	}
+
+	.my-input{
+		border-radius: 0;
+		border: 1px solid #CCCCCC;
+		vertical-align: middle;
+		width: inherit;
+	}
+	
+	.img-hover:hover{
+		opacity: 0.5;
+		filter: contrast(140%);
+		-webkit-filter: contrast(140%);
+		-moz-filter: contrast(140%);
+		-o-filter: contrast(140%);
+		-ms-filter: contrast(140%);
+	}
+	
+	@media (max-width: 1000px) {
+	  .my-jumbotron{
+	  	left: 5%;
+	  	right: 5%;
+	  }
+	  .my-jumbotron h1 {
+	    font-size: 50px;
+	  }
+	}
+	
+	@media (max-width: 800px) {
+	  .my-jumbotron h1 {
+	    font-size: 42px;
+	  }
+	}
+	
+	@media (max-width: 400px) {
+	  .my-jumbotron h1 {
+	    font-size: 28px;
+
+	  }
+	}
+	
+	.my-background{
+		background-image:url(../../llibreries/img/background_login.jpg);
+		padding-top: 5%;
+	}	
+	
+	.my-body{
+		padding-top: 0;
+	}
+	
+	#div_msg{
+		background-color: #FFFFFF;
+		font-style: normal;
+	}
