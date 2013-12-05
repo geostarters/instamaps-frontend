@@ -93,7 +93,7 @@ font-weight: bold;
 .div_punt{
 	width:50px;
 	height:80px;
-	background-image: url("/share/css/leaflet/images/marker-icon-2x.png");
+	background-image: url("/llibreries/css/leaflet/images/marker-icon-2x.png");
 	background-repeat: no-repeat;
 	margin-left: 35%;
 	cursor:pointer;

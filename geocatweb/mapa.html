@@ -27,6 +27,7 @@
       html, body{ width:100%; height:100%; margin:0; padding:0; }
 	  #map { width:100%; top:50px;height:100%; margin:0; padding:0; }
     </style>
+   
   </head>
   <body>
   <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -122,8 +123,8 @@
 	     
 	     <h4 lang="ca">ESCULL</h4>
 	     <div>
-	     <span lang="ca" class="label label-explora ">Dade Obertes</span>
-		 
+	     <span lang="ca" id="bt_dadesObertes" role="button" class="label label-explora ">Dade Obertes</span>
+		
 		 <span lang="ca" class="label label-explora ">Xarxes socials</span> 
 		  
 	     </div>
@@ -198,22 +199,29 @@
 	
 	
 	<!--Scripts-->
-	<script type="text/javascript" src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
+	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script type="text/javascript" src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	 <script type="text/javascript" src="/llibreries/js/dropzone.js"></script>
+	<!--<script>L_PREFER_CANVAS = true;</script>  -->
     <script type="text/javascript" src="/llibreries/js/leaflet/leaflet.js"></script>
     <script type="text/javascript" src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js"></script>
+    
+    
+    
+    
     <script type="text/javascript" src="/llibreries/js/leaflet/plugin/proj4js-compressed.js"></script>
 	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/proj4leaflet.js"></script>
 	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"></script>
 	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js"></script>
+	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"></script>
 	<script type="text/javascript" src="/llibreries/js/moment.min.js"></script>
-	<script type="text/javascript" src="/llibreries/js/underscore-min.js"></script>	
+	<!--<script type="text/javascript" src="/llibreries/js/underscore-min.js"></script>-->	
 	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet-dvf.min.js"></script>
 	<!--<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet.draw.js"></script>-->
 	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet.draw.js"></script>
@@ -222,7 +230,10 @@
 	
 	<script type="text/javascript" src="/geocatweb/js/geocat.mapa-1.0.0.js"></script>
 
+<script>
 
+
+</script>
 
 
 

@@ -36,9 +36,7 @@ options: {
 		
 		this.on('moveend', function(){
 			
-			//console.info("Centre:"+this.getCenter());
-			console.info("Zoom:"+this.getZoom());	
-			//console.info(this.getBounds());			
+					
 			this.gestionaFons();
 			})
 		

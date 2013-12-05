@@ -33,80 +33,144 @@
 <link rel="apple-touch-glyphicon-precomposed"
 	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
 <link rel="shortcut icon" href="../assets/ico/favicon.png">
+
+<style>
+
+/*
+ input:required:invalid, input:focus:invalid { 
+	 background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAeVJREFUeNqkU01oE1EQ/mazSTdRmqSxLVSJVKU9RYoHD8WfHr16kh5EFA8eSy6hXrwUPBSKZ6E9V1CU4tGf0DZWDEQrGkhprRDbCvlpavan3ezu+LLSUnADLZnHwHvzmJlvvpkhZkY7IqFNaTuAfPhhP/8Uo87SGSaDsP27hgYM/lUpy6lHdqsAtM+BPfvqKp3ufYKwcgmWCug6oKmrrG3PoaqngWjdd/922hOBs5C/jJA6x7AiUt8VYVUAVQXXShfIqCYRMZO8/N1N+B8H1sOUwivpSUSVCJ2MAjtVwBAIdv+AQkHQqbOgc+fBvorjyQENDcch16/BtkQdAlC4E6jrYHGgGU18Io3gmhzJuwub6/fQJYNi/YBpCifhbDaAPXFvCBVxXbvfbNGFeN8DkjogWAd8DljV3KRutcEAeHMN/HXZ4p9bhncJHCyhNx52R0Kv/XNuQvYBnM+CP7xddXL5KaJw0TMAF8qjnMvegeK/SLHubhpKDKIrJDlvXoMX3y9xcSMZyBQ+tpyk5hzsa2Ns7LGdfWdbL6fZvHn92d7dgROH/730YBLtiZmEdGPkFnhX4kxmjVe2xgPfCtrRd6GHRtEh9zsL8xVe+pwSzj+OtwvletZZ/wLeKD71L+ZeHHWZ/gowABkp7AwwnEjFAAAAAElFTkSuQmCC); 
+	 background-position: right top; 
+	 background-repeat: no-repeat; 
+	 -moz-box-shadow: none; 
+ } 
+ 
+ input:required:valid { 
+	 background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAepJREFUeNrEk79PFEEUx9/uDDd7v/AAQQnEQokmJCRGwc7/QeM/YGVxsZJQYI/EhCChICYmUJigNBSGzobQaI5SaYRw6imne0d2D/bYmZ3dGd+YQKEHYiyc5GUyb3Y+77vfeWNpreFfhvXfAWAAJtbKi7dff1rWK9vPHx3mThP2Iaipk5EzTg8Qmru38H7izmkFHAF4WH1R52654PR0Oamzj2dKxYt/Bbg1OPZuY3d9aU82VGem/5LtnJscLxWzfzRxaWNqWJP0XUadIbSzu5DuvUJpzq7sfYBKsP1GJeLB+PWpt8cCXm4+2+zLXx4guKiLXWA2Nc5ChOuacMEPv20FkT+dIawyenVi5VcAbcigWzXLeNiDRCdwId0LFm5IUMBIBgrp8wOEsFlfeCGm23/zoBZWn9a4C314A1nCoM1OAVccuGyCkPs/P+pIdVIOkG9pIh6YlyqCrwhRKD3GygK9PUBImIQQxRi4b2O+JcCLg8+e8NZiLVEygwCrWpYF0jQJziYU/ho2TUuCPTn8hHcQNuZy1/94sAMOzQHDeqaij7Cd8Dt8CatGhX3iWxgtFW/m29pnUjR7TSQcRCIAVW1FSr6KAVYdi+5Pj8yunviYHq7f72po3Y9dbi7CxzDO1+duzCXH9cEPAQYAhJELY/AqBtwAAAAASUVORK5CYII=); 
+	 background-position: right top; 
+	 background-repeat: no-repeat; 
+ }*/
+ 
+
+</style>
+
 </head>
 <body>
 
 
-<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				</button>
-				<a class="navbar-brand" href="index.html">
+				<a class="navbar-brand" href="../index.html">
 					<div class="img-circle2-icon descobreix_color"></div>
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
+					<div class="brand-txt">InstaMapes</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li><a id="hl_index" lang="ca" href="/index.html">Inici</a></li>
-					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
-					<li><a lang="ca"  id="hl_contact"  href="/properament.html">Contacte</a></li>
-					<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
-              <ul id="ch_idioma"  class="dropdown-menu">
-                <li id="ca"><a href="#">Català</a></li>
-                <li id="es"><a href="#">Español</a></li>
-                <li id="en"><a href="#">English</a></li>
-              </ul>
-            </li>
-					<li></li>
+				<ul class="nav navbar-nav navbar-right my-nav">
+					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+						<ul id="ch_idioma" class="dropdown-menu">
+							<li id="ca"><a href="#">Catal&agrave;</a></li>
+							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
+							<li id="en"><a href="#">English</a></li>
+						</ul>
+					</li>
+					<li>
+						<form class="navbar-form">
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio">Inicia la sessi&oacute;</a>
+						</form>					
+					</li>
+					<li>
+						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
+					</li>
 				</ul>
-					
-				
-				
 			</div>
 			<!--/.nav-collapse -->
 		</div>
 	</div>	
 
-<div class="container">
-	
-	
-	
-      <form class="form-signin">
-       <section>
-        <h3  lang="ca" class="form-signin-heading">Registrar-se</h3>
-        <fieldset>
-       <input lang="ca" type="text" class="form-control" placeholder="Correu" autofocus>
-        <input lang="ca" type="password" class="form-control" placeholder="Contrasenya">
-         <input lang="ca" type="password" class="form-control" placeholder="Confirmar contrasenya">
-        </fieldset>
-        <p>
-         <button  lang="ca" class="btn btn-lg btn-success btn-block" type="submit">Registrar-se</button>
-         </p>
-        
-       </section>
-        
-      </form>
-      
+	<!-- container -->
+	<div class="my-background">	
+	<div class="container">
+    	<form id="frm_signin" class="my-form-signin">
+       		<section>
+        		<h3  lang="ca" class="form-signin-heading">Registrar-se</h3>
+        		
+        		<fieldset>
+        			
+        			<input lang="ca" id="signin_username" type="text" required class="form-control my-border" placeholder="Usuari" autofocus>
+        			<br>
+       				<input lang="ca" id="signin_name" type="text" required class="form-control my-border" placeholder="Nom">
+       				<input lang="ca" id="signin_surname" type="text" required class="form-control my-border" placeholder="Cognom">
+       				<br>
+       				<input lang="ca" id="signin_email" type="email" required class="form-control my-border" placeholder="Correu">
+        			<br>
+        			<input lang="ca" id="signin_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrasenya">
+         			<input lang="ca" id="signin_confirm_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Confirmar contrasenya">
+        		</fieldset>
+        		<br>
+        		
+        		<!-- waiting div -->
+				<div class="waiting_animation outer">        		
+					<div id="floatingCirclesG">
+					<div class="f_circleG" id="frotateG_01">
+					</div>
+					<div class="f_circleG" id="frotateG_02">
+					</div>
+					<div class="f_circleG" id="frotateG_03">
+					</div>
+					<div class="f_circleG" id="frotateG_04">
+					</div>
+					<div class="f_circleG" id="frotateG_05">
+					</div>
+					<div class="f_circleG" id="frotateG_06">
+					</div>
+					<div class="f_circleG" id="frotateG_07">
+					</div>
+					<div class="f_circleG" id="frotateG_08">
+					</div>
+					</div>        	
+				</div>
+				
+      			<br>  		
+        		<p>
+         		<button  id="signin_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Registrar-se</button>
+         		</p>
+         		
+			</section>
+    	</form>
+    	<br>
+		<div id="div_msg"></div>
+	</div> 
+	</div>
+	<!-- /container -->
 
-  
-    </div> <!-- /container -->
+	<footer>
+		<div class="container">
+			<p>&copy; InstaMapes</p>
+		</div>
+	</footer>
 
-<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
+	<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
 	<script src="/share/js/bootstrap.min.js"></script>
-	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8"
-		type="text/javascript"></script>
-	<script src="/geocatweb/js/language/es.js" charset="utf-8"
-		type="text/javascript"></script>
-	<script src="/geocatweb/js/language/en.js" charset="utf-8"
-		type="text/javascript"></script>
+	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script src="/share/js/jquery/plugins/url.min.js"></script>
+	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>		
+	<script src="/share/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
+	
 </body>
 </html>

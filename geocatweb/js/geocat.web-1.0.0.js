@@ -4,22 +4,22 @@ window.lang = new jquery_lang_js();
 var lsLang;
 jQuery(document).ready(function() {
 
-//	web_roundCircles();
 	weball_tornarInici();		
 	window.lang.run();
 	vlsLang=web_determinaIdioma();
 	web_menusIdioma(lsLang);
-	
-/*	
-$('.container').tooltip({
-selector: "[data-toggle=tooltip]",
-container: "body"
-}) 	
-*/	
 
+	$(".title-white", this).hover(swapImageIn, swapImageOut);
+    $(".img-hover", this).hover(swapImageIn, swapImageOut);
 
 });
 
+function swapImageIn(e) {
+	this.src = this.src.replace("_", "_pujat");
+}
+function swapImageOut (e) {
+	this.src = this.src.replace("_pujat", "_");
+}
 
 function web_menusIdioma(lsLang){
 
@@ -35,14 +35,13 @@ function web_menusIdioma(lsLang){
 	
       canviaIdioma(jQuery(this).attr('id'));
     });
-    
   });
 }
 
 
 function canviaIdioma(lsLang){
 console.info("entro");
-window.lang.change(lsLang);	
+window.lang.change(lsLang);
 	
 }
 
@@ -106,7 +105,11 @@ jQuery("#back-top").hide();
 		});
 	});
 }	
-	
+
+
+
+
+
 jQuery("#frm_email").submit(function(){ 
 	var correu_usuari=jQuery("#text_email").val(); 
 //	alert("correu:"+correu_usuari);
@@ -139,22 +142,24 @@ jQuery("#frm_email").submit(function(){
 	 }
   return false;
   });
-  
- function isValidEmailAddress(emailAddress) {
+
+
+
+function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
     return pattern.test(emailAddress);
 }; 
   
-
+/*
 function obteValorURL(name){
-	
 	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
 	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	        results = regex.exec(location.search);
-	  
+	    results = regex.exec(location.search);
 	    return results == null ? window.lang.currentLang : decodeURIComponent(results[1].replace(/\+/g, " "));
-	
-	
+}*/
+
+function isBlank(str) {
+    return (!str || (/^\s*$/).test(str));
 }
 
 

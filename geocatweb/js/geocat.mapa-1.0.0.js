@@ -15,7 +15,7 @@ jQuery(document).ready(function() {
 	jQuery('#map').height(jQuery(window).height() - factorH);
 
 	tradueixMenusToolbar();
-	addSideBarMapa();
+	
 	/*
 	  var limits =
 	  L.tileLayer.wms("http://172.70.1.11/maps/geocat.service?map=/opt/geocat/dades/mon/mon.map&", {
@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
 	  L.Proj.CRS.TMS("EPSG:3857"), maxZoom: 19, minZoom: 0, transparent: true
 	  
 	  }).addTo(map);
-	 */
+	*/ 
 
 	editableLayers = new L.FeatureGroup();
 	map.addLayer(editableLayers);
@@ -109,7 +109,7 @@ jQuery(document).ready(function() {
 
 	map.on('draw:created', function(e) {
 		var type = e.layerType, layer = e.layer;
-console.info(type);
+
 		if (type === 'marker') {
 			layer.bindPopup('opcions ediciodddddd!');
 		}
@@ -119,6 +119,14 @@ console.info(type);
 		editableLayers.addLayer(layer);
 	});
 
+	
+	//editableLayers.on('layeradd')
+	
+	
+	
+	
+	
+	
 	var puntUsuari;
 	jQuery('.div_punt').on('mousedown', function() {
 
@@ -131,11 +139,11 @@ console.info(type);
 			});
 			puntUsuari.setLatLng(latlng);
 			puntUsuari.bindPopup('opcions edicioddd!');
-			console.info(editableLayers);
-			console.info(editableLayers.toGeoJSON().features.length);
-			console.info(puntUsuari);
+			
+			//console.info(editableLayers.toGeoJSON().features.length);
+			
 			var pt=puntUsuari.toGeoJSON();
-			pt.properties={'nom':puntUsuari._leaflet_id,'text':puntUsuari._popup._content;
+			//pt.properties={'nom':puntUsuari._leaflet_id,'text':puntUsuari._popup._content;
 			
 			
 		
@@ -144,10 +152,10 @@ console.info(type);
 			
 			
 			
-			console.warn(puntUsuari);
-			console.info(JSON.stringify(puntUsuari.toGeoJSON()));
 			
-			console.info(JSON.stringify(editableLayers.toGeoJSON()));
+			//console.info(JSON.stringify(puntUsuari.toGeoJSON()));
+			
+			//console.info(JSON.stringify(editableLayers.toGeoJSON()));
 			dd.disable();
 			map.off('mouseup', null);
 
@@ -157,6 +165,9 @@ console.info(type);
 
 	});
 
+	
+	
+	
 	jQuery('#div_fons img').on('click', function() {
 
 		var fons = jQuery(this).attr('id');
@@ -182,8 +193,140 @@ console.info(type);
 
 	});
 
+	
+	
+//$('#pop').popover();​​​
+	
+	jQuery("#bt_dadesObertes").popover({ title: 'Dades Obertes', content: '<div id="div_DO"><a href="#" id="radars">Radars</a>|<a href="#" id="hotels">Hotels</a></div>',container:'body', html:true,trigger:'manual' });
+
+jQuery("#bt_dadesObertes").on('click', function (){
+	jQuery(this).attr("data-content","he canviat");
+	jQuery(this).popover('toggle');
+	jQuery(".popover").css('left',pLeft());
+	
+	
+});
+
+jQuery(document).on('click', "#div_DO", function (){
+	
+	console.info(jQuery('#div_DO a').attr('id'));
+	
+	obteDadesObertes('campings');
+	
+});
+
+	
+addSideBarMapa();	
+	
+	
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 });// final ready
 
+
+function pLeft(){	
+	return jQuery(".leaflet-left").css('left');
+}
+
+function popUp(f,l){
+    var out = [];
+    if (f.properties){
+        for(key in f.properties){
+            out.push(key+": "+f.properties[key]);
+        }
+        l.bindPopup(out.join("<br />"));
+    }
+}
+
+
+ function myStyle1(feature) {
+       
+            return {
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.3,
+                fillColor: '#ff0000'
+            };
+       
+    }
+
+var geojsonMarkerOptions = {
+    radius: 6,
+    fillColor: "#FC5D5F",
+    color: "#ffffff",
+    weight: 2,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+var jsonTest;
+function obteDadesObertes(dataset){
+	
+	
+	
+var url="http://172.70.1.12/share/jsp/dadesObertes.jsp?dataset="+dataset;	
+	console.info(url);
+jsonTest = new L.GeoJSON.AJAX(url,{onEachFeature:popUp,dataType:"jsonp",pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+    }});
+
+	
+	jsonTest.addTo(map);
+	/*
+	
+	jQuery.ajax({
+
+        url: 'http://172.70.1.12/share/jsp/dadesObertes.jsp?',
+
+        data: {'dataset':dataset},
+
+        method: 'get',
+
+        dataType: 'jsonp',
+
+    }).done(function(data, textStatus){
+    	console.info(11);
+//codi OK
+    	console.info(data);
+
+    }).fail(function(data, textStatus){
+    	console.info(data);
+    	console.info(textStatus);
+//codi Error
+
+    	//.succes data, textStatus, jqXHR 
+    	
+    });
+	
+}
+*/
+
+/*
+
+
+	$.getJSON("./cupcakes.json", function(data) {
+		var geojson = L.geoJson(data, {
+			onEachFeature: function (feature, layer) {
+				layer.bindPopup(feature.properties.name);
+			}
+		});
+		var map = L.map('cupcake-map').fitBounds(geojson.getBounds());
+		cupcakeTiles.addTo(map);
+		geojson.addTo(map);
+*/
+}
 function activaPanelCapes() {
 	jQuery('.leaflet-control-layers').toggle();
 	if (jQuery('#div_menu').attr('class', 'glyphicon glyphicon-list grisfort')) {
@@ -239,11 +382,11 @@ function inicialitzaDropFiles() {
 		 * arrastrat"); }); },
 		 * 
 		 */
-		url : "/share/gdal/",
+		url :paramUrl.dragFile,
 		paramName : "file", // The name that will be used to transfer the file
 		maxFilesize : 2, // MB
 		accept : function(file, done) {
-			if (file.name == "new2.kml") {
+			if (file.name == "newsssss.kml") {
 
 				done("Naha, you don't.");
 			} else {
