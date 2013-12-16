@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title lang="ca">InstaMapes</title>
+<title lang="ca">InstaMapes - La plataforma col.laborativa de mapes i localització a Catalunya</title>
 <meta name="author" content="InstaMapes">
-<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="description" content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -13,10 +13,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Le styles -->
-<!-- link href="/llibreries/css/bootstrap.css" rel="stylesheet"-->
-<link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
+<link href="/share/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
-<!--<link href="/llibreries/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -33,13 +33,127 @@
 <link rel="apple-touch-glyphicon-precomposed"
 	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
 <link rel="shortcut icon" href="../assets/ico/favicon.png">
+
+<!-- style type="text/css">
+
+	.img-carousel {
+		opacity: 0.9;
+		width: 100%;
+		height: auto;
+	}
+	
+	.my-carousel-caption {
+		color: #505050;
+	    font-style: normal;
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	    font-weight: 500;
+	    font-size: 36px; 
+	    line-height: 1.1;
+	    text-shadow: none;
+	    padding-bottom: 7%;
+	}
+	
+	@media (max-width: 1000px) {
+	  .my-carousel-caption {
+	    left: 10%;
+	    right: 10%;
+	    font-size: 30px;
+	    padding-bottom: 5%;
+	  }
+	}
+	
+	.brand-txt {
+		text-align: center;
+		float: left;
+		margin-left: 10px;
+		margin-right: 20px;
+		font-color: #FFFFFF;
+		font-weight: bold;
+		font-size: 25px;
+	}
+	
+	.marketing{
+		padding-left: 3%;
+		padding-right: 3%;
+	}
+	
+	.main-row{
+		padding: 8% 12%;
+	}
+	
+
+	
+	.my-elem{
+		padding:0.5%;
+	}
+	
+	#btn-fes-mapa{
+		background-color: #00B050;
+		color: #FFFFFF;
+		border-radius: 0;
+		width: 100%;
+		padding: 15%;
+		font-weight: bolder;
+		font-size: 28px;
+		border: 0;	
+		font-style: normal;
+	}
+	
+	
+	#btn-galeria{
+		background-color: #f38c51;
+		color: #FFFFFF;
+		border-radius: 0;
+		width: 100%;
+		padding: 15%;
+		font-size: 28px;
+		border: 0;
+		font-style: normal;		
+	}	
+
+	
+	@media (max-width: 400px) {
+	  #btn-galeria, #btn-fes-mapa{
+		font-size: 20px;
+	  }
+	}
+	
+	.bt-sessio{
+		background-color: #00B050;
+		border-radius: 0;
+		color: #FFFFFF;
+	}	
+	
+	.img-hover:hover{
+		opacity: 0.5;
+	}
+
+.my-nav{
+	font-style: normal;
+}
+
+#txt-image{
+
+	color: #505050;
+    font-size: 30px;
+    font-style: normal;
+    line-height: 1.5;
+    padding: 10%;
+    text-align: center;
+	background-image: url("share/img/background_login.jpg");
+    background-size: cover;    
+}
+
+	
+</style-->
 <script type="text/javascript">
 
-
+$( ".btn-galeria" ).hover(function() {
+	$( this ).set;
+	$( this ).fadeIn( 500 );
+	});
 
 </script>
-<style type="text/css">
-</style>
 </head>
 
 <body>
@@ -53,47 +167,31 @@
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				</button>
 				<a class="navbar-brand" href="index.html">
-					<div class="img-circle2-icon descobreix_color"></div>
-					<div class="img-circle2-icon crea_color"></div>
-					<div class="img-circle2-icon visualitza_color"></div>
-					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMapes</div>
+					<div class="img-circle2-icon descobreix_color hidden-sm hidden-xs"></div>
+					<div class="img-circle2-icon crea_color hidden-sm hidden-xs"></div>
+					<div class="img-circle2-icon visualitza_color hidden-sm hidden-xs"></div>
+					<div class="img-circle2-icon comparteix_color hidden-sm hidden-xs"></div>
+					<div class="brand-txt">Insta<i>Mapes<i></div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
-					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<li class="active"><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
-					
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="ca"><a href="#">Catal&agrave;</a></li>
-							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
+							<li id="ca"><a href="#">Català</a></li>
+							<li id="es"><a href="#">Español</a></li>
 							<li id="en"><a href="#">English</a></li>
 						</ul>
 					</li>
-					
-					<li id="menu_login">
+					<li>
 						<form class="navbar-form">
-							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio">Inicia la sessi&oacute;</a>
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio img-hover">Inicia la sessió</a>
 						</form>					
 					</li>
-					
-					<li id="menu_user" class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
-							<span id="text_welcome" lang="ca">&nbsp;</span>
-							&nbsp;
-							<span class="glyphicon glyphicon-user"></span>
-							<b class="caret"></b>
-						</a>
-						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="perfil"><a href="geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
-							<li class="divider" role="presentation"></li>
-							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
-						</ul>
-					</li>					
 					<li>
 						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
 					</li>
@@ -126,28 +224,19 @@
 					<!-- Wrapper for slides -->
 					<div class="carousel-inner">
 		
-						<!-- div class="item active">
-							<img class="img-carousel" alt="Explora mapes d’altres usuaris i dades de diverses fonts"
-								data-src="holder.js/900x500/auto/#777:#555/text:Explora mapes d’altres usuaris i dades de diverses fonts"
-								src="llibreries/img/carousel03.jpg">
-							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								<h1><b>InstaMapes:</b></h1>Fes el teu mapa
-							</div>
-						</div-->
-						
 						<div class="item active">
 							<img class="img-carousel" alt="Explora mapes d’altres usuaris i dades de diverses fonts"
 								data-src="holder.js/900x500/auto/#777:#555/text:Explora mapes d’altres usuaris i dades de diverses fonts"
-								src="llibreries/img/carousel03.jpg">
+								src="share/img/carousel.jpg">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Explora mapes d'altres usuaris i dades de diverses fonts.
+								Explora mapes d’altres usuaris i dades de diverses fonts.
 							</div>
-						</div>						
+						</div>
 		
 						<div class="item">
-							<img class="img-carousel img-responsive" alt="Fes un mapa amb les teves dades f&agrave;cilment"
-								data-src="holder.js/900x500/auto/#777:#555/text:Fes un mapa amb les teves dades f&agrave;cilment"
-								src="llibreries/img/carousel03.jpg">
+							<img class="img-carousel img-responsive" alt="Fes un mapa amb les teves dades fàcilment"
+								data-src="holder.js/900x500/auto/#777:#555/text:Fes un mapa amb les teves dades fàcilment"
+								src="share/img/carousel.jpg">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
 								Fes un mapa amb les teves dades f&agrave;cilment.
 							</div>
@@ -155,10 +244,10 @@
 		
 						<div class="item">
 							<img class="img-carousel" alt="Visualitza i analitza la teva informacio;"
-								data-src="holder.js/900x500/auto/#777:#555/text:Visualitza i analitza la teva informaci&oacute;"
-								src="llibreries/img/carousel03.jpg">
+								data-src="holder.js/900x500/auto/#777:#555/text:Visualitza i analitza la teva informació"
+								src="share/img/carousel.jpg">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Visualitza i analitza la teva informaci&oacute;.
+								Visualitza i analitza la teva informació.
 							</div>
 						</div>
 		
@@ -166,7 +255,7 @@
 						<div class="item">
 							<img class="img-carousel" alt="Comunica el teu missatge de manera impactant"
 								data-src="holder.js/900x500/auto/#777:#555/text:Comunica el teu missatge de manera impactant"
-								src="llibreries/img/carousel03.jpg">
+								src="share/img/carousel.jpg">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
 								Comunica el teu missatge de manera impactant.
 							</div>
@@ -188,7 +277,7 @@
 			<div class="row sub-row my-elem visible-xs">
 
 					<div id="txt-image" lang="ca">
-						<b>InstaMapes:</b><br>Fes el teu mapa
+						Explora mapes d’altres usuaris i dades de diverses fonts.
 					</div>
 			</div>
 		
@@ -196,29 +285,25 @@
 			<div class="row sub-row">
 				<div id="div_E" class="col-md-3 col-sm-3 col-xs-6 my-elem">
 					<a href="#row_E">
-						<img id="img_E" class="img-responsive img-hover" alt="Explora" src="llibreries/img/Explora_.jpg">
-						<span class="title_white" lang="ca">EXPLORA</span>						
+						<img class="img-responsive img-hover" alt="Explora" src="share/img/Explora.jpg">
 					</a>
 				</div>
 	
 				<div id="div_C" class="col-md-3 col-sm-3 col-xs-6 my-elem">
 					<a href="#row_C">
-						<img id="img_C" class="img-responsive img-hover" alt="Crea" src="llibreries/img/Crea_.jpg">
-						<span class="title_white" lang="ca">CREA</span>
+						<img class="img-responsive img-hover" alt="Crea" src="share/img/Crea.jpg">
 					</a>
 				</div>
 	
 				<div id="div_V" class="col-md-3 col-sm-3 col-xs-6 my-elem">
 					<a href="#row_V">
-						<img id="img_V" class="img-responsive img-hover" alt="Visualitza" src="llibreries/img/Visualitza_.jpg">
-						<span class="title_white" lang="ca">VISUALITZA</span>
+						<img class="img-responsive img-hover" alt="Visualitza" src="share/img/Visualitza.jpg">
 					</a>
 				</div>
-				
+	
 				<div id="div_C1" class="col-md-3 col-sm-3  col-xs-6 my-elem">
 					<a href="#row_C1">
-						<img id="img_C1" class="img-responsive img-hover" alt="Comparteix" src="llibreries/img/Comparteix_.jpg">
-						<span class="title_white" lang="ca">COMPARTEIX</span>
+						<img class="img-responsive img-hover" alt="Comparteix" src="share/img/Comparteix.jpg">
 					</a>
 				</div>
 			</div>
@@ -226,16 +311,14 @@
 			<!-- Tercera subfila -->
 			<div class="row sub-row">
 				<div class="col-md-6 col-sm-6 my-elem">
-					<a id="btn-galeria"  href="../geocatweb/galeria.html" class="btn btn-lg ">
-						<span lang="ca">Galeria de mapes</span> 
-						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
+					<a lang="ca"  id="btn-galeria"  href="/properament.html"
+						class="btn btn-lg img-hover">Galeria de mapes &raquo;
 					</a>
 				</div>
 				
 				<div  class="col-md-6 col-sm-6 my-elem">
-					<a id="btn-fes-mapa" href="../geocatweb/mapa.html" class="btn btn-lg ">
-						<span lang="ca">Fes el teu mapa</span> 
-						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
+					<a lang="ca" id="btn-fes-mapa" href="/properament.html"
+						class="btn btn-lg img-hover">Fes el teu mapa &raquo;
 					</a>		
 				</div>
 				
@@ -244,7 +327,7 @@
 		
 		
 
-		<div class="main-row marketing">
+		<div class="marketing main-row">
 			
 			<!-- EXPLORA -->
 			<hr id="row_E" class="soften">
@@ -255,24 +338,25 @@
 					<div class="img-circle2-small descobreix_color">
 						<div class="circle_txt-small">
 							<h1>
-								<p lang="ca">Explora</p>
+								<p lang="ca">Descobreix</p>
 							</h1>
 						</div>
 					</div>
-					<h2 lang="ca">La geoinformaci&oacute; de Catalunya i el m&oacute;n:</h2>
+					<h2 lang="ca">Tota la geoinformació de Catalunya:</h2>
 					<br>
 				</div>
 				
 				<div class="row">
 					<div class="col-md-4 ">
 						<img class="marketing-img" src="/geocatweb/img/location_groc.png">
-						<h3 lang="ca">Mapes i imatges a&egrave;rees</h3>
-						<p lang="ca">Bases topogr&agrave;fiques, ortofotomapes vigents, l&iacute;mits administratius, mapes hist&ograve;rics i altres.</p>
+						<h3 lang="ca">Mapes i imatges aèrees</h3>
+						<p lang="ca">Bases topogràfiques, límits
+							administratius,Ortofotos vigents, històrics ...</p>
 						<p>
-							<span lang="ca">Accedeix a tota la informaci&oacute; de </span> <a
-								target="_blank"
-								title="Institut Cartogr&agrave;fic de Catalunya"
-								href="http://www.icc.cat">l'Institut Cartogr&agrave;fic de
+							<span lang="ca">Accedeix a tota la informació de </span> <a
+								lang="ca" target="_blank"
+								title="Institut Cartogràfic de Catalunya"
+								href="http://www.icc.cat">l'Institut Cartogràfic de
 								Catalunya(ICC)</a>
 						</p>
 	
@@ -280,17 +364,14 @@
 	
 					<div class="col-md-4 ">
 						<img class="marketing-img" src="/geocatweb/img/location2_groc.png">
-						<h3 lang="ca">Dades en temps real</h3>
-						<p lang="ca">Estat i incid&egrave;ncies de tr&agrave;nsit, transport
-							p&uacute;blic, previsi&oacute; meteorol&ograve;gica i m&eacute;s.</p>
+						<h3 lang="ca">Dades temps real</h3>
+						<p lang="ca">Estat i incidències de trànsit, transport
+							públic,previsió del temps..</p>
 						<p>
-							<span lang="ca">Accedeix al catàleg de </span> 
-							
-							<a 
-								target="_blank" title="Dades Obertes Gencat"
-								href="http://www20.gencat.cat/portal/site/dadesobertes">
-								<span lang="ca">dades obertes de la Generalitat de Catalunya.</span>
-							</a>
+							<span lang="ca">Visualitza totes les últimes dades de</span><a
+								lang="ca" target="_blank" title="Dades Obertes Gencat"
+								href="http://www20.gencat.cat/portal/site/dadesobertes">Dades
+								Obertes Gencat</a>
 						</p>
 	
 					</div>
@@ -298,23 +379,20 @@
 					<div class="col-md-4 ">
 						<img class="marketing-img" src="/geocatweb/img/network_groc.png">
 						<h3 lang="ca">Geoserveis</h3>
-						<p lang="ca">Urbanisme, medi ambient, equipaments locals, cadastre i altres portals.</p>
-						<p>
-							<span lang="ca">Connecta amb els m&eacute;s de 500 geoserveis
-								catalogats per la </span> <a 
-								target="_blank"
+						<p lang="ca">Urbanisme, Medi Ambient, Equipaments
+							locals,Cadastre...</p>
+						<p lang="ca">
+							<span lang="ca">Connecta amb els més de 500 geoserveis
+								catalogats per la </span> <a lang="ca" target="_blank"
 								title="Infraestructura de Dades de Catalunya "
 								href="http://www.geoportal-idec.cat"> Infraestructura de
 								Dades de Catalunya (IDEC)</a>
-						</p>						
+						</p>
 					</div>
 				</div>
 				<br><br>
 				<p>
-					<a  class="btn btn-default no-radius" href="#">
-						<span lang="ca">Saber m&eacute;s</span> 
-						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
-					</a>
+					<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 				</p>
 			</div>
 
@@ -331,7 +409,7 @@
 							</h1>
 						</div>
 					</div>
-					<h2 lang="ca">Els teus propis mapes de manera r&agrave;pida i f&agrave;cil.</h2>
+					<h2 lang="ca">Els teus propis mapes:</h2>
 					<br>
 				</div>
 				
@@ -339,33 +417,31 @@
 					<div class="col-md-4 ">
 						<img class="marketing-img" src="/geocatweb/img/dibuixa_verd.png">
 						<h3 lang="ca">Dibuixa</h3>
-						<p lang="ca">Dibuixa punts, l&iacute;nies i pol&iacute;gons.</p>
-						<p lang="ca">Escull les teves icones i estils personalitzats.</p>
+						<p lang="ca">Dibuixa els punts, línies o polígons</p>
+						<p lang="ca">Afegeix les teves icones i estils personalitzats</p>
 					</div>
 	
 					<div class="col-md-4 ">
 						<img class="marketing-img" src="/geocatweb/img/carrega_verd.png">
 						<h3 lang="ca">Carrega dades</h3>
 	
-						<p lang="ca">Carrega les teves pr&ograve;pies dades (drag and drop).</p>
-						<P lang="ca">M&uacute;ltiples formats: KML, GPX, DXF, SHP, GEOJSON, etc.</p>
+						<p lang="ca">Carrega les teves dades pròpies</p>
+						<P lang="ca">Múltiples formats KML,GPX,DXF,GEOJSON,SHP,.....</p>
 					</div>
 	
 					<div class="col-md-4 ">
 						<img class="marketing-img" src="/geocatweb/img/configura_verd.png">
-						<h3 lang="ca">Combina amb altres fonts d'informaci&oacute;.</h3>
-						<p lang="ca">Visualitza continguts de Panoramio, Twitter i Viquip&egrave;dia.</p>
-						<p lang="ca">Enlla&ccedil;a servidors WMS i TMS, i afegeix serveis JSON.</p>
+						<h3 lang="ca">Configura Atles</h3>
+						<p lang="ca">Organitza els teus visors per temes</p>
+						<p lang="ca">Afegeix descripcions, imatges i videos als teus
+							mapes</p>
 	
 					</div>
 				</div>
 				
 				<br><br>
 				<p>
-					<a  class="btn btn-default no-radius" href="#">
-						<span lang="ca">Saber m&eacute;s</span> 
-						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
-					</a>
+					<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 				</p>
 			</div>
 
@@ -389,30 +465,29 @@
 				<div class="row">
 					<div class="col-md-4">
 						<img class="marketing-img" src="/geocatweb/img/mobil_blau.png">
-						<h3 lang="ca">Desenvolupat en HTML5.</h3>
-						<p lang="ca">Adaptable a qualsevol dispositiu: PC, tel&egrave;fon m&ograve;bil, tauleta.</p>
+						<h3 lang="ca">Amb qualsevol dispotiu mòbil</h3>
+						<p lang="ca">Aplicacions basades amb HTML5</p>
+						<p lang="ca">Adaptables a qualsevol dispositu: PC,Mòbil,Tablet</p>
 					</div>
 	
 					<div class="col-md-4">
 						<img class="marketing-img" src="/geocatweb/img/imprimeix_blau.png">
 						<h3 lang="ca">Imprimeix</h3>
-						<p lang="ca">Crea impressions de qualitat i personalitzables.</p>
-						<p lang="ca">Fes captures de pantalla per a informes i presentacions.</p>
+						<p lang="ca">Crea impressions de qualitat i personalitzables</p>
+						<p lang="ca">Genera informes</p>
+						<p lang="ca">Imprimeix a escala</p>
 					</div>
 	
 					<div class="col-md-4">
 						<img class="marketing-img" src="/geocatweb/img/descarrega_blau.png">
 						<h3 lang="ca">Descarrega</h3>
-						<p lang="ca">Accedeix al centre de desc&agrave;rrega.</p>
-						<p lang="ca">Exporta les teves dades en diversos formats.</p>
+						<p lang="ca">Accedeix a centre de descàrrega</p>
+						<p lang="ca">Descarrega't les teves dades</p>
 					</div>
 				</div>
 				<br> <br>
 				<p>
-					<a  class="btn btn-default no-radius" href="#">
-						<span lang="ca">Saber m&eacute;s</span> 
-						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
-					</a>
+					<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 				</p>
 			</div>
 			
@@ -430,35 +505,35 @@
 							</h1>
 						</div>
 					</div>
-					<h2 lang="ca">Els teus mapes instant&agrave;niament.</h2>
+					<h2 lang="ca">Tots els teus mapes:</h2>
 					<br>
 				</div>
 				
 				<div class="row">
 					<div class="col-md-4">
 						<img class="marketing-img" src="/geocatweb/img/xarxa_bfosc.png">
-						<h3 lang="ca">A les xarxes socials</h3>
-						<p lang="ca">Comparteix els teus mapes a Google+, Twitter i Facebook.</p>
+						<h3 lang="ca">Amb les xarxes socials</h3>
+						<p lang="ca">Comparteix amb les principal xarxes socials els
+							teus mapes</p>
 					</div>
 	
 					<div class="col-md-4">
 						<img class="marketing-img" src="/geocatweb/img/casa_bfosc.png">
-						<h3 lang="ca">Envia per correu-e</h3>
-						<p lang="ca">Comparteix l'enlla&ccedil; al teu mapa per email.</p>
+						<h3 lang="ca">Dins la teva organització</h3>
+						<p lang="ca">Comaprteix mapes i dades amb altres usuari del la
+							teva organització</p>
 					</div>
 	
 					<div class="col-md-4">
 						<img class="marketing-img" src="/geocatweb/img/grup_bfosc.png">
-						<h3 lang="ca">Insereix i enlla&ccedil;a</h3>
-						<p lang="ca">Inclou el teu mapa en el teu lloc web.</p>
+						<h3 lang="ca">Amb el teu grup</h3>
+						<p lang="ca">Crea grups i convida altres usuaris</p>
+						<p lang="ca">Genera mapes colaboratius</p>
 					</div>
 				</div>
 				<br> <br>
 				<p>
-					<a  class="btn btn-default no-radius" href="#">
-						<span lang="ca">Saber m&eacute;s</span> 
-						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
-					</a>
+					<a lang="ca" class="btn btn-default" href="#">Saber més &raquo;</a>
 				</p>
 			</div>
 			
@@ -469,7 +544,7 @@
 	<!-- /container -->		
 
 	<p id="back-top">
-		<button class="btn btn-default no-radius">
+		<button class="btn btn-default">
 			<span class="glyphicon glyphicon-circle-arrow-up"></span> 
 			<span class="hidden-xs" lang="ca">Tornar Inici</span>
 		</button>
@@ -485,15 +560,12 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/llibreries/js/jquery/jquery-1.9.0.min.js"></script>
-	<script src="/llibreries/js/bootstrap.min.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
+	<script src="/share/js/bootstrap.min.js"></script>
+	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
-	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
-	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 
 </body>
 </html>
