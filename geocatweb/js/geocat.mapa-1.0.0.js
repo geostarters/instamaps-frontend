@@ -238,6 +238,7 @@ jQuery(".div_dades_ext").popover(
 						
 							jQuery(document).on('click', tbA, function(e) {
 						
+								addCapaDadesObertes(e.target.id);
 						
 
 					});																		
@@ -256,24 +257,27 @@ function pLeft() {
 var capaDadaOberta;
 function addCapaDadesObertes(dataset) {
 
+	
 	var url = paramUrl.dadesObertes+"dataset="+ dataset;
 	
-	capaDadaOberta = new L.GeoJSON.AJAX(url, {
-		nom:dataset,
-		id:'',
-		bussinesID:'',
-		tipus:'vector_do',
+	
+
+	
+	var estil_do=retornaEstilaDO(dataset);
+	capaDadaOberta = new L.GeoJSON.AJAX(url, {	
 		onEachFeature : popUp,
+		nom:dataset,
+		tipus:'Marker',
+		businessId:'-1',
 		dataType : "jsonp",		
 		pointToLayer : function(feature, latlng) {
 			
-			var estil_do=retornaEstilaDO(dataset);			
 			return L.circleMarker(latlng, estil_do);
 			
 		}
 	});
 	
-	capaDadaOberta.addTo(map);
+	capaDadaOberta.addTo(map).on('layeradd',objecteUserAdded);
 	controlCapes.addOverlay(capaDadaOberta,dataset,true);
 	activaPanelCapes(true);
 	
@@ -282,7 +286,7 @@ function addCapaDadesObertes(dataset) {
 function popUp(f, l) {
 	
 	var out = [];
-	data.push({lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],value:1});
+	//data.push({lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],value:1});
 	if (f.properties) {
 		for (key in f.properties) {
 			out.push(key + ": " + f.properties[key]);
@@ -303,7 +307,7 @@ function generaLListaDadesObertes(){
 	$.each( results.dadesObertes, function( key, dataset ) {
 		var as;
 		if(key%2!=0 ){as="</br>";}else{as=""}
-		_htmlDadesObertes.push('<a class="label label-explora" href="#" id="'+dataset.dataset+'">'+dataset.dataset+'</a>'+as);
+		_htmlDadesObertes.push('<a class="label label-explora" href="#" id="'+dataset.dataset+'">'+dataset.text+'</a>'+as);
 	});
 
 });
@@ -417,7 +421,7 @@ function activaEdicioUsuari(){
 			}else if(type === 'polygon'){
 				capaUsrPol.addLayer(layer).on('layeradd',objecteUserAdded);
 			}
-		console.info(capaUsrPunt);
+		
 			if(capaUsrPunt.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrPunt,capaUsrPunt.options.nom,true);activaPanelCapes(true);}	
 			if(capaUsrLine.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrLine,capaUsrLine.options.nom,true);activaPanelCapes(true);}
 			if(capaUsrPol.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrPol,capaUsrPol.options.nom,true);activaPanelCapes(true);}
