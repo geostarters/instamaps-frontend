@@ -2,10 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title lang="ca">GeoCat.Online - La plataforma col.laborativa de mapes i localització a Catalunya</title>
-<meta name="author" content="GeoCat.Online">
+<title lang="ca">InstaMapes - La plataforma col.laborativa de mapes i localització a Catalunya</title>
+<meta name="author" content="InstaMapes">
 <meta name="description"
-	content="GeoCat.Online ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -33,78 +33,177 @@
 <link rel="apple-touch-glyphicon-precomposed"
 	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
 <link rel="shortcut icon" href="../assets/ico/favicon.png">
+
+<style type="text/css">
+
+	.brand-txt {
+		text-align: center;
+		float: left;
+		margin-left: 10px;
+		margin-right: 20px;
+		font-color: #FFFFFF;
+		font-weight: bold;
+		font-size: 25px;
+	}
+	
+	.bt-sessio{
+		background-color: #00B050;
+		border-radius: 0;
+		color: #FFFFFF;
+	}	
+
+	.img-hover:hover{
+		opacity: 0.5;
+		filter: contrast(140%);
+		-webkit-filter: contrast(140%);
+		-moz-filter: contrast(140%);
+		-o-filter: contrast(140%);
+		-ms-filter: contrast(140%);
+	}	
+	
+	.my-nav{
+		font-style: normal;
+	}
+	
+	.my-background{
+		background-image:url(../share/img/background_login.jpg);
+		padding-top: 10%;		
+	}
+	
+	.my-form-signin{
+	    background-color: #FFFFFF;
+	    margin: 20px auto;
+	    max-width: 350px;
+	    padding: 15px;
+	    font-style: normal;	
+	}
+	
+	.my-border{
+		border-radius: 0;
+	}
+	
+	.bt-sessio{
+		background-color: #00B050;
+		border-radius: 0;
+		color: #FFFFFF;
+	}
+	.bt-sessio:hover{
+		opacity: 0.5;
+		color: #FFFFFF;
+	}
+	
+
+	
+	
+
+.my-body {
+
+    padding-top: 0;
+}
+		
+		
+	
+</style>
+
 </head>
-<body>
+<body class="my-body">
 
 
-<div class="container">
-<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				</button>
-				<a class="navbar-brand" href="index.html">
-					<div class="img-circle2-icon descobreix_color"></div>
-					<div class="img-circle2-icon crea_color"></div>
-					<div class="img-circle2-icon visualitza_color"></div>
-					<div class="img-circle2-icon comparteix_color"></div>
+				<a class="navbar-brand" href="../index.html">
+					<div class="img-circle2-icon descobreix_color hidden-sm hidden-xs"></div>
+					<div class="img-circle2-icon crea_color hidden-sm hidden-xs"></div>
+					<div class="img-circle2-icon visualitza_color hidden-sm hidden-xs"></div>
+					<div class="img-circle2-icon comparteix_color hidden-sm hidden-xs"></div>
+					<div class="brand-txt">Insta<i>Mapes<i></div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li><a lang="ca" href="/index.html">Inici</a></li>
-					<li><a lang="ca" href="/properament.html">Informació</a></li>
-					<li><a lang="ca" href="/properament.html">Contacte</a></li>
-					<li></li>
+				<ul class="nav navbar-nav navbar-right my-nav">
+					<li class="active"><a id="hl_index" lang="ca" href="../index.html">Inici</a></li>
+					<li><a lang="ca" id="hl_info" href="../properament.html">Informació</a></li>
+					<li><a lang="ca" id="hl_contact" href="../properament.html">Contacte</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+						<ul id="ch_idioma" class="dropdown-menu">
+							<li id="ca"><a href="#">Català</a></li>
+							<li id="es"><a href="#">Español</a></li>
+							<li id="en"><a href="#">English</a></li>
+						</ul>
+					</li>
+					<li>
+						<form class="navbar-form">
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio img-hover">Inicia la sessió</a>
+						</form>					
+					</li>
 				</ul>
-			</div>	
-	</div>		
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+		
+	<div class="my-background">	
+	<div class="container ">
 	
-	
-      <form class="form-signin">
+      <form class="my-form-signin">
        <section>
         <h3  lang="ca" class="form-signin-heading">Inicia la sessió</h3>
-        <fieldset>
-       <input lang="ca" type="text" class="form-control" placeholder="Correu" autofocus>
-        <input lang="ca" type="password" class="form-control" placeholder="Contrasenya">
-        </fieldset>
-        <p>
-         <button  lang="ca" class="btn btn-lg btn-success btn-block" type="submit">Inicia la sessió</button>
-         <p>
-         <p>
-<a  lang="ca" href="oblidat.html">Has oblidat la contrasenya?</a>
-</p>
+	        <fieldset>
+		       	<input lang="ca" type="text" class="form-control my-border" placeholder="Correu" autofocus>
+		        <input lang="ca" type="password" class="form-control my-border" placeholder="Contrasenya">
+	        </fieldset>
+	        <br>
+        	<p>
+         		<button  lang="ca" class="btn btn-lg bt-sessio btn-block" type="submit">Inicia la sessió</button>
+         	</p>
+	         <p>
+				<a lang="ca" href="oblidat.html">Has oblidat la contrasenya?</a>
+			</p>
+      
        <!-- <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>-->
         
         
        <div class="social-sign">
-     
-		<span lang="ca">o amb:</span>
-		<p></p>
-		<p>
-       	<a href="#" title="Inicia sessió amb Facebook" class="zocial icon facebook"></a>
-		<a href="#" title="Inicia sessió amb  Google+" class="zocial icon googleplus"></a>
-		<a href="#" title="Inicia sessió amb Twitter" class="zocial icon twitter"></a>
-		<a href="#" title="Inicia sessió amb LinkedIn"  class="zocial  icon linkedin"></a>
-		<a href="#" title="Inicia sessió amb ICC" class="zocial  icon icc"></a>
-		</p>
-        <p></p>
+			<span lang="ca">o amb:</span>
+			<p></p>
+			<p>
+		       	<!--<a href="#" data-placement="bottom" data-toggle="tooltip" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc"></a>-->
+		       	<a href="#" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc_fd"></a>
+				<a href="#" title="Inicia sessió amb Facebook" class="zocial icon facebook_fd"></a>
+				<a href="#" title="Inicia sessió amb  Google+" class="zocial icon google_fd"></a>
+				<a href="#" title="Inicia sessió amb Twitter" class="zocial icon twitter_fd"></a>
+				<a href="#" title="Inicia sessió amb LinkedIn"   class="zocial  icon linkedin_fd"></a>
+			</p>
+	        <p></p>
         </div>
+       
+        <div class="social-sign">
+      		<h6 lang="ca">És la primera vegada que utilitzeu InstaMapes? <a  lang="ca" href="registre.html">Crear un compte</a></h6>
+ 	  	</div>
        
        </section>
         
       </form>
-      <div class="social-sign">
-       <h6 lang="ca">És la primera vegada que utilitzeu GeoCatOnline? <a  lang="ca" href="registre.html?hl=javascript:">Crear un compte</a></h6>
- </div>
+      
 
-
+	<br><br>
+		
   
-    </div> <!-- /container -->
+    </div> 
+    <!-- /container -->
+</div>
+	<footer>
+		<div class="container">
+			<p>© InstaMapes</p>
+		</div>
+	</footer>    
 
 <script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
 	<script src="/share/js/bootstrap.min.js"></script>
