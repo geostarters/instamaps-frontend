@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title lang="ca">InstaMapes . Benvinguda</title>
+<meta name="author" content="InstaMapes">
+<meta name="description"
+	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+<meta name="robots" content="index,follow">
+<meta name="geo.region" content="ES-CT" />
+<meta name="geo.placename" content="Barcelona" />
+<meta name="geo.position" content="41.363892;2.186279" />
+<meta name="language" content="ca" />
+<!-- Le styles -->
+<link href="/share/css/bootstrap.min.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link href="/share/css/zocial/zocial.css" rel="stylesheet">
+<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-glyphicon-precomposed" sizes="144x144"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-144-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed" sizes="114x114"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-114-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed" sizes="72x72"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-72-precomposed.png">
+<link rel="apple-touch-glyphicon-precomposed"
+	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
+<link rel="shortcut icon" href="../assets/ico/favicon.png">
+</head>
+<body>
+
+
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">
+					<div class="img-circle2-icon descobreix_color"></div>
+					<div class="img-circle2-icon crea_color"></div>
+					<div class="img-circle2-icon visualitza_color"></div>
+					<div class="img-circle2-icon comparteix_color"></div>
+				</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
+					<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li id="ca"><a href="#">Català</a></li>
+                <li id="es"><a href="#">Español</a></li>
+                <li id="en"><a href="#">English</a></li>
+              </ul>
+            </li>
+					<li>
+						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
+					</li>            
+					<li></li>
+				</ul>
+					
+				
+				
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>	
+ 
+ <!--  <div class="container">
+		    
+       <div class="panel panel-default col-md-8">
+		  <div class="panel-body">
+		    <h3  lang="ca" class="form-signin-heading">Et donem la benvinguda!</h3>
+            <button  lang="ca" class="btn btn-lg btn-success btdn-block" type="submit">Crear el primer mapa</button>
+		  </div>
+		</div>
+
+        
+        <div class="row">
+        	<div class="col-md-8">.col-md-8</div>
+			<div class="col-md-4">.col-md-4</div>
+		</div>
+        <p>
+         </p>
+        
+      </section>
+         
+</div>  -->
+<div class="container">
+   <div class="jumbotron">
+      <div class="container">
+	      <div class="row">
+	        <div class="col-lg-7">
+	        <h2 lang="ca">Et donem la benvinguda a Insta<em>Mapes</em>!</h2>
+	        <p><br>Per crear el teu primer mapa, <br>
+	         pots deixar anar les teves dades al panell de la dreta<br>
+	         o escollir les que vulguis de les que hi ha a baix.<br><br>
+	        <p><a class="btn btn-lg btn-success bdtn-block"">Crear el primer mapa</a></p>
+	        </div>
+	        <div class="col-lg-4">
+	        		<style>
+					#holder { border: 10px dashed #ccc; width: 300px; height: 300px; margin: 20px auto;}
+					#holder.hover { border: 10px dashed #333;} 											
+					#dropzone {
+						  border: 10px dashed #ccc; width: 300px; height: 300px; 
+						  margin: 20px auto;
+						  margin: 10px;
+						  padding: 10px;
+						}
+					</style>
+	        		<!--  <div id="drop_zone"></div> -->
+					<output id="list"></output>
+					<div id="dropzone">
+                      <span class="message">Drop files here to upload. <br /></span>
+                    </div>  
+        </div>
+			</div>
+
+			<script>
+
+			  
+			  
+			  jQuery(document).ready(function() {
+				  //function checkCookie()
+				  //{
+				 alert("benvinguda!");
+				  var username=getCookie("axy");
+				    if (username!=null && username!="")
+				    {
+				    alert("Welcome again " + username);
+				    }
+				  else
+				    {
+				    username=prompt("Please enter your name:","");
+				    if (username!=null && username!="")
+				      {
+				      setCookie("username",username,365);
+				      }
+				    }
+				  //}
+			  }
+			  
+			  $('#prova_cookie').click(function(){
+				  alert("Cookies!!");
+				     var allcookies = document.cookie;
+				     alert("All Cookies : " + allcookies );
+
+				     // Get all the cookies pairs in an array
+				     cookiearray  = allcookies.split(';');
+
+				     // Now take key value pair out of this array
+				     for(var i=0; i<cookiearray.length; i++){
+				        name = cookiearray[i].split('=')[0];
+				        value = cookiearray[i].split('=')[1];
+				        alert("Key is : " + name + " and Value is : " + value);
+				     }
+			  });
+			  
+			  
+			  function readCookie()
+			  {
+			     var allcookies = document.cookie;
+			     alert("All Cookies : " + allcookies );
+
+			     // Get all the cookies pairs in an array
+			     cookiearray  = allcookies.split(';');
+
+			     // Now take key value pair out of this array
+			     for(var i=0; i<cookiearray.length; i++){
+			        name = cookiearray[i].split('=')[0];
+			        value = cookiearray[i].split('=')[1];
+			        alert("Key is : " + name + " and Value is : " + value);
+			     }
+			  }			  
+			  
+			</script>
+			
+	         <div class="col-lg-2">	</div>
+	      </div>  
+      </div>
+   </div>
+</div>
+    <div class="container">
+    
+  		<p>
+   		<button  id="prova_cookie" lang="ca" class="btn btn-lg btn-success btn-block" type="button">Cookie</button>
+   		</p>    
+    
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+       </div>
+        <div class="col-lg-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
+	<script src="/share/js/bootstrap.min.js"></script>
+	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<!-- Including the HTML5 Uploader plugin -->
+    <script src="/share/js/filedrop/jquery.filedrop.js"></script>
+
+    <!-- The main script file -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

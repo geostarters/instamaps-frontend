@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Exemple MapCache</title>
+    <style type="text/css">
+    #map {
+    width: 100%;
+    height: 800px;
+    border: 1px solid black;
+    }
+    </style>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript">
+
+var map;
+function init(){
+    map = new OpenLayers.Map( 'map', {
+        displayProjection: new OpenLayers.Projection("EPSG:25831"),
+		projection: new OpenLayers.Projection("EPSG:25831".toUpperCase()),
+          sphericalMercator: false
+    } );
+    var limits_CAT25831_wms_layer = new OpenLayers.Layer.WMS( "DadesObertes",
+        "http://172.70.1.11/mapcache/?",{layers: 'dadesobertes',format : "image/png",},
+        {
+          resolutions:[1100,550,275,100,50,25,10,5,2,1,0.50,0.25,0.10,0.05],
+          units:"m",
+		  isBaseLayer:false,
+          maxExtent: new OpenLayers.Bounds(258000,4485000,536000,4752000),
+          projection: new OpenLayers.Projection("EPSG:25831".toUpperCase()),
+          sphericalMercator: false
+        }
+    );
+    map.addLayer(limits_CAT25831_wms_layer);
+
+	var orto = new OpenLayers.Layer.WMS("ORTO", "http://mapcache.icc.cat/map/bases/service?", {
+			layers : "topogris",
+			format : "image/jpeg",
+			exceptions : "application/vnd.ogc.se_xml"
+		}, {
+			buffer : 0,
+			isBaseLayer:true,
+			  maxExtent: new OpenLayers.Bounds(258000,4485000,536000,4752000),
+			resolutions : [1100, 550, 275, 100, 50, 25, 10, 5, 2, 1, 0.5, 0.25, 0.1],
+			displayInLayerSwitcher : true
+		});
+	
+	
+	
+	
+	
+	
+	
+    
+	map.addLayer(orto);
+    if(!map.getCenter())
+     map.zoomToMaxExtent();
+    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.addControl(new OpenLayers.Control.MousePosition());
+}
+    </script>
+  </head>
+
+<body onload="init()">
+    <div id="map">
+    </div>
+</body>
+</html
