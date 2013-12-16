@@ -1,515 +1,427 @@
-var map;
+var map, controlCapes;
 var factorH = 50;
-var controlCapes;var editableLayers;var sidebar;
-
-
-jQuery(document).ready(function() {
+var factorW = 0;
+var _htmlDadesObertes=[];
+var capaUsrPunt,capaUsrLine,capaUsrPol;
+jQuery(document).ready(function () {
 
 	map = new L.IM_Map('map', {
-		typeMap : 'topoMap',
-		maxZoom : 19
-	}).setView([ 41.431, 1.8580 ], 8);
-	
+			typeMap : 'topoMap',
+			maxZoom : 19,
+			//drawControl: true
+		}).setView([41.431, 1.8580], 8);
 
-	factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
-	jQuery('#map').height(jQuery(window).height() - factorH);
-
+	addControlsInici();
+	addClicksInici();
+	addOpcionsFonsMapes();
+	addToolTipsInici();
+	redimensioMapa();
+	creaPopOverDadesExternes();
+	generaLListaDadesObertes();
+	creaAreesDragDropFiles();
+	creaPopOverMesFonsColor();
 	tradueixMenusToolbar();
+	addDrawToolbar();
+	activaEdicioUsuari();
 	
 	
-	  var limits =
-	  L.tileLayer.wms("http://172.70.1.11/maps/geocat.service?map=/opt/geocat/dades/mon/mon.map&", {
-	  layers: 'cat1936', format: 'image/png', crs:
-	  L.Proj.CRS.TMS("EPSG:3857"), maxZoom: 19, minZoom: 0, transparent: true
-	  
-	  }).addTo(map);
 	
+	
+}); //Final document ready
 
-	editableLayers = new L.FeatureGroup();
-	map.addLayer(editableLayers);
-
-	var MyCustomMarker = L.Icon.extend({
-		options : {
-			shadowUrl : null,
-			iconAnchor : new L.Point(12, 12),
-			iconSize : new L.Point(24, 48),
-			iconUrl : '/llibreries/css/leaflet/images/marker-icon-2x.png'
-		}
+function addClicksInici() {
+	jQuery('#bt_llista').on('click', function () {
+		activaPanelCapes();
 	});
+}
 
-	var options = {
-		position : 'topright',
-		draw : {
-			polyline : {
-				guidelineDistance : 2,
-				shapeOptions : {
-					color : '#64A01C',
-					weight : 5
-				}
-			},
-			polygon : {
-				allowIntersection : true, // Restricts shapes to simple
-											// polygons
-				drawError : {
-					color : '#e1e100', // Color the shape will turn when
-										// intersects
-					message : '<strong>Oh snap!<strong> no pots dibuixer això!' // Message
-																				// that
-																				// will
-																				// show
-																				// when
-																				// intersect
-				},
-				guidelineDistance : 2,
-				shapeOptions : {
-					color : '#64A01C',
-					weight : 5,
-					opacity : 0.7
-				}
-			},
-			circle : {
-				shapeOptions : {
-					color : '#64A01C',
-					weight : 5,
-					opacity : 0.7
-				}
-			}, // Turns off this drawing tool
-			rectangle : {
-				shapeOptions : {
-					// clickable: false
-					color : '#64A01C',
-					weight : 5,
-					opacity : 0.7
-				}
-			},
-			marker : {
-			// icon: new MyCustomMarker()
-			}
-		},
-		edit : {
-			featureGroup : editableLayers, // REQUIRED!!
-			color : '#FC07E3',
-			remove : true
-		}
-	};
 
-	var overlayMaps = {
-		"Users" : editableLayers
 
-	};
-
-	controlCapes = L.control.layers(null, null, {
-		collapsed : false,
-		id : 'div_capes'
-	}).addTo(map);
-
-	var drawControl = new L.Control.Draw(options);
-
-	map.addControl(drawControl);
-
-	map.on('draw:created', function(e) {
-		var type = e.layerType, layer = e.layer;
-
-		if (type === 'marker') {
-			layer.bindPopup('opcions ediciodddddd!');
-		}
-
+function addOpcionsFonsMapes(){
 	
-		
-		editableLayers.addLayer(layer);
-	});
-
+	jQuery('.div_gr3 div').on('click', function() {
 	
-	editableLayers.on('layeradd',function(f){
-		
-		if(this.toGeoJSON().features.length==1){
-		//Add feature and Layer	
-			
-			
-			
-		}else if (this.toGeoJSON().features.length >1){
-		//Add feature	
-			
-		}
-		
-		
-		console.info(this.toGeoJSON());
-		console.info(f);
-		
-	});
-	
-	
-	
-	
-	
-	
-	var puntUsuari;
-	jQuery('.div_punt').on('mousedown', function() {
-
-		var dd = new L.Draw.Marker(map, drawControl.options.marker);
-		dd.enable();
-		map.on('mouseup', function(e) {
-			var latlng = e.latlng;
-			puntUsuari = L.marker([ 0, 0 ], {
-				draggable : true
-			});
-			puntUsuari.setLatLng(latlng);
-			puntUsuari.bindPopup('opcions edicioddd!');
-			
-			//console.info(editableLayers.toGeoJSON().features.length);
-			
-			var pt=puntUsuari.toGeoJSON();
-			//pt.properties={'nom':puntUsuari._leaflet_id,'text':puntUsuari._popup._content;
-			
-			
-		
-			//puntUsuari.addTo(map);
-			editableLayers.addLayer(puntUsuari);
-			
-			
-			
-			
-			//console.info(JSON.stringify(puntUsuari.toGeoJSON()));
-			
-			//console.info(JSON.stringify(editableLayers.toGeoJSON()));
-			dd.disable();
-			map.off('mouseup', null);
-
-			// controlCapes.addOverlay(puntUsuari);
-
-		});
-
-	});
-
-	
-	
-	
-	jQuery('#div_fons img').on('click', function() {
-
 		var fons = jQuery(this).attr('id');
-
+		
 		if (fons == 'topoMap') {
 			map.topoMap();
+		} else if (fons == 'topoGrisMap') {
+			map.topoGrisMap();	
 		} else if (fons == 'ortoMap') {
 			map.ortoMap();
 		} else if (fons == 'terrainMap') {
 			map.terrainMap();
-		} else if (fons == 'terrainGrisMap') {
-			map.terrainGrisMap();
-		} else if (fons == 'colorMap') {
+		} else if (fons == 'colorMap') {		
+			gestionaPopOver(this);
+		} else if (fons == 'historicMap') {
 		}
 
 	});
-
-	inicialitzaDropFiles();
-	addBoto();
-
-	jQuery('#div_menu').on('click', function() {
-		activaPanelCapes();
-
-	});
-
-	
-	
-//$('#pop').popover();​​​
-	
-	jQuery("#bt_dadesObertes").popover({ title: 'Dades Obertes', content: '<div id="div_DO"><a href="#" id="radars">Radars</a>|<a href="#" id="hotels">Hotels</a></div>',container:'body', html:true,trigger:'manual' });
-
-jQuery("#bt_dadesObertes").on('click', function (){
-	jQuery(this).attr("data-content","he canviat");
-	jQuery(this).popover('toggle');
-	jQuery(".popover").css('left',pLeft());
-	
-	
-});
-
-jQuery(document).on('click', "#div_DO", function (){
-	
-	console.info(jQuery('#div_DO a').attr('id'));
-	
-	obteDadesObertes('hotels');
-	
-});
-
-	
-addSideBarMapa();	
 	
 	
 	
+		
+	
+} 
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-});// final ready
+function gestionaPopOver(pop){
 
-
-function pLeft(){	
-	return jQuery(".leaflet-left").css('left');
+    jQuery('.popover').popover('hide');
+    jQuery('.pop').not(pop).popover('hide');
+	jQuery(pop).popover('toggle');
+	jQuery(".popover").css('left', pLeft());
 }
 
-function popUp(f,l){
-    var out = [];
-    if (f.properties){
-        for(key in f.properties){
-            out.push(key+": "+f.properties[key]);
-        }
-        l.bindPopup(out.join("<br />"));
-    }
-}
+function addControlsInici() {
 
-
- function myStyle1(feature) {
-       
-            return {
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                dashArray: '3',
-                fillOpacity: 0.3,
-                fillColor: '#ff0000'
-            };
-       
-    }
-
-var geojsonMarkerOptions = {
-    radius: 6,
-    fillColor: "#FC5D5F",
-    color: "#ffffff",
-    weight: 2,
-    opacity: 1,
-    fillOpacity: 0.8
-};
-var jsonTest;
-function obteDadesObertes(dataset){
-	
-	
-	
-var url="http://172.70.1.12/share/jsp/dadesObertes.jsp?dataset="+dataset;	
-	console.info(url);
-jsonTest = new L.GeoJSON.AJAX(url,{onEachFeature:popUp,dataType:"jsonp",pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, geojsonMarkerOptions);
-    }});
-
-	
-	jsonTest.addTo(map);
-	/*
-	
-	jQuery.ajax({
-
-        url: 'http://172.70.1.12/share/jsp/dadesObertes.jsp?',
-
-        data: {'dataset':dataset},
-
-        method: 'get',
-
-        dataType: 'jsonp',
-
-    }).done(function(data, textStatus){
-    	console.info(11);
-//codi OK
-    	console.info(data);
-
-    }).fail(function(data, textStatus){
-    	console.info(data);
-    	console.info(textStatus);
-//codi Error
-
-    	//.succes data, textStatus, jqXHR 
-    	
-    });
-	
-}
-*/
-
-/*
-
-
-	$.getJSON("./cupcakes.json", function(data) {
-		var geojson = L.geoJson(data, {
-			onEachFeature: function (feature, layer) {
-				layer.bindPopup(feature.properties.name);
-			}
+	sidebar = L.control.sidebar('sidebar', {
+			position : 'left',
+			closeButton : false
 		});
-		var map = L.map('cupcake-map').fitBounds(geojson.getBounds());
-		cupcakeTiles.addTo(map);
-		geojson.addTo(map);
-*/
+
+	map.addControl(sidebar);
+	setTimeout(function () {
+		sidebar.show();
+	}, 500);
+
+	controlCapes = L.control.layers(null, null, {
+			collapsed : false,
+			id : 'div_capes'
+		}).addTo(map);
+
+	ctr_llistaCapes = L.control({position : 'topright'});
+	ctr_llistaCapes.onAdd = function (map) {
+				
+		this._div = L.DomUtil.create('div', 'div_barrabotons');
+		
+		var btllista=L.DomUtil.create('div', 'leaflet-bar div_llista');		
+		this._div.appendChild(btllista);
+		btllista.innerHTML='<div id="bt_llista"  class="glyphicon glyphicon-th-list grisfort"></div>';	
+		
+		var btcamera=L.DomUtil.create('div', 'leaflet-bar div_captura');		
+		this._div.appendChild(btcamera);
+		btcamera.innerHTML='<div id="bt_captura"  class="glyphicon glyphicon-camera grisfort"></div>';	
+						
+		
+		var btprint=L.DomUtil.create('div', 'leaflet-bar div_print');		
+		this._div.appendChild(btprint);
+		btprint.innerHTML='<div id="bt_print"  class="glyphicon glyphicon-print grisfort"></div>';	
+		
+		
+		var btinfo=L.DomUtil.create('div', 'leaflet-bar div_info');		
+		this._div.appendChild(btinfo);
+		btinfo.innerHTML='<div id="bt_info"  class="glyphicon glyphicon-info-sign grisfort"></div>';	
+		
+		return this._div;
+	};
+	ctr_llistaCapes.addTo(map);
+
+	
 }
-function activaPanelCapes() {
-	jQuery('.leaflet-control-layers').toggle();
-	if (jQuery('#div_menu').attr('class', 'glyphicon glyphicon-list grisfort')) {
-		jQuery('#div_menu').removeClass('glyphicon glyphicon-list grisfort');
-		jQuery('#div_menu').addClass('glyphicon glyphicon-list greenfort');
+
+function redimensioMapa() {
+	jQuery(window).resize(function () {
+		factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');		
+		jQuery('#map').css('top',factorH+'px');
+		jQuery('#map').height(jQuery(window).height() - factorH);
+		jQuery('#map').width(jQuery(window).width() - factorW);
+	});
+	jQuery(window).trigger('resize');
+}
+
+var opt={placement:'right',container:'body'};
+var optB={placement:'bottom',container:'body'};
+function addToolTipsInici(){
+	
+	$('.div_carrega_dades').tooltip(optB);
+	$('.div_llista').tooltip({placement:'left',container:'body',title:'LLista de capes'});
+	$('.div_captura').tooltip({placement:'left',container:'body',title:'Capturar la vista del mapa'});
+	$('.div_print').tooltip({placement:'left',container:'body',title:'Imprimir la vista del mapa'});
+	$('#bt_info').tooltip({placement:'left',container:'body',title:'Veure informació al fer clic sobre el mapa'});	
+	$('.div_gr3 div').tooltip(optB);
+	$('.div_gr2 div').tooltip(optB);
+	$('.add_costat_r').tooltip(opt);
+	$('.taronja').tooltip(opt);
+	$('.white').tooltip(opt);
+	$('#div_punt').tooltip(optB);
+	$('#div_linia').tooltip(optB);
+	$('#div_poligon').tooltip(optB);
+	$('.bt_publicar').tooltip(opt);
+}
+
+function activaPanelCapes(obre) {
+
+	if (obre) {
+		jQuery('.leaflet-control-layers').animate({width: 'show'});
+	
 	} else {
-		jQuery('#div_menu').removeClass('glyphicon glyphicon-list greenfort');
-		jQuery('#div_menu').addClass('glyphicon glyphicon-list grisfort');
+		jQuery('.leaflet-control-layers').animate({width: 'toggle'});	
+		
+	}
+	var cl=jQuery('#bt_llista').attr('class');
+	if (cl.indexOf('grisfort') !=-1) {
+		jQuery('#bt_llista').removeClass('grisfort');
+		jQuery('#bt_llista').addClass('greenfort');
+	} else {		
+		jQuery('#bt_llista').removeClass('greenfort');
+		jQuery('#bt_llista').addClass('grisfort');
 	}
 }
 
-function addSideBarMapa(){
-	sidebar = L.control.sidebar('sidebar', {
-		position : 'left',
-		closeButton : false
-	});
+function creaPopOverMesFons(){
 
-	map.addControl(sidebar);
-	setTimeout(function() {
-		sidebar.show();
-	}, 500);
+}
+
+function creaPopOverMesFonsColor(){
+
+jQuery("#colorMap").popover({ content:'<div id="div_menufons" class="div_gr3">'+				
+					'<div id="nit" lang="ca"  data-toggle="tooltip" title="Nit" class="div_fons_6"></div>'+
+					'<div id="sepia" lang="ca"  data-toggle="tooltip" title="Sèpia" class="div_fons_7"></div>'+
+					'<div id="zombie" lang="ca"  data-toggle="tooltip" title="Zombie" class="div_fons_8"></div>'+
+					'<div id="orquidea" lang="ca"  data-toggle="tooltip" title="Orquídea" class="div_fons_9"></div>'+					
+				'</div>',
+				container : 'body',
+										html : true,
+										trigger : 'manual'
+									});
+									
+									
+		jQuery('#div_menufons div').tooltip(optB);
+
+	
+	jQuery(document).on('click', "#div_menufons div", function(e) {
+	
+		var fons = jQuery(this).attr('id');
+	
+		map.colorMap(fons);
+
+	});
+									
+
+}
+
+
+
+function creaPopOverDadesExternes(){
+jQuery(".div_dades_ext").popover(
+									{
+										
+										content : '<ul class="nav nav-tabs etiqueta">'+
+ '<li><a href="#id_do" data-toggle="tab">Dades Obertes</a></li>'+
+  '<li><a href="#id_xs" data-toggle="tab">Xarxes socials</a></li>'+
+  '<li><a href="#id_srvj" data-toggle="tab">Serveis JSON</a></li>'+
+  '<li><a href="#id_srvw" data-toggle="tab">Serveis WMS</a></li>'+
+'</ul>'+
+'<div class="tab-content">'+
+  '<div class="tab-pane fade" id="id_do"></div>'+
+  '<div class="tab-pane fade" id="id_xs"></div>'+
+  '<div class="tab-pane fade" id="id_srvj"></div>'+
+  '<div class="tab-pane fade" id="id_srvw">.</div>'+
+'</div>',
+										container : 'body',
+										html : true,
+										trigger : 'manual'
+									});
+
+					jQuery(".div_dades_ext").on('click', function() {					
+						
+						gestionaPopOver(this);
+						
+						
+						jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+						var tbA=e.target.attributes.href.value;
+						
+						if(tbA=="#id_do"){
+						
+						jQuery(tbA).html(_htmlDadesObertes.join(' '));
+						
+							jQuery(document).on('click', tbA, function(e) {
+						
+						
+
+					});																		
+						
+						}												
+					});										
+})		
+}
+
+
+
+function pLeft() {
+	return jQuery(".leaflet-left").css('left');
+}
+
+var capaDadaOberta;
+function addCapaDadesObertes(dataset) {
+
+	var url = paramUrl.dadesObertes+"dataset="+ dataset;
+	
+	capaDadaOberta = new L.GeoJSON.AJAX(url, {
+		nom:dataset,
+		id:'',
+		bussinesID:'',
+		tipus:'vector_do',
+		onEachFeature : popUp,
+		dataType : "jsonp",		
+		pointToLayer : function(feature, latlng) {
+			
+			var estil_do=retornaEstilaDO(dataset);			
+			return L.circleMarker(latlng, estil_do);
+			
+		}
+	});
+	
+	capaDadaOberta.addTo(map);
+	controlCapes.addOverlay(capaDadaOberta,dataset,true);
+	activaPanelCapes(true);
 	
 }
 
-function addBoto() {
+function popUp(f, l) {
+	
+	var out = [];
+	data.push({lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],value:1});
+	if (f.properties) {
+		for (key in f.properties) {
+			out.push(key + ": " + f.properties[key]);
+		}
+		l.bindPopup(out.join("<br />"));
+		
+	}
+	
+}
 
-	var info = L.control({
-		position : 'topright'
+
+
+
+
+function generaLListaDadesObertes(){
+
+	getLListaDadesObertes().then(function(results) {															
+	$.each( results.dadesObertes, function( key, dataset ) {
+		var as;
+		if(key%2!=0 ){as="</br>";}else{as=""}
+		_htmlDadesObertes.push('<a class="label label-explora" href="#" id="'+dataset.dataset+'">'+dataset.dataset+'</a>'+as);
 	});
 
-	info.onAdd = function(map) {
-		this._div = L.DomUtil.create('div', 'leaflet-bar info'); // create a
-																	// div with
-																	// a class
-																	// "info"
-		this._div.innerHTML = '<span id="div_menu" class="glyphicon glyphicon-list grisfort"></span>';
-		return this._div;
-	};
-
-	info.addTo(map);
+});
 
 }
 
-function inicialitzaDropFiles() {
-
-	// dropzone
-
-	var dropzoneOpcions = {
-
-		/*
-		 * init: function() { this.on("addedfile", function(file) { alert("Added
-		 * file."); }); this.on("dragend", function(file) { alert("fitxer
-		 * arrastrat"); }); },
-		 * 
-		 */
-		url :paramUrl.dragFile,
-		paramName : "file", // The name that will be used to transfer the file
-		maxFilesize : 2, // MB
-		accept : function(file, done) {
-			if (file.name == "newsssss.kml") {
-
-				done("Naha, you don't.");
-			} else {
-				done();
-			}
-		}
-	};
-
-	var myDropzone = new Dropzone("div#div_dragdrop", dropzoneOpcions);
-
-}
-
-function tradueixMenusToolbar() {
-
-	// L.drawLocal.draw.toolbar.buttons.polygon = 'Dibuixa un polígon';
-	// L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Arrastra i marca una
-	// area';
-
-	L.drawLocal = {
-		draw : {
-			toolbar : {
-				actions : {
-					title : 'Cancel.lar dibuix',
-					text : 'Cancel·lar'
-				},
-				buttons : {
-
-					polyline : 'Dibuixa una línia',
-					polygon : 'Dibuixa una àrea',
-					rectangle : 'Dibuixa un rectangle',
-					circle : 'Dibuixa un cercle',
-					marker : 'Dibuixa un punt'
+var drawControl;
+function addDrawToolbar(){
+	capaUsrPunt = new L.FeatureGroup();	
+	capaUsrPunt.options={businessId:'-1',nom:'capaPunts1',tipus:'Marker'};
+	capaUsrLine = new L.FeatureGroup({businessId:'-1',nom:'capa1',tipus:'Linea'});
+	capaUsrLine.options={businessId:'-1',nom:'capaLinea1',tipus:'Line'};
+	capaUsrPol= new L.FeatureGroup({businessId:'-1',nom:'capa1',tipus:'Pol'});
+	capaUsrPol.options={businessId:'-1',nom:'capaPol1',tipus:'Pol'};
+	map.addLayer(capaUsrPunt);
+	map.addLayer(capaUsrLine);
+	map.addLayer(capaUsrPol);
+	
+	var MyCustomMarker = L.Icon.extend({
+	    options: {
+	        shadowUrl: null,
+	        iconAnchor: new L.Point(12, 12),
+	        iconSize: new L.Point(24, 40),
+	        iconUrl: '/geocatweb/css/images/markeriombra_instamapes.png'
+	    }
+	});
+	
+	
+	var options = {
+			draw:false,
+			polyline : {
+				guidelineDistance : 2,
+				shapeOptions : {
+					color : '#FFC400',
+					weight : 5,
+					opacity : 1
 				}
 			},
-			handlers : {
-				circle : {
-					tooltip : {
-						start : 'Clica i arrossega per dibuixar un cercle.'
-					}
-				},
-				marker : {
-					tooltip : {
-						start : 'Fes clic al mapa per posar un punt.'
-					}
-				},
-				polygon : {
-					tooltip : {
-						start : 'Clica per començar a dibuixar una àrea.',
-						cont : 'Clica per continuar dibuixant una àrea.',
-						end : 'Clica el primer punt per tancar aquesta àrea.'
-					}
-				},
-				polyline : {
-					error : '<strong>Error:</strong> àrees no es poden creuar!',
-					tooltip : {
-						start : 'Clica per començar a dibuixar una línia.',
-						cont : 'Clica per continuar dibuixant una línia.',
-						end : 'Clica el darrer punt per acabar la línia.'
-					}
-				},
-				rectangle : {
-					tooltip : {
-						start : 'Clica i arrossega per dibuixar un rectangle.'
-					}
-				},
-				simpleshape : {
-					tooltip : {
-						end : 'Amolla el mouse per acabar el dibuix.'
-					}
-				}
-			}
-		},
-		edit : {
-			toolbar : {
-				actions : {
-					save : {
-						title : 'Desa els canvis.',
-						text : 'Desa'
-					},
-					cancel : {
-						title : 'Cancel·la l\'edició, descarta tots els canvis.',
-						text : 'Cancel·la'
-					}
-				},
-				buttons : {
-					edit : 'Edita les capes.',
-					editDisabled : 'Cap capa per editar.',
-					remove : 'Esborra les capes.',
-					removeDisabled : 'Cap capa per esborrar.'
+			polygon : {
+				allowIntersection : true, // Restricts shapes
+				guidelineDistance : 2,
+				shapeOptions : {
+					color : '#FFC400',
+					weight : 5,
+					opacity : 0.7
 				}
 			},
-			handlers : {
-				edit : {
-					tooltip : {
-						text : 'Arrossega els controls o el punt per editar l\'objecte.',
-						subtext : 'Fes clic a cancel·la per desfer els canvis.'
-					}
-				},
-				remove : {
-					tooltip : {
-						text : 'Fes clic a una feature per eliminar-la'
-					}
-				}
-			}
-		}
-	};
-
-	return L.drawLocal;
-
+			//marker : {icon: new  MyCustomMarker()},
+			edit : false
+		};	
+	
+	drawControl = new L.Control.Draw(options);
+	map.addControl(drawControl);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
+
+
+function activaEdicioUsuari(){
+	
+	
+	
+	jQuery('#div_punt').on('click',function() {
+				var dd = new L.Draw.Marker(map,
+						drawControl.options.marker);
+				dd.enable();				
+			});	
+	
+	jQuery('#div_linia').on('click',function() {
+		
+		
+	
+		var dd = new L.Draw.Polyline(map,
+				drawControl.options.polyline);
+		dd.enable();				
+	});
+	
+	
+	jQuery('#div_poligon').on('click',function() {
+		var dd = new L.Draw.Polygon(map,
+				drawControl.options.polygon);
+		dd.enable();				
+	});
+	
+	map.on('draw:created', function(e) {
+		var type = e.layerType, layer = e.layer;
+		//console.info(e);
+		//if (type === 'marker') {
+			layer.bindPopup('TODO: Esborra Editar ');
+		//}
+			if (type === 'marker') {
+				
+				var redMarker = L.AwesomeMarkers.icon({
+					  icon: 'coffee',
+					  markerColor: 'red'
+					});
+				//layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng], {icon: redMarker}).addTo(map);							
+				capaUsrPunt.addLayer(layer).on('layeradd',objecteUserAdded);							
+			}else if(type === 'polyline'){
+				capaUsrLine.addLayer(layer).on('layeradd',objecteUserAdded);
+			}else if(type === 'polygon'){
+				capaUsrPol.addLayer(layer).on('layeradd',objecteUserAdded);
+			}
+		console.info(capaUsrPunt);
+			if(capaUsrPunt.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrPunt,capaUsrPunt.options.nom,true);activaPanelCapes(true);}	
+			if(capaUsrLine.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrLine,capaUsrLine.options.nom,true);activaPanelCapes(true);}
+			if(capaUsrPol.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrPunt,capaUsrPunt.options.nom,true);activaPanelCapes(true);}
+	});
+	
+	
+}
+
+

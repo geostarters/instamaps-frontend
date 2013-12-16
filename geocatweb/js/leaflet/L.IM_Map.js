@@ -4,9 +4,9 @@ var MQ_ATTR='<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>.
 var ESRI_ATTR='Tiles © Esri — Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 var ESRI_ATTR_TERRAIN="Tiles © Esri — Sources: Esri, USGS, NOAA";
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
-var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_19;
+var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_19,_histoMap;
 var _terrainLayers=null;
-var _terrainGrisLayers=null;
+var _topoColorLayers=null;
 var _grisLayers=null;
 var subDomains=['otile1','otile2','otile3','otile4'];
 
@@ -28,15 +28,15 @@ options: {
 		if(this.options.typeMap=='topoMap'){this.topoMap();		
 		}else if(this.options.typeMap=='ortoMap'){this.ortoMap();
 		}else if(this.options.typeMap=='terrainMap'){this.terrainMap();
-		}else if(this.options.typeMap=='grisMap'){this.grisMap();
+		}else if(this.options.typeMap=='topoGrisMap'){this.topoGrisMap();
 		}else if(this.options.typeMap=='colorMap'){this.colorMap();
+		}else if(this.options.typeMap=='historicMap'){this.historicMap();
 		}else{
 		this.activeMap='topoMap';this.topoMap();
 		}
 		
 		this.on('moveend', function(){
-			
-					
+							
 			this.gestionaFons();
 			})
 		
@@ -62,29 +62,30 @@ options: {
 		if(f=='topoMap'){ //_topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
 			if((sC)){
 				
-				TOPO_MQ_L7_19.setOpacity(0.3);
+				TOPO_MQ_L7_19.setOpacity(0.9);
 				
 				this.addCapa(_topoLayers,TOPO_ICC_L11_19);
-				console.info("Pas 1:"+this.getZoom());
+			
 			}else if((!sC)){
 			
 					TOPO_MQ_L7_19.setOpacity(1);
 				
 				
-				console.info("Pas 2:"+this.getZoom());
+			
 			
 			}else{
-				TOPO_MQ_L7_19.options.opacity=0.3;
+				
 				this.addCapa(_topoLayers,TOPO_MQ_L7_19);
-				console.info("Pas 3:"+this.getZoom());
+			
 			}
 			
 			
 			
 		}else if(f=='ortoMap'){this.ortoMap();
 		}else if(f=='terrainMap'){this.terrainMap();
-		}else if(f=='grisMap'){this.grisMap();
-		}else if(f=='colorMap'){this.colorMap();
+		}else if(f=='topoGrisMap'){this.topoGrisMap();
+		}else if(f=='colorMap'){this.colorMap('nit');
+		
 		}else{
 		
 		}
@@ -268,7 +269,7 @@ options: {
 			
 			var ICC_TOPO_L1 = new L.TileLayer.boundaryCanvas("http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topogris_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw",
 																	  {  	    
-				 tms:false,
+				 tms:true,
 				  minZoom: 7,
 				  maxZoom: 10,	                                                        
 				  boundary: catContorn, 
@@ -297,36 +298,59 @@ options: {
 	
 	},
 	
-	colorMap: function (){
+	colorMap: function (color){
+		//this.options.maxZoom=19;	
 		
-	this.options.maxZoom=14;
+	this.options.maxZoom=19;
 			this.deletePreviousMap();	
-			 _terrainGrisLayers=L.layerGroup();	
+			 _topoColorLayers=L.layerGroup();	
 	
 	
-			 var ESRI_ORTO_GRIS_L1 =new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',{   	   
+			 
+			 var ICC_RELLEU_GRIS_L0= new L.IM_ColorLayer('http://172.70.1.11/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.png', {
 				   minZoom: 0,
-				   maxZoom:13}
-			   ).addTo(_terrainGrisLayers);
-			  
-			
-			var ICC_RELLEU_GRIS_L0= new L.IM_ColorLayer('http://172.70.1.11/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png', {
-				   minZoom: 0,
-				   maxZoom: 14,
+				   maxZoom: 7,
 				   tms:true,
 				   continuousWorld: true,
 				   worldCopyJump: true,
-				   color:'gris'
-			   }).addTo(_terrainGrisLayers);
+				   color:color
+			   }).addTo(_topoColorLayers);
+			 
+			 /*
+			 var ESRI_ORTO_GRIS_L1 =new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',{   	   
+				   minZoom: 8,
+				   maxZoom:13}
+			   ).addTo(_topoColorLayers);
+			  */
+			var ICC_RELLEU_GRIS_L2= new L.IM_ColorLayer('http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg', {
+				   minZoom: 8,
+				   maxZoom: 19,
+				   tms:true,
+				   continuousWorld: true,
+				   worldCopyJump: true,
+				   color:color
+			   }).addTo(_topoColorLayers);
 		
-		this.addLayer(_terrainGrisLayers,true);
+		this.addLayer(_topoColorLayers,true);
 	
 	
 	
 
 	
 	},
-	
+	historicMap:function(){
+		
+		this.options.maxZoom=14;
+		_histoMap= new
+		  L.TileLayer('http://172.70.1.11/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png', {
+		  minZoom: 0, maxZoom: 14, tms:true, continuousWorld: true,
+		  worldCopyJump:false, }).addTo(map);
+		
+		
+		
+		
+		
+	},
 	rmCapa: function (grup,layer){
 	
 		if(grup.hasLayer(layer)){grup.removeLayer(layer);return}
@@ -344,8 +368,9 @@ options: {
 		if(this.hasLayer(_topoLayers)){this.removeLayer(_topoLayers);return}
 		else if(this.hasLayer(_ortoLayers)){this.removeLayer(_ortoLayers);return}
 		else if(this.hasLayer(_terrainLayers)){this.removeLayer(_terrainLayers);return}
-		else if(this.hasLayer(_terrainGrisLayers)){this.removeLayer(_terrainGrisLayers);return}
+		else if(this.hasLayer(_topoColorLayers)){this.removeLayer(_topoColorLayers);return}
 		else if(this.hasLayer(_grisLayers)){this.removeLayer(_grisLayers);return}
+		else if(this.hasLayer(_histoMap)){this.removeLayer(_histoMap);return}
 	}
 	
 	

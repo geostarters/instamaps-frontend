@@ -60,7 +60,7 @@
     border-radius: 4px;
 }
 
-@media(max-width:767px){
+@media(max-width:567px){
     .leaflet-sidebar {
         width: 100%;
         padding: 0;

@@ -1,4 +1,5 @@
-var HOST_APP = "http://172.70.1.12/geocat/";
+//var HOST_APP = "http://172.70.1.12/geocat/";
+var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
 var paramUrl = {
 	"proxy":"/maps/proxy.cgi",
 	"wmsOpenData":"/dadesobertes/wms/service?",
@@ -11,7 +12,12 @@ var paramUrl = {
 	validateUsername: HOST_APP+"validateUid?",
 	createTematicLayerFeature: HOST_APP+"layers/tematic/createTematicLayerFeature.action?",
 	dragFile: HOST_APP+"pepito?",
-	validateEmail: HOST_APP+"validateEmail?"
+	validateEmail: HOST_APP+"validateEmail?",
+	createRang: HOST_APP+"layers/tematic/createRang.action?",
+	createData: HOST_APP+"layers/data/createData.action?",
+	createFeature: HOST_APP+"layers/feature/createFeature.action?",
+	getTematicLayerByBusinessId:HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
+	dadesObertes:"http://172.70.1.12/share/jsp/dadesObertes.jsp?"
 }
 
 

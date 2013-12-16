@@ -76,14 +76,33 @@ L.IM_ColorLayer = L.TileLayer.extend({
 			}
 			
 			
+			
+			if(this._layer.options.color=='orquidea'){
+				 for (var i = 0; i < d.length; i += 4) {
+					  var r = d[i];
+					  var g = d[i + 1];
+					  var b = d[i + 2];
+					  
+					  d[i]     = (r * 0.65)+(g * 0.769)+(b * 0.589); // red
+					  d[i + 1] = (r * 0.26)+(g * 0.686)+(b * 0.168); // green
+					  d[i + 2] = (r * 0.46)+(g * 0.534)+(b * 0.131); // blue
+					  
+					  
+					 /* 
+					d[i] = (r+g+b)/1;     
+					 d[i] = 0.64 * d[i] + 0.26 * d[i + 1] + 0.46 * d[i + 2];					  
+					  */
+					}
+}
+			
+			
+			
 			if(this._layer.options.color=='zombie'){
 						 for (var i = 0; i < d.length; i += 4) {
 				  var r = d[i];
 				  var g = d[i + 1];
 				  var b = d[i + 2];
-				  d[i] = (r+g+b)/3;        // apply average to red channel
-				 // d[i] = 0.04 * d[i] + 0.9 * d[i + 1] + 0.06 * d[i + 2];
-				  
+				  d[i] = (r+g+b)/3;      				  
 				  d[i + 1] = d[i + 2] = 50; // zero out green and blue channel
 				}
 			}

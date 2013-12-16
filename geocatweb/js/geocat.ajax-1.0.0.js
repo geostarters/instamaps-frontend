@@ -69,3 +69,48 @@ function addTematicLayerFeature(data){
 	}).promise();
 }
 
+
+function getTematicLayerByBusinessId(data){
+	return $.ajax({
+		url: paramUrl.getTematicLayerByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+function createFeature(data){
+	return $.ajax({
+		url: paramUrl.createFeature,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createData(data){
+	return $.ajax({
+		url: paramUrl.createData,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createRang(data){
+	return $.ajax({
+		url: paramUrl.createRang,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+function getLListaDadesObertes(){
+	return jQuery.ajax({
+		url: paramUrl.dadesObertes,
+		data: {metode:'getDatasets'},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
