@@ -277,9 +277,10 @@ function addCapaDadesObertes(dataset) {
 		}
 	});
 	
-	capaDadaOberta.addTo(map).on('layeradd',objecteUserAdded);
+	capaDadaOberta.addTo(map)
 	controlCapes.addOverlay(capaDadaOberta,dataset,true);
 	activaPanelCapes(true);
+	//capaDadaOberta.on('layeradd',objecteUserAdded)
 	
 }
 
