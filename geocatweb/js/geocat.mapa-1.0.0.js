@@ -406,9 +406,11 @@ function activaEdicioUsuari(){
 				
 				var redMarker = L.AwesomeMarkers.icon({
 					  icon: 'coffee',
-					  markerColor: 'red'
+					  markerColor: 'red',
+					  iconColor: '#000000',
+					  prefix: 'glyphicon'
 					});
-				//layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng], {icon: redMarker}).addTo(map);							
+			//layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng], {icon: redMarker}).addTo(map);							
 				capaUsrPunt.addLayer(layer).on('layeradd',objecteUserAdded);							
 			}else if(type === 'polyline'){
 				capaUsrLine.addLayer(layer).on('layeradd',objecteUserAdded);
@@ -418,7 +420,7 @@ function activaEdicioUsuari(){
 		console.info(capaUsrPunt);
 			if(capaUsrPunt.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrPunt,capaUsrPunt.options.nom,true);activaPanelCapes(true);}	
 			if(capaUsrLine.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrLine,capaUsrLine.options.nom,true);activaPanelCapes(true);}
-			if(capaUsrPol.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrPunt,capaUsrPunt.options.nom,true);activaPanelCapes(true);}
+			if(capaUsrPol.toGeoJSON().features.length==1){controlCapes.addOverlay(capaUsrPol,capaUsrPol.options.nom,true);activaPanelCapes(true);}
 	});
 	
 	
