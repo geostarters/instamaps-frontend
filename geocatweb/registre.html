@@ -12,10 +12,10 @@
 <meta name="geo.position" content="41.363892;2.186279" />
 <meta name="language" content="ca" />
 <!-- Le styles -->
-<link href="/share/css/bootstrap.min.css" rel="stylesheet">
+<link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
-<link href="/share/css/zocial/zocial.css" rel="stylesheet">
-<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+<link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
+<!--<link href="/llibreries/css/bootstrap-responsive.min.css" rel="stylesheet">-->
 
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -77,18 +77,34 @@
 					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+					
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
 							<li id="ca"><a href="#">Catal&agrave;</a></li>
 							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
 							<li id="en"><a href="#">English</a></li>
 						</ul>
 					</li>
-					<li>
+					
+					<li id="menu_login">
 						<form class="navbar-form">
 							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio">Inicia la sessi&oacute;</a>
 						</form>					
 					</li>
+					
+					<li id="menu_user" class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
+							<span id="text_welcome" lang="ca">&nbsp; </span>
+							&nbsp;
+							<span class="glyphicon glyphicon-user"></span>
+							<b class="caret"></b>
+						</a>
+						<ul id="ch_idioma" class="dropdown-menu">
+							<li id="perfil"><a href="geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
+							<li class="divider" role="presentation"></li>
+							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
+						</ul>
+					</li>					
 					<li>
 						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
 					</li>
@@ -149,7 +165,25 @@
 			</section>
     	</form>
     	<br>
-		<div id="div_msg"></div>
+		
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <!-- div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" lang="ca">Perfil actualitzat correctament</h4>
+		      </div-->
+		      <div class="modal-body">
+		        <h4 id="modal-text" lang="ca"></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio" data-dismiss="modal">D'acord</button>
+		        <button id="button-alta-ko" type="button" class="btn btn-default bt-sessio" data-dismiss="modal">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->		
+		
 	</div> 
 	</div>
 	<!-- /container -->
@@ -160,15 +194,15 @@
 		</div>
 	</footer>
 
-	<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
-	<script src="/share/js/bootstrap.min.js"></script>
-	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/jquery/jquery-1.9.0.min.js"></script>
+	<script src="/llibreries/js/bootstrap.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
-	<script src="/share/js/jquery/plugins/url.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>		
-	<script src="/share/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	
