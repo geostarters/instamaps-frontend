@@ -139,9 +139,9 @@
 			<p></p>
 			<p>
 		       	<!--<a href="#" data-placement="bottom" data-toggle="tooltip" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc"></a>-->
-		       	<a href="#" id="signin_icc" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc_fd"></a>
+		       	<!--  <a href="#" id="signin_icc" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc_fd"></a>-->
 				<a href="#" id="signin_facebook"  title="Inicia sessió amb Facebook" class="zocial icon facebook_fd"></a>
-				<a href="#" id="signin_google" title="Inicia sessió amb  Google+" class="zocial icon google_fd"></a>
+				<!-- <a href="#" id="signin_google" title="Inicia sessió amb  Google+" class="zocial icon google_fd"></a>-->
 				<a href="#" id="signin_twitter" title="Inicia sessió amb Twitter" class="zocial icon twitter_fd"></a>
 				<a href="#" id="signin_linkedin" title="Inicia sessió amb LinkedIn"   class="zocial  icon linkedin_fd"></a>
 			</p>
@@ -149,14 +149,51 @@
         </div>
        
         <div class="social-sign">
-      		<h6 lang="ca">És la primera vegada que utilitzeu InstaMapes? <a  lang="ca" href="registre.html">Crear un compte</a></h6>
+      		<h6 lang="ca">És la primera vegada que utilitzes InstaMapes?</h6><h6><a lang="ca" href="registre.html">Crea un compte</a></h6>
  	  	</div>
        
        </section>
         
       </form>
 		
-  	<div id="div_msg"></div>
+  	<div class="modal fade" id="modal_wrong_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span><span lang="ca">Nom d'usuari o contrasenya incorrectes.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+		
+		<div class="modal fade" id="modal_account_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span><span lang="ca">Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a XXXXX, indicant el seu username per procedir al desbloqueig</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_login_ko" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span><span lang="ca">No s'ha iniciat la sessió. Torni a intentar-ho.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->			
     </div> 
     <!-- /container -->
 </div>

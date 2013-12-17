@@ -75,7 +75,7 @@
 					
 					<li id="menu_user" class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
-							<span id="text_welcome" lang="ca">&nbsp; </span>
+							<span id="text_welcome">&nbsp; </span>
 							&nbsp;
 							<span class="glyphicon glyphicon-user"></span>
 							<b class="caret"></b>
@@ -100,7 +100,8 @@
 	<div class="container">
     	<div class="my-form-signin">
        		<section>
-        		<h3  lang="ca" class="form-signin-heading">Perfil</h3>
+       			<h2 id="text-uid"></h2>
+        		<h3  lang="ca" class="form-signin-heading">Administrar compte</h3>
         		
         		<form id="frm_update_user" >
 	        		<fieldset>
@@ -137,11 +138,10 @@
     	</div>
     	
     	
-    	<div class="my-form-profile">
+    	<!--div class="my-form-profile">
 		<section>
         		<h3  lang="ca" class="form-signin-heading">Administrar compte</h3>
         		
-				<!-- Nav tabs -->
 				<ul class="nav nav-tabs nav-justified">
 				  <li class="active"><a href="#perfil" data-toggle="tab">Perfil</a></li>
 				  <li><a href="#contrasenya" data-toggle="tab">Contrasenya</a></li>
@@ -151,7 +151,6 @@
 	        		<div class="tab-pane fade active in" id="perfil">
 		        		<form id="frm_update_user">
 			        		<fieldset>
-			        			<!-- input lang="ca" id="signin_username" type="text" required class="form-control my-border" placeholder="Usuari" autofocus-->
 			        			<br>
 			       				<input lang="ca" id="perfil_name" type="text" required class="form-control my-border" placeholder="Nom">
 			       				<input lang="ca" id="perfil_surname" type="text" required class="form-control my-border" placeholder="Cognom">
@@ -185,26 +184,87 @@
         		</div>
         		<br>
 			</section>    	
-    	</div>
+    	</div-->
     	
     	<br>
 
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content my-modal-content">
-	      <!-- div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" lang="ca">Perfil actualitzat correctament</h4>
-	      </div-->
-	      <div class="modal-body">
-	        <h4 id="modal-text" lang="ca"></h4>
-	      </div>
-	      <div class="modal-footer my-modal-footer">
-	        <button type="button" class="btn btn-default bt-sessio" data-dismiss="modal">D'acord</button>
-	      </div>
-	    </div><!-- /.modal-content -->
-	  </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
+		<div class="modal fade" id="modal_perfil_ok" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span lang="ca">Perfil actualitzat correctament</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->		
+		
+		<div class="modal fade" id="modal_perfil_ko" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span><span lang="ca">Perfil no actualitzat</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_pass_ok" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span lang="ca">Contrasenya actualitzada correctament</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->		
+		
+		<div class="modal fade" id="modal_pass_ko1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">La contrasenya antiga no és correcte</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+		
+		<div class="modal fade" id="modal_pass_ko2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">La nova contrasenya ja havia estat utilitzada</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_pass_ko3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha actualitzat la contrasenya</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->							
 
 
 	</div> 

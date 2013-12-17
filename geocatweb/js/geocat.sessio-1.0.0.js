@@ -4,6 +4,7 @@ jQuery("#login_button").click(function(){
 	checkValidityLogin();
 	
 	if(! $("span").hasClass( "text_error" )){
+		$("#modal-message").remove();
 		var user_login =jQuery("#login_user").val();
 		var pass_login = jQuery("#login_pass").val();
 		
@@ -15,30 +16,17 @@ jQuery("#login_button").click(function(){
 				}else{
 					window.location="../geocatweb/galeria.html?private=1";
 				}
-				
+			}else if(results.results === 'cannot_authenticate'){
+				$('#modal_wrong_user').modal('toggle');						
+			}else if(results.results === 'account_locked'){
+				$('#modal_account_block').modal('toggle');						
 			}else{
-				jQuery('#div_msg').html('<div class="alert alert-warning my-alert" lang="ca"> Nom <a href="#login_user" class="alert-link">d\'usuari</a> o <a href="#login_pass" class="alert-link">contrasenya</a> incorrectes.</div>');
-			}			
+				$('#modal_login_ko').modal('toggle');				
+			}				
 		},function(results){
-			jQuery('#div_msg').html('<div class="alert alert-danger my-alert" lang="ca">No s\'ha iniciat la sessi&oacute;. <strong>Torni a intentar.</strong></div>');
+			$('#modal_login_ko').modal('toggle');					
 		});
-		
-//		jQuery.ajax({
-//					url: 'http://172.70.1.12/geocat/login.action?',
-//					data: {user:user_login, password:pass_login},
-//					async: false,
-//					method: 'post',
-//					dataType: 'jsonp'
-//				}).done(function(results,textStatus, jqXHR){   
-//					if(results.status==='OK'){
-//							$.cookie('uid', user_login, {path:'/'});
-//							window.open('../geocatweb/benvinguda.html', '_self');
-//					}else{
-//						jQuery('#div_msg').html('<div class="alert alert-error my-alert" lang="ca"> <strong>Ups!! No s\'ha iniciat la sessi&oacute;. </strong></div>');
-//					}
-//				}).fail(function(results){
-//					jQuery('#div_msg').html('<div class="alert alert-error my-alert" lang="ca"> <strong>Ups!! No s\'ha iniciat la sessi&oacute;. </strong></div>');
-//				});	
+
 	}
 });
 
@@ -59,7 +47,7 @@ function checkValidityLogin(){
 		$('#login_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#login_pass').val().length < 5){
 		$('#login_pass').addClass("invalid");
-		$('#login_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir com a m&iacute;nim 5 car&aacute;cters.</span>");
+		$('#login_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir com a mínim 5 caràcters.</span>");
 	}
 }
   

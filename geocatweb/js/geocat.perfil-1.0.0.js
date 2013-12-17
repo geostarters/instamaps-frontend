@@ -2,7 +2,7 @@ var old_email;
 jQuery(document).ready(function() {
 	
 	var username = $.cookie('uid'); 
-	
+	$("#text-uid").append(username);
 	getUserData(username).then(function(results){
 		if(results.status==='OK'){
 			$("#perfil_name").val(results.results.cn);
@@ -34,19 +34,15 @@ jQuery("#perfil_button_pass").click(function(){
 		$("#modal-message").remove();
 		updateUserPassword($.cookie('uid'), new_pass, old_pass).then(function(results){
 			if(results.status==='OK'){
-				$("#modal-text" ).append( "<span id=\"modal-message\">Contrasenya actualitzada correctament</span>");
-				$('#myModal').modal('toggle');
+				$('#modal_pass_ok').modal('toggle');
 
 			}else if(results.results === "NamingException"){
-				$("#modal-text" ).append( "<span id=\"modal-message\"><span class=\"glyphicon glyphicon-warning-sign\"></span>&nbsp;&nbsp;La contrasenya antiga no és correcte</span>");
-				$('#myModal').modal('toggle');
+				$('#modal_pass_ko1').modal('toggle');
 			}else{
-				$("#modal-text" ).append( "<span id=\"modal-message\"><span class=\"glyphicon glyphicon-warning-sign\"></span>&nbsp;&nbsp;La nova contrasenya ja es va fer servir</span>");
-				$('#myModal').modal('toggle');
+				$('#modal_pass_ko2').modal('toggle');
 			}
 		},function(results){
-			$("#modal-text" ).append( "<span id=\"modal-message\"><span class=\"glyphicon glyphicon-warning-sign\"></span>&nbsp;&nbsp;No s'ha actualitzat la contrasenya</span>");
-			$('#myModal').modal('toggle');
+			$('#modal_pass_ko3').modal('toggle');
 		}
 		);
 	}
@@ -66,7 +62,7 @@ function checkValidityPassword(){
 		$('#perfil_old_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#perfil_old_pass').val().length < 5){
 		$('#perfil_old_pass').addClass("invalid");
-		$('#perfil_old_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un m&iacute;nim de 5 car&agrave;cters.</span>");
+		$('#perfil_old_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 5 caràcters.</span>");
 	}	
 	
 	if(isBlank($('#perfil_pass').val())){
@@ -74,7 +70,7 @@ function checkValidityPassword(){
 		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#perfil_pass').val().length < 5){
 		$('#perfil_pass').addClass("invalid");
-		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un m&iacute;nim de 5 car&agrave;cters.</span>");
+		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 5 caràcters.</span>");
 	}else if(isBlank($('#perfil_confirm_pass').val())){
 		$('#perfil_confirm_pass').addClass("invalid");
 		$('#perfil_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
@@ -96,17 +92,14 @@ jQuery("#perfil_button").click(function(){
 			$("#modal-message").remove();
 			updateUserData($.cookie('uid'), name, surname, correu_usuari).then(function(results){
 				if(results.status==='OK'){
-					$("#modal-text" ).append( "<span id=\"modal-message\">Perfil actualitzat correctament</span>");
-					$('#myModal').modal('toggle');
+					$('#modal_perfil_ok').modal('toggle');
 					old_email = correu_usuari;
 
 				}else{
-					$("#modal-text" ).append( "<span id=\"modal-message\"><span class=\"glyphicon glyphicon-warning-sign\"></span>&nbsp;&nbsp;Perfil no actualitzat</span>");
-					$('#myModal').modal('toggle');
+					$('#modal_perfil_ko').modal('toggle');
 				}
 			},function(results){
-				$("#modal-text" ).append( "<span id=\"modal-message\"><span class=\"glyphicon glyphicon-warning-sign\"></span>&nbsp;&nbsp;Perfil no actualitzat</span>");
-				$('#myModal').modal('toggle');
+				$('#modal_perfil_ko').modal('toggle');
 			}
 			);
 		}
@@ -142,7 +135,7 @@ function checkValidityPerfil(){
 		defer.reject();
 	}else if(!isValidEmailAddress($('#perfil_email').val())){
 		$('#perfil_email').addClass("invalid");
-		$('#perfil_email').after("<span class=\"text_error\" lang=\"ca\">El correu no &eacute;s correcte</span>");
+		$('#perfil_email').after("<span class=\"text_error\" lang=\"ca\">El correu no és correcte</span>");
 		defer.reject();
 	}else{
 		checkEmail($('#perfil_email').val()).then(function(results){
@@ -153,7 +146,7 @@ function checkValidityPerfil(){
 			defer.resolve();
 		}, function(results){
 			$('#perfil_email').addClass("invalid");
-			$('#perfil_email').after("<span class=\"text_error\" lang=\"ca\">Disponibilitat del correu no comprovada. Torni a intentar-ho</span>");
+			$('#perfil_email').after("<span class=\"text_error\" lang=\"ca\">Error de xarxa. Torni a intentar-ho</span>");
 			defer.reject();
 		});
 	}	

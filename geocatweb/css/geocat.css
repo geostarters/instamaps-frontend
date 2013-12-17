@@ -295,15 +295,19 @@ footer .container  p {
 		top: 2px;
 	}
 	
-.my-modal-content{
-	text-align: center;
-	border-radius:0;
-}
-
-.my-modal-footer{
-	text-align: center;
-	margin-top:0;
-}	
+	.my-modal-content{
+		text-align: center;
+		border-radius:0;
+	}
+	
+	.my-modal-footer{
+		text-align: center;
+		margin-top:0;
+	}
+	
+	.yellow{color: #ed9c28;}
+	.green{color: #00B050;}
+	
 	
 /*** comuns waiting image ***/
 
@@ -733,5 +737,11 @@ background-color:#FFFFFF}
 	    margin: 20px auto;
 	    max-width: 600px;
 	    padding: 15px;
-	    font-style: normal;
+	    font-style: normal;	
 	}
+	
+	#text-uid{
+		text-align: center;
+	}
+	
+	

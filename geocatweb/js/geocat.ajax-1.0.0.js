@@ -81,7 +81,6 @@ function updateUserData(username, name, surname, correu_usuari){
 }
 
 function updateUserPassword(username, new_pass, old_pass){
-	alert("updateUserPassword");
 	return jQuery.ajax({
 		url: paramUrl.updatePassword,
 		data: {

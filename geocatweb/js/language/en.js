@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 //english
 jquery_lang_js.prototype.lang.en = {
@@ -67,8 +66,8 @@ jquery_lang_js.prototype.lang.en = {
 		"Contrasenya":"Password",
 		"Has oblidat la teva contrasenya?":"Have you forgotten your password?",
 		"o amb:":"or with:",
-		"és la primera vegada que utilitzes InstaMapes?":"Is this the first time you use InstaMapes?",
-		"Crear un compte":"Create an account",
+		"És la primera vegada que utilitzes InstaMapes?":"Is this the first time you use InstaMapes?",
+		"Crea un compte":"Create an account",
 		"InstaMapes encara no està operatiu. Hi estem treballant":"InstaMapes is not ready yet, we are working on it.",
 		"T'interessa?":"Are you interested?",
 		"Vols ser el primer a provar la plataforma?":"Do you want to be the first one to try it?",
@@ -76,5 +75,35 @@ jquery_lang_js.prototype.lang.en = {
 		"Vull ser le primer":"I want to be the first one",
 		"Benvingut":"Welcome",
 		"Tanca la sessió":"Log out",
-		"Perfil":"Profile"
+		"Perfil":"Profile",
+		"Has oblidat la contrasenya?":"Forgot password?",
+		"Usuari":"Username",
+		"Registreu-vos":"Sign up",
+		"Nom":"Name",
+		"Cognom":"Surname",
+		"Confirmar contrasenya":"Confirm password",
+		"D'acord":"Ok",
+		"El teu registre s'ha processat correctament. Gràcies!":"Your account has been created succesfully. Thank you!",
+		"El teu registre no s'ha processat correctament.":"Your account has not been created.",
+		"Administrar compte":"Manage account",
+		"Actualitzar dades":"Update data",
+		"Contrasenya antiga":"Old password",
+		"Actualitzar contrasenya":"Update password",
+		"Contrasenya actualitzada correctament":"Password updated succesfully",
+		"La contrasenya antiga no és correcte":"The old password is not correct",
+		"La nova contrasenya ja havia estat utilitzada":"The new password was already used",
+		"No s'ha actualitzat la contrasenya":"The password has not been updated",
+		"El camp no pot estar buit":"The field cannot be blank",
+		"La contrasenya ha de tenir un mínim de 5 caràcters.":"The password has to be at least 5 characters long",
+		"Les contrasenyes han de coincidir.":"The passwords must be equals",
+		"Perfil actualitzat correctament":"Profile updated succesfully",
+		"Perfil no actualitzat":"Profile not updated",
+		"El correu no és correcte":"The email is not correct",
+		"Correu associat a un altre usuari.":"Email associated to another user",
+		"Error de xarxa. Torni a intentar-ho":"Network error. Try it again",
+		"Nom d'usuari no disponible.":"Username not available.",
+		"No s'ha iniciat la sessió":"Not signed in.",
+		"Nom d'usuari o contrasenya incorrectes.":"Username or password invalid.",
+		"No s'ha iniciat la sessió. Torni a intentar-ho.":"Session has not been initialized. Try it again.",
+		"Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a XXXXX, indicant el seu username per procedir al desbloqueig.":"Ha superado el número máximo de intentos. Cuenta bloqueada. Envíe un correo a XXXX, indicando su nombre de usuario para proceder al desbloqueo."
 }

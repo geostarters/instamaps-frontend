@@ -77,6 +77,7 @@
 					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
+					
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
 							<li id="ca"><a href="#">Catal&agrave;</a></li>
@@ -118,7 +119,7 @@
 	<div class="container">
     	<form id="frm_signin" class="my-form-signin">
        		<section>
-        		<h3  lang="ca" class="form-signin-heading">Registrar-se</h3>
+        		<h3  lang="ca" class="form-signin-heading">Registreu-vos</h3>
         		
         		<fieldset>
         			
@@ -158,30 +159,38 @@
 				
       			<br>  		
         		<p>
-         		<button  id="signin_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Registrar-se</button>
+         		<button  id="signin_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Registreu-vos</button>
          		</p>
          		
 			</section>
     	</form>
     	<br>
-	
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		
+		<div class="modal fade" id="modal_registre_ok" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content my-modal-content">
-		      <!-- div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" lang="ca">Perfil actualitzat correctament</h4>
-		      </div-->
 		      <div class="modal-body">
-		        <h4 id="modal-text" lang="ca"></h4>
+		        <h4><span lang="ca">El teu registre s'ha processat correctament. Gràcies!</span></h4>
 		      </div>
 		      <div class="modal-footer my-modal-footer">
-		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio" data-dismiss="modal">D'acord</button>
-		        <button id="button-alta-ko" type="button" class="btn btn-default bt-sessio" data-dismiss="modal">D'acord</button>
+		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio no-radius" data-dismiss="modal" lang="ca">D'acord</button>
 		      </div>
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->		
+		
+		<div class="modal fade" id="modal_registre_ko" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span><span lang="ca">El teu registre no s'ha processat correctament.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->				
 		
 	</div> 
 	</div>

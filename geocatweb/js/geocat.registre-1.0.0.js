@@ -1,3 +1,4 @@
+
 var signin_social;
 	
 	jQuery(document).ready(function() {
@@ -35,6 +36,7 @@ var signin_social;
 		checkValiditySignIn().then(function(){
 			if(! $("span").hasClass( "text_error" )){
 				$('.waiting_animation').show();
+				$("#modal-message").remove();
 				var reg_url;
 				var dataUrl;
 				if(signin_social){
@@ -49,27 +51,16 @@ var signin_social;
 				
 				registerUser(reg_url, dataUrl).then(function(results){
 					if(results.status==='OK'){
-//						$.cookie('uid', id, {path:'/'});
-						$("#modal-text" ).append( "<span id=\"modal-message\">El teu registre s'ha processat correctament. Gràcies!</span>");
-						$('#myModal').modal('toggle');						
-						jQuery('#button-alta-ko').hide();
-						jQuery('#button-alta-ok').show();
+						$('#modal_registre_ok').modal('toggle');						
 						jQuery('#button-alta-ok').click(function(){window.location="../geocatweb/sessio.html";});
-//						jQuery('#div_msg').html('<div class="alert alert-success my-alert" lang="ca">La teva alta s\'ha processat correctament. Gr&agrave;cies!</div>');
 						$('.waiting_animation').hide();
 						
 					}else{
-						$("#modal-text" ).append( "<span id=\"modal-message\">El teu registres no s'ha processat correctament.</span>");
-						$('#myModal').modal('toggle');						
-						jQuery('#button-alta-ko').show();
-						jQuery('#button-alta-ok').hide();
+						$('#modal_registre_ko').modal('toggle');						
 						$('.waiting_animation').hide();
 					}					
 				}, function(results){
-					$("#modal-text" ).append( "<span id=\"modal-message\">El teu registres no s'ha processat correctament.</span>");
-					$('#myModal').modal('toggle');						
-					jQuery('#button-alta-ko').show();
-					jQuery('#button-alta-ok').hide();
+					$('#modal_registre_ko').modal('toggle');						
 					$('.waiting_animation').hide();
 				});
 				
@@ -105,7 +96,7 @@ var signin_social;
 				deferUser.resolve();
 			}, function(results){
 				$('#signin_username').addClass("invalid");
-				$('#signin_username').after("<span class=\"text_error\" lang=\"ca\">Disponibilitat del nom d\'usuari no comprovada. Torni a intentar-ho</span>");
+				$('#signin_username').after("<span class=\"text_error\" lang=\"ca\">Error de xarxa. Torni a intentar-ho</span>");
 				deferUser.reject();
 			});
 		}
@@ -126,7 +117,7 @@ var signin_social;
 			deferEmail.reject();
 		}else if(!isValidEmailAddress($('#signin_email').val())){
 			$('#signin_email').addClass("invalid");
-			$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El correu no &eacute;s correcte</span>");
+			$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El correu no és correcte</span>");
 			deferEmail.reject();
 		}else{
 			checkEmail($('#signin_email').val()).then(function(results){
@@ -137,7 +128,7 @@ var signin_social;
 				deferEmail.resolve();
 			}, function(results){
 				$('#signin_email').addClass("invalid");
-				$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">Disponibilitat del correu no comprovada. Torni a intentar-ho</span>");
+				$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">Error de xarxa. Torni a intentar-ho</span>");
 				deferEmail.reject();
 			});
 		}
@@ -150,7 +141,7 @@ var signin_social;
 				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 			}else if($('#signin_pass').val().length < 5){
 				$('#signin_pass').addClass("invalid");
-				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un m&iacute;nim de 5 car&agrave;cters.</span>");
+				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 5 caràcters.</span>");
 			}else if(isBlank($('#signin_confirm_pass').val())){
 				$('#signin_confirm_pass').addClass("invalid");
 				$('#signin_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
@@ -168,4 +159,3 @@ var signin_social;
 		
 		return defer.promise();
 	}
-
