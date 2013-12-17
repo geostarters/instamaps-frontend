@@ -23,7 +23,7 @@ jQuery(document).ready(function () {
 	tradueixMenusToolbar();
 	addDrawToolbar();
 	activaEdicioUsuari();
-	
+	addDialegsEstils();
 	
 	
 	
@@ -167,6 +167,74 @@ function activaPanelCapes(obre) {
 		jQuery('#bt_llista').removeClass('greenfort');
 		jQuery('#bt_llista').addClass('grisfort');
 	}
+}
+
+
+/**
+ * This tiny script just helps us demonstrate
+ * what the various example callbacks are doing
+ */
+var Example = (function() {
+    "use strict";
+
+    var elem,
+        hideHandler,
+        that = {};
+
+    that.init = function(options) {
+        elem = $(options.selector);
+    };
+
+    that.show = function(text) {
+        clearTimeout(hideHandler);
+
+        elem.find("span").html(text);
+        elem.delay(200).fadeIn().delay(4000).fadeOut();
+    };
+
+    return that;
+}());
+
+
+
+
+function addDialegsEstils(){
+	
+	 $(function() {
+         Example.init({
+             "selector": ".bb-alert"
+         });
+     });
+	
+	 jQuery('#div_mes_punts').on("click", function(e) {
+		 console.info(e);
+		 bootbox.dialog({
+			 message: "<img src=\"/geocatweb/css/images/icones_3.png\">",
+			 title: "Punts",
+			 buttons: {
+			 success: {
+			 label: "ok",
+			 className: "btn-success",
+			 callback: function() {
+			 Example.show("Estil canviat");
+			 }
+			 },
+			 danger: {
+			 label: "cancel",
+			 className: "btn-danger",
+			 callback: function() {
+			// Example.show("uh oh, look out!");
+			 }
+			 }
+			 
+			 }
+			 });
+		 
+ 
+		 });
+	
+	
+	
 }
 
 function creaPopOverMesFons(){

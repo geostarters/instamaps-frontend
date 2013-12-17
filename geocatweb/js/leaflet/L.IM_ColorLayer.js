@@ -83,7 +83,7 @@ L.IM_ColorLayer = L.TileLayer.extend({
 					  var g = d[i + 1];
 					  var b = d[i + 2];
 					  
-					  d[i]     = (r * 0.65)+(g * 0.769)+(b * 0.589); // red
+					  d[i]     = (r * 0.95)+(g * 0.769)+(b * 0.989); // red
 					  d[i + 1] = (r * 0.26)+(g * 0.686)+(b * 0.168); // green
 					  d[i + 2] = (r * 0.46)+(g * 0.534)+(b * 0.131); // blue
 					  
