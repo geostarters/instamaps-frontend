@@ -1,5 +1,6 @@
-//var HOST_APP = "http://172.70.1.12/geocat/";
-var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
+var HOST_APP = "http://172.70.1.12/geocat/";
+//var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
+//var HOST_APP = "http://localhost:8080/geocat/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	wmsOpenData:"/dadesobertes/wms/service?",
