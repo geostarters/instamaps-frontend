@@ -54,18 +54,6 @@ function checkEmail(user_email){
 		
 }
 
-/* sessio.html */
-
-function doLogin(user_login,pass_login){
-	return jQuery.ajax({
-		url: paramUrl.loginUser,
-		data: {user:user_login, password:pass_login},
-		async: false,
-		method: 'post',
-		dataType: 'jsonp'
-	}).promise();
-}
-
 /* perfil.html */
 
 function getUserData(username){
@@ -129,40 +117,55 @@ function doLogin(user_login,pass_login){
 	}).promise();
 }
 
-/* perfil.html */
-
-function getUserData(username){
-	return jQuery.ajax({
-		url: paramUrl.getUser,
-		data: {uid : username},
-		async: false,
-		method: 'post',
+/* map */
+function addTematicLayerFeature(data){
+	return $.ajax({
+		url: paramUrl.createTematicLayerFeature,
+		data: data,
 		dataType: 'jsonp'
 	}).promise();
 }
 
-function updateUserData(username, name, surname, correu_usuari){
-	return jQuery.ajax({
-		url: paramUrl.updateUser,
-		data: {
-            cn: name,
-            sn: surname,
-            uid: username,
-            email: correu_usuari},
-		async: false,
-		method: 'post',
+
+function getTematicLayerByBusinessId(data){
+	return $.ajax({
+		url: paramUrl.getTematicLayerByBusinessId,
+		data: data,
 		dataType: 'jsonp'
 	}).promise();
 }
 
-function updateUserPassword(username, new_pass, old_pass){
-	alert("updateUserPassword");
+
+function createFeature(data){
+	return $.ajax({
+		url: paramUrl.createFeature,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createData(data){
+	return $.ajax({
+		url: paramUrl.createData,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createRang(data){
+	return $.ajax({
+		url: paramUrl.createRang,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+function getLListaDadesObertes(){
 	return jQuery.ajax({
-		url: paramUrl.updatePassword,
-		data: {
-            uid: username, 
-            userPassword: old_pass, 
-            newPassword: new_pass},
+		url: paramUrl.dadesObertes,
+		data: {metode:'getDatasets'},
 		async: false,
 		method: 'post',
 		dataType: 'jsonp'

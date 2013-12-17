@@ -2,34 +2,48 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <title lang="ca">Mapa InstaMapes</title>
 <meta name="author" content="InstaMapes">
-<meta name="description" content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+<meta name="description"
+	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
 <meta name="geo.position" content="41.363892;2.186279" />
 <meta name="language" content="ca" />
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
-<link href="/llibreries/css/zocial/zocial.css" rel="stylesheet"> 
-<link rel="stylesheet" href="/llibreries/css/leaflet/dvf.css">
+<link href="/llibreries/css/glyph.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
-<link rel="stylesheet" href="/geocatweb/css/L.Control.Sidebar.css">
+<link rel="stylesheet" type="text/css" href="/llibreries/css/font-awesome.min.css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/geocatweb/css/mapa.css" rel="stylesheet">
 <link rel="shortcut icon" href="/instamapes.ico">
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
     <![endif]-->
-    <style>
-      html, body{ width:100%; height:100%; margin:0; padding:0; }
-	  #map { width:100%; top:50px;height:100%; margin:0; padding:0; }
-    </style>
-  </head>
-  <body>
-  <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+<style>
+html,body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#map {
+	width: 100%;
+	top: 50px;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+</style>
+
+</head>
+<body>
+	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -44,199 +58,208 @@
 					<div class="img-circle2-icon comparteix_color"></div>
 				</a>
 			</div>
-			
-	<!-- Fixed navbar -->
-	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				</button>
-				<a class="navbar-brand" href="../index.html">
-					<div class="img-circle2-icon descobreix_color"></div>
-					<div class="img-circle2-icon crea_color"></div>
-					<div class="img-circle2-icon visualitza_color"></div>
-					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMapes</div>
-				</a>
-			</div>
 			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right my-nav">
-					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
-					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+				<ul class="nav navbar-nav">
+					<li class="active"><a id="hl_index" lang="ca"
+						href="/properament.html">Blog</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informació</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
-					
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
-						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="ca"><a href="#">Catal&agrave;</a></li>
-							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Idioma <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li id="ca"><a href="#">Català</a></li>
+							<li id="es"><a href="#">Español</a></li>
 							<li id="en"><a href="#">English</a></li>
-						</ul>
-					</li>
-					
-					<li id="menu_login">
-						<form class="navbar-form">
-							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio">Inicia la sessi&oacute;</a>
-						</form>					
-					</li>
-					
-					<li id="menu_user" class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
-							<span id="text_welcome" lang="ca">&nbsp; </span>
-							&nbsp;
-							<span class="glyphicon glyphicon-user"></span>
-							<b class="caret"></b>
-						</a>
-						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="perfil"><a href="geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
-							<li class="divider" role="presentation"></li>
-							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
-						</ul>
-					</li>					
-					<li>
-						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
-					</li>
+						</ul></li>
+
+					<li></li>
 				</ul>
+
+
+				<ul class="nav navbar-nav pull-right">
+					
+
+					<li><a lang="ca" id="hl_info" href="#">Els meus mapes</a></li>
+
+
+
+
+
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"> <span
+							class="glyphicon glyphicon-user green"></span> <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li id="ca"><a href="#">Els meus mapes</a></li>
+							<li id="es"><a href="#">Configuració</a></li>
+							<li id="en"><a href="#">Perfil</a></li>
+						</ul></li>
+				</ul>
+
+
+
+
+
+
 			</div>
 			<!--/.nav-collapse -->
 		</div>
 	</div>
-	
-	
-		</div>
-	</div>	
-  <div id="sidebar">
-  
-    <table  class="taulaFeina" width="100%" height="100%">
-     <tr border="2" >
-     <td class="ramp_color" rowSpan="4" width="15px"></td>
-	 <td class="td1" height="20%">
-	     <h3 class="titol_explora" lang="ca">EXPLORA</h3>
-	     <h4 lang="ca">LES TEVES DADES</h4>
-	    
-	    
-	     <div id="div_dragdrop" class="dv_dragdrop">
-		     <p lang="ca">Arrossegar</p>
-		     <p><label>+</label></p>
-		     <p lang="ca">i deixar anar</p>
-	     </div>
-	     
-	     <div id='dv_formats'>
-			<div class ='child_formats'>		
-				<!-- <p><a href="#" title="KML">KML</a></p>
-				<p><a href="#" title="CSV">CSV</a></p>
-				<p><a href="#" title="Shapefile">SHP(zip)</a></p> -->
-				<p><a  href="#" title="Més formats" lang="ca" >Formats</a></p>
-			</div>
-		</div>
-	     
-	     <h4 lang="ca">ESCULL</h4>
-	     <div>
-	     <span lang="ca" class="label label-explora ">Dade Obertes</span>
-		 
-		 <span lang="ca" class="label label-explora ">Xarxes socials</span> 
-		  
-	     </div>
-	     <h4 lang="ca">CONNECTA</h4>
-	     <div>
-	     <span lang="ca" class="label label-explora ">Servei web</span>
-		
-		  
-	     </div>
-	    
-		
-	     
-	     </td>
-     </tr>
-     <tr >
-    
-	     <td class="td2" height="20%">
-	      <h3 class="titol_crea" lang="ca">CREA</h3>
-	     <h4 lang="ca">UN MAPA</h4>
-	     <h5>Arrossegar al mapa</h5>
-		 <div class="div_punt"></div>
-		  <h5>Tria un fons </h5>
-		  <div id="div_fons">
-		  	<img id="topoMap"   src="/geocatweb/img/topo_color.png" alt="Mapa" >
-		  	<img id="ortoMap" src="/geocatweb/img/gris.png" alt="Foto" >
-		  	<img id="terrainMap"  src="/geocatweb/img/gris.png" alt="Relleu" >
-		  	<img id="terrainGrisMap"  src="/geocatweb/img/gris.png" alt="Relleu gris" >
-		  	<img id="colorMap"  src="/geocatweb/img/gris.png" alt="Color" >
-		  </div>
-	     </td>
-     </tr>
-     <tr>
-	     <td class="td3">
-	    <h3 class="titol_visualitza" lang="ca">VISUALITZA</h3>
-	     <h4 lang="ca">ELS RESULTATS</h4>
-	     <h5>Triar la representació</h5>
-	     <div id="div_resultats">
-		  	<img id="topoMap"   src="/geocatweb/img/gris.png" alt="Mapa" >
-		  	<img id="ortoMap" src="/geocatweb/img/gris.png" alt="Foto" >
-		  	<img id="terrainMap"  src="/geocatweb/img/gris.png" alt="Relleu" >
-		  	<img id="terrainGrisMap"  src="/geocatweb/img/gris.png" alt="Relleu gris">
-		  	
-		  </div>
-	     </td>
-     </tr>
-     <tr>
-	     <td class="td4">
-	     <h3 class="titol_comparteix" lang="ca">COMPARTEIX</h3>
-	     <h4 lang="ca">LA INFORMACIÓ</h4>
-	     <h5>A les xarxes socials</h5>
-	     <div>
-	            <a href="#" title="Facebook"  class="zocial icon ft facebook_fd "></a>	    
-				<a href="#" title="Google+" class="zocial icon ft google_fd "></a>
-				<a href="#" title="Twitter" class="zocial icon ft twitter_fd "></a>
-				<a href="#" title="LinkedIn" class="zocial icon ft linkedin_fd "></a>
+	<div id="sidebar">
+
+		<table class="taulaFeina" width="100%" height="100%">
+			<tr border="2">
+				<td class="ramp_color" rowSpan="6" width="5px"></td>
+				<td class="td1" height="23%">
+					<h5 lang="ca">Situar un punt</h5>
+					<div class="add_costat_r" style="margin-right: 37%;">
+					<div lang="ca" id="div_mes_punts" data-toggle="tooltip" title="Més tipus de punts"  class="icon-add taronja"></div>
+					</div>
+					
+					<div id="div_punt" lang="ca"  data-toggle="tooltip" title="Clica per situar un punt." class="dibuix_punt"></div>
+					
+					<h5 lang="ca">Dibuixar una línia o un polígon</h5>
+					
+					
+					
+					
+					<div class="div_auto">
+					<div id="div_linia" lang="ca"  data-toggle="tooltip" title="Clica per començar a dibuixar una línia." class="dibuix_linia"></div>
+					<div class="add_costat"><div lang="ca"  data-toggle="tooltip" title="Més estils de línia"  class="icon-add taronja"></div></div>									
+						
+					</div>
+						
+					<div class="div_auto">
+					<div id="div_poligon" lang="ca"  data-toggle="tooltip" title="Clica per començar a dibuixar una àrea." class="dibuix_poligon"></div>
+					<div class="add_costat" ><div lang="ca"  data-toggle="tooltip" title="Més estils d'àrees"  class="icon-add taronja"></div></div>	
+						
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="td2" height="25%">
+					<h5 lang="ca">Carregar dades</h5>
+					<div lang="ca" id="div_carrega_dades"  data-toggle="tooltip" title="Arrosega les teves dades sobre el mapa o fes clic aquí" class="div_carrega_dades" >
+					
+					</div>
+					
+					<div class="div_gr2">
+					<div lang="ca"  data-toggle="tooltip" title="Accedeix a les teves dades" class="div_dades_usr"></div>
+					<div lang="ca"  data-toggle="tooltip" title="Explora altres fonts de dades" class="div_dades_ext pop"></div>
+					</div>
+					
+				</td>
+			</tr>
+			<tr>
+				<td class="td3"  height="25%">
+				<h5 lang="ca">Triar l'estil del mapa</h5>
 				
+				<div class="div_gr3">
+					<div id="st_Color" lang="ca"  data-toggle="tooltip" title="Bàsic" class="div_estil_1"></div>
+					<div id="st_Tema"  lang="ca"  data-toggle="tooltip" title="Categories"  class="div_estil_2"></div>
+					<div id="st_Size"  lang="ca"  data-toggle="tooltip" title="Mides"  class="div_estil_3"></div>
+					<div id="st_Heat"  lang="ca"  data-toggle="tooltip" title="Concentració"  class="div_estil_4"></div>
+					<div id="st_Clust"  lang="ca"  data-toggle="tooltip" title="Agrupació"  class="div_estil_5"></div>
+					
 				</div>
-	     <h5>Enllaça,Captura, Envia,Imprimeix</h5>
-	     
-	     <i class="glyphicon glyphicon-globe white"></i>
-	     <i class="glyphicon glyphicon-camera white"></i>    
-	     
-	     <i class="glyphicon glyphicon-envelope white"></i>
-	     <i class="glyphicon glyphicon-print white"></i>
-	     </td>
-     </tr>
-     
-    </table>
-  
-  </div>
-  <div id="map"></div>
-	
-	
+				
+				
+				<h5 lang="ca">Escollir el mapa de fons </h5>
+				<div class="add_costat_r" ><div lang="ca" id="div_mesfons" data-toggle="tooltip" title="Més mapes de fons" class="icon-add white"></div></div>	
+				<div class="div_gr3">				
+					<div id="topoMap" lang="ca"  data-toggle="tooltip" title="Topogràfic" class="div_fons_1"></div>
+					<div id="topoGrisMap" lang="ca"  data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div>
+					<div id="ortoMap" lang="ca"  data-toggle="tooltip" title="Imatge" class="div_fons_3"></div>
+					<div id="terrainMap" lang="ca"  data-toggle="tooltip" title="Terreny" class="div_fons_4"></div>
+					<div id="colorMap" lang="ca"  data-toggle="tooltip" title="Combinacions de color" class="div_fons_5 pop"></div>					
+				</div>
+				
+				
+				</td>
+			</tr>
+			<tr>
+				<td class="td4"  height="12%">
+				<div lang="ca" data-toggle="tooltip" title="Desa'l i decideix si fer-lo públic o privat" class="bt_publicar">Publicar el mapa</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="td5" >
+							
+				<div class="div_gr5">			
+				<h5 lang="ca">Compartir</h5>	
+					<div id="correu" class="icon-mail gris"></div>
+					<div id="facebook" class="icon-facebook gris"></div>
+					<div id="google" class="icon-google-plus gris"></div>
+					<div id="twitter" class="icon-twitter gris"></div>
+					<div id="linkedin" class="icon-linkedin gris"></div>
+					<div id="pinterest" class="icon-pinterest gris"></div>			
+				</div>
+				
+				
+				</td>
+				
+			</tr>
+			<tr><td class="td5"  height="15px">
+				<label class="textGris">InstaMapes v 1.0.0</label>
+				</td></tr>
+
+		</table>
+
+	</div>
+	<div id="map"></div>
 	<!--Scripts-->
-	<script type="text/javascript" src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
+	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
-	<script type="text/javascript" src="/geocatweb/js/geocat.web-1.0.0.js"></script>
-	 <script type="text/javascript" src="/llibreries/js/dropzone.js"></script>
-    <script type="text/javascript" src="/llibreries/js/leaflet/leaflet.js"></script>
-    <script type="text/javascript" src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js"></script>
-    <script type="text/javascript" src="/llibreries/js/leaflet/plugin/proj4js-compressed.js"></script>
-	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/proj4leaflet.js"></script>
-	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"></script>
-	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js"></script>
-	<script type="text/javascript" src="/llibreries/js/moment.min.js"></script>
-	<script type="text/javascript" src="/llibreries/js/underscore-min.js"></script>	
-	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet-dvf.min.js"></script>
-	<!--<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet.draw.js"></script>-->
-	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet.draw.js"></script>
-	<script type="text/javascript" src="/geocatweb/js/leaflet/L.IM_Map.js"></script>
-	<script type="text/javascript" src="/geocatweb/js/leaflet/L.IM_ColorLayer.js"></script>
+	<script src="/llibreries/js/bootbox.min.js"></script>
 	
+	<script src="/llibreries/js/jquery/plugins/jquery-lang.js"
+		charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js"
+		charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"
+		type="text/javascript"></script>
+	<script src="/llibreries/js/jquery/plugins/url.min.js"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8"
+		type="text/javascript"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.config-1.0.0.js"></script>
+	
+	<script type="text/javascript" src="/geocatweb/js/geocat.mapa.dragdrop.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.mapa.styles.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.mapa.layers.js"></script>	
+		
+		
+		
+	<script type="text/javascript" src="/llibreries/js/dropzone.js"></script>
+	<script>
+		L_PREFER_CANVAS = true;
+	</script>
+	<script type="text/javascript" src="/llibreries/js/leaflet/leaflet.js"></script>
+	<script type="text/javascript"
+		src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js"></script>
+	<script type="text/javascript"
+		src="/llibreries/js/leaflet/plugin/proj4js-compressed.js"></script>
+	<script type="text/javascript"
+		src="/llibreries/js/leaflet/plugin/proj4leaflet.js"></script>
+	<script type="text/javascript"
+		src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"></script>
+	<script type="text/javascript"
+		src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js"></script>
+	<script type="text/javascript"
+		src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"></script>
+	<script type="text/javascript" src="/llibreries/js/moment.min.js"></script>
+	<script type="text/javascript" src="/llibreries/js/leaflet/plugin/leaflet.draw.js"></script>
+	
+		<script src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers.min.js"></script>
+	<script type="text/javascript"
+		src="/llibreries/js/leaflet/plugin/heatmap.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/leaflet/L.IM_Map.js"></script>
+	<script type="text/javascript"
+		src="/geocatweb/js/leaflet/L.IM_ColorLayer.js"></script>
+	<script type="text/javascript" src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	<script type="text/javascript" src="/geocatweb/js/geocat.mapa-1.0.0.js"></script>
-
-
-
-
-
-
-
- </body>
+</body>
 </html>

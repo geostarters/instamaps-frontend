@@ -128,7 +128,9 @@ jquery_lang_js.prototype.loadPack = function (packPath) {
 }
 	
 jquery_lang_js.prototype.change = function (lang) {
-	//console.log('Changing language to ' + lang);
+	
+	if(lang=="null"){lang=this.currentLang};
+	
 	if (this.currentLang != lang) { this.update(lang); }
 	this.currentLang = lang;
 	

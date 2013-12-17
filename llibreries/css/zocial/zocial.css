@@ -499,12 +499,12 @@ a.zocial {
     border: none;
     text-shadow:0;
 }
-
 .zocial.icc_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
 .zocial.facebook_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
 .zocial.google_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
 .zocial.twitter_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
 .zocial.linkedin_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
+
 
 /*
 The Miscellaneous Buttons

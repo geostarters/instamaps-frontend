@@ -1,4 +1,3 @@
-
 var signin_social;
 	
 	jQuery(document).ready(function() {
@@ -169,3 +168,4 @@ var signin_social;
 		
 		return defer.promise();
 	}
+

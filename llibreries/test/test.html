@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script type="text/javascript" src="/share/js/leaflet/plugin/BoundaryCanvas.js"></script>
+    <script src="/share/js/leaflet/plugin/proj4js-compressed.js"></script>
+	<script src="/share/js/leaflet/plugin/proj4leaflet.js"></script>
+	<script src="/share/js/leaflet/plugin/epsg.leaflet.js"></script>
+	<script src="/share/js/leaflet/plugin/TileLayer.WMTS.js"></script>
+	<script src="/share/js/leaflet/plugin/M.InstaMapes.js"></script>
+		
+    <script>
+	
+	function init0(){
+	
+	 var map= new L.InstaMapes('map',{defaultMap:true}).setView([41.431, 1.8580], 9);
+	//map.defautlMap();
+	
+	
+	
+	}
+	
+	function init(){
+	
+	/*
+	var map = new L.Map('map', {
+    center: new L.LatLng(45.50144, -122.67599),
+    zoom: 4,
+    minZoom: 0,
+    maxZoom: 18,
+    layers: [
+        L.tileLayer('http://{s}.tile.cloudmade.com/{key}/997/256/{z}/{x}/{y}.png', {
+        maxZoom: 13,
+        minZoom: 0,
+        attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+        key: 'BC9A493B41014CAABB98F0471D759707'
+    }),
+	
+		L.TileLayer.boundaryCanvas("http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw",{
+    	                                                         
+		 tms:false,
+		  minZoom: 16,
+		  maxZoom: 19,	                                                        
+		  boundary: catContorn, 
+		  continuousWorld: true,
+		  worldCopyJump: false
+  	                                                      
+    }),
+		
+        L.tileLayer('http://server.arcgisonline.com/ArcGIS/' + 'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        minZoom: 14,
+        maxZoom: 15,
+        attribution: 'Tiles © Esri — ' 
+            + 'Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, ' 
+            + 'Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'})
+    ]
+});
+	*/
+	  map = new  L.map('map').setView([41.431, 1.8580], 9);
+	var _TOPO=L.layerGroup();
+		
+	var mapquestUrl='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+	var mapquestUrlORTO='http://{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png';
+       var subDomains=['otile1','otile2','otile3','otile4'];
+       var mapquestAttrib='<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>.';       
+      
+ var ICC_MON_L0= L.tileLayer('http://172.70.1.11/mapcache/tms/1.0.0/mon3857@GM/{z}/{x}/{y}.png', {
+           minZoom: 0,
+           maxZoom: 6,
+           tms:true,
+           continuousWorld: true,
+           worldCopyJump: true,
+           //crs: L.Proj.CRS.TMS("EPSG:3857"),
+           opacity: 0.85
+       }).addTo(_TOPO);
+
+
+	  var MQ_TOPO_L1 =new L.TileLayer(mapquestUrl,{   	   
+    	   minZoom: 7,
+    	   maxZoom:19,
+    	   attributionControl:true,
+    	   attribution:mapquestAttrib,
+    	   subdomains:subDomains}
+       ).addTo(_TOPO);; 
+	
+	var ICC_TOPO_L2 = new L.TileLayer.boundaryCanvas("http://norma.icc.cat/tilecache/tilecache.py/1.0.0/topo3857/{z}/{x}/{y}.png?type=google",
+    	                                                      {  	    
+		 tms:false,
+		  minZoom: 7,
+		  maxZoom: 19,	                                                        
+		  boundary: catContorn5k, 
+		  continuousWorld: true,
+		  worldCopyJump: false
+  	                                                      }
+    ).addTo(_TOPO);;
+	
+	var baselayer = {'Topo' : _TOPO};
+	var overlays = {};
+	
+	L.control.layers(baselayer, overlays, {collapsed: true, position: 'topleft'}).addTo(map);
+	
+	
+	}
+	
+	
+	
+      function init2() {
+    	  
+    	  
+    	  var matrixIds3857= new Array(19);
+          for (var i= 0; i<19; i++) {
+              matrixIds3857[i]= {
+                  identifier    : "" + i,
+                  topLeftCorner : new L.LatLng(20037508,-20037508)
+              };
+          }
+    	 
+    	                                 
+    	  //var map = L.map('map').setView([55.7, 38], 4);  
+    	  map = new  L.map('map').setView([41.431, 1.8580], 9);
+    	  var tw = new L.Twitter({maxLoad: 50, maxTotal: 250}); 
+    	  
+    	                              
+    	                                              
+    	                                              
+    	                                                  osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+    	                                                  osmAttribution = 'Map data &copy; 2012 OpenStreetMap contributors';
+
+    	                                                 // var pol= new L.Polygon(aa).addTo(map);
+    	                                                 // L.geoJson(geojsonFeature).addTo(map);
+    	                                                  
+    	                                           var mapquestUrl='http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
+        var subDomains=['otile1','otile2','otile3','otile4'];
+        var mapquestAttrib='<a class="N_labelMin" href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> .';
+        
+        
+       var mapquest =new L.TileLayer(mapquestUrl,{
+    	   
+    	   minZoom: 7,
+    	   maxZoom:19,
+    	   attributionControl:true,
+    	   attribution:mapquestAttrib,
+    	   subdomains:subDomains}
+       ).addTo(map); ;
+    	   
+       var icc = new L.TileLayer.boundaryCanvas("http://norma.icc.cat/tilecache/tilecache.py/1.0.0/topo3857/{z}/{x}/{y}.png?type=google",
+    	                                                      {
+    	                                                          
+    	                                                          //matrixIds: matrixIds3857,
+    	                                                          tms:false,
+    	                                                          minZoom: 7,
+    	                                                          maxZoom: 19,
+    	                                                        
+    	                                                          boundary: catContorn, 
+    	                                                          //zoomOffset: 14,
+    	                                                          continuousWorld: false,
+    	                                                          worldCopyJump: false
+    	                                                          //crs: L.Proj.CRS.TMS("EPSG:3857")
+    	                                                         
+    	                                                      }
+    	                                          ).addTo(map); 
+       
+       
+       
+       var limits2= L.tileLayer('http://172.70.1.11/mapcache/tms/1.0.0/mon3857@GM/{z}/{x}/{y}.png', {
+           minZoom: 0,
+           maxZoom: 6,
+           tms:true,
+           continuousWorld: true,
+           worldCopyJump: true,
+           //crs: L.Proj.CRS.TMS("EPSG:3857"),
+           opacity: 0.85
+       }).addTo(map);
+       
+       
+       
+       
+       map.on('zoomend', function(){console.info(map.getZoom())})
+       
+       map.addLayer(tw);
+       var layers = { "Map": icc };
+       var overlays = { "Twitter": tw };
+       control_layers = new L.Control.Layers(layers, overlays);
+       
+    	                                              
+    	                                                                               
+
+      }
+    </script>
+    <style>
+      html, body, #map { width:100%; height:100%; margin:0; padding:0; }
+    </style>
+  </head>
+  <body onload="init()">
+    <div id="map"></div>
+  </body>
+</html>
