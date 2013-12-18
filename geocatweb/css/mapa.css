@@ -3,7 +3,6 @@
 z-index: 2000;
 }
 
-
 .taulaFeina{
 	color:#FFFFFF;
 	text-align:center;
@@ -17,8 +16,6 @@ z-index: 2000;
 	 line-height:1;
 	 */
 	}
-
-	
 	
 .ramp_color {
 	background-image: linear-gradient(to top, #3B5998 , #196ED1,#59B5D6, #00C0F7,#569908, #A8CB17, #FF9900, #FFDE00);

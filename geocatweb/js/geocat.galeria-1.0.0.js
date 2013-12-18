@@ -41,6 +41,8 @@ $(function(){
 				console.warn($this.data("businessid"));
 			});
 			
+			window.lang.run();
+			
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
@@ -60,6 +62,8 @@ $(function(){
 				var $this = $(this);
 				console.warn($this.data("businessid"));
 			});
+			
+			window.lang.run();
 		});
 	}	
 });

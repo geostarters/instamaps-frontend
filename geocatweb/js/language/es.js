@@ -104,7 +104,10 @@ jquery_lang_js.prototype.lang.es = {
 		"No s'ha iniciat la sessió":"No se ha iniciado la sesión",
 		"Nom d'usuari o contrasenya incorrectes.":"Nombre de usuario o contraseña incorrectos.",
 		"No s'ha iniciat la sessió. Torni a intentar-ho.":"No se ha iniciado la sesión. Vuelva a intentarlo.",
-		"Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a XXXXX, indicant el seu username per procedir al desbloqueig.":"Ha superado el número máximo de intentos. Cuenta bloqueada. Envíe un correo a XXXX, indicando su nombre de usuario para proceder al desbloqueo."
+		"Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a XXXXX, indicant el seu username per procedir al desbloqueig.":"Ha superado el número máximo de intentos. Cuenta bloqueada. Envíe un correo a XXXX, indicando su nombre de usuario para proceder al desbloqueo.",
+		"Veure": "Ver",
+		"Esborrar":"Borrar",
+		"Editar":"Editar"
 }
 
 
