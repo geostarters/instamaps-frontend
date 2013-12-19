@@ -15,7 +15,7 @@ $(function(){
 			$('.thumbnail').on('click', function(event){
 				event.preventDefault();
 				var $this = $(this);
-				console.debug($this.data("businessid"));
+				window.location.href = "/geocatweb/visor.html?businessid="+$this.data("businessid");
 			});
 			
 			$('.btn.btn-danger').on('click', function(event){
@@ -34,11 +34,11 @@ $(function(){
 				});
 			});
 			
-			$('.btn.btn-success').on('click', function(event){
+			$('.btn.btn-primary').on('click', function(event){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
-				console.warn($this.data("businessid"));
+				window.location.href = "/geocatweb/mapa.html?businessid="+$this.data("businessid");
 			});
 			
 			window.lang.run();
@@ -53,14 +53,14 @@ $(function(){
 			$('.thumbnail').on('click', function(event){
 				event.preventDefault();
 				var $this = $(this);
-				console.debug($this.data("businessid"));
+				window.location.href = "/geocatweb/visor.html?businessid="+$this.data("businessid");
 			});
 			
 			$('.btn.btn-success').on('click', function(event){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
-				console.warn($this.data("businessid"));
+				window.location.href = "/geocatweb/visor.html?businessid="+$this.data("businessid");
 			});
 			
 			window.lang.run();

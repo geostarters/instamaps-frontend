@@ -69,7 +69,7 @@ function checkUserLogin(){
 //}
 
 function web_menusIdioma(lsLang){
-
+	
 	jQuery('#ch_idioma li').each(function() {
 	jQuery(this).removeClass('active');
 		if (jQuery(this).attr('id') ==lsLang){
@@ -87,10 +87,10 @@ function web_menusIdioma(lsLang){
 
 
 function canviaIdioma(lsLang){
-//console.info("entro");
-window.lang.change(lsLang);
+	//console.info("entro");
+	window.lang.change(lsLang);
+	addToolTipsInici();
 }
-
 
 function web_determinaIdioma(){
 		
@@ -204,11 +204,10 @@ function isBlank(str) {
 }
 
 function logoutUser(){
-	
 	doLogout().then(function(results){
 		if(results.status==='OK'){
 			$.removeCookie('uid', { path: '/' });
-			window.location="../../index.html";
+			window.location.href="/index.html";
 		}else{
 			alert("no logout");
 		}			

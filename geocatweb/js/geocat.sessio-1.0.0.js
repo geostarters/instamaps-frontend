@@ -12,9 +12,9 @@ jQuery("#login_button").click(function(){
 			if(results.status==='OK'){
 				$.cookie('uid', user_login, {path:'/'});
 				if(results.results === 'login_map'){
-					window.location="../geocatweb/mapa.html";
+					window.location="/geocatweb/mapa.html";
 				}else{
-					window.location="../geocatweb/galeria.html?private=1";
+					window.location="/geocatweb/galeria.html?private=1";
 				}
 			}else if(results.results === 'cannot_authenticate'){
 				$('#modal_wrong_user').modal('toggle');						
@@ -52,13 +52,13 @@ function checkValidityLogin(){
 }
   
 $('#signin_twitter').click(function() {
-	window.location = "http://172.70.1.12/geocat/social/auth.action?id=twitter";
+	window.location = paramUrl.socialAuth+"id=twitter";
 	});
 
 $('#signin_facebook').click(function() {
-	window.location = "http://172.70.1.12/geocat/social/auth.action?id=facebook";
+	window.location = paramUrl.socialAuth+"id=facebook";
 	});
 
 $('#signin_linkedin').click(function() {
-	window.location = "http://172.70.1.12/geocat/social/auth.action?id=linkedin";
+	window.location = paramUrl.socialAuth+"id=linkedin";
 	});

@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title lang="ca">InstaMapes</title>
 <meta name="author" content="InstaMapes">
 <meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
@@ -11,33 +10,18 @@
 <meta name="geo.position" content="41.363892;2.186279" />
 <meta name="language" content="ca" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/instamapes.ico" rel="shortcut icon">
 
 <!-- Le styles -->
-<!-- link href="/llibreries/css/bootstrap.css" rel="stylesheet"-->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
-<!--<link href="/llibreries/css/bootstrap-responsive.min.css" rel="stylesheet">-->
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<!-- Fav and touch icons -->
-<link rel="apple-touch-glyphicon-precomposed" sizes="144x144"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-144-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed" sizes="114x114"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-114-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed" sizes="72x72"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-72-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
-<link rel="shortcut icon" href="../assets/ico/favicon.png">
-<script type="text/javascript">
-
-</script>
-<style type="text/css">
-</style>
+<title lang="ca">InstaMapes</title>
 </head>
 
 <body>
@@ -47,7 +31,7 @@
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				</button>
-				<a class="navbar-brand" href="index.html">
+				<a class="navbar-brand" href="/index.html">
 					<div class="img-circle2-icon descobreix_color"></div>
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
@@ -83,7 +67,7 @@
 							<b class="caret"></b>
 						</a>
 						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="perfil"><a href="geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
+							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
 							<li class="divider" role="presentation"></li>
 							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
 						</ul>
@@ -96,6 +80,7 @@
 			<!--/.nav-collapse -->
 		</div>
 	</div>
+	<!-- / Fixed navbar -->
 
 	<!-- Cos principal -->
 	<div class="container theme-showcase">
@@ -466,7 +451,7 @@
 	
 	<footer>
 		<div class="container">
-			<p>&copy; InstaMapes</p>
+			<p>InstaMapes v 1.0.0</p>
 		</div>
 	</footer>
 
@@ -474,14 +459,15 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/llibreries/js/jquery/jquery-1.9.0.min.js"></script>
+	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
-	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
 </body>
 </html>

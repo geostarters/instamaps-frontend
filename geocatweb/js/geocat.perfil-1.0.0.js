@@ -1,7 +1,10 @@
 var old_email;
 jQuery(document).ready(function() {
-	
 	var username = $.cookie('uid'); 
+	if (username == undefined){
+		window.location.href = "/geocatweb/sessio.html";
+	}
+	
 	$("#text-uid").append(username);
 	getUserData(username).then(function(results){
 		if(results.status==='OK'){
@@ -18,10 +21,13 @@ jQuery(document).ready(function() {
 		//jQuery('#div_msg').html('<div class="alert alert-danger my-alert" lang="ca">No s\'ha iniciat la sessi&oacute;. <strong>Torni a intentar.</strong></div>');
 	});	
 	
+	$('#frm_update_pssw').hide();
+	
+	$('#btn_update_pssw').on('click',function(){
+		$('#frm_update_pssw').toggle();
+	});
+	
 });
-
-
-
 
 jQuery("#perfil_button_pass").click(function(){
 	var old_pass = jQuery("#perfil_old_pass").val();

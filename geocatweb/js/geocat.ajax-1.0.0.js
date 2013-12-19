@@ -159,8 +159,6 @@ function createRang(data){
 	}).promise();
 }
 
-
-
 function getLListaDadesObertes(){
 	return jQuery.ajax({
 		url: paramUrl.dadesObertes,
@@ -171,3 +169,27 @@ function getLListaDadesObertes(){
 	}).promise();
 }
 
+function getMapByBusinessId(data){
+	return jQuery.ajax({
+		//url: paramUrl.getMapByBusinessId,
+		url: paramUrl.getMapById,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateMap(data){
+	return jQuery.ajax({
+		url: paramUrl.updateMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createMap(data){
+	return jQuery.ajax({
+		url: paramUrl.createMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
