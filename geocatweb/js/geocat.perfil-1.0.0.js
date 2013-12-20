@@ -52,12 +52,9 @@ jQuery("#perfil_button_pass").click(function(){
 		}
 		);
 	}
-	
-	
 });
 
 function checkValidityPassword(){
-	
 	$('#perfil_old_pass').removeClass("invalid");
 	$('#perfil_pass').removeClass("invalid");
 	$('#perfil_confirm_pass').removeClass("invalid");

@@ -17,8 +17,10 @@
 <link href="/llibreries/css/glyph.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
-<link rel="stylesheet" type="text/css" href="/llibreries/css/font-awesome.min.css">
+<link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css">
+<link rel="stylesheet" href="/llibreries/css/bootstrap-switch.css">
+
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/geocatweb/css/mapa.css" rel="stylesheet">
 
@@ -66,7 +68,9 @@
 
 					<li id="menu_user" class="dropdown">
 						<a href="#"	class="dropdown-toggle" data-toggle="dropdown"> &nbsp; <span class="glyphicon glyphicon-user green"></span> <b class="caret"></b></a>
-						<ul id="ch_idioma" class="dropdown-menu">
+						<ul id="ch_perfil" class="dropdown-menu">
+							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
+							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
 							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
 							<li class="divider" role="presentation"></li>
 							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
@@ -191,10 +195,20 @@
 						<fieldset>	
 								<input lang="ca" id="nomAplicacio" type="text" required
 									class="form-control my-border" placeholder="Nom" value="{{nomAplicacio}}">
-								<br> <input lang="ca" id="optDescripcio" type="text" 
+								<br> 
+								<input lang="ca" id="optDescripcio" type="text" 
 									class="form-control my-border" placeholder="Descripció" value="{{options.description}}"> 
-									<input lang="ca" id="optTags" type="text" 
-									class="form-control my-border" placeholder="Etiquetes" value="{{options.tags}}">	
+								<input lang="ca" id="optTags" type="text" 
+									class="form-control my-border" placeholder="Etiquetes" value="{{options.tags}}">
+								<br>
+								<div class="control-group">
+									<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
+									<div class="controls">
+										<div class="make-switch" tabindex="0">
+											<input id="llegenda_chk" type="checkbox">
+										</div>
+									</div>
+								</div>
 						</fieldset>
 						</section>
 						</script>
@@ -252,6 +266,8 @@
 	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
 
 	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
+	<script src="/llibreries/js/bootstrap-switch.js"></script>
+	
 	<script src="/geocatweb/js/geocat.mapa-1.0.0.js" type="text/javascript"></script>
 </body>
 </html>

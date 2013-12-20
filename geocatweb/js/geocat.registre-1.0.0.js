@@ -63,7 +63,6 @@ var signin_social;
 					$('#modal_registre_ko').modal('toggle');						
 					$('.waiting_animation').hide();
 				});
-				
 			}
 		});
 	  });

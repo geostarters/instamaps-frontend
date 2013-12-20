@@ -2,22 +2,18 @@
 window.lang = new jquery_lang_js();
 
 var lsLang;
-jQuery(document).ready(function() {
 
+jQuery(document).ready(function() {
 	weball_tornarInici();		
 	window.lang.run();
-	vlsLang=web_determinaIdioma();
+	lsLang=web_determinaIdioma();
 	web_menusIdioma(lsLang);
-
 	initHover();
-	
     checkUserLogin();
-    
     var currentLang = localStorage.getItem('langJs_currentLang');
     if(currentLang === 'es')$("#es").addClass("active");
     else if(currentLang === 'en') $("#en").addClass("active");
     else $("#ca").addClass("active");
-    
 });
 
 function initHover(){
@@ -57,8 +53,9 @@ function checkUserLogin(){
 		$("#menu_login").hide();
 		$("#menu_user").show();	
 		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
+		var galeria_url = paramUrl.galeriaPage + "?private=1";
+		$("#galeria a").attr('href', galeria_url);
 	}
-	
 }
 
 //function swapImageIn(e) {
@@ -88,6 +85,7 @@ function web_menusIdioma(lsLang){
 
 function canviaIdioma(lsLang){
 	//console.info("entro");
+	//console.debug(lsLang);
 	window.lang.change(lsLang);
 	addToolTipsInici();
 }
@@ -96,7 +94,6 @@ function web_determinaIdioma(){
 		
 	if(localStorage){
 		var lsLang = localStorage.getItem('langJs_currentLang');
-		
 		window.lang.change(lsLang);	
 	}else{
 		

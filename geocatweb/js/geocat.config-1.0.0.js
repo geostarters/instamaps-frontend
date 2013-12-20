@@ -4,6 +4,7 @@ var HOST_APP = "http://172.70.1.12/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	loginPage:"/geocatweb/sessio.html",
+	galeriaPage:"/geocatweb/galeria.html",
 	wmsOpenData:"/dadesobertes/wms/service?",
 	tmsOpenData:"/geocatcache/?",
 	getAllMapsByUser: HOST_APP+"geocat/aplications/map/getAllMapsByUser.action?",

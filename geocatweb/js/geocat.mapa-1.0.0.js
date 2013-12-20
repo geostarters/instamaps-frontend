@@ -569,10 +569,19 @@ function activaEdicioUsuari() {
 function loadMapConfig(mapConfig){
 	console.debug(mapConfig);
 	jQuery('#businessId').val(mapConfig.businessId);
+	if (mapConfig.options.bbox){
+		var bbox = mapConfig.options.bbox.split(",");
+		var southWest = L.latLng(bbox[1], bbox[0]),
+	    northEast = L.latLng(bbox[3], bbox[2]),
+	    bounds = L.latLngBounds(southWest, northEast);
+		map.fitBounds( bounds ); 
+	}
 	var source = $("#map-properties-template").html();
 	var template = Handlebars.compile(source);
 	var html = template(mapConfig);
 	$('#frm_publicar').append(html);
+	
+	$('.make-switch').bootstrapSwitch();
 	
 }
 
@@ -582,10 +591,12 @@ function publicarMapa(){
 		$('#dialgo_publicar #nomAplicacio').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 		return false;
 	}
-	
+		
 	var options = {};
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
 	options.description = jQuery('#dialgo_publicar #optDescripcio').val();
+	options.bbox = map.getBounds().toBBoxString();
+	
 	options = JSON.stringify(options);
 	
 	var newMap = true;
@@ -609,8 +620,8 @@ function publicarMapa(){
 			}else{
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				$('#dialgo_publicar').modal('hide')
 				jQuery('#businessId').val(mapConfig.businessId);
+				
 			}
 		});
 	}else{

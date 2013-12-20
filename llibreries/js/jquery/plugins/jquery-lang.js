@@ -113,7 +113,6 @@ jquery_lang_js.prototype.run = function () {
 	// if there is a default language and switch to it
 	if (localStorage) {
 		var lsLang = localStorage.getItem('langJs_currentLang');
-		
 		if (lsLang) {
 			this.change(lsLang);
 		}
