@@ -4,27 +4,16 @@ var factorW = 0;
 var _htmlDadesObertes = [];
 var capaUsrPunt, capaUsrLine, capaUsrPol;
 var mapConfig = {};
-jQuery(document).ready(function() {
 
+jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
 		typeMap : 'topoMap',
 		maxZoom : 19,
 	// drawControl: true
 	}).setView([ 41.431, 1.8580 ], 8);
-
-	addControlsInici();
-	addClicksInici();
-	addOpcionsFonsMapes();
-	addToolTipsInici();
-	redimensioMapa();
-	creaPopOverDadesExternes();
-	generaLListaDadesObertes();
-	creaAreesDragDropFiles();
-	creaPopOverMesFonsColor();
-	tradueixMenusToolbar();
-	addDrawToolbar();
-	activaEdicioUsuari();
-	addDialegsEstils();
+	
+	//iniciamos los controles
+	initControls();
 	
 	if(typeof url('?businessid') == "string"){
 		var data = {
@@ -38,13 +27,32 @@ jQuery(document).ready(function() {
 			}
 			mapConfig = results.results;
 			mapConfig.options = $.parseJSON( mapConfig.options );
-			loadMapConfig(mapConfig);
+			mapConfig.newMap = false;
+			
+			loadMapConfig(mapConfig).then(function(){
+				avisDesarMapa();
+			});
 		},function(results){
 			window.location.href = paramUrl.loginPage;
 		});
 	}else{
-		loadMapConfig(mapConfig);
+		loadMapConfig(mapConfig).then(function(){
+			mapConfig.newMap = true;
+			avisDesarMapa();
+		});
 	}
+	
+	//carrega las capas del usuario
+	var data = {uid: $.cookie('uid')};
+	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
+		if (results1[0].status == "ERROR"){
+			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
+			return false;
+		}
+		loadPopOverMevasDades(results1, results2);
+	},function(results){
+		window.location.href = paramUrl.loginPage;
+	});
 	
 	jQuery('.bt_publicar').on('click',function(){
 		$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
@@ -55,6 +63,11 @@ jQuery(document).ready(function() {
 	jQuery('#dialgo_publicar .btn-primary').on('click',function(){
 		publicarMapa();
 	});
+	
+	jQuery('#dialgo_leave .btn-primary').on('click',function(){
+		leaveMapa();
+	});
+	
 
 }); // Final document ready
 
@@ -69,7 +82,6 @@ function addOpcionsFonsMapes() {
 	jQuery('.div_gr3 div').on('click', function() {
 
 		var fons = jQuery(this).attr('id');
-
 		if (fons == 'topoMap') {
 			map.topoMap();
 		} else if (fons == 'topoGrisMap') {
@@ -81,6 +93,7 @@ function addOpcionsFonsMapes() {
 		} else if (fons == 'colorMap') {
 			gestionaPopOver(this);
 		} else if (fons == 'historicMap') {
+		
 		}
 
 	});
@@ -88,7 +101,6 @@ function addOpcionsFonsMapes() {
 }
 
 function gestionaPopOver(pop) {
-
 	jQuery('.popover').popover('hide');
 	jQuery('.pop').not(pop).popover('hide');
 	jQuery(pop).popover('toggle');
@@ -318,6 +330,102 @@ function creaPopOverMesFonsColor() {
 
 }
 
+
+function creaPopOverMevasDades(){
+	jQuery(".div_dades_usr").popover(
+		{
+			content : '<ul class="nav nav-tabs etiqueta">'
+					+ '<li><a href="#id_mysrvj" data-toggle="tab">Serveis vector</a></li>'
+					+ '<li><a href="#id_mysrvw" data-toggle="tab">Serveis WMS</a></li>'
+					+ '</ul>'
+					+ '<div class="tab-content">'
+					+ '<div class="tab-pane fade" id="id_mysrvj"></div>'
+					+ '<div class="tab-pane fade" id="id_mysrvw"></div>'
+					+ '</div>',
+			container : 'body',
+			html : true,
+			trigger : 'manual'
+	});
+}
+
+function loadPopOverMevasDades(dades1, dades2){
+	jQuery(".div_dades_usr").on('click', function() {
+		gestionaPopOver(this);
+	
+		console.debug(dades2[0]);
+		
+		var source1 = jQuery("#meus-wms-template").html();
+		var template1 = Handlebars.compile(source1);
+		var html1 = template1(dades1[0]);
+		
+		var source2 = jQuery("#meus-tematic-template").html();
+		var template2 = Handlebars.compile(source2);
+		var html2 = template2(dades2[0]);
+		
+		jQuery("#id_mysrvw").append(html1);
+		jQuery("#id_mysrvj").append(html2);
+		
+		jQuery(".usr_wms_layer").on('click', function(event) {
+			event.preventDefault();
+			var _this = jQuery(this);
+			var data = {
+				uid: $.cookie('uid'),
+				businessId: mapConfig.businessId,
+				servidorWMSbusinessId: _this.data("businessid"),
+				layers: _this.data("layers"),
+				calentas:false,
+				activas:false,
+				visibilitats:true
+			};
+			
+			addServerToMap(data).then(function(results){
+				console.debug(results);
+				mapConfig = results.results;
+			});
+			
+		});
+	
+		jQuery(".usr_tematic_layer").on('click', function(event) {
+			event.preventDefault();
+			var _this = jQuery(this);
+			
+			var data = {
+				uid: $.cookie('uid'),
+				businessId: _this.data("businessid")
+			};
+			
+			getTematicLayerByBusinessId(data).then(function(results){
+				console.debug(results);
+				//TODO
+				//agregar la capa tematica al mapa. Leer los features y cargarlos
+			});
+			
+		});
+		
+		jQuery("span.glyphicon-remove").on('click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var _this = jQuery(this);
+
+			//console.debug(_this.data("businessid"));
+		
+			var data = {
+				uid: $.cookie('uid'),
+				businessId: _this.data("businessid")
+			};
+
+			deleteTematicLayerAll(data).then(function(results){
+				console.debug(results);
+				if (results.status == "OK"){
+					_this.parent().remove();
+				}
+			});
+		});
+		
+	});
+	
+}
+
 function creaPopOverDadesExternes() {
 	jQuery(".div_dades_ext")
 			.popover(
@@ -520,8 +628,7 @@ function activaEdicioUsuari() {
 		dd.enable();
 	});
 
-	map
-			.on('draw:created',
+	map.on('draw:created',
 					function(e) {
 						var type = e.layerType, layer = e.layer;
 						// console.info(e);
@@ -568,21 +675,75 @@ function activaEdicioUsuari() {
 
 function loadMapConfig(mapConfig){
 	console.debug(mapConfig);
-	jQuery('#businessId').val(mapConfig.businessId);
-	if (mapConfig.options.bbox){
-		var bbox = mapConfig.options.bbox.split(",");
-		var southWest = L.latLng(bbox[1], bbox[0]),
-	    northEast = L.latLng(bbox[3], bbox[2]),
-	    bounds = L.latLngBounds(southWest, northEast);
-		map.fitBounds( bounds ); 
+	var dfd = jQuery.Deferred();
+	
+	if (!jQuery.isEmptyObject( mapConfig )){
+		jQuery('#businessId').val(mapConfig.businessId);
+		
+		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
+		//cambiar el mapa de fondo a orto y gris
+		if (mapConfig.options.fons != 'topoMap'){
+			map.setActiveMap(mapConfig.options.fons);
+			map.setMapColor(mapConfig.options.fonsColor);
+			//map.gestionaFons();
+		}
+		
+				
+		if (mapConfig.options.bbox){
+			var bbox = mapConfig.options.bbox.split(",");
+			var southWest = L.latLng(bbox[1], bbox[0]),
+		    northEast = L.latLng(bbox[3], bbox[2]),
+		    bounds = L.latLngBounds(southWest, northEast);
+			map.fitBounds( bounds ); 
+		}
+							
+		
+		//carga las capas en el mapa
+		jQuery.each(mapConfig.servidorsWMS, function(index, value){
+			
+			if (value.epsg == "4326"){
+				value.epsg = L.CRS.EPSG4326;
+			}else if (value.epsg == "25831"){
+				value.epsg = L.CRS.EPSG25831;
+			}else if (value.epsg == "23031"){
+				value.epsg = L.CRS.EPSG23031;
+			}else{
+				value.epsg = map.crs;
+			}
+			
+			var newWMS = L.tileLayer.wms(value.url, {
+			    layers: value.layers,
+			    format: value.imgFormat,
+			    transparent: value.transparency,
+			    version: value.version,
+			    opacity: value.opacity,
+			    crs: value.epsg,
+			});
+			
+			if (value.capesActiva == true || value.capesActiva == "true"){
+				newWMS.addTo(map);
+			}
+			
+			controlCapes.addOverlay(newWMS, value.serverName, true);
+			
+		});
+				
+	}else{
+		
 	}
+	
 	var source = $("#map-properties-template").html();
 	var template = Handlebars.compile(source);
 	var html = template(mapConfig);
 	$('#frm_publicar').append(html);
 	
 	$('.make-switch').bootstrapSwitch();
+	//$('.make-switch').bootstrapSwitch('setOnLabel', "<i class='glyphicon glyphicon-ok glyphicon-white'></i>");		
+	//$('.make-switch').bootstrapSwitch('setOffLabel', "<i class='glyphicon glyphicon-remove'></i>");
+		
+	dfd.resolve();
 	
+	return dfd.promise();
 }
 
 function publicarMapa(){
@@ -596,6 +757,13 @@ function publicarMapa(){
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
 	options.description = jQuery('#dialgo_publicar #optDescripcio').val();
 	options.bbox = map.getBounds().toBBoxString();
+	options.llegenda = jQuery('#llegenda_chk').bootstrapSwitch('state');
+	options.layers = jQuery('#layers_chk').bootstrapSwitch('state');
+	options.social = jQuery('#social_chk').bootstrapSwitch('state');
+	options.fons = map.getActiveMap();
+	options.fonsColor = map.getMapColor();
+		
+	console.debug(options);
 	
 	options = JSON.stringify(options);
 	
@@ -621,6 +789,7 @@ function publicarMapa(){
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
+				mapConfig.newMap = false;
 				
 			}
 		});
@@ -632,8 +801,53 @@ function publicarMapa(){
 			}else{
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				$('#dialgo_publicar').modal('hide')
+				$('#dialgo_publicar').modal('hide');
+				mapConfig.newMap = false;
 			}	
 		});
 	}
 }
+
+/*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar 
+la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo
+se creara el mapa en la BD y que el si el usuario abandona la página sin publicar se 
+mostrara el mensaje de advertencia y se borrara el mapa.
+*/
+function avisDesarMapa(){
+	//console.debug(mapConfig.newMap);
+	if (mapConfig.newMap){
+		jQuery(window).on('beforeunload',function(event){
+			//$('#dialgo_leave').modal('show');
+			//event.stopPropagation();
+			//event.preventDefault();
+			//console.debug("antes de ir e");
+			//return "Mensaje de aviso que no se muestra en Firefox";
+		});
+	}else{
+		jQuery(window).off('beforeunload',function(){
+			return true;
+		});
+	}
+}
+
+function leaveMapa(){
+	console.debug("borrar el mapa e ir a la galeria");
+}
+
+function initControls(){
+	addControlsInici();
+	addClicksInici();
+	addOpcionsFonsMapes();
+	addToolTipsInici();
+	redimensioMapa();
+	creaPopOverDadesExternes();
+	creaPopOverMevasDades();
+	generaLListaDadesObertes();
+	creaAreesDragDropFiles();
+	creaPopOverMesFonsColor();
+	tradueixMenusToolbar();
+	addDrawToolbar();
+	activaEdicioUsuari();
+	addDialegsEstils();
+}
+

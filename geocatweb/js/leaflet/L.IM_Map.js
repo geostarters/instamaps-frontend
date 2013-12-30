@@ -13,10 +13,11 @@ var subDomains=['otile1','otile2','otile3','otile4'];
 
 L.IM_Map = L.Map.extend({
 
-options: {
+	options: {
 		//maxLoad: 100, // max photos loaded in one request (should be less or equal 100)
 		//maxTotal: 300 // max total photos
-		typeMap:'topoMap'
+		typeMap:'topoMap',
+		mapColor: ''	
 	},
 
 	initialize: function(id,options) {
@@ -35,62 +36,58 @@ options: {
 		this.activeMap='topoMap';this.topoMap();
 		}
 		
-		this.on('moveend', function(){
-							
+		this.on('moveend', function(){			
 			this.gestionaFons();
-			})
-		
-		
-		
-		
+		})
 	
 	},
 	
 	getActiveMap:function(){
-		
-	return this.options.typeMap;	
-		
+		return this.options.typeMap;	
+	},
+	
+	setActiveMap:function(typeMap){
+		this.options.typeMap = typeMap;	
+	},
+	
+	getMapColor:function(){
+		return this.options.mapColor;	
+	},
+	
+	setMapColor:function(mapColor){
+		this.options.mapColor = mapColor;	
 	},
 	
 	gestionaFons:function(){
-		
 		var nZ=this.getZoom();
 		var p=this.getCenter();
 		var sC=this.miraCentreDins(p.lng,p.lat);
 		var f=this.getActiveMap();
-		
+		var fC=this.getMapColor();
 		if(f=='topoMap'){ //_topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
 			if((sC)){
-				
 				TOPO_MQ_L7_19.setOpacity(0.9);
-				
 				this.addCapa(_topoLayers,TOPO_ICC_L11_19);
-			
 			}else if((!sC)){
-			
 					TOPO_MQ_L7_19.setOpacity(1);
-				
-				
-			
-			
 			}else{
-				
 				this.addCapa(_topoLayers,TOPO_MQ_L7_19);
-			
 			}
-			
-			
-			
-		}else if(f=='ortoMap'){this.ortoMap();
-		}else if(f=='terrainMap'){this.terrainMap();
-		}else if(f=='topoGrisMap'){this.topoGrisMap();
-		}else if(f=='colorMap'){this.colorMap('nit');
-		
+		}else if(f=='ortoMap'){
+			this.ortoMap();
+		}else if(f=='terrainMap'){
+			this.terrainMap();
+		}else if(f=='topoGrisMap'){
+			this.topoGrisMap();
+		}else if(f=='colorMap'){
+			if (fC != null){
+				this.colorMap(fC)
+			}else{
+				this.colorMap('nit');
+			}
 		}else{
 		
 		}
-		
-		
 		/*
 		zoom=map.getZoom();
 		var maxZoom=map.getMaxZoom();
@@ -107,7 +104,7 @@ options: {
 		}else if((!soccentre)&&(!map.options.attributionControl)){
 		posaMapaMQ();}}}	
 		*/	
-		
+
 	},
 	miraCentreDins:function(x,y){
 		var x0=0.1087; //0.7525
@@ -117,14 +114,13 @@ options: {
 		if(x>=x0&&x<=x1&&y>=y0&&y<=y1){return true;}else{return false;}
 	},
 	topoMap: function (){
-	
+			
 			this.deletePreviousMap();
-			this.options.typeMap='topoMap';
 			this.options.maxZoom=19;
+			this.setActiveMap('topoMap');
+			this.setMapColor(null);
 			 _topoLayers=L.layerGroup();				
-			
-		
-			
+					
 			 
 		  TOPO_ICC_L0_6=  new L.TileLayer('http://172.70.1.11/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.png', {
 				   minZoom: 0,
@@ -176,7 +172,8 @@ options: {
 	
 			this.deletePreviousMap();	
 			this.options.maxZoom=19;
-			this.options.typeMap='ortoMap';
+			this.setActiveMap('ortoMap');
+			this.setMapColor(null);
 			 _ortoLayers=L.layerGroup();	
 	
 	/*
@@ -214,6 +211,8 @@ options: {
 	
 			this.deletePreviousMap();	
 			this.options.maxZoom=14;
+			this.setActiveMap('terrainMap');
+			this.setMapColor(null);
 			 _terrainLayers=L.layerGroup();	
 	
 	
@@ -246,6 +245,8 @@ options: {
 	
 	this.deletePreviousMap();
 			this.options.maxZoom=19;
+			this.setActiveMap('topoGrisMap');
+			this.setMapColor(null);
 			 _grisLayers=L.layerGroup();				
 			
 			
@@ -302,11 +303,11 @@ options: {
 		//this.options.maxZoom=19;	
 		
 	this.options.maxZoom=19;
-			this.deletePreviousMap();	
+			this.deletePreviousMap();
+			this.setActiveMap('colorMap');
+			this.setMapColor(color);
 			 _topoColorLayers=L.layerGroup();	
 	
-	
-			 
 			 var ICC_RELLEU_GRIS_L0= new L.IM_ColorLayer('http://172.70.1.11/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.png', {
 				   minZoom: 0,
 				   maxZoom: 7,

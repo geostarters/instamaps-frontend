@@ -85,6 +85,7 @@ var urls = {
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
 	createTematicLayerFeature: HOST_APP+"layers/tematic/createTematicLayerFeature.action?",
 	deleteTematicLayerAll: HOST_APP+"layers/tematic/deleteTematicLayerAll.action?",
+	getAllTematicLayerByUid: HOST_APP+"layers/tematic/getAllTematicLayerByUid.action?",
 };
 
 //var JSV = require("./jsv").JSV;

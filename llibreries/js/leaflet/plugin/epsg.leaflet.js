@@ -1,4 +1,5 @@
-var crs25831 = L.CRS.proj4js('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs',
+//var crs25831
+L.CRS.EPSG25831 = L.CRS.proj4js('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs',
 		//new L.Transformation(0.5 / (Math.PI * L.Projection.Mercator.R_MAJOR), 0.5, -0.5 / (Math.PI * L.Projection.Mercator.R_MINOR), 0.5),
 		new L.Transformation(1, -258000, -1, 4766600),
 		
@@ -14,8 +15,8 @@ var crs25831 = L.CRS.proj4js('EPSG:25831', '+proj=utm +zone=31 +ellps=GRS80 +dat
 
 );
 
-
-var crs23031 = L.CRS.proj4js('EPSG:23031', "+proj=utm +zone=31 +ellps=intl +towgs84=-136.65549,-141.46580,-167.29848,-2.09308759,-0.00140548839,-0.107708594,1.000011546110 +units=m +no_defs",		
+//var crs23031 
+L.CRS.EPSG23031 = L.CRS.proj4js('EPSG:23031', "+proj=utm +zone=31 +ellps=intl +towgs84=-136.65549,-141.46580,-167.29848,-2.09308759,-0.00140548839,-0.107708594,1.000011546110 +units=m +no_defs",		
 		L.Transformation(1, 0, -1, 0),
 		{origin:[258000, 4485000, 536000, 4752000],
 		/*

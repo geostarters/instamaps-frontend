@@ -193,3 +193,35 @@ function createMap(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function getAllServidorsWMSByUser(data){
+	return jQuery.ajax({
+		url: paramUrl.getAllServidorsWMSByUser,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function addServerToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.addServerToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getAllTematicLayerByUid(data){
+	return jQuery.ajax({
+		url: paramUrl.getAllTematicLayerByUid,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteTematicLayerAll(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteTematicLayerAll,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}

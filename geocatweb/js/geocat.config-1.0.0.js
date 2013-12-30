@@ -31,6 +31,10 @@ var paramUrl = {
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
 	createMap: HOST_APP+"geocat/aplications/map/createMap.action?",
+	getAllServidorsWMSByUser: HOST_APP+"geocat/layers/servidor/wms/getAllServidorsWMSByUser.action?",
+	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
+	getAllTematicLayerByUid: HOST_APP+"geocat/layers/tematic/getAllTematicLayerByUid.action?",
+	deleteTematicLayerAll: HOST_APP+"geocat/layers/tematic/deleteTematicLayerAll.action?",
 }
 
 

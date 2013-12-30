@@ -484,6 +484,17 @@ h1,h2,h3,h4,h5,h6 {
 	padding-top: 15%;
 }
 
+.control-switch{
+	float: left;
+	margin-right: 10px;
+    width: 130px;
+}
+
+span.glyphicon-remove{
+	cursor: pointer;
+}
+
+
 /* 
 Author: L. Voogdt
 License: MIT
@@ -948,3 +959,4 @@ Version: 1.0
 		right: 260px;
 	}
 }
+
