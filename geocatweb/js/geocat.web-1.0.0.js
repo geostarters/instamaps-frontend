@@ -2,27 +2,71 @@
 window.lang = new jquery_lang_js();
 
 var lsLang;
-jQuery(document).ready(function() {
 
+jQuery(document).ready(function() {
 	weball_tornarInici();		
 	window.lang.run();
-	vlsLang=web_determinaIdioma();
+	lsLang=web_determinaIdioma();
 	web_menusIdioma(lsLang);
-
-	$(".title-white", this).hover(swapImageIn, swapImageOut);
-    $(".img-hover", this).hover(swapImageIn, swapImageOut);
-
+	initHover();
+    checkUserLogin();
+    var currentLang = localStorage.getItem('langJs_currentLang');
+    if(currentLang === 'es')$("#es").addClass("active");
+    else if(currentLang === 'en') $("#en").addClass("active");
+    else $("#ca").addClass("active");
 });
 
-function swapImageIn(e) {
-	this.src = this.src.replace("_", "_pujat");
+function initHover(){
+	
+	$("#div_V").hover(function(){
+		$("#img_V").attr('src','llibreries/img/Visualitza_pujat.jpg');
+	},function(){
+		$("#img_V").attr('src','llibreries/img/Visualitza_.jpg');
+	});
+	
+	$("#div_C").hover(function(){
+		$("#img_C").attr('src','llibreries/img/Crea_pujat.jpg');
+	},function(){
+		$("#img_C").attr('src','llibreries/img/Crea_.jpg');
+	});
+	
+	$("#div_E").hover(function(){
+		$("#img_E").attr('src','llibreries/img/Explora_pujat.jpg');
+	},function(){
+		$("#img_E").attr('src','llibreries/img/Explora_.jpg');
+	});
+	
+	$("#div_C1").hover(function(){
+		$("#img_C1").attr('src','llibreries/img/Comparteix_pujat.jpg');
+	},function(){
+		$("#img_C1").attr('src','llibreries/img/Comparteix_.jpg');
+	});	
 }
-function swapImageOut (e) {
-	this.src = this.src.replace("_pujat", "_");
+
+function checkUserLogin(){
+	var uid = $.cookie('uid');
+	if( uid == undefined ){
+		$("#menu_login").show();
+		$("#menu_user").hide();
+		$("#text_username").remove();
+	}else {
+		$("#menu_login").hide();
+		$("#menu_user").show();	
+		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
+		var galeria_url = paramUrl.galeriaPage + "?private=1";
+		$("#galeria a").attr('href', galeria_url);
+	}
 }
+
+//function swapImageIn(e) {
+//	this.src = this.src.replace("_", "_pujat");
+//}
+//function swapImageOut (e) {
+//	this.src = this.src.replace("_pujat", "_");
+//}
 
 function web_menusIdioma(lsLang){
-
+	
 	jQuery('#ch_idioma li').each(function() {
 	jQuery(this).removeClass('active');
 		if (jQuery(this).attr('id') ==lsLang){
@@ -40,17 +84,16 @@ function web_menusIdioma(lsLang){
 
 
 function canviaIdioma(lsLang){
-console.info("entro");
-window.lang.change(lsLang);
-	
+	//console.info("entro");
+	//console.debug(lsLang);
+	window.lang.change(lsLang);
+	addToolTipsInici();
 }
-
 
 function web_determinaIdioma(){
 		
 	if(localStorage){
 		var lsLang = localStorage.getItem('langJs_currentLang');
-		
 		window.lang.change(lsLang);	
 	}else{
 		
@@ -106,43 +149,38 @@ jQuery("#back-top").hide();
 	});
 }	
 
-
-
-
-
-jQuery("#frm_email").submit(function(){ 
-	var correu_usuari=jQuery("#text_email").val(); 
-//	alert("correu:"+correu_usuari);
-	  if( isValidEmailAddress( correu_usuari ) ) {
-	  
-			  jQuery.ajax({
-					url: 'http://geocat02.icc.local:8080/geocat/registreEmail.action?',
-					data: {email: correu_usuari},
-					method: 'post',
-					dataType: 'jsonp',
-				}).done(function(results){
-					//console.debug(results);
-					if(results.OK){
-						jQuery('#div_msg').html('<div class="alert alert-success my-alert" lang="ca"> <strong>Rebut!!</strong>  Correu enviat correctament. Et mantindrem informat. Gr&agrave;cies!!</div>');
-					}else{
-						jQuery('#div_msg').html('<div class="alert alert-error my-alert" lang="ca"> <strong>Ups!!</strong> '+results.ERROR+'</div>');
-					}
-					//deepEqual(results, {OK: "Password updated."}, "Passed:"+ results);
-					//start();
-				}).fail(function(results){
-//					console.debug(results);
-					//ok( false, "Fail!:" + results);
-					//start();
-					jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Error </div>');
-			  
-				});
-	   
-	  }else{		 
-		jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Sembla que <strong>'+correu_usuari+'</strong> no &eacute;s una adre&ccedil;a correcta</div>');  
-	 }
-  return false;
-  });
-
+//jQuery("#frm_email").submit(function(){ 
+//	var correu_usuari=jQuery("#text_email").val(); 
+////	alert("correu:"+correu_usuari);
+//	  if( isValidEmailAddress( correu_usuari ) ) {
+//	  
+//			  jQuery.ajax({
+//					url: 'http://geocat02.icc.local:8080/geocat/registreEmail.action?',
+//					data: {email: correu_usuari},
+//					method: 'post',
+//					dataType: 'jsonp',
+//				}).done(function(results){
+//					//console.debug(results);
+//					if(results.OK){
+//						jQuery('#div_msg').html('<div class="alert alert-success my-alert" lang="ca"> <strong>Rebut!!</strong>  Correu enviat correctament. Et mantindrem informat. Gr&agrave;cies!!</div>');
+//					}else{
+//						jQuery('#div_msg').html('<div class="alert alert-error my-alert" lang="ca"> <strong>Ups!!</strong> '+results.ERROR+'</div>');
+//					}
+//					//deepEqual(results, {OK: "Password updated."}, "Passed:"+ results);
+//					//start();
+//				}).fail(function(results){
+////					console.debug(results);
+//					//ok( false, "Fail!:" + results);
+//					//start();
+//					jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Error </div>');
+//			  
+//				});
+//	   
+//	  }else{		 
+//		jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Sembla que <strong>'+correu_usuari+'</strong> no &eacute;s una adre&ccedil;a correcta</div>');  
+//	 }
+//  return false;
+//  });
 
 
 function isValidEmailAddress(emailAddress) {
@@ -162,6 +200,17 @@ function isBlank(str) {
     return (!str || (/^\s*$/).test(str));
 }
 
+function logoutUser(){
+	doLogout().then(function(results){
+		if(results.status==='OK'){
+			$.removeCookie('uid', { path: '/' });
+			window.location.href="/index.html";
+		}else{
+			alert("no logout");
+		}			
+	},function(results){
+		alert("no logout");
+		//jQuery('#div_msg').html('<div class="alert alert-danger my-alert" lang="ca">No s\'ha iniciat la sessi&oacute;. <strong>Torni a intentar.</strong></div>');
+	});	
 
-
-
+}

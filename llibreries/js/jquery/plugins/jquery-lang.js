@@ -113,7 +113,6 @@ jquery_lang_js.prototype.run = function () {
 	// if there is a default language and switch to it
 	if (localStorage) {
 		var lsLang = localStorage.getItem('langJs_currentLang');
-		
 		if (lsLang) {
 			this.change(lsLang);
 		}
@@ -128,7 +127,6 @@ jquery_lang_js.prototype.loadPack = function (packPath) {
 }
 	
 jquery_lang_js.prototype.change = function (lang) {
-	
 	
 	if(lang=="null"){lang=this.currentLang};
 	

@@ -74,7 +74,7 @@ div.circle_txt {
 }
 
 #cap_div {
-	/* background-image:url('/share/img/cel.jpg'); */
+	/* background-image:url('/llibreries/img/cel.jpg'); */
 	color: #333333;
 	text-rendering: optimizelegibility;
 	text-shadow: 0 4px 4px rgba(255, 255, 255, 0.75);
@@ -146,9 +146,6 @@ Back to top button
 }
 /* arrow icon (span tag) */
 #back-top span {
-	
-	display: block;
-	
 	/* background color transition */
 	-webkit-transition: 1s;
 	-moz-transition: 1s;
@@ -258,6 +255,7 @@ footer .container  p {
 		}
 	}
 	
+	
 	.bt-sessio{
 		background-color: #00B050;
 		border-radius: 0;
@@ -274,7 +272,7 @@ footer .container  p {
 	
 	.invalid {
 	  	outline: 1px solid red;
-		background-image: url(../../share/img/glyph_exclamation.png); 
+		background-image: url(../../llibreries/img/glyph_exclamation.png); 
 	 	background-position: right; 
 	 	background-repeat: no-repeat; 
 	 	-moz-box-shadow: none;	  
@@ -289,6 +287,28 @@ footer .container  p {
 	.my-body{
 		padding-top: 0;
 	}
+	
+	.no-radius{
+		border-radius: 0;
+	}
+	
+	.my-glyph{
+		top: 2px;
+	}
+	
+	.my-modal-content{
+		text-align: center;
+		border-radius:0;
+	}
+	
+	.my-modal-footer{
+		text-align: center;
+		margin-top:0;
+	}
+	
+	.yellow{color: #ed9c28;}
+	.green{color: #00B050;}
+	
 	
 /*** comuns waiting image ***/
 
@@ -479,9 +499,8 @@ background-color:#FFFFFF}
 		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	    font-weight: 500;
 	    font-size: 36px; 
-	    line-height: 1.1;
 	    text-shadow: none;
-	    padding-bottom: 10%;
+	    padding-bottom: 13%;
 	}
 	
 	.marketing{
@@ -554,7 +573,7 @@ background-color:#FFFFFF}
 	    line-height: 1.5;
 	    padding: 10%;
 	    text-align: center;
-		background-image: url("../../share/img/background_login.jpg");
+		background-image: url("../../llibreries/img/background_login.jpg");
 	    background-size: cover;    
 	}	
 	
@@ -574,14 +593,24 @@ background-color:#FFFFFF}
 	    left: 10%;
 	    right: 10%;
 	    font-size: 30px;
-	    padding-bottom: 5%;
+	    padding-bottom: 10%;
 	  }
 	  .title_white{
 		font-size: 20px;
 	  }	  
 	}
 
+	@media (max-width: 1024px) {
+	  .my-carousel-caption {
+	    padding-bottom: 7%;
+	  }
+	}
 
+	@media (max-width: 800px) {
+	  .my-carousel-caption {
+	    padding-bottom: 10%;
+	  }
+	}
 
 /*** properament.html ***/
 
@@ -640,7 +669,7 @@ background-color:#FFFFFF}
 	}
 	
 	.my-background{
-		background-image:url(../../share/img/background_login.jpg);
+		background-image:url(../../llibreries/img/background_login.jpg);
 		padding-top: 5%;
 	}	
 	
@@ -668,7 +697,7 @@ background-color:#FFFFFF}
 	}	
 	
 	.my-background-signin{
-		background-image:url(../../share/img/background_login.jpg);
+		background-image:url(../../llibreries/img/background_login.jpg);
 		padding-top: 10%;		
 	}	
 	
@@ -701,3 +730,19 @@ background-color:#FFFFFF}
 		-o-filter: contrast(140%);
 		-ms-filter: contrast(140%);
 	}
+		
+	/*** perfil.html ***/
+	
+	.my-form-profile{
+	    background-color: #FFFFFF;
+	    margin: 20px auto;
+	    max-width: 600px;
+	    padding: 15px;
+	    font-style: normal;	
+	}
+	
+	#text-uid{
+		text-align: center;
+	}
+	
+	

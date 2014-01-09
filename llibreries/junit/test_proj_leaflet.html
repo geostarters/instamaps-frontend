@@ -36,7 +36,7 @@
     var orto;
     $(document).ready(function() {
 	
-    	/*
+ 	
     	$.ajax({
 
             url: 'data/user.json',
@@ -62,12 +62,12 @@
         });
     	
     	
-    	*/
     	
     	
     	
     	
-    	initMap();
+    	
+    	initMap3();
     	
     });
    
@@ -143,20 +143,7 @@
     	continuousWorld: true,
     	worldCopyJump: false
     	});
-    	
-    
-    	
-    	
-    	  var limits = L.tileLayer.wms("http://galileo.icc.cat/arcgis/services/icc_limadmin_v_r/MapServer/WMSServer?", {
-      	    layers: '4',
-      	    format: 'image/png',
-      	    crs:crs25831,
-      	    transparent: true
-      	   
-      	}).addTo(map);  
-          
-          
-    	/*
+    	 
     	//var mapUrl = 'http://my.mapproxy.server/tms/1.0.0/layername_EPSG27700/{z}/{x}/{y}.png';
     	 var mapUrl = 'http://mapcache.icc.cat/map/bases/tms/1.0.0/topo_EPSG25831/{z}/{x}/{y}.jpeg';
     	var tilelayer = new L.TileLayer(mapUrl, {
@@ -167,9 +154,9 @@
     	attribution: 'Copyright 2012'
     	});
     	map.addLayer(tilelayer);
-    	 */
+    	 
     	// Centre on London zoom to the maximum extent
-    	map.setView(new L.LatLng(41.33129296535873, 2.6680291327536106), 7);
+    	map.setView(new L.LatLng(41.33129296535873, 2.6680291327536106), 0);
     	
     }
     

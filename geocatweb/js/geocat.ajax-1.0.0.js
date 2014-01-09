@@ -1,17 +1,24 @@
-function loadGaleria(){
-	//console.debug("cargaEntitat");
-	jQuery('#wait').show();
+function loadGaleria(params){
 	return jQuery.ajax({
-		type: "get",
-  		url: paramUrl.getAllPublicsMaps,
+		url: paramUrl.getAllMapsByUser,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+
+function loadPublicGaleria(){
+	return jQuery.ajax({
+		url: paramUrl.getAllPublicsMaps,
   		dataType: 'jsonp'
 	}).promise();
 }
 
 function deleteMap(data){
-	return $.ajax({
+	return jQuery.ajax({
 		url: paramUrl.deleteMap,
 		data: data,
+		method: 'post',
 		dataType: 'jsonp'
 	}).promise();
 }
@@ -47,6 +54,56 @@ function checkEmail(user_email){
 		
 }
 
+/* perfil.html */
+
+function getUserData(username){
+	return jQuery.ajax({
+		url: paramUrl.getUser,
+		data: {uid : username},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateUserData(username, name, surname, correu_usuari){
+	return jQuery.ajax({
+		url: paramUrl.updateUser,
+		data: {
+            cn: name,
+            sn: surname,
+            uid: username,
+            email: correu_usuari},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateUserPassword(username, new_pass, old_pass){
+	return jQuery.ajax({
+		url: paramUrl.updatePassword,
+		data: {
+            uid: username, 
+            userPassword: old_pass, 
+            newPassword: new_pass},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+/* comuns */
+
+function doLogout(){
+	return jQuery.ajax({
+		url: paramUrl.logoutUser,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
 /* sessio.html */
 
 function doLogin(user_login,pass_login){
@@ -59,8 +116,7 @@ function doLogin(user_login,pass_login){
 	}).promise();
 }
 
-
-
+/* map */
 function addTematicLayerFeature(data){
 	return $.ajax({
 		url: paramUrl.createTematicLayerFeature,
@@ -103,14 +159,69 @@ function createRang(data){
 	}).promise();
 }
 
-
-
 function getLListaDadesObertes(){
 	return jQuery.ajax({
 		url: paramUrl.dadesObertes,
 		data: {metode:'getDatasets'},
 		async: false,
 		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getMapByBusinessId(data){
+	return jQuery.ajax({
+		//url: paramUrl.getMapByBusinessId,
+		url: paramUrl.getMapById,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateMap(data){
+	return jQuery.ajax({
+		url: paramUrl.updateMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createMap(data){
+	return jQuery.ajax({
+		url: paramUrl.createMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getAllServidorsWMSByUser(data){
+	return jQuery.ajax({
+		url: paramUrl.getAllServidorsWMSByUser,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function addServerToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.addServerToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getAllTematicLayerByUid(data){
+	return jQuery.ajax({
+		url: paramUrl.getAllTematicLayerByUid,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteTematicLayerAll(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteTematicLayerAll,
+		data: data,
 		dataType: 'jsonp'
 	}).promise();
 }

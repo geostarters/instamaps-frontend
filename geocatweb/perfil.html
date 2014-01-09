@@ -2,49 +2,36 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title lang="ca">InstaMapes - La plataforma col.laborativa de mapes i localització a Catalunya</title>
 <meta name="author" content="InstaMapes">
-<meta name="description"
-	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
 <meta name="geo.position" content="41.363892;2.186279" />
 <meta name="language" content="ca" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/instamapes.ico" rel="shortcut icon">
+
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
-<!--<link href="/llibreries/css/bootstrap-responsive.min.css" rel="stylesheet">-->
-
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<!-- Fav and touch icons -->
-<link rel="apple-touch-glyphicon-precomposed" sizes="144x144"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-144-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed" sizes="114x114"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-114-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed" sizes="72x72"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-72-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
-<link rel="shortcut icon" href="../assets/ico/favicon.png">
-
+<title lang="ca">InstaMapes</title>
 </head>
 <body>
-
-
 	<!-- Fixed navbar -->
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				</button>
-				<a class="navbar-brand" href="../index.html">
+				<a class="navbar-brand" href="/index.html">
 					<div class="img-circle2-icon descobreix_color"></div>
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
@@ -75,13 +62,14 @@
 					
 					<li id="menu_user" class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
-							<span id="text_welcome" lang="ca">&nbsp; </span>
 							&nbsp;
-							<span class="glyphicon glyphicon-user"></span>
+							<span class="glyphicon glyphicon-user green"></span>
 							<b class="caret"></b>
 						</a>
-						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="perfil"><a href="geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
+						<ul id="ch_perfil" class="dropdown-menu">
+							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
+							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
+							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
 							<li class="divider" role="presentation"></li>
 							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
 						</ul>
@@ -94,13 +82,15 @@
 			<!--/.nav-collapse -->
 		</div>
 	</div>
+	<!-- / Fixed navbar -->
 
 	<!-- container -->
 	<div class="my-background">	
 	<div class="container">
     	<div class="my-form-signin">
        		<section>
-        		<h3  lang="ca" class="form-signin-heading">Perfil</h3>
+       			<h2 id="text-uid"></h2>
+        		<h3  lang="ca" class="form-signin-heading">Administrar compte</h3>
         		
         		<form id="frm_update_user" >
 	        		<fieldset>
@@ -113,14 +103,18 @@
 	        			<br>
 		      			<br>  		
 		        		<p>
-		         			<button  id="perfil_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Actualitzar dades</button>
+		         			<button id="perfil_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Actualitzar dades</button>
 		         		</p>        			
 	        		</fieldset>
         		</form>
         		
-				<br><br><br>   
+				<br>
+				
+				<button id="btn_update_pssw" lang="ca" type="button" class="btn btn-link">Actualitzar contrasenya</button>
+				
+				<br><br>   
 				     		
-        		<form>
+        		<form id="frm_update_pssw">
 	        		<fieldset>
 	        			<input lang="ca" id="perfil_old_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrasenya antiga">
 	        			<input lang="ca" id="perfil_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrasenya">
@@ -137,11 +131,10 @@
     	</div>
     	
     	
-    	<div class="my-form-profile">
+    	<!--div class="my-form-profile">
 		<section>
         		<h3  lang="ca" class="form-signin-heading">Administrar compte</h3>
         		
-				<!-- Nav tabs -->
 				<ul class="nav nav-tabs nav-justified">
 				  <li class="active"><a href="#perfil" data-toggle="tab">Perfil</a></li>
 				  <li><a href="#contrasenya" data-toggle="tab">Contrasenya</a></li>
@@ -151,7 +144,6 @@
 	        		<div class="tab-pane fade active in" id="perfil">
 		        		<form id="frm_update_user">
 			        		<fieldset>
-			        			<!-- input lang="ca" id="signin_username" type="text" required class="form-control my-border" placeholder="Usuari" autofocus-->
 			        			<br>
 			       				<input lang="ca" id="perfil_name" type="text" required class="form-control my-border" placeholder="Nom">
 			       				<input lang="ca" id="perfil_surname" type="text" required class="form-control my-border" placeholder="Cognom">
@@ -185,26 +177,87 @@
         		</div>
         		<br>
 			</section>    	
-    	</div>
+    	</div-->
     	
     	<br>
 
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content my-modal-content">
-	      <!-- div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" lang="ca">Perfil actualitzat correctament</h4>
-	      </div-->
-	      <div class="modal-body">
-	        <h4 id="modal-text" lang="ca"></h4>
-	      </div>
-	      <div class="modal-footer my-modal-footer">
-	        <button type="button" class="btn btn-default bt-sessio" data-dismiss="modal">D'acord</button>
-	      </div>
-	    </div><!-- /.modal-content -->
-	  </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
+		<div class="modal fade" id="modal_perfil_ok" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span lang="ca">Perfil actualitzat correctament</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->		
+		
+		<div class="modal fade" id="modal_perfil_ko" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span><span lang="ca">Perfil no actualitzat</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_pass_ok" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span lang="ca">Contrasenya actualitzada correctament</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->		
+		
+		<div class="modal fade" id="modal_pass_ko1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">La contrasenya antiga no és correcte</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+		
+		<div class="modal fade" id="modal_pass_ko2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">La nova contrasenya ja havia estat utilitzada</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_pass_ko3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha actualitzat la contrasenya</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->							
 
 
 	</div> 
@@ -213,22 +266,26 @@
 
 	<footer>
 		<div class="container">
-			<p>&copy; InstaMapes</p>
+			<p>InstaMapes v 1.0.0</p>
 		</div>
 	</footer>
 
-	<script src="/llibreries/js/jquery/jquery-1.9.0.min.js"></script>
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
-	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
-	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>		
-	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
-	<script src="/geocatweb/js/geocat.perfil-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
-	
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+
+	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>		
+	<script src="/geocatweb/js/geocat.perfil-1.0.0.js"></script>
+
 </body>
 </html>

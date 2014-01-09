@@ -2,68 +2,36 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title lang="ca">InstaMapes - La plataforma col.laborativa de mapes i localització a Catalunya</title>
 <meta name="author" content="InstaMapes">
-<meta name="description"
-	content="InstaMapes ofereix eïnes per a la creació de mapes i visors.És gratuïta i oberta a tothom">
+<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
 <meta name="geo.position" content="41.363892;2.186279" />
 <meta name="language" content="ca" />
-<!-- Le styles -->
-<link href="/share/css/bootstrap.min.css" rel="stylesheet">
-<link href="/geocatweb/css/geocat.css" rel="stylesheet">
-<link href="/share/css/zocial/zocial.css" rel="stylesheet">
-<!--<link href="/share/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/instamapes.ico" rel="shortcut icon">
 
+<!-- Le styles -->
+<link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<!-- Fav and touch icons -->
-<link rel="apple-touch-glyphicon-precomposed" sizes="144x144"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-144-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed" sizes="114x114"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-114-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed" sizes="72x72"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-72-precomposed.png">
-<link rel="apple-touch-glyphicon-precomposed"
-	href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-glyphicon-57-precomposed.png">
-<link rel="shortcut icon" href="../assets/ico/favicon.png">
-
-<style>
-
-/*
- input:required:invalid, input:focus:invalid { 
-	 background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAeVJREFUeNqkU01oE1EQ/mazSTdRmqSxLVSJVKU9RYoHD8WfHr16kh5EFA8eSy6hXrwUPBSKZ6E9V1CU4tGf0DZWDEQrGkhprRDbCvlpavan3ezu+LLSUnADLZnHwHvzmJlvvpkhZkY7IqFNaTuAfPhhP/8Uo87SGSaDsP27hgYM/lUpy6lHdqsAtM+BPfvqKp3ufYKwcgmWCug6oKmrrG3PoaqngWjdd/922hOBs5C/jJA6x7AiUt8VYVUAVQXXShfIqCYRMZO8/N1N+B8H1sOUwivpSUSVCJ2MAjtVwBAIdv+AQkHQqbOgc+fBvorjyQENDcch16/BtkQdAlC4E6jrYHGgGU18Io3gmhzJuwub6/fQJYNi/YBpCifhbDaAPXFvCBVxXbvfbNGFeN8DkjogWAd8DljV3KRutcEAeHMN/HXZ4p9bhncJHCyhNx52R0Kv/XNuQvYBnM+CP7xddXL5KaJw0TMAF8qjnMvegeK/SLHubhpKDKIrJDlvXoMX3y9xcSMZyBQ+tpyk5hzsa2Ns7LGdfWdbL6fZvHn92d7dgROH/730YBLtiZmEdGPkFnhX4kxmjVe2xgPfCtrRd6GHRtEh9zsL8xVe+pwSzj+OtwvletZZ/wLeKD71L+ZeHHWZ/gowABkp7AwwnEjFAAAAAElFTkSuQmCC); 
-	 background-position: right top; 
-	 background-repeat: no-repeat; 
-	 -moz-box-shadow: none; 
- } 
- 
- input:required:valid { 
-	 background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAepJREFUeNrEk79PFEEUx9/uDDd7v/AAQQnEQokmJCRGwc7/QeM/YGVxsZJQYI/EhCChICYmUJigNBSGzobQaI5SaYRw6imne0d2D/bYmZ3dGd+YQKEHYiyc5GUyb3Y+77vfeWNpreFfhvXfAWAAJtbKi7dff1rWK9vPHx3mThP2Iaipk5EzTg8Qmru38H7izmkFHAF4WH1R52654PR0Oamzj2dKxYt/Bbg1OPZuY3d9aU82VGem/5LtnJscLxWzfzRxaWNqWJP0XUadIbSzu5DuvUJpzq7sfYBKsP1GJeLB+PWpt8cCXm4+2+zLXx4guKiLXWA2Nc5ChOuacMEPv20FkT+dIawyenVi5VcAbcigWzXLeNiDRCdwId0LFm5IUMBIBgrp8wOEsFlfeCGm23/zoBZWn9a4C314A1nCoM1OAVccuGyCkPs/P+pIdVIOkG9pIh6YlyqCrwhRKD3GygK9PUBImIQQxRi4b2O+JcCLg8+e8NZiLVEygwCrWpYF0jQJziYU/ho2TUuCPTn8hHcQNuZy1/94sAMOzQHDeqaij7Cd8Dt8CatGhX3iWxgtFW/m29pnUjR7TSQcRCIAVW1FSr6KAVYdi+5Pj8yunviYHq7f72po3Y9dbi7CxzDO1+duzCXH9cEPAQYAhJELY/AqBtwAAAAASUVORK5CYII=); 
-	 background-position: right top; 
-	 background-repeat: no-repeat; 
- }*/
- 
-
-</style>
-
+<title lang="ca">InstaMapes</title>
 </head>
 <body>
-
-
 	<!-- Fixed navbar -->
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				</button>
-				<a class="navbar-brand" href="../index.html">
+				<a class="navbar-brand" href="/index.html">
 					<div class="img-circle2-icon descobreix_color"></div>
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
@@ -77,18 +45,35 @@
 					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Idioma <b class="caret"></b></a>
+					
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
 							<li id="ca"><a href="#">Catal&agrave;</a></li>
 							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
 							<li id="en"><a href="#">English</a></li>
 						</ul>
 					</li>
-					<li>
+					
+					<li id="menu_login">
 						<form class="navbar-form">
 							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio">Inicia la sessi&oacute;</a>
 						</form>					
 					</li>
+					
+					<li id="menu_user" class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
+							&nbsp;
+							<span class="glyphicon glyphicon-user green"></span>
+							<b class="caret"></b>
+						</a>
+						<ul id="ch_perfil" class="dropdown-menu">
+							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
+							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
+							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
+							<li class="divider" role="presentation"></li>
+							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
+						</ul>
+					</li>					
 					<li>
 						<a href="/properament.html" class="glyphicon glyphicon-stats"></a>
 					</li>
@@ -96,14 +81,15 @@
 			</div>
 			<!--/.nav-collapse -->
 		</div>
-	</div>	
+	</div>
+	<!-- / Fixed navbar -->	
 
 	<!-- container -->
 	<div class="my-background">	
 	<div class="container">
     	<form id="frm_signin" class="my-form-signin">
        		<section>
-        		<h3  lang="ca" class="form-signin-heading">Registrar-se</h3>
+        		<h3  lang="ca" class="form-signin-heading">Registreu-vos</h3>
         		
         		<fieldset>
         			
@@ -143,34 +129,64 @@
 				
       			<br>  		
         		<p>
-         		<button  id="signin_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Registrar-se</button>
+         		<button  id="signin_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Registreu-vos</button>
          		</p>
          		
 			</section>
     	</form>
     	<br>
-		<div id="div_msg"></div>
+		
+		<div class="modal fade" id="modal_registre_ok" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span lang="ca">El teu registre s'ha processat correctament. Gràcies!</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ok" type="button" class="btn btn-default bt-sessio no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->		
+		
+		<div class="modal fade" id="modal_registre_ko" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span><span lang="ca">El teu registre no s'ha processat correctament.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->				
+		
 	</div> 
 	</div>
 	<!-- /container -->
 
 	<footer>
 		<div class="container">
-			<p>&copy; InstaMapes</p>
+			<p>InstaMapes v 1.0.0</p>
 		</div>
 	</footer>
 
-	<script src="/share/js/jquery/jquery-1.9.0.min.js"></script>
-	<script src="/share/js/bootstrap.min.js"></script>
-	<script src="/share/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
+	<script src="/llibreries/js/bootstrap.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
-	<script src="/share/js/jquery/plugins/url.min.js"></script>
-	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>		
-	<script src="/share/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
 	
+	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>		
+
 </body>
 </html>
