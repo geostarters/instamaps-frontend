@@ -4,7 +4,7 @@ var catContorn5k= [new L.LatLng(42.50517, 1.74015),new L.LatLng(42.50508, 1.7523
 var MQ_ATTR='Font:<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>';  
 var ESRI_ATTR='Tiles © Esri — Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 var ESRI_ATTR_TERRAIN="Tiles © Esri — Sources: Esri, USGS, NOAA";
-var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">ICGC</a>'; 
+var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a>'; 
 var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTO='Font:Mapa del 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
@@ -35,7 +35,8 @@ L.IM_Map = L.Map.extend({
 options: {
 		//maxLoad: 100, // max photos loaded in one request (should be less or equal 100)
 		//maxTotal: 300 // max total photos
-		typeMap:'topoMap'
+		typeMap:'topoMap',
+		mapColor: ''	
 	},
 
 	initialize: function(id,options) {
@@ -66,25 +67,36 @@ options: {
 	},
 	
 	getActiveMap:function(){
-		
-	return this.options.typeMap;	
-		
+		return this.options.typeMap;	
 	},
 	
-	gestionaFons:function(){
-		
-		
+	setActiveMap:function(typeMap){
+		this.options.typeMap = typeMap;	
+	},
+	
+	getMapColor:function(){
+
+		return this.options.mapColor;	
+	},
+	
+	setMapColor:function(mapColor){
+		this.options.mapColor = mapColor;	
+
+	},
+	
+	gestionaFons:function(){		
 		var sC=this.miraBBContains(this.getBounds());
 		var f=this.getActiveMap();
 		var zT=8;
 				
 		if(f=='topoMap'){ //_topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
+		console.info(this.getZoom());
 			if((sC==0)){  
 				TOPO_MQ_L7_19.setOpacity(1);
 				TOPO_MQ_L7_19.options.maxZoom=19;
 				TOPO_ICC_L11_19.options.maxZoom=zT;
 				TOPO_ICC_L7_10.options.maxZoom=zT;
-				if(map.getZoom() <= 6){
+				if(this.getZoom() > 6){
 				this.attributionControl.setPrefix(MQ_ATTR);
 				}else{this.attributionControl.setPrefix(ICGC_MON);}				
 			}else if(sC==1){
@@ -92,7 +104,11 @@ options: {
 				TOPO_MQ_L7_19.options.maxZoom=19;
 				TOPO_ICC_L11_19.options.maxZoom=19;
 				TOPO_ICC_L7_10.options.maxZoom=10;	
-				this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR);	
+				
+				if(this.getZoom() > 6){
+				
+				this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
+				}else{this.attributionControl.setPrefix(ICGC_MON);}	
 			}else if(sC==2){
 				TOPO_MQ_L7_19.options.maxZoom=zT;
 				TOPO_ICC_L11_19.options.maxZoom=19;
@@ -240,6 +256,8 @@ options: {
 			this.deletePreviousMap();
 			this.options.typeMap='topoMap';
 			this.options.maxZoom=19;
+			this.setActiveMap('topoMap');
+			this.setMapColor(null);
 			 _topoLayers=L.layerGroup();						 
 		  TOPO_ICC_L0_6=  new L.TileLayer(URL_MON, {
 				   minZoom: 0,
@@ -290,6 +308,8 @@ options: {
 	
 			this.deletePreviousMap();	
 			this.options.maxZoom=19;
+this.setActiveMap('ortoMap');
+			this.setMapColor(null);
 			this.options.typeMap='ortoMap';
 			 _ortoLayers=L.layerGroup();	
 	
@@ -328,6 +348,8 @@ options: {
 	
 			this.deletePreviousMap();	
 			this.options.maxZoom=14;
+this.setActiveMap('terrainMap');
+			this.setMapColor(null);
 			 _terrainLayers=L.layerGroup();	
 	
 	
@@ -358,6 +380,8 @@ options: {
 	
 	this.deletePreviousMap();
 			this.options.maxZoom=19;
+this.setActiveMap('topoGrisMap');
+			this.setMapColor(null);
 			 _grisLayers=L.layerGroup();				
 			
 			
@@ -415,6 +439,8 @@ options: {
 		
 	this.options.maxZoom=19;
 			this.deletePreviousMap();	
+this.setActiveMap('colorMap');
+			this.setMapColor(color);
 			 _topoColorLayers=L.layerGroup();	
 	
 	
