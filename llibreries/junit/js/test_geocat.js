@@ -43,6 +43,8 @@ var urls = {
 	deleteUserSocial: HOST_APP+"user/deleteUserSocial.action?",
 	createMap: HOST_APP+"aplications/map/createMap.action?",
 	updateMap: HOST_APP+"aplications/map/updateMap.action?",
+	updateMap: HOST_APP+"aplications/map/updateMap.action?",
+	updateMapName: HOST_APP+"aplications/map/updateMapName.action?",
 	deleteMap: HOST_APP+"aplications/map/deleteMap.action?",
 	getMapById: HOST_APP+"aplications/map/getMapById.action?",
 	getAllMapsByUser: HOST_APP+"aplications/map/getAllMapsByUser.action?",
@@ -51,10 +53,12 @@ var urls = {
 	getAllPublicsMaps: HOST_APP+"aplications/map/getAllPublicsMaps.action?",
 	addServerToMap: HOST_APP+"aplications/map/addServerToMap.action?",
 	updateServerToMap: HOST_APP+"aplications/map/updateServerToMap.action?",
+	updateServersOrderToMap: HOST_APP+"aplications/map/updateServersOrderToMap.action?",
 	removeServerToMap: HOST_APP+"aplications/map/removeServerToMap.action?",
 	createServidorWMS: HOST_APP+"layers/servidor/wms/createServidorWMS.action?",
 	getServidorWMSByBusinessId: HOST_APP+"layers/servidor/wms/getServidorWMSByBusinessId.action?",
 	updateServidorWMS: HOST_APP+"layers/servidor/wms/updateServidorWMS.action?",
+	updateServidorWMSName: HOST_APP+"layers/servidor/wms/updateServidorWMSName.action?",
 	getAllServidorsWMSByUser: HOST_APP+"layers/servidor/wms/getAllServidorsWMSByUser.action?",
 	getAllPubliscServidorsWMSByUser: HOST_APP+"layers/servidor/wms/getAllPubliscServidorsWMSByUser.action?",
 	getAllPublicsServidorsWMS: HOST_APP+"layers/servidor/wms/getAllPublicsServidorsWMS.action?",
@@ -101,7 +105,7 @@ test( "hello test", function() {
 asyncTest( "login", 1, function() {
 	$.ajax({
 		url: urls.login,
-		data: {user: 'wszczerban', password:'piji23'},
+		data: {user: 'wszczerban', password:'piji32'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -116,7 +120,7 @@ asyncTest( "login", 1, function() {
 
 //admin_users
 module( "admin_users" );
-
+/*
 asyncTest( "createUser", 2, function() {
 	$.ajax({
 		url: urls.createUser,
@@ -159,7 +163,7 @@ asyncTest( "createUser", 2, function() {
 		start();
 	});	
 });
-/*
+
 asyncTest( "validateUid", 1, function() {
 	$.ajax({
 		url: urls.validateUid,
@@ -289,7 +293,6 @@ asyncTest( "registreUser", 2, function() {
 		start();
 	});	
 });
-*/
 
 asyncTest( "updatePassword", 1, function() {
 	$.ajax({
@@ -590,7 +593,7 @@ asyncTest( "getAllUserNames", 2, function() {
 		start();
 	});	
 });
-*/
+
 asyncTest( "deleteUser", 1, function() {
 	$.ajax({
 		url: urls.deleteUser,
@@ -606,7 +609,7 @@ asyncTest( "deleteUser", 1, function() {
 		start();
 	});	
 });
-
+*/
 //admin_tipus
 module( "admin_tipus" );
 /*
@@ -1462,7 +1465,36 @@ asyncTest( "updateMap", 2, function() {
 		start();
 	});	
 });
-
+*/
+asyncTest( "updateMapName", 2, function() {
+	$.ajax({
+		url: urls.updateMapName,
+		data: {
+			businessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
+			nom: 'jessi topin',
+			uid: 'wszczerban'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: { type: 'string', required : true}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+/*
 asyncTest( "getAllPublicsMaps", 3, function() {
 	$.ajax({
 		url: urls.getAllPublicsMaps,
@@ -1562,9 +1594,9 @@ asyncTest( "addServerToMap", 2, function() {
 		url: urls.addServerToMap,
 		data: {
 			uid: 'wszczerban',
-			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			layers: 'mt5m',
+			businessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
+			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			layers: 'mt25m',
 			calentas: false,
 			activas: true,
 			visibilitats: true
@@ -1700,6 +1732,27 @@ asyncTest( "updateServerToMap", 2, function() {
 		};
 		var report = env.validate(results, schema);
 		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "updateServersOrderToMap", 1, function() {
+	$.ajax({
+		url: urls.updateServersOrderToMap,
+		data: {
+			uid: 'wszczerban',
+			businessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
+			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b081,4c216bc1cdd8b3a69440b45b2713b082',
+			order: '1,2'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
 		start();
 	}).fail(function(results){
 		console.debug(results);
@@ -1886,8 +1939,8 @@ asyncTest( "createServidorWMS", 2, function() {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
 			uid: 'wszczerban',
 			visibilitat: 'O',
-			serverName: 'Orto 5m ICC',
-			url: 'http://mapcache.icc.cat/map/bases/service',
+			serverName: 'TOPO ICC',
+			url: 'http://mapcache.icc.cat/map/bases_noutm/service',
 			epsg: '4326',
 			version: '1.3.0',
 			imgFormat: 'image/png',
@@ -1895,7 +1948,7 @@ asyncTest( "createServidorWMS", 2, function() {
 			tiles: true,
 			transparency: true,
 			opacity: 1,
-			layers: JSON.stringify([{name:'mt5m',title:'Orto 5m',group:0,check:true,query:false}])
+			layers: JSON.stringify([{name:'topo',title:'topografic',group:0,check:true,query:false}])
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -2063,7 +2116,36 @@ asyncTest( "updateServidorWMS", 2, function() {
 		start();
 	});	
 });
-
+*/
+asyncTest( "updateServidorWMSName", 2, function() {
+	$.ajax({
+		url: urls.updateServidorWMSName,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
+			uid: 'wszczerban',
+			serverName: 'Ortofotos ICC'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",results.status);
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: { type: 'string', required : true}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+/*
 asyncTest( "getAllServidorsWMSByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllServidorsWMSByUser,
