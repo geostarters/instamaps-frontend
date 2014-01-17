@@ -1,4 +1,3 @@
-
 jQuery("#login_button").click(function(){
 
 	checkValidityLogin();

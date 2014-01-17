@@ -850,4 +850,3 @@ function initControls(){
 	activaEdicioUsuari();
 	addDialegsEstils();
 }
-

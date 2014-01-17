@@ -1,4 +1,3 @@
-
 var signin_social;
 	
 	jQuery(document).ready(function() {

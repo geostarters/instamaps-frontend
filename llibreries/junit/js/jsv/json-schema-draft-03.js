@@ -1548,5 +1548,4 @@
 	if (!JSV.getDefaultEnvironmentID() || JSV.getDefaultEnvironmentID() === "json-schema-draft-01" || JSV.getDefaultEnvironmentID() === "json-schema-draft-02") {
 		JSV.setDefaultEnvironmentID("json-schema-draft-03");
 	}
-
 }());

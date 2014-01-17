@@ -1493,5 +1493,4 @@ var exports = exports || this,
 	exports.JSV = JSV;  //export to CommonJS
 	
 	require("./environments");  //load default environments
-
 }());

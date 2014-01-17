@@ -107,3 +107,36 @@
   </body>
 </html>
 
+	<!--ADD  SCRIPTS-->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    	window.jQuery || document.write('<script type="text/javascript" src="/share/js/jquery/jquery-1.9.0.min.js"><\/script>')
+    </script>
+    <script type="text/javascript" src="/share/js/jquery/jquery-ui-1.10.0.custom.min.js"></script>
+    <script src="/share/js/jquery/plugins/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/share/js/jquery/plugins/idec/jquery.selectOptionsAjax-1.0.js"></script>
+    <script type="text/javascript">
+	    $('#test_selectOpAjax').selectOptionsAjax({
+			url: '/share/dades/json/municipis.json',
+			textOption: 'municipi',
+			valueOption: 'municipi',
+			onComplete: function(){
+				//para poner el chosen
+				$(this).chosen();
+			}
+		}).on('change',function(){
+			console.debug($(this).find("option:selected"));
+			$(this).find("option:selected").each(function(){
+				console.debug($(this).data('attributes'));
+			});
+			console.info($(this).val());
+		});
+    </script>
+    <script type="text/javascript">
+        var _gaq=[['_setAccount','UA-638564-2'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>

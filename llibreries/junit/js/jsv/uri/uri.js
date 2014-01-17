@@ -706,4 +706,5 @@ if (typeof require !== "function") {
 		"escapeComponent" : URI.escapeComponent,
 		"unescapeComponent" : URI.unescapeComponent
 	};
+	
 }());
