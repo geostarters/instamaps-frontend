@@ -1,5 +1,4 @@
 ;(function(){
-
 /**
  * Require the given path.
  *
@@ -640,7 +639,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       },
       completemultiple: noop,
       maxfilesexceeded: noop,
-      previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+      previewTemplate: "<div class=\"dz-preview dz-file-preview\" style=\"visibility:hidden\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
     };
 
     extend = function() {
@@ -1446,6 +1445,34 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 
     Dropzone.prototype._finished = function(files, responseText, e) {
       var file, _i, _len;
+      
+      if (document.getElementById("formFile")==null) {
+	      doReadFile(responseText).then(function(results){
+	    	  if (results.status=="OK"){
+	    		  //for (result in results.results){
+	    			//  alert(result+":"+results.results[result]);    			  
+	    		  //}
+				 doUploadFile(responseText,"X","Y","4326").then(function(results2){
+					 if (results2.status=="OK") {
+						 var businessId=results2.results;
+						 //Un cop carregat el fitxer refresquem el popup de les dades de l'usuari i tamb�
+						  //el control de capes			
+						 carregarCapa(businessId);
+						 refrescaPopOverMevasDades();
+					 }
+				 });
+				  
+				 
+	    	  }
+	    	 
+			}
+			);
+      }
+      else {
+    	  if (document.getElementById("formFile")){
+    		  document.getElementById("pathFile").value=responseText;
+    	  }
+      }
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
         file.status = Dropzone.SUCCESS;

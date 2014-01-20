@@ -35,6 +35,9 @@ var paramUrl = {
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	getAllTematicLayerByUid: HOST_APP+"geocat/layers/tematic/getAllTematicLayerByUid.action?",
 	deleteTematicLayerAll: HOST_APP+"geocat/layers/tematic/deleteTematicLayerAll.action?",
+	readFile: HOST_APP+"geocat/upload/readFile.action?",
+	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
+
 }
 
 

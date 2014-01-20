@@ -4,6 +4,8 @@ var factorW = 0;
 var _htmlDadesObertes = [];
 var capaUsrPunt, capaUsrLine, capaUsrPol;
 var mapConfig = {};
+var dades1,dades2;
+
 
 jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
@@ -44,15 +46,7 @@ jQuery(document).ready(function() {
 	
 	//carrega las capas del usuario
 	var data = {uid: $.cookie('uid')};
-	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
-		if (results1[0].status == "ERROR"){
-			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-			return false;
-		}
-		loadPopOverMevasDades(results1, results2);
-	},function(results){
-		window.location.href = paramUrl.loginPage;
-	});
+	carregaDadesUsuari(data);
 	
 	jQuery('.bt_publicar').on('click',function(){
 		$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
@@ -70,6 +64,21 @@ jQuery(document).ready(function() {
 	
 
 }); // Final document ready
+
+
+function carregaDadesUsuari(data){
+	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
+		if (results1[0].status == "ERROR"){
+			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
+			return false;
+		}
+		dades1=results1;
+		dades2=results2;
+		loadPopOverMevasDades();
+	},function(results){
+		window.location.href = paramUrl.loginPage;
+	});
+}
 
 function addClicksInici() {
 	jQuery('.bt_llista').on('click', function() {
@@ -335,7 +344,7 @@ function creaPopOverMevasDades(){
 	jQuery(".div_dades_usr").popover(
 		{
 			content : '<ul class="nav nav-tabs etiqueta">'
-					+ '<li><a href="#id_mysrvj" data-toggle="tab">Serveis vector</a></li>'
+					+ '<li><a href="#id_mysrvj" data-toggle="tab" id="#id_serveisv">Serveis vector</a></li>'
 					+ '<li><a href="#id_mysrvw" data-toggle="tab">Serveis WMS</a></li>'
 					+ '</ul>'
 					+ '<div class="tab-content">'
@@ -348,12 +357,17 @@ function creaPopOverMevasDades(){
 	});
 }
 
-function loadPopOverMevasDades(dades1, dades2){
-	jQuery(".div_dades_usr").on('click', function() {
-		gestionaPopOver(this);
+function loadPopOverMevasDades(){
 	
-		console.debug(dades2[0]);
-		
+	
+	
+	
+	
+	
+	jQuery(".div_dades_usr").on('click', function() {
+		var data = {uid: $.cookie('uid')};
+		gestionaPopOver(this);		
+				
 		var source1 = jQuery("#meus-wms-template").html();
 		var template1 = Handlebars.compile(source1);
 		var html1 = template1(dades1[0]);
@@ -389,17 +403,8 @@ function loadPopOverMevasDades(dades1, dades2){
 			event.preventDefault();
 			var _this = jQuery(this);
 			
-			var data = {
-				uid: $.cookie('uid'),
-				businessId: _this.data("businessid")
-			};
-			
-			getTematicLayerByBusinessId(data).then(function(results){
-				console.debug(results);
-				//TODO
-				//agregar la capa tematica al mapa. Leer los features y cargarlos
-			});
-			
+			carregarCapa(_this.data("businessid"));
+		
 		});
 		
 		jQuery("span.glyphicon-remove").on('click', function(event) {
@@ -408,7 +413,7 @@ function loadPopOverMevasDades(dades1, dades2){
 			var _this = jQuery(this);
 
 			//console.debug(_this.data("businessid"));
-		
+			
 			var data = {
 				uid: $.cookie('uid'),
 				businessId: _this.data("businessid")
@@ -424,6 +429,144 @@ function loadPopOverMevasDades(dades1, dades2){
 		
 	});
 	
+}
+
+function refrescaPopOverMevasDades(){
+	//carrega las capas del usuario
+	var data = {uid: $.cookie('uid')};
+	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
+		dades1=results1;
+		dades2=results2;
+	
+		
+	},function(results){
+		window.location.href = paramUrl.loginPage;
+	});
+	
+}
+
+function carregarCapa(businessId){
+	var data = {
+			uid: $.cookie('uid'),
+			businessId: businessId
+		};
+		
+		getTematicLayerByBusinessId(data).then(function(results){
+			console.debug(results);
+			//TODO
+			//agregar la capa tematica al mapa. Leer los features y cargarlos
+			var capaPunts=null;
+			var capaLinies=null;
+			var capaPoligons=null;
+			if (results.status=="OK") {
+			for (geometry in results.results.geometries.features.features){
+				var geometria=results.results.geometries.features.features[geometry].geometry;
+				var coordinates=""+geometria.coordinates;
+				
+				var tipus=geometria.type;
+				alert("TIPUS: "+tipus);
+				if (tipus=="Point") {
+					alert("AKI");
+					var coords=coordinates.split(",");
+					alert(coords[0]+","+coords[1]);
+					if (capaPunts==null) {
+						capaPunts = new L.FeatureGroup();
+						var latlng = L.latLng(coords[0],coords[1]);
+						var circle=L.circleMarker(latlng,200);
+						capaPunts.addLayer(circle);
+					}
+					else {
+						var latlng = L.latLng(coords[0],coords[1]);
+						var circle=L.circleMarker(latlng,200);
+						capaPunts.addLayer(circle);
+					}
+					
+					capaPunts.addTo(map);
+				}
+				if (tipus=="LineString"){
+					var coords=coordinates.split(",");
+					if (capaLinies==null){
+						capaLinies = new L.FeatureGroup();
+						var i=0;
+						var j=0;
+						var llistaPunts=[];
+						while (i< coords.length){
+							var c1=coords[i];
+							var c2=coords[i+1];
+							var punt=new L.LatLng(c1, c2);
+							llistaPunts[j]=punt;
+							i=i+2;
+							j++;
+						}
+						 var polyline =  L.polyline(llistaPunts, {color: 'red'})
+						
+						capaLinies.addLayer(polyline);
+					}
+					else {
+						var i=0;
+						var j=0;
+						var llistaPunts=[];
+						while (i< coords.length){
+							var c1=coords[i];
+							var c2=coords[i+1];
+							var punt=new L.LatLng(c1, c2);
+							llistaPunts[j]=punt;
+							i=i+2;
+							j++;
+						}
+						 var polyline =  L.polyline(llistaPunts, {color: 'red'})
+						
+						capaLinies.addLayer(polyline);
+					}
+					
+					capaLinies.addTo(map);
+				}
+				if (tipus=="Polygon") {
+					var coords=coordinates.split(",");
+					if (capaPoligons==null){
+						capaPoligons = new L.FeatureGroup();
+						var i=0;
+						var j=0;
+						var llistaPunts=[];
+						while (i< coords.length){
+							var c1=coords[i];
+							var c2=coords[i+1];
+							var punt=new L.LatLng(c1, c2);
+							llistaPunts[j]=punt;
+							i=i+2;
+							j++;
+						}
+						var polygon = new L.Polygon(llistaPunts,{color: 'red'});
+						capaPoligons.addLayer(polygon);
+					}
+					else {
+						var i=0;
+						var j=0;
+						var llistaPunts=[];
+						while (i< coords.length){
+							var c1=coords[i];
+							var c2=coords[i+1];
+							var punt=new L.LatLng(c1, c2);
+							llistaPunts[j]=punt;
+							i=i+2;
+							j++;
+						}
+						var polygon = new L.Polygon(llistaPunts,{color: 'red'});
+						capaPoligons.addLayer(polygon);
+						
+					}
+					capaPoligons.addTo(map);
+				}
+			}
+			
+				if (capaPunts!=null) controlCapes.addOverlay(capaPunts,results.results.title, true);
+				if (capaLinies!=null) controlCapes.addOverlay(capaLinies,results.results.title, true);
+				if (capaPoligons!=null) controlCapes.addOverlay(capaPoligons,results.results.title, true);
+				activaPanelCapes(true);
+				
+			}
+			else alert(results.status);
+		});
 }
 
 function creaPopOverDadesExternes() {
