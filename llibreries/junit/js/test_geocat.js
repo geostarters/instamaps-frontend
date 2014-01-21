@@ -1465,7 +1465,7 @@ asyncTest( "updateMap", 2, function() {
 		start();
 	});	
 });
-*/
+
 asyncTest( "updateMapName", 2, function() {
 	$.ajax({
 		url: urls.updateMapName,
@@ -1494,7 +1494,7 @@ asyncTest( "updateMapName", 2, function() {
 		start();
 	});	
 });
-/*
+
 asyncTest( "getAllPublicsMaps", 3, function() {
 	$.ajax({
 		url: urls.getAllPublicsMaps,
@@ -1588,7 +1588,7 @@ asyncTest( "getAllMaps", 3, function() {
 		start();
 	});
 });
-
+*/
 asyncTest( "addServerToMap", 2, function() {
 	$.ajax({
 		url: urls.addServerToMap,
@@ -1641,7 +1641,7 @@ asyncTest( "addServerToMap", 2, function() {
 		start();
 	});	
 });
-
+/*
 asyncTest( "getMapById", 2, function() {
 	$.ajax({
 		url: urls.getMapById,
@@ -2116,7 +2116,7 @@ asyncTest( "updateServidorWMS", 2, function() {
 		start();
 	});	
 });
-*/
+
 asyncTest( "updateServidorWMSName", 2, function() {
 	$.ajax({
 		url: urls.updateServidorWMSName,
@@ -2145,7 +2145,7 @@ asyncTest( "updateServidorWMSName", 2, function() {
 		start();
 	});	
 });
-/*
+
 asyncTest( "getAllServidorsWMSByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllServidorsWMSByUser,

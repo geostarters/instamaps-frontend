@@ -43,6 +43,7 @@ function tradueixMenusToolbar() {
 					}
 				},
 				marker : {
+					
 					tooltip : {
 						start : 'Fes clic al mapa per posar un punt.'
 					}
@@ -56,6 +57,7 @@ function tradueixMenusToolbar() {
 				},
 				polyline : {
 					error : '<strong>Error:</strong> àrees no es poden creuar!',
+					
 					tooltip : {
 						start : 'Clica per començar a dibuixar una línia.',
 						cont : 'Clica per continuar dibuixant una línia.',
