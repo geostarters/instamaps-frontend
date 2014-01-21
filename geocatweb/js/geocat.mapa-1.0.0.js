@@ -65,25 +65,21 @@ jQuery(document).ready(function() {
 
 }); // Final document ready
 
-
-function carregaDadesUsuari(data){
-	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
-		if (results1[0].status == "ERROR"){
-			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-			return false;
-		}
-		dades1=results1;
-		dades2=results2;
-		loadPopOverMevasDades();
-	},function(results){
-		window.location.href = paramUrl.loginPage;
-	});
-}
-
 function addClicksInici() {
 	jQuery('.bt_llista').on('click', function() {
 		activaPanelCapes();
 	});
+	
+	jQuery(document).on('click', function(e) {
+        if(e.target.id.indexOf("popovercloseid" )!=-1)
+        {
+       	 var pop=e.target.id.split("#");
+       	 var ddv="#"+pop[1];
+       	 jQuery(ddv).popover('hide');
+       	 //addCapaMunicipis();	        
+        }
+
+     });
 }
 
 function addOpcionsFonsMapes() {
@@ -114,6 +110,7 @@ function gestionaPopOver(pop) {
 	jQuery('.pop').not(pop).popover('hide');
 	jQuery(pop).popover('toggle');
 	jQuery(".popover").css('left', pLeft());
+	jQuery('.popover-title').append('<span id="popovercloseid#'+jQuery(pop).attr('id')+'" class="glyphicon glyphicon-remove bt_tanca"></span>');
 }
 
 function addControlsInici() {
@@ -221,7 +218,7 @@ function addToolTipsInici() {
 	$('.white').tooltip(opt);
 	$('#div_punt').tooltip(optB);
 	$('#div_linia').tooltip(optB);
-	$('#div_poligon').tooltip(optB);
+	$('#div_area').tooltip(optB);
 	$('.bt_publicar').tooltip(opt);
 }
 
@@ -248,97 +245,212 @@ function activaPanelCapes(obre) {
 	}
 }
 
-/**
- * This tiny script just helps us demonstrate what the various example callbacks
- * are doing
- */
-var Example = (function() {
-	"use strict";
+var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
+		'iconGlif':'',
+		'colorGlif':'#333333'};
 
-	var elem, hideHandler, that = {};
+var estilV={'iconFonsL':'vector-web vector-orange',
+		'weightL':'5',
+		'colorL':'#FFC400',
+		'iconFonsP':'vector-web vector-orange_p',
+		'weightP':'5',
+		'colorP':'#FFC400'		
+};
 
-	that.init = function(options) {
-		elem = $(options.selector);
-	};
+function changeDefaultVectorStyle(estilV){
+	drawControl.options.polygon.shapeOptions.color=estilV.colorP;
+	drawControl.options.polyline.shapeOptions.color=estilV.colorL;
+}
 
-	that.show = function(text) {
-		clearTimeout(hideHandler);
-
-		elem.find("span").html(text);
-		elem.delay(200).fadeIn().delay(4000).fadeOut();
-	};
-
-	return that;
-}());
+function changeDefaultPointStyle(estilP) {
+	
+	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
+	var _iconGlif=estilP.iconGlif;	
+	if(_iconGlif.indexOf("fa fa-")!=-1){_iconGlif=estilP.iconGlif.replace('fa fa-','');};
+	
+	var _colorGlif=estilP.colorGlif;
+	
+	if(_iconFons.indexOf("_r")!=-1){ //sóc rodó		
+		
+		defaultPunt.options.shadowSize = new L.Point(1, 1);
+		
+		if(_iconGlif==""){//no tin glif
+		defaultPunt.options.iconAnchor= new L.Point(7, 7);
+		defaultPunt.options.iconSize = new L.Point(14, 14);
+		
+		
+		}else{
+			
+		defaultPunt.options.iconAnchor= new L.Point(14, 14);
+		defaultPunt.options.iconSize = new L.Point(28, 28);
+		}
+	}else{ // sóc punt
+		defaultPunt.options.iconAnchor= new L.Point(14, 42);
+		defaultPunt.options.iconSize = new L.Point(28, 42);
+		defaultPunt.options.shadowSize = new L.Point(36, 16);
+		
+	}
+	
+	defaultPunt.options.icon=_iconGlif;
+	defaultPunt.options.markerColor=_iconFons;
+	defaultPunt.options.iconColor=_colorGlif;
+	
+} 
 
 function addDialegsEstils() {
 
-	$(function() {
-		Example.init({
-			"selector" : ".bb-alert"
-		});
+	jQuery('#div_mes_punts').on("click", function(e) {	
+		jQuery('#dialog_estils_punts').modal('toggle');
+		jQuery('#dialog_estils_linies').modal('hide');
+		jQuery('#dialog_estils_arees').modal('hide');	
 	});
 
-	jQuery('#div_mes_punts').on("click", function(e) {
-		console.info(e);
-		bootbox.dialog({
-			message : "<img src=\"/geocatweb/css/images/icones_3.png\">",
-			title : "Punts",
-			buttons : {
-				success : {
-					label : "ok",
-					className : "btn-success",
-					callback : function() {
-						Example.show("Estil canviat");
-					}
-				},
-				danger : {
-					label : "cancel",
-					className : "btn-danger",
-					callback : function() {
-						// Example.show("uh oh, look out!");
-					}
-				}
-
-			}
-		});
-
+	jQuery('#div_mes_linies').on("click", function(e) {	
+		jQuery('#dialog_estils_linies').modal('toggle');
+		jQuery('#dialog_estils_punts').modal('hide');
+		jQuery('#dialog_estils_arees').modal('hide');	
 	});
-
+	
+	jQuery('#div_mes_arees').on("click", function(e) {	
+		jQuery('#dialog_estils_arees').modal('toggle');	
+		jQuery('#dialog_estils_linies').modal('hide');
+		jQuery('#dialog_estils_punts').modal('hide');	
+	});
+	
+	jQuery('#dialog_estils_punts .btn-success').on('click',function(){		
+		jQuery('#div_punt').removeClass();
+		jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
+		jQuery('#div_punt').css('color',estilP.colorGlif);
+		jQuery('#dialog_estils_punts').modal('toggle');		
+		changeDefaultPointStyle(estilP);
+				
+	});
+	
+	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
+		//jQuery('#div_linia').removeClass();
+		jQuery('#div_linia').css('background-position',jQuery('#div_linia0').css('background-position'));		
+		jQuery('#dialog_estils_linies').modal('toggle');		
+		changeDefaultVectorStyle(estilV);
+				
+	});
+	
+	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
+		//jQuery('#div_area').removeClass();
+		//jQuery('#div_area').addClass(jQuery('#div_area0').attr('class'));	
+		jQuery('#div_area').css('background-position',jQuery('#div_area0').css('background-position'));	
+		jQuery('#dialog_estils_arees').modal('toggle');		
+		changeDefaultVectorStyle(estilV);
+				
+	});
+	
+	jQuery('#dialog_estils_punts .btn-default').on('click',function(){			
+		jQuery('#dialog_estils_punts').modal('toggle');
+	})
+	
+		
+	jQuery(document).on('click', ".bs-punts li", function(e) {
+		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery('#div_punt0').removeClass();
+		estilP.iconFons=jQuery('div', this).attr('class');
+		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+		jQuery(this).addClass("estil_selected");		
+	});
+	
+	jQuery(document).on('click', ".bs-linies li", function(e) {
+		jQuery(".bs-linies li").removeClass("estil_selected");
+		jQuery('#div_linia0').removeClass();
+		estilV.iconFonsL=jQuery('div', this).attr('class');
+		estilV.colorL=jQuery('div', this).css('color');
+		jQuery('#div_linia0').addClass(estilV.iconFonsL);
+		jQuery(this).addClass("estil_selected");		
+	});
+	
+	jQuery(document).on('click', ".bs-arees li", function(e) {
+		jQuery(".bs-arees li").removeClass("estil_selected");
+		jQuery('#div_area0').removeClass();
+		estilV.iconFonsP=jQuery('div', this).attr('class');
+		estilV.colorP=jQuery('div', this).css('color');
+		jQuery('#div_area0').addClass(estilV.iconFonsP);
+		jQuery(this).addClass("estil_selected");		
+	});
+	
+	jQuery(document).on('click', ".bs-colors li", function(e) {
+		jQuery(".bs-colors li").removeClass("estil_selected");
+		estilP.colorGlif=jQuery('div', this).css('background-color');
+		nClass=jQuery('div', this).attr('class');
+		jQuery('.bs-glyphicons li').css('color',estilP.colorGlif);
+		if(nClass=="c_white"){
+			jQuery('.bs-glyphicons li').css('background-color','#aaaaaa');	
+		}else{
+			jQuery('.bs-glyphicons li').css('background-color','#FFFFFF');	
+		}
+		jQuery('#div_punt0').css('color',estilP.colorGlif);
+		jQuery(this).addClass("estil_selected");
+	});
+	
+	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
+		jQuery(".bs-glyphicons li").removeClass("estil_selected");
+		jQuery('#div_punt0').removeClass();
+		estilP.iconGlif=jQuery('span', this).attr('class');
+		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+		jQuery(this).addClass("estil_selected");
+	});
 }
 
 function creaPopOverMesFons() {
+	jQuery("#div_mesfons")
+	.popover(
+	{
+		content : '<div id="div_menu_mesfons" class="div_gr3">'
+				+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="Catalunya 1936" class="div_fons_10"></div>'
+				+ '</div>',
+		container : 'body',
+		html : true,
+		trigger : 'manual'
+	}).click(function(e){
+		jQuery('.bt_tanca').click(function(e){
+			jQuery(this).popover('hide');
+        });
+        e.preventDefault();
+	});
+	
+	jQuery('#div_menu_mesfons div').tooltip(optB);
 
+	jQuery(document).on('click', "#div_menu_mesfons div", function(e) {
+		var fons = jQuery(this).attr('id');
+		if (fons == 'historicMap') {
+			map.historicMap();
+		}
+	});
+		
+	jQuery("#div_mesfons").on('click',function(e){
+		gestionaPopOver(this);
+		
+	});
 }
 
 function creaPopOverMesFonsColor() {
-
 	jQuery("#colorMap")
-			.popover(
-					{
-						content : '<div id="div_menufons" class="div_gr3">'
-								+ '<div id="nit" lang="ca"  data-toggle="tooltip" title="Nit" class="div_fons_6"></div>'
-								+ '<div id="sepia" lang="ca"  data-toggle="tooltip" title="Sèpia" class="div_fons_7"></div>'
-								+ '<div id="zombie" lang="ca"  data-toggle="tooltip" title="Zombie" class="div_fons_8"></div>'
-								+ '<div id="orquidea" lang="ca"  data-toggle="tooltip" title="Orquídea" class="div_fons_9"></div>'
-								+ '</div>',
-						container : 'body',
-						html : true,
-						trigger : 'manual'
-					});
+	.popover(
+	{
+		content : '<div id="div_menufons" class="div_gr3">'
+				+ '<div id="nit" lang="ca"  data-toggle="tooltip" title="Nit" class="div_fons_6"></div>'
+				+ '<div id="sepia" lang="ca"  data-toggle="tooltip" title="Sèpia" class="div_fons_7"></div>'
+				+ '<div id="zombie" lang="ca"  data-toggle="tooltip" title="Zombie" class="div_fons_8"></div>'
+				+ '<div id="orquidea" lang="ca"  data-toggle="tooltip" title="Orquídea" class="div_fons_9"></div>'
+				+ '</div>',
+		container : 'body',
+		html : true,
+		trigger : 'manual'
+	});
 
 	jQuery('#div_menufons div').tooltip(optB);
 
 	jQuery(document).on('click', "#div_menufons div", function(e) {
-
 		var fons = jQuery(this).attr('id');
-
 		map.colorMap(fons);
-
 	});
-
 }
-
 
 function creaPopOverMevasDades(){
 	jQuery(".div_dades_usr").popover(
@@ -358,12 +470,6 @@ function creaPopOverMevasDades(){
 }
 
 function loadPopOverMevasDades(){
-	
-	
-	
-	
-	
-	
 	jQuery(".div_dades_usr").on('click', function() {
 		var data = {uid: $.cookie('uid')};
 		gestionaPopOver(this);		
@@ -571,25 +677,24 @@ function carregarCapa(businessId){
 
 function creaPopOverDadesExternes() {
 	jQuery(".div_dades_ext")
-			.popover(
-					{
-
-						content : '<ul class="nav nav-tabs etiqueta">'
-								+ '<li><a href="#id_do" data-toggle="tab">Dades Obertes</a></li>'
-								+ '<li><a href="#id_xs" data-toggle="tab">Xarxes socials</a></li>'
-								+ '<li><a href="#id_srvj" data-toggle="tab">Serveis JSON</a></li>'
-								+ '<li><a href="#id_srvw" data-toggle="tab">Serveis WMS</a></li>'
-								+ '</ul>'
-								+ '<div class="tab-content">'
-								+ '<div class="tab-pane fade" id="id_do"></div>'
-								+ '<div class="tab-pane fade" id="id_xs"></div>'
-								+ '<div class="tab-pane fade" id="id_srvj"></div>'
-								+ '<div class="tab-pane fade" id="id_srvw">.</div>'
-								+ '</div>',
-						container : 'body',
-						html : true,
-						trigger : 'manual'
-					});
+	.popover(
+	{
+		content : '<ul class="nav nav-tabs etiqueta">'
+			+ '<li><a href="#id_do" data-toggle="tab">Dades Obertes</a></li>'
+			+ '<li><a href="#id_xs" data-toggle="tab">Xarxes socials</a></li>'
+			+ '<li><a href="#id_srvj" data-toggle="tab">Serveis JSON</a></li>'
+			+ '<li><a href="#id_srvw" data-toggle="tab">Serveis WMS</a></li>'
+			+ '</ul>'
+			+ '<div class="tab-content">'
+			+ '<div class="tab-pane fade" id="id_do"></div>'
+			+ '<div class="tab-pane fade" id="id_xs"></div>'
+			+ '<div class="tab-pane fade" id="id_srvj"></div>'
+			+ '<div class="tab-pane fade" id="id_srvw">.</div>'
+			+ '</div>',
+		container : 'body',
+		html : true,
+		trigger : 'manual'
+	});
 
 	jQuery(".div_dades_ext").on('click', function() {
 
@@ -599,15 +704,14 @@ function creaPopOverDadesExternes() {
 			var tbA = e.target.attributes.href.value;
 
 			if (tbA == "#id_do") {
-
+				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlDadesObertes.join(' '));
 
-				jQuery(document).on('click', tbA, function(e) {
-
-					addCapaDadesObertes(e.target.id);
-
+				jQuery(tbA).on('click', function(e) {
+					if(e.target.id !="id_do"){
+						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
+					}
 				});
-
 			}
 		});
 	})
@@ -618,7 +722,7 @@ function pLeft() {
 }
 
 var capaDadaOberta;
-function addCapaDadesObertes(dataset) {
+function addCapaDadesObertes(dataset,nom_dataset) {
 
 	var url = paramUrl.dadesObertes + "dataset=" + dataset;
 
@@ -630,199 +734,115 @@ function addCapaDadesObertes(dataset) {
 		businessId : '-1',
 		dataType : "jsonp",
 		pointToLayer : function(feature, latlng) {
-
+			console.info(feature);
+			if(dataset.indexOf('meteo')!=-1){
+				return L.marker(latlng, {icon:L.icon({					
+					    iconUrl: feature.style.iconUrl,
+					    iconSize:     [44, 44], 
+					    iconAnchor:   [22, 22], 				   
+					    popupAnchor:  [-3, -3] 
+				})});
+			}else if(dataset.indexOf('incidencies')!=-1){
+				var inci=feature.properties.descripcio_tipus;
+				console.info(feature.properties.descripcio_tipus);
+				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
+				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
+				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
+				console.info(imgInci);
+				return L.marker(latlng, {icon:L.icon({					
+				    iconUrl: imgInci,
+				    iconSize:     [30, 26], 
+				    iconAnchor:   [15, 13], 				   
+				    popupAnchor:  [-3, -3] 
+			})});
+			}else if(dataset.indexOf('cameres')!=-1){
+				return L.marker(latlng, {icon:L.icon({					
+				    iconUrl: "/geocatweb/img/st_came.png",
+				    iconSize:     [30, 26], 
+				    iconAnchor:   [15, 13], 				   
+				    popupAnchor:  [-3, -3] 
+			})});
+			}else{
 			return L.circleMarker(latlng, estil_do);
-
+			}
 		}
 	});
 
 	capaDadaOberta.addTo(map)
-	controlCapes.addOverlay(capaDadaOberta, dataset, true);
+	controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
 	activaPanelCapes(true);
 	// capaDadaOberta.on('layeradd',objecteUserAdded)
 
 }
 
-function popUp(f, l) {
+function addCapaMunicipis() {
+	var url = "/llibreries/dades/json/municipis.geojson";
+	capaDadaOberta = new L.GeoJSON.AJAX(url, {
+		onEachFeature : popUp,
+		nom : "Minicipis",
+		tipus : 'Poligon',
+		businessId : '-1',
+		style:{"color": "#ff7800","weight": 1,"opacity": 0.65}
+	});
+	capaDadaOberta.addTo(map)
+	controlCapes.addOverlay(capaDadaOberta, "Municipis", true);
+	activaPanelCapes(true);
+}
 
+function loadingMap(accio){	
+	if(accio){		
+		if(jQuery('.search-load').css('display')!='block'){
+			jQuery('.search-load').show();
+		}	
+	}else{
+		jQuery('.search-load').hide();
+	}	
+}
+
+function popUp(f, l) {
 	var out = [];
-	// data.push({lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],value:1});
 	if (f.properties) {
 		for (key in f.properties) {
-			out.push(key + ": " + f.properties[key]);
+			if (key == 'Name' || key == 'Description') {
+				out.push(f.properties[key]);
+			} else if (key == 'link') {
+				ll = f.properties[key];
+				if (ll.indexOf('.gif')) {
+					out.push('<img width="100" src="' + ll + '"/>');
+				} else {
+					out.push('<a target="_blank" href="' + ll + '"/>' + ll
+							+ '</a>');
+				}
+			} else {
+				out.push("<b>" + key + "</b>: " + f.properties[key]);
+			}
 		}
 		l.bindPopup(out.join("<br />"));
-
 	}
-
 }
 
 function generaLListaDadesObertes() {
-
 	getLListaDadesObertes()
-			.then(
-					function(results) {
-						$
-								.each(
-										results.dadesObertes,
-										function(key, dataset) {
-											var as;
-											if (key % 2 != 0) {
-												as = "</br>";
-											} else {
-												as = ""
-											}
-											_htmlDadesObertes
-													.push('<a class="label label-explora" href="#" id="'
-															+ dataset.dataset
-															+ '">'
-															+ dataset.text
-															+ '</a>' + as);
-										});
-
-					});
-
-}
-
-var drawControl;
-function addDrawToolbar() {
-	capaUsrPunt = new L.FeatureGroup();
-	capaUsrPunt.options = {
-		businessId : '-1',
-		nom : 'capaPunts1',
-		tipus : 'Marker'
-	};
-	capaUsrLine = new L.FeatureGroup({
-		businessId : '-1',
-		nom : 'capa1',
-		tipus : 'Linea'
+	.then(function(results) {
+		_htmlDadesObertes.push('<div><ul class="bs-dadesO">');
+		$
+		.each(results.dadesObertes,	function(key, dataset) {
+			_htmlDadesObertes
+			.push('<li><a class="label label-explora" href="#" id="'
+					+ dataset.dataset
+					+ '">'
+					+ dataset.text
+					+ '</a></li>');
+		});
+		_htmlDadesObertes.push('</ul></div>');
 	});
-	capaUsrLine.options = {
-		businessId : '-1',
-		nom : 'capaLinea1',
-		tipus : 'Line'
-	};
-	capaUsrPol = new L.FeatureGroup({
-		businessId : '-1',
-		nom : 'capa1',
-		tipus : 'Pol'
-	});
-	capaUsrPol.options = {
-		businessId : '-1',
-		nom : 'capaPol1',
-		tipus : 'Pol'
-	};
-	map.addLayer(capaUsrPunt);
-	map.addLayer(capaUsrLine);
-	map.addLayer(capaUsrPol);
-
-	var MyCustomMarker = L.Icon.extend({
-		options : {
-			shadowUrl : null,
-			iconAnchor : new L.Point(12, 12),
-			iconSize : new L.Point(24, 40),
-			iconUrl : '/geocatweb/css/images/markeriombra_instamapes.png'
-		}
-	});
-
-	var options = {
-		draw : false,
-		polyline : {
-			guidelineDistance : 2,
-			shapeOptions : {
-				color : '#FFC400',
-				weight : 5,
-				opacity : 1
-			}
-		},
-		polygon : {
-			allowIntersection : true, // Restricts shapes
-			guidelineDistance : 2,
-			shapeOptions : {
-				color : '#FFC400',
-				weight : 5,
-				opacity : 0.7
-			}
-		},
-		// marker : {icon: new MyCustomMarker()},
-		edit : false
-	};
-
-	drawControl = new L.Control.Draw(options);
-	map.addControl(drawControl);
-
-}
-
-function activaEdicioUsuari() {
-
-	jQuery('#div_punt').on('click', function() {
-		var dd = new L.Draw.Marker(map, drawControl.options.marker);
-		dd.enable();
-	});
-
-	jQuery('#div_linia').on('click', function() {
-
-		var dd = new L.Draw.Polyline(map, drawControl.options.polyline);
-		dd.enable();
-	});
-
-	jQuery('#div_poligon').on('click', function() {
-		var dd = new L.Draw.Polygon(map, drawControl.options.polygon);
-		dd.enable();
-	});
-
-	map.on('draw:created',
-					function(e) {
-						var type = e.layerType, layer = e.layer;
-						// console.info(e);
-						// if (type === 'marker') {
-						layer.bindPopup('TODO: Esborra Editar ');
-						// }
-						if (type === 'marker') {
-
-							var redMarker = L.AwesomeMarkers.icon({
-								icon : 'coffee',
-								markerColor : 'red',
-								iconColor : '#000000',
-								prefix : 'glyphicon'
-							});
-							// layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
-							// {icon: redMarker}).addTo(map);
-							capaUsrPunt.addLayer(layer).on('layeradd',
-									objecteUserAdded);
-						} else if (type === 'polyline') {
-							capaUsrLine.addLayer(layer).on('layeradd',
-									objecteUserAdded);
-						} else if (type === 'polygon') {
-							capaUsrPol.addLayer(layer).on('layeradd',
-									objecteUserAdded);
-						}
-
-						if (capaUsrPunt.toGeoJSON().features.length == 1) {
-							controlCapes.addOverlay(capaUsrPunt,
-									capaUsrPunt.options.nom, true);
-							activaPanelCapes(true);
-						}
-						if (capaUsrLine.toGeoJSON().features.length == 1) {
-							controlCapes.addOverlay(capaUsrLine,
-									capaUsrLine.options.nom, true);
-							activaPanelCapes(true);
-						}
-						if (capaUsrPol.toGeoJSON().features.length == 1) {
-							controlCapes.addOverlay(capaUsrPol,
-									capaUsrPol.options.nom, true);
-							activaPanelCapes(true);
-						}
-					});
 }
 
 function loadMapConfig(mapConfig){
 	console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
-	
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
-		
 		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options.fons != 'topoMap'){
@@ -830,8 +850,7 @@ function loadMapConfig(mapConfig){
 			map.setMapColor(mapConfig.options.fonsColor);
 			//map.gestionaFons();
 		}
-		
-				
+			
 		if (mapConfig.options.bbox){
 			var bbox = mapConfig.options.bbox.split(",");
 			var southWest = L.latLng(bbox[1], bbox[0]),
@@ -839,8 +858,7 @@ function loadMapConfig(mapConfig){
 		    bounds = L.latLngBounds(southWest, northEast);
 			map.fitBounds( bounds ); 
 		}
-							
-		
+	
 		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
 			
@@ -992,4 +1010,20 @@ function initControls(){
 	addDrawToolbar();
 	activaEdicioUsuari();
 	addDialegsEstils();
+	addControlCercaEdit();
+	creaPopOverMesFons();
+}
+
+function carregaDadesUsuari(data){
+	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
+		if (results1[0].status == "ERROR"){
+			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
+			return false;
+		}
+		dades1=results1;
+		dades2=results2;
+		loadPopOverMevasDades();
+	},function(results){
+		window.location.href = paramUrl.loginPage;
+	});
 }
