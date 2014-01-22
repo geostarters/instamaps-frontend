@@ -667,26 +667,6 @@ function carregarCapa(businessId){
 }
 
 function creaPopOverDadesExternes() {
-	jQuery(".div_dades_ext")
-	.modal(
-	{
-		content : '<ul class="nav nav-tabs etiqueta">'
-			+ '<li><a href="#id_do" data-toggle="tab">Dades Obertes</a></li>'
-			+ '<li><a href="#id_xs" data-toggle="tab">Xarxes socials</a></li>'
-			+ '<li><a href="#id_srvj" data-toggle="tab">Serveis JSON</a></li>'
-			+ '<li><a href="#id_srvw" data-toggle="tab">Serveis WMS</a></li>'
-			+ '</ul>'
-			+ '<div class="tab-content">'
-			+ '<div class="tab-pane fade" id="id_do"></div>'
-			+ '<div class="tab-pane fade" id="id_xs"></div>'
-			+ '<div class="tab-pane fade" id="id_srvj"></div>'
-			+ '<div class="tab-pane fade" id="id_srvw">.</div>'
-			+ '</div>',
-		container : 'body',
-		html : true,
-		trigger : 'manual'
-	});
-
 	jQuery(".div_dades_ext").on('click', function() {
 
 		//gestionaPopOver(this);
