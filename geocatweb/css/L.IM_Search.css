@@ -145,7 +145,7 @@
 }
 .leaflet-control-search .search-button {
 	display:block;
-	float:left;
+	float:right;
 	width:26px;
 	height:26px;	
 	/*

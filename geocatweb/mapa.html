@@ -591,9 +591,48 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
 <!--  fi modal arees -->
+
+	<!-- Modal Dades Externes -->
+	<div class="modal fade" id="dialog_dades_ex">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Explora altres fonts de
+						dades</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs etiqueta">
+						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades
+								Obertes</a></li>
+						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes
+								socials</a></li>
+						<li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis
+								JSON</a></li>
+						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis
+								WMS</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade" id="id_do"></div>
+						<div class="tab-pane fade" id="id_xs"></div>
+						<div class="tab-pane fade" id="id_srvj"></div>
+						<div class="tab-pane fade" id="id_srvw"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+         <button type="button" class="btn btn-success">Canviar</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!--  Modal Dades Externes -->
+
 
 	<!-- Le javascript
     ================================================== -->
@@ -616,6 +655,7 @@
 	<script src="/geocatweb/js/geocat.mapa.layers.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.draw.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.search.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.wms.js" type="text/javascript"></script>
 	
 	<script src="/llibreries/js/dropzone.js" type="text/javascript"></script>
 	<script>

@@ -95,13 +95,6 @@ h1,h2,h3,h4,h5,h6 {
 	padding: 8px 2px 8px 7px;
 }
 
-/*
-.td1{background-color: rgba(0,0,0, 0.53);}rgba(104, 108, 95,0.80)
-.td2{background-color: rgba(0,0,0, 0.60);}rgba(89, 90, 81,0.80)
-.td3{background-color: rgba(0,0,0, 0.67);}rgba(73, 77, 71,0.80)
-.td4{background-color: rgba(0,0,0, 0.73);}rgba(60, 62, 54,0.80)
-.td5{background-color: rgba(0,0,0, 0.80);}rgba(45, 46, 41,0.80)
-*/
 .td1 {
 	background-color: rgba(104, 108, 95, 0.90);
 }
@@ -161,8 +154,19 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .label-explora {
-	background-color: #F6A529;
+	background-color: #ED8012;
 	border-radius: 0;
+	font-size: 13px;
+}
+
+.label-wms {
+	background-color: #55990A;
+	border-radius: 0;
+	font-size: 13px;
+}
+
+.label:hover{
+	color:#dddddd !important;
 }
 
 .leaflet-control-layers {
@@ -508,19 +512,31 @@ h1,h2,h3,h4,h5,h6 {
 	border-radius: 0;
 }
 
-#dialog_estils_punts .modal-dialog {
+#dialog_dades_ex .modal-dialog {
+	padding-top: 10%;
+	width: 40%;
+	
+}
+
+#dialog_estils_punts .modal-dialog,
+#dialog_estils_linies .modal-dialog,
+#dialog_estils_arees .modal-dialog  {
 	padding-top: 10%;
 	width: 30%;
 }
 
-#dialog_estils_linies .modal-dialog {
-	padding-top: 10%;
-	width: 30%;
+.info-wms{
+	color: #55990A;
+    font-size: 14px;
+    margin-left: 2px
+		
 }
 
-#dialog_estils_arees .modal-dialog {
-	padding-top: 10%;
-	width: 30%;
+.info-explora{
+	color: #ED8012;
+    font-size: 14px;
+    margin-left: 2px
+		
 }
 
 .modal-header {
@@ -894,21 +910,21 @@ i.fa {
 }
 
 .bs-dadesO li {
-	border: 1px solid #DDDDDD;
-	float: left;
-	font-size: 14px;
-	height: 30px;
-	line-height: 0.4;
-	margin: 0 -1px -1px 0;
-	padding: 10px;
-	text-align: center;
-	width: 50%;
-	color: #000000;
+    border: 1px dashed #DDDDDD;
+    color: #000000;
+    float: left;
+    font-size: 14px;
+    height: 28px;
+    line-height: 0.8;
+    margin: 0 -1px -1px 0;
+    padding: 5px;
+    text-align: left;
+    width: 50%;
 }
 
-.bs-dadesO li:hover {
-	border: 2px solid #FFCB00;
-	cursor: pointer;
+.tbl{
+ border: 1px dashed #DDDDDD;
+ width:100%;
 }
 
 .bs-glyphicons {
@@ -1085,7 +1101,7 @@ i.fa {
 
 @media ( max-width :767px) {
 	.leaflet-sidebar {
-		width: 100%;
+		/*width: 100%;*/
 		padding: 0;
 	}
 	.leaflet-sidebar.left {
@@ -1219,16 +1235,16 @@ i.fa {
 		font-size: 14px;
 	}
 	.dibuix_punt {
-		background: url('images/galeria_icones.png') no-repeat 0 0;
-		background-size: 90px auto;
+		background: url('images/galeria_icones.png') no-repeat  scroll 2px -312px;
+		cursor:pointer;
 		width: 25px;
 		height: 40px;
 		margin: auto;
 		text-align: center;
 	}
 	.dibuix_linia {
-		background: url('images/galeria_icones.png') no-repeat -20px 0;
-		background-size: 90px auto;
+		background: url('images/galeria_icones.png') no-repeat scroll 2px -245px;
+		cursor:pointer;
 		width: 35px;
 		height: 40px;
 		margin-left: 15%;
@@ -1237,8 +1253,8 @@ i.fa {
 		text-align: center;
 	}
 	.dibuix_poligon {
-		background: url('images/galeria_icones.png') no-repeat -60px 0;
-		background-size: 90px auto;
+		background: url('images/galeria_icones.png') no-repeat  scroll 2px -173px;
+		cursor:pointer;
 		width: 37px;
 		height: 40px;
 		margin-right: 10px;
@@ -1337,16 +1353,16 @@ i.fa {
 		font-size: 14px;
 	}
 	.dibuix_punt {
-		background: url('images/galeria_icones.png') no-repeat 0 0;
-		background-size: 90px auto;
+		background: url('images/galeria_icones.png') no-repeat  scroll 2px -312px;
+		cursor:pointer;
 		width: 25px;
 		height: 40px;
 		margin: auto;
 		text-align: center;
 	}
 	.dibuix_linia {
-		background: url('images/galeria_icones.png') no-repeat -20px 0;
-		background-size: 90px auto;
+		background: url('images/galeria_icones.png') no-repeat scroll 2px -245px;
+		cursor:pointer;
 		width: 35px;
 		height: 40px;
 		margin-left: 15%;
@@ -1355,8 +1371,8 @@ i.fa {
 		text-align: center;
 	}
 	.dibuix_poligon {
-		background: url('images/galeria_icones.png') no-repeat -60px 0;
-		background-size: 90px auto;
+		background: url('images/galeria_icones.png') no-repeat  scroll 2px -173px;
+		cursor:pointer;
 		width: 37px;
 		height: 40px;
 		margin-right: 10px;

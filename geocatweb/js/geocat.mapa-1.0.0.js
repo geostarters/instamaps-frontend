@@ -6,7 +6,6 @@ var capaUsrPunt, capaUsrLine, capaUsrPol;
 var mapConfig = {};
 var dades1,dades2;
 
-
 jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
 		typeMap : 'topoMap',
@@ -83,9 +82,7 @@ function addClicksInici() {
 }
 
 function addOpcionsFonsMapes() {
-
 	jQuery('.div_gr3 div').on('click', function() {
-
 		var fons = jQuery(this).attr('id');
 		if (fons == 'topoMap') {
 			map.topoMap();
@@ -100,9 +97,7 @@ function addOpcionsFonsMapes() {
 		} else if (fons == 'historicMap') {
 		
 		}
-
 	});
-
 }
 
 function gestionaPopOver(pop) {
@@ -114,7 +109,6 @@ function gestionaPopOver(pop) {
 }
 
 function addControlsInici() {
-
 	sidebar = L.control.sidebar('sidebar', {
 		position : 'left',
 		closeButton : false
@@ -223,7 +217,6 @@ function addToolTipsInici() {
 }
 
 function activaPanelCapes(obre) {
-
 	if (obre) {
 		jQuery('.leaflet-control-layers').animate({
 			width : 'show'
@@ -263,7 +256,6 @@ function changeDefaultVectorStyle(estilV){
 }
 
 function changeDefaultPointStyle(estilP) {
-	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
 	if(_iconGlif.indexOf("fa fa-")!=-1){_iconGlif=estilP.iconGlif.replace('fa fa-','');};
@@ -298,7 +290,6 @@ function changeDefaultPointStyle(estilP) {
 } 
 
 function addDialegsEstils() {
-
 	jQuery('#div_mes_punts').on("click", function(e) {	
 		jQuery('#dialog_estils_punts').modal('toggle');
 		jQuery('#dialog_estils_linies').modal('hide');
@@ -677,7 +668,7 @@ function carregarCapa(businessId){
 
 function creaPopOverDadesExternes() {
 	jQuery(".div_dades_ext")
-	.popover(
+	.modal(
 	{
 		content : '<ul class="nav nav-tabs etiqueta">'
 			+ '<li><a href="#id_do" data-toggle="tab">Dades Obertes</a></li>'
@@ -698,8 +689,9 @@ function creaPopOverDadesExternes() {
 
 	jQuery(".div_dades_ext").on('click', function() {
 
-		gestionaPopOver(this);
-
+		//gestionaPopOver(this);
+		$('#dialog_dades_ex').modal('show');
+		
 		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 			var tbA = e.target.attributes.href.value;
 
@@ -707,12 +699,22 @@ function creaPopOverDadesExternes() {
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlDadesObertes.join(' '));
 
-				jQuery(tbA).on('click', function(e) {
+				jQuery(tbA+" a.label").on('click', function(e) {
 					if(e.target.id !="id_do"){
 						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
 					}
 				});
+			}else if(tbA == "#id_srvw"){
+				jQuery(tbA).empty();
+				jQuery(tbA).html(_htmlServeisWMS.join(' '));
+				jQuery(tbA+" a.label").on('click', function(e) {
+					if(e.target.id !="id_srvw"){
+					//addCapaDadesObertes(e.target.id,jQuery(e.target).text());
+						console.info("hola");
+					}
+				});	
 			}
+			
 		});
 	})
 }
@@ -722,6 +724,7 @@ function pLeft() {
 }
 
 var capaDadaOberta;
+
 function addCapaDadesObertes(dataset,nom_dataset) {
 
 	var url = paramUrl.dadesObertes + "dataset=" + dataset;
@@ -734,7 +737,6 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		businessId : '-1',
 		dataType : "jsonp",
 		pointToLayer : function(feature, latlng) {
-			console.info(feature);
 			if(dataset.indexOf('meteo')!=-1){
 				return L.marker(latlng, {icon:L.icon({					
 					    iconUrl: feature.style.iconUrl,
@@ -744,11 +746,9 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 				})});
 			}else if(dataset.indexOf('incidencies')!=-1){
 				var inci=feature.properties.descripcio_tipus;
-				console.info(feature.properties.descripcio_tipus);
 				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
 				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
 				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
-				console.info(imgInci);
 				return L.marker(latlng, {icon:L.icon({					
 				    iconUrl: imgInci,
 				    iconSize:     [30, 26], 
@@ -803,18 +803,19 @@ function popUp(f, l) {
 	var out = [];
 	if (f.properties) {
 		for (key in f.properties) {
-			if (key == 'Name' || key == 'Description') {
-				out.push(f.properties[key]);
-			} else if (key == 'link') {
-				ll = f.properties[key];
-				if (ll.indexOf('.gif')) {
-					out.push('<img width="100" src="' + ll + '"/>');
-				} else {
-					out.push('<a target="_blank" href="' + ll + '"/>' + ll
-							+ '</a>');
+			if(key!='gml_id'){
+				if(key=='Name' || key=='Description'){
+					out.push(f.properties[key]);
+				}else if(key=='link' || key=='Web'){				
+					ll=f.properties[key];
+					if(ll.indexOf('.gif')!=-1){
+						out.push('<img width="100" src="'+ll+'"/>');
+					}else{
+						out.push('<b>'+key +'</b>:<a target="_blank" href="'+ll+'"/>'+ll+'</a>');
+					}
+				}else{
+					out.push("<b>"+key + "</b>: " + f.properties[key]);
 				}
-			} else {
-				out.push("<b>" + key + "</b>: " + f.properties[key]);
 			}
 		}
 		l.bindPopup(out.join("<br />"));
@@ -822,17 +823,16 @@ function popUp(f, l) {
 }
 
 function generaLListaDadesObertes() {
-	getLListaDadesObertes()
-	.then(function(results) {
+	getLListaDadesObertes().then(function(results) {
 		_htmlDadesObertes.push('<div><ul class="bs-dadesO">');
-		$
-		.each(results.dadesObertes,	function(key, dataset) {
-			_htmlDadesObertes
-			.push('<li><a class="label label-explora" href="#" id="'
-					+ dataset.dataset
-					+ '">'
-					+ dataset.text
-					+ '</a></li>');
+		$.each(results.dadesObertes, function(key, dataset) {
+			_htmlDadesObertes.push('<li><a class="label label-explora" lang="ca" title="Afegir capa" href="#" id="'
+				+ dataset.dataset
+				+ '">'
+				+ dataset.text
+				+ '</a>'
+				+ '<a target="_blank" lang="ca" title="Informació de les dades" href="'+dataset.urn+'"><span class="glyphicon glyphicon-info-sign info-explora"></span></a>'							
+				+'</li>');
 		});
 		_htmlDadesObertes.push('</ul></div>');
 	});
@@ -1012,6 +1012,7 @@ function initControls(){
 	addDialegsEstils();
 	addControlCercaEdit();
 	creaPopOverMesFons();
+	generaLlistaServeisWMS();
 }
 
 function carregaDadesUsuari(data){
