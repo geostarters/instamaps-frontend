@@ -133,8 +133,6 @@ L.IM_ColorLayer = L.TileLayer.extend({
 
 				
 				
-				
-				
 				/*
 						 for (var i = 0; i < d.length; i += 4) {
 				  var r = d[i];
