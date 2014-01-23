@@ -119,8 +119,7 @@ L.IM_ColorLayer = L.TileLayer.extend({
 			
 }
 			
-			
-			
+						
 			if(this._layer.options.color=='zombie'){
 				
 				
