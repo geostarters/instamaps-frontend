@@ -78,6 +78,31 @@ L.IM_ColorLayer = L.TileLayer.extend({
 			
 			
 			if(this._layer.options.color=='orquidea'){
+				
+				
+				/*
+				for (var i = 0; i < d.length; i += 4) {
+			        r = d[i];
+			        g = d[i + 1];
+			        b = d[i + 2];
+
+			        d[i] = (r * 0.393 + g * 0.769 + b * 0.189 ) / 1.351;
+			        d[i + 1] = (r * 0.349 + g * 0.686 + b * 0.168 ) / 1.203;
+			        d[i + 2] = (r * 0.272 + g * 0.534 + b * 0.131 ) / 2.140;
+			      }
+				*/
+				
+				for (var i = 0; i < d.length; i += 4) {
+				        avg = 0.3  * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2];
+				        d[i] = avg + 250;
+				        d[i + 1] = avg + 20;
+				        d[i + 2] = avg + 200;
+				      }
+
+				
+				
+				/*
+				
 				 for (var i = 0; i < d.length; i += 4) {
 					  var r = d[i];
 					  var g = d[i + 1];
@@ -88,16 +113,29 @@ L.IM_ColorLayer = L.TileLayer.extend({
 					  d[i + 2] = (r * 0.96)+(g * 2.734)+(b * 2); // blue
 					  
 					  
-					 /* 
-					d[i] = (r+g+b)/1;     
-					 d[i] = 0.64 * d[i] + 0.26 * d[i + 1] + 0.46 * d[i + 2];					  
-					  */
+					
 					}
+					*/
+			
 }
 			
 			
 			
 			if(this._layer.options.color=='zombie'){
+				
+				
+				for (var i = 0; i < d.length; i += 4) {
+			        avg = 0.3  * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2];
+			        d[i] = avg + 255;
+			        d[i + 1] = avg + 1;
+			        d[i + 2] = avg + 20;
+			      }
+
+				
+				
+				
+				
+				/*
 						 for (var i = 0; i < d.length; i += 4) {
 				  var r = d[i];
 				  var g = d[i + 1];
@@ -105,6 +143,9 @@ L.IM_ColorLayer = L.TileLayer.extend({
 				  d[i] = (r+g+b)/2.5;      				  
 				  d[i + 1] = d[i + 2] = 50; // zero out green and blue channel
 				}
+				
+				*/
+				
 			}
 			if(this._layer.options.color=='nit'){
 			 for (var i = 0; i < d.length; i += 4) {
