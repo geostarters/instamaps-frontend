@@ -633,8 +633,44 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!--  Modal Dades Externes -->
+	<!-- fi Modal Dades Externes -->
 
+	<!-- Modal Carrega dades -->
+	<div class="modal fade" id="dialog_carrega_dades">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Carregar dades</h4>
+				</div>
+				<div class="modal-body">
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>
+					<input type='hidden' id='formFile' value='false'>
+					<input type='hidden' id='pathFile' value=''>
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>SRID:</div>
+					<select id='srid' style='margin-left: 68px;'><option value='4326'>4326</option>
+					<option value='23031'>23031</option>
+					<option value='25831'>25831</option>
+					</select><br/>
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>Coordenades:</div>
+					X: <input type='text' name='colX' id='colX' value='' style='margin-left: 68px;'>
+					Y: <input type='text' name='colY' id='colY' value=''><br/>
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>Fitxer</div>
+					<input type='text'id='file_name' style='margin-left: 68px;'>
+					<input type='button' name='upload' id='upload_file' value='Upload file'>
+				</div>
+				<div class="modal-footer">
+			    	<button id="bt_upload_fitxer" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+			        <button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-primary">Carregar dades</button>
+			    </div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal Carrega dades -->
 
 	<!-- Le javascript
     ================================================== -->

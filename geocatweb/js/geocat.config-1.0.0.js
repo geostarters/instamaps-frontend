@@ -1,6 +1,6 @@
-var HOST_APP = "http://172.70.1.12/";
+//var HOST_APP = "http://172.70.1.12/";
 //var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
-//var HOST_APP = "http://localhost:8080/";
+var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	loginPage:"/geocatweb/sessio.html",
@@ -21,7 +21,7 @@ var paramUrl = {
 	updateUser: HOST_APP+"geocat/user/updateUser.action?",
 	updatePassword: HOST_APP+"geocat/user/updatePassword.action?",
 	createTematicLayerFeature: HOST_APP+"geocat/layers/tematic/createTematicLayerFeature.action?",
-	dragFile: HOST_APP+"geocat/pepito?",
+	dragFile: HOST_APP+"share/jsp/upload.jsp",
 	createRang: HOST_APP+"geocat/layers/tematic/createRang.action?",
 	createData: HOST_APP+"geocat/layers/data/createData.action?",
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
@@ -39,7 +39,6 @@ var paramUrl = {
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
 
 }
-
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {

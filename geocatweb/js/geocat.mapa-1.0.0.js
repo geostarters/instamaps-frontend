@@ -78,7 +78,7 @@ function addClicksInici() {
        	 //addCapaMunicipis();	        
         }
 
-     });
+    });
 }
 
 function addOpcionsFonsMapes() {
@@ -529,13 +529,12 @@ function loadPopOverMevasDades(){
 }
 
 function refrescaPopOverMevasDades(){
+	//console.debug("refrescaPopOverMevasDades");
 	//carrega las capas del usuario
 	var data = {uid: $.cookie('uid')};
 	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
 		dades1=results1;
 		dades2=results2;
-	
-		
 	},function(results){
 		window.location.href = paramUrl.loginPage;
 	});
@@ -996,6 +995,8 @@ function initControls(){
 }
 
 function carregaDadesUsuari(data){
+	//console.debug("carregaDadesUsuari");
+	//console.debug(data);
 	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
 		if (results1[0].status == "ERROR"){
 			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
@@ -1003,6 +1004,8 @@ function carregaDadesUsuari(data){
 		}
 		dades1=results1;
 		dades2=results2;
+		//console.debug(dades1);
+		//console.debug(dades2);
 		loadPopOverMevasDades();
 	},function(results){
 		window.location.href = paramUrl.loginPage;
