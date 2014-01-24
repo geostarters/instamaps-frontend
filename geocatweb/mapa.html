@@ -645,7 +645,6 @@
 					<h4 class="modal-title" lang="ca">Carregar dades</h4>
 				</div>
 				<div class="modal-body">
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>
 					<input type='hidden' id='formFile' value='false'>
 					<input type='hidden' id='pathFile' value=''>
 					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>SRID:</div>
@@ -671,6 +670,29 @@
 	</div>
 	<!-- /.modal -->
 	<!-- fi Modal Carrega dades -->
+		
+	<!-- Modal expired -->
+	<div class="modal fade" id="dialog_session_expired">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Sessió caducada</h4>
+				</div>
+				<div lang="ca" class="modal-body">
+					S'ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió
+				</div>
+				<div class="modal-footer">
+			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn" data-dismiss="modal">Acceptar</button>
+			    </div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal expired -->
 
 	<!-- Le javascript
     ================================================== -->

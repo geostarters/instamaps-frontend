@@ -14,6 +14,11 @@ jQuery(document).ready(function() {
     if(currentLang === 'es')$("#es").addClass("active");
     else if(currentLang === 'en') $("#en").addClass("active");
     else $("#ca").addClass("active");
+    
+    //dialeg expired
+    jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
+    	window.location.href = paramUrl.loginPage;
+    });
 });
 
 function initHover(){
@@ -213,4 +218,8 @@ function logoutUser(){
 		//jQuery('#div_msg').html('<div class="alert alert-danger my-alert" lang="ca">No s\'ha iniciat la sessi&oacute;. <strong>Torni a intentar.</strong></div>');
 	});	
 
+}
+
+function sessionExpired(){
+	jQuery('#dialog_session_expired').modal('show');
 }

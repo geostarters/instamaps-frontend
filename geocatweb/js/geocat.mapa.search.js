@@ -24,7 +24,7 @@ function addControlCercaEdit(){
 		zoom: 12,
 		minLength: 3,
 		autoType: false,
-		text:'Cercar llocs a Catalunya ...',
+		text: window.lang.convert('Cercar llocs a Catalunya ...'),
 		textEdit:'<a id="act_move" href="#" >Moure <span class="glyphicon glyphicon-move"></span></a> | '+
 		'<a id="act_remove" href="#" >Esborrar <span class="glyphicon glyphicon-trash"></span></a> | '+
 		'<a id="act_end" href="#" >Finaltzar Edició <span class="glyphicon glyphicon-check"></span></a>',

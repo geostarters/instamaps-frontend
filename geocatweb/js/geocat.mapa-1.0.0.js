@@ -37,16 +37,22 @@ jQuery(document).ready(function() {
 			window.location.href = paramUrl.loginPage;
 		});
 	}else{
+		mapConfig.newMap = true;
+		avisDesarMapa();
+		/*
 		loadMapConfig(mapConfig).then(function(){
 			mapConfig.newMap = true;
 			avisDesarMapa();
 		});
+		*/
 	}
 	
-	//carrega las capas del usuario
-	var data = {uid: $.cookie('uid')};
-	carregaDadesUsuari(data);
-	
+	//carrega las capas del usuario si esta loginat
+	if ($.cookie('uid')){
+		var data = {uid: $.cookie('uid')};
+		carregaDadesUsuari(data);
+	}
+		
 	jQuery('.bt_publicar').on('click',function(){
 		$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
 		$( ".text_error" ).remove();
@@ -60,8 +66,6 @@ jQuery(document).ready(function() {
 	jQuery('#dialgo_leave .btn-primary').on('click',function(){
 		leaveMapa();
 	});
-	
-
 }); // Final document ready
 
 function addClicksInici() {
@@ -77,7 +81,6 @@ function addClicksInici() {
        	 jQuery(ddv).popover('hide');
        	 //addCapaMunicipis();	        
         }
-
     });
 }
 
@@ -214,6 +217,10 @@ function addToolTipsInici() {
 	$('#div_linia').tooltip(optB);
 	$('#div_area').tooltip(optB);
 	$('.bt_publicar').tooltip(opt);
+	
+	//cercador
+	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
+	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
 }
 
 function activaPanelCapes(obre) {
@@ -529,7 +536,7 @@ function loadPopOverMevasDades(){
 }
 
 function refrescaPopOverMevasDades(){
-	//console.debug("refrescaPopOverMevasDades");
+	console.debug("refrescaPopOverMevasDades");
 	//carrega las capas del usuario
 	var data = {uid: $.cookie('uid')};
 	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
@@ -538,7 +545,6 @@ function refrescaPopOverMevasDades(){
 	},function(results){
 		window.location.href = paramUrl.loginPage;
 	});
-	
 }
 
 function carregarCapa(businessId){
@@ -995,7 +1001,7 @@ function initControls(){
 }
 
 function carregaDadesUsuari(data){
-	//console.debug("carregaDadesUsuari");
+	console.debug("carregaDadesUsuari");
 	//console.debug(data);
 	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
 		if (results1[0].status == "ERROR"){

@@ -120,26 +120,16 @@ asyncTest( "login", 1, function() {
 });
 
 module( "servidors" );
-asyncTest( "createServidorWMS", 2, function() {
+asyncTest( "updateServidorWMS", 2, function() {
 	$.ajax({
-		url: urls.createServidorWMS,
-		contentType: 'application/json',
-		type: 'POST',
+		url: urls.updateServidorWMS,
 		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			businessId: 'aed5c6a8e4bcefeb6a823bef64259fb3',
 			uid: 'wszczerban',
 			visibilitat: 'O',
-			serverName: 'TOPO ICC',
-			serverType: 'wms',
-			url: 'http://mapcache.icc.cat/map/bases_noutm/service',
-			epsg: '4326',
-			version: '1.3.0',
-			imgFormat: 'image/png',
-			infFormat: 'text/html',
-			tiles: true,
-			transparency: true,
-			opacity: 1,
-			layers: JSON.stringify([{name:'topo',title:'topografic',group:0,check:true,query:false}])
+			serverName: 'panoramio_1',
+			serverType: 'xarxes_socials',
+			options: JSON.stringify({hashtag:'#icc'})
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -158,23 +148,23 @@ asyncTest( "createServidorWMS", 2, function() {
 						capesOrdre : { type: ['string','null'], required : true},
 						capesVisibilitat : { type: ['string','null'], required : true},
 						entitatUid : { type: 'string', required : true},
-						epsg: { type: 'string', required : true},
-						group: { type: 'string', required : true},
+						epsg: { type: ['string','null'], required : true},
+						group: { type: ['string','null'], required : true},
 						id : { type: 'number', required : true},
-						imgFormat: { type: 'string', required : true},
-						infFormat: { type: 'string', required : true},
-						layers: { type: 'string', required : true},
+						imgFormat: { type: ['string','null'], required : true},
+						infFormat: { type: ['string','null'], required : true},
+						layers: { type: ['string','null'], required : true},
 						legend: { type: ['string','null'], required : true},
 						opacity: { type: 'number', required : true},
 						options : { type: ['string','null'], required : true},
-						query: { type: 'string', required : true},
+						query: { type: ['string','null'], required : true},
 						serverName : { type: 'string', required : true},
 						serverType : { type: 'string', required : true},
-						tiles: { type: 'string', required : true},
-						titles: { type: 'string', required : true},
-						transparency: { type: 'string', required : true},
-						url : { type: 'string', required : true},
-						version: { type: 'string', required : true},
+						tiles: { type: ['string','null'], required : true},
+						titles: { type: ['string','null'], required : true},
+						transparency: { type: ['string','null'], required : true},
+						url : { type: ['string','null'], required : true},
+						version: { type: ['string','null'], required : true},
 						visibilitat : { type: 'string', required : true}
 					}
 				}
@@ -182,223 +172,6 @@ asyncTest( "createServidorWMS", 2, function() {
 		};
 		var report = env.validate(results, schema);
 		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "createServidorInMap", 2, function() {
-	$.ajax({
-		url: urls.createServidorInMap,
-		contentType: 'application/json',
-		type: 'POST',
-		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			mapBusinessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
-			uid: 'wszczerban',
-			visibilitat: 'O',
-			serverName: 'TOPO ICC',
-			serverType: 'wms',
-			url: 'http://mapcache.icc.cat/map/bases_noutm/service',
-			epsg: '4326',
-			version: '1.3.0',
-			imgFormat: 'image/png',
-			infFormat: 'text/html',
-			tiles: true,
-			transparency: true,
-			opacity: 1,
-			layers: JSON.stringify([{name:'topo',title:'topografic',group:0,check:true,query:false}]),
-			calentas: false,
-			activas: true,
-			visibilitats: true
-		},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						capesActiva : { type: ['string','null'], required : true},
-						capesCalenta : { type: ['string','null'], required : true},
-						capesOrdre : { type: ['string','null'], required : true},
-						capesVisibilitat : { type: ['string','null'], required : true},
-						entitatUid : { type: 'string', required : true},
-						epsg: { type: 'string', required : true},
-						group: { type: 'string', required : true},
-						id : { type: 'number', required : true},
-						imgFormat: { type: 'string', required : true},
-						infFormat: { type: 'string', required : true},
-						layers: { type: 'string', required : true},
-						legend: { type: ['string','null'], required : true},
-						opacity: { type: 'number', required : true},
-						options : { type: ['string','null'], required : true},
-						query: { type: 'string', required : true},
-						serverName : { type: 'string', required : true},
-						serverType : { type: 'string', required : true},
-						tiles: { type: 'string', required : true},
-						titles: { type: 'string', required : true},
-						transparency: { type: 'string', required : true},
-						url : { type: 'string', required : true},
-						version: { type: 'string', required : true},
-						visibilitat : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getServidorWMSByBusinessId", 2, function() {
-	$.ajax({
-		url: urls.getServidorWMSByBusinessId,
-		data: {businessId: '4c216bc1cdd8b3a69440b45b2713b083'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						capesActiva : { type: ['string','null'], required : true},
-						capesCalenta : { type: ['string','null'], required : true},
-						capesOrdre : { type: ['string','null'], required : true},
-						capesVisibilitat : { type: ['string','null'], required : true},
-						entitatUid : { type: 'string', required : true},
-						epsg: { type: 'string', required : true},
-						group: { type: 'string', required : true},
-						id : { type: 'number', required : true},
-						imgFormat: { type: 'string', required : true},
-						infFormat: { type: 'string', required : true},
-						layers: { type: 'string', required : true},
-						legend: { type: ['string','null'], required : true},
-						opacity: { type: 'number', required : true},
-						options : { type: ['string','null'], required : true},
-						query: { type: 'string', required : true},
-						serverName : { type: 'string', required : true},
-						serverType : { type: 'string', required : true},
-						tiles: { type: 'string', required : true},
-						titles: { type: 'string', required : true},
-						transparency: { type: 'string', required : true},
-						url : { type: 'string', required : true},
-						version: { type: 'string', required : true},
-						visibilitat : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "updateServidorWMSName", 2, function() {
-	$.ajax({
-		url: urls.updateServidorWMSName,
-		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
-			uid: 'wszczerban',
-			serverName: 'Ortofotos ICC'
-		},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: { type: 'string', required : true}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getAllServidorsWMSByUser", 3, function() {
-	$.ajax({
-		url: urls.getAllServidorsWMSByUser,
-		data: {uid: 'wszczerban'},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'array', required : true, items:{type: 'object'}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-	
-		var schema1 = {
-			type : 'object',
-			properties : {
-				businessId : { type: 'string', required : true},
-				capesActiva : { type: ['string','null'], required : true},
-				capesCalenta : { type: ['string','null'], required : true},
-				capesOrdre : { type: ['string','null'], required : true},
-				capesVisibilitat : { type: ['string','null'], required : true},
-				entitatUid : { type: 'string', required : true},
-				epsg: { type: 'string', required : true},
-				group: { type: 'string', required : true},
-				id : { type: 'number', required : true},
-				imgFormat: { type: 'string', required : true},
-				infFormat: { type: 'string', required : true},
-				layers: { type: 'string', required : true},
-				legend: { type: ['string','null'], required : true},
-				opacity: { type: 'number', required : true},
-				options : { type: ['string','null'], required : true},
-				query: { type: 'string', required : true},
-				serverName : { type: 'string', required : true},
-				serverType : { type: 'string', required : true},
-				tiles: { type: 'string', required : true},
-				titles: { type: 'string', required : true},
-				transparency: { type: 'string', required : true},
-				url : { type: 'string', required : true},
-				version: { type: 'string', required : true},
-				visibilitat : { type: 'string', required : true}
-			}
-		};
-		var report = env.validate(results.results[0], schema1);
-		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
-		
 		start();
 	}).fail(function(results){
 		console.debug(results);
@@ -460,124 +233,6 @@ asyncTest( "getAllPubliscServidorsWMSByUser", 3, function() {
 		var report = env.validate(results.results[0], schema1);
 		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
 		
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getAllPublicsServidorsWMS", 3, function() {
-	$.ajax({
-		url: urls.getAllPublicsServidorsWMS,
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'array', required : true, items:{type: 'object'}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		
-		var schema1 = {
-			type : 'object',
-			properties : {
-				businessId : { type: 'string', required : true},
-				capesActiva : { type: ['string','null'], required : true},
-				capesCalenta : { type: ['string','null'], required : true},
-				capesOrdre : { type: ['string','null'], required : true},
-				capesVisibilitat : { type: ['string','null'], required : true},
-				entitatUid : { type: 'string', required : true},
-				epsg: { type: 'string', required : true},
-				group: { type: 'string', required : true},
-				id : { type: 'number', required : true},
-				imgFormat: { type: 'string', required : true},
-				infFormat: { type: 'string', required : true},
-				layers: { type: 'string', required : true},
-				legend: { type: ['string','null'], required : true},
-				opacity: { type: 'number', required : true},
-				options : { type: ['string','null'], required : true},
-				query: { type: 'string', required : true},
-				serverName : { type: 'string', required : true},
-				serverType : { type: 'string', required : true},
-				tiles: { type: 'string', required : true},
-				titles: { type: 'string', required : true},
-				transparency: { type: 'string', required : true},
-				url : { type: 'string', required : true},
-				version: { type: 'string', required : true},
-				visibilitat : { type: 'string', required : true}
-			}
-		};
-		var report = env.validate(results.results[0], schema1);
-		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "getAllServidorsWMS", 3, function() {
-	$.ajax({
-		url: urls.getAllServidorsWMS,
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'array', required : true, items:{type: 'object'}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		
-		var schema1 = {
-			type : 'object',
-			properties : {
-				businessId : { type: 'string', required : true},
-				capesActiva : { type: ['string','null'], required : true},
-				capesCalenta : { type: ['string','null'], required : true},
-				capesOrdre : { type: ['string','null'], required : true},
-				capesVisibilitat : { type: ['string','null'], required : true},
-				entitatUid : { type: 'string', required : true},
-				epsg: { type: 'string', required : true},
-				group: { type: 'string', required : true},
-				id : { type: 'number', required : true},
-				imgFormat: { type: 'string', required : true},
-				infFormat: { type: 'string', required : true},
-				layers: { type: 'string', required : true},
-				legend: { type: ['string','null'], required : true},
-				opacity: { type: 'number', required : true},
-				options : { type: ['string','null'], required : true},
-				query: { type: 'string', required : true},
-				serverName : { type: 'string', required : true},
-				serverType : { type: 'string', required : true},
-				tiles: { type: 'string', required : true},
-				titles: { type: 'string', required : true},
-				transparency: { type: 'string', required : true},
-				url : { type: 'string', required : true},
-				version: { type: 'string', required : true},
-				visibilitat : { type: 'string', required : true}
-			}
-		};
-		var report = env.validate(results.results[0], schema1);
-		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
 		start();
 	}).fail(function(results){
 		console.debug(results);

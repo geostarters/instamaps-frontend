@@ -1,6 +1,6 @@
-//var HOST_APP = "http://172.70.1.12/";
+var HOST_APP = "http://172.70.1.12/";
 //var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
-var HOST_APP = "http://localhost:8080/";
+//var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	loginPage:"/geocatweb/sessio.html",
@@ -50,5 +50,8 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
 	$('.waiting_animation').hide();
+	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
+		sessionExpired();
+	}
 //	}
 });
