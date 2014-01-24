@@ -1424,3 +1424,38 @@ i.fa {
 		right: 260px;
 	}
 }
+
+.my-modal-footer-xs{
+	border-top: 0 none;
+	padding: 0;
+}
+
+.my-modal-dialog-xs{
+	width: 25%;
+}
+
+.photo-panoramio{
+	width: 40px;
+}
+
+.twitter_layer_popup{
+	text-align: center;
+}
+
+.wikipedia_marker {
+	background: url('images/galeria_icones.png') no-repeat scroll 2px -312px;
+	width: 29px;
+	height: 46px;
+	margin: auto;
+	text-align: center;
+	cursor: pointer;
+}
+
+.twitter_marker {
+	background: url('images/galeria_icones.png') no-repeat scroll 2px -312px;
+	width: 29px;
+	height: 46px;
+	margin: auto;
+	text-align: center;
+	cursor: pointer;
+}

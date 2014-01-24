@@ -30,10 +30,11 @@ L.Panoramio = L.FeatureGroup.extend({
 		for (var i = 0; i < data.photos.length; i++) {
 			var p = data.photos[i];
 			var ico = new L.Icon({
-				iconUrl: 'http://www.panoramio.com/img/panoramio-marker.png',
+				iconUrl: p.photo_file_url,//'http://www.panoramio.com/img/panoramio-marker.png',
 				shadowUrl: null,
 				iconAnchor: [9,9],
-				popupAnchor: [0,-10]
+				popupAnchor: [0,-10],
+				className: 'photo-panoramio'
 			});
 			var m = new L.Marker([p.latitude,p.longitude], {icon: ico});
 			m.bindPopup('<img src="http://www.panoramio.com/img/glass/components/logo_bar/panoramio.png"><br/>'+p.photo_title+'<br/><a id="'+p.photo_id+'" title="'+p.photo_title+'" rel="pano" href="'+p.photo_url+'" target="_new"><img src="'+p.photo_file_url +'" alt="'+p.photo_title+'" width="167"/></a><br/>&copy;&nbsp;<a href="'+p.owner_url+'" target="_new">'+p.owner_name+'</a>, '+p.upload_date);
@@ -74,8 +75,11 @@ L.Panoramio = L.FeatureGroup.extend({
 			e.parentNode.removeChild(e);
 			_this._load(json);
 		};
-		var url = 'http://www.panoramio.com/map/get_panoramas.php?set=public&from=0&to='+this.options.maxLoad+'&minx='+
+		var url = 'http://www.panoramio.com/map/get_panoramas.php?order=upload_date&set=public&from=0&to='+this.options.maxLoad+'&minx='+
 		  minll.lng+'&miny='+minll.lat+'&maxx='+maxll.lng+'&maxy='+maxll.lat+'&size=small&mapfilter=true&callback='+cbid;
+		
+		//var url = 'http://api.geonames.org/wikipediaBoundingBox?north=43.25320494908846&south=39.554883059924016&east=4.6142578125&west=-2.3291015625&username=geostarters&callback=_leaflet_panoramio';
+		
 		var script = document.createElement("script");
 		script.type = "text/javascript";
 		script.src = url;

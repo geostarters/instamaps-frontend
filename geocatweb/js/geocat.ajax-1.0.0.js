@@ -225,3 +225,84 @@ function deleteTematicLayerAll(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function doUpdateMap(data){
+	return jQuery.ajax({
+		url: paramUrl.updateMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateServersOrderToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServersOrderToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateMapName(data){
+	return jQuery.ajax({
+		url: paramUrl.updateMapName,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getTwitterLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.getTwitterLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function removeServerToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.removeServerToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateServidorWMSName(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSName,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function addServerToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.addServerToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createServidorInMap(data){
+	return jQuery.ajax({
+		url: paramUrl.createServidorInMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getWikipediaLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.getWikipediaLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function shortUrl(url){
+    return jQuery.ajax({
+        url: paramUrl.shortUrl,
+        //data: {longUrl: url, apiKey:'R_12df4059f0e8be1ec2a4564b2357974c', login:'csuportidec'},
+        data: {longUrl: url, apiKey:'R_5767babf83836f942655936714500511', login:'geostarters'},
+        dataType: 'jsonp'
+    }).promise();
+}

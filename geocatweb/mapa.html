@@ -18,7 +18,12 @@
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
 <link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css">
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
+<link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
+
+<link href="/llibreries/css/bootstrap-editable.css" rel="stylesheet">
+<link href="/llibreries/css/jquery.share.css" rel="stylesheet">
 
 <link href="/geocatweb/css/L.IM_Search.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
@@ -180,15 +185,18 @@
 			</tr>
 			<tr>
 				<td class="td5">
-					<div class="div_gr5">
+					<div id="socialShare2" class="div_gr5">
 						<h5 lang="ca">Compartir</h5>
-						<div id="correu" class="icon-mail gris"></div>
+						<!--div id="correu" class="icon-mail gris"></div>
 						<div id="facebook" class="icon-facebook gris"></div>
 						<div id="google" class="icon-google-plus gris"></div>
 						<div id="twitter" class="icon-twitter gris"></div>
 						<div id="linkedin" class="icon-linkedin gris"></div>
-						<div id="pinterest" class="icon-pinterest gris"></div>
+						<div id="pinterest" class="icon-pinterest gris"></div-->
 					</div>
+					<div id="socialShare" class="div_gr5">
+
+					</div>					
 				</td>
 			</tr>
 			<tr>
@@ -299,6 +307,28 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+	
+	<div class="modal fade" id="modal_twitter_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog my-modal-dialog-xs">
+	    <div class="modal-content my-modal-content">
+	      <div class="modal-body">
+	      	<div class="input-group">
+	      		<span class="input-group-addon">Hashtag</span>
+	      		<input id="hashtag_twitter_layer" type="text" class="form-control">
+	      	</div>        
+	        
+			<div class="modal-footer my-modal-footer-xs">			
+				<button id="btn-add-twitter-layer" class="btn btn-primary btn-sm editable-submit" type="button" data-dismiss="modal">
+					<i class="glyphicon glyphicon-ok"></i>
+				</button>
+				<button class="btn btn-default btn-sm editable-cancel" type="button" data-dismiss="modal">
+					<i class="glyphicon glyphicon-remove"></i>
+				</button>
+			</div>	        
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->	
 
 	<!-- Modal Punts -->
 	<div class="modal fade" id="dialog_estils_punts">
@@ -645,10 +675,20 @@
 					<h4 class="modal-title" lang="ca">Carregar dades</h4>
 				</div>
 				<div class="modal-body">
+					<div>
+					<span lang="ca">Instamapes llegeix els seguents format</span>:
+					KML,TXT,CSV,XLS,XLSX,GPX,SHP(ZIP). Faltarien: MapInfo, Dxf, GeoJson, GML
+					</div>
+					<br>
+					<div lang="ca" class="alert alert-info">
+					<span class="glyphicon glyphicon-info-sign"></span>
+					Tambe pots carregar dades arrossegant l'arxiu directament sobre el mapa
+					</div>
 					<input type='hidden' id='formFile' value='false'>
 					<input type='hidden' id='pathFile' value=''>
 					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>SRID:</div>
-					<select id='srid' style='margin-left: 68px;'><option value='4326'>4326</option>
+					<select id='srid' style='margin-left: 68px;'>
+					<option value='4326'>4326</option>
 					<option value='23031'>23031</option>
 					<option value='25831'>25831</option>
 					</select><br/>
@@ -660,8 +700,8 @@
 					<input type='button' name='upload' id='upload_file' value='Upload file'>
 				</div>
 				<div class="modal-footer">
-			    	<button id="bt_upload_fitxer" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-			        <button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-primary">Carregar dades</button>
+			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+			        <button id="bt_upload_fitxer" lang="ca" type="button" class="btn btn-primary">Carregar dades</button>
 			    </div>
 			</div>
 			<!-- /.modal-content -->
@@ -709,6 +749,7 @@
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
 
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
 
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.styles.js" type="text/javascript"></script>
@@ -733,12 +774,21 @@
 	<script src="/llibreries/js/leaflet/plugin/leaflet.draw.js"	type="text/javascript"></script>
 	<script	src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers.min.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/heatmap.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/my.leaflet.control.orderlayers.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Map.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/leaflet/L.Wikipedia.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.Twitter.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/L.Panoramio.js" type="text/javascript"></script>
+	
+
 
 	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
 	<script src="/llibreries/js/bootstrap-switch.min.js"></script>
+	
+    <script src="/llibreries/js/bootstrap-editable.min.js"></script>
 	
 	<script src="/geocatweb/js/geocat.mapa-1.0.0.js" type="text/javascript"></script>
 </body>

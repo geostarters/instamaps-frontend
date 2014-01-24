@@ -1,3 +1,8 @@
+//tipus capes
+var t_dades_obertes = "dades oobertes";
+var t_wms = "wms";
+var t_xarxes_socials = "xarxes socials";
+
 var HOST_APP = "http://172.70.1.12/";
 //var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
 //var HOST_APP = "http://localhost:8080/";
@@ -35,8 +40,20 @@ var paramUrl = {
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	getAllTematicLayerByUid: HOST_APP+"geocat/layers/tematic/getAllTematicLayerByUid.action?",
 	deleteTematicLayerAll: HOST_APP+"geocat/layers/tematic/deleteTematicLayerAll.action?",
+	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
+	getTwitterLayer: HOST_APP+"geocat/layers/getTwitterLayer.action?",
+	updateServersOrderToMap: HOST_APP+"geocat/aplications/map/updateServersOrderToMap.action?",
+	updateMapName: HOST_APP+"geocat/aplications/map/updateMapName.action?",
+	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
+	updateServidorWMSName: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSName.action?",
+	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
+	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
+	
+	shortUrl : "http://api.bit.ly/v3/shorten",
+	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?"
+	
 
 }
 
