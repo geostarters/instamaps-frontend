@@ -93,7 +93,7 @@ L.IM_ColorLayer = L.TileLayer.extend({
 				*/
 				
 				for (var i = 0; i < d.length; i += 4) {
-				        avg = 0.3  * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2];
+				        avg = 0.25  * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2];
 				        d[i] = avg + 250;
 				        d[i + 1] = avg + 20;
 				        d[i + 2] = avg + 200;
@@ -124,7 +124,7 @@ L.IM_ColorLayer = L.TileLayer.extend({
 				
 				
 				for (var i = 0; i < d.length; i += 4) {
-			        avg = 0.3  * d[i] + 0.59 * d[i + 1] + 0.11 * d[i + 2];
+			        avg = 0.2  * d[i] + 0.49 * d[i + 1] + 0.21 * d[i + 2];
 			        d[i] = avg + 255;
 			        d[i + 1] = avg + 1;
 			        d[i + 2] = avg + 20;

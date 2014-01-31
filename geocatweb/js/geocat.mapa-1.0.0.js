@@ -2,7 +2,7 @@ var map, controlCapes;
 var factorH = 50;
 var factorW = 0;
 var _htmlDadesObertes = [];
-var capaUsrPunt, capaUsrLine, capaUsrPol;
+var capaUsrPunt, capaUsrLine, capaUsrPol,capaUsrActiva;
 var mapConfig = {};
 var dades1,dades2;
 var download_layer;
@@ -13,6 +13,17 @@ jQuery(document).ready(function() {
 		maxZoom : 19,
 	// drawControl: true
 	}).setView([ 41.431, 1.8580 ], 8);
+	
+
+	
+	
+var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
+	var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
+	
+	
+	L.control.scale({'metric':true,'imperial':false}).addTo(map);
+	
+	
 	
 	//iniciamos los controles
 	initControls();
@@ -401,98 +412,236 @@ function activaPanelCapes(obre) {
 }
 
 var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
-		'iconGlif':'',
+		'iconGlif':'fa fa-',
 		'colorGlif':'#333333'};
 
-var estilV={'iconFonsL':'vector-web vector-orange',
-		'weightL':'5',
-		'colorL':'#FFC400',
-		'iconFonsP':'vector-web vector-orange_p',
-		'weightP':'5',
-		'colorP':'#FFC400'		
-};
 
-function changeDefaultVectorStyle(estilV){
-	drawControl.options.polygon.shapeOptions.color=estilV.colorP;
-	drawControl.options.polyline.shapeOptions.color=estilV.colorL;
+
+function changeDefaultLineStyle(canvas_linia){
+var estilTMP={
+        weight: 3,       
+        color: '#FFC400',
+        dashArray: '3'
+       
+    };
+
+estilTMP.color=canvas_linia.strokeStyle;
+estilTMP.weight=canvas_linia.lineWidth;
+//estilTMP.dashArray='3';
+
+if(objEdicio.obroModalFrom=="creaCapa"){
+	 drawControl.options.polyline.shapeOptions= estilTMP;
+		
+		
+	}
+
+return estilTMP;
+
+
+/*
+	if(estil.tipus=="pol"){
+	
+	
+	
+	
+		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
+		drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
+		drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
+		drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
+	}else{
+		drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
+		drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
+		drawControl.options.polyline.shapeOptions.dashArray='3';
+	}
+	*/
+	
 }
 
+
+function changeDefaultAreaStyle(canvas_pol){
+	var estilTMP={
+	        weight: 3,
+	        opacity: 1,
+	        color: '#FFC400',
+	        dashArray: '3',
+	        fillColor: '#FFC400',
+	        fillOpacity: 0.5
+	    };
+	
+	estilTMP.fillColor=canvas_pol.fillStyle;
+	estilTMP.fillOpacity=canvas_pol.opacity;
+	estilTMP.weight=canvas_pol.lineWidth;
+	estilTMP.color=canvas_pol.strokeStyle;
+	 
+	
+	 if(objEdicio.obroModalFrom=="creaCapa"){
+		 drawControl.options.polygon.shapeOptions= estilTMP;
+			
+			
+		}
+	
+	return estilTMP;
+	
+	/*
+		if(estil.tipus=="pol"){
+		
+		
+		
+		
+			drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
+			drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
+			drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
+			drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
+		}else{
+			drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
+			drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
+			drawControl.options.polyline.shapeOptions.dashArray='3';
+		}
+		*/
+		
+	}
+
+
 function changeDefaultPointStyle(estilP) {
+	
+	
+	var puntTMP= new L.AwesomeMarkers.icon({
+		icon : '',
+		markerColor : 'orange',
+		iconAnchor : new L.Point(14, 42),
+		iconSize : new L.Point(28, 42),
+		iconColor : '#000000',
+		prefix : 'fa'
+	});
+	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
-	if(_iconGlif.indexOf("fa fa-")!=-1){_iconGlif=estilP.iconGlif.replace('fa fa-','');};
+	
+	if(_iconGlif.indexOf("fa fa-")!=-1){
+		_iconGlif=estilP.iconGlif.replace('fa fa-','');
+	};
 	
 	var _colorGlif=estilP.colorGlif;
 	
 	if(_iconFons.indexOf("_r")!=-1){ //sóc rodó		
 		
-		defaultPunt.options.shadowSize = new L.Point(1, 1);
+		puntTMP.options.shadowSize = new L.Point(1, 1);
 		
 		if(_iconGlif==""){//no tin glif
-		defaultPunt.options.iconAnchor= new L.Point(7, 7);
-		defaultPunt.options.iconSize = new L.Point(14, 14);
+		puntTMP.options.iconAnchor= new L.Point(7, 7);
+		puntTMP.options.iconSize = new L.Point(14, 14);
 		
 		
 		}else{
 			
-		defaultPunt.options.iconAnchor= new L.Point(14, 14);
-		defaultPunt.options.iconSize = new L.Point(28, 28);
+		puntTMP.options.iconAnchor= new L.Point(14, 14);
+		puntTMP.options.iconSize = new L.Point(28, 28);
 		}
 	}else{ // sóc punt
-		defaultPunt.options.iconAnchor= new L.Point(14, 42);
-		defaultPunt.options.iconSize = new L.Point(28, 42);
-		defaultPunt.options.shadowSize = new L.Point(36, 16);
+		puntTMP.options.iconAnchor= new L.Point(14, 42);
+		puntTMP.options.iconSize = new L.Point(28, 42);
+		puntTMP.options.shadowSize = new L.Point(36, 16);
 		
 	}
 	
-	defaultPunt.options.icon=_iconGlif;
-	defaultPunt.options.markerColor=_iconFons;
-	defaultPunt.options.iconColor=_colorGlif;
+	
+	
+	puntTMP.options.icon=_iconGlif;
+	puntTMP.options.markerColor=_iconFons;
+	puntTMP.options.iconColor=_colorGlif;
+	
+	if(objEdicio.obroModalFrom=="creaCapa"){
+	
+		defaultPunt=puntTMP;
+		
+	}
+	
+	return puntTMP;
 	
 } 
 
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
-		jQuery('#dialog_estils_punts').modal('toggle');
-		jQuery('#dialog_estils_linies').modal('hide');
-		jQuery('#dialog_estils_arees').modal('hide');	
+		obrirMenuModal('#dialog_estils_punts','toggle','creaCapa');
+		
 	});
 
-	jQuery('#div_mes_linies').on("click", function(e) {	
-		jQuery('#dialog_estils_linies').modal('toggle');
-		jQuery('#dialog_estils_punts').modal('hide');
-		jQuery('#dialog_estils_arees').modal('hide');	
+	jQuery('#div_mes_linies').on("click", function(e) {			
+		obrirMenuModal('#dialog_estils_linies','toggle','creaCapa');
+
 	});
 	
 	jQuery('#div_mes_arees').on("click", function(e) {	
-		jQuery('#dialog_estils_arees').modal('toggle');	
-		jQuery('#dialog_estils_linies').modal('hide');
-		jQuery('#dialog_estils_punts').modal('hide');	
+		
+		obrirMenuModal('#dialog_estils_arees','toggle','creaCapa');
 	});
 	
 	jQuery('#dialog_estils_punts .btn-success').on('click',function(){		
-		jQuery('#div_punt').removeClass();
-		jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
-		jQuery('#div_punt').css('color',estilP.colorGlif);
-		jQuery('#dialog_estils_punts').modal('toggle');		
-		changeDefaultPointStyle(estilP);
-				
+		
+		
+		if(objEdicio.obroModalFrom=="creaCapa"){
+			jQuery('#div_punt').removeClass();
+			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
+			jQuery('#div_punt').css('color',estilP.colorGlif);			
+			changeDefaultPointStyle(estilP);	
+			
+		}else if (objEdicio.obroModalFrom=="creaPopup"){
+			
+			
+			//console.info(objEdicio.featureID);
+			
+			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
+			
+			
+			
+		}else{
+			//pensat per tematics
+			
+			
+		}
+		
+		jQuery('#dialog_estils_punts').modal('toggle');				
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
-		//jQuery('#div_linia').removeClass();
-		jQuery('#div_linia').css('background-position',jQuery('#div_linia0').css('background-position'));		
-		jQuery('#dialog_estils_linies').modal('toggle');		
-		changeDefaultVectorStyle(estilV);
-				
+		
+		if(objEdicio.obroModalFrom=="creaCapa"){
+			addGeometryInitL(document.getElementById("cv_linia")); 		
+			jQuery('#dialog_estils_linies').modal('toggle');		
+			//changeDefaultVectorStyle(canvas_linia);
+			changeDefaultLineStyle(canvas_linia);
+		}else if (objEdicio.obroModalFrom=="creaPopup"){
+			
+			
+			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
+			
+			
+			
+		}else{
+			
+		}
+		jQuery('#dialog_estils_linies').modal('toggle');			
 	});
 	
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
-		//jQuery('#div_area').removeClass();
-		//jQuery('#div_area').addClass(jQuery('#div_area0').attr('class'));	
-		jQuery('#div_area').css('background-position',jQuery('#div_area0').css('background-position'));	
+		if(objEdicio.obroModalFrom=="creaCapa"){
+			
+		addGeometryInitP(document.getElementById("cv_pol"));  
 		jQuery('#dialog_estils_arees').modal('toggle');		
-		changeDefaultVectorStyle(estilV);
+		//changeDefaultVectorStyle(canvas_pol);
+		changeDefaultAreaStyle(canvas_pol);
+		
+		}else if (objEdicio.obroModalFrom=="creaPopup"){
+			
+			
+			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
+			
+			
+			
+		}else{
+			
+		}
+		jQuery('#dialog_estils_arees').modal('toggle');	
 				
 	});
 	
@@ -509,23 +658,7 @@ function addDialegsEstils() {
 		jQuery(this).addClass("estil_selected");		
 	});
 	
-	jQuery(document).on('click', ".bs-linies li", function(e) {
-		jQuery(".bs-linies li").removeClass("estil_selected");
-		jQuery('#div_linia0').removeClass();
-		estilV.iconFonsL=jQuery('div', this).attr('class');
-		estilV.colorL=jQuery('div', this).css('color');
-		jQuery('#div_linia0').addClass(estilV.iconFonsL);
-		jQuery(this).addClass("estil_selected");		
-	});
 	
-	jQuery(document).on('click', ".bs-arees li", function(e) {
-		jQuery(".bs-arees li").removeClass("estil_selected");
-		jQuery('#div_area0').removeClass();
-		estilV.iconFonsP=jQuery('div', this).attr('class');
-		estilV.colorP=jQuery('div', this).css('color');
-		jQuery('#div_area0').addClass(estilV.iconFonsP);
-		jQuery(this).addClass("estil_selected");		
-	});
 	
 	jQuery(document).on('click', ".bs-colors li", function(e) {
 		jQuery(".bs-colors li").removeClass("estil_selected");

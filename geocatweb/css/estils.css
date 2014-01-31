@@ -218,3 +218,280 @@
          margin-left: 45%;
         position: relative;
 }
+
+
+.bootstrap-colorpalette {
+    padding-left:4px;
+    padding-right:4px;
+    white-space: normal;
+    line-height:1;
+}
+
+.bootstrap-colorpalette div {
+    line-height:0;
+}
+
+.bootstrap-colorpalette .btn-color {
+    width: 17px;
+    height: 17px;
+    border: 1px solid #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.bootstrap-colorpalette .btn-color:hover {
+    border: 1px solid #000;
+}
+
+
+
+.form-control {
+    border-radius: 1px;
+    font-size: 13px;
+    height: 28px;
+}
+
+.vector-web {	
+	width: 45px;
+	height: 45px;
+	margin: auto;
+	display: block;
+	text-align: center;
+}
+
+.border_color_linia {
+	width:30px;
+	height: 25px;
+	background-color: #FFC500;
+	color: #FFC500;
+}
+
+.fill_color_pol {
+	width:30px;
+	height: 25px;
+	background-color: #FFC500;
+	color: #FFC500;
+}
+.border_color_pol{
+	width:30px;
+	height: 25px;
+	border:2px solid #FFC500;	
+}
+
+
+.leaflet-control-minimap {
+    border: 0 solid #FFFFFF;
+    border-radius: 1px;
+  
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 0;
+    padding: 1px;
+    text-align: left;
+}
+
+.div_popup{
+border: 0 dashed #DDDDDD;
+    height: 170px;
+    margin-left: -5px;
+    margin-right: 26px;
+    padding: 3px;
+    width: 300px;
+}
+
+.popup_pres{
+display:block;	
+	
+}
+#titol_pres{
+font-weight: bold;
+width: 100%;
+height: 30px;
+font-size: 14px;
+border: 1px solid #EEEEEE;
+
+}
+
+
+.edit_po{
+color:#bbbbbb;
+font-size:15px
+	
+}
+
+#titol_pres:hover{
+
+text-decoration:underline;
+cursor:pointer
+}
+
+#des_pres:hover{
+
+text-decoration:underline;
+cursor:pointer
+}
+
+textarea{
+	
+	background-color: #EEEEEE;
+}
+
+#des_pres{
+background-color: #EEEEEE;
+    height: 60px;
+    margin-bottom: 5px;
+    overflow: auto;
+    width: 100%;
+    
+}
+.popup_edit{
+display:none;	
+	
+}
+.bs-popup {
+	list-style: none outside none;
+	margin-bottom: 5px;
+	overflow: hidden;
+	padding-bottom: 1px;
+	padding-right: 0px;
+	width: 100%;
+	display:block;
+}
+
+.bs-popup li {
+    border: 0px dashed #DDDDDD;
+    color: #000000 !important;
+    float: left;
+    font-size: 14px;
+    height: 25px;
+    line-height: 0.8;
+   margin: 0 5px -1px 0;
+    padding-left: 0;
+    text-align: left;
+     width: 29%;
+   
+}
+
+
+
+
+.bs-ncapa {
+	display: block;
+    height: 30px;
+    list-style: none outside none;
+    margin-bottom: 5px;
+    overflow: hidden;
+    padding-bottom: 1px;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+
+.bs-ncapa li {
+    border: 0px dashed #DDDDDD;
+    color: #000000 !important;
+    float: left;
+    font-size: 14px;
+    height: 25px;
+    line-height: 0.8;
+   margin: 0 5px -1px 0;
+    padding-left: 0;
+    text-align: left;
+     
+   
+}
+
+
+
+
+
+
+
+
+
+
+.bs-popup li a {
+	color: #464646 !important;
+	 font-size: 13px;	
+	 
+}
+
+.bs-popup li a button {
+	color: #464646 !important;
+	 font-size: 13px;	
+}
+
+.leaflet-edit-marker-selected {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(254, 87, 161, 0.6)!important;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    border: 2px solid rgba(254, 87, 161, 0.6)!important;
+    border-radius: 10px;
+   
+}
+
+.verd,.verd a,.verd span {
+	color: #55821D;
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.blau,.blau a,.blau span {
+	color: #065299;
+	cursor: pointer;
+	font-size: 17px;
+}
+
+.magenta,.magenta a,.magenta span {
+	color: #990699;
+	cursor: pointer;
+	font-size: 17px;
+}
+
+
+.vermell,.vermell a,.vermell span {
+	color:#990632;
+	cursor: pointer;
+	font-size: 17px;
+}
+
+
+.blau12 {
+	color:#065299;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+.verd12 {
+	color:#55821D;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+
+#cmbCapesUsr{
+font-size: 13px;
+width: 110px;
+ border: 1px dashed #bbbbbb;
+	
+}
+
+.optNova {
+	background-color: #55821D;
+font-weight: bold;
+color:#ffffff;
+	
+}
+
+
+.leaflet-container a.leaflet-popup-close-button {
+   
+    color: #333333;
+    font: bold 17px/14px Tahoma,Verdana,sans-serif;
+}
