@@ -14,13 +14,15 @@
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
+<link href="/llibreries/css/bootstrap-select.min.css" rel="stylesheet">
 <link href="/llibreries/css/glyph.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
 <link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/Control.MiniMap.css" type="text/css">
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
 
-<link href="/geocatweb/css/L.IM_Search.css" rel="stylesheet">
+<link href="/geocatweb/css/estils.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/geocatweb/css/mapa.css" rel="stylesheet">
 
@@ -95,20 +97,26 @@
 					</div>
 
 					<div style="height:50px ">
-						<div id="div_punt" lang="ca" data-toggle="tooltip" title="Clica per situar un punt" class="dibuix_punt"></div>
+						<div id="div_punt" lang="ca" data-toggle="tooltip" title="Clica per situar un punt" class="dibuix_punt">
+						
+						</div>
 					</div>
 					
 					<h5 lang="ca">Dibuixar una línia o un polígon</h5>
 
 					<div class="div_auto">
-						<div id="div_linia" lang="ca" data-toggle="tooltip"	title="Clica per començar a dibuixar una línia"	class="dibuix_linia"></div>
+						<div id="div_linia" lang="ca" data-toggle="tooltip"	title="Clica per començar a dibuixar una línia"	class="dibuix_linia">
+						<canvas id="cv_linia" width="40" height="40"></canvas>
+						</div>
 						<div class="add_costat">
 							<div lang="ca" id="div_mes_linies" data-toggle="tooltip" title="Més estils de línia" class="icon-add taronja"></div>
 						</div>
 					</div>
 
 					<div class="div_auto">
-						<div id="div_area" lang="ca" data-toggle="tooltip" title="Clica per començar a dibuixar una àrea" class="dibuix_poligon"></div>
+						<div id="div_area" lang="ca" data-toggle="tooltip" title="Clica per començar a dibuixar una àrea" class="dibuix_poligon">
+						<canvas id="cv_pol" width="40" height="40"></canvas>
+						</div>
 						<div class="add_costat">
 							<div lang="ca" id="div_mes_arees" data-toggle="tooltip" title="Més estils d'àrees"	class="icon-add taronja"></div>
 						</div>
@@ -384,7 +392,7 @@
 							<td colspan="8">
 								<div id="iconsgli" style="height: 180px; overflow: auto">
 									<ul class="bs-glyphicons">
-										<li><span></span></li>
+										<li><span class="fa fa-"></span></li>
 										<li><span class="fa fa-ambulance"></span></li>
 										<li><span class="fa fa-asterisk"></span></li>
 										<li><span class="fa fa-anchor"></span></li>
@@ -495,8 +503,8 @@
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-					<button type="button" class="btn btn-success">Canviar</button>
+					<button type="button" lang="ca" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+					<button type="button" lang="ca" class="btn btn-success">Canviar</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -518,25 +526,52 @@
     <table width="100%" class="tbl_taula"  border="0" cellspacing="1" cellpadding="1">
   <tr> 
     <td height="50" colspan="8">
-    <div id="div_linia0" class="vector-web vector-orange"></div>  
+<div class="tbl">   
+   <div id="div_linia0" class="vector-web">
+	
+	 <canvas id="cv_linia0" width="40" height="40"></canvas>
+	</div>  
+	</div>
     </td>
   </tr>
   <tr> 
     <td colspan="8">
-    <span lang="ca">Línies disponibles</span></td>
+    <span lang="ca">Estils disponibles</span></td>
   </tr>
   <tr>
   <td>
-  <ul class="bs-linies">  
-   <li><div id="div_linies1" class="vector-web vector-orange" ></div></li>
-     <li><div id="div_linies2" class="vector-web vector-darkorange"></div></li>
-   <li><div id="div_linies3" class="vector-web vector-red"></div></li>
-	 <li><div id="div_linies4" class="vector-web vector-purple"></div></li>
-    <li><div id="div_linies5" class="vector-web vector-blue"></div></li>
-    <li><div id="div_linies6" class="vector-web vector-green"></div></li>
-	 <li><div id="div_linies7" class="vector-web vector-darkgray"></div></li>
-   <li><div id="div_linies8" class="vector-web vector-gray"></div></li>
-  <ul>
+  <div id="dv_html_pol" class="tbl">
+ <table >
+ 	<tr>
+ 		<td><span lang="ca">Color linia:</span></td>
+ 		<td>
+ 		
+ 		 <div class="btn-group"> 
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+    <div id="dv_border_color_linia" class="border_color_linia"></div></a>
+    <ul class="dropdown-menu">
+    <li><div id="colorpalette_ll"></div></li>
+    </ul>
+    </div>
+ 		
+ 		</td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Gruix linia:</span></td>
+ 		<td><select id="cmb_gruix_l" class="form-control">
+  <option value="1" >1</option>
+  <option value="2" >2</option>
+  <option selected value="3" >3</option>
+  <option value="4" >4</option>
+  <option value="5" >5</option>
+</select></td>
+ 	</tr>
+ 	
+ 	
+ 
+ </table>
+ 
+ </div>
   </td> 
   </tr>
 </table>
@@ -556,32 +591,83 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" lang="ca">Estils de àrees</h4>
+        <h4 class="modal-title" lang="ca">Estils d'àrees</h4>
       </div>
       <div class="modal-body">      
     <table width="100%" class="tbl_taula"  border="0" cellspacing="1" cellpadding="1">
   <tr> 
     <td height="50" colspan="8">
-    <div id="div_area0" class="vector-web vector-orange_p"></div>  
+    <div class="tbl"> 
+    <div id="div_area0" class="vector-web">
+    
+    <canvas id="cv_pol0" width="40" height="40"></canvas>
+    
+    </div>  
+    </div>
     </td>
   </tr>
   <tr> 
     <td colspan="8">
-    <span lang="ca">Àrees disponibles</span></td>
+    <span lang="ca">Estils disponibles</span></td>
   </tr>
   <tr>
   <td>
-  <ul class="bs-arees">  
-   <li><div id="div_arees1" class="vector-web vector-orange_p" ></div></li>
-   <li><div id="div_arees2" class="vector-web vector-darkorange_p"></div></li>
-   <li><div id="div_arees3" class="vector-web vector-red_p"></div></li>
-	<li><div id="div_arees4" class="vector-web vector-purple_p"></div></li>
-    <li><div id="div_arees5" class="vector-web vector-blue_p"></div></li>
-    <li><div id="div_arees6" class="vector-web vector-green_p"></div></li>
-	 <li><div id="div_arees7" class="vector-web vector-darkgray_p"></div></li>
-   <li><div id="div_arees8" class="vector-web vector-gray_p"></div></li>
-    
-  <ul>
+ 
+ <div id="dv_html_pol" class="tbl">
+ <table >
+ 	<tr>
+ 		<td><span lang="ca">Color contorn:</span></td>
+ 		<td>
+ 		
+ 		 <div class="btn-group"> 
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+    <div id="dv_border_color_pol" class="border_color_pol"></div></a>
+    <ul class="dropdown-menu">
+    <li><div id="colorpalette_pl"></div></li>
+    </ul>
+    </div>
+ 		
+ 		</td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Gruix contorn:</span></td>
+ 		<td><select id="cmb_gruix" class="form-control">
+  <option value="1" >1</option>
+  <option value="2" >2</option>
+  <option selected value="3" >3</option>
+  <option value="4" >4</option>
+  <option value="5" >5</option>
+</select></td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Color fons:</span></td>
+ 		<td>
+ 		    <div class="btn-group"> 
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+    <div id="dv_fill_color_pol" class="fill_color_pol"></div></a>
+    <ul class="dropdown-menu">
+    <li><div id="colorpalette_pf"></div></li>
+    </ul>
+    </div>
+ 		
+ 		
+ 		</td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Transperència fons:</span></td>
+ 		<td><select id="cmb_trans" class="form-control">
+  <option value="0" >100%</option>
+  <option value="0.25" >75%</option>
+  <option selected value="0.5" >50%</option>
+  <option value="0.75" >25%</option>
+  <option value="1" >0%</option>
+</select></td>
+ 	</tr>
+ 
+ </table>
+ 
+ </div>
+ 
   </td> 
   </tr>
 </table>
@@ -633,14 +719,51 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!--  Modal Dades Externes -->
+	<!-- fi Modal Dades Externes -->
 
+	<!-- Modal Carrega dades -->
+	<div class="modal fade" id="dialog_carrega_dades">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Carregar dades</h4>
+				</div>
+				<div class="modal-body">
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>
+					<input type='hidden' id='formFile' value='false'>
+					<input type='hidden' id='pathFile' value=''>
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>SRID:</div>
+					<select id='srid' style='margin-left: 68px;'><option value='4326'>4326</option>
+					<option value='23031'>23031</option>
+					<option value='25831'>25831</option>
+					</select><br/>
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>Coordenades:</div>
+					X: <input type='text' name='colX' id='colX' value='' style='margin-left: 68px;'>
+					Y: <input type='text' name='colY' id='colY' value=''><br/>
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>Fitxer</div>
+					<input type='text'id='file_name' style='margin-left: 68px;'>
+					<input type='button' name='upload' id='upload_file' value='Upload file'>
+				</div>
+				<div class="modal-footer">
+			    	<button id="bt_upload_fitxer" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+			        <button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-primary">Carregar dades</button>
+			    </div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal Carrega dades -->
 
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
+	<script src="/llibreries/js/bootstrap-select.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
@@ -671,8 +794,11 @@
 	<script src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script>
+	
+	<script src="/llibreries/js/leaflet/plugin/Control.MiniMap.js"	type="text/javascript"></script>
+	
 	<script src="/llibreries/js/moment.min.js" type="text/javascript"></script>
-	<script src="/llibreries/js/leaflet/plugin/leaflet.draw.js"	type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js"	type="text/javascript"></script>
 	<script	src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers.min.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/heatmap.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>

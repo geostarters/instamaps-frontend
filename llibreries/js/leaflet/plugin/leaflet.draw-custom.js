@@ -246,6 +246,8 @@ L.Draw.Polyline = L.Draw.Feature.extend({
 			if (!this._mouseMarker) {
 				this._mouseMarker = L.marker(this._map.getCenter(), {
 					icon: L.divIcon({
+						//className: 'leaflet-mouse-marker',
+						
 						className: 'leaflet-mouse-marker',
 						iconAnchor: [20, 20],
 						iconSize: [40, 40]
@@ -2249,7 +2251,6 @@ L.EditToolbar = L.Toolbar.extend({
 				color: '#fe57a1', /* Hot pink all the things! */
 				opacity: 0.6,
 				dashArray: '10, 10',
-
 				fill: true,
 				fillColor: '#fe57a1',
 				fillOpacity: 0.1
@@ -2557,12 +2558,12 @@ L.EditToolbar.Edit = L.Handler.extend({
 		if (L.DomUtil.hasClass(icon, 'leaflet-edit-marker-selected')) {
 			L.DomUtil.removeClass(icon, 'leaflet-edit-marker-selected');
 			// Offset as the border will make the icon move.
-			this._offsetMarker(icon, -4);
+			this._offsetMarker(icon, 0);
 
 		} else {
 			L.DomUtil.addClass(icon, 'leaflet-edit-marker-selected');
 			// Offset as the border will make the icon move.
-			this._offsetMarker(icon, 4);
+			this._offsetMarker(icon, 0);
 		}
 
 		icon.style.display = '';

@@ -220,23 +220,23 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .dibuix_linia {
-	background: url('images/galeria_icones.png') no-repeat scroll 2px -245px;
-	width: 50px;
-	height: 46px;
-	float: left;
-	text-align: center;
-	cursor: pointer;
-	margin: auto;
+    cursor: pointer;
+    float: left;
+    height: 45px;
+    text-align: center;
+    width: 45px;
+    margin-right: 5px;
 }
 
 .dibuix_poligon {
-	background: url('images/galeria_icones.png') no-repeat scroll 2px -173px;
-	width: 50px;
-	height: 46px;
-	margin: auto auto auto 30px;
+	
+	width:45px;
+ 	height:45px;
 	float: left;
 	text-align: center;
 	cursor: pointer;
+	margin-left: 30px;
+    margin-right: 5px;
 }
 
 .add_costat {
@@ -259,7 +259,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .dibuix_poligon:hover {
-	background-color: #9F9F9E;
+background-color: #9F9F9E;
 }
 
 .dibuix_linia:hover {
@@ -502,18 +502,21 @@ h1,h2,h3,h4,h5,h6 {
 
 .modal{
 	overflow-y: auto;
+	  font-size: 13px
 }
 
 .modal-dialog {
-	padding-top: 15%;
+	padding-top: 12%;
 }
 
 .modal-content {
 	border-radius: 0;
+	 font-size: 13px;
 }
 
 .btn {
 	border-radius: 0;
+	 font-size: 13px;
 }
 
 #dialog_dades_ex .modal-dialog {
@@ -548,7 +551,9 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .modal-header h4 {
-	font-size: 14px;
+	
+	font-size: 13px;
+    font-weight: bold;
 }
 
 .modal-body {
@@ -556,7 +561,14 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .modal-footer {
-	padding: 10px 10px;
+	padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+     padding-top:10px;
+    border-top: 0 solid #E5E5E5;
+    margin-top: 1px;
+   
+    text-align: right;
 }
 
 .control-switch {
@@ -618,94 +630,6 @@ i.fa {
 	text-align: center;
 }
 
-.vector-web {
-	background: url('images/galeria_icones.png') no-repeat 0 0;
-	width: 42px;
-	height: 45px;
-	margin: auto;
-	display: block;
-	text-align: center;
-}
-
-.vector-orange {
-	background-position: 1px -244px;
-	color: #FFC500;
-}
-
-.vector-darkorange {
-	background-position: -69px -244px;
-	color: #FF7F0B;
-}
-
-.vector-red {
-	background-position: -140px -244px;
-	color: #FF4B3A;
-}
-
-.vector-purple {
-	background-position: -213px -244px;
-	color: #AE59B9;
-}
-
-.vector-blue {
-	background-position: -283px -244px;
-	color: #00AFE5;
-}
-
-.vector-green {
-	background-position: -353px -244px;
-	color: #7CBD00;
-}
-
-.vector-darkgray {
-	background-position: -423px -244px;
-	color: #90A6A9;
-}
-
-.vector-gray {
-	background-position: -493px -244px;
-	color: #EBF0F1;
-}
-
-.vector-orange_p {
-	background-position: 1px -173px;
-	color: #FFC500;
-}
-
-.vector-darkorange_p {
-	background-position: -69px -173px;
-	color: #FF7F0B;
-}
-
-.vector-red_p {
-	background-position: -140px -173px;
-	color: #FF4B3A;
-}
-
-.vector-purple_p {
-	background-position: -213px -173px;
-	color: #AE59B9;
-}
-
-.vector-blue_p {
-	background-position: -283px -173px;
-	color: #00AFE5;
-}
-
-.vector-green_p {
-	background-position: -353px -173px;
-	color: #7CBD00;
-}
-
-.vector-darkgray_p {
-	background-position: -423px -173px;
-	color: #90A6A9;
-}
-
-.vector-gray_p {
-	background-position: -495px -173px;
-	color: #EBF0F1;
-}
 
 .awesome-marker-shadow {
 	background: url('images/markers-shadow.png') no-repeat 0 0;
@@ -1247,7 +1171,9 @@ i.fa {
 		text-align: center;
 	}
 	.dibuix_linia {
+	/*
 		background: url('images/galeria_icones.png') no-repeat scroll 2px -245px;
+		*/
 		cursor:pointer;
 		width: 35px;
 		height: 40px;
@@ -1257,13 +1183,17 @@ i.fa {
 		text-align: center;
 	}
 	.dibuix_poligon {
+	/*
 		background: url('images/galeria_icones.png') no-repeat  scroll 2px -173px;
-		cursor:pointer;
-		width: 37px;
-		height: 40px;
-		margin-right: 10px;
-		float: left;
-		text-align: center;
+		*/
+		  cursor: pointer;
+    float: left;
+    height: 31px;
+    margin-bottom: 8px;
+    margin-right: 10px;
+    text-align: center;
+    width: 34px;
+}
 	}
 	h5,.h5 {
 		font-size: 12px;
@@ -1357,7 +1287,9 @@ i.fa {
 		font-size: 14px;
 	}
 	.dibuix_punt {
+	/*
 		background: url('images/galeria_icones.png') no-repeat  scroll 2px -312px;
+		*/
 		cursor:pointer;
 		width: 25px;
 		height: 40px;
@@ -1365,12 +1297,15 @@ i.fa {
 		text-align: center;
 	}
 	.dibuix_linia {
+	/*
 		background: url('images/galeria_icones.png') no-repeat scroll 2px -245px;
+		*/
 		cursor:pointer;
 		width: 35px;
 		height: 40px;
 		margin-left: 15%;
 		margin-right: 15%;
+		margin-bottom:8px;
 		float: left;
 		text-align: center;
 	}
@@ -1382,6 +1317,7 @@ i.fa {
 		margin-right: 10px;
 		float: left;
 		text-align: center;
+		margin-bottom:8px;
 	}
 	h5,.h5 {
 		font-size: 12px;
