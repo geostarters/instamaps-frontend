@@ -33,14 +33,15 @@ L.Wikipedia = L.FeatureGroup.extend({
 		
 		for (var i = 0; i < data.geonames.length; i++) {
 			var wikiL = data.geonames[i];
-			var ico = new L.Icon({
-				iconUrl: '/geocatweb/img/network_groc.png',//TODO canviar imatge
-				shadowUrl: null,
-				iconAnchor: [9,9],
-				popupAnchor: [0,-10],
-				className: 'wikipedia_marker'
-			});
-			var m = new L.Marker([wikiL.lat,wikiL.lng], {icon: ico});
+			var icoWikipedia = L.AwesomeMarkers.icon({
+				icon : 'book',
+				markerColor : 'gray',
+				iconAnchor : new L.Point(14, 42),
+				iconSize : new L.Point(28, 42),
+				iconColor : '#000000',
+				prefix : 'fa'
+			});				
+			var m = new L.Marker([wikiL.lat,wikiL.lng], {icon: icoWikipedia});
 			m.bindPopup('<a  href="http://'+wikiL.wikipediaUrl+'" target="_new">'+wikiL.title+'</a><br/>');
 			this.fire('addlayer', {
 				layer: m
@@ -73,7 +74,7 @@ L.Wikipedia = L.FeatureGroup.extend({
 		var _this = this;
 		
 		var language = localStorage.getItem('langJs_currentLang'); 
-		if (language == null) language = 'ca';
+		if (language == null || language == "null") language = 'ca';
 		var data={
 				north: maxll.lat,
 				south: minll.lat,

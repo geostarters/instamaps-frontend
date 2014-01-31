@@ -306,3 +306,20 @@ function shortUrl(url){
         dataType: 'jsonp'
     }).promise();
 }
+
+function getDownloadLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.proxy_download,
+		data: data,
+		type: "POST"
+//		dataType: 'html'
+	}).promise();
+}
+
+function getTematicLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.getTematicLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}

@@ -156,6 +156,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			L.DomEvent.on(col, 'click', this._onUpClick, this);
 			col.layerId = input.layerId;
 			row.appendChild(col);
+			
 			col = L.DomUtil.create('div', 'leaflet-down glyphicon glyphicon-chevron-down');
 			col.layerId = input.layerId;
 			L.DomEvent.on(col, 'click', this._onDownClick, this);
@@ -164,7 +165,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
 			col.layerId = input.layerId;
 			L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-			row.appendChild(col);			
+			row.appendChild(col);
+			
+			col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-download');
+			col.layerId = input.layerId;
+			L.DomEvent.on(col, 'click', this._onDownloadClick, this);
+			row.appendChild(col);
+			
+			
 			
 			container = this._overlaysList; 
 		} else {
@@ -187,7 +195,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var replaceLayer = null;
 		for(var i=0; i < inputs.length; i++) {
 			var auxLayer = this._layers[inputs[i].layerId];
-			if(auxLayer.overlay && (obj.layer.options.zIndex - 1) === auxLayer.layer.options.zIndex) {
+			if(auxLayer.overlay && ((obj.layer.options.zIndex - 1) === auxLayer.layer.options.zIndex)) {
 				replaceLayer = auxLayer;
 				break;
 			}
@@ -231,7 +239,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var replaceLayer = null;
 		for(var i=0; i < inputs.length; i++) {
 			var auxLayer = this._layers[inputs[i].layerId];
-			if(auxLayer.overlay && (obj.layer.options.zIndex + 1) === auxLayer.layer.options.zIndex) {
+			if(auxLayer.overlay && ((obj.layer.options.zIndex + 1) === auxLayer.layer.options.zIndex)) {
 				replaceLayer = auxLayer;
 				break;
 			}
@@ -298,7 +306,23 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if(!obj.overlay) {
 			return;
 		}
-	},	
+	},
+	_onDownloadClick: function(e) {
+		
+		var layerId = e.currentTarget.layerId;
+		var obj = this._layers[layerId];
+		download_layer = obj;
+		
+		//data-toggle="modal" data-target="#modal_twitter_layer"
+		$('#modal-body-download-error').hide();
+		$('#modal-body-download').show();
+		$('#modal_download_layer .modal-footer').show();
+		$('#modal_download_layer').modal('show');
+		
+//		if(!obj.overlay) {
+//			return;
+//		}
+	},
 	hide: function() {
 		this._container.style.display = 'none';
 	},

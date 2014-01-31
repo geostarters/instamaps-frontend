@@ -1,13 +1,16 @@
 //tipus capes
-var t_dades_obertes = "dades oobertes";
+var t_dades_obertes = "dades obertes";
 var t_wms = "wms";
 var t_xarxes_socials = "xarxes socials";
+var t_tematic = "tematic";
 
 var HOST_APP = "http://172.70.1.12/";
-//var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
+var GEOCAT02 = "http://172.70.1.12";
+//var HOST_APP = "http://geocat02.icc.local:8080/";
 //var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
+	proxy_download:"/cgi-bin/download.cgi",
 	loginPage:"/geocatweb/sessio.html",
 	galeriaPage:"/geocatweb/galeria.html",
 	wmsOpenData:"/dadesobertes/wms/service?",
@@ -50,6 +53,8 @@ var paramUrl = {
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
+	getTematicLayer: HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
+	getDownloadLayer:GEOCAT02+"/share/jsp/download_layer.jsp?",
 	
 	shortUrl : "http://api.bit.ly/v3/shorten",
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?"
@@ -67,8 +72,8 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
 	$('.waiting_animation').hide();
-	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
-		sessionExpired();
-	}
+//	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
+//		sessionExpired();
+//	}
 //	}
 });
