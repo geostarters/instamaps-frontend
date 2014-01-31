@@ -31,7 +31,7 @@ L.Twitter = L.FeatureGroup.extend({
 		for (var i = 0; i < data.length; i++) {
 			var obj = data[i];
 			var ico = new L.Icon({
-				iconUrl: '/geocatweb/img/mobil_blau.png',//TODO canviar imatge
+				iconUrl: '/geocatweb/img/mobil_blau.png',//TODO canviar imatge,
 				shadowUrl: null,
 				iconAnchor: [9,9],
 				popupAnchor: [0,-10],
