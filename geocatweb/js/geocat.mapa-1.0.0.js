@@ -17,10 +17,15 @@ jQuery(document).ready(function() {
 	initControls();
 	
 	if(typeof url('?businessid') == "string"){
+		if (!$.cookie('uid')){
+			window.location.href = paramUrl.loginPage;
+		}
+		
 		var data = {
 			businessId: url('?businessid'),
 			uid: $.cookie('uid')
 		};
+		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
 				//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
@@ -668,28 +673,24 @@ function refrescaPopOverMevasDades(){
 
 function carregarCapa(businessId){
 	var data = {
-			uid: $.cookie('uid'),
-			businessId: businessId
-		};
-		
-		getTematicLayerByBusinessId(data).then(function(results){
-			console.debug(results);
-			//TODO
-			//agregar la capa tematica al mapa. Leer los features y cargarlos
-			var capaPunts=null;
-			var capaLinies=null;
-			var capaPoligons=null;
-			if (results.status=="OK") {
+		uid: $.cookie('uid'),
+		businessId: businessId
+	};
+	
+	getTematicLayerByBusinessId(data).then(function(results){
+		console.debug(results);
+		//TODO
+		//agregar la capa tematica al mapa. Leer los features y cargarlos
+		var capaPunts=null;
+		var capaLinies=null;
+		var capaPoligons=null;
+		if (results.status=="OK") {
 			for (geometry in results.results.geometries.features.features){
 				var geometria=results.results.geometries.features.features[geometry].geometry;
 				var coordinates=""+geometria.coordinates;
-				
 				var tipus=geometria.type;
-				alert("TIPUS: "+tipus);
 				if (tipus=="Point") {
-					alert("AKI");
 					var coords=coordinates.split(",");
-					alert(coords[0]+","+coords[1]);
 					if (capaPunts==null) {
 						capaPunts = new L.FeatureGroup();
 						var latlng = L.latLng(coords[0],coords[1]);
@@ -700,8 +701,7 @@ function carregarCapa(businessId){
 						var latlng = L.latLng(coords[0],coords[1]);
 						var circle=L.circleMarker(latlng,200);
 						capaPunts.addLayer(circle);
-					}
-					
+					}					
 					capaPunts.addTo(map);
 				}
 				if (tipus=="LineString"){
@@ -719,8 +719,7 @@ function carregarCapa(businessId){
 							i=i+2;
 							j++;
 						}
-						 var polyline =  L.polyline(llistaPunts, {color: 'red'})
-						
+						var polyline =  L.polyline(llistaPunts, {color: 'red'})
 						capaLinies.addLayer(polyline);
 					}
 					else {
@@ -735,11 +734,9 @@ function carregarCapa(businessId){
 							i=i+2;
 							j++;
 						}
-						 var polyline =  L.polyline(llistaPunts, {color: 'red'})
-						
+						var polyline =  L.polyline(llistaPunts, {color: 'red'});						
 						capaLinies.addLayer(polyline);
-					}
-					
+					}					
 					capaLinies.addTo(map);
 				}
 				if (tipus=="Polygon") {
@@ -773,21 +770,27 @@ function carregarCapa(businessId){
 							j++;
 						}
 						var polygon = new L.Polygon(llistaPunts,{color: 'red'});
-						capaPoligons.addLayer(polygon);
-						
+						capaPoligons.addLayer(polygon);				
 					}
 					capaPoligons.addTo(map);
 				}
 			}
 			
-				if (capaPunts!=null) controlCapes.addOverlay(capaPunts,results.results.title, true);
-				if (capaLinies!=null) controlCapes.addOverlay(capaLinies,results.results.title, true);
-				if (capaPoligons!=null) controlCapes.addOverlay(capaPoligons,results.results.title, true);
-				activaPanelCapes(true);
-				
+			if (capaPunts!=null){
+				controlCapes.addOverlay(capaPunts,results.results.title, true);
 			}
-			else alert(results.status);
-		});
+			if (capaLinies!=null){
+				controlCapes.addOverlay(capaLinies,results.results.title, true);
+			}
+			if (capaPoligons!=null){
+				controlCapes.addOverlay(capaPoligons,results.results.title, true);
+			}
+			activaPanelCapes(true);	
+		}
+		else {
+			alert(results.status)
+		};
+	});
 }
 
 function creaPopOverDadesExternes() {

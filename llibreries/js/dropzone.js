@@ -1445,7 +1445,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 
     Dropzone.prototype._finished = function(files, responseText, e) {
       var file, _i, _len;
-      
+      /*
       if (document.getElementById("formFile")==null) {
 	      doReadFile(responseText).then(function(results){
 	    	  if (results.status=="OK"){
@@ -1461,10 +1461,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 						 refrescaPopOverMevasDades();
 					 }
 				 });
-				  
-				 
 	    	  }
-	    	 
 			}
 			);
       }
@@ -1473,6 +1470,8 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
     		  document.getElementById("pathFile").value=responseText;
     	  }
       }
+      */
+      
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
         file.status = Dropzone.SUCCESS;

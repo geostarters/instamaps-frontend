@@ -306,3 +306,23 @@ function shortUrl(url){
         dataType: 'jsonp'
     }).promise();
 }
+
+function doReadFile(data){
+	return jQuery.ajax({
+		url: paramUrl.readFile,
+		data: data,
+		//async: false,
+		//method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function doUploadFile(data){
+	return jQuery.ajax({
+		url: paramUrl.uploadFile,
+		data: data,
+		//async: false,
+		//method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}

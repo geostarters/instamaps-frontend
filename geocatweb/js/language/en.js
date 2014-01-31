@@ -113,6 +113,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Més tipus de punts":"More types of points",
 	"Mides":"Measurements",
 	"Múltiples formats: KML, GPX, DXF, SHP, GEOJSON, etc.":"Many different formats: KML, GPX, DXF, SHP, GEOJSON, etc.",
+	"Necessitem les següent informació per processar el fitxer correctament":"We need the following information to process the file correctly",
 	"No s'ha actualitzat la contrasenya":"The password has not been updated",
 	"No s'ha iniciat la sessió":"Not signed in.",
 	"No s'ha iniciat la sessió. Torni a intentar-ho.":"Session has not been initialized. Try it again.",
