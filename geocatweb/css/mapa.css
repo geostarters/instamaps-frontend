@@ -1452,10 +1452,24 @@ i.fa {
 }
 
 .twitter_marker {
-	background: url('images/galeria_icones.png') no-repeat scroll 2px -312px;
+	/*background: url('images/galeria_icones.png') no-repeat scroll 2px -312px;*/
+	background-position: -281px -315px;
 	width: 29px;
 	height: 46px;
 	margin: auto;
 	text-align: center;
 	cursor: pointer;
+}
+
+#twitter-collapse{
+	margin: 25px 20px 0 20px;	
+}
+
+#id_xs h4{
+	text-align: center;
+}
+#id_xs h4 .label{
+	border-radius: 0px;
+	font-size: 15px;
+	margin: 5px;
 }

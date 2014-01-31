@@ -1,12 +1,7 @@
 
 function objecteUserAdded(f){
 	
-	
-	/*
 	var fId = this.toGeoJSON().features.length;
-
-	
-	
 	
 	var feature = f.layer.toGeoJSON();
 	feature.properties = {
@@ -45,11 +40,13 @@ function objecteUserAdded(f){
 
 	var rangs = JSON
 			.stringify({
-				llegenda : 'hotel',
+				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 				valorMax : "feature" + fId,
 				color : '#ff0000',
+				marker: f.layer.options.icon.options.markerColor,
+				simbolColor: f.layer.options.icon.options.iconColor,
 				simbolSize : f.layer._icon.height,
-				simbol : f.layer._icon.src,
+				simbol : f.layer.options.icon.options.icon,
 				lineWidth : 2,
 				lineStyle : 'solid',
 				borderWidth : 2,
@@ -63,13 +60,10 @@ function objecteUserAdded(f){
 
 	if (fId == 1) {
 		// Add feature and Layer
-
 		var data = {
-			uid : jQuery.cookie('uid'),// getfrom
-										// cookie
-										// (uid)
-			description : 'prova',
-			nom : 'Capa1',
+			uid : jQuery.cookie('uid'),
+			description : 'TODO description',
+			nom : 'Capa1 TODO',
 			publica : true,
 			geomField : 'the_geom',
 			idGeomField : 'nom',
@@ -77,20 +71,19 @@ function objecteUserAdded(f){
 			idDataField : 'slotd1',
 			features : features,
 			dades : dades,
-			rangs : rangs
+			rangs : rangs,
+			mapBusinessId: url('?businessid'),
+			geometryType: f.layer.options.tipus
 		};
-		// this.options={"hola":1};
-		console.info(this);
+//		console.info(this);
 		var _this = this;
-	
-		addTematicLayerFeature(data)
-				.then(
-						function(results) {
-
+		
+		addTematicLayerFeature(data).then(function(results) {
 							_this.options = results;
+							console.debug('addTematicLayerFeature OK');
 							// editableLayers=results;
-
-							
+						},function(results){
+							console.debug('addTematicLayerFeature ERROR');
 						});
 
 	} else if (this.toGeoJSON().features.length > 1) {
@@ -113,27 +106,19 @@ function objecteUserAdded(f){
 			rangs : rangs
 		};
 
-		jQuery
-				.when(
-						createFeature(dataFeature),
-						createData(dataCapes),
-						createRang(dataRangs))
-				.then(
-						function(results1,
-								results2,
-								results3) {
-							console
-									.info(results1[0].status);
-							console
-									.info(results2[0].status);
-							console
-									.info(results3[0].status);
-						})
+		jQuery.when(
+					createFeature(dataFeature),
+					createData(dataCapes),
+					createRang(dataRangs))
+				.then(function(results1,results2,results3) {
+							console.debug(results1[0].status);
+							console.debug(results2[0].status);
+							console.debug(results3[0].status);
+						},function(results1,results2,results3){
+							console.debug("ERROR");
+						});
 
-	
 
 	}
-
 	
-*/
 }

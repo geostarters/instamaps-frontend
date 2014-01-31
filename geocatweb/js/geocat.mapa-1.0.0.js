@@ -5,6 +5,7 @@ var _htmlDadesObertes = [];
 var capaUsrPunt, capaUsrLine, capaUsrPol;
 var mapConfig = {};
 var dades1,dades2;
+var download_layer;
 
 jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
@@ -35,6 +36,7 @@ jQuery(document).ready(function() {
 			mapConfig.options = $.parseJSON( mapConfig.options );
 			mapConfig.newMap = false;
 			$('#nomAplicacio').html(mapConfig.nomAplicacio);
+			
 			
 			loadMapConfig(mapConfig).then(function(){
 				avisDesarMapa();
@@ -76,13 +78,15 @@ jQuery(document).ready(function() {
 	
 	//$.fn.editable.defaults.mode = 'inline';
 
-//	$('.bt_save').on('click', function(event) {
-//		saveMap();
+//	$('#add_twitter_layer').click(function(){
+//		$('#twitter-collapse').toggle()();
 //	});
 	
-	$('#btn-add-twitter-layer').click(function(){
-		addTwitterLayer(jQuery("#hashtag_twitter_layer").val());
-	});
+//	$('#twitter-collapse').hide();
+//	
+//	$('#btn-add-twitter-layer').click(function(){
+//		addTwitterLayer(jQuery("#hashtag_twitter_layer").val());
+//	});
 	
 	$('#nomAplicacio').editable({
 		type: 'text',
@@ -159,6 +163,54 @@ jQuery(document).ready(function() {
 //			}); 		
 //			console.debug('Entra a on click!');
 	});
+		
+		
+//JESS
+		
+		jQuery('#select-download-format').change(function() {	
+			var ext = jQuery(this).val();
+			if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
+			jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
+			}else{
+				jQuery("#select-download-epsg").attr('disabled',false);	
+			}
+		});		
+		
+		$('#bt_download_accept').on('click', function(evt){
+			var formatOUT = $('#select-download-format').val();
+			var epsgOUT = $('#select-download-epsg').val();
+			var filename = $('#input-download-name').val();
+			var layer_GeoJSON = download_layer.layer.toGeoJSON();
+			for(var i=0;i<layer_GeoJSON.features.length;i++){
+				layer_GeoJSON.features[i].properties.tipus = "downloaded";
+			}
+
+			var data = {
+					cmb_formatOUT: formatOUT,
+					cmb_epsgOUT: epsgOUT,
+					layer_name: filename,
+					fileIN: JSON.stringify(layer_GeoJSON)
+			};
+			
+			getDownloadLayer(data).then(function(results){
+				results = results.trim();
+				if (results == "ERROR"){
+					//alert("Error 1");
+					$('#modal-body-download-error').show();
+					$('#modal-body-download').hide();
+					$('#modal_download_layer .modal-footer').hide();
+					$('#modal_download_layer').modal('show');
+				}else{
+					window.location.href = GEOCAT02+results;
+				}
+			},function(results){
+				$('#modal-body-download-error').show();
+				$('#modal-body-download').hide();
+				$('#modal_download_layer .modal-footer').hide();
+				$('#modal_download_layer').modal('show');
+			});
+			
+		});
 		
 }); // Final document ready
 
@@ -824,11 +876,25 @@ function creaPopOverDadesExternes() {
 				
 				jQuery(tbA).html(
 						
-						'<h4><a id="add_twitter_layer" href="#" class="label label-primary" data-toggle="modal" data-target="#modal_twitter_layer">Twitter</a>&nbsp;'+
+						'<h4><a id="add_twitter_layer" href="javascript:toggleCollapseTwitter()" class="label label-primary">Twitter</a>&nbsp;'+
 						'<a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label label-primary">Panoramio</a>&nbsp;'+
-						'<a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label label-primary">Wikipedia</a></h4>'						
+						'<a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label label-primary">Wikipedia</a></h4>'+
+						
+						'<div id="twitter-collapse">'+
+							'<div class="input-group">'+
+			      				'<span class="input-group-addon">Hashtag</span>'+
+			      				'<input id="hashtag_twitter_layer" type="text" class="form-control">'+
+			      				'<span class="input-group-btn">'+
+			      					'<button id="btn-add-twitter-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
+			      				'</span>'+
+				      		'</div>'+
+			      		'</div>'						
 				);
 				
+				$('#twitter-collapse').hide();
+				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
+					addTwitterLayer();
+				});
 			}
 			
 		});
@@ -843,11 +909,11 @@ var capaDadaOberta;
 
 function addCapaDadesObertes(dataset,nom_dataset) {
 
-	var url = paramUrl.dadesObertes + "dataset=" + dataset;
+	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 
 	var estil_do = retornaEstilaDO(dataset);
 	var lastZIndex = controlCapes._lastZIndex+1;
-	capaDadaOberta = new L.GeoJSON.AJAX(url, {
+	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
 		onEachFeature : popUp,
 		nom : dataset,
 		tipus : 'Marker',
@@ -1046,7 +1112,7 @@ function loadMapConfig(mapConfig){
 					tipus : options.tipus,
 					businessId : value.businessId,
 					dataType : "jsonp",
-					zIndex: value.capesOrdre,
+					zIndex: parseInt(value.capesOrdre),
 					pointToLayer : function(feature, latlng) {
 						return L.circleMarker(latlng, estil_do);
 					}
@@ -1066,6 +1132,11 @@ function loadMapConfig(mapConfig){
 				if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
 				else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+			
+			}else if(value.serverType == t_tematic){
+				
+				console.debug('Entra a tipus tematic layer');
+				loadTematicLayer(value);
 			}
 		});
 				
@@ -1196,7 +1267,9 @@ function initControls(){
 }
 
 function addTwitterLayer(hashtag){
-	
+	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
+	if(hashtag == null || hashtag == '') return;
+	$('#twitter-collapse .input-group #hashtag_twitter_layer').val("");
 	var lastZIndex = controlCapes._lastZIndex+1;//Jess
 	var twitter = new L.Twitter({
 						hashtag: hashtag,
@@ -1246,7 +1319,7 @@ function loadTwitterLayer(layer, hashtag){
 	var twitter = new L.Twitter({
 		hashtag: hashtag,
 		nom: layer.serverName,
-		zIndex: layer.capesOrdre, 
+		zIndex: parseInt(layer.capesOrdre), 
 		businessId: layer.businessId
 	});	
 	
@@ -1307,7 +1380,7 @@ function loadPanoramioLayer(layer){
 	var panoramio = new L.Panoramio({
 		maxLoad: 10, 
 		maxTotal: 250, 
-		zIndex: layer.capesOrdre,
+		zIndex: parseInt(layer.capesOrdre),
 		nom : layer.serverName,
 		businessId: layer.businessId
 	});	
@@ -1366,7 +1439,7 @@ function addWikipediaLayer(){
 function loadWikipediaLayer(layer){
 	
 	var wikipedia = new L.Wikipedia({
-		zIndex: layer.capesOrdre,
+		zIndex: parseInt(layer.capesOrdre),
 		nom : layer.serverName,
 		businessId: layer.businessId
 	});	
@@ -1490,6 +1563,105 @@ function carregaDadesUsuari(data){
 		//console.debug(dades2);
 		loadPopOverMevasDades();
 	},function(results){
-		window.location.href = paramUrl.loginPage;
+		//JESS DESCOMENTAR!!!!
+		//window.location.href = paramUrl.loginPage;
 	});
 }
+
+function loadTematicLayer(layer){
+	
+	var capaTematic = new L.FeatureGroup();
+	
+	capaTematic.options = {
+		businessId : layer.businessId,
+		nom : layer.serverName,
+		zIndex :  parseInt(layer.capesOrdre),
+		tipus : 'Marker'
+	};	
+	
+	var data={
+			businessId: layer.businessId,
+			uid: $.cookie('uid')
+	};
+	
+	var defaultPunt= L.AwesomeMarkers.icon({
+		icon : '',
+		markerColor : 'orange',
+		iconAnchor : new L.Point(14, 42),
+		iconSize : new L.Point(28, 42),
+		iconColor : '#000000',
+		prefix : 'fa'
+	});	
+	
+	getTematicLayer(data).then(function(results){
+		console.debug(results.results);
+		if(results.status == "OK" ){
+			
+			var Lgeom = results.results.geometries.features.features;
+			var idDataField = results.results.idDataField;
+			var idGeomField = results.results.idGeomField;
+			var Lrangs = results.results.rangs;
+			var Ldades = results.results.capes.dades;
+			
+			for(var i=0;i<Lgeom.length;i++){
+				var geom = Lgeom[i];
+				if(geom.properties[''+idGeomField+''] == Ldades[i][''+idDataField+''] ){
+					
+					//Cerquem el rang que toca entre tots els possibles
+					var rang;
+					for(var j=0;j<Lrangs.length;j++){
+						if(Lrangs[i].valorMax == geom.properties[''+idGeomField+''] ){
+							rang = Lrangs[i];
+							break;
+						} 
+					}
+					
+					if(rang!= null && results.results.geometryType === "Marker"){
+						
+						var rangPunt = L.AwesomeMarkers.icon({
+							icon : rang.simbol,
+							markerColor : rang.marker,
+							iconAnchor : new L.Point(14, 42),
+							iconSize : new L.Point(28, 42),
+							iconColor : rang.simbolColor,
+							prefix : 'fa'
+						});							
+						
+						 var layer=L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
+								 {icon: rangPunt}).addTo(map);
+						 capaTematic.addLayer(layer);						
+						
+					}else if (rang!= null && results.results.geometryType === "Line"){
+						
+					}else if (rang!= null && results.results.geometryType === "Polygon"){
+						
+					}
+
+					
+				}else{//No te estil definit, el pintem amb un estil per defecte
+					console.debug('Estil per defecte');
+				
+				}
+			}
+			
+		}else{
+			alert("Error getTematicLayer");
+		}
+		
+	},function(results){
+		console.debug('getTematicLayer ERROR');
+	});
+	
+
+	
+	capaTematic.addTo(map);
+	controlCapes.addOverlay(capaTematic, layer.serverName, true);	
+	
+}
+
+function toggleCollapseTwitter(){
+	console.debug('toggleCollapseTwitter');
+	$('#twitter-collapse').toggle();
+}
+
+

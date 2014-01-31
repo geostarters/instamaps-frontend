@@ -30,15 +30,16 @@ L.Twitter = L.FeatureGroup.extend({
 		
 		for (var i = 0; i < data.length; i++) {
 			var obj = data[i];
-			var ico = new L.Icon({
-				iconUrl: '/geocatweb/img/mobil_blau.png',//TODO canviar imatge,
-				shadowUrl: null,
-				iconAnchor: [9,9],
-				popupAnchor: [0,-10],
-				className: 'twitter_marker'
-			});
+			var icoTwitter = L.AwesomeMarkers.icon({
+				icon : 'twitter',
+				markerColor : 'blue',
+				iconAnchor : new L.Point(14, 42),
+				iconSize : new L.Point(28, 42),
+				iconColor : '#000000',
+				prefix : 'fa'
+			});				
 			var coord = obj.coord.split(","); 
-			var m = new L.Marker([coord[1],coord[0]], {icon: ico});
+			var m = new L.Marker([coord[1],coord[0]], {icon: icoTwitter});
 			m.bindPopup('<div class="twitter_layer_popup"><a href="'+obj.profile_url+'" target="_new"><img src="'+obj.profile_image_url+'"/></a></div><br><div>'+obj.text_message+'</div>');
 			this.fire('addlayer', {
 				layer: m

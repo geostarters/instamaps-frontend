@@ -765,6 +765,60 @@
 	<!-- /.modal -->
 	<!-- fi Modal expired -->
 
+	<!-- Modal descarrega dades -->
+	<div class="modal fade" id="modal_download_layer">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca"><b>Descarrega de dades</b></h4>
+				</div>
+				<div lang="ca" class="modal-body">
+				
+					<div id="modal-body-download">
+						<div class="input-group input-group-sm">
+						  <span lang="ca" class="input-group-addon">Guardar com</span>
+						  <input type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">
+						</div>	
+						<small class="label label-default" lang="ca">Opcional: en blanc s'assignarà un nom automàtic</small>				
+						<br><br>
+						<div>
+						Format:&nbsp;
+							<select id="select-download-format" class="form-download-format">
+							  <option value="GeoJSON#.geojson">GeoJSON</option>
+							  <option value="ESRI Shapefile#.shp">ESRI Shapefile</option>
+							  <option value="DXF#.dxf">DXF</option>
+							  <option value="KML#.kml">KML</option>
+							</select>
+							<br><br>
+						EPSG:&nbsp;
+							<select id="select-download-epsg" class="form-download-epsg">
+								<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>
+		              			<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>
+		              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
+		              			<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>
+		              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
+		              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
+		              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
+							</select>
+						</div>
+					</div>
+					<div id="modal-body-download-error">
+					<h5><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha pogut efectuar la descàrrega. Torni a intentar-ho.</span></h5>
+					</div>					
+				</div>
+				<div class="modal-footer">
+			    	<button id="bt_download_accept" lang="ca" type="button" class="btn bt-sessio" data-dismiss="modal">Acceptar</button>
+			    </div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal expired -->
+
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

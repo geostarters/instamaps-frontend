@@ -12,28 +12,24 @@ function addDrawToolbar() {
 	capaUsrPunt.options = {
 		businessId : '-1',
 		nom : 'capaPunts1',
+		zIndex :  -1,
 		tipus : 'Marker'
 	};
-	capaUsrLine = new L.FeatureGroup({
-		businessId : '-1',
-		nom : 'capa1',
-		tipus : 'Linea'
-	});
+	capaUsrLine = new L.FeatureGroup();
 	capaUsrLine.options = {
 		businessId : '-1',
 		nom : 'capaLinea1',
+		zIndex :  -1,
 		tipus : 'Line'
 	};
-	capaUsrPol = new L.FeatureGroup({
-		businessId : '-1',
-		nom : 'capa1',
-		tipus : 'Pol'
-	});
+	capaUsrPol = new L.FeatureGroup();
 	capaUsrPol.options = {
 		businessId : '-1',
 		nom : 'capaPol1',
-		tipus : 'Pol'
+		zIndex :  -1,
+		tipus : 'Polygon'
 	};
+	
 	map.addLayer(capaUsrPunt);
 	map.addLayer(capaUsrLine);
 	map.addLayer(capaUsrPol);
@@ -55,7 +51,8 @@ function addDrawToolbar() {
 		iconAnchor : new L.Point(14, 42),
 		iconSize : new L.Point(28, 42),
 		iconColor : '#000000',
-		prefix : 'fa'
+		prefix : 'fa',
+		tipus: 'Marker'
 	});
 
 	var options = {
@@ -66,7 +63,8 @@ function addDrawToolbar() {
 			shapeOptions : {
 				color : '#FFC400',
 				weight : 5,
-				opacity : 1
+				opacity : 1,
+				tipus: 'Line'
 			}
 		},
 		polygon : {
@@ -76,7 +74,8 @@ function addDrawToolbar() {
 			shapeOptions : {
 				color : '#FFC400',
 				weight : 5,
-				opacity : 0.7
+				opacity : 0.7,
+				tipus: 'Polygon'
 			}
 		},
 		 
@@ -140,10 +139,10 @@ function activaEdicioUsuari() {
 
 							
 							 layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
-							 {icon: defaultPunt}).addTo(map);
+							 {icon: defaultPunt, tipus: 'Marker'}).addTo(map);
 							 layer.bindPopup('TODO: Esborra Editar ');
-							capaUsrPunt.addLayer(layer).on('layeradd',
-									objecteUserAdded);
+							 capaUsrPunt.on('layeradd',objecteUserAdded);
+							 capaUsrPunt.addLayer(layer);
 							
 							crt_Editing=new L.EditToolbar.Edit(map, {
 						        featureGroup: capaUsrPunt,
@@ -157,8 +156,8 @@ function activaEdicioUsuari() {
 							
 						} else if (type === 'polyline') {
 							layer.bindPopup('TODO: Esborra Editar ');
-							capaUsrLine.addLayer(layer).on('layeradd',
-									objecteUserAdded);
+							capaUsrLine.on('layeradd',objecteUserAdded);
+							capaUsrLine.addLayer(layer);
 							
 							
 							crt_Editing=new L.EditToolbar.Edit(map, {
@@ -173,8 +172,8 @@ function activaEdicioUsuari() {
 							
 						} else if (type === 'polygon') {
 							layer.bindPopup('TODO: Esborra Editar ');
-							capaUsrPol.addLayer(layer).on('layeradd',
-									objecteUserAdded);
+							capaUsrPol.on('layeradd',objecteUserAdded);
+							capaUsrPol.addLayer(layer);
 							
 							
 
@@ -190,46 +189,33 @@ function activaEdicioUsuari() {
 						}
 
 						if (capaUsrPunt.toGeoJSON().features.length == 1) {
+							//Actualitzeem zIndex abans d'afegir al control de capes
+							capaUsrPunt.options.zIndex = controlCapes._lastZIndex+1; 
 							controlCapes.addOverlay(capaUsrPunt,
 									capaUsrPunt.options.nom, true);
 							
 							activaPanelCapes(true);
 						}
 						if (capaUsrLine.toGeoJSON().features.length == 1) {
+							//Actualitzeem zIndex abans d'afegir al control de capes
+							capaUsrLine.options.zIndex = controlCapes._lastZIndex+1; 							
 							controlCapes.addOverlay(capaUsrLine,
 									capaUsrLine.options.nom, true);
 							//showEditText(layer);
 							activaPanelCapes(true);
 						}
 						if (capaUsrPol.toGeoJSON().features.length == 1) {
+							//Actualitzeem zIndex abans d'afegir al control de capes
+							capaUsrPol.options.zIndex = controlCapes._lastZIndex+1; 								
 							controlCapes.addOverlay(capaUsrPol,
 									capaUsrPol.options.nom, true);
 							//showEditText(layer);
 							activaPanelCapes(true);
 						}
 						
-						
 						showEditText('show');
 						
-						
 					});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
