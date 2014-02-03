@@ -27,10 +27,10 @@ function filterJSONICC(rawjson) {
 
 
 
-var urlGeoCoder="http://miyazaki.icc.local:8080/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&";
+
 function addControlCercaEdit(){
 	
-	ctr_cerca=new L.Control.Search({url: urlGeoCoder,
+	ctr_cerca=new L.Control.Search({url: paramUrl.urlGeoCoder,
 		position:'topcenter',
 		jsonpParam:'jsonp',
 		filterJSON: filterJSONICC,

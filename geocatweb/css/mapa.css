@@ -120,7 +120,9 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .taronja,.taronja a,.taronja span {
-	color: #FFC500 !important;
+	
+	color: #FFFFFF !important;
+    margin-left: 2px;
 }
 
 .greenfort,.greenfort a,.greenfort span {
@@ -251,6 +253,15 @@ h1,h2,h3,h4,h5,h6 {
 	text-align: center;
 	margin-right: 3px;
 }
+
+.add_costat_r2 {
+    cursor: pointer;
+    float: right;
+    margin-right: 24px;
+    margin-top: -21px;
+    text-align: center;
+}
+
 
 .add_costat_l {
 	cursor: pointer;
@@ -529,7 +540,7 @@ background-color: #9F9F9E;
 #dialog_estils_linies .modal-dialog,
 #dialog_estils_arees .modal-dialog  {
 	padding-top: 10%;
-	width: 30%;
+	width: 28%;
 }
 
 .info-wms{
@@ -853,6 +864,7 @@ i.fa {
 .tbl{
  border: 1px dashed #DDDDDD;
  width:100%;
+ background-color: #EEEEEE;
 }
 
 .bs-glyphicons {
@@ -885,22 +897,7 @@ i.fa {
 	cursor: pointer;
 }
 
-.bs-colors {
-	list-style: none outside none;
-	margin-bottom: 1px;
-	overflow: hidden;
-	padding-bottom: 0px;
-	padding-left: 0;
-}
 
-.bs-colors li {
-	border: 1px solid #DDDDDD;
-	float: left;
-	height: 25px;
-	padding: 0px;
-	text-align: center;
-	width: 10%;
-}
 
 .bs-linies {
 	list-style: none outside none;

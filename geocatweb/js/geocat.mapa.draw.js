@@ -32,8 +32,7 @@ function hexToRgb(hex) {
 function obrirMenuModal(_menuClass,estat,_from){
 	
 	objEdicio.obroModalFrom=_from;	
-	console.info(objEdicio.obroModalFrom);
-	jQuery(document).modal('hide');	
+	jQuery('.modal').modal('hide');	
 	jQuery(_menuClass).modal(estat);
 }
 
@@ -71,10 +70,32 @@ function initCanvas(){
 	});
 	
     
+	 
+	 $('#colorpalette_icon').colorPalette().on('selectColor', function(e) {  
+		 $('.fill_color_icon').css('background-color',e.color);
+			estilP.colorGlif=e.color;
+			
+			jQuery('.bs-glyphicons li').css('color',estilP.colorGlif);
+			if(e.color=="#FFFFFF"){
+				jQuery('.bs-glyphicons li').css('background-color','#aaaaaa');	
+			}else{
+				jQuery('.bs-glyphicons li').css('background-color','#FFFFFF');	
+			}
+			jQuery('#div_punt0').css('color',estilP.colorGlif);
+			jQuery(this).addClass("estil_selected");
+		});
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
     
     jQuery("#cmb_trans").on('change', function(e) { 
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
-    	//console.info($('.fill_color_pol').css('color'));
+    	
     	canvas_pol.opacity=jQuery(this).val();
     	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+canvas_pol.opacity+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
