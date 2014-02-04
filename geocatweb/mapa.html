@@ -96,7 +96,7 @@
 				<td class="ramp_color" rowSpan="6" width="5px"></td>
 				<td class="td1" height="23%">
 					<h5 lang="ca">Situar un punt</h5>
-					<div class="add_costat_r" style="margin-right: 37%;">
+					<div class="add_costat_r" style="margin-right: 33%;">
 						<div lang="ca" id="div_mes_punts" data-toggle="tooltip"	title="Més tipus de punts" class="icon-add taronja"></div>
 					</div>
 
@@ -170,8 +170,8 @@
 					</div>
 
 					<h5 lang="ca">Escollir el mapa de fons</h5>
-					<div class="add_costat_r">
-						<div lang="ca" id="div_mesfons" data-toggle="tooltip" title="Més mapes de fons" class="icon-add white"></div>
+					<div class="add_costat_r2">
+						<div lang="ca" id="div_mesfons" data-toggle="tooltip" title="Més mapes de fons" class="icon-add white pop"></div>
 					</div>
 					<div class="div_gr3">
 						<div id="topoMap" lang="ca" data-toggle="tooltip" title="Topogràfic" class="div_fons_1"></div>
@@ -344,15 +344,26 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca" id="myModalLabel">Estils de
-						punts</h4>
+					<h4 class="modal-title" lang="ca" id="myModalLabel">Estils de punts</h4>
 				</div>
 				<div class="modal-body">
 
 					<table width="100%" class="tbl_taula" border="0" cellspacing="1"
 						cellpadding="1">
 						<tr>
-							<td height="50" colspan="8">
+						
+						
+							<td class="tbl" height="50" colspan="8">
+							<div id="dv_cmb_punt" style="float:right;width:90px; display:none" >
+							<select id="cmb_mida_Punt" class="form-control">
+  <option lang="ca" class="small" value="22" >Mida punt</option>
+  <option lang="ca" value="18" >Petit +</option>
+  <option lang="ca" value="22" >Petit</option>
+  <option lang="ca" value="24" >Mitjà</option>
+  <option lang="ca" selected value="28" >Mitjà +</option>
+  <option value="30" >Gran</option>
+</select>
+		</div>					
 								<div id="div_punt0"
 									class="awesome-marker-web awesome-marker-icon-orange"></div>
 							</td>
@@ -403,23 +414,18 @@
 						</tr>
 						<tr>
 							<td height="25" colspan="8">
-								<ul class="bs-colors">
-									<li><div class="c_black"></div></li>
-									<li><div class="c_white"></div></li>
-									<li><div class="c_red"></div></li>
-									<li><div class="c_green"></div></li>
-									<li><div class="c_blue"></div></li>
-									<li><div class="c_gray"></div></li>
-									<li><div class="c_orange"></div></li>
-									<li><div class="c_purple"></div></li>
-									<li><div class="c_maroon"></div></li>
-									<li><div class="c_turc"></div></li>
-								</ul>
+								<span class="small" lang="ca">Colors icones:</span> <div class="btn-group"> 
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+    <div id="dv_fill_color_icon" class="fill_color_icon"></div></a>
+    <ul class="dropdown-menu">
+    <li><div id="colorpalette_icon"></div></li>
+    </ul>
+    </div>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="8">
-								<div id="iconsgli" style="height: 180px; overflow: auto">
+								<div id="iconsgli" style="height: 150px; overflow: auto">
 									<ul class="bs-glyphicons">
 										<li><span class="fa fa-"></span></li>
 										<li><span class="fa fa-ambulance"></span></li>
@@ -717,19 +723,14 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Explora altres fonts de
-						dades</h4>
+					<h4 class="modal-title" lang="ca">Explora altres fonts de dades</h4>
 				</div>
 				<div class="modal-body">
 					<ul class="nav nav-tabs etiqueta">
-						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades
-								Obertes</a></li>
-						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes
-								socials</a></li>
-						<li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis
-								JSON</a></li>
-						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis
-								WMS</a></li>
+						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>
+						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>
+						<li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>
+						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade" id="id_do"></div>

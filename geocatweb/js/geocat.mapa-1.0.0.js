@@ -6,6 +6,9 @@ var capaUsrPunt, capaUsrLine, capaUsrPol,capaUsrActiva;
 var mapConfig = {};
 var dades1,dades2;
 var download_layer;
+var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
+		'iconGlif':'fa fa-',
+		'colorGlif':'#333333','fontsize':'14px','size':'28'};
 
 jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
@@ -411,9 +414,6 @@ function activaPanelCapes(obre) {
 	}
 }
 
-var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
-		'iconGlif':'fa fa-',
-		'colorGlif':'#333333'};
 
 
 
@@ -516,6 +516,7 @@ function changeDefaultPointStyle(estilP) {
 	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
+	var cssText="";
 	
 	if(_iconGlif.indexOf("fa fa-")!=-1){
 		_iconGlif=estilP.iconGlif.replace('fa fa-','');
@@ -524,20 +525,40 @@ function changeDefaultPointStyle(estilP) {
 	var _colorGlif=estilP.colorGlif;
 	
 	if(_iconFons.indexOf("_r")!=-1){ //sóc rodó		
-		
+		var num=estilP.size;
 		puntTMP.options.shadowSize = new L.Point(1, 1);
+		var tt=estilP.fontsize;
+		if(tt=="9px"){
+			cssText="font9";			
+		}else if(tt=="11px"){
+			cssText="font11";
+		}else if(tt=="12px"){
+			cssText="font12";
+		}else if(tt=="14px"){
+			cssText="font14";
+		}else if(tt=="15px"){
+			cssText="font15";
+			
+		}
+		
 		
 		if(_iconGlif==""){//no tin glif
-		puntTMP.options.iconAnchor= new L.Point(7, 7);
-		puntTMP.options.iconSize = new L.Point(14, 14);
-		
-		
-		}else{
 			
-		puntTMP.options.iconAnchor= new L.Point(14, 14);
-		puntTMP.options.iconSize = new L.Point(28, 28);
-		}
-	}else{ // sóc punt
+			//var num=parseInt(jQuery('#cmb_mida_Punt').val());
+			
+			
+			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
+			puntTMP.options.iconSize = new L.Point(num, num);		
+		}else{
+			//puntTMP.options.iconAnchor= new L.Point(14, 14);
+			//puntTMP.options.iconSize = new L.Point(28, 28);
+			
+			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
+			puntTMP.options.iconSize = new L.Point(num, num);	
+			
+			}
+		
+		}else{ // sóc punt
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
@@ -546,7 +567,7 @@ function changeDefaultPointStyle(estilP) {
 	
 	
 	
-	puntTMP.options.icon=_iconGlif;
+	puntTMP.options.icon=_iconGlif + " "+cssText;
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
 	
@@ -582,6 +603,11 @@ function addDialegsEstils() {
 		if(objEdicio.obroModalFrom=="creaCapa"){
 			jQuery('#div_punt').removeClass();
 			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
+			jQuery('#div_punt').css('font-size',jQuery('#div_punt0').css('font-size'));
+			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
+			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
+			
+			
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
 			changeDefaultPointStyle(estilP);	
 			
@@ -649,30 +675,53 @@ function addDialegsEstils() {
 		jQuery('#dialog_estils_punts').modal('toggle');
 	})
 	
-		
+	var hihaGlif=false;	
 	jQuery(document).on('click', ".bs-punts li", function(e) {
 		jQuery(".bs-punts li").removeClass("estil_selected");
 		jQuery('#div_punt0').removeClass();
 		estilP.iconFons=jQuery('div', this).attr('class');
 		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-		jQuery(this).addClass("estil_selected");		
-	});
-	
-	
-	
-	jQuery(document).on('click', ".bs-colors li", function(e) {
-		jQuery(".bs-colors li").removeClass("estil_selected");
-		estilP.colorGlif=jQuery('div', this).css('background-color');
-		nClass=jQuery('div', this).attr('class');
-		jQuery('.bs-glyphicons li').css('color',estilP.colorGlif);
-		if(nClass=="c_white"){
-			jQuery('.bs-glyphicons li').css('background-color','#aaaaaa');	
+		jQuery(this).addClass("estil_selected");	
+		
+		
+		if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
+			
+			
+			//if(!hihaGlif){
+			jQuery('#dv_cmb_punt').show();
+			//}else{
+			//	jQuery('#dv_cmb_punt').hide();	
+			var vv=jQuery('#cmb_mida_Punt').val();
+				jQuery('#div_punt0').css('width',vv+'px');
+				 jQuery('#div_punt0').css('height',vv+'px');
+				 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
+				 estilP.fontsize=(vv/2)+"px";
+				 estilP.size=vv;
+			//}
+			
 		}else{
-			jQuery('.bs-glyphicons li').css('background-color','#FFFFFF');	
+			jQuery('#dv_cmb_punt').hide();
+			jQuery('#div_punt0').css('width','28px');
+			 jQuery('#div_punt0').css('height','42px');	
+			 jQuery('#div_punt0').css('font-size',"14px");
+			 estilP.fontsize="14px";
 		}
-		jQuery('#div_punt0').css('color',estilP.colorGlif);
-		jQuery(this).addClass("estil_selected");
+		
+		
 	});
+	
+	
+	 jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
+	    	
+		 jQuery('#div_punt0').css('width',this.value+"px");
+		 jQuery('#div_punt0').css('height',this.value+"px");
+		 jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
+		 estilP.fontsize=(this.value/2)+"px";
+		 estilP.size=this.value;
+	    });
+	
+	
+	
 	
 	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
 		jQuery(".bs-glyphicons li").removeClass("estil_selected");
@@ -693,11 +742,6 @@ function creaPopOverMesFons() {
 		container : 'body',
 		html : true,
 		trigger : 'manual'
-	}).click(function(e){
-		jQuery('.bt_tanca').click(function(e){
-			jQuery(this).popover('hide');
-        });
-        e.preventDefault();
 	});
 	
 	jQuery('#div_menu_mesfons div').tooltip(optB);

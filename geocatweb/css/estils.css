@@ -266,6 +266,14 @@
 	color: #FFC500;
 }
 
+
+.fill_color_icon{
+	width:20px;
+	height: 15px;
+	background-color: #000000;
+	color: #000000;
+	border:1px solid #aaaaaa;
+}
 .fill_color_pol {
 	width:30px;
 	height: 25px;
@@ -494,4 +502,27 @@ color:#ffffff;
    
     color: #333333;
     font: bold 17px/14px Tahoma,Verdana,sans-serif;
+}
+
+.font9{
+	font-size:9px !important;	
+	margin-top: 2px!important	
+}
+
+.font11{
+	font-size:11px !important;	
+	margin-top: 4px !important	
+}
+.font12{
+	font-size:12px !important;		
+}
+.font14{
+	font-size:14px !important;		
+}
+.font15{
+	font-size:15px !important;		
+}
+.font14{
+	font-size:14px !important;	
+	
 }
