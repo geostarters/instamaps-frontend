@@ -297,6 +297,7 @@ function activaEdicioUsuari() {
 		}
 		*/
 	});
+<<<<<<< HEAD
 		
 	map.on('draw:created', function(e) {
 		var type = e.layerType, layer = e.layer;
@@ -366,6 +367,114 @@ function activaEdicioUsuari() {
 			+'<li><a id="feature_remove#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Esborrar<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
 			+'</ul>'														
 			+'</div>'
+=======
+	
+	
+	
+	map.on('draw:created',
+					function(e) {
+						var type = e.layerType, layer = e.layer;
+						var totalFeature;
+						var tipusCat,tipusCatDes
+						if (type === 'marker') {
+							tipusCat=window.lang.convert('Titol Punt');
+							tipusCatDes=window.lang.convert('Descripcio Punt');
+							
+							 layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
+							 {icon: defaultPunt, tipus: 'Marker'}).addTo(map);
+							 layer.bindPopup('TODO: Esborra Editar ');
+							 capaUsrPunt.on('layeradd',objecteUserAdded);
+							 capaUsrPunt.addLayer(layer);
+							
+							totalFeature=capaUsrPunt.toGeoJSON().features.length;
+							
+							if (totalFeature == 1) {
+								controlCapes.addOverlay(capaUsrPunt,
+								capaUsrPunt.options.nom, true);
+								activaPanelCapes(true);
+							}
+							
+							capaUsrActiva=capaUsrPunt;
+							
+						} else if (type === 'polyline') {
+							
+							tipusCat=window.lang.convert('Titol Linia');
+							tipusCatDes=window.lang.convert('Descripcio Linia');
+							
+							capaUsrLine.on('layeradd',objecteUserAdded);
+							capaUsrLine.addLayer(layer);
+							
+							totalFeature=capaUsrLine.toGeoJSON().features.length;
+							
+							if (totalFeature == 1) {							
+								controlCapes.addOverlay(capaUsrLine,
+								capaUsrLine.options.nom, true);
+								activaPanelCapes(true);
+							}
+							
+							capaUsrActiva=capaUsrLine;
+							
+						} else if (type === 'polygon') {
+							
+							tipusCat=window.lang.convert('Títol Àrea');
+							tipusCatDes=window.lang.convert('Descripció Àrea');	
+							
+							
+							capaUsrPol.on('layeradd',objecteUserAdded);
+							capaUsrPol.addLayer(layer);
+							
+							totalFeature=capaUsrPol.toGeoJSON().features.length;
+							
+							if (totalFeature == 1) {	
+								controlCapes.addOverlay(capaUsrPol,
+										capaUsrPol.options.nom, true);
+								activaPanelCapes(true);
+							}
+							
+							capaUsrActiva=capaUsrPol;
+						}
+						layer.properties={'name':tipusCat+totalFeature,
+								'description':tipusCatDes+totalFeature,
+								'capaGrup':capaUsrActiva.options.nom,
+								'tipusFeature':capaUsrActiva.options.tipus};
+						
+						
+						objEdicio.esticEnEdicio=true;
+										
+						
+						
+						var html='<div class="div_popup">' 
+								
+				+'<div class="popup_pres">'							
+						+'<div id="titol_pres">'+layer.properties.name+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
+						+'<div id="des_pres">'+layer.properties.description+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
+						
+						
+						
+						//+'<div id="capa_pres">'
+						+'<ul class="bs-ncapa">'
+						+'<li><span lang="ca" class="small">Capa actual: </span><select id="cmbCapesUsr">'
+						+'<option value="'+layer.properties.capaGrup+'">'+layer.properties.capaGrup+'</option>'
+						 
+						 
+						  +'</select></li>'
+						  +'<li><a id="layer_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
+						  +'<li><a id="layer_add#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus verd12"></span></a></li>'
+						 
+						  +'</ul>'	
+						//'</div>'	
+						
+						
+					
+						
+						+'<div id="footer_edit"  class="modal-footer">'
+							+'<ul class="bs-popup">'						
+							+'<li><a id="feature_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Estils<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
+							+'<li><a id="feature_move#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Editar<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
+							+'<li><a id="feature_remove#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Esborrar<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
+							+'</ul>'														
+						+'</div>'
+>>>>>>> refs/remotes/origin/instamapes_jess_3
 			+'</div>'	
 			+'<div class="popup_edit">'
 			+'<div style="display:block" id="feature_txt">'

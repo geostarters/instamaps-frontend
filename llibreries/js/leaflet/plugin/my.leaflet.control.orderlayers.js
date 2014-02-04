@@ -152,27 +152,34 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var container;
 		if(obj.overlay) {
 			
+			col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-cog');
+			L.DomEvent.on(col, 'click', this._showOptions, this);
+			col.layerId = input.layerId;
+			row.appendChild(col);
+			
+			var row2 = L.DomUtil.create('div', '');
+			row2.id='conf-'+obj.layer.options.businessId;
+			row.appendChild(row2);
+			
 			col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-chevron-up');
 			L.DomEvent.on(col, 'click', this._onUpClick, this);
 			col.layerId = input.layerId;
-			row.appendChild(col);
+			row2.appendChild(col);
 			
 			col = L.DomUtil.create('div', 'leaflet-down glyphicon glyphicon-chevron-down');
 			col.layerId = input.layerId;
 			L.DomEvent.on(col, 'click', this._onDownClick, this);
-			row.appendChild(col);
+			row2.appendChild(col);
 			
 			col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
 			col.layerId = input.layerId;
 			L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-			row.appendChild(col);
+			row2.appendChild(col);
 			
 			col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-download');
 			col.layerId = input.layerId;
 			L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-			row.appendChild(col);
-			
-			
+			row2.appendChild(col);
 			
 			container = this._overlaysList; 
 		} else {
@@ -182,7 +189,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		updateEditableElements();
 		return label;
 	},
-
+	_showOptions: function(e){
+		var layerId = e.currentTarget.layerId;
+		var inputs = this._form.getElementsByTagName('input');
+		var obj = this._layers[layerId];
+		console.debug('openConfig:'+obj.layer.options.businessId);
+		
+		showConfOptions(obj.layer.options.businessId);
+		//jQuery(".conf-"+obj.layer.options.businessId+"").show();
+		
+	},
 	_onUpClick: function(e) {
 		var layerId = e.currentTarget.layerId;
 		var inputs = this._form.getElementsByTagName('input');
@@ -335,3 +351,4 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 L.control.orderlayers = function (baseLayers, overlays, options) {
 	return new L.Control.OrderLayers(baseLayers, overlays, options);
 };
+

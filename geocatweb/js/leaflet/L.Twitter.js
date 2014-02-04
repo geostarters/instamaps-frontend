@@ -3,8 +3,8 @@
  */
 L.Twitter = L.FeatureGroup.extend({
 	options: {
-		hashtag: 'Instamapes', // max photos loaded in one request (should be less or equal 100)
-		geocode: '41.387,2.168,100' // max total photos
+		hashtag: 'Instamapes', 
+		geocode: '41.387,2.168,100' 
 	},
 
 	initialize: function(options) {
@@ -47,11 +47,12 @@ L.Twitter = L.FeatureGroup.extend({
 			this.addLayer(m);			
 		}
 		
+		/*SENSE MAXIM
 		var ks = [];
 		for(var key in this._layers)
 			ks.push(key);
 		for(var i = 0; i < ks.length-this.options.maxTotal; i++)
-			this.removeLayer(this._layers[ks[i]]);
+			this.removeLayer(this._layers[ks[i]]);*/
 		this.fire("loaded");
 	},
 
@@ -60,9 +61,13 @@ L.Twitter = L.FeatureGroup.extend({
 		var bounds = this._map.getBounds();
 		var minll = bounds.getSouthWest();
 		var maxll = bounds.getNorthEast();
-  		if(this._zoom && this._bbox)
+  		/*if(this._zoom && this._bbox)
     			if(this._zoom == zoom && minll.lng >= this._bbox[0] && minll.lat >= this._bbox[1] && maxll.lng <= this._bbox[2] && maxll.lat <= this._bbox[3])
-      				return;
+      				return;*/
+  		
+		//Abans de recarregar elimino tots els markers
+		this.clearLayers();  		
+  		
   		var bbox = [];
   		bbox[0] = minll.lng;
   		bbox[1] = minll.lat;

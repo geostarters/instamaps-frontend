@@ -38,25 +38,62 @@ function objecteUserAdded(f){
 		}
 	});
 
-	var rangs = JSON
-			.stringify({
-				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
-				valorMax : "feature" + fId,
-				color : '#ff0000',
-				marker: f.layer.options.icon.options.markerColor,
-				simbolColor: f.layer.options.icon.options.iconColor,
-				simbolSize : f.layer._icon.height,
-				simbol : f.layer.options.icon.options.icon,
-				lineWidth : 2,
-				lineStyle : 'solid',
-				borderWidth : 2,
-				borderColor : '#000000',
-				opacity : (f.layer.options.opacity * 100),
-				label : false,
-				labelSize : 10,
-				labelFont : 'arial',
-				labelColor : '#000000',
-			});
+	//ESTIL MARKER
+	if(f.layer.options.tipus == 'Marker'){
+		var rangs = JSON
+		.stringify({
+			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
+			valorMax : "feature" + fId,
+			color : '#ff0000',
+			marker: f.layer.options.icon.options.markerColor,
+			simbolColor: f.layer.options.icon.options.iconColor,
+			simbolSize : f.layer._icon.height,
+			simbol : f.layer.options.icon.options.icon,
+			opacity : (f.layer.options.opacity * 100),
+			label : false,
+			labelSize : 10,
+			labelFont : 'arial',
+			labelColor : '#000000',
+		});	
+	//ESTIL LINE
+	}else if(f.layer.options.tipus == 'Line'){
+		
+		var rangs = JSON
+		.stringify({
+			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
+			valorMax : "feature" + fId,
+			color : f.layer.options.color,
+			lineWidth : 2,
+			lineStyle : 'solid',
+			borderWidth : 2,
+			borderColor : '#000000',
+			opacity : (f.layer.options.opacity * 100),
+			label : false,
+			labelSize : 10,
+			labelFont : 'arial',
+			labelColor : '#000000',
+		});	
+	//ESTIL POLIGON		
+	}else{
+		var rangs = JSON
+		.stringify({
+			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
+			valorMax : "feature" + fId,
+			color : '#ff0000',
+			fillColor: '#ff0000',
+			fillOpacity: f.layer.options.fillOpacity,
+			lineWidth : 2,
+			lineStyle : 'solid',
+			borderWidth : 2,
+			borderColor : '#000000',
+			opacity : (f.layer.options.opacity * 100),
+			label : false,
+			labelSize : 10,
+			labelFont : 'arial',
+			labelColor : '#000000',
+		});		
+	}
+
 
 	if (fId == 1) {
 		// Add feature and Layer
@@ -106,17 +143,20 @@ function objecteUserAdded(f){
 			rangs : rangs
 		};
 
-		jQuery.when(
-					createFeature(dataFeature),
-					createData(dataCapes),
-					createRang(dataRangs))
-				.then(function(results1,results2,results3) {
-							console.debug(results1[0].status);
-							console.debug(results2[0].status);
-							console.debug(results3[0].status);
-						},function(results1,results2,results3){
-							console.debug("ERROR");
-						});
+				
+		var data = {
+				uid : jQuery.cookie('uid'),
+				features : features,
+				dades : dades,
+				rangs : rangs,
+				businessId: this.options.results.businessId
+			};				
+				
+		addFeatureToTematic(data).then(function(results) {
+					console.debug(results.status);
+				},function(results){
+					console.debug("ERROR");
+				});
 
 
 	}
