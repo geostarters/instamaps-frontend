@@ -48,7 +48,7 @@ L.Panoramio = L.FeatureGroup.extend({
 			ks.push(key);
 		for(var i = 0; i < ks.length-this.options.maxTotal; i++)
 			this.removeLayer(this._layers[ks[i]]);
-		//this.fire("loaded");
+		this.fire("loaded");
 	},
 
 	_update: function() {
@@ -56,10 +56,14 @@ L.Panoramio = L.FeatureGroup.extend({
 		var bounds = this._map.getBounds();
 		var minll = bounds.getSouthWest();
 		var maxll = bounds.getNorthEast();
-  		if(this._zoom && this._bbox)
+  		/*if(this._zoom && this._bbox)
     			if(this._zoom == zoom && minll.lng >= this._bbox[0] && minll.lat >= this._bbox[1] && maxll.lng <= this._bbox[2] && maxll.lat <= this._bbox[3])
-      				return;
-  		var bbox = [];
+      				return;*/
+		
+		//Abans de recarregar elimino tots els markers
+		this.clearLayers();  		
+		
+		var bbox = [];
   		bbox[0] = minll.lng;
   		bbox[1] = minll.lat;
   		bbox[2] = maxll.lng;

@@ -135,16 +135,16 @@
 					<div class="div_gr2">
 						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr pop">
 							<script id="meus-wms-template" type="text/x-handlebars-template">
-							<ul>
+							<ul class="bs-dadesO">
 							{{#each results}}
-							<li><a href="#" data-businessid="{{businessId}}" data-layers={{layers}} class="usr_wms_layer">{{serverName}}</a></li>
+							<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label label-wms">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-wms"></span></li>
 							{{/each}}							
 							</ul>
 							</script>
 							<script id="meus-tematic-template" type="text/x-handlebars-template">
 							<ul>
 							{{#each results}}
-							<li><a href="#" data-businessid="{{businessId}}" class="usr_tematic_layer">{{nom}}</a> <span data-businessid="{{businessId}}" class="glyphicon glyphicon-remove"></span></li>
+							<li><a href="#" data-businessid="{{businessId}}" class="usr_tematic_layer">{{nom}}</a><span data-businessid="{{businessId}}" class="glyphicon glyphicon-remove"></span></li>
 							{{/each}}							
 							</ul>
 							</script>
@@ -749,6 +749,37 @@
 	</div>
 	<!-- /.modal -->
 	<!-- fi Modal Dades Externes -->
+
+	<!-- Modal les teves dades -->
+	<div class="modal fade" id="dialog_teves_dades">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Accedeix a les teves dades</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs etiqueta">
+						<li><a href="#id_sv" lang="ca" data-toggle="tab">Serveis Vector</a></li>
+						<li><a href="#id_sw" lang="ca" data-toggle="tab">Serveis WMS</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade" id="id_sv"></div>
+						<div class="tab-pane fade" id="id_sw"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+         <button type="button" class="btn btn-success">Canviar</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal les teves dades -->	
 
 	<!-- Modal Carrega dades -->
 	<div class="modal fade" id="dialog_carrega_dades">

@@ -330,8 +330,8 @@ function activaEdicioUsuari() {
 						var totalFeature;
 						var tipusCat,tipusCatDes
 						if (type === 'marker') {
-							tipusCat=window.lang.convert('Títol Punt');
-							tipusCatDes=window.lang.convert('Descripció Punt');
+							tipusCat=window.lang.convert('Titol Punt');
+							tipusCatDes=window.lang.convert('Descripcio Punt');
 							
 							 layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
 							 {icon: defaultPunt, tipus: 'Marker'}).addTo(map);
@@ -343,8 +343,7 @@ function activaEdicioUsuari() {
 							
 							if (totalFeature == 1) {
 								controlCapes.addOverlay(capaUsrPunt,
-										capaUsrPunt.options.nom, true);
-								
+								capaUsrPunt.options.nom, true);
 								activaPanelCapes(true);
 							}
 							
@@ -352,21 +351,17 @@ function activaEdicioUsuari() {
 							
 						} else if (type === 'polyline') {
 							
-							tipusCat=window.lang.convert('Títol Línia');
-							tipusCatDes=window.lang.convert('Descripció Línia');
-						
-							
+							tipusCat=window.lang.convert('Titol Linia');
+							tipusCatDes=window.lang.convert('Descripcio Linia');
 							
 							capaUsrLine.on('layeradd',objecteUserAdded);
 							capaUsrLine.addLayer(layer);
 							
-						
-								totalFeature=capaUsrLine.toGeoJSON().features.length;
+							totalFeature=capaUsrLine.toGeoJSON().features.length;
 							
 							if (totalFeature == 1) {							
 								controlCapes.addOverlay(capaUsrLine,
-										capaUsrLine.options.nom, true);
-								
+								capaUsrLine.options.nom, true);
 								activaPanelCapes(true);
 							}
 							

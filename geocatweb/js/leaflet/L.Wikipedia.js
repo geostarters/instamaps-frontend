@@ -15,6 +15,7 @@ L.Wikipedia = L.FeatureGroup.extend({
 		L.Util.setOptions(this, options);
 	},
 
+	
 	onAdd: function(map, insertAtTheBottom) {
 		this._map = map;
 		this._insertAtTheBottom = insertAtTheBottom;
@@ -48,11 +49,13 @@ L.Wikipedia = L.FeatureGroup.extend({
 			});
 			this.addLayer(m);
 		}
+		/*SENSE MAXIM
 		var ks = [];
 		for(var key in this._layers)
 			ks.push(key);
 		for(var i = 0; i < ks.length-this.options.maxTotal; i++)
-			this.removeLayer(this._layers[ks[i]]);
+			this.removeLayer(this._layers[ks[i]]);*/
+		
 		this.fire("loaded");
 	},
 
@@ -61,9 +64,13 @@ L.Wikipedia = L.FeatureGroup.extend({
 		var bounds = this._map.getBounds();
 		var minll = bounds.getSouthWest();
 		var maxll = bounds.getNorthEast();
-  		if(this._zoom && this._bbox)
+  		/*if(this._zoom && this._bbox)
     			if(this._zoom == zoom && minll.lng >= this._bbox[0] && minll.lat >= this._bbox[1] && maxll.lng <= this._bbox[2] && maxll.lat <= this._bbox[3])
-      				return;
+      				return;*/
+		
+		//Abans de recarregar elimino tots els markers
+		this.clearLayers();
+		
   		var bbox = [];
   		bbox[0] = minll.lng;
   		bbox[1] = minll.lat;

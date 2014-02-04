@@ -125,6 +125,14 @@ function addTematicLayerFeature(data){
 	}).promise();
 }
 
+function addFeatureToTematic(data){
+	return $.ajax({
+		url: paramUrl.addFeatureToTematic,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
 
 function getTematicLayerByBusinessId(data){
 	return $.ajax({
@@ -339,6 +347,14 @@ function getDownloadLayer(data){
 function getTematicLayer(data){
 	return jQuery.ajax({
 		url: paramUrl.getTematicLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteServidorWMS(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteServidorWMS,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
