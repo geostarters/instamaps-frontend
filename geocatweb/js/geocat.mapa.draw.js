@@ -56,9 +56,8 @@ function initCanvas(){
 		canvas_linia.strokeStyle=e.color;
 		addGeometryInitL(document.getElementById("cv_linia0"));
 	});
-    
-	 
-	 $('#colorpalette_icon').colorPalette().on('selectColor', function(e) {  
+    	 
+	$('#colorpalette_icon').colorPalette().on('selectColor', function(e) {  
 		 $('.fill_color_icon').css('background-color',e.color);
 			estilP.colorGlif=e.color;
 			
@@ -70,7 +69,8 @@ function initCanvas(){
 			}
 			jQuery('#div_punt0').css('color',estilP.colorGlif);
 			jQuery(this).addClass("estil_selected");
-		});
+	});
+	
 	jQuery("#cmb_trans").on('change', function(e) { 
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
     	
@@ -517,7 +517,6 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,capaUsrActiva){
 	map.addLayer(capaUsrActiva2);
 	capaUsrActiva2.addLayer(feature).on('layeradd', objecteUserAdded);
 	feature.openPopup();
-	//capaUsrActiva2.redraw();
 	controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
 	activaPanelCapes(true);
 }

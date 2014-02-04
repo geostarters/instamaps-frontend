@@ -18,16 +18,10 @@ jQuery(document).ready(function() {
 	// drawControl: true
 	}).setView([ 41.431, 1.8580 ], 8);
 	
-
-	
-	
 var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 	var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 	
-	
 	L.control.scale({'metric':true,'imperial':false}).addTo(map);
-	
-	
 	
 	//iniciamos los controles
 	initControls();
@@ -89,7 +83,6 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 		leaveMapa();
 	});
 
-	
 //	$('#add_twitter_layer').click(function(){
 //		$('#twitter-collapse').toggle()();
 //	});
@@ -104,17 +97,17 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 		type: 'text',
 		mode: 'inline',
 		success: function(response, newValue) {
-					var data = {
-					 	businessId: url('?businessid'), 
-					 	nom: newValue, 
-					 	uid: $.cookie('uid')
-					 }
-			 
-					updateMapName(data).then(function(results){
-						if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
-				},function(results){
-					$('#nomAplicacio').html(mapConfig.nomAplicacio);				
-				});	
+				var data = {
+				 	businessId: url('?businessid'), 
+				 	nom: newValue, 
+				 	uid: $.cookie('uid')
+				 }
+		 
+				updateMapName(data).then(function(results){
+					if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+			},function(results){
+				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
+			});	
 		 }
 	});
 	//$.fn.editable.defaults.mode = 'inline';
@@ -414,36 +407,26 @@ function activaPanelCapes(obre) {
 	}
 }
 
-
-
-
 function changeDefaultLineStyle(canvas_linia){
-var estilTMP={
-        weight: 3,       
-        color: '#FFC400',
-        dashArray: '3'
-       
-    };
-
-estilTMP.color=canvas_linia.strokeStyle;
-estilTMP.weight=canvas_linia.lineWidth;
-//estilTMP.dashArray='3';
-
-if(objEdicio.obroModalFrom=="creaCapa"){
-	 drawControl.options.polyline.shapeOptions= estilTMP;
-		
-		
+	var estilTMP={
+	        weight: 3,       
+	        color: '#FFC400',
+	        dashArray: '3'
+	       
+	    };
+	
+	estilTMP.color=canvas_linia.strokeStyle;
+	estilTMP.weight=canvas_linia.lineWidth;
+	//estilTMP.dashArray='3';
+	
+	if(objEdicio.obroModalFrom=="creaCapa"){
+		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
+	
+	return estilTMP;
 
-return estilTMP;
-
-
-/*
+	/*
 	if(estil.tipus=="pol"){
-	
-	
-	
-	
 		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
 		drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
 		drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
@@ -457,54 +440,45 @@ return estilTMP;
 	
 }
 
-
 function changeDefaultAreaStyle(canvas_pol){
 	var estilTMP={
-	        weight: 3,
-	        opacity: 1,
-	        color: '#FFC400',
-	        dashArray: '3',
-	        fillColor: '#FFC400',
-	        fillOpacity: 0.5
-	    };
+        weight: 3,
+        opacity: 1,
+        color: '#FFC400',
+        dashArray: '3',
+        fillColor: '#FFC400',
+        fillOpacity: 0.5
+    };
 	
 	estilTMP.fillColor=canvas_pol.fillStyle;
 	estilTMP.fillOpacity=canvas_pol.opacity;
 	estilTMP.weight=canvas_pol.lineWidth;
 	estilTMP.color=canvas_pol.strokeStyle;
-	 
 	
-	 if(objEdicio.obroModalFrom=="creaCapa"){
-		 drawControl.options.polygon.shapeOptions= estilTMP;
-			
-			
-		}
+	if(objEdicio.obroModalFrom=="creaCapa"){
+		drawControl.options.polygon.shapeOptions= estilTMP;
+	}
 	
 	return estilTMP;
 	
 	/*
-		if(estil.tipus=="pol"){
-		
-		
-		
-		
-			drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
-			drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
-			drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
-			drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
-		}else{
-			drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
-			drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
-			drawControl.options.polyline.shapeOptions.dashArray='3';
-		}
-		*/
-		
+	if(estil.tipus=="pol"){
+		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
+		drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
+		drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
+		drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
+	}else{
+		drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
+		drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
+		drawControl.options.polyline.shapeOptions.dashArray='3';
 	}
+	*/
+		
+}
 
 
 function changeDefaultPointStyle(estilP) {
-	
-	
+
 	var puntTMP= new L.AwesomeMarkers.icon({
 		icon : '',
 		markerColor : 'orange',
@@ -537,93 +511,61 @@ function changeDefaultPointStyle(estilP) {
 		}else if(tt=="14px"){
 			cssText="font14";
 		}else if(tt=="15px"){
-			cssText="font15";
-			
+			cssText="font15";		
 		}
-		
-		
+	
 		if(_iconGlif==""){//no tin glif
-			
-			//var num=parseInt(jQuery('#cmb_mida_Punt').val());
-			
-			
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);		
 		}else{
-			//puntTMP.options.iconAnchor= new L.Point(14, 14);
-			//puntTMP.options.iconSize = new L.Point(28, 28);
-			
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);	
-			
-			}
+		}
 		
-		}else{ // sóc punt
+	}else{ // sóc punt
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
-		
 	}
-	
-	
 	
 	puntTMP.options.icon=_iconGlif + " "+cssText;
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
 	
 	if(objEdicio.obroModalFrom=="creaCapa"){
-	
 		defaultPunt=puntTMP;
-		
 	}
 	
 	return puntTMP;
-	
 } 
 
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
 		obrirMenuModal('#dialog_estils_punts','toggle','creaCapa');
-		
 	});
 
 	jQuery('#div_mes_linies').on("click", function(e) {			
 		obrirMenuModal('#dialog_estils_linies','toggle','creaCapa');
-
 	});
 	
 	jQuery('#div_mes_arees').on("click", function(e) {	
-		
 		obrirMenuModal('#dialog_estils_arees','toggle','creaCapa');
 	});
 	
 	jQuery('#dialog_estils_punts .btn-success').on('click',function(){		
-		
-		
 		if(objEdicio.obroModalFrom=="creaCapa"){
 			jQuery('#div_punt').removeClass();
 			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
 			jQuery('#div_punt').css('font-size',jQuery('#div_punt0').css('font-size'));
 			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
-			
-			
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
 			changeDefaultPointStyle(estilP);	
 			
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
-			
-			
-			//console.info(objEdicio.featureID);
-			
 			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
-			
-			
-			
 		}else{
 			//pensat per tematics
-			
-			
 		}
 		
 		jQuery('#dialog_estils_punts').modal('toggle');				
@@ -637,12 +579,7 @@ function addDialegsEstils() {
 			//changeDefaultVectorStyle(canvas_linia);
 			changeDefaultLineStyle(canvas_linia);
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
-			
-			
 			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
-			
-			
-			
 		}else{
 			
 		}
@@ -658,12 +595,7 @@ function addDialegsEstils() {
 		changeDefaultAreaStyle(canvas_pol);
 		
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
-			
-			
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
-			
-			
-			
 		}else{
 			
 		}
@@ -683,9 +615,7 @@ function addDialegsEstils() {
 		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
 		jQuery(this).addClass("estil_selected");	
 		
-		
 		if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
-			
 			
 			//if(!hihaGlif){
 			jQuery('#dv_cmb_punt').show();
@@ -698,7 +628,6 @@ function addDialegsEstils() {
 				 estilP.fontsize=(vv/2)+"px";
 				 estilP.size=vv;
 			//}
-			
 		}else{
 			jQuery('#dv_cmb_punt').hide();
 			jQuery('#div_punt0').css('width','28px');
@@ -706,22 +635,16 @@ function addDialegsEstils() {
 			 jQuery('#div_punt0').css('font-size',"14px");
 			 estilP.fontsize="14px";
 		}
-		
-		
 	});
 	
 	
-	 jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
-	    	
-		 jQuery('#div_punt0').css('width',this.value+"px");
-		 jQuery('#div_punt0').css('height',this.value+"px");
-		 jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
-		 estilP.fontsize=(this.value/2)+"px";
-		 estilP.size=this.value;
-	    });
-	
-	
-	
+	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
+	    jQuery('#div_punt0').css('width',this.value+"px");
+		jQuery('#div_punt0').css('height',this.value+"px");
+		jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
+		estilP.fontsize=(this.value/2)+"px";
+		estilP.size=this.value;
+	});
 	
 	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
 		jQuery(".bs-glyphicons li").removeClass("estil_selected");
@@ -800,11 +723,7 @@ function creaPopOverMevasDades2(){
 }
 
 function creaPopOverMevasDades(){	
-	
-	
 	jQuery(".div_dades_usr").on('click', function() {
-
-		
 		$('#dialog_teves_dades').modal('show');
 		
 //		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -822,90 +741,90 @@ function creaPopOverMevasDades(){
 		jQuery("#id_sw").empty();		
 		refrescaPopOverMevasDades();
 				
-				var source1 = jQuery("#meus-wms-template").html();
-				var template1 = Handlebars.compile(source1);
-				var html1 = template1(dades1[0]);				
-				jQuery("#id_sw").append(html1);	
-				
-				initMevesDades = true;
-				
-				jQuery(".usr_wms_layer").on('click', function(event) {
-					event.preventDefault();
-					var _this = jQuery(this);
-				
-					var data = {
-							uid: $.cookie('uid'),
-							businessId: mapConfig.businessId,
-							servidorWMSbusinessId: _this.data("businessid"),
-							layers: _this.data("layers"),
-							calentas:false,
-							activas:true,
-							visibilitats:true
-					};						
+		var source1 = jQuery("#meus-wms-template").html();
+		var template1 = Handlebars.compile(source1);
+		var html1 = template1(dades1[0]);				
+		jQuery("#id_sw").append(html1);	
+		
+		initMevesDades = true;
+		
+		jQuery(".usr_wms_layer").on('click', function(event) {
+			event.preventDefault();
+			var _this = jQuery(this);
+		
+			var data = {
+					uid: $.cookie('uid'),
+					businessId: mapConfig.businessId,
+					servidorWMSbusinessId: _this.data("businessid"),
+					layers: _this.data("layers"),
+					calentas:false,
+					activas:true,
+					visibilitats:true
+			};						
+			
+			addServerToMap(data).then(function(results){
+				if(results.status==='OK'){
 					
-					addServerToMap(data).then(function(results){
-						if(results.status==='OK'){
-							
-							var value = results.results;
-							
-							if (value.epsg == "4326"){
-								value.epsg = L.CRS.EPSG4326;
-							}else if (value.epsg == "25831"){
-								value.epsg = L.CRS.EPSG25831;
-							}else if (value.epsg == "23031"){
-								value.epsg = L.CRS.EPSG23031;
-							}else{
-								value.epsg = map.crs;
-							}							
-							
-							if(_this.data("servertype") == t_wms){
-								loadWmsLayer(value);
-							}else if((_this.data("servertype") == t_dades_obertes)){
-								loadDadesObertesLayer(value);
-							}else if(_this.data("servertype") == t_xarxes_socials){
-								
-								var options = jQuery.parseJSON( value.options );
-								if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
-								else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
-								else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-								
-							}else if(_this.data("servertype") == t_tematic){
-								loadTematicLayer(value);
-							}							
-							
-							activaPanelCapes(true);
-						}
-				
-					});					
-				
-				});					
-				
-				//Eliminem servidors
-				jQuery("span.glyphicon-remove").on('click', function(event) {
-					event.preventDefault();
-					event.stopPropagation();
-					var _this = jQuery(this);
-					var data = {
-							uid: $.cookie('uid'),
-							businessId: _this.data("businessid")
-					};
+					var value = results.results;
 					
-					if(_this.data("servertype") == t_tematic){
-						deleteTematicLayerAll(data).then(function(results){
-							if (results.status == "OK"){
-								_this.parent().remove();
-//								refrescaPopOverMevasDades();
-							}
-						});
+					if (value.epsg == "4326"){
+						value.epsg = L.CRS.EPSG4326;
+					}else if (value.epsg == "25831"){
+						value.epsg = L.CRS.EPSG25831;
+					}else if (value.epsg == "23031"){
+						value.epsg = L.CRS.EPSG23031;
 					}else{
-						deleteServidorWMS(data).then(function(results){
-							if (results.status == "OK"){
-								_this.parent().remove();
+						value.epsg = map.crs;
+					}							
+					
+					if(_this.data("servertype") == t_wms){
+						loadWmsLayer(value);
+					}else if((_this.data("servertype") == t_dades_obertes)){
+						loadDadesObertesLayer(value);
+					}else if(_this.data("servertype") == t_xarxes_socials){
+						
+						var options = jQuery.parseJSON( value.options );
+						if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
+						else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
+						else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+						
+					}else if(_this.data("servertype") == t_tematic){
+						loadTematicLayer(value);
+					}							
+					
+					activaPanelCapes(true);
+				}
+		
+			});					
+		
+		});					
+				
+		//Eliminem servidors
+		jQuery("span.glyphicon-remove").on('click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			var _this = jQuery(this);
+			var data = {
+					uid: $.cookie('uid'),
+					businessId: _this.data("businessid")
+			};
+			
+			if(_this.data("servertype") == t_tematic){
+				deleteTematicLayerAll(data).then(function(results){
+					if (results.status == "OK"){
+						_this.parent().remove();
 //								refrescaPopOverMevasDades();
-							}
-						});						
 					}
-				});					
+				});
+			}else{
+				deleteServidorWMS(data).then(function(results){
+					if (results.status == "OK"){
+						_this.parent().remove();
+//								refrescaPopOverMevasDades();
+					}
+				});						
+			}
+		});					
 				
 //			}
 //		});
@@ -913,18 +832,13 @@ function creaPopOverMevasDades(){
 		jQuery(".usr_tematic_layer").on('click', function(event) {
 			event.preventDefault();
 			var _this = jQuery(this);
-			
 			carregarCapa(_this.data("businessid"));
-		
 		});
 		
 		jQuery("span.glyphicon-remove").on('click', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			var _this = jQuery(this);
-
-			//console.debug(_this.data("businessid"));
-			
 			var data = {
 				uid: $.cookie('uid'),
 				businessId: _this.data("businessid")
@@ -1025,8 +939,6 @@ function loadPopOverMevasDades(){
 			event.stopPropagation();
 			var _this = jQuery(this);
 
-			//console.debug(_this.data("businessid"));
-			
 			var data = {
 				uid: $.cookie('uid'),
 				businessId: _this.data("businessid")
@@ -1852,7 +1764,7 @@ function loadDadesObertesLayer(layer){
 				})});
 			}else if(options.dataset.indexOf('incidencies')!=-1){
 				var inci=feature.properties.descripcio_tipus;
-				var arr = ["Obres", "Retenci�", "Cons", "Meterologia" ];
+				var arr = ["Obres", "Retenci�", "Cons", "Meterologia" ];
 				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
 				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
 				return L.marker(latlng, {icon:L.icon({					
