@@ -865,10 +865,24 @@ function carregarCapa(businessId){
 	getTematicLayerByBusinessId(data).then(function(results){
 		console.debug(results);
 		//TODO
+		var capaFeatures=new L.FeatureGroup();
+		capaFeatures.options = {
+			businessId : results.results.businessId,
+			nom : results.results.nom,
+			zIndex : controlCapes._lastZIndex+1
+		};
+		var geometryType = results.results.geometryType;
+		if (geometryType=="marker"){
+			capaFeatures.options.tipus = 'Marker';
+		}else if (geometryType=="line"){
+			capaFeatures.options.tipus = 'Line';
+		}else if (geometryType=="polygon"){
+			capaFeatures.options.tipus = 'Polygon';
+		}else if (geometryType=="multiple"){
+			capaFeatures.options.tipus = 'Multiple';
+		}
+		
 		//agregar la capa tematica al mapa. Leer los features y cargarlos
-		var capaPunts=null;
-		var capaLinies=null;
-		var capaPoligons=null;
 		if (results.status=="OK") {
 			for (geometry in results.results.geometries.features.features){
 				var geometria=results.results.geometries.features.features[geometry].geometry;
@@ -876,100 +890,49 @@ function carregarCapa(businessId){
 				var tipus=geometria.type;
 				if (tipus=="Point") {
 					var coords=coordinates.split(",");
-					if (capaPunts==null) {
-						capaPunts = new L.FeatureGroup();
-						var latlng = L.latLng(coords[0],coords[1]);
-						var circle=L.circleMarker(latlng,200);
-						capaPunts.addLayer(circle);
-					}
-					else {
-						var latlng = L.latLng(coords[0],coords[1]);
-						var circle=L.circleMarker(latlng,200);
-						capaPunts.addLayer(circle);
-					}					
-					capaPunts.addTo(map);
+					var latlng = L.latLng(coords[0],coords[1]);
+					var circle=L.circleMarker(latlng,200);
+					capaFeatures.addLayer(circle);
 				}
 				if (tipus=="LineString"){
 					var coords=coordinates.split(",");
-					if (capaLinies==null){
-						capaLinies = new L.FeatureGroup();
-						var i=0;
-						var j=0;
-						var llistaPunts=[];
-						while (i< coords.length){
-							var c1=coords[i];
-							var c2=coords[i+1];
-							var punt=new L.LatLng(c1, c2);
-							llistaPunts[j]=punt;
-							i=i+2;
-							j++;
-						}
-						var polyline =  L.polyline(llistaPunts, {color: 'red'})
-						capaLinies.addLayer(polyline);
+					var i=0;
+					var j=0;
+					var llistaPunts=[];
+					while (i< coords.length){
+						var c1=coords[i];
+						var c2=coords[i+1];
+						var punt=new L.LatLng(c1, c2);
+						llistaPunts[j]=punt;
+						i=i+2;
+						j++;
 					}
-					else {
-						var i=0;
-						var j=0;
-						var llistaPunts=[];
-						while (i< coords.length){
-							var c1=coords[i];
-							var c2=coords[i+1];
-							var punt=new L.LatLng(c1, c2);
-							llistaPunts[j]=punt;
-							i=i+2;
-							j++;
-						}
-						var polyline =  L.polyline(llistaPunts, {color: 'red'});						
-						capaLinies.addLayer(polyline);
-					}					
-					capaLinies.addTo(map);
+					var polyline =  L.polyline(llistaPunts, {color: 'red'});						
+					capaFeatures.addLayer(polyline);
 				}
 				if (tipus=="Polygon") {
 					var coords=coordinates.split(",");
-					if (capaPoligons==null){
-						capaPoligons = new L.FeatureGroup();
-						var i=0;
-						var j=0;
-						var llistaPunts=[];
-						while (i< coords.length){
-							var c1=coords[i];
-							var c2=coords[i+1];
-							var punt=new L.LatLng(c1, c2);
-							llistaPunts[j]=punt;
-							i=i+2;
-							j++;
-						}
-						var polygon = new L.Polygon(llistaPunts,{color: 'red'});
-						capaPoligons.addLayer(polygon);
+					var i=0;
+					var j=0;
+					var llistaPunts=[];
+					while (i< coords.length){
+						var c1=coords[i];
+						var c2=coords[i+1];
+						var punt=new L.LatLng(c1, c2);
+						llistaPunts[j]=punt;
+						i=i+2;
+						j++;
 					}
-					else {
-						var i=0;
-						var j=0;
-						var llistaPunts=[];
-						while (i< coords.length){
-							var c1=coords[i];
-							var c2=coords[i+1];
-							var punt=new L.LatLng(c1, c2);
-							llistaPunts[j]=punt;
-							i=i+2;
-							j++;
-						}
-						var polygon = new L.Polygon(llistaPunts,{color: 'red'});
-						capaPoligons.addLayer(polygon);				
-					}
-					capaPoligons.addTo(map);
+					var polygon = new L.Polygon(llistaPunts,{color: 'red'});
+					capaFeatures.addLayer(polygon);				
 				}
 			}
+			capaFeatures.addTo(map);
 			
-			if (capaPunts!=null){
-				controlCapes.addOverlay(capaPunts,results.results.title, true);
+			if (capaFeatures!=null){
+				controlCapes.addOverlay(capaFeatures,results.results.title, true);
 			}
-			if (capaLinies!=null){
-				controlCapes.addOverlay(capaLinies,results.results.title, true);
-			}
-			if (capaPoligons!=null){
-				controlCapes.addOverlay(capaPoligons,results.results.title, true);
-			}
+			
 			activaPanelCapes(true);	
 		}
 		else {

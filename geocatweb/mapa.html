@@ -800,19 +800,45 @@
 					<span class="glyphicon glyphicon-info-sign"></span>
 					Necessitem les següent informació per processar el fitxer correctament
 					</div>
-					<input type='hidden' id='file_path' value=''>
-					<input type='hidden' id='isCoordinates' value=''>
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>ID:</div>
-					<input type='text' class="typeahead" name='bid' id='bid' value=''>
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>SRID:</div>
-					<select id='srid' style='margin-left: 68px;'>
-					<option value='4326'>4326</option>
-					<option value='23031'>23031</option>
-					<option value='25831'>25831</option>
-					</select><br/>
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>Coordenades:</div>
-					X: <input type='text' class="typeahead" name='colX' id='colX' value='' style='margin-left: 68px;'>
-					Y: <input type='text' class="typeahead" name='colY' id='colY' value=''><br/>
+					<form id="formFields">
+						<input type='hidden' id='file_path' value=''>
+						<input type='hidden' id='isCoordinates' value=''>
+						<div id="localitzaCoord">
+						<h4 lang="ca">Localitza per coordenades</h4>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>ID:</div>
+						<input type='text' class="typeahead" name='bid' id='bid' value=''>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>SRID:</div>
+						<select id='srid' style='margin-left: 68px;'>
+						<option value='4326'>4326</option>
+						<option value='23031'>23031</option>
+						<option value='25831'>25831</option>
+						</select><br/>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Coordenades</span>:</div>
+						X: <input type='text' class="typeahead" name='colX' id='colX' value='' style='margin-left: 68px;'>
+						Y: <input type='text' class="typeahead" name='colY' id='colY' value=''><br/>
+						<div><button type="button" class="btn btn-link btn_codi" lang="ca">Localitza per codis</button></div>
+						</div>
+						<div id="localitzaCodi">
+						<h4 lang="ca">Localitza per codis</h4>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Codi municipi o comarca</span>:</div>
+						<input type='text' class="typeahead" name='codi' id='codi' value=''>
+						<!-- 
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Tipus codi</span>:</div>
+						<select id='codiType' style='margin-left: 68px;'>
+						<option value='ine'>INE (5 digits)</option>
+						<option value='idescat'>Idescat (6 digits)</option>
+						<option value='municat'>Municat (10 digits)</option>
+						<option value='cadastre'>Cadastre (5 digits)</option>
+						</select><br/>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Tipus codi</span>:</div>
+						<select id='geomType' style='margin-left: 68px;'>
+						<option value='municipi'>Municipis</option>
+						<option value='comarca'>Comarques</option>
+						</select><br/>
+						-->
+						<div><button type="button" class="btn btn-link btn_coord" lang="ca">Localitza per coordenades</button></div>
+						</div>
+					</form>
 				</div>
 				<div class="modal-footer">
 			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>

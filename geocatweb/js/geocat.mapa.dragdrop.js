@@ -27,6 +27,16 @@ function creaAreesDragDropFiles() {
 	drgBoto.on('progress', function(file,progress) {
 		//console.info(progress);
 	});
+	
+	$('.btn_codi').on('click',function(e){
+		$('#localitzaCoord').hide();
+		$('#localitzaCodi').show();
+	});
+	
+	$('.btn_coord').on('click',function(e){
+		$('#localitzaCoord').show();
+		$('#localitzaCodi').hide();
+	});
 }
 
 jQuery('#bt_upload_fitxer').on("click", function(e) {
@@ -35,34 +45,45 @@ jQuery('#bt_upload_fitxer').on("click", function(e) {
 	var colY=jQuery("#colY").val();
 	var path=jQuery('#file_path').val();
 	var bid=jQuery('#bid').val();
+	var codi=jQuery('#codi').val();
+	var codiType=jQuery("#codiType").val();
+	var geomType=jQuery("#geomType").val();
+	var type="";
 	var isOK=true;
-	if (colX.value=="" || colY.value=="") {
-		isOK=false;
-		alert("Cal indicar els camps de les coordeandes X,Y");
+	if (jQuery('#localitzaCoord').is(':visible')){
+		if (colX.value=="" || colY.value=="") {
+			isOK=false;
+			alert("Cal indicar els camps de les coordeandes X,Y");
+		}
+		if (path=="") {
+			isOK=false;
+			alert("Cal pujar un fitxer");
+		}
+		if (bid=="") {
+			isOK=false;
+			alert("Cal indicar els camps de ID");
+		}
+	}else{
+		if (codi.value=="") {
+			isOK=false;
+			alert("Cal indicar els camps de Codi");
+		}
+		type = 'municipis';
 	}
-	if (path=="") {
-		isOK=false;
-		alert("Cal pujar un fitxer");
-	}
-	
 	if (isOK){
 		var data = {uid:$.cookie('uid'),
-				path:path, 
-				colX: colX, 
-				colY: colY,
-				srid: srid,
-				bid: bid};
+			path:path, 
+			colX: colX, 
+			colY: colY,
+			srid: srid,
+			bid: bid,
+			codi: codi,
+			type: type,
+			codiType: codiType,
+			geomType: geomType};
 		doUploadFile(data).then(function(results2){
-			if (results2.status=="OK") {
-				var businessId=results2.results.businessId;
-				//Un cop carregat el fitxer refresquem el popup de les dades de l'usuari i tambè
-				//el control de capes			
-				carregarCapa(businessId);
-				refrescaPopOverMevasDades();
-				jQuery('#dialog_carrega_dadesfields').modal('hide');
-			}
+			addDropFileToMap(results2);
 		});
-		//readAndUploadFile(file, resposta);
 	}
 	else return false;
 });
@@ -101,6 +122,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 		//console.debug(file);
 		//console.info(progress);
 	});
+	
 });
 
 function readAndUploadFile(file, resposta){
@@ -117,16 +139,12 @@ function readAndUploadFile(file, resposta){
 				//var data = {uid:$.cookie('uid'),path:path,colX: "X",colY: "Y", srid:"4326"};
 				var data = {uid:$.cookie('uid'),path:path};
 				doUploadFile(data).then(function(results2){
-					if (results2.status=="OK") {
-						var businessId=results2.results.businessId;
-						//Un cop carregat el fitxer refresquem el popup de les dades de l'usuari i tambè
-						//el control de capes			
-						carregarCapa(businessId);
-						refrescaPopOverMevasDades();
-					}
+					addDropFileToMap(results2);
 				});
 			}else{
+				jQuery('#formFields')[0].reset();
 				var dadesfields = results.results;
+				
 				jQuery('#dialog_carrega_dadesfields').modal('show');
 				
 				jQuery('#file_path').val(dadesfields.path);
@@ -141,16 +159,51 @@ function readAndUploadFile(file, resposta){
 							jQuery(id).val(key);
 						}
 					}
+					if (value == "codi"){
+						dadesfields.codi = key;
+					}
 				});
 				jQuery(".typeahead").typeahead({ source:data });
 					
 				if (dadesfields.isCoordinates){
-					//TODO ocultar los campos que no se usan 
+					jQuery("#localitzaCodi").hide();
+					jQuery("#localitzaCoord").show();
 				}else{
-					//TODO formulario de seleccionar la capa de geometrias
-					console.debug("archivo sin geometrias");
+					jQuery("#localitzaCodi").show();
+					jQuery("#localitzaCoord").hide();
 				}
 			}
 		}
 	});
+}
+
+function addDropFileToMap(results){
+	if (results.status=="OK") {
+		//console.debug(results.results);
+		var businessId=results.results.businessId;
+		
+		//crear el servidor WMS i agregarlo al mapa
+		var data = {
+				uid:$.cookie('uid'),
+				businessId: businessId,
+				mapBusinessId: url('?businessid'),
+				serverName: results.results.nom,
+				serverType: 'tematic',
+				calentas: false,
+	            activas: true,
+	            visibilitats: true,
+	            epsg: '4326',
+	            transparency: true,
+	            visibilitat: 'O'
+		};
+		createServidorInMap(data).then(function(results){
+			if (results.status == "OK"){
+				//Un cop carregat el fitxer refresquem el popup de les dades de l'usuari i tambè
+				//el control de capes
+				carregarCapa(businessId);
+				refrescaPopOverMevasDades();
+				jQuery('#dialog_carrega_dadesfields').modal('hide');
+			}
+		});
+	}
 }
