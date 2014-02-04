@@ -760,22 +760,23 @@ function creaPopOverMevasDades(){
 	
 	jQuery(".div_dades_usr").on('click', function() {
 
+		
 		$('#dialog_teves_dades').modal('show');
 		
-		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-			var tbA = e.target.attributes.href.value;
+//		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+//			var tbA = e.target.attributes.href.value;
 
-			if (tbA == "#id_sv") {
+//			if (tbA == "#id_sv") {
 //				var source2 = jQuery("#meus-tematic-template").html();
 //				var template2 = Handlebars.compile(source2);
 //				var html2 = template2(dades2[0]);
 //
 //				jQuery("#id_sv").append(html2);
 				
-			}else if(tbA == "#id_sw" /*&& !initMevesDades*/){
-				//Per tenir actualitzar canvis: remove layers, add layers, etc
-				jQuery("#id_sw").empty();
-				refrescaPopOverMevasDades();
+//			}else if(tbA == "#id_sw" /*&& !initMevesDades*/){
+		//Per tenir actualitzar canvis: remove layers, add layers, etc
+		jQuery("#id_sw").empty();		
+		refrescaPopOverMevasDades();
 				
 				var source1 = jQuery("#meus-wms-template").html();
 				var template1 = Handlebars.compile(source1);
@@ -829,65 +830,10 @@ function creaPopOverMevasDades(){
 							}							
 							
 							activaPanelCapes(true);
-							
-//							var index = results.results.servidorsWMS.length -1;
-//							var value = results.results.servidorsWMS[index];
-//							
-//							 var newWMS = L.tileLayer.wms(value.url, {
-//								 layers: value.layers,
-//								 format: value.imgFormat,
-//								 transparent: value.transparency,
-//								 version: value.version,
-//								 opacity: value.opacity,
-//								 crs: value.epsg,
-//								 businessId: value.businessId//Jess
-//								 });
-//								 if (value.capesActiva == true || value.capesActiva == "true"){
-//								 newWMS.addTo(map);
-//								 }
-//								 controlCapes.addOverlay(newWMS, value.serverName, true); 				
-//	
-//							activaPanelCapes(true);						
 						}
 				
 					});					
-					
-
-					
-//					var data = {
-//						uid: $.cookie('uid'),
-//						businessId: mapConfig.businessId,
-//						servidorWMSbusinessId: _this.data("businessid"),
-//						layers: _this.data("layers"),
-//						calentas:false,
-//						activas:false,
-//						visibilitats:true
-//					};
-//					
-//					addServerToMap(data).then(function(results){
-//						if(results.status==='OK'){
-//							var index = results.results.servidorsWMS.length -1;
-//							var value = results.results.servidorsWMS[index];
-//							
-//							 var newWMS = L.tileLayer.wms(value.url, {
-//								 layers: value.layers,
-//								 format: value.imgFormat,
-//								 transparent: value.transparency,
-//								 version: value.version,
-//								 opacity: value.opacity,
-//								 crs: value.epsg,
-//								 businessId: value.businessId//Jess
-//								 });
-//								 if (value.capesActiva == true || value.capesActiva == "true"){
-//								 newWMS.addTo(map);
-//								 }
-//								 controlCapes.addOverlay(newWMS, value.serverName, true); 				
-//
-//							activaPanelCapes(true);						
-//						}
-//					
-//					});
-					
+				
 				});					
 				
 				//Eliminem servidors
@@ -917,8 +863,8 @@ function creaPopOverMevasDades(){
 					}
 				});					
 				
-			}
-		});
+//			}
+//		});
 		
 		jQuery(".usr_tematic_layer").on('click', function(event) {
 			event.preventDefault();
