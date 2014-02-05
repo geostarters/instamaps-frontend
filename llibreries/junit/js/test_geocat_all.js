@@ -89,6 +89,8 @@ var urls = {
 	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
 	createTematicLayerFeature: HOST_APP+"layers/tematic/createTematicLayerFeature.action?",
+	createTematicLayerEmpty: HOST_APP+"layers/tematic/createTematicLayerEmpty.action?",
+	moveFeatureToTematic: HOST_APP+"layers/tematic/moveFeatureToTematic.action?",
 	deleteTematicLayerAll: HOST_APP+"layers/tematic/deleteTematicLayerAll.action?",
 	getAllTematicLayerByUid: HOST_APP+"layers/tematic/getAllTematicLayerByUid.action?",
 };
@@ -3635,6 +3637,82 @@ asyncTest( "createTematicLayerFeature", 3, function() {
 		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
 		
 		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "createTematicLayerEmpty", 3, function() {
+	$.ajax({
+		url: urls.createTematicLayerEmpty,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b090',
+			uid: 'wszczerban',
+			description: 'prova',
+			nom: 'Test_layer',
+			geometryType: 'marker',
+			publica: true,
+			geomField: 'the_geom',
+			idGeomField: 'nom',
+			dataField: 'slotd1',
+			idDataField: 'slotd1',
+			mapBusinessId: 'ffabe7f7d453d9a63cf7182a464ebe96'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object', required : true
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		
+		var schema1 = {
+			type : 'object',
+			properties : {
+				businessId : { type: 'string', required : true},
+				description : { type: ['string','null'], required : true},
+				keywords : { type: ['string','null'], required : true},
+				nom : { type: 'string', required : true},
+				uid : { type: 'string', required : true},
+				id : { type: 'number', required : true},
+				title : { type: ['string','null'], required : true},
+			}
+		};
+		var report = env.validate(results.results[0], schema1);
+		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "moveFeatureToTematic", 1, function() {
+	$.ajax({
+		url: urls.moveFeatureToTematic,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082', //businessId de la feature
+            fromBusinessId: '4c216bc1cdd8b3a69440b45b2713b081', //businessId del tematico de origen
+            toBusinessId: '4c216bc1cdd8b3a69440b45b2713b083', //businessId del tematico de destino
+			uid: 'wszczerban',
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
 	}).fail(function(results){
 		console.debug(results);
 		ok( false, "Fail and ready to resume!" );
