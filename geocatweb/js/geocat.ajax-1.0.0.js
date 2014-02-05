@@ -359,3 +359,13 @@ function deleteServidorWMS(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function getWMSLayers(url){
+	return jQuery.ajax({
+		url: paramUrl.ows2json,
+		data: {url:url},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}

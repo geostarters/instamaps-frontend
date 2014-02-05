@@ -1075,21 +1075,19 @@ function creaPopOverDadesExternes() {
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
 
-				jQuery(tbA+" a.label").on('click', function(e) {
+				jQuery(tbA+" a.label-explora").on('click', function(e) {
 					if(e.target.id !="id_do"){
 						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
 					}
 				});
-				
-				//jQuery(tbA).html('<span class="label">Font:<a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+
 				
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
-				jQuery(tbA+" a.label").on('click', function(e) {
+				jQuery(tbA+" a.label-wms").on('click', function(e) {
 					if(e.target.id !="id_srvw"){
-					//addCapaDadesObertes(e.target.id,jQuery(e.target).text());
-						console.info("hola");
+						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
 					}
 				});	
 			}else if(tbA == "#id_xs"){//Jess
@@ -1253,9 +1251,9 @@ function popUp(f, l) {
 
 function generaLListaDadesObertes() {
 	getLListaDadesObertes().then(function(results) {
-		_htmlDadesObertes.push('<div><ul class="bs-dadesO">');
+		_htmlDadesObertes.push('<div class="panel-danger"><ul class="bs-dadesO panel-heading">');
 		$.each(results.dadesObertes, function(key, dataset) {
-			_htmlDadesObertes.push('<li><a class="label label-explora" lang="ca" title="Afegir capa" href="#" id="'
+			_htmlDadesObertes.push('<li><a class="label-explora" lang="ca" title="Afegir capa" href="#" id="'
 				+ dataset.dataset
 				+ '">'
 				+ dataset.text
