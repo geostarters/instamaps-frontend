@@ -116,9 +116,14 @@ function objecteUserAdded(f){
 		var _this = this;
 		
 		addTematicLayerFeature(data).then(function(results) {
-							_this.options = results;
-							console.debug('addTematicLayerFeature OK');
-							// editableLayers=results;
+							if(results.status === 'OK'){
+								_this.options.businessId = results.results.businessId;
+								console.debug('addTematicLayerFeature OK');
+								finishAddFeatureToTematic(f.layer);
+							}else{
+								//ERROR: control Error
+								console.debug('addTematicLayerFeature ERROR');
+							}
 						},function(results){
 							console.debug('addTematicLayerFeature ERROR');
 						});

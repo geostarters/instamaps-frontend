@@ -984,14 +984,14 @@ function carregarCapa(businessId){
 			zIndex : controlCapes._lastZIndex+1
 		};
 		var geometryType = results.results.geometryType;
-		if (geometryType=="marker"){
-			capaFeatures.options.tipus = 'Marker';
-		}else if (geometryType=="line"){
-			capaFeatures.options.tipus = 'Line';
-		}else if (geometryType=="polygon"){
-			capaFeatures.options.tipus = 'Polygon';
-		}else if (geometryType=="multiple"){
-			capaFeatures.options.tipus = 'Multiple';
+		if (geometryType==t_marker){
+			capaFeatures.options.tipus = t_marker;
+		}else if (geometryType==t_polyline){
+			capaFeatures.options.tipus = t_polyline;
+		}else if (geometryType==t_polygon){
+			capaFeatures.options.tipus = t_polygon;
+		}else if (geometryType==t_mulitple){
+			capaFeatures.options.tipus = t_mulitple;
 		}
 		
 		//agregar la capa tematica al mapa. Leer los features y cargarlos
@@ -1127,7 +1127,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
 		onEachFeature : popUp,
 		nom : dataset,
-		tipus : 'Marker',
+		tipus : t_dades_obertes,
 		businessId : '-1',
 		dataType : "jsonp",
 		zIndex: lastZIndex,
@@ -1174,7 +1174,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	            epsg: '4326',
 	            transparency: true,
 	            visibilitat: 'O',
-				options: '{"tipus": "Marker", "dataset":"'+dataset+'"}'
+				options: '{"dataset":"'+dataset+'"}'
 		};
 		
 		createServidorInMap(data).then(function(results){
@@ -1451,7 +1451,8 @@ function addTwitterLayer(hashtag){
 						hashtag: hashtag,
 						nom: 'twitter_'+ hashtag,
 						zIndex: lastZIndex, 
-						businessId: '-1'
+						businessId: '-1',
+						tipus: t_xarxes_socials
 					});
 
 	//Si el mapa existeix a BD
@@ -1495,6 +1496,7 @@ function loadTwitterLayer(layer, hashtag){
 	var twitter = new L.Twitter({
 		hashtag: hashtag,
 		nom: layer.serverName,
+		tipus : layer.serverType,
 		zIndex: parseInt(layer.capesOrdre), 
 		businessId: layer.businessId
 	});	
@@ -1514,7 +1516,8 @@ function addPanoramioLayer(){
 						maxTotal: 250, 
 						zIndex: lastZIndex,
 						nom : 'panoramio_'+lastZIndex,
-						businessId: '-1'
+						businessId: '-1',
+						tipus: t_xarxes_socials
 					});
 	
 	if(typeof url('?businessid') == "string"){
@@ -1558,6 +1561,7 @@ function loadPanoramioLayer(layer){
 		maxTotal: 250, 
 		zIndex: parseInt(layer.capesOrdre),
 		nom : layer.serverName,
+		tipus : layer.serverType,
 		businessId: layer.businessId
 	});	
 	
@@ -1574,7 +1578,8 @@ function addWikipediaLayer(){
 	var wikipedia = new L.Wikipedia({
 						zIndex: lastZIndex,
 						nom : 'wikipedia_'+lastZIndex,
-						businessId: '-1'
+						businessId: '-1',
+						tipus: t_xarxes_socials
 					});
 	
 	if(typeof url('?businessid') == "string"){
@@ -1617,6 +1622,7 @@ function loadWikipediaLayer(layer){
 	var wikipedia = new L.Wikipedia({
 		zIndex: parseInt(layer.capesOrdre),
 		nom : layer.serverName,
+		tipus : layer.serverType,
 		businessId: layer.businessId
 	});	
 	
@@ -1750,7 +1756,7 @@ function loadDadesObertesLayer(layer){
 	var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 		onEachFeature : popUp,
 		nom : layer.serverName,
-		tipus : options.tipus,
+		tipus : layer.serverType,
 		businessId : layer.businessId,
 		dataType : "jsonp",
 		zIndex: parseInt(layer.capesOrdre),
@@ -1804,6 +1810,7 @@ function loadWmsLayer(layer){
 	    opacity: layer.opacity,
 	    crs: layer.epsg,
 		nom : layer.serverName,
+		tipus: layer.serverType,
 		zIndex :  parseInt(layer.capesOrdre),	    
 	    businessId: layer.businessId
 	});
@@ -1818,11 +1825,14 @@ function loadTematicLayer(layer){
 	
 	var capaTematic = new L.FeatureGroup();
 	
+	var options = $.parseJSON(layer.options); 
+	
 	capaTematic.options = {
 		businessId : layer.businessId,
 		nom : layer.serverName,
 		zIndex :  parseInt(layer.capesOrdre),
-		tipus : 'Marker'
+		tipus : layer.serverType,
+		geometryType: options.geometryType//'Marker'
 	};	
 	
 	var data={
@@ -1862,7 +1872,7 @@ function loadTematicLayer(layer){
 						} 
 					}
 					
-					if(rang!= null && results.results.geometryType === "Marker"){
+					if(rang!= null && results.results.geometryType === t_marker){
 						
 						var rangPunt = L.AwesomeMarkers.icon({
 							icon : rang.simbol,
@@ -1877,9 +1887,9 @@ function loadTematicLayer(layer){
 								 {icon: rangPunt}).addTo(map);
 						 capaTematic.addLayer(layer);						
 						
-					}else if (rang!= null && results.results.geometryType === "Line"){
+					}else if (rang!= null && results.results.geometryType === t_polyline){
 						
-					}else if (rang!= null && results.results.geometryType === "Polygon"){
+					}else if (rang!= null && results.results.geometryType === t_polygon){
 						
 					}
 

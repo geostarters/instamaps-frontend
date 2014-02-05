@@ -152,21 +152,24 @@ function addDrawToolbar() {
 		businessId : '-1',
 		nom : 'capaPunts1',
 		zIndex :  -1,
-		tipus : 'Marker'
+		tipus : t_tematic,
+		geometryType: t_marker
 	};
 	capaUsrLine = new L.FeatureGroup();
 	capaUsrLine.options = {
 		businessId : '-1',
 		nom : 'capaLinea1',
 		zIndex :  -1,
-		tipus : 'Line'
+		tipus : t_tematic,
+		geometryType: t_polyline
 	};
 	capaUsrPol = new L.FeatureGroup();
 	capaUsrPol.options = {
 		businessId : '-1',
 		nom : 'capaPol1',
 		zIndex :  -1,
-		tipus : 'Polygon'
+		tipus : t_tematic,
+		geometryType: t_polygon
 	};
 	
 	map.addLayer(capaUsrPunt);
@@ -188,7 +191,7 @@ function addDrawToolbar() {
 		iconSize : new L.Point(28, 42),
 		iconColor : '#000000',
 		prefix : 'fa',
-		tipus: 'Marker'
+		tipus: t_marker
 	});
 
 	var options = {
@@ -200,7 +203,7 @@ function addDrawToolbar() {
 				color : '#FFC400',
 				weight : 3,
 				opacity : 1,
-				tipus: 'Line'
+				tipus: t_polyline
 			}
 		},
 		polygon : {
@@ -211,7 +214,7 @@ function addDrawToolbar() {
 				color : '#FFC400',
 				weight : 3,
 				fillOpacity : 0.5,
-				tipus: 'Polygon'
+				tipus: t_polygon
 			}
 		},
 		 
@@ -293,25 +296,31 @@ function activaEdicioUsuari() {
 	map.on('draw:created', function(e) {
 		var type = e.layerType, layer = e.layer;
 		var totalFeature;
-		var tipusCat,tipusCatDes
-		if (type === 'marker') {
-			tipusCat=window.lang.convert('Títol Punt');
-			tipusCatDes=window.lang.convert('Descripció Punt');
+		var tipusCat,tipusCatDes;
+		
+		
+		if (type === t_marker) {
+			tipusCat=window.lang.convert('Titol Punt');
+			tipusCatDes=window.lang.convert('Descripcio Punt');
+			
 			layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
-			{icon: defaultPunt, tipus: 'Marker'}).addTo(map);
+							{icon: defaultPunt, 
+							 tipus: t_marker}).addTo(map);
+
+			capaUsrActiva=capaUsrPunt;
+			
+			//MODIFICAR FICAR PROPERTIES QUE NECESSITO
+			layer.properties={'name':tipusCat+totalFeature,
+					'description':tipusCatDes+totalFeature,
+					'capaGrup':capaUsrActiva.options.nom,
+					'tipusFeature':capaUsrActiva.options.geomtryType};			
+			
 			capaUsrPunt.on('layeradd',objecteUserAdded);
 			capaUsrPunt.addLayer(layer);
-			totalFeature=capaUsrPunt.toGeoJSON().features.length;
 			
-			if (totalFeature == 1) {
-				controlCapes.addOverlay(capaUsrPunt, capaUsrPunt.options.nom, true);
-				activaPanelCapes(true);
-			}
-			
-			capaUsrActiva=capaUsrPunt;
-		} else if (type === 'polyline') {
-			tipusCat=window.lang.convert('Títol Línia');
-			tipusCatDes=window.lang.convert('Descripció Línia');
+		} else if (type === t_polyline) {
+			tipusCat=window.lang.convert('Titol Linia');
+			tipusCatDes=window.lang.convert('Descripcio Linia');
 			capaUsrLine.on('layeradd',objecteUserAdded);
 			capaUsrLine.addLayer(layer);
 			totalFeature=capaUsrLine.toGeoJSON().features.length;
@@ -320,9 +329,9 @@ function activaEdicioUsuari() {
 				activaPanelCapes(true);
 			}
 			capaUsrActiva=capaUsrLine;
-		} else if (type === 'polygon') {
-			tipusCat=window.lang.convert('Títol Àrea');
-			tipusCatDes=window.lang.convert('Descripció Àrea');	
+		} else if (type === t_polygon) {
+			tipusCat=window.lang.convert('Titol area');
+			tipusCatDes=window.lang.convert('Descripcio area');	
 			capaUsrPol.on('layeradd',objecteUserAdded);
 			capaUsrPol.addLayer(layer);
 			totalFeature=capaUsrPol.toGeoJSON().features.length;
@@ -333,77 +342,79 @@ function activaEdicioUsuari() {
 			}
 			capaUsrActiva=capaUsrPol;
 		}
-		layer.properties={'name':tipusCat+totalFeature,
-				'description':tipusCatDes+totalFeature,
-				'capaGrup':capaUsrActiva.options.nom,
-				'tipusFeature':capaUsrActiva.options.tipus};
-		objEdicio.esticEnEdicio=true;
-		var html='<div class="div_popup">' 
-			+'<div class="popup_pres">'							
-			+'<div id="titol_pres">'+layer.properties.name+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
-			+'<div id="des_pres">'+layer.properties.description+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
-			//+'<div id="capa_pres">'
-			+'<ul class="bs-ncapa">'
-			+'<li><span lang="ca" class="small">Capa actual: </span><select id="cmbCapesUsr">'
-			+'<option value="'+layer.properties.capaGrup+'">'+layer.properties.capaGrup+'</option>'
-			+'</select></li>'
-			+'<li><a id="layer_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
-			+'<li><a id="layer_add#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus verd12"></span></a></li>'
-			+'</ul>'	
-			//'</div>'	
-			+'<div id="footer_edit"  class="modal-footer">'
-			+'<ul class="bs-popup">'						
-			+'<li><a id="feature_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Estils<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
-			+'<li><a id="feature_move#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Editar<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
-			+'<li><a id="feature_remove#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Esborrar<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
-			+'</ul>'														
-			+'</div>'
-			+'</div>'	
-			+'<div class="popup_edit">'
-			+'<div style="display:block" id="feature_txt">'
-			+'<input class="form-control" id="titol_edit" type="text" value="'+layer.properties.name+'" placeholder="">'
-			+'<textarea id="des_edit" class="form-control" rows="2">'+layer.properties.description+'</textarea>'							
-			+'</div>'	
-			+'<div  style="display:block" id="capa_txt">'
-			+'<div id="layer_accio"></div>'
-			+'<input class="form-control" id="capa_edit" type="text" value="'+layer.properties.capaGrup+'" placeholder="">'
-			+'</div>'
-			+'<div class="modal-footer">'
-			+'<ul class="bs-popup">'
-			+'<li><a id="feature_no#'+layer._leaflet_id+'#'+type+'"  class="btn btn-default btn-xs">Cancel.lar</a></li>'			
-			+'<li><a id="feature_ok#'+layer._leaflet_id+'#'+type+'"  class="btn btn-success btn-xs">Acceptar</a></li>'								
-			+'</ul>'														
-			+'</div>'								
-			+'</div>'								
-			+'</div>';
-		layer.bindPopup(html,{'offset':[0,-25]}).openPopup();
-		if (capaUsrPunt.toGeoJSON().features.length == 1) {
-			//Actualitzeem zIndex abans d'afegir al control de capes
-			capaUsrPunt.options.zIndex = controlCapes._lastZIndex+1; 
-			controlCapes.addOverlay(capaUsrPunt, capaUsrPunt.options.nom, true);
-			activaPanelCapes(true);
-		}
-		if (capaUsrLine.toGeoJSON().features.length == 1) {
-			//Actualitzeem zIndex abans d'afegir al control de capes
-			capaUsrLine.options.zIndex = controlCapes._lastZIndex+1; 							
-			controlCapes.addOverlay(capaUsrLine, capaUsrLine.options.nom, true);
-			//showEditText(layer);
-			activaPanelCapes(true);
-		}
-		if (capaUsrPol.toGeoJSON().features.length == 1) {
-			//Actualitzeem zIndex abans d'afegir al control de capes
-			capaUsrPol.options.zIndex = controlCapes._lastZIndex+1; 								
-			controlCapes.addOverlay(capaUsrPol,	capaUsrPol.options.nom, true);
-			//showEditText(layer);
-			activaPanelCapes(true);
-		}
-		
-		layer.on('popupopen',function(e){
-			jQuery('#titol_pres').text(layer.properties.name).append(' <i class="glyphicon glyphicon-pencil blau"></i>');;	
-			jQuery('#des_pres').text(layer.properties.description).append(' <i class="glyphicon glyphicon-pencil blau"></i>');;
-			//layer.properties.capagrup
-		});
 	});
+}
+
+function finishAddFeatureToTematic(layer){
+	
+	var type = layer.options.tipus;
+	objEdicio.esticEnEdicio=true;
+	var html='<div class="div_popup">' 
+		+'<div class="popup_pres">'							
+		+'<div id="titol_pres">'+layer.properties.name+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
+		+'<div id="des_pres">'+layer.properties.description+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
+		//+'<div id="capa_pres">'
+		+'<ul class="bs-ncapa">'
+		+'<li><span lang="ca" class="small">Capa actual: </span><select id="cmbCapesUsr">'
+		+'<option value="'+layer.properties.capaGrup+'">'+layer.properties.capaGrup+'</option>'
+		+'</select></li>'
+		+'<li><a id="layer_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
+		+'<li><a id="layer_add#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus verd12"></span></a></li>'
+		+'</ul>'	
+		//'</div>'	
+		+'<div id="footer_edit"  class="modal-footer">'
+		+'<ul class="bs-popup">'						
+		+'<li><a id="feature_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Estils<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
+		+'<li><a id="feature_move#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Editar<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
+		+'<li><a id="feature_remove#'+layer._leaflet_id+'#'+type+'" lang="ca" href="#">Esborrar<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
+		+'</ul>'														
+		+'</div>'
+		+'</div>'	
+		+'<div class="popup_edit">'
+		+'<div style="display:block" id="feature_txt">'
+		+'<input class="form-control" id="titol_edit" type="text" value="'+layer.properties.name+'" placeholder="">'
+		+'<textarea id="des_edit" class="form-control" rows="2">'+layer.properties.description+'</textarea>'							
+		+'</div>'	
+		+'<div  style="display:block" id="capa_txt">'
+		+'<div id="layer_accio"></div>'
+		+'<input class="form-control" id="capa_edit" type="text" value="'+layer.properties.capaGrup+'" placeholder="">'
+		+'</div>'
+		+'<div class="modal-footer">'
+		+'<ul class="bs-popup">'
+		+'<li><a id="feature_no#'+layer._leaflet_id+'#'+type+'"  class="btn btn-default btn-xs">Cancel.lar</a></li>'			
+		+'<li><a id="feature_ok#'+layer._leaflet_id+'#'+type+'"  class="btn btn-success btn-xs">Acceptar</a></li>'								
+		+'</ul>'														
+		+'</div>'								
+		+'</div>'								
+		+'</div>';
+	
+	layer.bindPopup(html,{'offset':[0,-25]}).openPopup();
+	if (capaUsrPunt.toGeoJSON().features.length == 1) {
+		//Actualitzeem zIndex abans d'afegir al control de capes
+		capaUsrPunt.options.zIndex = controlCapes._lastZIndex+1; 
+		controlCapes.addOverlay(capaUsrPunt, capaUsrPunt.options.nom, true);
+		activaPanelCapes(true);
+	}
+	if (capaUsrLine.toGeoJSON().features.length == 1) {
+		//Actualitzeem zIndex abans d'afegir al control de capes
+		capaUsrLine.options.zIndex = controlCapes._lastZIndex+1; 							
+		controlCapes.addOverlay(capaUsrLine, capaUsrLine.options.nom, true);
+		//showEditText(layer);
+		activaPanelCapes(true);
+	}
+	if (capaUsrPol.toGeoJSON().features.length == 1) {
+		//Actualitzeem zIndex abans d'afegir al control de capes
+		capaUsrPol.options.zIndex = controlCapes._lastZIndex+1; 								
+		controlCapes.addOverlay(capaUsrPol,	capaUsrPol.options.nom, true);
+		//showEditText(layer);
+		activaPanelCapes(true);
+	}
+	fillSelectCapesUsr(type);
+	layer.on('popupopen',function(e){
+		jQuery('#titol_pres').text(layer.properties.name).append(' <i class="glyphicon glyphicon-pencil blau"></i>');;	
+		jQuery('#des_pres').text(layer.properties.description).append(' <i class="glyphicon glyphicon-pencil blau"></i>');;
+		//layer.properties.capagrup
+	});	
 	
 	jQuery(document).on('click', "#titol_pres", function(e) {
 		modeEditText();
@@ -503,7 +514,22 @@ function activaEdicioUsuari() {
 		//accio tanca
 			map.closePopup();
 		}
-	});
+	});	
+}
+
+function fillSelectCapesUsr(type) {
+	
+	var html = "";
+	
+	$.each( controlCapes._layers, function(i,val) {
+		var layer = val.layer.options;
+		if(layer.tipus==t_tematic && layer.geometryType==type){
+	        html += "<option value=\"";
+	        html += layer.businessId + "\">";
+	        html += layer.nom + "</option>";            		
+		}
+	});	
+	$("#cmbCapesUsr").empty().append(html);
 }
 
 function generaNovaCapaUsuari(feature,nomNovaCapa,capaUsrActiva){

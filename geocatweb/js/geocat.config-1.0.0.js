@@ -3,6 +3,10 @@ var t_dades_obertes = "dades obertes";
 var t_wms = "wms";
 var t_xarxes_socials = "xarxes socials";
 var t_tematic = "tematic";
+var t_polyline = "polyline";
+var t_polygon = "polygon";
+var t_marker = "marker";
+var t_multiple = "multiple";
 
 var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
