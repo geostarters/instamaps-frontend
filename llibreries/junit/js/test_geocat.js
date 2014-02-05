@@ -89,6 +89,8 @@ var urls = {
 	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
 	createTematicLayerFeature: HOST_APP+"layers/tematic/createTematicLayerFeature.action?",
+	createTematicLayerEmpty: HOST_APP+"layers/tematic/createTematicLayerEmpty.action?",
+	moveFeatureToTematic: HOST_APP+"layers/tematic/moveFeatureToTematic.action?",
 	deleteTematicLayerAll: HOST_APP+"layers/tematic/deleteTematicLayerAll.action?",
 	getAllTematicLayerByUid: HOST_APP+"layers/tematic/getAllTematicLayerByUid.action?",
 };
@@ -119,59 +121,19 @@ asyncTest( "login", 1, function() {
 	});	
 });
 
-module( "servidors" );
-asyncTest( "updateServidorWMS", 2, function() {
+asyncTest( "moveFeatureToTematic", 1, function() {
 	$.ajax({
-		url: urls.updateServidorWMS,
+		url: urls.moveFeatureToTematic,
 		data: {
-			businessId: 'aed5c6a8e4bcefeb6a823bef64259fb3',
+			businessId: '113d03ef4c34c7534215802dc2114260', //businessId de la feature
+            fromBusinessId: '11950dd7ba6beb2eff35d21a935c39c3', //businessId del tematico de origen
+            toBusinessId: '4c216bc1cdd8b3a69440b45b2713b090', //businessId del tematico de destino
 			uid: 'wszczerban',
-			visibilitat: 'O',
-			serverName: 'panoramio_1',
-			serverType: 'xarxes_socials',
-			options: JSON.stringify({hashtag:'#icc'})
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						capesActiva : { type: ['string','null'], required : true},
-						capesCalenta : { type: ['string','null'], required : true},
-						capesOrdre : { type: ['string','null'], required : true},
-						capesVisibilitat : { type: ['string','null'], required : true},
-						entitatUid : { type: 'string', required : true},
-						epsg: { type: ['string','null'], required : true},
-						group: { type: ['string','null'], required : true},
-						id : { type: 'number', required : true},
-						imgFormat: { type: ['string','null'], required : true},
-						infFormat: { type: ['string','null'], required : true},
-						layers: { type: ['string','null'], required : true},
-						legend: { type: ['string','null'], required : true},
-						opacity: { type: 'number', required : true},
-						options : { type: ['string','null'], required : true},
-						query: { type: ['string','null'], required : true},
-						serverName : { type: 'string', required : true},
-						serverType : { type: 'string', required : true},
-						tiles: { type: ['string','null'], required : true},
-						titles: { type: ['string','null'], required : true},
-						transparency: { type: ['string','null'], required : true},
-						url : { type: ['string','null'], required : true},
-						version: { type: ['string','null'], required : true},
-						visibilitat : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
+		equal(results.status,"OK",JSON.stringify(results));
 		start();
 	}).fail(function(results){
 		console.debug(results);
@@ -180,59 +142,19 @@ asyncTest( "updateServidorWMS", 2, function() {
 	});	
 });
 
-asyncTest( "getAllPubliscServidorsWMSByUser", 3, function() {
+asyncTest( "moveFeatureToTematic", 1, function() {
 	$.ajax({
-		url: urls.getAllPubliscServidorsWMSByUser,
-		data: {uid: 'wszczerban'},
+		url: urls.moveFeatureToTematic,
+		data: {
+			businessId: '113d03ef4c34c7534215802dc2114260', //businessId de la feature
+            toBusinessId: '11950dd7ba6beb2eff35d21a935c39c3', //businessId del tematico de origen
+            fromBusinessId: '4c216bc1cdd8b3a69440b45b2713b090', //businessId del tematico de destino
+			uid: 'wszczerban',
+		},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
-		equal(results.status,"OK",results.status);
-		
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'array', required : true, items:{type: 'object'}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-	
-		var schema1 = {
-			type : 'object',
-			properties : {
-				businessId : { type: 'string', required : true},
-				capesActiva : { type: ['string','null'], required : true},
-				capesCalenta : { type: ['string','null'], required : true},
-				capesOrdre : { type: ['string','null'], required : true},
-				capesVisibilitat : { type: ['string','null'], required : true},
-				entitatUid : { type: 'string', required : true},
-				epsg: { type: 'string', required : true},
-				group: { type: 'string', required : true},
-				id : { type: 'number', required : true},
-				imgFormat: { type: 'string', required : true},
-				infFormat: { type: 'string', required : true},
-				layers: { type: 'string', required : true},
-				legend: { type: ['string','null'], required : true},
-				opacity: { type: 'number', required : true},
-				options : { type: ['string','null'], required : true},
-				query: { type: 'string', required : true},
-				serverName : { type: 'string', required : true},
-				serverType : { type: 'string', required : true},
-				tiles: { type: 'string', required : true},
-				titles: { type: 'string', required : true},
-				transparency: { type: 'string', required : true},
-				url : { type: 'string', required : true},
-				version: { type: 'string', required : true},
-				visibilitat : { type: 'string', required : true}
-			}
-		};
-		var report = env.validate(results.results[0], schema1);
-		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
-		
+		equal(results.status,"OK",JSON.stringify(results));
 		start();
 	}).fail(function(results){
 		console.debug(results);

@@ -126,6 +126,8 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 });
 
 function readAndUploadFile(file, resposta){
+	console.debug(resposta);
+	console.debug(file);
 	if (resposta.indexOf("Error:") != -1){
 		resposta = "E:/usuaris/w.szczerban/temp/"+file.name;
 	}
@@ -136,6 +138,7 @@ function readAndUploadFile(file, resposta){
 	doReadFile(data).then(function(results){
 		if (results.status=="OK"){
 			if (jQuery.isEmptyObject(results.results)){
+				console.debug(results.results);
 				//var data = {uid:$.cookie('uid'),path:path,colX: "X",colY: "Y", srid:"4326"};
 				var data = {uid:$.cookie('uid'),path:path};
 				doUploadFile(data).then(function(results2){

@@ -526,3 +526,33 @@ color:#ffffff;
 	font-size:14px !important;	
 	
 }
+
+.txt_ext{
+	height: 33px !important;
+    margin-bottom: 5px;
+    margin-top: 8px;	
+}
+
+.bs-dadesO_WMS {
+	list-style: none outside none;
+	margin-bottom: 5px;
+	overflow: hidden;
+	padding-bottom: 1px;
+	padding-left: 0;
+}
+
+.bs-dadesO_WMS li {
+    border: 0px dashed #DDDDDD;
+    color: #000000;
+    float: left;
+    font-size: 10px;
+    height: 28px;
+    line-height: 0.8;
+    margin: 0 -1px -1px 0;
+    padding: 5px;
+    text-align: left;
+    width: 50%;
+}
+.waiting_animation{
+background: url('/llibreries/css/images/loader.gif') no-repeat center center ;
+}

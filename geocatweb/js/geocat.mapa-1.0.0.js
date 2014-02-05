@@ -53,8 +53,14 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 			window.location.href = paramUrl.loginPage;
 		});
 	}else{
-		mapConfig.newMap = true;
-		avisDesarMapa();
+		if (!$.cookie('uid')){
+			mapConfig.newMap = true;
+			createNewMap();
+			avisDesarMapa();
+		}else{
+			//TODO 
+		}	
+		
 		/*
 		loadMapConfig(mapConfig).then(function(){
 			mapConfig.newMap = true;
@@ -73,6 +79,9 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 		$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
 		$( ".text_error" ).remove();
 		$('#dialgo_publicar').modal('show');
+		var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
+		$('#urlMap').val(urlMap);
+		$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'" ></iframe>');
 	});
 	
 	jQuery('#dialgo_publicar .btn-primary').on('click',function(){
@@ -115,15 +124,15 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 		alert( "Handler for .click() called." );
 	});	
 	
-	  jQuery('#socialShare').share({
+	jQuery('#socialShare').share({
 	        networks: ['email','facebook',/*'googleplus',*/'twitter','linkedin','pinterest'],
 	        theme: 'square',
 //	        title: 'InstaMapes',
 //	        urlToShare: 'http://www.google.com'
 //	        urlToShare: 'http://localhost/geocatweb/mapa.html?businessId='+url('?businessid')
-	    });	
+	 });	
 	  
-		jQuery('#socialShare').on('click', function(evt){
+	jQuery('#socialShare').on('click', function(evt){
 			evt.preventDefault();
 			console.debug('on click social');
 //			var $thisIndex = jQuery(this).index();
@@ -1066,21 +1075,19 @@ function creaPopOverDadesExternes() {
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
 
-				jQuery(tbA+" a.label").on('click', function(e) {
+				jQuery(tbA+" a.label-explora").on('click', function(e) {
 					if(e.target.id !="id_do"){
 						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
 					}
 				});
-				
-				//jQuery(tbA).html('<span class="label">Font:<a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+
 				
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
-				jQuery(tbA+" a.label").on('click', function(e) {
+				jQuery(tbA+" a.label-wms").on('click', function(e) {
 					if(e.target.id !="id_srvw"){
-					//addCapaDadesObertes(e.target.id,jQuery(e.target).text());
-						console.info("hola");
+						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
 					}
 				});	
 			}else if(tbA == "#id_xs"){//Jess
@@ -1244,9 +1251,9 @@ function popUp(f, l) {
 
 function generaLListaDadesObertes() {
 	getLListaDadesObertes().then(function(results) {
-		_htmlDadesObertes.push('<div><ul class="bs-dadesO">');
+		_htmlDadesObertes.push('<div class="panel-danger"><ul class="bs-dadesO panel-heading">');
 		$.each(results.dadesObertes, function(key, dataset) {
-			_htmlDadesObertes.push('<li><a class="label label-explora" lang="ca" title="Afegir capa" href="#" id="'
+			_htmlDadesObertes.push('<li><a class="label-explora" lang="ca" title="Afegir capa" href="#" id="'
 				+ dataset.dataset
 				+ '">'
 				+ dataset.text
@@ -1265,23 +1272,24 @@ function loadMapConfig(mapConfig){
 		jQuery('#businessId').val(mapConfig.businessId);
 		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
-		if (mapConfig.options.fons != 'topoMap'){
-			map.setActiveMap(mapConfig.options.fons);
-			map.setMapColor(mapConfig.options.fonsColor);
-			//map.gestionaFons();
+		if (mapConfig.options != null){
+			if (mapConfig.options.fons != 'topoMap'){
+				map.setActiveMap(mapConfig.options.fons);
+				map.setMapColor(mapConfig.options.fonsColor);
+				//map.gestionaFons();
+			}
+				
+			if (mapConfig.options.bbox){
+				var bbox = mapConfig.options.bbox.split(",");
+				var southWest = L.latLng(bbox[1], bbox[0]),
+			    northEast = L.latLng(bbox[3], bbox[2]),
+			    bounds = L.latLngBounds(southWest, northEast);
+				map.fitBounds( bounds ); 
+			}
 		}
 			
-		if (mapConfig.options.bbox){
-			var bbox = mapConfig.options.bbox.split(",");
-			var southWest = L.latLng(bbox[1], bbox[0]),
-		    northEast = L.latLng(bbox[3], bbox[2]),
-		    bounds = L.latLngBounds(southWest, northEast);
-			map.fitBounds( bounds ); 
-		}
-	
 		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
-			
 			if (value.epsg == "4326"){
 				value.epsg = L.CRS.EPSG4326;
 			}else if (value.epsg == "25831"){
@@ -1310,14 +1318,10 @@ function loadMapConfig(mapConfig){
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
 			
 			}else if(value.serverType == t_tematic){
-				
 				console.debug('Entra a tipus tematic layer');
 				loadTematicLayer(value);
 			}
 		});
-				
-	}else{
-		
 	}
 	
 	var source = $("#map-properties-template").html();
@@ -1391,6 +1395,8 @@ function publicarMapa(){
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				$('#dialgo_publicar').modal('hide');
 				mapConfig.newMap = false;
+				//update map name en el control de capas
+				$('#nomAplicacio').text(mapConfig.nomAplicacio);
 			}	
 		});
 	}
@@ -1926,3 +1932,22 @@ function showConfOptions(businessId){
 	else jQuery("#conf-"+businessId+"").show();
 }
 
+function createNewMap(){
+	var data = {
+		nom: "Untitle map",
+		uid: $.cookie('uid'),
+		visibilitat: 'O',
+		tipusApp: 'vis',
+	}
+	
+	createMap(data).then(function(results){
+		if (results.status == "ERROR"){
+			//TODO Mensaje de error
+		}else{
+			mapConfig = results.results;
+			mapConfig.options = $.parseJSON( mapConfig.options );
+			jQuery('#businessId').val(mapConfig.businessId);
+			mapConfig.newMap = false;
+		}
+	});
+}

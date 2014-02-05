@@ -8,10 +8,10 @@ var t_polygon = "polygon";
 var t_marker = "marker";
 var t_multiple = "multiple";
 
-var HOST_APP = "http://172.70.1.12/";
+//var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
-//var HOST_APP = "http://localhost:8080/";
+var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	//uploadproxy:"/maps/upload.cgi",
@@ -60,7 +60,7 @@ var paramUrl = {
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://miyazaki.icc.local:8080/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
-	ows2json:HOST_APP+"share/jsp/ows2json.jsp?",
+	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	getTematicLayer: HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
 	getDownloadLayer:GEOCAT02+"/share/jsp/download_layer.jsp?",
 	deleteServidorWMS: HOST_APP+"geocat/layers/servidor/wms/deleteServidorWMS.action?",

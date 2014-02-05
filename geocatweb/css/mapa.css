@@ -156,15 +156,15 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .label-explora {
-	background-color: #ED8012;
-	border-radius: 0;
-	font-size: 13px;
+	color: #A94442;
+	
+	font-size: 14px;
 }
 
 .label-wms {
-	background-color: #55990A;
-	border-radius: 0;
-	font-size: 13px;
+	color: #55990A;
+	
+	font-size: 14px;
 }
 
 .label:hover{
@@ -545,15 +545,15 @@ background-color: #9F9F9E;
 
 .info-wms{
 	color: #55990A;
-    font-size: 14px;
-    margin-left: 2px
+    font-size: 12px;
+    margin-left: 4px
 		
 }
 
 .info-explora{
-	color: #ED8012;
-    font-size: 14px;
-    margin-left: 2px
+	color: #A94442;
+    font-size: 12px;
+    margin-left: 4px
 		
 }
 
@@ -849,7 +849,7 @@ i.fa {
 }
 
 .bs-dadesO li {
-    border: 1px dashed #DDDDDD;
+    border: 0px dashed #DDDDDD;
     color: #000000;
     float: left;
     font-size: 14px;
@@ -1394,7 +1394,7 @@ i.fa {
 
 .label-font{
 	background-color: #BCBCBC;
-	float: right;
+	float: left;
     margin-top: 10px;	
 }
 
