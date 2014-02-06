@@ -72,6 +72,7 @@ var urls = {
 	updateFeature: HOST_APP+"layers/feature/updateFeature.action?",
 	deleteFeature: HOST_APP+"layers/feature/deleteFeature.action?",
 	getAllFeatureLayersByUser: HOST_APP+"layers/feature/getAllFeatureLayersByUser.action?",
+	getFeatureLayersByBusinessId: HOST_APP+"layers/feature/getFeatureLayersByBusinessId.action?",
 	createDataLayer: HOST_APP+"layers/data/createDataLayer.action?",
 	updateDataLayer: HOST_APP+"layers/data/updateDataLayer.action?",
 	deleteDataLayer: HOST_APP+"layers/data/deleteDataLayer.action?",

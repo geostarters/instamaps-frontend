@@ -10,15 +10,36 @@ var download_layer;
 var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
 		'iconGlif':'fa fa-',
 		'colorGlif':'#333333','fontsize':'14px','size':'28'};
+var default_line_style = {
+    weight: 3,       
+    color: '#FFC400',
+    dashArray: '3'
+};
+var default_area_style = {
+    weight: 3,
+    opacity: 1,
+    color: '#FFC400',
+    dashArray: '3',
+    fillColor: '#FFC400',
+    fillOpacity: 0.5
+};
+var default_point_style = {
+	icon : '',
+	markerColor : 'orange',
+	iconAnchor : new L.Point(14, 42),
+	iconSize : new L.Point(28, 42),
+	iconColor : '#000000',
+	prefix : 'fa'
+};
 
 jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
 		typeMap : 'topoMap',
 		maxZoom : 19,
-	// drawControl: true
+		//drawControl: true
 	}).setView([ 41.431, 1.8580 ], 8);
 	
-var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
+	var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 	var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 	
 	L.control.scale({'metric':true,'imperial':false}).addTo(map);
@@ -106,18 +127,17 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 		type: 'text',
 		mode: 'inline',
 		success: function(response, newValue) {
-				var data = {
-				 	businessId: url('?businessid'), 
-				 	nom: newValue, 
-				 	uid: $.cookie('uid')
-				 }
-		 
-				updateMapName(data).then(function(results){
-					if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+			var data = {
+			 	businessId: url('?businessid'), 
+			 	nom: newValue, 
+			 	uid: $.cookie('uid')
+			}
+			updateMapName(data).then(function(results){
+				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
 			},function(results){
 				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
 			});	
-		 }
+		}
 	});
 	//$.fn.editable.defaults.mode = 'inline';
 	$('.leaflet-remove').click(function() {
@@ -417,47 +437,17 @@ function activaPanelCapes(obre) {
 }
 
 function changeDefaultLineStyle(canvas_linia){
-	var estilTMP={
-	        weight: 3,       
-	        color: '#FFC400',
-	        dashArray: '3'
-	       
-	    };
-	
+	var estilTMP = default_line_style;
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
-	//estilTMP.dashArray='3';
-	
 	if(objEdicio.obroModalFrom=="creaCapa"){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
-	
 	return estilTMP;
-
-	/*
-	if(estil.tipus=="pol"){
-		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
-		drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
-		drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
-	}else{
-		drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
-		drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polyline.shapeOptions.dashArray='3';
-	}
-	*/
-	
 }
 
 function changeDefaultAreaStyle(canvas_pol){
-	var estilTMP={
-        weight: 3,
-        opacity: 1,
-        color: '#FFC400',
-        dashArray: '3',
-        fillColor: '#FFC400',
-        fillOpacity: 0.5
-    };
+	var estilTMP= default_area_style;
 	
 	estilTMP.fillColor=canvas_pol.fillStyle;
 	estilTMP.fillOpacity=canvas_pol.opacity;
@@ -488,14 +478,7 @@ function changeDefaultAreaStyle(canvas_pol){
 
 function changeDefaultPointStyle(estilP) {
 
-	var puntTMP= new L.AwesomeMarkers.icon({
-		icon : '',
-		markerColor : 'orange',
-		iconAnchor : new L.Point(14, 42),
-		iconSize : new L.Point(28, 42),
-		iconColor : '#000000',
-		prefix : 'fa'
-	});
+	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
 	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
@@ -1318,7 +1301,6 @@ function loadMapConfig(mapConfig){
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
 			
 			}else if(value.serverType == t_tematic){
-				console.debug('Entra a tipus tematic layer');
 				loadTematicLayer(value);
 			}
 		});
@@ -1435,8 +1417,8 @@ function initControls(){
 	addToolTipsInici();
 	redimensioMapa();
 	creaPopOverDadesExternes();
-//	creaPopOverMevasDades();
-	generaLListaDadesObertes();
+	//creaPopOverMevasDades();
+	//generaLListaDadesObertes();
 	creaAreesDragDropFiles();
 	creaPopOverMesFonsColor();
 	tradueixMenusToolbar();
@@ -1828,47 +1810,119 @@ function loadWmsLayer(layer){
 }
 
 function loadTematicLayer(layer){
-	
-	var capaTematic = new L.FeatureGroup();
-	
-	var options = $.parseJSON(layer.options); 
-	
-	capaTematic.options = {
-		businessId : layer.businessId,
-		nom : layer.serverName,
-		zIndex :  parseInt(layer.capesOrdre),
-		tipus : layer.serverType,
-		geometryType: options.geometryType//'Marker'
-	};	
-	
 	var data={
-			businessId: layer.businessId,
-			uid: $.cookie('uid')
+		businessId: layer.businessId,
+		uid: $.cookie('uid')
 	};
 	
-	var defaultPunt= L.AwesomeMarkers.icon({
-		icon : '',
-		markerColor : 'orange',
-		iconAnchor : new L.Point(14, 42),
-		iconSize : new L.Point(28, 42),
-		iconColor : '#000000',
-		prefix : 'fa'
-	});	
+	var layerWms = layer;
+	
+	console.time("loadTematicLayer " + layerWms.serverName);
 	
 	getTematicLayer(data).then(function(results){
-		console.debug(results.results);
+		
+		console.timeEnd("loadTematicLayer " + layerWms.serverName);
 		if(results.status == "OK" ){
+			var tematic = results.results;
+			console.debug(tematic);
+			var Lgeom = tematic.geometries.features.features;
+			var idDataField = tematic.idDataField;
+			var idGeomField = tematic.idGeomField;
+			var Lrangs = tematic.rangs;
+			var Ldades = (tematic.capes ? tematic.capes.dades : []);
 			
-			var Lgeom = results.results.geometries.features.features;
-			var idDataField = results.results.idDataField;
-			var idGeomField = results.results.idGeomField;
-			var Lrangs = results.results.rangs;
-			var Ldades = results.results.capes.dades;
+			var capaTematic = new L.FeatureGroup();
 			
+			capaTematic.options = {
+				businessId : layerWms.businessId,
+				nom : layerWms.serverName,
+				zIndex :  parseInt(layerWms.capesOrdre),
+				tipus : layerWms.serverType,
+				geometryType: tematic.geometryType
+			};
+			
+			/*
+			if (Lgeom.length > 10){
+				Lgeom.length = 500;
+			}
+			*/
+						
 			for(var i=0;i<Lgeom.length;i++){
 				var geom = Lgeom[i];
+				var rangStyle;
+				if (geom.geometry){
+					var ftype = geom.geometry.type;
+					ftype = ftype.toLowerCase();
+					if (ftype === t_point){
+						ftype = t_marker;
+					}else if (ftype === t_linestring){
+						ftype = t_polyline;
+					}
+					if (Lrangs.length == 0){
+						if (ftype === t_marker){
+							rangStyle = L.AwesomeMarkers.icon(default_point_style);
+						}else if (ftype === t_polyline){
+							rangStyle = default_line_style;
+						}else if (ftype === t_polygon){
+							rangStyle = default_area_style;
+						}
+					}else if (Lrangs.length == 1){
+						
+					}else{
+						
+					}
+					var featureTem;
+					if (ftype === t_marker){
+						featureTem = L.marker([geom.geometry.coordinates[0],geom.geometry.coordinates[1]],
+							 {icon: rangStyle}).addTo(map);
+					}else if (ftype === t_polyline){
+						var coords=geom.geometry.coordinates;
+						var k=0;
+						var j=0;
+						var llistaPunts=[];
+						while (k < coords.length){
+							var c=coords[k];
+							var punt=new L.LatLng(c[0], c[1]);
+							llistaPunts[j]=punt;
+							k++;
+							j++;
+						}
+						featureTem = L.polyline(llistaPunts, rangStyle);						
+					}else if (ftype === t_polygon){
+						var coords=geom.geometry.coordinates;
+						var k=0;
+						var j=0;
+						var llistaPunts=[];
+						while (k < coords.length){
+							var linecoord=coords[k];
+							var l=0;
+							while (l < linecoord.length){
+								var c=linecoord[l];
+								var punt=new L.LatLng(c[1], c[0]);
+								llistaPunts[j]=punt;
+								j++;
+								l++;
+							}
+							k++;
+						}
+						featureTem = new L.Polygon(llistaPunts, rangStyle);
+					}
+					if (featureTem){
+						capaTematic.addLayer(featureTem);
+					}
+				}
+			}
+			
+			if (capaTematic!=null){
+				capaTematic.addTo(map);
+				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
+			}
+			
+			/*
+			//for(var i=0;i<Lgeom.length;i++){
+			for(var i=0;i<10;i++){
+				var geom = Lgeom[i];
 				if(geom.properties[''+idGeomField+''] == Ldades[i][''+idDataField+''] ){
-					
 					//Cerquem el rang que toca entre tots els possibles
 					var rang;
 					for(var j=0;j<Lrangs.length;j++){
@@ -1877,8 +1931,7 @@ function loadTematicLayer(layer){
 							break;
 						} 
 					}
-					
-					if(rang!= null && results.results.geometryType === t_marker){
+					if(rang!= null && tematic.geometryType === t_marker){
 						
 						var rangPunt = L.AwesomeMarkers.icon({
 							icon : rang.simbol,
@@ -1889,23 +1942,67 @@ function loadTematicLayer(layer){
 							prefix : 'fa'
 						});							
 						
-						 var layer=L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
+						var layer=L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
 								 {icon: rangPunt}).addTo(map);
-						 capaTematic.addLayer(layer);						
+						capaTematic.addLayer(layer);						
 						
-					}else if (rang!= null && results.results.geometryType === t_polyline){
-						
-					}else if (rang!= null && results.results.geometryType === t_polygon){
-						
-					}
-
-					
+					}else if (rang!= null && tematic.geometryType === t_polyline){
+						console.debug('Estil t_polyline');
+					}else if (rang!= null && tematic.geometryType === t_polygon){
+						console.debug('Estil t_polygon');
+					}					
 				}else{//No te estil definit, el pintem amb un estil per defecte
-					console.debug('Estil per defecte');
-				
+					//console.debug('Estil per defecte');
+					if (tematic.geometryType === t_marker){
+						console.debug('Estil t_marker');
+						console.debug(geom);
+						var coords=geom.geometry.coordinates;
+						var latlng = L.latLng(coords[0],coords[1]);
+						var circle=L.circleMarker(latlng,200);
+						capaTematic.addLayer(circle);
+					}else if(tematic.geometryType === t_polyline){
+						console.debug('Estil t_polyline');
+						var coords=geom.geometry.coordinates;
+						var i=0;
+						var j=0;
+						var llistaPunts=[];
+						while (i< coords.length){
+							var c1=coords[i];
+							var c2=coords[i+1];
+							var punt=new L.LatLng(c1, c2);
+							llistaPunts[j]=punt;
+							i=i+2;
+							j++;
+						}
+						var polyline =  L.polyline(llistaPunts, {color: 'red'});						
+						capaTematic.addLayer(polyline);
+					}else if(tematic.geometryType === t_polygon){
+						//console.debug('Estil t_polygon');
+						//console.debug(geom);
+						try{
+							var coords=geom.geometry.coordinates;
+							var i=0;
+							var j=0;
+							var llistaPunts=[];
+							while (i< coords.length){
+								var c1=coords[i];
+								var c2=coords[i+1];
+								var punt=new L.LatLng(c1, c2);
+								llistaPunts[j]=punt;
+								i=i+2;
+								j++;
+							}
+							var polygon = new L.Polygon(llistaPunts,{color: 'red'});
+							capaTematic.addLayer(polygon);
+							//var polygon = new L.Polygon(llistaPunts,default_area_style);
+							//capaTematic.addLayer(polygon);
+						}catch(err){
+							
+						}
+					}
 				}
 			}
-			
+			*/
 		}else{
 			alert("Error getTematicLayer");
 		}
@@ -1913,12 +2010,6 @@ function loadTematicLayer(layer){
 	},function(results){
 		console.debug('getTematicLayer ERROR');
 	});
-	
-
-	
-	capaTematic.addTo(map);
-	controlCapes.addOverlay(capaTematic, layer.serverName, true);	
-	
 }
 
 function toggleCollapseTwitter(){
