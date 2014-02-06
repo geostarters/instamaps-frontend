@@ -498,11 +498,11 @@ this.setActiveMap('colorMap');
 		
 		HISTO_ICC_L0_14= new L.TileLayer(URL_HISTORIC, {
 		  minZoom: 0, maxZoom: 14, tms:true, continuousWorld: true,
-		  worldCopyJump:false, }).addTo(map);
+		  worldCopyJump:false, }).addTo(_histoMap);
 		
 		this.addLayer(_histoMap,true);
 		
-		
+		this.gestionaFons();
 		
 	},
 	rmCapa: function (grup,layer){
