@@ -7,6 +7,8 @@ var t_polyline = "polyline";
 var t_polygon = "polygon";
 var t_marker = "marker";
 var t_multiple = "multiple";
+var t_point = "point";
+var t_linestring = "linestring";
 
 var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
