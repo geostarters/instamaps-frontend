@@ -990,7 +990,7 @@ function carregarCapa(businessId){
 		capaFeatures.options = {
 			businessId : results.results.businessId,
 			nom : results.results.nom,
-			zIndex : controlCapes._lastZIndex+1
+//			zIndex : controlCapes._lastZIndex+1
 		};
 		var geometryType = results.results.geometryType;
 		if (geometryType==t_marker){

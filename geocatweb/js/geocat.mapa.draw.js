@@ -355,10 +355,11 @@ function finishAddFeatureToTematic(layer){
 		+'<div id="des_pres">'+layer.properties.description+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
 		//+'<div id="capa_pres">'
 		+'<ul class="bs-ncapa">'
-		+'<li><span lang="ca" class="small">Capa actual: </span><select id="cmbCapesUsr">'
-		+'<option value="'+layer.properties.capaGrup+'">'+layer.properties.capaGrup+'</option>'
-		+'</select></li>'
-		+'<li><a id="layer_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
+			+'<li><span lang="ca" class="small">Capa actual: </span>'
+				+'<select id="cmbCapesUsr" data-leaflet_id='+layer._leaflet_id+'>'
+					+'<option value="'+layer.properties.capaGrup+'">'+layer.properties.capaGrup+'</option>'
+				+'</select></li>'
+			+'<li><a id="layer_edit#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
 		+'<li><a id="layer_add#'+layer._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus verd12"></span></a></li>'
 		+'</ul>'	
 		//'</div>'	
@@ -409,7 +410,7 @@ function finishAddFeatureToTematic(layer){
 		//showEditText(layer);
 		activaPanelCapes(true);
 	}
-	fillSelectCapesUsr(type);
+	fillSelectCapesUsr(type,layer._leaflet_id);
 	layer.on('popupopen',function(e){
 		jQuery('#titol_pres').text(layer.properties.name).append(' <i class="glyphicon glyphicon-pencil blau"></i>');;	
 		jQuery('#des_pres').text(layer.properties.description).append(' <i class="glyphicon glyphicon-pencil blau"></i>');;
@@ -425,6 +426,7 @@ function finishAddFeatureToTematic(layer){
 	});
 
 	jQuery(document).on('click', ".bs-ncapa li a", function(e) {
+		e.preventDefault();
 		var accio;
 		if(jQuery(this).attr('id').indexOf('#')!=-1){			
 			accio=jQuery(this).attr('id').split("#");				
@@ -444,6 +446,42 @@ function finishAddFeatureToTematic(layer){
 			
 		}
 		//bs-ncapa	
+	});
+	
+	 $('#cmbCapesUsr').focus(function(){
+		 $(this).data('cmbCapesUsr_old',$(this).val());
+	 });	
+	 $('#cmbCapesUsr').change(function() {	
+		var toBusinessId = jQuery(this).val().split("#");;
+		var fromBusinessId = $(this).data('cmbCapesUsr_old').split("#");;
+		objEdicio.featureID=jQuery("#cmbCapesUsr").attr('data-leaflet_id');
+		var obj = map._layers[objEdicio.featureID];
+		
+		
+		
+		//Accio de moure la feature a la nova capa tematic creada
+		//moveFeatureToLayer(obj.properties.businessId,fromBusinessId[0],toBusinessId[0]);
+		var data = {
+				uid: $.cookie('uid'),
+	            businessId: obj.properties.businessId, //businessId de la feature
+	            fromBusinessId: fromBusinessId[0], //businessId del tematico de origen
+	            toBusinessId: toBusinessId[0] //businessId del tematico de destino
+	        }				
+		moveFeatureToTematic(data).then(function(results){
+				if(results.status=='OK'){
+					map._layers[''+fromBusinessId[1]+''].removeLayer(obj);
+					var toLayer = map._layers[''+toBusinessId[1]+''];
+					toLayer.addLayer(obj);
+					//Refresh de la capa
+					controlCapes._map.removeLayer(toLayer);
+					controlCapes._map.addLayer(toLayer);
+				}else{
+					console.debug("moveFeatureToTematic ERROR");
+				}
+			},function(results){
+				console.debug("moveFeatureToTematic ERROR");
+			});			
+		
 	});
 	
 	jQuery(document).on('click', ".bs-popup li a", function(e) {
@@ -502,9 +540,9 @@ function finishAddFeatureToTematic(layer){
 				}
 			}else if(objEdicio.edicioPopup=='nouCapa'){
 				if(jQuery('#capa_edit').val()!=""){
-					jQuery('#cmbCapesUsr').append("<option selected value=\""+jQuery('#capa_edit').val()+"\">"+jQuery('#capa_edit').val()+"</option>");	
-					jQuery('.popup_pres').show();
-					jQuery('.popup_edit').hide();
+//					jQuery('#cmbCapesUsr').append("<option selected value=\""+jQuery('#capa_edit').val()+"\">"+jQuery('#capa_edit').val()+"</option>");	
+//					jQuery('.popup_pres').show();
+//					jQuery('.popup_edit').hide();
 					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val(),capaUsrActiva);
 				}else{
 					alert(window.lang.convert('Has de posar un nom de capa'));	
@@ -517,15 +555,14 @@ function finishAddFeatureToTematic(layer){
 	});	
 }
 
-function fillSelectCapesUsr(type) {
+function fillSelectCapesUsr(type, leaflet_id) {
 	
 	var html = "";
-	
 	$.each( controlCapes._layers, function(i,val) {
 		var layer = val.layer.options;
 		if(layer.tipus==t_tematic && layer.geometryType==type){
 	        html += "<option value=\"";
-	        html += layer.businessId + "\">";
+	        html += layer.businessId +"#"+val.layer._leaflet_id+"\">";
 	        html += layer.nom + "</option>";            		
 		}
 	});	
@@ -533,18 +570,91 @@ function fillSelectCapesUsr(type) {
 }
 
 function generaNovaCapaUsuari(feature,nomNovaCapa,capaUsrActiva){
-	capaUsrActiva.removeLayer(feature);
-	capaUsrActiva2= new L.FeatureGroup();
-	capaUsrActiva2.options = {
-		businessId : '-1',
-		nom : nomNovaCapa,
-		tipus : feature.properties.tipusFeature
-	};
-	map.addLayer(capaUsrActiva2);
-	capaUsrActiva2.addLayer(feature).on('layeradd', objecteUserAdded);
-	feature.openPopup();
-	controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
-	activaPanelCapes(true);
+	
+	
+	var data = {
+        uid: $.cookie('uid'),
+        description: jQuery('#des_edit').val(),
+        nom: nomNovaCapa,
+        geometryType: feature.options.tipus,
+        publica: true,
+        geomField: 'the_geom',
+        idGeomField: 'nom',
+        dataField: 'slotd1',
+        idDataField: 'slotd1',
+        mapBusinessId: url('?businessid')
+    };
+	//Creem nova capa tematic
+	createTematicLayerEmpty(data).then(function(results){
+			if(results.status==='OK'){
+				console.debug("createTematicLayerEmpty OK");
+				
+				capaUsrActiva2= new L.FeatureGroup();
+				capaUsrActiva2.options = {
+					businessId : results.results.businessId,
+					nom : nomNovaCapa,
+					tipus: t_tematic,
+					geometryType : feature.options.tipus,
+					zIndex : controlCapes._lastZIndex+1		
+				};
+				//Afegim nova capa al combo
+				jQuery('#cmbCapesUsr').append("<option selected value=\""+results.results.businessId+"\">"+nomNovaCapa+"</option>");	
+				jQuery('.popup_pres').show();
+				jQuery('.popup_edit').hide();
+				
+				map.addLayer(capaUsrActiva2);
+				controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
+				activaPanelCapes(true);
+				
+				//Accio de moure la feature a la nova capa tematic creada
+				//moveFeatureToLayer(feature.properties.businessId,capaUsrActiva.options.businessId,capaUsrActiva2.options.businessId);
+				var data = {
+						uid: $.cookie('uid'),
+			            businessId: feature.properties.businessId, //businessId de la feature
+			            fromBusinessId: capaUsrActiva.options.businessId, //businessId del tematico de origen
+			            toBusinessId: capaUsrActiva2.options.businessId //businessId del tematico de destino
+			        }				
+				moveFeatureToTematic(data).then(function(results){
+						if(results.status=='OK'){
+							console.debug("moveFeatureToTematic OK");
+							capaUsrActiva.removeLayer(feature);
+							capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
+							//feature.openPopup();				
+						}else{
+							console.debug("moveFeatureToTematic ERROR");
+						}
+					},function(results){
+						console.debug("moveFeatureToTematic ERROR");
+					});		
+			}else{
+				console.debug("createTematicLayerEmpty ERROR");
+			}
+		},function(results){
+			console.debug("createTematicLayerEmpty ERROR");
+		}
+	);
+}
+
+function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusinessId){
+	
+	var data = {
+			uid: $.cookie('uid'),
+            businessId: feature_businessId, //businessId de la feature
+            fromBusinessId: layer_fromBusinessId, //businessId del tematico de origen
+            toBusinessId: layer_toBusinessId //businessId del tematico de destino
+        }				
+		moveFeatureToTematic(data).then(function(results){
+			if(results.status=='OK'){
+				console.debug("moveFeatureToTematic OK");
+				capaUsrActiva.removeLayer(feature);
+				capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
+				feature.openPopup();				
+			}else{
+				console.debug("moveFeatureToTematic ERROR");
+			}
+		},function(results){
+			console.debug("moveFeatureToTematic ERROR");
+		});	
 }
 
 function modeLayerTextEdit(){

@@ -39,7 +39,7 @@ function objecteUserAdded(f){
 	});
 
 	//ESTIL MARKER
-	if(f.layer.options.tipus == 'Marker'){
+	if(f.layer.options.tipus == t_marker){
 		var rangs = JSON
 		.stringify({
 			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
@@ -56,7 +56,7 @@ function objecteUserAdded(f){
 			labelColor : '#000000',
 		});	
 	//ESTIL LINE
-	}else if(f.layer.options.tipus == 'Line'){
+	}else if(f.layer.options.tipus == t_polyline){
 		
 		var rangs = JSON
 		.stringify({
@@ -115,10 +115,13 @@ function objecteUserAdded(f){
 //		console.info(this);
 		var _this = this;
 		
-		addTematicLayerFeature(data).then(function(results) {
+		createTematicLayerFeature(data).then(function(results) {
 							if(results.status === 'OK'){
 								_this.options.businessId = results.results.businessId;
+//								_this.options.capesBusinessId = results.results.capesBusinessId;
+//								_this.options.geometriesBusinessId = results.results.geometriesBusinessId;
 								console.debug('addTematicLayerFeature OK');
+								f.layer.properties.businessId = results.feature.properties.businessId;
 								finishAddFeatureToTematic(f.layer);
 							}else{
 								//ERROR: control Error
@@ -130,23 +133,23 @@ function objecteUserAdded(f){
 
 	} else if (this.toGeoJSON().features.length > 1) {
 
-		var dataFeature = {
-			businessId : this.options.results.geometriesBusinessId,
-			uid : jQuery.cookie('uid'),
-			features : features
-		};
-
-		var dataCapes = {
-			businessId : this.options.results.capesBusinessId,
-			uid : jQuery.cookie('uid'),
-			dades : dades
-		};
-
-		var dataRangs = {
-			businessId : this.options.results.businessId,
-			uid : jQuery.cookie('uid'),
-			rangs : rangs
-		};
+//		var dataFeature = {
+//			businessId : this.options.geometriesBusinessId,
+//			uid : jQuery.cookie('uid'),
+//			features : features
+//		};
+//
+//		var dataCapes = {
+//			businessId : this.options.capesBusinessId,
+//			uid : jQuery.cookie('uid'),
+//			dades : dades
+//		};
+//
+//		var dataRangs = {
+//			businessId : this.options.businessId,
+//			uid : jQuery.cookie('uid'),
+//			rangs : rangs
+//		};
 
 				
 		var data = {
@@ -154,13 +157,19 @@ function objecteUserAdded(f){
 				features : features,
 				dades : dades,
 				rangs : rangs,
-				businessId: this.options.results.businessId
+				businessId: this.options.businessId
 			};				
 				
 		addFeatureToTematic(data).then(function(results) {
-					console.debug(results.status);
+					if(results.status === 'OK'){
+						console.debug('addFeatureToTematic OK');
+						finishAddFeatureToTematic(f.layer);					
+					}else{
+						//ERROR: control Error
+						console.debug("addFeatureToTematic ERROR");
+					}
 				},function(results){
-					console.debug("ERROR");
+					console.debug("addFeatureToTematic ERROR");
 				});
 
 

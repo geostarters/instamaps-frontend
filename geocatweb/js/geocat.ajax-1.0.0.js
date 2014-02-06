@@ -117,7 +117,7 @@ function doLogin(user_login,pass_login){
 }
 
 /* map */
-function addTematicLayerFeature(data){
+function createTematicLayerFeature(data){
 	return $.ajax({
 		url: paramUrl.createTematicLayerFeature,
 		data: data,
@@ -367,5 +367,24 @@ function getWMSLayers(url){
 		async: false,
 		method: 'post',
 		dataType: 'jsonp'
+	}).promise();
+}
+
+function createTematicLayerEmpty(data){
+	return jQuery.ajax({
+		url: paramUrl.createTematicLayerEmpty,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function moveFeatureToTematic(data){
+	return jQuery.ajax({
+		url: paramUrl.moveFeatureToTematic,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
 	}).promise();
 }
