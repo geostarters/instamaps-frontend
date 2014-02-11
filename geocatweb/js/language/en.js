@@ -182,6 +182,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Triar l'estil del mapa":"Choose the style of the map",
 	"Urbanisme, medi ambient, equipaments locals, cadastre i altres portals.":"Planning, environment, local facilities, cadastre and other portals.",
 	"Usuari":"Username",
+	"Valors":"Values",
 	"Veure": "View",
 	"Veure informació al fer clic sobre el mapa":"View information clicking on the map",
 	"Visualitza continguts de Panoramio, Twitter i Viquipèdia.":"View content from Panoramio, Twitter y Wikipedia.",

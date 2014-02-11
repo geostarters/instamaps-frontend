@@ -1003,6 +1003,45 @@
 	<!-- /.modal -->
 	<!-- fi Modal Tematics Layers -->
 
+	<!-- Modal Tematics Rangs -->
+	<div class="modal fade" id="dialog_tematic_rangs">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Triar l'estil del mapa</h4>
+				</div>
+				<div class="modal-body">
+					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Valors</span>:</div>
+					<select name="dataField" id="dataField">
+					<script id="tematic-layers-fields" type="text/x-handlebars-template">
+						{{#each fields}}
+						<option value="{{this}}">{{@key}}</option>
+						{{/each}}
+					</script>
+					</select>
+					
+					<script id="tematic-layers-template" type="text/x-handlebars-template">
+					<ul class="bs-dadesO">
+						{{#each layers}}
+						<a class="usr_wms_layer label label-wms" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a>
+						{{/each}}
+					</ul>	
+					</script>
+					<div id="list_tematic_layers"></div>
+				</div>
+				<div class="modal-footer">
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+         <button type="button" class="btn btn-success">Canviar</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal Tematics Rangs -->
 
 	<!-- Le javascript
     ================================================== -->
