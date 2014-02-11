@@ -267,7 +267,7 @@ function activaEdicioUsuari() {
 			if(crt_Editing){
 				crt_Editing.disable();
 			}
-			updateFeatureMove(objEdicio.featureID);			
+			updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id);			
 			//featureActive.enable();	
 		}
 	});
@@ -330,6 +330,26 @@ function activaEdicioUsuari() {
 		} else if (type === t_polyline) {
 			tipusCat=window.lang.convert('Titol Linia');
 			tipusCatDes=window.lang.convert('Descripcio Linia');
+			
+//			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polyline){
+//				capaUsrActiva.removeEventListener('layeradd');
+//				capaUsrActiva=capaUsrLine;
+//				capaUsrActiva.on('layeradd',objecteUserAdded);
+//			}else if(capaUsrActiva == null){
+//				capaUsrActiva=capaUsrPunt;
+//				capaUsrActiva.on('layeradd',objecteUserAdded);
+//			}
+//			
+//			//MODIFICAR FICAR PROPERTIES QUE NECESSITO
+//			layer.properties={'name':tipusCat+' '+capaUsrActiva.getLayers().length,
+//					'description':tipusCatDes+' '+capaUsrActiva.getLayers().length,
+//					'capaNom':capaUsrActiva.options.nom,//desactualitzat quan es canvii nom capa!
+//					'capaBusinessId':capaUsrActiva.options.businessId,
+//					'capaLeafletId': capaUsrActiva._leaflet_id,
+//					'tipusFeature':t_marker};			
+//			
+//			capaUsrActiva.addLayer(layer);			
+			
 			capaUsrLine.on('layeradd',objecteUserAdded);
 			capaUsrLine.addLayer(layer);
 			totalFeature=capaUsrLine.toGeoJSON().features.length;
@@ -352,6 +372,15 @@ function activaEdicioUsuari() {
 			capaUsrActiva=capaUsrPol;
 		}
 	});
+	
+//	map.on('draw:edited', function (e) {
+//	    var layers = e.layers;
+//	    layers.eachLayer(function (layer) {
+//	       console.debug("draw:edited");
+//	       console.info(layer);
+//	    });
+//	});	
+	
 }
 
 function finishAddFeatureToTematic(layer){
@@ -527,22 +556,19 @@ function finishAddFeatureToTematic(layer){
 			
 		}else if(accio[0].indexOf("feature_move")!=-1){
 			
-//			if(accio[2].indexOf("marker")!=-1){
-//				capaUsrActiva=capaUsrPunt;
-//			}else if(accio[2].indexOf("polygon")!=-1){
-//				capaUsrActiva=capaUsrPol;
-//			}else{
-//				capaUsrActiva=capaUsrLine;
-//			}
-			
 			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;						
 			//Actualitzem capa activa
 			capaUsrActiva.removeEventListener('layeradd');
 			capaUsrActiva = map._layers[capaLeafletId];
-			capaUsrActiva.on('layeradd',objecteUserAdded);				
+			//capaUsrActiva.on('layeradd',objecteUserAdded);				
+			
+			var capaEdicio = new L.FeatureGroup();
+			capaEdicio.addLayer(map._layers[objEdicio.featureID]);
+			capaUsrActiva.removeLayer(map._layers[objEdicio.featureID]);
+			map.addLayer(capaEdicio);
 			
 			crt_Editing=new L.EditToolbar.Edit(map, {
-				featureGroup: capaUsrActiva,
+				featureGroup: capaEdicio,
 				selectedPathOptions: opcionsSel
 			});
 			crt_Editing.enable();
@@ -622,7 +648,7 @@ function updateFeatureNameDescr(layer, titol, descr){
 	
 }
 
-function updateFeatureMove(featureID){
+function updateFeatureMove(featureID, capaEdicioID){
 	
 	var layer = map._layers[featureID];
 	var feature = layer.toGeoJSON();
@@ -649,8 +675,6 @@ function updateFeatureMove(featureID){
     
     updateFeature(data).then(function(results){
     	if(results.status == 'OK'){
-//			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil blau"></i>');	
-//			jQuery('#des_pres').text(descr).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
 			jQuery('.popup_pres').show();
 //			jQuery('.popup_edit').hide();    		
     	}else{
@@ -659,7 +683,16 @@ function updateFeatureMove(featureID){
     }, function(results){
     	console.debug("updateFeature ERROR");
     });	
-	
+    
+    //Retornem la geometria a la seva capa original
+    capaUsrActiva.addLayer(layer);
+    capaUsrActiva.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
+    map._layers[capaEdicioID].removeLayer(layer);
+	//Refresh de la capa
+	controlCapes._map.removeLayer(capaUsrActiva);
+	controlCapes._map.addLayer(capaUsrActiva);    
+    map.removeLayer(map._layers[capaEdicioID]);
+    console.debug("updateFeatureMove FI");
 }
 
 function createPopUpContent(player,type){

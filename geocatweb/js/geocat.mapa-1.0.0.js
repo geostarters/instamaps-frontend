@@ -1948,7 +1948,7 @@ function loadTematicLayer(layer){
 					}
 					var featureTem;
 					if (ftype === t_marker){
-						featureTem = L.marker([geom.geometry.coordinates[0],geom.geometry.coordinates[1]],
+						featureTem = L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
 							 {icon: rangStyle}).addTo(map);
 					}else if (ftype === t_polyline){
 						var coords=geom.geometry.coordinates;

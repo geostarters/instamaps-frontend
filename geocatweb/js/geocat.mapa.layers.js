@@ -38,7 +38,7 @@ function objecteUserAdded(f){
 		}
 	});
 
-	var rangs = getFeatureStyle(f);
+	var rangs = getFeatureStyle(f,fId);
 	rangs = JSON.stringify(rangs);
 	
 	if (fId == 1) {
@@ -125,7 +125,7 @@ function objecteUserAdded(f){
 	}
 }
 
-function getFeatureStyle(f){
+function getFeatureStyle(f, fId){
 	var rangs = {};
 	console.debug(f.layer.options);
 	//ESTIL MARKER
@@ -179,4 +179,5 @@ function getFeatureStyle(f){
 			labelColor : '#000000',
 		};		
 	}
+	return rangs;
 }
