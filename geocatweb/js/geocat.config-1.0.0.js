@@ -9,6 +9,8 @@ var t_marker = "marker";
 var t_multiple = "multiple";
 var t_point = "point";
 var t_linestring = "linestring";
+var tem_simple = "simpleTematic";
+var tem_clasic = "clasicTematic";
 
 //var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";

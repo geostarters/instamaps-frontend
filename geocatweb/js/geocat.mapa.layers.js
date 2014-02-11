@@ -179,4 +179,5 @@ function getFeatureStyle(f){
 			labelColor : '#000000',
 		};		
 	}
+	return rangs;
 }

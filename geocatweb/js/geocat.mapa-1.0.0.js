@@ -115,9 +115,12 @@ jQuery(document).ready(function() {
 	
 	//botons tematic
 	jQuery('#st_Color').on('click',function(){
-		showTematicLayersModal('simpleTematic');
+		showTematicLayersModal(tem_simple);
 	});
 	
+	jQuery('#st_Tema').on('click',function(){
+		showTematicLayersModal(tem_clasic);
+	});
 
 //	$('#add_twitter_layer').click(function(){
 //		$('#twitter-collapse').toggle()();
@@ -550,7 +553,6 @@ function createFeatureMarkerStyle(style){
 	puntTMP.options.iconColor = style.simbolColor;
 	puntTMP.options.icon = style.simbol;
 	puntTMP.options.markerColor = style.marker;
-	console.debug(puntTMP);
 	return puntTMP;
 }
 
@@ -1850,12 +1852,10 @@ function loadTematicLayer(layer){
 	var layerWms = layer;
 	
 	console.time("loadTematicLayer " + layerWms.serverName);
-	
 	getTematicLayer(data).then(function(results){
 		console.timeEnd("loadTematicLayer " + layerWms.serverName);
 		if(results.status == "OK" ){
 			var tematic = results.results;
-			console.debug(tematic);
 			var Lgeom = tematic.geometries.features.features;
 			var idDataField = tematic.idDataField;
 			var idGeomField = tematic.idGeomField;
@@ -1905,7 +1905,6 @@ function loadTematicLayer(layer){
 					else if (Lrangs.length == 1){
 						rangStyle = Lrangs[0];
 						if (ftype === t_marker){
-							console.debug(rangStyle);
 							//TODO
 							rangStyle = createFeatureMarkerStyle(rangStyle);
 						}else if (ftype === t_polyline){
@@ -2057,22 +2056,142 @@ function showTematicLayersModal(tipus){
 		var _this = jQuery(this);
 		var data = _this.data();
 		data.from = tipus;
-		if (data.geometrytype == t_marker){
-			obrirMenuModal('#dialog_estils_punts','toggle',data);
-		}else if (data.geometrytype == t_polyline){
-			obrirMenuModal('#dialog_estils_linies','toggle',data);
-		}else if (data.geometrytype == t_polygon){
-			obrirMenuModal('#dialog_estils_arees','toggle',data);
+		if (tipus == tem_simple){
+			if (data.geometrytype == t_marker){
+				obrirMenuModal('#dialog_estils_punts','toggle',data);
+			}else if (data.geometrytype == t_polyline){
+				obrirMenuModal('#dialog_estils_linies','toggle',data);
+			}else if (data.geometrytype == t_polygon){
+				obrirMenuModal('#dialog_estils_arees','toggle',data);
+			}
+		}else if(tipus == tem_clasic){
+			createTematicClasic(data);
 		}
 	});
+}
+
+function createTematicClasic(data){
+	jQuery('.modal').modal('hide');
+	jQuery('#dialog_tematic_rangs').modal('show');
+	console.debug(data);
+				
+	var dataTem={
+		businessId: data.businessid,
+		uid: jQuery.cookie('uid')
+	};
+		
+	getTematicLayer(dataTem).then(function(results){
+		if (results.status == "OK"){
+			var tematic = results.results;
+			console.debug(tematic);
+			var fields = {};
+			if (tematic.capes){
+				var dataNames = tematic.capes.fieldsName.split(',');
+				jQuery.each(dataNames, function( index, value ) {
+					fields[value] = "slotd"+(index+1);
+				});
+			}else{ //sin datos
+				fields['nom'] = 'nom';
+				var geomNames = tematic.geometries.fieldsName.split(',');
+				jQuery.each(geomNames, function( index, value ) {
+					fields[value] = "slotf"+(index+1);
+				});
+			}
+			var source1 = jQuery("#tematic-layers-fields").html();
+			var template1 = Handlebars.compile(source1);
+			var html1 = template1({fields:fields});
+			jQuery('#dataField').append(html1);
+			
+			jQuery('#dataField').on('change',function(e){
+				var this_ = jQuery(this);
+				readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
+					showTematicRangs(tematic ,results).then(function(results1){
+						console.debug(results1);
+					});
+				});
+			});
+			
+			jQuery('#dataField').val(tematic.dataField);
+			readDataTematicFromSlotd(tematic, jQuery('#dataField').val()).then(function(results){
+				console.debug(results);
+				console.debug(tematic);
+				showTematicRangs(tematic ,results).then(function(results1){
+					console.debug(results1);
+				});
+			});
+		}
+	});
+	
+	var layer = controlCapes._layers[data.leafletid];
+	console.debug(layer.layer);
+	var features = layer.layer.getLayers();
+	var fields = [];
+	if (features.length > 0){
+		var feature = features[0];
+		jQuery.each(feature.properties, function( key, value ) {
+			if (key != 'businessId' && key != 'data'){
+				fields.push(key);
+			}
+		});
+	}	
+}
+
+function readDataTematicFromSlotd(tematic, slotd){
+	var defer = jQuery.Deferred();
+	var dades = tematic.capes.dades;
+	var values = jQuery.map( dades, function( a ) {
+		return a[slotd];
+	});
+	defer.resolve(values);
+	return defer.promise();
+}
+
+function showTematicRangs(tematic, values){
+	var defer = jQuery.Deferred();
+	var rangs = tematic.rangs;
+	var valuesStyle = [];
+	if(rangs.length == 0){
+		if (tematic.geometryType == t_marker){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_point_style};
+			});
+		}else if (tematic.geometryType == t_polyline){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_line_style};
+			});
+		}else if (tematic.geometryType == t_polygon){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_area_style};
+			});
+		}
+	}else if(rangs.length == 1){
+		rangStyle = rangs[0];
+		if (tematic.geometryType == t_marker){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}else if (tematic.geometryType == t_polyline){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}else if (tematic.geometryType == t_polygon){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}
+	}else{
+		
+	}
+	defer.resolve(valuesStyle);
+	
+	return defer.promise();
 }
 
 function changeTematicLayerStyle(tematic, styles){
 	var rangs = getRangsFromStyles(tematic, styles);
 	console.debug(rangs);
 	rangs = JSON.stringify({rangs:rangs});
-	
-	
+		
 	var data = {
 		businessId: tematic.businessid,
 		uid: $.cookie('uid'),
