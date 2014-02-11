@@ -1672,14 +1672,20 @@ function loadWikipediaLayer(layer){
 function myRemoveLayer(obj){
 	
 	console.debug('Arriba a myRemoveLayer');
+	map.closePopup();
 	map.removeLayer(obj.layer);
 	//Eliminem la capa de controlCapes, i actualitzem valors zindex de la resta
 	var removeZIndex = obj.layer.options.zIndex;
 	controlCapes.removeLayer(obj.layer);
 	controlCapes._lastZIndex--;
-	var obj = controlCapes._layers;
-	for (var i in obj) {
-		if (obj[i].layer.options.zIndex > removeZIndex) obj[i].layer.options.zIndex--;
+	var aux = controlCapes._layers;
+	for (var i in aux) {
+		if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+	}
+	//Actualitzem capaUsrActiva
+	if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+		capaUsrActiva.removeEventListener('layeradd');
+		capaUsrActiva = null;
 	}
 }
 
@@ -1867,13 +1873,25 @@ function loadTematicLayer(layer){
 							rangStyle = default_area_style;
 						}
 					}else if (Lrangs.length == 1){
-						
+						if (ftype === t_marker){
+							rangStyle = L.AwesomeMarkers.icon(default_point_style);
+						}else if (ftype === t_polyline){
+							rangStyle = default_line_style;
+						}else if (ftype === t_polygon){
+							rangStyle = default_area_style;
+						}
 					}else{
-						
+						if (ftype === t_marker){
+							rangStyle = L.AwesomeMarkers.icon(default_point_style);
+						}else if (ftype === t_polyline){
+							rangStyle = default_line_style;
+						}else if (ftype === t_polygon){
+							rangStyle = default_area_style;
+						}
 					}
 					var featureTem;
 					if (ftype === t_marker){
-						featureTem = L.marker([geom.geometry.coordinates[0],geom.geometry.coordinates[1]],
+						featureTem = L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
 							 {icon: rangStyle}).addTo(map);
 					}else if (ftype === t_polyline){
 						var coords=geom.geometry.coordinates;

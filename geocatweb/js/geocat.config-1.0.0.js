@@ -69,6 +69,8 @@ var paramUrl = {
 	addFeatureToTematic: HOST_APP+"geocat/layers/tematic/addFeatureToTematic.action?",
 	createTematicLayerEmpty: HOST_APP+"geocat/layers/tematic/createTematicLayerEmpty.action?",
 	moveFeatureToTematic: HOST_APP+"geocat/layers/tematic/moveFeatureToTematic.action?",
+	deleteFeature: HOST_APP+"geocat/layers/feature/deleteFeature.action?",
+	updateFeature: HOST_APP+"geocat/layers/feature/updateFeature.action?",
 	shortUrl : "http://api.bit.ly/v3/shorten",
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?"
 }

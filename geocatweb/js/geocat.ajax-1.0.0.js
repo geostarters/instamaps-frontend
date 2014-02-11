@@ -388,3 +388,21 @@ function moveFeatureToTematic(data){
         dataType: 'jsonp'
 	}).promise();
 }
+
+function deleteFeature(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteFeature,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function updateFeature(data){
+	return jQuery.ajax({
+		url: paramUrl.updateFeature,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}

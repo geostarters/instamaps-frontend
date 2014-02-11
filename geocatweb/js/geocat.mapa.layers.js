@@ -5,8 +5,8 @@ function objecteUserAdded(f){
 	
 	var feature = f.layer.toGeoJSON();
 	feature.properties = {
-		nom : "feature" + fId,
-		text : "<a href='http://www.google.com'>link</a>",
+		nom : f.layer.properties.capaNom,
+		text : f.layer.properties.description,
 		slotf1 : 'data 1',
 		slotf2 : 'data 2',
 		slotf3 : 'data 3',
@@ -120,8 +120,10 @@ function objecteUserAdded(f){
 								_this.options.businessId = results.results.businessId;
 //								_this.options.capesBusinessId = results.results.capesBusinessId;
 //								_this.options.geometriesBusinessId = results.results.geometriesBusinessId;
-								console.debug('addTematicLayerFeature OK');
+								console.debug('createTematicLayerFeature OK');
+								f.layer.properties.capaBusinessId = results.results.businessId;
 								f.layer.properties.businessId = results.feature.properties.businessId;
+								f.layer.properties.feature = results.feature;
 								finishAddFeatureToTematic(f.layer);
 							}else{
 								//ERROR: control Error
@@ -131,7 +133,8 @@ function objecteUserAdded(f){
 							console.debug('addTematicLayerFeature ERROR');
 						});
 
-	} else if (this.toGeoJSON().features.length > 1) {
+//	} else if (this.toGeoJSON().features.length > 1) {
+	} else if (this.getLayers().length > 1) {
 
 //		var dataFeature = {
 //			businessId : this.options.geometriesBusinessId,
@@ -163,6 +166,9 @@ function objecteUserAdded(f){
 		addFeatureToTematic(data).then(function(results) {
 					if(results.status === 'OK'){
 						console.debug('addFeatureToTematic OK');
+						f.layer.properties.businessId = results.feature.properties.businessId;
+						f.layer.properties.capaBusinessId = results.results.businessId;
+						f.layer.properties.feature = results.feature;
 						finishAddFeatureToTematic(f.layer);					
 					}else{
 						//ERROR: control Error
