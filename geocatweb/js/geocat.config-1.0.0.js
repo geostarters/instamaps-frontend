@@ -39,6 +39,7 @@ var paramUrl = {
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://miyazaki.icc.local:8080/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:HOST_APP+"share/jsp/ows2json.jsp?",
+	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
 
 }
 

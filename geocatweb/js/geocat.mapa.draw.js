@@ -87,7 +87,19 @@ function initCanvas(){
 	 
 	 
 	 
-	 
+	 $('#colorpalette_punt').colorPalette().on('selectColor', function(e) {  
+		 $('.fill_color_punt').css('background-color',e.color);
+			
+		 console.info(jQuery('#div_puntZ').hasClass("estil_selected"));
+		 if(jQuery('#div_puntZ').hasClass("estil_selected")){
+				
+			 estilP.divColor=e.color;
+				
+				jQuery('#div_punt0').css('background-color',estilP.divColor);
+			}
+		    jQuery('#div_punt9').css('background-color',e.color);
+			
+		});
 	 
 	 
 	 
@@ -216,12 +228,16 @@ function addDrawToolbar() {
 	defaultPunt= L.AwesomeMarkers.icon({
 		icon : '',
 		markerColor : 'orange',
+		divColor:'transparent',
 		iconAnchor : new L.Point(14, 42),
 		iconSize : new L.Point(28, 42),
 		iconColor : '#000000',
+		opacity:0.8,
 		prefix : 'fa'
 	});
 
+	
+	
 	var options = {
 		draw : false,
 		polyline : {
@@ -352,8 +368,21 @@ function activaEdicioUsuari() {
 							tipusCat=window.lang.convert('Títol Punt');
 							tipusCatDes=window.lang.convert('Descripció Punt');
 							
+							
+							
+							console.info(defaultPunt);
+							
+							if(defaultPunt.options.icon!=""){							
 							 layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
 							 {icon: defaultPunt});
+							}else{						
+							 layer= L.circleMarker([layer.getLatLng().lat,layer.getLatLng().lng],
+									 { radius : parseInt(parseInt(defaultPunt.options.iconSize.x)/3), 
+									 fillColor : defaultPunt.options.divColor,
+									 color : "#dddddd", weight : 2,
+									  opacity : 1, fillOpacity : 0.9 });
+							 
+						}
 							
 							
 							capaUsrPunt.addLayer(layer).on('layeradd',
@@ -362,6 +391,8 @@ function activaEdicioUsuari() {
 							totalFeature=capaUsrPunt.toGeoJSON().features.length;
 							
 							if (totalFeature == 1) {
+								
+								capaUsrPunt.options.zIndex = controlCapes._lastZIndex+1;
 								controlCapes.addOverlay(capaUsrPunt,
 										capaUsrPunt.options.nom, true);
 								
@@ -656,6 +687,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,capaUsrActiva){
 	capaUsrActiva2.options = {
 			businessId : '-1',
 			nom : nomNovaCapa,
+			zIndex : controlCapes._lastZIndex+1,
 			tipus : feature.properties.tipusFeature
 		};
 
@@ -667,7 +699,8 @@ function generaNovaCapaUsuari(feature,nomNovaCapa,capaUsrActiva){
 	
 
 	feature.openPopup();
-	//capaUsrActiva2.redraw();
+	//console.info(feature.update());
+//capaUsrActiva2.redraw();
 	
 		controlCapes.addOverlay(capaUsrActiva2,
 				capaUsrActiva2.options.nom, true);

@@ -633,7 +633,7 @@ i.fa {
 }
 
 .awesome-marker-web {
-	background: url('images/galeria_icones.png') no-repeat 0 0;
+	
 	width: 28px;
 	height: 42px;
 	margin: auto;
@@ -668,34 +668,42 @@ i.fa {
 
 /* Colors */
 .awesome-marker-icon-orange {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: 1px -315px;
 }
 
 .awesome-marker-icon-darkorange {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -69px -315px;
 }
 
 .awesome-marker-icon-red {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -140px -315px;
 }
 
 .awesome-marker-icon-purple {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -211px -315px;
 }
 
 .awesome-marker-icon-blue {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -281px -315px;
 }
 
 .awesome-marker-icon-green {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -352px -315px;
 }
 
 .awesome-marker-icon-darkgray {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -423px -315px;
 }
 
 .awesome-marker-icon-gray {
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -494px -315px;
 }
 
@@ -707,85 +715,26 @@ i.fa {
 	height: 28px;
 	border-radius: 14px;
 	border: 2px solid #dddddd;
+	
 	background-color: #FFC500;
+	
 }
 
-.awesome-marker-icon-darkorange_r {
-	/*
-	background-position: -69px -370px;
-	*/
+
+.awesome-marker-icon-punt_r {
 	width: 28px;
 	height: 28px;
 	border-radius: 14px;
-	border: 2px solid #dddddd;
-	background-color: #FF7F0B;
+	border: 2px solid #ffffff;	
+	
+	
 }
 
-.awesome-marker-icon-red_r {
-	/*
-	background-position: -140px -370px;
-	*/
-	width: 28px;
-	height: 28px;
-	border-radius: 14px;
-	border: 2px solid #dddddd;
-	background-color: #FF4B3A;
-}
 
-.awesome-marker-icon-purple_r {
-	/*
-	background-position: -211px -370px;
-	*/
-	width: 28px;
-	height: 28px;
-	border-radius: 14px;
-	border: 2px solid #dddddd;
-	background-color: #AE59B9;
-}
 
-.awesome-marker-icon-blue_r {
-	/*
-	background-position: -281px -370px;
-	*/
-	width: 28px;
-	height: 28px;
-	border-radius: 14px;
-	border: 2px solid #dddddd;
-	background-color: #00AFE5;
-}
 
-.awesome-marker-icon-green_r {
-	/*
-	background-position: -352px -370px;
-	*/
-	width: 28px;
-	height: 28px;
-	border-radius: 14px;
-	border: 2px solid #dddddd;
-	background-color: #7CBD00;
-}
 
-.awesome-marker-icon-darkgray_r {
-	/*
-	background-position: -423px -370px;
-	*/
-	width: 28px;
-	height: 28px;
-	border-radius: 14px;
-	border: 2px solid #dddddd;
-	background-color: #90A6A9;
-}
 
-.awesome-marker-icon-gray_r {
-	/*
-	background-position: -494px -370px;
-	*/
-	width: 28px;
-	height: 28px;
-	border-radius: 14px;
-	border: 2px solid #aaaaaa;
-	background-color: #EBF0F1;
-}
 
 .leaflet-sidebar {
 	position: absolute;
