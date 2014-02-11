@@ -11,7 +11,7 @@ function retornaEstilaDO(dataset) {
 	else if(dataset=="meteo_costa"){ estil.fillColor = "#E1EA3A";}
 	else{ estil.fillColor = "#CCDD00";}
 
-return estil;
+	return estil;
 }
 
 function tradueixMenusToolbar() {
