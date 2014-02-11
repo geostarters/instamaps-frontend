@@ -130,20 +130,36 @@ function getFeatureStyle(f, fId){
 	console.debug(f.layer.options);
 	//ESTIL MARKER
 	if(f.layer.options.tipus == t_marker){
-		rangs = {
-			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
-			valorMax : "feature" + fId,
-			color : '#ff0000',
-			marker: f.layer.options.icon.options.markerColor,
-			simbolColor: f.layer.options.icon.options.iconColor,
-			simbolSize : f.layer._icon.height,
-			simbol : f.layer.options.icon.options.icon,
-			opacity : (f.layer.options.opacity * 100),
-			label : false,
-			labelSize : 10,
-			labelFont : 'arial',
-			labelColor : '#000000',
-		};	
+		if (f.layer.options.icon){
+			rangs = {
+				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
+				valorMax : "feature" + fId,
+				color : '#ff0000',
+				marker: f.layer.options.icon.options.markerColor,
+				simbolColor: f.layer.options.icon.options.iconColor,
+				simbolSize : f.layer._icon.height,
+				simbol : f.layer.options.icon.options.icon,
+				opacity : (f.layer.options.opacity * 100),
+				label : false,
+				labelSize : 10,
+				labelFont : 'arial',
+				labelColor : '#000000',
+			};
+		}else{
+			rangs = {
+				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
+				valorMax : "feature" + fId,
+				color : f.layer.options.fillColor,
+				simbolSize : f.layer.options.radius,
+				opacity : (f.layer.options.fillOpacity * 100),
+				label : false,
+				labelSize : 10,
+				labelFont : 'arial',
+				labelColor : '#000000',
+				borderWidth : f.layer.options.weight,
+				borderColor : f.layer.options.color,
+			};
+		}
 	//ESTIL LINE
 	}else if(f.layer.options.tipus == t_polyline){
 		rangs = {

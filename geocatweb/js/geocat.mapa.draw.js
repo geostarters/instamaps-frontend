@@ -27,21 +27,13 @@ function hexToRgb(hex) {
     } : null;
 }
 
-
-
 function obrirMenuModal(_menuClass,estat,_from){
-
 	objEdicio.obroModalFrom=_from;	
 	jQuery('.modal').modal('hide');	
 	jQuery(_menuClass).modal(estat);
 }
 
-
-
-
 function initCanvas(){
-
-
 	addGeometryInitP(document.getElementById(canvas_pol.id));
 	addGeometryInitP(document.getElementById(canvas_pol.id+"0"));
 	addGeometryInitL(document.getElementById(canvas_linia.id));	
@@ -68,10 +60,7 @@ function initCanvas(){
 		addGeometryInitL(document.getElementById("cv_linia0"));
 
 	});
-    	 
-
-
-
+ 
 	$('#colorpalette_icon').colorPalette().on('selectColor', function(e) {  
 		 $('.fill_color_icon').css('background-color',e.color);
 			estilP.colorGlif=e.color;
@@ -85,9 +74,6 @@ function initCanvas(){
 			jQuery('#div_punt0').css('color',estilP.colorGlif);
 			jQuery(this).addClass("estil_selected");
 	});
-	
-
-
 
 	$('#colorpalette_punt').colorPalette().on('selectColor', function(e) {  
 		 $('.fill_color_punt').css('background-color',e.color);
@@ -102,10 +88,6 @@ function initCanvas(){
 		    jQuery('#div_punt9').css('background-color',e.color);
 			
 		});
-
-
-
-
 
 	jQuery("#cmb_trans").on('change', function(e) { 
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
@@ -128,14 +110,9 @@ function initCanvas(){
 
     });
 
-
-
-
 }
 
 var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
-
-
 
 function rgb2hex(rgb) {
 	rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)\)$/);
@@ -380,8 +357,7 @@ function activaEdicioUsuari() {
 		var type = e.layerType, layer = e.layer;
 		var totalFeature;
 		var tipusCat,tipusCatDes;
-		
-		
+	
 		if (type === t_marker) {
 			tipusCat=window.lang.convert('Titol Punt');
 			tipusCatDes=window.lang.convert('Descripcio Punt');
