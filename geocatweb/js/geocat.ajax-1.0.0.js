@@ -415,7 +415,6 @@ function updateTematicRangs(data){
 	}).promise();
 }
 
-
 function createRandomUser(){
 	return jQuery.ajax({
 		url: paramUrl.createRandomUser,
