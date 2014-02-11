@@ -15,7 +15,6 @@ function retornaEstilaDO(dataset) {
 }
 
 function tradueixMenusToolbar() {
-
 	// L.drawLocal.draw.toolbar.buttons.polygon = 'Dibuixa un polígon';
 	// L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Arrastra i marca una
 	// area';
