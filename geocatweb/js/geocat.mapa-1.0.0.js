@@ -481,6 +481,14 @@ function changeDefaultAreaStyle(canvas_pol){
 		
 }
 
+function createFeatureAreaStyle(style){
+	var estilTMP= default_area_style;
+	estilTMP.fillColor=style.color;
+	estilTMP.fillOpacity=(style.opacity/100);
+	estilTMP.weight=style.borderWidth;
+	estilTMP.color=style.borderColor;
+	return estilTMP;
+}
 
 function changeDefaultPointStyle(estilP) {
 
@@ -536,6 +544,15 @@ function changeDefaultPointStyle(estilP) {
 	
 	return puntTMP;
 } 
+
+function createFeatureMarkerStyle(style){
+	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+	puntTMP.options.iconColor = style.simbolColor;
+	puntTMP.options.icon = style.simbol;
+	puntTMP.options.markerColor = style.marker;
+	console.debug(puntTMP);
+	return puntTMP;
+}
 
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
@@ -1868,6 +1885,7 @@ function loadTematicLayer(layer){
 					}else if (ftype === t_linestring){
 						ftype = t_polyline;
 					}
+					//Sin rangos
 					if (Lrangs.length == 0){
 						if (ftype === t_marker){
 							rangStyle = L.AwesomeMarkers.icon(default_point_style);
@@ -1876,18 +1894,32 @@ function loadTematicLayer(layer){
 						}else if (ftype === t_polygon){
 							rangStyle = default_area_style;
 						}
-					}else if (Lrangs.length == 1){
+					}
+					//1 Rango
+					else if (Lrangs.length == 1){
 						rangStyle = Lrangs[0];
 						if (ftype === t_marker){
-							rangStyle = L.AwesomeMarkers.icon(rangStyle);
+							console.debug(rangStyle);
+							//TODO
+							rangStyle = createFeatureMarkerStyle(rangStyle);
+						}else if (ftype === t_polyline){
+							//TODO
+						}else if (ftype === t_polygon){
+							rangStyle = createFeatureAreaStyle(rangStyle);
 						}
-					}else{
+					}
+					//Multiples rangos
+					else{
 						if (dataGeom){
 							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
 							if (rangStyle.length > 0){
 								rangStyle = rangStyle[0];
 								if (ftype === t_marker){
 									rangStyle = L.AwesomeMarkers.icon(rangStyle);
+								}else if (ftype === t_polyline){
+									//TODO
+								}else if (ftype === t_polygon){
+									rangStyle = createFeatureAreaStyle(rangStyle);
 								}
 							}else{
 								if (ftype === t_marker){
