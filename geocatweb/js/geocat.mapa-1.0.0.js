@@ -26,6 +26,7 @@ var default_area_style = {
 var default_point_style = {
 	icon : '',
 	markerColor : 'orange',
+	divColor:'transparent',
 	iconAnchor : new L.Point(14, 42),
 	iconSize : new L.Point(28, 42),
 	iconColor : '#000000',
@@ -159,12 +160,15 @@ jQuery(document).ready(function() {
 			 	nom: newValue, 
 			 	uid: $.cookie('uid')
 			}
+
+
 			updateMapName(data).then(function(results){
 				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
 			},function(results){
 				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
 			});	
 		}
+
 	});
 	//$.fn.editable.defaults.mode = 'inline';
 	$('.leaflet-remove').click(function() {
@@ -291,6 +295,22 @@ function addClicksInici() {
        	 //addCapaMunicipis();	        
         }
     });
+	
+	
+	
+	jQuery('#st_Heat').on('click',function(e) {
+	
+			createHeatMap(controlCapes._layers[63])
+		});
+	
+	
+	jQuery('#st_Clust').on('click',function(e) {
+		
+		creaClusterMap(controlCapes._layers[63])
+	});
+
+	
+	
 }
 
 function addOpcionsFonsMapes() {
@@ -465,16 +485,48 @@ function activaPanelCapes(obre) {
 
 function changeDefaultLineStyle(canvas_linia){
 	var estilTMP = default_line_style;
+
+
+
+
+
+
+
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
+
+
 	if(objEdicio.obroModalFrom=="creaCapa"){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
+
 	return estilTMP;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 function changeDefaultAreaStyle(canvas_pol){
 	var estilTMP= default_area_style;
+
+
+
+
+
+
+
+
 	
 	estilTMP.fillColor=canvas_pol.fillStyle;
 	estilTMP.fillOpacity=canvas_pol.opacity;
@@ -514,6 +566,22 @@ function createFeatureAreaStyle(style){
 function changeDefaultPointStyle(estilP) {
 
 	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
@@ -529,6 +597,7 @@ function changeDefaultPointStyle(estilP) {
 		var num=estilP.size;
 		puntTMP.options.shadowSize = new L.Point(1, 1);
 		var tt=estilP.fontsize;
+		puntTMP.options.divColor=estilP.divColor;
 		if(tt=="9px"){
 			cssText="font9";			
 		}else if(tt=="11px"){
@@ -544,18 +613,23 @@ function changeDefaultPointStyle(estilP) {
 		if(_iconGlif==""){//no tin glif
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);		
+			puntTMP.options.icon="";
 		}else{
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);	
+			puntTMP.options.icon=_iconGlif + " "+cssText;
 		}
 		
 	}else{ // sóc punt
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
+		puntTMP.options.divColor='transparent';
+		puntTMP.options.icon=_iconGlif + " "+cssText;
 	}
 	
-	puntTMP.options.icon=_iconGlif + " "+cssText;
+	
+
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
 	
@@ -595,20 +669,33 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
+
+			
+			jQuery('#div_punt').css('background-color',estilP.divColor);	
+			
+			
 			changeDefaultPointStyle(estilP);	
 			
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
+			
+
+								// console.info(map._layers[objEdicio.featureID]);
+			alert("Atenció problema amb tipus punt Awson i circle")
 			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
+
+
 		}else{
 			console.debug(objEdicio.obroModalFrom);
+
 		}
 		
 		jQuery('#dialog_estils_punts').modal('toggle');				
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
+
 		if(objEdicio.obroModalFrom=="creaCapa"){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
 			jQuery('#dialog_estils_linies').modal('toggle');		
@@ -620,22 +707,26 @@ function addDialegsEstils() {
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else{
 			console.debug(objEdicio.obroModalFrom);
+
 		}
 		jQuery('#dialog_estils_linies').modal('toggle');			
 	});
 	
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom=="creaCapa"){
+
 			addGeometryInitP(document.getElementById("cv_pol"));  
 			jQuery('#dialog_estils_arees').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_pol);
 			changeDefaultAreaStyle(canvas_pol);
+
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else{
 			console.debug(objEdicio.obroModalFrom);
+
 		}
 		jQuery('#dialog_estils_arees').modal('toggle');	
 				
@@ -646,42 +737,82 @@ function addDialegsEstils() {
 	})
 	
 	var hihaGlif=false;	
-	jQuery(document).on('click', ".bs-punts li", function(e) {
+	
+	jQuery(document).on('click', "#div_puntZ", function(e) {
 		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery(this).addClass("estil_selected");
+		estilP.iconFons=jQuery('div', this).attr('class');
+		jQuery('#div_punt0').removeClass();
+		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+		//if(!hihaGlif){
+		jQuery('#dv_cmb_punt').show();
+		//}else{
+		//	jQuery('#dv_cmb_punt').hide();	
+		var vv=jQuery('#cmb_mida_Punt').val();
+			jQuery('#div_punt0').css('width',vv+'px');
+			 jQuery('#div_punt0').css('height',vv+'px');
+			 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
+			 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
+			 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
+			 jQuery('#div_punt0').css('background-color',estilP.divColor);
+			 estilP.fontsize=(vv/2)+"px";
+			 estilP.size=vv;
+	
+	
+	});
+	jQuery(document).on('click', ".bs-punts li", function(e) {
+		
+		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery("#div_puntZ").removeClass("estil_selected");
+		
+		
 		jQuery('#div_punt0').removeClass();
 		estilP.iconFons=jQuery('div', this).attr('class');
 		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
 		jQuery(this).addClass("estil_selected");	
 		
-		if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
+		//if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
 			
-			//if(!hihaGlif){
-			jQuery('#dv_cmb_punt').show();
-			//}else{
-			//	jQuery('#dv_cmb_punt').hide();	
-			var vv=jQuery('#cmb_mida_Punt').val();
-				jQuery('#div_punt0').css('width',vv+'px');
-				 jQuery('#div_punt0').css('height',vv+'px');
-				 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-				 estilP.fontsize=(vv/2)+"px";
-				 estilP.size=vv;
+
+
+
+
+
+
+
+
+
+
+		
 			//}
-		}else{
+		//}else{
 			jQuery('#dv_cmb_punt').hide();
 			jQuery('#div_punt0').css('width','28px');
 			 jQuery('#div_punt0').css('height','42px');	
 			 jQuery('#div_punt0').css('font-size',"14px");
+			 estilP.divColor='transparent';
+			 jQuery('#div_punt0').css('background-color',estilP.divColor);
 			 estilP.fontsize="14px";
-		}
+
+		//}
 	});
 	
 	
 	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
-	    jQuery('#div_punt0').css('width',this.value+"px");
-		jQuery('#div_punt0').css('height',this.value+"px");
-		jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
-		estilP.fontsize=(this.value/2)+"px";
-		estilP.size=this.value;
+		
+		if(jQuery('#div_puntZ').hasClass("estil_selected")){
+			
+			jQuery('#div_punt0').css('width',this.value+"px");
+			jQuery('#div_punt0').css('height',this.value+"px");
+			jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
+			estilP.fontsize=(this.value/2)+"px";
+			estilP.size=this.value;
+		}
+	    jQuery('#div_punt9').css('width',this.value+"px");
+		jQuery('#div_punt9').css('height',this.value+"px");
+		jQuery('#div_punt9').css('font-size',(this.value/2)+"px");
+		
+		
 	});
 	
 	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
@@ -884,6 +1015,7 @@ function creaPopOverMevasDades(){
 
 			deleteTematicLayerAll(data).then(function(results){
 				console.debug(results);
+
 				if (results.status == "OK"){
 					_this.parent().remove();
 				}
@@ -905,6 +1037,7 @@ function creaPopOverMevasDades(){
 //			html : true,
 //			trigger : 'manual'
 //	});
+
 }
 
 function loadPopOverMevasDades(){
@@ -1110,6 +1243,8 @@ function creaPopOverDadesExternes() {
 					}
 				});
 
+
+
 				
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
@@ -1119,6 +1254,20 @@ function creaPopOverDadesExternes() {
 						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
 					}
 				});	
+				
+			}else if(tbA == "#id_srvj"){
+				jQuery(tbA).empty();
+				jQuery(tbA).html(_htmlServeisJSON.join(' '));
+				jQuery("#bt_connJSON").on('click', function(e) {
+					if(e.target.id !="#id_srvj"){
+						getServeiJSONP(jQuery("#txt_URLJSON").val());
+					}
+				});		
+				
+				
+				
+				
+		
 			}else if(tbA == "#id_xs"){//Jess
 				
 				jQuery(tbA).html(
@@ -1164,6 +1313,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		onEachFeature : popUp,
 		nom : dataset,
 		tipus : t_dades_obertes,
+
 		businessId : '-1',
 		dataType : "jsonp",
 		zIndex: lastZIndex,
@@ -1223,11 +1373,27 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		});
 		
 	}else{
+
 		capaDadaOberta.addTo(map)
 		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+
+
+
+
+
+
+
+
+
+
+
+
+
 		activaPanelCapes(true);
 	}
 	//capaDadaOberta.on('layeradd',objecteUserAdded)
+
+
 }
 
 
@@ -1317,8 +1483,17 @@ function loadMapConfig(mapConfig){
 			}
 		}
 			
+
+
+
+
+
+
+
+
 		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
+
 			if (value.epsg == "4326"){
 				value.epsg = L.CRS.EPSG4326;
 			}else if (value.epsg == "25831"){
@@ -1347,9 +1522,14 @@ function loadMapConfig(mapConfig){
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
 			
 			}else if(value.serverType == t_tematic){
+
+
 				loadTematicLayer(value);
 			}
 		});
+
+
+
 	}
 	
 	var source = $("#map-properties-template").html();
@@ -1797,6 +1977,7 @@ function loadDadesObertesLayer(layer){
 		onEachFeature : popUp,
 		nom : layer.serverName,
 		tipus : layer.serverType,
+
 		businessId : layer.businessId,
 		dataType : "jsonp",
 		zIndex: parseInt(layer.capesOrdre),
@@ -1862,16 +2043,36 @@ function loadWmsLayer(layer){
 }
 
 function loadTematicLayer(layer){
+
+
+
+
+
+
+
+
+
+
 	var data={
 		businessId: layer.businessId,
 		uid: $.cookie('uid')
 	};
 	
 	var layerWms = layer;
+
+
+
+
+
+
+
+
+
 	
 	console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayer(data).then(function(results){
 		console.timeEnd("loadTematicLayer " + layerWms.serverName);
+
 		if(results.status == "OK" ){
 			var tematic = results.results;
 			var Lgeom = tematic.geometries.features.features;
@@ -1890,6 +2091,11 @@ function loadTematicLayer(layer){
 				tipus : layerWms.serverType,
 				geometryType: tematic.geometryType
 			};
+
+
+
+
+
 			
 			for(var g=0;g<Lgeom.length;g++){
 				var geom = Lgeom[g];
@@ -1998,17 +2204,51 @@ function loadTematicLayer(layer){
 							k++;
 						}
 						featureTem = new L.Polygon(llistaPunts, rangStyle);
+
+
+
+
+
+
+
+
+
 					}
 					if (featureTem){
 						featureTem.properties = geom.properties;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 						capaTematic.addLayer(featureTem);
+
+
+
+
+
 					}
+
+
+
+
+
 				}
 			}
 			if (capaTematic!=null){
 				capaTematic.addTo(map);
 				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
 			}
+
 		}else{
 			alert("Error getTematicLayer");
 		}
@@ -2016,6 +2256,12 @@ function loadTematicLayer(layer){
 	},function(results){
 		console.debug('getTematicLayer ERROR');
 	});
+
+
+
+
+
+
 }
 
 function toggleCollapseTwitter(){

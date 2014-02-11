@@ -9,15 +9,22 @@ function retornaEstilaDO(dataset) {
 	else if(dataset=="campings"){ estil.fillColor = "#62A50B";}
 	else if(dataset=="meteo_comarca"){ estil.fillColor = "#200BA5";}
 	else if(dataset=="meteo_costa"){ estil.fillColor = "#E1EA3A";}
-	else{ estil.fillColor = "#CCDD00";}
+	else if(dataset=="json"){ estil.fillColor =randomColor(); }	
+	else{ estil.fillColor = randomColor();}
 
-	return estil;
+return estil;
+
+
 }
 
+function randomColor(){
+	
+	return '#'+Math.floor(Math.random()*16777215).toString(16);
+	
+}
+
+
 function tradueixMenusToolbar() {
-	// L.drawLocal.draw.toolbar.buttons.polygon = 'Dibuixa un polígon';
-	// L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Arrastra i marca una
-	// area';
 
 	L.drawLocal = {
 		draw : {

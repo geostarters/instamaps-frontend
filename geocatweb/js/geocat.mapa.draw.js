@@ -16,6 +16,7 @@ var opcionsSel={
 	fillOpacity: 0.1
 };
 
+
 //drawControl.options.edit.selectedPathOptions
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -26,13 +27,21 @@ function hexToRgb(hex) {
     } : null;
 }
 
+
+
 function obrirMenuModal(_menuClass,estat,_from){
+
 	objEdicio.obroModalFrom=_from;	
 	jQuery('.modal').modal('hide');	
 	jQuery(_menuClass).modal(estat);
 }
 
+
+
+
 function initCanvas(){
+
+
 	addGeometryInitP(document.getElementById(canvas_pol.id));
 	addGeometryInitP(document.getElementById(canvas_pol.id+"0"));
 	addGeometryInitL(document.getElementById(canvas_linia.id));	
@@ -43,10 +52,12 @@ function initCanvas(){
     $('.fill_color_pol').css('color',e.color);
     	canvas_pol.fillStyle="rgba("+hexToRgb(e.color).r+", "+hexToRgb(e.color).g+", "+hexToRgb(e.color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
+
     });	
     
     $('#colorpalette_pl').colorPalette().on('selectColor', function(e) {   	
     $('.border_color_pol').css('border-color',e.color);
+
     	canvas_pol.strokeStyle=e.color;
     	addGeometryInitP(document.getElementById("cv_pol0"));  
     });
@@ -55,8 +66,12 @@ function initCanvas(){
     $('.border_color_linia').css('background-color',e.color);
 		canvas_linia.strokeStyle=e.color;
 		addGeometryInitL(document.getElementById("cv_linia0"));
+
 	});
     	 
+
+
+
 	$('#colorpalette_icon').colorPalette().on('selectColor', function(e) {  
 		 $('.fill_color_icon').css('background-color',e.color);
 			estilP.colorGlif=e.color;
@@ -71,26 +86,56 @@ function initCanvas(){
 			jQuery(this).addClass("estil_selected");
 	});
 	
+
+
+
+	$('#colorpalette_punt').colorPalette().on('selectColor', function(e) {  
+		 $('.fill_color_punt').css('background-color',e.color);
+			
+		 console.info(jQuery('#div_puntZ').hasClass("estil_selected"));
+		 if(jQuery('#div_puntZ').hasClass("estil_selected")){
+				
+			 estilP.divColor=e.color;
+				
+				jQuery('#div_punt0').css('background-color',estilP.divColor);
+			}
+		    jQuery('#div_punt9').css('background-color',e.color);
+			
+		});
+
+
+
+
+
 	jQuery("#cmb_trans").on('change', function(e) { 
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
     	
     	canvas_pol.opacity=jQuery(this).val();
     	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+canvas_pol.opacity+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
+
     });
     
     jQuery("#cmb_gruix").on('change', function(e) { 
     	canvas_pol.lineWidth=jQuery(this).val();
     	addGeometryInitP(document.getElementById("cv_pol0"));
+
     });
     
     jQuery("#cmb_gruix_l").on('change', function(e) { 
     	canvas_linia.lineWidth=jQuery(this).val();
     	addGeometryInitL(document.getElementById("cv_linia0"));
+
     });
+
+
+
+
 }
 
 var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+
+
 
 function rgb2hex(rgb) {
 	rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)\)$/);
@@ -132,6 +177,7 @@ function addGeometryInitL(canvas){
 function addGeometryInitP(canvas){
 	var	cv_ctx_p=canvas.getContext("2d");
 	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
+
 	cv_ctx_p.moveTo(5.13,15.82);
 	cv_ctx_p.lineTo(25.49,5.13);
 	cv_ctx_p.lineTo(37.08,13.16);
@@ -143,7 +189,9 @@ function addGeometryInitP(canvas){
 	cv_ctx_p.lineWidth=canvas_pol.lineWidth;
 	cv_ctx_p.fill();
 	cv_ctx_p.stroke(); 
+
 }
+
 
 function addDrawToolbar() {
 	initCanvas();
@@ -154,6 +202,7 @@ function addDrawToolbar() {
 		zIndex :  -1,
 		tipus : t_tematic,
 		geometryType: t_marker
+
 	};
 	capaUsrLine = new L.FeatureGroup();
 	capaUsrLine.options = {
@@ -162,6 +211,7 @@ function addDrawToolbar() {
 		zIndex :  -1,
 		tipus : t_tematic,
 		geometryType: t_polyline
+
 	};
 	capaUsrPol = new L.FeatureGroup();
 	capaUsrPol.options = {
@@ -170,6 +220,7 @@ function addDrawToolbar() {
 		zIndex :  -1,
 		tipus : t_tematic,
 		geometryType: t_polygon
+
 	};
 	
 	map.addLayer(capaUsrPunt);
@@ -181,18 +232,25 @@ function addDrawToolbar() {
 			shadowUrl : null,
 			iconAnchor : new L.Point(14, 40),
 			iconSize : new L.Point(28, 40)
+
 		}
 	});
 	
+
+
 	defaultPunt= L.AwesomeMarkers.icon({
 		icon : '',
 		markerColor : 'orange',
+		divColor:'transparent',
 		iconAnchor : new L.Point(14, 42),
 		iconSize : new L.Point(28, 42),
 		iconColor : '#000000',
+		opacity:0.8,
 		prefix : 'fa',
 		tipus: t_marker
 	});
+
+
 
 	var options = {
 		draw : false,
@@ -223,23 +281,40 @@ function addDrawToolbar() {
 		},
 		
 		edit : false
+
 	};
 
 	drawControl = new L.Control.Draw(options);
 	map.addControl(drawControl);
+
+
+
+
 }
 
+
+
+
 function showEditText(accio){
+
 	jQuery('.search-edit').animate({
 		height :accio
 	});
+
 }
 
 function activaEdicioUsuari() {
+
+
+
 	jQuery('#div_punt').on('click', function() {
 		if(featureActive){featureActive.disable();}
+
 		 featureActive = new L.Draw.Marker(map, drawControl.options.marker);		 
 		featureActive.enable();
+
+
+
 	});
 
 	jQuery('#div_linia').on('click', function() {
@@ -255,14 +330,18 @@ function activaEdicioUsuari() {
 	});
 
 	map.on('draw:drawstart',function(e){
+
 		//showEditText('show');
 		objEdicio.esticEnEdicio=true;
+
 	});
 	
 	map.on('click',function(e){
+
 		if(crt_Editing){
 			crt_Editing.disable();
 		}
+
 		if(objEdicio.esticEnEdicio){
 			if(crt_Editing){
 				crt_Editing.disable();
@@ -270,12 +349,15 @@ function activaEdicioUsuari() {
 			updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id);			
 			//featureActive.enable();	
 		}
+
 	});
 	
 	map.on('preclick',function(e){
+
 		if(crt_Editing){
 			crt_Editing.disable();
 		}
+
 		//if(objEdicio.esticEnEdicio){
 			//if(crt_Editing){
 			//crt_Editing.disable();
@@ -304,10 +386,18 @@ function activaEdicioUsuari() {
 			tipusCat=window.lang.convert('Titol Punt');
 			tipusCatDes=window.lang.convert('Descripcio Punt');
 			
-			layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
-							{icon: defaultPunt, 
-							 tipus: t_marker}).addTo(map);
-
+			if(defaultPunt.options.icon!=""){
+				layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
+					{icon: defaultPunt, 
+					 tipus: t_marker}).addTo(map);
+			}else{
+				layer= L.circleMarker([layer.getLatLng().lat,layer.getLatLng().lng],
+					 { radius : parseInt(parseInt(defaultPunt.options.iconSize.x)/3), 
+					 fillColor : defaultPunt.options.divColor,
+					 color : "#dddddd", weight : 2,
+					  opacity : 1, fillOpacity : 0.9, tipus: t_marker}).addTo(map);
+			}
+			
 			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_marker){
 				capaUsrActiva.removeEventListener('layeradd');
 				capaUsrActiva=capaUsrPunt;
@@ -418,9 +508,172 @@ function finishAddFeatureToTematic(layer){
 		//actualitzem popup
 		var html = createPopUpContent(layer,layer.options.tipus);
 		layer.setPopupContent(html);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		jQuery('#titol_pres').text(layer.properties.name).append(' <i class="glyphicon glyphicon-pencil blau"></i>');	
 		jQuery('#des_pres').text(layer.properties.description).append(' <i class="glyphicon glyphicon-pencil blau"></i>');		
+
+
+
+
+
 	});	
+
+
+
+
 	
 	jQuery(document).on('click', "#titol_pres", function(e) {
 		modeEditText();
@@ -430,8 +683,12 @@ function finishAddFeatureToTematic(layer){
 		modeEditText();
 	});
 
+
+
+
 	jQuery(document).on('click', ".bs-ncapa li a", function(e) {
 		e.preventDefault();
+
 		var accio;
 		if(jQuery(this).attr('id').indexOf('#')!=-1){			
 			accio=jQuery(this).attr('id').split("#");				
@@ -439,20 +696,25 @@ function finishAddFeatureToTematic(layer){
 		
 		objEdicio.featureID=accio[1];
 		if(accio[0].indexOf("layer_edit")!=-1){
+
 			objEdicio.edicioPopup='textCapa';
 			jQuery('#layer_accio').text(window.lang.convert('Canviar nom capa'))
 			jQuery('#capa_edit').val(jQuery('#cmbCapesUsr').val());
 			modeLayerTextEdit();
+
 		}else if(accio[0].indexOf("layer_add")!=-1){
 			objEdicio.edicioPopup='nouCapa';
 			jQuery('#layer_accio').text(window.lang.convert('Nom nova capa'))
 			jQuery('#capa_edit').val("").attr('placeholder',window.lang.convert('Nova capa'));
 			modeLayerTextEdit();
 
+
 		}else{
 			
 		}
+
 		//bs-ncapa	
+
 	});
 	
 	 jQuery(document).on('focus', ".bs-ncapa li select", function(e) {
@@ -525,13 +787,16 @@ function finishAddFeatureToTematic(layer){
 		objEdicio.featureID=accio[1];
 		
 		if(accio[0].indexOf("feature_edit")!=-1){
+
 			if(accio[2].indexOf("marker")!=-1){
 				obrirMenuModal('#dialog_estils_punts','toggle','creaPopup');
 			}else if(accio[2].indexOf("polygon")!=-1){
 				obrirMenuModal('#dialog_estils_arees','toggle','creaPopup');
 			}else{
+
 				obrirMenuModal('#dialog_estils_linies','toggle','creaPopup');
 			}
+
 		}else if(accio[0].indexOf("feature_remove")!=-1){
 			map.closePopup();
 			var data = {
@@ -550,22 +815,34 @@ function finishAddFeatureToTematic(layer){
 			},function(results){
 				console.debug("ERROR deleteFeature");
 			});	
+
 			
 		}else if(accio[0].indexOf("feature_text")!=-1){
+
+
 			modeEditText();
 			
 		}else if(accio[0].indexOf("feature_move")!=-1){
+
 			
 			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;						
 			//Actualitzem capa activa
 			capaUsrActiva.removeEventListener('layeradd');
 			capaUsrActiva = map._layers[capaLeafletId];
 			//capaUsrActiva.on('layeradd',objecteUserAdded);				
+
+
+
+
+
 			
 			var capaEdicio = new L.FeatureGroup();
 			capaEdicio.addLayer(map._layers[objEdicio.featureID]);
 			capaUsrActiva.removeLayer(map._layers[objEdicio.featureID]);
 			map.addLayer(capaEdicio);
+
+
+
 			
 			crt_Editing=new L.EditToolbar.Edit(map, {
 				featureGroup: capaEdicio,
@@ -573,21 +850,44 @@ function finishAddFeatureToTematic(layer){
 			});
 			crt_Editing.enable();
 			map.closePopup();
+
 			
+
+
+
+
+
+
+
+
+
+
+
 		}else if(accio[0].indexOf("feature_no")!=-1){
+
 			jQuery('.popup_pres').show();
 			jQuery('.popup_edit').hide();
 			
+
 		}else if(accio[0].indexOf("feature_ok")!=-1){
+
 			if(objEdicio.edicioPopup=='textFeature'){
+
 				var txtTitol=jQuery('#titol_edit').val();
 				var txtDesc=jQuery('#des_edit').val();
 				
 				updateFeatureNameDescr(map._layers[objEdicio.featureID],txtTitol,txtDesc);
 
+
 //				map._layers[objEdicio.featureID].properties.name=txtTitol;
 //				map._layers[objEdicio.featureID].properties.description=txtDesc;
 				
+
+
+
+
+
+
 
 			}else if(objEdicio.edicioPopup=='textCapa'){
 				if(jQuery('#capa_edit').val()!=""){
@@ -596,21 +896,34 @@ function finishAddFeatureToTematic(layer){
 					jQuery('.popup_edit').hide();
 				}else{
 					alert(window.lang.convert('Has de posar un nom de capa'));	
+
 				}
 			}else if(objEdicio.edicioPopup=='nouCapa'){
+
 				if(jQuery('#capa_edit').val()!=""){
 //					jQuery('#cmbCapesUsr').append("<option selected value=\""+jQuery('#capa_edit').val()+"\">"+jQuery('#capa_edit').val()+"</option>");	
 //					jQuery('.popup_pres').show();
 //					jQuery('.popup_edit').hide();
+
 					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val());
+
 				}else{
 					alert(window.lang.convert('Has de posar un nom de capa'));	
+
 				}
+
 			}
+
+
+
+
+
 		}else{
 		//accio tanca
 			map.closePopup();
 		}
+
+
 	});	
 }
 
@@ -664,13 +977,22 @@ function updateFeatureMove(featureID, capaEdicioID){
 	}else if(layer.properties.tipusFeature == t_polygon){
 		//TODO
 	}
+
 	
 	var features = JSON.stringify(feature);
+
+
 	
     var data = {
 			uid : jQuery.cookie('uid'),
 			features : features,
 			businessId: layer.properties.businessId
+
+
+
+
+
+
 		};
     
     updateFeature(data).then(function(results){
@@ -779,6 +1101,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				jQuery('.popup_pres').show();
 				jQuery('.popup_edit').hide();
 				
+
 				map.addLayer(capaUsrActiva2);
 				controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
 				activaPanelCapes(true);
@@ -826,7 +1149,14 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 	);
 }
 
+
+
+
+
 function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusinessId){
+
+
+
 	
 	var data = {
 			uid: $.cookie('uid'),
@@ -846,14 +1176,25 @@ function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusi
 		},function(results){
 			console.debug("moveFeatureToTematic ERROR");
 		});	
+
+
+
+
+
+
+
 }
 
 function modeLayerTextEdit(){
+
 	jQuery('#capa_txt').show();
 	jQuery('#feature_txt').hide();
 	jQuery('.popup_pres').hide();
 	jQuery('.popup_edit').show();	
+
+
 }
+
 
 function modeEditText(){
 	objEdicio.edicioPopup='textFeature';
@@ -866,3 +1207,6 @@ function modeEditText(){
 	jQuery('.popup_pres').hide();
 	jQuery('.popup_edit').show();	
 }
+
+
+

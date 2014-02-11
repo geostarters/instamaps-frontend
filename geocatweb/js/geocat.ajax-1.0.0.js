@@ -429,3 +429,18 @@ function deleteRandomUser(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+
+
+function getJSONPServei(url){
+	return jQuery.ajax({
+		url: paramUrl.json2jsonp,
+		data: {url:url},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise()
+	.fail(function(msg,err) {
+	console.info(err);
+	})
+}
