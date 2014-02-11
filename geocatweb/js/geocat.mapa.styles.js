@@ -9,11 +9,20 @@ function retornaEstilaDO(dataset) {
 	else if(dataset=="campings"){ estil.fillColor = "#62A50B";}
 	else if(dataset=="meteo_comarca"){ estil.fillColor = "#200BA5";}
 	else if(dataset=="meteo_costa"){ estil.fillColor = "#E1EA3A";}
-	else if(dataset=="json"){ estil.fillColor = '#'+Math.floor(Math.random()*16777215).toString(16);}	
-	else{ estil.fillColor = '#'+Math.floor(Math.random()*16777215).toString(16);}
+	else if(dataset=="json"){ estil.fillColor =randomColor(); }	
+	else{ estil.fillColor = randomColor();}
 
 return estil;
+
+
 }
+
+function randomColor(){
+	
+	return '#'+Math.floor(Math.random()*16777215).toString(16);
+	
+}
+
 
 function tradueixMenusToolbar() {
 
