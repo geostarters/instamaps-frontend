@@ -86,6 +86,7 @@ var urls = {
 	createRang: HOST_APP+"layers/tematic/createRang.action?",
 	updateRang: HOST_APP+"layers/tematic/updateRang.action?",
 	deleteRang: HOST_APP+"layers/tematic/deleteRang.action?",
+	updateTematicRangs: HOST_APP+"layers/tematic/updateTematicRangs.action?",
 	updateGeometriesTematicLayer: HOST_APP+"layers/tematic/updateGeometriesTematicLayer.action?",
 	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
@@ -3528,6 +3529,62 @@ asyncTest( "updateCapesTematicLayer", 3, function() {
 		start();
 	});	
 });
+
+asyncTest( "updateTematicRangs", 1, function() {
+	var rangs = JSON.stringify({rangs:[{
+		llegenda: 'si',
+		valorMax: 'si',
+		//valorMax: ,
+		color: '#0000ff',
+		simbolSize: 16, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 90,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	},{
+		llegenda: 'no',
+		valorMax: 'no',
+		//valorMax: ,
+		color: '#ff0000',
+		simbolSize: 16, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 80,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	}]});
+		
+	$.ajax({
+		url: urls.updateTematicRangs,
+		data: {
+			businessId: 'a24b6827d46dadf5cca4fa09069583f0',
+			uid: 'wszczerban',
+			rangs: rangs
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
 
 asyncTest( "createTematicLayerFeature", 3, function() {
 	var features = JSON.stringify({type:'Feature',

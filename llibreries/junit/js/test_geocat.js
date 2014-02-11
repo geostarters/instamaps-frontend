@@ -85,6 +85,7 @@ var urls = {
 	createRang: HOST_APP+"layers/tematic/createRang.action?",
 	updateRang: HOST_APP+"layers/tematic/updateRang.action?",
 	deleteRang: HOST_APP+"layers/tematic/deleteRang.action?",
+	updateTematicRangs: HOST_APP+"layers/tematic/updateTematicRangs.action?",
 	updateGeometriesTematicLayer: HOST_APP+"layers/tematic/updateGeometriesTematicLayer.action?",
 	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
@@ -121,40 +122,53 @@ asyncTest( "login", 1, function() {
 	});	
 });
 
-asyncTest( "moveFeatureToTematic", 1, function() {
+asyncTest( "updateTematicRangs", 1, function() {
+	var rangs = JSON.stringify({rangs:[{
+		llegenda: 'si',
+		valorMax: 'si',
+		//valorMax: ,
+		color: '#0000ff',
+		simbolSize: 16, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 90,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	},{
+		llegenda: 'no',
+		valorMax: 'no',
+		//valorMax: ,
+		color: '#ff0000',
+		simbolSize: 16, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 80,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	}]});
+		
 	$.ajax({
-		url: urls.moveFeatureToTematic,
+		url: urls.updateTematicRangs,
 		data: {
-			businessId: '113d03ef4c34c7534215802dc2114260', //businessId de la feature
-            fromBusinessId: '11950dd7ba6beb2eff35d21a935c39c3', //businessId del tematico de origen
-            toBusinessId: '4c216bc1cdd8b3a69440b45b2713b090', //businessId del tematico de destino
+			businessId: 'a24b6827d46dadf5cca4fa09069583f0',
 			uid: 'wszczerban',
+			rangs: rangs
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
 		equal(results.status,"OK",JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "moveFeatureToTematic", 1, function() {
-	$.ajax({
-		url: urls.moveFeatureToTematic,
-		data: {
-			businessId: '113d03ef4c34c7534215802dc2114260', //businessId de la feature
-            toBusinessId: '11950dd7ba6beb2eff35d21a935c39c3', //businessId del tematico de origen
-            fromBusinessId: '4c216bc1cdd8b3a69440b45b2713b090', //businessId del tematico de destino
-			uid: 'wszczerban',
-		},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",JSON.stringify(results));
+		
 		start();
 	}).fail(function(results){
 		console.debug(results);

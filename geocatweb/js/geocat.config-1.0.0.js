@@ -68,7 +68,8 @@ var paramUrl = {
 	deleteServidorWMS: HOST_APP+"geocat/layers/servidor/wms/deleteServidorWMS.action?",
 	addFeatureToTematic: HOST_APP+"geocat/layers/tematic/addFeatureToTematic.action?",
 	shortUrl : "http://api.bit.ly/v3/shorten",
-	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?"
+	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
+	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
@@ -79,10 +80,8 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 });
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
-//	if ( settings.url == "ajax/test.html" ) {
 	$('.waiting_animation').hide();
 	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
 		sessionExpired();
 	}
-//	}
 });

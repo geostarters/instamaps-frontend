@@ -892,8 +892,7 @@
 	</div>
 	<!-- /.modal -->
 	<!-- fi Modal Carrega dades -->
-	
-		
+			
 	<!-- Modal expired -->
 	<div class="modal fade" id="dialog_session_expired">
 		<div class="modal-dialog">
@@ -971,6 +970,38 @@
 	<!-- /.modal -->
 	<!-- fi Modal expired -->
 
+	<!-- Modal Dades Externes -->
+	<div class="modal fade" id="dialog_layers_tematic">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Triar l'estil del mapa</h4>
+				</div>
+				<div class="modal-body">
+					<script id="tematic-layers-template" type="text/x-handlebars-template">
+					<ul class="bs-dadesO">
+						{{#each layers}}
+						<a class="usr_wms_layer label label-wms" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a>
+						{{/each}}
+					</ul>	
+					</script>
+					<div id="list_tematic_layers"></div>
+				</div>
+				<div class="modal-footer">
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+         <button type="button" class="btn btn-success">Canviar</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal Dades Externes -->
+
+
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -987,6 +1018,7 @@
 
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
 
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.styles.js" type="text/javascript"></script>

@@ -348,7 +348,7 @@ function getTematicLayer(data){
 	return jQuery.ajax({
 		url: paramUrl.getTematicLayer,
 		data: data,
-		dataType: 'jsonp'
+		dataType: 'jsonp',
 	}).promise();
 }
 
@@ -369,3 +369,11 @@ function getWMSLayers(url){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function updateTematicRangs(data){
+	return jQuery.ajax({
+		url: paramUrl.updateTematicRangs,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}	

@@ -112,6 +112,12 @@ jQuery(document).ready(function() {
 	jQuery('#dialgo_leave .btn-primary').on('click',function(){
 		leaveMapa();
 	});
+	
+	//botons tematic
+	jQuery('#st_Color').on('click',function(){
+		showTematicLayersModal('simpleTematic');
+	});
+	
 
 //	$('#add_twitter_layer').click(function(){
 //		$('#twitter-collapse').toggle()();
@@ -556,15 +562,16 @@ function addDialegsEstils() {
 			
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
+		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
 		}else{
-			//pensat per tematics
+			console.debug(objEdicio.obroModalFrom);
 		}
 		
 		jQuery('#dialog_estils_punts').modal('toggle');				
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
-		
 		if(objEdicio.obroModalFrom=="creaCapa"){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
 			jQuery('#dialog_estils_linies').modal('toggle');		
@@ -572,24 +579,26 @@ function addDialegsEstils() {
 			changeDefaultLineStyle(canvas_linia);
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
+		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else{
-			
+			console.debug(objEdicio.obroModalFrom);
 		}
 		jQuery('#dialog_estils_linies').modal('toggle');			
 	});
 	
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom=="creaCapa"){
-			
-		addGeometryInitP(document.getElementById("cv_pol"));  
-		jQuery('#dialog_estils_arees').modal('toggle');		
-		//changeDefaultVectorStyle(canvas_pol);
-		changeDefaultAreaStyle(canvas_pol);
-		
+			addGeometryInitP(document.getElementById("cv_pol"));  
+			jQuery('#dialog_estils_arees').modal('toggle');		
+			//changeDefaultVectorStyle(canvas_pol);
+			changeDefaultAreaStyle(canvas_pol);
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
+		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else{
-			
+			console.debug(objEdicio.obroModalFrom);
 		}
 		jQuery('#dialog_estils_arees').modal('toggle');	
 				
@@ -1684,7 +1693,7 @@ function myRemoveLayer(obj){
 }
 
 function updateEditableElements(){
-	console.debug('updateEditableElements');
+	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
 		type: 'text',
 			success: function(response, newValue) {
@@ -1820,7 +1829,6 @@ function loadTematicLayer(layer){
 	console.time("loadTematicLayer " + layerWms.serverName);
 	
 	getTematicLayer(data).then(function(results){
-		
 		console.timeEnd("loadTematicLayer " + layerWms.serverName);
 		if(results.status == "OK" ){
 			var tematic = results.results;
@@ -1828,6 +1836,7 @@ function loadTematicLayer(layer){
 			var Lgeom = tematic.geometries.features.features;
 			var idDataField = tematic.idDataField;
 			var idGeomField = tematic.idGeomField;
+			var dataField = tematic.dataField;
 			var Lrangs = tematic.rangs;
 			var Ldades = (tematic.capes ? tematic.capes.dades : []);
 			
@@ -1841,16 +1850,17 @@ function loadTematicLayer(layer){
 				geometryType: tematic.geometryType
 			};
 			
-			/*
-			if (Lgeom.length > 10){
-				Lgeom.length = 500;
-			}
-			*/
-						
-			for(var i=0;i<Lgeom.length;i++){
-				var geom = Lgeom[i];
+			for(var g=0;g<Lgeom.length;g++){
+				var geom = Lgeom[g];
 				var rangStyle;
 				if (geom.geometry){
+					var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
+					if (dataGeom.length > 0){
+						dataGeom = dataGeom[0];
+						jQuery.extend(geom.properties, {data: dataGeom});
+					}else{
+						dataGeom = null;
+					}
 					var ftype = geom.geometry.type;
 					ftype = ftype.toLowerCase();
 					if (ftype === t_point){
@@ -1867,9 +1877,36 @@ function loadTematicLayer(layer){
 							rangStyle = default_area_style;
 						}
 					}else if (Lrangs.length == 1){
-						
+						rangStyle = Lrangs[0];
+						if (ftype === t_marker){
+							rangStyle = L.AwesomeMarkers.icon(rangStyle);
+						}
 					}else{
-						
+						if (dataGeom){
+							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
+							if (rangStyle.length > 0){
+								rangStyle = rangStyle[0];
+								if (ftype === t_marker){
+									rangStyle = L.AwesomeMarkers.icon(rangStyle);
+								}
+							}else{
+								if (ftype === t_marker){
+									rangStyle = L.AwesomeMarkers.icon(default_point_style);
+								}else if (ftype === t_polyline){
+									rangStyle = default_line_style;
+								}else if (ftype === t_polygon){
+									rangStyle = default_area_style;
+								}
+							}
+						}else{
+							if (ftype === t_marker){
+								rangStyle = L.AwesomeMarkers.icon(default_point_style);
+							}else if (ftype === t_polyline){
+								rangStyle = default_line_style;
+							}else if (ftype === t_polygon){
+								rangStyle = default_area_style;
+							}
+						}
 					}
 					var featureTem;
 					if (ftype === t_marker){
@@ -1908,101 +1945,15 @@ function loadTematicLayer(layer){
 						featureTem = new L.Polygon(llistaPunts, rangStyle);
 					}
 					if (featureTem){
+						featureTem.properties = geom.properties;
 						capaTematic.addLayer(featureTem);
 					}
 				}
 			}
-			
 			if (capaTematic!=null){
 				capaTematic.addTo(map);
 				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
 			}
-			
-			/*
-			//for(var i=0;i<Lgeom.length;i++){
-			for(var i=0;i<10;i++){
-				var geom = Lgeom[i];
-				if(geom.properties[''+idGeomField+''] == Ldades[i][''+idDataField+''] ){
-					//Cerquem el rang que toca entre tots els possibles
-					var rang;
-					for(var j=0;j<Lrangs.length;j++){
-						if(Lrangs[i].valorMax == geom.properties[''+idGeomField+''] ){
-							rang = Lrangs[i];
-							break;
-						} 
-					}
-					if(rang!= null && tematic.geometryType === t_marker){
-						
-						var rangPunt = L.AwesomeMarkers.icon({
-							icon : rang.simbol,
-							markerColor : rang.marker,
-							iconAnchor : new L.Point(14, 42),
-							iconSize : new L.Point(28, 42),
-							iconColor : rang.simbolColor,
-							prefix : 'fa'
-						});							
-						
-						var layer=L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
-								 {icon: rangPunt}).addTo(map);
-						capaTematic.addLayer(layer);						
-						
-					}else if (rang!= null && tematic.geometryType === t_polyline){
-						console.debug('Estil t_polyline');
-					}else if (rang!= null && tematic.geometryType === t_polygon){
-						console.debug('Estil t_polygon');
-					}					
-				}else{//No te estil definit, el pintem amb un estil per defecte
-					//console.debug('Estil per defecte');
-					if (tematic.geometryType === t_marker){
-						console.debug('Estil t_marker');
-						console.debug(geom);
-						var coords=geom.geometry.coordinates;
-						var latlng = L.latLng(coords[0],coords[1]);
-						var circle=L.circleMarker(latlng,200);
-						capaTematic.addLayer(circle);
-					}else if(tematic.geometryType === t_polyline){
-						console.debug('Estil t_polyline');
-						var coords=geom.geometry.coordinates;
-						var i=0;
-						var j=0;
-						var llistaPunts=[];
-						while (i< coords.length){
-							var c1=coords[i];
-							var c2=coords[i+1];
-							var punt=new L.LatLng(c1, c2);
-							llistaPunts[j]=punt;
-							i=i+2;
-							j++;
-						}
-						var polyline =  L.polyline(llistaPunts, {color: 'red'});						
-						capaTematic.addLayer(polyline);
-					}else if(tematic.geometryType === t_polygon){
-						//console.debug('Estil t_polygon');
-						//console.debug(geom);
-						try{
-							var coords=geom.geometry.coordinates;
-							var i=0;
-							var j=0;
-							var llistaPunts=[];
-							while (i< coords.length){
-								var c1=coords[i];
-								var c2=coords[i+1];
-								var punt=new L.LatLng(c1, c2);
-								llistaPunts[j]=punt;
-								i=i+2;
-								j++;
-							}
-							var polygon = new L.Polygon(llistaPunts,{color: 'red'});
-							capaTematic.addLayer(polygon);
-							//var polygon = new L.Polygon(llistaPunts,default_area_style);
-							//capaTematic.addLayer(polygon);
-						}catch(err){
-							
-						}
-					}
-				}
-			}
-			*/
 		}else{
 			alert("Error getTematicLayer");
 		}
@@ -2029,16 +1980,139 @@ function createNewMap(){
 		uid: $.cookie('uid'),
 		visibilitat: 'O',
 		tipusApp: 'vis',
-	}
+	};
 	
 	createMap(data).then(function(results){
 		if (results.status == "ERROR"){
 			//TODO Mensaje de error
 		}else{
 			mapConfig = results.results;
-			mapConfig.options = $.parseJSON( mapConfig.options );
+			mapConfig.options = jQuery.parseJSON( mapConfig.options );
 			jQuery('#businessId').val(mapConfig.businessId);
 			mapConfig.newMap = false;
 		}
 	});
+}
+
+function showTematicLayersModal(tipus){
+	jQuery('.modal').modal('hide');
+	jQuery('#dialog_layers_tematic').modal('show');
+	var layers = [];
+	jQuery.each( controlCapes._layers, function( key, value ) {
+		if (this.layer.options.geometryType == t_marker){
+			layers.push(this);
+		}else if (this.layer.options.geometryType == t_polyline){
+			layers.push(this);
+		}else if (this.layer.options.geometryType == t_polygon){
+			layers.push(this);
+		}
+	});
+	
+	layers = {layers: layers};
+
+	var source = jQuery("#tematic-layers-template").html();
+	var template = Handlebars.compile(source);
+	var html = template(layers);
+	$('#list_tematic_layers').html(html);
+	
+	$('.usr_wms_layer').on('click',function(e){
+		var _this = jQuery(this);
+		var data = _this.data();
+		data.from = tipus;
+		if (data.geometrytype == t_marker){
+			obrirMenuModal('#dialog_estils_punts','toggle',data);
+		}else if (data.geometrytype == t_polyline){
+			obrirMenuModal('#dialog_estils_linies','toggle',data);
+		}else if (data.geometrytype == t_polygon){
+			obrirMenuModal('#dialog_estils_arees','toggle',data);
+		}
+	});
+}
+
+function changeTematicLayerStyle(tematic, styles){
+	var rangs = getRangsFromStyles(tematic, styles);
+	console.debug(rangs);
+	rangs = JSON.stringify({rangs:rangs});
+	
+	
+	var data = {
+		businessId: tematic.businessid,
+		uid: $.cookie('uid'),
+		rangs: rangs
+	};
+	
+	updateTematicRangs(data).then(function(results){
+		console.debug(results);
+	});
+		
+	if (jQuery.isArray(styles)){
+		
+	}else{
+		var layer = controlCapes._layers[tematic.leafletid];
+		if (tematic.geometrytype == t_marker){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setIcon(styles);
+			});
+		}else if (tematic.geometrytype == t_polyline){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setStyle(styles);
+			});
+		}else if (tematic.geometrytype == t_polygon){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setStyle(styles);
+			});
+		}
+	}
+}
+
+function getRangsFromStyles(tematic, styles){
+	console.debug(styles);
+	var rangs = [];
+	if (jQuery.isArray(styles)){
+		
+	}else{
+		if (tematic.geometrytype == t_marker){
+			var rang = {
+				simbol: jQuery.trim(styles.options.icon),
+				simbolSize: styles.options.iconSize.y, 
+				simbolColor: styles.options.iconColor, 
+				marker: styles.options.markerColor
+			};
+		}else if (tematic.geometrytype == t_polyline){
+			/*var rang = {
+				borderWidth: 2,
+				borderColor: '#000000',
+				color: styles.options.iconColor,
+				label: false,
+				labelColor: '#000000',
+				labelFont: 'arial',
+				labelHaloColor: '#ffffff',
+				labelHaloWidth: 2,
+				labelSize: 10,
+				lineWidth: styles.lineWidth,
+				lineStyle: 'solid',			
+				llegenda: '',
+				opacity: (styles.opacity * 100),
+				poligonStyle: '',
+				simbol: styles.options.icon,
+				simbolSize: , 
+				simbolColor: styles.options.markerColor, 
+				valorMax: '',
+				valorMin: '',
+				marker: ''
+			};
+			*/
+		}else if (tematic.geometrytype == t_polygon){
+			console.debug(styles.fillColor);
+			styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
+			var rang = {
+				borderWidth: styles.weight,
+				borderColor: styles.color,
+				color: styles.fillColor,
+				opacity: (styles.fillOpacity * 100)
+			};
+		}
+		rangs.push(rang);
+	}
+	return rangs;
 }
