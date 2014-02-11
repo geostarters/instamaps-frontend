@@ -303,28 +303,6 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-
-	<div id="dialgo_leave" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
-				</div>
-				<div class="modal-body">
-					El mapa no ha sido guardado. Deseas eliminar el mapa?
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Cancel·lar</button>
-					<button lang="ca" type="button" class="btn btn-primary">Eliminar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
 	
 	<div class="modal fade" id="modal_twitter_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog my-modal-dialog-xs">
@@ -1014,26 +992,28 @@
 				</div>
 				<div class="modal-body">
 					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Valors</span>:</div>
-					<select name="dataField" id="dataField">
 					<script id="tematic-layers-fields" type="text/x-handlebars-template">
 						{{#each fields}}
 						<option value="{{this}}">{{@key}}</option>
 						{{/each}}
 					</script>
+					<select name="dataField" id="dataField">
 					</select>
 					
-					<script id="tematic-layers-template" type="text/x-handlebars-template">
-					<ul class="bs-dadesO">
-						{{#each layers}}
-						<a class="usr_wms_layer label label-wms" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a>
+					<script id="tematic-values-template" type="text/x-handlebars-template">
+					<table class="table">
+						<tbody>
+						{{#each values}}
+						<tr><td>{{v}}</td><td>{{style}}</td></tr>
 						{{/each}}
-					</ul>	
+						</tbody>
+					</table>	
 					</script>
-					<div id="list_tematic_layers"></div>
+					<div id="list_tematic_values"></div>
 				</div>
 				<div class="modal-footer">
-					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
-         <button type="button" class="btn btn-success">Canviar</button> -->
+					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
+         			<button type="button" class="btn btn-success" lang="ca">Canviar</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -1042,6 +1022,27 @@
 	</div>
 	<!-- /.modal -->
 	<!-- fi Modal Tematics Rangs -->
+
+	<div id="dialgo_leave" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Edició en mode demostració</h4>
+				</div>
+				<div class="modal-body">
+					No es guardarà el mapa. Per guardar les dades has d'entrar amb un usuari registrat. En tancar la sessió es perdran les dades
+				</div>
+				<div class="modal-footer">
+					<button lang="ca" type="button" class="btn btn-default">Crea un compte</button>
+					<button lang="ca" type="button" class="btn btn-primary">Continuar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
 
 	<!-- Le javascript
     ================================================== -->

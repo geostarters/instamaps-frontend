@@ -413,4 +413,20 @@ function updateTematicRangs(data){
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
-}	
+}
+
+
+function createRandomUser(){
+	return jQuery.ajax({
+		url: paramUrl.createRandomUser,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteRandomUser(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteRandomUser,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}

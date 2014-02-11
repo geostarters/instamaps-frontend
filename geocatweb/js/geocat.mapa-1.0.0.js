@@ -80,6 +80,24 @@ jQuery(document).ready(function() {
 			avisDesarMapa();
 		}else{
 			//TODO 
+			jQuery('#dialgo_leave').modal('show');
+			createRandomUser().then(function(results){
+				if (results.status==='OK'){
+					var user_login = results.results.uid;
+					var pass_login = "user1234";
+					doLogin(user_login, pass_login).then(function(results){
+						if(results.status==='OK'){
+							jQuery.cookie('uid', user_login, {path:'/'});
+							window.location="/geocatweb/mapa.html";
+						}				
+					});
+				}
+			});
+			
+			jQuery(window).on('beforeunload',function(event){
+				deleteRandomUser({uid: $.cookie('uid')});
+			});
+			
 		}	
 		
 		/*
@@ -1947,7 +1965,7 @@ function loadTematicLayer(layer){
 					}
 					var featureTem;
 					if (ftype === t_marker){
-						featureTem = L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
+						featureTem = L.marker([geom.geometry.coordinates[0],geom.geometry.coordinates[1]],
 							 {icon: rangStyle}).addTo(map);
 					}else if (ftype === t_polyline){
 						var coords=geom.geometry.coordinates;
@@ -2074,7 +2092,12 @@ function createTematicClasic(data){
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_tematic_rangs').modal('show');
 	console.debug(data);
-				
+	
+	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
+		
+		jQuery('#dialog_tematic_rangs').modal('hide');
+	});
+	
 	var dataTem={
 		businessId: data.businessid,
 		uid: jQuery.cookie('uid')
@@ -2100,28 +2123,23 @@ function createTematicClasic(data){
 			var source1 = jQuery("#tematic-layers-fields").html();
 			var template1 = Handlebars.compile(source1);
 			var html1 = template1({fields:fields});
-			jQuery('#dataField').append(html1);
+			jQuery('#dataField').html(html1);
 			
 			jQuery('#dataField').on('change',function(e){
 				var this_ = jQuery(this);
 				readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
-					showTematicRangs(tematic ,results).then(function(results1){
-						console.debug(results1);
-					});
+					displayTematicRangs(tematic ,results);
+					
 				});
 			});
 			
 			jQuery('#dataField').val(tematic.dataField);
 			readDataTematicFromSlotd(tematic, jQuery('#dataField').val()).then(function(results){
-				console.debug(results);
-				console.debug(tematic);
-				showTematicRangs(tematic ,results).then(function(results1){
-					console.debug(results1);
-				});
+				displayTematicRangs(tematic ,results);
 			});
 		}
 	});
-	
+	/*
 	var layer = controlCapes._layers[data.leafletid];
 	console.debug(layer.layer);
 	var features = layer.layer.getLayers();
@@ -2133,7 +2151,17 @@ function createTematicClasic(data){
 				fields.push(key);
 			}
 		});
-	}	
+	}
+	*/	
+}
+
+function displayTematicRangs(tematic ,results){
+	showTematicRangs(tematic ,results).then(function(results1){
+		var source1 = jQuery("#tematic-values-template").html();
+		var template1 = Handlebars.compile(source1);
+		var html1 = template1({values:results1});
+		jQuery('#list_tematic_values').html(html1);
+	});
 }
 
 function readDataTematicFromSlotd(tematic, slotd){

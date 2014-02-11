@@ -12,10 +12,10 @@ var t_linestring = "linestring";
 var tem_simple = "simpleTematic";
 var tem_clasic = "clasicTematic";
 
-var HOST_APP = "http://172.70.1.12/";
+//var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
-//var HOST_APP = "http://localhost:8080/";
+var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	//uploadproxy:"/maps/upload.cgi",
@@ -76,6 +76,8 @@ var paramUrl = {
 	shortUrl : "http://api.bit.ly/v3/shorten",
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
+	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
+	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
