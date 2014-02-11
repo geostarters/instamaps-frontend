@@ -999,7 +999,7 @@ function carregarCapa(businessId){
 		capaFeatures.options = {
 			businessId : results.results.businessId,
 			nom : results.results.nom,
-			zIndex : controlCapes._lastZIndex+1
+//			zIndex : controlCapes._lastZIndex+1
 		};
 		var geometryType = results.results.geometryType;
 		if (geometryType==t_marker){
@@ -1698,14 +1698,20 @@ function loadWikipediaLayer(layer){
 function myRemoveLayer(obj){
 	
 	console.debug('Arriba a myRemoveLayer');
+	map.closePopup();
 	map.removeLayer(obj.layer);
 	//Eliminem la capa de controlCapes, i actualitzem valors zindex de la resta
 	var removeZIndex = obj.layer.options.zIndex;
 	controlCapes.removeLayer(obj.layer);
 	controlCapes._lastZIndex--;
-	var obj = controlCapes._layers;
-	for (var i in obj) {
-		if (obj[i].layer.options.zIndex > removeZIndex) obj[i].layer.options.zIndex--;
+	var aux = controlCapes._layers;
+	for (var i in aux) {
+		if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+	}
+	//Actualitzem capaUsrActiva
+	if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+		capaUsrActiva.removeEventListener('layeradd');
+		capaUsrActiva = null;
 	}
 }
 

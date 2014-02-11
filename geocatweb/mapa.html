@@ -135,19 +135,21 @@
 					<div class="div_gr2">
 						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr pop">
 							<script id="meus-wms-template" type="text/x-handlebars-template">
-							<ul class="bs-dadesO">
-							{{#each results}}
-							<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label label-wms">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-wms"></span></li>
-							{{/each}}							
-							</ul>
+							<div class="panel-success">
+								<ul class="bs-dadesO panel-heading">
+								{{#each results}}
+									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-wms">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-wms"></span></li>
+								{{/each}}							
+								</ul>
+							</div>
 							</script>
-							<script id="meus-tematic-template" type="text/x-handlebars-template">
+							<!--script id="meus-tematic-template" type="text/x-handlebars-template">
 							<ul>
 							{{#each results}}
 							<li><a href="#" data-businessid="{{businessId}}" class="usr_tematic_layer">{{nom}}</a><span data-businessid="{{businessId}}" class="glyphicon glyphicon-remove"></span></li>
 							{{/each}}							
 							</ul>
-							</script>
+							</script>-->
 						</div>
 												
 						<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext pop">

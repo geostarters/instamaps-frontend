@@ -5,8 +5,8 @@ function objecteUserAdded(f){
 	
 	var feature = f.layer.toGeoJSON();
 	feature.properties = {
-		nom : "feature" + fId,
-		text : "<a href='http://www.google.com'>link</a>",
+		nom : f.layer.properties.capaNom,
+		text : f.layer.properties.description,
 		slotf1 : 'data 1',
 		slotf2 : 'data 2',
 		slotf3 : 'data 3',
@@ -61,10 +61,15 @@ function objecteUserAdded(f){
 //		console.info(this);
 		var _this = this;
 		
-		addTematicLayerFeature(data).then(function(results) {
+		createTematicLayerFeature(data).then(function(results) {
 							if(results.status === 'OK'){
 								_this.options.businessId = results.results.businessId;
-								console.debug('addTematicLayerFeature OK');
+//								_this.options.capesBusinessId = results.results.capesBusinessId;
+//								_this.options.geometriesBusinessId = results.results.geometriesBusinessId;
+								console.debug('createTematicLayerFeature OK');
+								f.layer.properties.capaBusinessId = results.results.businessId;
+								f.layer.properties.businessId = results.feature.properties.businessId;
+								f.layer.properties.feature = results.feature;
 								finishAddFeatureToTematic(f.layer);
 							}else{
 								//ERROR: control Error
@@ -74,39 +79,49 @@ function objecteUserAdded(f){
 							console.debug('addTematicLayerFeature ERROR');
 						});
 
-	} else if (this.toGeoJSON().features.length > 1) {
+//	} else if (this.toGeoJSON().features.length > 1) {
+	} else if (this.getLayers().length > 1) {
 
-		var dataFeature = {
-			businessId : this.options.results.geometriesBusinessId,
-			uid : jQuery.cookie('uid'),
-			features : features
-		};
-
-		var dataCapes = {
-			businessId : this.options.results.capesBusinessId,
-			uid : jQuery.cookie('uid'),
-			dades : dades
-		};
-
-		var dataRangs = {
-			businessId : this.options.results.businessId,
-			uid : jQuery.cookie('uid'),
-			rangs : rangs
-		};
+//		var dataFeature = {
+//			businessId : this.options.geometriesBusinessId,
+//			uid : jQuery.cookie('uid'),
+//			features : features
+//		};
+//
+//		var dataCapes = {
+//			businessId : this.options.capesBusinessId,
+//			uid : jQuery.cookie('uid'),
+//			dades : dades
+//		};
+//
+//		var dataRangs = {
+//			businessId : this.options.businessId,
+//			uid : jQuery.cookie('uid'),
+//			rangs : rangs
+//		};
 				
 		var data = {
 			uid : jQuery.cookie('uid'),
 			features : features,
 			dades : dades,
 			rangs : rangs,
-			businessId: this.options.results.businessId
+			businessId: this.options.businessId
 		};				
 				
 		addFeatureToTematic(data).then(function(results) {
-			console.debug(results.status);
-		},function(results){
-			console.debug("ERROR");
-		});
+				if(results.status === 'OK'){
+						console.debug('addFeatureToTematic OK');
+						f.layer.properties.businessId = results.feature.properties.businessId;
+						f.layer.properties.capaBusinessId = results.results.businessId;
+						f.layer.properties.feature = results.feature;
+						finishAddFeatureToTematic(f.layer);					
+					}else{
+						//ERROR: control Error
+						console.debug("addFeatureToTematic ERROR");
+					}
+				},function(results){
+					console.debug("addFeatureToTematic ERROR");
+				});
 	}
 }
 
@@ -114,7 +129,7 @@ function getFeatureStyle(f){
 	var rangs = {};
 	console.debug(f.layer.options);
 	//ESTIL MARKER
-	if(f.layer.options.tipus == 'Marker'){
+	if(f.layer.options.tipus == t_marker){
 		rangs = {
 			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 			valorMax : "feature" + fId,
@@ -130,7 +145,7 @@ function getFeatureStyle(f){
 			labelColor : '#000000',
 		};	
 	//ESTIL LINE
-	}else if(f.layer.options.tipus == 'Line'){
+	}else if(f.layer.options.tipus == t_polyline){
 		rangs = {
 			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 			valorMax : "feature" + fId,
