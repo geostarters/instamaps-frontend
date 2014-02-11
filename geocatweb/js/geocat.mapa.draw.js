@@ -150,7 +150,7 @@ function addDrawToolbar() {
 	capaUsrPunt = new L.FeatureGroup();
 	capaUsrPunt.options = {
 		businessId : '-1',
-		nom : 'capaPunts1',
+		nom : 'capaPunts',
 		zIndex :  -1,
 		tipus : t_tematic,
 		geometryType: t_marker
@@ -158,7 +158,7 @@ function addDrawToolbar() {
 	capaUsrLine = new L.FeatureGroup();
 	capaUsrLine.options = {
 		businessId : '-1',
-		nom : 'capaLinea1',
+		nom : 'capaLinea',
 		zIndex :  -1,
 		tipus : t_tematic,
 		geometryType: t_polyline
@@ -166,7 +166,7 @@ function addDrawToolbar() {
 	capaUsrPol = new L.FeatureGroup();
 	capaUsrPol.options = {
 		businessId : '-1',
-		nom : 'capaPol1',
+		nom : 'capaPol',
 		zIndex :  -1,
 		tipus : t_tematic,
 		geometryType: t_polygon
@@ -256,7 +256,7 @@ function activaEdicioUsuari() {
 
 	map.on('draw:drawstart',function(e){
 		//showEditText('show');
-		objEdicio.esticEnEdicio=true;
+//		objEdicio.esticEnEdicio=true;
 	});
 	
 	map.on('click',function(e){
@@ -317,10 +317,9 @@ function activaEdicioUsuari() {
 				capaUsrActiva.on('layeradd',objecteUserAdded);
 			}
 			
-			//MODIFICAR FICAR PROPERTIES QUE NECESSITO
 			layer.properties={'name':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'description':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-					'capaNom':capaUsrActiva.options.nom,//desactualitzat quan es canvii nom capa!
+					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_marker};			
@@ -331,45 +330,47 @@ function activaEdicioUsuari() {
 			tipusCat=window.lang.convert('Titol Linia');
 			tipusCatDes=window.lang.convert('Descripcio Linia');
 			
-//			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polyline){
-//				capaUsrActiva.removeEventListener('layeradd');
-//				capaUsrActiva=capaUsrLine;
-//				capaUsrActiva.on('layeradd',objecteUserAdded);
-//			}else if(capaUsrActiva == null){
-//				capaUsrActiva=capaUsrPunt;
-//				capaUsrActiva.on('layeradd',objecteUserAdded);
-//			}
-//			
-//			//MODIFICAR FICAR PROPERTIES QUE NECESSITO
-//			layer.properties={'name':tipusCat+' '+capaUsrActiva.getLayers().length,
-//					'description':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-//					'capaNom':capaUsrActiva.options.nom,//desactualitzat quan es canvii nom capa!
-//					'capaBusinessId':capaUsrActiva.options.businessId,
-//					'capaLeafletId': capaUsrActiva._leaflet_id,
-//					'tipusFeature':t_marker};			
-//			
-//			capaUsrActiva.addLayer(layer);			
-			
-			capaUsrLine.on('layeradd',objecteUserAdded);
-			capaUsrLine.addLayer(layer);
-			totalFeature=capaUsrLine.toGeoJSON().features.length;
-			if (totalFeature == 1) {							
-				controlCapes.addOverlay(capaUsrLine,capaUsrLine.options.nom, true);
-				activaPanelCapes(true);
+			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polyline){
+				capaUsrActiva.removeEventListener('layeradd');
+				capaUsrActiva=capaUsrLine;
+				capaUsrActiva.on('layeradd',objecteUserAdded);
+			}else if(capaUsrActiva == null){
+				capaUsrActiva=capaUsrLine;
+				capaUsrActiva.on('layeradd',objecteUserAdded);
 			}
-			capaUsrActiva=capaUsrLine;
+			
+			layer.properties={'name':tipusCat+' '+capaUsrActiva.getLayers().length,
+					'description':tipusCatDes+' '+capaUsrActiva.getLayers().length,
+					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
+					'capaBusinessId':capaUsrActiva.options.businessId,
+					'capaLeafletId': capaUsrActiva._leaflet_id,
+					'tipusFeature':t_polyline};			
+			
+			layer.addTo(map);
+			capaUsrActiva.addLayer(layer);
+			
 		} else if (type === t_polygon) {
 			tipusCat=window.lang.convert('Titol area');
 			tipusCatDes=window.lang.convert('Descripcio area');	
-			capaUsrPol.on('layeradd',objecteUserAdded);
-			capaUsrPol.addLayer(layer);
-			totalFeature=capaUsrPol.toGeoJSON().features.length;
-			if (totalFeature == 1) {	
-				controlCapes.addOverlay(capaUsrPol,
-						capaUsrPol.options.nom, true);
-				activaPanelCapes(true);
+			
+			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polygon){
+				capaUsrActiva.removeEventListener('layeradd');
+				capaUsrActiva=capaUsrPol;
+				capaUsrActiva.on('layeradd',objecteUserAdded);
+			}else if(capaUsrActiva == null){
+				capaUsrActiva=capaUsrPol;
+				capaUsrActiva.on('layeradd',objecteUserAdded);
 			}
-			capaUsrActiva=capaUsrPol;
+			
+			layer.properties={'name':tipusCat+' '+capaUsrActiva.getLayers().length,
+					'description':tipusCatDes+' '+capaUsrActiva.getLayers().length,
+					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
+					'capaBusinessId':capaUsrActiva.options.businessId,
+					'capaLeafletId': capaUsrActiva._leaflet_id,
+					'tipusFeature':t_polygon};			
+			
+			layer.addTo(map);
+			capaUsrActiva.addLayer(layer);			
 		}
 	});
 	
@@ -386,38 +387,24 @@ function activaEdicioUsuari() {
 function finishAddFeatureToTematic(layer){
 	console.debug('finishAddFeatureToTematic');
 	var type = layer.options.tipus;
-	objEdicio.esticEnEdicio=true;
+//	objEdicio.esticEnEdicio=true;
 	
 	//Afegir capa edicio a control de capes en cas que sigui nova
-	if (capaUsrPunt.toGeoJSON().features.length == 1) {
+	if (capaUsrActiva.toGeoJSON().features.length == 1) {
 		//Actualitzeem zIndex abans d'afegir al control de capes
-		capaUsrPunt.options.zIndex = controlCapes._lastZIndex+1; 
-		controlCapes.addOverlay(capaUsrPunt, capaUsrPunt.options.nom, true);
-		activaPanelCapes(true);
-	}
-	if (capaUsrLine.toGeoJSON().features.length == 1) {
-		//Actualitzeem zIndex abans d'afegir al control de capes
-		capaUsrLine.options.zIndex = controlCapes._lastZIndex+1; 							
-		controlCapes.addOverlay(capaUsrLine, capaUsrLine.options.nom, true);
-		//showEditText(layer);
-		activaPanelCapes(true);
-	}
-	if (capaUsrPol.toGeoJSON().features.length == 1) {
-		//Actualitzeem zIndex abans d'afegir al control de capes
-		capaUsrPol.options.zIndex = controlCapes._lastZIndex+1; 								
-		controlCapes.addOverlay(capaUsrPol,	capaUsrPol.options.nom, true);
+		capaUsrActiva.options.zIndex = controlCapes._lastZIndex+1; 								
+		controlCapes.addOverlay(capaUsrActiva,	capaUsrActiva.options.nom, true);
 		//showEditText(layer);
 		activaPanelCapes(true);
 	}	
 	
 	var html = createPopUpContent(layer,type);
-//	var html = "";
 	layer.bindPopup(html,{'offset':[0,-25]}).openPopup();
-//	fillSelectCapesUsr(type,layer._leaflet_id);
 	layer.on('popupopen',function(e){
 		//actualitzem popup
 		var html = createPopUpContent(layer,layer.options.tipus);
-		layer.setPopupContent(html);
+//		layer.setPopupContent(html);cmbCapesUsr#131#polyline
+		jQuery('#cmbCapesUsr#'+layer._leaflet_id+'#'+layer.options.tipus+'').html('<option selected="" value="342a54a5c8e914872d26de1e60b7b033#42">capa Prova</option>');
 		jQuery('#titol_pres').text(layer.properties.name).append(' <i class="glyphicon glyphicon-pencil blau"></i>');	
 		jQuery('#des_pres').text(layer.properties.description).append(' <i class="glyphicon glyphicon-pencil blau"></i>');		
 	});	
@@ -460,7 +447,6 @@ function finishAddFeatureToTematic(layer){
 	 });	 
 	 
 	 jQuery(document).on('change', ".bs-ncapa li select", function(e) {
-//		    e.preventDefault();
 		    e.stopImmediatePropagation();
 		    console.debug('on change select cmbusrcapa');
 			var accio;
@@ -555,7 +541,7 @@ function finishAddFeatureToTematic(layer){
 			modeEditText();
 			
 		}else if(accio[0].indexOf("feature_move")!=-1){
-			
+			objEdicio.esticEnEdicio=true;
 			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;						
 			//Actualitzem capa activa
 			capaUsrActiva.removeEventListener('layeradd');
@@ -584,10 +570,6 @@ function finishAddFeatureToTematic(layer){
 				var txtDesc=jQuery('#des_edit').val();
 				
 				updateFeatureNameDescr(map._layers[objEdicio.featureID],txtTitol,txtDesc);
-
-//				map._layers[objEdicio.featureID].properties.name=txtTitol;
-//				map._layers[objEdicio.featureID].properties.description=txtDesc;
-				
 
 			}else if(objEdicio.edicioPopup=='textCapa'){
 				if(jQuery('#capa_edit').val()!=""){
@@ -692,6 +674,9 @@ function updateFeatureMove(featureID, capaEdicioID){
 	controlCapes._map.removeLayer(capaUsrActiva);
 	controlCapes._map.addLayer(capaUsrActiva);    
     map.removeLayer(map._layers[capaEdicioID]);
+    //Fi edicio
+    objEdicio.esticEnEdicio=false;
+    
     console.debug("updateFeatureMove FI");
 }
 
