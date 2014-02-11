@@ -403,8 +403,8 @@ function finishAddFeatureToTematic(layer){
 	layer.on('popupopen',function(e){
 		//actualitzem popup
 		var html = createPopUpContent(layer,layer.options.tipus);
-//		layer.setPopupContent(html);cmbCapesUsr#131#polyline
-		jQuery('#cmbCapesUsr#'+layer._leaflet_id+'#'+layer.options.tipus+'').html('<option selected="" value="342a54a5c8e914872d26de1e60b7b033#42">capa Prova</option>');
+		layer.setPopupContent(html);cmbCapesUsr#131#polyline
+//		jQuery('#cmbCapesUsr#'+layer._leaflet_id+'#'+layer.options.tipus+'').html('<option selected="" value="342a54a5c8e914872d26de1e60b7b033#42">capa Prova</option>');
 		jQuery('#titol_pres').text(layer.properties.name).append(' <i class="glyphicon glyphicon-pencil blau"></i>');	
 		jQuery('#des_pres').text(layer.properties.description).append(' <i class="glyphicon glyphicon-pencil blau"></i>');		
 	});	
