@@ -45,8 +45,8 @@ function objecteUserAdded(f){
 		// Add feature and Layer
 		var data = {
 			uid : jQuery.cookie('uid'),
-			description : 'TODO description',
-			nom : 'Capa1 TODO',
+			description : 'Description '+f.layer.properties.capaNom,
+			nom : f.layer.properties.capaNom,
 			publica : true,
 			geomField : 'the_geom',
 			idGeomField : 'nom',
@@ -58,7 +58,6 @@ function objecteUserAdded(f){
 			mapBusinessId: url('?businessid'),
 			geometryType: f.layer.options.tipus
 		};
-//		console.info(this);
 		var _this = this;
 		
 		createTematicLayerFeature(data).then(function(results) {
