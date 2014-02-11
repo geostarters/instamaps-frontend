@@ -244,6 +244,13 @@ function addClicksInici() {
 		});
 	
 	
+	jQuery('#st_Clust').on('click',function(e) {
+		
+		creaClusterMap(controlCapes._layers[63])
+	});
+
+	
+	
 }
 
 function addOpcionsFonsMapes() {
