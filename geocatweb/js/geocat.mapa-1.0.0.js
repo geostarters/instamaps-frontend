@@ -485,49 +485,16 @@ function activaPanelCapes(obre) {
 
 function changeDefaultLineStyle(canvas_linia){
 	var estilTMP = default_line_style;
-
-
-
-
-
-
-
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
-
-
 	if(objEdicio.obroModalFrom=="creaCapa"){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
-
 	return estilTMP;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 function changeDefaultAreaStyle(canvas_pol){
 	var estilTMP= default_area_style;
-
-
-
-
-
-
-
-
-	
 	estilTMP.fillColor=canvas_pol.fillStyle;
 	estilTMP.fillOpacity=canvas_pol.opacity;
 	estilTMP.weight=canvas_pol.lineWidth;
@@ -566,23 +533,6 @@ function createFeatureAreaStyle(style){
 function changeDefaultPointStyle(estilP) {
 
 	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
 	var cssText="";
@@ -627,8 +577,6 @@ function changeDefaultPointStyle(estilP) {
 		puntTMP.options.divColor='transparent';
 		puntTMP.options.icon=_iconGlif + " "+cssText;
 	}
-	
-	
 
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
@@ -669,28 +617,17 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
-
-			
 			jQuery('#div_punt').css('background-color',estilP.divColor);	
-			
-			
 			changeDefaultPointStyle(estilP);	
-			
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
-			
-
 								// console.info(map._layers[objEdicio.featureID]);
 			alert("Atenció problema amb tipus punt Awson i circle")
 			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
-
-
 		}else{
 			console.debug(objEdicio.obroModalFrom);
-
 		}
-		
 		jQuery('#dialog_estils_punts').modal('toggle');				
 	});
 	
@@ -707,7 +644,6 @@ function addDialegsEstils() {
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else{
 			console.debug(objEdicio.obroModalFrom);
-
 		}
 		jQuery('#dialog_estils_linies').modal('toggle');			
 	});
@@ -757,8 +693,6 @@ function addDialegsEstils() {
 			 jQuery('#div_punt0').css('background-color',estilP.divColor);
 			 estilP.fontsize=(vv/2)+"px";
 			 estilP.size=vv;
-	
-	
 	});
 	jQuery(document).on('click', ".bs-punts li", function(e) {
 		
@@ -772,18 +706,6 @@ function addDialegsEstils() {
 		jQuery(this).addClass("estil_selected");	
 		
 		//if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
-			
-
-
-
-
-
-
-
-
-
-
-		
 			//}
 		//}else{
 			jQuery('#dv_cmb_punt').hide();
@@ -1327,7 +1249,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 				})});
 			}else if(dataset.indexOf('incidencies')!=-1){
 				var inci=feature.properties.descripcio_tipus;
-				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
+				var arr = ["Obres", "Retencions", "Cons", "Meterologia" ];
 				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
 				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
 				return L.marker(latlng, {icon:L.icon({					
@@ -1376,19 +1298,6 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 
 		capaDadaOberta.addTo(map)
 		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-
-
-
-
-
-
-
-
-
-
-
-
-
 		activaPanelCapes(true);
 	}
 	//capaDadaOberta.on('layeradd',objecteUserAdded)
@@ -1644,7 +1553,7 @@ function initControls(){
 	redimensioMapa();
 	creaPopOverDadesExternes();
 	//creaPopOverMevasDades();
-	//generaLListaDadesObertes();
+	generaLListaDadesObertes();
 	creaAreesDragDropFiles();
 	creaPopOverMesFonsColor();
 	tradueixMenusToolbar();

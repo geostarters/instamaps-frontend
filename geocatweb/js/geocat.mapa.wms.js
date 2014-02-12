@@ -170,18 +170,16 @@ function getCapabilitiesWMS(url, servidor) {
 							});
 
 							if (jQuery.inArray('EPSG:3857', epsg) != -1) {
-
 								ActiuWMS.epsg = L.CRS.EPSG3857;
-
+								ActiuWMS.epsgtxt = 'EPSG:3857';
 							} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
 								ActiuWMS.epsg = L.CRS.EPSG3857;
-
+								ActiuWMS.epsgtxt = 'EPSG:3857';
 							} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
 								ActiuWMS.epsg = L.CRS.EPSG4326;
-
+								ActiuWMS.epsgtxt = 'EPSG:4326';
 							} else {
-								alert(window.lang
-										.convert("El sistema de coordenades no és compatible amb el mapa"));
+								alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
 								return;
 							}
 
@@ -230,14 +228,13 @@ jQuery(document).on('click', "#bt_addWMS", function(e) {
 });
 
 function addExternalWMS() {
+	
 	var cc = [];
-
 	jQuery('input[name="chk_WMS"]:checked').each(function() {
 		cc.push(jQuery(this).val());
 	});
-
 	ActiuWMS.layers = cc.join(',');
-
+	
 	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
 		layers : ActiuWMS.layers,
 		crs : ActiuWMS.epsg,
@@ -245,22 +242,50 @@ function addExternalWMS() {
 		format : 'image/png'
 	});
 
-	wmsLayer.options = {
-		businessId : '-1',
-		nom : ActiuWMS.servidor,
-		zIndex : controlCapes._lastZIndex + 1,
-		tipus : 'WMS'
+	wmsLayer.options.businessId = '-1';
+	wmsLayer.options.nom = ActiuWMS.servidor;
+	wmsLayer.options.zIndex = controlCapes._lastZIndex + 1;
+	wmsLayer.options.tipus = t_wms;
 
-	};
+//	map.addLayer(wmsLayer).on('layeradd', objecteUserAdded);
+//	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+//	activaPanelCapes(true);
+//	jQuery('#dialog_dades_ex').modal('toggle');
 
-	map.addLayer(wmsLayer).on('layeradd', objecteUserAdded);
-
-	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-
-	activaPanelCapes(true);
-	
-	jQuery('#dialog_dades_ex').modal('toggle');
-
+	if(typeof url('?businessid') == "string"){
+		var data = {
+				uid:$.cookie('uid'),
+				mapBusinessId: url('?businessid'),
+				serverName: ActiuWMS.servidor,
+				serverType: t_wms,
+				calentas: false,
+	            activas: true,
+	            visibilitats: true,
+	            epsg: ActiuWMS.epsgtxt,
+	            transparency: true,
+	            visibilitat: 'O',
+				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'"}'
+		};
+		
+		createServidorInMap(data).then(function(results){
+			if (results.status == "OK"){
+				wmsLayer.options.businessId = results.results.businessId;
+				map.addLayer(wmsLayer); //wmsLayer.addTo(map);
+				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+				activaPanelCapes(true);
+				jQuery('#dialog_dades_ex').modal('toggle');				
+				
+			}else{
+				console.debug('createServidorInMap ERROR');
+			}
+		});
+		
+	}else{
+		wmsLayer.addTo(map);
+		controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+		activaPanelCapes(true);
+		jQuery('#dialog_dades_ex').modal('toggle');	
+	}	
 }
 
 function ValidURL(url) {
