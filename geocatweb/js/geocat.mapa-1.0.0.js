@@ -9,7 +9,7 @@ var initMevesDades = false;
 var download_layer;
 var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
 		'iconGlif':'fa fa-',
-		'colorGlif':'#333333','fontsize':'14px','size':'28','divColor':'transparent'};
+		'colorGlif':'#333333','fontsize':'14px','size':'28'};
 
 jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
@@ -235,22 +235,6 @@ function addClicksInici() {
        	 //addCapaMunicipis();	        
         }
     });
-	
-	
-	
-	jQuery('#st_Heat').on('click',function(e) {
-	
-			createHeatMap(controlCapes._layers[63])
-		});
-	
-	
-	jQuery('#st_Clust').on('click',function(e) {
-		
-		creaClusterMap(controlCapes._layers[63])
-	});
-
-	
-	
 }
 
 function addOpcionsFonsMapes() {
@@ -498,20 +482,11 @@ function changeDefaultPointStyle(estilP) {
 	var puntTMP= new L.AwesomeMarkers.icon({
 		icon : '',
 		markerColor : 'orange',
-		divColor:'transparent',
 		iconAnchor : new L.Point(14, 42),
 		iconSize : new L.Point(28, 42),
 		iconColor : '#000000',
-		prefix : 'fa',
-		fillColor :'#000000'
+		prefix : 'fa'
 	});
-	
-	
-	
-	
-	
-	
-	
 	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
@@ -527,7 +502,6 @@ function changeDefaultPointStyle(estilP) {
 		var num=estilP.size;
 		puntTMP.options.shadowSize = new L.Point(1, 1);
 		var tt=estilP.fontsize;
-		puntTMP.options.divColor=estilP.divColor;
 		if(tt=="9px"){
 			cssText="font9";			
 		}else if(tt=="11px"){
@@ -542,23 +516,19 @@ function changeDefaultPointStyle(estilP) {
 	
 		if(_iconGlif==""){//no tin glif
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
-			puntTMP.options.iconSize = new L.Point(num, num);
-			puntTMP.options.icon="";
+			puntTMP.options.iconSize = new L.Point(num, num);		
 		}else{
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
-			puntTMP.options.iconSize = new L.Point(num, num);
-			puntTMP.options.icon=_iconGlif + " "+cssText;
+			puntTMP.options.iconSize = new L.Point(num, num);	
 		}
 		
 	}else{ // sóc punt
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
-		puntTMP.options.divColor='transperent';
-		puntTMP.options.icon=_iconGlif + " "+cssText;
 	}
 	
-	
+	puntTMP.options.icon=_iconGlif + " "+cssText;
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
 	
@@ -589,22 +559,11 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('font-size',jQuery('#div_punt0').css('font-size'));
 			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
-			jQuery('#div_punt').css('color',estilP.colorGlif);	
-			
-			
-			jQuery('#div_punt').css('background-color',estilP.divColor);	
-			
-			
+			jQuery('#div_punt').css('color',estilP.colorGlif);			
 			changeDefaultPointStyle(estilP);	
 			
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
-			
-
-								// console.info(map._layers[objEdicio.featureID]);
-			alert("Atenció problema amb tipus punt Awson i circle")
 			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
-			
-			
 		}else{
 			//pensat per tematics
 		}
@@ -649,72 +608,42 @@ function addDialegsEstils() {
 	})
 	
 	var hihaGlif=false;	
-	
-	
-	jQuery(document).on('click', "#div_puntZ", function(e) {
-		jQuery(".bs-punts li").removeClass("estil_selected");
-		jQuery(this).addClass("estil_selected");
-		estilP.iconFons=jQuery('div', this).attr('class');
-		jQuery('#div_punt0').removeClass();
-		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-		//if(!hihaGlif){
-		jQuery('#dv_cmb_punt').show();
-		//}else{
-		//	jQuery('#dv_cmb_punt').hide();	
-		var vv=jQuery('#cmb_mida_Punt').val();
-			jQuery('#div_punt0').css('width',vv+'px');
-			 jQuery('#div_punt0').css('height',vv+'px');
-			 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-			 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
-			 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
-			 jQuery('#div_punt0').css('background-color',estilP.divColor);
-			 estilP.fontsize=(vv/2)+"px";
-			 estilP.size=vv;
-	
-	
-	});
 	jQuery(document).on('click', ".bs-punts li", function(e) {
-		
 		jQuery(".bs-punts li").removeClass("estil_selected");
-		jQuery("#div_puntZ").removeClass("estil_selected");
-		
-		
 		jQuery('#div_punt0').removeClass();
 		estilP.iconFons=jQuery('div', this).attr('class');
 		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
 		jQuery(this).addClass("estil_selected");	
 		
-		//if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
+		if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
 			
-		
+			//if(!hihaGlif){
+			jQuery('#dv_cmb_punt').show();
+			//}else{
+			//	jQuery('#dv_cmb_punt').hide();	
+			var vv=jQuery('#cmb_mida_Punt').val();
+				jQuery('#div_punt0').css('width',vv+'px');
+				 jQuery('#div_punt0').css('height',vv+'px');
+				 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
+				 estilP.fontsize=(vv/2)+"px";
+				 estilP.size=vv;
 			//}
-		//}else{
+		}else{
 			jQuery('#dv_cmb_punt').hide();
 			jQuery('#div_punt0').css('width','28px');
 			 jQuery('#div_punt0').css('height','42px');	
 			 jQuery('#div_punt0').css('font-size',"14px");
-			 estilP.divColor='transparent';
-			 jQuery('#div_punt0').css('background-color',estilP.divColor);
 			 estilP.fontsize="14px";
-		//}
+		}
 	});
 	
 	
 	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
-		
-		if(jQuery('#div_puntZ').hasClass("estil_selected")){
-			
-			jQuery('#div_punt0').css('width',this.value+"px");
-			jQuery('#div_punt0').css('height',this.value+"px");
-			jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
-			estilP.fontsize=(this.value/2)+"px";
-			estilP.size=this.value;
-		}
-	    jQuery('#div_punt9').css('width',this.value+"px");
-		jQuery('#div_punt9').css('height',this.value+"px");
-		jQuery('#div_punt9').css('font-size',(this.value/2)+"px");
-		
-		
+	    jQuery('#div_punt0').css('width',this.value+"px");
+		jQuery('#div_punt0').css('height',this.value+"px");
+		jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
+		estilP.fontsize=(this.value/2)+"px";
+		estilP.size=this.value;
 	});
 	
 	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
@@ -916,7 +845,7 @@ function creaPopOverMevasDades(){
 			};
 
 			deleteTematicLayerAll(data).then(function(results){
-				
+				console.debug(results);
 				if (results.status == "OK"){
 					_this.parent().remove();
 				}
@@ -924,7 +853,20 @@ function creaPopOverMevasDades(){
 		});		
 	});	
 	
-
+//	jQuery(".div_dades_usr").popover(
+//		{
+//			content : '<ul class="nav nav-tabs etiqueta">'
+//					+ '<li><a href="#id_mysrvj" data-toggle="tab" id="#id_serveisv">Serveis vector</a></li>'
+//					+ '<li><a href="#id_mysrvw" data-toggle="tab">Serveis WMS</a></li>'
+//					+ '</ul>'
+//					+ '<div class="tab-content">'
+//					+ '<div class="tab-pane fade" id="id_mysrvj"></div>'
+//					+ '<div class="tab-pane fade" id="id_mysrvw"></div>'
+//					+ '</div>',
+//			container : 'body',
+//			html : true,
+//			trigger : 'manual'
+//	});
 }
 
 function loadPopOverMevasDades(){
@@ -1003,7 +945,7 @@ function loadPopOverMevasDades(){
 			};
 
 			deleteTematicLayerAll(data).then(function(results){
-				//console.debug(results);
+				console.debug(results);
 				if (results.status == "OK"){
 					_this.parent().remove();
 				}
@@ -1015,7 +957,7 @@ function loadPopOverMevasDades(){
 }
 
 function refrescaPopOverMevasDades(){
-	//console.debug("refrescaPopOverMevasDades");
+	console.debug("refrescaPopOverMevasDades");
 	//carrega las capas del usuario
 	var data = {uid: $.cookie('uid')};
 	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
@@ -1124,36 +1066,23 @@ function creaPopOverDadesExternes() {
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
 
-				jQuery(tbA+" a.label-explora").on('click', function(e) {
+				jQuery(tbA+" a.label").on('click', function(e) {
 					if(e.target.id !="id_do"){
 						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
 					}
 				});
 				
-				
+				//jQuery(tbA).html('<span class="label">Font:<a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
 				
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
-				jQuery(tbA+" a.label-wms").on('click', function(e) {
+				jQuery(tbA+" a.label").on('click', function(e) {
 					if(e.target.id !="id_srvw"){
-						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
+					//addCapaDadesObertes(e.target.id,jQuery(e.target).text());
+						console.info("hola");
 					}
 				});	
-				
-			}else if(tbA == "#id_srvj"){
-				jQuery(tbA).empty();
-				jQuery(tbA).html(_htmlServeisJSON.join(' '));
-				jQuery("#bt_connJSON").on('click', function(e) {
-					if(e.target.id !="#id_srvj"){
-						getServeiJSONP(jQuery("#txt_URLJSON").val());
-					}
-				});		
-				
-				
-				
-				
-				
 			}else if(tbA == "#id_xs"){//Jess
 				
 				jQuery(tbA).html(
@@ -1258,26 +1187,11 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		});
 		
 	}else{
-		
 		capaDadaOberta.addTo(map)
 		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-		
-	
-		
-		capaDadaOberta.options.onEachFeature(function(value,index){
-			
-		
-			
-		});
-		
-		
-		
-		
-		
 		activaPanelCapes(true);
 	}
-	
-	
+	//capaDadaOberta.on('layeradd',objecteUserAdded)
 }
 
 
@@ -1330,9 +1244,9 @@ function popUp(f, l) {
 
 function generaLListaDadesObertes() {
 	getLListaDadesObertes().then(function(results) {
-		_htmlDadesObertes.push('<div class="panel-danger"><ul class="bs-dadesO panel-heading">');
+		_htmlDadesObertes.push('<div><ul class="bs-dadesO">');
 		$.each(results.dadesObertes, function(key, dataset) {
-			_htmlDadesObertes.push('<li><a class="label-explora" lang="ca" title="Afegir capa" href="#" id="'
+			_htmlDadesObertes.push('<li><a class="label label-explora" lang="ca" title="Afegir capa" href="#" id="'
 				+ dataset.dataset
 				+ '">'
 				+ dataset.text
@@ -1922,7 +1836,6 @@ function loadTematicLayer(layer){
 		iconAnchor : new L.Point(14, 42),
 		iconSize : new L.Point(28, 42),
 		iconColor : '#000000',
-		opacity:1,
 		prefix : 'fa'
 	});	
 	

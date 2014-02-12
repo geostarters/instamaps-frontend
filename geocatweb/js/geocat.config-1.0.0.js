@@ -1,8 +1,18 @@
+//tipus capes
+var t_dades_obertes = "dades obertes";
+var t_wms = "wms";
+var t_xarxes_socials = "xarxes socials";
+var t_tematic = "tematic";
+
 var HOST_APP = "http://172.70.1.12/";
-//var HOST_APP = "http://geocat02.icc.local:8080/geocat/";
+var GEOCAT02 = "http://172.70.1.12";
+//var HOST_APP = "http://geocat02.icc.local:8080/";
 //var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
+	//uploadproxy:"/maps/upload.cgi",
+	uploadproxy:"/cgi-bin/upload.cgi",
+	proxy_download:"/cgi-bin/download.cgi",
 	loginPage:"/geocatweb/sessio.html",
 	galeriaPage:"/geocatweb/galeria.html",
 	wmsOpenData:"/dadesobertes/wms/service?",
@@ -21,7 +31,7 @@ var paramUrl = {
 	updateUser: HOST_APP+"geocat/user/updateUser.action?",
 	updatePassword: HOST_APP+"geocat/user/updatePassword.action?",
 	createTematicLayerFeature: HOST_APP+"geocat/layers/tematic/createTematicLayerFeature.action?",
-	dragFile: HOST_APP+"geocat/pepito?",
+	dragFile: HOST_APP+"share/jsp/upload.jsp?",
 	createRang: HOST_APP+"geocat/layers/tematic/createRang.action?",
 	createData: HOST_APP+"geocat/layers/data/createData.action?",
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
@@ -35,14 +45,25 @@ var paramUrl = {
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	getAllTematicLayerByUid: HOST_APP+"geocat/layers/tematic/getAllTematicLayerByUid.action?",
 	deleteTematicLayerAll: HOST_APP+"geocat/layers/tematic/deleteTematicLayerAll.action?",
+	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
+	getTwitterLayer: HOST_APP+"geocat/layers/getTwitterLayer.action?",
+	updateServersOrderToMap: HOST_APP+"geocat/aplications/map/updateServersOrderToMap.action?",
+	updateMapName: HOST_APP+"geocat/aplications/map/updateMapName.action?",
+	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
+	updateServidorWMSName: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSName.action?",
+	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
+	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://miyazaki.icc.local:8080/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:HOST_APP+"share/jsp/ows2json.jsp?",
-	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
-
+	getTematicLayer: HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
+	getDownloadLayer:GEOCAT02+"/share/jsp/download_layer.jsp?",
+	deleteServidorWMS: HOST_APP+"geocat/layers/servidor/wms/deleteServidorWMS.action?",
+	addFeatureToTematic: HOST_APP+"geocat/layers/tematic/addFeatureToTematic.action?",
+	shortUrl : "http://api.bit.ly/v3/shorten",
+	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?"
 }
-
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
@@ -54,5 +75,8 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
 	$('.waiting_animation').hide();
+	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
+		sessionExpired();
+	}
 //	}
 });
