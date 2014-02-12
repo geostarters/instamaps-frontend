@@ -117,7 +117,7 @@ function doLogin(user_login,pass_login){
 }
 
 /* map */
-function addTematicLayerFeature(data){
+function createTematicLayerFeature(data){
 	return $.ajax({
 		url: paramUrl.createTematicLayerFeature,
 		data: data,
@@ -359,3 +359,91 @@ function deleteServidorWMS(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+<<<<<<< HEAD
+=======
+
+function getWMSLayers(url){
+	return jQuery.ajax({
+		url: paramUrl.ows2json,
+		data: {url:url},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createTematicLayerEmpty(data){
+	return jQuery.ajax({
+		url: paramUrl.createTematicLayerEmpty,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function moveFeatureToTematic(data){
+	return jQuery.ajax({
+		url: paramUrl.moveFeatureToTematic,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteFeature(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteFeature,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function updateFeature(data){
+	return jQuery.ajax({
+		url: paramUrl.updateFeature,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function updateTematicRangs(data){
+	return jQuery.ajax({
+		url: paramUrl.updateTematicRangs,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createRandomUser(){
+	return jQuery.ajax({
+		url: paramUrl.createRandomUser,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteRandomUser(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteRandomUser,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+function getJSONPServei(url){
+	return jQuery.ajax({
+		url: paramUrl.json2jsonp,
+		data: {url:url},
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise()
+	.fail(function(msg,err) {
+	console.info(err);
+	})
+}
+>>>>>>> refs/remotes/origin/master

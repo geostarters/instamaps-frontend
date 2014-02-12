@@ -10,15 +10,37 @@ var download_layer;
 var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
 		'iconGlif':'fa fa-',
 		'colorGlif':'#333333','fontsize':'14px','size':'28'};
+var default_line_style = {
+    weight: 3,       
+    color: '#FFC400',
+    dashArray: '3'
+};
+var default_area_style = {
+    weight: 3,
+    opacity: 1,
+    color: '#FFC400',
+    dashArray: '3',
+    fillColor: '#FFC400',
+    fillOpacity: 0.5
+};
+var default_point_style = {
+	icon : '',
+	markerColor : 'orange',
+	divColor:'transparent',
+	iconAnchor : new L.Point(14, 42),
+	iconSize : new L.Point(28, 42),
+	iconColor : '#000000',
+	prefix : 'fa'
+};
 
 jQuery(document).ready(function() {
 	map = new L.IM_Map('map', {
 		typeMap : 'topoMap',
 		maxZoom : 19,
-	// drawControl: true
+		//drawControl: true
 	}).setView([ 41.431, 1.8580 ], 8);
 	
-var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
+	var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 	var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 	
 	L.control.scale({'metric':true,'imperial':false}).addTo(map);
@@ -53,8 +75,32 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 			window.location.href = paramUrl.loginPage;
 		});
 	}else{
-		mapConfig.newMap = true;
-		avisDesarMapa();
+		if (!$.cookie('uid')){
+			mapConfig.newMap = true;
+			createNewMap();
+			avisDesarMapa();
+		}else{
+			//TODO 
+			jQuery('#dialgo_leave').modal('show');
+			createRandomUser().then(function(results){
+				if (results.status==='OK'){
+					var user_login = results.results.uid;
+					var pass_login = "user1234";
+					doLogin(user_login, pass_login).then(function(results){
+						if(results.status==='OK'){
+							jQuery.cookie('uid', user_login, {path:'/'});
+							window.location="/geocatweb/mapa.html";
+						}				
+					});
+				}
+			});
+			
+			jQuery(window).on('beforeunload',function(event){
+				deleteRandomUser({uid: $.cookie('uid')});
+			});
+			
+		}	
+		
 		/*
 		loadMapConfig(mapConfig).then(function(){
 			mapConfig.newMap = true;
@@ -73,6 +119,9 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 		$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
 		$( ".text_error" ).remove();
 		$('#dialgo_publicar').modal('show');
+		var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
+		$('#urlMap').val(urlMap);
+		$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'" ></iframe>');
 	});
 	
 	jQuery('#dialgo_publicar .btn-primary').on('click',function(){
@@ -81,6 +130,15 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 	
 	jQuery('#dialgo_leave .btn-primary').on('click',function(){
 		leaveMapa();
+	});
+	
+	//botons tematic
+	jQuery('#st_Color').on('click',function(){
+		showTematicLayersModal(tem_simple);
+	});
+	
+	jQuery('#st_Tema').on('click',function(){
+		showTematicLayersModal(tem_clasic);
 	});
 
 //	$('#add_twitter_layer').click(function(){
@@ -97,33 +155,35 @@ var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDom
 		type: 'text',
 		mode: 'inline',
 		success: function(response, newValue) {
-				var data = {
-				 	businessId: url('?businessid'), 
-				 	nom: newValue, 
-				 	uid: $.cookie('uid')
-				 }
-		 
-				updateMapName(data).then(function(results){
-					if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+			var data = {
+			 	businessId: url('?businessid'), 
+			 	nom: newValue, 
+			 	uid: $.cookie('uid')
+			}
+
+
+			updateMapName(data).then(function(results){
+				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
 			},function(results){
 				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
 			});	
-		 }
+		}
+
 	});
 	//$.fn.editable.defaults.mode = 'inline';
 	$('.leaflet-remove').click(function() {
 		alert( "Handler for .click() called." );
 	});	
 	
-	  jQuery('#socialShare').share({
+	jQuery('#socialShare').share({
 	        networks: ['email','facebook',/*'googleplus',*/'twitter','linkedin','pinterest'],
 	        theme: 'square',
 //	        title: 'InstaMapes',
 //	        urlToShare: 'http://www.google.com'
 //	        urlToShare: 'http://localhost/geocatweb/mapa.html?businessId='+url('?businessid')
-	    });	
+	 });	
 	  
-		jQuery('#socialShare').on('click', function(evt){
+	jQuery('#socialShare').on('click', function(evt){
 			evt.preventDefault();
 			console.debug('on click social');
 //			var $thisIndex = jQuery(this).index();
@@ -235,6 +295,22 @@ function addClicksInici() {
        	 //addCapaMunicipis();	        
         }
     });
+	
+	
+	
+	jQuery('#st_Heat').on('click',function(e) {
+	
+			createHeatMap(controlCapes._layers[63])
+		});
+	
+	
+	jQuery('#st_Clust').on('click',function(e) {
+		
+		creaClusterMap(controlCapes._layers[63])
+	});
+
+	
+	
 }
 
 function addOpcionsFonsMapes() {
@@ -408,47 +484,49 @@ function activaPanelCapes(obre) {
 }
 
 function changeDefaultLineStyle(canvas_linia){
-	var estilTMP={
-	        weight: 3,       
-	        color: '#FFC400',
-	        dashArray: '3'
-	       
-	    };
-	
+	var estilTMP = default_line_style;
+
+
+
+
+
+
+
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
-	//estilTMP.dashArray='3';
-	
+
+
 	if(objEdicio.obroModalFrom=="creaCapa"){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
-	
+
 	return estilTMP;
 
-	/*
-	if(estil.tipus=="pol"){
-		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
-		drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
-		drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
-	}else{
-		drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
-		drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polyline.shapeOptions.dashArray='3';
-	}
-	*/
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 function changeDefaultAreaStyle(canvas_pol){
-	var estilTMP={
-        weight: 3,
-        opacity: 1,
-        color: '#FFC400',
-        dashArray: '3',
-        fillColor: '#FFC400',
-        fillOpacity: 0.5
-    };
+	var estilTMP= default_area_style;
+
+
+
+
+
+
+
+
 	
 	estilTMP.fillColor=canvas_pol.fillStyle;
 	estilTMP.fillOpacity=canvas_pol.opacity;
@@ -476,17 +554,34 @@ function changeDefaultAreaStyle(canvas_pol){
 		
 }
 
+function createFeatureAreaStyle(style){
+	var estilTMP= default_area_style;
+	estilTMP.fillColor=style.color;
+	estilTMP.fillOpacity=(style.opacity/100);
+	estilTMP.weight=style.borderWidth;
+	estilTMP.color=style.borderColor;
+	return estilTMP;
+}
 
 function changeDefaultPointStyle(estilP) {
 
-	var puntTMP= new L.AwesomeMarkers.icon({
-		icon : '',
-		markerColor : 'orange',
-		iconAnchor : new L.Point(14, 42),
-		iconSize : new L.Point(28, 42),
-		iconColor : '#000000',
-		prefix : 'fa'
-	});
+	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
@@ -502,6 +597,7 @@ function changeDefaultPointStyle(estilP) {
 		var num=estilP.size;
 		puntTMP.options.shadowSize = new L.Point(1, 1);
 		var tt=estilP.fontsize;
+		puntTMP.options.divColor=estilP.divColor;
 		if(tt=="9px"){
 			cssText="font9";			
 		}else if(tt=="11px"){
@@ -517,18 +613,23 @@ function changeDefaultPointStyle(estilP) {
 		if(_iconGlif==""){//no tin glif
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);		
+			puntTMP.options.icon="";
 		}else{
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);	
+			puntTMP.options.icon=_iconGlif + " "+cssText;
 		}
 		
 	}else{ // sóc punt
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
+		puntTMP.options.divColor='transparent';
+		puntTMP.options.icon=_iconGlif + " "+cssText;
 	}
 	
-	puntTMP.options.icon=_iconGlif + " "+cssText;
+	
+
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
 	
@@ -538,6 +639,14 @@ function changeDefaultPointStyle(estilP) {
 	
 	return puntTMP;
 } 
+
+function createFeatureMarkerStyle(style){
+	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+	puntTMP.options.iconColor = style.simbolColor;
+	puntTMP.options.icon = style.simbol;
+	puntTMP.options.markerColor = style.marker;
+	return puntTMP;
+}
 
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
@@ -560,19 +669,33 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
+
+			
+			jQuery('#div_punt').css('background-color',estilP.divColor);	
+			
+			
 			changeDefaultPointStyle(estilP);	
 			
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
+			
+
+								// console.info(map._layers[objEdicio.featureID]);
+			alert("Atenció problema amb tipus punt Awson i circle")
 			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
+		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
+
+
 		}else{
-			//pensat per tematics
+			console.debug(objEdicio.obroModalFrom);
+
 		}
 		
 		jQuery('#dialog_estils_punts').modal('toggle');				
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
-		
+
 		if(objEdicio.obroModalFrom=="creaCapa"){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
 			jQuery('#dialog_estils_linies').modal('toggle');		
@@ -580,24 +703,30 @@ function addDialegsEstils() {
 			changeDefaultLineStyle(canvas_linia);
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
+		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else{
-			
+			console.debug(objEdicio.obroModalFrom);
+
 		}
 		jQuery('#dialog_estils_linies').modal('toggle');			
 	});
 	
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom=="creaCapa"){
-			
-		addGeometryInitP(document.getElementById("cv_pol"));  
-		jQuery('#dialog_estils_arees').modal('toggle');		
-		//changeDefaultVectorStyle(canvas_pol);
-		changeDefaultAreaStyle(canvas_pol);
-		
+
+			addGeometryInitP(document.getElementById("cv_pol"));  
+			jQuery('#dialog_estils_arees').modal('toggle');		
+			//changeDefaultVectorStyle(canvas_pol);
+			changeDefaultAreaStyle(canvas_pol);
+
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
+		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else{
-			
+			console.debug(objEdicio.obroModalFrom);
+
 		}
 		jQuery('#dialog_estils_arees').modal('toggle');	
 				
@@ -608,42 +737,82 @@ function addDialegsEstils() {
 	})
 	
 	var hihaGlif=false;	
-	jQuery(document).on('click', ".bs-punts li", function(e) {
+	
+	jQuery(document).on('click', "#div_puntZ", function(e) {
 		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery(this).addClass("estil_selected");
+		estilP.iconFons=jQuery('div', this).attr('class');
+		jQuery('#div_punt0').removeClass();
+		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+		//if(!hihaGlif){
+		jQuery('#dv_cmb_punt').show();
+		//}else{
+		//	jQuery('#dv_cmb_punt').hide();	
+		var vv=jQuery('#cmb_mida_Punt').val();
+			jQuery('#div_punt0').css('width',vv+'px');
+			 jQuery('#div_punt0').css('height',vv+'px');
+			 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
+			 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
+			 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
+			 jQuery('#div_punt0').css('background-color',estilP.divColor);
+			 estilP.fontsize=(vv/2)+"px";
+			 estilP.size=vv;
+	
+	
+	});
+	jQuery(document).on('click', ".bs-punts li", function(e) {
+		
+		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery("#div_puntZ").removeClass("estil_selected");
+		
+		
 		jQuery('#div_punt0').removeClass();
 		estilP.iconFons=jQuery('div', this).attr('class');
 		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
 		jQuery(this).addClass("estil_selected");	
 		
-		if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
+		//if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
 			
-			//if(!hihaGlif){
-			jQuery('#dv_cmb_punt').show();
-			//}else{
-			//	jQuery('#dv_cmb_punt').hide();	
-			var vv=jQuery('#cmb_mida_Punt').val();
-				jQuery('#div_punt0').css('width',vv+'px');
-				 jQuery('#div_punt0').css('height',vv+'px');
-				 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-				 estilP.fontsize=(vv/2)+"px";
-				 estilP.size=vv;
+
+
+
+
+
+
+
+
+
+
+		
 			//}
-		}else{
+		//}else{
 			jQuery('#dv_cmb_punt').hide();
 			jQuery('#div_punt0').css('width','28px');
 			 jQuery('#div_punt0').css('height','42px');	
 			 jQuery('#div_punt0').css('font-size',"14px");
+			 estilP.divColor='transparent';
+			 jQuery('#div_punt0').css('background-color',estilP.divColor);
 			 estilP.fontsize="14px";
-		}
+
+		//}
 	});
 	
 	
 	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
-	    jQuery('#div_punt0').css('width',this.value+"px");
-		jQuery('#div_punt0').css('height',this.value+"px");
-		jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
-		estilP.fontsize=(this.value/2)+"px";
-		estilP.size=this.value;
+		
+		if(jQuery('#div_puntZ').hasClass("estil_selected")){
+			
+			jQuery('#div_punt0').css('width',this.value+"px");
+			jQuery('#div_punt0').css('height',this.value+"px");
+			jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
+			estilP.fontsize=(this.value/2)+"px";
+			estilP.size=this.value;
+		}
+	    jQuery('#div_punt9').css('width',this.value+"px");
+		jQuery('#div_punt9').css('height',this.value+"px");
+		jQuery('#div_punt9').css('font-size',(this.value/2)+"px");
+		
+		
 	});
 	
 	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
@@ -846,6 +1015,7 @@ function creaPopOverMevasDades(){
 
 			deleteTematicLayerAll(data).then(function(results){
 				console.debug(results);
+
 				if (results.status == "OK"){
 					_this.parent().remove();
 				}
@@ -867,6 +1037,7 @@ function creaPopOverMevasDades(){
 //			html : true,
 //			trigger : 'manual'
 //	});
+
 }
 
 function loadPopOverMevasDades(){
@@ -981,17 +1152,17 @@ function carregarCapa(businessId){
 		capaFeatures.options = {
 			businessId : results.results.businessId,
 			nom : results.results.nom,
-			zIndex : controlCapes._lastZIndex+1
+//			zIndex : controlCapes._lastZIndex+1
 		};
 		var geometryType = results.results.geometryType;
-		if (geometryType=="marker"){
-			capaFeatures.options.tipus = 'Marker';
-		}else if (geometryType=="line"){
-			capaFeatures.options.tipus = 'Line';
-		}else if (geometryType=="polygon"){
-			capaFeatures.options.tipus = 'Polygon';
-		}else if (geometryType=="multiple"){
-			capaFeatures.options.tipus = 'Multiple';
+		if (geometryType==t_marker){
+			capaFeatures.options.tipus = t_marker;
+		}else if (geometryType==t_polyline){
+			capaFeatures.options.tipus = t_polyline;
+		}else if (geometryType==t_polygon){
+			capaFeatures.options.tipus = t_polygon;
+		}else if (geometryType==t_mulitple){
+			capaFeatures.options.tipus = t_mulitple;
 		}
 		
 		//agregar la capa tematica al mapa. Leer los features y cargarlos
@@ -1066,23 +1237,37 @@ function creaPopOverDadesExternes() {
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
 
-				jQuery(tbA+" a.label").on('click', function(e) {
+				jQuery(tbA+" a.label-explora").on('click', function(e) {
 					if(e.target.id !="id_do"){
 						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
 					}
 				});
-				
-				//jQuery(tbA).html('<span class="label">Font:<a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+
+
+
 				
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
-				jQuery(tbA+" a.label").on('click', function(e) {
+				jQuery(tbA+" a.label-wms").on('click', function(e) {
 					if(e.target.id !="id_srvw"){
-					//addCapaDadesObertes(e.target.id,jQuery(e.target).text());
-						console.info("hola");
+						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
 					}
 				});	
+				
+			}else if(tbA == "#id_srvj"){
+				jQuery(tbA).empty();
+				jQuery(tbA).html(_htmlServeisJSON.join(' '));
+				jQuery("#bt_connJSON").on('click', function(e) {
+					if(e.target.id !="#id_srvj"){
+						getServeiJSONP(jQuery("#txt_URLJSON").val());
+					}
+				});		
+				
+				
+				
+				
+		
 			}else if(tbA == "#id_xs"){//Jess
 				
 				jQuery(tbA).html(
@@ -1127,7 +1312,8 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
 		onEachFeature : popUp,
 		nom : dataset,
-		tipus : 'Marker',
+		tipus : t_dades_obertes,
+
 		businessId : '-1',
 		dataType : "jsonp",
 		zIndex: lastZIndex,
@@ -1174,7 +1360,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	            epsg: '4326',
 	            transparency: true,
 	            visibilitat: 'O',
-				options: '{"tipus": "Marker", "dataset":"'+dataset+'"}'
+				options: '{"dataset":"'+dataset+'"}'
 		};
 		
 		createServidorInMap(data).then(function(results){
@@ -1187,11 +1373,27 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		});
 		
 	}else{
+
 		capaDadaOberta.addTo(map)
 		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+
+
+
+
+
+
+
+
+
+
+
+
+
 		activaPanelCapes(true);
 	}
 	//capaDadaOberta.on('layeradd',objecteUserAdded)
+
+
 }
 
 
@@ -1244,9 +1446,9 @@ function popUp(f, l) {
 
 function generaLListaDadesObertes() {
 	getLListaDadesObertes().then(function(results) {
-		_htmlDadesObertes.push('<div><ul class="bs-dadesO">');
+		_htmlDadesObertes.push('<div class="panel-danger"><ul class="bs-dadesO panel-heading">');
 		$.each(results.dadesObertes, function(key, dataset) {
-			_htmlDadesObertes.push('<li><a class="label label-explora" lang="ca" title="Afegir capa" href="#" id="'
+			_htmlDadesObertes.push('<li><a class="label-explora" lang="ca" title="Afegir capa" href="#" id="'
 				+ dataset.dataset
 				+ '">'
 				+ dataset.text
@@ -1265,23 +1467,33 @@ function loadMapConfig(mapConfig){
 		jQuery('#businessId').val(mapConfig.businessId);
 		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
-		if (mapConfig.options.fons != 'topoMap'){
-			map.setActiveMap(mapConfig.options.fons);
-			map.setMapColor(mapConfig.options.fonsColor);
-			//map.gestionaFons();
+		if (mapConfig.options != null){
+			if (mapConfig.options.fons != 'topoMap'){
+				map.setActiveMap(mapConfig.options.fons);
+				map.setMapColor(mapConfig.options.fonsColor);
+				//map.gestionaFons();
+			}
+				
+			if (mapConfig.options.bbox){
+				var bbox = mapConfig.options.bbox.split(",");
+				var southWest = L.latLng(bbox[1], bbox[0]),
+			    northEast = L.latLng(bbox[3], bbox[2]),
+			    bounds = L.latLngBounds(southWest, northEast);
+				map.fitBounds( bounds ); 
+			}
 		}
 			
-		if (mapConfig.options.bbox){
-			var bbox = mapConfig.options.bbox.split(",");
-			var southWest = L.latLng(bbox[1], bbox[0]),
-		    northEast = L.latLng(bbox[3], bbox[2]),
-		    bounds = L.latLngBounds(southWest, northEast);
-			map.fitBounds( bounds ); 
-		}
-	
+
+
+
+
+
+
+
+
 		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
-			
+
 			if (value.epsg == "4326"){
 				value.epsg = L.CRS.EPSG4326;
 			}else if (value.epsg == "25831"){
@@ -1310,14 +1522,14 @@ function loadMapConfig(mapConfig){
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
 			
 			}else if(value.serverType == t_tematic){
-				
-				console.debug('Entra a tipus tematic layer');
+
+
 				loadTematicLayer(value);
 			}
 		});
-				
-	}else{
-		
+
+
+
 	}
 	
 	var source = $("#map-properties-template").html();
@@ -1391,6 +1603,8 @@ function publicarMapa(){
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				$('#dialgo_publicar').modal('hide');
 				mapConfig.newMap = false;
+				//update map name en el control de capas
+				$('#nomAplicacio').text(mapConfig.nomAplicacio);
 			}	
 		});
 	}
@@ -1429,8 +1643,8 @@ function initControls(){
 	addToolTipsInici();
 	redimensioMapa();
 	creaPopOverDadesExternes();
-//	creaPopOverMevasDades();
-	generaLListaDadesObertes();
+	//creaPopOverMevasDades();
+	//generaLListaDadesObertes();
 	creaAreesDragDropFiles();
 	creaPopOverMesFonsColor();
 	tradueixMenusToolbar();
@@ -1451,7 +1665,8 @@ function addTwitterLayer(hashtag){
 						hashtag: hashtag,
 						nom: 'twitter_'+ hashtag,
 						zIndex: lastZIndex, 
-						businessId: '-1'
+						businessId: '-1',
+						tipus: t_xarxes_socials
 					});
 
 	//Si el mapa existeix a BD
@@ -1495,6 +1710,7 @@ function loadTwitterLayer(layer, hashtag){
 	var twitter = new L.Twitter({
 		hashtag: hashtag,
 		nom: layer.serverName,
+		tipus : layer.serverType,
 		zIndex: parseInt(layer.capesOrdre), 
 		businessId: layer.businessId
 	});	
@@ -1514,7 +1730,8 @@ function addPanoramioLayer(){
 						maxTotal: 250, 
 						zIndex: lastZIndex,
 						nom : 'panoramio_'+lastZIndex,
-						businessId: '-1'
+						businessId: '-1',
+						tipus: t_xarxes_socials
 					});
 	
 	if(typeof url('?businessid') == "string"){
@@ -1558,6 +1775,7 @@ function loadPanoramioLayer(layer){
 		maxTotal: 250, 
 		zIndex: parseInt(layer.capesOrdre),
 		nom : layer.serverName,
+		tipus : layer.serverType,
 		businessId: layer.businessId
 	});	
 	
@@ -1574,7 +1792,8 @@ function addWikipediaLayer(){
 	var wikipedia = new L.Wikipedia({
 						zIndex: lastZIndex,
 						nom : 'wikipedia_'+lastZIndex,
-						businessId: '-1'
+						businessId: '-1',
+						tipus: t_xarxes_socials
 					});
 	
 	if(typeof url('?businessid') == "string"){
@@ -1617,6 +1836,7 @@ function loadWikipediaLayer(layer){
 	var wikipedia = new L.Wikipedia({
 		zIndex: parseInt(layer.capesOrdre),
 		nom : layer.serverName,
+		tipus : layer.serverType,
 		businessId: layer.businessId
 	});	
 	
@@ -1678,19 +1898,25 @@ function loadWikipediaLayer(layer){
 function myRemoveLayer(obj){
 	
 	console.debug('Arriba a myRemoveLayer');
+	map.closePopup();
 	map.removeLayer(obj.layer);
 	//Eliminem la capa de controlCapes, i actualitzem valors zindex de la resta
 	var removeZIndex = obj.layer.options.zIndex;
 	controlCapes.removeLayer(obj.layer);
 	controlCapes._lastZIndex--;
-	var obj = controlCapes._layers;
-	for (var i in obj) {
-		if (obj[i].layer.options.zIndex > removeZIndex) obj[i].layer.options.zIndex--;
+	var aux = controlCapes._layers;
+	for (var i in aux) {
+		if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+	}
+	//Actualitzem capaUsrActiva
+	if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+		capaUsrActiva.removeEventListener('layeradd');
+		capaUsrActiva = null;
 	}
 }
 
 function updateEditableElements(){
-	console.debug('updateEditableElements');
+	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
 		type: 'text',
 			success: function(response, newValue) {
@@ -1750,7 +1976,8 @@ function loadDadesObertesLayer(layer){
 	var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 		onEachFeature : popUp,
 		nom : layer.serverName,
-		tipus : options.tipus,
+		tipus : layer.serverType,
+
 		businessId : layer.businessId,
 		dataType : "jsonp",
 		zIndex: parseInt(layer.capesOrdre),
@@ -1804,6 +2031,7 @@ function loadWmsLayer(layer){
 	    opacity: layer.opacity,
 	    crs: layer.epsg,
 		nom : layer.serverName,
+		tipus: layer.serverType,
 		zIndex :  parseInt(layer.capesOrdre),	    
 	    businessId: layer.businessId
 	});
@@ -1815,81 +2043,212 @@ function loadWmsLayer(layer){
 }
 
 function loadTematicLayer(layer){
-	
-	var capaTematic = new L.FeatureGroup();
-	
-	capaTematic.options = {
-		businessId : layer.businessId,
-		nom : layer.serverName,
-		zIndex :  parseInt(layer.capesOrdre),
-		tipus : 'Marker'
-	};	
-	
+
+
+
+
+
+
+
+
+
+
 	var data={
-			businessId: layer.businessId,
-			uid: $.cookie('uid')
+		businessId: layer.businessId,
+		uid: $.cookie('uid')
 	};
 	
-	var defaultPunt= L.AwesomeMarkers.icon({
-		icon : '',
-		markerColor : 'orange',
-		iconAnchor : new L.Point(14, 42),
-		iconSize : new L.Point(28, 42),
-		iconColor : '#000000',
-		prefix : 'fa'
-	});	
+	var layerWms = layer;
+
+
+
+
+
+
+
+
+
 	
+	console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayer(data).then(function(results){
-		console.debug(results.results);
+		console.timeEnd("loadTematicLayer " + layerWms.serverName);
+
 		if(results.status == "OK" ){
+			var tematic = results.results;
+			var Lgeom = tematic.geometries.features.features;
+			var idDataField = tematic.idDataField;
+			var idGeomField = tematic.idGeomField;
+			var dataField = tematic.dataField;
+			var Lrangs = tematic.rangs;
+			var Ldades = (tematic.capes ? tematic.capes.dades : []);
 			
-			var Lgeom = results.results.geometries.features.features;
-			var idDataField = results.results.idDataField;
-			var idGeomField = results.results.idGeomField;
-			var Lrangs = results.results.rangs;
-			var Ldades = results.results.capes.dades;
+			var capaTematic = new L.FeatureGroup();
 			
-			for(var i=0;i<Lgeom.length;i++){
-				var geom = Lgeom[i];
-				if(geom.properties[''+idGeomField+''] == Ldades[i][''+idDataField+''] ){
-					
-					//Cerquem el rang que toca entre tots els possibles
-					var rang;
-					for(var j=0;j<Lrangs.length;j++){
-						if(Lrangs[i].valorMax == geom.properties[''+idGeomField+''] ){
-							rang = Lrangs[i];
-							break;
-						} 
+			capaTematic.options = {
+				businessId : layerWms.businessId,
+				nom : layerWms.serverName,
+				zIndex :  parseInt(layerWms.capesOrdre),
+				tipus : layerWms.serverType,
+				geometryType: tematic.geometryType
+			};
+
+
+
+
+
+			
+			for(var g=0;g<Lgeom.length;g++){
+				var geom = Lgeom[g];
+				var rangStyle;
+				if (geom.geometry){
+					var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
+					if (dataGeom.length > 0){
+						dataGeom = dataGeom[0];
+						jQuery.extend(geom.properties, {data: dataGeom});
+					}else{
+						dataGeom = null;
 					}
-					
-					if(rang!= null && results.results.geometryType === "Marker"){
-						
-						var rangPunt = L.AwesomeMarkers.icon({
-							icon : rang.simbol,
-							markerColor : rang.marker,
-							iconAnchor : new L.Point(14, 42),
-							iconSize : new L.Point(28, 42),
-							iconColor : rang.simbolColor,
-							prefix : 'fa'
-						});							
-						
-						 var layer=L.marker([geom.geometry.coordinates[1],geom.geometry.coordinates[0]],
-								 {icon: rangPunt}).addTo(map);
-						 capaTematic.addLayer(layer);						
-						
-					}else if (rang!= null && results.results.geometryType === "Line"){
-						
-					}else if (rang!= null && results.results.geometryType === "Polygon"){
-						
+					var ftype = geom.geometry.type;
+					ftype = ftype.toLowerCase();
+					if (ftype === t_point){
+						ftype = t_marker;
+					}else if (ftype === t_linestring){
+						ftype = t_polyline;
+					}
+					//Sin rangos
+					if (Lrangs.length == 0){
+						if (ftype === t_marker){
+							rangStyle = L.AwesomeMarkers.icon(default_point_style);
+						}else if (ftype === t_polyline){
+							rangStyle = default_line_style;
+						}else if (ftype === t_polygon){
+							rangStyle = default_area_style;
+						}
+					}
+					//1 Rango
+					else if (Lrangs.length == 1){
+						rangStyle = Lrangs[0];
+						if (ftype === t_marker){
+							//TODO
+							rangStyle = createFeatureMarkerStyle(rangStyle);
+						}else if (ftype === t_polyline){
+							//TODO
+						}else if (ftype === t_polygon){
+							rangStyle = createFeatureAreaStyle(rangStyle);
+						}
+					}
+					//Multiples rangos
+					else{
+						if (dataGeom){
+							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
+							if (rangStyle.length > 0){
+								rangStyle = rangStyle[0];
+								if (ftype === t_marker){
+									rangStyle = L.AwesomeMarkers.icon(rangStyle);
+								}else if (ftype === t_polyline){
+									//TODO
+								}else if (ftype === t_polygon){
+									rangStyle = createFeatureAreaStyle(rangStyle);
+								}
+							}else{
+								if (ftype === t_marker){
+									rangStyle = L.AwesomeMarkers.icon(default_point_style);
+								}else if (ftype === t_polyline){
+									rangStyle = default_line_style;
+								}else if (ftype === t_polygon){
+									rangStyle = default_area_style;
+								}
+							}
+						}else{
+							if (ftype === t_marker){
+								rangStyle = L.AwesomeMarkers.icon(default_point_style);
+							}else if (ftype === t_polyline){
+								rangStyle = default_line_style;
+							}else if (ftype === t_polygon){
+								rangStyle = default_area_style;
+							}
+						}
+					}
+					var featureTem;
+					if (ftype === t_marker){
+						featureTem = L.marker([geom.geometry.coordinates[0],geom.geometry.coordinates[1]],
+							 {icon: rangStyle}).addTo(map);
+					}else if (ftype === t_polyline){
+						var coords=geom.geometry.coordinates;
+						var k=0;
+						var j=0;
+						var llistaPunts=[];
+						while (k < coords.length){
+							var c=coords[k];
+							var punt=new L.LatLng(c[0], c[1]);
+							llistaPunts[j]=punt;
+							k++;
+							j++;
+						}
+						featureTem = L.polyline(llistaPunts, rangStyle);						
+					}else if (ftype === t_polygon){
+						var coords=geom.geometry.coordinates;
+						var k=0;
+						var j=0;
+						var llistaPunts=[];
+						while (k < coords.length){
+							var linecoord=coords[k];
+							var l=0;
+							while (l < linecoord.length){
+								var c=linecoord[l];
+								var punt=new L.LatLng(c[1], c[0]);
+								llistaPunts[j]=punt;
+								j++;
+								l++;
+							}
+							k++;
+						}
+						featureTem = new L.Polygon(llistaPunts, rangStyle);
+
+
+
+
+
+
+
+
+
+					}
+					if (featureTem){
+						featureTem.properties = geom.properties;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						capaTematic.addLayer(featureTem);
+
+
+
+
+
 					}
 
-					
-				}else{//No te estil definit, el pintem amb un estil per defecte
-					console.debug('Estil per defecte');
-				
+
+
+
+
 				}
 			}
-			
+			if (capaTematic!=null){
+				capaTematic.addTo(map);
+				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
+			}
+
 		}else{
 			alert("Error getTematicLayer");
 		}
@@ -1897,12 +2256,12 @@ function loadTematicLayer(layer){
 	},function(results){
 		console.debug('getTematicLayer ERROR');
 	});
-	
 
-	
-	capaTematic.addTo(map);
-	controlCapes.addOverlay(capaTematic, layer.serverName, true);	
-	
+
+
+
+
+
 }
 
 function toggleCollapseTwitter(){
@@ -1916,3 +2275,275 @@ function showConfOptions(businessId){
 	else jQuery("#conf-"+businessId+"").show();
 }
 
+function createNewMap(){
+	var data = {
+		nom: "Untitle map",
+		uid: $.cookie('uid'),
+		visibilitat: 'O',
+		tipusApp: 'vis',
+	};
+	
+	createMap(data).then(function(results){
+		if (results.status == "ERROR"){
+			//TODO Mensaje de error
+		}else{
+			mapConfig = results.results;
+			mapConfig.options = jQuery.parseJSON( mapConfig.options );
+			jQuery('#businessId').val(mapConfig.businessId);
+			mapConfig.newMap = false;
+		}
+	});
+}
+
+function showTematicLayersModal(tipus){
+	jQuery('.modal').modal('hide');
+	jQuery('#dialog_layers_tematic').modal('show');
+	var layers = [];
+	jQuery.each( controlCapes._layers, function( key, value ) {
+		if (this.layer.options.geometryType == t_marker){
+			layers.push(this);
+		}else if (this.layer.options.geometryType == t_polyline){
+			layers.push(this);
+		}else if (this.layer.options.geometryType == t_polygon){
+			layers.push(this);
+		}
+	});
+	
+	layers = {layers: layers};
+
+	var source = jQuery("#tematic-layers-template").html();
+	var template = Handlebars.compile(source);
+	var html = template(layers);
+	$('#list_tematic_layers').html(html);
+	
+	$('.usr_wms_layer').on('click',function(e){
+		var _this = jQuery(this);
+		var data = _this.data();
+		data.from = tipus;
+		if (tipus == tem_simple){
+			if (data.geometrytype == t_marker){
+				obrirMenuModal('#dialog_estils_punts','toggle',data);
+			}else if (data.geometrytype == t_polyline){
+				obrirMenuModal('#dialog_estils_linies','toggle',data);
+			}else if (data.geometrytype == t_polygon){
+				obrirMenuModal('#dialog_estils_arees','toggle',data);
+			}
+		}else if(tipus == tem_clasic){
+			createTematicClasic(data);
+		}
+	});
+}
+
+function createTematicClasic(data){
+	jQuery('.modal').modal('hide');
+	jQuery('#dialog_tematic_rangs').modal('show');
+	console.debug(data);
+	
+	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
+		
+		jQuery('#dialog_tematic_rangs').modal('hide');
+	});
+	
+	var dataTem={
+		businessId: data.businessid,
+		uid: jQuery.cookie('uid')
+	};
+		
+	getTematicLayer(dataTem).then(function(results){
+		if (results.status == "OK"){
+			var tematic = results.results;
+			console.debug(tematic);
+			var fields = {};
+			if (tematic.capes){
+				var dataNames = tematic.capes.fieldsName.split(',');
+				jQuery.each(dataNames, function( index, value ) {
+					fields[value] = "slotd"+(index+1);
+				});
+			}else{ //sin datos
+				fields['nom'] = 'nom';
+				var geomNames = tematic.geometries.fieldsName.split(',');
+				jQuery.each(geomNames, function( index, value ) {
+					fields[value] = "slotf"+(index+1);
+				});
+			}
+			var source1 = jQuery("#tematic-layers-fields").html();
+			var template1 = Handlebars.compile(source1);
+			var html1 = template1({fields:fields});
+			jQuery('#dataField').html(html1);
+			
+			jQuery('#dataField').on('change',function(e){
+				var this_ = jQuery(this);
+				readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
+					displayTematicRangs(tematic ,results);
+					
+				});
+			});
+			
+			jQuery('#dataField').val(tematic.dataField);
+			readDataTematicFromSlotd(tematic, jQuery('#dataField').val()).then(function(results){
+				displayTematicRangs(tematic ,results);
+			});
+		}
+	});
+	/*
+	var layer = controlCapes._layers[data.leafletid];
+	console.debug(layer.layer);
+	var features = layer.layer.getLayers();
+	var fields = [];
+	if (features.length > 0){
+		var feature = features[0];
+		jQuery.each(feature.properties, function( key, value ) {
+			if (key != 'businessId' && key != 'data'){
+				fields.push(key);
+			}
+		});
+	}
+	*/	
+}
+
+function displayTematicRangs(tematic ,results){
+	showTematicRangs(tematic ,results).then(function(results1){
+		var source1 = jQuery("#tematic-values-template").html();
+		var template1 = Handlebars.compile(source1);
+		var html1 = template1({values:results1});
+		jQuery('#list_tematic_values').html(html1);
+	});
+}
+
+function readDataTematicFromSlotd(tematic, slotd){
+	var defer = jQuery.Deferred();
+	var dades = tematic.capes.dades;
+	var values = jQuery.map( dades, function( a ) {
+		return a[slotd];
+	});
+	defer.resolve(values);
+	return defer.promise();
+}
+
+function showTematicRangs(tematic, values){
+	var defer = jQuery.Deferred();
+	var rangs = tematic.rangs;
+	var valuesStyle = [];
+	if(rangs.length == 0){
+		if (tematic.geometryType == t_marker){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_point_style};
+			});
+		}else if (tematic.geometryType == t_polyline){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_line_style};
+			});
+		}else if (tematic.geometryType == t_polygon){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_area_style};
+			});
+		}
+	}else if(rangs.length == 1){
+		rangStyle = rangs[0];
+		if (tematic.geometryType == t_marker){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}else if (tematic.geometryType == t_polyline){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}else if (tematic.geometryType == t_polygon){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}
+	}else{
+		
+	}
+	defer.resolve(valuesStyle);
+	
+	return defer.promise();
+}
+
+function changeTematicLayerStyle(tematic, styles){
+	var rangs = getRangsFromStyles(tematic, styles);
+	console.debug(rangs);
+	rangs = JSON.stringify({rangs:rangs});
+		
+	var data = {
+		businessId: tematic.businessid,
+		uid: $.cookie('uid'),
+		rangs: rangs
+	};
+	
+	updateTematicRangs(data).then(function(results){
+		console.debug(results);
+	});
+		
+	if (jQuery.isArray(styles)){
+		
+	}else{
+		var layer = controlCapes._layers[tematic.leafletid];
+		if (tematic.geometrytype == t_marker){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setIcon(styles);
+			});
+		}else if (tematic.geometrytype == t_polyline){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setStyle(styles);
+			});
+		}else if (tematic.geometrytype == t_polygon){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setStyle(styles);
+			});
+		}
+	}
+}
+
+function getRangsFromStyles(tematic, styles){
+	console.debug(styles);
+	var rangs = [];
+	if (jQuery.isArray(styles)){
+		
+	}else{
+		if (tematic.geometrytype == t_marker){
+			var rang = {
+				simbol: jQuery.trim(styles.options.icon),
+				simbolSize: styles.options.iconSize.y, 
+				simbolColor: styles.options.iconColor, 
+				marker: styles.options.markerColor
+			};
+		}else if (tematic.geometrytype == t_polyline){
+			/*var rang = {
+				borderWidth: 2,
+				borderColor: '#000000',
+				color: styles.options.iconColor,
+				label: false,
+				labelColor: '#000000',
+				labelFont: 'arial',
+				labelHaloColor: '#ffffff',
+				labelHaloWidth: 2,
+				labelSize: 10,
+				lineWidth: styles.lineWidth,
+				lineStyle: 'solid',			
+				llegenda: '',
+				opacity: (styles.opacity * 100),
+				poligonStyle: '',
+				simbol: styles.options.icon,
+				simbolSize: , 
+				simbolColor: styles.options.markerColor, 
+				valorMax: '',
+				valorMin: '',
+				marker: ''
+			};
+			*/
+		}else if (tematic.geometrytype == t_polygon){
+			console.debug(styles.fillColor);
+			styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
+			var rang = {
+				borderWidth: styles.weight,
+				borderColor: styles.color,
+				color: styles.fillColor,
+				opacity: (styles.fillOpacity * 100)
+			};
+		}
+		rangs.push(rang);
+	}
+	return rangs;
+}

@@ -85,10 +85,13 @@ var urls = {
 	createRang: HOST_APP+"layers/tematic/createRang.action?",
 	updateRang: HOST_APP+"layers/tematic/updateRang.action?",
 	deleteRang: HOST_APP+"layers/tematic/deleteRang.action?",
+	updateTematicRangs: HOST_APP+"layers/tematic/updateTematicRangs.action?",
 	updateGeometriesTematicLayer: HOST_APP+"layers/tematic/updateGeometriesTematicLayer.action?",
 	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
 	createTematicLayerFeature: HOST_APP+"layers/tematic/createTematicLayerFeature.action?",
+	createTematicLayerEmpty: HOST_APP+"layers/tematic/createTematicLayerEmpty.action?",
+	moveFeatureToTematic: HOST_APP+"layers/tematic/moveFeatureToTematic.action?",
 	deleteTematicLayerAll: HOST_APP+"layers/tematic/deleteTematicLayerAll.action?",
 	getAllTematicLayerByUid: HOST_APP+"layers/tematic/getAllTematicLayerByUid.action?",
 };
@@ -119,140 +122,53 @@ asyncTest( "login", 1, function() {
 	});	
 });
 
-asyncTest( "removeServerToMap", 2, function() {
+asyncTest( "updateTematicRangs", 1, function() {
+	var rangs = JSON.stringify({rangs:[{
+		llegenda: 'si',
+		valorMax: 'si',
+		//valorMax: ,
+		color: '#0000ff',
+		simbolSize: 16, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 90,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	},{
+		llegenda: 'no',
+		valorMax: 'no',
+		//valorMax: ,
+		color: '#ff0000',
+		simbolSize: 16, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 80,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	}]});
+		
 	$.ajax({
-		url: urls.removeServerToMap,
+		url: urls.updateTematicRangs,
 		data: {
+			businessId: 'a24b6827d46dadf5cca4fa09069583f0',
 			uid: 'wszczerban',
-			businessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
-			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b081'
-		},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						entitatUid : { type: 'string', required : true},
-						id : { type: 'number', required : true},
-						options : { type: ['string','null'], required : true},
-						clau : { type: ['string','null'], required : true},
-						usuari : { type: ['string','null'], required : true},
-						rank : { type: 'number', required : true},
-						tipusAplicacioId : { type: 'number', required : true},
-						visibilitat : { type: 'string', required : true},
-						contacte : { type: ['string','null'], required : true},
-						dataConfiguracio : { type: ['string','null'], required : true},
-						dataPublicacio : { type: ['string','null'], required : true},
-						logo : { type: ['string','null'], required : true},
-						thumbnail : { type: ['string','null'], required : true},
-						nomAplicacio : { type: 'string', required : true},
-						servidorsWMS : { type: ['array','null'], required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "deleteServidorWMS", 1, function() {
-	$.ajax({
-		url: urls.deleteServidorWMS,
-		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			uid: 'wszczerban'
+			rangs: rangs
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
 		equal(results.status,"OK",JSON.stringify(results));
-		start();
-	}).fail(function(results){
-		console.debug(results);
-		ok( false, "Fail and ready to resume!" );
-		start();
-	});	
-});
-
-asyncTest( "createServidorInMap", 2, function() {
-	$.ajax({
-		url: urls.createServidorInMap,
-		contentType: 'application/json',
-		type: 'POST',
-		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			mapBusinessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
-			uid: 'wszczerban',
-			visibilitat: 'O',
-			serverName: 'TOPO ICC',
-			serverType: 'wms',
-			url: 'http://mapcache.icc.cat/map/bases_noutm/service',
-			epsg: '4326',
-			version: '1.3.0',
-			imgFormat: 'image/png',
-			infFormat: 'text/html',
-			tiles: true,
-			transparency: true,
-			opacity: 1,
-			layers: JSON.stringify([{name:'topo',title:'topografic',group:0,check:true,query:false}]),
-			calentas: false,
-			activas: true,
-			visibilitats: true
-		},
-		dataType: 'jsonp'
-	}).done(function(results){
-		console.debug(results);
-		equal(results.status,"OK",results.status);
-		var schema = {
-			type : 'object',
-			properties : {
-				status: { type: 'string', required : true},
-				results: {
-					type : 'object',
-					properties :{
-						businessId : { type: 'string', required : true},
-						capesActiva : { type: ['string','null'], required : true},
-						capesCalenta : { type: ['string','null'], required : true},
-						capesOrdre : { type: ['string','null'], required : true},
-						capesVisibilitat : { type: ['string','null'], required : true},
-						entitatUid : { type: 'string', required : true},
-						epsg: { type: 'string', required : true},
-						group: { type: 'string', required : true},
-						id : { type: 'number', required : true},
-						imgFormat: { type: 'string', required : true},
-						infFormat: { type: 'string', required : true},
-						layers: { type: 'string', required : true},
-						legend: { type: ['string','null'], required : true},
-						opacity: { type: 'number', required : true},
-						options : { type: ['string','null'], required : true},
-						query: { type: 'string', required : true},
-						serverName : { type: 'string', required : true},
-						serverType : { type: 'string', required : true},
-						tiles: { type: 'string', required : true},
-						titles: { type: 'string', required : true},
-						transparency: { type: 'string', required : true},
-						url : { type: 'string', required : true},
-						version: { type: 'string', required : true},
-						visibilitat : { type: 'string', required : true}
-					}
-				}
-			}
-		};
-		var report = env.validate(results, schema);
-		equal(report.errors.length, 0, JSON.stringify(results));
+		
 		start();
 	}).fail(function(results){
 		console.debug(results);

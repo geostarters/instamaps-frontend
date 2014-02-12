@@ -1,31 +1,16 @@
-
 var ctr_cerca;
 
-
-
-
-
 function filterJSONICC(rawjson) {	
-		
 	var json = {},
 		key, loc, disp = [];
-
 	for(var i in rawjson)
 	{
-		
-
 		key = rawjson[i].nom +" ("+  rawjson[i].nomMunicipi+")";
-		
 		loc = L.latLng( rawjson[i].coordenadesETRS89LonLat.y, rawjson[i].coordenadesETRS89LonLat.x );
-		
 		json[ key ]= loc;	//key,value format
 	}
-	
 	return json;
 }
-
-
-
 
 
 function addControlCercaEdit(){
@@ -39,10 +24,8 @@ function addControlCercaEdit(){
 		zoom: 12,
 		minLength: 3,
 		autoType: false,
-		text:'Cercar llocs...',
-		
-		
-			/*
+		text: window.lang.convert('Cercar llocs a Catalunya ...'),
+		/*
 		textEdit:'<a id="act_move" href="#" >Moure <span class="glyphicon glyphicon-move"></span></a> | '+
 		'<a id="act_remove" href="#" >Esborrar <span class="glyphicon glyphicon-trash"></span></a> | '+
 		'<a id="act_end" href="#" >Finaltzar Edició <span class="glyphicon glyphicon-check"></span></a>',
@@ -51,12 +34,10 @@ function addControlCercaEdit(){
 		
 		}).addTo(map);
 	
-	
 	jQuery('.search-edit a').on("click", function(e) {	
-		
 		var id=jQuery(this).attr('id');
-		
 		if(id=="act_move"){
+
 			/*
 			featureActive.disable();
 			crt_Editing.enable();
@@ -66,6 +47,7 @@ function addControlCercaEdit(){
 			featureActive.disable();
 			crt_Remove.enable();
 			*/
+
 			
 			
 		}else if(id=="act_end"){
@@ -76,18 +58,6 @@ function addControlCercaEdit(){
 			crt_Editing.disable();
 			}
 			showEditText('hide');
-			
 		}
-		//console.info(jQuery(this).attr('id'));
-		//console.info(featureActive);		
 	});
-	
-	
-	
-	
-	
 }
-
-
-
-
