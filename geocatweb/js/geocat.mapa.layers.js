@@ -59,8 +59,10 @@ function objecteUserAdded(f){
 			geometryType: f.layer.options.tipus
 		};
 		var _this = this;
-		
+		finishAddFeatureToTematic(f.layer);
+		/*
 		createTematicLayerFeature(data).then(function(results) {
+			
 							if(results.status === 'OK'){
 								_this.options.businessId = results.results.businessId;
 //								_this.options.capesBusinessId = results.results.capesBusinessId;
@@ -77,7 +79,7 @@ function objecteUserAdded(f){
 						},function(results){
 							console.debug('addTematicLayerFeature ERROR');
 						});
-
+*/
 //	} else if (this.toGeoJSON().features.length > 1) {
 	} else if (this.getLayers().length > 1) {
 

@@ -3,39 +3,46 @@
 function creaClusterMap(capa){
 	
 	
-	var markers = L.markerClusterGroup({singleMarkerMode:true,
-		spiderfyOnMaxZoom: false,
-		showCoverageOnHover: false,
-		zoomToBoundsOnClick: false});
-	//_popup._content
-	//_leaflet_id
+	var clusterLayer = L.markerClusterGroup(
+			
+	{singleMarkerMode:true}
+	);
+	//{singleMarkerMode:true,spiderfyOnMaxZoom: true,showCoverageOnHover: true,zoomToBoundsOnClick: false}
 	capa.layer.eachLayer(function(layer){
 		
-		//var d =[layer.getLatLng().lat,layer.getLatLng().lng,1];	
-		//arrP.push(d);		
-		console.info(layer);
-		var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), { title: layer._leaflet_id });
+
+		
+		var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng),
+				{ title: layer._leaflet_id });
 		marker.bindPopup(layer._popup._content);
-		markers.addLayer(marker);
+		clusterLayer.addLayer(marker);
 			
 		});
 	
-	map.addLayer(markers);
 	
 	
+	clusterLayer.options.businessId ='-1';
+	clusterLayer.options.nom = capa.layer.options.nom+"_cluster";
+	clusterLayer.options.zIndex = controlCapes._lastZIndex+1;
+	clusterLayer.options.tipus = 'cluster';
+	clusterLayer.options.capaOrigen=capa.layer.options.businessId;
 	
-	/*
-	for (var i = 0; i < addressPoints.length; i++) {
-		var a = addressPoints[i];
-		var title = a[2];
-		var marker = L.marker(new L.LatLng(a[0], a[1]), { title: title });
-		marker.bindPopup(title);
-		markers.addLayer(marker);
-	}
+	
+		
 
-	map.addLayer(markers);
+
+	map.addLayer(clusterLayer);
+		controlCapes.addOverlay(clusterLayer,
+				clusterLayer.options.nom, true);
+		
+		
+		
+		activaPanelCapes(true);
 	
-	*/
+	map.removeLayer(capa.layer);
 	
+
+	
+		
 	
 }

@@ -7,9 +7,9 @@ var mapConfig = {};
 var dades1,dades2;
 var initMevesDades = false;
 var download_layer;
-var estilP={'iconFons':'awesome-marker-web awesome-marker-icon-orange',
-		'iconGlif':'fa fa-',
-		'colorGlif':'#333333','fontsize':'14px','size':'28'};
+var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
+		iconGlif:'fa fa-',
+		colorGlif:'#333333',fontsize:'14px',size:'28'};
 var default_line_style = {
     weight: 3,       
     color: '#FFC400',
@@ -30,7 +30,14 @@ var default_point_style = {
 	iconAnchor : new L.Point(14, 42),
 	iconSize : new L.Point(28, 42),
 	iconColor : '#000000',
-	prefix : 'fa'
+	prefix : 'fa',
+	isCanvas:false,
+	radius:6,
+	opacity:1,
+	weight : 2,
+	fillOpacity : 0.9,
+	color : "#ffffff",
+	fillColor :"#FFC500"
 };
 
 jQuery(document).ready(function() {
@@ -566,22 +573,6 @@ function createFeatureAreaStyle(style){
 function changeDefaultPointStyle(estilP) {
 
 	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
@@ -610,14 +601,23 @@ function changeDefaultPointStyle(estilP) {
 			cssText="font15";		
 		}
 	
-		if(_iconGlif==""){//no tin glif
+		
+		puntTMP.options.radius=parseInt(parseInt(defaultPunt.options.iconSize.x)/3);		
+		puntTMP.options.fillColor =estilP.divColor;
+		
+		
+		if(_iconGlif==""){//no tin glif soc Canvas
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);		
 			puntTMP.options.icon="";
+			puntTMP.options.isCanvas=true;
+			
 		}else{
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);	
 			puntTMP.options.icon=_iconGlif + " "+cssText;
+			puntTMP.options.isCanvas=false;
+			
 		}
 		
 	}else{ // sóc punt
@@ -626,6 +626,7 @@ function changeDefaultPointStyle(estilP) {
 		puntTMP.options.shadowSize = new L.Point(36, 16);
 		puntTMP.options.divColor='transparent';
 		puntTMP.options.icon=_iconGlif + " "+cssText;
+		puntTMP.options.isCanvas=false;
 	}
 	
 	
@@ -678,10 +679,55 @@ function addDialegsEstils() {
 			
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			
-
-								// console.info(map._layers[objEdicio.featureID]);
-			alert("Atenció problema amb tipus punt Awson i circle")
-			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
+			var cvStyle=changeDefaultPointStyle(estilP);
+			var feature=map._layers[objEdicio.featureID];
+			var capaMare=map._layers[feature.properties.capaLeafletId];
+			
+			var noCanvi=(feature.options.isCanvas==cvStyle.options.isCanvas);
+			
+			
+			if(noCanvi && !map._layers[objEdicio.featureID].options.isCanvas){//pinxo i/o glifons
+				map._layers[objEdicio.featureID].setIcon(cvStyle);		
+			}else if (noCanvi && map._layers[objEdicio.featureID].options.isCanvas){//Nomes punt
+				map._layers[objEdicio.featureID].setStyle(cvStyle);	
+			}else if (!noCanvi ){
+				
+				capaMare.removeLayer(feature);
+				
+				var layerTMP;
+				if(feature.options.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
+					
+					layerTMP=L.marker([feature.getLatLng().lat,feature.getLatLng().lng],
+							{icon: cvStyle,isCanvas:cvStyle.options.isCanvas,
+							 tipus: t_marker});
+				}else{//hi ha canvia de pinxo a punt canvas
+					
+					layerTMP= L.circleMarker([feature.getLatLng().lat,feature.getLatLng().lng],
+							{ radius : cvStyle.options.radius, 
+							  isCanvas:cvStyle.options.isCanvas,
+							  fillColor : cvStyle.options.fillColor,
+							  color :  cvStyle.options.color,
+							  weight :  cvStyle.options.weight,
+							  opacity :  cvStyle.options.opacity,
+							  fillOpacity : cvStyle.options.fillOpacity,
+							  tipus: t_marker}
+							
+					);
+				
+				}
+				layerTMP.properties=feature.properties;	
+				layerTMP.addTo(capaMare);
+				createPopupWindow(layerTMP,layerTMP.options.tipus);
+				
+				
+			}
+			
+				
+				
+			
+			
+			
+		
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
 
@@ -739,24 +785,12 @@ function addDialegsEstils() {
 	var hihaGlif=false;	
 	
 	jQuery(document).on('click', "#div_puntZ", function(e) {
-		jQuery(".bs-punts li").removeClass("estil_selected");
-		jQuery(this).addClass("estil_selected");
-		estilP.iconFons=jQuery('div', this).attr('class');
-		jQuery('#div_punt0').removeClass();
-		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-		//if(!hihaGlif){
-		jQuery('#dv_cmb_punt').show();
-		//}else{
-		//	jQuery('#dv_cmb_punt').hide();	
-		var vv=jQuery('#cmb_mida_Punt').val();
-			jQuery('#div_punt0').css('width',vv+'px');
-			 jQuery('#div_punt0').css('height',vv+'px');
-			 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-			 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
-			 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
-			 jQuery('#div_punt0').css('background-color',estilP.divColor);
-			 estilP.fontsize=(vv/2)+"px";
-			 estilP.size=vv;
+		
+		
+		activaPuntZ();
+		
+		
+		
 	
 	
 	});
@@ -800,7 +834,15 @@ function addDialegsEstils() {
 	
 	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
 		
-		if(jQuery('#div_puntZ').hasClass("estil_selected")){
+	
+			
+			
+		
+			if(!jQuery('#div_puntZ').hasClass("estil_selected")){
+				activaPuntZ();
+		
+			}
+			else{
 			
 			jQuery('#div_punt0').css('width',this.value+"px");
 			jQuery('#div_punt0').css('height',this.value+"px");
@@ -824,12 +866,16 @@ function addDialegsEstils() {
 	});
 }
 
+
+
 function creaPopOverMesFons() {
 	jQuery("#div_mesfons")
 	.popover(
 	{
 		content : '<div id="div_menu_mesfons" class="div_gr3">'
-				+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="Catalunya 1936" class="div_fons_10"></div>'
+			+ '<div id="historicOrtoMap" lang="ca"  data-toggle="tooltip" title="Ortofoto històrica Catalunya 1956-57" class="div_fons_11"></div>'	
+			+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="Mapa històric Catalunya 1936" class="div_fons_10"></div>'
+				
 				+ '</div>',
 		container : 'body',
 		html : true,
@@ -843,6 +889,10 @@ function creaPopOverMesFons() {
 		if (fons == 'historicMap') {
 			map.historicMap();
 		}
+		if (fons == 'historicOrtoMap') {
+			map.historicOrtoMap();
+		}
+		
 	});
 		
 	jQuery("#div_mesfons").on('click',function(e){
@@ -1644,7 +1694,7 @@ function initControls(){
 	redimensioMapa();
 	creaPopOverDadesExternes();
 	//creaPopOverMevasDades();
-	//generaLListaDadesObertes();
+	generaLListaDadesObertes();
 	creaAreesDragDropFiles();
 	creaPopOverMesFonsColor();
 	tradueixMenusToolbar();
@@ -2546,4 +2596,25 @@ function getRangsFromStyles(tematic, styles){
 		rangs.push(rang);
 	}
 	return rangs;
+}
+
+
+function activaPuntZ(){
+	
+	jQuery(".bs-punts li").removeClass("estil_selected");
+	jQuery('#div_puntZ').addClass("estil_selected");
+	estilP.iconFons=jQuery('#div_punt9').attr('class');
+	jQuery('#div_punt0').removeClass();
+	jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+	
+	var vv=jQuery('#cmb_mida_Punt').val();
+		jQuery('#div_punt0').css('width',vv+'px');
+		 jQuery('#div_punt0').css('height',vv+'px');
+		 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
+		 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
+		 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
+		 jQuery('#div_punt0').css('background-color',estilP.divColor);
+		 estilP.fontsize=(vv/2)+"px";
+		 estilP.size=vv;	
+	
 }

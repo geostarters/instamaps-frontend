@@ -10,14 +10,17 @@ var ESRI_ATTR_TERRAIN="Tiles © Esri — Sources: Esri, USGS, NOAA";
 var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a>'; 
 var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTO='Font:Mapa del 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
+var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_19;
 var _histoMap=null;
+var _histoOrtoMap=null;
 var ESRI_RELLEU_L0_13;			 
 var ICC_RELLEU_L0_14;
 var MQ_TOPO_GRIS_L7_19,ICC_TOPO_GRIS_L7_10,ICC_TOPO_GRIS_L11_19;
 var COLOR_TOPO_ICC_L0_6,COLOR_TOPO_MQ_L7_19,COLOR_TOPO_ICC_L11_19;
 var HISTO_ICC_L0_14;
+var HISTOOrto_ICC_L0_14;
 var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
@@ -32,6 +35,8 @@ var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/orto_EPSG90
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topogris_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw'
 var URL_TOPOCOLOR='http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg';
 var URL_HISTORIC='http://172.70.1.11/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
+var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
+
 var URL_TERRAIN='http://172.70.1.11/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png';
 var URL_OMBRA='http://172.70.1.11/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.png';
 
@@ -209,13 +214,19 @@ options: {
 		
 		}else if(f=='historicMap'){	
 		
-		if((sC==0)){
-		
-		this.fitBounds(CatBounds);
-		this.attributionControl.setPrefix(ICGC_HISTO);
-		}
+				if((sC==0)){
+				
+				this.fitBounds(CatBounds);
+				this.attributionControl.setPrefix(ICGC_HISTO);
+				}
 
-
+		}else if(f=='historicOrtoMap'){	
+			
+			if((sC==0)){
+			
+			this.fitBounds(CatBounds);
+			this.attributionControl.setPrefix(ICGC_HISTOOrto);
+			}
 		
 		
 		}else{
@@ -505,6 +516,33 @@ this.setActiveMap('colorMap');
 		this.gestionaFons();
 		
 	},
+	
+historicOrtoMap:function(){
+		
+		this.deletePreviousMap();	
+			
+			this.setActiveMap('historicOrtoMap');
+			this.setMapColor(null);
+			this.options.typeMap='historicOrtoMap';
+		
+		//this.options.maxZoom=14;
+		_histoOrtoMap=L.layerGroup();
+		
+		HISTOOrto_ICC_L0_14= new L.tileLayer.wms(URL_HISTORICOrto, {
+			 layers: 'ovab5m',
+			    format: 'image/png',
+			    transparent: true,
+			    exceptions:'application/vnd.ogc.se_xml'
+			    
+		
+		}).addTo(_histoOrtoMap);
+		
+		this.addLayer(_histoOrtoMap,true);
+		
+		this.gestionaFons();
+		
+	},
+	
 	rmCapa: function (grup,layer){
 	
 		if(grup.hasLayer(layer)){grup.removeLayer(layer);return}
@@ -525,6 +563,7 @@ this.setActiveMap('colorMap');
 		else if(this.hasLayer(_topoColorLayers)){this.removeLayer(_topoColorLayers);return}
 		else if(this.hasLayer(_grisLayers)){this.removeLayer(_grisLayers);return}
 		else if(this.hasLayer(_histoMap)){this.removeLayer(_histoMap);return}
+		else if(this.hasLayer(_histoOrtoMap)){this.removeLayer(_histoOrtoMap);return}
 	}
 	
 	

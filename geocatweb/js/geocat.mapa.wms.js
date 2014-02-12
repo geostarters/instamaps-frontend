@@ -22,13 +22,7 @@ var llista_servidorsWMS = {
 				"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 			},
 
-			/*
-			 * { "TITOL" : "Avistaments cetàcis", "ORGANITZAC" : "Centre de
-			 * Recerca Ecològica i Aplicacions Forestals (CREAF) - UAB",
-			 * "IDARXIU" :
-			 * "http://www.ogc.uab.es/cgi-bin/cetcat/MiraMon5_0.cgi?", "URN" :
-			 * "urn:uuid:dc86e70e-79ca-11e3-aa3b-07b03c41b8e8" },
-			 */
+
 			{
 				"TITOL" : "Parcs eòlics",
 				"ORGANITZAC" : "Direcció General de Polítiques Ambientals",
@@ -90,10 +84,10 @@ function generaLlistaServeisWMS() {
 					function(key, WMS) {
 
 						_htmlServeisWMS
-								.push('<li><a class="label-wms" href="#" id="'
+								.push('<li><a lang="ca" class="label-wms" href="#" id="'
 										+ WMS.IDARXIU
 										+ '">'
-										+ WMS.TITOL
+										+ window.lang.convert(WMS.TITOL)
 										+ '</a>'
 										+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
 										+ WMS.URN
@@ -237,23 +231,25 @@ function addExternalWMS() {
 	});
 
 	ActiuWMS.layers = cc.join(',');
-
-	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
+	
+	var wmsLayer = new L.tileLayer.wms(ActiuWMS.url, {
 		layers : ActiuWMS.layers,
 		crs : ActiuWMS.epsg,
 		transparent : true,
 		format : 'image/png'
 	});
 
-	wmsLayer.options = {
-		businessId : '-1',
-		nom : ActiuWMS.servidor,
-		zIndex : controlCapes._lastZIndex + 1,
-		tipus : 'WMS'
+	wmsLayer.options.businessId = '-1';
+	wmsLayer.options.nom = ActiuWMS.servidor;
+	wmsLayer.options.zIndex = controlCapes._lastZIndex + 1;
+	wmsLayer.options.tipus = 'WMS';
 
-	};
 
-	map.addLayer(wmsLayer).on('layeradd', objecteUserAdded);
+
+	
+	
+	
+	map.addLayer(wmsLayer);
 
 	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 
