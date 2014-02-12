@@ -362,18 +362,18 @@ function activaEdicioUsuari() {
 			tipusCat=window.lang.convert('Titol Punt');
 			tipusCatDes=window.lang.convert('Descripcio Punt');
 			
-			if(defaultPunt.options.icon!=""){
+			//if(defaultPunt.options.icon!=""){
 				layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
 					{icon: defaultPunt, 
 					 tipus: t_marker}).addTo(map);
-			}else{
+			/*}else{
 				layer= L.circleMarker([layer.getLatLng().lat,layer.getLatLng().lng],
 					 { radius : parseInt(parseInt(defaultPunt.options.iconSize.x)/3), 
 					 fillColor : defaultPunt.options.divColor,
 					 color : "#dddddd", weight : 2,
 					  opacity : 1, fillOpacity : 0.9, tipus: t_marker}).addTo(map);
 			}
-			
+			*/	
 			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_marker){
 				capaUsrActiva.removeEventListener('layeradd');
 				capaUsrActiva=capaUsrPunt;
