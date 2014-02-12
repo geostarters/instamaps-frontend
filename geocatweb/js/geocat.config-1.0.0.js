@@ -3,13 +3,6 @@ var t_dades_obertes = "dades obertes";
 var t_wms = "wms";
 var t_xarxes_socials = "xarxes socials";
 var t_tematic = "tematic";
-<<<<<<< HEAD
-
-var HOST_APP = "http://172.70.1.12/";
-var GEOCAT02 = "http://172.70.1.12";
-//var HOST_APP = "http://geocat02.icc.local:8080/";
-//var HOST_APP = "http://localhost:8080/";
-=======
 var t_polyline = "polyline";
 var t_polygon = "polygon";
 var t_marker = "marker";
@@ -23,7 +16,6 @@ var tem_clasic = "clasicTematic";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
 var HOST_APP = "http://localhost:8080/";
->>>>>>> refs/remotes/origin/master
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	//uploadproxy:"/maps/upload.cgi",
@@ -72,15 +64,6 @@ var paramUrl = {
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://miyazaki.icc.local:8080/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
-<<<<<<< HEAD
-	ows2json:HOST_APP+"share/jsp/ows2json.jsp?",
-	getTematicLayer: HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
-	getDownloadLayer:GEOCAT02+"/share/jsp/download_layer.jsp?",
-	deleteServidorWMS: HOST_APP+"geocat/layers/servidor/wms/deleteServidorWMS.action?",
-	addFeatureToTematic: HOST_APP+"geocat/layers/tematic/addFeatureToTematic.action?",
-	shortUrl : "http://api.bit.ly/v3/shorten",
-	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?"
-=======
 	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
 	getTematicLayer: HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
@@ -96,7 +79,6 @@ var paramUrl = {
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?"
->>>>>>> refs/remotes/origin/master
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
@@ -111,8 +93,4 @@ $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
 		sessionExpired();
 	}
-<<<<<<< HEAD
-//	}
-=======
->>>>>>> refs/remotes/origin/master
 });

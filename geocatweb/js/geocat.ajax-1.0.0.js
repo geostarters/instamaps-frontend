@@ -359,8 +359,6 @@ function deleteServidorWMS(data){
 		dataType: 'jsonp'
 	}).promise();
 }
-<<<<<<< HEAD
-=======
 
 function getWMSLayers(url){
 	return jQuery.ajax({
@@ -446,4 +444,3 @@ function getJSONPServei(url){
 	console.info(err);
 	})
 }
->>>>>>> refs/remotes/origin/master

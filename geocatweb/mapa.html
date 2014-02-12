@@ -135,9 +135,6 @@
 					<div class="div_gr2">
 						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr pop">
 							<script id="meus-wms-template" type="text/x-handlebars-template">
-<<<<<<< HEAD
-							<ul class="bs-dadesO">
-=======
 							<div class="panel-success">
 								<ul class="bs-dadesO panel-heading">
 								{{#each results}}
@@ -148,27 +145,11 @@
 							</script>
 							<!--script id="meus-tematic-template" type="text/x-handlebars-template">
 							<ul>
->>>>>>> refs/remotes/origin/master
-							{{#each results}}
-<<<<<<< HEAD
-							<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label label-wms">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-wms"></span></li>
-=======
-							<li><a href="#" data-businessid="{{businessId}}" class="usr_tematic_layer">{{nom}}</a><span data-businessid="{{businessId}}" class="glyphicon glyphicon-remove"></span></li>
->>>>>>> refs/remotes/origin/master
-							{{/each}}							
-							</ul>
-<<<<<<< HEAD
-							</script>
-							<script id="meus-tematic-template" type="text/x-handlebars-template">
-							<ul>
 							{{#each results}}
 							<li><a href="#" data-businessid="{{businessId}}" class="usr_tematic_layer">{{nom}}</a><span data-businessid="{{businessId}}" class="glyphicon glyphicon-remove"></span></li>
 							{{/each}}							
 							</ul>
-							</script>
-=======
 							</script>-->
->>>>>>> refs/remotes/origin/master
 						</div>
 												
 						<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext pop">
@@ -322,31 +303,6 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-<<<<<<< HEAD
-
-	<div id="dialgo_leave" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
-				</div>
-				<div class="modal-body">
-					El mapa no ha sido guardado. Deseas eliminar el mapa?
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Cancel·lar</button>
-					<button lang="ca" type="button" class="btn btn-primary">Eliminar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-=======
->>>>>>> refs/remotes/origin/master
 	
 	<div class="modal fade" id="modal_twitter_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog my-modal-dialog-xs">
@@ -944,86 +900,6 @@
 	</div>
 	<!-- /.modal -->
 	<!-- fi Modal Carrega dades -->
-<<<<<<< HEAD
-	
-		
-	<!-- Modal expired -->
-	<div class="modal fade" id="dialog_session_expired">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Sessió caducada</h4>
-				</div>
-				<div lang="ca" class="modal-body">
-					S'ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió
-				</div>
-				<div class="modal-footer">
-			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn" data-dismiss="modal">Acceptar</button>
-			    </div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- fi Modal expired -->
-
-	<!-- Modal descarrega dades -->
-	<div class="modal fade" id="modal_download_layer">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca"><b>Descàrrega de dades</b></h4>
-				</div>
-				<div lang="ca" class="modal-body">
-				
-					<div id="modal-body-download">
-						<div class="input-group input-group-sm">
-						  <span lang="ca" class="input-group-addon">Desar com</span>
-						  <input type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">
-						</div>	
-						<small class="label label-default" lang="ca">Opcional: en blanc s'assignarà un nom automàtic</small>				
-						<br><br>
-						<div>
-						Format:&nbsp;
-							<select id="select-download-format" class="form-download-format">
-							  <option value="GeoJSON#.geojson">GeoJSON</option>
-							  <option value="ESRI Shapefile#.shp">ESRI Shapefile</option>
-							  <option value="DXF#.dxf">DXF</option>
-							  <option value="KML#.kml">KML</option>
-							</select>
-							<br><br>
-						EPSG:&nbsp;
-							<select id="select-download-epsg" class="form-download-epsg">
-								<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>
-		              			<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>
-		              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
-		              			<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>
-		              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
-		              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
-		              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
-							</select>
-						</div>
-					</div>
-					<div id="modal-body-download-error">
-					<h5><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha pogut efectuar la descàrrega. Torni a intentar-ho.</span></h5>
-					</div>					
-				</div>
-				<div class="modal-footer">
-			    	<button id="bt_download_accept" lang="ca" type="button" class="btn bt-sessio" data-dismiss="modal">Acceptar</button>
-			    </div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- fi Modal expired -->
-=======
 			
 	<!-- Modal expired -->
 	<div class="modal fade" id="dialog_session_expired">
@@ -1195,7 +1071,6 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
->>>>>>> refs/remotes/origin/master
 
 	<!-- Le javascript
     ================================================== -->
@@ -1213,10 +1088,7 @@
 
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
-<<<<<<< HEAD
-=======
 	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
->>>>>>> refs/remotes/origin/master
 
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.styles.js" type="text/javascript"></script>
@@ -1239,18 +1111,14 @@
 	<script src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script>
+	 <script src="/llibreries/js/leaflet/plugin/L.TileLayer.BetterWMS.js"	type="text/javascript"></script>
 	
 	<script src="/llibreries/js/leaflet/plugin/Control.MiniMap.js"	type="text/javascript"></script>
 	
 	<script src="/llibreries/js/moment.min.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js"	type="text/javascript"></script>
-<<<<<<< HEAD
-	<script	src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers.min.js"	type="text/javascript"></script>
-	<script src="/llibreries/js/leaflet/plugin/simpleheat.js" type="text/javascript"></script>
-=======
 	<script	src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers-custom.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet-heat_custom.js" type="text/javascript"></script>
->>>>>>> refs/remotes/origin/master
 	<script src="/llibreries/js/leaflet/plugin/my.leaflet.control.orderlayers.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Map.js" type="text/javascript"></script>
