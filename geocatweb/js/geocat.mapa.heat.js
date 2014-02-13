@@ -15,13 +15,17 @@ function createHeatMap(capa){
 	
 	var heatLayerActiu = L.heatLayer(arrP,{radius:20,blur:15,max:1,
 		
-		gradient: {
-			0.45: "rgb(0,0,255)",
-			0.50: "rgb(0,255,255)",
-			0.60: "rgb(0,255,0)",
-			0.65: "yellow",
-			0.75: "rgb(255,0,0)",
-				1: "rgb(255,0,0)"
+		gradient: {			
+			0.35: "#070751",
+			0.40: "#0095DE",
+			0.45: "#02D5FF",
+			0.50: "#02E0B9",
+			0.55: "#00B43F",
+			0.60: "#97ED0E",
+			0.61: "#FFF800",
+			0.65: "#FF9700",
+			0.70: "#FF0101",
+			1: "#720404"
 			}
 		
 	});	
@@ -37,16 +41,17 @@ function createHeatMap(capa){
 		
 
 
-	/*
-	map.addLayer(heatLayerActiu).on('layeradd',
-			objecteUserAdded);
-	*/
+	
+			map.addLayer(heatLayerActiu);
+	
+			map.removeLayer(capa.layer);
+			
 		controlCapes.addOverlay(heatLayerActiu,
 				heatLayerActiu.options.nom, true);
 		
 		activaPanelCapes(true);
 	
-	map.removeLayer(capa.layer);
+	
 	
 	
 	
