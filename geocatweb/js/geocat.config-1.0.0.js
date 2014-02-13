@@ -9,8 +9,16 @@ var t_marker = "marker";
 var t_multiple = "multiple";
 var t_point = "point";
 var t_linestring = "linestring";
+var t_multipolygon= "multipolygon";
+var t_heatmap="heatmap";
+var t_cluster="cluster";
+var t_size="size";
 var tem_simple = "simpleTematic";
 var tem_clasic = "clasicTematic";
+var tem_size = "sizeTematic";
+var tem_heatmap = "heatmapTematic";
+var tem_cluster = "clusterTematic";
+
 
 var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";

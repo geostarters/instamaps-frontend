@@ -1,10 +1,6 @@
-
 var heatLayerActiu
 function createHeatMap(capa){
-	
 	var arrP=[];
-	
-	
 	capa.layer.eachLayer(function(layer){
 	
 	var d =[layer.getLatLng().lat,layer.getLatLng().lng,1];	
@@ -12,9 +8,7 @@ function createHeatMap(capa){
 		
 	});
 	
-	
 	var heatLayerActiu = L.heatLayer(arrP,{radius:20,blur:15,max:1,
-		
 		gradient: {			
 			0.35: "#070751",
 			0.40: "#0095DE",
@@ -26,39 +20,20 @@ function createHeatMap(capa){
 			0.65: "#FF9700",
 			0.70: "#FF0101",
 			1: "#720404"
-			}
-		
+			}	
 	});	
 	
+	heatLayerActiu.options.businessId = '-1';
+	heatLayerActiu.options.nom = capa.layer.options.nom+"_heatmap";
+	heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
+	heatLayerActiu.options.tipus = t_heatmap;
+	heatLayerActiu.options.capaOrigen=capa.layer.options.businessId;
 	
 	
 	
-			heatLayerActiu.options.businessId = '-1';
-			heatLayerActiu.options.nom = capa.layer.options.nom+"_heatmap";
-			heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
-			heatLayerActiu.options.tipus = 'heatmap';
-			heatLayerActiu.options.capaOrigen=capa.layer.options.businessId;
-		
-
-
+	map.addLayer(heatLayerActiu);
+	controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
+	activaPanelCapes(true);
 	
-			map.addLayer(heatLayerActiu);
-	
-			map.removeLayer(capa.layer);
-			
-		controlCapes.addOverlay(heatLayerActiu,
-				heatLayerActiu.options.nom, true);
-		
-		activaPanelCapes(true);
-	
-	
-	
-	
-	
-	
-	
-	
+	map.removeLayer(capa.layer);
 }
-
-
-

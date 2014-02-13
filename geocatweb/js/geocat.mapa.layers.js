@@ -4,6 +4,26 @@ function objecteUserAdded(f){
 	var fId = this.toGeoJSON().features.length;
 	
 	var feature = f.layer.toGeoJSON();
+	
+	//Invertim lng,lat perque es recuperi be desde el servidor despres
+    if(f.layer.options.tipus == t_marker){
+          var lng = feature.geometry.coordinates[0]
+          feature.geometry.coordinates[0] = feature.geometry.coordinates[1];
+          feature.geometry.coordinates[1] = lng;         
+    }else if(f.layer.options.tipus==t_polyline){
+          for(var i=0;i<feature.geometry.coordinates.length;i++){
+                var lng = feature.geometry.coordinates[i][0]
+                feature.geometry.coordinates[i][0] = feature.geometry.coordinates[i][1];
+                feature.geometry.coordinates[i][1] = lng;
+          }
+    }else if(f.layer.options.tipus==t_polygon){
+          var lcoordinates = [];
+          $.each( feature.geometry.coordinates[0], function(i,val) {
+                lcoordinates.push([val[1], val[0]]);
+          }); 
+          feature.geometry.coordinates[0] = lcoordinates;                  
+    }       
+
 	feature.properties = {
 		nom : f.layer.properties.capaNom,
 		text : f.layer.properties.description,
@@ -60,47 +80,25 @@ function objecteUserAdded(f){
 		};
 		var _this = this;
 		finishAddFeatureToTematic(f.layer);
-		/*
+		
 		createTematicLayerFeature(data).then(function(results) {
-			
-							if(results.status === 'OK'){
-								_this.options.businessId = results.results.businessId;
-//								_this.options.capesBusinessId = results.results.capesBusinessId;
-//								_this.options.geometriesBusinessId = results.results.geometriesBusinessId;
-								console.debug('createTematicLayerFeature OK');
-								f.layer.properties.capaBusinessId = results.results.businessId;
-								f.layer.properties.businessId = results.feature.properties.businessId;
-								f.layer.properties.feature = results.feature;
-								finishAddFeatureToTematic(f.layer);
-							}else{
-								//ERROR: control Error
-								console.debug('addTematicLayerFeature ERROR');
-							}
-						},function(results){
-							console.debug('addTematicLayerFeature ERROR');
-						});
-*/
-//	} else if (this.toGeoJSON().features.length > 1) {
-	} else if (this.getLayers().length > 1) {
+				if(results.status === 'OK'){
+					_this.options.businessId = results.results.businessId;
+					console.debug('createTematicLayerFeature OK');
+					f.layer.properties.capaBusinessId = results.results.businessId;
+					f.layer.properties.businessId = results.feature.properties.businessId;
+					f.layer.properties.feature = results.feature;
+					finishAddFeatureToTematic(f.layer);
+				}else{
+					//ERROR: control Error
+					console.debug('addTematicLayerFeature ERROR');
+				}
+			},function(results){
+				console.debug('addTematicLayerFeature ERROR');
+		});
 
-//		var dataFeature = {
-//			businessId : this.options.geometriesBusinessId,
-//			uid : jQuery.cookie('uid'),
-//			features : features
-//		};
-//
-//		var dataCapes = {
-//			businessId : this.options.capesBusinessId,
-//			uid : jQuery.cookie('uid'),
-//			dades : dades
-//		};
-//
-//		var dataRangs = {
-//			businessId : this.options.businessId,
-//			uid : jQuery.cookie('uid'),
-//			rangs : rangs
-//		};
-				
+	} else if (this.getLayers().length > 1) {
+	
 		var data = {
 			uid : jQuery.cookie('uid'),
 			features : features,
