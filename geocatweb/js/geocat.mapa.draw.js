@@ -687,10 +687,10 @@ function updateFeatureNameDescr(layer, titol, descr){
 	var features = JSON.stringify(feature);
 	
     var data = {
-			uid : jQuery.cookie('uid'),
-			features : features,
-			businessId: layer.properties.businessId
-		};
+		uid : jQuery.cookie('uid'),
+		features : features,
+		businessId: layer.properties.businessId
+	};
     
     updateFeature(data).then(function(results){
     	if(results.status == 'OK'){
@@ -704,61 +704,67 @@ function updateFeatureNameDescr(layer, titol, descr){
     }, function(results){
     	console.debug("updateFeature ERROR");
     });
-	
 }
 
 function updateFeatureMove(featureID, capaEdicioID){
-	
-	var layer = map._layers[featureID];
-	var feature = layer.toGeoJSON();
-	feature.properties = layer.properties.feature.properties;
-	feature.geometry = layer.properties.feature.geometry;	
-	
-	if(layer.properties.tipusFeature == t_marker){
-		var newLatLng = layer.getLatLng();
-		feature.geometry.coordinates[0] = newLatLng.lng;
-		feature.geometry.coordinates[1] = newLatLng.lat;		
-	}else if(layer.properties.tipusFeature == t_polyline){
-		//TODO
-	}else if(layer.properties.tipusFeature == t_polygon){
-		//TODO
-	}
-	
-	var features = JSON.stringify(feature);
-	
+    var layer = map._layers[featureID];
+    var feature = layer.toGeoJSON();
+    feature.properties = layer.properties.feature.properties;
+    feature.geometry = layer.properties.feature.geometry;      
+    
+    if(layer.properties.tipusFeature == t_marker){
+        var newLatLng = layer.getLatLng();
+        feature.geometry.coordinates[0] = newLatLng.lat;
+        feature.geometry.coordinates[1] = newLatLng.lng;           
+    }else{
+	    var lcoordinates = [];
+	    console.debug(layer._latlngs);
+	    $.each(layer._latlngs, function(i,val) {
+	    	lcoordinates.push([val.lat, val.lng]);
+	    });              
+	    if(layer.properties.tipusFeature == t_polyline){
+	    	feature.geometry.coordinates = lcoordinates;
+	    }else{
+	    	lcoordinates.push(lcoordinates[0]);
+	    	feature.geometry.coordinates[0] = lcoordinates;
+	    }
+    }
+    
+    var features = JSON.stringify(feature);
+    
     var data = {
-			uid : jQuery.cookie('uid'),
-			features : features,
-			businessId: layer.properties.businessId
-		};
-    
+        uid : jQuery.cookie('uid'),
+        features : features,
+        businessId: layer.properties.businessId
+    };
+  
     updateFeature(data).then(function(results){
-    	if(results.status == 'OK'){
-			jQuery('.popup_pres').show();
-//			jQuery('.popup_edit').hide();    		
-    	}else{
-    		console.debug("updateFeature ERROR");
-    	}
-    }, function(results){
-    	console.debug("updateFeature ERROR");
-    });	
-    
+	    if(results.status == 'OK'){
+	    	jQuery('.popup_pres').show();
+	    	//jQuery('.popup_edit').hide();            
+	    }else{
+	        console.debug("updateFeature ERROR");
+	    }
+	}, function(results){
+		  console.debug("updateFeature ERROR");
+	});     
+  
     //Retornem la geometria a la seva capa original
     capaUsrActiva.addLayer(layer);
     capaUsrActiva.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
     map._layers[capaEdicioID].removeLayer(layer);
-	//Refresh de la capa
-	controlCapes._map.removeLayer(capaUsrActiva);
-	controlCapes._map.addLayer(capaUsrActiva);    
+    //Refresh de la capa
+    controlCapes._map.removeLayer(capaUsrActiva);
+    controlCapes._map.addLayer(capaUsrActiva);    
     map.removeLayer(map._layers[capaEdicioID]);
     //Fi edicio
     objEdicio.esticEnEdicio=false;
-    
+  
     console.debug("updateFeatureMove FI");
 }
 
 function createPopUpContent(player,type){
-var html='<div class="div_popup">' 
+	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
 	+'<div id="titol_pres">'+player.properties.name+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
 	+'<div id="des_pres">'+player.properties.description+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	

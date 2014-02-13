@@ -75,12 +75,11 @@ jQuery(document).ready(function() {
 			window.location.href = paramUrl.loginPage;
 		});
 	}else{
+		console.debug($.cookie('uid'));
 		if (!$.cookie('uid')){
-			mapConfig.newMap = true;
-			createNewMap();
-			avisDesarMapa();
-		}else{
-			//TODO 
+			console.debug("sin uid");
+			
+			//TODO
 			jQuery('#dialgo_leave').modal('show');
 			createRandomUser().then(function(results){
 				if (results.status==='OK'){
@@ -89,26 +88,33 @@ jQuery(document).ready(function() {
 					doLogin(user_login, pass_login).then(function(results){
 						if(results.status==='OK'){
 							jQuery.cookie('uid', user_login, {path:'/'});
-							window.location="/geocatweb/mapa.html";
+							//window.location="/geocatweb/mapa.html";
 						}				
 					});
 				}
 			});
 			
 			jQuery(window).on('beforeunload',function(event){
+				console.debug("borrar");
 				deleteRandomUser({uid: $.cookie('uid')});
 			});
 			
-		}	
-		
-		/*
-		loadMapConfig(mapConfig).then(function(){
+		}else{	
+			console.debug("con uid");
 			mapConfig.newMap = true;
+			createNewMap();
 			avisDesarMapa();
-		});
-		*/
+		}
 	}
 	
+	console.debug($.cookie('uid').indexOf("random_"));
+	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
+		console.debug("registro el unload");
+		jQuery(window).on('beforeunload',function(event){
+			deleteRandomUser({uid: $.cookie('uid')});
+		});
+	}
+		
 	//carrega las capas del usuario si esta loginat
 	if ($.cookie('uid')){
 		var data = {uid: $.cookie('uid')};
@@ -228,8 +234,7 @@ jQuery(document).ready(function() {
 //				
 //			}); 		
 //			console.debug('Entra a on click!');
-	});
-		
+	});	
 		
 //JESS
 		//$.fn.editable.defaults.mode = 'inline';
@@ -296,21 +301,13 @@ function addClicksInici() {
         }
     });
 	
-	
-	
 	jQuery('#st_Heat').on('click',function(e) {
-	
 			createHeatMap(controlCapes._layers[63])
-		});
+	});	
 	
-	
-	jQuery('#st_Clust').on('click',function(e) {
-		
+	jQuery('#st_Clust').on('click',function(e) {		
 		creaClusterMap(controlCapes._layers[63])
-	});
-
-	
-	
+	});	
 }
 
 function addOpcionsFonsMapes() {
@@ -466,12 +463,10 @@ function activaPanelCapes(obre) {
 		jQuery('.leaflet-control-layers').animate({
 			width : 'show'
 		});
-
 	} else {
 		jQuery('.leaflet-control-layers').animate({
 			width : 'toggle'
 		});
-
 	}
 	var cl = jQuery('.bt_llista span').attr('class');
 	if (cl.indexOf('grisfort') != -1) {
@@ -485,49 +480,17 @@ function activaPanelCapes(obre) {
 
 function changeDefaultLineStyle(canvas_linia){
 	var estilTMP = default_line_style;
-
-
-
-
-
-
-
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
-
 
 	if(objEdicio.obroModalFrom=="creaCapa"){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
-
 	return estilTMP;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 function changeDefaultAreaStyle(canvas_pol){
 	var estilTMP= default_area_style;
-
-
-
-
-
-
-
-
-	
 	estilTMP.fillColor=canvas_pol.fillStyle;
 	estilTMP.fillOpacity=canvas_pol.opacity;
 	estilTMP.weight=canvas_pol.lineWidth;
@@ -564,25 +527,7 @@ function createFeatureAreaStyle(style){
 }
 
 function changeDefaultPointStyle(estilP) {
-
 	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
 	var cssText="";
@@ -627,9 +572,6 @@ function changeDefaultPointStyle(estilP) {
 		puntTMP.options.divColor='transparent';
 		puntTMP.options.icon=_iconGlif + " "+cssText;
 	}
-	
-	
-
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
 	
@@ -669,33 +611,21 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
-
-			
 			jQuery('#div_punt').css('background-color',estilP.divColor);	
-			
-			
-			changeDefaultPointStyle(estilP);	
-			
+			changeDefaultPointStyle(estilP);		
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
-			
-
-								// console.info(map._layers[objEdicio.featureID]);
+			// console.info(map._layers[objEdicio.featureID]);
 			alert("Atenció problema amb tipus punt Awson i circle")
 			map._layers[objEdicio.featureID].setIcon(changeDefaultPointStyle(estilP));
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
-
-
 		}else{
 			console.debug(objEdicio.obroModalFrom);
-
-		}
-		
+		}	
 		jQuery('#dialog_estils_punts').modal('toggle');				
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
-
 		if(objEdicio.obroModalFrom=="creaCapa"){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
 			jQuery('#dialog_estils_linies').modal('toggle');		
@@ -707,29 +637,24 @@ function addDialegsEstils() {
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else{
 			console.debug(objEdicio.obroModalFrom);
-
 		}
 		jQuery('#dialog_estils_linies').modal('toggle');			
 	});
 	
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom=="creaCapa"){
-
 			addGeometryInitP(document.getElementById("cv_pol"));  
 			jQuery('#dialog_estils_arees').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_pol);
 			changeDefaultAreaStyle(canvas_pol);
-
 		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else{
 			console.debug(objEdicio.obroModalFrom);
-
 		}
-		jQuery('#dialog_estils_arees').modal('toggle');	
-				
+		jQuery('#dialog_estils_arees').modal('toggle');				
 	});
 	
 	jQuery('#dialog_estils_punts .btn-default').on('click',function(){			
@@ -749,59 +674,34 @@ function addDialegsEstils() {
 		//}else{
 		//	jQuery('#dv_cmb_punt').hide();	
 		var vv=jQuery('#cmb_mida_Punt').val();
-			jQuery('#div_punt0').css('width',vv+'px');
-			 jQuery('#div_punt0').css('height',vv+'px');
-			 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-			 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
-			 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
-			 jQuery('#div_punt0').css('background-color',estilP.divColor);
-			 estilP.fontsize=(vv/2)+"px";
-			 estilP.size=vv;
-	
-	
+		jQuery('#div_punt0').css('width',vv+'px');
+		 jQuery('#div_punt0').css('height',vv+'px');
+		 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
+		 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
+		 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
+		 jQuery('#div_punt0').css('background-color',estilP.divColor);
+		 estilP.fontsize=(vv/2)+"px";
+		 estilP.size=vv;	
 	});
-	jQuery(document).on('click', ".bs-punts li", function(e) {
-		
+	
+	jQuery(document).on('click', ".bs-punts li", function(e) {		
 		jQuery(".bs-punts li").removeClass("estil_selected");
 		jQuery("#div_puntZ").removeClass("estil_selected");
-		
-		
 		jQuery('#div_punt0').removeClass();
 		estilP.iconFons=jQuery('div', this).attr('class');
 		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
 		jQuery(this).addClass("estil_selected");	
-		
-		//if(jQuery('div', this).attr('class').indexOf('_r')!=-1){
-			
-
-
-
-
-
-
-
-
-
-
-		
-			//}
-		//}else{
-			jQuery('#dv_cmb_punt').hide();
-			jQuery('#div_punt0').css('width','28px');
-			 jQuery('#div_punt0').css('height','42px');	
-			 jQuery('#div_punt0').css('font-size',"14px");
-			 estilP.divColor='transparent';
-			 jQuery('#div_punt0').css('background-color',estilP.divColor);
-			 estilP.fontsize="14px";
-
-		//}
+		jQuery('#dv_cmb_punt').hide();
+		jQuery('#div_punt0').css('width','28px');
+		jQuery('#div_punt0').css('height','42px');	
+		jQuery('#div_punt0').css('font-size',"14px");
+		estilP.divColor='transparent';
+		jQuery('#div_punt0').css('background-color',estilP.divColor);
+		estilP.fontsize="14px";
 	});
 	
-	
 	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
-		
 		if(jQuery('#div_puntZ').hasClass("estil_selected")){
-			
 			jQuery('#div_punt0').css('width',this.value+"px");
 			jQuery('#div_punt0').css('height',this.value+"px");
 			jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
@@ -811,8 +711,6 @@ function addDialegsEstils() {
 	    jQuery('#div_punt9').css('width',this.value+"px");
 		jQuery('#div_punt9').css('height',this.value+"px");
 		jQuery('#div_punt9').css('font-size',(this.value/2)+"px");
-		
-		
 	});
 	
 	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
@@ -874,38 +772,10 @@ function creaPopOverMesFonsColor() {
 	});
 }
 
-function creaPopOverMevasDades2(){
-	jQuery(".div_dades_usr").popover(
-	{
-		content : '<ul class="nav nav-tabs etiqueta">'
-				+ '<li><a href="#id_mysrvj" data-toggle="tab" id="#id_serveisv">Serveis vector</a></li>'
-				+ '<li><a href="#id_mysrvw" data-toggle="tab">Serveis WMS</a></li>'
-				+ '</ul>'
-				+ '<div class="tab-content">'
-				+ '<div class="tab-pane fade" id="id_mysrvj"></div>'
-				+ '<div class="tab-pane fade" id="id_mysrvw"></div>'
-				+ '</div>',
-		container : 'body',
-		html : true,
-		trigger : 'manual'
-});
-}
-
 function creaPopOverMevasDades(){	
 	jQuery(".div_dades_usr").on('click', function() {
 		$('#dialog_teves_dades').modal('show');
 		
-//		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-//			var tbA = e.target.attributes.href.value;
-
-//			if (tbA == "#id_sv") {
-//				var source2 = jQuery("#meus-tematic-template").html();
-//				var template2 = Handlebars.compile(source2);
-//				var html2 = template2(dades2[0]);
-//
-//				jQuery("#id_sv").append(html2);
-				
-//			}else if(tbA == "#id_sw" /*&& !initMevesDades*/){
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
 		jQuery("#id_sw").empty();		
 		refrescaPopOverMevasDades();
@@ -962,10 +832,8 @@ function creaPopOverMevasDades(){
 					}							
 					
 					activaPanelCapes(true);
-				}
-		
-			});					
-		
+				}		
+			});							
 		});					
 				
 		//Eliminem servidors
@@ -974,8 +842,8 @@ function creaPopOverMevasDades(){
 			event.stopPropagation();
 			var _this = jQuery(this);
 			var data = {
-					uid: $.cookie('uid'),
-					businessId: _this.data("businessid")
+				uid: $.cookie('uid'),
+				businessId: _this.data("businessid")
 			};
 			
 			if(_this.data("servertype") == t_tematic){
@@ -994,9 +862,6 @@ function creaPopOverMevasDades(){
 				});						
 			}
 		});					
-				
-//			}
-//		});
 		
 		jQuery(".usr_tematic_layer").on('click', function(event) {
 			event.preventDefault();
@@ -1022,22 +887,6 @@ function creaPopOverMevasDades(){
 			});
 		});		
 	});	
-	
-//	jQuery(".div_dades_usr").popover(
-//		{
-//			content : '<ul class="nav nav-tabs etiqueta">'
-//					+ '<li><a href="#id_mysrvj" data-toggle="tab" id="#id_serveisv">Serveis vector</a></li>'
-//					+ '<li><a href="#id_mysrvw" data-toggle="tab">Serveis WMS</a></li>'
-//					+ '</ul>'
-//					+ '<div class="tab-content">'
-//					+ '<div class="tab-pane fade" id="id_mysrvj"></div>'
-//					+ '<div class="tab-pane fade" id="id_mysrvw"></div>'
-//					+ '</div>',
-//			container : 'body',
-//			html : true,
-//			trigger : 'manual'
-//	});
-
 }
 
 function loadPopOverMevasDades(){
@@ -1091,10 +940,8 @@ function loadPopOverMevasDades(){
 						 controlCapes.addOverlay(newWMS, value.serverName, true); 				
 
 					activaPanelCapes(true);						
-				}
-			
-			});
-			
+				}			
+			});		
 		});
 	
 		jQuery(".usr_tematic_layer").on('click', function(event) {
@@ -1124,7 +971,6 @@ function loadPopOverMevasDades(){
 		});
 		
 	});
-	
 }
 
 function refrescaPopOverMevasDades(){
@@ -1161,8 +1007,8 @@ function carregarCapa(businessId){
 			capaFeatures.options.tipus = t_polyline;
 		}else if (geometryType==t_polygon){
 			capaFeatures.options.tipus = t_polygon;
-		}else if (geometryType==t_mulitple){
-			capaFeatures.options.tipus = t_mulitple;
+		}else if (geometryType==t_multiple){
+			capaFeatures.options.tipus = t_multiple;
 		}
 		
 		//agregar la capa tematica al mapa. Leer los features y cargarlos
@@ -1242,10 +1088,6 @@ function creaPopOverDadesExternes() {
 						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
 					}
 				});
-
-
-
-				
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
@@ -1254,7 +1096,6 @@ function creaPopOverDadesExternes() {
 						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
 					}
 				});	
-				
 			}else if(tbA == "#id_srvj"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisJSON.join(' '));
@@ -1263,15 +1104,8 @@ function creaPopOverDadesExternes() {
 						getServeiJSONP(jQuery("#txt_URLJSON").val());
 					}
 				});		
-				
-				
-				
-				
-		
 			}else if(tbA == "#id_xs"){//Jess
-				
 				jQuery(tbA).html(
-						
 						'<h4><a id="add_twitter_layer" href="javascript:toggleCollapseTwitter()" class="label label-primary">Twitter</a>&nbsp;'+
 						'<a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label label-primary">Panoramio</a>&nbsp;'+
 						'<a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label label-primary">Wikipedia</a></h4>'+
@@ -1291,8 +1125,7 @@ function creaPopOverDadesExternes() {
 				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
 					addTwitterLayer();
 				});
-			}
-			
+			}		
 		});
 	})
 }
@@ -1313,7 +1146,6 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		onEachFeature : popUp,
 		nom : dataset,
 		tipus : t_dades_obertes,
-
 		businessId : '-1',
 		dataType : "jsonp",
 		zIndex: lastZIndex,
@@ -1348,19 +1180,20 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			}
 		}
 	});
+	
 	if(typeof url('?businessid') == "string"){
 		var data = {
-				uid:$.cookie('uid'),
-				mapBusinessId: url('?businessid'),
-				serverName: nom_dataset,
-				serverType: t_dades_obertes,
-				calentas: false,
-	            activas: true,
-	            visibilitats: true,
-	            epsg: '4326',
-	            transparency: true,
-	            visibilitat: 'O',
-				options: '{"dataset":"'+dataset+'"}'
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: nom_dataset,
+			serverType: t_dades_obertes,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            epsg: '4326',
+            transparency: true,
+            visibilitat: 'O',
+			options: '{"dataset":"'+dataset+'"}'
 		};
 		
 		createServidorInMap(data).then(function(results){
@@ -1373,27 +1206,11 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		});
 		
 	}else{
-
 		capaDadaOberta.addTo(map)
 		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-
-
-
-
-
-
-
-
-
-
-
-
-
 		activaPanelCapes(true);
 	}
 	//capaDadaOberta.on('layeradd',objecteUserAdded)
-
-
 }
 
 
@@ -1482,18 +1299,8 @@ function loadMapConfig(mapConfig){
 				map.fitBounds( bounds ); 
 			}
 		}
-			
-
-
-
-
-
-
-
-
 		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
-
 			if (value.epsg == "4326"){
 				value.epsg = L.CRS.EPSG4326;
 			}else if (value.epsg == "25831"){
@@ -1522,14 +1329,9 @@ function loadMapConfig(mapConfig){
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
 			
 			}else if(value.serverType == t_tematic){
-
-
 				loadTematicLayer(value);
 			}
 		});
-
-
-
 	}
 	
 	var source = $("#map-properties-template").html();
@@ -1642,16 +1444,16 @@ function initControls(){
 	addOpcionsFonsMapes();
 	addToolTipsInici();
 	redimensioMapa();
-	creaPopOverDadesExternes();
-	//creaPopOverMevasDades();
-	//generaLListaDadesObertes();
 	creaAreesDragDropFiles();
-	creaPopOverMesFonsColor();
 	tradueixMenusToolbar();
 	addDrawToolbar();
 	activaEdicioUsuari();
 	addDialegsEstils();
 	addControlCercaEdit();
+	//dades
+	//generaLListaDadesObertes();
+	creaPopOverMesFonsColor();
+	creaPopOverDadesExternes();
 	creaPopOverMesFons();
 	generaLlistaServeisWMS();
 }
@@ -2043,38 +1845,18 @@ function loadWmsLayer(layer){
 }
 
 function loadTematicLayer(layer){
-
-
-
-
-
-
-
-
-
-
 	var data={
 		businessId: layer.businessId,
 		uid: $.cookie('uid')
 	};
 	
 	var layerWms = layer;
-
-
-
-
-
-
-
-
-
-	
 	console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayer(data).then(function(results){
 		console.timeEnd("loadTematicLayer " + layerWms.serverName);
-
 		if(results.status == "OK" ){
 			var tematic = results.results;
+			console.debug(tematic);
 			var Lgeom = tematic.geometries.features.features;
 			var idDataField = tematic.idDataField;
 			var idGeomField = tematic.idGeomField;
@@ -2091,15 +1873,13 @@ function loadTematicLayer(layer){
 				tipus : layerWms.serverType,
 				geometryType: tematic.geometryType
 			};
-
-
-
-
-
+			
+			console.debug(Lgeom.length);
 			
 			for(var g=0;g<Lgeom.length;g++){
 				var geom = Lgeom[g];
 				var rangStyle;
+				console.debug(geom);
 				if (geom.geometry){
 					var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
 					if (dataGeom.length > 0){
@@ -2110,10 +1890,13 @@ function loadTematicLayer(layer){
 					}
 					var ftype = geom.geometry.type;
 					ftype = ftype.toLowerCase();
+					console.debug(ftype);
 					if (ftype === t_point){
 						ftype = t_marker;
 					}else if (ftype === t_linestring){
 						ftype = t_polyline;
+					}else if (ftype === t_multipolygon){
+						ftype = t_polygon;
 					}
 					//Sin rangos
 					if (Lrangs.length == 0){
@@ -2133,6 +1916,7 @@ function loadTematicLayer(layer){
 							rangStyle = createFeatureMarkerStyle(rangStyle);
 						}else if (ftype === t_polyline){
 							//TODO
+							rangStyle = default_line_style;
 						}else if (ftype === t_polygon){
 							rangStyle = createFeatureAreaStyle(rangStyle);
 						}
@@ -2147,6 +1931,7 @@ function loadTematicLayer(layer){
 									rangStyle = L.AwesomeMarkers.icon(rangStyle);
 								}else if (ftype === t_polyline){
 									//TODO
+									rangStyle = default_line_style;
 								}else if (ftype === t_polygon){
 									rangStyle = createFeatureAreaStyle(rangStyle);
 								}
@@ -2171,10 +1956,13 @@ function loadTematicLayer(layer){
 					}
 					var featureTem;
 					if (ftype === t_marker){
-						featureTem = L.marker([geom.geometry.coordinates[0],geom.geometry.coordinates[1]],
+						var coords=geom.geometry.coordinates;
+						console.debug(coords);
+						featureTem = L.marker([coords[0],coords[1]],
 							 {icon: rangStyle}).addTo(map);
 					}else if (ftype === t_polyline){
 						var coords=geom.geometry.coordinates;
+						console.debug(coords);
 						var k=0;
 						var j=0;
 						var llistaPunts=[];
@@ -2196,7 +1984,7 @@ function loadTematicLayer(layer){
 							var l=0;
 							while (l < linecoord.length){
 								var c=linecoord[l];
-								var punt=new L.LatLng(c[1], c[0]);
+								var punt=new L.LatLng(c[0], c[1]);
 								llistaPunts[j]=punt;
 								j++;
 								l++;

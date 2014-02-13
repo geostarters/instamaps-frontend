@@ -9,6 +9,7 @@ var t_marker = "marker";
 var t_multiple = "multiple";
 var t_point = "point";
 var t_linestring = "linestring";
+var t_multipolygon= "multipolygon";
 var tem_simple = "simpleTematic";
 var tem_clasic = "clasicTematic";
 
