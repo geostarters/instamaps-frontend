@@ -482,7 +482,6 @@ function changeDefaultLineStyle(canvas_linia){
 	var estilTMP = default_line_style;
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
-
 	if(objEdicio.obroModalFrom=="creaCapa"){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
@@ -1159,7 +1158,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 				})});
 			}else if(dataset.indexOf('incidencies')!=-1){
 				var inci=feature.properties.descripcio_tipus;
-				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
+				var arr = ["Obres", "Retencions", "Cons", "Meterologia" ];
 				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
 				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
 				return L.marker(latlng, {icon:L.icon({					
