@@ -1451,7 +1451,7 @@ function initControls(){
 	addDialegsEstils();
 	addControlCercaEdit();
 	//dades
-	//generaLListaDadesObertes();
+	generaLListaDadesObertes();
 	creaPopOverMesFonsColor();
 	creaPopOverDadesExternes();
 	creaPopOverMesFons();

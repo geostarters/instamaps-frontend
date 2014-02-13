@@ -13,10 +13,10 @@ var t_multipolygon= "multipolygon";
 var tem_simple = "simpleTematic";
 var tem_clasic = "clasicTematic";
 
-//var HOST_APP = "http://172.70.1.12/";
+var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
-var HOST_APP = "http://localhost:8080/";
+//var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	//uploadproxy:"/maps/upload.cgi",
