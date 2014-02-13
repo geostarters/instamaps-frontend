@@ -93,7 +93,7 @@ function generaLlistaServeisWMS() {
 								.push('<li><a class="label-wms" href="#" id="'
 										+ WMS.IDARXIU
 										+ '">'
-										+ WMS.TITOL
+										+ window.lang.convert(WMS.TITOL)
 										+ '</a>'
 										+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
 										+ WMS.URN

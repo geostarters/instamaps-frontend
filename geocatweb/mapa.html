@@ -17,6 +17,7 @@
 <link href="/llibreries/css/glyph.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/MarkerCluster.css">
 <link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/Control.MiniMap.css" type="text/css">
@@ -384,7 +385,7 @@
 
 								<div class="liX" style="border-right: 1px solid #DDDDDD">
 
-
+<span class="small" lang="ca">Mida punt:</span>
 									<select id="cmb_mida_Punt" class="form-control">
 										<option lang="ca" class="small" value="22">Mida punt</option>
 										<option lang="ca" class="small" value="18">Petit +</option>
@@ -404,7 +405,7 @@
 
 
 								<ul class="bs-punts">
-									<li><div id="div_punt1"
+									<li class="estil_selected" ><div id="div_punt1"
 											class="awesome-marker-web awesome-marker-icon-orange"></div></li>
 									<li><div id="div_punt2"
 											class="awesome-marker-web awesome-marker-icon-darkorange"></div></li>
@@ -1098,6 +1099,7 @@
 	<script src="/geocatweb/js/geocat.mapa.wms.js" type="text/javascript"></script>
  	<script src="/geocatweb/js/geocat.mapa.json.js" type="text/javascript"></script>
  	<script src="/geocatweb/js/geocat.mapa.heat.js" type="text/javascript"></script>
+ 	<script src="/geocatweb/js/geocat.mapa.cluster.js" type="text/javascript"></script>
 	
 	<script src="/llibreries/js/dropzone.js" type="text/javascript"></script>
 	<script>
@@ -1112,7 +1114,7 @@
 	<script src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script>
 	 <script src="/llibreries/js/leaflet/plugin/L.TileLayer.BetterWMS.js"	type="text/javascript"></script>
-	
+	<script src="/llibreries/js/leaflet/plugin/leaflet.markercluster.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/Control.MiniMap.js"	type="text/javascript"></script>
 	
 	<script src="/llibreries/js/moment.min.js" type="text/javascript"></script>

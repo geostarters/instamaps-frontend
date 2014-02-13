@@ -495,6 +495,15 @@ background-color: #9F9F9E;
 	cursor: pointer;
 }
 
+
+.div_fons_11 {
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
+		-32px rgba(208, 208, 208, 0.5);
+	margin-left: 4px;
+	cursor: pointer;
+}
+
+
 .div_gr2 {
 	height: 55px;
 	margin: 10px 10px 0;

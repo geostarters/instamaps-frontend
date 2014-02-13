@@ -78,9 +78,12 @@ function initCanvas(){
 	$('#colorpalette_punt').colorPalette().on('selectColor', function(e) {  
 		 $('.fill_color_punt').css('background-color',e.color);
 			
-		 console.info(jQuery('#div_puntZ').hasClass("estil_selected"));
-		 if(jQuery('#div_puntZ').hasClass("estil_selected")){
-				
+		 if(!jQuery('#div_puntZ').hasClass("estil_selected")){
+				activaPuntZ();
+		
+		
+		 }else{
+		 
 			 estilP.divColor=e.color;
 				
 				jQuery('#div_punt0').css('background-color',estilP.divColor);
@@ -215,17 +218,7 @@ function addDrawToolbar() {
 	
 
 
-	defaultPunt= L.AwesomeMarkers.icon({
-		icon : '',
-		markerColor : 'orange',
-		divColor:'transparent',
-		iconAnchor : new L.Point(14, 42),
-		iconSize : new L.Point(28, 42),
-		iconColor : '#000000',
-		opacity:0.8,
-		prefix : 'fa',
-		tipus: t_marker
-	});
+	defaultPunt= L.AwesomeMarkers.icon(default_point_style);
 
 
 
@@ -355,17 +348,25 @@ function activaEdicioUsuari() {
 			tipusCat=window.lang.convert('Titol Punt');
 			tipusCatDes=window.lang.convert('Descripcio Punt');
 			
-//			if(defaultPunt.options.icon!=""){
+			//Mira si és icona
+			if(!defaultPunt.options.isCanvas){
 				layer=L.marker([layer.getLatLng().lat,layer.getLatLng().lng],
-					{icon: defaultPunt, 
+					{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
 					 tipus: t_marker}).addTo(map);
-//			}else{
-//				layer= L.circleMarker([layer.getLatLng().lat,layer.getLatLng().lng],
-//					 { radius : parseInt(parseInt(defaultPunt.options.iconSize.x)/3), 
-//					 fillColor : defaultPunt.options.divColor,
-//					 color : "#dddddd", weight : 2,
-//					  opacity : 1, fillOpacity : 0.9, tipus: t_marker}).addTo(map);
-//			}
+			}else{
+				//Si és cercle sense glifon
+				layer= L.circleMarker([layer.getLatLng().lat,layer.getLatLng().lng],
+						{ radius : defaultPunt.options.radius, 
+						  isCanvas:defaultPunt.options.isCanvas,
+						  fillColor : defaultPunt.options.fillColor,
+						  color :  defaultPunt.options.color,
+						  weight :  defaultPunt.options.weight,
+						  opacity :  defaultPunt.options.opacity,
+						  fillOpacity : defaultPunt.options.fillOpacity,
+						  tipus: t_marker}
+						
+				).addTo(map);
+			}
 			
 			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_marker){
 				capaUsrActiva.removeEventListener('layeradd');
@@ -501,6 +502,32 @@ function activaEdicioUsuari() {
 //	});	
 	
 }
+
+
+
+
+
+
+
+function createPopupWindow(layer,type){
+    console.debug('createPopupWindow'); 
+
+var html = createPopUpContent(layer,type);
+layer.bindPopup(html,{'offset':[0,-25]}).openPopup();
+layer.on('popupopen',function(e){
+    //actualitzem popup
+      jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'').html(fillCmbCapesUsr(layer.options.tipus));
+    jQuery('#titol_pres').text(layer.properties.name).append(' <i class="glyphicon glyphicon-pencil blau"></i>');     
+    jQuery('#des_pres').text(layer.properties.description).append(' <i class="glyphicon glyphicon-pencil blau"></i>');           
+});   
+}
+
+
+
+
+
+
+
 
 function finishAddFeatureToTematic(layer){
 	console.debug('finishAddFeatureToTematic');

@@ -28,25 +28,25 @@ function createHeatMap(capa){
 	
 	
 	
-	heatLayerActiu.options = {
-			businessId : '-1',
-			nom : capa.layer.options.nom+"_heatmap",
-			zIndex : controlCapes._lastZIndex+1,
-			tipus : 'heatmap',
-			capaOrigen:capa.layer.options.businessId,
-		};
-
-
 	
+			heatLayerActiu.options.businessId = '-1';
+			heatLayerActiu.options.nom = capa.layer.options.nom+"_heatmap";
+			heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
+			heatLayerActiu.options.tipus = 'heatmap';
+			heatLayerActiu.options.capaOrigen=capa.layer.options.businessId;
+		
+
+
+	/*
 	map.addLayer(heatLayerActiu).on('layeradd',
 			objecteUserAdded);
-	
+	*/
 		controlCapes.addOverlay(heatLayerActiu,
 				heatLayerActiu.options.nom, true);
 		
 		activaPanelCapes(true);
 	
-	
+	map.removeLayer(capa.layer);
 	
 	
 	
