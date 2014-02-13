@@ -19,14 +19,16 @@ _htmlServeisJSON
 		.push('<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>');
 
 var respostaJSON;
-function getServeiJSONP(urlJson) {
-	respostaJSON = "";
+var urlJSON;
+function getServeiJSONP(purlJson) {
+	urlJSON = purlJson;
+	jQuery("#txt_URLJSON");
 	var _htmlJSONFields = [];
 
-	if (ValidURL(urlJson)) {
+	if (ValidURL(purlJson)) {
 		jQuery('#div_layersJSON').addClass('waiting_animation');
 
-		getJSONPServei(urlJson)
+		getJSONPServei(purlJson)
 				.then(
 						function(results) {
 
@@ -145,9 +147,8 @@ function getServeiJSONP(urlJson) {
 
 		alert(window.lang.convert("La URL no sembla vàlida"));
 		return;
-
 	}
-
+//	return reposta
 }
 
 jQuery(document).on('click', "#bt_addJSON", function(e) {
@@ -175,58 +176,222 @@ function creaCapaFromJSON() {
 		var capaJSON = new L.FeatureGroup();
 		capaJSON.options = {
 			businessId : -1,
-			nom : 'CapaJSON1',
+			nom : 'Capa JSON'+controlCapes._lastZIndex + 1,
 			tipus:'JSON',
 			zIndex : controlCapes._lastZIndex + 1
 		};
+		
+		if(typeof url('?businessid') == "string"){
+			var data = {
+				uid:$.cookie('uid'),
+				mapBusinessId: url('?businessid'),
+				serverName: 'Capa JSON'+controlCapes._lastZIndex + 1,
+				serverType: t_json,
+				version: wmsLayer.wmsParams.version,
+				calentas: false,
+	            activas: true,
+	            visibilitats: true,
+	            epsg: ActiuWMS.epsgtxt,
+	            imgFormat: 'image/png',
+	            infFormat: 'text/html',
+	            tiles: true,	            
+	            transparency: true,
+	            opacity: 1,
+	            visibilitat: 'O',
+	            url: urlJSON,//Provar jQuery("#txt_URLJSON")
+	            calentas: false,
+	            activas: true,
+	            visibilitats: true
+			};
+			
+			createServidorInMap(data).then(function(results){
+				if (results.status == "OK"){
+					
+					var estil_do = retornaEstilaDO('json');
 
-		var estil_do = retornaEstilaDO('json');
+					for (key in respostaJSON) {
+						var lat = respostaJSON[key][cmd_json_y];
+						var lon = respostaJSON[key][cmd_json_x];
+						pp = L.circleMarker([ lat, lon ], estil_do)
 
-		for (key in respostaJSON) {
-			var lat = respostaJSON[key][cmd_json_y];
-			var lon = respostaJSON[key][cmd_json_x];
-			pp = L.circleMarker([ lat, lon ], estil_do)
+						pp.properties = {};
 
-			pp.properties = {};
+						if (cmd_json_titol == "null") {
+							pp.properties.name = ""
+						} else {
+							pp.properties.name = respostaJSON[key][cmd_json_titol];
+						}
+						if (cmd_json_desc == "null") {
+							pp.properties.description = ""
+						} else {
+							pp.properties.description = respostaJSON[key][cmd_json_desc];
+						}
+						if (cmd_json_img == "null") {
+							pp.properties.img = ""
+						} else {
+							pp.properties.img = '<img width="100px" src="'
+									+ respostaJSON[key][cmd_json_img] + '">';
+						}
+						if (cmd_json_vin == "null") {
+							pp.properties.vincle = ""
+						} else {
+							pp.properties.vincle = '<a href="'
+									+ respostaJSON[key][cmd_json_vin]
+									+ '" target="_blank">'
+									+ respostaJSON[key][cmd_json_vin] + '</a>';
+						}
 
-			if (cmd_json_titol == "null") {
-				pp.properties.name = ""
-			} else {
-				pp.properties.name = respostaJSON[key][cmd_json_titol];
-			}
-			if (cmd_json_desc == "null") {
-				pp.properties.description = ""
-			} else {
-				pp.properties.description = respostaJSON[key][cmd_json_desc];
-			}
-			if (cmd_json_img == "null") {
-				pp.properties.img = ""
-			} else {
-				pp.properties.img = '<img width="100px" src="'
-						+ respostaJSON[key][cmd_json_img] + '">';
-			}
-			if (cmd_json_vin == "null") {
-				pp.properties.vincle = ""
-			} else {
-				pp.properties.vincle = '<a href="'
-						+ respostaJSON[key][cmd_json_vin]
-						+ '" target="_blank">'
-						+ respostaJSON[key][cmd_json_vin] + '</a>';
-			}
+						pp.bindPopup("<div>" + pp.properties.name + "</div><div>"
+								+ pp.properties.description + "</div><div>"
+								+ pp.properties.img + "</div><div>" + pp.properties.vincle
+								+ "</div>");
+						pp.addTo(capaJSON);
 
-			pp.bindPopup("<div>" + pp.properties.name + "</div><div>"
-					+ pp.properties.description + "</div><div>"
-					+ pp.properties.img + "</div><div>" + pp.properties.vincle
-					+ "</div>");
-			pp.addTo(capaJSON);
+					}
 
-		}
+					capaJSON.addTo(map);
+					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 
-		capaJSON.addTo(map);
-		controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+					jQuery('#dialog_dades_ex').modal('toggle');					
+					
+					
+					capaJSON.options.businessId = results.results.businessId;
+					capaJSON.addTo(map)
+					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+					activaPanelCapes(true);
+				}
+			});
+			
+		}else{
+			capaJSON.addTo(map)
+			controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+			activaPanelCapes(true);
+		}		
 
-		jQuery('#dialog_dades_ex').modal('toggle');
+//		var estil_do = retornaEstilaDO('json');
+//
+//		for (key in respostaJSON) {
+//			var lat = respostaJSON[key][cmd_json_y];
+//			var lon = respostaJSON[key][cmd_json_x];
+//			pp = L.circleMarker([ lat, lon ], estil_do)
+//
+//			pp.properties = {};
+//
+//			if (cmd_json_titol == "null") {
+//				pp.properties.name = ""
+//			} else {
+//				pp.properties.name = respostaJSON[key][cmd_json_titol];
+//			}
+//			if (cmd_json_desc == "null") {
+//				pp.properties.description = ""
+//			} else {
+//				pp.properties.description = respostaJSON[key][cmd_json_desc];
+//			}
+//			if (cmd_json_img == "null") {
+//				pp.properties.img = ""
+//			} else {
+//				pp.properties.img = '<img width="100px" src="'
+//						+ respostaJSON[key][cmd_json_img] + '">';
+//			}
+//			if (cmd_json_vin == "null") {
+//				pp.properties.vincle = ""
+//			} else {
+//				pp.properties.vincle = '<a href="'
+//						+ respostaJSON[key][cmd_json_vin]
+//						+ '" target="_blank">'
+//						+ respostaJSON[key][cmd_json_vin] + '</a>';
+//			}
+//
+//			pp.bindPopup("<div>" + pp.properties.name + "</div><div>"
+//					+ pp.properties.description + "</div><div>"
+//					+ pp.properties.img + "</div><div>" + pp.properties.vincle
+//					+ "</div>");
+//			pp.addTo(capaJSON);
+//
+//		}
+//
+//		capaJSON.addTo(map);
+//		controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+//
+//		jQuery('#dialog_dades_ex').modal('toggle');
 
 	}
 
+}
+
+function loadCapaFromJSON(dataset,nom_dataset) {
+
+	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
+
+	var estil_do = retornaEstilaDO(dataset);
+	var lastZIndex = controlCapes._lastZIndex+1;
+	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
+		onEachFeature : popUp,
+		nom : dataset,
+		tipus : t_dades_obertes,
+		businessId : '-1',
+		dataType : "jsonp",
+		zIndex: lastZIndex,
+		pointToLayer : function(feature, latlng) {
+			if(dataset.indexOf('meteo')!=-1){
+				return L.marker(latlng, {icon:L.icon({					
+					    iconUrl: feature.style.iconUrl,
+					    iconSize:     [44, 44], 
+					    iconAnchor:   [22, 22], 				   
+					    popupAnchor:  [-3, -3] 
+				})});
+			}else if(dataset.indexOf('incidencies')!=-1){
+				var inci=feature.properties.descripcio_tipus;
+				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
+				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
+				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
+				return L.marker(latlng, {icon:L.icon({					
+				    iconUrl: imgInci,
+				    iconSize:     [30, 26], 
+				    iconAnchor:   [15, 13], 				   
+				    popupAnchor:  [-3, -3] 
+			})});
+			}else if(dataset.indexOf('cameres')!=-1){
+				return L.marker(latlng, {icon:L.icon({					
+				    iconUrl: "/geocatweb/img/st_came.png",
+				    iconSize:     [30, 26], 
+				    iconAnchor:   [15, 13], 				   
+				    popupAnchor:  [-3, -3] 
+			})});
+			}else{
+			return L.circleMarker(latlng, estil_do);
+			}
+		}
+	});
+	
+	if(typeof url('?businessid') == "string"){
+		var data = {
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: nom_dataset,
+			serverType: t_dades_obertes,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            epsg: '4326',
+            transparency: true,
+            visibilitat: 'O',
+			options: '{"dataset":"'+dataset+'"}'
+		};
+		
+		createServidorInMap(data).then(function(results){
+			if (results.status == "OK"){
+				capaDadaOberta.options.businessId = results.results.businessId;
+				capaDadaOberta.addTo(map)
+				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+				activaPanelCapes(true);
+			}
+		});
+		
+	}else{
+		capaDadaOberta.addTo(map)
+		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+		activaPanelCapes(true);
+	}
+	//capaDadaOberta.on('layeradd',objecteUserAdded)
 }
