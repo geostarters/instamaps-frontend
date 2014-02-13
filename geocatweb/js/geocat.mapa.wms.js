@@ -1,4 +1,3 @@
-
 var _htmlServeisWMS = [];
 var llista_servidorsWMS = {
 	"WMS" : [
@@ -80,42 +79,28 @@ var llista_servidorsWMS = {
 };
 
 function generaLlistaServeisWMS() {
-
-	_htmlServeisWMS
-			.push('<div class="panel-success"><ul class="bs-dadesO panel-heading">');
-
-	jQuery
-			.each(
-					llista_servidorsWMS.WMS,
-					function(key, WMS) {
-
-						_htmlServeisWMS
-								.push('<li><a class="label-wms" href="#" id="'
-										+ WMS.IDARXIU
-										+ '">'
-										+ window.lang.convert(WMS.TITOL)
-										+ '</a>'
-										+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
-										+ WMS.URN
-										+ '"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>'
-										+ '</li>');
-					});
+	_htmlServeisWMS.push('<div class="panel-success"><ul class="bs-dadesO panel-heading">');
+	jQuery.each(llista_servidorsWMS.WMS, function(key, WMS) {
+		_htmlServeisWMS.push('<li><a class="label-wms" href="#" id="'
+			+ WMS.IDARXIU
+			+ '">'
+			+ window.lang.convert(WMS.TITOL)
+			+ '</a>'
+			+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
+			+ WMS.URN
+			+ '"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>'
+			+ '</li>');
+	});
 
 	_htmlServeisWMS.push('</ul></div>');
-	_htmlServeisWMS
-			.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
-	_htmlServeisWMS
-			.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
+	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
 	_htmlServeisWMS.push('</div>');
-	_htmlServeisWMS
-			.push('<div style="height:100px;overflow:auto" id="div_layersWMS"  class="tbl"></div>');
-	_htmlServeisWMS
-			.push('<div id="div_emptyWMS" style="height: 35px;margin-top: 2px"></div>');
-
+	_htmlServeisWMS.push('<div style="height:100px;overflow:auto" id="div_layersWMS"  class="tbl"></div>');
+	_htmlServeisWMS.push('<div id="div_emptyWMS" style="height: 35px;margin-top: 2px"></div>');
 }
 
 jQuery(document).on('click', "#bt_connWMS", function(e) {
-
 	var url = jQuery('#txt_URLWMS').val();
 
 	if (url == "") {
@@ -136,93 +121,75 @@ var ActiuWMS = {
 	"layers" : "layers",
 	"epsg" : 'L.CRS.EPSG4326'
 };
+
 function getCapabilitiesWMS(url, servidor) {
 
 	jQuery('#div_layersWMS').addClass('waiting_animation');
 	var _htmlLayersWMS = [];
-	getWMSLayers(url)
-			.then(
-					function(results) {
-						jQuery('#div_layersWMS').removeClass(
-								'waiting_animation');
-						jQuery('#div_layersWMS').empty();
-						jQuery('#div_emptyWMS').empty();
+	getWMSLayers(url).then(function(results) {
+		jQuery('#div_layersWMS').removeClass(
+				'waiting_animation');
+		jQuery('#div_layersWMS').empty();
+		jQuery('#div_emptyWMS').empty();
 
-						if (servidor == null) {
-							servidor = results.Service.Title
-						}
-						;
+		if (servidor == null) {
+			servidor = results.Service.Title;
+		}
 
-						try {
+		try {
+			ActiuWMS.servidor = servidor;
+			ActiuWMS.url = url;
+			var matriuEPSG = results.Capability.Layer.CRS;
+			if (matriuEPSG) {
+			
+			} else {
+				matriuEPSG = results.Capability.Layer.SRS
+			}
+			var epsg = [];
+			jQuery.each(matriuEPSG, function(index, value) {
+				epsg.push(value);
+			});
 
-							ActiuWMS.servidor = servidor;
-							ActiuWMS.url = url;
-							var matriuEPSG = results.Capability.Layer.CRS;
-							if (matriuEPSG) {
-							} else {
-								matriuEPSG = results.Capability.Layer.SRS
-							}
-							var epsg = [];
-							jQuery.each(matriuEPSG, function(index, value) {
+			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG3857;
+				ActiuWMS.epsgtxt = 'EPSG:3857';
+			} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG3857;
+				ActiuWMS.epsgtxt = 'EPSG:3857';
+			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = 'EPSG:4326';
+			} else {
+				alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
+				return;
+			}
 
-								epsg.push(value);
+			_htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
+			jQuery.each(results.Capability.Layer.Layer, function(index, value) {
+				_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+					+ value.Name
+					+ '">'
+					+ value.Title
+					+ '</label></li>');
+			});
 
-							});
+			_htmlLayersWMS.push('</ul>');
 
-							if (jQuery.inArray('EPSG:3857', epsg) != -1) {
-								ActiuWMS.epsg = L.CRS.EPSG3857;
-								ActiuWMS.epsgtxt = 'EPSG:3857';
-							} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
-								ActiuWMS.epsg = L.CRS.EPSG3857;
-								ActiuWMS.epsgtxt = 'EPSG:3857';
-							} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
-								ActiuWMS.epsg = L.CRS.EPSG4326;
-								ActiuWMS.epsgtxt = 'EPSG:4326';
-							} else {
-								alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
-								return;
-							}
+			jQuery('#div_layersWMS').html(_htmlLayersWMS.join(''));
+			jQuery('#div_emptyWMS').empty();
 
-							_htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
-							jQuery
-									.each(
-											results.Capability.Layer.Layer,
-											function(index, value) {
-												_htmlLayersWMS
-														.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-																+ value.Name
-																+ '">'
-																+ value.Title
-																+ '</label></li>');
+			jQuery('#div_emptyWMS').html('<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >'
+				+ window.lang
+						.convert("Afegir capes")
+				+ '</button></div>');
 
-											});
-
-							_htmlLayersWMS.push('</ul>');
-
-							jQuery('#div_layersWMS').html(
-									_htmlLayersWMS.join(''));
-							jQuery('#div_emptyWMS').empty();
-
-							jQuery('#div_emptyWMS')
-									.html(
-											'<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >'
-													+ window.lang
-															.convert("Afegir capes")
-													+ '</button></div>');
-
-						} catch (err) {
-
-							jQuery('#div_layersWMS').html(
-									'<hr>Error interpretar capabilities: '
-											+ err + '</hr>');
-						}
-
-					});
-
+		} catch (err) {
+			jQuery('#div_layersWMS').html('<hr>Error interpretar capabilities: ' + err + '</hr>');
+		}
+	});
 }
 
 jQuery(document).on('click', "#bt_addWMS", function(e) {
-
 	addExternalWMS();
 
 });
@@ -292,10 +259,8 @@ function ValidURL(url) {
 
 	var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 	if (pattern.test(url)) {
-
 		return true;
 	}
 
 	return false;
-
 }

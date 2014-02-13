@@ -5,6 +5,7 @@ var _htmlDadesObertes = [];
 var capaUsrPunt, capaUsrLine, capaUsrPol,capaUsrActiva;
 var mapConfig = {};
 var dades1,dades2;
+var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
 var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
@@ -38,6 +39,14 @@ var default_point_style = {
 	fillOpacity : 0.9,
 	color : "#ffffff",
 	fillColor :"#FFC500"
+};
+var opt = {
+	placement : 'right',
+	container : 'body'
+};
+var optB = {
+	placement : 'bottom',
+	container : 'body'
 };
 
 jQuery(document).ready(function() {
@@ -403,15 +412,6 @@ function redimensioMapa() {
 	jQuery(window).trigger('resize');
 }
 
-var opt = {
-	placement : 'right',
-	container : 'body'
-};
-var optB = {
-	placement : 'bottom',
-	container : 'body'
-};
-
 function addToolTipsInici() {
 	//eines mapa
 	$('.bt_llista').tooltip('destroy').tooltip({
@@ -668,17 +668,8 @@ function addDialegsEstils() {
 				}
 				layerTMP.properties=feature.properties;	
 				layerTMP.addTo(capaMare);
-				createPopupWindow(layerTMP,layerTMP.options.tipus);
-				
-				
+				createPopupWindow(layerTMP,layerTMP.options.tipus);			
 			}
-			
-				
-				
-			
-			
-			
-		
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
 		}else{
@@ -746,15 +737,10 @@ function addDialegsEstils() {
 	});
 	
 	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
-	
-			
-			
-		
-			if(!jQuery('#div_puntZ').hasClass("estil_selected")){
-				activaPuntZ();
-		
-			}
-			else{
+		if(!jQuery('#div_puntZ').hasClass("estil_selected")){
+			activaPuntZ();
+		}
+		else{
 			jQuery('#div_punt0').css('width',this.value+"px");
 			jQuery('#div_punt0').css('height',this.value+"px");
 			jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
@@ -1193,8 +1179,6 @@ function pLeft() {
 	return jQuery(".leaflet-left").css('left');
 }
 
-var capaDadaOberta;
-
 function addCapaDadesObertes(dataset,nom_dataset) {
 
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
@@ -1523,16 +1507,15 @@ function addTwitterLayer(hashtag){
 	$('#twitter-collapse .input-group #hashtag_twitter_layer').val("");
 	var lastZIndex = controlCapes._lastZIndex+1;//Jess
 	var twitter = new L.Twitter({
-						hashtag: hashtag,
-						nom: 'twitter_'+ hashtag,
-						zIndex: lastZIndex, 
-						businessId: '-1',
-						tipus: t_xarxes_socials
-					});
+		hashtag: hashtag,
+		nom: 'twitter_'+ hashtag,
+		zIndex: lastZIndex, 
+		businessId: '-1',
+		tipus: t_xarxes_socials
+	});
 
 	//Si el mapa existeix a BD
-	if(typeof url('?businessid') == "string"){
-		
+	if(typeof url('?businessid') == "string"){	
 		var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
@@ -1556,9 +1539,7 @@ function addTwitterLayer(hashtag){
 			}else{
 				console.debug('error create server in map');
 			}
-		});
-
-		
+		});	
 	}else{
 		twitter.addTo(map);
 		controlCapes.addOverlay(twitter, 'twitter_'+ hashtag, true);
@@ -1567,7 +1548,6 @@ function addTwitterLayer(hashtag){
 } 
 
 function loadTwitterLayer(layer, hashtag){
-	
 	var twitter = new L.Twitter({
 		hashtag: hashtag,
 		nom: layer.serverName,
@@ -1587,27 +1567,27 @@ function addPanoramioLayer(){
 	
 	var lastZIndex = controlCapes._lastZIndex+1;//Jess
 	var panoramio = new L.Panoramio({
-						maxLoad: 10, 
-						maxTotal: 250, 
-						zIndex: lastZIndex,
-						nom : 'panoramio_'+lastZIndex,
-						businessId: '-1',
-						tipus: t_xarxes_socials
-					});
+		maxLoad: 10, 
+		maxTotal: 250, 
+		zIndex: lastZIndex,
+		nom : 'panoramio_'+lastZIndex,
+		businessId: '-1',
+		tipus: t_xarxes_socials
+	});
 	
 	if(typeof url('?businessid') == "string"){
 		var data = {
-				uid:$.cookie('uid'),
-				mapBusinessId: url('?businessid'),
-				serverName: 'panoramio_'+ lastZIndex,
-				serverType: t_xarxes_socials,
-				calentas: false,
-	            activas: true,
-	            visibilitats: true,
-	            epsg: '4326',
-	            transparency: true,
-	            visibilitat: 'O',
-				options: '{"xarxa_social": "panoramio"}'
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: 'panoramio_'+ lastZIndex,
+			serverType: t_xarxes_socials,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            epsg: '4326',
+            transparency: true,
+            visibilitat: 'O',
+			options: '{"xarxa_social": "panoramio"}'
 		};
 		
 		createServidorInMap(data).then(function(results){
@@ -1619,9 +1599,7 @@ function addPanoramioLayer(){
 			}else{
 				console.debug('error create server in map');
 			}
-		});
-
-		
+		});	
 	}else{
 		panoramio.addTo(map);
 		controlCapes.addOverlay(panoramio, 'panoramio_'+lastZIndex, true);
@@ -1629,8 +1607,7 @@ function addPanoramioLayer(){
 	}	
 }
 
-function loadPanoramioLayer(layer){
-	
+function loadPanoramioLayer(layer){	
 	var panoramio = new L.Panoramio({
 		maxLoad: 10, 
 		maxTotal: 250, 
@@ -1646,31 +1623,30 @@ function loadPanoramioLayer(layer){
 	controlCapes.addOverlay(panoramio, layer.serverName, true);	
 }
 
-function addWikipediaLayer(){
-	
+function addWikipediaLayer(){	
 	console.debug('Add wikipedia layer');
 	var lastZIndex = controlCapes._lastZIndex+1;//Jess
 	var wikipedia = new L.Wikipedia({
-						zIndex: lastZIndex,
-						nom : 'wikipedia_'+lastZIndex,
-						businessId: '-1',
-						tipus: t_xarxes_socials
-					});
+		zIndex: lastZIndex,
+		nom : 'wikipedia_'+lastZIndex,
+		businessId: '-1',
+		tipus: t_xarxes_socials
+	});
 	
 	if(typeof url('?businessid') == "string"){
 		
 		var data = {
-				uid:$.cookie('uid'),
-				mapBusinessId: url('?businessid'),
-				serverName: 'wikipedia_'+ lastZIndex,
-				serverType: t_xarxes_socials,
-				calentas: false,
-	            activas: true,
-	            visibilitats: true,
-	            epsg: '4326',
-	            transparency: true,
-	            visibilitat: 'O',
-				options: '{"xarxa_social": "wikipedia"}'
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: 'wikipedia_'+ lastZIndex,
+			serverType: t_xarxes_socials,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            epsg: '4326',
+            transparency: true,
+            visibilitat: 'O',
+			options: '{"xarxa_social": "wikipedia"}'
 		};
 		
 		createServidorInMap(data).then(function(results){
@@ -1683,8 +1659,6 @@ function addWikipediaLayer(){
 				console.debug('error create server in map');
 			}
 		});
-
-		
 	}else{
 		wikipedia.addTo(map);
 		controlCapes.addOverlay(wikipedia, 'wikipedia_'+lastZIndex, true);
@@ -1809,7 +1783,6 @@ function updateEditableElements(){
 	 }
 	});
 }
-
 
 function carregaDadesUsuari(data){
 	console.debug("carregaDadesUsuari");
@@ -2051,64 +2024,23 @@ function loadTematicLayer(layer){
 							k++;
 						}
 						featureTem = new L.Polygon(llistaPunts, rangStyle);
-
-
-
-
-
-
-
-
-
 					}
 					if (featureTem){
 						featureTem.properties = geom.properties;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 						capaTematic.addLayer(featureTem);
-
-
-
-
-
 					}
-
-
-
-
-
 				}
 			}
 			if (capaTematic!=null){
 				capaTematic.addTo(map);
 				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
 			}
-
 		}else{
 			alert("Error getTematicLayer");
-		}
-		
+		}		
 	},function(results){
 		console.debug('getTematicLayer ERROR');
 	});
-
-
-
-
-
-
 }
 
 function toggleCollapseTwitter(){
@@ -2395,9 +2327,7 @@ function getRangsFromStyles(tematic, styles){
 	return rangs;
 }
 
-
 function activaPuntZ(){
-	
 	jQuery(".bs-punts li").removeClass("estil_selected");
 	jQuery('#div_puntZ').addClass("estil_selected");
 	estilP.iconFons=jQuery('#div_punt9').attr('class');
@@ -2405,13 +2335,12 @@ function activaPuntZ(){
 	jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
 	
 	var vv=jQuery('#cmb_mida_Punt').val();
-		jQuery('#div_punt0').css('width',vv+'px');
-		 jQuery('#div_punt0').css('height',vv+'px');
-		 jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-		 jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
-		 estilP.divColor=jQuery('.fill_color_punt').css('background-color');
-		 jQuery('#div_punt0').css('background-color',estilP.divColor);
-		 estilP.fontsize=(vv/2)+"px";
-		 estilP.size=vv;	
-	
+	jQuery('#div_punt0').css('width',vv+'px');
+	jQuery('#div_punt0').css('height',vv+'px');
+	jQuery('#div_punt0').css('font-size',(vv/2)+"px");
+	jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
+	estilP.divColor=jQuery('.fill_color_punt').css('background-color');
+	jQuery('#div_punt0').css('background-color',estilP.divColor);
+	estilP.fontsize=(vv/2)+"px";
+	estilP.size=vv;	
 }
