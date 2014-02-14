@@ -2026,7 +2026,9 @@ function loadTematicLayer(layer){
 					}
 				}
 			}
+			console.debug(capaTematic);
 			if (capaTematic!=null){
+				console.debug(layerWms);
 				capaTematic.addTo(map);
 				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
 			}

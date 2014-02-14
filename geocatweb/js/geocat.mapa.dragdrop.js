@@ -132,10 +132,14 @@ function readAndUploadFile(file, resposta){
 		resposta = "E:/usuaris/w.szczerban/temp/"+file.name;
 	}
 	var path = resposta;
+	path = path.replace(/\n/g, "");
 	
 	var data = {uid:$.cookie('uid'),path:path};
 	
+	console.debug(data);
+	
 	doReadFile(data).then(function(results){
+		console.debug(results);
 		if (results.status=="OK"){
 			if (jQuery.isEmptyObject(results.results)){
 				console.debug(results.results);
@@ -203,7 +207,10 @@ function addDropFileToMap(results){
 			if (results.status == "OK"){
 				//Un cop carregat el fitxer refresquem el popup de les dades de l'usuari i tambè
 				//el control de capes
-				carregarCapa(businessId);
+				console.debug(results.results);
+				loadTematicLayer(results.results);
+				
+				//carregarCapa(businessId);
 				refrescaPopOverMevasDades();
 				jQuery('#dialog_carrega_dadesfields').modal('hide');
 			}
