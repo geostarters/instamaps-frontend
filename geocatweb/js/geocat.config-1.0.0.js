@@ -28,11 +28,12 @@ var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
 //var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
-	//proxy:"/maps/proxy.cgi",
-	//uploadproxy:"/maps/upload.cgi",
-	proxy:"/cgi-bin/proxy.cgi",
-	uploadproxy:"/cgi-bin/upload.cgi",
-	proxy_download:"/cgi-bin/download.cgi",
+	proxy:"/maps/proxy.cgi",
+	uploadproxy:"/maps/upload.cgi",
+	proxy_download:"/maps/download.cgi",
+	//proxy:"/cgi-bin/proxy.cgi",
+	//uploadproxy:"/cgi-bin/upload.cgi",
+	//proxy_download:"/cgi-bin/download.cgi",
 	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",
