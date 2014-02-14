@@ -50,7 +50,7 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
-	jQuery.reject();
+	$("body").iealert();
 	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
