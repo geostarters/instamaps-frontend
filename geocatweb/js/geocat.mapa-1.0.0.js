@@ -50,7 +50,7 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
-	$("body").iealert();
+//	$("body").iealert();
 	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
@@ -1204,6 +1204,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		onEachFeature : popUp,
 		nom : dataset,
 		tipus : t_dades_obertes,
+		dataset: dataset,
 		businessId : '-1',
 		dataType : "jsonp",
 		zIndex: lastZIndex,
@@ -1374,6 +1375,10 @@ function loadMapConfig(mapConfig){
 			if(value.serverType == t_wms){
 				loadWmsLayer(value);
 
+				//Si la capa es de tipus dades obertes
+			}else if(value.serverType == t_json){
+				loadCapaFromJSON(value);				
+				
 			//Si la capa es de tipus dades obertes
 			}else if(value.serverType == t_dades_obertes){
 				loadDadesObertesLayer(value);
@@ -1389,6 +1394,12 @@ function loadMapConfig(mapConfig){
 			
 			}else if(value.serverType == t_tematic){
 				loadTematicLayer(value);
+				
+			}else if(value.serverType == t_heatmap){
+				loadHeatLayer(value);
+			
+			}else if(value.serverType == t_cluster){
+				loadClusterLayer(value);
 			}
 		});
 	}
@@ -1822,55 +1833,66 @@ function carregaDadesUsuari(data){
 
 function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
-	var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-	var estil_do = retornaEstilaDO(options.dataset);				
-	
-	var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
-		onEachFeature : popUp,
-		nom : layer.serverName,
-		tipus : layer.serverType,
-
-		businessId : layer.businessId,
-		dataType : "jsonp",
-		zIndex: parseInt(layer.capesOrdre),
-		pointToLayer : function(feature, latlng) {
-			if(options.dataset.indexOf('meteo')!=-1){
-				return L.marker(latlng, {icon:L.icon({					
-					    iconUrl: feature.style.iconUrl,
-					    iconSize:     [44, 44], 
-					    iconAnchor:   [22, 22], 				   
+	if(options.tem == null){
+		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
+		var estil_do = retornaEstilaDO(options.dataset);				
+		
+		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
+			onEachFeature : popUp,
+			nom : layer.serverName,
+			tipus : layer.serverType,
+			dataset: options.dataset,
+			businessId : layer.businessId,
+			dataType : "jsonp",
+			zIndex: parseInt(layer.capesOrdre),
+			pointToLayer : function(feature, latlng) {
+				if(options.dataset.indexOf('meteo')!=-1){
+					return L.marker(latlng, {icon:L.icon({					
+						    iconUrl: feature.style.iconUrl,
+						    iconSize:     [44, 44], 
+						    iconAnchor:   [22, 22], 				   
+						    popupAnchor:  [-3, -3] 
+					})});
+				}else if(options.dataset.indexOf('incidencies')!=-1){
+					var inci=feature.properties.descripcio_tipus;
+					var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
+					var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
+					var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
+					return L.marker(latlng, {icon:L.icon({					
+					    iconUrl: imgInci,
+					    iconSize:     [30, 26], 
+					    iconAnchor:   [15, 13], 				   
 					    popupAnchor:  [-3, -3] 
 				})});
-			}else if(options.dataset.indexOf('incidencies')!=-1){
-				var inci=feature.properties.descripcio_tipus;
-				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
-				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
-				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
-				return L.marker(latlng, {icon:L.icon({					
-				    iconUrl: imgInci,
-				    iconSize:     [30, 26], 
-				    iconAnchor:   [15, 13], 				   
-				    popupAnchor:  [-3, -3] 
-			})});
-			}else if(options.dataset.indexOf('cameres')!=-1){
-				return L.marker(latlng, {icon:L.icon({					
-				    iconUrl: "/geocatweb/img/st_came.png",
-				    iconSize:     [30, 26], 
-				    iconAnchor:   [15, 13], 				   
-				    popupAnchor:  [-3, -3] 
-			})});
-			}else{
-				return L.circleMarker(latlng, estil_do);
+				}else if(options.dataset.indexOf('cameres')!=-1){
+					return L.marker(latlng, {icon:L.icon({					
+					    iconUrl: "/geocatweb/img/st_came.png",
+					    iconSize:     [30, 26], 
+					    iconAnchor:   [15, 13], 				   
+					    popupAnchor:  [-3, -3] 
+				})});
+				}else{
+					return L.circleMarker(latlng, estil_do);
+				}
+				//return L.circleMarker(latlng, estil_do);
 			}
-			//return L.circleMarker(latlng, estil_do);
+		});	
+		
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			capaDadaOberta.addTo(map);
 		}
-	});	
-	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
-		capaDadaOberta.addTo(map);
+		
+		capaDadaOberta.eachLayer(function(layer) {
+			console.debug("1"+layer);
+		});		
+		
+		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
+		
+	}else if(options.tem == tem_cluster){
+		loadDadesObertesClusterLayer(layer);
+	}else if(options.tem == tem_heatmap){
+		loadDOHeatmapLayer(layer);
 	}
-	
-	controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
 }
 
 function loadWmsLayer(layer){
