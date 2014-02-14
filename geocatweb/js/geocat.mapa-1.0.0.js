@@ -50,8 +50,6 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
-	$("body").iealert();
-	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
