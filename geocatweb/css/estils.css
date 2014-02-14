@@ -1,4 +1,3 @@
-
 /* 
  * Leaflet Search Control v1.4.7 - 2014-01-04 
  * 
@@ -629,6 +628,7 @@ textarea {
 	font-size: 12px !important;
 	height: 25px !important;
 	padding: 4px 12px !important;
+<<<<<<< HEAD
 }
 
 .cc-cookies {
@@ -668,4 +668,3 @@ textarea {
 .chrome_img {
 	background: url('images/browser_chrome.gif') no-repeat;
 }
-
