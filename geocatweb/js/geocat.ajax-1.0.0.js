@@ -444,3 +444,14 @@ function getJSONPServei(url){
 	console.info(err);
 	})
 }
+
+
+function updateServidorWMS(data){
+	
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMS,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+
+}

@@ -129,7 +129,7 @@ function getFeatureStyle(f, fId){
 	console.debug(f.layer.options);
 	//ESTIL MARKER
 	if(f.layer.options.tipus == t_marker){
-		if (f.layer.options.icon){
+		if (!f.layer._ctx){
 			rangs = {
 				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 				valorMax : "feature" + fId,

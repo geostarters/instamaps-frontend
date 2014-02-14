@@ -1,6 +1,7 @@
 //tipus capes
 var t_dades_obertes = "dades obertes";
 var t_wms = "wms";
+var t_json = "json";
 var t_xarxes_socials = "xarxes socials";
 var t_tematic = "tematic";
 var t_polyline = "polyline";
@@ -9,6 +10,7 @@ var t_marker = "marker";
 var t_multiple = "multiple";
 var t_point = "point";
 var t_linestring = "linestring";
+var t_multipolygon= "multipolygon";
 var t_multipolygon= "multipolygon";
 var t_heatmap="heatmap";
 var t_cluster="cluster";
@@ -19,17 +21,23 @@ var tem_size = "sizeTematic";
 var tem_heatmap = "heatmapTematic";
 var tem_cluster = "clusterTematic";
 
+var from_creaPopup="creaPopup";
+var from_creaCapa="creaCapa";
 
 var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
 //var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
-	proxy:"/maps/proxy.cgi",
+	//proxy:"/maps/proxy.cgi",
 	//uploadproxy:"/maps/upload.cgi",
+	proxy:"/cgi-bin/proxy.cgi",
 	uploadproxy:"/cgi-bin/upload.cgi",
 	proxy_download:"/cgi-bin/download.cgi",
 	loginPage:"/geocatweb/sessio.html",
+	mapaPage:"/geocatweb/mapa.html",
+	visorPage:"/geocatweb/visor.html",
+	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
 	wmsOpenData:"/dadesobertes/wms/service?",
 	tmsOpenData:"/geocatcache/?",
@@ -86,6 +94,7 @@ var paramUrl = {
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
+	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?"
 }
 
@@ -99,6 +108,6 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	$('.waiting_animation').hide();
 	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
-		//sessionExpired();
+		sessionExpired();
 	}
 });
