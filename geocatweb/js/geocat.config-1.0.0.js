@@ -1,6 +1,7 @@
 //tipus capes
 var t_dades_obertes = "dades obertes";
 var t_wms = "wms";
+var t_json = "json";
 var t_xarxes_socials = "xarxes socials";
 var t_tematic = "tematic";
 var t_polyline = "polyline";
@@ -26,8 +27,9 @@ var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
 //var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
-	proxy:"/maps/proxy.cgi",
+	//proxy:"/maps/proxy.cgi",
 	//uploadproxy:"/maps/upload.cgi",
+	proxy:"/cgi-bin/proxy.cgi",
 	uploadproxy:"/cgi-bin/upload.cgi",
 	proxy_download:"/cgi-bin/download.cgi",
 	loginPage:"/geocatweb/sessio.html",
