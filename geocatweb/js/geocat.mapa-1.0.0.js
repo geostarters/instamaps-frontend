@@ -1029,6 +1029,9 @@ function carregarCapa(businessId){
 		businessId: businessId
 	};
 	
+	loadTematicLayer(data);
+	
+	/*
 	getTematicLayerByBusinessId(data).then(function(results){
 		console.debug(results);
 		//TODO
@@ -1106,6 +1109,8 @@ function carregarCapa(businessId){
 			alert(results.status)
 		};
 	});
+	*/
+	
 }
 
 function creaPopOverDadesExternes() {
