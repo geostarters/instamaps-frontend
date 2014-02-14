@@ -206,6 +206,9 @@ function isBlank(str) {
 }
 
 function logoutUser(){
+	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
+		deleteRandomUser({uid: $.cookie('uid')});
+	}
 	doLogout().then(function(results){
 		if(results.status==='OK'){
 			$.removeCookie('uid', { path: '/' });
