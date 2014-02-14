@@ -64,7 +64,42 @@ function createHeatMap(capa){
 		
 		//Si no, es que es de tipus tematic	
 		}else{
-			//TODO
+			var rangs = JSON.stringify({rangs:[{}]});			
+			var data = {
+	            businessId: capa.layer.options.businessId,
+	            uid: $.cookie('uid'),
+	            tipusRang: tem_heatmap,
+	            rangs: rangs
+	        }
+			
+			updateTematicRangs(data).then(function(results){
+				if(results.status == 'OK'){
+					
+					heatLayerActiu.options.businessId = capa.layer.options.businessId;
+					heatLayerActiu.options.nom = capa.layer.options.nom;
+					heatLayerActiu.options.zIndex = capa.layer.options.zIndex;
+					heatLayerActiu.options.tipus = capa.layer.options.tipus;
+
+					map.addLayer(heatLayerActiu);
+					map.removeLayer(capa.layer);
+					controlCapes.removeLayer(capa.layer);
+					controlCapes._lastZIndex--;
+					controlCapes.addOverlay(heatLayerActiu, heatLayerActiu.options.nom, true);	
+					
+					//Actualitzem capaUsrActiva
+					if(capaUsrActiva!=null && capaUsrActiva.options.businessId == capa.layer.options.businessId){
+						capaUsrActiva.removeEventListener('layeradd');
+						capaUsrActiva = null;
+					}					
+					
+				}else{
+					//TODO error
+					conosle.debug("updateTematicRangs ERROR");					
+				}
+			},function(results){
+				//TODO error
+				console.debug("updateTematicRangs ERROR");
+			});
 		}
 
 	}else{

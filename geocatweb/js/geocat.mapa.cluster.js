@@ -4,13 +4,6 @@ function creaClusterMap(capa) {
 		singleMarkerMode : true
 	});
 	
-	capa.layer.eachLayer(function(layer) {
-		var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
-			title : layer._leaflet_id
-		});
-		marker.bindPopup(layer._popup._content);
-		clusterLayer.addLayer(marker);
-	});
 	
 	if(typeof url('?businessid') == "string"){
 		var data;
@@ -41,6 +34,14 @@ function creaClusterMap(capa) {
 			createServidorInMap(data).then(function(results){
 				if (results.status == "OK"){
 					
+					capa.layer.eachLayer(function(layer) {
+						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
+							title : layer._leaflet_id
+						});
+						marker.bindPopup(layer._popup._content);
+						clusterLayer.addLayer(marker);
+					});					
+					
 					clusterLayer.options.businessId = results.results.businessId;
 					clusterLayer.options.nom = capa.layer.options.nom + " cluster";
 					clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
@@ -70,9 +71,9 @@ function creaClusterMap(capa) {
 			updateTematicRangs(data).then(function(results){
 				if(results.status == 'OK'){
 					
-					var clusterLayer = L.markerClusterGroup({
-						singleMarkerMode : true
-					});
+//					var clusterLayer = L.markerClusterGroup({
+//						singleMarkerMode : true
+//					});
 					
 					capa.layer.eachLayer(function(layer) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
