@@ -464,7 +464,7 @@ function finishAddFeatureToTematic(layer){
 		objEdicio.featureID=accio[1];
 		if(accio[0].indexOf("layer_edit")!=-1){
 			objEdicio.edicioPopup='textCapa';
-			jQuery('#layer_accio').text(window.lang.convert('Canviar nom capa'))
+			jQuery('#layer_accio').text(window.lang.convert('Canviar el nom de la capa'))
 			jQuery('#capa_edit').val(jQuery('#cmbCapesUsr').val());
 			modeLayerTextEdit();
 

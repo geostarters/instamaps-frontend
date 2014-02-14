@@ -139,7 +139,7 @@ var signin_social;
 				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 			}else if($('#signin_pass').val().length < 5){
 				$('#signin_pass').addClass("invalid");
-				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 5 caràcters.</span>");
+				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 5 caràcters.</span>");
 			}else if(isBlank($('#signin_confirm_pass').val())){
 				$('#signin_confirm_pass').addClass("invalid");
 				$('#signin_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");

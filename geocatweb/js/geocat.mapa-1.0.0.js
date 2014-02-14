@@ -50,6 +50,25 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
+	if (!Modernizr.canvas ){
+		jQuery("#mapaFond").show();
+		jQuery("#dialgo_old_browser").modal('show');
+		jQuery("#sidebar").hide();
+		jQuery('#dialgo_old_browser').on('hide.bs.modal', function (e) {
+			window.location = paramUrl.mainPage;
+		});
+	}else{
+		jQuery.cookieCuttr({
+			cookieAnalytics: false,
+			
+			cookieAcceptButtonText: window.lang.convert("Acceptar"),
+			cookieMessage: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal")
+		});
+		loadApp();
+	}
+}); // Final document ready
+
+function loadApp(){
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
@@ -93,7 +112,8 @@ jQuery(document).ready(function() {
 		});
 	}else{
 		if (!$.cookie('uid')){
-			console.debug("sin uid");
+			jQuery("#mapaFond").show();
+			jQuery("#sidebar").hide();
 			
 			jQuery('#dialgo_leave').modal('show');
 			
@@ -120,9 +140,6 @@ jQuery(document).ready(function() {
 					deleteRandomUser({uid: $.cookie('uid')});
 				});
 			});
-			
-			
-			
 		}else{	
 			mapConfig.newMap = true;
 			createNewMap();
@@ -176,20 +193,12 @@ jQuery(document).ready(function() {
 	jQuery('#st_Heat').on('click',function(e) {
 		showTematicLayersModal(tem_heatmap);
 		
-});	
+	});	
 
-jQuery('#st_Clust').on('click',function(e) {		
-	showTematicLayersModal(tem_cluster);
-	
-});	
-	
-	
-	
-//	$('#twitter-collapse').hide();
-//	
-//	$('#btn-add-twitter-layer').click(function(){
-//		addTwitterLayer(jQuery("#hashtag_twitter_layer").val());
-//	});
+	jQuery('#st_Clust').on('click',function(e) {		
+		showTematicLayersModal(tem_cluster);
+		
+	});	
 	
 	$('#nomAplicacio').editable({
 		type: 'text',
@@ -270,7 +279,7 @@ jQuery('#st_Clust').on('click',function(e) {
 //			console.debug('Entra a on click!');
 	});	
 		
-//JESS
+	//JESS
 		//$.fn.editable.defaults.mode = 'inline';
 		
 		jQuery('#select-download-format').change(function() {	
@@ -317,8 +326,7 @@ jQuery('#st_Clust').on('click',function(e) {
 			});
 			
 		});
-		
-}); // Final document ready
+}
 
 function addClicksInici() {
 	jQuery('.bt_llista').on('click', function() {
@@ -428,7 +436,7 @@ function addToolTipsInici() {
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("LLista de capes")
+		title : window.lang.convert("Llista de capes")
 	});
 	$('.bt_captura').tooltip('destroy').tooltip({
 		placement : 'left',

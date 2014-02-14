@@ -629,3 +629,42 @@ textarea {
 	height: 25px !important;
 	padding: 4px 12px !important;
 }
+
+.cc-cookies {
+	width: 100%;	
+}
+
+/*old browser message*/
+#dialgo_old_browser{
+	width: 600px;
+}
+
+.browser_img {
+	float: left;
+    height: 100px;
+    margin: 5px;
+    position: relative;
+    width: 100px;
+    cursor: pointer;
+}
+
+.ie_img {
+	background: url('images/browser_ie.gif') no-repeat;
+}
+
+.firefox_img {
+	background: url('images/browser_firefox.gif') no-repeat;
+}
+
+.safari_img {
+	background: url('images/browser_safari.gif') no-repeat;
+}
+
+.opera_img {
+	background: url('images/browser_opera.gif') no-repeat;
+}
+
+.chrome_img {
+	background: url('images/browser_chrome.gif') no-repeat;
+}
+
