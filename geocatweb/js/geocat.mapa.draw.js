@@ -464,7 +464,7 @@ function finishAddFeatureToTematic(layer){
 		objEdicio.featureID=accio[1];
 		if(accio[0].indexOf("layer_edit")!=-1){
 			objEdicio.edicioPopup='textCapa';
-			jQuery('#layer_accio').text(window.lang.convert('Canviar nom capa'))
+			jQuery('#layer_accio').text(window.lang.convert('Canviar el nom de la capa'))
 			jQuery('#capa_edit').val(jQuery('#cmbCapesUsr').val());
 			modeLayerTextEdit();
 
@@ -549,12 +549,12 @@ function finishAddFeatureToTematic(layer){
 		if(accio[0].indexOf("feature_edit")!=-1){
 
 			if(accio[2].indexOf("marker")!=-1){
-				obrirMenuModal('#dialog_estils_punts','toggle','creaPopup');
+				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
 			}else if(accio[2].indexOf("polygon")!=-1){
-				obrirMenuModal('#dialog_estils_arees','toggle','creaPopup');
+				obrirMenuModal('#dialog_estils_arees','toggle',from_creaPopup);
 			}else{
 
-				obrirMenuModal('#dialog_estils_linies','toggle','creaPopup');
+				obrirMenuModal('#dialog_estils_linies','toggle',from_creaPopup);
 			}
 
 		}else if(accio[0].indexOf("feature_remove")!=-1){

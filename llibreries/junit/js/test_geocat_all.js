@@ -3570,6 +3570,7 @@ asyncTest( "updateTematicRangs", 1, function() {
 		data: {
 			businessId: 'a24b6827d46dadf5cca4fa09069583f0',
 			uid: 'wszczerban',
+			tipusRang: 'unic',
 			rangs: rangs
 		},
 		dataType: 'jsonp'
