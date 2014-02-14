@@ -568,7 +568,8 @@ background-color: #9F9F9E;
 	 font-size: 13px;
 }
 
-#dialog_dades_ex .modal-dialog {
+#dialog_dades_ex .modal-dialog,
+#dialog_layers_tematic .modal-dialog{
 	padding-top: 10%;
 	width: 40%;
 	

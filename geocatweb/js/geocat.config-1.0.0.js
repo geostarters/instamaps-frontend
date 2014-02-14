@@ -20,6 +20,8 @@ var tem_clasic = "clasicTematic";
 var tem_size = "sizeTematic";
 var tem_heatmap = "heatmapTematic";
 var tem_cluster = "clusterTematic";
+var from_creaPopup="creaPopup";
+var from_creaCapa="creaCapa";
 
 var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
@@ -92,6 +94,7 @@ var paramUrl = {
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
+	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?"
 }
 
