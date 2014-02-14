@@ -988,18 +988,23 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Triar l'estil del mapa</h4>
+					<h4 class="modal-title" lang="ca">Triar la capa disponible</h4>
 				</div>
 				<div class="modal-body">
+				
+
 					<script id="tematic-layers-template" type="text/x-handlebars-template">
-					<ul class="bs-dadesO">
+<div class="panel-warning">					
+<ul class="bs-dadesO_USR panel-heading">
 						{{#each layers}}
-						<a class="usr_wms_layer label label-wms" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a>
+						<li><a class="usr_wms_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>
 						{{/each}}
 					</ul>	
+</div>
 					</script>
 					<div id="list_tematic_layers"></div>
-				</div>
+				
+			</div>
 				<div class="modal-footer">
 					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->

@@ -171,9 +171,21 @@ jQuery(document).ready(function() {
 		showTematicLayersModal(tem_clasic);
 	});
 
-//	$('#add_twitter_layer').click(function(){
-//		$('#twitter-collapse').toggle()();
-//	});
+	jQuery('#st_Size').on('click',function(){
+		showTematicLayersModal(tem_size);
+	});
+	
+	jQuery('#st_Heat').on('click',function(e) {
+		showTematicLayersModal(tem_heatmap);
+		
+});	
+
+jQuery('#st_Clust').on('click',function(e) {		
+	showTematicLayersModal(tem_cluster);
+	
+});	
+	
+	
 	
 //	$('#twitter-collapse').hide();
 //	
@@ -325,13 +337,6 @@ function addClicksInici() {
         }
     });
 	
-	jQuery('#st_Heat').on('click',function(e) {
-			createHeatMap(controlCapes._layers[63])
-	});	
-	
-	jQuery('#st_Clust').on('click',function(e) {		
-		creaClusterMap(controlCapes._layers[63])
-	});	
 }
 
 function addOpcionsFonsMapes() {
@@ -1159,10 +1164,11 @@ function creaPopOverDadesExternes() {
 				});		
 			}else if(tbA == "#id_xs"){//Jess
 				jQuery(tbA).html(
-						'<h4><a id="add_twitter_layer" href="javascript:toggleCollapseTwitter()" class="label label-primary">Twitter</a>&nbsp;'+
-						'<a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label label-primary">Panoramio</a>&nbsp;'+
-						'<a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label label-primary">Wikipedia</a></h4>'+
-						
+						'<div class="panel-info"><ul class="bs-dadesO_XS panel-heading">'+
+						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseTwitter()" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
+						'<li><a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label-xs">Panoramio <i class="fa fa-picture-o"></i></a></li>'+
+						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
+						'</ul>'+
 						'<div id="twitter-collapse">'+
 							'<div class="input-group">'+
 			      				'<span class="input-group-addon">Hashtag</span>'+
@@ -1170,6 +1176,7 @@ function creaPopOverDadesExternes() {
 			      				'<span class="input-group-btn">'+
 			      					'<button id="btn-add-twitter-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
 			      				'</span>'+
+				      		'</div>'+
 				      		'</div>'+
 			      		'</div>'						
 				);
@@ -1200,6 +1207,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		businessId : '-1',
 		dataType : "jsonp",
 		zIndex: lastZIndex,
+		geometryType:t_marker,
 		pointToLayer : function(feature, latlng) {
 			if(dataset.indexOf('meteo')!=-1){
 				return L.marker(latlng, {icon:L.icon({					
@@ -2084,18 +2092,104 @@ function createNewMap(){
 }
 
 function showTematicLayersModal(tipus){
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No hi ha capes disponibles per aquest estil de mapa !!')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_layers_tematic').modal('show');
 	var layers = [];
 	jQuery.each( controlCapes._layers, function( key, value ) {
-		if (this.layer.options.geometryType == t_marker){
-			layers.push(this);
-		}else if (this.layer.options.geometryType == t_polyline){
-			layers.push(this);
-		}else if (this.layer.options.geometryType == t_polygon){
-			layers.push(this);
+	
+		var tipusCapa=this.layer.options.tipus;
+		
+		if(tipus==tem_simple) {
+			
+	if (tipusCapa == t_marker || 
+			tipusCapa == t_point ||
+			tipusCapa == t_polyline || 
+			tipusCapa == t_polygon ||
+			tipusCapa == t_tematic || 
+			tipusCapa == t_multipolygon ){
+		layers.push(this);
+	}
+						
+			
+		}else if (tipus==tem_clasic){
+			
+			if (tipusCapa == t_marker || 
+					tipusCapa == t_point ||
+					tipusCapa == t_polyline || 
+					tipusCapa == t_polygon ||
+					tipusCapa == t_tematic || 
+					tipusCapa == t_multipolygon){
+						
+				layers.push(this);
+			}
+			
+			
+		}else if (tipus==tem_heatmap) {
+			
+			if (tipusCapa == t_marker || 
+					tipusCapa == t_point ||
+					tipusCapa == t_polyline || 
+					tipusCapa == t_polygon ||
+					tipusCapa == t_tematic || 
+					tipusCapa == t_dades_obertes ||
+					tipusCapa == t_xarxes_socials ){
+			
+			
+				if(this.layer.options.tipus==t_tematic){				
+						if(this.layer.options.geometryType==t_marker ){layers.push(this);}
+				}else{				
+				layers.push(this);			
+				}
+			
+			}
+		
+		}else if (tipus==tem_cluster) {
+			
+			
+			if (tipusCapa == t_marker || 
+					tipusCapa == t_point ||
+					tipusCapa == t_polyline || 
+					tipusCapa == t_polygon ||
+					tipusCapa == t_tematic || 
+					tipusCapa == t_dades_obertes ||
+					tipusCapa == t_xarxes_socials ){
+			
+			
+				if(this.layer.options.tipus==t_tematic){				
+						if(this.layer.options.geometryType==t_marker ){layers.push(this);}
+				}else{				
+				layers.push(this);			
+				}
+			
+			}
+			
+			
+			
+		
+		}else if (tipus==tem_size) {
+			
+			$('#list_tematic_layers').html(warninMSG);
+			return;
+			
+		}else{		
+			$('#list_tematic_layers').html(warninMSG);
+			return;
 		}
-	});
+		
+		
+	});// fi each
+	
+	
+	;
+	
+	
+	if(layers.length ==0){
+	
+		$('#list_tematic_layers').html(warninMSG);		
+		return;
+	}
+	
 	
 	layers = {layers: layers};
 
@@ -2118,6 +2212,21 @@ function showTematicLayersModal(tipus){
 			}
 		}else if(tipus == tem_clasic){
 			createTematicClasic(data);
+		}else if(tipus == tem_heatmap){
+			
+			
+			createHeatMap(controlCapes._layers[data.leafletid]);
+			jQuery('#dialog_layers_tematic').modal('hide');
+			
+		}else if(tipus == tem_cluster){
+			
+		
+			
+			creaClusterMap(controlCapes._layers[data.leafletid]);
+			jQuery('#dialog_layers_tematic').modal('hide');
+			
+		}else if(tipus == tem_size){
+			
 		}
 	});
 }

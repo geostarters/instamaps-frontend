@@ -26,6 +26,10 @@ showResults(error);
 }
 });
 },
+showResults:function(err, latlng, data){
+console.info(err);	
+},
+
 getFeatureInfoUrl: function (latlng) {
 // Construct a GetFeatureInfo request URL given a point
 var point = this._map.latLngToContainerPoint(latlng, this._map.getZoom()),

@@ -1,44 +1,70 @@
 .marker-cluster-small {
-	background-color: rgba(181, 226, 140, 0.6);
+	background-color: rgba(77, 154, 234, 0.8);
+	border-radius: 15px !important;
+	height: 30px !important;
+    width: 30px !important;
 	}
-.marker-cluster-small div {
-	background-color: rgba(110, 204, 57, 0.6);
+.marker-cluster-small div { /*dintre*/
+	background-color: rgba(0, 140, 255, 0.8);
+	width: 20px !important;
+	height: 20px !important;
+	border-radius: 10px !important;
+	font: 11px "Helvetica Neue", Arial, Helvetica, sans-serif !important;
 	}
 
+.marker-cluster-small span {
+	line-height: 20px !important;
+	}
+
+
+
 .marker-cluster-medium {
-	background-color: rgba(241, 211, 87, 0.6);
+	background-color: rgba(244, 212, 122, 0.8);
 	}
 .marker-cluster-medium div {
-	background-color: rgba(240, 194, 12, 0.6);
+	background-color: rgba(255, 191, 0, 0.8);
 	}
 
 .marker-cluster-large {
-	background-color: rgba(253, 156, 115, 0.6);
+	background-color: rgba(204, 93, 93, 0.8);
+	border-radius: 25px !important;
+	height: 50px !important;
+    width: 50px !important;
 	}
 .marker-cluster-large div {
-	background-color: rgba(241, 128, 23, 0.6);
+	background-color: rgba(204, 20, 20, 0.8);
+	width: 40px !important;
+	height: 40px !important;
+	border-radius: 20px !important;
+	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif !important;
+	
 	}
 
+.marker-cluster-large span {
+	line-height: 40px !important;
+	}
+	
+	
 	/* IE 6-8 fallback colors */
 .leaflet-oldie .marker-cluster-small {
-	background-color: rgb(181, 226, 140);
+	background-color: rgb(77, 154, 234);
 	}
 .leaflet-oldie .marker-cluster-small div {
-	background-color: rgb(110, 204, 57);
+	background-color: rgb(0, 140, 255);
 	}
 
 .leaflet-oldie .marker-cluster-medium {
-	background-color: rgb(241, 211, 87);
+	background-color: rgb(244, 212, 122);
 	}
 .leaflet-oldie .marker-cluster-medium div {
-	background-color: rgb(240, 194, 12);
+	background-color: rgb(255, 191, 0);
 	}
 
 .leaflet-oldie .marker-cluster-large {
-	background-color: rgb(253, 156, 115);
+	background-color: rgb(204, 93, 93);
 	}
 .leaflet-oldie .marker-cluster-large div {
-	background-color: rgb(241, 128, 23);
+	background-color: rgb(204, 20, 20);
 }
 
 .marker-cluster {
@@ -48,12 +74,20 @@
 .marker-cluster div {
 	width: 30px;
 	height: 30px;
+	border-radius: 15px;
+	
 	margin-left: 5px;
 	margin-top: 5px;
-
-	text-align: center;
-	border-radius: 15px;
+	text-align: center;	
 	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	 color: white;
+	text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+	
 	}
 .marker-cluster span {
 	line-height: 30px;

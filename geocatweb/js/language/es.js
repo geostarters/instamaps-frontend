@@ -13,6 +13,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Administrar compte":"Administrar cuenta",
 	"Agrupació":"Agrupación",
 	"Arrossega les teves dades sobre el mapa o fes clic aquí":"Arrastra tus datos sobre el mapa o haz clic aquí",
+	"Base municipal":"Base municipales",
 	"Bàsic":"Básico",
 	"Bases topogràfiques, ortofotomapes vigents, límits administratius, mapes històrics i altres.":"Bases topográficas, ortofotomapas vigentes, límites administrativos, mapas históricos y otros.",
 	"Benvingut":"Bienvenido",

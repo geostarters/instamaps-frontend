@@ -167,6 +167,25 @@ h1,h2,h3,h4,h5,h6 {
 	font-size: 14px;
 }
 
+.label-xs {
+	color: #2963B5;	
+	font-size: 14px;
+}
+
+.lable-usr{
+	color: #2963B5;	
+	font-size: 16px;
+	cursor:pointer !important;
+	text-decoration: underline !important;
+}
+
+.lable-usr:hover{
+	color: #2963B5;	
+	font-size: 16px;
+	cursor:pointer !important;
+	text-decoration: underline !important;
+}
+
 .label:hover{
 	color:#dddddd !important;
 }
