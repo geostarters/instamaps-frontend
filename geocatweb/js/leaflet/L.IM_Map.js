@@ -5,11 +5,11 @@ var catContorn5k= [ new L.LatLng( 42.09360383358694, 3.206746322343911 ), new L.
 
 var CatBounds = L.latLngBounds(L.latLng(40.47, 0.1087), L.latLng(42.8855, 3.33669));
 var MQ_ATTR='Font:<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>';  
-var ESRI_ATTR='Tiles Â© Esri â€” Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-var ESRI_ATTR_TERRAIN="Tiles Â© Esri Sources: Esri, USGS, NOAA";
+var ESRI_ATTR='Tiles © Esri  Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+var ESRI_ATTR_TERRAIN="Tiles © Esri Sources: Esri, USGS, NOAA";
 var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a>'; 
 var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
-var ICGC_HISTO='Font:Mapa del 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
+var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_19;
@@ -61,6 +61,7 @@ options: {
 		}else if(this.options.typeMap=='topoGrisMap'){this.topoGrisMap();
 		}else if(this.options.typeMap=='colorMap'){this.colorMap();
 		}else if(this.options.typeMap=='historicMap'){this.historicMap();
+		}else if(this.options.typeMap=='historicOrtoMap'){this.historicOrtoMap();
 		}else{
 		this.activeMap='topoMap';this.topoMap();
 		}
