@@ -79,7 +79,7 @@ function objecteUserAdded(f){
 			geometryType: f.layer.options.tipus
 		};
 		var _this = this;
-		finishAddFeatureToTematic(f.layer);
+//		finishAddFeatureToTematic(f.layer);
 		
 		createTematicLayerFeature(data).then(function(results) {
 				if(results.status === 'OK'){

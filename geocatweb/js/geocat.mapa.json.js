@@ -167,8 +167,8 @@ function creaCapaFromJSON() {
 		capaJSON.options = {
 			businessId : -1,
 			nom : 'Capa JSON '+controlCapes._lastZIndex + 1,
-			tipus:'JSON',
-			zIndex : controlCapes._lastZIndex + 1
+			tipus:'JSON'
+//			zIndex : controlCapes._lastZIndex// + 1
 		};
 		
 		if(typeof url('?businessid') == "string"){
@@ -243,14 +243,18 @@ function creaCapaFromJSON() {
 					
 					capaJSON.options.businessId = results.results.businessId;
 					capaJSON.addTo(map)
+					capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 				}
 			});
 			
 		}else{
 			capaJSON.addTo(map)
+			capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 			controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+			controlCapes._lastZIndex++;
 			activaPanelCapes(true);
 		}		
 	}
@@ -330,6 +334,7 @@ function loadCapaFromJSON(layer) {
 		capaJSON.options.businessId = layer.businessId;
 		capaJSON.addTo(map)
 		controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		
 
 	},function(results){

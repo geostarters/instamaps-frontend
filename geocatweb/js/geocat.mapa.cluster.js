@@ -44,12 +44,12 @@ function creaClusterMap(capa) {
 					
 					clusterLayer.options.businessId = results.results.businessId;
 					clusterLayer.options.nom = capa.layer.options.nom + " cluster";
-					clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
 					clusterLayer.options.tipus = t_dades_obertes;
 
 					map.addLayer(clusterLayer);
+					clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);
-
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 
 //					map.removeLayer(capa.layer);
@@ -91,7 +91,7 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					map.removeLayer(capa.layer);
 					controlCapes.removeLayer(capa.layer);
-					controlCapes._lastZIndex--;
+//					controlCapes._lastZIndex--;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);	
 					
 					//Actualitzem capaUsrActiva
@@ -114,13 +114,13 @@ function creaClusterMap(capa) {
 		
 		clusterLayer.options.businessId = '-1';
 		clusterLayer.options.nom = capa.layer.options.nom + " cluster";
-		clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
 		clusterLayer.options.tipus = capa.layer.options.tipus;
 		clusterLayer.options.capaOrigen = capa.layer.options.businessId;
 
 		map.addLayer(clusterLayer);
+		clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);
-
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 }
@@ -167,7 +167,7 @@ function loadDadesObertesClusterLayer(layer){
 
 		map.addLayer(clusterLayer);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);
-
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		
 		
 	});	
