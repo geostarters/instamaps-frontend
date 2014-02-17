@@ -25,6 +25,7 @@
 .leaflet-control-layers .leaflet-row .leaflet-name {
 	float: left;
 	width: 45%;
+	padding-right: 1px;
 }
 
 /*background-image: url(images/arrow-up.png);*/

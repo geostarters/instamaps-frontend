@@ -4,7 +4,8 @@
 
 L.Control.OrderLayers = L.Control.Layers.extend({
 	options: {
-		title: 'Title'
+		title: 'Title',
+		autoZIndex: false
 	},
 
 	onAdd: function (map) {

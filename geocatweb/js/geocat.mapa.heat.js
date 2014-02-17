@@ -50,11 +50,12 @@ function createHeatMap(capa){
 					
 					heatLayerActiu.options.businessId = results.results.businessId;
 					heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
-					heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
 					heatLayerActiu.options.tipus = t_heatmap;
 					
 					map.addLayer(heatLayerActiu);
+					heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 					
 				}else{
@@ -83,8 +84,8 @@ function createHeatMap(capa){
 					map.addLayer(heatLayerActiu);
 					map.removeLayer(capa.layer);
 					controlCapes.removeLayer(capa.layer);
-					controlCapes._lastZIndex--;
-					controlCapes.addOverlay(heatLayerActiu, heatLayerActiu.options.nom, true);	
+//					controlCapes._lastZIndex--;
+					controlCapes.addOverlay(heatLayerActiu, heatLayerActiu.options.nom, true);
 					
 					//Actualitzem capaUsrActiva
 					if(capaUsrActiva!=null && capaUsrActiva.options.businessId == capa.layer.options.businessId){
@@ -105,13 +106,13 @@ function createHeatMap(capa){
 	}else{
 		heatLayerActiu.options.businessId = -1;
 		heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
-		heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
 		heatLayerActiu.options.tipus = t_dades_obertes;
 		
 		map.addLayer(heatLayerActiu);
+		heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
-		
 	}	
 }
 
@@ -165,6 +166,7 @@ function loadDOHeatmapLayer(layer){
 		
 		map.addLayer(heatLayerActiu);
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		
 	});
 }

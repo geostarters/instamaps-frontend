@@ -212,13 +212,13 @@ function addExternalWMS2() {
 
 	wmsLayer.options.businessId = '-1';
 	wmsLayer.options.nom = ActiuWMS.servidor;
-	wmsLayer.options.zIndex = controlCapes._lastZIndex + 1;
 	wmsLayer.options.tipus = 'WMS';
 	
 	
 	map.addLayer(wmsLayer);
-
+	wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+	controlCapes._lastZIndex++;
 
 	activaPanelCapes(true);
 	
@@ -243,7 +243,6 @@ function addExternalWMS() {
 
 	wmsLayer.options.businessId = '-1';
 	wmsLayer.options.nom = ActiuWMS.servidor;
-	wmsLayer.options.zIndex = controlCapes._lastZIndex + 1;
 	wmsLayer.options.tipus = t_wms;
 
 //	map.addLayer(wmsLayer).on('layeradd', objecteUserAdded);
@@ -280,7 +279,9 @@ function addExternalWMS() {
 			if (results.status == "OK"){
 				wmsLayer.options.businessId = results.results.businessId;
 				map.addLayer(wmsLayer); //wmsLayer.addTo(map);
+				wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 				jQuery('#dialog_dades_ex').modal('toggle');				
 				
@@ -291,7 +292,9 @@ function addExternalWMS() {
 		
 	}else{
 		wmsLayer.addTo(map);
+		wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 		controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 		jQuery('#dialog_dades_ex').modal('toggle');	
 	}	

@@ -991,7 +991,9 @@ function loadPopOverMevasDades(){
 						 if (value.capesActiva == true || value.capesActiva == "true"){
 						 newWMS.addTo(map);
 						 }
-						 controlCapes.addOverlay(newWMS, value.serverName, true); 				
+						 newWMS.options.zIndex = controlCapes._lastZIndex+1;
+						 controlCapes.addOverlay(newWMS, value.serverName, true);
+						 controlCapes._lastZIndex++;
 
 					activaPanelCapes(true);						
 				}			
@@ -1202,7 +1204,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 
 	var estil_do = retornaEstilaDO(dataset);
-	var lastZIndex = controlCapes._lastZIndex+1;
+//	var lastZIndex = controlCapes._lastZIndex;//+1;
 	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
 		onEachFeature : popUp,
 		nom : dataset,
@@ -1210,7 +1212,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		dataset: dataset,
 		businessId : '-1',
 		dataType : "jsonp",
-		zIndex: lastZIndex,
+//		zIndex: lastZIndex,
 		geometryType:t_marker,
 		pointToLayer : function(feature, latlng) {
 			if(dataset.indexOf('meteo')!=-1){
@@ -1263,14 +1265,18 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			if (results.status == "OK"){
 				capaDadaOberta.options.businessId = results.results.businessId;
 				capaDadaOberta.addTo(map)
+				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
 				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}
 		});
 		
 	}else{
 		capaDadaOberta.addTo(map)
+		capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}
 	//capaDadaOberta.on('layeradd',objecteUserAdded)
@@ -1537,11 +1543,11 @@ function addTwitterLayer(hashtag){
 	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
 	if(hashtag == null || hashtag == '') return;
 	$('#twitter-collapse .input-group #hashtag_twitter_layer').val("");
-	var lastZIndex = controlCapes._lastZIndex+1;//Jess
+//	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var twitter = new L.Twitter({
 		hashtag: hashtag,
-		nom: 'twitter_'+ hashtag,
-		zIndex: lastZIndex, 
+		nom: 'twitter #'+ hashtag,
+//		zIndex: lastZIndex, 
 		businessId: '-1',
 		tipus: t_xarxes_socials
 	});
@@ -1551,7 +1557,7 @@ function addTwitterLayer(hashtag){
 		var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
-				serverName: 'twitter_'+ hashtag,
+				serverName: 'twitter #'+ hashtag,
 				serverType: t_xarxes_socials,
 				calentas: false,
 	            activas: true,
@@ -1566,7 +1572,9 @@ function addTwitterLayer(hashtag){
 			if (results.status == "OK"){
 				twitter.options.businessId = results.results.businessId;
 				twitter.addTo(map);
-				controlCapes.addOverlay(twitter, 'twitter_'+ hashtag, true);
+				twitter.options.zIndex = controlCapes._lastZIndex+1;
+				controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}else{
 				console.debug('error create server in map');
@@ -1574,7 +1582,9 @@ function addTwitterLayer(hashtag){
 		});	
 	}else{
 		twitter.addTo(map);
-		controlCapes.addOverlay(twitter, 'twitter_'+ hashtag, true);
+		twitter.options.zIndex = controlCapes._lastZIndex+1;
+		controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 } 
@@ -1592,17 +1602,18 @@ function loadTwitterLayer(layer, hashtag){
 		twitter.addTo(map);
 	}
 	
-	controlCapes.addOverlay(twitter, layer.serverName, true);		
+	controlCapes.addOverlay(twitter, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 function addPanoramioLayer(){
 	
-	var lastZIndex = controlCapes._lastZIndex+1;//Jess
+//	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var panoramio = new L.Panoramio({
 		maxLoad: 10, 
 		maxTotal: 250, 
-		zIndex: lastZIndex,
-		nom : 'panoramio_'+lastZIndex,
+//		zIndex: lastZIndex,
+		nom : 'panoramio',
 		businessId: '-1',
 		tipus: t_xarxes_socials
 	});
@@ -1611,7 +1622,7 @@ function addPanoramioLayer(){
 		var data = {
 			uid:$.cookie('uid'),
 			mapBusinessId: url('?businessid'),
-			serverName: 'panoramio_'+ lastZIndex,
+			serverName: 'panoramio',
 			serverType: t_xarxes_socials,
 			calentas: false,
             activas: true,
@@ -1626,7 +1637,9 @@ function addPanoramioLayer(){
 			if (results.status == "OK"){
 				panoramio.options.businessId = results.results.businessId;
 				panoramio.addTo(map);
-				controlCapes.addOverlay(panoramio, 'panoramio_'+ lastZIndex, true);
+				panoramio.options.zIndex = controlCapes._lastZIndex+1;
+				controlCapes.addOverlay(panoramio, 'panoramio', true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}else{
 				console.debug('error create server in map');
@@ -1634,7 +1647,9 @@ function addPanoramioLayer(){
 		});	
 	}else{
 		panoramio.addTo(map);
-		controlCapes.addOverlay(panoramio, 'panoramio_'+lastZIndex, true);
+		panoramio.options.zIndex = controlCapes._lastZIndex+1;
+		controlCapes.addOverlay(panoramio, 'panoramio', true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 }
@@ -1652,15 +1667,16 @@ function loadPanoramioLayer(layer){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		panoramio.addTo(map);
 	}
-	controlCapes.addOverlay(panoramio, layer.serverName, true);	
+	controlCapes.addOverlay(panoramio, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 function addWikipediaLayer(){	
 	console.debug('Add wikipedia layer');
-	var lastZIndex = controlCapes._lastZIndex+1;//Jess
+//	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var wikipedia = new L.Wikipedia({
-		zIndex: lastZIndex,
-		nom : 'wikipedia_'+lastZIndex,
+//		zIndex: lastZIndex,
+		nom : 'wikipedia',
 		businessId: '-1',
 		tipus: t_xarxes_socials
 	});
@@ -1670,7 +1686,7 @@ function addWikipediaLayer(){
 		var data = {
 			uid:$.cookie('uid'),
 			mapBusinessId: url('?businessid'),
-			serverName: 'wikipedia_'+ lastZIndex,
+			serverName: 'wikipedia',
 			serverType: t_xarxes_socials,
 			calentas: false,
             activas: true,
@@ -1685,7 +1701,9 @@ function addWikipediaLayer(){
 			if (results.status == "OK"){
 				wikipedia.options.businessId = results.results.businessId;
 				wikipedia.addTo(map);
-				controlCapes.addOverlay(wikipedia, 'wikipedia_'+ lastZIndex, true);
+				wikipedia.options.zIndex = controlCapes._lastZIndex+1;
+				controlCapes.addOverlay(wikipedia, 'wikipedia', true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}else{
 				console.debug('error create server in map');
@@ -1693,7 +1711,9 @@ function addWikipediaLayer(){
 		});
 	}else{
 		wikipedia.addTo(map);
-		controlCapes.addOverlay(wikipedia, 'wikipedia_'+lastZIndex, true);
+		wikipedia.options.zIndex = controlCapes._lastZIndex+1;
+		controlCapes.addOverlay(wikipedia, 'wikipedia', true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 }
@@ -1710,7 +1730,8 @@ function loadWikipediaLayer(layer){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		wikipedia.addTo(map);
 	}
-	controlCapes.addOverlay(wikipedia, layer.serverName, true);	
+	controlCapes.addOverlay(wikipedia, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 //function saveMap(){
@@ -1787,6 +1808,7 @@ function updateEditableElements(){
 	$('.leaflet-name .editable').editable({
 		type: 'text',
 			success: function(response, newValue) {
+				map.closePopup();//Perque no queden desactualitzats
 				var id = this.id;
 				if(typeof url('?businessid') == "string"){
 					var data = {
@@ -1800,6 +1822,7 @@ function updateEditableElements(){
 						if(results.status==='OK'){
 //						console.debug('udpate map name OK');
 						controlCapes._layers[id].name = newValue;
+						controlCapes._layers[id].layer.options.nom = newValue;
 					}else{
 						controlCapes._layers[id].name = oldName;
 						$('.leaflet-name label span#'+id).text(results.results.nom);
@@ -1811,6 +1834,7 @@ function updateEditableElements(){
 				});	
 			}else{
 				controlCapes._layers[id].name = newValue;
+				controlCapes._layers[id].layer.options.nom = newValue;
 			}		
 	 }
 	});
@@ -1895,6 +1919,7 @@ function loadDadesObertesLayer(layer){
 		});		
 		
 		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
+		controlCapes._lastZIndex++;
 		
 	}else if(options.tem == tem_cluster){
 		loadDadesObertesClusterLayer(layer);
@@ -1921,7 +1946,8 @@ function loadWmsLayer(layer){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		newWMS.addTo(map);
 	}
-	controlCapes.addOverlay(newWMS, layer.serverName, true);	
+	controlCapes.addOverlay(newWMS, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 function toggleCollapseTwitter(){

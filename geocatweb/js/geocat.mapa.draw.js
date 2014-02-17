@@ -633,10 +633,12 @@ function finishAddFeatureToTematic(layer){
 		//Actualitzeem zIndex abans d'afegir al control de capes
 		capaUsrActiva.options.zIndex = controlCapes._lastZIndex+1; 								
 		controlCapes.addOverlay(capaUsrActiva,	capaUsrActiva.options.nom, true);
+		controlCapes._lastZIndex++;
+//		capaUsrActiva.options.zIndex = controlCapes._lastZIndex;//+1; 
 		//showEditText(layer);
 		activaPanelCapes(true);
-	}	
-	
+	}
+		
 	createPopupWindow(layer,type);	
 }
 
@@ -820,8 +822,8 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 					businessId : results.results.businessId,
 					nom : nomNovaCapa,
 					tipus: t_tematic,
-					geometryType : feature.options.tipus,
-					zIndex : controlCapes._lastZIndex+1		
+					geometryType : feature.options.tipus
+//					zIndex : controlCapes._lastZIndex//+1		
 				};
 				//Afegim nova capa al combo
 				jQuery('#cmbCapesUsr-'+feature._leaflet_id+'-'+feature.options.tipus+'').append("<option selected value=\""+results.results.businessId+"\">"+nomNovaCapa+"</option>");	
@@ -829,7 +831,9 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				jQuery('.popup_edit').hide();
 				
 				map.addLayer(capaUsrActiva2);
+				capaUsrActiva2.options.zIndex = controlCapes._lastZIndex+1;
 				controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 				
 				//Accio de moure la feature a la nova capa tematic creada
