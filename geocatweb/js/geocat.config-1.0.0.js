@@ -21,19 +21,18 @@ var tem_size = "sizeTematic";
 var tem_heatmap = "heatmapTematic";
 var tem_cluster = "clusterTematic";
 
-var from_creaPopup="creaPopup";
-var from_creaCapa="creaCapa";
 
 var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
 //var HOST_APP = "http://localhost:8080/";
 var paramUrl = {
-	//proxy:"/maps/proxy.cgi",
-	//uploadproxy:"/maps/upload.cgi",
-	proxy:"/cgi-bin/proxy.cgi",
-	uploadproxy:"/cgi-bin/upload.cgi",
-	proxy_download:"/cgi-bin/download.cgi",
+	proxy:"/maps/proxy.cgi",
+	uploadproxy:"/maps/upload.cgi",
+	proxy_download:"/maps/download.cgi",
+	//proxy:"/cgi-bin/proxy.cgi",
+	//uploadproxy:"/cgi-bin/upload.cgi",
+	//proxy_download:"/cgi-bin/download.cgi",
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
@@ -79,7 +78,7 @@ var paramUrl = {
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
 	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
-	urlGeoCoder:"http://miyazaki.icc.local:8080/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
+	urlGeoCoder:"http://www.icc.cat/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
 	getTematicLayer: HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
@@ -94,7 +93,6 @@ var paramUrl = {
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
-	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?"
 }
 

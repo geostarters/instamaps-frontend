@@ -49,7 +49,10 @@ var optB = {
 	container : 'body'
 };
 
+var printConfig={"scales":[{"name":"1:500","value":"500"},{"name":"1:750","value":"750"},{"name":"1:1,000","value":"1000"},{"name":"1:1,300","value":"1300"},{"name":"1:1,400","value":"1400"},{"name":"1:1,500","value":"1500"},{"name":"1:2,000","value":"2000"},{"name":"1:2,500","value":"2500"},{"name":"1:2,700","value":"2700"},{"name":"1:2,800","value":"2800"},{"name":"1:2,900","value":"2900"},{"name":"1:3,000","value":"3000"},{"name":"1:4,000","value":"4000"},{"name":"1:5,000","value":"5000"},{"name":"1:5,500","value":"5500"},{"name":"1:6,000","value":"6000"},{"name":"1:7,000","value":"7000"},{"name":"1:8,000","value":"8000"},{"name":"1:9,000","value":"9000"},{"name":"1:10,000","value":"10000"},{"name":"1:11,000","value":"11000"},{"name":"1:12,000","value":"12000"},{"name":"1:15,000","value":"15000"},{"name":"1:20,000","value":"20000"},{"name":"1:25,000","value":"25000"},{"name":"1:27,000","value":"27000"},{"name":"1:28,000","value":"28000"},{"name":"1:29,000","value":"29000"},{"name":"1:30,000","value":"30000"},{"name":"1:40,000","value":"40000"},{"name":"1:50,000","value":"50000"},{"name":"1:55,000","value":"55000"},{"name":"1:59,000","value":"59000"},{"name":"1:60,000","value":"60000"},{"name":"1:70,000","value":"70000"},{"name":"1:80,000","value":"80000"},{"name":"1:90,000","value":"90000"},{"name":"1:100,000","value":"100000"},{"name":"1:140,000","value":"140000"},{"name":"1:150,000","value":"150000"},{"name":"1:160,000","value":"160000"},{"name":"1:200,000","value":"200000"},{"name":"1:250,000","value":"250000"},{"name":"1:270,000","value":"270000"},{"name":"1:290,000","value":"290000"},{"name":"1:300,000","value":"300000"},{"name":"1:400,000","value":"400000"},{"name":"1:500,000","value":"500000"},{"name":"1:550,000","value":"550000"},{"name":"1:600,000","value":"600000"},{"name":"1:700,000","value":"700000"},{"name":"1:800,000","value":"800000"},{"name":"1:900,000","value":"900000"},{"name":"1:1,000,000","value":"1000000"},{"name":"1:1,200,000","value":"1200000"},{"name":"1:1,500,000","value":"1500000"},{"name":"1:1,550,000","value":"1550000"},{"name":"1:1,700,000","value":"1700000"},{"name":"1:2,000,000","value":"2000000"}],"dpis":[{"name":"100","value":"100"}],"outputFormats":[{"name":"pdf"}],"layouts":[{"name":"1. A4 vertical","map":{"width":400,"height":400},"rotation":true},{"name":"2. A4 horitzontal","map":{"width":550,"height":400},"rotation":true}],"printURL":"http://www.icc.cat/print-servlet-1.2-SNAPSHOT/pdf/print.pdf","createURL":"http://www.icc.cat/print-servlet-1.2-SNAPSHOT/pdf/create.json"};
+
 jQuery(document).ready(function() {
+	jQuery.reject();
 	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
@@ -62,6 +65,10 @@ jQuery(document).ready(function() {
 		var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 		
 		L.control.scale({'metric':true,'imperial':false}).addTo(map);
+		
+		
+
+
 		
 		//iniciamos los controles
 		initControls();
@@ -163,8 +170,7 @@ jQuery(document).ready(function() {
 	
 	//botons tematic
 	jQuery('#st_Color').on('click',function(){
-		console.info(jQuery(this).attr('class'));
-		showTematicLayersModal(tem_simple,jQuery(this).attr('class'));
+		showTematicLayersModal(tem_simple);
 	});
 	
 	jQuery('#st_Tema').on('click',function(){
@@ -322,12 +328,23 @@ jQuery('#st_Clust').on('click',function(e) {
 		
 }); // Final document ready
 
-
-
 function addClicksInici() {
+	
+	
 	jQuery('.bt_llista').on('click', function() {
 		activaPanelCapes();
 	});
+	
+	// new vic
+	jQuery('.bt_captura').on('click', function() {
+		capturaPantalla('captura');
+	});
+	
+	jQuery('.bt_print').on('click', function() {
+		capturaPantalla('print');
+	});
+	
+	
 	
 	jQuery(document).on('click', function(e) {
         if(e.target.id.indexOf("popovercloseid" )!=-1)
@@ -504,7 +521,7 @@ function changeDefaultLineStyle(canvas_linia){
 	var estilTMP = default_line_style;
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
-	if(objEdicio.obroModalFrom==from_creaCapa){
+	if(objEdicio.obroModalFrom=="creaCapa"){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
 	return estilTMP;
@@ -517,7 +534,7 @@ function changeDefaultAreaStyle(canvas_pol){
 	estilTMP.weight=canvas_pol.lineWidth;
 	estilTMP.color=canvas_pol.strokeStyle;
 	
-	if(objEdicio.obroModalFrom==from_creaCapa){
+	if(objEdicio.obroModalFrom=="creaCapa"){
 		drawControl.options.polygon.shapeOptions= estilTMP;
 	}
 	
@@ -606,7 +623,7 @@ function changeDefaultPointStyle(estilP) {
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
 	
-	if(objEdicio.obroModalFrom==from_creaCapa){
+	if(objEdicio.obroModalFrom=="creaCapa"){
 		defaultPunt=puntTMP;
 	}
 	
@@ -623,20 +640,19 @@ function createFeatureMarkerStyle(style){
 
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
-		obrirMenuModal('#dialog_estils_punts','toggle',from_creaCapa);
+		obrirMenuModal('#dialog_estils_punts','toggle','creaCapa');
 	});
 
 	jQuery('#div_mes_linies').on("click", function(e) {			
-		obrirMenuModal('#dialog_estils_linies','toggle',from_creaCapa);
+		obrirMenuModal('#dialog_estils_linies','toggle','creaCapa');
 	});
 	
 	jQuery('#div_mes_arees').on("click", function(e) {	
-		obrirMenuModal('#dialog_estils_arees','toggle',from_creaCapa);
+		obrirMenuModal('#dialog_estils_arees','toggle','creaCapa');
 	});
 	
-	jQuery('#dialog_estils_punts .btn-success').on('click',function(){
-		console.debug(objEdicio.obroModalFrom);
-		if(objEdicio.obroModalFrom==from_creaCapa){
+	jQuery('#dialog_estils_punts .btn-success').on('click',function(){		
+		if(objEdicio.obroModalFrom=="creaCapa"){
 			jQuery('#div_punt').removeClass();
 			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
 			jQuery('#div_punt').css('font-size',jQuery('#div_punt0').css('font-size'));
@@ -645,22 +661,49 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
 			jQuery('#div_punt').css('background-color',estilP.divColor);	
 			changeDefaultPointStyle(estilP);		
-		}else if (objEdicio.obroModalFrom==from_creaPopup){
-			
+		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
 			var capaMare=map._layers[feature.properties.capaLeafletId];
-			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
 			
-		}else if (objEdicio.obroModalFrom.from==tem_simple){
+			var noCanvi=(feature.options.isCanvas==cvStyle.options.isCanvas);
 			
-			var cvStyle=changeDefaultPointStyle(estilP);
 			
-			var capaMare=map._layers[objEdicio.obroModalFrom.leafletid];		
-			
-			changeTematicPointLayerStyle(capaMare,cvStyle);
-			
-			//changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
+			if(noCanvi && !map._layers[objEdicio.featureID].options.isCanvas){//pinxo i/o glifons
+				map._layers[objEdicio.featureID].setIcon(cvStyle);		
+			}else if (noCanvi && map._layers[objEdicio.featureID].options.isCanvas){//Nomes punt
+				map._layers[objEdicio.featureID].setStyle(cvStyle);	
+			}else if (!noCanvi ){
+				
+				capaMare.removeLayer(feature);
+				
+				var layerTMP;
+				if(feature.options.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
+					
+					layerTMP=L.marker([feature.getLatLng().lat,feature.getLatLng().lng],
+							{icon: cvStyle,isCanvas:cvStyle.options.isCanvas,
+							 tipus: t_marker});
+				}else{//hi ha canvia de pinxo a punt canvas
+					
+					layerTMP= L.circleMarker([feature.getLatLng().lat,feature.getLatLng().lng],
+							{ radius : cvStyle.options.radius, 
+							  isCanvas:cvStyle.options.isCanvas,
+							  fillColor : cvStyle.options.fillColor,
+							  color :  cvStyle.options.color,
+							  weight :  cvStyle.options.weight,
+							  opacity :  cvStyle.options.opacity,
+							  fillOpacity : cvStyle.options.fillOpacity,
+							  tipus: t_marker}
+							
+					);
+				
+				}
+				layerTMP.properties=feature.properties;	
+				layerTMP.addTo(capaMare);
+				createPopupWindow(layerTMP,layerTMP.options.tipus);			
+			}
+		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
 		}else{
 			console.debug(objEdicio.obroModalFrom);
 		}	
@@ -668,12 +711,12 @@ function addDialegsEstils() {
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
-		if(objEdicio.obroModalFrom==from_creaCapa){
+		if(objEdicio.obroModalFrom=="creaCapa"){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
 			jQuery('#dialog_estils_linies').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_linia);
 			changeDefaultLineStyle(canvas_linia);
-		}else if (objEdicio.obroModalFrom==from_creaPopup){
+		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
@@ -684,12 +727,12 @@ function addDialegsEstils() {
 	});
 	
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
-		if(objEdicio.obroModalFrom==from_creaCapa){
+		if(objEdicio.obroModalFrom=="creaCapa"){
 			addGeometryInitP(document.getElementById("cv_pol"));  
 			jQuery('#dialog_estils_arees').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_pol);
 			changeDefaultAreaStyle(canvas_pol);
-		}else if (objEdicio.obroModalFrom==from_creaPopup){
+		}else if (objEdicio.obroModalFrom=="creaPopup"){
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
@@ -1805,7 +1848,7 @@ function loadDadesObertesLayer(layer){
 		onEachFeature : popUp,
 		nom : layer.serverName,
 		tipus : layer.serverType,
-		dataset: options.dataset,
+
 		businessId : layer.businessId,
 		dataType : "jsonp",
 		zIndex: parseInt(layer.capesOrdre),
@@ -2067,6 +2110,359 @@ function createNewMap(){
 	});
 }
 
+function showTematicLayersModal(tipus){
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No hi ha capes disponibles per aquest estil de mapa !!')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	jQuery('.modal').modal('hide');
+	jQuery('#dialog_layers_tematic').modal('show');
+	var layers = [];
+	jQuery.each( controlCapes._layers, function( key, value ) {
+	
+		var tipusCapa=this.layer.options.tipus;
+		
+		if(tipus==tem_simple) {
+			
+	if (tipusCapa == t_marker || 
+			tipusCapa == t_point ||
+			tipusCapa == t_polyline || 
+			tipusCapa == t_polygon ||
+			tipusCapa == t_tematic || 
+			tipusCapa == t_multipolygon ){
+		layers.push(this);
+	}
+						
+			
+		}else if (tipus==tem_clasic){
+			
+			if (tipusCapa == t_marker || 
+					tipusCapa == t_point ||
+					tipusCapa == t_polyline || 
+					tipusCapa == t_polygon ||
+					tipusCapa == t_tematic || 
+					tipusCapa == t_multipolygon){
+						
+				layers.push(this);
+			}
+			
+			
+		}else if (tipus==tem_heatmap) {
+			
+			if (tipusCapa == t_marker || 
+					tipusCapa == t_point ||
+					tipusCapa == t_polyline || 
+					tipusCapa == t_polygon ||
+					tipusCapa == t_tematic || 
+					tipusCapa == t_dades_obertes ||
+					tipusCapa == t_xarxes_socials ){
+			
+			
+				if(this.layer.options.tipus==t_tematic){				
+						if(this.layer.options.geometryType==t_marker ){layers.push(this);}
+				}else{				
+				layers.push(this);			
+				}
+			
+			}
+		
+		}else if (tipus==tem_cluster) {
+			
+			
+			if (tipusCapa == t_marker || 
+					tipusCapa == t_point ||
+					tipusCapa == t_polyline || 
+					tipusCapa == t_polygon ||
+					tipusCapa == t_tematic || 
+					tipusCapa == t_dades_obertes ||
+					tipusCapa == t_xarxes_socials ){
+			
+			
+				if(this.layer.options.tipus==t_tematic){				
+						if(this.layer.options.geometryType==t_marker ){layers.push(this);}
+				}else{				
+				layers.push(this);			
+				}
+			
+			}
+			
+			
+			
+		
+		}else if (tipus==tem_size) {
+			
+			$('#list_tematic_layers').html(warninMSG);
+			return;
+			
+		}else{		
+			$('#list_tematic_layers').html(warninMSG);
+			return;
+		}
+		
+		
+	});// fi each
+	
+	
+	;
+	
+	
+	if(layers.length ==0){
+	
+		$('#list_tematic_layers').html(warninMSG);		
+		return;
+	}
+	
+	
+	layers = {layers: layers};
+
+	var source = jQuery("#tematic-layers-template").html();
+	var template = Handlebars.compile(source);
+	var html = template(layers);
+	$('#list_tematic_layers').html(html);
+	
+	$('.usr_wms_layer').on('click',function(e){
+		var _this = jQuery(this);
+		var data = _this.data();
+		data.from = tipus;
+		if (tipus == tem_simple){
+			if (data.geometrytype == t_marker){
+				obrirMenuModal('#dialog_estils_punts','toggle',data);
+			}else if (data.geometrytype == t_polyline){
+				obrirMenuModal('#dialog_estils_linies','toggle',data);
+			}else if (data.geometrytype == t_polygon){
+				obrirMenuModal('#dialog_estils_arees','toggle',data);
+			}
+		}else if(tipus == tem_clasic){
+			createTematicClasic(data);
+		}else if(tipus == tem_heatmap){
+			
+			
+			createHeatMap(controlCapes._layers[data.leafletid]);
+			jQuery('#dialog_layers_tematic').modal('hide');
+			
+		}else if(tipus == tem_cluster){
+			
+		
+			
+			creaClusterMap(controlCapes._layers[data.leafletid]);
+			jQuery('#dialog_layers_tematic').modal('hide');
+			
+		}else if(tipus == tem_size){
+			
+		}
+	});
+}
+
+function createTematicClasic(data){
+	jQuery('.modal').modal('hide');
+	jQuery('#dialog_tematic_rangs').modal('show');
+	console.debug(data);
+	
+	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
+		
+		jQuery('#dialog_tematic_rangs').modal('hide');
+	});
+	
+	var dataTem={
+		businessId: data.businessid,
+		uid: jQuery.cookie('uid')
+	};
+		
+	getTematicLayer(dataTem).then(function(results){
+		if (results.status == "OK"){
+			var tematic = results.results;
+			console.debug(tematic);
+			var fields = {};
+			if (tematic.capes){
+				var dataNames = tematic.capes.fieldsName.split(',');
+				jQuery.each(dataNames, function( index, value ) {
+					fields[value] = "slotd"+(index+1);
+				});
+			}else{ //sin datos
+				fields['nom'] = 'nom';
+				var geomNames = tematic.geometries.fieldsName.split(',');
+				jQuery.each(geomNames, function( index, value ) {
+					fields[value] = "slotf"+(index+1);
+				});
+			}
+			var source1 = jQuery("#tematic-layers-fields").html();
+			var template1 = Handlebars.compile(source1);
+			var html1 = template1({fields:fields});
+			jQuery('#dataField').html(html1);
+			
+			jQuery('#dataField').on('change',function(e){
+				var this_ = jQuery(this);
+				readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
+					displayTematicRangs(tematic ,results);
+					
+				});
+			});
+			
+			jQuery('#dataField').val(tematic.dataField);
+			readDataTematicFromSlotd(tematic, jQuery('#dataField').val()).then(function(results){
+				displayTematicRangs(tematic ,results);
+			});
+		}
+	});
+	/*
+	var layer = controlCapes._layers[data.leafletid];
+	console.debug(layer.layer);
+	var features = layer.layer.getLayers();
+	var fields = [];
+	if (features.length > 0){
+		var feature = features[0];
+		jQuery.each(feature.properties, function( key, value ) {
+			if (key != 'businessId' && key != 'data'){
+				fields.push(key);
+			}
+		});
+	}
+	*/	
+}
+
+function displayTematicRangs(tematic ,results){
+	showTematicRangs(tematic ,results).then(function(results1){
+		var source1 = jQuery("#tematic-values-template").html();
+		var template1 = Handlebars.compile(source1);
+		var html1 = template1({values:results1});
+		jQuery('#list_tematic_values').html(html1);
+	});
+}
+
+function readDataTematicFromSlotd(tematic, slotd){
+	var defer = jQuery.Deferred();
+	var dades = tematic.capes.dades;
+	var values = jQuery.map( dades, function( a ) {
+		return a[slotd];
+	});
+	defer.resolve(values);
+	return defer.promise();
+}
+
+function showTematicRangs(tematic, values){
+	var defer = jQuery.Deferred();
+	var rangs = tematic.rangs;
+	var valuesStyle = [];
+	if(rangs.length == 0){
+		if (tematic.geometryType == t_marker){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_point_style};
+			});
+		}else if (tematic.geometryType == t_polyline){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_line_style};
+			});
+		}else if (tematic.geometryType == t_polygon){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: default_area_style};
+			});
+		}
+	}else if(rangs.length == 1){
+		rangStyle = rangs[0];
+		if (tematic.geometryType == t_marker){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}else if (tematic.geometryType == t_polyline){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}else if (tematic.geometryType == t_polygon){
+			valuesStyle = jQuery.map( values, function( a ) {
+				return {v: a, style: rangStyle};
+			});
+		}
+	}else{
+		
+	}
+	defer.resolve(valuesStyle);
+	
+	return defer.promise();
+}
+
+function changeTematicLayerStyle(tematic, styles){
+	var rangs = getRangsFromStyles(tematic, styles);
+	console.debug(rangs);
+	rangs = JSON.stringify({rangs:rangs});
+		
+	var data = {
+		businessId: tematic.businessid,
+		uid: $.cookie('uid'),
+		rangs: rangs
+	};
+	
+	updateTematicRangs(data).then(function(results){
+		console.debug(results);
+	});
+		
+	if (jQuery.isArray(styles)){
+		
+	}else{
+		var layer = controlCapes._layers[tematic.leafletid];
+		if (tematic.geometrytype == t_marker){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setIcon(styles);
+			});
+		}else if (tematic.geometrytype == t_polyline){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setStyle(styles);
+			});
+		}else if (tematic.geometrytype == t_polygon){
+			jQuery.each(layer.layer._layers, function( key, value ) {
+				this.setStyle(styles);
+			});
+		}
+	}
+}
+
+function getRangsFromStyles(tematic, styles){
+	console.debug(styles);
+	var rangs = [];
+	if (jQuery.isArray(styles)){
+		
+	}else{
+		if (tematic.geometrytype == t_marker){
+			var rang = {
+				simbol: jQuery.trim(styles.options.icon),
+				simbolSize: styles.options.iconSize.y, 
+				simbolColor: styles.options.iconColor, 
+				marker: styles.options.markerColor
+			};
+		}else if (tematic.geometrytype == t_polyline){
+			/*var rang = {
+				borderWidth: 2,
+				borderColor: '#000000',
+				color: styles.options.iconColor,
+				label: false,
+				labelColor: '#000000',
+				labelFont: 'arial',
+				labelHaloColor: '#ffffff',
+				labelHaloWidth: 2,
+				labelSize: 10,
+				lineWidth: styles.lineWidth,
+				lineStyle: 'solid',			
+				llegenda: '',
+				opacity: (styles.opacity * 100),
+				poligonStyle: '',
+				simbol: styles.options.icon,
+				simbolSize: , 
+				simbolColor: styles.options.markerColor, 
+				valorMax: '',
+				valorMin: '',
+				marker: ''
+			};
+			*/
+		}else if (tematic.geometrytype == t_polygon){
+			console.debug(styles.fillColor);
+			styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
+			var rang = {
+				borderWidth: styles.weight,
+				borderColor: styles.color,
+				color: styles.fillColor,
+				opacity: (styles.fillOpacity * 100)
+			};
+		}
+		rangs.push(rang);
+	}
+	return rangs;
+}
 
 function activaPuntZ(){
 	jQuery(".bs-punts li").removeClass("estil_selected");
