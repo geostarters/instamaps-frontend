@@ -207,14 +207,14 @@ function creaCapaFromJSON() {
 						pp.properties = {};
 
 						if (cmd_json_titol == "null") {
-							pp.properties.name = ""
+							pp.properties.nom = ""
 						} else {
-							pp.properties.name = respostaJSON[key][cmd_json_titol];
+							pp.properties.nom = respostaJSON[key][cmd_json_titol];
 						}
 						if (cmd_json_desc == "null") {
-							pp.properties.description = ""
+							pp.properties.text = ""
 						} else {
-							pp.properties.description = respostaJSON[key][cmd_json_desc];
+							pp.properties.text = respostaJSON[key][cmd_json_desc];
 						}
 						if (cmd_json_img == "null") {
 							pp.properties.img = ""
@@ -231,8 +231,8 @@ function creaCapaFromJSON() {
 									+ respostaJSON[key][cmd_json_vin] + '</a>';
 						}
 
-						pp.bindPopup("<div>" + pp.properties.name + "</div><div>"
-								+ pp.properties.description + "</div><div>"
+						pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
+								+ pp.properties.text + "</div><div>"
 								+ pp.properties.img + "</div><div>" + pp.properties.vincle
 								+ "</div>");
 						pp.addTo(capaJSON);
@@ -295,14 +295,14 @@ function loadCapaFromJSON(layer) {
 			pp.properties = {};
 
 			if (options.titol == "null") {
-				pp.properties.name = ""
+				pp.properties.nom = ""
 			} else {
-				pp.properties.name = v_respotaJSON[key][options.titol];
+				pp.properties.nom = v_respotaJSON[key][options.titol];
 			}
 			if (options.descripcio == "null") {
-				pp.properties.description = ""
+				pp.properties.text = ""
 			} else {
-				pp.properties.description = v_respotaJSON[key][options.descripcio];
+				pp.properties.text = v_respotaJSON[key][options.descripcio];
 			}
 			if (options.imatge == "null") {
 				pp.properties.img = ""
@@ -319,12 +319,11 @@ function loadCapaFromJSON(layer) {
 						+ v_respotaJSON[key][options.vincle] + '</a>';
 			}
 
-			pp.bindPopup("<div>" + pp.properties.name + "</div><div>"
-					+ pp.properties.description + "</div><div>"
+			pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
+					+ pp.properties.text + "</div><div>"
 					+ pp.properties.img + "</div><div>" + pp.properties.vincle
 					+ "</div>");
 			pp.addTo(capaJSON);
-
 		}
 
 		capaJSON.options.businessId = layer.businessId;

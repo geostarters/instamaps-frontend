@@ -1,5 +1,5 @@
 function retornaEstilaDO(dataset) {
-	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8 };
+	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
 
 	if(dataset=="radars"){ estil.fillColor = "##A00698";}
 	else if(dataset=="turisme_rural"){ estil.fillColor = "#06A010";}
@@ -12,20 +12,14 @@ function retornaEstilaDO(dataset) {
 	else if(dataset=="json"){ estil.fillColor =randomColor(); }	
 	else{ estil.fillColor = randomColor();}
 
-return estil;
-
-
+	return estil;
 }
 
 function randomColor(){
-	
 	return '#'+Math.floor(Math.random()*16777215).toString(16);
-	
 }
 
-
 function tradueixMenusToolbar() {
-
 	L.drawLocal = {
 		draw : {
 			toolbar : {

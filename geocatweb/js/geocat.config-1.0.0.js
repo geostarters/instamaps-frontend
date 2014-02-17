@@ -61,7 +61,7 @@ var paramUrl = {
 	createData: HOST_APP+"geocat/layers/data/createData.action?",
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
 	getTematicLayerByBusinessId:HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
-	dadesObertes:HOST_APP+"share/jsp/dadesObertes.jsp?",
+	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
@@ -108,7 +108,9 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	$('.waiting_animation').hide();
-	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
-		sessionExpired();
+	if (jqxhr.responseJSON){
+		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
+			sessionExpired();
+		}
 	}
 });

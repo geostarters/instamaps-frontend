@@ -79,7 +79,7 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup("<b>"+layer.properties.name+"</b><br><b>"+layer.properties.description+"</b>");
+						marker.bindPopup("<b>"+layer.properties.nom+"</b><br><b>"+layer.properties.text+"</b>");
 						clusterLayer.addLayer(marker);
 					});
 					

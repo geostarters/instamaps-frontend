@@ -14,6 +14,7 @@ var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
 var default_line_style = {
     weight: 3,       
     color: '#FFC400',
+    opacity:1,
     dashArray: '3'
 };
 var default_area_style = {
@@ -60,7 +61,6 @@ jQuery(document).ready(function() {
 	}else{
 		jQuery.cookieCuttr({
 			cookieAnalytics: false,
-			
 			cookieAcceptButtonText: window.lang.convert("Acceptar"),
 			cookieMessage: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal")
 		});
@@ -83,7 +83,6 @@ function loadApp(){
 		
 		//iniciamos los controles
 		initControls();
-	
 	
 		if (!$.cookie('uid')){
 			window.location.href = paramUrl.loginPage;
@@ -148,9 +147,33 @@ function loadApp(){
 	}
 	
 	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
-		console.debug("registro el unload");
 		jQuery(window).on('beforeunload',function(event){
 			deleteRandomUser({uid: $.cookie('uid')});
+		});
+		
+		jQuery('.bt_publicar').on('click',function(){
+			jQuery('.modal').modal('hide');
+			$('#dialgo_messages').modal('show');
+			$('#dialgo_messages .modal-body').html(window.lang.convert("No es guardarà el mapa. Per guardar les dades has d'entrar amb un usuari registrat. En tancar la sessió es perdran les dades"));
+		});
+	}else{
+		//publicar el mapa solo para registrados
+		jQuery('.bt_publicar').on('click',function(){
+			$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
+			$( ".text_error" ).remove();
+			jQuery('.modal').modal('hide');
+			$('#dialgo_publicar').modal('show');
+			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
+			$('#urlMap').val(urlMap);
+			$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'" ></iframe>');
+		});
+		
+		jQuery('#dialgo_publicar .btn-primary').on('click',function(){
+			publicarMapa();
+		});
+		
+		jQuery('#dialgo_leave .btn-primary').on('click',function(){
+			leaveMapa();
 		});
 	}
 		
@@ -160,23 +183,6 @@ function loadApp(){
 		carregaDadesUsuari(data);
 	}
 		
-	jQuery('.bt_publicar').on('click',function(){
-		$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
-		$( ".text_error" ).remove();
-		$('#dialgo_publicar').modal('show');
-		var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
-		$('#urlMap').val(urlMap);
-		$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'" ></iframe>');
-	});
-	
-	jQuery('#dialgo_publicar .btn-primary').on('click',function(){
-		publicarMapa();
-	});
-	
-	jQuery('#dialgo_leave .btn-primary').on('click',function(){
-		leaveMapa();
-	});
-	
 	//botons tematic
 	jQuery('#st_Color').on('click',function(){
 		showTematicLayersModal(tem_simple,jQuery(this).attr('class'));
@@ -342,7 +348,6 @@ function addClicksInici() {
        	 //addCapaMunicipis();	        
         }
     });
-	
 }
 
 function addOpcionsFonsMapes() {
@@ -514,6 +519,13 @@ function changeDefaultLineStyle(canvas_linia){
 	return estilTMP;
 }
 
+function createFeatureLineStyle(style){
+	var estilTMP = default_line_style;
+	estilTMP.color=style.color;
+	estilTMP.weight=style.lineWidth;
+	return estilTMP;
+}
+
 function changeDefaultAreaStyle(canvas_pol){
 	var estilTMP= default_area_style;
 	estilTMP.fillColor=canvas_pol.fillStyle;
@@ -524,9 +536,7 @@ function changeDefaultAreaStyle(canvas_pol){
 	if(objEdicio.obroModalFrom==from_creaCapa){
 		drawControl.options.polygon.shapeOptions= estilTMP;
 	}
-	
 	return estilTMP;
-	
 	/*
 	if(estil.tipus=="pol"){
 		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
@@ -538,8 +548,7 @@ function changeDefaultAreaStyle(canvas_pol){
 		drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
 		drawControl.options.polyline.shapeOptions.dashArray='3';
 	}
-	*/
-		
+	*/	
 }
 
 function createFeatureAreaStyle(style){
@@ -579,26 +588,19 @@ function changeDefaultPointStyle(estilP) {
 		}else if(tt=="15px"){
 			cssText="font15";		
 		}
-	
-		
 		puntTMP.options.radius=parseInt(parseInt(defaultPunt.options.iconSize.x)/3);		
 		puntTMP.options.fillColor =estilP.divColor;
-		
-		
 		if(_iconGlif==""){//no tin glif soc Canvas
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);		
 			puntTMP.options.icon="";
 			puntTMP.options.isCanvas=true;
-			
 		}else{
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
 			puntTMP.options.iconSize = new L.Point(num, num);	
 			puntTMP.options.icon=_iconGlif + " "+cssText;
 			puntTMP.options.isCanvas=false;
-			
 		}
-		
 	}else{ // sóc punt
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
@@ -609,19 +611,31 @@ function changeDefaultPointStyle(estilP) {
 	}
 	puntTMP.options.markerColor=_iconFons;
 	puntTMP.options.iconColor=_colorGlif;
-	
 	if(objEdicio.obroModalFrom==from_creaCapa){
 		defaultPunt=puntTMP;
 	}
-	
 	return puntTMP;
-} 
+}
 
 function createFeatureMarkerStyle(style){
-	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-	puntTMP.options.iconColor = style.simbolColor;
-	puntTMP.options.icon = style.simbol;
-	puntTMP.options.markerColor = style.marker;
+	console.debug(style);
+	if (style.marker){
+		var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+		puntTMP.options.iconColor = style.simbolColor;
+		puntTMP.options.icon = style.simbol;
+		puntTMP.options.markerColor = style.marker;
+		puntTMP.options.isCanvas=false;
+	}else{
+		var puntTMP = { 
+			radius: style.simbolSize, 
+			isCanvas: true,
+			fillColor: style.color,
+			color:  style.borderColor,
+			weight:  style.borderWidth,
+			fillOpacity:  style.opacity/100,
+			tipus: t_marker
+		};
+	}
 	return puntTMP;
 }
 
@@ -639,7 +653,6 @@ function addDialegsEstils() {
 	});
 	
 	jQuery('#dialog_estils_punts .btn-success').on('click',function(){
-		console.debug(objEdicio.obroModalFrom);
 		if(objEdicio.obroModalFrom==from_creaCapa){
 			jQuery('#div_punt').removeClass();
 			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
@@ -650,21 +663,13 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('background-color',estilP.divColor);	
 			changeDefaultPointStyle(estilP);		
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
-			
 			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
-			
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
-			
 			var cvStyle=changeDefaultPointStyle(estilP);
-			
-			var capaMare=map._layers[objEdicio.obroModalFrom.leafletid];		
-			
-			changeTematicPointLayerStyle(capaMare,cvStyle);
-			
-			//changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
+			changeTematicLayerStyle(objEdicio.obroModalFrom, cvStyle);
 		}else{
 			console.debug(objEdicio.obroModalFrom);
 		}	
@@ -812,6 +817,8 @@ function creaPopOverMesFonsColor() {
 
 function creaPopOverMevasDades(){	
 	jQuery(".div_dades_usr").on('click', function() {
+		
+		jQuery('.modal').modal('hide');
 		$('#dialog_teves_dades').modal('show');
 		
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
@@ -1116,7 +1123,9 @@ function carregarCapa(businessId){
 function creaPopOverDadesExternes() {
 	jQuery(".div_dades_ext").on('click', function() {
 
+		
 		//gestionaPopOver(this);
+		jQuery('.modal').modal('hide');
 		$('#dialog_dades_ex').modal('show');
 		
 		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -1818,10 +1827,12 @@ function carregaDadesUsuari(data){
 
 function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
-	if(options.tem == null){
+	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-		var estil_do = retornaEstilaDO(options.dataset);				
-		
+		var estil_do = retornaEstilaDO(options.dataset);	
+		if (options.tem == tem_simple){
+			estil_do = options.style;
+		}
 		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 			onEachFeature : popUp,
 			nom : layer.serverName,
@@ -1848,18 +1859,21 @@ function loadDadesObertesLayer(layer){
 					    iconSize:     [30, 26], 
 					    iconAnchor:   [15, 13], 				   
 					    popupAnchor:  [-3, -3] 
-				})});
+					})});
 				}else if(options.dataset.indexOf('cameres')!=-1){
 					return L.marker(latlng, {icon:L.icon({					
 					    iconUrl: "/geocatweb/img/st_came.png",
 					    iconSize:     [30, 26], 
 					    iconAnchor:   [15, 13], 				   
 					    popupAnchor:  [-3, -3] 
-				})});
+					})});
 				}else{
-					return L.circleMarker(latlng, estil_do);
+					if (estil_do.isCanvas){
+						return L.circleMarker(latlng, estil_do);
+					}else{
+						return L.marker(latlng, {icon:L.icon(estil_do)});
+					}
 				}
-				//return L.circleMarker(latlng, estil_do);
 			}
 		});	
 		
@@ -1899,173 +1913,6 @@ function loadWmsLayer(layer){
 		newWMS.addTo(map);
 	}
 	controlCapes.addOverlay(newWMS, layer.serverName, true);	
-}
-
-function loadTematicLayer(layer){
-	var data={
-		businessId: layer.businessId,
-		uid: $.cookie('uid')
-	};
-	
-	var layerWms = layer;
-	console.time("loadTematicLayer " + layerWms.serverName);
-	getTematicLayer(data).then(function(results){
-		console.timeEnd("loadTematicLayer " + layerWms.serverName);
-		if(results.status == "OK" ){
-			var tematic = results.results;
-			//console.debug(tematic);
-			var Lgeom = tematic.geometries.features.features;
-			var idDataField = tematic.idDataField;
-			var idGeomField = tematic.idGeomField;
-			var dataField = tematic.dataField;
-			var Lrangs = tematic.rangs;
-			var Ldades = (tematic.capes ? tematic.capes.dades : []);
-			
-			var capaTematic = new L.FeatureGroup();
-			
-			capaTematic.options = {
-				businessId : layerWms.businessId,
-				nom : layerWms.serverName,
-				zIndex :  parseInt(layerWms.capesOrdre),
-				tipus : layerWms.serverType,
-				geometryType: tematic.geometryType
-			};
-			
-			for(var g=0;g<Lgeom.length;g++){
-				var geom = Lgeom[g];
-				var rangStyle;
-				if (geom.geometry){
-					var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
-					if (dataGeom.length > 0){
-						dataGeom = dataGeom[0];
-						jQuery.extend(geom.properties, {data: dataGeom});
-					}else{
-						dataGeom = null;
-					}
-					var ftype = geom.geometry.type;
-					ftype = ftype.toLowerCase();
-					if (ftype === t_point){
-						ftype = t_marker;
-					}else if (ftype === t_linestring){
-						ftype = t_polyline;
-					}
-					//Sin rangos
-					if (Lrangs.length == 0){
-						rangStyle = createRangStyle(ftype);
-					}
-					//1 Rango
-					else if (Lrangs.length == 1){
-						rangStyle = Lrangs[0];
-						rangStyle = createRangStyle(ftype, rangStyle);
-					}
-					//Multiples rangos
-					else{
-						if (dataGeom){
-							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
-							if (rangStyle.length > 0){
-								rangStyle = rangStyle[0];
-								rangStyle = createRangStyle(ftype, rangStyle);
-							}else{
-								rangStyle = createRangStyle(ftype);
-							}
-						}else{
-							rangStyle = createRangStyle(ftype);
-						}
-					}
-					var featureTem;
-					if (ftype === t_marker){
-						var coords=geom.geometry.coordinates;
-						featureTem = L.marker([coords[0],coords[1]],
-							 {icon: rangStyle}).addTo(map);
-					}else if (ftype === t_polyline){
-						var coords=geom.geometry.coordinates;
-						var llistaPunts=[];
-						for (var i = 0; i < coords.length; i++){
-							var c=coords[i];
-							var punt=new L.LatLng(c[0], c[1]);
-							llistaPunts.push(punt);
-						}
-						featureTem = L.polyline(llistaPunts, rangStyle);						
-					}else if (ftype === t_polygon){
-						var coords=geom.geometry.coordinates;
-						var llistaLines=[];
-						for (var i = 0; i < coords.length; i++){
-							var lines=coords[i];
-							var llistaPunts=[];
-							for (var k = 0; k < lines.length; k++){
-								var c=lines[k];
-								var punt=new L.LatLng(c[0], c[1]);
-								llistaPunts.push(punt);
-							}
-							llistaLines.push(llistaPunts);
-						}
-						featureTem = new L.Polygon(llistaLines, rangStyle);
-					}else if (ftype === t_multipolygon){
-						var coords=geom.geometry.coordinates;
-						var llistaPoligons=[];
-						for (var p = 0; p < coords.length; p++){
-							var poligons=coords[p];
-							var llistaLines=[];
-							for (var i = 0; i < poligons.length; i++){
-								var lines=poligons[i];
-								var llistaPunts=[];
-								for (var k = 0; k < lines.length; k++){
-									var c=lines[k];
-									var punt=new L.LatLng(c[0], c[1]);
-									llistaPunts.push(punt);
-								}
-								llistaLines.push(llistaPunts);
-							}
-							llistaPoligons.push(llistaLines);
-						}
-						featureTem = new L.multiPolygon(llistaPoligons, rangStyle);
-					}
-					if (featureTem){
-						featureTem.properties = geom.properties;
-						capaTematic.addLayer(featureTem);
-					}
-				}
-			}
-			console.debug(capaTematic);
-			if (capaTematic!=null){
-				console.debug(layerWms);
-				capaTematic.addTo(map);
-				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
-			}
-		}else{
-			alert("Error getTematicLayer");
-		}		
-	},function(results){
-		console.debug('getTematicLayer ERROR');
-	});
-}
-
-function createRangStyle(ftype, style){
-	var rangStyle;
-	if (style){
-		if (ftype === t_marker){
-			//TODO
-			rangStyle = createFeatureMarkerStyle(style);
-		}else if (ftype === t_polyline){
-			//TODO
-			rangStyle = default_line_style;
-		}else if (ftype === t_polygon){
-			rangStyle = createFeatureAreaStyle(style);
-		}else if (ftype === t_multipolygon){
-			rangStyle = createFeatureAreaStyle(style);
-		}
-	}else{
-		if (ftype === t_marker){
-			rangStyle = L.AwesomeMarkers.icon(default_point_style);
-		}else if (ftype === t_polyline){
-			rangStyle = default_line_style;
-		}else if (ftype === t_polygon){
-			rangStyle = default_area_style;
-		}else if (ftype === t_multipolygon){
-			rangStyle = default_area_style;
-		}
-	}
-	return rangStyle;
 }
 
 function toggleCollapseTwitter(){
