@@ -6,9 +6,9 @@ var catContorn5k= [ new L.LatLng( 42.09360383358694, 3.206746322343911 ), new L.
 var CatBounds = L.latLngBounds(L.latLng(40.47, 0.1087), L.latLng(42.8855, 3.33669));
 var MQ_ATTR='Font:<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>';  
 var ESRI_ATTR='Tiles © Esri — Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-var ESRI_ATTR_TERRAIN="Tiles © Esri — Sources: Esri, USGS, NOAA";
-var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a>'; 
-var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
+var ESRI_ATTR_TERRAIN="Tiles © Esri Sources: Esri, USGS, NOAA";
+var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogr�fic i Geol�gic de Catalunya</a>'; 
+var ICGC_MON='Font:Mapa del M�n (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTO='Font:Mapa del 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
@@ -29,16 +29,18 @@ var subDomains=['otile1','otile2','otile3','otile4'];
 var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
 var URL_ESRI='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var URL_ESRI_T='http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}';
-var URL_MON='http://172.70.1.11/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.png';
+var URL_MON='http://instamapes.icgc.cat/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.png';
 var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw';
 var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/orto_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw";
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topogris_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw'
-var URL_TOPOCOLOR='http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg';
-var URL_HISTORIC='http://172.70.1.11/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
+var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw';
+	
+	//var URL_TOPOCOLOR='http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg';
+var URL_HISTORIC='http://instamapes.icgc.cat/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
 var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
 
-var URL_TERRAIN='http://172.70.1.11/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png';
-var URL_OMBRA='http://172.70.1.11/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.png';
+var URL_TERRAIN='http://instamapes.icgc.cat/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png';
+var URL_OMBRA='http://instamapes.icgc.cat/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.png';
 
 L.IM_Map = L.Map.extend({
 

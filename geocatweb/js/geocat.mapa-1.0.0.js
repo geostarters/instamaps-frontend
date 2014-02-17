@@ -339,6 +339,15 @@ function addClicksInici() {
 		activaPanelCapes();
 	});
 	
+	// new vic
+	jQuery('.bt_captura').on('click', function() {
+		capturaPantalla('captura');
+	});
+	
+	jQuery('.bt_print').on('click', function() {
+		capturaPantalla('print');
+	});
+		
 	jQuery(document).on('click', function(e) {
         if(e.target.id.indexOf("popovercloseid" )!=-1)
         {
