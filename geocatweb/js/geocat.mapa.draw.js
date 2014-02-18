@@ -156,17 +156,18 @@ function addGeometryInitP(canvas){
 
 function addDrawToolbar() {
 	initCanvas();
-	capaUsrPol = new L.FeatureGroup();
-	capaUsrPol.options = {
-		businessId : '-1',
-		nom : 'capaPol',
-		zIndex :  -1,
-		tipus : t_tematic,
-		geometryType: t_polygon
-
-	};
-
-	map.addLayer(capaUsrPol);
+	
+//	capaUsrPol = new L.FeatureGroup();
+//	capaUsrPol.options = {
+//		businessId : '-1',
+//		nom : 'capaPol',
+//		zIndex :  -1,
+//		tipus : t_tematic,
+//		geometryType: t_polygon
+//
+//	};
+//
+//	map.addLayer(capaUsrPol);
 
 	var ptbl = L.Icon.extend({
 		options : {
@@ -415,6 +416,19 @@ function activaEdicioUsuari() {
 			capaUsrActiva.addLayer(layer);			
 		}
 	});
+	
+}
+
+function createPopupWindowVisor(player,type){
+	
+	var html='<div class="div_popup_visor">' 
+		+'<div class="popup_pres">'							
+		+'<div id="titol_pres_visor">'+player.properties.nom+'</div>'	
+		+'<div id="des_pres_visor">'+player.properties.text+'</div>'	
+		+'<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
+		+'</div></div>';
+	
+	player.bindPopup(html,{'offset':[0,-25]}).openPopup();	
 	
 }
 

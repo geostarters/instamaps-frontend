@@ -114,7 +114,7 @@ function showTematicLayersModal(tipus,className){
 function createTematicClasic(data){
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_tematic_rangs').modal('show');
-	console.debug(data);
+	//console.debug(data);
 	
 	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){	
 		jQuery('#dialog_tematic_rangs').modal('hide');
@@ -128,7 +128,7 @@ function createTematicClasic(data){
 	getTematicLayer(dataTem).then(function(results){
 		if (results.status == "OK"){
 			var tematic = results.results;
-			console.debug(tematic);
+			//console.debug(tematic);
 			var fields = {};
 			if (tematic.capes){
 				var dataNames = tematic.capes.fieldsName.split(',');
@@ -163,7 +163,7 @@ function createTematicClasic(data){
 	});
 	/*
 	var layer = controlCapes._layers[data.leafletid];
-	console.debug(layer.layer);
+	//console.debug(layer.layer);
 	var features = layer.layer.getLayers();
 	var fields = [];
 	if (features.length > 0){
@@ -287,10 +287,10 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 }
 
 function changeTematicLayerStyle(tematic, styles){
-	console.debug(tematic);
-	console.debug(styles);
+	//console.debug(tematic);
+	//console.debug(styles);
 	var rangs = getRangsFromStyles(tematic, styles);
-	console.debug(rangs);
+	//console.debug(rangs);
 	var capaMare = map._layers[tematic.leafletid];
 	
 	if (jQuery.isArray(styles)){
@@ -313,9 +313,9 @@ function changeTematicLayerStyle(tematic, styles){
 	}
 	
 	if(capaMare.options.tipus == t_dades_obertes){
-		console.debug(capaMare);
+		//console.debug(capaMare);
 		//TODO Llamada al servidor
-		console.debug(styles.options);
+		//console.debug(styles.options);
 		
 		var options = {
 			dataset: capaMare.options.dataset,
@@ -338,10 +338,10 @@ function changeTematicLayerStyle(tematic, styles){
 			options: JSON.stringify(options)
 		};
 		
-		console.debug(data);
+		//console.debug(data);
 		
 		updateServidorWMS(data).then(function(results){
-			console.debug(results);
+			////console.debug(results);
 		});
 		
 	}else if (tematic.tipus == t_tematic){
@@ -354,14 +354,14 @@ function changeTematicLayerStyle(tematic, styles){
 		};
 		
 		updateTematicRangs(data).then(function(results){
-			console.debug(results);
+			////console.debug(results);
 		});
 	}
 }
 
 function getRangsFromStyles(tematic, styles){
-	console.debug(styles);
-	console.debug(tematic);
+	//console.debug(styles);
+	//console.debug(tematic);
 	if (tematic.tipus == t_dades_obertes){
 		tematic.geometrytype = t_marker;
 	}
@@ -438,12 +438,12 @@ function loadTematicLayer(layer){
 	
 	var layerWms = layer;
 	
-	console.time("loadTematicLayer " + layerWms.serverName);
+	//console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayer(data).then(function(results){
-		console.timeEnd("loadTematicLayer " + layerWms.serverName);
+		//console.timeEnd("loadTematicLayer " + layerWms.serverName);
 		if(results.status == "OK" ){
 			var tematic = results.results;
-			console.debug(tematic);
+			//console.debug(tematic);
 			var Lgeom = tematic.geometries.features.features;
 			var idDataField = tematic.idDataField;
 			var idGeomField = tematic.idGeomField;
@@ -461,7 +461,7 @@ function loadTematicLayer(layer){
 				geometryType: tematic.geometryType
 			};
 			
-			console.debug(capaTematic.options);
+			//console.debug(capaTematic.options);
 			
 			capaTematic.addTo(map);
 			if (!layerWms.capesOrdre){
@@ -470,10 +470,11 @@ function loadTematicLayer(layer){
 				capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
 			}
 			controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
-						
+			controlCapes._lastZIndex++;
+			
 			for(var g=0;g<Lgeom.length;g++){
 				var geom = Lgeom[g];
-				console.debug(geom);
+				//console.debug(geom);
 				var rangStyle;
 				if (geom.geometry){
 					var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
@@ -516,7 +517,7 @@ function loadTematicLayer(layer){
 					var featureTem;
 					if (ftype === t_marker){
 						var coords=geom.geometry.coordinates;
-						console.debug(rangStyle);
+						//console.debug(rangStyle);
 						if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
 							featureTem = L.marker([coords[0],coords[1]],
 									 {icon: rangStyle, isCanvas:false, tipus: t_marker});
@@ -569,7 +570,7 @@ function loadTematicLayer(layer){
 						featureTem = new L.multiPolygon(llistaPoligons, rangStyle);
 					}
 					if (featureTem){
-						console.debug(capaTematic);
+						//console.debug(capaTematic);
 						featureTem.properties = geom.properties;
 						featureTem.properties.capaLeafletId = capaTematic._leaflet_id;
 						featureTem.properties.capaNom = capaTematic.options.nom;
@@ -577,9 +578,15 @@ function loadTematicLayer(layer){
 						featureTem.properties.tipusFeature = ftype;
 						featureTem.properties.feature = {};
 						featureTem.properties.feature.geometry = geom.geometry;
-						console.debug(featureTem);
+						//console.debug(featureTem);
 						capaTematic.addLayer(featureTem);
-						createPopupWindow(featureTem,ftype);
+						
+						if($(location).attr('href').contains('mapa')){
+							createPopupWindow(featureTem,ftype);
+						}else{
+							createPopupWindowVisor(featureTem,ftype);
+						}
+						
 						map.closePopup();
 					}
 				}
@@ -588,7 +595,7 @@ function loadTematicLayer(layer){
 			alert("Error getTematicLayer");
 		}		
 	},function(results){
-		console.debug('getTematicLayer ERROR');
+		//console.debug('getTematicLayer ERROR');
 	});
 }
 

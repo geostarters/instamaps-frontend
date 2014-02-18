@@ -230,62 +230,22 @@ function loadApp(){
 		alert( "Handler for .click() called." );
 	});	
 	
-	jQuery('#socialShare').share({
-	        networks: ['email','facebook',/*'googleplus',*/'twitter','linkedin','pinterest'],
+	
+	//Compartir en xarxes socials
+	var v_url = window.location.href;
+	if(v_url.contains('localhost')){
+		v_url = v_url.replace('localhost','instamapes.cat');
+	}
+	v_url = v_url.replace('mapa','visor');
+	shortUrl(v_url).then(function(results){
+		console.debug(results);
+		jQuery('#socialShare').share({
+	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 	        theme: 'square',
-//	        title: 'InstaMapes',
-//	        urlToShare: 'http://www.google.com'
-//	        urlToShare: 'http://localhost/geocatweb/mapa.html?businessId='+url('?businessid')
-	 });	
-	  
-	jQuery('#socialShare').on('click', function(evt){
-			evt.preventDefault();
-			console.debug('on click social');
-//			var $thisIndex = jQuery(this).index();
-//			var socialId = "";
-//			switch($thisIndex){
-//				case 0:
-//					socialId = "email";
-//					break;
-//				case 1:
-//					socialId = "facebook";
-//					break;
-//				case 2:
-//					socialId = "googleplus";
-//					break;
-//				case 3:
-//					socialId = "twitter";
-//					break;
-//				case 4:
-//				socialId = "linkedin";
-//				break;
-//				case 5:
-//					socialId = "pinterest";
-//					break;
-//			}
-			
-			
-//			var url = 'http://localhost/geocatweb/mapa.html'+$('#permalink').attr('href');
-//			
-//			shortUrl(url).then(function(results){
-//				$('#socialShare').share('refresh',{
-//														url: results.data.url, 
-//														text: $(document).attr('title'), 
-//														pageDesc: window.lang.convert("InstaMapes")
-//														}
-//									).then(function(){
-//				
-//										var $this = $('.pop').get( $thisIndex );
-//										window.open(jQuery($this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
-//				});
-//				
-//				return false;
-//				
-//			}); 		
-//			console.debug('Entra a on click!');
-	});	
+	        urlToShare: results.data.url
+		});
+	});
 		
-	//JESS
 		//$.fn.editable.defaults.mode = 'inline';
 		
 		jQuery('#select-download-format').change(function() {	
