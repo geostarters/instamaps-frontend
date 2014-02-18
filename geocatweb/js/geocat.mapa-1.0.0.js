@@ -518,135 +518,7 @@ function activaPanelCapes(obre) {
 	}
 }
 
-function changeDefaultLineStyle(canvas_linia){
-	var estilTMP = default_line_style;
-	estilTMP.color=canvas_linia.strokeStyle;
-	estilTMP.weight=canvas_linia.lineWidth;
-	if(objEdicio.obroModalFrom==from_creaCapa){
-		 drawControl.options.polyline.shapeOptions= estilTMP;
-	}
-	return estilTMP;
-}
 
-function createFeatureLineStyle(style){
-	var estilTMP = default_line_style;
-	estilTMP.color=style.color;
-	estilTMP.weight=style.lineWidth;
-	return estilTMP;
-}
-
-function changeDefaultAreaStyle(canvas_pol){
-	var estilTMP= default_area_style;
-	estilTMP.fillColor=canvas_pol.fillStyle;
-	estilTMP.fillOpacity=canvas_pol.opacity;
-	estilTMP.weight=canvas_pol.lineWidth;
-	estilTMP.color=canvas_pol.strokeStyle;
-	
-	if(objEdicio.obroModalFrom==from_creaCapa){
-		drawControl.options.polygon.shapeOptions= estilTMP;
-	}
-	return estilTMP;
-	/*
-	if(estil.tipus=="pol"){
-		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
-		drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
-		drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
-	}else{
-		drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
-		drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polyline.shapeOptions.dashArray='3';
-	}
-	*/	
-}
-
-function createFeatureAreaStyle(style){
-	var estilTMP= default_area_style;
-	estilTMP.fillColor=style.color;
-	estilTMP.fillOpacity=(style.opacity/100);
-	estilTMP.weight=style.borderWidth;
-	estilTMP.color=style.borderColor;
-	return estilTMP;
-}
-
-function changeDefaultPointStyle(estilP) {
-	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
-	var _iconGlif=estilP.iconGlif;	
-	var cssText="";
-	
-	if(_iconGlif.indexOf("fa fa-")!=-1){
-		_iconGlif=estilP.iconGlif.replace('fa fa-','');
-	};
-	
-	var _colorGlif=estilP.colorGlif;
-	
-	if(_iconFons.indexOf("_r")!=-1){ //sóc rodó		
-		var num=estilP.size;
-		puntTMP.options.shadowSize = new L.Point(1, 1);
-		var tt=estilP.fontsize;
-		puntTMP.options.divColor=estilP.divColor;
-		if(tt=="9px"){
-			cssText="font9";			
-		}else if(tt=="11px"){
-			cssText="font11";
-		}else if(tt=="12px"){
-			cssText="font12";
-		}else if(tt=="14px"){
-			cssText="font14";
-		}else if(tt=="15px"){
-			cssText="font15";		
-		}
-		puntTMP.options.radius=parseInt(parseInt(defaultPunt.options.iconSize.x)/3);		
-		puntTMP.options.fillColor =estilP.divColor;
-		if(_iconGlif==""){//no tin glif soc Canvas
-			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
-			puntTMP.options.iconSize = new L.Point(num, num);		
-			puntTMP.options.icon="";
-			puntTMP.options.isCanvas=true;
-		}else{
-			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
-			puntTMP.options.iconSize = new L.Point(num, num);	
-			puntTMP.options.icon=_iconGlif + " "+cssText;
-			puntTMP.options.isCanvas=false;
-		}
-	}else{ // sóc punt
-		puntTMP.options.iconAnchor= new L.Point(14, 42);
-		puntTMP.options.iconSize = new L.Point(28, 42);
-		puntTMP.options.shadowSize = new L.Point(36, 16);
-		puntTMP.options.divColor='transparent';
-		puntTMP.options.icon=_iconGlif + " "+cssText;
-		puntTMP.options.isCanvas=false;
-	}
-	puntTMP.options.markerColor=_iconFons;
-	puntTMP.options.iconColor=_colorGlif;
-	if(objEdicio.obroModalFrom==from_creaCapa){
-		defaultPunt=puntTMP;
-	}
-	return puntTMP;
-}
-
-function createFeatureMarkerStyle(style){
-	console.debug(style);
-	if (style.marker){
-		var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-		puntTMP.options.iconColor = style.simbolColor;
-		puntTMP.options.icon = style.simbol;
-		puntTMP.options.markerColor = style.marker;
-		puntTMP.options.isCanvas=false;
-	}else{
-		var puntTMP = { 
-			radius: style.simbolSize, 
-			isCanvas: true,
-			fillColor: style.color,
-			color:  style.borderColor,
-			weight:  style.borderWidth,
-			fillOpacity:  style.opacity/100,
-			tipus: t_marker
-		};
-	}
-	return puntTMP;
-}
 
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
@@ -676,6 +548,7 @@ function addDialegsEstils() {
 			var feature=map._layers[objEdicio.featureID];
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
+			getRangsFromLayer(capaMare);
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			changeTematicLayerStyle(objEdicio.obroModalFrom, cvStyle);
@@ -692,7 +565,10 @@ function addDialegsEstils() {
 			//changeDefaultVectorStyle(canvas_linia);
 			changeDefaultLineStyle(canvas_linia);
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
+			var feature=map._layers[objEdicio.featureID];
+			var capaMare=map._layers[feature.properties.capaLeafletId];
 			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
+			getRangsFromLayer(capaMare);
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else{
@@ -708,7 +584,10 @@ function addDialegsEstils() {
 			//changeDefaultVectorStyle(canvas_pol);
 			changeDefaultAreaStyle(canvas_pol);
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
+			var feature=map._layers[objEdicio.featureID];
+			var capaMare=map._layers[feature.properties.capaLeafletId];
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
+			getRangsFromLayer(capaMare);
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else{

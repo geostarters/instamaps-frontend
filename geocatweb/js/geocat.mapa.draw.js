@@ -385,7 +385,6 @@ function activaEdicioUsuari() {
 					zIndex :  -1,
 					tipus : t_tematic,
 					geometryType: t_polygon
-
 				};
 				map.addLayer(capaUsrActiva);				
 				capaUsrActiva.on('layeradd',objecteUserAdded);
@@ -398,12 +397,10 @@ function activaEdicioUsuari() {
 					zIndex :  -1,
 					tipus : t_tematic,
 					geometryType: t_polygon
-
 				};
 				map.addLayer(capaUsrActiva);
 				capaUsrActiva.on('layeradd',objecteUserAdded);
 			}
-			
 			layer.properties={'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
@@ -419,7 +416,8 @@ function activaEdicioUsuari() {
 }
 
 function createPopupWindow(layer,type){
-	//console.debug('createPopupWindow'); 
+	//console.debug('createPopupWindow');
+	
 	var html = createPopUpContent(layer,type);
 	layer.bindPopup(html,{'offset':[0,-25]}).openPopup();
 	
@@ -478,7 +476,6 @@ function createPopupWindow(layer,type){
 			var obj = map._layers[objEdicio.featureID];
 			
 			//Accio de moure la feature a la nova capa tematic creada
-			//moveFeatureToLayer(obj.properties.businessId,fromBusinessId[0],toBusinessId[0]);
 			var data = {
 					uid: $.cookie('uid'),
 		            businessId: obj.properties.businessId, //businessId de la feature
@@ -507,6 +504,10 @@ function createPopupWindow(layer,type){
 					var html = createPopUpContent(obj,obj.options.tipus);
 					obj.setPopupContent(html);
 					obj.openPopup();
+					
+					//update rangs
+					getRangsFromLayer(capaUsrActiva);
+					
 				}else{
 					console.debug("moveFeatureToTematic ERROR");
 				}
@@ -518,7 +519,6 @@ function createPopupWindow(layer,type){
 	jQuery(document).on('click', ".bs-popup li a", function(e) {
 		e.stopImmediatePropagation();
 		var accio;
-		console.debug('click bspopup');
 		if(jQuery(this).attr('id').indexOf('#')!=-1){			
 			accio=jQuery(this).attr('id').split("#");				
 		}
@@ -553,7 +553,6 @@ function createPopupWindow(layer,type){
 			},function(results){
 				console.debug("ERROR deleteFeature");
 			});	
-
 			
 		}else if(accio[0].indexOf("feature_text")!=-1){
 
@@ -619,8 +618,12 @@ function createPopupWindow(layer,type){
 	layer.on('popupopen', function(e){
 		//actualitzem popup
 		jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'').html(fillCmbCapesUsr(layer.options.tipus));
-		jQuery('#titol_pres').text(layer.properties.nom).append(' <i class="glyphicon glyphicon-pencil blau"></i>');     
-		jQuery('#des_pres').text(layer.properties.text).append(' <i class="glyphicon glyphicon-pencil blau"></i>');           
+		if (layer.properties.nom){
+			jQuery('#titol_pres').text(layer.properties.nom).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+		}
+		if (layer.properties.text){
+			jQuery('#des_pres').text(layer.properties.text).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+		}
 	});
 }
 
@@ -736,6 +739,7 @@ function updateFeatureMove(featureID, capaEdicioID){
     controlCapes._map.removeLayer(capaUsrActiva);
     controlCapes._map.addLayer(capaUsrActiva);    
     map.removeLayer(map._layers[capaEdicioID]);
+           
     //Fi edicio
     objEdicio.esticEnEdicio=false;
 }
@@ -837,13 +841,13 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				activaPanelCapes(true);
 				
 				//Accio de moure la feature a la nova capa tematic creada
-				//moveFeatureToLayer(feature.properties.businessId,capaUsrActiva.options.businessId,capaUsrActiva2.options.businessId);
 				var data = {
-						uid: $.cookie('uid'),
-			            businessId: feature.properties.businessId, //businessId de la feature
-			            fromBusinessId: capaUsrActiva.options.businessId, //businessId del tematico de origen
-			            toBusinessId: capaUsrActiva2.options.businessId //businessId del tematico de destino
-			        }				
+					uid: $.cookie('uid'),
+		            businessId: feature.properties.businessId, //businessId de la feature
+		            fromBusinessId: capaUsrActiva.options.businessId, //businessId del tematico de origen
+		            toBusinessId: capaUsrActiva2.options.businessId //businessId del tematico de destino
+			    };
+				
 				moveFeatureToTematic(data).then(function(results){
 						if(results.status=='OK'){
 							console.debug("moveFeatureToTematic OK");
@@ -861,7 +865,11 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 							//Actualitzem popup del marker
 							var html = createPopUpContent(feature,feature.options.tipus);
 							feature.setPopupContent(html);
-							feature.openPopup();							
+							feature.openPopup();
+							
+							//update rangs
+						    getRangsFromLayer(capaUsrActiva);
+						    
 						}else{
 							console.debug("moveFeatureToTematic ERROR");
 						}
@@ -871,8 +879,6 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 			}else{
 				console.debug("createTematicLayerEmpty ERROR");
 			}
-
-			
 		},function(results){
 			console.debug("createTematicLayerEmpty ERROR");
 		}
@@ -880,7 +886,6 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 }
 
 function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusinessId){
-
 	var data = {
 			uid: $.cookie('uid'),
             businessId: feature_businessId, //businessId de la feature
@@ -892,7 +897,11 @@ function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusi
 				console.debug("moveFeatureToTematic OK");
 				capaUsrActiva.removeLayer(feature);
 				capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
-				feature.openPopup();				
+				feature.openPopup();
+				
+				//update rangs
+			    getRangsFromLayer(capaUsrActiva);
+				
 			}else{
 				console.debug("moveFeatureToTematic ERROR");
 			}
