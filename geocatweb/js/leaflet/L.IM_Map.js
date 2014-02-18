@@ -150,7 +150,7 @@ options: {
 				}else{this.attributionControl.setPrefix(ICGC_MON);}	
 			}else if(sC==2){
 				
-				console.info(this.getZoom());
+			
 				TOPO_MQ_L7_19.options.maxZoom=zT;
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=19;
