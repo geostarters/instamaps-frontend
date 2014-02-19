@@ -21,16 +21,21 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		success: function (data, status, xhr) {
 			var err = typeof data === 'string' ? null : data;
 //			showResults(err, evt.latlng, data);
-			showGetFeatureInfo(err, evt.latlng, data);
+			//showGetFeatureInfo(err, evt.latlng, data);
+		var pop=L.popup({ maxWidth: 800})
+			.setLatLng(evt.latlng)
+			.setContent(data).openOn(map);
+		
 		},
 		error: function (xhr, status, error) {
 //			showResults(error);
-			console.debug("Error:"+error);
+			//console.debug("Error:"+error);
 		}
 		});
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
+	
 		// Construct a GetFeatureInfo request URL given a point
 		var point = this._map.latLngToContainerPoint(latlng, this._map.getZoom()),
 		size = this._map.getSize(),
@@ -53,6 +58,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
 		params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
 		return this._url + L.Util.getParamString(params, this._url, true);
+		
 		return params;
 	},
 	showGetFeatureInfo: function (err, latlng, content) {

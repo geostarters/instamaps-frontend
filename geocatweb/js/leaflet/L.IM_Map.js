@@ -8,11 +8,11 @@ var MQ_ATTR='Font:<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest
 var ESRI_ATTR='Tiles © Esri  Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 var ESRI_ATTR_TERRAIN="Tiles © Esri Sources: Esri, USGS, NOAA";
 var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a>'; 
-var ICGC_MON='Font:Mapa del Mòn (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
+var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)';
-var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;
-var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_19;
+var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
+var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
 var _histoMap=null;
 var _histoOrtoMap=null;
 var ESRI_RELLEU_L0_13;			 
@@ -35,7 +35,7 @@ var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/orto_EPSG90
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topogris_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw'
 var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw';
 	
-	//var URL_TOPOCOLOR='http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg';
+//var URL_TOPOCOLOR='http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg';
 var URL_HISTORIC='http://instamapes.icgc.cat/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
 var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
 
@@ -66,11 +66,13 @@ options: {
 		this.activeMap='topoMap';this.topoMap();
 		}
 		
-		this.on('moveend', function(){	
-			
+		this.on('moveend', function(){				
 			this.gestionaFons();
-			});
-	
+		});
+		
+		this.on('layeradd', function(){				
+			this.gestionaFons();
+		});
 	},
 	
 	getActiveMap:function(){
@@ -90,9 +92,33 @@ options: {
 		this.options.mapColor = mapColor;	
 
 	},
+	miraCentreDins:function(x,y){
+		var x0=0.1087; //0.7525
+		var y0=40.4763; // 40.5263
+		var x1=3.33669; // 3.3563
+		var y1=42.8855;  // 42.3748
+		if(x>=x0&&x<=x1&&y>=y0&&y<=y1){return true;}else{return false;}
+	},
 	
+	miraBBContains:function(MapBounds){
+	
+		  
+		   var cas=0; 
+		   var vC=CatBounds.intersects(MapBounds);// True es veu Cat
+		   var nC=CatBounds.contains(MapBounds);//True nomes Cat
+			   if(!vC){
+				cas=0; //Estic fora de Cat
+			   }else if(vC && !nC){ //veig Cat i altres
+				cas=1;
+			   }else if (vC && nC){ //Nomes veig cat
+				cas=2
+			   }
+			return cas;
+	
+	},
 	gestionaFons:function(){		
 		var sC=this.miraBBContains(this.getBounds());
+		
 		var f=this.getActiveMap();
 		var zT=8;
 				
@@ -101,15 +127,18 @@ options: {
 			if((sC==0)){  
 				TOPO_MQ_L7_19.setOpacity(1);
 				TOPO_MQ_L7_19.options.maxZoom=19;
-				TOPO_ICC_L11_19.options.maxZoom=zT;
+				
 				TOPO_ICC_L7_10.options.maxZoom=zT;
+				TOPO_ICC_L11_12.options.maxZoom=zT;
+				TOPO_ICC_L12_19.options.maxZoom=zT;
 				if(this.getZoom() > 6){
 				this.attributionControl.setPrefix(MQ_ATTR);
 				}else{this.attributionControl.setPrefix(ICGC_MON);}				
 			}else if(sC==1){
 				TOPO_MQ_L7_19.setOpacity(0.9);
 				TOPO_MQ_L7_19.options.maxZoom=19;
-				TOPO_ICC_L11_19.options.maxZoom=19;
+				TOPO_ICC_L11_12.options.maxZoom=12;
+				TOPO_ICC_L12_19.options.maxZoom=19;
 				TOPO_ICC_L7_10.options.maxZoom=10;	
 				
 				if(this.getZoom() > 6){
@@ -118,34 +147,32 @@ options: {
 				}else{this.attributionControl.setPrefix(ICGC_MON);}	
 			}else if(sC==2){
 				TOPO_MQ_L7_19.options.maxZoom=zT;
-				TOPO_ICC_L11_19.options.maxZoom=19;
+				TOPO_ICC_L11_12.options.maxZoom=12;
+				TOPO_ICC_L12_19.options.maxZoom=19;
 				//TOPO_ICC_L11_19.setOpacity(0.65);
 				TOPO_ICC_L7_10.options.maxZoom=10;	
 				this.attributionControl.setPrefix(ICGC);				
 			}
-			
-			
-			
 		}else if(f=='ortoMap'){
-		
-					
 			if((sC==0)){ //Fora Cat
 					ORTO_ESRI_L0_19.options.maxZoom=19;			 
-					ORTO_ICC_L0_19.options.maxZoom=zT;
+					ORTO_ICC_L0_11.options.maxZoom=zT;
+					ORTO_ICC_L12_19.options.maxZoom=zT;
 					ORTO_ESRI_L0_19.setOpacity(1);
 					this.attributionControl.setPrefix(ESRI_ATTR);				
 				}else if(sC==1){ //Cat i altres
 					ORTO_ESRI_L0_19.options.maxZoom=19;			 
-					ORTO_ICC_L0_19.options.maxZoom=19;
+					ORTO_ICC_L0_11.options.maxZoom=11;
+					ORTO_ICC_L12_19.options.maxZoom=12;
 					ORTO_ESRI_L0_19.setOpacity(0.8);					
 					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR);	
 				}else if(sC==2){ //Nomes cat
 					ORTO_ESRI_L0_19.options.maxZoom=zT;			 
-					ORTO_ICC_L0_19.options.maxZoom=19;					
+					ORTO_ICC_L0_11.options.maxZoom=11;
+					ORTO_ICC_L12_19.options.maxZoom=19;			
 					this.attributionControl.setPrefix(ICGC);				
 				}
-				
-		
+	
 		}else if(f=='terrainMap'){this.terrainMap();
 		
 		if((sC==0)){ //Fora Cat
@@ -165,8 +192,6 @@ options: {
 				}
 		
 		}else if(f=='topoGrisMap'){
-		
-
 		if((sC==0)){  
 				MQ_TOPO_GRIS_L7_19.setOpacity(1);
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
@@ -187,11 +212,6 @@ options: {
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=10;	
 				this.attributionControl.setPrefix(ICGC);				
 			}
-		
-		
-		
-		
-		
 		}else if(f=='colorMap'){
 		
 		if((sC==0)){  
@@ -230,39 +250,9 @@ options: {
 			this.fitBounds(CatBounds);
 			this.attributionControl.setPrefix(ICGC_HISTOOrto);
 			}
-		
-		
 		}else{
 		
 		}
-		
-		
-	
-		
-	},
-	miraCentreDins:function(x,y){
-		var x0=0.1087; //0.7525
-		var y0=40.4763; // 40.5263
-		var x1=3.33669; // 3.3563
-		var y1=42.8855;  // 42.3748
-		if(x>=x0&&x<=x1&&y>=y0&&y<=y1){return true;}else{return false;}
-	},
-	
-	miraBBContains:function(MapBounds){
-	
-		  
-		   var cas=0; 
-		   var vC=CatBounds.intersects(MapBounds);// True es veu Cat
-		   var nC=CatBounds.contains(MapBounds);//True nomes Cat
-			   if(!vC){
-				cas=0; //Estic fora de Cat
-			   }else if(vC && !nC){ //veig Cat i altres
-				cas=1;
-			   }else if (vC && nC){ //Nomes veig cat
-				cas=2
-			   }
-			return cas;
-	
 	},
 	
 	topoMap: function (){
@@ -277,7 +267,7 @@ options: {
 				   minZoom: 0,
 				   maxZoom: 6,
 				   tms:true,
-				   continuousWorld: true,
+				   continuousWorld: false,
 				   worldCopyJump:false,
 			   }).addTo(_topoLayers);
 
@@ -308,26 +298,35 @@ options: {
 		  worldCopyJump: false
 		  }).addTo(_topoLayers);
 		*/
-	  TOPO_ICC_L11_19 = new L.TileLayer.boundaryCanvas(URL_TOPOICC,
+	  TOPO_ICC_L11_12 = new L.TileLayer.boundaryCanvas(URL_TOPOICC,
 																	  {  	    
 				 tms:false,
 				  minZoom: 11,
-				  maxZoom: 19,	                                                        
+				  maxZoom: 11,	                                                        
 				  boundary: catContorn5k, 
 				  continuousWorld: true,
 				  worldCopyJump: false
 																  }
 			).addTo(_topoLayers);
-			
+	  
+	  
+	  
+	  TOPO_ICC_L12_19 = new L.TileLayer(URL_TOPOICC,
+			  {  	    
+tms:false,
+minZoom: 12,
+maxZoom: 19,	                                                        
+continuousWorld: true,
+worldCopyJump: false
+		  }
+).addTo(_topoLayers);
 	
 	this.addLayer(_topoLayers,true);
 	
 	},
 	
 	ortoMap: function (){
-	
-	
-			this.deletePreviousMap();	
+				this.deletePreviousMap();	
 			this.options.maxZoom=19;
 			this.setActiveMap('ortoMap');
 			this.setMapColor(null);
@@ -349,16 +348,28 @@ options: {
 			   ).addTo(_ortoLayers);
 
 			 
-			ORTO_ICC_L0_19 = new L.TileLayer.boundaryCanvas(URL_ORTOICC,
+			ORTO_ICC_L0_11 = new L.TileLayer.boundaryCanvas(URL_ORTOICC,
 																	  {  	    
 				 tms:false,
 				  minZoom: 0,
-				  maxZoom: 19,	                                                        
+				  maxZoom: 11,	                                                        
 				  boundary: catContorn5k, 
 				  continuousWorld: true,
 				  worldCopyJump: false
 																  }
 			).addTo(_ortoLayers);
+		
+			ORTO_ICC_L12_19 = new L.TileLayer(URL_ORTOICC,
+					  {  	    
+tms:false,
+minZoom: 12,
+maxZoom: 19,	                                                        
+boundary: catContorn5k, 
+continuousWorld: true,
+worldCopyJump: false
+				  }
+).addTo(_ortoLayers);
+			
 		
 		this.addLayer(_ortoLayers,true);
 	
@@ -391,10 +402,6 @@ this.setActiveMap('terrainMap');
 		
 		this.addLayer(_terrainLayers,true);
 	
-	
-	
-
-	
 	},
 		
 	topoGrisMap: function (){
@@ -404,8 +411,6 @@ this.setActiveMap('terrainMap');
 this.setActiveMap('topoGrisMap');
 			this.setMapColor(null);
 			 _grisLayers=L.layerGroup();				
-			
-			
 			 		  
 		  ICC_MON_L0= new L.IM_ColorLayer(URL_MON, {
 				   minZoom: 0,
@@ -437,12 +442,12 @@ this.setActiveMap('topoGrisMap');
 			
 		
 			
-		ICC_TOPO_GRIS_L11_19 = new L.TileLayer.boundaryCanvas(URL_TOPOGRIS,
+		ICC_TOPO_GRIS_L11_19 = new L.TileLayer(URL_TOPOGRIS,
 																	  {  	    
 				 tms:false,
 				  minZoom: 11,
 				  maxZoom: 19,	                                                        
-				  boundary: catContorn5k, 
+				 // boundary: catContorn5k, 
 				  continuousWorld: true,
 				  worldCopyJump: false
 																  }
@@ -460,7 +465,7 @@ this.setActiveMap('topoGrisMap');
 	
 	this.options.maxZoom=19;
 			this.deletePreviousMap();	
-this.setActiveMap('colorMap');
+			this.setActiveMap('colorMap');
 			this.setMapColor(color);
 			 _topoColorLayers=L.layerGroup();	
 	
@@ -495,7 +500,7 @@ this.setActiveMap('colorMap');
 		this.addLayer(_topoColorLayers,true);
 	
 	
-	this.gestionaFons();
+	//this.gestionaFons();
 
 	
 	},
@@ -516,7 +521,7 @@ this.setActiveMap('colorMap');
 		
 		this.addLayer(_histoMap,true);
 		
-		this.gestionaFons();
+		//this.gestionaFons();
 		
 	},
 	
@@ -542,7 +547,7 @@ historicOrtoMap:function(){
 		
 		this.addLayer(_histoOrtoMap,true);
 		
-		this.gestionaFons();
+		//this.gestionaFons();
 		
 	},
 	
@@ -568,9 +573,5 @@ historicOrtoMap:function(){
 		else if(this.hasLayer(_histoMap)){this.removeLayer(_histoMap);return}
 		else if(this.hasLayer(_histoOrtoMap)){this.removeLayer(_histoOrtoMap);return}
 	}
-	
-	
-	
-
 	//fi default metode
 });
