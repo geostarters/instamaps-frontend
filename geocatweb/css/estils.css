@@ -682,3 +682,12 @@ textarea {
 .chrome_img {
 	background: url('images/browser_chrome.gif') no-repeat;
 }
+
+.leaflet-control-layers-list #nomAplicacio {
+	font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    border-bottom: 1px solid #CCCCCC;
+    padding-bottom: 5px;
+    	
+}

@@ -1378,3 +1378,7 @@ i.fa {
     margin-top: 10px;	
 }
 
+.leaflet-control-layers {
+	border-radius: 0px;	
+}
+

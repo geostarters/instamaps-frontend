@@ -4,7 +4,6 @@ function creaClusterMap(capa) {
 		singleMarkerMode : true
 	});
 	
-	
 	if(typeof url('?businessid') == "string"){
 		var data;
 		//Si capa origen dades obertes, creem nova capa
@@ -62,18 +61,19 @@ function creaClusterMap(capa) {
 		}else{
 			var rangs = JSON.stringify({rangs:[{}]});			
 			var data = {
-	            businessId: capa.layer.options.businessId,
-	            uid: $.cookie('uid'),
-	            tipusRang: tem_cluster,
-	            rangs: rangs
-	        }
+		            businessId: capa.layer.options.businessId,
+		            uid: $.cookie('uid'),
+		            mapBusinessId: url('?businessid'),	           
+		            nom: capa.layer.options.nom+" cluster",
+		            calentas: false,           
+		            activas: true,
+		            visibilitats: true,	            
+		            tipusRang: tem_cluster,
+		            rangs: rangs
+		        }
 			
-			updateTematicRangs(data).then(function(results){
+			duplicateTematicLayer(data).then(function(results){
 				if(results.status == 'OK'){
-					
-//					var clusterLayer = L.markerClusterGroup({
-//						singleMarkerMode : true
-//					});
 					
 					capa.layer.eachLayer(function(layer) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
@@ -83,22 +83,15 @@ function creaClusterMap(capa) {
 						clusterLayer.addLayer(marker);
 					});
 					
-					clusterLayer.options.businessId = capa.layer.options.businessId;
-					clusterLayer.options.nom = capa.layer.options.nom;
-					clusterLayer.options.zIndex = capa.layer.options.zIndex;
-					clusterLayer.options.tipus = capa.layer.options.tipus;
-
-					map.addLayer(clusterLayer);
-					map.removeLayer(capa.layer);
-					controlCapes.removeLayer(capa.layer);
-//					controlCapes._lastZIndex--;
-					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);	
+					clusterLayer.options.businessId = results.results.businessId;
+					clusterLayer.options.nom = capa.layer.options.nom +" cluster";
+					clusterLayer.options.tipus = tem_cluster;
 					
-					//Actualitzem capaUsrActiva
-					if(capaUsrActiva!=null && capaUsrActiva.options.businessId == capa.layer.options.businessId){
-						capaUsrActiva.removeEventListener('layeradd');
-						capaUsrActiva = null;
-					}					
+					map.addLayer(clusterLayer);
+					clusterLayer.options.zIndex = controlCapes._lastZIndex+1;
+					controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true);
+					controlCapes._lastZIndex++;
+					activaPanelCapes(true);					
 					
 				}else{
 					//TODO error
@@ -171,5 +164,28 @@ function loadDadesObertesClusterLayer(layer){
 		activaPanelCapes(true);		
 		
 	});	
+}
+
+function loadTematicCluster(layer, zIndex){
+	var clusterLayer = L.markerClusterGroup({
+		singleMarkerMode : true
+	});	
 	
+	$.each(layer.geometries.features.features, function(i, feature) {
+		var marker = L.marker(new L.LatLng(feature.geometry.coordinates[0],feature.geometry.coordinates[1]), {
+			//title : layer._leaflet_id
+		});
+		marker.bindPopup("<b>"+layer.properties.nom+"</b><br><b>"+layer.properties.text+"</b>");
+		clusterLayer.addLayer(marker);
+	});
+	
+	clusterLayer.options.businessId = layer.businessId;
+	clusterLayer.options.nom =layer.nom;
+	clusterLayer.options.zIndex = parseInt(zIndex);
+	clusterLayer.options.tipus = tem_cluster;
+	
+	map.addLayer(clusterLayer);
+	controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true);
+	controlCapes._lastZIndex++;
+	activaPanelCapes(true);		
 }

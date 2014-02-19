@@ -154,14 +154,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if(obj.overlay) {
 			
 			if($(location).attr('href').contains('mapa')){
-				col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-cog');
+				col = L.DomUtil.create('div', 'leaflet-conf glyphicon glyphicon-plus');
 				L.DomEvent.on(col, 'click', this._showOptions, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);
 				
-				var row2 = L.DomUtil.create('div', '');
+				var row_conf = L.DomUtil.create('div', 'leaflet-row');
+				
+				var row2 = L.DomUtil.create('div', 'options-conf');
 				row2.id='conf-'+obj.layer.options.businessId;
-				row.appendChild(row2);
+				row_conf.appendChild(row2);
 				
 				col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-chevron-up');
 				L.DomEvent.on(col, 'click', this._onUpClick, this);
@@ -178,7 +180,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
 				row2.appendChild(col);
 				
-				col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-download');
+				col = L.DomUtil.create('div', 'leaflet-download glyphicon glyphicon-download');
 				col.layerId = input.layerId;
 				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 				row2.appendChild(col);
@@ -198,6 +200,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			container = this._baseLayersList;
 		}
 		container.appendChild(row);
+		container.appendChild(row_conf);
 		updateEditableElements();
 		return label;
 	},
@@ -205,7 +208,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var layerId = e.currentTarget.layerId;
 		var inputs = this._form.getElementsByTagName('input');
 		var obj = this._layers[layerId];
-		console.debug('openConfig:'+obj.layer.options.businessId);
+//		console.debug('openConfig:'+obj.layer.options.businessId);
 		
 		showConfOptions(obj.layer.options.businessId);
 		//jQuery(".conf-"+obj.layer.options.businessId+"").show();

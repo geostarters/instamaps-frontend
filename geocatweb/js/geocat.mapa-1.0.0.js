@@ -292,6 +292,8 @@ function loadApp(){
 			});
 			
 		});
+		
+//		jQuery('.leaflet-conf div').hide();
 }
 
 function addClicksInici() {
@@ -1798,6 +1800,8 @@ function updateEditableElements(){
 			}		
 	 }
 	});
+	//Hide les opcions de configuracio
+	jQuery('.options-conf').hide();
 }
 
 function carregaDadesUsuari(data){
@@ -1917,8 +1921,9 @@ function toggleCollapseTwitter(){
 
 function showConfOptions(businessId){
 //	console.debug('showConfOptions');
-	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide();
-	else jQuery("#conf-"+businessId+"").show();
+//	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide("slow");
+//	else jQuery("#conf-"+businessId+"").show("2000");
+	jQuery("#conf-"+businessId+"").toggle("fast");
 }
 
 function createNewMap(){

@@ -24,8 +24,14 @@
 
 .leaflet-control-layers .leaflet-row .leaflet-name {
 	float: left;
-	width: 45%;
-	padding-right: 1px;
+	/*width: 45%;*/
+	width: 75%;
+	padding-right: 5px;
+}
+
+.options-conf{
+	float: right;
+	margin-right: 16px;
 }
 
 /*background-image: url(images/arrow-up.png);*/
@@ -60,3 +66,30 @@
     cursor: pointer;
 }
 
+.leaflet-control-layers .leaflet-row .leaflet-download {
+	float: left;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-conf {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-conf:hover,
+.leaflet-control-layers .leaflet-row .leaflet-up:hover,
+.leaflet-control-layers .leaflet-row .leaflet-down:hover,
+.leaflet-control-layers .leaflet-row .leaflet-remove:hover,
+.leaflet-control-layers .leaflet-row .leaflet-download:hover{
+	opacity: 1;
+}

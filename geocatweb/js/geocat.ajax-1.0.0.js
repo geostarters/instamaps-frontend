@@ -447,11 +447,17 @@ function getJSONPServei(url){
 
 
 function updateServidorWMS(data){
-	
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMS,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
+}
 
+function duplicateTematicLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.duplicateTematicLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
 }

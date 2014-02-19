@@ -96,7 +96,8 @@ var paramUrl = {
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
 	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
-	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?"
+	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",
+	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
