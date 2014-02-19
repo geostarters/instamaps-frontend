@@ -175,7 +175,7 @@ function loadTematicCluster(layer, zIndex){
 		var marker = L.marker(new L.LatLng(feature.geometry.coordinates[0],feature.geometry.coordinates[1]), {
 			//title : layer._leaflet_id
 		});
-		marker.bindPopup("<b>"+layer.properties.nom+"</b><br><b>"+layer.properties.text+"</b>");
+		marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");
 		clusterLayer.addLayer(marker);
 	});
 	

@@ -151,10 +151,11 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		label.appendChild(name);
 		
 		var container;
+		var modeMapa = $(location).attr('href').contains('mapa'); 
 		if(obj.overlay) {
 			
-			if($(location).attr('href').contains('mapa')){
-				col = L.DomUtil.create('div', 'leaflet-conf glyphicon glyphicon-plus');
+			if(modeMapa){
+				col = L.DomUtil.create('div', 'leaflet-conf glyphicon glyphicon-cog');
 				L.DomEvent.on(col, 'click', this._showOptions, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);
@@ -187,7 +188,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			}else{
 				
-				col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-download');
+				col = L.DomUtil.create('div', 'leaflet-download glyphicon glyphicon-download');
 				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);				
@@ -200,7 +201,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			container = this._baseLayersList;
 		}
 		container.appendChild(row);
-		container.appendChild(row_conf);
+		if(modeMapa) container.appendChild(row_conf);
 		updateEditableElements();
 		return label;
 	},

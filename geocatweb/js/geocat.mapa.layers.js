@@ -25,8 +25,8 @@ function objecteUserAdded(f){
     }       
 
 	feature.properties = {
-		nom : f.layer.properties.capaNom,
-		text : f.layer.properties.description,
+		nom : f.layer.properties.nom,
+		text : f.layer.properties.text,
 		slotf1 : 'data 1',
 		slotf2 : 'data 2',
 		slotf3 : 'data 3',
