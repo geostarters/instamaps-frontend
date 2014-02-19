@@ -17,7 +17,8 @@ jQuery(document).ready(function() {
     
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
-    	window.location.href = paramUrl.loginPage;
+    	logoutUser();
+    	//window.location.href = paramUrl.loginPage;
     });
 });
 
