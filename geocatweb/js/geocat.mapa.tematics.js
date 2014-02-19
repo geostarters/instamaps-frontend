@@ -596,7 +596,12 @@ function loadTematicLayer(layer){
 						featureTem.properties.feature = {};
 						featureTem.properties.feature.geometry = geom.geometry;
 						capaTematic.addLayer(featureTem);
-						createPopupWindow(featureTem,ftype);
+						if($(location).attr('href').contains('mapa')){
+							createPopupWindow(featureTem,ftype);
+						}else{
+							createPopupWindowVisor(featureTem,ftype);
+						}
+						
 						map.closePopup();
 					}
 				}

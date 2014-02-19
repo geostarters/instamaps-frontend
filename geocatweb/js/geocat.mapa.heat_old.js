@@ -1,6 +1,5 @@
 
 function createHeatMap(capa){
-	//Heatmap
 	var arrP=[];
 	capa.layer.eachLayer(function(layer){
 		var d =[layer.getLatLng().lat,layer.getLatLng().lng,1];	

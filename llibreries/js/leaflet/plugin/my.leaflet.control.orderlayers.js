@@ -153,34 +153,45 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var container;
 		if(obj.overlay) {
 			
-			col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-cog');
-			L.DomEvent.on(col, 'click', this._showOptions, this);
-			col.layerId = input.layerId;
-			row.appendChild(col);
+			if($(location).attr('href').contains('mapa')){
+				col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-cog');
+				L.DomEvent.on(col, 'click', this._showOptions, this);
+				col.layerId = input.layerId;
+				row.appendChild(col);
+				
+				var row2 = L.DomUtil.create('div', '');
+				row2.id='conf-'+obj.layer.options.businessId;
+				row.appendChild(row2);
+				
+				col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-chevron-up');
+				L.DomEvent.on(col, 'click', this._onUpClick, this);
+				col.layerId = input.layerId;
+				row2.appendChild(col);
+				
+				col = L.DomUtil.create('div', 'leaflet-down glyphicon glyphicon-chevron-down');
+				col.layerId = input.layerId;
+				L.DomEvent.on(col, 'click', this._onDownClick, this);
+				row2.appendChild(col);
+				
+				col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
+				col.layerId = input.layerId;
+				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
+				row2.appendChild(col);
+				
+				col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-download');
+				col.layerId = input.layerId;
+				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
+				row2.appendChild(col);
+				
+			}else{
+				
+				col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-download');
+				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
+				col.layerId = input.layerId;
+				row.appendChild(col);				
+			}
 			
-			var row2 = L.DomUtil.create('div', '');
-			row2.id='conf-'+obj.layer.options.businessId;
-			row.appendChild(row2);
-			
-			col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-chevron-up');
-			L.DomEvent.on(col, 'click', this._onUpClick, this);
-			col.layerId = input.layerId;
-			row2.appendChild(col);
-			
-			col = L.DomUtil.create('div', 'leaflet-down glyphicon glyphicon-chevron-down');
-			col.layerId = input.layerId;
-			L.DomEvent.on(col, 'click', this._onDownClick, this);
-			row2.appendChild(col);
-			
-			col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
-			col.layerId = input.layerId;
-			L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-			row2.appendChild(col);
-			
-			col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-download');
-			col.layerId = input.layerId;
-			L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-			row2.appendChild(col);
+
 			
 			container = this._overlaysList; 
 		} else {
