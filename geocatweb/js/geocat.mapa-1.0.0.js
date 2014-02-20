@@ -1279,14 +1279,17 @@ function publicarMapa(){
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
 	options.description = jQuery('#dialgo_publicar #optDescripcio').val();
 	options.bbox = map.getBounds().toBBoxString();
+	/*//TODO de los botones ver nuevos botones
 	options.llegenda = jQuery('#llegenda_chk').bootstrapSwitch('state');
 	options.layers = jQuery('#layers_chk').bootstrapSwitch('state');
 	options.social = jQuery('#social_chk').bootstrapSwitch('state');
+	*/
+	options.llegenda = true;
+	options.layers = true;
+	options.social = true;
 	options.fons = map.getActiveMap();
 	options.fonsColor = map.getMapColor();
-		
-	console.debug(options);
-	
+	//console.debug(options);
 	options = JSON.stringify(options);
 	
 	var newMap = true;
@@ -1295,12 +1298,18 @@ function publicarMapa(){
 		newMap = false;
 	}
 	
+	var layers = jQuery(".leaflet-control-layers-selector").map(function(){
+		return {businessId: this.id.replace('input-',''), activa: jQuery(this).is(':checked')};
+	}).get();
+	//console.debug(layers);
+	
 	var data = {
 		nom: jQuery('#dialgo_publicar #nomAplicacio').val(),
 		uid: $.cookie('uid'),
 		visibilitat: 'O',
 		tipusApp: 'vis',
-		options: options
+		options: options,
+		layers: JSON.stringify(layers)
 	}
 	
 	if (newMap){
@@ -1312,7 +1321,6 @@ function publicarMapa(){
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
-				
 			}
 		});
 	}else{

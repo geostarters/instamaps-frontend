@@ -126,6 +126,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 		if (obj.overlay) {
 			input = L.DomUtil.create('input');
+			input.id='input-'+obj.layer.options.businessId;
 			input.type = 'checkbox';
 			input.className = 'leaflet-control-layers-selector';
 			input.defaultChecked = checked;
@@ -193,10 +194,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				col.layerId = input.layerId;
 				row.appendChild(col);				
 			}
-			
-
-			
-			container = this._overlaysList; 
+			container = this._overlaysList;
 		} else {
 			container = this._baseLayersList;
 		}

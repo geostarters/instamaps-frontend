@@ -1,6 +1,8 @@
 function showTematicLayersModal(tipus,className){
+	console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No hi ha capes disponibles per aquest estil de mapa !!')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
+	
 	jQuery('#dialog_layers_tematic').modal('show');
 	
 	jQuery('#stActiu').removeClass();
@@ -461,7 +463,7 @@ function loadTematicLayer(layer){
 			}else if(tematic.tipusRang == tem_cluster){
 				loadTematicCluster(tematic, layer.capesOrdre);
 			}else{
-				console.debug(tematic);
+				//console.debug(tematic);
 				var Lgeom = tematic.geometries.features.features;
 				var idDataField = tematic.idDataField;
 				var idGeomField = tematic.idGeomField;
