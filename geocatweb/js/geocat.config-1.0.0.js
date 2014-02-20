@@ -23,6 +23,8 @@ var tem_cluster = "clusterTematic";
 var from_creaPopup="creaPopup";
 var from_creaCapa="creaCapa";
 
+var num_max_pintxos = 250;  
+
 var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
