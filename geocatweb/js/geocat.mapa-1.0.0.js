@@ -1715,7 +1715,9 @@ function loadDadesObertesLayer(layer){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
 		var estil_do = retornaEstilaDO(options.dataset);	
 		if (options.tem == tem_simple){
-			estil_do = options.style;
+			//estil_do = options.style;
+			estil_do = createFeatureMarkerStyle(options.style);
+			console.debug(estil_do);
 		}
 		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 			onEachFeature : popUp,
@@ -1724,7 +1726,7 @@ function loadDadesObertesLayer(layer){
 			dataset: options.dataset,
 			businessId : layer.businessId,
 			dataType : "jsonp",
-			zIndex: parseInt(layer.capesOrdre),
+//			zIndex: parseInt(layer.capesOrdre),
 			pointToLayer : function(feature, latlng) {
 				if(options.dataset.indexOf('meteo')!=-1){
 					return L.marker(latlng, {icon:L.icon({					
@@ -1755,19 +1757,26 @@ function loadDadesObertesLayer(layer){
 					if (estil_do.isCanvas){
 						return L.circleMarker(latlng, estil_do);
 					}else{
-						return L.marker(latlng, {icon:L.icon(estil_do)});
+						//console.debug(L.marker(latlng, {icon:L.AwesomeMarkers.icon(estil_do)}));
+						return L.marker(latlng, {icon:estil_do,isCanvas:false, tipus: t_marker});
 					}
 				}
 			}
 		});	
 		
-		if (layer.capesActiva == true || layer.capesActiva == "true"){
+		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaDadaOberta.addTo(map);
 		}
 		
 		capaDadaOberta.eachLayer(function(layer) {
 			console.debug("1"+layer);
 		});		
+		
+		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
+			capaDadaOberta.options.zIndex = controlCapes._lastZIndex + 1;
+		}else{
+			capaDadaOberta.options.zIndex = parseInt(layer.capesOrdre);
+		}		
 		
 		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
 		controlCapes._lastZIndex++;

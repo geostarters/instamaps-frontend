@@ -286,7 +286,7 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 	}
 }
 
-function changeTematicLayerStyle(tematic, styles){
+function changeTematicLayerStyle_old(tematic, styles){
 	//console.debug(tematic);
 	//console.debug(styles);
 	var rangs = getRangsFromStyles(tematic, styles);
@@ -313,9 +313,6 @@ function changeTematicLayerStyle(tematic, styles){
 	}
 	
 	if(capaMare.options.tipus == t_dades_obertes){
-		//console.debug(capaMare);
-		//TODO Llamada al servidor
-		//console.debug(styles.options);
 		
 		var options = {
 			dataset: capaMare.options.dataset,
@@ -338,10 +335,7 @@ function changeTematicLayerStyle(tematic, styles){
 			options: JSON.stringify(options)
 		};
 		
-		//console.debug(data);
-		
 		updateServidorWMS(data).then(function(results){
-			////console.debug(results);
 		});
 		
 	}else if (tematic.tipus == t_tematic){
@@ -350,6 +344,11 @@ function changeTematicLayerStyle(tematic, styles){
 		var data = {
 			businessId: tematic.businessid,
 			uid: $.cookie('uid'),
+            mapBusinessId: url('?businessid'),	           
+            nom: capa.layer.options.nom+" heatmap",			
+            calentas: false,           
+            activas: true,
+            visibilitats: true,	 			
 			tipusRang: tematic.from,
 			rangs: rangs
 		};
@@ -428,7 +427,7 @@ function getRangsFromStyles(tematic, styles){
 		}else if (tematic.geometrytype == t_polygon){
 			if (styles._options){
 				styles = styles._options;
-			}else{
+			}else if(styles.options){
 				styles = styles.options;
 			}
 			styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
@@ -482,7 +481,7 @@ function loadTematicLayer(layer){
 					geometryType: tematic.geometryType
 				};
 				
-				if (layerWms.capesActiva == true || layerWms.capesActiva == "true"){
+				if (!layerWms.capesActiva || layerWms.capesActiva == true || layerWms.capesActiva == "true"){
 					capaTematic.addTo(map);
 				}				
 				
@@ -796,5 +795,96 @@ function getRangsFromLayer(layer){
 		tematic.geometrytype = tematic.geometryType;
 		tematic.from = tematic.tipusRang;
 		changeTematicLayerStyle(tematic, styles);
+	}
+}
+
+function changeTematicLayerStyle(tematic, styles){
+	//console.debug(tematic);
+	//console.debug(styles);
+	var rangs = getRangsFromStyles(tematic, styles);
+	//console.debug(rangs);
+	var capaMare = map._layers[tematic.leafletid];
+	
+	if (jQuery.isArray(styles)){
+		
+	}else{
+//		var layer = controlCapes._layers[tematic.leafletid];
+//		if (tematic.geometrytype == t_marker){
+//			jQuery.each(capaMare._layers, function( key, value ) {	
+//				canviaStyleSinglePoint(styles,this,capaMare,false)
+//			});
+//		}else if (tematic.geometrytype == t_polyline){
+//			jQuery.each(layer.layer._layers, function( key, value ) {
+//				this.setStyle(styles);
+//			});
+//		}else if (tematic.geometrytype == t_polygon){
+//			jQuery.each(layer.layer._layers, function( key, value ) {
+//				this.setStyle(styles);
+//			});
+//		}
+	}
+	
+	if(capaMare.options.tipus == t_dades_obertes){
+		
+		var options = {
+				dataset: capaMare.options.dataset,
+				tem: tem_simple,
+				style: rangs[0]
+			};
+			
+			var data = {
+				uid:$.cookie('uid'),
+//				businessId: capaMare.options.businessId,
+				mapBusinessId: url('?businessid'),
+				serverName: capaMare.options.nom+" basic",
+				serverType: capaMare.options.tipus,
+				calentas: false,
+	            activas: true,
+	            visibilitats: true,				
+	            epsg: '4326',
+	            imgFormat: 'image/png',
+	            infFormat: 'text/html',
+	            tiles: true,	            
+	            transparency: true,
+	            opacity: 1,
+	            visibilitat: 'O',
+				options: JSON.stringify(options)
+			};
+		
+			createServidorInMap(data).then(function(results){
+				console.debug(results.results);
+				loadDadesObertesLayer(results.results);
+		});
+		
+	}else if (tematic.tipus == t_tematic){
+		rangs = JSON.stringify({rangs:rangs});
+		
+		var data = {
+			businessId: tematic.businessid,
+			uid: $.cookie('uid'),
+            mapBusinessId: url('?businessid'),	           
+            nom: capaMare.options.nom+" basic",
+			calentas: false,
+            activas: true,
+            visibilitats: true,            
+			tipusRang: tematic.from,
+			rangs: rangs
+		};
+		
+		duplicateTematicLayer(data).then(function(results){
+			if(results.status == 'OK'){
+				
+				console.debug(results.results);
+				loadTematicLayer(results.results);
+				activaPanelCapes(true);
+				
+			}else{
+				//TODO error
+				console.debug("updateTematicRangs ERROR");					
+			}
+		},function(results){
+			//TODO error
+			console.debug("updateTematicRangs ERROR");
+		});
 	}
 }
