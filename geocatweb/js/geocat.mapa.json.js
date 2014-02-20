@@ -166,7 +166,7 @@ function creaCapaFromJSON() {
 		var capaJSON = new L.FeatureGroup();
 		capaJSON.options = {
 			businessId : -1,
-			nom : 'Capa JSON '+controlCapes._lastZIndex + 1,
+			nom : 'Capa JSON '+ (parseInt(controlCapes._lastZIndex) + 1),
 			tipus:'JSON'
 //			zIndex : controlCapes._lastZIndex// + 1
 		};
@@ -175,7 +175,7 @@ function creaCapaFromJSON() {
 			var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
-				serverName: 'Capa JSON '+controlCapes._lastZIndex + 1,
+				serverName: 'Capa JSON '+ (parseInt(controlCapes._lastZIndex) + 1),
 				serverType: t_json,
 				calentas: false,
 	            activas: true,
@@ -331,7 +331,11 @@ function loadCapaFromJSON(layer) {
 		}
 
 		capaJSON.options.businessId = layer.businessId;
-		capaJSON.addTo(map)
+		
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			capaJSON.addTo(map)
+		}		
+		
 		controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		

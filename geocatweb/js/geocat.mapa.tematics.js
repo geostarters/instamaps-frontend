@@ -480,7 +480,10 @@ function loadTematicLayer(layer){
 					geometryType: tematic.geometryType
 				};
 				
-				capaTematic.addTo(map);
+				if (layerWms.capesActiva == true || layerWms.capesActiva == "true"){
+					capaTematic.addTo(map);
+				}				
+				
 				if (!layerWms.capesOrdre){
 					capaTematic.options.zIndex = controlCapes._lastZIndex + 1;
 				}else{

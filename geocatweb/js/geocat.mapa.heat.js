@@ -195,7 +195,10 @@ function loadTematicHeatmap(layer, zIndex){
 	heatLayerActiu.options.zIndex = parseInt(zIndex);
 	heatLayerActiu.options.tipus = t_heatmap;
 	
-	map.addLayer(heatLayerActiu);
+	if (layer.capesActiva == true || layer.capesActiva == "true"){
+		map.addLayer(heatLayerActiu);
+	}	
+	
 	controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
 	controlCapes._lastZIndex++;
 	activaPanelCapes(true);		

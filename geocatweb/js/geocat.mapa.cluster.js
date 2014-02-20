@@ -184,7 +184,10 @@ function loadTematicCluster(layer, zIndex){
 	clusterLayer.options.zIndex = parseInt(zIndex);
 	clusterLayer.options.tipus = tem_cluster;
 	
-	map.addLayer(clusterLayer);
+	if (layer.capesActiva == true || layer.capesActiva == "true"){
+		map.addLayer(clusterLayer);
+	}		
+	
 	controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true);
 	controlCapes._lastZIndex++;
 	activaPanelCapes(true);		
