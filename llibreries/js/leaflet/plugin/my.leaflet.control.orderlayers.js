@@ -199,6 +199,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			container = this._baseLayersList;
 		}
 		container.appendChild(row);
+		console.debug(controlCapes);
 		if(modeMapa) container.appendChild(row_conf);
 		updateEditableElements();
 		return label;
@@ -343,15 +344,23 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var obj = this._layers[layerId];
 		download_layer = obj;
 		
-		//data-toggle="modal" data-target="#modal_twitter_layer"
-		$('#modal-body-download-error').hide();
-		$('#modal-body-download').show();
-		$('#modal_download_layer .modal-footer').show();
-		$('#modal_download_layer').modal('show');
-		
-//		if(!obj.overlay) {
-//			return;
-//		}
+		if(obj.layer.options.tipusRang && (obj.layer.options.tipusRang == tem_cluster || obj.layer.options.tipusRang == tem_heatmap )){
+			$('#modal-body-download-not-available').show();
+			$('#modal-body-download-error').hide();
+			$('#modal-body-download').hide();
+			$('#modal_download_layer .modal-footer').show();
+			$('#bt_download_tancar').show();
+			$('#bt_download_accept').hide();			
+			$('#modal_download_layer').modal('show');
+		}else{
+			$('#modal-body-download-not-available').hide();
+			$('#modal-body-download-error').hide();
+			$('#modal-body-download').show();
+			$('#modal_download_layer .modal-footer').show();
+			$('#bt_download_tancar').hide();
+			$('#bt_download_accept').show();			
+			$('#modal_download_layer').modal('show');
+		}
 	},
 	hide: function() {
 		this._container.style.display = 'none';

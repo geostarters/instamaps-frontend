@@ -58,6 +58,11 @@ jQuery(document).ready(function() {
 }); // Final document ready
 
 function loadApp(){
+	
+	if(typeof url('?embed') == "string"){
+		jQuery('#navbar-visor').remove();
+	}
+	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
@@ -97,7 +102,7 @@ function loadApp(){
 	
 	var v_url = window.location.href;
 	if(v_url.contains('localhost')){
-		v_url = v_url.replace('localhost','instamapes.cat');
+		v_url = v_url.replace('localhost',DOMINI);
 	}
 	shortUrl(v_url).then(function(results){
 		console.debug(results);
@@ -163,7 +168,9 @@ function initControls(){
 	addClicksInici();
 	addToolTipsInici();
 	redimensioMapa();
-	addControlCercaEdit();
+	if(typeof url('?embed') != "string"){
+		addControlCercaEdit();		
+	}
 }
 
 function addControlsInici() {
@@ -275,13 +282,14 @@ function addToolTipsInici() {
 	});
 		
 	//cercador
-	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
-	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
+//	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
+//	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
 }
 
 function redimensioMapa() {
 	jQuery(window).resize(function() {
-		factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
+		if(typeof url('?embed') == "string") factorH = 0; 
+		else factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
 		jQuery('#map').css('top', factorH + 'px');
 		jQuery('#map').height(jQuery(window).height() - factorH);
 		jQuery('#map').width(jQuery(window).width() - factorW);

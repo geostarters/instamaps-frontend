@@ -22,6 +22,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Canviar":"Change",
 	"Canviar el nom de la capa":"Change layer name",
 	"Capa actual:":"Active layer",
+	"Capa no disponible per la descàrrega.":"Layer not available for downloading.",
 	"Capturar la vista del mapa": "Capture the map view",
 	"Carrega dades":"Load data",
 	"Carregar dades":"Load data",

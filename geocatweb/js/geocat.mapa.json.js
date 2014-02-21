@@ -205,22 +205,27 @@ function creaCapaFromJSON() {
 						pp = L.circleMarker([ lat, lon ], estil_do)
 
 						pp.properties = {};
-
+						var empty = true;
+						
 						if (cmd_json_titol == "null") {
 							pp.properties.nom = ""
+								
 						} else {
 							pp.properties.nom = respostaJSON[key][cmd_json_titol];
+							empty = empty && false;
 						}
 						if (cmd_json_desc == "null") {
 							pp.properties.text = ""
 						} else {
 							pp.properties.text = respostaJSON[key][cmd_json_desc];
+							empty = empty && false;
 						}
 						if (cmd_json_img == "null") {
 							pp.properties.img = ""
 						} else {
 							pp.properties.img = '<img width="100px" src="'
 									+ respostaJSON[key][cmd_json_img] + '">';
+							empty = empty && false;
 						}
 						if (cmd_json_vin == "null") {
 							pp.properties.vincle = ""
@@ -229,14 +234,16 @@ function creaCapaFromJSON() {
 									+ respostaJSON[key][cmd_json_vin]
 									+ '" target="_blank">'
 									+ respostaJSON[key][cmd_json_vin] + '</a>';
+							empty = empty && false;
 						}
 
-						pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
-								+ pp.properties.text + "</div><div>"
-								+ pp.properties.img + "</div><div>" + pp.properties.vincle
-								+ "</div>");
+						if(!empty){
+							pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
+									+ pp.properties.text + "</div><div>"
+									+ pp.properties.img + "</div><div>" + pp.properties.vincle
+									+ "</div>");
+						}
 						pp.addTo(capaJSON);
-
 					}
 
 					jQuery('#dialog_dades_ex').modal('toggle');					
@@ -297,22 +304,26 @@ function loadCapaFromJSON(layer) {
 			var pp = L.circleMarker([ lat, lon ], estil_do)
 
 			pp.properties = {};
-
+			var empty = true;
+			
 			if (options.titol == "null") {
 				pp.properties.nom = ""
 			} else {
 				pp.properties.nom = v_respotaJSON[key][options.titol];
+				empty = empty && false;
 			}
 			if (options.descripcio == "null") {
 				pp.properties.text = ""
 			} else {
 				pp.properties.text = v_respotaJSON[key][options.descripcio];
+				empty = empty && false;
 			}
 			if (options.imatge == "null") {
 				pp.properties.img = ""
 			} else {
 				pp.properties.img = '<img width="100px" src="'
 						+ v_respotaJSON[key][options.imatge] + '">';
+				empty = empty && false;
 			}
 			if (options.vincle == "null") {
 				pp.properties.vincle = ""
@@ -321,12 +332,15 @@ function loadCapaFromJSON(layer) {
 						+ v_respotaJSON[key][options.vincle]
 						+ '" target="_blank">'
 						+ v_respotaJSON[key][options.vincle] + '</a>';
+				empty = empty && false;
 			}
 
-			pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
-					+ pp.properties.text + "</div><div>"
-					+ pp.properties.img + "</div><div>" + pp.properties.vincle
-					+ "</div>");
+			if(!empty){
+				pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
+						+ pp.properties.text + "</div><div>"
+						+ pp.properties.img + "</div><div>" + pp.properties.vincle
+						+ "</div>");
+			}
 			pp.addTo(capaJSON);
 		}
 

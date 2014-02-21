@@ -21,6 +21,7 @@ jquery_lang_js.prototype.lang.es = {
 	"CancelÂ·lar": "Cancelar",
 	"Canviar":"Cambiar",
 	"Canviar el nom de la capa":"Cambiar nombre de la capa",
+	"Capa no disponible per la descàrrega.":"Capa no disponible para la descarga.",
 	"Capa actual:":"Capa actual:",
 	"Capturar la vista del mapa": "Capturar la vista del mapa",
 	"Carrega dades":"Cargar datos",
