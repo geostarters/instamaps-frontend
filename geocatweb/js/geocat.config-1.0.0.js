@@ -11,7 +11,6 @@ var t_multiple = "multiple";
 var t_point = "point";
 var t_linestring = "linestring";
 var t_multipolygon= "multipolygon";
-var t_multipolygon= "multipolygon";
 var t_heatmap="heatmap";
 var t_cluster="cluster";
 var t_size="size";
@@ -25,10 +24,12 @@ var from_creaCapa="creaCapa";
 
 var num_max_pintxos = 250;  
 
-//var HOST_APP = "http://172.70.1.12/";
+var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
-var HOST_APP = "http://localhost:8080/";
+//var HOST_APP = "http://localhost:8080/";
+var DOMINI = "instamapes.icgc.cat";
+
 var paramUrl = {
 	proxy:"/maps/proxy.cgi",
 	uploadproxy:"/maps/upload.cgi",

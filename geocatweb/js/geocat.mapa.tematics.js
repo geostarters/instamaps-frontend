@@ -1,5 +1,5 @@
 function showTematicLayersModal(tipus,className){
-	console.debug("showTematicLayersModal");
+//	console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No hi ha capes disponibles per aquest estil de mapa !!')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
@@ -12,68 +12,35 @@ function showTematicLayersModal(tipus,className){
 	jQuery.each( controlCapes._layers, function( key, value ) {
 		var layerOptions = this.layer.options;
 		var tipusCapa = layerOptions.tipus;
-		var geomCapa = layerOptions.geometryType;
 		
-		if(tipus==tem_simple) {
-			if (tipusCapa == t_tematic){ //tematic
-				if (geomCapa == t_marker || 
-					geomCapa == t_point ||
-					geomCapa == t_polyline || 
-					geomCapa == t_polygon ||
-					geomCapa == t_multipolygon){
+		//Si la capa no esta tematitzada
+		if(!layerOptions.tipusRang){
+			if(tipus==tem_simple || tipus==tem_clasic) {
+				if (tipusCapa == t_tematic){ //tematic
+						layers.push(this);
+				}else if(tipusCapa == t_dades_obertes){ //dades obertes
+					var dataset = layerOptions.dataset;
+					if (dataset != "incidencies" &&
+						dataset != "cameres" &&
+						dataset != "meteo_comarca" &&
+						dataset != "meteo_costa"){
+						layers.push(this);
+					}
+				}
+			}else if (tipus==tem_cluster || tipus==tem_heatmap) {
+				
+				if(tipusCapa == t_dades_obertes || (tipusCapa == t_tematic && layerOptions.geometryType == t_marker))
+				{
 					layers.push(this);
 				}
-			}else if(tipusCapa == t_dades_obertes){ //dades obertes
-				var dataset = layerOptions.dataset;
-				if (dataset != "incidencies" &&
-					dataset != "cameres" &&
-					dataset != "meteo_comarca" &&
-					dataset != "meteo_costa"){
-					layers.push(this);
-				}
+				
+			}else if (tipus==tem_size) {
+				$('#list_tematic_layers').html(warninMSG);
+				return;
+			}else{		
+				$('#list_tematic_layers').html(warninMSG);
+				return;
 			}
-		}else if (tipus==tem_clasic){
-			if (tipusCapa == t_tematic){ //tematic
-				if (geomCapa == t_marker || 
-					geomCapa == t_point ||
-					geomCapa == t_polyline || 
-					geomCapa == t_polygon ||
-					geomCapa == t_multipolygon){
-					layers.push(this);
-				}
-			}
-		}else if (tipus==tem_heatmap) {
-			if (tipusCapa == t_marker || 
-				tipusCapa == t_point ||
-				tipusCapa == t_polyline || 
-				tipusCapa == t_polygon ||
-				tipusCapa == t_tematic || 
-				tipusCapa == t_dades_obertes ){
-				if(this.layer.options.tipus==t_tematic){				
-					if(this.layer.options.geometryType==t_marker ){layers.push(this);}
-				}else{				
-					layers.push(this);			
-				}			
-			}
-		}else if (tipus==tem_cluster) {
-			if (tipusCapa == t_marker || 
-				tipusCapa == t_point ||
-				tipusCapa == t_polyline || 
-				tipusCapa == t_polygon ||
-				tipusCapa == t_tematic || 
-				tipusCapa == t_dades_obertes  ){
-				if(this.layer.options.tipus==t_tematic){				
-					if(this.layer.options.geometryType==t_marker ){layers.push(this);}
-				}else{				
-					layers.push(this);			
-				}
-			}
-		}else if (tipus==tem_size) {
-			$('#list_tematic_layers').html(warninMSG);
-			return;
-		}else{		
-			$('#list_tematic_layers').html(warninMSG);
-			return;
 		}
 	});// fi each
 	if(layers.length ==0){

@@ -44,6 +44,7 @@ function creaClusterMap(capa) {
 					clusterLayer.options.businessId = results.results.businessId;
 					clusterLayer.options.nom = capa.layer.options.nom + " cluster";
 					clusterLayer.options.tipus = t_dades_obertes;
+					clusterLayer.options.tipusRang = tem_cluster;
 
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
@@ -85,7 +86,8 @@ function creaClusterMap(capa) {
 					
 					clusterLayer.options.businessId = results.results.businessId;
 					clusterLayer.options.nom = capa.layer.options.nom +" cluster";
-					clusterLayer.options.tipus = tem_cluster;
+					clusterLayer.options.tipus = capa.layer.options.tipus;
+					clusterLayer.options.tipusRang = tem_cluster;
 					
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = controlCapes._lastZIndex+1;
@@ -108,7 +110,7 @@ function creaClusterMap(capa) {
 		clusterLayer.options.businessId = '-1';
 		clusterLayer.options.nom = capa.layer.options.nom + " cluster";
 		clusterLayer.options.tipus = capa.layer.options.tipus;
-		clusterLayer.options.capaOrigen = capa.layer.options.businessId;
+		clusterLayer.options.tipusRang = tem_cluster;
 
 		map.addLayer(clusterLayer);
 		clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
@@ -157,6 +159,7 @@ function loadDadesObertesClusterLayer(layer){
 		clusterLayer.options.zIndex = parseInt(layer.capesOrdre);
 		clusterLayer.options.tipus = layer.serverType;
 		clusterLayer.options.dataset = options.dataset;
+		clusterLayer.options.tipusRang = tem_cluster;
 
 		map.addLayer(clusterLayer);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);
@@ -182,7 +185,8 @@ function loadTematicCluster(layer, zIndex){
 	clusterLayer.options.businessId = layer.businessId;
 	clusterLayer.options.nom =layer.nom;
 	clusterLayer.options.zIndex = parseInt(zIndex);
-	clusterLayer.options.tipus = tem_cluster;
+	clusterLayer.options.tipus = t_tematic;
+	clusterLayer.options.tipusRang = tem_cluster;
 	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		map.addLayer(clusterLayer);

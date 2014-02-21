@@ -48,7 +48,8 @@ function createHeatMap(capa){
 					
 					heatLayerActiu.options.businessId = results.results.businessId;
 					heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
-					heatLayerActiu.options.tipus = t_heatmap;
+					heatLayerActiu.options.tipus = t_dades_obertes;
+					heatLayerActiu.options.tipusRang = tem_heatmap;
 					
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
@@ -81,7 +82,8 @@ function createHeatMap(capa){
 					
 					heatLayerActiu.options.businessId = results.results.businessId;
 					heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
-					heatLayerActiu.options.tipus = t_heatmap;
+					heatLayerActiu.options.tipus = capa.layer.options.tipus;
+					heatLayerActiu.options.tipusRang = tem_heatmap;
 
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
@@ -102,7 +104,8 @@ function createHeatMap(capa){
 	}else{
 		heatLayerActiu.options.businessId = -1;
 		heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
-		heatLayerActiu.options.tipus = t_dades_obertes;
+		heatLayerActiu.options.tipus = capa.layer.options.tipus;
+		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
 		map.addLayer(heatLayerActiu);
 		heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
@@ -159,6 +162,7 @@ function loadDOHeatmapLayer(layer){
 		heatLayerActiu.options.nom = layer.serverName;
 		heatLayerActiu.options.zIndex = parseInt(layer.capesOrdre);
 		heatLayerActiu.options.tipus = layer.serverType;
+		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
 		map.addLayer(heatLayerActiu);
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
@@ -193,7 +197,8 @@ function loadTematicHeatmap(layer, zIndex){
 	heatLayerActiu.options.businessId = layer.businessId;
 	heatLayerActiu.options.nom = layer.nom;
 	heatLayerActiu.options.zIndex = parseInt(zIndex);
-	heatLayerActiu.options.tipus = t_heatmap;
+	heatLayerActiu.options.tipus = t_tematic;
+	heatLayerActiu.options.tipusRang = tem_heatmap;
 	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		map.addLayer(heatLayerActiu);

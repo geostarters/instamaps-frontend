@@ -29,7 +29,7 @@ function hexToRgb(hex) {
 function obrirMenuModal(_menuClass,estat,_from){
 	objEdicio.obroModalFrom=_from;	
 	var layers_from = map._layers[_from.leafletid].getLayers();
-	if(_from.tipus == t_dades_obertes && layers_from.length > num_max_pintxos){
+	if( layers_from.length > num_max_pintxos){
 		jQuery('.fila-awesome-markers').hide();
 	}else{
 		jQuery('.fila-awesome-markers').show();

@@ -164,8 +164,9 @@ function loadApp(){
 			jQuery('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
 			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
+			urlMap = v_url.replace('mapa','visor');
 			$('#urlMap').val(urlMap);
-			$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'" ></iframe>');
+			$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 		});
 		
 		jQuery('#dialgo_publicar .btn-primary').on('click',function(){
@@ -234,7 +235,7 @@ function loadApp(){
 	//Compartir en xarxes socials
 	var v_url = window.location.href;
 	if(v_url.contains('localhost')){
-		v_url = v_url.replace('localhost','instamapes.cat');
+		v_url = v_url.replace('localhost',DOMINI);
 	}
 	v_url = v_url.replace('mapa','visor');
 	shortUrl(v_url).then(function(results){
@@ -246,7 +247,6 @@ function loadApp(){
 		});
 	});
 		
-		//$.fn.editable.defaults.mode = 'inline';
 		
 		jQuery('#select-download-format').change(function() {	
 			var ext = jQuery(this).val();
@@ -1656,6 +1656,11 @@ function updateEditableElements(){
 	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
 		type: 'text',
+//	    validate: function(value) {
+//		        if($.trim(value) == '') {
+//		        	return 'This field is required';
+//		        }
+//	        },
 			success: function(response, newValue) {
 				map.closePopup();//Perque no queden desactualitzats
 				var id = this.id;
