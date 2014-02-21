@@ -4,7 +4,7 @@ var factorW = 0;
 var _htmlDadesObertes = [];
 var capaUsrPunt, capaUsrLine, capaUsrPol,capaUsrActiva;
 var mapConfig = {};
-var dades1,dades2;
+var dades1;
 var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
@@ -672,12 +672,13 @@ function creaPopOverMevasDades(){
 		$('#dialog_teves_dades').modal('show');
 		
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
-		jQuery("#id_sw").empty();		
+		jQuery("#id_sw").empty();
+		
 		refrescaPopOverMevasDades();
-				
+			
 		var source1 = jQuery("#meus-wms-template").html();
 		var template1 = Handlebars.compile(source1);
-		var html1 = template1(dades1[0]);				
+		var html1 = template1(dades1);				
 		jQuery("#id_sw").append(html1);	
 		
 		initMevesDades = true;
@@ -741,6 +742,7 @@ function creaPopOverMevasDades(){
 				businessId: _this.data("businessid")
 			};
 			
+			console.debug(_this.data("servertype"));
 			if(_this.data("servertype") == t_tematic){
 				deleteTematicLayerAll(data).then(function(results){
 					if (results.status == "OK"){
@@ -775,7 +777,6 @@ function creaPopOverMevasDades(){
 
 			deleteTematicLayerAll(data).then(function(results){
 				console.debug(results);
-
 				if (results.status == "OK"){
 					_this.parent().remove();
 				}
@@ -785,20 +786,17 @@ function creaPopOverMevasDades(){
 }
 
 function loadPopOverMevasDades(){
+	console.debug("loadPopOverMevasDades");
 	jQuery(".div_dades_usr").on('click', function() {
 		var data = {uid: $.cookie('uid')};
 		gestionaPopOver(this);		
-				
+		
+		console.debug(dades1);
+		
 		var source1 = jQuery("#meus-wms-template").html();
 		var template1 = Handlebars.compile(source1);
-		var html1 = template1(dades1[0]);
-		
-		var source2 = jQuery("#meus-tematic-template").html();
-		var template2 = Handlebars.compile(source2);
-		var html2 = template2(dades2[0]);
-		
+		var html1 = template1(dades1);
 		jQuery("#id_mysrvw").append(html1);
-		jQuery("#id_mysrvj").append(html2);
 		
 		jQuery(".usr_wms_layer").on('click', function(event) {
 			event.preventDefault();
@@ -872,14 +870,15 @@ function loadPopOverMevasDades(){
 
 function refrescaPopOverMevasDades(){
 	console.debug("refrescaPopOverMevasDades");
-	//carrega las capas del usuario
+	var dfd = jQuery.Deferred();
 	var data = {uid: $.cookie('uid')};
-	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
-		dades1=results1;
-		dades2=results2;
+	getAllServidorsWMSByUser(data).then(function(results){
+		dades1=results;
+		dfd.resolve(dades1);
 	},function(results){
 		window.location.href = paramUrl.loginPage;
 	});
+	return dfd.promise();
 }
 
 function carregarCapa(businessId){
@@ -1692,16 +1691,13 @@ function updateEditableElements(){
 }
 
 function carregaDadesUsuari(data){
-	console.debug("carregaDadesUsuari");
-	//console.debug(data);
-	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
-		if (results1[0].status == "ERROR"){
+	//console.debug("carregaDadesUsuari");
+	getAllServidorsWMSByUser(data).then(function(results){
+		if (results.status == "ERROR"){
 			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
 			return false;
 		}
-		dades1=results1;
-		dades2=results2;
-//		loadPopOverMevasDades();
+		dades1=results;
 		creaPopOverMevasDades();
 	},function(results){
 		//JESS DESCOMENTAR!!!!
