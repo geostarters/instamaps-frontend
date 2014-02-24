@@ -28,16 +28,19 @@ function hexToRgb(hex) {
 
 function obrirMenuModal(_menuClass,estat,_from){
 	objEdicio.obroModalFrom=_from;
-	if (jQuery.isPlainObject( _from )){
-		var layers_from = map._layers[_from.leafletid].getLayers();
-		if( layers_from.length > num_max_pintxos){
-			jQuery('.fila-awesome-markers').hide();
-		}else{
-			jQuery('.fila-awesome-markers').show();
-		}
-	}
-	jQuery('.modal').modal('hide');	
-	jQuery(_menuClass).modal(estat);
+    if (jQuery.isPlainObject( _from )){
+          var layers_from = map._layers[_from.leafletid].getLayers();
+          if( layers_from.length > num_max_pintxos){
+                jQuery('.fila-awesome-markers').hide();
+                activaPuntZ();
+          }else{
+                jQuery('.fila-awesome-markers').show();
+          }
+    }else{
+    	jQuery('.fila-awesome-markers').show();
+    }
+    jQuery('.modal').modal('hide');     
+    jQuery(_menuClass).modal(estat);
 }
 
 function initCanvas(){

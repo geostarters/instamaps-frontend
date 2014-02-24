@@ -190,7 +190,7 @@ function getCapabilitiesWMS(url, servidor) {
 }
 
 jQuery(document).on('click', "#bt_addWMS", function(e) {
-	addExternalWMS();
+	addExternalWMS2();
 
 });
 
