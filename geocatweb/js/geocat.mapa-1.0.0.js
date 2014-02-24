@@ -1016,7 +1016,7 @@ function creaPopOverDadesExternes() {
 						'</ul>'+
 						'<div id="twitter-collapse">'+
 							'<div class="input-group">'+
-			      				'<span class="input-group-addon">Hashtag</span>'+
+			      				'<span class="input-group-addon">Hashtag #</span>'+
 			      				'<input id="hashtag_twitter_layer" type="text" class="form-control">'+
 			      				'<span class="input-group-btn">'+
 			      					'<button id="btn-add-twitter-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
@@ -1389,7 +1389,11 @@ function initControls(){
 
 function addTwitterLayer(hashtag){
 	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
-	if(hashtag == null || hashtag == '') return;
+	//Control no afegit #
+	if(hashtag.indexOf("#") == 0) hashtag = hashtag.substr(1);
+	
+	if(hashtag == null || hashtag == "") return;
+	
 	$('#twitter-collapse .input-group #hashtag_twitter_layer').val("");
 //	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var twitter = new L.Twitter({

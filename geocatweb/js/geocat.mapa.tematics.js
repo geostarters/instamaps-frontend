@@ -480,21 +480,21 @@ function loadTematicLayer(layer){
 						}
 						//Sin rangos
 						if (Lrangs.length == 0){
-							rangStyle = createRangStyle(ftype);
+							rangStyle = createRangStyle(ftype, null, Lgeom.length);
 						}
 						//1 Rango
 						else if (Lrangs.length == 1){
 							rangStyle = Lrangs[0];
-							rangStyle = createRangStyle(ftype, rangStyle);
+							rangStyle = createRangStyle(ftype, rangStyle, null);
 						}
 						//Multiples rangos
 						else{
 							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == geom.properties.businessId; });
 							if (rangStyle.length > 0){
 								rangStyle = rangStyle[0];
-								rangStyle = createRangStyle(ftype, rangStyle);
+								rangStyle = createRangStyle(ftype, rangStyle, null);
 							}else{
-								rangStyle = createRangStyle(ftype);
+								rangStyle = createRangStyle(ftype, null, Lgeom.length);
 							}
 							/*
 							if (dataGeom){
@@ -592,11 +592,11 @@ function loadTematicLayer(layer){
 	});
 }
 
-function createRangStyle(ftype, style){
+function createRangStyle(ftype, style, num_geometries){
 	var rangStyle;
 	if (style){
 		if (ftype === t_marker){
-			rangStyle = createFeatureMarkerStyle(style);
+			rangStyle = createFeatureMarkerStyle(style, num_geometries);
 		}else if (ftype === t_polyline){
 			rangStyle = createFeatureLineStyle(style);
 		}else if (ftype === t_polygon){
@@ -726,13 +726,13 @@ function changeDefaultPointStyle(estilP) {
 	return puntTMP;
 }
 
-function createFeatureMarkerStyle(style){
-	if (style.marker){
-		var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-		puntTMP.options.iconColor = style.simbolColor;
-		puntTMP.options.icon = style.simbol;
-		puntTMP.options.markerColor = style.marker;
-		puntTMP.options.isCanvas=false;
+function createFeatureMarkerStyle(style, num_geometries){
+	if (style.marker && num_geometries <= num_max_pintxos){
+			var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+			puntTMP.options.iconColor = style.simbolColor;
+			puntTMP.options.icon = style.simbol;
+			puntTMP.options.markerColor = style.marker;
+			puntTMP.options.isCanvas=false;			
 	}else{
 		var puntTMP = { 
 			radius: style.simbolSize, 
