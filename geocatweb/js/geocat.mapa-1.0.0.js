@@ -217,7 +217,6 @@ function loadApp(){
 			 	uid: $.cookie('uid')
 			}
 
-
 			updateMapName(data).then(function(results){
 				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
 			},function(results){
@@ -248,52 +247,50 @@ function loadApp(){
 	});
 		
 		
-		jQuery('#select-download-format').change(function() {	
-			var ext = jQuery(this).val();
-			if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
-			jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
-			}else{
-				jQuery("#select-download-epsg").attr('disabled',false);	
-			}
-		});		
+	jQuery('#select-download-format').change(function() {	
+		var ext = jQuery(this).val();
+		if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
+		jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
+		}else{
+			jQuery("#select-download-epsg").attr('disabled',false);	
+		}
+	});		
 		
-		$('#bt_download_accept').on('click', function(evt){
-			var formatOUT = $('#select-download-format').val();
-			var epsgOUT = $('#select-download-epsg').val();
-			var filename = $('#input-download-name').val();
-			var layer_GeoJSON = download_layer.layer.toGeoJSON();
-			for(var i=0;i<layer_GeoJSON.features.length;i++){
-				layer_GeoJSON.features[i].properties.tipus = "downloaded";
-			}
+	$('#bt_download_accept').on('click', function(evt){
+		var formatOUT = $('#select-download-format').val();
+		var epsgOUT = $('#select-download-epsg').val();
+		var filename = $('#input-download-name').val();
+		var layer_GeoJSON = download_layer.layer.toGeoJSON();
+		for(var i=0;i<layer_GeoJSON.features.length;i++){
+			layer_GeoJSON.features[i].properties.tipus = "downloaded";
+		}
 
-			var data = {
-					cmb_formatOUT: formatOUT,
-					cmb_epsgOUT: epsgOUT,
-					layer_name: filename,
-					fileIN: JSON.stringify(layer_GeoJSON)
-			};
-			
-			getDownloadLayer(data).then(function(results){
-				results = results.trim();
-				if (results == "ERROR"){
-					//alert("Error 1");
-					$('#modal-body-download-error').show();
-					$('#modal-body-download').hide();
-					$('#modal_download_layer .modal-footer').hide();
-					$('#modal_download_layer').modal('show');
-				}else{
-					window.location.href = GEOCAT02+results;
-				}
-			},function(results){
+		var data = {
+				cmb_formatOUT: formatOUT,
+				cmb_epsgOUT: epsgOUT,
+				layer_name: filename,
+				fileIN: JSON.stringify(layer_GeoJSON)
+		};
+		
+		getDownloadLayer(data).then(function(results){
+			results = results.trim();
+			if (results == "ERROR"){
+				//alert("Error 1");
 				$('#modal-body-download-error').show();
 				$('#modal-body-download').hide();
 				$('#modal_download_layer .modal-footer').hide();
 				$('#modal_download_layer').modal('show');
-			});
-			
+			}else{
+				window.location.href = GEOCAT02+results;
+			}
+		},function(results){
+			$('#modal-body-download-error').show();
+			$('#modal-body-download').hide();
+			$('#modal_download_layer .modal-footer').hide();
+			$('#modal_download_layer').modal('show');
 		});
 		
-//		jQuery('.leaflet-conf div').hide();
+	});
 }
 
 function addClicksInici() {
@@ -508,6 +505,7 @@ function addDialegsEstils() {
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
+			console.debug(feature);
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
 			getRangsFromLayer(capaMare);
@@ -683,7 +681,7 @@ function creaPopOverMevasDades(){
 		
 		initMevesDades = true;
 		
-		jQuery(".usr_wms_layer").on('click', function(event) {
+		jQuery("ul.bs-dadesO").on('click', '.usr_wms_layer', function(event) {
 			event.preventDefault();
 			var _this = jQuery(this);
 		
@@ -733,7 +731,7 @@ function creaPopOverMevasDades(){
 		});					
 				
 		//Eliminem servidors
-		jQuery("span.glyphicon-remove").on('click', function(event) {
+		jQuery("ul.bs-dadesO").on('click', 'span.glyphicon-remove', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			var _this = jQuery(this);
@@ -742,46 +740,35 @@ function creaPopOverMevasDades(){
 				businessId: _this.data("businessid")
 			};
 			
+			var parent = _this.parent();
+			var parentul = parent.parent();
+			_this.parent().remove();
+			
 			console.debug(_this.data("servertype"));
 			if(_this.data("servertype") == t_tematic){
 				deleteTematicLayerAll(data).then(function(results){
-					if (results.status == "OK"){
-						_this.parent().remove();
-//								refrescaPopOverMevasDades();
-					}
+					console.debug(results);
+					if (results.status == "ERROR"){
+						parentul.append(parent);
+						if (results.results == "DataIntegrityViolationException"){
+							$('#dialgo_messages').modal('show');
+							$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+						}
+					}					
 				});
 			}else{
 				deleteServidorWMS(data).then(function(results){
-					if (results.status == "OK"){
-						_this.parent().remove();
-//								refrescaPopOverMevasDades();
+					console.debug(results);
+					if (results.status == "ERROR"){
+						parentul.append(parent);
+						if (results.results == "DataIntegrityViolationException"){
+							$('#dialgo_messages').modal('show');
+							$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+						}
 					}
 				});						
 			}
-		});					
-		
-		jQuery(".usr_tematic_layer").on('click', function(event) {
-			event.preventDefault();
-			var _this = jQuery(this);
-			carregarCapa(_this.data("businessid"));
 		});
-		
-		jQuery("span.glyphicon-remove").on('click', function(event) {
-			event.preventDefault();
-			event.stopPropagation();
-			var _this = jQuery(this);
-			var data = {
-				uid: $.cookie('uid'),
-				businessId: _this.data("businessid")
-			};
-
-			deleteTematicLayerAll(data).then(function(results){
-				console.debug(results);
-				if (results.status == "OK"){
-					_this.parent().remove();
-				}
-			});
-		});		
 	});	
 }
 
@@ -1202,12 +1189,13 @@ function loadMapConfig(mapConfig){
 				
 			if (mapConfig.options.bbox){
 				var bbox = mapConfig.options.bbox.split(",");
-				var southWest = L.latLng(bbox[1], bbox[0]),
-			    northEast = L.latLng(bbox[3], bbox[2]),
-			    bounds = L.latLngBounds(southWest, northEast);
+				var southWest = L.latLng(bbox[1], bbox[0]);
+			    var northEast = L.latLng(bbox[3], bbox[2]);
+			    var bounds = L.latLngBounds(southWest, northEast);
 				map.fitBounds( bounds ); 
 			}
 		}
+		
 		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
 			if (value.epsg == "4326"){
@@ -1234,23 +1222,24 @@ function loadMapConfig(mapConfig){
 
 			//Si la capa es de tipus xarxes socials	
 			}else if(value.serverType == t_xarxes_socials){
-				
 				var options = jQuery.parseJSON( value.options );
 				
 				if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
 				else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-			
+				
 			}else if(value.serverType == t_tematic){
 				loadTematicLayer(value);
 				
 			}else if(value.serverType == t_heatmap){
 				loadHeatLayer(value);
-			
+				
 			}else if(value.serverType == t_cluster){
 				loadClusterLayer(value);
+				
 			}
 		});
+		
 	}
 	
 	var source = $("#map-properties-template").html();
@@ -1288,7 +1277,7 @@ function publicarMapa(){
 	options.social = true;
 	options.fons = map.getActiveMap();
 	options.fonsColor = map.getMapColor();
-	//console.debug(options);
+	console.debug(options);
 	options = JSON.stringify(options);
 	
 	var newMap = true;

@@ -442,7 +442,6 @@ function loadTematicLayer(layer){
 				capaTematic.options = {
 					businessId : layerWms.businessId,
 					nom : layerWms.serverName,
-					//zIndex :  parseInt(layerWms.capesOrdre),
 					tipus : layerWms.serverType,
 					tipusRang: tematic.tipusRang, 
 					geometryType: tematic.geometryType
@@ -450,15 +449,7 @@ function loadTematicLayer(layer){
 				
 				if (!layerWms.capesActiva || layerWms.capesActiva == true || layerWms.capesActiva == "true"){
 					capaTematic.addTo(map);
-				}				
-				
-				if (!layerWms.capesOrdre){
-					capaTematic.options.zIndex = controlCapes._lastZIndex + 1;
-				}else{
-					capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
 				}
-				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
-				controlCapes._lastZIndex++;
 				
 				for(var g=0;g<Lgeom.length;g++){
 					var geom = Lgeom[g];
@@ -583,6 +574,17 @@ function loadTematicLayer(layer){
 						}
 					}
 				}
+				
+								
+				
+				if (!layerWms.capesOrdre){
+					capaTematic.options.zIndex = controlCapes._lastZIndex + 1;
+				}else{
+					capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
+				}
+				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
+				controlCapes._lastZIndex++;
+				
 			}
 		}else{
 			alert("Error getTematicLayer");

@@ -199,7 +199,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			container = this._baseLayersList;
 		}
 		container.appendChild(row);
-		console.debug(controlCapes);
 		if(modeMapa) container.appendChild(row_conf);
 		updateEditableElements();
 		return label;
@@ -208,11 +207,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var layerId = e.currentTarget.layerId;
 		var inputs = this._form.getElementsByTagName('input');
 		var obj = this._layers[layerId];
-//		console.debug('openConfig:'+obj.layer.options.businessId);
-		
+		//console.debug('openConfig:'+obj.layer.options.businessId);
 		showConfOptions(obj.layer.options.businessId);
 		//jQuery(".conf-"+obj.layer.options.businessId+"").show();
-		
 	},
 	_onUpClick: function(e) {
 		var layerId = e.currentTarget.layerId;

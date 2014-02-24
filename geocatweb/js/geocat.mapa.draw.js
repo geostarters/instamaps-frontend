@@ -27,12 +27,14 @@ function hexToRgb(hex) {
 }
 
 function obrirMenuModal(_menuClass,estat,_from){
-	objEdicio.obroModalFrom=_from;	
-	var layers_from = map._layers[_from.leafletid].getLayers();
-	if( layers_from.length > num_max_pintxos){
-		jQuery('.fila-awesome-markers').hide();
-	}else{
-		jQuery('.fila-awesome-markers').show();
+	objEdicio.obroModalFrom=_from;
+	if (jQuery.isPlainObject( _from )){
+		var layers_from = map._layers[_from.leafletid].getLayers();
+		if( layers_from.length > num_max_pintxos){
+			jQuery('.fila-awesome-markers').hide();
+		}else{
+			jQuery('.fila-awesome-markers').show();
+		}
 	}
 	jQuery('.modal').modal('hide');	
 	jQuery(_menuClass).modal(estat);
@@ -790,7 +792,7 @@ function createPopUpContent(player,type){
 			+'<select id="cmbCapesUsr-'+player._leaflet_id+'-'+type+'" data-leaflet_id='+player._leaflet_id+'>';
 			html+= fillCmbCapesUsr(type);
 			html+= '</select></li>'
-		+'<li><a id="layer_edit#'+player._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
+		//+'<li><a id="layer_edit#'+player._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
 	+'<li><a id="layer_add#'+player._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus verd12"></span></a></li>'
 	+'</ul>'	
 	//'</div>'	

@@ -101,21 +101,19 @@ options: {
 	},
 	
 	miraBBContains:function(MapBounds){
-	
-		  
-		   var cas=0; 
-		   var vC=CatBounds.intersects(MapBounds);// True es veu Cat
-		   var nC=CatBounds.contains(MapBounds);//True nomes Cat
-			   if(!vC){
-				cas=0; //Estic fora de Cat
-			   }else if(vC && !nC){ //veig Cat i altres
-				cas=1;
-			   }else if (vC && nC){ //Nomes veig cat
-				cas=2
-			   }
-			return cas;
-	
+		var cas=0; 
+		var vC=CatBounds.intersects(MapBounds);// True es veu Cat
+		var nC=CatBounds.contains(MapBounds);//True nomes Cat
+		   if(!vC){
+			cas=0; //Estic fora de Cat
+		   }else if(vC && !nC){ //veig Cat i altres
+			cas=1;
+		   }else if (vC && nC){ //Nomes veig cat
+			cas=2
+		   }
+		return cas;
 	},
+	
 	gestionaFons:function(){		
 		var sC=this.miraBBContains(this.getBounds());
 		
@@ -132,18 +130,18 @@ options: {
 				TOPO_ICC_L11_12.options.maxZoom=zT;
 				TOPO_ICC_L12_19.options.maxZoom=zT;
 				if(this.getZoom() > 6){
-				this.attributionControl.setPrefix(MQ_ATTR);
+					this.attributionControl.setPrefix(MQ_ATTR);
 				}else{this.attributionControl.setPrefix(ICGC_MON);}				
 			}else if(sC==1){
 				TOPO_MQ_L7_19.setOpacity(0.9);
 				TOPO_MQ_L7_19.options.maxZoom=19;
+				
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=19;
 				TOPO_ICC_L7_10.options.maxZoom=10;	
 				
 				if(this.getZoom() > 6){
-				
-				this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
+					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
 				}else{this.attributionControl.setPrefix(ICGC_MON);}	
 			}else if(sC==2){
 				TOPO_MQ_L7_19.options.maxZoom=zT;
@@ -173,33 +171,36 @@ options: {
 					this.attributionControl.setPrefix(ICGC);				
 				}
 	
-		}else if(f=='terrainMap'){this.terrainMap();
+		}else if(f=='terrainMap'){
+			this.terrainMap();
 		
-		if((sC==0)){ //Fora Cat
-					ESRI_RELLEU_L0_13.options.maxZoom=13;			 
-					ICC_RELLEU_L0_14.options.maxZoom=zT;
-					ESRI_RELLEU_L0_13.setOpacity(1);
-					this.attributionControl.setPrefix(ESRI_ATTR_TERRAIN);				
-				}else if(sC==1){ //Cat i altres
-					ESRI_RELLEU_L0_13.options.maxZoom=13;			 
-					ICC_RELLEU_L0_14.options.maxZoom=14;
-					ESRI_RELLEU_L0_13.setOpacity(0.8);					
-					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR_TERRAIN);	
-				}else if(sC==2){ //Nomes cat
-					ESRI_RELLEU_L0_13.options.maxZoom=zT;			 
-					ICC_RELLEU_L0_14.options.maxZoom=14;					
-					this.attributionControl.setPrefix(ICGC);				
-				}
+			if((sC==0)){ //Fora Cat
+				ESRI_RELLEU_L0_13.options.maxZoom=13;			 
+				ICC_RELLEU_L0_14.options.maxZoom=zT;
+				ESRI_RELLEU_L0_13.setOpacity(1);
+				this.attributionControl.setPrefix(ESRI_ATTR_TERRAIN);				
+			}else if(sC==1){ //Cat i altres
+				ESRI_RELLEU_L0_13.options.maxZoom=13;			 
+				ICC_RELLEU_L0_14.options.maxZoom=14;
+				ESRI_RELLEU_L0_13.setOpacity(0.8);					
+				this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR_TERRAIN);	
+			}else if(sC==2){ //Nomes cat
+				ESRI_RELLEU_L0_13.options.maxZoom=zT;			 
+				ICC_RELLEU_L0_14.options.maxZoom=14;					
+				this.attributionControl.setPrefix(ICGC);				
+			}
 		
 		}else if(f=='topoGrisMap'){
-		if((sC==0)){  
+			if((sC==0)){  
 				MQ_TOPO_GRIS_L7_19.setOpacity(1);
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L11_19.options.maxZoom=zT;
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=zT;
 				if(map.getZoom() <= 6){
-				this.attributionControl.setPrefix(MQ_ATTR);
-				}else{this.attributionControl.setPrefix(ICGC_MON);}				
+					this.attributionControl.setPrefix(MQ_ATTR);
+				}else{
+					this.attributionControl.setPrefix(ICGC_MON);
+				}				
 			}else if(sC==1){
 				MQ_TOPO_GRIS_L7_19.setOpacity(0.9);
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
@@ -214,14 +215,16 @@ options: {
 			}
 		}else if(f=='colorMap'){
 		
-		if((sC==0)){  
+			if((sC==0)){  
 				COLOR_TOPO_MQ_L7_19.setOpacity(1);
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=19;
 				COLOR_TOPO_ICC_L11_19.options.maxZoom=zT;
 				
 				if(map.getZoom() <= 6){
-				this.attributionControl.setPrefix(MQ_ATTR);
-				}else{this.attributionControl.setPrefix(ICGC_MON);}				
+					this.attributionControl.setPrefix(MQ_ATTR);
+				}else{
+					this.attributionControl.setPrefix(ICGC_MON);
+				}				
 			}else if(sC==1){
 				COLOR_TOPO_MQ_L7_19.setOpacity(0.9);
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=19;
@@ -235,20 +238,16 @@ options: {
 				this.attributionControl.setPrefix(ICGC);				
 			}
 		
-		}else if(f=='historicMap'){	
-		
-				if((sC==0)){
-				
-				this.fitBounds(CatBounds);
-				this.attributionControl.setPrefix(ICGC_HISTO);
+		}else if(f=='historicMap'){			
+				if((sC==0)){				
+					this.fitBounds(CatBounds);
+					this.attributionControl.setPrefix(ICGC_HISTO);
 				}
 
-		}else if(f=='historicOrtoMap'){	
-			
-			if((sC==0)){
-			
-			this.fitBounds(CatBounds);
-			this.attributionControl.setPrefix(ICGC_HISTOOrto);
+		}else if(f=='historicOrtoMap'){				
+			if((sC==0)){			
+				this.fitBounds(CatBounds);
+				this.attributionControl.setPrefix(ICGC_HISTOOrto);
 			}
 		}else{
 		
