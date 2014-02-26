@@ -22,14 +22,14 @@ var tem_cluster = "clusterTematic";
 var from_creaPopup="creaPopup";
 var from_creaCapa="creaCapa";
 
-var num_max_pintxos = 2;//250;  
+var num_max_pintxos = 250;  
 
 //var HOST_APP = "http://84.88.72.36/";
 //var GEOCAT02 = "http://84.88.72.36";
-//var HOST_APP = "http://172.70.1.12/";
+var HOST_APP = "http://172.70.1.12/";
 var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
-var HOST_APP = "http://localhost:8080/";
+//var HOST_APP = "http://localhost:8080/";
 
 var DOMINI = "instamapes.icgc.cat";
 

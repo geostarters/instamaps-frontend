@@ -444,7 +444,8 @@ function createPopupWindow(layer,type){
 	//console.debug('createPopupWindow');
 	
 	var html = createPopUpContent(layer,type);
-	layer.bindPopup(html,{'offset':[0,-25]}).openPopup();
+	layer.bindPopup(html,{'offset':[0,-25]});
+	//openPopup();
 	
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -510,7 +511,7 @@ function createPopupWindow(layer,type){
 			
 			moveFeatureToTematic(data).then(function(results){
 				if(results.status=='OK'){
-					var toLayer = map._layers[''+toBusinessId[1]+''];
+					var toLayer = controlCapes._layers[''+toBusinessId[1]+''].layer;//map._layers[''+toBusinessId[1]+''];
 					var fromLayer = map._layers[''+fromBusinessId[1]+''];
 					fromLayer.removeLayer(obj);
 					toLayer.addLayer(obj);
@@ -518,7 +519,7 @@ function createPopupWindow(layer,type){
 					controlCapes._map.removeLayer(toLayer);
 					controlCapes._map.addLayer(toLayer);
 					//Actualitzem capa activa
-					capaUsrActiva.removeEventListener('layeradd');
+					if(capaUsrActiva) capaUsrActiva.removeEventListener('layeradd');
 					capaUsrActiva = toLayer;
 					capaUsrActiva.on('layeradd',objecteUserAdded);	
 					//Actualitzem properties de la layer
@@ -526,8 +527,9 @@ function createPopupWindow(layer,type){
 					obj.properties.capaNom = capaUsrActiva.options.nom;
 					obj.properties.capaLeafletId = capaUsrActiva._leaflet_id;
 					//Actualitzem popup del marker
-					var html = createPopUpContent(obj,obj.options.tipus);
-					obj.setPopupContent(html);
+					//var html = createPopUpContent(obj,obj.options.tipus);
+					//obj.setPopupContent(html);
+					map.closePopup();
 					obj.openPopup();
 					
 					//update rangs
@@ -642,7 +644,7 @@ function createPopupWindow(layer,type){
 	
 	layer.on('popupopen', function(e){
 		//actualitzem popup
-		jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'').html(fillCmbCapesUsr(layer.options.tipus));
+		jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'').html(reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId));
 		if (layer.properties.nom){
 			jQuery('#titol_pres').text(layer.properties.nom).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
 		}
@@ -650,6 +652,20 @@ function createPopupWindow(layer,type){
 			jQuery('#des_pres').text(layer.properties.text).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
 		}
 	});
+}
+
+function reFillCmbCapesUsr(type, businessIdCapa){
+	var html = "";
+	$.each( controlCapes._layers, function(i,val) {
+		var layer = val.layer.options;
+		if(layer.tipus==t_tematic && layer.geometryType==type){
+	        html += "<option value=\"";
+	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
+	        if(businessIdCapa == layer.businessId) html += " selected";
+	        html += ">"+ layer.nom + "</option>";            		
+		}
+	});		
+	return html;
 }
 
 function finishAddFeatureToTematic(layer){
@@ -667,7 +683,8 @@ function finishAddFeatureToTematic(layer){
 		activaPanelCapes(true);
 	}
 		
-	createPopupWindow(layer,type);	
+	createPopupWindow(layer,type);
+	layer.openPopup();
 }
 
 function updateFeatureNameDescr(layer, titol, descr){
@@ -869,18 +886,18 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				var data = {
 					uid: $.cookie('uid'),
 		            businessId: feature.properties.businessId, //businessId de la feature
-		            fromBusinessId: capaUsrActiva.options.businessId, //businessId del tematico de origen
+		            fromBusinessId: feature.properties.capaBusinessId, //businessId del tematico de origen
 		            toBusinessId: capaUsrActiva2.options.businessId //businessId del tematico de destino
 			    };
 				
 				moveFeatureToTematic(data).then(function(results){
 						if(results.status=='OK'){
 							console.debug("moveFeatureToTematic OK");
-							capaUsrActiva.removeLayer(feature);
+							if(capaUsrActiva) capaUsrActiva.removeLayer(feature);
 							capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
 							//feature.openPopup();
 							//Actualitzem capa activa
-							capaUsrActiva.removeEventListener('layeradd');
+							if(capaUsrActiva) capaUsrActiva.removeEventListener('layeradd');
 							capaUsrActiva = capaUsrActiva2;//map._layers[capaUsrActiva2._leaflet_id];;
 							capaUsrActiva.on('layeradd',objecteUserAdded);	
 							//Actualitzem properties de la layer
@@ -888,9 +905,10 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 							feature.properties.capaNom = capaUsrActiva.options.nom;	
 							feature.properties.capaLeafletId = capaUsrActiva._leaflet_id;
 							//Actualitzem popup del marker
-							var html = createPopUpContent(feature,feature.options.tipus);
-							feature.setPopupContent(html);
-							feature.openPopup();
+//							var html = createPopUpContent(feature,feature.options.tipus);
+							//feature.setPopupContent(html);
+							map.closePopup();
+							feature.openPopup();							
 							
 							//update rangs
 						    getRangsFromLayer(capaUsrActiva);
