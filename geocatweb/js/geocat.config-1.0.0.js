@@ -99,7 +99,7 @@ var paramUrl = {
 	updateFeature: HOST_APP+"geocat/layers/feature/updateFeature.action?",
 	shortUrl : "http://api.bit.ly/v3/shorten",
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
-	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
+	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
 	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",

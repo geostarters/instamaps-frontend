@@ -5,7 +5,16 @@ $(function(){
 	var sourcePublic = $("#galeriaPublic-template").html();
 	var templatePublic = Handlebars.compile(sourcePublic);
 	
-	if ((typeof url('?private') == "string") && (typeof $.cookie('uid') !== "undefined")){
+	var privatGaleria = url('?private');
+	
+	if(typeof url('?uid') == "string"){
+		$.removeCookie('uid', { path: '/' });
+		$.cookie('uid', url('?uid'), {path:'/'});
+		privatGaleria = "1";
+		checkUserLogin();
+	}
+		
+	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		var data = {uid: $.cookie('uid')};
 		loadGaleria(data).then(function(results){
 			console.debug(results);

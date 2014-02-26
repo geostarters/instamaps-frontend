@@ -69,6 +69,11 @@ jQuery(document).ready(function() {
 }); // Final document ready
 
 function loadApp(){
+	if(typeof url('?uid') == "string"){
+		$.removeCookie('uid', { path: '/' });
+		$.cookie('uid', url('?uid'), {path:'/'});
+	}
+	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',

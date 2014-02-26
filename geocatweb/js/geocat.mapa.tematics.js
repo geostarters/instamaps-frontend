@@ -429,7 +429,7 @@ function loadTematicLayer(layer){
 			}else if(tematic.tipusRang == tem_cluster){
 				loadTematicCluster(tematic, layer.capesOrdre);
 			}else{
-				//console.debug(tematic);
+				console.debug(tematic);
 				var Lgeom = tematic.geometries.features.features;
 				var idDataField = tematic.idDataField;
 				var idGeomField = tematic.idGeomField;
@@ -757,13 +757,33 @@ function getRangsFromLayer(layer){
 		var styles = jQuery.map(layer.getLayers(), function(val, i){
 			return {key: val.properties.businessId, style: val};
 		});
+		
 		var tematic = layer.options;
 		tematic.tipusRang = tematic.tipusRang ? tematic.tipusRang : tem_simple;
 		tematic.businessid = tematic.businessId; 
 		tematic.leafletid = layer._leaflet_id;
 		tematic.geometrytype = tematic.geometryType;
 		tematic.from = tematic.tipusRang;
-		changeTematicLayerStyle(tematic, styles);
+		//changeTematicLayerStyle(tematic, styles);
+		
+		var rangs = getRangsFromStyles(tematic, styles);
+		rangs = JSON.stringify({rangs:rangs});
+		
+		var data = {
+			businessId: tematic.businessid,
+			uid: $.cookie('uid'),
+            tipusRang: tematic.from,
+			rangs: rangs
+		};
+			
+		var data = {
+			user: $.cookie('uid'),
+			password: "piji32",
+		};
+		
+		updateTematicRangs(data).then(function(results){
+			console.debug(results);
+		});
 	}
 }
 
