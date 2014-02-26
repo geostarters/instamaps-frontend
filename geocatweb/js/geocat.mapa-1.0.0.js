@@ -210,6 +210,12 @@ function loadApp(){
 	$('#nomAplicacio').editable({
 		type: 'text',
 		mode: 'inline',
+	    validate: function(value) {
+	        if($.trim(value) == '') {
+//	        	return 'This field is required';
+	        	return {newValue: this.innerHTML};
+	        }
+        },		
 		success: function(response, newValue) {
 			var data = {
 			 	businessId: url('?businessid'), 
@@ -233,7 +239,7 @@ function loadApp(){
 	
 	//Compartir en xarxes socials
 	var v_url = window.location.href;
-	if(v_url.contains('localhost')){
+	if(true){//if(v_url.contains('localhost')){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
 	v_url = v_url.replace('mapa','visor');
@@ -1648,11 +1654,11 @@ function updateEditableElements(){
 	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
 		type: 'text',
-//	    validate: function(value) {
-//		        if($.trim(value) == '') {
-//		        	return 'This field is required';
-//		        }
-//	        },
+	    validate: function(value) {
+		        if($.trim(value) == '') {
+		        	return {newValue: this.innerHTML};
+		        }
+	        },
 			success: function(response, newValue) {
 				map.closePopup();//Perque no queden desactualitzats
 				var id = this.id;
@@ -1849,8 +1855,8 @@ function activaPuntZ(){
 	jQuery('#div_punt0').css('width',vv+'px');
 	jQuery('#div_punt0').css('height',vv+'px');
 	jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-	jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
-	estilP.divColor=jQuery('.fill_color_punt').css('background-color');
+//	jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
+	estilP.divColor=rgb2hex(jQuery('.fill_color_punt').css('background-color'));
 	jQuery('#div_punt0').css('background-color',estilP.divColor);
 	estilP.fontsize=(vv/2)+"px";
 	estilP.size=vv;	

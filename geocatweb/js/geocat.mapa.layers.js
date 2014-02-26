@@ -132,13 +132,14 @@ function getFeatureStyle(f, fId){
 	//ESTIL MARKER
 	if(f.layer.options.tipus == t_marker){
 		if (!f.layer._ctx){
+
 			rangs = {
 				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 				valorMax : "feature" + fId,
-				color : '#ff0000',
+				color : f.layer.options.icon.options.fillColor,//'#ff0000',
 				marker: f.layer.options.icon.options.markerColor,
 				simbolColor: f.layer.options.icon.options.iconColor,
-				simbolSize : f.layer._icon.height,
+				simbolSize : f.layer.options.icon.options.radius,
 				simbol : f.layer.options.icon.options.icon,
 				opacity : (f.layer.options.opacity * 100),
 				label : false,
