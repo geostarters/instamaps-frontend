@@ -22,7 +22,9 @@ var default_area_style = {
     opacity: 1,
     color: '#FFC400',
     dashArray: '3',
-    fillColor: '#FFC400',
+    fillColor: hexToRgb('#FFC400'),
+    borderColor: '#FFC400',
+    borderWidth: '3',
     fillOpacity: 0.5
 };
 var default_point_style = {
@@ -527,7 +529,7 @@ function addDialegsEstils() {
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom==from_creaCapa){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
-			jQuery('#dialog_estils_linies').modal('toggle');		
+//			jQuery('#dialog_estils_linies').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_linia);
 			changeDefaultLineStyle(canvas_linia);
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
@@ -546,7 +548,7 @@ function addDialegsEstils() {
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom==from_creaCapa){
 			addGeometryInitP(document.getElementById("cv_pol"));  
-			jQuery('#dialog_estils_arees').modal('toggle');		
+//			jQuery('#dialog_estils_arees').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_pol);
 			changeDefaultAreaStyle(canvas_pol);
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
