@@ -22,7 +22,9 @@ var default_area_style = {
     opacity: 1,
     color: '#FFC400',
     dashArray: '3',
-    fillColor: '#FFC400',
+    fillColor: hexToRgb('#FFC400'),
+    borderColor: '#FFC400',
+    borderWidth: '3',
     fillOpacity: 0.5
 };
 var default_point_style = {

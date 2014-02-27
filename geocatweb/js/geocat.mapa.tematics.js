@@ -363,15 +363,33 @@ function getRangsFromStyles(tematic, styles){
 					opacity: (styles.options.fillOpacity * 100)
 				};
 			}else{
-				if (!styles.options.iconSize){
-					styles = styles.options.icon;
-				}
+//				if (!styles.options.iconSize){
+//					styles = styles.options.icon;
+//				}
+//				var rang = {
+//					simbol: jQuery.trim(styles.options.icon),
+//					simbolSize: styles.options.iconSize.y, 
+//					simbolColor: styles.options.iconColor, 
+//					marker: styles.options.markerColor
+//				};
+				
 				var rang = {
-					simbol: jQuery.trim(styles.options.icon),
-					simbolSize: styles.options.iconSize.y, 
-					simbolColor: styles.options.iconColor, 
-					marker: styles.options.markerColor
-				};
+					llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
+//					valorMax : "feature" + fId,
+					color : styles.options.icon.options.fillColor,//Color principal
+					marker: styles.options.icon.options.markerColor,//Si es de tipus punt_r o el color del marker
+					simbolColor: styles.options.icon.options.iconColor,//Glyphon
+					radius : styles.options.icon.options.radius,//Radius
+					iconSize : styles.options.icon.options.iconSize.x+"#"+styles.options.icon.options.iconSize.y,//Size del cercle
+					iconAnchor : styles.options.icon.options.iconAnchor.x+"#"+styles.options.icon.options.iconAnchor.y,//Anchor del cercle
+					simbol : styles.options.icon.options.icon,//tipus glyph
+					opacity : (styles.options.opacity * 100),
+					label : false,
+					labelSize : 10,
+					labelFont : 'arial',
+					labelColor : '#000000',
+					};				
+				
 			}
 		}else if (tematic.geometrytype == t_polyline){
 			var rang = {
@@ -515,16 +533,10 @@ function loadTematicLayer(layer){
 						var featureTem;
 						if (ftype === t_marker){
 							var coords=geom.geometry.coordinates;
-							if(!rangStyle.isCanvas && rangStyle.options.markerColor=='punt_r'){//hi ha canvi de punt a pinxo i/o glifon
+							if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
 								
 								featureTem = L.marker([coords[0],coords[1]],
 										 {icon: rangStyle, isCanvas:false, tipus: t_marker});
-								
-								if(rangStyle.options.markerColor=='punt_r'){
-									var num=rangStyle.options.radius;
-									featureTem.options.icon.options.shadowSize = new L.Point(1, 1);
-									
-								}
 								console.debug(featureTem);
 							}else{//hi ha canvia de pinxo a punt canvas
 								featureTem= L.circleMarker([coords[0],coords[1]],
@@ -586,6 +598,14 @@ function loadTematicLayer(layer){
 							featureTem.properties.feature = {};
 							featureTem.properties.feature.geometry = geom.geometry;
 							capaTematic.addLayer(featureTem);
+							
+//							if(rangStyle.options.markerColor=='punt_r'){
+////								var num=rangStyle.options.radius;
+////								featureTem.options.icon.options.shadowSize = new L.Point(1, 1);
+//								var color = hexToRgb(featureTem.options.icon.options.fillColor);
+//								featureTem._icon.style.setProperty("background-color", color);
+//							}							
+//							
 							if($(location).attr('href').contains('mapa')){
 								createPopupWindow(featureTem,ftype);
 							}else{
@@ -647,6 +667,7 @@ function changeDefaultLineStyle(canvas_linia){
 	var estilTMP = default_line_style;
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
+	estilTMP.tipus=t_polyline;
 	if(objEdicio.obroModalFrom==from_creaCapa){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
@@ -657,6 +678,7 @@ function createFeatureLineStyle(style){
 	var estilTMP = default_line_style;
 	estilTMP.color=style.color;
 	estilTMP.weight=style.lineWidth;
+	estilTMP.tipus=t_polyline;
 	return estilTMP;
 }
 
@@ -666,6 +688,7 @@ function changeDefaultAreaStyle(canvas_pol){
 	estilTMP.fillOpacity=canvas_pol.opacity;
 	estilTMP.weight=canvas_pol.lineWidth;
 	estilTMP.color=canvas_pol.strokeStyle;
+	estilTMP.tipus=t_polygon;
 	
 	if(objEdicio.obroModalFrom==from_creaCapa){
 		drawControl.options.polygon.shapeOptions= estilTMP;
@@ -691,6 +714,7 @@ function createFeatureAreaStyle(style){
 	estilTMP.fillOpacity=(style.opacity/100);
 	estilTMP.weight=style.borderWidth;
 	estilTMP.color=style.borderColor;
+	estilTMP.tipus=t_polygon;
 	return estilTMP;
 }
 
@@ -756,7 +780,18 @@ function createFeatureMarkerStyle(style, num_geometries){
 			puntTMP.options.iconColor = style.simbolColor;
 			puntTMP.options.icon = style.simbol;
 			puntTMP.options.markerColor = style.marker;
-			puntTMP.options.isCanvas=false;			
+			puntTMP.options.isCanvas=false;
+			
+			//Especifiques per cercle amb glyphon
+			if(style.marker == 'punt_r'){
+				puntTMP.options.divColor= style.color;
+				puntTMP.options.shadowSize = new L.Point(1, 1);
+				puntTMP.options.radius = style.radius;
+				var anchor = style.iconAnchor.split("#");
+				var size = style.iconSize.split("#");
+				puntTMP.options.iconAnchor = {x: parseInt(anchor[0]), y: parseInt(anchor[1]) };
+				puntTMP.options.iconSize = {x: size[0], y:size[1]};
+			}
 	}else{
 		var puntTMP = { 
 			radius: style.simbolSize, 

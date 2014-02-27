@@ -112,13 +112,24 @@ function initCanvas(){
 
 var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
 
-function rgb2hex(rgb) {
-	rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)\)$/);
-	return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-}
+
 
 function hex(x) {
 	return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+}
+
+//function rgb2hex(rgb) {
+//rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)\)$/);
+//return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+//}
+
+//Function to convert hex format to a rgb color (incloent si passes transparencia o no)
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
 function addGeometryInitL(canvas){
