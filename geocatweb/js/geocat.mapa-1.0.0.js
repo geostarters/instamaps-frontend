@@ -489,7 +489,6 @@ function activaPanelCapes(obre) {
 }
 
 
-
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
 		obrirMenuModal('#dialog_estils_punts','toggle',from_creaCapa);
@@ -532,7 +531,6 @@ function addDialegsEstils() {
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom==from_creaCapa){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
-			jQuery('#dialog_estils_linies').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_linia);
 			changeDefaultLineStyle(canvas_linia);
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
@@ -551,7 +549,6 @@ function addDialegsEstils() {
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom==from_creaCapa){
 			addGeometryInitP(document.getElementById("cv_pol"));  
-			jQuery('#dialog_estils_arees').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_pol);
 			changeDefaultAreaStyle(canvas_pol);
 		}else if (objEdicio.obroModalFrom==from_creaPopup){

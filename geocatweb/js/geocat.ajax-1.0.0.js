@@ -407,16 +407,16 @@ function updateFeature(data){
 	}).promise();
 }
 
-//function updateTematicRangs(data){
-//    return jQuery.ajax({
-//          //url: paramUrl.proxy + "?url=" + encodeURIComponent(paramUrl.updateTematicRangs),
-//          url: paramUrl.proxy + "?url=" + encodeURIComponent(paramUrl.loginUser),
-//          data: data,
-//          method: 'post'
-//    }).promise();
-//}
+function updateTematicRangs(data){
+    return jQuery.ajax({
+    	//url: paramUrl.proxy + "?url=" + encodeURIComponent(paramUrl.updateTematicRangs),
+        url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs,
+        data: data,
+        method: 'post'
+    }).promise();
+}
 
-
+/*
 function updateTematicRangs(data){
 	return jQuery.ajax({
           url: paramUrl.updateTematicRangs,
@@ -424,6 +424,7 @@ function updateTematicRangs(data){
           dataType: 'jsonp'
     }).promise();
 }
+*/
 
 function createRandomUser(){
 	return jQuery.ajax({

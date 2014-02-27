@@ -70,3 +70,7 @@ $('#signin_facebook').click(function() {
 $('#signin_linkedin').click(function() {
 	window.location = paramUrl.socialAuth+"id=linkedin";
 	});
+
+$('#signin_google').click(function() {
+	window.location = paramUrl.socialAuth+"id=googleplus";
+	});

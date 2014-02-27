@@ -429,9 +429,9 @@ function loadTematicLayer(layer){
 	
 	var layerWms = layer;
 	
-	//console.time("loadTematicLayer " + layerWms.serverName);
+	console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayer(data).then(function(results){
-		//console.timeEnd("loadTematicLayer " + layerWms.serverName);
+		console.timeEnd("loadTematicLayer " + layerWms.serverName);
 		if(results.status == "OK" ){
 			var tematic = results.results;
 			
@@ -794,10 +794,11 @@ function getRangsFromLayer(layer){
         var data = {
               businessId: tematic.businessid,
               uid: $.cookie('uid'),
-        tipusRang: tematic.from,
+              tipusRang: tematic.from,
               rangs: rangs
         };
               
+        console.debug(data);
         
         updateTematicRangs(data).then(function(results){
               console.debug(results);
