@@ -114,7 +114,7 @@ asyncTest( "validateEmail", 1, function() {
 		start();
 	});	
 });
-
+*/
 asyncTest( "registreUser duplicate email", 1, function() {
 	$.ajax({
 		url: urls.registreUser,
@@ -399,7 +399,7 @@ asyncTest( "deleteUser", 1, function() {
 		start();
 	});	
 });
-*/
+
 /*
 asyncTest( "createFeatureLayer", 3, function() {
 	$.ajax({
@@ -495,7 +495,7 @@ asyncTest( "updateFeatureLayer", 3, function() {
 		start();
 	});	
 });
-*/
+
 asyncTest( "createFeature", 3, function() {
 	var features = JSON.stringify({type:'Feature',
 		id: 'OpenLayers.Feature.Vector_3124',
@@ -652,7 +652,7 @@ asyncTest( "deleteFeature", 1, function() {
 		start();
 	});	
 });
-/*
+
 asyncTest( "getAllFeatureLayersByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllFeatureLayersByUser,

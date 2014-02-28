@@ -569,6 +569,13 @@ background-color: #9F9F9E;
 	 font-size: 13px;
 }
 
+#dialog_tematic_rangs .labels_fields{
+	display: inline;
+	font-weight: bold;
+	margin-right: 15px;
+	width: 150px;
+}
+
 #dialog_dades_ex .modal-dialog,
 #dialog_layers_tematic .modal-dialog{
 	padding-top: 10%;

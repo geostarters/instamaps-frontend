@@ -17,7 +17,13 @@ function showTematicLayersModal(tipus,className){
 		if(!layerOptions.tipusRang){
 			if(tipus==tem_simple || tipus==tem_clasic) {
 				if (tipusCapa == t_tematic){ //tematic
+					if (tipus==tem_simple){
 						layers.push(this);
+					}else if (tipus==tem_clasic){
+						if (this.layer.options.dades){
+							layers.push(this);
+						}
+					}
 				}else if(tipusCapa == t_dades_obertes){ //dades obertes
 					var dataset = layerOptions.dataset;
 					if (dataset != "incidencies" &&
@@ -97,7 +103,7 @@ function createTematicClasic(data){
 	getTematicLayer(dataTem).then(function(results){
 		if (results.status == "OK"){
 			var tematic = results.results;
-			//console.debug(tematic);
+			console.debug(tematic);
 			var fields = {};
 			if (tematic.capes){
 				var dataNames = tematic.capes.fieldsName.split(',');
@@ -120,7 +126,6 @@ function createTematicClasic(data){
 				var this_ = jQuery(this);
 				readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
 					displayTematicRangs(tematic ,results);
-					
 				});
 			});
 			
@@ -128,6 +133,21 @@ function createTematicClasic(data){
 			readDataTematicFromSlotd(tematic, jQuery('#dataField').val()).then(function(results){
 				displayTematicRangs(tematic ,results);
 			});
+						
+			jQuery('#cmb_tipus_agrupacio').on('change',function(e){
+				var this_ = jQuery(this);
+				if (this_.val() == "U"){
+					jQuery('#num_rangs_grp').hide();
+				}else{
+					jQuery('#num_rangs_grp').show();
+				}
+			});
+			
+			jQuery('#cmb_num_rangs').on('change',function(e){
+				var this_ = jQuery(this);
+				createRangsValues(this_.val());
+			});
+						
 		}
 	});
 	/*
@@ -147,12 +167,54 @@ function createTematicClasic(data){
 }
 
 function displayTematicRangs(tematic ,results){
-	showTematicRangs(tematic ,results).then(function(results1){
+	jQuery("#dialog_tematic_rangs").data("values", results);
+	showTematicRangs(tematic, results).then(function(results1){
+		getTipusValues(results1);
 		var source1 = jQuery("#tematic-values-template").html();
 		var template1 = Handlebars.compile(source1);
 		var html1 = template1({values:results1});
 		jQuery('#list_tematic_values').html(html1);
 	});
+}
+
+function getTipusValues(results){
+	var arr = jQuery.grep(results, function( n, i ) {
+		return !jQuery.isNumeric(n.v);
+	});
+	if (arr.length == 0){
+		jQuery('#tipus_agrupacio_grp').show();
+		jQuery('#num_rangs_grp').show();
+	}else{
+		jQuery('#tipus_agrupacio_grp').hide();
+		jQuery('#num_rangs_grp').hide();
+	}
+}
+
+function createRangsValues(rangs){
+	console.debug(rangs);
+	rangs = jQuery.grep(results, function( n, i ) {
+		return parsen;
+	});
+	var values = jQuery("#dialog_tematic_rangs").data("values");
+	values.sort();
+	var min = values[0];
+	var max = values[values.length-1];
+	console.debug(values);
+	console.debug(min);
+	console.debug(max);
+	var deltaR = (max - min)/rangs;
+	console.debug(deltaR);
+	var newRangs = [];
+	var i = 0;
+	while (min < max && i < rangs){
+		newRangs.push({min: min, max: min+deltaR});
+		min = min + deltaR;
+		console.debug(newRangs);
+		console.debug(min);
+		i++;
+	}
+	console.debug(newRangs);
+	return newRangs;
 }
 
 function readDataTematicFromSlotd(tematic, slotd){
@@ -447,9 +509,9 @@ function loadTematicLayer(layer){
 	
 	var layerWms = layer;
 	
-	console.time("loadTematicLayer " + layerWms.serverName);
+	//console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayer(data).then(function(results){
-		console.timeEnd("loadTematicLayer " + layerWms.serverName);
+		//console.timeEnd("loadTematicLayer " + layerWms.serverName);
 		if(results.status == "OK" ){
 			var tematic = results.results;
 			
@@ -473,7 +535,8 @@ function loadTematicLayer(layer){
 					nom : layerWms.serverName,
 					tipus : layerWms.serverType,
 					tipusRang: tematic.tipusRang, 
-					geometryType: tematic.geometryType
+					geometryType: tematic.geometryType,
+					dades: (tematic.capes.fieldsName)? true: false
 				};
 				
 				if (!layerWms.capesActiva || layerWms.capesActiva == true || layerWms.capesActiva == "true"){
@@ -534,10 +597,8 @@ function loadTematicLayer(layer){
 						if (ftype === t_marker){
 							var coords=geom.geometry.coordinates;
 							if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
-								
 								featureTem = L.marker([coords[0],coords[1]],
 										 {icon: rangStyle, isCanvas:false, tipus: t_marker});
-								console.debug(featureTem);
 							}else{//hi ha canvia de pinxo a punt canvas
 								featureTem= L.circleMarker([coords[0],coords[1]],
 									rangStyle	
@@ -551,8 +612,6 @@ function loadTematicLayer(layer){
 								var punt=new L.LatLng(c[0], c[1]);
 								llistaPunts.push(punt);
 							}
-							console.debug(llistaPunts);
-							console.debug(rangStyle);
 							featureTem = L.polyline(llistaPunts, rangStyle);
 						}else if (ftype === t_polygon){
 							var coords=geom.geometry.coordinates;
@@ -916,11 +975,9 @@ function changeTematicLayerStyle(tematic, styles){
 		
 		duplicateTematicLayer(data).then(function(results){
 			if(results.status == 'OK'){
-				
 				console.debug(results.results);
 				loadTematicLayer(results.results);
 				activaPanelCapes(true);
-				
 			}else{
 				//TODO error
 				console.debug("updateTematicRangs ERROR");					

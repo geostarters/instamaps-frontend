@@ -1001,22 +1001,38 @@
 					<h4 class="modal-title" lang="ca">Triar l'estil del mapa</h4>
 				</div>
 				<div class="modal-body">
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Valors</span>:</div>
+					<div class="labels_fields">
+						<span lang="ca">Valors</span>:
+						<select name="dataField" id="dataField">
+						</select>
+					</div>
 					<script id="tematic-layers-fields" type="text/x-handlebars-template">
 						{{#each fields}}
 						<option value="{{this}}">{{@key}}</option>
 						{{/each}}
 					</script>
-					<select name="dataField" id="dataField">
-					</select>
-					
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>
-						<span class="small" lang="ca">Agrupació:</span>
+										
+					<div id="tipus_agrupacio_grp" class="labels_fields" >
+						<span class="small" lang="ca">Agrupació</span>:
 						<select id="cmb_tipus_agrupacio">
-							<option lang="ca" selected value="24">Únic</option>
-							<option lang="ca" value="16">Rang</option>
+							<option lang="ca" value="U">Únic</option>
+							<option lang="ca" selected value="R">Rang</option>
 						</select>
 					</div>					
+					
+					<div id="num_rangs_grp" class="labels_fields" >
+						<span class="small" lang="ca">Nº Rangs</span>:
+						<select id="cmb_num_rangs">
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option selected value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+						</select>
+					</div>
 					
 					<!-- script id="tematic-values-template" type="text/x-handlebars-template">
 					<table class="table">

@@ -197,7 +197,7 @@ function loadApp(){
 	});
 	
 	jQuery('#st_Tema').on('click',function(){
-		showTematicLayersModal(tem_clasic);
+		showTematicLayersModal(tem_clasic,jQuery(this).attr('class'));
 	});
 
 	jQuery('#st_Size').on('click',function(){
@@ -205,12 +205,12 @@ function loadApp(){
 	});
 	
 	jQuery('#st_Heat').on('click',function(e) {
-		showTematicLayersModal(tem_heatmap);
+		showTematicLayersModal(tem_heatmap,jQuery(this).attr('class'));
 		
 	});	
 
 	jQuery('#st_Clust').on('click',function(e) {		
-		showTematicLayersModal(tem_cluster);
+		showTematicLayersModal(tem_cluster,jQuery(this).attr('class'));
 		
 	});	
 	

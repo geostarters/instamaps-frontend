@@ -409,8 +409,7 @@ function updateFeature(data){
 
 function updateTematicRangs(data){
     return jQuery.ajax({
-    	//url: paramUrl.proxy + "?url=" + encodeURIComponent(paramUrl.updateTematicRangs),
-        url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs,
+    	url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
         data: data,
         method: 'post'
     }).promise();
