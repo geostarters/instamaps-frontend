@@ -4,7 +4,7 @@ var factorW = 0;
 var _htmlDadesObertes = [];
 var capaUsrPunt, capaUsrLine, capaUsrPol,capaUsrActiva;
 var mapConfig = {};
-var dades1,dades2;
+var dades1;
 var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
@@ -14,6 +14,7 @@ var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
 var default_line_style = {
     weight: 3,       
     color: '#FFC400',
+    opacity:1,
     dashArray: '3'
 };
 var default_area_style = {
@@ -21,7 +22,9 @@ var default_area_style = {
     opacity: 1,
     color: '#FFC400',
     dashArray: '3',
-    fillColor: '#FFC400',
+    fillColor: hexToRgb('#FFC400'),
+    borderColor: '#FFC400',
+    borderWidth: '3',
     fillOpacity: 0.5
 };
 var default_point_style = {
@@ -49,14 +52,34 @@ var optB = {
 	container : 'body'
 };
 
-var printConfig={"scales":[{"name":"1:500","value":"500"},{"name":"1:750","value":"750"},{"name":"1:1,000","value":"1000"},{"name":"1:1,300","value":"1300"},{"name":"1:1,400","value":"1400"},{"name":"1:1,500","value":"1500"},{"name":"1:2,000","value":"2000"},{"name":"1:2,500","value":"2500"},{"name":"1:2,700","value":"2700"},{"name":"1:2,800","value":"2800"},{"name":"1:2,900","value":"2900"},{"name":"1:3,000","value":"3000"},{"name":"1:4,000","value":"4000"},{"name":"1:5,000","value":"5000"},{"name":"1:5,500","value":"5500"},{"name":"1:6,000","value":"6000"},{"name":"1:7,000","value":"7000"},{"name":"1:8,000","value":"8000"},{"name":"1:9,000","value":"9000"},{"name":"1:10,000","value":"10000"},{"name":"1:11,000","value":"11000"},{"name":"1:12,000","value":"12000"},{"name":"1:15,000","value":"15000"},{"name":"1:20,000","value":"20000"},{"name":"1:25,000","value":"25000"},{"name":"1:27,000","value":"27000"},{"name":"1:28,000","value":"28000"},{"name":"1:29,000","value":"29000"},{"name":"1:30,000","value":"30000"},{"name":"1:40,000","value":"40000"},{"name":"1:50,000","value":"50000"},{"name":"1:55,000","value":"55000"},{"name":"1:59,000","value":"59000"},{"name":"1:60,000","value":"60000"},{"name":"1:70,000","value":"70000"},{"name":"1:80,000","value":"80000"},{"name":"1:90,000","value":"90000"},{"name":"1:100,000","value":"100000"},{"name":"1:140,000","value":"140000"},{"name":"1:150,000","value":"150000"},{"name":"1:160,000","value":"160000"},{"name":"1:200,000","value":"200000"},{"name":"1:250,000","value":"250000"},{"name":"1:270,000","value":"270000"},{"name":"1:290,000","value":"290000"},{"name":"1:300,000","value":"300000"},{"name":"1:400,000","value":"400000"},{"name":"1:500,000","value":"500000"},{"name":"1:550,000","value":"550000"},{"name":"1:600,000","value":"600000"},{"name":"1:700,000","value":"700000"},{"name":"1:800,000","value":"800000"},{"name":"1:900,000","value":"900000"},{"name":"1:1,000,000","value":"1000000"},{"name":"1:1,200,000","value":"1200000"},{"name":"1:1,500,000","value":"1500000"},{"name":"1:1,550,000","value":"1550000"},{"name":"1:1,700,000","value":"1700000"},{"name":"1:2,000,000","value":"2000000"}],"dpis":[{"name":"100","value":"100"}],"outputFormats":[{"name":"pdf"}],"layouts":[{"name":"1. A4 vertical","map":{"width":400,"height":400},"rotation":true},{"name":"2. A4 horitzontal","map":{"width":550,"height":400},"rotation":true}],"printURL":"http://www.icc.cat/print-servlet-1.2-SNAPSHOT/pdf/print.pdf","createURL":"http://www.icc.cat/print-servlet-1.2-SNAPSHOT/pdf/create.json"};
-
 jQuery(document).ready(function() {
-	jQuery.reject();
+	if (!Modernizr.canvas ){
+		//jQuery("#mapaFond").show();
+		jQuery("#dialgo_old_browser").modal('show');
+		jQuery("#sidebar").hide();
+		jQuery('#dialgo_old_browser').on('hide.bs.modal', function (e) {
+			window.location = paramUrl.mainPage;
+		});
+	}else{
+		jQuery.cookieCuttr({
+			cookieAnalytics: false,
+			cookieAcceptButtonText: window.lang.convert("Acceptar"),
+			cookieMessage: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal")
+		});
+		loadApp();
+	}
+}); // Final document ready
+
+function loadApp(){
+	if(typeof url('?uid') == "string"){
+		$.removeCookie('uid', { path: '/' });
+		$.cookie('uid', url('?uid'), {path:'/'});
+	}
 	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
+			minZoom: 3,
 			maxZoom : 19,
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
@@ -66,13 +89,8 @@ jQuery(document).ready(function() {
 		
 		L.control.scale({'metric':true,'imperial':false}).addTo(map);
 		
-		
-
-
-		
 		//iniciamos los controles
 		initControls();
-	
 	
 		if (!$.cookie('uid')){
 			window.location.href = paramUrl.loginPage;
@@ -101,36 +119,39 @@ jQuery(document).ready(function() {
 		});
 	}else{
 		if (!$.cookie('uid')){
-			console.debug("sin uid");
 			
-			jQuery('#dialgo_leave').modal('show');
 			
+			createRandomUser().then(function(results){
+				if (results.status==='OK'){
+					var user_login = results.results.uid;
+					var pass_login = "user1234";
+					doLogin(user_login, pass_login).then(function(results){
+						console.debug(results);
+						if(results.status==='OK'){
+							jQuery.cookie('uid', user_login, {path:'/'});
+							createNewMap();
+						}				
+					});
+				}
+			});
+			
+			jQuery(window).on('beforeunload',function(event){
+				deleteRandomUser({uid: $.cookie('uid')});
+			});
+			
+			
+			//jQuery("#sidebar").hide();
+			/*
+			jQuery('#dialgo_leave').modal('show');		
 			jQuery('#dialgo_leave .btn-success').on('click',function(){
 				window.location = paramUrl.registrePage;
 			});
 			
 			jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
-				createRandomUser().then(function(results){
-					if (results.status==='OK'){
-						var user_login = results.results.uid;
-						var pass_login = "user1234";
-						doLogin(user_login, pass_login).then(function(results){
-							console.debug(results);
-							if(results.status==='OK'){
-								jQuery.cookie('uid', user_login, {path:'/'});
-								createNewMap();
-							}				
-						});
-					}
-				});
 				
-				jQuery(window).on('beforeunload',function(event){
-					deleteRandomUser({uid: $.cookie('uid')});
-				});
 			});
 			
-			
-			
+			*/
 		}else{	
 			mapConfig.newMap = true;
 			createNewMap();
@@ -139,9 +160,43 @@ jQuery(document).ready(function() {
 	}
 	
 	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
-		console.debug("registro el unload");
+		jQuery('#dialgo_leave').modal('show');		
+		jQuery('#dialgo_leave .btn-success').on('click',function(){
+			window.location = paramUrl.registrePage;
+		});
+		
+		jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
+			
+		});
+		
 		jQuery(window).on('beforeunload',function(event){
 			deleteRandomUser({uid: $.cookie('uid')});
+		});
+		
+		jQuery('.bt_publicar').on('click',function(){
+			jQuery('.modal').modal('hide');
+			$('#dialgo_messages').modal('show');
+			$('#dialgo_messages .modal-body').html(window.lang.convert("No es guardarà el mapa. Per guardar les dades has d'entrar amb un usuari registrat. En tancar la sessió es perdran les dades"));
+		});
+	}else{
+		//publicar el mapa solo para registrados
+		jQuery('.bt_publicar').on('click',function(){
+			$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
+			$( ".text_error" ).remove();
+			jQuery('.modal').modal('hide');
+			$('#dialgo_publicar').modal('show');
+			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
+			urlMap = v_url.replace('mapa','visor');
+			$('#urlMap').val(urlMap);
+			$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+		});
+		
+		jQuery('#dialgo_publicar .btn-primary').on('click',function(){
+			publicarMapa();
+		});
+		
+		jQuery('#dialgo_leave .btn-primary').on('click',function(){
+			leaveMapa();
 		});
 	}
 		
@@ -151,30 +206,13 @@ jQuery(document).ready(function() {
 		carregaDadesUsuari(data);
 	}
 		
-	jQuery('.bt_publicar').on('click',function(){
-		$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
-		$( ".text_error" ).remove();
-		$('#dialgo_publicar').modal('show');
-		var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
-		$('#urlMap').val(urlMap);
-		$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'" ></iframe>');
-	});
-	
-	jQuery('#dialgo_publicar .btn-primary').on('click',function(){
-		publicarMapa();
-	});
-	
-	jQuery('#dialgo_leave .btn-primary').on('click',function(){
-		leaveMapa();
-	});
-	
 	//botons tematic
 	jQuery('#st_Color').on('click',function(){
-		showTematicLayersModal(tem_simple);
+		showTematicLayersModal(tem_simple,jQuery(this).attr('class'));
 	});
 	
 	jQuery('#st_Tema').on('click',function(){
-		showTematicLayersModal(tem_clasic);
+		showTematicLayersModal(tem_clasic,jQuery(this).attr('class'));
 	});
 
 	jQuery('#st_Size').on('click',function(){
@@ -182,33 +220,30 @@ jQuery(document).ready(function() {
 	});
 	
 	jQuery('#st_Heat').on('click',function(e) {
-		showTematicLayersModal(tem_heatmap);
+		showTematicLayersModal(tem_heatmap,jQuery(this).attr('class'));
 		
-});	
+	});	
 
-jQuery('#st_Clust').on('click',function(e) {		
-	showTematicLayersModal(tem_cluster);
-	
-});	
-	
-	
-	
-//	$('#twitter-collapse').hide();
-//	
-//	$('#btn-add-twitter-layer').click(function(){
-//		addTwitterLayer(jQuery("#hashtag_twitter_layer").val());
-//	});
+	jQuery('#st_Clust').on('click',function(e) {		
+		showTematicLayersModal(tem_cluster,jQuery(this).attr('class'));
+		
+	});	
 	
 	$('#nomAplicacio').editable({
 		type: 'text',
 		mode: 'inline',
+	    validate: function(value) {
+	        if($.trim(value) == '') {
+//	        	return 'This field is required';
+	        	return {newValue: this.innerHTML};
+	        }
+        },		
 		success: function(response, newValue) {
 			var data = {
 			 	businessId: url('?businessid'), 
 			 	nom: newValue, 
 			 	uid: $.cookie('uid')
 			}
-
 
 			updateMapName(data).then(function(results){
 				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
@@ -223,114 +258,70 @@ jQuery('#st_Clust').on('click',function(e) {
 		alert( "Handler for .click() called." );
 	});	
 	
-	jQuery('#socialShare').share({
-	        networks: ['email','facebook',/*'googleplus',*/'twitter','linkedin','pinterest'],
+	
+	//Compartir en xarxes socials
+	var v_url = window.location.href;
+	if(true){//if(v_url.contains('localhost')){
+		v_url = v_url.replace('localhost',DOMINI);
+	}
+	v_url = v_url.replace('mapa','visor');
+	shortUrl(v_url).then(function(results){
+		console.debug(results);
+		jQuery('#socialShare').share({
+	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 	        theme: 'square',
-//	        title: 'InstaMapes',
-//	        urlToShare: 'http://www.google.com'
-//	        urlToShare: 'http://localhost/geocatweb/mapa.html?businessId='+url('?businessid')
-	 });	
-	  
-	jQuery('#socialShare').on('click', function(evt){
-			evt.preventDefault();
-			console.debug('on click social');
-//			var $thisIndex = jQuery(this).index();
-//			var socialId = "";
-//			switch($thisIndex){
-//				case 0:
-//					socialId = "email";
-//					break;
-//				case 1:
-//					socialId = "facebook";
-//					break;
-//				case 2:
-//					socialId = "googleplus";
-//					break;
-//				case 3:
-//					socialId = "twitter";
-//					break;
-//				case 4:
-//				socialId = "linkedin";
-//				break;
-//				case 5:
-//					socialId = "pinterest";
-//					break;
-//			}
-			
-			
-//			var url = 'http://localhost/geocatweb/mapa.html'+$('#permalink').attr('href');
-//			
-//			shortUrl(url).then(function(results){
-//				$('#socialShare').share('refresh',{
-//														url: results.data.url, 
-//														text: $(document).attr('title'), 
-//														pageDesc: window.lang.convert("InstaMapes")
-//														}
-//									).then(function(){
-//				
-//										var $this = $('.pop').get( $thisIndex );
-//										window.open(jQuery($this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
-//				});
-//				
-//				return false;
-//				
-//			}); 		
-//			console.debug('Entra a on click!');
-	});	
+	        urlToShare: results.data.url
+		});
+	});
 		
-//JESS
-		//$.fn.editable.defaults.mode = 'inline';
 		
-		jQuery('#select-download-format').change(function() {	
-			var ext = jQuery(this).val();
-			if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
-			jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
-			}else{
-				jQuery("#select-download-epsg").attr('disabled',false);	
-			}
-		});		
+	jQuery('#select-download-format').change(function() {	
+		var ext = jQuery(this).val();
+		if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
+		jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
+		}else{
+			jQuery("#select-download-epsg").attr('disabled',false);	
+		}
+	});		
 		
-		$('#bt_download_accept').on('click', function(evt){
-			var formatOUT = $('#select-download-format').val();
-			var epsgOUT = $('#select-download-epsg').val();
-			var filename = $('#input-download-name').val();
-			var layer_GeoJSON = download_layer.layer.toGeoJSON();
-			for(var i=0;i<layer_GeoJSON.features.length;i++){
-				layer_GeoJSON.features[i].properties.tipus = "downloaded";
-			}
+	$('#bt_download_accept').on('click', function(evt){
+		var formatOUT = $('#select-download-format').val();
+		var epsgOUT = $('#select-download-epsg').val();
+		var filename = $('#input-download-name').val();
+		var layer_GeoJSON = download_layer.layer.toGeoJSON();
+		for(var i=0;i<layer_GeoJSON.features.length;i++){
+			layer_GeoJSON.features[i].properties.tipus = "downloaded";
+		}
 
-			var data = {
-					cmb_formatOUT: formatOUT,
-					cmb_epsgOUT: epsgOUT,
-					layer_name: filename,
-					fileIN: JSON.stringify(layer_GeoJSON)
-			};
-			
-			getDownloadLayer(data).then(function(results){
-				results = results.trim();
-				if (results == "ERROR"){
-					//alert("Error 1");
-					$('#modal-body-download-error').show();
-					$('#modal-body-download').hide();
-					$('#modal_download_layer .modal-footer').hide();
-					$('#modal_download_layer').modal('show');
-				}else{
-					window.location.href = GEOCAT02+results;
-				}
-			},function(results){
+		var data = {
+				cmb_formatOUT: formatOUT,
+				cmb_epsgOUT: epsgOUT,
+				layer_name: filename,
+				fileIN: JSON.stringify(layer_GeoJSON)
+		};
+		
+		getDownloadLayer(data).then(function(results){
+			results = results.trim();
+			if (results == "ERROR"){
+				//alert("Error 1");
 				$('#modal-body-download-error').show();
 				$('#modal-body-download').hide();
 				$('#modal_download_layer .modal-footer').hide();
 				$('#modal_download_layer').modal('show');
-			});
-			
+			}else{
+				window.location.href = GEOCAT02+results;
+			}
+		},function(results){
+			$('#modal-body-download-error').show();
+			$('#modal-body-download').hide();
+			$('#modal_download_layer .modal-footer').hide();
+			$('#modal_download_layer').modal('show');
 		});
 		
-}); // Final document ready
+	});
+}
 
 function addClicksInici() {
-	
-	
 	jQuery('.bt_llista').on('click', function() {
 		activaPanelCapes();
 	});
@@ -343,9 +334,7 @@ function addClicksInici() {
 	jQuery('.bt_print').on('click', function() {
 		capturaPantalla('print');
 	});
-	
-	
-	
+		
 	jQuery(document).on('click', function(e) {
         if(e.target.id.indexOf("popovercloseid" )!=-1)
         {
@@ -355,7 +344,6 @@ function addClicksInici() {
        	 //addCapaMunicipis();	        
         }
     });
-	
 }
 
 function addOpcionsFonsMapes() {
@@ -449,7 +437,7 @@ function addToolTipsInici() {
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("LLista de capes")
+		title : window.lang.convert("Llista de capes")
 	});
 	$('.bt_captura').tooltip('destroy').tooltip({
 		placement : 'left',
@@ -517,142 +505,22 @@ function activaPanelCapes(obre) {
 	}
 }
 
-function changeDefaultLineStyle(canvas_linia){
-	var estilTMP = default_line_style;
-	estilTMP.color=canvas_linia.strokeStyle;
-	estilTMP.weight=canvas_linia.lineWidth;
-	if(objEdicio.obroModalFrom=="creaCapa"){
-		 drawControl.options.polyline.shapeOptions= estilTMP;
-	}
-	return estilTMP;
-}
-
-function changeDefaultAreaStyle(canvas_pol){
-	var estilTMP= default_area_style;
-	estilTMP.fillColor=canvas_pol.fillStyle;
-	estilTMP.fillOpacity=canvas_pol.opacity;
-	estilTMP.weight=canvas_pol.lineWidth;
-	estilTMP.color=canvas_pol.strokeStyle;
-	
-	if(objEdicio.obroModalFrom=="creaCapa"){
-		drawControl.options.polygon.shapeOptions= estilTMP;
-	}
-	
-	return estilTMP;
-	
-	/*
-	if(estil.tipus=="pol"){
-		drawControl.options.polygon.shapeOptions.fillColor=estil.fillStyle;
-		drawControl.options.polygon.shapeOptions.fillOpacity=estil.opacity;
-		drawControl.options.polygon.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polygon.shapeOptions.color=estil.strokeStyle;
-	}else{
-		drawControl.options.polyline.shapeOptions.color=estil.strokeStyle;
-		drawControl.options.polyline.shapeOptions.weight=estil.lineWidth;
-		drawControl.options.polyline.shapeOptions.dashArray='3';
-	}
-	*/
-		
-}
-
-function createFeatureAreaStyle(style){
-	var estilTMP= default_area_style;
-	estilTMP.fillColor=style.color;
-	estilTMP.fillOpacity=(style.opacity/100);
-	estilTMP.weight=style.borderWidth;
-	estilTMP.color=style.borderColor;
-	return estilTMP;
-}
-
-function changeDefaultPointStyle(estilP) {
-	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
-	var _iconGlif=estilP.iconGlif;	
-	var cssText="";
-	
-	if(_iconGlif.indexOf("fa fa-")!=-1){
-		_iconGlif=estilP.iconGlif.replace('fa fa-','');
-	};
-	
-	var _colorGlif=estilP.colorGlif;
-	
-	if(_iconFons.indexOf("_r")!=-1){ //sóc rodó		
-		var num=estilP.size;
-		puntTMP.options.shadowSize = new L.Point(1, 1);
-		var tt=estilP.fontsize;
-		puntTMP.options.divColor=estilP.divColor;
-		if(tt=="9px"){
-			cssText="font9";			
-		}else if(tt=="11px"){
-			cssText="font11";
-		}else if(tt=="12px"){
-			cssText="font12";
-		}else if(tt=="14px"){
-			cssText="font14";
-		}else if(tt=="15px"){
-			cssText="font15";		
-		}
-	
-		
-		puntTMP.options.radius=parseInt(parseInt(defaultPunt.options.iconSize.x)/3);		
-		puntTMP.options.fillColor =estilP.divColor;
-		
-		
-		if(_iconGlif==""){//no tin glif soc Canvas
-			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
-			puntTMP.options.iconSize = new L.Point(num, num);		
-			puntTMP.options.icon="";
-			puntTMP.options.isCanvas=true;
-			
-		}else{
-			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
-			puntTMP.options.iconSize = new L.Point(num, num);	
-			puntTMP.options.icon=_iconGlif + " "+cssText;
-			puntTMP.options.isCanvas=false;
-			
-		}
-		
-	}else{ // sóc punt
-		puntTMP.options.iconAnchor= new L.Point(14, 42);
-		puntTMP.options.iconSize = new L.Point(28, 42);
-		puntTMP.options.shadowSize = new L.Point(36, 16);
-		puntTMP.options.divColor='transparent';
-		puntTMP.options.icon=_iconGlif + " "+cssText;
-		puntTMP.options.isCanvas=false;
-	}
-	puntTMP.options.markerColor=_iconFons;
-	puntTMP.options.iconColor=_colorGlif;
-	
-	if(objEdicio.obroModalFrom=="creaCapa"){
-		defaultPunt=puntTMP;
-	}
-	
-	return puntTMP;
-} 
-
-function createFeatureMarkerStyle(style){
-	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-	puntTMP.options.iconColor = style.simbolColor;
-	puntTMP.options.icon = style.simbol;
-	puntTMP.options.markerColor = style.marker;
-	return puntTMP;
-}
 
 function addDialegsEstils() {
 	jQuery('#div_mes_punts').on("click", function(e) {	
-		obrirMenuModal('#dialog_estils_punts','toggle','creaCapa');
+		obrirMenuModal('#dialog_estils_punts','toggle',from_creaCapa);
 	});
 
 	jQuery('#div_mes_linies').on("click", function(e) {			
-		obrirMenuModal('#dialog_estils_linies','toggle','creaCapa');
+		obrirMenuModal('#dialog_estils_linies','toggle',from_creaCapa);
 	});
 	
 	jQuery('#div_mes_arees').on("click", function(e) {	
-		obrirMenuModal('#dialog_estils_arees','toggle','creaCapa');
+		obrirMenuModal('#dialog_estils_arees','toggle',from_creaCapa);
 	});
 	
-	jQuery('#dialog_estils_punts .btn-success').on('click',function(){		
-		if(objEdicio.obroModalFrom=="creaCapa"){
+	jQuery('#dialog_estils_punts .btn-success').on('click',function(){
+		if(objEdicio.obroModalFrom==from_creaCapa){
 			jQuery('#div_punt').removeClass();
 			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
 			jQuery('#div_punt').css('font-size',jQuery('#div_punt0').css('font-size'));
@@ -661,49 +529,16 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
 			jQuery('#div_punt').css('background-color',estilP.divColor);	
 			changeDefaultPointStyle(estilP);		
-		}else if (objEdicio.obroModalFrom=="creaPopup"){
+		}else if (objEdicio.obroModalFrom==from_creaPopup){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
+			console.debug(feature);
 			var capaMare=map._layers[feature.properties.capaLeafletId];
-			
-			var noCanvi=(feature.options.isCanvas==cvStyle.options.isCanvas);
-			
-			
-			if(noCanvi && !map._layers[objEdicio.featureID].options.isCanvas){//pinxo i/o glifons
-				map._layers[objEdicio.featureID].setIcon(cvStyle);		
-			}else if (noCanvi && map._layers[objEdicio.featureID].options.isCanvas){//Nomes punt
-				map._layers[objEdicio.featureID].setStyle(cvStyle);	
-			}else if (!noCanvi ){
-				
-				capaMare.removeLayer(feature);
-				
-				var layerTMP;
-				if(feature.options.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
-					
-					layerTMP=L.marker([feature.getLatLng().lat,feature.getLatLng().lng],
-							{icon: cvStyle,isCanvas:cvStyle.options.isCanvas,
-							 tipus: t_marker});
-				}else{//hi ha canvia de pinxo a punt canvas
-					
-					layerTMP= L.circleMarker([feature.getLatLng().lat,feature.getLatLng().lng],
-							{ radius : cvStyle.options.radius, 
-							  isCanvas:cvStyle.options.isCanvas,
-							  fillColor : cvStyle.options.fillColor,
-							  color :  cvStyle.options.color,
-							  weight :  cvStyle.options.weight,
-							  opacity :  cvStyle.options.opacity,
-							  fillOpacity : cvStyle.options.fillOpacity,
-							  tipus: t_marker}
-							
-					);
-				
-				}
-				layerTMP.properties=feature.properties;	
-				layerTMP.addTo(capaMare);
-				createPopupWindow(layerTMP,layerTMP.options.tipus);			
-			}
-		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
-			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultPointStyle(estilP));
+			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
+			getRangsFromLayer(capaMare);
+		}else if (objEdicio.obroModalFrom.from==tem_simple){
+			var cvStyle=changeDefaultPointStyle(estilP);
+			changeTematicLayerStyle(objEdicio.obroModalFrom, cvStyle);
 		}else{
 			console.debug(objEdicio.obroModalFrom);
 		}	
@@ -711,13 +546,15 @@ function addDialegsEstils() {
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
-		if(objEdicio.obroModalFrom=="creaCapa"){
+		if(objEdicio.obroModalFrom==from_creaCapa){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
-			jQuery('#dialog_estils_linies').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_linia);
 			changeDefaultLineStyle(canvas_linia);
-		}else if (objEdicio.obroModalFrom=="creaPopup"){
+		}else if (objEdicio.obroModalFrom==from_creaPopup){
+			var feature=map._layers[objEdicio.featureID];
+			var capaMare=map._layers[feature.properties.capaLeafletId];
 			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
+			getRangsFromLayer(capaMare);
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else{
@@ -727,13 +564,15 @@ function addDialegsEstils() {
 	});
 	
 	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
-		if(objEdicio.obroModalFrom=="creaCapa"){
+		if(objEdicio.obroModalFrom==from_creaCapa){
 			addGeometryInitP(document.getElementById("cv_pol"));  
-			jQuery('#dialog_estils_arees').modal('toggle');		
 			//changeDefaultVectorStyle(canvas_pol);
 			changeDefaultAreaStyle(canvas_pol);
-		}else if (objEdicio.obroModalFrom=="creaPopup"){
+		}else if (objEdicio.obroModalFrom==from_creaPopup){
+			var feature=map._layers[objEdicio.featureID];
+			var capaMare=map._layers[feature.properties.capaLeafletId];
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
+			getRangsFromLayer(capaMare);
 		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else{
@@ -851,20 +690,23 @@ function creaPopOverMesFonsColor() {
 
 function creaPopOverMevasDades(){	
 	jQuery(".div_dades_usr").on('click', function() {
+		
+		jQuery('.modal').modal('hide');
 		$('#dialog_teves_dades').modal('show');
 		
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
-		jQuery("#id_sw").empty();		
+		jQuery("#id_sw").empty();
+		
 		refrescaPopOverMevasDades();
-				
+			
 		var source1 = jQuery("#meus-wms-template").html();
 		var template1 = Handlebars.compile(source1);
-		var html1 = template1(dades1[0]);				
+		var html1 = template1(dades1);				
 		jQuery("#id_sw").append(html1);	
 		
 		initMevesDades = true;
 		
-		jQuery(".usr_wms_layer").on('click', function(event) {
+		jQuery("ul.bs-dadesO").on('click', '.usr_wms_layer', function(event) {
 			event.preventDefault();
 			var _this = jQuery(this);
 		
@@ -914,7 +756,7 @@ function creaPopOverMevasDades(){
 		});					
 				
 		//Eliminem servidors
-		jQuery("span.glyphicon-remove").on('click', function(event) {
+		jQuery("ul.bs-dadesO").on('click', 'span.glyphicon-remove', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			var _this = jQuery(this);
@@ -923,64 +765,50 @@ function creaPopOverMevasDades(){
 				businessId: _this.data("businessid")
 			};
 			
+			var parent = _this.parent();
+			var parentul = parent.parent();
+			_this.parent().remove();
+			
+			console.debug(_this.data("servertype"));
 			if(_this.data("servertype") == t_tematic){
 				deleteTematicLayerAll(data).then(function(results){
-					if (results.status == "OK"){
-						_this.parent().remove();
-//								refrescaPopOverMevasDades();
-					}
+					console.debug(results);
+					if (results.status == "ERROR"){
+						parentul.append(parent);
+						if (results.results == "DataIntegrityViolationException"){
+							$('#dialgo_messages').modal('show');
+							$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+						}
+					}					
 				});
 			}else{
 				deleteServidorWMS(data).then(function(results){
-					if (results.status == "OK"){
-						_this.parent().remove();
-//								refrescaPopOverMevasDades();
+					console.debug(results);
+					if (results.status == "ERROR"){
+						parentul.append(parent);
+						if (results.results == "DataIntegrityViolationException"){
+							$('#dialgo_messages').modal('show');
+							$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+						}
 					}
 				});						
 			}
-		});					
-		
-		jQuery(".usr_tematic_layer").on('click', function(event) {
-			event.preventDefault();
-			var _this = jQuery(this);
-			carregarCapa(_this.data("businessid"));
 		});
-		
-		jQuery("span.glyphicon-remove").on('click', function(event) {
-			event.preventDefault();
-			event.stopPropagation();
-			var _this = jQuery(this);
-			var data = {
-				uid: $.cookie('uid'),
-				businessId: _this.data("businessid")
-			};
-
-			deleteTematicLayerAll(data).then(function(results){
-				console.debug(results);
-
-				if (results.status == "OK"){
-					_this.parent().remove();
-				}
-			});
-		});		
 	});	
 }
 
 function loadPopOverMevasDades(){
+	console.debug("loadPopOverMevasDades");
 	jQuery(".div_dades_usr").on('click', function() {
 		var data = {uid: $.cookie('uid')};
 		gestionaPopOver(this);		
-				
+		
+		console.debug(dades1);
+		
 		var source1 = jQuery("#meus-wms-template").html();
 		var template1 = Handlebars.compile(source1);
-		var html1 = template1(dades1[0]);
-		
-		var source2 = jQuery("#meus-tematic-template").html();
-		var template2 = Handlebars.compile(source2);
-		var html2 = template2(dades2[0]);
-		
+		var html1 = template1(dades1);
 		jQuery("#id_mysrvw").append(html1);
-		jQuery("#id_mysrvj").append(html2);
 		
 		jQuery(".usr_wms_layer").on('click', function(event) {
 			event.preventDefault();
@@ -1014,7 +842,9 @@ function loadPopOverMevasDades(){
 						 if (value.capesActiva == true || value.capesActiva == "true"){
 						 newWMS.addTo(map);
 						 }
-						 controlCapes.addOverlay(newWMS, value.serverName, true); 				
+						 newWMS.options.zIndex = controlCapes._lastZIndex+1;
+						 controlCapes.addOverlay(newWMS, value.serverName, true);
+						 controlCapes._lastZIndex++;
 
 					activaPanelCapes(true);						
 				}			
@@ -1052,14 +882,15 @@ function loadPopOverMevasDades(){
 
 function refrescaPopOverMevasDades(){
 	console.debug("refrescaPopOverMevasDades");
-	//carrega las capas del usuario
+	var dfd = jQuery.Deferred();
 	var data = {uid: $.cookie('uid')};
-	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
-		dades1=results1;
-		dades2=results2;
+	getAllServidorsWMSByUser(data).then(function(results){
+		dades1=results;
+		dfd.resolve(dades1);
 	},function(results){
 		window.location.href = paramUrl.loginPage;
 	});
+	return dfd.promise();
 }
 
 function carregarCapa(businessId){
@@ -1068,6 +899,9 @@ function carregarCapa(businessId){
 		businessId: businessId
 	};
 	
+	loadTematicLayer(data);
+	
+	/*
 	getTematicLayerByBusinessId(data).then(function(results){
 		console.debug(results);
 		//TODO
@@ -1145,12 +979,16 @@ function carregarCapa(businessId){
 			alert(results.status)
 		};
 	});
+	*/
+	
 }
 
 function creaPopOverDadesExternes() {
 	jQuery(".div_dades_ext").on('click', function() {
 
+		
 		//gestionaPopOver(this);
+		jQuery('.modal').modal('hide');
 		$('#dialog_dades_ex').modal('show');
 		
 		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -1190,7 +1028,7 @@ function creaPopOverDadesExternes() {
 						'</ul>'+
 						'<div id="twitter-collapse">'+
 							'<div class="input-group">'+
-			      				'<span class="input-group-addon">Hashtag</span>'+
+			      				'<span class="input-group-addon">Hashtag #</span>'+
 			      				'<input id="hashtag_twitter_layer" type="text" class="form-control">'+
 			      				'<span class="input-group-btn">'+
 			      					'<button id="btn-add-twitter-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
@@ -1218,14 +1056,15 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 
 	var estil_do = retornaEstilaDO(dataset);
-	var lastZIndex = controlCapes._lastZIndex+1;
+//	var lastZIndex = controlCapes._lastZIndex;//+1;
 	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
 		onEachFeature : popUp,
 		nom : dataset,
 		tipus : t_dades_obertes,
+		dataset: dataset,
 		businessId : '-1',
 		dataType : "jsonp",
-		zIndex: lastZIndex,
+//		zIndex: lastZIndex,
 		geometryType:t_marker,
 		pointToLayer : function(feature, latlng) {
 			if(dataset.indexOf('meteo')!=-1){
@@ -1278,14 +1117,18 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			if (results.status == "OK"){
 				capaDadaOberta.options.businessId = results.results.businessId;
 				capaDadaOberta.addTo(map)
+				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
 				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}
 		});
 		
 	}else{
 		capaDadaOberta.addTo(map)
+		capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}
 	//capaDadaOberta.on('layeradd',objecteUserAdded)
@@ -1371,12 +1214,13 @@ function loadMapConfig(mapConfig){
 				
 			if (mapConfig.options.bbox){
 				var bbox = mapConfig.options.bbox.split(",");
-				var southWest = L.latLng(bbox[1], bbox[0]),
-			    northEast = L.latLng(bbox[3], bbox[2]),
-			    bounds = L.latLngBounds(southWest, northEast);
+				var southWest = L.latLng(bbox[1], bbox[0]);
+			    var northEast = L.latLng(bbox[3], bbox[2]);
+			    var bounds = L.latLngBounds(southWest, northEast);
 				map.fitBounds( bounds ); 
 			}
 		}
+		
 		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
 			if (value.epsg == "4326"){
@@ -1393,23 +1237,39 @@ function loadMapConfig(mapConfig){
 			if(value.serverType == t_wms){
 				loadWmsLayer(value);
 
+				//Si la capa es de tipus dades obertes
+			}else if(value.serverType == t_json){
+				loadCapaFromJSON(value);				
+				
 			//Si la capa es de tipus dades obertes
 			}else if(value.serverType == t_dades_obertes){
 				loadDadesObertesLayer(value);
 
 			//Si la capa es de tipus xarxes socials	
 			}else if(value.serverType == t_xarxes_socials){
-				
 				var options = jQuery.parseJSON( value.options );
 				
 				if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
 				else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
 				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-			
+				
 			}else if(value.serverType == t_tematic){
 				loadTematicLayer(value);
+				
+			}else if(value.serverType == t_heatmap){
+				loadHeatLayer(value);
+				
+			}else if(value.serverType == t_cluster){
+				loadClusterLayer(value);
+				
 			}
 		});
+	
+		jQuery('#div_loading').hide();
+		
+		
+		
+		
 	}
 	
 	var source = $("#map-properties-template").html();
@@ -1437,14 +1297,17 @@ function publicarMapa(){
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
 	options.description = jQuery('#dialgo_publicar #optDescripcio').val();
 	options.bbox = map.getBounds().toBBoxString();
+	/*//TODO de los botones ver nuevos botones
 	options.llegenda = jQuery('#llegenda_chk').bootstrapSwitch('state');
 	options.layers = jQuery('#layers_chk').bootstrapSwitch('state');
 	options.social = jQuery('#social_chk').bootstrapSwitch('state');
+	*/
+	options.llegenda = true;
+	options.layers = true;
+	options.social = true;
 	options.fons = map.getActiveMap();
 	options.fonsColor = map.getMapColor();
-		
 	console.debug(options);
-	
 	options = JSON.stringify(options);
 	
 	var newMap = true;
@@ -1453,12 +1316,18 @@ function publicarMapa(){
 		newMap = false;
 	}
 	
+	var layers = jQuery(".leaflet-control-layers-selector").map(function(){
+		return {businessId: this.id.replace('input-',''), activa: jQuery(this).is(':checked')};
+	}).get();
+	//console.debug(layers);
+	
 	var data = {
 		nom: jQuery('#dialgo_publicar #nomAplicacio').val(),
 		uid: $.cookie('uid'),
 		visibilitat: 'O',
 		tipusApp: 'vis',
-		options: options
+		options: options,
+		layers: JSON.stringify(layers)
 	}
 	
 	if (newMap){
@@ -1470,7 +1339,6 @@ function publicarMapa(){
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
-				
 			}
 		});
 	}else{
@@ -1540,13 +1408,17 @@ function initControls(){
 
 function addTwitterLayer(hashtag){
 	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
-	if(hashtag == null || hashtag == '') return;
+	//Control no afegit #
+	if(hashtag.indexOf("#") == 0) hashtag = hashtag.substr(1);
+	
+	if(hashtag == null || hashtag == "") return;
+	
 	$('#twitter-collapse .input-group #hashtag_twitter_layer').val("");
-	var lastZIndex = controlCapes._lastZIndex+1;//Jess
+//	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var twitter = new L.Twitter({
 		hashtag: hashtag,
-		nom: 'twitter_'+ hashtag,
-		zIndex: lastZIndex, 
+		nom: 'twitter #'+ hashtag,
+//		zIndex: lastZIndex, 
 		businessId: '-1',
 		tipus: t_xarxes_socials
 	});
@@ -1556,7 +1428,7 @@ function addTwitterLayer(hashtag){
 		var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
-				serverName: 'twitter_'+ hashtag,
+				serverName: 'twitter #'+ hashtag,
 				serverType: t_xarxes_socials,
 				calentas: false,
 	            activas: true,
@@ -1571,7 +1443,9 @@ function addTwitterLayer(hashtag){
 			if (results.status == "OK"){
 				twitter.options.businessId = results.results.businessId;
 				twitter.addTo(map);
-				controlCapes.addOverlay(twitter, 'twitter_'+ hashtag, true);
+				twitter.options.zIndex = controlCapes._lastZIndex+1;
+				controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}else{
 				console.debug('error create server in map');
@@ -1579,7 +1453,9 @@ function addTwitterLayer(hashtag){
 		});	
 	}else{
 		twitter.addTo(map);
-		controlCapes.addOverlay(twitter, 'twitter_'+ hashtag, true);
+		twitter.options.zIndex = controlCapes._lastZIndex+1;
+		controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 } 
@@ -1597,17 +1473,18 @@ function loadTwitterLayer(layer, hashtag){
 		twitter.addTo(map);
 	}
 	
-	controlCapes.addOverlay(twitter, layer.serverName, true);		
+	controlCapes.addOverlay(twitter, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 function addPanoramioLayer(){
 	
-	var lastZIndex = controlCapes._lastZIndex+1;//Jess
+//	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var panoramio = new L.Panoramio({
 		maxLoad: 10, 
 		maxTotal: 250, 
-		zIndex: lastZIndex,
-		nom : 'panoramio_'+lastZIndex,
+//		zIndex: lastZIndex,
+		nom : 'panoramio',
 		businessId: '-1',
 		tipus: t_xarxes_socials
 	});
@@ -1616,7 +1493,7 @@ function addPanoramioLayer(){
 		var data = {
 			uid:$.cookie('uid'),
 			mapBusinessId: url('?businessid'),
-			serverName: 'panoramio_'+ lastZIndex,
+			serverName: 'panoramio',
 			serverType: t_xarxes_socials,
 			calentas: false,
             activas: true,
@@ -1631,7 +1508,9 @@ function addPanoramioLayer(){
 			if (results.status == "OK"){
 				panoramio.options.businessId = results.results.businessId;
 				panoramio.addTo(map);
-				controlCapes.addOverlay(panoramio, 'panoramio_'+ lastZIndex, true);
+				panoramio.options.zIndex = controlCapes._lastZIndex+1;
+				controlCapes.addOverlay(panoramio, 'panoramio', true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}else{
 				console.debug('error create server in map');
@@ -1639,7 +1518,9 @@ function addPanoramioLayer(){
 		});	
 	}else{
 		panoramio.addTo(map);
-		controlCapes.addOverlay(panoramio, 'panoramio_'+lastZIndex, true);
+		panoramio.options.zIndex = controlCapes._lastZIndex+1;
+		controlCapes.addOverlay(panoramio, 'panoramio', true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 }
@@ -1657,15 +1538,16 @@ function loadPanoramioLayer(layer){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		panoramio.addTo(map);
 	}
-	controlCapes.addOverlay(panoramio, layer.serverName, true);	
+	controlCapes.addOverlay(panoramio, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 function addWikipediaLayer(){	
 	console.debug('Add wikipedia layer');
-	var lastZIndex = controlCapes._lastZIndex+1;//Jess
+//	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var wikipedia = new L.Wikipedia({
-		zIndex: lastZIndex,
-		nom : 'wikipedia_'+lastZIndex,
+//		zIndex: lastZIndex,
+		nom : 'wikipedia',
 		businessId: '-1',
 		tipus: t_xarxes_socials
 	});
@@ -1675,7 +1557,7 @@ function addWikipediaLayer(){
 		var data = {
 			uid:$.cookie('uid'),
 			mapBusinessId: url('?businessid'),
-			serverName: 'wikipedia_'+ lastZIndex,
+			serverName: 'wikipedia',
 			serverType: t_xarxes_socials,
 			calentas: false,
             activas: true,
@@ -1690,7 +1572,9 @@ function addWikipediaLayer(){
 			if (results.status == "OK"){
 				wikipedia.options.businessId = results.results.businessId;
 				wikipedia.addTo(map);
-				controlCapes.addOverlay(wikipedia, 'wikipedia_'+ lastZIndex, true);
+				wikipedia.options.zIndex = controlCapes._lastZIndex+1;
+				controlCapes.addOverlay(wikipedia, 'wikipedia', true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 			}else{
 				console.debug('error create server in map');
@@ -1698,7 +1582,9 @@ function addWikipediaLayer(){
 		});
 	}else{
 		wikipedia.addTo(map);
-		controlCapes.addOverlay(wikipedia, 'wikipedia_'+lastZIndex, true);
+		wikipedia.options.zIndex = controlCapes._lastZIndex+1;
+		controlCapes.addOverlay(wikipedia, 'wikipedia', true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 }
@@ -1715,7 +1601,8 @@ function loadWikipediaLayer(layer){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		wikipedia.addTo(map);
 	}
-	controlCapes.addOverlay(wikipedia, layer.serverName, true);	
+	controlCapes.addOverlay(wikipedia, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 //function saveMap(){
@@ -1791,7 +1678,13 @@ function updateEditableElements(){
 	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
 		type: 'text',
+	    validate: function(value) {
+		        if($.trim(value) == '') {
+		        	return {newValue: this.innerHTML};
+		        }
+	        },
 			success: function(response, newValue) {
+				map.closePopup();//Perque no queden desactualitzats
 				var id = this.id;
 				if(typeof url('?businessid') == "string"){
 					var data = {
@@ -1805,6 +1698,7 @@ function updateEditableElements(){
 						if(results.status==='OK'){
 //						console.debug('udpate map name OK');
 						controlCapes._layers[id].name = newValue;
+						controlCapes._layers[id].layer.options.nom = newValue;
 					}else{
 						controlCapes._layers[id].name = oldName;
 						$('.leaflet-name label span#'+id).text(results.results.nom);
@@ -1816,22 +1710,22 @@ function updateEditableElements(){
 				});	
 			}else{
 				controlCapes._layers[id].name = newValue;
+				controlCapes._layers[id].layer.options.nom = newValue;
 			}		
 	 }
 	});
+	//Hide les opcions de configuracio
+	jQuery('.options-conf').hide();
 }
 
 function carregaDadesUsuari(data){
-	console.debug("carregaDadesUsuari");
-	//console.debug(data);
-	jQuery.when(getAllServidorsWMSByUser(data), getAllTematicLayerByUid(data)).then(function(results1, results2){
-		if (results1[0].status == "ERROR"){
+	//console.debug("carregaDadesUsuari");
+	getAllServidorsWMSByUser(data).then(function(results){
+		if (results.status == "ERROR"){
 			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
 			return false;
 		}
-		dades1=results1;
-		dades2=results2;
-//		loadPopOverMevasDades();
+		dades1=results;
 		creaPopOverMevasDades();
 	},function(results){
 		//JESS DESCOMENTAR!!!!
@@ -1841,55 +1735,81 @@ function carregaDadesUsuari(data){
 
 function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
-	var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-	var estil_do = retornaEstilaDO(options.dataset);				
-	
-	var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
-		onEachFeature : popUp,
-		nom : layer.serverName,
-		tipus : layer.serverType,
-
-		businessId : layer.businessId,
-		dataType : "jsonp",
-		zIndex: parseInt(layer.capesOrdre),
-		pointToLayer : function(feature, latlng) {
-			if(options.dataset.indexOf('meteo')!=-1){
-				return L.marker(latlng, {icon:L.icon({					
-					    iconUrl: feature.style.iconUrl,
-					    iconSize:     [44, 44], 
-					    iconAnchor:   [22, 22], 				   
-					    popupAnchor:  [-3, -3] 
-				})});
-			}else if(options.dataset.indexOf('incidencies')!=-1){
-				var inci=feature.properties.descripcio_tipus;
-				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
-				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
-				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
-				return L.marker(latlng, {icon:L.icon({					
-				    iconUrl: imgInci,
-				    iconSize:     [30, 26], 
-				    iconAnchor:   [15, 13], 				   
-				    popupAnchor:  [-3, -3] 
-			})});
-			}else if(options.dataset.indexOf('cameres')!=-1){
-				return L.marker(latlng, {icon:L.icon({					
-				    iconUrl: "/geocatweb/img/st_came.png",
-				    iconSize:     [30, 26], 
-				    iconAnchor:   [15, 13], 				   
-				    popupAnchor:  [-3, -3] 
-			})});
-			}else{
-				return L.circleMarker(latlng, estil_do);
-			}
-			//return L.circleMarker(latlng, estil_do);
+	if(options.tem == null || options.tem == tem_simple){
+		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
+		var estil_do = retornaEstilaDO(options.dataset);	
+		if (options.tem == tem_simple){
+			//estil_do = options.style;
+			estil_do = createFeatureMarkerStyle(options.style);
+			console.debug(estil_do);
 		}
-	});	
-	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
-		capaDadaOberta.addTo(map);
+		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
+			onEachFeature : popUp,
+			nom : layer.serverName,
+			tipus : layer.serverType,
+			dataset: options.dataset,
+			businessId : layer.businessId,
+			dataType : "jsonp",
+//			zIndex: parseInt(layer.capesOrdre),
+			pointToLayer : function(feature, latlng) {
+				if(options.dataset.indexOf('meteo')!=-1){
+					return L.marker(latlng, {icon:L.icon({					
+						    iconUrl: feature.style.iconUrl,
+						    iconSize:     [44, 44], 
+						    iconAnchor:   [22, 22], 				   
+						    popupAnchor:  [-3, -3] 
+					})});
+				}else if(options.dataset.indexOf('incidencies')!=-1){
+					var inci=feature.properties.descripcio_tipus;
+					var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
+					var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
+					var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
+					return L.marker(latlng, {icon:L.icon({					
+					    iconUrl: imgInci,
+					    iconSize:     [30, 26], 
+					    iconAnchor:   [15, 13], 				   
+					    popupAnchor:  [-3, -3] 
+					})});
+				}else if(options.dataset.indexOf('cameres')!=-1){
+					return L.marker(latlng, {icon:L.icon({					
+					    iconUrl: "/geocatweb/img/st_came.png",
+					    iconSize:     [30, 26], 
+					    iconAnchor:   [15, 13], 				   
+					    popupAnchor:  [-3, -3] 
+					})});
+				}else{
+					if (estil_do.isCanvas){
+						return L.circleMarker(latlng, estil_do);
+					}else{
+						//console.debug(L.marker(latlng, {icon:L.AwesomeMarkers.icon(estil_do)}));
+						return L.marker(latlng, {icon:estil_do,isCanvas:false, tipus: t_marker});
+					}
+				}
+			}
+		});	
+		
+		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
+			capaDadaOberta.addTo(map);
+		}
+		
+		capaDadaOberta.eachLayer(function(layer) {
+			console.debug("1"+layer);
+		});		
+		
+		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
+			capaDadaOberta.options.zIndex = controlCapes._lastZIndex + 1;
+		}else{
+			capaDadaOberta.options.zIndex = parseInt(layer.capesOrdre);
+		}		
+		
+		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
+		controlCapes._lastZIndex++;
+		
+	}else if(options.tem == tem_cluster){
+		loadDadesObertesClusterLayer(layer);
+	}else if(options.tem == tem_heatmap){
+		loadDOHeatmapLayer(layer);
 	}
-	
-	controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
 }
 
 function loadWmsLayer(layer){
@@ -1910,172 +1830,8 @@ function loadWmsLayer(layer){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		newWMS.addTo(map);
 	}
-	controlCapes.addOverlay(newWMS, layer.serverName, true);	
-}
-
-function loadTematicLayer(layer){
-	var data={
-		businessId: layer.businessId,
-		uid: $.cookie('uid')
-	};
-	
-	var layerWms = layer;
-	console.time("loadTematicLayer " + layerWms.serverName);
-	getTematicLayer(data).then(function(results){
-		console.timeEnd("loadTematicLayer " + layerWms.serverName);
-		if(results.status == "OK" ){
-			var tematic = results.results;
-			//console.debug(tematic);
-			var Lgeom = tematic.geometries.features.features;
-			var idDataField = tematic.idDataField;
-			var idGeomField = tematic.idGeomField;
-			var dataField = tematic.dataField;
-			var Lrangs = tematic.rangs;
-			var Ldades = (tematic.capes ? tematic.capes.dades : []);
-			
-			var capaTematic = new L.FeatureGroup();
-			
-			capaTematic.options = {
-				businessId : layerWms.businessId,
-				nom : layerWms.serverName,
-				zIndex :  parseInt(layerWms.capesOrdre),
-				tipus : layerWms.serverType,
-				geometryType: tematic.geometryType
-			};
-			
-			for(var g=0;g<Lgeom.length;g++){
-				var geom = Lgeom[g];
-				var rangStyle;
-				if (geom.geometry){
-					var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
-					if (dataGeom.length > 0){
-						dataGeom = dataGeom[0];
-						jQuery.extend(geom.properties, {data: dataGeom});
-					}else{
-						dataGeom = null;
-					}
-					var ftype = geom.geometry.type;
-					ftype = ftype.toLowerCase();
-					if (ftype === t_point){
-						ftype = t_marker;
-					}else if (ftype === t_linestring){
-						ftype = t_polyline;
-					}
-					//Sin rangos
-					if (Lrangs.length == 0){
-						rangStyle = createRangStyle(ftype);
-					}
-					//1 Rango
-					else if (Lrangs.length == 1){
-						rangStyle = Lrangs[0];
-						rangStyle = createRangStyle(ftype, rangStyle);
-					}
-					//Multiples rangos
-					else{
-						if (dataGeom){
-							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
-							if (rangStyle.length > 0){
-								rangStyle = rangStyle[0];
-								rangStyle = createRangStyle(ftype, rangStyle);
-							}else{
-								rangStyle = createRangStyle(ftype);
-							}
-						}else{
-							rangStyle = createRangStyle(ftype);
-						}
-					}
-					var featureTem;
-					if (ftype === t_marker){
-						var coords=geom.geometry.coordinates;
-						featureTem = L.marker([coords[0],coords[1]],
-							 {icon: rangStyle}).addTo(map);
-					}else if (ftype === t_polyline){
-						var coords=geom.geometry.coordinates;
-						var llistaPunts=[];
-						for (var i = 0; i < coords.length; i++){
-							var c=coords[i];
-							var punt=new L.LatLng(c[0], c[1]);
-							llistaPunts.push(punt);
-						}
-						featureTem = L.polyline(llistaPunts, rangStyle);						
-					}else if (ftype === t_polygon){
-						var coords=geom.geometry.coordinates;
-						var llistaLines=[];
-						for (var i = 0; i < coords.length; i++){
-							var lines=coords[i];
-							var llistaPunts=[];
-							for (var k = 0; k < lines.length; k++){
-								var c=lines[k];
-								var punt=new L.LatLng(c[0], c[1]);
-								llistaPunts.push(punt);
-							}
-							llistaLines.push(llistaPunts);
-						}
-						featureTem = new L.Polygon(llistaLines, rangStyle);
-					}else if (ftype === t_multipolygon){
-						var coords=geom.geometry.coordinates;
-						var llistaPoligons=[];
-						for (var p = 0; p < coords.length; p++){
-							var poligons=coords[p];
-							var llistaLines=[];
-							for (var i = 0; i < poligons.length; i++){
-								var lines=poligons[i];
-								var llistaPunts=[];
-								for (var k = 0; k < lines.length; k++){
-									var c=lines[k];
-									var punt=new L.LatLng(c[0], c[1]);
-									llistaPunts.push(punt);
-								}
-								llistaLines.push(llistaPunts);
-							}
-							llistaPoligons.push(llistaLines);
-						}
-						featureTem = new L.multiPolygon(llistaPoligons, rangStyle);
-					}
-					if (featureTem){
-						featureTem.properties = geom.properties;
-						capaTematic.addLayer(featureTem);
-					}
-				}
-			}
-			if (capaTematic!=null){
-				capaTematic.addTo(map);
-				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
-			}
-		}else{
-			alert("Error getTematicLayer");
-		}		
-	},function(results){
-		console.debug('getTematicLayer ERROR');
-	});
-}
-
-function createRangStyle(ftype, style){
-	var rangStyle;
-	if (style){
-		if (ftype === t_marker){
-			//TODO
-			rangStyle = createFeatureMarkerStyle(style);
-		}else if (ftype === t_polyline){
-			//TODO
-			rangStyle = default_line_style;
-		}else if (ftype === t_polygon){
-			rangStyle = createFeatureAreaStyle(style);
-		}else if (ftype === t_multipolygon){
-			rangStyle = createFeatureAreaStyle(style);
-		}
-	}else{
-		if (ftype === t_marker){
-			rangStyle = L.AwesomeMarkers.icon(default_point_style);
-		}else if (ftype === t_polyline){
-			rangStyle = default_line_style;
-		}else if (ftype === t_polygon){
-			rangStyle = default_area_style;
-		}else if (ftype === t_multipolygon){
-			rangStyle = default_area_style;
-		}
-	}
-	return rangStyle;
+	controlCapes.addOverlay(newWMS, layer.serverName, true);
+	controlCapes._lastZIndex++;
 }
 
 function toggleCollapseTwitter(){
@@ -2085,13 +1841,14 @@ function toggleCollapseTwitter(){
 
 function showConfOptions(businessId){
 //	console.debug('showConfOptions');
-	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide();
-	else jQuery("#conf-"+businessId+"").show();
+//	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide("slow");
+//	else jQuery("#conf-"+businessId+"").show("2000");
+	jQuery("#conf-"+businessId+"").toggle("fast");
 }
 
 function createNewMap(){
 	var data = {
-		nom: "Untitle map",
+		nom: "Untitled map",
 		uid: $.cookie('uid'),
 		visibilitat: 'O',
 		tipusApp: 'vis',
@@ -2108,361 +1865,12 @@ function createNewMap(){
 			window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
 		}
 	});
+	
+	
+	
+	
 }
 
-function showTematicLayersModal(tipus){
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No hi ha capes disponibles per aquest estil de mapa !!')+"<strong>  <span class='fa fa-warning sign'></span></div>";
-	jQuery('.modal').modal('hide');
-	jQuery('#dialog_layers_tematic').modal('show');
-	var layers = [];
-	jQuery.each( controlCapes._layers, function( key, value ) {
-	
-		var tipusCapa=this.layer.options.tipus;
-		
-		if(tipus==tem_simple) {
-			
-	if (tipusCapa == t_marker || 
-			tipusCapa == t_point ||
-			tipusCapa == t_polyline || 
-			tipusCapa == t_polygon ||
-			tipusCapa == t_tematic || 
-			tipusCapa == t_multipolygon ){
-		layers.push(this);
-	}
-						
-			
-		}else if (tipus==tem_clasic){
-			
-			if (tipusCapa == t_marker || 
-					tipusCapa == t_point ||
-					tipusCapa == t_polyline || 
-					tipusCapa == t_polygon ||
-					tipusCapa == t_tematic || 
-					tipusCapa == t_multipolygon){
-						
-				layers.push(this);
-			}
-			
-			
-		}else if (tipus==tem_heatmap) {
-			
-			if (tipusCapa == t_marker || 
-					tipusCapa == t_point ||
-					tipusCapa == t_polyline || 
-					tipusCapa == t_polygon ||
-					tipusCapa == t_tematic || 
-					tipusCapa == t_dades_obertes ||
-					tipusCapa == t_xarxes_socials ){
-			
-			
-				if(this.layer.options.tipus==t_tematic){				
-						if(this.layer.options.geometryType==t_marker ){layers.push(this);}
-				}else{				
-				layers.push(this);			
-				}
-			
-			}
-		
-		}else if (tipus==tem_cluster) {
-			
-			
-			if (tipusCapa == t_marker || 
-					tipusCapa == t_point ||
-					tipusCapa == t_polyline || 
-					tipusCapa == t_polygon ||
-					tipusCapa == t_tematic || 
-					tipusCapa == t_dades_obertes ||
-					tipusCapa == t_xarxes_socials ){
-			
-			
-				if(this.layer.options.tipus==t_tematic){				
-						if(this.layer.options.geometryType==t_marker ){layers.push(this);}
-				}else{				
-				layers.push(this);			
-				}
-			
-			}
-			
-			
-			
-		
-		}else if (tipus==tem_size) {
-			
-			$('#list_tematic_layers').html(warninMSG);
-			return;
-			
-		}else{		
-			$('#list_tematic_layers').html(warninMSG);
-			return;
-		}
-		
-		
-	});// fi each
-	
-	
-	;
-	
-	
-	if(layers.length ==0){
-	
-		$('#list_tematic_layers').html(warninMSG);		
-		return;
-	}
-	
-	
-	layers = {layers: layers};
-
-	var source = jQuery("#tematic-layers-template").html();
-	var template = Handlebars.compile(source);
-	var html = template(layers);
-	$('#list_tematic_layers').html(html);
-	
-	$('.usr_wms_layer').on('click',function(e){
-		var _this = jQuery(this);
-		var data = _this.data();
-		data.from = tipus;
-		if (tipus == tem_simple){
-			if (data.geometrytype == t_marker){
-				obrirMenuModal('#dialog_estils_punts','toggle',data);
-			}else if (data.geometrytype == t_polyline){
-				obrirMenuModal('#dialog_estils_linies','toggle',data);
-			}else if (data.geometrytype == t_polygon){
-				obrirMenuModal('#dialog_estils_arees','toggle',data);
-			}
-		}else if(tipus == tem_clasic){
-			createTematicClasic(data);
-		}else if(tipus == tem_heatmap){
-			
-			
-			createHeatMap(controlCapes._layers[data.leafletid]);
-			jQuery('#dialog_layers_tematic').modal('hide');
-			
-		}else if(tipus == tem_cluster){
-			
-		
-			
-			creaClusterMap(controlCapes._layers[data.leafletid]);
-			jQuery('#dialog_layers_tematic').modal('hide');
-			
-		}else if(tipus == tem_size){
-			
-		}
-	});
-}
-
-function createTematicClasic(data){
-	jQuery('.modal').modal('hide');
-	jQuery('#dialog_tematic_rangs').modal('show');
-	console.debug(data);
-	
-	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
-		
-		jQuery('#dialog_tematic_rangs').modal('hide');
-	});
-	
-	var dataTem={
-		businessId: data.businessid,
-		uid: jQuery.cookie('uid')
-	};
-		
-	getTematicLayer(dataTem).then(function(results){
-		if (results.status == "OK"){
-			var tematic = results.results;
-			console.debug(tematic);
-			var fields = {};
-			if (tematic.capes){
-				var dataNames = tematic.capes.fieldsName.split(',');
-				jQuery.each(dataNames, function( index, value ) {
-					fields[value] = "slotd"+(index+1);
-				});
-			}else{ //sin datos
-				fields['nom'] = 'nom';
-				var geomNames = tematic.geometries.fieldsName.split(',');
-				jQuery.each(geomNames, function( index, value ) {
-					fields[value] = "slotf"+(index+1);
-				});
-			}
-			var source1 = jQuery("#tematic-layers-fields").html();
-			var template1 = Handlebars.compile(source1);
-			var html1 = template1({fields:fields});
-			jQuery('#dataField').html(html1);
-			
-			jQuery('#dataField').on('change',function(e){
-				var this_ = jQuery(this);
-				readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
-					displayTematicRangs(tematic ,results);
-					
-				});
-			});
-			
-			jQuery('#dataField').val(tematic.dataField);
-			readDataTematicFromSlotd(tematic, jQuery('#dataField').val()).then(function(results){
-				displayTematicRangs(tematic ,results);
-			});
-		}
-	});
-	/*
-	var layer = controlCapes._layers[data.leafletid];
-	console.debug(layer.layer);
-	var features = layer.layer.getLayers();
-	var fields = [];
-	if (features.length > 0){
-		var feature = features[0];
-		jQuery.each(feature.properties, function( key, value ) {
-			if (key != 'businessId' && key != 'data'){
-				fields.push(key);
-			}
-		});
-	}
-	*/	
-}
-
-function displayTematicRangs(tematic ,results){
-	showTematicRangs(tematic ,results).then(function(results1){
-		var source1 = jQuery("#tematic-values-template").html();
-		var template1 = Handlebars.compile(source1);
-		var html1 = template1({values:results1});
-		jQuery('#list_tematic_values').html(html1);
-	});
-}
-
-function readDataTematicFromSlotd(tematic, slotd){
-	var defer = jQuery.Deferred();
-	var dades = tematic.capes.dades;
-	var values = jQuery.map( dades, function( a ) {
-		return a[slotd];
-	});
-	defer.resolve(values);
-	return defer.promise();
-}
-
-function showTematicRangs(tematic, values){
-	var defer = jQuery.Deferred();
-	var rangs = tematic.rangs;
-	var valuesStyle = [];
-	if(rangs.length == 0){
-		if (tematic.geometryType == t_marker){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: default_point_style};
-			});
-		}else if (tematic.geometryType == t_polyline){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: default_line_style};
-			});
-		}else if (tematic.geometryType == t_polygon){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: default_area_style};
-			});
-		}
-	}else if(rangs.length == 1){
-		rangStyle = rangs[0];
-		if (tematic.geometryType == t_marker){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: rangStyle};
-			});
-		}else if (tematic.geometryType == t_polyline){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: rangStyle};
-			});
-		}else if (tematic.geometryType == t_polygon){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: rangStyle};
-			});
-		}
-	}else{
-		
-	}
-	defer.resolve(valuesStyle);
-	
-	return defer.promise();
-}
-
-function changeTematicLayerStyle(tematic, styles){
-	var rangs = getRangsFromStyles(tematic, styles);
-	console.debug(rangs);
-	rangs = JSON.stringify({rangs:rangs});
-		
-	var data = {
-		businessId: tematic.businessid,
-		uid: $.cookie('uid'),
-		rangs: rangs
-	};
-	
-	updateTematicRangs(data).then(function(results){
-		console.debug(results);
-	});
-		
-	if (jQuery.isArray(styles)){
-		
-	}else{
-		var layer = controlCapes._layers[tematic.leafletid];
-		if (tematic.geometrytype == t_marker){
-			jQuery.each(layer.layer._layers, function( key, value ) {
-				this.setIcon(styles);
-			});
-		}else if (tematic.geometrytype == t_polyline){
-			jQuery.each(layer.layer._layers, function( key, value ) {
-				this.setStyle(styles);
-			});
-		}else if (tematic.geometrytype == t_polygon){
-			jQuery.each(layer.layer._layers, function( key, value ) {
-				this.setStyle(styles);
-			});
-		}
-	}
-}
-
-function getRangsFromStyles(tematic, styles){
-	console.debug(styles);
-	var rangs = [];
-	if (jQuery.isArray(styles)){
-		
-	}else{
-		if (tematic.geometrytype == t_marker){
-			var rang = {
-				simbol: jQuery.trim(styles.options.icon),
-				simbolSize: styles.options.iconSize.y, 
-				simbolColor: styles.options.iconColor, 
-				marker: styles.options.markerColor
-			};
-		}else if (tematic.geometrytype == t_polyline){
-			/*var rang = {
-				borderWidth: 2,
-				borderColor: '#000000',
-				color: styles.options.iconColor,
-				label: false,
-				labelColor: '#000000',
-				labelFont: 'arial',
-				labelHaloColor: '#ffffff',
-				labelHaloWidth: 2,
-				labelSize: 10,
-				lineWidth: styles.lineWidth,
-				lineStyle: 'solid',			
-				llegenda: '',
-				opacity: (styles.opacity * 100),
-				poligonStyle: '',
-				simbol: styles.options.icon,
-				simbolSize: , 
-				simbolColor: styles.options.markerColor, 
-				valorMax: '',
-				valorMin: '',
-				marker: ''
-			};
-			*/
-		}else if (tematic.geometrytype == t_polygon){
-			console.debug(styles.fillColor);
-			styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
-			var rang = {
-				borderWidth: styles.weight,
-				borderColor: styles.color,
-				color: styles.fillColor,
-				opacity: (styles.fillOpacity * 100)
-			};
-		}
-		rangs.push(rang);
-	}
-	return rangs;
-}
 
 function activaPuntZ(){
 	jQuery(".bs-punts li").removeClass("estil_selected");
@@ -2475,8 +1883,8 @@ function activaPuntZ(){
 	jQuery('#div_punt0').css('width',vv+'px');
 	jQuery('#div_punt0').css('height',vv+'px');
 	jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-	jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
-	estilP.divColor=jQuery('.fill_color_punt').css('background-color');
+//	jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
+	estilP.divColor=rgb2hex(jQuery('.fill_color_punt').css('background-color'));
 	jQuery('#div_punt0').css('background-color',estilP.divColor);
 	estilP.fontsize=(vv/2)+"px";
 	estilP.size=vv;	

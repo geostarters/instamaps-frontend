@@ -1,4 +1,3 @@
-
 html,body {
 	width: 100%;
 	height: 100%;
@@ -12,6 +11,132 @@ html,body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+}
+
+
+/*Animacio */
+
+#div_loading{
+	width: 100%;
+	height: 100%;
+	background-color:#FFFFFF;
+	display: block;
+	overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index:2001;
+}
+
+#loader2{
+	
+	 left: 40%;
+    line-height: 50%;
+    position: relative;
+    text-align: center;
+    top: 40%;
+	
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+.loader {
+  position: relative;
+   left: 25%;
+    line-height: 50%;
+    position: relative;
+    text-align: center;
+    top: 40%;
+
+  width: 45%;
+  color: white;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 250%;
+  background: linear-gradient(180deg, #222 0, #444 100%);
+  box-shadow: inset 0 5px 20px black;
+  text-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+}
+
+.loader:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.covers span div{
+	
+	height: 40px;
+   line-height: 40px;
+    margin-left: 1px;
+    margin-top: 39px;
+    width: 40px;
+}
+
+.loader span {
+  float: left;
+  height: 100px;
+  line-height: 120px;
+  width: 10%;
+}
+
+.loader > span {
+  border-left: 1px solid #444;
+  border-right: 1px solid #222;
+}
+
+.covers {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.covers span div {
+  
+  animation: up 3s infinite;
+   -webkit-animation: up 1s infinite;
+}
+
+@keyframes up {
+0%   { margin-bottom: 0;line-height: 40px; }
+  16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
+  50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
+  100% { margin-bottom: 0;line-height: 40px; }
+}
+
+
+
+@-webkit-keyframes up{
+ 0%   { margin-bottom: 0;line-height: 40px; }
+  16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
+  50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
+  100% { margin-bottom: 0;line-height: 40px; }
+}
+
+
+
+
+#ani1 div  { animation-delay: .285714s; }
+#ani2 div { animation-delay: .428571s; }
+#ani3 div { animation-delay: .571428s; }
+#ani4 div { animation-delay: .714285s; }
+
+
+
+
+
+/*Fi animacio*/
+
+.rd_separator{
+	margin-left: 10px;
+}
+
+#list_tematic_values{
+	max-height: 530px;
+	overflow: auto;
 }
 
 .tooltip {
@@ -178,6 +303,7 @@ h1,h2,h3,h4,h5,h6 {
 	font-size: 16px;
 	cursor:pointer !important;
 	text-decoration: underline !important;
+	color: #8A6D3B;
 }
 
 .lable-usr:hover{
@@ -193,7 +319,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .leaflet-control-layers {
 	width: 250px;
-	height: 300px;
+	min-height: 300px;
 	display: none;
 }
 
@@ -364,7 +490,7 @@ background-color: #9F9F9E;
 
 .div_gr5 {
 	height: 30px;
-	margin: 10px 25px 0;
+	margin: 10px 5px 0;
 	float: auto;
 }
 
@@ -559,6 +685,13 @@ background-color: #9F9F9E;
 	 font-size: 13px;
 }
 
+#dialog_tematic_rangs .labels_fields{
+	display: inline;
+	font-weight: bold;
+	margin-right: 15px;
+	width: 150px;
+}
+
 #dialog_dades_ex .modal-dialog,
 #dialog_layers_tematic .modal-dialog{
 	padding-top: 10%;
@@ -745,26 +878,16 @@ i.fa {
 	height: 28px;
 	border-radius: 14px;
 	border: 2px solid #dddddd;
-	
 	background-color: #FFC500;
 	
 }
-
 
 .awesome-marker-icon-punt_r {
 	width: 28px;
 	height: 28px;
 	border-radius: 14px;
 	border: 2px solid #ffffff;	
-	
-	
 }
-
-
-
-
-
-
 
 .leaflet-sidebar {
 	position: absolute;
@@ -773,7 +896,7 @@ i.fa {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	padding: 10px;
-	z-index: 2000;
+	/*z-index: 2000;*/
 }
 
 .leaflet-sidebar.left {
@@ -832,7 +955,7 @@ i.fa {
     color: #000000;
     float: left;
     font-size: 14px;
-    height: 28px;
+    /*height: 28px;*/
     line-height: 0.8;
     margin: 0 -1px -1px 0;
     padding: 5px;
@@ -875,8 +998,6 @@ i.fa {
 	border: 2px solid #FFCB00;
 	cursor: pointer;
 }
-
-
 
 .bs-linies {
 	list-style: none outside none;
@@ -1377,4 +1498,7 @@ i.fa {
     margin-top: 10px;	
 }
 
+.leaflet-control-layers {
+	border-radius: 0px;	
+}
 
