@@ -1640,14 +1640,19 @@ function myRemoveLayer(obj){
 	console.debug('Arriba a myRemoveLayer');
 	map.closePopup();
 	map.removeLayer(obj.layer);
-	//Eliminem la capa de controlCapes, i actualitzem valors zindex de la resta
-	var removeZIndex = obj.layer.options.zIndex;
-	controlCapes.removeLayer(obj.layer);
-	controlCapes._lastZIndex--;
-	var aux = controlCapes._layers;
-	for (var i in aux) {
-		if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+	//Eliminem la capa de controlCapes
+	controlCapes.removeLayer(obj);
+	
+	//actualitzem valors zindex de la resta si no es sublayer
+	if(!obj.sublayer){
+		var removeZIndex = obj.layer.options.zIndex;
+		controlCapes._lastZIndex--;
+		var aux = controlCapes._layers;
+		for (var i in aux) {
+			if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+		}		
 	}
+
 	//Actualitzem capaUsrActiva
 	if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
 		capaUsrActiva.removeEventListener('layeradd');

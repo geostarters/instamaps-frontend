@@ -19,7 +19,7 @@
 
 .leaflet-control-layers .leaflet-row .leaflet-input {
 	float: left;
-	width: 15%;
+	width: 10%;
 }
 
 .leaflet-control-layers .leaflet-row .leaflet-name {
@@ -92,4 +92,12 @@
 .leaflet-control-layers .leaflet-row .leaflet-remove:hover,
 .leaflet-control-layers .leaflet-row .leaflet-download:hover{
 	opacity: 1;
+}
+
+.leaflet-subrow {
+	margin-left: 15px;
+}
+
+.leaflet-control-layers .leaflet-subrow .leaflet-remove{
+	margin-right:16px;
 }

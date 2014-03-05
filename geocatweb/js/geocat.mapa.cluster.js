@@ -48,7 +48,7 @@ function creaClusterMap(capa) {
 
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
-					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);
+					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 
@@ -91,7 +91,7 @@ function creaClusterMap(capa) {
 					
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = controlCapes._lastZIndex+1;
-					controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true);
+					controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true, capa.layer._leaflet_id);
 					controlCapes._lastZIndex++;
 					activaPanelCapes(true);					
 					
@@ -114,7 +114,7 @@ function creaClusterMap(capa) {
 
 		map.addLayer(clusterLayer);
 		clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
-		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);
+		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
