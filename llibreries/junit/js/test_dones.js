@@ -1,4 +1,5 @@
 var HOST_APP = "http://localhost:8080/dones/";
+//var HOST_APP = "http://172.70.1.25/dones/";
 var urls = {
 	login: HOST_APP+"login.action?",
 	registreUser: HOST_APP+"registreUser.action?",
@@ -23,6 +24,7 @@ var urls = {
 	updateFeature: HOST_APP+"layers/feature/updateFeature.action?",
 	deleteFeature: HOST_APP+"layers/feature/deleteFeature.action?",
 	getAllFeatureLayersByUser: HOST_APP+"layers/feature/getAllFeatureLayersByUser.action?",
+	getFeatureLayersByBusinessId: HOST_APP+"layers/feature/getFeatureLayersByBusinessId.action?",
 };
 
 //var JSV = require("./jsv").JSV;
@@ -114,7 +116,7 @@ asyncTest( "validateEmail", 1, function() {
 		start();
 	});	
 });
-*/
+
 asyncTest( "registreUser duplicate email", 1, function() {
 	$.ajax({
 		url: urls.registreUser,
@@ -400,7 +402,6 @@ asyncTest( "deleteUser", 1, function() {
 	});	
 });
 
-/*
 asyncTest( "createFeatureLayer", 3, function() {
 	$.ajax({
 		url: urls.createFeatureLayer,
@@ -495,7 +496,7 @@ asyncTest( "updateFeatureLayer", 3, function() {
 		start();
 	});	
 });
-
+*/
 asyncTest( "createFeature", 3, function() {
 	var features = JSON.stringify({type:'Feature',
 		id: 'OpenLayers.Feature.Vector_3124',
@@ -522,7 +523,7 @@ asyncTest( "createFeature", 3, function() {
 	$.ajax({
 		url: urls.createFeature,
 		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			businessId: '1',
 			uid: 'admindones',
 			features: features
 		},
@@ -591,7 +592,7 @@ asyncTest( "updateFeature", 3, function() {
 	$.ajax({
 		url: urls.updateFeature,
 		data: {
-			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			businessId: '1',
 			uid: 'admindones',
 			features: features
 		},
@@ -652,7 +653,7 @@ asyncTest( "deleteFeature", 1, function() {
 		start();
 	});	
 });
-
+/*
 asyncTest( "getAllFeatureLayersByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllFeatureLayersByUser,
@@ -683,6 +684,51 @@ asyncTest( "getAllFeatureLayersByUser", 3, function() {
 				nom : { type: 'string', required : true},
 				uid : { type: 'string', required : true},
 				id : { type: 'number', required : true},
+			}
+		};
+		var report = env.validate(results.results[0], schema1);
+		equal(report.errors.length, 0, JSON.stringify(results.results[0]));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getFeatureLayersByBusinessId", 3, function() {
+	$.ajax({
+		url: urls.getFeatureLayersByBusinessId,
+		data: {
+			businessId: '1',
+			uid: 'admindones',
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		var schema = {
+			type : 'object',
+			properties : {
+				status: { type: 'string', required : true},
+				results: {
+					type : 'object', required : true
+				}
+			}
+		};
+		var report = env.validate(results, schema);
+		equal(report.errors.length, 0, JSON.stringify(results));
+		
+		var schema1 = {
+			type : 'object',
+			properties : {
+				businessId : { type: 'string', required : true},
+				nom : { type: 'string', required : true},
+				uid : { type: 'string', required : true},
+				id : { type: 'number', required : true},
+				options : { type: ['string','null'], required : true},
 			}
 		};
 		var report = env.validate(results.results[0], schema1);

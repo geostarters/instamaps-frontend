@@ -50,7 +50,7 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = $.cookie('uid');
-	if( uid == undefined ){
+	if( uid == undefined || (uid.indexOf("random_") != -1 && uid.indexOf("random_") == 0)){
 		$("#menu_login").show();
 		$("#menu_user").hide();
 		$("#text_username").remove();

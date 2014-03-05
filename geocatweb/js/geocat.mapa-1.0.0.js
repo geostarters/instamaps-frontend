@@ -79,6 +79,7 @@ function loadApp(){
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
+			minZoom: 3,
 			maxZoom : 19,
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
@@ -1828,7 +1829,7 @@ function showConfOptions(businessId){
 
 function createNewMap(){
 	var data = {
-		nom: "Untitle map",
+		nom: "Untitled map",
 		uid: $.cookie('uid'),
 		visibilitat: 'O',
 		tipusApp: 'vis',
