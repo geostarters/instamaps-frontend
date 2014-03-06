@@ -1037,17 +1037,7 @@
 						</select>
 					</div>
 					
-					<!-- script id="tematic-values-template" type="text/x-handlebars-template">
-					<table class="table">
-						<tbody>
-						{{#each values}}
-						<tr><td>{{v}}</td><td>{{style}}</td></tr>
-						{{/each}}
-						</tbody>
-					</table>	
-					</script-->
-
-					<script id="tematic-values-unic-template" type="text/x-handlebars-template">
+					<script id="tematic-values-unic-punt-template" type="text/x-handlebars-template">
 					<table class="table">
 						<tbody>
 						{{#each values}}
@@ -1069,7 +1059,19 @@
 					</table>	
 					</script>
 					
-					<script id="tematic-values-rangs-template" type="text/x-handlebars-template">
+					<script id="tematic-values-unic-polygon-template" type="text/x-handlebars-template">
+					<table class="table">
+						<tbody>
+						{{#each values}}
+						<tr><td>{{v}}</td><td>
+							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>
+						</td></tr>
+						{{/each}}
+						</tbody>
+					</table>	
+					</script>
+					
+					<script id="tematic-values-rangs-punt-template" type="text/x-handlebars-template">
 					<table class="table">
 						<thead>
 						<tr>
@@ -1099,9 +1101,26 @@
 					</table>	
 					</script>
 					
+					<script id="tematic-values-rangs-polygon-template" type="text/x-handlebars-template">
+					<table class="table">
+						<tbody>
+						{{#each values}}
+						<tr><td><input type="text" value="{{v.min}}" name="min"></td>
+							<td><input type="text" value="{{v.max}}" name="max"></td>
+							<td>
+							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>
+						</td></tr>
+						{{/each}}
+						</tbody>
+					</table>	
+					</script>
+					
 					<div id="list_tematic_values"></div>
 				</div>
 				<div class="modal-footer">
+					<div id="paletes_colors">
+						
+					</div>
 					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
          			<button type="button" class="btn btn-success" lang="ca">Canviar</button>
 				</div>

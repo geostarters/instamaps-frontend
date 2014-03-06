@@ -23,6 +23,7 @@ html,body {
     top: 0;
 }
 
+/*Tematics*/
 .rd_separator{
 	margin-left: 10px;
 }
@@ -31,6 +32,12 @@ html,body {
 	max-height: 530px;
 	overflow: auto;
 }
+
+#paletes_colors{
+	float:left;
+}
+
+/* end Tematics*/
 
 .tooltip {
 	z-index: 2000;
