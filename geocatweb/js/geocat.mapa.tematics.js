@@ -88,21 +88,15 @@ function showTematicLayersModal(tipus,className){
 
 function createTematicClasic(data){
 	console.debug("createTematicClasic");
+	console.debug(data);
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_tematic_rangs').modal('show');
 	//console.debug(data);
 	
+	jQuery("#dialog_tematic_rangs").data("capamare", data);
+	
 	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
-		var rangsTr = jQuery('#list_tematic_values tr');
-		jQuery.each(rangsTr, function( index, value ) {
-			var _this = jQuery(value);
-			console.debug(_this);
-			var tdRang = _this.find('td:eq(0)');
-			console.debug(tdRang);
-			var tdVal = _this.find('td:eq(1)');
-			console.debug(tdVal);
-		});
-		jQuery('#dialog_tematic_rangs').modal('hide');
+		updateClasicTematicFromRangs();
 	});
 	
 	jQuery('#tipus_agrupacio_grp').hide();
@@ -180,11 +174,7 @@ function getTipusValues(){
 			if (this_.val() == "U"){
 				jQuery('#num_rangs_grp').hide();
 				showTematicRangsUnic().then(function(results1){
-					var source1 = jQuery("#tematic-values-unic-template").html();
-					var template1 = Handlebars.compile(source1);
-					var html1 = template1({values:results1});
-					jQuery('#list_tematic_values').html(html1);
-					jQuery('#dialog_tematic_rangs .btn-success').show();
+					loadTematicValueUnicTemplate(results1);
 				});
 			}else{
 				jQuery('#list_tematic_values').html("");
@@ -212,11 +202,7 @@ function getTipusValues(){
 		jQuery('#tipus_agrupacio_grp').hide();
 		jQuery('#num_rangs_grp').hide();
 		showTematicRangsUnic().then(function(results1){
-			var source1 = jQuery("#tematic-values-unic-template").html();
-			var template1 = Handlebars.compile(source1);
-			var html1 = template1({values:results1});
-			jQuery('#list_tematic_values').html(html1);
-			jQuery('#dialog_tematic_rangs .btn-success').show();
+			loadTematicValueUnicTemplate(results1);
 		});
 	}
 }
@@ -244,33 +230,72 @@ function createRangsValues(rangs){
 	}
 	jQuery("#dialog_tematic_rangs").data("rangs", newRangs);
 	showTematicRangs().then(function(results){
-		var source1 = jQuery("#tematic-values-rangs-template").html();
-		var template1 = Handlebars.compile(source1);
-		var html1 = template1({values:results});
-		jQuery('#list_tematic_values').html(html1);
-		jQuery('#dialog_tematic_rangs .btn-success').show();
+		loadTematicValueRangsTemplate(results);
 	});
+}
+
+function loadTematicValueUnicTemplate(results1){
+	var source1;
+	var geometryType = results1[0].style.geometryType;
+	if (geometryType == t_marker){
+		source1 = jQuery("#tematic-values-unic-punt-template").html();
+	}else if (geometryType == t_polyline){
+		
+	}else if (geometryType == t_polygon){
+		source1 = jQuery("#tematic-values-unic-polygon-template").html();
+	}
+	var template1 = Handlebars.compile(source1);
+	var html1 = template1({values:results1});
+	jQuery('#list_tematic_values').html(html1);
+	jQuery('#dialog_tematic_rangs .btn-success').show();
+	
+	if (geometryType == t_polygon){
+		jQuery('#list_tematic_values canvas').each(function(i, val){
+			addGeometryInitPRang(val, results1[i]);
+		});
+	}
+}
+
+function loadTematicValueRangsTemplate(results){
+	var source1;
+	var geometryType = results[0].style.geometryType;
+	if (geometryType == t_marker){
+		source1 = jQuery("#tematic-values-rangs-punt-template").html();
+	}else if (geometryType == t_polyline){
+		
+	}else if (geometryType == t_polygon){
+		source1 = jQuery("#tematic-values-rangs-polygon-template").html();
+	}
+	var template1 = Handlebars.compile(source1);
+	var html1 = template1({values:results});
+	jQuery('#list_tematic_values').html(html1);
+	jQuery('#dialog_tematic_rangs .btn-success').show();
+	if (geometryType == t_polygon){
+		jQuery('#list_tematic_values canvas').each(function(i, val){
+			addGeometryInitPRang(val, results[i]);
+		});
+	}
 }
 
 function showTematicRangs(){
 	var values = jQuery("#dialog_tematic_rangs").data("rangs");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
 	if (tematic.geometryType == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i)};
+			return {v: a, style: createIntervalStyle(i,tematic.geometryType,paleta), index: i};
 		});
 	}else if (tematic.geometryType == t_polyline){
-		valuesStyle = jQuery.map( values, function( a ) {
+		valuesStyle = jQuery.map( values, function( a, i ) {
 			return {v: a, style: default_line_style};
 		});
 	}else if (tematic.geometryType == t_polygon){
-		valuesStyle = jQuery.map( values, function( a ) {
-			return {v: a, style: default_area_style};
+		valuesStyle = jQuery.map( values, function( a, i ) {
+			return {v: a, style: createIntervalStyle(i,tematic.geometryType,paleta), index: i};
 		});
 	}
-	console.debug(valuesStyle);
 	defer.resolve(valuesStyle);
 	return defer.promise();
 }
@@ -288,40 +313,23 @@ function showTematicRangsUnic(){
 	    	values.push(val);	    	
 	    }
 	});
+	//Ordenar valores
+	values.sort();
 	
 	var rangs = tematic.rangs;
 	var valuesStyle = [];
-	if(rangs.length == 0){
-		if (tematic.geometryType == t_marker){
-			valuesStyle = jQuery.map( values, function( a, i) {
-				return {v: a, style: createIntervalStyle(i), index: i};
-			});
-		}else if (tematic.geometryType == t_polyline){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: default_line_style};
-			});
-		}else if (tematic.geometryType == t_polygon){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: default_area_style};
-			});
-		}
-	}else if(rangs.length == 1){
-		rangStyle = rangs[0];
-		if (tematic.geometryType == t_marker){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: rangStyle};
-			});
-		}else if (tematic.geometryType == t_polyline){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: rangStyle};
-			});
-		}else if (tematic.geometryType == t_polygon){
-			valuesStyle = jQuery.map( values, function( a ) {
-				return {v: a, style: rangStyle};
-			});
-		}
-	}else{
-		
+	if (tematic.geometryType == t_marker){
+		valuesStyle = jQuery.map( values, function( a, i) {
+			return {v: a, style: createIntervalStyle(i,tematic.geometryType,paleta), index: i};
+		});
+	}else if (tematic.geometryType == t_polyline){
+		valuesStyle = jQuery.map( values, function( a, i ) {
+			return {v: a, style: default_line_style};
+		});
+	}else if (tematic.geometryType == t_polygon){
+		valuesStyle = jQuery.map( values, function( a, i ) {
+			return {v: a, style: createIntervalStyle(i,tematic.geometryType,paleta), index: i};
+		});
 	}
 	defer.resolve(valuesStyle);
 	
@@ -339,7 +347,6 @@ function readDataTematicFromSlotd(tematic, slotd){
 }
 
 function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
-	
 	var isCanvas=false;
 	if(feature._ctx){isCanvas=true;}
 	var featureID=feature._leaflet_id
@@ -384,10 +391,8 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 }
 
 function changeTematicLayerStyle_old(tematic, styles){
-	//console.debug(tematic);
-	//console.debug(styles);
+	console.debug("changeTematicLayerStyle_old");
 	var rangs = getRangsFromStyles(tematic, styles);
-	//console.debug(rangs);
 	var capaMare = map._layers[tematic.leafletid];
 	
 	if (jQuery.isArray(styles)){
@@ -410,7 +415,6 @@ function changeTematicLayerStyle_old(tematic, styles){
 	}
 	
 	if(capaMare.options.tipus == t_dades_obertes){
-		
 		var options = {
 			dataset: capaMare.options.dataset,
 			tem: tem_simple,
@@ -451,7 +455,7 @@ function changeTematicLayerStyle_old(tematic, styles){
 		};
 		
 		updateTematicRangs(data).then(function(results){
-			////console.debug(results);
+			//console.debug(results);
 		});
 	}
 }
@@ -492,22 +496,28 @@ function getRangsFromStyles(tematic, styles){
 //					marker: styles.options.markerColor
 //				};
 				
+				console.debug(styles);
+				
+				if(jQuery.trim(styles.options.icon) != ""){
+					styles.options = styles.options.icon.options;
+				}
+								
 				var rang = {
 					llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 //					valorMax : "feature" + fId,
-					color : styles.options.icon.options.fillColor,//Color principal
-					marker: styles.options.icon.options.markerColor,//Si es de tipus punt_r o el color del marker
-					simbolColor: styles.options.icon.options.iconColor,//Glyphon
-					radius : styles.options.icon.options.radius,//Radius
-					iconSize : styles.options.icon.options.iconSize.x+"#"+styles.options.icon.options.iconSize.y,//Size del cercle
-					iconAnchor : styles.options.icon.options.iconAnchor.x+"#"+styles.options.icon.options.iconAnchor.y,//Anchor del cercle
-					simbol : styles.options.icon.options.icon,//tipus glyph
+					color : styles.options.fillColor,//Color principal
+					marker: styles.options.markerColor,//Si es de tipus punt_r o el color del marker
+					simbolColor: styles.options.iconColor,//Glyphon
+					radius : styles.options.radius,//Radius
+					iconSize : styles.options.iconSize.x+"#"+styles.options.iconSize.y,//Size del cercle
+					iconAnchor : styles.options.iconAnchor.x+"#"+styles.options.iconAnchor.y,//Anchor del cercle
+					simbol : styles.options.icon,//tipus glyph
 					opacity : (styles.options.opacity * 100),
 					label : false,
 					labelSize : 10,
 					labelFont : 'arial',
 					labelColor : '#000000',
-					};				
+				};				
 				
 			}
 		}else if (tematic.geometrytype == t_polyline){
@@ -634,7 +644,17 @@ function loadTematicLayer(layer){
 						}
 						//Multiples rangos
 						else{
-							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == geom.properties.businessId; });
+							if (dataGeom){
+								rangStyle = jQuery.grep(Lrangs, function(e){
+									if (e.valorMax && e.valorMin){
+										return (e.valorMin <= dataGeom[dataField] &&  dataGeom[dataField] <= e.valorMax);
+									}else{
+										return e.valorMax == dataGeom[dataField];
+									}
+								});
+							}else{
+								rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == geom.properties.businessId; });
+							}
 							if (rangStyle.length > 0){
 								rangStyle = rangStyle[0];
 								rangStyle = createRangStyle(ftype, rangStyle, null);
@@ -933,8 +953,6 @@ function createFeatureMarkerStyle(style, num_geometries){
 }
 
 function getRangsFromLayer(layer){
-	console.debug(layer);
-	
 	if (layer.options.tipus == t_tematic){
 		var styles = jQuery.map(layer.getLayers(), function(val, i){
 			return {key: val.properties.businessId, style: val};
@@ -958,8 +976,6 @@ function getRangsFromLayer(layer){
               rangs: rangs
         };
               
-        console.debug(data);
-        
         updateTematicRangs(data).then(function(results){
               console.debug(results);
         });
@@ -967,6 +983,7 @@ function getRangsFromLayer(layer){
 }
 
 function changeTematicLayerStyle(tematic, styles){
+	console.debug("changeTematicLayerStyle");
 	//console.debug(tematic);
 	//console.debug(styles);
 	var rangs = getRangsFromStyles(tematic, styles);
@@ -1055,19 +1072,39 @@ function changeTematicLayerStyle(tematic, styles){
 	}
 }
 
-function createIntervalStyle(index){
-	var defStyle = jQuery.extend({}, default_point_style);
-	index = index % 64;
+function createIntervalStyle(index, geometryType, paleta){
+	var defStyle;
+	//index = index % 9;
+	/*
 	var markerColors = ['#FF0000','#FF9C00','#FFFF00','#00FF00','#00FFFF','#0000FF','#9C00FF','#FF00FF',
-	                    '#F7C6CE','#FFE7CE','#FFEFC6','#D6EFD6','#CEDEE7','#CEE7F7','#D6D6E7','#E7D6DE',
-	                    '#E79C9C','#FFC69C','#FFE79C','#B5D6A5','#A5C6CE','#9CC6EF','#B5A5D6','#D6A5BD',
-	                    '#E76363','#F7AD6B','#FFD663','#94BD7B','#73A5AD','#6BADDE','#8C7BC6','#C67BA5',
-	                    '#CE0000','#E79439','#FFC500','#6BA54A','#4A7B8C','#3984C6','#634AA5','#A54A7B',
-	                    '#9C0000','#B56308','#BD9400','#397B21','#104A5A','#085294','#311873','#731842',
-	                    '#630000','#7B3900','#846300','#295218','#083139','#003163','#21104A','#4A1031',
-	                    '#000000','#424242','#636363','#9C9C94','#CEC6CE','#EFEFEF','#F7F7F7','#FFFFFF'];
-	defStyle.fillColor = markerColors[index];
-	defStyle.isCanvas = true;
+        '#F7C6CE','#FFE7CE','#FFEFC6','#D6EFD6','#CEDEE7','#CEE7F7','#D6D6E7','#E7D6DE',
+        '#E79C9C','#FFC69C','#FFE79C','#B5D6A5','#A5C6CE','#9CC6EF','#B5A5D6','#D6A5BD',
+        '#E76363','#F7AD6B','#FFD663','#94BD7B','#73A5AD','#6BADDE','#8C7BC6','#C67BA5',
+        '#CE0000','#E79439','#FFC500','#6BA54A','#4A7B8C','#3984C6','#634AA5','#A54A7B',
+        '#9C0000','#B56308','#BD9400','#397B21','#104A5A','#085294','#311873','#731842',
+        '#630000','#7B3900','#846300','#295218','#083139','#003163','#21104A','#4A1031',
+        '#000000','#424242','#636363','#9C9C94','#CEC6CE','#EFEFEF','#F7F7F7','#FFFFFF'];
+	*/
+	var paletas = [
+	  ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#999999'],
+	  ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#bc80bd','#d9d9d9']
+	];
+	var markerColors = (paleta)? paletas[paleta] : paletas[0];
+	if (index > 9){
+		index = 9;
+	}
+	if (geometryType == t_marker){
+		defStyle = jQuery.extend({}, default_point_style);
+		defStyle.fillColor = markerColors[index];
+		defStyle.isCanvas = true;		
+	}else if (geometryType == t_polyline){
+		//TODO
+	}else if (geometryType == t_polygon){
+		defStyle = jQuery.extend({}, default_area_style);
+		defStyle.color = markerColors[index];
+	}
+	defStyle.geometryType = geometryType;
+	
 	/*
 	 *
 	//'red','darkorange','orange','green','blue','purple','darkgray','gray',
@@ -1078,9 +1115,102 @@ function createIntervalStyle(index){
 	return defStyle;
 }
 
-function div2RangStyle(divElem){
+function div2RangStyle(tematic, tdElem){
 	var rangStyle;
-	
-	
+	if (tematic.geometrytype == t_marker){
+		var divElement = tdElem.find('div');
+		rangStyle = {
+			borderColor :  "#ffffff",
+			borderWidth :  2,
+			simbolSize: parseInt(parseInt(divElement.css('height'))/2.4),
+			color: jQuery.Color(divElement.css('background-color')).toHexString(),
+			opacity: 90
+		};
+	}else if (tematic.geometrytype == t_polyline){
+		//TODO
+	}else if (tematic.geometrytype == t_polygon){
+		var divElement = tdElem.find('canvas')[0].getContext("2d");
+		rangStyle = {
+			borderColor :  divElement.strokeStyle,
+			borderWidth :  divElement.lineWidth,
+			color: jQuery.Color(divElement.fillStyle).toHexString(),
+			opacity: (jQuery.Color(divElement.fillStyle).alpha()*100)
+		};
+	}
 	return rangStyle;
+}
+
+function updateClasicTematicFromRangs(){
+	console.debug("updateClasicTematicFromRangs");
+	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
+	var capaMare = controlCapes._layers[tematicFrom.leafletid].layer;
+	var rangsTr = jQuery('#list_tematic_values tbody tr');
+		
+	var rangs = [];
+	jQuery.each(rangsTr, function( index, value ) {
+		var _this = jQuery(value);
+		var tdRang, tdMin, tdMax;
+		var tdVal;
+		if (_this.children().length == 2){
+			tdRang = _this.find('td:eq(0)');
+			tdVal = _this.find('td:eq(1)');
+			var rang = div2RangStyle(tematicFrom, tdVal);
+			rang.valorMax = tdRang.text();
+			rangs.push(rang);
+		}else{
+			tdMin = _this.find('td:eq(0)');
+			tdMax = _this.find('td:eq(1)');
+			tdVal = _this.find('td:eq(2)');
+			var rang = div2RangStyle(tematicFrom, tdVal);
+			rang.valorMin = tdMin.find('input').val();
+			rang.valorMax = tdMax.find('input').val();
+			rangs.push(rang);
+		}
+	});
+	rangs = JSON.stringify({rangs:rangs});
+	
+	var data = {
+		businessId: tematicFrom.businessid,
+		uid: $.cookie('uid'),
+        mapBusinessId: url('?businessid'),	           
+        nom: capaMare.options.nom+" clasic",
+		calentas: false,
+        activas: true,
+        visibilitats: true,
+        dataField: jQuery('#dataField').val(),
+		tipusRang: tematicFrom.from,
+		rangs: rangs
+	};
+	
+	duplicateTematicLayer(data).then(function(results){
+		if(results.status == 'OK'){
+			loadTematicLayer(results.results);
+			activaPanelCapes(true);
+		}else{
+			//TODO error
+			console.debug("updateTematicRangs ERROR");					
+		}
+	},function(results){
+		//TODO error
+		console.debug("updateTematicRangs ERROR");
+	});
+	
+	jQuery('#dialog_tematic_rangs').modal('hide');
+}
+
+function addGeometryInitPRang(canvas, style){
+	var	cv_ctx_p=canvas.getContext("2d");
+	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
+	cv_ctx_p.moveTo(5.13,15.82);
+	cv_ctx_p.lineTo(25.49,5.13);
+	cv_ctx_p.lineTo(37.08,13.16);
+	cv_ctx_p.lineTo(20.66,38.01);
+	cv_ctx_p.lineTo(2.06,33.67);
+	cv_ctx_p.closePath();
+	cv_ctx_p.strokeStyle=style.style.color; //hex
+	cv_ctx_p.fillStyle=jQuery.Color(style.style.color).alpha(0.75).toRgbaString(); //rgba
+	cv_ctx_p.lineWidth=2;
+	cv_ctx_p.fill();
+	cv_ctx_p.stroke(); 
 }

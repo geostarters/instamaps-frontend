@@ -8,9 +8,13 @@ var dades1;
 var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
-var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
-		iconGlif:'fa fa-',
-		colorGlif:'#333333',fontsize:'14px',size:'28'};
+var estilP={
+	iconFons:'awesome-marker-web awesome-marker-icon-orange',
+	iconGlif:'fa fa-',
+	colorGlif:'#333333',
+	fontsize:'14px',
+	size:'28'
+};
 var default_line_style = {
     weight: 3,       
     color: '#FFC400',
@@ -54,7 +58,7 @@ var optB = {
 
 jQuery(document).ready(function() {
 	if (!Modernizr.canvas ){
-		jQuery("#mapaFond").show();
+		//jQuery("#mapaFond").show();
 		jQuery("#dialgo_old_browser").modal('show');
 		jQuery("#sidebar").hide();
 		jQuery('#dialgo_old_browser').on('hide.bs.modal', function (e) {
@@ -119,34 +123,24 @@ function loadApp(){
 		});
 	}else{
 		if (!$.cookie('uid')){
-			jQuery("#mapaFond").show();
-			jQuery("#sidebar").hide();
-			
-			jQuery('#dialgo_leave').modal('show');
-			
-			jQuery('#dialgo_leave .btn-success').on('click',function(){
-				window.location = paramUrl.registrePage;
+			createRandomUser().then(function(results){
+				if (results.status==='OK'){
+					var user_login = results.results.uid;
+					var pass_login = "user1234";
+					doLogin(user_login, pass_login).then(function(results){
+						console.debug(results);
+						if(results.status==='OK'){
+							jQuery.cookie('uid', user_login, {path:'/'});
+							createNewMap();
+						}				
+					});
+				}
 			});
 			
-			jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
-				createRandomUser().then(function(results){
-					if (results.status==='OK'){
-						var user_login = results.results.uid;
-						var pass_login = "user1234";
-						doLogin(user_login, pass_login).then(function(results){
-							console.debug(results);
-							if(results.status==='OK'){
-								jQuery.cookie('uid', user_login, {path:'/'});
-								createNewMap();
-							}				
-						});
-					}
-				});
-				
-				jQuery(window).on('beforeunload',function(event){
-					deleteRandomUser({uid: $.cookie('uid')});
-				});
+			jQuery(window).on('beforeunload',function(event){
+				deleteRandomUser({uid: $.cookie('uid')});
 			});
+			
 		}else{	
 			mapConfig.newMap = true;
 			createNewMap();
@@ -155,6 +149,16 @@ function loadApp(){
 	}
 	
 	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
+
+		jQuery('#dialgo_leave').modal('show');		
+		jQuery('#dialgo_leave .btn-success').on('click',function(){
+			window.location = paramUrl.registrePage;
+		});
+		
+		jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
+			
+		});
+		
 		jQuery(window).on('beforeunload',function(event){
 			deleteRandomUser({uid: $.cookie('uid')});
 		});
@@ -1250,6 +1254,12 @@ function loadMapConfig(mapConfig){
 				
 			}
 		});
+		
+	
+		jQuery('#div_loading').hide();
+		
+		
+		
 		
 	}
 	
