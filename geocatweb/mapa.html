@@ -13,8 +13,9 @@
 <link href="/instamapes.ico" rel="shortcut icon">
 
 <!-- Le styles -->
-<link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
-<link href="/llibreries/css/glyph.css" rel="stylesheet">
+<link rel="stylesheet" href="/llibreries/css/bootstrap.min.css">
+<link rel="stylesheet" href="/llibreries/css/glyph.css">
+<link rel="stylesheet" href="/llibreries/css/cookiecuttr.css"> 
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/MarkerCluster.css">
@@ -24,10 +25,8 @@
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
 <link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
 
-<link href="/llibreries/css/bootstrap-editable.css" rel="stylesheet">
+<link href="/llibreries/css/bootstrap-editable.custom.css" rel="stylesheet">
 <link href="/llibreries/css/jquery.share.css" rel="stylesheet">
-
-<link href="/llibreries/css/jReject/css/jquery.reject.css" rel="stylesheet">
 
 <link href="/geocatweb/css/estils.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
@@ -40,6 +39,34 @@
 <title lang="ca">Mapa InstaMapes</title>
 </head>
 <body>
+
+<div id="div_loading">
+		<div class="loader"> 
+  <span>I</span>
+    <span></span>
+    <span>S</span>
+    <span></span>
+    <span>A</span>
+    <span></span>
+    <span>A</span>
+    <span></span>
+    <span>E</span>
+    <span>S</span> 
+  <div class="covers">   
+    <span></span>
+   <span id="ani1"><div class="img-circle2-icon descobreix_color">N</div></span>
+   <span></span>
+  <span id="ani2"><div class="img-circle2-icon crea_color">T</div></span>
+  <span></span>
+  <span id="ani3"><div class="img-circle2-icon visualitza_color">M</div></span>
+  <span></span>
+  <span id="ani4"><div class="img-circle2-icon comparteix_color">P</div></span>
+  <span></span>
+  <span></span>   
+  </div>
+</div>
+</div>
+
 	<!-- Fixed navbar -->
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
@@ -56,11 +83,12 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
+					<!-- 
 					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
 					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
-
+ 					-->
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span><b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
 							<li id="ca"><a href="#">Catal&agrave;</a></li>
@@ -83,8 +111,9 @@
 							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
 							<li class="divider" role="presentation"></li>
 							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
-						</ul></li>
-					<li><a href="/properament.html" class="glyphicon glyphicon-stats"></a></li>
+						</ul>
+					</li>
+					<!-- <li><a href="/properament.html" class="glyphicon glyphicon-stats"></a></li> -->
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -197,7 +226,7 @@
 			</tr>
 			<tr>
 				<td class="td5">
-					<div id="socialShare2" class="div_gr5">
+					<div id="socialShare" class="div_gr5">
 						<h5 lang="ca">Compartir</h5>
 						<!--div id="correu" class="icon-mail gris"></div>
 						<div id="facebook" class="icon-facebook gris"></div>
@@ -206,13 +235,11 @@
 						<div id="linkedin" class="icon-linkedin gris"></div>
 						<div id="pinterest" class="icon-pinterest gris"></div-->
 					</div>
-					<div id="socialShare" class="div_gr5">
-
 					</div>					
 				</td>
 			</tr>
 			<tr>
-				<td class="td5" height="15px"><label class="textGris">InstaMapes v 1.0.0</label></td>
+				<td class="td5" height="15px"><label class="textGris">InstaMapes Beta</label></td>
 			</tr>
 		</table>
 
@@ -220,6 +247,8 @@
 	<div id="map"></div>
 
 	<!-- dialogs -->
+	
+	<!-- Modal Publicar -->
 	<div id="dialgo_publicar" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -240,6 +269,10 @@
 									class="form-control my-border" placeholder="Descripció" value="{{options.description}}"> 
 								<input lang="ca" id="optTags" type="text" 
 									class="form-control my-border" placeholder="Etiquetes" value="{{options.tags}}">
+						</fieldset>
+						</section>
+						</script>
+						<!-- 
 								<br>
 								<div class="control-group">
 									<div class="control-switch">
@@ -281,9 +314,9 @@
 									</div>
 									</div>
 								</div>
-						</fieldset>
-						</section>
-						</script>
+								-->
+						
+						
 					</form>
 					<hr>
 					<div class="form-group">
@@ -306,7 +339,9 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
+	<!-- Fi Modal Publicar -->
 	
+	<!-- Modal twitter -->
 	<div class="modal fade" id="modal_twitter_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog my-modal-dialog-xs">
 	    <div class="modal-content my-modal-content">
@@ -327,7 +362,8 @@
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->	
+	</div><!-- /.modal -->
+	<!-- Fi Modal twitter -->	
 
 	<!-- Modal Punts -->
 	<div class="modal fade" id="dialog_estils_punts">
@@ -340,219 +376,183 @@
 						punts</h4>
 				</div>
 				<div class="modal-body">
-
-					<table width="100%" class="tbl_taula" border="0" cellspacing="1"
-						cellpadding="1">
+					<table width="100%" class="tbl_taula" border="0" cellspacing="1" cellpadding="1">
 						<tr>
-
-
-							<td class="tbl" height="50" colspan="8">
-
-
-
-								<div id="div_punt0"
-									class="awesome-marker-web awesome-marker-icon-orange"></div>
-							</td>
+						<td class="tbl" height="50" colspan="8">
+							<div id="div_punt0" class="awesome-marker-web awesome-marker-icon-orange"></div>
+						</td>
 						</tr>
 						<tr>
 							<td colspan="8"><span lang="ca">Punts disponibles</span></td>
 						</tr>
 						<tr>
-							<td>
-
-								<div id="div_puntZ" class="li2 liX">
-									<div id="div_punt9" style="background-color: #FFC500;"
-										class="awesome-marker-web awesome-marker-icon-punt_r"></div>
-								</div>
-								<div class="liX">
-
-
-									<span class="small" lang="ca">Color punt:</span>
-									<div class="btn-group">
-										<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-											<div id="dv_fill_color_punt" class="fill_color_punt"></div>
-										</a>
-										<ul class="dropdown-menu">
-											<li><div id="colorpalette_punt"></div></li>
-										</ul>
-									</div>
-
-
-
-
-
-
-
-								</div>
-
-								<div class="liX" style="border-right: 1px solid #DDDDDD">
-
-<span class="small" lang="ca">Mida punt:</span>
-									<select id="cmb_mida_Punt" class="form-control">
-										<option lang="ca" class="small" value="22">Mida punt</option>
-										<option lang="ca" class="small" value="18">Petit +</option>
-										<option lang="ca" class="small" value="22">Petit</option>
-										<option lang="ca" class="small" value="24">Mitjà</option>
-										<option lang="ca" class="small" selected value="28">Mitjà
-											+</option>
-										<option class="small" value="30">Gran</option>
-									</select>
-
-
-
-								</div>
-
-</td><tr><td>
-
-
-
-								<ul class="bs-punts">
-									<li class="estil_selected" ><div id="div_punt1"
-											class="awesome-marker-web awesome-marker-icon-orange"></div></li>
-									<li><div id="div_punt2"
-											class="awesome-marker-web awesome-marker-icon-darkorange"></div></li>
-									<li><div id="div_punt3"
-											class="awesome-marker-web awesome-marker-icon-red"></div></li>
-									<li><div id="div_punt4"
-											class="awesome-marker-web awesome-marker-icon-purple"></div></li>
-									<li><div id="div_punt5"
-											class="awesome-marker-web awesome-marker-icon-blue"></div></li>
-									<li><div id="div_punt6"
-											class="awesome-marker-web awesome-marker-icon-green"></div></li>
-									<li><div id="div_punt7"
-											class="awesome-marker-web awesome-marker-icon-darkgray"></div></li>
-									<li><div id="div_punt8"
-											class="awesome-marker-web awesome-marker-icon-gray"></div></li>
-
-									<ul>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="8"><span lang="ca">Iconografia</span></td>
-						</tr>
-						<tr>
-							<td height="25" colspan="8"><span class="small" lang="ca">Colors
-									icones:</span>
+						<td>
+							<div id="div_puntZ" class="li2 liX">
+								<div id="div_punt9" style="background-color: #FFC500;" class="awesome-marker-web awesome-marker-icon-punt_r"></div>
+							</div>
+							<div class="liX">
+								<span class="small" lang="ca">Color punt:</span>
 								<div class="btn-group">
 									<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-										<div id="dv_fill_color_icon" class="fill_color_icon"></div>
+										<div id="dv_fill_color_punt" class="fill_color_punt"></div>
 									</a>
 									<ul class="dropdown-menu">
-										<li><div id="colorpalette_icon"></div></li>
-									</ul>
-								</div></td>
-						</tr>
-						<tr>
-							<td colspan="8">
-								<div id="iconsgli" style="height: 150px; overflow: auto">
-									<ul class="bs-glyphicons">
-										<li><span class="fa fa-"></span></li>
-										<li><span class="fa fa-ambulance"></span></li>
-										<li><span class="fa fa-asterisk"></span></li>
-										<li><span class="fa fa-anchor"></span></li>
-										<li><span class="fa fa-ban circle"></span></li>
-										<li><span class="fa fa-bar-chart-o"></span></li>
-										<li><span class="fa fa-beer"></span></li>
-										<li><span class="fa fa-bell"></span></li>
-										<li><span class="fa fa-bolt"></span></li>
-										<li><span class="fa fa-book"></span></li>
-										<li><span class="fa fa-briefcase"></span></li>
-										<li><span class="fa fa-building-o"></span></li>
-										<li><span class="fa fa-bullhorn"></span></li>
-										<li><span class="fa fa-calendar"></span></li>
-										<li><span class="fa fa-camera"></span></li>
-										<li><span class="fa fa-certificate"></span></li>
-										<li><span class="fa fa-check"></span></li>
-										<li><span class="fa fa-circle"></span></li>
-										<li><span class="fa fa-cloud"></span></li>
-										<li><span class="fa fa-coffee"></span></li>
-										<li><span class="fa fa-cog"></span></li>
-										<li><span class="fa fa-cogs"></span></li>
-										<li><span class="fa fa-dot-circle-o"></span></li>
-										<li><span class="fa fa-comment"></span></li>
-										<li><span class="fa fa-eur"></span></li>
-										<li><span class="fa fa-smile-o"></span></li>
-										<li><span class="fa fa-envelope"></span></li>
-										<li><span class="fa fa-android"></span></li>
-										<li><span class="fa fa-apple"></span></li>
-										<li><span class="fa fa-exclamation sign"></span></li>
-										<li><span class="fa fa-youtube-play"></span></li>
-										<li><span class="fa fa-eye open"></span></li>
-										<li><span class="fa fa-flask"></span></li>
-										<li><span class="fa fa-female"></span></li>
-										<li><span class="fa fa-male"></span></li>
-										<li><span class="fa fa-facebook"></span></li>
-										<li><span class="fa fa-smile-o"></span></li>
-										<li><span class="fa fa-fighter-jet"></span></li>
-										<li><span class="fa fa-film"></span></li>
-										<li><span class="fa fa-fire"></span></li>
-										<li><span class="fa fa-flag"></span></li>
-										<li><span class="fa fa-gift"></span></li>
-										<li><span class="fa fa-github"></span></li>
-										<li><span class="fa fa-globe"></span></li>
-										<li><span class="fa fa-google-plus"></span></li>
-										<li><span class="fa fa-group"></span></li>
-										<li><span class="fa fa-headphones"></span></li>
-										<li><span class="fa fa-heart"></span></li>
-										<li><span class="fa fa-home"></span></li>
-										<li><span class="fa fa-hospital-o"></span></li>
-										<li><span class="fa fa-plus-square"></span></li>
-										<li><span class="fa fa-h-square"></span></li>
-										<li><span class="fa fa-info sign"></span></li>
-										<li><span class="fa fa-cutlery"></span></li>
-										<li><span class="fa fa-leaf"></span></li>
-										<li><span class="fa fa-legal"></span></li>
-										<li><span class="fa fa-lemon-o"></span></li>
-										<li><span class="fa fa-lightbulb-o"></span></li>
-										<li><span class="fa fa-link"></span></li>
-										<li><span class="fa fa-linkedin"></span></li>
-										<li><span class="fa fa-lock"></span></li>
-										<li><span class="fa fa-magic"></span></li>
-										<li><span class="fa fa-magnet"></span></li>
-										<li><span class="fa fa-map-marker"></span></li>
-										<li><span class="fa fa-medkit"></span></li>
-										<li><span class="fa fa-mobile phone"></span></li>
-										<li><span class="fa fa-money"></span></li>
-										<li><span class="fa fa-music"></span></li>
-										<li><span class="fa fa-pencil"></span></li>
-										<li><span class="fa fa-phone"></span></li>
-										<li><span class="fa fa-picture-o"></span></li>
-										<li><span class="fa fa-pinterest"></span></li>
-										<li><span class="fa fa-plane"></span></li>
-										<li><span class="fa fa-play-circle"></span></li>
-										<li><span class="fa fa-rss"></span></li>
-										<li><span class="fa fa-search"></span></li>
-										<li><span class="fa fa-shopping-cart"></span></li>
-										<li><span class="fa fa-signal"></span></li>
-										<li><span class="fa fa-sitemap"></span></li>
-										<li><span class="fa fa-spinner"></span></li>
-										<li><span class="fa fa-star"></span></li>
-										<li><span class="fa fa-stethoscope"></span></li>
-										<li><span class="fa fa-stop"></span></li>
-										<li><span class="fa fa-suitcase"></span></li>
-										<li><span class="fa fa-tablet"></span></li>
-										<li><span class="fa fa-tag"></span></li>
-										<li><span class="fa fa-tags"></span></li>
-										<li><span class="fa fa-th-large"></span></li>
-										<li><span class="fa fa-thumbs-down"></span></li>
-										<li><span class="fa fa-thumbs-up"></span></li>
-										<li><span class="fa fa-times"></span></li>
-										<li><span class="fa fa-tint"></span></li>
-										<li><span class="fa fa-trash-o"></span></li>
-										<li><span class="fa fa-trophy"></span></li>
-										<li><span class="fa fa-truck"></span></li>
-										<li><span class="fa fa-twitter"></span></li>
-										<li><span class="fa fa-umbrella"></span></li>
-										<li><span class="fa fa-unlock"></span></li>
-										<li><span class="fa fa-user"></span></li>
-										<li><span class="fa fa-wheelchair"></span></li>
-										<li><span class="fa fa-volume-off"></span></li>
-										<li><span class="fa fa-volume-up"></span></li>
-										<li><span class="fa fa-warning sign"></span></li>
-										<li><span class="fa fa-wrench"></span></li>
+										<li><div id="colorpalette_punt"></div></li>
 									</ul>
 								</div>
-							</td>
+							</div>
+							<div class="liX" style="border-right: 1px solid #DDDDDD">
+								<span class="small" lang="ca">Mida punt:</span>
+								<select id="cmb_mida_Punt" class="form-control">
+									<option lang="ca" class="small" value="24">Mida punt</option>
+									<option lang="ca" class="small" value="16">Petit +</option>
+									<option lang="ca" class="small" value="21">Petit</option>
+									<option lang="ca" class="small" value="24">Mitjà</option>
+									<option lang="ca" class="small" selected value="30">Mitjà +</option>
+									<option class="small" value="34">Gran</option>
+								</select>
+							</div>
+						</td>
+						<tr class="fila-awesome-markers">
+						<td>
+							<ul class="bs-punts">
+								<li class="estil_selected" ><div id="div_punt1" class="awesome-marker-web awesome-marker-icon-orange"></div></li>
+								<li><div id="div_punt2"	class="awesome-marker-web awesome-marker-icon-darkorange"></div></li>
+								<li><div id="div_punt3"	class="awesome-marker-web awesome-marker-icon-red"></div></li>
+								<li><div id="div_punt4"	class="awesome-marker-web awesome-marker-icon-purple"></div></li>
+								<li><div id="div_punt5" class="awesome-marker-web awesome-marker-icon-blue"></div></li>
+								<li><div id="div_punt6" class="awesome-marker-web awesome-marker-icon-green"></div></li>
+								<li><div id="div_punt7" class="awesome-marker-web awesome-marker-icon-darkgray"></div></li>
+								<li><div id="div_punt8" class="awesome-marker-web awesome-marker-icon-gray"></div></li>
+							</ul>
+						</td>
+						</tr>
+						<tr class="fila-awesome-markers">
+							<td colspan="8"><span lang="ca">Iconografia</span></td>
+						</tr>
+						<tr class="fila-awesome-markers">
+						<td height="25" colspan="8"><span class="small" lang="ca">Colors icones:</span>
+							<div class="btn-group">
+								<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+									<div id="dv_fill_color_icon" class="fill_color_icon"></div>
+								</a>
+								<ul class="dropdown-menu">
+									<li><div id="colorpalette_icon"></div></li>
+								</ul>
+							</div>
+						</td>
+						</tr>
+						<tr class="fila-awesome-markers">
+						<td colspan="8">
+							<div id="iconsgli" style="height: 150px; overflow: auto">
+								<ul class="bs-glyphicons">
+									<li><span class="fa fa-"></span></li>
+									<li><span class="fa fa-ambulance"></span></li>
+									<li><span class="fa fa-asterisk"></span></li>
+									<li><span class="fa fa-anchor"></span></li>
+									<li><span class="fa fa-ban circle"></span></li>
+									<li><span class="fa fa-bar-chart-o"></span></li>
+									<li><span class="fa fa-beer"></span></li>
+									<li><span class="fa fa-bell"></span></li>
+									<li><span class="fa fa-bolt"></span></li>
+									<li><span class="fa fa-book"></span></li>
+									<li><span class="fa fa-briefcase"></span></li>
+									<li><span class="fa fa-building-o"></span></li>
+									<li><span class="fa fa-bullhorn"></span></li>
+									<li><span class="fa fa-calendar"></span></li>
+									<li><span class="fa fa-camera"></span></li>
+									<li><span class="fa fa-certificate"></span></li>
+									<li><span class="fa fa-check"></span></li>
+									<li><span class="fa fa-circle"></span></li>
+									<li><span class="fa fa-cloud"></span></li>
+									<li><span class="fa fa-coffee"></span></li>
+									<li><span class="fa fa-cog"></span></li>
+									<li><span class="fa fa-cogs"></span></li>
+									<li><span class="fa fa-dot-circle-o"></span></li>
+									<li><span class="fa fa-comment"></span></li>
+									<li><span class="fa fa-eur"></span></li>
+									<li><span class="fa fa-smile-o"></span></li>
+									<li><span class="fa fa-envelope"></span></li>
+									<li><span class="fa fa-android"></span></li>
+									<li><span class="fa fa-apple"></span></li>
+									<li><span class="fa fa-exclamation sign"></span></li>
+									<li><span class="fa fa-youtube-play"></span></li>
+									<li><span class="fa fa-eye open"></span></li>
+									<li><span class="fa fa-flask"></span></li>
+									<li><span class="fa fa-female"></span></li>
+									<li><span class="fa fa-male"></span></li>
+									<li><span class="fa fa-facebook"></span></li>
+									<li><span class="fa fa-smile-o"></span></li>
+									<li><span class="fa fa-fighter-jet"></span></li>
+									<li><span class="fa fa-film"></span></li>
+									<li><span class="fa fa-fire"></span></li>
+									<li><span class="fa fa-flag"></span></li>
+									<li><span class="fa fa-gift"></span></li>
+									<li><span class="fa fa-github"></span></li>
+									<li><span class="fa fa-globe"></span></li>
+									<li><span class="fa fa-google-plus"></span></li>
+									<li><span class="fa fa-group"></span></li>
+									<li><span class="fa fa-headphones"></span></li>
+									<li><span class="fa fa-heart"></span></li>
+									<li><span class="fa fa-home"></span></li>
+									<li><span class="fa fa-hospital-o"></span></li>
+									<li><span class="fa fa-plus-square"></span></li>
+									<li><span class="fa fa-h-square"></span></li>
+									<li><span class="fa fa-info sign"></span></li>
+									<li><span class="fa fa-cutlery"></span></li>
+									<li><span class="fa fa-leaf"></span></li>
+									<li><span class="fa fa-legal"></span></li>
+									<li><span class="fa fa-lemon-o"></span></li>
+									<li><span class="fa fa-lightbulb-o"></span></li>
+									<li><span class="fa fa-link"></span></li>
+									<li><span class="fa fa-linkedin"></span></li>
+									<li><span class="fa fa-lock"></span></li>
+									<li><span class="fa fa-magic"></span></li>
+									<li><span class="fa fa-magnet"></span></li>
+									<li><span class="fa fa-map-marker"></span></li>
+									<li><span class="fa fa-medkit"></span></li>
+									<li><span class="fa fa-mobile phone"></span></li>
+									<li><span class="fa fa-money"></span></li>
+									<li><span class="fa fa-music"></span></li>
+									<li><span class="fa fa-pencil"></span></li>
+									<li><span class="fa fa-phone"></span></li>
+									<li><span class="fa fa-picture-o"></span></li>
+									<li><span class="fa fa-pinterest"></span></li>
+									<li><span class="fa fa-plane"></span></li>
+									<li><span class="fa fa-play-circle"></span></li>
+									<li><span class="fa fa-rss"></span></li>
+									<li><span class="fa fa-search"></span></li>
+									<li><span class="fa fa-shopping-cart"></span></li>
+									<li><span class="fa fa-signal"></span></li>
+									<li><span class="fa fa-sitemap"></span></li>
+									<li><span class="fa fa-spinner"></span></li>
+									<li><span class="fa fa-star"></span></li>
+									<li><span class="fa fa-stethoscope"></span></li>
+									<li><span class="fa fa-stop"></span></li>
+									<li><span class="fa fa-suitcase"></span></li>
+									<li><span class="fa fa-tablet"></span></li>
+									<li><span class="fa fa-tag"></span></li>
+									<li><span class="fa fa-tags"></span></li>
+									<li><span class="fa fa-th-large"></span></li>
+									<li><span class="fa fa-thumbs-down"></span></li>
+									<li><span class="fa fa-thumbs-up"></span></li>
+									<li><span class="fa fa-times"></span></li>
+									<li><span class="fa fa-tint"></span></li>
+									<li><span class="fa fa-trash-o"></span></li>
+									<li><span class="fa fa-trophy"></span></li>
+									<li><span class="fa fa-truck"></span></li>
+									<li><span class="fa fa-twitter"></span></li>
+									<li><span class="fa fa-umbrella"></span></li>
+									<li><span class="fa fa-unlock"></span></li>
+									<li><span class="fa fa-user"></span></li>
+									<li><span class="fa fa-wheelchair"></span></li>
+									<li><span class="fa fa-volume-off"></span></li>
+									<li><span class="fa fa-volume-up"></span></li>
+									<li><span class="fa fa-warning sign"></span></li>
+									<li><span class="fa fa-wrench"></span></li>
+								</ul>
+							</div>
+						</td>
 						</tr>
 					</table>
 				</div>
@@ -813,7 +813,7 @@
 				</div>
 				<div class="modal-body">
 					<div>
-					<span lang="ca">Instamapes llegeix els seguents format</span>:
+					<span lang="ca">Instamapes llegeix els següents formats</span>:
 					KML,TXT,CSV,XLS,XLSX,GPX. Faltarien: MapInfo, Dxf, GeoJson, GML, SHP(ZIP)
 					</div>
 					<br>
@@ -914,7 +914,7 @@
 					<h4 class="modal-title" lang="ca">Sessió caducada</h4>
 				</div>
 				<div lang="ca" class="modal-body">
-					S'ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió
+					Ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió
 				</div>
 				<div class="modal-footer">
 			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn" data-dismiss="modal">Acceptar</button>
@@ -927,7 +927,6 @@
 	<!-- /.modal -->
 	<!-- fi Modal expired -->
 
-	<!-- Modal descarrega dades -->
 	<div class="modal fade" id="modal_download_layer">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -967,11 +966,15 @@
 						</div>
 					</div>
 					<div id="modal-body-download-error">
-					<h5><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha pogut efectuar la descàrrega. Torni a intentar-ho.</span></h5>
-					</div>					
+						<h5><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha pogut efectuar la descàrrega. Torni a intentar-ho.</span></h5>
+					</div>
+					<div id="modal-body-download-not-available">
+						<h5><span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Capa no disponible per la descàrrega.</span></h5>
+					</div>											
 				</div>
 				<div class="modal-footer">
 			    	<button id="bt_download_accept" lang="ca" type="button" class="btn bt-sessio" data-dismiss="modal">Acceptar</button>
+			    	<button id="bt_download_tancar" lang="ca" type="button" class="btn bt-sessio" data-dismiss="modal">Acceptar</button>
 			    </div>
 			</div>
 			<!-- /.modal-content -->
@@ -979,7 +982,7 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!-- fi Modal expired -->
+	<!-- fi Modal descarrega dades -->
 
 	<!-- Modal Tematics Layers -->
 	<div class="modal fade" id="dialog_layers_tematic">
@@ -988,24 +991,22 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Triar la capa disponible</h4>
+					<h4 class="modal-title" lang="ca">Triar una capa per aplicar-hi l'estil</h4>
 				</div>
 				<div class="modal-body">
-				
-
 					<script id="tematic-layers-template" type="text/x-handlebars-template">
-<div class="panel-warning">					
-<ul class="bs-dadesO_USR panel-heading">
+					<div class="panel-warning">					
+					<ul class="bs-dadesO_USR panel-heading">
 						{{#each layers}}
 						<li><a class="usr_wms_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>
 						{{/each}}
 					</ul>	
-</div>
+					</div>
 					</script>
 					<div id="list_tematic_layers"></div>
-				
 			</div>
 				<div class="modal-footer">
+				<div lang="ca" style="float:right;line-height: 40px;">Estil actiu:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
 					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
@@ -1024,30 +1025,130 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Triar l'estil del mapa</h4>
+					<h4 class="modal-title" lang="ca">Defineix les categories</h4>
 				</div>
 				<div class="modal-body">
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Valors</span>:</div>
+					<div class="labels_fields">
+						<span lang="ca">Escull el camp per simbolitzar</span>:
+						<select name="dataField" id="dataField">
+						</select>
+					</div>
 					<script id="tematic-layers-fields" type="text/x-handlebars-template">
 						{{#each fields}}
 						<option value="{{this}}">{{@key}}</option>
 						{{/each}}
 					</script>
-					<select name="dataField" id="dataField">
-					</select>
+					<br/>										
+					<div id="tipus_agrupacio_grp" class="labels_fields">
+						<span lang="ca">Escull l'interval</span>:
+						<span class="rd_separator"></span>
+						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">
+						<label for="rd_tipus_unic" lang="ca">únic</label>
+						<span class="rd_separator"></span>
+						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">
+						<label for="rd_tipus_rang" lang="ca">per intervals</label>
+<!-- 						<select id="cmb_tipus_agrupacio"> -->
+<!-- 							<option lang="ca" value="U">Únic</option> -->
+<!-- 							<option lang="ca" value="R">Rang</option> -->
+<!-- 						</select> -->
+					</div>			
+					<div id="num_rangs_grp" class="labels_fields" >
+						<select id="cmb_num_rangs">
+							<option value="---" selected >Intervals</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+						</select>
+					</div>
 					
-					<script id="tematic-values-template" type="text/x-handlebars-template">
+					<script id="tematic-values-unic-punt-template" type="text/x-handlebars-template">
 					<table class="table">
 						<tbody>
 						{{#each values}}
-						<tr><td>{{v}}</td><td>{{style}}</td></tr>
+						<tr><td>{{v}}</td><td>
+							{{#if style.isCanvas}}
+								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-" 
+									style="font-size: 10.5px; width: 21px; height: 21px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>
+							{{else}}
+								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa
+									{{#if style.icon}}
+										fa-{{style.icon}}"></div>	
+									{{else}}
+										"></div>
+									{{/if}}
+							{{/if}}
+						</td></tr>
 						{{/each}}
 						</tbody>
 					</table>	
 					</script>
+					
+					<script id="tematic-values-unic-polygon-template" type="text/x-handlebars-template">
+					<table class="table">
+						<tbody>
+						{{#each values}}
+						<tr><td>{{v}}</td><td>
+							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>
+						</td></tr>
+						{{/each}}
+						</tbody>
+					</table>	
+					</script>
+					
+					<script id="tematic-values-rangs-punt-template" type="text/x-handlebars-template">
+					<table class="table">
+						<thead>
+						<tr>
+     						<th lang="ca">Valor min</th>
+     						<th lang="ca">Valor max</th>
+  						</tr>
+ 						</thead>
+						<tbody>
+						{{#each values}}
+						<tr><td><input type="text" value="{{v.min}}" name="min"></td>
+							<td><input type="text" value="{{v.max}}" name="max"></td>
+							<td>
+							{{#if style.isCanvas}}
+								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-" 
+									style="font-size: 10.5px; width: 21px; height: 21px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>
+							{{else}}
+								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa
+									{{#if style.icon}}
+										fa-{{style.icon}}"></div>	
+									{{else}}
+										"></div>
+									{{/if}}
+							{{/if}}
+						</td></tr>
+						{{/each}}
+						</tbody>
+					</table>	
+					</script>
+					
+					<script id="tematic-values-rangs-polygon-template" type="text/x-handlebars-template">
+					<table class="table">
+						<tbody>
+						{{#each values}}
+						<tr><td><input type="text" value="{{v.min}}" name="min"></td>
+							<td><input type="text" value="{{v.max}}" name="max"></td>
+							<td>
+							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>
+						</td></tr>
+						{{/each}}
+						</tbody>
+					</table>	
+					</script>
+					
 					<div id="list_tematic_values"></div>
 				</div>
 				<div class="modal-footer">
+					<div id="paletes_colors">
+						
+					</div>
 					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
          			<button type="button" class="btn btn-success" lang="ca">Canviar</button>
 				</div>
@@ -1082,7 +1183,35 @@
 	</div>
 	<!-- fi Modal Leave -->
 	
-	
+	<!-- Modal Old Browser -->
+	<div id="dialgo_old_browser" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Sabia vostè que el seu navegador no està actualitzat?</h4>
+				</div>
+				<div class="modal-body">
+					<div lang="ca">Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.</div>
+					<div>
+					<a href="http://www.microsoft.com/windows/Internet-explorer/default.aspx" target="_blank"><div class='ie_img browser_img'></div></a>
+					<a href="http://www.mozilla.com/firefox/" target="_blank"><div class='firefox_img browser_img'></div></a>
+					<a href="http://www.apple.com/safari/download/" target="_blank"><div class='safari_img browser_img'></div></a>
+					<a href="http://www.opera.com/download/" target="_blank"><div class='opera_img browser_img'></div></a>
+					<a href="http://www.google.com/chrome" target="_blank"><div class='chrome_img browser_img'></div></a>
+					</div>
+					<div lang="ca">Només faci clic a les icones per anar a la pàgina de descàrrega</div>
+				</div>
+				<div class="modal-footer">
+					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Old Browser -->
 	
 	<!-- Modal Captura -->
 	<div id="dialg_captura" class="modal fade">
@@ -1107,17 +1236,53 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
-	<!-- fi Modal Leave -->
+	<!-- fi Modal Captura -->
+	
+	<!-- Modal messages -->
+	<div id="dialgo_messages" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Acceptar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi messages -->
 	
 	
-	
+
+	<div id="mapaFond"></div>
 
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
+	<script type="text/javascript">
+	if (!Modernizr.canvas ){
+		document.getElementById("mapaFond").style.display = "block";
+		document.getElementById("dialgo_old_browser").style.display = "block";
+		document.getElementById("sidebar").style.display = "none";
+		document.getElementById("old_icon_close").style.display = "none";
+		document.getElementById("old_btn_close").onclick = function () {
+			window.location = "/index.html";
+		}
+	}
+	</script>
+	
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.cookiecuttr.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
@@ -1129,8 +1294,7 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.reject.js"></script>
-
+	
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.styles.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.layers.js" type="text/javascript"></script>
@@ -1141,6 +1305,7 @@
  	<script src="/geocatweb/js/geocat.mapa.heat.js" type="text/javascript"></script>
  	<script src="/geocatweb/js/geocat.mapa.cluster.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.canvas.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.tematics.js" type="text/javascript"></script>
 	<script src="/llibreries/js/dropzone.js" type="text/javascript"></script>
 	<script>
 		L_PREFER_CANVAS = true;
@@ -1172,7 +1337,7 @@
 	
 	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
 	<script src="/llibreries/js/bootstrap-switch.min.js"></script>
-	<script src="/llibreries/js/bootstrap-editable.min.js"></script>
+	<script src="/llibreries/js/bootstrap-editable.js"></script>
 	<script src="/llibreries/js/bootstrap3-typeahead.min.js"></script>
 		
 	<script src="/geocatweb/js/geocat.mapa-1.0.0.js" type="text/javascript"></script>
