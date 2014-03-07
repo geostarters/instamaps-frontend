@@ -17,6 +17,7 @@ function creaClusterMap(capa) {
 					calentas: false,
 		            activas: true,
 		            visibilitats: true,
+		            order: capesOrdre_sublayer,
 		            epsg: '4326',
 		            imgFormat: 'image/png',
 		            infFormat: 'text/html',
@@ -27,7 +28,7 @@ function creaClusterMap(capa) {
 		            calentas: false,
 		            activas: true,
 		            visibilitats: true,
-		            options: '{"dataset":"'+capa.layer.options.dataset+'","tem":"'+tem_cluster+'"}'
+		            options: '{"dataset":"'+capa.layer.options.dataset+'","tem":"'+tem_cluster+'","origen":"'+capa.layer.options.businessId+'"}'
 			};	
 			
 			createServidorInMap(data).then(function(results){
@@ -47,9 +48,9 @@ function creaClusterMap(capa) {
 					clusterLayer.options.tipusRang = tem_cluster;
 
 					map.addLayer(clusterLayer);
-					clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
+					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 
 //					map.removeLayer(capa.layer);
@@ -68,7 +69,8 @@ function creaClusterMap(capa) {
 		            nom: capa.layer.options.nom+" cluster",
 		            calentas: false,           
 		            activas: true,
-		            visibilitats: true,	            
+		            order: capesOrdre_sublayer,
+		            visibilitats: true,
 		            tipusRang: tem_cluster,
 		            rangs: rangs
 		        }
@@ -90,9 +92,9 @@ function creaClusterMap(capa) {
 					clusterLayer.options.tipusRang = tem_cluster;
 					
 					map.addLayer(clusterLayer);
-					clusterLayer.options.zIndex = controlCapes._lastZIndex+1;
+					clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);					
 					
 				}else{
@@ -113,9 +115,9 @@ function creaClusterMap(capa) {
 		clusterLayer.options.tipusRang = tem_cluster;
 
 		map.addLayer(clusterLayer);
-		clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
+		clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex + 1;
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-		controlCapes._lastZIndex++;
+//		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 }
@@ -162,14 +164,18 @@ function loadDadesObertesClusterLayer(layer){
 		clusterLayer.options.tipusRang = tem_cluster;
 
 		map.addLayer(clusterLayer);
-		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true);
-		controlCapes._lastZIndex++;
+		var origen = getLeafletIdFromBusinessId(options.origen);
+		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
+//		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		
 		
 	});	
 }
 
-function loadTematicCluster(layer, zIndex){
+function loadTematicCluster(layer, zIndex, layerOptions){
+	
+	var options = jQuery.parseJSON(layerOptions);
+	
 	var clusterLayer = L.markerClusterGroup({
 		singleMarkerMode : true
 	});	
@@ -191,8 +197,8 @@ function loadTematicCluster(layer, zIndex){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		map.addLayer(clusterLayer);
 	}		
-	
-	controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true);
-	controlCapes._lastZIndex++;
+	var origen = getLeafletIdFromBusinessId(options.origen);
+	controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true, origen);
+//	controlCapes._lastZIndex++;
 	activaPanelCapes(true);		
 }

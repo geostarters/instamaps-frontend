@@ -205,9 +205,9 @@ function loadApp(){
 		showTematicLayersModal(tem_clasic,jQuery(this).attr('class'));
 	});
 
-	jQuery('#st_Size').on('click',function(){
-		showTematicLayersModal(tem_size);
-	});
+//	jQuery('#st_Size').on('click',function(){
+//		showTematicLayersModal(tem_size);
+//	});
 	
 	jQuery('#st_Heat').on('click',function(e) {
 		showTematicLayersModal(tem_heatmap,jQuery(this).attr('class'));
@@ -707,7 +707,8 @@ function creaPopOverMevasDades(){
 					layers: _this.data("layers"),
 					calentas:false,
 					activas:true,
-					visibilitats:true
+					visibilitats:true,
+					order: controlCapes._lastZIndex+ 1
 			};						
 			
 			addServerToMap(data).then(function(results){
@@ -810,7 +811,8 @@ function loadPopOverMevasDades(){
 				layers: _this.data("layers"),
 				calentas:false,
 				activas:false,
-				visibilitats:true
+				visibilitats:true,
+				order: controlCapes._lastZIndex+1
 			};
 			
 			addServerToMap(data).then(function(results){
@@ -1097,6 +1099,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			calentas: false,
             activas: true,
             visibilitats: true,
+            order: controlCapes._lastZIndex+1,
             epsg: '4326',
             transparency: true,
             visibilitat: 'O',
@@ -1424,6 +1427,7 @@ function addTwitterLayer(hashtag){
 				calentas: false,
 	            activas: true,
 	            visibilitats: true,
+	            order: controlCapes._lastZIndex+1,
 	            epsg: '4326',
 	            transparency: true,
 	            visibilitat: 'O',
@@ -1489,6 +1493,7 @@ function addPanoramioLayer(){
 			calentas: false,
             activas: true,
             visibilitats: true,
+            order: controlCapes._lastZIndex+1,
             epsg: '4326',
             transparency: true,
             visibilitat: 'O',
@@ -1553,6 +1558,7 @@ function addWikipediaLayer(){
 			calentas: false,
             activas: true,
             visibilitats: true,
+            order: controlCapes._lastZIndex+1,
             epsg: '4326',
             transparency: true,
             visibilitat: 'O',
@@ -1660,7 +1666,11 @@ function myRemoveLayer(obj){
 		var aux = controlCapes._layers;
 		for (var i in aux) {
 			if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
-		}		
+		}
+		//Eliminem les seves sublayers en cas que tingui
+		for(indexSublayer in obj._layers){
+			map.removeLayer(map._layers[indexSublayer]);
+		}
 	}
 
 	//Actualitzem capaUsrActiva
@@ -1798,8 +1808,16 @@ function loadDadesObertesLayer(layer){
 			capaDadaOberta.options.zIndex = parseInt(layer.capesOrdre);
 		}		
 		
-		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
-		controlCapes._lastZIndex++;
+//		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
+//		controlCapes._lastZIndex++;
+		
+		if(!options.origen){
+			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
+			controlCapes._lastZIndex++;
+		}else{//Si te origen es una sublayer
+			var origen = getLeafletIdFromBusinessId(options.origen);
+			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
+		}		
 		
 	}else if(options.tem == tem_cluster){
 		loadDadesObertesClusterLayer(layer);
@@ -1880,4 +1898,14 @@ function activaPuntZ(){
 	jQuery('#div_punt0').css('background-color',estilP.divColor);
 	estilP.fontsize=(vv/2)+"px";
 	estilP.size=vv;	
+}
+
+function getLeafletIdFromBusinessId(businessId){
+	
+	for(val in controlCapes._layers){
+		console.debug("Hola");
+		if(controlCapes._layers[val].layer.options.businessId == businessId){
+			return val;
+		}
+	}
 }

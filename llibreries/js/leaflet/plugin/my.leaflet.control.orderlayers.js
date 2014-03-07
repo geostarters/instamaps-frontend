@@ -308,49 +308,94 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var sublayers = obj._layers;
 		for (j in sublayers) { 
 //			this._addSubItem(sublayers[j]);
-			modeSublayer = true;
-			var sublayer = sublayers[j];
-			var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
-			
-			var label_sublayer = L.DomUtil.create('label', ''),
-			    input_sublayer,
-			    checked = this._map.hasLayer(sublayer.layer);
-
-			input_sublayer = L.DomUtil.create('input');
-			input_sublayer.id='input-'+sublayer.layer.options.businessId;
-			input_sublayer.type = 'checkbox';
-			input_sublayer.className = 'leaflet-control-layers-selector';
-			input_sublayer.defaultChecked = checked;
-
-			input_sublayer.layerId = L.stamp(sublayer.layer);
-			input_sublayer.layerIdParent = input.layerId;
-			
-			L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
-
-			var name_sublayer = document.createElement('span');
-			name_sublayer.className = 'editable';
-			name_sublayer.id=input.layerId;
-			name_sublayer.innerHTML = ' ' + sublayer.name;
-			
-			var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
-			col_sublayer.appendChild(input_sublayer);
-			row_sublayer.appendChild(col_sublayer);
-			col_sublayer = L.DomUtil.create('div', 'leaflet-name');
-			col_sublayer.appendChild(label_sublayer);
-			row_sublayer.appendChild(col_sublayer);
-			label_sublayer.appendChild(name_sublayer);
-			
-			col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
-			L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
-			col_sublayer.layerId = input_sublayer.layerId;
-			col_sublayer.layerIdParent = input.layerId;
-			row_sublayer.appendChild(col_sublayer);			
-			
+//			var sublayer = sublayers[j];
+			var row_sublayer = this._createSubItem(sublayers[j],input.layerId);
+//			var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
+//			
+//			var label_sublayer = L.DomUtil.create('label', ''),
+//			    input_sublayer,
+//			    checked = this._map.hasLayer(sublayer.layer);
+//
+//			input_sublayer = L.DomUtil.create('input');
+//			input_sublayer.id='input-'+sublayer.layer.options.businessId;
+//			input_sublayer.type = 'checkbox';
+//			input_sublayer.className = 'leaflet-control-layers-selector';
+//			input_sublayer.defaultChecked = checked;
+//
+//			input_sublayer.layerId = L.stamp(sublayer.layer);
+//			input_sublayer.layerIdParent = input.layerId;
+//			
+//			L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
+//
+//			var name_sublayer = document.createElement('span');
+//			name_sublayer.className = 'editable';
+//			name_sublayer.id=input.layerId;
+//			name_sublayer.innerHTML = ' ' + sublayer.name;
+//			
+//			var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
+//			col_sublayer.appendChild(input_sublayer);
+//			row_sublayer.appendChild(col_sublayer);
+//			col_sublayer = L.DomUtil.create('div', 'leaflet-name');
+//			col_sublayer.appendChild(label_sublayer);
+//			row_sublayer.appendChild(col_sublayer);
+//			label_sublayer.appendChild(name_sublayer);
+//			
+//			col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
+//			L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
+//			col_sublayer.layerId = input_sublayer.layerId;
+//			col_sublayer.layerIdParent = input.layerId;
+//			row_sublayer.appendChild(col_sublayer);			
+//			
 			row.appendChild(row_sublayer);
+//			createSubItem();
+			
 		}		
 		
 		updateEditableElements();
 		return label;
+	},
+	
+	_createSubItem: function(sublayer,layerIdParent){
+		console.debug("_createSubItem");
+		
+		var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
+		
+		var label_sublayer = L.DomUtil.create('label', ''),
+		    input_sublayer,
+		    checked = this._map.hasLayer(sublayer.layer);
+
+		input_sublayer = L.DomUtil.create('input');
+		input_sublayer.id='input-'+sublayer.layer.options.businessId;
+		input_sublayer.type = 'checkbox';
+		input_sublayer.className = 'leaflet-control-layers-selector';
+		input_sublayer.defaultChecked = checked;
+
+		input_sublayer.layerId = L.stamp(sublayer.layer);
+		input_sublayer.layerIdParent = layerIdParent; //input.layerId;
+		
+		L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
+
+		var name_sublayer = document.createElement('span');
+		name_sublayer.className = 'editable';
+		name_sublayer.id=layerIdParent;
+		name_sublayer.innerHTML = ' ' + sublayer.name;
+		
+		var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
+		col_sublayer.appendChild(input_sublayer);
+		row_sublayer.appendChild(col_sublayer);
+		col_sublayer = L.DomUtil.create('div', 'leaflet-name');
+		col_sublayer.appendChild(label_sublayer);
+		row_sublayer.appendChild(col_sublayer);
+		label_sublayer.appendChild(name_sublayer);
+		
+		col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
+		L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
+		col_sublayer.layerId = input_sublayer.layerId;
+		col_sublayer.layerIdParent = layerIdParent;
+		row_sublayer.appendChild(col_sublayer);	
+		
+		return row_sublayer;
+		
 	},
 	
 	_onInputClick: function () {
@@ -401,10 +446,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		
 		var replaceLayer = null;
 		for(var i=0; i < inputs.length; i++) {
-			var auxLayer = this._layers[inputs[i].layerId];
-			if(auxLayer.overlay && ((obj.layer.options.zIndex - 1) === auxLayer.layer.options.zIndex)) {
-				replaceLayer = auxLayer;
-				break;
+			if(!inputs[i].layerIdParent){
+				var auxLayer = this._layers[inputs[i].layerId];
+				if(auxLayer.overlay && ((obj.layer.options.zIndex - 1) === auxLayer.layer.options.zIndex)) {
+					replaceLayer = auxLayer;
+					break;
+				}				
 			}
 		}
 		
@@ -445,10 +492,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		
 		var replaceLayer = null;
 		for(var i=0; i < inputs.length; i++) {
-			var auxLayer = this._layers[inputs[i].layerId];
-			if(auxLayer.overlay && ((obj.layer.options.zIndex + 1) === auxLayer.layer.options.zIndex)) {
-				replaceLayer = auxLayer;
-				break;
+			if(!inputs[i].layerIdParent){
+				var auxLayer = this._layers[inputs[i].layerId];
+				if(auxLayer.overlay && ((obj.layer.options.zIndex + 1) === auxLayer.layer.options.zIndex)) {
+					replaceLayer = auxLayer;
+					break;
+				}				
 			}
 		}
 		
@@ -481,12 +530,17 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		
 		var layerId = e.currentTarget.layerId;
 		var layerIdParent = e.currentTarget.layerIdParent;
-		
+		var lbusinessId = [];
 		if(!layerIdParent){
 			var obj = this._layers[layerId];
+			lbusinessId.push(obj.layer.options.businessId);
+			for(i in obj._layers){
+				lbusinessId.push(obj._layers[i].layer.options.businessId);
+			}
 		}else{
 			var objParent = this._layers[layerIdParent];
 			var obj = objParent._layers[layerId];
+			lbusinessId.push(obj.layer.options.businessId);
 		}
 		
 		
@@ -498,7 +552,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			var data = {
 					businessId: url('?businessid'),
 					uid: $.cookie('uid'),
-					servidorWMSbusinessId: obj.layer.options.businessId
+					servidorWMSbusinessId: lbusinessId.toString()
 				};			
 			
 			removeServerToMap(data).then(function(results){
@@ -558,4 +612,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 L.control.orderlayers = function (baseLayers, overlays, options) {
 	return new L.Control.OrderLayers(baseLayers, overlays, options);
 };
+
+//function createSubItem(){
+//	console.debug("Create SubItem");
+//}
 

@@ -583,9 +583,9 @@ function loadTematicLayer(layer){
 			var tematic = results.results;
 			
 			if(tematic.tipusRang == tem_heatmap){
-				loadTematicHeatmap(tematic, layer.capesOrdre);
+				loadTematicHeatmap(tematic, layer.capesOrdre, layer.options);
 			}else if(tematic.tipusRang == tem_cluster){
-				loadTematicCluster(tematic, layer.capesOrdre);
+				loadTematicCluster(tematic, layer.capesOrdre, layer.options);
 			}else{
 				console.debug(tematic);
 				var Lgeom = tematic.geometries.features.features;
@@ -762,15 +762,21 @@ function loadTematicLayer(layer){
 					}
 				}
 				
-								
-				
-				if (!layerWms.capesOrdre){
-					capaTematic.options.zIndex = controlCapes._lastZIndex + 1;
-				}else{
-					capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
+				var options = jQuery.parseJSON( layerWms.options );				
+				if(options.origen){//Si es una sublayer
+					var origen = getLeafletIdFromBusinessId(options.origen);
+					controlCapes.addOverlay(capaTematic, layerWms.serverName, true, origen);					
 				}
-				controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
-				controlCapes._lastZIndex++;
+				else {
+					if (!layerWms.capesOrdre){
+						capaTematic.options.zIndex = controlCapes._lastZIndex + 1;
+					}else{
+						capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
+					}
+					controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
+					controlCapes._lastZIndex++;					
+				}
+
 				
 			}
 		}else{
@@ -1014,7 +1020,8 @@ function changeTematicLayerStyle(tematic, styles){
 		var options = {
 				dataset: capaMare.options.dataset,
 				tem: tem_simple,
-				style: rangs[0]
+				style: rangs[0],
+				origen: capaMare.options.businessId
 			};
 			
 			var data = {
@@ -1025,7 +1032,8 @@ function changeTematicLayerStyle(tematic, styles){
 				serverType: capaMare.options.tipus,
 				calentas: false,
 	            activas: true,
-	            visibilitats: true,				
+	            visibilitats: true,	
+	            order: capesOrdre_sublayer,
 	            epsg: '4326',
 	            imgFormat: 'image/png',
 	            infFormat: 'text/html',
@@ -1051,7 +1059,8 @@ function changeTematicLayerStyle(tematic, styles){
             nom: capaMare.options.nom+" basic",
 			calentas: false,
             activas: true,
-            visibilitats: true,            
+            visibilitats: true,    
+            order: capesOrdre_sublayer,
 			tipusRang: tematic.from,
 			rangs: rangs
 		};
