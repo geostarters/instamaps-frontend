@@ -190,7 +190,7 @@ function getCapabilitiesWMS(url, servidor) {
 }
 
 jQuery(document).on('click', "#bt_addWMS", function(e) {
-	addExternalWMS2();
+	addExternalWMS();
 
 });
 
@@ -260,6 +260,7 @@ function addExternalWMS() {
 				calentas: false,
 	            activas: true,
 	            visibilitats: true,
+	            order: controlCapes._lastZIndex+1,
 	            epsg: ActiuWMS.epsgtxt,
 	            imgFormat: 'image/png',
 	            infFormat: 'text/html',

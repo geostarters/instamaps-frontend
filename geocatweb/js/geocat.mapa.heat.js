@@ -32,6 +32,7 @@ function createHeatMap(capa){
 					serverType: t_dades_obertes,
 					calentas: false,
 		            activas: true,
+		            order: capesOrdre_sublayer,
 		            visibilitats: true,
 		            epsg: '4326',
 		            imgFormat: 'image/png',
@@ -40,7 +41,7 @@ function createHeatMap(capa){
 		            transparency: true,
 		            opacity: 1,
 		            visibilitat: 'O',
-		            options: '{"dataset":"'+capa.layer.options.dataset+'","tem":"'+tem_heatmap+'"}'
+		            options: '{"dataset":"'+capa.layer.options.dataset+'","tem":"'+tem_heatmap+'","origen":"'+capa.layer.options.businessId+'"}'
 			};	
 			
 			createServidorInMap(data).then(function(results){
@@ -52,9 +53,9 @@ function createHeatMap(capa){
 					heatLayerActiu.options.tipusRang = tem_heatmap;
 					
 					map.addLayer(heatLayerActiu);
-					heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
-					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
-					controlCapes._lastZIndex++;
+					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
+					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 					
 				}else{
@@ -70,7 +71,8 @@ function createHeatMap(capa){
 	            uid: $.cookie('uid'),
 	            mapBusinessId: url('?businessid'),	           
 	            nom: capa.layer.options.nom+" heatmap",
-	            calentas: false,           
+	            calentas: false,   
+	            order: capesOrdre_sublayer,
 	            activas: true,
 	            visibilitats: true,	            
 	            tipusRang: tem_heatmap,
@@ -86,9 +88,9 @@ function createHeatMap(capa){
 					heatLayerActiu.options.tipusRang = tem_heatmap;
 
 					map.addLayer(heatLayerActiu);
-					heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
-					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
-					controlCapes._lastZIndex++;
+					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
+					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 					
 				}else{
@@ -108,9 +110,9 @@ function createHeatMap(capa){
 		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
 		map.addLayer(heatLayerActiu);
-		heatLayerActiu.options.zIndex = controlCapes._lastZIndex+1;
-		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
-		controlCapes._lastZIndex++;
+		heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
+		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
+//		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
 }
@@ -165,13 +167,16 @@ function loadDOHeatmapLayer(layer){
 		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
 		map.addLayer(heatLayerActiu);
-		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
-		controlCapes._lastZIndex++;
+		var origen = getLeafletIdFromBusinessId(options.origen);
+		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
+//		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		
 	});
 }
 
-function loadTematicHeatmap(layer, zIndex){
+function loadTematicHeatmap(layer, zIndex, layerOptions){
+	
+	var options = jQuery.parseJSON(layerOptions);
 	
 	var arrP=[];
 	$.each(layer.geometries.features.features, function(i, feature) {
@@ -204,8 +209,9 @@ function loadTematicHeatmap(layer, zIndex){
 		map.addLayer(heatLayerActiu);
 	}	
 	
-	controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true);
-	controlCapes._lastZIndex++;
+	var origen = getLeafletIdFromBusinessId(options.origen);
+	controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
+//	controlCapes._lastZIndex++;
 	activaPanelCapes(true);		
 	
 }

@@ -71,6 +71,7 @@ function objecteUserAdded(f){
             activas: true,
             visibilitats: true,				
 			publica : true,
+			order: controlCapes._lastZIndex+1,
 			geomField : 'the_geom',
 			idGeomField : 'nom',
 			dataField : 'slotd1',

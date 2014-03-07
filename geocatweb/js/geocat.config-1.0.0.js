@@ -23,6 +23,7 @@ var from_creaPopup="creaPopup";
 var from_creaCapa="creaCapa";
 
 var num_max_pintxos = 250;
+var capesOrdre_sublayer = "sublayer";//10000;
 
 //var HOST_APP = "http://84.88.72.36/";
 //var GEOCAT02 = "http://84.88.72.36";

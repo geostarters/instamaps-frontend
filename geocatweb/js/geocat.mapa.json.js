@@ -180,6 +180,7 @@ function creaCapaFromJSON() {
 				calentas: false,
 	            activas: true,
 	            visibilitats: true,
+	            order: controlCapes._lastZIndex+1,
 	            epsg: '4326',
 	            imgFormat: 'image/png',
 	            infFormat: 'text/html',
