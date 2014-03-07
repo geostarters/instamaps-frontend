@@ -522,7 +522,6 @@ function addDialegsEstils() {
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
-			console.debug(feature);
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
 			getRangsFromLayer(capaMare);
@@ -1737,7 +1736,6 @@ function loadDadesObertesLayer(layer){
 		if (options.tem == tem_simple){
 			//estil_do = options.style;
 			estil_do = createFeatureMarkerStyle(options.style);
-			console.debug(estil_do);
 		}
 		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 			onEachFeature : popUp,

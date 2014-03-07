@@ -646,7 +646,15 @@ textarea {
 }
 
 .cc-cookies {
-	width: 100%;	
+	width: 100%;
+	bottom: 0;
+	top: auto;
+	font-size: 12px;
+	background-color: rgba(86,86,86,0.66);	
+}
+
+.cc-cookie-accept{
+	margin-left: 10px;
 }
 
 /*old browser message*/

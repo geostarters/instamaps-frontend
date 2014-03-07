@@ -196,7 +196,6 @@ function addDrawToolbar() {
 			shadowUrl : null,
 			iconAnchor : new L.Point(14, 40),
 			iconSize : new L.Point(28, 40)
-
 		}
 	});
 

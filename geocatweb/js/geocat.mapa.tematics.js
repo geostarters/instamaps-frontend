@@ -1,3 +1,8 @@
+var paletasColors = [
+  ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#999999'],
+  ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#bc80bd','#d9d9d9']
+];
+
 function showTematicLayersModal(tipus,className){
 //	console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No hi ha capes disponibles per aquest estil de mapa !!')+"<strong>  <span class='fa fa-warning sign'></span></div>";
@@ -93,8 +98,25 @@ function createTematicClasic(data){
 	jQuery('#dialog_tematic_rangs').modal('show');
 	//console.debug(data);
 	
+	jQuery('#palet_warning').hide();
+	
+	jQuery(".btn-paleta").on('click',function(evt){
+		var _this = jQuery(this);
+		if (_this.attr('id') == 'paletaPaired'){
+			jQuery("#dialog_tematic_rangs").data("paleta", 0);
+		}else if (_this.attr('id') == 'paletaPastel'){
+			jQuery("#dialog_tematic_rangs").data("paleta", 1);
+		}else{
+			jQuery("#dialog_tematic_rangs").data("paleta", 0);
+		}
+		if (jQuery('#list_tematic_values').html() != ""){
+			updatePaletaRangs();
+		}
+	});
+	
 	jQuery("#dialog_tematic_rangs").data("capamare", data);
 	
+		
 	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
 		updateClasicTematicFromRangs();
 	});
@@ -240,7 +262,7 @@ function loadTematicValueUnicTemplate(results1){
 	if (geometryType == t_marker){
 		source1 = jQuery("#tematic-values-unic-punt-template").html();
 	}else if (geometryType == t_polyline){
-		
+		source1 = jQuery("#tematic-values-unic-polygon-template").html();
 	}else if (geometryType == t_polygon){
 		source1 = jQuery("#tematic-values-unic-polygon-template").html();
 	}
@@ -248,11 +270,19 @@ function loadTematicValueUnicTemplate(results1){
 	var html1 = template1({values:results1});
 	jQuery('#list_tematic_values').html(html1);
 	jQuery('#dialog_tematic_rangs .btn-success').show();
-	
-	if (geometryType == t_polygon){
+	if (geometryType == t_polyline){
+		jQuery('#list_tematic_values canvas').each(function(i, val){
+			addGeometryInitLRang(val, results1[i]);
+		});
+	}else if (geometryType == t_polygon){
 		jQuery('#list_tematic_values canvas').each(function(i, val){
 			addGeometryInitPRang(val, results1[i]);
 		});
+	}
+	if (jQuery('#list_tematic_values tr').length > 9){
+		jQuery('#palet_warning').show();
+	}else{
+		jQuery('#palet_warning').hide();
 	}
 }
 
@@ -262,7 +292,7 @@ function loadTematicValueRangsTemplate(results){
 	if (geometryType == t_marker){
 		source1 = jQuery("#tematic-values-rangs-punt-template").html();
 	}else if (geometryType == t_polyline){
-		
+		source1 = jQuery("#tematic-values-rangs-polygon-template").html();
 	}else if (geometryType == t_polygon){
 		source1 = jQuery("#tematic-values-rangs-polygon-template").html();
 	}
@@ -270,10 +300,20 @@ function loadTematicValueRangsTemplate(results){
 	var html1 = template1({values:results});
 	jQuery('#list_tematic_values').html(html1);
 	jQuery('#dialog_tematic_rangs .btn-success').show();
+	if (geometryType == t_polyline){
+		jQuery('#list_tematic_values canvas').each(function(i, val){
+			addGeometryInitLRang(val, results[i]);
+		});
+	}else
 	if (geometryType == t_polygon){
 		jQuery('#list_tematic_values canvas').each(function(i, val){
 			addGeometryInitPRang(val, results[i]);
 		});
+	}
+	if (jQuery('#list_tematic_values tr').length > 9){
+		jQuery('#palet_warning').show();
+	}else{
+		jQuery('#palet_warning').hide();
 	}
 }
 
@@ -281,6 +321,7 @@ function showTematicRangs(){
 	var values = jQuery("#dialog_tematic_rangs").data("rangs");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
+	
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
 	if (tematic.geometryType == t_marker){
@@ -304,6 +345,7 @@ function showTematicRangsUnic(){
 	var defer = jQuery.Deferred();
 	var pvalues = jQuery("#dialog_tematic_rangs").data("values");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	//Eliminem valors repetits de values
 	var seen = {};
 	var values = [];
@@ -390,6 +432,7 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 	}
 }
 
+/*
 function changeTematicLayerStyle_old(tematic, styles){
 	console.debug("changeTematicLayerStyle_old");
 	var rangs = getRangsFromStyles(tematic, styles);
@@ -454,15 +497,15 @@ function changeTematicLayerStyle_old(tematic, styles){
 			rangs: rangs
 		};
 		
-		updateTematicRangs(data).then(function(results){
+		updateTematicRangs(data).then(function(results){ 
 			//console.debug(results);
 		});
 	}
 }
+*/
 
 function getRangsFromStyles(tematic, styles){
-	//console.debug(styles);
-	//console.debug(tematic);
+	console.debug("getRangsFromStyles");
 	if (tematic.tipus == t_dades_obertes){
 		tematic.geometrytype = t_marker;
 	}
@@ -496,9 +539,7 @@ function getRangsFromStyles(tematic, styles){
 //					marker: styles.options.markerColor
 //				};
 				
-				console.debug(styles);
-				
-				if(jQuery.trim(styles.options.icon) != ""){
+				if(jQuery.trim(styles.options.icon) != "" && jQuery.isPlainObject(styles.options.icon)){
 					styles.options = styles.options.icon.options;
 				}
 								
@@ -680,7 +721,7 @@ function loadTematicLayer(layer){
 							var coords=geom.geometry.coordinates;
 							if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
 								featureTem = L.marker([coords[0],coords[1]],
-										 {icon: rangStyle, isCanvas:false, tipus: t_marker});
+									{icon: rangStyle, isCanvas:false, tipus: t_marker});
 							}else{//hi ha canvia de pinxo a punt canvas
 								featureTem= L.circleMarker([coords[0],coords[1]],
 									rangStyle	
@@ -807,7 +848,6 @@ function createRangStyle(ftype, style, num_geometries){
 	return rangStyle;
 }
 
-
 function changeDefaultLineStyle(canvas_linia){
 	var estilTMP = default_line_style;
 	estilTMP.color=canvas_linia.strokeStyle;
@@ -864,6 +904,7 @@ function createFeatureAreaStyle(style){
 }
 
 function changeDefaultPointStyle(estilP) {
+	//console.debug("changeDefaultPointStyle");
 	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
@@ -921,12 +962,12 @@ function changeDefaultPointStyle(estilP) {
 
 function createFeatureMarkerStyle(style, num_geometries){
 	if (style.marker && num_geometries <= num_max_pintxos){
-			var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+			var puntTMP = new L.AwesomeMarkers.icon(default_point_style);
 			puntTMP.options.iconColor = style.simbolColor;
 			puntTMP.options.icon = style.simbol;
 			puntTMP.options.markerColor = style.marker;
 			puntTMP.options.isCanvas=false;
-			
+						
 			//Especifiques per cercle amb glyphon
 			if(style.marker == 'punt_r'){
 				puntTMP.options.divColor= style.color;
@@ -934,8 +975,10 @@ function createFeatureMarkerStyle(style, num_geometries){
 				puntTMP.options.radius = style.radius;
 				var anchor = style.iconAnchor.split("#");
 				var size = style.iconSize.split("#");
-				puntTMP.options.iconAnchor = {x: parseInt(anchor[0]), y: parseInt(anchor[1]) };
-				puntTMP.options.iconSize = {x: size[0], y:size[1]};
+				puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
+				puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
+				puntTMP.options.iconSize.x = size[0];
+				puntTMP.options.iconSize.y = size[1];
 			}
 	}else{
 		var puntTMP = { 
@@ -953,6 +996,7 @@ function createFeatureMarkerStyle(style, num_geometries){
 }
 
 function getRangsFromLayer(layer){
+	console.debug("getRangsFromLayer");
 	if (layer.options.tipus == t_tematic){
 		var styles = jQuery.map(layer.getLayers(), function(val, i){
 			return {key: val.properties.businessId, style: val};
@@ -964,7 +1008,6 @@ function getRangsFromLayer(layer){
 		tematic.leafletid = layer._leaflet_id;
 		tematic.geometrytype = tematic.geometryType;
 		tematic.from = tematic.tipusRang;
-		//changeTematicLayerStyle(tematic, styles);
 		
 		var rangs = getRangsFromStyles(tematic, styles);
         rangs = JSON.stringify({rangs:rangs});
@@ -984,11 +1027,9 @@ function getRangsFromLayer(layer){
 
 function changeTematicLayerStyle(tematic, styles){
 	console.debug("changeTematicLayerStyle");
-	//console.debug(tematic);
-	//console.debug(styles);
+	console.debug(styles);
 	var rangs = getRangsFromStyles(tematic, styles);
-	//console.debug(rangs);
-	var capaMare = map._layers[tematic.leafletid];
+	var capaMare = controlCapes._layers[tematic.leafletid].layer;
 	
 	if (jQuery.isArray(styles)){
 		
@@ -1012,33 +1053,33 @@ function changeTematicLayerStyle(tematic, styles){
 	if(capaMare.options.tipus == t_dades_obertes){
 		
 		var options = {
-				dataset: capaMare.options.dataset,
-				tem: tem_simple,
-				style: rangs[0]
-			};
+			dataset: capaMare.options.dataset,
+			tem: tem_simple,
+			style: rangs[0]
+		};
 			
-			var data = {
-				uid:$.cookie('uid'),
-//				businessId: capaMare.options.businessId,
-				mapBusinessId: url('?businessid'),
-				serverName: capaMare.options.nom+" basic",
-				serverType: capaMare.options.tipus,
-				calentas: false,
-	            activas: true,
-	            visibilitats: true,				
-	            epsg: '4326',
-	            imgFormat: 'image/png',
-	            infFormat: 'text/html',
-	            tiles: true,	            
-	            transparency: true,
-	            opacity: 1,
-	            visibilitat: 'O',
-				options: JSON.stringify(options)
-			};
+		var data = {
+			uid:$.cookie('uid'),
+			//businessId: capaMare.options.businessId,
+			mapBusinessId: url('?businessid'),
+			serverName: capaMare.options.nom+" basic",
+			serverType: capaMare.options.tipus,
+			calentas: false,
+            activas: true,
+            visibilitats: true,				
+            epsg: '4326',
+            imgFormat: 'image/png',
+            infFormat: 'text/html',
+            tiles: true,	            
+            transparency: true,
+            opacity: 1,
+            visibilitat: 'O',
+			options: JSON.stringify(options)
+		};
 		
-			createServidorInMap(data).then(function(results){
-				console.debug(results.results);
-				loadDadesObertesLayer(results.results);
+		createServidorInMap(data).then(function(results){
+			console.debug(results.results);
+			loadDadesObertesLayer(results.results);
 		});
 		
 	}else if (tematic.tipus == t_tematic){
@@ -1074,22 +1115,7 @@ function changeTematicLayerStyle(tematic, styles){
 
 function createIntervalStyle(index, geometryType, paleta){
 	var defStyle;
-	//index = index % 9;
-	/*
-	var markerColors = ['#FF0000','#FF9C00','#FFFF00','#00FF00','#00FFFF','#0000FF','#9C00FF','#FF00FF',
-        '#F7C6CE','#FFE7CE','#FFEFC6','#D6EFD6','#CEDEE7','#CEE7F7','#D6D6E7','#E7D6DE',
-        '#E79C9C','#FFC69C','#FFE79C','#B5D6A5','#A5C6CE','#9CC6EF','#B5A5D6','#D6A5BD',
-        '#E76363','#F7AD6B','#FFD663','#94BD7B','#73A5AD','#6BADDE','#8C7BC6','#C67BA5',
-        '#CE0000','#E79439','#FFC500','#6BA54A','#4A7B8C','#3984C6','#634AA5','#A54A7B',
-        '#9C0000','#B56308','#BD9400','#397B21','#104A5A','#085294','#311873','#731842',
-        '#630000','#7B3900','#846300','#295218','#083139','#003163','#21104A','#4A1031',
-        '#000000','#424242','#636363','#9C9C94','#CEC6CE','#EFEFEF','#F7F7F7','#FFFFFF'];
-	*/
-	var paletas = [
-	  ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#999999'],
-	  ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#bc80bd','#d9d9d9']
-	];
-	var markerColors = (paleta)? paletas[paleta] : paletas[0];
+	var markerColors = (paleta)? paletasColors[paleta] : paletasColors[0];
 	if (index > 9){
 		index = 9;
 	}
@@ -1098,20 +1124,14 @@ function createIntervalStyle(index, geometryType, paleta){
 		defStyle.fillColor = markerColors[index];
 		defStyle.isCanvas = true;		
 	}else if (geometryType == t_polyline){
-		//TODO
+		defStyle = jQuery.extend({}, default_line_style);
+		defStyle.color = markerColors[index];
 	}else if (geometryType == t_polygon){
 		defStyle = jQuery.extend({}, default_area_style);
 		defStyle.color = markerColors[index];
 	}
 	defStyle.geometryType = geometryType;
 	
-	/*
-	 *
-	//'red','darkorange','orange','green','blue','purple','darkgray','gray',
-	if (index < 8){
-		defStyle.markerColor = markerColors[index];
-	}
-	*/
 	return defStyle;
 }
 
@@ -1199,6 +1219,34 @@ function updateClasicTematicFromRangs(){
 	jQuery('#dialog_tematic_rangs').modal('hide');
 }
 
+function addGeometryInitLRang(canvas, style){
+	var	cv_ctx_l=canvas.getContext("2d");
+	cv_ctx_l.clearRect(0, 0, canvas.width, canvas.height);
+	cv_ctx_l.moveTo(0.7,39.42);
+	cv_ctx_l.lineTo(2.05,34.43);
+	cv_ctx_l.lineTo(3.62,31.00);
+	cv_ctx_l.lineTo(5.95,27.72);
+	cv_ctx_l.lineTo(8.17,25.61);
+	cv_ctx_l.lineTo(10.72,23.84);
+	cv_ctx_l.lineTo(13.059,22.73);
+	cv_ctx_l.lineTo(15.32,22.28);
+	cv_ctx_l.lineTo(17.76,22.08);
+	cv_ctx_l.lineTo(20.30,21.47);
+	cv_ctx_l.lineTo(23.28,20.51);
+	cv_ctx_l.lineTo(25.88,18.90);
+	cv_ctx_l.lineTo(28.265,16.83);
+	cv_ctx_l.lineTo(29.9,14.71);
+	cv_ctx_l.lineTo(31.89,12.195);
+	cv_ctx_l.lineTo(33.62,9.42);
+	cv_ctx_l.lineTo(34.81,6.64);
+	cv_ctx_l.lineTo(35.46,3.92);
+	cv_ctx_l.lineTo(35.52,0.54);
+	//cv_ctx_l.setLineDash([1,2]);
+	cv_ctx_l.strokeStyle=style.style.color;
+	cv_ctx_l.lineWidth=3;
+	cv_ctx_l.stroke(); 	
+}
+
 function addGeometryInitPRang(canvas, style){
 	var	cv_ctx_p=canvas.getContext("2d");
 	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
@@ -1213,4 +1261,37 @@ function addGeometryInitPRang(canvas, style){
 	cv_ctx_p.lineWidth=2;
 	cv_ctx_p.fill();
 	cv_ctx_p.stroke(); 
+}
+
+function updatePaletaRangs(){
+	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
+	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
+	//solo para los 9 primeros (cuando usuario pueda cambiar los estilos)
+	//console.debug(jQuery('#list_tematic_values canvas:lt(9)'));
+	if (tematicFrom.geometrytype == t_marker){
+		jQuery('#list_tematic_values tbody td div').each(function(i, elm){
+			if (i > 9){
+				i = 9;
+			}
+			var color = paletasColors[paleta][i];
+			jQuery(elm).css('background-color', color);
+		});
+	}else if (tematicFrom.geometrytype == t_polyline){
+		jQuery('#list_tematic_values canvas').each(function(i, elm){
+			if (i > 9){
+				i = 9;
+			}
+			var color = paletasColors[paleta][i];
+			addGeometryInitLRang(elm, {style:{color: color}});
+		});
+	}else if (tematicFrom.geometrytype == t_polygon){
+		jQuery('#list_tematic_values canvas').each(function(i, elm){
+			if (i > 9){
+				i = 9;
+			}
+			var color = paletasColors[paleta][i];
+			addGeometryInitPRang(elm, {style:{color: color}});
+		});
+	}
 }

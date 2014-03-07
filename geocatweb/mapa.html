@@ -243,6 +243,18 @@
 									class="form-control my-border" placeholder="Etiquetes" value="{{options.tags}}">
 						</fieldset>
 						</section>
+						<br>
+						<div class="control-group">
+							<div class="control-switch">
+							<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>
+							<div class="controls">
+								<div tabindex="0">
+									<input class="make-switch" id="visibilitat_chk" type="checkbox" checked data-label-text="<span class='glyphicon glyphicon-eye-open'></span>" data-on-text="<span class='glyphicon glyphicon-ok glyphicon-white'></span>" data-off-text="<span class='glyphicon glyphicon-remove'></span>">
+								</div>
+							</div>
+							</div>
+						</div>
+						<br>
 						</script>
 						<!-- 
 								<br>
@@ -287,18 +299,7 @@
 									</div>
 								</div>
 								-->
-						
-						
 					</form>
-					<hr>
-					<div class="form-group">
-				    	<label for="urlMap"><span lang="ca">Per enllaçar amb aquest mapa, copieu i enganxeu el següent text</span>:</label>
-				    	<input type="text" class="form-control" id="urlMap">
-				  	</div>
-				  	<div class="form-group">
-					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>
-					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>
-				  	</div>
 				</div>
 				<div class="modal-footer">
 					<button lang="ca" type="button" class="btn btn-default"
@@ -312,6 +313,39 @@
 	</div>
 	<!-- /.modal -->
 	<!-- Fi Modal Publicar -->
+	
+	
+	<!-- Modal Url/iframe -->
+	<div id="dialgo_url_iframe" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Publicar el mapa</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+				    	<label for="urlMap"><span lang="ca">Per enllaçar amb aquest mapa, copieu i enganxeu el següent text</span>:</label>
+				    	<input type="text" class="form-control" id="urlMap">
+				  	</div>
+				  	<div class="form-group">
+					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>
+					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>
+				  	</div>
+				</div>
+				<div class="modal-footer">
+					<button lang="ca" type="button" class="btn btn-default"
+						data-dismiss="modal">Acceptar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- Fi Modal Url/iframe -->
+	
 	
 	<!-- Modal twitter -->
 	<div class="modal fade" id="modal_twitter_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -542,171 +576,179 @@
 	<!--  fi modal punts -->
 
 	<!-- Modal Lineas -->
-<div class="modal fade" id="dialog_estils_linies" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" lang="ca">Estils de línia</h4>
-      </div>
-      <div class="modal-body">      
-    <table width="100%" class="tbl_taula"  border="0" cellspacing="1" cellpadding="1">
-  <tr> 
-    <td height="50" colspan="8">
-<div class="tbl">   
-   <div id="div_linia0" class="vector-web">
-	
-	 <canvas id="cv_linia0" width="40" height="40"></canvas>
-	</div>  
-	</div>
-    </td>
-  </tr>
-  <tr> 
-    <td colspan="8">
-    <span lang="ca">Estils disponibles</span></td>
-  </tr>
-  <tr>
-  <td>
-  <div id="dv_html_pol" class="tbl">
- <table >
- 	<tr>
- 		<td><span lang="ca">Color linia:</span></td>
- 		<td>
- 		
- 		 <div class="btn-group"> 
-    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-    <div id="dv_border_color_linia" class="border_color_linia"></div></a>
-    <ul class="dropdown-menu">
-    <li><div id="colorpalette_ll"></div></li>
-    </ul>
-    </div>
- 		
- 		</td>
- 	</tr>
- 	<tr>
- 		<td><span lang="ca">Gruix linia:</span></td>
- 		<td><select id="cmb_gruix_l" class="form-control">
-  <option value="1" >1</option>
-  <option value="2" >2</option>
-  <option selected value="3" >3</option>
-  <option value="4" >4</option>
-  <option value="5" >5</option>
-</select></td>
- 	</tr>
- 	
- 	
- 
- </table>
- 
- </div>
-  </td> 
-  </tr>
-</table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-        <button type="button" class="btn btn-success">Canviar</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!--  fi modal lineas -->
+	<div class="modal fade" id="dialog_estils_linies">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Estils de línia</h4>
+				</div>
+				<div class="modal-body">
+					<table width="100%" class="tbl_taula" border="0" cellspacing="1"
+						cellpadding="1">
+						<tr>
+							<td height="50" colspan="8">
+								<div class="tbl">
+									<div id="div_linia0" class="vector-web">
 
-<!-- Modal Arees -->
-<div class="modal fade" id="dialog_estils_arees" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" lang="ca">Estils d'àrees</h4>
-      </div>
-      <div class="modal-body">      
-    <table width="100%" class="tbl_taula"  border="0" cellspacing="1" cellpadding="1">
-  <tr> 
-    <td height="50" colspan="8">
-    <div class="tbl"> 
-    <div id="div_area0" class="vector-web">
-    
-    <canvas id="cv_pol0" width="40" height="40"></canvas>
-    
-    </div>  
-    </div>
-    </td>
-  </tr>
-  <tr> 
-    <td colspan="8">
-    <span lang="ca">Estils disponibles</span></td>
-  </tr>
-  <tr>
-  <td>
- 
- <div id="dv_html_pol" class="tbl">
- <table >
- 	<tr>
- 		<td><span lang="ca">Color contorn:</span></td>
- 		<td>
- 		
- 		 <div class="btn-group"> 
-    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-    <div id="dv_border_color_pol" class="border_color_pol"></div></a>
-    <ul class="dropdown-menu">
-    <li><div id="colorpalette_pl"></div></li>
-    </ul>
-    </div>
- 		
- 		</td>
- 	</tr>
- 	<tr>
- 		<td><span lang="ca">Gruix contorn:</span></td>
- 		<td><select id="cmb_gruix" class="form-control">
-  <option value="1" >1</option>
-  <option value="2" >2</option>
-  <option selected value="3" >3</option>
-  <option value="4" >4</option>
-  <option value="5" >5</option>
-</select></td>
- 	</tr>
- 	<tr>
- 		<td><span lang="ca">Color fons:</span></td>
- 		<td>
- 		    <div class="btn-group"> 
-    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-    <div id="dv_fill_color_pol" class="fill_color_pol"></div></a>
-    <ul class="dropdown-menu">
-    <li><div id="colorpalette_pf"></div></li>
-    </ul>
-    </div>
- 		
- 		
- 		</td>
- 	</tr>
- 	<tr>
- 		<td><span lang="ca">Transperència fons:</span></td>
- 		<td><select id="cmb_trans" class="form-control">
-  <option value="0" >100%</option>
-  <option value="0.25" >75%</option>
-  <option selected value="0.5" >50%</option>
-  <option value="0.75" >25%</option>
-  <option value="1" >0%</option>
-</select></td>
- 	</tr>
- 
- </table>
- 
- </div>
- 
-  </td> 
-  </tr>
-</table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-        <button type="button" class="btn btn-success">Canviar</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!--  fi modal arees -->
+										<canvas id="cv_linia0" width="40" height="40"></canvas>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="8"><span lang="ca">Estils disponibles</span></td>
+						</tr>
+						<tr>
+							<td>
+								<div id="dv_html_pol" class="tbl">
+									<table>
+										<tr>
+											<td><span lang="ca">Color linia:</span></td>
+											<td>
+												<div class="btn-group">
+													<a class="btn btn-mini dropdown-toggle"
+														data-toggle="dropdown">
+														<div id="dv_border_color_linia" class="border_color_linia"></div>
+													</a>
+													<ul class="dropdown-menu">
+														<li><div id="colorpalette_ll"></div></li>
+													</ul>
+												</div>
+
+											</td>
+										</tr>
+										<tr>
+											<td><span lang="ca">Gruix linia:</span></td>
+											<td><select id="cmb_gruix_l" class="form-control">
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option selected value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+											</select></td>
+										</tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+					<button type="button" class="btn btn-success">Canviar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!--  fi modal lineas -->
+
+	<!-- Modal Arees -->
+	<div class="modal fade" id="dialog_estils_arees">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Estils d'àrees</h4>
+				</div>
+				<div class="modal-body">
+					<table width="100%" class="tbl_taula" border="0" cellspacing="1"
+						cellpadding="1">
+						<tr>
+							<td height="50" colspan="8">
+								<div class="tbl">
+									<div id="div_area0" class="vector-web">
+
+										<canvas id="cv_pol0" width="40" height="40"></canvas>
+
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="8"><span lang="ca">Estils disponibles</span></td>
+						</tr>
+						<tr>
+							<td>
+								<div id="dv_html_pol" class="tbl">
+									<table>
+										<tr>
+											<td><span lang="ca">Color contorn:</span></td>
+											<td>
+
+												<div class="btn-group">
+													<a class="btn btn-mini dropdown-toggle"
+														data-toggle="dropdown">
+														<div id="dv_border_color_pol" class="border_color_pol"></div>
+													</a>
+													<ul class="dropdown-menu">
+														<li><div id="colorpalette_pl"></div></li>
+													</ul>
+												</div>
+
+											</td>
+										</tr>
+										<tr>
+											<td><span lang="ca">Gruix contorn:</span></td>
+											<td><select id="cmb_gruix" class="form-control">
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option selected value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><span lang="ca">Color fons:</span></td>
+											<td>
+												<div class="btn-group">
+													<a class="btn btn-mini dropdown-toggle"
+														data-toggle="dropdown">
+														<div id="dv_fill_color_pol" class="fill_color_pol"></div>
+													</a>
+													<ul class="dropdown-menu">
+														<li><div id="colorpalette_pf"></div></li>
+													</ul>
+												</div>
+
+
+											</td>
+										</tr>
+										<tr>
+											<td><span lang="ca">Transperència fons:</span></td>
+											<td><select id="cmb_trans" class="form-control">
+													<option value="0">100%</option>
+													<option value="0.25">75%</option>
+													<option selected value="0.5">50%</option>
+													<option value="0.75">25%</option>
+													<option value="1">0%</option>
+											</select></td>
+										</tr>
+
+									</table>
+
+								</div>
+
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+					<button type="button" class="btn btn-success">Canviar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!--  fi modal arees -->
 
 	<!-- Modal Dades Externes -->
 	<div class="modal fade" id="dialog_dades_ex">
@@ -1115,11 +1157,16 @@
 					</table>	
 					</script>
 					
+					<div lang="ca" id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>
+					Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</div>
+					
 					<div id="list_tematic_values"></div>
 				</div>
 				<div class="modal-footer">
 					<div id="paletes_colors">
-						
+						<div lang="ca">Tria la paleta de colors</div>
+						<img id="paletaPaired" src="img/paleta2.png" class="btn-paleta" lang="ca" title="Paired">
+						<img id="paletaPastel" src="img/paleta1.png" class="btn-paleta" lang="ca" title="Pastel">
 					</div>
 					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
          			<button type="button" class="btn btn-success" lang="ca">Canviar</button>
