@@ -48,8 +48,8 @@ var DOMINI = "instamapes.icgc.cat";
 var paramUrl = {
 	
 	proxy:"/"+proxydir+"/proxy.cgi",
-	uploadproxy:"/"+proxydir+"/cgi-bin/upload.cgi",
-	proxy_download:"/"+proxydir+"/cgi-bin/download.cgi",	
+	uploadproxy:"/"+proxydir+"/upload.cgi",
+	proxy_download:"/"+proxydir+"/download.cgi",	
 	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",

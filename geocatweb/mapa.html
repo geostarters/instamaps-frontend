@@ -806,22 +806,19 @@
 	<div class="modal fade" id="dialog_carrega_dades">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Carregar dades</h4>
-				</div>
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&times;</button>
+							<h4 class="modal-title" lang="ca">Carregar dades</h4>
+						</div>
 				<div class="modal-body">
 					<div>
-					<span lang="ca">Instamapes llegeix els següents formats geogràfics:</span>:
-					
+					<span lang="ca">Instamapes llegeix els següents formats geogràfics</span>:
 					KML,MapInfo, DXF, GeoJSON, GML, SHP(ZIP),DGN (v7),GPX
-									
 					</div>
+					<div>
 					<span lang="ca">També pots carregar fitxers de text amb coordenades o amb codi de municipi o comarca:</span>:
-					
-					TXT,CSV,XSL,XSLX
-									
+					TXT,CSV,XSL,XSLX					
 					</div>
 					<br>
 					<div lang="ca" class="alert alert-info">
@@ -833,6 +830,7 @@
 					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>Fitxer</div>
 					<input type='text'id='file_name' style='margin-left: 68px;'>
 					<input type='button' name='upload' id='upload_file' value='Upload file'>
+					<button id="bt_carregaD">ok</button>
 				</div>
 				<div class="modal-footer">
 			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
