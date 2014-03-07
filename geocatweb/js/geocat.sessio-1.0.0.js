@@ -55,7 +55,7 @@ function checkValidityLogin(){
 		$('#login_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#login_pass').val().length < 5){
 		$('#login_pass').addClass("invalid");
-		$('#login_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir com a mínim 5 caràcters.</span>");
+		$('#login_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir com a mínim 5 caràcters.</span>");
 	}
 }
   
@@ -69,4 +69,8 @@ $('#signin_facebook').click(function() {
 
 $('#signin_linkedin').click(function() {
 	window.location = paramUrl.socialAuth+"id=linkedin";
+	});
+
+$('#signin_google').click(function() {
+	window.location = paramUrl.socialAuth+"id=googleplus";
 	});

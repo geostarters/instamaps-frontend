@@ -13,9 +13,7 @@ html,body {
 	padding: 0;
 }
 
-
 /*Animacio */
-
 #div_loading{
 	width: 100%;
 	height: 100%;
@@ -28,108 +26,92 @@ html,body {
 }
 
 #loader2{
-	
-	 left: 40%;
+	left: 40%;
     line-height: 50%;
     position: relative;
     text-align: center;
     top: 40%;
-	
 }
-
 
 * {
-  box-sizing: border-box;
+  	box-sizing: border-box;
 }
 
-
-
 .loader {
-  position: relative;
-   left: 25%;
+  	position: relative;
+   	left: 25%;
     line-height: 50%;
     position: relative;
     text-align: center;
     top: 40%;
-
-  width: 45%;
-  color: white;
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: 250%;
-  background: linear-gradient(180deg, #222 0, #444 100%);
-  box-shadow: inset 0 5px 20px black;
-  text-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+  	width: 45%;
+  	color: white;
+  	font-family: "Roboto Condensed", sans-serif;
+  	font-size: 250%;
+  	background: linear-gradient(180deg, #222 0, #444 100%);
+  	box-shadow: inset 0 5px 20px black;
+  	text-shadow: 5px 5px 5px rgba(0,0,0,0.3);
 }
 
 .loader:after {
-  content: "";
-  display: table;
-  clear: both;
+  	content: "";
+  	display: table;
+  	clear: both;
 }
 
 .covers span div{
-	
 	height: 40px;
-   line-height: 40px;
+   	line-height: 40px;
     margin-left: 1px;
     margin-top: 39px;
     width: 40px;
 }
 
 .loader span {
-  float: left;
-  height: 100px;
-  line-height: 120px;
-  width: 10%;
+  	float: left;
+  	height: 100px;
+  	line-height: 120px;
+  	width: 10%;
 }
 
 .loader > span {
-  border-left: 1px solid #444;
-  border-right: 1px solid #222;
+  	border-left: 1px solid #444;
+  	border-right: 1px solid #222;
 }
 
 .covers {
-  position: absolute;
-  height: 100%;
-  width: 100%;
+  	position: absolute;
+  	height: 100%;
+  	width: 100%;
 }
 
 .covers span div {
-  
-  animation: up 3s infinite;
-   -webkit-animation: up 1s infinite;
+  	animation: up 3s infinite;
+  	-webkit-animation: up 1s infinite;
 }
 
 @keyframes up {
-0%   { margin-bottom: 0;line-height: 40px; }
-  16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
-  50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
-  100% { margin-bottom: 0;line-height: 40px; }
+  	0%   { margin-bottom: 0;line-height: 40px; }
+  	16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
+  	50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
+  	100% { margin-bottom: 0;line-height: 40px; }
 }
-
-
 
 @-webkit-keyframes up{
- 0%   { margin-bottom: 0;line-height: 40px; }
-  16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
-  50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
-  100% { margin-bottom: 0;line-height: 40px; }
+ 	0%   { margin-bottom: 0;line-height: 40px; }
+  	16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
+  	50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
+  	100% { margin-bottom: 0;line-height: 40px; }
 }
-
-
-
 
 #ani1 div  { animation-delay: .285714s; }
 #ani2 div { animation-delay: .428571s; }
 #ani3 div { animation-delay: .571428s; }
 #ani4 div { animation-delay: .714285s; }
 
-
-
-
-
 /*Fi animacio*/
 
+/*Tematics*/
 .rd_separator{
 	margin-left: 10px;
 }
@@ -138,6 +120,12 @@ html,body {
 	max-height: 530px;
 	overflow: auto;
 }
+
+#paletes_colors{
+	float:left;
+}
+
+/* end Tematics*/
 
 .tooltip {
 	z-index: 2000;
@@ -1305,7 +1293,7 @@ i.fa {
 		background-color: #FF8300
 	}
 	.div_carrega_dades {
-		background: url('images/galeria_icones.png') no-repeat scroll -520px
+		background: url('images/galeria_icones.png') no-repeat scroll -480px
 			-524px rgba(166, 166, 166, 0.5);
 		margin-left: 5px;
 		margin-right: 5px;

@@ -19,32 +19,25 @@ _htmlServeisJSON
 		.push('<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>');
 
 var respostaJSON;
-function getServeiJSONP(urlJson) {
-	respostaJSON = "";
+var urlJSON;
+function getServeiJSONP(purlJson) {
+	urlJSON = purlJson;
+	jQuery("#txt_URLJSON");
 	var _htmlJSONFields = [];
 
-	if (ValidURL(urlJson)) {
+	if (ValidURL(purlJson)) {
 		jQuery('#div_layersJSON').addClass('waiting_animation');
 
-		getJSONPServei(urlJson)
-				.then(
-						function(results) {
-
+		getJSONPServei(purlJson).then(function(results) {
 							var op = [];
 							if (jQuery.isArray(results)) {
 								respostaJSON = results;
-								// console.info("hola");
 							} else {
-
 								for (key in results) {
-
 									if (jQuery.isArray(results[key])) {
-
 										respostaJSON = results[key];
-
 									}
 								}
-
 							}
 
 							if (!jQuery.isArray(respostaJSON)) {
@@ -145,9 +138,7 @@ function getServeiJSONP(urlJson) {
 
 		alert(window.lang.convert("La URL no sembla vàlida"));
 		return;
-
 	}
-
 }
 
 jQuery(document).on('click', "#bt_addJSON", function(e) {
@@ -175,58 +166,196 @@ function creaCapaFromJSON() {
 		var capaJSON = new L.FeatureGroup();
 		capaJSON.options = {
 			businessId : -1,
-			nom : 'CapaJSON1',
-			tipus:'JSON',
-			zIndex : controlCapes._lastZIndex + 1
+			nom : 'Capa JSON '+ (parseInt(controlCapes._lastZIndex) + 1),
+			tipus:'JSON'
+//			zIndex : controlCapes._lastZIndex// + 1
 		};
+		
+		if(typeof url('?businessid') == "string"){
+			var data = {
+				uid:$.cookie('uid'),
+				mapBusinessId: url('?businessid'),
+				serverName: 'Capa JSON '+ (parseInt(controlCapes._lastZIndex) + 1),
+				serverType: t_json,
+				calentas: false,
+	            activas: true,
+	            visibilitats: true,
+	            epsg: '4326',
+	            imgFormat: 'image/png',
+	            infFormat: 'text/html',
+	            tiles: true,	            
+	            transparency: true,
+	            opacity: 1,
+	            visibilitat: 'O',
+	            url: urlJSON,//Provar jQuery("#txt_URLJSON")
+	            calentas: false,
+	            activas: true,
+	            visibilitats: true,
+	            options: '{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}'
+			};
+			
+			createServidorInMap(data).then(function(results){
+				if (results.status == "OK"){
+					
+					var estil_do = retornaEstilaDO('json');
 
+					for (key in respostaJSON) {
+						var lat = respostaJSON[key][cmd_json_y];
+						var lon = respostaJSON[key][cmd_json_x];
+						pp = L.circleMarker([ lat, lon ], estil_do)
+
+						pp.properties = {};
+						var empty = true;
+						
+						if (cmd_json_titol == "null") {
+							pp.properties.nom = ""
+								
+						} else {
+							pp.properties.nom = respostaJSON[key][cmd_json_titol];
+							empty = empty && false;
+						}
+						if (cmd_json_desc == "null") {
+							pp.properties.text = ""
+						} else {
+							pp.properties.text = respostaJSON[key][cmd_json_desc];
+							empty = empty && false;
+						}
+						if (cmd_json_img == "null") {
+							pp.properties.img = ""
+						} else {
+							pp.properties.img = '<img width="100px" src="'
+									+ respostaJSON[key][cmd_json_img] + '">';
+							empty = empty && false;
+						}
+						if (cmd_json_vin == "null") {
+							pp.properties.vincle = ""
+						} else {
+							pp.properties.vincle = '<a href="'
+									+ respostaJSON[key][cmd_json_vin]
+									+ '" target="_blank">'
+									+ respostaJSON[key][cmd_json_vin] + '</a>';
+							empty = empty && false;
+						}
+
+						if(!empty){
+							pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
+									+ pp.properties.text + "</div><div>"
+									+ pp.properties.img + "</div><div>" + pp.properties.vincle
+									+ "</div>");
+						}
+						pp.addTo(capaJSON);
+					}
+
+					jQuery('#dialog_dades_ex').modal('toggle');					
+					
+					capaJSON.options.businessId = results.results.businessId;
+					capaJSON.addTo(map)
+					capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
+					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+					controlCapes._lastZIndex++;
+					activaPanelCapes(true);
+				}
+			});
+			
+		}else{
+			capaJSON.addTo(map)
+			capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
+			controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+			controlCapes._lastZIndex++;
+			activaPanelCapes(true);
+		}		
+	}
+}
+
+function loadCapaFromJSON(layer) {
+
+	var v_respotaJSON;
+	getJSONPServei(layer.url).then(function(results) {
+		var op = [];
+		if (jQuery.isArray(results)) {
+			v_respotaJSON = results;
+		} else {
+			for (key in results) {
+				if (jQuery.isArray(results[key])) {
+					v_respotaJSON = results[key];
+				}
+			}
+		}
+
+		if (!jQuery.isArray(v_respotaJSON)) {
+			alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
+			return;
+		}
+		
+		var capaJSON = new L.FeatureGroup();
+		capaJSON.options = {
+			businessId : layer.businessId,
+			nom : layer.serverName,
+			tipus:layer.serverType,
+			zIndex : layer.capesOrdre
+		};		
+		
 		var estil_do = retornaEstilaDO('json');
-
-		for (key in respostaJSON) {
-			var lat = respostaJSON[key][cmd_json_y];
-			var lon = respostaJSON[key][cmd_json_x];
-			pp = L.circleMarker([ lat, lon ], estil_do)
+		var options = jQuery.parseJSON( layer.options );
+		
+		for (key in v_respotaJSON) {
+			var lat = v_respotaJSON[key][options.y];
+			var lon = v_respotaJSON[key][options.x];
+			var pp = L.circleMarker([ lat, lon ], estil_do)
 
 			pp.properties = {};
-
-			if (cmd_json_titol == "null") {
-				pp.properties.name = ""
+			var empty = true;
+			
+			if (options.titol == "null") {
+				pp.properties.nom = ""
 			} else {
-				pp.properties.name = respostaJSON[key][cmd_json_titol];
+				pp.properties.nom = v_respotaJSON[key][options.titol];
+				empty = empty && false;
 			}
-			if (cmd_json_desc == "null") {
-				pp.properties.description = ""
+			if (options.descripcio == "null") {
+				pp.properties.text = ""
 			} else {
-				pp.properties.description = respostaJSON[key][cmd_json_desc];
+				pp.properties.text = v_respotaJSON[key][options.descripcio];
+				empty = empty && false;
 			}
-			if (cmd_json_img == "null") {
+			if (options.imatge == "null") {
 				pp.properties.img = ""
 			} else {
 				pp.properties.img = '<img width="100px" src="'
-						+ respostaJSON[key][cmd_json_img] + '">';
+						+ v_respotaJSON[key][options.imatge] + '">';
+				empty = empty && false;
 			}
-			if (cmd_json_vin == "null") {
+			if (options.vincle == "null") {
 				pp.properties.vincle = ""
 			} else {
 				pp.properties.vincle = '<a href="'
-						+ respostaJSON[key][cmd_json_vin]
+						+ v_respotaJSON[key][options.vincle]
 						+ '" target="_blank">'
-						+ respostaJSON[key][cmd_json_vin] + '</a>';
+						+ v_respotaJSON[key][options.vincle] + '</a>';
+				empty = empty && false;
 			}
 
-			pp.bindPopup("<div>" + pp.properties.name + "</div><div>"
-					+ pp.properties.description + "</div><div>"
-					+ pp.properties.img + "</div><div>" + pp.properties.vincle
-					+ "</div>");
+			if(!empty){
+				pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
+						+ pp.properties.text + "</div><div>"
+						+ pp.properties.img + "</div><div>" + pp.properties.vincle
+						+ "</div>");
+			}
 			pp.addTo(capaJSON);
-
 		}
 
-		capaJSON.addTo(map);
+		capaJSON.options.businessId = layer.businessId;
+		
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			capaJSON.addTo(map)
+		}		
+		
 		controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+		controlCapes._lastZIndex++;
+		activaPanelCapes(true);		
 
-		jQuery('#dialog_dades_ex').modal('toggle');
-
-	}
-
+	},function(results){
+		alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
+		return;		
+	});
 }

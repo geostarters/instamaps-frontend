@@ -1,4 +1,3 @@
-
 /* 
  * Leaflet Search Control v1.4.7 - 2014-01-04 
  * 
@@ -306,16 +305,32 @@
 	width: 300px;
 }
 
+.div_popup_visor {
+    border: 0 dashed #DDDDDD;
+    margin-left: -5px;
+    margin-right: 26px;
+    padding: 3px;
+    width: 300px;
+}
+
 .popup_pres {
 	display: block;
 }
 
-#titol_pres {
+#titol_pres, #titol_pres_visor {
 	font-weight: bold;
 	width: 100%;
 	height: 30px;
 	font-size: 14px;
 	border: 1px solid #EEEEEE;
+}
+
+#capa_pres_visor {
+	width: 100%;
+	height: 30px;
+	font-size: 14px;
+	border: 1px solid #EEEEEE;
+	text-align: center;
 }
 
 .edit_po {
@@ -337,7 +352,7 @@ textarea {
 	background-color: #EEEEEE;
 }
 
-#des_pres {
+#des_pres, #des_pres_visor {
 	background-color: #EEEEEE;
 	height: 60px;
 	margin-bottom: 5px;
@@ -507,7 +522,7 @@ textarea {
 .bs-dadesO_WMS {
 	list-style: none outside none;
 	margin-bottom: 5px;
-	overflow: hidden;
+	overflow: visible;
 	padding-bottom: 1px;
 	padding-left: 0;
 }
@@ -524,8 +539,6 @@ textarea {
 	text-align: left;
 	width: 50%;
 }
-
-
 
 .bs-dadesO_XS {
 	list-style: none outside none;
@@ -548,7 +561,6 @@ textarea {
 	width: 50%;
 }
 
-
 .bs-dadesO_USR {
 	list-style: none outside none;
 	margin-bottom: 5px;
@@ -562,18 +574,12 @@ textarea {
 	color: #000000;
 	float: left;
 	font-size: 12px;
-	height: 28px;
-	line-height: 0.8;
+	line-height: 1;
 	margin: 0 -1px -1px 0;
 	padding: 5px;
 	text-align: left;
 	width: 50%;
 }
-
-
-
-
-
 
 .waiting_animation {
 	background: url("/llibreries/css/images/loader.gif") no-repeat center
@@ -637,5 +643,51 @@ textarea {
 	font-size: 12px !important;
 	height: 25px !important;
 	padding: 4px 12px !important;
+}
 
+.cc-cookies {
+	width: 100%;	
+}
+
+/*old browser message*/
+#dialgo_old_browser{
+	width: 600px;
+}
+
+.browser_img {
+	float: left;
+    height: 100px;
+    margin: 5px;
+    position: relative;
+    width: 100px;
+    cursor: pointer;
+}
+
+.ie_img {
+	background: url('images/browser_ie.gif') no-repeat;
+}
+
+.firefox_img {
+	background: url('images/browser_firefox.gif') no-repeat;
+}
+
+.safari_img {
+	background: url('images/browser_safari.gif') no-repeat;
+}
+
+.opera_img {
+	background: url('images/browser_opera.gif') no-repeat;
+}
+
+.chrome_img {
+	background: url('images/browser_chrome.gif') no-repeat;
+}
+
+.leaflet-control-layers-list #nomAplicacio {
+	font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    border-bottom: 1px solid #CCCCCC;
+    padding-bottom: 5px;
+    	
 }

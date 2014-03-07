@@ -86,6 +86,7 @@ var urls = {
 	updateRang: HOST_APP+"layers/tematic/updateRang.action?",
 	deleteRang: HOST_APP+"layers/tematic/deleteRang.action?",
 	updateTematicRangs: HOST_APP+"layers/tematic/updateTematicRangs.action?",
+	duplicateTematicLayer: HOST_APP+"layers/tematic/duplicateTematicLayer.action?",
 	updateGeometriesTematicLayer: HOST_APP+"layers/tematic/updateGeometriesTematicLayer.action?",
 	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
@@ -122,46 +123,20 @@ asyncTest( "login", 1, function() {
 	});	
 });
 
-asyncTest( "updateTematicRangs", 1, function() {
-	var rangs = JSON.stringify({rangs:[{
-		llegenda: 'si',
-		valorMax: 'si',
-		//valorMax: ,
-		color: '#0000ff',
-		simbolSize: 16, 
-		simbol: 'circle',
-		lineWidth: 2,
-		lineStyle: 'solid',
-		borderWidth: 2,
-		borderColor: '#000000',
-		opacity: 90,
-		label: false,
-		labelSize: 10,
-		labelFont: 'arial',
-		labelColor: '#000000',
-	},{
-		llegenda: 'no',
-		valorMax: 'no',
-		//valorMax: ,
-		color: '#ff0000',
-		simbolSize: 16, 
-		simbol: 'circle',
-		lineWidth: 2,
-		lineStyle: 'solid',
-		borderWidth: 2,
-		borderColor: '#000000',
-		opacity: 80,
-		label: false,
-		labelSize: 10,
-		labelFont: 'arial',
-		labelColor: '#000000',
-	}]});
+asyncTest( "duplicateTematicLayer", 1, function() {
+	var rangs = JSON.stringify({rangs:[]});
 		
 	$.ajax({
-		url: urls.updateTematicRangs,
+		url: urls.duplicateTematicLayer,
 		data: {
-			businessId: 'a24b6827d46dadf5cca4fa09069583f0',
+			businessId: 'd414fc9125bc56de4de4e7fbe8b350d6',
 			uid: 'wszczerban',
+			nom: 'Test_layer',
+            mapBusinessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
+            calentas: false,           
+            activas: true,
+            visibilitats: true,
+			tipusRang: 'heatmap',
 			rangs: rangs
 		},
 		dataType: 'jsonp'
@@ -176,3 +151,4 @@ asyncTest( "updateTematicRangs", 1, function() {
 		start();
 	});	
 });
+

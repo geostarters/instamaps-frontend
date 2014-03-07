@@ -17,12 +17,12 @@ jQuery(document).ready(function() {
     
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
-    	window.location.href = paramUrl.loginPage;
+    	logoutUser();
+    	//window.location.href = paramUrl.loginPage;
     });
 });
 
 function initHover(){
-	
 	$("#div_V").hover(function(){
 		$("#img_V").attr('src','llibreries/img/Visualitza_pujat.jpg');
 	},function(){
@@ -50,7 +50,7 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = $.cookie('uid');
-	if( uid == undefined ){
+	if( uid == undefined || (uid.indexOf("random_") != -1 && uid.indexOf("random_") == 0)){
 		$("#menu_login").show();
 		$("#menu_user").hide();
 		$("#text_username").remove();
@@ -206,6 +206,10 @@ function isBlank(str) {
 }
 
 function logoutUser(){
+	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
+		deleteRandomUser({uid: $.cookie('uid')});
+	}
+	$.removeCookie('uid', { path: '/' });
 	doLogout().then(function(results){
 		if(results.status==='OK'){
 			$.removeCookie('uid', { path: '/' });
@@ -216,8 +220,7 @@ function logoutUser(){
 	},function(results){
 		alert("no logout");
 		//jQuery('#div_msg').html('<div class="alert alert-danger my-alert" lang="ca">No s\'ha iniciat la sessi&oacute;. <strong>Torni a intentar.</strong></div>');
-	});	
-
+	});
 }
 
 function sessionExpired(){

@@ -11,7 +11,6 @@ var t_multiple = "multiple";
 var t_point = "point";
 var t_linestring = "linestring";
 var t_multipolygon= "multipolygon";
-var t_multipolygon= "multipolygon";
 var t_heatmap="heatmap";
 var t_cluster="cluster";
 var t_size="size";
@@ -20,19 +19,37 @@ var tem_clasic = "clasicTematic";
 var tem_size = "sizeTematic";
 var tem_heatmap = "heatmapTematic";
 var tem_cluster = "clusterTematic";
+var from_creaPopup="creaPopup";
+var from_creaCapa="creaCapa";
 
+var num_max_pintxos = 250;
 
-var HOST_APP = "http://172.70.1.12/";
-var GEOCAT02 = "http://172.70.1.12";
+var HOST_APP = "http://84.88.72.36/";
+var GEOCAT02 = "http://84.88.72.36";
+var proxydir="maps";
+var urlApp=document.location.href;
+
+if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
+	HOST_APP = "http://172.70.1.12/";
+	GEOCAT02 = "http://172.70.1.12";
+	proxydir="maps"; //he creat un director maps al meu Apache
+}
+
+//var HOST_APP = "http://84.88.72.36/";
+//var GEOCAT02 = "http://84.88.72.36";
+//var HOST_APP = "http://172.70.1.12/";
+//var GEOCAT02 = "http://172.70.1.12";
 //var HOST_APP = "http://geocat02.icc.local:8080/";
 //var HOST_APP = "http://localhost:8080/";
+
+var DOMINI = "instamapes.icgc.cat";
+
 var paramUrl = {
-	proxy:"/maps/proxy.cgi",
-	uploadproxy:"/maps/upload.cgi",
-	proxy_download:"/maps/download.cgi",
-	//proxy:"/cgi-bin/proxy.cgi",
-	//uploadproxy:"/cgi-bin/upload.cgi",
-	//proxy_download:"/cgi-bin/download.cgi",
+	
+	proxy:"/"+proxydir+"/proxy.cgi",
+	uploadproxy:"/"+proxydir+"/cgi-bin/upload.cgi",
+	proxy_download:"/"+proxydir+"/cgi-bin/download.cgi",	
+	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
@@ -59,7 +76,7 @@ var paramUrl = {
 	createData: HOST_APP+"geocat/layers/data/createData.action?",
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
 	getTematicLayerByBusinessId:HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
-	dadesObertes:HOST_APP+"share/jsp/dadesObertes.jsp?",
+	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
@@ -91,9 +108,11 @@ var paramUrl = {
 	updateFeature: HOST_APP+"geocat/layers/feature/updateFeature.action?",
 	shortUrl : "http://api.bit.ly/v3/shorten",
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
-	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action?",
+	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
-	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?"
+	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
+	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",
+	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
@@ -105,7 +124,9 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	$('.waiting_animation').hide();
-	if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
-		sessionExpired();
+	if (jqxhr.responseJSON){
+		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
+			sessionExpired();
+		}
 	}
 });

@@ -87,6 +87,7 @@ var urls = {
 	updateRang: HOST_APP+"layers/tematic/updateRang.action?",
 	deleteRang: HOST_APP+"layers/tematic/deleteRang.action?",
 	updateTematicRangs: HOST_APP+"layers/tematic/updateTematicRangs.action?",
+	duplicateTematicLayer: HOST_APP+"layers/tematic/duplicateTematicLayer.action?",
 	updateGeometriesTematicLayer: HOST_APP+"layers/tematic/updateGeometriesTematicLayer.action?",
 	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
 	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
@@ -3570,6 +3571,36 @@ asyncTest( "updateTematicRangs", 1, function() {
 		data: {
 			businessId: 'a24b6827d46dadf5cca4fa09069583f0',
 			uid: 'wszczerban',
+			tipusRang: 'unic',
+			rangs: rangs
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "duplicateTematicLayer", 1, function() {
+	var rangs = JSON.stringify({rangs:[]});
+		
+	$.ajax({
+		url: urls.duplicateTematicLayer,
+		data: {
+			businessId: 'd414fc9125bc56de4de4e7fbe8b350d6',
+			uid: 'wszczerban',
+			nom: 'Test_layer',
+            mapBusinessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
+            calentas: false,           
+            activas: true,
+            visibilitats: true,
+			tipusRang: 'heatmap',
 			rangs: rangs
 		},
 		dataType: 'jsonp'

@@ -31,11 +31,11 @@ var llista_servidorsWMS = {
 			{
 				"TITOL" : "Parcs eòlics",
 				"ORGANITZAC" : "Direcció General de Polítiques Ambientals",
-				"IDARXIU" : "http://delta.icc.cat/cgi-bin/mapserv?map=/opt/idec/dades/peolics/parcseolics.map&amp",
+				"IDARXIU" : "http://mapaidec.icc.cat/ogc/geoservei?map=/opt/idec/dades/peolics/parcseolics.map&amp",
 				"URN" : "urn:uuid:3dd3d606-79c8-11e3-aa3b-07b03c41b8e8"
 			},
 			{
-				"TITOL" : "Mapes del Medi Natural",
+				"TITOL" : "Mapes Medi Natural",
 				"ORGANITZAC" : "Departament d'Agricultura, Ramaderia, Pesca, Alimentació i Medi Natural",
 				"IDARXIU" : "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WMSServer?",
 				"URN" : "urn:uuid:6661c209-1462-11e3-8d85-e315c0a1d933"
@@ -158,7 +158,7 @@ function getCapabilitiesWMS(url, servidor) {
 				ActiuWMS.epsgtxt = 'EPSG:3857';
 			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = 'EPSG:4326';
+				ActiuWMS.epsgtxt = '4326';
 			} else {
 				alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
 				return;
@@ -190,11 +190,41 @@ function getCapabilitiesWMS(url, servidor) {
 }
 
 jQuery(document).on('click', "#bt_addWMS", function(e) {
-	addExternalWMS();
+	addExternalWMS2();
 
 });
 
+function addExternalWMS2() {
+	var cc = [];
 
+	jQuery('input[name="chk_WMS"]:checked').each(function() {
+		cc.push(jQuery(this).val());
+	});
+
+	ActiuWMS.layers = cc.join(',');
+	
+	var wmsLayer = new L.tileLayer.betterWms(ActiuWMS.url, {
+		layers : ActiuWMS.layers,
+		crs : ActiuWMS.epsg,
+		transparent : true,
+		format : 'image/png'
+	});
+
+	wmsLayer.options.businessId = '-1';
+	wmsLayer.options.nom = ActiuWMS.servidor;
+	wmsLayer.options.tipus = 'WMS';
+	
+	
+	map.addLayer(wmsLayer);
+	wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
+	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+	controlCapes._lastZIndex++;
+
+	activaPanelCapes(true);
+	
+	jQuery('#dialog_dades_ex').modal('toggle');
+
+}
 
 function addExternalWMS() {
 	
@@ -204,42 +234,7 @@ function addExternalWMS() {
 	});
 	ActiuWMS.layers = cc.join(',');
 	
-	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
-		layers : ActiuWMS.layers,
-		crs : ActiuWMS.epsg,
-		//srs:ActiuWMS.epsgtxt,
-		transparent : true,
-		format : 'image/png'
-	});
-
-	wmsLayer.options.businessId = '-1';
-	wmsLayer.options.nom = ActiuWMS.servidor;
-	wmsLayer.options.zIndex = controlCapes._lastZIndex + 1;
-	wmsLayer.options.tipus = t_wms;
-	
-	wmsLayer.addTo(map);
-	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-	activaPanelCapes(true);
-	jQuery('#dialog_dades_ex').modal('toggle');	
-	
-}
-
-function showResults(err, latlng, data){
-	
-	console.info("sss"+err);
-	
-}
-
-
-function addExternalWMS2() {
-	
-	var cc = [];
-	jQuery('input[name="chk_WMS"]:checked').each(function() {
-		cc.push(jQuery(this).val());
-	});
-	ActiuWMS.layers = cc.join(',');
-	
-	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
+	var wmsLayer = L.tileLayer.wms(ActiuWMS.url, {
 		layers : ActiuWMS.layers,
 		crs : ActiuWMS.epsg,
 		transparent : true,
@@ -248,10 +243,12 @@ function addExternalWMS2() {
 
 	wmsLayer.options.businessId = '-1';
 	wmsLayer.options.nom = ActiuWMS.servidor;
-	wmsLayer.options.zIndex = controlCapes._lastZIndex + 1;
 	wmsLayer.options.tipus = t_wms;
 
-
+//	map.addLayer(wmsLayer).on('layeradd', objecteUserAdded);
+//	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+//	activaPanelCapes(true);
+//	jQuery('#dialog_dades_ex').modal('toggle');
 
 	if(typeof url('?businessid') == "string"){
 		var data = {
@@ -259,12 +256,22 @@ function addExternalWMS2() {
 				mapBusinessId: url('?businessid'),
 				serverName: ActiuWMS.servidor,
 				serverType: t_wms,
+				version: wmsLayer.wmsParams.version,
 				calentas: false,
 	            activas: true,
 	            visibilitats: true,
 	            epsg: ActiuWMS.epsgtxt,
+	            imgFormat: 'image/png',
+	            infFormat: 'text/html',
+	            tiles: true,	            
 	            transparency: true,
+	            opacity: 1,
 	            visibilitat: 'O',
+	            url: ActiuWMS.url,
+	            layers: JSON.stringify([{name:ActiuWMS.layers,title:ActiuWMS.layers,group:0,check:true,query:true}]),
+	            calentas: false,
+	            activas: true,
+	            visibilitats: true,
 				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'"}'
 		};
 		
@@ -272,7 +279,9 @@ function addExternalWMS2() {
 			if (results.status == "OK"){
 				wmsLayer.options.businessId = results.results.businessId;
 				map.addLayer(wmsLayer); //wmsLayer.addTo(map);
+				wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
 				jQuery('#dialog_dades_ex').modal('toggle');				
 				
@@ -283,7 +292,9 @@ function addExternalWMS2() {
 		
 	}else{
 		wmsLayer.addTo(map);
+		wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 		controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 		jQuery('#dialog_dades_ex').modal('toggle');	
 	}	

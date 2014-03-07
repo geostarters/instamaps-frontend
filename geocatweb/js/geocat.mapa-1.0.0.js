@@ -8,9 +8,13 @@ var dades1;
 var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
-var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
-		iconGlif:'fa fa-',
-		colorGlif:'#333333',fontsize:'14px',size:'28'};
+var estilP={
+	iconFons:'awesome-marker-web awesome-marker-icon-orange',
+	iconGlif:'fa fa-',
+	colorGlif:'#333333',
+	fontsize:'14px',
+	size:'28'
+};
 var default_line_style = {
     weight: 3,       
     color: '#FFC400',
@@ -119,8 +123,6 @@ function loadApp(){
 		});
 	}else{
 		if (!$.cookie('uid')){
-			
-			
 			createRandomUser().then(function(results){
 				if (results.status==='OK'){
 					var user_login = results.results.uid;
@@ -139,19 +141,6 @@ function loadApp(){
 				deleteRandomUser({uid: $.cookie('uid')});
 			});
 			
-			
-			//jQuery("#sidebar").hide();
-			/*
-			jQuery('#dialgo_leave').modal('show');		
-			jQuery('#dialgo_leave .btn-success').on('click',function(){
-				window.location = paramUrl.registrePage;
-			});
-			
-			jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
-				
-			});
-			
-			*/
 		}else{	
 			mapConfig.newMap = true;
 			createNewMap();
@@ -160,6 +149,7 @@ function loadApp(){
 	}
 	
 	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
+
 		jQuery('#dialgo_leave').modal('show');		
 		jQuery('#dialgo_leave .btn-success').on('click',function(){
 			window.location = paramUrl.registrePage;
@@ -1264,6 +1254,7 @@ function loadMapConfig(mapConfig){
 				
 			}
 		});
+		
 	
 		jQuery('#div_loading').hide();
 		
@@ -1659,14 +1650,19 @@ function myRemoveLayer(obj){
 	console.debug('Arriba a myRemoveLayer');
 	map.closePopup();
 	map.removeLayer(obj.layer);
-	//Eliminem la capa de controlCapes, i actualitzem valors zindex de la resta
-	var removeZIndex = obj.layer.options.zIndex;
-	controlCapes.removeLayer(obj.layer);
-	controlCapes._lastZIndex--;
-	var aux = controlCapes._layers;
-	for (var i in aux) {
-		if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+	//Eliminem la capa de controlCapes
+	controlCapes.removeLayer(obj);
+	
+	//actualitzem valors zindex de la resta si no es sublayer
+	if(!obj.sublayer){
+		var removeZIndex = obj.layer.options.zIndex;
+		controlCapes._lastZIndex--;
+		var aux = controlCapes._layers;
+		for (var i in aux) {
+			if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+		}		
 	}
+
 	//Actualitzem capaUsrActiva
 	if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
 		capaUsrActiva.removeEventListener('layeradd');
@@ -1865,10 +1861,6 @@ function createNewMap(){
 			window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
 		}
 	});
-	
-	
-	
-	
 }
 
 

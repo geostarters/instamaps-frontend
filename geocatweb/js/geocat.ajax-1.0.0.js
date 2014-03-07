@@ -408,12 +408,22 @@ function updateFeature(data){
 }
 
 function updateTematicRangs(data){
-	return jQuery.ajax({
-		url: paramUrl.updateTematicRangs,
-		data: data,
-		dataType: 'jsonp'
-	}).promise();
+    return jQuery.ajax({
+    	url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
+        data: data,
+        method: 'post'
+    }).promise();
 }
+
+/*
+function updateTematicRangs(data){
+	return jQuery.ajax({
+          url: paramUrl.updateTematicRangs,
+          data: data,
+          dataType: 'jsonp'
+    }).promise();
+}
+*/
 
 function createRandomUser(){
 	return jQuery.ajax({
@@ -430,8 +440,6 @@ function deleteRandomUser(data){
 	}).promise();
 }
 
-
-
 function getJSONPServei(url){
 	return jQuery.ajax({
 		url: paramUrl.json2jsonp,
@@ -447,11 +455,17 @@ function getJSONPServei(url){
 
 
 function updateServidorWMS(data){
-	
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMS,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
+}
 
+function duplicateTematicLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.duplicateTematicLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
 }

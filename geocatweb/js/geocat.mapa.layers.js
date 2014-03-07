@@ -25,8 +25,8 @@ function objecteUserAdded(f){
     }       
 
 	feature.properties = {
-		nom : f.layer.properties.capaNom,
-		text : f.layer.properties.description,
+		nom : f.layer.properties.nom,
+		text : f.layer.properties.text,
 		slotf1 : 'data 1',
 		slotf2 : 'data 2',
 		slotf3 : 'data 3',
@@ -67,6 +67,9 @@ function objecteUserAdded(f){
 			uid : jQuery.cookie('uid'),
 			description : 'Description '+f.layer.properties.capaNom,
 			nom : f.layer.properties.capaNom,
+            calentas: false,           
+            activas: true,
+            visibilitats: true,				
 			publica : true,
 			geomField : 'the_geom',
 			idGeomField : 'nom',
@@ -79,7 +82,6 @@ function objecteUserAdded(f){
 			geometryType: f.layer.options.tipus
 		};
 		var _this = this;
-		finishAddFeatureToTematic(f.layer);
 		
 		createTematicLayerFeature(data).then(function(results) {
 				if(results.status === 'OK'){
@@ -130,14 +132,15 @@ function getFeatureStyle(f, fId){
 	//ESTIL MARKER
 	if(f.layer.options.tipus == t_marker){
 		if (!f.layer._ctx){
+
 			rangs = {
-				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
-				valorMax : "feature" + fId,
-				color : '#ff0000',
-				marker: f.layer.options.icon.options.markerColor,
-				simbolColor: f.layer.options.icon.options.iconColor,
-				simbolSize : f.layer._icon.height,
-				simbol : f.layer.options.icon.options.icon,
+				color : f.layer.options.icon.options.fillColor,//Color principal
+				marker: f.layer.options.icon.options.markerColor,//Si es de tipus punt_r o el color del marker
+				simbolColor: f.layer.options.icon.options.iconColor,//Glyphon
+				radius : f.layer.options.icon.options.radius,//Radius
+				iconSize : f.layer.options.icon.options.iconSize.x+"#"+f.layer.options.icon.options.iconSize.y,//Size del cercle
+				iconAnchor : f.layer.options.icon.options.iconAnchor.x+"#"+f.layer.options.icon.options.iconAnchor.y,//Anchor del cercle
+				simbol : f.layer.options.icon.options.icon,//tipus glyph
 				opacity : (f.layer.options.opacity * 100),
 				label : false,
 				labelSize : 10,
@@ -146,8 +149,6 @@ function getFeatureStyle(f, fId){
 			};
 		}else{
 			rangs = {
-				llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
-				valorMax : "feature" + fId,
 				color : f.layer.options.fillColor,
 				simbolSize : f.layer.options.radius,
 				opacity : (f.layer.options.fillOpacity * 100),
@@ -162,8 +163,6 @@ function getFeatureStyle(f, fId){
 	//ESTIL LINE
 	}else if(f.layer.options.tipus == t_polyline){
 		rangs = {
-			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
-			valorMax : "feature" + fId,
 			color : f.layer.options.color,
 			lineWidth : 2,
 			lineStyle : 'solid',
@@ -177,17 +176,18 @@ function getFeatureStyle(f, fId){
 		};	
 	//ESTIL POLIGON		
 	}else{
+		var fillColor = f.layer.options.color;
+		if(f.layer.options.fillColor) fillColor = rgb2hex(f.layer.options.fillColor);
+		
 		rangs = {
-			llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
-			valorMax : "feature" + fId,
-			color : '#ff0000',
-			fillColor: '#ff0000',
+			color : fillColor,
+			fillColor: fillColor,
 			fillOpacity: f.layer.options.fillOpacity,
-			lineWidth : 2,
+			lineWidth : f.layer.options.dashArray,
 			lineStyle : 'solid',
-			borderWidth : 2,
-			borderColor : '#000000',
-			opacity : (f.layer.options.opacity * 100),
+			borderWidth : f.layer.options.dashArray,
+			borderColor : f.layer.options.color,
+			opacity : (f.layer.options.fillOpacity * 100),
 			label : false,
 			labelSize : 10,
 			labelFont : 'arial',

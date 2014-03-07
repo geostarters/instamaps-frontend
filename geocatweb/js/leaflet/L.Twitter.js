@@ -27,7 +27,6 @@ L.Twitter = L.FeatureGroup.extend({
 	},	
 
 	_load: function(data) {
-		
 		for (var i = 0; i < data.length; i++) {
 			var obj = data[i];
 			var icoTwitter = L.AwesomeMarkers.icon({
@@ -37,8 +36,13 @@ L.Twitter = L.FeatureGroup.extend({
 				iconSize : new L.Point(28, 42),
 				iconColor : '#000000',
 				prefix : 'fa'
-			});				
-			var coord = obj.coord.split(","); 
+			});
+			var coord = obj.coord;
+			if (coord.indexOf("[") != -1){
+				coord = coord.replace("[","");
+				coord = coord.replace("]","");
+			}
+			coord = coord.split(",");
 			var m = new L.Marker([coord[1],coord[0]], {icon: icoTwitter});
 			m.bindPopup('<div class="twitter_layer_popup"><a href="'+obj.profile_url+'" target="_new"><img src="'+obj.profile_image_url+'"/></a></div><br><div>'+obj.text_message+'</div>');
 			this.fire('addlayer', {
@@ -77,14 +81,16 @@ L.Twitter = L.FeatureGroup.extend({
 		this._zoom = zoom;
 		var _this = this;
 	
-		var data = {hashtag: this.options.hashtag,
-					mapCenter: map.getCenter().lat+','+map.getCenter().lng,
-					mapBbox: map.getBounds().toBBoxString()
-        			}
-			getTwitterLayer(data).then(function(results){
+		var data = {
+			hashtag: this.options.hashtag,
+			mapCenter: map.getCenter().lat+','+map.getCenter().lng,
+			mapBbox: map.getBounds().toBBoxString()
+		};
+		
+		getTwitterLayer(data).then(function(results){
 			if(results.status==='OK'){
 				console.debug('twitter ok');
-				_this._load(results.results)
+				_this._load(results.results);
 			}else{
 				console.debug('Error al carregar capa twitter');
 			}				
