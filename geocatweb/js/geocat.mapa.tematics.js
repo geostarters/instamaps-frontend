@@ -20,15 +20,9 @@ function showTematicLayersModal(tipus,className){
 		
 		//Si la capa no esta tematitzada
 		if(!layerOptions.tipusRang){
-			if(tipus==tem_simple || tipus==tem_clasic) {
+			if(tipus==tem_simple) {
 				if (tipusCapa == t_tematic){ //tematic
-					if (tipus==tem_simple){
-						layers.push(this);
-					}else if (tipus==tem_clasic){
-						if (this.layer.options.dades){
-							layers.push(this);
-						}
-					}
+					layers.push(this);
 				}else if(tipusCapa == t_dades_obertes){ //dades obertes
 					var dataset = layerOptions.dataset;
 					if (dataset != "incidencies" &&
@@ -38,13 +32,17 @@ function showTematicLayersModal(tipus,className){
 						layers.push(this);
 					}
 				}
+			}else if (tipus==tem_clasic){
+				if (tipusCapa == t_tematic){ //tematic
+					if (this.layer.options.dades){
+						layers.push(this);
+					}
+				}
 			}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-				
 				if(tipusCapa == t_dades_obertes || (tipusCapa == t_tematic && layerOptions.geometryType == t_marker))
 				{
 					layers.push(this);
 				}
-				
 			}else if (tipus==tem_size) {
 				$('#list_tematic_layers').html(warninMSG);
 				return;
@@ -681,7 +679,7 @@ function loadTematicLayer(layer){
 						//1 Rango
 						else if (Lrangs.length == 1){
 							rangStyle = Lrangs[0];
-							rangStyle = createRangStyle(ftype, rangStyle, null);
+							rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
 						}
 						//Multiples rangos
 						else{
@@ -698,7 +696,7 @@ function loadTematicLayer(layer){
 							}
 							if (rangStyle.length > 0){
 								rangStyle = rangStyle[0];
-								rangStyle = createRangStyle(ftype, rangStyle, null);
+								rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
 							}else{
 								rangStyle = createRangStyle(ftype, null, Lgeom.length);
 							}
@@ -816,9 +814,7 @@ function loadTematicLayer(layer){
 					}
 					controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
 					controlCapes._lastZIndex++;					
-				}
-
-				
+				}				
 			}
 		}else{
 			alert("Error getTematicLayer");
@@ -967,6 +963,9 @@ function changeDefaultPointStyle(estilP) {
 }
 
 function createFeatureMarkerStyle(style, num_geometries){
+	if (!num_geometries){
+		num_geometries = num_max_pintxos - 1;
+	}
 	if (style.marker && num_geometries <= num_max_pintxos){
 			var puntTMP = new L.AwesomeMarkers.icon(default_point_style);
 			puntTMP.options.iconColor = style.simbolColor;

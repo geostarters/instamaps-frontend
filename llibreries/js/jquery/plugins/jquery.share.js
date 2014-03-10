@@ -87,7 +87,7 @@
                     }
                     
                     // bind click
-                    $('.pop-social').click(function(){
+                    $('.pop-social').on('click',function(){
                         window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
                         return false;
                     });
@@ -123,7 +123,6 @@
         } else {
             $.error( 'Method "' +  method + '" does not exist in social plugin');
         }
-
     }
 
     $.fn.share.defaults = {

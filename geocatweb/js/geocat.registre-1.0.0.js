@@ -15,7 +15,6 @@ var signin_social;
 			$('#signin_pass').hide();
 			$('#signin_confirm_pass').hide();
 			checkValiditySignIn();
-			
 		}else {
 			signin_social = false;
 //			alert("No hi ha parametres:"+signin_social);
@@ -30,8 +29,7 @@ var signin_social;
 		var correu_usuari=jQuery("#signin_email").val();
 		var pass = jQuery("#signin_pass").val();
 		var confirm_pass = jQuery("#signin_confirm_pass").val();
-		
-		
+				
 		checkValiditySignIn().then(function(){
 			if(! $("span").hasClass( "text_error" )){
 				$('.waiting_animation').show();
@@ -44,8 +42,11 @@ var signin_social;
 					reg_url = paramUrl.signinSocial; 
 					dataUrl = {cn:name, sn:surname, uid:id, email: correu_usuari, tipusEntitatId:"1",  ambitGeo:"1", bbox:"260383,4491989,527495,4748184", provider:providerId, socialName:id ,validatedId: valId};
 				}else{
-					reg_url = paramUrl.signinUser; 
+					reg_url = paramUrl.signinUser;
 					dataUrl = {cn:name, sn:surname, uid:id, userPassword: pass, email: correu_usuari, tipusEntitatId:"1", ambitGeo:"1", bbox:"260383,4491989,527495,4748184"};
+					if (isRandomUser($.cookie('uid'))){
+						dataUrl.randomuid = $.cookie('uid');
+					}
 				}
 				
 				registerUser(reg_url, dataUrl).then(function(results){
@@ -64,10 +65,8 @@ var signin_social;
 				});
 			}
 		});
-	  });
+	});
 	
-	
-
 	function checkValiditySignIn(){
 		var defer = $.Deferred();
 		var deferUser = $.Deferred();
@@ -130,9 +129,7 @@ var signin_social;
 				deferEmail.reject();
 			});
 		}
-		
-
-		
+				
 		if(!signin_social){
 			if(isBlank($('#signin_pass').val())){
 				$('#signin_pass').addClass("invalid");

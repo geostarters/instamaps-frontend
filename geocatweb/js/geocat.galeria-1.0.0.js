@@ -50,6 +50,16 @@ $(function(){
 				window.location.href = "/geocatweb/mapa.html?businessid="+$this.data("businessid");
 			});
 			
+			$('.btn.btn-success').on('click', function(event){
+				event.preventDefault();
+				event.stopPropagation();
+				var $this = $(this);
+				var urlMap = 'http://instamapes.igcg.cat/geocatweb/mapa.html?businessid='+$this.data("businessid");
+				$('#urlMap').val(urlMap);
+				$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+				$('#dialgo_url_iframe').modal('show');
+			});
+			
 			window.lang.run();
 			
 		});

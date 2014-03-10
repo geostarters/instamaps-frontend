@@ -21,9 +21,13 @@ var tem_heatmap = "heatmapTematic";
 var tem_cluster = "clusterTematic";
 var from_creaPopup="creaPopup";
 var from_creaCapa="creaCapa";
+var visibilitat_open = 'O';
+var visibilitat_privat = 'P';
 
 var num_max_pintxos = 250;
 var capesOrdre_sublayer = "sublayer";//10000;
+
+var msg_noguarda = "Per publicar o compartir el mapa has d'iniciar sessió";
 
 //var HOST_APP = "http://84.88.72.36/";
 //var GEOCAT02 = "http://84.88.72.36";

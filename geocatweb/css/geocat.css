@@ -711,14 +711,15 @@ background-color:#FFFFFF}
 	}
 	
 	.thumbnail img{
-		width: 255px;
+		width: 240px;
 		height: 140px;
 	}
-
 	
 	.thumbnail{
-		min-width: 253px;
-		min-height: 237px;
+		min-width: 240px;
+		min-height: 272px;
+		max-width: 240px;
+		max-height: 272px;
 	}
 	
 	.thumbnail img:hover{

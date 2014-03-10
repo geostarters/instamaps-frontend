@@ -15,8 +15,12 @@ jQuery("#login_button").click(function(){
 		$("#modal-message").remove();
 		var user_login =jQuery("#login_user").val();
 		var pass_login = jQuery("#login_pass").val();
+		var dataUrl = {user:user_login, password:pass_login};
+		if (isRandomUser($.cookie('uid'))){
+			dataUrl.randomuid = $.cookie('uid');
+		}
 		
-		doLogin(user_login, pass_login).then(function(results){
+		doLogin(dataUrl).then(function(results){
 			if(results.status==='OK'){
 				$.cookie('uid', user_login, {path:'/'});
 				if(results.results === 'login_map'){

@@ -40,32 +40,21 @@
 </head>
 <body>
 
-<div id="div_loading">
-		<div class="loader"> 
-  <span>I</span>
-    <span></span>
-    <span>S</span>
-    <span></span>
-    <span>A</span>
-    <span></span>
-    <span>A</span>
-    <span></span>
-    <span>E</span>
-    <span>S</span> 
-  <div class="covers">   
-    <span></span>
-   <span id="ani1"><div class="img-circle2-icon descobreix_color">N</div></span>
-   <span></span>
-  <span id="ani2"><div class="img-circle2-icon crea_color">T</div></span>
-  <span></span>
-  <span id="ani3"><div class="img-circle2-icon visualitza_color">M</div></span>
-  <span></span>
-  <span id="ani4"><div class="img-circle2-icon comparteix_color">P</div></span>
-  <span></span>
-  <span></span>   
-  </div>
-</div>
-</div>
+	<div id="div_loading">
+		<div class="loader">
+			<span>I</span> <span></span> <span>S</span> <span></span> <span>A</span>
+			<span></span> <span>A</span> <span></span> <span>E</span> <span>S</span>
+			<div class="covers">
+				<span></span> <span id="ani1">
+				<div class="img-circle2-icon descobreix_color">N</div></span> <span></span> <span
+					id="ani2"><div class="img-circle2-icon crea_color">T</div></span> <span></span>
+				<span id="ani3">
+				<div class="img-circle2-icon visualitza_color">M</div></span> <span></span> <span
+					id="ani4"><div class="img-circle2-icon comparteix_color">P</div></span>
+				<span></span> <span></span>
+			</div>
+		</div>
+	</div>
 
 	<!-- Fixed navbar -->
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -100,6 +89,8 @@
 						<form class="navbar-form">
 							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html"
 								class="btn bt-sessio">Inicia la sessi&oacute;</a>
+<!-- 							<a lang="ca" id="hl_sessio1" href="/geocatweb/registre.html" -->
+<!-- 								class="btn bt-sessio">Crea un compte</a> -->
 						</form>
 					</li>
 
@@ -234,15 +225,13 @@
 						<div id="twitter" class="icon-twitter gris"></div>
 						<div id="linkedin" class="icon-linkedin gris"></div>
 						<div id="pinterest" class="icon-pinterest gris"></div-->
-					</div>
-					</div>					
+					</div>				
 				</td>
 			</tr>
 			<tr>
 				<td class="td5" height="15px"><label class="textGris">InstaMapes Beta</label></td>
 			</tr>
 		</table>
-
 	</div>
 	<div id="map"></div>
 
@@ -277,7 +266,7 @@
 							<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>
 							<div class="controls">
 								<div tabindex="0">
-									<input class="make-switch" id="visibilitat_chk" type="checkbox" checked data-label-text="<span class='glyphicon glyphicon-eye-open'></span>" data-on-text="<span class='glyphicon glyphicon-ok glyphicon-white'></span>" data-off-text="<span class='glyphicon glyphicon-remove'></span>">
+									<input class="make-switch" id="visibilitat_chk" type="checkbox" data-label-text="<span class='glyphicon glyphicon-transfer'></span>" data-on-text="<span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span>Públic</span>" data-off-text="<span class='fa fa-lock'></span>&nbsp;<span>Privat</span>">
 								</div>
 							</div>
 							</div>
@@ -341,7 +330,6 @@
 	</div>
 	<!-- /.modal -->
 	<!-- Fi Modal Publicar -->
-	
 	
 	<!-- Modal Url/iframe -->
 	<div id="dialgo_url_iframe" class="modal fade">
@@ -1216,12 +1204,13 @@
 						aria-hidden="true">&times;</button>
 					<h4 lang="ca" class="modal-title">Edició en mode demostració</h4>
 				</div>
-				<div class="modal-body">
-					No es guardarà el mapa. Per guardar les dades has d'entrar amb un usuari registrat. En tancar la sessió es perdran les dades
+				<div class="modal-body" lang="ca">
+					Per poder guardar les dades has d'entrar com un usuari registrat
 				</div>
 				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-success">Crea un compte</button>
-					<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
+					<button lang="ca" type="button" class="btn bt-sessio">Inicia la sessió</button>
+<!-- 					<button lang="ca" type="button" class="btn btn-success">Crea un compte</button> -->
+					<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Ara no</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->

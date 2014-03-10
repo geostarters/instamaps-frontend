@@ -226,3 +226,11 @@ function logoutUser(){
 function sessionExpired(){
 	jQuery('#dialog_session_expired').modal('show');
 }
+
+function isRandomUser(user){
+	var isRandom = false;
+	if (user && user.indexOf("random_") != -1 && user.indexOf("random_") == 0){
+		isRandom = true;
+	}
+	return isRandom;
+}
