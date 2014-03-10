@@ -90,6 +90,28 @@ html,body {
   	-webkit-animation: up 1s infinite;
 }
 
+#ani5 {
+		animation: glow 3s infinite;
+  	-webkit-animation: glow 1s infinite;
+	
+}
+
+
+@keyframes glow{
+  0%   { margin-bottom: 0; }
+  	16%  {text-shadow:0 0 20px white;}
+  	50% { margin-bottom: 0; }
+  	100% { margin-bottom: 0;}
+}
+
+@-webkit-keyframes glow{
+ 	0%   { margin-bottom: 0; }
+  	16%  {text-shadow:0 0 20px white; }
+  	50% { margin-bottom: 0; }
+  	100% { margin-bottom: 0;}
+}
+
+
 @keyframes up {
   	0%   { margin-bottom: 0;line-height: 40px; }
   	16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
@@ -108,7 +130,7 @@ html,body {
 #ani2 div { animation-delay: .428571s; }
 #ani3 div { animation-delay: .571428s; }
 #ani4 div { animation-delay: .714285s; }
-
+#ani5  { animation-delay: .714285s; }
 /*Fi animacio*/
 
 /*Tematics*/
@@ -681,7 +703,8 @@ background-color: #9F9F9E;
 }
 
 #dialog_dades_ex .modal-dialog,
-#dialog_layers_tematic .modal-dialog{
+#dialog_layers_tematic .modal-dialog,
+#dialog_carrega_dades .modal-dialog{
 	padding-top: 10%;
 	width: 40%;
 	

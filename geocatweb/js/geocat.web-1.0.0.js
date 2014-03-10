@@ -1,4 +1,9 @@
 
+
+
+
+
+
 window.lang = new jquery_lang_js();
 
 var lsLang;
@@ -20,7 +25,38 @@ jQuery(document).ready(function() {
     	logoutUser();
     	//window.location.href = paramUrl.loginPage;
     });
+    
+    initCookies();
+    
 });
+
+
+
+function initCookies(){
+	
+	//init cookies
+	cc.initialise({
+		cookies: {analytics: {}},
+		settings: {
+			consenttype: "implicit",
+			bannerPosition: "bottom",
+				hideprivacysettingstab: true,
+				privacyPolicy:false,
+				ignoreDoNotTrack: true,
+				hideallsitesbutton: true,
+				onlyshowbanneronce: true
+		},
+		strings: {
+			notificationTitleImplicit: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal"),
+			privacyPolicy:'',
+			seeDetailsImplicit:'',
+			savePreference:window.lang.convert("Acceptar"),
+			allowCookiesImplicit: window.lang.convert("Acceptar")
+				
+		}
+	});
+	
+}
 
 function initHover(){
 	$("#div_V").hover(function(){
