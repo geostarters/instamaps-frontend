@@ -20,12 +20,8 @@ jQuery(document).ready(function() {
     	logoutUser();
     	//window.location.href = paramUrl.loginPage;
     });
-    
     initCookies();
-    
 });
-
-
 
 function initCookies(){
 	
@@ -50,7 +46,6 @@ function initCookies(){
 				
 		}
 	});
-	
 }
 
 function initHover(){
