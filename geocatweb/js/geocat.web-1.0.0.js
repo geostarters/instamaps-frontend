@@ -24,28 +24,28 @@ jQuery(document).ready(function() {
 });
 
 function initCookies(){
-	
-	//init cookies
+	//console.debug("initCookies");
 	cc.initialise({
 		cookies: {analytics: {}},
 		settings: {
 			consenttype: "implicit",
 			bannerPosition: "bottom",
-				hideprivacysettingstab: true,
-				privacyPolicy:false,
-				ignoreDoNotTrack: true,
-				hideallsitesbutton: true,
-				onlyshowbanneronce: true
+			hideprivacysettingstab: true,
+			ignoreDoNotTrack: true,
+			hideallsitesbutton: false,
+			onlyshowbanneronce: true
 		},
 		strings: {
 			notificationTitleImplicit: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal"),
-			privacyPolicy:'',
 			seeDetailsImplicit:'',
 			savePreference:window.lang.convert("Acceptar"),
 			allowCookiesImplicit: window.lang.convert("Acceptar")
-				
 		}
 	});
+	
+	if ($("#cc-tag a span").text() == "Privacy settings"){
+		$("#cc-tag").hide();
+	}
 }
 
 function initHover(){
