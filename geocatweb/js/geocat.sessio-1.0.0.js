@@ -78,3 +78,7 @@ $('#signin_linkedin').click(function() {
 $('#signin_google').click(function() {
 	window.location = paramUrl.socialAuth+"id=googleplus";
 	});
+
+$('#signin_icc').click(function() {
+	window.location = "http://aurigadev/descarregues_instamapes/main.php?t=mtc1000v10sd0fst1r030.zip&f=&l=cat";
+	});

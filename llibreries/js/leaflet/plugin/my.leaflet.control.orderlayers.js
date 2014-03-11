@@ -121,7 +121,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 	_addLayer: function (layer, name, overlay, groupLeafletId) {
 		var id = L.stamp(layer);
-		
+		console.debug("name:"+name);
 		if(groupLeafletId){
 			this._layers[groupLeafletId]._layers[id] = {
 					layer: layer,
@@ -139,6 +139,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					_layers: {}
 				};			
 		}
+		
+		console.debug("this._layers");
+		console.debug(this._layers);
 
 		if (this.options.autoZIndex && layer.setZIndex) {
 			this._lastZIndex++;
@@ -174,11 +177,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		for(i = 0; i < overlaysLayers.length; i++) {
 			if(overlaysLayers[i]) {
 				this._addItem(overlaysLayers[i]);
-//				//Afegim sublayers
-//				var sublayers = overlaysLayers[i]._layers;
-//				for (j in sublayers) { 
-//					this._addSubItem(sublayers[j]);
-//				}
 			}
 		}
 		
@@ -187,39 +185,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		this._separator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
 	},
 
-//	_addSubItem: function (obj) {
-//		console.debug("AddSubitem");
-//		
-//		var row = L.DomUtil.create('div', 'leaflet-row');
-//		
-//		var label = L.DomUtil.create('label', ''),
-//		    input,
-//		    checked = this._map.hasLayer(obj.layer);
-//
-//		input = L.DomUtil.create('input');
-//		input.id='input-'+obj.layer.options.businessId;
-//		input.type = 'checkbox';
-//		input.className = 'leaflet-control-layers-selector';
-//		input.defaultChecked = checked;
-//		
-//		input.layerId = L.stamp(obj.layer);
-//
-//		L.DomEvent.on(input, 'click', this._onInputClick, this);
-//
-//		var name = document.createElement('span');
-//		name.className = 'editable';
-//		name.id=input.layerId;
-//		name.innerHTML = ' ' + obj.name;
-//		
-//		var col = L.DomUtil.create('div', 'leaflet-input');
-//		col.appendChild(input);
-//		row.appendChild(col);
-//		col = L.DomUtil.create('div', 'leaflet-name');
-//		col.appendChild(label);
-//		row.appendChild(col);
-//		label.appendChild(name);		
-//	},
-	
 	_addItem: function (obj) {
 		var row = L.DomUtil.create('div', 'leaflet-row');
 		
@@ -264,31 +229,32 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				col.layerId = input.layerId;
 				row.appendChild(col);
 				
-				var row_conf = L.DomUtil.create('div', 'leaflet-row');
+//				var row_conf = L.DomUtil.create('div', 'leaflet-row');
 				
-				var row2 = L.DomUtil.create('div', 'options-conf');
-				row2.id='conf-'+obj.layer.options.businessId;
-				row_conf.appendChild(row2);
+//				var row2 = L.DomUtil.create('div', 'options-conf');
+//				row2.id='conf-'+obj.layer.options.businessId;
+////				row_conf.appendChild(row2);
+//				col.appendChild(row2);
 				
-				col = L.DomUtil.create('div', 'leaflet-up glyphicon glyphicon-chevron-up');
-				L.DomEvent.on(col, 'click', this._onUpClick, this);
-				col.layerId = input.layerId;
-				row2.appendChild(col);
-				
-				col = L.DomUtil.create('div', 'leaflet-down glyphicon glyphicon-chevron-down');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onDownClick, this);
-				row2.appendChild(col);
-				
-				col = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-				row2.appendChild(col);
-				
-				col = L.DomUtil.create('div', 'leaflet-download glyphicon glyphicon-download');
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-download');
 				col.layerId = input.layerId;
 				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-				row2.appendChild(col);
+				row.appendChild(col);
+				
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove');
+				col.layerId = input.layerId;
+				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
+				row.appendChild(col);	
+				
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-down glyphicon glyphicon-chevron-down');
+				col.layerId = input.layerId;
+				L.DomEvent.on(col, 'click', this._onDownClick, this);
+				row.appendChild(col);	
+				
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-up glyphicon glyphicon-chevron-up ');
+				L.DomEvent.on(col, 'click', this._onUpClick, this);
+				col.layerId = input.layerId;
+				row.appendChild(col);				
 				
 			}else{
 				
@@ -303,51 +269,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			container = this._baseLayersList;
 		}
 		container.appendChild(row);
-		if(modeMapa) container.appendChild(row_conf);
+//		if(modeMapa) {
+//			//container.appendChild(row_conf);
+//			row.appendChild(row2);
+//		}
 		
 		var sublayers = obj._layers;
 		for (j in sublayers) { 
-//			this._addSubItem(sublayers[j]);
-//			var sublayer = sublayers[j];
 			var row_sublayer = this._createSubItem(sublayers[j],input.layerId);
-//			var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
-//			
-//			var label_sublayer = L.DomUtil.create('label', ''),
-//			    input_sublayer,
-//			    checked = this._map.hasLayer(sublayer.layer);
-//
-//			input_sublayer = L.DomUtil.create('input');
-//			input_sublayer.id='input-'+sublayer.layer.options.businessId;
-//			input_sublayer.type = 'checkbox';
-//			input_sublayer.className = 'leaflet-control-layers-selector';
-//			input_sublayer.defaultChecked = checked;
-//
-//			input_sublayer.layerId = L.stamp(sublayer.layer);
-//			input_sublayer.layerIdParent = input.layerId;
-//			
-//			L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
-//
-//			var name_sublayer = document.createElement('span');
-//			name_sublayer.className = 'editable';
-//			name_sublayer.id=input.layerId;
-//			name_sublayer.innerHTML = ' ' + sublayer.name;
-//			
-//			var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
-//			col_sublayer.appendChild(input_sublayer);
-//			row_sublayer.appendChild(col_sublayer);
-//			col_sublayer = L.DomUtil.create('div', 'leaflet-name');
-//			col_sublayer.appendChild(label_sublayer);
-//			row_sublayer.appendChild(col_sublayer);
-//			label_sublayer.appendChild(name_sublayer);
-//			
-//			col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
-//			L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
-//			col_sublayer.layerId = input_sublayer.layerId;
-//			col_sublayer.layerIdParent = input.layerId;
-//			row_sublayer.appendChild(col_sublayer);			
-//			
 			row.appendChild(row_sublayer);
-//			createSubItem();
 			
 		}		
 		
@@ -356,7 +286,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 	
 	_createSubItem: function(sublayer,layerIdParent){
-		console.debug("_createSubItem");
 		
 		var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
 		
@@ -413,12 +342,57 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			}else{
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
-
+			//Afegir
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
 				this._map.addLayer(obj.layer);
-
+			
+////				for(z in obj._layers){
+////					var businessId = obj._layers[z].layer.options.businessId;
+////					if($('#input-'+businessId).is(':checked')){
+////						this._map.addLayer(obj._layers[z].layer);
+////					}
+////					$('#input-'+businessId).prop("disabled", false);	
+////				}
+//				if(obj._layers){
+//					$.each( obj._layers, function( key, value ) {
+//						if($('#input-'+value.layer.options.businessId).is(':checked')){
+////							console.debug("has layer:"+map.hasLayer(value.layer));
+//							//addSublayer(key);
+//							map.addLayer(map._layers[key])
+//						}
+//						$('#input-'+value.layer.options.businessId).prop("disabled", false);	
+//					});					
+//				}
+			//Treure	
 			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 				this._map.removeLayer(obj.layer);
+//				if(obj._layers){
+//					$.each( obj._layers, function( key, value ) {
+//						if($('#input-'+value.layer.options.businessId).is(':checked')){
+////							console.debug("has layer:"+map.hasLayer(value.layer));
+////							removeSublayer(key);
+//							map.removeLayer(map._layers[key])
+//						}
+//						$('#input-'+value.layer.options.businessId).prop("disabled", true);	
+//					});	
+//				}
+//			
+//				
+////				for(ind in obj._layers){
+////					console.debug(ind);
+////					//var businessId = obj._layers[ind].layer.options.businessId;
+////					if($('#input-'+obj._layers[ind].layer.options.businessId).is(':checked')){
+//////						if(this._map.hasLayer(obj._layers[ind].layer)){
+////////							this._map.removeLayer(obj._layers[ind].layer);
+//////							removeSublayer(ind);
+//////						}
+////						removeSublayer(ind);
+//////						map.removeLayer(map._layers[ind]);
+//////						this._map.removeLayer(this._map._layers[obj._layers[ind].layer._leaflet_id]);
+////					}
+////					$('#input-'+businessId).prop("disabled", true);	
+////				}	
+				
 			}
 		}
 

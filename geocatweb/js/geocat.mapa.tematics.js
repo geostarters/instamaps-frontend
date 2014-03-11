@@ -608,6 +608,7 @@ function getRangsFromStyles(tematic, styles){
 }
 
 function loadTematicLayer(layer){
+	var defer = $.Deferred();
 	var data={
 		businessId: layer.businessId,
 		uid: $.cookie('uid')
@@ -802,7 +803,7 @@ function loadTematicLayer(layer){
 				}
 				
 				var options = jQuery.parseJSON( layerWms.options );				
-				if(options.origen){//Si es una sublayer
+				if(layerWms.options && options.origen){//Si es una sublayer
 					var origen = getLeafletIdFromBusinessId(options.origen);
 					controlCapes.addOverlay(capaTematic, layerWms.serverName, true, origen);					
 				}
@@ -818,10 +819,14 @@ function loadTematicLayer(layer){
 			}
 		}else{
 			alert("Error getTematicLayer");
-		}		
+		}	
+		defer.resolve();
 	},function(results){
 		//console.debug('getTematicLayer ERROR');
+		defer.reject();
 	});
+	
+	return defer.promise();
 }
 
 function createRangStyle(ftype, style, num_geometries){
@@ -1206,6 +1211,7 @@ function updateClasicTematicFromRangs(){
 		calentas: false,
         activas: true,
         visibilitats: true,
+        order: capesOrdre_sublayer,
         dataField: jQuery('#dataField').val(),
 		tipusRang: tematicFrom.from,
 		rangs: rangs

@@ -8,6 +8,8 @@ var dades1;
 var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
+var lsublayers = [];
+
 var estilP={
 	iconFons:'awesome-marker-web awesome-marker-icon-orange',
 	iconGlif:'fa fa-',
@@ -1250,6 +1252,189 @@ function loadMapConfig(mapConfig){
 		}
 		
 		//carga las capas en el mapa
+		
+		loadOrigenWMS().then(function(results){
+			console.debug(results);
+			var num_origen = 0;
+			jQuery.each(results.origen, function(index, value){
+				loadLayer(value).then(function(){
+					num_origen++;
+					if (num_origen == results.origen.length){
+						jQuery.each(results.sublayers, function(index, value){
+							loadLayer(value);
+						});
+					}
+				});
+			});
+		});
+
+/*		
+		jQuery.each(mapConfig.servidorsWMS, function(index, value){
+			
+			if(value.capesOrdre == capesOrdre_sublayer){
+				lsublayers.push(value);
+			}else{
+				
+				loadLayer(value);
+//				.then(function(){
+//					console.debug("Fi load layer");
+//				});
+			}
+			
+//			if (value.epsg == "4326"){
+//				value.epsg = L.CRS.EPSG4326;
+//			}else if (value.epsg == "25831"){
+//				value.epsg = L.CRS.EPSG25831;
+//			}else if (value.epsg == "23031"){
+//				value.epsg = L.CRS.EPSG23031;
+//			}else{
+//				value.epsg = map.crs;
+//			}
+//			
+//			//Si la capa es de tipus wms
+//			if(value.serverType == t_wms){
+//				loadWmsLayer(value);
+//
+//				//Si la capa es de tipus dades obertes
+//			}else if(value.serverType == t_json){
+//				loadCapaFromJSON(value);				
+//				
+//			//Si la capa es de tipus dades obertes
+//			}else if(value.serverType == t_dades_obertes){
+//				loadDadesObertesLayer(value);
+//
+//			//Si la capa es de tipus xarxes socials	
+//			}else if(value.serverType == t_xarxes_socials){
+//				var options = jQuery.parseJSON( value.options );
+//				
+//				if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
+//				else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
+//				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+//				
+//			}else if(value.serverType == t_tematic){
+//				loadTematicLayer(value);
+//				
+//			}else if(value.serverType == t_heatmap){
+//				loadHeatLayer(value);
+//				
+//			}else if(value.serverType == t_cluster){
+//				loadClusterLayer(value);
+//				
+//			}
+		});
+		
+//		for(index in lsublayers){
+//			loadLayer(lsublayers[index]).then(function(){
+//				console.debug("Fi load SUBlayer");
+//			});;
+//		}
+*/		
+		jQuery('#div_loading').hide();
+	}
+	
+	var source = $("#map-properties-template").html();
+	var template = Handlebars.compile(source);
+	var html = template(mapConfig);
+	$('#frm_publicar').append(html);
+	
+	$('.make-switch').bootstrapSwitch();
+	//$('.make-switch').bootstrapSwitch('setOnLabel', "<i class='glyphicon glyphicon-ok glyphicon-white'></i>");		
+	//$('.make-switch').bootstrapSwitch('setOffLabel', "<i class='glyphicon glyphicon-remove'></i>");
+		
+	dfd.resolve();
+	
+	return dfd.promise();
+}
+
+function loadOrigenWMS(){
+	var dfd = $.Deferred();
+	var layer_map = {origen:[],sublayers:[]};
+	jQuery.each(mapConfig.servidorsWMS, function(index, value){
+		if(value.capesOrdre == capesOrdre_sublayer){
+			layer_map.sublayers.push(value);
+			lsublayers.push(value);
+		}else{
+			layer_map.origen.push(value);
+		}
+	});
+	dfd.resolve(layer_map);
+	return dfd.promise();
+}
+
+function loadLayer(value){
+	
+	var defer = $.Deferred();
+	
+	if (value.epsg == "4326"){
+		value.epsg = L.CRS.EPSG4326;
+	}else if (value.epsg == "25831"){
+		value.epsg = L.CRS.EPSG25831;
+	}else if (value.epsg == "23031"){
+		value.epsg = L.CRS.EPSG23031;
+	}else{
+		value.epsg = map.crs;
+	}
+	
+	//Si la capa es de tipus wms
+	if(value.serverType == t_wms){
+		loadWmsLayer(value);
+		defer.resolve();
+		//Si la capa es de tipus dades obertes
+	}else if(value.serverType == t_json){
+		loadCapaFromJSON(value);				
+		defer.resolve();
+	//Si la capa es de tipus dades obertes
+	}else if(value.serverType == t_dades_obertes){
+		loadDadesObertesLayer(value);
+		defer.resolve();
+	//Si la capa es de tipus xarxes socials	
+	}else if(value.serverType == t_xarxes_socials){
+		var options = jQuery.parseJSON( value.options );
+		
+		if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
+		else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
+		else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+		defer.resolve();
+	}else if(value.serverType == t_tematic){
+		loadTematicLayer(value).then(function(){
+			defer.resolve();
+		});
+		
+	}else if(value.serverType == t_heatmap){
+		loadHeatLayer(value);
+		defer.resolve();
+		
+	}else if(value.serverType == t_cluster){
+		loadClusterLayer(value);
+		defer.resolve();
+	}
+	return defer.promise();
+}
+
+function loadMapConfig_old(mapConfig){
+	console.debug(mapConfig);
+	var dfd = jQuery.Deferred();
+	if (!jQuery.isEmptyObject( mapConfig )){
+		jQuery('#businessId').val(mapConfig.businessId);
+		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
+		//cambiar el mapa de fondo a orto y gris
+		if (mapConfig.options != null){
+			if (mapConfig.options.fons != 'topoMap'){
+				map.setActiveMap(mapConfig.options.fons);
+				map.setMapColor(mapConfig.options.fonsColor);
+				//map.gestionaFons();
+			}
+				
+			if (mapConfig.options.bbox){
+				var bbox = mapConfig.options.bbox.split(",");
+				var southWest = L.latLng(bbox[1], bbox[0]);
+			    var northEast = L.latLng(bbox[3], bbox[2]);
+			    var bounds = L.latLngBounds(southWest, northEast);
+				map.fitBounds( bounds ); 
+			}
+		}
+		
+		//carga las capas en el mapa
 		jQuery.each(mapConfig.servidorsWMS, function(index, value){
 			if (value.epsg == "4326"){
 				value.epsg = L.CRS.EPSG4326;
@@ -1722,6 +1907,16 @@ function myRemoveLayer(obj){
 	}
 }
 
+function removeSublayer(indexSublayer){
+	console.debug("before remove has layer:"+map.hasLayer(map._layers[indexSublayer]));
+	map.removeLayer(map._layers[indexSublayer]);
+	console.debug("after remove has layer:"+map.hasLayer(map._layers[indexSublayer]));
+}
+
+//function addSublayer(indexSublayer){
+//	map.addLayer(map._layers[indexSublayer]);
+//}
+
 function updateEditableElements(){
 	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
@@ -1898,7 +2093,7 @@ function showConfOptions(businessId){
 //	console.debug('showConfOptions');
 //	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide("slow");
 //	else jQuery("#conf-"+businessId+"").show("2000");
-	jQuery("#conf-"+businessId+"").toggle("fast");
+	jQuery(".conf-"+businessId+"").toggle("fast");
 }
 
 function createNewMap(){
