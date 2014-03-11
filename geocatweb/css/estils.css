@@ -646,6 +646,7 @@ textarea {
 }
 
 .cc-cookies {
+<<<<<<< HEAD
 	width: 100%;
 	bottom: 0;
 	top: auto;
@@ -655,6 +656,9 @@ textarea {
 
 .cc-cookie-accept{
 	margin-left: 10px;
+=======
+	width: 100%;	
+>>>>>>> refs/remotes/origin/victor_v2
 }
 
 /*old browser message*/
@@ -698,4 +702,12 @@ textarea {
     border-bottom: 1px solid #CCCCCC;
     padding-bottom: 5px;
     	
+<<<<<<< HEAD
+=======
+}
+
+#div_formats{
+	font-size: 12px !important;
+	
+>>>>>>> refs/remotes/origin/victor_v2
 }
