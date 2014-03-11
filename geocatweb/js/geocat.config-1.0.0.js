@@ -39,12 +39,12 @@ var GEOCAT02 = "http://172.70.1.12";
 var DOMINI = "instamapes.icgc.cat";
 
 var paramUrl = {
-	/*proxy:"/maps/proxy.cgi",
+	proxy:"/maps/proxy.cgi",
 	uploadproxy:"/maps/upload.cgi",
-	proxy_download:"/maps/download.cgi",*/
-	proxy:"/cgi-bin/proxy.cgi",
+	proxy_download:"/maps/download.cgi",
+	/*proxy:"/cgi-bin/proxy.cgi",
 	uploadproxy:"/cgi-bin/upload.cgi",
-	proxy_download:"/cgi-bin/download.cgi",
+	proxy_download:"/cgi-bin/download.cgi",*/
 	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",
@@ -57,6 +57,7 @@ var paramUrl = {
 	getAllPublicsMaps: HOST_APP+"geocat/aplications/map/getAllPublicsMaps.action?",
 	deleteMap: HOST_APP+"geocat/aplications/map/deleteMap.action?",
 	loginUser: HOST_APP+"geocat/login.action?",
+	loginUserIcgc: HOST_APP+"geocat/loginIcgc.action?",
 	logoutUser: HOST_APP+"geocat/logout.action?",
 	signinUser: HOST_APP+"geocat/registreUser.action?",
 	signinSocial: HOST_APP+"geocat/social/createUser.action?",
