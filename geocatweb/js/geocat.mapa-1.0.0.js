@@ -718,7 +718,7 @@ function creaPopOverMesFonsColor() {
 		map.colorMap(fons);
 	});
 }
-/*
+
 function creaPopOverMevasDades(){
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		
@@ -833,11 +833,8 @@ function creaPopOverMevasDades(){
 				
 			}	
 		});
-		
-		
 	});	
 }
-*/
 
 /*
 function loadPopOverMevasDades(){
