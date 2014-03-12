@@ -14,6 +14,7 @@ var t_multipolygon= "multipolygon";
 var t_heatmap="heatmap";
 var t_cluster="cluster";
 var t_size="size";
+var tem_origen = "origenTematic";
 var tem_simple = "simpleTematic";
 var tem_clasic = "clasicTematic";
 var tem_size = "sizeTematic";

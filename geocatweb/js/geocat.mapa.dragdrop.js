@@ -98,15 +98,15 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 	$('#url').val(paramUrl.dragFile);
 	
 	var drOpcionsMapa = {
-			url : paramUrl.uploadproxy,
-			paramName : "file", // The name that will be used to transfer the file
-			maxFilesize : 10, // MB
-			method:'post',
-			//clickable:false,
-			accept : function(file, done) {
-				done();				
-			}
-		};
+		url : paramUrl.uploadproxy,
+		paramName : "file", // The name that will be used to transfer the file
+		maxFilesize : 10, // MB
+		method:'post',
+		//clickable:false,
+		accept : function(file, done) {
+			done();				
+		}
+	};
 	
 	var opcionsBoto=drOpcionsMapa;
 	opcionsBoto.clickable=true;
@@ -189,6 +189,10 @@ function addDropFileToMap(results){
 		//console.debug(results.results);
 		var businessId=results.results.businessId;
 		
+		var options = {
+			tem: tem_origen,
+		};
+		
 		//crear el servidor WMS i agregarlo al mapa
 		var data = {
 				uid:$.cookie('uid'),
@@ -201,6 +205,7 @@ function addDropFileToMap(results){
 	            visibilitats: true,
 	            epsg: '4326',
 	            transparency: true,
+	            options: JSON.stringify(options),
 	            visibilitat: 'O'
 		};
 		createServidorInMap(data).then(function(results){

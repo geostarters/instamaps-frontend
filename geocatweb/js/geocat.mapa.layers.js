@@ -79,6 +79,7 @@ function objecteUserAdded(f){
 			features : features,
 			dades : dades,
 			rangs : rangs,
+			tipusRang: tem_origen,
 			mapBusinessId: url('?businessid'),
 			geometryType: f.layer.options.tipus
 		};

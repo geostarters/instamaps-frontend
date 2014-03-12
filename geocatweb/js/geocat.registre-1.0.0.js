@@ -51,8 +51,18 @@ var signin_social;
 				
 				registerUser(reg_url, dataUrl).then(function(results){
 					if(results.status==='OK'){
+						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						
-						jQuery('#button-alta-ok').click(function(){window.location="../geocatweb/sessio.html";});
+						jQuery('#button-alta-ok').click(function(){
+							window.location=paramUrl.mapaPage;
+							/*
+							if(results.results === 'login_map'){
+								window.location=paramUrl.mapaPage;
+							}else{
+								window.location=paramUrl.loginPage;
+							}
+							*/
+						});
 						$('.waiting_animation').hide();
 						
 					}else{

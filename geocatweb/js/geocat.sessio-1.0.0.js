@@ -24,9 +24,9 @@ jQuery("#login_button").click(function(){
 			if(results.status==='OK'){
 				$.cookie('uid', user_login, {path:'/'});
 				if(results.results === 'login_map'){
-					window.location="/geocatweb/mapa.html";
+					window.location=paramUrl.mapaPage;
 				}else{
-					window.location="/geocatweb/galeria.html?private=1";
+					window.location=paramUrl.galeriaPage+"?private=1";
 				}
 			}else if(results.results === 'cannot_authenticate'){
 				$('#modal_wrong_user').modal('toggle');						
@@ -65,20 +65,20 @@ function checkValidityLogin(){
   
 $('#signin_twitter').click(function() {
 	window.location = paramUrl.socialAuth+"id=twitter";
-	});
+});
 
 $('#signin_facebook').click(function() {
 	window.location = paramUrl.socialAuth+"id=facebook";
-	});
+});
 
 $('#signin_linkedin').click(function() {
 	window.location = paramUrl.socialAuth+"id=linkedin";
-	});
+});
 
 $('#signin_google').click(function() {
 	window.location = paramUrl.socialAuth+"id=googleplus";
-	});
+});
 
 $('#signin_icc').click(function() {
 	window.location = "http://aurigadev/descarregues_instamapes/main.php?t=mtc1000v10sd0fst1r030.zip&f=&l=cat";
-	});
+});

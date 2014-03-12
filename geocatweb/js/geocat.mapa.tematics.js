@@ -4,8 +4,8 @@ var paletasColors = [
 ];
 
 function showTematicLayersModal(tipus,className){
-//	console.debug("showTematicLayersModal");
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No hi ha capes disponibles per aquest estil de mapa !!')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	//console.debug("showTematicLayersModal");
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar a cap capa de les que tens en el mapa')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
 	jQuery('#dialog_layers_tematic').modal('show');
@@ -537,10 +537,11 @@ function getRangsFromStyles(tematic, styles){
 //					marker: styles.options.markerColor
 //				};
 				
-				if(jQuery.trim(styles.options.icon) != "" && jQuery.isPlainObject(styles.options.icon)){
+				while(jQuery.type(styles.options.icon) === "object"){
+					//if(jQuery.trim(styles.options.icon) != "" && jQuery.isPlainObject(styles.options.icon)){
 					styles.options = styles.options.icon.options;
 				}
-								
+				
 				var rang = {
 					llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 //					valorMax : "feature" + fId,
