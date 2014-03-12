@@ -1,4 +1,6 @@
 
+var trackEventFrom = 'sessio';
+
 jQuery(document).ready(function() {
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13) {
@@ -6,10 +8,16 @@ jQuery(document).ready(function() {
 	    }
 	});
 	
+	if(url('?from')){
+		trackEventFrom = url('?from');
+	}
+	
 });//Fi document ready
 
 jQuery("#login_button").click(function(){
 
+	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio','Retention']);
+	
 	checkValidityLogin("");
 	
 	if(! $("span").hasClass( "text_error" )){
@@ -52,9 +60,6 @@ function loginUserIcgc(){
 		var user_login_icgc =jQuery("#login_user_icgc").val();
 		var pass_login_icgc = jQuery("#login_pass_icgc").val();
 		var dataUrl = {user:user_login_icgc, password:pass_login_icgc};
-//		if (isRandomUser($.cookie('uid'))){
-//			dataUrl.randomuid = $.cookie('uid');
-//		}
 		
 		doLoginIcgc(dataUrl).then(function(results){
 			if(results.status==='OK'){
@@ -65,14 +70,18 @@ function loginUserIcgc(){
 					window.location="/geocatweb/galeria.html?private=1";
 				}
 			}else if(results.results === 'cannot_authenticate'){
+				$('#dialog_session_icgc').modal('toggle');
 				$('#modal_wrong_user').modal('toggle');						
 			}else if(results.results === 'account_locked'){
+				$('#dialog_session_icgc').modal('toggle');
 				$('#modal_account_block').modal('toggle');						
 			}else{
+				$('#dialog_session_icgc').modal('toggle');
 				$('#modal_login_ko').modal('toggle');				
 			}				
 		},function(results){
-			$('#modal_login_ko').modal('toggle');					
+			$('#dialog_session_icgc').modal('toggle');
+			$('#modal_login_ko').modal('toggle');
 		});
 
 	}
@@ -94,29 +103,49 @@ function checkValidityLogin(tipus){
 	if(isBlank($('#login_pass'+tipus).val())){
 		$('#login_pass'+tipus).addClass("invalid");
 		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-	}else if($('#login_pass'+tipus).val().length < 5){
+	}else if($('#login_pass'+tipus).val().length < pass_length){
 		$('#login_pass'+tipus).addClass("invalid");
 		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir com a mínim 5 caràcters.</span>");
 	}
 }
  
 $('#signin_twitter').click(function() {
+//	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio','Inici Sessio','Sessio Twitter','Retention']);
+	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio_twitter','Retention']);
 	window.location = paramUrl.socialAuth+"id=twitter";
 	});
 
 $('#signin_facebook').click(function() {
+	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio_facebook','Retention']);
 	window.location = paramUrl.socialAuth+"id=facebook";
 	});
 
 $('#signin_linkedin').click(function() {
+//	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio','Inici Sessio','Sessio Linkedin','Retention']);
+	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio_linkedin','Retention']);
 	window.location = paramUrl.socialAuth+"id=linkedin";
 	});
 
 $('#signin_google').click(function() {
+//	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio','Inici Sessio','Sessio Google+','Retention']);
+	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio_google','Retention']);
 	window.location = paramUrl.socialAuth+"id=googleplus";
 	});
 
 $('#signin_icc').click(function() {
-//	window.location = "http://aurigadev/descarregues_instamapes/main.php?t=mtc1000v10sd0fst1r030.zip&f=&l=cat";
+//	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio','Inici Sessio','Sessio ICC','Retention']);
+	_gaq.push(['_trackEvent',trackEventFrom+'_inici_sessio_ICC','Retention']);
 	$('#dialog_session_icgc').modal('show');
 });
+
+function fesRegistre(){
+	//TODO REVISAR; AQUEST CAL???? NO ES PAS INTERMIG???
+	_gaq.push(['_trackEvent', trackEventFrom+'_registre', 'Registre']);
+	_gaq.push(['_trackEvent', trackEventFrom+'_registre']);
+	
+	if(url('?from')){
+		window.location = "registre.html?from="+url('?from');
+	}else{
+		window.location = "registre.html";
+	}
+}

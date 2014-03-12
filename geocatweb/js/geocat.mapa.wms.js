@@ -228,6 +228,8 @@ function addExternalWMS2() {
 
 function addExternalWMS() {
 	
+	_gaq.push(['_trackEvent', 'WMS', ActiuWMS.url, tipus_user]);
+	
 	var cc = [];
 	jQuery('input[name="chk_WMS"]:checked').each(function() {
 		cc.push(jQuery(this).val());

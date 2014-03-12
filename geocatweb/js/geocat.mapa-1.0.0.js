@@ -9,6 +9,7 @@ var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
 var lsublayers = [];
+var tipus_user, uid_user;
 
 var estilP={
 	iconFons:'awesome-marker-web awesome-marker-icon-orange',
@@ -59,6 +60,15 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
+	
+	if($.cookie('uid').indexOf('random')!=-1){
+		tipus_user = t_user_random;
+		uid_user = 'uid_random';
+	}else{
+		tipus_user = t_user_loginat;
+		uid_user = $.cookie('uid');
+	}	
+	
 	if (!Modernizr.canvas ){
 		//jQuery("#mapaFond").show();
 		jQuery("#dialgo_old_browser").modal('show');
@@ -158,13 +168,13 @@ function loadApp(){
 	if (isRandomUser($.cookie('uid'))){
 		jQuery('.navbar-form .bt-sessio').on('click',function(){
 			jQuery(window).off('beforeunload');
-			window.location = paramUrl.loginPage;
+			window.location = paramUrl.loginPage+"?from=mapa";
 		});
 				
 		jQuery('#dialgo_leave').modal('show');		
 		jQuery('#dialgo_leave .bt-sessio').on('click',function(){
 			jQuery(window).off('beforeunload');
-			window.location = paramUrl.loginPage;
+			window.location = paramUrl.loginPage+"?from=mapa";
 		});
 		
 		jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
@@ -372,6 +382,7 @@ function addClicksInici() {
 function addOpcionsFonsMapes() {
 	jQuery('.div_gr3 div').on('click', function() {
 		var fons = jQuery(this).attr('id');
+		_gaq.push(['_trackEvent', 'Fons', fons, tipus_user]);
 		if (fons == 'topoMap') {
 			map.topoMap();
 		} else if (fons == 'topoGrisMap') {
@@ -673,9 +684,11 @@ function creaPopOverMesFons() {
 	jQuery(document).on('click', "#div_menu_mesfons div", function(e) {
 		var fons = jQuery(this).attr('id');
 		if (fons == 'historicMap') {
+			_gaq.push(['_trackEvent', 'Fons', fons, tipus_user]);
 			map.historicMap();
 		}
 		if (fons == 'historicOrtoMap') {
+			_gaq.push(['_trackEvent', 'Fons', fons, tipus_user]);
 			map.historicOrtoMap();
 		}
 		
@@ -706,10 +719,11 @@ function creaPopOverMesFonsColor() {
 
 	jQuery(document).on('click', "#div_menufons div", function(e) {
 		var fons = jQuery(this).attr('id');
+		_gaq.push(['_trackEvent', 'Fons', fons, tipus_user]);
 		map.colorMap(fons);
 	});
 }
-
+/*
 function creaPopOverMevasDades(){
 	jQuery(".div_dades_usr").on('click', function() {
 		console.debug("creaPopOverMevasDades");
@@ -819,11 +833,13 @@ function creaPopOverMevasDades(){
 		});
 	});	
 }
+*/
 
 function loadPopOverMevasDades(){
 	console.debug("loadPopOverMevasDades");
 	jQuery(".div_dades_usr").on('click', function() {
 		var data = {uid: $.cookie('uid')};
+		
 		gestionaPopOver(this);		
 		
 		console.debug(dades1);
@@ -836,6 +852,9 @@ function loadPopOverMevasDades(){
 		jQuery(".usr_wms_layer").on('click', function(event) {
 			event.preventDefault();
 			var _this = jQuery(this);
+			//TODO ficar extensio!!!
+			_gaq.push(['_trackEvent', 'Meves dades', 'Meves dades', tipus_user]);			
+			
 			var data = {
 				uid: $.cookie('uid'),
 				businessId: mapConfig.businessId,
@@ -1082,6 +1101,8 @@ function pLeft() {
 
 function addCapaDadesObertes(dataset,nom_dataset) {
 
+	_gaq.push(['_trackEvent', 'Dades obertes', nom_dataset, tipus_user]);
+	
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 
 	var estil_do = retornaEstilaDO(dataset);
@@ -1628,6 +1649,9 @@ function initControls(){
 }
 
 function addTwitterLayer(hashtag){
+	
+	_gaq.push(['_trackEvent', 'Xarxes socials', 'twitter', tipus_user]);	
+	
 	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
 	//Control no afegit #
 	if(hashtag.indexOf("#") == 0) hashtag = hashtag.substr(1);
@@ -1701,6 +1725,8 @@ function loadTwitterLayer(layer, hashtag){
 
 function addPanoramioLayer(){
 	
+	_gaq.push(['_trackEvent', 'Xarxes socials', 'panoramio', tipus_user]);
+	
 //	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var panoramio = new L.Panoramio({
 		maxLoad: 10, 
@@ -1767,6 +1793,9 @@ function loadPanoramioLayer(layer){
 
 function addWikipediaLayer(){	
 	console.debug('Add wikipedia layer');
+	
+	_gaq.push(['_trackEvent', 'Xarxes socials', 'wikipedia', tipus_user]);	
+	
 //	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var wikipedia = new L.Wikipedia({
 //		zIndex: lastZIndex,
