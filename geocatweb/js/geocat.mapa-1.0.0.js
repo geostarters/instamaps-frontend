@@ -60,14 +60,15 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
-	
-	if($.cookie('uid').indexOf('random')!=-1){
-		tipus_user = t_user_random;
-		uid_user = 'uid_random';
-	}else{
-		tipus_user = t_user_loginat;
-		uid_user = $.cookie('uid');
-	}	
+	if ($.cookie('uid')){
+		if($.cookie('uid').indexOf('random')!=-1){
+			tipus_user = t_user_random;
+			uid_user = 'uid_random';
+		}else{
+			tipus_user = t_user_loginat;
+			uid_user = $.cookie('uid');
+		}
+	}
 	
 	if (!Modernizr.canvas ){
 		//jQuery("#mapaFond").show();
