@@ -1,5 +1,7 @@
 function creaClusterMap(capa) {
 
+	_gaq.push(['_trackEvent', 'Esitls', 'Cluster', tipus_user]);
+	
 	var clusterLayer = L.markerClusterGroup({
 		singleMarkerMode : true
 	});

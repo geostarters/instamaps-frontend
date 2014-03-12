@@ -1,8 +1,9 @@
 var signin_social;
+var trackEventFrom = 'registre';
 	
 	jQuery(document).ready(function() {
 		
-		$('.waiting_animation').hide();
+		$('.waiting_animation').toggle();
 		
 		var params = url('?');
 		if(params!=null && params !=''){
@@ -19,10 +20,18 @@ var signin_social;
 			signin_social = false;
 //			alert("No hi ha parametres:"+signin_social);
 		}
+		
+		if(url('?from')){
+			trackEventFrom = url('?from');
+		}		
+		
 	});
 	
 	jQuery("#signin_button").click(function(event){ 
 		event.preventDefault();
+		
+		_gaq.push(['_trackEvent', trackEventFrom+'_registre', 'Activation']);
+		
 		var name = jQuery("#signin_name").val();
 		var surname = jQuery("#signin_surname").val();
 		var id = jQuery("#signin_username").val();

@@ -270,7 +270,8 @@ footer .container  p {
 	}	
 	
 	.invalid {
-	  	outline: 1px solid red;
+	  	/*outline: 1px solid red;*/
+	  	outline: 0.5px dotted #FF0000;
 		background-image: url(../../llibreries/img/glyph_exclamation.png); 
 	 	background-position: right; 
 	 	background-repeat: no-repeat; 
@@ -704,6 +705,20 @@ background-color:#FFFFFF}
 		border-radius: 0;
 		text-align: center;
 	}
+	
+	.my-modal-dialog {
+    	width: 400px;
+	}
+	
+	.bt-sessio-icgc{
+		background-color: #AEAEB0;;
+		border-radius: 0;
+		color: #FFFFFF;
+	}	
+	.bt-sessio-icgc:hover{
+		color: #FFFFFF;
+		background-color: #CECDD3;
+	}	
 	
 	/*** galeria.html ***/
 	.thumbnail a.btn{

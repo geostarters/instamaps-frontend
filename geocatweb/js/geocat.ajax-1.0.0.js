@@ -116,6 +116,16 @@ function doLogin(data){
 	}).promise();
 }
 
+function doLoginIcgc(data){
+	return jQuery.ajax({
+		url: paramUrl.loginUserIcgc,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
 /* map */
 function createTematicLayerFeature(data){
 	return $.ajax({

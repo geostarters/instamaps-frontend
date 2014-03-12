@@ -1,5 +1,9 @@
 
 function createHeatMap(capa){
+	
+	_gaq.push(['_trackEvent', 'Esitls', 'HeatMap', tipus_user]);	
+	
+	
 	//Heatmap
 	var arrP=[];
 	capa.layer.eachLayer(function(layer){

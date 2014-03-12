@@ -1039,6 +1039,9 @@ function getRangsFromLayer(layer){
 function changeTematicLayerStyle(tematic, styles){
 	console.debug("changeTematicLayerStyle");
 	console.debug(styles);
+	
+	_gaq.push(['_trackEvent', 'Esitls', 'Bàsic', tipus_user]);	
+	
 	var rangs = getRangsFromStyles(tematic, styles);
 	var capaMare = controlCapes._layers[tematic.leafletid].layer;
 	
@@ -1176,6 +1179,9 @@ function div2RangStyle(tematic, tdElem){
 
 function updateClasicTematicFromRangs(){
 	console.debug("updateClasicTematicFromRangs");
+	
+	_gaq.push(['_trackEvent', 'Esitls', 'Clàsic', tipus_user]);	
+	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	var capaMare = controlCapes._layers[tematicFrom.leafletid].layer;
