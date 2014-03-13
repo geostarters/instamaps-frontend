@@ -121,7 +121,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 	_addLayer: function (layer, name, overlay, groupLeafletId) {
 		var id = L.stamp(layer);
-		console.debug("name:"+name);
 		if(groupLeafletId){
 			this._layers[groupLeafletId]._layers[id] = {
 					layer: layer,
@@ -140,9 +139,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				};			
 		}
 		
-		console.debug("this._layers");
-		console.debug(this._layers);
-
 		if (this.options.autoZIndex && layer.setZIndex) {
 			this._lastZIndex++;
 			layer.setZIndex(this._lastZIndex);
@@ -532,6 +528,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			removeServerToMap(data).then(function(results){
 				if(results.status==='OK'){
 					myRemoveLayer(obj);
+					deleteServerRemoved(data).then(function(results){
+						//se borran del listado de servidores
+					});
 				}else{
 					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
 				}				

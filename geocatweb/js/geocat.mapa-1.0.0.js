@@ -933,20 +933,22 @@ function refrescaPopOverMevasDades(){
 		var serverOrigen = [];
 		jQuery.each(results.results, function(i, item){
 			if (item.serverType == t_tematic){
+				//console.debug(item);
 				if (item.options == null){
 					serverOrigen.push(item);
 				}else{
 					var options = jQuery.parseJSON( item.options );
 					if (options.tem == tem_origen){
+						console.debug(item);
 						serverOrigen.push(item);
 					}else{
 						//no cargar
-						serverOrigen.push(item);
+						//serverOrigen.push(item);
 					}
 				}
 			}else{
 				//no cargar
-				serverOrigen.push(item);
+				//serverOrigen.push(item);
 			}
 		});
 		dades1.results = serverOrigen;
@@ -2142,6 +2144,7 @@ function showConfOptions(businessId){
 }
 
 function createNewMap(){
+	console.debug("createNewMap");
 	var data = {
 		nom: "Untitled map",
 		uid: $.cookie('uid'),
@@ -2150,6 +2153,7 @@ function createNewMap(){
 	};
 	
 	createMap(data).then(function(results){
+		console.debug(results);
 		if (results.status == "ERROR"){
 			//TODO Mensaje de error
 		}else{

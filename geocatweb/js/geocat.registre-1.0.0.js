@@ -1,6 +1,6 @@
 var signin_social;
 var trackEventFrom = 'registre';
-	
+var text_confirma_dades = 'Confirmeu les dades';	
 	jQuery(document).ready(function() {
 		
 		$('.waiting_animation').toggle();
@@ -24,6 +24,11 @@ var trackEventFrom = 'registre';
 		if(url('?from')){
 			trackEventFrom = url('?from');
 		}		
+		
+		if (signin_social){
+			$('.form-signin-heading').text(window.lang.convert(text_confirma_dades));
+			$('#signin_button').text(window.lang.convert(text_confirma_dades));
+		}
 		
 	});
 	

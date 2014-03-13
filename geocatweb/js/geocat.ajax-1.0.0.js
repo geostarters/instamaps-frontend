@@ -284,6 +284,14 @@ function removeServerToMap(data){
 	}).promise();
 }
 
+function deleteServerRemoved(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteServerRemoved,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function updateServidorWMSName(data){
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMSName,

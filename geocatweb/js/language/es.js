@@ -52,6 +52,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Comunica el teu missatge de manera impactant.":"Comunica tu mensaje de forma impactante.",
 	"Concentració":"Densidad",
 	"Confirmar contrassenya":"Confirmar contraseña",
+	"Confirmeu les dades":"Confirme los datos",
 	"Connecta amb els més de 500 geoserveis catalogats per la":"Conecta con más de 500 geoservicios catalogados por la",
 	"Contacte":"Contacto",
 	"Contrassenya actualitzada correctament":"Contraseña actualizada correctamente",

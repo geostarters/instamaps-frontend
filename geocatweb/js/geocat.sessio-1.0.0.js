@@ -62,13 +62,19 @@ function loginUserIcgc(){
 		var dataUrl = {user:user_login_icgc, password:pass_login_icgc};
 		
 		doLoginIcgc(dataUrl).then(function(results){
+			console.debug(results);
 			if(results.status==='OK'){
-				$.cookie('uid', user_login, {path:'/'});
+				$.cookie('uid', user_login_icgc, {path:'/'});
 				if(results.results === 'login_map'){
 					window.location="/geocatweb/mapa.html";
 				}else{
 					window.location="/geocatweb/galeria.html?private=1";
 				}
+			}else if (results.status === 'MAIL'){
+				if(results.url.indexOf('instamapes.icgc.cat')!= -1){
+					results.url = results.url.replace('instamapes.icgc.cat','localhost');
+				}
+				window.location = results.url;
 			}else if(results.results === 'cannot_authenticate'){
 				$('#dialog_session_icgc').modal('toggle');
 				$('#modal_wrong_user').modal('toggle');						
