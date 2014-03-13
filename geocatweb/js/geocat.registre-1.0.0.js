@@ -1,5 +1,5 @@
 var signin_social;
-var trackEventFrom = 'registre';
+var trackEventFrom = '';
 var text_confirma_dades = 'Confirmeu les dades';	
 	jQuery(document).ready(function() {
 		
@@ -35,8 +35,6 @@ var text_confirma_dades = 'Confirmeu les dades';
 	jQuery("#signin_button").click(function(event){ 
 		event.preventDefault();
 		
-		_gaq.push(['_trackEvent', trackEventFrom+'_registre', 'Activation']);
-		
 		var name = jQuery("#signin_name").val();
 		var surname = jQuery("#signin_surname").val();
 		var id = jQuery("#signin_username").val();
@@ -65,6 +63,9 @@ var text_confirma_dades = 'Confirmeu les dades';
 				
 				registerUser(reg_url, dataUrl).then(function(results){
 					if(results.status==='OK'){
+						
+						_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
+						
 						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						
 						jQuery('#button-alta-ok').click(function(){

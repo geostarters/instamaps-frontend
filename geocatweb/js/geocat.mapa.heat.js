@@ -1,7 +1,7 @@
 
 function createHeatMap(capa){
 	
-	_gaq.push(['_trackEvent', 'Esitls', 'HeatMap', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', 'esitls', 'heatmap', tipus_user]);	
 	
 	
 	//Heatmap
