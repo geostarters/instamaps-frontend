@@ -149,7 +149,7 @@ jQuery(document).on('click', "#bt_addJSON", function(e) {
 
 function creaCapaFromJSON() {
 
-	_gaq.push(['_trackEvent', 'JSON', urlJSON, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', 'json', urlJSON, tipus_user]);
 	
 	var cmd_json_x = jQuery('#cmd_json_x').val();
 	var cmd_json_y = jQuery('#cmd_json_y').val();

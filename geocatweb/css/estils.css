@@ -14,6 +14,7 @@
  * git@github.com:stefanocudini/leaflet-search.git 
  * 
  */
+ 
 .leaflet-container .leaflet-control-search {
 	position: relative;
 	float: left;
@@ -55,7 +56,7 @@
 	width: 100%;
 	background-color: rgba(238, 179, 15, 0.9);
 	border: 1px solid #EEB30F;
-	/*
+	
 	background-color: rgba(255, 0, 0, 0.4);
 	border:1px solid #FF0000;
 	*/
@@ -211,6 +212,7 @@
 	margin-left: 45%;
 	position: relative;
 }
+
 
 .bootstrap-colorpalette {
 	padding-left: 4px;

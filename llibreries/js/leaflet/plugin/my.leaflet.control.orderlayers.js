@@ -258,7 +258,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			}else{
 				
-				col = L.DomUtil.create('div', 'leaflet-download glyphicon glyphicon-download');
+				col = L.DomUtil.create('div', 'leaflet-download-visor glyphicon glyphicon-download');
 				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);				
@@ -276,7 +276,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		
 		var sublayers = obj._layers;
 		for (j in sublayers) { 
-			var row_sublayer = this._createSubItem(sublayers[j],input.layerId);
+			var row_sublayer = this._createSubItem(sublayers[j],input.layerId, modeMapa);
 			row.appendChild(row_sublayer);
 			
 		}		
@@ -285,7 +285,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		return label;
 	},
 	
-	_createSubItem: function(sublayer,layerIdParent){
+	_createSubItem: function(sublayer,layerIdParent, modeMapa){
 		
 		var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
 		
@@ -317,12 +317,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		row_sublayer.appendChild(col_sublayer);
 		label_sublayer.appendChild(name_sublayer);
 		
-		col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
-		L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
-		col_sublayer.layerId = input_sublayer.layerId;
-		col_sublayer.layerIdParent = layerIdParent;
-		row_sublayer.appendChild(col_sublayer);	
-		
+		if(modeMapa){
+			col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
+			L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
+			col_sublayer.layerId = input_sublayer.layerId;
+			col_sublayer.layerIdParent = layerIdParent;
+			row_sublayer.appendChild(col_sublayer);				
+		}
 		return row_sublayer;
 		
 	},

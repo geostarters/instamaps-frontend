@@ -1,5 +1,5 @@
 var signin_social;
-var trackEventFrom = 'registre';
+var trackEventFrom = '';
 	
 	jQuery(document).ready(function() {
 		
@@ -30,8 +30,6 @@ var trackEventFrom = 'registre';
 	jQuery("#signin_button").click(function(event){ 
 		event.preventDefault();
 		
-		_gaq.push(['_trackEvent', trackEventFrom+'_registre', 'Activation']);
-		
 		var name = jQuery("#signin_name").val();
 		var surname = jQuery("#signin_surname").val();
 		var id = jQuery("#signin_username").val();
@@ -60,6 +58,9 @@ var trackEventFrom = 'registre';
 				
 				registerUser(reg_url, dataUrl).then(function(results){
 					if(results.status==='OK'){
+						
+						_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
+						
 						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						
 						jQuery('#button-alta-ok').click(function(){

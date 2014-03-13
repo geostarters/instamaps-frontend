@@ -289,7 +289,7 @@ function activaEdicioUsuari() {
 		var totalFeature;
 		var tipusCat,tipusCatDes;
 	
-		_gaq.push(['_trackEvent', 'Dibuixar geometria', type, tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', 'dibuixar geometria', type, tipus_user]);
 
 		if (type === t_marker) {
 			tipusCat=window.lang.convert('Titol Punt');
