@@ -74,6 +74,10 @@ jQuery(document).ready(function() {
 			window.location = paramUrl.mainPage;
 		});
 	}else{
+		$("body").on("change-lang", function(event, lang){
+			addToolTipsInici();
+		});
+		
 		loadApp();
 	}
 }); // Final document ready
@@ -1288,13 +1292,15 @@ function loadMapConfig(mapConfig){
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
 			}
-				
-			if (mapConfig.options.bbox){
+			if (mapConfig.options.center){
+				var opcenter = mapConfig.options.center.split(",");
+				map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+			}else if (mapConfig.options.bbox){
 				var bbox = mapConfig.options.bbox.split(",");
 				var southWest = L.latLng(bbox[1], bbox[0]);
 			    var northEast = L.latLng(bbox[3], bbox[2]);
 			    var bounds = L.latLngBounds(southWest, northEast);
-				map.fitBounds( bounds ); 
+				map.fitBounds( bounds );
 			}
 		}
 		
@@ -1493,6 +1499,8 @@ function publicarMapa(){
 	var options = {};
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
 	options.description = jQuery('#dialgo_publicar #optDescripcio').val();
+	options.center = map.getCenter().lat+","+map.getCenter().lng;
+	options.zoom = map.getZoom();
 	options.bbox = map.getBounds().toBBoxString();
 	var visibilitat = visibilitat_open;
 	
