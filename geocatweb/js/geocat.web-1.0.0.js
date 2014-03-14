@@ -118,7 +118,7 @@ function canviaIdioma(lsLang){
 	//console.info("entro");
 	//console.debug(lsLang);
 	window.lang.change(lsLang);
-	addToolTipsInici();
+	$("body").trigger( "change-lang", lsLang );
 }
 
 function web_determinaIdioma(){

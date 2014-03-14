@@ -42,9 +42,8 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-					<!-- 
-					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
-					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
 					-->
@@ -95,13 +94,14 @@
 					{{#if thumbnail}}
 						<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
 					{{else}}
-						<img src="img/generic_thumb_2.jpg" alt="{{nomAplicacio}}">
+						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
-					<div class="caption text-center">
+					<div class="caption text-center nomAplicacio">
 						<h4>{{nomAplicacio}}</h4>
-						<p>
-						<a href="#" class="btn btn-success" role="button" data-businessid="{{businessId}}"><span class="glyphicon glyphicon-new-window"></span> <span lang="ca">Veure</span></a>
-						</p>
+					</div>
+					<div class="caption text-center btn-acctions">
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" title="Comparteix" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 					</div>
 				</div>
 			</div>
@@ -109,24 +109,31 @@
 			</script>
 			
 			<script id="galeria-template" type="text/x-handlebars-template">
+			<div class="col-sm-6 col-md-3">		
+				<div class="thumbnail">
+					<div class="caption text-center new_map">
+					<span class="glyphicon glyphicon-plus"></span>
+					<div lang="ca">Fer un nou mapa</div>
+					</div>
+				</div>
+			</div>
 			{{#each results}}
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 			    <div class="thumbnail" data-businessid="{{businessId}}">
 					{{#if thumbnail}}
 			      		<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
 					{{else}}
-						<img src="img/generic_thumb_2.jpg" alt="{{nomAplicacio}}">
+						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
-			      <div class="caption text-center">
-			        <h4>{{nomAplicacio}}</h4>
-			        <p>
-						<a href="#" class="btn btn-danger" role="button" data-businessid="{{businessId}}"><span class="glyphicon glyphicon-remove-circle"></span> <span lang="ca">Esborrar</span></a>
-						<a href="#" class="btn btn-primary" role="button" data-businessid="{{businessId}}"><span class="glyphicon glyphicon-edit"></span> <span lang="ca">Editar</span></a>
-					</p>
-					<p>
-						<a href="#" onClick="_gaq.push(['_trackEvent', 'galeria', 'compartir', 'referral']);" class="btn btn-success" role="button" data-businessid="{{businessId}}"><span class="glyphicon glyphicon-link"></span> <span lang="ca">Enllaça</span></a>
-					</p>
-			      </div>
+				    <div class="caption text-center nomAplicacio">
+						<h4>{{nomAplicacio}}</h4>
+					</div>
+					<div class="caption text-center btn-acctions">
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Comparteix" title="Comparteix" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-nom="{{nomAplicacio}}" class="btn btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-trash"></span></button>
+					</div>
 			    </div>
 			</div>
 			{{/each}}
@@ -173,6 +180,32 @@
 	</div>
 	<!-- /.modal -->
 	<!-- Fi Modal Url/iframe -->
+	
+	<!-- Modal delete -->
+	<div id="dialgo_delete" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
+				</div>
+				<div class="modal-body">
+					<h4><span lang="ca">Vols esborrar el mapa</span> "<span class="nom_mapa"></span>" ?</h4>
+				</div>
+				<div class="modal-footer">
+					<button lang="ca" type="button" class="btn btn-default"
+						data-dismiss="modal">Cancel·lar</button>
+					<button lang="ca" type="button" class="btn btn-danger"
+						data-dismiss="modal">Esborrar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- Fi Modal delete -->
 	
 	<footer>
 		<div class="container">
