@@ -655,13 +655,18 @@ function createPopupWindow(layer,type){
 	//fi eventos popup
 	
 	layer.on('popupopen', function(e){
-		//actualitzem popup
-		jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'').html(reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId));
-		if (layer.properties.nom){
-			jQuery('#titol_pres').text(layer.properties.nom).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
-		}
-		if (layer.properties.text){
-			jQuery('#des_pres').text(layer.properties.text).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+		
+		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
+			map.closePopup();
+		}else{
+			//actualitzem popup
+			jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'').html(reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId));
+			if (layer.properties.nom){
+				jQuery('#titol_pres').text(layer.properties.nom).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+			}
+			if (layer.properties.text){
+				jQuery('#des_pres').text(layer.properties.text).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+			}			
 		}
 	});
 }

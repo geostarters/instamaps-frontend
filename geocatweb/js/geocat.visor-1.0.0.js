@@ -110,7 +110,7 @@ function loadApp(){
 	}
 	
 	var v_url = window.location.href;
-	if(v_url.contains('localhost')){
+	if(v_url.indexOf('localhost')!=-1){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
 	shortUrl(v_url).then(function(results){

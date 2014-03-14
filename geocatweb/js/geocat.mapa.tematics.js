@@ -794,7 +794,7 @@ function loadTematicLayer(layer){
 //								featureTem._icon.style.setProperty("background-color", color);
 //							}							
 //							
-							if($(location).attr('href').contains('mapa')){
+							if($(location).attr('href').indexOf('mapa')!=-1){
 								createPopupWindow(featureTem,ftype);
 							}else{
 								createPopupWindowVisor(featureTem,ftype);

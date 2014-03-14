@@ -216,7 +216,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		label.appendChild(name);
 		
 		var container;
-		var modeMapa = $(location).attr('href').contains('mapa');
+		var modeMapa = ($(location).attr('href').indexOf('mapa')!=-1);
 		if(obj.overlay) {
 			
 			if(modeMapa){
@@ -330,7 +330,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		    inputsLen = inputs.length;
 
 		this._handlingClick = true;
-
+		var checkHeat = false;
+		var id, parentId;
+		//tractament en cas heatmap
+		if(arguments[0].currentTarget.layerIdParent){
+			id = arguments[0].currentTarget.layerId;
+			parentId = arguments[0].currentTarget.layerIdParent;
+			checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
+		}
+		
+		
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
 			
@@ -339,57 +348,20 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			}else{
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
+			
+			//Si la capa clickada és heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
+			if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
+				input.checked = false;
+			}
+			
 			//Afegir
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
-				this._map.addLayer(obj.layer);
+
+				this._map.addLayer(obj.layer);	
 			
-////				for(z in obj._layers){
-////					var businessId = obj._layers[z].layer.options.businessId;
-////					if($('#input-'+businessId).is(':checked')){
-////						this._map.addLayer(obj._layers[z].layer);
-////					}
-////					$('#input-'+businessId).prop("disabled", false);	
-////				}
-//				if(obj._layers){
-//					$.each( obj._layers, function( key, value ) {
-//						if($('#input-'+value.layer.options.businessId).is(':checked')){
-////							console.debug("has layer:"+map.hasLayer(value.layer));
-//							//addSublayer(key);
-//							map.addLayer(map._layers[key])
-//						}
-//						$('#input-'+value.layer.options.businessId).prop("disabled", false);	
-//					});					
-//				}
-			//Treure	
 			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
+
 				this._map.removeLayer(obj.layer);
-//				if(obj._layers){
-//					$.each( obj._layers, function( key, value ) {
-//						if($('#input-'+value.layer.options.businessId).is(':checked')){
-////							console.debug("has layer:"+map.hasLayer(value.layer));
-////							removeSublayer(key);
-//							map.removeLayer(map._layers[key])
-//						}
-//						$('#input-'+value.layer.options.businessId).prop("disabled", true);	
-//					});	
-//				}
-//			
-//				
-////				for(ind in obj._layers){
-////					console.debug(ind);
-////					//var businessId = obj._layers[ind].layer.options.businessId;
-////					if($('#input-'+obj._layers[ind].layer.options.businessId).is(':checked')){
-//////						if(this._map.hasLayer(obj._layers[ind].layer)){
-////////							this._map.removeLayer(obj._layers[ind].layer);
-//////							removeSublayer(ind);
-//////						}
-////						removeSublayer(ind);
-//////						map.removeLayer(map._layers[ind]);
-//////						this._map.removeLayer(this._map._layers[obj._layers[ind].layer._leaflet_id]);
-////					}
-////					$('#input-'+businessId).prop("disabled", true);	
-////				}	
-				
 			}
 		}
 
@@ -590,4 +562,6 @@ L.control.orderlayers = function (baseLayers, overlays, options) {
 //function createSubItem(){
 //	console.debug("Create SubItem");
 //}
-
+function isHeat(obj){
+	return (obj.layer.options.tipusRang && obj.layer.options.tipusRang.indexOf('heatmap')!=-1);
+}

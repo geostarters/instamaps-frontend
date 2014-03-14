@@ -91,11 +91,13 @@ function createHeatMap(capa){
 					heatLayerActiu.options.tipus = capa.layer.options.tipus;
 					heatLayerActiu.options.tipusRang = tem_heatmap;
 
-					map.addLayer(heatLayerActiu);
+//					map.addLayer(heatLayerActiu);Comentat per control de un heatmap actiu alhora
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
 //					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+					$('#input-'+results.results.businessId).trigger( "click" );
+					$('#input-'+results.results.businessId).prop( "checked", true );
 					
 				}else{
 					//TODO error
