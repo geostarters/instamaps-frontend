@@ -257,7 +257,7 @@ L.IM_Map = L.Map.extend({
 			maxZoom: 6,
 			tms:true,
 			continuousWorld: false,
-			worldCopyJump:false,
+			worldCopyJump: false,
 		}).addTo(_topoLayers);
 		TOPO_MQ_L7_19 =new L.TileLayer(URL_MQ,{   	   
 			minZoom: 7,

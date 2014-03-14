@@ -95,6 +95,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Error de xarxa. Torni a intentar-ho":"Network error. Try again",
 	"És la primera vegada que utilitzes InstaMapes?":"Is this the first time you use InstaMapes?",
 	"Esborrar":"Delete",
+	"Esborrar el mapa":"Delete the map",
 	"Escollir el mapa de fons": "Choose the background map",
 	"Escull les teves icones i estils personalitzats.":"Choose your icons and custom styles.",
 	"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Conditions and traffic incidents, public transport, weather forecast and more.",
@@ -111,6 +112,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Fes captures de pantalla per a informes i presentacions.":"Take screenshots for reports and presentations.",
 	"Fes el teu mapa":"Make your map",
 	"Fes un mapa amb les teves dades fàcilment.":"Make a map with your data easily.",
+	"Fer un nou mapa": "Create a new map",
 	"Galeria de mapes":"Map gallery",
 	"Geoserveis":"Geoservices",
 	"Gruix linia:":"Line width",
@@ -215,6 +217,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Visualitza i analitza la teva informació.":"Browse and analyze information.",
 	"Visualitza":"View",
 	"VISUALITZA":"VIEW",
+	"Vols esborrar el mapa":"Do you want to delete the map",
 	"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?",
 	"Vull ser le primer":"I want to be the first",
 	"Xarxes socials":"Social networks"

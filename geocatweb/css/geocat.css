@@ -721,21 +721,64 @@ background-color:#FFFFFF}
 	}	
 	
 	/*** galeria.html ***/
+	.thumbnail{
+		position: relative;
+		min-height: 225px;
+	}
+	
+	.thumbnail div.new_map{
+		border: 5px dashed;
+    	border-radius: 4px;
+ 		height: 215px;
+ 		cursor: pointer;
+	}
+	
+	.thumbnail div.new_map:hover{
+		opacity: 0.5;
+		filter: contrast(140%);
+		-webkit-filter: contrast(140%);
+		-moz-filter: contrast(140%);
+		-o-filter: contrast(140%);
+		-ms-filter: contrast(140%);
+	}
+	
+	.thumbnail div.new_map span{
+		font-size: 72pt;
+		padding: 40px 0 10px;
+	}
+	
 	.thumbnail a.btn{
 		width: 100px;
 	}
 	
 	.thumbnail img{
+		position: relative;
 		width: 240px;
-		height: 140px;
+		float:left;
+		margin: 4px;
 	}
 	
+	.thumbnail div.nomAplicacio{
+		background-color: rgba(45, 46, 41, 0.6);
+		position: absolute;
+    	width: 97%;
+    	color: #ffffff;
+	}
+	
+	.thumbnail div.btn-acctions{
+		float:left;
+		position: relative;
+		width: 100%;
+	}
+	
+	/*
 	.thumbnail{
 		min-width: 240px;
 		min-height: 272px;
 		max-width: 240px;
 		max-height: 272px;
 	}
+	*/
 	
 	.thumbnail img:hover{
 		opacity: 0.5;
