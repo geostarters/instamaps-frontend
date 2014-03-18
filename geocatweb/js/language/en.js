@@ -218,6 +218,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Visualitza":"View",
 	"VISUALITZA":"VIEW",
 	"Vols esborrar el mapa":"Do you want to delete the map",
+	"Vols esborrar la capa":"Do you want to delete the layer",
 	"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?",
 	"Vull ser le primer":"I want to be the first",
 	"Xarxes socials":"Social networks"

@@ -553,23 +553,29 @@ background-color: #9F9F9E;
 	font-size: 20px;
 }
 
-.div_gr3 {
+.div_gr3{
 	height: 40px;
 	margin: 10px 5px 0;
 }
 
-.div_gr3 div {
+.div_gr3_estils {
+	height: 40px;
+	margin: 10px 33px 0;
+}
+
+.div_gr3 div, .div_gr3_estils div {
 	float: left;
 	height: 40px;
 	margin-bottom: 10px;
 	width: 40px;
 }
 
+
 .div_gr2 div:hover {
 	border: 1px solid #FFC500;
 }
 
-.div_gr3 div:hover {
+.div_gr3 div:hover, .div_gr3_estils div:hover{
 	border: 1px solid #FFC500;
 }
 
@@ -740,6 +746,11 @@ background-color: #9F9F9E;
 	padding-top: 10%;
 	width: 28%;
 }
+
+#dialog_delete_capa .modal-dialog{
+	width: 450px;
+}
+
 
 .info-wms{
 	color: #55990A;
@@ -1233,6 +1244,13 @@ i.fa {
 	}
 }
 
+@media (max-width:1025px){
+	.div_gr3_estils {
+		height: 30px;
+		margin: 5px 19px 0;
+	}	
+}
+
 @media ( min-width :768px) and (max-width:991px) {
 	.leaflet-sidebar {
 		width: 190px;
@@ -1243,10 +1261,11 @@ i.fa {
 	.leaflet-sidebar.right.visible   ~ .leaflet-right {
 		right: 190px;
 	}
-	.div_gr3 {
+	.div_gr3{
 		height: 30px;
 		margin: 5px 5px 0;
 	}
+	
 	.add_costat_r {
 		margin-right: 11px;
 	}
@@ -1277,7 +1296,7 @@ i.fa {
 		margin-bottom: 5px;
 		width: 48%;
 	}
-	.div_gr3 div {
+	.div_gr3 div, .div_gr3_estils div {
 		float: left;
 		height: 25px;
 		margin-bottom: 3px;
@@ -1367,10 +1386,15 @@ i.fa {
 	.leaflet-sidebar.right.visible   ~ .leaflet-right {
 		right: 190px;
 	}
-	.div_gr3 {
+	.div_gr3{
 		height: 30px;
 		margin: 5px 5px 0;
 	}
+	
+	.div_gr3_estils {
+		height: 30px;
+		margin: 5px 19px 0;
+	} 
 	.add_costat_r {
 		margin-right: 11px;
 	}
@@ -1401,7 +1425,7 @@ i.fa {
 		margin-bottom: 5px;
 		width: 48%;
 	}
-	.div_gr3 div {
+	.div_gr3 div, .div_gr3_estils div {
 		float: left;
 		height: 25px;
 		margin-bottom: 3px;

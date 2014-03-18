@@ -2,6 +2,8 @@ function creaClusterMap(capa) {
 
 	_gaq.push(['_trackEvent', 'mapa', 'esitls', 'cluster', tipus_user]);
 	
+	var nom = window.lang.convert("Agrupació");
+	
 	var clusterLayer = L.markerClusterGroup({
 		singleMarkerMode : true
 	});
@@ -14,7 +16,7 @@ function creaClusterMap(capa) {
 			data = {
 					uid:$.cookie('uid'),
 					mapBusinessId: url('?businessid'),
-					serverName: capa.layer.options.nom+" cluster",
+					serverName: capa.layer.options.nom+" "+nom,
 					serverType: t_dades_obertes,
 					calentas: false,
 		            activas: true,
@@ -45,7 +47,7 @@ function creaClusterMap(capa) {
 					});					
 					
 					clusterLayer.options.businessId = results.results.businessId;
-					clusterLayer.options.nom = capa.layer.options.nom + " cluster";
+					clusterLayer.options.nom = capa.layer.options.nom +" "+nom;
 					clusterLayer.options.tipus = t_dades_obertes;
 					clusterLayer.options.tipusRang = tem_cluster;
 
@@ -68,7 +70,7 @@ function creaClusterMap(capa) {
 		            businessId: capa.layer.options.businessId,
 		            uid: $.cookie('uid'),
 		            mapBusinessId: url('?businessid'),	           
-		            nom: capa.layer.options.nom+" cluster",
+		            nom: capa.layer.options.nom+" "+nom,
 		            calentas: false,           
 		            activas: true,
 		            order: capesOrdre_sublayer,
@@ -89,7 +91,7 @@ function creaClusterMap(capa) {
 					});
 					
 					clusterLayer.options.businessId = results.results.businessId;
-					clusterLayer.options.nom = capa.layer.options.nom +" cluster";
+					clusterLayer.options.nom = capa.layer.options.nom +" "+nom;
 					clusterLayer.options.tipus = capa.layer.options.tipus;
 					clusterLayer.options.tipusRang = tem_cluster;
 					
@@ -112,7 +114,7 @@ function creaClusterMap(capa) {
 	}else{
 		
 		clusterLayer.options.businessId = '-1';
-		clusterLayer.options.nom = capa.layer.options.nom + " cluster";
+		clusterLayer.options.nom = capa.layer.options.nom +" "+nom;
 		clusterLayer.options.tipus = capa.layer.options.tipus;
 		clusterLayer.options.tipusRang = tem_cluster;
 
