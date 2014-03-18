@@ -625,7 +625,7 @@ function loadTematicLayer(layer){
 		//console.timeEnd("loadTematicLayer " + layerWms.serverName);
 		if(results.status == "OK" ){
 			var tematic = results.results;
-			
+			console.debug(tematic);
 			if(tematic.tipusRang == tem_heatmap){
 				loadTematicHeatmap(tematic, layer.capesOrdre, layer.options);
 			}else if(tematic.tipusRang == tem_cluster){
@@ -729,6 +729,20 @@ function loadTematicLayer(layer){
 									rangStyle	
 								);
 							}
+						}else if (ftype === t_multipoint){
+							//TODO revisar que funcione
+							var coords=geom.geometry.coordinates;
+							for (var i = 0; i < coords.length; i++){
+								var c=coords[i];
+								if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
+									featureTem = L.marker([c[0], c[1]],
+										{icon: rangStyle, isCanvas:false, tipus: t_marker});
+								}else{//hi ha canvia de pinxo a punt canvas
+									featureTem= L.circleMarker([c[0], c[1]],
+										rangStyle	
+									);
+								}
+							}
 						}else if (ftype === t_polyline){
 							var coords=geom.geometry.coordinates;
 							var llistaPunts=[];
@@ -738,6 +752,20 @@ function loadTematicLayer(layer){
 								llistaPunts.push(punt);
 							}
 							featureTem = L.polyline(llistaPunts, rangStyle);
+						}else if (ftype === t_multilinestring){
+							var coords=geom.geometry.coordinates;
+							var llistaLines=[];
+							for (var i = 0; i < coords.length; i++){
+								var lines=coords[i];
+								var llistaPunts=[];
+								for (var k = 0; k < lines.length; k++){
+									var c=lines[k];
+									var punt=new L.LatLng(c[0], c[1]);
+									llistaPunts.push(punt);
+								}
+								llistaLines.push(llistaPunts);
+							}
+							featureTem = new L.multiPolyline(llistaLines, rangStyle);
 						}else if (ftype === t_polygon){
 							var coords=geom.geometry.coordinates;
 							var llistaLines=[];
@@ -837,7 +865,11 @@ function createRangStyle(ftype, style, num_geometries){
 	if (style){
 		if (ftype === t_marker){
 			rangStyle = createFeatureMarkerStyle(style, num_geometries);
+		}else if (ftype === t_multipoint){
+			rangStyle = createFeatureMarkerStyle(style, num_geometries);
 		}else if (ftype === t_polyline){
+			rangStyle = createFeatureLineStyle(style);
+		}else if (ftype === t_multilinestring){
 			rangStyle = createFeatureLineStyle(style);
 		}else if (ftype === t_polygon){
 			rangStyle = createFeatureAreaStyle(style);
@@ -847,7 +879,11 @@ function createRangStyle(ftype, style, num_geometries){
 	}else{
 		if (ftype === t_marker){
 			rangStyle = L.AwesomeMarkers.icon(default_point_style);
+		}else if (ftype === t_multipoint){
+			rangStyle = L.AwesomeMarkers.icon(default_point_style);
 		}else if (ftype === t_polyline){
+			rangStyle = default_line_style;
+		}else if (ftype === t_multilinestring){
 			rangStyle = default_line_style;
 		}else if (ftype === t_polygon){
 			rangStyle = default_area_style;

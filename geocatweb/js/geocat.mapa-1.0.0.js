@@ -115,27 +115,48 @@ function loadApp(){
 		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
-				//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-				return false;
-			}
-			try{
-				mapConfig = results.results;
-				mapConfig.options = $.parseJSON( mapConfig.options );
-				mapConfig.newMap = false;
-				$('#nomAplicacio').html(mapConfig.nomAplicacio);
-				
-				loadMapConfig(mapConfig).then(function(){
-					//avisDesarMapa();
-				});
-			}catch(err){
-				if (isRandomUser($.cookie('uid'))){
-					$.removeCookie('uid', { path: '/' });
+				console.debug("aca");
+				if (!$.cookie('uid')){
 					window.location.href = paramUrl.mainPage;
 				}else{
-					window.location.href = paramUrl.mapaPage;
+					if (isRandomUser($.cookie('uid'))){
+						$.removeCookie('uid', { path: '/' });
+						jQuery(window).off('beforeunload');
+						//jQuery(window).off('unload');
+						window.location.href = paramUrl.mainPage;
+					}else{
+						window.location.href = paramUrl.galeriaPage;
+					}
+				}
+			}else{
+				try{
+					mapConfig = results.results;
+					mapConfig.options = $.parseJSON( mapConfig.options );
+					mapConfig.newMap = false;
+					$('#nomAplicacio').html(mapConfig.nomAplicacio);
+					
+					loadMapConfig(mapConfig).then(function(){
+						//avisDesarMapa();
+						if (isRandomUser($.cookie('uid'))){
+							jQuery(window).on('beforeunload',function(event){
+								console.debug(event);
+								return 'Are you sure you want to leave?';
+							});
+						}
+					});
+				}catch(err){
+					if (isRandomUser($.cookie('uid'))){
+						$.removeCookie('uid', { path: '/' });
+						jQuery(window).off('beforeunload');
+						window.location.href = paramUrl.mainPage;
+					}else{
+						console.debug("usuari catch to mapa");
+						window.location.href = paramUrl.mapaPage;
+					}
 				}
 			}
 		},function(results){
+			console.debug("to login");
 			window.location.href = paramUrl.loginPage;
 		});
 	}else{
@@ -153,7 +174,6 @@ function loadApp(){
 					});
 				}
 			});
-			
 		}else{	
 			mapConfig.newMap = true;
 			createNewMap();
@@ -185,12 +205,7 @@ function loadApp(){
 			$('#dialgo_messages').modal('show');
 			$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
 		});
-		
-		jQuery(window).on('beforeunload',function(event){
-			console.debug(event);
-			return 'Are you sure you want to leave?';
-		});
-		
+				
 		jQuery(window).on('unload',function(event){
 			_gaq.push(['_trackEvent', 'mapa', 'sortir', 'label sortir', tipus_user]);
 			deleteRandomUser({uid: $.cookie('uid')});
@@ -2101,7 +2116,6 @@ function showConfOptions(businessId){
 }
 
 function createNewMap(){
-	console.debug("createNewMap");
 	var data = {
 		nom: "Untitled map",
 		uid: $.cookie('uid'),
@@ -2110,7 +2124,6 @@ function createNewMap(){
 	};
 	
 	createMap(data).then(function(results){
-		console.debug(results);
 		if (results.status == "ERROR"){
 			//TODO Mensaje de error
 		}else{
@@ -2122,9 +2135,11 @@ function createNewMap(){
 				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
 			}catch(err){
 				if (isRandomUser($.cookie('uid'))){
+					console.debug("to main");
 					$.removeCookie('uid', { path: '/' });
 					window.location.href = paramUrl.mainPage;
 				}else{
+					console.debug("to mapa");
 					window.location.href = paramUrl.mapaPage;
 				}
 			}
