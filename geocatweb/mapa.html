@@ -883,22 +883,164 @@
 					<h4 class="modal-title" lang="ca">Carregar dades</h4>
 				</div>
 				<div class="modal-body">
-					<div>
-					<span lang="ca">Instamapes llegeix els següents formats</span>:
-					KML,TXT,CSV,XLS,XLSX,GPX. Faltarien: MapInfo, Dxf, GeoJson, GML, SHP(ZIP)
+				<div lang="ca" id="div_formats" class="alert alert-success">
+				
+				
+			<span class="glyphicon glyphicon-upload"></span> <span lang="ca">Formats suportats</span>:
+			<strong>KML, KMZ, GeoJSON, GML, SHP(ZIP), GPX, TXT, CSV, XLS, XLSX.  </strong> 
+			 <a class="alert-link" lnag="ca"  href="#">Més informació i exemples</a> 
+			</span>
+
+			</div>		
+				<table id="tbl_loadCapa">
+					<tr>
+					<td>
+						<input type='hidden' id='formFile' value='false'>
+						<input type='hidden' id='file_path' value=''>								
+						<input type='button' class="btn btn-success" name='upload' id='upload_file' value='Carrega arxiu'>
+					</td>
+					<td>
+						<div id='file_name' style="font-size: 100%" class="label label-default" ></div>
+						<div id="file_load" class="search-load" style="display: none;"></div>
+					</td>
+					<td>
+						<div style="display:none;cursor:pointer" class="glyphicon glyphicon-trash" id="bt_esborra_ff"></div>
+					</td>			
+					<tr>
+				</table>
+				
+				<div id="dv_optSRS">
+					<div class="panel panel-danger">		  
+		  					<div lang="ca"  class="panel-heading">Escull el sistema de referència d'aquest arxiu</div>
+		  						<div class="panel-body">
+		  							<ul class="bs-dadesO_JSON">				
+												<li><select id="select-upload-ff-epsg" style="width: 100%;">
+													<option lang="ca" value="null">Selecciona un SR</option>
+													<option value="EPSG:4326">EPSG:4326  GPS(WGS84 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
+													</select>
+												</li>
+											</ul>
+											
+											<button class="btn btn-success btn_mig" lang="ca" id="load_FF_SRS_coord">Processar arxiu</button>
+													
+								</div>
+							</div>
 					</div>
-					<br>
-					<div lang="ca" class="alert alert-info">
-					<span class="glyphicon glyphicon-info-sign"></span>
-					Tambe pots carregar dades arrossegant l'arxiu directament sobre el mapa
-					</div>
-					<input type='hidden' id='formFile' value='false'>
-					<input type='hidden' id='file_path' value=''>
-					<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>Fitxer</div>
-					<input type='text'id='file_name' style='margin-left: 68px;'>
-					<input type='button' name='upload' id='upload_file' value='Upload file'>
+				</div>					
+				
+				<div id="dv_optCapa">
+								
+						<div class="panel panel-danger">		  
+		  					<div lang="ca" class="panel-heading">Com vols geolocalitzar aquest arxiu?</div>
+		  						<div class="panel-body">
+				    						<ul id="nav_pill" class="nav nav-pills">
+											  <li class="active"><a href="#opt_coord" lang="ca" data-toggle="tab">Per coordenades</a></li>
+											  <li><a href="#opt_adreca"  lang="ca"  data-toggle="tab">Per adreçes</a></li>
+											  <li><a href="#opt_codi"  lang="ca"  data-toggle="tab">Per codis</a></li>									 
+											</ul>
+						
+										<!-- Tab panes -->
+										<div id="dv_contentOpt" class="tab-content">
+										  <div class="tab-pane active" id="opt_coord">
+											  <ul class="bs-dadesO_JSON">
+												<li><label lang="ca">On són les coordenades?</label></li>
+												<li></li>
+												<li lang="ca">Coordenada X o Longitud</li>
+												<li><select style="width: 100%;"  id='cmd_upload_colX'></select></li>
+												<li  lang="ca">Coordenada Y o Latitud</li>
+												<li><select style="width: 100%;" id='cmd_upload_colY'></select></li>
+												<li><label lang="ca">Quin és el sistema de referència?</label></li>
+												<li><select id="select-upload-epsg" style="width: 100%;">
+													<option  lang="ca" value="null">Selecciona un SR</option>
+													<option value="EPSG:4326">EPSG:4326 GPS (WGS84 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:4258">EPSG:4258 INSPIRE (ETRS89 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
+													</select>
+												</li>
+											</ul>
+											
+											<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_coord">Processar arxiu</button>
+																														  
+										  </div>
+										  <div class="tab-pane" id="opt_adreca">
+										  <label lang="ca">L'adreça he de contenir: Nom carrer, número i  municipi</label>
+										  <p lang="ca">Selecciona una de les tres possibles combinacions</p>										  									  
+											  <ul class="bs-dadesO_JSON3">
+													<li><input checked value="0" type="radio" name="radio_adre"><label lang="ca">Adreça en 1 camp</label</li>
+													<li><input value="1" type="radio" name="radio_adre"><label lang="ca">Adreça en 2 camps</label</li>
+													<li><input value="2" type="radio" name="radio_adre"><label lang="ca">Adreça en 3 camps<</label/li>
+													
+													<li><select style="width: 100%;" id='cmd_upload_adre_0'></select></li>
+													<li><select  disabled style="width: 100%;" id='cmd_upload_adre_11'></select></li>
+													<li><select  disabled style="width: 100%;" id='cmd_upload_adre_21'></select></li>
+										
+													
+													
+													
+													<li></li>
+													<li><select  disabled style="width: 100%;" id='cmd_upload_adre_12'></select></li>
+													<li><select disabled style="width: 100%;" id='cmd_upload_adre_22'></select></li>
+													
+													
+																<li></li>
+													<li></li>
+													<li><select  disabled style="width: 100%;"  id='cmd_upload_adre_23'></select></li>
+													
+													
+												</ul>		
+											<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_adre">Processar arxiu</button>				  
+										  </div>
+										  <div class="tab-pane" id="opt_codi">
+											  <ul class="bs-dadesO_JSON">
+											  
+											  		<li><label lang="ca">Els teus codis són de</label>:</li>
+														<li><select id='cmd_codiType_Capa'>
+															<option lang="ca" selected value='municipis'>Municipis</option>
+															<option lang="ca" value='comerques'>Comarques</option>															
+															</select>
+														</li>											  											  											  
+														<li><label lang ="ca">Tipus codi</label></li>
+														<li>																												
+														<select id='cmd_codiType'>
+														<option value='ine'>INE (5 digits)</option>
+														<option value='idescat'>IDESCAT (6 digits)</option>
+														<option value='municat'>MUNICAT (10 digits)</option>
+														<option value='cadastre'>CADASTRE (5 digits)</option>	
+															</select>
+														</li>
+														<li><label lang ="ca">Camp que conté el codi</label></li>																										
+														<li><select style="width: 100%;"  id='cmd_upload_codi'></select></li>
+																									
+												</ul>
+												<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_codi">Processar arxiu</button>										  
+										  </div>						 
+										</div>
+										
+										
+										
+		  						</div>
+						
+						
+						</div>
+						
+						
+							
 				</div>
 				<div class="modal-footer">
+					<div class="progress">
+  					<div id="prg_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+					</div>
+				
 			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
 			    </div>
 			</div>
@@ -908,8 +1050,19 @@
 	</div>
 	<!-- /.modal -->
 	<!-- fi Modal Carrega dades -->
+	</div>
 	
-	<!-- Modal Carrega dades -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- Modal Carrega dades 
 	<div class="modal fade" id="dialog_carrega_dadesfields">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -936,7 +1089,8 @@
 						<option value='23031'>23031</option>
 						<option value='25831'>25831</option>
 						</select><br/>
-						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Coordenades</span>:</div>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>
+						<span lang="ca">Coordenades</span>:</div>
 						X: <input type='text' class="typeahead" name='colX' id='colX' value='' style='margin-left: 68px;'>
 						Y: <input type='text' class="typeahead" name='colY' id='colY' value=''><br/>
 						<div><button type="button" class="btn btn-link btn_codi" lang="ca">Localitza per codis</button></div>
@@ -945,20 +1099,7 @@
 						<h4 lang="ca">Localitza per codis</h4>
 						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Codi municipi o comarca</span>:</div>
 						<input type='text' class="typeahead" name='codi' id='codi' value=''>
-						<!-- 
-						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Tipus codi</span>:</div>
-						<select id='codiType' style='margin-left: 68px;'>
-						<option value='ine'>INE (5 digits)</option>
-						<option value='idescat'>Idescat (6 digits)</option>
-						<option value='municat'>Municat (10 digits)</option>
-						<option value='cadastre'>Cadastre (5 digits)</option>
-						</select><br/>
-						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Tipus codi</span>:</div>
-						<select id='geomType' style='margin-left: 68px;'>
-						<option value='municipi'>Municipis</option>
-						<option value='comarca'>Comarques</option>
-						</select><br/>
-						-->
+						
 						<div><button type="button" class="btn btn-link btn_coord" lang="ca">Localitza per coordenades</button></div>
 						</div>
 					</form>
@@ -968,10 +1109,11 @@
 			        <button id="bt_upload_fitxer" lang="ca" type="button" class="btn btn-primary">Carregar dades</button>
 			    </div>
 			</div>
-			<!-- /.modal-content -->
+			
 		</div>
-		<!-- /.modal-dialog -->
+		
 	</div>
+	-->
 	<!-- /.modal -->
 	<!-- fi Modal Carrega dades -->
 			
@@ -1417,6 +1559,10 @@
 	<script src="/llibreries/js/bootstrap-editable.js"></script>
 	<script src="/llibreries/js/bootstrap3-typeahead.min.js"></script>
 	<script src="/llibreries/js/cookieconsent.min.js"></script>
+	<script src="/llibreries/js/formats/xlsx.min.js"></script>
+	<script src="/llibreries/js/formats/xls.min.js"></script>
+	<script src="/llibreries/js/formats/jszip.js"></script>
+	<script src="/llibreries/js/formats/shim.js"></script>
 	<script src="/geocatweb/js/geocat.mapa-1.0.0.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
 	

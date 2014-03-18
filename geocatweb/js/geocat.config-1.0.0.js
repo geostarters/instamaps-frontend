@@ -50,9 +50,9 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 var DOMINI = "instamapes.icgc.cat";
 
 var paramUrl = {
-	proxy:"/maps/proxy.cgi",
-	uploadproxy:"/maps/upload.cgi",
-	proxy_download:"/maps/download.cgi",	
+	proxy:"/"+proxydir+"/proxy.cgi",
+	uploadproxy:"/"+proxydir+"/upload.cgi",
+	proxy_download:"/"+proxydir+"/download.cgi",	
 	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",

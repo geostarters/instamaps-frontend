@@ -748,5 +748,55 @@ textarea {
 }
 
 #div_formats{
-	font-size: 12px !important;
+	font-size: 12px !important;	
+}
+#dv_optCapa{	
+	 margin: 11px;
+}
+
+#dv_optSRS{	
+	 margin: 11px;
+}
+
+.btn_mig{
+	 border: 2px solid #FFC500;
+    float: right;
+    margin-top: 5px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: #F2DEDE;
+    color: #B94A48;
+}
+
+.bs-dadesO_JSON3 {
+	list-style: none outside none;
+	margin-bottom: 5px;
+	overflow: hidden;
+	padding-bottom: 1px;
+	padding-left: 0;
+}
+
+.bs-dadesO_JSON3 li {
+	border-bottom: 1px dashed #DDDDDD;
+	color: #000000;
+	float: left;
+	font-size: 12px;
+	height: 28px;
+	line-height: 0.8;
+	margin: 0 -1px -1px 0;
+	padding: 5px;
+	text-align: left;
+	width: 33%;
+}
+.panel-body {
+    padding: 7px !important;
+}
+
+.panel {
+    border-radius: 0 !important;   
+    margin-bottom: 5px !important;
+}
+.nav-pills > li > a {
+    border-radius: 0;
 }
