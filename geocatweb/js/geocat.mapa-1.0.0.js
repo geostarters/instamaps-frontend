@@ -147,6 +147,33 @@ function loadApp(){
 								return 'Are you sure you want to leave?';
 							});
 						}
+						
+						$('#nomAplicacio').editable({
+							type: 'text',
+							mode: 'inline',
+						    validate: function(value) {
+						        if($.trim(value) == '') {
+//						        	return 'This field is required';
+						        	return {newValue: this.innerHTML};
+						        }
+					        },		
+							success: function(response, newValue) {
+								var data = {
+								 	businessId: url('?businessid'), 
+								 	nom: newValue, 
+								 	uid: $.cookie('uid')
+								}
+
+								updateMapName(data).then(function(results){
+									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
+									if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+								},function(results){
+									$('#nomAplicacio').html(mapConfig.nomAplicacio);				
+								});	
+							}
+
+						});						
+						
 					});
 				}catch(err){
 					if (isRandomUser($.cookie('uid'))){

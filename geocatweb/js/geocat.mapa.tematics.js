@@ -657,9 +657,12 @@ function loadTematicLayer(layer){
 				if (!layerWms.capesActiva || layerWms.capesActiva == true || layerWms.capesActiva == "true"){
 					capaTematic.addTo(map);
 				}
-				
-				for(var g=0;g<Lgeom.length;g++){
+				console.debug("LayerWMS:");
+				console.debug(layerWms);
+				for(var g=0;g<Lgeom.length;g++){					
 					var geom = Lgeom[g];
+					console.debug("geom:");
+					console.debug(geom);
 					var rangStyle;
 					if (geom.geometry){
 						var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
@@ -1011,6 +1014,7 @@ function createFeatureMarkerStyle(style, num_geometries){
 	if (!num_geometries){
 		num_geometries = num_max_pintxos - 1;
 	}
+	
 	if (style.marker && num_geometries <= num_max_pintxos){
 			var puntTMP = new L.AwesomeMarkers.icon(default_point_style);
 			puntTMP.options.iconColor = style.simbolColor;
@@ -1020,6 +1024,7 @@ function createFeatureMarkerStyle(style, num_geometries){
 						
 			//Especifiques per cercle amb glyphon
 			if(style.marker == 'punt_r'){
+				console.debug("entra a punt_r");
 				puntTMP.options.divColor= style.color;
 				puntTMP.options.shadowSize = new L.Point(1, 1);
 				puntTMP.options.radius = style.radius;
@@ -1029,9 +1034,18 @@ function createFeatureMarkerStyle(style, num_geometries){
 				puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
 				puntTMP.options.iconSize.x = size[0];
 				puntTMP.options.iconSize.y = size[1];
+			}else{
+				puntTMP.options.iconAnchor.x = 14;
+				puntTMP.options.iconAnchor.y = 42;
+				puntTMP.options.iconSize.x = 28;
+				puntTMP.options.iconSize.y = 42;				
 			}
+
+			console.debug("puntTMP");
+			console.debug(puntTMP);
+			return puntTMP;
 	}else{
-		var puntTMP = { 
+		var puntTMPcercle = { 
 			radius: style.simbolSize, 
 			isCanvas: true,
 			fillColor: style.color,
@@ -1041,8 +1055,11 @@ function createFeatureMarkerStyle(style, num_geometries){
 			opacity: 1,
 			tipus: t_marker
 		};
+		console.debug("puntTMPcercle");
+		console.debug(puntTMPcercle);
+		return puntTMPcercle;
 	}
-	return puntTMP;
+	
 }
 
 function getRangsFromLayer(layer){
