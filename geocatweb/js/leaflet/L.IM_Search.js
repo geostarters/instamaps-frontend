@@ -45,6 +45,7 @@ L.Control.Search = L.Control.extend({
 		circleLocation: true,		//draw a circle in location found
 		markerLocation: false,		//draw a marker in location found
 		zoom: null,					//zoom after pan to location found, default: map.getZoom()
+		idInputText : null,
 		text: 'Cercar...',			//placeholder value	
 		textCancel: 'Cancel',		//title in cancel button
 		textErr: 'No trobat',
@@ -72,48 +73,31 @@ L.Control.Search = L.Control.extend({
          nodes = $controlContainer.childNodes,
          topCenter = false;
 
-     for (var i = 0, len = nodes.length; i < len; i++) {
-         var klass = nodes[i].className;
-         if (/leaflet-top/.test(klass) && /leaflet-center/.test(klass)) {
-             topCenter = true;
-             break;
-         }
-     }
+	     for (var i = 0, len = nodes.length; i < len; i++) {
+	         var klass = nodes[i].className;
+	         if (/leaflet-top/.test(klass) && /leaflet-center/.test(klass)) {
+	             topCenter = true;
+	             break;
+	         }
+	     }
 
-     if (!topCenter) {
-         var tc = document.createElement('div');
-         tc.className += 'leaflet-top leaflet-center';
-         $controlContainer.appendChild(tc);
-         map._controlCorners.topcenter = tc;
-     }
-
-		
-
-		
-		/*
-		 * 
-		 * <div class="input-group">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="#">Toponim</a></li>
-          <li><a href="#">Mapa</a></li>
-          <li><a href="#">Adreça</a></li>        
-        </ul>
-      </div><!-- /btn-group -->
-      <input type="text" class="form-control">
-    </div><!-- /input-group -->
-		 * 
-		 * 
-		 */
-		
-		
+	     if (!topCenter) {
+	         var tc = document.createElement('div');
+	         tc.className += 'leaflet-top leaflet-center';
+	         
+	         if(this.options.idInputText==null){
+	        	 $controlContainer.appendChild(tc); 
+	         }else{
+	        	 jQuery(this.options.idInputText).append(tc);
+	         }
+	         map._controlCorners.topcenter = tc;
+	     }
 		
 		this._map = map;
 		this._container = L.DomUtil.create('div', 'leaflet-control-search');
 		
 		this._cancel = this._createCancel(this.options.textCancel, 'search-cancel');
-		this._button = this._createButton(this.options.text, 'search-button glyphicon glyphicon-search grisfort');
+//		this._button = this._createButton(this.options.text, 'search-button glyphicon glyphicon-search grisfort');
 		this._input = this._createInput(this.options.text, 'search-input');
 		this._tooltip = this._createTooltip('search-tooltip');
 		this._alert = this._createAlert('search-alert');
@@ -125,13 +109,8 @@ L.Control.Search = L.Control.extend({
 			this._markerLoc = new SearchMarker([0,0], {marker: this.options.markerLocation});//see below
 		
 		this.setLayer( this._layer );
-		 map.on({
-		// 		'layeradd': this._onLayerAddRemove,
-		// 		'layerremove': this._onLayerAddRemove
-		     'resize':this._handleAutoresize()
-		 	}, this);
-		 
-		 
+		
+		map.on({'resize':this._handleAutoresize()}, this);
 		 
 		return this._container;
 	},
@@ -203,8 +182,6 @@ L.Control.Search = L.Control.extend({
 		return this;
 	},
 	
-	
-	
 	hideAlert: function() {
 		this._alert.style.display = 'none';
 		return this;
@@ -214,10 +191,6 @@ L.Control.Search = L.Control.extend({
 		this._edit.style.display = 'none';
 		return this;
 	},
-	
-	
-	
-	
 	
 	cancel: function() {
 		this._input.value = '';
