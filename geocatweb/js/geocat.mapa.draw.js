@@ -666,6 +666,9 @@ function createPopupWindow(layer,type){
 			
 		//********************************************************
 			
+			
+			
+			
 			if(accio[2].indexOf("marker")!=-1){
 				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
 			}else if(accio[2].indexOf("polygon")!=-1){
