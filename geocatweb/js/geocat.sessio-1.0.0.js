@@ -71,9 +71,12 @@ function loginUserIcgc(){
 					window.location="/geocatweb/galeria.html?private=1";
 				}
 			}else if (results.status === 'MAIL'){
+				/*
+				//solo para local OJO al subir
 				if(results.url.indexOf('instamapes.icgc.cat')!= -1){
 					results.url = results.url.replace('instamapes.icgc.cat','localhost');
 				}
+				*/
 				window.location = results.url;
 			}else if(results.results === 'cannot_authenticate'){
 				$('#dialog_session_icgc').modal('toggle');

@@ -211,6 +211,7 @@ function loadApp(){
 		jQuery(window).on('unload',function(event){
 			_gaq.push(['_trackEvent', 'mapa', 'sortir', 'label sortir', tipus_user]);
 			deleteRandomUser({uid: $.cookie('uid')});
+			$.removeCookie('uid', { path: '/' });
 		});
 		
 	}else{
@@ -1993,6 +1994,8 @@ function createNewMap(){
 		visibilitat: visibilitat_privat,
 		tipusApp: 'vis',
 	};
+	
+	console.debug(data);
 	
 	createMap(data).then(function(results){
 		if (results.status == "ERROR"){
