@@ -144,7 +144,7 @@ function loadDadesObertesClusterLayer(layer){
 	
 //	map.addLayer(capaDadaOberta);
 	capaDadaOberta.on('data:loaded', function(e){
-		console.debug("data:loaded");
+		//console.debug("data:loaded");
 		map.removeLayer(capaDadaOberta);
 		var clusterLayer = L.markerClusterGroup({
 			singleMarkerMode : true

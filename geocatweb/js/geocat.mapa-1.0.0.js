@@ -115,7 +115,6 @@ function loadApp(){
 		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
-				console.debug("aca");
 				if (!$.cookie('uid')){
 					window.location.href = paramUrl.mainPage;
 				}else{
@@ -131,6 +130,12 @@ function loadApp(){
 			}else{
 				try{
 					mapConfig = results.results;
+					
+					if (mapConfig.entitatUid != $.cookie('uid')){
+						$.removeCookie('uid', { path: '/' });
+						window.location.href = paramUrl.mainPage;
+					}
+					
 					mapConfig.options = $.parseJSON( mapConfig.options );
 					mapConfig.newMap = false;
 					$('#nomAplicacio').html(mapConfig.nomAplicacio);
@@ -139,7 +144,6 @@ function loadApp(){
 						//avisDesarMapa();
 						if (isRandomUser($.cookie('uid'))){
 							jQuery(window).on('beforeunload',function(event){
-								console.debug(event);
 								return 'Are you sure you want to leave?';
 							});
 						}
@@ -150,13 +154,11 @@ function loadApp(){
 						jQuery(window).off('beforeunload');
 						window.location.href = paramUrl.mainPage;
 					}else{
-						console.debug("usuari catch to mapa");
-						window.location.href = paramUrl.mapaPage;
+						window.location.href = paramUrl.galeriaPage;
 					}
 				}
 			}
 		},function(results){
-			console.debug("to login");
 			window.location.href = paramUrl.loginPage;
 		});
 	}else{
@@ -317,7 +319,6 @@ function loadApp(){
 		});
 	}else{
 		shortUrl(v_url).then(function(results){
-			console.debug(results);
 			jQuery('#socialShare').share({
 		        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 		        theme: 'square',
@@ -325,8 +326,7 @@ function loadApp(){
 			});
 		});
 	}
-		
-			
+				
 	jQuery('#select-download-format').change(function() {	
 		var ext = jQuery(this).val();
 		if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
@@ -1320,7 +1320,6 @@ function loadMapConfig(mapConfig){
 		}
 		
 		//carga las capas en el mapa
-		
 		loadOrigenWMS().then(function(results){
 			console.debug(results);
 			var num_origen = 0;
@@ -1415,93 +1414,6 @@ function loadLayer(value){
 		defer.resolve();
 	}
 	return defer.promise();
-}
-
-function loadMapConfig_old(mapConfig){
-	console.debug(mapConfig);
-	var dfd = jQuery.Deferred();
-	if (!jQuery.isEmptyObject( mapConfig )){
-		jQuery('#businessId').val(mapConfig.businessId);
-		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
-		//cambiar el mapa de fondo a orto y gris
-		if (mapConfig.options != null){
-			if (mapConfig.options.fons != 'topoMap'){
-				map.setActiveMap(mapConfig.options.fons);
-				map.setMapColor(mapConfig.options.fonsColor);
-				//map.gestionaFons();
-			}
-				
-			if (mapConfig.options.bbox){
-				var bbox = mapConfig.options.bbox.split(",");
-				var southWest = L.latLng(bbox[1], bbox[0]);
-			    var northEast = L.latLng(bbox[3], bbox[2]);
-			    var bounds = L.latLngBounds(southWest, northEast);
-				map.fitBounds( bounds ); 
-			}
-		}
-		
-		//carga las capas en el mapa
-		jQuery.each(mapConfig.servidorsWMS, function(index, value){
-			if (value.epsg == "4326"){
-				value.epsg = L.CRS.EPSG4326;
-			}else if (value.epsg == "25831"){
-				value.epsg = L.CRS.EPSG25831;
-			}else if (value.epsg == "23031"){
-				value.epsg = L.CRS.EPSG23031;
-			}else{
-				value.epsg = map.crs;
-			}
-			
-			//Si la capa es de tipus wms
-			if(value.serverType == t_wms){
-				loadWmsLayer(value);
-
-				//Si la capa es de tipus dades obertes
-			}else if(value.serverType == t_json){
-				loadCapaFromJSON(value);				
-				
-			//Si la capa es de tipus dades obertes
-			}else if(value.serverType == t_dades_obertes){
-				loadDadesObertesLayer(value);
-
-			//Si la capa es de tipus xarxes socials	
-			}else if(value.serverType == t_xarxes_socials){
-				var options = jQuery.parseJSON( value.options );
-				
-				if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
-				else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
-				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-				
-			}else if(value.serverType == t_tematic){
-				loadTematicLayer(value);
-				
-			}else if(value.serverType == t_heatmap){
-				loadHeatLayer(value);
-				
-			}else if(value.serverType == t_cluster){
-				loadClusterLayer(value);
-				
-			}
-		});
-		
-		jQuery('#div_loading').hide();
-	}
-	
-	var source = $("#map-properties-template").html();
-	var template = Handlebars.compile(source);
-	var html = template(mapConfig);
-	$('#frm_publicar').append(html);
-	$('.make-switch').bootstrapSwitch();
-	
-	if (mapConfig.visibilitat == visibilitat_open){
-		$('#visibilitat_chk').bootstrapSwitch('state', true);
-	}else if (mapConfig.visibilitat == visibilitat_privat){
-		$('#visibilitat_chk').bootstrapSwitch('state', false);
-	}
-			
-	dfd.resolve();
-	
-	return dfd.promise();
 }
 
 function publicarMapa(){
@@ -2126,6 +2038,7 @@ function createNewMap(){
 	createMap(data).then(function(results){
 		if (results.status == "ERROR"){
 			//TODO Mensaje de error
+			window.location.href = paramUrl.mainPage;
 		}else{
 			try{
 				mapConfig = results.results;
@@ -2135,12 +2048,10 @@ function createNewMap(){
 				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
 			}catch(err){
 				if (isRandomUser($.cookie('uid'))){
-					console.debug("to main");
 					$.removeCookie('uid', { path: '/' });
 					window.location.href = paramUrl.mainPage;
 				}else{
-					console.debug("to mapa");
-					window.location.href = paramUrl.mapaPage;
+					window.location.href = paramUrl.galeriaPage;
 				}
 			}
 		}
