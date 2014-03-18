@@ -79,9 +79,10 @@ function creaAreesDragDropFiles() {
 			}
 		});
 
-		drgFromMapa.on('progress', function(file, progress) {
-			
+		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
+		
 			jQuery('#prg_bar').css('width',progress+"%");
+
 		});
 	}
 	
@@ -260,7 +261,7 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	
 });
 
-jQuery("load_TXT_codi").on('click', function() {// fitxer codi
+jQuery("#load_TXT_codi").on('click', function() {// fitxer codi
 
 	
 	

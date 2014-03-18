@@ -153,7 +153,6 @@ function loadApp(){
 							mode: 'inline',
 						    validate: function(value) {
 						        if($.trim(value) == '') {
-//						        	return 'This field is required';
 						        	return {newValue: this.innerHTML};
 						        }
 					        },		
@@ -163,7 +162,7 @@ function loadApp(){
 								 	nom: newValue, 
 								 	uid: $.cookie('uid')
 								}
-
+					
 								updateMapName(data).then(function(results){
 									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
 									if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
@@ -171,7 +170,7 @@ function loadApp(){
 									$('#nomAplicacio').html(mapConfig.nomAplicacio);				
 								});	
 							}
-
+				
 						});						
 						
 					});
