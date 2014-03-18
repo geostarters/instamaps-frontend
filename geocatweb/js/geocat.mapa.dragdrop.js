@@ -265,7 +265,7 @@ jQuery("#load_TXT_codi").on('click', function() {// fitxer codi
 
 	
 	
-			 if (jQuery('#cmd_upload_codi').val()=="null"){
+			 if (jQuery('#cmd_upload_codi').val()!="null"){
 				 isOK=true; 
 			  	   envioArxiu.tipusAcc='codis'; 
 			  	   envioArxiu.codi=jQuery('#cmd_upload_codi').val();
