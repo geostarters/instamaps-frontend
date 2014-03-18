@@ -3,7 +3,7 @@ function createHeatMap(capa){
 	
 	_gaq.push(['_trackEvent', 'mapa', 'esitls', 'heatmap', tipus_user]);	
 	
-	
+	var nom = window.lang.convert("Concentració");
 	//Heatmap
 	var arrP=[];
 	capa.layer.eachLayer(function(layer){
@@ -32,7 +32,7 @@ function createHeatMap(capa){
 			data = {
 					uid:$.cookie('uid'),
 					mapBusinessId: url('?businessid'),
-					serverName: capa.layer.options.nom+" heatmap",
+					serverName: capa.layer.options.nom+" "+nom,
 					serverType: t_dades_obertes,
 					calentas: false,
 		            activas: true,
@@ -52,7 +52,8 @@ function createHeatMap(capa){
 				if (results.status == "OK"){
 					
 					heatLayerActiu.options.businessId = results.results.businessId;
-					heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
+					
+					heatLayerActiu.options.nom = capa.layer.options.nom+" "+nom;
 					heatLayerActiu.options.tipus = t_dades_obertes;
 					heatLayerActiu.options.tipusRang = tem_heatmap;
 					
@@ -74,7 +75,7 @@ function createHeatMap(capa){
 	            businessId: capa.layer.options.businessId,
 	            uid: $.cookie('uid'),
 	            mapBusinessId: url('?businessid'),	           
-	            nom: capa.layer.options.nom+" heatmap",
+	            nom: capa.layer.options.nom+" "+nom,
 	            calentas: false,   
 	            order: capesOrdre_sublayer,
 	            activas: true,
@@ -87,7 +88,7 @@ function createHeatMap(capa){
 				if(results.status == 'OK'){
 					
 					heatLayerActiu.options.businessId = results.results.businessId;
-					heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
+					heatLayerActiu.options.nom = capa.layer.options.nom+" "+nom;
 					heatLayerActiu.options.tipus = capa.layer.options.tipus;
 					heatLayerActiu.options.tipusRang = tem_heatmap;
 
@@ -111,7 +112,7 @@ function createHeatMap(capa){
 
 	}else{
 		heatLayerActiu.options.businessId = -1;
-		heatLayerActiu.options.nom = capa.layer.options.nom+" heatmap";
+		heatLayerActiu.options.nom = capa.layer.options.nom+" "+nom;
 		heatLayerActiu.options.tipus = capa.layer.options.tipus;
 		heatLayerActiu.options.tipusRang = tem_heatmap;
 		

@@ -126,6 +126,33 @@ function loadApp(){
 				
 				loadMapConfig(mapConfig).then(function(){
 					//avisDesarMapa();
+					
+					$('#nomAplicacio').editable({
+						type: 'text',
+						mode: 'inline',
+					    validate: function(value) {
+					        if($.trim(value) == '') {
+//					        	return 'This field is required';
+					        	return {newValue: this.innerHTML};
+					        }
+				        },		
+						success: function(response, newValue) {
+							var data = {
+							 	businessId: url('?businessid'), 
+							 	nom: newValue, 
+							 	uid: $.cookie('uid')
+							}
+
+							updateMapName(data).then(function(results){
+								_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
+								if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+							},function(results){
+								$('#nomAplicacio').html(mapConfig.nomAplicacio);				
+							});	
+						}
+
+					});					
+					
 				});
 			}catch(err){
 				if (isRandomUser($.cookie('uid'))){
@@ -250,35 +277,35 @@ function loadApp(){
 		
 	});	
 	
-	$('#nomAplicacio').editable({
-		type: 'text',
-		mode: 'inline',
-	    validate: function(value) {
-	        if($.trim(value) == '') {
-//	        	return 'This field is required';
-	        	return {newValue: this.innerHTML};
-	        }
-        },		
-		success: function(response, newValue) {
-			var data = {
-			 	businessId: url('?businessid'), 
-			 	nom: newValue, 
-			 	uid: $.cookie('uid')
-			}
-
-			updateMapName(data).then(function(results){
-				_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
-				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
-			},function(results){
-				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
-			});	
-		}
-
-	});
+//	$('#nomAplicacio').editable({
+//		type: 'text',
+//		mode: 'inline',
+//	    validate: function(value) {
+//	        if($.trim(value) == '') {
+////	        	return 'This field is required';
+//	        	return {newValue: this.innerHTML};
+//	        }
+//        },		
+//		success: function(response, newValue) {
+//			var data = {
+//			 	businessId: url('?businessid'), 
+//			 	nom: newValue, 
+//			 	uid: $.cookie('uid')
+//			}
+//
+//			updateMapName(data).then(function(results){
+//				_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
+//				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+//			},function(results){
+//				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
+//			});	
+//		}
+//
+//	});
 	//$.fn.editable.defaults.mode = 'inline';
 	$('.leaflet-remove').click(function() {
 		alert( "Handler for .click() called." );
-	});	
+	});
 	
 	
 	//Compartir en xarxes socials
@@ -357,6 +384,53 @@ function loadApp(){
 		});
 		
 	});
+	
+	$('#dialog_delete_capa .btn-danger').on('click', function(event){
+		var $this = $(this);
+		var data = $this.data("data");
+		var obj = $this.data("obj");
+		
+			removeServerToMap(data).then(function(results){
+			if(results.status==='OK'){
+				
+//				this.myRemoveLayer(obj);
+				console.debug('Arriba a myRemoveLayer');
+				map.closePopup();
+				map.removeLayer(obj.layer);
+				//Eliminem la capa de controlCapes
+				controlCapes.removeLayer(obj);
+				
+				//actualitzem valors zindex de la resta si no es sublayer
+				if(!obj.sublayer){
+					var removeZIndex = obj.layer.options.zIndex;
+					controlCapes._lastZIndex--;
+					var aux = controlCapes._layers;
+					for (var i in aux) {
+						if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+					}
+					//Eliminem les seves sublayers en cas que tingui
+					for(indexSublayer in obj._layers){
+						map.removeLayer(map._layers[indexSublayer]);
+					}
+				}
+
+				//Actualitzem capaUsrActiva
+				if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+					capaUsrActiva.removeEventListener('layeradd');
+					capaUsrActiva = null;
+				}				
+				
+				deleteServerRemoved(data).then(function(results){
+					//se borran del listado de servidores
+				});
+			}else{
+				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+			}				
+		},function(results){
+			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+		});	
+	});	
+	
 }
 
 function addClicksInici() {
@@ -1832,94 +1906,6 @@ function loadWikipediaLayer(layer){
 	controlCapes._lastZIndex++;
 }
 
-//function saveMap(){
-//	console.debug('Save Map.......');
-//	
-//	//Comprovar si est� logat!!
-//	if($.cookie('uid')=== null || $.cookie('uid')===''){
-//		alert('Falta fer missatge no pots guardar sense estar logat!!!');
-//		return;
-//	}
-//	
-//	
-//	if(typeof url('?businessid') == "string"){//s'ha de fer update del mapa
-//		
-//		var options = "{\"tags\":\""+ mapConfig.options.tags +"\",\"description\":\""+mapConfig.options.description+"\",\"bbox\":\""+ map.getBounds().toBBoxString()+"\",\"llegenda\":"+mapConfig.options.llegenda+",\"layers\":"+mapConfig.options.layers+",\"social\":"+mapConfig.options.social+",\"fons\":\""+ map.getActiveMap()+"\",\"foncsColor\":\""+ map.options.mapColor+"\"}";
-//		var nomMapa = $('#nomAplicacio').html();
-//		var data = {
-//			businessId: url('?businessid'),
-//			uid: $.cookie('uid'),
-//			nom: nomMapa,
-//			visibilitat: 'O',//FALTA!! NO ES GUARDA ENLLOC?
-//			clauVisor: mapConfig.clau,
-//			thumbnail: mapConfig.thumbnail,
-//			options: options
-//		};	
-//		
-//		//Update info i dades generals del mapa
-//		doUpdateMap(data).then(function(results){
-//			if(results.status==='OK'){
-//				alert('save Map ok!');
-//			}else{
-////				$('#modal_login_ko').modal('toggle');
-//				alert('save Map KO!');
-//			}				
-//		},function(results){
-//			$('#modal_login_ko').modal('toggle');					
-//		});		
-//		
-////		//Update de les capes del mapa
-////		var listLayers = controlCapes._layers;
-////		int size = listLayers.lenght();
-////		for(int i=0;i<size);i++{
-////			
-////		}
-//		
-//	}else{//S'ha de crear un mapa nou
-//		alert("S'ha de crear un mapa nou!");
-//	}
-//	
-//}
-
-function myRemoveLayer(obj){
-	
-	console.debug('Arriba a myRemoveLayer');
-	map.closePopup();
-	map.removeLayer(obj.layer);
-	//Eliminem la capa de controlCapes
-	controlCapes.removeLayer(obj);
-	
-	//actualitzem valors zindex de la resta si no es sublayer
-	if(!obj.sublayer){
-		var removeZIndex = obj.layer.options.zIndex;
-		controlCapes._lastZIndex--;
-		var aux = controlCapes._layers;
-		for (var i in aux) {
-			if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
-		}
-		//Eliminem les seves sublayers en cas que tingui
-		for(indexSublayer in obj._layers){
-			map.removeLayer(map._layers[indexSublayer]);
-		}
-	}
-
-	//Actualitzem capaUsrActiva
-	if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
-		capaUsrActiva.removeEventListener('layeradd');
-		capaUsrActiva = null;
-	}
-}
-
-function removeSublayer(indexSublayer){
-	console.debug("before remove has layer:"+map.hasLayer(map._layers[indexSublayer]));
-	map.removeLayer(map._layers[indexSublayer]);
-	console.debug("after remove has layer:"+map.hasLayer(map._layers[indexSublayer]));
-}
-
-//function addSublayer(indexSublayer){
-//	map.addLayer(map._layers[indexSublayer]);
-//}
-
 function updateEditableElements(){
 	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
@@ -2101,9 +2087,9 @@ function showConfOptions(businessId){
 }
 
 function createNewMap(){
-	console.debug("createNewMap");
+
 	var data = {
-		nom: "Untitled map",
+		nom: getTimeStamp(),
 		uid: $.cookie('uid'),
 		visibilitat: visibilitat_privat,
 		tipusApp: 'vis',

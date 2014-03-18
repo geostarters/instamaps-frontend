@@ -565,6 +565,82 @@ function createPopupWindow(layer,type){
 		
 		if(accio[0].indexOf("feature_edit")!=-1){
 
+//		//Update modal estils, amb estil de la feature seleccionada
+			var obj = map._layers[accio[1]];
+			if(obj.options.icon /*|| obj.options.icon.options.markerColor.indexOf("punt_r")!=-1*/){
+				var icon = obj.options.icon.options;	
+			}else{
+				var icon = obj.options;
+			}
+//			
+			//Deselecciono estil al modal 
+			jQuery(".bs-punts li").removeClass("estil_selected");
+			jQuery("#div_puntZ").removeClass("estil_selected");
+			
+			if(icon.isCanvas){//Si es un punt
+				
+				var midaPunt = 16;
+				if(icon.radius == 8)midaPunt=21;
+				else if(icon.radius == 10)midaPunt=24;
+				else if(icon.radius == 12)midaPunt=30;
+				else if(icon.radius == 14)midaPunt=34;				
+				
+				var estil={
+						iconFons: 'awesome-marker-web awesome-marker-icon-punt_r',
+						iconGlif:'fa fa-'+icon.icon,
+						colorGlif:icon.iconColor,
+						fontsize:'15px',
+						width: midaPunt+'px',
+						height: midaPunt+'px',
+						divColor : icon.fillColor,
+						radius: icon.radius
+				};
+				
+				jQuery("#div_puntZ").addClass("estil_selected");
+				jQuery("#div_punt9").css("background-color",icon.fillColor);
+				$('#cmb_mida_Punt option[value="'+midaPunt+'"]')
+				jQuery("#dv_fill_color_punt").css("background-color",icon.fillColor);
+				jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);
+				
+				
+			}else if(icon.markerColor.indexOf("punt_r")!=-1){
+				var estil={
+						iconFons: 'awesome-marker-web awesome-marker-icon-punt_r',
+						iconGlif:'fa fa-'+icon.icon,
+						colorGlif:icon.iconColor,
+						fontsize:'15px',
+						width: icon.iconSize.x +'px',
+						height: icon.iconSize.y +'px',
+						divColor : icon.fillColor,
+						radius: icon.radius
+				};				
+			}else{//Si es marker
+				var estil={
+						iconFons: icon.className+'-web awesome-marker-icon-'+icon.markerColor,
+						iconGlif:'fa fa-'+icon.icon,
+						colorGlif:icon.iconColor,
+						fontsize:'14px',
+						width:'28px',
+						height: '42px',
+						divColor : 'transparent',						
+				};				
+			}
+//			
+			
+			jQuery('#div_punt0').removeClass();
+			jQuery('#div_punt0').addClass(estil.iconFons+" "+estil.iconGlif);
+			jQuery('#div_punt0').css('width',estil.width);
+			jQuery('#div_punt0').css('height',estil.height);	
+			jQuery('#div_punt0').css('font-size',estil.fontsize);
+			jQuery('#div_punt0').css('background-color',estil.divColor);
+			jQuery('#div_punt0').css('color',estil.colorGlif);
+			
+			
+//			jQuery('#div_punt0').css('color',estilP.colorGlif);
+//			jQuery(this).addClass("estil_selected");			
+			
+		//********************************************************
+			
 			if(accio[2].indexOf("marker")!=-1){
 				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
 			}else if(accio[2].indexOf("polygon")!=-1){

@@ -217,6 +217,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Visualitza":"Visualiza",
 	"VISUALITZA":"VISUALIZA",
 	"Vols esborrar el mapa":"¿Deseas borrar el mapa",
+	"Vols esborrar el mapa":"¿Deseas borrar la capa",
 	"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?",
 	"Vull ser le primer":"Quiero ser el primero",
 	"Xarxes socials":"Redes sociales"

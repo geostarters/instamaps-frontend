@@ -821,7 +821,8 @@ function loadTematicLayer(layer){
 				}				
 			}
 		}else{
-			alert("Error getTematicLayer");
+			//alert("Error getTematicLayer");
+			console.debug("Error getTematicLayer");
 		}	
 		defer.resolve();
 	},function(results){
@@ -1079,7 +1080,7 @@ function changeTematicLayerStyle(tematic, styles){
 			uid:$.cookie('uid'),
 			//businessId: capaMare.options.businessId,
 			mapBusinessId: url('?businessid'),
-			serverName: capaMare.options.nom+" basic",
+			serverName: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
 			serverType: capaMare.options.tipus,
 			calentas: false,
             activas: true,
@@ -1107,7 +1108,7 @@ function changeTematicLayerStyle(tematic, styles){
 			businessId: tematic.businessid,
 			uid: $.cookie('uid'),
             mapBusinessId: url('?businessid'),	           
-            nom: capaMare.options.nom+" basic",
+            nom: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
 			calentas: false,
             activas: true,
             visibilitats: true,    
@@ -1216,7 +1217,7 @@ function updateClasicTematicFromRangs(){
 		businessId: tematicFrom.businessid,
 		uid: $.cookie('uid'),
         mapBusinessId: url('?businessid'),	           
-        nom: capaMare.options.nom+" clasic",
+        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
 		calentas: false,
         activas: true,
         visibilitats: true,
