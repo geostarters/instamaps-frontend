@@ -261,7 +261,7 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	
 });
 
-jQuery("load_TXT_codi").on('click', function() {// fitxer codi
+jQuery("#load_TXT_codi").on('click', function() {// fitxer codi
 
 	
 	
