@@ -79,9 +79,10 @@ function creaAreesDragDropFiles() {
 			}
 		});
 
-		drgFromMapa.on('progress', function(file, progress) {
-			
+		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
+		
 			jQuery('#prg_bar').css('width',progress+"%");
+
 		});
 	}
 	
