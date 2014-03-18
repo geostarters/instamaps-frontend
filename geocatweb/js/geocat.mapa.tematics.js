@@ -1029,6 +1029,11 @@ function createFeatureMarkerStyle(style, num_geometries){
 				puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
 				puntTMP.options.iconSize.x = size[0];
 				puntTMP.options.iconSize.y = size[1];
+			}else{
+				puntTMP.options.iconAnchor.x = 14;
+				puntTMP.options.iconAnchor.y = 42;
+				puntTMP.options.iconSize.x = 28;
+				puntTMP.options.iconSize.y = 42;
 			}
 	}else{
 		var puntTMP = { 
