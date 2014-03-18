@@ -149,6 +149,8 @@ jQuery(document).on('click', "#bt_addJSON", function(e) {
 
 function creaCapaFromJSON() {
 
+	_gaq.push(['_trackEvent', 'mapa', 'json', urlJSON, tipus_user]);
+	
 	var cmd_json_x = jQuery('#cmd_json_x').val();
 	var cmd_json_y = jQuery('#cmd_json_y').val();
 	var cmd_json_titol = jQuery('#cmd_json_titol').val();
@@ -180,6 +182,7 @@ function creaCapaFromJSON() {
 				calentas: false,
 	            activas: true,
 	            visibilitats: true,
+	            order: controlCapes._lastZIndex+1,
 	            epsg: '4326',
 	            imgFormat: 'image/png',
 	            infFormat: 'text/html',
@@ -223,7 +226,7 @@ function creaCapaFromJSON() {
 						if (cmd_json_img == "null") {
 							pp.properties.img = ""
 						} else {
-							pp.properties.img = '<img width="100px" src="'
+							pp.properties.img = '<img width="200px" src="'
 									+ respostaJSON[key][cmd_json_img] + '">';
 							empty = empty && false;
 						}
@@ -321,7 +324,7 @@ function loadCapaFromJSON(layer) {
 			if (options.imatge == "null") {
 				pp.properties.img = ""
 			} else {
-				pp.properties.img = '<img width="100px" src="'
+				pp.properties.img = '<img width="200px" src="'
 						+ v_respotaJSON[key][options.imatge] + '">';
 				empty = empty && false;
 			}
