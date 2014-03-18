@@ -6,7 +6,7 @@ var pending = false
 var drgFromMapa;
 var drgFromMapa = null;
 var drgFromBoto = null;
-var midaFitxer = 1000000;
+var midaFitxer = 10000000;//en bytes
 var matriuActiva = [];
 var envioArxiu={isDrag:false,
 				tipusAcc:'gdal', //gdal,adreca,coordenades,codis
@@ -80,6 +80,7 @@ function creaAreesDragDropFiles() {
 		});
 
 		drgFromMapa.on('progress', function(file, progress) {
+			
 			jQuery('#prg_bar').css('width',progress+"%");
 		});
 	}
@@ -312,6 +313,11 @@ function enviarArxiu(){
 
 jQuery('#bt_upload_cancel').on("click", function(e) {
 	$('#dialog_carrega_dades').modal('hide');
+	if(envioArxiu.isDrag){
+		drgFromMapa.uploadFile(drgFromMapa.files[0]);	
+	}else{
+		drgFromBoto.uploadFile(drgFromBoto.files[0]);;
+	}
 });
 
 
@@ -333,6 +339,13 @@ function obreModalCarregaDades(isDrag) {
 
 	$('#dialog_carrega_dades').modal('show');
 	
+	if(isDrag){
+		$('#upload_file').attr('disabled',true);
+	}else{
+		$('#upload_file').attr('disabled',false);
+	}
+	
+	
 	jQuery('#dv_optCapa').hide();
 	jQuery('#dv_optSRS').hide();
 	$('#url').val(paramUrl.dragFile);
@@ -343,9 +356,10 @@ function obreModalCarregaDades(isDrag) {
 
 function accionaCarrega(file,envioArxiu) {
 	var ff = miraFitxer(file);
+	
 	var obroModal = false;
 	if (ff.isValid) {
-
+		if ( envioArxiu.isDrag) {obreModalCarregaDades(true);}
 		jQuery("#file_name").text(file.name);
 		jQuery("#bt_esborra_ff").show();
 
@@ -362,9 +376,11 @@ function accionaCarrega(file,envioArxiu) {
 			obteCampsXLS(file);
 			obroModal = true;
 		} else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "zip") || (ff.ext == "geojson") || (ff.ext == "json")) {
-
+			console.info(ff);
 			jQuery('#dv_optCapa').hide();
+			
 			jQuery('#dv_optSRS').show();
+			
 			obroModal = true;
 		} else {
 
@@ -381,7 +397,7 @@ function accionaCarrega(file,envioArxiu) {
 
 		//if (obroModal && envioArxiu.isDrag) {obreModalCarregaDades();}
 		
-		if ( envioArxiu.isDrag) {obreModalCarregaDades(true);}
+		
 
 	} else { // novalid
 
@@ -696,7 +712,7 @@ function miraFitxer(fitxer) {
 			'kmz', 'gml', 'xml', 'gpx', 'txt', 'csv', 'json' ];
 	
 	if (jQuery.inArray(obj.ext, arr) != -1) { // hi hso
-
+	
 		if (fitxer.size < midaFitxer) {
 			obj.isValid = true;
 		} else {
