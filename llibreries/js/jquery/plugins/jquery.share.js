@@ -40,6 +40,11 @@
                         d=pageDesc.substring(0,250),
                         href;
 
+                    //Per GA saber si venim de mapa o visor, al compartir
+                    var lfrom = id.split("_");
+                    var from = "mapa";
+                    if(lfrom.length>1) from = "visor";
+                    
                     // append HTML for each network button
                     for (var item in networks) {
                         item = networks[item];
@@ -49,7 +54,7 @@
 //                        $("<div id='"+item+"' class='icon-"+item+" gris'><a href='"+href+"' title='Share this page on "+item+
 //                            "' class='pop-social'></a></div>")
 //                            .appendTo($element);
-                        $("<a href='"+href+"' title='Share this page on "+item+
+                        $("<a data-type=\""+item+"\" data-from=\""+from+"\" href='"+href+"' title='Share this page on "+item+
                                 "' class='pop-social share-"+theme+" share-"+theme+"-"+item+"'></a>")
                                 .appendTo($element);                        
                     }
@@ -87,7 +92,8 @@
                     }
                     
                     // bind click
-                    $('.pop-social').click(function(){
+                    $('.pop-social').on('click',function(){
+                    	_gaq.push(['_trackEvent', $(this).attr('data-from'), 'compartir', $(this).attr('data-type'), tipus_user]);	
                         window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
                         return false;
                     });
@@ -123,7 +129,6 @@
         } else {
             $.error( 'Method "' +  method + '" does not exist in social plugin');
         }
-
     }
 
     $.fn.share.defaults = {

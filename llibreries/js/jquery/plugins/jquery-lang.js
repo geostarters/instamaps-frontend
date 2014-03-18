@@ -206,9 +206,6 @@ jquery_lang_js.prototype.change = function (lang) {
 						
 						var newText = this.lang[lang][defaultLangText] || currentText;
 						
-						
-						
-						
 						var newHtml = currentText.replace(currentText, newText);
 						langElem.html(newHtml);
 						

@@ -1,9 +1,4 @@
 
-
-
-
-
-
 window.lang = new jquery_lang_js();
 
 var lsLang;
@@ -25,37 +20,32 @@ jQuery(document).ready(function() {
     	logoutUser();
     	//window.location.href = paramUrl.loginPage;
     });
-    
     initCookies();
-    
 });
 
-
-
 function initCookies(){
-	
-	//init cookies
+	//console.debug("initCookies");
 	cc.initialise({
 		cookies: {analytics: {}},
 		settings: {
 			consenttype: "implicit",
 			bannerPosition: "bottom",
-				hideprivacysettingstab: true,
-				privacyPolicy:false,
-				ignoreDoNotTrack: true,
-				hideallsitesbutton: true,
-				onlyshowbanneronce: true
+			hideprivacysettingstab: true,
+			ignoreDoNotTrack: true,
+			hideallsitesbutton: false,
+			onlyshowbanneronce: true
 		},
 		strings: {
 			notificationTitleImplicit: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal"),
-			privacyPolicy:'',
 			seeDetailsImplicit:'',
 			savePreference:window.lang.convert("Acceptar"),
 			allowCookiesImplicit: window.lang.convert("Acceptar")
-				
 		}
 	});
 	
+	if ($("#cc-tag a span").text() == "Privacy settings"){
+		$("#cc-tag").hide();
+	}
 }
 
 function initHover(){
@@ -128,7 +118,7 @@ function canviaIdioma(lsLang){
 	//console.info("entro");
 	//console.debug(lsLang);
 	window.lang.change(lsLang);
-	addToolTipsInici();
+	$("body").trigger( "change-lang", lsLang );
 }
 
 function web_determinaIdioma(){
@@ -261,4 +251,30 @@ function logoutUser(){
 
 function sessionExpired(){
 	jQuery('#dialog_session_expired').modal('show');
+}
+
+function isRandomUser(user){
+	var isRandom = false;
+	if (user && user.indexOf("random_") != -1 && user.indexOf("random_") == 0){
+		isRandom = true;
+	}
+	return isRandom;
+}
+
+function getTimeStamp() {
+    var now = new Date();
+    
+    return (now.getFullYear()+''+(((now.getMonth() + 1) < 10)
+                    ? ("0" + (now.getMonth() + 1))
+                    : ((now.getMonth() + 1))) + ''+ 
+            now.getDate() +'_'+
+            ((now.getHours() < 10)
+                    ? ("0" + now.getHours())
+                    : (now.getHours())) +''+
+             ((now.getMinutes() < 10)
+                 ? ("0" + now.getMinutes())
+                 : (now.getMinutes())) +''+
+             ((now.getSeconds() < 10)
+                 ? ("0" + now.getSeconds())
+                 : (now.getSeconds())));
 }

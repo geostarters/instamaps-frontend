@@ -14,6 +14,7 @@
  * git@github.com:stefanocudini/leaflet-search.git 
  * 
  */
+ 
 .leaflet-container .leaflet-control-search {
 	position: relative;
 	float: left;
@@ -27,7 +28,7 @@
 	box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
 	margin-left: 10px;
 	margin-top: 10px;
-	width: 50%;
+	width: 90%;
 }
 
 .leaflet-control-search .search-load {
@@ -82,21 +83,21 @@
 }
 
 .leaflet-control-search .search-input {
-	display: block;
-	float: left;
-	background: #fff;
-	border: 1px solid #666;
-	border-radius: 2px;
-	height: 18px;
-	padding: 0 18px 0 2px;
-	margin: 3px 0 0 3px;
-	width: 80%;
-	height: 22px;
+	 background: none repeat scroll 0 0 #FFFFFF;
+	 border-top: 1px solid #cccccc;
+	 border-bottom: 1px solid #cccccc;
+	 border-right: 1px solid #cccccc;
+	 border-left: 1px dashed #cccccc;
+	 border-radius: 0;
+	 display: block;
+	 float: left;
+	 height: 34px;
+	 margin: -1px 0 0 2px;
+	 padding: 0 18px 0 2px;
 }
 
 .leaflet-control-search.search-load .search-input {
-	background: url("/llibreries/css/images/loader.gif") no-repeat center
-		right #fff;
+	background: url("/llibreries/css/images/loader.gif") no-repeat center right #fff;
 }
 
 .leaflet-control-search.search-load .search-cancel {
@@ -108,10 +109,9 @@
 	width: 22px;
 	height: 18px;
 	position: absolute;
-	right: 22px;
-	margin: 3px 0;
-	background: url("/llibreries/css/images/search-icon.png") no-repeat 0
-		-46px;
+	right: 2px;
+	margin: 6px 0;
+	background: url("/llibreries/css/images/search-icon.png") no-repeat 0 -46px;
 	text-decoration: none;
 	filter: alpha(opacity = 80);
 	opacity: 0.8;
@@ -135,64 +135,57 @@
 }
 
 .leaflet-control-search .search-button {
-	display: block;
-	float: right;
-	width: 26px;
-	height: 26px;
-	/*
-	background: url('/llibreries/css/images/search-icon.png') no-repeat 2px 2px;
-	*/
-	margin: 4px 0 0 4px;
-	border-radius: 1px;
-}
-
-.leaflet-control-search .search-button:hover {
-	/*
-	background: url('/llibreries/css/images/search-icon.png') no-repeat 2px -22px;
-	*/
+    background-color: #FFFFFF;
+    /*border: 1px solid #8C0224;*/
+    cursor: pointer;
+    font-size: 14px;
+    height: 31px;
+    line-height: 1.42857;
+    padding: 6px 8px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 46px;
+    border-radius: 0;
 }
 
 .leaflet-control-search .search-tooltip {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	float: left;
-	min-width: 80px;
-	width: 100%;
-	max-width: 100%;
-	max-height: 106px; /*(.search-tip height * 5)*/
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-	-webkit-border-radius: 0px;
-	-webkit-border-top-left-radius: 0;
-	-moz-border-radius: 0px;
-	-moz-border-radius-topleft: 0;
-	border-radius: 0px;
-	border-top-left-radius: 0;
-	background-color: rgba(0, 0, 0, 0.25);
-	z-index: 1010;
-	overflow-y: auto;
-	overflow-x: hidden;
+ border-radius: 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    float: left;
+    left: 0;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    text-align: start;
+    top: 100%;
+    width: 212px;
+    z-index: 1010;
 }
 
 .leaflet-control-search .search-tip {
-	font-size: .85em;
-	margin: 1px;
-	padding: 1px;
-	display: block;
-	color: black;
-	background-color: #FFC600;
-	/*
-	border-radius:.25em;
-	*/
-	text-decoration: none;
-	white-space: nowrap;
-	font-size: .85em;
-	vertical-align: center;
+	
+	 background-color: #FFFFFF;
+    border-bottom: 1px dotted #5E5E5E;
+    color: #5E5E5E;
+    display: block;
+  
+    margin: 0;
+    padding: 2px;
+    text-decoration: none;
+    white-space: nowrap;
+	
 }
 
-.leaflet-control-search .search-tip-select,.leaflet-control-search .search-tip:hover,.leaflet-control-search .search-button:hover
-	{
-	background-color: #fff;
+.leaflet-control-search .search-tip-select,
+.leaflet-control-search .search-tip:hover,
+.leaflet-control-search .search-button:hover,
+.leaflet-control-search .btn-default2:hover{
+    background-color: #ededed;
+    border-color: #adadad;
+    color: #333333;
+    text-decoration: none;
 }
 
 .leaflet-control-search .search-alert {
@@ -207,9 +200,71 @@
 }
 
 .leaflet-center {
-	width: 40%;
-	margin-left: 45%;
-	position: relative;
+	
+}
+
+#searchBar{
+    height: auto;
+    margin-left: 40%;
+    overflow: visible;
+    position: absolute;
+    top: 50px;
+    width: 540px;
+    z-index: 100;
+}
+
+#searchBar div{
+}
+
+#ctr_options{
+	float: left;
+    margin-right: 44px;
+    margin-top: 9px;
+    margin-left:5px;
+}
+#ctr_cerca{
+	float: left;
+    height: 40px;
+    margin-bottom: 10px;
+    margin-right: 0;
+    width: 162px;
+    min-width: 162px;
+}
+
+#ctr_cercaNomen {
+	float: left;
+    height: 40px;
+    margin-bottom: 10px;
+    margin-right: 0;
+    width: 162px;
+    min-width: 162px;
+    display: none;
+}
+
+#ctr_cerca input {
+}
+/*
+#ctr_cercaCarrers{
+   float: left;
+    height: 40px;
+    margin-bottom: 10px;
+    width: 100px;
+}
+
+#ctr_cercaNomen{
+
+   float: left;
+    height: 40px;
+    margin-bottom: 10px;
+    width: 150px;
+    display:none;
+}*/
+
+.btn-default2 {
+    background-color: #FFFFFF;
+    border-color: #CCCCCC;
+    color: #333333;
+    height: 34px;
 }
 
 .bootstrap-colorpalette {
@@ -689,7 +744,7 @@ textarea {
     text-align: center;
     border-bottom: 1px solid #CCCCCC;
     padding-bottom: 5px;
-    	
+   	
 }
 
 #div_formats{
@@ -707,7 +762,6 @@ textarea {
 	 border: 2px solid #FFC500;
     float: right;
     margin-top: 5px;
-	
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
