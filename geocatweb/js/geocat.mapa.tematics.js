@@ -659,7 +659,6 @@ function loadTematicLayer(layer){
 				var dataField = tematic.dataField;
 				var Lrangs = tematic.rangs;
 				var Ldades = (tematic.capes ? tematic.capes.dades : []);
-				
 				capaTematic = new L.FeatureGroup();
 				
 				var hasDades = false;

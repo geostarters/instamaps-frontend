@@ -1574,6 +1574,14 @@ i.fa {
     font-size: 14px;
 }
 
+/*control capes*/
+.leaflet-name label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /*width: auto;*/
+    width: 115px;
+}
+
 /*
 .leaflet-control-layers {
 	background-color: #555550;
