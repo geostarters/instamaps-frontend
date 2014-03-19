@@ -18,9 +18,13 @@ function showTematicLayersModal(tipus,className){
 		var layerOptions = this.layer.options;
 		var tipusCapa = layerOptions.tipus;
 		
+		console.debug(tipusCapa);
+		console.debug(layerOptions.tipusRang);
+				
 		//Si la capa no esta tematitzada
 		if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
 			if(tipus==tem_simple) {
+				console.debug(tipusCapa);
 				if (tipusCapa == t_tematic){ //tematic
 					layers.push(this);
 				}else if(tipusCapa == t_dades_obertes){ //dades obertes
@@ -1076,7 +1080,7 @@ function getRangsFromLayer(layer){
 		});
 		
 		var tematic = layer.options;
-		tematic.tipusRang = tematic.tipusRang ? tematic.tipusRang : tem_simple;
+		tematic.tipusRang = tematic.tipusRang ? tematic.tipusRang : tem_origen;
 		tematic.businessid = tematic.businessId; 
 		tematic.leafletid = layer._leaflet_id;
 		tematic.geometrytype = tematic.geometryType;
