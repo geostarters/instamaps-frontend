@@ -14,6 +14,7 @@
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -41,9 +42,8 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-					<!-- 
-					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
-					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
 					-->
@@ -94,13 +94,14 @@
 					{{#if thumbnail}}
 						<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
 					{{else}}
-						<img src="img/generic_thumb_2.jpg" alt="{{nomAplicacio}}">
+						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
-					<div class="caption text-center">
+					<div class="caption text-center nomAplicacio">
 						<h4>{{nomAplicacio}}</h4>
-						<p>
-						<a href="#" class="btn btn-success" role="button" data-businessid="{{businessId}}"><span class="glyphicon glyphicon-new-window"></span> <span lang="ca">Veure</span></a>
-						</p>
+					</div>
+					<div class="caption text-center btn-acctions">
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Comparteix" title="Comparteix" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 					</div>
 				</div>
 			</div>
@@ -108,21 +109,31 @@
 			</script>
 			
 			<script id="galeria-template" type="text/x-handlebars-template">
+			<div class="col-sm-6 col-md-3">		
+				<div class="thumbnail">
+					<div class="caption text-center new_map">
+					<span class="glyphicon glyphicon-plus"></span>
+					<div lang="ca">Fer un nou mapa</div>
+					</div>
+				</div>
+			</div>
 			{{#each results}}
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 			    <div class="thumbnail" data-businessid="{{businessId}}">
 					{{#if thumbnail}}
 			      		<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
 					{{else}}
-						<img src="img/generic_thumb_2.jpg" alt="{{nomAplicacio}}">
+						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
-			      <div class="caption text-center">
-			        <h4>{{nomAplicacio}}</h4>
-			        <p>
-						<a href="#" class="btn btn-danger" role="button" data-businessid="{{businessId}}"><span class="glyphicon glyphicon-remove-circle"></span> <span lang="ca">Esborrar</span></a>
-						<a href="#" class="btn btn-primary" role="button" data-businessid="{{businessId}}"><span class="glyphicon glyphicon-edit"></span> <span lang="ca">Editar</span></a>
-					</p>
-			      </div>
+				    <div class="caption text-center nomAplicacio">
+						<h4>{{nomAplicacio}}</h4>
+					</div>
+					<div class="caption text-center btn-acctions">
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Comparteix" title="Comparteix" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-nom="{{nomAplicacio}}" class="btn btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-trash"></span></button>
+					</div>
 			    </div>
 			</div>
 			{{/each}}
@@ -138,6 +149,63 @@
 			<span class="hidden-xs" lang="ca">Tornar Inici</span>
 		</button>
 	</p>
+	
+	<!-- Modal Url/iframe -->
+	<div id="dialgo_url_iframe" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Publicar el mapa</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+				    	<label for="urlMap"><span lang="ca">Per enllaçar amb aquest mapa, copieu i enganxeu el següent text</span>:</label>
+				    	<input type="text" class="form-control" id="urlMap">
+				  	</div>
+				  	<div class="form-group">
+					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>
+					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>
+				  	</div>
+				</div>
+				<div class="modal-footer">
+					<button lang="ca" type="button" class="btn btn-default"
+						data-dismiss="modal">Acceptar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- Fi Modal Url/iframe -->
+	
+	<!-- Modal delete -->
+	<div id="dialgo_delete" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
+				</div>
+				<div class="modal-body">
+					<h4><span lang="ca">Vols esborrar el mapa</span> "<span class="nom_mapa"></span>" ?</h4>
+				</div>
+				<div class="modal-footer">
+					<button lang="ca" type="button" class="btn btn-default"
+						data-dismiss="modal">Cancel·lar</button>
+					<button lang="ca" type="button" class="btn btn-danger"
+						data-dismiss="modal">Esborrar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- Fi Modal delete -->
 	
 	<footer>
 		<div class="container">
@@ -177,11 +245,14 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/cookieconsent.min.js"></script>
+	
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
 	
 	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
 	<script src="/geocatweb/js/geocat.galeria-1.0.0.js"></script>

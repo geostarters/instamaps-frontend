@@ -173,6 +173,10 @@ function creaCapaFromJSON() {
 //			zIndex : controlCapes._lastZIndex// + 1
 		};
 		
+		var param_estil = 'json';
+		if(urlJSON.indexOf("president")!=-1) param_estil = 'json_president';
+		var estil_do = retornaEstilaDO(param_estil);
+		
 		if(typeof url('?businessid') == "string"){
 			var data = {
 				uid:$.cookie('uid'),
@@ -194,14 +198,12 @@ function creaCapaFromJSON() {
 	            calentas: false,
 	            activas: true,
 	            visibilitats: true,
-	            options: '{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}'
+	            options: '{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 			};
 			
 			createServidorInMap(data).then(function(results){
 				if (results.status == "OK"){
 					
-					var estil_do = retornaEstilaDO('json');
-
 					for (key in respostaJSON) {
 						var lat = respostaJSON[key][cmd_json_y];
 						var lon = respostaJSON[key][cmd_json_x];
@@ -226,7 +228,7 @@ function creaCapaFromJSON() {
 						if (cmd_json_img == "null") {
 							pp.properties.img = ""
 						} else {
-							pp.properties.img = '<img width="200px" src="'
+							pp.properties.img = '<img width="250px" src="'
 									+ respostaJSON[key][cmd_json_img] + '">';
 							empty = empty && false;
 						}
@@ -241,8 +243,8 @@ function creaCapaFromJSON() {
 						}
 
 						if(!empty){
-							pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
-									+ pp.properties.text + "</div><div>"
+							pp.bindPopup("<div id='nom-popup-json'>" + pp.properties.nom + "</div><div>"
+									+ pp.properties.text + "</div><div id='image-popup-json'>"
 									+ pp.properties.img + "</div><div>" + pp.properties.vincle
 									+ "</div>");
 						}
@@ -298,8 +300,9 @@ function loadCapaFromJSON(layer) {
 			zIndex : layer.capesOrdre
 		};		
 		
-		var estil_do = retornaEstilaDO('json');
 		var options = jQuery.parseJSON( layer.options );
+//		var estil_do = retornaEstilaDO('json');
+		var estil_do = options.estil_do;
 		
 		for (key in v_respotaJSON) {
 			var lat = v_respotaJSON[key][options.y];
@@ -324,7 +327,7 @@ function loadCapaFromJSON(layer) {
 			if (options.imatge == "null") {
 				pp.properties.img = ""
 			} else {
-				pp.properties.img = '<img width="200px" src="'
+				pp.properties.img = '<img width="250px" src="'
 						+ v_respotaJSON[key][options.imatge] + '">';
 				empty = empty && false;
 			}
@@ -339,8 +342,8 @@ function loadCapaFromJSON(layer) {
 			}
 
 			if(!empty){
-				pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
-						+ pp.properties.text + "</div><div>"
+				pp.bindPopup("<div id='nom-popup-json'>" + pp.properties.nom + "</div><div id='text-popup-json'>"
+						+ pp.properties.text + "</div><div id='image-popup-json'>"
 						+ pp.properties.img + "</div><div>" + pp.properties.vincle
 						+ "</div>");
 			}

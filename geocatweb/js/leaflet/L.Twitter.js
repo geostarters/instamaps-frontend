@@ -44,7 +44,8 @@ L.Twitter = L.FeatureGroup.extend({
 			}
 			coord = coord.split(",");
 			var m = new L.Marker([coord[1],coord[0]], {icon: icoTwitter});
-			m.bindPopup('<div class="twitter_layer_popup"><a href="'+obj.profile_url+'" target="_new"><img src="'+obj.profile_image_url+'"/></a></div><br><div>'+obj.text_message+'</div>');
+			var text = parseTwitterText(obj.text_message);
+			m.bindPopup('<div class="twitter_layer_popup"><a href="'+obj.profile_url+'" target="_new"><img src="'+obj.profile_image_url+'"/></a></div><br><div>'+text+'</div>');
 			this.fire('addlayer', {
 				layer: m
 			});
@@ -102,3 +103,52 @@ L.Twitter = L.FeatureGroup.extend({
 	}
 
 });
+
+//function parseTwitterText(ptext){
+//	
+////	var lwords = ptext.split(" "); 
+//	var twitterText = "";
+//	
+//	for(var i; i<ptext.lenght; i++){
+//		var text;
+//		var word = lwords[index];
+//		if(ptext[i] == "#"){
+//			while()
+//			word = word.replace("#", "");
+//			text = "<a href=\"https://twitter.com/hashtag/"+word+"\" target=\"_blank\">#"+word+"</a>";
+//		}else if(word.indexOf("@") == 0){
+//			
+//		}else if(word.indexOf("http:/") == 0){
+//			
+//		}else{
+//			text = word;
+//		}
+//		twitterText+=" "+text;
+//	}
+//	
+//	return twitterText;
+//}
+
+function parseTwitterText(ptext){
+	
+	var lwords = ptext.split(" "); 
+	var twitterText = "";
+	for(index in lwords){
+		var text;
+		var word = lwords[index];
+		if(word.indexOf("#") == 0){
+			word = word.replace("#", "");
+			text = "<a href=\"https://twitter.com/hashtag/"+word+"\" target=\"_blank\">#"+word+"</a>";
+		}else if(word.indexOf("@") == 0){
+			word = word.replace("@", "");
+			text = "<a href=\"https://twitter.com/"+word+"\" target=\"_blank\">@"+word+"</a>";			
+		}else if(word.indexOf("http:/") == 0){
+//			word = word.replace("http://", "");
+			text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";					
+		}else{
+			text = word;
+		}
+		twitterText+=" "+text;
+	}
+	return twitterText;
+}

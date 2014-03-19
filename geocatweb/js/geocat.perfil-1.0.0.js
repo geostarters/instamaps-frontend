@@ -6,7 +6,9 @@ jQuery(document).ready(function() {
 	}
 	
 	$("#text-uid").append(username);
+	
 	getUserData(username).then(function(results){
+		console.debug(results);
 		if(results.status==='OK'){
 			$("#perfil_name").val(results.results.cn);
 			$("#perfil_surname").val(results.results.sn);
