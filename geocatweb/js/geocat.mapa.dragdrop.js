@@ -720,8 +720,7 @@ function miraFitxer(fitxer) {
 			obj.isValid = true;
 		} else {
 			obj.isValid = false;
-			obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 10MB");
-					
+			obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 10MB");			
 		}
 
 	} else {
