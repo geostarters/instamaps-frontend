@@ -53,7 +53,7 @@ function creaAreesDragDropFiles() {
 			formData.append("colY", envioArxiu.colY);
 			formData.append("srid", envioArxiu.srid);
 			formData.append("bid", envioArxiu.bid);
-			formData.append("codi", envioArxiu.codi);
+			formData.append("codiCAMP", envioArxiu.codi);
 			formData.append("codiType", envioArxiu.codiType);
 			formData.append("geomType", envioArxiu.geomType);
 			formData.append("type", envioArxiu.type);
@@ -123,7 +123,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 			formData.append("colY", envioArxiu.colY);
 			formData.append("srid", envioArxiu.srid);
 			formData.append("bid", envioArxiu.bid);
-			formData.append("codi", envioArxiu.codi);
+			formData.append("codiCAMP", envioArxiu.codi);
 			formData.append("codiType", envioArxiu.codiType);
 			formData.append("geomType", envioArxiu.geomType);
 			formData.append("type", envioArxiu.type);
@@ -211,7 +211,7 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	var cc=$('input:radio[name="radio_adre"]:checked').val();
 	var isOK=false;
 	if(cc == '0'){
-	       if (jQuery('#cmd_upload_adre_0').val()=="null"){
+	       if (jQuery('#cmd_upload_adre_0').val()!="null"){
 	    	   isOK=true; 
 	    	   envioArxiu.tipusAcc='adreca'; 
 	    	   envioArxiu.camps=jQuery('#cmd_upload_adre_0').val();
@@ -223,13 +223,13 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	      
 	    }else if(cc == '1'){
 	    	
-	    	var nc=jQuery("#cmd_upload_adre_11']").val();
-	    	var mun=jQuery("#cmd_upload_adre_12']").val();
+	    	var nc=jQuery("#cmd_upload_adre_11").val();
+	    	var mun=jQuery("#cmd_upload_adre_12").val();
 	    	
 	    	if((nc!='null') && (mun!='null') ){ 
 	    		 isOK=true; 
 	    		 envioArxiu.tipusAcc='adreca';
-	    		 envioArxiu.camps=nc+"_#_"+mun;    		
+	    		 envioArxiu.camps=nc+","+mun;    		
 	    	}else{
 	    		 isOK=false;
 		    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
@@ -237,14 +237,14 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	    	
 	    }else if(cc == '2'){
 	    	
-	    	var nc=jQuery("#cmd_upload_adre_21']").val();
-	    	var numc=jQuery("#cmd_upload_adre_22']").val();
-	    	var mun=jQuery("#cmd_upload_adre_23']").val();
+	    	var nc=jQuery("#cmd_upload_adre_21").val();
+	    	var numc=jQuery("#cmd_upload_adre_22").val();
+	    	var mun=jQuery("#cmd_upload_adre_23").val();
 	    	
 	    	if((nc!='null') && (numc!='null') && (mun!='null') ){ 
 	    		 isOK=true; 
 	    		 envioArxiu.tipusAcc='adreca';
-	    		 envioArxiu.camps=nc+"_#_"+numc+"_#_"+mun;    		
+	    		 envioArxiu.camps=nc+","+numc+","+mun;    		
 	    	}else{
 	    		 isOK=false;
 		    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
