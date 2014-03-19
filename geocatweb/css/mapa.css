@@ -524,7 +524,8 @@ background-color: #9F9F9E;
 }
 
 .div_gr5 {
-	height: 30px;
+	/*height: 30px;*/
+	height: 50px;
 	margin: 10px 5px 0;
 	float: auto;
 }
@@ -1555,6 +1556,18 @@ i.fa {
 	background-color: #BCBCBC;
 	float: left;
     margin-top: 10px;	
+}
+
+/*JSON POPUP*/
+
+#image-popup-json {
+    margin: 10px;
+    text-align: center;
+}
+
+#nom-popup-json {
+    text-align: center;
+    font-size: 14px;
 }
 
 /*

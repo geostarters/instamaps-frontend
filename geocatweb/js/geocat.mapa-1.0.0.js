@@ -257,7 +257,7 @@ function loadApp(){
 		});
 		
 		jQuery('#dialgo_publicar .btn-primary').on('click',function(){
-			publicarMapa();
+			publicarMapa(false);
 		});
 		
 		jQuery('#dialgo_leave .btn-primary').on('click',function(){
@@ -345,12 +345,21 @@ function loadApp(){
 			$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
 		});
 	}else{
+		
+		
+		
 		shortUrl(v_url).then(function(results){
 			jQuery('#socialShare').share({
 		        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 		        theme: 'square',
 		        urlToShare: results.data.url
 			});
+			
+			jQuery('#socialShare .pop-social').on('click', function(event){
+				console.debug("social share click, publiquem!");
+				publicarMapa(true);
+			});				
+			
 		});
 	}
 				
@@ -1280,8 +1289,9 @@ function addCapaDadesObertes(dataset,nom_dataset) {
             epsg: '4326',
             transparency: true,
             visibilitat: visibilitat_open,
-			options: '{"dataset":"'+dataset+'"}'
+			options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
 		};
+
 		
 		createServidorInMap(data).then(function(results){
 			if (results.status == "OK"){
@@ -1490,12 +1500,15 @@ function loadLayer(value){
 	return defer.promise();
 }
 
-function publicarMapa(){
-	if(isBlank($('#dialgo_publicar #nomAplicacio').val())){
-		$('#dialgo_publicar #nomAplicacio').addClass("invalid");
-		$('#dialgo_publicar #nomAplicacio').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-		return false;
+function publicarMapa(fromCompartir){
+	if(!fromCompartir){//Si no venim de compartir, fem validacions del dialeg de publicar
+		if(isBlank($('#dialgo_publicar #nomAplicacio').val())){
+			$('#dialgo_publicar #nomAplicacio').addClass("invalid");
+			$('#dialgo_publicar #nomAplicacio').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
+			return false;
+		}
 	}
+
 		
 	var options = {};
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
@@ -1535,8 +1548,11 @@ function publicarMapa(){
 	}).get();
 	//console.debug(layers);
 	
+	var nomApp = jQuery('#nomAplicacio').val();
+	if(!fromCompartir) nomApp = jQuery('#dialgo_publicar #nomAplicacio').val();
+	
 	var data = {
-		nom: jQuery('#dialgo_publicar #nomAplicacio').val(),
+		nom: nomApp, //jQuery('#dialgo_publicar #nomAplicacio').val(),
 		uid: $.cookie('uid'),
 		visibilitat: visibilitat,
 		tipusApp: 'vis',
@@ -1565,11 +1581,14 @@ function publicarMapa(){
 			}else{
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				$('#dialgo_publicar').modal('hide');
+				
 				mapConfig.newMap = false;
-				//update map name en el control de capas
-				$('#nomAplicacio').text(mapConfig.nomAplicacio);
-				$('#dialgo_url_iframe').modal('show');
+				if(!fromCompartir){
+					$('#dialgo_publicar').modal('hide');
+					//update map name en el control de capas
+					$('#nomAplicacio').text(mapConfig.nomAplicacio);
+					$('#dialgo_url_iframe').modal('show');					
+				}
 			}
 		});
 	}
@@ -1897,7 +1916,8 @@ function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-		var estil_do = retornaEstilaDO(options.dataset);	
+		var estil_do = options.estil_do;	
+//		var estil_do = retornaEstilaDO(options.dataset);
 		if (options.tem == tem_simple){
 			//estil_do = options.style;
 			estil_do = createFeatureMarkerStyle(options.style);
