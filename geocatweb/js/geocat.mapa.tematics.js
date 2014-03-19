@@ -35,7 +35,13 @@ function showTematicLayersModal(tipus,className){
 			}else if (tipus==tem_clasic){
 				if (tipusCapa == t_tematic){ //tematic
 					if (this.layer.options.dades){
-						layers.push(this);
+						var ftype = transformTipusGeometry(this.layer.options.geometryType);
+						if (ftype == t_polyline){
+							
+						}else{
+							layers.push(this);
+						}
+						
 					}
 				}
 			}else if (tipus==tem_cluster || tipus==tem_heatmap) {
@@ -633,9 +639,12 @@ function loadTematicLayer(layer){
 	
 	var layerWms = layer;
 	
+	console.debug(data);
+	
 	//console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayer(data).then(function(results){
 		//console.timeEnd("loadTematicLayer " + layerWms.serverName);
+		var capaTematic;
 		if(results.status == "OK" ){
 			var tematic = results.results;
 			console.debug(tematic);
@@ -651,7 +660,7 @@ function loadTematicLayer(layer){
 				var Lrangs = tematic.rangs;
 				var Ldades = (tematic.capes ? tematic.capes.dades : []);
 				
-				var capaTematic = new L.FeatureGroup();
+				capaTematic = new L.FeatureGroup();
 				
 				var hasDades = false;
 				if (tematic.capes && tematic.capes.fieldsName){
@@ -689,6 +698,8 @@ function loadTematicLayer(layer){
 						}else if (ftype === t_linestring){
 							ftype = t_polyline;
 						}
+						console.debug(Lrangs.length);
+						
 						//Sin rangos
 						if (Lrangs.length == 0){
 							rangStyle = createRangStyle(ftype, null, Lgeom.length);
@@ -865,7 +876,7 @@ function loadTematicLayer(layer){
 			//alert("Error getTematicLayer");
 			console.debug("Error getTematicLayer");
 		}	
-		defer.resolve();
+		defer.resolve(capaTematic);
 	},function(results){
 		//console.debug('getTematicLayer ERROR');
 		defer.reject();
