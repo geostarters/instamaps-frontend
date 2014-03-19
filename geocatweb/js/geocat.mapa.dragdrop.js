@@ -528,6 +528,8 @@ function obteCampsCSV(file) {
 			separador = ";";
 		} else if (csvval[0].indexOf(",") != -1) {
 			separador = ",";
+		} else if(csvval[0].indexOf(",") != -1) {
+			separador = " ";
 		}
 		var csvvalue = csvval[0].split(separador);
 		for ( var i = 0; i < csvvalue.length; i++) {
