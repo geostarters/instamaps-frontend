@@ -13,6 +13,10 @@ html,body {
 	padding: 0;
 }
 
+.spinner{
+	z-index: 3000;
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;
@@ -138,7 +142,7 @@ html,body {
 }
 
 #list_tematic_values{
-	max-height: 530px;
+	max-height: 300px;
 	overflow: auto;
 }
 
@@ -714,12 +718,12 @@ background-color: #9F9F9E;
 }
 
 .modal-dialog {
-	padding-top: 12%;
+	padding-top: 6%;
 }
 
 .modal-content {
 	border-radius: 0;
-	 font-size: 13px;
+	font-size: 13px;
 }
 
 .btn {

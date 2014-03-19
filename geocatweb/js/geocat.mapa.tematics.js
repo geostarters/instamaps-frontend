@@ -18,9 +18,13 @@ function showTematicLayersModal(tipus,className){
 		var layerOptions = this.layer.options;
 		var tipusCapa = layerOptions.tipus;
 		
+		console.debug(tipusCapa);
+		console.debug(layerOptions.tipusRang);
+				
 		//Si la capa no esta tematitzada
 		if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
 			if(tipus==tem_simple) {
+				console.debug(tipusCapa);
 				if (tipusCapa == t_tematic){ //tematic
 					layers.push(this);
 				}else if(tipusCapa == t_dades_obertes){ //dades obertes
@@ -39,8 +43,16 @@ function showTematicLayersModal(tipus,className){
 					}
 				}
 			}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-				if(tipusCapa == t_dades_obertes || (tipusCapa == t_tematic && layerOptions.geometryType == t_marker))
-				{
+				var ftype = layerOptions.geometryType;
+				ftype = ftype.toLowerCase();
+				if (ftype === t_point){
+					ftype = t_marker;
+				}else if (ftype === t_linestring){
+					ftype = t_polyline;
+				}
+				
+				if(tipusCapa == t_dades_obertes || 
+					(tipusCapa == t_tematic && layerOptions.geometryType == t_marker)){
 					layers.push(this);
 				}
 			}else if (tipus==tem_size) {
@@ -178,7 +190,7 @@ function updateSelecTipusRangs(results){
 }
 
 function getTipusValues(){
-	console.debug("getTipusValues");
+	//console.debug("getTipusValues");
 	var results = jQuery("#dialog_tematic_rangs").data("values");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var arr = jQuery.grep(results, function( n, i ) {
@@ -340,6 +352,7 @@ function showTematicRangs(){
 }
 
 function showTematicRangsUnic(){
+	//console.debug("showTematicRangsUnic");
 	var defer = jQuery.Deferred();
 	var pvalues = jQuery("#dialog_tematic_rangs").data("values");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
@@ -347,6 +360,7 @@ function showTematicRangsUnic(){
 	//Eliminem valors repetits de values
 	var seen = {};
 	var values = [];
+	
 	$(pvalues).each(function(i, val) {
 	    if (!seen[val]){
 	    	seen[val] = true;
@@ -358,15 +372,23 @@ function showTematicRangsUnic(){
 	
 	var rangs = tematic.rangs;
 	var valuesStyle = [];
-	if (tematic.geometryType == t_marker){
+	var ftype = tematic.geometryType;
+	ftype = ftype.toLowerCase();
+	if (ftype === t_point){
+		ftype = t_marker;
+	}else if (ftype === t_linestring){
+		ftype = t_polyline;
+	}
+	
+	if (ftype == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i) {
 			return {v: a, style: createIntervalStyle(i,tematic.geometryType,paleta), index: i};
 		});
-	}else if (tematic.geometryType == t_polyline){
+	}else if (ftype == t_polyline){
 		valuesStyle = jQuery.map( values, function( a, i ) {
 			return {v: a, style: default_line_style};
 		});
-	}else if (tematic.geometryType == t_polygon){
+	}else if (ftype == t_polygon){
 		valuesStyle = jQuery.map( values, function( a, i ) {
 			return {v: a, style: createIntervalStyle(i,tematic.geometryType,paleta), index: i};
 		});
@@ -1060,7 +1082,7 @@ function getRangsFromLayer(layer){
 		});
 		
 		var tematic = layer.options;
-		tematic.tipusRang = tematic.tipusRang ? tematic.tipusRang : tem_simple;
+		tematic.tipusRang = tematic.tipusRang ? tematic.tipusRang : tem_origen;
 		tematic.businessid = tematic.businessId; 
 		tematic.leafletid = layer._leaflet_id;
 		tematic.geometrytype = tematic.geometryType;
@@ -1182,6 +1204,14 @@ function createIntervalStyle(index, geometryType, paleta){
 	if (index > 9){
 		index = 9;
 	}
+	var geometryType = geometryType;
+	geometryType = geometryType.toLowerCase();
+	if (geometryType === t_point){
+		geometryType = t_marker;
+	}else if (geometryType === t_linestring){
+		geometryType = t_polyline;
+	}
+	
 	if (geometryType == t_marker){
 		defStyle = jQuery.extend({}, default_point_style);
 		defStyle.fillColor = markerColors[index];
@@ -1200,7 +1230,16 @@ function createIntervalStyle(index, geometryType, paleta){
 
 function div2RangStyle(tematic, tdElem){
 	var rangStyle;
-	if (tematic.geometrytype == t_marker){
+	
+	var geometryType = tematic.geometrytype;
+	geometryType = geometryType.toLowerCase();
+	if (geometryType === t_point){
+		geometryType = t_marker;
+	}else if (geometryType === t_linestring){
+		geometryType = t_polyline;
+	}
+	
+	if (geometryType == t_marker){
 		var divElement = tdElem.find('div');
 		rangStyle = {
 			borderColor :  "#ffffff",
@@ -1209,9 +1248,9 @@ function div2RangStyle(tematic, tdElem){
 			color: jQuery.Color(divElement.css('background-color')).toHexString(),
 			opacity: 90
 		};
-	}else if (tematic.geometrytype == t_polyline){
+	}else if (geometryType == t_polyline){
 		//TODO
-	}else if (tematic.geometrytype == t_polygon){
+	}else if (geometryType == t_polygon){
 		var divElement = tdElem.find('canvas')[0].getContext("2d");
 		rangStyle = {
 			borderColor :  divElement.strokeStyle,

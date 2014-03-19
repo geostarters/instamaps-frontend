@@ -125,11 +125,17 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
 	//alert("ajax send!");
 	$('.waiting_animation').show();
+	if (typeof map !== 'undefined'){
+		map.spin(true);
+	}
 //	}
 });
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	$('.waiting_animation').hide();
+	if (typeof map !== 'undefined'){
+		map.spin(false);
+	}
 	if (jqxhr.responseJSON){
 		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
 			sessionExpired();

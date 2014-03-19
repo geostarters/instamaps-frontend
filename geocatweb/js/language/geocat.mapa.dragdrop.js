@@ -53,7 +53,7 @@ function creaAreesDragDropFiles() {
 			formData.append("colY", envioArxiu.colY);
 			formData.append("srid", envioArxiu.srid);
 			formData.append("bid", envioArxiu.bid);
-			formData.append("codiCAMP", envioArxiu.codi);
+			formData.append("codi", envioArxiu.codi);
 			formData.append("codiType", envioArxiu.codiType);
 			formData.append("geomType", envioArxiu.geomType);
 			formData.append("type", envioArxiu.type);
@@ -123,7 +123,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 			formData.append("colY", envioArxiu.colY);
 			formData.append("srid", envioArxiu.srid);
 			formData.append("bid", envioArxiu.bid);
-			formData.append("codiCAMP", envioArxiu.codi);
+			formData.append("codi", envioArxiu.codi);
 			formData.append("codiType", envioArxiu.codiType);
 			formData.append("geomType", envioArxiu.geomType);
 			formData.append("type", envioArxiu.type);
@@ -211,7 +211,7 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	var cc=$('input:radio[name="radio_adre"]:checked').val();
 	var isOK=false;
 	if(cc == '0'){
-	       if (jQuery('#cmd_upload_adre_0').val()!="null"){
+	       if (jQuery('#cmd_upload_adre_0').val()=="null"){
 	    	   isOK=true; 
 	    	   envioArxiu.tipusAcc='adreca'; 
 	    	   envioArxiu.camps=jQuery('#cmd_upload_adre_0').val();
@@ -223,13 +223,13 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	      
 	    }else if(cc == '1'){
 	    	
-	    	var nc=jQuery("#cmd_upload_adre_11").val();
-	    	var mun=jQuery("#cmd_upload_adre_12").val();
+	    	var nc=jQuery("#cmd_upload_adre_11']").val();
+	    	var mun=jQuery("#cmd_upload_adre_12']").val();
 	    	
 	    	if((nc!='null') && (mun!='null') ){ 
 	    		 isOK=true; 
 	    		 envioArxiu.tipusAcc='adreca';
-	    		 envioArxiu.camps=nc+","+mun;    		
+	    		 envioArxiu.camps=nc+"_#_"+mun;    		
 	    	}else{
 	    		 isOK=false;
 		    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
@@ -237,14 +237,14 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	    	
 	    }else if(cc == '2'){
 	    	
-	    	var nc=jQuery("#cmd_upload_adre_21").val();
-	    	var numc=jQuery("#cmd_upload_adre_22").val();
-	    	var mun=jQuery("#cmd_upload_adre_23").val();
+	    	var nc=jQuery("#cmd_upload_adre_21']").val();
+	    	var numc=jQuery("#cmd_upload_adre_22']").val();
+	    	var mun=jQuery("#cmd_upload_adre_23']").val();
 	    	
 	    	if((nc!='null') && (numc!='null') && (mun!='null') ){ 
 	    		 isOK=true; 
 	    		 envioArxiu.tipusAcc='adreca';
-	    		 envioArxiu.camps=nc+","+numc+","+mun;    		
+	    		 envioArxiu.camps=nc+"_#_"+numc+"_#_"+mun;    		
 	    	}else{
 	    		 isOK=false;
 		    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
@@ -265,12 +265,10 @@ jQuery("#load_TXT_codi").on('click', function() {// fitxer codi
 
 	
 	
-			 if (jQuery('#cmd_upload_codi').val()!="null"){
+			 if (jQuery('#cmd_upload_codi').val()=="null"){
 				 isOK=true; 
 			  	   envioArxiu.tipusAcc='codis'; 
 			  	   envioArxiu.codi=jQuery('#cmd_upload_codi').val();
-				   
-				   //envioArxiu.codi="CODI INE";
 			  	 envioArxiu.geomType=jQuery('#cmd_codiType_Capa').val();
 				 envioArxiu.codiType=jQuery('#cmd_codiType').val();
 					
@@ -442,7 +440,7 @@ function analitzaMatriu(matriu) {
 
 	
 	$.each(matriu, function(index, value) {
-		op.push("<option value=\"" + value + "\">" + value.toUpperCase()
+		op.push("<option value=" + value + ">" + value.toUpperCase()
 				+ "</option>");
 	});
 
@@ -528,8 +526,6 @@ function obteCampsCSV(file) {
 			separador = ";";
 		} else if (csvval[0].indexOf(",") != -1) {
 			separador = ",";
-		} else if(csvval[0].indexOf(",") != -1) {
-			separador = " ";
 		}
 		var csvvalue = csvval[0].split(separador);
 		for ( var i = 0; i < csvvalue.length; i++) {
@@ -722,7 +718,8 @@ function miraFitxer(fitxer) {
 			obj.isValid = true;
 		} else {
 			obj.isValid = false;
-			obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 10MB");			
+			obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 10MB");
+					
 		}
 
 	} else {
