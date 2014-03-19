@@ -564,6 +564,8 @@ function getRangsFromStyles(tematic, styles){
 				
 			}
 		}else if (tematic.geometrytype == t_polyline){
+			
+			if(!styles.options) styles.options = styles;
 			var rang = {
 				color: styles.options.color,
 				lineWidth: styles.options.weight,
