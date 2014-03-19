@@ -269,6 +269,8 @@ jQuery("#load_TXT_codi").on('click', function() {// fitxer codi
 				 isOK=true; 
 			  	   envioArxiu.tipusAcc='codis'; 
 			  	   envioArxiu.codi=jQuery('#cmd_upload_codi').val();
+				   
+				   //envioArxiu.codi="CODI INE";
 			  	 envioArxiu.geomType=jQuery('#cmd_codiType_Capa').val();
 				 envioArxiu.codiType=jQuery('#cmd_codiType').val();
 					
@@ -440,7 +442,7 @@ function analitzaMatriu(matriu) {
 
 	
 	$.each(matriu, function(index, value) {
-		op.push("<option value=" + value + ">" + value.toUpperCase()
+		op.push("<option value=\"" + value + "\">" + value.toUpperCase()
 				+ "</option>");
 	});
 
