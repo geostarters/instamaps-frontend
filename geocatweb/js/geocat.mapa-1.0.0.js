@@ -1548,7 +1548,7 @@ function publicarMapa(fromCompartir){
 	}).get();
 	//console.debug(layers);
 	
-	var nomApp = jQuery('#nomAplicacio').val();
+	var nomApp = jQuery('#nomAplicacio').html();
 	if(!fromCompartir) nomApp = jQuery('#dialgo_publicar #nomAplicacio').val();
 	
 	var data = {
