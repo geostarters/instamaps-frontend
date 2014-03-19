@@ -226,7 +226,7 @@ function creaCapaFromJSON() {
 						if (cmd_json_img == "null") {
 							pp.properties.img = ""
 						} else {
-							pp.properties.img = '<img width="100px" src="'
+							pp.properties.img = '<img width="200px" src="'
 									+ respostaJSON[key][cmd_json_img] + '">';
 							empty = empty && false;
 						}
@@ -324,7 +324,7 @@ function loadCapaFromJSON(layer) {
 			if (options.imatge == "null") {
 				pp.properties.img = ""
 			} else {
-				pp.properties.img = '<img width="100px" src="'
+				pp.properties.img = '<img width="200px" src="'
 						+ v_respotaJSON[key][options.imatge] + '">';
 				empty = empty && false;
 			}
