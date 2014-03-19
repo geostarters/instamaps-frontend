@@ -43,11 +43,12 @@ function creaAreesDragDropFiles() {
 
 		drgFromMapa.on("addedfile", function(file) {
 			envioArxiu.isDrag=true;
-			accionaCarrega(file,envioArxiu);
+			accionaCarrega(file,envioArxiu.isDrag);
 		});
 
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
+			//formData.append("nomArxiu", file.name); 
 			formData.append("tipusAcc", envioArxiu.tipusAcc); 
 			formData.append("colX", envioArxiu.colX);	
 			formData.append("colY", envioArxiu.colY);
@@ -112,12 +113,13 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 
 		drgFromBoto.on("addedfile", function(file) {
 			envioArxiu.isDrag=false;
-			accionaCarrega(file, envioArxiu);			
+			accionaCarrega(file, envioArxiu.isDrag);			
 		});
 
 		
 		drgFromBoto.on("sending", function(file, xhr, formData) {
 			//console.info("sending");
+			//formData.append("nomArxiu", file.name); 
 			formData.append("tipusAcc", envioArxiu.tipusAcc); 
 			formData.append("colX", envioArxiu.colX);	
 			formData.append("colY", envioArxiu.colY);
@@ -306,6 +308,7 @@ jQuery("#load_FF_SRS_coord").on('click', function() {
 
 function enviarArxiu(){
 	if(envioArxiu.isDrag){
+		
 		drgFromMapa.uploadFile(drgFromMapa.files[0]);	
 	}else{
 		drgFromBoto.uploadFile(drgFromBoto.files[0]);;
@@ -358,12 +361,12 @@ function obreModalCarregaDades(isDrag) {
 	jQuery("#file_name").text("");
 }
 
-function accionaCarrega(file,envioArxiu) {
+function accionaCarrega(file,isDrag) {
 	var ff = miraFitxer(file);
 	
 	var obroModal = false;
 	if (ff.isValid) {
-		if ( envioArxiu.isDrag) {obreModalCarregaDades(true);}
+		if ( isDrag) {obreModalCarregaDades(true);}
 		jQuery("#file_name").text(file.name);
 		jQuery("#bt_esborra_ff").show();
 
@@ -380,16 +383,16 @@ function accionaCarrega(file,envioArxiu) {
 			obteCampsXLS(file);
 			obroModal = true;
 		} else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "zip") || (ff.ext == "geojson") || (ff.ext == "json")) {
-			console.info(ff);
+			
 			jQuery('#dv_optCapa').hide();
 			
 			jQuery('#dv_optSRS').show();
 			
 			obroModal = true;
 		} else {
-
+			 envioArxiu.tipusAcc='gdal'; 
 			// Fot-li castanya
-			if(envioArxiu.isDrag){
+			if(isDrag){
 			drgFromMapa.uploadFile(file);			
 			}else{
 			drgFromBoto.uploadFile(file);							
@@ -762,11 +765,19 @@ function addDropFileToMap(results) {
 				// l'usuari i tambÃ¨
 				// el control de capes
 				//console.debug(results.results);
-				loadTematicLayer(results.results);
+				loadTematicLayer(results.results).then(function(results1){
+					
+					
+					if(results1){
+					map.fitBounds(results1.getBounds());
+					}
+					
+				});
 
 				// carregarCapa(businessId);
 				refrescaPopOverMevasDades();
 				jQuery('#dialog_carrega_dadesfields').modal('hide');
+				map.spin(false);
 			}
 		});
 	}
