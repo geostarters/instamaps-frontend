@@ -190,7 +190,8 @@ jQuery("#load_TXT_coord").on('click', function() {// fitxer TXT
 		
 		if(envioArxiu.ext=="csv"){
 			envioArxiu.tipusAcc='gdal'; 
-			
+		}else if(envioArxiu.ext=="txt"){
+				envioArxiu.tipusAcc='gdal'; 	
 		}else{
 			envioArxiu.tipusAcc='coordenades';	
 		}
