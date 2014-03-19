@@ -103,7 +103,7 @@ function creaClusterMap(capa) {
 					
 				}else{
 					//TODO error
-					conosle.debug("updateTematicRangs ERROR");					
+					console.debug("updateTematicRangs ERROR");					
 				}
 			},function(results){
 				//TODO error

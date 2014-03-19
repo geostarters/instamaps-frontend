@@ -323,7 +323,10 @@ function loadMapConfig(mapConfig){
 				//map.gestionaFons();
 			}
 				
-			if (mapConfig.options.bbox){
+			if (mapConfig.options.center){
+				var opcenter = mapConfig.options.center.split(",");
+				map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+			}else if (mapConfig.options.bbox){
 				var bbox = mapConfig.options.bbox.split(",");
 				var southWest = L.latLng(bbox[1], bbox[0]);
 			    var northEast = L.latLng(bbox[3], bbox[2]);
