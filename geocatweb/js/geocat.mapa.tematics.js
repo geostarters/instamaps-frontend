@@ -43,13 +43,6 @@ function showTematicLayersModal(tipus,className){
 					}
 				}
 			}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-				var ftype = layerOptions.geometryType;
-				ftype = ftype.toLowerCase();
-				if (ftype === t_point){
-					ftype = t_marker;
-				}else if (ftype === t_linestring){
-					ftype = t_polyline;
-				}
 				
 				if(tipusCapa == t_dades_obertes || 
 					(tipusCapa == t_tematic && layerOptions.geometryType == t_marker)){
@@ -661,7 +654,6 @@ function loadTematicLayer(layer){
 				var dataField = tematic.dataField;
 				var Lrangs = tematic.rangs;
 				var Ldades = (tematic.capes ? tematic.capes.dades : []);
-				
 				var capaTematic = new L.FeatureGroup();
 				
 				var hasDades = false;
@@ -685,6 +677,10 @@ function loadTematicLayer(layer){
 				for(var g=0;g<Lgeom.length;g++){
 					var geom = Lgeom[g];
 					var rangStyle;
+					
+					console.debug("Lrangs");
+					console.debug(Lrangs);					
+					
 					if (geom.geometry){
 						var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
 						if (dataGeom.length > 0){

@@ -117,7 +117,8 @@ function loadApp(){
 		console.debug(results);
 		jQuery('#socialShare_visor').share({
 	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-	        theme: 'square',
+	        orientation: 'vertical',
+	        affix: 'left center',
 	        urlToShare: results.data.url
 		});
 	});
@@ -617,14 +618,34 @@ function popUp(f, l) {
 	}
 }
 
-function createFeatureMarkerStyle(style){
-	console.debug(style);
-	if (style.marker){
-		var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-		puntTMP.options.iconColor = style.simbolColor;
-		puntTMP.options.icon = style.simbol;
-		puntTMP.options.markerColor = style.marker;
-		puntTMP.options.isCanvas=false;
+function createFeatureMarkerStyle(style, num_geometries){
+	if (!num_geometries){
+		num_geometries = num_max_pintxos - 1;
+	}
+	if (style.marker && num_geometries <= num_max_pintxos){
+			var puntTMP = new L.AwesomeMarkers.icon(default_point_style);
+			puntTMP.options.iconColor = style.simbolColor;
+			puntTMP.options.icon = style.simbol;
+			puntTMP.options.markerColor = style.marker;
+			puntTMP.options.isCanvas=false;
+						
+			//Especifiques per cercle amb glyphon
+			if(style.marker == 'punt_r'){
+				puntTMP.options.divColor= style.color;
+				puntTMP.options.shadowSize = new L.Point(1, 1);
+				puntTMP.options.radius = style.radius;
+				var anchor = style.iconAnchor.split("#");
+				var size = style.iconSize.split("#");
+				puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
+				puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
+				puntTMP.options.iconSize.x = size[0];
+				puntTMP.options.iconSize.y = size[1];
+			}else{
+				puntTMP.options.iconAnchor.x = 14;
+				puntTMP.options.iconAnchor.y = 42;
+				puntTMP.options.iconSize.x = 28;
+				puntTMP.options.iconSize.y = 42;
+			}
 	}else{
 		var puntTMP = { 
 			radius: style.simbolSize, 
@@ -633,6 +654,7 @@ function createFeatureMarkerStyle(style){
 			color:  style.borderColor,
 			weight:  style.borderWidth,
 			fillOpacity:  style.opacity/100,
+			opacity: 1,
 			tipus: t_marker
 		};
 	}

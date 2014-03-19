@@ -551,9 +551,9 @@ function addControlsInici() {
 //		this._div.appendChild(btsave);
 //		btsave.innerHTML = '<span class="glyphicon glyphicon-floppy-disk grisfort"></span>';		
 
-		var btinfo = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_info');
-		this._div.appendChild(btinfo);
-		btinfo.innerHTML = '<span class="glyphicon glyphicon-info-sign grisfort"></span>';
+//		var btinfo = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_info');
+//		this._div.appendChild(btinfo);
+//		btinfo.innerHTML = '<span class="glyphicon glyphicon-info-sign grisfort"></span>';
 		
 		return this._div;
 	};
