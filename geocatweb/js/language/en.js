@@ -14,6 +14,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Agrupació":"Cluster",
 	"Aquest estil no es pot aplicar a cap capa de les que tens en el mapa":"This style can't be applied to any of the layers in you map",
 	"Aquesta capa actualment és en ús i no es pot esborrar":"Layer being used can't be deleted",
+	"Aquest camp no te valors":"This field has no value",
 	"Ara no": "Not now",
 	"Arrossega les teves dades sobre el mapa o fes clic aquí":"Drag your data on the map or click here",
 	"Bàsic":"Basic",

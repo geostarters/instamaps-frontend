@@ -482,8 +482,8 @@ function updateServidorWMS(data){
 
 function duplicateTematicLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.duplicateTematicLayer,
+		url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
 		data: data,
-		dataType: 'jsonp'
+		method: 'post'
 	}).promise();
 }
