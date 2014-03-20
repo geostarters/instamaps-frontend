@@ -342,7 +342,7 @@ function showTematicRangs(){
 		valuesStyle = jQuery.map( values, function( a, i ) {
 			return {v: a, style: default_line_style};
 		});
-	}else if (tftype == t_polygon){
+	}else if (ftype == t_polygon){
 		valuesStyle = jQuery.map( values, function( a, i ) {
 			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
 		});
@@ -632,15 +632,8 @@ function getRangsFromStyles(tematic, styles){
 
 function loadTematicLayer(layer){
 	var defer = $.Deferred();
-	
-//	var cookie = $.cookie('uid');
-//	if(!cookie) cookie = "random_user";
-	
-//	var cookie = "random_user";
-	
 	var data={
 		businessId: layer.businessId
-//		uid: cookie//$.cookie('uid')
 	};
 	
 	var layerWms = layer;
