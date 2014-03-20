@@ -485,11 +485,13 @@ function loadWikipediaLayer(layer){
 	controlCapes._lastZIndex++;
 }
 
+
 function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-		var estil_do = retornaEstilaDO(options.dataset);	
+		var estil_do = options.estil_do;	
+//		var estil_do = retornaEstilaDO(options.dataset);	
 		if (options.tem == tem_simple){
 			//estil_do = options.style;
 			estil_do = createFeatureMarkerStyle(options.style);

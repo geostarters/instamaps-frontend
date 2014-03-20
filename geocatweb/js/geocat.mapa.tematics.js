@@ -630,9 +630,15 @@ function getRangsFromStyles(tematic, styles){
 
 function loadTematicLayer(layer){
 	var defer = $.Deferred();
+	
+//	var cookie = $.cookie('uid');
+//	if(!cookie) cookie = "random_user";
+	
+//	var cookie = "random_user";
+	
 	var data={
-		businessId: layer.businessId,
-		uid: $.cookie('uid')
+		businessId: layer.businessId
+//		uid: cookie//$.cookie('uid')
 	};
 	
 	var layerWms = layer;
@@ -677,10 +683,6 @@ function loadTematicLayer(layer){
 				for(var g=0;g<Lgeom.length;g++){
 					var geom = Lgeom[g];
 					var rangStyle;
-					
-					console.debug("Lrangs");
-					console.debug(Lrangs);					
-					
 					if (geom.geometry){
 						var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
 						if (dataGeom.length > 0){
