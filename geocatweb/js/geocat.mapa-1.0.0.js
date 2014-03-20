@@ -1049,7 +1049,6 @@ function refrescaPopOverMevasDades(){
 				}else{
 					var options = jQuery.parseJSON( item.options );
 					if (options.tem == tem_origen){
-						console.debug(item);
 						serverOrigen.push(item);
 					}else{
 						//no cargar

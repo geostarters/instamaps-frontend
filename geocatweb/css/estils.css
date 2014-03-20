@@ -625,7 +625,7 @@ textarea {
 }
 
 .bs-dadesO_USR li {
-	border: 0px dashed #DDDDDD;
+	border-left: 1px dashed #DDDDDD;
 	color: #000000;
 	float: left;
 	font-size: 12px;
@@ -634,6 +634,7 @@ textarea {
 	padding: 5px;
 	text-align: left;
 	width: 50%;
+	overflow:hidden
 }
 
 .waiting_animation {

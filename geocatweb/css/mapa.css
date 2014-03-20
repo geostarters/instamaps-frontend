@@ -319,7 +319,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .lable-usr{
 	color: #2963B5;	
-	font-size: 16px;
+	font-size: 14px;
 	cursor:pointer !important;
 	text-decoration: underline !important;
 	color: #8A6D3B;
@@ -327,7 +327,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .lable-usr:hover{
 	color: #2963B5;	
-	font-size: 16px;
+	font-size: 14px;
 	cursor:pointer !important;
 	text-decoration: underline !important;
 }
