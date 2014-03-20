@@ -270,7 +270,8 @@ footer .container  p {
 	}	
 	
 	.invalid {
-	  	outline: 1px solid red;
+	  	/*outline: 1px solid red;*/
+	  	outline: 0.5px dotted #FF0000;
 		background-image: url(../../llibreries/img/glyph_exclamation.png); 
 	 	background-position: right; 
 	 	background-repeat: no-repeat; 
@@ -500,6 +501,7 @@ background-color:#FFFFFF}
 	    font-size: 36px; 
 	    text-shadow: none;
 	    padding-bottom: 13%;
+	    text-shadow: 0 2px 1px #FFFFFF;
 	}
 	
 	.marketing{
@@ -565,15 +567,22 @@ background-color:#FFFFFF}
 	}
 	
 	#txt-image{
-	
 		color: #505050;
 	    font-size: 30px;
 	    font-style: normal;
 	    line-height: 1.5;
 	    padding: 10%;
 	    text-align: center;
-		background-image: url("../../llibreries/img/background_login.jpg");
-	    background-size: cover;    
+		background-image: url("../../llibreries/img/banner_1_index.png");
+<<<<<<< HEAD
+	    background-size: cover;  
+	    text-shadow: 0 2px 1px #FFFFFF;  
+	    opacity: 0.5;
+=======
+	    background-size: cover;
+	    text-shadow: 0 2px 1px #FFFFFF;  
+		opacity: 0.5;     
+>>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
 	}	
 	
 	@media (max-width: 400px) {
@@ -705,21 +714,79 @@ background-color:#FFFFFF}
 		text-align: center;
 	}
 	
+	.my-modal-dialog {
+    	width: 400px;
+	}
+	
+	.bt-sessio-icgc{
+		background-color: #AEAEB0;;
+		border-radius: 0;
+		color: #FFFFFF;
+	}	
+	.bt-sessio-icgc:hover{
+		color: #FFFFFF;
+		background-color: #CECDD3;
+	}	
+	
 	/*** galeria.html ***/
+	.thumbnail{
+		position: relative;
+		min-height: 225px;
+	}
+	
+	.thumbnail div.new_map{
+		border: 5px dashed;
+    	border-radius: 4px;
+ 		height: 215px;
+ 		cursor: pointer;
+	}
+	
+	.thumbnail div.new_map:hover{
+		opacity: 0.5;
+		filter: contrast(140%);
+		-webkit-filter: contrast(140%);
+		-moz-filter: contrast(140%);
+		-o-filter: contrast(140%);
+		-ms-filter: contrast(140%);
+	}
+	
+	.thumbnail div.new_map span{
+		font-size: 72pt;
+		padding: 40px 0 10px;
+	}
+	
 	.thumbnail a.btn{
 		width: 100px;
 	}
 	
 	.thumbnail img{
-		width: 255px;
-		height: 140px;
+		position: relative;
+		width: 240px;
+		float:left;
+		margin: 4px;
 	}
-
 	
-	.thumbnail{
-		min-width: 253px;
-		min-height: 237px;
+	.thumbnail div.nomAplicacio{
+		background-color: rgba(45, 46, 41, 0.6);
+		position: absolute;
+    	width: 97%;
+    	color: #ffffff;
 	}
+	
+	.thumbnail div.btn-acctions{
+		float:left;
+		position: relative;
+		width: 100%;
+	}
+	
+	/*
+	.thumbnail{
+		min-width: 240px;
+		min-height: 272px;
+		max-width: 240px;
+		max-height: 272px;
+	}
+	*/
 	
 	.thumbnail img:hover{
 		opacity: 0.5;

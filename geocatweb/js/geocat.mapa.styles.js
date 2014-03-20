@@ -9,7 +9,7 @@ function retornaEstilaDO(dataset) {
 	else if(dataset=="campings"){ estil.fillColor = "#62A50B";}
 	else if(dataset=="meteo_comarca"){ estil.fillColor = "#200BA5";}
 	else if(dataset=="meteo_costa"){ estil.fillColor = "#E1EA3A";}
-	else if(dataset=="json"){ estil.fillColor =randomColor(); }	
+	else if(dataset=="json_president"){ estil.fillColor ="#0058A5"; estil.color ="#0058A5"; }	
 	else{ estil.fillColor = randomColor();}
 
 	return estil;

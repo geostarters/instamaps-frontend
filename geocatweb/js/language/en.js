@@ -143,6 +143,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Mapa Cadastral":"Cadastral map",
 	"Mapes Medi Natural":"Natural environment maps",
 	"Mapes i imatges aèries.":"Maps and aerial images.",
+	"Mapa publicat":"Published Map",
 	"Mapa Urbanístic":"Urban planning map",
 	"Més estils d'àrees":"More area styles",
 	"Més estils de línia":"More line styles",

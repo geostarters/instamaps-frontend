@@ -8,6 +8,9 @@ var dades1;
 var capaDadaOberta;
 var initMevesDades = false;
 var download_layer;
+var lsublayers = [];
+var tipus_user;
+
 var estilP={
 	iconFons:'awesome-marker-web awesome-marker-icon-orange',
 	iconGlif:'fa fa-',
@@ -57,6 +60,12 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
+	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
+		tipus_user = t_user_random;
+	}else{
+		tipus_user = t_user_loginat;
+	}	
+	
 	if (!Modernizr.canvas ){
 		//jQuery("#mapaFond").show();
 		jQuery("#dialgo_old_browser").modal('show');
@@ -65,11 +74,10 @@ jQuery(document).ready(function() {
 			window.location = paramUrl.mainPage;
 		});
 	}else{
-		jQuery.cookieCuttr({
-			cookieAnalytics: false,
-			cookieAcceptButtonText: window.lang.convert("Acceptar"),
-			cookieMessage: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal")
+		$("body").on("change-lang", function(event, lang){
+			addToolTipsInici();
 		});
+		
 		loadApp();
 	}
 }); // Final document ready
@@ -107,17 +115,75 @@ function loadApp(){
 		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
-				//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-				return false;
+				if (!$.cookie('uid')){
+					window.location.href = paramUrl.mainPage;
+				}else{
+					if (isRandomUser($.cookie('uid'))){
+						$.removeCookie('uid', { path: '/' });
+						jQuery(window).off('beforeunload');
+						//jQuery(window).off('unload');
+						window.location.href = paramUrl.mainPage;
+					}else{
+						window.location.href = paramUrl.galeriaPage;
+					}
+				}
+			}else{
+				try{
+					mapConfig = results.results;
+					
+					if (mapConfig.entitatUid != $.cookie('uid')){
+						$.removeCookie('uid', { path: '/' });
+						window.location.href = paramUrl.mainPage;
+					}
+					
+					mapConfig.options = $.parseJSON( mapConfig.options );
+					mapConfig.newMap = false;
+					$('#nomAplicacio').html(mapConfig.nomAplicacio);
+					
+					loadMapConfig(mapConfig).then(function(){
+						//avisDesarMapa();
+						if (isRandomUser($.cookie('uid'))){
+							jQuery(window).on('beforeunload',function(event){
+								return 'Are you sure you want to leave?';
+							});
+						}
+						
+						$('#nomAplicacio').editable({
+							type: 'text',
+							mode: 'inline',
+						    validate: function(value) {
+						        if($.trim(value) == '') {
+						        	return {newValue: this.innerHTML};
+						        }
+					        },		
+							success: function(response, newValue) {
+								var data = {
+								 	businessId: url('?businessid'), 
+								 	nom: newValue, 
+								 	uid: $.cookie('uid')
+								}
+					
+								updateMapName(data).then(function(results){
+									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
+									if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+								},function(results){
+									$('#nomAplicacio').html(mapConfig.nomAplicacio);				
+								});	
+							}
+				
+						});						
+						
+					});
+				}catch(err){
+					if (isRandomUser($.cookie('uid'))){
+						$.removeCookie('uid', { path: '/' });
+						jQuery(window).off('beforeunload');
+						window.location.href = paramUrl.mainPage;
+					}else{
+						window.location.href = paramUrl.galeriaPage;
+					}
+				}
 			}
-			mapConfig = results.results;
-			mapConfig.options = $.parseJSON( mapConfig.options );
-			mapConfig.newMap = false;
-			$('#nomAplicacio').html(mapConfig.nomAplicacio);
-			
-			loadMapConfig(mapConfig).then(function(){
-				//avisDesarMapa();
-			});
 		},function(results){
 			window.location.href = paramUrl.loginPage;
 		});
@@ -127,8 +193,8 @@ function loadApp(){
 				if (results.status==='OK'){
 					var user_login = results.results.uid;
 					var pass_login = "user1234";
-					doLogin(user_login, pass_login).then(function(results){
-						console.debug(results);
+					var dataUrl = {user:user_login, password:pass_login};
+					doLogin(dataUrl).then(function(results){
 						if(results.status==='OK'){
 							jQuery.cookie('uid', user_login, {path:'/'});
 							createNewMap();
@@ -136,11 +202,6 @@ function loadApp(){
 					});
 				}
 			});
-			
-			jQuery(window).on('beforeunload',function(event){
-				deleteRandomUser({uid: $.cookie('uid')});
-			});
-			
 		}else{	
 			mapConfig.newMap = true;
 			createNewMap();
@@ -148,29 +209,43 @@ function loadApp(){
 		}
 	}
 	
-	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
-
+	if (isRandomUser($.cookie('uid'))){
+		jQuery('.navbar-form .bt-sessio').on('click',function(){
+			jQuery(window).off('beforeunload');
+			jQuery(window).off('unload');
+			window.location = paramUrl.loginPage+"?from=mapa";
+		});
+				
 		jQuery('#dialgo_leave').modal('show');		
-		jQuery('#dialgo_leave .btn-success').on('click',function(){
-			window.location = paramUrl.registrePage;
+		jQuery('#dialgo_leave .bt-sessio').on('click',function(){
+			jQuery(window).off('beforeunload');
+			jQuery(window).off('unload');
+			window.location = paramUrl.loginPage+"?from=mapa";
 		});
 		
 		jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
 			
 		});
 		
-		jQuery(window).on('beforeunload',function(event){
-			deleteRandomUser({uid: $.cookie('uid')});
-		});
-		
 		jQuery('.bt_publicar').on('click',function(){
 			jQuery('.modal').modal('hide');
+			_gaq.push(['_trackEvent', 'mapa', 'publicar', 'pre-publicar', tipus_user]);
 			$('#dialgo_messages').modal('show');
-			$('#dialgo_messages .modal-body').html(window.lang.convert("No es guardarà el mapa. Per guardar les dades has d'entrar amb un usuari registrat. En tancar la sessió es perdran les dades"));
+			$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
 		});
+				
+		jQuery(window).on('unload',function(event){
+			_gaq.push(['_trackEvent', 'mapa', 'sortir', 'label sortir', tipus_user]);
+			deleteRandomUser({uid: $.cookie('uid')});
+			$.removeCookie('uid', { path: '/' });
+		});
+		
 	}else{
 		//publicar el mapa solo para registrados
 		jQuery('.bt_publicar').on('click',function(){
+			
+			_gaq.push(['_trackEvent', 'mapa', 'publicar', 'pre-publicar', tipus_user]);
+			
 			$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
 			$( ".text_error" ).remove();
 			jQuery('.modal').modal('hide');
@@ -182,7 +257,7 @@ function loadApp(){
 		});
 		
 		jQuery('#dialgo_publicar .btn-primary').on('click',function(){
-			publicarMapa();
+			publicarMapa(false);
 		});
 		
 		jQuery('#dialgo_leave .btn-primary').on('click',function(){
@@ -205,9 +280,9 @@ function loadApp(){
 		showTematicLayersModal(tem_clasic,jQuery(this).attr('class'));
 	});
 
-	jQuery('#st_Size').on('click',function(){
-		showTematicLayersModal(tem_size);
-	});
+//	jQuery('#st_Size').on('click',function(){
+//		showTematicLayersModal(tem_size);
+//	});
 	
 	jQuery('#st_Heat').on('click',function(e) {
 		showTematicLayersModal(tem_heatmap,jQuery(this).attr('class'));
@@ -219,30 +294,31 @@ function loadApp(){
 		
 	});	
 	
-	$('#nomAplicacio').editable({
-		type: 'text',
-		mode: 'inline',
-	    validate: function(value) {
-	        if($.trim(value) == '') {
-//	        	return 'This field is required';
-	        	return {newValue: this.innerHTML};
-	        }
-        },		
-		success: function(response, newValue) {
-			var data = {
-			 	businessId: url('?businessid'), 
-			 	nom: newValue, 
-			 	uid: $.cookie('uid')
-			}
-
-			updateMapName(data).then(function(results){
-				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
-			},function(results){
-				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
-			});	
-		}
-
-	});
+//	$('#nomAplicacio').editable({
+//		type: 'text',
+//		mode: 'inline',
+//	    validate: function(value) {
+//	        if($.trim(value) == '') {
+////	        	return 'This field is required';
+//	        	return {newValue: this.innerHTML};
+//	        }
+//        },		
+//		success: function(response, newValue) {
+//			var data = {
+//			 	businessId: url('?businessid'), 
+//			 	nom: newValue, 
+//			 	uid: $.cookie('uid')
+//			}
+//
+//			updateMapName(data).then(function(results){
+//				_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
+//				if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+//			},function(results){
+//				$('#nomAplicacio').html(mapConfig.nomAplicacio);				
+//			});	
+//		}
+//
+//	});
 	//$.fn.editable.defaults.mode = 'inline';
 	$('.leaflet-remove').click(function() {
 		alert( "Handler for .click() called." );
@@ -255,16 +331,38 @@ function loadApp(){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
 	v_url = v_url.replace('mapa','visor');
-	shortUrl(v_url).then(function(results){
-		console.debug(results);
+	
+	if (isRandomUser($.cookie('uid'))){
 		jQuery('#socialShare').share({
 	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-	        theme: 'square',
-	        urlToShare: results.data.url
+	        theme: 'square'
+	    });
+		
+		jQuery('#socialShare .pop-social').off('click').on('click', function(event){
+			event.preventDefault();
+			jQuery('.modal').modal('hide');
+			$('#dialgo_messages').modal('show');
+			$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
 		});
-	});
+	}else{
 		
 		
+		
+		shortUrl(v_url).then(function(results){
+			jQuery('#socialShare').share({
+		        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
+		        theme: 'square',
+		        urlToShare: results.data.url
+			});
+			
+			jQuery('#socialShare .pop-social').on('click', function(event){
+				console.debug("social share click, publiquem!");
+				publicarMapa(true);
+			});				
+			
+		});
+	}
+				
 	jQuery('#select-download-format').change(function() {	
 		var ext = jQuery(this).val();
 		if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
@@ -284,12 +382,13 @@ function loadApp(){
 		}
 
 		var data = {
-				cmb_formatOUT: formatOUT,
-				cmb_epsgOUT: epsgOUT,
-				layer_name: filename,
-				fileIN: JSON.stringify(layer_GeoJSON)
+			cmb_formatOUT: formatOUT,
+			cmb_epsgOUT: epsgOUT,
+			layer_name: filename,
+			fileIN: JSON.stringify(layer_GeoJSON)
 		};
 		
+		_gaq.push(['_trackEvent', 'mapa', 'descarregar capa', formatOUT+"-"+epsgOUT, tipus_user]);
 		getDownloadLayer(data).then(function(results){
 			results = results.trim();
 			if (results == "ERROR"){
@@ -309,6 +408,53 @@ function loadApp(){
 		});
 		
 	});
+	
+	$('#dialog_delete_capa .btn-danger').on('click', function(event){
+		var $this = $(this);
+		var data = $this.data("data");
+		var obj = $this.data("obj");
+		
+			removeServerToMap(data).then(function(results){
+			if(results.status==='OK'){
+				
+//				this.myRemoveLayer(obj);
+				console.debug('Arriba a myRemoveLayer');
+				map.closePopup();
+				map.removeLayer(obj.layer);
+				//Eliminem la capa de controlCapes
+				controlCapes.removeLayer(obj);
+				
+				//actualitzem valors zindex de la resta si no es sublayer
+				if(!obj.sublayer){
+					var removeZIndex = obj.layer.options.zIndex;
+					controlCapes._lastZIndex--;
+					var aux = controlCapes._layers;
+					for (var i in aux) {
+						if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+					}
+					//Eliminem les seves sublayers en cas que tingui
+					for(indexSublayer in obj._layers){
+						map.removeLayer(map._layers[indexSublayer]);
+					}
+				}
+
+				//Actualitzem capaUsrActiva
+				if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+					capaUsrActiva.removeEventListener('layeradd');
+					capaUsrActiva = null;
+				}				
+				
+				deleteServerRemoved(data).then(function(results){
+					//se borran del listado de servidores
+				});
+			}else{
+				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+			}				
+		},function(results){
+			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+		});	
+	});	
+	
 }
 
 function addClicksInici() {
@@ -318,10 +464,12 @@ function addClicksInici() {
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
+		_gaq.push(['_trackEvent', 'mapa', 'captura pantalla', 'label captura', tipus_user]);
 		capturaPantalla('captura');
 	});
 	
 	jQuery('.bt_print').on('click', function() {
+		_gaq.push(['_trackEvent', 'mapa', 'print', 'label print', tipus_user]);
 		capturaPantalla('print');
 	});
 		
@@ -339,6 +487,7 @@ function addClicksInici() {
 function addOpcionsFonsMapes() {
 	jQuery('.div_gr3 div').on('click', function() {
 		var fons = jQuery(this).attr('id');
+		_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
 		if (fons == 'topoMap') {
 			map.topoMap();
 		} else if (fons == 'topoGrisMap') {
@@ -402,9 +551,9 @@ function addControlsInici() {
 //		this._div.appendChild(btsave);
 //		btsave.innerHTML = '<span class="glyphicon glyphicon-floppy-disk grisfort"></span>';		
 
-		var btinfo = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_info');
-		this._div.appendChild(btinfo);
-		btinfo.innerHTML = '<span class="glyphicon glyphicon-info-sign grisfort"></span>';
+//		var btinfo = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_info');
+//		this._div.appendChild(btinfo);
+//		btinfo.innerHTML = '<span class="glyphicon glyphicon-info-sign grisfort"></span>';
 		
 		return this._div;
 	};
@@ -522,7 +671,6 @@ function addDialegsEstils() {
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
-			console.debug(feature);
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
 			getRangsFromLayer(capaMare);
@@ -641,9 +789,11 @@ function creaPopOverMesFons() {
 	jQuery(document).on('click', "#div_menu_mesfons div", function(e) {
 		var fons = jQuery(this).attr('id');
 		if (fons == 'historicMap') {
+			_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
 			map.historicMap();
 		}
 		if (fons == 'historicOrtoMap') {
+			_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
 			map.historicOrtoMap();
 		}
 		
@@ -674,135 +824,148 @@ function creaPopOverMesFonsColor() {
 
 	jQuery(document).on('click', "#div_menufons div", function(e) {
 		var fons = jQuery(this).attr('id');
+		_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
 		map.colorMap(fons);
 	});
 }
 
-function creaPopOverMevasDades(){	
-	jQuery(".div_dades_usr").on('click', function() {
+function creaPopOverMevasDades(){
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		
+	jQuery(".div_dades_usr").on('click', function() {
+		console.debug("creaPopOverMevasDades");
 		jQuery('.modal').modal('hide');
 		$('#dialog_teves_dades').modal('show');
 		
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
 		jQuery("#id_sw").empty();
 		
-		refrescaPopOverMevasDades();
-			
-		var source1 = jQuery("#meus-wms-template").html();
-		var template1 = Handlebars.compile(source1);
-		var html1 = template1(dades1);				
-		jQuery("#id_sw").append(html1);	
-		
-		initMevesDades = true;
-		
-		jQuery("ul.bs-dadesO").on('click', '.usr_wms_layer', function(event) {
-			event.preventDefault();
-			var _this = jQuery(this);
-		
-			var data = {
-					uid: $.cookie('uid'),
-					businessId: mapConfig.businessId,
-					servidorWMSbusinessId: _this.data("businessid"),
-					layers: _this.data("layers"),
-					calentas:false,
-					activas:true,
-					visibilitats:true
-			};						
-			
-			addServerToMap(data).then(function(results){
-				if(results.status==='OK'){
-					
-					var value = results.results;
-					
-					if (value.epsg == "4326"){
-						value.epsg = L.CRS.EPSG4326;
-					}else if (value.epsg == "25831"){
-						value.epsg = L.CRS.EPSG25831;
-					}else if (value.epsg == "23031"){
-						value.epsg = L.CRS.EPSG23031;
-					}else{
-						value.epsg = map.crs;
-					}							
-					
-					if(_this.data("servertype") == t_wms){
-						loadWmsLayer(value);
-					}else if((_this.data("servertype") == t_dades_obertes)){
-						loadDadesObertesLayer(value);
-					}else if(_this.data("servertype") == t_xarxes_socials){
-						
-						var options = jQuery.parseJSON( value.options );
-						if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
-						else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
-						else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-						
-					}else if(_this.data("servertype") == t_tematic){
-						loadTematicLayer(value);
-					}							
-					
-					activaPanelCapes(true);
-				}		
-			});							
-		});					
-				
-		//Eliminem servidors
-		jQuery("ul.bs-dadesO").on('click', 'span.glyphicon-remove', function(event) {
-			event.preventDefault();
-			event.stopPropagation();
-			var _this = jQuery(this);
-			var data = {
-				uid: $.cookie('uid'),
-				businessId: _this.data("businessid")
-			};
-			
-			var parent = _this.parent();
-			var parentul = parent.parent();
-			_this.parent().remove();
-			
-			console.debug(_this.data("servertype"));
-			if(_this.data("servertype") == t_tematic){
-				deleteTematicLayerAll(data).then(function(results){
-					console.debug(results);
-					if (results.status == "ERROR"){
-						parentul.append(parent);
-						if (results.results == "DataIntegrityViolationException"){
-							$('#dialgo_messages').modal('show');
-							$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
-						}
-					}					
-				});
+		refrescaPopOverMevasDades().then(function(results){
+			initMevesDades = true;
+			if(results.results.length == 0){
+				jQuery('#id_sw').html(warninMSG);		
 			}else{
-				deleteServidorWMS(data).then(function(results){
-					console.debug(results);
-					if (results.status == "ERROR"){
-						parentul.append(parent);
-						if (results.results == "DataIntegrityViolationException"){
-							$('#dialgo_messages').modal('show');
-							$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
-						}
+				var source1 = jQuery("#meus-wms-template").html();
+				var template1 = Handlebars.compile(source1);
+				var html1 = template1(results);				
+				jQuery("#id_sw").append(html1);
+				
+				jQuery("ul.bs-dadesO").on('click', '.usr_wms_layer', function(event) {
+					event.preventDefault();
+					var _this = jQuery(this);
+				
+					var data = {
+							uid: $.cookie('uid'),
+							businessId: mapConfig.businessId,
+							servidorWMSbusinessId: _this.data("businessid"),
+							layers: _this.data("layers"),
+							calentas:false,
+							activas:true,
+							visibilitats:true,
+							order: controlCapes._lastZIndex+ 1
+					};						
+					
+					addServerToMap(data).then(function(results){
+						if(results.status==='OK'){
+							
+							var value = results.results;
+							_gaq.push(['_trackEvent', 'map', 'carregar meves dades', value.serverType, tipus_user]);
+							
+							if (value.epsg == "4326"){
+								value.epsg = L.CRS.EPSG4326;
+							}else if (value.epsg == "25831"){
+								value.epsg = L.CRS.EPSG25831;
+							}else if (value.epsg == "23031"){
+								value.epsg = L.CRS.EPSG23031;
+							}else{
+								value.epsg = map.crs;
+							}							
+							
+							if(_this.data("servertype") == t_wms){
+								loadWmsLayer(value);
+							}else if((_this.data("servertype") == t_dades_obertes)){
+								loadDadesObertesLayer(value);
+							}else if(_this.data("servertype") == t_xarxes_socials){
+								
+								var options = jQuery.parseJSON( value.options );
+								if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
+								else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
+								else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+								
+							}else if(_this.data("servertype") == t_tematic){
+								loadTematicLayer(value);
+							}							
+							
+							activaPanelCapes(true);
+						}		
+					});							
+				});					
+						
+				//Eliminem servidors
+				jQuery("ul.bs-dadesO").on('click', 'span.glyphicon-remove', function(event) {
+					event.preventDefault();
+					event.stopPropagation();
+					var _this = jQuery(this);
+					var data = {
+						uid: $.cookie('uid'),
+						businessId: _this.data("businessid")
+					};
+					
+					var parent = _this.parent();
+					var parentul = parent.parent();
+					_this.parent().remove();
+					
+					if (jQuery.trim(jQuery("#id_sw").text()) == ""){
+						jQuery('#id_sw').html(warninMSG);
 					}
-				});						
-			}
+					
+					if(_this.data("servertype") == t_tematic){
+						deleteTematicLayerAll(data).then(function(results){
+							if (results.status == "ERROR"){
+								parentul.append(parent);
+								if (results.results == "DataIntegrityViolationException"){
+									$('#dialgo_messages').modal('show');
+									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+								}
+							}					
+						});
+					}else{
+						deleteServidorWMS(data).then(function(results){
+							if (results.status == "ERROR"){
+								parentul.append(parent);
+								if (results.results == "DataIntegrityViolationException"){
+									$('#dialgo_messages').modal('show');
+									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+								}
+							}
+						});						
+					}
+				});
+				
+			}	
 		});
 	});	
 }
 
+/*
 function loadPopOverMevasDades(){
 	console.debug("loadPopOverMevasDades");
 	jQuery(".div_dades_usr").on('click', function() {
 		var data = {uid: $.cookie('uid')};
-		gestionaPopOver(this);		
 		
-		console.debug(dades1);
+		gestionaPopOver(this);		
 		
 		var source1 = jQuery("#meus-wms-template").html();
 		var template1 = Handlebars.compile(source1);
 		var html1 = template1(dades1);
 		jQuery("#id_mysrvw").append(html1);
 		
-		jQuery(".usr_wms_layer").on('click', function(event) {
+		jQuery(".usr_wms_layer").on('click', '#id_sw', function(event) {
 			event.preventDefault();
 			var _this = jQuery(this);
+			//TODO ficar extensio!!!
+			_gaq.push(['_trackEvent', 'Meves dades', 'Meves dades', tipus_user]);			
+			
 			var data = {
 				uid: $.cookie('uid'),
 				businessId: mapConfig.businessId,
@@ -810,7 +973,8 @@ function loadPopOverMevasDades(){
 				layers: _this.data("layers"),
 				calentas:false,
 				activas:false,
-				visibilitats:true
+				visibilitats:true,
+				order: controlCapes._lastZIndex+1
 			};
 			
 			addServerToMap(data).then(function(results){
@@ -869,13 +1033,34 @@ function loadPopOverMevasDades(){
 		
 	});
 }
+*/
 
 function refrescaPopOverMevasDades(){
 	console.debug("refrescaPopOverMevasDades");
 	var dfd = jQuery.Deferred();
 	var data = {uid: $.cookie('uid')};
 	getAllServidorsWMSByUser(data).then(function(results){
-		dades1=results;
+		var serverOrigen = [];
+		jQuery.each(results.results, function(i, item){
+			if (item.serverType == t_tematic){
+				//console.debug(item);
+				if (item.options == null){
+					serverOrigen.push(item);
+				}else{
+					var options = jQuery.parseJSON( item.options );
+					if (options.tem == tem_origen){
+						serverOrigen.push(item);
+					}else{
+						//no cargar
+						//serverOrigen.push(item);
+					}
+				}
+			}else{
+				//no cargar
+				//serverOrigen.push(item);
+			}
+		});
+		dades1.results = serverOrigen;
 		dfd.resolve(dades1);
 	},function(results){
 		window.location.href = paramUrl.loginPage;
@@ -1043,6 +1228,8 @@ function pLeft() {
 
 function addCapaDadesObertes(dataset,nom_dataset) {
 
+	_gaq.push(['_trackEvent', 'mapa', 'dades obertes', nom_dataset, tipus_user]);
+	
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 
 	var estil_do = retornaEstilaDO(dataset);
@@ -1097,11 +1284,13 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			calentas: false,
             activas: true,
             visibilitats: true,
+            order: controlCapes._lastZIndex+1,
             epsg: '4326',
             transparency: true,
-            visibilitat: 'O',
-			options: '{"dataset":"'+dataset+'"}'
+            visibilitat: visibilitat_open,
+			options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
 		};
+
 		
 		createServidorInMap(data).then(function(results){
 			if (results.status == "OK"){
@@ -1201,66 +1390,34 @@ function loadMapConfig(mapConfig){
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
 			}
-				
-			if (mapConfig.options.bbox){
+			if (mapConfig.options.center){
+				var opcenter = mapConfig.options.center.split(",");
+				map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+			}else if (mapConfig.options.bbox){
 				var bbox = mapConfig.options.bbox.split(",");
 				var southWest = L.latLng(bbox[1], bbox[0]);
 			    var northEast = L.latLng(bbox[3], bbox[2]);
 			    var bounds = L.latLngBounds(southWest, northEast);
-				map.fitBounds( bounds ); 
+				map.fitBounds( bounds );
 			}
 		}
 		
 		//carga las capas en el mapa
-		jQuery.each(mapConfig.servidorsWMS, function(index, value){
-			if (value.epsg == "4326"){
-				value.epsg = L.CRS.EPSG4326;
-			}else if (value.epsg == "25831"){
-				value.epsg = L.CRS.EPSG25831;
-			}else if (value.epsg == "23031"){
-				value.epsg = L.CRS.EPSG23031;
-			}else{
-				value.epsg = map.crs;
-			}
-			
-			//Si la capa es de tipus wms
-			if(value.serverType == t_wms){
-				loadWmsLayer(value);
-
-				//Si la capa es de tipus dades obertes
-			}else if(value.serverType == t_json){
-				loadCapaFromJSON(value);				
-				
-			//Si la capa es de tipus dades obertes
-			}else if(value.serverType == t_dades_obertes){
-				loadDadesObertesLayer(value);
-
-			//Si la capa es de tipus xarxes socials	
-			}else if(value.serverType == t_xarxes_socials){
-				var options = jQuery.parseJSON( value.options );
-				
-				if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
-				else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
-				else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-				
-			}else if(value.serverType == t_tematic){
-				loadTematicLayer(value);
-				
-			}else if(value.serverType == t_heatmap){
-				loadHeatLayer(value);
-				
-			}else if(value.serverType == t_cluster){
-				loadClusterLayer(value);
-				
-			}
+		loadOrigenWMS().then(function(results){
+			console.debug(results);
+			var num_origen = 0;
+			jQuery.each(results.origen, function(index, value){
+				loadLayer(value).then(function(){
+					num_origen++;
+					if (num_origen == results.origen.length){
+						jQuery.each(results.sublayers, function(index, value){
+							loadLayer(value);
+						});
+					}
+				});
+			});
 		});
-		
-	
 		jQuery('#div_loading').hide();
-		
-		
-		
-		
 	}
 	
 	var source = $("#map-properties-template").html();
@@ -1277,17 +1434,95 @@ function loadMapConfig(mapConfig){
 	return dfd.promise();
 }
 
-function publicarMapa(){
-	if(isBlank($('#dialgo_publicar #nomAplicacio').val())){
-		$('#dialgo_publicar #nomAplicacio').addClass("invalid");
-		$('#dialgo_publicar #nomAplicacio').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-		return false;
+function loadOrigenWMS(){
+	var dfd = $.Deferred();
+	var layer_map = {origen:[],sublayers:[]};
+	jQuery.each(mapConfig.servidorsWMS, function(index, value){
+		if(value.capesOrdre == capesOrdre_sublayer){
+			layer_map.sublayers.push(value);
+			lsublayers.push(value);
+		}else{
+			layer_map.origen.push(value);
+		}
+	});
+	dfd.resolve(layer_map);
+	return dfd.promise();
+}
+
+function loadLayer(value){
+	
+	var defer = $.Deferred();
+	
+	if (value.epsg == "4326"){
+		value.epsg = L.CRS.EPSG4326;
+	}else if (value.epsg == "25831"){
+		value.epsg = L.CRS.EPSG25831;
+	}else if (value.epsg == "23031"){
+		value.epsg = L.CRS.EPSG23031;
+	}else{
+		value.epsg = map.crs;
 	}
+	
+	//Si la capa es de tipus wms
+	if(value.serverType == t_wms){
+		loadWmsLayer(value);
+		defer.resolve();
+		//Si la capa es de tipus dades obertes
+	}else if(value.serverType == t_json){
+		loadCapaFromJSON(value);				
+		defer.resolve();
+	//Si la capa es de tipus dades obertes
+	}else if(value.serverType == t_dades_obertes){
+		loadDadesObertesLayer(value);
+		defer.resolve();
+	//Si la capa es de tipus xarxes socials	
+	}else if(value.serverType == t_xarxes_socials){
+		var options = jQuery.parseJSON( value.options );
+		
+		if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
+		else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
+		else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+		defer.resolve();
+	}else if(value.serverType == t_tematic){
+		loadTematicLayer(value).then(function(){
+			defer.resolve();
+		});
+		
+	}else if(value.serverType == t_heatmap){
+		loadHeatLayer(value);
+		defer.resolve();
+		
+	}else if(value.serverType == t_cluster){
+		loadClusterLayer(value);
+		defer.resolve();
+	}
+	return defer.promise();
+}
+
+function publicarMapa(fromCompartir){
+	if(!fromCompartir){//Si no venim de compartir, fem validacions del dialeg de publicar
+		if(isBlank($('#dialgo_publicar #nomAplicacio').val())){
+			$('#dialgo_publicar #nomAplicacio').addClass("invalid");
+			$('#dialgo_publicar #nomAplicacio').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
+			return false;
+		}
+	}
+
 		
 	var options = {};
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
 	options.description = jQuery('#dialgo_publicar #optDescripcio').val();
+	options.center = map.getCenter().lat+","+map.getCenter().lng;
+	options.zoom = map.getZoom();
 	options.bbox = map.getBounds().toBBoxString();
+	var visibilitat = visibilitat_open;
+	
+	if (jQuery('#visibilitat_chk').bootstrapSwitch('state')){
+		visibilitat = visibilitat_open;
+	}else{
+		visibilitat = visibilitat_privat;
+	}
+		
 	/*//TODO de los botones ver nuevos botones
 	options.llegenda = jQuery('#llegenda_chk').bootstrapSwitch('state');
 	options.layers = jQuery('#layers_chk').bootstrapSwitch('state');
@@ -1312,14 +1547,19 @@ function publicarMapa(){
 	}).get();
 	//console.debug(layers);
 	
+	var nomApp = jQuery('#nomAplicacio').html();
+	if(!fromCompartir) nomApp = jQuery('#dialgo_publicar #nomAplicacio').val();
+	
 	var data = {
-		nom: jQuery('#dialgo_publicar #nomAplicacio').val(),
+		nom: nomApp, //jQuery('#dialgo_publicar #nomAplicacio').val(),
 		uid: $.cookie('uid'),
-		visibilitat: 'O',
+		visibilitat: visibilitat,
 		tipusApp: 'vis',
 		options: options,
 		layers: JSON.stringify(layers)
 	}
+	
+	_gaq.push(['_trackEvent', 'mapa', 'publicar', visibilitat, tipus_user]);
 	
 	if (newMap){
 		createMap(data).then(function(results){
@@ -1340,11 +1580,15 @@ function publicarMapa(){
 			}else{
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				$('#dialgo_publicar').modal('hide');
+				
 				mapConfig.newMap = false;
-				//update map name en el control de capas
-				$('#nomAplicacio').text(mapConfig.nomAplicacio);
-			}	
+				if(!fromCompartir){
+					$('#dialgo_publicar').modal('hide');
+					//update map name en el control de capas
+					$('#nomAplicacio').text(mapConfig.nomAplicacio);
+					$('#dialgo_url_iframe').modal('show');					
+				}
+			}
 		});
 	}
 }
@@ -1398,6 +1642,9 @@ function initControls(){
 }
 
 function addTwitterLayer(hashtag){
+	
+	_gaq.push(['_trackEvent', 'mapa', 'twitter', hashtag, tipus_user]);	
+	
 	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
 	//Control no afegit #
 	if(hashtag.indexOf("#") == 0) hashtag = hashtag.substr(1);
@@ -1424,9 +1671,10 @@ function addTwitterLayer(hashtag){
 				calentas: false,
 	            activas: true,
 	            visibilitats: true,
+	            order: controlCapes._lastZIndex+1,
 	            epsg: '4326',
 	            transparency: true,
-	            visibilitat: 'O',
+	            visibilitat: visibilitat_open,
 				options: '{"xarxa_social": "twitter", "hashtag": "'+hashtag+'"}'
 		};
 		
@@ -1470,6 +1718,8 @@ function loadTwitterLayer(layer, hashtag){
 
 function addPanoramioLayer(){
 	
+	_gaq.push(['_trackEvent', 'mapa', 'panoramio', 'label panoramio', tipus_user]);
+	
 //	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var panoramio = new L.Panoramio({
 		maxLoad: 10, 
@@ -1489,9 +1739,10 @@ function addPanoramioLayer(){
 			calentas: false,
             activas: true,
             visibilitats: true,
+            order: controlCapes._lastZIndex+1,
             epsg: '4326',
             transparency: true,
-            visibilitat: 'O',
+            visibilitat: visibilitat_open,
 			options: '{"xarxa_social": "panoramio"}'
 		};
 		
@@ -1535,6 +1786,9 @@ function loadPanoramioLayer(layer){
 
 function addWikipediaLayer(){	
 	console.debug('Add wikipedia layer');
+	
+	_gaq.push(['_trackEvent', 'mapa', 'wikipedia', 'label wikipedia', tipus_user]);	
+	
 //	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var wikipedia = new L.Wikipedia({
 //		zIndex: lastZIndex,
@@ -1553,9 +1807,10 @@ function addWikipediaLayer(){
 			calentas: false,
             activas: true,
             visibilitats: true,
+            order: controlCapes._lastZIndex+1,
             epsg: '4326',
             transparency: true,
-            visibilitat: 'O',
+            visibilitat: visibilitat_open,
 			options: '{"xarxa_social": "wikipedia"}'
 		};
 		
@@ -1596,80 +1851,6 @@ function loadWikipediaLayer(layer){
 	controlCapes._lastZIndex++;
 }
 
-//function saveMap(){
-//	console.debug('Save Map.......');
-//	
-//	//Comprovar si est� logat!!
-//	if($.cookie('uid')=== null || $.cookie('uid')===''){
-//		alert('Falta fer missatge no pots guardar sense estar logat!!!');
-//		return;
-//	}
-//	
-//	
-//	if(typeof url('?businessid') == "string"){//s'ha de fer update del mapa
-//		
-//		var options = "{\"tags\":\""+ mapConfig.options.tags +"\",\"description\":\""+mapConfig.options.description+"\",\"bbox\":\""+ map.getBounds().toBBoxString()+"\",\"llegenda\":"+mapConfig.options.llegenda+",\"layers\":"+mapConfig.options.layers+",\"social\":"+mapConfig.options.social+",\"fons\":\""+ map.getActiveMap()+"\",\"foncsColor\":\""+ map.options.mapColor+"\"}";
-//		var nomMapa = $('#nomAplicacio').html();
-//		var data = {
-//			businessId: url('?businessid'),
-//			uid: $.cookie('uid'),
-//			nom: nomMapa,
-//			visibilitat: 'O',//FALTA!! NO ES GUARDA ENLLOC?
-//			clauVisor: mapConfig.clau,
-//			thumbnail: mapConfig.thumbnail,
-//			options: options
-//		};	
-//		
-//		//Update info i dades generals del mapa
-//		doUpdateMap(data).then(function(results){
-//			if(results.status==='OK'){
-//				alert('save Map ok!');
-//			}else{
-////				$('#modal_login_ko').modal('toggle');
-//				alert('save Map KO!');
-//			}				
-//		},function(results){
-//			$('#modal_login_ko').modal('toggle');					
-//		});		
-//		
-////		//Update de les capes del mapa
-////		var listLayers = controlCapes._layers;
-////		int size = listLayers.lenght();
-////		for(int i=0;i<size);i++{
-////			
-////		}
-//		
-//	}else{//S'ha de crear un mapa nou
-//		alert("S'ha de crear un mapa nou!");
-//	}
-//	
-//}
-
-function myRemoveLayer(obj){
-	
-	console.debug('Arriba a myRemoveLayer');
-	map.closePopup();
-	map.removeLayer(obj.layer);
-	//Eliminem la capa de controlCapes
-	controlCapes.removeLayer(obj);
-	
-	//actualitzem valors zindex de la resta si no es sublayer
-	if(!obj.sublayer){
-		var removeZIndex = obj.layer.options.zIndex;
-		controlCapes._lastZIndex--;
-		var aux = controlCapes._layers;
-		for (var i in aux) {
-			if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
-		}		
-	}
-
-	//Actualitzem capaUsrActiva
-	if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
-		capaUsrActiva.removeEventListener('layeradd');
-		capaUsrActiva = null;
-	}
-}
-
 function updateEditableElements(){
 	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
@@ -1692,6 +1873,7 @@ function updateEditableElements(){
 					
 					updateServidorWMSName(data).then(function(results){
 						if(results.status==='OK'){
+						_gaq.push(['_trackEvent', 'mapa', 'editar nom capa', 'label editar nom', tipus_user]);
 //						console.debug('udpate map name OK');
 						controlCapes._layers[id].name = newValue;
 						controlCapes._layers[id].layer.options.nom = newValue;
@@ -1733,11 +1915,11 @@ function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-		var estil_do = retornaEstilaDO(options.dataset);	
+		var estil_do = options.estil_do;	
+//		var estil_do = retornaEstilaDO(options.dataset);
 		if (options.tem == tem_simple){
 			//estil_do = options.style;
 			estil_do = createFeatureMarkerStyle(options.style);
-			console.debug(estil_do);
 		}
 		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 			onEachFeature : popUp,
@@ -1798,8 +1980,16 @@ function loadDadesObertesLayer(layer){
 			capaDadaOberta.options.zIndex = parseInt(layer.capesOrdre);
 		}		
 		
-		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
-		controlCapes._lastZIndex++;
+//		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
+//		controlCapes._lastZIndex++;
+		
+		if(!options.origen){
+			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
+			controlCapes._lastZIndex++;
+		}else{//Si te origen es una sublayer
+			var origen = getLeafletIdFromBusinessId(options.origen);
+			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
+		}		
 		
 	}else if(options.tem == tem_cluster){
 		loadDadesObertesClusterLayer(layer);
@@ -1839,30 +2029,41 @@ function showConfOptions(businessId){
 //	console.debug('showConfOptions');
 //	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide("slow");
 //	else jQuery("#conf-"+businessId+"").show("2000");
-	jQuery("#conf-"+businessId+"").toggle("fast");
+	jQuery(".conf-"+businessId+"").toggle("fast");
 }
 
 function createNewMap(){
 	var data = {
-		nom: "Untitled map",
+		nom: getTimeStamp(),
 		uid: $.cookie('uid'),
-		visibilitat: 'O',
+		visibilitat: visibilitat_privat,
 		tipusApp: 'vis',
 	};
+	
+	console.debug(data);
 	
 	createMap(data).then(function(results){
 		if (results.status == "ERROR"){
 			//TODO Mensaje de error
+			window.location.href = paramUrl.mainPage;
 		}else{
-			mapConfig = results.results;
-			mapConfig.options = jQuery.parseJSON( mapConfig.options );
-			jQuery('#businessId').val(mapConfig.businessId);
-			mapConfig.newMap = false;
-			window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
+			try{
+				mapConfig = results.results;
+				mapConfig.options = jQuery.parseJSON( mapConfig.options );
+				jQuery('#businessId').val(mapConfig.businessId);
+				mapConfig.newMap = false;
+				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
+			}catch(err){
+				if (isRandomUser($.cookie('uid'))){
+					$.removeCookie('uid', { path: '/' });
+					window.location.href = paramUrl.mainPage;
+				}else{
+					window.location.href = paramUrl.galeriaPage;
+				}
+			}
 		}
 	});
 }
-
 
 function activaPuntZ(){
 	jQuery(".bs-punts li").removeClass("estil_selected");
@@ -1880,4 +2081,12 @@ function activaPuntZ(){
 	jQuery('#div_punt0').css('background-color',estilP.divColor);
 	estilP.fontsize=(vv/2)+"px";
 	estilP.size=vv;	
+}
+
+function getLeafletIdFromBusinessId(businessId){
+	for(val in controlCapes._layers){
+		if(controlCapes._layers[val].layer.options.businessId == businessId){
+			return val;
+		}
+	}
 }
