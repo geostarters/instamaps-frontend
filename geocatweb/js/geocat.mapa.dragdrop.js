@@ -741,11 +741,20 @@ function miraFitxer(fitxer) {
 	
 	if (jQuery.inArray(obj.ext, arr) != -1) { // hi hso
 	
-		if (fitxer.size < midaFitxer) {
-			obj.isValid = true;
-		} else {
+		if(obj.ext=="shp"){
 			obj.isValid = false;
-			obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 10MB");			
+			obj.msg =  window.lang.convert("El fitxer SHP ha d'anar dins d'un ZIP juntament amb els fitxers SHX i DBF.");	
+		
+		}else{
+		
+				if (fitxer.size < midaFitxer) {			
+					obj.isValid = true;		
+				
+				} else {
+								
+					obj.isValid = false;
+					obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 10MB");
+					}
 		}
 
 	} else {
