@@ -633,8 +633,7 @@ function getRangsFromStyles(tematic, styles){
 function loadTematicLayer(layer){
 	var defer = $.Deferred();
 	var data={
-		businessId: layer.businessId,
-		uid: ($.cookie('uid'))? $.cookie('uid'): "user_guest"
+		businessId: layer.businessId
 	};
 	
 	var layerWms = layer;
