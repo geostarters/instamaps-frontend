@@ -48,7 +48,7 @@ function creaAreesDragDropFiles() {
 
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
-			//formData.append("nomArxiu", file.name); 
+			formData.append("nomArxiu", file.name); 
 			formData.append("tipusAcc", envioArxiu.tipusAcc); 
 			formData.append("colX", envioArxiu.colX);	
 			formData.append("colY", envioArxiu.colY);
@@ -82,12 +82,25 @@ function creaAreesDragDropFiles() {
 
 		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
 		
-			jQuery('#prg_bar').css('width',progress+"%");
+			//jQuery('#prg_bar').css('width',progress+"%");
 
 		});
 	}
 	
 }
+
+
+var	ldpercent=0;
+function uploadprogress(){
+	 
+	  ldpercent += 10;    
+	  if(ldpercent>100){ ldpercent = 100;    }  
+
+	jQuery('#prg_bar').css('width',ldpercent+"%");
+
+	  if(ldpercent<100){ setTimeout("uploadprogress()", 1000);}	
+}
+
 
 // zona 1
 
@@ -119,7 +132,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 		
 		drgFromBoto.on("sending", function(file, xhr, formData) {
 			//console.info("sending");
-			//formData.append("nomArxiu", file.name); 
+			formData.append("nomArxiu", file.name); 
 			formData.append("tipusAcc", envioArxiu.tipusAcc); 
 			formData.append("colX", envioArxiu.colX);	
 			formData.append("colY", envioArxiu.colY);
@@ -155,7 +168,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 
 		drgFromBoto.on('uploadprogress', function(file, progress,bytesSent) {
 			//console.info("progress");
-			jQuery('#prg_bar').css('width',progress+"%");
+			//jQuery('#prg_bar').css('width',progress+"%");
 
 		});
 	}
@@ -307,6 +320,9 @@ jQuery("#load_FF_SRS_coord").on('click', function() {
 
 
 function enviarArxiu(){
+	ldpercent=0;
+	 uploadprogress();
+	
 	if(envioArxiu.isDrag){
 		
 		drgFromMapa.uploadFile(drgFromMapa.files[0]);	
@@ -392,11 +408,14 @@ function accionaCarrega(file,isDrag) {
 		} else {
 			 envioArxiu.tipusAcc='gdal'; 
 			// Fot-li castanya
-			if(isDrag){
+			 enviarArxiu();
+			 /*
+			 if(isDrag){
 			drgFromMapa.uploadFile(file);			
 			}else{
 			drgFromBoto.uploadFile(file);							
 			}
+			*/
 			
 			obroModal = false;
 		}
@@ -776,7 +795,7 @@ function addDropFileToMap(results) {
 
 				// carregarCapa(businessId);
 				refrescaPopOverMevasDades();
-				jQuery('#dialog_carrega_dadesfields').modal('hide');
+				//jQuery('#dialog_carrega_dadesfields').modal('hide');
 				map.spin(false);
 			}
 		});
