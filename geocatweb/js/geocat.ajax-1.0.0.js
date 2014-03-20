@@ -106,10 +106,20 @@ function doLogout(){
 
 /* sessio.html */
 
-function doLogin(user_login,pass_login){
+function doLogin(data){
 	return jQuery.ajax({
 		url: paramUrl.loginUser,
-		data: {user:user_login, password:pass_login},
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function doLoginIcgc(data){
+	return jQuery.ajax({
+		url: paramUrl.loginUserIcgc,
+		data: data,
 		async: false,
 		method: 'post',
 		dataType: 'jsonp'
@@ -269,6 +279,14 @@ function getTwitterLayer(data){
 function removeServerToMap(data){
 	return jQuery.ajax({
 		url: paramUrl.removeServerToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteServerRemoved(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteServerRemoved,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
@@ -464,8 +482,8 @@ function updateServidorWMS(data){
 
 function duplicateTematicLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.duplicateTematicLayer,
+		url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
 		data: data,
-		dataType: 'jsonp'
+		method: 'post'
 	}).promise();
 }
