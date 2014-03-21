@@ -569,11 +569,15 @@ var use_worker = true;
 function xlsworker(data, cb) {
 	var worker = new Worker('/llibreries/js/formats/xlsworker.js');
 	worker.onmessage = function(e) {
+		
+		
+		
 		switch (e.data.t) {
 		case 'ready':
 			break;
 		case 'e':
-			console.error(e.data);
+			//cb(e.data.d);
+			console.error(e);
 			break;
 		case 'xls':
 			cb(e.data.d);
@@ -589,13 +593,14 @@ function obteCampsXLS(f) {
 	reader.onload = function(e) {
 		var data = e.target.result;
 		if (use_worker && typeof Worker !== 'undefined') {
+			
 			xlsworker(data, llegirTitolXLS);
 		} else {
 
 			var wb = XLS.read(data, {
 				type : 'binary'
 			});
-			llegirTitolXLS(wb);
+						llegirTitolXLS(wb);
 		}
 	};
 	reader.readAsBinaryString(f);
@@ -604,10 +609,16 @@ function obteCampsXLS(f) {
 
 function llegirTitolXLS(workbook) {
 	matriuActiva = [];
-	workbook.SheetNames.forEach(function(sheetName) {
-		matriuActiva = get_columns(workbook.Sheets[sheetName], 'XLS');
-		analitzaMatriu(matriuActiva);
-	});
+	if(workbook){
+			workbook.SheetNames.forEach(function(sheetName) {
+				matriuActiva = get_columns(workbook.Sheets[sheetName], 'XLS');
+				analitzaMatriu(matriuActiva);
+			});
+	}else{
+		
+		$('#dialog_carrega_dades').modal('hide');
+		alert(window.lang.convert("Versió incorrecta. No es pot llegir aquest XLS."));
+	}
 	return matriuActiva;
 
 }
@@ -645,12 +656,12 @@ function obteCampsXLSX(f) {
 					llegirTitolXLSX(wb, 'XLSX');
 				}
 			} catch (e) {
-				alert("No es pot llegir l'arxiu");
+				alert(window.lang.convert("No es pot llegir l'arxiu"));
 			}
 		}
 
 		if (e.target.result.length > 500000) {
-			alert("Arxiu massa gran!!");
+			alert(window.lang.convert("Arxiu massa gran!!"));
 
 		} else {
 			doit();
