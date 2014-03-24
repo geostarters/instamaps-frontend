@@ -345,9 +345,6 @@ function loadApp(){
 			$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
 		});
 	}else{
-		
-		
-		
 		shortUrl(v_url).then(function(results){
 			jQuery('#socialShare').share({
 		        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
@@ -453,7 +450,11 @@ function loadApp(){
 		},function(results){
 			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
 		});	
-	});	
+	});
+		
+	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
+		updateClasicTematicFromRangs();
+	});
 	
 }
 
