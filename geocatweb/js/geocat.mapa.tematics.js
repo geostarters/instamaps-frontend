@@ -35,14 +35,8 @@ function showTematicLayersModal(tipus,className){
 			}else if (tipus==tem_clasic){
 				if (tipusCapa == t_tematic){ //tematic
 					if (this.layer.options.dades){
-						var ftype = transformTipusGeometry(this.layer.options.geometryType);
-						/*
-						if (ftype == t_polyline){
-							
-						}else{
-							layers.push(this);
-						}
-						*/
+						layers.push(this);
+					}else{
 						layers.push(this);
 					}
 				}
@@ -142,21 +136,29 @@ function createTematicClasic(data){
 	getTematicLayer(dataTem).then(function(results){
 		if (results.status == "OK"){
 			var tematic = results.results;
+			console.debug(tematic);
 			jQuery("#dialog_tematic_rangs").data("tematic", tematic);
 			var fields = {};
 			fields[window.lang.convert('Escull el camp')] = '---';
-			if (tematic.capes){
-				var dataNames = tematic.capes.fieldsName.split(',');
-				jQuery.each(dataNames, function( index, value ) {
-					fields[value] = "slotd"+(index+1);
-				});
-			}else{ //sin datos
+			if (tematic.capes.fieldsName){
+				if (tematic.capes){
+					var dataNames = tematic.capes.fieldsName.split(',');
+					jQuery.each(dataNames, function( index, value ) {
+						fields[value] = "slotd"+(index+1);
+					});
+				}else{ //sin datos
+					fields['nom'] = 'nom';
+					var geomNames = tematic.geometries.fieldsName.split(',');
+					jQuery.each(geomNames, function( index, value ) {
+						fields[value] = "slotf"+(index+1);
+					});
+				}
+			}else{
+				//capas de edición
 				fields['nom'] = 'nom';
-				var geomNames = tematic.geometries.fieldsName.split(',');
-				jQuery.each(geomNames, function( index, value ) {
-					fields[value] = "slotf"+(index+1);
-				});
+				fields['text'] = 'text';
 			}
+			
 			//creamos el select con los campos
 			var source1 = jQuery("#tematic-layers-fields").html();
 			var template1 = Handlebars.compile(source1);
@@ -171,9 +173,16 @@ function createTematicClasic(data){
 					jQuery('#list_tematic_values').html("");
 					jQuery('#dialog_tematic_rangs .btn-success').hide();
 				}else{
-					readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
-						updateSelecTipusRangs(results);
-					});
+					if (this_.val().indexOf("slotd") != -1){
+						readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
+							updateSelecTipusRangs(results);
+						});
+					}else{
+						//capas edicion o solo geometrias
+						readDataTematicFromSlotf(tematic, this_.val()).then(function(results){
+							updateSelecTipusRangs(results);
+						});
+					}
 				}
 			});
 		}
@@ -408,6 +417,18 @@ function readDataTematicFromSlotd(tematic, slotd){
 	defer.resolve(values);
 	return defer.promise();
 }
+
+function readDataTematicFromSlotf(tematic, slotf){
+	//console.debug("readDataTematicFromSlotd");
+	var defer = jQuery.Deferred();
+	var features = tematic.geometries.features.features;
+	var values = jQuery.map( features, function( a ) {
+		return a.properties[slotf];
+	});
+	defer.resolve(values);
+	return defer.promise();
+}
+
 
 function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 	var isCanvas=false;
@@ -691,6 +712,12 @@ function loadTematicLayer(layer){
 						var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
 						if (dataGeom.length > 0){
 							dataGeom = dataGeom[0];
+							if (hasDades){
+								var fieldsName = tematic.capes.fieldsName.split(",");
+								jQuery.each(fieldsName, function(i, val){
+									dataGeom[val] = dataGeom["slotd"+(i+1)];
+								});
+							}							
 							jQuery.extend(geom.properties, {data: dataGeom});
 						}else{
 							dataGeom = null;
@@ -723,7 +750,10 @@ function loadTematicLayer(layer){
 									}
 								});
 							}else{
-								rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == geom.properties.businessId; });
+								rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == geom.properties[dataField]; });
+								if (rangStyle.length == 0){
+									rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == geom.properties.businessId; });
+								}
 							}
 							if (rangStyle.length > 0){
 								rangStyle = rangStyle[0];
@@ -731,6 +761,7 @@ function loadTematicLayer(layer){
 							}else{
 								rangStyle = createRangStyle(ftype, null, Lgeom.length);
 							}
+							
 							/*
 							if (dataGeom){
 								rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
