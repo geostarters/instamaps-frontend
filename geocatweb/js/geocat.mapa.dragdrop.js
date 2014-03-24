@@ -77,9 +77,22 @@ function creaAreesDragDropFiles() {
 				}else{
 				alert(window.lang.convert("Error en la càrrega de l'arxiu"));
 				}
+			}else{
+				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
 			}
 		});
 
+		
+		drgFromMapa.on('error', function(file, errorMessage) {
+			drgFromMapa.removeAllFiles(true);
+			$('#dialog_carrega_dades').modal('hide');
+			alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
+
+		});
+		
+		
+		
+		
 		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
 		
 			//jQuery('#prg_bar').css('width',progress+"%");
@@ -166,6 +179,18 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 			
 		});
 
+		
+		
+		drgFromBoto.on('error', function(file, errorMessage) {
+			drgFromBoto.removeAllFiles(true);
+			$('#dialog_carrega_dades').modal('hide');
+			alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
+
+		});
+		
+		
+		
+		
 		drgFromBoto.on('uploadprogress', function(file, progress,bytesSent) {
 			//console.info("progress");
 			//jQuery('#prg_bar').css('width',progress+"%");
