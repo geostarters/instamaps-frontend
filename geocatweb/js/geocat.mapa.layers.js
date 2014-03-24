@@ -143,6 +143,8 @@ function getFeatureStyle(f, fId){
 				iconSize : f.layer.options.icon.options.iconSize.x+"#"+f.layer.options.icon.options.iconSize.y,//Size del cercle
 				iconAnchor : f.layer.options.icon.options.iconAnchor.x+"#"+f.layer.options.icon.options.iconAnchor.y,//Anchor del cercle
 				simbol : f.layer.options.icon.options.icon,//tipus glyph
+				simbolSize : f.layer.options.icon.options.simbolSize,//mida glyphon
+//				puntTMP.options.symbolSize = style.symbolSize;//mida glyphon
 				opacity : (f.layer.options.opacity * 100),
 				label : false,
 				labelSize : 10,

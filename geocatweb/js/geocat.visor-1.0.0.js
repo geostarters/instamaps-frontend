@@ -93,8 +93,7 @@ function loadApp(){
 		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
-				//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-				return false;
+				window.location.href = paramUrl.galeriaPage;
 			}
 			mapConfig = results.results;
 			mapConfig.options = $.parseJSON( mapConfig.options );

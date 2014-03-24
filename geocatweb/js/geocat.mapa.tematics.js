@@ -21,7 +21,7 @@ function showTematicLayersModal(tipus,className){
 		//Si la capa no esta tematitzada
 		if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
 			if(tipus==tem_simple) {
-				if (tipusCapa == t_tematic){ //tematic
+				if (tipusCapa == t_tematic || tipusCapa == t_json){ //tematic
 					layers.push(this);
 				}else if(tipusCapa == t_dades_obertes){ //dades obertes
 					var dataset = layerOptions.dataset;
@@ -47,7 +47,7 @@ function showTematicLayersModal(tipus,className){
 			}else if (tipus==tem_cluster || tipus==tem_heatmap) {
 				//var ftype = transformTipusGeometry(layerOptions.geometryType);
 				var ftype = layerOptions.geometryType;
-				if(tipusCapa == t_dades_obertes || 
+				if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
 					(tipusCapa == t_tematic && ftype == t_marker)){
 					layers.push(this);
 				}
@@ -77,7 +77,7 @@ function showTematicLayersModal(tipus,className){
 		data.from = tipus;
 		ftype = transformTipusGeometry(data.geometrytype);
 		if (tipus == tem_simple){
-			if (ftype == t_marker  || data.tipus == t_dades_obertes || data.tipus == t_xarxes_socials){
+			if (ftype == t_marker  || data.tipus == t_dades_obertes || data.tipus == t_json ){
 				obrirMenuModal('#dialog_estils_punts','toggle',data);
 			}else if (ftype == t_polyline){
 				obrirMenuModal('#dialog_estils_linies','toggle',data);
@@ -990,16 +990,16 @@ function changeDefaultPointStyle(estilP) {
 		puntTMP.options.shadowSize = new L.Point(1, 1);
 		var tt=estilP.fontsize;
 		puntTMP.options.divColor=estilP.divColor;
-		if(tt=="9px"){
+		if(tt=="9px" || tt=="8px"){
 			cssText="font9";			
-		}else if(tt=="11px"){
+		}else if(tt=="11px" || tt=="10.5px"){
 			cssText="font11";
 		}else if(tt=="12px"){
 			cssText="font12";
-		}else if(tt=="14px"){
-			cssText="font14";
 		}else if(tt=="15px"){
-			cssText="font15";		
+			cssText="font15";
+		}else if(tt=="17px"){
+			cssText="font17";		
 		}
 				
 		puntTMP.options.fillColor =estilP.divColor;
@@ -1165,6 +1165,45 @@ function changeTematicLayerStyle(tematic, styles){
 		createServidorInMap(data).then(function(results){
 			console.debug(results.results);
 			loadDadesObertesLayer(results.results);
+		});
+		
+	}else if(capaMare.options.tipus == t_json){
+		
+//		var options = {
+//			dataset: capaMare.options.dataset,
+//			tem: tem_simple,
+//			style: rangs[0],
+//			origen: capaMare.options.businessId
+//		};
+
+		
+		    var capaMareOptions = capaMare.options.options;
+			var data = {
+				uid:$.cookie('uid'),
+				mapBusinessId: url('?businessid'),
+				serverName: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
+				serverType: t_json,
+				calentas: false,
+	            activas: true,
+	            visibilitats: true,
+	            order: capesOrdre_sublayer,
+	            epsg: '4326',
+	            imgFormat: 'image/png',
+	            infFormat: 'text/html',
+	            tiles: true,	            
+	            transparency: true,
+	            opacity: 1,
+	            visibilitat: 'O',
+	            url: capaMare.options.url,//Provar jQuery("#txt_URLJSON")
+	            calentas: false,
+	            activas: true,
+	            visibilitats: true,
+	            options: '{"origen":"'+capaMare.options.businessId+'","tem":"'+tem_simple+'","x":"'+capaMareOptions.x+'", "y":"'+capaMareOptions.y+'","titol":"'+capaMareOptions.titol+'","descripcio":"'+capaMareOptions.descripcio+'", "imatge":"'+capaMareOptions.imatge+'","vincle":"'+capaMareOptions.vincle+'","estil_do":{"radius":"'+styles.options.radius+'","fillColor":"'+styles.options.fillColor+'","color":"'+styles.options.color+'","weight":"'+styles.options.weight+'","opacity":"'+styles.options.opacity+'","fillOpacity":"'+styles.options.fillOpacity+'","isCanvas":"'+styles.options.isCanvas+'"}}'
+			};		
+		
+		createServidorInMap(data).then(function(results){
+			console.debug(results.results);
+			loadCapaFromJSON(results.results);
 		});
 		
 	}else if (tematic.tipus == t_tematic){

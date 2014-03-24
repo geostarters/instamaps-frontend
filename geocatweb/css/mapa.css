@@ -754,9 +754,14 @@ background-color: #9F9F9E;
 }
 
 #dialog_delete_capa .modal-dialog{
-	width: 450px;
+    max-width: 575px;
+    width: auto;
 }
 
+.modal-body > h4{
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
 .info-wms{
 	color: #55990A;
@@ -1581,6 +1586,18 @@ i.fa {
     overflow: hidden;
     /*width: auto;*/
     width: 115px;
+}
+
+
+/*Pop up features*/
+
+.bs-ncapa select, 
+.bs-ncapa select option{
+    max-width: 200px;
+    min-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: auto;
 }
 
 /*

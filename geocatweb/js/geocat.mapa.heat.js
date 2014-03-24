@@ -68,7 +68,50 @@ function createHeatMap(capa){
 				}
 			});				
 		
-		//Si no, es que es de tipus tematic	
+		//tipus json 
+		}else if(capa.layer.options.tipus == t_json){
+			
+			var data = {
+				uid:$.cookie('uid'),
+				mapBusinessId: url('?businessid'),
+				serverName: 'Capa JSON '+nom,
+				serverType: t_json,
+				calentas: false,
+			    activas: true,
+			    visibilitats: true,
+			    order: capesOrdre_sublayer,
+			    epsg: '4326',
+			    imgFormat: 'image/png',
+			    infFormat: 'text/html',
+			    tiles: true,	            
+			    transparency: true,
+			    opacity: 1,
+			    visibilitat: 'O',
+			    url: capa.layer.options.url,
+			    calentas: false,
+			    activas: true,
+			    visibilitats: true,
+			    options: '{"x":"'+capa.layer.options.options.x+'", "y":"'+capa.layer.options.options.y+'","tem":"'+tem_heatmap+'","origen":"'+capa.layer.options.businessId+'"}'
+//			    options: '{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+			};			
+			
+			createServidorInMap(data).then(function(results){
+				if (results.status == "OK"){
+					heatLayerActiu.options.businessId = results.results.businessId;
+					
+					heatLayerActiu.options.nom = capa.layer.options.nom+" "+nom;
+					heatLayerActiu.options.tipus = t_json;
+					heatLayerActiu.options.tipusRang = tem_heatmap;
+					
+					map.addLayer(heatLayerActiu);
+					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
+					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
+//					controlCapes._lastZIndex++;
+					activaPanelCapes(true);					
+				}else{
+					console.debug("Error add heatmap JSON");
+				}
+			});
 		}else{
 			var rangs = JSON.stringify({rangs:[{}]});			
 			var data = {
@@ -178,6 +221,66 @@ function loadDOHeatmapLayer(layer){
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		
+	});
+}
+
+function loadJsonHeatmapLayer(layer){
+	console.debug("loadJsonHeatmapLayer");
+	
+	var options = jQuery.parseJSON( layer.options );
+
+	var v_respotaJSON;
+	getJSONPServei(layer.url).then(function(results) {
+		var op = [];
+		if (jQuery.isArray(results)) {
+			v_respotaJSON = results;
+		} else {
+			for (key in results) {
+				if (jQuery.isArray(results[key])) {
+					v_respotaJSON = results[key];
+				}
+			}
+		}
+
+		if (!jQuery.isArray(v_respotaJSON)) {
+			alert(window.lang.convert("No s'ha interpretat bé l'estructura del JSON"));
+			return;
+		}
+		var arrP=[];
+		
+		for (key in v_respotaJSON) {
+			var lat = v_respotaJSON[key][options.y];
+			var lon = v_respotaJSON[key][options.x];
+			var d =[parseFloat(lat),parseFloat(lon),1];	
+			arrP.push(d);
+		}
+		
+		var heatLayerActiu = L.heatLayer(arrP,{radius:20,blur:15,max:1,
+			gradient: {			
+				0.35: "#070751",
+				0.40: "#0095DE",
+				0.45: "#02D5FF",
+				0.50: "#02E0B9",
+				0.55: "#00B43F",
+				0.60: "#97ED0E",
+				0.61: "#FFF800",
+				0.65: "#FF9700",
+				0.70: "#FF0101",
+				1: "#720404"
+				}	
+		});
+		
+		heatLayerActiu.options.businessId = layer.businessId;
+		heatLayerActiu.options.nom = layer.serverName;
+		heatLayerActiu.options.zIndex = layer.capesOrdre;
+		heatLayerActiu.options.tipus = layer.serverType;
+		heatLayerActiu.options.tipusRang = tem_heatmap;
+		
+		map.addLayer(heatLayerActiu);
+		var origen = getLeafletIdFromBusinessId(options.origen);
+		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
+		activaPanelCapes(true);
+		console.debug("FI loadJsonHeatmapLayer");
 	});
 }
 

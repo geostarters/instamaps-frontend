@@ -148,6 +148,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Més estils d'àrees":"More area styles",
 	"Més estils de línia":"More line styles",
 	"Més mapes de fons":"More background maps",
+	"Més tard": "Later",
 	"Més tipus de punts":"More types of points",
 	"Mida punt":"Point size",
 	"Mides":"Measurements",

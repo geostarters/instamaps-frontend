@@ -1213,7 +1213,6 @@ function creaPopOverDadesExternes() {
 			      		'</div>'						
 				);
 				
-				$('#twitter-collapse').hide();
 				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
 					addTwitterLayer();
 				});
@@ -1469,8 +1468,9 @@ function loadLayer(value){
 		defer.resolve();
 		//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_json){
-		loadCapaFromJSON(value);				
-		defer.resolve();
+		loadCapaFromJSON(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
 		loadDadesObertesLayer(value);
@@ -1697,6 +1697,9 @@ function addTwitterLayer(hashtag){
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 	}	
+	
+	//Tanquem input twitter
+	$('#twitter-collapse').hide();
 } 
 
 function loadTwitterLayer(layer, hashtag){
@@ -1863,9 +1866,18 @@ function updateEditableElements(){
 			success: function(response, newValue) {
 				map.closePopup();//Perque no queden desactualitzats
 				var id = this.id;
+				var idParent = this.idParent;
+				//Controlem si es sublayer
+				var editableLayer;
+				if(idParent){
+					editableLayer = controlCapes._layers[this.idParent]._layers[this.id];
+				}else{
+					editableLayer = controlCapes._layers[this.id];
+				}
+				
 				if(typeof url('?businessid') == "string"){
 					var data = {
-					 	businessId: controlCapes._layers[this.id].layer.options.businessId, //url('?businessid') 
+					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
 					 	serverName: newValue
 					 }
@@ -1875,20 +1887,20 @@ function updateEditableElements(){
 						if(results.status==='OK'){
 						_gaq.push(['_trackEvent', 'mapa', 'editar nom capa', 'label editar nom', tipus_user]);
 //						console.debug('udpate map name OK');
-						controlCapes._layers[id].name = newValue;
-						controlCapes._layers[id].layer.options.nom = newValue;
+						editableLayer.name = newValue;
+						editableLayer.layer.options.nom = newValue;
 					}else{
-						controlCapes._layers[id].name = oldName;
+						editableLayer.name = oldName;
 						$('.leaflet-name label span#'+id).text(results.results.nom);
 					}				
 				},function(results){
-					controlCapes._layers[id].name = oldName;
+					editableLayer.name = oldName;
 					var obj = $('.leaflet-name label span#'+id).text();
 					$('.leaflet-name label span#'+id).text(oldName);
 				});	
 			}else{
-				controlCapes._layers[id].name = newValue;
-				controlCapes._layers[id].layer.options.nom = newValue;
+				editableLayer.name = newValue;
+				editableLayer.layer.options.nom = newValue;
 			}		
 	 }
 	});
@@ -1988,6 +2000,7 @@ function loadDadesObertesLayer(layer){
 			controlCapes._lastZIndex++;
 		}else{//Si te origen es una sublayer
 			var origen = getLeafletIdFromBusinessId(options.origen);
+			capaDadaOberta.options.zIndex = capesOrdre_sublayer;
 			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
 		}		
 		

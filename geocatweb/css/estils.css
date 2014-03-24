@@ -544,12 +544,12 @@ textarea {
 
 .font9 {
 	font-size: 9px !important;
-	margin-top: 2px !important
+	margin-top: 2px !important;
 }
 
 .font11 {
-	font-size: 11px !important;
-	margin-top: 4px !important
+	font-size: 10px !important;
+	margin-top: 4px !important;
 }
 
 .font12 {
@@ -564,9 +564,10 @@ textarea {
 	font-size: 15px !important;
 }
 
-.font14 {
-	font-size: 14px !important;
+.font17 {
+	font-size: 17px !important;
 }
+
 
 .txt_ext {
 	height: 33px !important;
