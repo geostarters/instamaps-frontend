@@ -14,6 +14,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Agrupació":"Agrupación",
 	"Aquest estil no es pot aplicar a cap capa de les que tens en el mapa":"Este estilo no se puede aplicar a ninguna capa de las que tienes en el mapa",
 	"Aquesta capa actualment és en ús i no es pot esborrar":"Esta capa está siendo usada y no se puede borrar",
+	"Aquest camp no te valors":"Este campo no tiene valores",
 	"Ara no": "Por ahora no",
 	"Arrossega les teves dades sobre el mapa o fes clic aquí":"Arrastra tus datos sobre el mapa o haz clic aquí",
 	"Bàsic":"Básico",
