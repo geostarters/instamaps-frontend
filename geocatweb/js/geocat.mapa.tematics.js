@@ -673,6 +673,7 @@ function loadTematicLayer(layer){
 		var capaTematic;
 		if(results.status == "OK" ){
 			var tematic = results.results;
+			var hasSource = (tematic.options && (tematic.options.indexOf("source")!=-1) );
 			console.debug(tematic);
 			if(tematic.tipusRang == tem_heatmap){
 				loadTematicHeatmap(tematic, layer.capesOrdre, layer.options);
@@ -879,11 +880,15 @@ function loadTematicLayer(layer){
 //								var color = hexToRgb(featureTem.options.icon.options.fillColor);
 //								featureTem._icon.style.setProperty("background-color", color);
 //							}							
-//							
-							if($(location).attr('href').indexOf('mapa')!=-1){
-								createPopupWindow(featureTem,ftype);
+//							//Si la capa no ve de fitxer
+							if(!hasSource){
+								if($(location).attr('href').indexOf('mapa')!=-1){
+									createPopupWindow(featureTem,ftype);
+								}else{
+									createPopupWindowVisor(featureTem,ftype);
+								}								
 							}else{
-								createPopupWindowVisor(featureTem,ftype);
+								createPopupWindowData(featureTem,ftype);
 							}
 							
 							map.closePopup();

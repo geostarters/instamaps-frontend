@@ -452,6 +452,26 @@ function createPopupWindowVisor(player,type){
 	
 }
 
+function createPopupWindowData(player,type){
+	
+	var html='<div class="div_popup_visor"><div class="popup_pres">';
+	$.each( player.properties.data, function( key, value ) {
+//		alert( key + ": " + value );
+		
+		if(key.indexOf("slot")==-1){
+			html+='<div class="popup_data_row">'+
+						'<div class="popup_data_key">'+key+'</div>'+
+					    '<div class="popup_data_value">'+value+'</div>'+
+				  '</div>';
+		}
+
+	});	
+	
+	html+='</div></div>';
+	player.bindPopup(html,{'offset':[0,-25]}).openPopup();	
+	
+}
+
 function createPopupWindow(layer,type){
 	//console.debug('createPopupWindow');
 	

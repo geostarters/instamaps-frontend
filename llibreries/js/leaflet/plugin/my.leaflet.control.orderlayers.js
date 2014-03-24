@@ -254,7 +254,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			}else{
 				
-				col = L.DomUtil.create('div', 'leaflet-download-visor glyphicon glyphicon-download');
+				col = L.DomUtil.create('div', 'leaflet-download-visor glyphicon glyphicon-save');
 				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);				

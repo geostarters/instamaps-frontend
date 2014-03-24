@@ -1600,6 +1600,31 @@ i.fa {
     width: auto;
 }
 
+/*Popup data features*/
+
+.popup_data_key {
+    float: left;
+    width: 30%;
+    background-color: #EEEEEE;
+    font-weight: bold;
+    line-height: 1.8;
+    text-align: center;
+}
+
+.popup_data_value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70%;
+    line-height: 1.8;
+}
+
+.popup_data_row{
+	border-bottom: 1px solid #EEEEEE;
+	margin: 2px;
+	padding: 0px;
+}
+
+
 /*
 .leaflet-control-layers {
 	background-color: #555550;
