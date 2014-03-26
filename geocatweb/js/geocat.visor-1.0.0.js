@@ -302,9 +302,6 @@ function redimensioMapa() {
 		} 
 		jQuery('#map').css('top', factorH + 'px');
 		jQuery('#map').height(jQuery(window).height() - factorH);
-		console.debug(jQuery(window).width());
-		console.debug(jQuery('body').outerWidth());
-		
 		jQuery('#map').width(jQuery(window).width() - factorW);
 	});
 	jQuery(window).trigger('resize');
