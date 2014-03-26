@@ -25,7 +25,7 @@ var default_area_style = {
     fillColor: '#FFC400',
     fillOpacity: 0.5
 };
-var default_point_style = {
+var default_marker_style = {
 	icon : '',
 	markerColor : 'orange',
 	divColor:'transparent',
@@ -41,7 +41,30 @@ var default_point_style = {
 	color : "#ffffff",
 	fillColor :"#FFC500"
 };
-
+var default_circulo_style = {
+	isCanvas:true,
+	simbolSize: 6,
+	borderWidth: 2,
+	opacity: 90,
+	borderColor : "#ffffff",
+	color :"#FFC500"	
+};
+var default_circuloglyphon_style = {
+	icon : '',
+	markerColor: 'punt_r',
+	prefix : 'fa',
+	divColor:'transparent',
+	iconAnchor : new L.Point(15, 15),
+	iconSize : new L.Point(30, 30),
+	iconColor : '#000000',
+	isCanvas:false,
+	radius:6,
+	opacity:1,
+	weight : 2,
+	fillOpacity : 0.9,
+	color : "#ffffff",
+	fillColor :"#FFC500"	
+};
 jQuery(document).ready(function() {
 	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
@@ -308,7 +331,6 @@ function redimensioMapa() {
 }
 
 function loadMapConfig(mapConfig){
-	console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
@@ -363,6 +385,7 @@ function loadMapConfig(mapConfig){
 			});
 		});
 		jQuery('#div_loading').hide();
+		jQuery(window).trigger('resize');
 	}
 //	
 //	var source = $("#map-properties-template").html();
@@ -627,39 +650,44 @@ function popUp(f, l) {
 				}
 			}
 		}
-		l.bindPopup(out.join("<br />"));
+		l.bindPopup(out.join("<br/>"));
 	}
 }
 
 function createFeatureMarkerStyle(style, num_geometries){
+	//console.debug("createFeatureMarkerStyle");
 	if (!num_geometries){
 		num_geometries = num_max_pintxos - 1;
 	}
 	if (style.marker && num_geometries <= num_max_pintxos){
-			var puntTMP = new L.AwesomeMarkers.icon(default_point_style);
+		//Especifiques per cercle amb glyphon
+		if(style.marker == 'punt_r'){
+			var puntTMP = new L.AwesomeMarkers.icon(default_circuloglyphon_style);
 			puntTMP.options.iconColor = style.simbolColor;
 			puntTMP.options.icon = style.simbol;
 			puntTMP.options.markerColor = style.marker;
 			puntTMP.options.isCanvas=false;
-						
-			//Especifiques per cercle amb glyphon
-			if(style.marker == 'punt_r'){
-				puntTMP.options.divColor= style.color;
-				puntTMP.options.shadowSize = new L.Point(1, 1);
-				puntTMP.options.radius = style.radius;
-				var anchor = style.iconAnchor.split("#");
-				var size = style.iconSize.split("#");
-				puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
-				puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
-				puntTMP.options.iconSize.x = size[0];
-				puntTMP.options.iconSize.y = size[1];
-			}else{
-				puntTMP.options.iconAnchor.x = 14;
-				puntTMP.options.iconAnchor.y = 42;
-				puntTMP.options.iconSize.x = 28;
-				puntTMP.options.iconSize.y = 42;
-			}
-	}else{
+			puntTMP.options.divColor= style.color;
+			puntTMP.options.shadowSize = new L.Point(1, 1);
+			puntTMP.options.radius = style.radius;
+			var anchor = style.iconAnchor.split("#");
+			var size = style.iconSize.split("#");
+			puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
+			puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
+			puntTMP.options.iconSize.x = size[0];
+			puntTMP.options.iconSize.y = size[1];
+		}else{
+			var puntTMP = new L.AwesomeMarkers.icon(default_marker_style);
+			puntTMP.options.iconColor = style.simbolColor;
+			puntTMP.options.icon = style.simbol;
+			puntTMP.options.markerColor = style.marker;
+			puntTMP.options.isCanvas=false;
+			puntTMP.options.iconAnchor.x = 14;
+			puntTMP.options.iconAnchor.y = 42;
+			puntTMP.options.iconSize.x = 28;
+			puntTMP.options.iconSize.y = 42;
+		}
+	}else{ //solo circulo
 		var puntTMP = { 
 			radius: style.simbolSize, 
 			isCanvas: true,

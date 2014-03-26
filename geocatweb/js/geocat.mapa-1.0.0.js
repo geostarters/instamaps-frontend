@@ -34,7 +34,7 @@ var default_area_style = {
     borderWidth: '3',
     fillOpacity: 0.5
 };
-var default_point_style = {
+var default_marker_style = {
 	icon : '',
 	markerColor : 'orange',
 	divColor:'transparent',
@@ -50,13 +50,29 @@ var default_point_style = {
 	color : "#ffffff",
 	fillColor :"#FFC500"
 };
-var default_point_tematic = {
+var default_circulo_style = {
 	isCanvas:true,
 	simbolSize: 6,
 	borderWidth: 2,
 	opacity: 90,
 	borderColor : "#ffffff",
 	color :"#FFC500"	
+};
+var default_circuloglyphon_style = {
+	icon : '',
+	markerColor: 'punt_r',
+	prefix : 'fa',
+	divColor:'transparent',
+	iconAnchor : new L.Point(15, 15),
+	iconSize : new L.Point(30, 30),
+	iconColor : '#000000',
+	isCanvas:false,
+	radius:6,
+	opacity:1,
+	weight : 2,
+	fillOpacity : 0.9,
+	color : "#ffffff",
+	fillColor :"#FFC500"	
 };
 var opt = {
 	placement : 'right',
@@ -174,7 +190,6 @@ function loadApp(){
 								updateMapName(data).then(function(results){
 									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
 									if(results.status=='OK') $('#dialgo_publicar #nomAplicacio').val(results.results);
-									console.debug($('#dialgo_publicar #nomAplicacio').val());
 								},function(results){
 									$('#nomAplicacio').html(mapConfig.nomAplicacio);				
 								});	
@@ -1426,7 +1441,6 @@ function loadMapConfig(mapConfig){
 		
 		//carga las capas en el mapa
 		loadOrigenWMS().then(function(results){
-			console.debug(results);
 			var num_origen = 0;
 			jQuery.each(results.origen, function(index, value){
 				loadLayer(value).then(function(){
