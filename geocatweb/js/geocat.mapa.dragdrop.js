@@ -215,7 +215,6 @@ jQuery("#bt_esborra_ff").on('click', function() {
 	jQuery('#prg_bar').css('width',"0%");
 });
 
-
 jQuery("#load_TXT_coord").on('click', function() {// fitxer TXT
 	var isOK=false;
 	var colX = jQuery("#cmd_upload_colX").val();
@@ -241,16 +240,13 @@ jQuery("#load_TXT_coord").on('click', function() {// fitxer TXT
 		envioArxiu.colY=colY;
 		envioArxiu.srid=srid;	
 		enviarArxiu();
-	}
-	
-	
-	
+	}	
 });
 
-jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
-	
+jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT	
 	var cc=$('input:radio[name="radio_adre"]:checked').val();
-	var isOK=false;
+	//var isOK=false;
+	var isOK=true; //mientras adaptamos el nuevo geocodificador
 	if(cc == '0'){
 	       if (jQuery('#cmd_upload_adre_0').val()!="null"){
 	    	   isOK=true; 
@@ -260,10 +256,8 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	    	   isOK=false;
 	    	   alert(window.lang.convert("Cal indicar el camp que conté l'adreça"));
 	    	  
-	       };
-	      
-	    }else if(cc == '1'){
-	    	
+	       };	      
+	    }else if(cc == '1'){	    	
 	    	var nc=jQuery("#cmd_upload_adre_11").val();
 	    	var mun=jQuery("#cmd_upload_adre_12").val();
 	    	
@@ -275,9 +269,7 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	    		 isOK=false;
 		    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
 	    	}
-	    	
-	    }else if(cc == '2'){
-	    	
+	    }else if(cc == '2'){	    	
 	    	var nc=jQuery("#cmd_upload_adre_21").val();
 	    	var numc=jQuery("#cmd_upload_adre_22").val();
 	    	var mun=jQuery("#cmd_upload_adre_23").val();
@@ -290,16 +282,8 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	    		 isOK=false;
 		    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
 	    	}
-	    	
-	    	
-	    	
 	    }	
-	
-	
-	
 	if(isOK){enviarArxiu();}
-	
-	
 });
 
 jQuery("#load_TXT_codi").on('click', function() {// fitxer codi

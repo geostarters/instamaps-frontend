@@ -29,18 +29,32 @@ function hexToRgb(hex) {
 function obrirMenuModal(_menuClass,estat,_from){
 	objEdicio.obroModalFrom=_from;
     if (jQuery.isPlainObject( _from )){
-    	var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
-    	if( layers_from.length > num_max_pintxos){
-            jQuery('.fila-awesome-markers').hide();
+    	if (_from.from == tem_clasic){
+    		//TODO
+    		/*
+    		jQuery('.fila-awesome-markers').hide();
             activaPuntZ();
+            jQuery('#dialog_tematic_rangs').modal('hide');
+            jQuery(_menuClass).modal(estat);
+            */
     	}else{
-            jQuery('.fila-awesome-markers').show();
+    		var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
+        	if( layers_from.length > num_max_pintxos){
+                jQuery('.fila-awesome-markers').hide();
+                activaPuntZ();
+        	}else{
+                jQuery('.fila-awesome-markers').show();
+               
+        	}
+        	jQuery('.modal').modal('hide');     
+            jQuery(_menuClass).modal(estat);
     	}
     }else{
     	jQuery('.fila-awesome-markers').show();
+    	jQuery('.modal').modal('hide');     
+        jQuery(_menuClass).modal(estat);
     }
-    jQuery('.modal').modal('hide');     
-    jQuery(_menuClass).modal(estat);
+    
 }
 
 function initCanvas(){
@@ -661,15 +675,13 @@ function createPopupWindow(layer,type){
 			
 		//********************************************************
 			
-			if(accio[2].indexOf("marker")!=-1){
+		if(accio[2].indexOf("marker")!=-1){
 				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
 			}else if(accio[2].indexOf("polygon")!=-1){
 				obrirMenuModal('#dialog_estils_arees','toggle',from_creaPopup);
 			}else{
-
 				obrirMenuModal('#dialog_estils_linies','toggle',from_creaPopup);
 			}
-
 		}else if(accio[0].indexOf("feature_remove")!=-1){
 			map.closePopup();
 			var data = {
@@ -688,11 +700,8 @@ function createPopupWindow(layer,type){
 			},function(results){
 				console.debug("ERROR deleteFeature");
 			});	
-			
 		}else if(accio[0].indexOf("feature_text")!=-1){
-
 			modeEditText();
-		
 		}else if(accio[0].indexOf("feature_move")!=-1){
 			objEdicio.esticEnEdicio=true;
 			console.debug(objEdicio);
@@ -702,7 +711,6 @@ function createPopupWindow(layer,type){
 				capaUsrActiva.removeEventListener('layeradd');
 			}
 			capaUsrActiva = map._layers[capaLeafletId];
-			
 			
 			var capaEdicio = new L.FeatureGroup();
 			capaEdicio.addLayer(map._layers[objEdicio.featureID]);
