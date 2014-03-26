@@ -138,6 +138,7 @@ function loadApp(){
 		};
 		
 		getMapByBusinessId(data).then(function(results){
+			console.debug(results);
 			if (results.status == "ERROR"){
 				if (!$.cookie('uid')){
 					window.location.href = paramUrl.mainPage;
@@ -148,7 +149,7 @@ function loadApp(){
 						//jQuery(window).off('unload');
 						window.location.href = paramUrl.mainPage;
 					}else{
-						window.location.href = paramUrl.galeriaPage;
+						//window.location.href = paramUrl.galeriaPage;
 					}
 				}
 			}else{
@@ -197,12 +198,13 @@ function loadApp(){
 						
 					});
 				}catch(err){
+					console.debug(err);
 					if (isRandomUser($.cookie('uid'))){
 						$.removeCookie('uid', { path: '/' });
 						jQuery(window).off('beforeunload');
 						window.location.href = paramUrl.mainPage;
 					}else{
-						window.location.href = paramUrl.galeriaPage;
+						//window.location.href = paramUrl.galeriaPage;
 					}
 				}
 			}
@@ -1421,6 +1423,20 @@ function loadMapConfig(mapConfig){
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			if (mapConfig.options.fons != 'topoMap'){
+				var fons = mapConfig.options.fons;
+				if (fons == 'topoMap') {
+					map.topoMap();
+				} else if (fons == 'topoGrisMap') {
+					map.topoGrisMap();
+				} else if (fons == 'ortoMap') {
+					map.ortoMap();
+				} else if (fons == 'terrainMap') {
+					map.terrainMap();
+				} else if (fons == 'colorMap') {
+					gestionaPopOver(this);
+				} else if (fons == 'historicMap') {
+				
+				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
@@ -2081,6 +2097,7 @@ function showConfOptions(businessId){
 }
 
 function createNewMap(){
+	console.debug("createNewMap");
 	var data = {
 		nom: getTimeStamp(),
 		uid: $.cookie('uid'),

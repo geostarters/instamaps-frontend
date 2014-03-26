@@ -453,7 +453,7 @@ function createPopupWindowVisor(player,type){
 		+'<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
 		+'</div></div>';
 	
-	player.bindPopup(html,{'offset':[0,-25]}).openPopup();	
+	player.bindPopup(html,{'offset':[0,-25]});	
 	
 }
 
@@ -473,7 +473,8 @@ function createPopupWindowData(player,type){
 	});	
 	
 	html+='</div></div>';
-	player.bindPopup(html,{'offset':[0,-25]}).openPopup();	
+	//he quitado el openPopup() ya que si la capa no está activa no se ha cargado en el mapa y da error.
+	player.bindPopup(html,{'offset':[0,-25]});	
 	
 }
 

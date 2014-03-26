@@ -711,6 +711,7 @@ function loadTematicLayer(layer){
 							}
 							*/
 						}
+						
 						var featureTem;
 						if (ftype === t_marker){
 							var coords=geom.geometry.coordinates;
@@ -818,18 +819,17 @@ function loadTematicLayer(layer){
 							if(!hasSource){
 								if($(location).attr('href').indexOf('mapa')!=-1 && capaTematic.options.tipusRang == tem_origen){
 									createPopupWindow(featureTem,ftype);
-								}else{
+								}else{			
 									createPopupWindowVisor(featureTem,ftype);
 								}								
 							}else{
 								createPopupWindowData(featureTem,ftype);
 							}
-							
 							map.closePopup();
 						}
 					}
 				}
-				
+								
 				var options = jQuery.parseJSON( layerWms.options );				
 				if(layerWms.options && options.origen){//Si es una sublayer
 					var origen = getLeafletIdFromBusinessId(options.origen);
