@@ -487,20 +487,19 @@ background-color:#FFFFFF}
 
 /*** index.html ***/
 	.img-carousel {
-		opacity: 0.5;
+		opacity: 0.9;
 		width: 100%;
 		height: auto;
 	}
 	
 	.my-carousel-caption {
-		color: #505050;
-	    font-style: normal;
-		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	    font-weight: 500;
-	    font-size: 36px; 
-	    text-shadow: none;
-	    padding-bottom: 13%;
-	    text-shadow: 0 2px 1px #FFFFFF;
+		color: #202020;
+	   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	   font-size: 36px;
+	   font-style: normal;
+	   font-weight: bolder;
+	   padding-bottom: 10%;
+	   text-shadow: 0 2px 1px #FFFFFF;
 	}
 	
 	.marketing{
@@ -565,18 +564,18 @@ background-color:#FFFFFF}
 		background-color: #f06c21;
 	}
 	
-	#txt-image{
-		color: #505050;
-	    font-size: 30px;
-	    font-style: normal;
-	    line-height: 1.5;
-	    padding: 10%;
-	    text-align: center;
-		background-image: url("../../llibreries/img/banner_1_index.png");
-	    background-size: cover;  
-	    text-shadow: 0 2px 1px #FFFFFF;  
-	    opacity: 0.5;
-	}	
+#txt-image {
+    background-color: #CCCCCC;
+    color: #202020;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 1.5;
+    padding: 10%;
+    text-align: center;
+    text-shadow: 0 2px 1px #FFFFFF;
+}
+	
 	
 	@media (max-width: 400px) {
 	  #btn-galeria, #btn-fes-mapa{
