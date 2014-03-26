@@ -138,7 +138,6 @@ function loadApp(){
 		};
 		
 		getMapByBusinessId(data).then(function(results){
-			console.debug(results);
 			if (results.status == "ERROR"){
 				if (!$.cookie('uid')){
 					window.location.href = paramUrl.mainPage;
@@ -149,7 +148,7 @@ function loadApp(){
 						//jQuery(window).off('unload');
 						window.location.href = paramUrl.mainPage;
 					}else{
-						//window.location.href = paramUrl.galeriaPage;
+						window.location.href = paramUrl.galeriaPage;
 					}
 				}
 			}else{
@@ -204,7 +203,7 @@ function loadApp(){
 						jQuery(window).off('beforeunload');
 						window.location.href = paramUrl.mainPage;
 					}else{
-						//window.location.href = paramUrl.galeriaPage;
+						window.location.href = paramUrl.galeriaPage;
 					}
 				}
 			}
