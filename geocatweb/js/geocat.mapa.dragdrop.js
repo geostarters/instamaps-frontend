@@ -9,19 +9,19 @@ var drgFromBoto = null;
 var midaFitxer = 10000000;//en bytes
 var matriuActiva = [];
 var envioArxiu={isDrag:false,
-				tipusAcc:'gdal', //gdal,adreca,coordenades,codis
-				colX:null,
-				colY:null,
-				srid:'EPSG:4326',
-				bid:null,
-				codi:null,
-				codiType:null,
-				geomType:null,
-				type:null,
-				camps:null,
-				ext:null,
-				uid : null
-					}
+	tipusAcc:'gdal', //gdal,adreca,coordenades,codis
+	colX:null,
+	colY:null,
+	srid:'EPSG:4326',
+	bid:null,
+	codi:null,
+	codiType:null,
+	geomType:null,
+	type:null,
+	camps:null,
+	ext:null,
+	uid : null
+};
 
 function creaAreesDragDropFiles() {
 	// dropzone
@@ -64,8 +64,7 @@ function creaAreesDragDropFiles() {
 			formData.append("uploadFile", paramUrl.uploadFile);
 															
 		});
-		
-		
+				
 		drgFromMapa.on('success', function(file, resposta) {
 			drgFromMapa.removeAllFiles(true);
 			$('#dialog_carrega_dades').modal('hide');
@@ -81,22 +80,15 @@ function creaAreesDragDropFiles() {
 				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
 			}
 		});
-
 		
 		drgFromMapa.on('error', function(file, errorMessage) {
 			drgFromMapa.removeAllFiles(true);
 			$('#dialog_carrega_dades').modal('hide');
-			alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
-
+			alert(window.lang.convert("Error en la càrrega de l'arxiu"));
 		});
 		
-		
-		
-		
 		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
-		
 			//jQuery('#prg_bar').css('width',progress+"%");
-
 		});
 	}
 	
@@ -162,9 +154,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 													
 		});
 		
-
 		drgFromBoto.on('success', function(file, resposta) {
-		
 			drgFromBoto.removeAllFiles(true);
 			$('#dialog_carrega_dades').modal('hide');
 			if(resposta){
@@ -178,8 +168,6 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 			}
 			
 		});
-
-		
 		
 		drgFromBoto.on('error', function(file, errorMessage) {
 			drgFromBoto.removeAllFiles(true);
@@ -247,6 +235,7 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 	var cc=$('input:radio[name="radio_adre"]:checked').val();
 	//var isOK=false;
 	var isOK=true; //mientras adaptamos el nuevo geocodificador
+	envioArxiu.tipusAcc='adreca'; 
 	if(cc == '0'){
 	       if (jQuery('#cmd_upload_adre_0').val()!="null"){
 	    	   isOK=true; 
@@ -288,8 +277,6 @@ jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT
 
 jQuery("#load_TXT_codi").on('click', function() {// fitxer codi
 
-	
-	
 			 if (jQuery('#cmd_upload_codi').val()!="null"){
 				 isOK=true; 
 			  	   envioArxiu.tipusAcc='codis'; 
@@ -330,18 +317,13 @@ jQuery("#load_FF_SRS_coord").on('click', function() {
 
 function enviarArxiu(){
 	ldpercent=0;
-	 uploadprogress();
-	
+	uploadprogress();
 	if(envioArxiu.isDrag){
-		
 		drgFromMapa.uploadFile(drgFromMapa.files[0]);	
 	}else{
 		drgFromBoto.uploadFile(drgFromBoto.files[0]);;
 	}
-	
 }
-
-
 
 jQuery('#bt_upload_cancel').on("click", function(e) {
 	$('#dialog_carrega_dades').modal('hide');
@@ -351,8 +333,6 @@ jQuery('#bt_upload_cancel').on("click", function(e) {
 		drgFromBoto.uploadFile(drgFromBoto.files[0]);;
 	}
 });
-
-
 
 jQuery('#cmd_codiType_Capa')
 		.on(
@@ -387,6 +367,7 @@ function obreModalCarregaDades(isDrag) {
 }
 
 function accionaCarrega(file,isDrag) {
+	//console.debug("accionaCarrega");
 	var ff = miraFitxer(file);
 	
 	var obroModal = false;
@@ -394,7 +375,7 @@ function accionaCarrega(file,isDrag) {
 		if ( isDrag) {obreModalCarregaDades(true);}
 		jQuery("#file_name").text(file.name);
 		jQuery("#bt_esborra_ff").show();
-
+		
 		if ((ff.ext == "csv") || (ff.ext == "txt")) {
 
 			obteCampsCSV(file);
@@ -415,7 +396,7 @@ function accionaCarrega(file,isDrag) {
 			
 			obroModal = true;
 		} else {
-			 envioArxiu.tipusAcc='gdal'; 
+			envioArxiu.tipusAcc='gdal'; 
 			// Fot-li castanya
 			 enviarArxiu();
 			 /*
