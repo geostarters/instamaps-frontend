@@ -496,78 +496,6 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 	map.closePopup();	
 }
 
-/*
-function changeTematicLayerStyle_old(tematic, styles){
-	console.debug("changeTematicLayerStyle_old");
-	var rangs = getRangsFromStyles(tematic, styles);
-	var capaMare = map._layers[tematic.leafletid];
-	
-	if (jQuery.isArray(styles)){
-		
-	}else{
-		var layer = controlCapes._layers[tematic.leafletid];
-		if (tematic.geometrytype == t_marker){
-			jQuery.each(capaMare._layers, function( key, value ) {	
-				canviaStyleSinglePoint(styles,this,capaMare,false)
-			});
-		}else if (tematic.geometrytype == t_polyline){
-			jQuery.each(layer.layer._layers, function( key, value ) {
-				this.setStyle(styles);
-			});
-		}else if (tematic.geometrytype == t_polygon){
-			jQuery.each(layer.layer._layers, function( key, value ) {
-				this.setStyle(styles);
-			});
-		}
-	}
-	
-	if(capaMare.options.tipus == t_dades_obertes){
-		var options = {
-			dataset: capaMare.options.dataset,
-			tem: tem_simple,
-			style: styles.options
-		};
-		
-		var data = {
-			uid:$.cookie('uid'),
-			businessId: capaMare.options.businessId,
-			mapBusinessId: url('?businessid'),
-			serverName: capaMare.options.nom,
-			serverType: capaMare.options.tipus,
-			calentas: false,
-            activas: true,
-            visibilitats: true,
-            epsg: '4326',
-            transparency: true,
-            visibilitat: 'O',
-			options: JSON.stringify(options)
-		};
-		
-		updateServidorWMS(data).then(function(results){
-		});
-		
-	}else if (tematic.tipus == t_tematic){
-		rangs = JSON.stringify({rangs:rangs});
-		
-		var data = {
-			businessId: tematic.businessid,
-			uid: $.cookie('uid'),
-            mapBusinessId: url('?businessid'),	           
-            nom: capa.layer.options.nom+" heatmap",			
-            calentas: false,           
-            activas: true,
-            visibilitats: true,	 			
-			tipusRang: tematic.from,
-			rangs: rangs
-		};
-		
-		updateTematicRangs(data).then(function(results){ 
-			//console.debug(results);
-		});
-	}
-}
-*/
-
 function getRangsFromStyles(tematic, styles){
 	console.debug("getRangsFromStyles");
 	if (tematic.tipus == t_dades_obertes){
@@ -596,32 +524,31 @@ function getRangsFromStyles(tematic, styles){
 					opacity: (styles.options.fillOpacity * 100)
 				};
 			}else{
-//				if (!styles.options.iconSize){
-//					styles = styles.options.icon;
-//				}
-//				var rang = {
-//					simbol: jQuery.trim(styles.options.icon),
-//					simbolSize: styles.options.iconSize.y, 
-//					simbolColor: styles.options.iconColor, 
-//					marker: styles.options.markerColor
-//				};
 				
-				while(jQuery.type(styles.options.icon) === "object"){
-					//if(jQuery.trim(styles.options.icon) != "" && jQuery.isPlainObject(styles.options.icon)){
-					styles.options = styles.options.icon.options;
+//				var auxOptions = styles.options;
+//				while(jQuery.type(styles.options.icon) === "object"){
+//					//if(jQuery.trim(styles.options.icon) != "" && jQuery.isPlainObject(styles.options.icon)){
+//					styles.options = styles.options.icon.options;
+//				}
+				
+				
+				if(jQuery.type(styles.options.icon) === "object"){
+					var auxOptions = styles.options.icon.options;
+				}else{
+					var auxOptions = styles.options;
 				}
 				
 				var rang = {
 					llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 //					valorMax : "feature" + fId,
-					color : styles.options.fillColor,//Color principal
-					marker: styles.options.markerColor,//Si es de tipus punt_r o el color del marker
-					simbolColor: styles.options.iconColor,//Glyphon
-					radius : styles.options.radius,//Radius
-					iconSize : styles.options.iconSize.x+"#"+styles.options.iconSize.y,//Size del cercle
-					iconAnchor : styles.options.iconAnchor.x+"#"+styles.options.iconAnchor.y,//Anchor del cercle
-					simbol : styles.options.icon,//tipus glyph
-					opacity : (styles.options.opacity * 100),
+					color : auxOptions.fillColor,//Color principal
+					marker: auxOptions.markerColor,//Si es de tipus punt_r o el color del marker
+					simbolColor: auxOptions.iconColor,//Glyphon
+					radius : auxOptions.radius,//Radius
+					iconSize : auxOptions.iconSize.x+"#"+auxOptions.iconSize.y,//Size del cercle
+					iconAnchor : auxOptions.iconAnchor.x+"#"+auxOptions.iconAnchor.y,//Anchor del cercle
+					simbol : auxOptions.icon,//tipus glyph
+					opacity : (auxOptions.opacity * 100),
 					label : false,
 					labelSize : 10,
 					labelFont : 'arial',
@@ -636,29 +563,6 @@ function getRangsFromStyles(tematic, styles){
 				lineWidth: styles.options.weight,
 				opacity: (styles.options.opacity * 100),
 			};
-			/*var rang = {
-				borderWidth: 2,
-				borderColor: '#000000',
-				color: styles.options.iconColor,
-				label: false,
-				labelColor: '#000000',
-				labelFont: 'arial',
-				labelHaloColor: '#ffffff',
-				labelHaloWidth: 2,
-				labelSize: 10,
-				lineWidth: styles.lineWidth,
-				lineStyle: 'solid',			
-				llegenda: '',
-				opacity: (styles.opacity * 100),
-				poligonStyle: '',
-				simbol: styles.options.icon,
-				simbolSize: , 
-				simbolColor: styles.options.markerColor, 
-				valorMax: '',
-				valorMin: '',
-				marker: ''
-			};
-			*/
 		}else if (ftype == t_polygon){
 			if (styles._options){
 				styles = styles._options;
@@ -720,6 +624,11 @@ function loadTematicLayer(layer){
 					geometryType: tematic.geometryType,
 					dades: hasDades
 				};
+				
+				if(hasSource) {
+					var source = jQuery.parseJSON(tematic.options);					
+					capaTematic.options.source = source.source;
+				}
 				
 				if (!layerWms.capesActiva || layerWms.capesActiva == true || layerWms.capesActiva == "true"){
 					capaTematic.addTo(map);
@@ -907,7 +816,7 @@ function loadTematicLayer(layer){
 //							}							
 //							//Si la capa no ve de fitxer
 							if(!hasSource){
-								if($(location).attr('href').indexOf('mapa')!=-1){
+								if($(location).attr('href').indexOf('mapa')!=-1 && capaTematic.options.tipusRang == tem_origen){
 									createPopupWindow(featureTem,ftype);
 								}else{
 									createPopupWindowVisor(featureTem,ftype);

@@ -1604,7 +1604,7 @@ i.fa {
 
 .popup_data_key {
     float: left;
-    width: 30%;
+    min-width: 30%;
     background-color: #EEEEEE;
     font-weight: bold;
     line-height: 1.8;
@@ -1614,7 +1614,7 @@ i.fa {
 .popup_data_value {
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 70%;
+    max-width: 70%;
     line-height: 1.8;
 }
 

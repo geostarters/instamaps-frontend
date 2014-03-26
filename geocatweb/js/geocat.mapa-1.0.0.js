@@ -173,7 +173,8 @@ function loadApp(){
 					
 								updateMapName(data).then(function(results){
 									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
-									if(results.status!='OK') $('#nomAplicacio').html(results.results.nom);
+									if(results.status=='OK') $('#dialgo_publicar #nomAplicacio').val(results.results);
+									console.debug($('#dialgo_publicar #nomAplicacio').val());
 								},function(results){
 									$('#nomAplicacio').html(mapConfig.nomAplicacio);				
 								});	
@@ -667,7 +668,8 @@ function addDialegsEstils() {
 		obrirMenuModal('#dialog_estils_arees','toggle',from_creaCapa);
 	});
 	
-	jQuery('#dialog_estils_punts .btn-success').on('click',function(){
+	jQuery('#dialog_estils_punts .btn-success').on('click',function(e){
+		e.stopImmediatePropagation();
 		if(objEdicio.obroModalFrom==from_creaCapa){
 			jQuery('#div_punt').removeClass();
 			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));

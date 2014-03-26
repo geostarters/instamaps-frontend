@@ -796,6 +796,10 @@ background-color:#FFFFFF}
 		-o-filter: contrast(140%);
 		-ms-filter: contrast(140%);
 	}
+	
+	.btn-acctions .btn {
+	    border-radius: 0;
+	}	
 		
 	/*** perfil.html ***/
 	
