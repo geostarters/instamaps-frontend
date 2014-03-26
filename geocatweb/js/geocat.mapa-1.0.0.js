@@ -162,16 +162,13 @@ function loadApp(){
 								 	nom: newValue, 
 								 	uid: $.cookie('uid')
 								}
-					
 								updateMapName(data).then(function(results){
 									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
 									if(results.status=='OK') $('#dialgo_publicar #nomAplicacio').val(results.results);
-									console.debug($('#dialgo_publicar #nomAplicacio').val());
 								},function(results){
-									$('#nomAplicacio').html(mapConfig.nomAplicacio);				
+									$('#nomAplicacio').val(mapConfig.nomAplicacio);				
 								});	
 							}
-				
 						});						
 						
 					});
