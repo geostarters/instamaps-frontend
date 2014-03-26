@@ -17,6 +17,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Aquest camp no te valors":"This field has no value",
 	"Ara no": "Not now",
 	"Arrossega les teves dades sobre el mapa o fes clic aquí":"Drag your data on the map or click here",
+	"Arxiu d'exemple":"Sample file",
 	"Bàsic":"Basic",
 	"Base municipal":"Municipal base",
 	"Bases topogràfiques, ortofotomapes vigents, límits administratius, mapes històrics i altres.":"Topographic databases, current orthophotomaps, administrative boundaries, old maps and more.",
@@ -235,7 +236,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Processar arxiu":"Process file",
 	"Com vols geolocalitzar aquest arxiu?":"How do you want to geolocate this file?",
 	"Per coordenades":"On coordinates",
-	"Per adreçes":"On addresses",
+	"Per adreces":"On addresses",
 	"Per codis":"On codes",
 	"On són les coordenades?":"Where are the coordinates?",
 	"Coordenada X o Longitud":"X coordinate or Longitude",
@@ -264,5 +265,10 @@ jquery_lang_js.prototype.lang.en = {
   "Selecciona nom carrer":"Choose street name",
   "Selecciona número":"Choose house number",
   "Selecciona municipi":"Choose municipality",
-  "Selecciona un camp amb el codi":"Choose field with code"
+  "Selecciona un camp amb el codi":"Choose field with code",
+  "Per codificar per adreces utilitza aquest ":"",
+  "arxiu tipus ":"",
+  "amb les teves dades.":"",
+  "Els camps Nom_via, Portal i Municipi són obligatoris.":"",
+  "El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles":"",
 }

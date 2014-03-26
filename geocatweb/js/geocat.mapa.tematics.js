@@ -305,6 +305,14 @@ function loadTematicValueUnicTemplate(results1){
 		jQuery('#list_tematic_values canvas').each(function(i, val){
 			addGeometryInitPRang(val, results1[i]);
 		});
+		//TODO
+		/*
+		jQuery('#list_tematic_values canvas').on('click',function(){
+			console.debug(this);
+			var data = {from: tem_clasic, element: this};
+			obrirMenuModal('#dialog_estils_arees','toggle',data);
+		});
+		*/
 	}
 	if (jQuery('#list_tematic_values tr').length > 9){
 		jQuery('#palet_warning').show();
@@ -339,6 +347,12 @@ function loadTematicValueRangsTemplate(results){
 		jQuery('#list_tematic_values canvas').each(function(i, val){
 			addGeometryInitPRang(val, results[i]);
 		});
+		//TODO
+		/*
+		jQuery('#list_tematic_values canvas').on('click',function(){
+			console.debug(this);
+		});
+		*/
 	}
 	if (jQuery('#list_tematic_values tr').length > 9){
 		jQuery('#palet_warning').show();
@@ -479,9 +493,7 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 			}
 		}
 	}
-	
-	map.closePopup();
-	
+	map.closePopup();	
 }
 
 function getRangsFromStyles(tematic, styles){
@@ -649,7 +661,7 @@ function loadTematicLayer(layer){
 						
 						//Sin rangos
 						if (Lrangs.length == 0){
-							rangStyle = createRangStyle(ftype, null, Lgeom.length);
+							rangStyle = createRangStyle(ftype, default_point_tematic, Lgeom.length);
 						}
 						//1 Rango
 						else if (Lrangs.length == 1){
@@ -682,7 +694,7 @@ function loadTematicLayer(layer){
 								rangStyle = rangStyle[0];
 								rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
 							}else{
-								rangStyle = createRangStyle(ftype, null, Lgeom.length);
+								rangStyle = createRangStyle(ftype, default_point_tematic, Lgeom.length);
 							}
 							
 							/*
@@ -1053,10 +1065,10 @@ function getRangsFromLayer(layer){
         rangs = JSON.stringify({rangs:rangs});
         
         var data = {
-              businessId: tematic.businessid,
-              uid: $.cookie('uid'),
-              tipusRang: tematic.from,
-              rangs: rangs
+          businessId: tematic.businessid,
+          uid: $.cookie('uid'),
+          tipusRang: tematic.from,
+          rangs: rangs
         };
               
         updateTematicRangs(data).then(function(results){
@@ -1355,9 +1367,9 @@ function addGeometryInitPRang(canvas, style){
 	cv_ctx_p.lineTo(20.66,38.01);
 	cv_ctx_p.lineTo(2.06,33.67);
 	cv_ctx_p.closePath();
-	cv_ctx_p.strokeStyle=style.style.color; //hex
+	cv_ctx_p.strokeStyle="#ffffff"; //hex
 	cv_ctx_p.fillStyle=jQuery.Color(style.style.color).alpha(0.75).toRgbaString(); //rgba
-	cv_ctx_p.lineWidth=2;
+	cv_ctx_p.lineWidth=1;
 	cv_ctx_p.fill();
 	cv_ctx_p.stroke(); 
 }
@@ -1395,6 +1407,12 @@ function updatePaletaRangs(){
 			var color = paletasColors[paleta][i];
 			addGeometryInitPRang(elm, {style:{color: color}});
 		});
+		//TODO
+		/*
+		jQuery('#list_tematic_values canvas').on('click',function(){
+			console.debug(this);
+		});
+		*/
 	}
 }
 

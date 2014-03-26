@@ -57,11 +57,6 @@ jQuery(document).ready(function() {
 			window.location = paramUrl.mainPage;
 		});
 	}else{
-		jQuery.cookieCuttr({
-			cookieAnalytics: false,
-			cookieAcceptButtonText: window.lang.convert("Acceptar"),
-			cookieMessage: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal")
-		});
 		loadApp();
 	}
 }); // Final document ready
@@ -86,10 +81,10 @@ function loadApp(){
 		
 		//iniciamos los controles
 		initControls();
-
+				
 		var data = {
-				businessId: url('?businessid')
-			};
+			businessId: url('?businessid')
+		};
 		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
@@ -177,10 +172,10 @@ function initControls(){
 	addControlsInici();
 	addClicksInici();
 	addToolTipsInici();
-	redimensioMapa();
 	if(typeof url('?embed') != "string"){
 		addControlCercaEdit();		
 	}
+	redimensioMapa();
 }
 
 function addControlsInici() {
@@ -300,8 +295,11 @@ function addToolTipsInici() {
 
 function redimensioMapa() {
 	jQuery(window).resize(function() {
-		if(typeof url('?embed') == "string") factorH = 0; 
-		else factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
+		if(typeof url('?embed') == "string"){
+			factorH = 0;
+		}else{
+			factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
+		} 
 		jQuery('#map').css('top', factorH + 'px');
 		jQuery('#map').height(jQuery(window).height() - factorH);
 		jQuery('#map').width(jQuery(window).width() - factorW);
@@ -318,6 +316,20 @@ function loadMapConfig(mapConfig){
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			if (mapConfig.options.fons != 'topoMap'){
+				var fons = mapConfig.options.fons;
+				if (fons == 'topoMap') {
+					map.topoMap();
+				} else if (fons == 'topoGrisMap') {
+					map.topoGrisMap();
+				} else if (fons == 'ortoMap') {
+					map.ortoMap();
+				} else if (fons == 'terrainMap') {
+					map.terrainMap();
+				} else if (fons == 'colorMap') {
+					gestionaPopOver(this);
+				} else if (fons == 'historicMap') {
+				
+				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();

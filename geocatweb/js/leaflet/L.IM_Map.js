@@ -313,7 +313,7 @@ L.IM_Map = L.Map.extend({
 				   subdomains:subDomains}
 			   ).addTo(_ortoLayers);
 		*/	  
-		ORTO_ESRI_L0_19 =new L.TileLayer(URL_ESRI,{   	   
+		ORTO_ESRI_L0_19 = new L.TileLayer(URL_ESRI,{   	   
 		   minZoom: 0,
 		   maxZoom:19}
 		).addTo(_ortoLayers);

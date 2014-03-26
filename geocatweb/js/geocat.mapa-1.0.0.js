@@ -50,6 +50,14 @@ var default_point_style = {
 	color : "#ffffff",
 	fillColor :"#FFC500"
 };
+var default_point_tematic = {
+	isCanvas:true,
+	simbolSize: 6,
+	borderWidth: 2,
+	opacity: 90,
+	borderColor : "#ffffff",
+	color :"#FFC500"	
+};
 var opt = {
 	placement : 'right',
 	container : 'body'
@@ -677,6 +685,8 @@ function addDialegsEstils() {
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			changeTematicLayerStyle(objEdicio.obroModalFrom, cvStyle);
+		}else if (objEdicio.obroModalFrom.from==tem_clasic){
+			//TODO
 		}else{
 			console.debug(objEdicio.obroModalFrom);
 		}	
@@ -693,8 +703,10 @@ function addDialegsEstils() {
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
 			getRangsFromLayer(capaMare);
-		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
+		}else if (objEdicio.obroModalFrom.from==tem_clasic){
+			//TODO
 		}else{
 			console.debug(objEdicio.obroModalFrom);
 		}
@@ -711,8 +723,16 @@ function addDialegsEstils() {
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
 			getRangsFromLayer(capaMare);
-		}else if (objEdicio.obroModalFrom.from=="simpleTematic"){
+		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			changeTematicLayerStyle(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
+		}else if (objEdicio.obroModalFrom.from==tem_clasic){
+			//TODO
+			/*
+			console.debug(objEdicio.obroModalFrom);
+			jQuery('#dialog_tematic_rangs').modal('show');
+			console.debug(canvas_pol);
+			addGeometryInitPRang(objEdicio.obroModalFrom.element, changeDefaultAreaStyle(canvas_pol));
+			*/
 		}else{
 			console.debug(objEdicio.obroModalFrom);
 		}
@@ -2052,8 +2072,6 @@ function createNewMap(){
 		visibilitat: visibilitat_privat,
 		tipusApp: 'vis',
 	};
-	
-	console.debug(data);
 	
 	createMap(data).then(function(results){
 		if (results.status == "ERROR"){
