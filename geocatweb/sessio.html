@@ -16,6 +16,7 @@
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
+<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -41,9 +42,8 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-					<!-- 
-					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
-					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
 					-->
@@ -111,7 +111,7 @@
 			<p></p>
 			<p>
 		       	<!--<a href="#" data-placement="bottom" data-toggle="tooltip" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc"></a>-->
-		       	<!--  <a href="#" id="signin_icc" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial  icon icc_fd"></a>-->
+		       	<a href="#" id="signin_icc" title="Inicia sessió amb Institut Cartogràfic de Catalunya" class="zocial icon icc_fd"></a>
 				<a href="#" id="signin_facebook"  title="Inicia sessió amb Facebook" class="zocial icon facebook_fd"></a>
 <!-- 				<a href="#" id="signin_google" title="Inicia sessió amb  Google+" class="zocial icon google_fd"></a> -->
 				<a href="#" id="signin_twitter" title="Inicia sessió amb Twitter" class="zocial icon twitter_fd"></a>
@@ -121,7 +121,11 @@
         </div>
        
         <div class="social-sign">
-      		<h6 lang="ca">És la primera vegada que utilitzes InstaMapes?</h6><h6><a lang="ca" href="registre.html">Crea un compte</a></h6>
+      		<h6 lang="ca">És la primera vegada que utilitzes InstaMapes?</h6>
+   			<h4>
+   				<!-- a lang="ca" href="registre.html" onClick="_gaq.push(['_trackEvent', 'sessio_registre', 'Registre']);">Crea un compte</a-->
+   				<a lang="ca" href="javascript:fesRegistre()">Crea un compte</a>
+   			</h4>
  	  	</div>
        
        </section>
@@ -165,7 +169,41 @@
 		      </div>
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->			
+		</div><!-- /.modal -->
+		
+	<!-- Modal Inici sessio ICGC -->
+	<div class="modal fade" id="dialog_session_icgc">
+		<div class="modal-dialog my-modal-dialog">
+			<div class="modal-content my-border">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<!--  h4 class="modal-title" lang="ca">Inicia sessió</h4-->
+					<img alt="logo-icgc" src="../llibreries/img/logo-icgc.png"/>
+				</div>
+				<div lang="ca" class="modal-body">
+			      <form id="frm_login_icgc" class="my-form-signin_icgc">
+			       <section>
+			        <!--<h3  lang="ca" class="form-signin-heading">Inicia la sessió</h3>-->
+				        <fieldset>
+					       	<input id="login_user_icgc" lang="ca" type="text"  required class="form-control my-border" placeholder="Usuari" autofocus>
+					        <input id="login_pass_icgc" lang="ca" type="password" required class="form-control my-border" placeholder="Contrassenya">
+				        </fieldset>
+				        <br>
+			        	<p>
+			         		<button id="login_button_icgc" lang="ca" class="btn btn-lg bt-sessio-icgc btn-block" type="button" onclick="javascript:loginUserIcgc()">Inicia la sessió</button>
+			         	</p>
+			       </section>
+			      </form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal inici sessio -->		
+					
     </div> 
     <!-- /container -->
 </div>
@@ -183,11 +221,13 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
 
 	<script src="/geocatweb/js/geocat.sessio-1.0.0.js"></script>
 	
