@@ -17,7 +17,7 @@ var _histoMap=null;
 var _histoOrtoMap=null;
 var ESRI_RELLEU_L0_13;			 
 var ICC_RELLEU_L0_14;
-var MQ_TOPO_GRIS_L7_19,ICC_TOPO_GRIS_L7_10,ICC_TOPO_GRIS_L11_19;
+var MQ_TOPO_GRIS_L7_19,ICC_TOPO_GRIS_L7_10,ICC_TOPO_GRIS_L11_19,ICC_MON_L0;
 var COLOR_TOPO_ICC_L0_6,COLOR_TOPO_MQ_L7_19,COLOR_TOPO_ICC_L11_19;
 var HISTO_ICC_L0_14;
 var HISTOOrto_ICC_L0_14;
@@ -128,7 +128,13 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L12_19.options.maxZoom=zT;
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(MQ_ATTR);
-				}else{this.attributionControl.setPrefix(ICGC_MON);}				
+					//TOPO_ICC_L0_6
+					_topoLayers.removeLayer(TOPO_ICC_L0_6);
+				}else{
+					this.attributionControl.setPrefix(ICGC_MON);
+					_topoLayers.addLayer(TOPO_ICC_L0_6);
+					
+				}				
 			}else if(sC==1){
 				TOPO_MQ_L7_19.setOpacity(0.9);
 				TOPO_MQ_L7_19.options.maxZoom=19;				
@@ -137,7 +143,11 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L7_10.options.maxZoom=10;					
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
-				}else{this.attributionControl.setPrefix(ICGC_MON);}	
+					_topoLayers.removeLayer(TOPO_ICC_L0_6);
+				}else{
+					this.attributionControl.setPrefix(ICGC_MON);
+					_topoLayers.addLayer(TOPO_ICC_L0_6);
+					}	
 			}else if(sC==2){
 				TOPO_MQ_L7_19.options.maxZoom=zT;
 				TOPO_ICC_L11_12.options.maxZoom=12;
@@ -189,10 +199,12 @@ L.IM_Map = L.Map.extend({
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L11_19.options.maxZoom=zT;
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=zT;
-				if(map.getZoom() <= 6){
+				if(map.getZoom() <= 6){	
 					this.attributionControl.setPrefix(MQ_ATTR);
-				}else{
+					_grisLayers.addLayer(ICC_MON_L0);
+				}else{					
 					this.attributionControl.setPrefix(ICGC_MON);
+					_grisLayers.removeLayer(ICC_MON_L0);
 				}				
 			}else if(sC==1){
 				MQ_TOPO_GRIS_L7_19.setOpacity(0.9);
