@@ -83,7 +83,6 @@ $(function(){
 			});
 			
 			window.lang.run();
-			
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
@@ -114,6 +113,7 @@ $(function(){
 			});
 			
 			window.lang.run();
+			
 		});
 	}	
 });

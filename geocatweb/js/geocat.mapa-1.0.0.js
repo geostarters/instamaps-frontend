@@ -34,7 +34,7 @@ var default_area_style = {
     borderWidth: '3',
     fillOpacity: 0.5
 };
-var default_point_style = {
+var default_marker_style = {
 	icon : '',
 	markerColor : 'orange',
 	divColor:'transparent',
@@ -50,13 +50,29 @@ var default_point_style = {
 	color : "#ffffff",
 	fillColor :"#FFC500"
 };
-var default_point_tematic = {
+var default_circulo_style = {
 	isCanvas:true,
 	simbolSize: 6,
 	borderWidth: 2,
 	opacity: 90,
 	borderColor : "#ffffff",
 	color :"#FFC500"	
+};
+var default_circuloglyphon_style = {
+	icon : '',
+	markerColor: 'punt_r',
+	prefix : 'fa',
+	divColor:'transparent',
+	iconAnchor : new L.Point(15, 15),
+	iconSize : new L.Point(30, 30),
+	iconColor : '#000000',
+	isCanvas:false,
+	radius:6,
+	opacity:1,
+	weight : 2,
+	fillOpacity : 0.9,
+	color : "#ffffff",
+	fillColor :"#FFC500"	
 };
 var opt = {
 	placement : 'right',
@@ -181,6 +197,7 @@ function loadApp(){
 						
 					});
 				}catch(err){
+					console.debug(err);
 					if (isRandomUser($.cookie('uid'))){
 						$.removeCookie('uid', { path: '/' });
 						jQuery(window).off('beforeunload');
@@ -1405,6 +1422,20 @@ function loadMapConfig(mapConfig){
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			if (mapConfig.options.fons != 'topoMap'){
+				var fons = mapConfig.options.fons;
+				if (fons == 'topoMap') {
+					map.topoMap();
+				} else if (fons == 'topoGrisMap') {
+					map.topoGrisMap();
+				} else if (fons == 'ortoMap') {
+					map.ortoMap();
+				} else if (fons == 'terrainMap') {
+					map.terrainMap();
+				} else if (fons == 'colorMap') {
+					gestionaPopOver(this);
+				} else if (fons == 'historicMap') {
+				
+				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
@@ -1423,7 +1454,6 @@ function loadMapConfig(mapConfig){
 		
 		//carga las capas en el mapa
 		loadOrigenWMS().then(function(results){
-			console.debug(results);
 			var num_origen = 0;
 			jQuery.each(results.origen, function(index, value){
 				loadLayer(value).then(function(){
@@ -2066,6 +2096,7 @@ function showConfOptions(businessId){
 }
 
 function createNewMap(){
+	console.debug("createNewMap");
 	var data = {
 		nom: getTimeStamp(),
 		uid: $.cookie('uid'),

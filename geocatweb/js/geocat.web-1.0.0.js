@@ -7,6 +7,10 @@ jQuery(document).ready(function() {
 	weball_tornarInici();		
 	window.lang.run();
 	lsLang=web_determinaIdioma();
+	if (lsLang == null || lsLang == "null"){
+		lsLang = "ca";
+		canviaIdioma(lsLang);
+	}
 	web_menusIdioma(lsLang);
 	initHover();
     checkUserLogin();
@@ -24,7 +28,6 @@ jQuery(document).ready(function() {
 });
 
 function initCookies(){
-	//console.debug("initCookies");
 	cc.initialise({
 		cookies: {analytics: {}},
 		settings: {
@@ -97,7 +100,6 @@ function checkUserLogin(){
 //}
 
 function web_menusIdioma(lsLang){
-	
 	jQuery('#ch_idioma li').each(function() {
 	jQuery(this).removeClass('active');
 		if (jQuery(this).attr('id') ==lsLang){
@@ -122,14 +124,13 @@ function canviaIdioma(lsLang){
 }
 
 function web_determinaIdioma(){
-		
 	if(localStorage){
 		var lsLang = localStorage.getItem('langJs_currentLang');
-		window.lang.change(lsLang);	
+		if (lsLang != null && lsLang != "null"){
+			window.lang.change(lsLang);
+		}
 	}else{
-		
-		var lsLang =obteValorURL("hl");
-		
+		var lsLang = obteValorURL("hl");
 		window.lang.change(lsLang);		
 		jQuery("a[id^='hl_']").each(function(index){
 			var _href=jQuery(this).attr('href');

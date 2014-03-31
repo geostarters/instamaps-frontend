@@ -193,18 +193,6 @@ function addGeometryInitP(canvas){
 function addDrawToolbar() {
 	initCanvas();
 	
-//	capaUsrPol = new L.FeatureGroup();
-//	capaUsrPol.options = {
-//		businessId : '-1',
-//		nom : 'capaPol',
-//		zIndex :  -1,
-//		tipus : t_tematic,
-//		geometryType: t_polygon
-//
-//	};
-//
-//	map.addLayer(capaUsrPol);
-
 	var ptbl = L.Icon.extend({
 		options : {
 			shadowUrl : null,
@@ -213,7 +201,7 @@ function addDrawToolbar() {
 		}
 	});
 
-	defaultPunt= L.AwesomeMarkers.icon(default_point_style);
+	defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
 
 	var options = {
 		draw : false,
@@ -238,7 +226,6 @@ function addDrawToolbar() {
 				tipus: t_polygon
 			}
 		},
-		 
 		marker:{repeatMode:false,
 			icon:L.icon({iconUrl:'/geocatweb/css/images/blank.gif'})
 		},
@@ -299,6 +286,7 @@ function activaEdicioUsuari() {
 	});
 		
 	map.on('draw:created', function(e) {
+		//console.debug("draw:created");
 		var type = e.layerType, layer = e.layer;
 		var totalFeature;
 		var tipusCat,tipusCatDes;
@@ -465,7 +453,7 @@ function createPopupWindowVisor(player,type){
 		+'<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
 		+'</div></div>';
 	
-	player.bindPopup(html,{'offset':[0,-25]}).openPopup();	
+	player.bindPopup(html,{'offset':[0,-25]});	
 	
 }
 
@@ -485,7 +473,8 @@ function createPopupWindowData(player,type){
 	});	
 	
 	html+='</div></div>';
-	player.bindPopup(html,{'offset':[0,-25]}).openPopup();	
+	//he quitado el openPopup() ya que si la capa no está activa no se ha cargado en el mapa y da error.
+	player.bindPopup(html,{'offset':[0,-25]});	
 	
 }
 

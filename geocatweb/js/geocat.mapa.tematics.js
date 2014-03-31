@@ -661,7 +661,7 @@ function loadTematicLayer(layer){
 						
 						//Sin rangos
 						if (Lrangs.length == 0){
-							rangStyle = createRangStyle(ftype, default_point_tematic, Lgeom.length);
+							rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
 						}
 						//1 Rango
 						else if (Lrangs.length == 1){
@@ -694,7 +694,7 @@ function loadTematicLayer(layer){
 								rangStyle = rangStyle[0];
 								rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
 							}else{
-								rangStyle = createRangStyle(ftype, default_point_tematic, Lgeom.length);
+								rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
 							}
 							
 							/*
@@ -711,6 +711,7 @@ function loadTematicLayer(layer){
 							}
 							*/
 						}
+						
 						var featureTem;
 						if (ftype === t_marker){
 							var coords=geom.geometry.coordinates;
@@ -818,18 +819,17 @@ function loadTematicLayer(layer){
 							if(!hasSource){
 								if($(location).attr('href').indexOf('mapa')!=-1 && capaTematic.options.tipusRang == tem_origen){
 									createPopupWindow(featureTem,ftype);
-								}else{
+								}else{			
 									createPopupWindowVisor(featureTem,ftype);
 								}								
 							}else{
 								createPopupWindowData(featureTem,ftype);
 							}
-							
 							map.closePopup();
 						}
 					}
 				}
-				
+								
 				var options = jQuery.parseJSON( layerWms.options );				
 				if(layerWms.options && options.origen){//Si es una sublayer
 					var origen = getLeafletIdFromBusinessId(options.origen);
@@ -876,9 +876,9 @@ function createRangStyle(ftype, style, num_geometries){
 		}
 	}else{
 		if (ftype === t_marker){
-			rangStyle = L.AwesomeMarkers.icon(default_point_style);
+			rangStyle = L.AwesomeMarkers.icon(default_marker_style);
 		}else if (ftype === t_multipoint){
-			rangStyle = L.AwesomeMarkers.icon(default_point_style);
+			rangStyle = L.AwesomeMarkers.icon(default_marker_style);
 		}else if (ftype === t_polyline){
 			rangStyle = default_line_style;
 		}else if (ftype === t_multilinestring){
@@ -948,8 +948,8 @@ function createFeatureAreaStyle(style){
 }
 
 function changeDefaultPointStyle(estilP) {
-	//console.debug("changeDefaultPointStyle");
-	var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
+	console.debug("changeDefaultPointStyle");
+	var puntTMP= new L.AwesomeMarkers.icon(default_marker_style);
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
 	var cssText="";
@@ -957,6 +957,8 @@ function changeDefaultPointStyle(estilP) {
 	if(_iconGlif.indexOf("fa fa-")!=-1){
 		_iconGlif=estilP.iconGlif.replace('fa fa-','');
 	};
+	
+	console.debug(_iconFons);
 	
 	var _colorGlif=estilP.colorGlif;
 	
@@ -1005,34 +1007,39 @@ function changeDefaultPointStyle(estilP) {
 }
 
 function createFeatureMarkerStyle(style, num_geometries){
+	//console.debug("createFeatureMarkerStyle");
 	if (!num_geometries){
 		num_geometries = num_max_pintxos - 1;
 	}
 	if (style.marker && num_geometries <= num_max_pintxos){
-			var puntTMP = new L.AwesomeMarkers.icon(default_point_style);
+		//Especifiques per cercle amb glyphon
+		if(style.marker == 'punt_r'){
+			var puntTMP = new L.AwesomeMarkers.icon(default_circuloglyphon_style);
 			puntTMP.options.iconColor = style.simbolColor;
 			puntTMP.options.icon = style.simbol;
 			puntTMP.options.markerColor = style.marker;
 			puntTMP.options.isCanvas=false;
-						
-			//Especifiques per cercle amb glyphon
-			if(style.marker == 'punt_r'){
-				puntTMP.options.divColor= style.color;
-				puntTMP.options.shadowSize = new L.Point(1, 1);
-				puntTMP.options.radius = style.radius;
-				var anchor = style.iconAnchor.split("#");
-				var size = style.iconSize.split("#");
-				puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
-				puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
-				puntTMP.options.iconSize.x = size[0];
-				puntTMP.options.iconSize.y = size[1];
-			}else{
-				puntTMP.options.iconAnchor.x = 14;
-				puntTMP.options.iconAnchor.y = 42;
-				puntTMP.options.iconSize.x = 28;
-				puntTMP.options.iconSize.y = 42;
-			}
-	}else{
+			puntTMP.options.divColor= style.color;
+			puntTMP.options.shadowSize = new L.Point(1, 1);
+			puntTMP.options.radius = style.radius;
+			var anchor = style.iconAnchor.split("#");
+			var size = style.iconSize.split("#");
+			puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
+			puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
+			puntTMP.options.iconSize.x = size[0];
+			puntTMP.options.iconSize.y = size[1];
+		}else{
+			var puntTMP = new L.AwesomeMarkers.icon(default_marker_style);
+			puntTMP.options.iconColor = style.simbolColor;
+			puntTMP.options.icon = style.simbol;
+			puntTMP.options.markerColor = style.marker;
+			puntTMP.options.isCanvas=false;
+			puntTMP.options.iconAnchor.x = 14;
+			puntTMP.options.iconAnchor.y = 42;
+			puntTMP.options.iconSize.x = 28;
+			puntTMP.options.iconSize.y = 42;
+		}
+	}else{ //solo circulo
 		var puntTMP = { 
 			radius: style.simbolSize, 
 			isCanvas: true,
@@ -1212,6 +1219,7 @@ function changeTematicLayerStyle(tematic, styles){
 }
 
 function createIntervalStyle(index, geometryType, paleta){
+	console.debug("createIntervalStyle");
 	var defStyle;
 	var markerColors = (paleta)? paletasColors[paleta] : paletasColors[0];
 	if (index > 9){
@@ -1221,7 +1229,7 @@ function createIntervalStyle(index, geometryType, paleta){
 	var ftype = transformTipusGeometry(geometryType);
 		
 	if (ftype == t_marker){
-		defStyle = jQuery.extend({}, default_point_style);
+		defStyle = jQuery.extend({}, default_marker_style);
 		defStyle.fillColor = markerColors[index];
 		defStyle.isCanvas = true;		
 	}else if (ftype == t_polyline){
