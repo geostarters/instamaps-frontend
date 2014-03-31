@@ -38,6 +38,18 @@ function obrirMenuModal(_menuClass,estat,_from){
             jQuery(_menuClass).modal(estat);
             */
     	}else{
+    		
+    		if(_from == from_creaCapa){
+    			
+    			if(_menuClass.indexOf("arees")!=-1){
+    				
+    				
+    				addGeometryInitP(document.getElementById("cv_pol")); 
+    				updateDialogStyleSelected(canvas_pol);
+    			}
+    			
+    		}
+    		
     		var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
         	if( layers_from.length > num_max_pintxos){
                 jQuery('.fila-awesome-markers').hide();
