@@ -79,7 +79,7 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = $.cookie('uid');
-	if( uid == undefined || (uid.indexOf("random_") != -1 && uid.indexOf("random_") == 0)){
+	if(!uid || isRandomUser(uid)){
 		$("#menu_login").show();
 		$("#menu_user").hide();
 		$("#text_username").remove();
@@ -233,7 +233,7 @@ function isBlank(str) {
 }
 
 function logoutUser(){
-	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
+	if (isRandomUser($.cookie('uid'))){
 		deleteRandomUser({uid: $.cookie('uid')});
 	}
 	$.removeCookie('uid', { path: '/' });
@@ -264,7 +264,6 @@ function isRandomUser(user){
 
 function getTimeStamp() {
     var now = new Date();
-    
     return (now.getFullYear()+'/'+(((now.getMonth() + 1) < 10)
                     ? ("0" + (now.getMonth() + 1))
                     : ((now.getMonth() + 1))) + '/'+ 

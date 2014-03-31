@@ -1,6 +1,8 @@
 var paletasColors = [
   ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#999999'],
-  ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#bc80bd','#d9d9d9']
+  ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#bc80bd','#d9d9d9'],
+  ['#c0cdc0','#adbea2','#a2ae81','#9e9c60','#9d893f','#9e7321','#a05a04','#a23c00','#a30000','#dadada'],
+  ['#d2c1c1','#cba9a9','#c49191','#bc7979','#b56060','#ae4848','#a63030','#9f1818','#980000','#dadada']
 ];
 
 function showTematicLayersModal(tipus,className){
@@ -108,6 +110,10 @@ function createTematicClasic(data){
 			jQuery("#dialog_tematic_rangs").data("paleta", 0);
 		}else if (_this.attr('id') == 'paletaPastel'){
 			jQuery("#dialog_tematic_rangs").data("paleta", 1);
+		}else if (_this.attr('id') == 'paletaDivergent'){
+			jQuery("#dialog_tematic_rangs").data("paleta", 2);
+		}else if (_this.attr('id') == 'paletaSecuencial'){
+			jQuery("#dialog_tematic_rangs").data("paleta", 3);
 		}else{
 			jQuery("#dialog_tematic_rangs").data("paleta", 0);
 		}
@@ -940,7 +946,7 @@ function changeDefaultAreaStyle(canvas_pol){
 function createFeatureAreaStyle(style){
 	var estilTMP= default_area_style;
 	estilTMP.fillColor=style.color;
-	estilTMP.fillOpacity=(style.opacity/100);
+	estilTMP.fillOpacity=style.opacity/100;
 	estilTMP.weight=style.borderWidth;
 	estilTMP.color=style.borderColor;
 	estilTMP.tipus=t_polygon;
@@ -1007,7 +1013,7 @@ function changeDefaultPointStyle(estilP) {
 }
 
 function createFeatureMarkerStyle(style, num_geometries){
-	//console.debug("createFeatureMarkerStyle");
+	console.debug("createFeatureMarkerStyle");
 	if (!num_geometries){
 		num_geometries = num_max_pintxos - 1;
 	}
@@ -1046,7 +1052,7 @@ function createFeatureMarkerStyle(style, num_geometries){
 			fillColor: style.color,
 			color:  style.borderColor,
 			weight:  style.borderWidth,
-			fillOpacity:  style.opacity/100,
+			fillOpacity: style.opacity/100,
 			opacity: 1,
 			tipus: t_marker
 		};
@@ -1270,7 +1276,7 @@ function div2RangStyle(tematic, tdElem){
 			borderColor :  divElement.strokeStyle,
 			borderWidth :  divElement.lineWidth,
 			color: jQuery.Color(divElement.fillStyle).toHexString(),
-			opacity: (jQuery.Color(divElement.fillStyle).alpha()*100)
+			opacity: Math.round(jQuery.Color(divElement.fillStyle).alpha()*100)
 		};
 	}
 	return rangStyle;
@@ -1322,7 +1328,10 @@ function updateClasicTematicFromRangs(){
 		rangs: rangs
 	};
 	
+	console.debug(data);
+	
 	duplicateTematicLayer(data).then(function(results){
+		console.debug(results);
 		if(results.status == 'OK'){
 			loadTematicLayer(results.results);
 			activaPanelCapes(true);
