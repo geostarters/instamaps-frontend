@@ -692,16 +692,19 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
 			jQuery('#div_punt').css('background-color',estilP.divColor);	
-			changeDefaultPointStyle(estilP);		
+			changeDefaultPointStyle(estilP);
+			
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
 			getRangsFromLayer(capaMare);
+			
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			changeTematicLayerStyle(objEdicio.obroModalFrom, cvStyle);
+			
 		}else if (objEdicio.obroModalFrom.from==tem_clasic){
 			//TODO
 		}else{

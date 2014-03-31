@@ -591,83 +591,17 @@ function createPopupWindow(layer,type){
 		
 		if(accio[0].indexOf("feature_edit")!=-1){
 
-////		//Update modal estils, amb estil de la feature seleccionada
-//			var obj = map._layers[accio[1]];
-//			if(obj.options.icon /*|| obj.options.icon.options.markerColor.indexOf("punt_r")!=-1*/){
-//				var icon = obj.options.icon.options;	
-//			}else{
-//				var icon = obj.options;
-//			}
-////			
-//			//Deselecciono estil al modal 
-//			jQuery(".bs-punts li").removeClass("estil_selected");
-//			jQuery("#div_puntZ").removeClass("estil_selected");
-//			
-//			if(icon.isCanvas){//Si es un punt
-//				
-//				var midaPunt = 16;
-//				if(icon.radius == 8)midaPunt=21;
-//				else if(icon.radius == 10)midaPunt=24;
-//				else if(icon.radius == 12)midaPunt=30;
-//				else if(icon.radius == 14)midaPunt=34;				
-//				
-//				var estil={
-//						iconFons: 'awesome-marker-web awesome-marker-icon-punt_r',
-//						iconGlif:'fa fa-'+icon.icon,
-//						colorGlif:icon.iconColor,
-//						fontsize:'15px',
-//						width: midaPunt+'px',
-//						height: midaPunt+'px',
-//						divColor : icon.fillColor,
-//						radius: icon.radius
-//				};
-//				
-//				jQuery("#div_puntZ").addClass("estil_selected");
-//				jQuery("#div_punt9").css("background-color",icon.fillColor);
-//				$('#cmb_mida_Punt option[value="'+midaPunt+'"]')
-//				jQuery("#dv_fill_color_punt").css("background-color",icon.fillColor);
-//				jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);
-//				
-//				
-//			}else if(icon.markerColor.indexOf("punt_r")!=-1){
-//				var estil={
-//						iconFons: 'awesome-marker-web awesome-marker-icon-punt_r',
-//						iconGlif:'fa fa-'+icon.icon,
-//						colorGlif:icon.iconColor,
-//						fontsize:'15px',
-//						width: icon.iconSize.x +'px',
-//						height: icon.iconSize.y +'px',
-//						divColor : icon.fillColor,
-//						radius: icon.radius
-//				};				
-//			}else{//Si es marker
-//				var estil={
-//						iconFons: icon.className+'-web awesome-marker-icon-'+icon.markerColor,
-//						iconGlif:'fa fa-'+icon.icon,
-//						colorGlif:icon.iconColor,
-//						fontsize:'14px',
-//						width:'28px',
-//						height: '42px',
-//						divColor : 'transparent',						
-//				};				
-//			}
-////			
-//			
-//			jQuery('#div_punt0').removeClass();
-//			jQuery('#div_punt0').addClass(estil.iconFons+" "+estil.iconGlif);
-//			jQuery('#div_punt0').css('width',estil.width);
-//			jQuery('#div_punt0').css('height',estil.height);	
-//			jQuery('#div_punt0').css('font-size',estil.fontsize);
-//			jQuery('#div_punt0').css('background-color',estil.divColor);
-//			jQuery('#div_punt0').css('color',estil.colorGlif);
-//			
-//			
-////			jQuery('#div_punt0').css('color',estilP.colorGlif);
-////			jQuery(this).addClass("estil_selected");			
+			//Update modal estils, amb estil de la feature seleccionada
+			var obj = map._layers[accio[1]];
+			if(obj.options.icon /*|| obj.options.icon.options.markerColor.indexOf("punt_r")!=-1*/){
+				var icon = obj.options.icon.options;	
+			}else{
+				var icon = obj.options;
+			}
+			updateDialogStyleSelected(icon);
+
 			
-		//********************************************************
-			
-		if(accio[2].indexOf("marker")!=-1){
+			if(accio[2].indexOf("marker")!=-1){
 				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
 			}else if(accio[2].indexOf("polygon")!=-1){
 				obrirMenuModal('#dialog_estils_arees','toggle',from_creaPopup);
@@ -747,7 +681,115 @@ function createPopupWindow(layer,type){
 			map.closePopup();
 		}
 	});	
+	
+	/*funcio que actulitza l'estil seleccionat al dialeg d'estils, 
+	 * amb el de la feature que es col editar 
+	 * */
+	function updateDialogStyleSelected(icon){
+
+		//Deselecciono estil al modal 
+		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery("#div_puntZ").removeClass("estil_selected");
+		jQuery(".bs-glyphicons li").removeClass("estil_selected");
+
+		if(icon.tipus == t_polyline){
+			
+			canvas_linia.lineWidth = icon.weight;
+			canvas_linia.strokeStyle = icon.color;
+			
+			$("#cmb_gruix_l option[value='"+icon.weight+"']").prop("selected", "selected");
+			$('.border_color_linia').css('background-color',icon.color);
+			addGeometryInitL(document.getElementById("cv_linia0"));			
+			
+		}else if(icon.tipus == t_polygon){
+			
+			canvas_pol.strokeStyle = icon.color;
+			canvas_pol.opacity = icon.fillOpacity;
+			canvas_pol.fillStyle = icon.fillColor; //rgb2hex(icon.fillColor);
+			canvas_pol.lineWidth = icon.weight;
+			
+			$('.border_color_pol').css('border-color',icon.color);
+			$('.fill_color_pol').css('color',icon.fillColor);
+			$('.fill_color_pol').css('background-color',icon.fillColor);
+			$("#cmb_gruix option[value='"+icon.weight+"']").prop("selected", "selected");
+			$("#cmb_trans option[value='"+icon.fillOpacity+"']").prop("selected", "selected");
+			
+		    addGeometryInitP(document.getElementById("cv_pol0"));
+		    
+		}else if(icon.isCanvas){//Si es un punt
+//			
+			var midaPunt = 16;
+			if(icon.radius == 8)midaPunt=21;
+			else if(icon.radius == 10)midaPunt=24;
+			else if(icon.radius == 12)midaPunt=30;
+			else if(icon.radius == 14)midaPunt=34;								
+			
+			estilP.iconFons = 'awesome-marker-web awesome-marker-icon-punt_r';
+			estilP.iconGlif = 'fa fa-'+icon.icon;
+			estilP.colorGlif = icon.iconColor;
+			estilP.divColor = icon.fillColor;
+			estilP.width = midaPunt+'px';
+			estilP.height = midaPunt+'px';				
+			
+			jQuery("#div_puntZ").addClass("estil_selected");
+			jQuery("#div_punt9").css("background-color",icon.fillColor);
+			$('#cmb_mida_Punt option[value="'+midaPunt+'"]').prop("selected", "selected");
+			jQuery("#dv_fill_color_punt").css("background-color",icon.fillColor);
+			jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);
+//			
+		}else if(icon.markerColor.indexOf("punt_r")!=-1){
+			
+			var licon = icon.icon.split(" ");
+			
+			var midaPunt = 34;
+			if(licon[1] == 'font15')midaPunt=30;
+			else if(licon[1] == 'font12')midaPunt=24;
+			else if(licon[1] == 'font11')midaPunt=21;
+			else if(licon[1] == 'font9')midaPunt=16;				
+			
+			estilP.iconFons = 'awesome-marker-web awesome-marker-icon-punt_r';
+			estilP.iconGlif = 'fa fa-'+icon.icon;
+			estilP.colorGlif =icon.iconColor;
+			estilP.fontsize = licon[1];	
+			estilP.width = midaPunt+'px';
+			estilP.height = midaPunt+'px';
+			estilP.divColor = icon.divColor;
+			
+			jQuery("#div_puntZ").addClass("estil_selected");
+			jQuery("#div_punt9").css("background-color",icon.divColor);
+			$('#cmb_mida_Punt option[value="'+midaPunt+'"]').prop("selected", "selected");
+			
+			jQuery("#dv_fill_color_punt").css("background-color",icon.divColor);
+			jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);				
+			
+			jQuery(".bs-glyphicons li .fa-"+licon[0]).parent('li').addClass("estil_selected");
+			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);				
+			
+			
+		}else{//Si es marker
+			
+			estilP.iconFons = icon.className+'-web awesome-marker-icon-'+icon.markerColor;
+			estilP.iconGlif = 'fa fa-'+icon.icon;
+			estilP.colorGlif = icon.iconColor;
+			estilP.fontsize = '14px';
+			estilP.divColor = 'transparent';
+			estilP.width = '28px';
+			estilP.height = '42px';
+			
+			jQuery(".bs-punts li .awesome-marker-icon-"+icon.markerColor).parent('li').addClass("estil_selected");
+			jQuery(".bs-glyphicons li .fa-"+icon.icon).parent('li').addClass("estil_selected");
+			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);
+		}
 		
+		jQuery('#div_punt0').removeClass();
+		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+		jQuery('#div_punt0').css('width',estilP.width);
+		jQuery('#div_punt0').css('height',estilP.height);	
+		jQuery('#div_punt0').css('font-size',estilP.fontsize);
+		jQuery('#div_punt0').css('background-color',estilP.divColor);
+		jQuery('#div_punt0').css('color',estilP.colorGlif);		
+	}
+	
 	//fi eventos popup
 	
 	layer.on('popupopen', function(e){

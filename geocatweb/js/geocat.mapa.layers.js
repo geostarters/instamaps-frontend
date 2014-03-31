@@ -164,10 +164,10 @@ function getFeatureStyle(f, fId){
 	}else if(f.layer.options.tipus == t_polyline){
 		rangs = {
 			color : f.layer.options.color,
-			lineWidth : 2,
+			lineWidth : f.layer.options.weight,
 			lineStyle : 'solid',
 			borderWidth : 2,
-			borderColor : '#000000',
+			borderColor : f.layer.options.color,
 			opacity : (f.layer.options.opacity * 100),
 			label : false,
 			labelSize : 10,
@@ -191,7 +191,7 @@ function getFeatureStyle(f, fId){
 			label : false,
 			labelSize : 10,
 			labelFont : 'arial',
-			labelColor : '#000000',
+			labelColor : '#000000'
 		};		
 	}
 	return rangs;

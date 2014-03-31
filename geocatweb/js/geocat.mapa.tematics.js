@@ -718,6 +718,7 @@ function loadTematicLayer(layer){
 							if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
 								featureTem = L.marker([coords[0],coords[1]],
 									{icon: rangStyle, isCanvas:false, tipus: t_marker});
+								console.debug(featureTem.options.icon.options.iconSize);
 							}else{//hi ha canvia de pinxo a punt canvas
 								featureTem= L.circleMarker([coords[0],coords[1]],
 									rangStyle	
@@ -817,7 +818,7 @@ function loadTematicLayer(layer){
 //							}							
 //							//Si la capa no ve de fitxer
 							if(!hasSource){
-								if($(location).attr('href').indexOf('mapa')!=-1 && capaTematic.options.tipusRang == tem_origen){
+								if($(location).attr('href').indexOf('mapa')!=-1 && ((capaTematic.options.tipusRang == tem_origen) || !capaTematic.options.tipusRang) ){
 									createPopupWindow(featureTem,ftype);
 								}else{			
 									createPopupWindowVisor(featureTem,ftype);
@@ -854,7 +855,7 @@ function loadTematicLayer(layer){
 		//console.debug('getTematicLayer ERROR');
 		defer.reject();
 	});
-	
+	console.debug(map._layers);
 	return defer.promise();
 }
 
