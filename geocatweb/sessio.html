@@ -203,6 +203,36 @@
 	</div>
 	<!-- /.modal -->
 	<!-- fi Modal inici sessio -->		
+	
+	<!-- Modal Old Browser -->
+	<div id="dialgo_old_browser" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Sabia vostè que el seu navegador no està actualitzat?</h4>
+				</div>
+				<div class="modal-body">
+					<div lang="ca">Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.</div>
+					<div>
+					<a href="http://www.microsoft.com/windows/Internet-explorer/default.aspx" target="_blank"><div class='ie_img browser_img'></div></a>
+					<a href="http://www.mozilla.com/firefox/" target="_blank"><div class='firefox_img browser_img'></div></a>
+					<a href="http://www.apple.com/safari/download/" target="_blank"><div class='safari_img browser_img'></div></a>
+					<a href="http://www.opera.com/download/" target="_blank"><div class='opera_img browser_img'></div></a>
+					<a href="http://www.google.com/chrome" target="_blank"><div class='chrome_img browser_img'></div></a>
+					</div>
+					<div lang="ca">Només faci clic a les icones per anar a la pàgina de descàrrega</div>
+				</div>
+				<div class="modal-footer">
+					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Old Browser -->
 					
     </div> 
     <!-- /container -->
@@ -216,6 +246,17 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
+	<script type="text/javascript">
+	if (!Modernizr.canvas ){
+		document.getElementById("dialgo_old_browser").style.display = "block";
+		document.getElementById("old_icon_close").style.display = "none";
+		document.getElementById("old_btn_close").onclick = function () {
+			window.location = "/index.html";
+		}
+	}
+	</script>
+	
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>

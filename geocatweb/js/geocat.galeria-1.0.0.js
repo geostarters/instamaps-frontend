@@ -86,7 +86,6 @@ $(function(){
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
-			console.debug(results);
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			

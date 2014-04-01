@@ -235,6 +235,7 @@
 	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
 	<script type="text/javascript">
 	if (!Modernizr.canvas ){
+		document.getElementById("div_loading").style.display = "none";
 		document.getElementById("mapaFond").style.display = "block";
 		document.getElementById("dialgo_old_browser").style.display = "block";
 		document.getElementById("sidebar").style.display = "none";

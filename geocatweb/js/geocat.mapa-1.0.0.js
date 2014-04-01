@@ -92,11 +92,7 @@ jQuery(document).ready(function() {
 	
 	if (!Modernizr.canvas ){
 		//jQuery("#mapaFond").show();
-		jQuery("#dialgo_old_browser").modal('show');
-		jQuery("#sidebar").hide();
-		jQuery('#dialgo_old_browser').on('hide.bs.modal', function (e) {
-			window.location = paramUrl.mainPage;
-		});
+		
 	}else{
 		$("body").on("change-lang", function(event, lang){
 			addToolTipsInici();
@@ -108,6 +104,7 @@ jQuery(document).ready(function() {
 
 function loadApp(){
 	if(typeof url('?uid') == "string"){
+		gestioCookie();
 		$.removeCookie('uid', { path: '/' });
 		$.cookie('uid', url('?uid'), {path:'/'});
 	}
@@ -115,7 +112,7 @@ function loadApp(){
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
-			minZoom: 3,
+			minZoom: 2,
 			maxZoom : 19,
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
@@ -128,10 +125,8 @@ function loadApp(){
 		//iniciamos los controles
 		initControls();
 	
-		if (!$.cookie('uid')){
-			window.location.href = paramUrl.loginPage;
-		}
-		
+		gestioCookie('loadApp');
+				
 		var data = {
 			businessId: url('?businessid'),
 			uid: $.cookie('uid')
@@ -139,27 +134,13 @@ function loadApp(){
 		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
-				if (!$.cookie('uid')){
-					window.location.href = paramUrl.mainPage;
-				}else{
-					if (isRandomUser($.cookie('uid'))){
-						$.removeCookie('uid', { path: '/' });
-						jQuery(window).off('beforeunload');
-						//jQuery(window).off('unload');
-						window.location.href = paramUrl.mainPage;
-					}else{
-						window.location.href = paramUrl.galeriaPage;
-					}
-				}
+				gestioCookie('getMapByBusinessId');
 			}else{
 				try{
 					mapConfig = results.results;
 					
-					if (mapConfig.entitatUid != $.cookie('uid')){
-						$.removeCookie('uid', { path: '/' });
-						window.location.href = paramUrl.mainPage;
-					}
-					
+					gestioCookie('diferentUser');
+										
 					mapConfig.options = $.parseJSON( mapConfig.options );
 					mapConfig.newMap = false;
 					$('#nomAplicacio').html(mapConfig.nomAplicacio);
@@ -197,18 +178,12 @@ function loadApp(){
 						
 					});
 				}catch(err){
-					console.debug(err);
-					if (isRandomUser($.cookie('uid'))){
-						$.removeCookie('uid', { path: '/' });
-						jQuery(window).off('beforeunload');
-						window.location.href = paramUrl.mainPage;
-					}else{
-						window.location.href = paramUrl.galeriaPage;
-					}
+					gestioCookie('loadMapConfig');
+					
 				}
 			}
 		},function(results){
-			window.location.href = paramUrl.loginPage;
+			gestioCookie('getMapByBusinessIdError');
 		});
 	}else{
 		if (!$.cookie('uid')){
@@ -529,6 +504,7 @@ function addOpcionsFonsMapes() {
 }
 
 function gestionaPopOver(pop) {
+	//console.debug("gestionaPopOver");
 	jQuery('.popover').popover('hide');
 	jQuery('.pop').not(pop).popover('hide');
 	jQuery(pop).popover('toggle');
@@ -1076,7 +1052,7 @@ function loadPopOverMevasDades(){
 */
 
 function refrescaPopOverMevasDades(){
-	console.debug("refrescaPopOverMevasDades");
+	//console.debug("refrescaPopOverMevasDades");
 	var dfd = jQuery.Deferred();
 	var data = {uid: $.cookie('uid')};
 	getAllServidorsWMSByUser(data).then(function(results){
@@ -1103,7 +1079,7 @@ function refrescaPopOverMevasDades(){
 		dades1.results = serverOrigen;
 		dfd.resolve(dades1);
 	},function(results){
-		window.location.href = paramUrl.loginPage;
+		gestioCookie('refrescaPopOverMevasDades');
 	});
 	return dfd.promise();
 }
@@ -1200,8 +1176,6 @@ function carregarCapa(businessId){
 
 function creaPopOverDadesExternes() {
 	jQuery(".div_dades_ext").on('click', function() {
-
-		
 		//gestionaPopOver(this);
 		jQuery('.modal').modal('hide');
 		$('#dialog_dades_ex').modal('show');
@@ -1972,7 +1946,7 @@ function carregaDadesUsuari(data){
 		creaPopOverMevasDades();
 	},function(results){
 		//JESS DESCOMENTAR!!!!
-		//window.location.href = paramUrl.loginPage;
+		gestioCookie('carregaDadesUsuari');
 	});
 }
 
@@ -2036,7 +2010,7 @@ function loadDadesObertesLayer(layer){
 		}
 		
 		capaDadaOberta.eachLayer(function(layer) {
-			console.debug("1"+layer);
+			//console.debug("1"+layer);
 		});		
 		
 		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
@@ -2099,7 +2073,7 @@ function showConfOptions(businessId){
 }
 
 function createNewMap(){
-	console.debug("createNewMap");
+	//console.debug("createNewMap");
 	var data = {
 		nom: getTimeStamp(),
 		uid: $.cookie('uid'),
@@ -2110,7 +2084,7 @@ function createNewMap(){
 	createMap(data).then(function(results){
 		if (results.status == "ERROR"){
 			//TODO Mensaje de error
-			window.location.href = paramUrl.mainPage;
+			gestioCookie('createMapError');
 		}else{
 			try{
 				mapConfig = results.results;
@@ -2119,12 +2093,7 @@ function createNewMap(){
 				mapConfig.newMap = false;
 				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
 			}catch(err){
-				if (isRandomUser($.cookie('uid'))){
-					$.removeCookie('uid', { path: '/' });
-					window.location.href = paramUrl.mainPage;
-				}else{
-					window.location.href = paramUrl.galeriaPage;
-				}
+				gestioCookie('createMap');
 			}
 		}
 	});
@@ -2153,5 +2122,65 @@ function getLeafletIdFromBusinessId(businessId){
 		if(controlCapes._layers[val].layer.options.businessId == businessId){
 			return val;
 		}
+	}
+}
+
+function gestioCookie(from){
+	var _cookie = $.cookie('uid');
+	switch(from){
+		case 'createMap':
+			if (isRandomUser(_cookie)){
+				$.removeCookie('uid', { path: '/' });
+				window.location.href = paramUrl.mainPage;
+			}else{
+				window.location.href = paramUrl.galeriaPage;
+			}
+			break;
+		case 'createMapError':
+			window.location.href = paramUrl.mainPage;
+			break;
+		case 'getMapByBusinessId':
+			if (!_cookie){
+				window.location.href = paramUrl.mainPage;
+			}else{
+				if (isRandomUser(_cookie)){
+					$.removeCookie('uid', { path: '/' });
+					jQuery(window).off('beforeunload');
+					//jQuery(window).off('unload');
+					window.location.href = paramUrl.mainPage;
+				}else{
+					window.location.href = paramUrl.galeriaPage;
+				}
+			} 
+			break;
+		case 'loadApp':
+			if (!_cookie){
+				window.location.href = paramUrl.mainPage;
+			}
+			break;
+		case 'diferentUser':
+			if (mapConfig.entitatUid != _cookie){
+				$.removeCookie('uid', { path: '/' });
+				window.location.href = paramUrl.mainPage;
+			}
+			break;
+		case 'loadMapConfig':
+			if (isRandomUser(_cookie)){
+				$.removeCookie('uid', { path: '/' });
+				jQuery(window).off('beforeunload');
+				window.location.href = paramUrl.mainPage;
+			}else{
+				window.location.href = paramUrl.galeriaPage;
+			}
+			break;
+		case 'carregaDadesUsuari':
+			window.location.href = paramUrl.loginPage;
+			break;
+		case 'refrescaPopOverMevasDades':
+			window.location.href = paramUrl.loginPage;
+			break;
+		case 'getMapByBusinessIdError':
+			window.location.href = paramUrl.loginPage;
+			break;
 	}
 }

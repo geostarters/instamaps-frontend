@@ -53,6 +53,7 @@ function obrirMenuModal(_menuClass,estat,_from){
     		var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
         	if( layers_from.length > num_max_pintxos){
                 jQuery('.fila-awesome-markers').hide();
+                estilP.iconGlif = "fa fa-";
                 activaPuntZ();
         	}else{
                 jQuery('.fila-awesome-markers').show();

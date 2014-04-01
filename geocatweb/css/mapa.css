@@ -727,6 +727,31 @@ background-color: #9F9F9E;
 	font-size: 13px;
 }
 
+.modal-header {
+	padding: 10px 10px;
+}
+
+.modal-header h4 {
+	
+	font-size: 13px;
+    font-weight: bold;
+}
+
+.modal-body {
+	padding: 10px 10px;
+}
+
+.modal-footer {
+	padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+     padding-top:10px;
+    border-top: 0 solid #E5E5E5;
+    margin-top: 1px;
+   
+    text-align: right;
+}
+
 .btn {
 	border-radius: 0;
 	 font-size: 13px;
@@ -775,31 +800,6 @@ background-color: #9F9F9E;
     font-size: 12px;
     margin-left: 4px
 		
-}
-
-.modal-header {
-	padding: 10px 10px;
-}
-
-.modal-header h4 {
-	
-	font-size: 13px;
-    font-weight: bold;
-}
-
-.modal-body {
-	padding: 10px 10px;
-}
-
-.modal-footer {
-	padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-     padding-top:10px;
-    border-top: 0 solid #E5E5E5;
-    margin-top: 1px;
-   
-    text-align: right;
 }
 
 .control-switch {

@@ -197,7 +197,7 @@
 					<div lang="ca" id="div_carrega_dades" data-toggle="tooltip"	title="Arrossega les teves dades sobre el mapa o fes clic aquí" class="div_carrega_dades"></div>
 
 					<div class="div_gr2">
-						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr pop">
+						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr">
 							<script id="meus-wms-template" type="text/x-handlebars-template">
 							<div class="panel-success">
 								<ul class="bs-dadesO panel-heading">
@@ -216,9 +216,7 @@
 							</script>-->
 						</div>
 												
-						<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext pop">
-						
-						</div>
+						<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext"></div>
 					</div>
 
 				</td>
@@ -1197,6 +1195,7 @@
 							<option value="6">6</option>
 							<option value="7">7</option>
 							<option value="8">8</option>
+							<option value="9">9</option>
 						</select>
 					</div>
 					
@@ -1314,6 +1313,8 @@
 						<div lang="ca">Tria la paleta de colors</div>
 						<img id="paletaPaired" src="img/paleta2.png" class="btn-paleta" lang="ca" title="Paired">
 						<img id="paletaPastel" src="img/paleta1.png" class="btn-paleta" lang="ca" title="Pastel">
+						<img id="paletaDivergent" src="img/paleta_divergent.png" class="btn-paleta" lang="ca" title="Divergent">
+						<img id="paletaSecuencial" src="img/paleta_sequencial.png" class="btn-paleta" lang="ca" title="Sequencial">
 					</div>
 					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
          			<button type="button" class="btn btn-success" lang="ca">Canviar</button>
@@ -1413,7 +1414,7 @@
 				<div class="modal-header">
 					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title"></h4>
+					<h4 lang="ca" class="modal-title">&nbsp;</h4>
 				</div>
 				<div class="modal-body">
 				</div>
@@ -1461,6 +1462,7 @@
 	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
 	<script type="text/javascript">
 	if (!Modernizr.canvas ){
+		document.getElementById("div_loading").style.display = "none";
 		document.getElementById("mapaFond").style.display = "block";
 		document.getElementById("dialgo_old_browser").style.display = "block";
 		document.getElementById("sidebar").style.display = "none";
