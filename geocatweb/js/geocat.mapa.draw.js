@@ -693,7 +693,7 @@ function createPopupWindow(layer,type){
 			map.closePopup();
 		}
 	});	
-	
+	//Tornem a fer commit
 	/*funcio que actulitza l'estil seleccionat al dialeg d'estils, 
 	 * amb el de la feature que es col editar 
 	 * */
