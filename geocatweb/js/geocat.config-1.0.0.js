@@ -143,3 +143,4 @@ $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 		}
 	}
 });
+

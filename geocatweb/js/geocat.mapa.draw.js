@@ -28,6 +28,82 @@ function hexToRgb(hex) {
 
 function obrirMenuModal(_menuClass,estat,_from){
 	objEdicio.obroModalFrom=_from;
+	
+	//Udate dialog estils a mostrar
+	if(_from == from_creaCapa){
+		
+		if(_menuClass.indexOf("arees")!=-1){
+			var defPol = document.getElementById("cv_pol").getContext("2d");
+			var icon = {color: defPol.strokeStyle,
+						fillOpacity : getRgbAlpha(defPol.fillStyle),
+						fillColor: rgb2hex(defPol.fillStyle),
+						weight: defPol.lineWidth,
+						tipus: t_polygon
+					};
+			updateDialogStyleSelected(icon);
+			
+		}else if(_menuClass.indexOf("linies")!=-1){
+			var defLine = document.getElementById("cv_linia").getContext("2d");
+			var icon = {color: defLine.strokeStyle,
+						weight: defLine.lineWidth,
+						tipus: t_polyline
+					};
+			updateDialogStyleSelected(icon);			
+		
+		}else{//es t_marker
+
+			 var styleProps = $("#div_punt").css(["width","height","color","background-color","font-size"]);
+			 var punt_class = $("#div_punt").attr("class");
+			 var lclass = punt_class.split(" ");
+			 
+			 //Si es punt inicial per defecte
+			 if(punt_class == "dibuix_punt"){
+				 
+			 }else if (punt_class.indexOf("punt_r")!=-1){
+				 	
+
+				 	//Es punt sense glyphon, CANVAS
+				 	if(!lclass[3] || lclass[3] === "fa-"){
+						var icon = {icon: "",//glyph
+								 	iconColor: rgb2hex(styleProps.color),
+								 	fillColor: rgb2hex(styleProps["background-color"]),
+								 	radius: getRadiusFromMida(styleProps.width),
+								 	isCanvas: true,
+								 	tipus: t_marker
+						};
+						updateDialogStyleSelected(icon);
+						
+				 	}else{//Es punt amb glyphon
+					 	var iconGlyph = "";
+					 	if(lclass[3]) iconGlyph = lclass[3];
+					 	
+					 	var font = " font"+styleProps["font-size"].substring(0,2);
+						var icon = {icon: iconGlyph.substring(3) + font,//glyph
+								 	iconColor: rgb2hex(styleProps.color),
+								 	divColor: rgb2hex(styleProps["background-color"]),
+								 	isCanvas: false,
+								 	markerColor: punt_class,
+								 	tipus: t_marker
+						};
+						updateDialogStyleSelected(icon);					 	
+				 	}
+			 }else{//Pintxo
+				var markerColor = (lclass[1].split("-"))[3];
+			 	var iconGlyph = "";
+			 	if(lclass[3]) iconGlyph = lclass[3];
+			 	
+				var icon = {icon: iconGlyph.substring(3),//glyph
+						 	iconColor: rgb2hex(styleProps.color),
+						 	isCanvas: false,
+						 	className: "awesome-marker",
+						 	markerColor: markerColor,
+						 	tipus: t_marker
+				};
+				updateDialogStyleSelected(icon);
+			 }
+		}
+	}	
+	
     if (jQuery.isPlainObject( _from )){
     	if (_from.from == tem_clasic){
     		//TODO
@@ -39,16 +115,7 @@ function obrirMenuModal(_menuClass,estat,_from){
             */
     	}else{
     		
-    		if(_from == from_creaCapa){
-    			
-    			if(_menuClass.indexOf("arees")!=-1){
-    				
-    				
-    				addGeometryInitP(document.getElementById("cv_pol")); 
-    				updateDialogStyleSelected(canvas_pol);
-    			}
-    			
-    		}
+
     		
     		var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
         	if( layers_from.length > num_max_pintxos){
@@ -157,6 +224,28 @@ function rgb2hex(rgb){
   ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
   ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
   ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+
+//Funcio per obtenir la transparencia d'un rgb
+function getRgbAlpha(rgba){
+	 var alpha=rgba.replace(/^.*,(.+)\)/,'$1');
+	 return jQuery.trim(alpha);
+}
+
+function getMidaFromRadius(radius){
+	if(radius == 8)return 21;
+	else if(radius == 10)return 24;
+	else if(radius == 12)return 30;
+	else if(radius == 14)return 34;	
+	else return 16;
+}
+
+function getRadiusFromMida(mida){
+	if(mida == "21px")return 8;
+	else if(mida == "24px")return 10;
+	else if(mida == "30px")return 12;
+	else if(mida == "34px")return 14;	
+	else return 6;	
 }
 
 function addGeometryInitL(canvas){
@@ -694,114 +783,7 @@ function createPopupWindow(layer,type){
 			map.closePopup();
 		}
 	});	
-	//Tornem a fer commit
-	/*funcio que actulitza l'estil seleccionat al dialeg d'estils, 
-	 * amb el de la feature que es col editar 
-	 * */
-	function updateDialogStyleSelected(icon){
 
-		//Deselecciono estil al modal 
-		jQuery(".bs-punts li").removeClass("estil_selected");
-		jQuery("#div_puntZ").removeClass("estil_selected");
-		jQuery(".bs-glyphicons li").removeClass("estil_selected");
-
-		if(icon.tipus == t_polyline){
-			
-			canvas_linia.lineWidth = icon.weight;
-			canvas_linia.strokeStyle = icon.color;
-			
-			$("#cmb_gruix_l option[value='"+icon.weight+"']").prop("selected", "selected");
-			$('.border_color_linia').css('background-color',icon.color);
-			addGeometryInitL(document.getElementById("cv_linia0"));			
-			
-		}else if(icon.tipus == t_polygon){
-			
-			canvas_pol.strokeStyle = icon.color;
-			canvas_pol.opacity = icon.fillOpacity;
-			canvas_pol.fillStyle = icon.fillColor; //rgb2hex(icon.fillColor);
-			canvas_pol.lineWidth = icon.weight;
-			
-			$('.border_color_pol').css('border-color',icon.color);
-			$('.fill_color_pol').css('color',icon.fillColor);
-			$('.fill_color_pol').css('background-color',icon.fillColor);
-			$("#cmb_gruix option[value='"+icon.weight+"']").prop("selected", "selected");
-			$("#cmb_trans option[value='"+icon.fillOpacity+"']").prop("selected", "selected");
-			
-		    addGeometryInitP(document.getElementById("cv_pol0"));
-		    
-		}else if(icon.isCanvas){//Si es un punt
-//			
-			var midaPunt = 16;
-			if(icon.radius == 8)midaPunt=21;
-			else if(icon.radius == 10)midaPunt=24;
-			else if(icon.radius == 12)midaPunt=30;
-			else if(icon.radius == 14)midaPunt=34;								
-			
-			estilP.iconFons = 'awesome-marker-web awesome-marker-icon-punt_r';
-			estilP.iconGlif = 'fa fa-'+icon.icon;
-			estilP.colorGlif = icon.iconColor;
-			estilP.divColor = icon.fillColor;
-			estilP.width = midaPunt+'px';
-			estilP.height = midaPunt+'px';				
-			
-			jQuery("#div_puntZ").addClass("estil_selected");
-			jQuery("#div_punt9").css("background-color",icon.fillColor);
-			$('#cmb_mida_Punt option[value="'+midaPunt+'"]').prop("selected", "selected");
-			jQuery("#dv_fill_color_punt").css("background-color",icon.fillColor);
-			jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);
-//			
-		}else if(icon.markerColor.indexOf("punt_r")!=-1){
-			
-			var licon = icon.icon.split(" ");
-			
-			var midaPunt = 34;
-			if(licon[1] == 'font15')midaPunt=30;
-			else if(licon[1] == 'font12')midaPunt=24;
-			else if(licon[1] == 'font11')midaPunt=21;
-			else if(licon[1] == 'font9')midaPunt=16;				
-			
-			estilP.iconFons = 'awesome-marker-web awesome-marker-icon-punt_r';
-			estilP.iconGlif = 'fa fa-'+icon.icon;
-			estilP.colorGlif =icon.iconColor;
-			estilP.fontsize = licon[1];	
-			estilP.width = midaPunt+'px';
-			estilP.height = midaPunt+'px';
-			estilP.divColor = icon.divColor;
-			
-			jQuery("#div_puntZ").addClass("estil_selected");
-			jQuery("#div_punt9").css("background-color",icon.divColor);
-			$('#cmb_mida_Punt option[value="'+midaPunt+'"]').prop("selected", "selected");
-			
-			jQuery("#dv_fill_color_punt").css("background-color",icon.divColor);
-			jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);				
-			
-			jQuery(".bs-glyphicons li .fa-"+licon[0]).parent('li').addClass("estil_selected");
-			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);				
-			
-			
-		}else{//Si es marker
-			
-			estilP.iconFons = icon.className+'-web awesome-marker-icon-'+icon.markerColor;
-			estilP.iconGlif = 'fa fa-'+icon.icon;
-			estilP.colorGlif = icon.iconColor;
-			estilP.fontsize = '14px';
-			estilP.divColor = 'transparent';
-			estilP.width = '28px';
-			estilP.height = '42px';
-			
-			jQuery(".bs-punts li .awesome-marker-icon-"+icon.markerColor).parent('li').addClass("estil_selected");
-			jQuery(".bs-glyphicons li .fa-"+icon.icon).parent('li').addClass("estil_selected");
-			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);
-		}
-		
-		jQuery('#div_punt0').removeClass();
-		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-		jQuery('#div_punt0').css('width',estilP.width);
-		jQuery('#div_punt0').css('height',estilP.height);	
-		jQuery('#div_punt0').css('font-size',estilP.fontsize);
-		jQuery('#div_punt0').css('background-color',estilP.divColor);
-		jQuery('#div_punt0').css('color',estilP.colorGlif);		
-	}
 	
 	//fi eventos popup
 	
@@ -1138,4 +1120,113 @@ function modeEditText(){
 	jQuery('#des_edit').val(txtDesc);
 	jQuery('.popup_pres').hide();
 	jQuery('.popup_edit').show();	
+}
+
+//Tornem a fer commit
+/*funcio que actulitza l'estil seleccionat al dialeg d'estils, 
+ * amb el de la feature que es col editar 
+ * */
+function updateDialogStyleSelected(icon){
+
+
+	if(icon.tipus == t_polyline){
+		
+		canvas_linia.lineWidth = icon.weight;
+		canvas_linia.strokeStyle = icon.color;
+		
+		$("#cmb_gruix_l option[value='"+icon.weight+"']").prop("selected", "selected");
+		$('.border_color_linia').css('background-color',icon.color);
+		addGeometryInitL(document.getElementById("cv_linia0"));			
+		
+	}else if(icon.tipus == t_polygon){
+		
+		canvas_pol.strokeStyle = icon.color;
+		canvas_pol.opacity = icon.fillOpacity;
+		canvas_pol.fillStyle = icon.fillColor; //rgb2hex(icon.fillColor);
+		canvas_pol.lineWidth = icon.weight;
+		
+		$('.border_color_pol').css('border-color',icon.color);
+		$('.fill_color_pol').css('color',icon.fillColor);
+		$('.fill_color_pol').css('background-color',icon.fillColor);
+		$("#cmb_gruix option[value='"+icon.weight+"']").prop("selected", "selected");
+		$("#cmb_trans option[value='"+icon.fillOpacity+"']").prop("selected", "selected");
+		
+	    addGeometryInitP(document.getElementById("cv_pol0"));
+	    
+	}else{//es t_marker
+		
+		//Deselecciono estil al modal 
+		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery("#div_puntZ").removeClass("estil_selected");
+		jQuery(".bs-glyphicons li").removeClass("estil_selected");		
+		
+		if(icon.isCanvas){//Si es un punt
+			
+			var midaPunt = getMidaFromRadius(icon.radius);
+			
+			estilP.iconFons = 'awesome-marker-web awesome-marker-icon-punt_r';
+			estilP.iconGlif = 'fa fa-'+icon.icon;
+			estilP.colorGlif = icon.iconColor;
+			estilP.divColor = icon.fillColor;
+			estilP.width = midaPunt+'px';
+			estilP.height = midaPunt+'px';				
+			
+			jQuery("#div_puntZ").addClass("estil_selected");
+			jQuery("#div_punt9").css("background-color",icon.fillColor);
+			$('#cmb_mida_Punt option[value="'+midaPunt+'"]').prop("selected", "selected");
+			jQuery("#dv_fill_color_punt").css("background-color",icon.fillColor);
+			jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);
+//			
+		}else if(icon.markerColor.indexOf("punt_r")!=-1){
+			
+			var licon = icon.icon.split(" ");
+			
+			var midaPunt = 34;
+			if(licon[1] == 'font15')midaPunt=30;
+			else if(licon[1] == 'font12')midaPunt=24;
+			else if(licon[1] == 'font11')midaPunt=21;
+			else if(licon[1] == 'font9')midaPunt=16;				
+			
+			estilP.iconFons = 'awesome-marker-web awesome-marker-icon-punt_r';
+			estilP.iconGlif = 'fa fa-'+icon.icon;
+			estilP.colorGlif =icon.iconColor;
+			estilP.fontsize = licon[1];	
+			estilP.width = midaPunt+'px';
+			estilP.height = midaPunt+'px';
+			estilP.divColor = icon.divColor;
+			
+			jQuery("#div_puntZ").addClass("estil_selected");
+			jQuery("#div_punt9").css("background-color",icon.divColor);
+			$('#cmb_mida_Punt option[value="'+midaPunt+'"]').prop("selected", "selected");
+			
+			jQuery("#dv_fill_color_punt").css("background-color",icon.divColor);
+			jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);				
+			
+			jQuery(".bs-glyphicons li .fa-"+licon[0]).parent('li').addClass("estil_selected");
+			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);				
+			
+			
+		}else{//Si es marker
+			
+			estilP.iconFons = icon.className+'-web awesome-marker-icon-'+icon.markerColor;
+			estilP.iconGlif = 'fa fa-'+icon.icon;
+			estilP.colorGlif = icon.iconColor;
+			estilP.fontsize = '14px';
+			estilP.divColor = 'transparent';
+			estilP.width = '28px';
+			estilP.height = '42px';
+			
+			jQuery(".bs-punts li .awesome-marker-icon-"+icon.markerColor).parent('li').addClass("estil_selected");
+			jQuery(".bs-glyphicons li .fa-"+icon.icon).parent('li').addClass("estil_selected");
+			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);
+		}
+		
+		jQuery('#div_punt0').removeClass();
+		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+		jQuery('#div_punt0').css('width',estilP.width);
+		jQuery('#div_punt0').css('height',estilP.height);	
+		jQuery('#div_punt0').css('font-size',estilP.fontsize);
+		jQuery('#div_punt0').css('background-color',estilP.divColor);
+		jQuery('#div_punt0').css('color',estilP.colorGlif);			
+	}
 }
