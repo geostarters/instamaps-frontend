@@ -148,6 +148,7 @@ html,body {
 
 #paletes_colors{
 	float:left;
+	text-align: left;
 }
 
 .btn-paleta{
