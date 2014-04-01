@@ -454,6 +454,11 @@ function loadApp(){
 		updateClasicTematicFromRangs();
 	});
 	
+	//boton de comentaris
+	jQuery('#feedback_btn').on('click',function(e){
+		window.open(paramUrl.comentarisPage);
+	});
+	
 }
 
 function addClicksInici() {
@@ -849,7 +854,7 @@ function creaPopOverMevasDades(){
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		
 	jQuery(".div_dades_usr").on('click', function() {
-		console.debug("creaPopOverMevasDades");
+		//console.debug("creaPopOverMevasDades");
 		jQuery('.modal').modal('hide');
 		$('#dialog_teves_dades').modal('show');
 		

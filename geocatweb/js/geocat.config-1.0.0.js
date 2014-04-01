@@ -59,6 +59,7 @@ var paramUrl = {
 	visorPage:"/geocatweb/visor.html",
 	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
+	comentarisPage:"http://betaportal.icgc.cat",
 	wmsOpenData:"/dadesobertes/wms/service?",
 	tmsOpenData:"/geocatcache/?",
 	getAllMapsByUser: HOST_APP+"geocat/aplications/map/getAllMapsByUser.action?",

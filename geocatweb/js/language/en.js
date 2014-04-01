@@ -271,4 +271,5 @@ jquery_lang_js.prototype.lang.en = {
   "amb les teves dades.":"",
   "Els camps Nom_via, Portal i Municipi són obligatoris.":"",
   "El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles":"",
+  "Comentaris": "Feedback",
 }
