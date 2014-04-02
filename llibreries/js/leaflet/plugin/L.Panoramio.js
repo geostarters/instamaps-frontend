@@ -1,5 +1,7 @@
 // Panoramio plugin for Leaflet
 // https://github.com/shurshur/Leaflet.Panoramio
+ var boundsICGC = L.latLngBounds(L.latLng(41.368060902971166, 2.1521562337875366), 
+		 						 L.latLng(41.37156735542552, 2.158936858177185));
 
 L.Panoramio = L.FeatureGroup.extend({
 	options: {
@@ -68,6 +70,7 @@ L.Panoramio = L.FeatureGroup.extend({
   		bbox[1] = minll.lat;
   		bbox[2] = maxll.lng;
   		bbox[3] = maxll.lat;
+  		
 		this._bbox = bbox;
 		this._zoom = zoom;
 		var _this = this;
@@ -79,9 +82,15 @@ L.Panoramio = L.FeatureGroup.extend({
 			e.parentNode.removeChild(e);
 			_this._load(json);
 		};
+		
 		var url = 'http://www.panoramio.com/map/get_panoramas.php?order=upload_date&set=public&from=0&to='+this.options.maxLoad+'&minx='+
 		  minll.lng+'&miny='+minll.lat+'&maxx='+maxll.lng+'&maxy='+maxll.lat+'&size=small&mapfilter=true&callback='+cbid;
 		
+		if(boundsICGC.contains(bounds)){
+			console.debug("geostarters!");
+			var url = 'http://www.panoramio.com/map/get_panoramas.php?order=upload_date&set=8024775&from=0&to='+this.options.maxLoad+'&minx='+
+			  minll.lng+'&miny='+minll.lat+'&maxx='+maxll.lng+'&maxy='+maxll.lat+'&size=small&mapfilter=true&callback='+cbid;			
+		}
 		//var url = 'http://api.geonames.org/wikipediaBoundingBox?north=43.25320494908846&south=39.554883059924016&east=4.6142578125&west=-2.3291015625&username=geostarters&callback=_leaflet_panoramio';
 		
 		var script = document.createElement("script");
