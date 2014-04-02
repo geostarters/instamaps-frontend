@@ -19,44 +19,48 @@ function showTematicLayersModal(tipus,className){
 	jQuery.each( controlCapes._layers, function( key, value ) {
 		var layerOptions = this.layer.options;
 		var tipusCapa = layerOptions.tipus;
-		
-		//Si la capa no esta tematitzada
-		if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
-			if(tipus==tem_simple) {
-				if (tipusCapa == t_tematic || tipusCapa == t_json){ //tematic
-					layers.push(this);
-				}else if(tipusCapa == t_dades_obertes){ //dades obertes
-					var dataset = layerOptions.dataset;
-					if (dataset != "incidencies" &&
-						dataset != "cameres" &&
-						dataset != "meteo_comarca" &&
-						dataset != "meteo_costa"){
+		//Si la capa no es multigeometrias
+		if (layerOptions.geometryType != t_multiple){
+			//Si la capa no esta tematitzada
+			if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
+				if(tipus==tem_simple) {
+					if (tipusCapa == t_tematic || tipusCapa == t_json){ //tematic
+						layers.push(this);
+					}else if(tipusCapa == t_dades_obertes){ //dades obertes
+						var dataset = layerOptions.dataset;
+						if (dataset != "incidencies" &&
+							dataset != "cameres" &&
+							dataset != "meteo_comarca" &&
+							dataset != "meteo_costa"){
+							layers.push(this);
+						}
+					}
+				}else if (tipus==tem_clasic){
+					if (tipusCapa == t_tematic){ //tematic
+						if (this.layer.options.dades){
+							layers.push(this);
+						}else{
+							layers.push(this);
+						}
+					}
+				}else if (tipus==tem_cluster || tipus==tem_heatmap) {
+					//var ftype = transformTipusGeometry(layerOptions.geometryType);
+					var ftype = layerOptions.geometryType;
+					if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
+						(tipusCapa == t_tematic && ftype == t_marker)){
 						layers.push(this);
 					}
+				}else if (tipus==tem_size) {
+					$('#list_tematic_layers').html(warninMSG);
+					return;
+				}else{		
+					$('#list_tematic_layers').html(warninMSG);
+					return;
 				}
-			}else if (tipus==tem_clasic){
-				if (tipusCapa == t_tematic){ //tematic
-					if (this.layer.options.dades){
-						layers.push(this);
-					}else{
-						layers.push(this);
-					}
-				}
-			}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-				//var ftype = transformTipusGeometry(layerOptions.geometryType);
-				var ftype = layerOptions.geometryType;
-				if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
-					(tipusCapa == t_tematic && ftype == t_marker)){
-					layers.push(this);
-				}
-			}else if (tipus==tem_size) {
-				$('#list_tematic_layers').html(warninMSG);
-				return;
-			}else{		
-				$('#list_tematic_layers').html(warninMSG);
-				return;
 			}
+		
 		}
+		
 	});// fi each
 	if(layers.length ==0){
 		$('#list_tematic_layers').html(warninMSG);		
@@ -652,7 +656,7 @@ function loadTematicLayer(layer){
 								jQuery.each(fieldsName, function(i, val){
 									dataGeom[val] = dataGeom["slotd"+(i+1)];
 								});
-							}							
+							}
 							jQuery.extend(geom.properties, {data: dataGeom});
 						}else{
 							dataGeom = null;
@@ -667,7 +671,11 @@ function loadTematicLayer(layer){
 						
 						//Sin rangos
 						if (Lrangs.length == 0){
-							rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
+							if (ftype == t_marker){
+								rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
+							}else{
+								rangStyle = createRangStyle(ftype, null, Lgeom.length);
+							}
 						}
 						//1 Rango
 						else if (Lrangs.length == 1){
@@ -724,7 +732,6 @@ function loadTematicLayer(layer){
 							if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
 								featureTem = L.marker([coords[0],coords[1]],
 									{icon: rangStyle, isCanvas:false, tipus: t_marker});
-								console.debug(featureTem.options.icon.options.iconSize);
 							}else{//hi ha canvia de pinxo a punt canvas
 								featureTem= L.circleMarker([coords[0],coords[1]],
 									rangStyle	
@@ -815,8 +822,7 @@ function loadTematicLayer(layer){
 							featureTem.properties.feature = {};
 							featureTem.properties.feature.geometry = geom.geometry;
 							capaTematic.addLayer(featureTem);
-							
-//							if(rangStyle.options.markerColor=='punt_r'){
+							//							if(rangStyle.options.markerColor=='punt_r'){
 ////								var num=rangStyle.options.radius;
 ////								featureTem.options.icon.options.shadowSize = new L.Point(1, 1);
 //								var color = hexToRgb(featureTem.options.icon.options.fillColor);
@@ -861,7 +867,6 @@ function loadTematicLayer(layer){
 		//console.debug('getTematicLayer ERROR');
 		defer.reject();
 	});
-	console.debug(map._layers);
 	return defer.promise();
 }
 
@@ -955,7 +960,7 @@ function createFeatureAreaStyle(style){
 }
 
 function changeDefaultPointStyle(estilP) {
-	console.debug("changeDefaultPointStyle");
+	//console.debug("changeDefaultPointStyle");
 	var puntTMP= new L.AwesomeMarkers.icon(default_marker_style);
 	var _iconFons=estilP.iconFons.replace('awesome-marker-web awesome-marker-icon-','');
 	var _iconGlif=estilP.iconGlif;	
@@ -1014,7 +1019,7 @@ function changeDefaultPointStyle(estilP) {
 }
 
 function createFeatureMarkerStyle(style, num_geometries){
-	console.debug("createFeatureMarkerStyle");
+	//console.debug("createFeatureMarkerStyle");
 	if (!num_geometries){
 		num_geometries = num_max_pintxos - 1;
 	}
@@ -1062,7 +1067,7 @@ function createFeatureMarkerStyle(style, num_geometries){
 }
 
 function getRangsFromLayer(layer){
-	console.debug("getRangsFromLayer");
+	//console.debug("getRangsFromLayer");
 	if (layer.options.tipus == t_tematic){
 		var styles = jQuery.map(layer.getLayers(), function(val, i){
 			return {key: val.properties.businessId, style: val};

@@ -296,7 +296,6 @@ function loadCapaFromJSON(layer) {
 		loadJsonClusterLayer(layer);
 		return defer.resolve();
 	}else{	
-		console.debug("loadCapaFromJSON");
 		var v_respotaJSON;
 		getJSONPServei(layer.url).then(function(results) {
 			var op = [];
@@ -386,8 +385,7 @@ function loadCapaFromJSON(layer) {
 			}else{
 				capaJSON.options.zIndex = parseInt(layer.capesOrdre);
 			}			
-			
-			
+				
 //			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
 //			controlCapes._lastZIndex++;
 			
@@ -401,9 +399,7 @@ function loadCapaFromJSON(layer) {
 			}			
 			
 			activaPanelCapes(true);	
-			console.debug("FI loadCapaFromJSON");
 			return defer.resolve();
-			
 		},function(results){
 			alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
 			return defer.reject();		

@@ -56,7 +56,8 @@ var default_circulo_style = {
 	borderWidth: 2,
 	opacity: 90,
 	borderColor : "#ffffff",
-	color :"#FFC500"	
+	color :"#FFC500",
+	lineWidth: 3,
 };
 var default_circuloglyphon_style = {
 	icon : '',

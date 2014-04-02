@@ -529,8 +529,7 @@ background-color: #9F9F9E;
 }
 
 .div_gr5 {
-	/*height: 30px;*/
-	height: 50px;
+	/*height: 50px;*/
 	margin: 10px 5px 0;
 	float: auto;
 }
@@ -566,8 +565,7 @@ background-color: #9F9F9E;
 
 .div_gr3_estils {
 	height: 40px;
-	margin: 10px 33px 0;
-	width: 90%;
+	margin: 10px 27px 0;
 }
 
 .div_gr3 div, .div_gr3_estils div {
