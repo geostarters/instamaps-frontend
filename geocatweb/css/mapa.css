@@ -1243,15 +1243,7 @@ i.fa {
 		margin-bottom: 5px;
 		width: 48%;
 	}
-	.bt_publicar {
-		line-height: 35px;
-		font-size: 12px;
-		height: 55px;
-		margin-left: 10px;
-		margin-right: 10px;
-		cursor: pointer;
-		background-color: #FF8300
-	}
+
 }
 
 
@@ -1625,7 +1617,8 @@ i.fa {
     width: 40px;
 }
 
-@media (max-width:801px ){
+/*
+@media (max-width:301px ){
 	
 	.div_gr3_estils div {
 	    display: inline-block;
@@ -1662,7 +1655,7 @@ i.fa {
 			-118px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}	
-}
+}*/
 
 @media (max-width:1025px){
 	
@@ -1748,7 +1741,7 @@ i.fa {
 	}*/
 }
 
-@media (max-height:600px){
+@media (max-height:605px){
 	.bt_publicar {
 		line-height: 40px;
 		height: 40px;
