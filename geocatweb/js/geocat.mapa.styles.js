@@ -1,7 +1,7 @@
 function retornaEstilaDO(dataset) {
 	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
 
-	if(dataset=="radars"){ estil.fillColor = "##A00698";}
+	if(dataset=="radars"){ estil.fillColor = "#A00698";}
 	else if(dataset=="turisme_rural"){ estil.fillColor = "#06A010";}
 	else if(dataset=="hotels"){ estil.fillColor = "#ED760E";}
 	else if(dataset=="incidencies"){ estil.fillColor = "#991032";}
