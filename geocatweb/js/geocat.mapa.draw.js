@@ -127,9 +127,11 @@ function obrirMenuModal(_menuClass,estat,_from){
     		var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
         	if( layers_from.length > num_max_pintxos){
                 jQuery('.fila-awesome-markers').hide();
+                jQuery('#filaM').hide();
                 estilP.iconGlif = "fa fa-";
                 activaPuntZ();
         	}else{
+        		jQuery('#filaM').show();
                 jQuery('.fila-awesome-markers').show();
                
         	}
@@ -138,6 +140,7 @@ function obrirMenuModal(_menuClass,estat,_from){
     	}
     }else{
     	jQuery('.fila-awesome-markers').show();
+    	jQuery('#filaM').show();
     	jQuery('.modal').modal('hide');     
         jQuery(_menuClass).modal(estat);
     }
