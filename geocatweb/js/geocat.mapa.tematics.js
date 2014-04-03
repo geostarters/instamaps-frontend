@@ -44,8 +44,8 @@ function showTematicLayersModal(tipus,className){
 						}
 					}
 				}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-					//var ftype = transformTipusGeometry(layerOptions.geometryType);
-					var ftype = layerOptions.geometryType;
+					var ftype = transformTipusGeometry(layerOptions.geometryType);
+					//var ftype = layerOptions.geometryType;
 					if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
 						(tipusCapa == t_tematic && ftype == t_marker)){
 						layers.push(this);
@@ -1441,15 +1441,17 @@ function updatePaletaRangs(){
 
 function transformTipusGeometry(geometrytype){
 	var ftype = geometrytype;
-	ftype = ftype.toLowerCase();
-	if (ftype === t_point){
-		ftype = t_marker;
-	}else if (ftype === t_linestring){
-		ftype = t_polyline;
-	}else if (ftype === t_multilinestring){
-		ftype = t_polyline;
-	}else if (ftype === t_multipolygon){
-		ftype = t_polygon;
+	if (ftype){
+		ftype = ftype.toLowerCase();
+		if (ftype === t_point){
+			ftype = t_marker;
+		}else if (ftype === t_linestring){
+			ftype = t_polyline;
+		}else if (ftype === t_multilinestring){
+			ftype = t_polyline;
+		}else if (ftype === t_multipolygon){
+			ftype = t_polygon;
+		}
 	}
 	return ftype;
 }
