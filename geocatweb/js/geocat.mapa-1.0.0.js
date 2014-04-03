@@ -490,7 +490,7 @@ function addClicksInici() {
 }
 
 function addOpcionsFonsMapes() {
-	jQuery('.div_gr3 div').on('click', function() {
+	jQuery('.div_gr3_fons div').on('click', function() {
 		var fons = jQuery(this).attr('id');
 		_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
 		if (fons == 'topoMap') {
@@ -615,7 +615,7 @@ function addToolTipsInici() {
 	});
 		
 	$('.div_carrega_dades').tooltip(optB);
-	$('.div_gr3 div').tooltip(optB);
+	$('.div_gr3_fons div').tooltip(optB);
 	$('.div_gr2 div').tooltip(optB);
 	$('.add_costat_r').tooltip(opt);
 	$('.taronja').tooltip(opt);
@@ -750,22 +750,26 @@ function addDialegsEstils() {
 	jQuery(document).on('click', "#div_puntZ", function(e) {
 		activaPuntZ();	
 	});
+	
+	jQuery(document).on('click', "#div_puntM", function(e) {
+		activaPuntM(rgb2hex($('#dv_fill_color_marker').css( "background-color")));	
+	});	
 		
-	jQuery(document).on('click', ".bs-punts li", function(e) {		
-		jQuery(".bs-punts li").removeClass("estil_selected");
-		jQuery("#div_puntZ").removeClass("estil_selected");
-		jQuery('#div_punt0').removeClass();
-		estilP.iconFons=jQuery('div', this).attr('class');
-		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-		jQuery(this).addClass("estil_selected");	
-		jQuery('#dv_cmb_punt').hide();
-		jQuery('#div_punt0').css('width','28px');
-		jQuery('#div_punt0').css('height','42px');	
-		jQuery('#div_punt0').css('font-size',"14px");
-		estilP.divColor='transparent';
-		jQuery('#div_punt0').css('background-color',estilP.divColor);
-		estilP.fontsize="14px";
-	});
+//	jQuery(document).on('click', ".bs-punts li", function(e) {		
+//		jQuery(".bs-punts li").removeClass("estil_selected");
+//		jQuery("#div_puntZ").removeClass("estil_selected");
+//		jQuery('#div_punt0').removeClass();
+//		estilP.iconFons=jQuery('div', this).attr('class');
+//		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+//		jQuery(this).addClass("estil_selected");	
+//		jQuery('#dv_cmb_punt').hide();
+//		jQuery('#div_punt0').css('width','28px');
+//		jQuery('#div_punt0').css('height','42px');	
+//		jQuery('#div_punt0').css('font-size',"14px");
+//		estilP.divColor='transparent';
+//		jQuery('#div_punt0').css('background-color',estilP.divColor);
+//		estilP.fontsize="14px";
+//	});
 	
 	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
 		if(!jQuery('#div_puntZ').hasClass("estil_selected")){
@@ -796,7 +800,7 @@ function creaPopOverMesFons() {
 	jQuery("#div_mesfons")
 	.popover(
 	{
-		content : '<div id="div_menu_mesfons" class="div_gr3">'
+		content : '<div id="div_menu_mesfons" class="div_gr3_fons">'
 			+ '<div id="historicOrtoMap" lang="ca"  data-toggle="tooltip" title="Ortofoto històrica Catalunya 1956-57" class="div_fons_11"></div>'	
 			+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="Mapa històric Catalunya 1936" class="div_fons_10"></div>'
 				
@@ -831,7 +835,7 @@ function creaPopOverMesFonsColor() {
 	jQuery("#colorMap")
 	.popover(
 	{
-		content : '<div id="div_menufons" class="div_gr3">'
+		content : '<div id="div_menufons" class="div_gr3_fons">'
 				+ '<div id="nit" lang="ca"  data-toggle="tooltip" title="Nit" class="div_fons_6"></div>'
 				+ '<div id="sepia" lang="ca"  data-toggle="tooltip" title="Sèpia" class="div_fons_7"></div>'
 				+ '<div id="zombie" lang="ca"  data-toggle="tooltip" title="Zombie" class="div_fons_8"></div>'
@@ -2113,7 +2117,8 @@ function createNewMap(){
 }
 
 function activaPuntZ(){
-	jQuery(".bs-punts li").removeClass("estil_selected");
+//	jQuery(".bs-punts li").removeClass("estil_selected");
+	jQuery('#div_puntM').removeClass("estil_selected");
 	jQuery('#div_puntZ').addClass("estil_selected");
 	estilP.iconFons=jQuery('#div_punt9').attr('class');
 	jQuery('#div_punt0').removeClass();
@@ -2128,6 +2133,74 @@ function activaPuntZ(){
 	jQuery('#div_punt0').css('background-color',estilP.divColor);
 	estilP.fontsize=(vv/2)+"px";
 	estilP.size=vv;	
+}
+
+function activaPuntM(color){
+	jQuery("#div_puntZ").removeClass("estil_selected");
+	jQuery('#div_punt0').removeClass();
+	jQuery('#div_puntM').addClass("estil_selected");
+	
+	jQuery('#div_punt_1').removeClass().addClass('awesome-marker-web awesome-marker-icon-'+getClassFromColor(color));
+	
+	estilP.iconFons='awesome-marker-web awesome-marker-icon-'+getClassFromColor(color);
+	jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
+	jQuery(this).addClass("estil_selected");	
+	jQuery('#dv_cmb_punt').hide();
+	jQuery('#div_punt0').css('width','28px');
+	jQuery('#div_punt0').css('height','42px');	
+	jQuery('#div_punt0').css('font-size',"14px");
+	estilP.divColor='transparent';
+	jQuery('#div_punt0').css('background-color',estilP.divColor);
+	estilP.fontsize="14px";	
+}
+
+//Retorna la classe associada al marker, segons el color sel.leccionat a la paleta
+function getClassFromColor(color){
+	switch (color)
+	{
+		case '#ffc500':
+		  return 'orange';
+		case '#ff7f0b':
+		  return 'darkorange';
+		case '#ff4b3a':
+		  return 'red';
+		case '#ae59b9':
+		  return 'purple';	
+		case '#00afb5':
+		  return 'blue';
+		case '#7cbd00':
+		  return 'green';
+		case '#90a6a9':
+		  return 'darkgray';
+		case '#ebf0f1':
+		  return 'gray';		  
+		 default:
+			 return 'orange';
+	} 		
+}
+
+function getColorFromClass(classe){
+	switch (classe)
+	{
+		case 'orange':
+		  return '#ffc500';
+		case 'darkorangeb':
+		  return '#ff7f0b';
+		case 'red':
+		  return '#ff4b3a';
+		case 'purple':
+		  return '#ae59b9';	
+		case 'blue':
+		  return '#00afb5';
+		case 'green':
+		  return '#7cbd00';
+		case 'darkgray':
+		  return '#90a6a9';
+		case 'gray':
+		  return '#ebf0f1';		  
+		 default:
+			 return '#ffc500';
+	} 		
 }
 
 function getLeafletIdFromBusinessId(businessId){
