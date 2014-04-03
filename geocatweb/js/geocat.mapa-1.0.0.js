@@ -1236,7 +1236,7 @@ function creaPopOverDadesExternes() {
 				      		'</div>'+
 			      		'</div>'						
 				);
-				
+				$('#twitter-collapse').hide();
 				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
 					addTwitterLayer();
 				});
