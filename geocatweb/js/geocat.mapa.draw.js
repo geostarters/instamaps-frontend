@@ -196,19 +196,13 @@ function initCanvas(){
 		});
 	
 	var options = {
-			colors:[['#ffc500', '#ff070b', '#ff4b3a', '#ae59b9', '#00afb5', '#7cbd00', '#90a6a9', '#ebf0f1']]
+			colors:[['#ffc500', '#ff7f0b', '#ff4b3a', '#ae59b9', '#00afb5', '#7cbd00', '#90a6a9', '#ebf0f1']]
 	};
 	
 	$('#colorpalette_marker').colorPalette(options).on('selectColor', function(e) {  
-		 $('.fill_color_marker').css('background-color',e.color);			
-//		 if(!jQuery('#div_puntZ').hasClass("estil_selected")){
-//				activaPuntZ();				
-//		 }else{		 
-//			estilP.divColor=e.color;				
-//			jQuery('#div_punt0').css('background-color',estilP.divColor);
-//		 }
-//		    jQuery('#div_punt9').css('background-color',e.color);		
-		});	
+		 $('.fill_color_marker').css('background-color',e.color);	
+		 activaPuntM(e.color);
+	});	
 
 	jQuery("#cmb_trans").on('change', function(e) { 
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
@@ -1185,7 +1179,7 @@ function updateDialogStyleSelected(icon){
 	}else{//es t_marker
 		
 		//Deselecciono estil al modal 
-		jQuery(".bs-punts li").removeClass("estil_selected");
+		jQuery("#div_puntM").removeClass("estil_selected");
 		jQuery("#div_puntZ").removeClass("estil_selected");
 		jQuery(".bs-glyphicons li").removeClass("estil_selected");		
 		
@@ -1232,7 +1226,13 @@ function updateDialogStyleSelected(icon){
 			jQuery("#dv_fill_color_icon").css("background-color",icon.iconColor);				
 			
 			jQuery(".bs-glyphicons li .fa-"+licon[0]).parent('li').addClass("estil_selected");
-			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);				
+			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);	
+			jQuery('.bs-glyphicons li').css('color',estilP.colorGlif);
+			if(estilP.colorGlif=="#FFFFFF"){
+				jQuery('.bs-glyphicons li').css('background-color','#aaaaaa');	
+			}else{
+				jQuery('.bs-glyphicons li').css('background-color','#FFFFFF');	
+			}			
 			
 			
 		}else{//Si es marker
@@ -1245,9 +1245,18 @@ function updateDialogStyleSelected(icon){
 			estilP.width = '28px';
 			estilP.height = '42px';
 			
-			jQuery(".bs-punts li .awesome-marker-icon-"+icon.markerColor).parent('li').addClass("estil_selected");
+			jQuery("#div_puntM").addClass("estil_selected");
+			jQuery("#dv_fill_color_marker").css("background-color",getColorFromClass(icon.markerColor));
+			jQuery('#div_punt_1').removeClass().addClass('awesome-marker-web awesome-marker-icon-'+icon.markerColor);
+			
 			jQuery(".bs-glyphicons li .fa-"+icon.icon).parent('li').addClass("estil_selected");
 			jQuery("#dv_fill_color_icon").css("background-color",estilP.colorGlif);
+			jQuery('.bs-glyphicons li').css('color',estilP.colorGlif);
+			if(estilP.colorGlif=="#FFFFFF"){
+				jQuery('.bs-glyphicons li').css('background-color','#aaaaaa');	
+			}else{
+				jQuery('.bs-glyphicons li').css('background-color','#FFFFFF');	
+			}			
 		}
 		
 		jQuery('#div_punt0').removeClass();
