@@ -266,7 +266,17 @@ footer .container  p {
 	
 	.my-nav{
 		font-style: normal;
-	}	
+	}
+	
+	#text_welcome {
+	    clear: both;
+	    color: #333333;
+	    display: block;
+	    font-weight: bold;
+	    line-height: 1.42857;
+	    padding: 3px 20px;
+	    white-space: nowrap;
+	}
 	
 	.invalid {
 	  	/*outline: 1px solid red;*/

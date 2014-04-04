@@ -236,7 +236,7 @@ function addExternalWMS() {
 	});
 	ActiuWMS.layers = cc.join(',');
 	
-	var wmsLayer = L.tileLayer.wms(ActiuWMS.url, {
+	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
 		layers : ActiuWMS.layers,
 		crs : ActiuWMS.epsg,
 		transparent : true,

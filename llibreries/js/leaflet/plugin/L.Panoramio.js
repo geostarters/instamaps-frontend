@@ -87,9 +87,9 @@ L.Panoramio = L.FeatureGroup.extend({
 		  minll.lng+'&miny='+minll.lat+'&maxx='+maxll.lng+'&maxy='+maxll.lat+'&size=small&mapfilter=true&callback='+cbid;
 		
 		if(boundsICGC.contains(bounds)){
-			console.debug("geostarters!");
+			console.info("geostarters!");
 			var url = 'http://www.panoramio.com/map/get_panoramas.php?order=upload_date&set=8024775&from=0&to='+this.options.maxLoad+'&minx='+
-			  minll.lng+'&miny='+minll.lat+'&maxx='+maxll.lng+'&maxy='+maxll.lat+'&size=small&mapfilter=true&callback='+cbid;			
+			  minll.lng+'&miny='+minll.lat+'&maxx='+maxll.lng+'&maxy='+maxll.lat+'&size=medium&mapfilter=true&callback='+cbid;			
 		}
 		//var url = 'http://api.geonames.org/wikipediaBoundingBox?north=43.25320494908846&south=39.554883059924016&east=4.6142578125&west=-2.3291015625&username=geostarters&callback=_leaflet_panoramio';
 		
