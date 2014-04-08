@@ -87,12 +87,16 @@ jQuery(document).ready(function() {
 function loadApp(){
 	
 	if(typeof url('?embed') == "string"){
-		jQuery('#navbar-visor').remove();
+//		jQuery('#navbar-visor').remove();
+		jQuery('#navbar-visor').hide();
+		jQuery('#searchBar').css('top', '0');
+		
 	}
 	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
+			minZoom: 2,
 			maxZoom : 19,
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
@@ -195,9 +199,9 @@ function initControls(){
 	addControlsInici();
 	addClicksInici();
 	addToolTipsInici();
-	if(typeof url('?embed') != "string"){
+//	if(typeof url('?embed') != "string"){
 		addControlCercaEdit();		
-	}
+//	}
 	redimensioMapa();
 }
 

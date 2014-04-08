@@ -509,7 +509,8 @@ background-color:#FFFFFF}
 	   font-style: normal;
 	   font-weight: bolder;
 	   padding-bottom: 10%;
-	   text-shadow: 0 2px 1px #FFFFFF;
+	   /*text-shadow: 0 2px 1px #FFFFFF;*/
+	   text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 0 -2px #FFFFFF, 2px 0 #FFFFFF;
 	}
 	
 	.marketing{
