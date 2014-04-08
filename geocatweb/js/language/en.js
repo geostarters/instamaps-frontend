@@ -168,6 +168,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Llista de capes": "Layers list",
 	"Mapa Cadastral":"Cadastral map",
 	"Mapa publicat":"Published Map",
+	"Mapa trànsit en temps real":"Real time traffic map",
 	"Mapa Urbanístic":"Urban planning map",
 	"Mapes Ambientals":"Environmental maps",
 	"Mapes i imatges aèries.":"Maps and aerial images.",
