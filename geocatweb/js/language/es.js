@@ -138,6 +138,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Fes el teu mapa":"Haz tu mapa",
 	"Fes un mapa amb les teves dades fàcilment.":"Haz un mapa fácilmente con tus datos.",
 	"Formats suportats":"Formatos soportados",
+	"Galeria":"Galeria",
 	"Galeria de mapes":"Galeria de mapas",
 	"Geoserveis":"Geoservicios",
 	"Gruix contorn:":"Grosor contorno",
