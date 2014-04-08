@@ -13,6 +13,10 @@ jQuery(document).ready(function() {
 		console.info("surt");	
 	});
 	
+	jQuery("#hl_contact").on('click', function() {
+		jQuery(this).attr('href','mailto:instamapes@icgc.cat');
+		
+	});
 }
 
 //function swapImageIn(e) {
@@ -40,13 +44,16 @@ function web_roundCircles(){
 function weball_tornarInici(){
 	
 	jQuery("#back-top").hide();
+	jQuery('#fes-mapa-inici').hide();
 		
 		jQuery(function () {
 			jQuery(window).scroll(function () {
 				if (jQuery(this).scrollTop() > 150) {
 					jQuery('#back-top').fadeIn();
+					jQuery('#fes-mapa-inici').fadeIn();
 				} else {
 					jQuery('#back-top').fadeOut();
+					jQuery('#fes-mapa-inici').fadeOut();
 				}
 			});
 
@@ -55,6 +62,9 @@ function weball_tornarInici(){
 					scrollTop: 0
 				}, 800);
 				return false;
+			});
+			jQuery('#fes-mapa-inici').click(function () {
+				window.open("../geocatweb/mapa.html","_self");
 			});
 		});
 	}

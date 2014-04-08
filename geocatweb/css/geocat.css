@@ -125,7 +125,12 @@ Back to top button
 #back-top {
 	position: fixed;
 	bottom: 2%;
-    right: 2%;
+    right: 10%;
+}
+@media (max-width: 1024px) {
+#back-top {
+    right: 15%;
+}
 }
 #back-top a {
 	width: 108px;
@@ -150,9 +155,42 @@ Back to top button
 	-moz-transition: 1s;
 	transition: 1s;
 }
+
+/*fes mapa landing button*/
+#fes-mapa-inici {
+	position: fixed;
+	bottom: 2%;
+    right: 2%;
+}
+
+#fes-mapa-inici a {
+	width: 108px;
+	display: block;
+	text-align: center;
+	font: 11px/100% Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #f7f7f7;
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#fes-mapa-inici a:hover {
+	color: #000;
+}
+/* arrow icon (span tag) */
+#fes-mapa-inici span {
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
 #back-top a:hover span {
 	
 }
+
+/**/
 .form-signin {
   max-width: 350px;
   padding: 15px;
