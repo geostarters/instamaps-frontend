@@ -165,6 +165,7 @@ jquery_lang_js.prototype.lang.es = {
 	"La contrassenya antiga no és correcte":"La contraseña antigua no es correcta",
 	"La contrassenya ha de tenir un mínim de 5 caràcters.":"La contraseña tiene que tener un mínimo de 5 caracteres.",
 	"La geoinformació de Catalunya i el món:":"La geoinformación de Catalunya y del mundo:",
+	"La informació es mostra en funció de l'àrea geogràfica visualitzada.":"La información se muestra en función del área geográfica visualizada.",
 	"La nova contrassenya ja havia estat utilitzada":"La nueva contraseña ya fue utilizada",
 	"Les contrasenyes han de coincidir.":"Las contraseñas tienen que coincidir.",
 	"Llista de capes": "Lista de capas",

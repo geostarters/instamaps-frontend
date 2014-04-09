@@ -842,11 +842,26 @@ function loadTematicLayer(layer){
 						}
 					}
 				}
-								
+				
+				//Afegim num d'elements al nom de la capa, si és un fitxer
+				if(layer.dragdrop){
+					capaTematic.options.nom = capaTematic.options.nom + " ("+capaTematic.getLayers().length+")";
+					var data = {
+						 	businessId: capaTematic.options.businessId, //url('?businessid') 
+						 	uid: $.cookie('uid'),
+						 	serverName: capaTematic.options.nom
+						 }
+						
+						updateServidorWMSName(data).then(function(results){
+							if(results.status==='OK')console.debug("CapaTematic name changed OK");
+							else console.debug("CapaTematic name changed KO");
+						});					
+				}
+				
 				var options = jQuery.parseJSON( layerWms.options );				
 				if(layerWms.options && options.origen){//Si es una sublayer
 					var origen = getLeafletIdFromBusinessId(options.origen);
-					controlCapes.addOverlay(capaTematic, layerWms.serverName, true, origen);					
+					controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true, origen);					
 				}
 				else {
 					if (!layerWms.capesOrdre){
@@ -854,7 +869,7 @@ function loadTematicLayer(layer){
 					}else{
 						capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
 					}
-					controlCapes.addOverlay(capaTematic, layerWms.serverName, true);
+					controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true);
 					controlCapes._lastZIndex++;					
 				}				
 			}

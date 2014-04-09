@@ -794,6 +794,7 @@ function addDropFileToMap(results) {
 				// l'usuari i tambÃ¨
 				// el control de capes
 				//console.debug(results.results);
+				results.results.dragdrop = true;
 				loadTematicLayer(results.results).then(function(results1){
 					
 					

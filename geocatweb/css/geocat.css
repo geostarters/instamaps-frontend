@@ -127,11 +127,30 @@ Back to top button
 	bottom: 2%;
     right: 10%;
 }
+
 @media (max-width: 1024px) {
-#back-top {
-    right: 15%;
+	#back-top {
+	    right: 12%;
+	}
 }
+@media (max-width: 800px){
+	#back-top {
+	    right: 15%;
+	}
 }
+
+@media (max-width: 604px) {
+	#back-top {
+	    right: 10%;
+	}
+}
+
+@media (max-width: 360px){
+	#back-top {
+	    right: 15%;
+	}
+}
+
 #back-top a {
 	width: 108px;
 	display: block;
@@ -163,6 +182,15 @@ Back to top button
     right: 2%;
 }
 
+#fes-mapa-inici .btn.btn-default.no-radius {
+  background: none repeat scroll 0 0 #00B050;
+  color: #FFFFFF;
+}
+#fes-mapa-inici .btn.btn-default.no-radius:hover {
+  background: none repeat scroll 0 0 #00D25F;
+  color: #FFFFFF;
+}
+
 #fes-mapa-inici a {
 	width: 108px;
 	display: block;
@@ -186,11 +214,8 @@ Back to top button
 	-moz-transition: 1s;
 	transition: 1s;
 }
-#back-top a:hover span {
-	
-}
 
-/**/
+/********************/
 .form-signin {
   max-width: 350px;
   padding: 15px;
@@ -309,10 +334,20 @@ footer .container  p {
 	#text_welcome {
 	    clear: both;
 	    color: #333333;
-	    display: block;
+	    display: inline;
 	    font-weight: bold;
 	    line-height: 1.42857;
-	    padding: 3px 20px;
+	    /*padding: 3px 20px;*/
+	    padding: 3px 0 0 20px;
+	    white-space: nowrap;
+	}
+	
+	#text_username{
+		clear: both;
+	    color: #333333;
+	    display: inline;
+	    font-weight: bold;
+	    line-height: 1.42857;
 	    white-space: nowrap;
 	}
 	
