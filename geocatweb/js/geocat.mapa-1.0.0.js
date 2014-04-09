@@ -1219,12 +1219,15 @@ function creaPopOverDadesExternes() {
 					}
 				});		
 			}else if(tbA == "#id_xs"){//Jess
+				var label_xarxes = "La informació es mostra en funció de l'àrea geogràfica visualitzada."
 				jQuery(tbA).html(
-						'<div class="panel-info"><ul class="bs-dadesO_XS panel-heading">'+
+						'<div class="panel-info">'+
+						'<ul class="bs-dadesO_XS panel-heading">'+
 						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseTwitter()" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
 						'<li><a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label-xs">Panoramio <i class="fa fa-picture-o"></i></a></li>'+
 						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
 						'</ul>'+
+						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.convert(label_xarxes)+'</span></div>'+
 						'<div id="twitter-collapse">'+
 							'<div class="input-group">'+
 			      				'<span class="input-group-addon">Hashtag #</span>'+
@@ -1393,7 +1396,7 @@ function popUp(f, l) {
 
 function generaLListaDadesObertes() {
 	getLListaDadesObertes().then(function(results) {
-		_htmlDadesObertes.push('<div class="panel-danger"><ul class="bs-dadesO panel-heading">');
+		_htmlDadesObertes.push('<div class="panel-danger"><ul class="bs-dadesO llista-do panel-heading">');
 		$.each(results.dadesObertes, function(key, dataset) {
 			_htmlDadesObertes.push('<li><a class="label-explora" lang="ca" title="Afegir capa" href="#" id="'
 				+ dataset.dataset

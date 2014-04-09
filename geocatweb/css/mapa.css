@@ -1515,10 +1515,31 @@ i.fa {
 }
 
 .label-font{
-	background-color: #BCBCBC;
+	background-color: #d5d5d5;
 	float: left;
     margin-top: 10px;	
 }
+
+.label-xarxes{
+	background-color: #d9edf7;
+    color: #2a6496;	
+	font-weight: bold;
+    margin-left: -7px;
+    padding: 5px;    
+}
+
+.bs-dadesO_XS li a:hover,
+.bs-dadesO li a:hover{
+	text-decoration: none;
+	font-weight: bold;
+}
+.llista-do li a:hover{
+ color: #a94442;
+}
+.llista-wms li a:hover{
+ color: #55990a;
+}
+
 
 /*JSON POPUP*/
 
