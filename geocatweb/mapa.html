@@ -927,16 +927,17 @@
 					<h4 class="modal-title" lang="ca">Carregar dades</h4>
 				</div>
 				<div class="modal-body">
-					<div lang="ca" id="div_formats" class="alert alert-success">
+					<div id="div_formats" class="alert alert-success">
 						<span class="glyphicon glyphicon-upload"></span> 
-						<span lang="ca">Formats	suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong> 
+						<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong> 
 							<a class="alert-link" lang="ca"	href="#">Més informació i exemples</a>
 					</div>
 					<table id="tbl_loadCapa">
 						<tr>
 							<td><input type='hidden' id='formFile' value='false'>
-								<input type='hidden' id='file_path' value=''> 
-								<input type='button' class="btn btn-success" name='upload'	id='upload_file' value='Carrega arxiu'></td>
+								<input type='hidden' id='file_path' value=''>
+								<button lang="ca" type="button" class="btn btn-success"  name='upload' id='upload_file'>Carrega arxiu</button> 
+<!-- 								<input type='button' lang="ca" class="btn btn-success" name='upload' id='upload_file' value='Carrega arxiu'></td> -->
 							<td>
 								<div id='file_name' style="font-size: 100%"	class="label label-default"></div>
 								<div id="file_load" class="search-load" style="display: none;"></div>
@@ -1009,10 +1010,10 @@
 									</div>
 									<div class="tab-pane" id="opt_adreca">
 <!-- 										<label lang="ca">L'adreça ha de contenir: Nom carrer, número i municipi</label> -->
-										<div lang="ca" id="div_formats" class="alert alert-info">
+										<div id="div_formats" class="alert alert-info">
 											<span class="glyphicon glyphicon-info-sign"></span> 
-											<span lang="ca">Per codificar per adreces utilitza aquest </span> 
-											<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus </a>
+											<span lang="ca">Per codificar per adreces utilitza aquest</span> 
+											<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a> 
 											<span lang="ca">amb les teves dades.</span>
 											<br/>
 											<span lang="ca">Els camps Nom_via, Portal i Municipi són obligatoris.</span>

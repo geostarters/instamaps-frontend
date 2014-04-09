@@ -30,6 +30,7 @@ jQuery("#login_button").click(function(){
 		}
 		
 		doLogin(dataUrl).then(function(results){
+			console.debug(results);
 			if(results.status==='OK'){
 				$.cookie('uid', user_login, {path:'/'});
 				if(results.results === 'login_map'){
@@ -45,6 +46,7 @@ jQuery("#login_button").click(function(){
 				$('#modal_login_ko').modal('toggle');				
 			}				
 		},function(results){
+			console.debug(results);
 			$('#modal_login_ko').modal('toggle');					
 		});
 

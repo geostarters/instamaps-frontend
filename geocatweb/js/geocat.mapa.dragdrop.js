@@ -127,7 +127,8 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 
 	
 	if (drgFromBoto == null) {
-		drgFromBoto = new window.Dropzone("input#upload_file", opcionsBoto);
+		//drgFromBoto = new window.Dropzone("input#upload_file", opcionsBoto);
+		drgFromBoto = new window.Dropzone("button#upload_file", opcionsBoto);
 
 		drgFromBoto.on("addedfile", function(file) {
 			envioArxiu.isDrag=false;
@@ -356,7 +357,6 @@ function obreModalCarregaDades(isDrag) {
 	}else{
 		$('#upload_file').attr('disabled',false);
 	}
-	
 	
 	jQuery('#dv_optCapa').hide();
 	jQuery('#dv_optSRS').hide();
