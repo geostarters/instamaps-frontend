@@ -14,8 +14,9 @@
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/>
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
+<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -24,8 +25,7 @@
 
 <title lang="ca">InstaMapes</title>
 </head>
-
-<body>
+<body class="my-body">
 	<!-- Fixed navbar -->
 	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
@@ -42,7 +42,6 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-					<li><a id="hl_index" lang="ca" href="../geocatweb/galeria.html">Galeria</a></li>
 					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
@@ -86,171 +85,34 @@
 		</div>
 	</div>
 	<!-- / Fixed navbar -->
-
-	<!-- Cos principal -->
-	<div class="container theme-showcase">
-
-		<div id="galeriaRow" class="row">
-			<script id="galeriaPublic-template" type="text/x-handlebars-template">
-			{{#each results}}
-			<div id="{{businessId}}" class="col-sm-6 col-md-3">
-				<div class="thumbnail" data-businessid="{{businessId}}">
-					{{#if thumbnail}}
-						<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
-					{{else}}
-						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
-					{{/if}}
-					<div class="caption text-center nomAplicacio">
-						<h4>{{nomAplicacio}}</h4>
-					</div>
-					<div class="caption text-center btn-acctions">
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
-					</div>
-				</div>
-			</div>
-			{{/each}}
-			</script>
-			
-			<script id="galeria-template" type="text/x-handlebars-template">
-			<div class="col-sm-6 col-md-3">		
-				<div class="thumbnail">
-					<div class="caption text-center new_map">
-					<span class="glyphicon glyphicon-plus"></span>
-					<div lang="ca">Fer un nou mapa</div>
-					</div>
-				</div>
-			</div>
-			{{#each results}}
-			<div id="{{businessId}}" class="col-sm-6 col-md-3">
-			    <div class="thumbnail" data-businessid="{{businessId}}">
-					{{#if thumbnail}}
-			      		<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
-					{{else}}
-						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
-					{{/if}}
-					<div class="caption text-center nomAplicacio">
-						<h4>{{nomAplicacio}}</h4>
-					</div>					
-					<div class="caption text-center descAplicacio">
-						{{#if options.description}}
-							<span class="starwarsmain">
-							<span class="starwarsbody">
-							{{options.description}}
-							</span>
-							</span>
-						{{else}}
-							<span lang="ca">Sense descripció</span>
-						{{/if}}
-					</div>
-					<div class="caption text-center btn-acctions">
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
-						<button type="button" data-businessid="{{businessId}}" data-nom="{{nomAplicacio}}" class="btn btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-trash"></span></button>
-					</div>
-			    </div>
-			</div>
-			{{/each}}
-			</script>
-		</div>
 		
-	</div>
-	<!-- /container -->		
-
-	<p id="back-top">
-		<button class="btn btn-default">
-			<span class="glyphicon glyphicon-circle-arrow-up"></span> 
-			<span class="hidden-xs" lang="ca">Tornar Inici</span>
-		</button>
-	</p>
+	<div class="my-background-signin">	
+	<div class="container ">
 	
-	<!-- Modal Url/iframe -->
-	<div id="dialgo_url_iframe" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Publicar el mapa</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-				    	<label for="urlMap"><span lang="ca">Per enllaçar amb aquest mapa, copieu i enganxeu el següent text</span>:</label>
-				    	<input type="text" class="form-control" id="urlMap">
-				  	</div>
-				  	<div class="form-group">
-					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>
-					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>
-				  	</div>
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Acceptar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- Fi Modal Url/iframe -->
-	
-	<!-- Modal delete -->
-	<div id="dialgo_delete" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
-				</div>
-				<div class="modal-body">
-					<h4><span lang="ca">Vols esborrar el mapa</span> "<span class="nom_mapa"></span>" ?</h4>
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Cancel·lar</button>
-					<button lang="ca" type="button" class="btn btn-danger"
-						data-dismiss="modal">Esborrar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- Fi Modal delete -->
-	
-	<footer>
-		<div class="container">
-			<p>InstaMapes Beta</p>
-		</div>
-	</footer>
-
-	<!-- Modal expired -->
-	<div class="modal fade" id="dialog_session_expired">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Sessió caducada</h4>
-				</div>
-				<div lang="ca" class="modal-body">
-					Ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió
-				</div>
-				<div class="modal-footer">
-			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn" data-dismiss="modal">Acceptar</button>
-			    </div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- fi Modal expired -->
-
+      <form id="frm_login" class="my-form-signin">
+       <section>
+        <h4 lang="ca" class="form-signin-heading">Has oblidat la teva contrassenya?</h3>
+	        <fieldset>
+		       	<input id="login_user" lang="ca" type="text" required class="form-control my-border" placeholder="Escriu el correu amb el que et vas enregistrar" autofocus>
+	        </fieldset>
+	        <br>
+        	<button id="login_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Recuperar contrassenya</button>
+       </section>
+      </form>
+		
+  	<div class="modal fade" id="modal_send_mail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content my-modal-content">
+	      <div class="modal-body">
+	        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">La seva petició s'ha processat. Si no trobes el correu que t'hem enviat, revisa la teva carpeta de correu no desitjat</span></h4>
+	      </div>
+	      <div class="modal-footer my-modal-footer">
+	        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+		
 	<!-- Modal Old Browser -->
 	<div id="dialgo_old_browser" class="modal fade">
 		<div class="modal-dialog">
@@ -280,6 +142,15 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- fi Modal Old Browser -->
+					
+    </div> 
+    <!-- /container -->
+</div>
+	<footer>
+		<div class="container">
+			<p>InstaMapes Beta</p>
+		</div>
+	</footer>    
 
 	<!-- Le javascript
     ================================================== -->
@@ -297,7 +168,6 @@
 	
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
-	
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
@@ -308,9 +178,8 @@
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
-	
-	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
-	<script src="/geocatweb/js/geocat.galeria-1.0.0.js"></script>
 
+	<script src="/geocatweb/js/geocat.oblidat-1.0.0.js"></script>
+	
 </body>
 </html>

@@ -252,24 +252,22 @@ Back to top button
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-.social-sign{
-border-top:2 px solid #DDDDDD;
+
+.social-sign {
+	border-top:2 px solid #DDDDDD;
     content: " ";
-    display: block;
-   
+    display: block;  
     left: 0;
     position: absolute;
     right: 0;
     top: 12px;
     z-index: 1;
-     position: relative;
+    position: relative;
     text-align: center;
 }
 
-
 .social-sign span {
-	
-	 background: none repeat scroll 0 0 #FFFFFF;
+	background: none repeat scroll 0 0 #FFFFFF;
     color: #5B5B5B;
     display: inline-block;
     font-family: "Lato",sans-serif;
@@ -279,7 +277,11 @@ border-top:2 px solid #DDDDDD;
     position: relative;
     z-index: 2;
 }
-	
+
+.social-sign.sm-top{
+	top: 0px;
+}
+
 }
 section {
 	
@@ -875,6 +877,129 @@ background-color:#FFFFFF}
 	
 	.btn-acctions .btn {
 	    border-radius: 0;
+	}
+	
+	.thumbnail div.descAplicacio{
+		display: none;
+		top: 61px;
+    	height: 105px;
+    	position: absolute;
+    	color: #FFFFFF;
+	 	background-color: rgba(45, 46, 41, 0.6);
+	 	width: 97%;
+	 	overflow: hidden;
+	}
+	
+	.starwars{
+		position: absolute;
+		color: #ffff66;
+		font-weight: bold;
+		bottom: 0;
+		left: 50%;
+		margin-left: -9em;
+		text-align: justify;
+		overflow: hidden;
+		-webkit-transform-origin: 50% 100%;
+		-moz-transform-origin: 50% 100%;
+		-ms-transform-origin: 50% 100%;
+		-o-transform-origin: 50% 100%;
+		transform-origin: 50% 100%;
+		-webkit-transform: perspective(200px) rotateX(25deg);
+		-moz-transform: perspective(200px) rotateX(25deg);
+		-ms-transform: perspective(200px) rotateX(25deg);
+		-o-transform: perspective(200px) rotateX(25deg);
+		transform: perspective(200px) rotateX(25deg);
+	}
+	
+	.starwarscontent{
+		position: relative;
+		top: 100%;
+		animation: scroll 20s linear 1s infinite;
+	}
+
+	@keyframes scroll {
+		0% { top: 100%; }
+		100% { top: -100%; }
+	}
+	
+	.starwars:after {
+		position: absolute;
+		content: ' ';
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 60%;
+		/*
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: -ms-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: -o-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		*/
+		pointer-events: none;
+	}
+	
+	.flip {
+	  -webkit-perspective: 800;
+	  -ms-perspective: 800;
+	  -moz-perspective: 800;
+	  -o-perspective: 800;
+	  position: relative;
+	  height: 165px;
+	}
+	
+	.flip .card.flipped {
+	  transform:rotatey(-180deg);
+	  -ms-transform:rotatey(-180deg); /* IE 9 */
+	  -moz-transform:rotatey(-180deg); /* Firefox */
+	  -webkit-transform:rotatey(-180deg); /* Safari and Chrome */
+	  -o-transform:rotatey(-180deg); /* Opera */
+	}
+	
+	.flip .card {
+	  width: 100%;
+	  height: 100%;
+	  -webkit-transform-style: preserve-3d;
+	  -webkit-transition: 0.5s;
+	  -moz-transform-style: preserve-3d;
+	  -moz-transition: 0.5s;
+	  -ms-transform-style: preserve-3d;
+	  -ms-transition: 0.5s;
+	  -o-transform-style: preserve-3d;
+	  -o-transition: 0.5s;
+	  transform-style: preserve-3d;
+	  transition: 0.5s;
+	}
+	
+	.flip .card .face {
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  z-index: 2;
+	  text-align: center;
+	  backface-visibility: hidden;  /* W3C */
+	  -webkit-backface-visibility: hidden; /* Safari & Chrome */
+	  -moz-backface-visibility: hidden; /* Firefox */
+	  -ms-backface-visibility: hidden; /* Internet Explorer */
+	  -o-backface-visibility: hidden; /* Opera */
+	}
+	
+	.flip .card .front {
+	  position: absolute;
+	  z-index: 1;
+	}
+	
+	.flip .card .back {
+	  color: #FFFFFF;
+	  background-color: rgba(45, 46, 41, 0.6);
+	  height: 165px;
+	  transform:rotatey(-180deg);
+	  font-weight: bold;
+	  -ms-transform:rotatey(-180deg); /* IE 9 */
+	  -moz-transform:rotatey(-180deg); /* Firefox */
+	  -webkit-transform:rotatey(-180deg); /* Safari and Chrome */
+	  -o-transform:rotatey(-180deg); /* Opera */
+	
 	}	
 		
 	/*** perfil.html ***/

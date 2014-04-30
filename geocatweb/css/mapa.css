@@ -17,6 +17,11 @@ html,body {
 	z-index: 3000;
 }
 
+.leaflet-container .leaflet-control-mouseposition {
+	clear: none;
+	margin-left: 5px;	
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;
@@ -460,8 +465,8 @@ background-color: #9F9F9E;
 
 .bt_publicar {
 	line-height: 55px;
-	font-size: 18px;
 	height: 55px;
+	font-size: 18px;
 	margin-left: 10px;
 	margin-right: 10px;
 	cursor: pointer;
@@ -475,11 +480,14 @@ background-color: #9F9F9E;
 
 .bt_orange{
 	cursor: pointer;
+	color: #FFFFFF;
 	background-color: #ED8012;
 }
 
 .bt_orange:hover {
 	border: 1px solid #D0D0CD;
+	color: #FFFFFF;
+	background-color: #FF9900;
 	/*text-decoration: underline;*/
 }
 

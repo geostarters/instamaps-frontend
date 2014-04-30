@@ -34,7 +34,11 @@ jQuery("#login_button").click(function(){
 			if(results.status==='OK'){
 				$.cookie('uid', user_login, {path:'/'});
 				if(results.results === 'login_map'){
-					window.location=paramUrl.mapaPage;
+					if (results.mapBusinessId){
+						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+					}else{
+						window.location=paramUrl.mapaPage;
+					}
 				}else{
 					window.location=paramUrl.galeriaPage+"?private=1";
 				}
@@ -49,7 +53,6 @@ jQuery("#login_button").click(function(){
 			console.debug(results);
 			$('#modal_login_ko').modal('toggle');					
 		});
-
 	}
 });
 
@@ -68,9 +71,13 @@ function loginUserIcgc(){
 			if(results.status==='OK'){
 				$.cookie('uid', user_login_icgc, {path:'/'});
 				if(results.results === 'login_map'){
-					window.location="/geocatweb/mapa.html";
+					if (results.mapBusinessId){
+						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+					}else{
+						window.location=paramUrl.mapaPage;
+					}
 				}else{
-					window.location="/geocatweb/galeria.html?private=1";
+					window.location=paramUrl.galeriaPage+"?private=1";
 				}
 			}else if (results.status === 'MAIL'){
 				/*

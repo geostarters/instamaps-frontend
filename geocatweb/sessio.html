@@ -93,17 +93,12 @@
        <section>
         <h3  lang="ca" class="form-signin-heading">Inicia la sessió</h3>
 	        <fieldset>
-		       	<input id="login_user" lang="ca" type="text"  required class="form-control my-border" placeholder="Usuari" autofocus>
+		       	<input id="login_user" lang="ca" type="text"  required class="form-control my-border" placeholder="Correu" autofocus>
 		        <input id="login_pass" lang="ca" type="password" required class="form-control my-border" placeholder="Contrassenya">
 	        </fieldset>
 	        <br>
-        	<p>
-         		<button id="login_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Inicia la sessió</button>
-         	</p>
-	         <p>
-<!-- 				<a lang="ca" href="oblidat.html">Has oblidat la contrassenya?</a> -->
-			</p>
-      
+        	<button id="login_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Inicia la sessió</button>
+         	      
        <!-- <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>-->
@@ -122,13 +117,14 @@
 			</p>
 	        <p></p>
         </div>
-       
-        <div class="social-sign">
+        <hr/>
+       	<div class="social-sign sm-top">
       		<h6 lang="ca">És la primera vegada que utilitzes InstaMapes?</h6>
    			<h4>
    				<!-- a lang="ca" href="registre.html" onClick="_gaq.push(['_trackEvent', 'sessio_registre', 'Registre']);">Crea un compte</a-->
    				<a lang="ca" href="javascript:fesRegistre()">Crea un compte</a>
    			</h4>
+   			<small><a lang="ca" href="oblidat.html">Has oblidat la teva contrassenya?</a></small>
  	  	</div>
        
        </section>

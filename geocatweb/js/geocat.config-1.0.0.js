@@ -119,7 +119,9 @@ var paramUrl = {
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
 	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",
-	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?"
+	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?",
+	reminderMail: HOST_APP+"geocat/user/reminderMail.action?",
+	renewPassword: HOST_APP+"geocat/user/renewPassword.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

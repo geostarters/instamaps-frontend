@@ -121,7 +121,15 @@ function loadApp(){
 		var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 		var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 		
+		L.control.mousePosition({
+			'emptystring':'',
+			'numDigits': 6,
+			'prefix': 'WGS84',
+			'separator': ' '
+		}).addTo(map);
+		
 		L.control.scale({'metric':true,'imperial':false}).addTo(map);
+				
 		
 		//iniciamos los controles
 		initControls();
@@ -209,6 +217,8 @@ function loadApp(){
 	}
 	
 	if (isRandomUser($.cookie('uid'))){
+		jQuery('#hl_sessio1').attr('href', paramUrl.loginPage+"?from=mapa");
+		
 		jQuery('.navbar-form .bt-sessio').on('click',function(){
 			jQuery(window).off('beforeunload');
 			jQuery(window).off('unload');
@@ -222,6 +232,12 @@ function loadApp(){
 			window.location = paramUrl.loginPage+"?from=mapa";
 		});
 		
+		jQuery('#dialgo_leave .bt_orange').on('click',function(){
+			jQuery(window).off('beforeunload');
+			jQuery(window).off('unload');
+			window.location = paramUrl.registrePage+"?from=mapa";
+		});
+		
 		jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
 			
 		});
@@ -229,8 +245,22 @@ function loadApp(){
 		jQuery('.bt_publicar').on('click',function(){
 			jQuery('.modal').modal('hide');
 			_gaq.push(['_trackEvent', 'mapa', 'publicar', 'pre-publicar', tipus_user]);
-			$('#dialgo_messages').modal('show');
-			$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
+			$('#dialgo_publicar_random').modal('show');
+			
+			jQuery('#dialgo_publicar_random .bt-sessio').on('click',function(){
+				jQuery(window).off('beforeunload');
+				jQuery(window).off('unload');
+				window.location = paramUrl.loginPage+"?from=mapa";
+			});
+			
+			jQuery('#dialgo_publicar_random .bt_orange').on('click',function(){
+				jQuery(window).off('beforeunload');
+				jQuery(window).off('unload');
+				window.location = paramUrl.registrePage+"?from=mapa";
+			});
+			
+			//$('#dialgo_messages').modal('show');
+			//$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
 		});
 				
 		jQuery(window).on('unload',function(event){
