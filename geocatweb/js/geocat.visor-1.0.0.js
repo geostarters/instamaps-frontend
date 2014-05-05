@@ -128,7 +128,7 @@ function loadApp(){
 				$("#mapLegend").mCustomScrollbar();
 //				$(".legend-scroll").mCustomScrollbar();
 			}
-			
+						
 			//iniciamos los controles
 			initControls();			
 			
