@@ -23,7 +23,7 @@ function hexToRgb(hex) {
         r: parseInt(result[1], 16),
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
-    } : null;
+    } : {r:0,g:0,b:0};
 }
 
 function obrirMenuModal(_menuClass,estat,_from){
@@ -259,6 +259,16 @@ function getMidaFromRadius(radius){
 	else if(radius == 12)return 30;
 	else if(radius == 14)return 34;	
 	else return 16;
+}
+
+function getMidaFromFont(font){
+	
+	if(font == 'font15')return 30;
+	else if(font == 'font12')return 24;
+	else if(font == 'font11')return 21;
+	else if(font == 'font9')return 16;
+	else return 34;
+	
 }
 
 function getRadiusFromMida(mida){
@@ -1206,12 +1216,7 @@ function updateDialogStyleSelected(icon){
 		}else if(icon.markerColor.indexOf("punt_r")!=-1){
 			
 			var licon = icon.icon.split(" ");
-			
-			var midaPunt = 34;
-			if(licon[1] == 'font15')midaPunt=30;
-			else if(licon[1] == 'font12')midaPunt=24;
-			else if(licon[1] == 'font11')midaPunt=21;
-			else if(licon[1] == 'font9')midaPunt=16;				
+			midaPunt = getMidaFromFont(licon[1]);
 			
 			estilP.iconFons = 'awesome-marker-web awesome-marker-icon-punt_r';
 			estilP.iconGlif = 'fa fa-'+icon.icon;

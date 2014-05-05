@@ -6,6 +6,8 @@ var capaUsrActiva;
 var lsublayers = [];
 var tipus_user;
 
+var mapLegend = {};
+
 //default geometries style
 var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
 		iconGlif:'fa fa-',
@@ -106,8 +108,8 @@ function loadApp(){
 		
 		L.control.scale({'metric':true,'imperial':false}).addTo(map);
 		
-		//iniciamos los controles
-		initControls();
+//		//iniciamos los controles
+//		initControls();
 				
 		var data = {
 			businessId: url('?businessid')
@@ -119,6 +121,17 @@ function loadApp(){
 			}
 			mapConfig = results.results;
 			mapConfig.options = $.parseJSON( mapConfig.options );
+
+			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
+			if(mapConfig.legend != "{}"){
+				addLegend();
+				$("#mapLegend").mCustomScrollbar();
+//				$(".legend-scroll").mCustomScrollbar();
+			}
+			
+			//iniciamos los controles
+			initControls();			
+			
 			mapConfig.newMap = false;
 			$('#nomAplicacio').html(mapConfig.nomAplicacio);
 			
@@ -237,9 +250,13 @@ function addControlsInici() {
 }
 
 function addClicksInici() {
+	jQuery('.bt_legend').on('click', function() {
+		activaLlegenda();
+	});
+	
 	jQuery('.bt_llista').on('click', function() {
 		activaPanelCapes();
-	});
+	});	
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
@@ -282,6 +299,39 @@ function activaPanelCapes(obre) {
 		jQuery('.bt_llista span').addClass('grisfort');
 	}
 }
+
+function activaLlegenda(obre) {
+	
+////	$(".visor-legend").transition({
+////		  opacity: 0.1, scale: 0.3,
+////		  duration: 500,
+////		  easing: 'in',
+////		  complete: function() { $(".visor-legend").toggle(); }
+////		});	
+	
+	
+	var cl = jQuery('.bt_legend span').attr('class');
+	if (cl.indexOf('grisfort') != -1) {
+		jQuery('.bt_legend span').removeClass('grisfort');
+		jQuery('.bt_legend span').addClass('greenfort');
+		$(".bt_legend").transition({ x: '0px', y: '0px',easing: 'in', duration: 500 });
+		$(".visor-legend").transition({ x: '0px', y: '0px',easing: 'in', opacity: 1,duration: 500 });
+	} else {
+		jQuery('.bt_legend span').removeClass('greenfort');
+		jQuery('.bt_legend span').addClass('grisfort');
+		var height = $(".visor-legend").height();
+		var y1 = $(".visor-legend").height() - 20;
+		var y2 = $(".visor-legend").height() +50;
+		
+		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
+		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
+		
+//		$(".bt_legend").transition({ x: '225px', y: '230px',duration: 500 });
+//		$(".visor-legend").transition({ x: '250px', y: '300px',  opacity: 0.1,duration: 500 });
+	}	
+	
+}
+
 
 function addToolTipsInici() {
 	//eines mapa
@@ -730,4 +780,46 @@ function getLeafletIdFromBusinessId(businessId){
 			return val;
 		}
 	}
+}
+
+/* LLEGENDA */
+function addLegend(){
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+	    var div = L.DomUtil.create('div', 'info legend visor-legend');
+	    	div.id = "mapLegend";
+	    jQuery.each(mapLegend, function(i, row){
+	    	console.debug(row);
+	    	for (var i = 0; i < row.length; i++) {
+	    		console.debug(row[i]);
+	    		if(row[i].chck){
+	    			div.innerHTML +='<div class="visor-legend-row">'+
+						    			'<div class="visor-legend-symbol col-md-6">'+row[i].symbol+'</div>'+
+						    			'<div class="visor-legend-name col-md-6">'+row[i].name+'</div>'+
+	    							'</div>'+
+	    							'<div class="visor-separate-legend-row"></div>';
+	    		}
+	    	}
+	    });
+	    
+	    return div;
+	};
+	
+	ctr_legend = L.control({
+		position : 'bottomright'
+	});
+	ctr_legend.onAdd = function(map) {
+
+		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
+
+		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
+		this._div.appendChild(btllista);
+		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
+
+		return this._div;
+	};
+	ctr_legend.addTo(map);	
+	legend.addTo(map);
 }

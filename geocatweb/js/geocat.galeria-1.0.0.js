@@ -27,6 +27,7 @@ $(function(){
 			$('#galeriaRow').append(html);
 						
 			$('.new_map').on('click', function(event){
+				_gaq.push(['_trackEvent', 'galeria', 'fer mapa'/*, 'acquisition'*/]);
 				window.location.href = paramUrl.mapaPage;
 			});
 			

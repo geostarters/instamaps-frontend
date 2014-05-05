@@ -1,7 +1,7 @@
 
 function createHeatMap(capa){
 	
-	_gaq.push(['_trackEvent', 'mapa', 'esitls', 'heatmap', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', 'estils', 'heatmap', tipus_user]);	
 	
 	var nom = window.lang.convert("Concentració");
 	//Heatmap
@@ -74,7 +74,7 @@ function createHeatMap(capa){
 			var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
-				serverName: 'Capa JSON '+nom,
+				serverName: capa.layer.options.nom+" "+nom,
 				serverType: t_json,
 				calentas: false,
 			    activas: true,
