@@ -15,7 +15,6 @@ var controlLegendPoint = [];//Boles
 var controlLegendMarker = [];//Pintxos
 var controlLegendLine = [];
 var controlLegendPol = [];
-
 var mapLegend = {};
 
 var estilP={
