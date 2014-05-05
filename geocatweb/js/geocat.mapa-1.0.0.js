@@ -300,7 +300,7 @@ function loadApp(){
 			$('#dialgo_publicar').modal('show');
 			
 			//Si mapconfig legend, activat, es mostra
-			if(mapConfig.options.llegenda){
+			if(mapConfig.options != null && mapConfig.options.llegenda){
 				createModalConfigLegend();
 				$('#dialgo_publicar .modal-body .modal-legend').show();
 			}else{

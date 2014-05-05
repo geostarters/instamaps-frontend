@@ -122,8 +122,8 @@ function loadApp(){
 			mapConfig = results.results;
 			mapConfig.options = $.parseJSON( mapConfig.options );
 
-			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
-			if(mapConfig.legend != "{}"){
+			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
+			if(mapLegend != "" && mapLegend != "{}"){
 				addLegend();
 				$("#mapLegend").mCustomScrollbar();
 //				$(".legend-scroll").mCustomScrollbar();
