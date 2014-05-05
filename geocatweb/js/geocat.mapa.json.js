@@ -257,9 +257,9 @@ function creaCapaFromJSON() {
 					}
 
 					jQuery('#dialog_dades_ex').modal('toggle');					
-					
 					capaJSON.options.businessId = results.results.businessId;
 					capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
+					capaJSON.options.options.estil_do = estil_do;
 					capaJSON.addTo(map);
 					capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
@@ -272,6 +272,7 @@ function creaCapaFromJSON() {
 			capaJSON.addTo(map)
 			capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 			capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
+			capaJSON.options.options.estil_do = estil_do;
 			controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 			controlCapes._lastZIndex++;
 			activaPanelCapes(true);

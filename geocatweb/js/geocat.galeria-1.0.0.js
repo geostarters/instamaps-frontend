@@ -34,6 +34,7 @@ $(function(){
 			$('#galeriaRow').append(html);
 						
 			$('.new_map').on('click', function(event){
+				_gaq.push(['_trackEvent', 'galeria', 'fer mapa'/*, 'acquisition'*/]);
 				window.location.href = paramUrl.mapaPage;
 			});
 			
@@ -135,6 +136,20 @@ $(function(){
 			
 			$('.btn-tooltip').tooltip().each(function(){
 				$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
+			});
+			
+			$('.thumbnail').hover(function(){
+				var descAplicacio = $(this).find(".descAplicacio");
+				descAplicacio.fadeIn(500);
+				console.debug(descAplicacio.find(".starwarsbody").text().length);
+				if (descAplicacio.find(".starwarsbody").text().length > 160){
+					descAplicacio.find(".starwarsmain").addClass('starwars');
+					descAplicacio.find(".starwarsbody").addClass('starwarscontent');
+				}
+				return false;	
+			}, function(){
+				$(this).find(".descAplicacio").fadeOut();
+				return false;	
 			});
 			
 			window.lang.run();

@@ -518,6 +518,7 @@ function getRangsFromStyles(tematic, styles){
 	if (jQuery.isArray(styles)){
 		jQuery.each(styles, function(i, val){
 			var rang = getRangsFromStyles(tematic, val.style);
+			rang[0].featureLeafletId = val.style._leaflet_id;
 			rang = rang[0];
 			rang.valorMax = val.key;
 			rangs.push(rang);
@@ -527,6 +528,7 @@ function getRangsFromStyles(tematic, styles){
 			
 			if (styles.options.isCanvas){
 				var rang = {
+					isCanvas: true,	
 					simbolSize : styles.options.radius, 
 					color :  jQuery.Color(styles.options.fillColor).toHexString(),
 					borderColor :  styles.options.color,
@@ -549,9 +551,11 @@ function getRangsFromStyles(tematic, styles){
 				}
 				
 				var rang = {
+					isCanvas: false,
 					llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 //					valorMax : "feature" + fId,
-					color : auxOptions.fillColor,//Color principal
+					//Canviat a divColor, si es marker, sera sempre 'transparent'
+					color : auxOptions.divColor,//auxOptions.fillColor,//Color principal
 					marker: auxOptions.markerColor,//Si es de tipus punt_r o el color del marker
 					simbolColor: auxOptions.iconColor,//Glyphon
 					radius : auxOptions.radius,//Radius
@@ -567,7 +571,10 @@ function getRangsFromStyles(tematic, styles){
 			}
 		}else if (ftype == t_polyline){
 			
-			if(!styles.options) styles.options = styles;
+			if (styles._options){
+				styles.options = styles._options;
+			}else if(!styles.options) styles.options = styles;
+			
 			var rang = {
 				color: styles.options.color,
 				lineWidth: styles.options.weight,
@@ -587,6 +594,8 @@ function getRangsFromStyles(tematic, styles){
 				opacity: (styles.fillOpacity * 100)
 			};
 		}
+//		rang.businessId = styles.properties.businessId;
+		rang.featureLeafletId = styles._leaflet_id;
 		rangs.push(rang);
 	}
 	return rangs;
@@ -861,6 +870,7 @@ function loadTematicLayer(layer){
 				var options = jQuery.parseJSON( layerWms.options );				
 				if(layerWms.options && options.origen){//Si es una sublayer
 					var origen = getLeafletIdFromBusinessId(options.origen);
+					capaTematic.options.dataField = dataField;
 					controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true, origen);					
 				}
 				else {
@@ -869,6 +879,7 @@ function loadTematicLayer(layer){
 					}else{
 						capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
 					}
+					capaTematic.options.dataField = dataField;
 					controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true);
 					controlCapes._lastZIndex++;					
 				}				

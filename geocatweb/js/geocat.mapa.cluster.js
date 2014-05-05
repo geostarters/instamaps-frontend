@@ -1,6 +1,6 @@
 function creaClusterMap(capa) {
 
-	_gaq.push(['_trackEvent', 'mapa', 'esitls', 'cluster', tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', 'estils', 'cluster', tipus_user]);
 	
 	var nom = window.lang.convert("Agrupació");
 	
@@ -68,7 +68,7 @@ function creaClusterMap(capa) {
 			var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
-				serverName: 'Capa JSON '+nom,
+				serverName: capa.layer.options.nom+" "+nom,
 				serverType: t_json,
 				calentas: false,
 			    activas: true,
