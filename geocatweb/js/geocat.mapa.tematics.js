@@ -854,7 +854,7 @@ function loadTematicLayer(layer){
 				
 				//Afegim num d'elements al nom de la capa, si és un fitxer
 				if(layer.dragdrop){
-					capaTematic.options.nom = capaTematic.options.nom + " ("+capaTematic.getLayers().length+")";
+					capaTematic.options.nom = capaTematic.options.nom;// + " ("+capaTematic.getLayers().length+")";
 					var data = {
 						 	businessId: capaTematic.options.businessId, //url('?businessid') 
 						 	uid: $.cookie('uid'),

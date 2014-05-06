@@ -470,12 +470,15 @@ background-color: #9F9F9E;
 	margin-left: 10px;
 	margin-right: 10px;
 	cursor: pointer;
-	background-color: #ED8012;
+	background-color: #ed7512;
 }
 
 .bt_publicar:hover {
-	border: 1px solid #D0D0CD;
-	text-decoration: underline;
+	/*border: 1px solid #D0D0CD;
+	text-decoration: underline;*/
+	text-decoration: none;
+	font-weight: normal;
+	background-color: #ED8f12;
 }
 
 .bt_orange{
@@ -1279,7 +1282,11 @@ i.fa {
 		font-size: 10px;
 	}
 	.taronja,.taronja a,.taronja span {
-		font-size: 10px;
+		/*font-size: 10px;*/
+		font-weight:normal;
+	}
+	.taronja:hover{
+		font-weight: bold;
 	}
 	.div_gr2 {
 		height: 35px;
@@ -1560,15 +1567,6 @@ i.fa {
     text-align: center;
     font-size: 14px;
 }
-
-/*control capes*/
-.leaflet-name label {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    /*width: auto;*/
-    width: 115px;
-}
-
 
 /*Pop up features*/
 
