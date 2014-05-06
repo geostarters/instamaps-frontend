@@ -188,6 +188,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Més mapes de fons":"Más mapas de fondo",
 	"Més tard":"Más tarde",
 	"Més tipus de punts":"Más tipos de puntos",
+	"Mostrar l'ombra del relleu":"Mostrar sombreado del relieve",
 	"Múltiples formats: KML, GPX, DXF, SHP, GEOJSON, etc.":"Múltiples formatos: KML, GPX, DXF, SHP, GEOJSON, etc.",
 	"Necessitem les següent informació per processar el fitxer correctament":"Necesitamos las siguiente información para procesar el archivo correctamente",
 	"No s'ha actualitzat la contrassenya":"No se ha actualizado la contraseña",

@@ -160,8 +160,6 @@ L.IM_Map = L.Map.extend({
 		
 	},
 	setHillActiu:function(grup,actiu){
-		
-
 		if(actiu){
 			
 			if(!this.hasLayer(TOPO_OMBRA_L11_19)){
@@ -187,19 +185,19 @@ L.IM_Map = L.Map.extend({
 		
 		if(f==FONS_TOPOMAP){
 			
-			_topoLayers.eachLayer(function (layer) {
+				_topoLayers.eachLayer(function (layer) {
 			    layer.setOpacity(trans);
 			});		
 		
 			this.setHillActiu(_topoLayers,hillActiu);
 			
 		}else if(f==FONS_TOPOGISMAP){
-			_grisLayers.eachLayer(function (layer) {
+				_grisLayers.eachLayer(function (layer) {
 			    layer.setOpacity(trans);
 			});
 			this.setHillActiu(_grisLayers,hillActiu);
 		}else if(f==FONS_COLORMAP){
-		_topoColorLayers.eachLayer(function (layer) {
+			_topoColorLayers.eachLayer(function (layer) {
 		    layer.setOpacity(trans);
 		    
 		});

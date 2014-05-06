@@ -16,7 +16,7 @@ var controlLegendMarker = [];//Pintxos
 var controlLegendLine = [];
 var controlLegendPol = [];
 var mapLegend = {};
-var tooltipHill="";
+
 
 var estilP={
 	iconFons:'awesome-marker-web awesome-marker-icon-orange',
@@ -735,10 +735,10 @@ function addToolTipsInici() {
 	});
 	
 	
-	tooltipHill=$('.bt_hill').tooltip('destroy').tooltip({
+	$('.bt_hill').tooltip('destroy').tooltip({
 		placement : 'right',
 		container : 'body',
-		title : "Mostrar l'ombra del relleu"
+		title : window.lang.convert("Mostrar l'ombra del relleu")
 	});
 	
 	
