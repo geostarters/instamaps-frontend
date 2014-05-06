@@ -1,6 +1,6 @@
 function creaClusterMap(capa) {
 
-	_gaq.push(['_trackEvent', 'mapa', 'esitls', 'cluster', tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', 'estils', 'cluster', tipus_user]);
 	
 	var nom = window.lang.convert("Agrupació");
 	
@@ -62,7 +62,59 @@ function creaClusterMap(capa) {
 					console.debug('error create server in map');
 				}
 			});				
+			//tipus json
+		}else if(capa.layer.options.tipus == t_json){
 			
+			var data = {
+				uid:$.cookie('uid'),
+				mapBusinessId: url('?businessid'),
+				serverName: capa.layer.options.nom+" "+nom,
+				serverType: t_json,
+				calentas: false,
+			    activas: true,
+			    visibilitats: true,
+			    order: capesOrdre_sublayer,
+			    epsg: '4326',
+			    imgFormat: 'image/png',
+			    infFormat: 'text/html',
+			    tiles: true,	            
+			    transparency: true,
+			    opacity: 1,
+			    visibilitat: 'O',
+			    url: capa.layer.options.url,
+			    calentas: false,
+			    activas: true,
+			    visibilitats: true,
+			    options: '{"x":"'+capa.layer.options.options.x+'", "y":"'+capa.layer.options.options.y+'","titol":"'+capa.layer.options.options.titol+'","descripcio":"'+capa.layer.options.options.descripcio+'", "imatge":"'+capa.layer.options.options.imatge+'","vincle":"'+capa.layer.options.options.vincle+'","tem":"'+tem_cluster+'","origen":"'+capa.layer.options.businessId+'"}'
+			};			
+			
+			createServidorInMap(data).then(function(results){
+				if (results.status == "OK"){
+					
+					capa.layer.eachLayer(function(layer) {
+						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
+							title : layer._leaflet_id
+						});
+						marker.bindPopup(layer._popup._content);
+						clusterLayer.addLayer(marker);
+					});					
+					
+					clusterLayer.options.businessId = results.results.businessId;
+					clusterLayer.options.nom = capa.layer.options.nom +" "+nom;
+					clusterLayer.options.tipus = t_json;
+					clusterLayer.options.tipusRang = tem_cluster;
+
+					map.addLayer(clusterLayer);
+					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
+					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
+//					controlCapes._lastZIndex++;
+					activaPanelCapes(true);
+
+//					map.removeLayer(capa.layer);
+				}else{
+					console.debug("Error add cluster JSON");
+				}
+			});	
 		//Si no, es que es de tipus tematic	
 		}else{
 			var rangs = JSON.stringify({rangs:[{}]});			
@@ -103,7 +155,7 @@ function creaClusterMap(capa) {
 					
 				}else{
 					//TODO error
-					conosle.debug("updateTematicRangs ERROR");					
+					console.debug("updateTematicRangs ERROR");					
 				}
 			},function(results){
 				//TODO error
@@ -162,7 +214,7 @@ function loadDadesObertesClusterLayer(layer){
 		
 		clusterLayer.options.businessId = layer.businessId;
 		clusterLayer.options.nom = layer.serverName;
-		clusterLayer.options.zIndex = parseInt(layer.capesOrdre);
+		clusterLayer.options.zIndex = layer.capesOrdre;
 		clusterLayer.options.tipus = layer.serverType;
 		clusterLayer.options.dataset = options.dataset;
 		clusterLayer.options.tipusRang = tem_cluster;
@@ -174,6 +226,101 @@ function loadDadesObertesClusterLayer(layer){
 		activaPanelCapes(true);		
 		
 	});	
+}
+
+
+function loadJsonClusterLayer(layer){
+	console.debug("loadJsonClusterLayer");
+	
+	var options = jQuery.parseJSON( layer.options );
+
+	var v_respotaJSON;
+	getJSONPServei(layer.url).then(function(results) {
+		var op = [];
+		if (jQuery.isArray(results)) {
+			v_respotaJSON = results;
+		} else {
+			for (key in results) {
+				if (jQuery.isArray(results[key])) {
+					v_respotaJSON = results[key];
+				}
+			}
+		}
+
+		if (!jQuery.isArray(v_respotaJSON)) {
+			alert(window.lang.convert("No s'ha interpretat bé l'estructura del JSON"));
+			return;
+		}
+		
+		var clusterLayer = L.markerClusterGroup({
+			singleMarkerMode : true
+		});		
+		
+		for (key in v_respotaJSON) {
+			
+			var lat = v_respotaJSON[key][options.y];
+			var lon = v_respotaJSON[key][options.x];
+			var pp = L.marker(new L.LatLng(parseFloat(lat), parseFloat(lon)), {
+				title : layer._leaflet_id
+			});
+//			marker.bindPopup(layer._popup._content);
+//			var pp = L.circleMarker([ lat, lon ], estil_do);
+
+			pp.properties = {};
+			var empty = true;
+			
+			if (options.titol == "null") {
+				pp.properties.nom = ""
+			} else {
+				pp.properties.nom = v_respotaJSON[key][options.titol];
+				empty = empty && false;
+			}
+			if (options.descripcio == "null") {
+				pp.properties.text = ""
+			} else {
+				pp.properties.text = v_respotaJSON[key][options.descripcio];
+				empty = empty && false;
+			}
+			if (options.imatge == "null") {
+				pp.properties.img = ""
+			} else {
+				pp.properties.img = '<img width="250px" src="'
+						+ v_respotaJSON[key][options.imatge] + '">';
+				empty = empty && false;
+			}
+			if (options.vincle == "null") {
+				pp.properties.vincle = ""
+			} else {
+				pp.properties.vincle = '<a href="'
+						+ v_respotaJSON[key][options.vincle]
+						+ '" target="_blank">'
+						+ v_respotaJSON[key][options.vincle] + '</a>';
+				empty = empty && false;
+			}
+
+			if(!empty){
+				pp.bindPopup("<div id='nom-popup-json'>" + pp.properties.nom + "</div><div id='text-popup-json'>"
+						+ pp.properties.text + "</div><div id='image-popup-json'>"
+						+ pp.properties.img + "</div><div>" + pp.properties.vincle
+						+ "</div>");
+			}
+			
+			clusterLayer.addLayer(pp);
+		}
+		
+		clusterLayer.options.businessId = layer.businessId;
+		clusterLayer.options.nom = layer.serverName;
+		clusterLayer.options.zIndex = layer.capesOrdre;
+		clusterLayer.options.tipus = layer.serverType;
+		clusterLayer.options.tipusRang = tem_cluster;
+
+		map.addLayer(clusterLayer);
+		var origen = getLeafletIdFromBusinessId(options.origen);
+		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
+//		controlCapes._lastZIndex++;
+		activaPanelCapes(true);	
+
+	});
 }
 
 function loadTematicCluster(layer, zIndex, layerOptions){

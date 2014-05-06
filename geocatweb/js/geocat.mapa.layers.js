@@ -88,7 +88,6 @@ function objecteUserAdded(f){
 		createTematicLayerFeature(data).then(function(results) {
 				if(results.status === 'OK'){
 					_this.options.businessId = results.results.businessId;
-					console.debug('createTematicLayerFeature OK');
 					f.layer.properties.capaBusinessId = results.results.businessId;
 					f.layer.properties.businessId = results.feature.properties.businessId;
 					f.layer.properties.feature = results.feature;
@@ -112,29 +111,26 @@ function objecteUserAdded(f){
 		};				
 				
 		addFeatureToTematic(data).then(function(results) {
-				if(results.status === 'OK'){
-						console.debug('addFeatureToTematic OK');
-						f.layer.properties.businessId = results.feature.properties.businessId;
-						f.layer.properties.capaBusinessId = results.results.businessId;
-						f.layer.properties.feature = results.feature;
-						finishAddFeatureToTematic(f.layer);					
-					}else{
-						//ERROR: control Error
-						console.debug("addFeatureToTematic ERROR");
-					}
-				},function(results){
-					console.debug("addFeatureToTematic ERROR");
-				});
+			if(results.status === 'OK'){
+				f.layer.properties.businessId = results.feature.properties.businessId;
+				f.layer.properties.capaBusinessId = results.results.businessId;
+				f.layer.properties.feature = results.feature;
+				finishAddFeatureToTematic(f.layer);					
+			}else{
+				//ERROR: control Error
+				console.debug("addFeatureToTematic ERROR");
+			}
+		},function(results){
+			console.debug("addFeatureToTematic ERROR");
+		});
 	}
 }
 
 function getFeatureStyle(f, fId){
 	var rangs = {};
-	console.debug(f.layer.options);
 	//ESTIL MARKER
 	if(f.layer.options.tipus == t_marker){
 		if (!f.layer._ctx){
-
 			rangs = {
 				color : f.layer.options.icon.options.fillColor,//Color principal
 				marker: f.layer.options.icon.options.markerColor,//Si es de tipus punt_r o el color del marker
@@ -143,6 +139,8 @@ function getFeatureStyle(f, fId){
 				iconSize : f.layer.options.icon.options.iconSize.x+"#"+f.layer.options.icon.options.iconSize.y,//Size del cercle
 				iconAnchor : f.layer.options.icon.options.iconAnchor.x+"#"+f.layer.options.icon.options.iconAnchor.y,//Anchor del cercle
 				simbol : f.layer.options.icon.options.icon,//tipus glyph
+				simbolSize : f.layer.options.icon.options.simbolSize,//mida glyphon
+//				puntTMP.options.symbolSize = style.symbolSize;//mida glyphon
 				opacity : (f.layer.options.opacity * 100),
 				label : false,
 				labelSize : 10,
@@ -166,10 +164,10 @@ function getFeatureStyle(f, fId){
 	}else if(f.layer.options.tipus == t_polyline){
 		rangs = {
 			color : f.layer.options.color,
-			lineWidth : 2,
+			lineWidth : f.layer.options.weight,
 			lineStyle : 'solid',
 			borderWidth : 2,
-			borderColor : '#000000',
+			borderColor : f.layer.options.color,
 			opacity : (f.layer.options.opacity * 100),
 			label : false,
 			labelSize : 10,
@@ -193,7 +191,7 @@ function getFeatureStyle(f, fId){
 			label : false,
 			labelSize : 10,
 			labelFont : 'arial',
-			labelColor : '#000000',
+			labelColor : '#000000'
 		};		
 	}
 	return rangs;

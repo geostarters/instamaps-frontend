@@ -3,7 +3,6 @@ body {
 	padding-bottom: 0px;
 }
 
-
 .img-circle2 {
 	width: 200px;
 	height: 200px;
@@ -126,8 +125,32 @@ Back to top button
 #back-top {
 	position: fixed;
 	bottom: 2%;
-    right: 2%;
+    right: 10%;
 }
+
+@media (max-width: 1024px) {
+	#back-top {
+	    right: 12%;
+	}
+}
+@media (max-width: 800px){
+	#back-top {
+	    right: 15%;
+	}
+}
+
+@media (max-width: 604px) {
+	#back-top {
+	    right: 10%;
+	}
+}
+
+@media (max-width: 360px){
+	#back-top {
+	    right: 15%;
+	}
+}
+
 #back-top a {
 	width: 108px;
 	display: block;
@@ -151,9 +174,48 @@ Back to top button
 	-moz-transition: 1s;
 	transition: 1s;
 }
-#back-top a:hover span {
-	
+
+/*fes mapa landing button*/
+#fes-mapa-inici {
+	position: fixed;
+	bottom: 2%;
+    right: 2%;
 }
+
+#fes-mapa-inici .btn.btn-default.no-radius {
+  background: none repeat scroll 0 0 #00B050;
+  color: #FFFFFF;
+}
+#fes-mapa-inici .btn.btn-default.no-radius:hover {
+  background: none repeat scroll 0 0 #00D25F;
+  color: #FFFFFF;
+}
+
+#fes-mapa-inici a {
+	width: 108px;
+	display: block;
+	text-align: center;
+	font: 11px/100% Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #f7f7f7;
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#fes-mapa-inici a:hover {
+	color: #000;
+}
+/* arrow icon (span tag) */
+#fes-mapa-inici span {
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+
+/********************/
 .form-signin {
   max-width: 350px;
   padding: 15px;
@@ -190,24 +252,22 @@ Back to top button
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-.social-sign{
-border-top:2 px solid #DDDDDD;
+
+.social-sign {
+	border-top:2 px solid #DDDDDD;
     content: " ";
-    display: block;
-   
+    display: block;  
     left: 0;
     position: absolute;
     right: 0;
     top: 12px;
     z-index: 1;
-     position: relative;
+    position: relative;
     text-align: center;
 }
 
-
 .social-sign span {
-	
-	 background: none repeat scroll 0 0 #FFFFFF;
+	background: none repeat scroll 0 0 #FFFFFF;
     color: #5B5B5B;
     display: inline-block;
     font-family: "Lato",sans-serif;
@@ -217,7 +277,11 @@ border-top:2 px solid #DDDDDD;
     position: relative;
     z-index: 2;
 }
-	
+
+.social-sign.sm-top{
+	top: 0px;
+}
+
 }
 section {
 	
@@ -267,7 +331,27 @@ footer .container  p {
 	
 	.my-nav{
 		font-style: normal;
-	}	
+	}
+	
+	#text_welcome {
+	    clear: both;
+	    color: #333333;
+	    display: inline;
+	    font-weight: bold;
+	    line-height: 1.42857;
+	    /*padding: 3px 20px;*/
+	    padding: 3px 0 0 20px;
+	    white-space: nowrap;
+	}
+	
+	#text_username{
+		clear: both;
+	    color: #333333;
+	    display: inline;
+	    font-weight: bold;
+	    line-height: 1.42857;
+	    white-space: nowrap;
+	}
 	
 	.invalid {
 	  	/*outline: 1px solid red;*/
@@ -488,20 +572,20 @@ background-color:#FFFFFF}
 
 /*** index.html ***/
 	.img-carousel {
-		opacity: 0.5;
+		opacity: 0.9;
 		width: 100%;
 		height: auto;
 	}
 	
 	.my-carousel-caption {
-		color: #505050;
-	    font-style: normal;
-		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	    font-weight: 500;
-	    font-size: 36px; 
-	    text-shadow: none;
-	    padding-bottom: 13%;
-	    text-shadow: 0 2px 1px #FFFFFF;
+		color: #202020;
+	   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	   font-size: 36px;
+	   font-style: normal;
+	   font-weight: bolder;
+	   padding-bottom: 10%;
+	   /*text-shadow: 0 2px 1px #FFFFFF;*/
+	   text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 0 -2px #FFFFFF, 2px 0 #FFFFFF;
 	}
 	
 	.marketing{
@@ -510,7 +594,7 @@ background-color:#FFFFFF}
 	}
 	
 	.main-row{
-		padding: 8% 12% 0%;
+		padding: 4% 12% 0%;
 	}
 	
 	.my-elem{
@@ -566,24 +650,18 @@ background-color:#FFFFFF}
 		background-color: #f06c21;
 	}
 	
-	#txt-image{
-		color: #505050;
-	    font-size: 30px;
-	    font-style: normal;
-	    line-height: 1.5;
-	    padding: 10%;
-	    text-align: center;
-		background-image: url("../../llibreries/img/banner_1_index.png");
-<<<<<<< HEAD
-	    background-size: cover;  
-	    text-shadow: 0 2px 1px #FFFFFF;  
-	    opacity: 0.5;
-=======
-	    background-size: cover;
-	    text-shadow: 0 2px 1px #FFFFFF;  
-		opacity: 0.5;     
->>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
-	}	
+#txt-image {
+    background-color: #CCCCCC;
+    color: #202020;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 1.5;
+    padding: 10%;
+    text-align: center;
+    text-shadow: 0 2px 1px #FFFFFF;
+}
+	
 	
 	@media (max-width: 400px) {
 	  #btn-galeria, #btn-fes-mapa{
@@ -796,6 +874,133 @@ background-color:#FFFFFF}
 		-o-filter: contrast(140%);
 		-ms-filter: contrast(140%);
 	}
+	
+	.btn-acctions .btn {
+	    border-radius: 0;
+	}
+	
+	.thumbnail div.descAplicacio{
+		display: none;
+		top: 61px;
+    	height: 105px;
+    	position: absolute;
+    	color: #FFFFFF;
+	 	background-color: rgba(45, 46, 41, 0.6);
+	 	width: 97%;
+	 	overflow: hidden;
+	}
+	
+	.starwars{
+		position: absolute;
+		color: #ffff66;
+		font-weight: bold;
+		bottom: 0;
+		left: 50%;
+		margin-left: -9em;
+		text-align: justify;
+		overflow: hidden;
+		-webkit-transform-origin: 50% 100%;
+		-moz-transform-origin: 50% 100%;
+		-ms-transform-origin: 50% 100%;
+		-o-transform-origin: 50% 100%;
+		transform-origin: 50% 100%;
+		-webkit-transform: perspective(200px) rotateX(25deg);
+		-moz-transform: perspective(200px) rotateX(25deg);
+		-ms-transform: perspective(200px) rotateX(25deg);
+		-o-transform: perspective(200px) rotateX(25deg);
+		transform: perspective(200px) rotateX(25deg);
+	}
+	
+	.starwarscontent{
+		position: relative;
+		top: 100%;
+		animation: scroll 20s linear 1s infinite;
+	}
+
+	@keyframes scroll {
+		0% { top: 100%; }
+		100% { top: -100%; }
+	}
+	
+	.starwars:after {
+		position: absolute;
+		content: ' ';
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 60%;
+		/*
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: -ms-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: -o-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		background-image: linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+		*/
+		pointer-events: none;
+	}
+	
+	.flip {
+	  -webkit-perspective: 800;
+	  -ms-perspective: 800;
+	  -moz-perspective: 800;
+	  -o-perspective: 800;
+	  position: relative;
+	  height: 165px;
+	}
+	
+	.flip .card.flipped {
+	  transform:rotatey(-180deg);
+	  -ms-transform:rotatey(-180deg); /* IE 9 */
+	  -moz-transform:rotatey(-180deg); /* Firefox */
+	  -webkit-transform:rotatey(-180deg); /* Safari and Chrome */
+	  -o-transform:rotatey(-180deg); /* Opera */
+	}
+	
+	.flip .card {
+	  width: 100%;
+	  height: 100%;
+	  -webkit-transform-style: preserve-3d;
+	  -webkit-transition: 0.5s;
+	  -moz-transform-style: preserve-3d;
+	  -moz-transition: 0.5s;
+	  -ms-transform-style: preserve-3d;
+	  -ms-transition: 0.5s;
+	  -o-transform-style: preserve-3d;
+	  -o-transition: 0.5s;
+	  transform-style: preserve-3d;
+	  transition: 0.5s;
+	}
+	
+	.flip .card .face {
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  z-index: 2;
+	  text-align: center;
+	  backface-visibility: hidden;  /* W3C */
+	  -webkit-backface-visibility: hidden; /* Safari & Chrome */
+	  -moz-backface-visibility: hidden; /* Firefox */
+	  -ms-backface-visibility: hidden; /* Internet Explorer */
+	  -o-backface-visibility: hidden; /* Opera */
+	}
+	
+	.flip .card .front {
+	  position: absolute;
+	  z-index: 1;
+	}
+	
+	.flip .card .back {
+	  color: #FFFFFF;
+	  background-color: rgba(45, 46, 41, 0.6);
+	  height: 165px;
+	  transform:rotatey(-180deg);
+	  font-weight: bold;
+	  -ms-transform:rotatey(-180deg); /* IE 9 */
+	  -moz-transform:rotatey(-180deg); /* Firefox */
+	  -webkit-transform:rotatey(-180deg); /* Safari and Chrome */
+	  -o-transform:rotatey(-180deg); /* Opera */
+	
+	}	
 		
 	/*** perfil.html ***/
 	
@@ -810,6 +1015,85 @@ background-color:#FFFFFF}
 	#text-uid{
 		text-align: center;
 	}
+
+/*old browser message*/
+* {
+  	box-sizing: border-box;
+}
+
+.modal{
+	overflow-y: auto;
+	  font-size: 13px
+}
+
+.modal-dialog {
+	padding-top: 6%;
+}
+
+.modal-content {
+	border-radius: 0;
+	font-size: 13px;
+}
+
+.modal-header {
+	padding: 10px 10px;
+}
+
+.modal-header h4 {
+	
+	font-size: 13px;
+    font-weight: bold;
+}
+
+.modal-body {
+	padding: 10px 10px;
+}
+
+.modal-footer {
+	padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+     padding-top:10px;
+    border-top: 0 solid #E5E5E5;
+    margin-top: 1px;
+   
+    text-align: right;
+}
+
+#dialgo_old_browser{
+	width: 600px;
+}
+
+.browser_img {
+	float: left;
+    height: 100px;
+    margin: 5px;
+    position: relative;
+    width: 100px;
+    cursor: pointer;
+}
+
+.ie_img {
+	background: url('images/browser_ie.gif') no-repeat;
+}
+
+.firefox_img {
+	background: url('images/browser_firefox.gif') no-repeat;
+}
+
+.safari_img {
+	background: url('images/browser_safari.gif') no-repeat;
+}
+
+.opera_img {
+	background: url('images/browser_opera.gif') no-repeat;
+}
+
+.chrome_img {
+	background: url('images/browser_chrome.gif') no-repeat;
+}
+
+/*end old browser message*/
 
 /*** twitter-typeahead ***/
 /*

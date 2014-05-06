@@ -43,6 +43,7 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
 					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
@@ -68,6 +69,8 @@
 							<b class="caret"></b>
 						</a>
 						<ul id="ch_perfil" class="dropdown-menu">
+							<li><span id="text_welcome" lang="ca">Benvingut</span><span id="text_username"></span></li>
+							<li class="divider" role="presentation"></li>						
 							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
 							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
 							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
@@ -88,18 +91,15 @@
 	<div class="container">
     	<form id="frm_signin" class="my-form-signin">
        		<section>
-        		<h3  lang="ca" class="form-signin-heading">Registreu-vos</h3>
-        		
+        		<h3 lang="ca" class="form-signin-heading">Registreu-vos</h3>
         		<fieldset>
-        			
-        			<input lang="ca" id="signin_username" type="text" required class="form-control my-border" placeholder="Usuari" autofocus>
+        			<input lang="ca" id="signin_username" type="hidden" required class="form-control my-border" placeholder="Usuari" autofocus>
+        			<input lang="ca" id="signin_email" type="email" required class="form-control my-border" placeholder="Correu">
         			<br>
        				<input lang="ca" id="signin_name" type="text" required class="form-control my-border" placeholder="Nom">
        				<input lang="ca" id="signin_surname" type="text" required class="form-control my-border" placeholder="Cognom">
        				<br>
-       				<input lang="ca" id="signin_email" type="email" required class="form-control my-border" placeholder="Correu">
-        			<br>
-        			<input lang="ca" id="signin_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrassenya">
+       				<input lang="ca" id="signin_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrassenya">
          			<input lang="ca" id="signin_confirm_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Confirmar contrassenya">
         		</fieldset>
         		<br>
@@ -161,6 +161,36 @@
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->				
 		
+		<!-- Modal Old Browser -->
+	<div id="dialgo_old_browser" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Sabia vostè que el seu navegador no està actualitzat?</h4>
+				</div>
+				<div class="modal-body">
+					<div lang="ca">Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.</div>
+					<div>
+					<a href="http://www.microsoft.com/windows/Internet-explorer/default.aspx" target="_blank"><div class='ie_img browser_img'></div></a>
+					<a href="http://www.mozilla.com/firefox/" target="_blank"><div class='firefox_img browser_img'></div></a>
+					<a href="http://www.apple.com/safari/download/" target="_blank"><div class='safari_img browser_img'></div></a>
+					<a href="http://www.opera.com/download/" target="_blank"><div class='opera_img browser_img'></div></a>
+					<a href="http://www.google.com/chrome" target="_blank"><div class='chrome_img browser_img'></div></a>
+					</div>
+					<div lang="ca">Només faci clic a les icones per anar a la pàgina de descàrrega</div>
+				</div>
+				<div class="modal-footer">
+					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Old Browser -->
+		
 	</div> 
 	</div>
 	<!-- /container -->
@@ -174,12 +204,23 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
+	<script type="text/javascript">
+	if (!Modernizr.canvas ){
+		document.getElementById("dialgo_old_browser").style.display = "block";
+		document.getElementById("old_icon_close").style.display = "none";
+		document.getElementById("old_btn_close").onclick = function () {
+			window.location = "/index.html";
+		}
+	}
+	</script>
+	
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>

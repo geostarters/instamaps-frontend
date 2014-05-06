@@ -6,6 +6,8 @@ var capaUsrActiva;
 var lsublayers = [];
 var tipus_user;
 
+var mapLegend = {};
+
 //default geometries style
 var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
 		iconGlif:'fa fa-',
@@ -25,7 +27,7 @@ var default_area_style = {
     fillColor: '#FFC400',
     fillOpacity: 0.5
 };
-var default_point_style = {
+var default_marker_style = {
 	icon : '',
 	markerColor : 'orange',
 	divColor:'transparent',
@@ -41,7 +43,30 @@ var default_point_style = {
 	color : "#ffffff",
 	fillColor :"#FFC500"
 };
-
+var default_circulo_style = {
+	isCanvas:true,
+	simbolSize: 6,
+	borderWidth: 2,
+	opacity: 90,
+	borderColor : "#ffffff",
+	color :"#FFC500"	
+};
+var default_circuloglyphon_style = {
+	icon : '',
+	markerColor: 'punt_r',
+	prefix : 'fa',
+	divColor:'transparent',
+	iconAnchor : new L.Point(15, 15),
+	iconSize : new L.Point(30, 30),
+	iconColor : '#000000',
+	isCanvas:false,
+	radius:6,
+	opacity:1,
+	weight : 2,
+	fillOpacity : 0.9,
+	color : "#ffffff",
+	fillColor :"#FFC500"	
+};
 jQuery(document).ready(function() {
 	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
@@ -57,11 +82,6 @@ jQuery(document).ready(function() {
 			window.location = paramUrl.mainPage;
 		});
 	}else{
-		jQuery.cookieCuttr({
-			cookieAnalytics: false,
-			cookieAcceptButtonText: window.lang.convert("Acceptar"),
-			cookieMessage: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal")
-		});
 		loadApp();
 	}
 }); // Final document ready
@@ -69,12 +89,16 @@ jQuery(document).ready(function() {
 function loadApp(){
 	
 	if(typeof url('?embed') == "string"){
-		jQuery('#navbar-visor').remove();
+//		jQuery('#navbar-visor').remove();
+		jQuery('#navbar-visor').hide();
+		jQuery('#searchBar').css('top', '0');
+		
 	}
 	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
+			minZoom: 2,
 			maxZoom : 19,
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
@@ -84,20 +108,30 @@ function loadApp(){
 		
 		L.control.scale({'metric':true,'imperial':false}).addTo(map);
 		
-		//iniciamos los controles
-		initControls();
-
+//		//iniciamos los controles
+//		initControls();
+				
 		var data = {
-				businessId: url('?businessid')
-			};
+			businessId: url('?businessid')
+		};
 		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
-				//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-				return false;
+				window.location.href = paramUrl.galeriaPage;
 			}
 			mapConfig = results.results;
 			mapConfig.options = $.parseJSON( mapConfig.options );
+
+			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
+			if(mapLegend != "" && mapLegend != "{}"){
+				addLegend();
+				$("#mapLegend").mCustomScrollbar();
+//				$(".legend-scroll").mCustomScrollbar();
+			}
+						
+			//iniciamos los controles
+			initControls();			
+			
 			mapConfig.newMap = false;
 			$('#nomAplicacio').html(mapConfig.nomAplicacio);
 			
@@ -117,7 +151,8 @@ function loadApp(){
 		console.debug(results);
 		jQuery('#socialShare_visor').share({
 	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-	        theme: 'square',
+	        orientation: 'vertical',
+	        affix: 'left center',
 	        urlToShare: results.data.url
 		});
 	});
@@ -177,10 +212,10 @@ function initControls(){
 	addControlsInici();
 	addClicksInici();
 	addToolTipsInici();
-	redimensioMapa();
-	if(typeof url('?embed') != "string"){
+//	if(typeof url('?embed') != "string"){
 		addControlCercaEdit();		
-	}
+//	}
+	redimensioMapa();
 }
 
 function addControlsInici() {
@@ -215,9 +250,13 @@ function addControlsInici() {
 }
 
 function addClicksInici() {
+	jQuery('.bt_legend').on('click', function() {
+		activaLlegenda();
+	});
+	
 	jQuery('.bt_llista').on('click', function() {
 		activaPanelCapes();
-	});
+	});	
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
@@ -261,6 +300,39 @@ function activaPanelCapes(obre) {
 	}
 }
 
+function activaLlegenda(obre) {
+	
+////	$(".visor-legend").transition({
+////		  opacity: 0.1, scale: 0.3,
+////		  duration: 500,
+////		  easing: 'in',
+////		  complete: function() { $(".visor-legend").toggle(); }
+////		});	
+	
+	
+	var cl = jQuery('.bt_legend span').attr('class');
+	if (cl.indexOf('grisfort') != -1) {
+		jQuery('.bt_legend span').removeClass('grisfort');
+		jQuery('.bt_legend span').addClass('greenfort');
+		$(".bt_legend").transition({ x: '0px', y: '0px',easing: 'in', duration: 500 });
+		$(".visor-legend").transition({ x: '0px', y: '0px',easing: 'in', opacity: 1,duration: 500 });
+	} else {
+		jQuery('.bt_legend span').removeClass('greenfort');
+		jQuery('.bt_legend span').addClass('grisfort');
+		var height = $(".visor-legend").height();
+		var y1 = $(".visor-legend").height() - 20;
+		var y2 = $(".visor-legend").height() +50;
+		
+		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
+		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
+		
+//		$(".bt_legend").transition({ x: '225px', y: '230px',duration: 500 });
+//		$(".visor-legend").transition({ x: '250px', y: '300px',  opacity: 0.1,duration: 500 });
+	}	
+	
+}
+
+
 function addToolTipsInici() {
 	//eines mapa
 	$('.bt_llista').tooltip('destroy').tooltip({
@@ -300,8 +372,11 @@ function addToolTipsInici() {
 
 function redimensioMapa() {
 	jQuery(window).resize(function() {
-		if(typeof url('?embed') == "string") factorH = 0; 
-		else factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
+		if(typeof url('?embed') == "string"){
+			factorH = 0;
+		}else{
+			factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
+		} 
 		jQuery('#map').css('top', factorH + 'px');
 		jQuery('#map').height(jQuery(window).height() - factorH);
 		jQuery('#map').width(jQuery(window).width() - factorW);
@@ -310,7 +385,6 @@ function redimensioMapa() {
 }
 
 function loadMapConfig(mapConfig){
-	console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
@@ -318,12 +392,29 @@ function loadMapConfig(mapConfig){
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			if (mapConfig.options.fons != 'topoMap'){
+				var fons = mapConfig.options.fons;
+				if (fons == 'topoMap') {
+					map.topoMap();
+				} else if (fons == 'topoGrisMap') {
+					map.topoGrisMap();
+				} else if (fons == 'ortoMap') {
+					map.ortoMap();
+				} else if (fons == 'terrainMap') {
+					map.terrainMap();
+				} else if (fons == 'colorMap') {
+					gestionaPopOver(this);
+				} else if (fons == 'historicMap') {
+				
+				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
 			}
 				
-			if (mapConfig.options.bbox){
+			if (mapConfig.options.center){
+				var opcenter = mapConfig.options.center.split(",");
+				map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+			}else if (mapConfig.options.bbox){
 				var bbox = mapConfig.options.bbox.split(",");
 				var southWest = L.latLng(bbox[1], bbox[0]);
 			    var northEast = L.latLng(bbox[3], bbox[2]);
@@ -348,6 +439,7 @@ function loadMapConfig(mapConfig){
 			});
 		});
 		jQuery('#div_loading').hide();
+		jQuery(window).trigger('resize');
 	}
 //	
 //	var source = $("#map-properties-template").html();
@@ -481,11 +573,13 @@ function loadWikipediaLayer(layer){
 	controlCapes._lastZIndex++;
 }
 
+
 function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-		var estil_do = retornaEstilaDO(options.dataset);	
+		var estil_do = options.estil_do;	
+//		var estil_do = retornaEstilaDO(options.dataset);	
 		if (options.tem == tem_simple){
 			//estil_do = options.style;
 			estil_do = createFeatureMarkerStyle(options.style);
@@ -610,19 +704,44 @@ function popUp(f, l) {
 				}
 			}
 		}
-		l.bindPopup(out.join("<br />"));
+		l.bindPopup(out.join("<br/>"));
 	}
 }
 
-function createFeatureMarkerStyle(style){
-	console.debug(style);
-	if (style.marker){
-		var puntTMP= new L.AwesomeMarkers.icon(default_point_style);
-		puntTMP.options.iconColor = style.simbolColor;
-		puntTMP.options.icon = style.simbol;
-		puntTMP.options.markerColor = style.marker;
-		puntTMP.options.isCanvas=false;
-	}else{
+function createFeatureMarkerStyle(style, num_geometries){
+	//console.debug("createFeatureMarkerStyle");
+	if (!num_geometries){
+		num_geometries = num_max_pintxos - 1;
+	}
+	if (style.marker && num_geometries <= num_max_pintxos){
+		//Especifiques per cercle amb glyphon
+		if(style.marker == 'punt_r'){
+			var puntTMP = new L.AwesomeMarkers.icon(default_circuloglyphon_style);
+			puntTMP.options.iconColor = style.simbolColor;
+			puntTMP.options.icon = style.simbol;
+			puntTMP.options.markerColor = style.marker;
+			puntTMP.options.isCanvas=false;
+			puntTMP.options.divColor= style.color;
+			puntTMP.options.shadowSize = new L.Point(1, 1);
+			puntTMP.options.radius = style.radius;
+			var anchor = style.iconAnchor.split("#");
+			var size = style.iconSize.split("#");
+			puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
+			puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
+			puntTMP.options.iconSize.x = size[0];
+			puntTMP.options.iconSize.y = size[1];
+		}else{
+			var puntTMP = new L.AwesomeMarkers.icon(default_marker_style);
+			puntTMP.options.iconColor = style.simbolColor;
+			puntTMP.options.icon = style.simbol;
+			puntTMP.options.markerColor = style.marker;
+			puntTMP.options.isCanvas=false;
+			puntTMP.options.iconAnchor.x = 14;
+			puntTMP.options.iconAnchor.y = 42;
+			puntTMP.options.iconSize.x = 28;
+			puntTMP.options.iconSize.y = 42;
+		}
+	}else{ //solo circulo
 		var puntTMP = { 
 			radius: style.simbolSize, 
 			isCanvas: true,
@@ -630,6 +749,7 @@ function createFeatureMarkerStyle(style){
 			color:  style.borderColor,
 			weight:  style.borderWidth,
 			fillOpacity:  style.opacity/100,
+			opacity: 1,
 			tipus: t_marker
 		};
 	}
@@ -660,4 +780,46 @@ function getLeafletIdFromBusinessId(businessId){
 			return val;
 		}
 	}
+}
+
+/* LLEGENDA */
+function addLegend(){
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+	    var div = L.DomUtil.create('div', 'info legend visor-legend');
+	    	div.id = "mapLegend";
+	    jQuery.each(mapLegend, function(i, row){
+	    	console.debug(row);
+	    	for (var i = 0; i < row.length; i++) {
+	    		console.debug(row[i]);
+	    		if(row[i].chck){
+	    			div.innerHTML +='<div class="visor-legend-row">'+
+						    			'<div class="visor-legend-symbol col-md-6">'+row[i].symbol+'</div>'+
+						    			'<div class="visor-legend-name col-md-6">'+row[i].name+'</div>'+
+	    							'</div>'+
+	    							'<div class="visor-separate-legend-row"></div>';
+	    		}
+	    	}
+	    });
+	    
+	    return div;
+	};
+	
+	ctr_legend = L.control({
+		position : 'bottomright'
+	});
+	ctr_legend.onAdd = function(map) {
+
+		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
+
+		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
+		this._div.appendChild(btllista);
+		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
+
+		return this._div;
+	};
+	ctr_legend.addTo(map);	
+	legend.addTo(map);
 }

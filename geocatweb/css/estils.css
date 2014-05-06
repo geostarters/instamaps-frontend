@@ -209,7 +209,7 @@
     overflow: visible;
     position: absolute;
     top: 50px;
-    width: 540px;
+    width: 285px;
     z-index: 100;
 }
 
@@ -332,6 +332,14 @@
 	height: 25px;
 	background-color: #FFC500;
 	color: #FFC500;
+}
+
+.fill_color_marker {
+    background-color: #FFC500;
+    border: 1px solid #AAAAAA;
+    color: #000000;
+    height: 15px;
+    width: 20px;
 }
 
 .border_color_pol {
@@ -544,12 +552,12 @@ textarea {
 
 .font9 {
 	font-size: 9px !important;
-	margin-top: 2px !important
+	margin-top: 2px !important;
 }
 
 .font11 {
-	font-size: 11px !important;
-	margin-top: 4px !important
+	font-size: 10px !important;
+	margin-top: 4px !important;
 }
 
 .font12 {
@@ -564,9 +572,10 @@ textarea {
 	font-size: 15px !important;
 }
 
-.font14 {
-	font-size: 14px !important;
+.font17 {
+	font-size: 17px !important;
 }
+
 
 .txt_ext {
 	height: 33px !important;
@@ -674,6 +683,8 @@ textarea {
 .liX {
 	border-bottom: 1px solid #DDDDDD;
 	border-top: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	
 	color: #000000;
 	float: left;
 	font-size: 12px;
@@ -681,7 +692,7 @@ textarea {
 	line-height: 0.8;
 	margin: 0 -2px 2px 0;
 	padding: 5px;
-	text-align: left;
+	text-align: center;
 	width: 32%;
 }
 
@@ -703,40 +714,6 @@ textarea {
 
 .cc-cookies {
 	width: 100%;	
-}
-
-/*old browser message*/
-#dialgo_old_browser{
-	width: 600px;
-}
-
-.browser_img {
-	float: left;
-    height: 100px;
-    margin: 5px;
-    position: relative;
-    width: 100px;
-    cursor: pointer;
-}
-
-.ie_img {
-	background: url('images/browser_ie.gif') no-repeat;
-}
-
-.firefox_img {
-	background: url('images/browser_firefox.gif') no-repeat;
-}
-
-.safari_img {
-	background: url('images/browser_safari.gif') no-repeat;
-}
-
-.opera_img {
-	background: url('images/browser_opera.gif') no-repeat;
-}
-
-.chrome_img {
-	background: url('images/browser_chrome.gif') no-repeat;
 }
 
 .leaflet-control-layers-list #nomAplicacio {

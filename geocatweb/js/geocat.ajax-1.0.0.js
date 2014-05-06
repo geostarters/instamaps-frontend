@@ -482,8 +482,25 @@ function updateServidorWMS(data){
 
 function duplicateTematicLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.duplicateTematicLayer,
+		url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
+		data: data,
+		method: 'post'
+	}).promise();
+}
+
+function reminderMail(data){
+	return jQuery.ajax({
+		url: paramUrl.reminderMail,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function renewPassword(data){
+	return jQuery.ajax({
+		url: paramUrl.renewPassword,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+

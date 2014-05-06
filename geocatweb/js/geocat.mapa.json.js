@@ -142,9 +142,7 @@ function getServeiJSONP(purlJson) {
 }
 
 jQuery(document).on('click', "#bt_addJSON", function(e) {
-
 	creaCapaFromJSON();
-
 });
 
 function creaCapaFromJSON() {
@@ -165,19 +163,30 @@ function creaCapaFromJSON() {
 
 	} else {
 
+		//nom per defecte agafat de la url del json a mostrar
+		var paraules = urlJSON.split("/");
+		var paraula = paraules[paraules.length-1].split(".");
+		var nomCapaJson = paraula[0];
+		if(!nomCapaJson) nomCapaJson = 'Capa JSON';
+		
 		var capaJSON = new L.FeatureGroup();
 		capaJSON.options = {
 			businessId : -1,
-			nom : 'Capa JSON '+ (parseInt(controlCapes._lastZIndex) + 1),
-			tipus:'JSON'
+			nom : nomCapaJson,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
+			tipus:t_json,
+			url: urlJSON
 //			zIndex : controlCapes._lastZIndex// + 1
 		};
+		
+		var param_estil = 'json';
+		if(urlJSON.indexOf("president")!=-1) param_estil = 'json_president';
+		var estil_do = retornaEstilaDO(param_estil);
 		
 		if(typeof url('?businessid') == "string"){
 			var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
-				serverName: 'Capa JSON '+ (parseInt(controlCapes._lastZIndex) + 1),
+				serverName: nomCapaJson,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
 				serverType: t_json,
 				calentas: false,
 	            activas: true,
@@ -194,14 +203,12 @@ function creaCapaFromJSON() {
 	            calentas: false,
 	            activas: true,
 	            visibilitats: true,
-	            options: '{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}'
+	            options: '{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 			};
 			
 			createServidorInMap(data).then(function(results){
 				if (results.status == "OK"){
 					
-					var estil_do = retornaEstilaDO('json');
-
 					for (key in respostaJSON) {
 						var lat = respostaJSON[key][cmd_json_y];
 						var lon = respostaJSON[key][cmd_json_x];
@@ -226,7 +233,7 @@ function creaCapaFromJSON() {
 						if (cmd_json_img == "null") {
 							pp.properties.img = ""
 						} else {
-							pp.properties.img = '<img width="200px" src="'
+							pp.properties.img = '<img width="250px" src="'
 									+ respostaJSON[key][cmd_json_img] + '">';
 							empty = empty && false;
 						}
@@ -241,8 +248,8 @@ function creaCapaFromJSON() {
 						}
 
 						if(!empty){
-							pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
-									+ pp.properties.text + "</div><div>"
+							pp.bindPopup("<div id='nom-popup-json'>" + pp.properties.nom + "</div><div>"
+									+ pp.properties.text + "</div><div id='image-popup-json'>"
 									+ pp.properties.img + "</div><div>" + pp.properties.vincle
 									+ "</div>");
 						}
@@ -250,9 +257,10 @@ function creaCapaFromJSON() {
 					}
 
 					jQuery('#dialog_dades_ex').modal('toggle');					
-					
 					capaJSON.options.businessId = results.results.businessId;
-					capaJSON.addTo(map)
+					capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
+					capaJSON.options.options.estil_do = estil_do;
+					capaJSON.addTo(map);
 					capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 					controlCapes._lastZIndex++;
@@ -263,102 +271,140 @@ function creaCapaFromJSON() {
 		}else{
 			capaJSON.addTo(map)
 			capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
+			capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
+			capaJSON.options.options.estil_do = estil_do;
 			controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 			controlCapes._lastZIndex++;
 			activaPanelCapes(true);
 		}		
 	}
+	
+	//Buidem dialeg creacio capa JSON
+	jQuery('#div_layersJSON').empty();
+	jQuery('#txt_URLJSON').val('');	
 }
 
 function loadCapaFromJSON(layer) {
 
-	var v_respotaJSON;
-	getJSONPServei(layer.url).then(function(results) {
-		var op = [];
-		if (jQuery.isArray(results)) {
-			v_respotaJSON = results;
-		} else {
-			for (key in results) {
-				if (jQuery.isArray(results[key])) {
-					v_respotaJSON = results[key];
+	var defer = $.Deferred();
+	
+	var options = jQuery.parseJSON( layer.options );
+	
+	if(options.tem == tem_heatmap){
+		loadJsonHeatmapLayer(layer);
+		return defer.resolve();
+	}else if(options.tem == tem_cluster){
+		loadJsonClusterLayer(layer);
+		return defer.resolve();
+	}else{	
+		var v_respotaJSON;
+		getJSONPServei(layer.url).then(function(results) {
+			var op = [];
+			if (jQuery.isArray(results)) {
+				v_respotaJSON = results;
+			} else {
+				for (key in results) {
+					if (jQuery.isArray(results[key])) {
+						v_respotaJSON = results[key];
+					}
 				}
 			}
-		}
-
-		if (!jQuery.isArray(v_respotaJSON)) {
-			alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
-			return;
-		}
-		
-		var capaJSON = new L.FeatureGroup();
-		capaJSON.options = {
-			businessId : layer.businessId,
-			nom : layer.serverName,
-			tipus:layer.serverType,
-			zIndex : layer.capesOrdre
-		};		
-		
-		var estil_do = retornaEstilaDO('json');
-		var options = jQuery.parseJSON( layer.options );
-		
-		for (key in v_respotaJSON) {
-			var lat = v_respotaJSON[key][options.y];
-			var lon = v_respotaJSON[key][options.x];
-			var pp = L.circleMarker([ lat, lon ], estil_do)
-
-			pp.properties = {};
-			var empty = true;
+	
+			if (!jQuery.isArray(v_respotaJSON)) {
+				alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
+				return;
+			}
 			
-			if (options.titol == "null") {
-				pp.properties.nom = ""
-			} else {
-				pp.properties.nom = v_respotaJSON[key][options.titol];
-				empty = empty && false;
+			var capaJSON = new L.FeatureGroup();
+			capaJSON.options = {
+				businessId : layer.businessId,
+				nom : layer.serverName,
+				tipus:layer.serverType,
+				zIndex : layer.capesOrdre,
+				url: layer.url,
+				options: options
+			};		
+			
+//			var options = jQuery.parseJSON( layer.options );
+	//		var estil_do = retornaEstilaDO('json');
+			var estil_do = options.estil_do;
+			
+			for (key in v_respotaJSON) {
+				var lat = v_respotaJSON[key][options.y];
+				var lon = v_respotaJSON[key][options.x];
+				var pp = L.circleMarker([ lat, lon ], estil_do)
+	
+				pp.properties = {};
+				var empty = true;
+				
+				if (options.titol == "null") {
+					pp.properties.nom = ""
+				} else {
+					pp.properties.nom = v_respotaJSON[key][options.titol];
+					empty = empty && false;
+				}
+				if (options.descripcio == "null") {
+					pp.properties.text = ""
+				} else {
+					pp.properties.text = v_respotaJSON[key][options.descripcio];
+					empty = empty && false;
+				}
+				if (options.imatge == "null") {
+					pp.properties.img = ""
+				} else {
+					pp.properties.img = '<img width="250px" src="'
+							+ v_respotaJSON[key][options.imatge] + '">';
+					empty = empty && false;
+				}
+				if (options.vincle == "null") {
+					pp.properties.vincle = ""
+				} else {
+					pp.properties.vincle = '<a href="'
+							+ v_respotaJSON[key][options.vincle]
+							+ '" target="_blank">'
+							+ v_respotaJSON[key][options.vincle] + '</a>';
+					empty = empty && false;
+				}
+	
+				if(!empty){
+					pp.bindPopup("<div id='nom-popup-json'>" + pp.properties.nom + "</div><div id='text-popup-json'>"
+							+ pp.properties.text + "</div><div id='image-popup-json'>"
+							+ pp.properties.img + "</div><div>" + pp.properties.vincle
+							+ "</div>");
+				}
+				pp.addTo(capaJSON);
 			}
-			if (options.descripcio == "null") {
-				pp.properties.text = ""
-			} else {
-				pp.properties.text = v_respotaJSON[key][options.descripcio];
-				empty = empty && false;
-			}
-			if (options.imatge == "null") {
-				pp.properties.img = ""
-			} else {
-				pp.properties.img = '<img width="200px" src="'
-						+ v_respotaJSON[key][options.imatge] + '">';
-				empty = empty && false;
-			}
-			if (options.vincle == "null") {
-				pp.properties.vincle = ""
-			} else {
-				pp.properties.vincle = '<a href="'
-						+ v_respotaJSON[key][options.vincle]
-						+ '" target="_blank">'
-						+ v_respotaJSON[key][options.vincle] + '</a>';
-				empty = empty && false;
-			}
-
-			if(!empty){
-				pp.bindPopup("<div>" + pp.properties.nom + "</div><div>"
-						+ pp.properties.text + "</div><div>"
-						+ pp.properties.img + "</div><div>" + pp.properties.vincle
-						+ "</div>");
-			}
-			pp.addTo(capaJSON);
-		}
-
-		capaJSON.options.businessId = layer.businessId;
-		
-		if (layer.capesActiva == true || layer.capesActiva == "true"){
-			capaJSON.addTo(map)
-		}		
-		
-		controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
-		controlCapes._lastZIndex++;
-		activaPanelCapes(true);		
-
-	},function(results){
-		alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
-		return;		
-	});
+	
+			capaJSON.options.businessId = layer.businessId;
+			
+			if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
+				capaJSON.addTo(map)
+			}		
+			
+			if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
+				capaJSON.options.zIndex = controlCapes._lastZIndex + 1;
+			}else{
+				capaJSON.options.zIndex = parseInt(layer.capesOrdre);
+			}			
+				
+//			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
+//			controlCapes._lastZIndex++;
+			
+			if(!options.origen){
+				controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
+				controlCapes._lastZIndex++;
+			}else{//Si te origen es una sublayer
+				var origen = getLeafletIdFromBusinessId(options.origen);
+				capaJSON.options.zIndex = capesOrdre_sublayer;
+				controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true, origen);
+			}			
+			
+			activaPanelCapes(true);	
+			return defer.resolve();
+		},function(results){
+			alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
+			return defer.reject();		
+		});
+	}
+	return defer.promise();
 }

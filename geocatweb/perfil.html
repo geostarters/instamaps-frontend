@@ -42,7 +42,9 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
+					<li><a id="hl_index" lang="ca" href="../geocatweb/galeria.html">Galeria</a></li>
 					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
@@ -68,6 +70,8 @@
 							<b class="caret"></b>
 						</a>
 						<ul id="ch_perfil" class="dropdown-menu">
+							<li><span id="text_welcome" lang="ca">Benvingut</span><span id="text_username"></span></li>
+							<li class="divider" role="presentation"></li>
 							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
 							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
 							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
@@ -98,7 +102,7 @@
 	       				<input lang="ca" id="perfil_name" type="text" required class="form-control my-border" placeholder="Nom">
 	       				<input lang="ca" id="perfil_surname" type="text" required class="form-control my-border" placeholder="Cognom">
 	       				<br>
-	       				<input lang="ca" id="perfil_email" type="email" required class="form-control my-border" placeholder="Correu">
+	       				<input lang="ca" id="perfil_email" type="hidden" required class="form-control my-border" placeholder="Correu">
 	        			<br>
 		      			<br>  		
 		        		<p>
@@ -275,9 +279,9 @@
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>

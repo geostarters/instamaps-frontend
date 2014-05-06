@@ -59,6 +59,7 @@ var paramUrl = {
 	visorPage:"/geocatweb/visor.html",
 	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
+	comentarisPage:"http://betaportal.icgc.cat",
 	wmsOpenData:"/dadesobertes/wms/service?",
 	tmsOpenData:"/geocatcache/?",
 	getAllMapsByUser: HOST_APP+"geocat/aplications/map/getAllMapsByUser.action?",
@@ -118,21 +119,33 @@ var paramUrl = {
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
 	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",
-	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?"
+	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?",
+	reminderMail: HOST_APP+"geocat/user/reminderMail.action?",
+	renewPassword: HOST_APP+"geocat/user/renewPassword.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
 	//alert("ajax send!");
 	$('.waiting_animation').show();
+	if (typeof map !== 'undefined'){
+		map.spin(true);
+		setTimeout(function(){
+			map.spin(false);
+		},5000);
+	}
 //	}
 });
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	$('.waiting_animation').hide();
+	if (typeof map !== 'undefined'){
+		map.spin(false);
+	}
 	if (jqxhr.responseJSON){
 		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
 			sessionExpired();
 		}
 	}
 });
+

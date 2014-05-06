@@ -34,7 +34,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 	
 	jQuery("#signin_button").click(function(event){ 
 		event.preventDefault();
-		
+		jQuery("#signin_username").val(jQuery("#signin_email").val());
 		var name = jQuery("#signin_name").val();
 		var surname = jQuery("#signin_surname").val();
 		var id = jQuery("#signin_username").val();
@@ -69,14 +69,15 @@ var text_confirma_dades = 'Confirmeu les dades';
 						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						
 						jQuery('#button-alta-ok').click(function(){
-							window.location=paramUrl.mapaPage;
-							/*
 							if(results.results === 'login_map'){
-								window.location=paramUrl.mapaPage;
+								if (results.mapBusinessId){
+									window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+								}else{
+									window.location=paramUrl.mapaPage;
+								}
 							}else{
-								window.location=paramUrl.loginPage;
+								window.location=paramUrl.mapaPage;
 							}
-							*/
 						});
 						$('.waiting_animation').hide();
 						

@@ -30,10 +30,15 @@ jQuery("#login_button").click(function(){
 		}
 		
 		doLogin(dataUrl).then(function(results){
+			console.debug(results);
 			if(results.status==='OK'){
 				$.cookie('uid', user_login, {path:'/'});
 				if(results.results === 'login_map'){
-					window.location=paramUrl.mapaPage;
+					if (results.mapBusinessId){
+						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+					}else{
+						window.location=paramUrl.mapaPage;
+					}
 				}else{
 					window.location=paramUrl.galeriaPage+"?private=1";
 				}
@@ -45,9 +50,9 @@ jQuery("#login_button").click(function(){
 				$('#modal_login_ko').modal('toggle');				
 			}				
 		},function(results){
+			console.debug(results);
 			$('#modal_login_ko').modal('toggle');					
 		});
-
 	}
 });
 
@@ -66,14 +71,21 @@ function loginUserIcgc(){
 			if(results.status==='OK'){
 				$.cookie('uid', user_login_icgc, {path:'/'});
 				if(results.results === 'login_map'){
-					window.location="/geocatweb/mapa.html";
+					if (results.mapBusinessId){
+						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+					}else{
+						window.location=paramUrl.mapaPage;
+					}
 				}else{
-					window.location="/geocatweb/galeria.html?private=1";
+					window.location=paramUrl.galeriaPage+"?private=1";
 				}
 			}else if (results.status === 'MAIL'){
+				/*
+				//solo para local OJO al subir
 				if(results.url.indexOf('instamapes.icgc.cat')!= -1){
 					results.url = results.url.replace('instamapes.icgc.cat','localhost');
 				}
+				*/
 				window.location = results.url;
 			}else if(results.results === 'cannot_authenticate'){
 				$('#dialog_session_icgc').modal('toggle');

@@ -232,7 +232,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 ////				row_conf.appendChild(row2);
 //				col.appendChild(row2);
 				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-download');
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save');
 				col.layerId = input.layerId;
 				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 				row.appendChild(col);
@@ -254,7 +254,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			}else{
 				
-				col = L.DomUtil.create('div', 'leaflet-download-visor glyphicon glyphicon-download');
+				col = L.DomUtil.create('div', 'leaflet-download-visor glyphicon glyphicon-save');
 				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);				
@@ -302,7 +302,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 		var name_sublayer = document.createElement('span');
 		name_sublayer.className = 'editable';
-		name_sublayer.id=layerIdParent;
+		name_sublayer.idParent=layerIdParent;
+		name_sublayer.id=L.stamp(sublayer.layer);
 		name_sublayer.innerHTML = ' ' + sublayer.name;
 		
 		var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
@@ -349,7 +350,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
 			
-			//Si la capa clickada és heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
+			//Si la capa clickada ï¿½s heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
 			if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
 				input.checked = false;
 			}

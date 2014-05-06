@@ -74,7 +74,12 @@ var llista_servidorsWMS = {
 				"IDARXIU" : "http://guifi.net/cgi-bin/mapserv?map=/home/guifi/maps.guifi.net/guifimaps/GMap.map&",
 				"URN" : "urn:uuid:63013742-233c-11e2-a4dd-13da4f953834"
 			},
-
+			{
+                "TITOL" : "Mapa trànsit en temps real",
+                "ORGANITZAC" : "Servei Català de Trànsit ",
+                "IDARXIU" : "http://sctwms.gencat.cat/WMS/mapserv.exe?map=//sctbrsscc05/AGATA/EstatdelTransit.map&amp",
+                "URN" : "urn:uuid:fe8365ca-233c-11e2-a4dd-13da4f953834"
+			}
 	]
 };
 
@@ -236,7 +241,7 @@ function addExternalWMS() {
 	});
 	ActiuWMS.layers = cc.join(',');
 	
-	var wmsLayer = L.tileLayer.wms(ActiuWMS.url, {
+	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
 		layers : ActiuWMS.layers,
 		crs : ActiuWMS.epsg,
 		transparent : true,

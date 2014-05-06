@@ -7,6 +7,10 @@ jQuery(document).ready(function() {
 	weball_tornarInici();		
 	window.lang.run();
 	lsLang=web_determinaIdioma();
+	if (lsLang == null || lsLang == "null"){
+		lsLang = "ca";
+		canviaIdioma(lsLang);
+	}
 	web_menusIdioma(lsLang);
 	initHover();
     checkUserLogin();
@@ -14,6 +18,11 @@ jQuery(document).ready(function() {
     if(currentLang === 'es')$("#es").addClass("active");
     else if(currentLang === 'en') $("#en").addClass("active");
     else $("#ca").addClass("active");
+    
+	jQuery("#hl_contact").on('click', function() {
+		jQuery(this).attr('href','mailto:instamapes@icgc.cat');
+		
+	});
     
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
@@ -24,7 +33,6 @@ jQuery(document).ready(function() {
 });
 
 function initCookies(){
-	//console.debug("initCookies");
 	cc.initialise({
 		cookies: {analytics: {}},
 		settings: {
@@ -76,14 +84,15 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = $.cookie('uid');
-	if( uid == undefined || (uid.indexOf("random_") != -1 && uid.indexOf("random_") == 0)){
+	if(!uid || isRandomUser(uid)){
 		$("#menu_login").show();
 		$("#menu_user").hide();
 		$("#text_username").remove();
 	}else {
 		$("#menu_login").hide();
 		$("#menu_user").show();	
-		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
+//		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
+		$("#text_username").text(" "+uid);
 		var galeria_url = paramUrl.galeriaPage + "?private=1";
 		$("#galeria a").attr('href', galeria_url);
 	}
@@ -97,7 +106,6 @@ function checkUserLogin(){
 //}
 
 function web_menusIdioma(lsLang){
-	
 	jQuery('#ch_idioma li').each(function() {
 	jQuery(this).removeClass('active');
 		if (jQuery(this).attr('id') ==lsLang){
@@ -122,14 +130,13 @@ function canviaIdioma(lsLang){
 }
 
 function web_determinaIdioma(){
-		
 	if(localStorage){
 		var lsLang = localStorage.getItem('langJs_currentLang');
-		window.lang.change(lsLang);	
+		if (lsLang != null && lsLang != "null"){
+			window.lang.change(lsLang);
+		}
 	}else{
-		
-		var lsLang =obteValorURL("hl");
-		
+		var lsLang = obteValorURL("hl");
 		window.lang.change(lsLang);		
 		jQuery("a[id^='hl_']").each(function(index){
 			var _href=jQuery(this).attr('href');
@@ -161,13 +168,16 @@ function web_roundCircles(){
 function weball_tornarInici(){
 	
 jQuery("#back-top").hide();
+jQuery('#fes-mapa-inici').hide();
 	
 	jQuery(function () {
 		jQuery(window).scroll(function () {
 			if (jQuery(this).scrollTop() > 150) {
 				jQuery('#back-top').fadeIn();
+				jQuery('#fes-mapa-inici').fadeIn();
 			} else {
 				jQuery('#back-top').fadeOut();
+				jQuery('#fes-mapa-inici').fadeOut();
 			}
 		});
 
@@ -176,6 +186,9 @@ jQuery("#back-top").hide();
 				scrollTop: 0
 			}, 800);
 			return false;
+		});
+		jQuery('#fes-mapa-inici').click(function () {
+			window.open("../geocatweb/mapa.html","_self");
 		});
 	});
 }	
@@ -232,7 +245,7 @@ function isBlank(str) {
 }
 
 function logoutUser(){
-	if ($.cookie('uid') && $.cookie('uid').indexOf("random_") != -1 && $.cookie('uid').indexOf("random_") == 0){
+	if (isRandomUser($.cookie('uid'))){
 		deleteRandomUser({uid: $.cookie('uid')});
 	}
 	$.removeCookie('uid', { path: '/' });
@@ -263,17 +276,16 @@ function isRandomUser(user){
 
 function getTimeStamp() {
     var now = new Date();
-    
-    return (now.getFullYear()+''+(((now.getMonth() + 1) < 10)
+    return (now.getFullYear()+'/'+(((now.getMonth() + 1) < 10)
                     ? ("0" + (now.getMonth() + 1))
-                    : ((now.getMonth() + 1))) + ''+ 
+                    : ((now.getMonth() + 1))) + '/'+ 
             now.getDate() +'_'+
             ((now.getHours() < 10)
                     ? ("0" + now.getHours())
-                    : (now.getHours())) +''+
+                    : (now.getHours())) +':'+
              ((now.getMinutes() < 10)
                  ? ("0" + now.getMinutes())
-                 : (now.getMinutes())) +''+
+                 : (now.getMinutes())) +':'+
              ((now.getSeconds() < 10)
                  ? ("0" + now.getSeconds())
                  : (now.getSeconds())));

@@ -19,14 +19,22 @@ $(function(){
 			$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
 		});
 	});
-		
+	
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		var data = {uid: $.cookie('uid')};
 		loadGaleria(data).then(function(results){
+			results.results = jQuery.map( results.results, function( val, i ) {
+				if (val.options){
+					val.options = $.parseJSON(val.options);	
+				}
+				return val;
+			});
+			
 			var html = template(results);
 			$('#galeriaRow').append(html);
 						
 			$('.new_map').on('click', function(event){
+				_gaq.push(['_trackEvent', 'galeria', 'fer mapa'/*, 'acquisition'*/]);
 				window.location.href = paramUrl.mapaPage;
 			});
 			
@@ -82,12 +90,29 @@ $(function(){
 				$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
 			});
 			
+			$('.thumbnail').hover(function(){
+				var descAplicacio = $(this).find(".descAplicacio");
+				descAplicacio.fadeIn(500);
+				console.debug(descAplicacio.find(".starwarsbody").text().length);
+				if (descAplicacio.find(".starwarsbody").text().length > 160){
+					descAplicacio.find(".starwarsmain").addClass('starwars');
+					descAplicacio.find(".starwarsbody").addClass('starwarscontent');
+				}
+				return false;	
+			}, function(){
+				$(this).find(".descAplicacio").fadeOut();
+				return false;	
+			});
+			/*
+			$('.flip').hover(function(){
+				$(this).find(".card").toggleClass("flipped");
+				return false;
+			});
+			*/
 			window.lang.run();
-			
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
-			console.debug(results);
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
@@ -113,7 +138,22 @@ $(function(){
 				$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
 			});
 			
+			$('.thumbnail').hover(function(){
+				var descAplicacio = $(this).find(".descAplicacio");
+				descAplicacio.fadeIn(500);
+				console.debug(descAplicacio.find(".starwarsbody").text().length);
+				if (descAplicacio.find(".starwarsbody").text().length > 160){
+					descAplicacio.find(".starwarsmain").addClass('starwars');
+					descAplicacio.find(".starwarsbody").addClass('starwarscontent');
+				}
+				return false;	
+			}, function(){
+				$(this).find(".descAplicacio").fadeOut();
+				return false;	
+			});
+			
 			window.lang.run();
+			
 		});
 	}	
 });
