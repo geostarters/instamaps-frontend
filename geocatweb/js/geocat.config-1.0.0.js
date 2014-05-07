@@ -41,8 +41,8 @@ var proxydir = "maps";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
-	HOST_APP = "http://172.70.1.12/";
-//	HOST_APP = "http://localhost:8080/";
+	//HOST_APP = "http://172.70.1.12/";
+	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.12";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }

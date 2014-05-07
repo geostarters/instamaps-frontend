@@ -892,8 +892,8 @@ background-color:#FFFFFF}
 	
 	.starwars{
 		position: absolute;
-		color: #ffff66;
-		font-weight: bold;
+		/*color: #ffff66;
+		font-weight: bold;*/
 		bottom: 0;
 		left: 50%;
 		margin-left: -9em;
@@ -904,17 +904,17 @@ background-color:#FFFFFF}
 		-ms-transform-origin: 50% 100%;
 		-o-transform-origin: 50% 100%;
 		transform-origin: 50% 100%;
-		-webkit-transform: perspective(200px) rotateX(25deg);
+		/*-webkit-transform: perspective(200px) rotateX(25deg);
 		-moz-transform: perspective(200px) rotateX(25deg);
 		-ms-transform: perspective(200px) rotateX(25deg);
 		-o-transform: perspective(200px) rotateX(25deg);
-		transform: perspective(200px) rotateX(25deg);
+		transform: perspective(200px) rotateX(25deg);*/
 	}
 	
 	.starwarscontent{
 		position: relative;
 		top: 100%;
-		animation: scroll 20s linear 1s infinite;
+		animation: scroll 10s linear 0.5s infinite;
 	}
 
 	@keyframes scroll {
