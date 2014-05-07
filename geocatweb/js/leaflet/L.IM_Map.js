@@ -60,9 +60,6 @@ var TOPO_OMBRA_L11_19= new L.TileLayer(URL_OMBRA,			  {
 	  worldCopyJump: false
 	  });
 
-
-
-
 L.IM_Map = L.Map.extend({
 
 	options: {
