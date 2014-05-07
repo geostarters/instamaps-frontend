@@ -217,7 +217,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		label.appendChild(name);
 		
 		//Comptador d'elements de la capa si es tematic, dades obertes
-		if(obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes ){
+		if(obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json){
 			var count = document.createElement('span');
 			count.className = 'layer-count';
 			count.id='count-'+obj.layer.options.businessId;
