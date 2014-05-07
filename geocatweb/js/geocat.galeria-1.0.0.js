@@ -93,7 +93,6 @@ $(function(){
 			$('.thumbnail').hover(function(){
 				var descAplicacio = $(this).find(".descAplicacio");
 				descAplicacio.fadeIn(500);
-				console.debug(descAplicacio.find(".starwarsbody").text().length);
 				if (descAplicacio.find(".starwarsbody").text().length > 160){
 					descAplicacio.find(".starwarsmain").addClass('starwars');
 					descAplicacio.find(".starwarsbody").addClass('starwarscontent');
@@ -141,7 +140,6 @@ $(function(){
 			$('.thumbnail').hover(function(){
 				var descAplicacio = $(this).find(".descAplicacio");
 				descAplicacio.fadeIn(500);
-				console.debug(descAplicacio.find(".starwarsbody").text().length);
 				if (descAplicacio.find(".starwarsbody").text().length > 160){
 					descAplicacio.find(".starwarsmain").addClass('starwars');
 					descAplicacio.find(".starwarsbody").addClass('starwarscontent');

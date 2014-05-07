@@ -1,4 +1,4 @@
-var map, controlCapes;
+var map, controlCapes, hashControl;
 var factorH = 50;
 var factorW = 0;
 var mapConfig = {};
@@ -103,7 +103,7 @@ function loadApp(){
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
 		
-		var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
+		var _minTopo= new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 		var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 		
 		L.control.scale({'metric':true,'imperial':false}).addTo(map);
@@ -410,16 +410,24 @@ function loadMapConfig(mapConfig){
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
 			}
-				
-			if (mapConfig.options.center){
-				var opcenter = mapConfig.options.center.split(",");
-				map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
-			}else if (mapConfig.options.bbox){
-				var bbox = mapConfig.options.bbox.split(",");
-				var southWest = L.latLng(bbox[1], bbox[0]);
-			    var northEast = L.latLng(bbox[3], bbox[2]);
-			    var bounds = L.latLngBounds(southWest, northEast);
-				map.fitBounds( bounds ); 
+			
+			var hash = location.hash;
+			hashControl = new L.Hash(map);
+			var parsed = hashControl.parseHash(hash);
+			
+			if (parsed){
+				hashControl.update();
+			}else{
+				if (mapConfig.options.center){
+					var opcenter = mapConfig.options.center.split(",");
+					map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+				}else if (mapConfig.options.bbox){
+					var bbox = mapConfig.options.bbox.split(",");
+					var southWest = L.latLng(bbox[1], bbox[0]);
+				    var northEast = L.latLng(bbox[3], bbox[2]);
+				    var bounds = L.latLngBounds(southWest, northEast);
+					map.fitBounds( bounds ); 
+				}
 			}
 		}
 		

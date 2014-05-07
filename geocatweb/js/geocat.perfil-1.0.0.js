@@ -2,7 +2,7 @@ var old_email;
 jQuery(document).ready(function() {
 	var username = $.cookie('uid'); 
 	if (username == undefined){
-		window.location.href = "/geocatweb/sessio.html";
+		window.location.href = paramUrl.loginPage;
 	}
 	
 	$("#text-uid").append(username);
@@ -99,7 +99,10 @@ jQuery("#perfil_button").click(function(){
 				if(results.status==='OK'){
 					$('#modal_perfil_ok').modal('toggle');
 					old_email = correu_usuari;
-
+					$.cookie('uid', correu_usuari, {path:'/'});
+					$('#modal_perfil_ok').on('hidden.bs.modal', function (e) {
+						window.location.href = paramUrl.perfilPage;
+					});
 				}else{
 					$('#modal_perfil_ko').modal('toggle');
 				}
@@ -109,8 +112,6 @@ jQuery("#perfil_button").click(function(){
 			);
 		}
 	});
-	
-	
 });
 
 function checkValidityPerfil(){
