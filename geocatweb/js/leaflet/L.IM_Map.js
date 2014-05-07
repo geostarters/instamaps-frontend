@@ -32,13 +32,13 @@ var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
 var URL_ESRI='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var URL_ESRI_T='http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}';
 var URL_MON='http://instamapes.icgc.cat/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.png';
-var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw';
-var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/orto_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw";
-var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topogris_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw'
-var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg?origin=nw';
-	
-//var URL_TOPOCOLOR='http://mapproxyd/map/bases_noutm/tiles/1.0.0/topo_EPSG900913/{z}/{x}/{y}.jpeg';
+
+var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
+var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg";
+var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
+var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_HISTORIC='http://instamapes.icgc.cat/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
+
 var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
 
 var URL_TERRAIN='http://instamapes.icgc.cat/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png';
