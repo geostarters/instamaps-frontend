@@ -1360,13 +1360,13 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	
 	capaDadaOberta.on('data:loaded', function(e){
 		
-		var datasetLength = capaDadaOberta.getLayers().length;
+//		var datasetLength = capaDadaOberta.getLayers().length;
 		
 		if(typeof url('?businessid') == "string"){
 			var data = {
 				uid:$.cookie('uid'),
 				mapBusinessId: url('?businessid'),
-				serverName: nom_dataset +" ("+datasetLength+")",
+				serverName: nom_dataset,// +" ("+datasetLength+")",
 				serverType: t_dades_obertes,
 				calentas: false,
 	            activas: true,
@@ -1381,7 +1381,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			
 			createServidorInMap(data).then(function(results){
 				if (results.status == "OK"){
-					capaDadaOberta.nom = nom_dataset +" ("+datasetLength+")";
+					capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
 					capaDadaOberta.options.businessId = results.results.businessId;
 					capaDadaOberta.addTo(map)
 					capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
@@ -1392,10 +1392,10 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			});
 			
 		}else{
-			capaDadaOberta.nom = nom_dataset +" ("+datasetLength+")";
-			capaDadaOberta.addTo(map)
+			capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+			capaDadaOberta.addTo(map);
 			capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-			controlCapes.addOverlay(capaDadaOberta, nom_dataset +" ("+datasetLength+")", true);
+			controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
 			controlCapes._lastZIndex++;
 			activaPanelCapes(true);
 		}		
@@ -2352,8 +2352,58 @@ function gestioCookie(from){
 	}
 }
 
+function addURLfitxerLayer(){
+	
+//	var url = jQuery("#txt_URLfitxer").val();
+	var url = 'https://dl.dropboxusercontent.com/u/1599563/campings.json';
+	
+	xhr(url, function(err, response) {
+        if (err) {//return layer.fire('error', { error: err });
+        	console.debug("Error xhr");
+        }else{
+        	console.debug(response);
+            addData(layer, JSON.parse(response.responseText));
+            layer.fire('ready');
+        }
 
-/* LLEGENDA */
+    });
+	
+//	var runLayer = omnivore.geojson('https://dl.dropboxusercontent.com/u/1599563/campings.json', null, L.FeatureGroup())
+//    .on('ready', function() {
+//    	console.debug(runLayer);
+//        // An example of customizing marker styles based on an attribute.
+//        // In this case, the data, a CSV file, has a column called 'state'
+//        // with values referring to states. Your data might have different
+//        // values, so adjust to fit.
+//        this.eachLayer(function(marker) {
+//        	console.debug(marker);
+////            if (marker.toGeoJSON().properties.state === 'CA') {
+////                // The argument to L.mapbox.marker.icon is based on the
+////                // simplestyle-spec: see that specification for a full
+////                // description of options.
+////                marker.setIcon(L.mapbox.marker.icon({
+////                    'marker-color': '#55ff55',
+////                    'marker-size': 'large'
+////                }));
+////            } else {
+////                marker.setIcon(L.mapbox.marker.icon({}));
+////            }
+////            // Bind a popup to each icon based on the same properties
+////            marker.bindPopup(marker.toGeoJSON().properties.city + ', ' +
+////                marker.toGeoJSON().properties.state);
+//        });
+//        map.fitBounds(this.getBounds());
+//    })
+//    .on('error', function() {
+//        // fired if the layer can't be loaded over AJAX
+//        // or can't be parsed
+//    	console.debug("Error omnivore");
+//    })
+//    .addTo(map);	
+	
+}
+
+/*************** LLEGENDA ********************/
 function addLegend(){
 	var legend = L.control({position: 'bottomright'});
 
@@ -2425,7 +2475,7 @@ function addLayerToLegend(layer, count){
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 		
 		html += '<div class="col-md-2 legend-symbol">'+
-					'<img src="img/paleta1.png" class="btn-paleta" style=""/>'+
+					'<img src="img/clustering.png" class="btn-paleta" style=""/>'+
 				'</div>'+
 				'<div class="col-md-9 legend-name">'+
 					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
@@ -2437,7 +2487,7 @@ function addLayerToLegend(layer, count){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
 		html += '<div class="col-md-2 legend-symbol">'+
-					'<img src="img/paleta2.png" class="btn-paleta" style=""/>'+
+					'<img src="img/heatmap.png" class="btn-paleta" style=""/>'+
 				'</div>'+
 				'<div class="col-md-9 legend-name">'+
 					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
@@ -2450,7 +2500,7 @@ function addLayerToLegend(layer, count){
 		
 		
 		var estil_do = layer.options.estil_do;
-		if(layer.options.options.estil_do) estil_do = layer.options.options.estil_do;//Si es JSON
+		if(layer.options.options && layer.options.options.estil_do) estil_do = layer.options.options.estil_do;//Si es JSON
 		else if(estil_do.options) estil_do = estil_do.options;
 		
 		if(estil_do.isCanvas || estil_do.markerColor.indexOf("punt_r")!=-1){
@@ -2943,17 +2993,7 @@ function checkColorAdded(controlColorCategoria, color){
 	return existeix;
 }
 
-//function stringCompare(string_1,string_2){
-//	var valid = true;
-//	for (var c=0; c<string_1.length; c++) {
-//	    if (string_1.charCodeAt(c) != string_2.charCodeAt(c)) {
-//	    	alert('c:'+c+' '+string_1.charCodeAt(c)+'!='+string_2.charCodeAt(c));
-//	    	valid = false;
-//	    	break;
-//	    }
-//	}	
-//	return valid;
-//}
+/*************** FI:LLEGENDA ********************/
 
 
 

@@ -602,7 +602,7 @@ function createPopupWindowData(player,type){
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
 //		alert( key + ": " + value );
-		if(key.indexOf("slot")==-1 && value!=undefined){
+		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
 				html+='<div class="popup_data_row">'+
 				'<div class="popup_data_key">'+key+'</div>'+
@@ -711,6 +711,9 @@ function createPopupWindow(layer,type){
 					//update rangs
 					getRangsFromLayer(capaUsrActiva);
 					
+					//NO CAL: com cridem addLayer, de controlCapes, ja s'actualitzen els comptadors de les capes
+					//updateFeatureCount(fromBusinessId, toBusinessId);
+					
 				}else{
 					console.debug("moveFeatureToTematic ERROR");
 				}
@@ -757,7 +760,9 @@ function createPopupWindow(layer,type){
 					console.debug("OK deletefeature");
 					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
 					map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);
-					map.removeLayer(map._layers[objEdicio.featureID]);
+					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);					
+					//Actualitzem comptador de la capa
+					updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
 				}else{
 					console.debug("ERROR deleteFeature");
 				}
@@ -1094,10 +1099,13 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 //							var html = createPopUpContent(feature,feature.options.tipus);
 							//feature.setPopupContent(html);
 							map.closePopup();
-							feature.openPopup();							
+							feature.openPopup();
 							
 							//update rangs
 						    getRangsFromLayer(capaUsrActiva);
+						    
+							//Actualitzem comptador de la capa
+						    updateFeatureCount(data.fromBusinessId, data.toBusinessId);
 						    
 						}else{
 							console.debug("moveFeatureToTematic ERROR");
@@ -1275,4 +1283,25 @@ function updateDialogStyleSelected(icon){
 		jQuery('#div_punt0').css('background-color',estilP.divColor);
 		jQuery('#div_punt0').css('color',estilP.colorGlif);			
 	}
+}
+
+function updateFeatureCount(fromBusinessId, toBusinessId){
+	
+	//Actualitzem comptador de la capa					
+	var sFromCount = $("#count-"+fromBusinessId).html();
+	sFromCount = sFromCount.replace("(", " ");
+	sFromCount = sFromCount.replace(")", " ");	
+	var fromCount = parseInt(sFromCount.trim());
+	fromCount=fromCount-1;
+	$("#count-"+fromBusinessId).html(' ('+fromCount+')');
+
+	if(toBusinessId){
+		var sToCount = $("#count-"+toBusinessId).html();
+		sToCount = sToCount.replace("(", " ");
+		sToCount = sToCount.replace(")", " ");	
+		var toCount = parseInt(sToCount.trim());
+		toCount=toCount+1;
+		$("#count-"+toBusinessId).html(' ('+toCount+')');		
+	}
+	console.debug("Fi updateFeatureCount");
 }

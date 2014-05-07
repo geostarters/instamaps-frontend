@@ -210,10 +210,21 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var col = L.DomUtil.create('div', 'leaflet-input');
 		col.appendChild(input);
 		row.appendChild(col);
+		
 		col = L.DomUtil.create('div', 'leaflet-name');
 		col.appendChild(label);
 		row.appendChild(col);
 		label.appendChild(name);
+		
+		//Comptador d'elements de la capa si es tematic, dades obertes
+		if(obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json){
+			var count = document.createElement('span');
+			count.className = 'layer-count';
+			count.id='count-'+obj.layer.options.businessId;
+			count.innerHTML = ' (' + obj.layer.getLayers().length + ')';		
+			label.appendChild(count);
+		}
+
 		
 		var container;
 		var modeMapa = ($(location).attr('href').indexOf('mapa')!=-1);
