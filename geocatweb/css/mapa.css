@@ -1962,3 +1962,22 @@ i.fa {
     padding-left: 2px;
     padding-right: 2px;    
 }
+
+.div_hill_f{
+	background-color: #FFFFFF;
+	
+}
+.div_hill{
+ background-image: url("images/hillshading.png");
+    height: 26px;
+    width: 26px;
+	opacity:0.5;
+}
+
+
+.div_hill_verd{
+ background-image: url("images/hillshading_verd.png");
+    height: 26px;
+    width: 26px;
+	opacity:0.5;
+}
