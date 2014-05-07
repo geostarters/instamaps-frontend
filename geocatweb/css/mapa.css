@@ -771,11 +771,14 @@ background-color: #9F9F9E;
 	width: 150px;
 }
 
-#dialog_dades_ex .modal-dialog,
 #dialog_layers_tematic .modal-dialog{
 	padding-top: 10%;
-	width: 40%;
-	
+	width: 40%;	
+}
+
+#dialog_dades_ex .modal-dialog{
+	padding-top: 10%;
+	width: 45%;		
 }
 
 #dialog_estils_punts .modal-dialog,
@@ -1034,6 +1037,16 @@ i.fa {
  border: 1px dashed #DDDDDD;
  width:100%;
  background-color: #EEEEEE;
+}
+
+.tbl_url_file{
+ /*border: 1px dashed #DDDDDD;*/
+ width:100%;
+ background-color: #EEEEEE;
+ /*min-height:50px;*/
+ max-height: 230px;
+ height: auto;
+ overflow:auto;
 }
 
 .bs-glyphicons {
