@@ -129,12 +129,12 @@ var ActiuWMS = {
 
 function getCapabilitiesWMS(url, servidor) {
 
-	jQuery('#div_layersWMS').addClass('waiting_animation');
+	//jQuery('#div_layersWMS').addClass('waiting_animation');
 	var _htmlLayersWMS = [];
 	getWMSLayers(url).then(function(results) {
-		jQuery('#div_layersWMS').removeClass(
-				'waiting_animation');
-		jQuery('#div_layersWMS').empty();
+		//jQuery('#div_layersWMS').removeClass('waiting_animation');
+		//jQuery('#div_layersWMS').empty();
+		jQuery('#div_layersWMS').html('');
 		jQuery('#div_emptyWMS').empty();
 
 		if (servidor == null) {
@@ -287,6 +287,7 @@ function addExternalWMS() {
 			if (results.status == "OK"){
 				wmsLayer.options.businessId = results.results.businessId;
 				map.addLayer(wmsLayer); //wmsLayer.addTo(map);
+				wmsLayer.bringToFront();
 				wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 				controlCapes._lastZIndex++;

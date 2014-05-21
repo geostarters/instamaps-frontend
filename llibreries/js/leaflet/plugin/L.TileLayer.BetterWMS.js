@@ -16,7 +16,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		var params = this.getFeatureInfoUrl(evt.latlng);
 		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
 		$.ajax({
-		url: paramUrl.proxy,
+		url: paramUrl.proxy_betterWMS,
 		data: {url: params},
 		success: function (data, status, xhr) {
 			var err = typeof data === 'string' ? null : data;

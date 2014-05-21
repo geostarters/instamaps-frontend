@@ -40,6 +40,11 @@ function geojsonLoad(url, options, customLayer) {
     xhr(url, function(err, response) {
         if (err) return layer.fire('error', { error: err });
         addData(layer, JSON.parse(response.responseText));
+        //Add CRS origin system
+        var d = JSON.parse(response.responseText);
+        if(d.crs){
+    		layer.options = d.crs;
+    	}          
         layer.fire('ready');
     });
     return layer;

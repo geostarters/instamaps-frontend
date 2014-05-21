@@ -1140,8 +1140,11 @@ function getRangsFromLayer(layer){
         };
               
         updateTematicRangs(data).then(function(results){
-              //console.debug(results);
-        });
+              console.debug(results);
+        },function(results){
+			//TODO error
+			console.debug("getRangsFromLayer ERROR");
+		});
 	}
 }
 

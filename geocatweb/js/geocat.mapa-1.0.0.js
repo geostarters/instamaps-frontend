@@ -92,6 +92,10 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
+	
+	//Carreguem definicions de SRS per poder fer transformaciosn amb omnivore
+	loadSRSDefs();
+	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
 	}else{
@@ -109,6 +113,28 @@ jQuery(document).ready(function() {
 		loadApp();
 	}
 }); // Final document ready
+
+function loadSRSDefs(){
+	
+	//ETRS89 / UTM zone 31N
+	Proj4js.defs["EPSG:25831"] = "+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs";	
+	//ED50 / UTM zone 31N
+	Proj4js.defs["EPSG:23031"] = "+proj=utm +zone=31 +ellps=intl   +units=m +no_defs  no_defs";
+	//WGS 84 / UTM zone 31N
+	Proj4js.defs["EPSG:32631"] = "+proj=utm +zone=31 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
+	//WGS 84
+	Proj4js.defs["EPSG:4326"] = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs  no_defs";
+	//ETRS89
+	Proj4js.defs["EPSG:4258"] = "+proj=longlat +ellps=GRS80 +datum=WGS84  +no_defs";
+	//ED50
+	Proj4js.defs["EPSG:4230"] = "+proj=longlat +ellps=intl +no_defs";
+	//WGS 84 / Pseudo-Mercator
+	Proj4js.defs["EPSG:3857"] = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs";
+	//WGS 84 / Pseudo-Mercator
+	Proj4js.defs["EPSG:900913"] = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs";
+	
+	Proj4js.defs["EPSG:26986"] = "+proj=lcc +lat_1=42.68333333333333 +lat_2=41.71666666666667 +lat_0=41 +lon_0=-71.5 +x_0=200000 +y_0=750000 +ellps=GRS80 +datum=NAD83 +units=m +no_defs";	
+}
 
 function loadApp(){
 	if(typeof url('?uid') == "string"){
@@ -1277,6 +1303,144 @@ function creaPopOverDadesExternes() {
 				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
 					addTwitterLayer();
 				});
+			}else if(tbA == "#id_url_file"){
+				jQuery(tbA).empty();
+				jQuery(tbA).html(
+						'<div class="panel-success"><div panel-heading">'+
+							'<div class="input-group txt_ext">'+
+								'<input type="text" lang="ca" class="form-control" value="" placeholder="Entrar URL fitxer" style="height:33px" id="txt_URLfile">'+ 
+								'<span class="input-group-btn">'+
+									'<button type="button" id="bt_URLfitxer" class="btn btn-success">'+
+										'<span class="glyphicon glyphicon-play"></span>'+
+									'</button>'+
+								'</span>'+
+							'</div>'+
+						'</div>'+
+						'<div id="div_url_file"  class="tbl_url_file"></div>'
+//						+'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
+				);
+				
+				jQuery("#bt_URLfitxer").on('click', function(e) {
+					var urlFile = jQuery("#txt_URLfile").val();
+//					var urlFile = 'https://dl.dropboxusercontent.com/u/1599563/campings_etrs89.geojson';
+					if(ValidURL(urlFile)){
+						
+						jQuery("#div_url_file").html(
+								'<br>'+
+								'<div class="input-group input-group-sm">'+
+									'<span lang="ca" class="input-group-addon">'+window.lang.convert("Nom capa")+'</span>'+
+									'<input type="text" id="input-url-file-name" class="form-control">'+
+								'</div>'+	
+								'<br>'+
+								'<div>'+
+								'Format:&nbsp;'+
+									'<select id="select-url-file-format" class="form-download-format">'+
+									  '<option value=".geojson">GeoJSON</option>'+
+									  '<option value=".shp">ESRI Shapefile</option>'+
+									  '<option value=".dxf">DXF</option>'+
+									  '<option value=".kml">KML</option>'+
+									  '<option value=".gpx">GPX</option>'+
+									  '<option value="-1">'+window.lang.convert("Sel·lecciona el Format")+'</option>'+
+									'</select>'+
+									'<br><br>'+
+								'EPSG:&nbsp;'+
+									'<select id="select-url-file-epsg" class="form-download-epsg">'+
+										'<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
+				              			'<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
+				              			'<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
+				              			'<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
+				              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
+				              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
+				              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
+				              			'<option value="-1">'+window.lang.convert("Sel·lecciona el EPSG")+'</option>'+
+									'</select>'+
+								'</div>&nbsp;'+
+								'<div>'+
+									'<span class="input-group-btn">'+
+									'<button type="button" id="bt_URLfitxer_go" class="btn btn-info">'+
+										'<span class="glyphicon glyphicon-play"></span>'+
+									'</button>'+
+									'</span>'+
+								'</div>'+
+								'<div id="div_url_file_message" class="alert alert-danger"></div>'
+						);
+						
+						jQuery("#div_url_file_message").hide();
+						
+						//Comprovem tipus del file
+						var type = "-1";
+						if(urlFile.indexOf(t_file_kml)!=-1) type = t_file_kml;
+						else if(urlFile.indexOf(t_file_gpx)!=-1) type = t_file_gpx;
+						else if(urlFile.indexOf(t_file_shp)!=-1) type = t_file_shp;
+						else if(urlFile.indexOf(t_file_dxf)!=-1) type = t_file_dxf;
+//						else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
+//						else if(urlFile.indexOf(t_file_wkt)!=-1) type = t_file_wkt;
+						else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
+						else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
+						else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
+						
+						$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
+						
+						if (type==".kml" ||type==".gpx"){
+							$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
+							jQuery("#select-url-file-epsg").attr('disabled',true);
+						}else{
+							$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
+							jQuery("#select-url-file-epsg").attr('disabled',false);
+						}
+						
+						var nom_capa = window.lang.convert("Capa de fitxer");
+						if(type!="-1") nom_capa+=type;
+						jQuery("#input-url-file-name").val(nom_capa);
+						
+						jQuery("#bt_URLfitxer_go").on('click', function(e) {
+							
+							jQuery("#div_url_file_message").empty();
+							jQuery("#div_url_file_message").hide();
+							var urlFile = jQuery("#txt_URLfile").val();
+							var type = jQuery("#select-url-file-format").val();
+							var epsg = jQuery("#select-url-file-epsg").val();
+							
+							if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1){
+								if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
+								if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
+							}else{
+								createURLfileLayer(urlFile, type, epsg);
+							}
+						});
+						
+						jQuery("#select-url-file-epsg").change(function(){
+							jQuery(this).removeClass("class_error");
+							jQuery("#div_url_file_message").empty();
+							jQuery("#div_url_file_message").hide();
+						});						
+						
+						jQuery('#select-url-file-format').change(function() {
+							jQuery(this).removeClass("class_error");
+							jQuery("#div_url_file_message").empty();
+							jQuery("#div_url_file_message").hide();
+							var ext = jQuery(this).val();
+							if ((ext==".kml")||(ext==".gpx")){
+								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
+								jQuery("#select-url-file-epsg").attr('disabled',true);
+							}else{
+								jQuery("#select-url-file-epsg").attr('disabled',false);	
+							}
+						});						
+								
+					}else{
+						jQuery("#div_url_file").html(
+								'<div id="txt_URLfile_error" class="alert alert-danger">'+
+									'<span class="glyphicon glyphicon-warning-sign"> </span> '+
+   									 window.lang.convert("Introdueix una URL vàlida")+
+								'</div>'
+						);
+					}
+				});
+				
+				$("#txt_URLfile").focus(function() {
+					jQuery("#div_url_file").empty();
+				});				
 			}		
 		});
 	})
@@ -1336,49 +1500,62 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		}
 	});
 	
-	capaDadaOberta.on('data:loaded', function(e){
+	
+	L.Util.jsonp(param_url).then(function(data){
 		
-//		var datasetLength = capaDadaOberta.getLayers().length;
+		capaDadaOberta.on('data:loaded', function(e){
+			
+			if(typeof url('?businessid') == "string"){
+				var data = {
+					uid:$.cookie('uid'),
+					mapBusinessId: url('?businessid'),
+					serverName: nom_dataset,
+					serverType: t_dades_obertes,
+					calentas: false,
+		            activas: true,
+		            visibilitats: true,
+		            order: controlCapes._lastZIndex+1,
+		            epsg: '4326',
+		            transparency: true,
+		            visibilitat: visibilitat_open,
+					options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
+				};
+				
+				createServidorInMap(data).then(function(results){
+					if (results.status == "OK"){
+						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+						capaDadaOberta.options.businessId = results.results.businessId;
+						capaDadaOberta.addTo(map)
+						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+						controlCapes._lastZIndex++;
+						activaPanelCapes(true);
+					}
+				});
+				
+			}else{
+				capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+				capaDadaOberta.addTo(map);
+				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+				controlCapes._lastZIndex++;
+				activaPanelCapes(true);
+			}		
+			
+		});	
 		
-		if(typeof url('?businessid') == "string"){
-			var data = {
-				uid:$.cookie('uid'),
-				mapBusinessId: url('?businessid'),
-				serverName: nom_dataset,// +" ("+datasetLength+")",
-				serverType: t_dades_obertes,
-				calentas: false,
-	            activas: true,
-	            visibilitats: true,
-	            order: controlCapes._lastZIndex+1,
-	            epsg: '4326',
-	            transparency: true,
-	            visibilitat: visibilitat_open,
-				options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
-			};
+	},function(data){
+		if(data.results.indexOf("CONVERT ERROR")!= -1){
+			var txt_error = window.lang.convert("Error en el tractament de les dades");
+			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
+		}
+		else{
+			var txt_error = window.lang.convert("Error d'accés a la font de dades");
+			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
+		}
+	});	
+	
 
-			
-			createServidorInMap(data).then(function(results){
-				if (results.status == "OK"){
-					capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
-					capaDadaOberta.options.businessId = results.results.businessId;
-					capaDadaOberta.addTo(map)
-					capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-					controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-					controlCapes._lastZIndex++;
-					activaPanelCapes(true);
-				}
-			});
-			
-		}else{
-			capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
-			capaDadaOberta.addTo(map);
-			capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-			controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-			controlCapes._lastZIndex++;
-			activaPanelCapes(true);
-		}		
-		
-	});
 }
 
 
@@ -1441,7 +1618,7 @@ function generaLListaDadesObertes() {
 				+ '<a target="_blank" lang="ca" title="Informació de les dades" href="'+dataset.urn+'"><span class="glyphicon glyphicon-info-sign info-explora"></span></a>'							
 				+'</li>');
 		});
-		_htmlDadesObertes.push('</ul></div>');
+		_htmlDadesObertes.push('</ul><div id="div_do_message"></div></div>');
 	});
 }
 
@@ -1560,11 +1737,18 @@ function loadLayer(value){
 	if(value.serverType == t_wms){
 		loadWmsLayer(value);
 		defer.resolve();
-		//Si la capa es de tipus dades obertes
+	//Si la capa es de tipus json
 	}else if(value.serverType == t_json){
 		loadCapaFromJSON(value).then(function(){
 			defer.resolve();
 		});
+		//Si la capa es de tipus url file
+	}else if(value.serverType == t_url_file){
+//		loadURLfileLayer(value).then(function(){
+//			defer.resolve();
+//		});	
+		loadURLfileLayer(value);
+		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
 		loadDadesObertesLayer(value);
@@ -2093,11 +2277,7 @@ function loadDadesObertesLayer(layer){
 		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaDadaOberta.addTo(map);
 		}
-		
-		capaDadaOberta.eachLayer(function(layer) {
-			//console.debug("1"+layer);
-		});		
-		
+				
 		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
 			capaDadaOberta.options.zIndex = controlCapes._lastZIndex + 1;
 		}else{
@@ -2108,8 +2288,11 @@ function loadDadesObertesLayer(layer){
 //		controlCapes._lastZIndex++;
 		
 		if(!options.origen){
-			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
-			controlCapes._lastZIndex++;
+			//Fins que no estigui carregada del tot no afegim al controlcapes (per tenir be el comptador de features)
+			capaDadaOberta.on('data:loaded', function(e){
+				controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
+				controlCapes._lastZIndex++;
+			});
 		}else{//Si te origen es una sublayer
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			capaDadaOberta.options.zIndex = capesOrdre_sublayer;
@@ -2339,56 +2522,6 @@ function gestioCookie(from){
 	}
 }
 
-function addURLfitxerLayer(){
-	
-//	var url = jQuery("#txt_URLfitxer").val();
-	var url = 'https://dl.dropboxusercontent.com/u/1599563/campings.json';
-	
-	xhr(url, function(err, response) {
-        if (err) {//return layer.fire('error', { error: err });
-        	console.debug("Error xhr");
-        }else{
-        	console.debug(response);
-            addData(layer, JSON.parse(response.responseText));
-            layer.fire('ready');
-        }
-
-    });
-	
-//	var runLayer = omnivore.geojson('https://dl.dropboxusercontent.com/u/1599563/campings.json', null, L.FeatureGroup())
-//    .on('ready', function() {
-//    	console.debug(runLayer);
-//        // An example of customizing marker styles based on an attribute.
-//        // In this case, the data, a CSV file, has a column called 'state'
-//        // with values referring to states. Your data might have different
-//        // values, so adjust to fit.
-//        this.eachLayer(function(marker) {
-//        	console.debug(marker);
-////            if (marker.toGeoJSON().properties.state === 'CA') {
-////                // The argument to L.mapbox.marker.icon is based on the
-////                // simplestyle-spec: see that specification for a full
-////                // description of options.
-////                marker.setIcon(L.mapbox.marker.icon({
-////                    'marker-color': '#55ff55',
-////                    'marker-size': 'large'
-////                }));
-////            } else {
-////                marker.setIcon(L.mapbox.marker.icon({}));
-////            }
-////            // Bind a popup to each icon based on the same properties
-////            marker.bindPopup(marker.toGeoJSON().properties.city + ', ' +
-////                marker.toGeoJSON().properties.state);
-//        });
-//        map.fitBounds(this.getBounds());
-//    })
-//    .on('error', function() {
-//        // fired if the layer can't be loaded over AJAX
-//        // or can't be parsed
-//    	console.debug("Error omnivore");
-//    })
-//    .addTo(map);
-}
-
 /*
  * Obtener los businessId de las capas para crear los json
  */
@@ -2404,6 +2537,7 @@ function getBusinessIdOrigenLayers(){
     });
     lBusinessId = lBusinessId.substring(0, lBusinessId.length - 1);
     return lBusinessId;
+	
 }
 
 

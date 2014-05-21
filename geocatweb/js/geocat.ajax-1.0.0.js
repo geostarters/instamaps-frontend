@@ -525,3 +525,13 @@ function publicarCapesMapa(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function getUrlFile(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFile,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
