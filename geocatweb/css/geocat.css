@@ -1095,6 +1095,13 @@ background-color:#FFFFFF}
 
 /*end old browser message*/
 
+/*stats*/
+
+h1.big_text{
+	font-size: 76pt;
+}
+
+
 /*** twitter-typeahead ***/
 /*
 .twitter-typeahead .tt-hint {

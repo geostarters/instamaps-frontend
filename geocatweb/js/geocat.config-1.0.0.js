@@ -35,8 +35,8 @@ var capesOrdre_sublayer = "sublayer";//10000;
 
 var msg_noguarda = "Per publicar o compartir el mapa has d'iniciar sessió";
 
-var HOST_APP = "http://84.88.72.36/";
-var GEOCAT02 = "http://84.88.72.36";
+var HOST_APP = "http://instamapes.icgc.cat/";
+var GEOCAT02 = "http://instamapes.icgc.cat";
 var proxydir = "maps";
 
 var urlApp=document.location.href;
@@ -83,6 +83,7 @@ var paramUrl = {
 	createData: HOST_APP+"geocat/layers/data/createData.action?",
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
 	getTematicLayerByBusinessId:HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
+	getCacheTematicLayerByBusinessId: HOST_APP+"geocat/layers/tematic/getCacheTematicLayerByBusinessId.action?",
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
@@ -106,7 +107,6 @@ var paramUrl = {
 	urlGeoCoder:"http://www.icc.cat/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
-	getTematicLayer: HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
 	getDownloadLayer:GEOCAT02+"/share/jsp/download_layer.jsp?",
 	deleteServidorWMS: HOST_APP+"geocat/layers/servidor/wms/deleteServidorWMS.action?",
 	addFeatureToTematic: HOST_APP+"geocat/layers/tematic/addFeatureToTematic.action?",
@@ -122,7 +122,13 @@ var paramUrl = {
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",
 	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?",
 	reminderMail: HOST_APP+"geocat/user/reminderMail.action?",
-	renewPassword: HOST_APP+"geocat/user/renewPassword.action?"
+	renewPassword: HOST_APP+"geocat/user/renewPassword.action?",
+	getNumEntitatsActives: HOST_APP+"geocat/stats/getNumEntitatsActives.action?",
+	getNumMapes: HOST_APP+"geocat/stats/getNumMapes.action?",
+	getNumCapes: HOST_APP+"geocat/stats/getNumCapes.action?",
+	download_layer: HOST_APP+"share/jsp/download_layer.jsp?",
+	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
+	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

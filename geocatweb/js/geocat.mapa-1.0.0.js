@@ -1216,87 +1216,6 @@ function carregarCapa(businessId){
 	};
 	
 	loadTematicLayer(data);
-	
-	/*
-	getTematicLayerByBusinessId(data).then(function(results){
-		console.debug(results);
-		//TODO
-		var capaFeatures=new L.FeatureGroup();
-		capaFeatures.options = {
-			businessId : results.results.businessId,
-			nom : results.results.nom,
-//			zIndex : controlCapes._lastZIndex+1
-		};
-		var geometryType = results.results.geometryType;
-		if (geometryType==t_marker){
-			capaFeatures.options.tipus = t_marker;
-		}else if (geometryType==t_polyline){
-			capaFeatures.options.tipus = t_polyline;
-		}else if (geometryType==t_polygon){
-			capaFeatures.options.tipus = t_polygon;
-		}else if (geometryType==t_multiple){
-			capaFeatures.options.tipus = t_multiple;
-		}
-		
-		//agregar la capa tematica al mapa. Leer los features y cargarlos
-		if (results.status=="OK") {
-			for (geometry in results.results.geometries.features.features){
-				var geometria=results.results.geometries.features.features[geometry].geometry;
-				var coordinates=""+geometria.coordinates;
-				var tipus=geometria.type;
-				if (tipus=="Point") {
-					var coords=coordinates.split(",");
-					var latlng = L.latLng(coords[0],coords[1]);
-					var circle=L.circleMarker(latlng,200);
-					capaFeatures.addLayer(circle);
-				}
-				if (tipus=="LineString"){
-					var coords=coordinates.split(",");
-					var i=0;
-					var j=0;
-					var llistaPunts=[];
-					while (i< coords.length){
-						var c1=coords[i];
-						var c2=coords[i+1];
-						var punt=new L.LatLng(c1, c2);
-						llistaPunts[j]=punt;
-						i=i+2;
-						j++;
-					}
-					var polyline =  L.polyline(llistaPunts, {color: 'red'});						
-					capaFeatures.addLayer(polyline);
-				}
-				if (tipus=="Polygon") {
-					var coords=coordinates.split(",");
-					var i=0;
-					var j=0;
-					var llistaPunts=[];
-					while (i< coords.length){
-						var c1=coords[i];
-						var c2=coords[i+1];
-						var punt=new L.LatLng(c1, c2);
-						llistaPunts[j]=punt;
-						i=i+2;
-						j++;
-					}
-					var polygon = new L.Polygon(llistaPunts,{color: 'red'});
-					capaFeatures.addLayer(polygon);				
-				}
-			}
-			capaFeatures.addTo(map);
-			
-			if (capaFeatures!=null){
-				controlCapes.addOverlay(capaFeatures,results.results.title, true);
-			}
-			
-			activaPanelCapes(true);	
-		}
-		else {
-			alert(results.status)
-		};
-	});
-	*/
-	
 }
 
 function creaPopOverDadesExternes() {
@@ -1444,7 +1363,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 					capaDadaOberta.options.businessId = results.results.businessId;
 					capaDadaOberta.addTo(map)
 					capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-					controlCapes.addOverlay(capaDadaOberta, nom_dataset +" ("+datasetLength+")", true);
+					controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
 					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 				}
@@ -1714,9 +1633,7 @@ function publicarMapa(fromCompartir){
 	options.fonsColor = map.getMapColor();
 	console.debug(options);
 	options = JSON.stringify(options);
-	
-
-	
+		
 	var newMap = true;
 	
 	if (jQuery('#businessId').val() != ""){
@@ -1743,6 +1660,15 @@ function publicarMapa(fromCompartir){
 	
 	_gaq.push(['_trackEvent', 'mapa', 'publicar', visibilitat, tipus_user]);
 	
+	//crear los archivos en disco
+	var layersId = getBusinessIdOrigenLayers();
+	var laydata = {
+		uid: $.cookie('uid'),
+		servidorWMSbusinessId: layersId
+	};
+	console.debug(laydata);
+	publicarCapesMapa(laydata);
+	
 	if (newMap){
 		createMap(data).then(function(results){
 			if (results.status == "ERROR"){
@@ -1762,8 +1688,10 @@ function publicarMapa(fromCompartir){
 			}else{
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				
 				mapConfig.newMap = false;
+				
+				
+				
 				if(!fromCompartir){
 					$('#dialgo_publicar').modal('hide');
 					//update map name en el control de capas
@@ -2458,9 +2386,26 @@ function addURLfitxerLayer(){
 //        // or can't be parsed
 //    	console.debug("Error omnivore");
 //    })
-//    .addTo(map);	
-	
+//    .addTo(map);
 }
+
+/*
+ * Obtener los businessId de las capas para crear los json
+ */
+function getBusinessIdOrigenLayers(){
+    var lBusinessId = "";
+    jQuery.each(controlCapes._layers, function(i, item){
+          lBusinessId += item.layer.options.businessId +",";
+          jQuery.each(item._layers, function(j, subitem){
+        	  if( subitem.layer.options.tipusRang == tem_simple || subitem.layer.options.tipusRang == tem_clasic){
+            	  lBusinessId += subitem.layer.options.businessId +",";
+              }
+          });
+    });
+    lBusinessId = lBusinessId.substring(0, lBusinessId.length - 1);
+    return lBusinessId;
+}
+
 
 /*************** LLEGENDA ********************/
 

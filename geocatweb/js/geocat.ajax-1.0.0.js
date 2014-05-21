@@ -143,7 +143,6 @@ function addFeatureToTematic(data){
 	}).promise();
 }
 
-
 function getTematicLayerByBusinessId(data){
 	return $.ajax({
 		url: paramUrl.getTematicLayerByBusinessId,
@@ -152,6 +151,13 @@ function getTematicLayerByBusinessId(data){
 	}).promise();
 }
 
+function getCacheTematicLayerByBusinessId(data){
+	return $.ajax({
+		url: paramUrl.getCacheTematicLayerByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
 
 function createFeature(data){
 	return $.ajax({
@@ -355,18 +361,11 @@ function doUploadFile(data){
 
 function getDownloadLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.proxy_download,
+		//url: paramUrl.proxy_download,
+		url: paramUrl.download_layer,
 		data: data,
 		type: "POST"
 //		dataType: 'html'
-	}).promise();
-}
-
-function getTematicLayer(data){
-	return jQuery.ajax({
-		url: paramUrl.getTematicLayer,
-		data: data,
-		dataType: 'jsonp'
 	}).promise();
 }
 
@@ -427,21 +426,12 @@ function updateFeature(data){
 
 function updateTematicRangs(data){
     return jQuery.ajax({
-    	url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
+    	//url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
+        url: paramUrl.updateTematicRangs,
         data: data,
         method: 'post'
     }).promise();
 }
-
-/*
-function updateTematicRangs(data){
-	return jQuery.ajax({
-          url: paramUrl.updateTematicRangs,
-          data: data,
-          dataType: 'jsonp'
-    }).promise();
-}
-*/
 
 function createRandomUser(){
 	return jQuery.ajax({
@@ -471,7 +461,6 @@ function getJSONPServei(url){
 	})
 }
 
-
 function updateServidorWMS(data){
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMS,
@@ -482,7 +471,8 @@ function updateServidorWMS(data){
 
 function duplicateTematicLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
+		//url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
+		url: paramUrl.duplicateTematicLayer,
 		data: data,
 		method: 'post'
 	}).promise();
@@ -504,3 +494,34 @@ function renewPassword(data){
 	}).promise();
 }
 
+function getNumEntitatsActives(){
+	return jQuery.ajax({
+		url: paramUrl.getNumEntitatsActives,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getNumMapes(){
+	return jQuery.ajax({
+		url: paramUrl.getNumMapes,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getNumCapes(){
+	return jQuery.ajax({
+		url: paramUrl.getNumCapes,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function publicarCapesMapa(data){
+	return jQuery.ajax({
+		url: paramUrl.publicarCapesMapa,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}

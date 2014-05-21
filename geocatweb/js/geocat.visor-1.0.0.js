@@ -515,7 +515,9 @@ function loadLayer(value){
 		else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
 		defer.resolve();
 	}else if(value.serverType == t_tematic){
-		loadTematicLayer(value).then(function(){
+		
+		loadCacheTematicLayer(value).then(function(){
+		//loadTematicLayer(value).then(function(){
 			defer.resolve();
 		});
 		
