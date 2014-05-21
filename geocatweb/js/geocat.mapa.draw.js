@@ -860,18 +860,18 @@ function reFillCmbCapesUsr(type, businessIdCapa){
 }
 
 function finishAddFeatureToTematic(layer){
-	//console.debug('finishAddFeatureToTematic');
 	var type = layer.options.tipus;
 	
 	//Afegir capa edicio a control de capes en cas que sigui nova
 	if (capaUsrActiva.toGeoJSON().features.length == 1) {
-		//Actualitzeem zIndex abans d'afegir al control de capes
+		//Actualitzem zIndex abans d'afegir al control de capes
 		capaUsrActiva.options.zIndex = controlCapes._lastZIndex+1; 								
 		controlCapes.addOverlay(capaUsrActiva,	capaUsrActiva.options.nom, true);
 		controlCapes._lastZIndex++;
-//		capaUsrActiva.options.zIndex = controlCapes._lastZIndex;//+1; 
-		//showEditText(layer);
 		activaPanelCapes(true);
+	}else{
+		//Actualitzem comptador de la capa
+	    updateFeatureCount(null, capaUsrActiva.options.businessId);		
 	}
 		
 	createPopupWindow(layer,type);
@@ -879,7 +879,6 @@ function finishAddFeatureToTematic(layer){
 }
 
 function updateFeatureNameDescr(layer, titol, descr){
-	//console.debug('updateFeatureNameDescr');
 	layer.properties.nom=titol;
 	layer.properties.text=descr;
 	
@@ -1287,13 +1286,15 @@ function updateDialogStyleSelected(icon){
 
 function updateFeatureCount(fromBusinessId, toBusinessId){
 	
-	//Actualitzem comptador de la capa					
-	var sFromCount = $("#count-"+fromBusinessId).html();
-	sFromCount = sFromCount.replace("(", " ");
-	sFromCount = sFromCount.replace(")", " ");	
-	var fromCount = parseInt(sFromCount.trim());
-	fromCount=fromCount-1;
-	$("#count-"+fromBusinessId).html(' ('+fromCount+')');
+	//Actualitzem comptador de la capa
+	if(fromBusinessId){
+		var sFromCount = $("#count-"+fromBusinessId).html();
+		sFromCount = sFromCount.replace("(", " ");
+		sFromCount = sFromCount.replace(")", " ");	
+		var fromCount = parseInt(sFromCount.trim());
+		fromCount=fromCount-1;
+		$("#count-"+fromBusinessId).html(' ('+fromCount+')');		
+	}
 
 	if(toBusinessId){
 		var sToCount = $("#count-"+toBusinessId).html();

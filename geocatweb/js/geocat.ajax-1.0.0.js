@@ -200,6 +200,7 @@ function updateMap(data){
 	return jQuery.ajax({
 		url: paramUrl.updateMap,
 		data: data,
+		method: 'post',
 		dataType: 'jsonp'
 	}).promise();
 }
@@ -208,9 +209,11 @@ function createMap(data){
 	return jQuery.ajax({
 		url: paramUrl.createMap,
 		data: data,
+		method: 'post',
 		dataType: 'jsonp'
 	}).promise();
 }
+
 
 function getAllServidorsWMSByUser(data){
 	return jQuery.ajax({
@@ -356,6 +359,7 @@ function doUploadFile(data){
 function getDownloadLayer(data){
 	return jQuery.ajax({
 		url: paramUrl.proxy_download,
+//		url: paramUrl.download_layer,
 		data: data,
 		type: "POST"
 //		dataType: 'html'
@@ -428,20 +432,11 @@ function updateFeature(data){
 function updateTematicRangs(data){
     return jQuery.ajax({
     	url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
+        //url: paramUrl.updateTematicRangs,
         data: data,
         method: 'post'
     }).promise();
 }
-
-/*
-function updateTematicRangs(data){
-	return jQuery.ajax({
-          url: paramUrl.updateTematicRangs,
-          data: data,
-          dataType: 'jsonp'
-    }).promise();
-}
-*/
 
 function createRandomUser(){
 	return jQuery.ajax({
@@ -471,7 +466,6 @@ function getJSONPServei(url){
 	})
 }
 
-
 function updateServidorWMS(data){
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMS,
@@ -483,6 +477,7 @@ function updateServidorWMS(data){
 function duplicateTematicLayer(data){
 	return jQuery.ajax({
 		url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
+//		url: paramUrl.duplicateTematicLayer,
 		data: data,
 		method: 'post'
 	}).promise();
@@ -504,3 +499,36 @@ function renewPassword(data){
 	}).promise();
 }
 
+function getNumEntitatsActives(){
+	return jQuery.ajax({
+		url: paramUrl.getNumEntitatsActives,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getNumMapes(){
+	return jQuery.ajax({
+		url: paramUrl.getNumMapes,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getNumCapes(){
+	return jQuery.ajax({
+		url: paramUrl.getNumCapes,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getUrlFile(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFile,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}

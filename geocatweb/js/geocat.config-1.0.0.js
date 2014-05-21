@@ -4,6 +4,7 @@ var t_wms = "wms";
 var t_json = "json";
 var t_xarxes_socials = "xarxes socials";
 var t_tematic = "tematic";
+var t_url_file = "url_file"
 var t_polyline = "polyline";
 var t_polygon = "polygon";
 var t_marker = "marker";
@@ -26,6 +27,16 @@ var from_creaPopup = "creaPopup";
 var from_creaCapa = "creaCapa";
 var visibilitat_open = 'O';
 var visibilitat_privat = 'P';
+
+var t_file_csv = ".csv";
+var t_file_gpx = ".gpx";
+var t_file_kml = ".kml";
+var t_file_wkt = ".wkt";
+var t_file_json = ".json";
+var t_file_geojson = ".geojson";
+var t_file_topojson = ".topojson";
+var t_file_shp = ".shp";
+var t_file_dxf = ".dxf";
 
 var t_user_loginat = 1;
 var t_user_random = 0;
@@ -52,7 +63,8 @@ var DOMINI = "instamapes.icgc.cat";
 var paramUrl = {
 	proxy:"/"+proxydir+"/proxy.cgi",
 	uploadproxy:"/"+proxydir+"/upload.cgi",
-	proxy_download:"/"+proxydir+"/download.cgi",	
+	proxy_download:"/"+proxydir+"/download.cgi",
+	proxy_betterWMS:"/"+proxydir+"/proxy_betterWMS.cgi",
 	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",
@@ -84,6 +96,7 @@ var paramUrl = {
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
 	getTematicLayerByBusinessId:HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
+	urlFile:GEOCAT02+"/share/jsp/urlFile.jsp?",
 	getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",

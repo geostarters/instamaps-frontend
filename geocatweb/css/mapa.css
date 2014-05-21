@@ -63,7 +63,7 @@ html,body {
 }
 
 .loader:after {
-  	content: "";
+  	/*content: "";*/
   	display: table;
   	clear: both;
 }
@@ -1047,6 +1047,7 @@ i.fa {
  max-height: 230px;
  height: auto;
  overflow:auto;
+ padding: 0 15px 15px 15px;
 }
 
 .bs-glyphicons {
@@ -1980,4 +1981,28 @@ i.fa {
     height: 26px;
     width: 26px;
 	opacity:0.5;
+}
+
+#txt_URLfile_error{
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.class_error{
+	border: 1px solid red;
+}
+.text_error{
+	color: red;
+}
+
+#div_url_file_message{
+	margin: 10px;
+    padding: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#div_do_message .alert {
+    font-weight: bold;
+    padding: 4px;
 }
