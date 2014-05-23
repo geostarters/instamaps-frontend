@@ -63,7 +63,7 @@ html,body {
 }
 
 .loader:after {
-  	/*content: "";*/
+  	content: "";
   	display: table;
   	clear: both;
 }
@@ -80,7 +80,7 @@ html,body {
   	float: left;
   	height: 100px;
   	line-height: 120px;
-  	width: 10%;
+  	width: 11%;
 }
 
 .loader > span {

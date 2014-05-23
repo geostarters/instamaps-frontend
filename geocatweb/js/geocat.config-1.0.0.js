@@ -141,7 +141,7 @@ var paramUrl = {
 	getNumCapes: HOST_APP+"geocat/stats/getNumCapes.action?",
 	download_layer: HOST_APP+"share/jsp/download_layer.jsp?",
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
-	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?"
+	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
 }
 
