@@ -1352,14 +1352,14 @@ function creaPopOverDadesExternes() {
 						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
 					}
 				});	
-			}else if(tbA == "#id_srvj"){
-				jQuery(tbA).empty();
-				jQuery(tbA).html(_htmlServeisJSON.join(' '));
-				jQuery("#bt_connJSON").on('click', function(e) {
-					if(e.target.id !="#id_srvj"){
-						getServeiJSONP(jQuery("#txt_URLJSON").val());
-					}
-				});		
+//			}else if(tbA == "#id_srvj"){
+//				jQuery(tbA).empty();
+//				jQuery(tbA).html(_htmlServeisJSON.join(' '));
+//				jQuery("#bt_connJSON").on('click', function(e) {
+//					if(e.target.id !="#id_srvj"){
+//						getServeiJSONP(jQuery("#txt_URLJSON").val());
+//					}
+//				});		
 			}else if(tbA == "#id_xs"){//Jess
 				var label_xarxes = "La informació es mostra en funció de l'àrea geogràfica visualitzada."
 				jQuery(tbA).html(
@@ -1404,112 +1404,122 @@ function creaPopOverDadesExternes() {
 				
 				jQuery("#bt_URLfitxer").on('click', function(e) {
 					var urlFile = jQuery("#txt_URLfile").val();
-//					var urlFile = 'https://dl.dropboxusercontent.com/u/1599563/campings_etrs89.geojson';
 					if(ValidURL(urlFile)){
 						
-						jQuery("#div_url_file").html(
-								'<br>'+
-								'<div class="input-group input-group-sm">'+
-									'<span lang="ca" class="input-group-addon">'+window.lang.convert("Nom capa")+'</span>'+
-									'<input type="text" id="input-url-file-name" class="form-control">'+
-								'</div>'+	
-								'<br>'+
-								'<div>'+
-								'Format:&nbsp;'+
-									'<select id="select-url-file-format" class="form-download-format">'+
-									  '<option value=".geojson">GeoJSON</option>'+
-									  '<option value=".shp">ESRI Shapefile</option>'+
-									  '<option value=".dxf">DXF</option>'+
-									  '<option value=".kml">KML</option>'+
-									  '<option value=".gpx">GPX</option>'+
-									  '<option value="-1">'+window.lang.convert("Sel·lecciona el Format")+'</option>'+
-									'</select>'+
-									'<br><br>'+
-								'EPSG:&nbsp;'+
-									'<select id="select-url-file-epsg" class="form-download-epsg">'+
-										'<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
-				              			'<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
-				              			'<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
-				              			'<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
-				              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
-				              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
-				              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
-				              			'<option value="-1">'+window.lang.convert("Sel·lecciona el EPSG")+'</option>'+
-									'</select>'+
-								'</div>&nbsp;'+
-								'<div>'+
-									'<span class="input-group-btn">'+
-									'<button type="button" id="bt_URLfitxer_go" class="btn btn-info">'+
-										'<span class="glyphicon glyphicon-play"></span>'+
-									'</button>'+
-									'</span>'+
-								'</div>'+
-								'<div id="div_url_file_message" class="alert alert-danger"></div>'
-						);
-						
-						jQuery("#div_url_file_message").hide();
-						
-						//Comprovem tipus del file
-						var type = "-1";
-						if(urlFile.indexOf(t_file_kml)!=-1) type = t_file_kml;
-						else if(urlFile.indexOf(t_file_gpx)!=-1) type = t_file_gpx;
-						else if(urlFile.indexOf(t_file_shp)!=-1) type = t_file_shp;
-						else if(urlFile.indexOf(t_file_dxf)!=-1) type = t_file_dxf;
-//						else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
-//						else if(urlFile.indexOf(t_file_wkt)!=-1) type = t_file_wkt;
-						else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
-						else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
-						else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
-						
-						$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
-						
-						if (type==".kml" ||type==".gpx"){
-							$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
-							jQuery("#select-url-file-epsg").attr('disabled',true);
-						}else{
-							$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
-							jQuery("#select-url-file-epsg").attr('disabled',false);
-						}
-						
-						var nom_capa = window.lang.convert("Capa de fitxer");
-						if(type!="-1") nom_capa+=type;
-						jQuery("#input-url-file-name").val(nom_capa);
-						
-						jQuery("#bt_URLfitxer_go").on('click', function(e) {
+						//URL PRESIDENT JSON
+						if(urlFile.indexOf(paramUrl.presidentJSON)!= -1){
+							jQuery("#div_url_file").html(
+									'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
+									'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
+							);
+							getServeiJSONP(urlFile);
 							
-							jQuery("#div_url_file_message").empty();
-							jQuery("#div_url_file_message").hide();
-							var urlFile = jQuery("#txt_URLfile").val();
-							var type = jQuery("#select-url-file-format").val();
-							var epsg = jQuery("#select-url-file-epsg").val();
+						}else{//LA RESTA
+							jQuery("#div_url_file").html(
+									'<br>'+
+									'<div class="input-group input-group-sm">'+
+										'<span lang="ca" class="input-group-addon">'+window.lang.convert("Nom capa")+'</span>'+
+										'<input type="text" id="input-url-file-name" class="form-control">'+
+									'</div>'+	
+									'<br>'+
+									'<div>'+
+									window.lang.convert("Format")+
+									':&nbsp;'+
+										'<select id="select-url-file-format" class="form-download-format">'+
+										  '<option value=".geojson">GeoJSON</option>'+
+										  '<option value=".shp">ESRI Shapefile</option>'+
+										  '<option value=".dxf">DXF</option>'+
+										  '<option value=".kml">KML</option>'+
+										  '<option value=".gpx">GPX</option>'+
+										  '<option value="-1">'+window.lang.convert("Sel·lecciona el Format")+'</option>'+
+										'</select>'+
+										'<br><br>'+
+									'EPSG:&nbsp;'+
+										'<select id="select-url-file-epsg" class="form-download-epsg">'+
+											'<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
+					              			'<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
+					              			'<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
+					              			'<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
+					              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
+					              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
+					              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
+					              			'<option value="-1">'+window.lang.convert("Sel·lecciona el EPSG")+'</option>'+
+										'</select>'+
+									'</div>&nbsp;'+
+									'<div>'+
+										'<span class="input-group-btn">'+
+										'<button type="button" id="bt_URLfitxer_go" class="btn btn-info">'+
+											'<span class="glyphicon glyphicon-play"></span>'+
+										'</button>'+
+										'</span>'+
+									'</div>'+
+									'<div id="div_url_file_message" class="alert alert-danger"></div>'
+							);
 							
-							if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1){
-								if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
-								if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
-							}else{
-								createURLfileLayer(urlFile, type, epsg);
-							}
-						});
-						
-						jQuery("#select-url-file-epsg").change(function(){
-							jQuery(this).removeClass("class_error");
-							jQuery("#div_url_file_message").empty();
 							jQuery("#div_url_file_message").hide();
-						});						
-						
-						jQuery('#select-url-file-format').change(function() {
-							jQuery(this).removeClass("class_error");
-							jQuery("#div_url_file_message").empty();
-							jQuery("#div_url_file_message").hide();
-							var ext = jQuery(this).val();
-							if ((ext==".kml")||(ext==".gpx")){
+							
+							//Comprovem tipus del file
+							var type = "-1";
+							if(urlFile.indexOf(t_file_kml)!=-1) type = t_file_kml;
+							else if(urlFile.indexOf(t_file_gpx)!=-1) type = t_file_gpx;
+							else if(urlFile.indexOf(t_file_shp)!=-1) type = t_file_shp;
+							else if(urlFile.indexOf(t_file_dxf)!=-1) type = t_file_dxf;
+//							else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
+//							else if(urlFile.indexOf(t_file_wkt)!=-1) type = t_file_wkt;
+							else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
+							else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
+							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
+							
+							$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
+							
+							if (type==".kml" ||type==".gpx"){
 								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',true);
 							}else{
-								jQuery("#select-url-file-epsg").attr('disabled',false);	
+								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
+								jQuery("#select-url-file-epsg").attr('disabled',false);
 							}
-						});						
+							
+							var nom_capa = window.lang.convert("Capa de fitxer");
+							if(type!="-1") nom_capa+=type;
+							jQuery("#input-url-file-name").val(nom_capa);
+							
+							jQuery("#bt_URLfitxer_go").on('click', function(e) {
 								
+								jQuery("#div_url_file_message").empty();
+								jQuery("#div_url_file_message").hide();
+								var urlFile = jQuery("#txt_URLfile").val();
+								var type = jQuery("#select-url-file-format").val();
+								var epsg = jQuery("#select-url-file-epsg").val();
+								
+								if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1){
+									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
+									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
+								}else{
+									createURLfileLayer(urlFile, type, epsg);
+								}
+							});
+							
+							jQuery("#select-url-file-epsg").change(function(){
+								jQuery(this).removeClass("class_error");
+								jQuery("#div_url_file_message").empty();
+								jQuery("#div_url_file_message").hide();
+							});						
+							
+							jQuery('#select-url-file-format').change(function() {
+								jQuery(this).removeClass("class_error");
+								jQuery("#div_url_file_message").empty();
+								jQuery("#div_url_file_message").hide();
+								var ext = jQuery(this).val();
+								if ((ext==".kml")||(ext==".gpx")){
+									$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
+									jQuery("#select-url-file-epsg").attr('disabled',true);
+								}else{
+									jQuery("#select-url-file-epsg").attr('disabled',false);	
+								}
+							});								
+						}
+						
 					}else{
 						jQuery("#div_url_file").html(
 								'<div id="txt_URLfile_error" class="alert alert-danger">'+
@@ -1632,7 +1642,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
 		}
 		else{
-			var txt_error = window.lang.convert("Error d'accés a la font de dades");
+			var txt_error = window.lang.convert("Impossible accedir a la font de dades");
 			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
 		}
 	});	

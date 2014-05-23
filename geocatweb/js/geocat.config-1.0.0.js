@@ -135,7 +135,8 @@ var paramUrl = {
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",
 	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?",
 	reminderMail: HOST_APP+"geocat/user/reminderMail.action?",
-	renewPassword: HOST_APP+"geocat/user/renewPassword.action?"
+	renewPassword: HOST_APP+"geocat/user/renewPassword.action?",
+	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

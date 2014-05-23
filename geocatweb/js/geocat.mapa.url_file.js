@@ -4,6 +4,8 @@
 
 function createURLfileLayer(urlFile, tipusFile, epsgIN){
 	
+	jQuery('#div_url_file').addClass('waiting_animation');
+	
 //	var nomCapa = window.lang.convert("Capa URL fitxer ");
 	var nomCapa = jQuery("#input-url-file-name").val();
 	nomCapa += tipusFile;
@@ -47,13 +49,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN){
 //	    	feature.geometry.coordinates[0]=latlng.lat;
 //		  	feature.geometry.coordinates[1]=latlng.lng;
 		    return geom.bindPopup(html);
-		  },
-		  success: function(results){
-			  console.debug(results);
-		  },
-		  fail: function(results){
-			  console.debug(results);
 		  }
+//	,
+//		  success: function(results){
+//			  console.debug(results);
+//		  },
+//		  fail: function(results){
+//			  console.debug(results);
+//		  }
 	});
 	
 
@@ -112,15 +115,17 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN){
 				//usuari no logat, no entra mai
 			}
 		});		
-		
+		jQuery('#div_url_file').removeClass('waiting_animation');
 	},function(data){
 		if(data.results.indexOf("CONVERT ERROR")!= -1){
 			var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 			jQuery("#div_url_file_message").html(txt_error);
 		}
 		else{
-			jQuery("#div_url_file_message").html(data.results);
+			var txt_error = window.lang.convert("Error durant el tractament del fitxer");
+			jQuery("#div_url_file_message").html(txt_error);
 		}
+		jQuery('#div_url_file').removeClass('waiting_animation');
 		jQuery("#div_url_file_message").show();
 	});
 	

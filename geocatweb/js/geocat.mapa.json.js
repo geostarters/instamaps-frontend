@@ -1,22 +1,18 @@
-var _htmlServeisJSON = [];
-
-_htmlServeisJSON.push('<div class="panel-success"><div panel-heading">');
-
-_htmlServeisJSON
-		.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLJSON" style="height:33px" placeholder="Entrar URL servei JSON" value="" class="form-control">');
-_htmlServeisJSON
-		.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connJSON"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
-
-//_htmlServeisJSON.push('<div class="small"
-
-//http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?
-
-_htmlServeisJSON.push('</div>');
-_htmlServeisJSON.push('</div>');
-_htmlServeisJSON
-		.push('<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>');
-_htmlServeisJSON
-		.push('<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>');
+//var _htmlServeisJSON = [];
+//
+//_htmlServeisJSON.push('<div class="panel-success"><div panel-heading">');
+//
+//_htmlServeisJSON.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLJSON" style="height:33px" placeholder="Entrar URL servei JSON" value="" class="form-control">');
+//_htmlServeisJSON.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connJSON"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+//
+////_htmlServeisJSON.push('<div class="small"
+//
+////http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?
+//
+//_htmlServeisJSON.push('</div>');
+//_htmlServeisJSON.push('</div>');
+//_htmlServeisJSON.push('<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>');
+//_htmlServeisJSON.push('<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>');
 
 var respostaJSON;
 var urlJSON;
@@ -25,7 +21,7 @@ function getServeiJSONP(purlJson) {
 	jQuery("#txt_URLJSON");
 	var _htmlJSONFields = [];
 
-	if (ValidURL(purlJson)) {
+//	if (ValidURL(purlJson)) {
 		jQuery('#div_layersJSON').addClass('waiting_animation');
 
 		getJSONPServei(purlJson).then(function(results) {
@@ -52,8 +48,7 @@ function getServeiJSONP(purlJson) {
 										+ "</option>");
 							}
 
-							jQuery('#div_layersJSON').removeClass(
-									'waiting_animation');
+							jQuery('#div_layersJSON').removeClass('waiting_animation');
 							jQuery('#div_layersJSON').empty();
 							jQuery('#div_emptyJSON').empty();
 
@@ -133,17 +128,20 @@ function getServeiJSONP(purlJson) {
 									'selected', true);
 
 						});
+		
+		jQuery(document).on('click', "#bt_addJSON", function(e) {
+			creaCapaFromJSON();
+		});		
+		
 
-	} else {
-
-		alert(window.lang.convert("La URL no sembla vàlida"));
-		return;
-	}
+//	} else {
+//
+//		alert(window.lang.convert("La URL no sembla vàlida"));
+//		return;
+//	}
 }
 
-jQuery(document).on('click', "#bt_addJSON", function(e) {
-	creaCapaFromJSON();
-});
+
 
 function creaCapaFromJSON() {
 
@@ -280,8 +278,10 @@ function creaCapaFromJSON() {
 	}
 	
 	//Buidem dialeg creacio capa JSON
-	jQuery('#div_layersJSON').empty();
-	jQuery('#txt_URLJSON').val('');	
+//	jQuery('#div_layersJSON').empty();
+//	jQuery('#txt_URLJSON').val('');	
+	jQuery('#div_url_file').empty();
+	jQuery('#txt_URLfile').val('');		
 }
 
 function loadCapaFromJSON(layer) {
