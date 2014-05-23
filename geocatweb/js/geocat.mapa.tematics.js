@@ -643,7 +643,7 @@ function readTematic(defer, results, layerWms, layer){
 	if(results.status == "OK" ){
 		var tematic = results.results;
 		var hasSource = (tematic.options && (tematic.options.indexOf("source")!=-1) );
-		console.debug(tematic);
+		//console.debug(tematic);
 		if(tematic.tipusRang == tem_heatmap){
 			loadTematicHeatmap(tematic, layer.capesOrdre, layer.options);
 		}else if(tematic.tipusRang == tem_cluster){

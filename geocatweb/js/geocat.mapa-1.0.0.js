@@ -1633,7 +1633,7 @@ function generaLListaDadesObertes() {
 }
 
 function loadMapConfig(mapConfig){
-	console.debug(mapConfig);
+	//console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
