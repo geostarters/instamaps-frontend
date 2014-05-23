@@ -1,6 +1,6 @@
 //español
 jquery_lang_js.prototype.lang.es = {
-	"<b>InstaMapes:</b><br>Fes el teu mapa":"<b>InstaMapes:</b><br>Haz tu mapa",
+	"<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Haz tu mapa",
 	"A les xarxes socials":"En las redes socials",
 	"Accedeix a les teves dades":"Accede a tus datos",
 	"Accedeix a tota la informació de":"Accede a toda la información de",
@@ -146,7 +146,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Gruix contorn:":"Grosor contorno",
 	"Gruix linia:":"Grosor línea",
 	"Ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió":"Ha caducado la sesión. Si quieres continuar trabajando vuelve a iniciar la sesión",
-	"Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a instamapes@icgc.cat, indicant el seu username per procedir al desbloqueig.":"Ha superado el número máximo de intentos. Cuenta bloqueada. Envíe un correo a XXXX, indicando su nombre de usuario para proceder al desbloqueo.",
+	"Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a InstaMaps@icgc.cat, indicant el seu username per procedir al desbloqueig.":"Ha superado el número máximo de intentos. Cuenta bloqueada. Envíe un correo a XXXX, indicando su nombre de usuario para proceder al desbloqueo.",
 	"Has de posar un nom de capa":"Tienes que poner un nombre de capa",
 	"Has oblidat la contrassenya?":"Has olvidado la contraseña?",
 	"Has oblidat la teva contrassenya?":"Ha olvidado tu contraseña?",
@@ -160,8 +160,8 @@ jquery_lang_js.prototype.lang.es = {
 	"Informació":"Información",
 	"Inicia la sessió":"Inicia la sesión",
 	"Insereix i enllaça":"Inserta i enlaza",
-	"InstaMapes encara no està operatiu. Hi estem treballant":"InstaMapes aún no está operativo, estamos trabajando.",
-	"Instamapes llegeix els següents formats":"Instamapes lee los siguientes formatos",
+	"InstaMaps encara no està operatiu. Hi estem treballant":"InstaMaps aún no está operativo, estamos trabajando.",
+	"InstaMaps llegeix els següents formats":"InstaMaps lee los siguientes formatos",
 	"L'adreça he de contenir: Nom carrer, número i  municipi":"La dirección debe contener: Nombre de calle, número y municipio",
 	"La contrassenya antiga no és correcte":"La contraseña antigua no es correcta",
 	"La contrassenya ha de tenir un mínim de 5 caràcters.":"La contraseña tiene que tener un mínimo de 5 caracteres.",
@@ -281,6 +281,6 @@ jquery_lang_js.prototype.lang.es = {
 	"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?",
 	"Vull ser le primer":"Quiero ser el primero",
 	"Xarxes socials":"Redes sociales",
-	"És la primera vegada que utilitzes InstaMapes?":"Es la primera vez que usas InstaMapes?",
+	"És la primera vegada que utilitzes InstaMaps?":"Es la primera vez que usas InstaMaps?",
 	"Únic":"Único",
 }
