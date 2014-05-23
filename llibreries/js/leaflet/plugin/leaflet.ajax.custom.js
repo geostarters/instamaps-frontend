@@ -423,7 +423,7 @@ function Promise(resolver) {
             if (typeof callback === 'function') {
                 immediate(execute,callback, value, queued.resolver, queued.rejecter);
             }else if(success){
-            	if(value.status && value.status == "ERROR"){
+            	if(value.status!=undefined && value.status == "ERROR"){
             		queued.rejecter(value);
             	}else{
             		queued.resolver(value);	

@@ -1044,7 +1044,7 @@ i.fa {
  width:100%;
  background-color: #EEEEEE;
  /*min-height:50px;*/
- max-height: 230px;
+ max-height: 270px;
  height: auto;
  overflow:auto;
  padding: 0 15px 15px 15px;
@@ -1986,6 +1986,7 @@ i.fa {
 #txt_URLfile_error{
 	font-weight: bold;
 	margin-bottom: 0px;
+	padding: 5px;
 }
 
 .class_error{
