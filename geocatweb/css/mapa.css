@@ -19,7 +19,23 @@ html,body {
 
 .leaflet-container .leaflet-control-mouseposition {
 	clear: none;
-	margin-left: 5px;	
+	margin-right: 5px;	
+}
+
+#logos {
+    background-color: #FFFFFF;
+    bottom: 7px;
+    cursor: pointer;
+    height: 46px;
+    left: 0;
+    opacity: 0.8;
+    padding: 0 10px;
+    position: absolute;
+    z-index: 1000;
+}
+
+#logos.logos{
+	left: 270px;
 }
 
 /*Animacio */

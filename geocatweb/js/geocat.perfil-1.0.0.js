@@ -29,6 +29,26 @@ jQuery(document).ready(function() {
 		$('#frm_update_pssw').toggle();
 	});
 	
+	$('#btn_delete_usr').on('click',function(){
+		$('#modal_delete_usr').modal('show');
+		
+		$('#button-delete-ok').on('click',function(){
+			var deleteOpt = $("input[name='optionsDelete']:checked").val();
+			var deleteOptTxt = $.trim($("input[name='optionsDelete']:checked").parent().text());
+			console.debug(deleteOpt);
+			console.debug(deleteOptTxt);
+			$('#modal_delete_usr').modal('hide');
+			$('#modal_delete_usr_conf').modal('show');
+			$('#deleteOptionText').text(deleteOptTxt);
+			$('#deleteOptionValue').val(deleteOpt);
+			
+			$('#button-delete-ok-conf').on('click',function(){
+				console.debug($('#deleteOptionValue').val());
+			});
+		});
+		
+	});
+	
 });
 
 jQuery("#perfil_button_pass").click(function(){

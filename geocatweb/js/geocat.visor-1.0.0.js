@@ -103,10 +103,11 @@ function loadApp(){
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
 		
+		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
+				
 		var _minTopo= new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 		var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 		
-		L.control.scale({'metric':true,'imperial':false}).addTo(map);
 		
 //		//iniciamos los controles
 //		initControls();

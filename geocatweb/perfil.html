@@ -92,8 +92,8 @@
 	<div class="container">
     	<div class="my-form-signin">
        		<section>
-       			<h2 id="text-uid"></h2>
-        		<h3  lang="ca" class="form-signin-heading">Administrar compte</h3>
+       			<h3 id="text-uid"></h3>
+        		<h4 lang="ca" class="form-signin-heading">Administrar compte</h4>
         		
         		<form id="frm_update_user" >
 	        		<fieldset>
@@ -130,6 +130,11 @@
         		</form>
         		
         		<br>
+        		
+<!--         		<p class="text-right"> -->
+<!--         		<button id="btn_delete_usr" lang="ca" type="button" class="btn btn-link btn-xs">Eliminar compte</button> -->
+<!--         		</p> -->
+        		
 			</section>
     	</div>
     	
@@ -262,14 +267,63 @@
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->							
 
+		<div class="modal fade" id="modal_delete_usr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Eliminar compte</span></h4>
+		        <div class="alert alert-warning"><strong>Warning!</strong>Una vez eliminada una cuenta no se podrá recuperar la misma.</div>
+		        <div class="radio text-left" lang="ca">
+		        	Que quieres hacer con tus datos
+		        </div>
+	        	<div class="radio text-left">
+				  <label>
+				    <input type="radio" name="optionsDelete" id="optionsDelete1" value="deleteAll" checked>
+				    <span lang="ca">Actualitzar contrassenya</span>
+				  </label>
+				</div>
+				<div class="radio text-left">
+				  <label>
+				    <input type="radio" name="optionsDelete" id="optionsDelete2" value="deletePersonal">
+				    Option two can be something else and selecting it will deselect option one
+				  </label>
+				</div>
+		        
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		      	<button type="button" class="btn btn-default no-radius" data-dismiss="modal">Cancel·lar</button>
+		        <button id="button-delete-ok" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+
+		<div class="modal fade" id="modal_delete_usr_conf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Eliminar compte</span></h4>
+		        <div class="alert alert-warning"><strong><span lang="ca">Cancel·lar</span>! </strong><span lang="ca" id="deleteOptionText"></span><span>Una vez eliminada una cuenta no se podrá recuperar la misma.</span></div>
+		        <input type="hidden" id="deleteOptionValue" value="">		        
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		      	<button type="button" class="btn btn-default no-radius" data-dismiss="modal">Cancel·lar</button>
+		        <button id="button-delete-ok-conf" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 	</div> 
 	</div>
 	<!-- /container -->
 
 	<footer>
-		<div class="container">
-			<p>InstaMaps Beta</p>
+		<div class="container text-center">
+			<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+				<img height="50" src="/llibreries/img/icgc.gif">
+			</a>
+			<span>InstaMaps Beta</span>
 		</div>
 	</footer>
 
