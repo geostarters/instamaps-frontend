@@ -516,7 +516,6 @@ function activaEdicioUsuari() {
 					zIndex :  -1,
 					tipus : t_tematic,
 					geometryType: t_polyline
-
 				};
 				map.addLayer(capaUsrActiva);
 				capaUsrActiva.on('layeradd',objecteUserAdded);
@@ -527,7 +526,8 @@ function activaEdicioUsuari() {
 					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
-					'tipusFeature':t_polyline};			
+					'tipusFeature':t_polyline,
+					'mida': calculateDistance(layer.getLatLngs()) };		
 			
 			layer.addTo(map);
 			capaUsrActiva.addLayer(layer);
@@ -536,6 +536,7 @@ function activaEdicioUsuari() {
 			tipusCat=window.lang.convert('Títol Polígon');
 			tipusCatDes=window.lang.convert('Descripció Polígon');	
 			var nomDefecteCapa = window.lang.convert('Capa Polígon');
+			var mida = L.GeometryUtil.geodesicArea(layer.getLatLngs());
 			
 			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polygon){
 				capaUsrActiva.removeEventListener('layeradd');
@@ -568,7 +569,8 @@ function activaEdicioUsuari() {
 					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
-					'tipusFeature':t_polygon};			
+					'tipusFeature':t_polygon,
+					'mida': calculateArea(layer.getLatLngs())};			
 			
 			layer.addTo(map);
 			capaUsrActiva.addLayer(layer);			
@@ -582,8 +584,15 @@ function createPopupWindowVisor(player,type){
 	var html='<div class="div_popup_visor">' 
 		+'<div class="popup_pres">'							
 		+'<div id="titol_pres_visor">'+player.properties.nom+'</div>'	
-		+'<div id="des_pres_visor">'+player.properties.text+'</div>'	
-		+'<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
+		+'<div id="des_pres_visor">'+parseUrlText(player.properties.text)+'</div>';
+	
+		if(type == t_polyline && player.properties.mida){
+			html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
+		}else if(type == t_polygon && player.properties.mida){
+			html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		}
+		
+		html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
 		+'</div></div>';
 	
 	player.bindPopup(html,{'offset':[0,-25]});	
@@ -597,7 +606,7 @@ function createPopupWindowData(player,type){
 		html+='<h4>'+player.properties.nom+'</h4>';
 	}
 	if (player.properties.text){
-		html+='<div>'+player.properties.text+'</div>';
+		html+='<div>'+parseUrlText(player.properties.text)+'</div>';
 	}
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
@@ -606,7 +615,7 @@ function createPopupWindowData(player,type){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
 				html+='<div class="popup_data_row">'+
 				'<div class="popup_data_key">'+key+'</div>'+
-			    '<div class="popup_data_value">'+value+'</div>'+
+			    '<div class="popup_data_value">'+parseUrlText(value)+'</div>'+
 			    '</div>';
 			}
 		}
@@ -617,11 +626,27 @@ function createPopupWindowData(player,type){
 	player.bindPopup(html,{'offset':[0,-25]});
 }
 
+function parseUrlText(txt){
+	var lwords = txt.split(" "); 
+	var parseText = "";
+	for(index in lwords){
+		var text;
+		var word = lwords[index];
+		
+		if(ValidURL(word)){
+			text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
+		}else{
+			text = word;
+		}
+		parseText+=" "+text;
+	}
+	return parseText;
+}
+
 function createPopupWindow(layer,type){
 	//console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
 	layer.bindPopup(html,{'offset':[0,-25]});
-	//openPopup();
 	
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -995,9 +1020,16 @@ function createPopUpContent(player,type){
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
 	+'<div id="titol_pres">'+player.properties.nom+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
-	+'<div id="des_pres">'+player.properties.text+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
+	+'<div id="des_pres">'+player.properties.text+' <i class="glyphicon glyphicon-pencil blau"></i></div>';
+	
+	if(type == t_polyline && player.properties.mida){
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
+	}else if(type == t_polygon && player.properties.mida){
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+	}
+	
 	//+'<div id="capa_pres">'
-	+'<ul class="bs-ncapa">'
+	html+='<ul class="bs-ncapa">'
 		+'<li><span lang="ca" class="small">Capa actual: </span>'
 			+'<select id="cmbCapesUsr-'+player._leaflet_id+'-'+type+'" data-leaflet_id='+player._leaflet_id+'>';
 			html+= fillCmbCapesUsr(type);

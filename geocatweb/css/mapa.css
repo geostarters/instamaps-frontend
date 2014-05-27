@@ -1625,6 +1625,7 @@ i.fa {
     text-overflow: ellipsis;
     max-width: 70%;
     line-height: 1.8;
+    padding-left: 8px;
 }
 
 .popup_data_row{
@@ -2022,4 +2023,10 @@ i.fa {
 #div_do_message .alert {
     font-weight: bold;
     padding: 4px;
+}
+
+#mida_pres {
+    background-color: #EEEEEE;
+    padding: 5px;
+    margin-bottom: 15px;
 }

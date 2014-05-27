@@ -361,7 +361,8 @@
 
 .div_popup {
 	border: 0 dashed #DDDDDD;
-	height: 170px;
+	min-height: 170px;
+	height: auto;
 	margin-left: -5px;
 	margin-right: 26px;
 	padding: 3px;
@@ -452,7 +453,6 @@ textarea {
 
 .bs-ncapa {
 	display: block;
-	height: 30px;
 	list-style: none outside none;
 	margin-bottom: 5px;
 	overflow: hidden;
