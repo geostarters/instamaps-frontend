@@ -863,7 +863,14 @@ function readTematic(defer, results, layerWms, layer){
 ////							featureTem.options.icon.options.shadowSize = new L.Point(1, 1);
 //							var color = hexToRgb(featureTem.options.icon.options.fillColor);
 //							featureTem._icon.style.setProperty("background-color", color);
-//						}							
+//						}		
+						
+						if(ftype == t_polygon){
+							featureTem.properties.mida = calculateArea(featureTem.getLatLngs());
+						}else if(ftype == t_polyline){
+							featureTem.properties.mida = calculateDistance(featureTem.getLatLngs());
+						}
+						
 //						//Si la capa no ve de fitxer
 						if(!hasSource){
 							if($(location).attr('href').indexOf('mapa')!=-1 && ((capaTematic.options.tipusRang == tem_origen) || !capaTematic.options.tipusRang) ){
@@ -1507,3 +1514,4 @@ function transformTipusGeometry(geometrytype){
 	}
 	return ftype;
 }
+

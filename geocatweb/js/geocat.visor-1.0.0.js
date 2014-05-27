@@ -123,7 +123,7 @@ function loadApp(){
 			mapConfig.options = $.parseJSON( mapConfig.options );
 
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
-			if(mapLegend != "" && mapLegend != "{}"){
+			if(mapLegend != "" && mapLegend != "{}" && !jQuery.isEmptyObject(mapLegend)){
 				addLegend();
 				$("#mapLegend").mCustomScrollbar();
 //				$(".legend-scroll").mCustomScrollbar();
@@ -707,7 +707,7 @@ function popUp(f, l) {
 					if(ll.indexOf('.gif')!=-1){
 						out.push('<img width="100" src="'+ll+'"/>');
 					}else{
-						out.push('<b>'+key +'</b>:<a target="_blank" href="'+ll+'"/>'+ll+'</a>');
+						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');
 					}
 				}else{
 					out.push("<b>"+key + "</b>: " + f.properties[key]);

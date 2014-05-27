@@ -22,7 +22,7 @@ function getServeiJSONP(purlJson) {
 	var _htmlJSONFields = [];
 
 //	if (ValidURL(purlJson)) {
-		jQuery('#div_layersJSON').addClass('waiting_animation');
+		//jQuery('#div_layersJSON').addClass('waiting_animation');
 
 		getJSONPServei(purlJson).then(function(results) {
 							var op = [];
@@ -48,7 +48,7 @@ function getServeiJSONP(purlJson) {
 										+ "</option>");
 							}
 
-							jQuery('#div_layersJSON').removeClass('waiting_animation');
+							//jQuery('#div_layersJSON').removeClass('waiting_animation');
 							jQuery('#div_layersJSON').empty();
 							jQuery('#div_emptyJSON').empty();
 

@@ -233,10 +233,13 @@ function isValidEmailAddress(emailAddress) {
 }; 
 
 function isValidUrl(url){
-	var pattern = new RegExp('@(https?|ftp)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$@iS');
+//	var pattern = new RegExp('@(https?|ftp)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$@iS');
+	var pattern = new RegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/');
 	return pattern.test(url);
 }
   
+
+///^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
 function ValidURL(str) {
 	  var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
 	    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
@@ -309,4 +312,23 @@ function getTimeStamp() {
              ((now.getSeconds() < 10)
                  ? ("0" + now.getSeconds())
                  : (now.getSeconds())));
+}
+
+function calculateDistance(lLatLngs){
+
+	var totalDistance = 0;
+	var lastPoint;
+	if(lLatLngs.length>0) lastPoint = lLatLngs[0];
+	
+	jQuery.each(lLatLngs, function( i, point){
+		totalDistance += point.distanceTo(lastPoint);
+		lastPointt = point;
+	});
+	
+	return L.GeometryUtil.readableDistance(totalDistance, true);
+}
+
+function calculateArea(lLatLngs){
+	var totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
+	return L.GeometryUtil.readableArea(totalArea, true);
 }
