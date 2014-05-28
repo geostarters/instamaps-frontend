@@ -1851,7 +1851,7 @@ i.fa {
 
 @media ( min-height :950px){
  .taulaFeina, .leaflet-sidebar{
- 	height: auto;
+ 	/*height: auto;*/
  }
 }
 
