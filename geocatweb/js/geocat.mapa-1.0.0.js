@@ -1662,10 +1662,10 @@ function loadMapConfig(mapConfig){
 				} else if (fons == 'terrainMap') {
 					map.terrainMap();
 				} else if (fons == 'colorMap') {
-//					gestionaPopOver(this);
-					map.colorMap(fons);
+					gestionaPopOver(this);
+					map.colorMap(mapConfig.options.fonsColor);
 				} else if (fons == 'historicMap') {
-					map.historicMap(fons);
+					map.historicMap();
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
@@ -2236,7 +2236,8 @@ function carregaDadesUsuari(data){
 		creaPopOverMevasDades();
 	},function(results){
 		//JESS DESCOMENTAR!!!!
-		gestioCookie('carregaDadesUsuari');
+		console.debug(results);
+		//gestioCookie('carregaDadesUsuari');
 	});
 }
 
