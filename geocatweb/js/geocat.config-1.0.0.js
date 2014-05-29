@@ -53,7 +53,7 @@ var proxydir = "maps";
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 	HOST_APP = "http://172.70.1.12/";
-//	HOST_APP = "http://localhost:8080/";
+	//HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.12";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
@@ -142,7 +142,7 @@ var paramUrl = {
 	download_layer: HOST_APP+"share/jsp/download_layer.jsp?",
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
-	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
+	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

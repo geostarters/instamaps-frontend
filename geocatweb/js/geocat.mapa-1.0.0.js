@@ -1652,8 +1652,9 @@ function loadMapConfig(mapConfig){
 					map.terrainMap();
 				} else if (fons == 'colorMap') {
 					gestionaPopOver(this);
+					map.colorMap(mapConfig.options.fonsColor);
 				} else if (fons == 'historicMap') {
-				
+					map.historicMap();
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
@@ -2224,7 +2225,8 @@ function carregaDadesUsuari(data){
 		creaPopOverMevasDades();
 	},function(results){
 		//JESS DESCOMENTAR!!!!
-		gestioCookie('carregaDadesUsuari');
+		console.debug(results);
+		//gestioCookie('carregaDadesUsuari');
 	});
 }
 
