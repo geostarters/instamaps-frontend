@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="author" content="InstaMapes">
-<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="author" content="InstaMaps">
+<meta name="description" content="InstaMaps ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -34,11 +34,11 @@
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/geocatweb/css/mapa.css" rel="stylesheet">
 
-<!--[if lte IE 8]>
+<!-- [if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
-    <![endif]-->
+    <![endif] -->
 
-<title lang="ca">Mapa InstaMapes</title>
+<title lang="ca">Mapa InstaMaps</title>
 </head>
 <body>
 
@@ -52,7 +52,6 @@
   <span></span>
   <span>A</span>
   <span></span>
-  <span>E</span>
   <span id="ani5">S</span> 
   <div class="covers">   
     <span></span>
@@ -63,8 +62,6 @@
     <span id="ani3"><div class="img-circle2-icon visualitza_color">M</div></span>
     <span></span>
     <span id="ani4"><div class="img-circle2-icon comparteix_color">P</div></span>
-    <span></span>
-    <span ></span>   
   </div>
 </div>
 </div>
@@ -80,7 +77,7 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMapes</div>
+					<div class="brand-txt">InstaMaps</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
@@ -90,7 +87,7 @@
 					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					
-					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<!-- <li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
  					-->
@@ -125,27 +122,11 @@
 					<!-- <li><a href="/properament.html" class="glyphicon glyphicon-stats"></a></li> -->
 				</ul>
 			</div>
-			<!--/.nav-collapse -->
+			<!-- /.nav-collapse -->
 		</div>
 	</div>
 	<!-- / Fixed navbar -->
 
-
-	<!-- div id="searchBar" class="input-group">
-		<div id="ctr_options" class="input-group-btn">
-	        <button type="button" class="btn btn-default2 dropdown-toggle" data-toggle="dropdown">
-		        <span class="glyphicon glyphicon-cog"></span>
-		        <span class="caret"></span>
-	        </button>
-	        <ul class="dropdown-menu">
-	          <li class="active"><a id="ctr_cat" href="#">Cercador de Topònims</a></li>
-	          <li><a id="ctr_nomen" href="#">Cercador mundial de Topònims</a></li>  
-	        </ul>
-      	</div>
-		<div id="ctr_cerca"></div>
-		<div id="ctr_cercaNomen"></div>		
-	</div-->
-	
     <div id="searchBar" class="input-group">
       <div id="ctr_options" class="input-group-btn">
         <button type="button" class="btn btn-default2 dropdown-toggle" data-toggle="dropdown">
@@ -215,13 +196,6 @@
 								</ul>
 							</div>
 							</script>
-							<!--script id="meus-tematic-template" type="text/x-handlebars-template">
-							<ul>
-							{{#each results}}
-							<li><a href="#" data-businessid="{{businessId}}" class="usr_tematic_layer">{{nom}}</a><span data-businessid="{{businessId}}" class="glyphicon glyphicon-remove"></span></li>
-							{{/each}}							
-							</ul>
-							</script>-->
 						</div>
 												
 						<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext"></div>
@@ -233,14 +207,6 @@
 				<td class="td3" height="25%">
 					<h5 lang="ca">Triar l'estil del mapa</h5>
 
-					<!--  <div class="div_gr3_estils">
-						<div id="st_Color" lang="ca" data-toggle="tooltip" title="Bàsic" class="div_estil_1"></div>
-						<div id="st_Tema" lang="ca" data-toggle="tooltip" title="Categories" class="div_estil_2"></div>
-						<!--<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>-->
-						<!--  <div id="st_Heat" lang="ca" data-toggle="tooltip" title="Concentració" class="div_estil_4"></div>
-						<div id="st_Clust" lang="ca" data-toggle="tooltip" title="Agrupació" class="div_estil_5"></div>
-					</div>-->
-					
 					<div class="div_gr3_estils">
 						<div id="st_Color" lang="ca" data-toggle="tooltip" title="Bàsic" class="div_estil_1"></div>
 						<div id="st_Tema" lang="ca" data-toggle="tooltip" title="Categories" class="div_estil_2"></div>
@@ -274,22 +240,26 @@
 				<td class="td5">
 					<div id="socialShare" class="div_gr5_social">
 						<h5 lang="ca">Compartir</h5>
-						<!--div id="correu" class="icon-mail gris"></div>
+						<!-- <div id="correu" class="icon-mail gris"></div>
 						<div id="facebook" class="icon-facebook gris"></div>
 						<div id="google" class="icon-google-plus gris"></div>
 						<div id="twitter" class="icon-twitter gris"></div>
 						<div id="linkedin" class="icon-linkedin gris"></div>
-						<div id="pinterest" class="icon-pinterest gris"></div-->
+						<div id="pinterest" class="icon-pinterest gris"></div> -->
 					</div>				
 				</td>
 			</tr>
 			<tr>
-				<td class="td5" height="15px"><label class="textGris">InstaMapes Beta</label></td>
+				<td class="td5" height="15px"><label class="textGris">InstaMaps Beta</label></td>
 			</tr>
 		</table>
 	</div>
 	<div id="map"></div>
-
+	<div id="logos" class="logos">
+		<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+			<img height="40" src="/llibreries/img/icgc.gif">
+		</a>
+	</div>
 	<!-- dialogs -->
 	
 	<!-- Modal Publicar -->
@@ -549,7 +519,7 @@
 								<div class="liX" style="border-right: 1px solid #DDDDDD">
 									<span class="small" lang="ca">Mida punt:</span>
 									<select id="cmb_mida_Punt" class="form-control">
-										<!--option lang="ca" class="small" value="24">Mida punt</option-->
+										<!-- <option lang="ca" class="small" value="24">Mida punt</option> -->
 										<option lang="ca" class="small" value="16">Petit +</option>
 										<option lang="ca" class="small" value="21">Petit</option>
 										<option lang="ca" class="small" value="24">Mitjà</option>
@@ -563,14 +533,14 @@
 							<td>
 								<div id="div_puntM" class="li2 liX">
 									<div id="div_punt_1" class="awesome-marker-web awesome-marker-icon-orange"></div>
-									<!-- div id="div_punt_#ffc500" class="awesome-marker-web awesome-marker-icon-orange"></div>
+									<!-- <div id="div_punt_#ffc500" class="awesome-marker-web awesome-marker-icon-orange"></div>
 									<div id="div_punt_#ff070b"	class="awesome-marker-web awesome-marker-icon-darkorange hide"></div>
 									<div id="div_punt_#ff4b3a"	class="awesome-marker-web awesome-marker-icon-red hide"></div>
 									<div id="div_punt_#ae59b9"	class="awesome-marker-web awesome-marker-icon-purple hide"></div>
 									<div id="div_punt_#00afb5" class="awesome-marker-web awesome-marker-icon-blue hide"></div>
 									<div id="div_punt_#7cbd00" class="awesome-marker-web awesome-marker-icon-green hide"></div>
 									<div id="div_punt_#90a6a9" class="awesome-marker-web awesome-marker-icon-darkgray hide"></div>
-									<div id="div_punt_#ebf0f1" class="awesome-marker-web awesome-marker-icon-gray hide"></div-->									
+									<div id="div_punt_#ebf0f1" class="awesome-marker-web awesome-marker-icon-gray hide"></div> -->									
 								</div>
 								<div class="liX">
 									<span class="small" lang="ca">Color punt:</span>
@@ -599,7 +569,7 @@
 								<li><div id="div_punt8" class="awesome-marker-web awesome-marker-icon-gray"></div></li>
 							</ul>
 						</td>
-						</tr>-->
+						</tr> -->
 						<tr class="fila-awesome-markers">
 							<td colspan="8"><span lang="ca">Iconografia</span></td>
 						</tr>
@@ -740,7 +710,7 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!--  fi modal punts -->
+	<!-- fi modal punts -->
 
 	<!-- Modal Lineas -->
 	<div class="modal fade" id="dialog_estils_linies">
@@ -930,19 +900,21 @@
 					<ul class="nav nav-tabs etiqueta">
 						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>
 						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>
-						<li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>
+						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->
 						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>
+						<li><a href="#id_url_file" lang="ca" data-toggle="tab">URL de fitxer</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade" id="id_do"></div>
 						<div class="tab-pane fade" id="id_xs"></div>
-						<div class="tab-pane fade" id="id_srvj"></div>
+						<!--  <div class="tab-pane fade" id="id_srvj"></div>-->
 						<div class="tab-pane fade" id="id_srvw"></div>
+						<div class="tab-pane fade" id="id_url_file"></div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
-         <button type="button" class="btn btn-success">Canviar</button> -->
+					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+         			<button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -962,7 +934,7 @@
 					<h4 class="modal-title" lang="ca">Accedeix a les teves dades</h4>
 				</div>
 				<div id="id_sw" class="modal-body">
-					<!--ul class="nav nav-tabs etiqueta">
+					<!-- <ul class="nav nav-tabs etiqueta">
 						<li><a href="#id_sv" lang="ca" data-toggle="tab">Serveis Vector</a></li>
 						<li><a href="#id_sw" lang="ca" data-toggle="tab">Serveis WMS</a></li>
 					</ul>
@@ -972,7 +944,7 @@
 					</div> -->
 				</div>
 				<div class="modal-footer">
-					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
 			</div>
@@ -998,6 +970,19 @@
 						<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong> 
 							<a class="alert-link" lang="ca"	href="#">Més informació i exemples</a>
 					</div>
+					
+					<!-- 
+					<div class="input-group txt_ext">
+						<input type="text" lang="ca" class="form-control" value="" placeholder="Entrar URL fitxer" style="height:33px" id="txt_URLfitxer"> 
+						<span class="input-group-btn">
+							<button type="button" id="bt_URLfitxer" class="btn btn-success" onClick="javascript:addURLfitxerLayer();">
+								<span class="glyphicon glyphicon-play"></span>
+							</button>
+						</span>
+					</div>
+					-->
+					
+					
 					<table id="tbl_loadCapa">
 						<tr>
 							<td><input type='hidden' id='formFile' value='false'>
@@ -1029,6 +1014,7 @@
 										<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
 										<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
 										<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
+										<option value="EPSG:2180">EPSG:2180 (ETRS89 / Poland CS92)</option>
 									</select>
 									</li>
 								</ul>
@@ -1250,7 +1236,7 @@
 			</div>
 				<div class="modal-footer">
 				<div lang="ca" style="float:right;line-height: 40px;">Estil actiu:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
-					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
 			</div>
@@ -1503,7 +1489,7 @@
 				</div>
 				<div class="modal-body">
 					<div style="height:350px;overflow:auto;" id="div_captura">
-					<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;">
+					<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
 					</div>
 					
 				</div>
@@ -1542,11 +1528,11 @@
 	<div id="dialog_delete_capa" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<!-- div class="modal-header">
+				<!-- <div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
 					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
-				</div-->
+				</div> -->
 				<div class="modal-body">
 					<h4><span lang="ca">Vols esborrar la capa</span> "<span id="nom_capa_delete"></span>" ?</h4>
 				</div>
@@ -1611,6 +1597,7 @@
  	<script src="/geocatweb/js/geocat.mapa.cluster.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.canvas.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.tematics.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.url_file.js" type="text/javascript"></script>
 	<script src="/llibreries/js/dropzone.js" type="text/javascript"></script>
 	<script>
 		L_PREFER_CANVAS = true;
@@ -1618,11 +1605,12 @@
 	<script src="/llibreries/js/leaflet/leaflet.js"></script>
 	<script src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.spin.js"></script>
+	<!-- script src="/llibreries/js/leaflet/plugin/proj4-compressed.js" type="text/javascript"></script-->
 	<script src="/llibreries/js/leaflet/plugin/proj4js-compressed.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/proj4leaflet.js"	type="text/javascript"></script>
-	<script src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js" type="text/javascript"></script>
-	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script>
+	<!-- <script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script-->
+	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.custom.js"	type="text/javascript"></script>
 	 <script src="/llibreries/js/leaflet/plugin/L.TileLayer.BetterWMS.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.markercluster.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/Control.MiniMap.js"	type="text/javascript"></script>
@@ -1636,6 +1624,8 @@
 	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Map.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
+	<!-- script src="/llibreries/js/leaflet/plugin/leaflet-omnivore.min.js" type="text/javascript"></script-->
+	<script src="/llibreries/js/leaflet/plugin/leaflet-omnivore-custom.js" type="text/javascript"></script>
 	
 	<script src="/geocatweb/js/leaflet/L.Wikipedia.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.Twitter.js" type="text/javascript"></script>
@@ -1643,6 +1633,7 @@
 	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
 	<script src="/llibreries/js/bootstrap-switch.min.js"></script>
 	<script src="/llibreries/js/bootstrap-editable.js"></script>
+	
 	<script src="/llibreries/js/bootstrap3-typeahead.min.js"></script>
 	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/llibreries/js/formats/xlsx.min.js"></script>
