@@ -243,10 +243,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 ////				row_conf.appendChild(row2);
 //				col.appendChild(row2);
 				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-				row.appendChild(col);
+				//Tipus WMS no admet decarrega
+				if(obj.layer.options.tipus.indexOf(t_wms) == -1){
+					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
+					row.appendChild(col);					
+				}
 				
 				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove');
 				col.layerId = input.layerId;

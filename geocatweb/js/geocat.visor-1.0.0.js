@@ -403,9 +403,10 @@ function loadMapConfig(mapConfig){
 				} else if (fons == 'terrainMap') {
 					map.terrainMap();
 				} else if (fons == 'colorMap') {
-					gestionaPopOver(this);
+//					gestionaPopOver(this);
+					map.colorMap(fons);
 				} else if (fons == 'historicMap') {
-				
+					map.historicMap(fons);
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);

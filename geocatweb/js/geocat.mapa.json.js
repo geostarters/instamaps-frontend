@@ -254,7 +254,8 @@ function creaCapaFromJSON() {
 						pp.addTo(capaJSON);
 					}
 
-					jQuery('#dialog_dades_ex').modal('toggle');					
+//					jQuery('#dialog_dades_ex').modal('toggle');
+					jQuery('#dialog_dades_ex').modal('hide');	
 					capaJSON.options.businessId = results.results.businessId;
 					capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
 					capaJSON.options.options.estil_do = estil_do;
