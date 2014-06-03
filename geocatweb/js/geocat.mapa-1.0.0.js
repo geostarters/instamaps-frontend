@@ -441,7 +441,18 @@ function loadApp(){
 			
 		});
 	}
-				
+	
+	//Si la capa conté polígons no es podrà descarregar en format GPX
+	$('#modal_download_layer').on('show.bs.modal', function (e) {
+		  if(download_layer.layer.options.geometryType 
+				  && download_layer.layer.options.geometryType==t_polygon){
+			  $("#select-download-format option[value='GPX#.gpx']").attr('disabled','disabled');	
+		  }else{
+			  $("#select-download-format option[value='GPX#.gpx']").removeAttr('disabled');
+		  }
+	});
+
+	
 	jQuery('#select-download-format').change(function() {	
 		var ext = jQuery(this).val();
 		if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
@@ -1349,6 +1360,8 @@ function creaPopOverDadesExternes() {
 										  '<option value=".dxf">DXF</option>'+
 										  '<option value=".kml">KML</option>'+
 										  '<option value=".gpx">GPX</option>'+
+										  '<option value=".kmz">KMZ</option>'+
+										  '<option value=".zip">Zip File</option>'+
 										  '<option value="-1">'+window.lang.convert("Sel·lecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+

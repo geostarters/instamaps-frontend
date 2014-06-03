@@ -423,7 +423,13 @@ function Promise(resolver) {
             if (typeof callback === 'function') {
                 immediate(execute,callback, value, queued.resolver, queued.rejecter);
             }else if(success){
+            	if(!value){
+            		//out.println(callback + "({\"results\":\"EXCEPTION ERROR:"+e.getMessage()+"\",\"status\":\"ERROR\"})");
+					value = {results: "ERROR de COMUNICACIO", status: "ERROR"};
+				}
+            	
             	if(value.status!=undefined && value.status == "ERROR"){
+					console.debug(value);
             		queued.rejecter(value);
             	}else{
             		queued.resolver(value);	

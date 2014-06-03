@@ -202,11 +202,22 @@ function getMapByBusinessId(data){
 	}).promise();
 }
 
+/*//Local
 function updateMap(data){
 	return jQuery.ajax({
 		url: paramUrl.updateMap,
 		data: data,
 		dataType: 'jsonp'
+	}).promise();
+}*/
+
+function updateMap(data){
+	return jQuery.ajax({
+		url: paramUrl.proxy + "?url=" + paramUrl.updateMap + "&uid="+data.uid,
+//		url: paramUrl.updateMap,
+		data: data,
+		method: 'POST'
+//		dataType: 'jsonp'
 	}).promise();
 }
 
