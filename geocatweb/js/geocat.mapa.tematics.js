@@ -707,7 +707,7 @@ function readTematic(defer, results, layerWms, layer){
 					
 					//Sin rangos
 					if (Lrangs.length == 0){
-						if (ftype == t_marker){
+						if (ftype == t_marker || ftype === t_multipoint){
 							rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
 						}else{
 							rangStyle = createRangStyle(ftype, null, Lgeom.length);

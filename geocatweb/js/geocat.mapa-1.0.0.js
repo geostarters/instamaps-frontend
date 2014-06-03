@@ -1360,6 +1360,8 @@ function creaPopOverDadesExternes() {
 										  '<option value=".dxf">DXF</option>'+
 										  '<option value=".kml">KML</option>'+
 										  '<option value=".gpx">GPX</option>'+
+										  '<option value=".kmz">KMZ</option>'+
+										  '<option value=".zip">Zip File</option>'+
 										  '<option value="-1">'+window.lang.convert("Sel·lecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+

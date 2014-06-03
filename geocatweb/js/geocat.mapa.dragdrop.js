@@ -789,6 +789,7 @@ function addDropFileToMap(results) {
 				results.results.dragdrop = true;
 				loadTematicLayer(results.results).then(function(results1){
 					
+					getRangsFromLayer(results1);
 					
 					if(results1){
 					map.fitBounds(results1.getBounds());

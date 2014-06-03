@@ -51,6 +51,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN){
 		    return geom.bindPopup(html);
 		  }
 //	,
+//		  middleware:function(data){
+//			  return esri2geoOrSomething(json);
+//		  }
+//	,
 //		  success: function(results){
 //			  console.debug(results);
 //		  },
