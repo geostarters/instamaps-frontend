@@ -824,6 +824,9 @@ function addDialegsEstils() {
 			jQuery('#div_punt').css('font-size',jQuery('#div_punt0').css('font-size'));
 			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
 			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
+			var colorGlif = jQuery('#div_punt0').css('color');
+			if(!colorGlif || colorGlif == "") colorGlif = "#000000";
+			if(estilP.colorGlif == "") estilP.colorGlif = colorGlif;
 			jQuery('#div_punt').css('color',estilP.colorGlif);			
 			jQuery('#div_punt').css('background-color',estilP.divColor);	
 			changeDefaultPointStyle(estilP);
