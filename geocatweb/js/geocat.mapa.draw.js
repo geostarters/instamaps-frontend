@@ -59,7 +59,7 @@ function obrirMenuModal(_menuClass,estat,_from){
 			 //Si es punt inicial per defecte
 			 if(punt_class == "dibuix_punt"){
 					var icon = {icon: "",//glyph
-						 	iconColor: "",
+						 	iconColor: "#000000",
 						 	isCanvas: false,
 						 	className: "awesome-marker",
 						 	markerColor: 'orange',
