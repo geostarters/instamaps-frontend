@@ -17,7 +17,6 @@ var controlLegendLine = [];
 var controlLegendPol = [];
 var mapLegend = {};
 
-
 var estilP={
 	iconFons:'awesome-marker-web awesome-marker-icon-orange',
 	iconGlif:'fa fa-',
