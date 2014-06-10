@@ -546,3 +546,11 @@ function getUrlFile(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function deleteUser(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteUser,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}

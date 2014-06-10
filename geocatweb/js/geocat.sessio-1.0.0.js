@@ -67,9 +67,8 @@ function loginUserIcgc(){
 		var dataUrl = {user:user_login_icgc, password:pass_login_icgc};
 		
 		doLoginIcgc(dataUrl).then(function(results){
-			console.debug(results);
 			if(results.status==='OK'){
-				$.cookie('uid', user_login_icgc, {path:'/'});
+				$.cookie('uid', results.uid, {path:'/'});
 				if(results.results === 'login_map'){
 					if (results.mapBusinessId){
 						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
