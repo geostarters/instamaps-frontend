@@ -1298,8 +1298,26 @@ function creaPopOverDadesExternes() {
 				});
 			}else if(tbA == "#id_url_file"){
 				jQuery(tbA).empty();
+
+				//Carreguem exemples de dades externes 
+				//_htmlServeisWMS.push('<div class="panel-success"><ul class="bs-dadesO panel-heading">');
+				String lDadesExternes = "";
+				jQuery.each(llista_dadesExternes.dadesExternes, function(key, dadesExternes) {
+						lDadesExternes.push('<ul class="bs-dadesO panel-heading">'
+							+ '<li><a class="label-wms" href="#" id="'
+							+ dadesExternes.urlDadesExternes
+							+ '">'
+							+ window.lang.convert(dadesExternes.titol)
+							+ '</a>'
+							+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
+							+ WMS.URN
+							+ '"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>'
+							+ '</li></ul>');
+				});				
+				
 				jQuery(tbA).html(
 						'<div class="panel-success"><div panel-heading">'+
+							lDadesExternes +
 							'<div class="input-group txt_ext">'+
 								'<input type="text" lang="ca" class="form-control" value="" placeholder="Entrar URL fitxer" style="height:33px" id="txt_URLfile">'+ 
 								'<span class="input-group-btn">'+

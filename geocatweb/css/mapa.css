@@ -1030,10 +1030,10 @@ i.fa {
 
 .bs-dadesO {
 	list-style: none outside none;
-	margin-bottom: 5px;
 	overflow: hidden;
+	/*margin-bottom: 5px;
 	padding-bottom: 1px;
-	padding-left: 0;
+	padding-left: 0;*/
 }
 
 .bs-dadesO li {

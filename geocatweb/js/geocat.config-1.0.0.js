@@ -147,6 +147,27 @@ var paramUrl = {
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json"
 }
 
+//Llistat exemples de dades externes
+var llista_dadesExternes = {
+		"dadesExternes" : [
+				{
+					"titol" : "Base municipal",
+					"ORGANITZAC" : "Institut Cartogràfic de Catalunya",
+					"urlDadesExternes" : "http://galileo.icc.cat/arcgis/services/icc_limadmin_v_r/MapServer/WMSServer?"
+				},
+				{
+					"titol" : "Mapa Urbanístic",
+					"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
+					"urlDadesExternes" : "http://tes.gencat.cat/webmap/MUC/Request.aspx?"
+				},
+				{
+	                "titol" : "Mapa trànsit en temps real",
+	                "ORGANITZAC" : "Servei Català de Trànsit ",
+	                "urlDadesExternes" : "http://sctwms.gencat.cat/WMS/mapserv.exe?map=//sctbrsscc05/AGATA/EstatdelTransit.map&amp"
+				}
+		]
+};
+
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
 	//alert("ajax send!");
