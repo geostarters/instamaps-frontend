@@ -211,6 +211,7 @@ jquery_lang_js.prototype.lang.en = {
 	"No s'ha actualitzat la contrassenya":"The password has not been updated",
 	"No s'ha iniciat la sessió":"Not signed in.",
 	"No s'ha iniciat la sessió. Torni a intentar-ho.":"Session has not been started. Try again.",
+	"No s'ha pogut esborrar l'usuari. Si us plau torna-ho a provar":"Could not delete the user. Please try again",
 	"Nodes guifi.net":"guifi.net nodes",
 	"Nom capa":"Layer name",
 	"Nom d'usuari no disponible.":"Username not available.",

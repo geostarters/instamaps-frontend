@@ -213,6 +213,7 @@ jquery_lang_js.prototype.lang.es = {
 	"No s'ha actualitzat la contrassenya":"No se ha actualizado la contraseña",
 	"No s'ha iniciat la sessió. Torni a intentar-ho.":"No se ha iniciado la sesión. Vuelva a intentarlo.",
 	"No s'ha iniciat la sessió":"No se ha iniciado la sesión",
+	"No s'ha pogut esborrar l'usuari. Si us plau torna-ho a provar":"No se pudo borrar el usuario. Por favor vuelve a intentarlo",
 	"Nodes guifi.net":"Nodos guifi.net",
 	"Nom capa":"Nombre capa",
 	"Nom d'usuari no disponible.":"Nombre de usuario no disponible.",
