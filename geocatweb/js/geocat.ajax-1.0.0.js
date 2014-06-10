@@ -546,3 +546,13 @@ function getUrlFile(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function getUrlFileProves(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFileProves,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}

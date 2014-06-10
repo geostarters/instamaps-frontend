@@ -92,8 +92,6 @@ var optB = {
 
 jQuery(document).ready(function() {
 	
-	//Carreguem definicions de SRS per poder fer transformaciosn amb omnivore
-	loadSRSDefs();
 	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
@@ -113,27 +111,6 @@ jQuery(document).ready(function() {
 	}
 }); // Final document ready
 
-function loadSRSDefs(){
-	
-	//ETRS89 / UTM zone 31N
-	Proj4js.defs["EPSG:25831"] = "+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs";	
-	//ED50 / UTM zone 31N
-	Proj4js.defs["EPSG:23031"] = "+proj=utm +zone=31 +ellps=intl   +units=m +no_defs  no_defs";
-	//WGS 84 / UTM zone 31N
-	Proj4js.defs["EPSG:32631"] = "+proj=utm +zone=31 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
-	//WGS 84
-	Proj4js.defs["EPSG:4326"] = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs  no_defs";
-	//ETRS89
-	Proj4js.defs["EPSG:4258"] = "+proj=longlat +ellps=GRS80 +datum=WGS84  +no_defs";
-	//ED50
-	Proj4js.defs["EPSG:4230"] = "+proj=longlat +ellps=intl +no_defs";
-	//WGS 84 / Pseudo-Mercator
-	Proj4js.defs["EPSG:3857"] = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs";
-	//WGS 84 / Pseudo-Mercator
-	Proj4js.defs["EPSG:900913"] = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs";
-	
-	Proj4js.defs["EPSG:26986"] = "+proj=lcc +lat_1=42.68333333333333 +lat_2=41.71666666666667 +lat_0=41 +lon_0=-71.5 +x_0=200000 +y_0=750000 +ellps=GRS80 +datum=NAD83 +units=m +no_defs";	
-}
 
 function loadApp(){
 	if(typeof url('?uid') == "string"){
@@ -552,6 +529,12 @@ function loadApp(){
 	jQuery('#feedback_btn').on('click',function(e){
 		window.open(paramUrl.comentarisPage);
 	});
+	//Missatge error de carrega de dades
+	jQuery("#div_carrega_dades_message").hide();
+	jQuery('#dialog_carrega_dades').on('hidden.bs.modal', function (e) {
+		jQuery("#div_carrega_dades_message").hide();
+	});
+
 	
 }
 
@@ -1375,6 +1358,9 @@ function creaPopOverDadesExternes() {
 					              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
 					              			'<option value="-1">'+window.lang.convert("Sel·lecciona el EPSG")+'</option>'+
 										'</select>'+
+										'<br><br>'+								
+										'<input id="dinamic_chck" type="checkbox" checked="checked">'+
+										'&nbsp;'+window.lang.convert("Dinàmica")+
 									'</div>&nbsp;'+
 									'<div>'+
 										'<span class="input-group-btn">'+
@@ -1415,7 +1401,10 @@ function creaPopOverDadesExternes() {
 							jQuery("#input-url-file-name").val(nom_capa);
 							
 							jQuery("#bt_URLfitxer_go").on('click', function(e) {
-								
+								e.stopImmediatePropagation();
+//								e.stopPropagation();
+//								e.preventDefault();
+								console.debug("bt_URLfitxer_go");
 								jQuery("#div_url_file_message").empty();
 								jQuery("#div_url_file_message").hide();
 								var urlFile = jQuery("#txt_URLfile").val();
@@ -1426,7 +1415,9 @@ function creaPopOverDadesExternes() {
 									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
 									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 								}else{
-									createURLfileLayer(urlFile, type, epsg);
+									console.debug("abans createURLfileLayer");
+									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'));
+									console.debug("despres createURLfileLayer");
 								}
 							});
 							
@@ -2610,7 +2601,7 @@ function createModalConfigLegend(){
 		html += addLayerToLegend(item.layer, count);
 		count++;
 		jQuery.each(item._layers, function(i, sublayer){
-			html += addLayerToLegend(sublayer.layer, count);
+			html += addLayerToLegend(sublayer.layer, count, sublayer.layerIdParent);
 		});
 		
 		html+='</div><div class="separate-legend-row"></div>';
@@ -2621,7 +2612,7 @@ function createModalConfigLegend(){
 //	$('#dialog_llegenda').modal('show');
 }
 
-function addLayerToLegend(layer, count){
+function addLayerToLegend(layer, count, layerIdParent){
 	var html = "";
 
 	//checked="checked", layer.options.nom
@@ -2814,7 +2805,7 @@ function addLayerToLegend(layer, count){
 					if(color.r == 153 && color.g==153 && color.b==153 ||
 							color.r == 217 && color.g==217 && color.b==217 ||
 							color.r == 218 && color.g==218 && color.b==218 ) labelNomCategoria = window.lang.convert("Altres");
-					else labelNomCategoria = findLabelCategoria(layer.options.dataField, rangs[i].featureLeafletId);					
+					else labelNomCategoria = findLabelCategoria(layer.options.dataField, rangs[i].featureLeafletId, layer._leaflet_id, layerIdParent);					
 					checked = "";						
 					
 					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
@@ -3102,17 +3093,20 @@ function getRangsFromLayerLegend(layer){
     return rangs;
 }
 
-function findLabelCategoria(dataField, fid){
+function findLabelCategoria(dataField, fid, layerId, layerIdParent){
 	
-	var data = map._layers[''+fid+''].properties.data;
-	if(!data){
-		return map._layers[''+fid+''].properties[''+dataField+''];
-	}else if(data.ValorMax && data.ValorMin){
-		return data.ValorMax +" - "+ data.ValorMin
+	var pp = (layerIdParent ? controlCapes._layers[''+layerIdParent+'']._layers[''+layerId+''].layer._layers[''+fid+''].properties
+								:controlCapes._layers[''+layerId+''].layer._layers[''+fid+''].properties);
+	
+	if(!pp.data){
+		return pp[''+dataField+''];
+	}else if(pp.data.ValorMax && pp.data.ValorMin){
+		return pp.data.ValorMax +" - "+ pp.data.ValorMin
 	}else{
-		return data[''+dataField+''];
-	}
+		return pp.data[''+dataField+''];
+	}		
 }
+
 function updateMapLegendData(){
 	
 	mapLegend = {};

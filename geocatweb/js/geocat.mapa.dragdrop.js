@@ -25,7 +25,8 @@ var envioArxiu={isDrag:false,
 
 var drOpcionsMapa = {
 	//url : paramUrl.uploadproxy+"?uid="+$.cookie('uid')+"&",	
-	url : paramUrl.upload_gdal,
+//	url : paramUrl.upload_gdal,
+	url : paramUrl.upload_gdal_nou,
 	paramName : "file", 
 	maxFilesize : 10, // MB
 	method : 'post',
@@ -33,6 +34,8 @@ var drOpcionsMapa = {
 	accept : function(file, done) {
 	}
 };
+
+var progressBarShow = true;
 
 function creaAreesDragDropFiles() {
 	// dropzone
@@ -69,24 +72,49 @@ function creaAreesDragDropFiles() {
 				
 		drgFromMapa.on('success', function(file, resposta) {
 			drgFromMapa.removeAllFiles(true);
-			$('#dialog_carrega_dades').modal('hide');
 			if(resposta){
 				resposta=jQuery.trim(resposta);
 				resposta=jQuery.parseJSON(resposta);
-				if(resposta.status=="OK"){			
-				addDropFileToMap(resposta);
+				if(resposta.status=="OK"){
+					progressBarShow = true;
+					$('#dialog_carrega_dades').modal('hide');
+					addDropFileToMap(resposta);
 				}else{
-				alert(window.lang.convert("Error en la càrrega de l'arxiu"));
+					
+					var txt_error = "ERROR";
+					progressBarShow = false;
+					jQuery('#progress_bar_carrega_dades').hide();
+					
+					if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
+						var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
+					}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
+						txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");
+					}else if(resposta.codi.indexOf("502")!= -1){//+ de 1000 features
+						txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho.");
+					}else if(resposta.codi.indexOf("503")!= -1){//+ de 6000 geometries
+						txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+					}else{
+						txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
+					}
+					jQuery("#div_carrega_dades_message").html(txt_error);
+					jQuery("#div_carrega_dades_message").show();					
 				}
 			}else{
-				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
+				progressBarShow = false;
+				jQuery('#progress_bar_carrega_dades').hide();
+				jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
+				jQuery("#div_carrega_dades_message").show();
+//				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
 			}
 		});
 		
 		drgFromMapa.on('error', function(file, errorMessage) {
 			drgFromMapa.removeAllFiles(true);
-			$('#dialog_carrega_dades').modal('hide');
-			alert(window.lang.convert("Error en la càrrega de l'arxiu"));
+			progressBarShow = false;
+			jQuery('#progress_bar_carrega_dades').hide();
+			jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
+			jQuery("#div_carrega_dades_message").show();
+			//alert(window.lang.convert("Error en la càrrega de l'arxiu"));
 		});
 		
 		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
@@ -99,13 +127,13 @@ function creaAreesDragDropFiles() {
 
 var	ldpercent=0;
 function uploadprogress(){
-	 
-	  ldpercent += 10;    
-	  if(ldpercent>100){ ldpercent = 100;    }  
-
-	jQuery('#prg_bar').css('width',ldpercent+"%");
-
-	  if(ldpercent<100){ setTimeout("uploadprogress()", 1000);}	
+	if(progressBarShow){
+		jQuery('#progress_bar_carrega_dades').show();
+		ldpercent += 10;    
+		if(ldpercent>100){ ldpercent = 100;    }  
+		jQuery('#prg_bar').css('width',ldpercent+"%");
+		if(ldpercent<100){ setTimeout("uploadprogress()", 1000);}	
+	}
 }
 
 
@@ -803,5 +831,23 @@ function addDropFileToMap(results) {
 				map.spin(false);
 			}
 		});
+	}else{
+		var txt_error = "ERROR";
+		progressBarShow = false;
+		jQuery('#progress_bar_carrega_dades').hide();
+		
+		if(results.results.indexOf("CONVERT ERROR")!= -1){
+			var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
+		}else if(results.results.indexOf("501")!= -1){//+ de 5000 punts
+			txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");
+		}else if(results.results.indexOf("502")!= -1){//+ de 1000 features
+			txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho.");
+		}else if(results.results.indexOf("503")!= -1){//+ de 6000 geometries
+			txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+		}else{
+			txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
+		}
+		jQuery("#div_carrega_dades_message").html(txt_error);
+		jQuery("#div_carrega_dades_message").show();	
 	}
 }
