@@ -620,10 +620,11 @@ function obteCampsXLS(f) {
 function llegirTitolXLS(workbook) {
 	matriuActiva = [];
 	if(workbook){
-			workbook.SheetNames.forEach(function(sheetName) {
+			//workbook.SheetNames.forEach(function(sheetName) {
+				var sheetName=workbook.SheetNames[0];
 				matriuActiva = get_columns(workbook.Sheets[sheetName], 'XLS');
 				analitzaMatriu(matriuActiva);
-			});
+			//});
 	}else{
 		
 		$('#dialog_carrega_dades').modal('hide');

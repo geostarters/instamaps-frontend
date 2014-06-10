@@ -507,7 +507,7 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 }
 
 function getRangsFromStyles(tematic, styles){
-	console.debug("getRangsFromStyles");
+	//console.debug("getRangsFromStyles");
 	if (tematic.tipus == t_dades_obertes){
 		tematic.geometrytype = t_marker;
 	}
@@ -896,8 +896,10 @@ function readTematic(defer, results, layerWms, layer){
 					 }
 					
 					updateServidorWMSName(data).then(function(results){
+						/*
 						if(results.status==='OK')console.debug("CapaTematic name changed OK");
 						else console.debug("CapaTematic name changed KO");
+						*/
 					});					
 			}
 			
@@ -1147,7 +1149,7 @@ function getRangsFromLayer(layer){
         };
               
         updateTematicRangs(data).then(function(results){
-              console.debug(results);
+        	//console.debug(results);
         },function(results){
 			//TODO error
 			console.debug("getRangsFromLayer ERROR");

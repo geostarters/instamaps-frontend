@@ -35,8 +35,6 @@ jQuery(document).ready(function() {
 		$('#button-delete-ok').on('click',function(){
 			var deleteOpt = $("input[name='optionsDelete']:checked").val();
 			var deleteOptTxt = $.trim($("input[name='optionsDelete']:checked").parent().text());
-			console.debug(deleteOpt);
-			console.debug(deleteOptTxt);
 			$('#modal_delete_usr').modal('hide');
 			$('#modal_delete_usr_conf').modal('show');
 			$('#deleteOptionText').text(deleteOptTxt);
@@ -44,11 +42,20 @@ jQuery(document).ready(function() {
 			
 			$('#button-delete-ok-conf').on('click',function(){
 				console.debug($('#deleteOptionValue').val());
+				var data = {
+					uid: $.cookie('uid'),
+					type: $('#deleteOptionValue').val()
+				};
+				deleteUser(data).then(function(results){
+					if (results.status==='OK'){
+						logoutUser();
+					}else{
+						$('#modal_delete_usr_ko').modal('show');
+					}
+				});
 			});
 		});
-		
 	});
-	
 });
 
 jQuery("#perfil_button_pass").click(function(){
@@ -105,8 +112,6 @@ function checkValidityPassword(){
 	}	
 }
 
-
-
 jQuery("#perfil_button").click(function(){
 	var name = jQuery("#perfil_name").val();
 	var surname = jQuery("#perfil_surname").val();
@@ -118,8 +123,7 @@ jQuery("#perfil_button").click(function(){
 			updateUserData($.cookie('uid'), name, surname, correu_usuari).then(function(results){
 				if(results.status==='OK'){
 					$('#modal_perfil_ok').modal('toggle');
-					old_email = correu_usuari;
-					$.cookie('uid', correu_usuari, {path:'/'});
+					$.cookie('uid', results.results.uid, {path:'/'});
 					$('#modal_perfil_ok').on('hidden.bs.modal', function (e) {
 						window.location.href = paramUrl.perfilPage;
 					});
