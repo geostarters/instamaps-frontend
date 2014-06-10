@@ -1059,8 +1059,8 @@ i.fa {
  /*border: 1px dashed #DDDDDD;*/
  width:100%;
  background-color: #EEEEEE;
- /*min-height:50px;*/
- max-height: 270px;
+ /*min-height:50px;
+ max-height: 270px;*/
  height: auto;
  overflow:auto;
  padding: 0 15px 15px 15px;
@@ -2000,10 +2000,14 @@ i.fa {
 	opacity:0.5;
 }
 
-#txt_URLfile_error{
+#txt_URLfile_error, #div_carrega_dades_message{
 	font-weight: bold;
 	margin-bottom: 0px;
 	padding: 5px;
+}
+
+#div_carrega_dades_message{
+	margin: 10px;
 }
 
 .class_error{

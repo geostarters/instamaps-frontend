@@ -2,7 +2,7 @@
  * 
  */
 
-function createURLfileLayer(urlFile, tipusFile, epsgIN){
+function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic){
 	
 	jQuery('#div_url_file').addClass('waiting_animation');
 	
@@ -11,135 +11,205 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN){
 	nomCapa += tipusFile;
 	var estil_do = retornaEstilaDO(t_url_file);
 	
-	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&urlFile="+urlFile+"&epsgIN="+epsgIN;
-	
-	var capaURLfile = new L.GeoJSON.AJAX(param_url, {
-//		onEachFeature : popUp,
-		nom : nomCapa,
-		tipus : t_url_file,
-//		dataset: dataset,
-		estil_do: estil_do,
-		businessId : '-1',
-		dataType : "jsonp",
-//		zIndex: lastZIndex,
-//		geometryType:t_marker,//TODO QUINA GEOMETRY TYPE!!!
-		pointToLayer : function(feature, latlng) {
-			  
-			var geometryType = transformTipusGeometry(feature.geometry.type);
-			if(geometryType == t_marker){
-				var geom = L.circleMarker(latlng, estil_do);
-			}else if(geometryType == t_polyline){
-				var geom = L.polyline(latlng, {color: estil_do.fillColor, weight: "3", opacity: "1"});
-			}else if(geometryType == t_polygon){
-				var geom = L.polygon(latlng, {color: estil_do.color, fillColor: estil_do.fillColor, fillOpacity: estil_do.fillOpacity, weight: estil_do.weight});
-			}
-	    	    	
-	    	var pp = feature.properties;
-	    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
-	    	$.each( pp, function( key, value ) {
-	    		if(value){
-					html+='<div class="popup_data_row">'+
-					'<div class="popup_data_key">'+key+'</div>'+
-				    '<div class="popup_data_value">'+value+'</div>'+
-				    '</div>';	    			
-	    		}
-	    	});	
-	    	html+='</div></div>';    	
-
-//	    	feature.geometry.coordinates[0]=latlng.lat;
-//		  	feature.geometry.coordinates[1]=latlng.lng;
-		    return geom.bindPopup(html);
-		  }
-//	,
-//		  middleware:function(data){
-//			  return esri2geoOrSomething(json);
-//		  }
-//	,
-//		  success: function(results){
-//			  console.debug(results);
-//		  },
-//		  fail: function(results){
-//			  console.debug(results);
-//		  }
-	});
-	
-
-
-	L.Util.jsonp(param_url).then(function(data){
+	if(dinamic){
+//		var param_url = paramUrl.urlFileProves + "tipusFile=" + tipusFile+
+//												 "&urlFile="+urlFile+
+//												 "&epsgIN="+epsgIN+
+//												 "&dinamic="+dinamic+
+//												 "&uploadFile="+paramUrl.uploadFile+
+//												 "&uid="+$.cookie('uid');
 		
-		capaURLfile.on('data:loaded', function(e){	
+		var param_url = paramUrl.urlFile	+ "tipusFile=" + tipusFile+
+											 "&urlFile="+urlFile+
+											 "&epsgIN="+epsgIN+
+											 "&dinamic="+dinamic+
+											 "&uploadFile="+paramUrl.uploadFile+
+											 "&uid="+$.cookie('uid');		
 		
-			//Un cop tinc la capa a client, la creo a servidor
-			if(typeof url('?businessid') == "string"){
-				var data = {
-					uid:$.cookie('uid'),
-					mapBusinessId: url('?businessid'),
-					serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
-					serverType: t_url_file,
-					calentas: false,
-		            activas: true,
-		            visibilitats: true,
-		            order: controlCapes._lastZIndex+1,
-		            epsg: '4326',
-		            imgFormat: 'image/png',
-		            infFormat: 'text/html',
-		            tiles: true,	            
-		            transparency: true,
-		            opacity: 1,
-		            visibilitat: 'O',
-		            url: urlFile,//Provar jQuery("#txt_URLJSON")
-		            calentas: false,
-		            activas: true,
-		            visibilitats: true,
-		            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
-				};
-				
-				createServidorInMap(data).then(function(results){
-						if (results.status == "OK"){
-							
-							jQuery('#dialog_dades_ex').modal('toggle');					
-							capaURLfile.options.businessId = results.results.businessId;
-							capaURLfile.options.nom = nomCapa;
-							capaURLfile.options.tipus = t_url_file;
-							capaURLfile.options.url = urlFile;
-							capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
-							capaURLfile.options.options.estil_do = estil_do;
-							capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
-							controlCapes.addOverlay(capaURLfile, nomCapa, true);
-							controlCapes._lastZIndex++;
-							activaPanelCapes(true);	
-							
-			//				 map.fitBounds(capaURLfile.getBounds());
-							
-						}else{
-							console.debug("1.Error a createServidorInMap:"+results.status);
-							var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-							jQuery("#div_url_file_message").html(txt_error);							
-						}
-				},function(results){
-					console.debug("2.Error a createServidorInMap:"+results.status);
-					var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-					jQuery("#div_url_file_message").html(txt_error);					
-				});
-				
-			}else{
-				//usuari no logat, no entra mai
-			}
+		var capaURLfile = new L.GeoJSON.AJAX(param_url, {
+//			onEachFeature : popUp,
+			nom : nomCapa,
+			tipus : t_url_file,
+//			dataset: dataset,
+			estil_do: estil_do,
+			businessId : '-1',
+			dataType : "jsonp",
+//			zIndex: lastZIndex,
+//			geometryType:t_marker,//TODO QUINA GEOMETRY TYPE!!!
+			pointToLayer : function(feature, latlng) {
+				  
+				var geometryType = transformTipusGeometry(feature.geometry.type);
+				if(geometryType == t_marker){
+					var geom = L.circleMarker(latlng, estil_do);
+				}else if(geometryType == t_polyline){
+					var geom = L.polyline(latlng, {color: estil_do.fillColor, weight: "3", opacity: "1"});
+				}else if(geometryType == t_polygon){
+					var geom = L.polygon(latlng, {color: estil_do.color, fillColor: estil_do.fillColor, fillOpacity: estil_do.fillOpacity, weight: estil_do.weight});
+				}
+		    	    	
+		    	var pp = feature.properties;
+		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+		    	$.each( pp, function( key, value ) {
+		    		if(value){
+						html+='<div class="popup_data_row">'+
+						'<div class="popup_data_key">'+key+'</div>'+
+					    '<div class="popup_data_value">'+value+'</div>'+
+					    '</div>';	    			
+		    		}
+		    	});	
+		    	html+='</div></div>';    	
+			    return geom.bindPopup(html);
+			  }
+		});
+
+		L.Util.jsonp(param_url).then(function(data){
+			
+			capaURLfile.on('data:loaded', function(e){	
+			
+				//Un cop tinc la capa a client, la creo a servidor
+				if(typeof url('?businessid') == "string"){
+					var data = {
+						uid:$.cookie('uid'),
+						mapBusinessId: url('?businessid'),
+						serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
+						serverType: t_url_file,
+						calentas: false,
+			            activas: true,
+			            visibilitats: true,
+			            order: controlCapes._lastZIndex+1,
+			            epsg: '4326',
+			            imgFormat: 'image/png',
+			            infFormat: 'text/html',
+			            tiles: true,	            
+			            transparency: true,
+			            opacity: 1,
+			            visibilitat: 'O',
+			            url: urlFile,//Provar jQuery("#txt_URLJSON")
+			            calentas: false,
+			            activas: true,
+			            visibilitats: true,
+			            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+					};
+					
+					createServidorInMap(data).then(function(results){
+							if (results.status == "OK"){
+								
+								_gaq.push(['_trackEvent', 'mapa', 'dades externes dinàmiques', urlFile, tipus_user]);
+								
+								jQuery('#dialog_dades_ex').modal('toggle');					
+								capaURLfile.options.businessId = results.results.businessId;
+								capaURLfile.options.nom = nomCapa;
+								capaURLfile.options.tipus = t_url_file;
+								capaURLfile.options.url = urlFile;
+								capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
+								capaURLfile.options.options.estil_do = estil_do;
+								capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
+								controlCapes.addOverlay(capaURLfile, nomCapa, true);
+								controlCapes._lastZIndex++;
+								activaPanelCapes(true);	
+				//				 map.fitBounds(capaURLfile.getBounds());
+								
+							}else{
+								console.debug("1.Error a createServidorInMap:"+results.status);
+								var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+								jQuery("#div_url_file_message").html(txt_error);							
+							}
+					},function(results){
+						console.debug("2.Error a createServidorInMap:"+results.status);
+						var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+						jQuery("#div_url_file_message").html(txt_error);					
+					});
+					
+				}else{
+					//usuari no logat, no entra mai
+				}
+			});		
+			jQuery('#div_url_file').removeClass('waiting_animation');
+		},function(data){
+			processFileError(data);
 		});		
-		jQuery('#div_url_file').removeClass('waiting_animation');
-	},function(data){
-		if(data.results.indexOf("CONVERT ERROR")!= -1){
-			var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
-			jQuery("#div_url_file_message").html(txt_error);
+	}else{
+		
+		console.debug("No es dinamic, tractament fitxer!");
+		
+		var data = {
+			 tipusFile: tipusFile,
+			 urlFile: urlFile,
+			 epsgIN: epsgIN,
+			 dinamic: dinamic,
+			 uploadFile: paramUrl.uploadFile,
+			 uid: $.cookie('uid')
 		}
-		else{
-			var txt_error = window.lang.convert("Error durant el tractament del fitxer");
-			jQuery("#div_url_file_message").html(txt_error);
-		}
-		jQuery('#div_url_file').removeClass('waiting_animation');
-		jQuery("#div_url_file_message").show();
-	});
+
+		//getUrlFileProves(data).then(function(results){
+		getUrlFile(data).then(function(results){
+			
+			if (results.status == "OK") {
+
+				var businessId = results.results.businessId;
+
+				// crear el servidor WMS i agregarlo al mapa
+				var data = {
+					uid : $.cookie('uid'),
+					businessId : businessId,
+					mapBusinessId : url('?businessid'),
+					serverName : nomCapa,//results.results.nom,
+					serverType : 'tematic',
+					calentas : false,
+					activas : true,
+					visibilitats : true,
+					epsg : '4326',
+					transparency : true,
+					visibilitat : 'O'
+				};
+				createServidorInMap(data).then(function(results) {
+					if (results.status == "OK") {
+
+						_gaq.push(['_trackEvent', 'mapa', 'dades externes', urlFile, tipus_user]);
+						
+						results.results.urlFile = true;
+						loadTematicLayer(results.results).then(function(results1){
+							getRangsFromLayer(results1);
+							if(results1){
+								map.fitBounds(results1.getBounds());
+							}
+						});
+						jQuery('#div_url_file').removeClass('waiting_animation');
+						jQuery('#dialog_dades_ex').modal('toggle');
+						refrescaPopOverMevasDades();
+					}
+				});
+			}else{
+				console.debug("Error getUrlFile:"+results);
+				processFileError(results);
+			}			
+			
+		},function(results){
+			console.debug("Error getUrlFile:"+results);
+			processFileError(results);
+		});
+	}
+}
+
+function processFileError(data){
 	
+	var txt_error = window.lang.convert("Error durant el tractament de les dades");
+	
+	if(data.results.indexOf("CONVERT ERROR")!= -1){
+		var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
+	}else if(data.results.indexOf("501")!= -1){//+ de 5000 punts
+		txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");
+	}else if(data.results.indexOf("502")!= -1){//+ de 1000 features
+		txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho.");
+	}else if(data.results.indexOf("503")!= -1){//+ de 6000 geometries
+		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+	}
+	
+	_gaq.push(['_trackEvent', 'mapa', 'dades externes error', data.results, tipus_user]);
+	
+	jQuery("#div_url_file_message").html(txt_error);
+	jQuery('#div_url_file').removeClass('waiting_animation');
+	jQuery("#div_url_file_message").show();
 }
 
 function loadURLfileLayer(layer){

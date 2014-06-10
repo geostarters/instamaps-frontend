@@ -52,8 +52,8 @@ var proxydir = "maps";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
-	//HOST_APP = "http://172.70.1.12/";
-	HOST_APP = "http://localhost:8080/";
+	HOST_APP = "http://172.70.1.12/";
+//	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.12";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
@@ -98,6 +98,7 @@ var paramUrl = {
 	getCacheTematicLayerByBusinessId: HOST_APP+"geocat/layers/tematic/getCacheTematicLayerByBusinessId.action?",
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	urlFile:GEOCAT02+"/share/jsp/urlFile.jsp?",
+	urlFileProves:GEOCAT02+"/share/jsp/urlFileProves.jsp?",
 	getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
@@ -141,6 +142,7 @@ var paramUrl = {
 	getNumCapes: HOST_APP+"geocat/stats/getNumCapes.action?",
 	download_layer: HOST_APP+"share/jsp/download_layer.jsp?",
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
+	upload_gdal_nou: HOST_APP+"share/jsp/upload_gdal_nou.jsp?",
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json",
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?"
