@@ -131,9 +131,9 @@
         		
         		<br>
         		
-<!--         		<p class="text-right"> -->
-<!--         		<button id="btn_delete_usr" lang="ca" type="button" class="btn btn-link btn-xs">Eliminar compte</button> -->
-<!--         		</p> -->
+        		<p class="text-right">
+        		<button id="btn_delete_usr" lang="ca" type="button" class="btn btn-link btn-xs">Eliminar compte</button>
+        		</p>
         		
 			</section>
     	</div>
@@ -272,23 +272,22 @@
 		    <div class="modal-content my-modal-content">
 		      <div class="modal-body">
 		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Eliminar compte</span></h4>
-		        <div class="alert alert-warning"><strong>Warning!</strong>Una vez eliminada una cuenta no se podrá recuperar la misma.</div>
-		        <div class="radio text-left" lang="ca">
-		        	Que quieres hacer con tus datos
+		        <div class="alert alert-warning"><strong><span lang="ca">Alerta</span>! </strong><span lang="ca">Si eliminies el teu compte perdràs els teus mapes i les teves dades</span></div>
+		        <div class="radio text-left">
+		        	<span lang="ca">Tria la teva opció</span>:
 		        </div>
 	        	<div class="radio text-left">
 				  <label>
-				    <input type="radio" name="optionsDelete" id="optionsDelete1" value="deleteAll" checked>
-				    <span lang="ca">Actualitzar contrassenya</span>
+				    <input type="radio" name="optionsDelete" id="optionsDelete2" value="deletePrivate" checked>
+				    <span lang="ca">Eliminar el meu compte però mantenir els meus mapes públics a la galeria d'Instamaps</span>
 				  </label>
 				</div>
-				<div class="radio text-left">
+	        	<div class="radio text-left">
 				  <label>
-				    <input type="radio" name="optionsDelete" id="optionsDelete2" value="deletePersonal">
-				    Option two can be something else and selecting it will deselect option one
+				    <input type="radio" name="optionsDelete" id="optionsDelete1" value="deleteAll">
+				    <span lang="ca">Eliminar el meu compte i esborrar-ho tot</span>
 				  </label>
 				</div>
-		        
 		      </div>
 		      <div class="modal-footer my-modal-footer">
 		      	<button type="button" class="btn btn-default no-radius" data-dismiss="modal">Cancel·lar</button>
@@ -303,7 +302,9 @@
 		    <div class="modal-content my-modal-content">
 		      <div class="modal-body">
 		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Eliminar compte</span></h4>
-		        <div class="alert alert-warning"><strong><span lang="ca">Cancel·lar</span>! </strong><span lang="ca" id="deleteOptionText"></span><span>Una vez eliminada una cuenta no se podrá recuperar la misma.</span></div>
+		        <div class="alert alert-warning"><strong><span lang="ca">Segur que vols</span> </strong><span lang="ca" id="deleteOptionText"></span><br/>
+		        <span lang="ca">Aquesta operació és irreversible</span>
+		        </div>
 		        <input type="hidden" id="deleteOptionValue" value="">		        
 		      </div>
 		      <div class="modal-footer my-modal-footer">
