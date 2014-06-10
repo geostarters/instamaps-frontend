@@ -47,11 +47,10 @@ jQuery(document).ready(function() {
 					type: $('#deleteOptionValue').val()
 				};
 				deleteUser(data).then(function(results){
-					console.debug(results);
 					if (results.status==='OK'){
 						logoutUser();
 					}else{
-						
+						$('#modal_delete_usr_ko').modal('show');
 					}
 				});
 			});
