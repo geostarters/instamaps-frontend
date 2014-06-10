@@ -810,6 +810,8 @@ function addDropFileToMap(results) {
 		};
 		createServidorInMap(data).then(function(results) {
 			if (results.status == "OK") {
+				var extensio = ((envioArxiu.ext!=null)?envioArxiu.ext:"");
+				_gaq.push(['_trackEvent', 'mapa', 'carregar dades', envioArxiu.ext, tipus_user]);
 				// Un cop carregat el fitxer refresquem el popup de les dades de
 				// l'usuari i tambÃ¨
 				// el control de capes
@@ -847,6 +849,7 @@ function addDropFileToMap(results) {
 		}else{
 			txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
 		}
+		_gaq.push(['_trackEvent', 'mapa', 'carregar dades error', results.results, tipus_user]);
 		jQuery("#div_carrega_dades_message").html(txt_error);
 		jQuery("#div_carrega_dades_message").show();	
 	}

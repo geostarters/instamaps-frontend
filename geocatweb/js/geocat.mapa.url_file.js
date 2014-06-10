@@ -94,6 +94,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic){
 					createServidorInMap(data).then(function(results){
 							if (results.status == "OK"){
 								
+								_gaq.push(['_trackEvent', 'mapa', 'dades externes dinàmiques', urlFile, tipus_user]);
+								
 								jQuery('#dialog_dades_ex').modal('toggle');					
 								capaURLfile.options.businessId = results.results.businessId;
 								capaURLfile.options.nom = nomCapa;
@@ -163,6 +165,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic){
 				createServidorInMap(data).then(function(results) {
 					if (results.status == "OK") {
 
+						_gaq.push(['_trackEvent', 'mapa', 'dades externes', urlFile, tipus_user]);
+						
 						results.results.urlFile = true;
 						loadTematicLayer(results.results).then(function(results1){
 							getRangsFromLayer(results1);
@@ -200,6 +204,8 @@ function processFileError(data){
 	}else if(data.results.indexOf("503")!= -1){//+ de 6000 geometries
 		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
 	}
+	
+	_gaq.push(['_trackEvent', 'mapa', 'dades externes error', data.results, tipus_user]);
 	
 	jQuery("#div_url_file_message").html(txt_error);
 	jQuery('#div_url_file').removeClass('waiting_animation');
