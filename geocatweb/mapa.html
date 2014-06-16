@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
 <link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
 <link rel="stylesheet" href="/llibreries/css/jquery.mCustomScrollbar.css"  />
+<link rel="stylesheet" href="/llibreries/css/listnav.css" />
 
 <link href="/llibreries/css/bootstrap-editable.custom.css" rel="stylesheet">
 <link href="/llibreries/css/jquery.share.css" rel="stylesheet">
@@ -189,10 +190,10 @@
 					<div class="div_gr2">
 						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr">
 							<script id="meus-wms-template" type="text/x-handlebars-template">
-							<div class="panel-success">
-								<ul class="bs-dadesO llista-wms panel-heading">
+							<div class="panel-body">
+								<ul id="listnav-teves-dades" class="llista-teves-dades panel-heading">
 								{{#each results}}
-									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-wms">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-wms"></span></li>
+									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span></li>
 								{{/each}}							
 								</ul>
 							</div>
@@ -295,7 +296,9 @@
 							<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>
 							<div class="controls">
 								<div tabindex="0">
-									<input class="make-switch" id="visibilitat_chk" type="checkbox" data-label-text="<span class='glyphicon glyphicon-transfer'></span>" data-on-text="<span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span>Públic</span>" data-off-text="<span class='fa fa-lock'></span>&nbsp;<span>Privat</span>">
+									<input class="make-switch" id="visibilitat_chk" type="checkbox" data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+																									data-on-text="<span id='publish-public'><span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span>Públic</span></span>" 
+																									data-off-text="<span id='publish-private'><span class='fa fa-lock'></span>&nbsp;<span>Privat</span></span>">
 								</div>
 							</div>
 							</div>
@@ -928,11 +931,11 @@
 	<!-- Modal les teves dades -->
 	<div class="modal fade" id="dialog_teves_dades">
 		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Accedeix a les teves dades</h4>
+					<h4 id="modal-title-teves-dades" class="modal-title" lang="ca">Accedeix a les teves dades</h4>
 				</div>
 				<div id="id_sw" class="modal-body">
 					<!-- <ul class="nav nav-tabs etiqueta">
@@ -1586,6 +1589,7 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-listnav.min.js"></script>
 	
 	
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>
@@ -1604,7 +1608,8 @@
 	<script>
 		L_PREFER_CANVAS = true;
 	</script>
-	<script src="/llibreries/js/leaflet/leaflet.js"></script>
+	<!-- script src="/llibreries/js/leaflet/leaflet-src.js"></script-->
+	<script src="/llibreries/js/leaflet/leaflet.0.7.min.custom.js"></script>
 	<script src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.spin.js"></script>
 	<!-- script src="/llibreries/js/leaflet/plugin/proj4-compressed.js" type="text/javascript"></script-->

@@ -2,13 +2,13 @@
  * 
  */
 
-function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic){
+function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 	
-	jQuery('#div_url_file').addClass('waiting_animation');
+//	jQuery('#div_url_file').addClass('waiting_animation');
 	
 //	var nomCapa = window.lang.convert("Capa URL fitxer ");
-	var nomCapa = jQuery("#input-url-file-name").val();
-	nomCapa += tipusFile;
+//	var nomCapa = jQuery("#input-url-file-name").val();
+//	nomCapa += tipusFile;
 	var estil_do = retornaEstilaDO(t_url_file);
 	
 	if(dinamic){
@@ -124,7 +124,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic){
 					//usuari no logat, no entra mai
 				}
 			});		
-			jQuery('#div_url_file').removeClass('waiting_animation');
+//			jQuery('#div_url_file').removeClass('waiting_animation');
 		},function(data){
 			processFileError(data);
 		});		
@@ -174,7 +174,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic){
 								map.fitBounds(results1.getBounds());
 							}
 						});
-						jQuery('#div_url_file').removeClass('waiting_animation');
+//						jQuery('#div_url_file').removeClass('waiting_animation');
 						jQuery('#dialog_dades_ex').modal('toggle');
 						refrescaPopOverMevasDades();
 					}
@@ -198,17 +198,17 @@ function processFileError(data){
 	if(data.results.indexOf("CONVERT ERROR")!= -1){
 		var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 	}else if(data.results.indexOf("501")!= -1){//+ de 5000 punts
-		txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");
+		txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
 	}else if(data.results.indexOf("502")!= -1){//+ de 1000 features
-		txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho.");
+		txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho");
 	}else if(data.results.indexOf("503")!= -1){//+ de 6000 geometries
-		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 	}
 	
 	_gaq.push(['_trackEvent', 'mapa', 'dades externes error', data.results, tipus_user]);
 	
 	jQuery("#div_url_file_message").html(txt_error);
-	jQuery('#div_url_file').removeClass('waiting_animation');
+//	jQuery('#div_url_file').removeClass('waiting_animation');
 	jQuery("#div_url_file_message").show();
 }
 

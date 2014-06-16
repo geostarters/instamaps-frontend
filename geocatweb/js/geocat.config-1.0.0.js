@@ -151,6 +151,59 @@ var paramUrl = {
 	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?"
 }
 
+//Llistat exemples de dades externes
+var llista_dadesExternes = {
+		"dadesExternes" : [
+				
+   				{
+	                "titol" : "Actes president.cat",
+	                "ORGANITZAC" : "president.cat",
+	                "urlOrganitzacio" : "http://www.president.cat",
+	                "urlDadesExternes" : "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
+				},				
+				{
+					"titol" : "Ciutats del mòn",
+					"ORGANITZAC" : "Wikipedia",
+					"urlOrganitzacio" : "http://en.wikipedia.org/wiki/List_of_cities_by_longitude",
+					"urlDadesExternes" : "https://raw.githubusercontent.com/mahemoff/geodata/master/cities.geojson",
+					"formatDadesExternes": t_file_geojson,
+					"epsgDadesExternes":"EPSG:4326"
+				},
+				{
+					"titol" : "Païssos del mòn",
+					"ORGANITZAC" : "Wikimedia Foundation",
+					"urlOrganitzacio" : "https://github.com/wikimedia",
+					"urlDadesExternes" : "https://raw.githubusercontent.com/wikimedia/limn-data/master/geo/maps/world-countries.json",
+					"formatDadesExternes": t_file_geojson,
+					"epsgDadesExternes":"EPSG:4326"
+				},				
+				{
+					"titol" : "Huracans a l'Atlàntic al 2004",
+					"ORGANITZAC" : "Unisys weather",
+					"urlOrganitzacio" : "http://weather.unisys.com/hurricane/atlantic/2004H/index.html",
+					"urlDadesExternes" : "https://raw.githubusercontent.com/colemanm/hurricanes/master/fl_2004_hurricanes.geojson",
+					"formatDadesExternes": t_file_geojson,
+					"epsgDadesExternes":"EPSG:4326"
+				},
+				{//https://github.com/FCC/lpfmpoints
+					"titol" : "U.S. Low Power FM station",
+					"ORGANITZAC" : "LPFM",
+					"urlOrganitzacio" : "http://www.fcc.gov/encyclopedia/low-power-fm-broadcast-radio-stations-lpfm",
+					"urlDadesExternes" : "https://raw.githubusercontent.com/FCC/lpfmpoints/gh-pages/data/lpfm_points.geojson",
+					"formatDadesExternes": t_file_geojson,
+					"epsgDadesExternes":"EPSG:4326"
+				},				
+				{
+					"titol" : "Camí de Sant Jaume",
+					"ORGANITZAC" : "Gencat",
+					"urlOrganitzacio" : "http://www.gencat.cat/",
+					"urlDadesExternes" : "http://www.gencat.cat/opendata/recursos/rutes/cami_de_sant_jaume.kml",
+					"formatDadesExternes": t_file_kml,
+					"epsgDadesExternes":"EPSG:4326"
+				}
+		]
+};
+
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
 //	if ( settings.url == "ajax/test.html" ) {
 	//alert("ajax send!");

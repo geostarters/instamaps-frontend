@@ -88,11 +88,11 @@ function creaAreesDragDropFiles() {
 					if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
 						var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 					}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
-						txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");
+						txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
 					}else if(resposta.codi.indexOf("502")!= -1){//+ de 1000 features
-						txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho.");
+						txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho");
 					}else if(resposta.codi.indexOf("503")!= -1){//+ de 6000 geometries
-						txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+						txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 					}else{
 						txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
 					}
