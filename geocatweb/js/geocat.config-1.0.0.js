@@ -52,8 +52,8 @@ var proxydir = "maps";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
-	HOST_APP = "http://172.70.1.12/";
-//	HOST_APP = "http://localhost:8080/";
+//	HOST_APP = "http://172.70.1.12/";
+	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.12";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
@@ -99,7 +99,7 @@ var paramUrl = {
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	urlFile:GEOCAT02+"/share/jsp/urlFile.jsp?",
 	urlFileProves:GEOCAT02+"/share/jsp/urlFileProves.jsp?",
-	getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
+	//getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
 	createMap: HOST_APP+"geocat/aplications/map/createMap.action?",
@@ -145,7 +145,10 @@ var paramUrl = {
 	upload_gdal_nou: HOST_APP+"share/jsp/upload_gdal_nou.jsp?",
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json",
-	deleteUser: HOST_APP+"geocat/user/deleteUser.action?"
+	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
+	getUserSimple: HOST_APP+"geocat/user/getUserSimple.action?",
+	publicarMapConfig: HOST_APP+"geocat/aplications/map/publicarMapConfig.action?",
+	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?"
 }
 
 //Llistat exemples de dades externes

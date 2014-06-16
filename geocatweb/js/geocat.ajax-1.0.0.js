@@ -195,8 +195,16 @@ function getLListaDadesObertes(){
 
 function getMapByBusinessId(data){
 	return jQuery.ajax({
-		//url: paramUrl.getMapByBusinessId,
-		url: paramUrl.getMapById,
+		url: paramUrl.getMapByBusinessId,
+		//url: paramUrl.getMapById,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getCacheMapByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.getCacheMapByBusinessId,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
@@ -537,6 +545,14 @@ function publicarCapesMapa(data){
 	}).promise();
 }
 
+function publicarMapConfig(data){
+	return jQuery.ajax({
+		url: paramUrl.publicarMapConfig,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function getUrlFile(data){
 	return jQuery.ajax({
 		url: paramUrl.urlFile,
@@ -561,6 +577,14 @@ function getUrlFileProves(data){
 		data: data,
 		async: false,
 		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getUserSimple(data){
+	return jQuery.ajax({
+		url: paramUrl.getUserSimple,
+		data: data,
 		dataType: 'jsonp'
 	}).promise();
 }

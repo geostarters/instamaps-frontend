@@ -814,7 +814,7 @@ function addDropFileToMap(results) {
 				var extensio = ((envioArxiu.ext!=null)?envioArxiu.ext:"");
 				_gaq.push(['_trackEvent', 'mapa', 'carregar dades', envioArxiu.ext, tipus_user]);
 				// Un cop carregat el fitxer refresquem el popup de les dades de
-				// l'usuari i tambÃ¨
+				// l'usuari i tambè
 				// el control de capes
 				//console.debug(results.results);
 				results.results.dragdrop = true;

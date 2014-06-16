@@ -65,14 +65,14 @@ function getServeiJSONP(purlJson) {
 
 							_htmlJSONFields
 									.push("<li>"
-											+ window.lang.convert('Longitud')
+											+ window.lang.convert('Coordenada X o Longitud')
 											+ "</li>");
 							_htmlJSONFields
 									.push("<li><select  id='cmd_json_x'>"
 											+ op.join(" ") + "</select></li>");
 
 							_htmlJSONFields.push("<li>"
-									+ window.lang.convert('Latitud') + "</li>");
+									+ window.lang.convert('Coordenada Y o Latitud') + "</li>");
 							_htmlJSONFields.push("<li><select id='cmd_json_y'>"
 									+ op.join(" ") + "</select></li>");
 
