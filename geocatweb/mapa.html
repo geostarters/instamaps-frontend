@@ -274,92 +274,47 @@
 				</div>
 				<div class="modal-body">
 					<form id="frm_publicar">
-						<script id="map-properties-template" type="text/x-handlebars-template">
 						<section>
 						<fieldset>	
-								<input lang="ca" id="nomAplicacio" type="text" required
-									class="form-control my-border" placeholder="Nom" value="{{nomAplicacio}}">
+								<input lang="ca" id="nomAplicacioPub" type="text" required
+									class="form-control my-border" placeholder="Nom" value="">
 								<br> 
 								<input lang="ca" id="optDescripcio" type="text" 
-									class="form-control my-border" placeholder="Descripció" value="{{options.description}}"> 
+									class="form-control my-border" placeholder="Descripció" value=""> 
 								<input lang="ca" id="optTags" type="text" 
-									class="form-control my-border" placeholder="Etiquetes" value="{{options.tags}}">
+									class="form-control my-border" placeholder="Etiquetes" value="">
 						</fieldset>
 						</section>
 						<br>
 						<div lang="ca" class="alert alert-info">
 						<span class="glyphicon glyphicon-info-sign"></span> 
-						<span lang="ca">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
+						<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
 						</div>
 						<div class="control-group">
 							<div class="control-switch">
 							<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>
 							<div class="controls">
 								<div tabindex="0">
-									<input class="make-switch" id="visibilitat_chk" type="checkbox" data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
-																									data-on-text="<span id='publish-public'><span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span>Públic</span></span>" 
-																									data-off-text="<span id='publish-private'><span class='fa fa-lock'></span>&nbsp;<span>Privat</span></span>">
+									<input class="make-switch" id="visibilitat_chk" type="checkbox" 
+										data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+										data-on-text="<span><span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span id='publish-public' lang='ca'>Públic</span></span>" 
+										data-off-text="<span><span class='fa fa-lock'></span>&nbsp;<span id='publish-private' lang='ca'>Privat</span></span>">
 								</div>
 							</div>
 							</div>
-									<div class="control-switch">
-									<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.llegenda}}
-											<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
+							<div class="control-switch">
+								<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
+								<div class="controls">
+									<div tabindex="0">
+										<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" 
+											data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+											data-on-text="<span id='publish-legend-yes' lang='ca'>Si</span>" 
+											data-off-text="<span id='publish-legend-no' lang='ca'>No</span>">
 									</div>
-									</div>
+								</div>
+							</div>
 						</div>
 						<br>
-						</script>
-						<!-- 
-								<br>
-								<div class="control-group">
-									<div class="control-switch">
-									<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.llegenda}}
-											<input class="make-switch" id="llegenda_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" id="llegenda_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
-									</div>
-									</div>
-
-									<div class="control-switch">
-									<label class="control-label" for="layers_chk" lang="ca">Arbol de capes</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.layers}}
-											<input class="make-switch" id="layers_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" id="layers_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
-									</div>
-									</div>
-
-									<div class="control-switch">
-									<label class="control-label" for="social_chk" lang="ca">Barra social</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.social}}
-											<input class="make-switch" id="social_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" id="social_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
-									</div>
-									</div>
-								</div>
-								-->
 					</form>					
 					<div class="modal-legend">
 						
@@ -1240,7 +1195,7 @@
 					<div id="list_tematic_layers"></div>
 			</div>
 				<div class="modal-footer">
-				<div lang="ca" style="float:right;line-height: 40px;">Estil actiu:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
+				<div style="float:right;line-height: 40px;"><span lang="ca">Estil actiu</span>:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
 					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
@@ -1404,9 +1359,8 @@
 					</table>	
 					</script>
 					
-					<div lang="ca" id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>
-					Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</div>
-					
+					<div id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>
+					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>
 					<div id="list_tematic_values"></div>
 				</div>
 				<div class="modal-footer">

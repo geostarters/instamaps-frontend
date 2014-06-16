@@ -204,17 +204,18 @@ function loadApp(){
 								}
 								updateMapName(data).then(function(results){
 									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
-									if(results.status=='OK') $('#dialgo_publicar #nomAplicacio').val(results.results);
+									if(results.status=='OK'){
+										$('#dialgo_publicar #nomAplicacioPub').val(results.results);
+										mapConfig.nomAplicacio = results.results;
+									} 
 								},function(results){
 									$('#nomAplicacio').val(mapConfig.nomAplicacio);				
 								});	
 							}
 						});	
-						
 					});
 				}catch(err){
 					gestioCookie('loadMapConfig');
-					
 				}
 			}
 		},function(results){
@@ -300,7 +301,21 @@ function loadApp(){
 			
 			_gaq.push(['_trackEvent', 'mapa', 'publicar', 'pre-publicar', tipus_user]);
 			
-			$('#dialgo_publicar #nomAplicacio').removeClass("invalid");
+			//actualizar los campos del dialogo publicar
+			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
+			$('#optDescripcio').val(mapConfig.options.description);
+			$('#optTags').val(mapConfig.options.tags);
+			if (mapConfig.visibilitat == visibilitat_open){
+				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
+			}else{
+				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
+			}
+			if (mapConfig.options.llegenda){
+				$('#llegenda_chk').bootstrapSwitch('state', true, true);
+			}else{
+				$('#llegenda_chk').bootstrapSwitch('state', false, false);
+			}
+			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
 			jQuery('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
@@ -324,6 +339,14 @@ function loadApp(){
 			}else{
 				$('#dialgo_publicar .modal-body .modal-legend').hide();
 			}
+			
+			$('#llegenda-title-text').text(window.lang.convert('Llegenda'));
+			$('#publish-public').text(window.lang.convert('Públic'));
+			$('#publish-private').text(window.lang.convert('Privat'));
+			$('#publish-legend-yes').text(window.lang.convert('Si'));
+			$('#publish-legend-no').text(window.lang.convert('No'));
+			$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
+			
 			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val()+"&id="+jQuery('#userId').val();
 			urlMap = v_url.replace('mapa','visor');
 			$('#urlMap').val(urlMap);
@@ -1755,10 +1778,13 @@ function loadMapConfig(mapConfig){
 		jQuery('#div_loading').hide();
 	}
 	
+	/*
 	var source = $("#map-properties-template").html();
 	var template = Handlebars.compile(source);
 	var html = template(mapConfig);
 	$('#frm_publicar').append(html);
+	*/
+	
 	
 	$('.make-switch').bootstrapSwitch();
 	//Configurar Llegenda
@@ -1856,13 +1882,12 @@ function loadLayer(value){
 
 function publicarMapa(fromCompartir){
 	if(!fromCompartir){//Si no venim de compartir, fem validacions del dialeg de publicar
-		if(isBlank($('#dialgo_publicar #nomAplicacio').val())){
-			$('#dialgo_publicar #nomAplicacio').addClass("invalid");
-			$('#dialgo_publicar #nomAplicacio').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
+		if(isBlank($('#dialgo_publicar #nomAplicacioPub').val())){
+			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
+			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 			return false;
 		}
 	}
-
 		
 	var options = {};
 	options.tags = jQuery('#dialgo_publicar #optTags').val();
@@ -1908,7 +1933,7 @@ function publicarMapa(fromCompartir){
 	//console.debug(layers);
 	
 	var nomApp = jQuery('#nomAplicacio').html();
-	if(!fromCompartir) nomApp = jQuery('#dialgo_publicar #nomAplicacio').val();
+	if(!fromCompartir) nomApp = jQuery('#dialgo_publicar #nomAplicacioPub').val();
 	
 	var data = {
 		nom: nomApp, //jQuery('#dialgo_publicar #nomAplicacio').val(),
@@ -1918,7 +1943,7 @@ function publicarMapa(fromCompartir){
 		options: options,
 		legend: JSON.stringify(mapLegend),
 		layers: JSON.stringify(layers)
-	}
+	};
 	
 	_gaq.push(['_trackEvent', 'mapa', 'publicar', visibilitat, tipus_user]);
 	
@@ -1959,6 +1984,7 @@ function publicarMapa(fromCompartir){
 					$('#dialgo_publicar').modal('hide');
 					//update map name en el control de capas
 					$('#nomAplicacio').text(mapConfig.nomAplicacio);
+					$('#nomAplicacio').editable('setValue', mapConfig.nomAplicacio);
 					$('#dialgo_url_iframe').modal('show');					
 				}
 				var mapData = {
@@ -2655,10 +2681,10 @@ function addLegend(){
 }
 
 function createModalConfigLegend(){
-//	//Obrim modal llegenda
-	console.debug(controlCapes);
-	console.debug(map._layers);
-	var html = '<h4 lang="ca" class="modal-title">Llegenda</h4>';
+	//Obrim modal llegenda
+	//console.debug(controlCapes);
+	//console.debug(map._layers);
+	var html = '<h4 lang="ca" id="llegenda-title-text" class="modal-title">Llegenda</h4>';
 	var count = 0;
 	jQuery.each(controlCapes._layers, function(i, item){
 		
@@ -2675,7 +2701,7 @@ function createModalConfigLegend(){
 		});
 		
 		html+='</div><div class="separate-legend-row"></div>';
-		console.debug(html);
+		//console.debug(html);
 	});	
 	$('#dialgo_publicar .modal-body .modal-legend').html(html);
 	$('#dialgo_publicar .modal-body .modal-legend').show();
@@ -3178,7 +3204,6 @@ function findLabelCategoria(dataField, fid, layerId, layerIdParent){
 }
 
 function updateMapLegendData(){
-	
 	mapLegend = {};
 	$(".legend-subrow").each(function(index,element){
 		
@@ -3192,10 +3217,7 @@ function updateMapLegendData(){
 			mapLegend[businessId] = [];			
 		}
 		mapLegend[businessId].push(obj);
-
 	});	
-	
-	console.debug(mapLegend);
 }
 
 function findStyleInLegend(legend,stringStyle){
