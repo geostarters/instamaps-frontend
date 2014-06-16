@@ -113,16 +113,20 @@ function loadApp(){
 //		initControls();
 				
 		var data = {
-			businessId: url('?businessid')
+			businessId: url('?businessid'),
+			id: url('?id')
 		};
 		
-		getMapByBusinessId(data).then(function(results){
+		getCacheMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
 				window.location.href = paramUrl.galeriaPage;
 			}
-			mapConfig = results.results;
-			mapConfig.options = $.parseJSON( mapConfig.options );
-
+			mapConfig = $.parseJSON(results.results);
+			
+			if (mapConfig.options){
+				mapConfig.options = $.parseJSON( mapConfig.options );
+			}
+			
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
 			if(mapLegend != "" && mapLegend != "{}" && !jQuery.isEmptyObject(mapLegend)){
 				addLegend();
@@ -149,7 +153,6 @@ function loadApp(){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
 	shortUrl(v_url).then(function(results){
-		console.debug(results);
 		jQuery('#socialShare_visor').share({
 	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 	        orientation: 'vertical',
@@ -434,7 +437,6 @@ function loadMapConfig(mapConfig){
 		
 		//carga las capas en el mapa
 		loadOrigenWMS().then(function(results){
-			console.debug(results);
 			var num_origen = 0;
 			jQuery.each(results.origen, function(index, value){
 				loadLayer(value).then(function(){
@@ -802,9 +804,7 @@ function addLegend(){
 	    var div = L.DomUtil.create('div', 'info legend visor-legend');
 	    	div.id = "mapLegend";
 	    jQuery.each(mapLegend, function(i, row){
-	    	console.debug(row);
 	    	for (var i = 0; i < row.length; i++) {
-	    		console.debug(row[i]);
 	    		if(row[i].chck){
 	    			div.innerHTML +='<div class="visor-legend-row">'+
 						    			'<div class="visor-legend-symbol col-md-6">'+row[i].symbol+'</div>'+

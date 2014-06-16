@@ -903,7 +903,10 @@ function readTematic(defer, results, layerWms, layer){
 					});					
 			}
 			
-			var options = jQuery.parseJSON( layerWms.options );				
+			var options;
+			if (layerWms.options){
+				options = jQuery.parseJSON( layerWms.options );
+			}
 			if(layerWms.options && options.origen){//Si es una sublayer
 				var origen = getLeafletIdFromBusinessId(options.origen);
 				capaTematic.options.dataField = dataField;

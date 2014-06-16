@@ -91,8 +91,6 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
-	
-	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
 	}else{
@@ -107,7 +105,13 @@ jQuery(document).ready(function() {
 			addToolTipsInici();
 		});
 		
-		loadApp();
+		var data = {
+			uid: $.cookie('uid')
+		};
+		getUserSimple(data).then(function(results){
+			$('#userId').val(results.results.id);
+			loadApp();
+		});
 	}
 }); // Final document ready
 
@@ -150,6 +154,10 @@ function loadApp(){
 			uid: $.cookie('uid')
 		};
 		
+		getUserSimple(data).then(function(results){
+			$('#userId').val(results.results.id);
+		});
+		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
@@ -160,6 +168,7 @@ function loadApp(){
 					gestioCookie('diferentUser');
 										
 					mapConfig.options = $.parseJSON( mapConfig.options );
+					
 					mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
 //					addLegend();
 //					$("#mapLegend").mCustomScrollbar();
@@ -178,8 +187,6 @@ function loadApp(){
 //						jQuery.each(controlCapes._layers, function(i, item){
 //							addLayersToLegend(item);
 //						});
-						
-						
 						
 						$('#nomAplicacio').editable({
 							type: 'text',
@@ -287,9 +294,6 @@ function loadApp(){
 			deleteRandomUser({uid: $.cookie('uid')});
 			$.removeCookie('uid', { path: '/' });
 		});
-		
-		
-		
 	}else{
 		//publicar el mapa solo para registrados
 		jQuery('.bt_publicar').on('click',function(){
@@ -308,10 +312,10 @@ function loadApp(){
 			}else{
 				$('#dialgo_publicar .modal-body .modal-legend').hide();
 			}
-			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val();
+			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val()+"&id="+jQuery('#userId').val();
 			urlMap = v_url.replace('mapa','visor');
 			$('#urlMap').val(urlMap);
-			$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+			$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 		});
 		
 		jQuery('#dialgo_publicar .btn-primary').on('click',function(){
@@ -385,6 +389,9 @@ function loadApp(){
 	
 	//Compartir en xarxes socials
 	var v_url = window.location.href;
+	if (!url('?id')){
+		v_url += "&id="+jQuery('#userId').val();
+	}
 	if(true){//if(v_url.contains('localhost')){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
@@ -414,7 +421,6 @@ function loadApp(){
 				console.debug("social share click, publiquem!");
 				publicarMapa(true);
 			});				
-			
 		});
 	}
 	
@@ -427,7 +433,6 @@ function loadApp(){
 			  $("#select-download-format option[value='GPX#.gpx']").removeAttr('disabled');
 		  }
 	});
-
 	
 	jQuery('#select-download-format').change(function() {	
 		var ext = jQuery(this).val();
@@ -482,9 +487,8 @@ function loadApp(){
 		
 			removeServerToMap(data).then(function(results){
 			if(results.status==='OK'){
-				
+			
 //				this.myRemoveLayer(obj);
-				console.debug('Arriba a myRemoveLayer');
 				map.closePopup();
 				map.removeLayer(obj.layer);
 				//Eliminem la capa de controlCapes
@@ -564,38 +568,26 @@ function addClicksInici() {
         }
     });
 
-	jQuery('.bt_hill').on('mousemove',function(e){
-		
+	jQuery('.bt_hill').on('mousemove',function(e){		
 		if(jQuery(this).prop('disabled')){
 			jQuery(this).css('cursor','not-allowed');
 		}else{
 			jQuery(this).css('cursor','pointer');
-		}
-		
-		
-	});
+		}	
+	});	
 	
-	
-	jQuery('.bt_hill').on('click',function(e){
-		
-		if(!jQuery(this).prop('disabled')){
-			
+	jQuery('.bt_hill').on('click',function(e){		
+		if(!jQuery(this).prop('disabled')){			
 			if(jQuery(this).hasClass('div_hill_verd')){
 				jQuery(this).removeClass('div_hill_verd');	
 				jQuery(this).addClass('div_hill');	
-				map.setTransActiveMap(1,false);
-				
+				map.setTransActiveMap(1,false);				
 			}else{
 				jQuery(this).removeClass('div_hill');	
 				jQuery(this).addClass('div_hill_verd');	
-				map.setTransActiveMap(0.6,true);
-				
-			}
-			
-			
-					
-		}	
-		
+				map.setTransActiveMap(0.6,true);				
+			}		
+		}			
 	});
 }
 
@@ -1829,7 +1821,8 @@ function publicarMapa(fromCompartir){
 	options.social = true;
 	options.fons = map.getActiveMap();
 	options.fonsColor = map.getMapColor();
-	console.debug(options);
+	options.idusr = jQuery('#userId').val();
+	//console.debug(options);
 	options = JSON.stringify(options);
 		
 	var newMap = true;
@@ -1864,7 +1857,6 @@ function publicarMapa(fromCompartir){
 		uid: $.cookie('uid'),
 		servidorWMSbusinessId: layersId
 	};
-	console.debug(laydata);
 	publicarCapesMapa(laydata);
 	
 	if (newMap){
@@ -1876,6 +1868,11 @@ function publicarMapa(fromCompartir){
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
+				var mapData = {
+					businessId: mapConfig.businessId,
+					uid: $.cookie('uid')
+				};
+				publicarMapConfig(mapData);
 			}
 		});
 	}else{
@@ -1887,15 +1884,17 @@ function publicarMapa(fromCompartir){
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				mapConfig.newMap = false;
-				
-				
-				
 				if(!fromCompartir){
 					$('#dialgo_publicar').modal('hide');
 					//update map name en el control de capas
 					$('#nomAplicacio').text(mapConfig.nomAplicacio);
 					$('#dialgo_url_iframe').modal('show');					
 				}
+				var mapData = {
+					businessId: mapConfig.businessId,
+					uid: $.cookie('uid')
+				};
+				publicarMapConfig(mapData);
 			}
 		});
 	}

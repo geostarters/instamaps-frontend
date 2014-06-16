@@ -72,7 +72,11 @@ $(function(){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
-				window.location.href = paramUrl.visorPage+"?businessid="+$this.data("businessid");
+				var urlMap = paramUrl.visorPage+"?businessid="+$this.data("businessid");
+				if ($.trim($this.data("idusr")) != ""){
+					urlMap += "&id="+$this.data("idusr");
+				}
+				window.location.href = urlMap;
 			});
 			
 			$('.btn.btn-primary').on('click', function(event){
@@ -80,8 +84,11 @@ $(function(){
 				event.stopPropagation();
 				var $this = $(this);
 				var urlMap = 'http://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
+				if ($.trim($this.data("idusr")) != ""){
+					urlMap += "&id="+$this.data("idusr");
+				}
 				$('#urlMap').val(urlMap);
-				$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
 				_gaq.push(['_trackEvent', 'galeria', 'compartir', 'referral', t_user_loginat]);
 			});
@@ -112,6 +119,14 @@ $(function(){
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
+			
+			results.results = jQuery.map( results.results, function( val, i ) {
+				if (val.options){
+					val.options = $.parseJSON(val.options);	
+				}
+				return val;
+			});
+			
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
@@ -119,7 +134,11 @@ $(function(){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
-				window.open(paramUrl.visorPage+"?businessid="+$this.data("businessid"));
+				var urlMap = paramUrl.visorPage+"?businessid="+$this.data("businessid");
+				if ($.trim($this.data("idusr")) != ""){
+					urlMap += "&id="+$this.data("idusr");
+				}
+				window.open(urlMap);
 			});
 			
 			$('.btn.btn-primary').on('click', function(event){
@@ -127,8 +146,11 @@ $(function(){
 				event.stopPropagation();
 				var $this = $(this);
 				var urlMap = 'http://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
+				if ($.trim($this.data("idusr")) != ""){
+					urlMap += "&id="+$this.data("idusr");
+				}
 				$('#urlMap').val(urlMap);
-				$('#iframeMap').val('<iframe width="700" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
 				_gaq.push(['_trackEvent', 'galeria', 'compartir', 'referral', t_user_random]);
 			});
