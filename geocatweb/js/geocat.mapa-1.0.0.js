@@ -301,6 +301,18 @@ function loadApp(){
 			jQuery('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
 			
+			//Dialeg publicar
+			$('#publish-private').tooltip({
+				placement : 'bottom',
+				container : 'body',
+				title : window.lang.convert("El mapa només es mostrarà a la teva galeria privada")
+			});
+			$('#publish-public').tooltip({
+				placement : 'bottom',
+				container : 'body',
+				title : window.lang.convert("El mapa es mostrarà a la galeria pública")
+			});				
+			
 			//Si mapconfig legend, activat, es mostra
 			if(mapConfig.options != null && mapConfig.options.llegenda){
 				createModalConfigLegend();
@@ -442,7 +454,8 @@ function loadApp(){
 		var formatOUT = $('#select-download-format').val();
 		var epsgOUT = $('#select-download-epsg').val();
 		var filename = $('#input-download-name').val();
-		var layer_GeoJSON = download_layer.layer.toGeoJSON();
+		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
+//		var layer_GeoJSON_custom = download_layer.layer.toGeoJSONcustom();
 		for(var i=0;i<layer_GeoJSON.features.length;i++){
 			layer_GeoJSON.features[i].properties.tipus = "downloaded";
 		}
@@ -464,7 +477,7 @@ function loadApp(){
 				$('#modal_download_layer .modal-footer').hide();
 				$('#modal_download_layer').modal('show');
 			}else{
-				window.location.href = GEOCAT02+results;
+				window.open(GEOCAT02+results,'_blank');
 			}
 		},function(results){
 			$('#modal-body-download-error').show();
@@ -534,8 +547,6 @@ function loadApp(){
 	jQuery('#dialog_carrega_dades').on('hidden.bs.modal', function (e) {
 		jQuery("#div_carrega_dades_message").hide();
 	});
-
-	
 }
 
 function addClicksInici() {
@@ -762,6 +773,7 @@ function addToolTipsInici() {
 	//cercador
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
+	
 }
 
 function activaPanelCapes(obre) {
@@ -1007,10 +1019,24 @@ function creaPopOverMevasDades(){
 			}else{
 				var source1 = jQuery("#meus-wms-template").html();
 				var template1 = Handlebars.compile(source1);
+//				jQuery.each(results.results, function(i,item){
+//					if(item.options){
+//						var options = jQuery.parseJSON( item.options );
+//						console.debug(i+":"+item.serverName+"-"+options.geometryType);
+//					}else{
+//						console.debug(i+":"+item.serverName);
+//					}
+//				});
 				var html1 = template1(results);				
 				jQuery("#id_sw").append(html1);
 				
-				jQuery("ul.bs-dadesO").on('click', '.usr_wms_layer', function(event) {
+				$("#listnav-teves-dades").listnav({
+				    initLetter: '',
+				    allText: window.lang.convert('Tots'),
+				    noMatchText: window.lang.convert('No hi ha entrades coincidents')
+				});
+				
+				jQuery("ul.llista-teves-dades").on('click', '.usr_wms_layer', function(event) {
 					event.preventDefault();
 					var _this = jQuery(this);
 				
@@ -1055,14 +1081,14 @@ function creaPopOverMevasDades(){
 							}else if(_this.data("servertype") == t_tematic){
 								loadTematicLayer(value);
 							}							
-							
+							$('#dialog_teves_dades').modal('hide');
 							activaPanelCapes(true);
 						}		
 					});							
 				});					
 						
 				//Eliminem servidors
-				jQuery("ul.bs-dadesO").on('click', 'span.glyphicon-remove', function(event) {
+				jQuery("ul.llista-teves-dades").on('click', 'span.glyphicon-remove', function(event) {
 					event.preventDefault();
 					event.stopPropagation();
 					var _this = jQuery(this);
@@ -1301,25 +1327,29 @@ function creaPopOverDadesExternes() {
 
 				//Carreguem exemples de dades externes 
 				//_htmlServeisWMS.push('<div class="panel-success"><ul class="bs-dadesO panel-heading">');
-				String lDadesExternes = "";
+				var lDadesExternes = '<ul class="bs-dadesO panel-heading llista-dadesExternes">';
 				jQuery.each(llista_dadesExternes.dadesExternes, function(key, dadesExternes) {
-						lDadesExternes.push('<ul class="bs-dadesO panel-heading">'
-							+ '<li><a class="label-wms" href="#" id="'
+						lDadesExternes += '<li><a class="label-dadesExternes" href="#" data-url="'
 							+ dadesExternes.urlDadesExternes
+							+ '" data-format="'
+							+ dadesExternes.formatDadesExternes
+							+ '" data-epsg="'
+							+ dadesExternes.epsgDadesExternes
 							+ '">'
 							+ window.lang.convert(dadesExternes.titol)
 							+ '</a>'
-							+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
-							+ WMS.URN
-							+ '"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>'
-							+ '</li></ul>');
+							+ '<a target="_blank" lang="ca" title="Informació" href="'
+							+ dadesExternes.urlOrganitzacio
+							+ '"><span class="glyphicon glyphicon-info-sign info-dadesExternes"></span></a>'
+							+ '</li>';
 				});				
+				lDadesExternes += '</ul>';
 				
 				jQuery(tbA).html(
-						'<div class="panel-success"><div panel-heading">'+
+						'<div class="panel-dadesExternes">'+
 							lDadesExternes +
 							'<div class="input-group txt_ext">'+
-								'<input type="text" lang="ca" class="form-control" value="" placeholder="Entrar URL fitxer" style="height:33px" id="txt_URLfile">'+ 
+								'<input type="text" lang="ca" class="form-control" value="" placeholder="'+window.lang.convert("Entrar URL de dades externes")+'" style="height:33px" id="txt_URLfile">'+ 
 								'<span class="input-group-btn">'+
 									'<button type="button" id="bt_URLfitxer" class="btn btn-success">'+
 										'<span class="glyphicon glyphicon-play"></span>'+
@@ -1331,7 +1361,26 @@ function creaPopOverDadesExternes() {
 //						+'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
 				);
 				
+				jQuery("#div_url_file").hide();
+				
+				jQuery(".label-dadesExternes").on('click', function(e) {
+					console.debug(e);
+					//URL PRESIDENT JSON
+					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
+						jQuery("#div_url_file").show();
+						jQuery("#div_url_file").html(
+								'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
+								'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
+						);
+						getServeiJSONP(this.dataset.url);
+						
+					}else{//LA RESTA
+						createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
+					}
+				});
+				
 				jQuery("#bt_URLfitxer").on('click', function(e) {
+					jQuery("#div_url_file").show();
 					var urlFile = jQuery("#txt_URLfile").val();
 					if(ValidURL(urlFile)){
 						
@@ -1362,7 +1411,7 @@ function creaPopOverDadesExternes() {
 										  '<option value=".gpx">GPX</option>'+
 										  '<option value=".kmz">KMZ</option>'+
 										  '<option value=".zip">Zip File</option>'+
-										  '<option value="-1">'+window.lang.convert("Sel·lecciona el Format")+'</option>'+
+										  '<option value="-1">'+window.lang.convert("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+
 									'EPSG:&nbsp;'+
@@ -1374,15 +1423,18 @@ function creaPopOverDadesExternes() {
 					              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
 					              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
 					              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
-					              			'<option value="-1">'+window.lang.convert("Sel·lecciona el EPSG")+'</option>'+
+					              			'<option value="-1">'+window.lang.convert("Selecciona el EPSG")+'</option>'+
 										'</select>'+
 										'<br><br>'+								
 										'<input id="dinamic_chck" type="checkbox" checked="checked">'+
 										'&nbsp;'+window.lang.convert("Dinàmica")+
+										'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
+											window.lang.convert("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
+										'</small>'+
 									'</div>&nbsp;'+
 									'<div>'+
 										'<span class="input-group-btn">'+
-										'<button type="button" id="bt_URLfitxer_go" class="btn btn-info">'+
+										'<button type="button" id="bt_URLfitxer_go" class="btn btn-success">'+
 											'<span class="glyphicon glyphicon-play"></span>'+
 										'</button>'+
 										'</span>'+
@@ -1434,7 +1486,7 @@ function creaPopOverDadesExternes() {
 									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 								}else{
 									console.debug("abans createURLfileLayer");
-									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'));
+									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val());
 									console.debug("despres createURLfileLayer");
 								}
 							});
@@ -1471,6 +1523,7 @@ function creaPopOverDadesExternes() {
 				
 				$("#txt_URLfile").focus(function() {
 					jQuery("#div_url_file").empty();
+					jQuery("#div_url_file").hide();
 				});				
 			}		
 		});
