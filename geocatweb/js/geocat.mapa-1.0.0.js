@@ -1097,6 +1097,9 @@ function creaPopOverMevasDades(){
 						businessId: _this.data("businessid")
 					};
 					
+					var firstLetter = _this.data("servername").charAt(0).toLowerCase();
+					if($.isNumeric(firstLetter)) firstLetter = "_";
+					
 					var parent = _this.parent();
 					var parentul = parent.parent();
 					_this.parent().remove();
@@ -1113,6 +1116,15 @@ function creaPopOverMevasDades(){
 									$('#dialgo_messages').modal('show');
 									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
 								}
+							}else{
+								//jQuery("ln-letter-count").init();
+//								console.debug(globalCounts);
+								globalCounts[''+firstLetter +'']--;
+//								console.debug(globalCounts[''+firstLetter +'']);
+//								if(globalCounts[''+firstLetter +'']<=0){
+//									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled');
+//									//jQuery(".ln-letters."+firstLetter).removeClass('ln-selected');
+//								}
 							}					
 						});
 					}else{
@@ -1123,6 +1135,13 @@ function creaPopOverMevasDades(){
 									$('#dialgo_messages').modal('show');
 									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
 								}
+							}else{
+//								console.debug(globalCounts);
+								globalCounts[''+firstLetter +'']--;
+//								console.debug(globalCounts[''+firstLetter +'']);
+//								if(globalCounts[''+firstLetter +'']<=0){
+//									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled')
+//								}
 							}
 						});						
 					}

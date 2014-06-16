@@ -15,6 +15,7 @@
 * CSS is a little wonky in IE6, just set your listnav class to be 100% width and it works fine.
 *
 */
+var globalCounts;
 (function ($) {
 
     $.fn.listnav = function (options) {
@@ -136,7 +137,7 @@
                         // All was not included, lets find the first letter with a count and show it
                         for ( var i = ((opts.includeNums) ? 0 : 1); i < letters.length; i++) {
 
-                            if ( counts[letters[i]] > 0 ) {
+                            if ( globalCounts[letters[i]] > 0 ) {
 
                                 firstClick = true;
 
@@ -239,28 +240,28 @@
                 }
 
                 $el.addClass('ln-' + firstChar);
-
+              //--
                 if ( counts[firstChar] === undefined ) {
-
+                	//--
                     counts[firstChar] = 0;
 
                 }
-
+              //--
                 counts[firstChar]++;
 
                 if (!isPrefix) {
 
                     allCount++;
 
-                }
-
+                }//--
+                globalCounts = counts;
             }
 
             function addDisabledClass() {
 
                 for ( var i = 0; i < letters.length; i++ ) {
 
-                    if ( counts[letters[i]] === undefined ) {
+                    if ( globalCounts[letters[i]] === undefined ) {
 
                         $('.' + letters[i], $letters).addClass('ln-disabled');
 
@@ -276,7 +277,7 @@
                 if ($(el).hasClass('all')) {
                     return allCount;
                 } else {
-                    var count = counts[$(el).attr('class').split(' ')[0]];
+                    var count = globalCounts[$(el).attr('class').split(' ')[0]];
                     return (count !== undefined) ? count : 0; // some letters may not have a count in the hash
                 }
             }
