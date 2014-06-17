@@ -303,18 +303,22 @@ function loadApp(){
 			
 			//actualizar los campos del dialogo publicar
 			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
-			$('#optDescripcio').val(mapConfig.options.description);
-			$('#optTags').val(mapConfig.options.tags);
 			if (mapConfig.visibilitat == visibilitat_open){
 				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 			}else{
 				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
 			}
-			if (mapConfig.options.llegenda){
-				$('#llegenda_chk').bootstrapSwitch('state', true, true);
-			}else{
-				$('#llegenda_chk').bootstrapSwitch('state', false, false);
+			
+			if (mapConfig.options){
+				$('#optDescripcio').val(mapConfig.options.description);
+				$('#optTags').val(mapConfig.options.tags);
+				if (mapConfig.options.llegenda){
+					$('#llegenda_chk').bootstrapSwitch('state', true, true);
+				}else{
+					$('#llegenda_chk').bootstrapSwitch('state', false, false);
+				}
 			}
+						
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
 			jQuery('.modal').modal('hide');
