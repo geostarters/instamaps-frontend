@@ -1383,7 +1383,7 @@ function creaPopOverDadesExternes() {
 				jQuery("#div_url_file").hide();
 				
 				jQuery(".label-dadesExternes").on('click', function(e) {
-					console.debug(e);
+					//console.debug(e);
 					//URL PRESIDENT JSON
 					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
 						jQuery("#div_url_file").show();
@@ -2859,7 +2859,7 @@ function addLayerToLegend(layer, count, layerIdParent){
 	}else if(layer.options.tipus == t_tematic){
 		
 		var rangs = getRangsFromLayerLegend(layer);
-		console.debug(rangs);
+		//console.debug(rangs);
 		var size = rangs.length;
 		
 		//Classic tematic

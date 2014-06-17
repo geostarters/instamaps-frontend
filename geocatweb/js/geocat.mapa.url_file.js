@@ -130,7 +130,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 		});		
 	}else{
 		
-		console.debug("No es dinamic, tractament fitxer!");
+	   //console.debug("No es dinamic, tractament fitxer!");
 		
 		var data = {
 			 tipusFile: tipusFile,
