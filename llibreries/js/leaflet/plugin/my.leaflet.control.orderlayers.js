@@ -224,7 +224,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			count.innerHTML = ' (' + obj.layer.getLayers().length + ')';		
 			label.appendChild(count);
 		}
-
 		
 		var container;
 		var modeMapa = ($(location).attr('href').indexOf('mapa')!=-1);

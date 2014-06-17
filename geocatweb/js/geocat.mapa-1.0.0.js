@@ -97,7 +97,7 @@ jQuery(document).ready(function() {
 		tipus_user = t_user_loginat;
 	}	
 	
-	if (!Modernizr.canvas ){
+	if (!Modernizr.canvas  || !Modernizr.sandbox){
 		//jQuery("#mapaFond").show();
 		
 	}else{

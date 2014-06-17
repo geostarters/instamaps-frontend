@@ -75,7 +75,7 @@ jQuery(document).ready(function() {
 		tipus_user = t_user_loginat;
 	}	
 	
-	if (!Modernizr.canvas ){
+	if (!Modernizr.canvas  || !Modernizr.sandbox){
 		jQuery("#mapaFond").show();
 		jQuery("#dialgo_old_browser").modal('show');
 		jQuery('#dialgo_old_browser').on('hide.bs.modal', function (e) {
@@ -88,11 +88,10 @@ jQuery(document).ready(function() {
 
 function loadApp(){
 	
-	if(typeof url('?embed') == "string"){
+	if(typeof url('?embed') == "string"){	
 //		jQuery('#navbar-visor').remove();
 		jQuery('#navbar-visor').hide();
 		jQuery('#searchBar').css('top', '0');
-		
 	}
 	
 	if(typeof url('?businessid') == "string"){
@@ -135,7 +134,11 @@ function loadApp(){
 			}
 						
 			//iniciamos los controles
-			initControls();			
+			initControls().then(function(){
+				if(typeof url('?embed') == "string"){
+					activaLlegenda(false);
+				}
+			});		
 			
 			mapConfig.newMap = false;
 			$('#nomAplicacio').html(mapConfig.nomAplicacio);
@@ -213,6 +216,7 @@ function loadApp(){
 }
 
 function initControls(){
+	var dfd = $.Deferred();
 	addControlsInici();
 	addClicksInici();
 	addToolTipsInici();
@@ -220,10 +224,14 @@ function initControls(){
 		addControlCercaEdit();		
 //	}
 	redimensioMapa();
+	
+	dfd.resolve();
+	
+	return dfd.promise();
 }
 
 function addControlsInici() {
-
+	var dfd = $.Deferred();
 	controlCapes = L.control.orderlayers(null, null, {
 		collapsed : false,
 		id : 'div_capes'
@@ -251,6 +259,9 @@ function addControlsInici() {
 		return this._div;
 	};
 	ctr_llistaCapes.addTo(map);
+	
+	dfd.resolve();
+	return dfd.promise();
 }
 
 function addClicksInici() {
@@ -285,11 +296,20 @@ function addClicksInici() {
 }
 
 function activaPanelCapes(obre) {
+	if(typeof url('?embed') == "string"){
+		if (obre){
+			obre = false;
+		}
+	}
 	if (obre) {
 		jQuery('.leaflet-control-layers').animate({
 			width : 'show'
 		});
-	} else {
+	}else if (obre == false){
+		jQuery('.leaflet-control-layers').animate({
+			width : 'hide'
+		});
+	}else {
 		jQuery('.leaflet-control-layers').animate({
 			width : 'toggle'
 		});
@@ -312,10 +332,8 @@ function activaLlegenda(obre) {
 ////		  easing: 'in',
 ////		  complete: function() { $(".visor-legend").toggle(); }
 ////		});	
-	
-	
 	var cl = jQuery('.bt_legend span').attr('class');
-	if (cl.indexOf('grisfort') != -1) {
+	if (cl && cl.indexOf('grisfort') != -1) {
 		jQuery('.bt_legend span').removeClass('grisfort');
 		jQuery('.bt_legend span').addClass('greenfort');
 		$(".bt_legend").transition({ x: '0px', y: '0px',easing: 'in', duration: 500 });
