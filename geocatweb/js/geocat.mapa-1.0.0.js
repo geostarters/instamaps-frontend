@@ -105,13 +105,17 @@ jQuery(document).ready(function() {
 			addToolTipsInici();
 		});
 		
-		var data = {
-			uid: $.cookie('uid')
-		};
-		getUserSimple(data).then(function(results){
-			$('#userId').val(results.results.id);
+		if (tipus_user == t_user_loginat){
+			var data = {
+					uid: $.cookie('uid')
+				};
+				getUserSimple(data).then(function(results){
+					$('#userId').val(results.results.id);
+					loadApp();
+				});
+		}else{
 			loadApp();
-		});
+		}
 	}
 }); // Final document ready
 
