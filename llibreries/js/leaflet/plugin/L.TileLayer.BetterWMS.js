@@ -15,23 +15,40 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
 		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
-		$.ajax({
-		url: paramUrl.proxy,
-		data: {url: params},
-		success: function (data, status, xhr) {
-			var err = typeof data === 'string' ? null : data;
-//			showResults(err, evt.latlng, data);
-			//showGetFeatureInfo(err, evt.latlng, data);
-		var pop=L.popup({ maxWidth: 800})
-			.setLatLng(evt.latlng)
-			.setContent(data).openOn(map);
 		
-		},
-		error: function (xhr, status, error) {
-//			showResults(error);
-			//console.debug("Error:"+error);
+		
+		
+		if (params.indexOf('psolar_v2.map')!=-1){
+			
+			var dataF="<iframe style=\"display: block; width:300px; height:600px;border:none;\"  src="+params+" ></iframe></div>";
+			
+			var pop=L.popup({ maxWidth: 800})
+			.setLatLng(evt.latlng)
+			.setContent(dataF).openOn(map);	
+			
+		}else{
+		
+		
+			$.ajax({
+			url: paramUrl.proxy_betterWMS,
+			data: {url: params},
+			success: function (data, status, xhr) {
+				var err = typeof data === 'string' ? null : data;
+	//			showResults(err, evt.latlng, data);
+				//showGetFeatureInfo(err, evt.latlng, data);
+			var pop=L.popup({ maxWidth: 800})
+				.setLatLng(evt.latlng)
+				.setContent(data).openOn(map);
+			
+			},
+			error: function (xhr, status, error) {
+	//			showResults(error);
+				//console.debug("Error:"+error);
+			}
+			});
 		}
-		});
+		
+		
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
