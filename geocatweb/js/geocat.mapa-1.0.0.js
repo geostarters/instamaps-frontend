@@ -303,17 +303,19 @@ function loadApp(){
 			
 			//actualizar los campos del dialogo publicar
 			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
-			$('#optDescripcio').val(mapConfig.options.description);
-			$('#optTags').val(mapConfig.options.tags);
+			if(mapConfig.options){
+				$('#optDescripcio').val(mapConfig.options.description);
+				$('#optTags').val(mapConfig.options.tags);	
+				if (mapConfig.options.llegenda){
+					$('#llegenda_chk').bootstrapSwitch('state', true, true);
+				}else{
+					$('#llegenda_chk').bootstrapSwitch('state', false, false);
+				}				
+			}
 			if (mapConfig.visibilitat == visibilitat_open){
 				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 			}else{
 				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
-			}
-			if (mapConfig.options.llegenda){
-				$('#llegenda_chk').bootstrapSwitch('state', true, true);
-			}else{
-				$('#llegenda_chk').bootstrapSwitch('state', false, false);
 			}
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
@@ -1794,6 +1796,32 @@ function loadMapConfig(mapConfig){
 				});
 			});
 		});
+		
+//		//carga las capas en el mapa
+//		loadOrigenWMS().then(function(results){
+//			var num_origen = 0;
+//			jQuery.each(results.origen, function(index, value){
+//				loadLayer(value).then(function(){
+//					num_origen++;
+//					if (num_origen == results.origen.length){
+//						if($.isEmptyObject(results.sublayers)){
+//							$(".layers-list").mCustomScrollbar();
+//						}else{
+//							var num_sublayers = 0;
+//							jQuery.each(results.sublayers, function(index, value){
+//								loadLayer(value).then(function(){
+//									num_sublayers++;
+//									if (num_sublayers == results.sublayers.length){
+//										$(".layers-list").mCustomScrollbar();
+//									}
+//								});
+//							});							
+//						}
+//					}
+//				});
+//			});
+//		});		
+		
 		jQuery('#div_loading').hide();
 	}
 	
@@ -2438,7 +2466,7 @@ function loadDadesObertesLayer(layer){
 
 function loadWmsLayer(layer){
 	
-	var newWMS = L.tileLayer.wms(layer.url, {
+	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
 	    transparent: layer.transparency,

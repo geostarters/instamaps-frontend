@@ -78,7 +78,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
 		}
 
-		var form = this._form = L.DomUtil.create('form', className + '-list');
+		var form = this._form = L.DomUtil.create('div', className + '-list');
 
 		if (this.options.collapsed) {
 			if (!L.Browser.android) {
@@ -114,7 +114,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 		this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
 		this._separator = L.DomUtil.create('div', className + '-separator', form);
-		this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
+		this._overlaysList = L.DomUtil.create('div', className + '-overlays layers-list', form);
 
 		container.appendChild(form);
 	},

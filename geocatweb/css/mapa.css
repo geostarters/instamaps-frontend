@@ -362,6 +362,7 @@ h1,h2,h3,h4,h5,h6 {
 .leaflet-control-layers {
 	width: 250px;
 	min-height: 300px;
+	max-height: 350px;
 	display: none;
 	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
     color: #FFFFFF;	
@@ -1964,15 +1965,11 @@ i.fa {
 .visor-legend-row{
 	line-height: 20px;
 }
-
 .legend-symbol svg, .legend-symbol img, 
 .visor-legend-symbol svg, .visor-legend-symbol img, 
 .visor-legend-symbol div{
     display: block;
     margin: auto;
-}
-.visor-legend-symbol{
-	
 }
 .visor-legend-name{
     color: #FFFFFF;
@@ -2101,4 +2098,13 @@ i.fa {
 }
 #modal-title-teves-dades{
 	font-size: 16px;
+}
+
+.layers-list{
+	overflow: hidden;
+	/*width: 200px;*/
+	max-height: 280px;
+	-moz-box-sizing: content-box;
+    height: 100%;
+    position: relative;	
 }

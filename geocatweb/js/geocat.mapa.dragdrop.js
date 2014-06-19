@@ -47,6 +47,7 @@ function creaAreesDragDropFiles() {
 		drgFromMapa = new window.Dropzone("div#map", drOpcionsMapa);
 
 		drgFromMapa.on("addedfile", function(file) {
+			_gaq.push(['_trackEvent', 'mapa', 'carregar dades drag&drop', 'addedfile', tipus_user]);
 			envioArxiu.isDrag=true;
 			accionaCarrega(file,envioArxiu.isDrag);
 		});
@@ -151,11 +152,11 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 		drgFromBoto = new window.Dropzone("button#upload_file", opcionsBoto);
 
 		drgFromBoto.on("addedfile", function(file) {
+			_gaq.push(['_trackEvent', 'mapa', 'carregar dades menu', 'addedfile', tipus_user]);
 			envioArxiu.isDrag=false;
 			accionaCarrega(file, envioArxiu.isDrag);			
 		});
 
-		
 		drgFromBoto.on("sending", function(file, xhr, formData) {
 			//console.info("sending");
 			formData.append("nomArxiu", file.name); 
@@ -196,9 +197,6 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 			alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
 
 		});
-		
-		
-		
 		
 		drgFromBoto.on('uploadprogress', function(file, progress,bytesSent) {
 			//console.info("progress");

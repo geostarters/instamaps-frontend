@@ -645,9 +645,9 @@ function readTematic(defer, results, layerWms, layer){
 		var hasSource = (tematic.options && (tematic.options.indexOf("source")!=-1) );
 		//console.debug(tematic);
 		if(tematic.tipusRang == tem_heatmap){
-			loadTematicHeatmap(tematic, layer.capesOrdre, layer.options);
+			loadTematicHeatmap(tematic, layer.capesOrdre, layer.options, layer.capesActiva);
 		}else if(tematic.tipusRang == tem_cluster){
-			loadTematicCluster(tematic, layer.capesOrdre, layer.options);
+			loadTematicCluster(tematic, layer.capesOrdre, layer.options, layer.capesActiva);
 		}else{
 			var Lgeom = tematic.geometries.features.features;
 			var idDataField = tematic.idDataField;

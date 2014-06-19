@@ -219,7 +219,9 @@ function loadDadesObertesClusterLayer(layer){
 		clusterLayer.options.dataset = options.dataset;
 		clusterLayer.options.tipusRang = tem_cluster;
 
-		map.addLayer(clusterLayer);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(clusterLayer);
+		}
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
@@ -314,7 +316,9 @@ function loadJsonClusterLayer(layer){
 		clusterLayer.options.tipus = layer.serverType;
 		clusterLayer.options.tipusRang = tem_cluster;
 
-		map.addLayer(clusterLayer);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(clusterLayer);
+		}
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
@@ -323,7 +327,7 @@ function loadJsonClusterLayer(layer){
 	});
 }
 
-function loadTematicCluster(layer, zIndex, layerOptions){
+function loadTematicCluster(layer, zIndex, layerOptions, capesActiva){
 	
 	var options = jQuery.parseJSON(layerOptions);
 	
@@ -345,7 +349,7 @@ function loadTematicCluster(layer, zIndex, layerOptions){
 	clusterLayer.options.tipus = t_tematic;
 	clusterLayer.options.tipusRang = tem_cluster;
 	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
+	if (capesActiva.indexOf("false")==-1){
 		map.addLayer(clusterLayer);
 	}		
 	var origen = getLeafletIdFromBusinessId(options.origen);

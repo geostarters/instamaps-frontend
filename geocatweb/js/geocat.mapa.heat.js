@@ -216,7 +216,10 @@ function loadDOHeatmapLayer(layer){
 		heatLayerActiu.options.tipus = layer.serverType;
 		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
-		map.addLayer(heatLayerActiu);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(heatLayerActiu);
+		}
+		
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
@@ -276,7 +279,9 @@ function loadJsonHeatmapLayer(layer){
 		heatLayerActiu.options.tipus = layer.serverType;
 		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
-		map.addLayer(heatLayerActiu);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(heatLayerActiu);
+		}
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
 		activaPanelCapes(true);
@@ -284,7 +289,7 @@ function loadJsonHeatmapLayer(layer){
 	});
 }
 
-function loadTematicHeatmap(layer, zIndex, layerOptions){
+function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 	
 	var options = jQuery.parseJSON(layerOptions);
 	
@@ -315,9 +320,13 @@ function loadTematicHeatmap(layer, zIndex, layerOptions){
 	heatLayerActiu.options.tipus = t_tematic;
 	heatLayerActiu.options.tipusRang = tem_heatmap;
 	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
+//	if (layer.capesActiva == true || layer.capesActiva == "true"){
+//		map.addLayer(heatLayerActiu);
+//	}
+	
+	if (capesActiva.indexOf("false")==-1){
 		map.addLayer(heatLayerActiu);
-	}	
+	}
 	
 	var origen = getLeafletIdFromBusinessId(options.origen);
 	controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
