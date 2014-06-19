@@ -65,7 +65,9 @@ function loginUserIcgc(){
 		var user_login_icgc =jQuery("#login_user_icgc").val();
 		var pass_login_icgc = jQuery("#login_pass_icgc").val();
 		var dataUrl = {user:user_login_icgc, password:pass_login_icgc};
-		
+		if (isRandomUser($.cookie('uid'))){
+			dataUrl.randomuid = $.cookie('uid');
+		}
 		doLoginIcgc(dataUrl).then(function(results){
 			if(results.status==='OK'){
 				$.cookie('uid', results.uid, {path:'/'});

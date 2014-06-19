@@ -91,6 +91,13 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
+	if(typeof url('?uid') == "string"){
+		gestioCookie();
+		$.removeCookie('uid', { path: '/' });
+		$.cookie('uid', url('?uid'), {path:'/'});
+		checkUserLogin();
+	}
+	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
 	}else{
@@ -121,12 +128,6 @@ jQuery(document).ready(function() {
 
 
 function loadApp(){
-	if(typeof url('?uid') == "string"){
-		gestioCookie();
-		$.removeCookie('uid', { path: '/' });
-		$.cookie('uid', url('?uid'), {path:'/'});
-	}
-	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
