@@ -168,7 +168,7 @@ function createHeatMap(capa){
 }
 
 function loadDOHeatmapLayer(layer){
-	console.debug(layer);
+	//console.debug(layer);
 	var options = jQuery.parseJSON( layer.options );
 	var estil_do = retornaEstilaDO(options.dataset);
 	var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;	
@@ -187,7 +187,7 @@ function loadDOHeatmapLayer(layer){
 	});
 	
 	capaDadaOberta.on('data:loaded', function(e){
-		console.debug("data:loaded");
+		//console.debug("data:loaded");
 		
 		var arrP=[];
 		capaDadaOberta.eachLayer(function(layer){

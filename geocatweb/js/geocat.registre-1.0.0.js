@@ -13,6 +13,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 			if(url('?LastName')!='null') $('#signin_surname').val(url('?LastName'));
 			if(url('?DisplayName')!='null') $('#signin_username').val(url('?DisplayName'));
 			if(url('?Email')!='null') $('#signin_email').val(url('?Email'));
+			if(url('?randomId')!='null') $('#randomId').val(url('?randomId'));
 			$('#signin_pass').hide();
 			$('#signin_confirm_pass').hide();
 			checkValiditySignIn();
@@ -41,7 +42,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 		var correu_usuari=jQuery("#signin_email").val();
 		var pass = jQuery("#signin_pass").val();
 		var confirm_pass = jQuery("#signin_confirm_pass").val();
-				
+		var randomId = jQuery("#randomId").val();
 		checkValiditySignIn().then(function(){
 			if(! $("span").hasClass( "text_error" )){
 				$('.waiting_animation').show();
@@ -56,11 +57,10 @@ var text_confirma_dades = 'Confirmeu les dades';
 				}else{
 					reg_url = paramUrl.signinUser;
 					dataUrl = {cn:name, sn:surname, uid:id, userPassword: pass, email: correu_usuari, tipusEntitatId:"1", ambitGeo:"1", bbox:"260383,4491989,527495,4748184"};
-					if (isRandomUser($.cookie('uid'))){
-						dataUrl.randomuid = $.cookie('uid');
-					}
 				}
-				
+				if (isRandomUser($.cookie('uid'))){
+					dataUrl.randomuid = $.cookie('uid');
+				}
 				registerUser(reg_url, dataUrl).then(function(results){
 					if(results.status==='OK'){
 						

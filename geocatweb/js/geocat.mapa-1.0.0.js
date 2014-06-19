@@ -91,13 +91,20 @@ var optB = {
 };
 
 jQuery(document).ready(function() {
+	if(typeof url('?uid') == "string"){
+		gestioCookie();
+		$.removeCookie('uid', { path: '/' });
+		$.cookie('uid', url('?uid'), {path:'/'});
+		checkUserLogin();
+	}
+	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
 	}else{
 		tipus_user = t_user_loginat;
 	}	
 	
-	if (!Modernizr.canvas ){
+	if (!Modernizr.canvas  || !Modernizr.sandbox){
 		//jQuery("#mapaFond").show();
 		
 	}else{
@@ -105,11 +112,15 @@ jQuery(document).ready(function() {
 			addToolTipsInici();
 		});
 		
-		var data = {
-			uid: $.cookie('uid')
-		};
-		getUserSimple(data).then(function(results){
-			$('#userId').val(results.results.id);
+		if (tipus_user == t_user_loginat){
+			var data = {
+					uid: $.cookie('uid')
+				};
+				getUserSimple(data).then(function(results){
+					$('#userId').val(results.results.id);
+					loadApp();
+				});
+		}else{
 			loadApp();
 		});
 	}
@@ -117,12 +128,6 @@ jQuery(document).ready(function() {
 
 
 function loadApp(){
-	if(typeof url('?uid') == "string"){
-		gestioCookie();
-		$.removeCookie('uid', { path: '/' });
-		$.cookie('uid', url('?uid'), {path:'/'});
-	}
-	
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
@@ -303,6 +308,11 @@ function loadApp(){
 			
 			//actualizar los campos del dialogo publicar
 			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
+			if (mapConfig.visibilitat == visibilitat_open){
+				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
+			}else{
+				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
+			}
 			if(mapConfig.options){
 				$('#optDescripcio').val(mapConfig.options.description);
 				$('#optTags').val(mapConfig.options.tags);	
@@ -312,11 +322,7 @@ function loadApp(){
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
 				}				
 			}
-			if (mapConfig.visibilitat == visibilitat_open){
-				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
-			}else{
-				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
-			}
+
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
 			jQuery('.modal').modal('hide');
@@ -1400,7 +1406,7 @@ function creaPopOverDadesExternes() {
 				jQuery("#div_url_file").hide();
 				
 				jQuery(".label-dadesExternes").on('click', function(e) {
-					console.debug(e);
+					//console.debug(e);
 					//URL PRESIDENT JSON
 					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
 						jQuery("#div_url_file").show();
@@ -2902,7 +2908,7 @@ function addLayerToLegend(layer, count, layerIdParent){
 	}else if(layer.options.tipus == t_tematic){
 		
 		var rangs = getRangsFromLayerLegend(layer);
-		console.debug(rangs);
+		//console.debug(rangs);
 		var size = rangs.length;
 		
 		//Classic tematic

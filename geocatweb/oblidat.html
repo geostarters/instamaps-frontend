@@ -114,7 +114,7 @@
 	</div><!-- /.modal -->
 		
 	<!-- Modal Old Browser -->
-	<div id="dialgo_old_browser" class="modal fade">
+	<div id="dialgo_old_browser" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -158,9 +158,9 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
+	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
 	<script type="text/javascript">
-	if (!Modernizr.canvas ){
+	if (!Modernizr.canvas || !Modernizr.sandbox){
 		document.getElementById("dialgo_old_browser").style.display = "block";
 		document.getElementById("old_icon_close").style.display = "none";
 		document.getElementById("old_btn_close").onclick = function () {
