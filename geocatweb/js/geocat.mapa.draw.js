@@ -627,6 +627,9 @@ function createPopupWindowData(player,type){
 }
 
 function parseUrlText(txt){
+	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1){
+		return txt;
+	}
 	var lwords = txt.split(" "); 
 	var parseText = "";
 	for(index in lwords){

@@ -122,7 +122,7 @@ jQuery(document).ready(function() {
 				});
 		}else{
 			loadApp();
-		});
+		}
 	}
 }); // Final document ready
 
