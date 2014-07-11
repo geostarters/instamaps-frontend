@@ -101,7 +101,7 @@ $(function(){
 				$('#urlMap').val(urlMap);
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'compartir', 'referral', 1]);
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'enllaça mapa', 'referral', 1]);
 			});
 			
 			$('.btn-tooltip').tooltip().each(function(){
@@ -164,7 +164,7 @@ $(function(){
 				$('#urlMap').val(urlMap);
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
-				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'compartir', 'referral', 1]);
+				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'enllaça mapa', 'referral', 1]);
 			});
 			
 			$('.btn-tooltip').tooltip().each(function(){

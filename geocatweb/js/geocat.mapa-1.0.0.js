@@ -1603,7 +1603,6 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades obertes', nom_dataset, 1]);
 	
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
-	console.debug("addCapaDadesObertes");
 	var estil_do = retornaEstilaDO(dataset);
 //	var lastZIndex = controlCapes._lastZIndex;//+1;
 	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
