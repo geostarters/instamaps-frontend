@@ -910,7 +910,14 @@ function readTematic(defer, results, layerWms, layer){
 			if(layerWms.options && options.origen){//Si es una sublayer
 				var origen = getLeafletIdFromBusinessId(options.origen);
 				capaTematic.options.dataField = dataField;
-				controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true, origen);					
+//				updateControlCapes(capaTematic, capaTematic.options.nom, true, origen);
+				controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true, origen);
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});	
 			}
 			else {
 				if (!layerWms.capesOrdre){
@@ -919,8 +926,15 @@ function readTematic(defer, results, layerWms, layer){
 					capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
 				}
 				capaTematic.options.dataField = dataField;
+//				updateControlCapes(capaTematic, capaTematic.options.nom, true);
 				controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true);
-				controlCapes._lastZIndex++;					
+				controlCapes._lastZIndex++;
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});	
 			}				
 		}
 	}else{
@@ -1164,7 +1178,7 @@ function changeTematicLayerStyle(tematic, styles){
 	//console.debug("changeTematicLayerStyle");
 	//console.debug(styles);
 	
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'basic', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);	
 	
 	var rangs = getRangsFromStyles(tematic, styles);
 	
@@ -1354,7 +1368,7 @@ function div2RangStyle(tematic, tdElem){
 
 function updateClasicTematicFromRangs(){
 	//console.debug("updateClasicTematicFromRangs");
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'clasic', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'clasic', 1]);	
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");

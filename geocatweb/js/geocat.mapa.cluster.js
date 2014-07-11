@@ -1,6 +1,6 @@
 function creaClusterMap(capa) {
 
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'cluster', tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'cluster', 1]);
 	
 	var nom = window.lang.convert("Agrupació");
 	
@@ -54,8 +54,14 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});						
 
 //					map.removeLayer(capa.layer);
 				}else{
@@ -107,8 +113,14 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 
 //					map.removeLayer(capa.layer);
 				}else{
@@ -150,8 +162,14 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
-					activaPanelCapes(true);					
+					controlCapes._lastZIndex++;
+					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});						
 					
 				}else{
 					//TODO error
@@ -173,8 +191,14 @@ function creaClusterMap(capa) {
 		map.addLayer(clusterLayer);
 		clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex + 1;
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-//		controlCapes._lastZIndex++;
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});			
 	}	
 }
 

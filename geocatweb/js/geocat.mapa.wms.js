@@ -224,16 +224,20 @@ function addExternalWMS2() {
 	wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 	controlCapes._lastZIndex++;
-
 	activaPanelCapes(true);
-	
+//	$(".layers-list").mCustomScrollbar({
+//		   advanced:{
+//		     autoScrollOnFocus: false,
+//		     updateOnContentResize: true
+//		   }           
+//	});	
 	jQuery('#dialog_dades_ex').modal('toggle');
 
 }
 
 function addExternalWMS() {
 	
-	_gaq.push(['_trackEvent', 'mapa', 'wms', ActiuWMS.url, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', ActiuWMS.url, 1]);
 	
 	var cc = [];
 	jQuery('input[name="chk_WMS"]:checked').each(function() {
@@ -292,6 +296,12 @@ function addExternalWMS() {
 				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});	
 				jQuery('#dialog_dades_ex').modal('toggle');				
 				
 			}else{
@@ -305,6 +315,12 @@ function addExternalWMS() {
 		controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});			
 		jQuery('#dialog_dades_ex').modal('toggle');	
 	}	
 }

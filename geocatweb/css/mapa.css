@@ -360,13 +360,16 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .leaflet-control-layers {
-	width: 250px;
+	width: 270px;
 	min-height: 300px;
-	max-height: 350px;
+	/*max-height: 350px;*/
 	display: none;
 	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
     color: #FFFFFF;	
     border-radius: 0;
+}
+.control-layers-visor {
+	max-height: 350px;
 }
 /*
 .leaflet-control-layers-expanded {
@@ -1975,7 +1978,8 @@ i.fa {
     color: #FFFFFF;
     font-size: 1em;
     padding-left: 2px;
-    padding-right: 2px;    
+    padding-right: 2px;
+    word-wrap: break-word;    
 }
 
 .div_hill_f{
@@ -2104,6 +2108,13 @@ i.fa {
 	overflow: hidden;
 	/*width: 200px;*/
 	max-height: 280px;
+	-moz-box-sizing: content-box;
+    height: 100%;
+    position: relative;	
+}
+.layers-list-editable{
+	/*overflow: hidden;
+	width: 200px;*/
 	-moz-box-sizing: content-box;
     height: 100%;
     position: relative;	

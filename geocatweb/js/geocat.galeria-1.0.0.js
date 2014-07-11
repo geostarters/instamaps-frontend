@@ -7,6 +7,13 @@ $(function(){
 	
 	var privatGaleria = url('?private');
 	
+	//per GA
+	var uid = $.cookie('uid');
+	var tipus_user = t_user_loginat;
+	if(!uid || isRandomUser(uid)){
+		tipus_user = t_user_random;
+	}
+	
 	if(typeof url('?uid') == "string"){
 		$.removeCookie('uid', { path: '/' });
 		$.cookie('uid', url('?uid'), {path:'/'});
@@ -34,7 +41,7 @@ $(function(){
 			$('#galeriaRow').append(html);
 						
 			$('.new_map').on('click', function(event){
-				_gaq.push(['_trackEvent', 'galeria', 'fer mapa'/*, 'acquisition'*/]);
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'fer mapa'/*, 'acquisition'*/]);
 				window.location.href = paramUrl.mapaPage;
 			});
 			
@@ -45,6 +52,7 @@ $(function(){
 				$('#dialgo_delete').modal('show');
 				$('#dialgo_delete .nom_mapa').text($this.data("nom"));
 				$('#dialgo_delete .btn-danger').data("businessid", $this.data("businessid"));
+				
 			});
 			
 			$('#dialgo_delete .btn-danger').on('click', function(event){
@@ -57,6 +65,7 @@ $(function(){
 					if (results.status == "OK"){
 						$('#'+$this.data("businessid")).remove();
 						$('#dialgo_delete').modal('hide');
+						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
 					}
 				});
 			});
@@ -65,6 +74,7 @@ $(function(){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'editar mapa']);
 				window.location.href = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
 			});
 			
@@ -76,6 +86,7 @@ $(function(){
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
 				}
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'veure mapa']);
 				window.location.href = urlMap;
 			});
 			
@@ -90,7 +101,7 @@ $(function(){
 				$('#urlMap').val(urlMap);
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
-				_gaq.push(['_trackEvent', 'galeria', 'compartir', 'referral', t_user_loginat]);
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'compartir', 'referral', 1]);
 			});
 			
 			$('.btn-tooltip').tooltip().each(function(){
@@ -138,6 +149,7 @@ $(function(){
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
 				}
+				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'veure mapa']);
 				window.open(urlMap);
 			});
 			
@@ -152,7 +164,7 @@ $(function(){
 				$('#urlMap').val(urlMap);
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
-				_gaq.push(['_trackEvent', 'galeria', 'compartir', 'referral', t_user_random]);
+				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'compartir', 'referral', 1]);
 			});
 			
 			$('.btn-tooltip').tooltip().each(function(){

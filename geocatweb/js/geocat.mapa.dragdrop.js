@@ -47,9 +47,11 @@ function creaAreesDragDropFiles() {
 		drgFromMapa = new window.Dropzone("div#map", drOpcionsMapa);
 
 		drgFromMapa.on("addedfile", function(file) {
-			_gaq.push(['_trackEvent', 'mapa', 'carregar dades drag&drop', 'addedfile', tipus_user]);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', 'addedfile', 1]);
 			envioArxiu.isDrag=true;
+			//console.debug(file);
 			accionaCarrega(file,envioArxiu.isDrag);
+			
 		});
 
 		
@@ -152,7 +154,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 		drgFromBoto = new window.Dropzone("button#upload_file", opcionsBoto);
 
 		drgFromBoto.on("addedfile", function(file) {
-			_gaq.push(['_trackEvent', 'mapa', 'carregar dades menu', 'addedfile', tipus_user]);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', 'addedfile', 1]);
 			envioArxiu.isDrag=false;
 			accionaCarrega(file, envioArxiu.isDrag);			
 		});
@@ -437,6 +439,12 @@ function accionaCarrega(file,isDrag) {
 
 		alert(ff.msg);
 		obroModal = false;
+		
+		if(isDrag){
+			drgFromMapa.removeAllFiles(true);		
+			}else{
+			drgFromBoto.removeAllFiles(true);								
+			}
 		
 
 	}
@@ -810,7 +818,7 @@ function addDropFileToMap(results) {
 		createServidorInMap(data).then(function(results) {
 			if (results.status == "OK") {
 				var extensio = ((envioArxiu.ext!=null)?envioArxiu.ext:"");
-				_gaq.push(['_trackEvent', 'mapa', 'carregar dades', envioArxiu.ext, tipus_user]);
+				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades', envioArxiu.ext, 1]);
 				// Un cop carregat el fitxer refresquem el popup de les dades de
 				// l'usuari i tambè
 				// el control de capes
@@ -848,7 +856,7 @@ function addDropFileToMap(results) {
 		}else{
 			txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
 		}
-		_gaq.push(['_trackEvent', 'mapa', 'carregar dades error', results.results, tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', results.results, 1]);
 		jQuery("#div_carrega_dades_message").html(txt_error);
 		jQuery("#div_carrega_dades_message").show();	
 	}

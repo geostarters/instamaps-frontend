@@ -332,3 +332,16 @@ function calculateArea(lLatLngs){
 	var totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
 	return L.GeometryUtil.readableArea(totalArea, true);
 }
+
+//function updateControlCapes(layer, layername, sublayer, groupLeafletId){
+//	
+//	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
+//	if(groupLeafletId==null)controlCapes._lastZIndex++;
+//	activaPanelCapes(true);
+//	$(".layers-list").mCustomScrollbar({
+//		   advanced:{
+//		     autoScrollOnFocus: false,
+//		     updateOnContentResize: true
+//		   }           
+//	});		
+//}

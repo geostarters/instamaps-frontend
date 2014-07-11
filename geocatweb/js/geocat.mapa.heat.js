@@ -1,7 +1,7 @@
 
 function createHeatMap(capa){
 	
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'heatmap', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'heatmap', 1]);	
 	
 	var nom = window.lang.convert("Concentració");
 	//Heatmap
@@ -60,8 +60,14 @@ function createHeatMap(capa){
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 					
 				}else{
 					console.debug('error create server in map');
@@ -106,8 +112,14 @@ function createHeatMap(capa){
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
-					activaPanelCapes(true);					
+					controlCapes._lastZIndex++;
+					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 				}else{
 					console.debug("Error add heatmap JSON");
 				}
@@ -138,8 +150,14 @@ function createHeatMap(capa){
 //					map.addLayer(heatLayerActiu);Comentat per control de un heatmap actiu alhora
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 					$('#input-'+results.results.businessId).trigger( "click" );
 					$('#input-'+results.results.businessId).prop( "checked", true );
 					
@@ -162,8 +180,14 @@ function createHeatMap(capa){
 		map.addLayer(heatLayerActiu);
 		heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//		controlCapes._lastZIndex++;
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});	
 	}	
 }
 

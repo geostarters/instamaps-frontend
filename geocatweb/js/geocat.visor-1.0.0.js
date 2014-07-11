@@ -187,7 +187,7 @@ function loadApp(){
 					fileIN: JSON.stringify(layer_GeoJSON)
 			};
 			
-			_gaq.push(['_trackEvent', 'visor', 'descarregar capa', formatOUT+"-"+epsgOUT, tipus_user]);
+			_gaq.push(['_trackEvent', 'visor', tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
 			getDownloadLayer(data).then(function(results){
 				results = results.trim();
 				if (results == "ERROR"){
@@ -237,6 +237,17 @@ function addControlsInici() {
 		id : 'div_capes'
 	}).addTo(map);
 
+	map.on('addItemFinish',function(){
+		console.debug('addItemFinish!');
+		$(".layers-list").mCustomScrollbar("destroy");		
+		$(".layers-list").mCustomScrollbar({
+			   advanced:{
+			     autoScrollOnFocus: false,
+			     updateOnContentResize: true
+			   }           
+		});		
+	});
+	
 	ctr_llistaCapes = L.control({
 		position : 'topright'
 	});
@@ -283,12 +294,12 @@ function addClicksInici() {
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
-		_gaq.push(['_trackEvent', 'visor', 'captura pantalla', 'label captura', tipus_user]);
+		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
 		capturaPantalla('captura');
 	});
 	
 	jQuery('.bt_print').on('click', function() {
-		_gaq.push(['_trackEvent', 'visor', 'print', 'label print', tipus_user]);
+		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
 		capturaPantalla('print');
 	});
 		
@@ -470,23 +481,38 @@ function loadMapConfig(mapConfig){
 				loadLayer(value).then(function(){
 					num_origen++;
 					if (num_origen == results.origen.length){
-						if($.isEmptyObject(results.sublayers)){
-							$(".layers-list").mCustomScrollbar();
-						}else{
-							var num_sublayers = 0;
-							jQuery.each(results.sublayers, function(index, value){
-								loadLayer(value).then(function(){
-									num_sublayers++;
-									if (num_sublayers == results.sublayers.length){
-										$(".layers-list").mCustomScrollbar();
-									}
-								});
-							});							
-						}
+						jQuery.each(results.sublayers, function(index, value){
+							loadLayer(value);
+						});
 					}
 				});
 			});
-		});
+		});		
+		
+//		//carga las capas en el mapa
+//		loadOrigenWMS().then(function(results){
+//			var num_origen = 0;
+//			jQuery.each(results.origen, function(index, value){
+//				loadLayer(value).then(function(){
+//					num_origen++;
+//					if (num_origen == results.origen.length){
+//						if($.isEmptyObject(results.sublayers)){
+////							$(".layers-list").mCustomScrollbar();
+//						}else{
+//							var num_sublayers = 0;
+//							jQuery.each(results.sublayers, function(index, value){
+//								loadLayer(value).then(function(){
+//									num_sublayers++;
+//									if (num_sublayers == results.sublayers.length){
+////										$(".layers-list").mCustomScrollbar();
+//									}
+//								});
+//							});							
+//						}
+//					}
+//				});
+//			});
+//		});
 		
 		jQuery('#div_loading').hide();
 		jQuery(window).trigger('resize');
@@ -834,6 +860,19 @@ function getLeafletIdFromBusinessId(businessId){
 			return val;
 		}
 	}
+}
+
+function updateControlCapes(layer, layername, sublayer, groupLeafletId){
+	
+	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
+	if(groupLeafletId==null)controlCapes._lastZIndex++;
+	activaPanelCapes(true);
+	$(".layers-list").mCustomScrollbar({
+		   advanced:{
+		     autoScrollOnFocus: false,
+		     updateOnContentResize: true
+		   }           
+	});		
 }
 
 /* LLEGENDA */

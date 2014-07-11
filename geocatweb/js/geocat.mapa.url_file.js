@@ -33,7 +33,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 //			dataset: dataset,
 			estil_do: estil_do,
 			businessId : '-1',
-			dataType : "jsonp",
+//			dataType : "jsonp",
 //			zIndex: lastZIndex,
 //			geometryType:t_marker,//TODO QUINA GEOMETRY TYPE!!!
 			pointToLayer : function(feature, latlng) {
@@ -59,75 +59,156 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 		    	});	
 		    	html+='</div></div>';    	
 			    return geom.bindPopup(html);
+			  },
+			  middleware:function(data){
+				  
+				  if(data.status && data.status.indexOf("ERROR")!=-1){
+					  processFileError(data);
+				  }else{
+					  capaURLfile.addData(data);
+					  
+						//Un cop tinc la capa a client, la creo a servidor
+						if(typeof url('?businessid') == "string"){
+							var data = {
+								uid:$.cookie('uid'),
+								mapBusinessId: url('?businessid'),
+								serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
+								serverType: t_url_file,
+								calentas: false,
+					            activas: true,
+					            visibilitats: true,
+					            order: controlCapes._lastZIndex+1,
+					            epsg: '4326',
+					            imgFormat: 'image/png',
+					            infFormat: 'text/html',
+					            tiles: true,	            
+					            transparency: true,
+					            opacity: 1,
+					            visibilitat: 'O',
+					            url: urlFile,//Provar jQuery("#txt_URLJSON")
+					            calentas: false,
+					            activas: true,
+					            visibilitats: true,
+					            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+							};
+							
+							createServidorInMap(data).then(function(results){
+									if (results.status == "OK"){
+										
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques', urlFile, 1]);
+										
+										jQuery('#dialog_dades_ex').modal('toggle');					
+										capaURLfile.options.businessId = results.results.businessId;
+										capaURLfile.options.nom = nomCapa;
+										capaURLfile.options.tipus = t_url_file;
+										capaURLfile.options.url = urlFile;
+										capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
+										capaURLfile.options.options.estil_do = estil_do;
+										capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
+										controlCapes.addOverlay(capaURLfile, nomCapa, true);
+										controlCapes._lastZIndex++;
+										activaPanelCapes(true);	
+//										$(".layers-list").mCustomScrollbar({
+//											   advanced:{
+//											     autoScrollOnFocus: false,
+//											     updateOnContentResize: true
+//											   }           
+//										});									
+						//				 map.fitBounds(capaURLfile.getBounds());
+										
+									}else{
+										console.debug("1.Error a createServidorInMap:"+results.status);
+										var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+										jQuery("#div_url_file_message").html(txt_error);							
+									}
+							},function(results){
+								console.debug("2.Error a createServidorInMap:"+results.status);
+								var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+								jQuery("#div_url_file_message").html(txt_error);					
+							});
+							
+						}else{
+							//usuari no logat, no entra mai
+						}					  
+					  
+				  }
+				  
 			  }
 		});
 
-		L.Util.jsonp(param_url).then(function(data){
-			
-			capaURLfile.on('data:loaded', function(e){	
-			
-				//Un cop tinc la capa a client, la creo a servidor
-				if(typeof url('?businessid') == "string"){
-					var data = {
-						uid:$.cookie('uid'),
-						mapBusinessId: url('?businessid'),
-						serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
-						serverType: t_url_file,
-						calentas: false,
-			            activas: true,
-			            visibilitats: true,
-			            order: controlCapes._lastZIndex+1,
-			            epsg: '4326',
-			            imgFormat: 'image/png',
-			            infFormat: 'text/html',
-			            tiles: true,	            
-			            transparency: true,
-			            opacity: 1,
-			            visibilitat: 'O',
-			            url: urlFile,//Provar jQuery("#txt_URLJSON")
-			            calentas: false,
-			            activas: true,
-			            visibilitats: true,
-			            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
-					};
-					
-					createServidorInMap(data).then(function(results){
-							if (results.status == "OK"){
-								
-								_gaq.push(['_trackEvent', 'mapa', 'dades externes dinàmiques', urlFile, tipus_user]);
-								
-								jQuery('#dialog_dades_ex').modal('toggle');					
-								capaURLfile.options.businessId = results.results.businessId;
-								capaURLfile.options.nom = nomCapa;
-								capaURLfile.options.tipus = t_url_file;
-								capaURLfile.options.url = urlFile;
-								capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
-								capaURLfile.options.options.estil_do = estil_do;
-								capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
-								controlCapes.addOverlay(capaURLfile, nomCapa, true);
-								controlCapes._lastZIndex++;
-								activaPanelCapes(true);	
-				//				 map.fitBounds(capaURLfile.getBounds());
-								
-							}else{
-								console.debug("1.Error a createServidorInMap:"+results.status);
-								var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-								jQuery("#div_url_file_message").html(txt_error);							
-							}
-					},function(results){
-						console.debug("2.Error a createServidorInMap:"+results.status);
-						var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-						jQuery("#div_url_file_message").html(txt_error);					
-					});
-					
-				}else{
-					//usuari no logat, no entra mai
-				}
-			});		
-//			jQuery('#div_url_file').removeClass('waiting_animation');
-		},function(data){
-			processFileError(data);
-		});		
+
+//		L.Util.jsonp(param_url).then(function(data){
+//			
+//			capaURLfile.on('data:loaded', function(e){	
+//			
+//				//Un cop tinc la capa a client, la creo a servidor
+//				if(typeof url('?businessid') == "string"){
+//					var data = {
+//						uid:$.cookie('uid'),
+//						mapBusinessId: url('?businessid'),
+//						serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
+//						serverType: t_url_file,
+//						calentas: false,
+//			            activas: true,
+//			            visibilitats: true,
+//			            order: controlCapes._lastZIndex+1,
+//			            epsg: '4326',
+//			            imgFormat: 'image/png',
+//			            infFormat: 'text/html',
+//			            tiles: true,	            
+//			            transparency: true,
+//			            opacity: 1,
+//			            visibilitat: 'O',
+//			            url: urlFile,//Provar jQuery("#txt_URLJSON")
+//			            calentas: false,
+//			            activas: true,
+//			            visibilitats: true,
+//			            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+//					};
+//					
+//					createServidorInMap(data).then(function(results){
+//							if (results.status == "OK"){
+//								
+//								_gaq.push(['_trackEvent', 'mapa', 'dades externes dinàmiques', urlFile, tipus_user]);
+//								
+//								jQuery('#dialog_dades_ex').modal('toggle');					
+//								capaURLfile.options.businessId = results.results.businessId;
+//								capaURLfile.options.nom = nomCapa;
+//								capaURLfile.options.tipus = t_url_file;
+//								capaURLfile.options.url = urlFile;
+//								capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
+//								capaURLfile.options.options.estil_do = estil_do;
+//								capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
+//								controlCapes.addOverlay(capaURLfile, nomCapa, true);
+//								controlCapes._lastZIndex++;
+//								activaPanelCapes(true);	
+////								$(".layers-list").mCustomScrollbar({
+////									   advanced:{
+////									     autoScrollOnFocus: false,
+////									     updateOnContentResize: true
+////									   }           
+////								});									
+//				//				 map.fitBounds(capaURLfile.getBounds());
+//								
+//							}else{
+//								console.debug("1.Error a createServidorInMap:"+results.status);
+//								var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+//								jQuery("#div_url_file_message").html(txt_error);							
+//							}
+//					},function(results){
+//						console.debug("2.Error a createServidorInMap:"+results.status);
+//						var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+//						jQuery("#div_url_file_message").html(txt_error);					
+//					});
+//					
+//				}else{
+//					//usuari no logat, no entra mai
+//				}
+//			});		
+////			jQuery('#div_url_file').removeClass('waiting_animation');
+//		},function(data){
+//			processFileError(data);
+//		});		
 	}else{
 		
 	   //console.debug("No es dinamic, tractament fitxer!");
@@ -165,7 +246,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 				createServidorInMap(data).then(function(results) {
 					if (results.status == "OK") {
 
-						_gaq.push(['_trackEvent', 'mapa', 'dades externes', urlFile, tipus_user]);
+						_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
 						
 						results.results.urlFile = true;
 						loadTematicLayer(results.results).then(function(results1){
@@ -205,7 +286,7 @@ function processFileError(data){
 		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 	}
 	
-	_gaq.push(['_trackEvent', 'mapa', 'dades externes error', data.results, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
 	
 	jQuery("#div_url_file_message").html(txt_error);
 //	jQuery('#div_url_file').removeClass('waiting_animation');
@@ -227,7 +308,7 @@ function loadURLfileLayer(layer){
 		tipus : layer.serverType,
 		estil_do: estil_do,
 		businessId : layer.businessId,
-		dataType : "jsonp",
+//		dataType : "jsonp",
 		pointToLayer : function(feature, latlng) {
 			  
 			var geometryType = transformTipusGeometry(feature.geometry.type);

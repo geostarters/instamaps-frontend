@@ -38,8 +38,8 @@ var t_file_topojson = ".topojson";
 var t_file_shp = ".shp";
 var t_file_dxf = ".dxf";
 
-var t_user_loginat = 1;
-var t_user_random = 0;
+var t_user_loginat = '1#';
+var t_user_random = '0#';
 
 var num_max_pintxos = 250;
 var capesOrdre_sublayer = "sublayer";//10000;
@@ -52,9 +52,12 @@ var proxydir = "maps";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
-	HOST_APP = "http://172.70.1.12/";
+//	HOST_APP = "http://172.70.1.12/";
+	HOST_APP = "http://instamaps.cat/";
+	
 //	HOST_APP = "http://localhost:8080/";
-	GEOCAT02 = "http://172.70.1.12";
+//	GEOCAT02 = "http://172.70.1.12";
+	GEOCAT02 = "http://instamaps.cat";	
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
 
