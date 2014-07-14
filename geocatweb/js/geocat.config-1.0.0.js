@@ -46,8 +46,8 @@ var capesOrdre_sublayer = "sublayer";//10000;
 
 var msg_noguarda = "Per publicar o compartir el mapa has d'iniciar sessió";
 
-var HOST_APP = "http://instamapes.icgc.cat/";
-var GEOCAT02 = "http://instamapes.icgc.cat";
+var HOST_APP = "http://www.instamaps.cat/";
+var GEOCAT02 = "http://www.instamaps.cat";
 var proxydir = "maps";
 
 var urlApp=document.location.href;
@@ -58,7 +58,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
 
-var DOMINI = "instamapes.icgc.cat";
+var DOMINI = "www.instamaps.cat";
 
 var paramUrl = {
 	proxy:"/"+proxydir+"/proxy.cgi",
