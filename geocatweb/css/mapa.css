@@ -1638,6 +1638,16 @@ i.fa {
 	padding: 0px;
 }
 
+.popup-data-img{
+	width: 300px;
+	padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.popup_data_value {
+	max-width: 100%;
+	overflow: hidden;	
+}
 
 /*feedback button*/
 #feedback_btn{

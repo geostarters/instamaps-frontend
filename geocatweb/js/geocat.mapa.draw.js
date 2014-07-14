@@ -613,10 +613,16 @@ function createPopupWindowData(player,type){
 //		alert( key + ": " + value );
 		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
-				html+='<div class="popup_data_row">'+
-				'<div class="popup_data_key">'+key+'</div>'+
-			    '<div class="popup_data_value">'+parseUrlText(value)+'</div>'+
-			    '</div>';
+				html+='<div class="popup_data_row">';
+				
+				var txt = parseUrlText(value);
+				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+					html+='<div class="popup_data_key">'+key+'</div>';
+					html+='<div class="popup_data_value">'+txt+'</div>'
+				}else{
+					html+='<div class="popup_data_img_iframe">'+txt+'</div>'
+				}
+				html+= '</div>';
 			}
 		}
 	});	
@@ -627,7 +633,8 @@ function createPopupWindowData(player,type){
 }
 
 function parseUrlText(txt){
-	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1){
+	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 
+			|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
 		return txt;
 	}
 	var lwords = txt.split(" "); 
@@ -637,7 +644,19 @@ function parseUrlText(txt){
 		var word = lwords[index];
 		
 		if(ValidURL(word)){
-			text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
+			
+			if(isImgURL(word)){
+				console.debug("Image:"+word);
+				text = "<img src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
+			}else if(word.indexOf("html?") != -1){
+				console.debug("Iframe:"+word);
+				text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+						"marginwidth=\"0\" src=\""+word+"\"></iframe>";
+			}else{
+				console.debug("URL:"+word);
+				text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";	
+			}
+			
 		}else{
 			text = word;
 		}
