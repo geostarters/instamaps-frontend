@@ -85,7 +85,7 @@
 				<ul class="nav navbar-nav navbar-right my-nav">
 				
 					<li><a id="hl_index" lang="ca" href="/geocatweb/galeria.html">Galeria</a></li>
-					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					
 					<!-- <li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
@@ -193,7 +193,7 @@
 							<div class="panel-body">
 								<ul id="listnav-teves-dades" class="llista-teves-dades panel-heading">
 								{{#each results}}
-									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span></li>
+									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a><span data-businessid="{{businessId}}" data-servername="{{serverName}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span></li>
 								{{/each}}							
 								</ul>
 							</div>
@@ -927,7 +927,7 @@
 					<div id="div_formats" class="alert alert-success">
 						<span class="glyphicon glyphicon-upload"></span> 
 						<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong> 
-							<a class="alert-link" lang="ca"	href="#">Més informació i exemples</a>
+							<a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/carrega-de-dades-instamaps/" target="_blank">Més informació i exemples</a>
 					</div>
 					
 					<!-- 
@@ -1542,8 +1542,9 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery-listnav.min.js"></script>
+	<!-- script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script-->
+	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-listnav.custom.js"></script>
 	
 	
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>

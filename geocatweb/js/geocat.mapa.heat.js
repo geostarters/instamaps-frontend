@@ -1,7 +1,7 @@
 
 function createHeatMap(capa){
 	
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'heatmap', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'heatmap', 1]);	
 	
 	var nom = window.lang.convert("Concentració");
 	//Heatmap
@@ -60,8 +60,14 @@ function createHeatMap(capa){
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 					
 				}else{
 					console.debug('error create server in map');
@@ -106,8 +112,14 @@ function createHeatMap(capa){
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
-					activaPanelCapes(true);					
+					controlCapes._lastZIndex++;
+					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 				}else{
 					console.debug("Error add heatmap JSON");
 				}
@@ -138,8 +150,14 @@ function createHeatMap(capa){
 //					map.addLayer(heatLayerActiu);Comentat per control de un heatmap actiu alhora
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 					$('#input-'+results.results.businessId).trigger( "click" );
 					$('#input-'+results.results.businessId).prop( "checked", true );
 					
@@ -162,8 +180,14 @@ function createHeatMap(capa){
 		map.addLayer(heatLayerActiu);
 		heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-//		controlCapes._lastZIndex++;
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});	
 	}	
 }
 
@@ -216,7 +240,10 @@ function loadDOHeatmapLayer(layer){
 		heatLayerActiu.options.tipus = layer.serverType;
 		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
-		map.addLayer(heatLayerActiu);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(heatLayerActiu);
+		}
+		
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
@@ -276,7 +303,9 @@ function loadJsonHeatmapLayer(layer){
 		heatLayerActiu.options.tipus = layer.serverType;
 		heatLayerActiu.options.tipusRang = tem_heatmap;
 		
-		map.addLayer(heatLayerActiu);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(heatLayerActiu);
+		}
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
 		activaPanelCapes(true);
@@ -284,7 +313,7 @@ function loadJsonHeatmapLayer(layer){
 	});
 }
 
-function loadTematicHeatmap(layer, zIndex, layerOptions){
+function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 	
 	var options = jQuery.parseJSON(layerOptions);
 	
@@ -315,9 +344,13 @@ function loadTematicHeatmap(layer, zIndex, layerOptions){
 	heatLayerActiu.options.tipus = t_tematic;
 	heatLayerActiu.options.tipusRang = tem_heatmap;
 	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
+//	if (layer.capesActiva == true || layer.capesActiva == "true"){
+//		map.addLayer(heatLayerActiu);
+//	}
+	
+	if (capesActiva.indexOf("false")==-1){
 		map.addLayer(heatLayerActiu);
-	}	
+	}
 	
 	var origen = getLeafletIdFromBusinessId(options.origen);
 	controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);

@@ -176,7 +176,12 @@ function constructLayer2(capaURLfile, estil_do, nomCapa, businessId, urlFile, ti
 		controlCapes.addOverlay(layer, nomCapa, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);	
-		
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});	
 //		 map.fitBounds(capaURLfile.getBounds());		
 		
 	

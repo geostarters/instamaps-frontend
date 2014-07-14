@@ -93,7 +93,7 @@
                     
                     // bind click
                     $('.pop-social').on('click',function(){
-                    	_gaq.push(['_trackEvent', $(this).attr('data-from'), 'compartir', $(this).attr('data-type'), tipus_user]);	
+                    	_gaq.push(['_trackEvent', $(this).attr('data-from'), tipus_user+'compartir', $(this).attr('data-type'), 1]);	
                         window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
                         return false;
                     });

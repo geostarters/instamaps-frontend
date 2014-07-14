@@ -88,10 +88,11 @@ jQuery(document).ready(function() {
 
 function loadApp(){
 	
-	if(typeof url('?embed') == "string"){	
+	if(typeof url('?embed') == "string"){
 //		jQuery('#navbar-visor').remove();
 		jQuery('#navbar-visor').hide();
 		jQuery('#searchBar').css('top', '0');
+		
 	}
 	
 	if(typeof url('?businessid') == "string"){
@@ -125,13 +126,9 @@ function loadApp(){
 			if (mapConfig.options){
 				mapConfig.options = $.parseJSON( mapConfig.options );
 			}
-			
+			jQuery("#mapTitle").html(mapConfig.nomAplicacio);
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
-			if(mapLegend != "" && mapLegend != "{}" && !jQuery.isEmptyObject(mapLegend)){
-				addLegend();
-				$("#mapLegend").mCustomScrollbar();
-//				$(".legend-scroll").mCustomScrollbar();
-			}
+			checkEmptyMapLegend();
 						
 			//iniciamos los controles
 			initControls().then(function(){
@@ -145,6 +142,7 @@ function loadApp(){
 			
 			loadMapConfig(mapConfig).then(function(){
 				//avisDesarMapa();
+				activaPanelCapes(true);
 			});
 		},function(results){
 			window.location.href = paramUrl.galeriaPage;
@@ -189,7 +187,7 @@ function loadApp(){
 					fileIN: JSON.stringify(layer_GeoJSON)
 			};
 			
-			_gaq.push(['_trackEvent', 'visor', 'descarregar capa', formatOUT+"-"+epsgOUT, tipus_user]);
+			_gaq.push(['_trackEvent', 'visor', tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
 			getDownloadLayer(data).then(function(results){
 				results = results.trim();
 				if (results == "ERROR"){
@@ -213,6 +211,7 @@ function loadApp(){
 		jQuery('#socialShare_visor').on('click', function(evt){
 			console.debug('on click social');
 		});
+		
 }
 
 function initControls(){
@@ -224,6 +223,7 @@ function initControls(){
 		addControlCercaEdit();		
 //	}
 	redimensioMapa();
+	
 	
 	dfd.resolve();
 	
@@ -237,6 +237,17 @@ function addControlsInici() {
 		id : 'div_capes'
 	}).addTo(map);
 
+	map.on('addItemFinish',function(){
+		console.debug('addItemFinish!');
+		$(".layers-list").mCustomScrollbar("destroy");		
+		$(".layers-list").mCustomScrollbar({
+			   advanced:{
+			     autoScrollOnFocus: false,
+			     updateOnContentResize: true
+			   }           
+		});		
+	});
+	
 	ctr_llistaCapes = L.control({
 		position : 'topright'
 	});
@@ -260,6 +271,12 @@ function addControlsInici() {
 	};
 	ctr_llistaCapes.addTo(map);
 	
+//	$(".leaflet-control-layers").mCustomScrollbar();
+//	$(".leaflet-control-layers-overlays").mCustomScrollbar();
+//	$('.leaflet-control-layers-overlays').perfectScrollbar();
+	
+	
+	
 	dfd.resolve();
 	return dfd.promise();
 }
@@ -270,17 +287,19 @@ function addClicksInici() {
 	});
 	
 	jQuery('.bt_llista').on('click', function() {
+//		$(".layers-list").mCustomScrollbar('update');
 		activaPanelCapes();
+//		$(".leaflet-control-layers-overlays").mCustomScrollbar('update');
 	});	
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
-		_gaq.push(['_trackEvent', 'visor', 'captura pantalla', 'label captura', tipus_user]);
+		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
 		capturaPantalla('captura');
 	});
 	
 	jQuery('.bt_print').on('click', function() {
-		_gaq.push(['_trackEvent', 'visor', 'print', 'label print', tipus_user]);
+		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
 		capturaPantalla('print');
 	});
 		
@@ -332,6 +351,8 @@ function activaLlegenda(obre) {
 ////		  easing: 'in',
 ////		  complete: function() { $(".visor-legend").toggle(); }
 ////		});	
+	
+	
 	var cl = jQuery('.bt_legend span').attr('class');
 	if (cl && cl.indexOf('grisfort') != -1) {
 		jQuery('.bt_legend span').removeClass('grisfort');
@@ -466,7 +487,33 @@ function loadMapConfig(mapConfig){
 					}
 				});
 			});
-		});
+		});		
+		
+//		//carga las capas en el mapa
+//		loadOrigenWMS().then(function(results){
+//			var num_origen = 0;
+//			jQuery.each(results.origen, function(index, value){
+//				loadLayer(value).then(function(){
+//					num_origen++;
+//					if (num_origen == results.origen.length){
+//						if($.isEmptyObject(results.sublayers)){
+////							$(".layers-list").mCustomScrollbar();
+//						}else{
+//							var num_sublayers = 0;
+//							jQuery.each(results.sublayers, function(index, value){
+//								loadLayer(value).then(function(){
+//									num_sublayers++;
+//									if (num_sublayers == results.sublayers.length){
+////										$(".layers-list").mCustomScrollbar();
+//									}
+//								});
+//							});							
+//						}
+//					}
+//				});
+//			});
+//		});
+		
 		jQuery('#div_loading').hide();
 		jQuery(window).trigger('resize');
 	}
@@ -550,6 +597,8 @@ function loadLayer(value){
 		loadClusterLayer(value);
 		defer.resolve();
 	}
+	
+	//$(".leaflet-control-layers").mCustomScrollbar("update");
 	return defer.promise();
 }
 
@@ -694,7 +743,7 @@ function loadDadesObertesLayer(layer){
 
 function loadWmsLayer(layer){
 	
-	var newWMS = L.tileLayer.wms(layer.url, {
+	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
 	    transparent: layer.transparency,
@@ -813,14 +862,28 @@ function getLeafletIdFromBusinessId(businessId){
 	}
 }
 
+function updateControlCapes(layer, layername, sublayer, groupLeafletId){
+	
+	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
+	if(groupLeafletId==null)controlCapes._lastZIndex++;
+	activaPanelCapes(true);
+	$(".layers-list").mCustomScrollbar({
+		   advanced:{
+		     autoScrollOnFocus: false,
+		     updateOnContentResize: true
+		   }           
+	});		
+}
+
 /* LLEGENDA */
 function addLegend(){
-	var legend = L.control({position: 'bottomright'});
-
+	
+	legend = L.control({position: 'bottomright'});
+	
 	legend.onAdd = function (map) {
 
-	    var div = L.DomUtil.create('div', 'info legend visor-legend');
-	    	div.id = "mapLegend";
+	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
+	    div.id = "mapLegend";
 	    jQuery.each(mapLegend, function(i, row){
 	    	for (var i = 0; i < row.length; i++) {
 	    		if(row[i].chck){
@@ -832,7 +895,6 @@ function addLegend(){
 	    		}
 	    	}
 	    });
-	    
 	    return div;
 	};
 	
@@ -852,3 +914,21 @@ function addLegend(){
 	ctr_legend.addTo(map);	
 	legend.addTo(map);
 }
+
+/*Control llegenda buida o be, q hagi publicat el mapa amb llegenda, 
+pero cap opcio de la llegenda marcada*/
+function checkEmptyMapLegend(){
+	var trobat = false;
+	jQuery.each(mapLegend, function(i, row){
+    	for (var i = 0; i < row.length && !trobat; i++) {
+    		if(row[i].chck){
+    			trobat = true;
+    		}
+    	}		
+	});
+	if(trobat){
+		addLegend();
+		$("#mapLegend").mCustomScrollbar();
+	}
+}
+	

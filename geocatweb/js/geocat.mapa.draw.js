@@ -424,7 +424,7 @@ function activaEdicioUsuari() {
 		var totalFeature;
 		var tipusCat,tipusCatDes;
 	
-		_gaq.push(['_trackEvent', 'mapa', 'dibuixar geometria', type, tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dibuixar geometria', type, 1]);
 
 		if (type === t_marker) {
 			tipusCat=window.lang.convert('Títol Punt');
@@ -627,6 +627,9 @@ function createPopupWindowData(player,type){
 }
 
 function parseUrlText(txt){
+	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1){
+		return txt;
+	}
 	var lwords = txt.split(" "); 
 	var parseText = "";
 	for(index in lwords){
@@ -894,6 +897,12 @@ function finishAddFeatureToTematic(layer){
 		controlCapes.addOverlay(capaUsrActiva,	capaUsrActiva.options.nom, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});			
 	}else{
 		//Actualitzem comptador de la capa
 	    updateFeatureCount(null, capaUsrActiva.options.businessId);		
@@ -1103,7 +1112,12 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				controlCapes.addOverlay(capaUsrActiva2,	capaUsrActiva2.options.nom, true);
 				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
-				
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});	
 				//Accio de moure la feature a la nova capa tematic creada
 				var data = {
 					uid: $.cookie('uid'),

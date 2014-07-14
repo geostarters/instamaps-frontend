@@ -145,7 +145,7 @@ function getServeiJSONP(purlJson) {
 
 function creaCapaFromJSON() {
 
-	_gaq.push(['_trackEvent', 'mapa', 'dades externes', urlJSON, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlJSON, 1]);
 	
 	var cmd_json_x = jQuery('#cmd_json_x').val();
 	var cmd_json_y = jQuery('#cmd_json_y').val();
@@ -264,6 +264,12 @@ function creaCapaFromJSON() {
 					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 				}
 			});
 			
@@ -275,6 +281,12 @@ function creaCapaFromJSON() {
 			controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 			controlCapes._lastZIndex++;
 			activaPanelCapes(true);
+//			$(".layers-list").mCustomScrollbar({
+//				   advanced:{
+//				     autoScrollOnFocus: false,
+//				     updateOnContentResize: true
+//				   }           
+//			});	
 		}		
 	}
 	

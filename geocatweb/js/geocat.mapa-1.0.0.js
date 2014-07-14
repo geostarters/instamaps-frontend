@@ -208,7 +208,7 @@ function loadApp(){
 								 	uid: $.cookie('uid')
 								}
 								updateMapName(data).then(function(results){
-									_gaq.push(['_trackEvent', 'mapa', 'editar nom aplicacio', 'label editar nom', tipus_user]);
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom aplicacio', 'label editar nom', 1]);
 									if(results.status=='OK'){
 										$('#dialgo_publicar #nomAplicacioPub').val(results.results);
 										mapConfig.nomAplicacio = results.results;
@@ -276,7 +276,7 @@ function loadApp(){
 		
 		jQuery('.bt_publicar').on('click',function(){
 			jQuery('.modal').modal('hide');
-			_gaq.push(['_trackEvent', 'mapa', 'publicar', 'pre-publicar', tipus_user]);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
 			$('#dialgo_publicar_random').modal('show');
 			
 			jQuery('#dialgo_publicar_random .bt-sessio').on('click',function(){
@@ -296,7 +296,7 @@ function loadApp(){
 		});
 				
 		jQuery(window).on('unload',function(event){
-			_gaq.push(['_trackEvent', 'mapa', 'sortir', 'label sortir', tipus_user]);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'sortir', 'label sortir', 1]);
 			deleteRandomUser({uid: $.cookie('uid')});
 			$.removeCookie('uid', { path: '/' });
 		});
@@ -304,7 +304,7 @@ function loadApp(){
 		//publicar el mapa solo para registrados
 		jQuery('.bt_publicar').on('click',function(){
 			
-			_gaq.push(['_trackEvent', 'mapa', 'publicar', 'pre-publicar', tipus_user]);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
 			
 			//actualizar los campos del dialogo publicar
 			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
@@ -313,17 +313,16 @@ function loadApp(){
 			}else{
 				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
 			}
-			
-			if (mapConfig.options){
+			if(mapConfig.options){
 				$('#optDescripcio').val(mapConfig.options.description);
-				$('#optTags').val(mapConfig.options.tags);
+				$('#optTags').val(mapConfig.options.tags);	
 				if (mapConfig.options.llegenda){
 					$('#llegenda_chk').bootstrapSwitch('state', true, true);
 				}else{
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
-				}
+				}				
 			}
-						
+
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
 			jQuery('.modal').modal('hide');
@@ -504,7 +503,7 @@ function loadApp(){
 			fileIN: JSON.stringify(layer_GeoJSON)
 		};
 		
-		_gaq.push(['_trackEvent', 'mapa', 'descarregar capa', formatOUT+"-"+epsgOUT, tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
 		getDownloadLayer(data).then(function(results){
 			results = results.trim();
 			if (results == "ERROR"){
@@ -592,12 +591,12 @@ function addClicksInici() {
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
-		_gaq.push(['_trackEvent', 'mapa', 'captura pantalla', 'label captura', tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'captura pantalla', 'label captura', 1]);
 		capturaPantalla('captura');
 	});
 	
 	jQuery('.bt_print').on('click', function() {
-		_gaq.push(['_trackEvent', 'mapa', 'print', 'label print', tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'print', 'label print', 1]);
 		capturaPantalla('print');
 	});
 		
@@ -637,7 +636,7 @@ function addClicksInici() {
 function addOpcionsFonsMapes() {
 	jQuery('.div_gr3_fons div').on('click', function() {
 		var fons = jQuery(this).attr('id');
-		_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
 		if (fons == 'topoMap') {
 			map.topoMap();
 		} else if (fons == 'topoGrisMap') {
@@ -679,6 +678,28 @@ function addControlsInici() {
 		id : 'div_capes'
 	}).addTo(map);
 
+	map.on('addItemFinish',function(){
+		$(".layers-list").mCustomScrollbar("destroy");		
+		$(".layers-list").mCustomScrollbar({
+			   advanced:{
+			     autoScrollOnFocus: false,
+			     updateOnContentResize: true
+			   }           
+		});			
+//		console.debug('addItemFinish!');
+//		if($(".layers-list").hasClass('mCustomScrollbar')){
+//			//$(".layers-list").mCustomScrollbar("update");			
+//		}else{
+//			$(".layers-list").mCustomScrollbar({
+//				   advanced:{
+//				     autoScrollOnFocus: false,
+//				     updateOnContentResize: true
+//				   }           
+//			});				
+//		}
+	});
+	
+	
 	ctr_llistaCapes = L.control({
 		position : 'topright'
 	});
@@ -985,11 +1006,11 @@ function creaPopOverMesFons() {
 	jQuery(document).on('click', "#div_menu_mesfons div", function(e) {
 		var fons = jQuery(this).attr('id');
 		if (fons == 'historicMap') {
-			_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
 			map.historicMap();
 		}
 		if (fons == 'historicOrtoMap') {
-			_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
 			map.historicOrtoMap();
 		}
 		
@@ -1020,7 +1041,7 @@ function creaPopOverMesFonsColor() {
 
 	jQuery(document).on('click', "#div_menufons div", function(e) {
 		var fons = jQuery(this).attr('id');
-		_gaq.push(['_trackEvent', 'mapa', 'fons', fons, tipus_user]);
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
 		map.colorMap(fons);
 	});
 }
@@ -1079,7 +1100,7 @@ function creaPopOverMevasDades(){
 						if(results.status==='OK'){
 							
 							var value = results.results;
-							_gaq.push(['_trackEvent', 'mapa', 'carregar meves dades', value.serverType, tipus_user]);
+							_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar meves dades', value.serverType, 1]);
 							
 							if (value.epsg == "4326"){
 								value.epsg = L.CRS.EPSG4326;
@@ -1121,6 +1142,9 @@ function creaPopOverMevasDades(){
 						businessId: _this.data("businessid")
 					};
 					
+					var firstLetter = _this.data("servername").charAt(0).toLowerCase();
+					if($.isNumeric(firstLetter)) firstLetter = "_";
+					
 					var parent = _this.parent();
 					var parentul = parent.parent();
 					_this.parent().remove();
@@ -1137,6 +1161,15 @@ function creaPopOverMevasDades(){
 									$('#dialgo_messages').modal('show');
 									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
 								}
+							}else{
+								//jQuery("ln-letter-count").init();
+//								console.debug(globalCounts);
+								globalCounts[''+firstLetter +'']--;
+//								console.debug(globalCounts[''+firstLetter +'']);
+//								if(globalCounts[''+firstLetter +'']<=0){
+//									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled');
+//									//jQuery(".ln-letters."+firstLetter).removeClass('ln-selected');
+//								}
 							}					
 						});
 					}else{
@@ -1147,6 +1180,13 @@ function creaPopOverMevasDades(){
 									$('#dialgo_messages').modal('show');
 									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
 								}
+							}else{
+//								console.debug(globalCounts);
+								globalCounts[''+firstLetter +'']--;
+//								console.debug(globalCounts[''+firstLetter +'']);
+//								if(globalCounts[''+firstLetter +'']<=0){
+//									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled')
+//								}
 							}
 						});						
 					}
@@ -1560,10 +1600,9 @@ function pLeft() {
 
 function addCapaDadesObertes(dataset,nom_dataset) {
 
-	_gaq.push(['_trackEvent', 'mapa', 'dades obertes', nom_dataset, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades obertes', nom_dataset, 1]);
 	
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
-
 	var estil_do = retornaEstilaDO(dataset);
 //	var lastZIndex = controlCapes._lastZIndex;//+1;
 	capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
@@ -1573,7 +1612,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		dataset: dataset,
 		estil_do: estil_do,
 		businessId : '-1',
-		dataType : "jsonp",
+//		dataType : "jsonp",
 //		zIndex: lastZIndex,
 		geometryType:t_marker,
 		pointToLayer : function(feature, latlng) {
@@ -1605,63 +1644,130 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 			}else{
 			return L.circleMarker(latlng, estil_do);
 			}
-		}
+		},
+		middleware:function(data){
+            
+            if(data.status && data.status.indexOf("ERROR")!=-1){
+        		if(data.results.indexOf("CONVERT ERROR")!= -1){
+    			var txt_error = window.lang.convert("Error en el tractament de les dades");
+    			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
+	    		}
+	    		else{
+	    			var txt_error = window.lang.convert("Impossible accedir a la font de dades");
+	    			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
+	    		}            	
+            }else{
+            	
+            	capaDadaOberta.addData(data);
+            	
+            	if(typeof url('?businessid') == "string"){
+    				var data = {
+    					uid:$.cookie('uid'),
+    					mapBusinessId: url('?businessid'),
+    					serverName: nom_dataset,
+    					serverType: t_dades_obertes,
+    					calentas: false,
+    		            activas: true,
+    		            visibilitats: true,
+    		            order: controlCapes._lastZIndex+1,
+    		            epsg: '4326',
+    		            transparency: true,
+    		            visibilitat: visibilitat_open,
+    					options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
+    				};
+    				
+    				createServidorInMap(data).then(function(results){
+    					if (results.status == "OK"){
+    						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+    						capaDadaOberta.options.businessId = results.results.businessId;
+    						capaDadaOberta.addTo(map)
+    						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+    						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+    						controlCapes._lastZIndex++;
+    						activaPanelCapes(true);
+    					}
+    				});
+    				
+    			}else{
+    				capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+    				capaDadaOberta.addTo(map);
+    				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+    				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+    				controlCapes._lastZIndex++;
+    				activaPanelCapes(true);
+    			}		            	
+            }
+            
+        }
 	});
 	
 	
-	L.Util.jsonp(param_url).then(function(data){
-		
-		capaDadaOberta.on('data:loaded', function(e){
-			
-			if(typeof url('?businessid') == "string"){
-				var data = {
-					uid:$.cookie('uid'),
-					mapBusinessId: url('?businessid'),
-					serverName: nom_dataset,
-					serverType: t_dades_obertes,
-					calentas: false,
-		            activas: true,
-		            visibilitats: true,
-		            order: controlCapes._lastZIndex+1,
-		            epsg: '4326',
-		            transparency: true,
-		            visibilitat: visibilitat_open,
-					options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
-				};
-				
-				createServidorInMap(data).then(function(results){
-					if (results.status == "OK"){
-						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
-						capaDadaOberta.options.businessId = results.results.businessId;
-						capaDadaOberta.addTo(map)
-						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-						controlCapes._lastZIndex++;
-						activaPanelCapes(true);
-					}
-				});
-				
-			}else{
-				capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
-				capaDadaOberta.addTo(map);
-				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-				controlCapes._lastZIndex++;
-				activaPanelCapes(true);
-			}		
-			
-		});	
-		
-	},function(data){
-		if(data.results.indexOf("CONVERT ERROR")!= -1){
-			var txt_error = window.lang.convert("Error en el tractament de les dades");
-			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
-		}
-		else{
-			var txt_error = window.lang.convert("Impossible accedir a la font de dades");
-			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
-		}
-	});	
+//	L.Util.jsonp(param_url).then(function(data){
+//		
+//		capaDadaOberta.on('data:loaded', function(e){
+//			
+//			if(typeof url('?businessid') == "string"){
+//				var data = {
+//					uid:$.cookie('uid'),
+//					mapBusinessId: url('?businessid'),
+//					serverName: nom_dataset,
+//					serverType: t_dades_obertes,
+//					calentas: false,
+//		            activas: true,
+//		            visibilitats: true,
+//		            order: controlCapes._lastZIndex+1,
+//		            epsg: '4326',
+//		            transparency: true,
+//		            visibilitat: visibilitat_open,
+//					options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
+//				};
+//				
+//				createServidorInMap(data).then(function(results){
+//					if (results.status == "OK"){
+//						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+//						capaDadaOberta.options.businessId = results.results.businessId;
+//						capaDadaOberta.addTo(map)
+//						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+////						updateControlCapes(capaDadaOberta, nom_dataset, true);
+//						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+//						controlCapes._lastZIndex++;
+//						activaPanelCapes(true);
+////						$(".layers-list").mCustomScrollbar({
+////							   advanced:{
+////							     autoScrollOnFocus: false,
+////							     updateOnContentResize: true
+////							   }           
+////						});							
+//					}
+//				});
+//				
+//			}else{
+//				capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+//				capaDadaOberta.addTo(map);
+//				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+//				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+//				controlCapes._lastZIndex++;
+//				activaPanelCapes(true);
+////				$(".layers-list").mCustomScrollbar({
+////					   advanced:{
+////					     autoScrollOnFocus: false,
+////					     updateOnContentResize: true
+////					   }           
+////				});
+//			}		
+//			
+//		});	
+//		
+//	},function(data){
+//		if(data.results.indexOf("CONVERT ERROR")!= -1){
+//			var txt_error = window.lang.convert("Error en el tractament de les dades");
+//			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
+//		}
+//		else{
+//			var txt_error = window.lang.convert("Impossible accedir a la font de dades");
+//			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
+//		}
+//	});	
 	
 
 }
@@ -1679,6 +1785,12 @@ function addCapaMunicipis() {
 	capaDadaOberta.addTo(map)
 	controlCapes.addOverlay(capaDadaOberta, "Municipis", true);
 	activaPanelCapes(true);
+//	$(".layers-list").mCustomScrollbar({
+//		   advanced:{
+//		     autoScrollOnFocus: false,
+//		     updateOnContentResize: true
+//		   }           
+//	});		
 }
 
 function loadingMap(accio){	
@@ -1784,6 +1896,38 @@ function loadMapConfig(mapConfig){
 				});
 			});
 		});
+		
+//		//carga las capas en el mapa
+//		loadOrigenWMS().then(function(results){
+//			var num_origen = 0;
+//			jQuery.each(results.origen, function(index, value){
+//				loadLayer(value).then(function(){
+//					num_origen++;
+//					if (num_origen == results.origen.length){
+//						if($.isEmptyObject(results.sublayers)){
+//							$(".layers-list").mCustomScrollbar();
+//						}else{
+//							var num_sublayers = 0;
+//							jQuery.each(results.sublayers, function(index, value){
+//								loadLayer(value).then(function(){
+//									num_sublayers++;
+//									if (num_sublayers == results.sublayers.length){
+////										$(".layers-list").mCustomScrollbar();
+//										$(".layers-list").mCustomScrollbar({
+//											   advanced:{
+//											     autoScrollOnFocus: false,
+//											     updateOnContentResize: true
+//											   }           
+//											});										
+//									}
+//								});
+//							});							
+//						}
+//					}
+//				});
+//			});
+//		});		
+		
 		jQuery('#div_loading').hide();
 	}
 	
@@ -1954,7 +2098,7 @@ function publicarMapa(fromCompartir){
 		layers: JSON.stringify(layers)
 	};
 	
-	_gaq.push(['_trackEvent', 'mapa', 'publicar', visibilitat, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat, 1]);
 	
 	//crear los archivos en disco
 	var layersId = getBusinessIdOrigenLayers();
@@ -2057,7 +2201,7 @@ function initControls(){
 
 function addTwitterLayer(hashtag){
 	
-	_gaq.push(['_trackEvent', 'mapa', 'twitter', hashtag, tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'twitter', hashtag, 1]);	
 	
 	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
 	//Control no afegit #
@@ -2100,6 +2244,12 @@ function addTwitterLayer(hashtag){
 				controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
 				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});					
 			}else{
 				console.debug('error create server in map');
 			}
@@ -2110,6 +2260,12 @@ function addTwitterLayer(hashtag){
 		controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});			
 	}	
 	
 	//Tanquem input twitter
@@ -2135,7 +2291,7 @@ function loadTwitterLayer(layer, hashtag){
 
 function addPanoramioLayer(){
 	
-	_gaq.push(['_trackEvent', 'mapa', 'panoramio', 'label panoramio', tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'panoramio', 'label panoramio', 1]);
 	
 //	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var panoramio = new L.Panoramio({
@@ -2171,6 +2327,12 @@ function addPanoramioLayer(){
 				controlCapes.addOverlay(panoramio, 'panoramio', true);
 				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});					
 			}else{
 				console.debug('error create server in map');
 			}
@@ -2204,7 +2366,7 @@ function loadPanoramioLayer(layer){
 function addWikipediaLayer(){	
 	console.debug('Add wikipedia layer');
 	
-	_gaq.push(['_trackEvent', 'mapa', 'wikipedia', 'label wikipedia', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wikipedia', 'label wikipedia', 1]);	
 	
 //	var lastZIndex = controlCapes._lastZIndex;//+1;//Jess
 	var wikipedia = new L.Wikipedia({
@@ -2239,6 +2401,12 @@ function addWikipediaLayer(){
 				controlCapes.addOverlay(wikipedia, 'wikipedia', true);
 				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});					
 			}else{
 				console.debug('error create server in map');
 			}
@@ -2272,12 +2440,13 @@ function updateEditableElements(){
 	//console.debug('updateEditableElements');
 	$('.leaflet-name .editable').editable({
 		type: 'text',
+		mode: 'inline',
 	    validate: function(value) {
 		        if($.trim(value) == '') {
 		        	return {newValue: this.innerHTML};
 		        }
-	        },
-			success: function(response, newValue) {
+	    },
+		success: function(response, newValue) {
 				map.closePopup();//Perque no queden desactualitzats
 				var id = this.id;
 				var idParent = this.idParent;
@@ -2299,7 +2468,7 @@ function updateEditableElements(){
 					
 					updateServidorWMSName(data).then(function(results){
 						if(results.status==='OK'){
-						_gaq.push(['_trackEvent', 'mapa', 'editar nom capa', 'label editar nom', tipus_user]);
+						_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
 //						console.debug('udpate map name OK');
 						editableLayer.name = newValue;
 						editableLayer.layer.options.nom = newValue;
@@ -2318,8 +2487,19 @@ function updateEditableElements(){
 			}		
 	 }
 	});
+	
+    $('.leaflet-name .editable').on('shown', function(e, editable) {
+        console.debug('shown editable:'+editable);
+        jQuery('.opcio-conf').hide();
+        jQuery('.subopcio-conf').hide();
+    });
+    $('.leaflet-name .editable').on('hidden', function(e, editable) {
+    	console.debug('hidden editable:'+editable);
+        jQuery('.opcio-conf').show();
+    });    
+	
 	//Hide les opcions de configuracio
-	jQuery('.options-conf').hide();
+//	jQuery('.options-conf').hide();
 }
 
 function carregaDadesUsuari(data){
@@ -2428,7 +2608,7 @@ function loadDadesObertesLayer(layer){
 
 function loadWmsLayer(layer){
 	
-	var newWMS = L.tileLayer.wms(layer.url, {
+	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
 	    transparent: layer.transparency,
@@ -2660,6 +2840,19 @@ function getBusinessIdOrigenLayers(){
 	
 }
 
+
+function updateControlCapes(layer, layername, sublayer, groupLeafletId){
+	
+	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
+	if(groupLeafletId==null)controlCapes._lastZIndex++;
+	activaPanelCapes(true);
+	$(".layers-list").mCustomScrollbar({
+		   advanced:{
+		     autoScrollOnFocus: false,
+		     updateOnContentResize: true
+		   }           
+	});		
+}
 
 /*************** LLEGENDA ********************/
 

@@ -221,11 +221,11 @@ function updateMap(data){
 
 function updateMap(data){
 	return jQuery.ajax({
-		url: paramUrl.proxy + "?url=" + paramUrl.updateMap + "&uid="+data.uid,
-//		url: paramUrl.updateMap,
+//		url: paramUrl.proxy + "?url=" + paramUrl.updateMap + "&uid="+data.uid,
+		url: paramUrl.updateMap,
 		data: data,
-		method: 'POST'
-//		dataType: 'jsonp'
+//		method: 'POST'
+		dataType: 'jsonp'
 	}).promise();
 }
 

@@ -318,6 +318,17 @@ footer .logo_footer {
 		font-weight: bold;
 		font-size: 25px;
 	}
+	
+	#mapTitle{
+	    line-height: 20px;
+	    padding: 15px;
+	    float: left;
+	    font-size: 25px;
+	    font-weight: bold;
+	    color: white;
+	}
+	
+	
 	@media (max-width: 350px) {
 		.brand-txt {
 			font-size: 20px;
