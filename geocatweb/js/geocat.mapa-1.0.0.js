@@ -1950,8 +1950,8 @@ function loadMapConfig(mapConfig){
 	//Configurar Llegenda
 	$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
 //		alert("Llegenda");
-		console.debug(state);
-		console.debug(state.value);
+		//console.debug(state);
+		//console.debug(state.value);
 		if(state.value == true) {
 			createModalConfigLegend();
 		}else{
