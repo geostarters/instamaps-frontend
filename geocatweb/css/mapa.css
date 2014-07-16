@@ -723,6 +723,12 @@ background-color: #9F9F9E;
 	cursor: pointer;
 }
 
+.div_fons_12 {
+	background: url("images/galeria_icones.png") no-repeat scroll 0px
+		-750px rgba(208, 208, 208, 0.5);
+	margin-left: 4px;
+	cursor: pointer;
+}
 
 .div_gr2 {
 	height: 55px;
@@ -3472,6 +3478,12 @@ i.fa {
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
+	
+	.div_fons_12 {
+		background: url("images/galeria_icones.png") no-repeat scroll -52px
+			-750px rgba(208, 208, 208, 0.5);
+		cursor: pointer;
+	}	
 }
 
 @media (max-width:800px){
@@ -3600,7 +3612,8 @@ i.fa {
 	margin-bottom: 15px;		
 }
 
-.legend-subrow{
+.legend-subrow,
+.legend-subrow-all{
 	/*border-bottom: 1px solid #E5E5E5;*/
 	margin-bottom: 5px;
 	margin-top: 5px;
@@ -3611,6 +3624,9 @@ i.fa {
      display: table-cell;
      vertical-align: middle;
      position: relative;	
+}
+.legend-name-all{
+	font-weight: bold;	
 }
 .separate-legend-row{
     border-bottom: 3px solid #E5E5E5;

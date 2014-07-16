@@ -639,9 +639,11 @@ function addOpcionsFonsMapes() {
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
 		if (fons == 'topoMap') {
 			map.topoMap();
-		} else if (fons == 'topoGrisMap') {
+		} else if (fons == 'topoMapGeo') {
+			map.topoMapGeo();
+		}else if (fons == 'topoGrisMap') {
 			map.topoGrisMap();
-		} else if (fons == 'ortoMap') {
+		}else if (fons == 'ortoMap') {
 			map.ortoMap();
 		} else if (fons == 'terrainMap') {
 			map.terrainMap();
@@ -1027,6 +1029,7 @@ function creaPopOverMesFonsColor() {
 	.popover(
 	{
 		content : '<div id="div_menufons" class="div_gr3_fons">'
+				+ '<div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div>'
 				+ '<div id="nit" lang="ca"  data-toggle="tooltip" title="Nit" class="div_fons_6"></div>'
 				+ '<div id="sepia" lang="ca"  data-toggle="tooltip" title="Sèpia" class="div_fons_7"></div>'
 				+ '<div id="zombie" lang="ca"  data-toggle="tooltip" title="Zombie" class="div_fons_8"></div>'
@@ -1042,7 +1045,11 @@ function creaPopOverMesFonsColor() {
 	jQuery(document).on('click', "#div_menufons div", function(e) {
 		var fons = jQuery(this).attr('id');
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
-		map.colorMap(fons);
+		if (fons == 'topoGrisMap') {
+			map.topoGrisMap();
+		}else{
+			map.colorMap(fons);			
+		}
 	});
 }
 
@@ -2098,7 +2105,8 @@ function publicarMapa(fromCompartir){
 		layers: JSON.stringify(layers)
 	};
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat, 1]);
+	//Enregistrem tipus de fons i visibilitat
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat+"#"+map.options.typeMap, 1]);
 	
 	//crear los archivos en disco
 	var layersId = getBusinessIdOrigenLayers();
@@ -2887,6 +2895,15 @@ function createModalConfigLegend(){
 	//console.debug(controlCapes);
 	//console.debug(map._layers);
 	var html = '<h4 lang="ca" id="llegenda-title-text" class="modal-title">Llegenda</h4>';
+	html += '<div class="separate-legend-row"></div>';
+	html += '<div class="legend-row">'+
+				'<div class="legend-subrow-all">'+
+				'<input id="legend-chck-all" class="col-md-1 legend-chck" type="checkbox">'+
+				'<div class="col-md-9 legend-name-all">'+
+					window.lang.convert('Tots')+
+				'</div>'+
+			'</div>';
+	html += '<div class="separate-legend-row"></div>';
 	var count = 0;
 	jQuery.each(controlCapes._layers, function(i, item){
 		
@@ -2908,6 +2925,13 @@ function createModalConfigLegend(){
 	$('#dialgo_publicar .modal-body .modal-legend').html(html);
 	$('#dialgo_publicar .modal-body .modal-legend').show();
 //	$('#dialog_llegenda').modal('show');
+	$('#legend-chck-all').on('click', function(e){
+		 if($('#legend-chck-all').is(':checked')){
+			 $('.legend-chck').prop('checked', true);
+		 }else{
+			 $('.legend-chck').prop('checked', false);
+		 }
+	});	
 }
 
 function addLayerToLegend(layer, count, layerIdParent){
@@ -3065,10 +3089,13 @@ function addLayerToLegend(layer, count, layerIdParent){
 			var geometryType = transformTipusGeometry(layer.options.geometrytype);
 			var i = 0;
 			var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
-			for(i;i<size && controlColorCategoria.length<9;i++){
+			
+			var listRangs = layer.options.rangs;
+			listRangs.sort(sortByValorMax);
+			
+			for(i;i<listRangs.length && controlColorCategoria.length<10;i++){
 
-				var color = hexToRgb(rangs[i].color);
-				
+				var color = hexToRgb(listRangs[i].color);
 				var existeix = checkColorAdded(controlColorCategoria, color);
 				if(!existeix){
 					
@@ -3103,7 +3130,8 @@ function addLayerToLegend(layer, count, layerIdParent){
 					if(color.r == 153 && color.g==153 && color.b==153 ||
 							color.r == 217 && color.g==217 && color.b==217 ||
 							color.r == 218 && color.g==218 && color.b==218 ) labelNomCategoria = window.lang.convert("Altres");
-					else labelNomCategoria = findLabelCategoria(layer.options.dataField, rangs[i].featureLeafletId, layer._leaflet_id, layerIdParent);					
+					else labelNomCategoria = findLabelCategoria(listRangs[i], layer.options.rangsField);
+//					else labelNomCategoria = findLabelCategoria(layer.options.dataField, rangs[i].featureLeafletId, layer._leaflet_id, layerIdParent);
 					checked = "";						
 					
 					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
@@ -3391,18 +3419,22 @@ function getRangsFromLayerLegend(layer){
     return rangs;
 }
 
-function findLabelCategoria(dataField, fid, layerId, layerIdParent){
-	
-	var pp = (layerIdParent ? controlCapes._layers[''+layerIdParent+'']._layers[''+layerId+''].layer._layers[''+fid+''].properties
-								:controlCapes._layers[''+layerId+''].layer._layers[''+fid+''].properties);
-	
-	if(!pp.data){
-		return pp[''+dataField+''];
-	}else if(pp.data.ValorMax && pp.data.ValorMin){
-		return pp.data.ValorMax +" - "+ pp.data.ValorMin
+function findLabelCategoria(rang, rangsField){
+	if(rang.valorMin){
+		return rangsField +": "+rang.valorMax +" - "+ rang.valorMin;
 	}else{
-		return pp.data[''+dataField+''];
-	}		
+		return rang.valorMax;
+	}
+}
+
+//This will sort your array
+function sortByValorMax(a, b){
+	var aName = a.valorMax.toLowerCase();
+	var bName = b.valorMax.toLowerCase(); 
+	return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+//	if (a.valorMax < b.valorMax) return -1;
+//	if (a.valorMax > b.valorMax) return 1;
+//	return 0;	
 }
 
 function updateMapLegendData(){
