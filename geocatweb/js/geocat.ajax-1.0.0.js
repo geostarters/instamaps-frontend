@@ -224,8 +224,8 @@ function updateMap(data){
 //		url: paramUrl.proxy + "?url=" + paramUrl.updateMap + "&uid="+data.uid,
 		url: paramUrl.updateMap,
 		data: data,
-//		method: 'POST'
-		dataType: 'jsonp'
+		method: 'POST'
+//		dataType: 'jsonp'
 	}).promise();
 }
 
@@ -541,7 +541,8 @@ function publicarCapesMapa(data){
 	return jQuery.ajax({
 		url: paramUrl.publicarCapesMapa,
 		data: data,
-		dataType: 'jsonp'
+		method: 'post'
+		//dataType: 'jsonp'
 	}).promise();
 }
 
@@ -549,7 +550,8 @@ function publicarMapConfig(data){
 	return jQuery.ajax({
 		url: paramUrl.publicarMapConfig,
 		data: data,
-		dataType: 'jsonp'
+		method: 'post'
+		//dataType: 'jsonp'
 	}).promise();
 }
 
