@@ -438,6 +438,8 @@ function loadMapConfig(mapConfig){
 				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap') {
 					map.topoMap();
+				} else if (fons == 'topoMapGeo') {
+					map.topoMapGeo();
 				} else if (fons == 'topoGrisMap') {
 					map.topoGrisMap();
 				} else if (fons == 'ortoMap') {
@@ -888,8 +890,8 @@ function addLegend(){
 	    	for (var i = 0; i < row.length; i++) {
 	    		if(row[i].chck){
 	    			div.innerHTML +='<div class="visor-legend-row">'+
-						    			'<div class="visor-legend-symbol col-md-6">'+row[i].symbol+'</div>'+
-						    			'<div class="visor-legend-name col-md-6">'+row[i].name+'</div>'+
+						    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
+						    			'<div class="visor-legend-name col-md-8 col-xs-8">'+row[i].name+'</div>'+
 	    							'</div>'+
 	    							'<div class="visor-separate-legend-row"></div>';
 	    		}

@@ -3,21 +3,10 @@
  */
 
 function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
-	
-//	jQuery('#div_url_file').addClass('waiting_animation');
-	
-//	var nomCapa = window.lang.convert("Capa URL fitxer ");
-//	var nomCapa = jQuery("#input-url-file-name").val();
-//	nomCapa += tipusFile;
+
 	var estil_do = retornaEstilaDO(t_url_file);
 	
 	if(dinamic){
-//		var param_url = paramUrl.urlFileProves + "tipusFile=" + tipusFile+
-//												 "&urlFile="+urlFile+
-//												 "&epsgIN="+epsgIN+
-//												 "&dinamic="+dinamic+
-//												 "&uploadFile="+paramUrl.uploadFile+
-//												 "&uid="+$.cookie('uid');
 		
 		var param_url = paramUrl.urlFile	+ "tipusFile=" + tipusFile+
 											 "&urlFile="+urlFile+
@@ -27,15 +16,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 											 "&uid="+$.cookie('uid');		
 		
 		var capaURLfile = new L.GeoJSON.AJAX(param_url, {
-//			onEachFeature : popUp,
 			nom : nomCapa,
 			tipus : t_url_file,
-//			dataset: dataset,
 			estil_do: estil_do,
 			businessId : '-1',
 //			dataType : "jsonp",
-//			zIndex: lastZIndex,
-//			geometryType:t_marker,//TODO QUINA GEOMETRY TYPE!!!
 			pointToLayer : function(feature, latlng) {
 				  
 				var geometryType = transformTipusGeometry(feature.geometry.type);
@@ -89,7 +74,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 					            calentas: false,
 					            activas: true,
 					            visibilitats: true,
-					            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+					            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","dinamic":"'+dinamic+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 							};
 							
 							createServidorInMap(data).then(function(results){
@@ -104,17 +89,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 										capaURLfile.options.url = urlFile;
 										capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
 										capaURLfile.options.options.estil_do = estil_do;
+										capaURLfile.addTo(map);
 										capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 										controlCapes.addOverlay(capaURLfile, nomCapa, true);
 										controlCapes._lastZIndex++;
 										activaPanelCapes(true);	
-//										$(".layers-list").mCustomScrollbar({
-//											   advanced:{
-//											     autoScrollOnFocus: false,
-//											     updateOnContentResize: true
-//											   }           
-//										});									
-						//				 map.fitBounds(capaURLfile.getBounds());
 										
 									}else{
 										console.debug("1.Error a createServidorInMap:"+results.status);
@@ -136,82 +115,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			  }
 		});
 
-
-//		L.Util.jsonp(param_url).then(function(data){
-//			
-//			capaURLfile.on('data:loaded', function(e){	
-//			
-//				//Un cop tinc la capa a client, la creo a servidor
-//				if(typeof url('?businessid') == "string"){
-//					var data = {
-//						uid:$.cookie('uid'),
-//						mapBusinessId: url('?businessid'),
-//						serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
-//						serverType: t_url_file,
-//						calentas: false,
-//			            activas: true,
-//			            visibilitats: true,
-//			            order: controlCapes._lastZIndex+1,
-//			            epsg: '4326',
-//			            imgFormat: 'image/png',
-//			            infFormat: 'text/html',
-//			            tiles: true,	            
-//			            transparency: true,
-//			            opacity: 1,
-//			            visibilitat: 'O',
-//			            url: urlFile,//Provar jQuery("#txt_URLJSON")
-//			            calentas: false,
-//			            activas: true,
-//			            visibilitats: true,
-//			            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
-//					};
-//					
-//					createServidorInMap(data).then(function(results){
-//							if (results.status == "OK"){
-//								
-//								_gaq.push(['_trackEvent', 'mapa', 'dades externes dinàmiques', urlFile, tipus_user]);
-//								
-//								jQuery('#dialog_dades_ex').modal('toggle');					
-//								capaURLfile.options.businessId = results.results.businessId;
-//								capaURLfile.options.nom = nomCapa;
-//								capaURLfile.options.tipus = t_url_file;
-//								capaURLfile.options.url = urlFile;
-//								capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
-//								capaURLfile.options.options.estil_do = estil_do;
-//								capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
-//								controlCapes.addOverlay(capaURLfile, nomCapa, true);
-//								controlCapes._lastZIndex++;
-//								activaPanelCapes(true);	
-////								$(".layers-list").mCustomScrollbar({
-////									   advanced:{
-////									     autoScrollOnFocus: false,
-////									     updateOnContentResize: true
-////									   }           
-////								});									
-//				//				 map.fitBounds(capaURLfile.getBounds());
-//								
-//							}else{
-//								console.debug("1.Error a createServidorInMap:"+results.status);
-//								var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-//								jQuery("#div_url_file_message").html(txt_error);							
-//							}
-//					},function(results){
-//						console.debug("2.Error a createServidorInMap:"+results.status);
-//						var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-//						jQuery("#div_url_file_message").html(txt_error);					
-//					});
-//					
-//				}else{
-//					//usuari no logat, no entra mai
-//				}
-//			});		
-////			jQuery('#div_url_file').removeClass('waiting_animation');
-//		},function(data){
-//			processFileError(data);
-//		});		
 	}else{
-		
-	   //console.debug("No es dinamic, tractament fitxer!");
 		
 		var data = {
 			 tipusFile: tipusFile,
@@ -222,7 +126,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			 uid: $.cookie('uid')
 		}
 
-		//getUrlFileProves(data).then(function(results){
 		getUrlFile(data).then(function(results){
 			
 			if (results.status == "OK") {
@@ -299,8 +202,10 @@ function loadURLfileLayer(layer){
 	var tipusFile = options.tipusFile;
 	var epsgIN = options.epsgIN;
 	var urlFile = layer.url;
+	var dinamic = false;
+	if(options.dinamic) dinamic = true;
 	
-	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&urlFile="+urlFile+"&epsgIN="+epsgIN;
+	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&urlFile="+urlFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic;
 	
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 //		onEachFeature : popUp,
@@ -334,8 +239,6 @@ function loadURLfileLayer(layer){
 
 	    	var popup = L.popup().setContent(html);
 	    	
-//	    	feature.geometry.coordinates[0]=latlng.lat;
-//		  	feature.geometry.coordinates[1]=latlng.lng;
 		    return geom.bindPopup(popup);
 		  }
 	});		

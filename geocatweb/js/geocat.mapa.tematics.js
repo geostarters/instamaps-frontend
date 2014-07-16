@@ -653,6 +653,7 @@ function readTematic(defer, results, layerWms, layer){
 			var idDataField = tematic.idDataField;
 			var idGeomField = tematic.idGeomField;
 			var dataField = tematic.dataField;
+			var rangsField = "";
 			var Lrangs = tematic.rangs;
 			var Ldades = (tematic.capes ? tematic.capes.dades : []);
 			capaTematic = new L.FeatureGroup();
@@ -660,6 +661,11 @@ function readTematic(defer, results, layerWms, layer){
 			var hasDades = false;
 			if (tematic.capes && tematic.capes.fieldsName){
 				hasDades = true;
+				var fieldsName = tematic.capes.fieldsName.split(",");
+				var fieldPos = parseInt(dataField.replace("slotd",""))-1;
+				if (fieldPos < fieldsName.length){
+					rangsField = fieldsName[fieldPos];
+				}
 			}
 			
 			capaTematic.options = {
@@ -668,7 +674,9 @@ function readTematic(defer, results, layerWms, layer){
 				tipus : layerWms.serverType,
 				tipusRang: tematic.tipusRang, 
 				geometryType: tematic.geometryType,
-				dades: hasDades
+				dades: hasDades,
+				rangs: tematic.rangs,
+				rangsField: rangsField
 			};
 			
 			if(hasSource) {
