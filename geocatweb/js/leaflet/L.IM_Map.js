@@ -111,6 +111,10 @@ L.IM_Map = L.Map.extend({
 			this.gestionaFons(false);
 		});
 		
+		this.on('viewreset', function(){				
+			this.gestionaFons(false);
+		});
+		
 		this.on('layeradd', function(){				
 			this.gestionaFons(true);
 		});
@@ -247,11 +251,11 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L11_12.options.maxZoom=zT;
 				TOPO_ICC_L12_19.options.maxZoom=zT;
 				if(this.getZoom() > 6){
-					this.attributionControl.setPrefix(MQ_ATTR);
+					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
 					//TOPO_ICC_L0_6
 					_topoLayers.removeLayer(TOPO_ICC_L0_6);
 				}else{
-					this.attributionControl.setPrefix(ICGC_MON);
+					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
 					_topoLayers.addLayer(TOPO_ICC_L0_6);
 				}			
 			}else if(sC==1){
@@ -262,10 +266,10 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L12_19.options.maxZoom=19;
 				TOPO_ICC_L7_10.options.maxZoom=10;					
 				if(this.getZoom() > 6){
-					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
+					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
 					_topoLayers.removeLayer(TOPO_ICC_L0_6);
 				}else{
-					this.attributionControl.setPrefix(ICGC_MON);
+					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
 					_topoLayers.addLayer(TOPO_ICC_L0_6);
 				}	
 			}else if(sC==2){
@@ -273,7 +277,7 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=19;
 				TOPO_ICC_L7_10.options.maxZoom=10;	
-				this.attributionControl.setPrefix(ICGC);				
+				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 			}
 		
 		//var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_GEO_ICC_L8_12,TOPO_GEO_ICC_L12_16;	
@@ -287,10 +291,10 @@ L.IM_Map = L.Map.extend({
 			if((sC==0)){  
 				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
 				TOPO_GEO_MQ_L7_19.options.maxZoom=16;		
-				TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
-				TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
+				//TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
+				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
 				TOPO_GEO_ICC_L12_16.options.maxZoom=zT;
-				this.attributionControl.setPrefix(MQ_ATTR);
+				this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
 				/*
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(MQ_ATTR);
@@ -306,13 +310,13 @@ L.IM_Map = L.Map.extend({
 				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
 				TOPO_GEO_MQ_L7_19.options.maxZoom=16;				
 				TOPO_GEO_ICC_L8_12.options.maxZoom=12;
-				TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
+			//	TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
 				TOPO_GEO_ICC_L12_16.options.maxZoom=16;
 				
 				TOPO_GEO_ICC_L8_12.setOpacity(1);
-				TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
+				//TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
 				
-				this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
+				this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
 				/*
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
@@ -323,15 +327,28 @@ L.IM_Map = L.Map.extend({
 				}	
 				*/
 			}else if(sC==2){
+				
+				
+				/*
+				if(this.getZoom() > 12){
+					//this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
+					_topoLayersGeo.removeLayer(TOPO_GEO_ICC_L8_12);
+				}else{
+					//this.attributionControl.setPrefix(ICGC_MON);
+					_topoLayersGeo.addLayer(TOPO_GEO_ICC_L8_12);
+				}	
+				*/
+				
+				
 				TOPO_GEO_MQ_L7_19.options.maxZoom=zT;
 				TOPO_GEO_ICC_L8_12.options.maxZoom=12;
-				TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
+				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
 				TOPO_GEO_ICC_L12_16.options.maxZoom=16;	
-				this.attributionControl.setPrefix(ICGC);	
+				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());	
 				
 				
-				TOPO_GEO_ICC_L8_12.setOpacity(0.8);
-				TOPO_GEO_OMBRA_L8_12.setOpacity(1);
+				//TOPO_GEO_ICC_L8_12.setOpacity(0.8);
+				//TOPO_GEO_OMBRA_L8_12.setOpacity(1);
 				
 				
 			}
@@ -347,41 +364,41 @@ L.IM_Map = L.Map.extend({
 					ORTO_ICC_L0_11.options.maxZoom=zT;
 					ORTO_ICC_L12_19.options.maxZoom=zT;
 					ORTO_ESRI_L0_19.setOpacity(1);
-					this.attributionControl.setPrefix(ESRI_ATTR);				
+					this.attributionControl.setPrefix(ESRI_ATTR +" ZL:"+this.getZoom());				
 				}else if(sC==1){ //Cat i altres
 					ORTO_ESRI_L0_19.options.maxZoom=19;			 
 					ORTO_ICC_L0_11.options.maxZoom=11;
 					ORTO_ICC_L12_19.options.maxZoom=12;
 					ORTO_ESRI_L0_19.setOpacity(0.8);					
-					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR);	
+					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR +" ZL:"+this.getZoom());	
 				}else if(sC==2){ //Nomes cat
 					ORTO_ESRI_L0_19.options.maxZoom=zT;			 
 					ORTO_ICC_L0_11.options.maxZoom=11;
 					ORTO_ICC_L12_19.options.maxZoom=19;			
-					this.attributionControl.setPrefix(ICGC);				
+					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 				}	
 		}else if(f==FONS_TERRAINMAP){		
 			
 			this.mirarActivarHill(false,this.getZoom(),sC);	
 			
-			if((map.getZoom() > 17)&& (layerAdd)){
-				map.setZoom(17);
+			if((this.getZoom() > 17)&& (layerAdd)){
+				this.setZoom(17);
 			}			
 			
 			if((sC==0)){ //Fora Cat
 				ESRI_RELLEU_L0_13.options.maxZoom=13;			 
 				ICC_RELLEU_L0_14.options.maxZoom=zT;
 				ESRI_RELLEU_L0_13.setOpacity(1);
-				this.attributionControl.setPrefix(ESRI_ATTR_TERRAIN);				
+				this.attributionControl.setPrefix(ESRI_ATTR_TERRAIN +" ZL:"+this.getZoom());				
 			}else if(sC==1){ //Cat i altres
 				ESRI_RELLEU_L0_13.options.maxZoom=9;			 
 				ICC_RELLEU_L0_14.options.maxZoom=16;
 				ESRI_RELLEU_L0_13.setOpacity(0.8);					
-				this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR_TERRAIN);	
+				this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR_TERRAIN +" ZL:"+this.getZoom());	
 			}else if(sC==2){ //Nomes cat
 				ESRI_RELLEU_L0_13.options.maxZoom=zT;			 
 				ICC_RELLEU_L0_14.options.maxZoom=16;					
-				this.attributionControl.setPrefix(ICGC);				
+				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 			}		
 		}else if(f==FONS_TOPOGISMAP){
 			
@@ -392,11 +409,11 @@ L.IM_Map = L.Map.extend({
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L11_19.options.maxZoom=zT;
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=zT;
-				if(map.getZoom() <= 6){
-					this.attributionControl.setPrefix(MQ_ATTR);
+				if(this.getZoom() <= 6){
+					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
 					_grisLayers.addLayer(ICC_MON_L0);
 				}else{
-					this.attributionControl.setPrefix(ICGC_MON);
+					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
 					_grisLayers.removeLayer(ICC_MON_L0);
 				}				
 			}else if(sC==1){
@@ -404,12 +421,12 @@ L.IM_Map = L.Map.extend({
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L11_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=10;	
-				this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR);	
+				this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
 			}else if(sC==2){
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=zT;
 				ICC_TOPO_GRIS_L11_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=10;	
-				this.attributionControl.setPrefix(ICGC);				
+				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 			}
 		}else if(f==FONS_COLORMAP){	
 			this.mirarActivarHill(true,this.getZoom(),sC);	
@@ -418,35 +435,35 @@ L.IM_Map = L.Map.extend({
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=19;
 				COLOR_TOPO_ICC_L11_19.options.maxZoom=zT;
 				
-				if(map.getZoom() <= 6){
-					this.attributionControl.setPrefix(MQ_ATTR);
+				if(this.getZoom() <= 6){
+					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
 				}else{
-					this.attributionControl.setPrefix(ICGC_MON);
+					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
 				}				
 			}else if(sC==1){
 				COLOR_TOPO_MQ_L7_19.setOpacity(0.9);
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=19;
 				COLOR_TOPO_ICC_L11_19.options.maxZoom=19;				
-				this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR);	
+				this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
 			}else if(sC==2){
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=zT;
 				COLOR_TOPO_ICC_L11_19.options.maxZoom=19;			
-				this.attributionControl.setPrefix(ICGC);				
+				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 			}		
 		}else if(f==FONS_HISTORICMAP){	
 			this.mirarActivarHill(false,this.getZoom(),sC);	
-			if(map.getZoom() > 14){
+			if(this.getZoom() > 14){
 				map.setZoom(14);
 			}			
 			if((sC==0)){				
 				this.fitBounds(CatBounds);
-				this.attributionControl.setPrefix(ICGC_HISTO);
+				this.attributionControl.setPrefix(ICGC_HISTO +" ZL:"+this.getZoom());
 			}
 		}else if(f==FONS_HISTORICORTOMAP){		
 			this.mirarActivarHill(false,this.getZoom(),sC);	
 			if((sC==0)){			
 				this.fitBounds(CatBounds);
-				this.attributionControl.setPrefix(ICGC_HISTOOrto);
+				this.attributionControl.setPrefix(ICGC_HISTOOrto +" ZL:"+this.getZoom());
 			}
 		}else{
 		
@@ -518,7 +535,7 @@ L.IM_Map = L.Map.extend({
 		
 		
 		
-		
+		/*
 		TOPO_GEO_OMBRA_L8_12 =new L.TileLayer(URL_OMBRA, {
 			minZoom: 9,
 			maxZoom: 12,
@@ -528,7 +545,7 @@ L.IM_Map = L.Map.extend({
 			worldCopyJump: false,
 			opacity:0.1			
 		}).addTo(_topoLayersGeo);	
-		
+		*/
 		
 		TOPO_GEO_ICC_L8_12 =new L.TileLayer(URL_TOPOICC_GEO_1, {
 			minZoom: 7,
