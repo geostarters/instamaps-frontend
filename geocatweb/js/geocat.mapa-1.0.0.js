@@ -1819,7 +1819,8 @@ function popUp(f, l) {
 					out.push(f.properties[key]);
 				}else if(key=='link' || key=='Web'){				
 					ll=f.properties[key];
-					if(ll.indexOf('.gif')!=-1){
+					//if(ll.indexOf('.gif')!=-1 || ll.indexOf('.jpg')!=-1){
+					if(isImgURL(ll)){
 						out.push('<img width="100" src="'+ll+'"/>');
 					}else{
 						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');

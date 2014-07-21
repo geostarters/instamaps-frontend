@@ -258,13 +258,13 @@ function ValidURL(str) {
 //(http(s?):)|([/|.|\w|\s])*\.(?:jpg|gif|png)
 //  (?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))(?:\?([^#]*))?(?:#(.*))?
 function isImgURL(str) {
-	  var pattern = new RegExp('(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))','i'); // extension
-	  if(!pattern.test(str)) {
-	    return false;
-	  } else {
-	    return true;
-	  }
-	}
+  var pattern = new RegExp('(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpe?g|gif|png))','i'); // extension
+  if(!pattern.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 /*
 function obteValorURL(name){
