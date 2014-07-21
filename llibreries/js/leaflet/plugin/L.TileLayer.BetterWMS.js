@@ -36,10 +36,12 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				var err = typeof data === 'string' ? null : data;
 	//			showResults(err, evt.latlng, data);
 				//showGetFeatureInfo(err, evt.latlng, data);
-			var pop=L.popup({ maxWidth: 800})
-				.setLatLng(evt.latlng)
-				.setContent(data).openOn(map);
-			
+				console.debug(data);
+				if(data.length > 5){
+					var pop=L.popup({ maxWidth: 800})
+						.setLatLng(evt.latlng)
+						.setContent(data).openOn(map);					
+				}
 			},
 			error: function (xhr, status, error) {
 	//			showResults(error);

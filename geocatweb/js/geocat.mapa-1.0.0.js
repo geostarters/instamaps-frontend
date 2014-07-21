@@ -3421,7 +3421,7 @@ function getRangsFromLayerLegend(layer){
 
 function findLabelCategoria(rang, rangsField){
 	if(rang.valorMin){
-		return rangsField +": "+rang.valorMax +" - "+ rang.valorMin;
+		return rangsField +": "+rang.valorMin +" - "+ rang.valorMax;
 	}else{
 		return rang.valorMax;
 	}

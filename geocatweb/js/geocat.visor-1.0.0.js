@@ -123,8 +123,11 @@ function loadApp(){
 			}
 			mapConfig = $.parseJSON(results.results);
 			
+			document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+			
 			if (mapConfig.options){
 				mapConfig.options = $.parseJSON( mapConfig.options );
+				$('meta[name=description]').attr('content', mapConfig.options.description);
 			}
 			jQuery("#mapTitle").html(mapConfig.nomAplicacio);
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
@@ -212,6 +215,7 @@ function loadApp(){
 			console.debug('on click social');
 		});
 		
+		_gaq.push(['_trackPageview']);
 }
 
 function initControls(){

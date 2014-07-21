@@ -595,7 +595,7 @@ function getRangsFromStyles(tematic, styles){
 			};
 		}
 //		rang.businessId = styles.properties.businessId;
-		rang.featureLeafletId = styles._leaflet_id;
+//		rang.featureLeafletId = styles._leaflet_id;
 		rangs.push(rang);
 	}
 	return rangs;

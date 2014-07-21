@@ -549,7 +549,7 @@ function publicarMapConfig(data){
 	return jQuery.ajax({
 		url: paramUrl.publicarMapConfig,
 		data: data,
-		dataType: 'jsonp'
+		method: 'post'
 	}).promise();
 }
 
