@@ -110,11 +110,11 @@ L.IM_Map = L.Map.extend({
 		this.on('moveend', function(){				
 			this.gestionaFons(false);
 		});
-		
+		/*
 		this.on('viewreset', function(){				
 			this.gestionaFons(false);
 		});
-		
+		*/
 		this.on('layeradd', function(){				
 			this.gestionaFons(true);
 		});
@@ -326,18 +326,35 @@ L.IM_Map = L.Map.extend({
 					_topoLayers.addLayer(TOPO_ICC_L0_6);
 				}	
 				*/
+
+				if(this.getZoom() >= 13){
+					//this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
+					TOPO_GEO_ICC_L8_12.setOpacity(0);
+					TOPO_GEO_ICC_L12_16.setOpacity(1);
+				}else{
+					//this.attributionControl.setPrefix(ICGC_MON);
+					TOPO_GEO_ICC_L8_12.setOpacity(1);
+					TOPO_GEO_ICC_L12_16.setOpacity(0);
+				}	
+				
+				
+				
+				
 			}else if(sC==2){
 				
 				
-				/*
-				if(this.getZoom() > 12){
+				
+				if(this.getZoom() >= 13){
 					//this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
-					_topoLayersGeo.removeLayer(TOPO_GEO_ICC_L8_12);
+					TOPO_GEO_ICC_L8_12.setOpacity(0);
+					TOPO_GEO_ICC_L12_16.setOpacity(1);
 				}else{
 					//this.attributionControl.setPrefix(ICGC_MON);
-					_topoLayersGeo.addLayer(TOPO_GEO_ICC_L8_12);
+					TOPO_GEO_ICC_L8_12.setOpacity(1);
+					TOPO_GEO_ICC_L12_16.setOpacity(0);
 				}	
-				*/
+				
+				
 				
 				
 				TOPO_GEO_MQ_L7_19.options.maxZoom=zT;
@@ -501,14 +518,14 @@ L.IM_Map = L.Map.extend({
 		TOPO_ICC_L11_12 = new L.TileLayer.boundaryCanvas(URL_TOPOICC,{  	    
 			tms:false,
 			minZoom: 11,
-			maxZoom: 11,	                                                        
-			boundary: catContorn5k, 
+			maxZoom: 12,	                                                        
+			boundary: catContorn, 
 			continuousWorld: true,
 			worldCopyJump: false
 		}).addTo(_topoLayers);
 		TOPO_ICC_L12_19 = new L.TileLayer(URL_TOPOICC,{  	    
 			tms:false,
-			minZoom: 12,
+			minZoom: 13,
 			maxZoom: 19,	                                                        
 			continuousWorld: true,
 			worldCopyJump: false
@@ -548,13 +565,13 @@ L.IM_Map = L.Map.extend({
 		*/
 		
 		TOPO_GEO_ICC_L8_12 =new L.TileLayer(URL_TOPOICC_GEO_1, {
-			minZoom: 7,
+			minZoom: 8,
 			maxZoom: 12,
 			tms:true,	
 			
-			continuousWorld: true,
-			worldCopyJump: false,
-			opacity:0.8
+			//continuousWorld: true,
+			//worldCopyJump: false,
+			
 		}).addTo(_topoLayersGeo);	
 	 
 		
