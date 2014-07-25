@@ -1862,6 +1862,8 @@ function loadMapConfig(mapConfig){
 				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap') {
 					map.topoMap();
+				} else if (fons == 'topoMapGeo') {
+					map.topoMapGeo();
 				} else if (fons == 'topoGrisMap') {
 					map.topoGrisMap();
 				} else if (fons == 'ortoMap') {
@@ -3422,7 +3424,7 @@ function getRangsFromLayerLegend(layer){
 
 function findLabelCategoria(rang, rangsField){
 	if(rang.valorMin){
-		return rangsField +": "+rang.valorMax +" - "+ rang.valorMin;
+		return rangsField +": "+rang.valorMin +" - "+ rang.valorMax;
 	}else{
 		return rang.valorMax;
 	}

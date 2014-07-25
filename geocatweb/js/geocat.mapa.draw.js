@@ -642,18 +642,17 @@ function parseUrlText(txt){
 	for(index in lwords){
 		var text;
 		var word = lwords[index];
-		
+		//console.debug(word);
 		if(ValidURL(word)){
-			
 			if(isImgURL(word)){
-				console.debug("Image:"+word);
+				//console.debug("Image:"+word);
 				text = "<img src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
 			}else if(word.indexOf("html?") != -1){
-				console.debug("Iframe:"+word);
+				//console.debug("Iframe:"+word);
 				text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
 						"marginwidth=\"0\" src=\""+word+"\"></iframe>";
 			}else{
-				console.debug("URL:"+word);
+				//console.debug("URL:"+word);
 				text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";	
 			}
 			
