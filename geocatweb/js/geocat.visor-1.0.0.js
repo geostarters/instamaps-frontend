@@ -128,6 +128,7 @@ function loadApp(){
 			if (mapConfig.options){
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				$('meta[name=description]').attr('content', mapConfig.options.description);
+				$('#descripcio_user').html(mapConfig.options.description);
 			}
 			jQuery("#mapTitle").html(mapConfig.nomAplicacio);
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
@@ -157,6 +158,7 @@ function loadApp(){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
 	shortUrl(v_url).then(function(results){
+		$('#descripcio_user').html(mapConfig.options.description);
 		jQuery('#socialShare_visor').share({
 	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 	        orientation: 'vertical',
