@@ -128,6 +128,16 @@ jQuery(document).ready(function() {
 
 
 function loadApp(){
+
+	var v_url = window.location.href;
+	if (!url('?id')){
+		v_url += "&id="+jQuery('#userId').val();
+	}
+	if(true){//if(v_url.contains('localhost')){
+		v_url = v_url.replace('localhost',DOMINI);
+	}
+	v_url = v_url.replace('mapa','visor');
+
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			typeMap : 'topoMap',
@@ -177,7 +187,6 @@ function loadApp(){
 					if (mapConfig.options){
 						mapConfig.options = $.parseJSON( mapConfig.options );
 						$('meta[name=description]').attr('content', mapConfig.options.description);
-						$('#descripcio_user').html(mapConfig.options.description);
 					}
 					
 					mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
@@ -188,11 +197,55 @@ function loadApp(){
 					
 					loadMapConfig(mapConfig).then(function(){
 						//avisDesarMapa();
-						if (isRandomUser($.cookie('uid'))){
+						/*if (isRandomUser($.cookie('uid'))){
 							jQuery(window).on('beforeunload',function(event){
 								return 'Are you sure you want to leave?';
 							});
+						}*/
+						
+						//Compartir en xarxes socials
+						/*var v_url = window.location.href;
+						if (!url('?id')){
+							v_url += "&id="+jQuery('#userId').val();
 						}
+						if(true){//if(v_url.contains('localhost')){
+							v_url = v_url.replace('localhost',DOMINI);
+						}
+						v_url = v_url.replace('mapa','visor');*/
+						
+						if (isRandomUser($.cookie('uid'))){
+						
+							jQuery(window).on('beforeunload',function(event){
+								return 'Are you sure you want to leave?';
+							});							
+						
+							jQuery('#socialShare').share({
+								networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
+								theme: 'square'
+							});
+							
+							jQuery('#socialShare .pop-social').off('click').on('click', function(event){
+								event.preventDefault();
+								jQuery('.modal').modal('hide');
+								$('#dialgo_messages').modal('show');
+								$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
+							});
+						}else{
+							shortUrl(v_url).then(function(results){
+					
+								jQuery('#socialShare').share({
+									networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
+									theme: 'square',
+									urlToShare: results.data.url
+								});
+								
+								jQuery('#socialShare .pop-social').on('click', function(event){
+									console.debug("social share click, publiquem!");
+									publicarMapa(true);
+								});				
+							});
+						}						
+						
 						
 //						//Per defecte que es mostri la primera capa a la llegenda
 //						jQuery.each(controlCapes._layers, function(i, item){
@@ -433,46 +486,7 @@ function loadApp(){
 	//$.fn.editable.defaults.mode = 'inline';
 	$('.leaflet-remove').click(function() {
 		alert( "Handler for .click() called." );
-	});	
-	
-	
-	//Compartir en xarxes socials
-	var v_url = window.location.href;
-	if (!url('?id')){
-		v_url += "&id="+jQuery('#userId').val();
-	}
-	if(true){//if(v_url.contains('localhost')){
-		v_url = v_url.replace('localhost',DOMINI);
-	}
-	v_url = v_url.replace('mapa','visor');
-	
-	if (isRandomUser($.cookie('uid'))){
-		jQuery('#socialShare').share({
-	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-	        theme: 'square'
-	    });
-		
-		jQuery('#socialShare .pop-social').off('click').on('click', function(event){
-			event.preventDefault();
-			jQuery('.modal').modal('hide');
-			$('#dialgo_messages').modal('show');
-			$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
-		});
-	}else{
-		shortUrl(v_url).then(function(results){
-//			$('#descripcio_user').html(mapConfig.options.description);
-			jQuery('#socialShare').share({
-		        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-		        theme: 'square',
-		        urlToShare: results.data.url
-			});
-			
-			jQuery('#socialShare .pop-social').on('click', function(event){
-				console.debug("social share click, publiquem!");
-				publicarMapa(true);
-			});				
-		});
-	}
+	});			
 	
 	//Si la capa conté polígons no es podrà descarregar en format GPX
 	$('#modal_download_layer').on('show.bs.modal', function (e) {
@@ -1826,7 +1840,8 @@ function popUp(f, l) {
 					out.push(f.properties[key]);
 				}else if(key=='link' || key=='Web'){				
 					ll=f.properties[key];
-					if(ll.indexOf('.gif')!=-1){
+					//if(ll.indexOf('.gif')!=-1 || ll.indexOf('.jpg')!=-1){
+					if(isImgURL(ll)){
 						out.push('<img width="100" src="'+ll+'"/>');
 					}else{
 						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');
@@ -1868,6 +1883,8 @@ function loadMapConfig(mapConfig){
 				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap') {
 					map.topoMap();
+				} else if (fons == 'topoMapGeo') {
+					map.topoMapGeo();
 				} else if (fons == 'topoGrisMap') {
 					map.topoGrisMap();
 				} else if (fons == 'ortoMap') {
@@ -1957,8 +1974,8 @@ function loadMapConfig(mapConfig){
 	//Configurar Llegenda
 	$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
 //		alert("Llegenda");
-		console.debug(state);
-		console.debug(state.value);
+		//console.debug(state);
+		//console.debug(state.value);
 		if(state.value == true) {
 			createModalConfigLegend();
 		}else{
