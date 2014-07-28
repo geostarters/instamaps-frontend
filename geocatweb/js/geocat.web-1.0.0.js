@@ -232,39 +232,40 @@ function isValidEmailAddress(emailAddress) {
     return pattern.test(emailAddress);
 }; 
 
+/*
 function isValidUrl(url){
 //	var pattern = new RegExp('@(https?|ftp)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$@iS');
 	var pattern = new RegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/');
 	return pattern.test(url);
 }
-  
+*/
 
 ///^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
 function ValidURL(str) {
-	  var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
-	    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
-	    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
-	    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
-	    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
-	    '(\#[-a-z\d_]*)?$','i'); // fragment locater
-	  if(!pattern.test(str)) {
+  var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
+    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
+    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
+    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
+    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
+    '(\#[-a-z\d_]*)?$','i'); // fragment locater
+  if(!pattern.test(str)) {
 //	    alert("Please enter a valid URL.");
-	    return false;
-	  } else {
-	    return true;
-	  }
-	}
+    return false;
+  } else {
+    return true;
+  }
+}
 
 //(http(s?):)|([/|.|\w|\s])*\.(?:jpg|gif|png)
 //  (?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))(?:\?([^#]*))?(?:#(.*))?
 function isImgURL(str) {
-	  var pattern = new RegExp('(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))','i'); // extension
-	  if(!pattern.test(str)) {
-	    return false;
-	  } else {
-	    return true;
-	  }
-	}
+  var pattern = new RegExp('(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpe?g|gif|png))','i'); // extension
+  if(!pattern.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 /*
 function obteValorURL(name){
