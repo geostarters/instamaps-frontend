@@ -1642,6 +1642,7 @@ i.fa {
 	border-bottom: 1px solid #EEEEEE;
 	margin: 2px;
 	padding: 0px;
+	text-align: center;
 }
 
 .popup-data-img{
@@ -1653,6 +1654,10 @@ i.fa {
 .popup_data_value {
 	max-width: 100%;
 	overflow: hidden;	
+}
+
+.popup_data_img_iframe img{
+	margin-top: 5px;
 }
 
 /*feedback button*/

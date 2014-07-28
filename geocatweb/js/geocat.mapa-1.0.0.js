@@ -172,7 +172,13 @@ function loadApp(){
 					
 					gestioCookie('diferentUser');
 										
-					mapConfig.options = $.parseJSON( mapConfig.options );
+					document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+					
+					if (mapConfig.options){
+						mapConfig.options = $.parseJSON( mapConfig.options );
+						$('meta[name=description]').attr('content', mapConfig.options.description);
+						$('#descripcio_user').html(mapConfig.options.description);
+					}
 					
 					mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
 //					addLegend();
@@ -454,6 +460,7 @@ function loadApp(){
 		});
 	}else{
 		shortUrl(v_url).then(function(results){
+//			$('#descripcio_user').html(mapConfig.options.description);
 			jQuery('#socialShare').share({
 		        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 		        theme: 'square',

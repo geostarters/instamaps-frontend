@@ -551,7 +551,6 @@ function publicarMapConfig(data){
 		url: paramUrl.publicarMapConfig,
 		data: data,
 		method: 'post'
-		//dataType: 'jsonp'
 	}).promise();
 }
 
