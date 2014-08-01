@@ -345,9 +345,16 @@
 					Per publicar o compartir el mapa has d'iniciar sessió
 				</div>
 				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn bt-sessio">Inicia la sessió</button>
-					<button lang="ca" type="button" class="btn bt_orange">Crea un compte</button>
-					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal" >Més tard</button>
+					
+					<button lang="ca" type="button" class="btn bt-sessio" 
+							onClick="_gaq.push(['_trackEvent', 'mapa', 'inici sessio', 'modal pre-publicar']);">Inicia la sessió</button>
+							
+					<button lang="ca" type="button" class="btn bt_orange" 
+							onClick="_gaq.push(['_trackEvent', 'mapa', 'registre', 'modal pre-publicar']);">Crea un compte</button>
+							
+					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal" 
+							onClick="_gaq.push(['_trackEvent', 'mapa', 'guest', 'modal pre-publicar']);">Més tard</button>					
+					
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -1395,10 +1402,14 @@
 					Per poder guardar les dades has d'entrar com un usuari registrat
 				</div>
 				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn bt-sessio">Inicia la sessió</button>
-					<button lang="ca" type="button" class="btn bt_orange">Crea un compte</button>
+					<button lang="ca" type="button" class="btn bt-sessio" 
+							onClick="_gaq.push(['_trackEvent', 'mapa', 'inici sessio', 'modal inici mapa']);">Inicia la sessió</button>
+							
+					<button lang="ca" type="button" class="btn bt_orange" 
+							onClick="_gaq.push(['_trackEvent', 'mapa', 'registre', 'modal inici mapa']);">Crea un compte</button>
+							
 					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal" 
-							onClick="_gaq.push(['_trackEvent', 'mapa', 'guest']);">Més tard</button>
+							onClick="_gaq.push(['_trackEvent', 'mapa', 'guest', 'modal inici mapa']);">Més tard</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -1543,6 +1554,7 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
 	<!-- script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script-->
+	<script src="/llibreries/js/jquery/plugins/jquery.mousewheel.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-listnav.custom.js"></script>
 	

@@ -1327,7 +1327,7 @@ function createIntervalStyle(index, geometryType, paleta){
 	var ftype = transformTipusGeometry(geometryType);
 		
 	if (ftype == t_marker){
-		defStyle = jQuery.extend({}, default_marker_style);
+		defStyle = jQuery.extend({}, default_circulo_style);
 		defStyle.fillColor = markerColors[index];
 		defStyle.isCanvas = true;		
 	}else if (ftype == t_polyline){

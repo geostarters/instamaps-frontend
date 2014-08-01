@@ -704,6 +704,12 @@ background-color:#FFFFFF}
 	  }	  
 	}
 
+	@media (min-width: 1001px) and (max-width: 1200px) {
+	  .title_white{
+		font-size: 25px;
+	  }		
+	}
+
 	@media (max-width: 1024px) {
 	  .my-carousel-caption {
 	    padding-bottom: 7%;
