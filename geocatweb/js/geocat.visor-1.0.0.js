@@ -735,8 +735,11 @@ function loadDadesObertesLayer(layer){
 //		controlCapes._lastZIndex++;
 		
 		if(!options.origen){
-			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
-			controlCapes._lastZIndex++;
+			//Fins que no estigui carregada del tot no afegim al controlcapes (per tenir be el comptador de features)
+			capaDadaOberta.on('data:loaded', function(e){
+				controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
+				controlCapes._lastZIndex++;
+			});
 		}else{//Si te origen es una sublayer
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);

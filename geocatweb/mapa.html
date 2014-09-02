@@ -486,10 +486,10 @@
 									<span class="small" lang="ca">Mida punt:</span>
 									<select id="cmb_mida_Punt" class="form-control">
 										<!-- <option lang="ca" class="small" value="24">Mida punt</option> -->
-										<option lang="ca" class="small" value="16">Petit +</option>
+										<option lang="ca" class="small" selected value="16">Petit +</option>
 										<option lang="ca" class="small" value="21">Petit</option>
 										<option lang="ca" class="small" value="24">Mitjà</option>
-										<option lang="ca" class="small" selected value="30">Mitjà +</option>
+										<option lang="ca" class="small" value="30">Mitjà +</option>
 										<option class="small" value="34">Gran</option>
 									</select>
 								</div>
@@ -1269,7 +1269,7 @@
 						<tr><td>{{v}}</td><td>
 							{{#if style.isCanvas}}
 								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-" 
-									style="font-size: 10.5px; width: 21px; height: 21px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>
+									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>
 							{{else}}
 								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa
 									{{#if style.icon}}
