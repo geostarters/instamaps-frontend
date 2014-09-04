@@ -2056,7 +2056,12 @@ function publicarMapa(fromCompartir){
 			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
 			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 			return false;
-		}
+		}else if(isDefaultMapTitle($('#dialgo_publicar #nomAplicacioPub').val())){
+            $('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
+            $('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
+            $('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">Introdueix un nom vàlid per a la publicació del mapa</span>");
+            return false;
+      }
 	}
 		
 	var options = {};

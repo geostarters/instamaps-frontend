@@ -109,6 +109,7 @@ $(function(){
 			});
 			
 			$('.thumbnail').hover(function(){
+				$(this).find(".nomAplicacio").fadeOut();
 				var descAplicacio = $(this).find(".descAplicacio");
 				descAplicacio.fadeIn(500);
 				if (descAplicacio.find(".starwarsbody").text().length > 160){
@@ -117,6 +118,7 @@ $(function(){
 				}
 				return false;	
 			}, function(){
+				$(this).find(".nomAplicacio").fadeIn();
 				$(this).find(".descAplicacio").fadeOut();
 				return false;	
 			});
@@ -135,8 +137,16 @@ $(function(){
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}
+				if (isDefaultMapTitle(val.nomAplicacio)){
+					val.rank = -1;
+				}
+				val.entitatUid = val.entitatUid.split("@")[0];
 				return val;
 			});
+			
+			results.results.sort(function(a,b) { 
+				return parseFloat(a.rank) < parseFloat(b.rank) 
+			} );
 			
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
@@ -172,6 +182,7 @@ $(function(){
 			});
 			
 			$('.thumbnail').hover(function(){
+				$(this).find(".nomAplicacio").fadeOut();
 				var descAplicacio = $(this).find(".descAplicacio");
 				descAplicacio.fadeIn(500);
 				if (descAplicacio.find(".starwarsbody").text().length > 160){
@@ -180,6 +191,7 @@ $(function(){
 				}
 				return false;	
 			}, function(){
+				$(this).find(".nomAplicacio").fadeIn();
 				$(this).find(".descAplicacio").fadeOut();
 				return false;	
 			});
