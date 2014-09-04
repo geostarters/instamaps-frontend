@@ -1376,7 +1376,7 @@ function div2RangStyle(tematic, tdElem){
 
 function updateClasicTematicFromRangs(){
 	//console.debug("updateClasicTematicFromRangs");
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'clasic', 1]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);	
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");

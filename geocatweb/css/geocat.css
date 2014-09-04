@@ -827,7 +827,7 @@ background-color:#FFFFFF}
 	/*** galeria.html ***/
 	.thumbnail{
 		position: relative;
-		min-height: 225px;
+		min-height: 240px;
 	}
 	
 	.thumbnail div.new_map{
@@ -849,6 +849,10 @@ background-color:#FFFFFF}
 	.thumbnail div.new_map span{
 		font-size: 72pt;
 		padding: 40px 0 10px;
+	}
+	
+	.thumbnail div.byuser{
+		font-size: 9pt;
 	}
 	
 	.thumbnail a.btn{
@@ -899,8 +903,7 @@ background-color:#FFFFFF}
 	
 	.thumbnail div.descAplicacio{
 		display: none;
-		top: 61px;
-    	height: 105px;
+		height: 165px;
     	position: absolute;
     	color: #FFFFFF;
 	 	background-color: rgba(45, 46, 41, 0.6);
@@ -912,6 +915,7 @@ background-color:#FFFFFF}
 		position: absolute;
 		/*color: #ffff66;
 		font-weight: bold;*/
+		top: 5px; 
 		bottom: 0;
 		left: 50%;
 		margin-left: -9em;
