@@ -195,6 +195,7 @@ jquery_lang_js.prototype.lang.es = {
 	"InstaMaps llegeix els següents formats":"InstaMaps lee los siguientes formatos",
 	"Intervals":"Intervalos",
 	"Introdueix una URL vàlida":"Introduce una URL válida",
+	"Introdueix un nom vàlid per a la publicació del mapa":"Introduce un nombre válido para la publicación del mapa",
 	"L'adreça he de contenir: Nom carrer, número i  municipi":"La dirección debe contener: Nombre de calle, número y municipio",
 	"La contrassenya antiga no és correcte":"La contraseña antigua no es correcta",
 	"La contrassenya ha de tenir un mínim de 5 caràcters.":"La contraseña tiene que tener un mínimo de 5 caracteres.",

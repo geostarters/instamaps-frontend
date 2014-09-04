@@ -1,8 +1,6 @@
 /**
- * 
+ * Classe propia, layer de wikipedia
  */
-// Panoramio plugin for Leaflet
-// https://github.com/shurshur/Leaflet.Panoramio
 
 L.Wikipedia = L.FeatureGroup.extend({
 //	options: {

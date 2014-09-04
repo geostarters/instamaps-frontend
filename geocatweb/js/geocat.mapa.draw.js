@@ -648,7 +648,7 @@ function parseUrlText(txt){
 		var text;
 		var word = lwords[index];
 		//console.debug(word);
-		if(ValidURL(word)){
+		if(isValidURL(word)){
 			if(isImgURL(word)){
 				//console.debug("Image:"+word);
 				text = "<img src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
