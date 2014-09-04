@@ -582,27 +582,29 @@ function activaEdicioUsuari() {
 function createPopupWindowVisor(player,type){
 	//console.debug("createPopupWindowVisor");
 	var html='<div class="div_popup_visor">' 
-		+'<div class="popup_pres">'							
-		+'<div id="titol_pres_visor">'+player.properties.nom+'</div>'	
-		+'<div id="des_pres_visor">'+parseUrlText(player.properties.text)+'</div>';
+		+'<div class="popup_pres">';
 	
-		if(type == t_polyline && player.properties.mida){
-			html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
-		}else if(type == t_polygon && player.properties.mida){
-			html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
-		}
-		
-		html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
-		+'</div></div>';
+	if (player.properties.nom && !isBusinessId(player.properties.nom)){
+		html+='<div id="titol_pres_visor">'+player.properties.nom+'</div>';
+	}
+	html+='<div id="des_pres_visor">'+parseUrlText(player.properties.text)+'</div>';
+
+	if(type == t_polyline && player.properties.mida){
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
+	}else if(type == t_polygon && player.properties.mida){
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+	}
+	
+	html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
+	+'</div></div>';
 	
 	player.bindPopup(html,{'offset':[0,-25]});	
-	
 }
 
 function createPopupWindowData(player,type){
 	//console.debug("createPopupWindowData");
 	var html='';
-	if (player.properties.nom){
+	if (player.properties.nom && !isBusinessId(player.properties.nom)){
 		html+='<h4>'+player.properties.nom+'</h4>';
 	}
 	if (player.properties.text){

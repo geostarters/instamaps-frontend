@@ -267,6 +267,11 @@ function isImgURL(str) {
   }
 }
 
+function isBusinessId(str){
+	var pattern = new RegExp('^[0-9a-f]{32}$');
+	return pattern.test(str);	
+}
+
 /*
 function obteValorURL(name){
 	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
