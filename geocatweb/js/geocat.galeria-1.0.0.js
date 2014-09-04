@@ -148,7 +148,6 @@ $(function(){
 				return parseFloat(a.rank) < parseFloat(b.rank) 
 			} );
 			
-			
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
