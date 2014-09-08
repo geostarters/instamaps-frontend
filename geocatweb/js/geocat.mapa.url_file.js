@@ -20,17 +20,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			tipus : t_url_file,
 			estil_do: estil_do,
 			businessId : '-1',
-//			dataType : "jsonp",
 			pointToLayer : function(feature, latlng) {
-				  
 				var geometryType = transformTipusGeometry(feature.geometry.type);
-				if(geometryType == t_marker){
-					var geom = L.circleMarker(latlng, estil_do);
-				}else if(geometryType == t_polyline){
-					var geom = L.polyline(latlng, {color: estil_do.fillColor, weight: "3", opacity: "1"});
-				}else if(geometryType == t_polygon){
-					var geom = L.polygon(latlng, {color: estil_do.color, fillColor: estil_do.fillColor, fillOpacity: estil_do.fillOpacity, weight: estil_do.weight});
-				}
+				console.debug("geomtry type:"+geometryType);
+				var geom = L.circleMarker(latlng, estil_do);
 		    	    	
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
@@ -42,11 +35,43 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 					    '</div>';	    			
 		    		}
 		    	});	
-		    	html+='</div></div>';    	
+		    	html+='</div></div>'; 
 			    return geom.bindPopup(html);
 			  },
+			  onEachFeature : function(feature, latlng) {
+					var geometryType = transformTipusGeometry(feature.geometry.type);
+
+					if(geometryType == t_marker){
+						var geom = L.circleMarker(latlng, estil_do);
+
+					}else if(geometryType == t_polyline){
+						latlng.options.color = estil_do.fillColor; 
+						latlng.options.weight = "3";
+						latlng.options.opacity = "1";
+						
+					}else if(geometryType.toLowerCase() == t_polygon){
+						latlng.options.color = estil_do.color; 
+						latlng.options.fillColor = estil_do.fillColor; 
+						latlng.options.fillOpacity = estil_do.fillOpacity; 
+						latlng.options.weight = estil_do.weight;
+					}
+			    	    	
+			    	var pp = feature.properties;
+			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+			    	$.each( pp, function( key, value ) {
+			    		if(value){
+							html+='<div class="popup_data_row">'+
+							'<div class="popup_data_key">'+key+'</div>'+
+						    '<div class="popup_data_value">'+value+'</div>'+
+						    '</div>';	    			
+			    		}
+			    	});	
+			    	html+='</div></div>'; 
+				    return latlng.bindPopup(html);
+				  },			  
 			  middleware:function(data){
-				  
+			    	console.debug("capaURLfile");
+			    	console.debug(capaURLfile);				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
@@ -208,22 +233,13 @@ function loadURLfileLayer(layer){
 	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&urlFile="+urlFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic;
 	
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
-//		onEachFeature : popUp,
 		nom : layer.serverName,
 		tipus : layer.serverType,
 		estil_do: estil_do,
 		businessId : layer.businessId,
-//		dataType : "jsonp",
 		pointToLayer : function(feature, latlng) {
-			  
 			var geometryType = transformTipusGeometry(feature.geometry.type);
-			if(geometryType == t_marker){
-				var geom = L.circleMarker(latlng, estil_do);
-			}else if(geometryType == t_polyline){
-				var geom = L.polyline(latlng, {color: estil_do.fillColor, weight: "3", opacity: "1"});
-			}else if(geometryType == t_polygon){
-				var geom = L.polygon(latlng, {color: estil_do.color, fillColor: estil_do.fillColor, fillOpacity: estil_do.fillOpacity, weight: estil_do.weight});
-			}
+			var geom = L.circleMarker(latlng, estil_do);
 	    	    	
 	    	var pp = feature.properties;
 	    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
@@ -240,7 +256,39 @@ function loadURLfileLayer(layer){
 	    	var popup = L.popup().setContent(html);
 	    	
 		    return geom.bindPopup(popup);
-		  }
+		  },
+		  onEachFeature : function(feature, latlng) {
+				var geometryType = transformTipusGeometry(feature.geometry.type);
+				console.debug("geomtry type:"+geometryType);
+
+				if(geometryType == t_marker){
+					var geom = L.circleMarker(latlng, estil_do);
+
+				}else if(geometryType == t_polyline){
+					latlng.options.color = estil_do.fillColor; 
+					latlng.options.weight = "3";
+					latlng.options.opacity = "1";
+					
+				}else if(geometryType.toLowerCase() == t_polygon){
+					latlng.options.color = estil_do.color; 
+					latlng.options.fillColor = estil_do.fillColor; 
+					latlng.options.fillOpacity = estil_do.fillOpacity; 
+					latlng.options.weight = estil_do.weight;
+				}
+		    	    	
+		    	var pp = feature.properties;
+		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+		    	$.each( pp, function( key, value ) {
+		    		if(value){
+						html+='<div class="popup_data_row">'+
+						'<div class="popup_data_key">'+key+'</div>'+
+					    '<div class="popup_data_value">'+value+'</div>'+
+					    '</div>';	    			
+		    		}
+		    	});	
+		    	html+='</div></div>'; 
+			    return latlng.bindPopup(html);
+			  }
 	});		
 		
 	capaURLfileLoad.on('data:loaded', function(e){
