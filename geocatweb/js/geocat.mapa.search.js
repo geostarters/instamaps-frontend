@@ -119,7 +119,10 @@ function addControlCercaEdit(){
 			if(crt_Editing){
 			crt_Editing.disable();
 			}
-			showEditText('hide');
+//			showEditText('hide');
+			jQuery('.search-edit').animate({
+				height :'hide'
+			});			
 		}
 	});
 }

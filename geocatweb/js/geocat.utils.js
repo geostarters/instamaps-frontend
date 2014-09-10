@@ -82,3 +82,217 @@ function transformTipusGeometry(geometrytype){
 	}
 	return ftype;
 }
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : {r:0,g:0,b:0};
+}
+
+function hex(x) {
+	var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
+	return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+}
+
+/**Function to convert hex format to a rgb color (incloent si passes transparencia o no)*/
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+
+/**Funcio per obtenir la transparencia d'un rgb*/
+function getRgbAlpha(rgba){
+	 var alpha=rgba.replace(/^.*,(.+)\)/,'$1');
+	 return jQuery.trim(alpha);
+}
+
+function getMidaFromRadius(radius){
+	if(radius == 8)return 21;
+	else if(radius == 10)return 24;
+	else if(radius == 12)return 30;
+	else if(radius == 14)return 34;	
+	else return 16;
+}
+
+function getMidaFromFont(font){
+	if(font == 'font15')return 30;
+	else if(font == 'font12')return 24;
+	else if(font == 'font11')return 21;
+	else if(font == 'font9')return 16;
+	else return 34;
+}
+
+function getRadiusFromMida(mida){
+	if(mida == "21px")return 8;
+	else if(mida == "24px")return 10;
+	else if(mida == "30px")return 12;
+	else if(mida == "34px")return 14;	
+	else return 6;	
+}
+
+function parseUrlTextPopUp(txt){
+	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 
+			|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
+		return txt;
+	}
+	var lwords = txt.split(" "); 
+	var parseText = "";
+	for(index in lwords){
+		var text;
+		var word = lwords[index];
+		//console.debug(word);
+		if(isValidURL(word)){
+			if(isImgURL(word)){
+				//console.debug("Image:"+word);
+				text = "<img src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
+			}else if(word.indexOf("html?") != -1){
+				//console.debug("Iframe:"+word);
+				text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+						"marginwidth=\"0\" src=\""+word+"\"></iframe>";
+			}else{
+				//console.debug("URL:"+word);
+				text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";	
+			}
+			
+		}else{
+			text = word;
+		}
+		parseText+=" "+text;
+	}
+	return parseText;
+}
+
+function tradueixMenusToolbar() {
+	L.drawLocal = {
+		draw : {
+			toolbar : {
+				actions : {
+					title : 'Cancel.lar dibuix',
+					text : 'Cancel·lar'
+				},
+				buttons : {
+
+					polyline : 'Dibuixa una línia',
+					polygon : 'Dibuixa una àrea',
+					rectangle : 'Dibuixa un rectangle',
+					circle : 'Dibuixa un cercle',
+					marker : 'Dibuixa un punt'
+				}
+			},
+			handlers : {
+				circle : {
+					tooltip : {
+						start : 'Clica i arrossega per dibuixar un cercle.'
+					}
+				},
+				marker : {
+					
+					tooltip : {
+						start : 'Fes clic al mapa per posar un punt.'
+					}
+				},
+				polygon : {
+					tooltip : {
+						start : 'Clica per començar a dibuixar una àrea.',
+						cont : 'Clica per continuar dibuixant una àrea.',
+						end : 'Clica el primer punt per tancar aquesta àrea.'
+					}
+				},
+				polyline : {
+					error : '<strong>Error:</strong> àrees no es poden creuar!',
+					
+					tooltip : {
+						start : 'Clica per començar a dibuixar una línia.',
+						cont : 'Clica per continuar dibuixant una línia.',
+						end : 'Clica el darrer punt per acabar la línia.'
+					}
+				},
+				rectangle : {
+					tooltip : {
+						start : 'Clica i arrossega per dibuixar un rectangle.'
+					}
+				},
+				simpleshape : {
+					tooltip : {
+						end : 'Amolla el mouse per acabar el dibuix.'
+					}
+				}
+			}
+		},
+		edit : {
+			toolbar : {
+				actions : {
+					save : {
+						title : 'Desa els canvis.',
+						text : 'Desa'
+					},
+					cancel : {
+						title : 'Cancel·la l\'edició, descarta tots els canvis.',
+						text : 'Cancel·la'
+					}
+				},
+				buttons : {
+					edit : 'Edita les capes.',
+					editDisabled : 'Cap capa per editar.',
+					remove : 'Esborra les capes.',
+					removeDisabled : 'Cap capa per esborrar.'
+				}
+			},
+			handlers : {
+				edit : {
+					
+					tooltip : {
+						text : 'Arrossega els vèrtex o el punt per editar l\'objecte.',
+						subtext : 'Fes clic sobre el mapa per finalitzar.'
+					}
+				},
+				remove : {
+					tooltip : {
+						text : 'Fes clic a una feature per eliminar-la'
+					}
+				}
+			}
+		}
+	};
+	return L.drawLocal;
+}
+
+function redimensioMapa() {
+	jQuery(window).resize(function() {
+		if(typeof url('?embed') == "string"){//Pel cas visor, embeded
+			factorH = 0;
+		}else{
+			factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
+		} 
+		jQuery('#map').css('top', factorH + 'px');
+		jQuery('#map').height(jQuery(window).height() - factorH);
+		jQuery('#map').width(jQuery(window).width() - factorW);
+	});
+	jQuery(window).trigger('resize');
+}
+
+//Funcions d'estils
+function retornaEstilaDO(dataset) {
+	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+	if(dataset=="radars"){ estil.fillColor = "#A00698";}
+	else if(dataset=="turisme_rural"){ estil.fillColor = "#06A010";}
+	else if(dataset=="hotels"){ estil.fillColor = "#ED760E";}
+	else if(dataset=="incidencies"){ estil.fillColor = "#991032";}
+	else if(dataset=="cameres"){ estil.fillColor = "#495CBC";}
+	else if(dataset=="campings"){ estil.fillColor = "#62A50B";}
+	else if(dataset=="meteo_comarca"){ estil.fillColor = "#200BA5";}
+	else if(dataset=="meteo_costa"){ estil.fillColor = "#E1EA3A";}
+	else if(dataset=="json_president"){ estil.fillColor ="#0058A5"; estil.color ="#0058A5"; }	
+	else{ estil.fillColor = randomColor();}
+	return estil;
+}
+
+function randomColor(){
+	return '#'+Math.floor(Math.random()*16777215).toString(16);
+}

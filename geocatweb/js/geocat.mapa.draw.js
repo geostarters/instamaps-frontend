@@ -1,3 +1,9 @@
+/**
+ * Funcionalitats d'afegir features al mapa (punts, línies poligons) i
+ * edició de les seves característiques: estils, coordenades, 
+ * dades, capa on pertanyen...
+ * */
+
 var drawControl;
 var featureActive,crt_Editing,crt_Remove;
 var defaultPunt;
@@ -6,26 +12,25 @@ var canvas_pol={"id":"cv_pol","strokeStyle":"#FFC500","opacity":"0.5","fillStyle
 var canvas_obj_l,cv_ctx_l;
 var canvas_obj_p,cv_ctx_p;
 var objEdicio={'esticEnEdicio':false,'obroModalFrom':'creaCapa','featureID':null,'esticSobre':false,'edicioPopup':'textFeature'};
-var opcionsSel={
-	color: '#FF1EE5',
-	"weight": 7,
-	opacity: 0.6,
-	dashArray: '1, 1',
-	fill: true,
-	fillColor: '#fe57a1',
-	fillOpacity: 0.1
-};
 
-//drawControl.options.edit.selectedPathOptions
-function hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : {r:0,g:0,b:0};
+
+function addDialegEstilsDraw() {
+	jQuery('#div_mes_punts').on("click", function(e) {	
+		obrirMenuModal('#dialog_estils_punts','toggle',from_creaCapa);
+	});
+
+	jQuery('#div_mes_linies').on("click", function(e) {			
+		obrirMenuModal('#dialog_estils_linies','toggle',from_creaCapa);
+	});
+	
+	jQuery('#div_mes_arees').on("click", function(e) {	
+		obrirMenuModal('#dialog_estils_arees','toggle',from_creaCapa);
+	});
 }
 
+/**
+ * Funcio que obre el menu dialeg d'estils per punts, linies i poligons
+ * */
 function obrirMenuModal(_menuClass,estat,_from){
 	objEdicio.obroModalFrom=_from;
 	
@@ -225,60 +230,6 @@ function initCanvas(){
     });
 }
 
-var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
-
-
-
-function hex(x) {
-	return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
-}
-
-//function rgb2hex(rgb) {
-//rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)\)$/);
-//return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-//}
-
-//Function to convert hex format to a rgb color (incloent si passes transparencia o no)
-function rgb2hex(rgb){
- rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
- return (rgb && rgb.length === 4) ? "#" +
-  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
-}
-
-//Funcio per obtenir la transparencia d'un rgb
-function getRgbAlpha(rgba){
-	 var alpha=rgba.replace(/^.*,(.+)\)/,'$1');
-	 return jQuery.trim(alpha);
-}
-
-function getMidaFromRadius(radius){
-	if(radius == 8)return 21;
-	else if(radius == 10)return 24;
-	else if(radius == 12)return 30;
-	else if(radius == 14)return 34;	
-	else return 16;
-}
-
-function getMidaFromFont(font){
-	
-	if(font == 'font15')return 30;
-	else if(font == 'font12')return 24;
-	else if(font == 'font11')return 21;
-	else if(font == 'font9')return 16;
-	else return 34;
-	
-}
-
-function getRadiusFromMida(mida){
-	if(mida == "21px")return 8;
-	else if(mida == "24px")return 10;
-	else if(mida == "30px")return 12;
-	else if(mida == "34px")return 14;	
-	else return 6;	
-}
-
 function addGeometryInitL(canvas){
 	var	cv_ctx_l=canvas.getContext("2d");
 	cv_ctx_l.clearRect(0, 0, canvas.width, canvas.height);
@@ -301,7 +252,6 @@ function addGeometryInitL(canvas){
 	cv_ctx_l.lineTo(34.81,6.64);
 	cv_ctx_l.lineTo(35.46,3.92);
 	cv_ctx_l.lineTo(35.52,0.54);
-	//cv_ctx_l.setLineDash([1,2]);
 	cv_ctx_l.strokeStyle=canvas_linia.strokeStyle;
 	cv_ctx_l.lineWidth=canvas_linia.lineWidth;
 	cv_ctx_l.stroke(); 	
@@ -323,6 +273,7 @@ function addGeometryInitP(canvas){
 	cv_ctx_p.stroke(); 
 }
 
+//Funcio inicialitzar i afegir drawControl
 function addDrawToolbar() {
 	initCanvas();
 	
@@ -368,11 +319,11 @@ function addDrawToolbar() {
 	map.addControl(drawControl);
 }
 
-function showEditText(accio){
-	jQuery('.search-edit').animate({
-		height :accio
-	});
-}
+//function showEditText(accio){
+//	jQuery('.search-edit').animate({
+//		height :accio
+//	});
+//}
 
 function activaEdicioUsuari() {
 	jQuery('#div_punt').on('click', function() {
@@ -383,7 +334,7 @@ function activaEdicioUsuari() {
 
 	jQuery('#div_linia').on('click', function() {
 		if(featureActive){featureActive.disable();}
-		 featureActive = new L.Draw.Polyline(map, drawControl.options.polyline);
+		featureActive = new L.Draw.Polyline(map, drawControl.options.polyline);
 		featureActive.enable();
 	});
 
@@ -393,22 +344,18 @@ function activaEdicioUsuari() {
 		featureActive.enable();
 	});
 
-	map.on('draw:drawstart',function(e){
-		//showEditText('show');
-		//objEdicio.esticEnEdicio=true;
-	});
+	map.on('draw:drawstart',function(e){});
 	
+	//Edicio de feature existent
 	map.on('click',function(e){
 		if(crt_Editing){
 			crt_Editing.disable();
 		}
-
 		if(objEdicio.esticEnEdicio){
 			if(crt_Editing){
 				crt_Editing.disable();
 			}
 			updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id);			
-			//featureActive.enable();	
 		}
 	});
 	
@@ -417,9 +364,9 @@ function activaEdicioUsuari() {
 			crt_Editing.disable();
 		}
 	});
-		
+	
+	//Afegir features: point, lines and polygons
 	map.on('draw:created', function(e) {
-		//console.debug("draw:created");
 		var type = e.layerType, layer = e.layer;
 		var totalFeature;
 		var tipusCat,tipusCatDes;
@@ -579,96 +526,7 @@ function activaEdicioUsuari() {
 	
 }
 
-function createPopupWindowVisor(player,type){
-	//console.debug("createPopupWindowVisor");
-	var html='<div class="div_popup_visor">' 
-		+'<div class="popup_pres">';
-	
-	if (player.properties.nom && !isBusinessId(player.properties.nom)){
-		html+='<div id="titol_pres_visor">'+player.properties.nom+'</div>';
-	}
-		
-	
-	html+='<div id="des_pres_visor">'+parseUrlText(player.properties.text)+'</div>';
-
-	if(type == t_polyline && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
-	}else if(type == t_polygon && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
-	}
-	
-	html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
-	+'</div></div>';
-	
-	player.bindPopup(html,{'offset':[0,-25]});	
-	
-}
-
-function createPopupWindowData(player,type){
-	//console.debug("createPopupWindowData");
-	var html='';
-	if (player.properties.nom && !isBusinessId(player.properties.nom)){
-		html+='<h4>'+player.properties.nom+'</h4>';
-	}
-	if (player.properties.text){
-		html+='<div>'+parseUrlText(player.properties.text)+'</div>';
-	}
-	html+='<div class="div_popup_visor"><div class="popup_pres">';
-	$.each( player.properties.data, function( key, value ) {
-//		alert( key + ": " + value );
-		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
-			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
-				html+='<div class="popup_data_row">';
-				
-				var txt = parseUrlText(value);
-				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-					html+='<div class="popup_data_key">'+key+'</div>';
-					html+='<div class="popup_data_value">'+txt+'</div>'
-				}else{
-					html+='<div class="popup_data_img_iframe">'+txt+'</div>'
-				}
-				html+= '</div>';
-			}
-		}
-	});	
-	
-	html+='</div></div>';
-	//he quitado el openPopup() ya que si la capa no está activa no se ha cargado en el mapa y da error.
-	player.bindPopup(html,{'offset':[0,-25]});
-}
-
-function parseUrlText(txt){
-	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 
-			|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
-		return txt;
-	}
-	var lwords = txt.split(" "); 
-	var parseText = "";
-	for(index in lwords){
-		var text;
-		var word = lwords[index];
-		//console.debug(word);
-		if(isValidURL(word)){
-			if(isImgURL(word)){
-				//console.debug("Image:"+word);
-				text = "<img src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
-			}else if(word.indexOf("html?") != -1){
-				//console.debug("Iframe:"+word);
-				text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
-						"marginwidth=\"0\" src=\""+word+"\"></iframe>";
-			}else{
-				//console.debug("URL:"+word);
-				text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";	
-			}
-			
-		}else{
-			text = word;
-		}
-		parseText+=" "+text;
-	}
-	return parseText;
-}
-
+//Funcio que crea Pop up de la feature quan te opcio d'edicio
 function createPopupWindow(layer,type){
 	//console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
@@ -837,6 +695,16 @@ function createPopupWindow(layer,type){
 			capaUsrActiva.removeLayer(map._layers[objEdicio.featureID]);
 			map.addLayer(capaEdicio);
 			
+			var opcionsSel={
+					color: '#FF1EE5',
+					"weight": 7,
+					opacity: 0.6,
+					dashArray: '1, 1',
+					fill: true,
+					fillColor: '#fe57a1',
+					fillOpacity: 0.1
+				};
+			
 			crt_Editing=new L.EditToolbar.Edit(map, {
 				featureGroup: capaEdicio,
 				selectedPathOptions: opcionsSel
@@ -876,9 +744,6 @@ function createPopupWindow(layer,type){
 		}
 	});	
 
-	
-	//fi eventos popup
-	
 	layer.on('popupopen', function(e){
 		
 		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
@@ -910,6 +775,206 @@ function reFillCmbCapesUsr(type, businessIdCapa){
 	return html;
 }
 
+
+function objecteUserAdded(f){
+	
+	var fId = this.toGeoJSON().features.length;
+	
+	var feature = f.layer.toGeoJSON();
+	
+	//Invertim lng,lat perque es recuperi be desde el servidor despres
+    if(f.layer.options.tipus == t_marker){
+          var lng = feature.geometry.coordinates[0]
+          feature.geometry.coordinates[0] = feature.geometry.coordinates[1];
+          feature.geometry.coordinates[1] = lng;         
+    }else if(f.layer.options.tipus==t_polyline){
+          for(var i=0;i<feature.geometry.coordinates.length;i++){
+                var lng = feature.geometry.coordinates[i][0]
+                feature.geometry.coordinates[i][0] = feature.geometry.coordinates[i][1];
+                feature.geometry.coordinates[i][1] = lng;
+          }
+    }else if(f.layer.options.tipus==t_polygon){
+          var lcoordinates = [];
+          $.each( feature.geometry.coordinates[0], function(i,val) {
+                lcoordinates.push([val[1], val[0]]);
+          }); 
+          feature.geometry.coordinates[0] = lcoordinates;                  
+    }       
+
+	feature.properties = {
+		nom : f.layer.properties.nom,
+		text : f.layer.properties.text,
+		slotf1 : 'data 1',
+		slotf2 : 'data 2',
+		slotf3 : 'data 3',
+		slotf4 : 'data 4',
+		slotf5 : 'data 5',
+		slotf6 : 'data 6',
+		slotf7 : 'data 7',
+		slotf8 : 'data 8',
+		slotf9 : 'data 9',
+		slotf10 : 'data 10'
+	};
+
+	var features = JSON.stringify(feature);
+
+	var dades = JSON.stringify({
+		type : 'Dades',
+		id : fId,
+		fields : {
+			slotd1 : "feature" + fId,
+			slotd2 : 'data 2',
+			slotd3 : 'data 3',
+			slotd4 : 'data 4',
+			slotd5 : 'data 5',
+			slotd6 : 'data 6',
+			slotd7 : 'data 7',
+			slotd8 : 'data 8',
+			slotd9 : 'data 9',
+			slotd10 : 'data 10',
+		}
+	});
+
+	var rangs = getFeatureStyle(f,fId);
+	rangs = JSON.stringify(rangs);
+	
+	if (fId == 1) {
+		// Add feature and Layer
+		var data = {
+			uid : jQuery.cookie('uid'),
+			description : 'Description '+f.layer.properties.capaNom,
+			nom : f.layer.properties.capaNom,
+            calentas: false,           
+            activas: true,
+            visibilitats: true,				
+			publica : true,
+			order: controlCapes._lastZIndex+1,
+			geomField : 'the_geom',
+			idGeomField : 'nom',
+			dataField : 'slotd1',
+			idDataField : 'slotd1',
+			features : features,
+			dades : dades,
+			rangs : rangs,
+			tipusRang: tem_origen,
+			mapBusinessId: url('?businessid'),
+			geometryType: f.layer.options.tipus
+		};
+		var _this = this;
+		
+		createTematicLayerFeature(data).then(function(results) {
+				if(results.status === 'OK'){
+					_this.options.businessId = results.results.businessId;
+					f.layer.properties.capaBusinessId = results.results.businessId;
+					f.layer.properties.businessId = results.feature.properties.businessId;
+					f.layer.properties.feature = results.feature;
+					finishAddFeatureToTematic(f.layer);
+				}else{
+					//ERROR: control Error
+					console.debug('addTematicLayerFeature ERROR');
+				}
+			},function(results){
+				console.debug('addTematicLayerFeature ERROR');
+		});
+
+	} else if (this.getLayers().length > 1) {
+	
+		var data = {
+			uid : jQuery.cookie('uid'),
+			features : features,
+			dades : dades,
+			rangs : rangs,
+			businessId: this.options.businessId
+		};				
+				
+		addFeatureToTematic(data).then(function(results) {
+			if(results.status === 'OK'){
+				f.layer.properties.businessId = results.feature.properties.businessId;
+				f.layer.properties.capaBusinessId = results.results.businessId;
+				f.layer.properties.feature = results.feature;
+				finishAddFeatureToTematic(f.layer);					
+			}else{
+				//ERROR: control Error
+				console.debug("addFeatureToTematic ERROR");
+			}
+		},function(results){
+			console.debug("addFeatureToTematic ERROR");
+		});
+	}
+}
+
+function getFeatureStyle(f, fId){
+	var rangs = {};
+	//ESTIL MARKER
+	if(f.layer.options.tipus == t_marker){
+		if (!f.layer._ctx){
+			rangs = {
+				color : f.layer.options.icon.options.fillColor,//Color principal
+				marker: f.layer.options.icon.options.markerColor,//Si es de tipus punt_r o el color del marker
+				simbolColor: f.layer.options.icon.options.iconColor,//Glyphon
+				radius : f.layer.options.icon.options.radius,//Radius
+				iconSize : f.layer.options.icon.options.iconSize.x+"#"+f.layer.options.icon.options.iconSize.y,//Size del cercle
+				iconAnchor : f.layer.options.icon.options.iconAnchor.x+"#"+f.layer.options.icon.options.iconAnchor.y,//Anchor del cercle
+				simbol : f.layer.options.icon.options.icon,//tipus glyph
+				simbolSize : f.layer.options.icon.options.simbolSize,//mida glyphon
+//				puntTMP.options.symbolSize = style.symbolSize;//mida glyphon
+				opacity : (f.layer.options.opacity * 100),
+				label : false,
+				labelSize : 10,
+				labelFont : 'arial',
+				labelColor : '#000000',
+			};
+		}else{
+			rangs = {
+				color : f.layer.options.fillColor,
+				simbolSize : f.layer.options.radius,
+				opacity : (f.layer.options.fillOpacity * 100),
+				label : false,
+				labelSize : 10,
+				labelFont : 'arial',
+				labelColor : '#000000',
+				borderWidth : f.layer.options.weight,
+				borderColor : f.layer.options.color,
+			};
+		}
+	//ESTIL LINE
+	}else if(f.layer.options.tipus == t_polyline){
+		rangs = {
+			color : f.layer.options.color,
+			lineWidth : f.layer.options.weight,
+			lineStyle : 'solid',
+			borderWidth : 2,
+			borderColor : f.layer.options.color,
+			opacity : (f.layer.options.opacity * 100),
+			label : false,
+			labelSize : 10,
+			labelFont : 'arial',
+			labelColor : '#000000',
+		};	
+	//ESTIL POLIGON		
+	}else{
+		var fillColor = f.layer.options.color;
+		if(f.layer.options.fillColor) fillColor = rgb2hex(f.layer.options.fillColor);
+		
+		rangs = {
+			color : fillColor,
+			fillColor: fillColor,
+			fillOpacity: f.layer.options.fillOpacity,
+			lineWidth : f.layer.options.dashArray,
+			lineStyle : 'solid',
+			borderWidth : f.layer.options.dashArray,
+			borderColor : f.layer.options.color,
+			opacity : (f.layer.options.fillOpacity * 100),
+			label : false,
+			labelSize : 10,
+			labelFont : 'arial',
+			labelColor : '#000000'
+		};		
+	}
+	return rangs;
+}
+
+
 function finishAddFeatureToTematic(layer){
 	var type = layer.options.tipus;
 	
@@ -920,12 +985,6 @@ function finishAddFeatureToTematic(layer){
 		controlCapes.addOverlay(capaUsrActiva,	capaUsrActiva.options.nom, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
-//		$(".layers-list").mCustomScrollbar({
-//			   advanced:{
-//			     autoScrollOnFocus: false,
-//			     updateOnContentResize: true
-//			   }           
-//		});			
 	}else{
 		//Actualitzem comptador de la capa
 	    updateFeatureCount(null, capaUsrActiva.options.businessId);		
@@ -1234,12 +1293,10 @@ function modeEditText(){
 	jQuery('.popup_edit').show();	
 }
 
-//Tornem a fer commit
 /*funcio que actulitza l'estil seleccionat al dialeg d'estils, 
  * amb el de la feature que es col editar 
  * */
 function updateDialogStyleSelected(icon){
-
 
 	if(icon.tipus == t_polyline){
 		

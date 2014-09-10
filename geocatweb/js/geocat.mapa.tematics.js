@@ -3,6 +3,32 @@
  * Funcions tematics generals*
  * */
 
+
+function initButtonsTematic(){
+	//botons tematic
+	jQuery('#st_Color').on('click',function(){
+		showTematicLayersModal(tem_simple,jQuery(this).attr('class'));
+	});
+	
+	jQuery('#st_Tema').on('click',function(){
+		showTematicLayersModal(tem_clasic,jQuery(this).attr('class'));
+	});
+
+//	jQuery('#st_Size').on('click',function(){
+//		showTematicLayersModal(tem_size);
+//	});
+	
+	jQuery('#st_Heat').on('click',function(e) {
+		showTematicLayersModal(tem_heatmap,jQuery(this).attr('class'));
+		
+	});	
+
+	jQuery('#st_Clust').on('click',function(e) {		
+		showTematicLayersModal(tem_cluster,jQuery(this).attr('class'));
+		
+	});	
+}
+
 function showTematicLayersModal(tipus,className){
 	//console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar a cap capa de les que tens en el mapa')+"<strong>  <span class='fa fa-warning sign'></span></div>";
@@ -447,6 +473,63 @@ function readTematic(defer, results, layerWms, layer){
 		console.debug("Error readTematic");
 	}	
 	defer.resolve(capaTematic);
+}
+
+function createPopupWindowVisor(player,type){
+	//console.debug("createPopupWindowVisor");
+	var html='<div class="div_popup_visor">' 
+		+'<div class="popup_pres">';
+	
+	if (player.properties.nom && !isBusinessId(player.properties.nom)){
+		html+='<div id="titol_pres_visor">'+player.properties.nom+'</div>';
+	}
+		
+	
+	html+='<div id="des_pres_visor">'+parseUrlTextPopUp(player.properties.text)+'</div>';
+
+	if(type == t_polyline && player.properties.mida){
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
+	}else if(type == t_polygon && player.properties.mida){
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+	}
+	
+	html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
+	+'</div></div>';
+	
+	player.bindPopup(html,{'offset':[0,-25]});	
+}
+
+function createPopupWindowData(player,type){
+	//console.debug("createPopupWindowData");
+	var html='';
+	if (player.properties.nom && !isBusinessId(player.properties.nom)){
+		html+='<h4>'+player.properties.nom+'</h4>';
+	}
+	if (player.properties.text){
+		html+='<div>'+parseUrlTextPopUp(player.properties.text)+'</div>';
+	}
+	html+='<div class="div_popup_visor"><div class="popup_pres">';
+	$.each( player.properties.data, function( key, value ) {
+//		alert( key + ": " + value );
+		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
+			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
+				html+='<div class="popup_data_row">';
+				
+				var txt = parseUrlTextPopUp(value);
+				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+					html+='<div class="popup_data_key">'+key+'</div>';
+					html+='<div class="popup_data_value">'+txt+'</div>'
+				}else{
+					html+='<div class="popup_data_img_iframe">'+txt+'</div>'
+				}
+				html+= '</div>';
+			}
+		}
+	});	
+	
+	html+='</div></div>';
+	//he quitado el openPopup() ya que si la capa no está activa no se ha cargado en el mapa y da error.
+	player.bindPopup(html,{'offset':[0,-25]});
 }
 
 /*****************************/

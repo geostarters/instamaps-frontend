@@ -19,12 +19,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			nom : nomCapa,
 			tipus : t_url_file,
 			estil_do: estil_do,
+			style: estil_do,//Estil de poligons i linies
 			businessId : '-1',
 			pointToLayer : function(feature, latlng) {
-				var geometryType = transformTipusGeometry(feature.geometry.type);
-				console.debug("geomtry type:"+geometryType);
 				var geom = L.circleMarker(latlng, estil_do);
-		    	    	
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
@@ -39,23 +37,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			    return geom.bindPopup(html);
 			  },
 			  onEachFeature : function(feature, latlng) {
-					var geometryType = transformTipusGeometry(feature.geometry.type);
-
-					if(geometryType == t_marker){
-						var geom = L.circleMarker(latlng, estil_do);
-
-					}else if(geometryType == t_polyline){
-						latlng.options.color = estil_do.fillColor; 
-						latlng.options.weight = "3";
-						latlng.options.opacity = "1";
-						
-					}else if(geometryType.toLowerCase() == t_polygon){
-						latlng.options.color = estil_do.color; 
-						latlng.options.fillColor = estil_do.fillColor; 
-						latlng.options.fillOpacity = estil_do.fillOpacity; 
-						latlng.options.weight = estil_do.weight;
-					}
-			    	    	
 			    	var pp = feature.properties;
 			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 			    	$.each( pp, function( key, value ) {
@@ -75,6 +56,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
+					  console.debug(data);	
 					  capaURLfile.addData(data);
 					  
 						//Un cop tinc la capa a client, la creo a servidor
@@ -236,11 +218,10 @@ function loadURLfileLayer(layer){
 		nom : layer.serverName,
 		tipus : layer.serverType,
 		estil_do: estil_do,
+		style: estil_do,
 		businessId : layer.businessId,
 		pointToLayer : function(feature, latlng) {
-			var geometryType = transformTipusGeometry(feature.geometry.type);
 			var geom = L.circleMarker(latlng, estil_do);
-	    	    	
 	    	var pp = feature.properties;
 	    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 	    	$.each( pp, function( key, value ) {
@@ -252,30 +233,10 @@ function loadURLfileLayer(layer){
 	    		}
 	    	});	
 	    	html+='</div></div>';    	
-
 	    	var popup = L.popup().setContent(html);
-	    	
 		    return geom.bindPopup(popup);
 		  },
 		  onEachFeature : function(feature, latlng) {
-				var geometryType = transformTipusGeometry(feature.geometry.type);
-				console.debug("geomtry type:"+geometryType);
-
-				if(geometryType == t_marker){
-					var geom = L.circleMarker(latlng, estil_do);
-
-				}else if(geometryType == t_polyline){
-					latlng.options.color = estil_do.fillColor; 
-					latlng.options.weight = "3";
-					latlng.options.opacity = "1";
-					
-				}else if(geometryType.toLowerCase() == t_polygon){
-					latlng.options.color = estil_do.color; 
-					latlng.options.fillColor = estil_do.fillColor; 
-					latlng.options.fillOpacity = estil_do.fillOpacity; 
-					latlng.options.weight = estil_do.weight;
-				}
-		    	    	
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {

@@ -1,72 +1,4 @@
-var map, controlCapes, hashControl;
-var factorH = 50;
-var factorW = 0;
-var mapConfig = {};
-var capaUsrActiva;
-var lsublayers = [];
-var tipus_user;
 
-var mapLegend = {};
-
-//default geometries style
-var estilP={iconFons:'awesome-marker-web awesome-marker-icon-orange',
-		iconGlif:'fa fa-',
-		colorGlif:'#333333',fontsize:'14px',size:'28'};
-
-var default_line_style = {
-    weight: 3,       
-    color: '#FFC400',
-    opacity:1,
-    dashArray: '3'
-};
-var default_area_style = {
-    weight: 3,
-    opacity: 1,
-    color: '#FFC400',
-    dashArray: '3',
-    fillColor: '#FFC400',
-    fillOpacity: 0.5
-};
-var default_marker_style = {
-	icon : '',
-	markerColor : 'orange',
-	divColor:'transparent',
-	iconAnchor : new L.Point(14, 42),
-	iconSize : new L.Point(28, 42),
-	iconColor : '#000000',
-	prefix : 'fa',
-	isCanvas:false,
-	radius:6,
-	opacity:1,
-	weight : 2,
-	fillOpacity : 0.9,
-	color : "#ffffff",
-	fillColor :"#FFC500"
-};
-var default_circulo_style = {
-	isCanvas:true,
-	simbolSize: 6,
-	borderWidth: 2,
-	opacity: 90,
-	borderColor : "#ffffff",
-	color :"#FFC500"	
-};
-var default_circuloglyphon_style = {
-	icon : '',
-	markerColor: 'punt_r',
-	prefix : 'fa',
-	divColor:'transparent',
-	iconAnchor : new L.Point(15, 15),
-	iconSize : new L.Point(30, 30),
-	iconColor : '#000000',
-	isCanvas:false,
-	radius:6,
-	opacity:1,
-	weight : 2,
-	fillOpacity : 0.9,
-	color : "#ffffff",
-	fillColor :"#FFC500"	
-};
 jQuery(document).ready(function() {
 	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
@@ -100,7 +32,6 @@ function loadApp(){
 			typeMap : 'topoMap',
 			minZoom: 2,
 			maxZoom : 19,
-			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
 		
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
@@ -419,19 +350,6 @@ function addToolTipsInici() {
 //	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
 }
 
-function redimensioMapa() {
-	jQuery(window).resize(function() {
-		if(typeof url('?embed') == "string"){
-			factorH = 0;
-		}else{
-			factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
-		} 
-		jQuery('#map').css('top', factorH + 'px');
-		jQuery('#map').height(jQuery(window).height() - factorH);
-		jQuery('#map').width(jQuery(window).width() - factorW);
-	});
-	jQuery(window).trigger('resize');
-}
 
 function loadMapConfig(mapConfig){
 	var dfd = jQuery.Deferred();
@@ -887,59 +805,6 @@ function updateControlCapes(layer, layername, sublayer, groupLeafletId){
 }
 
 /* LLEGENDA */
-function addLegend(){
-	
-	legend = L.control({position: 'bottomright'});
-	
-	legend.onAdd = function (map) {
 
-	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
-	    div.id = "mapLegend";
-	    jQuery.each(mapLegend, function(i, row){
-	    	for (var i = 0; i < row.length; i++) {
-	    		if(row[i].chck){
-	    			div.innerHTML +='<div class="visor-legend-row">'+
-						    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
-						    			'<div class="visor-legend-name col-md-8 col-xs-8">'+row[i].name+'</div>'+
-	    							'</div>'+
-	    							'<div class="visor-separate-legend-row"></div>';
-	    		}
-	    	}
-	    });
-	    return div;
-	};
-	
-	ctr_legend = L.control({
-		position : 'bottomright'
-	});
-	ctr_legend.onAdd = function(map) {
 
-		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
-
-		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
-		this._div.appendChild(btllista);
-		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
-
-		return this._div;
-	};
-	ctr_legend.addTo(map);	
-	legend.addTo(map);
-}
-
-/*Control llegenda buida o be, q hagi publicat el mapa amb llegenda, 
-pero cap opcio de la llegenda marcada*/
-function checkEmptyMapLegend(){
-	var trobat = false;
-	jQuery.each(mapLegend, function(i, row){
-    	for (var i = 0; i < row.length && !trobat; i++) {
-    		if(row[i].chck){
-    			trobat = true;
-    		}
-    	}		
-	});
-	if(trobat){
-		addLegend();
-		$("#mapLegend").mCustomScrollbar();
-	}
-}
 	
