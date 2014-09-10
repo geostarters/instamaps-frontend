@@ -40,6 +40,8 @@ var t_file_dxf = ".dxf";
 
 var t_user_loginat = '1#';
 var t_user_random = '0#';
+var t_user_loginat_txt = 'loginat';
+var t_user_random_txt = 'random';
 
 var num_max_pintxos = 250;
 var capesOrdre_sublayer = "sublayer";//10000;

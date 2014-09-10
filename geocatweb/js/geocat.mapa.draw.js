@@ -425,6 +425,7 @@ function activaEdicioUsuari() {
 		var tipusCat,tipusCatDes;
 	
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dibuixar geometria', type, 1]);
+		_kmq.push(['record', 'dibuixar geometria', {'from':'mapa', 'tipus user':tipus_user_txt, 'type':type}]);
 
 		if (type === t_marker) {
 			tipusCat=window.lang.convert('Títol Punt');

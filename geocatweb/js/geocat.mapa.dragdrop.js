@@ -48,6 +48,7 @@ function creaAreesDragDropFiles() {
 
 		drgFromMapa.on("addedfile", function(file) {
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', 'addedfile', 1]);
+			_kmq.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user_txt, 'mode':'drag&drop'}]);
 			envioArxiu.isDrag=true;
 			//console.debug(file);
 			accionaCarrega(file,envioArxiu.isDrag);
@@ -155,6 +156,7 @@ jQuery('#div_carrega_dades').on("click", function(e) {
 
 		drgFromBoto.on("addedfile", function(file) {
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', 'addedfile', 1]);
+			_kmq.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user_txt, 'mode':'menu'}]);
 			envioArxiu.isDrag=false;
 			accionaCarrega(file, envioArxiu.isDrag);			
 		});
@@ -819,6 +821,8 @@ function addDropFileToMap(results) {
 			if (results.status == "OK") {
 				var extensio = ((envioArxiu.ext!=null)?envioArxiu.ext:"");
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades', envioArxiu.ext, 1]);
+				_kmq.push(['record', 'carregar dades', {'from':'mapa', 'tipus user':tipus_user_txt, 'extensio':envioArxiu.ext}]);
+				
 				// Un cop carregat el fitxer refresquem el popup de les dades de
 				// l'usuari i tambè
 				// el control de capes
@@ -857,6 +861,8 @@ function addDropFileToMap(results) {
 			txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
 		}
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', results.results, 1]);
+		_kmq.push(['record', 'carregar dades', {'from':'mapa', 'tipus user':tipus_user_txt, 'extensio':envioArxiu.ext, 'result':'error'}]);
+		
 		jQuery("#div_carrega_dades_message").html(txt_error);
 		jQuery("#div_carrega_dades_message").show();	
 	}

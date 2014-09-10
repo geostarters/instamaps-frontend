@@ -5,6 +5,7 @@ var mapConfig = {};
 var capaUsrActiva;
 var lsublayers = [];
 var tipus_user;
+var tipus_user_txt;
 
 var mapLegend = {};
 
@@ -71,8 +72,11 @@ jQuery(document).ready(function() {
 	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
+		tipus_user_txt = t_user_random_txt;
 	}else{
 		tipus_user = t_user_loginat;
+		tipus_user_txt = t_user_loginat_txt;
+		_kmq.push(['identify', $.cookie('uid')]);
 	}	
 	
 	if (!Modernizr.canvas  || !Modernizr.sandbox){
@@ -193,6 +197,8 @@ function loadApp(){
 			};
 			
 			_gaq.push(['_trackEvent', 'visor', tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
+			_kmq.push(['record', 'decarregar capa', {'from':'visor', 'tipus user':tipus_user, 'formatOUT':formatOUT, 'epsgOUT':epsgOUT}]);
+			
 			getDownloadLayer(data).then(function(results){
 				results = results.trim();
 				if (results == "ERROR"){
@@ -301,11 +307,13 @@ function addClicksInici() {
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
+		_kmq.push(['record', 'captura pantalla', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla('captura');
 	});
 	
 	jQuery('.bt_print').on('click', function() {
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
+		_kmq.push(['record', 'print', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla('print');
 	});
 		

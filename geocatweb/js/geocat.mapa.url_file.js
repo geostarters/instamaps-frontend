@@ -88,6 +88,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 									if (results.status == "OK"){
 										
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques', urlFile, 1]);
+										_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus':'fitxer', 'url':urlFile, 'mode':'dinamic'}]);
 										
 										jQuery('#dialog_dades_ex').modal('toggle');					
 										capaURLfile.options.businessId = results.results.businessId;
@@ -157,6 +158,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 					if (results.status == "OK") {
 
 						_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
+						_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus':'fitxer', 'url':urlFile, 'mode':'no dinamic'}]);
 						
 						results.results.urlFile = true;
 						loadTematicLayer(results.results).then(function(results1){
@@ -197,6 +199,7 @@ function processFileError(data){
 	}
 	
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
+	_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus':'fitxer', 'results':'error'}]);
 	
 	jQuery("#div_url_file_message").html(txt_error);
 //	jQuery('#div_url_file').removeClass('waiting_animation');

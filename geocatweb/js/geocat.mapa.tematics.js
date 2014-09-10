@@ -1186,7 +1186,8 @@ function changeTematicLayerStyle(tematic, styles){
 	//console.debug("changeTematicLayerStyle");
 	//console.debug(styles);
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus tematic':'basic'}]);
 	
 	var rangs = getRangsFromStyles(tematic, styles);
 	
@@ -1377,6 +1378,7 @@ function div2RangStyle(tematic, tdElem){
 function updateClasicTematicFromRangs(){
 	//console.debug("updateClasicTematicFromRangs");
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);	
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus tematic':'categories'}]);
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
