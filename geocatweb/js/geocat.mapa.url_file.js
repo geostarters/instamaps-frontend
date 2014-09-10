@@ -19,19 +19,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			nom : nomCapa,
 			tipus : t_url_file,
 			estil_do: estil_do,
+			style: estil_do,//Estil de poligons i linies
 			businessId : '-1',
-//			dataType : "jsonp",
 			pointToLayer : function(feature, latlng) {
-				  
-				var geometryType = transformTipusGeometry(feature.geometry.type);
-				if(geometryType == t_marker){
-					var geom = L.circleMarker(latlng, estil_do);
-				}else if(geometryType == t_polyline){
-					var geom = L.polyline(latlng, {color: estil_do.fillColor, weight: "3", opacity: "1"});
-				}else if(geometryType == t_polygon){
-					var geom = L.polygon(latlng, {color: estil_do.color, fillColor: estil_do.fillColor, fillOpacity: estil_do.fillOpacity, weight: estil_do.weight});
-				}
-		    	    	
+				var geom = L.circleMarker(latlng, estil_do);
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
@@ -42,14 +33,30 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 					    '</div>';	    			
 		    		}
 		    	});	
-		    	html+='</div></div>';    	
+		    	html+='</div></div>'; 
 			    return geom.bindPopup(html);
 			  },
+			  onEachFeature : function(feature, latlng) {
+			    	var pp = feature.properties;
+			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+			    	$.each( pp, function( key, value ) {
+			    		if(value){
+							html+='<div class="popup_data_row">'+
+							'<div class="popup_data_key">'+key+'</div>'+
+						    '<div class="popup_data_value">'+value+'</div>'+
+						    '</div>';	    			
+			    		}
+			    	});	
+			    	html+='</div></div>'; 
+				    return latlng.bindPopup(html);
+				  },			  
 			  middleware:function(data){
-				  
+			    	console.debug("capaURLfile");
+			    	console.debug(capaURLfile);				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
+					  console.debug(data);	
 					  capaURLfile.addData(data);
 					  
 						//Un cop tinc la capa a client, la creo a servidor
@@ -208,23 +215,13 @@ function loadURLfileLayer(layer){
 	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&urlFile="+urlFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic;
 	
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
-//		onEachFeature : popUp,
 		nom : layer.serverName,
 		tipus : layer.serverType,
 		estil_do: estil_do,
+		style: estil_do,
 		businessId : layer.businessId,
-//		dataType : "jsonp",
 		pointToLayer : function(feature, latlng) {
-			  
-			var geometryType = transformTipusGeometry(feature.geometry.type);
-			if(geometryType == t_marker){
-				var geom = L.circleMarker(latlng, estil_do);
-			}else if(geometryType == t_polyline){
-				var geom = L.polyline(latlng, {color: estil_do.fillColor, weight: "3", opacity: "1"});
-			}else if(geometryType == t_polygon){
-				var geom = L.polygon(latlng, {color: estil_do.color, fillColor: estil_do.fillColor, fillOpacity: estil_do.fillOpacity, weight: estil_do.weight});
-			}
-	    	    	
+			var geom = L.circleMarker(latlng, estil_do);
 	    	var pp = feature.properties;
 	    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 	    	$.each( pp, function( key, value ) {
@@ -236,11 +233,23 @@ function loadURLfileLayer(layer){
 	    		}
 	    	});	
 	    	html+='</div></div>';    	
-
 	    	var popup = L.popup().setContent(html);
-	    	
 		    return geom.bindPopup(popup);
-		  }
+		  },
+		  onEachFeature : function(feature, latlng) {
+		    	var pp = feature.properties;
+		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+		    	$.each( pp, function( key, value ) {
+		    		if(value){
+						html+='<div class="popup_data_row">'+
+						'<div class="popup_data_key">'+key+'</div>'+
+					    '<div class="popup_data_value">'+value+'</div>'+
+					    '</div>';	    			
+		    		}
+		    	});	
+		    	html+='</div></div>'; 
+			    return latlng.bindPopup(html);
+			  }
 	});		
 		
 	capaURLfileLoad.on('data:loaded', function(e){
