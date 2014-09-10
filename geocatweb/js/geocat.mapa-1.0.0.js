@@ -845,6 +845,12 @@ function addToolTipsInici() {
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
 	
+	$('.leaflet-conf').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Opcions")
+	});
+	
 }
 
 function activaPanelCapes(obre) {
