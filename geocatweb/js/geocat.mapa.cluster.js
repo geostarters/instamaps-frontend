@@ -55,7 +55,7 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 //					$(".layers-list").mCustomScrollbar({
 //						   advanced:{

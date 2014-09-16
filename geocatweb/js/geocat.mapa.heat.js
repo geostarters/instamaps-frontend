@@ -61,7 +61,7 @@ function createHeatMap(capa){
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 //					$(".layers-list").mCustomScrollbar({
 //						   advanced:{

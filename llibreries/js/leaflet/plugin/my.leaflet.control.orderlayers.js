@@ -414,9 +414,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		for(var i=0; i < inputs.length; i++) {
 			if(!inputs[i].layerIdParent){
 				var auxLayer = this._layers[inputs[i].layerId];
-				console.debug("Zindex:");
-				console.debug(auxLayer.layer.options.zIndex);
-				console.debug("/Zindex");
 				if(auxLayer.overlay && ((obj.layer.options.zIndex - 1) === auxLayer.layer.options.zIndex)) {
 					replaceLayer = auxLayer;
 					break;
@@ -463,9 +460,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		for(var i=0; i < inputs.length; i++) {
 			if(!inputs[i].layerIdParent){
 				var auxLayer = this._layers[inputs[i].layerId];
-				console.debug("Zindex:");
-				console.debug(auxLayer.layer.options.zIndex);
-				console.debug("/Zindex");				
 				if(auxLayer.overlay && ((obj.layer.options.zIndex + 1) === auxLayer.layer.options.zIndex)) {
 					replaceLayer = auxLayer;
 					break;
