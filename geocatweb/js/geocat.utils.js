@@ -378,6 +378,30 @@ function gestioCookie(from){
 	}
 }
 
+function popUp(f, l) {
+	var out = [];
+	if (f.properties) {
+		for (key in f.properties) {
+			if(key!='gml_id'){
+				if(key=='Name' || key=='Description'){
+					out.push(f.properties[key]);
+				}else if(key=='link' || key=='Web'){				
+					ll=f.properties[key];
+					//if(ll.indexOf('.gif')!=-1 || ll.indexOf('.jpg')!=-1){
+					if(isImgURL(ll)){
+						out.push('<img width="100" src="'+ll+'"/>');
+					}else{
+						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');
+					}
+				}else{
+					out.push("<b>"+key + "</b>: " + f.properties[key]);
+				}
+			}
+		}
+		l.bindPopup(out.join("<br />"));
+	}
+}
+
 //Funcions d'estils
 function retornaEstilaDO(dataset) {
 	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
