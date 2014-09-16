@@ -105,52 +105,6 @@ function loadApp(){
 					$('#nomAplicacio').html(mapConfig.nomAplicacio);
 					
 					loadMapConfig(mapConfig).then(function(){
-						//avisDesarMapa();
-						/*if (isRandomUser($.cookie('uid'))){
-							jQuery(window).on('beforeunload',function(event){
-								return 'Are you sure you want to leave?';
-							});
-						}*/
-						
-						//Compartir en xarxes socials
-						if (isRandomUser($.cookie('uid'))){
-						
-							jQuery(window).on('beforeunload',function(event){
-								return 'Are you sure you want to leave?';
-							});							
-						
-							jQuery('#socialShare').share({
-								networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-								theme: 'square'
-							});
-							
-							jQuery('#socialShare .pop-social').off('click').on('click', function(event){
-								event.preventDefault();
-								jQuery('.modal').modal('hide');
-								$('#dialgo_messages').modal('show');
-								$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
-							});
-						}else{
-							shortUrl(v_url).then(function(results){
-					
-								jQuery('#socialShare').share({
-									networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-									theme: 'square',
-									urlToShare: results.data.url
-								});
-								
-								jQuery('#socialShare .pop-social').on('click', function(event){
-									console.debug("social share click, publiquem!");
-									publicarMapa(true);
-								});				
-							});
-						}						
-						
-						
-//						//Per defecte que es mostri la primera capa a la llegenda
-//						jQuery.each(controlCapes._layers, function(i, item){
-//							addLayersToLegend(item);
-//						});
 						
 						$('#nomAplicacio').editable({
 							type: 'text',
@@ -203,7 +157,6 @@ function loadApp(){
 		}else{	
 			mapConfig.newMap = true;
 			createNewMap();
-			//avisDesarMapa();
 		}
 	}
 	
@@ -233,106 +186,15 @@ function loadApp(){
 			
 		});
 		
-		jQuery('.bt_publicar').on('click',function(){
-			jQuery('.modal').modal('hide');
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
-			$('#dialgo_publicar_random').modal('show');
-			
-			jQuery('#dialgo_publicar_random .bt-sessio').on('click',function(){
-				jQuery(window).off('beforeunload');
-				jQuery(window).off('unload');
-				window.location = paramUrl.loginPage+"?from=mapa";
-			});
-			
-			jQuery('#dialgo_publicar_random .bt_orange').on('click',function(){
-				jQuery(window).off('beforeunload');
-				jQuery(window).off('unload');
-				window.location = paramUrl.registrePage+"?from=mapa";
-			});
-			
-			//$('#dialgo_messages').modal('show');
-			//$('#dialgo_messages .modal-body').html(window.lang.convert(msg_noguarda));
-		});
-				
 		jQuery(window).on('unload',function(event){
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'sortir', 'label sortir', 1]);
 			deleteRandomUser({uid: $.cookie('uid')});
 			$.removeCookie('uid', { path: '/' });
 		});
 	}else{
-		//publicar el mapa solo para registrados
-		jQuery('.bt_publicar').on('click',function(){
-			
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
-			
-			//actualizar los campos del dialogo publicar
-			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
-			if (mapConfig.visibilitat == visibilitat_open){
-				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
-			}else{
-				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
-			}
-			if(mapConfig.options){
-				$('#optDescripcio').val(mapConfig.options.description);
-				$('#optTags').val(mapConfig.options.tags);	
-				if (mapConfig.options.llegenda){
-					$('#llegenda_chk').bootstrapSwitch('state', true, true);
-				}else{
-					$('#llegenda_chk').bootstrapSwitch('state', false, false);
-				}				
-			}
-
-			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
-			$( ".text_error" ).remove();
-			jQuery('.modal').modal('hide');
-			$('#dialgo_publicar').modal('show');
-			
-			//Dialeg publicar
-			$('#publish-private').tooltip({
-				placement : 'bottom',
-				container : 'body',
-				title : window.lang.convert("El mapa només es mostrarà a la teva galeria privada")
-			});
-			$('#publish-public').tooltip({
-				placement : 'bottom',
-				container : 'body',
-				title : window.lang.convert("El mapa es mostrarà a la galeria pública")
-			});				
-			
-			//Si mapconfig legend, activat, es mostra
-			if(mapConfig.options != null && mapConfig.options.llegenda){
-				createModalConfigLegend();
-				$('#dialgo_publicar .modal-body .modal-legend').show();
-			}else{
-				$('#dialgo_publicar .modal-body .modal-legend').hide();
-			}
-			
-			$('#llegenda-title-text').text(window.lang.convert('Llegenda'));
-			$('#publish-public').text(window.lang.convert('Públic'));
-			$('#publish-private').text(window.lang.convert('Privat'));
-			$('#publish-legend-yes').text(window.lang.convert('Si'));
-			$('#publish-legend-no').text(window.lang.convert('No'));
-			$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
-			
-			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val()+"&id="+jQuery('#userId').val();
-			urlMap = v_url.replace('mapa','visor');
-			$('#urlMap').val(urlMap);
-			$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
-		});
-		
-		jQuery('#dialgo_publicar .btn-primary').on('click',function(){
-			publicarMapa(false);
-		});
-		
 		jQuery('#dialgo_leave .btn-primary').on('click',function(){
 			leaveMapa();
 		});
-	}
-	
-	//carrega las capas del usuario si esta loginat
-	if ($.cookie('uid')){
-		var data = {uid: $.cookie('uid')};
-		carregaDadesUsuari(data);
 	}
 	
 	$('.leaflet-remove').click(function() {
@@ -363,7 +225,6 @@ function loadApp(){
 		var epsgOUT = $('#select-download-epsg').val();
 		var filename = $('#input-download-name').val();
 		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
-//		var layer_GeoJSON_custom = download_layer.layer.toGeoJSONcustom();
 		for(var i=0;i<layer_GeoJSON.features.length;i++){
 			layer_GeoJSON.features[i].properties.tipus = "downloaded";
 		}
@@ -464,6 +325,9 @@ function initControls(){
 	tradueixMenusToolbar();
 	redimensioMapa();	
 	
+	//Funcionalitat hill shading
+	addControlHillShading();
+	
 	//Funcionalitat fons mapes
 	addOpcionsFonsMapes();
 	creaPopOverMesFonsColor();
@@ -473,8 +337,9 @@ function initControls(){
 	initButtonsTematic();
 	addDialegEstilsTematics();	
 
-	//Funcionalitat dragdrop
+	//Funcionalitat dragdrop i carrega fitxers
 	creaAreesDragDropFiles();
+	addCarregaFitxers();
 	
 	//Funcionalitat de dibuixar feature
 	addDrawToolbar();
@@ -484,17 +349,28 @@ function initControls(){
 	//Funcionalitat cerca
 	addControlCercaEdit();
 
-	//dades
+	//carrega font de dades
 	generaLListaDadesObertes();
 	generaLlistaServeisWMS();
 	
-	//Funcionalitat afegir dades externes
-	creaPopOverDadesExternes();
+	//Funcionalitat afegir altres fonts de dades
+	addControlAltresFontsDades();
 
+	//Funcionalitat carrega capes del usuari, si esta loginat
+	if ($.cookie('uid')){
+		var data = {uid: $.cookie('uid')};
+		carregaDadesUsuari(data);
+	}
 	
+	//Funcionalitat publicar mapa
+	addControlPublicar();
+	
+	//Funcionalitat compartir mapa
+	addCompartirMapa();
 }
 
 function addClicksInici() {
+	
 	jQuery('.bt_llista').on('click', function() {
 		activaPanelCapes();
 	});
@@ -519,41 +395,11 @@ function addClicksInici() {
        	 //addCapaMunicipis();	        
         }
     });
-
-	jQuery('.bt_hill').on('mousemove',function(e){		
-		if(jQuery(this).prop('disabled')){
-			jQuery(this).css('cursor','not-allowed');
-		}else{
-			jQuery(this).css('cursor','pointer');
-		}	
-	});	
-	
-	jQuery('.bt_hill').on('click',function(e){		
-		if(!jQuery(this).prop('disabled')){			
-			if(jQuery(this).hasClass('div_hill_verd')){
-				jQuery(this).removeClass('div_hill_verd');	
-				jQuery(this).addClass('div_hill');	
-				map.setTransActiveMap(1,false);				
-			}else{
-				jQuery(this).removeClass('div_hill');	
-				jQuery(this).addClass('div_hill_verd');	
-				map.setTransActiveMap(0.6,true);				
-			}		
-		}			
-	});
-}
-
-function gestionaPopOver(pop) {
-	//console.debug("gestionaPopOver");
-	jQuery('.popover').popover('hide');
-	jQuery('.pop').not(pop).popover('hide');
-	jQuery(pop).popover('toggle');
-	jQuery(".popover").css('left', pLeft());
-	jQuery('.popover-title').append('<span id="popovercloseid#'+jQuery(pop).attr('id')+'" class="glyphicon glyphicon-remove bt_tanca"></span>');
 }
 
 function addControlsInici() {
-	sidebar = L.control.sidebar('sidebar', {
+	
+	var sidebar = L.control.sidebar('sidebar', {
 		position : 'left',
 		closeButton : false
 	});
@@ -576,21 +422,10 @@ function addControlsInici() {
 			     updateOnContentResize: true
 			   }           
 		});			
-//		console.debug('addItemFinish!');
-//		if($(".layers-list").hasClass('mCustomScrollbar')){
-//			//$(".layers-list").mCustomScrollbar("update");			
-//		}else{
-//			$(".layers-list").mCustomScrollbar({
-//				   advanced:{
-//				     autoScrollOnFocus: false,
-//				     updateOnContentResize: true
-//				   }           
-//			});				
-//		}
 	});
 	
 	
-	ctr_llistaCapes = L.control({
+	var ctr_llistaCapes = L.control({
 		position : 'topright'
 	});
 	ctr_llistaCapes.onAdd = function(map) {
@@ -609,47 +444,12 @@ function addControlsInici() {
 		this._div.appendChild(btprint);
 		btprint.innerHTML = '<span class="glyphicon glyphicon-print grisfort"></span>';
 		
-//		var btsave = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_save');
-//		this._div.appendChild(btsave);
-//		btsave.innerHTML = '<span class="glyphicon glyphicon-floppy-disk grisfort"></span>';		
-
-//		var btinfo = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_info');
-//		this._div.appendChild(btinfo);
-//		btinfo.innerHTML = '<span class="glyphicon glyphicon-info-sign grisfort"></span>';
-		
 		return this._div;
 	};
 	ctr_llistaCapes.addTo(map);
 
-	//Nou control hillshading
-	ctr_hill = L.control({
-		position : 'topleft'
-	});
-	
-	ctr_hill.onAdd = function(map) {
-
-		this._div = L.DomUtil.create('div', 'leaflet-bar div_hill_f');
-	
-		var btllista = L.DomUtil.create('div', 'div_hill bt_hill');
-		this._div.appendChild(btllista);
-		
-		return this._div;
-	
-	};
-	
-	ctr_hill.addTo(map);
-	jQuery('.bt_hill').prop( "disabled", true );
 }
 
-//function redimensioMapa() {
-//	jQuery(window).resize(function() {
-//		factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
-//		jQuery('#map').css('top', factorH + 'px');
-//		jQuery('#map').height(jQuery(window).height() - factorH);
-//		jQuery('#map').width(jQuery(window).width() - factorW);
-//	});
-//	jQuery(window).trigger('resize');
-//}
 
 function addToolTipsInici() {
 	//eines mapa
@@ -679,12 +479,6 @@ function addToolTipsInici() {
 		title : window.lang.convert("Veure informació al fer clic sobre el mapa")
 	});
 	
-	$('.bt_hill').tooltip('destroy').tooltip({
-		placement : 'right',
-		container : 'body',
-		title : window.lang.convert("Mostrar l'ombra del relleu")
-	});
-	
 	jQuery.map(jQuery('[data-toggle="tooltip"]'), function (n, i){
 		var title = $(n).attr('title');
 		if (title == ""){
@@ -703,34 +497,12 @@ function addToolTipsInici() {
 	$('#div_punt').tooltip(optB);
 	$('#div_linia').tooltip(optB);
 	$('#div_area').tooltip(optB);
-	$('.bt_publicar').tooltip(opt);
 	
 	//cercador
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
 	
 }
-
-function activaPanelCapes(obre) {
-	if (obre) {
-		jQuery('.leaflet-control-layers').animate({
-			width : 'show'
-		});
-	} else {
-		jQuery('.leaflet-control-layers').animate({
-			width : 'toggle'
-		});
-	}
-	var cl = jQuery('.bt_llista span').attr('class');
-	if (cl.indexOf('grisfort') != -1) {
-		jQuery('.bt_llista span').removeClass('grisfort');
-		jQuery('.bt_llista span').addClass('greenfort');
-	} else {
-		jQuery('.bt_llista span').removeClass('greenfort');
-		jQuery('.bt_llista span').addClass('grisfort');
-	}
-}
-
 
 function addDialegEstilsTematics(){
 	jQuery('#dialog_estils_punts .btn-success').on('click',function(e){
@@ -849,614 +621,6 @@ function addDialegEstilsTematics(){
 	});
 }
 
-
-function creaPopOverMevasDades(){
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
-		
-	jQuery(".div_dades_usr").on('click', function() {
-		//console.debug("creaPopOverMevasDades");
-		jQuery('.modal').modal('hide');
-		$('#dialog_teves_dades').modal('show');
-		
-		//Per tenir actualitzar canvis: remove layers, add layers, etc
-		jQuery("#id_sw").empty();
-		
-		refrescaPopOverMevasDades().then(function(results){
-			initMevesDades = true;
-			if(results.results.length == 0){
-				jQuery('#id_sw').html(warninMSG);		
-			}else{
-				var source1 = jQuery("#meus-wms-template").html();
-				var template1 = Handlebars.compile(source1);
-//				jQuery.each(results.results, function(i,item){
-//					if(item.options){
-//						var options = jQuery.parseJSON( item.options );
-//						console.debug(i+":"+item.serverName+"-"+options.geometryType);
-//					}else{
-//						console.debug(i+":"+item.serverName);
-//					}
-//				});
-				var html1 = template1(results);				
-				jQuery("#id_sw").append(html1);
-				
-				$("#listnav-teves-dades").listnav({
-				    initLetter: '',
-				    allText: window.lang.convert('Tots'),
-				    noMatchText: window.lang.convert('No hi ha entrades coincidents')
-				});
-				
-				jQuery("ul.llista-teves-dades").on('click', '.usr_wms_layer', function(event) {
-					event.preventDefault();
-					var _this = jQuery(this);
-				
-					var data = {
-							uid: $.cookie('uid'),
-							businessId: mapConfig.businessId,
-							servidorWMSbusinessId: _this.data("businessid"),
-							layers: _this.data("layers"),
-							calentas:false,
-							activas:true,
-							visibilitats:true,
-							order: controlCapes._lastZIndex+ 1
-					};						
-					
-					addServerToMap(data).then(function(results){
-						if(results.status==='OK'){
-							
-							var value = results.results;
-							_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar meves dades', value.serverType, 1]);
-							
-							if (value.epsg == "4326"){
-								value.epsg = L.CRS.EPSG4326;
-							}else if (value.epsg == "25831"){
-								value.epsg = L.CRS.EPSG25831;
-							}else if (value.epsg == "23031"){
-								value.epsg = L.CRS.EPSG23031;
-							}else{
-								value.epsg = map.crs;
-							}							
-							
-							if(_this.data("servertype") == t_wms){
-								loadWmsLayer(value);
-							}else if((_this.data("servertype") == t_dades_obertes)){
-								loadDadesObertesLayer(value);
-							}else if(_this.data("servertype") == t_xarxes_socials){
-								
-								var options = jQuery.parseJSON( value.options );
-								if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
-								else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
-								else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-								
-							}else if(_this.data("servertype") == t_tematic){
-								loadTematicLayer(value);
-							}							
-							$('#dialog_teves_dades').modal('hide');
-							activaPanelCapes(true);
-						}		
-					});							
-				});					
-						
-				//Eliminem servidors
-				jQuery("ul.llista-teves-dades").on('click', 'span.glyphicon-remove', function(event) {
-					event.preventDefault();
-					event.stopPropagation();
-					var _this = jQuery(this);
-					var data = {
-						uid: $.cookie('uid'),
-						businessId: _this.data("businessid")
-					};
-					
-					var firstLetter = _this.data("servername").charAt(0).toLowerCase();
-					if($.isNumeric(firstLetter)) firstLetter = "_";
-					
-					var parent = _this.parent();
-					var parentul = parent.parent();
-					_this.parent().remove();
-					
-					if (jQuery.trim(jQuery("#id_sw").text()) == ""){
-						jQuery('#id_sw').html(warninMSG);
-					}
-					
-					if(_this.data("servertype") == t_tematic){
-						deleteTematicLayerAll(data).then(function(results){
-							if (results.status == "ERROR"){
-								parentul.append(parent);
-								if (results.results == "DataIntegrityViolationException"){
-									$('#dialgo_messages').modal('show');
-									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
-								}
-							}else{
-								//jQuery("ln-letter-count").init();
-//								console.debug(globalCounts);
-								globalCounts[''+firstLetter +'']--;
-//								console.debug(globalCounts[''+firstLetter +'']);
-//								if(globalCounts[''+firstLetter +'']<=0){
-//									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled');
-//									//jQuery(".ln-letters."+firstLetter).removeClass('ln-selected');
-//								}
-							}					
-						});
-					}else{
-						deleteServidorWMS(data).then(function(results){
-							if (results.status == "ERROR"){
-								parentul.append(parent);
-								if (results.results == "DataIntegrityViolationException"){
-									$('#dialgo_messages').modal('show');
-									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
-								}
-							}else{
-//								console.debug(globalCounts);
-								globalCounts[''+firstLetter +'']--;
-//								console.debug(globalCounts[''+firstLetter +'']);
-//								if(globalCounts[''+firstLetter +'']<=0){
-//									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled')
-//								}
-							}
-						});						
-					}
-				});
-				
-			}	
-		});
-	});	
-}
-
-/*
-function loadPopOverMevasDades(){
-	console.debug("loadPopOverMevasDades");
-	jQuery(".div_dades_usr").on('click', function() {
-		var data = {uid: $.cookie('uid')};
-		
-		gestionaPopOver(this);		
-		
-		var source1 = jQuery("#meus-wms-template").html();
-		var template1 = Handlebars.compile(source1);
-		var html1 = template1(dades1);
-		jQuery("#id_mysrvw").append(html1);
-		
-		jQuery(".usr_wms_layer").on('click', '#id_sw', function(event) {
-			event.preventDefault();
-			var _this = jQuery(this);
-			//TODO ficar extensio!!!
-			_gaq.push(['_trackEvent', 'Meves dades', 'Meves dades', tipus_user]);			
-			
-			var data = {
-				uid: $.cookie('uid'),
-				businessId: mapConfig.businessId,
-				servidorWMSbusinessId: _this.data("businessid"),
-				layers: _this.data("layers"),
-				calentas:false,
-				activas:false,
-				visibilitats:true,
-				order: controlCapes._lastZIndex+1
-			};
-			
-			addServerToMap(data).then(function(results){
-//				console.debug(results);
-//				mapConfig = results.results;
-				if(results.status==='OK'){
-					var index = results.results.servidorsWMS.length -1;
-					var value = results.results.servidorsWMS[index];
-					
-					 var newWMS = L.tileLayer.wms(value.url, {
-						 layers: value.layers,
-						 format: value.imgFormat,
-						 transparent: value.transparency,
-						 version: value.version,
-						 opacity: value.opacity,
-						 crs: value.epsg,
-						 businessId: value.businessId//Jess
-						 });
-						 if (value.capesActiva == true || value.capesActiva == "true"){
-						 newWMS.addTo(map);
-						 }
-						 newWMS.options.zIndex = controlCapes._lastZIndex+1;
-						 controlCapes.addOverlay(newWMS, value.serverName, true);
-						 controlCapes._lastZIndex++;
-
-					activaPanelCapes(true);						
-				}			
-			});		
-		});
-	
-		jQuery(".usr_tematic_layer").on('click', function(event) {
-			event.preventDefault();
-			var _this = jQuery(this);
-			
-			carregarCapa(_this.data("businessid"));
-		
-		});
-		
-		jQuery("span.glyphicon-remove").on('click', function(event) {
-			event.preventDefault();
-			event.stopPropagation();
-			var _this = jQuery(this);
-
-			var data = {
-				uid: $.cookie('uid'),
-				businessId: _this.data("businessid")
-			};
-
-			deleteTematicLayerAll(data).then(function(results){
-				console.debug(results);
-				if (results.status == "OK"){
-					_this.parent().remove();
-				}
-			});
-		});
-		
-	});
-}
-*/
-
-function refrescaPopOverMevasDades(){
-	//console.debug("refrescaPopOverMevasDades");
-	var dfd = jQuery.Deferred();
-	var data = {uid: $.cookie('uid')};
-	getAllServidorsWMSByUser(data).then(function(results){
-		var serverOrigen = [];
-		jQuery.each(results.results, function(i, item){
-			if (item.serverType == t_tematic){
-				//console.debug(item);
-				if (item.options == null){
-					serverOrigen.push(item);
-				}else{
-					var options = jQuery.parseJSON( item.options );
-					if (options.tem == tem_origen){
-						serverOrigen.push(item);
-					}else{
-						//no cargar
-						//serverOrigen.push(item);
-					}
-				}
-			}else{
-				//no cargar
-				//serverOrigen.push(item);
-			}
-		});
-		dades1.results = serverOrigen;
-		dfd.resolve(dades1);
-	},function(results){
-		gestioCookie('refrescaPopOverMevasDades');
-	});
-	return dfd.promise();
-}
-
-function carregarCapa(businessId){
-	var data = {
-		uid: $.cookie('uid'),
-		businessId: businessId
-	};
-	
-	loadTematicLayer(data);
-}
-
-function creaPopOverDadesExternes() {
-	jQuery(".div_dades_ext").on('click', function() {
-		//gestionaPopOver(this);
-		jQuery('.modal').modal('hide');
-		$('#dialog_dades_ex').modal('show');
-		
-		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-			var tbA = e.target.attributes.href.value;
-
-			if (tbA == "#id_do") {
-				jQuery(tbA).empty();
-				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
-
-				jQuery(tbA+" a.label-explora").on('click', function(e) {
-					if(e.target.id !="id_do"){
-						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
-					}
-				});
-			}else if(tbA == "#id_srvw"){
-				jQuery(tbA).empty();
-				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
-				jQuery(tbA+" a.label-wms").on('click', function(e) {
-					if(e.target.id !="id_srvw"){
-						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
-					}
-				});	
-//			}else if(tbA == "#id_srvj"){
-//				jQuery(tbA).empty();
-//				jQuery(tbA).html(_htmlServeisJSON.join(' '));
-//				jQuery("#bt_connJSON").on('click', function(e) {
-//					if(e.target.id !="#id_srvj"){
-//						getServeiJSONP(jQuery("#txt_URLJSON").val());
-//					}
-//				});		
-			}else if(tbA == "#id_xs"){//Jess
-				var label_xarxes = "La informació es mostra en funció de l'àrea geogràfica visualitzada."
-				jQuery(tbA).html(
-						'<div class="panel-info">'+
-						'<ul class="bs-dadesO_XS panel-heading">'+
-						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseTwitter()" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
-						'<li><a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label-xs">Panoramio <i class="fa fa-picture-o"></i></a></li>'+
-						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
-						'</ul>'+
-						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.convert(label_xarxes)+'</span></div>'+
-						'<div id="twitter-collapse">'+
-							'<div class="input-group">'+
-			      				'<span class="input-group-addon">Hashtag #</span>'+
-			      				'<input id="hashtag_twitter_layer" type="text" class="form-control">'+
-			      				'<span class="input-group-btn">'+
-			      					'<button id="btn-add-twitter-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
-			      				'</span>'+
-				      		'</div>'+
-				      		'</div>'+
-			      		'</div>'						
-				);
-				$('#twitter-collapse').hide();
-				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
-					addTwitterLayer();
-				});
-			}else if(tbA == "#id_url_file"){
-				jQuery(tbA).empty();
-
-				//Carreguem exemples de dades externes 
-				//_htmlServeisWMS.push('<div class="panel-success"><ul class="bs-dadesO panel-heading">');
-				var lDadesExternes = '<ul class="bs-dadesO panel-heading llista-dadesExternes">';
-				jQuery.each(llista_dadesExternes.dadesExternes, function(key, dadesExternes) {
-						lDadesExternes += '<li><a class="label-dadesExternes" href="#" data-url="'
-							+ dadesExternes.urlDadesExternes
-							+ '" data-format="'
-							+ dadesExternes.formatDadesExternes
-							+ '" data-epsg="'
-							+ dadesExternes.epsgDadesExternes
-							+ '">'
-							+ window.lang.convert(dadesExternes.titol)
-							+ '</a>'
-							+ '<a target="_blank" lang="ca" title="Informació" href="'
-							+ dadesExternes.urlOrganitzacio
-							+ '"><span class="glyphicon glyphicon-info-sign info-dadesExternes"></span></a>'
-							+ '</li>';
-				});				
-				lDadesExternes += '</ul>';
-				
-				jQuery(tbA).html(
-						'<div class="panel-dadesExternes">'+
-							lDadesExternes +
-							'<div class="input-group txt_ext">'+
-								'<input type="text" lang="ca" class="form-control" value="" placeholder="'+window.lang.convert("Entrar URL de dades externes")+'" style="height:33px" id="txt_URLfile">'+ 
-								'<span class="input-group-btn">'+
-									'<button type="button" id="bt_URLfitxer" class="btn btn-success">'+
-										'<span class="glyphicon glyphicon-play"></span>'+
-									'</button>'+
-								'</span>'+
-							'</div>'+
-						'</div>'+
-						'<div id="div_url_file"  class="tbl_url_file"></div>'
-//						+'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
-				);
-				
-				jQuery("#div_url_file").hide();
-				
-				jQuery(".label-dadesExternes").on('click', function(e) {
-					//console.debug(e);
-					//URL PRESIDENT JSON
-					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
-						jQuery("#div_url_file").show();
-						jQuery("#div_url_file").html(
-								'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
-								'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
-						);
-						getServeiJSONP(this.dataset.url);
-						
-					}else{//LA RESTA
-						createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
-					}
-				});
-				
-				jQuery("#bt_URLfitxer").on('click', function(e) {
-					jQuery("#div_url_file").show();
-					var urlFile = jQuery("#txt_URLfile").val();
-					if(isValidURL(urlFile)){
-						
-						//URL PRESIDENT JSON
-						if(urlFile.indexOf(paramUrl.presidentJSON)!= -1){
-							jQuery("#div_url_file").html(
-									'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
-									'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
-							);
-							getServeiJSONP(urlFile);
-							
-						}else{//LA RESTA
-							jQuery("#div_url_file").html(
-									'<br>'+
-									'<div class="input-group input-group-sm">'+
-										'<span lang="ca" class="input-group-addon">'+window.lang.convert("Nom capa")+'</span>'+
-										'<input type="text" id="input-url-file-name" class="form-control">'+
-									'</div>'+	
-									'<br>'+
-									'<div>'+
-									window.lang.convert("Format")+
-									':&nbsp;'+
-										'<select id="select-url-file-format" class="form-download-format">'+
-										  '<option value=".geojson">GeoJSON</option>'+
-										  '<option value=".shp">ESRI Shapefile</option>'+
-										  '<option value=".dxf">DXF</option>'+
-										  '<option value=".kml">KML</option>'+
-										  '<option value=".gpx">GPX</option>'+
-										  '<option value=".kmz">KMZ</option>'+
-										  '<option value=".zip">Zip File</option>'+
-										  '<option value="-1">'+window.lang.convert("Selecciona el Format")+'</option>'+
-										'</select>'+
-										'<br><br>'+
-									'EPSG:&nbsp;'+
-										'<select id="select-url-file-epsg" class="form-download-epsg">'+
-											'<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
-					              			'<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
-					              			'<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
-					              			'<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
-					              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
-					              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
-					              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
-					              			'<option value="-1">'+window.lang.convert("Selecciona el EPSG")+'</option>'+
-										'</select>'+
-										'<br><br>'+								
-										'<input id="dinamic_chck" type="checkbox" checked="checked">'+
-										'&nbsp;'+window.lang.convert("Dinàmica")+
-										'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
-											window.lang.convert("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
-										'</small>'+
-									'</div>&nbsp;'+
-									'<div>'+
-										'<span class="input-group-btn">'+
-										'<button type="button" id="bt_URLfitxer_go" class="btn btn-success">'+
-											'<span class="glyphicon glyphicon-play"></span>'+
-										'</button>'+
-										'</span>'+
-									'</div>'+
-									'<div id="div_url_file_message" class="alert alert-danger"></div>'
-							);
-							
-							jQuery("#div_url_file_message").hide();
-							
-							//Comprovem tipus del file
-							var type = "-1";
-							if(urlFile.indexOf(t_file_kml)!=-1) type = t_file_kml;
-							else if(urlFile.indexOf(t_file_gpx)!=-1) type = t_file_gpx;
-							else if(urlFile.indexOf(t_file_shp)!=-1) type = t_file_shp;
-							else if(urlFile.indexOf(t_file_dxf)!=-1) type = t_file_dxf;
-//							else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
-//							else if(urlFile.indexOf(t_file_wkt)!=-1) type = t_file_wkt;
-							else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
-							else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
-							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
-							
-							$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
-							
-							if (type==".kml" ||type==".gpx"){
-								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
-								jQuery("#select-url-file-epsg").attr('disabled',true);
-							}else{
-								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
-								jQuery("#select-url-file-epsg").attr('disabled',false);
-							}
-							
-							var nom_capa = window.lang.convert("Capa de fitxer");
-							if(type!="-1") nom_capa+=type;
-							jQuery("#input-url-file-name").val(nom_capa);
-							
-							jQuery("#bt_URLfitxer_go").on('click', function(e) {
-								e.stopImmediatePropagation();
-//								e.stopPropagation();
-//								e.preventDefault();
-								console.debug("bt_URLfitxer_go");
-								jQuery("#div_url_file_message").empty();
-								jQuery("#div_url_file_message").hide();
-								var urlFile = jQuery("#txt_URLfile").val();
-								var type = jQuery("#select-url-file-format").val();
-								var epsg = jQuery("#select-url-file-epsg").val();
-								
-								if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1){
-									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
-									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
-								}else{
-									console.debug("abans createURLfileLayer");
-									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val());
-									console.debug("despres createURLfileLayer");
-								}
-							});
-							
-							jQuery("#select-url-file-epsg").change(function(){
-								jQuery(this).removeClass("class_error");
-								jQuery("#div_url_file_message").empty();
-								jQuery("#div_url_file_message").hide();
-							});						
-							
-							jQuery('#select-url-file-format').change(function() {
-								jQuery(this).removeClass("class_error");
-								jQuery("#div_url_file_message").empty();
-								jQuery("#div_url_file_message").hide();
-								var ext = jQuery(this).val();
-								if ((ext==".kml")||(ext==".gpx")){
-									$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
-									jQuery("#select-url-file-epsg").attr('disabled',true);
-								}else{
-									jQuery("#select-url-file-epsg").attr('disabled',false);	
-								}
-							});								
-						}
-						
-					}else{
-						jQuery("#div_url_file").html(
-								'<div id="txt_URLfile_error" class="alert alert-danger">'+
-									'<span class="glyphicon glyphicon-warning-sign"> </span> '+
-   									 window.lang.convert("Introdueix una URL vàlida")+
-								'</div>'
-						);
-					}
-				});
-				
-				$("#txt_URLfile").focus(function() {
-					jQuery("#div_url_file").empty();
-					jQuery("#div_url_file").hide();
-				});				
-			}		
-		});
-	})
-}
-
-function pLeft() {
-	return jQuery(".leaflet-left").css('left');
-}
-
-
-//function addCapaMunicipis() {
-//	var url = "/llibreries/dades/json/municipis.geojson";
-//	capaDadaOberta = new L.GeoJSON.AJAX(url, {
-//		onEachFeature : popUp,
-//		nom : "Minicipis",
-//		tipus : 'Poligon',
-//		businessId : '-1',
-//		style:{"color": "#ff7800","weight": 1,"opacity": 0.65}
-//	});
-//	capaDadaOberta.addTo(map)
-//	controlCapes.addOverlay(capaDadaOberta, "Municipis", true);
-//	activaPanelCapes(true);
-////	$(".layers-list").mCustomScrollbar({
-////		   advanced:{
-////		     autoScrollOnFocus: false,
-////		     updateOnContentResize: true
-////		   }           
-////	});		
-//}
-
-function loadingMap(accio){	
-	if(accio){		
-		if(jQuery('.search-load').css('display')!='block'){
-			jQuery('.search-load').show();
-		}	
-	}else{
-		jQuery('.search-load').hide();
-	}	
-}
-
-function popUp(f, l) {
-	var out = [];
-	if (f.properties) {
-		for (key in f.properties) {
-			if(key!='gml_id'){
-				if(key=='Name' || key=='Description'){
-					out.push(f.properties[key]);
-				}else if(key=='link' || key=='Web'){				
-					ll=f.properties[key];
-					//if(ll.indexOf('.gif')!=-1 || ll.indexOf('.jpg')!=-1){
-					if(isImgURL(ll)){
-						out.push('<img width="100" src="'+ll+'"/>');
-					}else{
-						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');
-					}
-				}else{
-					out.push("<b>"+key + "</b>: " + f.properties[key]);
-				}
-			}
-		}
-		l.bindPopup(out.join("<br />"));
-	}
-}
-
 function loadMapConfig(mapConfig){
 	//console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
@@ -1514,54 +678,13 @@ function loadMapConfig(mapConfig){
 			});
 		});
 		
-//		//carga las capas en el mapa
-//		loadOrigenWMS().then(function(results){
-//			var num_origen = 0;
-//			jQuery.each(results.origen, function(index, value){
-//				loadLayer(value).then(function(){
-//					num_origen++;
-//					if (num_origen == results.origen.length){
-//						if($.isEmptyObject(results.sublayers)){
-//							$(".layers-list").mCustomScrollbar();
-//						}else{
-//							var num_sublayers = 0;
-//							jQuery.each(results.sublayers, function(index, value){
-//								loadLayer(value).then(function(){
-//									num_sublayers++;
-//									if (num_sublayers == results.sublayers.length){
-////										$(".layers-list").mCustomScrollbar();
-//										$(".layers-list").mCustomScrollbar({
-//											   advanced:{
-//											     autoScrollOnFocus: false,
-//											     updateOnContentResize: true
-//											   }           
-//											});										
-//									}
-//								});
-//							});							
-//						}
-//					}
-//				});
-//			});
-//		});		
-		
 		jQuery('#div_loading').hide();
 	}
 	
-	/*
-	var source = $("#map-properties-template").html();
-	var template = Handlebars.compile(source);
-	var html = template(mapConfig);
-	$('#frm_publicar').append(html);
-	*/
-	
-	
 	$('.make-switch').bootstrapSwitch();
+	
 	//Configurar Llegenda
 	$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
-//		alert("Llegenda");
-		//console.debug(state);
-		//console.debug(state.value);
 		if(state.value == true) {
 			createModalConfigLegend();
 		}else{
@@ -1569,11 +692,7 @@ function loadMapConfig(mapConfig){
 		}
 	});
 	
-	//$('.make-switch').bootstrapSwitch('setOnLabel', "<i class='glyphicon glyphicon-ok glyphicon-white'></i>");		
-	//$('.make-switch').bootstrapSwitch('setOffLabel', "<i class='glyphicon glyphicon-remove'></i>");
-		
 	dfd.resolve();
-	
 	return dfd.promise();
 }
 
@@ -1650,254 +769,8 @@ function loadLayer(value){
 	return defer.promise();
 }
 
-function publicarMapa(fromCompartir){
-	if(!fromCompartir){//Si no venim de compartir, fem validacions del dialeg de publicar
-		if(isBlank($('#dialgo_publicar #nomAplicacioPub').val())){
-			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
-			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
-			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-			return false;
-		}else if(isDefaultMapTitle($('#dialgo_publicar #nomAplicacioPub').val())){
-			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
-			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
-			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">Introdueix un nom vàlid per a la publicació del mapa</span>");
-			return false;
-		}
-	}
-		
-	var options = {};
-	options.tags = jQuery('#dialgo_publicar #optTags').val();
-	options.description = jQuery('#dialgo_publicar #optDescripcio').val();
-	options.center = map.getCenter().lat+","+map.getCenter().lng;
-	options.zoom = map.getZoom();
-	options.bbox = map.getBounds().toBBoxString();
-	var visibilitat = visibilitat_open;
-	
-	if (jQuery('#visibilitat_chk').bootstrapSwitch('state')){
-		visibilitat = visibilitat_open;
-	}else{
-		visibilitat = visibilitat_privat;
-	}
-		
-	/*//TODO de los botones ver nuevos botones
-	options.llegenda = jQuery('#llegenda_chk').bootstrapSwitch('state');
-	options.layers = jQuery('#layers_chk').bootstrapSwitch('state');
-	options.social = jQuery('#social_chk').bootstrapSwitch('state');
-	*/
-	options.llegenda = jQuery('#llegenda_chk').bootstrapSwitch('state');
-	
-	if(options.llegenda)updateMapLegendData();
-	else mapLegend = {};	
-	
-	options.layers = true;
-	options.social = true;
-	options.fons = map.getActiveMap();
-	options.fonsColor = map.getMapColor();
-	options.idusr = jQuery('#userId').val();
-	//console.debug(options);
-	options = JSON.stringify(options);
-		
-	var newMap = true;
-	
-	if (jQuery('#businessId').val() != ""){
-		newMap = false;
-	}
-	
-	var layers = jQuery(".leaflet-control-layers-selector").map(function(){
-		return {businessId: this.id.replace('input-',''), activa: jQuery(this).is(':checked')};
-	}).get();
-	//console.debug(layers);
-	
-	var nomApp = jQuery('#nomAplicacio').html();
-	if(!fromCompartir) nomApp = jQuery('#dialgo_publicar #nomAplicacioPub').val();
-	
-	var data = {
-		nom: nomApp, //jQuery('#dialgo_publicar #nomAplicacio').val(),
-		uid: $.cookie('uid'),
-		visibilitat: visibilitat,
-		tipusApp: 'vis',
-		options: options,
-		legend: JSON.stringify(mapLegend),
-		layers: JSON.stringify(layers)
-	};
-	
-	//Enregistrem tipus de fons i visibilitat
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat+"#"+map.options.typeMap, 1]);
-	
-	//crear los archivos en disco
-	var layersId = getBusinessIdOrigenLayers();
-	var laydata = {
-		uid: $.cookie('uid'),
-		servidorWMSbusinessId: layersId
-	};
-	publicarCapesMapa(laydata);
-	
-	if (newMap){
-		createMap(data).then(function(results){
-			if (results.status == "ERROR"){
-				//TODO Mensaje de error
-			}else{
-				mapConfig = results.results;
-				mapConfig.options = $.parseJSON( mapConfig.options );
-				jQuery('#businessId').val(mapConfig.businessId);
-				mapConfig.newMap = false;
-				var mapData = {
-					businessId: mapConfig.businessId,
-					uid: $.cookie('uid')
-				};
-				publicarMapConfig(mapData);
-			}
-		});
-	}else{
-		data.businessId = jQuery('#businessId').val();
-		updateMap(data).then(function(results){
-			if (results.status == "ERROR"){
-				//TODO Mensaje de error
-			}else{
-				mapConfig = results.results;
-				mapConfig.options = $.parseJSON( mapConfig.options );
-				mapConfig.newMap = false;
-				if(!fromCompartir){
-					$('#dialgo_publicar').modal('hide');
-					//update map name en el control de capas
-					$('#nomAplicacio').text(mapConfig.nomAplicacio);
-					$('#nomAplicacio').editable('setValue', mapConfig.nomAplicacio);
-					$('#dialgo_url_iframe').modal('show');					
-				}
-				var mapData = {
-					businessId: mapConfig.businessId,
-					uid: $.cookie('uid')
-				};
-				publicarMapConfig(mapData);
-			}
-		});
-	}
-}
-
-/*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar 
-la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo
-se creara el mapa en la BD y que el si el usuario abandona la página sin publicar se 
-mostrara el mensaje de advertencia y se borrara el mapa.
-*/
-/*
-function avisDesarMapa(){
-	//console.debug(mapConfig.newMap);
-	if (mapConfig.newMap){
-		jQuery(window).on('beforeunload',function(event){
-			//$('#dialgo_leave').modal('show');
-			//event.stopPropagation();
-			//event.preventDefault();
-			//console.debug("antes de ir e");
-			//return "Mensaje de aviso que no se muestra en Firefox";
-		});
-	}else{
-		jQuery(window).off('beforeunload',function(){
-			return true;
-		});
-	}
-}
-
-function leaveMapa(){
-	console.debug("borrar el mapa e ir a la galeria");
-}
-*/
-
-function updateEditableElements(){
-	//console.debug('updateEditableElements');
-	$('.leaflet-name .editable').editable({
-		type: 'text',
-		mode: 'inline',
-	    validate: function(value) {
-		        if($.trim(value) == '') {
-		        	return {newValue: this.innerHTML};
-		        }
-	    },
-		success: function(response, newValue) {
-				map.closePopup();//Perque no queden desactualitzats
-				var id = this.id;
-				var idParent = this.idParent;
-				//Controlem si es sublayer
-				var editableLayer;
-				if(idParent){
-					editableLayer = controlCapes._layers[this.idParent]._layers[this.id];
-				}else{
-					editableLayer = controlCapes._layers[this.id];
-				}
-				
-				if(typeof url('?businessid') == "string"){
-					var data = {
-					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
-					 	uid: $.cookie('uid'),
-					 	serverName: newValue
-					 }
-					var oldName = this.innerHTML;
-					
-					updateServidorWMSName(data).then(function(results){
-						if(results.status==='OK'){
-						_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-//						console.debug('udpate map name OK');
-						editableLayer.name = newValue;
-						editableLayer.layer.options.nom = newValue;
-					}else{
-						editableLayer.name = oldName;
-						$('.leaflet-name label span#'+id).text(results.results.nom);
-					}				
-				},function(results){
-					editableLayer.name = oldName;
-					var obj = $('.leaflet-name label span#'+id).text();
-					$('.leaflet-name label span#'+id).text(oldName);
-				});	
-			}else{
-				editableLayer.name = newValue;
-				editableLayer.layer.options.nom = newValue;
-			}		
-	 }
-	});
-	
-    $('.leaflet-name .editable').on('shown', function(e, editable) {
-        console.debug('shown editable:'+editable);
-        jQuery('.opcio-conf').hide();
-        jQuery('.subopcio-conf').hide();
-    });
-    $('.leaflet-name .editable').on('hidden', function(e, editable) {
-    	console.debug('hidden editable:'+editable);
-        jQuery('.opcio-conf').show();
-    });    
-	
-	//Hide les opcions de configuracio
-//	jQuery('.options-conf').hide();
-}
-
-function carregaDadesUsuari(data){
-	//console.debug("carregaDadesUsuari");
-	getAllServidorsWMSByUser(data).then(function(results){
-		if (results.status == "ERROR"){
-			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-			return false;
-		}
-		dades1=results;
-		creaPopOverMevasDades();
-	},function(results){
-		//JESS DESCOMENTAR!!!!
-		console.debug(results);
-		//gestioCookie('carregaDadesUsuari');
-	});
-}
 
 
-
-
-function toggleCollapseTwitter(){
-	console.debug('toggleCollapseTwitter');
-	$('#twitter-collapse').toggle();
-}
-
-function showConfOptions(businessId){
-//	console.debug('showConfOptions');
-//	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide("slow");
-//	else jQuery("#conf-"+businessId+"").show("2000");
-	jQuery(".conf-"+businessId+"").toggle("fast");
-}
 
 function createNewMap(){
 	//console.debug("createNewMap");
@@ -1989,99 +862,74 @@ function getClassFromColor(color){
 	} 		
 }
 
-function getColorFromClass(classe){
-	switch (classe)
-	{
-		case 'orange':
-		  return '#ffc500';
-		case 'darkorangeb':
-		  return '#ff7f0b';
-		case 'red':
-		  return '#ff4b3a';
-		case 'purple':
-		  return '#ae59b9';	
-		case 'blue':
-		  return '#00afb5';
-		case 'green':
-		  return '#7cbd00';
-		case 'darkgray':
-		  return '#90a6a9';
-		case 'gray':
-		  return '#ebf0f1';		  
-		 default:
-			 return '#ffc500';
-	} 		
-}
+/**
+ * Funcionalitat edicio noms
+ * */
 
-function getLeafletIdFromBusinessId(businessId){
-	for(val in controlCapes._layers){
-		if(controlCapes._layers[val].layer.options.businessId == businessId){
-			return val;
-		}
-	}
-}
-
-function gestioCookie(from){
-	var _cookie = $.cookie('uid');
-	switch(from){
-		case 'createMap':
-			if (isRandomUser(_cookie)){
-				$.removeCookie('uid', { path: '/' });
-				window.location.href = paramUrl.mainPage;
-			}else{
-				window.location.href = paramUrl.galeriaPage;
-			}
-			break;
-		case 'createMapError':
-			window.location.href = paramUrl.mainPage;
-			break;
-		case 'getMapByBusinessId':
-			if (!_cookie){
-				window.location.href = paramUrl.mainPage;
-			}else{
-				if (isRandomUser(_cookie)){
-					$.removeCookie('uid', { path: '/' });
-					jQuery(window).off('beforeunload');
-					//jQuery(window).off('unload');
-					window.location.href = paramUrl.mainPage;
+function updateEditableElements(){
+	//console.debug('updateEditableElements');
+	$('.leaflet-name .editable').editable({
+		type: 'text',
+		mode: 'inline',
+	    validate: function(value) {
+		        if($.trim(value) == '') {
+		        	return {newValue: this.innerHTML};
+		        }
+	    },
+		success: function(response, newValue) {
+				map.closePopup();//Perque no queden desactualitzats
+				var id = this.id;
+				var idParent = this.idParent;
+				//Controlem si es sublayer
+				var editableLayer;
+				if(idParent){
+					editableLayer = controlCapes._layers[this.idParent]._layers[this.id];
 				}else{
-					window.location.href = paramUrl.galeriaPage;
+					editableLayer = controlCapes._layers[this.id];
 				}
-			} 
-			break;
-		case 'loadApp':
-			if (!_cookie){
-				window.location.href = paramUrl.mainPage;
-			}
-			break;
-		case 'diferentUser':
-			if (mapConfig.entitatUid != _cookie){
-				$.removeCookie('uid', { path: '/' });
-				window.location.href = paramUrl.mainPage;
-			}
-			break;
-		case 'loadMapConfig':
-			if (isRandomUser(_cookie)){
-				$.removeCookie('uid', { path: '/' });
-				jQuery(window).off('beforeunload');
-				window.location.href = paramUrl.mainPage;
+				
+				if(typeof url('?businessid') == "string"){
+					var data = {
+					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	serverName: newValue
+					 }
+					var oldName = this.innerHTML;
+					
+					updateServidorWMSName(data).then(function(results){
+						if(results.status==='OK'){
+						_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
+//						console.debug('udpate map name OK');
+						editableLayer.name = newValue;
+						editableLayer.layer.options.nom = newValue;
+					}else{
+						editableLayer.name = oldName;
+						$('.leaflet-name label span#'+id).text(results.results.nom);
+					}				
+				},function(results){
+					editableLayer.name = oldName;
+					var obj = $('.leaflet-name label span#'+id).text();
+					$('.leaflet-name label span#'+id).text(oldName);
+				});	
 			}else{
-				window.location.href = paramUrl.galeriaPage;
-			}
-			break;
-		case 'carregaDadesUsuari':
-			window.location.href = paramUrl.loginPage;
-			break;
-		case 'refrescaPopOverMevasDades':
-			window.location.href = paramUrl.loginPage;
-			break;
-		case 'getMapByBusinessIdError':
-			window.location.href = paramUrl.loginPage;
-			break;
-	}
+				editableLayer.name = newValue;
+				editableLayer.layer.options.nom = newValue;
+			}		
+	 }
+	});
+	
+    $('.leaflet-name .editable').on('shown', function(e, editable) {
+        console.debug('shown editable:'+editable);
+        jQuery('.opcio-conf').hide();
+        jQuery('.subopcio-conf').hide();
+    });
+    $('.leaflet-name .editable').on('hidden', function(e, editable) {
+    	console.debug('hidden editable:'+editable);
+        jQuery('.opcio-conf').show();
+    });    
 }
 
-/*
+/**
  * Obtener los businessId de las capas para crear los json
  */
 function getBusinessIdOrigenLayers(){
@@ -2099,17 +947,31 @@ function getBusinessIdOrigenLayers(){
 	
 }
 
-
-function updateControlCapes(layer, layername, sublayer, groupLeafletId){
-	
-	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
-	if(groupLeafletId==null)controlCapes._lastZIndex++;
-	activaPanelCapes(true);
-	$(".layers-list").mCustomScrollbar({
-		   advanced:{
-		     autoScrollOnFocus: false,
-		     updateOnContentResize: true
-		   }           
-	});		
+/*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar 
+la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo
+se creara el mapa en la BD y que el si el usuario abandona la página sin publicar se 
+mostrara el mensaje de advertencia y se borrara el mapa.
+*/
+/*
+function avisDesarMapa(){
+	//console.debug(mapConfig.newMap);
+	if (mapConfig.newMap){
+		jQuery(window).on('beforeunload',function(event){
+			//$('#dialgo_leave').modal('show');
+			//event.stopPropagation();
+			//event.preventDefault();
+			//console.debug("antes de ir e");
+			//return "Mensaje de aviso que no se muestra en Firefox";
+		});
+	}else{
+		jQuery(window).off('beforeunload',function(){
+			return true;
+		});
+	}
 }
+
+function leaveMapa(){
+	console.debug("borrar el mapa e ir a la galeria");
+}
+*/
 

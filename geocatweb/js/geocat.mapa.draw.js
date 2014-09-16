@@ -1410,6 +1410,30 @@ function updateDialogStyleSelected(icon){
 	}
 }
 
+function getColorFromClass(classe){
+	switch (classe)
+	{
+		case 'orange':
+		  return '#ffc500';
+		case 'darkorangeb':
+		  return '#ff7f0b';
+		case 'red':
+		  return '#ff4b3a';
+		case 'purple':
+		  return '#ae59b9';	
+		case 'blue':
+		  return '#00afb5';
+		case 'green':
+		  return '#7cbd00';
+		case 'darkgray':
+		  return '#90a6a9';
+		case 'gray':
+		  return '#ebf0f1';		  
+		 default:
+			 return '#ffc500';
+	} 		
+}
+
 function updateFeatureCount(fromBusinessId, toBusinessId){
 	
 	//Actualitzem comptador de la capa

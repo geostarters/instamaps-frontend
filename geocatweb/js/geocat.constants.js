@@ -21,7 +21,7 @@ var mapLegend = {};
 
 var dades1;
 
-
+//Definicio dels tooltips
 var opt = {
 	placement : 'right',
 	container : 'body'

@@ -593,3 +593,10 @@ L.control.orderlayers = function (baseLayers, overlays, options) {
 function isHeat(obj){
 	return (obj.layer.options.tipusRang && obj.layer.options.tipusRang.indexOf('heatmap')!=-1);
 }
+
+function showConfOptions(businessId){
+//	console.debug('showConfOptions');
+//	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide("slow");
+//	else jQuery("#conf-"+businessId+"").show("2000");
+	jQuery(".conf-"+businessId+"").toggle("fast");
+}

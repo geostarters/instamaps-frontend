@@ -277,6 +277,107 @@ function redimensioMapa() {
 	jQuery(window).trigger('resize');
 }
 
+function getLeafletIdFromBusinessId(businessId){
+	for(val in controlCapes._layers){
+		if(controlCapes._layers[val].layer.options.businessId == businessId){
+			return val;
+		}
+	}
+}
+
+function activaPanelCapes(obre) {
+	if (obre) {
+		jQuery('.leaflet-control-layers').animate({
+			width : 'show'
+		});
+	} else {
+		jQuery('.leaflet-control-layers').animate({
+			width : 'toggle'
+		});
+	}
+	var cl = jQuery('.bt_llista span').attr('class');
+	if (cl.indexOf('grisfort') != -1) {
+		jQuery('.bt_llista span').removeClass('grisfort');
+		jQuery('.bt_llista span').addClass('greenfort');
+	} else {
+		jQuery('.bt_llista span').removeClass('greenfort');
+		jQuery('.bt_llista span').addClass('grisfort');
+	}
+}
+
+function gestionaPopOver(pop) {
+	//console.debug("gestionaPopOver");
+	jQuery('.popover').popover('hide');
+	jQuery('.pop').not(pop).popover('hide');
+	jQuery(pop).popover('toggle');
+	jQuery(".popover").css('left', pLeft());
+	jQuery('.popover-title').append('<span id="popovercloseid#'+jQuery(pop).attr('id')+'" class="glyphicon glyphicon-remove bt_tanca"></span>');
+}
+
+function pLeft() {
+	return jQuery(".leaflet-left").css('left');
+}
+
+function gestioCookie(from){
+	var _cookie = $.cookie('uid');
+	switch(from){
+		case 'createMap':
+			if (isRandomUser(_cookie)){
+				$.removeCookie('uid', { path: '/' });
+				window.location.href = paramUrl.mainPage;
+			}else{
+				window.location.href = paramUrl.galeriaPage;
+			}
+			break;
+		case 'createMapError':
+			window.location.href = paramUrl.mainPage;
+			break;
+		case 'getMapByBusinessId':
+			if (!_cookie){
+				window.location.href = paramUrl.mainPage;
+			}else{
+				if (isRandomUser(_cookie)){
+					$.removeCookie('uid', { path: '/' });
+					jQuery(window).off('beforeunload');
+					//jQuery(window).off('unload');
+					window.location.href = paramUrl.mainPage;
+				}else{
+					window.location.href = paramUrl.galeriaPage;
+				}
+			} 
+			break;
+		case 'loadApp':
+			if (!_cookie){
+				window.location.href = paramUrl.mainPage;
+			}
+			break;
+		case 'diferentUser':
+			if (mapConfig.entitatUid != _cookie){
+				$.removeCookie('uid', { path: '/' });
+				window.location.href = paramUrl.mainPage;
+			}
+			break;
+		case 'loadMapConfig':
+			if (isRandomUser(_cookie)){
+				$.removeCookie('uid', { path: '/' });
+				jQuery(window).off('beforeunload');
+				window.location.href = paramUrl.mainPage;
+			}else{
+				window.location.href = paramUrl.galeriaPage;
+			}
+			break;
+		case 'carregaDadesUsuari':
+			window.location.href = paramUrl.loginPage;
+			break;
+		case 'refrescaPopOverMevasDades':
+			window.location.href = paramUrl.loginPage;
+			break;
+		case 'getMapByBusinessIdError':
+			window.location.href = paramUrl.loginPage;
+			break;
+	}
+}
+
 //Funcions d'estils
 function retornaEstilaDO(dataset) {
 	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };

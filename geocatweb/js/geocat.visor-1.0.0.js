@@ -78,19 +78,6 @@ function loadApp(){
 				//avisDesarMapa();
 				activaPanelCapes(true);
 				
-				var v_url = window.location.href;
-				if(v_url.indexOf('localhost')!=-1){
-					v_url = v_url.replace('localhost',DOMINI);
-				}
-				shortUrl(v_url).then(function(results){
-					jQuery('#socialShare_visor').share({
-						networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-						orientation: 'vertical',
-						affix: 'left center',
-						urlToShare: results.data.url
-					});
-				});				
-				
 			});
 		},function(results){
 			window.location.href = paramUrl.galeriaPage;
@@ -161,6 +148,8 @@ function initControls(){
 //	}
 	redimensioMapa();
 	
+	//Funcionalitat compartir visor
+	addCompartirVisor();
 	
 	dfd.resolve();
 	
@@ -694,28 +683,28 @@ function loadWmsLayer(layer){
 
 /************************************************************/
 
-function popUp(f, l) {
-	var out = [];
-	if (f.properties) {
-		for (key in f.properties) {
-			if(key!='gml_id'){
-				if(key=='Name' || key=='Description'){
-					out.push(f.properties[key]);
-				}else if(key=='link' || key=='Web'){				
-					ll=f.properties[key];
-					if(ll.indexOf('.gif')!=-1){
-						out.push('<img width="100" src="'+ll+'"/>');
-					}else{
-						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');
-					}
-				}else{
-					out.push("<b>"+key + "</b>: " + f.properties[key]);
-				}
-			}
-		}
-		l.bindPopup(out.join("<br/>"));
-	}
-}
+//function popUp(f, l) {
+//	var out = [];
+//	if (f.properties) {
+//		for (key in f.properties) {
+//			if(key!='gml_id'){
+//				if(key=='Name' || key=='Description'){
+//					out.push(f.properties[key]);
+//				}else if(key=='link' || key=='Web'){				
+//					ll=f.properties[key];
+//					if(ll.indexOf('.gif')!=-1){
+//						out.push('<img width="100" src="'+ll+'"/>');
+//					}else{
+//						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');
+//					}
+//				}else{
+//					out.push("<b>"+key + "</b>: " + f.properties[key]);
+//				}
+//			}
+//		}
+//		l.bindPopup(out.join("<br/>"));
+//	}
+//}
 
 function createFeatureMarkerStyle(style, num_geometries){
 	//console.debug("createFeatureMarkerStyle");
@@ -791,20 +780,16 @@ function getLeafletIdFromBusinessId(businessId){
 	}
 }
 
-function updateControlCapes(layer, layername, sublayer, groupLeafletId){
-	
-	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
-	if(groupLeafletId==null)controlCapes._lastZIndex++;
-	activaPanelCapes(true);
-	$(".layers-list").mCustomScrollbar({
-		   advanced:{
-		     autoScrollOnFocus: false,
-		     updateOnContentResize: true
-		   }           
-	});		
-}
+//function updateControlCapes(layer, layername, sublayer, groupLeafletId){
+//	
+//	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
+//	if(groupLeafletId==null)controlCapes._lastZIndex++;
+//	activaPanelCapes(true);
+//	$(".layers-list").mCustomScrollbar({
+//		   advanced:{
+//		     autoScrollOnFocus: false,
+//		     updateOnContentResize: true
+//		   }           
+//	});		
+//}
 
-/* LLEGENDA */
-
-
-	
