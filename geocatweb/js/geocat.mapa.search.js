@@ -1,8 +1,5 @@
-var ctr_cerca;
+//var ctr_cerca;
 
-var jsonpurl = 'http://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
-'&format=json&osm_type=N&limit=100&addressdetails=0', jsonpName = 'json_callback';
-//third party jsonp service
 
 function filterJSONICC(rawjson) {	
 	var json = {},
@@ -19,7 +16,11 @@ function filterJSONICC(rawjson) {
 
 function addControlCercaEdit(){
 	
-	ctr_cerca=new L.Control.Search({url: paramUrl.urlGeoCoder,
+	var jsonpurl = 'http://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
+	'&format=json&osm_type=N&limit=100&addressdetails=0';
+	var jsonpName = 'json_callback';
+	
+	var ctr_cerca=new L.Control.Search({url: paramUrl.urlGeoCoder,
 		position:'topcenter',
 		jsonpParam:'jsonp',
 		filterJSON: filterJSONICC,
@@ -43,7 +44,7 @@ function addControlCercaEdit(){
 		
 		}).addTo(map);
 	
-	ctr_cercaNomen = new L.Control.Search({
+	var ctr_cercaNomen = new L.Control.Search({
 		url: jsonpurl,
 		jsonpParam: jsonpName,
 		filterJSON: filterJSONCall,
@@ -125,6 +126,11 @@ function addControlCercaEdit(){
 			});			
 		}
 	});
+	
+	//Add tooltip caixa cerca
+	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
+	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
+	
 }
 
 function filterJSONCall(rawjson) {	//callback that remap fields name

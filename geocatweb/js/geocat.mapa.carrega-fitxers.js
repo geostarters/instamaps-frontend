@@ -135,7 +135,7 @@ function uploadprogress(){
 	}
 }
 
-function addCarregaFitxers(){
+function addFuncioCarregaFitxers(){
 	// zona 1
 	jQuery('#div_carrega_dades').on("click", function(e) {
 		

@@ -88,7 +88,8 @@ function loadApp(){
 			}else{
 				try{
 					mapConfig = results.results;
-					
+					console.debug("mapCOnfig:");
+					console.debug(mapConfig);
 					gestioCookie('diferentUser');
 										
 					document.title = "InstaMaps: "+mapConfig.nomAplicacio;
@@ -339,7 +340,7 @@ function initControls(){
 
 	//Funcionalitat dragdrop i carrega fitxers
 	creaAreesDragDropFiles();
-	addCarregaFitxers();
+	addFuncioCarregaFitxers();
 	
 	//Funcionalitat de dibuixar feature
 	addDrawToolbar();
@@ -489,18 +490,16 @@ function addToolTipsInici() {
 	});
 		
 	$('.div_carrega_dades').tooltip(optB);
+	
 	$('.div_gr3_fons div').tooltip(optB);
 	$('.div_gr2 div').tooltip(optB);
+	
 	$('.add_costat_r').tooltip(opt);
 	$('.taronja').tooltip(opt);
 	$('.white').tooltip(opt);
 	$('#div_punt').tooltip(optB);
 	$('#div_linia').tooltip(optB);
 	$('#div_area').tooltip(optB);
-	
-	//cercador
-	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
-	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
 	
 }
 

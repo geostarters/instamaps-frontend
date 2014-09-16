@@ -77,7 +77,7 @@ var default_marker_style = {
 
 var default_circulo_style = {
 		isCanvas:true,
-		simbolSize: 14,
+		simbolSize: 6,
 		borderWidth: 2,
 		opacity: 90,
 		borderColor : "#ffffff",
