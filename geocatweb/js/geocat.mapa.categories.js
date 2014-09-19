@@ -13,6 +13,10 @@ function showModalTematicCategories(data){
 	//console.debug("createTematicClasic");
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_tematic_rangs').modal('show');
+	
+	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
+		createTematicLayerCategories();
+	});	
 	//console.debug(data);
 	
 	jQuery('#palet_warning').hide();

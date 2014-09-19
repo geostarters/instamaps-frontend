@@ -18,6 +18,7 @@ var controlLegendMarker = [];//Pintxos
 var controlLegendLine = [];
 var controlLegendPol = [];
 var mapLegend = {};
+var downloadableData = {};
 
 var dades1;
 
@@ -31,6 +32,8 @@ var optB = {
 	container : 'body'
 };
 
+//Evitem error javascript a les pagines html que no carreguen la llibreria de leaflet
+if((urlApp.indexOf('mapa')!=-1)||(urlApp.indexOf('visor')!=-1)){
 //default geometries style
 var estilP={
 		iconFons:'awesome-marker-web awesome-marker-icon-orange',
@@ -101,6 +104,7 @@ var default_circuloglyphon_style = {
 		color : "#ffffff",
 		fillColor :"#FFC500"	
 	};
+}
 
 //constants
 var t_dades_obertes = "dades obertes";

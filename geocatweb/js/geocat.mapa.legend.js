@@ -61,8 +61,8 @@ function createModalConfigLegend(){
 	//Obrim modal llegenda
 	//console.debug(controlCapes);
 	//console.debug(map._layers);
-	var html = '<h4 lang="ca" id="llegenda-title-text" class="modal-title">Llegenda</h4>';
-	html += '<div class="separate-legend-row"></div>';
+	var html = '<h4 lang="ca" id="llegenda-title-text" class="modal-title">'+window.lang.convert('Llegenda')+'</h4>';
+	html += '<div class="separate-legend-row-all"></div>';
 	html += '<div class="legend-row">'+
 				'<div class="legend-subrow-all">'+
 				'<input id="legend-chck-all" class="col-md-1 legend-chck" type="checkbox">'+
@@ -70,7 +70,7 @@ function createModalConfigLegend(){
 					window.lang.convert('Tots')+
 				'</div>'+
 			'</div>';
-	html += '<div class="separate-legend-row"></div>';
+	html += '<div class="separate-legend-row-all"></div>';
 	var count = 0;
 	jQuery.each(controlCapes._layers, function(i, item){
 		

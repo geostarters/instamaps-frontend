@@ -1,11 +1,7 @@
 
 jQuery(document).ready(function() {
 	
-	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
-		tipus_user = t_user_random;
-	}else{
-		tipus_user = t_user_loginat;
-	}	
+	defineTipusUser();	
 	
 	if (!Modernizr.canvas  || !Modernizr.sandbox){
 		jQuery("#mapaFond").show();
@@ -38,11 +34,7 @@ function loadApp(){
 				
 		var _minTopo= new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 		var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
-		
-		
-//		//iniciamos los controles
-//		initControls();
-				
+			
 		var data = {
 			businessId: url('?businessid'),
 			id: url('?id')
@@ -63,6 +55,9 @@ function loadApp(){
 			jQuery("#mapTitle").html(mapConfig.nomAplicacio);
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
 			checkEmptyMapLegend();
+			
+			downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
+									mapConfig.options.downloadable:[]);			
 						
 			//iniciamos los controles
 			initControls().then(function(){
@@ -76,6 +71,7 @@ function loadApp(){
 			
 			loadMapConfig(mapConfig).then(function(){
 				//avisDesarMapa();
+				addFuncioDownloadLayer('visor');
 				activaPanelCapes(true);
 				
 			});
@@ -84,53 +80,6 @@ function loadApp(){
 		});
 	}
 	
-
-		jQuery('#select-download-format').change(function() {	
-			var ext = jQuery(this).val();
-			if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
-			jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
-			}else{
-				jQuery("#select-download-epsg").attr('disabled',false);	
-			}
-		});		
-		
-		$('#bt_download_accept').on('click', function(evt){
-			var formatOUT = $('#select-download-format').val();
-			var epsgOUT = $('#select-download-epsg').val();
-			var filename = $('#input-download-name').val();
-			var layer_GeoJSON = download_layer.layer.toGeoJSON();
-			for(var i=0;i<layer_GeoJSON.features.length;i++){
-				layer_GeoJSON.features[i].properties.tipus = "downloaded";
-			}
-
-			var data = {
-					cmb_formatOUT: formatOUT,
-					cmb_epsgOUT: epsgOUT,
-					layer_name: filename,
-					fileIN: JSON.stringify(layer_GeoJSON)
-			};
-			
-			_gaq.push(['_trackEvent', 'visor', tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
-			getDownloadLayer(data).then(function(results){
-				results = results.trim();
-				if (results == "ERROR"){
-					//alert("Error 1");
-					$('#modal-body-download-error').show();
-					$('#modal-body-download').hide();
-					$('#modal_download_layer .modal-footer').hide();
-					$('#modal_download_layer').modal('show');
-				}else{
-					window.location.href = GEOCAT02+results;
-				}
-			},function(results){
-				$('#modal-body-download-error').show();
-				$('#modal-body-download').hide();
-				$('#modal_download_layer .modal-footer').hide();
-				$('#modal_download_layer').modal('show');
-			});
-			
-		});
-		
 		jQuery('#socialShare_visor').on('click', function(evt){
 			console.debug('on click social');
 		});
@@ -140,12 +89,14 @@ function loadApp(){
 
 function initControls(){
 	var dfd = $.Deferred();
+	
 	addControlsInici();
 	addClicksInici();
 	addToolTipsInici();
 //	if(typeof url('?embed') != "string"){
 		addControlCercaEdit();		
 //	}
+		
 	redimensioMapa();
 	
 	//Funcionalitat compartir visor
@@ -201,6 +152,21 @@ function addControlsInici() {
 //	$(".leaflet-control-layers-overlays").mCustomScrollbar();
 //	$('.leaflet-control-layers-overlays').perfectScrollbar();
 	
+	var ctr_gps = new L.Control.Gps({
+		autoCenter: true,		//move map when gps location change
+		style: {
+			radius: 6,		//marker circle style
+			weight:3,
+			color: '#e03',
+			fill: true,
+			fillColor: '#e03',
+			opacity: 1,
+			fillOpacity: 0.5},
+		title: 'Center map on your location',
+		textErr: 'Error del GPS',			//error message on alert notification
+		callErr: null,			//function that run on gps error activating
+	});	
+	map.addControl(ctr_gps);	
 	
 	
 	dfd.resolve();
@@ -770,7 +736,6 @@ function createFeatureAreaStyle(style){
 	return estilTMP;
 }
 
-function updateEditableElements(){}
 
 function getLeafletIdFromBusinessId(businessId){
 	for(val in controlCapes._layers){

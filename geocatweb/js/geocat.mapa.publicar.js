@@ -47,6 +47,8 @@ function addControlPublicar(){
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
 				}				
 			}
+			
+			createModalConfigDownload();
 
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
@@ -142,12 +144,19 @@ function publicarMapa(fromCompartir){
 	if(options.llegenda)updateMapLegendData();
 	else mapLegend = {};	
 	
+	//Revisio de capes amb permis de descarrega
+	updateDownloadableData();
+	console.debug('downloadableData');
+	console.debug(downloadableData);
+	
 	options.layers = true;
 	options.social = true;
 	options.fons = map.getActiveMap();
 	options.fonsColor = map.getMapColor();
 	options.idusr = jQuery('#userId').val();
-	//console.debug(options);
+	options.downloadable = downloadableData;
+	
+	console.debug(options);
 	options = JSON.stringify(options);
 		
 	var newMap = true;
@@ -225,4 +234,66 @@ function publicarMapa(fromCompartir){
 			}
 		});
 	}
+}
+
+function createModalConfigDownload(){
+	
+	var count = 0;
+	var html = '<label class="control-label" lang="ca">'+
+					window.lang.convert('Selecciona les capes que seran descarragables:')+
+				'</label>';
+	
+	html += '<div id="div_downloadable">'+
+				'<div class="separate-downloadable-row-all"></div>'+
+				'<div class="downloadable-subrow-all">'+
+				'<div class="col-md-9 downloadable-name-all">'+
+					window.lang.convert('Totes')+
+				'</div>'+
+				'<input id="downloadable-chck-all" class="col-md-1 download-chck" type="checkbox">'+
+			'</div>';
+	html += '<div class="separate-downloadable-row-all"></div>';	
+	
+	jQuery.each(controlCapes._layers, function(i, item){
+		
+		var layer = item.layer;
+		var layerName = layer.options.nom;
+		var checked = "";
+		
+		if(downloadableData[layer.options.businessId]){
+			if(downloadableData[layer.options.businessId][0].chck) checked = 'checked="checked"';
+		}		
+		
+		html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+						'<div class="col-md-9 downloadable-name">'+
+							layerName+
+						'</div>'+
+						'<input id="downloadable-chck" class="col-md-1 downloadable-chck" type="checkbox" '+checked+' >'+
+					'</div>';		
+		html+='<div class="separate-downloadable-row"></div>';
+	});	
+	$('#dialgo_publicar .modal-body .modal-downloadable').html(html);	
+	
+	$('#downloadable-chck-all').on('click', function(e){
+		 if($('#downloadable-chck-all').is(':checked')){
+			 $('.downloadable-chck').prop('checked', true);
+		 }else{
+			 $('.downloadable-chck').prop('checked', false);
+		 }
+	});	
+}
+
+function updateDownloadableData(){
+	
+	downloadableData = {};
+	$(".downloadable-subrow").each(function(index,element){
+		var businessId = $(element).attr('data-businessId');
+		var obj = {
+				chck : $(element).children( ".downloadable-chck").is(':checked'),
+				businessId : businessId,
+		};
+		if(!downloadableData[businessId]){
+			downloadableData[businessId] = [];			
+		}
+		downloadableData[businessId].push(obj);
+	});		
 }

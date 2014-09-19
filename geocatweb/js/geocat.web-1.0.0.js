@@ -98,12 +98,6 @@ function checkUserLogin(){
 	}
 }
 
-//function swapImageIn(e) {
-//	this.src = this.src.replace("_", "_pujat");
-//}
-//function swapImageOut (e) {
-//	this.src = this.src.replace("_pujat", "_");
-//}
 
 function web_menusIdioma(lsLang){
 	jQuery('#ch_idioma li').each(function() {
@@ -193,75 +187,13 @@ jQuery('#fes-mapa-inici').hide();
 	});
 }	
 
-//jQuery("#frm_email").submit(function(){ 
-//	var correu_usuari=jQuery("#text_email").val(); 
-////	alert("correu:"+correu_usuari);
-//	  if( isValidEmailAddress( correu_usuari ) ) {
-//	  
-//			  jQuery.ajax({
-//					url: 'http://geocat02.icc.local:8080/geocat/registreEmail.action?',
-//					data: {email: correu_usuari},
-//					method: 'post',
-//					dataType: 'jsonp',
-//				}).done(function(results){
-//					//console.debug(results);
-//					if(results.OK){
-//						jQuery('#div_msg').html('<div class="alert alert-success my-alert" lang="ca"> <strong>Rebut!!</strong>  Correu enviat correctament. Et mantindrem informat. Gr&agrave;cies!!</div>');
-//					}else{
-//						jQuery('#div_msg').html('<div class="alert alert-error my-alert" lang="ca"> <strong>Ups!!</strong> '+results.ERROR+'</div>');
-//					}
-//					//deepEqual(results, {OK: "Password updated."}, "Passed:"+ results);
-//					//start();
-//				}).fail(function(results){
-////					console.debug(results);
-//					//ok( false, "Fail!:" + results);
-//					//start();
-//					jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Error </div>');
-//			  
-//				});
-//	   
-//	  }else{		 
-//		jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Sembla que <strong>'+correu_usuari+'</strong> no &eacute;s una adre&ccedil;a correcta</div>');  
-//	 }
-//  return false;
-//  });
-
-
- 
-
-
-/////^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
-//function isValidURL(str) {
-//  var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
-//    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
-//    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
-//    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
-//    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
-//    '(\#[-a-z\d_]*)?$','i'); // fragment locater
-//  if(!pattern.test(str)) {
-////	    alert("Please enter a valid URL.");
-//    return false;
-//  } else {
-//    return true;
-//  }
-//}
-
-//estava a geocat.mapa.wms
-
-
-//(http(s?):)|([/|.|\w|\s])*\.(?:jpg|gif|png)
-//  (?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))(?:\?([^#]*))?(?:#(.*))?
-
-
-
-
-/*
-function obteValorURL(name){
-	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	    results = regex.exec(location.search);
-	    return results == null ? window.lang.currentLang : decodeURIComponent(results[1].replace(/\+/g, " "));
-}*/
+function defineTipusUser(){
+	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
+		tipus_user = t_user_random;
+	}else{
+		tipus_user = t_user_loginat;
+	}
+}
 
 function logoutUser(){
 	if (isRandomUser($.cookie('uid'))){

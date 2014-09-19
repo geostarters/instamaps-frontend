@@ -274,11 +274,19 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				row.appendChild(col);				
 				
 			}else{
-				
-				col = L.DomUtil.create('div', 'leaflet-download-visor glyphicon glyphicon-save');
-				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-				col.layerId = input.layerId;
-				row.appendChild(col);				
+				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
+				if(obj.layer.options.tipus.indexOf(t_wms) == -1 && downloadableData[obj.layer.options.businessId][0].chck){
+					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
+					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
+					col.layerId = input.layerId;
+					row.appendChild(col);	
+					
+					$(col).tooltip({
+						placement : 'left',
+						container : 'body',
+						title : window.lang.convert("Descarrega")
+					});
+				}
 			}
 			container = this._overlaysList;
 			
@@ -298,7 +306,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 		}		
 		
-		updateEditableElements();
+		if(modeMapa) updateEditableElements();
 		map.fireEvent('addItemFinish'); 
 		return label;
 	},
@@ -402,6 +410,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		//jQuery(".conf-"+obj.layer.options.businessId+"").show();
 	},
 	_onUpClick: function(e) {
+		$('.tooltip').hide();
 		var layerId = e.currentTarget.layerId;
 		var inputs = this._form.getElementsByTagName('input');
 		var obj = this._layers[layerId];
@@ -448,6 +457,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 	
 	_onDownClick: function(e) {
+		$('.tooltip').hide();
 		var layerId = e.currentTarget.layerId;
 		var inputs = this._form.getElementsByTagName('input');
 		var obj = this._layers[layerId];
@@ -493,7 +503,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 	},
 	_onRemoveClick: function(e) {
-		
+		$('.tooltip').hide();
 		var layerId = e.currentTarget.layerId;
 		var layerIdParent = e.currentTarget.layerIdParent;
 		var lbusinessId = [];
@@ -551,7 +561,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 	},
 	_onDownloadClick: function(e) {
-		
+		$('.tooltip').hide();
 		var layerId = e.currentTarget.layerId;
 		var obj = this._layers[layerId];
 		download_layer = obj;
@@ -587,16 +597,12 @@ L.control.orderlayers = function (baseLayers, overlays, options) {
 	return new L.Control.OrderLayers(baseLayers, overlays, options);
 };
 
-//function createSubItem(){
-//	console.debug("Create SubItem");
-//}
 function isHeat(obj){
 	return (obj.layer.options.tipusRang && obj.layer.options.tipusRang.indexOf('heatmap')!=-1);
 }
 
 function showConfOptions(businessId){
-//	console.debug('showConfOptions');
-//	if(jQuery("#conf-"+businessId+"").is(":visible")) jQuery("#conf-"+businessId+"").hide("slow");
-//	else jQuery("#conf-"+businessId+"").show("2000");
 	jQuery(".conf-"+businessId+"").toggle("fast");
+	addTooltipsConfOptions(businessId);
 }
+

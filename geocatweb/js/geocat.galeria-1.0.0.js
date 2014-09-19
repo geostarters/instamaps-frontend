@@ -8,11 +8,14 @@ $(function(){
 	var privatGaleria = url('?private');
 	
 	//per GA
-	var uid = $.cookie('uid');
-	var tipus_user = t_user_loginat;
-	if(!uid || isRandomUser(uid)){
-		tipus_user = t_user_random;
-	}
+	defineTipusUser();
+//	var uid = $.cookie('uid');
+//	var tipus_user = t_user_loginat;
+//	if(!uid || isRandomUser(uid)){
+//		tipus_user = t_user_random;
+//	}
+	
+	
 	
 	if(typeof url('?uid') == "string"){
 		$.removeCookie('uid', { path: '/' });

@@ -841,7 +841,7 @@ background-color: #9F9F9E;
 .control-switch {
 	float: left;
 	margin-right: 10px;
-	width: 130px;
+	width: 100%;
 }
 
 span.glyphicon-remove {
@@ -2522,12 +2522,6 @@ background-color: #9F9F9E;
 		
 }
 
-.control-switch {
-	float: left;
-	margin-right: 10px;
-	width: 130px;
-}
-
 span.glyphicon-remove {
 	cursor: pointer;
 }
@@ -3630,10 +3624,11 @@ i.fa {
      vertical-align: middle;
      position: relative;	
 }
-.legend-name-all{
+.legend-name-all,
+.downloadable-name-all{
 	font-weight: bold;	
 }
-.separate-legend-row{
+.separate-legend-row-all{
     border-bottom: 3px solid #E5E5E5;
  /*   margin-bottom: 5px;
     padding-top: 5px;
@@ -3642,8 +3637,17 @@ i.fa {
     margin-left: 3%;
     margin-right: 4%;
 }
+.separate-legend-row{
+    border-bottom: 2px solid #E5E5E5;
+ /*   margin-bottom: 5px;
+    padding-top: 5px;
+    overflow: hidden;
+    width: 100%*/
+    margin-left: 3%;
+    margin-right: 4%;
+}
 .separate-legend-subrow{
-    /*border-bottom: 1px solid #E5E5E5;*/
+    border-bottom: 1px solid #E5E5E5;
     margin-bottom: 5px;
     margin-top: 5px;
     overflow: hidden;
@@ -3681,6 +3685,55 @@ i.fa {
     padding-right: 2px;
     word-wrap: break-word;    
 }
+
+/* Llistat downloadable layers */
+
+.modal-downloadable{
+	overflow: hidden;
+	width: 100%;
+	padding-top: 20px;
+	padding-right: 20%;
+	/*padding-left: 5%;*/
+}
+
+#div_downloadable{
+	width: 85%;
+}
+
+.downloadable-subrow-all{
+	/*border-bottom: 1px solid #E5E5E5;*/
+	margin-bottom: 5px;
+	margin-top: 5px;
+	overflow: hidden;
+	text-align: center;	
+}
+.downloadable-subrow{
+	margin-bottom: 3px;
+	margin-top: 3px;
+	overflow: hidden;
+}
+
+.separate-downloadable-row-all{
+    border-bottom: 3px solid #E5E5E5;
+ /*   margin-bottom: 5px;
+    padding-top: 5px;
+    overflow: hidden;
+    width: 100%*/
+    margin-left: 3%;
+    margin-right: 4%;
+}
+
+.separate-downloadable-row{
+    border-bottom: 1px solid #E5E5E5;
+ /*   margin-bottom: 5px;
+    padding-top: 5px;
+    overflow: hidden;
+    width: 100%*/
+    margin-left: 3%;
+    margin-right: 4%;
+}
+
+/*******************************/
 
 .div_hill_f{
 	background-color: #FFFFFF;

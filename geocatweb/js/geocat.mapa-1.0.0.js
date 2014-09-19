@@ -1,5 +1,6 @@
 
 jQuery(document).ready(function() {
+	
 	if(typeof url('?uid') == "string"){
 		gestioCookie();
 		$.removeCookie('uid', { path: '/' });
@@ -7,16 +8,13 @@ jQuery(document).ready(function() {
 		checkUserLogin();
 	}
 	
-	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
-		tipus_user = t_user_random;
-	}else{
-		tipus_user = t_user_loginat;
-	}	
+	defineTipusUser();
 	
 	if (!Modernizr.canvas  || !Modernizr.sandbox){
 		//jQuery("#mapaFond").show();
 		
 	}else{
+		//Actulitza idioma dels tooltips
 		$("body").on("change-lang", function(event, lang){
 			addToolTipsInici();
 		});
@@ -88,51 +86,28 @@ function loadApp(){
 			}else{
 				try{
 					mapConfig = results.results;
-					console.debug("mapCOnfig:");
-					console.debug(mapConfig);
 					gestioCookie('diferentUser');
 										
 					document.title = "InstaMaps: "+mapConfig.nomAplicacio;
-					
 					if (mapConfig.options){
 						mapConfig.options = $.parseJSON( mapConfig.options );
 						$('meta[name=description]').attr('content', mapConfig.options.description);
 					}
 					
 					mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
-//					addLegend();
-//					$("#mapLegend").mCustomScrollbar();
+					
+					downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
+											mapConfig.options.downloadable:[]);
+					
 					mapConfig.newMap = false;
 					$('#nomAplicacio').html(mapConfig.nomAplicacio);
 					
 					loadMapConfig(mapConfig).then(function(){
-						
-						$('#nomAplicacio').editable({
-							type: 'text',
-							mode: 'inline',
-						    validate: function(value) {
-						        if($.trim(value) == '') {
-						        	return {newValue: this.innerHTML};
-						        }
-					        },		
-							success: function(response, newValue) {
-								var data = {
-								 	businessId: url('?businessid'), 
-								 	nom: newValue, 
-								 	uid: $.cookie('uid')
-								}
-								updateMapName(data).then(function(results){
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom aplicacio', 'label editar nom', 1]);
-									if(results.status=='OK'){
-										$('#dialgo_publicar #nomAplicacioPub').val(results.results);
-										mapConfig.nomAplicacio = results.results;
-									} 
-								},function(results){
-									$('#nomAplicacio').val(mapConfig.nomAplicacio);				
-								});	
-							}
-						});	
+						addFuncioRenameMap();
+						addFuncioDownloadLayer('mapa');
+						addFuncioRemoveLayer();
 					});
+					
 				}catch(err){
 					gestioCookie('loadMapConfig');
 				}
@@ -202,111 +177,6 @@ function loadApp(){
 		alert( "Handler for .click() called." );
 	});			
 	
-	//Si la capa conté polígons no es podrà descarregar en format GPX
-	$('#modal_download_layer').on('show.bs.modal', function (e) {
-		  if(download_layer.layer.options.geometryType 
-				  && download_layer.layer.options.geometryType==t_polygon){
-			  $("#select-download-format option[value='GPX#.gpx']").attr('disabled','disabled');	
-		  }else{
-			  $("#select-download-format option[value='GPX#.gpx']").removeAttr('disabled');
-		  }
-	});
-	
-	jQuery('#select-download-format').change(function() {	
-		var ext = jQuery(this).val();
-		if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
-		jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
-		}else{
-			jQuery("#select-download-epsg").attr('disabled',false);	
-		}
-	});		
-		
-	$('#bt_download_accept').on('click', function(evt){
-		var formatOUT = $('#select-download-format').val();
-		var epsgOUT = $('#select-download-epsg').val();
-		var filename = $('#input-download-name').val();
-		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
-		for(var i=0;i<layer_GeoJSON.features.length;i++){
-			layer_GeoJSON.features[i].properties.tipus = "downloaded";
-		}
-
-		var data = {
-			cmb_formatOUT: formatOUT,
-			cmb_epsgOUT: epsgOUT,
-			layer_name: filename,
-			fileIN: JSON.stringify(layer_GeoJSON)
-		};
-		
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
-		getDownloadLayer(data).then(function(results){
-			results = results.trim();
-			if (results == "ERROR"){
-				//alert("Error 1");
-				$('#modal-body-download-error').show();
-				$('#modal-body-download').hide();
-				$('#modal_download_layer .modal-footer').hide();
-				$('#modal_download_layer').modal('show');
-			}else{
-				window.open(GEOCAT02+results,'_blank');
-			}
-		},function(results){
-			$('#modal-body-download-error').show();
-			$('#modal-body-download').hide();
-			$('#modal_download_layer .modal-footer').hide();
-			$('#modal_download_layer').modal('show');
-		});
-		
-	});
-	
-	$('#dialog_delete_capa .btn-danger').on('click', function(event){
-		var $this = $(this);
-		var data = $this.data("data");
-		var obj = $this.data("obj");
-		
-			removeServerToMap(data).then(function(results){
-			if(results.status==='OK'){
-			
-//				this.myRemoveLayer(obj);
-				map.closePopup();
-				map.removeLayer(obj.layer);
-				//Eliminem la capa de controlCapes
-				controlCapes.removeLayer(obj);
-				
-				//actualitzem valors zindex de la resta si no es sublayer
-				if(!obj.sublayer){
-					var removeZIndex = obj.layer.options.zIndex;
-					controlCapes._lastZIndex--;
-					var aux = controlCapes._layers;
-					for (var i in aux) {
-						if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
-					}
-					//Eliminem les seves sublayers en cas que tingui
-					for(indexSublayer in obj._layers){
-						map.removeLayer(map._layers[indexSublayer]);
-					}
-				}
-
-				//Actualitzem capaUsrActiva
-				if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
-					capaUsrActiva.removeEventListener('layeradd');
-					capaUsrActiva = null;
-				}				
-				
-				deleteServerRemoved(data).then(function(results){
-					//se borran del listado de servidores
-				});
-			}else{
-				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-			}				
-		},function(results){
-			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-		});	
-	});
-		
-	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
-		createTematicLayerCategories();
-	});
-	
 	//boton de comentaris
 	jQuery('#feedback_btn').on('click',function(e){
 		window.open(paramUrl.comentarisPage);
@@ -334,18 +204,20 @@ function initControls(){
 	creaPopOverMesFonsColor();
 	creaPopOverMesFons();
 	
-	//Funcionalitat de tematics
-	initButtonsTematic();
-	addDialegEstilsTematics();	
-
-	//Funcionalitat dragdrop i carrega fitxers
-	creaAreesDragDropFiles();
-	addFuncioCarregaFitxers();
+	//Afegir gestio dialegs estils de les features
+	addDialegEstilsTematics();		
 	
 	//Funcionalitat de dibuixar feature
 	addDrawToolbar();
 	activaEdicioUsuari();
-	addDialegEstilsDraw();
+	addDialegEstilsDraw();	
+	
+	//Funcionalitat de tematics
+	initButtonsTematic();
+	
+	//Funcionalitat dragdrop i carrega fitxers
+	creaAreesDragDropFiles();
+	addFuncioCarregaFitxers();
 	
 	//Funcionalitat cerca
 	addControlCercaEdit();
@@ -398,7 +270,7 @@ function addClicksInici() {
     });
 }
 
-function addControlsInici() {
+function addControlsInici(){
 	
 	var sidebar = L.control.sidebar('sidebar', {
 		position : 'left',
@@ -501,124 +373,18 @@ function addToolTipsInici() {
 	$('#div_linia').tooltip(optB);
 	$('#div_area').tooltip(optB);
 	
+	$('.bt_hill').tooltip('destroy').tooltip({
+		placement : 'right',
+		container : 'body',
+		title : window.lang.convert("Mostrar l'ombra del relleu")
+	});
+	
+	//Add tooltip caixa cerca
+	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
+	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));	
+	
 }
 
-function addDialegEstilsTematics(){
-	jQuery('#dialog_estils_punts .btn-success').on('click',function(e){
-		e.stopImmediatePropagation();
-		if(objEdicio.obroModalFrom==from_creaCapa){
-			jQuery('#div_punt').removeClass();
-			jQuery('#div_punt').addClass(jQuery('#div_punt0').attr('class'));
-			jQuery('#div_punt').css('font-size',jQuery('#div_punt0').css('font-size'));
-			jQuery('#div_punt').css('width',jQuery('#div_punt0').css('width'));
-			jQuery('#div_punt').css('height',jQuery('#div_punt0').css('height'));
-			jQuery('#div_punt').css('color',estilP.colorGlif);			
-			jQuery('#div_punt').css('background-color',estilP.divColor);	
-			changeDefaultPointStyle(estilP);
-			
-		}else if (objEdicio.obroModalFrom==from_creaPopup){
-			var cvStyle=changeDefaultPointStyle(estilP);
-			var feature=map._layers[objEdicio.featureID];
-			var capaMare=map._layers[feature.properties.capaLeafletId];
-			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
-			getRangsFromLayer(capaMare);
-			
-		}else if (objEdicio.obroModalFrom.from==tem_simple){
-			var cvStyle=changeDefaultPointStyle(estilP);
-			createTematicLayerBasic(objEdicio.obroModalFrom, cvStyle);
-			
-		}else if (objEdicio.obroModalFrom.from==tem_clasic){
-			//TODO
-		}else{
-			console.debug(objEdicio.obroModalFrom);
-		}	
-		jQuery('#dialog_estils_punts').modal('toggle');				
-	});
-	
-	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
-		if(objEdicio.obroModalFrom==from_creaCapa){
-			addGeometryInitL(document.getElementById("cv_linia")); 		
-			//changeDefaultVectorStyle(canvas_linia);
-			changeDefaultLineStyle(canvas_linia);
-		}else if (objEdicio.obroModalFrom==from_creaPopup){
-			var feature=map._layers[objEdicio.featureID];
-			var capaMare=map._layers[feature.properties.capaLeafletId];
-			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
-			getRangsFromLayer(capaMare);
-		}else if (objEdicio.obroModalFrom.from==tem_simple){
-			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
-		}else if (objEdicio.obroModalFrom.from==tem_clasic){
-			//TODO
-		}else{
-			console.debug(objEdicio.obroModalFrom);
-		}
-		jQuery('#dialog_estils_linies').modal('toggle');			
-	});
-	
-	jQuery('#dialog_estils_arees .btn-success').on('click',function(){		
-		if(objEdicio.obroModalFrom==from_creaCapa){
-			addGeometryInitP(document.getElementById("cv_pol"));  
-			//changeDefaultVectorStyle(canvas_pol);
-			changeDefaultAreaStyle(canvas_pol);
-		}else if (objEdicio.obroModalFrom==from_creaPopup){
-			var feature=map._layers[objEdicio.featureID];
-			var capaMare=map._layers[feature.properties.capaLeafletId];
-			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
-			getRangsFromLayer(capaMare);
-		}else if (objEdicio.obroModalFrom.from==tem_simple){
-			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
-		}else if (objEdicio.obroModalFrom.from==tem_clasic){
-			//TODO
-			/*
-			console.debug(objEdicio.obroModalFrom);
-			jQuery('#dialog_tematic_rangs').modal('show');
-			console.debug(canvas_pol);
-			addGeometryInitPRang(objEdicio.obroModalFrom.element, changeDefaultAreaStyle(canvas_pol));
-			*/
-		}else{
-			console.debug(objEdicio.obroModalFrom);
-		}
-		jQuery('#dialog_estils_arees').modal('toggle');				
-	});
-	
-	jQuery('#dialog_estils_punts .btn-default').on('click',function(){			
-		jQuery('#dialog_estils_punts').modal('toggle');
-	})
-	
-	var hihaGlif=false;	
-	
-	jQuery(document).on('click', "#div_puntZ", function(e) {
-		activaPuntZ();	
-	});
-	
-	jQuery(document).on('click', "#div_puntM", function(e) {
-		activaPuntM(rgb2hex($('#dv_fill_color_marker').css( "background-color")));	
-	});	
-		
-	jQuery(document).on('change','#cmb_mida_Punt', function(e) { 
-		if(!jQuery('#div_puntZ').hasClass("estil_selected")){
-			activaPuntZ();
-		}
-		else{
-			jQuery('#div_punt0').css('width',this.value+"px");
-			jQuery('#div_punt0').css('height',this.value+"px");
-			jQuery('#div_punt0').css('font-size',(this.value/2)+"px");
-			estilP.fontsize=(this.value/2)+"px";
-			estilP.size=this.value;
-		}
-	    jQuery('#div_punt9').css('width',this.value+"px");
-		jQuery('#div_punt9').css('height',this.value+"px");
-		jQuery('#div_punt9').css('font-size',(this.value/2)+"px");
-	});
-	
-	jQuery(document).on('click', ".bs-glyphicons li", function(e) {
-		jQuery(".bs-glyphicons li").removeClass("estil_selected");
-		jQuery('#div_punt0').removeClass();
-		estilP.iconGlif=jQuery('span', this).attr('class');
-		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-		jQuery(this).addClass("estil_selected");
-	});
-}
 
 function loadMapConfig(mapConfig){
 	//console.debug(mapConfig);
@@ -796,136 +562,6 @@ function createNewMap(){
 			}
 		}
 	});
-}
-
-function activaPuntZ(){
-//	jQuery(".bs-punts li").removeClass("estil_selected");
-	jQuery('#div_puntM').removeClass("estil_selected");
-	jQuery('#div_puntZ').addClass("estil_selected");
-	estilP.iconFons=jQuery('#div_punt9').attr('class');
-	jQuery('#div_punt0').removeClass();
-	jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-	
-	var vv=jQuery('#cmb_mida_Punt').val();
-	jQuery('#div_punt0').css('width',vv+'px');
-	jQuery('#div_punt0').css('height',vv+'px');
-	jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-//	jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
-	estilP.divColor=rgb2hex(jQuery('.fill_color_punt').css('background-color'));
-	jQuery('#div_punt0').css('background-color',estilP.divColor);
-	estilP.fontsize=(vv/2)+"px";
-	estilP.size=vv;	
-}
-
-function activaPuntM(color){
-	jQuery("#div_puntZ").removeClass("estil_selected");
-	jQuery('#div_punt0').removeClass();
-	jQuery('#div_puntM').addClass("estil_selected");
-	
-	jQuery('#div_punt_1').removeClass().addClass('awesome-marker-web awesome-marker-icon-'+getClassFromColor(color));
-	
-	estilP.iconFons='awesome-marker-web awesome-marker-icon-'+getClassFromColor(color);
-	jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
-	jQuery(this).addClass("estil_selected");	
-	jQuery('#dv_cmb_punt').hide();
-	jQuery('#div_punt0').css('width','28px');
-	jQuery('#div_punt0').css('height','42px');	
-	jQuery('#div_punt0').css('font-size',"14px");
-	estilP.divColor='transparent';
-	jQuery('#div_punt0').css('background-color',estilP.divColor);
-	estilP.fontsize="14px";	
-}
-
-//Retorna la classe associada al marker, segons el color sel.leccionat a la paleta
-function getClassFromColor(color){
-	switch (color)
-	{
-		case '#ffc500':
-		  return 'orange';
-		case '#ff7f0b':
-		  return 'darkorange';
-		case '#ff4b3a':
-		  return 'red';
-		case '#ae59b9':
-		  return 'purple';	
-		case '#00afb5':
-		  return 'blue';
-		case '#7cbd00':
-		  return 'green';
-		case '#90a6a9':
-		  return 'darkgray';
-		case '#ebf0f1':
-		  return 'gray';		  
-		 default:
-			 return 'orange';
-	} 		
-}
-
-/**
- * Funcionalitat edicio noms
- * */
-
-function updateEditableElements(){
-	//console.debug('updateEditableElements');
-	$('.leaflet-name .editable').editable({
-		type: 'text',
-		mode: 'inline',
-	    validate: function(value) {
-		        if($.trim(value) == '') {
-		        	return {newValue: this.innerHTML};
-		        }
-	    },
-		success: function(response, newValue) {
-				map.closePopup();//Perque no queden desactualitzats
-				var id = this.id;
-				var idParent = this.idParent;
-				//Controlem si es sublayer
-				var editableLayer;
-				if(idParent){
-					editableLayer = controlCapes._layers[this.idParent]._layers[this.id];
-				}else{
-					editableLayer = controlCapes._layers[this.id];
-				}
-				
-				if(typeof url('?businessid') == "string"){
-					var data = {
-					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
-					 	uid: $.cookie('uid'),
-					 	serverName: newValue
-					 }
-					var oldName = this.innerHTML;
-					
-					updateServidorWMSName(data).then(function(results){
-						if(results.status==='OK'){
-						_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-//						console.debug('udpate map name OK');
-						editableLayer.name = newValue;
-						editableLayer.layer.options.nom = newValue;
-					}else{
-						editableLayer.name = oldName;
-						$('.leaflet-name label span#'+id).text(results.results.nom);
-					}				
-				},function(results){
-					editableLayer.name = oldName;
-					var obj = $('.leaflet-name label span#'+id).text();
-					$('.leaflet-name label span#'+id).text(oldName);
-				});	
-			}else{
-				editableLayer.name = newValue;
-				editableLayer.layer.options.nom = newValue;
-			}		
-	 }
-	});
-	
-    $('.leaflet-name .editable').on('shown', function(e, editable) {
-        console.debug('shown editable:'+editable);
-        jQuery('.opcio-conf').hide();
-        jQuery('.subopcio-conf').hide();
-    });
-    $('.leaflet-name .editable').on('hidden', function(e, editable) {
-    	console.debug('hidden editable:'+editable);
-        jQuery('.opcio-conf').show();
-    });    
 }
 
 /**
