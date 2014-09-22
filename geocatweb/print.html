@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="author" content="InstaMaps">
-<meta name="description" content="InstaMaps ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="description" content="InstaMaps: Print map">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -14,89 +14,112 @@
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
+<link href="/geocatweb/css/print.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <style>
 
-table{
-margin: 10px auto auto;
-border:1px solid #dddddd;
- height: 842px;
-        width: 595px;
+small{font-size: 10px}
 
-}
 </style>
-<title>Mapa</title>
+<title>InstaMaps Imprimir mapa</title>
 <script>
 
 function init(){
-	var c=document.getElementById("MapCanvas");
-	var ctx=c.getContext("2d");
-	var img=opener.document.getElementById("myCanvas");
+	//console.info(opener.mapConfig);
+			document.getElementById("map").src=	opener.document.getElementById("img_canvas").src;
+			
+			if(opener.document.getElementById("ll_canvas")){
+			
+			document.getElementById("llegenda").src=opener.document.getElementById("ll_canvas").src;
+			document.getElementById("llegenda").style.height='25%';
+			
+			}
+			
+			
+			
+			
+			
+			document.getElementById("titolUsuari").innerHTML="<b>"+opener.document.getElementById("nomAplicacio").innerHTML+"</b>";
 	
-    
-	ctx.scale(0.5,0.5);	
-	ctx.drawImage(img,0,0);
+			
+			
+			
 }
+
+
 
 
 </script>
 </head>
 <body onload="init()">
-<table>
-	<tr> 
-    	<td  colspan="3">
-    		<a target="_blank" title="Institut Cartogràfic i Geològic de Catalunya" href="http://www.icgc.cat">
-    		<img height="55" src="/llibreries/img/logo_icgc.png" ></a>
-    	</td>
-    </tr>
-    <tr>	
-      	<td colspan="3"  height="50" width="157"> 
-      		<input type="text" class="form-control" placeholder="Títol">
-      	</td>
-    </tr>
-    <tr>
-    	<td id="tdMapap" colspan="3" height="500px"> 
-        	<!-- <div id="mapa" style="position:relative; width:100%; height:100%;"></div> -->
-        	
-        <canvas id="MapCanvas" width="595" height="500" >	
-        	
-        	
-      	</td>
-    </tr>
-    <tr>
-    	<td height="50" width="157">
-      		<font size="1"><b> 
-        	<div id="escalap" style="position:relative"></div>
-        	</b></font>
-        </td> 
-    	<td>
-    		
-	    </td>
-    </tr>
-    <tr> 
-      	<td valign="top" height="99" colspan="2" align="center"> 
-        	<textarea placeholder="comentaris"  class="form-control" rows="3"></textarea>
-        	
-      	</td>
-      	<td valign="top" height="150" rowspan="2" width="150" align="right"> 
-        	<div id="overviewp" style="position:relative; top:0px; left:0px"></div>
-      	</td>
-    </tr>
-    <tr> 
-      	
-      	<td colspan="3" align="center">
-      		<p><font size="4">
-      			<a href="#" Onclick="window.print()">Imprimir</a>
-      		</font>
-        </td>
-        </tr>
-        <tr> 
-      	
-      	<td colspan="3" align="center">
+
+
+
+<div class="printArea A4P" id="printArea">
+        <div class="pageCorner"></div>
+ 
+        <div class="printHeader">
+            <div id="generalContent" class="generalContent">
+                 <div class="logoInstamaps">
+                  <a target="_blank" title="Instamaps" style="float:right" href="www.instamaps.cat">
+    		<img height="25" src="http://geocat01.icc.local/llibreries/img/logo_instamaps.jpg" >
+					<div class="brand-txt">InstaMaps</div> 
+					</a>
+					<div style="float:left">
+					<a target="_blank" title="Institut Cartogràfic i Geològic de Catalunya" href="www.icgc.cat">
+    		<img height="55" src="http://geocat01.icc.local/llibreries/img/logo_icgc.png" >
+    		</a>
+					 </div>
+                 </div>
+                 <br>
+                 <div id="titolUsuari" class="separador"></div>
+                 <div id="notesUsuari" class="notesCell">
+                     <div lang="ca" class="titolNotes" id="imprimirNotes">Notes</div>
+                     <div class="areaNotes notes1">
+                         <textarea id="notesText"  ></textarea>
+                     </div>   
+                 </div>  
+            </div>
+            
+           
+        </div>
+        
+      
+
+        <!-- CONTENT INCLUDE -->
+<img id="map" src="" style="height: 400px; width: 100%;background-color: #f4f4f4">
+      
+ 
+<img id="llegenda" src="/geocatweb/css/images/blank.gif" style="float: right;height: 2%; width: 25%;background-color: #ffffff"> 
+
+
+
+      <div class="legal">
+            <p>
+                <small><span lang="ca">La informació presentada no té valor normatiu ni jurídic</span></small>
+            </p>
+        </div>
+   
+   
+   </div>
+    
         
         
-        <small>La informació presentada no té valor normatiu ni jurídic</small>
-        </td>
-    </tr>
-</table>
+   
+
+    <div id="btImprimir" class="btImprimir">
+        
+        <div class="div_imprimir">
+	    <button onclick="window.print();" id="imprimirId" class="btn btn-success"><span class="glyphicon glyphicon-print grisfort"></span><span lang="ca"> Imprimir</span></button>	    
+        </div>
+        
+       
+        
+        
+    </div>    
+
+<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
+<script src="/llibreries/js/bootstrap.min.js"></script>
+<script src="/geocatweb/js/geocat.google-analytics.js"></script>
 </body>
 </html>

@@ -255,7 +255,6 @@ Back to top button
 
 .social-sign {
 	border-top:2 px solid #DDDDDD;
-    content: " ";
     display: block;  
     left: 0;
     position: absolute;
@@ -296,11 +295,17 @@ section {
 footer {    
     background-color:#f5f5f5;
     height: 60px;
-   }
+}
    
-footer .container  p {
+footer .container{
  padding-top:20px
-}  
+}
+
+footer .logo_footer {
+ float: left;
+ position: relative;
+ margin-top: -15px;
+}
 
 /*** comuns ***/
 
@@ -313,6 +318,17 @@ footer .container  p {
 		font-weight: bold;
 		font-size: 25px;
 	}
+	
+	#mapTitle{
+	    line-height: 20px;
+	    padding: 15px;
+	    float: left;
+	    font-size: 25px;
+	    font-weight: bold;
+	    color: white;
+	}
+	
+	
 	@media (max-width: 350px) {
 		.brand-txt {
 			font-size: 20px;
@@ -340,7 +356,7 @@ footer .container  p {
 	    font-weight: bold;
 	    line-height: 1.42857;
 	    /*padding: 3px 20px;*/
-	    padding: 3px 0 0 20px;
+	    padding: 3px 0 0 10px;
 	    white-space: nowrap;
 	}
 	
@@ -351,6 +367,8 @@ footer .container  p {
 	    font-weight: bold;
 	    line-height: 1.42857;
 	    white-space: nowrap;
+	    width: auto;
+	    padding-right:10px;
 	}
 	
 	.invalid {
@@ -841,7 +859,9 @@ background-color:#FFFFFF}
 		position: relative;
 		width: 240px;
 		float:left;
-		margin: 4px;
+		margin: 4px;	
+    max-height: 158px;
+		
 	}
 	
 	.thumbnail div.nomAplicacio{
@@ -892,8 +912,8 @@ background-color:#FFFFFF}
 	
 	.starwars{
 		position: absolute;
-		color: #ffff66;
-		font-weight: bold;
+		/*color: #ffff66;
+		font-weight: bold;*/
 		bottom: 0;
 		left: 50%;
 		margin-left: -9em;
@@ -904,17 +924,17 @@ background-color:#FFFFFF}
 		-ms-transform-origin: 50% 100%;
 		-o-transform-origin: 50% 100%;
 		transform-origin: 50% 100%;
-		-webkit-transform: perspective(200px) rotateX(25deg);
+		/*-webkit-transform: perspective(200px) rotateX(25deg);
 		-moz-transform: perspective(200px) rotateX(25deg);
 		-ms-transform: perspective(200px) rotateX(25deg);
 		-o-transform: perspective(200px) rotateX(25deg);
-		transform: perspective(200px) rotateX(25deg);
+		transform: perspective(200px) rotateX(25deg);*/
 	}
 	
 	.starwarscontent{
 		position: relative;
 		top: 100%;
-		animation: scroll 20s linear 1s infinite;
+		animation: scroll 10s linear 0.5s infinite;
 	}
 
 	@keyframes scroll {
@@ -1094,6 +1114,13 @@ background-color:#FFFFFF}
 }
 
 /*end old browser message*/
+
+/*stats*/
+
+h1.big_text{
+	font-size: 76pt;
+}
+
 
 /*** twitter-typeahead ***/
 /*

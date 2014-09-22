@@ -143,7 +143,6 @@ function addFeatureToTematic(data){
 	}).promise();
 }
 
-
 function getTematicLayerByBusinessId(data){
 	return $.ajax({
 		url: paramUrl.getTematicLayerByBusinessId,
@@ -152,6 +151,13 @@ function getTematicLayerByBusinessId(data){
 	}).promise();
 }
 
+function getCacheTematicLayerByBusinessId(data){
+	return $.ajax({
+		url: paramUrl.getCacheTematicLayerByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
 
 function createFeature(data){
 	return $.ajax({
@@ -189,18 +195,37 @@ function getLListaDadesObertes(){
 
 function getMapByBusinessId(data){
 	return jQuery.ajax({
-		//url: paramUrl.getMapByBusinessId,
-		url: paramUrl.getMapById,
+		url: paramUrl.getMapByBusinessId,
+		//url: paramUrl.getMapById,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();
 }
 
+function getCacheMapByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.getCacheMapByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+/*//Local
 function updateMap(data){
 	return jQuery.ajax({
 		url: paramUrl.updateMap,
 		data: data,
 		dataType: 'jsonp'
+	}).promise();
+}*/
+
+function updateMap(data){
+	return jQuery.ajax({
+//		url: paramUrl.proxy + "?url=" + paramUrl.updateMap + "&uid="+data.uid,
+		url: paramUrl.updateMap,
+		data: data,
+		method: 'POST'
+//		dataType: 'jsonp'
 	}).promise();
 }
 
@@ -355,18 +380,11 @@ function doUploadFile(data){
 
 function getDownloadLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.proxy_download,
+		//url: paramUrl.proxy_download,
+		url: paramUrl.download_layer,
 		data: data,
 		type: "POST"
 //		dataType: 'html'
-	}).promise();
-}
-
-function getTematicLayer(data){
-	return jQuery.ajax({
-		url: paramUrl.getTematicLayer,
-		data: data,
-		dataType: 'jsonp'
 	}).promise();
 }
 
@@ -427,21 +445,12 @@ function updateFeature(data){
 
 function updateTematicRangs(data){
     return jQuery.ajax({
-    	url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
+    	//url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
+        url: paramUrl.updateTematicRangs,
         data: data,
         method: 'post'
     }).promise();
 }
-
-/*
-function updateTematicRangs(data){
-	return jQuery.ajax({
-          url: paramUrl.updateTematicRangs,
-          data: data,
-          dataType: 'jsonp'
-    }).promise();
-}
-*/
 
 function createRandomUser(){
 	return jQuery.ajax({
@@ -471,7 +480,6 @@ function getJSONPServei(url){
 	})
 }
 
-
 function updateServidorWMS(data){
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMS,
@@ -482,7 +490,8 @@ function updateServidorWMS(data){
 
 function duplicateTematicLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
+		//url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
+		url: paramUrl.duplicateTematicLayer,
 		data: data,
 		method: 'post'
 	}).promise();
@@ -503,4 +512,103 @@ function renewPassword(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function getNumEntitatsActives(){
+	return jQuery.ajax({
+		url: paramUrl.getNumEntitatsActives,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getNumMapes(){
+	return jQuery.ajax({
+		url: paramUrl.getNumMapes,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getNumCapes(){
+	return jQuery.ajax({
+		url: paramUrl.getNumCapes,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function publicarCapesMapa(data){
+	return jQuery.ajax({
+		url: paramUrl.publicarCapesMapa,
+		data: data,
+		method: 'post'
+		//dataType: 'jsonp'
+	}).promise();
+}
+
+function publicarMapConfig(data){
+	return jQuery.ajax({
+		url: paramUrl.publicarMapConfig,
+		data: data,
+		method: 'post'
+		//dataType: 'jsonp'
+	}).promise();
+}
+
+function getUrlFile(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFile,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteUser(data){
+	return jQuery.ajax({
+		url: paramUrl.deleteUser,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getUrlFileProves(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFileProves,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getUserSimple(data){
+	return jQuery.ajax({
+		url: paramUrl.getUserSimple,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function uploadImageBase64(data){
+	return jQuery.ajax({
+		url: paramUrl.urluploadBase64,		
+		data: data,		
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'POST',
+		dataType: 'json'
+	}).promise();
+}	
+
+
+function createGeoPdfMap(data){
+	return jQuery.ajax({
+		url: paramUrl.urlgetMapImage,
+		data: data,	
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		method: 'POST',
+		dataType: 'json'
+	}).promise();
+}	
 

@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="author" content="InstaMapes">
-<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="author" content="InstaMaps">
+<meta name="description" content="InstaMaps ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -22,7 +22,7 @@
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<title lang="ca">InstaMapes</title>
+<title lang="ca">InstaMaps</title>
 </head>
 
 <body>
@@ -37,13 +37,13 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMapes</div>
+					<div class="brand-txt">InstaMaps</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
 					<li><a id="hl_index" lang="ca" href="../geocatweb/galeria.html">Galeria</a></li>
-					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
@@ -86,7 +86,6 @@
 		</div>
 	</div>
 	<!-- / Fixed navbar -->
-
 	<!-- Cos principal -->
 	<div class="container theme-showcase">
 
@@ -94,18 +93,29 @@
 			<script id="galeriaPublic-template" type="text/x-handlebars-template">
 			{{#each results}}
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
-				<div class="thumbnail" data-businessid="{{businessId}}">
+				<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 					{{#if thumbnail}}
-						<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
+						<img  src="{{thumbnail}}" alt="{{nomAplicacio}}">
 					{{else}}
 						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
 					<div class="caption text-center nomAplicacio">
 						<h4>{{nomAplicacio}}</h4>
 					</div>
+					<div class="caption text-center descAplicacio">
+						{{#if options.description}}
+							<span class="starwarsmain">
+							<span class="starwarsbody">
+							{{options.description}}
+							</span>
+							</span>
+						{{else}}
+							<span lang="ca">Sense descripció</span>
+						{{/if}}
+					</div>
 					<div class="caption text-center btn-acctions">
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 					</div>
 				</div>
 			</div>
@@ -123,9 +133,9 @@
 			</div>
 			{{#each results}}
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
-			    <div class="thumbnail" data-businessid="{{businessId}}">
+			    <div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 					{{#if thumbnail}}
-			      		<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
+			      		<img   src="{{thumbnail}}" alt="{{nomAplicacio}}">
 					{{else}}
 						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
@@ -144,10 +154,10 @@
 						{{/if}}
 					</div>
 					<div class="caption text-center btn-acctions">
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-						<button type="button" data-businessid="{{businessId}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
-						<button type="button" data-businessid="{{businessId}}" data-nom="{{nomAplicacio}}" class="btn btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-trash"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" data-nom="{{nomAplicacio}}" class="btn btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-trash"></span></button>
 					</div>
 			    </div>
 			</div>
@@ -223,8 +233,11 @@
 	<!-- Fi Modal delete -->
 	
 	<footer>
-		<div class="container">
-			<p>InstaMapes Beta</p>
+		<div class="container text-center footer-instamaps">
+			<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+				<img height="50" src="/llibreries/img/icgc.gif">
+			</a>
+			<span>InstaMaps Beta</span>
 		</div>
 	</footer>
 
@@ -252,7 +265,7 @@
 	<!-- fi Modal expired -->
 
 	<!-- Modal Old Browser -->
-	<div id="dialgo_old_browser" class="modal fade">
+	<div id="dialgo_old_browser" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -284,9 +297,9 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
+	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
 	<script type="text/javascript">
-	if (!Modernizr.canvas ){
+	if (!Modernizr.canvas || !Modernizr.sandbox){
 		document.getElementById("dialgo_old_browser").style.display = "block";
 		document.getElementById("old_icon_close").style.display = "none";
 		document.getElementById("old_btn_close").onclick = function () {
@@ -311,6 +324,6 @@
 	
 	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
 	<script src="/geocatweb/js/geocat.galeria-1.0.0.js"></script>
-
+<script src="/geocatweb/js/geocat.visor-1.0.0.js" type="text/javascript"></script>
 </body>
 </html>

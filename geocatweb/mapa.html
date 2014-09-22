@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="author" content="InstaMaps">
-<meta name="description" content="InstaMaps ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="description" content="InstaMaps ofereix eines per a la creaci&oacute; de mapes i visors. &Eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
 <link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
 <link rel="stylesheet" href="/llibreries/css/jquery.mCustomScrollbar.css"  />
+<link rel="stylesheet" href="/llibreries/css/listnav.css" />
 
 <link href="/llibreries/css/bootstrap-editable.custom.css" rel="stylesheet">
 <link href="/llibreries/css/jquery.share.css" rel="stylesheet">
@@ -84,7 +85,7 @@
 				<ul class="nav navbar-nav navbar-right my-nav">
 				
 					<li><a id="hl_index" lang="ca" href="/geocatweb/galeria.html">Galeria</a></li>
-					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					
 					<!-- <li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
@@ -144,6 +145,7 @@
 
 	<div id="sidebar">
 		<input type="hidden" name="businessId" id="businessId" value="">
+		<input type="hidden" name="userId" id="userId" value="">
 		<table class="taulaFeina" width="100%" height="100%">
 			<tr border="2">
 				<td class="ramp_color" rowSpan="6" width="5px"></td>
@@ -188,10 +190,10 @@
 					<div class="div_gr2">
 						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr">
 							<script id="meus-wms-template" type="text/x-handlebars-template">
-							<div class="panel-success">
-								<ul class="bs-dadesO llista-wms panel-heading">
+							<div class="panel-body">
+								<ul id="listnav-teves-dades" class="llista-teves-dades panel-heading">
 								{{#each results}}
-									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-wms">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-wms"></span></li>
+									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a><span data-businessid="{{businessId}}" data-servername="{{serverName}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span></li>
 								{{/each}}							
 								</ul>
 							</div>
@@ -221,12 +223,12 @@
 					</div>
 					<div class="div_gr3_fons">
 						<div id="topoMap" lang="ca" data-toggle="tooltip" title="Topogràfic" class="div_fons_1"></div>
-						<div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div>
+						<div id="topoMapGeo" lang="ca" data-toggle="tooltip" title="Simple" class="div_fons_12"></div>
+						<!-- div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div-->
 						<div id="ortoMap" lang="ca" data-toggle="tooltip" title="Imatge" class="div_fons_3"></div>
 						<div id="terrainMap" lang="ca" data-toggle="tooltip" title="Terreny" class="div_fons_4"></div>
 						<div id="colorMap" lang="ca" data-toggle="tooltip" title="Combinacions de color" class="div_fons_5 pop"></div>
 					</div>
-
 				</td>
 			</tr>
 			<tr>
@@ -254,6 +256,7 @@
 			</tr>
 		</table>
 	</div>
+	<div id="descripcio_user" class="hidden"></div>
 	<div id="map"></div>
 	<div id="logos" class="logos">
 		<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
@@ -272,90 +275,47 @@
 				</div>
 				<div class="modal-body">
 					<form id="frm_publicar">
-						<script id="map-properties-template" type="text/x-handlebars-template">
 						<section>
 						<fieldset>	
-								<input lang="ca" id="nomAplicacio" type="text" required
-									class="form-control my-border" placeholder="Nom" value="{{nomAplicacio}}">
+								<input lang="ca" id="nomAplicacioPub" type="text" required
+									class="form-control my-border" placeholder="Nom" value="">
 								<br> 
 								<input lang="ca" id="optDescripcio" type="text" 
-									class="form-control my-border" placeholder="Descripció" value="{{options.description}}"> 
+									class="form-control my-border" placeholder="Descripció" value=""> 
 								<input lang="ca" id="optTags" type="text" 
-									class="form-control my-border" placeholder="Etiquetes" value="{{options.tags}}">
+									class="form-control my-border" placeholder="Etiquetes" value="">
 						</fieldset>
 						</section>
 						<br>
 						<div lang="ca" class="alert alert-info">
 						<span class="glyphicon glyphicon-info-sign"></span> 
-						<span lang="ca">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
+						<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
 						</div>
 						<div class="control-group">
 							<div class="control-switch">
 							<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>
 							<div class="controls">
 								<div tabindex="0">
-									<input class="make-switch" id="visibilitat_chk" type="checkbox" data-label-text="<span class='glyphicon glyphicon-transfer'></span>" data-on-text="<span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span>Públic</span>" data-off-text="<span class='fa fa-lock'></span>&nbsp;<span>Privat</span>">
+									<input class="make-switch" id="visibilitat_chk" type="checkbox" 
+										data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+										data-on-text="<span><span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span id='publish-public' lang='ca'>Públic</span></span>" 
+										data-off-text="<span><span class='fa fa-lock'></span>&nbsp;<span id='publish-private' lang='ca'>Privat</span></span>">
 								</div>
 							</div>
 							</div>
-									<div class="control-switch">
-									<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.llegenda}}
-											<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
+							<div class="control-switch">
+								<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
+								<div class="controls">
+									<div tabindex="0">
+										<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" 
+											data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+											data-on-text="<span id='publish-legend-yes' lang='ca'>Si</span>" 
+											data-off-text="<span id='publish-legend-no' lang='ca'>No</span>">
 									</div>
-									</div>
+								</div>
+							</div>
 						</div>
 						<br>
-						</script>
-						<!-- 
-								<br>
-								<div class="control-group">
-									<div class="control-switch">
-									<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.llegenda}}
-											<input class="make-switch" id="llegenda_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" id="llegenda_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
-									</div>
-									</div>
-
-									<div class="control-switch">
-									<label class="control-label" for="layers_chk" lang="ca">Arbol de capes</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.layers}}
-											<input class="make-switch" id="layers_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" id="layers_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
-									</div>
-									</div>
-
-									<div class="control-switch">
-									<label class="control-label" for="social_chk" lang="ca">Barra social</label>
-									<div class="controls">
-										<div tabindex="0">
-											{{#if options.social}}
-											<input class="make-switch" id="social_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{else}}
-											<input class="make-switch" id="social_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
-											{{/if}}
-										</div>
-									</div>
-									</div>
-								</div>
-								-->
 					</form>					
 					<div class="modal-legend">
 						
@@ -595,8 +555,10 @@
 									<li><span class="fa fa-anchor"></span></li>
 									<li><span class="fa fa-ban circle"></span></li>
 									<li><span class="fa fa-bar-chart-o"></span></li>
+									<li><span class="fa fa-bus"></span></li>
 									<li><span class="fa fa-beer"></span></li>
 									<li><span class="fa fa-bell"></span></li>
+									<li><span class="fa fa-bicycle"></span></li>
 									<li><span class="fa fa-bolt"></span></li>
 									<li><span class="fa fa-book"></span></li>
 									<li><span class="fa fa-briefcase"></span></li>
@@ -613,6 +575,7 @@
 									<li><span class="fa fa-cogs"></span></li>
 									<li><span class="fa fa-dot-circle-o"></span></li>
 									<li><span class="fa fa-comment"></span></li>
+									<li><span class="fa fa-cutlery"></span></li>
 									<li><span class="fa fa-eur"></span></li>
 									<li><span class="fa fa-smile-o"></span></li>
 									<li><span class="fa fa-envelope"></span></li>
@@ -647,6 +610,7 @@
 									<li><span class="fa fa-legal"></span></li>
 									<li><span class="fa fa-lemon-o"></span></li>
 									<li><span class="fa fa-lightbulb-o"></span></li>
+									<li><span class="fa fa-line-chart"></span></li>
 									<li><span class="fa fa-link"></span></li>
 									<li><span class="fa fa-linkedin"></span></li>
 									<li><span class="fa fa-lock"></span></li>
@@ -676,6 +640,7 @@
 									<li><span class="fa fa-tablet"></span></li>
 									<li><span class="fa fa-tag"></span></li>
 									<li><span class="fa fa-tags"></span></li>
+									<li><span class="fa fa-taxi"></span></li>
 									<li><span class="fa fa-th-large"></span></li>
 									<li><span class="fa fa-thumbs-down"></span></li>
 									<li><span class="fa fa-thumbs-up"></span></li>
@@ -692,7 +657,22 @@
 									<li><span class="fa fa-volume-off"></span></li>
 									<li><span class="fa fa-volume-up"></span></li>
 									<li><span class="fa fa-warning sign"></span></li>
+									<li><span class="fa fa-wifi"></span></li>
 									<li><span class="fa fa-wrench"></span></li>
+									<li><span class="fa fa-file-image-o"></span></li>
+									<li><span class="fa fa-frown-o"></span></li>
+						<li><span class="fa fa-info-circle"></span></li>
+					<li><span class="fa fa-tree"></span></li>
+					<li><span class="fa fa-video-camera"></span></li>
+					<li><span class="fa fa-exclamation-triangle"></span></li>
+					<li><span class="fa fa-car"></span></li>
+					<li><span class="fa fa-futbol-o"></span></li>
+					<li><span class="fa fa-thumb-tack"></span></li>
+					<li><span class="fa fa-meh-o"></span></li>
+					<li><span class="fa fa-bullseye"></span></li>
+					<li><span class="fa fa-graduation-cap"></span></li>
+					<li><span class="fa fa-sort-asc"></span></li>
+					<li><span class="fa fa-university"></span></li>
 								</ul>
 							</div>
 						</td>
@@ -902,7 +882,7 @@
 						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>
 						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->
 						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>
-						<li><a href="#id_url_file" lang="ca" data-toggle="tab">URL de fitxer</a></li>
+						<li><a href="#id_url_file" lang="ca" data-toggle="tab">Dades externes</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade" id="id_do"></div>
@@ -927,11 +907,11 @@
 	<!-- Modal les teves dades -->
 	<div class="modal fade" id="dialog_teves_dades">
 		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Accedeix a les teves dades</h4>
+					<h4 id="modal-title-teves-dades" class="modal-title" lang="ca">Accedeix a les teves dades</h4>
 				</div>
 				<div id="id_sw" class="modal-body">
 					<!-- <ul class="nav nav-tabs etiqueta">
@@ -968,7 +948,7 @@
 					<div id="div_formats" class="alert alert-success">
 						<span class="glyphicon glyphicon-upload"></span> 
 						<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong> 
-							<a class="alert-link" lang="ca"	href="#">Més informació i exemples</a>
+							<a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/carrega-de-dades-instamaps/" target="_blank">Més informació i exemples</a>
 					</div>
 					
 					<!-- 
@@ -1117,8 +1097,9 @@
 							</div>
 						</div>
 					</div>
+					<div id="div_carrega_dades_message" class="alert alert-danger"></div>
 					<div class="modal-footer">
-						<div class="progress progress-striped active">
+						<div id="progress_bar_carrega_dades" class="progress progress-striped active">
 							<div id="prg_bar" class="progress-bar progress-bar-success"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;"></div>
 						</div>
 						<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
@@ -1168,7 +1149,7 @@
 					<div id="modal-body-download">
 						<div class="input-group input-group-sm">
 						  <span lang="ca" class="input-group-addon">Guardar com</span>
-						  <input type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">
+						  <input lang="ca" type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">
 						</div>	
 						<small class="label label-default" lang="ca">Opcional: en blanc s'assignarà un nom automàtic</small>				
 						<br><br>
@@ -1235,7 +1216,7 @@
 					<div id="list_tematic_layers"></div>
 			</div>
 				<div class="modal-footer">
-				<div lang="ca" style="float:right;line-height: 40px;">Estil actiu:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
+				<div style="float:right;line-height: 40px;"><span lang="ca">Estil actiu</span>:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
 					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
@@ -1399,9 +1380,8 @@
 					</table>	
 					</script>
 					
-					<div lang="ca" id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>
-					Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</div>
-					
+					<div id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>
+					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>
 					<div id="list_tematic_values"></div>
 				</div>
 				<div class="modal-footer">
@@ -1449,7 +1429,7 @@
 	<!-- fi Modal Leave -->
 	
 	<!-- Modal Old Browser -->
-	<div id="dialgo_old_browser" class="modal fade">
+	<div id="dialgo_old_browser" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -1479,18 +1459,33 @@
 	<!-- fi Modal Old Browser -->
 	
 	<!-- Modal Captura -->
-	<div id="dialg_captura" class="modal fade">
+	<div id="dialog_captura" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Captura</h4>
+					<h4 lang="ca" id="dialog_captura_title"  class="modal-title">Captura</h4>
 				</div>
-				<div class="modal-body">
+				<div  style="height:150px;" class="modal-body">					
 					<div style="height:350px;overflow:auto;" id="div_captura">
-					<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
-					</div>
+						<img id="img_canvas">
+					</div>				
+					<div id="progress_bar_carrega_img" class="progress progress-striped active">
+					
+					  <div id="prg_bar_img" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">
+					  
+					  <span id="dialog_captura_text" lang="ca">Generant imatge...</span>
+					  
+					  </div>
+					</div>	
+
+
+<div id="bt_desc_img" style="display: block;margin-top: 15px;text-align: center;">
+					<a href="#" id="desc_img" class="btn btn-info btn-large" type="application/octet-stream" download="mapa.jpeg"  lang="ca" target="_blank">Desar mapa</a>
+				</div>	
+
+
 					
 				</div>
 				<div class="modal-footer">
@@ -1502,6 +1497,70 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- fi Modal Captura -->
+	
+	
+	
+	
+	
+	<!-- Modal Imprimir -->
+	<div id="dialog_print" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Imprimir</h4>
+				</div>
+				<div  style="height:350px;" class="modal-body">					
+					<div style="height:310px;overflow:auto;" id="div_captura_print">
+						
+					</div>				
+						<div id="bt_desc_img" style="display: block;margin-top: 5px;text-align: center;">
+						<a href="#" id="desc_img" class="btn btn-info" type="application/octet-stream" download="informe.pdf" target="_blank">Generar Informe (PDF)</a>				
+					</div>					
+				</div>
+				
+				<div class="modal-footer">
+					
+				
+				<div id="progress_bar_carrega_img_print" class="progress progress-striped active">					
+						  <div id="prg_bar_img_print" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">					  
+						  <span lang="ca">Generant impressió...</span>
+						 </div>
+						</div>	
+				
+				
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Imprimir -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<!-- Modal messages -->
 	<div id="dialgo_messages" class="modal fade">
@@ -1555,9 +1614,9 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
+	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
 	<script type="text/javascript">
-	if (!Modernizr.canvas ){
+	if (!Modernizr.canvas || !Modernizr.sandbox){
 		document.getElementById("div_loading").style.display = "none";
 		document.getElementById("mapaFond").style.display = "block";
 		document.getElementById("dialgo_old_browser").style.display = "block";
@@ -1583,7 +1642,9 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script>
+	<!-- script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script-->
+	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-listnav.custom.js"></script>
 	
 	
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>
@@ -1602,7 +1663,8 @@
 	<script>
 		L_PREFER_CANVAS = true;
 	</script>
-	<script src="/llibreries/js/leaflet/leaflet.js"></script>
+	<!-- script src="/llibreries/js/leaflet/leaflet-src.js"></script-->
+	<script src="/llibreries/js/leaflet/leaflet.0.7.min.custom.js"></script>
 	<script src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.spin.js"></script>
 	<!-- script src="/llibreries/js/leaflet/plugin/proj4-compressed.js" type="text/javascript"></script-->
