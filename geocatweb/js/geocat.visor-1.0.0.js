@@ -310,7 +310,7 @@ function addClicksInici() {
 	
 	jQuery('.bt_geopdf').on('click', function(event) {
 		aturaClick(event);
-		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopedf', 'label geopdf', 1]);
+		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
 		capturaPantalla(CAPTURA_GEOPDF);
 	});
 		
