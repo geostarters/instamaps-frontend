@@ -606,26 +606,34 @@ function loadApp(){
 }
 
 function addClicksInici() {
-	jQuery('.bt_llista').on('click', function() {
+	jQuery('.bt_llista').on('click', function(event) {
 		aturaClick(event);
 		activaPanelCapes();
 	});
 	
 	// new vic
-	jQuery('.bt_captura').on('click', function() {
+	jQuery('.bt_captura').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'captura pantalla', 'label captura', 1]);
 		_kmq.push(['record', 'captura pantalla', {'from':'mapa', 'tipus user':tipus_user_txt}]);
 		capturaPantalla(CAPTURA_MAPA);
 	});
 	
-	jQuery('.bt_print').on('click', function() {
+	jQuery('.bt_print').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'print', 'label print', 1]);
 		_kmq.push(['record', 'print', {'from':'mapa', 'tipus user':tipus_user_txt}]);
 		capturaPantalla(CAPTURA_INFORME);
 	});
 		
+	jQuery('.bt_geopdf').on('click', function(event) {
+		aturaClick(event);
+		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
+		_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
+		capturaPantalla(CAPTURA_GEOPDF);
+	});
+	
+	
 	jQuery(document).on('click', function(e) {
         if(e.target.id.indexOf("popovercloseid" )!=-1)
         {
