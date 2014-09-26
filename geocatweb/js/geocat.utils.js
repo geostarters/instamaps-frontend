@@ -32,6 +32,11 @@ function isDefaultMapTitle(str){
 	return pattern.test(str);	
 }
 
+function toggleCollapseDiv(divName){
+//	console.debug(divName);
+	$(divName).toggle();
+}
+
 function getTimeStamp() {
     var now = new Date();
     return (now.getFullYear()+'/'+(((now.getMonth() + 1) < 10)

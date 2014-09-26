@@ -4,6 +4,9 @@
 
 function addControlPublicar(){
 	
+	addHtmlModalPublicar();
+	addHtmlModalIframePublicar();
+	
 	if (isRandomUser($.cookie('uid'))){
 		jQuery('.bt_publicar').on('click',function(){
 			jQuery('.modal').modal('hide');
@@ -296,4 +299,140 @@ function updateDownloadableData(){
 		}
 		downloadableData[businessId].push(obj);
 	});		
+}
+
+function addHtmlModalPublicar(){
+	
+	jQuery('#mapa_modals').append('<!-- Modal Publicar -->'+
+			'<div id="dialgo_publicar" class="modal fade">'+
+				'<div class="modal-dialog">'+
+					'<div class="modal-content">'+
+						'<div class="modal-header">'+
+							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+							'<h4 lang="ca" class="modal-title">Publicar el mapa</h4>'+
+						'</div>'+
+						'<div class="modal-body">'+
+							'<form id="frm_publicar">'+
+								'<section>'+
+								'<fieldset>'+
+								'		<input lang="ca" id="nomAplicacioPub" type="text" required'+
+								'			class="form-control my-border" placeholder="Nom" value="">'+
+								'		<br> '+
+								'		<input lang="ca" id="optDescripcio" type="text"'+ 
+								'			class="form-control my-border" placeholder="Descripció" value="">'+ 
+								'		<input lang="ca" id="optTags" type="text" '+
+								'			class="form-control my-border" placeholder="Etiquetes" value="">'+
+								'</fieldset>'+
+			'					</section>'+
+			'					<br>'+
+			'					<div lang="ca" class="alert alert-info">'+
+			'					<span class="glyphicon glyphicon-info-sign"></span>'+ 
+			'					<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span>'+ 
+			'					</div>'+
+			'					<div class="control-group">'+
+			'						<div class="control-switch">'+
+			'						<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>'+
+			'						<div class="controls">'+
+			'							<div tabindex="0">'+
+			'								<input class="make-switch" id="visibilitat_chk" type="checkbox"'+ 
+			'									data-label-text=\'<span class="glyphicon glyphicon-transfer"></span>\''+ 
+			'									data-on-text=\'<span><span class="fa fa-unlock glyphicon-white"></span>&nbsp;<span id="publish-public" lang="ca">Públic</span></span>\''+ 
+			'									data-off-text=\'<span><span class="fa fa-lock"></span>&nbsp;<span id="publish-private" lang="ca">Privat</span></span>\'>'+
+			'							</div>'+
+			'						</div>'+
+			'						</div>'+
+			'					</div>'+
+			'					<div class="modal-downloadable">'+
+			'					</div>'+
+			'					<br>'+
+			'					<div class="control-group">'+
+			'						<div class="control-switch">'+
+			'							<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>'+
+			'							<div class="controls">'+
+			'								<div tabindex="0">'+
+			'									<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox"'+ 
+			'										data-label-text=\'<span class="glyphicon glyphicon-transfer"></span>\' '+
+			'										data-on-text=\'<span id="publish-legend-yes" lang="ca">Si</span>\' '+
+			'										data-off-text=\'<span id="publish-legend-no" lang="ca">No</span>\'>'+
+			'								</div>'+
+			'							</div>'+
+			'						</div>'+
+			'					</div>	'+			
+			'					<div class="modal-legend">'+
+			'					</div>'+
+			'				</form>		'+			
+			'			</div>'+
+			'			<div class="modal-footer">'+
+			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Publicar</button>'+
+			'			</div>'+
+			'		</div>'+
+			'		<!-- /.modal-content -->'+
+			'	</div>'+
+			'	<!-- /.modal-dialog -->'+
+			'</div>'+
+			'<!-- /.modal -->'+
+			'<!-- Fi Modal Publicar -->'+
+			'<!-- Modal Publicar random -->'+
+			'<div id="dialgo_publicar_random" class="modal fade">'+
+			'	<div class="modal-dialog">'+
+			'		<div class="modal-content">'+
+			'			<div class="modal-header">'+
+			'				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+			'				<h4 lang="ca" class="modal-title">Publicar el mapa</h4>'+
+			'			</div>'+
+			'			<div class="modal-body" lang="ca">'+
+			'				Per publicar o compartir el mapa has d\'iniciar sessió'+
+			'			</div>'+
+			'			<div class="modal-footer">'+
+			'				<button lang="ca" type="button" class="btn bt-sessio"'+ 
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "inici sessio", "modal pre-publicar"]);">Inicia la sessió</button>'+
+			'				<button lang="ca" type="button" class="btn bt_orange"'+ 
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "registre", "modal pre-publicar"]);">Crea un compte</button>'+
+			'				<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "guest", "modal pre-publicar"]);">Més tard</button>'+					
+			'			</div>'+
+			'		</div>'+
+			'		<!-- /.modal-content -->'+
+			'	</div>'+
+			'	<!-- /.modal-dialog -->'+
+			'</div>'+
+			'<!-- /.modal -->'+
+			'<!-- Fi Modal Publicar random -->');	
+}
+
+function addHtmlModalIframePublicar(){
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Url/iframe -->'+
+	'		<div id="dialgo_url_iframe" class="modal fade">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Mapa publicat</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div class="form-group">'+
+	'				    	<label for="urlMap"><span lang="ca">Per enllaçar amb aquest mapa, copieu i enganxeu el següent text</span>:</label>'+
+	'				    	<input type="text" class="form-control" id="urlMap">'+
+	'				  	</div>'+
+	'				  	<div class="form-group">'+
+	'					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>'+
+	'					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>'+
+	'				  	</div>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'						data-dismiss="modal">Acceptar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- Fi Modal Url/iframe -->'		
+	);
 }

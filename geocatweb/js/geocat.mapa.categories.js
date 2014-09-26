@@ -212,7 +212,7 @@ function loadTematicValueUnicTemplate(results1){
 }
 
 function createIntervalStyle(index, geometryType, paleta){
-	console.debug("createIntervalStyle");
+//	console.debug("createIntervalStyle");
 	var defStyle;
 	var markerColors = (paleta)? paletasColors[paleta] : paletasColors[0];
 	if (index > 9){
@@ -382,10 +382,10 @@ function createTematicLayerCategories(){
 		rangs: rangs
 	};
 	
-	console.debug(data);
+//	console.debug(data);
 	
 	duplicateTematicLayer(data).then(function(results){
-		console.debug(results);
+//		console.debug(results);
 		if(results.status == 'OK'){
 			loadTematicLayer(results.results);
 			activaPanelCapes(true);

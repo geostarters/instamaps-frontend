@@ -643,6 +643,35 @@ function checkColorAdded(controlColorCategoria, color){
 	return existeix;
 }
 
+function addHtmlModalLegend(){
+	
+	jQuery('#mapa_modals').append(
+	'<!-- Modal Llegenda -->'+
+	'		<div id="dialog_llegenda" class="modal fade">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Llegenda</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'						data-dismiss="modal">Cancel·lar</button>'+
+	'					<button lang="ca" type="button" class="btn btn-primary">Preview</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- Fi Modal Llegenda -->'		
+	);
+}
+
 /*************** FI:LLEGENDA ********************/
 
 /*addLegend que estava a geocat.mapa

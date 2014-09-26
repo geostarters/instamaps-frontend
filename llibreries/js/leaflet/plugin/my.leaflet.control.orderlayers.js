@@ -275,7 +275,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			}else{
 				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
-				if(obj.layer.options.tipus.indexOf(t_wms) == -1 && downloadableData[obj.layer.options.businessId][0].chck){
+				if(obj.layer.options.tipus.indexOf(t_wms) == -1 && !jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId][0].chck){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
 					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 					col.layerId = input.layerId;

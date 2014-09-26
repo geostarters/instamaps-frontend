@@ -3,10 +3,9 @@
  */
 
 L.Wikipedia = L.FeatureGroup.extend({
-//	options: {
-//		maxLoad: 100, // max photos loaded in one request (should be less or equal 100)
-//		maxTotal: 300 // max total photos
-//	},
+	options: {
+		key: ''
+	},
 
 	initialize: function(options) {
 		L.FeatureGroup.prototype.initialize.call(this);

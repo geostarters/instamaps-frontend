@@ -48,11 +48,25 @@ function loadApp(){
 			
 			document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 			
+			console.debug("mapConfig:");
+			console.debug(mapConfig);
+			
+			var infoHtml = '<p>'+mapConfig.entitatUid+'</p>';
+			
 			if (mapConfig.options){
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				$('meta[name=description]').attr('content', mapConfig.options.description);				
+				$('meta[name=description]').attr('content', mapConfig.options.description);	
+				infoHtml += '<p>'+mapConfig.options.description+'</p>';
+				infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 			}
-			jQuery("#mapTitle").html(mapConfig.nomAplicacio);
+			jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" class="glyphicon glyphicon-info-sign pop" data-original-title="Informació"></span>');
+			
+			$('#infoMap').popover({
+				placement : 'bottom',
+				html: true,
+				content: infoHtml
+			});			
+			
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
 			checkEmptyMapLegend();
 			

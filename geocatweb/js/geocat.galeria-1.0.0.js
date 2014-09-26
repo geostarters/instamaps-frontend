@@ -28,6 +28,10 @@ $(function(){
 		$('.btn-tooltip').tooltip().each(function(){
 			$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
 		});
+		
+		$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
+		$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));		
+		
 	});
 	
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
@@ -39,10 +43,19 @@ $(function(){
 				}
 				return val;
 			});
-			
 			var html = template(results);
 			$('#galeriaRow').append(html);
-						
+//			console.debug("galeria Row html:");
+//			console.debug(html);
+			
+			//Search function
+			var optionsSearch = {
+					valueNames: [ 'nomAplicacioSort' ]
+			};
+			var userList = new List('galeriaSort', optionsSearch);			
+			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
+			$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));
+			
 			$('.new_map').on('click', function(event){
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'fer mapa'/*, 'acquisition'*/]);
 				window.location.href = paramUrl.mapaPage;
@@ -144,6 +157,15 @@ $(function(){
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
+			//Search function
+			var optionsSearch = {
+					valueNames: [ 'nomAplicacioSort' ]
+			};
+			var userList = new List('galeriaSort', optionsSearch);				
+			
+			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
+			$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));			
+			
 			$('.btn.btn-success').on('click', function(event){
 				event.preventDefault();
 				event.stopPropagation();
@@ -190,5 +212,6 @@ $(function(){
 			window.lang.run();
 			
 		});
-	}	
+	}
+	
 });

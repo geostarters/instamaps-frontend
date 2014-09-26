@@ -3,6 +3,9 @@
  */
 
 function addControlAltresFontsDades() {
+	
+	addHtmlModalDadesExt();
+	
 	jQuery(".div_dades_ext").on('click', function() {
 		//gestionaPopOver(this);
 		jQuery('.modal').modal('hide');
@@ -41,9 +44,10 @@ function addControlAltresFontsDades() {
 				jQuery(tbA).html(
 						'<div class="panel-info">'+
 						'<ul class="bs-dadesO_XS panel-heading">'+
-						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseTwitter()" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
+						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseDiv(\'#twitter-collapse\')" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
 						'<li><a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label-xs">Panoramio <i class="fa fa-picture-o"></i></a></li>'+
-						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
+						//'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
+						'<li><a id="add_wikipedia_layer" href="javascript:toggleCollapseDiv(\'#wikipedia-collapse\')" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
 						'</ul>'+
 						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.convert(label_xarxes)+'</span></div>'+
 						'<div id="twitter-collapse">'+
@@ -55,12 +59,28 @@ function addControlAltresFontsDades() {
 			      				'</span>'+
 				      		'</div>'+
 				      		'</div>'+
-			      		'</div>'						
+			      		'</div>'+
+						'<div id="wikipedia-collapse">'+
+							'<div class="input-group">'+
+			      				'<span class="input-group-addon">Paraula clau #</span>'+
+			      				'<input id="name_wikipedia_layer" type="text" class="form-control">'+
+			      				'<span class="input-group-btn">'+
+			      					'<button id="btn-add-wikipedia-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
+			      				'</span>'+
+				      		'</div>'+
+				      		'</div>'+
+			      		'</div>'			      		
 				);
 				$('#twitter-collapse').hide();
 				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
 					addTwitterLayer();
 				});
+
+				$('#wikipedia-collapse').hide();
+				$('#wikipedia-collapse .input-group .input-group-btn #btn-add-wikipedia-layer').click(function(){
+					addWikipediaLayer();
+				});				
+				
 			}else if(tbA == "#id_url_file"){
 				jQuery(tbA).empty();
 
@@ -269,7 +289,57 @@ function addControlAltresFontsDades() {
 	})
 }
 
-function toggleCollapseTwitter(){
-	console.debug('toggleCollapseTwitter');
-	$('#twitter-collapse').toggle();
+
+function addHtmlModalDadesExt(){
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Dades Externes -->'+
+	'		<div class="modal fade" id="dialog_dades_ex">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 class="modal-title" lang="ca">Explora altres fonts de dades</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<ul class="nav nav-tabs etiqueta">'+
+	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>'+
+	'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
+	'						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->'+
+	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
+	'						<li><a href="#id_url_file" lang="ca" data-toggle="tab">Dades externes</a></li>'+
+	'					</ul>'+
+	'					<div class="tab-content">'+
+	'						<div class="tab-pane fade" id="id_do"></div>'+
+	'						<div class="tab-pane fade" id="id_xs"></div>'+
+	'						<!--  <div class="tab-pane fade" id="id_srvj"></div>-->'+
+	'						<div class="tab-pane fade" id="id_srvw"></div>'+
+	'						<div class="tab-pane fade" id="id_url_file"></div>'+
+	'					</div>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>'+
+	'         			<button type="button" class="btn btn-success">Canviar</button> -->'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- fi Modal Dades Externes -->'		
+	);
+	
 }
+
+//function toggleCollapseTwitter(){
+//	console.debug('toggleCollapseTwitter');
+//	$('#twitter-collapse').toggle();
+//}
+//
+//function toggleCollapseTwitter(){
+//	console.debug('toggleCollapseTwitter');
+//	$('#twitter-collapse').toggle();
+//}
+

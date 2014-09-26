@@ -71,7 +71,7 @@ function loadPanoramioLayer(layer){
 	controlCapes._lastZIndex++;
 }
 
-function addTwitterLayer(hashtag){
+function addTwitterLayer(){
 	
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'twitter', hashtag, 1]);	
 	
@@ -153,10 +153,13 @@ function addWikipediaLayer(){
 	
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wikipedia', 'label wikipedia', 1]);	
 	
+	var keyName = $('#wikipedia-collapse .input-group #name_wikipedia_layer').val();	
+	
 	var wikipedia = new L.Wikipedia({
 		nom : 'wikipedia',
 		businessId: '-1',
-		tipus: t_xarxes_socials
+		tipus: t_xarxes_socials,
+		key: keyName
 	});
 	
 	if(typeof url('?businessid') == "string"){
@@ -173,7 +176,7 @@ function addWikipediaLayer(){
             epsg: '4326',
             transparency: true,
             visibilitat: visibilitat_open,
-			options: '{"xarxa_social": "wikipedia"}'
+			options: '{"xarxa_social": "wikipedia", "key": "'+keyName+'"}'
 		};
 		
 		createServidorInMap(data).then(function(results){

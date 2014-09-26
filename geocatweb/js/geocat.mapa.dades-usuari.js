@@ -1,4 +1,7 @@
 function carregaDadesUsuari(data){
+	
+	addHtmlModalDadesUsuari();
+	
 	//console.debug("carregaDadesUsuari");
 	getAllServidorsWMSByUser(data).then(function(results){
 		if (results.status == "ERROR"){
@@ -196,4 +199,40 @@ function refrescaPopOverMevasDades(){
 		gestioCookie('refrescaPopOverMevasDades');
 	});
 	return dfd.promise();
+}
+
+function addHtmlModalDadesUsuari(){
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal les teves dades -->'+
+	'		<div class="modal fade" id="dialog_teves_dades">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 id="modal-title-teves-dades" class="modal-title" lang="ca">Accedeix a les teves dades</h4>'+
+	'				</div>'+
+	'				<div id="id_sw" class="modal-body">'+
+	'					<!-- <ul class="nav nav-tabs etiqueta">'+
+	'						<li><a href="#id_sv" lang="ca" data-toggle="tab">Serveis Vector</a></li>'+
+	'						<li><a href="#id_sw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
+	'					</ul>'+
+	'					<div class="tab-content">'+
+	'						<div class="tab-pane fade" id="id_sv"></div>'+
+	'						<div class="tab-pane fade" id="id_sw"></div>'+
+	'					</div> -->'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>'+
+	'         <button type="button" class="btn btn-success">Canviar</button> -->'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- fi Modal les teves dades -->'		
+	);
 }

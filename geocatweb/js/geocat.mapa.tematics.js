@@ -5,6 +5,10 @@
 
 
 function initButtonsTematic(){
+	
+	addHtmlModalLayersTematic();
+	addHtmlModalCategories();
+	
 	//botons tematic
 	jQuery('#st_Color').on('click',function(){
 		showTematicLayersModal(tem_simple,jQuery(this).attr('class'));
@@ -905,4 +909,217 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 		}
 	}
 	map.closePopup();	
+}
+
+function addHtmlModalLayersTematic(){
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Tematics Layers -->'+
+	'		<div class="modal fade" id="dialog_layers_tematic">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 class="modal-title" lang="ca">Triar una capa per aplicar-hi l\'estil</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<script id="tematic-layers-template" type="text/x-handlebars-template">'+
+	'					<div class="panel-warning">'+					
+	'					<ul class="bs-dadesO_USR panel-heading">'+
+	'						{{#each layers}}'+
+	'						<li><a class="usr_wms_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>'+
+	'						{{/each}}'+
+	'					</ul>'+	
+	'					</div>'+
+	'					</script>'+
+	'					<div id="list_tematic_layers"></div>'+
+	'			</div>'+
+	'				<div class="modal-footer">'+
+	'				<div style="float:right;line-height: 40px;"><span lang="ca">Estil actiu</span>:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>'+
+	'					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>'+
+	'        <button type="button" class="btn btn-success">Canviar</button> -->'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- fi Modal Tematics Layers -->'		
+	);
+	
+}
+
+function addHtmlModalCategories(){
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Tematics Rangs -->'+
+	'		<div class="modal fade" id="dialog_tematic_rangs">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 class="modal-title" lang="ca">Defineix les categories</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div class="labels_fields">'+
+	'						<span lang="ca">Escull el camp per simbolitzar</span>:'+
+	'						<select name="dataField" id="dataField">'+
+	'						</select>'+
+	'					</div>'+
+	'					<script id="tematic-layers-fields" type="text/x-handlebars-template">'+
+	'						{{#each fields}}'+
+	'						<option value="{{this}}">{{@key}}</option>'+
+	'						{{/each}}'+
+	'					</script>'+
+	'					<br/>'+										
+	'					<div id="tipus_agrupacio_grp" class="labels_fields">'+
+	'						<span lang="ca">Escull l\'interval</span>:'+
+	'						<span class="rd_separator"></span>'+
+	'						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">'+
+	'						<label for="rd_tipus_unic" lang="ca">únic</label>'+
+	'						<span class="rd_separator"></span>'+
+	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
+	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
+	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+
+	'<!-- 							<option lang="ca" value="U">Únic</option> -->'+
+	'<!-- 							<option lang="ca" value="R">Rang</option> -->'+
+	'<!-- 						</select> -->'+
+	'					</div>'+			
+	'					<div id="num_rangs_grp" class="labels_fields" >'+
+	'						<select id="cmb_num_rangs">'+
+	'							<option value="---" selected >Intervals</option>'+
+	'							<option value="2">2</option>'+
+	'							<option value="3">3</option>'+
+	'							<option value="4">4</option>'+
+	'							<option value="5">5</option>'+
+	'							<option value="6">6</option>'+
+	'							<option value="7">7</option>'+
+	'							<option value="8">8</option>'+
+	'							<option value="9">9</option>'+
+	'						</select>'+
+	'					</div>'+
+	'					<script id="tematic-values-unic-punt-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						{{#each values}}'+
+	'						<tr><td>{{v}}</td><td>'+
+	'							{{#if style.isCanvas}}'+
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-"'+ 
+	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
+	'							{{else}}'+
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
+	'									{{#if style.icon}}'+
+	'										fa-{{style.icon}}"></div>'+	
+	'									{{else}}'+
+	'										"></div>'+
+	'									{{/if}}'+
+	'							{{/if}}'+
+	'						</td></tr>'+
+	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-unic-polyline-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						{{#each values}}'+
+	'						<tr><td>{{v}}</td><td>'+
+	'							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>'+
+	'						</td></tr>'+
+	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-unic-polygon-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						{{#each values}}'+
+	'						<tr><td>{{v}}</td><td>'+
+	'							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>'+
+	'						</td></tr>'+
+	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-rangs-punt-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<thead>'+
+	'						<tr>'+
+	'     						<th lang="ca">Valor min</th>'+
+	'     						<th lang="ca">Valor max</th>'+
+	'  						</tr>'+
+	' 						</thead>'+
+	'						<tbody>'+
+	'						{{#each values}}'+
+	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
+	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
+	'							<td>'+
+	'							{{#if style.isCanvas}}'+
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-"'+ 
+	'									style="font-size: 10.5px; width: 21px; height: 21px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
+	'							{{else}}'+
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
+	'									{{#if style.icon}}'+
+	'										fa-{{style.icon}}"></div>'+	
+	'									{{else}}'+
+	'										"></div>'+
+	'									{{/if}}'+
+	'							{{/if}}'+
+	'						</td></tr>'+
+	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-rangs-polyline-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						{{#each values}}'+
+	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
+	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>'+
+	'						</td></tr>'+
+	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-rangs-polygon-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						{{#each values}}'+
+	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
+	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>'+
+	'						</td></tr>'+
+	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<div id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>'+
+	'					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>'+
+	'					<div id="list_tematic_values"></div>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<div id="paletes_colors">'+
+	'						<div lang="ca">Tria la paleta de colors</div>'+
+	'						<img id="paletaPaired" src="img/paleta2.png" class="btn-paleta" lang="ca" title="Paired">'+
+	'						<img id="paletaPastel" src="img/paleta1.png" class="btn-paleta" lang="ca" title="Pastel">'+
+	'						<img id="paletaDivergent" src="img/paleta_divergent.png" class="btn-paleta" lang="ca" title="Divergent">'+
+	'						<img id="paletaSecuencial" src="img/paleta_sequencial.png" class="btn-paleta" lang="ca" title="Sequencial">'+
+	'					</div>'+
+	'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
+	'         			<button type="button" class="btn btn-success" lang="ca">Canviar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- fi Modal Tematics Rangs -->'		
+	);
 }

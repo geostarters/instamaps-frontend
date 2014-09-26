@@ -3230,7 +3230,7 @@ i.fa {
 	text-align: center;
 }
 
-#twitter-collapse{
+#twitter-collapse, #wikipedia-collapse{
 	margin: 25px 20px 0 20px;	
 }
 
@@ -3243,7 +3243,8 @@ i.fa {
 	margin: 5px;
 }
 
-#hashtag_twitter_layer, #btn-add-twitter-layer {
+#hashtag_twitter_layer, #btn-add-twitter-layer,
+#name_wikipedia_layer, #btn-add-wikipedia-layer {
     height: 34px;
 }
 

@@ -95,15 +95,17 @@ function creaAreesDragDropFiles() {
 					}else{
 						txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
 					}
+					
+					_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
 					jQuery("#div_carrega_dades_message").html(txt_error);
 					jQuery("#div_carrega_dades_message").show();					
 				}
 			}else{
 				progressBarShow = false;
 				jQuery('#progress_bar_carrega_dades').hide();
+				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
 				jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
 				jQuery("#div_carrega_dades_message").show();
-//				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
 			}
 		});
 		
@@ -111,9 +113,9 @@ function creaAreesDragDropFiles() {
 			drgFromMapa.removeAllFiles(true);
 			progressBarShow = false;
 			jQuery('#progress_bar_carrega_dades').hide();
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
 			jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
 			jQuery("#div_carrega_dades_message").show();
-			//alert(window.lang.convert("Error en la càrrega de l'arxiu"));
 		});
 		
 		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
@@ -136,6 +138,9 @@ function uploadprogress(){
 }
 
 function addFuncioCarregaFitxers(){
+	
+	addHtmlModalCarregarFitxers();
+	
 	// zona 1
 	jQuery('#div_carrega_dades').on("click", function(e) {
 		
@@ -180,9 +185,24 @@ function addFuncioCarregaFitxers(){
 					resposta=jQuery.trim(resposta);
 					resposta=jQuery.parseJSON(resposta);
 					if(resposta.status=="OK"){			
-					addDropFileToMap(resposta);
+						addDropFileToMap(resposta);
 					}else{
-					alert(window.lang.convert("Error en la càrrega de l'arxiu"));
+//						alert(window.lang.convert("Error en la càrrega de l'arxiu"));
+						var txt_error = "ERROR";
+						if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
+							var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
+						}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
+							txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
+						}else if(resposta.codi.indexOf("502")!= -1){//+ de 1000 features
+							txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho");
+						}else if(resposta.codi.indexOf("503")!= -1){//+ de 6000 geometries
+							txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
+						}else{
+							txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
+						}
+						_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
+						jQuery("#div_carrega_dades_message").html(txt_error);
+						jQuery("#div_carrega_dades_message").show();						
 					}
 				}
 				
@@ -191,8 +211,10 @@ function addFuncioCarregaFitxers(){
 			drgFromBoto.on('error', function(file, errorMessage) {
 				drgFromBoto.removeAllFiles(true);
 				$('#dialog_carrega_dades').modal('hide');
-				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
-
+				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
+				jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
+				jQuery("#div_carrega_dades_message").show();				
+//				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
 			});
 			
 			drgFromBoto.on('uploadprogress', function(file, progress,bytesSent) {
@@ -823,4 +845,183 @@ function addDropFileToMap(results) {
 		jQuery("#div_carrega_dades_message").html(txt_error);
 		jQuery("#div_carrega_dades_message").show();	
 	}
+}
+
+function addHtmlModalCarregarFitxers(){
+	
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal Carrega dades -->'+
+		'	<div class="modal fade" id="dialog_carrega_dades">'+
+		'	<div class="modal-dialog">'+
+		'		<div class="modal-content">'+
+		'			<div class="modal-header">'+
+		'				<button type="button" class="close" data-dismiss="modal"'+
+		'					aria-hidden="true">&times;</button>'+
+		'				<h4 class="modal-title" lang="ca">Carregar dades</h4>'+
+		'			</div>'+
+		'			<div class="modal-body">'+
+		'				<div id="div_formats" class="alert alert-success">'+
+		'					<span class="glyphicon glyphicon-upload"></span>'+ 
+		'					<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong>'+ 
+		'						<a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/carrega-de-dades-instamaps/" target="_blank">Més informació i exemples</a>'+
+		'				</div>'+
+		'				<!--'+ 
+		'				<div class="input-group txt_ext">'+
+		'					<input type="text" lang="ca" class="form-control" value="" placeholder="Entrar URL fitxer" style="height:33px" id="txt_URLfitxer">'+ 
+		'					<span class="input-group-btn">'+
+		'						<button type="button" id="bt_URLfitxer" class="btn btn-success" onClick="javascript:addURLfitxerLayer();">'+
+		'							<span class="glyphicon glyphicon-play"></span>'+
+		'						</button>'+
+		'					</span>'+
+		'				</div>'+
+		'				-->'+
+		'				<table id="tbl_loadCapa">'+
+		'					<tr>'+
+		'						<td><input type=\'hidden\' id=\'formFile\' value=\'false\'>'+
+		'							<input type=\'hidden\' id=\'file_path\' value=\'\'>'+
+		'							<button lang="ca" type="button" class="btn btn-success"  name=\'upload\' id=\'upload_file\'>Carrega arxiu</button>'+ 
+		'							<!--<input type=\'button\' lang="ca" class="btn btn-success" name=\'upload\' id=\'upload_file\' value=\'Carrega arxiu\'></td> -->'+
+		'						<td>'+
+		'							<div id=\'file_name\' style="font-size: 100%"	class="label label-default"></div>'+
+		'							<div id="file_load" class="search-load" style="display: none;"></div>'+
+		'						</td>'+
+		'						<td>'+
+		'							<div style="display: none; cursor: pointer"	class="glyphicon glyphicon-trash" id="bt_esborra_ff"></div>'+
+		'						</td>'+
+		'					<tr>'+
+		'				</table>'+
+		'				<div id="dv_optSRS">'+
+		'					<div class="panel panel-danger">'+
+		'						<div lang="ca" class="panel-heading">Escull el sistema de referència d\'aquest arxiu</div>'+
+		'						<div class="panel-body">'+
+		'							<ul class="bs-dadesO_JSON">'+
+		'								<li>'+
+		'								<select id="select-upload-ff-epsg" style="width: 100%;">'+
+		'									<option lang="ca" value="null">Selecciona un SR</option>'+
+		'									<option value="EPSG:4326">EPSG:4326 GPS(WGS84 geogràfiques (lat, lon) - G.G)</option>'+
+		'									<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N	Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
+		'									<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
+		'									<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:2180">EPSG:2180 (ETRS89 / Poland CS92)</option>'+
+		'								</select>'+
+		'								</li>'+
+		'							</ul>'+
+		'							<button class="btn btn-success btn_mig" lang="ca" id="load_FF_SRS_coord">Processar arxiu</button>'+
+		'						</div>'+
+		'					</div>'+
+		'				</div>'+
+		'				<div id="dv_optCapa">'+
+		'					<div class="panel panel-danger">'+
+		'						<div lang="ca" class="panel-heading">Com vols geolocalitzar'+
+		'							aquest arxiu?</div>'+
+		'						<div class="panel-body">'+
+		'							<ul id="nav_pill" class="nav nav-pills">'+
+		'								<li class="active"><a href="#opt_coord" lang="ca"'+
+		'									data-toggle="tab">Per coordenades</a></li>'+
+		'								<li><a href="#opt_adreca" lang="ca" data-toggle="tab">Per adreces</a></li>'+
+		'								<li><a href="#opt_codi" lang="ca" data-toggle="tab">Per codis</a></li>'+
+		'							</ul>'+
+		'							<!-- Tab panes -->'+
+		'							<div id="dv_contentOpt" class="tab-content">'+
+		'								<div class="tab-pane active" id="opt_coord">'+
+		'									<ul class="bs-dadesO_JSON">'+
+		'										<li><label lang="ca">On són les coordenades?</label></li>'+
+		'										<li></li>'+
+		'										<li lang="ca">Coordenada X o Longitud</li>'+
+		'										<li><select style="width: 100%;" id=\'cmd_upload_colX\'></select></li>'+
+		'										<li lang="ca">Coordenada Y o Latitud</li>'+
+		'										<li><select style="width: 100%;" id=\'cmd_upload_colY\'></select></li>'+
+		'										<li><label lang="ca">Quin és el sistema de referència?</label></li>'+
+		'										<li>'+
+		'										<select id="select-upload-epsg" style="width: 100%;">'+
+		'											<option lang="ca" value="null">Selecciona un SR</option>'+
+		'											<option value="EPSG:4326">EPSG:4326 GPS (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
+		'											<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:4258">EPSG:4258 INSPIRE (ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
+		'											<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
+		'											<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
+		'										</select>'+
+		'										</li>'+
+		'									</ul>'+
+		'									<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_coord">Processar arxiu</button>'+
+		'								</div>'+
+		'								<div class="tab-pane" id="opt_adreca">'+
+		'								<!--<label lang="ca">L\'adreça ha de contenir: Nom carrer, número i municipi</label> -->'+
+		'									<div id="div_formats" class="alert alert-info">'+
+		'										<span class="glyphicon glyphicon-info-sign"></span>'+ 
+		'										<span lang="ca">Per codificar per adreces utilitza aquest</span>'+ 
+		'										<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a>'+ 
+		'										<span lang="ca">amb les teves dades.</span>'+
+		'										<br/>'+
+		'										<span lang="ca">Els camps Nom_via, Portal i Municipi són obligatoris.</span>'+
+		'									</div>'+
+		'									<!--'+ 
+		'									<p lang="ca">Selecciona una de les tres possibles combinacions</p>'+
+		'									<ul class="bs-dadesO_JSON3">'+
+		'										<li><input checked value="0" type="radio" name="radio_adre"><label lang="ca">Adreça en 1 camp</label></li>'+
+		'										<li><input value="1" type="radio" name="radio_adre"><label lang="ca">Adreça en 2 camps</label></li>'+
+		'										<li><input value="2" type="radio" name="radio_adre"><label lang="ca">Adreça en 3 camps</label></li>'+
+		'										<li><select style="width: 100%;" id=\'cmd_upload_adre_0\'></select></li>'+
+		'										<li><select disabled style="width: 100%;" id=\'cmd_upload_adre_11\'></select></li>'+
+		'										<li><select disabled style="width: 100%;" id=\'cmd_upload_adre_21\'></select></li>'+
+		'										<li></li>'+
+		'										<li><select disabled style="width: 100%;" id=\'cmd_upload_adre_12\'></select></li>'+
+		'										<li><select disabled style="width: 100%;" id=\'cmd_upload_adre_22\'></select></li>'+
+		'										<li></li>'+
+		'										<li></li>'+
+		'										<li><select disabled style="width: 100%;" id=\'cmd_upload_adre_23v\'></select></li>'+
+		'									</ul>'+
+		'									-->'+
+		'									<button class="btn btn-success btn_mig" lang="ca"'+
+		'										id="load_TXT_adre">Processar arxiu</button>'+
+		'								</div>'+
+		'								<div class="tab-pane" id="opt_codi">'+
+		'									<ul class="bs-dadesO_JSON">'+
+		'										<li><label lang="ca">Els teus codis són de</label>:</li>'+
+		'										<li>'+
+		'										<select id=\'cmd_codiType_Capa\'>'+
+		'											<option lang="ca" selected value=\'municipis\'>Municipis</option>'+
+		'											<option lang="ca" value=\'comarques\'>Comarques</option>'+
+		'										</select>'+
+		'										</li>'+
+		'										<li><label lang="ca">Tipus codi</label></li>'+
+		'										<li>'+
+		'										<select id=\'cmd_codiType\'>'+
+		'											<option value=\'ine\'>INE (5 digits)</option>'+
+		'											<option value=\'idescat\'>IDESCAT (6 digits)</option>'+
+		'											<option value=\'municat\'>MUNICAT (10 digits)</option>'+
+		'											<option value=\'cadastre\'>CADASTRE (5 digits)</option>'+
+		'										</select>'+
+		'										</li>'+
+		'										<li><label lang="ca">Camp que conté el codi</label></li>'+
+		'										<li><select style="width: 100%;" id=\'cmd_upload_codi\'></select></li>'+
+		'									</ul>'+
+		'									<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_codi">Processar arxiu</button>'+
+		'								</div>'+
+		'							</div>'+
+		'						</div>'+
+		'					</div>'+
+		'				</div>'+
+		'				<div id="div_carrega_dades_message" class="alert alert-danger"></div>'+
+		'				<div class="modal-footer">'+
+		'					<div id="progress_bar_carrega_dades" class="progress progress-striped active">'+
+		'						<div id="prg_bar" class="progress-bar progress-bar-success"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;"></div>'+
+		'					</div>'+
+		'					<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
+		'				</div>'+
+		'			</div>'+
+		'			<!-- /.modal-content -->'+
+		'		</div>'+
+		'		<!-- /.modal-dialog -->'+
+		'	</div>'+
+		'	<!-- /.modal -->'+
+		'	<!-- fi Modal Carrega dades -->'+
+		'</div>'
+	);	
+	
 }

@@ -1152,5 +1152,115 @@ h1.big_text{
     line-height: 1.33;
 }
 */
+
+/** GALERIA SEARCH **/
 	
-	
+#galeriaSort{
+	text-align: center;	
+}	
+
+#galeriaSort ul{
+	list-style-type: none;
+	margin-top: 10px;
+}
+
+#galeriaSort input {
+  border:solid 1px #ccc;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom:10px;
+  height: 30px;
+}
+#galeriaSort input:focus {
+  outline:none;
+  border-color:#aaa;
+}
+#galeriaSort .sort {
+  padding-left: 15px;
+  padding-right: 15px;
+  border:none;
+  display:inline-block;
+  color:#fff;
+  text-decoration: none;
+  background-color: #28a8e0;
+  height:30px;
+}
+#galeriaSort .sort:hover {
+  text-decoration: none;
+  background-color:#1b8aba;
+}
+#galeriaSort .sort:focus {
+  outline:none;
+}
+#galeriaSort .sort:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+#galeriaSort .sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:13px;
+  right:-5px;
+}
+#galeriaSort .sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+
+/*info popover visor*/
+
+#infoMap {
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: rgba(45, 46, 41);
+}
+
+#infoMap {
+	cursor: pointer;	
+}
+
+#mapTitle .popover{
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);	
+	min-width: 200px;
+}
+
+#mapTitle .popover.bottom .arrow:after{
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);	
+}
+
+#mapTitle .popover h3{
+	text-align: center;
+	font-size: 14px;
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+}
+
+.mapInfoPopover ul{
+	list-style-type: none;
+}
+
+.mapInfoPopover ul .divider {
+    background-color: #e5e5e5;
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+}

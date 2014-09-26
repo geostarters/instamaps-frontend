@@ -102,10 +102,31 @@ function loadApp(){
 					mapConfig.newMap = false;
 					$('#nomAplicacio').html(mapConfig.nomAplicacio);
 					
+					
+					console.debug(mapConfig);
+					
+					var configuracio = ""; 
+
+					if(mapConfig.configuracio){
+						
+					}else{
+						jQuery.get('../../default_config.txt', function(data) {
+//							   alert(data);
+							   configuracio = $.parseJSON(data);
+							   console.debug(configuracio);
+							   //process text file line by line
+							   //$('#div').html(data.replace('n','<br />'));
+						});							
+					}
+					
+					
 					loadMapConfig(mapConfig).then(function(){
 						addFuncioRenameMap();
 						addFuncioDownloadLayer('mapa');
 						addFuncioRemoveLayer();
+						
+						loadControls(configuracio);
+						
 					});
 					
 				}catch(err){
@@ -579,6 +600,12 @@ function getBusinessIdOrigenLayers(){
     });
     lBusinessId = lBusinessId.substring(0, lBusinessId.length - 1);
     return lBusinessId;
+	
+}
+
+function loadControls(configuracio){
+	
+	console.debug("load controls");
 	
 }
 
