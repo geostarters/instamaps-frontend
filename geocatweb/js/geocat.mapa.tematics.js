@@ -1543,4 +1543,3 @@ function transformTipusGeometry(geometrytype){
 	}
 	return ftype;
 }
-

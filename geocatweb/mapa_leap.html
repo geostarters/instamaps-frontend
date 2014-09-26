@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="author" content="InstaMaps">
-<meta name="description" content="InstaMaps ofereix eines per a la creaci&oacute; de mapes i visors. &Eacute;s gratuïta i oberta a tothom">
+<meta name="author" content="InstaMapes">
+<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -19,14 +19,12 @@
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/MarkerCluster.css">
-<link rel="stylesheet" href="/llibreries/css/leaflet/L.Control.MousePosition.css">
 <link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/Control.MiniMap.css" type="text/css">
+
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
 <link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
-<link rel="stylesheet" href="/llibreries/css/jquery.mCustomScrollbar.css"  />
-<link rel="stylesheet" href="/llibreries/css/listnav.css" />
 
 <link href="/llibreries/css/bootstrap-editable.custom.css" rel="stylesheet">
 <link href="/llibreries/css/jquery.share.css" rel="stylesheet">
@@ -34,38 +32,47 @@
 <link href="/geocatweb/css/estils.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/geocatweb/css/mapa.css" rel="stylesheet">
+<link href="/llibreries/js/leap/reset.css" rel="stylesheet"> 
 
-<!-- KISSMETRICS SNIPPET -->
-<script src="/geocatweb/js/geocat.kissmetrics.js"></script>
-
-<!-- [if lte IE 8]>
+<!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
-    <![endif] -->
+    <![endif]-->
+<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 
-<title lang="ca">Mapa InstaMaps</title>
+
+
+<!-- End Cookie Consent plugin -->
+
+<!-- End Cookie Consent plugin -->
+
+<title lang="ca">Mapa InstaMapes</title>
 </head>
 <body>
 
 <div id="div_loading">
-<div class="loader"> 
+		<div class="loader"> 
   <span>I</span>
-  <span></span>
-  <span>S</span>
-  <span></span>
-  <span>A</span>
-  <span></span>
-  <span>A</span>
-  <span></span>
-  <span id="ani5">S</span> 
+    <span></span>
+    <span>S</span>
+    <span></span>
+    <span>A</span>
+    <span></span>
+    <span>A</span>
+    <span></span>
+    <span>E</span>
+    <span id="ani5">S</span> 
   <div class="covers">   
     <span></span>
-    <span id="ani1"><div class="img-circle2-icon descobreix_color">N</div></span>
-    <span></span>
-    <span id="ani2"><div class="img-circle2-icon crea_color">T</div></span>
-    <span></span>
-    <span id="ani3"><div class="img-circle2-icon visualitza_color">M</div></span>
-    <span></span>
-    <span id="ani4"><div class="img-circle2-icon comparteix_color">P</div></span>
+   <span id="ani1"><div class="img-circle2-icon descobreix_color">N</div></span>
+   <span></span>
+  <span id="ani2"><div class="img-circle2-icon crea_color">T</div></span>
+  <span></span>
+  <span id="ani3"><div class="img-circle2-icon visualitza_color">M</div></span>
+  <span></span>
+  <span id="ani4"><div class="img-circle2-icon comparteix_color">P</div></span>
+  <span></span>
+  <span ></span>   
   </div>
 </div>
 </div>
@@ -81,17 +88,14 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMaps</div>
+					<div class="brand-txt">InstaMapes</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-				
-					<li><a id="hl_index" lang="ca" href="/geocatweb/galeria.html">Galeria</a></li>
-					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
-					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
-					
-					<!-- <li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<!-- 
+					<li><a id="hl_index" lang="ca" href="/properament.html">Blog</a></li>
+					<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
  					-->
@@ -106,16 +110,12 @@
 						<form class="navbar-form">
 							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html"
 								class="btn bt-sessio">Inicia la sessi&oacute;</a>
-<!-- 							<a lang="ca" id="hl_sessio1" href="/geocatweb/registre.html" -->
-<!-- 								class="btn bt-sessio">Crea un compte</a> -->
 						</form>
 					</li>
 
 					<li id="menu_user" class="dropdown">
 						<a href="#"	class="dropdown-toggle" data-toggle="dropdown"> &nbsp; <span class="glyphicon glyphicon-user green"></span> <b class="caret"></b></a>
 						<ul id="ch_perfil" class="dropdown-menu">
-							<li><span id="text_welcome" lang="ca">Benvingut</span><span id="text_username"></span></li>
-							<li class="divider" role="presentation"></li>
 							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
 							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
 							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
@@ -126,29 +126,13 @@
 					<!-- <li><a href="/properament.html" class="glyphicon glyphicon-stats"></a></li> -->
 				</ul>
 			</div>
-			<!-- /.nav-collapse -->
+			<!--/.nav-collapse -->
 		</div>
 	</div>
 	<!-- / Fixed navbar -->
 
-    <div id="searchBar" class="input-group">
-      <div id="ctr_options" class="input-group-btn">
-        <button type="button" class="btn btn-default2 dropdown-toggle" data-toggle="dropdown">
-		        <span class="glyphicon glyphicon-cog"></span>
-		        <span class="caret"></span>        
-        </button>
-        <ul class="dropdown-menu">
-	          <li class="active"><a id="ctr_cat" href="#">Cercador de Topònims</a></li>
-	          <li><a id="ctr_nomen" href="#">Cercador mundial de Topònims</a></li>  
-        </ul>
-      </div><!-- /btn-group -->
-		<div id="ctr_cerca"></div>
-		<div id="ctr_cercaNomen"></div>	
-    </div><!-- /input-group -->	
-
 	<div id="sidebar">
 		<input type="hidden" name="businessId" id="businessId" value="">
-		<input type="hidden" name="userId" id="userId" value="">
 		<table class="taulaFeina" width="100%" height="100%">
 			<tr border="2">
 				<td class="ramp_color" rowSpan="6" width="5px"></td>
@@ -191,19 +175,28 @@
 					<div lang="ca" id="div_carrega_dades" data-toggle="tooltip"	title="Arrossega les teves dades sobre el mapa o fes clic aquí" class="div_carrega_dades"></div>
 
 					<div class="div_gr2">
-						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr">
+						<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr pop">
 							<script id="meus-wms-template" type="text/x-handlebars-template">
-							<div class="panel-body">
-								<ul id="listnav-teves-dades" class="llista-teves-dades panel-heading">
+							<div class="panel-success">
+								<ul class="bs-dadesO panel-heading">
 								{{#each results}}
-									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a><span data-businessid="{{businessId}}" data-servername="{{serverName}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span></li>
+									<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-wms">{{serverName}}</a><span data-businessid="{{businessId}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-wms"></span></li>
 								{{/each}}							
 								</ul>
 							</div>
 							</script>
+							<!--script id="meus-tematic-template" type="text/x-handlebars-template">
+							<ul>
+							{{#each results}}
+							<li><a href="#" data-businessid="{{businessId}}" class="usr_tematic_layer">{{nom}}</a><span data-businessid="{{businessId}}" class="glyphicon glyphicon-remove"></span></li>
+							{{/each}}							
+							</ul>
+							</script>-->
 						</div>
 												
-						<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext"></div>
+						<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext pop">
+						
+						</div>
 					</div>
 
 				</td>
@@ -212,26 +205,26 @@
 				<td class="td3" height="25%">
 					<h5 lang="ca">Triar l'estil del mapa</h5>
 
-					<div class="div_gr3_estils">
+					<div class="div_gr3">
 						<div id="st_Color" lang="ca" data-toggle="tooltip" title="Bàsic" class="div_estil_1"></div>
 						<div id="st_Tema" lang="ca" data-toggle="tooltip" title="Categories" class="div_estil_2"></div>
-						<!--<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>-->
+						<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>
 						<div id="st_Heat" lang="ca" data-toggle="tooltip" title="Concentració" class="div_estil_4"></div>
 						<div id="st_Clust" lang="ca" data-toggle="tooltip" title="Agrupació" class="div_estil_5"></div>
-					</div>					
+					</div>
 
 					<h5 lang="ca">Escollir el mapa de fons</h5>
 					<div class="add_costat_r2">
 						<div lang="ca" id="div_mesfons" data-toggle="tooltip" title="Més mapes de fons" class="icon-add white pop"></div>
 					</div>
-					<div class="div_gr3_fons">
+					<div class="div_gr3">
 						<div id="topoMap" lang="ca" data-toggle="tooltip" title="Topogràfic" class="div_fons_1"></div>
-						<div id="topoMapGeo" lang="ca" data-toggle="tooltip" title="Simple" class="div_fons_12"></div>
-						<!-- div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div-->
+						<div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div>
 						<div id="ortoMap" lang="ca" data-toggle="tooltip" title="Imatge" class="div_fons_3"></div>
 						<div id="terrainMap" lang="ca" data-toggle="tooltip" title="Terreny" class="div_fons_4"></div>
 						<div id="colorMap" lang="ca" data-toggle="tooltip" title="Combinacions de color" class="div_fons_5 pop"></div>
 					</div>
+
 				</td>
 			</tr>
 			<tr>
@@ -243,29 +236,26 @@
 			</tr>
 			<tr>
 				<td class="td5">
-					<div id="socialShare" class="div_gr5_social">
+					<div id="socialShare" class="div_gr5">
 						<h5 lang="ca">Compartir</h5>
-						<!-- <div id="correu" class="icon-mail gris"></div>
+						<!--div id="correu" class="icon-mail gris"></div>
 						<div id="facebook" class="icon-facebook gris"></div>
 						<div id="google" class="icon-google-plus gris"></div>
 						<div id="twitter" class="icon-twitter gris"></div>
 						<div id="linkedin" class="icon-linkedin gris"></div>
-						<div id="pinterest" class="icon-pinterest gris"></div> -->
-					</div>				
+						<div id="pinterest" class="icon-pinterest gris"></div-->
+					</div>
+					</div>					
 				</td>
 			</tr>
 			<tr>
-				<td class="td5" height="15px"><label class="textGris">InstaMaps Beta</label></td>
+				<td class="td5" height="15px"><label class="textGris">InstaMapes Beta</label></td>
 			</tr>
 		</table>
+
 	</div>
-	<div id="descripcio_user" class="hidden"></div>
 	<div id="map"></div>
-	<div id="logos" class="logos">
-		<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
-			<img height="40" src="/llibreries/img/icgc.gif">
-		</a>
-	</div>
+
 	<!-- dialogs -->
 	
 	<!-- Modal Publicar -->
@@ -273,130 +263,72 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 					<h4 lang="ca" class="modal-title">Publicar el mapa</h4>
 				</div>
 				<div class="modal-body">
 					<form id="frm_publicar">
+						<script id="map-properties-template" type="text/x-handlebars-template">
 						<section>
 						<fieldset>	
-								<input lang="ca" id="nomAplicacioPub" type="text" required
-									class="form-control my-border" placeholder="Nom" value="">
+								<input lang="ca" id="nomAplicacio" type="text" required
+									class="form-control my-border" placeholder="Nom" value="{{nomAplicacio}}">
 								<br> 
 								<input lang="ca" id="optDescripcio" type="text" 
-									class="form-control my-border" placeholder="Descripció" value=""> 
+									class="form-control my-border" placeholder="Descripció" value="{{options.description}}"> 
 								<input lang="ca" id="optTags" type="text" 
-									class="form-control my-border" placeholder="Etiquetes" value="">
+									class="form-control my-border" placeholder="Etiquetes" value="{{options.tags}}">
 						</fieldset>
 						</section>
-						<br>
-						<div lang="ca" class="alert alert-info">
-						<span class="glyphicon glyphicon-info-sign"></span> 
-						<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
-						</div>
-						<div class="control-group">
-							<div class="control-switch">
-							<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>
-							<div class="controls">
-								<div tabindex="0">
-									<input class="make-switch" id="visibilitat_chk" type="checkbox" 
-										data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
-										data-on-text="<span><span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span id='publish-public' lang='ca'>Públic</span></span>" 
-										data-off-text="<span><span class='fa fa-lock'></span>&nbsp;<span id='publish-private' lang='ca'>Privat</span></span>">
-								</div>
-							</div>
-							</div>
-							<div class="control-switch">
-								<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
-								<div class="controls">
-									<div tabindex="0">
-										<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" 
-											data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
-											data-on-text="<span id='publish-legend-yes' lang='ca'>Si</span>" 
-											data-off-text="<span id='publish-legend-no' lang='ca'>No</span>">
+						</script>
+						<!-- 
+								<br>
+								<div class="control-group">
+									<div class="control-switch">
+									<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
+									<div class="controls">
+										<div tabindex="0">
+											{{#if options.llegenda}}
+											<input class="make-switch" id="llegenda_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+											{{else}}
+											<input class="make-switch" id="llegenda_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+											{{/if}}
+										</div>
+									</div>
+									</div>
+
+									<div class="control-switch">
+									<label class="control-label" for="layers_chk" lang="ca">Arbol de capes</label>
+									<div class="controls">
+										<div tabindex="0">
+											{{#if options.layers}}
+											<input class="make-switch" id="layers_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+											{{else}}
+											<input class="make-switch" id="layers_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+											{{/if}}
+										</div>
+									</div>
+									</div>
+
+									<div class="control-switch">
+									<label class="control-label" for="social_chk" lang="ca">Barra social</label>
+									<div class="controls">
+										<div tabindex="0">
+											{{#if options.social}}
+											<input class="make-switch" id="social_chk" type="checkbox" checked data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+											{{else}}
+											<input class="make-switch" id="social_chk" type="checkbox" data-on-label="<i class='glyphicon glyphicon-ok glyphicon-white'></i>" data-off-label="<i class='glyphicon glyphicon-remove'></i>">
+											{{/if}}
+										</div>
+									</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<br>
-					</form>					
-					<div class="modal-legend">
+								-->
 						
-					</div>					
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-					<button lang="ca" type="button" class="btn btn-primary">Publicar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- Fi Modal Publicar -->
-	
-	
-	<!-- Modal Publicar random -->
-	<div id="dialgo_publicar_random" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Publicar el mapa</h4>
-				</div>
-				<div class="modal-body" lang="ca">
-					Per publicar o compartir el mapa has d'iniciar sessió
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn bt-sessio">Inicia la sessió</button>
-					<button lang="ca" type="button" class="btn bt_orange">Crea un compte</button>
-					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal" >Més tard</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- Fi Modal Publicar random -->
-	
-	
-<!-- Modal Llegenda -->
-	<div id="dialog_llegenda" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Llegenda</h4>
-				</div>
-				<div class="modal-body">
-					
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Cancel·lar</button>
-					<button lang="ca" type="button" class="btn btn-primary">Preview</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- Fi Modal Llegenda -->	
-	
-	<!-- Modal Url/iframe -->
-	<div id="dialgo_url_iframe" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Mapa publicat</h4>
-				</div>
-				<div class="modal-body">
+						
+					</form>
+					<hr>
 					<div class="form-group">
 				    	<label for="urlMap"><span lang="ca">Per enllaçar amb aquest mapa, copieu i enganxeu el següent text</span>:</label>
 				    	<input type="text" class="form-control" id="urlMap">
@@ -408,7 +340,8 @@
 				</div>
 				<div class="modal-footer">
 					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Acceptar</button>
+						data-dismiss="modal">Cancel·lar</button>
+					<button lang="ca" type="button" class="btn btn-primary">Publicar</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -416,8 +349,7 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!-- Fi Modal Url/iframe -->
-	
+	<!-- Fi Modal Publicar -->
 	
 	<!-- Modal twitter -->
 	<div class="modal fade" id="modal_twitter_layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -464,65 +396,37 @@
 							<td colspan="8"><span lang="ca">Punts disponibles</span></td>
 						</tr>
 						<tr>
-							<td>
-								<div id="div_puntZ" class="li2 liX">
-									<div id="div_punt9" style="background-color: #FFC500;" class="awesome-marker-web awesome-marker-icon-punt_r"></div>
+						<td>
+							<div id="div_puntZ" class="li2 liX">
+								<div id="div_punt9" style="background-color: #FFC500;" class="awesome-marker-web awesome-marker-icon-punt_r"></div>
+							</div>
+							<div class="liX">
+								<span class="small" lang="ca">Color punt:</span>
+								<div class="btn-group">
+									<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+										<div id="dv_fill_color_punt" class="fill_color_punt"></div>
+									</a>
+									<ul class="dropdown-menu">
+										<li><div id="colorpalette_punt"></div></li>
+									</ul>
 								</div>
-								<div class="liX">
-									<span class="small" lang="ca">Color punt:</span>
-									<div class="btn-group">
-										<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-											<div id="dv_fill_color_punt" class="fill_color_punt"></div>
-										</a>
-										<ul class="dropdown-menu">
-											<li><div id="colorpalette_punt"></div></li>
-										</ul>
-									</div>
-								</div>
-								<div class="liX" style="border-right: 1px solid #DDDDDD">
-									<span class="small" lang="ca">Mida punt:</span>
-									<select id="cmb_mida_Punt" class="form-control">
-										<!-- <option lang="ca" class="small" value="24">Mida punt</option> -->
-										<option lang="ca" class="small" value="16">Petit +</option>
-										<option lang="ca" class="small" value="21">Petit</option>
-										<option lang="ca" class="small" value="24">Mitjà</option>
-										<option lang="ca" class="small" selected value="30">Mitjà +</option>
-										<option class="small" value="34">Gran</option>
-									</select>
-								</div>
-							</td>
-						</tr>
-						<tr id="filaM">
-							<td>
-								<div id="div_puntM" class="li2 liX">
-									<div id="div_punt_1" class="awesome-marker-web awesome-marker-icon-orange"></div>
-									<!-- <div id="div_punt_#ffc500" class="awesome-marker-web awesome-marker-icon-orange"></div>
-									<div id="div_punt_#ff070b"	class="awesome-marker-web awesome-marker-icon-darkorange hide"></div>
-									<div id="div_punt_#ff4b3a"	class="awesome-marker-web awesome-marker-icon-red hide"></div>
-									<div id="div_punt_#ae59b9"	class="awesome-marker-web awesome-marker-icon-purple hide"></div>
-									<div id="div_punt_#00afb5" class="awesome-marker-web awesome-marker-icon-blue hide"></div>
-									<div id="div_punt_#7cbd00" class="awesome-marker-web awesome-marker-icon-green hide"></div>
-									<div id="div_punt_#90a6a9" class="awesome-marker-web awesome-marker-icon-darkgray hide"></div>
-									<div id="div_punt_#ebf0f1" class="awesome-marker-web awesome-marker-icon-gray hide"></div> -->									
-								</div>
-								<div class="liX">
-									<span class="small" lang="ca">Color punt:</span>
-									<div class="btn-group">
-										<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-											<div id="dv_fill_color_marker" class="fill_color_marker"></div>
-										</a>
-										<ul class="dropdown-menu">
-											<li><div id="colorpalette_marker"></div></li>
-										</ul>
-									</div>
-								</div>
-							</td>
-						</tr>						
-						<!--  <tr class="fila-awesome-markers">
+							</div>
+							<div class="liX" style="border-right: 1px solid #DDDDDD">
+								<span class="small" lang="ca">Mida punt:</span>
+								<select id="cmb_mida_Punt" class="form-control">
+									<option lang="ca" class="small" value="24">Mida punt</option>
+									<option lang="ca" class="small" value="16">Petit +</option>
+									<option lang="ca" class="small" value="21">Petit</option>
+									<option lang="ca" class="small" value="24">Mitjà</option>
+									<option lang="ca" class="small" selected value="30">Mitjà +</option>
+									<option class="small" value="34">Gran</option>
+								</select>
+							</div>
+						</td>
+						<tr class="fila-awesome-markers">
 						<td>
 							<ul class="bs-punts">
-								<li class="estil_selected" >
-								<div id="div_punt1" class="awesome-marker-web awesome-marker-icon-orange"></div></li>
+								<li class="estil_selected" ><div id="div_punt1" class="awesome-marker-web awesome-marker-icon-orange"></div></li>
 								<li><div id="div_punt2"	class="awesome-marker-web awesome-marker-icon-darkorange"></div></li>
 								<li><div id="div_punt3"	class="awesome-marker-web awesome-marker-icon-red"></div></li>
 								<li><div id="div_punt4"	class="awesome-marker-web awesome-marker-icon-purple"></div></li>
@@ -532,7 +436,7 @@
 								<li><div id="div_punt8" class="awesome-marker-web awesome-marker-icon-gray"></div></li>
 							</ul>
 						</td>
-						</tr> -->
+						</tr>
 						<tr class="fila-awesome-markers">
 							<td colspan="8"><span lang="ca">Iconografia</span></td>
 						</tr>
@@ -558,10 +462,8 @@
 									<li><span class="fa fa-anchor"></span></li>
 									<li><span class="fa fa-ban circle"></span></li>
 									<li><span class="fa fa-bar-chart-o"></span></li>
-									<li><span class="fa fa-bus"></span></li>
 									<li><span class="fa fa-beer"></span></li>
 									<li><span class="fa fa-bell"></span></li>
-									<li><span class="fa fa-bicycle"></span></li>
 									<li><span class="fa fa-bolt"></span></li>
 									<li><span class="fa fa-book"></span></li>
 									<li><span class="fa fa-briefcase"></span></li>
@@ -578,7 +480,6 @@
 									<li><span class="fa fa-cogs"></span></li>
 									<li><span class="fa fa-dot-circle-o"></span></li>
 									<li><span class="fa fa-comment"></span></li>
-									<li><span class="fa fa-cutlery"></span></li>
 									<li><span class="fa fa-eur"></span></li>
 									<li><span class="fa fa-smile-o"></span></li>
 									<li><span class="fa fa-envelope"></span></li>
@@ -613,7 +514,6 @@
 									<li><span class="fa fa-legal"></span></li>
 									<li><span class="fa fa-lemon-o"></span></li>
 									<li><span class="fa fa-lightbulb-o"></span></li>
-									<li><span class="fa fa-line-chart"></span></li>
 									<li><span class="fa fa-link"></span></li>
 									<li><span class="fa fa-linkedin"></span></li>
 									<li><span class="fa fa-lock"></span></li>
@@ -643,7 +543,6 @@
 									<li><span class="fa fa-tablet"></span></li>
 									<li><span class="fa fa-tag"></span></li>
 									<li><span class="fa fa-tags"></span></li>
-									<li><span class="fa fa-taxi"></span></li>
 									<li><span class="fa fa-th-large"></span></li>
 									<li><span class="fa fa-thumbs-down"></span></li>
 									<li><span class="fa fa-thumbs-up"></span></li>
@@ -660,22 +559,7 @@
 									<li><span class="fa fa-volume-off"></span></li>
 									<li><span class="fa fa-volume-up"></span></li>
 									<li><span class="fa fa-warning sign"></span></li>
-									<li><span class="fa fa-wifi"></span></li>
 									<li><span class="fa fa-wrench"></span></li>
-									<li><span class="fa fa-file-image-o"></span></li>
-									<li><span class="fa fa-frown-o"></span></li>
-									<li><span class="fa fa-info-circle"></span></li>
-									<li><span class="fa fa-tree"></span></li>
-									<li><span class="fa fa-video-camera"></span></li>
-									<li><span class="fa fa-exclamation-triangle"></span></li>
-									<li><span class="fa fa-car"></span></li>
-									<li><span class="fa fa-futbol-o"></span></li>
-									<li><span class="fa fa-thumb-tack"></span></li>
-									<li><span class="fa fa-meh-o"></span></li>
-									<li><span class="fa fa-bullseye"></span></li>
-									<li><span class="fa fa-graduation-cap"></span></li>
-									<li><span class="fa fa-sort-asc"></span></li>
-									<li><span class="fa fa-university"></span></li>
 								</ul>
 							</div>
 						</td>
@@ -693,182 +577,174 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!-- fi modal punts -->
+	<!--  fi modal punts -->
 
 	<!-- Modal Lineas -->
-	<div class="modal fade" id="dialog_estils_linies">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Estils de línia</h4>
-				</div>
-				<div class="modal-body">
-					<table width="100%" class="tbl_taula" border="0" cellspacing="1"
-						cellpadding="1">
-						<tr>
-							<td height="50" colspan="8">
-								<div class="tbl">
-									<div id="div_linia0" class="vector-web">
-
-										<canvas id="cv_linia0" width="40" height="40"></canvas>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="8"><span lang="ca">Estils disponibles</span></td>
-						</tr>
-						<tr>
-							<td>
-								<div id="dv_html_pol" class="tbl">
-									<table>
-										<tr>
-											<td><span lang="ca">Color linia:</span></td>
-											<td>
-												<div class="btn-group">
-													<a class="btn btn-mini dropdown-toggle"
-														data-toggle="dropdown">
-														<div id="dv_border_color_linia" class="border_color_linia"></div>
-													</a>
-													<ul class="dropdown-menu">
-														<li><div id="colorpalette_ll"></div></li>
-													</ul>
-												</div>
-
-											</td>
-										</tr>
-										<tr>
-											<td><span lang="ca">Gruix linia:</span></td>
-											<td><select id="cmb_gruix_l" class="form-control">
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option selected value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-											</select></td>
-										</tr>
-									</table>
-								</div>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-					<button type="button" class="btn btn-success">Canviar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
+<div class="modal fade" id="dialog_estils_linies" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" lang="ca">Estils de línia</h4>
+      </div>
+      <div class="modal-body">      
+    <table width="100%" class="tbl_taula"  border="0" cellspacing="1" cellpadding="1">
+  <tr> 
+    <td height="50" colspan="8">
+<div class="tbl">   
+   <div id="div_linia0" class="vector-web">
+	
+	 <canvas id="cv_linia0" width="40" height="40"></canvas>
+	</div>  
 	</div>
-	<!-- /.modal -->
-	<!--  fi modal lineas -->
+    </td>
+  </tr>
+  <tr> 
+    <td colspan="8">
+    <span lang="ca">Estils disponibles</span></td>
+  </tr>
+  <tr>
+  <td>
+  <div id="dv_html_pol" class="tbl">
+ <table >
+ 	<tr>
+ 		<td><span lang="ca">Color linia:</span></td>
+ 		<td>
+ 		
+ 		 <div class="btn-group"> 
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+    <div id="dv_border_color_linia" class="border_color_linia"></div></a>
+    <ul class="dropdown-menu">
+    <li><div id="colorpalette_ll"></div></li>
+    </ul>
+    </div>
+ 		
+ 		</td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Gruix linia:</span></td>
+ 		<td><select id="cmb_gruix_l" class="form-control">
+  <option value="1" >1</option>
+  <option value="2" >2</option>
+  <option selected value="3" >3</option>
+  <option value="4" >4</option>
+  <option value="5" >5</option>
+</select></td>
+ 	</tr>
+ 	
+ 	
+ 
+ </table>
+ 
+ </div>
+  </td> 
+  </tr>
+</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+        <button type="button" class="btn btn-success">Canviar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--  fi modal lineas -->
 
-	<!-- Modal Arees -->
-	<div class="modal fade" id="dialog_estils_arees">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" lang="ca">Estils d'àrees</h4>
-				</div>
-				<div class="modal-body">
-					<table width="100%" class="tbl_taula" border="0" cellspacing="1"
-						cellpadding="1">
-						<tr>
-							<td height="50" colspan="8">
-								<div class="tbl">
-									<div id="div_area0" class="vector-web">
-
-										<canvas id="cv_pol0" width="40" height="40"></canvas>
-
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="8"><span lang="ca">Estils disponibles</span></td>
-						</tr>
-						<tr>
-							<td>
-								<div id="dv_html_pol" class="tbl">
-									<table>
-										<tr>
-											<td><span lang="ca">Color contorn:</span></td>
-											<td>
-
-												<div class="btn-group">
-													<a class="btn btn-mini dropdown-toggle"
-														data-toggle="dropdown">
-														<div id="dv_border_color_pol" class="border_color_pol"></div>
-													</a>
-													<ul class="dropdown-menu">
-														<li><div id="colorpalette_pl"></div></li>
-													</ul>
-												</div>
-
-											</td>
-										</tr>
-										<tr>
-											<td><span lang="ca">Gruix contorn:</span></td>
-											<td><select id="cmb_gruix" class="form-control">
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option selected value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-											</select></td>
-										</tr>
-										<tr>
-											<td><span lang="ca">Color fons:</span></td>
-											<td>
-												<div class="btn-group">
-													<a class="btn btn-mini dropdown-toggle"
-														data-toggle="dropdown">
-														<div id="dv_fill_color_pol" class="fill_color_pol"></div>
-													</a>
-													<ul class="dropdown-menu">
-														<li><div id="colorpalette_pf"></div></li>
-													</ul>
-												</div>
-
-
-											</td>
-										</tr>
-										<tr>
-											<td><span lang="ca">Transperència fons:</span></td>
-											<td><select id="cmb_trans" class="form-control">
-													<option value="0">100%</option>
-													<option value="0.25">75%</option>
-													<option selected value="0.5">50%</option>
-													<option value="0.75">25%</option>
-													<option value="1">0%</option>
-											</select></td>
-										</tr>
-
-									</table>
-
-								</div>
-
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-					<button type="button" class="btn btn-success">Canviar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!--  fi modal arees -->
+<!-- Modal Arees -->
+<div class="modal fade" id="dialog_estils_arees" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" lang="ca">Estils d'àrees</h4>
+      </div>
+      <div class="modal-body">      
+    <table width="100%" class="tbl_taula"  border="0" cellspacing="1" cellpadding="1">
+  <tr> 
+    <td height="50" colspan="8">
+    <div class="tbl"> 
+    <div id="div_area0" class="vector-web">
+    
+    <canvas id="cv_pol0" width="40" height="40"></canvas>
+    
+    </div>  
+    </div>
+    </td>
+  </tr>
+  <tr> 
+    <td colspan="8">
+    <span lang="ca">Estils disponibles</span></td>
+  </tr>
+  <tr>
+  <td>
+ 
+ <div id="dv_html_pol" class="tbl">
+ <table >
+ 	<tr>
+ 		<td><span lang="ca">Color contorn:</span></td>
+ 		<td>
+ 		
+ 		 <div class="btn-group"> 
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+    <div id="dv_border_color_pol" class="border_color_pol"></div></a>
+    <ul class="dropdown-menu">
+    <li><div id="colorpalette_pl"></div></li>
+    </ul>
+    </div>
+ 		
+ 		</td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Gruix contorn:</span></td>
+ 		<td><select id="cmb_gruix" class="form-control">
+  <option value="1" >1</option>
+  <option value="2" >2</option>
+  <option selected value="3" >3</option>
+  <option value="4" >4</option>
+  <option value="5" >5</option>
+</select></td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Color fons:</span></td>
+ 		<td>
+ 		    <div class="btn-group"> 
+    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+    <div id="dv_fill_color_pol" class="fill_color_pol"></div></a>
+    <ul class="dropdown-menu">
+    <li><div id="colorpalette_pf"></div></li>
+    </ul>
+    </div>
+ 		
+ 		
+ 		</td>
+ 	</tr>
+ 	<tr>
+ 		<td><span lang="ca">Transperència fons:</span></td>
+ 		<td><select id="cmb_trans" class="form-control">
+  <option value="0" >100%</option>
+  <option value="0.25" >75%</option>
+  <option selected value="0.5" >50%</option>
+  <option value="0.75" >25%</option>
+  <option value="1" >0%</option>
+</select></td>
+ 	</tr>
+ 
+ </table>
+ 
+ </div>
+ 
+  </td> 
+  </tr>
+</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+        <button type="button" class="btn btn-success">Canviar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--  fi modal arees -->
 
 	<!-- Modal Dades Externes -->
 	<div class="modal fade" id="dialog_dades_ex">
@@ -883,21 +759,19 @@
 					<ul class="nav nav-tabs etiqueta">
 						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>
 						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>
-						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->
+						<li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>
 						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>
-						<li><a href="#id_url_file" lang="ca" data-toggle="tab">Dades externes</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade" id="id_do"></div>
 						<div class="tab-pane fade" id="id_xs"></div>
-						<!--  <div class="tab-pane fade" id="id_srvj"></div>-->
+						<div class="tab-pane fade" id="id_srvj"></div>
 						<div class="tab-pane fade" id="id_srvw"></div>
-						<div class="tab-pane fade" id="id_url_file"></div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
-         			<button type="button" class="btn btn-success">Canviar</button> -->
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+         <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -910,14 +784,14 @@
 	<!-- Modal les teves dades -->
 	<div class="modal fade" id="dialog_teves_dades">
 		<div class="modal-dialog">
-			<div class="modal-content panel-primary">
-				<div class="modal-header panel-heading">
+			<div class="modal-content">
+				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 id="modal-title-teves-dades" class="modal-title" lang="ca">Accedeix a les teves dades</h4>
+					<h4 class="modal-title" lang="ca">Accedeix a les teves dades</h4>
 				</div>
 				<div id="id_sw" class="modal-body">
-					<!-- <ul class="nav nav-tabs etiqueta">
+					<!--ul class="nav nav-tabs etiqueta">
 						<li><a href="#id_sv" lang="ca" data-toggle="tab">Serveis Vector</a></li>
 						<li><a href="#id_sw" lang="ca" data-toggle="tab">Serveis WMS</a></li>
 					</ul>
@@ -927,7 +801,7 @@
 					</div> -->
 				</div>
 				<div class="modal-footer">
-					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
 			</div>
@@ -936,10 +810,186 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!-- fi Modal les teves dades -->
+	<!-- fi Modal les teves dades -->	
 
+	
 	<!-- Modal Carrega dades -->
 	<div class="modal fade" id="dialog_carrega_dades">
+		<div class="modal-dialog">
+			<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&times;</button>
+							<h4 class="modal-title" lang="ca">Carregar dades</h4>
+						</div>
+				<div class="modal-body">
+				<div lang="ca" id="div_formats" class="alert alert-success">
+					
+				
+			<span class="glyphicon glyphicon-upload"></span> <span lang="ca"> Formats suportats:
+			<strong>KML, KMZ, GeoJSON, GML, SHP(ZIP), GPX, TXT, CSV, XLS, XLSX.  </strong> 
+			 <a class="alert-link" lnag="ca"  href="#">Més informació i exemples</a> 
+			</span>
+
+			</div>		
+				<table id="tbl_loadCapa">
+					<tr>
+					<td>
+						<input type='hidden' id='formFile' value='false'>
+						<input type='hidden' id='file_path' value=''>								
+						<input type='button' class="btn btn-success" name='upload' id='upload_file' value='Carrega arxiu'>
+					</td>
+					<td>
+						<div id='file_name' style="font-size: 100%" class="label label-default" ></div>
+						<div id="file_load" class="search-load" style="display: none;"></div>
+					</td>
+					<td>
+						<div style="display:none;cursor:pointer" class="glyphicon glyphicon-trash" id="bt_esborra_ff"></div>
+					</td>			
+					<tr>
+				</table>
+				
+				<div id="dv_optSRS">
+					<div class="panel panel-danger">		  
+		  					<div lang="ca"  class="panel-heading">Escull el sistema de coordenades d'aquest arxiu</div>
+		  						<div class="panel-body">
+		  							<ul class="bs-dadesO_JSON">				
+												<li><select id="select-upload-ff-epsg" style="width: 100%;">
+													<option value="null">Selecciona un SR</option>
+													<option value="EPSG:4326">EPSG:4326  GPS(WGS84 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
+													</select>
+												</li>
+											</ul>
+											
+											<button class="btn btn-success btn_mig" lang="ca" id="load_FF_SRS_coord">Processar arxiu</button>
+													
+								</div>
+							</div>
+					</div>
+				</div>
+				
+				<div id="dv_optCapa">
+								
+						<div class="panel panel-danger">		  
+		  					<div class="panel-heading">Com vols geolocalitzar aquest arxiu?</div>
+		  						<div class="panel-body">
+				    						<ul id="nav_pill" class="nav nav-pills">
+											  <li class="active"><a href="#opt_coord" lang="ca" data-toggle="tab">Per coordenades</a></li>
+											  <li><a href="#opt_adreca"  lang="ca"  data-toggle="tab">Per adreçes</a></li>
+											  <li><a href="#opt_codi"  lang="ca"  data-toggle="tab">Per codis</a></li>									 
+											</ul>
+						
+										<!-- Tab panes -->
+										<div id="dv_contentOpt" class="tab-content">
+										  <div class="tab-pane active" id="opt_coord">
+											  <ul class="bs-dadesO_JSON">
+												<li><label>On són les coordenades?</label></li>
+												<li></li>
+												<li>Coordenada X o Longitud</li>
+												<li><select style="width: 100%;"  id='cmd_upload_colX'></select></li>
+												<li>Coordenada Y o Latitud</li>
+												<li><select style="width: 100%;" id='cmd_upload_colY'></select></li>
+												<li><label>Quin és el sistema de referència?</label></li>
+												<li><select id="select-upload-epsg" style="width: 100%;">
+													<option value="null">Selecciona un SR</option>
+													<option value="EPSG:4326">EPSG:4326 GPS (WGS84 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:4258">EPSG:4258 INSPIRE (ETRS89 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
+							              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
+							              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
+													</select>
+												</li>
+											</ul>
+											
+											<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_coord">Processar arxiu</button>
+																														  
+										  </div>
+										  <div class="tab-pane" id="opt_adreca">										  									  
+											  <ul class="bs-dadesO_JSON">
+													<li><label lang ="ca">Adreça postal + Municipi</label></li>
+													<li></li>
+													<li>Adreça (Nom carrer + número)</li>
+													<li><select style="width: 100%;"  id='cmd_upload_adre'></select></li>
+													<li>Municipi o codi postal</li>
+													<li><select style="width: 100%;" id='cmd_upload_mun'></select></li>
+													
+												</ul>		
+											<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_adre">Processar arxiu</button>				  
+										  </div>
+										  <div class="tab-pane" id="opt_codi">
+											  <ul class="bs-dadesO_JSON">
+											  
+											  		<li><label lang ="ca">Els teus codis són de:</label></li>
+														<li><select id='cmd_codiType_Capa'>
+															<option selected value='municipis'>Municipis</option>
+															<option value='comerques'>Comarques</option>															
+															</select>
+														</li>											  											  											  
+														<li><label lang ="ca">Tipus codi</label></li>
+														<li>																												
+														<select id='cmd_codiType'>
+														<option value='ine'>INE (5 digits)</option>
+														<option value='idescat'>IDESCAT (6 digits)</option>
+														<option value='municat'>MUNICAT (10 digits)</option>
+														<option value='cadastre'>CADASTRE (5 digits)</option>	
+															</select>
+														</li>
+														<li><label lang ="ca">Camp que conté el codi</label></li>																										
+														<li><select style="width: 100%;"  id='cmd_upload_codi'></select></li>
+																									
+												</ul>
+												<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_codi">Processar arxiu</button>										  
+										  </div>						 
+										</div>
+										
+										
+										
+		  						</div>
+						
+						
+						</div>
+						
+						
+							
+				</div>
+						
+						
+				<div class="modal-footer">
+					<div class="progress">
+  					<div id="prg_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+					</div>
+				
+			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+			    </div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal Carrega dades -->
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- Modal Carrega dades -->
+	<div class="modal fade" id="dialog_carrega_dadesfields">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -948,174 +998,63 @@
 					<h4 class="modal-title" lang="ca">Carregar dades</h4>
 				</div>
 				<div class="modal-body">
-					<div id="div_formats" class="alert alert-success">
-						<span class="glyphicon glyphicon-upload"></span> 
-						<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong> 
-							<a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/carrega-de-dades-instamaps/" target="_blank">Més informació i exemples</a>
+					<div lang="ca" class="alert alert-info">
+					<span class="glyphicon glyphicon-info-sign"></span>
+					Necessitem les següent informació per processar el fitxer correctament
 					</div>
-					
-					<!-- 
-					<div class="input-group txt_ext">
-						<input type="text" lang="ca" class="form-control" value="" placeholder="Entrar URL fitxer" style="height:33px" id="txt_URLfitxer"> 
-						<span class="input-group-btn">
-							<button type="button" id="bt_URLfitxer" class="btn btn-success" onClick="javascript:addURLfitxerLayer();">
-								<span class="glyphicon glyphicon-play"></span>
-							</button>
-						</span>
-					</div>
-					-->
-					
-					
-					<table id="tbl_loadCapa">
-						<tr>
-							<td><input type='hidden' id='formFile' value='false'>
-								<input type='hidden' id='file_path' value=''>
-								<button lang="ca" type="button" class="btn btn-success"  name='upload' id='upload_file'>Carrega arxiu</button> 
-<!-- 								<input type='button' lang="ca" class="btn btn-success" name='upload' id='upload_file' value='Carrega arxiu'></td> -->
-							<td>
-								<div id='file_name' style="font-size: 100%"	class="label label-default"></div>
-								<div id="file_load" class="search-load" style="display: none;"></div>
-							</td>
-							<td>
-								<div style="display: none; cursor: pointer"	class="glyphicon glyphicon-trash" id="bt_esborra_ff"></div>
-							</td>
-						<tr>
-					</table>
-
-					<div id="dv_optSRS">
-						<div class="panel panel-danger">
-							<div lang="ca" class="panel-heading">Escull el sistema de referència d'aquest arxiu</div>
-							<div class="panel-body">
-								<ul class="bs-dadesO_JSON">
-									<li>
-									<select id="select-upload-ff-epsg" style="width: 100%;">
-										<option lang="ca" value="null">Selecciona un SR</option>
-										<option value="EPSG:4326">EPSG:4326 GPS(WGS84 geogràfiques (lat, lon) - G.G)</option>
-										<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N	Easting,Northing o X,Y)</option>
-										<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
-										<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>
-										<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
-										<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
-										<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
-										<option value="EPSG:2180">EPSG:2180 (ETRS89 / Poland CS92)</option>
-									</select>
-									</li>
-								</ul>
-								<button class="btn btn-success btn_mig" lang="ca" id="load_FF_SRS_coord">Processar arxiu</button>
-							</div>
+					<form id="formFields">
+						<input type='hidden' id='file_path' value=''>
+						<input type='hidden' id='isCoordinates' value=''>
+						<div id="localitzaCoord">
+						<h4 lang="ca">Localitza per coordenades</h4>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>ID:</div>
+						<input type='text' class="typeahead" name='bid' id='bid' value=''>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>SRID:</div>
+						<select id='srid' style='margin-left: 68px;'>
+						<option value='4326'>4326</option>
+						<option value='23031'>23031</option>
+						<option value='25831'>25831</option>
+						</select><br/>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'>
+						<span lang="ca">Coordenades</span>:</div>
+						X: <input type='text' class="typeahead" name='colX' id='colX' value='' style='margin-left: 68px;'>
+						Y: <input type='text' class="typeahead" name='colY' id='colY' value=''><br/>
+						<div><button type="button" class="btn btn-link btn_codi" lang="ca">Localitza per codis</button></div>
 						</div>
-					</div>
-					<div id="dv_optCapa">
-						<div class="panel panel-danger">
-							<div lang="ca" class="panel-heading">Com vols geolocalitzar
-								aquest arxiu?</div>
-							<div class="panel-body">
-								<ul id="nav_pill" class="nav nav-pills">
-									<li class="active"><a href="#opt_coord" lang="ca"
-										data-toggle="tab">Per coordenades</a></li>
-									<li><a href="#opt_adreca" lang="ca" data-toggle="tab">Per adreces</a></li>
-									<li><a href="#opt_codi" lang="ca" data-toggle="tab">Per codis</a></li>
-								</ul>
-
-								<!-- Tab panes -->
-								<div id="dv_contentOpt" class="tab-content">
-									<div class="tab-pane active" id="opt_coord">
-										<ul class="bs-dadesO_JSON">
-											<li><label lang="ca">On són les coordenades?</label></li>
-											<li></li>
-											<li lang="ca">Coordenada X o Longitud</li>
-											<li><select style="width: 100%;" id='cmd_upload_colX'></select></li>
-											<li lang="ca">Coordenada Y o Latitud</li>
-											<li><select style="width: 100%;" id='cmd_upload_colY'></select></li>
-											<li><label lang="ca">Quin és el sistema de referència?</label></li>
-											<li>
-											<select id="select-upload-epsg" style="width: 100%;">
-												<option lang="ca" value="null">Selecciona un SR</option>
-												<option value="EPSG:4326">EPSG:4326 GPS (WGS84 geogràfiques (lat, lon) - G.G)</option>
-												<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N Easting,Northing o X,Y)</option>
-												<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
-												<option value="EPSG:4258">EPSG:4258 INSPIRE (ETRS89 geogràfiques (lat, lon) - G.G)</option>
-												<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
-												<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
-												<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
-											</select>
-											</li>
-										</ul>
-										<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_coord">Processar arxiu</button>
-									</div>
-									<div class="tab-pane" id="opt_adreca">
-<!-- 										<label lang="ca">L'adreça ha de contenir: Nom carrer, número i municipi</label> -->
-										<div id="div_formats" class="alert alert-info">
-											<span class="glyphicon glyphicon-info-sign"></span> 
-											<span lang="ca">Per codificar per adreces utilitza aquest</span> 
-											<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a> 
-											<span lang="ca">amb les teves dades.</span>
-											<br/>
-											<span lang="ca">Els camps Nom_via, Portal i Municipi són obligatoris.</span>
-										</div>
-										<!-- 
-										<p lang="ca">Selecciona una de les tres possibles combinacions</p>
-										<ul class="bs-dadesO_JSON3">
-											<li><input checked value="0" type="radio" name="radio_adre"><label lang="ca">Adreça en 1 camp</label></li>
-											<li><input value="1" type="radio" name="radio_adre"><label lang="ca">Adreça en 2 camps</label></li>
-											<li><input value="2" type="radio" name="radio_adre"><label lang="ca">Adreça en 3 camps</label></li>
-											<li><select style="width: 100%;" id='cmd_upload_adre_0'></select></li>
-											<li><select disabled style="width: 100%;" id='cmd_upload_adre_11'></select></li>
-											<li><select disabled style="width: 100%;" id='cmd_upload_adre_21'></select></li>
-											<li></li>
-											<li><select disabled style="width: 100%;" id='cmd_upload_adre_12'></select></li>
-											<li><select disabled style="width: 100%;" id='cmd_upload_adre_22'></select></li>
-											<li></li>
-											<li></li>
-											<li><select disabled style="width: 100%;" id='cmd_upload_adre_23'></select></li>
-										</ul>
-										-->
-										<button class="btn btn-success btn_mig" lang="ca"
-											id="load_TXT_adre">Processar arxiu</button>
-									</div>
-									<div class="tab-pane" id="opt_codi">
-										<ul class="bs-dadesO_JSON">
-											<li><label lang="ca">Els teus codis són de</label>:</li>
-											<li>
-											<select id='cmd_codiType_Capa'>
-												<option lang="ca" selected value='municipis'>Municipis</option>
-												<option lang="ca" value='comarques'>Comarques</option>
-											</select>
-											</li>
-											<li><label lang="ca">Tipus codi</label></li>
-											<li>
-											<select id='cmd_codiType'>
-												<option value='ine'>INE (5 digits)</option>
-												<option value='idescat'>IDESCAT (6 digits)</option>
-												<option value='municat'>MUNICAT (10 digits)</option>
-												<option value='cadastre'>CADASTRE (5 digits)</option>
-											</select>
-											</li>
-											<li><label lang="ca">Camp que conté el codi</label></li>
-											<li><select style="width: 100%;" id='cmd_upload_codi'></select></li>
-										</ul>
-										<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_codi">Processar arxiu</button>
-									</div>
-								</div>
-							</div>
+						<div id="localitzaCodi">
+						<h4 lang="ca">Localitza per codis</h4>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Codi municipi o comarca</span>:</div>
+						<input type='text' class="typeahead" name='codi' id='codi' value=''>
+						<!-- 
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Tipus codi</span>:</div>
+						<select id='codiType' style='margin-left: 68px;'>
+						<option value='ine'>INE (5 digits)</option>
+						<option value='idescat'>Idescat (6 digits)</option>
+						<option value='municat'>Municat (10 digits)</option>
+						<option value='cadastre'>Cadastre (5 digits)</option>
+						</select><br/>
+						<div style='display: inline;font-weight: bold;margin-right: 15px;width: 150px;'><span lang="ca">Tipus codi</span>:</div>
+						<select id='geomType' style='margin-left: 68px;'>
+						<option value='municipi'>Municipis</option>
+						<option value='comarca'>Comarques</option>
+						</select><br/>
+						-->
+						<div><button type="button" class="btn btn-link btn_coord" lang="ca">Localitza per coordenades</button></div>
 						</div>
-					</div>
-					<div id="div_carrega_dades_message" class="alert alert-danger"></div>
-					<div class="modal-footer">
-						<div id="progress_bar_carrega_dades" class="progress progress-striped active">
-							<div id="prg_bar" class="progress-bar progress-bar-success"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;"></div>
-						</div>
-						<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
-					</div>
+					</form>
 				</div>
-				<!-- /.modal-content -->
+				<div class="modal-footer">
+			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+			        <button id="bt_upload_fitxer" lang="ca" type="button" class="btn btn-primary">Carregar dades</button>
+			    </div>
 			</div>
-			<!-- /.modal-dialog -->
+			<!-- /.modal-content -->
 		</div>
-		<!-- /.modal -->
-		<!-- fi Modal Carrega dades -->
+		<!-- /.modal-dialog -->
 	</div>
-
+	<!-- /.modal -->
+	<!-- fi Modal Carrega dades -->
+			
 	<!-- Modal expired -->
 	<div class="modal fade" id="dialog_session_expired">
 		<div class="modal-dialog">
@@ -1137,6 +1076,7 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
+	
 	<!-- fi Modal expired -->
 
 	<div class="modal fade" id="modal_download_layer">
@@ -1152,7 +1092,7 @@
 					<div id="modal-body-download">
 						<div class="input-group input-group-sm">
 						  <span lang="ca" class="input-group-addon">Guardar com</span>
-						  <input lang="ca" type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">
+						  <input type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">
 						</div>	
 						<small class="label label-default" lang="ca">Opcional: en blanc s'assignarà un nom automàtic</small>				
 						<br><br>
@@ -1163,7 +1103,6 @@
 							  <option value="ESRI Shapefile#.shp">ESRI Shapefile</option>
 							  <option value="DXF#.dxf">DXF</option>
 							  <option value="KML#.kml">KML</option>
-							  <option value="GPX#.gpx">GPX</option>
 							</select>
 							<br><br>
 						EPSG:&nbsp;
@@ -1219,8 +1158,8 @@
 					<div id="list_tematic_layers"></div>
 			</div>
 				<div class="modal-footer">
-				<div style="float:right;line-height: 40px;"><span lang="ca">Estil actiu</span>:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
-					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
+				<div lang="ca" style="float:right;line-height: 40px;">Estil actiu:  <div style="float: right;width:42px;height:42px" id="stActiu"></div></div>
+					<!--<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>
          <button type="button" class="btn btn-success">Canviar</button> -->
 				</div>
 			</div>
@@ -1275,7 +1214,6 @@
 							<option value="6">6</option>
 							<option value="7">7</option>
 							<option value="8">8</option>
-							<option value="9">9</option>
 						</select>
 					</div>
 					
@@ -1295,18 +1233,6 @@
 										"></div>
 									{{/if}}
 							{{/if}}
-						</td></tr>
-						{{/each}}
-						</tbody>
-					</table>	
-					</script>
-					
-					<script id="tematic-values-unic-polyline-template" type="text/x-handlebars-template">
-					<table class="table">
-						<tbody>
-						{{#each values}}
-						<tr><td>{{v}}</td><td>
-							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>
 						</td></tr>
 						{{/each}}
 						</tbody>
@@ -1355,20 +1281,6 @@
 					</table>	
 					</script>
 					
-					<script id="tematic-values-rangs-polyline-template" type="text/x-handlebars-template">
-					<table class="table">
-						<tbody>
-						{{#each values}}
-						<tr><td><input type="text" value="{{v.min}}" name="min"></td>
-							<td><input type="text" value="{{v.max}}" name="max"></td>
-							<td>
-							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>
-						</td></tr>
-						{{/each}}
-						</tbody>
-					</table>	
-					</script>
-					
 					<script id="tematic-values-rangs-polygon-template" type="text/x-handlebars-template">
 					<table class="table">
 						<tbody>
@@ -1383,17 +1295,11 @@
 					</table>	
 					</script>
 					
-					<div id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>
-					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>
 					<div id="list_tematic_values"></div>
 				</div>
 				<div class="modal-footer">
 					<div id="paletes_colors">
-						<div lang="ca">Tria la paleta de colors</div>
-						<img id="paletaPaired" src="img/paleta2.png" class="btn-paleta" lang="ca" title="Paired">
-						<img id="paletaPastel" src="img/paleta1.png" class="btn-paleta" lang="ca" title="Pastel">
-						<img id="paletaDivergent" src="img/paleta_divergent.png" class="btn-paleta" lang="ca" title="Divergent">
-						<img id="paletaSecuencial" src="img/paleta_sequencial.png" class="btn-paleta" lang="ca" title="Sequencial">
+						
 					</div>
 					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
          			<button type="button" class="btn btn-success" lang="ca">Canviar</button>
@@ -1415,13 +1321,12 @@
 						aria-hidden="true">&times;</button>
 					<h4 lang="ca" class="modal-title">Edició en mode demostració</h4>
 				</div>
-				<div class="modal-body" lang="ca">
-					Per poder guardar les dades has d'entrar com un usuari registrat
+				<div class="modal-body">
+					No es guardarà el mapa. Per guardar les dades has d'entrar amb un usuari registrat. En tancar la sessió es perdran les dades
 				</div>
 				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn bt-sessio">Inicia la sessió</button>
-					<button lang="ca" type="button" class="btn bt_orange">Crea un compte</button>
-					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Més tard</button>
+					<button lang="ca" type="button" class="btn btn-success">Crea un compte</button>
+					<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -1431,7 +1336,7 @@
 	<!-- fi Modal Leave -->
 	
 	<!-- Modal Old Browser -->
-	<div id="dialgo_old_browser" class="modal">
+	<div id="dialgo_old_browser" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -1461,33 +1366,18 @@
 	<!-- fi Modal Old Browser -->
 	
 	<!-- Modal Captura -->
-	<div id="dialog_captura" class="modal fade">
+	<div id="dialg_captura" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 lang="ca" id="dialog_captura_title"  class="modal-title">Captura</h4>
+					<h4 lang="ca" class="modal-title">Captura</h4>
 				</div>
-				<div  style="height:150px;" class="modal-body">					
+				<div class="modal-body">
 					<div style="height:350px;overflow:auto;" id="div_captura">
-						<img id="img_canvas">
-					</div>				
-					<div id="progress_bar_carrega_img" class="progress progress-striped active">
-					
-					  <div id="prg_bar_img" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">
-					  
-					  <span id="dialog_captura_text" lang="ca">Generant imatge...</span>
-					  
-					  </div>
-					</div>	
-
-
-<div id="bt_desc_img" style="display: block;margin-top: 15px;text-align: center;">
-					<a href="#" id="desc_img" class="btn btn-info btn-large" type="application/octet-stream" download="mapa.jpeg"  lang="ca" target="_blank">Desar mapa</a>
-				</div>	
-
-
+					<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;">
+					</div>
 					
 				</div>
 				<div class="modal-footer">
@@ -1500,69 +1390,6 @@
 	</div>
 	<!-- fi Modal Captura -->
 	
-		
-	
-	
-	<!-- Modal Imprimir -->
-	<div id="dialog_print" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Imprimir</h4>
-				</div>
-				<div  style="height:350px;" class="modal-body">					
-					<div style="height:310px;overflow:auto;" id="div_captura_print">
-						
-					</div>				
-						<div id="bt_desc_img" style="display: block;margin-top: 5px;text-align: center;">
-						<a href="#" id="desc_img" class="btn btn-info" type="application/octet-stream" download="informe.pdf" target="_blank">Generar Informe (PDF)</a>				
-					</div>					
-				</div>
-				
-				<div class="modal-footer">
-					
-				
-				<div id="progress_bar_carrega_img_print" class="progress progress-striped active">					
-						  <div id="prg_bar_img_print" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">					  
-						  <span lang="ca">Generant impressió...</span>
-						 </div>
-						</div>	
-				
-				
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- fi Modal Imprimir -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<!-- Modal messages -->
 	<div id="dialgo_messages" class="modal fade">
 		<div class="modal-dialog">
@@ -1570,7 +1397,7 @@
 				<div class="modal-header">
 					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">&nbsp;</h4>
+					<h4 lang="ca" class="modal-title"></h4>
 				</div>
 				<div class="modal-body">
 				</div>
@@ -1584,41 +1411,16 @@
 	</div>
 	<!-- fi messages -->
 	
-	<!-- Modal delete layer -->
-	<div id="dialog_delete_capa" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- <div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
-				</div> -->
-				<div class="modal-body">
-					<h4><span lang="ca">Vols esborrar la capa</span> "<span id="nom_capa_delete"></span>" ?</h4>
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Cancel·lar</button>
-					<button lang="ca" type="button" class="btn btn-danger"
-						data-dismiss="modal">Esborrar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- Fi Modal delete -->	
+	
 
 	<div id="mapaFond"></div>
 
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
+	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
 	<script type="text/javascript">
-	if (!Modernizr.canvas || !Modernizr.sandbox){
-		document.getElementById("div_loading").style.display = "none";
+	if (!Modernizr.canvas ){
 		document.getElementById("mapaFond").style.display = "block";
 		document.getElementById("dialgo_old_browser").style.display = "block";
 		document.getElementById("sidebar").style.display = "none";
@@ -1628,10 +1430,11 @@
 		}
 	}
 	</script>
+	
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
-	<script src="/llibreries/js/cookieconsent.min.js"></script>
+	<!--<script src="/llibreries/js/jquery/plugins/jquery.cookiecuttr.js"></script>-->
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
@@ -1643,10 +1446,7 @@
 	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
-	<!-- script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script-->
-	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery-listnav.custom.js"></script>
-		
+	
 	<script src="/geocatweb/js/geocat.mapa.dragdrop.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.styles.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.layers.js" type="text/javascript"></script>
@@ -1658,25 +1458,21 @@
  	<script src="/geocatweb/js/geocat.mapa.cluster.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.canvas.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.tematics.js" type="text/javascript"></script>
-	<script src="/geocatweb/js/geocat.mapa.url_file.js" type="text/javascript"></script>
 	<script src="/llibreries/js/dropzone.js" type="text/javascript"></script>
 	<script>
 		L_PREFER_CANVAS = true;
 	</script>
-	<!-- script src="/llibreries/js/leaflet/leaflet-src.js"></script-->
-	<script src="/llibreries/js/leaflet/leaflet.0.7.min.custom.js"></script>
+	<script src="/llibreries/js/leaflet/leaflet.js"></script>
 	<script src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.spin.js"></script>
-	<!-- script src="/llibreries/js/leaflet/plugin/proj4-compressed.js" type="text/javascript"></script-->
 	<script src="/llibreries/js/leaflet/plugin/proj4js-compressed.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/proj4leaflet.js"	type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js" type="text/javascript"></script>
-	<!-- <script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script-->
-	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.custom.js"	type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script>
 	 <script src="/llibreries/js/leaflet/plugin/L.TileLayer.BetterWMS.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.markercluster.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/Control.MiniMap.js"	type="text/javascript"></script>
-	<script src="/llibreries/js/leaflet/plugin/L.Control.MousePosition.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/html2canvas.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/moment.min.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js"	type="text/javascript"></script>
@@ -1686,16 +1482,14 @@
 	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Map.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
-	<!-- script src="/llibreries/js/leaflet/plugin/leaflet-omnivore.min.js" type="text/javascript"></script-->
-	<script src="/llibreries/js/leaflet/plugin/leaflet-omnivore-custom.js" type="text/javascript"></script>
 	
 	<script src="/geocatweb/js/leaflet/L.Wikipedia.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.Twitter.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/L.Panoramio.js" type="text/javascript"></script>
+	
 	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
 	<script src="/llibreries/js/bootstrap-switch.min.js"></script>
 	<script src="/llibreries/js/bootstrap-editable.js"></script>
-	
 	<script src="/llibreries/js/bootstrap3-typeahead.min.js"></script>
 	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/llibreries/js/formats/xlsx.min.js"></script>
@@ -1703,7 +1497,41 @@
 	<script src="/llibreries/js/formats/jszip.js"></script>
 	<script src="/llibreries/js/formats/shim.js"></script>
 	<script src="/geocatweb/js/geocat.mapa-1.0.0.js" type="text/javascript"></script>
-	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
+	
+		<script src="/llibreries/js/leap/map.js"></script>
+<script src="/llibreries/js/leap/leap.js"></script>
+<script src="/llibreries/js/leap/leap-controller.js"></script>
+	
 
+	<!-- Codicomentat per  tag anlaytics 
+	
+	<script type="text/plain" class="cc-onconsent-analytics">
+   // <![CDATA[
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-00000000-1']);
+   _gaq.push(['_setAllowLinker', true]);
+   _gaq.push(['_trackPageview']);
+   (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+   //    ]]>
+</script>
+	
+	-->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </body>
 </html>

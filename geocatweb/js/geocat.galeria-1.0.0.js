@@ -35,6 +35,7 @@ $(function(){
 		var data = {uid: $.cookie('uid')};
 		loadGaleria(data).then(function(results){
 			results.results = jQuery.map( results.results, function( val, i ) {
+				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}
@@ -144,6 +145,7 @@ $(function(){
 		loadPublicGaleria().then(function(results){
 			
 			results.results = jQuery.map( results.results, function( val, i ) {
+				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}

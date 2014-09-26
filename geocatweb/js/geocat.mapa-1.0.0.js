@@ -607,20 +607,23 @@ function loadApp(){
 
 function addClicksInici() {
 	jQuery('.bt_llista').on('click', function() {
+		aturaClick(event);
 		activaPanelCapes();
 	});
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
+		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'captura pantalla', 'label captura', 1]);
 		_kmq.push(['record', 'captura pantalla', {'from':'mapa', 'tipus user':tipus_user_txt}]);
-		capturaPantalla('captura');
+		capturaPantalla(CAPTURA_MAPA);
 	});
 	
 	jQuery('.bt_print').on('click', function() {
+		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'print', 'label print', 1]);
 		_kmq.push(['record', 'print', {'from':'mapa', 'tipus user':tipus_user_txt}]);
-		capturaPantalla('print');
+		capturaPantalla(CAPTURA_INFORME);
 	});
 		
 	jQuery(document).on('click', function(e) {
@@ -744,7 +747,11 @@ function addControlsInici() {
 		var btprint = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_print');
 		this._div.appendChild(btprint);
 		btprint.innerHTML = '<span class="glyphicon glyphicon-print grisfort"></span>';
-		
+				
+		var btgeopdf = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_geopdf');
+		this._div.appendChild(btgeopdf);
+		btgeopdf.innerHTML = '<span class="fa fa-file-pdf-o geopdf"></span>';
+		//<span class="geopdf">Geo</span>
 //		var btsave = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_save');
 //		this._div.appendChild(btsave);
 //		btsave.innerHTML = '<span class="glyphicon glyphicon-floppy-disk grisfort"></span>';		
@@ -803,6 +810,11 @@ function addToolTipsInici() {
 		placement : 'left',
 		container : 'body',
 		title : window.lang.convert("Imprimir la vista del mapa")
+	});
+	$('.bt_geopdf').tooltip('destroy').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Descarrega mapa en format GeoPDF")
 	});
 	$('.bt_save').tooltip('destroy').tooltip({
 		placement : 'left',
@@ -2159,6 +2171,9 @@ function publicarMapa(fromCompartir){
 		servidorWMSbusinessId: layersId
 	};
 	publicarCapesMapa(laydata);
+	
+	//Captura Map per la Galeria
+	capturaPantalla(CAPTURA_GALERIA);
 	
 	if (newMap){
 		createMap(data).then(function(results){
@@ -3525,3 +3540,5 @@ function checkColorAdded(controlColorCategoria, color){
 }
 
 /*************** FI:LLEGENDA ********************/
+
+function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){}}

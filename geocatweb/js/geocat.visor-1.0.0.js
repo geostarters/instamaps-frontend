@@ -279,6 +279,10 @@ function addControlsInici() {
 		this._div.appendChild(btprint);
 		btprint.innerHTML = '<span class="glyphicon glyphicon-print grisfort"></span>';
 		
+		var btgeopdf = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_geopdf');
+		this._div.appendChild(btgeopdf);
+		btgeopdf.innerHTML = '<span class="fa fa-file-pdf-o geopdf"></span>';
+		
 		return this._div;
 	};
 	ctr_llistaCapes.addTo(map);
@@ -299,22 +303,30 @@ function addClicksInici() {
 	});
 	
 	jQuery('.bt_llista').on('click', function() {
-//		$(".layers-list").mCustomScrollbar('update');
+		aturaClick(event);
 		activaPanelCapes();
-//		$(".leaflet-control-layers-overlays").mCustomScrollbar('update');
 	});	
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function() {
+		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
 		_kmq.push(['record', 'captura pantalla', {'from':'visor', 'tipus user': tipus_user}]);
-		capturaPantalla('captura');
+		capturaPantalla(CAPTURA_MAPA);
 	});
 	
 	jQuery('.bt_print').on('click', function() {
+		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
 		_kmq.push(['record', 'print', {'from':'visor', 'tipus user': tipus_user}]);
-		capturaPantalla('print');
+		capturaPantalla(CAPTURA_INFORME);
+	});
+	
+	jQuery('.bt_geopdf').on('click', function(event) {
+		aturaClick(event);
+		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
+		_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
+		capturaPantalla(CAPTURA_GEOPDF);
 	});
 		
 	jQuery(document).on('click', function(e) {
@@ -407,6 +419,13 @@ function addToolTipsInici() {
 		container : 'body',
 		title : window.lang.convert("Imprimir la vista del mapa")
 	});
+	
+	$('.bt_geopdf').tooltip('destroy').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Descarrega mapa en format GeoPDF")
+	});
+		
 	$('.bt_save').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
@@ -948,3 +967,4 @@ function checkEmptyMapLegend(){
 	}
 }
 	
+function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){}}

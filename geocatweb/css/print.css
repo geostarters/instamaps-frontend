@@ -1,0 +1,155 @@
+
+
+@media print {
+	.printArea {
+    width: 100%;
+	}
+}
+
+
+@media print {
+
+	.btImprimir {
+    display: none;
+	}
+	
+	body {
+	margin-top: 2cm;
+	margin-right: 2cm;
+	margin-bottom: 1.5cm;
+	margin-left: 2cm
+	padding-top: 0px !important;
+	background-color: #f4f4f4;
+}
+}
+
+body {
+	
+	padding-top: 0px !important;
+	background-color: #f4f4f4;
+}
+
+.pageCorner {
+   
+    box-shadow: 2px 4px 2px 0 #ddd;
+    height: 37px;
+    left: -1px;
+    position: absolute;
+    top: -1px;
+    width: 37px;
+}
+.printArea {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #bfbfbf;
+    font-size: 16px;
+    margin: 10px;
+    padding: 16px;
+    position: relative;
+    
+}
+
+.A4P {
+	width: 595px;
+	height: 842px
+	
+}
+
+
+.pageCorner {
+    background-image: url("images/plec.png");
+}
+
+td {
+    vertical-align: top;
+}
+.printHeader {
+    margin-bottom: 21px;
+    min-height: 226px;
+}
+.ie7 .printHeader {
+    margin-bottom: 20px;
+}
+.isCMSDetails .printHeader {
+    max-height: 550px;
+}
+.printHeader .generalContent {
+    float: left;
+    width: 85%;
+}
+.printHeader .generalContent.adHidden {
+    width: 638px;
+}
+.printHeader .generalContent.adHidden .logoInstamaps {
+    float: left;
+    width: 315px;
+}
+.printHeader .logoImg {
+    margin-bottom: 5px;
+}
+.printHeader .generalContent.adHidden .notesCell {
+    float: right;
+    margin-top: 15px;
+}
+.printHeader .logoInstamaps {
+    height: auto;
+    margin-top: 5px;
+     margin-left: 35px;
+    min-height: 45px;
+}
+.printHeader .adCell {
+    float: right;
+    margin-top: 10px;
+}
+
+h1 {
+    clear: both;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 20px 0 10px;
+    padding-top: 10px;
+}
+h2 {
+    border-top: 3px solid #ddd;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 30px 5px 10px;
+    padding-top: 10px;
+}
+h3 {
+    font-weight: bold;
+    padding: 15px 0 10px;
+}
+.div_imprimir h3 {
+    display: inline;
+    padding-bottom: 0;
+}
+.logo {
+    padding-bottom: 5px;
+}
+
+.btImprimir {
+    left: 700px;
+    position: absolute;
+    top: 10px;
+    width: 190px;
+}
+
+textarea {
+   
+    width: 100%;
+}
+
+.separador {
+	
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+}
+
+#map {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    top: 50px;
+    width: 100%;
+}

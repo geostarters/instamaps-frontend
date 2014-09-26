@@ -1,4 +1,3 @@
-
 var trackEventFrom = '';
 
 jQuery(document).ready(function() {

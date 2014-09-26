@@ -1,4 +1,3 @@
-
 window.lang = new jquery_lang_js();
 
 var lsLang;

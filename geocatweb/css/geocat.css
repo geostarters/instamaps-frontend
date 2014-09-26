@@ -828,6 +828,7 @@ background-color:#FFFFFF}
 	.thumbnail{
 		position: relative;
 		min-height: 240px;
+		/*min-height: 225px;*/
 	}
 	
 	.thumbnail div.new_map{

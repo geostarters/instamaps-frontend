@@ -3819,3 +3819,10 @@ i.fa {
     height: 100%;
     position: relative;	
 }
+
+.geopdf,.geopdf a,.geopdf div {
+	color: #464646 !important;
+	cursor: pointer;
+	font-size: 17px;
+	font-weight: bold;
+}

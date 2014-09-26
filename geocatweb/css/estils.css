@@ -778,3 +778,15 @@ textarea {
 .nav-pills > li > a {
     border-radius: 0;
 }
+
+
+#progress_bar_carrega_img {
+	
+	position: relative;
+	top:40%;
+	
+}
+
+.progress-bar {  
+    font-weight: bold;   
+}

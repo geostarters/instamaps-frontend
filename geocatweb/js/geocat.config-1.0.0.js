@@ -52,6 +52,12 @@ var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
 var proxydir = "maps";
 
+var CAPTURA_MAPA = "captura_mapa";
+var CAPTURA_GALERIA = "captura_galeria";
+var CAPTURA_INFORME = "captura_informe";
+var CAPTURA_FONS = "captura_fons";
+var CAPTURA_GEOPDF = "captura_geopdf";
+
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
@@ -159,7 +165,10 @@ var paramUrl = {
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
 	getUserSimple: HOST_APP+"geocat/user/getUserSimple.action?",
 	publicarMapConfig: HOST_APP+"geocat/aplications/map/publicarMapConfig.action?",
-	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?"
+	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?",
+	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
+	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
+	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?"
 }
 
 //Llistat exemples de dades externes

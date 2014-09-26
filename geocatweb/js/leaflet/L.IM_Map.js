@@ -12,7 +12,7 @@ var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">
 var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
-var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L12_16;
+var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
 var _histoMap=null;
 var _histoOrtoMap=null;
@@ -41,24 +41,28 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
 var URL_ESRI='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var URL_ESRI_T='http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}';
-var URL_MON=urlServerTiles+'/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.png';
+var URL_MON=urlServerTiles+'/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.jpeg';
 var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg";
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
+
+
 var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
+
 var URL_HISTORIC=urlServerTiles+'/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
 var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
 
 
 var URL_MQ_GEO='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
-var URL_TOPOICC_GEO_2=urlServerTiles+'/mapcache/tms/1.0.0/A2503857@GMTOT/{z}/{x}/{y}.png';
+///var URL_TOPOICC_GEO_2=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
+//var URL_TOPOICC_GEO_2=urlServerTiles+'/mapcache/tms/1.0.0/A2503857@GMTOT/{z}/{x}/{y}.png';
 
 //var URL_TERRAIN='http://www.instamaps.cat/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png';
 
-var URL_TERRAIN=urlServerTiles+'/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.png';
+var URL_TERRAIN=urlServerTiles+'/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.jpeg';
 
-var URL_OMBRA=urlServerTiles+'/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.png';
+var URL_OMBRA=urlServerTiles+'/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.jpeg';
 
 var FONS_TOPOMAP='topoMap';
 var FONS_TOPOMAP_GEO='topoMapGeo';
@@ -280,7 +284,7 @@ L.IM_Map = L.Map.extend({
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 			}
 		
-		//var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_GEO_ICC_L8_12,TOPO_GEO_ICC_L12_16;	
+		//var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_GEO_ICC_L8_12,TOPO_GEO_ICC_L8_17;	
 		}else if(f==FONS_TOPOMAP_GEO){
 			
 			
@@ -290,53 +294,24 @@ L.IM_Map = L.Map.extend({
 			
 			if((sC==0)){  
 				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
-				TOPO_GEO_MQ_L7_19.options.maxZoom=16;		
+				TOPO_GEO_MQ_L7_19.options.maxZoom=17;		
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
-				TOPO_GEO_ICC_L12_16.options.maxZoom=zT;
+				TOPO_GEO_ICC_L8_17.options.maxZoom=zT;
 				this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
-				/*
-				if(this.getZoom() > 6){
-					this.attributionControl.setPrefix(MQ_ATTR);
-					//TOPO_ICC_L0_6
-					_topoLayersGeo.removeLayer(TOPO_GEO_ICC_L8_12);
-				}else{
-					this.attributionControl.setPrefix(ICGC_MON);
-					_topoLayersGeo.addLayer(TOPO_GEO_ICC_L8_12);
-				}	
-				*/		
+				
 			}else if(sC==1){
 				
 				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
-				TOPO_GEO_MQ_L7_19.options.maxZoom=16;				
-				TOPO_GEO_ICC_L8_12.options.maxZoom=12;
+				TOPO_GEO_MQ_L7_19.options.maxZoom=17;				
+				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 			//	TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
-				TOPO_GEO_ICC_L12_16.options.maxZoom=16;
+				TOPO_GEO_ICC_L8_17.options.maxZoom=17;
 				
-				TOPO_GEO_ICC_L8_12.setOpacity(1);
+				//TOPO_GEO_ICC_L8_12.setOpacity(1);
 				//TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
 				
 				this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
-				/*
-				if(this.getZoom() > 6){
-					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
-					_topoLayers.removeLayer(TOPO_ICC_L0_6);
-				}else{
-					this.attributionControl.setPrefix(ICGC_MON);
-					_topoLayers.addLayer(TOPO_ICC_L0_6);
-				}	
-				*/
-
-				if(this.getZoom() >= 13){
-					//this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
-					TOPO_GEO_ICC_L8_12.setOpacity(0);
-					TOPO_GEO_ICC_L12_16.setOpacity(1);
-				}else{
-					//this.attributionControl.setPrefix(ICGC_MON);
-					TOPO_GEO_ICC_L8_12.setOpacity(1);
-					TOPO_GEO_ICC_L12_16.setOpacity(0);
-				}	
-				
 				
 				
 				
@@ -344,23 +319,12 @@ L.IM_Map = L.Map.extend({
 				
 				
 				
-				if(this.getZoom() >= 13){
-					//this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR);	
-					TOPO_GEO_ICC_L8_12.setOpacity(0);
-					TOPO_GEO_ICC_L12_16.setOpacity(1);
-				}else{
-					//this.attributionControl.setPrefix(ICGC_MON);
-					TOPO_GEO_ICC_L8_12.setOpacity(1);
-					TOPO_GEO_ICC_L12_16.setOpacity(0);
-				}	
 				
-				
-				
-				
-				TOPO_GEO_MQ_L7_19.options.maxZoom=zT;
-				TOPO_GEO_ICC_L8_12.options.maxZoom=12;
+				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
-				TOPO_GEO_ICC_L12_16.options.maxZoom=16;	
+				
+				TOPO_GEO_ICC_L8_17.options.maxZoom=17;	
+				TOPO_GEO_MQ_L7_19.options.maxZoom=zT;
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());	
 				
 				
@@ -487,7 +451,7 @@ L.IM_Map = L.Map.extend({
 		}
 	},
 	
-	topoMap: function (){	
+	topoMap: function (print){	
 		this.deletePreviousMap();
 		this.options.typeMap=FONS_TOPOMAP;
 		this.options.maxZoom=19;
@@ -506,23 +470,50 @@ L.IM_Map = L.Map.extend({
 			maxZoom:19,
 			subdomains:subDomains}
 		).addTo(_topoLayers);
-		TOPO_ICC_L7_10 = new L.TileLayer.boundaryCanvas(URL_TOPOICC,{  	    
-			tms:false,
-			minZoom: 7,
-			maxZoom: 10,	                                                        
-			boundary: catContorn, 
-			continuousWorld: true,
-			worldCopyJump: false
-		}).addTo(_topoLayers);	
-	 
-		TOPO_ICC_L11_12 = new L.TileLayer.boundaryCanvas(URL_TOPOICC,{  	    
-			tms:false,
-			minZoom: 11,
-			maxZoom: 12,	                                                        
-			boundary: catContorn, 
-			continuousWorld: true,
-			worldCopyJump: false
-		}).addTo(_topoLayers);
+		if(print){
+			TOPO_ICC_L7_10 = new L.TileLayer(URL_TOPOICC,{  	    
+				tms:false,
+				minZoom: 7,
+
+				maxZoom: 10,	                                                        
+				boundary: catContorn, 
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_topoLayers);	
+		 
+			TOPO_ICC_L11_12 = new L.TileLayer(URL_TOPOICC,{  	    
+				tms:false,
+				minZoom: 11,
+				maxZoom: 11,	                                                        
+				boundary: catContorn5k, 
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_topoLayers);
+		
+		}else{ //no es true
+			
+			TOPO_ICC_L7_10 = new L.TileLayer.boundaryCanvas(URL_TOPOICC,{  	    
+				tms:false,
+				minZoom: 7,
+				maxZoom: 10,	                                                        
+				boundary: catContorn, 
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_topoLayers);	
+
+		 
+			TOPO_ICC_L11_12 = new L.TileLayer.boundaryCanvas(URL_TOPOICC,{  	    
+				tms:false,
+				minZoom: 11,
+
+				maxZoom: 12,	                                                        
+				boundary: catContorn5k, 
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_topoLayers);
+			
+		}
+		
 		TOPO_ICC_L12_19 = new L.TileLayer(URL_TOPOICC,{  	    
 			tms:false,
 			minZoom: 13,
@@ -538,16 +529,16 @@ L.IM_Map = L.Map.extend({
 	topoMapGeo: function (){	
 		this.deletePreviousMap();
 		this.options.typeMap=FONS_TOPOMAP_GEO;
-		this.options.maxZoom=16;
+		this.options.maxZoom=17;
 		this.setActiveMap(FONS_TOPOMAP_GEO);
 		this.setMapColor(null);
 		_topoLayersGeo=L.layerGroup();						 
 		
-		TOPO_GEO_MQ_L7_19 = new L.TileLayer(URL_MQ_GEO,{   	   
+		TOPO_GEO_MQ_L7_19 = new L.TileLayer(URL_MQ,{   	   
 			minZoom: 0,
-			maxZoom:16,
+			maxZoom:17,
 			
-			subdomains:subDomainsA}
+			subdomains:subDomains}
 		).addTo(_topoLayersGeo);
 		
 		
@@ -563,7 +554,7 @@ L.IM_Map = L.Map.extend({
 			opacity:0.1			
 		}).addTo(_topoLayersGeo);	
 		*/
-		
+		/*
 		TOPO_GEO_ICC_L8_12 =new L.TileLayer(URL_TOPOICC_GEO_1, {
 			minZoom: 8,
 			maxZoom: 12,
@@ -573,18 +564,18 @@ L.IM_Map = L.Map.extend({
 			//worldCopyJump: false,
 			
 		}).addTo(_topoLayersGeo);	
-	 
+	 */
 		
 		
 		
 		
 		
-		TOPO_GEO_ICC_L12_16 = new L.TileLayer(URL_TOPOICC_GEO_2,{  	    
+		TOPO_GEO_ICC_L8_17 = new L.TileLayer(URL_TOPOICC_GEO_1,{  	    
 			tms:true,
 			   continuousWorld: true,
 			   worldCopyJump: false,
-			minZoom: 13,
-			maxZoom: 16	                                                        
+			minZoom: 8,
+			maxZoom: 17	                                                        
 			
 		}).addTo(_topoLayersGeo);
 		this.addLayer(_topoLayersGeo,true);
@@ -593,7 +584,7 @@ L.IM_Map = L.Map.extend({
 	
 	
 	
-	ortoMap: function (){
+	ortoMap: function (print){
 		this.deletePreviousMap();	
 		this.options.maxZoom=19;
 		this.setActiveMap(FONS_ORTOMAP);
@@ -606,15 +597,29 @@ L.IM_Map = L.Map.extend({
 		   maxZoom:19}
 		).addTo(_ortoLayers);
 
-		ORTO_ICC_L0_11 = new L.TileLayer.boundaryCanvas(URL_ORTOICC,{  	    
-			tms:false,
-			minZoom: 0,
-			maxZoom: 11,	                                                        
-			boundary: catContorn5k, 
-			continuousWorld: true,
-			worldCopyJump: false
-		}).addTo(_ortoLayers);
-		
+if(print){
+			ORTO_ICC_L0_11 = new L.TileLayer(URL_ORTOICC,{  	    
+				tms:false,
+				minZoom: 0,
+				maxZoom: 11,	                                                        
+				boundary: catContorn5k, 
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_ortoLayers);
+		}else{
+			ORTO_ICC_L0_11 = new L.TileLayer.boundaryCanvas(URL_ORTOICC,{  	    
+				tms:false,
+				minZoom: 0,
+
+				maxZoom: 11,	                                                        
+				boundary: catContorn5k, 
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_ortoLayers);
+
+			
+			
+		}
 		ORTO_ICC_L12_19 = new L.TileLayer(URL_ORTOICC,{  	    
 			tms:false,
 			minZoom: 12,
@@ -637,7 +642,7 @@ L.IM_Map = L.Map.extend({
 	
 		ESRI_RELLEU_L0_13 =new L.TileLayer(URL_ESRI_T,{   	   
 			minZoom: 0,
-			maxZoom:13}
+			maxZoom:9}
 		).addTo(_terrainLayers);
 			  
 		ICC_RELLEU_L0_14= new L.TileLayer(URL_TERRAIN, {
@@ -651,7 +656,7 @@ L.IM_Map = L.Map.extend({
 		this.addLayer(_terrainLayers,true);
 	},
 		
-	topoGrisMap: function (){
+	topoGrisMap: function (print){
 		this.deletePreviousMap();
 		this.options.maxZoom=19;
 		this.setActiveMap(FONS_TOPOGISMAP);
@@ -674,15 +679,26 @@ L.IM_Map = L.Map.extend({
 			subdomains:subDomains
 		}).addTo(_grisLayers);
 			
-		ICC_TOPO_GRIS_L7_10 = new L.TileLayer.boundaryCanvas(URL_TOPOGRIS,{  	    
-			tms:false,
-			minZoom: 7,
-			maxZoom: 10,	                                                        
-			boundary: catContorn, 
-			continuousWorld: true,
-			worldCopyJump: false
-		}).addTo(_grisLayers);
-			
+		if(print){
+				ICC_TOPO_GRIS_L7_10 = new L.TileLayer(URL_TOPOGRIS,{  	    
+					tms:false,
+					minZoom: 7,
+					maxZoom: 10,	                                                        
+					//boundary: catContorn, 
+					continuousWorld: true,
+					worldCopyJump: false
+				}).addTo(_grisLayers);	
+				
+			}else{
+				ICC_TOPO_GRIS_L7_10 = new L.TileLayer.boundaryCanvas(URL_TOPOGRIS,{  	    
+					tms:false,
+					minZoom: 7,
+					maxZoom: 10,	                                                        
+					boundary: catContorn, 
+					continuousWorld: true,
+					worldCopyJump: false
+				}).addTo(_grisLayers);
+			}
 		ICC_TOPO_GRIS_L11_19 = new L.TileLayer(URL_TOPOGRIS,{  	    
 			tms:false,
 			minZoom: 11,
