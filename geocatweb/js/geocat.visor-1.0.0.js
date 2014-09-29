@@ -129,7 +129,7 @@ function addControlsInici() {
 	}).addTo(map);
 
 	map.on('addItemFinish',function(){
-		console.debug('addItemFinish!');
+//		console.debug('addItemFinish!');
 		$(".layers-list").mCustomScrollbar("destroy");		
 		$(".layers-list").mCustomScrollbar({
 			   advanced:{
@@ -382,7 +382,7 @@ function loadMapConfig(mapConfig){
 					}
 				});
 			});
-		});		
+		});	
 		
 //		//carga las capas en el mapa
 //		loadOrigenWMS().then(function(results){
@@ -463,12 +463,14 @@ function loadLayer(value){
 		defer.resolve();
 		//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_json){
-		loadCapaFromJSON(value);				
-		defer.resolve();
+		loadCapaFromJSON(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
-		loadDadesObertesLayer(value);
-		defer.resolve();
+		loadDadesObertesLayer(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus xarxes socials	
 	}else if(value.serverType == t_xarxes_socials){
 		var options = jQuery.parseJSON( value.options );
@@ -551,6 +553,9 @@ function loadWikipediaLayer(layer){
 
 function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
+	
+	var defer = $.Deferred();
+	
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
 		var estil_do = options.estil_do;	
@@ -626,17 +631,22 @@ function loadDadesObertesLayer(layer){
 			capaDadaOberta.on('data:loaded', function(e){
 				controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
 				controlCapes._lastZIndex++;
+				defer.resolve();
 			});
 		}else{//Si te origen es una sublayer
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
+			defer.resolve();
 		}		
 		
 	}else if(options.tem == tem_cluster){
 		loadDadesObertesClusterLayer(layer);
+		defer.resolve();
 	}else if(options.tem == tem_heatmap){
 		loadDOHeatmapLayer(layer);
+		defer.resolve();
 	}
+	return defer.promise();
 }
 
 function loadWmsLayer(layer){

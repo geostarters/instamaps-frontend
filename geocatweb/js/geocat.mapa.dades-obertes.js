@@ -119,6 +119,9 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 }
 
 function loadDadesObertesLayer(layer){
+	
+	var defer = $.Deferred();
+	
 	var options = jQuery.parseJSON( layer.options );
 	console.debug(options.tem);
 	if(options.tem == null || options.tem == tem_simple){
@@ -186,16 +189,21 @@ function loadDadesObertesLayer(layer){
 			capaDadaOberta.on('data:loaded', function(e){
 				controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
 				controlCapes._lastZIndex++;
+				defer.resolve();
 			});
 		}else{//Si te origen es una sublayer
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			capaDadaOberta.options.zIndex = capesOrdre_sublayer;
 			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
+			defer.resolve();
 		}		
 		
 	}else if(options.tem == tem_cluster){
 		loadDadesObertesClusterLayer(layer);
+		defer.resolve();
 	}else if(options.tem == tem_heatmap){
 		loadDOHeatmapLayer(layer);
+		defer.resolve();
 	}
+	return defer.promise();
 }

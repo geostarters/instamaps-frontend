@@ -529,8 +529,9 @@ function loadLayer(value){
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
-		loadDadesObertesLayer(value);
-		defer.resolve();
+		loadDadesObertesLayer(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus xarxes socials	
 	}else if(value.serverType == t_xarxes_socials){
 		var options = jQuery.parseJSON( value.options );
