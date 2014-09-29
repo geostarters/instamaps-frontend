@@ -632,8 +632,7 @@ function addClicksInici() {
 		_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_GEOPDF);
 	});
-	
-	
+		
 	jQuery(document).on('click', function(e) {
         if(e.target.id.indexOf("popovercloseid" )!=-1)
         {
@@ -2072,8 +2071,9 @@ function loadLayer(value){
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
-		loadDadesObertesLayer(value);
-		defer.resolve();
+		loadDadesObertesLayer(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus xarxes socials	
 	}else if(value.serverType == t_xarxes_socials){
 		var options = jQuery.parseJSON( value.options );
@@ -2598,6 +2598,9 @@ function carregaDadesUsuari(data){
 }
 
 function loadDadesObertesLayer(layer){
+	
+	var defer = $.Deferred();
+	
 	var options = jQuery.parseJSON( layer.options );
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
@@ -2671,18 +2674,23 @@ function loadDadesObertesLayer(layer){
 			capaDadaOberta.on('data:loaded', function(e){
 				controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
 				controlCapes._lastZIndex++;
+				defer.resolve();
 			});
 		}else{//Si te origen es una sublayer
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			capaDadaOberta.options.zIndex = capesOrdre_sublayer;
 			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
+			defer.resolve();
 		}		
 		
 	}else if(options.tem == tem_cluster){
 		loadDadesObertesClusterLayer(layer);
+		defer.resolve();
 	}else if(options.tem == tem_heatmap){
 		loadDOHeatmapLayer(layer);
+		defer.resolve();
 	}
+	return defer.promise();
 }
 
 function loadWmsLayer(layer){
