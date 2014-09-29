@@ -1,6 +1,7 @@
 function creaClusterMap(capa) {
 
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'cluster', tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'cluster', 1]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus tematic':'cluster'}]);
 	
 	var nom = window.lang.convert("Agrupació");
 	
@@ -56,6 +57,12 @@ function creaClusterMap(capa) {
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 //					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});						
 
 //					map.removeLayer(capa.layer);
 				}else{
@@ -107,8 +114,14 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
+					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 
 //					map.removeLayer(capa.layer);
 				}else{
@@ -150,8 +163,14 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true, capa.layer._leaflet_id);
-//					controlCapes._lastZIndex++;
-					activaPanelCapes(true);					
+					controlCapes._lastZIndex++;
+					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});						
 					
 				}else{
 					//TODO error
@@ -173,8 +192,14 @@ function creaClusterMap(capa) {
 		map.addLayer(clusterLayer);
 		clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex + 1;
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-//		controlCapes._lastZIndex++;
+		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});			
 	}	
 }
 
@@ -219,7 +244,9 @@ function loadDadesObertesClusterLayer(layer){
 		clusterLayer.options.dataset = options.dataset;
 		clusterLayer.options.tipusRang = tem_cluster;
 
-		map.addLayer(clusterLayer);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(clusterLayer);
+		}
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
@@ -314,7 +341,9 @@ function loadJsonClusterLayer(layer){
 		clusterLayer.options.tipus = layer.serverType;
 		clusterLayer.options.tipusRang = tem_cluster;
 
-		map.addLayer(clusterLayer);
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(clusterLayer);
+		}
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
@@ -323,7 +352,7 @@ function loadJsonClusterLayer(layer){
 	});
 }
 
-function loadTematicCluster(layer, zIndex, layerOptions){
+function loadTematicCluster(layer, zIndex, layerOptions, capesActiva){
 	
 	var options = jQuery.parseJSON(layerOptions);
 	
@@ -345,7 +374,7 @@ function loadTematicCluster(layer, zIndex, layerOptions){
 	clusterLayer.options.tipus = t_tematic;
 	clusterLayer.options.tipusRang = tem_cluster;
 	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
+	if (capesActiva.indexOf("false")==-1){
 		map.addLayer(clusterLayer);
 	}		
 	var origen = getLeafletIdFromBusinessId(options.origen);

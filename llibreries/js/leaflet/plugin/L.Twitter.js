@@ -33,7 +33,7 @@ L.Twitter = L.FeatureGroup.extend({
 		for (var i = 0; i < data.photos.length; i++) {
 			var p = data.photos[i];
 			var ico = new L.Icon({
-				iconUrl: 'img/panoramio-marker.png',
+				iconUrl: 'http://www.panoramio.com/img/panoramio-marker.png',
 				shadowUrl: null,
 				iconAnchor: [9,9],
 				popupAnchor: [0,-10]

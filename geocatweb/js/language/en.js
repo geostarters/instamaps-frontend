@@ -193,6 +193,7 @@ jquery_lang_js.prototype.lang.en = {
 	"InstaMaps encara no està operatiu. Hi estem treballant":"InstaMaps is not ready yet, we are working on it.",
 	"InstaMaps llegeix els següents formats":"InstaMaps understands the following formats",
 	"Intervals":"Ranges",
+	"Introdueix un nom vàlid per a la publicació del mapa":"Enter a valid name for the publication of the map",
 	"Introdueix una URL vàlida":"Please enter a valid URL",
 	"L'adreça he de contenir: Nom carrer, número i  municipi":"The address must contain: street name, number and municipality",
 	"La contrassenya antiga no és correcte":"The old password is not correct",

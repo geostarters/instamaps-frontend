@@ -2778,6 +2778,4 @@ L.EditToolbar.Delete = L.Handler.extend({
 		return this._deletableLayers.getLayers().length !== 0;
 	}
 });
-
-
 }(window, document));

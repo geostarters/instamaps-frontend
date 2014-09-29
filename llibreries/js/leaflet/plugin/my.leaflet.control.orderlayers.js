@@ -65,8 +65,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},	
 
 	_initLayout: function () {
-		var className = 'leaflet-control-layers',
-		    container = this._container = L.DomUtil.create('div', className);
+		var modeMapa = ($(location).attr('href').indexOf('mapa')!=-1);
+		var className = 'leaflet-control-layers';
+//		if(modeMapa){
+//			className = 'leaflet-control-layers';
+//		}
+		var container = this._container = L.DomUtil.create('div', className);
 		
 		//Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
 		container.setAttribute('aria-haspopup', true);
@@ -78,7 +82,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
 		}
 
-		var form = this._form = L.DomUtil.create('form', className + '-list');
+		var form = this._form = L.DomUtil.create('div', className + '-list');
 
 		if (this.options.collapsed) {
 			if (!L.Browser.android) {
@@ -112,9 +116,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			form.appendChild(title);
 		}
 
+		var strLayersList = 'layers-list';
+//		if(modeMapa){
+//			strLayersList ='layers-list-editable';
+//		}
 		this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
 		this._separator = L.DomUtil.create('div', className + '-separator', form);
-		this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
+		this._overlaysList = L.DomUtil.create('div', className + '-overlays '+strLayersList, form);
 
 		container.appendChild(form);
 	},
@@ -210,17 +218,27 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var col = L.DomUtil.create('div', 'leaflet-input');
 		col.appendChild(input);
 		row.appendChild(col);
+		
 		col = L.DomUtil.create('div', 'leaflet-name');
 		col.appendChild(label);
 		row.appendChild(col);
 		label.appendChild(name);
+		
+		//Comptador d'elements de la capa si es tematic, dades obertes, dades externes
+		if(obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json || obj.layer.options.tipus == t_url_file){
+			var count = document.createElement('span');
+			count.className = 'layer-count';
+			count.id='count-'+obj.layer.options.businessId;
+			count.innerHTML = ' (' + obj.layer.getLayers().length + ')';		
+			label.appendChild(count);
+		}
 		
 		var container;
 		var modeMapa = ($(location).attr('href').indexOf('mapa')!=-1);
 		if(obj.overlay) {
 			
 			if(modeMapa){
-				col = L.DomUtil.create('div', 'leaflet-conf glyphicon glyphicon-cog');
+				col = L.DomUtil.create('div', 'leaflet-conf glyphicon glyphicon-cog opcio-conf');
 				L.DomEvent.on(col, 'click', this._showOptions, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);
@@ -232,22 +250,25 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 ////				row_conf.appendChild(row2);
 //				col.appendChild(row2);
 				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-				row.appendChild(col);
+				//Tipus WMS no admet decarrega
+				if(obj.layer.options.tipus.indexOf(t_wms) == -1){
+					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save subopcio-conf');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
+					row.appendChild(col);					
+				}
 				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove');
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
 				col.layerId = input.layerId;
 				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
 				row.appendChild(col);	
 				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-down glyphicon glyphicon-chevron-down');
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-down glyphicon glyphicon-chevron-down subopcio-conf');
 				col.layerId = input.layerId;
 				L.DomEvent.on(col, 'click', this._onDownClick, this);
 				row.appendChild(col);	
 				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-up glyphicon glyphicon-chevron-up ');
+				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-up glyphicon glyphicon-chevron-up subopcio-conf');
 				L.DomEvent.on(col, 'click', this._onUpClick, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);				
@@ -278,6 +299,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}		
 		
 		updateEditableElements();
+		map.fireEvent('addItemFinish'); 
 		return label;
 	},
 	
@@ -315,7 +337,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		label_sublayer.appendChild(name_sublayer);
 		
 		if(modeMapa){
-			col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove');
+			col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove opcio-conf');
 			L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
 			col_sublayer.layerId = input_sublayer.layerId;
 			col_sublayer.layerIdParent = layerIdParent;

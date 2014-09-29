@@ -1,4 +1,3 @@
-
 var trackEventFrom = '';
 
 jQuery(document).ready(function() {
@@ -17,6 +16,7 @@ jQuery(document).ready(function() {
 jQuery("#perfil_button_pass").click(function(){
 
 	_gaq.push(['_trackEvent',trackEventFrom,'remember password', 'retention']);
+	_kmq.push(['record', 'remember password', {'from':trackEventFrom, 'funnel':'retention'}]);
 	
 	checkValidityPassword();
 	

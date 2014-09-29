@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="author" content="InstaMapes">
-<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="author" content="InstaMaps">
+<meta name="description" content="InstaMaps ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -18,12 +18,15 @@
 <link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
 
+<!-- KISSMETRICS SNIPPET -->
+<script src="/geocatweb/js/geocat.kissmetrics.js"></script>
+
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<title lang="ca">InstaMapes</title>
+<title lang="ca">InstaMaps</title>
 </head>
 <body>
 	<!-- Fixed navbar -->
@@ -37,12 +40,13 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMapes</div>
+					<div class="brand-txt">InstaMaps</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_index" lang="ca" href="../geocatweb/galeria.html">Galeria</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
@@ -93,6 +97,7 @@
        		<section>
         		<h3 lang="ca" class="form-signin-heading">Registreu-vos</h3>
         		<fieldset>
+        			<input id="randomId" type="hidden" value="">
         			<input lang="ca" id="signin_username" type="hidden" required class="form-control my-border" placeholder="Usuari" autofocus>
         			<input lang="ca" id="signin_email" type="email" required class="form-control my-border" placeholder="Correu">
         			<br>
@@ -162,7 +167,7 @@
 		</div><!-- /.modal -->				
 		
 		<!-- Modal Old Browser -->
-	<div id="dialgo_old_browser" class="modal fade">
+	<div id="dialgo_old_browser" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -196,17 +201,20 @@
 	<!-- /container -->
 
 	<footer>
-		<div class="container">
-			<p>InstaMapes Beta</p>
+		<div class="container text-center">
+			<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+				<img height="50" src="/llibreries/img/icgc.gif">
+			</a>
+			<span>InstaMaps Beta</span>
 		</div>
 	</footer>
 
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="/llibreries/js/modernizr-2.7.1.min.js"></script>
+	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
 	<script type="text/javascript">
-	if (!Modernizr.canvas ){
+	if (!Modernizr.canvas || !Modernizr.sandbox){
 		document.getElementById("dialgo_old_browser").style.display = "block";
 		document.getElementById("old_icon_close").style.display = "none";
 		document.getElementById("old_btn_close").onclick = function () {

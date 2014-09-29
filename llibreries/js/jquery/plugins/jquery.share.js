@@ -25,11 +25,17 @@
                     margin = this.share.settings.margin,
                     pageTitle = this.share.settings.title||$(document).attr('title'),
                     pageUrl = this.share.settings.urlToShare||$(location).attr('href'),
-                    pageDesc = "";
+                    pageDesc = "",
+                	pageDescUser = "";
                 
                 $.each($(document).find('meta[name="description"]'),function(idx,item){
                     pageDesc = $(item).attr("content");
         		});
+                pageDescUser = $('#descripcio_user').html();
+                
+                if(pageDescUser != null && pageDescUser!= ""){
+                	pageDesc = pageDescUser;
+                }
                 
                 // each instance of this plugin
                 return this.each(function() {
@@ -38,6 +44,7 @@
                         u=encodeURIComponent(pageUrl),
                         t=encodeURIComponent(pageTitle),
                         d=pageDesc.substring(0,250),
+                        d2 = pageDescUser.substring(0,250),
                         href;
 
                     //Per GA saber si venim de mapa o visor, al compartir
@@ -93,7 +100,8 @@
                     
                     // bind click
                     $('.pop-social').on('click',function(){
-                    	_gaq.push(['_trackEvent', $(this).attr('data-from'), 'compartir', $(this).attr('data-type'), tipus_user]);	
+                    	_gaq.push(['_trackEvent', $(this).attr('data-from'), tipus_user+'compartir', $(this).attr('data-type'), 1]);
+                    	_kmq.push(['record', 'compartir', {'from':$(this).attr('data-from'), 'tipus user': tipus_user_txt, 'xarxa social':$(this).attr('data-type')}]);
                         window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
                         return false;
                     });
@@ -118,7 +126,7 @@
                 pinterest:{url:'http://pinterest.com/pin/create/button/?url=|u|&media=&description=|d|'},
                 posterous:{url:'http://posterous.com/share?linkto=|u|&title=|t|'},
                 stumbleupon:{url:'http://www.stumbleupon.com/submit?url=|u|&title=|t|'},
-                email:{url:'mailto:?subject=|t|'}
+                email:{url:'mailto:?subject=|t|&body=|d| - |u|'}
             }
         }
      

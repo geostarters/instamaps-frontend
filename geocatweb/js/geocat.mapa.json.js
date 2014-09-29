@@ -1,22 +1,18 @@
-var _htmlServeisJSON = [];
-
-_htmlServeisJSON.push('<div class="panel-success"><div panel-heading">');
-
-_htmlServeisJSON
-		.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLJSON" style="height:33px" placeholder="Entrar URL servei JSON" value="" class="form-control">');
-_htmlServeisJSON
-		.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connJSON"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
-
-//_htmlServeisJSON.push('<div class="small"
-
-//http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?
-
-_htmlServeisJSON.push('</div>');
-_htmlServeisJSON.push('</div>');
-_htmlServeisJSON
-		.push('<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>');
-_htmlServeisJSON
-		.push('<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>');
+//var _htmlServeisJSON = [];
+//
+//_htmlServeisJSON.push('<div class="panel-success"><div panel-heading">');
+//
+//_htmlServeisJSON.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLJSON" style="height:33px" placeholder="Entrar URL servei JSON" value="" class="form-control">');
+//_htmlServeisJSON.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connJSON"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+//
+////_htmlServeisJSON.push('<div class="small"
+//
+////http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?
+//
+//_htmlServeisJSON.push('</div>');
+//_htmlServeisJSON.push('</div>');
+//_htmlServeisJSON.push('<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>');
+//_htmlServeisJSON.push('<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>');
 
 var respostaJSON;
 var urlJSON;
@@ -25,8 +21,8 @@ function getServeiJSONP(purlJson) {
 	jQuery("#txt_URLJSON");
 	var _htmlJSONFields = [];
 
-	if (ValidURL(purlJson)) {
-		jQuery('#div_layersJSON').addClass('waiting_animation');
+//	if (ValidURL(purlJson)) {
+		//jQuery('#div_layersJSON').addClass('waiting_animation');
 
 		getJSONPServei(purlJson).then(function(results) {
 							var op = [];
@@ -52,8 +48,7 @@ function getServeiJSONP(purlJson) {
 										+ "</option>");
 							}
 
-							jQuery('#div_layersJSON').removeClass(
-									'waiting_animation');
+							//jQuery('#div_layersJSON').removeClass('waiting_animation');
 							jQuery('#div_layersJSON').empty();
 							jQuery('#div_emptyJSON').empty();
 
@@ -70,14 +65,14 @@ function getServeiJSONP(purlJson) {
 
 							_htmlJSONFields
 									.push("<li>"
-											+ window.lang.convert('Longitud')
+											+ window.lang.convert('Coordenada X o Longitud')
 											+ "</li>");
 							_htmlJSONFields
 									.push("<li><select  id='cmd_json_x'>"
 											+ op.join(" ") + "</select></li>");
 
 							_htmlJSONFields.push("<li>"
-									+ window.lang.convert('Latitud') + "</li>");
+									+ window.lang.convert('Coordenada Y o Latitud') + "</li>");
 							_htmlJSONFields.push("<li><select id='cmd_json_y'>"
 									+ op.join(" ") + "</select></li>");
 
@@ -133,21 +128,25 @@ function getServeiJSONP(purlJson) {
 									'selected', true);
 
 						});
+		
+		jQuery(document).on('click', "#bt_addJSON", function(e) {
+			creaCapaFromJSON();
+		});		
+		
 
-	} else {
-
-		alert(window.lang.convert("La URL no sembla vàlida"));
-		return;
-	}
+//	} else {
+//
+//		alert(window.lang.convert("La URL no sembla vàlida"));
+//		return;
+//	}
 }
 
-jQuery(document).on('click', "#bt_addJSON", function(e) {
-	creaCapaFromJSON();
-});
+
 
 function creaCapaFromJSON() {
 
-	_gaq.push(['_trackEvent', 'mapa', 'json', urlJSON, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlJSON, 1]);
+	_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus':'json', 'url':urlJSON}]);
 	
 	var cmd_json_x = jQuery('#cmd_json_x').val();
 	var cmd_json_y = jQuery('#cmd_json_y').val();
@@ -256,7 +255,8 @@ function creaCapaFromJSON() {
 						pp.addTo(capaJSON);
 					}
 
-					jQuery('#dialog_dades_ex').modal('toggle');					
+//					jQuery('#dialog_dades_ex').modal('toggle');
+					jQuery('#dialog_dades_ex').modal('hide');	
 					capaJSON.options.businessId = results.results.businessId;
 					capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
 					capaJSON.options.options.estil_do = estil_do;
@@ -265,6 +265,12 @@ function creaCapaFromJSON() {
 					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+//					$(".layers-list").mCustomScrollbar({
+//						   advanced:{
+//						     autoScrollOnFocus: false,
+//						     updateOnContentResize: true
+//						   }           
+//					});	
 				}
 			});
 			
@@ -276,12 +282,20 @@ function creaCapaFromJSON() {
 			controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 			controlCapes._lastZIndex++;
 			activaPanelCapes(true);
+//			$(".layers-list").mCustomScrollbar({
+//				   advanced:{
+//				     autoScrollOnFocus: false,
+//				     updateOnContentResize: true
+//				   }           
+//			});	
 		}		
 	}
 	
 	//Buidem dialeg creacio capa JSON
-	jQuery('#div_layersJSON').empty();
-	jQuery('#txt_URLJSON').val('');	
+//	jQuery('#div_layersJSON').empty();
+//	jQuery('#txt_URLJSON').val('');	
+	jQuery('#div_url_file').empty();
+	jQuery('#txt_URLfile').val('');		
 }
 
 function loadCapaFromJSON(layer) {

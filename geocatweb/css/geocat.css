@@ -827,7 +827,8 @@ background-color:#FFFFFF}
 	/*** galeria.html ***/
 	.thumbnail{
 		position: relative;
-		min-height: 225px;
+		min-height: 240px;
+		/*min-height: 225px;*/
 	}
 	
 	.thumbnail div.new_map{
@@ -851,6 +852,10 @@ background-color:#FFFFFF}
 		padding: 40px 0 10px;
 	}
 	
+	.thumbnail div.byuser{
+		font-size: 9pt;
+	}
+	
 	.thumbnail a.btn{
 		width: 100px;
 	}
@@ -859,9 +864,8 @@ background-color:#FFFFFF}
 		position: relative;
 		width: 240px;
 		float:left;
-		margin: 4px;	
-    max-height: 158px;
-		
+		margin: 4px;
+		min-height: 158px;
 	}
 	
 	.thumbnail div.nomAplicacio{
@@ -901,8 +905,7 @@ background-color:#FFFFFF}
 	
 	.thumbnail div.descAplicacio{
 		display: none;
-		top: 61px;
-    	height: 105px;
+		height: 165px;
     	position: absolute;
     	color: #FFFFFF;
 	 	background-color: rgba(45, 46, 41, 0.6);
@@ -914,6 +917,7 @@ background-color:#FFFFFF}
 		position: absolute;
 		/*color: #ffff66;
 		font-weight: bold;*/
+		top: 5px; 
 		bottom: 0;
 		left: 50%;
 		margin-left: -9em;

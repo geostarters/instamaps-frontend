@@ -129,12 +129,12 @@ var ActiuWMS = {
 
 function getCapabilitiesWMS(url, servidor) {
 
-	jQuery('#div_layersWMS').addClass('waiting_animation');
+	//jQuery('#div_layersWMS').addClass('waiting_animation');
 	var _htmlLayersWMS = [];
 	getWMSLayers(url).then(function(results) {
-		jQuery('#div_layersWMS').removeClass(
-				'waiting_animation');
-		jQuery('#div_layersWMS').empty();
+		//jQuery('#div_layersWMS').removeClass('waiting_animation');
+		//jQuery('#div_layersWMS').empty();
+		jQuery('#div_layersWMS').html('');
 		jQuery('#div_emptyWMS').empty();
 
 		if (servidor == null) {
@@ -224,16 +224,21 @@ function addExternalWMS2() {
 	wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 	controlCapes._lastZIndex++;
-
 	activaPanelCapes(true);
-	
+//	$(".layers-list").mCustomScrollbar({
+//		   advanced:{
+//		     autoScrollOnFocus: false,
+//		     updateOnContentResize: true
+//		   }           
+//	});	
 	jQuery('#dialog_dades_ex').modal('toggle');
 
 }
 
 function addExternalWMS() {
 	
-	_gaq.push(['_trackEvent', 'mapa', 'wms', ActiuWMS.url, tipus_user]);
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', ActiuWMS.url, 1]);
+	_kmq.push(['record', 'wms', {'from':'mapa', 'tipus user':tipus_user_txt, 'url':ActiuWMS.url}]);
 	
 	var cc = [];
 	jQuery('input[name="chk_WMS"]:checked').each(function() {
@@ -287,10 +292,17 @@ function addExternalWMS() {
 			if (results.status == "OK"){
 				wmsLayer.options.businessId = results.results.businessId;
 				map.addLayer(wmsLayer); //wmsLayer.addTo(map);
+				wmsLayer.bringToFront();
 				wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});	
 				jQuery('#dialog_dades_ex').modal('toggle');				
 				
 			}else{
@@ -304,6 +316,12 @@ function addExternalWMS() {
 		controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+//		$(".layers-list").mCustomScrollbar({
+//			   advanced:{
+//			     autoScrollOnFocus: false,
+//			     updateOnContentResize: true
+//			   }           
+//		});			
 		jQuery('#dialog_dades_ex').modal('toggle');	
 	}	
 }

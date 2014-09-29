@@ -5,6 +5,7 @@ var mapConfig = {};
 var capaUsrActiva;
 var lsublayers = [];
 var tipus_user;
+var tipus_user_txt;
 
 var mapLegend = {};
 
@@ -71,8 +72,11 @@ jQuery(document).ready(function() {
 	
 	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
+		tipus_user_txt = t_user_random_txt;
 	}else{
 		tipus_user = t_user_loginat;
+		tipus_user_txt = t_user_loginat_txt;
+		_kmq.push(['identify', $.cookie('uid')]);
 	}	
 	
 	if (!Modernizr.canvas  || !Modernizr.sandbox){
@@ -123,8 +127,12 @@ function loadApp(){
 			}
 			mapConfig = $.parseJSON(results.results);
 			
+			document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+			
 			if (mapConfig.options){
 				mapConfig.options = $.parseJSON( mapConfig.options );
+				$('meta[name=description]').attr('content', mapConfig.options.description);
+				$('#descripcio_user').html(mapConfig.options.description);
 			}
 			jQuery("#mapTitle").html(mapConfig.nomAplicacio);
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
@@ -154,6 +162,7 @@ function loadApp(){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
 	shortUrl(v_url).then(function(results){
+		$('#descripcio_user').html(mapConfig.options.description);
 		jQuery('#socialShare_visor').share({
 	        networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 	        orientation: 'vertical',
@@ -188,6 +197,8 @@ function loadApp(){
 			};
 			
 			_gaq.push(['_trackEvent', 'visor', tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
+			_kmq.push(['record', 'decarregar capa', {'from':'visor', 'tipus user':tipus_user, 'formatOUT':formatOUT, 'epsgOUT':epsgOUT}]);
+			
 			getDownloadLayer(data).then(function(results){
 				results = results.trim();
 				if (results == "ERROR"){
@@ -212,6 +223,7 @@ function loadApp(){
 			console.debug('on click social');
 		});
 		
+		_gaq.push(['_trackPageview']);
 }
 
 function initControls(){
@@ -293,24 +305,27 @@ function addClicksInici() {
 	jQuery('.bt_llista').on('click', function(event) {
 		aturaClick(event);
 		activaPanelCapes();
-	});
+	});	
 	
 	// new vic
 	jQuery('.bt_captura').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
+		_kmq.push(['record', 'captura pantalla', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_MAPA);
 	});
 	
 	jQuery('.bt_print').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
+		_kmq.push(['record', 'print', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_INFORME);
 	});
 	
 	jQuery('.bt_geopdf').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
+		_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_GEOPDF);
 	});
 		
@@ -410,8 +425,7 @@ function addToolTipsInici() {
 		container : 'body',
 		title : window.lang.convert("Descarrega mapa en format GeoPDF")
 	});
-	
-	
+		
 	$('.bt_save').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
@@ -589,12 +603,14 @@ function loadLayer(value){
 		defer.resolve();
 		//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_json){
-		loadCapaFromJSON(value);				
-		defer.resolve();
+		loadCapaFromJSON(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
-		loadDadesObertesLayer(value);
-		defer.resolve();
+		loadDadesObertesLayer(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus xarxes socials	
 	}else if(value.serverType == t_xarxes_socials){
 		var options = jQuery.parseJSON( value.options );
@@ -676,6 +692,9 @@ function loadWikipediaLayer(layer){
 
 
 function loadDadesObertesLayer(layer){
+	
+	var defer = $.Deferred();
+	
 	var options = jQuery.parseJSON( layer.options );
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
@@ -748,18 +767,25 @@ function loadDadesObertesLayer(layer){
 //		controlCapes._lastZIndex++;
 		
 		if(!options.origen){
-			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
-			controlCapes._lastZIndex++;
+			capaDadaOberta.on('data:loaded', function(e){
+				controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
+				controlCapes._lastZIndex++;
+				defer.resolve();
+			});
 		}else{//Si te origen es una sublayer
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
+			defer.resolve();
 		}		
 		
 	}else if(options.tem == tem_cluster){
 		loadDadesObertesClusterLayer(layer);
+		defer.resolve();
 	}else if(options.tem == tem_heatmap){
 		loadDOHeatmapLayer(layer);
+		defer.resolve();
 	}
+	return defer.promise();
 }
 
 function loadWmsLayer(layer){

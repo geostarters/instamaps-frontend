@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="author" content="InstaMapes">
-<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="author" content="InstaMaps">
+<meta name="description" content="InstaMaps ofereix eines per a la creaci&oacute; de mapes i visors. &Eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -16,12 +16,16 @@
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
+
+<!-- KISSMETRICS SNIPPET -->
+<script src="/geocatweb/js/geocat.kissmetrics.js"></script>
+
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<title lang="ca">InstaMapes</title>
+<title lang="ca">InstaMaps</title>
 </head>
 
 <body>
@@ -36,13 +40,13 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMapes</div>
+					<div class="brand-txt">InstaMaps</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
 					<li><a id="hl_index" lang="ca" href="../geocatweb/galeria.html">Galeria</a></li>
-					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
@@ -58,7 +62,8 @@
 					
 					<li id="menu_login">
 						<form class="navbar-form">
-							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html?from=landing" onClick="_gaq.push(['_trackEvent', 'landing', 'inici sessio', 'pre-retention']);" class="btn bt-sessio">Inicia la sessi&oacute;</a>
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html?from=landing" onClick="_gaq.push(['_trackEvent', 'landing', 'inici sessio', 'pre-retention']);_kmq.push(['record', 'inici sessio', {'from':'landing'}]);" 
+								class="btn bt-sessio">Inicia la sessi&oacute;</a>
 						</form>					
 					</li>
 					
@@ -112,7 +117,7 @@
 								data-src="holder.js/900x500/auto/#777:#555/text:Explora mapes d’altres usuaris i dades de diverses fonts"
 								src="llibreries/img/carousel03.jpg">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								<h1><b>InstaMapes:</b></h1>Fes el teu mapa
+								<h1><b>InstaMaps:</b></h1>Fes el teu mapa
 							</div>
 						</div-->
 						
@@ -121,7 +126,7 @@
 								data-src="holder.js/900x500/auto/#777:#555/text:Explora mapes d’altres usuaris i dades de diverses fonts"
 								src="llibreries/img/banner_social.png">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Explora mapes d'altres usuaris i dades de diverses fonts.
+								Explora mapes d'altres usuaris i dades de diverses fonts
 							</div>
 						</div>						
 		
@@ -130,7 +135,7 @@
 								data-src="holder.js/900x500/auto/#777:#555/text:Fes un mapa amb les teves dades f&agrave;cilment"
 								src="llibreries/img/banner_orto.png">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Fes un mapa amb les teves dades f&agrave;cilment.
+								Fes un mapa amb les teves dades f&agrave;cilment
 							</div>
 						</div>
 		
@@ -139,7 +144,7 @@
 								data-src="holder.js/900x500/auto/#777:#555/text:Visualitza i analitza la teva informaci&oacute;"
 								src="llibreries/img/banner_clusters_bcn.png">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Visualitza i analitza la teva informaci&oacute;.
+								Visualitza i analitza la teva informaci&oacute;
 							</div>
 						</div>
 		
@@ -149,7 +154,7 @@
 								data-src="holder.js/900x500/auto/#777:#555/text:Comunica el teu missatge de manera impactant"
 								src="llibreries/img/banner_heatmap.png">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Comunica el teu missatge de manera impactant.
+								Comunica el teu missatge de manera impactant
 							</div>
 						</div>
 					</div>
@@ -169,21 +174,23 @@
 			<div class="row sub-row my-elem visible-xs">
 
 					<div id="txt-image" lang="ca">
-						<b>InstaMapes:</b><br>Fes el teu mapa
+						<b>InstaMaps:</b><br>Fes el teu mapa
 					</div>
 			</div>
 		
 			<!-- Tercera subfila -->
 			<div class="row sub-row">
 				<div class="col-md-6 col-sm-6 my-elem">
-					<a id="btn-galeria"  href="../geocatweb/galeria.html" onClick="_gaq.push(['_trackEvent', 'landing', 'galeria']);" class="btn btn-lg ">
+					<a id="btn-galeria"  href="../geocatweb/galeria.html" onClick="_gaq.push(['_trackEvent', 'landing', 'galeria']);_kmq.push(['record', 'galeria', {'from':'landing'}]);" 
+						class="btn btn-lg ">
 						<span lang="ca">Galeria de mapes</span> 
 						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
 					</a>
 				</div>
 				
 				<div  class="col-md-6 col-sm-6 my-elem">
-					<a id="btn-fes-mapa" href="../geocatweb/mapa.html" onClick="_gaq.push(['_trackEvent', 'landing', 'fer mapa', 'acquisition']);" class="btn btn-lg ">
+					<a id="btn-fes-mapa" href="../geocatweb/mapa.html" onClick="_gaq.push(['_trackEvent', 'landing', 'fer mapa', 'acquisition']);_kmq.push(['record', 'fer mapa', {'from':'landing', 'funnel':'acquisition'}]);" 
+							class="btn btn-lg ">
 						<span lang="ca">Fes el teu mapa</span> 
 						<span class="glyphicon glyphicon-chevron-right my-glyph"></span>
 					</a>		
@@ -194,28 +201,28 @@
 			<!-- Segona subfila -->
 			<div class="row sub-row">
 				<div id="div_E" class="col-md-3 col-sm-3 col-xs-6 my-elem">
-					<a href="#row_E" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'explora']);">
+					<a href="#row_E" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'explora']);_kmq.push(['record', 'info', {'from':'landing'}]);">
 						<img id="img_E" class="img-responsive img-hover" alt="Explora" src="llibreries/img/Explora_.jpg">
 						<span class="title_white" lang="ca">EXPLORA</span>						
 					</a>
 				</div>
 	
 				<div id="div_C" class="col-md-3 col-sm-3 col-xs-6 my-elem">
-					<a href="#row_C" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'crea']);">
+					<a href="#row_C" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'crea']);_kmq.push(['record', 'info', {'from':'landing'}]);">
 						<img id="img_C" class="img-responsive img-hover" alt="Crea" src="llibreries/img/Crea_.jpg">
 						<span class="title_white" lang="ca">CREA</span>
 					</a>
 				</div>
 	
 				<div id="div_V" class="col-md-3 col-sm-3 col-xs-6 my-elem">
-					<a href="#row_V" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'visualitza']);">
+					<a href="#row_V" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'visualitza']);_kmq.push(['record', 'info', {'from':'landing'}]);">
 						<img id="img_V" class="img-responsive img-hover" alt="Visualitza" src="llibreries/img/Visualitza_.jpg">
 						<span class="title_white" lang="ca">VISUALITZA</span>
 					</a>
 				</div>
 				
 				<div id="div_C1" class="col-md-3 col-sm-3  col-xs-6 my-elem">
-					<a href="#row_C1" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'comparteix']);">
+					<a href="#row_C1" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'comparteix']);_kmq.push(['record', 'info', {'from':'landing'}]);">
 						<img id="img_C1" class="img-responsive img-hover" alt="Comparteix" src="llibreries/img/Comparteix_.jpg">
 						<span class="title_white" lang="ca">COMPARTEIX</span>
 					</a>
@@ -246,13 +253,13 @@
 				<div class="row">
 					<div class="col-md-4 ">
 						<img class="marketing-img" src="/geocatweb/img/location_groc.png">
-						<h3 lang="ca">Mapes i imatges a&egrave;rees</h3>
+						<h3 lang="ca">Mapes i imatges aèries</h3>
 						<p lang="ca">Bases topogr&agrave;fiques, ortofotomapes vigents, l&iacute;mits administratius, mapes hist&ograve;rics i altres.</p>
 						<p>
-							<span lang="ca">Accedeix a tota la informaci&oacute; de </span> <a
+							<span lang="ca">Accedeix a tota la informació de l'</span><a
 								target="_blank"
 								title="Institut Cartogr&agrave;fic de Catalunya"
-								href="http://www.icc.cat">l'Institut Cartogr&agrave;fic de
+								href="http://www.icc.cat">Institut Cartogr&agrave;fic de
 								Catalunya(ICC)</a>
 						</p>
 	
@@ -311,7 +318,7 @@
 							</h1>
 						</div>
 					</div>
-					<h2 lang="ca">Els teus propis mapes de manera r&agrave;pida i f&agrave;cil.</h2>
+					<h2 lang="ca">Els teus propis mapes de manera r&agrave;pida i f&agrave;cil</h2>
 					<br>
 				</div>
 				
@@ -410,7 +417,7 @@
 							</h1>
 						</div>
 					</div>
-					<h2 lang="ca">Els teus mapes instant&agrave;niament.</h2>
+					<h2 lang="ca">Els teus mapes instant&agrave;niament</h2>
 					<br>
 				</div>
 				
@@ -461,8 +468,11 @@
 	</div>
 
 	<footer>
-		<div class="container">
-			<p>InstaMapes Beta</p>
+		<div class="container text-center">
+			<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+				<img height="50" src="/llibreries/img/icgc.gif">
+			</a>
+			<span>InstaMaps Beta</span>
 		</div>
 	</footer>
 
@@ -500,7 +510,5 @@
 </script>
 	
 	-->
-	
-	
 </body>
 </html>

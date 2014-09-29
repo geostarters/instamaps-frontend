@@ -580,6 +580,7 @@ imgCaptura="";
 		
 		//jQuery('#map .leaflet-marker-pane').removeAttr('data-html2canvas-ignore');
 		//jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore');	
+
 		
 
 	}

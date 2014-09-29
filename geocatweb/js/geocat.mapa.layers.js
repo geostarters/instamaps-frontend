@@ -1,4 +1,3 @@
-
 function objecteUserAdded(f){
 	
 	var fId = this.toGeoJSON().features.length;

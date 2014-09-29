@@ -138,7 +138,7 @@ function createTematicClasic(data){
 		uid: jQuery.cookie('uid')
 	};
 		
-	getTematicLayer(dataTem).then(function(results){
+	getTematicLayerByBusinessId(dataTem).then(function(results){
 		if (results.status == "OK"){
 			var tematic = results.results;
 			jQuery("#dialog_tematic_rangs").data("tematic", tematic);
@@ -507,7 +507,7 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 }
 
 function getRangsFromStyles(tematic, styles){
-	console.debug("getRangsFromStyles");
+	//console.debug("getRangsFromStyles");
 	if (tematic.tipus == t_dades_obertes){
 		tematic.geometrytype = t_marker;
 	}
@@ -595,10 +595,28 @@ function getRangsFromStyles(tematic, styles){
 			};
 		}
 //		rang.businessId = styles.properties.businessId;
-		rang.featureLeafletId = styles._leaflet_id;
+//		rang.featureLeafletId = styles._leaflet_id;
 		rangs.push(rang);
 	}
 	return rangs;
+}
+
+function loadCacheTematicLayer(layer){
+	var defer = $.Deferred();
+	var data={
+		businessId: layer.businessId,
+		uid: layer.entitatUid
+	};
+	
+	var layerWms = layer;
+	getCacheTematicLayerByBusinessId(data).then(function(results){
+		results.results = jQuery.parseJSON( results.results );
+		readTematic(defer, results, layerWms, layer);
+	},function(results){
+		//console.debug('getTematicLayerByBusinessId ERROR');
+		defer.reject();
+	});
+	return defer.promise();
 }
 
 function loadTematicLayer(layer){
@@ -610,291 +628,330 @@ function loadTematicLayer(layer){
 	var layerWms = layer;
 	
 	//console.time("loadTematicLayer " + layerWms.serverName);
-	getTematicLayer(data).then(function(results){
-		//console.timeEnd("loadTematicLayer " + layerWms.serverName);
-		var capaTematic;
-		if(results.status == "OK" ){
-			var tematic = results.results;
-			var hasSource = (tematic.options && (tematic.options.indexOf("source")!=-1) );
-			console.debug(tematic);
-			if(tematic.tipusRang == tem_heatmap){
-				loadTematicHeatmap(tematic, layer.capesOrdre, layer.options);
-			}else if(tematic.tipusRang == tem_cluster){
-				loadTematicCluster(tematic, layer.capesOrdre, layer.options);
-			}else{
-				var Lgeom = tematic.geometries.features.features;
-				var idDataField = tematic.idDataField;
-				var idGeomField = tematic.idGeomField;
-				var dataField = tematic.dataField;
-				var Lrangs = tematic.rangs;
-				var Ldades = (tematic.capes ? tematic.capes.dades : []);
-				capaTematic = new L.FeatureGroup();
-				
-				var hasDades = false;
-				if (tematic.capes && tematic.capes.fieldsName){
-					hasDades = true;
-				}
-				
-				capaTematic.options = {
-					businessId : layerWms.businessId,
-					nom : layerWms.serverName,
-					tipus : layerWms.serverType,
-					tipusRang: tematic.tipusRang, 
-					geometryType: tematic.geometryType,
-					dades: hasDades
-				};
-				
-				if(hasSource) {
-					var source = jQuery.parseJSON(tematic.options);					
-					capaTematic.options.source = source.source;
-				}
-				
-				if (!layerWms.capesActiva || layerWms.capesActiva == true || layerWms.capesActiva == "true"){
-					capaTematic.addTo(map);
-				}
-				
-				for(var g=0;g<Lgeom.length;g++){
-					var geom = Lgeom[g];
-					var rangStyle;
-					if (geom.geometry){
-						var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
-						if (dataGeom.length > 0){
-							dataGeom = dataGeom[0];
-							if (hasDades){
-								var fieldsName = tematic.capes.fieldsName.split(",");
-								jQuery.each(fieldsName, function(i, val){
-									dataGeom[val] = dataGeom["slotd"+(i+1)];
-								});
-							}
-							jQuery.extend(geom.properties, {data: dataGeom});
-						}else{
-							dataGeom = null;
-						}
-						var ftype = geom.geometry.type;
-						ftype = ftype.toLowerCase();
-						if (ftype === t_point){
-							ftype = t_marker;
-						}else if (ftype === t_linestring){
-							ftype = t_polyline;
-						}
-						
-						//Sin rangos
-						if (Lrangs.length == 0){
-							if (ftype == t_marker){
-								rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
-							}else{
-								rangStyle = createRangStyle(ftype, null, Lgeom.length);
-							}
-						}
-						//1 Rango
-						else if (Lrangs.length == 1){
-							rangStyle = Lrangs[0];
-							rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
-						}
-						//Multiples rangos
-						else{
-							if (dataGeom){
-								rangStyle = jQuery.grep(Lrangs, function(e){
-									if (e.valorMax && e.valorMin){
-										return (parseFloat(e.valorMin) <= parseFloat(dataGeom[dataField]) && parseFloat(dataGeom[dataField]) <= parseFloat(e.valorMax));
-									}else{
-										return jQuery.trim(e.valorMax) == jQuery.trim(dataGeom[dataField]);
-									}
-								});
-							}else{
-								rangStyle = jQuery.grep(Lrangs, function(e){
-									if (e.valorMax && e.valorMin){
-										return (parseFloat(e.valorMin) <= parseFloat(geom.properties[dataField]) && parseFloat(geom.properties[dataField]) <= parseFloat(e.valorMax)); 
-									}else{
-										return jQuery.trim(e.valorMax) == jQuery.trim(geom.properties[dataField]); 
-									}
-								});
-								if (rangStyle.length == 0){
-									rangStyle = jQuery.grep(Lrangs, function(e){ return jQuery.trim(e.valorMax) == jQuery.trim(geom.properties.businessId); });
-								}
-							}
-							if (rangStyle.length > 0){
-								rangStyle = rangStyle[0];
-								rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
-							}else{
-								rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
-							}
-							
-							/*
-							if (dataGeom){
-								rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
-								if (rangStyle.length > 0){
-									rangStyle = rangStyle[0];
-									rangStyle = createRangStyle(ftype, rangStyle);
-								}else{
-									rangStyle = createRangStyle(ftype);
-								}
-							}else{
-								rangStyle = createRangStyle(ftype);
-							}
-							*/
-						}
-						
-						var featureTem;
-						if (ftype === t_marker){
-							var coords=geom.geometry.coordinates;
-							if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
-								featureTem = L.marker([coords[0],coords[1]],
-									{icon: rangStyle, isCanvas:false, tipus: t_marker});
-							}else{//hi ha canvia de pinxo a punt canvas
-								featureTem= L.circleMarker([coords[0],coords[1]],
-									rangStyle	
-								);
-							}
-						}else if (ftype === t_multipoint){
-							//TODO revisar que funcione
-							var coords=geom.geometry.coordinates;
-							for (var i = 0; i < coords.length; i++){
-								var c=coords[i];
-								if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
-									featureTem = L.marker([c[0], c[1]],
-										{icon: rangStyle, isCanvas:false, tipus: t_marker});
-								}else{//hi ha canvia de pinxo a punt canvas
-									featureTem= L.circleMarker([c[0], c[1]],
-										rangStyle	
-									);
-								}
-							}
-						}else if (ftype === t_polyline){
-							var coords=geom.geometry.coordinates;
-							var llistaPunts=[];
-							for (var i = 0; i < coords.length; i++){
-								var c=coords[i];
-								var punt=new L.LatLng(c[0], c[1]);
-								llistaPunts.push(punt);
-							}
-							featureTem = L.polyline(llistaPunts, rangStyle);
-						}else if (ftype === t_multilinestring){
-							var coords=geom.geometry.coordinates;
-							var llistaLines=[];
-							for (var i = 0; i < coords.length; i++){
-								var lines=coords[i];
-								var llistaPunts=[];
-								for (var k = 0; k < lines.length; k++){
-									var c=lines[k];
-									var punt=new L.LatLng(c[0], c[1]);
-									llistaPunts.push(punt);
-								}
-								llistaLines.push(llistaPunts);
-							}
-							featureTem = new L.multiPolyline(llistaLines, rangStyle);
-						}else if (ftype === t_polygon){
-							var coords=geom.geometry.coordinates;
-							var llistaLines=[];
-							for (var i = 0; i < coords.length; i++){
-								var lines=coords[i];
-								var llistaPunts=[];
-								for (var k = 0; k < lines.length; k++){
-									var c=lines[k];
-									var punt=new L.LatLng(c[0], c[1]);
-									llistaPunts.push(punt);
-								}
-								llistaLines.push(llistaPunts);
-							}
-							featureTem = new L.Polygon(llistaLines, rangStyle);
-						}else if (ftype === t_multipolygon){
-							var coords=geom.geometry.coordinates;
-							var llistaPoligons=[];
-							for (var p = 0; p < coords.length; p++){
-								var poligons=coords[p];
-								var llistaLines=[];
-								for (var i = 0; i < poligons.length; i++){
-									var lines=poligons[i];
-									var llistaPunts=[];
-									for (var k = 0; k < lines.length; k++){
-										var c=lines[k];
-										var punt=new L.LatLng(c[0], c[1]);
-										llistaPunts.push(punt);
-									}
-									llistaLines.push(llistaPunts);
-								}
-								llistaPoligons.push(llistaLines);
-							}
-							featureTem = new L.multiPolygon(llistaPoligons, rangStyle);
-						}
-						if (featureTem){
-							featureTem.properties = geom.properties;
-							featureTem.properties.capaLeafletId = capaTematic._leaflet_id;
-							featureTem.properties.capaNom = capaTematic.options.nom;
-							featureTem.properties.capaBusinessId = capaTematic.options.businessId;
-							featureTem.properties.tipusFeature = ftype;
-							if (featureTem.options){
-								featureTem.options.tipus = ftype;
-							}else{
-								featureTem.options = {tipus: ftype};
-							}
-							featureTem.properties.feature = {};
-							featureTem.properties.feature.geometry = geom.geometry;
-							capaTematic.addLayer(featureTem);
-							//							if(rangStyle.options.markerColor=='punt_r'){
-////								var num=rangStyle.options.radius;
-////								featureTem.options.icon.options.shadowSize = new L.Point(1, 1);
-//								var color = hexToRgb(featureTem.options.icon.options.fillColor);
-//								featureTem._icon.style.setProperty("background-color", color);
-//							}							
-//							//Si la capa no ve de fitxer
-							if(!hasSource){
-								if($(location).attr('href').indexOf('mapa')!=-1 && ((capaTematic.options.tipusRang == tem_origen) || !capaTematic.options.tipusRang) ){
-									createPopupWindow(featureTem,ftype);
-								}else{			
-									createPopupWindowVisor(featureTem,ftype);
-								}								
-							}else{
-								createPopupWindowData(featureTem,ftype);
-							}
-							map.closePopup();
-						}
-					}
-				}
-				
-				//Afegim num d'elements al nom de la capa, si és un fitxer
-				if(layer.dragdrop){
-					capaTematic.options.nom = capaTematic.options.nom + " ("+capaTematic.getLayers().length+")";
-					var data = {
-						 	businessId: capaTematic.options.businessId, //url('?businessid') 
-						 	uid: $.cookie('uid'),
-						 	serverName: capaTematic.options.nom
-						 }
-						
-						updateServidorWMSName(data).then(function(results){
-							if(results.status==='OK')console.debug("CapaTematic name changed OK");
-							else console.debug("CapaTematic name changed KO");
-						});					
-				}
-				
-				var options = jQuery.parseJSON( layerWms.options );				
-				if(layerWms.options && options.origen){//Si es una sublayer
-					var origen = getLeafletIdFromBusinessId(options.origen);
-					capaTematic.options.dataField = dataField;
-					controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true, origen);					
-				}
-				else {
-					if (!layerWms.capesOrdre){
-						capaTematic.options.zIndex = controlCapes._lastZIndex + 1;
-					}else{
-						capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
-					}
-					capaTematic.options.dataField = dataField;
-					controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true);
-					controlCapes._lastZIndex++;					
-				}				
-			}
-		}else{
-			//alert("Error getTematicLayer");
-			console.debug("Error getTematicLayer");
-		}	
-		defer.resolve(capaTematic);
+	getTematicLayerByBusinessId(data).then(function(results){
+		readTematic(defer, results, layerWms, layer);
 	},function(results){
-		//console.debug('getTematicLayer ERROR');
+		//console.debug('getTematicLayerByBusinessId ERROR');
 		defer.reject();
 	});
 	return defer.promise();
 }
+
+function readTematic(defer, results, layerWms, layer){
+	//console.timeEnd("readTematic " + layerWms.serverName);
+	var capaTematic;
+	if(results.status == "OK" ){
+		var tematic = results.results;
+		var hasSource = (tematic.options && (tematic.options.indexOf("source")!=-1) );
+		//console.debug(tematic);
+		if(tematic.tipusRang == tem_heatmap){
+			loadTematicHeatmap(tematic, layer.capesOrdre, layer.options, layer.capesActiva);
+		}else if(tematic.tipusRang == tem_cluster){
+			loadTematicCluster(tematic, layer.capesOrdre, layer.options, layer.capesActiva);
+		}else{
+			var Lgeom = tematic.geometries.features.features;
+			var idDataField = tematic.idDataField;
+			var idGeomField = tematic.idGeomField;
+			var dataField = tematic.dataField;
+			var rangsField = "";
+			var Lrangs = tematic.rangs;
+			var Ldades = (tematic.capes ? tematic.capes.dades : []);
+			capaTematic = new L.FeatureGroup();
+			
+			var hasDades = false;
+			if (tematic.capes && tematic.capes.fieldsName){
+				hasDades = true;
+				var fieldsName = tematic.capes.fieldsName.split(",");
+				var fieldPos = parseInt(dataField.replace("slotd",""))-1;
+				if (fieldPos < fieldsName.length){
+					rangsField = fieldsName[fieldPos];
+				}
+			}
+			
+			capaTematic.options = {
+				businessId : layerWms.businessId,
+				nom : layerWms.serverName,
+				tipus : layerWms.serverType,
+				tipusRang: tematic.tipusRang, 
+				geometryType: tematic.geometryType,
+				dades: hasDades,
+				rangs: tematic.rangs,
+				rangsField: rangsField
+			};
+			
+			if(hasSource) {
+				var source = jQuery.parseJSON(tematic.options);					
+				capaTematic.options.source = source.source;
+			}
+			
+			if (!layerWms.capesActiva || layerWms.capesActiva == true || layerWms.capesActiva == "true"){
+				capaTematic.addTo(map);
+			}
+			
+			for(var g=0;g<Lgeom.length;g++){
+				var geom = Lgeom[g];
+				var rangStyle;
+				if (geom.geometry){
+					var dataGeom = jQuery.grep(Ldades, function(e){ return e[idDataField] == geom.properties[idGeomField]; });
+					if (dataGeom.length > 0){
+						dataGeom = dataGeom[0];
+						if (hasDades){
+							var fieldsName = tematic.capes.fieldsName.split(",");
+							jQuery.each(fieldsName, function(i, val){
+								dataGeom[val] = dataGeom["slotd"+(i+1)];
+							});
+						}
+						jQuery.extend(geom.properties, {data: dataGeom});
+					}else{
+						dataGeom = null;
+					}
+					var ftype = geom.geometry.type;
+					ftype = ftype.toLowerCase();
+					if (ftype === t_point){
+						ftype = t_marker;
+					}else if (ftype === t_linestring){
+						ftype = t_polyline;
+					}
+					
+					//Sin rangos
+					if (Lrangs.length == 0){
+						if (ftype == t_marker || ftype === t_multipoint){
+							rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
+						}else{
+							rangStyle = createRangStyle(ftype, null, Lgeom.length);
+						}
+					}
+					//1 Rango
+					else if (Lrangs.length == 1){
+						rangStyle = Lrangs[0];
+						rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
+					}
+					//Multiples rangos
+					else{
+						if (dataGeom){
+							rangStyle = jQuery.grep(Lrangs, function(e){
+								if (e.valorMax && e.valorMin){
+									return (parseFloat(e.valorMin) <= parseFloat(dataGeom[dataField]) && parseFloat(dataGeom[dataField]) <= parseFloat(e.valorMax));
+								}else{
+									return jQuery.trim(e.valorMax) == jQuery.trim(dataGeom[dataField]);
+								}
+							});
+						}else{
+							rangStyle = jQuery.grep(Lrangs, function(e){
+								if (e.valorMax && e.valorMin){
+									return (parseFloat(e.valorMin) <= parseFloat(geom.properties[dataField]) && parseFloat(geom.properties[dataField]) <= parseFloat(e.valorMax)); 
+								}else{
+									return jQuery.trim(e.valorMax) == jQuery.trim(geom.properties[dataField]); 
+								}
+							});
+							if (rangStyle.length == 0){
+								rangStyle = jQuery.grep(Lrangs, function(e){ return jQuery.trim(e.valorMax) == jQuery.trim(geom.properties.businessId); });
+							}
+						}
+						if (rangStyle.length > 0){
+							rangStyle = rangStyle[0];
+							rangStyle = createRangStyle(ftype, rangStyle, Lgeom.length);
+						}else{
+							rangStyle = createRangStyle(ftype, default_circulo_style, Lgeom.length);
+						}
+						
+						/*
+						if (dataGeom){
+							rangStyle = jQuery.grep(Lrangs, function(e){ return e.valorMax == dataGeom[dataField]; });
+							if (rangStyle.length > 0){
+								rangStyle = rangStyle[0];
+								rangStyle = createRangStyle(ftype, rangStyle);
+							}else{
+								rangStyle = createRangStyle(ftype);
+							}
+						}else{
+							rangStyle = createRangStyle(ftype);
+						}
+						*/
+					}
+					
+					var featureTem;
+					if (ftype === t_marker){
+						var coords=geom.geometry.coordinates;
+						if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
+							featureTem = L.marker([coords[0],coords[1]],
+								{icon: rangStyle, isCanvas:false, tipus: t_marker});
+						}else{//hi ha canvia de pinxo a punt canvas
+							featureTem= L.circleMarker([coords[0],coords[1]],
+								rangStyle	
+							);
+						}
+					}else if (ftype === t_multipoint){
+						//TODO revisar que funcione
+						var coords=geom.geometry.coordinates;
+						for (var i = 0; i < coords.length; i++){
+							var c=coords[i];
+							if(!rangStyle.isCanvas){//hi ha canvi de punt a pinxo i/o glifon
+								featureTem = L.marker([c[0], c[1]],
+									{icon: rangStyle, isCanvas:false, tipus: t_marker});
+							}else{//hi ha canvia de pinxo a punt canvas
+								featureTem= L.circleMarker([c[0], c[1]],
+									rangStyle	
+								);
+							}
+						}
+					}else if (ftype === t_polyline){
+						var coords=geom.geometry.coordinates;
+						var llistaPunts=[];
+						for (var i = 0; i < coords.length; i++){
+							var c=coords[i];
+							var punt=new L.LatLng(c[0], c[1]);
+							llistaPunts.push(punt);
+						}
+						featureTem = L.polyline(llistaPunts, rangStyle);
+					}else if (ftype === t_multilinestring){
+						var coords=geom.geometry.coordinates;
+						var llistaLines=[];
+						for (var i = 0; i < coords.length; i++){
+							var lines=coords[i];
+							var llistaPunts=[];
+							for (var k = 0; k < lines.length; k++){
+								var c=lines[k];
+								var punt=new L.LatLng(c[0], c[1]);
+								llistaPunts.push(punt);
+							}
+							llistaLines.push(llistaPunts);
+						}
+						featureTem = new L.multiPolyline(llistaLines, rangStyle);
+					}else if (ftype === t_polygon){
+						var coords=geom.geometry.coordinates;
+						var llistaLines=[];
+						for (var i = 0; i < coords.length; i++){
+							var lines=coords[i];
+							var llistaPunts=[];
+							for (var k = 0; k < lines.length; k++){
+								var c=lines[k];
+								var punt=new L.LatLng(c[0], c[1]);
+								llistaPunts.push(punt);
+							}
+							llistaLines.push(llistaPunts);
+						}
+						featureTem = new L.Polygon(llistaLines, rangStyle);
+					}else if (ftype === t_multipolygon){
+						var coords=geom.geometry.coordinates;
+						var llistaPoligons=[];
+						for (var p = 0; p < coords.length; p++){
+							var poligons=coords[p];
+							var llistaLines=[];
+							for (var i = 0; i < poligons.length; i++){
+								var lines=poligons[i];
+								var llistaPunts=[];
+								for (var k = 0; k < lines.length; k++){
+									var c=lines[k];
+									var punt=new L.LatLng(c[0], c[1]);
+									llistaPunts.push(punt);
+								}
+								llistaLines.push(llistaPunts);
+							}
+							llistaPoligons.push(llistaLines);
+						}
+						featureTem = new L.multiPolygon(llistaPoligons, rangStyle);
+					}
+					if (featureTem){
+						featureTem.properties = geom.properties;
+						featureTem.properties.capaLeafletId = capaTematic._leaflet_id;
+						featureTem.properties.capaNom = capaTematic.options.nom;
+						featureTem.properties.capaBusinessId = capaTematic.options.businessId;
+						featureTem.properties.tipusFeature = ftype;
+						if (featureTem.options){
+							featureTem.options.tipus = ftype;
+						}else{
+							featureTem.options = {tipus: ftype};
+						}
+						featureTem.properties.feature = {};
+						featureTem.properties.feature.geometry = geom.geometry;
+						capaTematic.addLayer(featureTem);
+						//							if(rangStyle.options.markerColor=='punt_r'){
+////							var num=rangStyle.options.radius;
+////							featureTem.options.icon.options.shadowSize = new L.Point(1, 1);
+//							var color = hexToRgb(featureTem.options.icon.options.fillColor);
+//							featureTem._icon.style.setProperty("background-color", color);
+//						}		
+						
+						if(ftype == t_polygon){
+							featureTem.properties.mida = calculateArea(featureTem.getLatLngs());
+						}else if(ftype == t_polyline){
+							featureTem.properties.mida = calculateDistance(featureTem.getLatLngs());
+						}
+						
+//						//Si la capa no ve de fitxer
+						if(!hasSource){
+							if($(location).attr('href').indexOf('mapa')!=-1 && ((capaTematic.options.tipusRang == tem_origen) || !capaTematic.options.tipusRang) ){
+								createPopupWindow(featureTem,ftype);
+							}else{			
+								createPopupWindowVisor(featureTem,ftype);
+							}								
+						}else{
+							createPopupWindowData(featureTem,ftype);
+						}
+						map.closePopup();
+					}
+				}
+			}
+			
+			//Afegim num d'elements al nom de la capa, si és un fitxer
+			if(layer.dragdrop || layer.urlFile){
+				capaTematic.options.nom = capaTematic.options.nom;// + " ("+capaTematic.getLayers().length+")";
+				var data = {
+					 	businessId: capaTematic.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	serverName: capaTematic.options.nom
+					 }
+					
+					updateServidorWMSName(data).then(function(results){
+						/*
+						if(results.status==='OK')console.debug("CapaTematic name changed OK");
+						else console.debug("CapaTematic name changed KO");
+						*/
+					});					
+			}
+			
+			var options;
+			if (layerWms.options){
+				options = jQuery.parseJSON( layerWms.options );
+			}
+			if(layerWms.options && options.origen){//Si es una sublayer
+				var origen = getLeafletIdFromBusinessId(options.origen);
+				capaTematic.options.dataField = dataField;
+//				updateControlCapes(capaTematic, capaTematic.options.nom, true, origen);
+				controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true, origen);
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});	
+			}
+			else {
+				if (!layerWms.capesOrdre){
+					capaTematic.options.zIndex = controlCapes._lastZIndex + 1;
+				}else{
+					capaTematic.options.zIndex = parseInt(layerWms.capesOrdre);
+				}
+				capaTematic.options.dataField = dataField;
+//				updateControlCapes(capaTematic, capaTematic.options.nom, true);
+				controlCapes.addOverlay(capaTematic, capaTematic.options.nom, true);
+				controlCapes._lastZIndex++;
+//				$(".layers-list").mCustomScrollbar({
+//					   advanced:{
+//					     autoScrollOnFocus: false,
+//					     updateOnContentResize: true
+//					   }           
+//				});	
+			}				
+		}
+	}else{
+		//alert("Error getTematicLayerByBusinessId");
+		console.debug("Error readTematic");
+	}	
+	defer.resolve(capaTematic);
+}
+
 
 function createRangStyle(ftype, style, num_geometries){
 	var rangStyle;
@@ -1117,8 +1174,11 @@ function getRangsFromLayer(layer){
         };
               
         updateTematicRangs(data).then(function(results){
-              //console.debug(results);
-        });
+        	//console.debug(results);
+        },function(results){
+			//TODO error
+			console.debug("getRangsFromLayer ERROR");
+		});
 	}
 }
 
@@ -1126,7 +1186,8 @@ function changeTematicLayerStyle(tematic, styles){
 	//console.debug("changeTematicLayerStyle");
 	//console.debug(styles);
 	
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'basic', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus tematic':'basic'}]);
 	
 	var rangs = getRangsFromStyles(tematic, styles);
 	
@@ -1316,7 +1377,8 @@ function div2RangStyle(tematic, tdElem){
 
 function updateClasicTematicFromRangs(){
 	//console.debug("updateClasicTematicFromRangs");
-	_gaq.push(['_trackEvent', 'mapa', 'estils', 'clasic', tipus_user]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);	
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus tematic':'categories'}]);
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");

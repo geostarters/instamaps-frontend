@@ -25,15 +25,34 @@
 .leaflet-control-layers .leaflet-row .leaflet-name {
 	float: left;
 	/*width: 45%;*/
-	width: 52%; /*75%;*/
+	/*width: 52%; /*75%;*/
 	padding-right: 5px;
 }
 
+.leaflet-name label {
+    word-wrap: break-word;
+    width: auto;
+    max-width: 115px;
+}
+
+.layer-count{
+	font-weight: normal;
+}
+
+/*
 .leaflet-control-layers .leaflet-row .leaflet-subrow .leaflet-name {
 	float: left;
 	/*width: 45%;*/
-	width: 75%;
+	/*width: 75%;
 	padding-right: 5px;
+}*/
+
+
+.leaflet-count{
+	float: left;
+	/*width: 45%;
+	width: 10%;
+	padding-right: 5px;	*/
 }
 
 .options-conf{

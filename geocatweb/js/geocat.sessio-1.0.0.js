@@ -1,4 +1,3 @@
-
 var trackEventFrom = '';
 
 jQuery(document).ready(function() {
@@ -17,6 +16,7 @@ jQuery(document).ready(function() {
 jQuery("#login_button").click(function(){
 
 	_gaq.push(['_trackEvent',trackEventFrom,'inici sessio', 'retention']);
+	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'instamapes'}]);
 	
 	checkValidityLogin("");
 	
@@ -65,11 +65,12 @@ function loginUserIcgc(){
 		var user_login_icgc =jQuery("#login_user_icgc").val();
 		var pass_login_icgc = jQuery("#login_pass_icgc").val();
 		var dataUrl = {user:user_login_icgc, password:pass_login_icgc};
-		
+		if (isRandomUser($.cookie('uid'))){
+			dataUrl.randomuid = $.cookie('uid');
+		}
 		doLoginIcgc(dataUrl).then(function(results){
-			console.debug(results);
 			if(results.status==='OK'){
-				$.cookie('uid', user_login_icgc, {path:'/'});
+				$.cookie('uid', results.uid, {path:'/'});
 				if(results.results === 'login_map'){
 					if (results.mapBusinessId){
 						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
@@ -129,26 +130,31 @@ function checkValidityLogin(tipus){
   
 $('#signin_twitter').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio twitter','retention']);
+	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'twitter'}]);
 	window.location = paramUrl.socialAuth+"id=twitter";
 });
 
 $('#signin_facebook').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio facebook','retention']);
+	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'facebook'}]);
 	window.location = paramUrl.socialAuth+"id=facebook";
 });
 
 $('#signin_linkedin').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio linkedin','retention']);
+	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'linkedin'}]);
 	window.location = paramUrl.socialAuth+"id=linkedin";
 });
 
 $('#signin_google').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio google','retention']);
+	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'google'}]);
 	window.location = paramUrl.socialAuth+"id=googleplus";
 });
 
 $('#signin_icc').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio icc','retention']);
+	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'icc'}]);
 	$('#dialog_session_icgc').modal('show');
 });
 

@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="author" content="InstaMapes">
-<meta name="description" content="InstaMapes ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
+<meta name="author" content="InstaMaps">
+<meta name="description" content="InstaMaps ofereix eïnes per a la creaci&oacute; de mapes i visors.&eacute;s gratuïta i oberta a tothom">
 <meta name="robots" content="index,follow">
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -18,12 +18,15 @@
 <link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
 
+<!-- KISSMETRICS SNIPPET -->
+<script src="/geocatweb/js/geocat.kissmetrics.js"></script>
+
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<title lang="ca">InstaMapes</title>
+<title lang="ca">InstaMaps</title>
 </head>
 <body>
 	<!-- Fixed navbar -->
@@ -37,13 +40,13 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMapes</div>
+					<div class="brand-txt">InstaMaps</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
 					<li><a id="hl_index" lang="ca" href="../geocatweb/galeria.html">Galeria</a></li>
-					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamapes/">Blog</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
 					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
@@ -92,8 +95,8 @@
 	<div class="container">
     	<div class="my-form-signin">
        		<section>
-       			<h2 id="text-uid"></h2>
-        		<h3  lang="ca" class="form-signin-heading">Administrar compte</h3>
+       			<h3 id="text-uid"></h3>
+        		<h4 lang="ca" class="form-signin-heading">Administrar compte</h4>
         		
         		<form id="frm_update_user" >
 	        		<fieldset>
@@ -102,7 +105,7 @@
 	       				<input lang="ca" id="perfil_name" type="text" required class="form-control my-border" placeholder="Nom">
 	       				<input lang="ca" id="perfil_surname" type="text" required class="form-control my-border" placeholder="Cognom">
 	       				<br>
-	       				<input lang="ca" id="perfil_email" type="hidden" required class="form-control my-border" placeholder="Correu">
+	       				<input lang="ca" id="perfil_email" type="email" required class="form-control my-border" placeholder="Correu">
 	        			<br>
 		      			<br>  		
 		        		<p>
@@ -130,6 +133,11 @@
         		</form>
         		
         		<br>
+        		
+        		<!-- <p class="text-right">
+        		<button id="btn_delete_usr" lang="ca" type="button" class="btn btn-link btn-xs">Eliminar compte</button>
+        		</p> -->
+        		
 			</section>
     	</div>
     	
@@ -262,14 +270,77 @@
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->							
 
+		<div class="modal fade" id="modal_delete_usr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Eliminar compte</span></h4>
+		        <div class="alert alert-warning"><strong><span lang="ca">Alerta</span>! </strong><span lang="ca">Si eliminies el teu compte perdràs els teus mapes i les teves dades</span></div>
+		        <div class="radio text-left">
+		        	<span lang="ca">Tria la teva opció</span>:
+		        </div>
+	        	<div class="radio text-left">
+				  <label>
+				    <input type="radio" name="optionsDelete" id="optionsDelete2" value="deletePrivate" checked>
+				    <span lang="ca">Eliminar el meu compte però mantenir els meus mapes públics a la galeria d'Instamaps</span>
+				  </label>
+				</div>
+	        	<div class="radio text-left">
+				  <label>
+				    <input type="radio" name="optionsDelete" id="optionsDelete1" value="deleteAll">
+				    <span lang="ca">Eliminar el meu compte i esborrar-ho tot</span>
+				  </label>
+				</div>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		      	<button type="button" class="btn btn-default no-radius" data-dismiss="modal">Cancel·lar</button>
+		        <button id="button-delete-ok" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+
+		<div class="modal fade" id="modal_delete_usr_conf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Eliminar compte</span></h4>
+		        <div class="alert alert-warning"><strong><span lang="ca">Segur que vols</span> </strong><span lang="ca" id="deleteOptionText"></span><br/>
+		        <span lang="ca">Aquesta operació és irreversible</span>
+		        </div>
+		        <input type="hidden" id="deleteOptionValue" value="">		        
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		      	<button type="button" class="btn btn-default no-radius" data-dismiss="modal">Cancel·lar</button>
+		        <button id="button-delete-ok-conf" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<div class="modal fade" id="modal_delete_usr_ko" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha pogut esborrar l'usuari. Si us plau torna-ho a provar</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 	</div> 
 	</div>
 	<!-- /container -->
 
 	<footer>
-		<div class="container">
-			<p>InstaMapes Beta</p>
+		<div class="container text-center">
+			<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+				<img height="50" src="/llibreries/img/icgc.gif">
+			</a>
+			<span>InstaMaps Beta</span>
 		</div>
 	</footer>
 
