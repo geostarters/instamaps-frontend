@@ -103,36 +103,36 @@ function pucPassar(item){
 		var passo=false;
 
 		//console.info(item);
-		
-		if(document.getElementById('input-'+item.layer.options.businessId).checked){
-
-				if(item.layer._map != null && item.layer.options.tipus !=t_wms && 
-						item.layer.options.tipus !=t_wms && 
-						item.layer.options.tipus !=t_heatmap &&
-						item.layer.options.tipus !=t_cluster &&
-						item.layer.options.tipus !=t_size){
-
-						passo=true;
-						
-						
-						try{
-						item.layer.toGeoJSONcustom();
-						passo=true;
-						
-						}catch(err){
-						passo=false;
-						
-						return passo;
-						
-						}
-			}
-				
-		}else{
-
-		passo=false;
-
-		}	
-
+		if(document.getElementById('input-'+item.layer.options.businessId)!=null){
+			if(document.getElementById('input-'+item.layer.options.businessId).checked){
+	
+					if(item.layer._map != null && item.layer.options.tipus !=t_wms && 
+							item.layer.options.tipus !=t_wms && 
+							item.layer.options.tipus !=t_heatmap &&
+							item.layer.options.tipus !=t_cluster &&
+							item.layer.options.tipus !=t_size){
+	
+							passo=true;
+							
+							
+							try{
+							item.layer.toGeoJSONcustom();
+							passo=true;
+							
+							}catch(err){
+							passo=false;
+							
+							return passo;
+							
+							}
+				}
+					
+			}else{
+	
+			passo=false;
+	
+			}	
+		}
 
 return passo;		
 
