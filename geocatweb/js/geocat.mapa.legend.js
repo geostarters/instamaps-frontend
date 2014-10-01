@@ -329,6 +329,8 @@ function addLayerToLegend(layer, count, layerIdParent){
 				if(size > 0) size = 1;//Control rangs no buit
 			}
 			
+			console.debug("///"+layer.options.nom+"///");
+			
 			var geometryType = transformTipusGeometry(layer.options.geometrytype);
 			
 			if(geometryType == t_marker){
@@ -475,7 +477,12 @@ function addLayerToLegend(layer, count, layerIdParent){
 					var obj = {color: color, borderColor: borderColor, opacity:opacity, borderWidth:borderWidth};
 					var existeix = checkPolStyle(obj);					
 					
+					console.debug("*********");
 					if(!existeix){
+						console.debug("No existeix:")
+						console.debug(rangs[i]);
+						console.debug(rangs[i].borderColor);
+						console.debug(borderColor);
 						controlLegendPol.push(obj);					
 					
 						var stringStyle =	'<svg height="40" width="40">'+
@@ -502,8 +509,15 @@ function addLayerToLegend(layer, count, layerIdParent){
 								'</div>';					
 						
 						html+='</div>';
+					}else{
+						console.debug("Existeix:")
+						console.debug(rangs[i].borderColor);
+						console.debug(borderColor);
 					}
+					
 				}
+				console.debug("controlLegendPol:");
+				console.debug(controlLegendPol);				
 			}
 		}
 	}

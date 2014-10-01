@@ -97,6 +97,16 @@ function hexToRgb(hex) {
     } : {r:0,g:0,b:0};
 }
 
+function hexToRgba(hex, opacity) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+        a: opacity,
+    } : {r:0,g:0,b:0,a:1};
+}
+
 function hex(x) {
 	var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
 	return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];

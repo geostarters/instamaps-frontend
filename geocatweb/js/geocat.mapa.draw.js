@@ -39,9 +39,11 @@ function obrirMenuModal(_menuClass,estat,_from){
 		
 		if(_menuClass.indexOf("arees")!=-1){
 			var defPol = document.getElementById("cv_pol").getContext("2d");
+			var fillColor = defPol.fillStyle;
+			if(fillColor.indexOf("rgb")!=-1) fillColor = rgb2hex(defPol.fillStyle);
 			var icon = {color: defPol.strokeStyle,
 						fillOpacity : getRgbAlpha(defPol.fillStyle),
-						fillColor: rgb2hex(defPol.fillStyle),
+						fillColor: fillColor,//rgb2hex(defPol.fillStyle),
 						weight: defPol.lineWidth,
 						tipus: t_polygon
 					};
@@ -267,8 +269,13 @@ function addGeometryInitP(canvas){
 	cv_ctx_p.lineTo(2.06,33.67);
 	cv_ctx_p.closePath();
 	cv_ctx_p.strokeStyle=canvas_pol.strokeStyle;
-	cv_ctx_p.fillStyle=canvas_pol.fillStyle;
+	
+	if(canvas_pol.fillStyle.indexOf("rgb")!= -1) cv_ctx_p.fillStyle = canvas_pol.fillStyle;
+	else cv_ctx_p.fillStyle=hexToRgba(canvas_pol.fillStyle,canvas_pol.opacity );
+	
+//	cv_ctx_p.fillStyle=canvas_pol.fillStyle;
 	cv_ctx_p.lineWidth=canvas_pol.lineWidth;
+//	cv_ctx_p.opacity=canvas_pol.opacity;
 	cv_ctx_p.fill();
 	cv_ctx_p.stroke(); 
 }
