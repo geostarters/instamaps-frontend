@@ -299,7 +299,16 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		h = d.y;
 	}
 	
+//jQuery('#map .leaflet-control-container').attr('data-html2canvas-ignore','true');
 
+
+	
+	var zz=map.getZoom();
+	
+	map.setZoom(zz-1);	
+	map.setZoom(zz);
+	
+	
 jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 jQuery('#map .leaflet-marker-pane').removeAttr('data-html2canvas-ignore');
 jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore');	
@@ -316,11 +325,12 @@ jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer'
 		snd.play();
 		
 		html2canvas(jQuery('#map .leaflet-map-pane'), {
+			
 			onrendered : function(canvas) {
 
 				ActDesPrintMode(false);
 				var imgData = canvas.toDataURL('image/jpeg', 0.92);
-
+				//var imgData = canvas.toDataURL('image/png')
 				imgData = JSON.stringify(imgData.replace(
 						/^data:image\/(png|jpeg);base64,/, ""));
 
@@ -482,7 +492,10 @@ imgCaptura="";
 	var data=getCapesVectorActives();
 	capturaLlegenda(false);
 	
-		html2canvas(jQuery('#map .leaflet-map-pane'), {
+	html2canvas(jQuery('#map .leaflet-map-pane'), {
+	
+		
+	
 			onrendered : function(canvas) {
 
 				ActDesPrintMode(false);
