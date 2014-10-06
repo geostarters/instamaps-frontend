@@ -177,3 +177,4 @@ function redirectLogin(results){
 		window.location=paramUrl.galeriaPage+"?private=1";
 	}
 }
+
