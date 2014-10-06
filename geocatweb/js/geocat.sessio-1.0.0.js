@@ -32,15 +32,18 @@ jQuery("#login_button").click(function(){
 		doLogin(dataUrl).then(function(results){
 			console.debug(results);
 			if(results.status==='OK'){
-				$.cookie('uid', user_login, {path:'/'});
-				if(results.results === 'login_map'){
-					if (results.mapBusinessId){
-						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
-					}else{
-						window.location=paramUrl.mapaPage;
-					}
+				if (results.uid){
+					$.cookie('uid', results.uid, {path:'/'});
 				}else{
-					window.location=paramUrl.galeriaPage+"?private=1";
+					$.cookie('uid', user_login, {path:'/'});
+				}
+				if(results.login_icgc){
+					$('#modal_login_new_icgc').modal('toggle');
+					jQuery('#modal_login_new_icgc').on('hide.bs.modal', function (e) {
+						redirectLogin(results);
+					});
+				}else{
+					redirectLogin(results);
 				}
 			}else if(results.results === 'cannot_authenticate'){
 				$('#modal_wrong_user').modal('toggle');						
@@ -71,15 +74,7 @@ function loginUserIcgc(){
 		doLoginIcgc(dataUrl).then(function(results){
 			if(results.status==='OK'){
 				$.cookie('uid', results.uid, {path:'/'});
-				if(results.results === 'login_map'){
-					if (results.mapBusinessId){
-						window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
-					}else{
-						window.location=paramUrl.mapaPage;
-					}
-				}else{
-					window.location=paramUrl.galeriaPage+"?private=1";
-				}
+				redirectLogin(results);
 			}else if (results.status === 'MAIL'){
 				/*
 				//solo para local OJO al subir
@@ -169,4 +164,16 @@ function fesRegistre(){
 //	}else{
 //		window.location = "registre.html";
 //	}
+}
+
+function redirectLogin(results){
+	if(results.results === 'login_map'){
+		if (results.mapBusinessId){
+			window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+		}else{
+			window.location=paramUrl.mapaPage;
+		}
+	}else{
+		window.location=paramUrl.galeriaPage+"?private=1";
+	}
 }

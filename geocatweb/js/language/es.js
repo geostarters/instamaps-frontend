@@ -355,4 +355,5 @@ jquery_lang_js.prototype.lang.es = {
 	"Notes":"Notas",
 	"La informació presentada no té valor normatiu ni jurídic":"La información presentada no tiene valor normativo ni jurídico",
 	"Error: No es pot generar el document":"Error:No se puede generar el documento",
+	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC."
 }

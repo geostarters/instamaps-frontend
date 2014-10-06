@@ -353,4 +353,5 @@ jquery_lang_js.prototype.lang.en = {
 	"Desar mapa GeoPDF":"Save map as GeoPDF",
 	"Notes":"Notes",
 	"La informació presentada no té valor normatiu ni jurídic":"The information presented here does not have legal or normative validity",
+	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Your Instamaps account has been migrated. You shall now log in with your ICGC credentials."
 }
