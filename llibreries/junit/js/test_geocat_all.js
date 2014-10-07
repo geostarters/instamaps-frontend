@@ -1,107 +1,4 @@
-var HOST_APP = "http://localhost:8080/geocat/";
-var urls = {
-	login: HOST_APP+"login.action?",
-	createUser: HOST_APP+"admin/createUser.action?",
-	registreUser: HOST_APP+"registreUser.action?",
-	validateUid: HOST_APP+"validateUid.action?",
-	validateEmail: HOST_APP+"validateEmail.action?",
-	getUser: HOST_APP+"admin/getUser.action?",
-	updatePassword: HOST_APP+"user/updatePassword.action?",
-	updateUser: HOST_APP+"user/updateUser.action?",
-	updateUserOptions: HOST_APP+"user/updateUserOptions.action?",
-	getUserUser: HOST_APP+"user/getUser.action?",
-	getAllUsers: HOST_APP+"admin/getAllUsers.action?",
-	getAllUserNames: HOST_APP+"admin/getAllUserNames.action?",
-	deleteUser: HOST_APP+"admin/deleteUser.action?",
-	logout: HOST_APP+"logout.action?",
-	createAmbitGeo: HOST_APP+"admin/createAmbitGeo.action?",
-	updateAmbitGeo: HOST_APP+"admin/updateAmbitGeo.action?",
-	deleteAmbitGeo: HOST_APP+"admin/deleteAmbitGeo.action?",
-	getAllAmbitGeo: HOST_APP+"admin/getAllAmbitGeo.action?",
-	getAmbitGeoById: HOST_APP+"admin/getAmbitGeoById.action?",
-	getAmbitGeoByBusinessId: HOST_APP+"admin/getAmbitGeoByBusinessId.action?",
-	createTipusAplicacio: HOST_APP+"admin/createTipusAplicacio.action?",
-	updateTipusAplicacio: HOST_APP+"admin/updateTipusAplicacio.action?",
-	deleteTipusAplicacio: HOST_APP+"admin/deleteTipusAplicacio.action?",
-	getAllTipusAplicacio: HOST_APP+"admin/getAllTipusAplicacio.action?",
-	getTipusAplicacioById: HOST_APP+"admin/getTipusAplicacioById.action?",
-	getTipusAplicacioByBusinessId: HOST_APP+"admin/getTipusAplicacioByBusinessId.action?",
-	createTipusEntitat: HOST_APP+"admin/createTipusEntitat.action?",
-	updateTipusEntitat: HOST_APP+"admin/updateTipusEntitat.action?",
-	deleteTipusEntitat: HOST_APP+"admin/deleteTipusEntitat.action?",
-	getAllTipusEntitat: HOST_APP+"admin/getAllTipusEntitat.action?",
-	getTipusEntitatById: HOST_APP+"admin/getTipusEntitatById.action?",
-	getTipusEntitatByBusinessId: HOST_APP+"admin/getTipusEntitatByBusinessId.action?",
-	createTipusOrigin: HOST_APP+"admin/createTipusOrigin.action?",
-	updateTipusOrigin: HOST_APP+"admin/updateTipusOrigin.action?",
-	deleteTipusOrigin: HOST_APP+"admin/deleteTipusOrigin.action?",
-	getAllTipusOrigin: HOST_APP+"admin/getAllTipusOrigin.action?",
-	getTipusOriginById: HOST_APP+"admin/getTipusOriginById.action?",
-	createUserSocial: HOST_APP+"user/createUserSocial.action?",
-	updateUserSocial: HOST_APP+"user/updateUserSocial.action?",
-	getAllUserSocial: HOST_APP+"user/getAllUserSocial.action?",
-	deleteUserSocial: HOST_APP+"user/deleteUserSocial.action?",
-	createMap: HOST_APP+"aplications/map/createMap.action?",
-	updateMap: HOST_APP+"aplications/map/updateMap.action?",
-	updateMap: HOST_APP+"aplications/map/updateMap.action?",
-	updateMapName: HOST_APP+"aplications/map/updateMapName.action?",
-	deleteMap: HOST_APP+"aplications/map/deleteMap.action?",
-	getMapById: HOST_APP+"aplications/map/getMapById.action?",
-	getAllMapsByUser: HOST_APP+"aplications/map/getAllMapsByUser.action?",
-	getAllPublicsMapsByUser: HOST_APP+"aplications/map/getAllPublicsMapsByUser.action?",
-	getAllMaps: HOST_APP+"aplications/map/getAllMaps.action?",
-	getAllPublicsMaps: HOST_APP+"aplications/map/getAllPublicsMaps.action?",
-	addServerToMap: HOST_APP+"aplications/map/addServerToMap.action?",
-	updateServerToMap: HOST_APP+"aplications/map/updateServerToMap.action?",
-	updateServersOrderToMap: HOST_APP+"aplications/map/updateServersOrderToMap.action?",
-	removeServerToMap: HOST_APP+"aplications/map/removeServerToMap.action?",
-	createServidorWMS: HOST_APP+"layers/servidor/wms/createServidorWMS.action?",
-	createServidorInMap: HOST_APP+"layers/servidor/wms/createServidorInMap.action?",
-	getServidorWMSByBusinessId: HOST_APP+"layers/servidor/wms/getServidorWMSByBusinessId.action?",
-	updateServidorWMS: HOST_APP+"layers/servidor/wms/updateServidorWMS.action?",
-	updateServidorWMSName: HOST_APP+"layers/servidor/wms/updateServidorWMSName.action?",
-	getAllServidorsWMSByUser: HOST_APP+"layers/servidor/wms/getAllServidorsWMSByUser.action?",
-	getAllPubliscServidorsWMSByUser: HOST_APP+"layers/servidor/wms/getAllPubliscServidorsWMSByUser.action?",
-	getAllPublicsServidorsWMS: HOST_APP+"layers/servidor/wms/getAllPublicsServidorsWMS.action?",
-	getAllServidorsWMS: HOST_APP+"layers/servidor/wms/getAllServidorsWMS.action?",
-	deleteServidorWMS: HOST_APP+"layers/servidor/wms/deleteServidorWMS.action?",
-	createFeatureLayer: HOST_APP+"layers/feature/createFeatureLayer.action?",
-	updateFeatureLayer: HOST_APP+"layers/feature/updateFeatureLayer.action?",
-	deleteFeatureLayer: HOST_APP+"layers/feature/deleteFeatureLayer.action?",
-	createFeature: HOST_APP+"layers/feature/createFeature.action?",
-	updateFeature: HOST_APP+"layers/feature/updateFeature.action?",
-	deleteFeature: HOST_APP+"layers/feature/deleteFeature.action?",
-	getAllFeatureLayersByUser: HOST_APP+"layers/feature/getAllFeatureLayersByUser.action?",
-	getFeatureLayersByBusinessId: HOST_APP+"layers/feature/getFeatureLayersByBusinessId.action?",
-	createDataLayer: HOST_APP+"layers/data/createDataLayer.action?",
-	updateDataLayer: HOST_APP+"layers/data/updateDataLayer.action?",
-	deleteDataLayer: HOST_APP+"layers/data/deleteDataLayer.action?",
-	createData: HOST_APP+"layers/data/createData.action?",
-	updateData: HOST_APP+"layers/data/updateData.action?",
-	deleteData: HOST_APP+"layers/data/deleteData.action?",
-	getAllDataLayersByUser: HOST_APP+"layers/data/getAllDataLayersByUser.action?",
-	createTematicLayer: HOST_APP+"layers/tematic/createTematicLayer.action?",
-	updateTematicLayer: HOST_APP+"layers/tematic/updateTematicLayer.action?",
-	deleteTematicLayer: HOST_APP+"layers/tematic/deleteTematicLayer.action?",
-	createRang: HOST_APP+"layers/tematic/createRang.action?",
-	updateRang: HOST_APP+"layers/tematic/updateRang.action?",
-	deleteRang: HOST_APP+"layers/tematic/deleteRang.action?",
-	updateTematicRangs: HOST_APP+"layers/tematic/updateTematicRangs.action?",
-	duplicateTematicLayer: HOST_APP+"layers/tematic/duplicateTematicLayer.action?",
-	updateGeometriesTematicLayer: HOST_APP+"layers/tematic/updateGeometriesTematicLayer.action?",
-	updateCapesTematicLayer: HOST_APP+"layers/tematic/updateCapesTematicLayer.action?",
-	getTematicLayerByBusinessId: HOST_APP+"layers/tematic/getTematicLayerByBusinessId.action?",
-	createTematicLayerFeature: HOST_APP+"layers/tematic/createTematicLayerFeature.action?",
-	createTematicLayerEmpty: HOST_APP+"layers/tematic/createTematicLayerEmpty.action?",
-	moveFeatureToTematic: HOST_APP+"layers/tematic/moveFeatureToTematic.action?",
-	deleteTematicLayerAll: HOST_APP+"layers/tematic/deleteTematicLayerAll.action?",
-	getAllTematicLayerByUid: HOST_APP+"layers/tematic/getAllTematicLayerByUid.action?",
-};
-
-//var JSV = require("./jsv").JSV;
-var JSV = require("JSV").JSV;
-var test_uid = "bcarmona";
-var env = JSV.createEnvironment();
+//include(test_geocat_vars.js)
 
 QUnit.config.reorder = false;
 test( "hello test", function() {
@@ -111,7 +8,7 @@ test( "hello test", function() {
 asyncTest( "login", 1, function() {
 	$.ajax({
 		url: urls.login,
-		data: {user: 'wszczerban', password:'piji32'},
+		data: {user: uid, password:'piji34'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -173,7 +70,7 @@ asyncTest( "createUser", 2, function() {
 asyncTest( "validateUid", 1, function() {
 	$.ajax({
 		url: urls.validateUid,
-		data: {uid: 'wszczerban'},
+		data: {uid: 'bolo'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -1199,7 +1096,7 @@ asyncTest( "createUserSocial", 2, function() {
 		url: urls.createUserSocial,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			provider: 'twitter',
 			socialName: 'bolosig',
 			validatedId: '235909290'
@@ -1240,7 +1137,7 @@ asyncTest( "createUserSocial", 2, function() {
 		url: urls.updateUserSocial,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			provider: 'twitter',
 			socialName: 'bolosig1',
 			validatedId: '235909290'
@@ -1280,7 +1177,7 @@ asyncTest( "getAllUserSocial", 3, function() {
 	$.ajax({
 		url: urls.getAllUserSocial,
 		data: {
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -1325,7 +1222,7 @@ asyncTest( "deleteUserSocial", 1, function() {
 		url: urls.deleteUserSocial,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -1371,7 +1268,7 @@ asyncTest( "createMap", 2, function() {
 		url: urls.createMap,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			visibilitat: 'O',
 			tipusApp: 'vis',
 			nom: 'test 1'
@@ -1424,7 +1321,7 @@ asyncTest( "updateMap", 2, function() {
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
 			nom: 'test',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			visibilitat: 'P',
 			tipusApp: 'vis',
 			usrVisor: 'demo',
@@ -1478,7 +1375,7 @@ asyncTest( "updateMapName", 2, function() {
 		data: {
 			businessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
 			nom: 'jessi topin',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -1599,7 +1496,7 @@ asyncTest( "addServerToMap", 2, function() {
 	$.ajax({
 		url: urls.addServerToMap,
 		data: {
-			uid: 'wszczerban',
+			uid: 'bolo',
 			businessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
 			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b082',
 			layers: 'mt25m',
@@ -1697,7 +1594,7 @@ asyncTest( "updateServerToMap", 2, function() {
 	$.ajax({
 		url: urls.updateServerToMap,
 		data: {
-			uid: 'wszczerban',
+			uid: 'bolo',
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
 			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b081',
 			layers: 'mt5m',
@@ -1750,7 +1647,7 @@ asyncTest( "updateServersOrderToMap", 1, function() {
 	$.ajax({
 		url: urls.updateServersOrderToMap,
 		data: {
-			uid: 'wszczerban',
+			uid: 'bolo',
 			businessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
 			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b081,4c216bc1cdd8b3a69440b45b2713b082',
 			order: '1,2'
@@ -1770,7 +1667,7 @@ asyncTest( "updateServersOrderToMap", 1, function() {
 asyncTest( "getAllMapsByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllMapsByUser,
-		data: {uid: 'wszczerban'},
+		data: {uid: 'bolo'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -1820,7 +1717,7 @@ asyncTest( "removeServerToMap", 2, function() {
 	$.ajax({
 		url: urls.removeServerToMap,
 		data: {
-			uid: 'wszczerban',
+			uid: 'bolo',
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
 			servidorWMSbusinessId: '4c216bc1cdd8b3a69440b45b2713b081'
 		},
@@ -1868,7 +1765,7 @@ asyncTest( "removeServerToMap", 2, function() {
 asyncTest( "getAllPublicsMapsByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllPublicsMapsByUser,
-		data: {uid: 'wszczerban'},
+		data: {uid: 'bolo'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -1919,7 +1816,7 @@ asyncTest( "deleteMap", 1, function() {
 		url: urls.deleteMap,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -1943,7 +1840,7 @@ asyncTest( "createServidorWMS", 2, function() {
 		type: 'POST',
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			visibilitat: 'O',
 			serverName: 'TOPO ICC',
 			serverType: 'wms',
@@ -2005,7 +1902,7 @@ asyncTest( "createServidorWMS", 2, function() {
 		start();
 	});	
 });
-*/
+
 asyncTest( "createServidorInMap", 2, function() {
 	$.ajax({
 		url: urls.createServidorInMap,
@@ -2014,7 +1911,7 @@ asyncTest( "createServidorInMap", 2, function() {
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
 			mapBusinessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			visibilitat: 'O',
 			serverName: 'TOPO ICC',
 			serverType: 'wms',
@@ -2079,7 +1976,7 @@ asyncTest( "createServidorInMap", 2, function() {
 		start();
 	});	
 });
-/*
+
 asyncTest( "getServidorWMSByBusinessId", 2, function() {
 	$.ajax({
 		url: urls.getServidorWMSByBusinessId,
@@ -2138,7 +2035,7 @@ asyncTest( "updateServidorWMS", 2, function() {
 		url: urls.updateServidorWMS,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			visibilitat: 'P',
 			serverName: 'Ortos ICC',
 			serverType: 'wms',
@@ -2207,7 +2104,7 @@ asyncTest( "updateServidorWMSName", 2, function() {
 		url: urls.updateServidorWMSName,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			serverName: 'Ortofotos ICC'
 		},
 		dataType: 'jsonp'
@@ -2234,7 +2131,7 @@ asyncTest( "updateServidorWMSName", 2, function() {
 asyncTest( "getAllServidorsWMSByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllServidorsWMSByUser,
-		data: {uid: 'wszczerban'},
+		data: {uid: 'bolo'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -2295,7 +2192,7 @@ asyncTest( "getAllServidorsWMSByUser", 3, function() {
 asyncTest( "getAllPubliscServidorsWMSByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllPubliscServidorsWMSByUser,
-		data: {uid: 'wszczerban'},
+		data: {uid: 'bolo'},
 		dataType: 'jsonp'
 	}).done(function(results){
 		console.debug(results);
@@ -2476,7 +2373,7 @@ asyncTest( "deleteServidorWMS", 1, function() {
 		url: urls.deleteServidorWMS,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -2498,7 +2395,7 @@ asyncTest( "createFeatureLayer", 3, function() {
 		url: urls.createFeatureLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer'
 		},
@@ -2551,7 +2448,7 @@ asyncTest( "updateFeatureLayer", 3, function() {
 		url: urls.updateFeatureLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer',
 			options: '{tematic:"muni",rangs:"u"}'
@@ -2630,7 +2527,7 @@ asyncTest( "createFeature", 3, function() {
 		url: urls.createFeature,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			features: features
 		},
 		method: 'post',
@@ -2698,7 +2595,7 @@ asyncTest( "updateFeature", 3, function() {
 		url: urls.updateFeature,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			features: features
 		},
 		method: 'post',
@@ -2744,7 +2641,7 @@ asyncTest( "deleteFeature", 1, function() {
 		url: urls.deleteFeature,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		method: 'post',
 		dataType: 'jsonp'
@@ -2763,7 +2660,7 @@ asyncTest( "getAllFeatureLayersByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllFeatureLayersByUser,
 		data: {
-			uid: 'wszczerban',
+			uid: 'bolo',
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -2814,7 +2711,7 @@ asyncTest( "deleteFeatureLayer", 1, function() {
 		url: urls.deleteFeatureLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -2834,7 +2731,7 @@ asyncTest( "createDataLayer", 3, function() {
 		url: urls.createDataLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer'
 		},
@@ -2887,7 +2784,7 @@ asyncTest( "updateDataLayer", 3, function() {
 		url: urls.updateDataLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer',
 			options: '{tematic:"muni",rangs:"u"}'
@@ -2958,7 +2855,7 @@ asyncTest( "createData", 3, function() {
 		url: urls.createData,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			dades: dades
 		},
 		method: 'post',
@@ -3021,7 +2918,7 @@ asyncTest( "updateData", 3, function() {
 		url: urls.updateData,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			dades: dades
 		},
 		method: 'post',
@@ -3067,7 +2964,7 @@ asyncTest( "deleteData", 1, function() {
 		url: urls.deleteData,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		method: 'post',
 		dataType: 'jsonp'
@@ -3086,7 +2983,7 @@ asyncTest( "getAllDataLayersByUser", 3, function() {
 	$.ajax({
 		url: urls.getAllDataLayersByUser,
 		data: {
-			uid: 'wszczerban',
+			uid: 'bolo',
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -3136,7 +3033,7 @@ asyncTest( "deleteDataLayer", 1, function() {
 		url: urls.deleteDataLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -3156,7 +3053,7 @@ asyncTest( "createTematicLayer", 3, function() {
 		url: urls.createTematicLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer'
 		},
@@ -3205,7 +3102,7 @@ asyncTest( "updateTematicLayer", 3, function() {
 		url: urls.updateTematicLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer',
 			keywords: 'poblacio,municipis'
@@ -3274,7 +3171,7 @@ asyncTest( "createRang", 3, function() {
 		url: urls.createRang,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			rangs: rangs
 		},
 		method: 'post',
@@ -3354,7 +3251,7 @@ asyncTest( "updateRang", 3, function() {
 		url: urls.updateRang,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			rangs: rangs
 		},
 		method: 'post',
@@ -3416,7 +3313,7 @@ asyncTest( "deleteRang", 1, function() {
 		url: urls.deleteRang,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		method: 'post',
 		dataType: 'jsonp'
@@ -3436,7 +3333,7 @@ asyncTest( "updateGeometriesTematicLayer", 3, function() {
 		url: urls.updateGeometriesTematicLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			geometriesId: '4c216bc1cdd8b3a69440b45b2713b081',
 			geomField: 'the_geom',
 			idGeomField: 'slotf1'
@@ -3486,7 +3383,7 @@ asyncTest( "updateCapesTematicLayer", 3, function() {
 		url: urls.updateCapesTematicLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			capesId: '4c216bc1cdd8b3a69440b45b2713b081',
 			dataField: 'slotd2',
 			idDataField: 'slotd1'
@@ -3570,7 +3467,7 @@ asyncTest( "updateTematicRangs", 1, function() {
 		url: urls.updateTematicRangs,
 		data: {
 			businessId: 'a24b6827d46dadf5cca4fa09069583f0',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			tipusRang: 'unic',
 			rangs: rangs
 		},
@@ -3594,7 +3491,7 @@ asyncTest( "duplicateTematicLayer", 1, function() {
 		url: urls.duplicateTematicLayer,
 		data: {
 			businessId: 'd414fc9125bc56de4de4e7fbe8b350d6',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			nom: 'Test_layer',
             mapBusinessId: 'dfc0ebd23833cfde0d9c8bb70dfdc67c',
             calentas: false,           
@@ -3681,7 +3578,7 @@ asyncTest( "createTematicLayerFeature", 3, function() {
 		url: urls.createTematicLayerFeature,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer',
 			publica: true,
@@ -3738,7 +3635,7 @@ asyncTest( "createTematicLayerEmpty", 3, function() {
 		url: urls.createTematicLayerEmpty,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b090',
-			uid: 'wszczerban',
+			uid: 'bolo',
 			description: 'prova',
 			nom: 'Test_layer',
 			geometryType: 'marker',
@@ -3796,7 +3693,7 @@ asyncTest( "moveFeatureToTematic", 1, function() {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082', //businessId de la feature
             fromBusinessId: '4c216bc1cdd8b3a69440b45b2713b081', //businessId del tematico de origen
             toBusinessId: '4c216bc1cdd8b3a69440b45b2713b083', //businessId del tematico de destino
-			uid: 'wszczerban',
+			uid: 'bolo',
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -3814,7 +3711,7 @@ asyncTest( "getTematicLayerByBusinessId", 3, function() {
 		url: urls.getTematicLayerByBusinessId,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b081',
-			uid: 'wszczerban',
+			uid: 'bolo',
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -3870,7 +3767,7 @@ asyncTest( "deleteTematicLayerAll", 1, function() {
 		url: urls.deleteTematicLayerAll,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -3889,7 +3786,7 @@ asyncTest( "deleteTematicLayer", 1, function() {
 		url: urls.deleteTematicLayer,
 		data: {
 			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
-			uid: 'wszczerban'
+			uid: 'bolo'
 		},
 		dataType: 'jsonp'
 	}).done(function(results){
@@ -3903,6 +3800,713 @@ asyncTest( "deleteTematicLayer", 1, function() {
 	});	
 });
 */
+
+module( "visualitzacio" );
+/*
+asyncTest( "createGeometriesColleccioLayer", 1, function() {
+	$.ajax({
+		url: urls.createGeometriesColleccioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			nom: "Test_viz_layer"
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "updateGeometriesColleccioLayer", 1, function() {
+	var options = {
+		tematic:"muni",
+		rangs:"u"	
+	};
+	options = JSON.stringify(options);
+	
+	$.ajax({
+		url: urls.updateGeometriesColleccioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			nom: 'Test_layers',
+			options: options
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getAllGeometriesColleccioByUser", 1, function() {
+	$.ajax({
+		url: urls.getAllGeometriesColleccioByUser,
+		data: {
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getGeometriesColleccioLayersByBusinessId", 1, function() {
+	$.ajax({
+		url: urls.getGeometriesColleccioLayersByBusinessId,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+	
+asyncTest( "createGeometria", 1, function() {
+	var features = {
+		type:"Feature",
+		id:"OpenLayers.Feature.Vector_3124",
+		businessId: "4c216bc1cdd8b3a69440b45b2713b082",
+		properties: {
+			nom: "feature 1",
+			campo1: "data 1",
+			campo2: "data 2",
+			campo3: "data 3"
+		},
+		geometry: {
+			type: "Polygon",
+			coordinates: [[[331889.57676804,5130491.556301],[330991.44168581,5129555.2027046],[331450.0638554565,5128924.597221361],[331889.57676804,5130491.556301]]]
+		}
+	};
+	features = JSON.stringify(features);
+	
+	$.ajax({
+		url: urls.createGeometria,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			features: features
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "updateGeometria", 1, function() {
+	var features = {
+		type:"Feature",
+		id:"OpenLayers.Feature.Vector_3124",
+		businessId: "4c216bc1cdd8b3a69440b45b2713b082",
+		properties: {
+			nom: "feature 1",
+			campo1: "data 1",
+			campo2: "data 2",
+			campo3: "data 3",
+			description: "<a href='http://www.google.com'>link</a><br/>Modificación de capçalerà"
+		},
+		geometry: {
+			type: "Polygon",
+			coordinates: [[[331889.57676804,5130491.556301],[330991.44168581,5129555.2027046],[331450.0638554565,5128924.597221361],[331889.57676804,5130491.556301]]]
+		}
+	};
+	features = JSON.stringify(features);
+		
+	$.ajax({
+		url: urls.updateGeometria,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			features: features
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteGeometria", 1, function() {
+	$.ajax({
+		url: urls.deleteGeometria,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteGeometriesColleccioLayer", 1, function() {
+	$.ajax({
+		url: urls.deleteGeometriesColleccioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+
+asyncTest( "createVisualitzacioLayer", 1, function() {
+	$.ajax({
+		url: urls.createVisualitzacioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			nom: 'Test_viz'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "createVisualitzacioLayer", 1, function() {
+	$.ajax({
+		url: urls.createVisualitzacioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			uid: uid,
+			nom: 'Test_viz_to'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});	
+
+asyncTest( "createVisualitzacioLayer", 1, function() {
+	$.ajax({
+		url: urls.createVisualitzacioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b085',
+			uid: uid,
+			nom: 'Test_viz_del'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});	
+
+asyncTest( "updateVisualitzacioLayer", 1, function() {
+	$.ajax({
+		url: urls.updateVisualitzacioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			nom: 'Test_viz_to',
+			options: {tematic:"muni",rangs:"u"}
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});	
+
+asyncTest( "getVisualitzacioByBusinessId", 1, function() {
+	$.ajax({
+		url: urls.getVisualitzacioByBusinessId,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getAllVisualitzacioLayerByUid", 1, function() {
+	$.ajax({
+		url: urls.getAllVisualitzacioLayerByUid,
+		data: {
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "addGeometriaToVisualitzacio", 1, function() {
+	var features = {
+		type:"Feature",
+		id:"OpenLayers.Feature.Vector_3124",
+		businessId: "4c216bc1cdd8b3a69440b45b2713b082",
+		properties: {
+			nom: "feature 1",
+			campo1: "data 1",
+			campo2: "data 2",
+			campo3: "data 3",
+			description: "<a href='http://www.google.com'>link</a><br/>Modificación de capçalerà"
+		},
+		geometry: {
+			type: "Polygon",
+			coordinates: [[[331889.57676804,5130491.556301],[330991.44168581,5129555.2027046],[331450.0638554565,5128924.597221361],[331889.57676804,5130491.556301]]]
+		}
+	};
+	features = JSON.stringify(features);
+		
+	$.ajax({
+		url: urls.addGeometriaToVisualitzacio,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			features: features,
+			geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b082'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "createEstil", 1, function() {
+	var estils = JSON.stringify({
+		businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+		llegenda: 'hotel',
+		valorMax: 'hotel',
+		//valorMax: ,
+		color: '#ff0000',
+		simbolSize: 16, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 90,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	});
+	
+	$.ajax({
+		url: urls.createEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: 'bolo',
+			estils: estils
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "createEstil", 1, function() {
+	var estils = JSON.stringify({
+		businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+		llegenda: 'bar',
+		valorMax: 'bar',
+		//valorMax: ,
+		color: '#ff00ff',
+		simbolSize: 18, 
+		simbol: 'circle',
+		lineWidth: 2,
+		lineStyle: 'solid',
+		borderWidth: 2,
+		borderColor: '#000000',
+		opacity: 90,
+		label: false,
+		labelSize: 10,
+		labelFont: 'arial',
+		labelColor: '#000000',
+	});
+	
+	$.ajax({
+		url: urls.createEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: 'bolo',
+			estils: estils
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "addGeometriaToEstil", 1, function() {
+	$.ajax({
+		url: urls.addGeometriaToEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: 'bolo',
+			geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b082'
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "moveGeometriaToEstil", 1, function() {
+	$.ajax({
+		url: urls.moveGeometriaToEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			estilBusinessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: 'bolo',
+			geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b082'
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "getAllVisualitzacioByBusinessId", 1, function() {
+	$.ajax({
+		url: urls.getAllVisualitzacioByBusinessId,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "removeGeometriaToEstil", 1, function() {
+	$.ajax({
+		url: urls.removeGeometriaToEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			uid: 'bolo',
+			geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b082'
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteEstil", 1, function() {
+	$.ajax({
+		url: urls.deleteEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: 'bolo'
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteEstil", 1, function() {
+	$.ajax({
+		url: urls.deleteEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			uid: 'bolo'
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+
+asyncTest( "moveGeometriaToVisualitzacio", 1, function() {
+	$.ajax({
+		url: urls.moveGeometriaToVisualitzacio,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid,
+			fromBusinessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			toBusinessId: '4c216bc1cdd8b3a69440b45b2713b083'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteEstil", 1, function() {
+	$.ajax({
+		url: urls.deleteEstil,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: 'bolo'
+		},
+		method: 'post',
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteVisualitzacioLayer", 1, function() {
+	$.ajax({
+		url: urls.deleteVisualitzacioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b085',
+			uid: uid,
+			nom: 'Test_viz_to'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});	
+
+asyncTest( "duplicateVisualitzacioLayer", 1, function() {
+	$.ajax({
+		url: urls.duplicateVisualitzacioLayer,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			uid: uid,
+			nom: 'Duplicate',
+			toBusinessId: '4c216bc1cdd8b3a69440b45b2713b086'
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});	
+
+asyncTest( "deleteVisualitzacioLayerAll", 1, function() {
+	$.ajax({
+		url: urls.deleteVisualitzacioLayerAll,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b082',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+
+asyncTest( "deleteVisualitzacioLayerAll", 1, function() {
+	$.ajax({
+		url: urls.deleteVisualitzacioLayerAll,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b083',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});	
+
+asyncTest( "deleteVisualitzacioLayerAll", 1, function() {
+	$.ajax({
+		url: urls.deleteVisualitzacioLayerAll,
+		data: {
+			businessId: '4c216bc1cdd8b3a69440b45b2713b086',
+			uid: uid
+		},
+		dataType: 'jsonp'
+	}).done(function(results){
+		console.debug(results);
+		equal(results.status,"OK",JSON.stringify(results));
+		start();
+	}).fail(function(results){
+		console.debug(results);
+		ok( false, "Fail and ready to resume!" );
+		start();
+	});	
+});
+*/
+	
 
 /*
  * Logout 

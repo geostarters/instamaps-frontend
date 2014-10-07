@@ -115,6 +115,12 @@ var urls = {
 	duplicateVisualitzacioLayer: HOST_APP+"layers/visualitzacio/duplicateVisualitzacioLayer.action?",
 	deleteVisualitzacioLayer: HOST_APP+"layers/visualitzacio/deleteVisualitzacioLayer.action?",
 	deleteVisualitzacioLayerAll: HOST_APP+"layers/visualitzacio/deleteVisualitzacioLayerAll.action?",
+	createEstil: HOST_APP+"layers/visualitzacio/createEstil.action?",
+	updateEstil: HOST_APP+"layers/visualitzacio/updateEstil.action?",
+	deleteEstil: HOST_APP+"layers/visualitzacio/deleteEstil.action?",
+	addGeometriaToEstil: HOST_APP+"layers/visualitzacio/addGeometriaToEstil.action?",
+	removeGeometriaToEstil: HOST_APP+"layers/visualitzacio/removeGeometriaToEstil.action?",
+	moveGeometriaToEstil: HOST_APP+"layers/visualitzacio/moveGeometriaToEstil.action?",
 };
 
 var uid = "bolo";
