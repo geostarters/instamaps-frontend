@@ -176,9 +176,23 @@ function getCapabilitiesWMS(url, servidor) {
 			}
 
 			_htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
+			
+			
+			if(typeof results.Capability.Layer.Layer.length == 'undefined'){
+			
+				
+				_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+						+ results.Capability.Layer.Layer.Name
+						+ '">'
+						+ results.Capability.Layer.Layer.Title
+						+ '</label></li>');
+				
+				
+				
+			}else{
 			jQuery.each(results.Capability.Layer.Layer, function(index, value) {
 				
-				console.info(value);
+				//console.info(value);
 				
 				_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
 					+ value.Name
@@ -186,7 +200,7 @@ function getCapabilitiesWMS(url, servidor) {
 					+ value.Title
 					+ '</label></li>');
 			});
-
+			}
 			_htmlLayersWMS.push('</ul>');
 
 			jQuery('#div_layersWMS').html(_htmlLayersWMS.join(''));
