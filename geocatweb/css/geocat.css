@@ -911,7 +911,6 @@ background-color:#FFFFFF}
 	
 	.thumbnail div.descAplicacio{
 		display: none;
-
 		height: 165px;
     	position: absolute;
     	color: #FFFFFF;
@@ -1204,6 +1203,8 @@ h1.big_text{
   top:-10px;
   right:-5px;
 }
+
+
 
 /*info popover visor*/
 

@@ -159,6 +159,10 @@ $(function(){
 				return val;
 			});
 			
+			results.results.sort(function(a,b) { 
+                return parseFloat(a.rank) < parseFloat(b.rank) 
+			});
+			
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
