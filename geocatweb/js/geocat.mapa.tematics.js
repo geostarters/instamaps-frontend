@@ -6,6 +6,7 @@
 
 function initButtonsTematic(){
 	
+	addHtmlInterficieTematics();
 	addHtmlModalLayersTematic();
 	addHtmlModalCategories();
 	
@@ -909,6 +910,19 @@ function canviaStyleSinglePoint(cvStyle,feature,capaMare,openPopup){
 		}
 	}
 	map.closePopup();	
+}
+
+function addHtmlInterficieTematics(){
+	jQuery("#funcio_tematics").append(
+			'<h5 lang="ca">Triar l\'estil del mapa</h5>'+
+			'<div class="div_gr3_estils">'+
+			'	<div id="st_Color" lang="ca" data-toggle="tooltip" title="Bàsic" class="div_estil_1"></div>'+
+			'	<div id="st_Tema" lang="ca" data-toggle="tooltip" title="Categories" class="div_estil_2"></div>'+
+			'	<!--<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>-->'+
+			'	<div id="st_Heat" lang="ca" data-toggle="tooltip" title="Concentració" class="div_estil_4"></div>'+
+			'	<div id="st_Clust" lang="ca" data-toggle="tooltip" title="Agrupació" class="div_estil_5"></div>'+
+			'</div>'			
+	);
 }
 
 function addHtmlModalLayersTematic(){

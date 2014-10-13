@@ -3,6 +3,9 @@
  * */
 
 function addOpcionsFonsMapes() {
+	
+	addHtmlInterficieFonsMapes();
+	
 	jQuery('.div_gr3_fons div').on('click', function() {
 		var fons = jQuery(this).attr('id');
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
@@ -86,4 +89,23 @@ function creaPopOverMesFonsColor() {
 			map.colorMap(fons);			
 		}
 	});
+}
+
+function addHtmlInterficieFonsMapes(){
+	
+	jQuery("#funcio_fonsMapes").append(
+	'	<h5 lang="ca">Escollir el mapa de fons</h5>'+
+	'		<div class="add_costat_r2">'+
+	'		<div lang="ca" id="div_mesfons" data-toggle="tooltip" title="Més mapes de fons" class="icon-add white pop"></div>'+
+	'	</div>'+
+	'	<div class="div_gr3_fons">'+
+	'		<div id="topoMap" lang="ca" data-toggle="tooltip" title="Topogràfic" class="div_fons_1"></div>'+
+	'		<div id="topoMapGeo" lang="ca" data-toggle="tooltip" title="Simple" class="div_fons_12"></div>'+
+	'		<!-- div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div-->'+
+	'		<div id="ortoMap" lang="ca" data-toggle="tooltip" title="Imatge" class="div_fons_3"></div>'+
+	'		<div id="terrainMap" lang="ca" data-toggle="tooltip" title="Terreny" class="div_fons_4"></div>'+
+	'		<div id="colorMap" lang="ca" data-toggle="tooltip" title="Combinacions de color" class="div_fons_5 pop"></div>'+
+	'	</div>'		
+	);
+	
 }

@@ -16,6 +16,8 @@ function filterJSONICC(rawjson) {
 
 function addControlCercaEdit(){
 	
+	addHtmlInterficieCerca();
+	
 	var jsonpurl = 'http://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
 	'&format=json&osm_type=N&limit=100&addressdetails=0';
 	var jsonpName = 'json_callback';
@@ -141,4 +143,24 @@ function filterJSONCall(rawjson) {	//callback that remap fields name
 		json[ key ]= loc;	//key,value format
 	}
 	return json;
+}
+
+function addHtmlInterficieCerca(){
+	
+	jQuery('#searchBar').addClass("input-group");
+	
+	jQuery('#searchBar').append(
+		      '<div id="ctr_options" class="input-group-btn">'+
+		      '  <button type="button" class="btn btn-default2 dropdown-toggle" data-toggle="dropdown">'+
+			  '	        <span class="glyphicon glyphicon-cog"></span>'+
+			'	        <span class="caret"></span>'+
+		    '    </button>'+
+		     '   <ul class="dropdown-menu">'+
+			  '        <li class="active"><a id="ctr_cat" href="#">Cercador de Topònims</a></li>'+
+			  '       <li><a id="ctr_nomen" href="#">Cercador mundial de Topònims</a></li>'+
+		        '</ul>'+
+		        '</div><!-- /btn-group -->'+
+				'<div id="ctr_cerca"></div>'+
+			  '<div id="ctr_cercaNomen"></div>'				
+	);
 }

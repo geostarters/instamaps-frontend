@@ -4,6 +4,7 @@
 
 function addControlAltresFontsDades() {
 	
+	addHtmlInterficieDadesExt();
 	addHtmlModalDadesExt();
 	
 	jQuery(".div_dades_ext").on('click', function() {
@@ -331,6 +332,13 @@ function addHtmlModalDadesExt(){
 	'	<!-- fi Modal Dades Externes -->'		
 	);
 	
+}
+
+function addHtmlInterficieDadesExt(){
+	
+	jQuery("#carregar_dades .div_gr2").append(
+			'<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext"></div>'		
+	);
 }
 
 //function toggleCollapseTwitter(){

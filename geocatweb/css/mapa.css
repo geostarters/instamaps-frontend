@@ -3706,7 +3706,7 @@ i.fa {
 	margin-bottom: 5px;
 	margin-top: 5px;
 	overflow: hidden;
-	text-align: center;	
+	/*text-align: center;*/	
 }
 .downloadable-subrow{
 	margin-bottom: 3px;

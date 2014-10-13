@@ -1,7 +1,9 @@
-function carregaDadesUsuari(data){
+function carregaDadesUsuari(){
 	
+	addHtmlInterficieDadesUsuari();
 	addHtmlModalDadesUsuari();
 	
+	var data = {uid: $.cookie('uid')};
 	//console.debug("carregaDadesUsuari");
 	getAllServidorsWMSByUser(data).then(function(results){
 		if (results.status == "ERROR"){
@@ -199,6 +201,23 @@ function refrescaPopOverMevasDades(){
 		gestioCookie('refrescaPopOverMevasDades');
 	});
 	return dfd.promise();
+}
+
+function addHtmlInterficieDadesUsuari(){
+	
+	jQuery("#carregar_dades .div_gr2").append(
+		'<div lang="ca" data-toggle="tooltip" title="Accedeix a les teves dades" id="div_dades_usr" class="div_dades_usr">'+
+		'	<script id="meus-wms-template" type="text/x-handlebars-template">'+
+		'	<div class="panel-body">'+
+		'		<ul id="listnav-teves-dades" class="llista-teves-dades panel-heading">'+
+		'		{{#each results}}'+
+		'			<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a><span data-businessid="{{businessId}}" data-servername="{{serverName}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span></li>'+
+		'		{{/each}}'+
+		'		</ul>'+
+		'	</div>'+
+		'	</script>'+
+		'</div>'		
+	);
 }
 
 function addHtmlModalDadesUsuari(){

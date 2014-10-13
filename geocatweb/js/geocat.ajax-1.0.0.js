@@ -589,3 +589,13 @@ function getUserSimple(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function createGeoPdfMap(data){
+	return jQuery.ajax({
+		url: paramUrl.urlgetMapImage,
+		data: data,	
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		method: 'POST',
+		dataType: 'json'
+	}).promise();
+}

@@ -606,3 +606,10 @@ function showConfOptions(businessId){
 	addTooltipsConfOptions(businessId);
 }
 
+function updateCheckStyle(){
+	$('.leaflet-input input').iCheck({
+	    checkboxClass: 'icheckbox_flat-blue',
+	    radioClass: 'iradio_flat-blue'
+	});		
+}
+

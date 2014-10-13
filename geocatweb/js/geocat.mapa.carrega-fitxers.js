@@ -139,6 +139,7 @@ function uploadprogress(){
 
 function addFuncioCarregaFitxers(){
 	
+	addHtmlInterficieCarregarFitxers();
 	addHtmlModalCarregarFitxers();
 	
 	// zona 1
@@ -1024,4 +1025,10 @@ function addHtmlModalCarregarFitxers(){
 		'</div>'
 	);	
 	
+}
+
+function addHtmlInterficieCarregarFitxers(){
+	jQuery("#funcio_carregar_fitxers").append(
+			'<div lang="ca" id="div_carrega_dades" data-toggle="tooltip"	title="Arrossega les teves dades sobre el mapa o fes clic aquí" class="div_carrega_dades"></div>'		
+	);
 }

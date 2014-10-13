@@ -157,6 +157,7 @@ var paramUrl = {
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
 	getUserSimple: HOST_APP+"geocat/user/getUserSimple.action?",
 	publicarMapConfig: HOST_APP+"geocat/aplications/map/publicarMapConfig.action?",
+	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?"
 }
 

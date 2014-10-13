@@ -225,3 +225,122 @@ function isRandomUser(user){
 	return isRandom;
 }
 
+//Funcions afegir modals
+function addHtmlModalMessages(){
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal messages -->'+
+		'	<div id="dialgo_messages" class="modal fade">'+
+		'	<div class="modal-dialog">'+
+		'		<div class="modal-content">'+
+		'			<div class="modal-header">'+
+		'				<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
+		'					aria-hidden="true">&times;</button>'+
+		'				<h4 lang="ca" class="modal-title">&nbsp;</h4>'+
+		'			</div>'+
+		'			<div class="modal-body">'+
+		'			</div>'+
+		'			<div class="modal-footer">'+
+		'				<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Acceptar</button>'+
+		'			</div>'+
+		'		</div>'+
+		'		<!-- /.modal-content -->'+
+		'	</div>'+
+		'	<!-- /.modal-dialog -->'+
+		'</div>'+
+		'<!-- fi messages -->'
+	);
+}
+
+function addHtmlModalExpire(){
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal expired -->'+
+		'	<div class="modal fade" id="dialog_session_expired">'+
+		'	<div class="modal-dialog">'+
+		'		<div class="modal-content">'+
+		'			<div class="modal-header">'+
+		'				<button type="button" class="close" data-dismiss="modal"'+
+		'					aria-hidden="true">&times;</button>'+
+		'				<h4 class="modal-title" lang="ca">Sessió caducada</h4>'+
+		'			</div>'+
+		'			<div lang="ca" class="modal-body">'+
+		'				Ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió'+
+		'			</div>'+
+		'			<div class="modal-footer">'+
+		'		    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn" data-dismiss="modal">Acceptar</button>'+
+		'		    </div>'+
+		'		</div>'+
+		'		<!-- /.modal-content -->'+
+		'	</div>'+
+		'	<!-- /.modal-dialog -->'+
+		'</div>'+
+		'<!-- /.modal -->'+
+		'<!-- fi Modal expired -->'	
+	);
+}
+
+
+function addHtmlModalLeave(){
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal Leave -->'+
+		'		<div id="dialgo_leave" class="modal fade">'+
+		'		<div class="modal-dialog">'+
+		'			<div class="modal-content">'+
+		'				<div class="modal-header">'+
+		'					<button type="button" class="close" data-dismiss="modal"'+
+		'						aria-hidden="true">&times;</button>'+
+		'					<h4 lang="ca" class="modal-title">Edició en mode demostració</h4>'+
+		'				</div>'+
+		'				<div class="modal-body" lang="ca">'+
+		'					Per poder guardar les dades has d\'entrar com un usuari registrat'+
+		'				</div>'+
+		'				<div class="modal-footer">'+
+		'					<button lang="ca" type="button" class="btn bt-sessio"'+ 
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'inici sessio\', \'modal inici mapa\']);">Inicia la sessió</button>'+
+		'					<button lang="ca" type="button" class="btn bt_orange"'+ 
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'registre\', \'modal inici mapa\']);">Crea un compte</button>'+
+		'					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'guest\', \'modal inici mapa\']);">Més tard</button>'+
+		'				</div>'+
+		'			</div>'+
+		'			<!-- /.modal-content -->'+
+		'		</div>'+
+		'		<!-- /.modal-dialog -->'+
+		'	</div>'+
+		'	<!-- fi Modal Leave -->'		
+	);
+}
+
+
+function addHtmlModalOldBrowser(){
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Old Browser -->'+
+	'		<div id="dialgo_old_browser" class="modal">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Sabia vostè que el seu navegador no està actualitzat?</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div lang="ca">Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d\'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.</div>'+
+	'					<div>'+
+	'					<a href="http://www.microsoft.com/windows/Internet-explorer/default.aspx" target="_blank"><div class=\'ie_img browser_img\'></div></a>'+
+	'					<a href="http://www.mozilla.com/firefox/" target="_blank"><div class=\'firefox_img browser_img\'></div></a>'+
+	'					<a href="http://www.apple.com/safari/download/" target="_blank"><div class=\'safari_img browser_img\'></div></a>'+
+	'					<a href="http://www.opera.com/download/" target="_blank"><div class=\'opera_img browser_img\'></div></a>'+
+	'					<a href="http://www.google.com/chrome" target="_blank"><div class=\'chrome_img browser_img\'></div></a>'+
+	'					</div>'+
+	'					<div lang="ca">Només faci clic a les icones per anar a la pàgina de descàrrega</div>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- fi Modal Old Browser -->'		
+	);
+}

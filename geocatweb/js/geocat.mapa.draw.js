@@ -15,6 +15,10 @@ var objEdicio={'esticEnEdicio':false,'obroModalFrom':'creaCapa','featureID':null
 
 
 function addDialegEstilsDraw() {
+	
+	console.debug("addDialegEstilsDraw");
+	addHtmlInterficieDraw();
+	
 	jQuery('#div_mes_punts').on("click", function(e) {	
 		obrirMenuModal('#dialog_estils_punts','toggle',from_creaCapa);
 	});
@@ -1462,4 +1466,34 @@ function updateFeatureCount(fromBusinessId, toBusinessId){
 		$("#count-"+toBusinessId).html(' ('+toCount+')');		
 	}
 	console.debug("Fi updateFeatureCount");
+}
+
+function addHtmlInterficieDraw(){
+	jQuery("#funcio_draw").append(
+		'<h5 lang="ca">Situar un punt</h5>'+
+		'	<div class="add_costat_r" style="margin-right: 33%;">'+
+		'	<div lang="ca" id="div_mes_punts" data-toggle="tooltip"	title="Més tipus de punts" class="icon-add taronja"></div>'+
+		'</div>'+
+		'<div style="height:50px ">'+
+		'	<div id="div_punt" lang="ca" data-toggle="tooltip" title="Clica per situar un punt" class="dibuix_punt">'+
+		'	</div>'+
+		'</div>'+
+		'<h5 lang="ca">Dibuixar una línia o un polígon</h5>'+
+		'<div class="div_auto">'+
+		'	<div id="div_linia" lang="ca" data-toggle="tooltip"	title="Clica per començar a dibuixar una línia"	class="dibuix_linia">'+
+		'	<canvas id="cv_linia" width="40" height="40"></canvas>'+
+		'	</div>'+
+		'	<div class="add_costat">'+
+		'		<div lang="ca" id="div_mes_linies" data-toggle="tooltip" title="Més estils de línia" class="icon-add taronja"></div>'+
+		'	</div>'+
+		'</div>'+
+		'<div class="div_auto">'+
+		'	<div id="div_area" lang="ca" data-toggle="tooltip" title="Clica per començar a dibuixar una àrea" class="dibuix_poligon">'+
+		'	<canvas id="cv_pol" width="40" height="40"></canvas>'+
+		'	</div>'+
+		'	<div class="add_costat">'+
+		'		<div lang="ca" id="div_mes_arees" data-toggle="tooltip" title="Més estils d\'àrees"	class="icon-add taronja"></div>'+
+		'	</div>'+
+		'</div>'
+	);
 }

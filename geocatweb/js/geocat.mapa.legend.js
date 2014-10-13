@@ -66,7 +66,7 @@ function createModalConfigLegend(){
 	html += '<div class="legend-row">'+
 				'<div class="legend-subrow-all">'+
 				'<input id="legend-chck-all" class="col-md-1 legend-chck" type="checkbox">'+
-				'<div class="col-md-9 legend-name-all">'+
+				'<div class="col-md-11 legend-name-all">'+
 					window.lang.convert('Tots')+
 				'</div>'+
 			'</div>';
@@ -92,13 +92,31 @@ function createModalConfigLegend(){
 	$('#dialgo_publicar .modal-body .modal-legend').html(html);
 	$('#dialgo_publicar .modal-body .modal-legend').show();
 //	$('#dialog_llegenda').modal('show');
-	$('#legend-chck-all').on('click', function(e){
-		 if($('#legend-chck-all').is(':checked')){
-			 $('.legend-chck').prop('checked', true);
-		 }else{
-			 $('.legend-chck').prop('checked', false);
-		 }
+
+	
+	//	$('#legend-chck-all').on('click', function(e){
+//		 if($('#legend-chck-all').is(':checked')){
+//			 $('.legend-chck').prop('checked', true);
+//		 }else{
+//			 $('.legend-chck').prop('checked', false);
+//		 }
+//	});	
+	
+	$('.legend-subrow input, .legend-subrow-all input').iCheck({
+	    checkboxClass: 'icheckbox_flat-blue',
+	    radioClass: 'iradio_flat-blue'
 	});	
+	
+	$('.legend-subrow-all input').on('ifChecked', function(event){
+		  //alert(event.type + ' callback');
+		  $('.legend-subrow input').iCheck('check');
+	});
+	
+	$('.legend-subrow-all input').on('ifUnchecked', function(event){
+//		  alert(event.type + ' callback');
+		  $('.legend-subrow input').iCheck('uncheck');
+	});	
+	
 }
 
 function addLayerToLegend(layer, count, layerIdParent){
@@ -584,7 +602,12 @@ function checkMarkerStyle(obj){
 function getRangsFromLayerLegend(layer){
 	
 	var styles = jQuery.map(layer.getLayers(), function(val, i){
-		return {key: val.properties.businessId, style: val};
+		//Si la layer es multipoligon ha d'agafa l'estil de les seves layers de dins
+		if(val.options.tipus.indexOf(t_multipolygon)!= -1){
+			return {key: val.properties.businessId, style: val.getLayers()[0]};
+		}else{
+			return {key: val.properties.businessId, style: val};
+		}
 	});
 	
 	var tematic = layer.options;

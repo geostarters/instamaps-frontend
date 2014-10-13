@@ -4,6 +4,8 @@
 
 function addCompartirMapa(){
 	
+	addHtmlInterficieCompartirMapa();
+	
 	var v_url = window.location.href;
 	if (!url('?id')){
 		v_url += "&id="+jQuery('#userId').val();
@@ -61,4 +63,12 @@ function addCompartirVisor(){
 			urlToShare: results.data.url
 		});
 	});	
+}
+
+function addHtmlInterficieCompartirMapa(){
+	jQuery("#funcio_compartir").append(
+			'<div id="socialShare" class="div_gr5_social">'+
+				'<h5 lang="ca">Compartir</h5>'+
+			'</div>'
+	);
 }

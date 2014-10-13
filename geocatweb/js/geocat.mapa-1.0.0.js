@@ -66,9 +66,6 @@ function loadApp(){
 		var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
 		var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
 		
-		//iniciamos los controles
-		initControls();
-	
 		gestioCookie('loadApp');
 				
 		var data = {
@@ -105,29 +102,26 @@ function loadApp(){
 					
 					console.debug(mapConfig);
 					
-					var configuracio = ""; 
-
-					if(mapConfig.configuracio){
-						
-					}else{
-						jQuery.get('../../default_config.txt', function(data) {
-//							   alert(data);
-							   configuracio = $.parseJSON(data);
-							   console.debug(configuracio);
-							   //process text file line by line
-							   //$('#div').html(data.replace('n','<br />'));
-						});							
-					}
-					
-					
 					loadMapConfig(mapConfig).then(function(){
-						addFuncioRenameMap();
-						addFuncioDownloadLayer('mapa');
-						addFuncioRemoveLayer();
 						
+						//llegim configuracio de funcionalitats del mapa, si no te, per defecte
+						var configuracio = ""; 
+						if(mapConfig.configuracio){
+							configuracio = $.parseJSON(mapConfig.configuracio);
+							console.debug(configuracio);	
+						}else{
+							jQuery.get('../../default_config_mapa.txt', function(data) {
+								   configuracio = $.parseJSON(data);
+								   console.debug(configuracio);
+							});							
+						}						
+
+						//iniciem els controls basics
+						initControls();
+						//careguem funcionalitats:
 						loadControls(configuracio);
 						
-					});
+					});						
 					
 				}catch(err){
 					gestioCookie('loadMapConfig');
@@ -217,50 +211,54 @@ function initControls(){
 	tradueixMenusToolbar();
 	redimensioMapa();	
 	
+	addHtmlModalOldBrowser();
+	addHtmlModalLeave();
+	addHtmlModalExpire();
+	addHtmlModalMessages();
+	
 	//Funcionalitat hill shading
-	addControlHillShading();
+//	addControlHillShading();
 	
 	//Funcionalitat fons mapes
-	addOpcionsFonsMapes();
-	creaPopOverMesFonsColor();
-	creaPopOverMesFons();
+//	addOpcionsFonsMapes();
+//	creaPopOverMesFonsColor();
+//	creaPopOverMesFons();
 	
-	//Afegir gestio dialegs estils de les features
-	addDialegEstilsTematics();		
-	
-	//Funcionalitat de dibuixar feature
-	addDrawToolbar();
-	activaEdicioUsuari();
-	addDialegEstilsDraw();	
+//	//Afegir gestio dialegs estils de les features
+//	addDialegEstilsTematics();		
+//	//Funcionalitat de dibuixar feature
+//	addDrawToolbar();
+//	activaEdicioUsuari();
+//	addDialegEstilsDraw();	
 	
 	//Funcionalitat de tematics
-	initButtonsTematic();
+//	initButtonsTematic();
 	
 	//Funcionalitat dragdrop i carrega fitxers
-	creaAreesDragDropFiles();
-	addFuncioCarregaFitxers();
+//	creaAreesDragDropFiles();
+//	addFuncioCarregaFitxers();
 	
 	//Funcionalitat cerca
-	addControlCercaEdit();
+//	addControlCercaEdit();
 
 	//carrega font de dades
 	generaLListaDadesObertes();
 	generaLlistaServeisWMS();
 	
 	//Funcionalitat afegir altres fonts de dades
-	addControlAltresFontsDades();
+//	addControlAltresFontsDades();
 
 	//Funcionalitat carrega capes del usuari, si esta loginat
-	if ($.cookie('uid')){
-		var data = {uid: $.cookie('uid')};
-		carregaDadesUsuari(data);
-	}
+//	if ($.cookie('uid')){
+//		var data = {uid: $.cookie('uid')};
+//		carregaDadesUsuari(data);
+//	}
 	
 	//Funcionalitat publicar mapa
-	addControlPublicar();
+//	addControlPublicar();
 	
 	//Funcionalitat compartir mapa
-	addCompartirMapa();
+//	addCompartirMapa();
 }
 
 function addClicksInici() {
@@ -467,17 +465,6 @@ function loadMapConfig(mapConfig){
 		jQuery('#div_loading').hide();
 	}
 	
-	$('.make-switch').bootstrapSwitch();
-	
-	//Configurar Llegenda
-	$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
-		if(state.value == true) {
-			createModalConfigLegend();
-		}else{
-			$('#dialgo_publicar .modal-body .modal-legend').hide();
-		}
-	});
-	
 	dfd.resolve();
 	return dfd.promise();
 }
@@ -607,6 +594,17 @@ function getBusinessIdOrigenLayers(){
 function loadControls(configuracio){
 	
 	console.debug("load controls");
+	//funcionalitats a carregar nomes si esta loginat
+	if ($.cookie('uid')){
+		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
+//			console.debug(funcionalitatLoginat+"("+data+")");
+			eval(funcionalitatLoginat);
+		});			
+	}
+	
+	jQuery.each(configuracio.funcionalitats, function(i, funcionalitat){
+		eval(funcionalitat);
+	});
 	
 }
 

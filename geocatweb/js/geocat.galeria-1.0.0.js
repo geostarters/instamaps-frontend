@@ -38,6 +38,7 @@ $(function(){
 		var data = {uid: $.cookie('uid')};
 		loadGaleria(data).then(function(results){
 			results.results = jQuery.map( results.results, function( val, i ) {
+				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}
@@ -146,11 +147,15 @@ $(function(){
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
-			
 			results.results = jQuery.map( results.results, function( val, i ) {
+				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}
+				if (isDefaultMapTitle(val.nomAplicacio)){
+					val.rank = -1;
+				}
+				val.entitatUid = val.entitatUid.split("@")[0];
 				return val;
 			});
 			

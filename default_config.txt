@@ -1,8 +1,0 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "Default config",
-    "description": "Default configuration for InstaMaps",
-    "type": "object",
-    "funcionalitats": ["drawControls","carregaDadesControl","carragaMevesDadesControl"],
-    "required": ["id", "name", "price"]
-}

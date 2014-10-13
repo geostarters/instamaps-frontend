@@ -171,6 +171,9 @@ function addFuncioDownloadLayer(from){
  **/
 
 function addFuncioRemoveLayer(){
+	
+	addHtmlModalRemoveLayer();
+	
 	$('#dialog_delete_capa .btn-danger').on('click', function(event){
 		var $this = $(this);
 		var data = $this.data("data");
@@ -307,6 +310,37 @@ function addHtmlModalDownloadLayer(){
 	'</div>'+
 	'<!-- /.modal -->'+
 	'<!-- fi Modal descarrega dades -->'
+	);
+}
+
+function addHtmlModalRemoveLayer(){
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal delete layer -->'+
+	'		<div id="dialog_delete_capa" class="modal fade">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<!-- <div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>'+
+	'				</div> -->'+
+	'				<div class="modal-body">'+
+	'					<h4><span lang="ca">Vols esborrar la capa</span> "<span id="nom_capa_delete"></span>" ?</h4>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'						data-dismiss="modal">Cancel·lar</button>'+
+	'					<button lang="ca" type="button" class="btn btn-danger"'+
+	'						data-dismiss="modal">Esborrar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- Fi Modal delete -->'		
 	);
 	
 }
