@@ -54,19 +54,31 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
-	
+		var SRS=this.wmsParams.srs;
+		var BBOX=bounds.toBBoxString();
+			if(SRS.indexOf('3857')!=-1){
+				var NW = L.CRS.EPSG3857.project(bounds.getNorthWest());
+				var SE = L.CRS.EPSG3857.project(bounds.getSouthEast());
+				  
+				 BBOX=NW.x+","+SE.y+","+SE.x+","+NW.y;
+			
+			}
+		
+		
+		
+		
 		// Construct a GetFeatureInfo request URL given a point
 		var point = this._map.latLngToContainerPoint(latlng, this._map.getZoom()),
 		size = this._map.getSize(),
 		params = {
 			request: 'GetFeatureInfo',
 			service: 'WMS',
-			srs: this.wmsParams.srs,
+			srs: SRS,
 			styles: this.wmsParams.styles,
 			transparent: this.wmsParams.transparent,
 			version: this.wmsParams.version,
 			format: this.wmsParams.format,
-			bbox: this._map.getBounds().toBBoxString(),
+			bbox: BBOX,
 			//bbox: ""+bounds.getSouth()+","+bounds.getWest()+","+bounds.getNorth()+","+bounds.getEast()+"",
 			height: size.y,
 			width: size.x,

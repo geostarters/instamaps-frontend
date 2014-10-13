@@ -137,6 +137,8 @@ function getCapabilitiesWMS(url, servidor) {
 		jQuery('#div_layersWMS').html('');
 		jQuery('#div_emptyWMS').empty();
 
+		
+		
 		if (servidor == null) {
 			servidor = results.Service.Title;
 		}
@@ -155,29 +157,50 @@ function getCapabilitiesWMS(url, servidor) {
 				epsg.push(value);
 			});
 
-			if (jQuery.inArray('EPSG:3857x', epsg) != -1) {
+			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG3857;
 				ActiuWMS.epsgtxt = 'EPSG:3857';
-			} else if (jQuery.inArray('EPSG:900913x', epsg) != -1) {
+			} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG3857;
 				ActiuWMS.epsgtxt = 'EPSG:3857';
 			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';
+			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';	
+				
 			} else {
 				alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
 				return;
 			}
 
 			_htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
+			
+			
+			if(typeof results.Capability.Layer.Layer.length == 'undefined'){
+			
+				
+				_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+						+ results.Capability.Layer.Layer.Name
+						+ '">'
+						+ results.Capability.Layer.Layer.Title
+						+ '</label></li>');
+				
+				
+				
+			}else{
 			jQuery.each(results.Capability.Layer.Layer, function(index, value) {
+				
+				//console.info(value);
+				
 				_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
 					+ value.Name
 					+ '">'
 					+ value.Title
 					+ '</label></li>');
 			});
-
+			}
 			_htmlLayersWMS.push('</ul>');
 
 			jQuery('#div_layersWMS').html(_htmlLayersWMS.join(''));
