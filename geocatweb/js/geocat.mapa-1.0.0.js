@@ -102,6 +102,7 @@ function loadApp(){
 					
 					console.debug(mapConfig);
 					
+					addControlsInici();
 					loadMapConfig(mapConfig).then(function(){
 						
 						//llegim configuracio de funcionalitats del mapa, si no te, per defecte
@@ -205,7 +206,7 @@ function loadApp(){
 
 function initControls(){
 	
-	addControlsInici();
+//	addControlsInici();
 	addClicksInici();
 	addToolTipsInici();
 	tradueixMenusToolbar();
@@ -271,14 +272,14 @@ function addClicksInici() {
 	jQuery('.bt_captura').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'captura pantalla', 'label captura', 1]);
-		_kmq.push(['record', 'captura pantalla', {'from':'mapa', 'tipus user':tipus_user_txt}]);
+		_kmq.push(['record', 'captura pantalla', {'from':'mapa', 'tipus user':tipus_user}]);
 		capturaPantalla(CAPTURA_MAPA);
 	});
 	
 	jQuery('.bt_print').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'print', 'label print', 1]);
-		_kmq.push(['record', 'print', {'from':'mapa', 'tipus user':tipus_user_txt}]);
+		_kmq.push(['record', 'print', {'from':'mapa', 'tipus user':tipus_user}]);
 		capturaPantalla(CAPTURA_INFORME);
 	});
 		
@@ -346,6 +347,10 @@ function addControlsInici(){
 		var btprint = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_print');
 		this._div.appendChild(btprint);
 		btprint.innerHTML = '<span class="glyphicon glyphicon-print grisfort"></span>';
+		
+		var btgeopdf = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_geopdf');
+		this._div.appendChild(btgeopdf);
+		btgeopdf.innerHTML = '<span class="fa fa-file-pdf-o geopdf"></span>';		
 		
 		return this._div;
 	};
@@ -623,8 +628,6 @@ function loadControls(configuracio){
 	});
 	
 }
-
-function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){}}
 
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar 
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo

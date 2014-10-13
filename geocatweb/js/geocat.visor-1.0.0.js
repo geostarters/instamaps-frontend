@@ -158,6 +158,10 @@ function addControlsInici() {
 		this._div.appendChild(btprint);
 		btprint.innerHTML = '<span class="glyphicon glyphicon-print grisfort"></span>';
 		
+		var btgeopdf = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_geopdf');
+		this._div.appendChild(btgeopdf);
+		btgeopdf.innerHTML = '<span class="fa fa-file-pdf-o geopdf"></span>';		
+		
 		return this._div;
 	};
 	ctr_llistaCapes.addTo(map);
@@ -666,27 +670,31 @@ function loadDadesObertesLayer(layer){
 	return defer.promise();
 }
 
-function loadWmsLayer(layer){
-	
-	var newWMS = L.tileLayer.betterWms(layer.url, {
-	    layers: layer.layers,
-	    format: layer.imgFormat,
-	    transparent: layer.transparency,
-	    version: layer.version,
-	    opacity: layer.opacity,
-	    crs: layer.epsg,
-		nom : layer.serverName,
-		tipus: layer.serverType,
-		zIndex :  parseInt(layer.capesOrdre),	    
-	    businessId: layer.businessId
-	});
-	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
-		newWMS.addTo(map);
-	}
-	controlCapes.addOverlay(newWMS, layer.serverName, true);
-	controlCapes._lastZIndex++;
-}
+//function loadWmsLayer(layer){
+//	
+//	var newWMS = L.tileLayer.betterWms(layer.url, {
+//	    layers: layer.layers,
+//	    format: layer.imgFormat,
+//	    transparent: layer.transparency,
+//	    version: layer.version,
+//	    opacity: layer.opacity,
+//	    crs: layer.epsg,
+//		nom : layer.serverName,
+//		tipus: layer.serverType,
+//		zIndex :  parseInt(layer.capesOrdre),	    
+//	    businessId: layer.businessId
+//	});
+//	
+//	if (layer.capesActiva == true || layer.capesActiva == "true"){
+//		newWMS.addTo(map);
+//	}
+//	
+//	console.debug("geocat visor, newWMS");
+//	console.debug(newWMS);	
+//	
+//	controlCapes.addOverlay(newWMS, layer.serverName, true);
+//	controlCapes._lastZIndex++;
+//}
 
 /************************************************************/
 
@@ -785,19 +793,4 @@ function getLeafletIdFromBusinessId(businessId){
 		}
 	}
 }
-
-function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){}}
-
-//function updateControlCapes(layer, layername, sublayer, groupLeafletId){
-//	
-//	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
-//	if(groupLeafletId==null)controlCapes._lastZIndex++;
-//	activaPanelCapes(true);
-//	$(".layers-list").mCustomScrollbar({
-//		   advanced:{
-//		     autoScrollOnFocus: false,
-//		     updateOnContentResize: true
-//		   }           
-//	});		
-//}
 

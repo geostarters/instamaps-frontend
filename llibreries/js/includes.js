@@ -27,6 +27,9 @@ L.LayerGroup.include({
              });
            }
          }
+         if(jQuery.isEmptyObject(json.styles)){
+        	 json.styles=layer.options;
+         }         
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
         }
       });

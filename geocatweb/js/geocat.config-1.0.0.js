@@ -51,12 +51,6 @@ var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
 var proxydir = "maps";
 
-var CAPTURA_MAPA = "captura_mapa";
-var CAPTURA_GALERIA = "captura_galeria";
-var CAPTURA_INFORME = "captura_informe";
-var CAPTURA_FONS = "captura_fons";
-var CAPTURA_GEOPDF = "captura_geopdf";
-
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";

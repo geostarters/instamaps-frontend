@@ -326,6 +326,7 @@ function loadWmsLayer(layer){
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		newWMS.addTo(map);
 	}
+	
 	controlCapes.addOverlay(newWMS, layer.serverName, true);
 	controlCapes._lastZIndex++;
 }

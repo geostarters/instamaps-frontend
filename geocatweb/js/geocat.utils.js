@@ -417,6 +417,8 @@ function popUp(f, l) {
 	}
 }
 
+function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){}}
+
 //Funcions d'estils
 function retornaEstilaDO(dataset) {
 	var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
