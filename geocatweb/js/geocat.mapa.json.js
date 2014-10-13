@@ -21,7 +21,7 @@ function getServeiJSONP(purlJson) {
 	jQuery("#txt_URLJSON");
 	var _htmlJSONFields = [];
 
-//	if (ValidURL(purlJson)) {
+//	if (isValidURL(purlJson)) {
 		//jQuery('#div_layersJSON').addClass('waiting_animation');
 
 		getJSONPServei(purlJson).then(function(results) {

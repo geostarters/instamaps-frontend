@@ -704,6 +704,12 @@ background-color:#FFFFFF}
 	  }	  
 	}
 
+	@media (min-width: 1001px) and (max-width: 1200px) {
+	  .title_white{
+		font-size: 25px;
+	  }		
+	}
+
 	@media (max-width: 1024px) {
 	  .my-carousel-caption {
 	    padding-bottom: 7%;
@@ -905,6 +911,7 @@ background-color:#FFFFFF}
 	
 	.thumbnail div.descAplicacio{
 		display: none;
+
 		height: 165px;
     	position: absolute;
     	color: #FFFFFF;
@@ -1125,32 +1132,114 @@ h1.big_text{
 	font-size: 76pt;
 }
 
+/** GALERIA SEARCH **/
+	
+#galeriaSort{
+	text-align: center;	
+}	
 
-/*** twitter-typeahead ***/
-/*
-.twitter-typeahead .tt-hint {
-    display: block;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.428571429;
-    border: 1px solid transparent;
-    border-radius:4px;
+#galeriaSort ul{
+	list-style-type: none;
+	margin-top: 10px;
 }
-.twitter-typeahead .hint-small {
-    height: 30px;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 3px;
-    line-height: 1.5;
+
+#galeriaSort input {
+  border:solid 1px #ccc;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom:10px;
+  height: 30px;
 }
-.twitter-typeahead .hint-large {
-    height: 45px;
-    padding: 10px 16px;
-    font-size: 18px;
-    border-radius: 6px;
-    line-height: 1.33;
+#galeriaSort input:focus {
+  outline:none;
+  border-color:#aaa;
 }
-*/
-	
-	
+#galeriaSort .sort {
+  padding-left: 15px;
+  padding-right: 15px;
+  border:none;
+  display:inline-block;
+  color:#fff;
+  text-decoration: none;
+  background-color: #28a8e0;
+  height:30px;
+}
+#galeriaSort .sort:hover {
+  text-decoration: none;
+  background-color:#1b8aba;
+}
+#galeriaSort .sort:focus {
+  outline:none;
+}
+#galeriaSort .sort:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+#galeriaSort .sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:13px;
+  right:-5px;
+}
+#galeriaSort .sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+
+/*info popover visor*/
+
+#infoMap {
+    font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: rgba(45, 46, 41);
+}
+
+#infoMap {
+	cursor: pointer;	
+}
+
+#mapTitle .popover{
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);	
+	min-width: 200px;
+}
+
+#mapTitle .popover.bottom .arrow:after{
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);	
+}
+
+#mapTitle .popover h3{
+	text-align: center;
+	font-size: 14px;
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+}
+
+.mapInfoPopover ul{
+	list-style-type: none;
+}
+
+.mapInfoPopover ul .divider {
+    background-color: #e5e5e5;
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+}

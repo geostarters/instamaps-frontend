@@ -1,8 +1,5 @@
-var ctr_cerca;
+//var ctr_cerca;
 
-var jsonpurl = 'http://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
-'&format=json&osm_type=N&limit=100&addressdetails=0', jsonpName = 'json_callback';
-//third party jsonp service
 
 function filterJSONICC(rawjson) {	
 	var json = {},
@@ -19,7 +16,13 @@ function filterJSONICC(rawjson) {
 
 function addControlCercaEdit(){
 	
-	ctr_cerca=new L.Control.Search({url: paramUrl.urlGeoCoder,
+	addHtmlInterficieCerca();
+	
+	var jsonpurl = 'http://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
+	'&format=json&osm_type=N&limit=100&addressdetails=0';
+	var jsonpName = 'json_callback';
+	
+	var ctr_cerca=new L.Control.Search({url: paramUrl.urlGeoCoder,
 		position:'topcenter',
 		jsonpParam:'jsonp',
 		filterJSON: filterJSONICC,
@@ -43,7 +46,7 @@ function addControlCercaEdit(){
 		
 		}).addTo(map);
 	
-	ctr_cercaNomen = new L.Control.Search({
+	var ctr_cercaNomen = new L.Control.Search({
 		url: jsonpurl,
 		jsonpParam: jsonpName,
 		filterJSON: filterJSONCall,
@@ -119,9 +122,13 @@ function addControlCercaEdit(){
 			if(crt_Editing){
 			crt_Editing.disable();
 			}
-			showEditText('hide');
+//			showEditText('hide');
+			jQuery('.search-edit').animate({
+				height :'hide'
+			});			
 		}
 	});
+	
 }
 
 function filterJSONCall(rawjson) {	//callback that remap fields name
@@ -136,4 +143,24 @@ function filterJSONCall(rawjson) {	//callback that remap fields name
 		json[ key ]= loc;	//key,value format
 	}
 	return json;
+}
+
+function addHtmlInterficieCerca(){
+	
+	jQuery('#searchBar').addClass("input-group");
+	
+	jQuery('#searchBar').append(
+		      '<div id="ctr_options" class="input-group-btn">'+
+		      '  <button type="button" class="btn btn-default2 dropdown-toggle" data-toggle="dropdown">'+
+			  '	        <span class="glyphicon glyphicon-cog"></span>'+
+			'	        <span class="caret"></span>'+
+		    '    </button>'+
+		     '   <ul class="dropdown-menu">'+
+			  '        <li class="active"><a id="ctr_cat" href="#">Cercador de Topònims</a></li>'+
+			  '       <li><a id="ctr_nomen" href="#">Cercador mundial de Topònims</a></li>'+
+		        '</ul>'+
+		        '</div><!-- /btn-group -->'+
+				'<div id="ctr_cerca"></div>'+
+			  '<div id="ctr_cercaNomen"></div>'				
+	);
 }

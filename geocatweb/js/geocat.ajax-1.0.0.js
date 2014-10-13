@@ -501,14 +501,6 @@ function reminderMail(data){
 	return jQuery.ajax({
 		url: paramUrl.reminderMail,
 		data: data,
-		method: 'post'
-	}).promise();
-}
-
-function reminderMail(data){
-	return jQuery.ajax({
-		url: paramUrl.reminderMail,
-		data: data,
 		dataType: 'jsonp'
 	}).promise();
 }
@@ -559,92 +551,6 @@ function publicarMapConfig(data){
 		url: paramUrl.publicarMapConfig,
 		data: data,
 		method: 'post'
-	}).promise();
-}
-
-function getUrlFile(data){
-	return jQuery.ajax({
-		url: paramUrl.urlFile,
-		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function deleteUser(data){
-	return jQuery.ajax({
-		url: paramUrl.deleteUser,
-		data: data,
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function getUrlFileProves(data){
-	return jQuery.ajax({
-		url: paramUrl.urlFileProves,
-		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function getUserSimple(data){
-	return jQuery.ajax({
-		url: paramUrl.getUserSimple,
-		data: data,
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function renewPassword(data){
-	return jQuery.ajax({
-		url: paramUrl.renewPassword,
-		data: data,
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function getNumEntitatsActives(){
-	return jQuery.ajax({
-		url: paramUrl.getNumEntitatsActives,
-		data: data,
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function getNumMapes(){
-	return jQuery.ajax({
-		url: paramUrl.getNumMapes,
-		data: data,
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function getNumCapes(){
-	return jQuery.ajax({
-		url: paramUrl.getNumCapes,
-		data: data,
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function publicarCapesMapa(data){
-	return jQuery.ajax({
-		url: paramUrl.publicarCapesMapa,
-		data: data,
-		method: 'post'
-		//dataType: 'jsonp'
-	}).promise();
-}
-
-function publicarMapConfig(data){
-	return jQuery.ajax({
-		url: paramUrl.publicarMapConfig,
-		data: data,
-		method: 'post'
-		//dataType: 'jsonp'
 	}).promise();
 }
 

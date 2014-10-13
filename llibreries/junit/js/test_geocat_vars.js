@@ -1,4 +1,4 @@
-var HOST_APP = "http://localhost:8080/geocat/";
+var HOST_APP = "http://localhost:8181/geocat/";
 var urls = {
 	login: HOST_APP+"login.action?",
 	createUser: HOST_APP+"admin/createUser.action?",
@@ -121,6 +121,8 @@ var urls = {
 	addGeometriaToEstil: HOST_APP+"layers/visualitzacio/addGeometriaToEstil.action?",
 	removeGeometriaToEstil: HOST_APP+"layers/visualitzacio/removeGeometriaToEstil.action?",
 	moveGeometriaToEstil: HOST_APP+"layers/visualitzacio/moveGeometriaToEstil.action?",
+	modificarEstiloGeometria: HOST_APP+"layers/visualitzacio/modificarEstiloGeometria.action?",
+	removeGeometriaFromVisualitzacio: HOST_APP+"layers/visualitzacio/removeGeometriaFromVisualitzacio.action?",
 };
 
 var uid = "bolo";

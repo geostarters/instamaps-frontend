@@ -701,8 +701,6 @@ function ActDesPrintMode(printMode) {
 
 }
 
-
-
 function calculaDistanciaMetres(PuntIn, PuntFi) {
 
 	var lat1 = PuntIn.lat;

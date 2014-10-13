@@ -1,5 +1,5 @@
 /**
- * 
+ * Classe propia, layer de twitter
  */
 L.Twitter = L.FeatureGroup.extend({
 	options: {

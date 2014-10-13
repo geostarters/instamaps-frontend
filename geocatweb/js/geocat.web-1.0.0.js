@@ -1,3 +1,4 @@
+
 window.lang = new jquery_lang_js();
 
 var lsLang;
@@ -97,12 +98,6 @@ function checkUserLogin(){
 	}
 }
 
-//function swapImageIn(e) {
-//	this.src = this.src.replace("_", "_pujat");
-//}
-//function swapImageOut (e) {
-//	this.src = this.src.replace("_pujat", "_");
-//}
 
 function web_menusIdioma(lsLang){
 	jQuery('#ch_idioma li').each(function() {
@@ -192,95 +187,12 @@ jQuery('#fes-mapa-inici').hide();
 	});
 }	
 
-//jQuery("#frm_email").submit(function(){ 
-//	var correu_usuari=jQuery("#text_email").val(); 
-////	alert("correu:"+correu_usuari);
-//	  if( isValidEmailAddress( correu_usuari ) ) {
-//	  
-//			  jQuery.ajax({
-//					url: 'http://geocat02.icc.local:8080/geocat/registreEmail.action?',
-//					data: {email: correu_usuari},
-//					method: 'post',
-//					dataType: 'jsonp',
-//				}).done(function(results){
-//					//console.debug(results);
-//					if(results.OK){
-//						jQuery('#div_msg').html('<div class="alert alert-success my-alert" lang="ca"> <strong>Rebut!!</strong>  Correu enviat correctament. Et mantindrem informat. Gr&agrave;cies!!</div>');
-//					}else{
-//						jQuery('#div_msg').html('<div class="alert alert-error my-alert" lang="ca"> <strong>Ups!!</strong> '+results.ERROR+'</div>');
-//					}
-//					//deepEqual(results, {OK: "Password updated."}, "Passed:"+ results);
-//					//start();
-//				}).fail(function(results){
-////					console.debug(results);
-//					//ok( false, "Fail!:" + results);
-//					//start();
-//					jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Error </div>');
-//			  
-//				});
-//	   
-//	  }else{		 
-//		jQuery('#div_msg').html('<div class="alert alert-error" lang="ca"> <strong>Ups!!</strong> Sembla que <strong>'+correu_usuari+'</strong> no &eacute;s una adre&ccedil;a correcta</div>');  
-//	 }
-//  return false;
-//  });
-
-
-function isValidEmailAddress(emailAddress) {
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-    return pattern.test(emailAddress);
-}; 
-
-/*
-function isValidUrl(url){
-//	var pattern = new RegExp('@(https?|ftp)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$@iS');
-	var pattern = new RegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/');
-	return pattern.test(url);
-}
-*/
-
-///^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
-function ValidURL(str) {
-  var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
-    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
-    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
-    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
-    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
-    '(\#[-a-z\d_]*)?$','i'); // fragment locater
-  if(!pattern.test(str)) {
-//	    alert("Please enter a valid URL.");
-    return false;
-  } else {
-    return true;
-  }
-}
-
-//(http(s?):)|([/|.|\w|\s])*\.(?:jpg|gif|png)
-//  (?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))(?:\?([^#]*))?(?:#(.*))?
-function isImgURL(str) {
-  var pattern = new RegExp('(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpe?g|gif|png))','i'); // extension
-  if(!pattern.test(str)) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function isBusinessId(str){
-	var pattern = new RegExp('^[0-9a-f]{32}$');
-	return pattern.test(str);	
-}
-
-/*
-function obteValorURL(name){
-	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	    results = regex.exec(location.search);
-	    return results == null ? window.lang.currentLang : decodeURIComponent(results[1].replace(/\+/g, " "));
-}*/
-
-function isBlank(str) {
-    return (!str || (/^\s*$/).test(str));
+function defineTipusUser(){
+	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
+		tipus_user = t_user_random;
+	}else{
+		tipus_user = t_user_loginat;
+	}
 }
 
 function logoutUser(){
@@ -313,57 +225,122 @@ function isRandomUser(user){
 	return isRandom;
 }
 
-function isDefaultMapTitle(str){
-//  var pattern = new RegExp('^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$');
-    var pattern = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$/;
-    return pattern.test(str);    
+//Funcions afegir modals
+function addHtmlModalMessages(){
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal messages -->'+
+		'	<div id="dialgo_messages" class="modal fade">'+
+		'	<div class="modal-dialog">'+
+		'		<div class="modal-content">'+
+		'			<div class="modal-header">'+
+		'				<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
+		'					aria-hidden="true">&times;</button>'+
+		'				<h4 lang="ca" class="modal-title">&nbsp;</h4>'+
+		'			</div>'+
+		'			<div class="modal-body">'+
+		'			</div>'+
+		'			<div class="modal-footer">'+
+		'				<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Acceptar</button>'+
+		'			</div>'+
+		'		</div>'+
+		'		<!-- /.modal-content -->'+
+		'	</div>'+
+		'	<!-- /.modal-dialog -->'+
+		'</div>'+
+		'<!-- fi messages -->'
+	);
 }
 
-function getTimeStamp() {
-    var now = new Date();
-    return (now.getFullYear()+'/'+(((now.getMonth() + 1) < 10)
-                    ? ("0" + (now.getMonth() + 1))
-                    : ((now.getMonth() + 1))) + '/'+ 
-            now.getDate() +'_'+
-            ((now.getHours() < 10)
-                    ? ("0" + now.getHours())
-                    : (now.getHours())) +':'+
-             ((now.getMinutes() < 10)
-                 ? ("0" + now.getMinutes())
-                 : (now.getMinutes())) +':'+
-             ((now.getSeconds() < 10)
-                 ? ("0" + now.getSeconds())
-                 : (now.getSeconds())));
+function addHtmlModalExpire(){
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal expired -->'+
+		'	<div class="modal fade" id="dialog_session_expired">'+
+		'	<div class="modal-dialog">'+
+		'		<div class="modal-content">'+
+		'			<div class="modal-header">'+
+		'				<button type="button" class="close" data-dismiss="modal"'+
+		'					aria-hidden="true">&times;</button>'+
+		'				<h4 class="modal-title" lang="ca">Sessió caducada</h4>'+
+		'			</div>'+
+		'			<div lang="ca" class="modal-body">'+
+		'				Ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió'+
+		'			</div>'+
+		'			<div class="modal-footer">'+
+		'		    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn" data-dismiss="modal">Acceptar</button>'+
+		'		    </div>'+
+		'		</div>'+
+		'		<!-- /.modal-content -->'+
+		'	</div>'+
+		'	<!-- /.modal-dialog -->'+
+		'</div>'+
+		'<!-- /.modal -->'+
+		'<!-- fi Modal expired -->'	
+	);
 }
 
-function calculateDistance(lLatLngs){
 
-	var totalDistance = 0;
-	var lastPoint;
-	if(lLatLngs.length>0) lastPoint = lLatLngs[0];
-	
-	jQuery.each(lLatLngs, function( i, point){
-		totalDistance += point.distanceTo(lastPoint);
-		lastPointt = point;
-	});
-	
-	return L.GeometryUtil.readableDistance(totalDistance, true);
+function addHtmlModalLeave(){
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal Leave -->'+
+		'		<div id="dialgo_leave" class="modal fade">'+
+		'		<div class="modal-dialog">'+
+		'			<div class="modal-content">'+
+		'				<div class="modal-header">'+
+		'					<button type="button" class="close" data-dismiss="modal"'+
+		'						aria-hidden="true">&times;</button>'+
+		'					<h4 lang="ca" class="modal-title">Edició en mode demostració</h4>'+
+		'				</div>'+
+		'				<div class="modal-body" lang="ca">'+
+		'					Per poder guardar les dades has d\'entrar com un usuari registrat'+
+		'				</div>'+
+		'				<div class="modal-footer">'+
+		'					<button lang="ca" type="button" class="btn bt-sessio"'+ 
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'inici sessio\', \'modal inici mapa\']);">Inicia la sessió</button>'+
+		'					<button lang="ca" type="button" class="btn bt_orange"'+ 
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'registre\', \'modal inici mapa\']);">Crea un compte</button>'+
+		'					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'guest\', \'modal inici mapa\']);">Més tard</button>'+
+		'				</div>'+
+		'			</div>'+
+		'			<!-- /.modal-content -->'+
+		'		</div>'+
+		'		<!-- /.modal-dialog -->'+
+		'	</div>'+
+		'	<!-- fi Modal Leave -->'		
+	);
 }
 
-function calculateArea(lLatLngs){
-	var totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
-	return L.GeometryUtil.readableArea(totalArea, true);
-}
 
-//function updateControlCapes(layer, layername, sublayer, groupLeafletId){
-//	
-//	controlCapes.addOverlay(layer, layername, sublayer, groupLeafletId);
-//	if(groupLeafletId==null)controlCapes._lastZIndex++;
-//	activaPanelCapes(true);
-//	$(".layers-list").mCustomScrollbar({
-//		   advanced:{
-//		     autoScrollOnFocus: false,
-//		     updateOnContentResize: true
-//		   }           
-//	});		
-//}
+function addHtmlModalOldBrowser(){
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Old Browser -->'+
+	'		<div id="dialgo_old_browser" class="modal">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Sabia vostè que el seu navegador no està actualitzat?</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div lang="ca">Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d\'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.</div>'+
+	'					<div>'+
+	'					<a href="http://www.microsoft.com/windows/Internet-explorer/default.aspx" target="_blank"><div class=\'ie_img browser_img\'></div></a>'+
+	'					<a href="http://www.mozilla.com/firefox/" target="_blank"><div class=\'firefox_img browser_img\'></div></a>'+
+	'					<a href="http://www.apple.com/safari/download/" target="_blank"><div class=\'safari_img browser_img\'></div></a>'+
+	'					<a href="http://www.opera.com/download/" target="_blank"><div class=\'opera_img browser_img\'></div></a>'+
+	'					<a href="http://www.google.com/chrome" target="_blank"><div class=\'chrome_img browser_img\'></div></a>'+
+	'					</div>'+
+	'					<div lang="ca">Només faci clic a les icones per anar a la pàgina de descàrrega</div>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- fi Modal Old Browser -->'		
+	);
+}

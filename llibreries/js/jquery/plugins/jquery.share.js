@@ -25,16 +25,14 @@
                     margin = this.share.settings.margin,
                     pageTitle = this.share.settings.title||$(document).attr('title'),
                     pageUrl = this.share.settings.urlToShare||$(location).attr('href'),
-                    pageDesc = "",
-                	pageDescUser = "";
+                    pageDesc = "";
                 
                 $.each($(document).find('meta[name="description"]'),function(idx,item){
                     pageDesc = $(item).attr("content");
         		});
-                pageDescUser = $('#descripcio_user').html();
                 
-                if(pageDescUser != null && pageDescUser!= ""){
-                	pageDesc = pageDescUser;
+                if(!pageDesc || $.trim(pageDesc) === ""){
+                	pageDesc = "InstaMaps";
                 }
                 
                 // each instance of this plugin
@@ -44,7 +42,6 @@
                         u=encodeURIComponent(pageUrl),
                         t=encodeURIComponent(pageTitle),
                         d=pageDesc.substring(0,250),
-                        d2 = pageDescUser.substring(0,250),
                         href;
 
                     //Per GA saber si venim de mapa o visor, al compartir
@@ -114,9 +111,9 @@
 
         var helpers = {
             networkDefs: {
-                facebook:{url:'http://www.facebook.com/share.php?u=|u|'},
+                facebook:{url:'http://www.facebook.com/share.php?p[url]=|u|&p[images][0]=http://www.lostiemposcambian.com/blog/posts/share-fb/img/200x200_lostiemposcambian_ejemplo_facebook_foto3.jpg'},
                 //http://twitter.com/home?status=jQuery%20Share%20Social%20Media%20Plugin%20-%20Share%20to%20multiple%20social%20networks%20from%20a%20single%20form%20http://plugins.in1.com/share/demo
-                twitter:{url:'https://twitter.com/share?url=|u|&text=|140|'},
+                twitter:{url:'https://twitter.com/share?url=|u|&text=|d|'},
                 linkedin:{url:'http://www.linkedin.com/shareArticle?mini=true&url=|u|&title=|t|&summary=|d|&source=in1.com'},
                 in1:{url:'http://www.in1.com/cast?u=|u|',w:'490',h:'529'},
                 tumblr:{url:'http://www.tumblr.com/share?v=3&u=|u|'},
