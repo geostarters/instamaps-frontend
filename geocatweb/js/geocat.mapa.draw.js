@@ -159,10 +159,14 @@ function obrirMenuModal(_menuClass,estat,_from){
 }
 
 function initCanvas(){
+	console.debug("initCanvas");
+	console.debug(canvas_pol);
 	addGeometryInitP(document.getElementById(canvas_pol.id));
 	addGeometryInitP(document.getElementById(canvas_pol.id+"0"));
 	addGeometryInitL(document.getElementById(canvas_linia.id));	
 	addGeometryInitL(document.getElementById(canvas_linia.id+"0"));
+	
+	console.debug(canvas_linia);
 	
     $('#colorpalette_pf').colorPalette().on('selectColor', function(e) {   	
     $('.fill_color_pol').css('background-color',e.color);
@@ -264,6 +268,8 @@ function addGeometryInitL(canvas){
 }
 
 function addGeometryInitP(canvas){
+	console.debug("addGeometryInitP");
+	console.debug(canvas);
 	var	cv_ctx_p=canvas.getContext("2d");
 	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
 	cv_ctx_p.moveTo(5.13,15.82);
@@ -383,7 +389,7 @@ function activaEdicioUsuari() {
 		var tipusCat,tipusCatDes;
 	
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dibuixar geometria', type, 1]);
-		_kmq.push(['record', 'dibuixar geometria', {'from':'mapa', 'tipus user':tipus_user_txt, 'type':type}]);
+		_kmq.push(['record', 'dibuixar geometria', {'from':'mapa', 'tipus user':tipus_user, 'type':type}]);
 
 		if (type === t_marker) {
 			tipusCat=window.lang.convert('Títol Punt');

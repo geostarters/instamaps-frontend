@@ -1142,13 +1142,19 @@ h1.big_text{
 	margin-top: 10px;
 }
 
+#galeriaSort .input-group{
+    margin-left: 40%;
+    margin-right: 40%;
+    width: 20%;	
+}
+/*
 #galeriaSort input {
   border:solid 1px #ccc;
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom:10px;
   height: 30px;
-}
+}*/
 #galeriaSort input:focus {
   outline:none;
   border-color:#aaa;

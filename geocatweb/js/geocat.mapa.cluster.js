@@ -1,7 +1,7 @@
 function creaClusterMap(capa) {
 
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'cluster', 1]);
-	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus tematic':'cluster'}]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'cluster'}]);
 	
 	var nom = window.lang.convert("Agrupació");
 	

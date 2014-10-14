@@ -99,8 +99,11 @@
 			<script id="galeriaPublic-template" type="text/x-handlebars-template">
 
 			<div id="galeriaSort">
-			  <input class="search" placeholder="Search" />
-			  <button class="sort" data-sort="nomAplicacioSort">Sort by name</button>	
+			  <div class="input-group">
+			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+			   <input class="search form-control" placeholder="Search" />
+			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
+			  </div>
 
 			<ul class="list">
 			{{#each results}}
@@ -142,9 +145,11 @@
 			
 			<script id="galeria-template" type="text/x-handlebars-template">
 			<div id="galeriaSort">
-			  <input class="search" placeholder="Search" />
-			  <button class="sort" data-sort="nomAplicacioSort">Sort by name</button>	
-
+			  <div class="input-group">
+			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+			   <input class="search form-control" placeholder="Search" />
+			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
+			  </div>
 			<ul class="list">
 			<li><p class="nomAplicacioSort hidden"></p>
 			<div class="col-sm-6 col-md-3">		

@@ -97,31 +97,24 @@ function loadApp(){
 											mapConfig.options.downloadable:[]);
 					
 					mapConfig.newMap = false;
-					$('#nomAplicacio').html(mapConfig.nomAplicacio);
-					
-					
-					console.debug(mapConfig);
-					
+//					console.debug(mapConfig);
+
+					//Afegim barres d'eines i control de capes 
 					addControlsInici();
+					
 					loadMapConfig(mapConfig).then(function(){
 						
+						$('#nomAplicacio').html(mapConfig.nomAplicacio);
 						//llegim configuracio de funcionalitats del mapa, si no te, per defecte
-						var configuracio = ""; 
-						if(mapConfig.configuracio){
-							configuracio = $.parseJSON(mapConfig.configuracio);
-							console.debug(configuracio);	
-						}else{
-							jQuery.get('../../default_config_mapa.txt', function(data) {
-								   configuracio = $.parseJSON(data);
-								   console.debug(configuracio);
-							});							
-						}						
-
-						//iniciem els controls basics
-						initControls();
-						//careguem funcionalitats:
-						loadControls(configuracio);
 						
+						var configuracio = "";
+						loadConfiguracio(mapConfig.configuracio).then(function(results){
+							console.debug(results);
+							//iniciem els controls basics
+							initControls();
+							//careguem funcionalitats:
+							loadControls(results);
+						});
 					});						
 					
 				}catch(err){
@@ -131,6 +124,9 @@ function loadApp(){
 		},function(results){
 			gestioCookie('getMapByBusinessIdError');
 		});
+		
+		addLeaveModal();
+		
 	}else{
 		if (!$.cookie('uid')){
 			createRandomUser().then(function(results){
@@ -151,57 +147,7 @@ function loadApp(){
 			createNewMap();
 		}
 	}
-	
-	if (isRandomUser($.cookie('uid'))){
-		jQuery('#hl_sessio1').attr('href', paramUrl.loginPage+"?from=mapa");
-		
-		jQuery('.navbar-form .bt-sessio').on('click',function(){
-			jQuery(window).off('beforeunload');
-			jQuery(window).off('unload');
-			window.location = paramUrl.loginPage+"?from=mapa";
-		});
-				
-		jQuery('#dialgo_leave').modal('show');		
-		jQuery('#dialgo_leave .bt-sessio').on('click',function(){
-			jQuery(window).off('beforeunload');
-			jQuery(window).off('unload');
-			window.location = paramUrl.loginPage+"?from=mapa";
-		});
-		
-		jQuery('#dialgo_leave .bt_orange').on('click',function(){
-			jQuery(window).off('beforeunload');
-			jQuery(window).off('unload');
-			window.location = paramUrl.registrePage+"?from=mapa";
-		});
-		
-		jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
-			
-		});
-		
-		jQuery(window).on('unload',function(event){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'sortir', 'label sortir', 1]);
-			deleteRandomUser({uid: $.cookie('uid')});
-			$.removeCookie('uid', { path: '/' });
-		});
-	}else{
-		jQuery('#dialgo_leave .btn-primary').on('click',function(){
-			leaveMapa();
-		});
-	}
-	
-	$('.leaflet-remove').click(function() {
-		alert( "Handler for .click() called." );
-	});			
-	
-	//boton de comentaris
-	jQuery('#feedback_btn').on('click',function(e){
-		window.open(paramUrl.comentarisPage);
-	});
-	//Missatge error de carrega de dades
-	jQuery("#div_carrega_dades_message").hide();
-	jQuery('#dialog_carrega_dades').on('hidden.bs.modal', function (e) {
-		jQuery("#div_carrega_dades_message").hide();
-	});
+
 }
 
 function initControls(){
@@ -213,7 +159,7 @@ function initControls(){
 	redimensioMapa();	
 	
 	addHtmlModalOldBrowser();
-	addHtmlModalLeave();
+//	addHtmlModalLeave();
 	addHtmlModalExpire();
 	addHtmlModalMessages();
 	
@@ -226,13 +172,16 @@ function initControls(){
 //	creaPopOverMesFons();
 	
 //	//Afegir gestio dialegs estils de les features
-//	addDialegEstilsTematics();		
-//	//Funcionalitat de dibuixar feature
-//	addDrawToolbar();
-//	activaEdicioUsuari();
+//	addDialegEstilsTematics();
+//	console.debug("addDialegEstilsTematics");
+////	//Funcionalitat de dibuixar feature
 //	addDialegEstilsDraw();	
-	
-	//Funcionalitat de tematics
+//	console.debug("addDialegEstilsDraw");	
+//	addDrawToolbar();
+//	console.debug("draw toolbar");
+//	activaEdicioUsuari();
+//	console.debug("activaEdicioUsuari");
+//	//Funcionalitat de tematics
 //	initButtonsTematic();
 	
 	//Funcionalitat dragdrop i carrega fitxers
@@ -243,8 +192,8 @@ function initControls(){
 //	addControlCercaEdit();
 
 	//carrega font de dades
-	generaLListaDadesObertes();
-	generaLlistaServeisWMS();
+//	generaLListaDadesObertes();
+//	generaLlistaServeisWMS();
 	
 	//Funcionalitat afegir altres fonts de dades
 //	addControlAltresFontsDades();
@@ -616,6 +565,10 @@ function loadControls(configuracio){
 	
 	console.debug("load controls");
 	//funcionalitats a carregar nomes si esta loginat
+	
+	console.debug(configuracio);
+	console.debug($.cookie('uid'));
+	
 	if ($.cookie('uid')){
 		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
 //			console.debug(funcionalitatLoginat+"("+data+")");
@@ -626,6 +579,79 @@ function loadControls(configuracio){
 	jQuery.each(configuracio.funcionalitats, function(i, funcionalitat){
 		eval(funcionalitat);
 	});
+	
+}
+
+function loadConfiguracio(configuracio){
+	var dfd = new jQuery.Deferred();
+	if(configuracio){
+		configuracio = $.parseJSON(mapConfig.configuracio);
+		console.debug(configuracio);
+		dfd.resolve(configuracio);
+	}else{
+		jQuery.get('../../default_config_mapa.txt', function(data) {
+			   configuracio = $.parseJSON(data);
+			   console.debug(configuracio);
+			   dfd.resolve(configuracio);
+		});							
+	}
+	return dfd.promise();
+}
+
+function addLeaveModal(){
+	
+	addHtmlModalLeave();
+	
+	if (isRandomUser($.cookie('uid'))){
+		jQuery('#hl_sessio1').attr('href', paramUrl.loginPage+"?from=mapa");
+		
+		jQuery('.navbar-form .bt-sessio').on('click',function(){
+			jQuery(window).off('beforeunload');
+			jQuery(window).off('unload');
+			window.location = paramUrl.loginPage+"?from=mapa";
+		});
+				
+		jQuery('#dialgo_leave').modal('show');		
+		jQuery('#dialgo_leave .bt-sessio').on('click',function(){
+			jQuery(window).off('beforeunload');
+			jQuery(window).off('unload');
+			window.location = paramUrl.loginPage+"?from=mapa";
+		});
+		
+		jQuery('#dialgo_leave .bt_orange').on('click',function(){
+			jQuery(window).off('beforeunload');
+			jQuery(window).off('unload');
+			window.location = paramUrl.registrePage+"?from=mapa";
+		});
+		
+		jQuery('#dialgo_leave').on('hide.bs.modal', function (e) {
+			
+		});
+		
+		jQuery(window).on('unload',function(event){
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'sortir', 'label sortir', 1]);
+			deleteRandomUser({uid: $.cookie('uid')});
+			$.removeCookie('uid', { path: '/' });
+		});
+	}else{
+		jQuery('#dialgo_leave .btn-primary').on('click',function(){
+			leaveMapa();
+		});
+	}
+	
+	$('.leaflet-remove').click(function() {
+		alert( "Handler for .click() called." );
+	});			
+	
+	//boton de comentaris
+	jQuery('#feedback_btn').on('click',function(e){
+		window.open(paramUrl.comentarisPage);
+	});
+	//Missatge error de carrega de dades
+	jQuery("#div_carrega_dades_message").hide();
+	jQuery('#dialog_carrega_dades').on('hidden.bs.modal', function (e) {
+		jQuery("#div_carrega_dades_message").hide();
+	});	
 	
 }
 

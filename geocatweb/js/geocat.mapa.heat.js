@@ -2,7 +2,7 @@
 function createHeatMap(capa){
 	
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'heatmap', 1]);
-	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user_txt, 'tipus tematic':'heatmap'}]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'heatmap'}]);
 	
 	var nom = window.lang.convert("Concentració");
 	//Heatmap
