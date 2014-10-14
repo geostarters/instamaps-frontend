@@ -201,7 +201,7 @@ function addLayerToLegend(layer, count, layerIdParent){
 		}else{
 			
 			var color = hexToRgb(estil_do.iconColor);
-			console.debug(estil_do);
+//			console.debug(estil_do);
 			html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 			html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
 			html += '<div class="col-md-2 legend-symbol">'+
@@ -347,7 +347,7 @@ function addLayerToLegend(layer, count, layerIdParent){
 				if(size > 0) size = 1;//Control rangs no buit
 			}
 			
-			console.debug("///"+layer.options.nom+"///");
+//			console.debug("///"+layer.options.nom+"///");
 			
 			var geometryType = transformTipusGeometry(layer.options.geometrytype);
 			
@@ -495,12 +495,11 @@ function addLayerToLegend(layer, count, layerIdParent){
 					var obj = {color: color, borderColor: borderColor, opacity:opacity, borderWidth:borderWidth};
 					var existeix = checkPolStyle(obj);					
 					
-					console.debug("*********");
 					if(!existeix){
-						console.debug("No existeix:")
-						console.debug(rangs[i]);
-						console.debug(rangs[i].borderColor);
-						console.debug(borderColor);
+//						console.debug("No existeix:")
+//						console.debug(rangs[i]);
+//						console.debug(rangs[i].borderColor);
+//						console.debug(borderColor);
 						controlLegendPol.push(obj);					
 					
 						var stringStyle =	'<svg height="40" width="40">'+
@@ -534,8 +533,8 @@ function addLayerToLegend(layer, count, layerIdParent){
 					}
 					
 				}
-				console.debug("controlLegendPol:");
-				console.debug(controlLegendPol);				
+//				console.debug("controlLegendPol:");
+//				console.debug(controlLegendPol);				
 			}
 		}
 	}

@@ -48,8 +48,8 @@ function loadApp(){
 			
 			document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 			
-			console.debug("mapConfig:");
-			console.debug(mapConfig);
+//			console.debug("mapConfig:");
+//			console.debug(mapConfig);
 			
 			var infoHtml = '<p>'+mapConfig.entitatUid+'</p>';
 			

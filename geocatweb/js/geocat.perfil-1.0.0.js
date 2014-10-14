@@ -8,7 +8,7 @@ jQuery(document).ready(function() {
 	$("#text-uid").append(username);
 	
 	getUserData(username).then(function(results){
-		console.debug(results);
+//		console.debug(results);
 		if(results.status==='OK'){
 			$("#perfil_name").val(results.results.cn);
 			$("#perfil_surname").val(results.results.sn);
@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
 			$('#deleteOptionValue').val(deleteOpt);
 			
 			$('#button-delete-ok-conf').on('click',function(){
-				console.debug($('#deleteOptionValue').val());
+//				console.debug($('#deleteOptionValue').val());
 				var data = {
 					uid: $.cookie('uid'),
 					type: $('#deleteOptionValue').val()

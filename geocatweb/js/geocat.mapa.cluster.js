@@ -257,7 +257,6 @@ function loadDadesObertesClusterLayer(layer){
 
 
 function loadJsonClusterLayer(layer){
-	console.debug("loadJsonClusterLayer");
 	
 	var options = jQuery.parseJSON( layer.options );
 

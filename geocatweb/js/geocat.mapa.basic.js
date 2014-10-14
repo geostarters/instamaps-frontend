@@ -87,7 +87,7 @@ function createTematicLayerBasic(tematic, styles){
 		};		
 		
 		createServidorInMap(data).then(function(results){
-			console.debug(results.results);
+//			console.debug(results.results);
 			loadCapaFromJSON(results.results);
 		});
 		
@@ -109,7 +109,7 @@ function createTematicLayerBasic(tematic, styles){
 		
 		duplicateTematicLayer(data).then(function(results){
 			if(results.status == 'OK'){
-				console.debug(results.results);
+//				console.debug(results.results);
 				loadTematicLayer(results.results);
 				activaPanelCapes(true);
 			}else{

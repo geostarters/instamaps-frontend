@@ -109,7 +109,6 @@ function loadApp(){
 						
 						var configuracio = "";
 						loadConfiguracio(mapConfig.configuracio).then(function(results){
-							console.debug(results);
 							//iniciem els controls basics
 							initControls();
 							//careguem funcionalitats:
@@ -192,8 +191,8 @@ function initControls(){
 //	addControlCercaEdit();
 
 	//carrega font de dades
-//	generaLListaDadesObertes();
-//	generaLlistaServeisWMS();
+	generaLListaDadesObertes();
+	generaLlistaServeisWMS();
 	
 	//Funcionalitat afegir altres fonts de dades
 //	addControlAltresFontsDades();
@@ -563,12 +562,7 @@ function getBusinessIdOrigenLayers(){
 
 function loadControls(configuracio){
 	
-	console.debug("load controls");
 	//funcionalitats a carregar nomes si esta loginat
-	
-	console.debug(configuracio);
-	console.debug($.cookie('uid'));
-	
 	if ($.cookie('uid')){
 		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
 //			console.debug(funcionalitatLoginat+"("+data+")");
@@ -579,19 +573,16 @@ function loadControls(configuracio){
 	jQuery.each(configuracio.funcionalitats, function(i, funcionalitat){
 		eval(funcionalitat);
 	});
-	
 }
 
 function loadConfiguracio(configuracio){
 	var dfd = new jQuery.Deferred();
 	if(configuracio){
 		configuracio = $.parseJSON(mapConfig.configuracio);
-		console.debug(configuracio);
 		dfd.resolve(configuracio);
 	}else{
 		jQuery.get('../../default_config_mapa.txt', function(data) {
 			   configuracio = $.parseJSON(data);
-			   console.debug(configuracio);
 			   dfd.resolve(configuracio);
 		});							
 	}

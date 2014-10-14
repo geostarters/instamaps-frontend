@@ -51,12 +51,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 				    return latlng.bindPopup(html);
 				  },			  
 			  middleware:function(data){
-			    	console.debug("capaURLfile");
-			    	console.debug(capaURLfile);				  
+//			    	console.debug("capaURLfile");
+//			    	console.debug(capaURLfile);				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
-					  console.debug(data);	
+//					  console.debug(data);	
 					  capaURLfile.addData(data);
 					  
 						//Un cop tinc la capa a client, la creo a servidor
@@ -254,7 +254,7 @@ function loadURLfileLayer(layer){
 		
 	capaURLfileLoad.on('data:loaded', function(e){
 		
-		console.debug("capaURLfileLoad loaded");
+//		console.debug("capaURLfileLoad loaded");
 		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaURLfileLoad.addTo(map);
 		}

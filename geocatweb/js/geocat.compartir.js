@@ -41,7 +41,7 @@ function addCompartirMapa(){
 			});
 			
 			jQuery('#socialShare .pop-social').on('click', function(event){
-				console.debug("social share click, publiquem!");
+//				console.debug("social share click, publiquem!");
 				publicarMapa(true);
 			});				
 		});

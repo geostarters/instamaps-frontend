@@ -87,12 +87,12 @@ function updateEditableElements(){
 	});
 	
     $('.leaflet-name .editable').on('shown', function(e, editable) {
-        console.debug('shown editable:'+editable);
+//        console.debug('shown editable:'+editable);
         jQuery('.opcio-conf').hide();
         jQuery('.subopcio-conf').hide();
     });
     $('.leaflet-name .editable').on('hidden', function(e, editable) {
-    	console.debug('hidden editable:'+editable);
+//    	console.debug('hidden editable:'+editable);
         jQuery('.opcio-conf').show();
     });    
 }

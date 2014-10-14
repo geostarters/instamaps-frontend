@@ -234,7 +234,7 @@ function addControlAltresFontsDades() {
 								e.stopImmediatePropagation();
 //								e.stopPropagation();
 //								e.preventDefault();
-								console.debug("bt_URLfitxer_go");
+//								console.debug("bt_URLfitxer_go");
 								jQuery("#div_url_file_message").empty();
 								jQuery("#div_url_file_message").hide();
 								var urlFile = jQuery("#txt_URLfile").val();
@@ -245,9 +245,9 @@ function addControlAltresFontsDades() {
 									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
 									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 								}else{
-									console.debug("abans createURLfileLayer");
+//									console.debug("abans createURLfileLayer");
 									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val());
-									console.debug("despres createURLfileLayer");
+//									console.debug("despres createURLfileLayer");
 								}
 							});
 							

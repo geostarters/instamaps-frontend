@@ -580,7 +580,7 @@ function changeDefaultPointStyle(estilP) {
 		_iconGlif=estilP.iconGlif.replace('fa fa-','');
 	};
 	
-	console.debug(_iconFons);
+//	console.debug(_iconFons);
 	
 	var _colorGlif=estilP.colorGlif;
 	

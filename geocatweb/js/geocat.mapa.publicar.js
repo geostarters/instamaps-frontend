@@ -150,8 +150,8 @@ function publicarMapa(fromCompartir){
 	
 	//Revisio de capes amb permis de descarrega
 	updateDownloadableData();
-	console.debug('downloadableData');
-	console.debug(downloadableData);
+//	console.debug('downloadableData');
+//	console.debug(downloadableData);
 	
 	options.layers = true;
 	options.social = true;
@@ -160,7 +160,7 @@ function publicarMapa(fromCompartir){
 	options.idusr = jQuery('#userId').val();
 	options.downloadable = downloadableData;
 	
-	console.debug(options);
+//	console.debug(options);
 	options = JSON.stringify(options);
 		
 	var newMap = true;
