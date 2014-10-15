@@ -111,7 +111,9 @@
 
         var helpers = {
             networkDefs: {
-                facebook:{url:'http://www.facebook.com/share.php?p[url]=|u|&p[images][0]=http://www.instamaps.cat/geocatweb/img/heatmap.png'},
+//                facebook:{url:'http://www.facebook.com/share.php?p[url]=|u|'},
+                facebook:{url:'https://www.facebook.com/dialog/share_open_graph?app_id=620717167980164&display=popup&action_type=og.likes&action_properties=%7B%22object%22%3A%22|u|%22%7D&redirect_uri=|u|'},
+//                facebook:{url:'http://www.facebook.com/share.php?p[url]=|u|&p[images][0]=http://www.instamaps.cat/geocatweb/img/heatmap.png'},
                 //http://twitter.com/home?status=jQuery%20Share%20Social%20Media%20Plugin%20-%20Share%20to%20multiple%20social%20networks%20from%20a%20single%20form%20http://plugins.in1.com/share/demo
                 twitter:{url:'https://twitter.com/share?url=|u|&text=|d|'},
                 linkedin:{url:'http://www.linkedin.com/shareArticle?mini=true&url=|u|&title=|t|&summary=|d|&source=in1.com'},
