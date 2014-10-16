@@ -94,28 +94,28 @@ function createModalConfigLegend(){
 //	$('#dialog_llegenda').modal('show');
 
 	
-	//	$('#legend-chck-all').on('click', function(e){
-//		 if($('#legend-chck-all').is(':checked')){
-//			 $('.legend-chck').prop('checked', true);
-//		 }else{
-//			 $('.legend-chck').prop('checked', false);
-//		 }
+		$('#legend-chck-all').on('click', function(e){
+		 if($('#legend-chck-all').is(':checked')){
+			 $('.legend-chck').prop('checked', true);
+		 }else{
+			 $('.legend-chck').prop('checked', false);
+		 }
+	});	
+	
+//	$('.legend-subrow input, .legend-subrow-all input').iCheck({
+//	    checkboxClass: 'icheckbox_flat-blue',
+//	    radioClass: 'iradio_flat-blue'
 //	});	
-	
-	$('.legend-subrow input, .legend-subrow-all input').iCheck({
-	    checkboxClass: 'icheckbox_flat-blue',
-	    radioClass: 'iradio_flat-blue'
-	});	
-	
-	$('.legend-subrow-all input').on('ifChecked', function(event){
-		  //alert(event.type + ' callback');
-		  $('.legend-subrow input').iCheck('check');
-	});
-	
-	$('.legend-subrow-all input').on('ifUnchecked', function(event){
-//		  alert(event.type + ' callback');
-		  $('.legend-subrow input').iCheck('uncheck');
-	});	
+//	
+//	$('.legend-subrow-all input').on('ifChecked', function(event){
+//		  //alert(event.type + ' callback');
+//		  $('.legend-subrow input').iCheck('check');
+//	});
+//	
+//	$('.legend-subrow-all input').on('ifUnchecked', function(event){
+////		  alert(event.type + ' callback');
+//		  $('.legend-subrow input').iCheck('uncheck');
+//	});	
 	
 }
 

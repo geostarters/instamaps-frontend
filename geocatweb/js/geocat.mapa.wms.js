@@ -129,82 +129,129 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 
 function getCapabilitiesWMS(url, servidor) {
 
-	var _htmlLayersWMS = [];
-	getWMSLayers(url).then(function(results) {
-		jQuery('#div_layersWMS').html('');
-		jQuery('#div_emptyWMS').empty();
+    var _htmlLayersWMS = [];
+    getWMSLayers(url)
+                .then(
+                           function(results) {
 
-		if (servidor == null) {
-			servidor = results.Service.Title;
-		}
+                                 jQuery('#div_layersWMS').html('');
+                                 jQuery('#div_emptyWMS').empty();
 
-		try {
-			ActiuWMS.servidor = servidor;
-			ActiuWMS.url = url;
-			var matriuEPSG = results.Capability.Layer.CRS;
-			if (matriuEPSG) {
-			
-			} else {
-				matriuEPSG = results.Capability.Layer.SRS
-			}
-			var epsg = [];
-			jQuery.each(matriuEPSG, function(index, value) {
-				epsg.push(value);
-			});
+                                 if (servidor == null) {
+                                       servidor = results.Service.Title;
+                                 }
 
-			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG3857;
-				ActiuWMS.epsgtxt = 'EPSG:3857';
-			} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG3857;
-				ActiuWMS.epsgtxt = 'EPSG:3857';
-			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';
-			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
-                ActiuWMS.epsg = L.CRS.EPSG4326;
-                ActiuWMS.epsgtxt = '4326';   
-			} else {
-				alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
-				return;
-			}
+                                 try {
+                                       ActiuWMS.servidor = servidor;
+                                       ActiuWMS.url = jQuery.trim(url);
+                                       var matriuEPSG = results.Capability.Layer.CRS;
 
-			_htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
-			if(typeof results.Capability.Layer.Layer.length == 'undefined'){
-                _htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-                           + results.Capability.Layer.Layer.Name
-                           + '">'
-                           + results.Capability.Layer.Layer.Title
-                           + '</label></li>');
-	          }else{
-		          jQuery.each(results.Capability.Layer.Layer, function(index, value) {
-		                _htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-		                     + value.Name
-		                     + '">'
-		                     + value.Title
-		                     + '</label></li>');
-		          });
-	          }
-			_htmlLayersWMS.push('</ul>');
+                                       if (!matriuEPSG) {
+                                             matriuEPSG = results.Capability.Layer.SRS;
 
-			jQuery('#div_layersWMS').html(_htmlLayersWMS.join(''));
-			jQuery('#div_emptyWMS').empty();
+                                             if (!matriuEPSG) {
+                                                   matriuEPSG = results.Capability.Layer[0].CRS;
 
-			jQuery('#div_emptyWMS').html('<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >'
-				+ window.lang
-						.convert("Afegir capes")
-				+ '</button></div>');
+                                             }
 
-		} catch (err) {
-			jQuery('#div_layersWMS').html('<hr>Error interpretar capabilities: ' + err + '</hr>');
-		}
-	});
+                                       }
+
+                                       var epsg = [];
+                                       jQuery.each(matriuEPSG, function(index, value) {
+
+                                             epsg.push(value);
+                                       });
+
+                                       if (jQuery.inArray('EPSG:3857', epsg) != -1) {
+                                             ActiuWMS.epsg = L.CRS.EPSG3857;
+                                             ActiuWMS.epsgtxt = 'EPSG:3857';
+                                       } else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
+                                             ActiuWMS.epsg = L.CRS.EPSG3857;
+                                             ActiuWMS.epsgtxt = 'EPSG:3857';
+                                       } else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
+                                             ActiuWMS.epsg = L.CRS.EPSG4326;
+                                             ActiuWMS.epsgtxt = '4326';
+                                       } else if (jQuery.inArray('CRS:84', epsg) != -1) {
+                                             ActiuWMS.epsg = L.CRS.EPSG4326;
+                                             ActiuWMS.epsgtxt = '4326';
+
+                                       } else {
+                                             alert(window.lang
+                                                         .convert("El sistema de coordenades no és compatible amb el mapa"));
+                                             return;
+                                       }
+
+                                       _htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
+
+                                       if (typeof results.Capability.Layer.Layer != 'undefined') {
+
+                                             if (typeof results.Capability.Layer.Layer.length == 'undefined') {
+
+                                                   _htmlLayersWMS
+                                                               .push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+                                                                          + results.Capability.Layer.Layer.Name
+                                                                          + '">'
+                                                                          + results.Capability.Layer.Layer.Title
+                                                                          + '</label></li>');
+
+                                             } else if ((typeof results.Capability.Layer.Layer.length != 'undefined')) {
+                                                   jQuery
+                                                               .each(
+                                                                           results.Capability.Layer.Layer,
+                                                                          function(index, value) {
+
+                                                                                _htmlLayersWMS
+                                                                                            .push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+                                                                                                        + value.Name
+                                                                                                        + '">'
+                                                                                                        + value.Title
+                                                                                                        + '</label></li>');
+                                                                          });
+                                             }
+                                       } else {
+                                             if (typeof results.Capability.Layer.length != 'undefined') {
+                                                   jQuery
+                                                               .each(
+                                                                           results.Capability.Layer,
+                                                                          function(index, value) {
+
+                                                                                _htmlLayersWMS
+                                                                                            .push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+                                                                                                        + value.Name
+                                                                                                        + '">'
+                                                                                                        + value.Title
+                                                                                                        + '</label></li>');
+                                                                          });
+
+                                             }
+
+                                       }
+                                       _htmlLayersWMS.push('</ul>');
+
+                                       jQuery('#div_layersWMS').html(
+                                                   _htmlLayersWMS.join(''));
+                                       jQuery('#div_emptyWMS').empty();
+
+                                       jQuery('#div_emptyWMS')
+                                                   .html(
+                                                               '<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >'
+                                                                          + window.lang
+                                                                                      .convert("Afegir capes")
+                                                                          + '</button></div>');
+
+                                 } catch (err) {
+                                       jQuery('#div_layersWMS').html(
+                                                   '<hr>Error interpretar capabilities: '
+                                                               + err + '</hr>');
+                                 }
+                           });
 }
 
 jQuery(document).on('click', "#bt_addWMS", function(e) {
-	addExternalWMS();
+    addExternalWMS();
 
 });
+
 
 function addExternalWMS2() {
 	var cc = [];

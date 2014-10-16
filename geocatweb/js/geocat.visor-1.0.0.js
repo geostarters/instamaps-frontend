@@ -47,6 +47,7 @@ function loadApp(){
 			mapConfig = $.parseJSON(results.results);
 			
 			document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+			$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 			
 //			console.debug("mapConfig:");
 //			console.debug(mapConfig);
@@ -55,7 +56,13 @@ function loadApp(){
 			
 			if (mapConfig.options){
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				$('meta[name=description]').attr('content', mapConfig.options.description);	
+
+				$('meta[name="description"]').attr('content', mapConfig.options.description);	
+				$('meta[name="og:description"]').attr('content', mapConfig.options.description);
+				
+				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
+				$('meta[name="og:image"]').attr('content', urlThumbnail);
+				
 				infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 			}

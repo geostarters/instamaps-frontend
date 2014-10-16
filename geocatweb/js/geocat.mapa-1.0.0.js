@@ -86,9 +86,16 @@ function loadApp(){
 					gestioCookie('diferentUser');
 										
 					document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+					$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
+					
 					if (mapConfig.options){
 						mapConfig.options = $.parseJSON( mapConfig.options );
-						$('meta[name=description]').attr('content', mapConfig.options.description);
+						$('meta[name="description"]').attr('content', mapConfig.options.description);
+						
+						$('meta[name="og:description"]').attr('content', mapConfig.options.description);
+						
+						var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
+						$('meta[name="og:image"]').attr('content', urlThumbnail);
 					}
 					
 					mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
@@ -273,7 +280,86 @@ function addControlsInici(){
 			     autoScrollOnFocus: false,
 			     updateOnContentResize: true
 			   }           
-		});			
+		});	
+		
+//		$('.leaflet-input input').iCheck({
+//			    checkboxClass: 'icheckbox_futurico',
+//			    radioClass: 'iradio_futurico',
+//			    increaseArea: '20%' // optional
+//		 });
+//		
+
+//		$('.icheckbox_futurico input').on('ifChanged', function(event){
+//			  console.debug("clicked");
+//
+//			if(this.layerIdParent){
+//				id = this.layerId;
+//				parentId = thist.layerIdParent;
+//				checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && this.value == "on";
+//			}			  
+//			  
+//			jQuery(".layers-list input").each(function(){
+//			    var input = $(this);
+//			    console.debug(input);
+//			    var inputObj = 
+//			    
+//				if(!input.layerIdParent){
+//					obj = this._layers[input.layerId];				
+//				}else{
+//					obj = this._layers[input.layerIdParent]._layers[input.layerId];
+//				}			    
+//			    
+//			    //insert code here
+//			});
+//			
+//			
+////				var i, input, obj,
+////			    inputs = this._form.getElementsByTagName('input'),
+////			    inputsLen = inputs.length;
+////
+////				this._handlingClick = true;
+////				var checkHeat = false;
+////				var id, parentId;
+//				
+////				if(arguments[0].currentTarget.layerIdParent){
+////					id = arguments[0].currentTarget.layerId;
+////					parentId = arguments[0].currentTarget.layerIdParent;
+////					checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
+////				}
+////				
+////				
+////				for (i = 0; i < inputsLen; i++) {
+////					input = inputs[i];
+////					
+////					if(!input.layerIdParent){
+////						obj = this._layers[input.layerId];				
+////					}else{
+////						obj = this._layers[input.layerIdParent]._layers[input.layerId];
+////					}
+////					
+////					//Si la capa clickada �s heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
+////					if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
+////						input.checked = false;
+////					}
+////					
+////					//Afegir
+////					if (input.checked && !this._map.hasLayer(obj.layer)) {
+////
+////						this._map.addLayer(obj.layer);	
+////					
+////					} else if (!input.checked && this._map.hasLayer(obj.layer)) {
+////
+////						this._map.removeLayer(obj.layer);
+////					}
+////				}
+////
+////				this._handlingClick = false;
+////
+////				this._refocusOnMap();			  
+//			  
+//			//alert(event.type + ' callback');
+//		});		
+			
 	});
 	
 	

@@ -484,8 +484,8 @@ L.IM_Map = L.Map.extend({
 			TOPO_ICC_L11_12 = new L.TileLayer(URL_TOPOICC,{  	    
 				tms:false,
 				minZoom: 11,
-				maxZoom: 11,	                                                        
-				boundary: catContorn5k, 
+				maxZoom: 12,	                                                        
+				boundary: catContorn, 
 				continuousWorld: true,
 				worldCopyJump: false
 			}).addTo(_topoLayers);
@@ -507,7 +507,7 @@ L.IM_Map = L.Map.extend({
 				minZoom: 11,
 
 				maxZoom: 12,	                                                        
-				boundary: catContorn5k, 
+				boundary: catContorn, 
 				continuousWorld: true,
 				worldCopyJump: false
 			}).addTo(_topoLayers);

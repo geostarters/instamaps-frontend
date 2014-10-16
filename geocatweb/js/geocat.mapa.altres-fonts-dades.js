@@ -47,8 +47,8 @@ function addControlAltresFontsDades() {
 						'<ul class="bs-dadesO_XS panel-heading">'+
 						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseDiv(\'#twitter-collapse\')" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
 						'<li><a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label-xs">Panoramio <i class="fa fa-picture-o"></i></a></li>'+
-						//'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
-						'<li><a id="add_wikipedia_layer" href="javascript:toggleCollapseDiv(\'#wikipedia-collapse\')" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
+						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
+						//'<li><a id="add_wikipedia_layer" href="javascript:toggleCollapseDiv(\'#wikipedia-collapse\')" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
 						'</ul>'+
 						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.convert(label_xarxes)+'</span></div>'+
 						'<div id="twitter-collapse">'+

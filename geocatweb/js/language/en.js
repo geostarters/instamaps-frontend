@@ -292,7 +292,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Selecciona el camp corresponent":"Select the proper field",
 	"Selecciona el EPSG":"Select EPSG",
 	"Selecciona el Format":"Select Format",
-	"Selecciona les capes que seran descarragables:":"Select the layers that will be downloadable:",
+	"Selecciona les capes que seran descarregables:":"Select the layers that will be downloadable:",
 	"Selecciona municipi":"Choose municipality",
 	"Selecciona municipi":"Choose municipality",
 	"Selecciona nom carrer i número":"Choose street name and house number",

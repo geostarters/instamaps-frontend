@@ -247,7 +247,7 @@ function createModalConfigDownload(){
 	
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
-					window.lang.convert('Selecciona les capes que seran descarragables:')+
+					window.lang.convert('Selecciona les capes que seran descarregables:')+
 				'</label>';
 	
 	html += '<div id="div_downloadable">'+
@@ -280,28 +280,28 @@ function createModalConfigDownload(){
 	});	
 	$('#dialgo_publicar .modal-body .modal-downloadable').html(html);	
 	
-	$('#div_downloadable input').iCheck({
-	    checkboxClass: 'icheckbox_flat-blue',
-	    radioClass: 'iradio_flat-blue'
-	});	
-	
-	$('.downloadable-subrow-all input').on('ifChecked', function(event){
-		  //alert(event.type + ' callback');
-		  $('.downloadable-subrow input').iCheck('check');
-	});
-	
-	$('.downloadable-subrow-all input').on('ifUnchecked', function(event){
-//		  alert(event.type + ' callback');
-		  $('.downloadable-subrow input').iCheck('uncheck');
-	});	
-	
-//	$('#downloadable-chck-all').on('click', function(e){
-//		 if($('#downloadable-chck-all').is(':checked')){
-//			 $('.downloadable-chck').prop('checked', true);
-//		 }else{
-//			 $('.downloadable-chck').prop('checked', false);
-//		 }
+//	$('#div_downloadable input').iCheck({
+//	    checkboxClass: 'icheckbox_flat-blue',
+//	    radioClass: 'iradio_flat-blue'
 //	});	
+//	
+//	$('.downloadable-subrow-all input').on('ifChecked', function(event){
+//		  //alert(event.type + ' callback');
+//		  $('.downloadable-subrow input').iCheck('check');
+//	});
+//	
+//	$('.downloadable-subrow-all input').on('ifUnchecked', function(event){
+////		  alert(event.type + ' callback');
+//		  $('.downloadable-subrow input').iCheck('uncheck');
+//	});	
+	
+	$('#downloadable-chck-all').on('click', function(e){
+		 if($('#downloadable-chck-all').is(':checked')){
+			 $('.downloadable-chck').prop('checked', true);
+		 }else{
+			 $('.downloadable-chck').prop('checked', false);
+		 }
+	});	
 }
 
 function updateDownloadableData(){

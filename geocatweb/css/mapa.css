@@ -564,6 +564,7 @@ background-color: #9F9F9E;
 	/*height: 50px;*/
 	margin: 10px 5px 0;
 	float: auto;
+	z-index: 10;
 }
 
 .div_gr5 div {
