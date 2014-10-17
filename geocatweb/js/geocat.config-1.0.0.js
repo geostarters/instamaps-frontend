@@ -161,7 +161,8 @@ var paramUrl = {
 	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?",
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
-	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?"
+	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
+	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

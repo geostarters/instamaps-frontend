@@ -611,3 +611,13 @@ function createGeoPdfMap(data){
 	}).promise();
 }	
 
+function updatePasswordIcgc(data){
+	return jQuery.ajax({
+		url: paramUrl.updatePasswordIcgc,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
