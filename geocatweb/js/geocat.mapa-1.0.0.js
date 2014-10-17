@@ -313,6 +313,7 @@ function addControlsInici(){
 //				
 //			    //insert code here
 //			});
+//		});	
 //			
 //			
 ////				var i, input, obj,
@@ -360,7 +361,7 @@ function addControlsInici(){
 ////				this._refocusOnMap();			  
 //			  
 //			//alert(event.type + ' callback');
-//		});		
+	
 			
 	});
 	

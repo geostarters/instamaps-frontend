@@ -397,9 +397,9 @@ function createTematicLayerCategories(){
 		//TODO error
 		console.debug("createTematicLayerCategories ERROR");
 	});
-	
-	jQuery('#dialog_tematic_rangs').modal('hide');
+	event.preventDefault();
 	event.stopImmediatePropagation();
+	jQuery('#dialog_tematic_rangs').modal('hide');
 //	event.stopPropagation();
 	
 }
