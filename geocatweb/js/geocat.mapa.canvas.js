@@ -304,11 +304,11 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 
       
       var zz=map.getZoom();
-      console.info(map.getZoom());
+     // console.info(map.getZoom());
       map.setZoom(zz-1);      
-      console.info(map.getZoom());
+      //console.info(map.getZoom());
       map.setZoom(zz);
-      console.info(map.getZoom());
+      //console.info(map.getZoom());
       
 //jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 //jQuery('#map .leaflet-marker-pane').removeAttr('data-html2canvas-ignore');
@@ -500,7 +500,7 @@ imgCaptura="";
                   onrendered : function(canvas) {
 
                         ActDesPrintMode(false);
-                        var imgData = canvas.toDataURL('image/jpeg', 0.90);
+                        var imgData = canvas.toDataURL('image/jpeg', 0.95);
 
                         imgData = JSON.stringify(imgData.replace(
                                    /^data:image\/(png|jpeg);base64,/, ""));
@@ -535,6 +535,8 @@ imgCaptura="";
                                                createGeoPdfMap(data).then(
                                                            
                                                function(geopdfresults) {
+											   
+											 
                                                      if (geopdfresults.status == "OK") {
                                                            
                                                            var urlIMG = paramUrl.urlgetMapImage

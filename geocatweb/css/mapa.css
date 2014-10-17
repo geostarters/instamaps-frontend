@@ -3856,9 +3856,22 @@ i.fa {
 .llista-teves-dades li:hover {
 	background-color: #eaeaea;	
 }
-#modal-title-teves-dades{
+#modal-title-teves-dades,
+#modal-title-publicar{
 	font-size: 16px;
 }
+
+#iframeMap, #urlMap{background-color: #eeeeee;}
+
+#urlVisorMap {
+    border: 1px none black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px;
+    text-align: center;
+}
+
+#urlVisorMap a:hover{decoration:none;}
 
 .layers-list{
 	overflow: hidden;

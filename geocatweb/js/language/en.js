@@ -339,6 +339,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Valors":"Values",
 	"Veure informació al fer clic sobre el mapa":"View information clicking on the map",
 	"Veure": "View",
+	"Veure el mapa":"See the map",
 	"Vincle":"Link",
 	"Visibilitat":"Visibility",
 	"Visualitza continguts de Panoramio, Twitter i Viquipèdia.":"View content from Panoramio, Twitter and Wikipedia.",

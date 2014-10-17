@@ -96,6 +96,8 @@ function addControlPublicar(){
 			v_url = v_url.replace('localhost',DOMINI);			
 			urlMap = v_url.replace('mapa','visor');		
 			
+			//$('#urlVisorMap').html('<a href="'+urlMap+'" target="_blank" lang="ca">Anar a la visualització del mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a>');
+			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
 			$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 		});
@@ -248,7 +250,7 @@ function createModalConfigDownload(){
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
 					window.lang.convert('Capes reutilitzables pels altres usuaris:')+
-				'</label>';
+				'</label>&nbsp;<span class="glyphicon glyphicon-download-alt"></span>';
 	
 	html += '<div id="div_downloadable">'+
 				'<div class="separate-downloadable-row-all"></div>'+
@@ -266,8 +268,11 @@ function createModalConfigDownload(){
 		var layerName = layer.options.nom;
 		var checked = "";
 		
+		//Si té checkec definit
 		if(downloadableData[layer.options.businessId]){
 			if(downloadableData[layer.options.businessId][0].chck) checked = 'checked="checked"';
+		}else{//Sino per defecte check
+			checked = 'checked="checked"'
 		}		
 		
 		html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
@@ -445,11 +450,11 @@ function addHtmlModalIframePublicar(){
 	'	<!-- Modal Url/iframe -->'+
 	'		<div id="dialgo_url_iframe" class="modal fade">'+
 	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 lang="ca" class="modal-title">Mapa publicat</h4>'+
+	'					<h4 lang="ca" id="modal-title-publicar" class="modal-title">Mapa publicat</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="form-group">'+
@@ -460,9 +465,10 @@ function addHtmlModalIframePublicar(){
 	'					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>'+
 	'					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>'+
 	'				  	</div>'+
+	'					<div id="urlVisorMap"><a href="" target="_blank" lang="ca">Veure el mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a></div>'+		
 	'				</div>'+
 	'				<div class="modal-footer">'+
-	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'					<button lang="ca" type="button" class="btn btn-success btn-default"'+
 	'						data-dismiss="modal">Acceptar</button>'+
 	'				</div>'+
 	'			</div>'+
