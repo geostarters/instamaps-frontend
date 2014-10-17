@@ -399,7 +399,9 @@ function createTematicLayerCategories(){
 	});
 	
 	jQuery('#dialog_tematic_rangs').modal('hide');
-	event.stopPropagation();
+	event.stopImmediatePropagation();
+//	event.stopPropagation();
+	
 }
 
 function updatePaletaRangs(){

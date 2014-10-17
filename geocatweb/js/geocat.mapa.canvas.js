@@ -313,7 +313,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 //jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 //jQuery('#map .leaflet-marker-pane').removeAttr('data-html2canvas-ignore');
 jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore'); 
-
+jQuery('.leaflet-popup-pane').attr('data-html2canvas-ignore','true');
 
       if (_tipusCaptura == CAPTURA_MAPA) {
             

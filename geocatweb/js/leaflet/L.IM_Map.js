@@ -264,7 +264,7 @@ L.IM_Map = L.Map.extend({
 				}			
 			}else if(sC==1){
 				
-				TOPO_MQ_L7_19.setOpacity(0.9);
+				TOPO_MQ_L7_19.setOpacity(1);
 				TOPO_MQ_L7_19.options.maxZoom=19;				
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=19;
@@ -293,7 +293,7 @@ L.IM_Map = L.Map.extend({
 			
 			
 			if((sC==0)){  
-				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
+				TOPO_GEO_MQ_L7_19.setOpacity(1);
 				TOPO_GEO_MQ_L7_19.options.maxZoom=17;		
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
@@ -302,7 +302,7 @@ L.IM_Map = L.Map.extend({
 				
 			}else if(sC==1){
 				
-				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
+				TOPO_GEO_MQ_L7_19.setOpacity(1);
 				TOPO_GEO_MQ_L7_19.options.maxZoom=17;				
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 			//	TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
@@ -398,7 +398,7 @@ L.IM_Map = L.Map.extend({
 					_grisLayers.removeLayer(ICC_MON_L0);
 				}				
 			}else if(sC==1){
-				MQ_TOPO_GRIS_L7_19.setOpacity(0.9);
+				MQ_TOPO_GRIS_L7_19.setOpacity(1);
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L11_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=10;	
@@ -422,7 +422,7 @@ L.IM_Map = L.Map.extend({
 					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
 				}				
 			}else if(sC==1){
-				COLOR_TOPO_MQ_L7_19.setOpacity(0.9);
+				COLOR_TOPO_MQ_L7_19.setOpacity(1);
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=19;
 				COLOR_TOPO_ICC_L11_19.options.maxZoom=19;				
 				this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
