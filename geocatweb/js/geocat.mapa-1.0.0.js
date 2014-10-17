@@ -288,7 +288,7 @@ function addControlsInici(){
 //			    increaseArea: '20%' // optional
 //		 });
 //		
-
+//
 //		$('.icheckbox_futurico input').on('ifChanged', function(event){
 //			  console.debug("clicked");
 //
@@ -301,7 +301,7 @@ function addControlsInici(){
 //			jQuery(".layers-list input").each(function(){
 //			    var input = $(this);
 //			    console.debug(input);
-//			    var inputObj = 
+////			    var inputObj = 
 //			    
 //				if(!input.layerIdParent){
 //					obj = this._layers[input.layerId];				
@@ -309,6 +309,8 @@ function addControlsInici(){
 //					obj = this._layers[input.layerIdParent]._layers[input.layerId];
 //				}			    
 //			    
+//				console.obj(obj);
+//				
 //			    //insert code here
 //			});
 //			

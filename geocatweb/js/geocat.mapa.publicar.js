@@ -247,7 +247,7 @@ function createModalConfigDownload(){
 	
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
-					window.lang.convert('Selecciona les capes que seran descarregables:')+
+					window.lang.convert('Capes reutilitzables pels altres usuaris:')+
 				'</label>';
 	
 	html += '<div id="div_downloadable">'+
