@@ -138,6 +138,11 @@ return passo;
 
 }
 
+var matriuCapesLL={};
+matriuCapesLL.layers = [];
+matriuCapesLL.n_layers=[];
+matriuCapesLL.id_layers=[];
+
 
 function ompleCapesMatriu(item){
 
@@ -189,6 +194,9 @@ function ompleCapesMatriu(item){
                                                            
                              }else if(tipus.indexOf("Line")!=-1){
                              
+							 
+							 
+							 
                               feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px)";
                              
                              
@@ -202,7 +210,25 @@ function ompleCapesMatriu(item){
                   
                   });
                   //console.info(matriuCapesLL);
-                  matriuCapesLL.layers.push(JSON.stringify(L_JSON));
+                 // matriuCapesLL.layers.push(JSON.stringify(L_JSON));
+				  
+				  
+				  var cache = [];
+ matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
+    if (typeof value === 'object' && value !== null) {
+        if (cache.indexOf(value) !== -1) {
+            // Circular reference found, discard key
+            return;
+        }
+        // Store value in our collection
+        cache.push(value);
+    }
+    return value;
+}));
+cache = null;
+				  
+				  
+						  
                   matriuCapesLL.n_layers.push(item.name);
                   matriuCapesLL.id_layers.push(item.layer.options.businessId);
                   
@@ -210,10 +236,7 @@ function ompleCapesMatriu(item){
             
 }
 
-var matriuCapesLL={};
-matriuCapesLL.layers = [];
-matriuCapesLL.n_layers=[];
-matriuCapesLL.id_layers=[];
+
 
 function getCapesVectorActives(){
       
@@ -291,6 +314,20 @@ function calculaWF() {
 
 }
 
+function tornaLLoc(tr){
+
+ if (L.Browser.webkit) {
+	jQuery(".leaflet-map-pane").css({
+		 left:0,
+		top:0,
+		"transform":tr
+		});
+						
+		}
+						
+
+}
+
 function generaCaptura(_tipusCaptura, w, h, factor) {
 
       if ((!w) || (w == null)) {
@@ -302,18 +339,39 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 //jQuery('#map .leaflet-control-container').attr('data-html2canvas-ignore','true');
 
 
-      
-      var zz=map.getZoom();
-     // console.info(map.getZoom());
-      map.setZoom(zz-1);      
-      //console.info(map.getZoom());
+    /*  
+      var zz=map.getZoom();    
+      map.setZoom(zz-1);          
       map.setZoom(zz);
-      //console.info(map.getZoom());
+     */
+	 
+	
+	 var transform="";
+	 if (L.Browser.webkit) {
+	 
+	if(jQuery(".leaflet-map-pane").css("transform")){
+			var transform=jQuery(".leaflet-map-pane").css("transform")
+
+			var comp=transform.split(",") //split up the transform matrix
+			var mapleft=parseFloat(comp[4]) //get left value
+			var maptop=parseFloat(comp[5])  //get top value
+			$(".leaflet-map-pane").css({ //get the map container. not sure if stable
+			 // "transform":"none",
+			 "transform":"translate3d(0px,0px,0px)",
+			 // "left":mapleft,
+			  //"top":maptop,
+			});
+
+			
+}
+
+	}
+	 
       
-//jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
+jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 //jQuery('#map .leaflet-marker-pane').removeAttr('data-html2canvas-ignore');
 jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore'); 
-jQuery('.leaflet-popup-pane').attr('data-html2canvas-ignore','true');
+
 
       if (_tipusCaptura == CAPTURA_MAPA) {
             
@@ -332,6 +390,12 @@ jQuery('.leaflet-popup-pane').attr('data-html2canvas-ignore','true');
                         ActDesPrintMode(false);
                         var imgData = canvas.toDataURL('image/jpeg', 0.92);
                         //var imgData = canvas.toDataURL('image/png')
+						
+						
+						
+						
+						
+						
                         imgData = JSON.stringify(imgData.replace(
                                    /^data:image\/(png|jpeg);base64,/, ""));
 
@@ -355,6 +419,7 @@ jQuery('.leaflet-popup-pane').attr('data-html2canvas-ignore','true');
                                                jQuery('#desc_img').html(window.lang.convert("Desar mapa") +" <i class='fa fa-picture-o'></i>");                   
                                                jQuery('#bt_desc_img').show();
                                                comportamentCaptura(1);
+											    tornaLLoc(transform);
                                          } else {
                                          
                                          errorCaptura();
@@ -386,6 +451,8 @@ jQuery('.leaflet-popup-pane').attr('data-html2canvas-ignore','true');
                         imgCaptura = JSON.stringify(imgCaptura.replace(
                                    /^data:image\/(png|jpeg);base64,/, ""));
 
+								   
+						 tornaLLoc(transform);		   
                         try {
                              map.spin(false);
                         } catch (Err) {
@@ -404,7 +471,7 @@ jQuery('.leaflet-popup-pane').attr('data-html2canvas-ignore','true');
                                                var img = document.createElement('img');
                                                img.src = urlIMG;
                                                
-                                               
+                                          tornaLLoc(transform);      
                                    //Ruta Galeria
                                                
                                    //          paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid={businessid}        
@@ -421,8 +488,8 @@ imgCaptura="";
                   allowTaint : false,
                   proxy : paramUrl.urlgetImageProxy,
                   background : undefined,
-                  width : parseInt(w/1.5),
-                  height :parseInt(h/1.5),
+                  width : parseInt(w),
+                  height :parseInt(h),
                   logging : false
 
             });
@@ -435,7 +502,7 @@ imgCaptura="";
 
                         ActDesPrintMode(false);
                         var imgData = canvas.toDataURL('image/jpeg', 0.72);
-
+						
                         imgData = JSON.stringify(imgData.replace(
                                    /^data:image\/(png|jpeg);base64,/, ""));
 
@@ -450,7 +517,8 @@ imgCaptura="";
                                                            + results.UUID;                                           
                         jQuery('#img_canvas').attr('src', urlIMG);
                         capturaLlegenda(false);            
-                        comportamentCaptura(2);                                          
+                        comportamentCaptura(2); 
+ tornaLLoc(transform);						
                         window.open("/geocatweb/print.html", "Imprimir",
                                                            "resizable=yes,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes")
 
@@ -504,7 +572,7 @@ imgCaptura="";
 
                         imgData = JSON.stringify(imgData.replace(
                                    /^data:image\/(png|jpeg);base64,/, ""));
-
+						
                         uploadImageBase64(imgData).then(
 
                                    function(results) {
@@ -550,7 +618,7 @@ imgCaptura="";
                                                            
                                                            jQuery('#bt_desc_img').show();
                                                            comportamentCaptura(3);
-                                                           
+                                                           tornaLLoc(transform);
                                                            
                                                            
                                                      }else{

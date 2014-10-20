@@ -871,7 +871,7 @@ background-color:#FFFFFF}
 		width: 240px;
 		float:left;
 		margin: 4px;
-		min-height: 158px;
+		max-height: 158px;
 	}
 	
 	.thumbnail div.nomAplicacio{

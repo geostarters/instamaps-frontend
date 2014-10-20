@@ -1,7 +1,6 @@
  /**
   * Code snippet to track with kissmetrics
   * */ 
-var KM_REFERRER = parent.document.referrer;// Línia a afegir
  var _kmq = _kmq || [];
  var _kmk = _kmk || 'fb9f65f2dd6f9c2790c632b53dd98d18e00d3075';
  function _kms(u){

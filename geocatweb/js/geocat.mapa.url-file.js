@@ -212,7 +212,7 @@ function loadURLfileLayer(layer){
 	var dinamic = false;
 	if(options.dinamic) dinamic = true;
 	
-	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&urlFile="+encodeURIComponent(urlFile)+"&epsgIN="+epsgIN+"&dinamic="+dinamic;
+	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
 	
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 		nom : layer.serverName,

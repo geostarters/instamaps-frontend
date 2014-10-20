@@ -157,7 +157,7 @@ function addLayerToLegend(layer, count, layerIdParent){
 //		html+='<div class="separate-legend-subrow" ></div>';
 		
 	//Dades Obertes y JSON
-	}else if(layer.options.tipus == t_dades_obertes || layer.options.tipus == t_json ){//es un punt
+	}else if(layer.options.tipus == t_dades_obertes || layer.options.tipus == t_json){//es un punt
 		
 		
 		var estil_do = layer.options.estil_do;
@@ -217,20 +217,80 @@ function addLayerToLegend(layer, count, layerIdParent){
 //			html+='<div class="separate-legend-subrow" ></div>';			
 		}
 		
-//	//WMS
-//	}else if(layer.options.tipus == t_wms){	
-//		
-//		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
-//		html += '<input class="col-md-2 legend-chck" type="checkbox" '+checked+' >';
-//		
-//		html += '<div class="col-md-4 legend-symbol">'+
-//					//'<img src="img/paleta1.png" class="btn-paleta" style=""/>'+
-//					'<span>'+layer.options.layers+'</span>'+
-//				'</div>'+
-//				'<div class="col-md-6 legend-name">'+
-//					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
-//				'</div>';
-//		html+='</div>';		
+	//URL FILE
+	}else if(layer.options.tipus == t_url_file){		
+		var type = "";
+		var geometrytype = "";
+		jQuery.each(layer._layers, function(i, lay){
+//			html += addLayerToLegend(sublayer.layer, count, sublayer.layerIdParent);
+			geometrytype = lay.feature.geometry.type.toLowerCase(); 
+			return (geometrytype=="");
+			//			break;
+		});		
+		type = transformTipusGeometry(geometrytype);
+		
+		var estil_do = layer.options.estil_do;
+		
+		if(type == t_marker){
+			console.debug("type");
+			console.debug(type);
+			
+			var mida = getMidaFromRadius(estil_do.radius);
+			size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
+			var color = hexToRgb(estil_do.fillColor);
+			
+			html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+			html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+			html +=	'<div class="col-md-2 legend-symbol">'+
+						'<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+							'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
+							' '+size+'">'+
+						'</div>'+
+					'</div>'+
+					'<div class="col-md-9 legend-name">'+
+						'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+					'</div>';
+			html+='</div>';
+			
+		}else if(type == t_polygon){
+			var color = hexToRgb(estil_do.fillColor);
+			var borderColor = hexToRgb(estil_do.color);
+			var opacity = estil_do.fillOpacity;
+			var borderWidth = estil_do.weight;						
+			var polStyle =	'<svg height="40" width="40">'+
+									'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
+								'</svg>';
+			
+			html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+			html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
+			html += '<div class="col-md-2 legend-symbol">'+
+						polStyle+
+					'</div>'+
+					'<div class="col-md-9 legend-name">'+
+						'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+					'</div>';					
+			
+			html+='</div>';			
+			
+		}else if(type == t_polyline){
+			var color = hexToRgb(estil_do.fillColor);
+			var lineWidth = estil_do.weight;
+			var lineStyle =	'<svg height="30" width="30">'+
+									'<line x1="0" y1="0" x2="30" y2="30" '+
+										'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
+								'</svg>';	
+			
+			html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+			html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
+			html += '<div class="col-md-2 legend-symbol">'+
+						lineStyle +
+					'</div>'+
+					'<div class="col-md-9 legend-name">'+
+						'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+					'</div>';					
+			html+='</div>';				
+		}
 		
 		
 	//XARXES SOCIALS

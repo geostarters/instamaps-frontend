@@ -494,6 +494,13 @@ function loadLayer(value){
 		loadCapaFromJSON(value).then(function(){
 			defer.resolve();
 		});
+		//Si la capa es de tipus url file
+	}else if(value.serverType == t_url_file){
+//		loadURLfileLayer(value).then(function(){
+//			defer.resolve();
+//		});	
+		loadURLfileLayer(value);
+		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
 		loadDadesObertesLayer(value).then(function(){
