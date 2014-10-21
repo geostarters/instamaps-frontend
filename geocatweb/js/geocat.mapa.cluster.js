@@ -1,6 +1,7 @@
 function creaClusterMap(capa) {
 
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'cluster', 1]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'cluster'}]);
 	
 	var nom = window.lang.convert("Agrupació");
 	
@@ -54,7 +55,7 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 //					$(".layers-list").mCustomScrollbar({
 //						   advanced:{
@@ -256,7 +257,6 @@ function loadDadesObertesClusterLayer(layer){
 
 
 function loadJsonClusterLayer(layer){
-	console.debug("loadJsonClusterLayer");
 	
 	var options = jQuery.parseJSON( layer.options );
 

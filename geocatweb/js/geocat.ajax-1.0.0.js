@@ -590,6 +590,17 @@ function getUserSimple(data){
 	}).promise();
 }
 
+function uploadImageBase64(data){
+	return jQuery.ajax({
+		url: paramUrl.urluploadBase64,		
+		data: data,		
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'POST',
+		dataType: 'json'
+	}).promise();
+}	
+
+
 function createGeoPdfMap(data){
 	return jQuery.ajax({
 		url: paramUrl.urlgetMapImage,
@@ -598,4 +609,15 @@ function createGeoPdfMap(data){
 		method: 'POST',
 		dataType: 'json'
 	}).promise();
+}	
+
+function updatePasswordIcgc(data){
+	return jQuery.ajax({
+		url: paramUrl.updatePasswordIcgc,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
 }
+

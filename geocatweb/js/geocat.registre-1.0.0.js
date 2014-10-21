@@ -65,6 +65,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 					if(results.status==='OK'){
 						
 						_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
+						_kmq.push(['record', 'registre', {'from':trackEventFrom, 'funnel':'activation'}]);
 						
 						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						

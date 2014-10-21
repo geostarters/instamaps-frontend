@@ -1,0 +1,8 @@
+# robots.txt
+User-agent: *
+Disallow: 
+Disallow: /llibreries/
+Disallow: /mapcache/
+Disallow: /maps/
+Disallow: /missatges/
+Disallow: /share/

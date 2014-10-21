@@ -46,6 +46,7 @@
 //
 //var msg_noguarda = "Per publicar o compartir el mapa has d'iniciar sessió";
 
+
 var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
 var proxydir = "maps";
@@ -157,8 +158,11 @@ var paramUrl = {
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
 	getUserSimple: HOST_APP+"geocat/user/getUserSimple.action?",
 	publicarMapConfig: HOST_APP+"geocat/aplications/map/publicarMapConfig.action?",
+	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?",
+	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
-	getCacheMapByBusinessId: HOST_APP+"geocat/aplications/map/getCacheMapByBusinessId.action?"
+	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
+	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

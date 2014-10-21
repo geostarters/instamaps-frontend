@@ -90,7 +90,7 @@ L.Twitter = L.FeatureGroup.extend({
 		
 		getTwitterLayer(data).then(function(results){
 			if(results.status==='OK'){
-				console.debug('twitter ok');
+//				console.debug('twitter ok');
 				_this._load(results.results);
 			}else{
 				console.debug('Error al carregar capa twitter');

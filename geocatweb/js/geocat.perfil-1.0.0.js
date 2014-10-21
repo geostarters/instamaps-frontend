@@ -8,11 +8,15 @@ jQuery(document).ready(function() {
 	$("#text-uid").append(username);
 	
 	getUserData(username).then(function(results){
-		console.debug(results);
+//		console.debug(results);
 		if(results.status==='OK'){
+			/*
 			$("#perfil_name").val(results.results.cn);
 			$("#perfil_surname").val(results.results.sn);
 			$("#perfil_email").val(results.results.mail);
+			*/
+			$("#perfil_nomEntitatComplert").val(results.results.nomEntitatComplert);
+			$("#perfil_email").val(results.results.email);
 			old_email = results.results.mail;
 		}else{
 			alert("Error al recuperar les dades");
@@ -41,7 +45,7 @@ jQuery(document).ready(function() {
 			$('#deleteOptionValue').val(deleteOpt);
 			
 			$('#button-delete-ok-conf').on('click',function(){
-				console.debug($('#deleteOptionValue').val());
+//				console.debug($('#deleteOptionValue').val());
 				var data = {
 					uid: $.cookie('uid'),
 					type: $('#deleteOptionValue').val()
@@ -67,11 +71,18 @@ jQuery("#perfil_button_pass").click(function(){
 	
 	if(!$("span").hasClass("text_error")){
 		$("#modal-message").remove();
-		updateUserPassword($.cookie('uid'), new_pass, old_pass).then(function(results){
+		
+		var data = {
+			uid: $.cookie('uid'), 
+            userPassword: old_pass, 
+            newPassword: new_pass
+        };
+		//updateUserPassword($.cookie('uid'), new_pass, old_pass).then(function(results){
+		updatePasswordIcgc(data).then(function(results){
 			if(results.status==='OK'){
 				$('#modal_pass_ok').modal('toggle');
-
-			}else if(results.results === "NamingException"){
+				$('#frm_update_pssw').toggle();
+			}else if(results.results === "cannot_authenticate"){
 				$('#modal_pass_ko1').modal('toggle');
 			}else{
 				$('#modal_pass_ko2').modal('toggle');

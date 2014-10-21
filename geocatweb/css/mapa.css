@@ -564,6 +564,7 @@ background-color: #9F9F9E;
 	/*height: 50px;*/
 	margin: 10px 5px 0;
 	float: auto;
+	z-index: 10;
 }
 
 .div_gr5 div {
@@ -989,7 +990,8 @@ i.fa {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	height: 100%;
-    min-width: 260px;	
+    min-width: 260px;
+    z-index: 10;	
 	/*z-index: 2000;
 	height: 100%;
 	*/
@@ -1721,7 +1723,7 @@ i.fa {
     opacity: 0.8;
     padding: 0 10px;
     position: absolute;
-    z-index: 1000;
+    z-index: 9;
 }
 
 #logos.logos{
@@ -3854,9 +3856,22 @@ i.fa {
 .llista-teves-dades li:hover {
 	background-color: #eaeaea;	
 }
-#modal-title-teves-dades{
+#modal-title-teves-dades,
+#modal-title-publicar{
 	font-size: 16px;
 }
+
+#iframeMap, #urlMap{background-color: #eeeeee;}
+
+#urlVisorMap {
+    border: 1px none black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px;
+    text-align: center;
+}
+
+#urlVisorMap a:hover{decoration:none;}
 
 .layers-list{
 	overflow: hidden;
@@ -3872,4 +3887,11 @@ i.fa {
 	-moz-box-sizing: content-box;
     height: 100%;
     position: relative;	
+}
+
+.geopdf,.geopdf a,.geopdf div {
+	color: #464646 !important;
+	cursor: pointer;
+	font-size: 17px;
+	font-weight: bold;
 }

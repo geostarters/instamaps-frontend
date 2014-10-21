@@ -22,6 +22,8 @@ function generaLListaDadesObertes() {
 function addCapaDadesObertes(dataset,nom_dataset) {
 
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades obertes', nom_dataset, 1]);
+	_kmq.push(['record', 'dades obertes', {'from':'mapa', 'tipus user':tipus_user, 'dataset':nom_dataset}]);
+	
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 	var estil_do = retornaEstilaDO(dataset);
 	
@@ -123,7 +125,6 @@ function loadDadesObertesLayer(layer){
 	var defer = $.Deferred();
 	
 	var options = jQuery.parseJSON( layer.options );
-	console.debug(options.tem);
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
 		var estil_do = options.estil_do;	

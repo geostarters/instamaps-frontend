@@ -16,7 +16,6 @@ var objEdicio={'esticEnEdicio':false,'obroModalFrom':'creaCapa','featureID':null
 
 function addDialegEstilsDraw() {
 	
-	console.debug("addDialegEstilsDraw");
 	addHtmlInterficieDraw();
 	
 	jQuery('#div_mes_punts').on("click", function(e) {	
@@ -383,6 +382,7 @@ function activaEdicioUsuari() {
 		var tipusCat,tipusCatDes;
 	
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dibuixar geometria', type, 1]);
+		_kmq.push(['record', 'dibuixar geometria', {'from':'mapa', 'tipus user':tipus_user, 'type':type}]);
 
 		if (type === t_marker) {
 			tipusCat=window.lang.convert('Títol Punt');
@@ -582,7 +582,7 @@ function createPopupWindow(layer,type){
 	 
 	 jQuery(document).on('change', ".bs-ncapa li select", function(e) {
 		    e.stopImmediatePropagation();
-		    console.debug('on change select cmbusrcapa');
+//		    console.debug('on change select cmbusrcapa');
 			var accio;
 			if(jQuery(this).attr('id').indexOf('-')!=-1){			
 				accio=jQuery(this).attr('id').split("-");				
@@ -677,7 +677,6 @@ function createPopupWindow(layer,type){
 	        };
 			deleteFeature(data).then(function(results){
 				if(results.status == 'OK'){
-					console.debug("OK deletefeature");
 					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
 					map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);
 					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);					
@@ -693,7 +692,6 @@ function createPopupWindow(layer,type){
 			modeEditText();
 		}else if(accio[0].indexOf("feature_move")!=-1){
 			objEdicio.esticEnEdicio=true;
-			console.debug(objEdicio);
 			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;						
 			//Actualitzem capa activa
 			if (capaUsrActiva){
@@ -1169,7 +1167,6 @@ function createPopUpContent(player,type){
 }
 
 function generaNovaCapaUsuari(feature,nomNovaCapa){
-	console.debug('generaNovaCapa');
 	var data = {
         uid: $.cookie('uid'),
         description: jQuery('#des_edit').val(),
@@ -1185,7 +1182,6 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 	//Creem nova capa tematic
 	createTematicLayerEmpty(data).then(function(results){
 			if(results.status==='OK'){
-				console.debug("createTematicLayerEmpty OK");
 				
 				capaUsrActiva2= new L.FeatureGroup();
 				capaUsrActiva2.options = {
@@ -1221,7 +1217,6 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				
 				moveFeatureToTematic(data).then(function(results){
 						if(results.status=='OK'){
-							console.debug("moveFeatureToTematic OK");
 							if(capaUsrActiva) capaUsrActiva.removeLayer(feature);
 							capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
 							//feature.openPopup();
@@ -1269,7 +1264,6 @@ function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusi
         }				
 		moveFeatureToTematic(data).then(function(results){
 			if(results.status=='OK'){
-				console.debug("moveFeatureToTematic OK");
 				capaUsrActiva.removeLayer(feature);
 				capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
 				feature.openPopup();
@@ -1465,12 +1459,12 @@ function updateFeatureCount(fromBusinessId, toBusinessId){
 		toCount=toCount+1;
 		$("#count-"+toBusinessId).html(' ('+toCount+')');		
 	}
-	console.debug("Fi updateFeatureCount");
+//	console.debug("Fi updateFeatureCount");
 }
 
 function addHtmlInterficieDraw(){
 	jQuery("#funcio_draw").append(
-		'<h5 lang="ca">Situar un punt</h5>'+
+		'<h5 lang="ca" id="funcio_draw_titol_1">Situar un punt</h5>'+
 		'	<div class="add_costat_r" style="margin-right: 33%;">'+
 		'	<div lang="ca" id="div_mes_punts" data-toggle="tooltip"	title="Més tipus de punts" class="icon-add taronja"></div>'+
 		'</div>'+
@@ -1478,7 +1472,7 @@ function addHtmlInterficieDraw(){
 		'	<div id="div_punt" lang="ca" data-toggle="tooltip" title="Clica per situar un punt" class="dibuix_punt">'+
 		'	</div>'+
 		'</div>'+
-		'<h5 lang="ca">Dibuixar una línia o un polígon</h5>'+
+		'<h5 lang="ca" id="funcio_draw_titol_2">Dibuixar una línia o un polígon</h5>'+
 		'<div class="div_auto">'+
 		'	<div id="div_linia" lang="ca" data-toggle="tooltip"	title="Clica per començar a dibuixar una línia"	class="dibuix_linia">'+
 		'	<canvas id="cv_linia" width="40" height="40"></canvas>'+

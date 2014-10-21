@@ -9,6 +9,7 @@ function addOpcionsFonsMapes() {
 	jQuery('.div_gr3_fons div').on('click', function() {
 		var fons = jQuery(this).attr('id');
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
+		_kmq.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
 		if (fons == 'topoMap') {
 			map.topoMap();
 		} else if (fons == 'topoMapGeo') {
@@ -47,10 +48,12 @@ function creaPopOverMesFons() {
 		var fons = jQuery(this).attr('id');
 		if (fons == 'historicMap') {
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
+			_kmq.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
 			map.historicMap();
 		}
 		if (fons == 'historicOrtoMap') {
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
+			_kmq.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
 			map.historicOrtoMap();
 		}
 		
@@ -83,6 +86,7 @@ function creaPopOverMesFonsColor() {
 	jQuery(document).on('click', "#div_menufons div", function(e) {
 		var fons = jQuery(this).attr('id');
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
+		_kmq.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
 		if (fons == 'topoGrisMap') {
 			map.topoGrisMap();
 		}else{

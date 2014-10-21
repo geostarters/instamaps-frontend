@@ -9,7 +9,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 	if(dinamic){
 		
 		var param_url = paramUrl.urlFile	+ "tipusFile=" + tipusFile+
-											 "&urlFile="+urlFile+
+											 "&urlFile="+encodeURIComponent(urlFile)+
 											 "&epsgIN="+epsgIN+
 											 "&dinamic="+dinamic+
 											 "&uploadFile="+paramUrl.uploadFile+
@@ -51,12 +51,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 				    return latlng.bindPopup(html);
 				  },			  
 			  middleware:function(data){
-			    	console.debug("capaURLfile");
-			    	console.debug(capaURLfile);				  
+//			    	console.debug("capaURLfile");
+//			    	console.debug(capaURLfile);				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
-					  console.debug(data);	
+//					  console.debug(data);	
 					  capaURLfile.addData(data);
 					  
 						//Un cop tinc la capa a client, la creo a servidor
@@ -88,6 +88,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 									if (results.status == "OK"){
 										
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques', urlFile, 1]);
+										_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'dinamiques'}]);
 										
 										jQuery('#dialog_dades_ex').modal('toggle');					
 										capaURLfile.options.businessId = results.results.businessId;
@@ -157,6 +158,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 					if (results.status == "OK") {
 
 						_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
+						_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'no dinamiques'}]);
 						
 						results.results.urlFile = true;
 						loadTematicLayer(results.results).then(function(results1){
@@ -197,6 +199,7 @@ function processFileError(data){
 	}
 	
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
+	_kmq.push(['record', 'dades externes error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':data.results}]);
 	
 	jQuery("#div_url_file_message").html(txt_error);
 //	jQuery('#div_url_file').removeClass('waiting_animation');
@@ -212,7 +215,7 @@ function loadURLfileLayer(layer){
 	var dinamic = false;
 	if(options.dinamic) dinamic = true;
 	
-	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&urlFile="+urlFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic;
+	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
 	
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 		nom : layer.serverName,
@@ -254,7 +257,7 @@ function loadURLfileLayer(layer){
 		
 	capaURLfileLoad.on('data:loaded', function(e){
 		
-		console.debug("capaURLfileLoad loaded");
+//		console.debug("capaURLfileLoad loaded");
 		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaURLfileLoad.addTo(map);
 		}

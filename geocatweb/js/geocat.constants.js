@@ -154,6 +154,12 @@ var capesOrdre_sublayer = "sublayer";//10000;
 
 var msg_noguarda = "Per publicar o compartir el mapa has d'iniciar sessió";
 
+var CAPTURA_MAPA = "captura_mapa";
+var CAPTURA_GALERIA = "captura_galeria";
+var CAPTURA_INFORME = "captura_informe";
+var CAPTURA_FONS = "captura_fons";
+var CAPTURA_GEOPDF = "captura_geopdf";
+
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
 		"dadesExternes" : [

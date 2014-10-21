@@ -101,24 +101,24 @@ function checkUserLogin(){
 
 function web_menusIdioma(lsLang){
 	jQuery('#ch_idioma li').each(function() {
-	jQuery(this).removeClass('active');
+		jQuery(this).removeClass('active');
 		if (jQuery(this).attr('id') ==lsLang){
-		jQuery(this).addClass('active');
+			jQuery(this).addClass('active');
 		}
-
-	jQuery(this).click(function() {
-	jQuery('#ch_idioma li').removeClass('active');
-	jQuery(this).addClass('active');
 	
-      canviaIdioma(jQuery(this).attr('id'));
-    });
+		jQuery(this).click(function() {
+			jQuery('#ch_idioma li').removeClass('active');
+			jQuery(this).addClass('active');
+		
+			canviaIdioma(jQuery(this).attr('id'));
+	    });
   });
 }
 
 
 function canviaIdioma(lsLang){
 	//console.info("entro");
-	//console.debug(lsLang);
+//	console.debug(lsLang);
 	window.lang.change(lsLang);
 	$("body").trigger( "change-lang", lsLang );
 }
@@ -295,11 +295,11 @@ function addHtmlModalLeave(){
 		'				</div>'+
 		'				<div class="modal-footer">'+
 		'					<button lang="ca" type="button" class="btn bt-sessio"'+ 
-		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'inici sessio\', \'modal inici mapa\']);">Inicia la sessió</button>'+
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'inici sessio\', \'modal inici mapa\']);_kmq.push([\'record\', \'inici sessio\', {\'from\':\'mapa\', \'funnel\':\'retention\', \'usuari from\':\'modal inici mapa\'}]);">Inicia la sessió</button>'+
 		'					<button lang="ca" type="button" class="btn bt_orange"'+ 
-		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'registre\', \'modal inici mapa\']);">Crea un compte</button>'+
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'registre\', \'modal inici mapa\']);_kmq.push([\'record\', \'registre\', {\'from\':\'mapa\', \'funnel\':\'acquisition\', \'usuari from\':\'modal inici mapa\'}]);">Crea un compte</button>'+
 		'					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
-		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'guest\', \'modal inici mapa\']);">Més tard</button>'+
+		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'guest\', \'modal inici mapa\']);_kmq.push([\'record\', \'guest\', {\'from\':\'mapa\', \'usuari from\':\'modal inici mapa\'}]);">Més tard</button>'+
 		'				</div>'+
 		'			</div>'+
 		'			<!-- /.modal-content -->'+

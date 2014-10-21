@@ -4,7 +4,8 @@
 
 function createTematicLayerBasic(tematic, styles){
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'basic'}]);
 	
 	var rangs = getRangsFromStyles(tematic, styles);
 	var capaMare = controlCapes._layers[tematic.leafletid].layer;
@@ -87,7 +88,7 @@ function createTematicLayerBasic(tematic, styles){
 		};		
 		
 		createServidorInMap(data).then(function(results){
-			console.debug(results.results);
+//			console.debug(results.results);
 			loadCapaFromJSON(results.results);
 		});
 		
@@ -109,7 +110,7 @@ function createTematicLayerBasic(tematic, styles){
 		
 		duplicateTematicLayer(data).then(function(results){
 			if(results.status == 'OK'){
-				console.debug(results.results);
+//				console.debug(results.results);
 				loadTematicLayer(results.results);
 				activaPanelCapes(true);
 			}else{

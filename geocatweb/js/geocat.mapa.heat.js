@@ -1,7 +1,8 @@
 
 function createHeatMap(capa){
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'heatmap', 1]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'heatmap', 1]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'heatmap'}]);
 	
 	var nom = window.lang.convert("Concentració");
 	//Heatmap
@@ -60,7 +61,7 @@ function createHeatMap(capa){
 					map.addLayer(heatLayerActiu);
 					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 //					$(".layers-list").mCustomScrollbar({
 //						   advanced:{

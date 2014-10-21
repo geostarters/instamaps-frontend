@@ -37,13 +37,17 @@
                 
                 // each instance of this plugin
                 return this.each(function() {
+                	
+                	
+                	
                     var $element = $(this),
                         id=$element.attr("id"),
                         u=encodeURIComponent(pageUrl),
                         t=encodeURIComponent(pageTitle),
                         d=pageDesc.substring(0,250),
                         href;
-
+                    t = t.replace("'","%27" );
+                    
                     //Per GA saber si venim de mapa o visor, al compartir
                     var lfrom = id.split("_");
                     var from = "mapa";
@@ -97,7 +101,8 @@
                     
                     // bind click
                     $('.pop-social').on('click',function(){
-                    	_gaq.push(['_trackEvent', $(this).attr('data-from'), tipus_user+'compartir', $(this).attr('data-type'), 1]);	
+                    	_gaq.push(['_trackEvent', $(this).attr('data-from'), tipus_user+'compartir', $(this).attr('data-type'), 1]);
+                    	_kmq.push(['record', 'compartir', {'from':$(this).attr('data-from'), 'tipus user': tipus_user_txt, 'xarxa social':$(this).attr('data-type')}]);
                         window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
                         return false;
                     });
@@ -110,7 +115,9 @@
 
         var helpers = {
             networkDefs: {
-                facebook:{url:'http://www.facebook.com/share.php?p[url]=|u|&p[images][0]=http://www.lostiemposcambian.com/blog/posts/share-fb/img/200x200_lostiemposcambian_ejemplo_facebook_foto3.jpg'},
+//                facebook:{url:'http://www.facebook.com/share.php?p[url]=|u|'},
+                facebook:{url:'https://www.facebook.com/dialog/share_open_graph?app_id=620717167980164&display=popup&action_type=og.likes&action_properties=%7B%22object%22%3A%22|u|%22%7D&redirect_uri=http%3A%2F%2Fwww.instamaps.cat%2Fgeocatweb%2Fgaleria.html'},
+//                facebook:{url:'http://www.facebook.com/share.php?p[url]=|u|&p[images][0]=http://www.instamaps.cat/geocatweb/img/heatmap.png'},
                 //http://twitter.com/home?status=jQuery%20Share%20Social%20Media%20Plugin%20-%20Share%20to%20multiple%20social%20networks%20from%20a%20single%20form%20http://plugins.in1.com/share/demo
                 twitter:{url:'https://twitter.com/share?url=|u|&text=|d|'},
                 linkedin:{url:'http://www.linkedin.com/shareArticle?mini=true&url=|u|&title=|t|&summary=|d|&source=in1.com'},

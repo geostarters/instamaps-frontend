@@ -12,6 +12,8 @@ function addControlPublicar(){
 		jQuery('.bt_publicar').on('click',function(){
 			jQuery('.modal').modal('hide');
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
+			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
+			
 			$('#dialgo_publicar_random').modal('show');
 			
 			jQuery('#dialgo_publicar_random .bt-sessio').on('click',function(){
@@ -34,6 +36,7 @@ function addControlPublicar(){
 		jQuery('.bt_publicar').on('click',function(){
 			
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
+			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
 			
 			//actualizar los campos del dialogo publicar
 			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
@@ -96,6 +99,8 @@ function addControlPublicar(){
 			v_url = v_url.replace('localhost',DOMINI);			
 			urlMap = v_url.replace('mapa','visor');		
 			
+			//$('#urlVisorMap').html('<a href="'+urlMap+'" target="_blank" lang="ca">Anar a la visualització del mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a>');
+			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
 			$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 		});
@@ -150,8 +155,8 @@ function publicarMapa(fromCompartir){
 	
 	//Revisio de capes amb permis de descarrega
 	updateDownloadableData();
-	console.debug('downloadableData');
-	console.debug(downloadableData);
+//	console.debug('downloadableData');
+//	console.debug(downloadableData);
 	
 	options.layers = true;
 	options.social = true;
@@ -160,7 +165,7 @@ function publicarMapa(fromCompartir){
 	options.idusr = jQuery('#userId').val();
 	options.downloadable = downloadableData;
 	
-	console.debug(options);
+//	console.debug(options);
 	options = JSON.stringify(options);
 		
 	var newMap = true;
@@ -189,6 +194,7 @@ function publicarMapa(fromCompartir){
 	
 	//Enregistrem tipus de fons i visibilitat
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat+"#"+map.options.typeMap, 1]);
+	_kmq.push(['record', 'publicar', {'from':'mapa', 'tipus user':tipus_user, 'visibilitat':visibilitat,'tipus fons':map.options.typeMap}]);
 	
 	//crear los archivos en disco
 	var layersId = getBusinessIdOrigenLayers();
@@ -197,6 +203,9 @@ function publicarMapa(fromCompartir){
 		servidorWMSbusinessId: layersId
 	};
 	publicarCapesMapa(laydata);
+	
+	//Captura Map per la Galeria
+	capturaPantalla(CAPTURA_GALERIA);	
 	
 	if (newMap){
 		createMap(data).then(function(results){
@@ -244,8 +253,8 @@ function createModalConfigDownload(){
 	
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
-					window.lang.convert('Selecciona les capes que seran descarragables:')+
-				'</label>';
+					window.lang.convert('Capes reutilitzables pels altres usuaris:')+
+				'</label>&nbsp;<span class="glyphicon glyphicon-download-alt"></span>';
 	
 	html += '<div id="div_downloadable">'+
 				'<div class="separate-downloadable-row-all"></div>'+
@@ -263,8 +272,11 @@ function createModalConfigDownload(){
 		var layerName = layer.options.nom;
 		var checked = "";
 		
+		//Si té checkec definit
 		if(downloadableData[layer.options.businessId]){
 			if(downloadableData[layer.options.businessId][0].chck) checked = 'checked="checked"';
+		}else{//Sino per defecte check
+			checked = 'checked="checked"'
 		}		
 		
 		html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
@@ -277,28 +289,28 @@ function createModalConfigDownload(){
 	});	
 	$('#dialgo_publicar .modal-body .modal-downloadable').html(html);	
 	
-	$('#div_downloadable input').iCheck({
-	    checkboxClass: 'icheckbox_flat-blue',
-	    radioClass: 'iradio_flat-blue'
-	});	
-	
-	$('.downloadable-subrow-all input').on('ifChecked', function(event){
-		  //alert(event.type + ' callback');
-		  $('.downloadable-subrow input').iCheck('check');
-	});
-	
-	$('.downloadable-subrow-all input').on('ifUnchecked', function(event){
-//		  alert(event.type + ' callback');
-		  $('.downloadable-subrow input').iCheck('uncheck');
-	});	
-	
-//	$('#downloadable-chck-all').on('click', function(e){
-//		 if($('#downloadable-chck-all').is(':checked')){
-//			 $('.downloadable-chck').prop('checked', true);
-//		 }else{
-//			 $('.downloadable-chck').prop('checked', false);
-//		 }
+//	$('#div_downloadable input').iCheck({
+//	    checkboxClass: 'icheckbox_flat-blue',
+//	    radioClass: 'iradio_flat-blue'
 //	});	
+//	
+//	$('.downloadable-subrow-all input').on('ifChecked', function(event){
+//		  //alert(event.type + ' callback');
+//		  $('.downloadable-subrow input').iCheck('check');
+//	});
+//	
+//	$('.downloadable-subrow-all input').on('ifUnchecked', function(event){
+////		  alert(event.type + ' callback');
+//		  $('.downloadable-subrow input').iCheck('uncheck');
+//	});	
+	
+	$('#downloadable-chck-all').on('click', function(e){
+		 if($('#downloadable-chck-all').is(':checked')){
+			 $('.downloadable-chck').prop('checked', true);
+		 }else{
+			 $('.downloadable-chck').prop('checked', false);
+		 }
+	});	
 }
 
 function updateDownloadableData(){
@@ -410,11 +422,11 @@ function addHtmlModalPublicar(){
 			'			</div>'+
 			'			<div class="modal-footer">'+
 			'				<button lang="ca" type="button" class="btn bt-sessio"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "inici sessio", "modal pre-publicar"]);">Inicia la sessió</button>'+
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "inici sessio", "modal pre-publicar"]);_kmq.push([\'record\', \'inici sessio\', {\'from\':\'mapa\', \'funnel\':\'retention\', \'usuari from\':\'modal pre-publicar\'}]);">Inicia la sessió</button>'+
 			'				<button lang="ca" type="button" class="btn bt_orange"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "registre", "modal pre-publicar"]);">Crea un compte</button>'+
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "registre", "modal pre-publicar"]);_kmq.push([\'record\', \'registre\', {\'from\':\'mapa\', \'funnel\':\'acquisition\', \'usuari from\':\'modal pre-publicar\'}]);">Crea un compte</button>'+
 			'				<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "guest", "modal pre-publicar"]);">Més tard</button>'+					
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "guest", "modal pre-publicar"]);_kmq.push([\'record\', \'guest\', {\'from\':\'mapa\', \'usuari from\':\'modal pre-publicar\'}]);">Més tard</button>'+					
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+
@@ -442,11 +454,11 @@ function addHtmlModalIframePublicar(){
 	'	<!-- Modal Url/iframe -->'+
 	'		<div id="dialgo_url_iframe" class="modal fade">'+
 	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 lang="ca" class="modal-title">Mapa publicat</h4>'+
+	'					<h4 lang="ca" id="modal-title-publicar" class="modal-title">Mapa publicat</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="form-group">'+
@@ -457,9 +469,10 @@ function addHtmlModalIframePublicar(){
 	'					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>'+
 	'					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>'+
 	'				  	</div>'+
+	'					<div id="urlVisorMap"><a href="" target="_blank" lang="ca">Veure el mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a></div>'+		
 	'				</div>'+
 	'				<div class="modal-footer">'+
-	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'					<button lang="ca" type="button" class="btn btn-success btn-default"'+
 	'						data-dismiss="modal">Acceptar</button>'+
 	'				</div>'+
 	'			</div>'+

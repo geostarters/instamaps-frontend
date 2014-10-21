@@ -54,40 +54,40 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
-        var SRS=this.wmsParams.srs;
-        var BBOX=bounds.toBBoxString();
-	      if(SRS.indexOf('3857')!=-1){
-	            var NW = L.CRS.EPSG3857.project(bounds.getNorthWest());
-	            var SE = L.CRS.EPSG3857.project(bounds.getSouthEast());
-	              
-	             BBOX=NW.x+","+SE.y+","+SE.x+","+NW.y;
-	      
-	      }
-        // Construct a GetFeatureInfo request URL given a point
-        var point = this._map.latLngToContainerPoint(latlng, this._map.getZoom()),
-        size = this._map.getSize(),
-        params = {
-              request: 'GetFeatureInfo',
-              service: 'WMS',
-              srs: SRS,
-              styles: this.wmsParams.styles,
-              transparent: this.wmsParams.transparent,
-              version: this.wmsParams.version,
-              format: this.wmsParams.format,
-              bbox: BBOX,
-              //bbox: ""+bounds.getSouth()+","+bounds.getWest()+","+bounds.getNorth()+","+bounds.getEast()+"",
-              height: size.y,
-              width: size.x,
-              layers: this.wmsParams.layers,
-              query_layers: this.wmsParams.layers,
-              info_format: 'text/html'
-        };
-        params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
-        params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
-        return this._url + L.Util.getParamString(params, this._url, true);
-        
-        return params;
-
+		var SRS=this.wmsParams.srs;
+		var BBOX=bounds.toBBoxString();
+			if(SRS.indexOf('3857')!=-1){
+				var NW = L.CRS.EPSG3857.project(bounds.getNorthWest());
+				var SE = L.CRS.EPSG3857.project(bounds.getSouthEast());
+				  
+				 BBOX=NW.x+","+SE.y+","+SE.x+","+NW.y;
+			
+			}
+		
+		// Construct a GetFeatureInfo request URL given a point
+		var point = this._map.latLngToContainerPoint(latlng, this._map.getZoom()),
+		size = this._map.getSize(),
+		params = {
+			request: 'GetFeatureInfo',
+			service: 'WMS',
+			srs: SRS,
+			styles: this.wmsParams.styles,
+			transparent: this.wmsParams.transparent,
+			version: this.wmsParams.version,
+			format: this.wmsParams.format,
+			bbox: BBOX,
+			//bbox: ""+bounds.getSouth()+","+bounds.getWest()+","+bounds.getNorth()+","+bounds.getEast()+"",
+			height: size.y,
+			width: size.x,
+			layers: this.wmsParams.layers,
+			query_layers: this.wmsParams.layers,
+			info_format: 'text/html'
+		};
+		params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
+		params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
+		return this._url + L.Util.getParamString(params, this._url, true);
+		
+		return params;
 	},
 	showGetFeatureInfo: function (err, latlng, content) {
 		if (err) { console.log(err); return; } // do nothing if there's an error
