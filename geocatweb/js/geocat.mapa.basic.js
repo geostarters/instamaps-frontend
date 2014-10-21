@@ -4,7 +4,8 @@
 
 function createTematicLayerBasic(tematic, styles){
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);	
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);
+	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'basic'}]);
 	
 	var rangs = getRangsFromStyles(tematic, styles);
 	var capaMare = controlCapes._layers[tematic.leafletid].layer;
