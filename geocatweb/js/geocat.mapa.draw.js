@@ -1464,7 +1464,7 @@ function updateFeatureCount(fromBusinessId, toBusinessId){
 
 function addHtmlInterficieDraw(){
 	jQuery("#funcio_draw").append(
-		'<h5 lang="ca">Situar un punt</h5>'+
+		'<h5 lang="ca" id="funcio_draw_titol_1">Situar un punt</h5>'+
 		'	<div class="add_costat_r" style="margin-right: 33%;">'+
 		'	<div lang="ca" id="div_mes_punts" data-toggle="tooltip"	title="Més tipus de punts" class="icon-add taronja"></div>'+
 		'</div>'+
@@ -1472,7 +1472,7 @@ function addHtmlInterficieDraw(){
 		'	<div id="div_punt" lang="ca" data-toggle="tooltip" title="Clica per situar un punt" class="dibuix_punt">'+
 		'	</div>'+
 		'</div>'+
-		'<h5 lang="ca">Dibuixar una línia o un polígon</h5>'+
+		'<h5 lang="ca" id="funcio_draw_titol_2">Dibuixar una línia o un polígon</h5>'+
 		'<div class="div_auto">'+
 		'	<div id="div_linia" lang="ca" data-toggle="tooltip"	title="Clica per començar a dibuixar una línia"	class="dibuix_linia">'+
 		'	<canvas id="cv_linia" width="40" height="40"></canvas>'+

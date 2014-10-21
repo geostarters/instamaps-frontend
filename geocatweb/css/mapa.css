@@ -1723,7 +1723,7 @@ i.fa {
     opacity: 0.8;
     padding: 0 10px;
     position: absolute;
-    z-index: 1000;
+    z-index: 9;
 }
 
 #logos.logos{

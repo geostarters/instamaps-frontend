@@ -101,24 +101,24 @@ function checkUserLogin(){
 
 function web_menusIdioma(lsLang){
 	jQuery('#ch_idioma li').each(function() {
-	jQuery(this).removeClass('active');
+		jQuery(this).removeClass('active');
 		if (jQuery(this).attr('id') ==lsLang){
-		jQuery(this).addClass('active');
+			jQuery(this).addClass('active');
 		}
-
-	jQuery(this).click(function() {
-	jQuery('#ch_idioma li').removeClass('active');
-	jQuery(this).addClass('active');
 	
-      canviaIdioma(jQuery(this).attr('id'));
-    });
+		jQuery(this).click(function() {
+			jQuery('#ch_idioma li').removeClass('active');
+			jQuery(this).addClass('active');
+		
+			canviaIdioma(jQuery(this).attr('id'));
+	    });
   });
 }
 
 
 function canviaIdioma(lsLang){
 	//console.info("entro");
-	//console.debug(lsLang);
+//	console.debug(lsLang);
 	window.lang.change(lsLang);
 	$("body").trigger( "change-lang", lsLang );
 }

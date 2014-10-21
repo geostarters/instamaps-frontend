@@ -103,6 +103,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Defineix les categories":"Define las categorías",
 	"Desa'l i decideix si fer-lo públic o privat": "Guárdalo y decide si hacerlo público o privado",
 	"Descarrega":"Descarga",
+	"descarrega":"descarga",
 	"Descarrega de dades":"Descarga de datos",
 	"Descripció":"Descripción",
 	"Descripció Línia":"Descripción Línea",

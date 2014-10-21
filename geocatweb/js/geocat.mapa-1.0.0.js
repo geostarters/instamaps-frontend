@@ -14,11 +14,6 @@ jQuery(document).ready(function() {
 		//jQuery("#mapaFond").show();
 		
 	}else{
-		//Actulitza idioma dels tooltips
-		$("body").on("change-lang", function(event, lang){
-			addToolTipsInici();
-		});
-		
 		if (tipus_user == t_user_loginat){
 			var data = {
 					uid: $.cookie('uid')
@@ -120,6 +115,26 @@ function loadApp(){
 							initControls();
 							//careguem funcionalitats:
 							loadControls(results);
+							
+							//Actualitzar idiomes
+							$('#funcio_draw #funcio_draw_titol_1').html(window.lang.convert("Situar un punt"));
+							$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
+							$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil del mapa"));
+							$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
+							$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
+							$('#funcio_publicar>div').attr('title',window.lang.convert('Desa\'l i decideix si fer-lo públic o privat'));
+							$('#socialShare>h5').html(window.lang.convert("Compartir"));							
+							
+//							$('#funcio_publicar>div').tooltip('destroy').tooltip({
+//								placement : 'bottom',
+//								container : 'body',		
+//								title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")
+//							});							
+							
+							//Actulitza idioma dels tooltips
+							$("body").on("change-lang", function(event, lang){
+								addToolTipsInici();
+							});							
 						});
 					});						
 					
@@ -456,9 +471,24 @@ function addToolTipsInici() {
 		title : window.lang.convert("Mostrar l'ombra del relleu")
 	});
 	
+//	$('#funcio_publicar>div').tooltip('destroy').tooltip({
+//		placement : 'bottom',
+//		container : 'body',		
+//		title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")
+//	});
+	
+	
+	
 	//Add tooltip caixa cerca
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));	
+	
+	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.convert("Situar un punt"));
+	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
+	$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil del mapa"));
+	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
+	$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
+	$('#socialShare>h5').html(window.lang.convert("Compartir"));	
 	
 }
 
