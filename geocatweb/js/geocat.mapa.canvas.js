@@ -277,7 +277,7 @@ function calculaWF() {
       // var w= jQuery('#map').width();
       var topMap = jQuery('#map').position().top;
       //console.info(h);
-      //console.info(w);
+     
 
       var puntIn = map.getBounds().getNorthWest();
       var NW = L.CRS.EPSG3857.project(puntIn);
@@ -288,11 +288,13 @@ function calculaWF() {
 
       var pNW_Pixels = new L.Point(0, - topMap);
       var pNW = map.layerPointToLatLng(pNW_Pixels);
+	 
+	  
       var pNW_3557 = L.CRS.EPSG3857.project(pNW);
 
       var pNE_Pixels = new L.Point(w, h - topMap);
       var pNE = map.layerPointToLatLng(pNE_Pixels);
-
+ 
       var pNE_3557 = L.CRS.EPSG3857.project(pNE);
 
       var mapW = (pNE_3557.x - pNW_3557.x) / w;
@@ -316,10 +318,29 @@ function calculaWF() {
 
 function tornaLLoc(tr){
 
- if (L.Browser.webkit) {
+ //if (L.Browser.webkit) {
+ 
+ 
+ 
 	jQuery(".leaflet-map-pane").css({
 		 left:0,
 		top:0,
+		"transform":tr
+		});
+						
+	//	}
+						
+
+}
+
+
+function tornaLLocGeoPDF(tr){
+
+ if (L.Browser.webkit) {
+  
+	jQuery(".leaflet-map-pane").css({
+		 //left:0,
+		//top:0,
 		"transform":tr
 		});
 						
@@ -327,6 +348,57 @@ function tornaLLoc(tr){
 						
 
 }
+
+
+
+
+
+
+function hackCaptura(){
+
+if(jQuery(".leaflet-map-pane").css("transform")){
+					var transform=jQuery(".leaflet-map-pane").css("transform")
+
+					var comp=transform.split(",") //split up the transform matrix
+					var mapleft=parseFloat(comp[4]) //get left value
+					var maptop=parseFloat(comp[5])  //get top value
+					$(".leaflet-map-pane").css({ //get the map container. not sure if stable
+					  "transform":"none",
+					// "transform":"translate3d(0px,0px,0px)",
+					  "left":mapleft,
+					  "top":maptop,
+					});
+				}
+
+return transform;
+
+
+}
+
+function hackGeoPDF(){
+if (L.Browser.webkit) {
+if(jQuery(".leaflet-map-pane").css("transform")){
+					var transform=jQuery(".leaflet-map-pane").css("transform");
+
+					var comp=transform.split(",") //split up the transform matrix
+					var mapleft=parseFloat(comp[4]) //get left value
+					var maptop=parseFloat(comp[5])  //get top value
+					$(".leaflet-map-pane").css({ //get the map container. not sure if stable
+					  //"transform":"none",
+					 "transform":"translate3d(0px,0px,0px)",
+					//"transform":"matrix(1, 0, 0, 1, 0, 0)", 
+					//  "left":mapleft,
+					 // "top":maptop,
+					});
+
+					
+		}
+
+}
+
+}
+
+
 
 function generaCaptura(_tipusCaptura, w, h, factor) {
 
@@ -347,25 +419,31 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 	 
 	
 	 var transform="";
+	/*
 	 if (L.Browser.webkit) {
-	 
-	if(jQuery(".leaflet-map-pane").css("transform")){
-			var transform=jQuery(".leaflet-map-pane").css("transform")
-
-			var comp=transform.split(",") //split up the transform matrix
-			var mapleft=parseFloat(comp[4]) //get left value
-			var maptop=parseFloat(comp[5])  //get top value
-			$(".leaflet-map-pane").css({ //get the map container. not sure if stable
-			 // "transform":"none",
-			 "transform":"translate3d(0px,0px,0px)",
-			 // "left":mapleft,
-			  //"top":maptop,
-			});
+	
+			if(jQuery(".leaflet-map-pane").css("transform")){
+					var transform=jQuery(".leaflet-map-pane").css("transform");
+console.info(transform);
+					var comp=transform.split(",") //split up the transform matrix
+					var mapleft=parseFloat(comp[4]) //get left value
+					var maptop=parseFloat(comp[5])  //get top value
+					$(".leaflet-map-pane").css({ //get the map container. not sure if stable
+					  //"transform":"none",
+					// "transform":"translate3d(0px,0px,0px)",
+					"transform":"matrix(1, 0, 0, 1, 0, 0)", 
+					//  "left":mapleft,
+					 // "top":maptop,
+					});
+console.info(jQuery(".leaflet-map-pane").css("transform"));
+					
+		}
+} else{
+*/
 
 			
-}
 
-	}
+
 	 
       
 jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
@@ -375,7 +453,7 @@ jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer'
 
       if (_tipusCaptura == CAPTURA_MAPA) {
             
-            
+            transform=hackCaptura();
             
             
             var snd = new Audio("/llibreries/sons/camera.wav"); // buffers
@@ -443,6 +521,8 @@ jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer'
 
       } else if (_tipusCaptura == CAPTURA_GALERIA) {
 
+	  transform=hackCaptura();
+	  
             html2canvas(jQuery('#map .leaflet-map-pane'), {
                   onrendered : function(canvas) {
 
@@ -496,7 +576,7 @@ imgCaptura="";
 
       } else if (_tipusCaptura == CAPTURA_INFORME) {
             
-            
+            transform=hackCaptura();
             html2canvas(jQuery('#map .leaflet-map-pane'), {
                   onrendered : function(canvas) {
 
@@ -547,7 +627,11 @@ imgCaptura="";
 
       } else if (_tipusCaptura == CAPTURA_GEOPDF) {
       
-      
+     transform=hackGeoPDF();
+	  
+	 
+	 //map.invalidateSize.bind(map);
+	  
       jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').attr('data-html2canvas-ignore','true');
       
 
@@ -618,7 +702,7 @@ imgCaptura="";
                                                            
                                                            jQuery('#bt_desc_img').show();
                                                            comportamentCaptura(3);
-                                                           tornaLLoc(transform);
+                                                           tornaLLocGeoPDF(transform);
                                                            
                                                            
                                                      }else{
