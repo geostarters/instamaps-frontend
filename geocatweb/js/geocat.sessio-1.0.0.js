@@ -167,6 +167,7 @@ function fesRegistre(){
 }
 
 function redirectLogin(results){
+	console.debug(results);
 	if(results.results === 'login_map'){
 		if (results.mapBusinessId){
 			window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;

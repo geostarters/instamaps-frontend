@@ -26,12 +26,12 @@ function deleteMap(data){
 /* registre.html */
 
 function registerUser(url, dataUrl){
-	 return jQuery.ajax({
-			url: url,
-			data: dataUrl,
-			method: 'post',
-			dataType: 'jsonp'
-			}).promise();		
+	return jQuery.ajax({
+		url: url,
+		data: dataUrl,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();		
 }
 
 function checkUsername(username){

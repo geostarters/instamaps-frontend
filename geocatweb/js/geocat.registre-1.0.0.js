@@ -30,7 +30,6 @@ var text_confirma_dades = 'Confirmeu les dades';
 			$('.form-signin-heading').text(window.lang.convert(text_confirma_dades));
 			$('#signin_button').text(window.lang.convert(text_confirma_dades));
 		}
-		
 	});
 	
 	jQuery("#signin_button").click(function(event){ 
@@ -55,8 +54,10 @@ var text_confirma_dades = 'Confirmeu les dades';
 					reg_url = paramUrl.signinSocial; 
 					dataUrl = {cn:name, sn:surname, uid:id, email: correu_usuari, tipusEntitatId:"1",  ambitGeo:"1", bbox:"260383,4491989,527495,4748184", provider:providerId, socialName:id ,validatedId: valId};
 				}else{
-					reg_url = paramUrl.signinUser;
-					dataUrl = {cn:name, sn:surname, uid:id, userPassword: pass, email: correu_usuari, tipusEntitatId:"1", ambitGeo:"1", bbox:"260383,4491989,527495,4748184"};
+					//reg_url = paramUrl.signinUser;
+					var lang = web_determinaIdioma();
+					reg_url = paramUrl.signinUserIcgc
+					dataUrl = {cn:name, sn:surname, uid:id, userPassword: pass, email: correu_usuari, tipusEntitatId:"1", ambitGeo:"1", bbox:"260383,4491989,527495,4748184", lang: lang};
 				}
 				if (isRandomUser($.cookie('uid'))){
 					dataUrl.randomuid = $.cookie('uid');
@@ -70,15 +71,8 @@ var text_confirma_dades = 'Confirmeu les dades';
 						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						
 						jQuery('#button-alta-ok').click(function(){
-							if(results.results === 'login_map'){
-								if (results.mapBusinessId){
-									window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
-								}else{
-									window.location=paramUrl.mapaPage;
-								}
-							}else{
-								window.location=paramUrl.mapaPage;
-							}
+							redirectLogin(results);
+							
 						});
 						$('.waiting_animation').hide();
 						
@@ -180,4 +174,19 @@ var text_confirma_dades = 'Confirmeu les dades';
 		});
 		
 		return defer.promise();
+	}
+	
+	function redirectLogin(results){
+		console.debug(results);
+		if (results.mapBusinessId){
+			window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+		}else if(results.results === 'login_map'){
+			if (results.mapBusinessId){
+				window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+			}else{
+				window.location=paramUrl.mapaPage;
+			}
+		}else{
+			window.location=paramUrl.galeriaPage+"?private=1";
+		}
 	}

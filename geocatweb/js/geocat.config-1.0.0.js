@@ -92,6 +92,7 @@ var paramUrl = {
 	loginUserIcgc: HOST_APP+"geocat/loginIcgc.action?",
 	logoutUser: HOST_APP+"geocat/logout.action?",
 	signinUser: HOST_APP+"geocat/registreUser.action?",
+	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinSocial: HOST_APP+"geocat/social/createUser.action?",
 	socialAuth: HOST_APP+"geocat/social/auth.action?",
 	validateUsername: HOST_APP+"geocat/validateUid?",
