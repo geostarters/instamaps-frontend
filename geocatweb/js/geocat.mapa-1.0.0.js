@@ -297,11 +297,58 @@ function addControlsInici(){
 			   }           
 		});	
 		
-//		$('.leaflet-input input').iCheck({
-//			    checkboxClass: 'icheckbox_futurico',
-//			    radioClass: 'iradio_futurico',
-//			    increaseArea: '20%' // optional
-//		 });
+		$('.leaflet-input input').iCheck({
+			    checkboxClass: 'icheckbox_futurico',
+			    radioClass: 'iradio_futurico',
+			    increaseArea: '20%' // optional
+		 });
+		
+		
+		$('.icheckbox_futurico input').on('ifChecked', function(event){
+			  console.debug("ifChecked");
+			  console.debug(this);
+			  var input = $(this);
+			  console.debug(input);	
+			  var layerId = input.layerId;
+			  var layerIdParent = input.layerIdParent;
+			  console.debug(layerId);
+			  console.debug(layerIdParent);
+			  			  
+			  
+			  
+			  
+		});
+		
+		$('.icheckbox_futurico input').on('ifUnchecked', function(event){
+			  console.debug("ifUnchecked");
+			  console.debug(this);
+			  var input = $(this);
+			  console.debug(input);
+			  var layerId = input.layerId;
+			  var layerIdParent = input.layerIdParent;
+			  console.debug(layerId);
+			  console.debug(layerIdParent);
+			  
+			  
+		});		
+		
+		
+////	//Afegir
+////	if (input.checked && !this._map.hasLayer(obj.layer)) {
+////
+////		this._map.addLayer(obj.layer);	
+////	
+////	} else if (!input.checked && this._map.hasLayer(obj.layer)) {
+////
+////		this._map.removeLayer(obj.layer);
+////	}
+////}
+////
+////this._handlingClick = false;
+////
+////this._refocusOnMap();		
+		
+		
 //		
 //
 //		$('.icheckbox_futurico input').on('ifChanged', function(event){
