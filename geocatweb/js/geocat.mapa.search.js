@@ -156,8 +156,8 @@ function addHtmlInterficieCerca(){
 			'	        <span class="caret"></span>'+
 		    '    </button>'+
 		     '   <ul class="dropdown-menu">'+
-			  '        <li class="active"><a id="ctr_cat" href="#">Cercador de Topònims</a></li>'+
-			  '       <li><a id="ctr_nomen" href="#">Cercador mundial de Topònims</a></li>'+
+			  '        <li class="active"><a id="ctr_cat" href="#" lang="ca">Cercador de Topònims</a></li>'+
+			  '       <li><a id="ctr_nomen" href="#" lang="ca">Cercador mundial de Topònims</a></li>'+
 		        '</ul>'+
 		        '</div><!-- /btn-group -->'+
 				'<div id="ctr_cerca"></div>'+

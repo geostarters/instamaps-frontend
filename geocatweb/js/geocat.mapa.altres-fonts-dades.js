@@ -337,8 +337,9 @@ function addHtmlModalDadesExt(){
 function addHtmlInterficieDadesExt(){
 	
 	jQuery("#carregar_dades .div_gr2").append(
-			'<div lang="ca" data-toggle="tooltip" title="Explora altres fonts de dades" id="div_dades_ext" class="div_dades_ext"></div>'		
+			'<div lang="ca" id="div_dades_ext" class="div_dades_ext"></div>'		
 	);
+	$('#div_dades_ext').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Explora altres fonts de dades")});
 }
 
 //function toggleCollapseTwitter(){

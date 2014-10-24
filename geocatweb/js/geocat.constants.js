@@ -22,16 +22,6 @@ var downloadableData = {};
 
 var dades1;
 
-//Definicio dels tooltips
-var opt = {
-	placement : 'right',
-	container : 'body'
-};
-var optB = {
-	placement : 'bottom',
-	container : 'body'
-};
-
 //Evitem error javascript a les pagines html que no carreguen la llibreria de leaflet
 if((urlApp.indexOf('mapa')!=-1)||(urlApp.indexOf('visor')!=-1)){
 //default geometries style

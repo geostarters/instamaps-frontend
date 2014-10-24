@@ -327,6 +327,7 @@ function addDrawToolbar() {
 	};
 	drawControl = new L.Control.Draw(options);
 	map.addControl(drawControl);
+	addDrawTooltips();
 }
 
 //function showEditText(accio){
@@ -1130,7 +1131,7 @@ function createPopUpContent(player,type){
 	
 	//+'<div id="capa_pres">'
 	html+='<ul class="bs-ncapa">'
-		+'<li><span lang="ca" class="small">Capa actual: </span>'
+		+'<li><span lang="ca" class="small">'+window.lang.convert('Capa actual:')+'</span>'
 			+'<select id="cmbCapesUsr-'+player._leaflet_id+'-'+type+'" data-leaflet_id='+player._leaflet_id+'>';
 			html+= fillCmbCapesUsr(type);
 			html+= '</select></li>'
@@ -1140,9 +1141,9 @@ function createPopUpContent(player,type){
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
 	+'<ul class="bs-popup">'						
-	+'<li><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">Estils<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
-	+'<li><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">Editar<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
-	+'<li><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">Esborrar<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
+	+'<li><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
+	+'<li><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
+	+'<li><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
 	+'</ul>'														
 	+'</div>'
 	+'</div>'	
@@ -1157,8 +1158,8 @@ function createPopUpContent(player,type){
 	+'</div>'
 	+'<div class="modal-footer">'
 	+'<ul class="bs-popup">'
-	+'<li><a id="feature_no#'+player._leaflet_id+'#'+type+'"  class="btn btn-default btn-xs">Cancel.lar</a></li>'			
-	+'<li><a id="feature_ok#'+player._leaflet_id+'#'+type+'"  class="btn btn-success btn-xs">Acceptar</a></li>'								
+	+'<li><a id="feature_no#'+player._leaflet_id+'#'+type+'"  class="btn btn-default btn-xs">'+window.lang.convert('Cancel·lar')+'</a></li>'			
+	+'<li><a id="feature_ok#'+player._leaflet_id+'#'+type+'"  class="btn btn-success btn-xs">'+window.lang.convert('Acceptar')+'</a></li>'								
 	+'</ul>'														
 	+'</div>'								
 	+'</div>'								
@@ -1462,32 +1463,83 @@ function updateFeatureCount(fromBusinessId, toBusinessId){
 //	console.debug("Fi updateFeatureCount");
 }
 
+function addDrawTooltips() {
+	L.drawLocal = {
+		draw : {
+			handlers : {
+				marker : {
+					
+					tooltip : {
+						start : window.lang.convert('Fes clic al mapa per posar un punt')
+					}
+				},
+				polygon : {
+					tooltip : {
+						start : window.lang.convert('Clica per començar a dibuixar una àrea'),
+						cont : window.lang.convert('Clica per continuar dibuixant una àrea'),
+						end : window.lang.convert('Clica el primer punt per tancar aquesta àrea')
+					}
+				},
+				polyline : {
+					error : '<strong>Error:</strong> àrees no es poden creuar!',
+					
+					tooltip : {
+						start : window.lang.convert('Clica per començar a dibuixar una línia'),
+						cont : window.lang.convert('Clica per continuar dibuixant una línia'),
+						end : window.lang.convert('Clica el darrer punt per acabar la línia')
+					}
+				}
+			}
+		},
+		edit : {
+			handlers : {
+				edit : {
+					
+					tooltip : {
+						text : window.lang.convert("Arrossega els vèrtex o el punt per editar l'objecte"),
+						subtext : window.lang.convert('Fes clic sobre el mapa per finalitzar')
+					}
+				}
+			}
+		}
+	};
+	return L.drawLocal;
+}
+
 function addHtmlInterficieDraw(){
 	jQuery("#funcio_draw").append(
 		'<h5 lang="ca" id="funcio_draw_titol_1">Situar un punt</h5>'+
 		'	<div class="add_costat_r" style="margin-right: 33%;">'+
-		'	<div lang="ca" id="div_mes_punts" data-toggle="tooltip"	title="Més tipus de punts" class="icon-add taronja"></div>'+
+		'	<div lang="ca" id="div_mes_punts" class="icon-add taronja"></div>'+
 		'</div>'+
 		'<div style="height:50px ">'+
-		'	<div id="div_punt" lang="ca" data-toggle="tooltip" title="Clica per situar un punt" class="dibuix_punt">'+
+		'	<div id="div_punt" class="dibuix_punt">'+
 		'	</div>'+
 		'</div>'+
 		'<h5 lang="ca" id="funcio_draw_titol_2">Dibuixar una línia o un polígon</h5>'+
 		'<div class="div_auto">'+
-		'	<div id="div_linia" lang="ca" data-toggle="tooltip"	title="Clica per començar a dibuixar una línia"	class="dibuix_linia">'+
+		'	<div id="div_linia" class="dibuix_linia">'+
 		'	<canvas id="cv_linia" width="40" height="40"></canvas>'+
 		'	</div>'+
 		'	<div class="add_costat">'+
-		'		<div lang="ca" id="div_mes_linies" data-toggle="tooltip" title="Més estils de línia" class="icon-add taronja"></div>'+
+		'		<div lang="ca" id="div_mes_linies" class="icon-add taronja"></div>'+
 		'	</div>'+
 		'</div>'+
 		'<div class="div_auto">'+
-		'	<div id="div_area" lang="ca" data-toggle="tooltip" title="Clica per començar a dibuixar una àrea" class="dibuix_poligon">'+
+		'	<div id="div_area" class="dibuix_poligon">'+
 		'	<canvas id="cv_pol" width="40" height="40"></canvas>'+
 		'	</div>'+
 		'	<div class="add_costat">'+
-		'		<div lang="ca" id="div_mes_arees" data-toggle="tooltip" title="Més estils d\'àrees"	class="icon-add taronja"></div>'+
+		'		<div lang="ca" id="div_mes_arees" class="icon-add taronja"></div>'+
 		'	</div>'+
 		'</div>'
 	);
+	
+	$('#div_punt').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per situar un punt')});
+	$('#div_linia').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una línia')});
+	$('#div_area').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una àrea')});	
+	
+	$('#div_mes_punts').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més tipus de punts')});
+	$('#div_mes_linies').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més estils de línia')});
+	$('#div_mes_arees').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Més estils d'àrees")});	
 }
