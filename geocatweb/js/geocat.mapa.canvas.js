@@ -591,7 +591,7 @@ function capturaLlegenda(ensenyaBoto){
 
 objLLegenda=null;
 
-if(jQuery('#mapLegend').is(':visible')){
+if(jQuery('.bt_legend span').hasClass('greenfort')){
 
  var w = jQuery('#mapLegend').width();
 var h = jQuery('#mapLegend').height();
