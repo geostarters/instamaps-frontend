@@ -264,7 +264,7 @@ L.IM_Map = L.Map.extend({
 				}			
 			}else if(sC==1){
 				
-				TOPO_MQ_L7_19.setOpacity(0.9);
+				TOPO_MQ_L7_19.setOpacity(1);
 				TOPO_MQ_L7_19.options.maxZoom=19;				
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=19;
@@ -293,8 +293,8 @@ L.IM_Map = L.Map.extend({
 			
 			
 			if((sC==0)){  
-				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
-				TOPO_GEO_MQ_L7_19.options.maxZoom=17;		
+				TOPO_GEO_MQ_L7_19.setOpacity(1);
+				TOPO_GEO_MQ_L7_19.options.maxZoom=18;		
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
 				TOPO_GEO_ICC_L8_17.options.maxZoom=zT;
@@ -302,11 +302,11 @@ L.IM_Map = L.Map.extend({
 				
 			}else if(sC==1){
 				
-				TOPO_GEO_MQ_L7_19.setOpacity(0.9);
-				TOPO_GEO_MQ_L7_19.options.maxZoom=17;				
+				TOPO_GEO_MQ_L7_19.setOpacity(1);
+				TOPO_GEO_MQ_L7_19.options.maxZoom=18;				
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 			//	TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
-				TOPO_GEO_ICC_L8_17.options.maxZoom=17;
+				TOPO_GEO_ICC_L8_17.options.maxZoom=18;
 				
 				//TOPO_GEO_ICC_L8_12.setOpacity(1);
 				//TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
@@ -323,7 +323,7 @@ L.IM_Map = L.Map.extend({
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
 				
-				TOPO_GEO_ICC_L8_17.options.maxZoom=17;	
+				TOPO_GEO_ICC_L8_17.options.maxZoom=18;	
 				TOPO_GEO_MQ_L7_19.options.maxZoom=zT;
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());	
 				
@@ -398,7 +398,7 @@ L.IM_Map = L.Map.extend({
 					_grisLayers.removeLayer(ICC_MON_L0);
 				}				
 			}else if(sC==1){
-				MQ_TOPO_GRIS_L7_19.setOpacity(0.9);
+				MQ_TOPO_GRIS_L7_19.setOpacity(1);
 				MQ_TOPO_GRIS_L7_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L11_19.options.maxZoom=19;
 				ICC_TOPO_GRIS_L7_10.options.maxZoom=10;	
@@ -422,7 +422,7 @@ L.IM_Map = L.Map.extend({
 					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
 				}				
 			}else if(sC==1){
-				COLOR_TOPO_MQ_L7_19.setOpacity(0.9);
+				COLOR_TOPO_MQ_L7_19.setOpacity(1);
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=19;
 				COLOR_TOPO_ICC_L11_19.options.maxZoom=19;				
 				this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
@@ -484,8 +484,8 @@ L.IM_Map = L.Map.extend({
 			TOPO_ICC_L11_12 = new L.TileLayer(URL_TOPOICC,{  	    
 				tms:false,
 				minZoom: 11,
-				maxZoom: 11,	                                                        
-				boundary: catContorn5k, 
+				maxZoom: 12,	                                                        
+				boundary: catContorn, 
 				continuousWorld: true,
 				worldCopyJump: false
 			}).addTo(_topoLayers);
@@ -507,7 +507,7 @@ L.IM_Map = L.Map.extend({
 				minZoom: 11,
 
 				maxZoom: 12,	                                                        
-				boundary: catContorn5k, 
+				boundary: catContorn, 
 				continuousWorld: true,
 				worldCopyJump: false
 			}).addTo(_topoLayers);
@@ -529,14 +529,14 @@ L.IM_Map = L.Map.extend({
 	topoMapGeo: function (){	
 		this.deletePreviousMap();
 		this.options.typeMap=FONS_TOPOMAP_GEO;
-		this.options.maxZoom=17;
+		this.options.maxZoom=18;
 		this.setActiveMap(FONS_TOPOMAP_GEO);
 		this.setMapColor(null);
 		_topoLayersGeo=L.layerGroup();						 
 		
 		TOPO_GEO_MQ_L7_19 = new L.TileLayer(URL_MQ,{   	   
 			minZoom: 0,
-			maxZoom:17,
+			maxZoom:18,
 			
 			subdomains:subDomains}
 		).addTo(_topoLayersGeo);
@@ -572,10 +572,10 @@ L.IM_Map = L.Map.extend({
 		
 		TOPO_GEO_ICC_L8_17 = new L.TileLayer(URL_TOPOICC_GEO_1,{  	    
 			tms:true,
-			   continuousWorld: true,
-			   worldCopyJump: false,
+			continuousWorld: true,
+			worldCopyJump: false,
 			minZoom: 8,
-			maxZoom: 17	                                                        
+			maxZoom: 18	                                                        
 			
 		}).addTo(_topoLayersGeo);
 		this.addLayer(_topoLayersGeo,true);
@@ -814,3 +814,54 @@ if(print){
 	}
 	//fi default metode
 });
+
+//L.LayerGroup.include({
+//
+//	toGeoJSONcustom: function () {
+//
+//		var geometry = this.feature && this.feature.geometry,
+//			jsons = [],
+//			json;
+//
+//		if (geometry && geometry.type === 'MultiPoint') {
+//			return multiToGeoJSON('MultiPoint').call(this);
+//		}
+//
+//		var isGeometryCollection = geometry && geometry.type === 'GeometryCollection';
+//
+//		this.eachLayer(function (layer) {
+//			if (layer.toGeoJSON) {
+//				json = layer.toGeoJSON();
+//				//Custom: que no es perdin les propietats del feature
+//				if(jQuery.isEmptyObject(json.properties)){
+//					if(layer.properties.nom) json.properties.name = layer.properties.nom;
+//					if(layer.properties.data){
+//						jQuery.each(layer.properties.data, function(key, value){
+//							if(key.indexOf("slot")==-1 && key.indexOf("businessId")==-1){
+//								json.properties[''+key+''] = value;
+//							}
+//						});
+//					}
+//				}
+//				if(jQuery.isEmptyObject(json.styles)){
+//					json.styles=layer.options;
+//				}
+//				
+//				jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
+//			}
+//		});
+//
+//		if (isGeometryCollection) {
+//			return L.GeoJSON.getFeature(this, {
+//				geometries: jsons,
+//				type: 'GeometryCollection'
+//			});
+//		}
+//
+//		return {
+//			type: 'FeatureCollection',
+//			features: jsons
+//		};
+//
+//	}
+//});
