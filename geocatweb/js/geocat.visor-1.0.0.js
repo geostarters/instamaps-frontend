@@ -94,6 +94,14 @@ function loadApp(){
 				//avisDesarMapa();
 				addFuncioDownloadLayer('visor');
 				activaPanelCapes(true);
+				//Actulitza idioma dels tooltips
+				$("body").on("change-lang", function(event, lang){
+					window.lang.change(lang);
+					window.lang.run(lang);								
+					updateLangTooltips();
+					updateLangText();
+				});	
+				canviaIdioma(web_determinaIdioma());				
 				
 			});
 		},function(results){
@@ -177,6 +185,7 @@ function addControlsInici() {
 //	$(".leaflet-control-layers-overlays").mCustomScrollbar();
 //	$('.leaflet-control-layers-overlays').perfectScrollbar();
 	
+	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicació');
 	var ctr_gps = new L.Control.Gps({
 		autoCenter: true,		//move map when gps location change
 		style: {
@@ -187,7 +196,7 @@ function addControlsInici() {
 			fillColor: '#e03',
 			opacity: 1,
 			fillOpacity: 0.5},
-		title: 'Center map on your location',
+		title: titleGPS,
 		textErr: 'Error del GPS',			//error message on alert notification
 		callErr: null,			//function that run on gps error activating
 	});	
@@ -345,6 +354,56 @@ function addToolTipsInici() {
 	//cercador
 //	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
 //	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
+}
+
+function updateLangText(){
+
+	//Add tooltip caixa cerca
+	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
+	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));	
+	
+//	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.convert("Situar un punt"));
+//	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
+//	$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil del mapa"));
+//	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
+//	$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
+//	$('#socialShare>h5').html(window.lang.convert("Compartir"));	
+	
+}
+
+function updateLangTooltips(){
+	
+	$('.bt_llista').tooltip('destroy').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Llista de capes")
+	});
+	$('.bt_captura').tooltip('destroy').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Capturar la vista del mapa")
+	});
+	$('.bt_print').tooltip('destroy').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Imprimir la vista del mapa")
+	});
+	$('.bt_geopdf').tooltip('destroy').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Descarrega mapa en format GeoPDF")
+	});
+
+
+	jQuery.map(jQuery('[data-toggle="tooltip"]'), function (n, i){
+		var title = $(n).attr('title');
+		if (title == ""){
+			title = $(n).attr('data-original-title');
+		}
+		$(n).attr('data-original-title', window.lang.convert(title));
+	    var title = $(n).attr('title', $(n).attr('data-original-title'));
+	});		
+	
 }
 
 

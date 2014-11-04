@@ -37,7 +37,7 @@ function addDialegEstilsTematics(){
 		}else{
 			console.debug(objEdicio.obroModalFrom);
 		}	
-		jQuery('#dialog_estils_punts').modal('toggle');				
+		jQuery('#dialog_estils_punts').modal('toggle');			
 	});
 	
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
@@ -190,6 +190,7 @@ function getClassFromColor(color){
 }
 
 function addHtmlModalPunts(){
+	
 	jQuery('#mapa_modals').append(
 			'<!-- Modal Punts -->'+
 			'<div class="modal fade" id="dialog_estils_punts">'+
@@ -198,8 +199,7 @@ function addHtmlModalPunts(){
 			'			<div class="modal-header">'+
 			'				<button type="button" class="close" data-dismiss="modal"'+
 			'					aria-hidden="true">&times;</button>'+
-			'				<h4 class="modal-title" lang="ca" id="myModalLabel">Estils de'+
-			'					punts</h4>'+
+			'				<h4 class="modal-title" lang="ca" id="myModalLabel">Estils de punts</h4>'+
 			'			</div>'+
 			'			<div class="modal-body">'+
 			'				<table width="100%" class="tbl_taula" border="0" cellspacing="1" cellpadding="1">'+

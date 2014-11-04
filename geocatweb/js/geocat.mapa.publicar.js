@@ -110,6 +110,10 @@ function addControlPublicar(){
 		});		
 	}
 	
+	var opt = {
+			placement : 'right',
+			container : 'body'
+	};	
 	$('.bt_publicar').tooltip(opt);
 	
 }
@@ -119,12 +123,12 @@ function publicarMapa(fromCompartir){
 		if(isBlank($('#dialgo_publicar #nomAplicacioPub').val())){
 			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
 			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
-			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
+			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.convert('El camp no pot estar buit')+"</span>");
 			return false;
 		}else if(isDefaultMapTitle($('#dialgo_publicar #nomAplicacioPub').val())){
 			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
 			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
-			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">Introdueix un nom vàlid per a la publicació del mapa</span>");
+			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.convert("Introdueix un nom vàlid per a la publicació del mapa")+"</span>");
 			return false;
 		}
 	}
@@ -331,10 +335,11 @@ function updateDownloadableData(){
 
 function addHtmlInterficiePublicar(){
 	jQuery("#funcio_publicar").append(
-		'<div lang="ca" data-toggle="tooltip" title="Desa\'l i decideix si fer-lo públic o privat" class="bt_publicar">'+
+		'<div class="bt_publicar">'+
 		'<span lang="ca">Publicar el mapa</span>'+
 		'</div>'
 	);
+	$('.bt_publicar').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")});
 }
 
 function addHtmlModalPublicar(){
@@ -469,7 +474,7 @@ function addHtmlModalIframePublicar(){
 	'					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>'+
 	'					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>'+
 	'				  	</div>'+
-	'					<div id="urlVisorMap"><a href="" target="_blank" lang="ca">Veure el mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a></div>'+		
+	'					<div id="urlVisorMap"><a href="" target="_blank" lang="ca">'+window.lang.convert('Veure el mapa')+'&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a></div>'+		
 	'				</div>'+
 	'				<div class="modal-footer">'+
 	'					<button lang="ca" type="button" class="btn btn-success btn-default"'+

@@ -28,8 +28,7 @@ $(function(){
 		$('.btn-tooltip').tooltip().each(function(){
 			$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
 		});
-		
-		$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
+		$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 		$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));		
 		
 	});
@@ -226,7 +225,7 @@ $(function(){
 			});
 			
 			window.lang.run();
-			
+			$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 		});
 	}
 	

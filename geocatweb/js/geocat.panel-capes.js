@@ -263,7 +263,7 @@ function addHtmlModalDownloadLayer(){
 	'			<div class="modal-header">'+
 	'				<button type="button" class="close" data-dismiss="modal"'+
 	'					aria-hidden="true">&times;</button>'+
-	'				<h4 class="modal-title" lang="ca"><b>Descarrega de dades</b></h4>'+
+	'				<h4 class="modal-title" lang="ca">Descarrega de dades</h4>'+
 	'			</div>'+
 	'			<div lang="ca" class="modal-body">'+
 	'				<div id="modal-body-download">'+

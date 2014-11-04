@@ -26,6 +26,7 @@ jQuery(document).ready(function() {
 			loadApp();
 		}
 	}
+	
 }); // Final document ready
 
 
@@ -115,26 +116,20 @@ function loadApp(){
 							initControls();
 							//careguem funcionalitats:
 							loadControls(results);
-							
 							//Actualitzar idiomes
-							$('#funcio_draw #funcio_draw_titol_1').html(window.lang.convert("Situar un punt"));
-							$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
-							$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil del mapa"));
-							$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
-							$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
-							$('#funcio_publicar>div').attr('title',window.lang.convert('Desa\'l i decideix si fer-lo públic o privat'));
-							$('#socialShare>h5').html(window.lang.convert("Compartir"));							
-							
-//							$('#funcio_publicar>div').tooltip('destroy').tooltip({
-//								placement : 'bottom',
-//								container : 'body',		
-//								title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")
-//							});							
+							updateLangText();
+							//Add tooltips
+							addToolTipsInici();
 							
 							//Actulitza idioma dels tooltips
 							$("body").on("change-lang", function(event, lang){
-								addToolTipsInici();
-							});							
+								addDrawTooltips();//Actualitzem tootltips funcionalitat draw
+								window.lang.change(lang);
+								window.lang.run(lang);								
+								updateLangTooltips();
+								updateLangText();
+							});	
+							canviaIdioma(web_determinaIdioma());
 						});
 					});						
 					
@@ -173,63 +168,16 @@ function loadApp(){
 
 function initControls(){
 	
-//	addControlsInici();
 	addClicksInici();
-	addToolTipsInici();
-	tradueixMenusToolbar();
+//	tradueixMenusToolbar();
 	redimensioMapa();	
-	
 	addHtmlModalOldBrowser();
-//	addHtmlModalLeave();
 	addHtmlModalExpire();
 	addHtmlModalMessages();
-	
-	//Funcionalitat hill shading
-//	addControlHillShading();
-	
-	//Funcionalitat fons mapes
-//	addOpcionsFonsMapes();
-//	creaPopOverMesFonsColor();
-//	creaPopOverMesFons();
-	
-//	//Afegir gestio dialegs estils de les features
-//	addDialegEstilsTematics();
-//	console.debug("addDialegEstilsTematics");
-////	//Funcionalitat de dibuixar feature
-//	addDialegEstilsDraw();	
-//	console.debug("addDialegEstilsDraw");	
-//	addDrawToolbar();
-//	console.debug("draw toolbar");
-//	activaEdicioUsuari();
-//	console.debug("activaEdicioUsuari");
-//	//Funcionalitat de tematics
-//	initButtonsTematic();
-	
-	//Funcionalitat dragdrop i carrega fitxers
-//	creaAreesDragDropFiles();
-//	addFuncioCarregaFitxers();
-	
-	//Funcionalitat cerca
-//	addControlCercaEdit();
 
 	//carrega font de dades
 	generaLListaDadesObertes();
 	generaLlistaServeisWMS();
-	
-	//Funcionalitat afegir altres fonts de dades
-//	addControlAltresFontsDades();
-
-	//Funcionalitat carrega capes del usuari, si esta loginat
-//	if ($.cookie('uid')){
-//		var data = {uid: $.cookie('uid')};
-//		carregaDadesUsuari(data);
-//	}
-	
-	//Funcionalitat publicar mapa
-//	addControlPublicar();
-	
-	//Funcionalitat compartir mapa
-//	addCompartirMapa();
 }
 
 function addClicksInici() {
@@ -266,7 +214,6 @@ function addClicksInici() {
        	 var pop=e.target.id.split("#");
        	 var ddv="#"+pop[1];
        	 jQuery(ddv).popover('hide');
-       	 //addCapaMunicipis();	        
         }
     });
 }
@@ -297,136 +244,7 @@ function addControlsInici(){
 			   }           
 		});	
 		
-		$('.leaflet-input input').iCheck({
-			    checkboxClass: 'icheckbox_futurico',
-			    radioClass: 'iradio_futurico',
-			    increaseArea: '20%' // optional
-		 });
-		
-		
-		$('.icheckbox_futurico input').on('ifChecked', function(event){
-			  console.debug("ifChecked");
-			  console.debug(this);
-			  var input = $(this);
-			  console.debug(input);	
-			  var layerId = input.layerId;
-			  var layerIdParent = input.layerIdParent;
-			  console.debug(layerId);
-			  console.debug(layerIdParent);
-			  			  
-			  
-			  
-			  
-		});
-		
-		$('.icheckbox_futurico input').on('ifUnchecked', function(event){
-			  console.debug("ifUnchecked");
-			  console.debug(this);
-			  var input = $(this);
-			  console.debug(input);
-			  var layerId = input.layerId;
-			  var layerIdParent = input.layerIdParent;
-			  console.debug(layerId);
-			  console.debug(layerIdParent);
-			  
-			  
-		});		
-		
-		
-////	//Afegir
-////	if (input.checked && !this._map.hasLayer(obj.layer)) {
-////
-////		this._map.addLayer(obj.layer);	
-////	
-////	} else if (!input.checked && this._map.hasLayer(obj.layer)) {
-////
-////		this._map.removeLayer(obj.layer);
-////	}
-////}
-////
-////this._handlingClick = false;
-////
-////this._refocusOnMap();		
-		
-		
-//		
-//
-//		$('.icheckbox_futurico input').on('ifChanged', function(event){
-//			  console.debug("clicked");
-//
-//			if(this.layerIdParent){
-//				id = this.layerId;
-//				parentId = thist.layerIdParent;
-//				checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && this.value == "on";
-//			}			  
-//			  
-//			jQuery(".layers-list input").each(function(){
-//			    var input = $(this);
-//			    console.debug(input);
-////			    var inputObj = 
-//			    
-//				if(!input.layerIdParent){
-//					obj = this._layers[input.layerId];				
-//				}else{
-//					obj = this._layers[input.layerIdParent]._layers[input.layerId];
-//				}			    
-//			    
-//				console.obj(obj);
-//				
-//			    //insert code here
-//			});
-//		});	
-//			
-//			
-////				var i, input, obj,
-////			    inputs = this._form.getElementsByTagName('input'),
-////			    inputsLen = inputs.length;
-////
-////				this._handlingClick = true;
-////				var checkHeat = false;
-////				var id, parentId;
-//				
-////				if(arguments[0].currentTarget.layerIdParent){
-////					id = arguments[0].currentTarget.layerId;
-////					parentId = arguments[0].currentTarget.layerIdParent;
-////					checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
-////				}
-////				
-////				
-////				for (i = 0; i < inputsLen; i++) {
-////					input = inputs[i];
-////					
-////					if(!input.layerIdParent){
-////						obj = this._layers[input.layerId];				
-////					}else{
-////						obj = this._layers[input.layerIdParent]._layers[input.layerId];
-////					}
-////					
-////					//Si la capa clickada �s heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
-////					if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
-////						input.checked = false;
-////					}
-////					
-////					//Afegir
-////					if (input.checked && !this._map.hasLayer(obj.layer)) {
-////
-////						this._map.addLayer(obj.layer);	
-////					
-////					} else if (!input.checked && this._map.hasLayer(obj.layer)) {
-////
-////						this._map.removeLayer(obj.layer);
-////					}
-////				}
-////
-////				this._handlingClick = false;
-////
-////				this._refocusOnMap();			  
-//			  
-//			//alert(event.type + ' callback');
-	
-			
 	});
-	
 	
 	var ctr_llistaCapes = L.control({
 		position : 'topright'
@@ -454,12 +272,60 @@ function addControlsInici(){
 		return this._div;
 	};
 	ctr_llistaCapes.addTo(map);
-
 }
 
 
 function addToolTipsInici() {
 	//eines mapa
+	$('.bt_llista').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Llista de capes")
+	});
+	$('.bt_captura').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Capturar la vista del mapa")
+	});
+	$('.bt_print').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Imprimir la vista del mapa")
+	});
+	$('.bt_geopdf').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Descarrega mapa en format GeoPDF")
+	});
+	$('.bt_save').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Desar el mapa actual")
+	});	
+	$('.bt_info').tooltip({
+		placement : 'left',
+		container : 'body',
+		title : window.lang.convert("Veure informació al fer clic sobre el mapa")
+	});
+	
+	$('.bt_hill').tooltip({
+		placement : 'right',
+		container : 'body',
+		title : window.lang.convert("Mostrar l'ombra del relleu")
+	});	
+	
+	jQuery.map(jQuery('[data-toggle="tooltip"]'), function (n, i){
+		var title = $(n).attr('title');
+		if (title == ""){
+			title = $(n).attr('data-original-title');
+		}
+		$(n).attr('data-original-title', window.lang.convert(title));
+	    var title = $(n).attr('title', $(n).attr('data-original-title'));
+	});
+}
+
+function updateLangTooltips(){
+	
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
@@ -491,6 +357,46 @@ function addToolTipsInici() {
 		title : window.lang.convert("Veure informació al fer clic sobre el mapa")
 	});
 	
+	$('.bt_hill').tooltip('destroy').tooltip({
+		placement : 'right',
+		container : 'body',
+		title : window.lang.convert("Mostrar l'ombra del relleu")
+	});	
+	
+	$('.div_carrega_dades').tooltip('destroy').tooltip({
+		placement : 'bottom',
+		container : 'body',
+		title : window.lang.convert('Arrossega les teves dades sobre el mapa o fes clic aquí')
+	});	
+	
+	$('#div_punt').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per situar un punt')});
+	$('#div_linia').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una línia')});
+	$('#div_area').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una àrea')});		
+	$('#div_mes_punts').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més tipus de punts')});
+	$('#div_mes_linies').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més estils de línia')});
+	$('#div_mes_arees').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Més estils d'àrees")});
+	
+	$('#div_dades_usr').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Accedeix a les teves dades")});
+	$('#div_dades_ext').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Explora altres fonts de dades")});
+	
+	$('#st_Color').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
+	$('#st_Tema').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
+	$('#st_Heat').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
+	$('#st_Clust').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});	
+	
+	$('#div_mesfons').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més mapes de fons')});
+	
+	$('.div_gr3_fons #topoMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Topogràfic')});
+	$('.div_gr3_fons #topoMapGeo').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Simple')});
+	$('.div_gr3_fons #ortoMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Imatge')});
+	$('.div_gr3_fons #terrainMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Terreny')});
+	$('.div_gr3_fons #colorMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Combinacions de color')});
+	
+	$('.bt_publicar').tooltip('destroy').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")});
+	
+	$('.div_gr3_fons #historicOrtoMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Ortofoto històrica Catalunya 1956-57')});
+	$('.div_gr3_fons #historicMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Mapa històric Catalunya 1936')});
+	
 	jQuery.map(jQuery('[data-toggle="tooltip"]'), function (n, i){
 		var title = $(n).attr('title');
 		if (title == ""){
@@ -498,34 +404,12 @@ function addToolTipsInici() {
 		}
 		$(n).attr('data-original-title', window.lang.convert(title));
 	    var title = $(n).attr('title', $(n).attr('data-original-title'));
-	});
-		
-	$('.div_carrega_dades').tooltip(optB);
+	});		
 	
-	$('.div_gr3_fons div').tooltip(optB);
-	$('.div_gr2 div').tooltip(optB);
-	
-	$('.add_costat_r').tooltip(opt);
-	$('.taronja').tooltip(opt);
-	$('.white').tooltip(opt);
-	$('#div_punt').tooltip(optB);
-	$('#div_linia').tooltip(optB);
-	$('#div_area').tooltip(optB);
-	
-	$('.bt_hill').tooltip('destroy').tooltip({
-		placement : 'right',
-		container : 'body',
-		title : window.lang.convert("Mostrar l'ombra del relleu")
-	});
-	
-//	$('#funcio_publicar>div').tooltip('destroy').tooltip({
-//		placement : 'bottom',
-//		container : 'body',		
-//		title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")
-//	});
-	
-	
-	
+}
+
+function updateLangText(){
+
 	//Add tooltip caixa cerca
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));	
@@ -538,7 +422,6 @@ function addToolTipsInici() {
 	$('#socialShare>h5').html(window.lang.convert("Compartir"));	
 	
 }
-
 
 function loadMapConfig(mapConfig){
 	//console.debug(mapConfig);
