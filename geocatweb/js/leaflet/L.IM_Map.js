@@ -12,7 +12,7 @@ var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">
 var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
 var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
-var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
+var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_ICC_L0_6_GEO,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
 var _histoMap=null;
 var _histoOrtoMap=null;
@@ -50,6 +50,9 @@ var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857
 var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
 
 var URL_HISTORIC=urlServerTiles+'/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
+
+//var URL_HISTORIC='https://stamen-tiles-a.a.ssl.fastly.net/toner/{z}/{x}/{y}.png';
+
 var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
 
 
@@ -298,7 +301,14 @@ L.IM_Map = L.Map.extend({
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
 				TOPO_GEO_ICC_L8_17.options.maxZoom=zT;
-				this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
+				if(this.getZoom() > 6){
+					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
+					//TOPO_ICC_L0_6
+					_topoLayersGeo.removeLayer(TOPO_ICC_L0_6_GEO);
+				}else{
+					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
+					_topoLayersGeo.addLayer(TOPO_ICC_L0_6_GEO);
+				}	
 				
 			}else if(sC==1){
 				
@@ -311,8 +321,14 @@ L.IM_Map = L.Map.extend({
 				//TOPO_GEO_ICC_L8_12.setOpacity(1);
 				//TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
 				
-				this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
-				
+				if(this.getZoom() > 6){
+					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
+					//TOPO_ICC_L0_6
+					_topoLayersGeo.removeLayer(TOPO_ICC_L0_6_GEO);
+				}else{
+					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
+					_topoLayersGeo.addLayer(TOPO_ICC_L0_6_GEO);
+				}
 				
 				
 			}else if(sC==2){
@@ -534,41 +550,26 @@ L.IM_Map = L.Map.extend({
 		this.setMapColor(null);
 		_topoLayersGeo=L.layerGroup();						 
 		
-		TOPO_GEO_MQ_L7_19 = new L.TileLayer(URL_MQ,{   	   
+		
+		TOPO_ICC_L0_6_GEO=  new L.TileLayer(URL_MON, {
 			minZoom: 0,
+			maxZoom: 6,
+			tms:true,
+			continuousWorld: false,
+			worldCopyJump: false,
+		}).addTo(_topoLayersGeo);
+		
+		
+		
+		
+		TOPO_GEO_MQ_L7_19 = new L.TileLayer(URL_MQ,{   	   
+			minZoom: 7,
 			maxZoom:18,
 			
 			subdomains:subDomains}
 		).addTo(_topoLayersGeo);
 		
-		
-		
-		/*
-		TOPO_GEO_OMBRA_L8_12 =new L.TileLayer(URL_OMBRA, {
-			minZoom: 9,
-			maxZoom: 12,
-			tms:true,	
-			
-			continuousWorld: true,
-			worldCopyJump: false,
-			opacity:0.1			
-		}).addTo(_topoLayersGeo);	
-		*/
-		/*
-		TOPO_GEO_ICC_L8_12 =new L.TileLayer(URL_TOPOICC_GEO_1, {
-			minZoom: 8,
-			maxZoom: 12,
-			tms:true,	
-			
-			//continuousWorld: true,
-			//worldCopyJump: false,
-			
-		}).addTo(_topoLayersGeo);	
-	 */
-		
-		
-		
-		
+
 		
 		TOPO_GEO_ICC_L8_17 = new L.TileLayer(URL_TOPOICC_GEO_1,{  	    
 			tms:true,
