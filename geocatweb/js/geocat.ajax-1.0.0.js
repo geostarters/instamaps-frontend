@@ -26,12 +26,12 @@ function deleteMap(data){
 /* registre.html */
 
 function registerUser(url, dataUrl){
-	 return jQuery.ajax({
-			url: url,
-			data: dataUrl,
-			method: 'post',
-			dataType: 'jsonp'
-			}).promise();		
+	return jQuery.ajax({
+		url: url,
+		data: dataUrl,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();		
 }
 
 function checkUsername(username){
@@ -618,6 +618,36 @@ function updatePasswordIcgc(data){
 		async: false,
 		method: 'post',
 		dataType: 'jsonp'
+	}).promise();
+}
+
+
+/*FUNCIONS NOU MODEL*/
+function createVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.createVisualitzacioLayer,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function addGeometriaToVisualitzacio(data){
+	return jQuery.ajax({
+		url: paramUrl.addGeometriaToVisualitzacio,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function moveGeometriaToVisualitzacio(data){
+	return jQuery.ajax({
+		url: paramUrl.moveGeometriaToVisualitzacio,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
 	}).promise();
 }
 

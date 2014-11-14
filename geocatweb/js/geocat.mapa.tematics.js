@@ -782,10 +782,12 @@ function getRangsFromStyles(tematic, styles){
 	if (jQuery.isArray(styles)){
 		jQuery.each(styles, function(i, val){
 			var rang = getRangsFromStyles(tematic, val.style);
-			rang[0].featureLeafletId = val.style._leaflet_id;
-			rang = rang[0];
-			rang.valorMax = val.key;
-			rangs.push(rang);
+			if(rang[0]){
+				rang[0].featureLeafletId = val.style._leaflet_id;
+				rang = rang[0];
+				rang.valorMax = val.key;
+				rangs.push(rang);			
+			}
 		});
 	}else{
 		if (ftype == t_marker){

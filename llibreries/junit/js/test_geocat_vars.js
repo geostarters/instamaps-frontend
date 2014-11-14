@@ -123,6 +123,8 @@ var urls = {
 	moveGeometriaToEstil: HOST_APP+"layers/visualitzacio/moveGeometriaToEstil.action?",
 	modificarEstiloGeometria: HOST_APP+"layers/visualitzacio/modificarEstiloGeometria.action?",
 	removeGeometriaFromVisualitzacio: HOST_APP+"layers/visualitzacio/removeGeometriaFromVisualitzacio.action?",
+	createVisualitzacioSimple: HOST_APP+"layers/visualitzacio/createVisualitzacioSimple.action?",
+	createVisualitzacioTematica: HOST_APP+"layers/visualitzacio/createVisualitzacioTematica.action?",
 };
 
 var uid = "bolo";

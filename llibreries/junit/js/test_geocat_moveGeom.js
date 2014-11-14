@@ -26,7 +26,7 @@ asyncTest( "moveGeometriaToVisualitzacio", 1, function() {
 	var features = {
 			type:"Feature",
 			id:3124,
-			businessId: "4c216bc1cdd8b3a69440b45b2713b013",//Bid de la geometria q estas afegint
+			businessId: "4c216bc1cdd8b3a69440b45b2713b014",//Bid de la geometria q estas afegint
 			properties: {
 				nom: "feature 1",
 				campo1: "data 1",
