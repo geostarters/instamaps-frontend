@@ -621,3 +621,33 @@ function updatePasswordIcgc(data){
 	}).promise();
 }
 
+
+/*FUNCIONS NOU MODEL*/
+function createVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.createVisualitzacioLayer,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function addGeometriaToVisualitzacio(data){
+	return jQuery.ajax({
+		url: paramUrl.addGeometriaToVisualitzacio,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function moveGeometriaToVisualitzacio(data){
+	return jQuery.ajax({
+		url: paramUrl.moveGeometriaToVisualitzacio,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
