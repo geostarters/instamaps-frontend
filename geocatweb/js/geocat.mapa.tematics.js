@@ -777,6 +777,11 @@ function getRangsFromStyles(tematic, styles){
 	}
 	
 	var ftype = transformTipusGeometry(tematic.geometrytype);
+	/*Control cas multiple
+	if(ftype == t_multiple && styles.options){
+		 ftype = transformTipusGeometry(styles.options.tipus);
+	}*/
+	
 	
 	var rangs = [];
 	if (jQuery.isArray(styles)){
@@ -788,6 +793,7 @@ function getRangsFromStyles(tematic, styles){
 				rang.valorMax = val.key;
 				rangs.push(rang);			
 			}
+
 		});
 	}else{
 		if (ftype == t_marker){

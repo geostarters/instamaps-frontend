@@ -274,23 +274,34 @@ function calculaWF() {
       w = d.x;
       h = d.y;
 
-      // var w= jQuery('#map').width();
+   
       var topMap = jQuery('#map').position().top;
-      //console.info(h);
+    
      
 
       var puntIn = map.getBounds().getNorthWest();
       var NW = L.CRS.EPSG3857.project(puntIn);
       var SE = L.CRS.EPSG3857.project(map.getBounds().getSouthEast());
 
-      
-      //console.info(puntIn);
-
+	 
+	  
+	  var ff_Pixels = new L.Point(0, 0);
+	 var ff_MM = map.layerPointToLatLng(ff_Pixels);
+	  var ff_3557 = L.CRS.EPSG3857.project(ff_MM );
+	  
+	  
       var pNW_Pixels = new L.Point(0, - topMap);
       var pNW = map.layerPointToLatLng(pNW_Pixels);
 	 
+	
+	 var FACT=parseFloat(ff_MM.lat) - parseFloat(pNW.lat) ;
+	 
+	
 	  
-      var pNW_3557 = L.CRS.EPSG3857.project(pNW);
+     var pNW_3557 = L.CRS.EPSG3857.project(pNW);
+	   var FACT=parseFloat(ff_3557.y) - parseFloat(pNW_3557.y) ;
+	  
+
 
       var pNE_Pixels = new L.Point(w, h - topMap);
       var pNE = map.layerPointToLatLng(pNE_Pixels);
@@ -300,15 +311,20 @@ function calculaWF() {
       var mapW = (pNE_3557.x - pNW_3557.x) / w;
       var mapH = (pNW_3557.y - pNE_3557.y) / h;
 
+	  var nouY=parseFloat(parseFloat(NW.y)-(parseFloat(FACT)));
+	  
+	
       var WF={};
       
       WF.imgW=w;
       WF.imgH=h;
       WF.resW=mapW;
       WF.resH=mapH;
-      WF.x=pNW_3557.x;
-      WF.y=pNW_3557.y;
-      WF.x1=SE.x;
+     //WF.x=pNW_3557.x;
+      //WF.y=pNW_3557.y;
+	 WF.x=NW.x;
+      WF.y=nouY
+      WF.x1=NW.x;
       WF.y1=SE.y;
       
       return WF;
@@ -318,7 +334,7 @@ function calculaWF() {
 
 function tornaLLoc(tr){
 
- //if (L.Browser.webkit) {
+
  
  
  
@@ -328,7 +344,7 @@ function tornaLLoc(tr){
 		"transform":tr
 		});
 						
-	//	}
+	
 						
 
 }
@@ -339,8 +355,7 @@ function tornaLLocGeoPDF(tr){
  if (L.Browser.webkit) {
   
 	jQuery(".leaflet-map-pane").css({
-		 //left:0,
-		//top:0,
+		
 		"transform":tr
 		});
 						
@@ -402,45 +417,20 @@ if(jQuery(".leaflet-map-pane").css("transform")){
 
 function generaCaptura(_tipusCaptura, w, h, factor) {
 
+map.setView([  map.getCenter().lat,map.getCenter().lng ], map.getZoom());
+
+
       if ((!w) || (w == null)) {
             var d = map.getSize();
             w = d.x;
             h = d.y;
       }
       
-//jQuery('#map .leaflet-control-container').attr('data-html2canvas-ignore','true');
 
-
-    /*  
-      var zz=map.getZoom();    
-      map.setZoom(zz-1);          
-      map.setZoom(zz);
-     */
 	 
 	
 	 var transform="";
-	/*
-	 if (L.Browser.webkit) {
 	
-			if(jQuery(".leaflet-map-pane").css("transform")){
-					var transform=jQuery(".leaflet-map-pane").css("transform");
-console.info(transform);
-					var comp=transform.split(",") //split up the transform matrix
-					var mapleft=parseFloat(comp[4]) //get left value
-					var maptop=parseFloat(comp[5])  //get top value
-					$(".leaflet-map-pane").css({ //get the map container. not sure if stable
-					  //"transform":"none",
-					// "transform":"translate3d(0px,0px,0px)",
-					"transform":"matrix(1, 0, 0, 1, 0, 0)", 
-					//  "left":mapleft,
-					 // "top":maptop,
-					});
-console.info(jQuery(".leaflet-map-pane").css("transform"));
-					
-		}
-} else{
-*/
-
 			
 
 
@@ -467,7 +457,7 @@ jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer'
 
                         ActDesPrintMode(false);
                         var imgData = canvas.toDataURL('image/jpeg', 0.92);
-                        //var imgData = canvas.toDataURL('image/png')
+                       // var imgData = canvas.toDataURL('image/png')
 						
 						
 						
@@ -627,24 +617,31 @@ imgCaptura="";
 
       } else if (_tipusCaptura == CAPTURA_GEOPDF) {
       
-     transform=hackGeoPDF();
+    
+	 if (L.Browser.webkit) {
+	transform=hackCaptura();
+	 }else{
+	 transform=hackCaptura();
+	 }
 	  
-	 
-	 //map.invalidateSize.bind(map);
-	  
-      jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').attr('data-html2canvas-ignore','true');
+      jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').attr('data-html2canvas-ignore', 'true');
       
-
+//
       
       //jQuery('#map .leaflet-marker-pane').attr('data-html2canvas-ignore','true');
       
       //jQuery('#map .leaflet-marker-pane').find('img').has("img[src~='meteo.cat']").attr('data-html2canvas-ignore','true');
       
-            
+       
+  
+	   
       var WF=calculaWF();     
       var data=getCapesVectorActives();
       capturaLlegenda(false);
       
+	 
+	  
+	  
       html2canvas(jQuery('#map .leaflet-map-pane'), {
       
             
@@ -702,8 +699,19 @@ imgCaptura="";
                                                            
                                                            jQuery('#bt_desc_img').show();
                                                            comportamentCaptura(3);
-                                                           tornaLLocGeoPDF(transform);
+                                                          // tornaLLocGeoPDF(transform);
                                                            
+															
+															 if (L.Browser.webkit) {
+																//tornaLLocGeoPDF(transform);
+																 tornaLLoc(transform);
+																 }else{
+																 tornaLLoc(transform);
+																 }
+															
+															
+															
+															
                                                            
                                                      }else{
                                                            comportamentCaptura(2);
@@ -759,7 +767,10 @@ function capturaLlegenda(ensenyaBoto){
 
 objLLegenda=null;
 
-if(jQuery('#mapLegend').is(':visible')){
+//if(jQuery('#mapLegend').is(':visible')){
+
+if(jQuery('.bt_legend span').hasClass('greenfort')){
+
 
 var w = jQuery('#mapLegend').width();
 var h = jQuery('#mapLegend').height();
