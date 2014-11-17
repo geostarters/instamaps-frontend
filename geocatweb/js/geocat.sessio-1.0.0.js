@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
 jQuery("#login_button").click(function(){
 
 	_gaq.push(['_trackEvent',trackEventFrom,'inici sessio', 'retention']);
-	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'instamapes'}]);
+	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'instamapes'}]);
 	
 	checkValidityLogin("");
 	
@@ -112,44 +112,44 @@ function checkValidityLogin(tipus){
 		$('#login_user'+tipus).after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}
 	var pass_length = 0;
-	if(tipus == "") pass_length = 5;
+	if(tipus == "") pass_length = 4;
 	
 	if(isBlank($('#login_pass'+tipus).val())){
 		$('#login_pass'+tipus).addClass("invalid");
 		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#login_pass'+tipus).val().length < pass_length){
 		$('#login_pass'+tipus).addClass("invalid");
-		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir com a mínim 5 caràcters.</span>");
+		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir com a mínim 4 caràcters.</span>");
 	}
 }
   
 $('#signin_twitter').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio twitter','retention']);
-	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'twitter'}]);
+	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'twitter'}]);
 	window.location = paramUrl.socialAuth+"id=twitter";
 });
 
 $('#signin_facebook').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio facebook','retention']);
-	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'facebook'}]);
+	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'facebook'}]);
 	window.location = paramUrl.socialAuth+"id=facebook";
 });
 
 $('#signin_linkedin').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio linkedin','retention']);
-	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'linkedin'}]);
+	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'linkedin'}]);
 	window.location = paramUrl.socialAuth+"id=linkedin";
 });
 
 $('#signin_google').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio google','retention']);
-	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'google'}]);
+	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'google'}]);
 	window.location = paramUrl.socialAuth+"id=googleplus";
 });
 
 $('#signin_icc').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio icc','retention']);
-	_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'icc'}]);
+	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'icc'}]);
 	$('#dialog_session_icgc').modal('show');
 });
 

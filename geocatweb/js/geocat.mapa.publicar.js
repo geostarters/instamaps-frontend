@@ -12,7 +12,7 @@ function addControlPublicar(){
 		jQuery('.bt_publicar').on('click',function(){
 			jQuery('.modal').modal('hide');
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
-			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
+//			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
 			
 			$('#dialgo_publicar_random').modal('show');
 			
@@ -36,7 +36,7 @@ function addControlPublicar(){
 		jQuery('.bt_publicar').on('click',function(){
 			
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
-			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
+//			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
 			
 			//actualizar los campos del dialogo publicar
 			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
@@ -198,7 +198,7 @@ function publicarMapa(fromCompartir){
 	
 	//Enregistrem tipus de fons i visibilitat
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat+"#"+map.options.typeMap, 1]);
-	_kmq.push(['record', 'publicar', {'from':'mapa', 'tipus user':tipus_user, 'visibilitat':visibilitat,'tipus fons':map.options.typeMap}]);
+//	_kmq.push(['record', 'publicar', {'from':'mapa', 'tipus user':tipus_user, 'visibilitat':visibilitat,'tipus fons':map.options.typeMap}]);
 	
 	//crear los archivos en disco
 	var layersId = getBusinessIdOrigenLayers();
@@ -276,21 +276,28 @@ function createModalConfigDownload(){
 		var layerName = layer.options.nom;
 		var checked = "";
 		
-		//Si té checkec definit
-		if(downloadableData[layer.options.businessId]){
-			if(downloadableData[layer.options.businessId][0].chck) checked = 'checked="checked"';
-		}else{//Sino per defecte check
-			checked = 'checked="checked"'
-		}		
+		var tipusLayer = "";
+		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
-		html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
-						'<div class="col-md-9 downloadable-name">'+
-							layerName+
-						'</div>'+
-						'<input id="downloadable-chck" class="col-md-1 downloadable-chck" type="checkbox" '+checked+' >'+
-					'</div>';		
-		html+='<div class="separate-downloadable-row"></div>';
+		//Si no es WMS
+		if(tipusLayer.indexOf(t_wms)== -1){
+			//Si té checkec definit
+			if(downloadableData[layer.options.businessId]){
+				if(downloadableData[layer.options.businessId][0].chck) checked = 'checked="checked"';
+			}else{//Sino per defecte check
+				checked = 'checked="checked"'
+			}		
+			
+			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+							'<div class="col-md-9 downloadable-name">'+
+								layerName+
+							'</div>'+
+							'<input id="downloadable-chck" class="col-md-1 downloadable-chck" type="checkbox" '+checked+' >'+
+						'</div>';		
+			html+='<div class="separate-downloadable-row"></div>';			
+		}
 	});	
+	
 	$('#dialgo_publicar .modal-body .modal-downloadable').html(html);	
 	
 //	$('#div_downloadable input').iCheck({
@@ -427,11 +434,11 @@ function addHtmlModalPublicar(){
 			'			</div>'+
 			'			<div class="modal-footer">'+
 			'				<button lang="ca" type="button" class="btn bt-sessio"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "inici sessio", "modal pre-publicar"]);_kmq.push([\'record\', \'inici sessio\', {\'from\':\'mapa\', \'funnel\':\'retention\', \'usuari from\':\'modal pre-publicar\'}]);">Inicia la sessió</button>'+
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "inici sessio", "modal pre-publicar"]);">Inicia la sessió</button>'+
 			'				<button lang="ca" type="button" class="btn bt_orange"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "registre", "modal pre-publicar"]);_kmq.push([\'record\', \'registre\', {\'from\':\'mapa\', \'funnel\':\'acquisition\', \'usuari from\':\'modal pre-publicar\'}]);">Crea un compte</button>'+
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "registre", "modal pre-publicar"]);">Crea un compte</button>'+
 			'				<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "guest", "modal pre-publicar"]);_kmq.push([\'record\', \'guest\', {\'from\':\'mapa\', \'usuari from\':\'modal pre-publicar\'}]);">Més tard</button>'+					
+			'						onClick="_gaq.push(["_trackEvent", "mapa", "guest", "modal pre-publicar"]);">Més tard</button>'+					
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+

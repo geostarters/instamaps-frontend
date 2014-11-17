@@ -45,7 +45,7 @@ function creaAreesDragDropFiles() {
 
 		drgFromMapa.on("addedfile", function(file) {
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', 'addedfile', 1]);
-			_kmq.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user, 'forma carrega':'drag&drop'}]);
+			//_kmq.push.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user, 'forma carrega':'drag&drop'}]);
 			envioArxiu.isDrag=true;
 			//console.debug(file);
 			accionaCarrega(file,envioArxiu.isDrag);
@@ -98,7 +98,7 @@ function creaAreesDragDropFiles() {
 					}
 					
 					_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
-					_kmq.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
+					//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
 					jQuery("#div_carrega_dades_message").html(txt_error);
 					jQuery("#div_carrega_dades_message").show();					
 				}
@@ -106,7 +106,7 @@ function creaAreesDragDropFiles() {
 				progressBarShow = false;
 				jQuery('#progress_bar_carrega_dades').hide();
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
-				_kmq.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
+				//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
 				jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
 				jQuery("#div_carrega_dades_message").show();
 			}
@@ -117,7 +117,7 @@ function creaAreesDragDropFiles() {
 			progressBarShow = false;
 			jQuery('#progress_bar_carrega_dades').hide();
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
-			_kmq.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':'Sense codi error'}]);
+			//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':'Sense codi error'}]);
 			jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
 			jQuery("#div_carrega_dades_message").show();
 		});
@@ -160,7 +160,7 @@ function addFuncioCarregaFitxers(){
 
 			drgFromBoto.on("addedfile", function(file) {
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', 'addedfile', 1]);
-				_kmq.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user, 'forma carrega':'menu'}]);
+				//_kmq.push.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user, 'forma carrega':'menu'}]);
 				envioArxiu.isDrag=false;
 				accionaCarrega(file, envioArxiu.isDrag);			
 			});
@@ -207,7 +207,7 @@ function addFuncioCarregaFitxers(){
 							txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
 						}
 						_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
-						_kmq.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
+						//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
 						jQuery("#div_carrega_dades_message").html(txt_error);
 						jQuery("#div_carrega_dades_message").show();						
 					}
@@ -219,7 +219,7 @@ function addFuncioCarregaFitxers(){
 				drgFromBoto.removeAllFiles(true);
 				$('#dialog_carrega_dades').modal('hide');
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
-				_kmq.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':'Sense codi error'}]);
+				//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':'Sense codi error'}]);
 				jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
 				jQuery("#div_carrega_dades_message").show();				
 //				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
@@ -812,7 +812,7 @@ function addDropFileToMap(results) {
 			if (results.status == "OK") {
 				var extensio = ((envioArxiu.ext!=null)?envioArxiu.ext:"");
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades', envioArxiu.ext, 1]);
-				_kmq.push(['record', 'carregar dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus arxiu':envioArxiu.ext}]);
+				//_kmq.push.push(['record', 'carregar dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus arxiu':envioArxiu.ext}]);
 				// Un cop carregat el fitxer refresquem el popup de les dades de
 				// l'usuari i tambè
 				// el control de capes
@@ -851,7 +851,7 @@ function addDropFileToMap(results) {
 			txt_error = window.lang.convert("Error en la càrrega de l'arxiu");
 		}
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', results.results, 1]);
-		_kmq.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':results.results}]);
+		//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':results.results}]);
 		jQuery("#div_carrega_dades_message").html(txt_error);
 		jQuery("#div_carrega_dades_message").show();	
 	}

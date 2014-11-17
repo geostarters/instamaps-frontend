@@ -58,7 +58,7 @@ $(function(){
 			
 			$('.new_map').on('click', function(event){
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'fer mapa'/*, 'acquisition'*/]);
-				_kmq.push(['record', 'fer mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
+				//_kmq.push(['record', 'fer mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				window.location.href = paramUrl.mapaPage;
 			});
 			
@@ -83,7 +83,7 @@ $(function(){
 						$('#'+$this.data("businessid")).remove();
 						$('#dialgo_delete').modal('hide');
 						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
-						_kmq.push(['record', 'esborrar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
+						//_kmq.push(['record', 'esborrar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 					}
 				});
 			});
@@ -93,7 +93,7 @@ $(function(){
 				event.stopPropagation();
 				var $this = $(this);
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'editar mapa']);
-				_kmq.push(['record', 'editar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
+				//_kmq.push(['record', 'editar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				window.location.href = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
 			});
 			
@@ -106,7 +106,7 @@ $(function(){
 					urlMap += "&id="+$this.data("idusr");
 				}
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'veure mapa']);
-				_kmq.push(['record', 'veure mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
+				//_kmq.push(['record', 'veure mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				window.location.href = urlMap;
 			});
 			
@@ -122,7 +122,7 @@ $(function(){
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'enllaça mapa', 'referral', 1]);
-				_kmq.push(['record', 'enllaça mapa', {'from':'galeria privada','funnel':'referral', 'tipus user':t_user_loginat}]);
+				//_kmq.push(['record', 'enllaça mapa', {'from':'galeria privada','funnel':'referral', 'tipus user':t_user_loginat}]);
 			});
 			
 			$('.btn-tooltip').tooltip().each(function(){
@@ -188,7 +188,7 @@ $(function(){
 					urlMap += "&id="+$this.data("idusr");
 				}
 				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'veure mapa']);
-				_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
+				//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
 				window.open(urlMap);
 			});
 			
@@ -204,7 +204,7 @@ $(function(){
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
 				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'enllaça mapa', 'referral', 1]);
-				_kmq.push(['record', 'enllaça mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
+				//_kmq.push(['record', 'enllaça mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
 			});
 			
 			$('.btn-tooltip').tooltip().each(function(){

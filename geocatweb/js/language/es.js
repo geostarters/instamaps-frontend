@@ -216,7 +216,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Introdueix un nom vàlid per a la publicació del mapa":"Introduce un nombre válido para la publicación del mapa",
 	"L'adreça he de contenir: Nom carrer, número i  municipi":"La dirección debe contener: Nombre de calle, número y municipio",
 	"La contrassenya antiga no és correcte":"La contraseña antigua no es correcta",
-	"La contrassenya ha de tenir un mínim de 5 caràcters.":"La contraseña tiene que tener un mínimo de 5 caracteres.",
+	"La contrassenya ha de tenir un mínim de 4 caràcters.":"La contraseña tiene que tener un mínimo de 5 caracteres.",
 	"La geoinformació de Catalunya i el món:":"La geoinformación de Catalunya y del mundo:",
 	"La informació es mostra en funció de l'àrea geogràfica visualitzada.":"La información se muestra en función del área geográfica visualizada.",
 	"La nova contrassenya ja havia estat utilitzada":"La nueva contraseña ya fue utilizada",
