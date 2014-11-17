@@ -25,7 +25,7 @@ var coords="";
 
 	var obj=jQuery.trim(coords);
 	var params =this.getFeatureUrl();
-		params=params.replace('betaserver.icgc.cat','172.70.1.31');
+		//params=params.replace('betaserver.icgc.cat','172.70.1.31');
 		var paramsWFS=this.wfsFyer(params,this.wmsParams.layers,map.getZoom(),obj,'area');
 		
 		
@@ -97,7 +97,7 @@ var coords="";
 		
 		aturaClick(evt);
 
-			params=params.replace('betaserver.icgc.cat','172.70.1.31');
+			//params=params.replace('betaserver.icgc.cat','172.70.1.31');
 		var paramsWFS=this.wfsFyer(params,this.wmsParams.layers,map.getZoom(),evt.latlng,'click');
 		
 		
