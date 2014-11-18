@@ -155,6 +155,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Error de xarxa. Torni a intentar-ho":"Network error. Try again",
 	"Error durant el tractament de les dades":"Error while processing data",
 	"Error en la càrrega de l'arxiu":"Error loading file",
+	"Error en la càrrega de l'arxiu: retorn buit":"Error loading file: empty return",
 	"Esborrar el mapa":"Delete the map",
 	"Error en el tractament de les dades":"Error in data processing",
 	"Esborrar":"Delete",

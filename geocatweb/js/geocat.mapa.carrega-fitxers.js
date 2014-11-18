@@ -85,7 +85,9 @@ function creaAreesDragDropFiles() {
 					progressBarShow = false;
 					jQuery('#progress_bar_carrega_dades').hide();
 					
-					if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
+					if(!resposta.codi){
+						txt_error = window.lang.convert("Error en la càrrega de l'arxiu: retorn buit");
+					}else if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
 						var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 					}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
 						txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
@@ -1033,6 +1035,11 @@ function addHtmlModalCarregarFitxers(){
 		'	<!-- fi Modal Carrega dades -->'+
 		'</div>'
 	);	
+	
+	$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {
+		jQuery("#div_carrega_dades_message").html("");
+		jQuery("#div_carrega_dades_message").hide();		
+	});
 	
 }
 

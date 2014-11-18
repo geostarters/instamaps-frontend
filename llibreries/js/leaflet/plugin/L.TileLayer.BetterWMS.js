@@ -28,26 +28,34 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			
 		}else{
 		
-		
-			$.ajax({
-			url: paramUrl.proxy_betterWMS,
-			data: {url: params},
-			success: function (data, status, xhr) {
-				var err = typeof data === 'string' ? null : data;
-	//			showResults(err, evt.latlng, data);
-				//showGetFeatureInfo(err, evt.latlng, data);
-				//console.debug(data);
-				if(data.length > 5){
-					var pop=L.popup({ maxWidth: 800})
-						.setLatLng(evt.latlng)
-						.setContent(data).openOn(map);					
+			var esNomesWMS = true;
+			for(val in controlCapes._layers){
+				if(controlCapes._layers[val].layer.options.tipus != t_wms){
+					esNomesWMS = false;
 				}
-			},
-			error: function (xhr, status, error) {
-	//			showResults(error);
-				//console.debug("Error:"+error);
 			}
-			});
+		
+			if(esNomesWMS){
+				$.ajax({
+					url: paramUrl.proxy_betterWMS,
+					data: {url: params},
+					success: function (data, status, xhr) {
+						var err = typeof data === 'string' ? null : data;
+			//			showResults(err, evt.latlng, data);
+						//showGetFeatureInfo(err, evt.latlng, data);
+						//console.debug(data);
+						if(data.length > 5){
+							var pop=L.popup({ maxWidth: 800})
+								.setLatLng(evt.latlng)
+								.setContent(data).openOn(map);					
+						}
+					},
+					error: function (xhr, status, error) {
+			//			showResults(error);
+						//console.debug("Error:"+error);
+					}
+					});				
+			}
 		}
 		
 		
