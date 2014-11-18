@@ -636,7 +636,7 @@ function iniciaInfoPSolar(capa, geojson) {
 		val_ghifv2_fv = 0;
 		val_ghifv3_fv = sumaPropietats(geojson, 'ghits2');
 		val_ghifv4_fv = sumaPropietats(geojson, 'ghits3');
-		geojson = addColorParcelaFV(geojson, 'sfv1', 'sfv2', 'sfv3', 'sfv4');
+		geojson = addColorParcelaTS(geojson, 'sfv1', 'sfv2', 'sfv3');
 		val_sfv1_fv = sumaPropietats(geojson, 'sts1');
 		val_sfv2_fv = 0;
 		val_sfv3_fv = sumaPropietats(geojson, 'sts2');
@@ -680,7 +680,7 @@ function iniciaInfoPSolar(capa, geojson) {
 		val_ghifv4_fv = sumaPropietats(geojson, 's3_sum');
 		//geojson=addColorParcelaTS(geojson,'ts1_sum','ts2_sum','ts3_sum');
 
-		geojson = addColorParcelaFV(geojson, 'sfv1', 'sfv2', 'sfv3', 'sfv4');
+		geojson = addColorParcelaTS(geojson, 'sfv1', 'sfv2', 'sfv3');
 
 		val_sfv1_fv = sumaPropietats(geojson, 'sts1');
 		val_sfv2_fv = 0;
