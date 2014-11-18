@@ -25,7 +25,14 @@ var coords="";
 
 	var obj=jQuery.trim(coords);
 	var params =this.getFeatureUrl();
-		//params=params.replace('betaserver.icgc.cat','172.70.1.31');
+		
+		var urlApp=document.location.href;
+if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
+		params=params.replace('betaserver.icgc.cat','172.70.1.31');
+			}
+		//params=params.replace('betaserver.icgc.cat','84.88.72.98');
+		
+		
 		var paramsWFS=this.wfsFyer(params,this.wmsParams.layers,map.getZoom(),obj,'area');
 		
 		
@@ -97,7 +104,11 @@ var coords="";
 		
 		aturaClick(evt);
 
-			//params=params.replace('betaserver.icgc.cat','172.70.1.31');
+		var urlApp=document.location.href;
+if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
+		params=params.replace('betaserver.icgc.cat','172.70.1.31');
+			}
+			//params=params.replace('betaserver.icgc.cat','84.88.72.98');
 		var paramsWFS=this.wfsFyer(params,this.wmsParams.layers,map.getZoom(),evt.latlng,'click');
 		
 		
@@ -230,7 +241,9 @@ var coords="";
 	
 	}else{
 	
-filter="FILTER=<Filter><Intersects><PropertyName>Geometry</PropertyName><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>"+latlng+"</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></Intersects></Filter>";
+//filter="FILTER=<Filter><Intersects><PropertyName>Geometry</PropertyName><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>"+latlng+"</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></Intersects></Filter>";
+
+filter="FILTER=<Filter><Within><PropertyName>Geometry</PropertyName><gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>"+latlng+"</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon></Within></Filter>";
 	
 	}
 	
@@ -244,7 +257,7 @@ filter="FILTER=<Filter><Intersects><PropertyName>Geometry</PropertyName><gml:Pol
 	 params=params.replace("SERVICE=WMS","SERVICE=WFS");
 	// params=params.replace("LAYERS=","TYPENAME=");
 	 params=params.replace("VERSION=1.1.1","VERSION=1.1.0");
-	 params=params + "&OUTPUTFORMAT=geojson&MAXFEATURES=200&TYPENAME="+capa+"&"+filter;
+	 params=params + "&OUTPUTFORMAT=geojson&MAXFEATURES=300&TYPENAME="+capa+"&"+filter;
 
 var wfs={url:params,capa:capa};	 
 	 
