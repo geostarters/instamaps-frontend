@@ -15,6 +15,28 @@
 	
 }
 
+
+.psolar_infoLL{
+ background-color: white;
+    border: 1px dashed #bbbbbb;
+    z-index: 200;
+    display:none;
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+    border-radius: 0;
+    color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .tbl_dades{
 	 border-bottom: 2px solid #333333;
     font-weight: bold;

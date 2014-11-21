@@ -2,6 +2,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	onAdd: function (map) {
 		// Triggered when the layer is added to a map.
 		// Register a click listener, then do all the upstream WMS things
+		this.options.maxZoom=19;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		map.on('click', this.getFeatureInfo, this);
 	},
@@ -28,45 +29,62 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			
 		}else{
 		
-		
-			$.ajax({
-			url: paramUrl.proxy_betterWMS,
-			data: {url: params},
-			success: function (data, status, xhr) {
-				var err = typeof data === 'string' ? null : data;
-	//			showResults(err, evt.latlng, data);
-				//showGetFeatureInfo(err, evt.latlng, data);
-				//console.debug(data);
-				if(data.length > 5){
-					var pop=L.popup({ maxWidth: 800})
-						.setLatLng(evt.latlng)
-						.setContent(data).openOn(map);					
+			var esNomesWMS = true;
+			for(val in controlCapes._layers){
+				if(controlCapes._layers[val].layer.options.tipus != t_wms){
+					esNomesWMS = false;
 				}
-			},
-			error: function (xhr, status, error) {
-	//			showResults(error);
-				//console.debug("Error:"+error);
 			}
-			});
+		
+			if(esNomesWMS){
+				$.ajax({
+					url: paramUrl.proxy_betterWMS,
+					data: {url: params},
+					success: function (data, status, xhr) {
+						var err = typeof data === 'string' ? null : data;
+			//			showResults(err, evt.latlng, data);
+						//showGetFeatureInfo(err, evt.latlng, data);
+						//console.debug(data);
+						if(data.length > 5){
+							var pop=L.popup({ maxWidth: 800})
+								.setLatLng(evt.latlng)
+								.setContent(data).openOn(map);					
+						}
+					},
+					error: function (xhr, status, error) {
+			//			showResults(error);
+						//console.debug("Error:"+error);
+					}
+					});				
+			}
 		}
 		
 		
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
-	
+		var SRS=this.wmsParams.srs;
+		var BBOX=bounds.toBBoxString();
+			if(SRS.indexOf('3857')!=-1){
+				var NW = L.CRS.EPSG3857.project(bounds.getNorthWest());
+				var SE = L.CRS.EPSG3857.project(bounds.getSouthEast());
+				  
+				 BBOX=NW.x+","+SE.y+","+SE.x+","+NW.y;
+			
+			}
+		
 		// Construct a GetFeatureInfo request URL given a point
 		var point = this._map.latLngToContainerPoint(latlng, this._map.getZoom()),
 		size = this._map.getSize(),
 		params = {
 			request: 'GetFeatureInfo',
 			service: 'WMS',
-			srs: this.wmsParams.srs,
+			srs: SRS,
 			styles: this.wmsParams.styles,
 			transparent: this.wmsParams.transparent,
 			version: this.wmsParams.version,
 			format: this.wmsParams.format,
-			bbox: this._map.getBounds().toBBoxString(),
+			bbox: BBOX,
 			//bbox: ""+bounds.getSouth()+","+bounds.getWest()+","+bounds.getNorth()+","+bounds.getEast()+"",
 			height: size.y,
 			width: size.x,

@@ -1,6 +1,7 @@
-console.debug("modul psolar");
+//console.debug("modul psolar");
 var modul_psolar = true;
 var infoPSolar;
+var infoPSolarLL;
 var CONTS_Increment_preu_fv = 6;
 
 var val_area3d_fv = 0;
@@ -38,21 +39,55 @@ var heFetUnClick = true;
 var capaGeoJSON;
 var drawPSolar;
 var HTML_edificis_fv = new Array();
+var editableLayers;
 HTML_edificis_fv.push('<h5>Potencial d\'aprofitament FV</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="regular"><label>Regular</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr> </table>  	<table class="tbl_dades">	 		<tr> 		<td>Irradiació global:</td> 		<td><span id="fv_global"></span> kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades"> 		<tr> 		<td>Àrea total:</td> 		<td><span id="fv_area_t"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Àrea instal.lada:</td> 		<td><span id="fv_area_i"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Nombre de panells:</td> 		<td><span id="fv_num_panells"></span></td> 		</tr> 		<tr> 		<td>Eficiència dels panells:</td> 		<td><select onClick="initEdificisFV()" id="efi_panells"> 				<option value="5">5%</option> 				<option value="6">6%</option> 				<option value="7">7%</option> 				<option value="8">8%</option> 				<option value="9">9%</option> 				<option value="10">10%</option> 				<option selected value="11">11%</option> 				<option value="12">12%</option> 				<option value="13">13%</option> 				<option value="14">14%</option> 				<option value="15">15%</option> 				<option value="16">16%</option> 				<option value="17">17%</option> 				<option value="18">18%</option> 				<option value="19">19%</option> 				<option value="20">20%</option> 				 				 			</select> 			</td> 		</tr> 		<tr> 		<td>Electricitat generada:</td> 		<td><span id="fv_elct_gen"></span>kWh/any</td> 		</tr> 	</table>  	<table class="tbl_dades">	 		<tr> 		<td>Cost de la inversió:</td> 		<td><span id="fv_cost_i"></span> &euro;</td> 		</tr> 		<tr> 		<td>Preu de l\'energia:</td> 		<td><span id="fv_preu_e"><input onChange="initEdificisFV()" id="txt_preu" size="2"  type="text" value="0,17"></span> &euro;/kWh</td> 		</tr> 		<tr> 		<td>Peatge d\'accés:</td> 		<td><span id="fv_peatge"><input onChange="initEdificisFV()"  id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td> 		</tr> 		<tr> 		<td>Retorn previst:</td> 		<td><span id="fv_retorn"></span> &euro;/any</td> 		</tr> 		<tr> 		<td>Temps d\'amortització:</td> 		<td><span id="fv_temps"> </span> anys</td> 		</tr> 		 	</table>  <table class="tbl_dades">	 		<tr> 		<td>Estalvi en CO<sub>2</sub>:</td> 		<td><span id="fv_CO"></span> kg/any</td> 		</tr> 	</table>  	<div id="chart_div" style="width: 100%; height: 280px;"></div> ');
 
 var HTML_edificis_ts = new Array();
-HTML_edificis_ts.push('<h5>Potencial d\'aprofitament termosolar</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr> </table>  	<table class="tbl_dades">	 		<tr> 		<td>Irradiació global:</td> 		<td><span id="fv_global"></span> kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades"> 		<tr> 		<td>Àrea total:</td> 		<td><span id="fv_area_t"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Àrea instal.lada:</td> 		<td><span id="fv_area_i"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Nombre de panells:</td> 		<td><span id="fv_num_panells"></span></td> 		</tr> 		<tr> 		<td>Eficiència dels panells:</td> 		<td><select onClick="calculaElectricitatGenerada_FV(this.value)" id="efi_panells"> 				<option value="30">30%</option> 				<option value="31">31%</option> 				<option value="32">32%</option> 				<option value="33">33%</option> 				<option value="34">34%</option> 				<option value="35">35%</option> 				<option value="36">36%</option> 				<option value="37">37%</option> 				<option value="38">38%</option> 				<option value="39">39%</option> 				<option selected value="40">40%</option> 				<option value="41">41%</option> 				<option value="42">42%</option> 				<option value="43">43%</option> 				<option value="44">44%</option> 				<option value="45">45%</option> 				<option value="46">46%</option> 				<option value="47">47%</option> 				<option value="48">48%</option> 				<option value="49">49%</option> 				<option value="50">50%</option> 				<option value="51">51%</option> 				<option value="52">52%</option> 				<option value="53">53%</option> 				<option value="54">54%</option> 				<option value="55">55%</option> 				<option value="56">56%</option> 				<option value="57">57%</option> 				<option value="58">58%</option> 				<option value="59">59%</option> 				<option value="60">60%</option> 			</select> 			</td> 		</tr> 		<tr> 		<td>Electricitat generada:</td> 		<td><span id="fv_elct_gen"></span>kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades"> 		<tr> 		<td>Cost de la inversió:</td> 		<td><span id="fv_cost_i"></span> &euro;</td> 		</tr> 		<tr> 		<td>Preu de l\'energia:</td> 		<td><span id="fv_preu_e"><input onChange="calculaRetornPrevist_FV()" id="txt_preu" size="2"  type="text" value="0,17"></span> &euro;/kWh</td> 		</tr> 		<tr> 		<td>Peatge d\'accés:</td> 		<td><span id="fv_peatge"><input onChange="calculaRetornPrevist_FV()"  id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td> 		</tr> 		<tr> 		<td>Retorn previst:</td> 		<td><span id="fv_retorn"></span> &euro;/any</td> 		</tr> 		<!--<tr> 		<td>Temps d\'amortització:</td> 		<td><span id="fv_temps">XXXXX</span> anys</td> 		</tr>--> 		 	</table>  	<table class="tbl_dades">	 		<tr> 		<td>Estalvi en CO<sub>2</sub>:</td> 		<td><span id="fv_CO"></span> kg/any</td> 		</tr> 	</table>');
+HTML_edificis_ts.push('<h5>Potencial d\'aprofitament termosolar</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr> </table>  	<table class="tbl_dades">	 		<tr> 		<td>Irradiació global:</td> 		<td><span id="fv_global"></span> kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades"> 		<tr> 		<td>Àrea total:</td> 		<td><span id="fv_area_t"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Àrea instal.lada:</td> 		<td><span id="fv_area_i"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Nombre de panells:</td> 		<td><span id="fv_num_panells"></span></td> 		</tr> 		<tr> 		<td>Eficiència dels panells:</td> 		<td><select onClick="calculaElectricitatGenerada_FV(this.value)" id="efi_panells"> 				<option value="30">30%</option> 				<option value="31">31%</option> 				<option value="32">32%</option> 				<option value="33">33%</option> 				<option value="34">34%</option> 				<option value="35">35%</option> 				<option value="36">36%</option> 				<option value="37">37%</option> 				<option value="38">38%</option> 				<option value="39">39%</option> 				<option selected value="40">40%</option> 				<option value="41">41%</option> 				<option value="42">42%</option> 				<option value="43">43%</option> 				<option value="44">44%</option> 				<option value="45">45%</option> 				<option value="46">46%</option> 				<option value="47">47%</option> 				<option value="48">48%</option> 				<option value="49">49%</option> 				<option value="50">50%</option> 				<option value="51">51%</option> 				<option value="52">52%</option> 				<option value="53">53%</option> 				<option value="54">54%</option> 				<option value="55">55%</option> 				<option value="56">56%</option> 				<option value="57">57%</option> 				<option value="58">58%</option> 				<option value="59">59%</option> 				<option value="60">60%</option> 			</select> 			</td> 		</tr> 		<tr> 		<td>Energia generada:</td> 		<td><span id="fv_elct_gen"></span>kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades"> 		<tr> 		<td>Cost de la inversió:</td> 		<td><span id="fv_cost_i"></span> &euro;</td> 		</tr> 		<tr> 		<td>Preu de l\'energia:</td> 		<td><span id="fv_preu_e"><input onChange="calculaRetornPrevist_FV()" id="txt_preu" size="2"  type="text" value="0,17"></span> &euro;/kWh</td> 		</tr> 		<tr> 		<td>Peatge d\'accés:</td> 		<td><span id="fv_peatge"><input onChange="calculaRetornPrevist_FV()"  id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td> 		</tr> 		<tr> 		<td>Retorn previst:</td> 		<td><span id="fv_retorn"></span> &euro;/any</td> 		</tr> 		<!--<tr> 		<td>Temps d\'amortització:</td> 		<td><span id="fv_temps">XXXXX</span> anys</td> 		</tr>--> 		 	</table>  	<table class="tbl_dades">	 		<tr> 		<td>Estalvi en CO<sub>2</sub>:</td> 		<td><span id="fv_CO"></span> kg/any</td> 		</tr> 	</table>');
 
 var HTML_teulades_fv = new Array();
 HTML_teulades_fv.push('<h5>Potencial d\'aprofitament FV</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="regular"><label>Regular</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr> </table>  	<table class="tbl_dades">	 		<tr> 		<td>Irradiació global:</td> 		<td><span id="fv_global"></span> kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades">	 		<tr> 		<td>Àrea total:</td> 		<td><span id="fv_area_t"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Inclinació:</td> 		<td><span id="fv_inclina"></span> &deg;</td> 		</tr> 		<tr> 		<td>Azimut:</td> 		<td><span id="fv_azimut"></span> &deg;</td> 		</tr> 		<tr> 		<td>Àrea instal.lada:</td> 		<td><span id="fv_area_i"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Nombre de panells:</td> 		<td><span id="fv_num_panells"></span></td> 		</tr> 		<tr> 		<td>Eficiència dels panells:</td> 		<td><select onClick="initEdificisFV()"  id="efi_panells"> 				<option value="5">5%</option> 				<option value="6">6%</option> 				<option value="7">7%</option> 				<option value="8">8%</option> 				<option value="9">9%</option> 				<option value="10">10%</option> 				<option selected value="11">11%</option> 				<option value="12">12%</option> 				<option value="13">13%</option> 				<option value="14">14%</option> 				<option value="15">15%</option> 				<option value="16">16%</option> 				<option value="17">17%</option> 				<option value="18">18%</option> 				<option value="19">19%</option> 				<option value="20">20%</option> 				 				 			</select> 			</td> 		</tr> 		<tr> 		<td>Electricitat generada:</td> 		<td><span id="fv_elct_gen"></span>kWh/any</td> 		</tr> 	</table>  	<table class="tbl_dades">	 		<tr> 		<td>Cost de la inversió:</td> 		<td><span id="fv_cost_i"></span> &euro;</td> 		</tr> 		<tr> 		<td>Preu de l\'energia:</td> 		<td><span id="fv_preu_e"><input onChange="initEdificisFV()"  id="txt_preu" size="2"  type="text" value="0,17"></span> &euro;/kWh</td> 		</tr> 		<tr> 		<td>Peatge d\'accés:</td> 		<td><span id="fv_peatge"><input onChange="initEdificisFV()"   id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td> 		</tr> 		<tr> 		<td>Retorn previst:</td> 		<td><span id="fv_retorn"></span> &euro;/any</td> 		</tr> 		<tr> 		<td>Temps d\'amortització:</td> 		<td><span id="fv_temps"></span> anys</td> 		</tr> 		 	</table>  	<table class="tbl_dades"> 		<tr> 		<td>Estalvi en CO<sub>2</sub>:</td> 		<td><span id="fv_CO"></span> kg/any</td> 		</tr> 	</table>  <div id="chart_div" style="width: 100%; height: 280px;"></div>');
 
 var HTML_teulades_ts = new Array();
-HTML_teulades_ts.push('<h5>Potencial d\'aprofitament termosolar</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr> </table>  <table class="tbl_dades"> 		<tr> 		<td>Irradiació global:</td> 		<td><span id="fv_global"></span> kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades">	 		<tr> 		<td>Àrea total:</td> 		<td><span id="fv_area_t"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Inclinació:</td> 		<td><span id="fv_inclina"></span> &deg;</td> 		</tr> 		<tr> 		<td>Azimut:</td> 		<td><span id="fv_azimut"></span> &deg;</td> 		</tr> 		<tr> 		<td>Àrea instal.lada:</td> 		<td><span id="fv_area_i"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Nombre de panells:</td> 		<td><span id="fv_num_panells"></span></td> 		</tr> 		<tr> 		<td>Eficiència dels panells:</td> 		<td><select onClick="calculaElectricitatGenerada_FV(this.value)" id="efi_panells"> 				<option value="30">30%</option> 				<option value="31">31%</option> 				<option value="32">32%</option> 				<option value="33">33%</option> 				<option value="34">34%</option> 				<option value="35">35%</option> 				<option value="36">36%</option> 				<option value="37">37%</option> 				<option value="38">38%</option> 				<option value="39">39%</option> 				<option selected value="40">40%</option> 				<option value="41">41%</option> 				<option value="42">42%</option> 				<option value="43">43%</option> 				<option value="44">44%</option> 				<option value="45">45%</option> 				<option value="46">46%</option> 				<option value="47">47%</option> 				<option value="48">48%</option> 				<option value="49">49%</option> 				<option value="50">50%</option> 				<option value="51">51%</option> 				<option value="52">52%</option> 				<option value="53">53%</option> 				<option value="54">54%</option> 				<option value="55">55%</option> 				<option value="56">56%</option> 				<option value="57">57%</option> 				<option value="58">58%</option> 				<option value="59">59%</option> 				<option value="60">60%</option>		 			</select> 			</td> 		</tr> 		<tr> 		<td>Electricitat generada:</td> 		<td><span id="fv_elct_gen"></span>kWh/any</td> 		</tr> 	</table>  	<table  class="tbl_dades">	 		<tr> 		<td>Cost de la inversió:</td> 		<td><span id="fv_cost_i"></span> &euro;</td> 		</tr> 		<tr> 		<td>Preu de l\'energia:</td> 		<td><span id="fv_preu_e"><input onChange="calculaRetornPrevist_FV()" id="txt_preu" size="2"  type="text" value="0,17"></span> &euro;/kWh</td> 		</tr> 		<tr> 		<td>Peatge d\'accés:</td> 		<td><span id="fv_peatge"><input onChange="calculaRetornPrevist_FV()"  id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td> 		</tr> 		<tr> 		<td>Retorn previst:</td> 		<td><span id="fv_retorn"></span> &euro;/any</td> 		</tr> 		 	</table>  <table class="tbl_dades"> 		<tr> 		<td>Estalvi en CO<sub>2</sub>:</td> 		<td><span id="fv_CO"></span> kg/any</td> 		</tr> 	</table>');
+HTML_teulades_ts.push('<h5>Potencial d\'aprofitament termosolar</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr> </table>  <table class="tbl_dades"> 		<tr> 		<td>Irradiació global:</td> 		<td><span id="fv_global"></span> kWh/any</td> 		</tr> 	</table>  <table class="tbl_dades">	 		<tr> 		<td>Àrea total:</td> 		<td><span id="fv_area_t"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Inclinació:</td> 		<td><span id="fv_inclina"></span> &deg;</td> 		</tr> 		<tr> 		<td>Azimut:</td> 		<td><span id="fv_azimut"></span> &deg;</td> 		</tr> 		<tr> 		<td>Àrea instal.lada:</td> 		<td><span id="fv_area_i"></span> m&sup2;</td> 		</tr> 		<tr> 		<td>Nombre de panells:</td> 		<td><span id="fv_num_panells"></span></td> 		</tr> 		<tr> 		<td>Eficiència dels panells:</td> 		<td><select onClick="calculaElectricitatGenerada_FV(this.value)" id="efi_panells"> 				<option value="30">30%</option> 				<option value="31">31%</option> 				<option value="32">32%</option> 				<option value="33">33%</option> 				<option value="34">34%</option> 				<option value="35">35%</option> 				<option value="36">36%</option> 				<option value="37">37%</option> 				<option value="38">38%</option> 				<option value="39">39%</option> 				<option selected value="40">40%</option> 				<option value="41">41%</option> 				<option value="42">42%</option> 				<option value="43">43%</option> 				<option value="44">44%</option> 				<option value="45">45%</option> 				<option value="46">46%</option> 				<option value="47">47%</option> 				<option value="48">48%</option> 				<option value="49">49%</option> 				<option value="50">50%</option> 				<option value="51">51%</option> 				<option value="52">52%</option> 				<option value="53">53%</option> 				<option value="54">54%</option> 				<option value="55">55%</option> 				<option value="56">56%</option> 				<option value="57">57%</option> 				<option value="58">58%</option> 				<option value="59">59%</option> 				<option value="60">60%</option>		 			</select> 			</td> 		</tr> 		<tr> 		<td>Energia generada:</td> 		<td><span id="fv_elct_gen"></span>kWh/any</td> 		</tr> 	</table>  	<table  class="tbl_dades">	 		<tr> 		<td>Cost de la inversió:</td> 		<td><span id="fv_cost_i"></span> &euro;</td> 		</tr> 		<tr> 		<td>Preu de l\'energia:</td> 		<td><span id="fv_preu_e"><input onChange="calculaRetornPrevist_FV()" id="txt_preu" size="2"  type="text" value="0,17"></span> &euro;/kWh</td> 		</tr> 		<tr> 		<td>Peatge d\'accés:</td> 		<td><span id="fv_peatge"><input onChange="calculaRetornPrevist_FV()"  id="txt_peatge"  size="2" type="text" value="0,5"></span> &euro;/MWh</td> 		</tr> 		<tr> 		<td>Retorn previst:</td> 		<td><span id="fv_retorn"></span> &euro;/any</td> 		</tr> 		 	</table>  <table class="tbl_dades"> 		<tr> 		<td>Estalvi en CO<sub>2</sub>:</td> 		<td><span id="fv_CO"></span> kg/any</td> 		</tr> 	</table>');
 
 var E_FV = "edificis_fv";
 var E_TS = "edificis_ts";
 var T_FV = "teulades_fv";
 var T_TS = "teulades_ts";
+
+function addControLSolarLL() {
+
+	var fet = false;
+
+	if (map) {
+
+		infoPSolarLL = L.control({
+				position : 'bottomright'
+			});
+
+		infoPSolarLL.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'psolar_infoLL'); // create a div
+			this._div.id = 'psolar_info_dvLL'; // with a class
+			// "info"
+			this.update();
+			return this._div;
+		};
+
+		infoPSolarLL.update = function (props) {
+			this._div.innerHTML = props;
+		};
+
+		infoPSolarLL.addTo(map);
+		infoPSolarLL.update("");
+
+		fet = true;
+		return fet;
+	}
+
+	return fet;
+
+}
 
 function addControLSolar() {
 
@@ -72,20 +107,30 @@ function addControLSolar() {
 			return this._div;
 		};
 
-		// method that we will use to update the control based on feature
-		// properties passed
 		infoPSolar.update = function (props) {
 			this._div.innerHTML = '<button aria-hidden="true" id="bt_psolar_close" "data-dismiss="modal" class="close" type="button">×</button>' + props;
 		};
 
 		infoPSolar.addTo(map);
 		infoPSolar.update("");
+
+		jQuery('#psolar_info_dvLL').on('click', function (e) {
+
+			aturaClick(e);
+		});
+
 		jQuery('.psolar_info').height(jQuery('#map').height() - 100);
 
 		jQuery('#psolar_info_dv').on('click', function (e) {
 			if (e.target.id == 'bt_psolar_close') {
 				tancaFinestra();
+				esborraCapes();
 			}
+			aturaClick(e);
+		});
+
+		jQuery('#psolar_info_dvLL').on('click', function (e) {
+
 			aturaClick(e);
 		});
 
@@ -93,6 +138,7 @@ function addControLSolar() {
 
 			aturaClick(e);
 			tancaFinestra();
+			esborraCapes();
 
 		});
 
@@ -101,6 +147,19 @@ function addControLSolar() {
 	}
 
 	return fet;
+}
+
+function updateLLegendaPSolar(params) {
+
+	if (typeof infoPSolarLL == 'undefined') {
+
+		addControLSolarLL();
+		jQuery('#psolar_info_dvLL').show();
+		infoPSolarLL.update('<img src="' + params + '">');
+	} else {
+		jQuery('#psolar_info_dvLL').show();
+		infoPSolarLL.update('<img src="' + params + '">');
+	}
 }
 
 //function initModul_PSolar() {
@@ -115,7 +174,7 @@ function addBarraPSolar() {
 
 	if (typeof drawPSolar == "undefined") {
 
-		var editableLayers = new L.FeatureGroup();
+		editableLayers = new L.FeatureGroup();
 		map.addLayer(editableLayers);
 
 		var options = {
@@ -199,8 +258,14 @@ function addBarraPSolar() {
 
 function addDrawToolPSolar() {
 	//console.info(drawPSolar);
-	L.drawLocal.draw.toolbar.buttons.polygon = 'Clica per començar a dibuixar una àrea';
-	L.drawLocal.draw.toolbar.buttons.rectangle = 'Clica per començar a dibuixar rectangle';
+	L.drawLocal.draw.toolbar.buttons.polygon = 'Selecció per polígon';
+	L.drawLocal.draw.toolbar.buttons.rectangle = 'Selecció per rectangle';
+	L.drawLocal.draw.handlers.polygon.tooltip.start = 'Clica per començar a dibuixar una àrea';
+	L.drawLocal.draw.handlers.polygon.tooltip.cont = 'Clica per continuar dibuixant una àrea';
+	L.drawLocal.draw.handlers.polygon.tooltip.end = 'Clica el primer punt per tancar aquesta àrea';
+	L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Clica i arrosega per dibuixar un rectangle';
+	L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Deixa anar el ratolí per finalitzar el rectangle';
+	//console.info(L.drawLocal);
 	/*
 	L.drawLocal = {
 	draw : {
@@ -223,6 +288,14 @@ function addDrawToolPSolar() {
 	};
 	return L.drawLocal;
 	 */
+}
+
+function esborraCapes() {
+
+	if (map.hasLayer(capaGeoJSON)) {
+		map.removeLayer(capaGeoJSON);
+	}
+
 }
 
 function tancaFinestra(e) {
@@ -296,6 +369,7 @@ function initEdificisTS() {
 	nombre_panells_fv = Math.floor((area_instalada_fv / CONTS_area_panell_fv).toFixed(0));
 	jQuery('#fv_num_panells').html(addCommas(nombre_panells_fv));
 	eficiencia_panells_fv = parseInt(jQuery('#efi_panells').val());
+
 	calculaElectricitatGenerada_FV(eficiencia_panells_fv);
 
 	calculaCostInversio_FV();
@@ -536,13 +610,13 @@ function addColorParcelaFV(geojson, val1, val2, val3, val4) {
 		 */
 
 		var colorFF = "#ff0000";
-		if (maxim == 3) {
+		if (maxim == 0) {
 			colorFF = "#3B1B00"; //pbre #3B1B00
-		} else if (maxim == 2) {
-			colorFF = "#BB6910"; //regular #BB6910
 		} else if (maxim == 1) {
+			colorFF = "#BB6910"; //regular #BB6910
+		} else if (maxim == 2) {
 			colorFF = "#FFB002"; //adequat #FFB002
-		} else if (maxim == 0) {
+		} else if (maxim == 3) {
 			colorFF = "#FFFF00"; //optim #FFFF00
 		}
 
@@ -569,11 +643,11 @@ function addColorParcelaTS(geojson, val1, val2, val3) {
 					parseFloat(geojson.features[i].properties[val3])]);
 
 		var colorFF = "#ff0000";
-		if (maxim == 2) {
+		if (maxim == 0) {
 			colorFF = "#3B1B00"; //pbre #3B1B00
 		} else if (maxim == 1) {
 			colorFF = "#FFB002"; //adequat #FFB002
-		} else if (maxim == 0) {
+		} else if (maxim == 2) {
 			colorFF = "#FFFF00"; //optim #FFFF00
 		}
 
@@ -673,15 +747,13 @@ function iniciaInfoPSolar(capa, geojson) {
 		}
 		//Teulades_ts
 	} else if (capa == T_TS) {
+
 		val_area3d_fv = sumaPropietats(geojson, 'area3d');
 		val_ghifv1_fv = sumaPropietats(geojson, 'ts1_sum');
 		val_ghifv2_fv = 0;
 		val_ghifv3_fv = sumaPropietats(geojson, 'ts2_sum');
-		val_ghifv4_fv = sumaPropietats(geojson, 's3_sum');
-		//geojson=addColorParcelaTS(geojson,'ts1_sum','ts2_sum','ts3_sum');
-
-		geojson = addColorParcelaTS(geojson, 'sfv1', 'sfv2', 'sfv3');
-
+		val_ghifv4_fv = sumaPropietats(geojson, 'ts3_sum');
+		geojson = addColorParcelaFV(geojson, 'sfv1', 'sfv2', 'sfv3', 'sfv4');
 		val_sfv1_fv = sumaPropietats(geojson, 'sts1');
 		val_sfv2_fv = 0;
 		val_sfv3_fv = sumaPropietats(geojson, 'sts2'); ;
