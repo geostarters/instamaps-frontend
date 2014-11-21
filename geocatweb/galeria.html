@@ -18,7 +18,7 @@
 <link href="/geocatweb/css/geocat.css" rel="stylesheet">
 
 <!-- KISSMETRICS SNIPPET -->
-<script src="/geocatweb/js/geocat.kissmetrics.js"></script>
+<!-- script src="/geocatweb/js/geocat.kissmetrics.js"></script -->
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -93,41 +93,76 @@
 	<!-- Cos principal -->
 	<div class="container theme-showcase">
 
+
 		<div id="galeriaRow" class="row">
+		
 			<script id="galeriaPublic-template" type="text/x-handlebars-template">
+
+			<div id="galeriaSort">
+			  <div class="input-group">
+			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+			   <input class="search form-control" lang="ca" placeholder="Cerca" />
+			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
+				<span class="input-group-addon"			>
+				<span lang="ca">Mapes diponibles:</span>
+				<span class="sp_rs_maps"></span>
+				<span>	  
+		</div>
+
+
+			<ul class="list">
 			{{#each results}}
-			<div id="{{businessId}}" class="col-sm-6 col-md-3">
-				<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
-					{{#if thumbnail}}
-						<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
-					{{else}}
-						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
-					{{/if}}
-					<div class="caption text-center nomAplicacio">
-						<h4>{{nomAplicacio}}</h4>
-					</div>
-					<div class="caption text-center descAplicacio">
-						{{#if options.description}}
-							<span class="starwarsmain">
-							<span class="starwarsbody">
-							{{options.description}}
-							</span>
-							</span>
+			 <li>
+				<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
+				<div id="{{businessId}}" class="col-sm-6 col-md-3">
+					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
+						{{#if thumbnail}}
+							<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
 						{{else}}
-							<span lang="ca">Sense descripció</span>
+							<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 						{{/if}}
-					</div>
-					<div class="byuser text-center">{{entitatUid}}</div>
-					<div class="caption text-center btn-acctions">
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						<div class="caption text-center nomAplicacio">
+							<h4>{{nomAplicacio}}</h4>
+						</div>
+						<div class="caption text-center descAplicacio">
+							{{#if options.description}}
+								<span class="starwarsmain">
+								<span class="starwarsbody">
+								{{options.description}}
+								</span>
+								</span>
+							{{else}}
+								<span lang="ca">Sense descripció</span>
+							{{/if}}
+						</div>
+						<div class="byuser text-center">{{entitatUid}}</div>
+						<div class="caption text-center btn-acctions">
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						</div>
 					</div>
 				</div>
-			</div>
+			 </li>
+			
 			{{/each}}
+			</ul>
 			</script>
 			
 			<script id="galeria-template" type="text/x-handlebars-template">
+			<div id="galeriaSort">
+			  <div class="input-group">
+			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+			   <input class="search form-control" lang="ca" placeholder="Cerca" />
+			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
+			  <span class="input-group-addon">
+				<span lang="ca">Mapes diponibles:</span>
+				<span class="sp_rs_maps"></span>
+				<span>
+
+
+				</div>
+			<ul class="list">
+			<li><p class="nomAplicacioSort hidden"></p>
 			<div class="col-sm-6 col-md-3">		
 				<div class="thumbnail">
 					<div class="caption text-center new_map">
@@ -136,7 +171,10 @@
 					</div>
 				</div>
 			</div>
+			</li>
 			{{#each results}}
+			<li>
+			<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 			    <div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 					{{#if thumbnail}}
@@ -166,10 +204,13 @@
 					</div>
 			    </div>
 			</div>
+			</li>
 			{{/each}}
+			</ul>
+			</div>
 			</script>
+			
 		</div>
-		
 	</div>
 	<!-- /container -->		
 
@@ -315,19 +356,22 @@
 	
 	<script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
-	
+	<script src="/llibreries/js/leaflet/leaflet.0.7.3.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/list.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
 	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
+	
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.constants.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
-	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
-	
-	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
+	<script src="/geocatweb/js/geocat.utils.js"></script>
+	<script src="/geocatweb/js/geocat.google-analytics.js"></script>	
 	<script src="/geocatweb/js/geocat.galeria-1.0.0.js"></script>
 	
 </body>
