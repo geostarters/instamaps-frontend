@@ -1,4 +1,3 @@
-
 jQuery(document).ready(function() {
 		
 	//activaModul().then(function(){
@@ -49,7 +48,7 @@ function loadApp(){
 			}
 			mapConfig = $.parseJSON(results.results);
 			
-			document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+			
 			$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 			
 //			console.debug("mapConfig:");
@@ -105,7 +104,7 @@ function loadApp(){
 					updateLangText();
 				});	
 				canviaIdioma(web_determinaIdioma());				
-				
+				document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 			});
 		},function(results){
 			window.location.href = paramUrl.galeriaPage;
@@ -265,21 +264,21 @@ function addClicksInici() {
 	jQuery('.bt_captura').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
-		_kmq.push(['record', 'captura pantalla', {'from':'visor', 'tipus user': tipus_user}]);
+		//_kmq.push(['record', 'captura pantalla', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_MAPA);
 	});
 	
 	jQuery('.bt_print').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
-		_kmq.push(['record', 'print', {'from':'visor', 'tipus user': tipus_user}]);
+		//_kmq.push(['record', 'print', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_INFORME);
 	});
 	
 	jQuery('.bt_geopdf').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
-		_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
+		//_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_GEOPDF);
 	});
 		
