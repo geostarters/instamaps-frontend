@@ -131,6 +131,7 @@ function loadApp(){
 							});	
 							canviaIdioma(web_determinaIdioma());
 							document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+							
 						});
 					});						
 					
