@@ -602,7 +602,7 @@ function changeDefaultPointStyle(estilP) {
 		}
 				
 		puntTMP.options.fillColor =estilP.divColor;
-		if(_iconGlif==""){//no tin glif soc Canvas
+		if(_iconGlif=="" || _iconGlif=="undefined" || _iconGlif==null){//no tin glif soc Canvas
 			puntTMP.options.icon="";
 			puntTMP.options.radius = parseInt(estilP.size/2.4);
 			puntTMP.options.isCanvas=true;
@@ -617,11 +617,20 @@ function changeDefaultPointStyle(estilP) {
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
 		puntTMP.options.divColor='transparent';
-		puntTMP.options.icon=_iconGlif + " "+cssText;
+		if(_iconGlif=="" || _iconGlif=="undefined" || _iconGlif==null){
+			puntTMP.options.icon="";
+		}else{
+			puntTMP.options.icon=_iconGlif + " "+cssText;			
+		}
 		puntTMP.options.isCanvas=false;
 	}
 	puntTMP.options.markerColor=_iconFons;
-	puntTMP.options.iconColor=_colorGlif;
+	if(puntTMP.options.icon==""){
+		puntTMP.options.iconColor="#000000";
+	}else{
+		puntTMP.options.iconColor=_colorGlif;
+	}
+	
 	if(objEdicio.obroModalFrom==from_creaCapa){
 		defaultPunt=puntTMP;
 	}
@@ -776,7 +785,9 @@ function getRangsFromStyles(tematic, styles){
 		tematic.geometrytype = t_marker;
 	}
 	
-	var ftype = transformTipusGeometry(tematic.geometrytype);
+	var ftype_vell = transformTipusGeometry(tematic.geometrytype);
+	var ftype = transformTipusGeometry(tematic.geometryType);
+	
 	/*Control cas multiple
 	if(ftype == t_multiple && styles.options){
 		 ftype = transformTipusGeometry(styles.options.tipus);
@@ -805,7 +816,11 @@ function getRangsFromStyles(tematic, styles){
 					color :  jQuery.Color(styles.options.fillColor).toHexString(),
 					borderColor :  styles.options.color,
 					borderWidth :  styles.options.weight,
-					opacity: (styles.options.fillOpacity * 100)
+					opacity: (styles.options.fillOpacity * 100),
+					label : false,
+					labelSize : 10,
+					labelFont : 'arial',
+					labelColor : '#000000',					
 				};
 			}else{
 				
@@ -824,7 +839,7 @@ function getRangsFromStyles(tematic, styles){
 				
 				var rang = {
 					isCanvas: false,
-					llegenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
+					//legenda : 'TODO ficar llegenda',//TODO ficar nom de la feature del popup de victor
 //					valorMax : "feature" + fId,
 					//Canviat a divColor, si es marker, sera sempre 'transparent'
 					color : auxOptions.divColor,//auxOptions.fillColor,//Color principal
@@ -833,7 +848,7 @@ function getRangsFromStyles(tematic, styles){
 					radius : auxOptions.radius,//Radius
 					iconSize : auxOptions.iconSize.x+"#"+auxOptions.iconSize.y,//Size del cercle
 					iconAnchor : auxOptions.iconAnchor.x+"#"+auxOptions.iconAnchor.y,//Anchor del cercle
-					simbol : auxOptions.icon,//tipus glyph
+					simbol : $.trim(auxOptions.icon),//tipus glyph
 					opacity : (auxOptions.opacity * 100),
 					label : false,
 					labelSize : 10,

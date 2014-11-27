@@ -651,3 +651,21 @@ function moveGeometriaToVisualitzacio(data){
 	}).promise();
 }
 
+function updateGeometria(data){
+	return jQuery.ajax({
+		url: paramUrl.updateGeometria,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function modificarEstiloGeometria(data){
+	return jQuery.ajax({
+		url: paramUrl.modificarEstiloGeometria,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+

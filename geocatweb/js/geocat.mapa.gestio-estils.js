@@ -26,8 +26,12 @@ function addDialegEstilsTematics(){
 			var feature=map._layers[objEdicio.featureID];
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
-			getRangsFromLayer(capaMare);
-			
+			if(nou_model){
+				var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
+				updateGeometriaEstil(feature, nouEstil[0]);
+			}else{
+				getRangsFromLayer(capaMare);				
+			}
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			createTematicLayerBasic(objEdicio.obroModalFrom, cvStyle);
@@ -123,6 +127,39 @@ function addDialegEstilsTematics(){
 		jQuery('#div_punt0').addClass(estilP.iconFons+" "+estilP.iconGlif);
 		jQuery(this).addClass("estil_selected");
 	});
+}
+
+function updateGeometriaEstil(layer, nouEstil){
+
+	nouEstil.businessId = layer.properties.estil.businessId;//businessId de l'estil que tenia
+	
+	var features = {
+			type: layer.options.tipus,
+			id:3124,
+			businessId: layer.properties.businessId,//Bid de la geometria q estas afegint
+			properties: layer.properties.feature.properties,
+			estil: nouEstil,
+			geometry: layer.properties.feature.geometry
+		};
+	
+	features = JSON.stringify(features);
+	
+    var data = {
+            uid : jQuery.cookie('uid'),
+            features : features,
+            businessId: layer.properties.capaBusinessId,//bID de la visualitzacio-capa
+        };      	
+	
+    modificarEstiloGeometria(data).then(function(results){
+	    if(results.status == 'OK'){
+			nouEstil.businessId = results.estilBid;
+			layer.properties.estil = nouEstil;
+	    }else{
+	        console.debug("updateGeometria ERROR");
+	    }
+	}, function(results){
+		  console.debug("updateGeometria ERROR");
+	}); 		
 }
 
 function activaPuntZ(){

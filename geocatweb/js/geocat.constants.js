@@ -26,6 +26,7 @@ var dades1;
 if((urlApp.indexOf('mapa')!=-1)||(urlApp.indexOf('visor')!=-1)){
 //default geometries style
 var estilP={
+		icon : '',
 		iconFons:'awesome-marker-web awesome-marker-icon-orange',
 		iconGlif:'fa fa-',
 		colorGlif:'#333333',
@@ -65,7 +66,7 @@ var default_marker_style = {
 		weight : 2,
 		fillOpacity : 0.9,
 		color : "#ffffff",
-		fillColor :"#FFC500"
+		fillColor :"transparent"
 	};
 
 var default_circulo_style = {
@@ -149,6 +150,9 @@ var CAPTURA_GALERIA = "captura_galeria";
 var CAPTURA_INFORME = "captura_informe";
 var CAPTURA_FONS = "captura_fons";
 var CAPTURA_GEOPDF = "captura_geopdf";
+
+//VAR per no model de dades
+var nou_model = true;
 
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
