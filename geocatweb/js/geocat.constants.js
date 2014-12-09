@@ -103,6 +103,7 @@ var t_wms = "wms";
 var t_json = "json";
 var t_xarxes_socials = "xarxes socials";
 var t_tematic = "tematic";
+var t_visualitzacio = "visualitzacio";
 var t_url_file = "url_file"
 var t_polyline = "polyline";
 var t_polygon = "polygon";

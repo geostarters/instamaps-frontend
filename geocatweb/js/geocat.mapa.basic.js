@@ -10,24 +10,24 @@ function createTematicLayerBasic(tematic, styles){
 	var rangs = getRangsFromStyles(tematic, styles);
 	var capaMare = controlCapes._layers[tematic.leafletid].layer;
 	
-	if (jQuery.isArray(styles)){
-		
-	}else{
-//		var layer = controlCapes._layers[tematic.leafletid];
-//		if (tematic.geometrytype == t_marker){
-//			jQuery.each(capaMare._layers, function( key, value ) {	
-//				canviaStyleSinglePoint(styles,this,capaMare,false)
-//			});
-//		}else if (tematic.geometrytype == t_polyline){
-//			jQuery.each(layer.layer._layers, function( key, value ) {
-//				this.setStyle(styles);
-//			});
-//		}else if (tematic.geometrytype == t_polygon){
-//			jQuery.each(layer.layer._layers, function( key, value ) {
-//				this.setStyle(styles);
-//			});
-//		}
-	}
+//	if (jQuery.isArray(styles)){
+//		
+//	}else{
+////		var layer = controlCapes._layers[tematic.leafletid];
+////		if (tematic.geometrytype == t_marker){
+////			jQuery.each(capaMare._layers, function( key, value ) {	
+////				canviaStyleSinglePoint(styles,this,capaMare,false)
+////			});
+////		}else if (tematic.geometrytype == t_polyline){
+////			jQuery.each(layer.layer._layers, function( key, value ) {
+////				this.setStyle(styles);
+////			});
+////		}else if (tematic.geometrytype == t_polygon){
+////			jQuery.each(layer.layer._layers, function( key, value ) {
+////				this.setStyle(styles);
+////			});
+////		}
+//	}
 	
 	if(capaMare.options.tipus == t_dades_obertes){
 		
@@ -121,5 +121,47 @@ function createTematicLayerBasic(tematic, styles){
 			//TODO error
 			console.debug("updateTematicRangs ERROR");
 		});
+	//NOU MODEL	
+	}else if (tematic.tipus == t_visualitzacio){
+		
+		/**
+		 * @param 
+		 * @param 
+		 * @param 
+		 * @param toBusinessId (optional) id de la nueva visualizacion. Por defecto se autogenera
+		 * @param estils estilo de la visualización.
+		 * @param 
+		 * @param 
+		 */
+		rangs = JSON.stringify({rangs:rangs});
+		
+		var data = {
+			businessId: tematic.businessid,//businessId id de la visualización de origen
+			uid: $.cookie('uid'),//uid id de usuario
+            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
+            nom: capaMare.options.nom+" "+window.lang.convert("Bàsic"),//nom nombre de la nueva visualizacion
+//			calentas: false,
+//            activas: true,
+//            visibilitats: true,    
+            order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
+//			tipusRang: tematic.from,
+//			rangs: rangs
+            estils: rangs
+		};	
+		
+		createVisualitzacioSimple(data).then(function(results){
+			if(results.status == 'OK'){
+//				console.debug(results.results);
+				loadVisualitzacioLayer(results.results);
+				activaPanelCapes(true);
+			}else{
+				//TODO error
+				console.debug("createVisualitzacioSimple ERROR");					
+			}
+		},function(results){
+			//TODO error
+			console.debug("createVisualitzacioSimple ERROR");
+		});		
+		
 	}
 }

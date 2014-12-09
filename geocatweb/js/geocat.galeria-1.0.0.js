@@ -4,7 +4,6 @@ $(function(){
 	
 	var sourcePublic = $("#galeriaPublic-template").html();
 	var templatePublic = Handlebars.compile(sourcePublic);
-	
 	var privatGaleria = url('?private');
 	
 	//per GA
@@ -36,6 +35,7 @@ $(function(){
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		var data = {uid: $.cookie('uid')};
 		loadGaleria(data).then(function(results){
+			
 			results.results = jQuery.map( results.results, function( val, i ) {
 				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
@@ -45,6 +45,7 @@ $(function(){
 			});
 			var html = template(results);
 			$('#galeriaRow').append(html);
+			
 //			console.debug("galeria Row html:");
 //			console.debug(html);
 			
@@ -52,7 +53,17 @@ $(function(){
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ]
 			};
-			var userList = new List('galeriaSort', optionsSearch);			
+		var	userList = new List('galeriaSort', optionsSearch);	
+			
+			
+				escriuResultats(userList.visibleItems.length);
+			
+			$('input.search.form-control').on('keyup', function(event){
+		
+				escriuResultats(userList.visibleItems.length);
+			});
+			
+			
 			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
 			$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));
 			
@@ -80,10 +91,14 @@ $(function(){
 				};
 				deleteMap(data).then(function(results){
 					if (results.status == "OK"){
+						
 						$('#'+$this.data("businessid")).remove();
 						$('#dialgo_delete').modal('hide');
 						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
 						//_kmq.push(['record', 'esborrar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
+						updateResultats();
+						
+					
 					}
 				});
 			});
@@ -151,6 +166,7 @@ $(function(){
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
+			
 			results.results = jQuery.map( results.results, function( val, i ) {
 				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
@@ -170,11 +186,25 @@ $(function(){
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
+			
+			
+			
 			//Search function
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ]
 			};
-			var userList = new List('galeriaSort', optionsSearch);				
+			
+			
+			
+		var	userList = new List('galeriaSort', optionsSearch);				
+			
+			escriuResultats(userList.visibleItems.length);
+			
+			$('input.search.form-control').on('keyup', function(event){
+		
+				escriuResultats(userList.visibleItems.length);
+			});
+			
 			
 			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
 			$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));			
@@ -211,22 +241,33 @@ $(function(){
 				$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
 			});
 			
-			$('.thumbnail').hover(function(){
-				var descAplicacio = $(this).find(".descAplicacio");
-				descAplicacio.fadeIn(500);
-				if (descAplicacio.find(".starwarsbody").text().length > 160){
-					descAplicacio.find(".starwarsmain").addClass('starwars');
-					descAplicacio.find(".starwarsbody").addClass('starwarscontent');
-				}
-				return false;	
-			}, function(){
-				$(this).find(".descAplicacio").fadeOut();
-				return false;	
-			});
+//			$('.thumbnail').hover(function(){
+//				var descAplicacio = $(this).find(".descAplicacio");
+//				descAplicacio.fadeIn(500);
+//				if (descAplicacio.find(".starwarsbody").text().length > 160){
+//					descAplicacio.find(".starwarsmain").addClass('starwars');
+//					descAplicacio.find(".starwarsbody").addClass('starwarscontent');
+//				}
+//				return false;	
+//			}, function(){
+//				$(this).find(".descAplicacio").fadeOut();
+//				return false;	
+//			});
 			
 			window.lang.run();
 			$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 		});
+	}
+	
+	
+	function escriuResultats(total){
+	$('.sp_rs_maps').html(total);
+	}
+	
+	function updateResultats(){
+	
+		var total=(parseInt($('.sp_rs_maps').html()) -1);
+		$('.sp_rs_maps').html(total);
 	}
 	
 });

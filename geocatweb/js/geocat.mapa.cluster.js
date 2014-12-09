@@ -151,7 +151,7 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup("<b>"+layer.properties.nom+"</b><br><b>"+layer.properties.text+"</b>");
+						marker.bindPopup("<b>"+layer.properties.data.nom+"</b><br><b>"+layer.properties.data.text+"</b>");
 						clusterLayer.addLayer(marker);
 					});
 					

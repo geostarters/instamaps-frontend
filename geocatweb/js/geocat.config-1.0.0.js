@@ -5,11 +5,11 @@ var proxydir = "maps";
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
-	HOST_APP = "http://localhost/";
+//	HOST_APP = "http://localhost/";
 //	HOST_APP = "http://localhost:8080/";
 	HOST_APP = "http://localhost:8181/";//Local
 //	GEOCAT02 = "http://localhost:8181";
-//	GEOCAT02 = "http://localhost";
+	GEOCAT02 = "http://localhost";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
 
@@ -116,10 +116,12 @@ var paramUrl = {
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
+	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	
 	updateGeometria: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometria.action?",
 	createVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioLayer.action?",
 	updateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/updateVisualitzacioLayer.action?",
+	updateNameVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/updateNameVisualitzacioLayer.action?",
 	getVisualitzacioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioByBusinessId.action?",
 	getAllVisualitzacioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getAllVisualitzacioByBusinessId?",
 	getAllVisualitzacioLayerByUid: HOST_APP+"geocat/layers/visualitzacio/getAllVisualitzacioLayerByUid.action?",

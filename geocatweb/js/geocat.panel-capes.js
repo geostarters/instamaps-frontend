@@ -58,29 +58,58 @@ function updateEditableElements(){
 				}
 				
 				if(typeof url('?businessid') == "string"){
-					var data = {
-					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
-					 	uid: $.cookie('uid'),
-					 	serverName: newValue
-					 }
-					var oldName = this.innerHTML;
 					
-					updateServidorWMSName(data).then(function(results){
-						if(results.status==='OK'){
-						_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-						//_kmq.push(['record', 'editar nom capa', {'from':'mapa', 'tipus user':tipus_user}]);
-//						console.debug('udpate map name OK');
-						editableLayer.name = newValue;
-						editableLayer.layer.options.nom = newValue;
+					if(nou_model){
+						var data = {
+							 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
+							 	uid: $.cookie('uid'),
+							 	nom: newValue
+							 }
+							var oldName = this.innerHTML;
+							
+							updateNameVisualitzacioLayer(data).then(function(results){
+								if(results.status==='OK'){
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
+									//_kmq.push(['record', 'editar nom capa', {'from':'mapa', 'tipus user':tipus_user}]);
+			//						console.debug('udpate map name OK');
+									editableLayer.name = newValue;
+									editableLayer.layer.options.nom = newValue;
+								}else{
+									editableLayer.name = oldName;
+									$('.leaflet-name label span#'+id).text(results.results.nom);
+								}				
+							},function(results){
+								editableLayer.name = oldName;
+								var obj = $('.leaflet-name label span#'+id).text();
+								$('.leaflet-name label span#'+id).text(oldName);
+							});							
 					}else{
-						editableLayer.name = oldName;
-						$('.leaflet-name label span#'+id).text(results.results.nom);
-					}				
-				},function(results){
-					editableLayer.name = oldName;
-					var obj = $('.leaflet-name label span#'+id).text();
-					$('.leaflet-name label span#'+id).text(oldName);
-				});	
+						var data = {
+							 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
+							 	uid: $.cookie('uid'),
+							 	serverName: newValue
+							 }
+							var oldName = this.innerHTML;
+							
+							updateServidorWMSName(data).then(function(results){
+								if(results.status==='OK'){
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
+									//_kmq.push(['record', 'editar nom capa', {'from':'mapa', 'tipus user':tipus_user}]);
+			//						console.debug('udpate map name OK');
+									editableLayer.name = newValue;
+									editableLayer.layer.options.nom = newValue;
+								}else{
+									editableLayer.name = oldName;
+									$('.leaflet-name label span#'+id).text(results.results.nom);
+								}				
+							},function(results){
+								editableLayer.name = oldName;
+								var obj = $('.leaflet-name label span#'+id).text();
+								$('.leaflet-name label span#'+id).text(oldName);
+							});							
+					}
+					
+					
 			}else{
 				editableLayer.name = newValue;
 				editableLayer.layer.options.nom = newValue;
@@ -182,44 +211,85 @@ function addFuncioRemoveLayer(){
 		var data = $this.data("data");
 		var obj = $this.data("obj");
 		
-			removeServerToMap(data).then(function(results){
-			if(results.status==='OK'){
-			
-//				this.myRemoveLayer(obj);
-				map.closePopup();
-				map.removeLayer(obj.layer);
-				//Eliminem la capa de controlCapes
-				controlCapes.removeLayer(obj);
-				
-				//actualitzem valors zindex de la resta si no es sublayer
-				if(!obj.sublayer){
-					var removeZIndex = obj.layer.options.zIndex;
-					controlCapes._lastZIndex--;
-					var aux = controlCapes._layers;
-					for (var i in aux) {
-						if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
-					}
-					//Eliminem les seves sublayers en cas que tingui
-					for(indexSublayer in obj._layers){
-						map.removeLayer(map._layers[indexSublayer]);
-					}
-				}
-
-				//Actualitzem capaUsrActiva
-				if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
-					capaUsrActiva.removeEventListener('layeradd');
-					capaUsrActiva = null;
-				}				
-				
-				deleteServerRemoved(data).then(function(results){
-					//se borran del listado de servidores
-				});
+			if(nou_model){
+				removeServerToMap(data).then(function(results){
+					if(results.status==='OK'){
+					
+		//				this.myRemoveLayer(obj);
+						map.closePopup();
+						map.removeLayer(obj.layer);
+						//Eliminem la capa de controlCapes
+						controlCapes.removeLayer(obj);
+						
+						//actualitzem valors zindex de la resta si no es sublayer
+						if(!obj.sublayer){
+							var removeZIndex = obj.layer.options.zIndex;
+							controlCapes._lastZIndex--;
+							var aux = controlCapes._layers;
+							for (var i in aux) {
+								if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+							}
+							//Eliminem les seves sublayers en cas que tingui
+							for(indexSublayer in obj._layers){
+								map.removeLayer(map._layers[indexSublayer]);
+							}
+						}
+		
+						//Actualitzem capaUsrActiva
+						if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+							capaUsrActiva.removeEventListener('layeradd');
+							capaUsrActiva = null;
+						}				
+						
+						deleteServerRemoved(data).then(function(results){
+							//se borran del listado de servidores
+						});
+					}else{
+						return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+					}				
+				},function(results){
+					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+				});					
 			}else{
-				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-			}				
-		},function(results){
-			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-		});	
+				removeServerToMap(data).then(function(results){
+					if(results.status==='OK'){
+					
+		//				this.myRemoveLayer(obj);
+						map.closePopup();
+						map.removeLayer(obj.layer);
+						//Eliminem la capa de controlCapes
+						controlCapes.removeLayer(obj);
+						
+						//actualitzem valors zindex de la resta si no es sublayer
+						if(!obj.sublayer){
+							var removeZIndex = obj.layer.options.zIndex;
+							controlCapes._lastZIndex--;
+							var aux = controlCapes._layers;
+							for (var i in aux) {
+								if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+							}
+							//Eliminem les seves sublayers en cas que tingui
+							for(indexSublayer in obj._layers){
+								map.removeLayer(map._layers[indexSublayer]);
+							}
+						}
+		
+						//Actualitzem capaUsrActiva
+						if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+							capaUsrActiva.removeEventListener('layeradd');
+							capaUsrActiva = null;
+						}				
+						
+						deleteServerRemoved(data).then(function(results){
+							//se borran del listado de servidores
+						});
+					}else{
+						return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+					}				
+				},function(results){
+					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+				});					
+			}
 	});	
 }
 

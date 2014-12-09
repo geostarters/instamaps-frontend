@@ -9,6 +9,7 @@ function addDialegEstilsTematics(){
 	addHtmlModalLinies();
 	addHtmlModalArees();
 	
+	/*PUNTS*/
 	jQuery('#dialog_estils_punts .btn-success').on('click',function(e){
 		e.stopImmediatePropagation();
 		if(objEdicio.obroModalFrom==from_creaCapa){
@@ -22,9 +23,11 @@ function addDialegEstilsTematics(){
 			changeDefaultPointStyle(estilP);
 			
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
-			var cvStyle=changeDefaultPointStyle(estilP);
 			var feature=map._layers[objEdicio.featureID];
-			var capaMare=map._layers[feature.properties.capaLeafletId];
+			var capaMare=map._layers[feature.properties.capaLeafletId];			
+			//estil nou
+			var cvStyle=changeDefaultPointStyle(estilP);
+			//Actuslitzes la visualitzacio de la geometria amb el nou estil
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
 			if(nou_model){
 				var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
@@ -43,17 +46,26 @@ function addDialegEstilsTematics(){
 		}	
 		jQuery('#dialog_estils_punts').modal('toggle');			
 	});
-	
+	/*LÍNIES*/
 	jQuery('#dialog_estils_linies .btn-success').on('click',function(){		
 		if(objEdicio.obroModalFrom==from_creaCapa){
 			addGeometryInitL(document.getElementById("cv_linia")); 		
-			//changeDefaultVectorStyle(canvas_linia);
 			changeDefaultLineStyle(canvas_linia);
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
 			var feature=map._layers[objEdicio.featureID];
 			var capaMare=map._layers[feature.properties.capaLeafletId];
-			map._layers[objEdicio.featureID].setStyle(changeDefaultLineStyle(canvas_linia));
-			getRangsFromLayer(capaMare);
+			//estil nou
+			var cvStyle = changeDefaultLineStyle(canvas_linia);
+			//Actuslitzes la visualitzacio de la geometria amb el nou estil
+			map._layers[objEdicio.featureID].setStyle(cvStyle);
+			
+			if(nou_model){
+				var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
+				updateGeometriaEstil(feature, nouEstil[0]);
+			}else{
+				getRangsFromLayer(capaMare);				
+			}			
+			
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
 		}else if (objEdicio.obroModalFrom.from==tem_clasic){
@@ -72,8 +84,14 @@ function addDialegEstilsTematics(){
 		}else if (objEdicio.obroModalFrom==from_creaPopup){
 			var feature=map._layers[objEdicio.featureID];
 			var capaMare=map._layers[feature.properties.capaLeafletId];
-			map._layers[objEdicio.featureID].setStyle(changeDefaultAreaStyle(canvas_pol));
-			getRangsFromLayer(capaMare);
+			var cvStyle = changeDefaultAreaStyle(canvas_pol);
+			map._layers[objEdicio.featureID].setStyle(cvStyle);
+			if(nou_model){
+				var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
+				updateGeometriaEstil(feature, nouEstil[0]);
+			}else{
+				getRangsFromLayer(capaMare);				
+			}
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else if (objEdicio.obroModalFrom.from==tem_clasic){
@@ -134,10 +152,10 @@ function updateGeometriaEstil(layer, nouEstil){
 	nouEstil.businessId = layer.properties.estil.businessId;//businessId de l'estil que tenia
 	
 	var features = {
-			type: layer.options.tipus,
+			type: layer.properties.tipusFeature,
 			id:3124,
 			businessId: layer.properties.businessId,//Bid de la geometria q estas afegint
-			properties: layer.properties.feature.properties,
+			properties: layer.properties.data,
 			estil: nouEstil,
 			geometry: layer.properties.feature.geometry
 		};
@@ -154,6 +172,7 @@ function updateGeometriaEstil(layer, nouEstil){
 	    if(results.status == 'OK'){
 			nouEstil.businessId = results.estilBid;
 			layer.properties.estil = nouEstil;
+			console.debug(layer);
 	    }else{
 	        console.debug("updateGeometria ERROR");
 	    }

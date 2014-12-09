@@ -669,3 +669,49 @@ function modificarEstiloGeometria(data){
 	}).promise();
 }
 
+function removeGeometriaFromVisualitzacio(data){
+	return jQuery.ajax({
+		url: paramUrl.removeGeometriaFromVisualitzacio,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function updateNameVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.updateNameVisualitzacioLayer,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.updateNameVisualitzacioLayer,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function getVisualitzacioByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.getVisualitzacioByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createVisualitzacioSimple(data){
+	return jQuery.ajax({
+		url: paramUrl.createVisualitzacioSimple,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+

@@ -224,8 +224,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		row.appendChild(col);
 		label.appendChild(name);
 		
-		//Comptador d'elements de la capa si es tematic, dades obertes, dades externes
-		if(obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json || obj.layer.options.tipus == t_url_file){
+		//Comptador d'elements de la capa si es tematic, dades obertes, dades externes, nou model
+//		if(obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json || obj.layer.options.tipus == t_url_file){
+		if(obj.layer.options.tipus == t_visualitzacio || obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json || obj.layer.options.tipus == t_url_file){
 			var count = document.createElement('span');
 			count.className = 'layer-count';
 			count.id='count-'+obj.layer.options.businessId;
