@@ -7,7 +7,9 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 	HOST_APP = "http://localhost/";
 //	HOST_APP = "http://localhost:8080/";
-	GEOCAT02 = "http://localhost";
+	HOST_APP = "http://localhost:8181/";//Local
+//	GEOCAT02 = "http://localhost:8181";
+//	GEOCAT02 = "http://localhost";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
 
@@ -20,6 +22,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){
 }
 
 var DOMINI = "www.instamaps.cat";
+
 
 var paramUrl = {
 	proxy:"/"+proxydir+"/proxy.cgi",
@@ -43,7 +46,6 @@ var paramUrl = {
 	loginUserIcgc: HOST_APP+"geocat/loginIcgc.action?",
 	logoutUser: HOST_APP+"geocat/logout.action?",
 	signinUser: HOST_APP+"geocat/registreUser.action?",
-	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinSocial: HOST_APP+"geocat/social/createUser.action?",
 	socialAuth: HOST_APP+"geocat/social/auth.action?",
 	validateUsername: HOST_APP+"geocat/validateUid?",
@@ -114,7 +116,11 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
-	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?"
+	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
+	updateMapVisibility: HOST_APP+"geocat/aplications/map/updateVisibility.action?",
+	sendMail: HOST_APP+"/geocat/mail/sendMail.action?",
+	getEntitatsAplicacioRolByUidColaborador:  HOST_APP+"/geocat/entitatAplicacio/getEntitatsAplicacioRolByUidColaborador.action?",
+	getEntitatsColaboradorsByAplicacio:  HOST_APP+"/geocat/entitatAplicacio/getAllEntitatsColaboradorsByAplicacio.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

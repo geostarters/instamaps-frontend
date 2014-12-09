@@ -777,15 +777,23 @@ function getRangsFromStyles(tematic, styles){
 	}
 	
 	var ftype = transformTipusGeometry(tematic.geometrytype);
+	/*Control cas multiple
+	if(ftype == t_multiple && styles.options){
+		 ftype = transformTipusGeometry(styles.options.tipus);
+	}*/
+	
 	
 	var rangs = [];
 	if (jQuery.isArray(styles)){
 		jQuery.each(styles, function(i, val){
 			var rang = getRangsFromStyles(tematic, val.style);
-			rang[0].featureLeafletId = val.style._leaflet_id;
-			rang = rang[0];
-			rang.valorMax = val.key;
-			rangs.push(rang);
+			if(rang[0]){
+				rang[0].featureLeafletId = val.style._leaflet_id;
+				rang = rang[0];
+				rang.valorMax = val.key;
+				rangs.push(rang);			
+			}
+
 		});
 	}else{
 		if (ftype == t_marker){

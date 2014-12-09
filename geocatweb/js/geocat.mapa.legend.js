@@ -662,7 +662,7 @@ function getRangsFromLayerLegend(layer){
 	
 	var styles = jQuery.map(layer.getLayers(), function(val, i){
 		//Si la layer es multipoligon ha d'agafa l'estil de les seves layers de dins
-		if(val.options.tipus.indexOf(t_multipolygon)!= -1){
+		if(val.options.tipus && val.options.tipus.indexOf(t_multipolygon)!= -1){
 			return {key: val.properties.businessId, style: val.getLayers()[0]};
 		}else{
 			return {key: val.properties.businessId, style: val};

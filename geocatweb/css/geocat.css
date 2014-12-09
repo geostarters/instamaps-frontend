@@ -830,7 +830,7 @@ background-color:#FFFFFF}
 		background-color: #CECDD3;
 	}	
 	
-	/*** galeria.html ***/
+	/*** galeria.html ***/	
 	.thumbnail{
 		position: relative;
 		min-height: 240px;
@@ -1249,4 +1249,32 @@ h1.big_text{
     height: 1px;
     margin: 9px 0;
     overflow: hidden;
+}
+
+#urlVisorMap {
+    border: 1px none black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px;
+    text-align: center;
+}
+
+#urlVisorMap a:hover{decoration:none;}
+
+.btn-visibility {
+    background-color: #b3b3b3;
+    border-color: #cccccc;
+    color: #333333;
+}
+
+.btn-visibility .unlock:before {
+	content: url(../../llibreries/img/glyph_204_unlock.png);
+}
+
+.btn-visibility .lock:before {
+	content: url(../../llibreries/img/glyph_203_lock.png);
+}
+
+.btn-success .group:before {
+	content: url(../../llibreries/img/glyph_043_group.png);
 }

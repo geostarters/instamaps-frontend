@@ -66,7 +66,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 					if(results.status==='OK'){
 						
 						_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
-						_kmq.push(['record', 'registre', {'from':trackEventFrom, 'funnel':'activation'}]);
+//						_kmq.push(['record', 'registre', {'from':trackEventFrom, 'funnel':'activation'}]);
 						
 						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						
@@ -155,9 +155,9 @@ var text_confirma_dades = 'Confirmeu les dades';
 			if(isBlank($('#signin_pass').val())){
 				$('#signin_pass').addClass("invalid");
 				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-			}else if($('#signin_pass').val().length < 5){
+			}else if($('#signin_pass').val().length < 4){
 				$('#signin_pass').addClass("invalid");
-				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 5 caràcters.</span>");
+				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 4 caràcters.</span>");
 			}else if(isBlank($('#signin_confirm_pass').val())){
 				$('#signin_confirm_pass').addClass("invalid");
 				$('#signin_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");

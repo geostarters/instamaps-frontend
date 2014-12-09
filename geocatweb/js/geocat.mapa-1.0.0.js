@@ -16,7 +16,9 @@ jQuery(document).ready(function() {
 	}else{
 		if (tipus_user == t_user_loginat){
 			var data = {
-					uid: $.cookie('uid')
+					uid: $.cookie('uid'),
+					businessId: url('?businessid'),
+					mapacolaboratiu: url('?mapacolaboratiu')
 				};
 				getUserSimple(data).then(function(results){
 					$('#userId').val(results.results.id);
@@ -31,7 +33,6 @@ jQuery(document).ready(function() {
 
 
 function loadApp(){
-
 	var v_url = window.location.href;
 	if (!url('?id')){
 		v_url += "&id="+jQuery('#userId').val();
@@ -40,10 +41,9 @@ function loadApp(){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
 	v_url = v_url.replace('mapa','visor');
-
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
-			typeMap : 'topoMap',
+			typeMap : 'topoMapGeo',
 			minZoom: 2,
 			maxZoom : 19,
 			//drawControl: true
@@ -66,19 +66,20 @@ function loadApp(){
 				
 		var data = {
 			businessId: url('?businessid'),
-			uid: $.cookie('uid')
+			uid: $.cookie('uid'),
+			mapacolaboratiu: url('?mapacolaboratiu')
 		};
 		
 		getUserSimple(data).then(function(results){
 			$('#userId').val(results.results.id);
 		});
-		
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
 			}else{
 				try{
 					mapConfig = results.results;
+					if (mapConfig.bloquejat== 'N') {
 					gestioCookie('diferentUser');
 										
 					document.title = "InstaMaps: "+mapConfig.nomAplicacio;
@@ -132,7 +133,11 @@ function loadApp(){
 							canviaIdioma(web_determinaIdioma());
 						});
 					});						
-					
+					}
+					else {
+						alert("Aquest mapa està bloquejat per un altre usuari");
+						window.location.href = paramUrl.galeriaPage;
+					}
 				}catch(err){
 					gestioCookie('loadMapConfig');
 				}
@@ -190,24 +195,24 @@ function addClicksInici() {
 	jQuery('.bt_captura').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'captura pantalla', 'label captura', 1]);
-		_kmq.push(['record', 'captura pantalla', {'from':'mapa', 'tipus user':tipus_user}]);
+		//_kmq.push(['record', 'captura pantalla', {'from':'mapa', 'tipus user':tipus_user}]);
 		capturaPantalla(CAPTURA_MAPA);
 	});
 	
 	jQuery('.bt_print').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'print', 'label print', 1]);
-		_kmq.push(['record', 'print', {'from':'mapa', 'tipus user':tipus_user}]);
+		//_kmq.push(['record', 'print', {'from':'mapa', 'tipus user':tipus_user}]);
 		capturaPantalla(CAPTURA_INFORME);
 	});
 		
 	jQuery('.bt_geopdf').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
-		_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
+		//_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_GEOPDF);
 	});
-		
+	
 	jQuery(document).on('click', function(e) {
         if(e.target.id.indexOf("popovercloseid" )!=-1)
         {

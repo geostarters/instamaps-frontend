@@ -294,6 +294,14 @@ var __module2__ = (function(__dependency1__, __dependency2__) {
       var level = options.data && options.data.level != null ? parseInt(options.data.level, 10) : 1;
       instance.log(level, context);
     });
+    
+    instance.registerHelper('if_equals', function(conditional, value, options) {
+		if (conditional === value){
+			return options.fn(this);
+		} else {
+			return options.inverse(this);
+		}
+	}); 
   }
 
   var logger = {

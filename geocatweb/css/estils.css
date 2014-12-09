@@ -418,7 +418,7 @@ textarea {
 
 #des_pres, #des_pres_visor {
 	background-color: #EEEEEE;
-	height: 60px;
+	min-height: 60px;
 	margin-bottom: 5px;
 	overflow: auto;
 	width: 100%;
