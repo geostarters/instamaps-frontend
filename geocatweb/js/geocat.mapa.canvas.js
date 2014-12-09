@@ -161,6 +161,9 @@ function ompleCapesMatriu(item){
                   
                  
                   jQuery.each(L_JSON.features, function(i, feature){
+				  
+				 // console.info(feature);
+				  
                   var tipus=feature.geometry.type;
 				  var color=(typeof  feature.styles.color =='undefined') ? '#FFCC00' : feature.styles.color ;
 				  var fillColor=(typeof  feature.styles.fillColor =='undefined') ? '#FFCC0080' : feature.styles.fillColor ;
@@ -221,10 +224,11 @@ function ompleCapesMatriu(item){
 				  var cache = [];
 				  
 			  
-	if(JSON.stringify(L_JSON).length > 35000 ){
+	try{
+	
 	matriuCapesLL.layers.push(JSON.stringify(L_JSON));
 	
-	}else{		  
+	}catch(Ex){		  
 
 		 matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
 			if (typeof value === 'object' && value !== null) {
@@ -259,8 +263,10 @@ function getCapesVectorActives(){
       
       
       jQuery.each(controlCapes._layers, function(i, item){ 
+	  
             ompleCapesMatriu(item);      
                   jQuery.each(item._layers, function(j, item2){
+				
                         ompleCapesMatriu(item2);           
                   });         
       });
@@ -268,7 +274,7 @@ function getCapesVectorActives(){
       
       
       
-      
+    
       return matriuCapesLL;
       
       
