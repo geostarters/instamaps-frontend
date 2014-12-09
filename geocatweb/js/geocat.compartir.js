@@ -58,12 +58,43 @@ function addCompartirVisor(){
 	shortUrl(v_url).then(function(results){
 		jQuery('#socialShare_visor').share({
 			networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
-			orientation: 'vertical',
-			affix: 'left center',
+			//orientation: 'vertical',
+			//affix: 'left center',
+			theme: 'square',
 			urlToShare: results.data.url
 		});
 	});	
+	
+	jQuery('.share-square a').attr('target','_blank');
+	
+	jQuery("#dv_bt_Share").on('click',function(e){
+	
+	posaClassActiu('#span_bt_Share');
+	jQuery('#socialShare_visor').css('top', (e.clientY - 30) +'px');
+	jQuery('#socialShare_visor').css('left', (e.clientX + 20) +'px');
+		jQuery('#socialShare_visor').toggle();
+			aturaClick(e);
+			
+		});
+	
+		
 }
+
+
+function posaClassActiu(_element){
+
+var cl = jQuery(_element).attr('class');
+	if (cl.indexOf('grisfort') != -1) {
+		jQuery(_element).removeClass('grisfort');
+		jQuery(_element).addClass('greenfort');
+	} else {
+		jQuery(_element).removeClass('greenfort');
+		jQuery(_element).addClass('grisfort');
+	}
+
+
+}
+
 
 function addHtmlInterficieCompartirMapa(){
 	jQuery("#funcio_compartir").append(

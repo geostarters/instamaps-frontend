@@ -1143,9 +1143,15 @@ h1.big_text{
 }
 
 #galeriaSort .input-group{
+  /*
     margin-left: 40%;
     margin-right: 40%;
     width: 20%;	
+    */
+    
+     margin-left: 35%;
+    margin-right: 40%;
+    width: 35%;
 }
 /*
 #galeriaSort input {
@@ -1249,4 +1255,10 @@ h1.big_text{
     height: 1px;
     margin: 9px 0;
     overflow: hidden;
+}
+
+.sp_rs_maps{
+	
+	font-weight: bold;
+	
 }

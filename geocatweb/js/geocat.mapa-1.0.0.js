@@ -81,7 +81,7 @@ function loadApp(){
 					mapConfig = results.results;
 					gestioCookie('diferentUser');
 										
-					document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+					
 					$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 					
 					if (mapConfig.options){
@@ -130,6 +130,8 @@ function loadApp(){
 								updateLangText();
 							});	
 							canviaIdioma(web_determinaIdioma());
+							document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+							
 						});
 					});						
 					

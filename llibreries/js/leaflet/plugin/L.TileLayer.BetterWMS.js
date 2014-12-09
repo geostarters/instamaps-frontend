@@ -2,6 +2,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	onAdd: function (map) {
 		// Triggered when the layer is added to a map.
 		// Register a click listener, then do all the upstream WMS things
+		this.options.maxZoom=19;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		map.on('click', this.getFeatureInfo, this);
 	},

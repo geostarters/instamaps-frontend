@@ -232,6 +232,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Mapes Ambientals":"Environmental maps",
 	"Mapes i imatges aèries":"Maps and aerial images",
 	"Mapes Medi Natural":"Natural environment maps",
+	"Mapes diponibles:":"Availables maps:",
 	"Mapificar":"Mapify",
 	"Mida punt:":"Point size:",
 	"Mides":"Measurements",

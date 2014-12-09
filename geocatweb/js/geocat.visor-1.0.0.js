@@ -48,7 +48,7 @@ function loadApp(){
 			}
 			mapConfig = $.parseJSON(results.results);
 			
-			document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+			
 			$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 			
 //			console.debug("mapConfig:");
@@ -104,7 +104,7 @@ function loadApp(){
 					updateLangText();
 				});	
 				canviaIdioma(web_determinaIdioma());				
-				
+				document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 			});
 		},function(results){
 			window.location.href = paramUrl.galeriaPage;

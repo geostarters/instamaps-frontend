@@ -116,7 +116,9 @@ function pucPassar(item){
                                          
                                          
                                          try{
+										
                                          item.layer.toGeoJSONcustom();
+										
                                          passo=true;
                                          
                                          }catch(err){
@@ -157,18 +159,24 @@ function ompleCapesMatriu(item){
                   
                   var L_JSON=item.layer.toGeoJSONcustom();
                   
-                  
+                 
                   jQuery.each(L_JSON.features, function(i, feature){
+				  
+				 // console.info(feature);
+				  
                   var tipus=feature.geometry.type;
+				  var color=(typeof  feature.styles.color =='undefined') ? '#FFCC00' : feature.styles.color ;
+				  var fillColor=(typeof  feature.styles.fillColor =='undefined') ? '#FFCC0080' : feature.styles.fillColor ;
+				  var weight=(typeof  feature.styles.weight =='undefined') ? 3 : feature.styles.weight ;
                   //console.info(tipus);
                              if(tipus.indexOf("Point")!=-1){
                              
                              if(!feature.styles.icon){
                              
-                              //feature.properties.OGR="SYMBOL(c:"+feature.styles.fillColor+",id:ogr-sym-3,s:"+(parseInt(feature.styles.weight)+2)+");BRUSH(fc:"+feature.styles.color+")";
+                              //feature.properties.OGR="SYMBOL(c:"+fillColor+",id:ogr-sym-3,s:"+(parseInt(feature.styles.weight)+2)+");BRUSH(fc:"+color+")";
                                                                             
-                              feature.properties.OGR="PEN(c:"+feature.styles.color+",w:6px);BRUSH(fc:"+feature.styles.fillColor+")";                             
-                              //feature.properties.OGR="BRUSH(fc:"+feature.styles.fillColor+"80)";
+                              feature.properties.OGR="PEN(c:"+color+",w:6px);BRUSH(fc:"+fillColor+")";                             
+                              //feature.properties.OGR="BRUSH(fc:"+fillColor+"80)";
                              
                              }else{
                              
@@ -197,12 +205,12 @@ function ompleCapesMatriu(item){
 							 
 							 
 							 
-                              feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px)";
+                              feature.properties.OGR="PEN(c:"+color+",w:"+(parseInt(weight)+3)+"px)";
                              
                              
                              }else if(tipus.indexOf("Polygon")!=-1){
                              
-                              feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px);BRUSH(fc:"+feature.styles.fillColor+")";                        
+                              feature.properties.OGR="PEN(c:"+color+",w:"+(parseInt(weight)+3)+"px);BRUSH(fc:"+fillColor+")";                        
                              
                              }else{
                                    feature.properties.OGR="PEN(c:#0000ff,w:5px);BRUSH(fc:#0000ff90)";
@@ -214,19 +222,28 @@ function ompleCapesMatriu(item){
 				  
 				  
 				  var cache = [];
- matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
-    if (typeof value === 'object' && value !== null) {
-        if (cache.indexOf(value) !== -1) {
-            // Circular reference found, discard key
-            return;
-        }
-        // Store value in our collection
-        cache.push(value);
-    }
-    return value;
-}));
-cache = null;
 				  
+			  
+	try{
+	
+	matriuCapesLL.layers.push(JSON.stringify(L_JSON));
+	
+	}catch(Ex){		  
+
+		 matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
+			if (typeof value === 'object' && value !== null) {
+				if (cache.indexOf(value) !== -1) {
+				  
+					return;
+				}
+			   
+				cache.push(value);
+			}
+			return value;
+		}));
+
+		cache = null;
+		}	
 				  
 						  
                   matriuCapesLL.n_layers.push(item.name);
@@ -246,8 +263,10 @@ function getCapesVectorActives(){
       
       
       jQuery.each(controlCapes._layers, function(i, item){ 
+	  
             ompleCapesMatriu(item);      
                   jQuery.each(item._layers, function(j, item2){
+				
                         ompleCapesMatriu(item2);           
                   });         
       });
@@ -255,7 +274,7 @@ function getCapesVectorActives(){
       
       
       
-      
+    
       return matriuCapesLL;
       
       

@@ -25,7 +25,8 @@
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
 
-<title lang="ca">InstaMaps</title>
+<link href="http://www.instamaps.cat/maps/georss.cgi" rel="alternate" type="application/rss+xml" title="GeoRSS Instamaps">
+<title lang="ca">Galeria InstaMaps</title>
 </head>
 
 <body>
@@ -103,7 +104,16 @@
 			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
 			   <input class="search form-control" lang="ca" placeholder="Cerca" />
 			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
-			  </div>
+				<span class="input-group-addon">
+					<span lang="ca">Mapes diponibles:</span>
+					<span class="sp_rs_maps"></span>  
+				</span>
+			<span><a href="/maps/georss.cgi" rel="alternate" style="margin-left:5px"  type="application/rss+xml" target="_blank" title="GeoRSS Instamaps">
+				<img width="26px" src="/llibreries/img/georss.png">
+				</a>
+			</span>	
+		</div>
+
 
 			<ul class="list">
 			{{#each results}}
@@ -149,6 +159,10 @@
 			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
 			   <input class="search form-control" lang="ca" placeholder="Cerca" />
 			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
+			  	<span class="input-group-addon">
+					<span lang="ca">Mapes diponibles:</span>
+					<span class="sp_rs_maps"></span>
+				<span>			  
 			  </div>
 			<ul class="list">
 			<li><p class="nomAplicacioSort hidden"></p>

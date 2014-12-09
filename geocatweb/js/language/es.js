@@ -232,6 +232,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Mapa Urbanístic":"Mapa Urbanístico",
 	"Mapes":"Mapas",
 	"Mapes Ambientals":"Mapas ambientales",
+	"Mapes diponibles:":"Mapas disponibles:",
 	"Mapes i imatges aèries":"Mapas e imágenes aéreas",
 	"Mapes Medi Natural":"Mapas Medio Natural",
 	"Mapificar":"Mapificar",

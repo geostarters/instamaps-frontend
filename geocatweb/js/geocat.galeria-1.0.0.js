@@ -4,7 +4,6 @@ $(function(){
 	
 	var sourcePublic = $("#galeriaPublic-template").html();
 	var templatePublic = Handlebars.compile(sourcePublic);
-	
 	var privatGaleria = url('?private');
 	
 	//per GA
@@ -36,6 +35,7 @@ $(function(){
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		var data = {uid: $.cookie('uid')};
 		loadGaleria(data).then(function(results){
+			
 			results.results = jQuery.map( results.results, function( val, i ) {
 				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
@@ -45,6 +45,7 @@ $(function(){
 			});
 			var html = template(results);
 			$('#galeriaRow').append(html);
+			
 //			console.debug("galeria Row html:");
 //			console.debug(html);
 			
@@ -52,7 +53,17 @@ $(function(){
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ]
 			};
-			var userList = new List('galeriaSort', optionsSearch);			
+			userList = new List('galeriaSort', optionsSearch);	
+			
+			
+				escriuResultats(userList.visibleItems.length);
+			
+			$('input.search.form-control').on('keyup', function(event){
+		
+				escriuResultats(userList.visibleItems.length);
+			});
+			
+			
 			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
 			$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));
 			
@@ -151,6 +162,7 @@ $(function(){
 		});
 	}else{
 		loadPublicGaleria().then(function(results){
+			
 			results.results = jQuery.map( results.results, function( val, i ) {
 				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 				if (val.options){
@@ -170,11 +182,25 @@ $(function(){
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
+			
+			
+			
 			//Search function
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ]
 			};
-			var userList = new List('galeriaSort', optionsSearch);				
+			
+			
+			
+		var	userList = new List('galeriaSort', optionsSearch);				
+			
+			escriuResultats(userList.visibleItems.length);
+			
+			$('input.search.form-control').on('keyup', function(event){
+		
+				escriuResultats(userList.visibleItems.length);
+			});
+			
 			
 			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
 			$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));			
@@ -227,6 +253,11 @@ $(function(){
 			window.lang.run();
 			$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 		});
+	}
+	
+	
+	function escriuResultats(total){
+	$('.sp_rs_maps').html(total);
 	}
 	
 });
