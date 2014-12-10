@@ -4,7 +4,7 @@
 
 function addControlPublicar(){
 	
-	addHtmlInterficiePublicar();
+	if (!$.cookie('collaborateuid')) addHtmlInterficiePublicar();
 	addHtmlModalPublicar();
 	addHtmlModalIframePublicar();
 	

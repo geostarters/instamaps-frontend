@@ -115,7 +115,11 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
-	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?"
+	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
+	updateMapVisibility: HOST_APP+"geocat/aplications/map/updateVisibility.action?",
+	sendMail: HOST_APP+"/geocat/mail/sendMail.action?",
+	getEntitatsAplicacioRolByUidColaborador:  HOST_APP+"/geocat/entitatAplicacio/getEntitatsAplicacioRolByUidColaborador.action?",
+	getEntitatsColaboradorsByAplicacio:  HOST_APP+"/geocat/entitatAplicacio/getAllEntitatsColaboradorsByAplicacio.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

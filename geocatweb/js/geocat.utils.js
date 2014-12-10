@@ -272,9 +272,16 @@ function gestioCookie(from){
 			}
 			break;
 		case 'diferentUser':
-			if (mapConfig.entitatUid != _cookie){
-				$.removeCookie('uid', { path: '/' });
-				window.location.href = paramUrl.mainPage;
+			var mapacolaboratiu = url('?mapacolaboratiu');
+			if (mapacolaboratiu && mapacolaboratiu=='si'){
+				$.cookie('collaborateuid', url('?uid'), {path:'/'});
+			}
+			else{
+				$.removeCookie('collaborateuid', { path: '/' });
+				if (mapConfig.entitatUid != _cookie){
+					$.removeCookie('uid', { path: '/' });
+					window.location.href = paramUrl.mainPage;
+				}
 			}
 			break;
 		case 'loadMapConfig':

@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
 	}
 	web_menusIdioma(lsLang);
 	initHover();
-    checkUserLogin();
+	checkUserLogin();
     var currentLang = localStorage.getItem('langJs_currentLang');
     if(currentLang === 'es')$("#es").addClass("active");
     else if(currentLang === 'en') $("#en").addClass("active");
@@ -95,6 +95,7 @@ function checkUserLogin(){
 		$("#text_username").text(" "+uid);
 		var galeria_url = paramUrl.galeriaPage + "?private=1";
 		$("#galeria a").attr('href', galeria_url);
+		
 	}
 }
 

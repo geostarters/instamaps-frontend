@@ -175,7 +175,11 @@ function redirectLogin(results){
 			window.location=paramUrl.mapaPage;
 		}
 	}else{
-		window.location=paramUrl.galeriaPage+"?private=1";
+		if ($.cookie('collaboratebid')) {
+			window.location='http://localhost'+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+			$.removeCookie('collaborateid',{path: '/' });
+		}
+		else window.location=paramUrl.galeriaPage+"?private=1";
 	}
 }
 

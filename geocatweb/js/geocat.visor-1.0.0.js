@@ -39,7 +39,9 @@ function loadApp(){
 			
 		var data = {
 			businessId: url('?businessid'),
-			id: url('?id')
+			id: url('?id'),
+			mapacolaboratiu: url('?mapacolaboratiu'),
+			uid: url('?uid')			
 		};
 		
 		getCacheMapByBusinessId(data).then(function(results){
@@ -107,7 +109,17 @@ function loadApp(){
 				document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 			});
 		},function(results){
-			window.location.href = paramUrl.galeriaPage;
+			var uidUrl = url('?uid');
+			if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
+				$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+				window.location.href = paramUrl.loginPage;
+			}
+			else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
+				$.removeCookie('uid', { path: '/' });
+				$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+				window.location.href = paramUrl.loginPage;
+			}
+			else window.location.href = paramUrl.galeriaPage;			
 		});
 	}
 	
