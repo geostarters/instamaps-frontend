@@ -379,5 +379,12 @@ jquery_lang_js.prototype.lang.en = {
 	"Desar mapa GeoPDF":"Save map as GeoPDF",
 	"Notes":"Notes",
 	"La informació presentada no té valor normatiu ni jurídic":"The information presented here does not have legal or normative validity",
-	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Your Instamaps account has been migrated. You shall now log in with your ICGC credentials."
+	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Your Instamaps account has been migrated. You shall now log in with your ICGC credentials.",
+	"El mapa és visible a la galeria pública":"The map is visible in the public gallery",
+	"El mapa només és visible a la teva galeria privada":"El mapa es sólo visible en tu galería privada",
+	"No ha sigut possible canviar la visibilitat del mapa":"Unable to change the visibility of your map",
+	"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"There has been a problem in sending emails",
+	"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",
+	"Et convido a col•laborar en el mapa ":"I invite you to collaborate on the Instamaps map  ",
+	" d'Instamaps. Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" Click on the link to access. You must register if you have not already done so."
 }

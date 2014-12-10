@@ -137,18 +137,53 @@ Back to top button
 	#back-top {
 	    right: 15%;
 	}
+	
+	.brand-txt {
+   
+    font-size: 85% !important;
+   
+    margin-right: 10px !important;
+   
+}
+	
+	#mapTitle {
+  
+    font-size: 85%!important;
+   
+}
+	
 }
 
 @media (max-width: 604px) {
 	#back-top {
 	    right: 10%;
 	}
+	
+	.brand-txt {
+   
+   
+	display:none;
 }
 
-@media (max-width: 360px){
+#mapTitle {
+  
+    font-size: 70%!important;
+   
+}
+
+
+
+}
+
+@media (max-width: 400px){
 	#back-top {
 	    right: 15%;
 	}
+	
+.brand-txt {display:none;}
+#mapTitle {display:none;}
+	
+	
 }
 
 #back-top a {
@@ -316,14 +351,14 @@ footer .logo_footer {
 		margin-right: 20px;
 		font-color: #FFFFFF;
 		font-weight: bold;
-		font-size: 25px;
+		font-size: 100%;
 	}
 	
 	#mapTitle{
 	    line-height: 20px;
 	    padding: 15px;
 	    float: left;
-	    font-size: 25px;
+	    font-size: 100%;
 	    font-weight: bold;
 	    color: white;
 	}
@@ -830,7 +865,7 @@ background-color:#FFFFFF}
 		background-color: #CECDD3;
 	}	
 	
-	/*** galeria.html ***/	
+	/*** galeria.html ***/
 	.thumbnail{
 		position: relative;
 		min-height: 240px;
@@ -1251,34 +1286,8 @@ h1.big_text{
     overflow: hidden;
 }
 
-#urlVisorMap {
-    border: 1px none black;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 4px;
-    text-align: center;
+
+.navbar-toggle {
+    padding: 5px 5px!important;
 }
 
-#urlVisorMap a:hover{decoration:none;}
-
-.btn-visibility {
-    background-color: #b3b3b3;
-    border-color: #cccccc;
-    color: #333333;
-}
-
-.btn-visibility .unlock:before {
-	content: url(../../llibreries/img/glyphicons_204_unlock.png);
-}
-
-.btn-visibility .lock:before {
-	content: url(../../llibreries/img/glyphicons_203_lock.png);
-}
-
-.btn-success .group:before {
-	content: url(../../llibreries/img/glyphicons_043_group.png);
-}
-
-#btn-grup{
-	padding: 5px !important;
-}

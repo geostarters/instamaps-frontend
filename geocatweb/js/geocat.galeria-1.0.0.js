@@ -114,18 +114,31 @@ $(function(){
 				var $this = $(this);
 				
 				//$('#dialgo_colaborate').modal('show');
-				$('#dialgo_colaborate').data('businessid', $this.data("businessid")).modal('show');
+				
+				
 				var data1 = {
 					aplicacioId: $this.data("id")
 				}
+				
 				getEntitatsColaboradorsByAplicacio(data1).then(function(results){
-					results.results = jQuery.map( results.results, function( val, i ) {
-						var conv='#convidats'+(i+1);
-						$(conv).val(val.email);		
-						$(conv).prop('disabled', true);
-					}
-				)});
+						$('#convidats1').val("");
+						$('#convidats1').prop('disabled',false);
+						$('#convidats2').val("");
+						$('#convidats2').prop('disabled',false);
+						$('#convidats3').val("");
+						$('#convidats3').prop('disabled',false);
+						$('#convidats4').val("");
+						$('#convidats4').prop('disabled',false);
+						$('#convidats5').val("");
+						$('#convidats5').prop('disabled',false);
+					results.results = jQuery.map( results.results, function( val, i ) {							
+							var conv='#convidats'+(i+1);
+							$(conv).val(val.email);		
+							$(conv).prop('disabled', true);
+						}
+					)});
 				$('#businessIdConvidar').val($this.data("businessid"));
+				$('#dialgo_colaborate').data('businessid', $this.data("businessid")).modal('show');
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'colaboracio']);
 				//_kmq.push(['record', 'veure mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				//window.location.href = urlMap;
@@ -152,7 +165,7 @@ $(function(){
 			});
 			
 			//Change visibility
-			$('#canviar_visibilitat').on('click', function(event){
+			$('.btn.btn-visibility').on('click', function(event){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
@@ -160,14 +173,13 @@ $(function(){
 				var visibilitatAntiga="P";
 				var idPriv="#privacitat_"+$this.data("businessid");
 				console.debug(idPriv);
-				if ($(idPriv).attr("class") == "fa fa-unlock" ) visibilitatAntiga="O";				
+				if ($(idPriv).attr("class") == "unlock" ) visibilitatAntiga="O";				
 				
 				var visibilitatNova="";
 				
 				if (visibilitatAntiga=="P") visibilitatNova="O";
 				else visibilitatNova="P";
 				
-					
 				var data1 = {
 						businessId: $this.data("businessid"),
 						uid: $.cookie('uid'),
@@ -177,17 +189,18 @@ $(function(){
 					if (results.status=="OK") {
 						console.debug(results);
 						if (visibilitatAntiga=="P") {
-							$(idPriv).attr("class", "fa fa-unlock");
-							$this.data("title", "El mapa és visible a la galeria pública");
-							console.debug("1:"+$this.data("title"));
+							$(idPriv).attr("class", "unlock");
+							$this.data("title", window.lang.convert("El mapa és visible a la galeria pública"));
+							$this.attr('title', window.lang.convert("El mapa és visible a la galeria pública")).tooltip('fixTitle').tooltip('show');
 						}
 						else {
-							$(idPriv).attr("class", "fa fa-lock");
-							$this.data("title","El mapa només és visible a la teva galeria privada");
-							console.debug("2:"+$this.data("title"));
+							$(idPriv).attr("class", "lock");
+							$this.data("title",window.lang.convert("El mapa només és visible a la teva galeria privada"));
+							$this.attr('title', window.lang.convert("El mapa només és visible a la teva galeria privada")).tooltip('fixTitle').tooltip('show');
+							
 						}
 					}
-					else alert("No ha sigut possible canviar la visibilitat del mapa");
+					else alert(window.lang.convert("No ha sigut possible canviar la visibilitat del mapa"));
 				});
 				
 				
@@ -217,31 +230,30 @@ $(function(){
 				var businessId= $('#dialgo_colaborate').data('businessid');
 				var urlMap = 'http://localhost'+paramUrl.visorPage+'?businessid='+businessId;
 				//console.debug(htmlentities($('#nomAplicacioSort_'+businessId).val()));
-				var contingut= "Et convido a col·laborar en el mapa <span style='font-weight:bold'>"+$('#nomAplicacioSort_'+businessId).val()+"</span> d'Instamaps. Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.<br/>";
+				var contingut= window.lang.convert("Et convido a col•laborar en el mapa ")+"<span style='font-weight:bold'>"+$('#nomAplicacioSort_'+businessId).val()+"</span>"+ window.lang.convert(" d'Instamaps. Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.")+"<br/>";
 				contingut=htmlentities(contingut)+urlMap;
 				var to = "";
-				if ($('#convidats1')) to=to+$('#convidats1').val();
-				if ($('#convidats2') && $('#convidats2').val()!="") {
+				if ($('#convidats1') && $('#convidats1').val()!="" &&  $('#convidats1').prop("disabled")!=true) to=to+$('#convidats1').val();
+				if ($('#convidats2') && $('#convidats2').val()!="" &&  $('#convidats2').prop("disabled")!=true) {
 					if (to!="")	to=to+","+$('#convidats2').val();
 					else to=to+$('#convidats2').val();
 				}
-				if ($('#convidats3') && $('#convidats3').val()!="") {
+				if ($('#convidats3') && $('#convidats3').val()!="" &&  $('#convidats3').prop("disabled")!=true) {
 					if (to!="")	to=to+","+$('#convidats3').val();
 					else to=to+$('#convidats3').val();
 				}
-				if ($('#convidats4') && $('#convidats4').val()!="") {
+				if ($('#convidats4') && $('#convidats4').val()!="" &&  $('#convidats4').prop("disabled")!=true) {
 					if (to!="")	to=to+","+$('#convidats4').val();
 					else to=to+$('#convidats4').val();
 				}
-				if ($('#convidats5') && $('#convidats5').val()!="") {
+				if ($('#convidats5') && $('#convidats5').val()!="" &&  $('#convidats5').prop("disabled")!=true) {
 					if (to!="")	to=to+","+$('#convidats5').val();
 					else to=to+$('#convidats5').val();
 				}
 				var data = {
 					uid: $.cookie('uid'),
 					to:to,
-					from:'ammont82@gmail.com',
-					subject:'Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;',
+					subject:window.lang.convert('Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;'),
 					content: contingut,
 					esColaboratiu: 'S'
 				};
@@ -252,7 +264,7 @@ $(function(){
 						console.debug(results);
 						$('#dialgo_colaborate').modal('hide');
 					}
-					else alert("No ha sigut possible enviar el e-mail");
+					else alert(window.lang.convert("Hi ha hagut algun problema amb la tramesa dels correus electrònics"));
 				});
 			});
 			window.lang.run();

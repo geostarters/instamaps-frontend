@@ -382,5 +382,12 @@ jquery_lang_js.prototype.lang.es = {
 	"Notes":"Notas",
 	"La informació presentada no té valor normatiu ni jurídic":"La información presentada no tiene valor normativo ni jurídico",
 	"Error: No es pot generar el document":"Error:No se puede generar el documento",
-	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC."
+	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC.",
+	"El mapa és visible a la galeria pública":"El mapa es visible en la galeria pública",
+	"El mapa només és visible a la teva galeria privada":"El mapa es sólo visible en tu galería privada",
+	"No ha sigut possible canviar la visibilitat del mapa":"No ha sido posible cambiar la visibilidad de tu mapa",
+	"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos",
+	"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",
+	"Et convido a col•laborar en el mapa ":"Te invito a colaborar en el mapa ",
+	" d'Instamaps. Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" de Instamaps. Clica en el enlace para acceder. Deberás registrarte si todavía no lo has hecho."
 }
