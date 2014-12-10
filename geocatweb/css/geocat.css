@@ -1290,3 +1290,7 @@ h1.big_text{
 .btn-success .group:before {
 	content: url(../../llibreries/img/glyph_043_group.png);
 }
+
+#btn-grup{
+	padding: 5px !important;
+}
