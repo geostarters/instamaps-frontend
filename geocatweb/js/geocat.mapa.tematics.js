@@ -148,6 +148,7 @@ function loadCacheTematicLayer(layer){
 }
 
 function loadTematicLayer(layer){
+	try {map.spin(true);} catch (Err) {}
 	var defer = $.Deferred();
 	var data={
 		businessId: layer.businessId
@@ -157,9 +158,11 @@ function loadTematicLayer(layer){
 	
 	//console.time("loadTematicLayer " + layerWms.serverName);
 	getTematicLayerByBusinessId(data).then(function(results){
+		try {map.spin(false);} catch (Err) {}
 		readTematic(defer, results, layerWms, layer);
 	},function(results){
 		//console.debug('getTematicLayerByBusinessId ERROR');
+		try {map.spin(false);} catch (Err) {}
 		defer.reject();
 	});
 	return defer.promise();
