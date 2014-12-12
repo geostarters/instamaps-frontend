@@ -307,17 +307,12 @@ $(function(){
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
-			
-			
-			
 			//Search function
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ]
 			};
 			
-			
-			
-		var	userList = new List('galeriaSort', optionsSearch);				
+			var	userList = new List('galeriaSort', optionsSearch);				
 			
 			escriuResultats(userList.visibleItems.length);
 			
@@ -377,12 +372,18 @@ $(function(){
 			
 			window.lang.run();
 			$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
+			
+			if(typeof url('?q') == "string"){
+				$('#galeriaSort>div>input').val(url('?q'));
+				userList.search(url('?q'));
+				escriuResultats(userList.visibleItems.length);
+			}
 		});
 	}
 	
 	
 	function escriuResultats(total){
-	$('.sp_rs_maps').html(total);
+	 $('.sp_rs_maps').html(total);
 	}
 	
 });
