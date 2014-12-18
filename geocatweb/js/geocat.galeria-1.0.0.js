@@ -373,18 +373,13 @@ $(function(){
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
-			
-			
-			
 			//Search function
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ],
 					page: 500
 			};
 			
-			
-			
-		var	userList = new List('galeriaSort', optionsSearch);				
+			var	userList = new List('galeriaSort', optionsSearch);				
 			
 			escriuResultats(userList.visibleItems.length);
 			
@@ -461,7 +456,7 @@ $(function(){
 	
 	
 	function escriuResultats(total){
-	$('.sp_rs_maps').html(total);
+	 $('.sp_rs_maps').html(total);
 	}
 	
 });
