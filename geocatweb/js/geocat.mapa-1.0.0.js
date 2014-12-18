@@ -79,7 +79,12 @@ function loadApp(){
 			}else{
 				try{
 					mapConfig = results.results;
-					if (mapConfig.bloquejat== 'N') {
+					//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
+					//jQuery.map( bloquejatJson, function( val, i ) {
+					//		console.debug(val.uid);
+					//		console.debug(val.bloquejat);
+					//});
+					//if (true) { //CANVIAR
 					gestioCookie('diferentUser');
 										
 					
@@ -107,7 +112,6 @@ function loadApp(){
 					addControlsInici();
 					
 					loadMapConfig(mapConfig).then(function(){
-						
 						$('#nomAplicacio').html(mapConfig.nomAplicacio);
 						//llegim configuracio de funcionalitats del mapa, si no te, per defecte
 						
@@ -135,11 +139,11 @@ function loadApp(){
 							
 						});
 					});						
-					}
-					else {
-						alert("Aquest mapa està bloquejat per un altre usuari");
-						window.location.href = paramUrl.galeriaPage;
-					}
+					//}
+					//else {
+					//	alert("Aquest mapa està bloquejat per un altre usuari");
+					//	window.location.href = paramUrl.galeriaPage;
+					//}
 				}catch(err){
 					gestioCookie('loadMapConfig');
 				}
@@ -648,7 +652,6 @@ function loadConfiguracio(configuracio){
 function addLeaveModal(){
 	
 	addHtmlModalLeave();
-	
 	if (isRandomUser($.cookie('uid'))){
 		jQuery('#hl_sessio1').attr('href', paramUrl.loginPage+"?from=mapa");
 		

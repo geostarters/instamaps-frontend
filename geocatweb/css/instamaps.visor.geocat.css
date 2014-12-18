@@ -1244,6 +1244,24 @@ h1.big_text{
   top:-10px;
   right:-5px;
 }
+/* Link veure mapa Visor */
+#div-linkViewMap {
+    background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+    border-radius: 0;
+    color: #ffffff;
+    min-height: 25px;
+    padding: 8px;
+    text-align: center;
+    width: 145px;
+}
+
+#span-linkViewMap a {
+    color: white;
+}
+#span-linkViewMap a:hover {
+      text-decoration:none;
+      font-weight: bold;      
+}
 
 
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var context;
 var newCanvas;
 var objLLegenda=null;
@@ -915,7 +914,7 @@ function deg2rad(deg) {
 function rag2deg(deg) {
       return deg * (180 / Math.PI)
 }
-=======
+
 var context;
 var newCanvas;
 var objLLegenda=null;
@@ -1813,4 +1812,3 @@ function deg2rad(deg) {
 function rag2deg(deg) {
       return deg * (180 / Math.PI)
 }
->>>>>>> refs/remotes/origin/geocatonline_montse2014

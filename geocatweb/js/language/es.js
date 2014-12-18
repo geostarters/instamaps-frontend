@@ -358,6 +358,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Valors":"Valores",
 	"Veure informació al fer clic sobre el mapa":"Ver información al hacer clic sobre el mapa",
 	"Veure": "Ver",
+	"Veure a InstaMaps": "Ver en InstaMaps",
 	"Veure el mapa":"Ver el mapa",
 	"Vincle":"Enlace",
 	"Visibilitat":"Visibilidad",
@@ -389,6 +390,11 @@ jquery_lang_js.prototype.lang.es = {
 	"No ha sigut possible canviar la visibilitat del mapa":"No ha sido posible cambiar la visibilidad de tu mapa",
 	"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos",
 	"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",
-	"Et convido a col•laborar en el mapa ":"Te invito a colaborar en el mapa ",
-	" d'Instamaps. Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" de Instamaps. Clica en el enlace para acceder. Deberás registrarte si todavía no lo has hecho."
+	"Et convido a col&#183;laborar en el mapa ":"Te invito a colaborar en el mapa ",
+	" d'Instamaps (creat per ":" de Instamaps (creador por ",
+	" ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" ). Clica en el enlace para acceder. Deberás registrarte si todavía no lo has hecho.",
+	"Afegir col&#183;laboradors":"Añadir colaboradores",
+	"Escriu el correu electrònic de les persones que vols convidar a col&#183;laborar en aquest mapa (màxim 5)":"Escribe el correo electrónico de las personas que quieres invitar a colaborar en este mapa (máximo 5)",
+	"Col·laborador ":"Colaborador ",
+	" esborrat": " eliminado"
 }

@@ -1280,17 +1280,29 @@ h1.big_text{
 }
 
 .btn-visibility .unlock:before {
-	content: url(../../llibreries/img/glyph_204_unlock.png);
+	content: url(../../llibreries/img/glyphicons_204_unlock.png);
 }
 
 .btn-visibility .lock:before {
-	content: url(../../llibreries/img/glyph_203_lock.png);
+	content: url(../../llibreries/img/glyphicons_203_lock.png);
 }
 
 .btn-success .group:before {
-	content: url(../../llibreries/img/glyph_043_group.png);
+	content: url(../../llibreries/img/glyphicons_043_group.png);
 }
 
 #btn-grup{
 	padding: 5px !important;
+}
+.input_convidats{
+	margin-bottom:5px;
+	width:90%;
+}
+.remove_button{
+	padding: 0;
+	border: none;
+	background: none;
+	width:18% !important;
+	float:right;
+	margin-top:-25px;
 }

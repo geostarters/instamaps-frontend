@@ -18,19 +18,26 @@ jQuery(document).ready(function() {
 
 function loadApp(){
 	
-	if(typeof url('?embed') == "string"){
-//		jQuery('#navbar-visor').remove();
-		jQuery('#navbar-visor').hide();
-		jQuery('#searchBar').css('top', '0');
-		
-	}
-	
-	if(typeof url('?businessid') == "string"){
-		map = new L.IM_Map('map', {
-			typeMap : 'topoMap',
-			minZoom: 2,
-			maxZoom : 19,
-		}).setView([ 41.431, 1.8580 ], 8);
+	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
+    if(typeof url('?embed') == "string"){
+//        jQuery('#navbar-visor').remove();
+          jQuery('#navbar-visor').hide();
+          jQuery('#searchBar').css('top', '0');
+          addDefaultZoomControl = false;
+          _gaq.push(['_trackEvent', 'visor', 'embed']);
+    }else{
+          _gaq.push(['_trackEvent', 'visor', 'no embed']);
+
+    }
+    
+    if(typeof url('?businessid') == "string"){
+          map = new L.IM_Map('map', {
+                typeMap : 'topoMap',
+                minZoom: 2,
+                maxZoom : 19,
+                zoomControl: addDefaultZoomControl,
+          }).setView([ 41.431, 1.8580 ], 8);
+
 		
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
 				
@@ -45,6 +52,7 @@ function loadApp(){
 		};
 		
 		getCacheMapByBusinessId(data).then(function(results){
+			
 			if (results.status == "ERROR"){
 				window.location.href = paramUrl.galeriaPage;
 			}
@@ -112,14 +120,18 @@ function loadApp(){
 			var uidUrl = url('?uid');
 			if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
 				$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+				$.cookie('collaborateuid', uidUrl, {path:'/'});
 				window.location.href = paramUrl.loginPage;
 			}
 			else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
 				$.removeCookie('uid', { path: '/' });
 				$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+				$.cookie('collaborateuid', uidUrl, {path:'/'});
 				window.location.href = paramUrl.loginPage;
 			}
-			else window.location.href = paramUrl.galeriaPage;			
+			else {
+				window.location.href = paramUrl.galeriaPage+"?private=1";			
+			}
 		});
 	}
 	
@@ -196,7 +208,33 @@ function addControlsInici() {
 	};
 	ctr_llistaCapes.addTo(map);
 	
-	
+	//link Veure Mapa
+    if(typeof url('?embed') == "string"){
+          var ctr_linkViewMap = L.control({
+                position : 'topleft'
+          });         
+          
+          ctr_linkViewMap.onAdd = function(map) {
+
+                this._div = L.DomUtil.create('div', 'control-linkViewMap');
+                this._div.id='div-linkViewMap';
+                this._div.title=window.lang.convert('Compartir');
+                this._div.innerHTML = '<span id="span-linkViewMap">'+
+                                                   '<a href="http://instamaps.cat/geocatweb/visor.html?businessid='+url('?businessid')+'" target="_blank">'+
+                                                   window.lang.convert('Veure a InstaMaps')+
+                                                   '&nbsp;<span class="glyphicon glyphicon-share-alt"></span>'+
+                                                   '</a>'+
+                                               '</span>';
+                return this._div;
+          };
+          ctr_linkViewMap.addTo(map);  
+          jQuery('#span-linkViewMap a').on('click', function(event) {
+              _gaq.push(['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
+          });
+          new L.Control.Zoom({ position: 'topleft' }).addTo(map);
+    }
+
+    
 	ctr_shareBT = L.control({
 		position : 'topleft'
 	});

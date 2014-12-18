@@ -45,6 +45,7 @@ $(function(){
 					val.options = $.parseJSON(val.options);	
 				}
 				val.uid=$.cookie('uid');
+				val.convidats=val.convidats;				
 				return val;
 			});
 			var html = template(results);
@@ -109,13 +110,17 @@ $(function(){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'editar mapa']);
+				
 				//_kmq.push(['record', 'editar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				var urlMap = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
 				if ($this.data("colaboracio")) {
 					urlMap = urlMap +"&mapacolaboratiu=si";
-				}				
-				window.location.href = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
+					_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'editar mapa','col.laboratiu']);
+				}	
+				else _gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'editar mapa','no col.laboratiu']);
+				
+				//alert(urlMap);
+				window.location.href = urlMap;
 
 
 
@@ -124,40 +129,86 @@ $(function(){
 			});
 			
 			$('.btn.btn-success').on('click', function(event){
-
+				
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
 				//$('#dialgo_colaborate').modal('show');
 				$('#dialgo_colaborate').data('businessid', $this.data("businessid")).modal('show');
-
-
-				var data1 = {
-					aplicacioId: $this.data("id")
-				}
-				getEntitatsColaboradorsByAplicacio(data1).then(function(results){
-						$('#convidats1').val("");
-						$('#convidats1').prop('disabled',false);
-						$('#convidats2').val("");
-						$('#convidats2').prop('disabled',false);
-						$('#convidats3').val("");
-						$('#convidats3').prop('disabled',false);
-						$('#convidats4').val("");
-						$('#convidats4').prop('disabled',false);
-						$('#convidats5').val("");
-						$('#convidats5').prop('disabled',false);
-					results.results = jQuery.map( results.results, function( val, i ) {							
-							var conv='#convidats'+(i+1);
-							$(conv).val(val.email);		
-							$(conv).prop('disabled', true);
+				
+				if ($this.data("title")!=undefined) {
+					var idConvidats="#convidats_"+$this.data("businessid");
+					var data1 = {
+						businessId: $this.data("businessid"),
+						uid: $.cookie('uid')
+					}
+					getConvidatsByBusinessId(data1).then(function(results){
+						for (var j=1;j<6;j++){ //Netejem els camps dels convidats
+							$('#convidats'+j).val("");
+							$('#convidats'+j).prop('disabled',false);
+							$('#convidats'+j).attr("style","margin-bottom:3px;width:88%;");
+							$('#convidats'+j+"_remove").attr("style","display:none;");
+							$('#convidats'+j+"_remove").on('click', function(event){
+								event.preventDefault();
+								event.stopPropagation();
+								var id=event.target.attributes.id.value;
+								var idC=id.toString().substring(0,10);
+								console.debug($('#'+idC).val());
+								console.debug($('#dialgo_colaborate').data('businessid'));
+								var data = {
+										convidatEsborrar: $('#'+idC).val(),
+										businessId: $('#dialgo_colaborate').data('businessid'),
+										uid: $.cookie('uid')
+								}
+								console.debug(data);
+								deleteConvidatByBusinessId(data).then(function(results2){
+									if (results2.status=="OK"){
+										alert( window.lang.convert("Col·laborador ")+$('#'+idC).val()+window.lang.convert(" esborrat"));
+										$('#'+idC).val("");
+										$('#'+idC).prop('disabled',false);
+										$('#'+idC).attr("style","margin-bottom:3px;width:88%;");
+										$('#'+idC+"_remove").attr("style","display:none;");										
+									}				
+								});
+							});
 						}
-					)});
-				$('#businessIdConvidar').val($this.data("businessid"));
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'veure mapa']);
+						if (results.results!=null) {
+							var convidatsJson=$.parseJSON(results.results);
+							var jsonObj = [];
+							jQuery.map( convidatsJson, function( val, i ) {
+								console.debug(val.email+","+val.validat);					
+								var conv='#convidats'+(i+1);
+								var convR='#convidats'+(i+1)+"_remove";	
+								if (val.validat=="S") {
+									$(conv).val(val.email);
+									$(conv).prop('disabled', true);
+									var item = {};
+							        item ["email"] = val.email;
+							        jsonObj.push(item);
+							        $(convR).attr("style","display:none;");
+								}
+								else {
+									$(conv).val(val.email);
+									$(conv).prop('disabled', true);
+									$(conv).attr("style","background-color:#d9534f;opacity:0.85;margin-bottom:3px;width:88%;");
+									var item = {};
+							        item ["email"] = val.email;
+							        jsonObj.push(item);
+							        $(convR).attr("style","display:block;");
+								}					
+							});		
+						}
+					});
+					
+					$('#businessIdConvidar').val($this.data("businessid"));
+				}
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'preconvidar']);
 				//_kmq.push(['record', 'veure mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				//window.location.href = urlMap;
 
 			});
+			
+			
 			
 			$('.btn.btn-primary').on('click', function(event){
 				event.preventDefault();
@@ -167,7 +218,10 @@ $(function(){
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
 				}
-				$('#urlMap').val(urlMap);
+				shortUrl(urlMap).then(function(results){
+					$('#urlMap').val(results.data.url);
+				});
+				//$('#urlMap').val(urlMap);
 				$('#urlVisor').attr("href", urlMap);
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
@@ -187,13 +241,19 @@ $(function(){
 				
 				var visibilitatAntiga="P";
 				var idPriv="#privacitat_"+$this.data("businessid");
-				console.debug(idPriv);
+				
 				if ($(idPriv).attr("class") == "unlock" ) visibilitatAntiga="O";				
 				
 				var visibilitatNova="";
-				
-				if (visibilitatAntiga=="P") visibilitatNova="O";
-				else visibilitatNova="P";
+				var textVisibilitatNova="";
+				if (visibilitatAntiga=="P") {
+					visibilitatNova="O";
+					textVisibilitatNova="public";
+				}
+				else {
+					visibilitatNova="P";
+					textVisibilitatNova="privat";
+				}
 				
 				var data1 = {
 						businessId: $this.data("businessid"),
@@ -218,9 +278,8 @@ $(function(){
 					else alert(window.lang.convert("No ha sigut possible canviar la visibilitat del mapa"));
 				});
 				
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'visibilitat',textVisibilitatNova]);
 				
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'canviar visibilitat', 'referral', 1]);
-				//_kmq.push(['record', 'enllaça mapa', {'from':'galeria privada','funnel':'referral', 'tipus user':t_user_loginat}]);
 			});			
 
 			$('.thumbnail').hover(function(){
@@ -243,44 +302,51 @@ $(function(){
 			*/
 			$('#dialgo_colaborate #convidar').on('click', function(event){
 				var businessId= $('#dialgo_colaborate').data('businessid');
-				var urlMap = 'http://localhost'+paramUrl.visorPage+'?businessid='+businessId;
+				var urlMap = HOST_APP+paramUrl.visorPage+'?businessid='+businessId;
 				//console.debug(htmlentities($('#nomAplicacioSort_'+businessId).val()));
-				var contingut= window.lang.convert("Et convido a col•laborar en el mapa ")+"<span style='font-weight:bold'>"+$('#nomAplicacioSort_'+businessId).val()+"</span>"+ window.lang.convert(" d'Instamaps. Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.")+"<br/>";
+				var contingut= window.lang.convert("Et convido a col&#183;laborar en el mapa ")+"<span style='font-weight:bold'>"+$('#nomAplicacioSort_'+businessId).val()+"</span>"+ window.lang.convert(" d'Instamaps (creat per ")+$('#userAplicacio_'+businessId).val()+window.lang.convert(" ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.")+"<br/>";
 				contingut=htmlentities(contingut)+urlMap;
 				var to = "";
-				if ($('#convidats1') && $('#convidats1').val()!="" &&  $('#convidats1').prop("disabled")!=true) to=to+$('#convidats1').val();
-				if ($('#convidats2') && $('#convidats2').val()!="" &&  $('#convidats2').prop("disabled")!=true) {
-					if (to!="")	to=to+","+$('#convidats2').val();
-					else to=to+$('#convidats2').val();
-				}
-				if ($('#convidats3') && $('#convidats3').val()!="" &&  $('#convidats3').prop("disabled")!=true) {
-					if (to!="")	to=to+","+$('#convidats3').val();
-					else to=to+$('#convidats3').val();
-				}
-				if ($('#convidats4') && $('#convidats4').val()!="" &&  $('#convidats4').prop("disabled")!=true) {
-					if (to!="")	to=to+","+$('#convidats4').val();
-					else to=to+$('#convidats4').val();
-				}
-				if ($('#convidats5') && $('#convidats5').val()!="" &&  $('#convidats5').prop("disabled")!=true) {
-					if (to!="")	to=to+","+$('#convidats5').val();
-					else to=to+$('#convidats5').val();
-				}
-				var data = {
-					uid: $.cookie('uid'),
-					to:to,
-					subject:window.lang.convert('Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;'),
-					content: contingut,
-					esColaboratiu: 'S'
-				};
-				console.debug(data);
-				sendMail(data).then(function(results){
-					console.debug(results);					
-					if (results.status=="OK") {
-						console.debug(results);
-						$('#dialgo_colaborate').modal('hide');
+				var idConv="#convidats_"+businessId;
+				var convidats=$(idConv).val();
+				var totalConv=0;
+				for (var i=1;i<6;i++){
+					if ($('#convidats'+i) && $('#convidats'+i).val()!="" ) {
+						var convidat=$('#convidats'+i).val();
+						if (convidats.indexOf(convidat)!=-1) {
+							if ($('#convidats'+i).prop("disabled")!=true) alert("Aquest mail "+convidat+" ja el tens afegit com a col·laborador");
+						}
+						else {
+							if ($('#convidats'+i).prop("disabled")!=true)
+							{
+								if (to!="")	to=to+","+$('#convidats'+i).val();
+								else to=to+$('#convidats'+i).val();
+							}
+
+							totalConv++;
+							var data = {
+								uid: $.cookie('uid'),
+								to:to,
+								subject:window.lang.convert('Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;'),
+								content: contingut,
+								esColaboratiu: 'S',
+								businessId: businessId
+							};
+							console.debug(data);
+							sendMail(data).then(function(results){
+								console.debug(results);					
+								if (results.status=="OK") {
+									console.debug(results);
+									$('#dialgo_colaborate').modal('hide');
+								}
+								else alert(window.lang.convert("Hi ha hagut algun problema amb la tramesa dels correus electrònics"));
+							});
+						}
 					}
-					else alert(window.lang.convert("Hi ha hagut algun problema amb la tramesa dels correus electrònics"));
-				});
+				}
+				
+				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'convidar',totalConv]);
+				
 			});
 			window.lang.run();
 		});
@@ -312,7 +378,8 @@ $(function(){
 			
 			//Search function
 			var optionsSearch = {
-					valueNames: [ 'nomAplicacioSort' ]
+					valueNames: [ 'nomAplicacioSort' ],
+					page: 500
 			};
 			
 			
@@ -351,7 +418,10 @@ $(function(){
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
 				}
-				$('#urlMap').val(urlMap);
+				//$('#urlMap').val(urlMap);
+				shortUrl(urlMap).then(function(results){
+					$('#urlMap').val(results.data.url);
+				});
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
 				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'enllaça mapa', 'referral', 1]);
@@ -374,9 +444,18 @@ $(function(){
 				$(this).find(".descAplicacio").fadeOut();
 				return false;	
 			});
+			$('#geoRss').on('click', function(event){
+				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'rss']);
+			});
 			
 			window.lang.run();
 			$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
+			
+			if(typeof url('?q') == "string"){
+				$('#galeriaSort>div>input').val(url('?q'));
+				userList.search(url('?q'));
+				escriuResultats(userList.visibleItems.length);
+			}
 		});
 	}
 	

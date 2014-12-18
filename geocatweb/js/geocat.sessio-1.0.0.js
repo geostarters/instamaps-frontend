@@ -155,6 +155,7 @@ $('#signin_icc').click(function() {
 
 function fesRegistre(){
 	//TODO REVISAR; AQUEST CAL???? NO ES PAS INTERMIG???
+	if(trackEventFrom==null || trackEventFrom=="") trackEventFrom = "inici sessio";
 	_gaq.push(['_trackEvent', trackEventFrom,'registre', 'pre-activation']);
 	
 	window.location = "registre.html?from="+trackEventFrom;
@@ -170,16 +171,33 @@ function redirectLogin(results){
 	console.debug(results);
 	if(results.results === 'login_map'){
 		if (results.mapBusinessId){
-			window.location=paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+			window.location=HOST_APP+paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
 		}else{
-			window.location=paramUrl.mapaPage;
+			window.location=HOST_APP+paramUrl.mapaPage;
 		}
 	}else{
 		if ($.cookie('collaboratebid')) {
-			window.location='http://localhost'+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
-			$.removeCookie('collaborateid',{path: '/' });
+			if ($.cookie('collaborateuid')){
+				if ($.cookie('collaborateuid')!=$.cookie('uid')) {
+					//window.location=HOST_APP+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+					alert("No pots donar d'alta el mapa col·laboratiu perquè els usuaris no són iguals")
+					window.location=HOST_APP+paramUrl.galeriaPage+"?private=1";
+					$.removeCookie('collaboratebid',{path: '/' });
+					$.removeCookie('collaborateuid',{path: '/' });
+				}
+				else {
+					window.location=HOST_APP+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+					$.removeCookie('collaboratebid',{path: '/' });
+					$.removeCookie('collaborateuid',{path: '/' });
+				}
+			}
+			else {
+				window.location=HOST_APP+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+				$.removeCookie('collaboratebid',{path: '/' });
+				$.removeCookie('collaborateuid',{path: '/' });
+			}
 		}
-		else window.location=paramUrl.galeriaPage+"?private=1";
+		else window.location=HOST_APP+paramUrl.galeriaPage+"?private=1";
 	}
 }
 

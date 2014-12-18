@@ -232,7 +232,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Mapes Ambientals":"Environmental maps",
 	"Mapes i imatges aèries":"Maps and aerial images",
 	"Mapes Medi Natural":"Natural environment maps",
-	"Mapes diponibles:":"Availables maps:",
+	"Mapes diponibles:":"Available maps:",
 	"Mapificar":"Mapify",
 	"Mida punt:":"Point size:",
 	"Mides":"Measurements",
@@ -356,6 +356,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Valors":"Values",
 	"Veure informació al fer clic sobre el mapa":"View information clicking on the map",
 	"Veure": "View",
+	"Veure a InstaMaps": "View in InstaMaps",
 	"Veure el mapa":"See the map",
 	"Vincle":"Link",
 	"Visibilitat":"Visibility",
@@ -387,5 +388,10 @@ jquery_lang_js.prototype.lang.en = {
 	"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"There has been a problem in sending emails",
 	"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",
 	"Et convido a col•laborar en el mapa ":"I invite you to collaborate on the Instamaps map  ",
-	" d'Instamaps. Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" Click on the link to access. You must register if you have not already done so."
+	" d'Instamaps (creat per ": "(created by ",
+	" ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" ). Click on the link to access. You must register if you have not already done so.",
+	"Afegir col&#183;laboradors":"Add contributors",
+	"Escriu el correu electrònic de les persones que vols convidar a col&#183;laborar en aquest mapa (màxim 5)":"Enter the email addresses to invite people to cooperate in this map (maximum 5)",
+	"Col·laborador ":"Contributor ",
+	" esborrat": " erased"
 }

@@ -116,10 +116,13 @@ var paramUrl = {
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
+	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	updateMapVisibility: HOST_APP+"geocat/aplications/map/updateVisibility.action?",
-	sendMail: HOST_APP+"/geocat/mail/sendMail.action?",
-	getEntitatsAplicacioRolByUidColaborador:  HOST_APP+"/geocat/entitatAplicacio/getEntitatsAplicacioRolByUidColaborador.action?",
-	getEntitatsColaboradorsByAplicacio:  HOST_APP+"/geocat/entitatAplicacio/getAllEntitatsColaboradorsByAplicacio.action?"
+	sendMail: HOST_APP+"geocat/mail/sendMail.action?",
+	getEntitatsAplicacioRolByUidColaborador:  HOST_APP+"geocat/entitatAplicacio/getEntitatsAplicacioRolByUidColaborador.action?",
+	getEntitatsColaboradorsByAplicacio:  HOST_APP+"geocat/entitatAplicacio/getAllEntitatsColaboradorsByAplicacio.action?",
+	getConvidatsByBusinessId: HOST_APP+"geocat/aplications/map/getConvidatsByBusinessId.action?",
+	deleteConvidatByBusinessId: HOST_APP+"geocat/aplications/map/deleteConvidatByBusinessId.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
