@@ -3,7 +3,10 @@ var catContorn5k= [ new L.LatLng( 42.09360, 3.20674 ), new L.LatLng( 42.07406, 3
 
 
 
-var CatBounds = L.latLngBounds(L.latLng(40.47, 0.1087), L.latLng(42.8855, 3.33669));
+//var CatBounds = L.latLngBounds(L.latLng(40.47, 0.1087), L.latLng(42.8855, 3.33669));
+
+var CatBounds = L.latLngBounds(L.latLng(40.47, 0.77), L.latLng(42.45, 3.33669));
+
 var MQ_ATTR='Font:<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>';  
 var ESRI_ATTR='Tiles © Esri  Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 var ESRI_ATTR_TERRAIN="Tiles © Esri Sources: Esri, USGS, NOAA";
@@ -311,7 +314,7 @@ L.IM_Map = L.Map.extend({
 				}	
 				
 			}else if(sC==1){
-				
+					
 				TOPO_GEO_MQ_L7_19.setOpacity(1);
 				TOPO_GEO_MQ_L7_19.options.maxZoom=18;				
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
@@ -322,7 +325,7 @@ L.IM_Map = L.Map.extend({
 				//TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
 				
 				if(this.getZoom() > 6){
-					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
+					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());
 					//TOPO_ICC_L0_6
 					_topoLayersGeo.removeLayer(TOPO_ICC_L0_6_GEO);
 				}else{
