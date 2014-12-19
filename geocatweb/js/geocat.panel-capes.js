@@ -59,7 +59,7 @@ function updateEditableElements(){
 				
 				if(typeof url('?businessid') == "string"){
 					
-					if(nou_model){
+					if(false){
 						var data = {
 							 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
 							 	uid: $.cookie('uid'),
@@ -67,7 +67,7 @@ function updateEditableElements(){
 							 }
 							var oldName = this.innerHTML;
 							
-							updateNameVisualitzacioLayer(data).then(function(results){
+						updateServidorWMSName(data).then(function(results){
 								if(results.status==='OK'){
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
 									//_kmq.push(['record', 'editar nom capa', {'from':'mapa', 'tipus user':tipus_user}]);

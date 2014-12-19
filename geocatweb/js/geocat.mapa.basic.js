@@ -123,36 +123,21 @@ function createTematicLayerBasic(tematic, styles){
 		});
 	//NOU MODEL	
 	}else if (tematic.tipus == t_visualitzacio){
-		
-		/**
-		 * @param 
-		 * @param 
-		 * @param 
-		 * @param toBusinessId (optional) id de la nueva visualizacion. Por defecto se autogenera
-		 * @param estils estilo de la visualización.
-		 * @param 
-		 * @param 
-		 */
-		rangs = JSON.stringify({rangs:rangs});
-		
 		var data = {
 			businessId: tematic.businessid,//businessId id de la visualización de origen
 			uid: $.cookie('uid'),//uid id de usuario
             mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
             nom: capaMare.options.nom+" "+window.lang.convert("Bàsic"),//nom nombre de la nueva visualizacion
-//			calentas: false,
-//            activas: true,
-//            visibilitats: true,    
+            activas: true,
             order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
-//			tipusRang: tematic.from,
-//			rangs: rangs
-            estils: rangs
+			tem: tematic.from,//tem_simple
+            estils: JSON.stringify(rangs[0])
 		};	
 		
 		createVisualitzacioSimple(data).then(function(results){
 			if(results.status == 'OK'){
-//				console.debug(results.results);
-				loadVisualitzacioLayer(results.results);
+				var defer = $.Deferred();
+				readVisualitzacio(defer, results.visualitzacio, results.layer);
 				activaPanelCapes(true);
 			}else{
 				//TODO error

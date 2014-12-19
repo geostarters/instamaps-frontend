@@ -712,6 +712,14 @@ function createVisualitzacioSimple(data){
 	}).promise();
 }
 
+function createVisualitzacioTematica(data){
+	return jQuery.ajax({
+		url: paramUrl.createVisualitzacioTematica,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
 
 
 

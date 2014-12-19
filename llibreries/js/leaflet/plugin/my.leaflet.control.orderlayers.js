@@ -65,7 +65,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},	
 
 	_initLayout: function () {
-		var modeMapa = ($(location).attr('href').indexOf('mapa')!=-1);
+		var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
 		var className = 'leaflet-control-layers';
 //		if(modeMapa){
 //			className = 'leaflet-control-layers';
@@ -235,7 +235,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 		
 		var container;
-		var modeMapa = ($(location).attr('href').indexOf('mapa')!=-1);
+		var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
 		if(obj.overlay) {
 			
 			if(modeMapa){

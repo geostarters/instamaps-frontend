@@ -75,7 +75,6 @@ function loadApp(){
 		
 		
 		if(false){
-			
 			getVisualitzacioByBusinessId(data).then(function(results){
 				if (results.status == "ERROR"){
 					gestioCookie('getMapByBusinessId');					

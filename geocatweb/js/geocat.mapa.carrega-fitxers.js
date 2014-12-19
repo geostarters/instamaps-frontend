@@ -209,7 +209,9 @@ function addFuncioCarregaFitxers(){
 					}else{
 //						alert(window.lang.convert("Error en la càrrega de l'arxiu"));
 						var txt_error = "ERROR";
-						if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
+						if(results.results.indexOf("RuntimeException")!= -1){
+							var txt_error = window.lang.convert("Error a les dades del fitxer: Unifiqui els camps de dades i torni a intentar-ho.");
+						}else if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
 							var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 						}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
 							txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
@@ -856,7 +858,9 @@ function addDropFileToMap(results) {
 		progressBarShow = false;
 		jQuery('#progress_bar_carrega_dades').hide();
 		
-		if(results.results.indexOf("CONVERT ERROR")!= -1){
+		if(results.results.indexOf("RuntimeException")!= -1){
+			var txt_error = window.lang.convert("Error a les dades del fitxer: Unifiqui els camps de dades i torni a intentar-ho.");
+		}else if(results.results.indexOf("CONVERT ERROR")!= -1){
 			var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 		}else if(results.results.indexOf("501")!= -1){//+ de 5000 punts
 			txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");

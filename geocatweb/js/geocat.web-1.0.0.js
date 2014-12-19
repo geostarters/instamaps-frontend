@@ -17,7 +17,10 @@ jQuery(document).ready(function() {
     var currentLang = localStorage.getItem('langJs_currentLang');
     if(currentLang === 'es')$("#es").addClass("active");
     else if(currentLang === 'en') $("#en").addClass("active");
-    else $("#ca").addClass("active");
+    else{
+    	$("#ca").addClass("active");
+    	localStorage['langJs_currentLang'] = 'ca';
+    }
     
 	jQuery("#hl_contact").on('click', function() {
 		jQuery(this).attr('href','mailto:instamapes@icgc.cat');

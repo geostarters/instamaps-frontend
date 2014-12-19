@@ -189,7 +189,7 @@ function refrescaPopOverMevasDades(){
 					if (options.tem == tem_origen){
 						serverOrigen.push(item);
 					//NOU MODEL
-					}else if(options.tipus = tem_origen){
+					}else if(options.tipus == tem_origen){
 						serverOrigen.push(item);
 					}else{
 						//no cargar
