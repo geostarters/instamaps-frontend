@@ -4,13 +4,14 @@ jQuery(document).ready(function() {
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13) {
 	    	jQuery("#login_button").click();
+	    	
 	    }
 	});
 	
 	if(url('?from')){
 		trackEventFrom = url('?from');
 	}
-	
+	$('#frm_remember_pssw').hide();
 });//Fi document ready
 
 jQuery("#login_button").click(function(){
@@ -57,6 +58,27 @@ jQuery("#login_button").click(function(){
 			$('#modal_login_ko').modal('toggle');					
 		});
 	}
+});
+
+
+
+//Recordar/modificar contrasenya
+jQuery("#btn_remember_pssw").click(function(){
+	$('#frm_remember_pssw').toggle();
+	
+});
+
+jQuery("#perfil_button_remember").click(function(){
+var contingut= "Tal i com ens has sol·licitat hem procedit a assignar-te una nova contrasenya per l'accés als serveis de la nostra web. Les noves dades d'accés són:";
+var data = {
+		to:$('#perfil_email').val(),
+		subject:window.lang.convert('Instamaps.Recordatori contrasenya'),
+		esRecordatoriContrasenya: 'S',
+		content: contingut
+};
+sendMail(data).then(function(results){
+	console.debug(results);							
+});
 });
 
 function loginUserIcgc(){

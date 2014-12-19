@@ -64,7 +64,17 @@ var text_confirma_dades = 'Confirmeu les dades';
 				}
 				registerUser(reg_url, dataUrl).then(function(results){
 					if(results.status==='OK'){
-						
+						//Enviar mail confirmació de registre
+						var contingut= window.lang.convert("Registre completat correctament");
+						var data = {
+								uid: id,
+								to:correu_usuari,
+								subject:window.lang.convert('Instamaps.Registre'),
+								content: contingut
+						};
+						sendMail(data).then(function(results){
+							console.debug(results);							
+						});
 						_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
 //						_kmq.push(['record', 'registre', {'from':trackEventFrom, 'funnel':'activation'}]);
 						

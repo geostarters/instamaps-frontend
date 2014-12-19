@@ -46,16 +46,16 @@ function checkValidityPassword(){
 	$('#perfil_confirm_pass').removeClass("invalid");
 	$( ".text_error" ).remove();
 	
-	if(isBlank($('#login_user').val())){
+	if(!($('#login_user').val())){
 		$('#login_user').addClass("invalid");
 		$('#login_user').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-	}else if(isBlank($('#perfil_pass').val())){
+	}else if(!($('#perfil_pass').val())){
 		$('#perfil_pass').addClass("invalid");
 		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#perfil_pass').val().length < 4){
 		$('#perfil_pass').addClass("invalid");
 		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 4 caràcters.</span>");
-	}else if(isBlank($('#perfil_confirm_pass').val())){
+	}else if(!($('#perfil_confirm_pass').val())){
 		$('#perfil_confirm_pass').addClass("invalid");
 		$('#perfil_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#perfil_pass').val() != $('#perfil_confirm_pass').val()){

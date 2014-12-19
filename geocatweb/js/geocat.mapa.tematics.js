@@ -412,7 +412,7 @@ function readTematic(defer, results, layerWms, layer){
 						
 //						//Si la capa no ve de fitxer
 						if(!hasSource){
-							if($(location).attr('href').indexOf('mapa')!=-1 && ((capaTematic.options.tipusRang == tem_origen) || !capaTematic.options.tipusRang) ){
+							if($(location).attr('href').indexOf('/mapa.html')!=-1 && ((capaTematic.options.tipusRang == tem_origen) || !capaTematic.options.tipusRang) ){
 								createPopupWindow(featureTem,ftype);
 							}else{			
 								createPopupWindowVisor(featureTem,ftype);

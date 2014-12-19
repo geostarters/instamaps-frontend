@@ -14,7 +14,7 @@ jQuery("#login_button").click(function(){
 	_gaq.push(['_trackEvent',trackEventFrom,'remember password', 'retention']);
 //	_kmq.push(['record', 'remember password', {'from':trackEventFrom, 'funnel':'retention'}]);
 	
-	if(isBlank($('#login_user').val())){
+	if(!$('#login_user').val()){
 		$('#login_user').addClass("invalid");
 		$('#login_user').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else{
