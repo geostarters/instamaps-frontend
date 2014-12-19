@@ -19,7 +19,11 @@ var envioArxiu={isDrag:false,
 	type:null,
 	camps:null,
 	ext:null,
-	uid : null
+	uid : null,
+	mapBusinessId : null,
+	markerStyle: null,
+	lineStyle: null,
+	polygonStyle: null
 };
 
 var drOpcionsMapa = {
@@ -66,6 +70,10 @@ function creaAreesDragDropFiles() {
 			formData.append("camps", envioArxiu.camps);
 			formData.append("ext", envioArxiu.ext);
 			formData.append("uid", $.cookie('uid'));
+			formData.append("mapBusinessId", url('?businessid'));
+			formData.append("markerStyle", envioArxiu.markerStyle);	
+			formData.append("lineStyle", envioArxiu.lineStyle);	
+			formData.append("polygonStyle", envioArxiu.polygonStyle);			
 			formData.append("uploadFile", paramUrl.uploadFile);
 															
 		});
@@ -180,8 +188,12 @@ function addFuncioCarregaFitxers(){
 				formData.append("geomType", envioArxiu.geomType);
 				formData.append("type", envioArxiu.type);
 				formData.append("camps", envioArxiu.camps);
-				formData.append("ext", envioArxiu.ext);	
+				formData.append("ext", envioArxiu.ext);
+				formData.append("markerStyle", envioArxiu.markerStyle);	
+				formData.append("lineStyle", envioArxiu.lineStyle);	
+				formData.append("polygonStyle", envioArxiu.polygonStyle);	
 				formData.append("uid", $.cookie('uid'));
+				formData.append("mapBusinessId", url('?businessid'));
 				formData.append("uploadFile", paramUrl.uploadFile);
 														
 			});
@@ -197,7 +209,9 @@ function addFuncioCarregaFitxers(){
 					}else{
 //						alert(window.lang.convert("Error en la càrrega de l'arxiu"));
 						var txt_error = "ERROR";
-						if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
+						if(results.results.indexOf("RuntimeException")!= -1){
+							var txt_error = window.lang.convert("Error a les dades del fitxer: Unifiqui els camps de dades i torni a intentar-ho.");
+						}else if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
 							var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 						}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
 							txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
@@ -430,6 +444,9 @@ function accionaCarrega(file,isDrag) {
 	var ff = miraFitxer(file);
 	var obroModal = false;
 	if (ff.isValid) {
+		//Careguem estils seleccionats per enviar amb el fitxer
+		loadDefaultStyles();
+		
 		if ( isDrag) {obreModalCarregaDades(true);}
 		jQuery("#file_name").text(file.name);
 		jQuery("#bt_esborra_ff").show();
@@ -841,7 +858,9 @@ function addDropFileToMap(results) {
 		progressBarShow = false;
 		jQuery('#progress_bar_carrega_dades').hide();
 		
-		if(results.results.indexOf("CONVERT ERROR")!= -1){
+		if(results.results.indexOf("RuntimeException")!= -1){
+			var txt_error = window.lang.convert("Error a les dades del fitxer: Unifiqui els camps de dades i torni a intentar-ho.");
+		}else if(results.results.indexOf("CONVERT ERROR")!= -1){
 			var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 		}else if(results.results.indexOf("501")!= -1){//+ de 5000 punts
 			txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");
@@ -857,6 +876,12 @@ function addDropFileToMap(results) {
 		jQuery("#div_carrega_dades_message").html(txt_error);
 		jQuery("#div_carrega_dades_message").show();	
 	}
+}
+
+function loadDefaultStyles(){
+	envioArxiu.markerStyle = JSON.stringify(getMarkerRangFromStyle(defaultPunt));
+	envioArxiu.lineStyle = JSON.stringify(getLineRangFromStyle(defaultPunt));
+	envioArxiu.polygonStyle = JSON.stringify(getPolygonRangFromStyle(defaultPunt));
 }
 
 function addHtmlModalCarregarFitxers(){

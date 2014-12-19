@@ -99,6 +99,8 @@ function creaPopOverMevasDades(){
 								
 							}else if(_this.data("servertype") == t_tematic){
 								loadTematicLayer(value);
+							}else if(_this.data("servertype") == t_visualitzacio){
+								loadVisualitzacioLayer(value);
 							}							
 							$('#dialog_teves_dades').modal('hide');
 							activaPanelCapes(true);
@@ -178,13 +180,16 @@ function refrescaPopOverMevasDades(){
 	getAllServidorsWMSByUser(data).then(function(results){
 		var serverOrigen = [];
 		jQuery.each(results.results, function(i, item){
-			if (item.serverType == t_tematic){
+			if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
 				//console.debug(item);
 				if (item.options == null){
 					serverOrigen.push(item);
 				}else{
 					var options = jQuery.parseJSON( item.options );
 					if (options.tem == tem_origen){
+						serverOrigen.push(item);
+					//NOU MODEL
+					}else if(options.tipus == tem_origen){
 						serverOrigen.push(item);
 					}else{
 						//no cargar

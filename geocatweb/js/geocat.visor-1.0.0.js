@@ -17,7 +17,6 @@ jQuery(document).ready(function() {
 }); // Final document ready
 
 function loadApp(){
-	
 	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
     if(typeof url('?embed') == "string"){
 //        jQuery('#navbar-visor').remove();
@@ -287,11 +286,6 @@ function addControlsInici() {
 		return this._div;
 	};
 	ctr_findBT.addTo(map);
-	
-	
-	
-	
-	
 	
 	
 	dfd.resolve();

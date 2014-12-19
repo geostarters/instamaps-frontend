@@ -651,6 +651,78 @@ function moveGeometriaToVisualitzacio(data){
 	}).promise();
 }
 
+function updateGeometria(data){
+	return jQuery.ajax({
+		url: paramUrl.updateGeometria,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function modificarEstiloGeometria(data){
+	return jQuery.ajax({
+		url: paramUrl.modificarEstiloGeometria,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function removeGeometriaFromVisualitzacio(data){
+	return jQuery.ajax({
+		url: paramUrl.removeGeometriaFromVisualitzacio,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function updateNameVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.updateNameVisualitzacioLayer,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.updateNameVisualitzacioLayer,
+		data: data,
+		method: 'post',
+        dataType: 'jsonp'
+	}).promise();
+}
+
+function getVisualitzacioByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.getVisualitzacioByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createVisualitzacioSimple(data){
+	return jQuery.ajax({
+		url: paramUrl.createVisualitzacioSimple,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createVisualitzacioTematica(data){
+	return jQuery.ajax({
+		url: paramUrl.createVisualitzacioTematica,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+
 /* galeria.html */
 function updateMapVisibility(data){
 	return jQuery.ajax({

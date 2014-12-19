@@ -58,7 +58,7 @@ $(function(){
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ]
 			};
-			userList = new List('galeriaSort', optionsSearch);	
+			var userList = new List('galeriaSort', optionsSearch);	
 			
 			
 				escriuResultats(userList.visibleItems.length);
@@ -98,10 +98,14 @@ $(function(){
 				};
 				deleteMap(data).then(function(results){
 					if (results.status == "OK"){
+
 						$('#'+$this.data("businessid")).remove();
 						$('#dialgo_delete').modal('hide');
 						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
 						//_kmq.push(['record', 'esborrar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
+						updateResultats();
+
+
 					}
 				});
 			});
@@ -111,6 +115,7 @@ $(function(){
 				event.stopPropagation();
 				var $this = $(this);
 				
+
 				//_kmq.push(['record', 'editar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				var urlMap = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
 				if ($this.data("colaboracio")) {
@@ -201,10 +206,14 @@ $(function(){
 					});
 					
 					$('#businessIdConvidar').val($this.data("businessid"));
+
+
+
 				}
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'preconvidar']);
 				//_kmq.push(['record', 'veure mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				//window.location.href = urlMap;
+
 
 			});
 			
@@ -373,6 +382,9 @@ $(function(){
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
+
+
+
 			//Search function
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ],
@@ -381,6 +393,9 @@ $(function(){
 			
 			var	userList = new List('galeriaSort', optionsSearch);				
 			
+
+
+
 			escriuResultats(userList.visibleItems.length);
 			
 			$('input.search.form-control').on('keyup', function(event){
@@ -434,6 +449,7 @@ $(function(){
 					descAplicacio.find(".starwarsmain").addClass('starwars');
 					descAplicacio.find(".starwarsbody").addClass('starwarscontent');
 				}
+
 				return false;	
 			}, function(){
 				$(this).find(".descAplicacio").fadeOut();
@@ -456,7 +472,17 @@ $(function(){
 	
 	
 	function escriuResultats(total){
+
+
+
+
+
+
 	 $('.sp_rs_maps').html(total);
 	}
+	function updateResultats(){
 	
+		var total=(parseInt($('.sp_rs_maps').html()) -1);
+		$('.sp_rs_maps').html(total);
+	}
 });

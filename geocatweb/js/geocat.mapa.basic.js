@@ -10,24 +10,24 @@ function createTematicLayerBasic(tematic, styles){
 	var rangs = getRangsFromStyles(tematic, styles);
 	var capaMare = controlCapes._layers[tematic.leafletid].layer;
 	
-	if (jQuery.isArray(styles)){
-		
-	}else{
-//		var layer = controlCapes._layers[tematic.leafletid];
-//		if (tematic.geometrytype == t_marker){
-//			jQuery.each(capaMare._layers, function( key, value ) {	
-//				canviaStyleSinglePoint(styles,this,capaMare,false)
-//			});
-//		}else if (tematic.geometrytype == t_polyline){
-//			jQuery.each(layer.layer._layers, function( key, value ) {
-//				this.setStyle(styles);
-//			});
-//		}else if (tematic.geometrytype == t_polygon){
-//			jQuery.each(layer.layer._layers, function( key, value ) {
-//				this.setStyle(styles);
-//			});
-//		}
-	}
+//	if (jQuery.isArray(styles)){
+//		
+//	}else{
+////		var layer = controlCapes._layers[tematic.leafletid];
+////		if (tematic.geometrytype == t_marker){
+////			jQuery.each(capaMare._layers, function( key, value ) {	
+////				canviaStyleSinglePoint(styles,this,capaMare,false)
+////			});
+////		}else if (tematic.geometrytype == t_polyline){
+////			jQuery.each(layer.layer._layers, function( key, value ) {
+////				this.setStyle(styles);
+////			});
+////		}else if (tematic.geometrytype == t_polygon){
+////			jQuery.each(layer.layer._layers, function( key, value ) {
+////				this.setStyle(styles);
+////			});
+////		}
+//	}
 	
 	if(capaMare.options.tipus == t_dades_obertes){
 		
@@ -121,5 +121,32 @@ function createTematicLayerBasic(tematic, styles){
 			//TODO error
 			console.debug("updateTematicRangs ERROR");
 		});
+	//NOU MODEL	
+	}else if (tematic.tipus == t_visualitzacio){
+		var data = {
+			businessId: tematic.businessid,//businessId id de la visualización de origen
+			uid: $.cookie('uid'),//uid id de usuario
+            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
+            nom: capaMare.options.nom+" "+window.lang.convert("Bàsic"),//nom nombre de la nueva visualizacion
+            activas: true,
+            order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
+			tem: tematic.from,//tem_simple
+            estils: JSON.stringify(rangs[0])
+		};	
+		
+		createVisualitzacioSimple(data).then(function(results){
+			if(results.status == 'OK'){
+				var defer = $.Deferred();
+				readVisualitzacio(defer, results.visualitzacio, results.layer);
+				activaPanelCapes(true);
+			}else{
+				//TODO error
+				console.debug("createVisualitzacioSimple ERROR");					
+			}
+		},function(results){
+			//TODO error
+			console.debug("createVisualitzacioSimple ERROR");
+		});		
+		
 	}
 }

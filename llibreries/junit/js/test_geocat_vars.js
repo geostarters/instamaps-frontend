@@ -1,4 +1,5 @@
-var HOST_APP = "http://localhost/geocat/";
+var HOST_APP = "http://localhost:8181/geocat/";
+//var HOST_APP = "http://localhost/geocat/";
 var urls = {
 	login: HOST_APP+"login.action?",
 	createUser: HOST_APP+"admin/createUser.action?",

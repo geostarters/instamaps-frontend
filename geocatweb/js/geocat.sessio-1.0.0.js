@@ -179,7 +179,6 @@ function fesRegistre(){
 	//TODO REVISAR; AQUEST CAL???? NO ES PAS INTERMIG???
 	if(trackEventFrom==null || trackEventFrom=="") trackEventFrom = "inici sessio";
 	_gaq.push(['_trackEvent', trackEventFrom,'registre', 'pre-activation']);
-	
 	window.location = "registre.html?from="+trackEventFrom;
 	
 //	if(url('?from')){

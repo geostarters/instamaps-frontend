@@ -1264,7 +1264,15 @@ h1.big_text{
     margin: 9px 0;
     overflow: hidden;
 }
-
+/*galeria*/
+.nomAplicacio > h4 > a:hover {
+    color: lightblue;
+    text-decoration: none;
+}
+.nomAplicacio > h4 > a{
+    color: white;
+    text-decoration: none;
+}
 .sp_rs_maps{
 	
 	font-weight: bold;

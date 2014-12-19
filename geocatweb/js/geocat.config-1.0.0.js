@@ -122,7 +122,30 @@ var paramUrl = {
 	getEntitatsAplicacioRolByUidColaborador:  HOST_APP+"geocat/entitatAplicacio/getEntitatsAplicacioRolByUidColaborador.action?",
 	getEntitatsColaboradorsByAplicacio:  HOST_APP+"geocat/entitatAplicacio/getAllEntitatsColaboradorsByAplicacio.action?",
 	getConvidatsByBusinessId: HOST_APP+"geocat/aplications/map/getConvidatsByBusinessId.action?",
-	deleteConvidatByBusinessId: HOST_APP+"geocat/aplications/map/deleteConvidatByBusinessId.action?"
+	deleteConvidatByBusinessId: HOST_APP+"geocat/aplications/map/deleteConvidatByBusinessId.action?",
+
+	updateGeometria: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometria.action?",
+	createVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioLayer.action?",
+	updateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/updateVisualitzacioLayer.action?",
+	updateNameVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/updateNameVisualitzacioLayer.action?",
+	getVisualitzacioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioByBusinessId.action?",
+	getAllVisualitzacioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getAllVisualitzacioByBusinessId?",
+	getAllVisualitzacioLayerByUid: HOST_APP+"geocat/layers/visualitzacio/getAllVisualitzacioLayerByUid.action?",
+	addGeometriaToVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacio.action?",
+	moveGeometriaToVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/moveGeometriaToVisualitzacio.action?",
+	duplicateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/duplicateVisualitzacioLayer.action?",
+	deleteVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/deleteVisualitzacioLayer.action?",
+	deleteVisualitzacioLayerAll: HOST_APP+"geocat/layers/visualitzacio/deleteVisualitzacioLayerAll.action?",
+	createEstil: HOST_APP+"geocat/layers/visualitzacio/createEstil.action?",
+	updateEstil: HOST_APP+"geocat/layers/visualitzacio/updateEstil.action?",
+	deleteEstil: HOST_APP+"geocat/layers/visualitzacio/deleteEstil.action?",
+	addGeometriaToEstil: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToEstil.action?",
+	removeGeometriaToEstil: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaToEstil.action?",
+	moveGeometriaToEstil: HOST_APP+"geocat/layers/visualitzacio/moveGeometriaToEstil.action?",
+	modificarEstiloGeometria: HOST_APP+"geocat/layers/visualitzacio/modificarEstiloGeometria.action?",
+	removeGeometriaFromVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromVisualitzacio.action?",
+	createVisualitzacioSimple: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioSimple.action?",
+	createVisualitzacioTematica: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?"			
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
