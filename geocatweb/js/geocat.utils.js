@@ -32,6 +32,10 @@ function isDefaultMapTitle(str){
 	return pattern.test(str);	
 }
 
+function isValidValue(value){
+	return (value!="undefined" && value!=undefined && value!=null && value != " " && value!="null" && value!=-1 && value!="-1");
+}
+
 function toggleCollapseDiv(divName){
 //	console.debug(divName);
 	$(divName).toggle();
@@ -151,13 +155,24 @@ function getRadiusFromMida(mida){
 	else return 6;	
 }
 
-function parseUrlTextPopUp(txt){
+function parseUrlTextPopUp(txt,key){
+	var parseText = "";
+	
+	if(key=='link' || key=='Web'){				
+		if(isImgURL(txt)){
+			parseText = '<img width="100" src="'+txt+'"/>';
+		}else{
+			parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';
+		}
+		return parseText;
+	}	
+	
 	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 
 			|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
 		return txt;
 	}
+
 	var lwords = txt.split(" "); 
-	var parseText = "";
 	for(index in lwords){
 		var text;
 		var word = lwords[index];

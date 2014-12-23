@@ -496,6 +496,8 @@ function createPopupWindowVisor(player,type){
 	
 	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
 		html+='<div id="titol_pres_visor">'+player.properties.data.nom+'</div>';
+	}else if(player.properties.name && !isBusinessId(player.properties.name)){
+		html+='<div id="titol_pres_visor">'+player.properties.name+'</div>';
 	}
 		
 	
@@ -518,7 +520,10 @@ function createPopupWindowData(player,type){
 	var html='';
 	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
 		html+='<h4>'+player.properties.data.nom+'</h4>';
+	}else if(player.properties.name && !isBusinessId(player.properties.name)){
+		html+='<h4>'+player.properties.name+'</h4>';
 	}
+	
 	if (player.properties.data.text){
 		html+='<div>'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
 	}
@@ -529,7 +534,7 @@ function createPopupWindowData(player,type){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
 				html+='<div class="popup_data_row">';
 				
-				var txt = parseUrlTextPopUp(value);
+				var txt = parseUrlTextPopUp(value, key);
 				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>'

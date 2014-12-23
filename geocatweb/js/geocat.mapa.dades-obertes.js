@@ -28,7 +28,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	var estil_do = retornaEstilaDO(dataset);
 	
 	var capaDadaOberta = new L.GeoJSON.AJAX(param_url, {
-		onEachFeature : popUp,
+		onEachFeature : createPopupWindowDadesObertes,
 		nom : dataset,
 		tipus : t_dades_obertes,
 		dataset: dataset,
@@ -132,7 +132,7 @@ function loadDadesObertesLayer(layer){
 			estil_do = createFeatureMarkerStyle(options.style);
 		}
 		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
-			onEachFeature : popUp,
+			onEachFeature : createPopupWindowDadesObertes,
 			nom : layer.serverName,
 			tipus : layer.serverType,
 			dataset: options.dataset,
@@ -207,4 +207,40 @@ function loadDadesObertesLayer(layer){
 		defer.resolve();
 	}
 	return defer.promise();
+}
+
+function createPopupWindowDadesObertes(player,l){
+	//console.debug("createPopupWindowData");
+	var html='';
+	var out = [];
+	if (player.properties.nom && !isBusinessId(player.properties.nom)){
+		html+='<h4>'+player.properties.nom+'</h4>';
+	}else if(player.properties.name && !isBusinessId(player.properties.name)){
+		html+='<h4>'+player.properties.name+'</h4>';
+	}else if(player.properties.Name && !isBusinessId(player.properties.Name)){
+		html+='<h4>'+player.properties.Name+'</h4>';
+	}
+	if (player.properties.description){
+		html+='<div>'+parseUrlTextPopUp(player.properties.description)+'</div>';
+	}
+	html+='<div class="div_popup_visor"><div class="popup_pres">';
+
+	$.each( player.properties, function( key, value ) {
+		if(isValidValue(value)){
+			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+				html+='<div class="popup_data_row">';
+				var txt = parseUrlTextPopUp(value,key);
+				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+					html+='<div class="popup_data_key">'+key+'</div>';
+					html+='<div class="popup_data_value">'+txt+'</div>';
+				}else{
+					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+				}
+				html+= '</div>';
+			}
+		}
+	});	
+	
+	html+='</div></div>';
+	l.bindPopup(html,{'offset':[0,-25]});
 }
