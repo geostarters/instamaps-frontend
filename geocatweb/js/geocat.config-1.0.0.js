@@ -35,6 +35,7 @@ var paramUrl = {
 	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
 	perfilPage:"/geocatweb/perfil.html",
+	oblidatPage:"/geocatweb/oblidat.html",
 	comentarisPage:"http://betaportal.icgc.cat",
 	wmsOpenData:"/dadesobertes/wms/service?",
 	tmsOpenData:"/geocatcache/?",

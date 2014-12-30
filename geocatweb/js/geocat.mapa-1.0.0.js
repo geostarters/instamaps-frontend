@@ -255,14 +255,14 @@ function loadApp(){
 					}
 				}
 			}
-		},function(results){
+		,function(results){
 			gestioCookie('getMapByBusinessIdError');
 		});
 
 
 		
 		addLeaveModal();
-		
+	}
 	}else{
 		if (!$.cookie('uid')){
 			createRandomUser().then(function(results){
