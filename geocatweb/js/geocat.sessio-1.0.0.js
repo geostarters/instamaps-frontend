@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
 	if(url('?from')){
 		trackEventFrom = url('?from');
 	}
-	$('#frm_remember_pssw').hide();
+	
 });//Fi document ready
 
 jQuery("#login_button").click(function(){
@@ -64,7 +64,7 @@ jQuery("#login_button").click(function(){
 
 //Recordar/modificar contrasenya
 jQuery("#btn_remember_pssw").click(function(){
-	$('#frm_remember_pssw').toggle();
+	window.location.href = paramUrl.oblidatPage;
 	
 });
 

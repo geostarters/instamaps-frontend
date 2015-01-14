@@ -208,7 +208,12 @@ function loadApp(){
 								document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 								
 							});
-						});						
+						});
+						//}
+						//else {
+						//	alert("Aquest mapa està bloquejat per un altre usuari");
+						//	window.location.href = paramUrl.galeriaPage;
+						//}												
 					}catch(err){
 						gestioCookie('loadMapConfig');
 					}

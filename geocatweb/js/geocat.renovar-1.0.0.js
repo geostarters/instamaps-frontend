@@ -24,7 +24,7 @@ jQuery("#perfil_button_pass").click(function(){
 		var dataUrl = {
 			email: $('#login_user').val(),
 			token: url('?token'),
-			userPassword: $('#perfil_pass').val()
+			newPassword: $('#perfil_pass').val()
 		}
 		
 		renewPassword(dataUrl).then(function(results){
