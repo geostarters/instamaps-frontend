@@ -61,7 +61,7 @@ function calculateDistance(lLatLngs){
 	
 	jQuery.each(lLatLngs, function( i, point){
 		totalDistance += point.distanceTo(lastPoint);
-		lastPointt = point;
+		lastPoint = point;
 	});
 	return L.GeometryUtil.readableDistance(totalDistance, true);
 }

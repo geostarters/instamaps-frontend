@@ -52,6 +52,7 @@ var paramUrl = {
 	validateEmail: HOST_APP+"geocat/validateEmail?",
 	getUser: HOST_APP+"geocat/user/getUser.action?",
 	updateUser: HOST_APP+"geocat/user/updateUser.action?",
+	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
 	updatePassword: HOST_APP+"geocat/user/updatePassword.action?",
 	createTematicLayerFeature: HOST_APP+"geocat/layers/tematic/createTematicLayerFeature.action?",
 	dragFile: HOST_APP+"share/jsp/upload.jsp?",

@@ -37,7 +37,17 @@ function loadApp(){
                 zoomControl: addDefaultZoomControl,
           }).setView([ 41.431, 1.8580 ], 8);
 
-		
+          L.control.coordinates({
+  			position : 'bottomright', 
+  			'emptystring':' ',
+  			'numDigits': 2,
+  			'numDigits2': 6,
+  			'prefix': 'ETRS89 UTM 31N',
+  			'prefix2': 'WGS84',
+  			'separator': ' ',
+  			'showETRS89':true
+  		}).addTo(map);
+          
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
 				
 		var _minTopo= new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});

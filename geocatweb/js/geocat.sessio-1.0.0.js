@@ -50,7 +50,13 @@ jQuery("#login_button").click(function(){
 				$('#modal_wrong_user').modal('toggle');						
 			}else if(results.results === 'account_locked'){
 				$('#modal_account_block').modal('toggle');						
-			}else{
+			}else if(results.results === 'unregistered_user'){
+				$('#modal_login_ko_donat_baixa').modal('toggle');
+				if ($.cookie('collaboratebid')) $.removeCookie('collaboratebid',{path: '/' });
+				if ($.cookie('collaborateuid')) $.removeCookie('collaborateuid',{path: '/' });
+				
+			}
+			else{
 				$('#modal_login_ko').modal('toggle');				
 			}				
 		},function(results){

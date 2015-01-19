@@ -35,8 +35,24 @@ jQuery(document).ready(function() {
 	
 	$('#btn_delete_usr').on('click',function(){
 		$('#modal_delete_usr').modal('show');
-		
 		$('#button-delete-ok').on('click',function(){
+			$('#modal_delete_usr').modal('hide');
+			$('#modal_delete_usr_conf').modal('show');
+			$('#button-delete-ok-conf').on('click',function(){
+				var data = {
+						uid: $.cookie('uid')
+				};
+				deleteUser(data).then(function(results){
+					if (results.status==='OK'){
+						logoutUser();
+					}else{
+						$('#modal_delete_usr_ko').modal('show');
+					}
+				});
+			});
+		});
+		
+		/*$('#button-delete-ok').on('click',function(){
 			var deleteOpt = $("input[name='optionsDelete']:checked").val();
 			var deleteOptTxt = $.trim($("input[name='optionsDelete']:checked").parent().text());
 			$('#modal_delete_usr').modal('hide');
@@ -58,7 +74,7 @@ jQuery(document).ready(function() {
 					}
 				});
 			});
-		});
+		});*/
 	});
 });
 
