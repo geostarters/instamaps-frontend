@@ -97,6 +97,7 @@ function showModalTematicCategories(data){
 						
 						readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
 //							updateSelecTipusRangs(results);
+							jQuery("#dialog_tematic_rangs").data("values", results);
 							getTipusValuesVisualitzacio(results);
 						});
 						
@@ -407,11 +408,12 @@ function createIntervalStyle(index, geometryType, paleta){
 function showTematicRangs(){
 	var values = jQuery("#dialog_tematic_rangs").data("rangs");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
-	var ftype = transformTipusGeometry(tematic.geometryType);
+	var ftype = transformTipusGeometry(visualitzacio.geometryType);
 	
 	if (ftype == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i ) {
@@ -521,16 +523,21 @@ function createTematicLayerCategories(){
 		if (_this.children().length == 2){
 			tdRang = _this.find('td:eq(0)');
 			tdVal = _this.find('td:eq(1)');
-			var rang = div2RangStyle(tematicFrom, tdVal);
-			rang.valorMax = tdRang.text();
+			var rangEstil = div2RangStyle(tematicFrom, tdVal);
+			var rang = {};
+			rang.estil = rangEstil;
+			rang.valueMax = tdRang.text();
+			rang.valueMin = tdRang.text();
 			rangs.push(rang);
 		}else{
 			tdMin = _this.find('td:eq(0)');
 			tdMax = _this.find('td:eq(1)');
 			tdVal = _this.find('td:eq(2)');
-			var rang = div2RangStyle(tematicFrom, tdVal);
-			rang.valorMin = tdMin.find('input').val();
-			rang.valorMax = tdMax.find('input').val();
+			var rangEstil = div2RangStyle(tematicFrom, tdVal);
+			var rang = {};
+			rang.estil = rangEstil; 
+			rang.valueMin = tdMin.find('input').val();
+			rang.valueMax = tdMax.find('input').val();
 			rangs.push(rang);
 		}
 	});	
@@ -659,6 +666,7 @@ function createRangsValues(rangs){
 	//console.debug("createRangsValues");
 	var values = jQuery("#dialog_tematic_rangs").data("values");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	
 	values = jQuery.map(values, function( n, i ) {
 		return parseFloat(n);

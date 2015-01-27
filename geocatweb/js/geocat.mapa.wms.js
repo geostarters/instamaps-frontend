@@ -114,7 +114,7 @@ function generaLlistaServeisWMS() {
 }
 
 jQuery(document).on('click', "#bt_connWMS", function(e) {
-	var url = jQuery('#txt_URLWMS').val();
+	var url = $.trim(jQuery('#txt_URLWMS').val());
 
 	if (url == "") {
 		alert(window.lang.convert("Has d%27introduïr una URL del servidor"));

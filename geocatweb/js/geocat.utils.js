@@ -180,7 +180,7 @@ function parseUrlTextPopUp(txt,key){
 		if(isValidURL(word)){
 			if(isImgURL(word)){
 				//console.debug("Image:"+word);
-				text = "<img src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
+				text = "<img width=\"100\" src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
 			}else if(word.indexOf("html?") != -1){
 				//console.debug("Iframe:"+word);
 				text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+

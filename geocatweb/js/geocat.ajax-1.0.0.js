@@ -720,7 +720,21 @@ function createVisualitzacioTematica(data){
 	}).promise();
 }
 
+function createVisualitzacioHeatCluster(data){
+	return jQuery.ajax({
+		url: paramUrl.createVisualitzacioHeatCluster,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
 
+function getGeometriesColleccioByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.getGeometriesColleccioByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
 
 
 /* galeria.html */
