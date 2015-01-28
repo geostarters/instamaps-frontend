@@ -87,7 +87,16 @@ var text_confirma_dades = 'Confirmeu les dades';
 						$('.waiting_animation').hide();
 						
 					}else{
-						$('#modal_registre_ko').modal('toggle');						
+						
+						if (results.results.indexOf("ja existeix")>-1) {
+							$("#text_registre_ko2").attr("style","display:block;");
+							$("#text_registre_ko").attr("style","display:none;");
+						}
+						else {
+							$("#text_registre_ko").attr("style","display:block;");
+							$("#text_registre_ko2").attr("style","display:none;");
+						}
+						$('#modal_registre_ko').modal('toggle');
 						$('.waiting_animation').hide();
 					}					
 				}, function(results){

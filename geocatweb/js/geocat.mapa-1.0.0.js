@@ -51,13 +51,25 @@ function loadApp(){
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
 		
-		L.control.mousePosition({
+		/*L.control.mousePosition({
 			position : 'bottomright', 
 			'emptystring':'',
 			'numDigits': 6,
 			'prefix': 'WGS84',
 			'separator': ' '
+		}).addTo(map);*/
+		
+		L.control.coordinates({
+			position : 'bottomright', 
+			'emptystring':' ',
+			'numDigits': 2,
+			'numDigits2': 6,
+			'prefix': 'ETRS89 UTM 31N',
+			'prefix2': 'WGS84',
+			'separator': ' ',
+			'showETRS89':true
 		}).addTo(map);
+		
 		
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
 		
@@ -783,6 +795,11 @@ function addLeaveModal(){
 	
 }
 
+function nobackbutton(){
+	window.location.hash="no-back-button";
+    window.location.hash="Again-No-back-button" //chrome
+    window.onhashchange=function(){window.location.hash="no-back-button";}
+}
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar 
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo
 se creara el mapa en la BD y que el si el usuario abandona la página sin publicar se 

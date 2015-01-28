@@ -27,7 +27,20 @@ jQuery("#login_button").click(function(){
 		}
 		
 		reminderMail(dataUrl).always(function(results){
-			$('#modal_send_mail').modal('toggle');
+			if (results.status=="OK") {
+				$('#modal_send_mail').modal('toggle');
+			}
+			else if (results.status=="ERROR") {
+				if (results.results=="EntitatNotFoundException"){
+					$('#modal_user_not_exists').modal('toggle');
+				}
+				else if (results.results=="EntitatNotActiveException"){
+					$('#modal_user_not_active').modal('toggle');
+				}
+				else if (results.results=="unregistered_user"){
+					$('#modal_user_not_active').modal('toggle');
+				}
+			}
 		});
 		
 	}

@@ -11,6 +11,7 @@ jQuery(document).ready(function() {
 		window.location=paramUrl.mainPage;
 	}
 	
+	
 });//Fi document ready
 
 jQuery("#perfil_button_pass").click(function(){
@@ -30,11 +31,12 @@ jQuery("#perfil_button_pass").click(function(){
 		renewPassword(dataUrl).then(function(results){
 			if(results.status==='OK'){
 				$('#modal_registre_ok').modal('toggle');
-				$('perfil_button_pass').on('click',function(){
+				$('#button-alta-ok').on('click',function(){
 					window.location=paramUrl.loginPage;
 				});
 			}else{
-				$('#modal_registre_ko').modal('toggle');
+				if (results.results=="unregistered_user") $('#modal_registre_ko_unregistered_user').modal('toggle');
+				else $('#modal_registre_ko').modal('toggle');
 			}
 		});
 	}

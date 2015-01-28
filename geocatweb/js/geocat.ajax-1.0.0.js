@@ -787,3 +787,11 @@ function deleteConvidatByBusinessId(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+function deleteUser(params){
+	return jQuery.ajax({
+		url: paramUrl.deleteUser,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}

@@ -45,8 +45,9 @@
                         u=encodeURIComponent(pageUrl),
                         t=encodeURIComponent(pageTitle),
                         d=pageDesc.substring(0,250),
-                        href;
-                    t = t.replace("'","%27" );
+                        href,
+                        td;
+                    t = t.replace("'","%27" ); 
                     
                     //Per GA saber si venim de mapa o visor, al compartir
                     var lfrom = id.split("_");
