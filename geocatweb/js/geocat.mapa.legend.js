@@ -232,8 +232,8 @@ function addLayerToLegend(layer, count, layerIdParent){
 		var estil_do = layer.options.estil_do;
 		
 		if(type == t_marker){
-			console.debug("type");
-			console.debug(type);
+//			console.debug("type");
+//			console.debug(type);
 			
 			var mida = getMidaFromRadius(estil_do.radius);
 			size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
@@ -321,6 +321,437 @@ function addLayerToLegend(layer, count, layerIdParent){
 					'</div>';				
 		}
 		html+='</div>';
+	
+	//VISUALITZACIO
+	}else if(layer.options.tipus == t_visualitzacio){		
+		
+		var rangs = getRangsFromLayerLegend(layer);
+		//console.debug(rangs);
+		var size = rangs.length;
+		
+		//Classic tematic
+		if(layer.options.tipusRang && layer.options.tipusRang==tem_clasic){
+			var geometryType = transformTipusGeometry(layer.options.geometryType);
+			var i = 0;
+			var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
+			
+			var estilsRangs = layer.options.estilsRangs;
+			var rangsEstilsLegend = layer.options.rangsEstilsLegend;
+//			rangsEstilsLegend.sort(sortByValorMax);
+			
+			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
+			arrRangsEstilsLegend.sort(sortByValueMax);
+			//console.debug(arrRangsEstilsLegend);
+			
+			if(geometryType == t_marker){
+
+				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
+					var indexEstil = 0;
+					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
+						indexEstil++;
+					}
+					
+					var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
+					var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
+					var color = hexToRgb(layer.options.estil[indexEstil].color);
+					var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+										'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
+										' '+iconSize+'">'+
+									'</div>';
+					
+					var labelNomCategoria = "";
+					checked = "";						
+					
+					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					}else{
+						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+						if(labelNomCategoria == "Altres"){
+							labelNomCategoria = window.lang.convert("Altres");
+						}
+					}						
+					
+					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+					html +=	'<div class="col-md-2 legend-symbol">'+
+										stringStyle+
+									'</div>'+
+									'<div class="col-md-9 legend-name">'+
+										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+									'</div>';				
+					html+='</div>';	
+				});
+			}else if(geometryType == t_polyline){
+				
+				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
+					var indexEstil = 0;
+					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
+						indexEstil++;
+					}
+					
+					var color = hexToRgb(layer.options.estil[indexEstil].color);
+					var lineWidth = layer.options.estil[indexEstil].lineWidth;
+					var stringStyle =	'<svg height="30" width="30">'+
+											'<line x1="0" y1="30" x2="30" y2="0" '+
+												'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
+										'</svg>';	
+					
+					var labelNomCategoria = "";
+					checked = "";						
+					
+					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					}else{
+						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+						if(labelNomCategoria == "Altres"){
+							labelNomCategoria = window.lang.convert("Altres");
+						}
+					}						
+					
+					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+					html +=	'<div class="col-md-2 legend-symbol">'+
+										stringStyle+
+									'</div>'+
+									'<div class="col-md-9 legend-name">'+
+										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+									'</div>';				
+//					
+					html+='</div>';	
+				});				
+				
+			}else{
+				
+				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
+					var indexEstil = 0;
+					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
+						indexEstil++;
+					}
+					
+					var color = hexToRgb(layer.options.estil[indexEstil].color);
+					var borderColor = hexToRgb(layer.options.estil[indexEstil].borderColor);
+					var opacity = layer.options.estil[indexEstil].opacity/100;
+					var borderWidth = layer.options.estil[indexEstil].borderWidth;						
+					var stringStyle =	'<svg height="40" width="40">'+
+											'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
+										'</svg>';	
+					
+					var labelNomCategoria = "";
+					checked = "";						
+					
+					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					}else{
+						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+						if(labelNomCategoria == "Altres"){
+							labelNomCategoria = window.lang.convert("Altres");
+						}
+					}						
+					
+					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+					html +=	'<div class="col-md-2 legend-symbol">'+
+										stringStyle+
+									'</div>'+
+									'<div class="col-md-9 legend-name">'+
+										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+									'</div>';				
+//					
+					html+='</div>';	
+				});					
+				
+//				jQuery.each(layer.options.estil, function(i, estil){
+//					var color = hexToRgb(estil.color);
+//					var borderColor = hexToRgb(estil.borderColor);
+//					var opacity = estil.opacity/100;
+//					var borderWidth = estil.borderWidth;						
+//					var stringStyle =	'<svg height="40" width="40">'+
+//											'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+//												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
+//										'</svg>';	
+//					
+//					var labelNomCategoria = "";
+//					checked = "";						
+//					
+//					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+//					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+//						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+//						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+//					}else{
+//						labelNomCategoria = rangsEstilsLegend[""+estil.businessId+""];
+//						if(labelNomCategoria == "Altres"){
+//							labelNomCategoria = window.lang.convert("Altres");
+//						}
+//					}						
+//					
+//					var htmlIntermig = '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+//					htmlIntermig += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+//					htmlIntermig +=	'<div class="col-md-2 legend-symbol">'+
+//										stringStyle+
+//									'</div>'+
+//									'<div class="col-md-9 legend-name">'+
+//										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+//									'</div>';				
+////					
+//					htmlIntermig+='</div>';	
+//					
+//					html += htmlIntermig;
+//				});					
+			}
+			
+//			var listRangs = layer.options.rangs;
+//			listRangs.sort(sortByValorMax);
+//			
+//			for(i;i<listRangs.length && controlColorCategoria.length<10;i++){
+//
+//				var color = hexToRgb(listRangs[i].color);
+//				var existeix = checkColorAdded(controlColorCategoria, color);
+//				if(!existeix){
+//					
+//					controlColorCategoria.push(color);
+//					
+//					if(geometryType == t_marker){
+//						var mida = getMidaFromRadius(rangs[i].simbolSize);
+//						var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
+//						var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+//											'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
+//											' '+iconSize+'">'+
+//										'</div>';						
+//					}else if(geometryType == t_polyline){
+//						var lineWidth = rangs[i].lineWidth;
+//						var stringStyle =	'<svg height="30" width="30">'+
+//												'<line x1="0" y1="0" x2="30" y2="30" '+
+//													'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
+//											'</svg>';						
+//					}else{
+//						var borderColor = hexToRgb(rangs[i].borderColor);
+//						var opacity = rangs[i].opacity/100;
+//						var borderWidth = rangs[i].borderWidth;						
+//						var stringStyle =	'<svg height="40" width="40">'+
+//												'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+//													'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
+//											'</svg>';						
+//					}
+//
+//					
+//					//Reinicialitzem
+//					var labelNomCategoria = "";
+//					if(color.r == 153 && color.g==153 && color.b==153 ||
+//							color.r == 217 && color.g==217 && color.b==217 ||
+//							color.r == 218 && color.g==218 && color.b==218 ) labelNomCategoria = window.lang.convert("Altres");
+//					else labelNomCategoria = findLabelCategoria(listRangs[i], layer.options.rangsField);
+////					else labelNomCategoria = findLabelCategoria(layer.options.dataField, rangs[i].featureLeafletId, layer._leaflet_id, layerIdParent);
+//					checked = "";						
+//					
+//					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+//					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+//						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+//						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+//					}				
+//					
+//					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+//					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+//					html +=	'<div class="col-md-2 legend-symbol">'+
+//								stringStyle+
+//							'</div>'+
+//							'<div class="col-md-9 legend-name">'+
+//								'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+//							'</div>';				
+////					
+//					html+='</div>';						
+//				}
+//			}
+
+		}else{
+			
+			//Si ve de fitxer (te source) o si es simpleTematic, 
+			//amb el primer element de rang ja tenim prou, no ens cal recorrer tots el rangs 
+			//pq seran tots iguals
+			if(layer.options.source || (layer.options.tipusRang && layer.options.tipusRang==tem_simple) ){
+				if(size > 0) size = 1;//Control rangs no buit
+			}
+			
+			var geometryType = transformTipusGeometry(layer.options.geometryType);
+			if(geometryType == t_marker){
+				for(var i=0;i<size;i++){
+					//Si es un punt
+					if(rangs[i].isCanvas || rangs[i].marker.indexOf("punt_r")!=-1){
+						
+						var iconSize="";
+						if(rangs[i].iconSize){
+							var mides = rangs[i].iconSize.split("#");
+							iconSize = 'width: '+mides[0]+'px; height: '+mides[1]+'px;';
+						}else{
+							var mida = getMidaFromRadius(rangs[i].simbolSize);
+							iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';
+						}
+						var color = hexToRgb(rangs[i].color);
+						var icon = "";
+						var colorIcon=""; 
+						if(rangs[i].simbolColor){
+							var auxColor = hexToRgb(rangs[i].simbolColor);
+							colorIcon = 'color: rgb('+auxColor.r+', '+auxColor.g+', '+auxColor.b+');';
+						} 
+						
+						if(rangs[i].simbol){
+							icon = "fa fa-"+rangs[i].simbol;
+						}
+						var obj = {iconSize: iconSize, color: color, icon:icon, colorIcon: colorIcon};
+						var existeix = checkPointStyle(obj);
+						
+						if(!existeix){
+							controlLegendPoint.push(obj);
+							
+							var stringStyle =	'<div class="awesome-marker-web awesome-marker-icon-punt_r '+icon+' legend-symbol" '+
+													'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+colorIcon+
+													' '+iconSize+'">'+
+												'</div>';
+
+							//Reinicialitzem
+							layerName = layer.options.nom;
+							checked = "";						
+							var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+								layerName = mapLegend[layer.options.businessId][index].name;
+								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							}							
+							
+							html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+							html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
+							html +=	'<div class="col-md-2 legend-symbol">'+
+										stringStyle+
+									'</div>'+
+									'<div class="col-md-9 legend-name">'+
+										'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+									'</div></div>';								
+						}
+					}else{//Si es un pintxo
+						var color = hexToRgb(rangs[i].simbolColor);
+						
+						var obj = {color: color, marker: rangs[i].marker, simbol: rangs[i].simbol};
+						var existeix = checkMarkerStyle(obj);
+						
+						if(!existeix){
+							controlLegendMarker.push(obj);
+							
+							var stringStyle =	'<div class="awesome-marker-web awesome-marker-icon-'+rangs[i].marker+
+													' fa fa-'+rangs[i].simbol+'" style="width: 28px; height: 42px; font-size: 14px;'+ 
+													'background-color: transparent; color: rgb('+color.r+', '+color.g+', '+color.b+');">'+
+												'</div>';
+	
+							//Reinicialitzem
+							layerName = layer.options.nom;
+							checked = "";						
+							var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+								layerName = mapLegend[layer.options.businessId][index].name;
+								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							}							
+							
+							html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+							html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';						
+							html += '<div class="col-md-2 legend-symbol">'+
+										stringStyle+
+									'</div>'+
+									'<div class="col-md-9 legend-name">'+
+										'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+									'</div></div>';							
+						}
+					}
+				}				
+			}else if(geometryType == t_polyline){
+				
+				for(var i=0;i<size;i++){
+					
+					var color = hexToRgb(rangs[i].color);
+					var lineWidth = rangs[i].lineWidth;
+	
+					var obj = {color: color, lineWidth: lineWidth};
+					var existeix = checkLineStyle(obj);
+					
+					if(!existeix){
+						controlLegendLine.push(obj);
+						
+						var stringStyle =	'<svg height="30" width="30">'+
+												'<line x1="0" y1="30" x2="30" y2="0" '+
+													'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
+											'</svg>';
+						//Reinicialitzem
+						layerName = layer.options.nom;
+						checked = "";						
+						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+							layerName = mapLegend[layer.options.businessId][index].name;
+							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+						}					
+						
+						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
+						html += '<div class="col-md-2 legend-symbol">'+
+											stringStyle +
+								'</div>'+
+								'<div class="col-md-9 legend-name">'+
+									'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+								'</div>';					
+						
+						html+='</div>';						
+					}
+				}				
+			}else if(geometryType == t_polygon){
+				
+				for(var i=0;i<size;i++){
+				
+					var color = hexToRgb(rangs[i].color);
+					var borderColor = hexToRgb(rangs[i].borderColor);
+					var opacity = rangs[i].opacity/100;
+					var borderWidth = rangs[i].borderWidth;
+					
+					var obj = {color: color, borderColor: borderColor, opacity:opacity, borderWidth:borderWidth};
+					var existeix = checkPolStyle(obj);					
+					
+					if(!existeix){
+						controlLegendPol.push(obj);					
+					
+						var stringStyle =	'<svg height="40" width="40">'+
+												'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+													'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
+											'</svg>';
+						
+						//Reinicialitzem
+						layerName = layer.options.nom;
+						checked = "";						
+						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+							layerName = mapLegend[layer.options.businessId][index].name;
+							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+						}						
+						
+						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
+						html += '<div class="col-md-2 legend-symbol">'+
+										stringStyle+
+								'</div>'+
+								'<div class="col-md-9 legend-name">'+
+									'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+								'</div>';					
+						
+						html+='</div>';
+					}else{
+//						console.debug("Existeix:")
+//						console.debug(rangs[i].borderColor);
+//						console.debug(borderColor);
+					}
+					
+				}
+			}
+		}		
 		
 	//TEMATIC
 	}else if(layer.options.tipus == t_tematic){
@@ -587,9 +1018,9 @@ function addLayerToLegend(layer, count, layerIdParent){
 						
 						html+='</div>';
 					}else{
-						console.debug("Existeix:")
-						console.debug(rangs[i].borderColor);
-						console.debug(borderColor);
+//						console.debug("Existeix:")
+//						console.debug(rangs[i].borderColor);
+//						console.debug(borderColor);
 					}
 					
 				}
@@ -698,6 +1129,29 @@ function sortByValorMax(a, b){
 //	if (a.valorMax < b.valorMax) return -1;
 //	if (a.valorMax > b.valorMax) return 1;
 //	return 0;	
+}
+
+//This will sort your array
+function sortByValueMax(a, b){
+	var aName = a.value.toLowerCase();
+	var bName = b.value.toLowerCase(); 
+	return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+//	if (a.valorMax < b.valorMax) return -1;
+//	if (a.valorMax > b.valorMax) return 1;
+//	return 0;	
+}
+
+function sortObject(obj) {
+    var arr = [];
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            arr.push({
+                'key': prop,
+                'value': obj[prop]
+            });
+        }
+    }
+    return arr;
 }
 
 function updateMapLegendData(){

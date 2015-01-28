@@ -125,7 +125,7 @@ function createHeatMap(capa){
 					console.debug("Error add heatmap JSON");
 				}
 			});
-		}else{
+		}else if (capa.layer.options.tipus == t_tematic){
 			var rangs = JSON.stringify({rangs:[{}]});			
 			var data = {
 	            businessId: capa.layer.options.businessId,
@@ -170,6 +170,43 @@ function createHeatMap(capa){
 				//TODO error
 				console.debug("updateTematicRangs ERROR");
 			});
+		//NOU MODEL
+		}else if (capa.layer.options.tipus == t_visualitzacio){
+			var data = {
+					businessId: capa.layer.options.businessId,//businessId id de la visualización de origen
+					uid: $.cookie('uid'),//uid id de usuario
+		            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
+		            nom: capa.layer.options.nom+" "+nom,//nom nombre de la nueva visualizacion
+		            activas: true,
+		            order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
+					tem: tem_heatmap//tem_heatmap
+//		            estils: JSON.stringify(rangs[0])
+				};	
+				
+				createVisualitzacioHeatCluster(data).then(function(results){
+					if(results.status == 'OK'){
+						
+						heatLayerActiu.options.businessId = results.layer.businessId;
+						heatLayerActiu.options.nom = capa.layer.options.nom+" "+nom;
+						heatLayerActiu.options.tipus = capa.layer.options.tipus;
+						heatLayerActiu.options.tipusRang = tem_heatmap;
+
+//						map.addLayer(heatLayerActiu);Comentat per control de un heatmap actiu alhora
+						heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
+						controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
+						controlCapes._lastZIndex++;
+						activaPanelCapes(true);
+						$('#input-'+results.layer.businessId).trigger( "click" );
+						$('#input-'+results.layer.businessId).prop( "checked", true );
+						
+					}else{
+						//TODO error
+						console.debug("createVisualitzacioHeat ERROR");					
+					}
+				},function(results){
+					//TODO error
+					console.debug("createVisualitzacioHeat ERROR");
+				});
 		}
 
 	}else{
@@ -358,4 +395,66 @@ function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 //	controlCapes._lastZIndex++;
 	activaPanelCapes(true);		
 	
+}
+
+function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva){
+	
+	var options = jQuery.parseJSON(layerOptions);
+
+	var data = {
+			businessId: layer.geometriesBusinessId,//businessId id de la visualización de origen
+			uid: $.cookie('uid')//uid id de usuario
+		};	
+	
+	//Carrego llistat geometries
+	getGeometriesColleccioByBusinessId(data).then(function(results){
+		if(results.status == 'OK'){
+			
+			var arrP=[];
+			$.each(results.geometries.geometria.features, function(i, feature) {
+				var d =[feature.geometry.coordinates[0],feature.geometry.coordinates[1],1];	
+				arrP.push(d);			
+			});
+			
+			var heatLayerActiu = L.heatLayer(arrP,{radius:20,blur:15,max:1,
+				gradient: {			
+					0.35: "#070751",
+					0.40: "#0095DE",
+					0.45: "#02D5FF",
+					0.50: "#02E0B9",
+					0.55: "#00B43F",
+					0.60: "#97ED0E",
+					0.61: "#FFF800",
+					0.65: "#FF9700",
+					0.70: "#FF0101",
+					1: "#720404"
+					}	
+			});	
+			
+			heatLayerActiu.options.businessId = layer.businessId;
+			heatLayerActiu.options.nom = layer.nom;
+			heatLayerActiu.options.zIndex = parseInt(zIndex);
+			heatLayerActiu.options.tipus = t_visualitzacio;
+			heatLayerActiu.options.tipusRang = tem_heatmap;
+			
+//			if (layer.capesActiva == true || layer.capesActiva == "true"){
+//				map.addLayer(heatLayerActiu);
+//			}
+			
+			if (capesActiva.indexOf("false")==-1){
+				map.addLayer(heatLayerActiu);
+			}
+			
+			var origen = getLeafletIdFromBusinessId(options.origen);
+			controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
+//			controlCapes._lastZIndex++;
+			activaPanelCapes(true);				
+			
+		}else{
+			console.debug("getGeometriesColleccioByBusinessId ERROR");					
+		}
+	},function(results){
+		//TODO error
+		console.debug("getGeometriesColleccioByBusinessId ERROR");
+	});	
 }

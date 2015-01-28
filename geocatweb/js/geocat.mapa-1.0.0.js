@@ -99,9 +99,6 @@ function loadApp(){
 						gestioCookie('diferentUser');					
 
 						document.title = "InstaMaps: "+mapConfig.nomAplicacio;
-
-
-
 						$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 						
 						if (mapConfig.options){
@@ -113,45 +110,16 @@ function loadApp(){
 							var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
 							$('meta[name="og:image"]').attr('content', urlThumbnail);
 						}
-						
-
-
-
-
 						mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
 
-						
 						downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
 												mapConfig.options.downloadable:[]);
-
-						
 						mapConfig.newMap = false;
 //						console.debug(mapConfig);
-
 						//Afegim barres d'eines i control de capes 
 						addControlsInici();
 
-
-
-
-						
-
 						loadMapConfig(mapConfig).then(function(){
-
-
-
-
-
-
-
-
-							
-
-
-
-
-
-
 							$('#nomAplicacio').html(mapConfig.nomAplicacio);
 							//llegim configuracio de funcionalitats del mapa, si no te, per defecte
 							
@@ -201,9 +169,6 @@ function loadApp(){
 						//});
 						//if (true) { //CANVIAR
 						gestioCookie('diferentUser');
-											
-						
-
 						$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 						
 						if (mapConfig.options){
@@ -255,26 +220,26 @@ function loadApp(){
 								document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 								
 							});
-						});						
+						});
 						//}
 						//else {
 						//	alert("Aquest mapa està bloquejat per un altre usuari");
 						//	window.location.href = paramUrl.galeriaPage;
-						//}
-
+						//}												
 					}catch(err){
 						gestioCookie('loadMapConfig');
 					}
 				}
-			}
-		,function(results){
+			
+		},function(results){
 			gestioCookie('getMapByBusinessIdError');
+			
 		});
 
-
+		}
 		
 		addLeaveModal();
-	}
+		
 	}else{
 		if (!$.cookie('uid')){
 			createRandomUser().then(function(results){
@@ -556,7 +521,7 @@ function updateLangText(){
 }
 
 function loadMapConfig(mapConfig){
-	//console.debug(mapConfig);
+	console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);

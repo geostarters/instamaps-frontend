@@ -117,15 +117,13 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 						}else{
 							//usuari no logat, no entra mai
 						}					  
-					  
 				  }
-				  
 			  }
 		});
-
 	}else{
 		
 		var data = {
+			 mapBusinessId: url('?businessid'),
 			 tipusFile: tipusFile,
 			 urlFile: urlFile,
 			 epsgIN: epsgIN,
@@ -135,43 +133,61 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 		}
 
 		getUrlFile(data).then(function(results){
-			
 			if (results.status == "OK") {
-
-				var businessId = results.results.businessId;
-
-				// crear el servidor WMS i agregarlo al mapa
-				var data = {
-					uid : $.cookie('uid'),
-					businessId : businessId,
-					mapBusinessId : url('?businessid'),
-					serverName : nomCapa,//results.results.nom,
-					serverType : 'tematic',
-					calentas : false,
-					activas : true,
-					visibilitats : true,
-					epsg : '4326',
-					transparency : true,
-					visibilitat : 'O'
-				};
-				createServidorInMap(data).then(function(results) {
-					if (results.status == "OK") {
-
-						_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
-						//_kmq.push.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'no dinamiques'}]);
-						
-						results.results.urlFile = true;
-						loadTematicLayer(results.results).then(function(results1){
-							getRangsFromLayer(results1);
-							if(results1){
-								map.fitBounds(results1.getBounds());
-							}
-						});
-//						jQuery('#div_url_file').removeClass('waiting_animation');
-						jQuery('#dialog_dades_ex').modal('toggle');
-						refrescaPopOverMevasDades();
+				if(nou_model){
+					//Si geometries tipus marker
+					if(results.visualitzacioMarker){
+						var defer = $.Deferred();
+						readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker);
+					}					
+					//Si geometries tipus línies
+					if(results.visualitzacioLine){
+						var defer = $.Deferred();
+						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine);
 					}
-				});
+					//Si geometries tipus polygon
+					if(results.visualitzacioPolygon){
+						var defer = $.Deferred();
+						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon);
+					}
+					jQuery('#dialog_dades_ex').modal('toggle');	
+					
+				}else{
+					var businessId = results.results.businessId;
+
+					// crear el servidor WMS i agregarlo al mapa
+					var data = {
+						uid : $.cookie('uid'),
+						businessId : businessId,
+						mapBusinessId : url('?businessid'),
+						serverName : nomCapa,//results.results.nom,
+						serverType : 'tematic',
+						calentas : false,
+						activas : true,
+						visibilitats : true,
+						epsg : '4326',
+						transparency : true,
+						visibilitat : 'O'
+					};
+					createServidorInMap(data).then(function(results) {
+						if (results.status == "OK") {
+
+							_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
+							//_kmq.push.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'no dinamiques'}]);
+							
+							results.results.urlFile = true;
+							loadTematicLayer(results.results).then(function(results1){
+								getRangsFromLayer(results1);
+								if(results1){
+									map.fitBounds(results1.getBounds());
+								}
+							});
+//							jQuery('#div_url_file').removeClass('waiting_animation');
+							jQuery('#dialog_dades_ex').modal('toggle');
+							refrescaPopOverMevasDades();
+						}
+					});					
+				}
 			}else{
 				console.debug("Error getUrlFile:"+results);
 				processFileError(results);

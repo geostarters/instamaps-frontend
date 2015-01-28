@@ -141,7 +141,7 @@ function addControlAltresFontsDades() {
 				
 				jQuery("#bt_URLfitxer").on('click', function(e) {
 					jQuery("#div_url_file").show();
-					var urlFile = jQuery("#txt_URLfile").val();
+					var urlFile = $.trim(jQuery("#txt_URLfile").val());
 					if(isValidURL(urlFile)){
 						
 						//URL PRESIDENT JSON
@@ -237,7 +237,7 @@ function addControlAltresFontsDades() {
 //								console.debug("bt_URLfitxer_go");
 								jQuery("#div_url_file_message").empty();
 								jQuery("#div_url_file_message").hide();
-								var urlFile = jQuery("#txt_URLfile").val();
+								var urlFile = $.trim(jQuery("#txt_URLfile").val());
 								var type = jQuery("#select-url-file-format").val();
 								var epsg = jQuery("#select-url-file-epsg").val();
 								
