@@ -29,7 +29,7 @@ var envioArxiu={isDrag:false,
 var drOpcionsMapa = {
 	//url : paramUrl.uploadproxy+"?uid="+$.cookie('uid')+"&",	
 	//url : paramUrl.upload_gdal,
-	url : paramUrl.upload_gdal_nou,
+	url : paramUrl.upload_gdal_2015,
 	paramName : "file", 
 	maxFilesize : 10, // MB
 	method : 'post',
