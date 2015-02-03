@@ -816,17 +816,29 @@ function addDropFileToMap(results) {
 			//Si geometries tipus marker
 			if(results.visualitzacioMarker){
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker);
+				readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker).then(function(results1){
+					if(results1){
+						map.fitBounds(results1.getBounds());
+					}
+				});
 			}					
 			//Si geometries tipus línies
 			if(results.visualitzacioLine){
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacioLine, results.layerLine);
+				readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
+					if(results1){
+						map.fitBounds(results1.getBounds());
+					}
+				});
 			}
 			//Si geometries tipus polygon
 			if(results.visualitzacioPolygon){
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon);
+				readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
+					if(results1){
+						map.fitBounds(results1.getBounds());
+					}
+				});
 			}		
 			// carregarCapa(businessId);
 			refrescaPopOverMevasDades();

@@ -1354,53 +1354,79 @@ function readVisualitzacio(defer, visualitzacio, layer){
 		jQuery.each(visualitzacio.estil, function(index, estil){
 //			console.debug("estil:");
 //			console.debug(estil);
-			var geomType = visualitzacio.geometryType;
+			var geomTypeVis = visualitzacio.geometryType;
 			var geomStyle;
 			
-			if (geomType === t_marker){
+			if (geomTypeVis === t_marker){
 				geomStyle = createMarkerStyle(estil, estil.geometria.features.length);
-			}else if (geomType === t_multipoint){
+			}else if (geomTypeVis === t_multipoint){
 				geomStyle = createMarkerStyle(estil, estil.geometria.features.length);
-			}else if (geomType === t_polyline){
+			}else if (geomTypeVis === t_polyline){
 				geomStyle = createLineStyle(estil);
-			}else if (geomType === t_multilinestring){
+			}else if (geomTypeVis === t_multilinestring){
 				geomStyle = createLineStyle(estil);
-			}else if (geomType === t_polygon){
+			}else if (geomTypeVis === t_polygon){
 				geomStyle = createAreaStyle(estil);
-			}else if (geomType === t_multipolygon){
+			}else if (geomTypeVis === t_multipolygon){
 				geomStyle = createAreaStyle(estil);
 			}		
 			
 			//per cada geometria d'aquell estil
 			jQuery.each(estil.geometria.features, function(indexGeom, geom){
 				
-				var featureTem;
-				//Punt
-				if (geomType === t_marker){
-					var coords=geom.geometry.coordinates;
-					if(!geomStyle.isCanvas){
-						featureTem = L.marker([coords[0],coords[1]],
-												{icon: geomStyle, isCanvas:false, 
-												tipus: t_marker}
-											);
-					}else{
-						featureTem= L.circleMarker([coords[0],coords[1]],geomStyle);
-					}
-				//MultiPoint
-				}else if (geomType === t_multipoint){
+				var featureTem = [];
+				var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
+//				var geomType = geomTypeVis;
+
+				//MultyPoint
+				if (geomTypeVis === t_marker && geomType === t_multipoint){
 					//TODO revisar que funcione
 					var coords=geom.geometry.coordinates;
 					for (var i = 0; i < coords.length; i++){
 						var c=coords[i];
 						if(!geomStyle.isCanvas){
-							featureTem = L.marker([c[0], c[1]],
-								{icon: rangStyle, isCanvas:false, tipus: t_marker});
+							featureTem.push(new L.marker([c[0], c[1]],
+								{icon: rangStyle, isCanvas:false, tipus: t_marker}));
 						}else{
-							featureTem= L.circleMarker([c[0], c[1]],geomStyle);
+							featureTem.push(new L.circleMarker([c[0], c[1]],geomStyle));
 						}
 					}
-				//Line
-				}else if (geomType === t_polyline){
+				//Punt
+				}else if (geomTypeVis === t_marker){
+					var coords=geom.geometry.coordinates;
+					if(!geomStyle.isCanvas){
+						featureTem.push(new L.marker([coords[0],coords[1]],
+												{icon: geomStyle, isCanvas:false, 
+												tipus: t_marker}
+											));
+					}else{
+						featureTem.push(new L.circleMarker([coords[0],coords[1]],geomStyle));
+					}
+				//MultiPoint
+				}else if (geomTypeVis === t_polyline && geomType === t_multilinestring){
+					var coords=geom.geometry.coordinates;
+					var llistaLines=[];
+					var llistaLines2=[];
+					
+					for (var i = 0; i < coords.length; i++){
+						var lines=coords[i];
+						var llistaPunts=[];
+						var myPolyline = new L.polyline(llistaPunts,geomStyle);
+						
+						for (var k = 0; k < lines.length; k++){
+							var c=lines[k];
+							var punt=new L.LatLng(c[0], c[1]);
+							myPolyline.addLatLng(punt);
+//							llistaPunts.push(punt);
+						}
+						featureTem.push(myPolyline);
+//						llistaLines.push(llistaPunts);
+//						llistaLines2.push(myPolyline.getLatLngs());
+					}
+//					featureTem = new L.multiPolyline(llistaLines, geomStyle);
+//				
+				//multiLine
+				}else if (geomTypeVis === t_polyline){
 					var coords=geom.geometry.coordinates;
 					var llistaPunts=[];
 					for (var i = 0; i < coords.length; i++){
@@ -1408,98 +1434,125 @@ function readVisualitzacio(defer, visualitzacio, layer){
 						var punt=new L.LatLng(c[0], c[1]);
 						llistaPunts.push(punt);
 					}
-					featureTem = L.polyline(llistaPunts, geomStyle);
-				//multiLine
-				}else if (geomType === t_multilinestring){
-					var coords=geom.geometry.coordinates;
-					var llistaLines=[];
-					for (var i = 0; i < coords.length; i++){
-						var lines=coords[i];
-						var llistaPunts=[];
-						for (var k = 0; k < lines.length; k++){
-							var c=lines[k];
-							var punt=new L.LatLng(c[0], c[1]);
-							llistaPunts.push(punt);
-						}
-						llistaLines.push(llistaPunts);
-					}
-					featureTem = new L.multiPolyline(llistaLines, geomStyle);
-				//polygon
-				}else if (geomType === t_polygon){
-					var coords=geom.geometry.coordinates;
-					var llistaLines=[];
-					for (var i = 0; i < coords.length; i++){
-						var lines=coords[i];
-						var llistaPunts=[];
-						for (var k = 0; k < lines.length; k++){
-							var c=lines[k];
-							var punt=new L.LatLng(c[0], c[1]);
-							llistaPunts.push(punt);
-						}
-						llistaLines.push(llistaPunts);
-					}
-					featureTem = new L.Polygon(llistaLines, geomStyle);
+					featureTem.push(new L.polyline(llistaPunts, geomStyle));
 				//multiPolygon
-				}else if (geomType === t_multipolygon){
+				}else if(geomTypeVis === t_polygon && geomType === t_multipolygon){
 					var coords=geom.geometry.coordinates;
 					var llistaPoligons=[];
 					for (var p = 0; p < coords.length; p++){
-						var poligons=coords[p];
-						var llistaLines=[];
-						for (var i = 0; i < poligons.length; i++){
-							var lines=poligons[i];
-							var llistaPunts=[];
-							for (var k = 0; k < lines.length; k++){
-								var c=lines[k];
+						var poligonCoord=coords[p];
+						var llistaPunts=[];
+						var myPolygon = new L.polygon(llistaPunts,geomStyle);
+						for (var i = 0; i < poligonCoord.length; i++){
+							var pol=poligonCoord[i];
+							for (var j = 0; j < pol.length; j++){
+								
+								var c = pol[j];
 								var punt=new L.LatLng(c[0], c[1]);
-								llistaPunts.push(punt);
+								myPolygon.addLatLng(punt);
 							}
-							llistaLines.push(llistaPunts);
 						}
-						llistaPoligons.push(llistaLines);
+						//llistaPoligons.push(myPolygon);
+						featureTem.push(myPolygon);
 					}
-					featureTem = new L.multiPolygon(llistaPoligons, geomStyle);
+					//featureTem.push(llistaPoligons, geomStyle);
+				//polygon
+				}else if (geomTypeVis === t_polygon){
+					var coords=geom.geometry.coordinates;
+					var llistaLines=[];
+					for (var i = 0; i < coords.length; i++){
+						var lines=coords[i];
+						var llistaPunts=[];
+						for (var k = 0; k < lines.length; k++){
+							var c=lines[k];
+							var punt=new L.LatLng(c[0], c[1]);
+							llistaPunts.push(punt);
+						}
+						llistaLines.push(llistaPunts);
+					}
+					featureTem.push(new L.Polygon(llistaLines, geomStyle));
 				}
 				
-				if (featureTem){
-					featureTem.properties = {};
-					featureTem.properties.businessId = geom.businessId;
-					featureTem.properties.data = geom.properties;
-					featureTem.properties.estil = estil;
-					featureTem.properties.capaLeafletId = capaVisualitzacio._leaflet_id;
-					featureTem.properties.capaNom = capaVisualitzacio.options.nom;
-					featureTem.properties.capaBusinessId = capaVisualitzacio.options.businessId;
-					featureTem.properties.tipusFeature = geomType;
+				jQuery.each(featureTem, function(index, feat){
+					feat.properties = {};
+					feat.properties.businessId = geom.businessId;
+					feat.properties.data = geom.properties;
+					feat.properties.estil = estil;
+					feat.properties.capaLeafletId = capaVisualitzacio._leaflet_id;
+					feat.properties.capaNom = capaVisualitzacio.options.nom;
+					feat.properties.capaBusinessId = capaVisualitzacio.options.businessId;
+					feat.properties.tipusFeature = geomTypeVis;
 					
 					//Cal??
-					if (featureTem.options){
-						featureTem.options.tipus = geomType;
+					if (feat.options){
+						feat.options.tipus = geomTypeVis;
 					}else{
-						featureTem.options = {tipus: geomType};
+						feat.options = {tipus: geomTypeVis};
 					}
 					
-					featureTem.properties.feature = {};
-					featureTem.properties.feature.geometry = geom.geometry;
-					capaVisualitzacio.addLayer(featureTem);		
+					feat.properties.feature = {};
+					feat.properties.feature.geometry = geom.geometry;
+					capaVisualitzacio.addLayer(feat);		
 				
-					if(geomType == t_polygon){
-						featureTem.properties.mida = calculateArea(featureTem.getLatLngs());
-					}else if(geomType == t_polyline){
-						featureTem.properties.mida = calculateDistance(featureTem.getLatLngs());
+					if(geomTypeVis == t_polygon){
+						feat.properties.mida = calculateArea(feat.getLatLngs());
+					}else if(geomTypeVis == t_polyline){
+						feat.properties.mida = calculateDistance(feat.getLatLngs());
 					}
 				
 	//				//Si la capa no ve de fitxer
 					if(!hasSource){
 						if($(location).attr('href').indexOf('mapa')!=-1 && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-							createPopupWindow(featureTem,geomType);
+							createPopupWindow(feat,geomTypeVis);
 						}else{			
-							createPopupWindowVisor(featureTem,geomType);
+							createPopupWindowVisor(feat,geomTypeVis);
 						}								
 					}else{
-						createPopupWindowData(featureTem,geomType);
+						createPopupWindowData(feat,geomTypeVis);
 					}
-					map.closePopup();
-				}				
+					map.closePopup();					
+				});
+				
+				
+//				if (featureTem){
+//					featureTem.properties = {};
+//					featureTem.properties.businessId = geom.businessId;
+//					featureTem.properties.data = geom.properties;
+//					featureTem.properties.estil = estil;
+//					featureTem.properties.capaLeafletId = capaVisualitzacio._leaflet_id;
+//					featureTem.properties.capaNom = capaVisualitzacio.options.nom;
+//					featureTem.properties.capaBusinessId = capaVisualitzacio.options.businessId;
+//					featureTem.properties.tipusFeature = geomType;
+//					
+//					//Cal??
+//					if (featureTem.options){
+//						featureTem.options.tipus = geomType;
+//					}else{
+//						featureTem.options = {tipus: geomType};
+//					}
+//					
+//					featureTem.properties.feature = {};
+//					featureTem.properties.feature.geometry = geom.geometry;
+//					capaVisualitzacio.addLayer(featureTem);		
+//				
+//					if(geomType == t_polygon){
+//						featureTem.properties.mida = calculateArea(featureTem.getLatLngs());
+//					}else if(geomType == t_polyline){
+//						featureTem.properties.mida = calculateDistance(featureTem.getLatLngs());
+//					}
+//				
+//	//				//Si la capa no ve de fitxer
+//					if(!hasSource){
+//						if($(location).attr('href').indexOf('mapa')!=-1 && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
+//							createPopupWindow(featureTem,geomType);
+//						}else{			
+//							createPopupWindowVisor(featureTem,geomType);
+//						}								
+//					}else{
+//						createPopupWindowData(featureTem,geomType);
+//					}
+//					map.closePopup();
+//				}				
 				
 			});
 		});	
@@ -1540,7 +1593,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 		}				
 	}
 		defer.resolve(capaVisualitzacio);		
-		
+		return defer.promise();
 	}
 	
 /**Funcions per crear un objecte de tipus estil, amb les característiques que li passes
