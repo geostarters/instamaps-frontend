@@ -1660,6 +1660,7 @@ i.fa {
 
 .popup_data_img_iframe img{
 	margin-top: 5px;
+	max-height: 200px;
 }
 
 /*feedback button*/
