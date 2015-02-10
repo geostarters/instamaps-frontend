@@ -1437,26 +1437,48 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					featureTem.push(new L.polyline(llistaPunts, geomStyle));
 				//multiPolygon
 				}else if(geomTypeVis === t_polygon && geomType === t_multipolygon){
+					
+					
 					var coords=geom.geometry.coordinates;
 					var llistaPoligons=[];
 					for (var p = 0; p < coords.length; p++){
-						var poligonCoord=coords[p];
-						var llistaPunts=[];
-						var myPolygon = new L.polygon(llistaPunts,geomStyle);
-						for (var i = 0; i < poligonCoord.length; i++){
-							var pol=poligonCoord[i];
-							for (var j = 0; j < pol.length; j++){
-								
-								var c = pol[j];
+						var poligons=coords[p];
+						var llistaLines=[];
+						for (var i = 0; i < poligons.length; i++){
+							var lines=poligons[i];
+							var llistaPunts=[];
+							for (var k = 0; k < lines.length; k++){
+								var c=lines[k];
 								var punt=new L.LatLng(c[0], c[1]);
-								myPolygon.addLatLng(punt);
+								llistaPunts.push(punt);
 							}
+							llistaLines.push(llistaPunts);
 						}
-						//llistaPoligons.push(myPolygon);
-						featureTem.push(myPolygon);
+						llistaPoligons.push(llistaLines);
 					}
-					//featureTem.push(llistaPoligons, geomStyle);
-				//polygon
+//					featureTem = new L.multiPolygon(llistaPoligons, geomStyle);	
+					featureTem.push(new L.multiPolygon(llistaPoligons, geomStyle));
+					
+//					var coords=geom.geometry.coordinates;
+//					var llistaPoligons=[];
+//					for (var p = 0; p < coords.length; p++){
+//						var poligonCoord=coords[p];
+//						var llistaPunts=[];
+//						var myPolygon = new L.polygon(llistaPunts,geomStyle);
+//						for (var i = 0; i < poligonCoord.length; i++){
+//							var pol=poligonCoord[i];
+//							for (var j = 0; j < pol.length; j++){
+//								
+//								var c = pol[j];
+//								var punt=new L.LatLng(c[0], c[1]);
+//								myPolygon.addLatLng(punt);
+//							}
+//						}
+//						//llistaPoligons.push(myPolygon);
+//						featureTem.push(myPolygon);
+//					}
+//					//featureTem.push(llistaPoligons, geomStyle);
+//				//polygon
 				}else if (geomTypeVis === t_polygon){
 					var coords=geom.geometry.coordinates;
 					var llistaLines=[];
