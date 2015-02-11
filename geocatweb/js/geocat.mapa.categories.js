@@ -15,7 +15,7 @@ function showModalTematicCategories(data){
 	jQuery('#dialog_tematic_rangs').modal('show');
 	
 	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
-		createTematicLayerCategories();
+		createTematicLayerCategories(e);
 	});	
 	//console.debug(data);
 	
@@ -505,7 +505,7 @@ function div2RangStyle(tematic, tdElem){
 	return rangStyle;
 }
 
-function createTematicLayerCategories(){
+function createTematicLayerCategories(event){
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);
 	//_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'categories'}]);
 	
@@ -575,7 +575,10 @@ function createTematicLayerCategories(){
 		},function(results){
 			//TODO error
 			console.debug("createVisualitzacioTematica ERROR");
-		});			
+		});	
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		jQuery('#dialog_tematic_rangs').modal('hide');
 		
 	}else{
 
@@ -810,7 +813,7 @@ function readDataVisualitzacio(visualitzacio, key){
 	var dataValues = [];
 	jQuery.each(visualitzacio.estil, function(index, item){
 		jQuery.each( item.geometria.features, function(i,feature) {
-			var value = feature.properties[key];
+			var value = feature.properties[key.toLowerCase()];
 			if(!data[value]){
 				data[value] = value;
 				dataValues.push(value);
