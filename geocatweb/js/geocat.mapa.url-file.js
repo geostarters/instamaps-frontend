@@ -129,26 +129,56 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			 epsgIN: epsgIN,
 			 dinamic: dinamic,
 			 uploadFile: paramUrl.uploadFile,
-			 uid: $.cookie('uid')
+			 uid: $.cookie('uid'),
+			 markerStyle: JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+			 lineStyle: JSON.stringify(getLineRangFromStyle(canvas_linia)),
+			 polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 		}
 
+		console.debug(defaultPunt);
+		console.debug("defaultPunt");
+		
+		console.debug(canvas_linia);
+		console.debug("canvas_linia");
+		
+		console.debug(canvas_pol);
+		console.debug("canvas_pol");
+//		console.debug("markerStyle:"+JSON.stringify(getMarkerRangFromStyle(defaultPunt)));
+//		console.debug("lineStyle:"+JSON.stringify(getMarkerRangFromStyle(canvas_linia)));
+//		console.debug("polygonStyle:"+JSON.stringify(getMarkerRangFromStyle(canvas_pol)));
+		
 		getUrlFile(data).then(function(results){
 			if (results.status == "OK") {
 				if(nou_model){
 					//Si geometries tipus marker
-					if(results.visualitzacioMarker){
+					if(results.layerMarker){
 						var defer = $.Deferred();
-						readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker);
+//						readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker);
+						loadVisualitzacioLayer(results.layerMarker).then(function(results1){
+							if(results1){
+								map.fitBounds(results1.getBounds());
+							}
+						});						
 					}					
 					//Si geometries tipus línies
-					if(results.visualitzacioLine){
+					if(results.layerLine){
 						var defer = $.Deferred();
-						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine);
+//						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine);
+						loadVisualitzacioLayer(results.layerLine).then(function(results1){
+							if(results1){
+								map.fitBounds(results1.getBounds());
+							}
+						});						
 					}
 					//Si geometries tipus polygon
-					if(results.visualitzacioPolygon){
+					if(results.layerPolygon){
 						var defer = $.Deferred();
-						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon);
+//						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon);
+						loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
+							if(results1){
+								map.fitBounds(results1.getBounds());
+							}
+						});						
 					}
 					jQuery('#dialog_dades_ex').modal('toggle');	
 					

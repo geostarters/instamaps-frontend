@@ -174,7 +174,7 @@ function loadTematicLayer(layer){
 }
 
 
-
+/*
 function readTematic(defer, results, layerWms, layer){
 	//console.timeEnd("readTematic " + layerWms.serverName);
 	var capaTematic;
@@ -305,7 +305,7 @@ function readTematic(defer, results, layerWms, layer){
 						}else{
 							rangStyle = createRangStyle(ftype);
 						}
-						*/
+						*//*
 					}
 					
 					var featureTem;
@@ -445,7 +445,7 @@ function readTematic(defer, results, layerWms, layer){
 						/*
 						if(results.status==='OK')console.debug("CapaTematic name changed OK");
 						else console.debug("CapaTematic name changed KO");
-						*/
+						*//*
 					});					
 			}
 			
@@ -488,10 +488,10 @@ function readTematic(defer, results, layerWms, layer){
 		console.debug("Error readTematic");
 	}	
 	defer.resolve(capaTematic);
-}
+}*/
 
 function createPopupWindowVisor(player,type){
-	//console.debug("createPopupWindowVisor");
+	console.debug("createPopupWindowVisor");
 	var html='<div class="div_popup_visor">' 
 		+'<div class="popup_pres">';
 	
@@ -516,8 +516,10 @@ function createPopupWindowVisor(player,type){
 	player.bindPopup(html,{'offset':[0,-25]});	
 }
 
-function createPopupWindowData(player,type){
-	//console.debug("createPopupWindowData");
+function createPopupWindowData(player,type, editable){
+//	console.debug("createPopupWindowData");
+//	console.debug("editable");
+//	console.debug(editable);
 	var html='';
 	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
 		html+='<h4>'+player.properties.data.nom+'</h4>';
@@ -538,18 +540,168 @@ function createPopupWindowData(player,type){
 				var txt = parseUrlTextPopUp(value, key);
 				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 					html+='<div class="popup_data_key">'+key+'</div>';
-					html+='<div class="popup_data_value">'+txt+'</div>'
+					html+='<div class="popup_data_value">'+txt+'</div>';
 				}else{
-					html+='<div class="popup_data_img_iframe">'+txt+'</div>'
+					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 				}
 				html+= '</div>';
 			}
 		}
 	});	
 	
+	if(editable){
+		html+= '<div id="footer_edit"  class="modal-footer">'
+					+'<ul class="bs-popup">'						
+						+'<li><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
+						+'<li><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
+						+'<li><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
+					+'</ul>'														
+				+'</div>';	
+	}
+	
 	html+='</div></div>';
 	//he quitado el openPopup() ya que si la capa no está activa no se ha cargado en el mapa y da error.
 	player.bindPopup(html,{'offset':[0,-25]});
+	
+	//Afegim events/accions al popUp
+	jQuery(document).on('click', ".bs-popup li a", function(e) {
+		e.stopImmediatePropagation();
+		var accio;
+		if(jQuery(this).attr('id').indexOf('#')!=-1){			
+			accio=jQuery(this).attr('id').split("#");				
+		}
+		objEdicio.featureID=accio[1];
+		
+		if(accio[0].indexOf("feature_edit")!=-1){
+
+			//Update modal estils, amb estil de la feature seleccionada
+			var obj = map._layers[accio[1]];
+			console.debug(obj);
+			if(obj.options.icon /*|| obj.options.icon.options.markerColor.indexOf("punt_r")!=-1*/){
+				var icon = obj.options.icon.options;	
+			}else if(obj._options){
+				var icon = obj._options;
+			}else{
+				var icon = obj.options;
+			}
+			updateDialogStyleSelected(icon);
+
+			
+			if(accio[2].indexOf("marker")!=-1){
+				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
+			}else if(accio[2].indexOf("polygon")!=-1){
+				obrirMenuModal('#dialog_estils_arees','toggle',from_creaPopup);
+			}else{
+				obrirMenuModal('#dialog_estils_linies','toggle',from_creaPopup);
+			}
+		}else if(accio[0].indexOf("feature_remove")!=-1){
+			map.closePopup();
+			var data = {
+	            businessId: map._layers[objEdicio.featureID].properties.businessId,
+	            uid: $.cookie('uid')
+	        };
+			
+			var features = {
+					type:"Feature",
+					id: 3124,
+					businessId: map._layers[objEdicio.featureID].properties.businessId,
+					properties: map._layers[objEdicio.featureID].properties.data,
+					estil: map._layers[objEdicio.featureID].properties.estil,
+					geometry: map._layers[objEdicio.featureID].properties.feature.geometry
+				};				
+			
+			features = JSON.stringify(features);
+			
+			var data = {
+				businessId: map._layers[objEdicio.featureID].properties.capaBusinessId,//bID de la visualitzacio-capa
+				uid: $.cookie('uid'),
+				features: features
+			};
+			
+			removeGeometriaFromVisualitzacio(data).then(function(results){
+				if(results.status == 'OK'){
+					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
+					map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);
+					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);					
+					//Actualitzem comptador de la capa
+					updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
+				}else{
+					console.debug("ERROR deleteFeature");
+				}
+			},function(results){
+				console.debug("ERROR deleteFeature");
+			});					
+		}else if(accio[0].indexOf("feature_text")!=-1){
+			modeEditText();
+		}else if(accio[0].indexOf("feature_move")!=-1){
+			objEdicio.esticEnEdicio=true;
+			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;	
+			objEdicio.capaEdicioLeafletId = capaLeafletId;//Ho guarda per despres poder actualitzar vis filles
+			//Actualitzem capa activa
+			if (capaUsrActiva){
+				capaUsrActiva.removeEventListener('layeradd');
+			}
+			capaUsrActiva = map._layers[capaLeafletId];
+			
+			var capaEdicio = new L.FeatureGroup();
+			capaEdicio.addLayer(map._layers[objEdicio.featureID]);
+			capaUsrActiva.removeLayer(map._layers[objEdicio.featureID]);
+			map.addLayer(capaEdicio);
+			
+			var opcionsSel={
+					color: '#FF1EE5',
+					"weight": 7,
+					opacity: 0.6,
+					dashArray: '1, 1',
+					fill: true,
+					fillColor: '#fe57a1',
+					fillOpacity: 0.1
+				};
+			
+			crt_Editing=new L.EditToolbar.Edit(map, {
+				featureGroup: capaEdicio,
+				selectedPathOptions: opcionsSel
+			});
+			crt_Editing.enable();
+			map.closePopup();
+			
+		}else if(accio[0].indexOf("feature_no")!=-1){
+			jQuery('.popup_pres').show();
+			jQuery('.popup_edit').hide();
+			
+		}else if(accio[0].indexOf("feature_ok")!=-1){
+			if(objEdicio.edicioPopup=='textFeature'){
+				var txtTitol=jQuery('#titol_edit').val();
+				var txtDesc=jQuery('#des_edit').val();
+				
+				updateFeatureNameDescr(map._layers[objEdicio.featureID],txtTitol,txtDesc);
+
+			}else if(objEdicio.edicioPopup=='textCapa'){
+				if(jQuery('#capa_edit').val()!=""){
+					jQuery('#cmbCapesUsr option:selected').text(jQuery('#capa_edit').val());	
+					jQuery('.popup_pres').show();
+					jQuery('.popup_edit').hide();
+				}else{
+					alert(window.lang.convert('Has de posar un nom de capa'));	
+				}
+			}else if(objEdicio.edicioPopup=='nouCapa'){
+				if(jQuery('#capa_edit').val()!=""){
+					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val());
+				}else{
+					alert(window.lang.convert('Has de posar un nom de capa'));	
+				}
+			}
+		}else{
+		//accio tanca
+			map.closePopup();
+		}
+	});	
+
+	player.on('popupopen', function(e){
+		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
+			map.closePopup();
+		}
+	});	
 }
 
 /*****************************/
@@ -839,11 +991,11 @@ function getMarkerRangFromStyle(styles){
 
 function getLineRangFromStyle(styles){
 	var rang = {
-		color: styles.color,
-		lineWidth: styles.weight,
+		color: styles.strokeStyle,//styles.color,
+		lineWidth: styles.lineWidth,//styles.weight,
 		lineStyle : 'solid',
 		borderWidth : 2,
-		borderColor : styles.color,				
+		borderColor : styles.strokeStyle,				
 		opacity: (styles.opacity * 100),
 		label : false,
 		labelSize : 10,
@@ -856,10 +1008,10 @@ function getLineRangFromStyle(styles){
 function getPolygonRangFromStyle(styles){
 	styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
 	var rang = {
-		borderWidth: styles.weight,
-		borderColor: styles.color,
-		color: styles.fillColor,
-		opacity: (styles.fillOpacity * 100),
+		borderWidth: styles.lineWidth,//styles.weight,
+		borderColor: styles.strokeStyle,//styles.color,
+		color: rgb2hex(styles.fillStyle),//styles.fillColor,
+		opacity: (styles.opacity * 100),//(styles.fillOpacity * 100),
 		lineStyle : 'solid',
 		label : false,
 		labelSize : 10,
@@ -881,6 +1033,7 @@ function getRangsFromStyles(tematic, styles){
 	//Revisar majus minus del "geometryType"!
 	var ftype = "";
 	if(tematic.geometrytype) ftype = transformTipusGeometry(tematic.geometrytype);
+	else if(tematic.geometryType) ftype = transformTipusGeometry(tematic.geometryType);
 	else ftype = transformTipusGeometry(tematic.geometrType);
 	
 	/*Control cas multiple
@@ -1302,6 +1455,9 @@ function loadVisualitzacioLayer(layer){
 function readVisualitzacio(defer, visualitzacio, layer){
 //	console.debug("readVisualitzacio:");
 //	console.debug(layer);
+//	if(layer.options && jQuery.type(layer.options)== "object"){
+//		layer.options = JSON.stringify();
+//	}
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 					|| (layer.options && (layer.options.indexOf("source")!=-1) );
@@ -1437,26 +1593,48 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					featureTem.push(new L.polyline(llistaPunts, geomStyle));
 				//multiPolygon
 				}else if(geomTypeVis === t_polygon && geomType === t_multipolygon){
+					
+					
 					var coords=geom.geometry.coordinates;
 					var llistaPoligons=[];
 					for (var p = 0; p < coords.length; p++){
-						var poligonCoord=coords[p];
-						var llistaPunts=[];
-						var myPolygon = new L.polygon(llistaPunts,geomStyle);
-						for (var i = 0; i < poligonCoord.length; i++){
-							var pol=poligonCoord[i];
-							for (var j = 0; j < pol.length; j++){
-								
-								var c = pol[j];
+						var poligons=coords[p];
+						var llistaLines=[];
+						for (var i = 0; i < poligons.length; i++){
+							var lines=poligons[i];
+							var llistaPunts=[];
+							for (var k = 0; k < lines.length; k++){
+								var c=lines[k];
 								var punt=new L.LatLng(c[0], c[1]);
-								myPolygon.addLatLng(punt);
+								llistaPunts.push(punt);
 							}
+							llistaLines.push(llistaPunts);
 						}
-						//llistaPoligons.push(myPolygon);
-						featureTem.push(myPolygon);
+						llistaPoligons.push(llistaLines);
 					}
-					//featureTem.push(llistaPoligons, geomStyle);
-				//polygon
+//					featureTem = new L.multiPolygon(llistaPoligons, geomStyle);	
+					featureTem.push(new L.multiPolygon(llistaPoligons, geomStyle));
+					
+//					var coords=geom.geometry.coordinates;
+//					var llistaPoligons=[];
+//					for (var p = 0; p < coords.length; p++){
+//						var poligonCoord=coords[p];
+//						var llistaPunts=[];
+//						var myPolygon = new L.polygon(llistaPunts,geomStyle);
+//						for (var i = 0; i < poligonCoord.length; i++){
+//							var pol=poligonCoord[i];
+//							for (var j = 0; j < pol.length; j++){
+//								
+//								var c = pol[j];
+//								var punt=new L.LatLng(c[0], c[1]);
+//								myPolygon.addLatLng(punt);
+//							}
+//						}
+//						//llistaPoligons.push(myPolygon);
+//						featureTem.push(myPolygon);
+//					}
+//					//featureTem.push(llistaPoligons, geomStyle);
+//				//polygon
 				}else if (geomTypeVis === t_polygon){
 					var coords=geom.geometry.coordinates;
 					var llistaLines=[];
@@ -1508,7 +1686,12 @@ function readVisualitzacio(defer, visualitzacio, layer){
 							createPopupWindowVisor(feat,geomTypeVis);
 						}								
 					}else{
-						createPopupWindowData(feat,geomTypeVis);
+						if($(location).attr('href').indexOf('mapa')!=-1 && capaVisualitzacio.options.tipusRang == tem_origen){
+							createPopupWindowData(feat,geomTypeVis, true);
+						}else{
+							createPopupWindowData(feat,geomTypeVis, false);
+						}
+						
 					}
 					map.closePopup();					
 				});

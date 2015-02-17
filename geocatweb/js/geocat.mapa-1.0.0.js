@@ -218,7 +218,6 @@ function loadApp(){
 								});	
 								canviaIdioma(web_determinaIdioma());
 								document.title = "InstaMaps: "+mapConfig.nomAplicacio;
-								
 							});
 						});
 						//}
@@ -331,6 +330,9 @@ function addControlsInici(){
 		collapsed : false,
 		id : 'div_capes'
 	}).addTo(map);
+	
+	
+	
 
 	map.on('addItemFinish',function(){
 		$(".layers-list").mCustomScrollbar("destroy");		

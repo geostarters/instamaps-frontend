@@ -272,7 +272,7 @@ function addGeometryInitP(canvas){
 	cv_ctx_p.lineTo(2.06,33.67);
 	cv_ctx_p.closePath();
 	cv_ctx_p.strokeStyle=canvas_pol.strokeStyle;
-	
+//	console.debug(canvas_pol);
 	if(canvas_pol.fillStyle.indexOf("rgb")!= -1) cv_ctx_p.fillStyle = canvas_pol.fillStyle;
 	else cv_ctx_p.fillStyle=hexToRgba(canvas_pol.fillStyle,canvas_pol.opacity );
 	
@@ -367,7 +367,8 @@ function activaEdicioUsuari() {
 			if(crt_Editing){
 				crt_Editing.disable();
 			}
-			updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id);			
+			updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id, objEdicio.capaEdicioLeafletId);
+//			updateFeatureMove(objEdicio.featureID, objEdicio.capaEdicioLeafletId);		
 		}
 	});
 	
@@ -419,7 +420,8 @@ function activaEdicioUsuari() {
 					businessId : '-1',
 					nom : nomDefecteCapa+' '+ index,
 					zIndex :  -1,
-					tipus : t_tematic,
+//					tipus : t_tematic,
+					tipus : t_visualitzacio,
 					geometryType: t_marker
 				};				
 				map.addLayer(capaUsrActiva);
@@ -432,7 +434,8 @@ function activaEdicioUsuari() {
 					businessId : '-1',
 					nom : nomDefecteCapa+' '+index,
 					zIndex :  -1,
-					tipus : t_tematic,
+//					tipus : t_tematic,
+					tipus : t_visualitzacio,
 					geometryType: t_marker
 				};
 				map.addLayer(capaUsrActiva);
@@ -465,7 +468,8 @@ function activaEdicioUsuari() {
 					businessId : '-1',
 					nom : nomDefecteCapa+' '+index,
 					zIndex :  -1,
-					tipus : t_tematic,
+//					tipus : t_tematic,
+					tipus : t_visualitzacio,
 					geometryType: t_polyline
 
 				};
@@ -478,7 +482,8 @@ function activaEdicioUsuari() {
 					businessId : '-1',
 					nom : nomDefecteCapa+' '+index,
 					zIndex :  -1,
-					tipus : t_tematic,
+//					tipus : t_tematic,
+					tipus : t_visualitzacio,
 					geometryType: t_polyline
 				};
 				map.addLayer(capaUsrActiva);
@@ -514,7 +519,8 @@ function activaEdicioUsuari() {
 					businessId : '-1',
 					nom : nomDefecteCapa+' '+index,
 					zIndex :  -1,
-					tipus : t_tematic,
+//					tipus : t_tematic,
+					tipus : t_visualitzacio,
 					geometryType: t_polygon
 				};
 				map.addLayer(capaUsrActiva);				
@@ -526,7 +532,8 @@ function activaEdicioUsuari() {
 					businessId : '-1',
 					nom : nomDefecteCapa+' '+index,
 					zIndex :  -1,
-					tipus : t_tematic,
+//					tipus : t_tematic,
+					tipus : t_visualitzacio,
 					geometryType: t_polygon
 				};
 				map.addLayer(capaUsrActiva);
@@ -553,7 +560,7 @@ function activaEdicioUsuari() {
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
 function createPopupWindow(layer,type){
-	//console.debug('createPopupWindow');
+	console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
 	layer.bindPopup(html,{'offset':[0,-25]});
 	
@@ -731,6 +738,8 @@ function createPopupWindow(layer,type){
 			var obj = map._layers[accio[1]];
 			if(obj.options.icon /*|| obj.options.icon.options.markerColor.indexOf("punt_r")!=-1*/){
 				var icon = obj.options.icon.options;	
+			}else if(obj._options){
+				var icon = obj._options;
 			}else{
 				var icon = obj.options;
 			}
@@ -803,7 +812,8 @@ function createPopupWindow(layer,type){
 			modeEditText();
 		}else if(accio[0].indexOf("feature_move")!=-1){
 			objEdicio.esticEnEdicio=true;
-			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;						
+			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
+			objEdicio.capaEdicioLeafletId = capaLeafletId;
 			//Actualitzem capa activa
 			if (capaUsrActiva){
 				capaUsrActiva.removeEventListener('layeradd');
@@ -1321,7 +1331,7 @@ function updateFeatureNameDescr(layer, titol, descr){
 	}
 }
 
-function updateFeatureMove(featureID, capaEdicioID){
+function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 	
     if(nou_model){
     	
@@ -1367,7 +1377,34 @@ function updateFeatureMove(featureID, capaEdicioID){
         updateGeometria(data).then(function(results){
     	    if(results.status == 'OK'){
     	    	jQuery('.popup_pres').show();
-    	    	//jQuery('.popup_edit').hide();            
+
+    	    	//Actualitzem visualitzacions de la capa on estava la geometria modificada
+    	    	var capaEdicio = controlCapes._layers[capaEdicioLeafletId];
+	            jQuery.each(capaEdicio._layers, function(i, sublayer){
+					if(jQuery.type(sublayer.layer.options)== "string"){
+						sublayer.layer.options = $.parseJSON(sublayer.layer.options);
+					}	            	  
+					//Sublayer visualitzacio, carrego la capa
+					if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
+	            		  
+	            		  sublayer.layer.serverName = sublayer.layer.options.nom;
+	            		  sublayer.layer.serverType = sublayer.layer.options.tipus;
+	            		  sublayer.layer.capesActiva = "true";
+	            		  sublayer.layer.options.origen = layer.properties.capaBusinessId;//BusinessIdCapaorigen
+	            		  //tipusRang
+	            		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
+	            		  sublayer.layer.options = JSON.stringify(sublayer.layer.options);
+	            		  loadVisualitzacioLayer(sublayer.layer).then(function(results){
+	            			console.debug("LoadVisualitzacio despres de update Geometria"); 
+							map.closePopup();
+							map.removeLayer(sublayer.layer);
+							//Eliminem la capa de controlCapes
+							controlCapes.removeLayer(sublayer);
+	            		  });
+	            	  }
+	            	  
+	              });
+    	    	
     	    }else{
     	        console.debug("updateFeature ERROR");
     	    }
@@ -1485,12 +1522,13 @@ function createPopUpContent(player,type){
 	+'</ul>'	
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
-	+'<ul class="bs-popup">'						
-	+'<li><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
-	+'<li><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
-	+'<li><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
-	+'</ul>'														
+		+'<ul class="bs-popup">'						
+			+'<li><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
+			+'<li><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
+			+'<li><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
+		+'</ul>'														
 	+'</div>'
+	
 	+'</div>'	
 	+'<div class="popup_edit">'
 	+'<div style="display:block" id="feature_txt">'

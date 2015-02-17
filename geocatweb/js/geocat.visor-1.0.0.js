@@ -691,6 +691,10 @@ function loadLayer(value){
 			defer.resolve();
 		});
 		
+	}else if(value.serverType == t_visualitzacio){
+		loadVisualitzacioLayer(value).then(function(){
+			defer.resolve();
+		});		
 	}else if(value.serverType == t_heatmap){
 		loadHeatLayer(value);
 		defer.resolve();
