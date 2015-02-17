@@ -567,6 +567,7 @@ function createTematicLayerCategories(event){
 			if(results.status == 'OK'){
 				var defer = $.Deferred();
 				readVisualitzacio(defer, results.visualitzacio, results.layer);
+				jQuery('#dialog_tematic_rangs').modal('hide');
 				activaPanelCapes(true);
 			}else{
 				//TODO error
@@ -578,7 +579,7 @@ function createTematicLayerCategories(event){
 		});	
 		event.preventDefault();
 		event.stopImmediatePropagation();
-		jQuery('#dialog_tematic_rangs').modal('hide');
+		
 		
 	}else{
 

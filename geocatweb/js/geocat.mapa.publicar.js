@@ -300,28 +300,28 @@ function createModalConfigDownload(){
 	
 	$('#dialgo_publicar .modal-body .modal-downloadable').html(html);	
 	
-//	$('#div_downloadable input').iCheck({
-//	    checkboxClass: 'icheckbox_flat-blue',
-//	    radioClass: 'iradio_flat-blue'
-//	});	
-//	
-//	$('.downloadable-subrow-all input').on('ifChecked', function(event){
-//		  //alert(event.type + ' callback');
-//		  $('.downloadable-subrow input').iCheck('check');
-//	});
-//	
-//	$('.downloadable-subrow-all input').on('ifUnchecked', function(event){
-////		  alert(event.type + ' callback');
-//		  $('.downloadable-subrow input').iCheck('uncheck');
-//	});	
-	
-	$('#downloadable-chck-all').on('click', function(e){
-		 if($('#downloadable-chck-all').is(':checked')){
-			 $('.downloadable-chck').prop('checked', true);
-		 }else{
-			 $('.downloadable-chck').prop('checked', false);
-		 }
+	$('#div_downloadable input').iCheck({
+	    checkboxClass: 'icheckbox_flat-blue',
+	    radioClass: 'iradio_flat-blue'
 	});	
+	
+	$('.downloadable-subrow-all input').on('ifChecked', function(event){
+		  //alert(event.type + ' callback');
+		  $('.downloadable-subrow input').iCheck('check');
+	});
+	
+	$('.downloadable-subrow-all input').on('ifUnchecked', function(event){
+//		  alert(event.type + ' callback');
+		  $('.downloadable-subrow input').iCheck('uncheck');
+	});	
+	
+//	$('#downloadable-chck-all').on('click', function(e){
+//		 if($('#downloadable-chck-all').is(':checked')){
+//			 $('.downloadable-chck').prop('checked', true);
+//		 }else{
+//			 $('.downloadable-chck').prop('checked', false);
+//		 }
+//	});	
 }
 
 function updateDownloadableData(){
@@ -330,7 +330,8 @@ function updateDownloadableData(){
 	$(".downloadable-subrow").each(function(index,element){
 		var businessId = $(element).attr('data-businessId');
 		var obj = {
-				chck : $(element).children( ".downloadable-chck").is(':checked'),
+				//chck : $(element).children( ".downloadable-chck").is(':checked'),
+				chck : $(element).children( "div.icheckbox_flat-blue").hasClass('checked'),
 				businessId : businessId,
 		};
 		if(!downloadableData[businessId]){

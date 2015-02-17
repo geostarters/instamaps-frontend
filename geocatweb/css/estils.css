@@ -377,6 +377,10 @@
     width: 300px;
 }
 
+.popup_data_img_iframe {
+  width: 300px;
+}
+
 .popup_pres {
 	display: block;
 }

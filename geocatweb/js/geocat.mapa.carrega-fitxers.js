@@ -35,6 +35,9 @@ var drOpcionsMapa = {
 	method : 'post',
 	// clickable:false,
 	accept : function(file, done) {
+		console.debug("File:");
+		console.debug(file);
+		console.debug(file.fullPath);		
 	}
 };
 
@@ -464,7 +467,7 @@ function accionaCarrega(file,isDrag) {
 			jQuery('#dv_optCapa').hide();
 			jQuery('#dv_optSRS').show();
 			obroModal = true;
-		} else {
+		}else{
 			envioArxiu.tipusAcc='gdal'; 
 			enviarArxiu();
 			obroModal = false;
@@ -814,27 +817,29 @@ function addDropFileToMap(results) {
 		if(nou_model){
 			
 			//Si geometries tipus marker
-			if(results.visualitzacioMarker){
+			if(results.layerMarker){
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker).then(function(results1){
+				loadVisualitzacioLayer(results.layerMarker).then(function(results1){
 					if(results1){
 						map.fitBounds(results1.getBounds());
 					}
 				});
 			}					
 			//Si geometries tipus línies
-			if(results.visualitzacioLine){
+			if(results.layerLine){
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
+//				readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
+				loadVisualitzacioLayer(results.layerLine).then(function(results1){
 					if(results1){
 						map.fitBounds(results1.getBounds());
 					}
 				});
 			}
 			//Si geometries tipus polygon
-			if(results.visualitzacioPolygon){
+			if(results.layerPolygon){
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
+//				readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
+				loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
 					if(results1){
 						map.fitBounds(results1.getBounds());
 					}
@@ -843,7 +848,7 @@ function addDropFileToMap(results) {
 			// carregarCapa(businessId);
 			refrescaPopOverMevasDades();
 			//jQuery('#dialog_carrega_dadesfields').modal('hide');
-			map.spin(false);			
+			map.spin(false);				
 			
 		}else{
 			// console.debug(results.results);
@@ -917,8 +922,8 @@ function addDropFileToMap(results) {
 
 function loadDefaultStyles(){
 	envioArxiu.markerStyle = JSON.stringify(getMarkerRangFromStyle(defaultPunt));
-	envioArxiu.lineStyle = JSON.stringify(getLineRangFromStyle(defaultPunt));
-	envioArxiu.polygonStyle = JSON.stringify(getPolygonRangFromStyle(defaultPunt));
+	envioArxiu.lineStyle = JSON.stringify(getLineRangFromStyle(canvas_linia));
+	envioArxiu.polygonStyle = JSON.stringify(getPolygonRangFromStyle(canvas_pol));
 }
 
 function addHtmlModalCarregarFitxers(){
