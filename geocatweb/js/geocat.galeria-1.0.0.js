@@ -61,11 +61,11 @@ $(function(){
 			var userList = new List('galeriaSort', optionsSearch);	
 			
 			
-				escriuResultats(userList.visibleItems.length);
+				escriuResultats(userList.visibleItems.length-1);
 			
 			$('input.search.form-control').on('keyup', function(event){
 		
-				escriuResultats(userList.visibleItems.length);
+				escriuResultats(userList.visibleItems.length-1);
 			});
 			
 			
