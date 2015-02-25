@@ -104,8 +104,6 @@ $(function(){
 						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
 						//_kmq.push(['record', 'esborrar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 						updateResultats();
-
-
 					}
 				});
 			});
@@ -114,8 +112,6 @@ $(function(){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
-				
-
 				//_kmq.push(['record', 'editar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				var urlMap = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
 				if ($this.data("colaboracio")) {
@@ -126,15 +122,9 @@ $(function(){
 				
 				//alert(urlMap);
 				window.location.href = urlMap;
-
-
-
-
-
 			});
 			
 			$('.btn.btn-success').on('click', function(event){
-				
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
@@ -206,18 +196,11 @@ $(function(){
 					});
 					
 					$('#businessIdConvidar').val($this.data("businessid"));
-
-
-
 				}
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'preconvidar']);
 				//_kmq.push(['record', 'veure mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 				//window.location.href = urlMap;
-
-
 			});
-			
-			
 			
 			$('.btn.btn-primary').on('click', function(event){
 				event.preventDefault();
@@ -236,6 +219,20 @@ $(function(){
 				$('#dialgo_url_iframe').modal('show');
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'enllaça mapa', 'referral', 1]);
 				//_kmq.push(['record', 'enllaça mapa', {'from':'galeria privada','funnel':'referral', 'tipus user':t_user_loginat}]);
+			});
+			
+			$('.caption.descAplicacio').on('click', function(event){
+				event.preventDefault();
+				event.stopPropagation();
+				var $this = $(this);
+				var appbusinessid = appbusinessid = $this.parent().data("businessid");
+				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
+				if ($.trim($this.data("idusr")) != ""){
+					urlMap += "&id="+$this.data("idusr");
+				}
+				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
+				//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
+				window.open(urlMap);
 			});
 			
 			$('.btn-tooltip').tooltip().each(function(){
@@ -382,9 +379,6 @@ $(function(){
 			var html = templatePublic(results);
 			$('#galeriaRow').append(html);
 			
-
-
-
 			//Search function
 			var optionsSearch = {
 					valueNames: [ 'nomAplicacioSort' ],
@@ -393,9 +387,6 @@ $(function(){
 			
 			var	userList = new List('galeriaSort', optionsSearch);				
 			
-
-
-
 			escriuResultats(userList.visibleItems.length);
 			
 			$('input.search.form-control').on('keyup', function(event){
@@ -407,11 +398,15 @@ $(function(){
 			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
 			$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));			
 			
-			$('.btn.btn-success').on('click', function(event){
+			$('.btn.btn-success, .caption.descAplicacio').on('click', function(event){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
-				var urlMap = paramUrl.visorPage+"?businessid="+$this.data("businessid");
+				var appbusinessid = $this.data("businessid");
+				if (!appbusinessid){
+					appbusinessid = $this.parent().data("businessid");
+				}
+				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
 				}
