@@ -7,9 +7,10 @@ function loadGaleria(params){
 	}).promise();
 }
 
-function loadPublicGaleria(){
+function loadPublicGaleria(params){
 	return jQuery.ajax({
 		url: paramUrl.getAllPublicsMaps,
+		data: params,
   		dataType: 'jsonp'
 	}).promise();
 }
@@ -790,6 +791,15 @@ function deleteConvidatByBusinessId(params){
 function deleteUser(params){
 	return jQuery.ajax({
 		url: paramUrl.deleteUser,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateRankAplicacio(params){
+	return jQuery.ajax({
+		url: paramUrl.updateRankAplicacio,
   		data: params,
   		method: 'post',
   		dataType: 'jsonp'

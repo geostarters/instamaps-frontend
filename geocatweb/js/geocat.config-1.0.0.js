@@ -150,7 +150,8 @@ var paramUrl = {
 	createVisualitzacioSimple: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioSimple.action?",
 	createVisualitzacioTematica: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
 	createVisualitzacioHeatCluster: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioHeatCluster.action?",
-	getGeometriesColleccioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getGeometriesColleccioByBusinessId.action?"
+	getGeometriesColleccioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getGeometriesColleccioByBusinessId.action?",
+	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

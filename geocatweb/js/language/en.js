@@ -269,6 +269,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Opcional: en blanc s'assignarà un nom automàtic":"Optional: empty will assign an automatic name",
 	"Opcionals":"Optionals",
 	"Ordena per nom":"Sort by name",
+	"Ordena per usuari":"Sort by user",
 	"Ortofotos històriques":"Historical orthophotos",
 	"Orquídea":"Orchid",
 	"Parcs eòlics":"Wind farms",

@@ -271,6 +271,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Opcional: en blanc s'assignarà un nom automàtic":"Opcional: en blanco se asignará un nombre automático",
 	"Opcionals":"Opcionales",
 	"Ordena per nom":"Ordena por nombre",
+	"Ordena per usuari":"Ordena por usuari",
 	"Ortofotos històriques":"Ortofotos históricas",
 	"Orquídea":"Orchid",
 	"Parcs eòlics":"Parques eólicos",

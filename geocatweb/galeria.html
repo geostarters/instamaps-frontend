@@ -98,29 +98,33 @@
 
 
 		<div id="galeriaRow" class="row">
+	
+			<div id="galeriaSort">
+				<div class="input-group">
+				   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+				   <input class="search form-control" lang="ca" placeholder="Cerca" />
+				   <span class="input-group-addon">
+						<span lang="ca">Mapes diponibles:</span>
+						<span class="sp_rs_maps"></span>  
+					</span>
+					<span><a href="/instamapsrss/georss.cgi" rel="alternate" style="margin-left:5px"  type="application/rss+xml" target="_blank" title="GeoRSS Instamaps" id="geoRss">
+						<img width="26px" src="/llibreries/img/georss.png">
+						</a>
+					</span>	
+				</div>
+				<button class="sort" data-sort="nomAplicacioSort" lang="ca">Ordena per nom</button>
+				<button class="sort" data-sort="byuser" lang="ca">Ordena per usuari</button>
+				<button class="sort" data-sort="dataPublicacio" lang="ca">Ordena per data</button>
+				<button class="sort cleansort" lang="ca">Neteja orden</button>
+			</div>
 		
 			<script id="galeriaPublic-template" type="text/x-handlebars-template">
-
-			<div id="galeriaSort">
-			  <div class="input-group">
-			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
-			   <input class="search form-control" lang="ca" placeholder="Cerca" />
-			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
-				<span class="input-group-addon">
-					<span lang="ca">Mapes diponibles:</span>
-					<span class="sp_rs_maps"></span>  
-				</span>
-			<span><a href="/instamapsrss/georss.cgi" rel="alternate" style="margin-left:5px"  type="application/rss+xml" target="_blank" title="GeoRSS Instamaps" id="geoRss">
-				<img width="26px" src="/llibreries/img/georss.png">
-				</a>
-			</span>	
-		</div>
-
-
 			<ul class="list">
 			{{#each results}}
 			 <li>
 				<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
+				<p class="dataPublicacio hidden">{{dataPublicacio}}</div>
+				<p class="rankSort hidden">{{rank}}</div>
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
 					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 						{{#if thumbnail}}
@@ -147,6 +151,7 @@
 							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
 							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 						</div>
+						<div class="data text-right">{{data}}</div>
 					</div>
 				</div>
 			 </li>
@@ -156,16 +161,6 @@
 			</script>
 			
 			<script id="galeria-template" type="text/x-handlebars-template">			
-			<div id="galeriaSort">
-			  <div class="input-group">
-			   <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
-			   <input class="search form-control" lang="ca" placeholder="Cerca" />
-			   <!--button class="sort" data-sort="nomAplicacioSort">Sort by name</button-->	
-			  	<span class="input-group-addon">
-					<span lang="ca">Mapes diponibles:</span>
-					<span class="sp_rs_maps"></span>
-				<span>			  
-			  </div>
 			<ul class="list">
 			<li><p class="nomAplicacioSort hidden"></p>
 			<div class="col-sm-6 col-md-3">	
@@ -231,7 +226,50 @@
 			</li>
 			{{/each}}
 			</ul>
-			</div>
+			</script>
+			
+			<script id="galeriaAdmin-template" type="text/x-handlebars-template">
+			<ul class="list">
+			{{#each results}}
+			 <li>
+				<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
+				<p class="dataPublicacio hidden">{{dataPublicacio}}</div>
+				<p class="rankSort hidden">{{rank}}</div>
+				<div id="{{businessId}}" class="col-sm-6 col-md-3">
+					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
+						{{#if thumbnail}}
+							<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
+						{{else}}
+							<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
+						{{/if}}
+						<div class="caption text-center nomAplicacio">
+							<h4><a target="_blank" href="http://www.instamaps.cat/geocatweb/visor.html?businessid={{businessId}}">{{nomAplicacio}}</a></h4>
+						</div>
+						<div class="caption text-center descAplicacio">
+							{{#if options.description}}
+								<span class="starwarsmain">
+								<span class="starwarsbody">
+								{{options.description}}
+								</span>
+								</span>
+							{{else}}
+								<span lang="ca">Sense descripció</span>
+							{{/if}}
+						</div>
+						<div class="byuser text-center">{{entitatUid}}</div>
+						<div class="caption text-center btn-acctions">
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" data-rank="{{rank}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Rank" title="Rank" lang="ca"><span class="glyphicon glyphicon-star"></span></button>
+						</div>
+						<div class="data text-right">{{data}}</div>
+						<div class="rank text-right">{{rank}}</div>
+					</div>
+				</div>
+			 </li>
+			
+			{{/each}}
+			</ul>
 			</script>
 			
 		</div>
@@ -336,6 +374,32 @@
 	</div>
 	<!-- /.modal -->
 	<!-- Fi Modal Url/iframe -->
+	
+	<!-- Modal rank -->
+	<div id="dialgo_rank" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Rank el mapa</h4>
+				</div>
+				<div class="modal-body">
+					<h4><span lang="ca">Rank el mapa</span> <input type="text" class="rank_mapa" value=""></h4>
+				</div>
+				<div class="modal-footer">
+					<button lang="ca" type="button" class="btn btn-default"
+						data-dismiss="modal">Cancel·lar</button>
+					<button lang="ca" type="button" class="btn btn-primary"
+						data-dismiss="modal">Acceptar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- Fi Modal delete -->
 	
 	<footer>
 		<div class="container text-center footer-instamaps">
