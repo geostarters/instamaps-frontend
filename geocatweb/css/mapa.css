@@ -3618,6 +3618,10 @@ i.fa {
 	margin-bottom: 15px;		
 }
 
+.legend-row.ui-sortable-handle{
+	cursor:ns-resize;
+}
+
 .legend-subrow,
 .legend-subrow-all{
 	/*border-bottom: 1px solid #E5E5E5;*/

@@ -70,25 +70,30 @@ function createModalConfigLegend(){
 					window.lang.convert('Tots')+
 				'</div>'+
 			'</div>';
-	html += '<div class="separate-legend-row-all"></div>';
 	var count = 0;
+	var layersHtml = {order:[], notorder:[]};
+	html += '<div class="sortable">';
 	jQuery.each(controlCapes._layers, function(i, item){
-		
 		controlLegendPoint = [];
 		controlLegendMarker = [];
 		controlLegendLine = [];
 		controlLegendPol = [];
-		
-		html += '<div class="legend-row" id="row-'+count+'">';
-		html += addLayerToLegend(item.layer, count);
+		layersHtml = addLayerToLegend(item.layer, count,layersHtml);
 		count++;
 		jQuery.each(item._layers, function(i, sublayer){
-			html += addLayerToLegend(sublayer.layer, count, sublayer.layerIdParent);
+			layersHtml = addLayerToLegend(sublayer.layer, count, layersHtml, sublayer.layerIdParent );
+			count++;
 		});
-		
-		html+='</div><div class="separate-legend-row"></div>';
-		//console.debug(html);
-	});	
+	});
+	
+	jQuery.each(layersHtml.order, function(i, item){
+		html += item;
+	});
+	jQuery.each(layersHtml.notorder, function(i, item){
+		html += item;
+	});
+	
+	html += '</div>';
 	$('#dialgo_publicar .modal-body .modal-legend').html(html);
 	$('#dialgo_publicar .modal-body .modal-legend').show();
 //	$('#dialog_llegenda').modal('show');
@@ -117,11 +122,15 @@ function createModalConfigLegend(){
 		  $('.legend-subrow input').iCheck('uncheck');
 	});	
 	
+	$('.sortable').sortable();
+	
 }
 
-function addLayerToLegend(layer, count, layerIdParent){
+function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	var html = "";
-
+	html += '<div class="legend-row">';
+	html+='<div class="separate-legend-row"></div>';
+		
 	//checked="checked", layer.options.nom
 	var layerName = layer.options.nom;
 	var checked = "";
@@ -927,7 +936,17 @@ function addLayerToLegend(layer, count, layerIdParent){
 			}
 		}
 	}
-	return html;
+	html+='</div>';
+	if(mapLegend[layer.options.businessId]){
+		if (mapLegend[layer.options.businessId][0].order >= 0){
+			layersHtml.order[mapLegend[layer.options.businessId][0].order] = html;
+		}else{
+			layersHtml.notorder.push(html);
+		}
+	}else{
+		layersHtml.notorder.push(html);
+	}
+	return layersHtml;
 }
 
 function checkLineStyle(obj){
@@ -988,7 +1007,6 @@ function checkMarkerStyle(obj){
 }
 
 function getRangsFromLayerLegend(layer){
-	
 	var styles = jQuery.map(layer.getLayers(), function(val, i){
 		//Si la layer es multipoligon ha d'agafa l'estil de les seves layers de dins
 		if(val.options.tipus && val.options.tipus.indexOf(t_multipolygon)!= -1){
@@ -1061,7 +1079,8 @@ function updateMapLegendData(){
 //				chck : $(element).children( ".legend-chck").is(':checked'),
 				chck : $(element).children(".icheckbox_flat-blue").hasClass("checked"),
 				symbol : $(element).children( ".legend-symbol").html(),
-				name : $(element).children( ".legend-name").children("input").val()					
+				name : $(element).children( ".legend-name").children("input").val(),
+				order: index
 		};
 		if(!mapLegend[businessId]){
 			mapLegend[businessId] = [];			
