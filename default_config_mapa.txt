@@ -16,6 +16,7 @@
 						"addCompartirMapa()"
 						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
 						,"addControlAltresFontsDades()"
+						,"addFuncioEditDataTable()"
 						],
     "required": ["id", "name", "price"]
 }

@@ -716,6 +716,7 @@ function createVisualitzacioTematica(data){
 	return jQuery.ajax({
 		url: paramUrl.createVisualitzacioTematica,
 		data: data,
+		method: 'post',
 		dataType: 'jsonp'
 	}).promise();
 }
@@ -736,6 +737,31 @@ function getGeometriesColleccioByBusinessId(data){
 	}).promise();
 }
 
+/*Data Table*/
+
+function getGeometriesPropertiesLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.getGeometriesPropertiesLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function removeGeometriaFromProperties(data){
+	return jQuery.ajax({
+		url: paramUrl.removeGeometriaFromProperties,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function updateGeometriaProperties(data){
+	return jQuery.ajax({
+		url: paramUrl.updateGeometriaProperties,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
 
 /* galeria.html */
 function updateMapVisibility(data){

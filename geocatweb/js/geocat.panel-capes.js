@@ -321,6 +321,12 @@ function addTooltipsConfOptions(businessId){
 		placement : 'bottom',
 		container : 'body',
 		title : window.lang.convert("descarrega")
+	});	
+	
+	$(".data-table-"+businessId+".leaflet-data-table").tooltip({
+		placement : 'bottom',
+		container : 'body',
+		title : window.lang.convert("dades")
 	});		
 }
 

@@ -57,6 +57,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if(!obj.sublayer){
 			delete this._layers[id];
 		}else{
+			console.debug("this delete:");
+			console.debug(this._layers);
 			delete this._layers[obj.layerIdParent]._layers[id];
 		}
 
@@ -251,6 +253,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 ////				row_conf.appendChild(row2);
 //				col.appendChild(row2);
 				
+				//Data Table: Si es capa origen i prove de fitxer (te source)
+				if(obj.layer.options.source){
+					col = L.DomUtil.create('div', 'data-table-'+obj.layer.options.businessId+' leaflet-data-table glyphicon glyphicon-list-alt');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+					row.appendChild(col);					
+				}		
+				
 				//Tipus WMS no admet decarrega
 				if(obj.layer.options.tipus.indexOf(t_wms) == -1){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save subopcio-conf');
@@ -275,6 +285,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				row.appendChild(col);				
 				
 			}else{
+				
+				//Visualitzem taula de dades pero sense mode edicio
+				//Data Table: Si es capa origen i prove de fitxer (te source)
+				if(obj.layer.options.source){
+					col = L.DomUtil.create('div', 'data-table-'+obj.layer.options.businessId+' leaflet-data-table glyphicon glyphicon-list-alt');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+					row.appendChild(col);					
+				}				
+				
 				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
 				if(obj.layer.options.tipus.indexOf(t_wms) == -1 && !jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId][0].chck){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
@@ -561,7 +581,24 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			return;
 		}
 	},
+	_onOpenDataTable: function(e) {
+		
+		console.debug("_onOpenDataTable");
+		$('.tooltip').hide();
+		
+		$('#modal_data_table').modal('show');
+		
+		var layerId = e.currentTarget.layerId;
+		var obj = this._layers[layerId];
+		download_layer = obj;		
+//		console.debug(obj);
+		
+		fillModalDataTable(obj);
+	},	
 	_onDownloadClick: function(e) {
+		
+		console.debug("_onDownloadClick");
+		
 		$('.tooltip').hide();
 		var layerId = e.currentTarget.layerId;
 		var obj = this._layers[layerId];
@@ -614,3 +651,6 @@ function updateCheckStyle(){
 	});		
 }
 
+function thisFillModalDataTable(obj){
+	fillModalDataTable(obj);
+}

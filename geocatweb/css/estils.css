@@ -439,7 +439,8 @@ textarea {
 	padding-bottom: 1px;
 	padding-right: 0px;
 	width: 100%;
-	display: block;
+	/*display: block;*/
+	display: inline;
 }
 
 .bs-popup li {
@@ -449,10 +450,11 @@ textarea {
 	font-size: 14px;
 	height: 25px;
 	line-height: 0.8;
-	margin: 0 5px -1px 0;
+	/*margin: 0 5px -1px 0;*/
+	margin: 0;
 	padding-left: 0;
-	text-align: left;
-	width: 29%;
+	text-align: center;
+    width: 25%;
 }
 
 .bs-ncapa {
@@ -483,6 +485,11 @@ textarea {
 	font-size: 13px;
 }
 
+.bs-popup li a:hover {
+	text-decoration: none;
+	font-weight: bold;
+}
+
 .bs-popup li a button {
 	color: #464646 !important;
 	font-size: 13px;
@@ -505,24 +512,28 @@ textarea {
 	color: #55821D;
 	cursor: pointer;
 	font-size: 18px;
+	margin-left: 1px;
 }
 
 .blau,.blau a,.blau span {
 	color: #065299;
 	cursor: pointer;
 	font-size: 17px;
+	margin-left: 1px;
 }
 
 .magenta,.magenta a,.magenta span {
 	color: #990699;
 	cursor: pointer;
 	font-size: 17px;
+	margin-left: 1px;
 }
 
 .vermell,.vermell a,.vermell span {
 	color: #990632;
 	cursor: pointer;
 	font-size: 17px;
+	margin-left: 1px;
 }
 
 .blau12 {
