@@ -438,6 +438,7 @@ textarea {
 	padding-right: 0px;
 	width: 100%;
 	display: block;
+	padding-left: 0;
 }
 
 .bs-popup li {
@@ -447,10 +448,10 @@ textarea {
 	font-size: 14px;
 	height: 25px;
 	line-height: 0.8;
-	margin: 0 5px -1px 0;
-	padding-left: 0;
-	text-align: left;
-	width: 29%;
+	margin: 0;
+	padding: 5px;
+	text-align: center;
+    width: 100%;	
 }
 
 .bs-ncapa {
@@ -481,6 +482,11 @@ textarea {
 	font-size: 13px;
 }
 
+.bs-popup li a:hover {
+	text-decoration: none;
+	font-weight: bold;
+}
+
 .bs-popup li a button {
 	color: #464646 !important;
 	font-size: 13px;
@@ -509,6 +515,7 @@ textarea {
 	color: #065299;
 	cursor: pointer;
 	font-size: 17px;
+	margin-right: 5px;
 }
 
 .magenta,.magenta a,.magenta span {

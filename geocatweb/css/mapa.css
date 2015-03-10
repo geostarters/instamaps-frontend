@@ -1625,7 +1625,8 @@ i.fa {
 
 .popup_data_key {
     float: left;
-    min-width: 30%;
+    /*min-width: 30%;*/
+    width: 40%;
     background-color: #EEEEEE;
     font-weight: bold;
     line-height: 1.8;
@@ -1635,7 +1636,7 @@ i.fa {
 .popup_data_value {
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 70%;
+    width: 60%;
     line-height: 1.8;
     padding-left: 8px;
 }
@@ -1645,6 +1646,7 @@ i.fa {
 	margin: 2px;
 	padding: 0px;
 	text-align: center;
+	display: flex;
 }
 
 .popup-data-img{
@@ -1653,10 +1655,11 @@ i.fa {
     padding-top: 2px;
 }
 
+/*
 .popup_data_value {
 	max-width: 100%;
 	overflow: hidden;	
-}
+}*/
 
 .popup_data_img_iframe img{
 	margin-top: 5px;
@@ -3788,9 +3791,10 @@ i.fa {
 }
 
 #mida_pres {
-    background-color: #EEEEEE;
+    background-color: #eeeeee;
+    margin: 15px;
     padding: 5px;
-    margin-bottom: 15px;
+    text-align: center;
 }
 
 .panel-dadesExternes > .panel-heading {
@@ -3895,4 +3899,45 @@ i.fa {
 	cursor: pointer;
 	font-size: 17px;
 	font-weight: bold;
+}
+
+/*Modal data table*/
+#layer-data-table > thead > tr
+/*,
+#modal_data_table_body .bootstrap-table .table.table-hover.table-striped thead tr */{
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;	
+}
+
+.fixed-table-container thead th .th-inner {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;	
+}
+
+#modal_data_table_title {
+    font-size: 18px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.bootstrap-table .search input {
+    font-size: 14px;
+    height: 34px;
+    border-radius: 4px;
+}
+.data-table-icon-remove {
+    color: #A94442;
+    font-size: 14px;
+    padding: 4px;
+}
+.data-table-icon-zoom {
+    font-size: 14px;
+    padding: 4px;
+}
+#layer-data-table th, #layer-data-table td {width: 100%;}
+
+.mCustomScrollBox > .mCSB_scrollTools {
+    width: 5px;
 }

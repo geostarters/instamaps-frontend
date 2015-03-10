@@ -366,6 +366,28 @@ function randomColor(){
 	return '#'+Math.floor(Math.random()*16777215).toString(16);
 }
 
+//Comptador mida dun objecte
+$.extend({
+    keyCount : function(o) {
+        if(typeof o == "object") {
+            var i, count = 0;
+            for(i in o) {
+                if(o.hasOwnProperty(i)) {
+                    count++;
+                }
+            }
+            return count;
+        } else {
+            return false;
+        }
+    }
+});
+
+//jQuery.fn.myScrollTo = function(elem) { 
+//    $(this).scrollTop($(this).scrollTop() - $(this).offset().top + $(elem).offset().top); 
+//    return this; 
+//};
+
 function htmlentities(string, quote_style, charset, double_encode) {
 	  //  discuss at: http://phpjs.org/functions/htmlentities/
 	  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)

@@ -14,6 +14,8 @@ jQuery(document).ready(function() {
 		}
 	//});
 	
+		addFuncioEditDataTable();
+		
 }); // Final document ready
 
 function loadApp(){
@@ -114,7 +116,7 @@ function loadApp(){
 			loadMapConfig(mapConfig).then(function(){
 				//avisDesarMapa();
 				addFuncioDownloadLayer('visor');
-				activaPanelCapes(true);
+//				activaPanelCapes(true);
 				//Actulitza idioma dels tooltips
 				$("body").on("change-lang", function(event, lang){
 					window.lang.change(lang);

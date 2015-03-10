@@ -116,6 +116,15 @@
     cursor: pointer;
     display: none;
 }
+.leaflet-control-layers .leaflet-row .leaflet-data-table {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
 .leaflet-control-layers .leaflet-row .leaflet-download-visor {
 	float: right;	
 	background-repeat: no-repeat;
@@ -141,6 +150,7 @@
 .leaflet-control-layers .leaflet-row .leaflet-down:hover,
 .leaflet-control-layers .leaflet-row .leaflet-remove:hover,
 .leaflet-control-layers .leaflet-row .leaflet-download:hover,
+.leaflet-control-layers .leaflet-row .leaflet-data-table:hover,
 .leaflet-control-layers .leaflet-row .leaflet-download-visor:hover{
 	opacity: 1;
 }
