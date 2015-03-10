@@ -70,6 +70,7 @@
 #pobre{ background: rgba(59, 27, 0,1);}
 #regular{ background: rgba(187, 105, 16,1);}
 #adequat{ background: rgba(255, 176, 2,1);}
+#adequat_ts{ background: rgba(187, 105, 17,1);}
 #optim{ background: rgba(255, 255, 0,1);}
 
 td label{margin-left: 5px;}
