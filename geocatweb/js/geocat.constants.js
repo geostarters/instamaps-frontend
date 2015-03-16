@@ -152,7 +152,7 @@ var CAPTURA_INFORME = "captura_informe";
 var CAPTURA_FONS = "captura_fons";
 var CAPTURA_GEOPDF = "captura_geopdf";
 
-//VAR per no model de dades
+//VAR per nou model de dades
 var nou_model = true;
 
 //Llistat exemples de dades externes

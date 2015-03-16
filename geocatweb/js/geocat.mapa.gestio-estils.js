@@ -29,12 +29,8 @@ function addDialegEstilsTematics(){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			//Actuslitzes la visualitzacio de la geometria amb el nou estil
 			canviaStyleSinglePoint(cvStyle,feature,capaMare,true);
-			if(nou_model){
-				var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
-				updateGeometriaEstil(feature, nouEstil[0]);
-			}else{
-				getRangsFromLayer(capaMare);				
-			}
+			var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
+			updateGeometriaEstil(feature, nouEstil[0]);
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			var cvStyle=changeDefaultPointStyle(estilP);
 			createTematicLayerBasic(objEdicio.obroModalFrom, cvStyle);
@@ -59,12 +55,8 @@ function addDialegEstilsTematics(){
 			//Actuslitzes la visualitzacio de la geometria amb el nou estil
 			map._layers[objEdicio.featureID].setStyle(cvStyle);
 			
-			if(nou_model){
-				var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
-				updateGeometriaEstil(feature, nouEstil[0]);
-			}else{
-				getRangsFromLayer(capaMare);				
-			}			
+			var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
+			updateGeometriaEstil(feature, nouEstil[0]);
 			
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
@@ -86,12 +78,8 @@ function addDialegEstilsTematics(){
 			var capaMare=map._layers[feature.properties.capaLeafletId];
 			var cvStyle = changeDefaultAreaStyle(canvas_pol);
 			map._layers[objEdicio.featureID].setStyle(cvStyle);
-			if(nou_model){
-				var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
-				updateGeometriaEstil(feature, nouEstil[0]);
-			}else{
-				getRangsFromLayer(capaMare);				
-			}
+			var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
+			updateGeometriaEstil(feature, nouEstil[0]);
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
 		}else if (objEdicio.obroModalFrom.from==tem_clasic){
