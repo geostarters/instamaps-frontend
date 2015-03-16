@@ -74,6 +74,8 @@ function creaAreesDragDropFiles() {
 			formData.append("ext", envioArxiu.ext);
 			formData.append("uid", $.cookie('uid'));
 			formData.append("mapBusinessId", url('?businessid'));
+			var file = file.name.split(".");
+			formData.append("serverName", file[0]);
 			formData.append("markerStyle", envioArxiu.markerStyle);	
 			formData.append("lineStyle", envioArxiu.lineStyle);	
 			formData.append("polygonStyle", envioArxiu.polygonStyle);			
@@ -197,6 +199,8 @@ function addFuncioCarregaFitxers(){
 				formData.append("polygonStyle", envioArxiu.polygonStyle);	
 				formData.append("uid", $.cookie('uid'));
 				formData.append("mapBusinessId", url('?businessid'));
+				var file = file.name.split(".");
+				formData.append("serverName", file[0]);
 				formData.append("uploadFile", paramUrl.uploadFile);
 														
 			});

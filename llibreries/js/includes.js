@@ -28,7 +28,11 @@ L.LayerGroup.include({
            }
          }
          if(jQuery.isEmptyObject(json.styles)){
-        	 json.styles=layer.options;
+        	 if(!jQuery.isEmptyObject(layer.options)){
+        		 json.styles=layer.options;
+        	 }else if(!jQuery.isEmptyObject(layer._options.style)){
+        		 json.styles=layer._options.style;
+        	 }
          }         
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
         }

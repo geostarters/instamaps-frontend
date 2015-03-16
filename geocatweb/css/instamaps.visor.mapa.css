@@ -1595,17 +1595,19 @@ i.fa {
 
 .popup_data_key {
     float: left;
-    min-width: 30%;
+    width: 40%;
     background-color: #EEEEEE;
     font-weight: bold;
     line-height: 1.8;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;    
 }
 
 .popup_data_value {
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 70%;
+    width: 60%;
     line-height: 1.8;
     padding-left: 8px;
 }
@@ -1615,6 +1617,7 @@ i.fa {
 	margin: 2px;
 	padding: 0px;
 	text-align: center;
+	display: flex;
 }
 
 .popup-data-img{
@@ -3752,7 +3755,8 @@ i.fa {
 #mida_pres {
     background-color: #EEEEEE;
     padding: 5px;
-    margin-bottom: 15px;
+	margin: 0 15px 15px;
+	text-align: center;
 }
 
 .panel-dadesExternes > .panel-heading {
@@ -3890,13 +3894,6 @@ i.fa {
     height: 30px !important;
     width: 30px !important;
 	
-}
-
-#mida_pres {
-    background-color: #eeeeee;
-    margin: 15px;
-    padding: 5px;
-    text-align: center;
 }
 
 /*Modal data table*/

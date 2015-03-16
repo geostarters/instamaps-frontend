@@ -124,6 +124,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 		
 		var data = {
 			 mapBusinessId: url('?businessid'),
+			 serverName: nomCapa,
 			 tipusFile: tipusFile,
 			 urlFile: urlFile,
 			 epsgIN: epsgIN,
@@ -134,18 +135,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			 lineStyle: JSON.stringify(getLineRangFromStyle(canvas_linia)),
 			 polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 		}
-
-		console.debug(defaultPunt);
-		console.debug("defaultPunt");
-		
-		console.debug(canvas_linia);
-		console.debug("canvas_linia");
-		
-		console.debug(canvas_pol);
-		console.debug("canvas_pol");
-//		console.debug("markerStyle:"+JSON.stringify(getMarkerRangFromStyle(defaultPunt)));
-//		console.debug("lineStyle:"+JSON.stringify(getMarkerRangFromStyle(canvas_linia)));
-//		console.debug("polygonStyle:"+JSON.stringify(getMarkerRangFromStyle(canvas_pol)));
 		
 		getUrlFile(data).then(function(results){
 			if (results.status == "OK") {

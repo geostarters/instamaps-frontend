@@ -809,7 +809,7 @@ function readDataTematicFromSlotf(tematic, slotf){
 function readDataVisualitzacio(visualitzacio, key){
 	//console.debug("readDataTematicFromSlotd");
 	var defer = jQuery.Deferred();
-	console.debug(visualitzacio);
+//	console.debug(visualitzacio);
 	var data = {};
 	var dataValues = [];
 	jQuery.each(visualitzacio.estil, function(index, item){
@@ -821,8 +821,8 @@ function readDataVisualitzacio(visualitzacio, key){
 			}
 		});
 	});
-	console.debug(data);
-	console.debug(dataValues);
+//	console.debug(data);
+//	console.debug(dataValues);
 	defer.resolve(dataValues);
 	return defer.promise();
 }

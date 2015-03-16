@@ -1063,84 +1063,58 @@ matriuCapesLL.id_layers=[];
 
 function ompleCapesMatriu(item){
 
-
-
             //console.info(item.layer.options.tipus);
             if(pucPassar(item)){
                   
-                  
-            
-                  
-                  
                   var L_JSON=item.layer.toGeoJSONcustom();
                   
-                  
                   jQuery.each(L_JSON.features, function(i, feature){
-                  var tipus=feature.geometry.type;
-                  //console.info(tipus);
-                             if(tipus.indexOf("Point")!=-1){
-                             
-                             if(!feature.styles.icon){
-                             
-                              //feature.properties.OGR="SYMBOL(c:"+feature.styles.fillColor+",id:ogr-sym-3,s:"+(parseInt(feature.styles.weight)+2)+");BRUSH(fc:"+feature.styles.color+")";
-                                                                            
-                              feature.properties.OGR="PEN(c:"+feature.styles.color+",w:6px);BRUSH(fc:"+feature.styles.fillColor+")";                             
-                              //feature.properties.OGR="BRUSH(fc:"+feature.styles.fillColor+"80)";
-                             
-                             }else{
-                             
-                             var icona;
-                             
-                             if(feature.styles.icon.options.markerColor){
-                             
-                              icona="/opt/geocat/maps/galeria/"+feature.styles.icon.options.markerColor;
-                             
-                             }else{
-                             
-                             var ff=feature.styles.icon.options.iconUrl
-                             
-                              icona="/opt/geocat/maps/galeria/"+ff.substring(ff.lastIndexOf("/")+1,ff.lastIndexOf("."));
-                             }
-                             
-                                   
-                             
-                             feature.properties.OGR="SYMBOL(c:#ff0000,id:"+icona+".png)";                                                                                                                     
-                              //feature.properties.OGR="PEN(c:#FFC400,w:"+feature.styles.weight+"px)";
-                             
-                             }
-                                                           
-                             }else if(tipus.indexOf("Line")!=-1){
-                             
-							 
-							 
-							 
-                              feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px)";
-                             
-                             
-                             }else if(tipus.indexOf("Polygon")!=-1){
-                             
-                              feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px);BRUSH(fc:"+feature.styles.fillColor+")";                        
-                             
-                             }else{
-                                   feature.properties.OGR="PEN(c:#0000ff,w:5px);BRUSH(fc:#0000ff90)";
-                             }
-                  
+                	 
+                	  var tipus=feature.geometry.type;
+                	  
+                     if(tipus.indexOf("Point")!=-1){
+                     
+                    	 if(!feature.styles.icon){
+                    		 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:6px);BRUSH(fc:"+feature.styles.fillColor+")";                             
+                    	 }else{
+                    		 var icona;
+                    		 if(feature.styles.icon.options.markerColor){
+                    			 icona="/opt/geocat/maps/galeria/"+feature.styles.icon.options.markerColor;
+                    		 }else{
+                    			 var ff=feature.styles.icon.options.iconUrl
+                    			 icona="/opt/geocat/maps/galeria/"+ff.substring(ff.lastIndexOf("/")+1,ff.lastIndexOf("."));
+                    		 }
+                    		 feature.properties.OGR="SYMBOL(c:#ff0000,id:"+icona+".png)";                                                                                                                     
+                    	 }
+                     
+                    //Polyline
+                     }else if(tipus.indexOf("Line")!=-1){
+                    	 console.debug(feature);
+                    	 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px)";
+                     
+                     }else if(tipus.indexOf("Polygon")!=-1){
+                     
+                      feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px);BRUSH(fc:"+feature.styles.fillColor+")";                        
+                     
+                     }else{
+                           feature.properties.OGR="PEN(c:#0000ff,w:5px);BRUSH(fc:#0000ff90)";
+                     }
                   });
-                  //console.info(matriuCapesLL);
+                  
                  // matriuCapesLL.layers.push(JSON.stringify(L_JSON));
 				  
 				  
 				  var cache = [];
- matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
-    if (typeof value === 'object' && value !== null) {
-        if (cache.indexOf(value) !== -1) {
-            // Circular reference found, discard key
-            return;
-        }
-        // Store value in our collection
-        cache.push(value);
-    }
-    return value;
+				  matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
+				    if (typeof value === 'object' && value !== null) {
+				        if (cache.indexOf(value) !== -1) {
+				            // Circular reference found, discard key
+				            return;
+				        }
+				        // Store value in our collection
+				        cache.push(value);
+				    }
+				    return value;
 }));
 cache = null;
 				  

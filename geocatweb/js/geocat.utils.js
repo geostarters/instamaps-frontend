@@ -33,7 +33,7 @@ function isDefaultMapTitle(str){
 }
 
 function isValidValue(value){
-	return (value!="undefined" && value!=undefined && value!=null && value != " " && value!="null" && value!=-1 && value!="-1");
+	return (value!="undefined" && value!=undefined && value!=null && value != " " && value != "" && value!="null" && value!=-1 && value!="-1");
 }
 
 function toggleCollapseDiv(divName){

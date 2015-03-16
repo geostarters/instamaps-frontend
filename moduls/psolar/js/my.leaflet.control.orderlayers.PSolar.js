@@ -196,7 +196,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		    input,
 		    checked = this._map.hasLayer(obj.layer);
 
-			console.info(obj.layer.options.layers);
+			
 			
 		if (obj.overlay) {
 			input = L.DomUtil.create('input');
@@ -578,7 +578,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 	_onDownloadClick: function(e) {
 		
-		console.debug("_onDownloadClick");
+	
 		
 		$('#modal_data_table').modal('show');
 		
@@ -649,165 +649,5 @@ function thisFillModalDataTable(obj){
 	fillModalDataTable(obj);
 	
 	
-//	var columNames = [];
-//	var columNamesHeaders;
-////	var layerData = [];
-//	var primeraVolta = true;
-//	var colName = "";
-//	
-//	//Primer trobem column names
-//	jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
-//		jQuery.each(estil.geometria.features, function(indexFeature, feature){
-//			for(var x in feature.properties){
-//				colName = colName + '"'+x+'":{"title":"'+x.toUpperCase()+'"},';
-//			}
-//			colName = colName.substring(0,colName.length-1);
-//			colName = "{"+colName+"}";
-//			columNamesHeaders = JSON.parse(colName);
-//			return false;
-//		});
-//		return false;
-//	});	
-//	
-//	/*********************************jTable****************************************************/
-//	
-//	$("#modal_data_table_body #layer-data-table").jtable({
-//        title: 'Table of people',
-////        paging: true, //Enable paging
-////        pageSize: 10, //Set page size (default: 10)
-//        sorting: true, //Enable sorting
-//        defaultSorting: 'Name ASC', //Set default sorting        
-//        actions: {
-////            listAction: function (postData, jtParams) {
-////			        		var layerData = [];
-////			        		//Carreguem les dades de cada feature
-////			        		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
-////			        			jQuery.each(estil.geometria.features, function(indexFeature, feature){
-////			        				layerData.push(feature.properties);
-////			        			});
-////			        		});
-////			        		return { "Result":"OK", "Records":layerData };
-////			            },
-//            listAction: function (postData, jtParams) {
-//                
-//            	console.debug("--------------------------------------");
-//            	console.log("Loading from custom function...");
-//            	console.debug("postData:");
-//            	console.debug(postData);
-//            	console.debug("jtParams:");
-//            	console.debug(jtParams);
-//            	console.debug("--------------------------------------");                
-//                
-//                return $.Deferred(function ($dfd) {
-//                	
-//                	var postData={
-//                			businessId: obj.layer.options.businessId,
-//                			uid:$.cookie('uid'),
-//                			jtStartIndex: jtParams.jtStartIndex,
-//                			jtPageSize: jtParams.jtPageSize,
-//                			jtSorting: jtParams.jtSorting
-//                		};
-//                	
-//                    $.ajax({
-////                        url: '/Demo/StudentList?jtStartIndex=' + jtParams.jtStartIndex + '&jtPageSize=' + jtParams.jtPageSize + '&jtSorting=' + jtParams.jtSorting,
-//                        url: paramUrl.getGeometriesPropertiesLayer,
-//                        type: 'POST',
-//                        dataType: 'json',
-//                        data: postData,
-//                        success: function (data) {
-//                        	console.debug("SUCCESS");
-//                        	console.debug(data);
-//                            $dfd.resolve(data);
-//                        },
-//                        error: function () {
-//                        	console.debug("ERROR");
-//                        	console.debug(data);
-//                            $dfd.reject();
-//                        }
-//                    });
-//                });
-//            },			            
-//            createAction: function (postData, jtParams) {
-//            	console.debug("--------------------------------------");
-//            	console.debug("createAction");
-//            	console.debug("postData:");
-//            	console.debug(postData);
-//            	console.debug("jtParams:");
-//            	console.debug(jtParams);
-//            	console.debug("--------------------------------------");
-//            	
-////        		var layerData = [];
-////        		//Carreguem les dades de cada feature
-////        		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
-////        			jQuery.each(estil.geometria.features, function(indexFeature, feature){
-////        				layerData.push(feature.properties);
-////        			});
-////        		});
-////        		return { "Result":"OK", "Records":layerData };
-//            },
-//            updateAction: function (postData, jtParams) {
-//            	console.debug("--------------------------------------");
-//            	console.debug("updateAction");
-//            	console.debug("postData:");
-//            	console.debug(postData);
-//            	console.debug("jtParams:");
-//            	console.debug(jtParams);
-//            	console.debug("--------------------------------------");            	
-////        		var layerData = [];
-////        		//Carreguem les dades de cada feature
-////        		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
-////        			jQuery.each(estil.geometria.features, function(indexFeature, feature){
-////        				layerData.push(feature.properties);
-////        			});
-////        		});
-////        		return { "Result":"OK", "Records":layerData };
-//            },
-//            deleteAction: function (postData, jtParams) {
-//            	console.debug("--------------------------------------");
-//            	console.debug("deleteAction");
-//            	console.debug("postData:");
-//            	console.debug(postData);
-//            	console.debug("jtParams:");
-//            	console.debug(jtParams);
-//            	console.debug("--------------------------------------");            	
-////        		var layerData = [];
-////        		//Carreguem les dades de cada feature
-////        		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
-////        			jQuery.each(estil.geometria.features, function(indexFeature, feature){
-////        				layerData.push(feature.properties);
-////        			});
-////        		});
-////        		return { "Result":"OK", "Records":layerData };
-//            }
-//        },
-//        fields: columNamesHeaders
-//    });
-//	
-//	$('#modal_data_table_body #layer-data-table').jtable('load');
-//	
-//	
-///*********************************HANDSONTABLE****************************************************/
-////	var $container = $("#modal_data_table_body #layer-data-table");
-////
-////	$container.handsontable({
-////	  data: getLayerData(),//layerData,//getData(),
-//////	  startRows: 5,//per si esta buida
-//////	  startCols: 5,//per si esta buida
-//////	  minRows: 5,
-//////	  minCols: 5,
-//////	  maxRows: 10,
-//////	  maxCols: 10,
-////	  rowHeaders: false,
-////	  colHeaders: columNamesHeaders,//true,
-//////	  columns: columNames,
-//////	  minSpareRows: 1,//Empty rows at the end
-//////	  width: 580,
-//////	  height: 300,	
-////	  search: true,
-////	  autoColumnSize : true,
-////	  contextMenu: true
-////	});	
-////	
-////	var layerDataTable = $("#modal_data_table_body #layer-data-table").handsontable('getInstance').container;
 
 }

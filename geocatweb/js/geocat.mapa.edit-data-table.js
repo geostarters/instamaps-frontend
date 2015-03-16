@@ -23,22 +23,22 @@ function addFuncioEditDataTable(){
 	
 	$('#modal_data_table').on('hidden.bs.modal', function (e) {
 		
-		console.debug(controlCapes);
+//		console.debug(controlCapes);
 		
 		//si hem editat dades recarreguem la capa per visualitzar els canvis
 		if(editat){
-			console.debug("Tanquem modal data table");
+//			console.debug("Tanquem modal data table");
 			  
 	    	//Actualitzem visualitzacions de la capa on estava la geometria modificada
 			var capaEdicio = $('#modal_data_table').data("capaEdicio");//controlCapes._layers[capaEdicioLeafletId];
-			console.debug("capaEdicio:");
-			console.debug(capaEdicio);
+//			console.debug("capaEdicio:");
+//			console.debug(capaEdicio);
 			var layerServidor = $('#modal_data_table').data("layerServidor");
 			
 			layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
 			
-			console.debug("layerServidor:");
-			console.debug(layerServidor);	
+//			console.debug("layerServidor:");
+//			console.debug(layerServidor);	
 			
 			//Eliminem la capa de controlCapes i mapa
 			map.closePopup();
@@ -83,8 +83,8 @@ function addFuncioEditDataTable(){
 }
 
 function fillModalDataTable(obj, geomBid){
-	console.debug(geomBid);
-	console.debug(obj);
+//	console.debug(geomBid);
+//	console.debug(obj);
 	var columNames = [];
 	var geometriesBusinessId = "";
 	var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
@@ -102,7 +102,7 @@ function fillModalDataTable(obj, geomBid){
 			
 			 var parentDiv =  $('div.fixed-table-body');
 			 var innerListItem = $('div.fixed-table-body #layer-data-table tbody tr.success');
-			 parentDiv.scrollTo(innerListItem);
+			 if(!editat) parentDiv.scrollTo(innerListItem);
 			 
 		});
 	}
@@ -250,10 +250,10 @@ function fillModalDataTable(obj, geomBid){
 								key:  name,
 								newValue: row[name]
 							};
-						console.debug(dataUpdate);
+//						console.debug(dataUpdate);
 						updateGeometriaProperties(dataUpdate).then(function(results){
 							if (results.status == "OK"){
-								console.debug(results);
+//								console.debug(results);
 								editat = true;
 							}else{
 								console.debug('error updateGeometriaProperties');
@@ -329,13 +329,11 @@ function removeGeometryDB(geometryid, businessId, geometriesBusinessId){
 	removeGeometriaFromProperties(data).then(function(results){
 		
 		if(results.status == "OK"){
+			editat = true;
 		    $('#modal_data_table_body #layer-data-table').bootstrapTable('remove', {
 	            field: 'geometryid',
 	            values: [geometryid]
 	        }); 
-		    
-		    editat = true;
-		    
 		}else{
 			console.debug("ERROR removeGeometriaFromProperties");
 		}

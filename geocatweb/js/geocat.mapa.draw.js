@@ -560,7 +560,7 @@ function activaEdicioUsuari() {
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
 function createPopupWindow(layer,type){
-	console.debug('createPopupWindow');
+//	console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
 	layer.bindPopup(html,{'offset':[0,-25]});
 	
@@ -1523,9 +1523,9 @@ function createPopUpContent(player,type){
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
 		+'<ul class="bs-popup">'						
-			+'<li><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
-			+'<li><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
-			+'<li><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
+			+'<li class="edicio-simple-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
+			+'<li class="edicio-simple-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
+			+'<li class="edicio-simple-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
 		+'</ul>'														
 	+'</div>'
 	

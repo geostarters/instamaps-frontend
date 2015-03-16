@@ -372,8 +372,8 @@
 
 .div_popup_visor {
     border: 0 dashed #DDDDDD;
-    margin-left: -5px;
-    margin-right: 26px;
+    /*margin-left: -5px;
+    margin-right: 26px;*/
     padding: 3px;
     width: 300px;
 }
@@ -441,7 +441,7 @@ textarea {
 	padding-left: 0;
 }
 
-.bs-popup li {
+.bs-popup li.consulta-popup{
 	border: 0px dashed #DDDDDD;
 	color: #000000 !important;
 	float: left;
@@ -511,7 +511,8 @@ textarea {
 	font-size: 18px;
 }
 
-.blau,.blau a,.blau span {
+.blau,.blau a,.blau span,
+.blau-left,.blau-left a,.blau-left span {
 	color: #065299;
 	cursor: pointer;
 	font-size: 17px;
@@ -799,3 +800,5 @@ textarea {
 .progress-bar {  
     font-weight: bold;   
 }
+
+.leaflet-popup-content h4.my-text-center{text-align:center;}
