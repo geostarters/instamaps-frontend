@@ -23,7 +23,6 @@
         _initBody = BootstrapTable.prototype.initBody;
 
     BootstrapTable.prototype.initTable = function () {
-    	console.debug("init table");
         var that = this;
         _initTable.apply(this, Array.prototype.slice.apply(arguments));
 
@@ -51,13 +50,11 @@
     };
 
     BootstrapTable.prototype.initBody = function () {
-    	console.debug("init body editable");
         var that = this;
         _initBody.apply(this, Array.prototype.slice.apply(arguments));
 
         if (!this.options.editable) {
             return;
-            console.debug("noe editable!");
         }
 
         $.each(this.options.columns, function (i, column) {
@@ -73,7 +70,6 @@
                         oldValue = row[column.field];
 
                     row[column.field] = params.submitValue;
-                    console.debug("trigger editable-save");
                     that.trigger('editable-save', column.field, row, oldValue, $(this));
                 });
         });

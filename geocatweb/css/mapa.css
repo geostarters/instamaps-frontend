@@ -501,6 +501,15 @@ background-color: #9F9F9E;
 	background-color: #ED8f12;
 }
 
+.bt_publicar_disabled {
+	line-height: 55px;
+	height: 55px;
+	font-size: 18px;
+	margin-left: 10px;
+	margin-right: 10px;
+	background-color: #f4ac71;
+}
+
 .bt_orange{
 	cursor: pointer;
 	color: #FFFFFF;
@@ -1373,15 +1382,6 @@ i.fa {
 	h5,.h5 {
 		font-size: 12px;
 	}
-	bt_publicar {
-		line-height: 35px;
-		font-size: 12px;
-		height: 55px;
-		margin-left: 10px;
-		margin-right: 10px;
-		cursor: pointer;
-		background-color: #FF8300
-	}
 	.div_carrega_dades {
 		background: url('images/galeria_icones.png') no-repeat scroll -490px
 			-524px rgba(166, 166, 166, 0.5);
@@ -1497,15 +1497,6 @@ i.fa {
 	}
 	h5,.h5 {
 		font-size: 12px;
-	}
-	bt_publicar {
-		line-height: 35px;
-		font-size: 12px;
-		height: 55px;
-		margin-left: 10px;
-		margin-right: 10px;
-		cursor: pointer;
-		background-color: #FF8300
 	}
 	.div_carrega_dades {
 		background: url('images/galeria_icones.png') no-repeat scroll -520px
@@ -1631,6 +1622,8 @@ i.fa {
     font-weight: bold;
     line-height: 1.8;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;    
 }
 
 .popup_data_value {
@@ -2187,6 +2180,15 @@ background-color: #9F9F9E;
 	margin-right: 10px;
 	cursor: pointer;
 	background-color: #ed7512;
+}
+
+.bt_publicar_disabled {
+	line-height: 55px;
+	height: 55px;
+	font-size: 18px;
+	margin-left: 10px;
+	margin-right: 10px;
+	background-color: #f4ac71;
 }
 
 .bt_publicar:hover {
@@ -3055,15 +3057,6 @@ i.fa {
 	h5,.h5 {
 		font-size: 12px;
 	}
-	bt_publicar {
-		line-height: 35px;
-		font-size: 12px;
-		height: 55px;
-		margin-left: 10px;
-		margin-right: 10px;
-		cursor: pointer;
-		background-color: #FF8300
-	}
 	.div_carrega_dades {
 		background: url('images/galeria_icones.png') no-repeat scroll -490px
 			-524px rgba(166, 166, 166, 0.5);
@@ -3189,6 +3182,16 @@ i.fa {
 		cursor: pointer;
 		background-color: #FF8300
 	}
+	
+	.bt_publicar_disabled {
+		line-height: 35px;
+		font-size: 12px;
+		height: 55px;
+		margin-left: 10px;
+		margin-right: 10px;
+		background-color: #f4ac71;
+	}	
+	
 	.div_carrega_dades {
 		background: url('images/galeria_icones.png') no-repeat scroll -520px
 			-524px rgba(166, 166, 166, 0.5);
@@ -3505,8 +3508,16 @@ i.fa {
 		line-height: 40px;
 		height: 40px;
 		margin: 5px;
-		font-size: 15px,
+		font-size: 15px;
 	}
+	
+	.bt_publicar_disabled {
+		line-height: 40px;
+		height: 40px;
+		margin: 5px;
+		font-size: 15px;
+		background-color: #f4ac71;
+	}	
 	
 	.div_gr3_fons{
 	    height: 30px;
@@ -3723,6 +3734,10 @@ i.fa {
 	margin-top: 3px;
 	overflow: hidden;
 }
+.downloadable-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .separate-downloadable-row-all{
     border-bottom: 3px solid #E5E5E5;
@@ -3796,7 +3811,7 @@ i.fa {
 
 #mida_pres {
     background-color: #eeeeee;
-    margin: 15px;
+    margin: 0 15px 15px;
     padding: 5px;
     text-align: center;
 }

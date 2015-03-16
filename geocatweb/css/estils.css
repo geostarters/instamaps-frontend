@@ -371,8 +371,8 @@
 
 .div_popup_visor {
     border: 0 dashed #DDDDDD;
-    margin-left: -5px;
-    margin-right: 26px;
+    /*margin-left: -5px;
+    margin-right: 26px;*/
     padding: 3px;
     width: 300px;
 }
@@ -434,16 +434,34 @@ textarea {
 
 .bs-popup {
 	list-style: none outside none;
-	margin-bottom: 5px;
+	/*margin-bottom: 5px;*/
 	overflow: hidden;
-	padding-bottom: 1px;
-	padding-right: 0px;
+	/*padding-bottom: 1px;
+	padding-right: 0px;*/
 	width: 100%;
-	/*display: block;*/
-	display: inline;
+	/*display: block;
+	display: inline;*/
+	
+	
+	padding: 0;
+	margin: 0;
 }
 
-.bs-popup li {
+.bs-popup li.edicio-simple-popup {
+	border: 0px dashed #DDDDDD;
+	color: #000000 !important;
+	float: left;
+	font-size: 14px;
+	height: 25px;
+	line-height: 0.8;
+	/*margin: 0 5px -1px 0;*/
+	margin: 0;
+	padding-left: 0;
+	text-align: center;
+    width: 33%;
+}
+
+.bs-popup li.edicio-popup1 {
 	border: 0px dashed #DDDDDD;
 	color: #000000 !important;
 	float: left;
@@ -455,6 +473,29 @@ textarea {
 	padding-left: 0;
 	text-align: center;
     width: 25%;
+}
+
+.bs-popup li.edicio-popup {
+    border: 0 dashed #dddddd;
+    color: #000000 !important;
+    float: left;
+    height: 35px;
+    line-height: 0.8;
+    text-align: center;
+    width: 50%;
+}
+
+.bs-popup li.consulta-popup{
+	border: 0px dashed #DDDDDD;
+	color: #000000 !important;
+	float: left;
+	font-size: 14px;
+	height: 25px;
+	line-height: 0.8;
+	margin: 0;
+	padding: 5px !important;
+	text-align: center;
+    width: 100% !important;	
 }
 
 .bs-ncapa {
@@ -520,6 +561,13 @@ textarea {
 	cursor: pointer;
 	font-size: 17px;
 	margin-left: 1px;
+}
+
+.blau-left,.blau-left a,.blau-left span {
+	color: #065299;
+	cursor: pointer;
+	font-size: 17px;
+	margin-right: 5px;
 }
 
 .magenta,.magenta a,.magenta span {
@@ -805,3 +853,5 @@ textarea {
 .progress-bar {  
     font-weight: bold;   
 }
+
+.leaflet-popup-content h4.my-text-center{text-align:center;}

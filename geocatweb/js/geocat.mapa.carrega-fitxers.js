@@ -74,6 +74,8 @@ function creaAreesDragDropFiles() {
 			formData.append("ext", envioArxiu.ext);
 			formData.append("uid", $.cookie('uid'));
 			formData.append("mapBusinessId", url('?businessid'));
+			var file = file.name.split(".");
+			formData.append("serverName", file[0]);
 			formData.append("markerStyle", envioArxiu.markerStyle);	
 			formData.append("lineStyle", envioArxiu.lineStyle);	
 			formData.append("polygonStyle", envioArxiu.polygonStyle);			
@@ -197,6 +199,8 @@ function addFuncioCarregaFitxers(){
 				formData.append("polygonStyle", envioArxiu.polygonStyle);	
 				formData.append("uid", $.cookie('uid'));
 				formData.append("mapBusinessId", url('?businessid'));
+				var file = file.name.split(".");
+				formData.append("serverName", file[0]);
 				formData.append("uploadFile", paramUrl.uploadFile);
 														
 			});
@@ -814,8 +818,6 @@ function miraFitxer(fitxer) {
 function addDropFileToMap(results) {
 	if (results.status == "OK") {
 		
-		if(nou_model){
-			
 			//Si geometries tipus marker
 			if(results.layerMarker){
 				var defer = $.Deferred();
@@ -849,52 +851,6 @@ function addDropFileToMap(results) {
 			refrescaPopOverMevasDades();
 			//jQuery('#dialog_carrega_dadesfields').modal('hide');
 			map.spin(false);				
-			
-		}else{
-			// console.debug(results.results);
-			var businessId = results.results.businessId;
-
-			// crear el servidor WMS i agregarlo al mapa
-			var data = {
-				uid : $.cookie('uid'),
-				businessId : businessId,
-				mapBusinessId : url('?businessid'),
-				serverName : results.results.nom,
-				serverType : 'tematic',
-				calentas : false,
-				activas : true,
-				visibilitats : true,
-				epsg : '4326',
-				transparency : true,
-				visibilitat : 'O'
-			};
-			createServidorInMap(data).then(function(results) {
-				if (results.status == "OK") {
-					var extensio = ((envioArxiu.ext!=null)?envioArxiu.ext:"");
-					_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades', envioArxiu.ext, 1]);
-					//_kmq.push.push(['record', 'carregar dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus arxiu':envioArxiu.ext}]);
-					// Un cop carregat el fitxer refresquem el popup de les dades de
-					// l'usuari i tambè
-					// el control de capes
-					//console.debug(results.results);
-					results.results.dragdrop = true;
-					loadTematicLayer(results.results).then(function(results1){
-						
-						getRangsFromLayer(results1);
-						
-						if(results1){
-						map.fitBounds(results1.getBounds());
-						}
-						
-					});
-
-					// carregarCapa(businessId);
-					refrescaPopOverMevasDades();
-					//jQuery('#dialog_carrega_dadesfields').modal('hide');
-					map.spin(false);
-				}
-			});			
-		}
 	}else{
 		var txt_error = "ERROR";
 		progressBarShow = false;

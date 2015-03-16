@@ -57,8 +57,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if(!obj.sublayer){
 			delete this._layers[id];
 		}else{
-			console.debug("this delete:");
-			console.debug(this._layers);
+//			console.debug("this delete:");
+//			console.debug(this._layers);
 			delete this._layers[obj.layerIdParent]._layers[id];
 		}
 
@@ -583,7 +583,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 	_onOpenDataTable: function(e) {
 		
-		console.debug("_onOpenDataTable");
+//		console.debug("_onOpenDataTable");
 		$('.tooltip').hide();
 		
 		$('#modal_data_table').modal('show');
@@ -597,7 +597,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},	
 	_onDownloadClick: function(e) {
 		
-		console.debug("_onDownloadClick");
+//		console.debug("_onDownloadClick");
 		
 		$('.tooltip').hide();
 		var layerId = e.currentTarget.layerId;

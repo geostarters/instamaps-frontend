@@ -174,40 +174,40 @@ function loadTematicLayer(layer){
 }
 
 
-function createPopupWindowVisor(player,type){
-	console.debug("createPopupWindowVisor");
-	var html='<div class="div_popup_visor">' 
-		+'<div class="popup_pres">';
-	
-	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
-		html+='<div id="titol_pres_visor">'+player.properties.data.nom+'</div>';
-	}else if(player.properties.name && !isBusinessId(player.properties.name)){
-		html+='<div id="titol_pres_visor">'+player.properties.name+'</div>';
-	}
-		
-	if (player.properties.data.text){
-		html+='<div id="des_pres_visor">'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
-	}
-	if(type == t_polyline && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
-	}else if(type == t_polygon && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
-	}
-	
-	html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
-	+'</div></div>';
-	
-	player.bindPopup(html,{'offset':[0,-25]});	
-}
+//function createPopupWindowVisor(player,type){
+//	console.debug("createPopupWindowVisor");
+//	var html='<div class="div_popup_visor">' 
+//		+'<div class="popup_pres">';
+//	
+//	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
+//		html+='<div id="titol_pres_visor">'+player.properties.data.nom+'</div>';
+//	}else if(player.properties.name && !isBusinessId(player.properties.name)){
+//		html+='<div id="titol_pres_visor">'+player.properties.name+'</div>';
+//	}
+//		
+//	if (player.properties.data.text){
+//		html+='<div id="des_pres_visor">'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
+//	}
+//	if(type == t_polyline && player.properties.mida){
+//		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
+//	}else if(type == t_polygon && player.properties.mida){
+//		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+//	}
+//	
+//	html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
+//	+'</div></div>';
+//	
+//	player.bindPopup(html,{'offset':[0,-25]});	
+//}
 
-function createPopupWindowData(player,type, editable){
+function createPopupWindowData(player,type, editable, origen){
 //	console.debug("createPopupWindowData");
 //	console.debug(player);
 	var html='';
 	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
-		html+='<h4>'+player.properties.data.nom+'</h4>';
+		html+='<h4 class="my-text-center">'+player.properties.data.nom+'</h4>';
 	}else if(player.properties.name && !isBusinessId(player.properties.name)){
-		html+='<h4>'+player.properties.name+'</h4>';
+		html+='<h4 class="my-text-center">'+player.properties.name+'</h4>';
 	}
 	
 	if (player.properties.data.text){
@@ -237,16 +237,20 @@ function createPopupWindowData(player,type, editable){
 	if(editable){
 		html+= '<div id="footer_edit"  class="modal-footer">'
 					+'<ul class="bs-popup">'						
-						+'<li><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
-						+'<li><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
-						+'<li><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'
-						+'<li><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#">'+window.lang.convert('Dades')+'<span class="glyphicon glyphicon-list-alt blau"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#">'+window.lang.convert('Dades')+'<span class="glyphicon glyphicon-list-alt blau"></span></a>   </li>'
 					+'</ul>'														
 				+'</div>';	
 	}else{
+		var capaLeafletId = player.properties.capaLeafletId;
+		if(isValidValue(origen)) {
+			capaLeafletId = origen; 
+		}
 		html+= '<div id="footer_edit"  class="modal-footer">'
 			+'<ul class="bs-popup">'						
-				+'<li><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau"></span>'+window.lang.convert('Consulta les dades')+'</a>   </li>'
+				+'<li class="consulta-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left"></span>'+window.lang.convert('Obrir la taula de dades')+'</a>   </li>'
 			+'</ul>'														
 		+'</div>';			
 	}
@@ -294,13 +298,7 @@ function createPopupWindowData(player,type, editable){
 			}
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
 		
-//			console.debug("Accio data table");
-//			console.debug(objEdicio);
-//			console.debug(accio[3]);
-//			console.debug(map._layers[objEdicio.featureID]);
-//			console.debug(controlCapes);
 			$('#modal_data_table').modal('show');
-//			console.debug(controlCapes._layers[accio[3]]);
 			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
 		
 		}else if(accio[0].indexOf("feature_remove")!=-1){
@@ -1215,7 +1213,16 @@ function readVisualitzacio(defer, visualitzacio, layer){
 		
 		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaVisualitzacio.addTo(map);
-		}		
+		}	
+		
+		var options;
+		var origen = "";
+		if (layer.options){
+			options = jQuery.parseJSON( layer.options );
+		}
+		if(layer.options && options.origen){//Si es una sublayer
+			origen = getLeafletIdFromBusinessId(options.origen);
+		}
 		
 		//Afegim geomatries a la capa
 		//per cada estil de la visualitzacio
@@ -1397,64 +1404,29 @@ function readVisualitzacio(defer, visualitzacio, layer){
 				
 	//				//Si la capa no ve de fitxer
 					if(!hasSource){
+//						console.debug("no te source, no ve de fitxer");
 						if($(location).attr('href').indexOf('mapa')!=-1 && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
 							createPopupWindow(feat,geomTypeVis);
-						}else{			
+						}else{
+//							console.debug("Estem mode vis i no es tem origen:");
 //							createPopupWindowVisor(feat,geomTypeVis);
-							createPopupWindowData(feat,geomTypeVis, false);
+							createPopupWindowData(feat,geomTypeVis, false, origen);
 						}								
 					}else{
+//						console.debug("Te source, ve de fitxer");
+//						console.debug(capaVisualitzacio);
 						if($(location).attr('href').indexOf('mapa')!=-1 && capaVisualitzacio.options.tipusRang == tem_origen){
-							createPopupWindowData(feat,geomTypeVis, true);
+//							console.debug("Estem mode mapa i es tem origen");
+							createPopupWindowData(feat,geomTypeVis, true, origen);
 						}else{
-							createPopupWindowData(feat,geomTypeVis, false);
+//							console.debug("Estem mode vis i no es tem origen:");
+//							console.debug(origen);
+							createPopupWindowData(feat,geomTypeVis, false, origen);
 						}
 						
 					}
 					map.closePopup();					
 				});
-				
-				//console.debug(capaVisualitzacio);
-				
-//				if (featureTem){
-//					featureTem.properties = {};
-//					featureTem.properties.businessId = geom.businessId;
-//					featureTem.properties.data = geom.properties;
-//					featureTem.properties.estil = estil;
-//					featureTem.properties.capaLeafletId = capaVisualitzacio._leaflet_id;
-//					featureTem.properties.capaNom = capaVisualitzacio.options.nom;
-//					featureTem.properties.capaBusinessId = capaVisualitzacio.options.businessId;
-//					featureTem.properties.tipusFeature = geomType;
-//					
-//					//Cal??
-//					if (featureTem.options){
-//						featureTem.options.tipus = geomType;
-//					}else{
-//						featureTem.options = {tipus: geomType};
-//					}
-//					
-//					featureTem.properties.feature = {};
-//					featureTem.properties.feature.geometry = geom.geometry;
-//					capaVisualitzacio.addLayer(featureTem);		
-//				
-//					if(geomType == t_polygon){
-//						featureTem.properties.mida = calculateArea(featureTem.getLatLngs());
-//					}else if(geomType == t_polyline){
-//						featureTem.properties.mida = calculateDistance(featureTem.getLatLngs());
-//					}
-//				
-//	//				//Si la capa no ve de fitxer
-//					if(!hasSource){
-//						if($(location).attr('href').indexOf('mapa')!=-1 && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-//							createPopupWindow(featureTem,geomType);
-//						}else{			
-//							createPopupWindowVisor(featureTem,geomType);
-//						}								
-//					}else{
-//						createPopupWindowData(featureTem,geomType);
-//					}
-//					map.closePopup();
-//				}				
 				
 			});
 		});	
@@ -1476,12 +1448,12 @@ function readVisualitzacio(defer, visualitzacio, layer){
 				});					
 		}
 		
-		var options;
-		if (layer.options){
-			options = jQuery.parseJSON( layer.options );
-		}
+//		var options;
+//		if (layer.options){
+//			options = jQuery.parseJSON( layer.options );
+//		}
 		if(layer.options && options.origen){//Si es una sublayer
-			var origen = getLeafletIdFromBusinessId(options.origen);
+//			var origen = getLeafletIdFromBusinessId(options.origen);
 //			if(dataField) capaVisualitzacio.options.dataField = dataField;
 //			console.debug("Leaflet id origen de la sublayer:");
 //			console.debug(origen);

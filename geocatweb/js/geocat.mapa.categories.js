@@ -51,21 +51,19 @@ function showModalTematicCategories(data){
 		uid: jQuery.cookie('uid')
 	};
 		
-	if(nou_model){
-		
-		getVisualitzacioByBusinessId(dataTem).then(function(results){
-			if (results.status == "OK"){
-				var visualitzacio = results.results;
-				jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
-				var fields = {};
-				fields[window.lang.convert('Escull el camp')] = '---';
-				if (results.geometries && results.geometries.options){
-					
-					var dataNames = results.geometries.options.split(',');
-					jQuery.each(dataNames, function( index, value ) {
-						fields[value] = value;
-					});
-					
+	getVisualitzacioByBusinessId(dataTem).then(function(results){
+		if (results.status == "OK"){
+			var visualitzacio = results.results;
+			jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
+			var fields = {};
+			fields[window.lang.convert('Escull el camp')] = '---';
+			if (results.geometries && results.geometries.options){
+				
+				var dataNames = results.geometries.options.split(',');
+				jQuery.each(dataNames, function( index, value ) {
+					fields[value] = value;
+				});
+				
 //					if (tematic.capes){
 //						var dataNames = tematic.capes.fieldsName.split(',');
 //						jQuery.each(dataNames, function( index, value ) {
@@ -78,29 +76,29 @@ function showModalTematicCategories(data){
 //							fields[value] = "slotf"+(index+1);
 //						});
 //					}
-				}
-				
-				//creamos el select con los campos
-				var source1 = jQuery("#tematic-layers-fields").html();
-				var template1 = Handlebars.compile(source1);
-				var html1 = template1({fields:fields});
-				jQuery('#dataField').html(html1);
-				
-				jQuery('#dataField').on('change',function(e){
-					var this_ = jQuery(this);
-					if (this_.val() == "---"){
-						jQuery('#tipus_agrupacio_grp').hide();
-						jQuery('#num_rangs_grp').hide();
-						jQuery('#list_tematic_values').html("");
-						jQuery('#dialog_tematic_rangs .btn-success').hide();
-					}else{
-						
-						readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
+			}
+			
+			//creamos el select con los campos
+			var source1 = jQuery("#tematic-layers-fields").html();
+			var template1 = Handlebars.compile(source1);
+			var html1 = template1({fields:fields});
+			jQuery('#dataField').html(html1);
+			
+			jQuery('#dataField').on('change',function(e){
+				var this_ = jQuery(this);
+				if (this_.val() == "---"){
+					jQuery('#tipus_agrupacio_grp').hide();
+					jQuery('#num_rangs_grp').hide();
+					jQuery('#list_tematic_values').html("");
+					jQuery('#dialog_tematic_rangs .btn-success').hide();
+				}else{
+					
+					readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
 //							updateSelecTipusRangs(results);
-							jQuery("#dialog_tematic_rangs").data("values", results);
-							getTipusValuesVisualitzacio(results);
-						});
-						
+						jQuery("#dialog_tematic_rangs").data("values", results);
+						getTipusValuesVisualitzacio(results);
+					});
+					
 //						if (this_.val().indexOf("slotd") != -1){
 //							readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
 //								updateSelecTipusRangs(results);
@@ -111,72 +109,16 @@ function showModalTematicCategories(data){
 //								updateSelecTipusRangs(results);
 //							});
 //						}
-					}
-				});				
-			}else{
-				//TODO error
-				console.debug("getVisualitzacioByBusinessId ERROR");				
-			}
-		},function(results){
-			//TODO error
-			console.debug("getVisualitzacioByBusinessId ERROR");
-		});				
-		
-	}else{
-		getTematicLayerByBusinessId(dataTem).then(function(results){
-			if (results.status == "OK"){
-				var tematic = results.results;
-				jQuery("#dialog_tematic_rangs").data("tematic", tematic);
-				var fields = {};
-				fields[window.lang.convert('Escull el camp')] = '---';
-				if (tematic.capes.fieldsName){
-					if (tematic.capes){
-						var dataNames = tematic.capes.fieldsName.split(',');
-						jQuery.each(dataNames, function( index, value ) {
-							fields[value] = "slotd"+(index+1);
-						});
-					}else{ //sin datos
-						fields['nom'] = 'nom';
-						var geomNames = tematic.geometries.fieldsName.split(',');
-						jQuery.each(geomNames, function( index, value ) {
-							fields[value] = "slotf"+(index+1);
-						});
-					}
-				}else{
-					//capas de edición
-					fields['nom'] = 'nom';
-					fields['text'] = 'text';
 				}
-				
-				//creamos el select con los campos
-				var source1 = jQuery("#tematic-layers-fields").html();
-				var template1 = Handlebars.compile(source1);
-				var html1 = template1({fields:fields});
-				jQuery('#dataField').html(html1);
-				
-				jQuery('#dataField').on('change',function(e){
-					var this_ = jQuery(this);
-					if (this_.val() == "---"){
-						jQuery('#tipus_agrupacio_grp').hide();
-						jQuery('#num_rangs_grp').hide();
-						jQuery('#list_tematic_values').html("");
-						jQuery('#dialog_tematic_rangs .btn-success').hide();
-					}else{
-						if (this_.val().indexOf("slotd") != -1){
-							readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
-								updateSelecTipusRangs(results);
-							});
-						}else{
-							//capas edicion o solo geometrias
-							readDataTematicFromSlotf(tematic, this_.val()).then(function(results){
-								updateSelecTipusRangs(results);
-							});
-						}
-					}
-				});
-			}
-		});		
-	}
+			});				
+		}else{
+			//TODO error
+			console.debug("getVisualitzacioByBusinessId ERROR");				
+		}
+	},function(results){
+		//TODO error
+		console.debug("getVisualitzacioByBusinessId ERROR");
+	});				
 }
 
 function getTipusValuesVisualitzacio(results){
@@ -542,85 +484,41 @@ function createTematicLayerCategories(event){
 		}
 	});	
 	
-	if(nou_model){
-		
-		var estils = {
-			estils: rangs,
-			dataField: jQuery('#dataField').val(),
-			labelField: jQuery('#dataField').val()
-		};
-		var data = {
-				businessId: tematicFrom.businessid,//businessId id de la visualización de origen
-				uid: $.cookie('uid'),//uid id de usuario
-		        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
-		        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
-		        activas: true,
-		        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
-		        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
-//				tipusRang: tematicFrom.from,
-				tem: tem_clasic,//visualitzacio.from,//tem_simple
-//				estils: JSON.stringify(rangs)
-				estils: JSON.stringify(estils)
-			};
-		
-		createVisualitzacioTematica(data).then(function(results){
-			if(results.status == 'OK'){
-				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacio, results.layer);
-				jQuery('#dialog_tematic_rangs').modal('hide');
-				activaPanelCapes(true);
-			}else{
-				//TODO error
-				console.debug("createVisualitzacioTematica ERROR");					
-			}
-		},function(results){
-			//TODO error
-			console.debug("createVisualitzacioTematica ERROR");
-		});	
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		
-		
-	}else{
-
-		rangs = JSON.stringify({rangs:rangs});
-		
-		var data = {
-			businessId: tematicFrom.businessid,
-			uid: $.cookie('uid'),
-	        mapBusinessId: url('?businessid'),	           
+	var estils = {
+		estils: rangs,
+		dataField: jQuery('#dataField').val(),
+		labelField: jQuery('#dataField').val()
+	};
+	var data = {
+			businessId: tematicFrom.businessid,//businessId id de la visualización de origen
+			uid: $.cookie('uid'),//uid id de usuario
+	        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
 	        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
-			calentas: false,
 	        activas: true,
-	        visibilitats: true,
-	        order: capesOrdre_sublayer,
-	        dataField: jQuery('#dataField').val(),
-			tipusRang: tematicFrom.from,
-			rangs: rangs
+	        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
+	        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
+//				tipusRang: tematicFrom.from,
+			tem: tem_clasic,//visualitzacio.from,//tem_simple
+//				estils: JSON.stringify(rangs)
+			estils: JSON.stringify(estils)
 		};
-		
-//		console.debug(data);
-		
-		duplicateTematicLayer(data).then(function(results){
-//			console.debug(results);
-			if(results.status == 'OK'){
-				loadTematicLayer(results.results);
-				activaPanelCapes(true);
-			}else{
-				//TODO error
-				console.debug("createTematicLayerCategories ERROR");					
-			}
-		},function(results){
+	
+	createVisualitzacioTematica(data).then(function(results){
+		if(results.status == 'OK'){
+			var defer = $.Deferred();
+			readVisualitzacio(defer, results.visualitzacio, results.layer);
+			jQuery('#dialog_tematic_rangs').modal('hide');
+			activaPanelCapes(true);
+		}else{
 			//TODO error
-			console.debug("createTematicLayerCategories ERROR");
-		});
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		jQuery('#dialog_tematic_rangs').modal('hide');
-//		event.stopPropagation();		
-	}
-	
-	
+			console.debug("createVisualitzacioTematica ERROR");					
+		}
+	},function(results){
+		//TODO error
+		console.debug("createVisualitzacioTematica ERROR");
+	});	
+	event.preventDefault();
+	event.stopImmediatePropagation();
 	
 }
 
@@ -809,7 +707,7 @@ function readDataTematicFromSlotf(tematic, slotf){
 function readDataVisualitzacio(visualitzacio, key){
 	//console.debug("readDataTematicFromSlotd");
 	var defer = jQuery.Deferred();
-	console.debug(visualitzacio);
+//	console.debug(visualitzacio);
 	var data = {};
 	var dataValues = [];
 	jQuery.each(visualitzacio.estil, function(index, item){
@@ -821,8 +719,8 @@ function readDataVisualitzacio(visualitzacio, key){
 			}
 		});
 	});
-	console.debug(data);
-	console.debug(dataValues);
+//	console.debug(data);
+//	console.debug(dataValues);
 	defer.resolve(dataValues);
 	return defer.promise();
 }

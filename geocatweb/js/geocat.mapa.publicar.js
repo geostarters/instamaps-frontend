@@ -5,6 +5,8 @@
 function addControlPublicar(){
 	
 	if (!$.cookie('collaborateuid')) addHtmlInterficiePublicar();
+	else  addHtmlInterficiePublicarDisable();
+		
 	addHtmlModalPublicar();
 	addHtmlModalIframePublicar();
 	
@@ -348,6 +350,15 @@ function addHtmlInterficiePublicar(){
 		'</div>'
 	);
 	$('.bt_publicar').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")});
+}
+
+function addHtmlInterficiePublicarDisable(){
+	jQuery("#funcio_publicar").append(
+		'<div class="bt_publicar_disabled">'+
+		'<span lang="ca">Publicar el mapa</span>'+
+		'</div>'
+	);
+	//$('.bt_publicar').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")});
 }
 
 function addHtmlModalPublicar(){
