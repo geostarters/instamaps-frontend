@@ -868,6 +868,7 @@ background-color:#FFFFFF}
 	
 	.thumbnail div.byuser{
 		font-size: 9pt;
+		height: 183px;
 	}
 	
 	.thumbnail a.btn{
@@ -1224,6 +1225,10 @@ h1.big_text{
   right:-5px;
 }
 
+#galeriaSort #geoRss {
+    float: left;
+    padding: 4px;
+}
 
 
 /*info popover visor*/
