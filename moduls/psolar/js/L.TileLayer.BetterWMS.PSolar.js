@@ -6,7 +6,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			L.TileLayer.WMS.prototype.onAdd.call(this, map);
 			map.on('click', this.getFeatureInfo, this);
 			addBarraPSolar();
-
+			activaPanelCapes(true);
 			if (this.wmsParams.layers.indexOf('irradiacio_global_calculada') != -1) {
 				addControLSolarLL();
 				var params = this.getLegendGraphic();
@@ -41,6 +41,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			var urlApp = document.location.href;
 			if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
 				params = params.replace('betaserver.icgc.cat', '172.70.1.31');
+				params = params.replace('www.instamaps.cat', '172.70.1.31');
 			}
 			//params=params.replace('betaserver.icgc.cat','84.88.72.98');
 
@@ -51,6 +52,35 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				if (map.hasLayer(capaGeoJSON)) {
 					map.removeLayer(capaGeoJSON);
 				}
+			
+				if((params.indexOf('instamaps.cat')!=-1) || (params.indexOf('instaweb') != -1) || (params.indexOf('172.70.1.11') != -1)){
+										
+									jQuery.ajax({
+										url : paramsWFS.url,
+										
+										always : function (data, status, xhr) {
+											map.spin(false);
+
+										},
+										success : function (geojson, status, xhr) {
+											map.spin(false);
+
+											if (geojson.features) {
+												iniciaInfoPSolar(paramsWFS.capa, geojson);
+
+											}
+
+										},
+										error : function (xhr, status, error) {
+											map.spin(false);
+										}
+
+									});	
+										
+										
+										
+									}else{
+				
 				jQuery.ajax({
 					url : paramUrl.proxy_betterWMS,
 					data : {
@@ -74,8 +104,14 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					}
 
 				});
+				
+									}
+				
+				
+				
+				
 
-			}
+			}// Fi If
 
 			setTimeout(function () {
 				heFetUnClick = true
@@ -114,6 +150,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				var urlApp = document.location.href;
 				if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
 					params = params.replace('betaserver.icgc.cat', '172.70.1.31');
+					params = params.replace('www.instamaps.cat', '172.70.1.11');
 				}
 				//params=params.replace('betaserver.icgc.cat','84.88.72.98');
 				var paramsWFS = this.wfsFyer(params, this.wmsParams.layers, map.getZoom(), evt.latlng, 'click');
@@ -122,31 +159,64 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					if (map.hasLayer(capaGeoJSON)) {
 						map.removeLayer(capaGeoJSON);
 					}
-					jQuery.ajax({
-						url : paramUrl.proxy_betterWMS,
-						data : {
-							url : paramsWFS.url
-						},
-						always : function (data, status, xhr) {
-							map.spin(false);
+					
 
-						},
-						success : function (geojson, status, xhr) {
-							map.spin(false);
+									if((params.indexOf('instamaps.cat')!=-1) || (params.indexOf('instaweb') != -1)|| (params.indexOf('172.70.1.11') != -1)){
+										
+									jQuery.ajax({
+										url : paramsWFS.url,
+										
+										always : function (data, status, xhr) {
+											map.spin(false);
 
-							if (geojson.features) {
-								iniciaInfoPSolar(paramsWFS.capa, geojson);
+										},
+										success : function (geojson, status, xhr) {
+											map.spin(false);
 
-							}
+											if (geojson.features) {
+												iniciaInfoPSolar(paramsWFS.capa, geojson);
 
-						},
-						error : function (xhr, status, error) {
-							map.spin(false);
-						}
+											}
 
-					});
+										},
+										error : function (xhr, status, error) {
+											map.spin(false);
+										}
 
-				}
+									});	
+										
+										
+										
+									}else{
+									jQuery.ajax({
+										url : paramUrl.proxy_betterWMS,
+										data : {url : paramsWFS.url},
+										always : function (data, status, xhr) {
+											map.spin(false);
+
+										},
+										success : function (geojson, status, xhr) {
+											map.spin(false);
+
+											if (geojson.features) {
+												iniciaInfoPSolar(paramsWFS.capa, geojson);
+
+											}
+
+										},
+										error : function (xhr, status, error) {
+											map.spin(false);
+										}
+
+									});
+
+									}//fi else
+				
+				
+				
+				
+				
+				}//fi if
 			}
 
 		},
