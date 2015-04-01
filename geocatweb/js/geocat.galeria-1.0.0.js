@@ -60,13 +60,18 @@ $(function(){
 					valueNames: [ 'nomAplicacioSort' ]
 			};
 			var userList = new List('galeriaSort', optionsSearch);	
-			
-			
+			if ($('.new_map').is(':visible')){
 				escriuResultats(userList.visibleItems.length-1);
-			
+			}else{
+				escriuResultats(userList.visibleItems.length);
+			}
+						
 			$('input.search.form-control').on('keyup', function(event){
-		
-				escriuResultats(userList.visibleItems.length-1);
+				if ($('.new_map').is(':visible')){
+					escriuResultats(userList.visibleItems.length-1);
+				}else{
+					escriuResultats(userList.visibleItems.length);
+				}
 			});
 			
 			
