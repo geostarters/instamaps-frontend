@@ -6,8 +6,8 @@ var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 //	HOST_APP = "http://localhost:8080/";
-	HOST_APP = "http://localhost:8181/";//Local Jess
-//	HOST_APP = "http://localhost/";//Local Jess
+//	HOST_APP = "http://localhost:8181/";//Local Jess
+	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
 	proxydir="maps"; //he creat un director maps al meu Apache
@@ -151,10 +151,10 @@ var paramUrl = {
 	createVisualitzacioTematica: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
 	createVisualitzacioHeatCluster: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioHeatCluster.action?",
 	getGeometriesColleccioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getGeometriesColleccioByBusinessId.action?",
-	
 	getGeometriesPropertiesLayer: HOST_APP+"geocat/layers/visualitzacio/getGeometriesPropertiesLayer.action?",
 	removeGeometriaFromProperties: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromProperties.action?",
-	updateGeometriaProperties: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometriaProperties.action?"
+	updateGeometriaProperties: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometriaProperties.action?",
+	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
