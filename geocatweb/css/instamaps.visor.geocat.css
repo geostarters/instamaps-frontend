@@ -953,6 +953,9 @@ background-color:#FFFFFF}
 	 	width: 97%;
 	 	overflow: hidden;
 	}
+	.thumbnail div.descAplicacio:hover {
+    	cursor: pointer;
+	}	
 	
 	.starwars{
 		position: absolute;

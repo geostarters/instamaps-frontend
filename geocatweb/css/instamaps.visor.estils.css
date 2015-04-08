@@ -360,12 +360,18 @@
 	text-align: left;
 }
 
+.leaflet-popup-content {
+    max-height: 550px;
+    overflow: auto;
+     width: 300px;
+}
+
 .div_popup {
 	border: 0 dashed #DDDDDD;
 	min-height: 170px;
 	height: auto;
-	margin-left: -5px;
-	margin-right: 26px;
+	/*margin-left: -5px;
+	margin-right: 26px;*/
 	padding: 3px;
 	width: 300px;
 }
@@ -375,7 +381,7 @@
     /*margin-left: -5px;
     margin-right: 26px;*/
     padding: 3px;
-    width: 300px;
+    /*width: 300px;*/
 }
 
 .popup_pres {

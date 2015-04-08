@@ -33,7 +33,18 @@ L.LayerGroup.include({
         	 }else if(!jQuery.isEmptyObject(layer._options.style)){
         		 json.styles=layer._options.style;
         	 }
+         } 
+         
+         //assegurem que s'han guardat estils correctament...
+         var count = Object.keys(json.styles).length;
+         if(count <=1){
+        	 if(!jQuery.isEmptyObject(layer.options) && Object.keys(layer.options).length>1){
+        		 json.styles=layer.options;
+        	 }else if(!jQuery.isEmptyObject(layer._options) && Object.keys(layer._options).length>1){
+        		 json.styles=layer._options;
+        	 }
          }         
+         
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
         }
       });

@@ -631,6 +631,10 @@ function loadLayer(value){
 //		});	
 		loadURLfileLayer(value);
 		defer.resolve();		
+	//Si la capa es de tipus geojsonVT
+	}else if(value.serverType == t_geojsonvt){
+		loadGeojsonvtLayer(value);
+		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){
 		loadDadesObertesLayer(value).then(function(){
@@ -732,7 +736,7 @@ function loadConfiguracio(configuracio){
 		configuracio = $.parseJSON(mapConfig.configuracio);
 		dfd.resolve(configuracio);
 	}else{
-		jQuery.get('../../default_config_mapa.txt', function(data) {
+		jQuery.get('../../default_config_mapa_0.1.txt', function(data) {
 			   configuracio = $.parseJSON(data);
 			   dfd.resolve(configuracio);
 		});							
