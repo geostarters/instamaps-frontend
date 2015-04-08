@@ -3,7 +3,7 @@
 //var pending = false
 var drgFromMapa = null;
 var drgFromBoto = null;
-var midaFitxer = 10000000;//en bytes
+var midaFitxer = 100000000;//en bytes
 var ldpercent = 0;
 var progressBarShow = true;
 
@@ -23,7 +23,8 @@ var envioArxiu={isDrag:false,
 	mapBusinessId : null,
 	markerStyle: null,
 	lineStyle: null,
-	polygonStyle: null
+	polygonStyle: null,
+	midaFitxer: null
 };
 
 var drOpcionsMapa = {
@@ -31,13 +32,13 @@ var drOpcionsMapa = {
 	//url : paramUrl.upload_gdal,
 	url : paramUrl.upload_gdal_2015,
 	paramName : "file", 
-	maxFilesize : 10, // MB
+	maxFilesize : 100, // MB
 	method : 'post',
 	// clickable:false,
 	accept : function(file, done) {
-		console.debug("File:");
-		console.debug(file);
-		console.debug(file.fullPath);		
+//		console.debug("File:");
+//		console.debug(file);
+//		console.debug(file.fullPath);		
 	}
 };
 
@@ -74,6 +75,7 @@ function creaAreesDragDropFiles() {
 			formData.append("ext", envioArxiu.ext);
 			formData.append("uid", $.cookie('uid'));
 			formData.append("mapBusinessId", url('?businessid'));
+			formData.append("midaFitxer", envioArxiu.midaFitxer);
 			var file = file.name.split(".");
 			formData.append("serverName", file[0]);
 			formData.append("markerStyle", envioArxiu.markerStyle);	
@@ -89,9 +91,172 @@ function creaAreesDragDropFiles() {
 				resposta=jQuery.trim(resposta);
 				resposta=jQuery.parseJSON(resposta);
 				if(resposta.status=="OK"){
+					
 					progressBarShow = true;
 					$('#dialog_carrega_dades').modal('hide');
 					addDropFileToMap(resposta);
+					
+				}else if(resposta.status=="MAX_GEOM"){
+					//Carreguem geojsonVT
+					console.debug('Fitxer MAX_GEOM:');
+					//console.timeEnd('JSON.parse');
+					console.debug(resposta);
+					
+					console.debug("ESTILS:");
+					console.debug(envioArxiu.markerStyle);
+					console.debug(envioArxiu.lineStyle);
+					console.debug(envioArxiu.polygonStyle);
+					
+
+//					envioArxiu.markerStyle = JSON.stringify(getMarkerRangFromStyle(defaultPunt));
+//					envioArxiu.lineStyle = JSON.stringify(getLineRangFromStyle(canvas_linia));
+//					envioArxiu.polygonStyle = JSON.stringify(getPolygonRangFromStyle(canvas_pol));					
+					
+					//{"isCanvas":false,"color":"transparent","marker":"orange","simbolColor":"#000000","radius":6,"iconSize":"28#42","iconAnchor":"14#42","simbol":"","opacity":100,"label":false,"labelSize":10,"labelFont":"arial","labelColor":"#000000"}
+					//{"isCanvas":false,"color":"#ffc500","marker":"punt_r","simbolColor":"#000000","radius":6,"iconSize":"34#34","iconAnchor":"17#17","simbol":"anchor font17","opacity":100,"label":false,"labelSize":10,"labelFont":"arial","labelColor":"#000000"}
+					//{"isCanvas":true,"simbolSize":6,"color":"#ff0000","borderColor":"#ffffff","borderWidth":2,"opacity":90,"label":false,"labelSize":10,"labelFont":"arial","labelColor":"#000000"}
+					
+					var polStyle = jQuery.parseJSON(envioArxiu.polygonStyle);
+					var linStyle = jQuery.parseJSON(envioArxiu.lineStyle);
+					var poiStyle = jQuery.parseJSON(envioArxiu.markerStyle);
+					if(!poiStyle.isCanvas) poiStyle = default_circulo_style;
+					
+					console.debug("alpha:");
+					console.debug(polStyle.opacity/10);
+					
+					var options = {
+							//pane: 'objectsPane',
+							url : resposta.url,
+							style: {
+								point: {
+									radius: poiStyle.simbolSize,//6,
+									fillColor: poiStyle.color,//"#ff0000",
+									strokeColor: poiStyle.borderColor,//"#ffffff",
+									stroke: poiStyle.borderWidth//2
+								},
+								line: {
+									strokeColor: linStyle.color,
+									stroke: linStyle.lineWidth	
+								},
+								polygon: {
+									fillColor: polStyle.color,
+									strokeColor: polStyle.borderColor,
+									stroke: polStyle.borderWidth, 
+									alpha: polStyle.opacity/100//alpha?
+								}
+							}							
+					};
+					
+					var canvasTiles = L.tileLayer.geoJSON(options);					
+					
+					//Creo la capa servidor
+					if(typeof url('?businessid') == "string"){
+						var data = {
+							uid:$.cookie('uid'),
+							mapBusinessId: url('?businessid'),
+							serverName: file.name,//nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
+							serverType: t_geojsonvt,
+							calentas: false,
+				            activas: true,
+				            visibilitats: true,
+				            order: canvasTiles.options.zIndex,//controlCapes._lastZIndex+1,
+				            epsg: '4326',
+//				            imgFormat: 'image/png',
+//				            infFormat: 'text/html',
+				            tiles: true,	            
+				            transparency: true,
+				            opacity: 1,
+				            visibilitat: 'O',
+				            url: resposta.url,//urlFile,//Provar jQuery("#txt_URLJSON")
+				            calentas: false,
+				            activas: true,
+				            visibilitats: true,
+				            options: JSON.stringify(options)//'{"style":"'+options.style+'"}'
+						};
+						
+						createServidorInMap(data).then(function(results){
+								if (results.status == "OK"){
+									
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'geojsonvt', resposta.url, 1]);
+									//_kmq.push.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'dinamiques'}]);
+									
+									canvasTiles.options.businessId = results.results.businessId;
+									
+									canvasTiles.options.nom = file.name;
+									canvasTiles.options.tipus = t_geojsonvt;
+									canvasTiles.options.url =  resposta.url;
+									
+									//Codi que serviria per la versio 0.8 de leaflet
+									/*
+									var geojsonPane = map.createPane('geojsonvtPane');
+									geojsonPane.style.zIndex = 11;
+									canvasTiles.options.pane = 'geojsonvtPane';
+									canvasTiles.addTo(map);
+									*/
+									
+//									canvasTiles.bringToFront();
+//									console.debug("info map:");
+//									console.debug(map._getMapPanePos());
+//									console.debug(map.getPanes());
+									
+									map.addLayer(canvasTiles);
+									//canvasTiles.bringToFront();
+									
+									
+//									console.debug("Prova:");
+//									var topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
+									var topPane = map.getPanes().mapPane.getElementsByClassName("leaflet-top-pane");
+//									if(!isValidValue(topPane)){
+									if(topPane.length <= 0){
+										topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+									}
+									
+//									console.debug("toppane:");
+//									console.debug(topPane);									
+//									console.debug($("div.leaflet-top-pane"));
+									
+									//var topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+									//var topLayer = L.mapbox.tileLayer('lxbarth.map-vtt23b1i').addTo(map);
+//									topPane.appendChild(canvasTiles.getContainer());
+									
+
+									$("div.leaflet-top-pane").append(canvasTiles.getContainer());
+									
+//							map.getPanes().mapPane.getElementsByClassName("leaflet-top-pane");
+									//topLayer.setZIndex(9);
+//									console.debug("Fi Prova:");	
+//									console.debug(map.getPanes());
+									
+									canvasTiles.setZIndex(4);
+									
+//									console.debug("mapa:");
+//									console.debug(map);
+									
+//									console.debug("canvasTiles:");
+//									console.debug(canvasTiles);									
+									
+
+									
+									canvasTiles.options.zIndex = controlCapes._lastZIndex + 1;
+									controlCapes.addOverlay(canvasTiles, file.name, true);
+									controlCapes._lastZIndex++;
+									
+									$('#dialog_carrega_dades').modal('hide');	
+									activaPanelCapes(true);
+									
+								}else{
+									console.debug("1.Error a createServidorInMap:"+results.status);
+									var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+									jQuery("#div_url_file_message").html(txt_error);							
+								}
+						},function(results){
+							console.debug("2.Error a createServidorInMap:"+results.status);
+							var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+							jQuery("#div_url_file_message").html(txt_error);					
+						});
+					}				
+					
+					
 				}else{
 					
 					var txt_error = "ERROR";
@@ -117,6 +282,7 @@ function creaAreesDragDropFiles() {
 					jQuery("#div_carrega_dades_message").html(txt_error);
 					jQuery("#div_carrega_dades_message").show();					
 				}
+			
 			}else{
 				progressBarShow = false;
 				jQuery('#progress_bar_carrega_dades').hide();
@@ -199,6 +365,7 @@ function addFuncioCarregaFitxers(){
 				formData.append("polygonStyle", envioArxiu.polygonStyle);	
 				formData.append("uid", $.cookie('uid'));
 				formData.append("mapBusinessId", url('?businessid'));
+				formData.append("midaFitxer", envioArxiu.midaFitxer);
 				var file = file.name.split(".");
 				formData.append("serverName", file[0]);
 				formData.append("uploadFile", paramUrl.uploadFile);
@@ -810,7 +977,10 @@ function miraFitxer(fitxer) {
 	}
 	
 	envioArxiu.ext=obj.ext;
-
+	envioArxiu.midaFitxer=fitxer.size;
+	console.debug("midaFItxer:");
+	console.debug(midaFitxer);
+	
 	return obj;
 
 }

@@ -2,8 +2,8 @@
 * In-place editing with Twitter Bootstrap, jQuery UI or pure jQuery
 * http://github.com/vitalets/x-editable
 * Copyright (c) 2013 Vitaliy Potapov; Licensed MIT */
-.form-inline{
-    margin-bottom: 5px; /* overwrites bootstrap margin */
+.editableform {
+    margin-bottom: 0; /* overwrites bootstrap margin */
 }
 
 .editableform .control-group {
@@ -17,36 +17,16 @@
   See: https://github.com/vitalets/x-editable/issues/393
 */
 .editableform .form-control {
-    width: 160px;
-    height: 24px;
+    width: auto;
 }
 
 .editable-buttons {
    display: inline-block; /* should be inline to take effect of parent's white-space: nowrap */
    vertical-align: top;
-   margin-left: 2px;/*7px;*/
+   margin-left: 7px;
    /* inline-block emulation for IE7*/
    zoom: 1; 
    *display: inline;
-}
-
-.editable-submit, .editable-cancel{
-	padding: 5px 8px;	
-}
-
-.leaflet-row .editable-submit, 
-.leaflet-row .editable-cancel{
-	padding: 5px 7px;	
-}
-
-.leaflet-subrow .editable-submit, 
-.leaflet-subrow .editable-cancel{
-	padding: 5px 4px;	
-}
-
-.editable-buttons .btn-sm {
-	line-height: 0.5;
-	font-size: 12px;	
 }
 
 .editable-buttons.editable-buttons-bottom {
@@ -58,8 +38,7 @@
 .editable-input {
     vertical-align: top; 
     display: inline-block; /* should be inline to take effect of parent's white-space: nowrap */
-    width: 160px;
-    /*width: auto;  bootstrap-responsive has width: 100% that breakes layout */
+    width: auto; /* bootstrap-responsive has width: 100% that breakes layout */
     white-space: normal; /* reset white-space decalred in parent*/
    /* display-inline emulation for IE7*/
    zoom: 1; 
@@ -67,7 +46,7 @@
 }
 
 .editable-buttons .editable-cancel {
-   margin-left: 2px; 
+   margin-left: 7px; 
 }
 
 /*for jquery-ui buttons need set height to look more pretty*/
@@ -168,7 +147,6 @@
 }
 .editable-container.editable-popup {
     max-width: none !important; /* without this rule poshytip/tooltip does not stretch */
-    overflow: unset;
 }  
 
 .editable-container.popover {
@@ -178,9 +156,8 @@
 .editable-container.editable-inline {
     display: inline-block; 
     vertical-align: middle;
-    width: 150px;
-    /*width: auto;
-     inline-block emulation for IE7*/
+    width: auto;
+    /* inline-block emulation for IE7*/
     zoom: 1; 
     *display: inline;    
 }
@@ -189,15 +166,11 @@
    font-size: inherit;  /* jqueryui widget font 1.1em too big, overwrite it */
    z-index: 9990; /* should be less than select2 dropdown z-index to close dropdown first when click */
 }
-
-/*a.editable-click,*/
-.editable-click:hover,  
+.editable-click, 
+a.editable-click, 
 a.editable-click:hover {
     text-decoration: none;
-    /*border: dashed 1px #000000;
-    border: 1px solid #CCCCCC;*/
-    cursor: pointer;
-    color: #b3b3b3;
+    border-bottom: dashed 1px #0088cc;
 }
 
 .editable-click.editable-disabled, 

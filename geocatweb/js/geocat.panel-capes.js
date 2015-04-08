@@ -121,10 +121,13 @@ function updateEditableElements(){
 //        console.debug('shown editable:'+editable);
         jQuery('.opcio-conf').hide();
         jQuery('.subopcio-conf').hide();
+        jQuery('.leaflet-data-table').hide();
+        
     });
     $('.leaflet-name .editable').on('hidden', function(e, editable) {
 //    	console.debug('hidden editable:'+editable);
         jQuery('.opcio-conf').show();
+        jQuery('.leaflet-data-table').show();
     });    
 }
 

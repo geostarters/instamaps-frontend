@@ -2,9 +2,31 @@
  * 
  */
 
-function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
+function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY){
 
 	var estil_do = retornaEstilaDO(t_url_file);
+	console.debug("estil_do:");
+	console.debug(estil_do);
+	
+//	var markerStyle = JSON.stringify(getMarkerRangFromStyle(defaultPunt));
+//	console.debug("markerStyle:");
+//	console.debug(markerStyle);
+//	
+	var markerStyle2 = getMarkerRangFromStyle(defaultPunt);
+	console.debug("markerStyle2:");
+	console.debug(markerStyle2);	
+	
+	if(markerStyle2.isCanvas){
+		estil_do.color = markerStyle2.borderColor;
+		estil_do.fillColor = markerStyle2.color;
+		estil_do.fillOpacity = 1;
+		estil_do.opacity = 1;
+		estil_do.radius = markerStyle2.simbolSize;
+		estil_do.weight = markerStyle2.borderWidth;
+	}
+	
+	console.debug("estil_do:");
+	console.debug(estil_do);	
 	
 	if(dinamic){
 		
@@ -13,6 +35,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 											 "&epsgIN="+epsgIN+
 											 "&dinamic="+dinamic+
 											 "&uploadFile="+paramUrl.uploadFile+
+											 "&colX="+colX+
+											 "&colY="+colY+
 											 "&uid="+$.cookie('uid');		
 		
 		var capaURLfile = new L.GeoJSON.AJAX(param_url, {
@@ -81,7 +105,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 					            calentas: false,
 					            activas: true,
 					            visibilitats: true,
-					            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","dinamic":"'+dinamic+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+					            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 							};
 							
 							createServidorInMap(data).then(function(results){
@@ -131,6 +155,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa){
 			 dinamic: dinamic,
 			 uploadFile: paramUrl.uploadFile,
 			 uid: $.cookie('uid'),
+			 colX: colX,
+			 colY: colY,
 			 markerStyle: JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
 			 lineStyle: JSON.stringify(getLineRangFromStyle(canvas_linia)),
 			 polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
@@ -246,11 +272,14 @@ function loadURLfileLayer(layer){
 	var estil_do = options.estil_do;
 	var tipusFile = options.tipusFile;
 	var epsgIN = options.epsgIN;
+	var colX = options.colX;
+	var colY = options.colY;
 	var urlFile = layer.url;
 	var dinamic = false;
 	if(options.dinamic) dinamic = true;
 	
-	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
+//	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
+	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
 	
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 		nom : layer.serverName,

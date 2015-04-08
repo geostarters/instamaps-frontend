@@ -75,7 +75,8 @@ function loadApp(){
 //			console.debug("mapConfig:");
 //			console.debug(mapConfig);
 			
-			var infoHtml = '<p>'+mapConfig.entitatUid+'</p>';
+			var nomUser = mapConfig.entitatUid.split("@");
+			var infoHtml = '<p>'+nomUser[0]+'</p>';
 			
 			if (mapConfig.options){
 				mapConfig.options = $.parseJSON( mapConfig.options );
@@ -116,7 +117,7 @@ function loadApp(){
 			loadMapConfig(mapConfig).then(function(){
 				//avisDesarMapa();
 				addFuncioDownloadLayer('visor');
-//				activaPanelCapes(true);
+				activaPanelCapes(true);
 				//Actulitza idioma dels tooltips
 				$("body").on("change-lang", function(event, lang){
 					window.lang.change(lang);
@@ -672,6 +673,11 @@ function loadLayer(value){
 //			defer.resolve();
 //		});	
 		loadURLfileLayer(value);
+		defer.resolve();		
+	//Si la capa es de tipus dades obertes
+	}else if(value.serverType == t_geojsonvt){
+		console.debug(loadGeojsonvtLayer);
+		loadGeojsonvtLayer(value);
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_dades_obertes){

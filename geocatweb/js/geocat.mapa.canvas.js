@@ -1103,22 +1103,22 @@ function ompleCapesMatriu(item){
                   
                  // matriuCapesLL.layers.push(JSON.stringify(L_JSON));
 				  
+				//JA NO CAL, EN CAS DE JSON CIRCULAR...
+//				  var cache = [];
+//				  matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
+//				    if (typeof value === 'object' && value !== null) {
+//				        if (cache.indexOf(value) !== -1) {
+//				            // Circular reference found, discard key
+//				            return;
+//				        }
+//				        // Store value in our collection
+//				        cache.push(value);
+//				    }
+//				    return value;
+//					}));
+//					cache = null;
 				  
-				  var cache = [];
-				  matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
-				    if (typeof value === 'object' && value !== null) {
-				        if (cache.indexOf(value) !== -1) {
-				            // Circular reference found, discard key
-				            return;
-				        }
-				        // Store value in our collection
-				        cache.push(value);
-				    }
-				    return value;
-}));
-cache = null;
-				  
-				  
+				matriuCapesLL.layers.push(JSON.stringify(L_JSON));
 						  
                   matriuCapesLL.n_layers.push(item.name);
                   matriuCapesLL.id_layers.push(item.layer.options.businessId);

@@ -98,6 +98,7 @@ var default_circuloglyphon_style = {
 }
 
 //constants
+var t_geojsonvt = "geojsonvt";
 var t_dades_obertes = "dades obertes";
 var t_wms = "wms";
 var t_json = "json";
@@ -137,6 +138,8 @@ var t_file_geojson = ".geojson";
 var t_file_topojson = ".topojson";
 var t_file_shp = ".shp";
 var t_file_dxf = ".dxf";
+var t_file_xls = ".xls";
+var t_file_xlsx = ".xlsx";
 
 var t_user_loginat = '1#';
 var t_user_random = '0#';
