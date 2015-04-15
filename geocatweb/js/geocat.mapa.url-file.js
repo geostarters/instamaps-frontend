@@ -8,10 +8,28 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	console.debug("estil_do:");
 	console.debug(estil_do);
 	
+	var estil_lin_pol = estil_do;
+	
 //	var markerStyle = JSON.stringify(getMarkerRangFromStyle(defaultPunt));
 //	console.debug("markerStyle:");
 //	console.debug(markerStyle);
-//	
+//
+	 var lineStyle = getLineRangFromStyle(canvas_linia);
+	 lineStyle.weight = lineStyle.lineWidth;
+	 console.debug(lineStyle);
+	 
+	 var polygonStyle = getPolygonRangFromStyle(canvas_pol);
+	 console.debug("polygonStyle:");
+	 console.debug(polygonStyle);
+	 
+	 polygonStyle.weight = polygonStyle.lineWidth;
+	 polygonStyle.color = polygonStyle.borderColor;
+	 polygonStyle.fillColor = polygonStyle.color;
+	 polygonStyle.fillOpacity = polygonStyle.opacity/100; 
+	 polygonStyle.opacity = 1;
+
+	 console.debug(polygonStyle);
+	
 	var markerStyle2 = getMarkerRangFromStyle(defaultPunt);
 	console.debug("markerStyle2:");
 	console.debug(markerStyle2);	
@@ -43,7 +61,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			nom : nomCapa,
 			tipus : t_url_file,
 			estil_do: estil_do,
-			style: estil_do,//Estil de poligons i linies
+			style: estil_lin_pol,//Estil de poligons i linies
 			businessId : '-1',
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
@@ -75,12 +93,35 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				    return latlng.bindPopup(html);
 				  },			  
 			  middleware:function(data){
-//			    	console.debug("capaURLfile");
-//			    	console.debug(capaURLfile);				  
+			    	console.debug("capaURLfile");
+			    	console.debug(capaURLfile);				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
-//					  console.debug(data);	
+					  console.debug(data);	
+					  
+					   var stringData = JSON.stringify(data);
+					   var geometryType = defineGeometryType(stringData);
+					   console.debug("geometryType");
+					   console.debug(geometryType);	
+				    	
+					   console.debug("CapaURLFILE style abans:");
+					   console.debug(capaURLfile.options.style);
+					   
+				    	if(geometryType.indexOf("point")!=-1){
+//				    		capaURLfile.setStyle(estil_do);
+				    		capaURLfile.options.style = estil_do;
+				    	}else if(geometryType.indexOf("line")!=-1){
+//				    		capaURLfile._setLayerStyle(lineStyle);
+				    		capaURLfile.options.style = lineStyle;
+				    	}else if(geometryType.indexOf("polygon")!=-1){
+//				    		capaURLfile.setStyle(polygonStyle);
+				    		capaURLfile.options.style = polygonStyle;
+				    	}
+				    	
+						   console.debug("CapaURLFILE style despres:");
+						   console.debug(capaURLfile.options.style);				    	
+				    	
 					  capaURLfile.addData(data);
 					  
 						//Un cop tinc la capa a client, la creo a servidor
@@ -105,22 +146,33 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					            calentas: false,
 					            activas: true,
 					            visibilitats: true,
-					            options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+					            options: '{"tipusFile":"'+tipusFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 							};
+							
+							console.debug("Abans create servidor in map, data:");
+							console.debug(data);
 							
 							createServidorInMap(data).then(function(results){
 									if (results.status == "OK"){
-										
+										console.debug("Create servidor in Map ok!");
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques', urlFile, 1]);
 										//_kmq.push.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'dinamiques'}]);
 										
 										jQuery('#dialog_dades_ex').modal('toggle');					
+										
 										capaURLfile.options.businessId = results.results.businessId;
 										capaURLfile.options.nom = nomCapa;
 										capaURLfile.options.tipus = t_url_file;
 										capaURLfile.options.url = urlFile;
+										capaURLfile.options.epsgIN = epsgIN;
+										capaURLfile.options.tipusFile = tipusFile;
 										capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
 										capaURLfile.options.options.estil_do = estil_do;
+										capaURLfile.options.geometryType = geometryType;
+										capaURLfile.options.colX = colX;
+										capaURLfile.options.colY = colY;
+										capaURLfile.options.dinamic = dinamic;
+										
 										capaURLfile.addTo(map);
 										capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 										controlCapes.addOverlay(capaURLfile, nomCapa, true);
@@ -268,15 +320,19 @@ function processFileError(data){
 }
 
 function loadURLfileLayer(layer){
-	var options = jQuery.parseJSON( layer.options );
+	//var options = jQuery.parseJSON(layer.options);
+	var options = JSON.parse(layer.options);
 	var estil_do = options.estil_do;
+	var style = options.style;
 	var tipusFile = options.tipusFile;
+	var geometryType = options.geometryType;
 	var epsgIN = options.epsgIN;
 	var colX = options.colX;
 	var colY = options.colY;
 	var urlFile = layer.url;
-	var dinamic = false;
-	if(options.dinamic) dinamic = true;
+	var dinamic = options.dinamic;
+//	var dinamic = false;
+//	if(options.dinamic) dinamic = true;
 	
 //	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
 	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
@@ -284,8 +340,9 @@ function loadURLfileLayer(layer){
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 		nom : layer.serverName,
 		tipus : layer.serverType,
+		geometryType: geometryType,
 		estil_do: estil_do,
-		style: estil_do,
+		style: style,
 		businessId : layer.businessId,
 		pointToLayer : function(feature, latlng) {
 			var geom = L.circleMarker(latlng, estil_do);
@@ -320,23 +377,37 @@ function loadURLfileLayer(layer){
 	});		
 		
 	capaURLfileLoad.on('data:loaded', function(e){
-		
-//		console.debug("capaURLfileLoad loaded");
+		console.debug("capa loaded!");
+		capaURLfileLoad.options = options;
+		console.debug("capaURLfileLoad loaded");
+		console.debug(capaURLfileLoad);
 		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaURLfileLoad.addTo(map);
 		}
-				
+
+		console.debug("layer:");
+		console.debug(layer);
+//TODO control si no es capa origen!!!!		
 		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
 			capaURLfileLoad.options.zIndex = controlCapes._lastZIndex + 1;
-		}else{
+		}else if(layer.capesOrdre != capesOrdre_sublayer){
 			capaURLfileLoad.options.zIndex = parseInt(layer.capesOrdre);
 		}		
 		
-		controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true);
-		controlCapes._lastZIndex++;		
+		console.debug(options);
+		if(!options.origen){
+			capaURLfileLoad.options.businessId = layer.businessId;
+			controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true);
+			controlCapes._lastZIndex++;	
+		}else{//Si te origen es una sublayer
+			var origen = getLeafletIdFromBusinessId(options.origen);
+			capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
+			controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origen);
+			defer.resolve();
+		}		
 		
 	});
-			
+			console.debug("Fi loadURLFIle!");
 }
 
 
@@ -455,3 +526,23 @@ function loadURLfileLayer2(layer) {
 	activaPanelCapes(true);	
 	return defer.promise();
 }
+
+function defineGeometryType(data){
+	
+	if(data.indexOf("Point")!=-1){
+		return t_point;
+	}else if(data.indexOf("Line")!=-1){
+		return t_linestring;
+	}else if(data.indexOf("Polygon")!=-1){
+		return t_polygon;
+	}
+	
+}
+
+//function replacer(key, value) {
+//	console.debug(key);
+//	console.debug(value);
+//	
+//	if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+//	else return value;
+//}

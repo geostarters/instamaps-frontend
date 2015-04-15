@@ -7,7 +7,7 @@
 var drawControl;
 var featureActive,crt_Editing,crt_Remove;
 var defaultPunt;
-var canvas_linia={"id":"cv_linia","strokeStyle":"#FFC500","lineWidth":"3","tipus":"linia"};
+var canvas_linia={"id":"cv_linia","strokeStyle":"#FFC500","lineWidth":"3","tipus":"linia","opacity":"100"};
 var canvas_pol={"id":"cv_pol","strokeStyle":"#FFC500","opacity":"0.5","fillStyle":"rgba(255, 197, 0,0.5)","lineWidth":"3","tipus":"pol"};
 var canvas_obj_l,cv_ctx_l;
 var canvas_obj_p,cv_ctx_p;
@@ -135,7 +135,7 @@ function obrirMenuModal(_menuClass,estat,_from){
 
     		
     		var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
-        	if( layers_from.length > num_max_pintxos){
+        	if( layers_from.length > num_max_pintxos || _from.tipus == t_url_file){
                 jQuery('.fila-awesome-markers').hide();
                 jQuery('#filaM').hide();
                 estilP.iconGlif = "fa fa-";

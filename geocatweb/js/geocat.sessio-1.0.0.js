@@ -42,19 +42,19 @@ jQuery("#login_button").click(function(){
 					$('#modal_login_new_icgc').modal('toggle');
 					jQuery('#modal_login_new_icgc').on('hide.bs.modal', function (e) {
 						
-						jQuery('#dialog-migracio').modal('show');
-						jQuery('#dialog-migracio').on('hide.bs.modal', function (e) {
-							redirectLogin(results);
-						});
+//						jQuery('#dialog-migracio').modal('show');
+//						jQuery('#dialog-migracio').on('hide.bs.modal', function (e) {
+//							redirectLogin(results);
+//						});
 						
-						//redirectLogin(results);
+						redirectLogin(results);
 					});
 				}else{
-					//redirectLogin(results);
-					jQuery('#dialog-migracio').modal('show');
-					jQuery('#dialog-migracio').on('hide.bs.modal', function (e) {
-						redirectLogin(results);
-					});					
+					redirectLogin(results);
+//					jQuery('#dialog-migracio').modal('show');
+//					jQuery('#dialog-migracio').on('hide.bs.modal', function (e) {
+//						redirectLogin(results);
+//					});					
 				}
 			}else if(results.results === 'cannot_authenticate'){
 				$('#modal_wrong_user').modal('toggle');						

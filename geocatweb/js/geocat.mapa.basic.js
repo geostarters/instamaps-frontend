@@ -61,6 +61,79 @@ function createTematicLayerBasic(tematic, styles){
 			loadDadesObertesLayer(results.results);
 		});
 		
+	}else if(capaMare.options.tipus == t_url_file){
+		
+		console.debug("creem tematic simple de t_url_file...");
+//		nom : nomCapa,
+//		tipus : t_url_file,
+//		estil_do: estil_do,
+//		style: estil_lin_pol,//Estil de poligons i linies
+//		businessId : '-1',
+//		 options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+		var estil_do = capaMare.options.estil_do;
+		
+		if(capaMare.options.geometryType.indexOf("line")!=-1){
+			rangs[0].weight = rangs[0].lineWidth;
+		}else if(capaMare.options.geometryType.indexOf("polygon")!=-1){
+				
+		}else{
+			var markerStyle2 = rangs[0];
+			
+//			if(markerStyle2.isCanvas){
+				estil_do.color = markerStyle2.borderColor;
+				estil_do.fillColor = markerStyle2.color;
+				estil_do.fillOpacity = 1;
+				estil_do.opacity = 1;
+				estil_do.radius = markerStyle2.simbolSize;
+				estil_do.weight = markerStyle2.borderWidth;
+//			}
+		}
+		
+		var options = {
+			url: capaMare.options.url,
+			tem: tem_simple,
+			style: rangs[0],
+			origen: capaMare.options.businessId,
+			tipus : t_url_file,
+			businessId : '-1',
+			tipusFile: capaMare.options.tipusFile,
+			estil_do: estil_do,
+			epsgIN: capaMare.options.epsgIN,
+			geometryType: capaMare.options.geometryType,
+			colX: capaMare.options.colX,
+			colY: capaMare.options.colY,
+			dinamic: capaMare.options.dinamic
+		};
+	
+		console.debug(options);
+		
+		var data = {
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
+			serverType: capaMare.options.tipus,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            order: capesOrdre_sublayer,				
+            epsg: capaMare.options.epsgIN,
+//            imgFormat: 'image/png',
+//            infFormat: 'text/html',
+//            tiles: true,	            
+            transparency: true,
+            opacity: 1,
+            visibilitat: 'O',
+            url: capaMare.options.url,
+			options: JSON.stringify(options)
+		};
+		
+		createServidorInMap(data).then(function(results){
+//			loadDadesObertesLayer(results.results);
+			console.debug("createServidorInMap:");
+			console.debug(results);
+			loadURLfileLayer(results.results);
+		});
+		
 	}else if(capaMare.options.tipus == t_json){
 
 	    var capaMareOptions = capaMare.options.options;

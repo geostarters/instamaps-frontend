@@ -978,8 +978,8 @@ function miraFitxer(fitxer) {
 	
 	envioArxiu.ext=obj.ext;
 	envioArxiu.midaFitxer=fitxer.size;
-	console.debug("midaFItxer:");
-	console.debug(midaFitxer);
+//	console.debug("midaFItxer:");
+//	console.debug(midaFitxer);
 	
 	return obj;
 

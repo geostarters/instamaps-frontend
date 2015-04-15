@@ -53,7 +53,7 @@ function showTematicLayersModal(tipus,className){
 			//Si la capa no esta tematitzada
 			if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
 				if(tipus==tem_simple) {
-					if (tipusCapa == t_tematic || tipusCapa == t_json || tipusCapa == t_visualitzacio){ //tematic
+					if (tipusCapa == t_tematic || tipusCapa == t_json || tipusCapa == t_visualitzacio || tipusCapa == t_url_file){ //tematic
 						layers.push(this);
 					}else if(tipusCapa == t_dades_obertes){ //dades obertes
 						var dataset = layerOptions.dataset;
@@ -710,7 +710,8 @@ function getLineRangFromStyle(styles){
 		lineStyle : 'solid',
 		borderWidth : 2,
 		borderColor : styles.strokeStyle,				
-		opacity: (styles.opacity * 100),
+		//opacity: (styles.opacity * 100),
+		opacity: 100,
 		label : false,
 		labelSize : 10,
 		labelFont : 'arial',
@@ -721,6 +722,11 @@ function getLineRangFromStyle(styles){
 
 function getPolygonRangFromStyle(styles){
 	styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
+	console.debug("------getPolygonRangFromStyle---------");
+	
+	console.debug("styles:");
+	console.debug(styles);
+
 	var rang = {
 		borderWidth: styles.lineWidth,//styles.weight,
 		borderColor: styles.strokeStyle,//styles.color,
@@ -730,8 +736,13 @@ function getPolygonRangFromStyle(styles){
 		label : false,
 		labelSize : 10,
 		labelFont : 'arial',
-		labelColor : '#000000'					
+		labelColor : '#000000',
+		weight: styles.lineWidth
 	};	
+	
+	console.debug("rang:");
+	console.debug(rang);	
+	console.debug("-------------------------------------");
 	return rang;
 }
 
