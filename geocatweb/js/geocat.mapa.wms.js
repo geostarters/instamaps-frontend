@@ -109,142 +109,170 @@ function generaLlistaServeisWMS() {
 	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
 	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
 	_htmlServeisWMS.push('</div>');
-	_htmlServeisWMS.push('<div style="height:100px;overflow:auto" id="div_layersWMS"  class="tbl"></div>');
-	_htmlServeisWMS.push('<div id="div_emptyWMS" style="height: 35px;margin-top: 2px"></div>');
+	
+	
+	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
+	_htmlServeisWMS.push('    {{#layer Layer}}');
+	_htmlServeisWMS.push('	<li>');
+	_htmlServeisWMS.push('        {{#if Name}}');
+	_htmlServeisWMS.push('			{{#if Layer}}');
+	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	_htmlServeisWMS.push('			{{else}}');
+	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" value="{{Name}}"> {{Title}}</span>');
+	_htmlServeisWMS.push('			{{/if}}');
+	_htmlServeisWMS.push('		{{else}}');
+	_htmlServeisWMS.push('			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	_htmlServeisWMS.push('		{{/if}}');
+	_htmlServeisWMS.push('		{{#if Layer}}');
+	_htmlServeisWMS.push('        <ul>');
+	_htmlServeisWMS.push('        {{> list-template}}');
+	_htmlServeisWMS.push('        </ul>');
+	_htmlServeisWMS.push('        {{/if}}');
+	_htmlServeisWMS.push('    </li>');
+	_htmlServeisWMS.push('	{{/layer}}');
+	_htmlServeisWMS.push('</script>');
+	
+	_htmlServeisWMS.push('<script id="capabilities-template" type="x-handlebars-template">');
+	_htmlServeisWMS.push('    <ul>');
+	_htmlServeisWMS.push('    {{> list-template}}');
+	_htmlServeisWMS.push('    </ul>');
+	_htmlServeisWMS.push('</script>');
+	
+	_htmlServeisWMS.push('<div id="div_layersWMS"  class="tbl tree"></div>');
+	_htmlServeisWMS.push('<div id="div_emptyWMS"></div>');
+	//_htmlServeisWMS.push('<div style="height:100px;overflow:auto" id="div_layersWMS"  class="tbl"></div>');
+	//_htmlServeisWMS.push('<div id="div_emptyWMS" style="height: 35px;margin-top: 2px"></div>');
 }
 
 jQuery(document).on('click', "#bt_connWMS", function(e) {
 	var url = $.trim(jQuery('#txt_URLWMS').val());
 
 	if (url == "") {
-		alert(window.lang.convert("Has d%27introduïr una URL del servidor"));
+		alert(window.lang.convert("Has d'introduïr una URL del servidor"));
 
 	} else if (!isValidURL(url)) {
 		alert(window.lang.convert("La URL introduïda no sembla correcte"));
 	} else {
-
 		getCapabilitiesWMS(url, null);
 	}
 });
 
 function getCapabilitiesWMS(url, servidor) {
+	var _htmlLayersWMS = [];
+	getWMSLayers(url).then(function(results) {
+		
+		var souce_capabilities_template = $("#capabilities-template").html();
+		var capabilities_template = Handlebars.compile(souce_capabilities_template);
+		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
+		Handlebars.registerHelper('layer', function(context, options) {
+		  var ret = "";
+		  if (!Handlebars.Utils.isArray(context)){
+			  context = [context];
+		  }
+		  for(var i=0, j=context.length; i<j; i++) {
+		    ret = ret + options.fn(context[i]);
+		  }
+		  return ret;
+		});
+		
+		
+		jQuery('#div_layersWMS').html('');
+		jQuery("#div_layersWMS").show();
+		jQuery('#div_emptyWMS').empty();
 
-    var _htmlLayersWMS = [];
-    getWMSLayers(url)
-                .then(
-                           function(results) {
+		if (servidor == null) {
+			servidor = results.Service.Title;
+		}
 
-                                 jQuery('#div_layersWMS').html('');
-                                 jQuery('#div_emptyWMS').empty();
+		try {
+			ActiuWMS.servidor = servidor;
+			ActiuWMS.url = jQuery.trim(url);
+			var matriuEPSG = results.Capability.Layer.CRS;
 
-                                 if (servidor == null) {
-                                       servidor = results.Service.Title;
-                                 }
+			if (!matriuEPSG) {
+				matriuEPSG = results.Capability.Layer.SRS;
+				if (!matriuEPSG) {
+					matriuEPSG = results.Capability.Layer[0].CRS;
+				}
+			}
 
-                                 try {
-                                       ActiuWMS.servidor = servidor;
-                                       ActiuWMS.url = jQuery.trim(url);
-                                       var matriuEPSG = results.Capability.Layer.CRS;
+			var epsg = [];
+			jQuery.each(matriuEPSG, function(index, value) {
+				epsg.push(value);
+			});
 
-                                       if (!matriuEPSG) {
-                                             matriuEPSG = results.Capability.Layer.SRS;
+			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG3857;
+				ActiuWMS.epsgtxt = 'EPSG:3857';
+			} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG3857;
+				ActiuWMS.epsgtxt = 'EPSG:3857';
+			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';
+			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';
+			} else {
+				alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
+				return;
+			}
+			
+			var html = capabilities_template({Layer: [results.Capability.Layer]});
+			
+			jQuery('#div_layersWMS').empty().append(html);
+			
+			addTreeEvents();
+			
+			/*
+			_htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
 
-                                             if (!matriuEPSG) {
-                                                   matriuEPSG = results.Capability.Layer[0].CRS;
+			if (typeof results.Capability.Layer.Layer != 'undefined') {
 
-                                             }
+				if (typeof results.Capability.Layer.Layer.length == 'undefined') {
+					_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+						+ results.Capability.Layer.Layer.Name
+						+ '">'
+						+ results.Capability.Layer.Layer.Title
+						+ '</label></li>');
+				} else if ((typeof results.Capability.Layer.Layer.length != 'undefined')) {
+					jQuery.each(results.Capability.Layer.Layer,	function(index, value) {
+					_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+						+ value.Name
+						+ '">'
+						+ value.Title
+						+ '</label></li>');
+					});
+				}
+			} else {
+				if (typeof results.Capability.Layer.length != 'undefined') {
+					jQuery.each(results.Capability.Layer, function(index, value) {
+					_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
+						+ value.Name
+						+ '">'
+						+ value.Title
+						+ '</label></li>');
+					});
+				}
+			}
+			_htmlLayersWMS.push('</ul>');
 
-                                       }
+			jQuery('#div_layersWMS').html(_htmlLayersWMS.join(''));
+			*/
+			
+			jQuery('#div_emptyWMS').empty();
 
-                                       var epsg = [];
-                                       jQuery.each(matriuEPSG, function(index, value) {
+			jQuery('#div_emptyWMS').html(
+				'<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >'
+				+ window.lang.convert("Afegir capes")
+				+ '</button></div>');
 
-                                             epsg.push(value);
-                                       });
-
-                                       if (jQuery.inArray('EPSG:3857', epsg) != -1) {
-                                             ActiuWMS.epsg = L.CRS.EPSG3857;
-                                             ActiuWMS.epsgtxt = 'EPSG:3857';
-                                       } else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
-                                             ActiuWMS.epsg = L.CRS.EPSG3857;
-                                             ActiuWMS.epsgtxt = 'EPSG:3857';
-                                       } else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
-                                             ActiuWMS.epsg = L.CRS.EPSG4326;
-                                             ActiuWMS.epsgtxt = '4326';
-                                       } else if (jQuery.inArray('CRS:84', epsg) != -1) {
-                                             ActiuWMS.epsg = L.CRS.EPSG4326;
-                                             ActiuWMS.epsgtxt = '4326';
-
-                                       } else {
-                                             alert(window.lang
-                                                         .convert("El sistema de coordenades no és compatible amb el mapa"));
-                                             return;
-                                       }
-
-                                       _htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
-
-                                       if (typeof results.Capability.Layer.Layer != 'undefined') {
-
-                                             if (typeof results.Capability.Layer.Layer.length == 'undefined') {
-
-                                                   _htmlLayersWMS
-                                                               .push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-                                                                          + results.Capability.Layer.Layer.Name
-                                                                          + '">'
-                                                                          + results.Capability.Layer.Layer.Title
-                                                                          + '</label></li>');
-
-                                             } else if ((typeof results.Capability.Layer.Layer.length != 'undefined')) {
-                                                   jQuery
-                                                               .each(
-                                                                           results.Capability.Layer.Layer,
-                                                                          function(index, value) {
-
-                                                                                _htmlLayersWMS
-                                                                                            .push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-                                                                                                        + value.Name
-                                                                                                        + '">'
-                                                                                                        + value.Title
-                                                                                                        + '</label></li>');
-                                                                          });
-                                             }
-                                       } else {
-                                             if (typeof results.Capability.Layer.length != 'undefined') {
-                                                   jQuery
-                                                               .each(
-                                                                           results.Capability.Layer,
-                                                                          function(index, value) {
-
-                                                                                _htmlLayersWMS
-                                                                                            .push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-                                                                                                        + value.Name
-                                                                                                        + '">'
-                                                                                                        + value.Title
-                                                                                                        + '</label></li>');
-                                                                          });
-
-                                             }
-
-                                       }
-                                       _htmlLayersWMS.push('</ul>');
-
-                                       jQuery('#div_layersWMS').html(
-                                                   _htmlLayersWMS.join(''));
-                                       jQuery('#div_emptyWMS').empty();
-
-                                       jQuery('#div_emptyWMS')
-                                                   .html(
-                                                               '<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >'
-                                                                          + window.lang
-                                                                                      .convert("Afegir capes")
-                                                                          + '</button></div>');
-
-                                 } catch (err) {
-                                       jQuery('#div_layersWMS').html(
-                                                   '<hr>Error interpretar capabilities: '
-                                                               + err + '</hr>');
-                                 }
-                           });
+		} catch (err) {
+			jQuery('#div_layersWMS').html(
+				'<hr>Error interpretar capabilities: '
+				+ err + '</hr>');
+		}
+	});
 }
 
 jQuery(document).on('click', "#bt_addWMS", function(e) {
@@ -283,14 +311,21 @@ function addExternalWMS2() {
 }
 
 function addExternalWMS() {
-	
+	//console.debug("addExternalWMS");
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', ActiuWMS.url, 1]);
 //	_kmq.push(['record', 'wms', {'from':'mapa', 'tipus user':tipus_user, 'url':ActiuWMS.url}]);
-	
+	/*
 	var cc = [];
 	jQuery('input[name="chk_WMS"]:checked').each(function() {
 		cc.push(jQuery(this).val());
 	});
+	ActiuWMS.layers = cc.join(',');
+	*/
+	
+	var cc = $('#div_layersWMS input:checked').map(function(){
+		return this.value;
+	});
+	cc = jQuery.makeArray(cc);
 	ActiuWMS.layers = cc.join(',');
 	
 	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
@@ -379,3 +414,33 @@ function loadWmsLayer(layer){
 	controlCapes._lastZIndex++;
 }
 
+function addTreeEvents(){
+	$('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+    $('.tree li.parent_li > span').on('click', function (e) {
+        var children = $(this).parent('li.parent_li').find(' > ul > li');
+        if (children.is(":visible")) {
+            children.hide('fast');
+            $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open');
+        } else {
+            children.show('fast');
+            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close');
+        }
+        e.stopPropagation();
+    });
+    
+    $('.tree li > span.leaf').on('click', function (e) {
+    	$(this).children('.ckbox_layer').click();
+    });
+    
+    $('.ckbox_layer').on('click', function (e) {
+    	e.stopPropagation();
+    });
+    
+    $('.btn-all').on('click',function(){
+    	$(this).parent('li.parent_li').find('input:checkbox').prop('checked', true);
+	});
+	
+	$('.btn-none').on('click',function(){
+		$(this).parent('li.parent_li').find('input:checkbox').prop('checked', false);
+	});
+}
