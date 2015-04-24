@@ -807,4 +807,8 @@ textarea {
     font-weight: bold;   
 }
 
-.leaflet-popup-content h4.my-text-center{text-align:center;}
+.leaflet-popup-content h4.my-text-center{
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 2px;
+    text-align: center;
+}

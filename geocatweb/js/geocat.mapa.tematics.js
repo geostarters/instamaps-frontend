@@ -53,7 +53,7 @@ function showTematicLayersModal(tipus,className){
 			//Si la capa no esta tematitzada
 			if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
 				if(tipus==tem_simple) {
-					if (tipusCapa == t_tematic || tipusCapa == t_json || tipusCapa == t_visualitzacio){ //tematic
+					if (tipusCapa == t_tematic || tipusCapa == t_json || tipusCapa == t_visualitzacio || tipusCapa == t_url_file){ //tematic
 						layers.push(this);
 					}else if(tipusCapa == t_dades_obertes){ //dades obertes
 						var dataset = layerOptions.dataset;
@@ -77,6 +77,7 @@ function showTematicLayersModal(tipus,className){
 					//var ftype = layerOptions.geometryType;
 					if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
 						(tipusCapa == t_tematic && ftype == t_marker) ||
+						(tipusCapa == t_url_file && ftype == t_marker) ||
 						(tipusCapa == t_visualitzacio && ftype == t_marker)){
 						layers.push(this);
 					}
@@ -210,14 +211,16 @@ function createPopupWindowData(player,type, editable, origen){
 		html+='<h4 class="my-text-center">'+player.properties.name+'</h4>';
 	}
 	
-	if (player.properties.data.text){
-		html+='<div>'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
-	}
+//	if (player.properties.data.text){
+//		html+='<div>'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
+//	}
+	
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
 //		alert( key + ": " + value );
-		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
-			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
+//		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
+		if(isValidValue(key) && isValidValue(value)){
+			if (key != 'id' && key != 'businessId' && key != 'slotd50' && key != 'nom' && key != 'name'){
 				html+='<div class="popup_data_row">';
 				
 				var txt = parseUrlTextPopUp(value, key);
@@ -710,7 +713,8 @@ function getLineRangFromStyle(styles){
 		lineStyle : 'solid',
 		borderWidth : 2,
 		borderColor : styles.strokeStyle,				
-		opacity: (styles.opacity * 100),
+		//opacity: (styles.opacity * 100),
+		opacity: 100,
 		label : false,
 		labelSize : 10,
 		labelFont : 'arial',
@@ -721,6 +725,11 @@ function getLineRangFromStyle(styles){
 
 function getPolygonRangFromStyle(styles){
 	styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
+	console.debug("------getPolygonRangFromStyle---------");
+	
+	console.debug("styles:");
+	console.debug(styles);
+
 	var rang = {
 		borderWidth: styles.lineWidth,//styles.weight,
 		borderColor: styles.strokeStyle,//styles.color,
@@ -730,8 +739,13 @@ function getPolygonRangFromStyle(styles){
 		label : false,
 		labelSize : 10,
 		labelFont : 'arial',
-		labelColor : '#000000'					
+		labelColor : '#000000',
+		weight: styles.lineWidth
 	};	
+	
+	console.debug("rang:");
+	console.debug(rang);	
+	console.debug("-------------------------------------");
 	return rang;
 }
 

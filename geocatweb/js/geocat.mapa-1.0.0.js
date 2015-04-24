@@ -115,7 +115,8 @@ function loadApp(){
 						downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
 												mapConfig.options.downloadable:[]);
 						mapConfig.newMap = false;
-//						console.debug(mapConfig);
+						console.debug("mapConfig");
+						console.debug(mapConfig);
 						//Afegim barres d'eines i control de capes 
 						addControlsInici();
 
@@ -187,7 +188,6 @@ function loadApp(){
 												mapConfig.options.downloadable:[]);
 						
 						mapConfig.newMap = false;
-	//					console.debug(mapConfig);
 
 						//Afegim barres d'eines i control de capes 
 						addControlsInici();
@@ -626,11 +626,9 @@ function loadLayer(value){
 		});
 		//Si la capa es de tipus url file
 	}else if(value.serverType == t_url_file){
-//		loadURLfileLayer(value).then(function(){
-//			defer.resolve();
-//		});	
-		loadURLfileLayer(value);
-		defer.resolve();		
+		loadURLfileLayer(value).then(function(){
+			defer.resolve();
+		});	
 	//Si la capa es de tipus geojsonVT
 	}else if(value.serverType == t_geojsonvt){
 		loadGeojsonvtLayer(value);

@@ -864,7 +864,7 @@ function obteCampsXLSX(f) {
 			}
 		}
 
-		if (e.target.result.length > 500000) {
+		if (e.target.result.length > 5000000) {
 			alert(window.lang.convert("Arxiu massa gran!!"));
 
 		} else {
@@ -978,8 +978,8 @@ function miraFitxer(fitxer) {
 	
 	envioArxiu.ext=obj.ext;
 	envioArxiu.midaFitxer=fitxer.size;
-	console.debug("midaFItxer:");
-	console.debug(midaFitxer);
+//	console.debug("midaFItxer:");
+//	console.debug(midaFitxer);
 	
 	return obj;
 

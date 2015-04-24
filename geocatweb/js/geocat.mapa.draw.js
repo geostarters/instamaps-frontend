@@ -7,7 +7,7 @@
 var drawControl;
 var featureActive,crt_Editing,crt_Remove;
 var defaultPunt;
-var canvas_linia={"id":"cv_linia","strokeStyle":"#FFC500","lineWidth":"3","tipus":"linia"};
+var canvas_linia={"id":"cv_linia","strokeStyle":"#FFC500","lineWidth":"3","tipus":"linia","opacity":"100"};
 var canvas_pol={"id":"cv_pol","strokeStyle":"#FFC500","opacity":"0.5","fillStyle":"rgba(255, 197, 0,0.5)","lineWidth":"3","tipus":"pol"};
 var canvas_obj_l,cv_ctx_l;
 var canvas_obj_p,cv_ctx_p;
@@ -135,7 +135,7 @@ function obrirMenuModal(_menuClass,estat,_from){
 
     		
     		var layers_from = controlCapes._layers[_from.leafletid].layer.getLayers();
-        	if( layers_from.length > num_max_pintxos){
+        	if( layers_from.length > num_max_pintxos || _from.tipus == t_url_file){
                 jQuery('.fila-awesome-markers').hide();
                 jQuery('#filaM').hide();
                 estilP.iconGlif = "fa fa-";
@@ -603,6 +603,10 @@ function createPopupWindow(layer,type){
 	 
 	 jQuery(document).on('change', ".bs-ncapa li select", function(e) {
 		    e.stopImmediatePropagation();
+		    
+			e.preventDefault();
+			e.stopPropagation();		    
+		    
 //		    console.debug('on change select cmbusrcapa');
 			var accio;
 			if(jQuery(this).attr('id').indexOf('-')!=-1){			
@@ -639,21 +643,22 @@ function createPopupWindow(layer,type){
 			}	
 			
 			moveGeometriaToVisualitzacio(data).then(function(resultsMove) {
-				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
+//				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
 				if(resultsMove.status === 'OK'){
-					
 					var toLayer = controlCapes._layers[''+toBusinessId[1]+''].layer;//map._layers[''+toBusinessId[1]+''];
 					var fromLayer = map._layers[''+fromBusinessId[1]+''];
 					fromLayer.removeLayer(obj);
+
+					//Actualitzem capa activa
+					//Primer desactivo l'event, per si la capaActiva coincideix amb la capa toLayer
+					if(capaUsrActiva) capaUsrActiva.removeEventListener('layeradd');
+					
 					toLayer.addLayer(obj);
 					//Refresh de la capa
 					controlCapes._map.removeLayer(toLayer);
-					controlCapes._map.addLayer(toLayer);
-					//Actualitzem capa activa
-					if(capaUsrActiva) capaUsrActiva.removeEventListener('layeradd');
+					controlCapes._map.addLayer(toLayer);					
 					capaUsrActiva = toLayer;
-					capaUsrActiva.on('layeradd',objecteUserAdded);	
-					//Actualitzem properties de la layer
+					capaUsrActiva.on('layeradd',objecteUserAdded);						
 					obj.properties.capaBusinessId = capaUsrActiva.options.businessId;
 					obj.properties.capaNom = capaUsrActiva.options.nom;
 					obj.properties.capaLeafletId = capaUsrActiva._leaflet_id;
@@ -663,9 +668,6 @@ function createPopupWindow(layer,type){
 					//obj.setPopupContent(html);
 					map.closePopup();
 					obj.openPopup();
-					
-					//update rangs
-					//getRangsFromLayer(capaUsrActiva);
 					
 					//NO CAL: com cridem addLayer, de controlCapes, ja s'actualitzen els comptadors de les capes
 					//updateFeatureCount(fromBusinessId, toBusinessId);			
