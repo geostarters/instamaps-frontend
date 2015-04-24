@@ -29,9 +29,23 @@ function addControlAltresFontsDades() {
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
 				jQuery(tbA+" a.label-wms").on('click', function(e) {
 					if(e.target.id !="id_srvw"){
+						$("#txt_URLWMS").val(e.target.id);
+						jQuery("#div_layersWMS").empty();
+						jQuery("#div_layersWMS").hide();
+						jQuery('#div_emptyWMS').empty();
 						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
 					}
-				});	
+				});
+				jQuery("#div_layersWMS").hide();
+				
+				
+				$("#txt_URLWMS").focus(function() {
+					jQuery("#div_layersWMS").empty();
+					jQuery("#div_layersWMS").hide();
+					jQuery('#div_emptyWMS').empty();
+				});
+				
+				
 //			}else if(tbA == "#id_srvj"){
 //				jQuery(tbA).empty();
 //				jQuery(tbA).html(_htmlServeisJSON.join(' '));
