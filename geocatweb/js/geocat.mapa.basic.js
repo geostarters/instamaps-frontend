@@ -95,7 +95,7 @@ function createTematicLayerBasic(tematic, styles){
 			style: rangs[0],
 			origen: capaMare.options.businessId,
 			tipus : t_url_file,
-			businessId : '-1',
+//			businessId : '-1',
 			tipusFile: capaMare.options.tipusFile,
 			estil_do: estil_do,
 			epsgIN: capaMare.options.epsgIN,
@@ -105,7 +105,7 @@ function createTematicLayerBasic(tematic, styles){
 			dinamic: capaMare.options.dinamic
 		};
 	
-		console.debug(options);
+//		console.debug(options);
 		
 		var data = {
 			uid:$.cookie('uid'),

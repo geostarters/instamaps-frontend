@@ -63,19 +63,6 @@ function showModalTematicCategories(data){
 				jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;
 				});
-				
-//					if (tematic.capes){
-//						var dataNames = tematic.capes.fieldsName.split(',');
-//						jQuery.each(dataNames, function( index, value ) {
-//							fields[value] = "slotd"+(index+1);
-//						});
-//					}else{ //sin datos
-//						fields['nom'] = 'nom';
-//						var geomNames = tematic.geometries.fieldsName.split(',');
-//						jQuery.each(geomNames, function( index, value ) {
-//							fields[value] = "slotf"+(index+1);
-//						});
-//					}
 			}
 			
 			//creamos el select con los campos
@@ -94,21 +81,10 @@ function showModalTematicCategories(data){
 				}else{
 					
 					readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
-//							updateSelecTipusRangs(results);
 						jQuery("#dialog_tematic_rangs").data("values", results);
 						getTipusValuesVisualitzacio(results);
 					});
-					
-//						if (this_.val().indexOf("slotd") != -1){
-//							readDataTematicFromSlotd(tematic, this_.val()).then(function(results){
-//								updateSelecTipusRangs(results);
-//							});
-//						}else{
-//							//capas edicion o solo geometrias
-//							readDataTematicFromSlotf(tematic, this_.val()).then(function(results){
-//								updateSelecTipusRangs(results);
-//							});
-//						}
+
 				}
 			});				
 		}else{
@@ -181,23 +157,10 @@ function showVisualitzacioDataUnic(values){
 //	jQuery("#dialog_tematic_rangs").data("values", values);
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
-	
-//	//Eliminem valors repetits de values
-//	var seen = {};
-//	var values = [];
-//	
-//	jQuery(pvalues).each(function(i, val) {
-//		val = jQuery.trim(val);
-//		if (!seen[val]){
-//	    	seen[val] = true;
-//	    	values.push(val);	    	
-//	    }
-//	});
+
 	//Ordenar valores
 	values.sort();
-	
-//	var rangs = tematic.rangs;
-//	var valuesStyle = [];
+
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
 	if (ftype == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i) {
@@ -305,14 +268,6 @@ function loadTematicValueUnicTemplate(results1){
 		jQuery('#list_tematic_values canvas').each(function(i, val){
 			addGeometryInitPRang(val, results1[i]);
 		});
-		//TODO
-		/*
-		jQuery('#list_tematic_values canvas').on('click',function(){
-			console.debug(this);
-			var data = {from: tem_clasic, element: this};
-			obrirMenuModal('#dialog_estils_arees','toggle',data);
-		});
-		*/
 	}
 	if (jQuery('#list_tematic_values tr').length > 9){
 		jQuery('#palet_warning').show();
@@ -449,7 +404,6 @@ function div2RangStyle(tematic, tdElem){
 
 function createTematicLayerCategories(event){
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);
-	//_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'categories'}]);
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");

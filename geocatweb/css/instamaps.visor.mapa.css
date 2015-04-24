@@ -3638,6 +3638,8 @@ i.fa {
 	width: 200px;
 	max-height: 250px;
 	-moz-box-sizing: content-box;
+	padding-bottom: 10px;
+	padding-top: 10px;
 }
 
 .visor-legend-row{

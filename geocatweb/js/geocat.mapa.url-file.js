@@ -62,7 +62,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			tipus : t_url_file,
 			estil_do: estil_do,
 			style: estil_lin_pol,//Estil de poligons i linies
-			businessId : '-1',
+			//businessId : '-1',
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
 		    	var pp = feature.properties;
@@ -146,7 +146,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					            calentas: false,
 					            activas: true,
 					            visibilitats: true,
-					            options: '{"tipusFile":"'+tipusFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+					            options: '{"tipusFile":"'+tipusFile+'","nom":"'+nomCapa+'","url":"'+urlFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 							};
 							
 							console.debug("Abans create servidor in map, data:");
@@ -320,47 +320,43 @@ function processFileError(data){
 }
 
 function loadURLfileLayer(layer){
-	//var options = jQuery.parseJSON(layer.options);
+	
+	var defer = $.Deferred();
+
 	var options = JSON.parse(layer.options);
-	var estil_do = options.estil_do;
-	var style = options.style;
-	var tipusFile = options.tipusFile;
-	var geometryType = options.geometryType;
-	var epsgIN = options.epsgIN;
-	var colX = options.colX;
-	var colY = options.colY;
-	var urlFile = layer.url;
-	var dinamic = options.dinamic;
-//	var dinamic = false;
-//	if(options.dinamic) dinamic = true;
 	
-//	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
-	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);
+	if(options.tem == null || options.tem == tem_simple){
 	
-	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
-		nom : layer.serverName,
-		tipus : layer.serverType,
-		geometryType: geometryType,
-		estil_do: estil_do,
-		style: style,
-		businessId : layer.businessId,
-		pointToLayer : function(feature, latlng) {
-			var geom = L.circleMarker(latlng, estil_do);
-	    	var pp = feature.properties;
-	    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
-	    	$.each( pp, function( key, value ) {
-	    		if(value){
-					html+='<div class="popup_data_row">'+
-					'<div class="popup_data_key">'+key+'</div>'+
-				    '<div class="popup_data_value">'+value+'</div>'+
-				    '</div>';	    			
-	    		}
-	    	});	
-	    	html+='</div></div>';    	
-	    	var popup = L.popup().setContent(html);
-		    return geom.bindPopup(popup);
-		  },
-		  onEachFeature : function(feature, latlng) {
+		var estil_do = options.estil_do;
+		var style = options.style;
+		var tipusFile = options.tipusFile;
+		var geometryType = options.geometryType;
+		var epsgIN = options.epsgIN;
+		var colX = options.colX;
+		var colY = options.colY;
+		var urlFile = layer.url;
+		var dinamic = options.dinamic;
+		
+		options.nom = layer.serverName;
+		options.businessId = layer.businessId;
+		
+		var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+
+										   "&colX="+colX+
+										   "&colY="+colY+
+										   "&epsgIN="+epsgIN+
+										   "&dinamic="+dinamic+
+										   "&urlFile="+encodeURIComponent(urlFile)+
+										   "&uid="+$.cookie('uid');
+		
+		var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+			nom : layer.serverName,
+			tipus : layer.serverType,
+			geometryType: geometryType,
+			estil_do: estil_do,
+			style: style,
+			businessId : layer.businessId,
+			pointToLayer : function(feature, latlng) {
+				var geom = L.circleMarker(latlng, estil_do);
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
@@ -371,43 +367,223 @@ function loadURLfileLayer(layer){
 					    '</div>';	    			
 		    		}
 		    	});	
-		    	html+='</div></div>'; 
-			    return latlng.bindPopup(html);
-			  }
-	});		
-		
-	capaURLfileLoad.on('data:loaded', function(e){
-		console.debug("capa loaded!");
-		capaURLfileLoad.options = options;
-		console.debug("capaURLfileLoad loaded");
-		console.debug(capaURLfileLoad);
-		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
-			capaURLfileLoad.addTo(map);
-		}
+		    	html+='</div></div>';    	
+		    	var popup = L.popup().setContent(html);
+			    return geom.bindPopup(popup);
+			  },
+			  onEachFeature : function(feature, latlng) {
+			    	var pp = feature.properties;
+			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+			    	$.each( pp, function( key, value ) {
+			    		if(value){
+							html+='<div class="popup_data_row">'+
+							'<div class="popup_data_key">'+key+'</div>'+
+						    '<div class="popup_data_value">'+value+'</div>'+
+						    '</div>';	    			
+			    		}
+			    	});	
+			    	html+='</div></div>'; 
+				    return latlng.bindPopup(html);
+				  }
+		});		
+			
+		capaURLfileLoad.on('data:loaded', function(e){
+//			console.debug("capa loaded!");
+			capaURLfileLoad.options = options;
 
-		console.debug("layer:");
-		console.debug(layer);
-//TODO control si no es capa origen!!!!		
-		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
-			capaURLfileLoad.options.zIndex = controlCapes._lastZIndex + 1;
-		}else if(layer.capesOrdre != capesOrdre_sublayer){
-			capaURLfileLoad.options.zIndex = parseInt(layer.capesOrdre);
-		}		
-		
-		console.debug(options);
-		if(!options.origen){
-			capaURLfileLoad.options.businessId = layer.businessId;
-			controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true);
-			controlCapes._lastZIndex++;	
-		}else{//Si te origen es una sublayer
-			var origen = getLeafletIdFromBusinessId(options.origen);
-			capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
-			controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origen);
+			if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
+				capaURLfileLoad.addTo(map);
+			}
+	
+			if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
+				capaURLfileLoad.options.zIndex = controlCapes._lastZIndex + 1;
+			}else if(layer.capesOrdre != capesOrdre_sublayer){
+				capaURLfileLoad.options.zIndex = parseInt(layer.capesOrdre);
+			}		
+			
+			if(!options.origen){
+				capaURLfileLoad.options.businessId = layer.businessId;
+				controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true);
+				controlCapes._lastZIndex++;	
+			}else{//Si te origen es una sublayer
+				var origen = getLeafletIdFromBusinessId(options.origen);
+				capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
+				controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origen);
+			}		
 			defer.resolve();
-		}		
+		});
+	}else if(options.tem == tem_cluster){
 		
-	});
-			console.debug("Fi loadURLFIle!");
+		var options = jQuery.parseJSON( layer.options );
+		var estil_do = retornaEstilaDO(options.dataset);
+		
+		var estil_do = options.estil_do;
+		var style = options.style;
+		var tipusFile = options.tipusFile;
+		var geometryType = options.geometryType;
+		var epsgIN = options.epsgIN;
+		var colX = options.colX;
+		var colY = options.colY;
+		var urlFile = layer.url;
+		var dinamic = options.dinamic;
+		
+		var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+
+										   "&colX="+colX+
+										   "&colY="+colY+
+										   "&epsgIN="+epsgIN+
+										   "&dinamic="+dinamic+
+										   "&urlFile="+encodeURIComponent(urlFile);	
+		
+		var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+			nom : layer.serverName,
+			tipus : layer.serverType,
+			geometryType: geometryType,
+			estil_do: estil_do,
+			businessId : layer.businessId,
+			pointToLayer : function(feature, latlng) {
+				var geom = L.circleMarker(latlng, estil_do);
+		    	var pp = feature.properties;
+		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+		    	$.each( pp, function( key, value ) {
+		    		if(value){
+						html+='<div class="popup_data_row">'+
+						'<div class="popup_data_key">'+key+'</div>'+
+					    '<div class="popup_data_value">'+value+'</div>'+
+					    '</div>';	    			
+		    		}
+		    	});	
+		    	html+='</div></div>';    	
+		    	var popup = L.popup().setContent(html);
+			    return geom.bindPopup(popup);
+			  },
+			  onEachFeature : function(feature, latlng) {
+			    	var pp = feature.properties;
+			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+			    	$.each( pp, function( key, value ) {
+			    		if(value){
+							html+='<div class="popup_data_row">'+
+							'<div class="popup_data_key">'+key+'</div>'+
+						    '<div class="popup_data_value">'+value+'</div>'+
+						    '</div>';	    			
+			    		}
+			    	});	
+			    	html+='</div></div>'; 
+				    return latlng.bindPopup(html);
+				  }
+		});
+
+		map.addLayer(capaURLfileLoad);
+		capaURLfileLoad.on('data:loaded', function(e){
+			//console.debug("data:loaded");
+			map.removeLayer(capaURLfileLoad);
+			
+			var clusterLayer = L.markerClusterGroup({
+				singleMarkerMode : true
+			});
+			
+			capaURLfileLoad.eachLayer(function(layer) {
+				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
+					title : layer._leaflet_id
+				});
+				marker.bindPopup(layer._popup._content);
+				clusterLayer.addLayer(marker);
+			});	
+			
+			clusterLayer.options.businessId = layer.businessId;
+			clusterLayer.options.nom = layer.serverName;
+			clusterLayer.options.zIndex = layer.capesOrdre;
+			clusterLayer.options.tipus = layer.serverType;
+			clusterLayer.options.dataset = options.dataset;
+			clusterLayer.options.tipusRang = tem_cluster;
+	
+			if (layer.capesActiva == true || layer.capesActiva == "true"){
+				map.addLayer(clusterLayer);
+			}
+			var origen = getLeafletIdFromBusinessId(options.origen);
+			controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
+	//		controlCapes._lastZIndex++;
+			activaPanelCapes(true);		
+		
+		});		
+
+		
+//		loadUrlFileClusterLayer(layer);
+//		defer.resolve();
+	}else if(options.tem == tem_heatmap){
+
+		var estil_do = retornaEstilaDO(t_url_file);
+		var tipusFile = options.tipusFile;
+		var geometryType = options.geometryType;
+		var epsgIN = options.epsgIN;
+		var colX = options.colX;
+		var colY = options.colY;
+		var urlFile = layer.url;
+		var dinamic = options.dinamic;
+		var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+
+										   "&colX="+colX+
+										   "&colY="+colY+
+										   "&epsgIN="+epsgIN+
+										   "&dinamic="+dinamic+
+										   "&urlFile="+encodeURIComponent(urlFile)+
+										   "&uid="+$.cookie('uid')+
+										   "&tem="+tem_heatmap;	
+		
+		var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+			nom : layer.serverName,
+			tipus : layer.serverType,
+			geometryType: geometryType,
+			estil_do: estil_do,
+			businessId : layer.businessId,
+			pointToLayer : function(feature, latlng) {
+				var geom = L.circleMarker(latlng, estil_do);
+				var popup = L.popup().setContent("");
+			    return geom.bindPopup(popup);
+			  }
+		});		
+		
+		capaURLfileLoad.on('data:loaded', function(e){
+			var arrP=[];
+			capaURLfileLoad.eachLayer(function(layer){
+				var d =[layer.getLatLng().lat,layer.getLatLng().lng,1];	
+				arrP.push(d);			
+			});
+			
+			var heatLayerActiu = L.heatLayer(arrP,{radius:20,blur:15,max:1,
+				gradient: {			
+					0.35: "#070751",
+					0.40: "#0095DE",
+					0.45: "#02D5FF",
+					0.50: "#02E0B9",
+					0.55: "#00B43F",
+					0.60: "#97ED0E",
+					0.61: "#FFF800",
+					0.65: "#FF9700",
+					0.70: "#FF0101",
+					1: "#720404"
+					}	
+			});
+			
+			heatLayerActiu.options.businessId = layer.businessId;
+			heatLayerActiu.options.nom = layer.serverName;
+			heatLayerActiu.options.zIndex = parseInt(layer.capesOrdre);
+			heatLayerActiu.options.tipus = layer.serverType;
+			heatLayerActiu.options.tipusRang = tem_heatmap;
+			
+			if (layer.capesActiva == true || layer.capesActiva == "true"){
+				map.addLayer(heatLayerActiu);
+			}
+			
+			var origen = getLeafletIdFromBusinessId(options.origen);
+//			console.debug("Business ID origen:");
+//			console.debug(origen);
+			controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
+//			controlCapes._lastZIndex++;
+			activaPanelCapes(true);	
+			defer.resolve();
+		});		
+//		defer.resolve();		
+	}
+	return defer.promise();
 }
 
 
@@ -538,6 +714,76 @@ function defineGeometryType(data){
 	}
 	
 }
+
+function loadUrlFileHeatmapLayer(layer){
+	console.debug("loadUrlFileHeatmapLayer");
+
+	var options = jQuery.parseJSON( layer.options );
+//	var estil_do = options.estil_do;
+	var style = options.style;
+	var tipusFile = options.tipusFile;
+	var geometryType = options.geometryType;
+	var epsgIN = options.epsgIN;
+	var colX = options.colX;
+	var colY = options.colY;
+	var urlFile = layer.url;
+	var dinamic = options.dinamic;
+	var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);	
+	
+	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+		nom : layer.serverName,
+		tipus : layer.serverType,
+		geometryType: geometryType,
+		estil_do: estil_do,
+		style: style,
+		businessId : layer.businessId,
+		pointToLayer : function(feature, latlng) {
+			var geom = L.circleMarker(latlng, estil_do);
+		  }
+	});		
+	
+	capaURLfileLoad.on('data:loaded', function(e){
+		//console.debug("data:loaded");
+		
+		var arrP=[];
+		capaURLfileLoad.eachLayer(function(layer){
+			var d =[layer.getLatLng().lat,layer.getLatLng().lng,1];	
+			arrP.push(d);			
+		});
+		
+		var heatLayerActiu = L.heatLayer(arrP,{radius:20,blur:15,max:1,
+			gradient: {			
+				0.35: "#070751",
+				0.40: "#0095DE",
+				0.45: "#02D5FF",
+				0.50: "#02E0B9",
+				0.55: "#00B43F",
+				0.60: "#97ED0E",
+				0.61: "#FFF800",
+				0.65: "#FF9700",
+				0.70: "#FF0101",
+				1: "#720404"
+				}	
+		});
+		
+		heatLayerActiu.options.businessId = layer.businessId;
+		heatLayerActiu.options.nom = layer.serverName;
+		heatLayerActiu.options.zIndex = parseInt(layer.capesOrdre);
+		heatLayerActiu.options.tipus = layer.serverType;
+		heatLayerActiu.options.tipusRang = tem_heatmap;
+		
+		if (layer.capesActiva == true || layer.capesActiva == "true"){
+			map.addLayer(heatLayerActiu);
+		}
+		
+		var origen = getLeafletIdFromBusinessId(options.origen);
+		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
+//		controlCapes._lastZIndex++;
+		activaPanelCapes(true);		
+	});
+
+}
+
 
 //function replacer(key, value) {
 //	console.debug(key);

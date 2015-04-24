@@ -864,7 +864,7 @@ function obteCampsXLSX(f) {
 			}
 		}
 
-		if (e.target.result.length > 500000) {
+		if (e.target.result.length > 5000000) {
 			alert(window.lang.convert("Arxiu massa gran!!"));
 
 		} else {

@@ -77,6 +77,7 @@ function showTematicLayersModal(tipus,className){
 					//var ftype = layerOptions.geometryType;
 					if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
 						(tipusCapa == t_tematic && ftype == t_marker) ||
+						(tipusCapa == t_url_file && ftype == t_marker) ||
 						(tipusCapa == t_visualitzacio && ftype == t_marker)){
 						layers.push(this);
 					}
@@ -210,14 +211,16 @@ function createPopupWindowData(player,type, editable, origen){
 		html+='<h4 class="my-text-center">'+player.properties.name+'</h4>';
 	}
 	
-	if (player.properties.data.text){
-		html+='<div>'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
-	}
+//	if (player.properties.data.text){
+//		html+='<div>'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
+//	}
+	
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
 //		alert( key + ": " + value );
-		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
-			if (key != 'id' && key != 'businessId' && key != 'slotd50'){
+//		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
+		if(isValidValue(key) && isValidValue(value)){
+			if (key != 'id' && key != 'businessId' && key != 'slotd50' && key != 'nom' && key != 'name'){
 				html+='<div class="popup_data_row">';
 				
 				var txt = parseUrlTextPopUp(value, key);
