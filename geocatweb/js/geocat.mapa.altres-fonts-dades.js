@@ -170,10 +170,27 @@ function addControlAltresFontsDades() {
 										  '<option value=".kml">KML</option>'+
 										  '<option value=".gpx">GPX</option>'+
 										  '<option value=".kmz">KMZ</option>'+
+										  '<option value=".xls">XLS</option>'+
+										  '<option value=".xlsx">XLSX</option>'+
 										  '<option value=".zip">Zip File</option>'+
 										  '<option value="-1">'+window.lang.convert("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+
+										'<div id="input-coordenades-url-file">'+
+											'<label lang="ca">On són les coordenades?</label>'+
+											'<br>'+
+											'<div class="input-group input-group-sm">'+
+												'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada X o Longitud")+'</span>'+
+												'<input type="text" id="input-coord-x" class="form-control">'+
+											'</div>'+	
+											'<br>'+	
+											'<div class="input-group input-group-sm">'+
+												'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada Y o Latitud")+'</span>'+
+												'<input type="text" id="input-coord-y" class="form-control">'+
+											'</div>'+	
+//											'<br>'+												
+										'</div>'+
+										'<br>'+
 									'EPSG:&nbsp;'+
 										'<select id="select-url-file-epsg" class="form-download-epsg">'+
 											'<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
@@ -203,6 +220,7 @@ function addControlAltresFontsDades() {
 							);
 							
 							jQuery("#div_url_file_message").hide();
+							jQuery("#input-coordenades-url-file").hide();
 							
 							//Comprovem tipus del file
 							var type = "-1";
@@ -210,8 +228,8 @@ function addControlAltresFontsDades() {
 							else if(urlFile.indexOf(t_file_gpx)!=-1) type = t_file_gpx;
 							else if(urlFile.indexOf(t_file_shp)!=-1) type = t_file_shp;
 							else if(urlFile.indexOf(t_file_dxf)!=-1) type = t_file_dxf;
-//							else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
-//							else if(urlFile.indexOf(t_file_wkt)!=-1) type = t_file_wkt;
+							else if(urlFile.indexOf(t_file_xlsx)!=-1) type = t_file_xlsx;
+							else if(urlFile.indexOf(t_file_xls)!=-1) type = t_file_xls;
 							else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
 							else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
 							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
@@ -221,6 +239,8 @@ function addControlAltresFontsDades() {
 							if (type==".kml" ||type==".gpx"){
 								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',true);
+							}else if(type==".xls" ||type==".xlsx"){
+								jQuery("#input-coordenades-url-file").show();
 							}else{
 								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',false);
@@ -246,7 +266,7 @@ function addControlAltresFontsDades() {
 									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 								}else{
 //									console.debug("abans createURLfileLayer");
-									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val());
+									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val());
 //									console.debug("despres createURLfileLayer");
 								}
 							});
@@ -261,12 +281,18 @@ function addControlAltresFontsDades() {
 								jQuery(this).removeClass("class_error");
 								jQuery("#div_url_file_message").empty();
 								jQuery("#div_url_file_message").hide();
+								jQuery("#input-coordenades-url-file").hide();
+								
 								var ext = jQuery(this).val();
 								if ((ext==".kml")||(ext==".gpx")){
 									$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 									jQuery("#select-url-file-epsg").attr('disabled',true);
+//									jQuery("#input-coordenades-url-file").hide();
+								}else if((ext==".xls")||(ext==".xlsx")){
+									jQuery("#input-coordenades-url-file").show();
 								}else{
-									jQuery("#select-url-file-epsg").attr('disabled',false);	
+									jQuery("#select-url-file-epsg").attr('disabled',false);
+//									jQuery("#input-coordenades-url-file").hide();
 								}
 							});								
 						}

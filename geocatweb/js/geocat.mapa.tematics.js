@@ -236,11 +236,18 @@ function createPopupWindowData(player,type, editable, origen){
 	
 	if(editable){
 		html+= '<div id="footer_edit"  class="modal-footer">'
-					+'<ul class="bs-popup">'						
+					+'<ul class="bs-popup">'
+					
+						+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'					
+					/*
 						+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#">'+window.lang.convert('Dades')+'<span class="glyphicon glyphicon-list-alt blau"></span></a>   </li>'
+					*/
 					+'</ul>'														
 				+'</div>';	
 	}else{
@@ -250,7 +257,7 @@ function createPopupWindowData(player,type, editable, origen){
 		}
 		html+= '<div id="footer_edit"  class="modal-footer">'
 			+'<ul class="bs-popup">'						
-				+'<li class="consulta-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left"></span>'+window.lang.convert('Obrir la taula de dades')+'</a>   </li>'
+				+'<li class="consulta-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.convert('Obrir la taula de dades')+'"></span></a>   </li>'
 			+'</ul>'														
 		+'</div>';			
 	}
@@ -1539,4 +1546,26 @@ function createAreaStyle(style){
 	estilTMP.color=style.borderColor;
 	estilTMP.tipus=t_polygon;
 	return estilTMP;
+}
+
+function loadCacheVisualitzacioLayer(layer){
+	var defer = $.Deferred();
+	var data={
+		businessId: layer.businessId,
+		uid: layer.entitatUid
+	};
+	
+	var layerWms = layer;
+	getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+		if(results.status == "OK" ){
+			readVisualitzacio(defer, results.results, layer);			
+		}else{
+			console.debug('getVisualitzacioByBusinessId ERROR');
+			defer.reject();
+		}		
+	},function(results){
+		//console.debug('getTematicLayerByBusinessId ERROR');
+		defer.reject();
+	});
+	return defer.promise();
 }

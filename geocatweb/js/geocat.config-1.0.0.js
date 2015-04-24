@@ -60,7 +60,7 @@ var paramUrl = {
 	createData: HOST_APP+"geocat/layers/data/createData.action?",
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
 	getTematicLayerByBusinessId:HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
-	getCacheTematicLayerByBusinessId: HOST_APP+"geocat/layers/tematic/getCacheTematicLayerByBusinessId.action?",
+	getCacheVisualitzacioLayerByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getCacheVisualitzacioLayerByBusinessId.action?",
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	urlFile:GEOCAT02+"/share/jsp/urlFile.jsp?",
 	urlFileProves:GEOCAT02+"/share/jsp/urlFileProves.jsp?",
@@ -151,10 +151,10 @@ var paramUrl = {
 	createVisualitzacioTematica: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
 	createVisualitzacioHeatCluster: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioHeatCluster.action?",
 	getGeometriesColleccioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getGeometriesColleccioByBusinessId.action?",
-	
 	getGeometriesPropertiesLayer: HOST_APP+"geocat/layers/visualitzacio/getGeometriesPropertiesLayer.action?",
 	removeGeometriaFromProperties: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromProperties.action?",
-	updateGeometriaProperties: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometriaProperties.action?"
+	updateGeometriaProperties: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometriaProperties.action?",
+	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
@@ -167,7 +167,7 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 		setTimeout(function(){
 //			map.spin(false);
 			try {map.spin(false);} catch (Err) {}
-		},5000);
+		},10000);
 	}
 //	}
 });

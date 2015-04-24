@@ -21,7 +21,8 @@ function carregaDadesUsuari(){
 
 function creaPopOverMevasDades(){
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
-		
+	
+	
 	jQuery(".div_dades_usr").on('click', function() {
 		//console.debug("creaPopOverMevasDades");
 		jQuery('.modal').modal('hide');
@@ -133,9 +134,28 @@ function creaPopOverMevasDades(){
 						deleteTematicLayerAll(data).then(function(results){
 							if (results.status == "ERROR"){
 								parentul.append(parent);
-								if (results.results == "DataIntegrityViolationException"){
-									$('#dialgo_messages').modal('show');
-									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+								if (results.results.indexOf("DataIntegrityViolationException")!=-1){
+									var aplicacions=results.results.split("__");
+									var visors="";
+									for (var i=0;i<aplicacions.length;i++){
+										var businessIdNom=aplicacions[i].split("#");
+										var businessId=businessIdNom[0];
+										if (businessId.indexOf("DataIntegrityViolationException")!=-1) businessId=businessId.replace("DataIntegrityViolationException_","");
+										var nom=businessIdNom[1];
+										if (visors!= "") visors = visors +'<br/>'+ '<a target="_blank" class="deleteCapa" href="http://'+DOMINI+paramUrl.mapaPage+'?businessid='+businessId
+										+'">'+nom+"</a>";
+										else visors = '<br/>'+visors +'<a target="_blank" class="deleteCapa" href="http://'+DOMINI+paramUrl.mapaPage+'?businessid='+businessId
+										+'">'+nom+"</a>";
+										
+									}
+									var errorMSG="<div class='alert alert-danger'>" +
+									 "<span class='fa fa-warning sign'></span><strong>"+window.lang.convert('La capa ')+_this.data("servername")+
+									 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
+								     "</div>";
+									
+									jQuery('#id_sw').append(errorMSG);
+									//$('#dialgo_messages').modal('show');
+									//$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
 								}
 							}else{
 								//jQuery("ln-letter-count").init();
@@ -152,9 +172,27 @@ function creaPopOverMevasDades(){
 						deleteServidorWMS(data).then(function(results){
 							if (results.status == "ERROR"){
 								parentul.append(parent);
-								if (results.results == "DataIntegrityViolationException"){
-									$('#dialgo_messages').modal('show');
-									$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+								if (results.results.indexOf("DataIntegrityViolationException")!=-1){
+									var aplicacions=results.results.split("__");
+									var visors="";
+									for (var i=0;i<aplicacions.length;i++){
+										var businessIdNom=aplicacions[i].split("#");
+										var businessId=businessIdNom[0];
+										if (businessId.indexOf("DataIntegrityViolationException")!=-1) businessId=businessId.replace("DataIntegrityViolationException_","");
+										var nom=businessIdNom[1];
+										if (visors!= "") visors = visors +'<br/>'+ '<a target="_blank" class="deleteCapa" href="http://'+DOMINI+paramUrl.mapaPage+'?businessid='+businessId
+										+'">'+nom+"</a>";
+										else visors = '<br/>'+visors +'<a target="_blank" class="deleteCapa" href="http://'+DOMINI+paramUrl.mapaPage+'?businessid='+businessId
+										+'">'+nom+"</a>";
+										
+									}
+									var errorMSG="<div class='alert alert-danger'>" +
+									 "<span class='fa fa-warning sign'></span><strong>"+window.lang.convert('La capa ')+_this.data("servername")+
+									 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
+								     "</div>";
+									jQuery('#id_sw').append(errorMSG);
+									//$('#dialgo_messages').modal('show');
+									//$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
 								}
 							}else{
 //								console.debug(globalCounts);

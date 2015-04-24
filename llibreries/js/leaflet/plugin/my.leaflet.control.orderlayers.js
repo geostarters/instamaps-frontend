@@ -262,7 +262,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}		
 				
 				//Tipus WMS no admet decarrega
-				if(obj.layer.options.tipus.indexOf(t_wms) == -1){
+				if(obj.layer.options.tipus.indexOf(t_wms) == -1 && obj.layer.options.tipus.indexOf(t_geojsonvt) == -1){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save subopcio-conf');
 					col.layerId = input.layerId;
 					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
@@ -296,7 +296,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}				
 				
 				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
-				if(obj.layer.options.tipus.indexOf(t_wms) == -1 && !jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId][0].chck){
+				if(obj.layer.options.tipus.indexOf(t_geojsonvt) == -1 && obj.layer.options.tipus.indexOf(t_wms) == -1 && !jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId][0].chck){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
 					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 					col.layerId = input.layerId;
@@ -326,6 +326,19 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			row.appendChild(row_sublayer);
 			
 		}		
+		
+		//Afegim tooltips
+		$(".data-table-"+obj.layer.options.businessId+".leaflet-data-table").tooltip({
+			placement : 'bottom',
+			container : 'body',
+			title : window.lang.convert("dades")
+		});
+		
+		$(".opcio-conf").tooltip({
+			placement : 'bottom',
+			container : 'body',
+			title : window.lang.convert("opcions")
+		});		
 		
 		if(modeMapa) updateEditableElements();
 		map.fireEvent('addItemFinish'); 
@@ -405,15 +418,25 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
 				input.checked = false;
 			}
-			
+
 			//Afegir
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
 
 				this._map.addLayer(obj.layer);	
-			
+				if(obj.layer.options.tipus.indexOf("geojsonvt")!= -1){
+					var topPane = map.getPanes().mapPane.getElementsByClassName("leaflet-top-pane");
+					if(topPane.length <= 0){
+						topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
+					}
+					$("div.leaflet-top-pane").append(obj.layer.getContainer());				
+					var z = obj.layer.options.zIndex; 
+					obj.layer.setZIndex(4);
+					obj.layer.options.zIndex = z;
+				}
 			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
 				this._map.removeLayer(obj.layer);
+				
 			}
 		}
 

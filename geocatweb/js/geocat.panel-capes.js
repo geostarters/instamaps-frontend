@@ -121,10 +121,13 @@ function updateEditableElements(){
 //        console.debug('shown editable:'+editable);
         jQuery('.opcio-conf').hide();
         jQuery('.subopcio-conf').hide();
+        jQuery('.leaflet-data-table').hide();
+        
     });
     $('.leaflet-name .editable').on('hidden', function(e, editable) {
 //    	console.debug('hidden editable:'+editable);
         jQuery('.opcio-conf').show();
+        jQuery('.leaflet-data-table').show();
     });    
 }
 
@@ -163,9 +166,9 @@ function addFuncioDownloadLayer(from){
 		var epsgOUT = $('#select-download-epsg').val();
 		var filename = $('#input-download-name').val();
 		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
-		for(var i=0;i<layer_GeoJSON.features.length;i++){
+		/*for(var i=0;i<layer_GeoJSON.features.length;i++){
 			layer_GeoJSON.features[i].properties.tipus = "downloaded";
-		}
+		}*/
 
 		var data = {
 			cmb_formatOUT: formatOUT,

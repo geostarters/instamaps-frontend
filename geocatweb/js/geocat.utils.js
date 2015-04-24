@@ -388,6 +388,10 @@ $.extend({
 //    return this; 
 //};
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function htmlentities(string, quote_style, charset, double_encode) {
 	  //  discuss at: http://phpjs.org/functions/htmlentities/
 	  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)

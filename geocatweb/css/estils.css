@@ -359,12 +359,18 @@
 	text-align: left;
 }
 
+.leaflet-popup-content {
+    max-height: 550px;
+    overflow: auto;
+    width: 300px;
+}
+
 .div_popup {
 	border: 0 dashed #DDDDDD;
 	min-height: 170px;
 	height: auto;
-	margin-left: -5px;
-	margin-right: 26px;
+	/*margin-left: -5px;
+	margin-right: 26px;*/
 	padding: 3px;
 	width: 300px;
 }
@@ -374,7 +380,7 @@
     /*margin-left: -5px;
     margin-right: 26px;*/
     padding: 3px;
-    width: 300px;
+    /*width: 300px;*/
 }
 
 .popup_data_img_iframe {
@@ -482,7 +488,7 @@ textarea {
     height: 35px;
     line-height: 0.8;
     text-align: center;
-    width: 50%;
+    width: 25%;
 }
 
 .bs-popup li.consulta-popup{

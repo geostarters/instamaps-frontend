@@ -238,6 +238,7 @@ h1,h2,h3,h4,h5,h6 {
 	height: auto;
 	border-radius: 0;
 	font-size: 12px;
+	overflow: auto;
 }
 
 .etiqueta li {
@@ -1927,6 +1928,7 @@ h1,h2,h3,h4,h5,h6 {
 	height: auto;
 	border-radius: 0;
 	font-size: 12px;
+	overflow: auto;
 }
 
 .etiqueta li {
@@ -3959,4 +3961,25 @@ i.fa {
 
 .mCustomScrollBox > .mCSB_scrollTools {
     width: 5px;
+}
+
+#info_geojsonvt {
+    background-color: white;
+    /*border: 1px dashed #bbbbbb;*/
+    padding: 5px;
+    position: absolute;
+	top: 165px;
+    width: 320px;
+    z-index: 200;
+    left: 270px;
+}
+#bt_info_geojsonvt_close {
+    width: 100%;
+    text-align: right;
+}
+.deleteCapa{
+	text-decoration:none;
+}
+.deleteCapa:hover{
+	text-decoration:none;
 }
