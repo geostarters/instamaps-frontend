@@ -60,7 +60,7 @@ var paramUrl = {
 	createData: HOST_APP+"geocat/layers/data/createData.action?",
 	createFeature: HOST_APP+"geocat/layers/feature/createFeature.action?",
 	getTematicLayerByBusinessId:HOST_APP+"geocat/layers/tematic/getTematicLayerByBusinessId.action?",
-	getCacheTematicLayerByBusinessId: HOST_APP+"geocat/layers/tematic/getCacheTematicLayerByBusinessId.action?",
+	getCacheVisualitzacioLayerByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getCacheVisualitzacioLayerByBusinessId.action?",
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	urlFile:GEOCAT02+"/share/jsp/urlFile.jsp?",
 	urlFileProves:GEOCAT02+"/share/jsp/urlFileProves.jsp?",

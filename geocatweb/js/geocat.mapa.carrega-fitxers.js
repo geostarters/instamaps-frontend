@@ -982,7 +982,6 @@ function miraFitxer(fitxer) {
 //	console.debug(midaFitxer);
 	
 	return obj;
-
 }
 
 function addDropFileToMap(results) {

@@ -152,9 +152,9 @@ function getTematicLayerByBusinessId(data){
 	}).promise();
 }
 
-function getCacheTematicLayerByBusinessId(data){
+function getCacheVisualitzacioLayerByBusinessId(data){
 	return $.ajax({
-		url: paramUrl.getCacheTematicLayerByBusinessId,
+		url: paramUrl.getCacheVisualitzacioLayerByBusinessId,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();

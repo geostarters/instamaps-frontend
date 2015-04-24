@@ -77,7 +77,6 @@ jQuery("#login_button").click(function(){
 });
 
 
-
 //Recordar/modificar contrasenya
 jQuery("#btn_remember_pssw").click(function(){
 	window.location.href = paramUrl.oblidatPage;

@@ -29,6 +29,7 @@ function addDialegEstilsDraw() {
 	jQuery('#div_mes_arees').on("click", function(e) {	
 		obrirMenuModal('#dialog_estils_arees','toggle',from_creaCapa);
 	});
+
 }
 
 /**
@@ -369,6 +370,18 @@ function activaEdicioUsuari() {
 			}
 			updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id, objEdicio.capaEdicioLeafletId);
 //			updateFeatureMove(objEdicio.featureID, objEdicio.capaEdicioLeafletId);		
+		}
+	});
+	
+	//Controlem que si hi ha un click en un altre lloc del mapa l'edició de features es desactiva
+	$('body').click(function(event) {		
+		if(objEdicio.esticEnEdicio){
+			 var target = $(event.target);
+			 if(crt_Editing){
+				crt_Editing.disable();
+			}
+			updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id, objEdicio.capaEdicioLeafletId);
+			target.click();
 		}
 	});
 	
@@ -1214,9 +1227,9 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
     map._layers[capaEdicioID].removeLayer(layer);
     //Refresh de la capa
     controlCapes._map.removeLayer(capaUsrActiva);
-    controlCapes._map.addLayer(capaUsrActiva);    
-    map.removeLayer(map._layers[capaEdicioID]);
-           
+	controlCapes._map.addLayer(capaUsrActiva);
+	map.removeLayer(map._layers[capaEdicioID]);
+    
     //Fi edicio
     objEdicio.esticEnEdicio=false;
 }

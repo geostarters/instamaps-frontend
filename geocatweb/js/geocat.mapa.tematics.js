@@ -1561,3 +1561,25 @@ function createAreaStyle(style){
 	estilTMP.tipus=t_polygon;
 	return estilTMP;
 }
+
+function loadCacheVisualitzacioLayer(layer){
+	var defer = $.Deferred();
+	var data={
+		businessId: layer.businessId,
+		uid: layer.entitatUid
+	};
+	
+	var layerWms = layer;
+	getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+		if(results.status == "OK" ){
+			readVisualitzacio(defer, results.results, layer);			
+		}else{
+			console.debug('getVisualitzacioByBusinessId ERROR');
+			defer.reject();
+		}		
+	},function(results){
+		//console.debug('getTematicLayerByBusinessId ERROR');
+		defer.reject();
+	});
+	return defer.promise();
+}

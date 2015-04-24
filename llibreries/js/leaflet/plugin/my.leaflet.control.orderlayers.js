@@ -404,7 +404,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
 		}
 		
-		
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
 			

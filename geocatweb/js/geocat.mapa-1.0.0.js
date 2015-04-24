@@ -345,6 +345,8 @@ function addControlsInici(){
 		
 	});
 	
+	
+	
 	var ctr_llistaCapes = L.control({
 		position : 'topright'
 	});
@@ -629,6 +631,10 @@ function loadLayer(value){
 		loadURLfileLayer(value).then(function(){
 			defer.resolve();
 		});	
+	//Si la capa es de tipus geojsonVT
+	}else if(value.serverType == t_geojsonvt){
+		loadGeojsonvtLayer(value);
+		defer.resolve();		
 	//Si la capa es de tipus geojsonVT
 	}else if(value.serverType == t_geojsonvt){
 		loadGeojsonvtLayer(value);

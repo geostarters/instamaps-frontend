@@ -43,8 +43,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		estil_do.weight = markerStyle2.borderWidth;
 	}
 	
-	console.debug("estil_do:");
-	console.debug(estil_do);	
+	//console.debug("estil_do:");
+	//console.debug(estil_do);	
 	
 	if(dinamic){
 		

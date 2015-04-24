@@ -3982,6 +3982,13 @@ i.fa {
     text-align: right;
 }
 
+.deleteCapa{
+	text-decoration:none;
+}
+.deleteCapa:hover{
+	text-decoration:none;
+}
+
 /*tree*/
 .tree {
     min-height:20px;
