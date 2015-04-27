@@ -524,5 +524,6 @@ $(function(){
 	function updateResultats(userList, businessid){
 		userList.remove("idSort", businessid); 
 		var total = (parseInt($('.sp_rs_maps').html()) -1);
+		$('.sp_rs_maps').html(total);
 	}
 });
