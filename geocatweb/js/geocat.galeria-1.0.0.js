@@ -36,9 +36,10 @@ $(function(){
 	
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		var data = {uid: $.cookie('uid')};
+		
+		$('.sort').hide();
+				
 		loadGaleria(data).then(function(results){
-			
-
 			results.results = jQuery.map( results.results, function( val, i ) {
 
 				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
@@ -46,7 +47,8 @@ $(function(){
 					val.options = $.parseJSON(val.options);	
 				}
 				val.uid=$.cookie('uid');
-				val.convidats=val.convidats;				
+				val.convidats=val.convidats;
+				val.data =  new Date(val.dataPublicacio).toLocaleDateString();
 				return val;
 			});
 			var html = template(results);
@@ -57,7 +59,7 @@ $(function(){
 			
 			//Search function
 			var optionsSearch = {
-					valueNames: [ 'nomAplicacioSort' ]
+					valueNames: [ 'idSort', 'nomAplicacioSort' ]
 			};
 			var userList = new List('galeriaSort', optionsSearch);	
 			if ($('.new_map').is(':visible')){
@@ -103,12 +105,12 @@ $(function(){
 				};
 				deleteMap(data).then(function(results){
 					if (results.status == "OK"){
-
+						var itemId = $this.data("businessid");
 						$('#'+$this.data("businessid")).remove();
 						$('#dialgo_delete').modal('hide');
 						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
 						//_kmq.push(['record', 'esborrar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
-						updateResultats();
+						updateResultats(userList, itemId);
 					}
 				});
 			});
@@ -153,14 +155,14 @@ $(function(){
 								event.stopPropagation();
 								var id=event.target.attributes.id.value;
 								var idC=id.toString().substring(0,10);
-								console.debug($('#'+idC).val());
-								console.debug($('#dialgo_colaborate').data('businessid'));
+								//console.debug($('#'+idC).val());
+								//console.debug($('#dialgo_colaborate').data('businessid'));
 								var data = {
 										convidatEsborrar: $('#'+idC).val(),
 										businessId: $('#dialgo_colaborate').data('businessid'),
 										uid: $.cookie('uid')
 								}
-								console.debug(data);
+								//console.debug(data);
 								deleteConvidatByBusinessId(data).then(function(results2){
 									if (results2.status=="OK"){
 										alert( window.lang.convert("Col·laborador ")+$('#'+idC).val()+window.lang.convert(" esborrat"));
@@ -176,7 +178,7 @@ $(function(){
 							var convidatsJson=$.parseJSON(results.results);
 							var jsonObj = [];
 							jQuery.map( convidatsJson, function( val, i ) {
-								console.debug(val.email+","+val.validat);					
+								//console.debug(val.email+","+val.validat);					
 								var conv='#convidats'+(i+1);
 								var convR='#convidats'+(i+1)+"_remove";	
 								if (val.validat=="S") {
@@ -273,7 +275,7 @@ $(function(){
 				};
 				updateMapVisibility(data1).then(function(results){
 					if (results.status=="OK") {
-						console.debug(results);
+						//console.debug(results);
 						if (visibilitatAntiga=="P") {
 							$(idPriv).attr("class", "unlock");
 							$this.data("title", window.lang.convert("El mapa és visible a la galeria pública"));
@@ -343,11 +345,11 @@ $(function(){
 								esColaboratiu: 'S',
 								businessId: businessId
 							};
-							console.debug(data);
+							//console.debug(data);
 							sendMail(data).then(function(results){
-								console.debug(results);					
+								//console.debug(results);					
 								if (results.status=="OK") {
-									console.debug(results);
+									//console.debug(results);
 									$('#dialgo_colaborate').modal('hide');
 								}
 								else alert(window.lang.convert("Hi ha hagut algun problema amb la tramesa dels correus electrònics"));
@@ -519,8 +521,8 @@ $(function(){
 		$('.sp_rs_maps').html(total);
 	}
 	
-	function updateResultats(){
-		var total=(parseInt($('.sp_rs_maps').html()) -1);
-		$('.sp_rs_maps').html(total);
+	function updateResultats(userList, businessid){
+		userList.remove("idSort", businessid); 
+		var total = (parseInt($('.sp_rs_maps').html()) -1);
 	}
 });

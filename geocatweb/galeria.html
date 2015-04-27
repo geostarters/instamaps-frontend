@@ -176,6 +176,7 @@
 			<input type="hidden" id="nomAplicacioSort_{{businessId}}" value="{{nomAplicacio}}">
 			<input type="hidden" id="userAplicacio_{{businessId}}" value="{{entitatUid}}">
 			<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
+			<p class="idSort hidden">{{businessId}}</p>
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 				<input type="hidden" name="cols" value="{{cookie.uid}}">
 				<div  class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">		
@@ -220,7 +221,7 @@
 						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 					</div>
 					{{/if_equals}}
-			    </div>
+				</div>
 			</div>
 			</li>
 			{{/each}}
