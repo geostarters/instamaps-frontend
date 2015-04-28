@@ -125,16 +125,16 @@ function creaPopOverMevasDades(){
 					var parent = _this.parent();
 					var parentul = parent.parent();
 					_this.parent().remove();
-					
 					if (jQuery.trim(jQuery("#id_sw").text()) == ""){
 						jQuery('#id_sw').html(warninMSG);
 					}
-					
+					jQuery("#error-message").remove();
 					if(_this.data("servertype") == t_tematic){
 						deleteTematicLayerAll(data).then(function(results){
 							if (results.status == "ERROR"){
 								parentul.append(parent);
-								if (results.results.indexOf("DataIntegrityViolationException")!=-1){
+								if (results.results){
+									if (results.results.indexOf("DataIntegrityViolationException")!=-1){
 									var aplicacions=results.results.split("__");
 									var visors="";
 									for (var i=0;i<aplicacions.length;i++){
@@ -148,7 +148,7 @@ function creaPopOverMevasDades(){
 										+'">'+nom+"</a>";
 										
 									}
-									var errorMSG="<div class='alert alert-danger'>" +
+									var errorMSG="<div id='error-message' class='alert alert-danger'>" +
 									 "<span class='fa fa-warning sign'></span><strong>"+window.lang.convert('La capa ')+_this.data("servername")+
 									 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
 								     "</div>";
@@ -156,7 +156,7 @@ function creaPopOverMevasDades(){
 									jQuery('#id_sw').append(errorMSG);
 									//$('#dialgo_messages').modal('show');
 									//$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
-								}
+								}}
 							}else{
 								//jQuery("ln-letter-count").init();
 //								console.debug(globalCounts);
@@ -172,7 +172,9 @@ function creaPopOverMevasDades(){
 						deleteServidorWMS(data).then(function(results){
 							if (results.status == "ERROR"){
 								parentul.append(parent);
-								if (results.results.indexOf("DataIntegrityViolationException")!=-1){
+								if (results.results) {
+									if ( results.results.indexOf("DataIntegrityViolationException")!=-1){
+								
 									var aplicacions=results.results.split("__");
 									var visors="";
 									for (var i=0;i<aplicacions.length;i++){
@@ -186,14 +188,15 @@ function creaPopOverMevasDades(){
 										+'">'+nom+"</a>";
 										
 									}
-									var errorMSG="<div class='alert alert-danger'>" +
+									var errorMSG="<div  id='error-message' class='alert alert-danger'>" +
 									 "<span class='fa fa-warning sign'></span><strong>"+window.lang.convert('La capa ')+_this.data("servername")+
 									 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
 								     "</div>";
 									jQuery('#id_sw').append(errorMSG);
 									//$('#dialgo_messages').modal('show');
 									//$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
-								}
+								}}														
+									
 							}else{
 //								console.debug(globalCounts);
 								globalCounts[''+firstLetter +'']--;
