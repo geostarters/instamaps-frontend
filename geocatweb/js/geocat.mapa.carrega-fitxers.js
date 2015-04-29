@@ -89,7 +89,9 @@ function creaAreesDragDropFiles() {
 			drgFromMapa.removeAllFiles(true);
 			if(resposta){
 				resposta=jQuery.trim(resposta);
-				resposta=jQuery.parseJSON(resposta);
+//				resposta=jQuery.parseJSON(resposta);
+				resposta=JSON.parse(resposta);
+				
 				if(resposta.status=="OK"){
 					
 					progressBarShow = true;
@@ -268,9 +270,9 @@ function creaAreesDragDropFiles() {
 					}else if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
 						var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 					}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
-						txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
+						txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
 					}else if(resposta.codi.indexOf("502")!= -1){//+ de 1000 features
-						txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho");
+						txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho");
 					}else if(resposta.codi.indexOf("503")!= -1){//+ de 6000 geometries
 						txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 					}else{
@@ -377,7 +379,9 @@ function addFuncioCarregaFitxers(){
 				$('#dialog_carrega_dades').modal('hide');
 				if(resposta){
 					resposta=jQuery.trim(resposta);
-					resposta=jQuery.parseJSON(resposta);
+//					resposta=jQuery.parseJSON(resposta);
+					resposta=JSON.parse(resposta);
+					
 					if(resposta.status=="OK"){			
 						addDropFileToMap(resposta);
 					}else{
@@ -388,9 +392,9 @@ function addFuncioCarregaFitxers(){
 						}else if(resposta.codi.indexOf("CONVERT ERROR")!= -1){
 							var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 						}else if(resposta.codi.indexOf("501")!= -1){//+ de 5000 punts
-							txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
+							txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
 						}else if(resposta.codi.indexOf("502")!= -1){//+ de 1000 features
-							txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho");
+							txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho");
 						}else if(resposta.codi.indexOf("503")!= -1){//+ de 6000 geometries
 							txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 						}else{
@@ -1030,9 +1034,9 @@ function addDropFileToMap(results) {
 		}else if(results.results.indexOf("CONVERT ERROR")!= -1){
 			var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 		}else if(results.results.indexOf("501")!= -1){//+ de 5000 punts
-			txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho.");
+			txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho.");
 		}else if(results.results.indexOf("502")!= -1){//+ de 1000 features
-			txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho.");
+			txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho.");
 		}else if(results.results.indexOf("503")!= -1){//+ de 6000 geometries
 			txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
 		}else{

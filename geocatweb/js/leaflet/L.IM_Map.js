@@ -48,7 +48,8 @@ var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
 
 
-var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
+//var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
+var URL_TOPOCOLOR=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
 
 var URL_HISTORIC=urlServerTiles+'/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
 
@@ -742,7 +743,7 @@ if(print){
 		COLOR_TOPO_ICC_L11_19= new L.IM_ColorLayer(URL_TOPOCOLOR, {
 			minZoom: 7,
 			maxZoom: 19,
-			tms:false,
+			tms:true,
 			continuousWorld: true,
 			worldCopyJump: false,
 			color:color

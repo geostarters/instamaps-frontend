@@ -934,7 +934,8 @@ function objecteUserAdded(f){
 						businessId: f.layer.properties.capaBusinessId,//Bid de la visualitzacio
 						uid: jQuery.cookie('uid'),
 						features: features,
-						geometryType: f.layer.options.tipus
+						geometryType: f.layer.options.tipus,
+						options: "text,nom"
 //							geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b014'//Bid de la geometria q estas afegint						
 				};
 				
