@@ -13,7 +13,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 //	var markerStyle = JSON.stringify(getMarkerRangFromStyle(defaultPunt));
 //	console.debug("markerStyle:");
 //	console.debug(markerStyle);
-//
+
 	 var lineStyle = getLineRangFromStyle(canvas_linia);
 	 lineStyle.weight = lineStyle.lineWidth;
 	 console.debug(lineStyle);
@@ -48,7 +48,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	
 	if(dinamic){
 		
-		var param_url = paramUrl.urlFile	+ "tipusFile=" + tipusFile+
+		var param_url = paramUrl.urlFile	+"tipusFile=" + tipusFile+
 											 "&urlFile="+encodeURIComponent(urlFile)+
 											 "&epsgIN="+epsgIN+
 											 "&dinamic="+dinamic+
@@ -304,9 +304,9 @@ function processFileError(data){
 	if(data.results.indexOf("CONVERT ERROR")!= -1){
 		var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 	}else if(data.results.indexOf("501")!= -1){//+ de 5000 punts
-		txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 5000 o menys i torni a intentar-ho");
+		txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
 	}else if(data.results.indexOf("502")!= -1){//+ de 1000 features
-		txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 1000 o menys i torni a intentar-ho");
+		txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho");
 	}else if(data.results.indexOf("503")!= -1){//+ de 6000 geometries
 		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 	}
