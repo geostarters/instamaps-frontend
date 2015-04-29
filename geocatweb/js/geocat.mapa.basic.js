@@ -64,29 +64,29 @@ function createTematicLayerBasic(tematic, styles){
 	}else if(capaMare.options.tipus == t_url_file){
 		
 		console.debug("creem tematic simple de t_url_file...");
-//		nom : nomCapa,
-//		tipus : t_url_file,
-//		estil_do: estil_do,
-//		style: estil_lin_pol,//Estil de poligons i linies
-//		businessId : '-1',
-//		 options: '{"tipusFile":"'+tipusFile+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+
 		var estil_do = capaMare.options.estil_do;
 		
 		if(capaMare.options.geometryType.indexOf("line")!=-1){
 			rangs[0].weight = rangs[0].lineWidth;
+			
 		}else if(capaMare.options.geometryType.indexOf("polygon")!=-1){
-				
+			
+			 var polygonStyle = rangs[0];//getPolygonRangFromStyle(canvas_pol);
+			 rangs[0].weight = polygonStyle.borderWidth;//lineWidth;
+			 rangs[0].fillColor = polygonStyle.color;
+			 rangs[0].color = polygonStyle.borderColor;
+			 rangs[0].fillOpacity = polygonStyle.opacity/100; 
+			 rangs[0].opacity = 1;			
+			
 		}else{
 			var markerStyle2 = rangs[0];
-			
-//			if(markerStyle2.isCanvas){
-				estil_do.color = markerStyle2.borderColor;
-				estil_do.fillColor = markerStyle2.color;
-				estil_do.fillOpacity = 1;
-				estil_do.opacity = 1;
-				estil_do.radius = markerStyle2.simbolSize;
-				estil_do.weight = markerStyle2.borderWidth;
-//			}
+			estil_do.color = markerStyle2.borderColor;
+			estil_do.fillColor = markerStyle2.color;
+			estil_do.fillOpacity = 1;
+			estil_do.opacity = 1;
+			estil_do.radius = markerStyle2.simbolSize;
+			estil_do.weight = markerStyle2.borderWidth;
 		}
 		
 		var options = {

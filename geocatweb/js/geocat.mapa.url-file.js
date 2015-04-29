@@ -4,47 +4,30 @@
 
 function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY){
 
+	//Estil defecte
 	var estil_do = retornaEstilaDO(t_url_file);
-	console.debug("estil_do:");
-	console.debug(estil_do);
-	
 	var estil_lin_pol = estil_do;
-	
-//	var markerStyle = JSON.stringify(getMarkerRangFromStyle(defaultPunt));
-//	console.debug("markerStyle:");
-//	console.debug(markerStyle);
 
+	//Recuperem estils de la barra d'eines
 	 var lineStyle = getLineRangFromStyle(canvas_linia);
 	 lineStyle.weight = lineStyle.lineWidth;
-	 console.debug(lineStyle);
 	 
 	 var polygonStyle = getPolygonRangFromStyle(canvas_pol);
-	 console.debug("polygonStyle:");
-	 console.debug(polygonStyle);
-	 
-	 polygonStyle.weight = polygonStyle.lineWidth;
-	 polygonStyle.color = polygonStyle.borderColor;
+	 polygonStyle.weight = polygonStyle.borderWidth;//lineWidth;
 	 polygonStyle.fillColor = polygonStyle.color;
+	 polygonStyle.color = polygonStyle.borderColor;
 	 polygonStyle.fillOpacity = polygonStyle.opacity/100; 
 	 polygonStyle.opacity = 1;
 
-	 console.debug(polygonStyle);
-	
-	var markerStyle2 = getMarkerRangFromStyle(defaultPunt);
-	console.debug("markerStyle2:");
-	console.debug(markerStyle2);	
-	
-	if(markerStyle2.isCanvas){
-		estil_do.color = markerStyle2.borderColor;
-		estil_do.fillColor = markerStyle2.color;
+	var markerStyle = getMarkerRangFromStyle(defaultPunt);
+	if(markerStyle.isCanvas){
+		estil_do.color = markerStyle.borderColor;
+		estil_do.fillColor = markerStyle.color;
 		estil_do.fillOpacity = 1;
 		estil_do.opacity = 1;
-		estil_do.radius = markerStyle2.simbolSize;
-		estil_do.weight = markerStyle2.borderWidth;
+		estil_do.radius = markerStyle.simbolSize;
+		estil_do.weight = markerStyle.borderWidth;
 	}
-	
-	//console.debug("estil_do:");
-	//console.debug(estil_do);	
 	
 	if(dinamic){
 		
