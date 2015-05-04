@@ -43,7 +43,7 @@
             for (r = 0; r < b[c].length; r++) {
                 mercRing = [];
                 for (p = 0; p < b[c][r].length; p++) {
-                    mercRing.push(this._map.project(b[c][r][p], 0));
+                    if (this._map!=null) mercRing.push(this._map.project(b[c][r][p], 0));
                 }
                 mercComponent.push(mercRing);
             }
