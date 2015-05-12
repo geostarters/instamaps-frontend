@@ -21,8 +21,11 @@ function showModalTematicCategories(data){
 	
 	jQuery('#palet_warning').hide();
 	
-	jQuery(".btn-paleta").on('click',function(evt){
+	jQuery(".ramp").on('click',function(evt){
 		var _this = jQuery(this);
+		var brewerClass = _this.attr('class').replace("ramp ","");
+		jQuery("#dialog_tematic_rangs").data("paleta", brewerClass);
+		/*
 		if (_this.attr('id') == 'paletaPaired'){
 			jQuery("#dialog_tematic_rangs").data("paleta", 0);
 		}else if (_this.attr('id') == 'paletaPastel'){
@@ -34,6 +37,7 @@ function showModalTematicCategories(data){
 		}else{
 			jQuery("#dialog_tematic_rangs").data("paleta", 0);
 		}
+		*/
 		if (jQuery('#list_tematic_values').html() != ""){
 			updatePaletaRangs();
 		}
@@ -79,7 +83,6 @@ function showModalTematicCategories(data){
 					jQuery('#list_tematic_values').html("");
 					jQuery('#dialog_tematic_rangs .btn-success').hide();
 				}else{
-					
 					readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
 						jQuery("#dialog_tematic_rangs").data("values", results);
 						getTipusValuesVisualitzacio(results);
@@ -157,11 +160,25 @@ function showVisualitzacioDataUnic(values){
 //	jQuery("#dialog_tematic_rangs").data("values", values);
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
-
+	
 	//Ordenar valores
 	values.sort();
-
+	
+	var scale;
+	paleta = paleta ? paleta : 'Paired';
+	if (paleta == 'Paired' || paleta == 'Set3' || paleta == 'Set1' || paleta == 'Dark2'){
+		scale = chroma.scale(paleta).domain([0,12],12).out('hex');
+	}else{
+		scale = chroma.scale(paleta).domain([0,values.length],values.length).out('hex');
+	}
+		
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
+	
+	var valuesStyle = jQuery.map( values, function( a, i) {
+		return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
+	});
+	
+	/*
 	if (ftype == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i) {
 			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
@@ -175,6 +192,7 @@ function showVisualitzacioDataUnic(values){
 			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
 		});
 	}
+	*/
 	defer.resolve(valuesStyle);
 	return defer.promise();
 }
@@ -268,34 +286,58 @@ function loadTematicValueUnicTemplate(results1){
 		jQuery('#list_tematic_values canvas').each(function(i, val){
 			addGeometryInitPRang(val, results1[i]);
 		});
-	}
+		
+		jQuery('#list_tematic_values canvas').on('click',function(e){
+			var _this = this;
+			var _$this = $(this);
+			_$this.after('<div id="temp_color_pallete" class="dropdown-menu"></div>');
+			
+			$("#temp_color_pallete").css({'top':_$this.position().top,'left':_$this.position().left+25}).colorPalette().on('selectColor', function(e) {
+				var canvas = _this;
+				var style = {style:{}};
+				style.style.color = e.color;
+				addGeometryInitPRang(canvas, style);
+				$("#temp_color_pallete").remove();
+			});
+			
+		});
+		
+	}	
+	
+	/*
 	if (jQuery('#list_tematic_values tr').length > 9){
 		jQuery('#palet_warning').show();
 	}else{
 		jQuery('#palet_warning').hide();
 	}
+	*/
 }
 
 function createIntervalStyle(index, geometryType, paleta){
 //	console.debug("createIntervalStyle");
 	var defStyle;
-	var markerColors = (paleta)? paletasColors[paleta] : paletasColors[0];
+	//var markerColors = (paleta)? paletasColors[paleta] : paletasColors[0];
+	/*
 	if (index > 9){
 		index = 9;
 	}
+	*/
 	
 	var ftype = transformTipusGeometry(geometryType);
 		
 	if (ftype == t_marker){
 		defStyle = jQuery.extend({}, default_circulo_style);
-		defStyle.fillColor = markerColors[index];
+		//defStyle.fillColor = markerColors[index];
+		defStyle.fillColor = paleta(index);
 		defStyle.isCanvas = true;		
 	}else if (ftype == t_polyline){
 		defStyle = jQuery.extend({}, default_line_style);
-		defStyle.color = markerColors[index];
+		//defStyle.color = markerColors[index];
+		defStyle.color = paleta(index);
 	}else if (ftype == t_polygon){
 		defStyle = jQuery.extend({}, default_area_style);
-		defStyle.color = markerColors[index];
+		//defStyle.color = markerColors[index];
+		defStyle.color = paleta(index);
 	}
 	defStyle.geometryType = ftype;
 	
@@ -308,21 +350,29 @@ function showTematicRangs(){
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	
+	var scale;
+	paleta = paleta ? paleta : 'Paired';
+	if (paleta == 'Paired' || paleta == 'Set3' || paleta == 'Set1' || paleta == 'Dark2'){
+		scale = chroma.scale(paleta).domain([0,12],12).out('hex');
+	}else{
+		scale = chroma.scale(paleta).domain([0,values.length],values.length).out('hex');
+	}
+		
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
 	
 	if (ftype == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
+			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 		});
 	}else if (ftype == t_polyline){
 		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
+			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 		});
 	}else if (ftype == t_polygon){
 		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
+			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 		});
 	}
 	defer.resolve(valuesStyle);
@@ -335,6 +385,14 @@ function showTematicRangsUnic(){
 	var pvalues = jQuery("#dialog_tematic_rangs").data("values");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
+	
+	var scale;
+	paleta = paleta ? paleta : 'Paired';
+	if (paleta == 'Paired' || paleta == 'Set3' || paleta == 'Set1' || paleta == 'Dark2'){
+		scale = chroma.scale(paleta).domain([0,12],12).out('hex');
+	}else{
+		scale = chroma.scale(paleta).domain([0,values.length],values.length).out('hex');
+	}
 	
 	//Eliminem valors repetits de values
 	var seen = {};
@@ -355,15 +413,15 @@ function showTematicRangsUnic(){
 	var ftype = transformTipusGeometry(tematic.geometryType);
 	if (ftype == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i) {
-			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
+			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 		});
 	}else if (ftype == t_polyline){
 		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
+			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 		});
 	}else if (ftype == t_polygon){
 		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,paleta), index: i};
+			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 		});
 	}
 	defer.resolve(valuesStyle);
@@ -481,32 +539,54 @@ function updatePaletaRangs(){
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	//solo para los 9 primeros (cuando usuario pueda cambiar los estilos)
+	var values = jQuery("#dialog_tematic_rangs").data("values");
 	//console.debug(jQuery('#list_tematic_values canvas:lt(9)'));
 	
 	var ftype = transformTipusGeometry(tematicFrom.geometrytype);
 	
+	var scale;
+	paleta = paleta ? paleta : 'Paired';
+	if (paleta == 'Paired' || paleta == 'Set3' || paleta == 'Set1' || paleta == 'Dark2'){
+		if (values.length <= 12){
+			scale = chroma.scale(paleta).domain([0,12],12).out('hex');
+		}else{
+			scale = chroma.scale(paleta).domain([0,values.length],values.length).out('hex');
+		}
+	}else{
+		scale = chroma.scale(paleta).domain([0,values.length],values.length).out('hex');
+	}
+	
 	if (ftype == t_marker){
 		jQuery('#list_tematic_values tbody td div').each(function(i, elm){
+			/*
 			if (i > 9){
 				i = 9;
 			}
-			var color = paletasColors[paleta][i];
+			*/
+			//var color = paletasColors[paleta][i];
+			var color = scale(i);
 			jQuery(elm).css('background-color', color);
 		});
 	}else if (ftype == t_polyline){
 		jQuery('#list_tematic_values canvas').each(function(i, elm){
+			/*
 			if (i > 9){
 				i = 9;
 			}
-			var color = paletasColors[paleta][i];
+			*/
+			//var color = paletasColors[paleta][i];
+			var color = scale(i);
 			addGeometryInitLRang(elm, {style:{color: color}});
 		});
 	}else if (ftype == t_polygon){
 		jQuery('#list_tematic_values canvas').each(function(i, elm){
+			/*
 			if (i > 9){
 				i = 9;
 			}
-			var color = paletasColors[paleta][i];
+			*/
+			//var color = paletasColors[paleta][i];
+			var color = scale(i);
 			addGeometryInitPRang(elm, {style:{color: color}});
 		});
 		//TODO
@@ -585,16 +665,24 @@ function loadTematicValueRangsTemplate(results){
 		});
 		*/
 	}
+	/*
 	if (jQuery('#list_tematic_values tr').length > 9){
 		jQuery('#palet_warning').show();
 	}else{
 		jQuery('#palet_warning').hide();
 	}
+	*/
 }
 
 function addGeometryInitLRang(canvas, style){
 	var	cv_ctx_l=canvas.getContext("2d");
 	cv_ctx_l.clearRect(0, 0, canvas.width, canvas.height);
+	
+	cv_ctx_l.shadowColor = '#999';
+	cv_ctx_l.shadowBlur = 4;
+	cv_ctx_l.shadowOffsetX = 2;
+	cv_ctx_l.shadowOffsetY = 2;
+	
 	cv_ctx_l.moveTo(0.7,39.42);
 	cv_ctx_l.lineTo(2.05,34.43);
 	cv_ctx_l.lineTo(3.62,31.00);
@@ -622,18 +710,29 @@ function addGeometryInitLRang(canvas, style){
 
 function addGeometryInitPRang(canvas, style){
 	var	cv_ctx_p=canvas.getContext("2d");
+	
 	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
-	cv_ctx_p.moveTo(5.13,15.82);
-	cv_ctx_p.lineTo(25.49,5.13);
-	cv_ctx_p.lineTo(37.08,13.16);
-	cv_ctx_p.lineTo(20.66,38.01);
-	cv_ctx_p.lineTo(2.06,33.67);
+	
+	//cv_ctx_p.scale(0.5,0.5);
+	var scale = 0.7;
+	
+	cv_ctx_p.shadowColor = '#999';
+	cv_ctx_p.shadowBlur = 4;
+	cv_ctx_p.shadowOffsetX = 2;
+	cv_ctx_p.shadowOffsetY = 2;
+	
+	cv_ctx_p.moveTo(5.13*scale,15.82*scale);
+	cv_ctx_p.lineTo(25.49*scale,5.13*scale);
+	cv_ctx_p.lineTo(37.08*scale,13.16*scale);
+	cv_ctx_p.lineTo(20.66*scale,38.01*scale);
+	cv_ctx_p.lineTo(2.06*scale,33.67*scale);
 	cv_ctx_p.closePath();
 	cv_ctx_p.strokeStyle="#ffffff"; //hex
 	cv_ctx_p.fillStyle=jQuery.Color(style.style.color).alpha(0.75).toRgbaString(); //rgba
 	cv_ctx_p.lineWidth=1;
 	cv_ctx_p.fill();
-	cv_ctx_p.stroke(); 
+	cv_ctx_p.stroke();
+	
 }
 
 function readDataTematicFromSlotd(tematic, slotd){
