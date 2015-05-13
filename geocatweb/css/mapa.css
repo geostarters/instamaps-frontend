@@ -1857,16 +1857,50 @@ i.fa {
 	overflow: auto;
 }
 
+#list_tematic_values canvas{
+	cursor: pointer;
+}
+
+#list_tematic_values div.awesome-marker-web{
+	cursor: pointer;
+}
+
 #paletes_colors{
 	float:left;
 	text-align: left;
+	width: 100%;
 }
+
 
 .btn-paleta{
 	border: 1px solid #000000;
     cursor: pointer;
     margin-right: 5px;
 }
+
+.ramp {
+    cursor: pointer;
+    float: left;
+    padding: 5px 5px 0;
+}
+
+.ramp:hover{
+	background-color: #cccccc;
+}
+
+.ramp rect{
+    stroke: #333;
+    stroke-width: 0.5px;
+}
+
+/*
+canvas.shadow svg{ 
+	cursor:pointer; 
+	-moz-box-shadow: -5px -5px 5px #888;
+	-webkit-box-shadow: -5px -5px 5px #888;
+	box-shadow: -5px -5px 5px #888; 
+}
+*/
 
 /* end Tematics*/
 
@@ -4055,3 +4089,5 @@ i.fa {
     color:#000
 }
 /* end tree*/
+
+
