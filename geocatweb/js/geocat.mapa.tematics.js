@@ -1037,7 +1037,7 @@ function addHtmlModalCategories(){
 	'						{{#each values}}'+
 	'						<tr><td>{{v}}</td><td>'+
 	'							{{#if style.isCanvas}}'+
-	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-"'+ 
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
 	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
 	'							{{else}}'+
 	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
@@ -1057,7 +1057,7 @@ function addHtmlModalCategories(){
 	'						<tbody>'+
 	'						{{#each values}}'+
 	'						<tr><td>{{v}}</td><td>'+
-	'							<canvas id="cv_pol{{index}}" height="40" width="40" class="shadow"></canvas>'+
+	'							<canvas id="cv_pol{{index}}" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
 	'						</td></tr>'+
 	'						{{/each}}'+
 	'						</tbody>'+
@@ -1088,8 +1088,8 @@ function addHtmlModalCategories(){
 	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
 	'							<td>'+
 	'							{{#if style.isCanvas}}'+
-	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-"'+ 
-	'									style="font-size: 10.5px; width: 21px; height: 21px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
 	'							{{else}}'+
 	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
 	'									{{#if style.icon}}'+
@@ -1110,7 +1110,7 @@ function addHtmlModalCategories(){
 	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
 	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
 	'							<td>'+
-	'							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>'+
+	'							<canvas id="cv_pol{{index}}" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
 	'						</td></tr>'+
 	'						{{/each}}'+
 	'						</tbody>'+
@@ -1123,7 +1123,7 @@ function addHtmlModalCategories(){
 	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
 	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
 	'							<td>'+
-	'							<canvas id="cv_pol{{index}}" height="40" width="40"></canvas>'+
+	'							<canvas id="cv_pol{{index}}" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
 	'						</td></tr>'+
 	'						{{/each}}'+
 	'						</tbody>'+

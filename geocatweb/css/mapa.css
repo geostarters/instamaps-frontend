@@ -1861,6 +1861,10 @@ i.fa {
 	cursor: pointer;
 }
 
+#list_tematic_values div.awesome-marker-web{
+	cursor: pointer;
+}
+
 #paletes_colors{
 	float:left;
 	text-align: left;
