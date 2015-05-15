@@ -26,9 +26,9 @@ $(function(){
 	}
 	
 	$("body").on("change-lang", function(event, lang){
-		$('.btn-tooltip').tooltip().each(function(){
-			$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
-		});
+		/*$('.btn-tooltip').tooltip().each(function(){
+			$(this).attr('data-title', window.lang.convert($(this).attr('data-title')));
+		});*/
 		$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 		//$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));		
 		
@@ -59,7 +59,8 @@ $(function(){
 			
 			//Search function
 			var optionsSearch = {
-					valueNames: [ 'idSort', 'nomAplicacioSort' ]
+					valueNames: [ 'nomAplicacioSort', 'byuser', 'dataPublicacio', 'rankSort' ],
+					page:1000
 			};
 			var userList = new List('galeriaSort', optionsSearch);	
 			if ($('.new_map').is(':visible')){
@@ -242,9 +243,9 @@ $(function(){
 				window.open(urlMap);
 			});
 			
-			$('.btn-tooltip').tooltip().each(function(){
+			/*$('.btn-tooltip').tooltip().each(function(){
 				$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
-			});
+			});*/
 			
 			//Change visibility
 			$('.btn.btn-visibility').on('click', function(event){
@@ -402,7 +403,7 @@ $(function(){
 			//Search function
 			var optionsSearch = {
 				valueNames: [ 'nomAplicacioSort', 'byuser', 'dataPublicacio', 'rankSort' ],
-				page: 500
+				page: 1000
 			};
 			
 			var	userList = new List('galeriaSort', optionsSearch);				
@@ -420,7 +421,7 @@ $(function(){
 			$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
 			//$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));			
 			
-			$('.btn.btn-success, .caption.descAplicacio').on('click', function(event){
+			$('.btn.btn-success').on('click', function(event){
 				event.preventDefault();
 				event.stopPropagation();
 				var $this = $(this);
@@ -484,9 +485,9 @@ $(function(){
 				});
 			});
 			
-			$('.btn-tooltip').tooltip().each(function(){
-				$(this).attr('data-original-title', window.lang.convert($(this).attr('data-title')));
-			});
+			/*$('.btn-tooltip').tooltip().each(function(){
+				$(this).attr('data-title', window.lang.convert($(this).attr('data-title')));
+			});*/
 			
 			$('.thumbnail').hover(function(){
 				var descAplicacio = $(this).find(".descAplicacio");
@@ -513,6 +514,19 @@ $(function(){
 				userList.search(url('?q'));
 				escriuResultats(userList.visibleItems.length);
 			}
+			$('.caption.descAplicacio').on('click', function(event){
+				event.preventDefault();
+				event.stopPropagation();
+				var $this = $(this);
+				var appbusinessid = appbusinessid = $this.parent().data("businessid");
+				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
+				if ($.trim($this.data("idusr")) != ""){
+					urlMap += "&id="+$this.data("idusr");
+				}
+				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
+				//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
+				window.open(urlMap);
+			});
 		});
 	}
 	

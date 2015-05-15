@@ -462,7 +462,7 @@ function loadTematicCluster(layer, zIndex, layerOptions, capesActiva){
 	});	
 	
 	$.each(layer.geometries.features.features, function(i, feature) {
-		var marker = L.marker(new L.LatLng(feature.geometry.coordinates[0],feature.geometry.coordinates[1]), {
+		var marker = L.marker(new L.LatLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]), {
 			//title : layer._leaflet_id
 		});
 		marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");
@@ -503,7 +503,7 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva){
 			
 			var arrP=[];
 			$.each(results.geometries.geometria.features, function(i, feature) {
-				var marker = L.marker(new L.LatLng(feature.geometry.coordinates[0],feature.geometry.coordinates[1]), {
+				var marker = L.marker(new L.LatLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]), {
 					//title : layer._leaflet_id
 				});
 				marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");

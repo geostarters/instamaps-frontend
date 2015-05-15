@@ -700,8 +700,8 @@ function loadLayer(value){
 		});
 		
 	}else if(value.serverType == t_visualitzacio){
-		loadCacheVisualitzacioLayer(value).then(function(){
-		//loadVisualitzacioLayer(value).then(function(){
+		//loadCacheVisualitzacioLayer(value).then(function(){
+		loadVisualitzacioLayer(value).then(function(){
 			defer.resolve();
 		});		
 	}else if(value.serverType == t_heatmap){
