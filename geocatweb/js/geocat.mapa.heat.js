@@ -357,7 +357,7 @@ function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 	
 	var arrP=[];
 	$.each(layer.geometries.features.features, function(i, feature) {
-		var d =[feature.geometry.coordinates[0],feature.geometry.coordinates[1],1];	
+		var d =[feature.geometry.coordinates[1],feature.geometry.coordinates[0],1];	
 		arrP.push(d);			
 	});
 	
@@ -412,7 +412,7 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva){
 			
 			var arrP=[];
 			$.each(results.geometries.geometria.features, function(i, feature) {
-				var d =[feature.geometry.coordinates[0],feature.geometry.coordinates[1],1];	
+				var d =[feature.geometry.coordinates[1],feature.geometry.coordinates[0],1];	
 				arrP.push(d);			
 			});
 			

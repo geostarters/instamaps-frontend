@@ -51,6 +51,7 @@ function creaAreesDragDropFiles() {
 
 		drgFromMapa = new window.Dropzone("div#map", drOpcionsMapa);
 
+	    
 		drgFromMapa.on("addedfile", function(file) {
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', 'addedfile', 1]);
 			//_kmq.push.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user, 'forma carrega':'drag&drop'}]);
@@ -58,7 +59,8 @@ function creaAreesDragDropFiles() {
 			//console.debug(file);
 			accionaCarrega(file,envioArxiu.isDrag);
 			
-		});
+		});	
+		
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
 			formData.append("nomArxiu", file.name); 
@@ -279,8 +281,9 @@ function creaAreesDragDropFiles() {
 					
 					_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
 					//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
-					jQuery("#div_carrega_dades_message").html(txt_error);
-					jQuery("#div_carrega_dades_message").show();					
+					jQuery("#div_carrega_dades_message").html("<span class='fa fa-warning sign'></span>"+txt_error);
+					jQuery("#div_carrega_dades_message").show();	
+					$('#dialog_error_carrega_dades').modal('show');
 				}
 			
 			}else{
@@ -288,8 +291,9 @@ function creaAreesDragDropFiles() {
 				jQuery('#progress_bar_carrega_dades').hide();
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
 				//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
-				jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
+				jQuery("#div_carrega_dades_message").html("<span class='fa fa-warning sign'></span>"+window.lang.convert("Error en la càrrega de l'arxiu"));
 				jQuery("#div_carrega_dades_message").show();
+				$('#dialog_error_carrega_dades').modal('show');
 			}
 		});
 		
@@ -299,13 +303,16 @@ function creaAreesDragDropFiles() {
 			jQuery('#progress_bar_carrega_dades').hide();
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
 			//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':'Sense codi error'}]);
-			jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
+			jQuery("#div_carrega_dades_message").html("<span class='fa fa-warning sign'></span>"+window.lang.convert("Error en la càrrega de l'arxiu"));
 			jQuery("#div_carrega_dades_message").show();
+			$('#dialog_error_carrega_dades').modal('show');
 		});
 		
 		drgFromMapa.on('uploadprogress', function(file, progress,bytesSent) {
 			//jQuery('#prg_bar').css('width',progress+"%");
 		});
+		
+		
 	}
 }
 
@@ -326,6 +333,7 @@ function addFuncioCarregaFitxers(){
 	
 	addHtmlInterficieCarregarFitxers();
 	addHtmlModalCarregarFitxers();
+	addHtmlModalErrorCarregarFitxers();
 	
 	// zona 1
 	jQuery('#div_carrega_dades').on("click", function(e) {
@@ -342,6 +350,7 @@ function addFuncioCarregaFitxers(){
 			drgFromBoto.on("addedfile", function(file) {
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', 'addedfile', 1]);
 				//_kmq.push.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user, 'forma carrega':'menu'}]);
+				drgFromBoto.removeAllFiles(true);
 				envioArxiu.isDrag=false;
 				accionaCarrega(file, envioArxiu.isDrag);			
 			});
@@ -398,8 +407,9 @@ function addFuncioCarregaFitxers(){
 						}
 						_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', resposta.codi, 1]);
 						//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':resposta.codi}]);
-						jQuery("#div_carrega_dades_message").html(txt_error);
-						jQuery("#div_carrega_dades_message").show();						
+						jQuery("#div_carrega_dades_message").html("<span class='fa fa-warning sign'></span>"+txt_error);
+						jQuery("#div_carrega_dades_message").show();	
+						$('#dialog_error_carrega_dades').modal('show');
 					}
 				}
 				
@@ -410,8 +420,9 @@ function addFuncioCarregaFitxers(){
 				$('#dialog_carrega_dades').modal('hide');
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
 				//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':'Sense codi error'}]);
-				jQuery("#div_carrega_dades_message").html(window.lang.convert("Error en la càrrega de l'arxiu"));
-				jQuery("#div_carrega_dades_message").show();				
+				jQuery("#div_carrega_dades_message").html("<span class='fa fa-warning sign'></span>"+window.lang.convert("Error en la càrrega de l'arxiu"));
+				jQuery("#div_carrega_dades_message").show();		
+				$('#dialog_error_carrega_dades').modal('show');
 //				alert(window.lang.convert("Error en la càrrega de l'arxiu"));	
 			});
 			
@@ -991,18 +1002,22 @@ function addDropFileToMap(results) {
 			//Si geometries tipus marker
 			if(results.layerMarker){
 				var defer = $.Deferred();
+				map.spin(true);
 				loadVisualitzacioLayer(results.layerMarker).then(function(results1){
 					if(results1){
-						map.fitBounds(results1.getBounds());
+						map.spin(false);
+						map.fitBounds(results1.getBounds());					
 					}
 				});
 			}					
 			//Si geometries tipus línies
 			if(results.layerLine){
 				var defer = $.Deferred();
+				map.spin(true);
 //				readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
 				loadVisualitzacioLayer(results.layerLine).then(function(results1){
 					if(results1){
+						map.spin(false);
 						map.fitBounds(results1.getBounds());
 					}
 				});
@@ -1010,9 +1025,11 @@ function addDropFileToMap(results) {
 			//Si geometries tipus polygon
 			if(results.layerPolygon){
 				var defer = $.Deferred();
+				map.spin(true);
 //				readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
 				loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
 					if(results1){
+						map.spin(false);
 						map.fitBounds(results1.getBounds());
 					}
 				});
@@ -1020,7 +1037,7 @@ function addDropFileToMap(results) {
 			// carregarCapa(businessId);
 			refrescaPopOverMevasDades();
 			//jQuery('#dialog_carrega_dadesfields').modal('hide');
-			map.spin(false);				
+			//map.spin(false);				
 	}else{
 		var txt_error = "ERROR";
 		progressBarShow = false;
@@ -1041,8 +1058,9 @@ function addDropFileToMap(results) {
 		}
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', results.results, 1]);
 		//_kmq.push.push(['record', 'carregar dades error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':results.results}]);
-		jQuery("#div_carrega_dades_message").html(txt_error);
+		jQuery("#div_carrega_dades_message").html("<span class='fa fa-warning sign'></span>"+txt_error);
 		jQuery("#div_carrega_dades_message").show();	
+		$('#dialog_error_carrega_dades').modal('show');
 	}
 }
 
@@ -1212,7 +1230,6 @@ function addHtmlModalCarregarFitxers(){
 		'						</div>'+
 		'					</div>'+
 		'				</div>'+
-		'				<div id="div_carrega_dades_message" class="alert alert-danger"></div>'+
 		'				<div class="modal-footer">'+
 		'					<div id="progress_bar_carrega_dades" class="progress progress-striped active">'+
 		'						<div id="prg_bar" class="progress-bar progress-bar-success"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;"></div>'+
@@ -1229,12 +1246,60 @@ function addHtmlModalCarregarFitxers(){
 		'</div>'
 	);	
 	
+	
+	
 	$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {
+		jQuery("#div_carrega_dades_message").html("");
+		jQuery("#div_carrega_dades_message").hide();		
+		if(envioArxiu.isDrag){
+			drgFromMapa.removeAllFiles(true);
+		}else{
+			drgFromBoto.removeAllFiles(true);
+		}
+	});
+	
+}
+
+function addHtmlModalErrorCarregarFitxers(){
+	
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal Error Carrega dades -->'+
+		'	<div class="modal fade" id="dialog_error_carrega_dades">'+
+		'	<div class="modal-dialog">'+
+		'		<div class="modal-content">'+
+		'			<div class="modal-body">'+
+		'				<div id="div_carrega_dades_message" class="alert alert-danger"></div>'+
+		'				<div class="modal-footer">'+
+		'					<button id="bt_upload_cancel_error" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>'+
+		'				</div>'+
+		'			</div>'+
+		'			<!-- /.modal-content -->'+
+		'		</div>'+
+		'		<!-- /.modal-dialog -->'+
+		'	</div>'+
+		'	<!-- /.modal -->'+
+		'	<!-- fi Modal Carrega dades -->'+
+		'</div>'
+	);
+	
+	$('#dialog_error_carrega_dades').on('hide.bs.modal', function (event) {
 		jQuery("#div_carrega_dades_message").html("");
 		jQuery("#div_carrega_dades_message").hide();		
 	});
 	
-}
+	jQuery('#bt_upload_cancel_error').on("click", function(e) {
+		jQuery("#div_carrega_dades_message").html("");
+		$('#dialog_error_carrega_dades').modal('hide');
+		$('#dialog_carrega_dades').modal('hide');
+		if(envioArxiu.isDrag){
+			progressBarShow=true;
+			drgFromMapa.removeAllFiles(true);
+		}else{
+			progressBarShow=true;
+			drgFromBoto.removeAllFiles(true);
+		}
+	});
+};
 
 function addHtmlInterficieCarregarFitxers(){
 	jQuery("#funcio_carregar_fitxers").append(

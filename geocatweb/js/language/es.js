@@ -383,12 +383,10 @@ jquery_lang_js.prototype.lang.es = {
 	"VISUALITZA":"VISUALIZA",
 	"Visualitza":"Visualiza",
 	"Vols esborrar la capa":"¿Deseas borrar la capa",
-	"Vols esborrar el mapa":"¿Deseas borrar el mapa",
+	"Segur que vols esborrar el mapa":"¿Seguro que quieres borrar el mapa",
 	"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?",
 	"Vull ser le primer":"Quiero ser el primero",
-	"Xarxes socials":"Redes sociales",
-	
-	
+	"Xarxes socials":"Redes sociales",	
 	"És la primera vegada que utilitzes InstaMaps?":"Es la primera vez que usas InstaMaps?",
 	"Únic":"Único",
 	"Descarrega mapa en format GeoPDF":"Descarga mapa en formato GeoPDF",
@@ -414,5 +412,6 @@ jquery_lang_js.prototype.lang.es = {
 	"Afegir col&#183;laboradors":"Añadir colaboradores",
 	"Escriu el correu electrònic de les persones que vols convidar a col&#183;laborar en aquest mapa (màxim 5)":"Escribe el correo electrónico de las personas que quieres invitar a colaborar en este mapa (máximo 5)",
 	"Col·laborador ":"Colaborador ",
-	" esborrat": " eliminado"
+	" esborrat": " eliminado",
+	"A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.":"Al borrar el mapa desaparecerá tanto de tu galería como de la pública."
 }

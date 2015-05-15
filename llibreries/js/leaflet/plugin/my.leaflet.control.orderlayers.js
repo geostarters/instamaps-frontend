@@ -295,10 +295,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					row.appendChild(col);					
 				}				
 				
-				if (downloadableData[obj.layer.options.businessId]==undefined ) {
-					console.debug(obj.layer.options.businessId);
-					console.debug(downloadableData);
-				}
+				
 				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
 				if(obj.layer.options.tipus.indexOf(t_geojsonvt) == -1 && obj.layer.options.tipus.indexOf(t_wms) == -1 && 
 						!jQuery.isEmptyObject(downloadableData) &&  downloadableData[obj.layer.options.businessId]!=undefined &&
