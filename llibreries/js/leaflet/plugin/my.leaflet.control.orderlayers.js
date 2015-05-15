@@ -262,7 +262,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}		
 				
 				//Tipus WMS no admet decarrega
-				if(obj.layer.options.tipus.indexOf(t_wms) == -1 && obj.layer.options.tipus.indexOf(t_geojsonvt) == -1){
+				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1 && obj.layer.options.tipus.indexOf(t_geojsonvt) == -1){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save subopcio-conf');
 					col.layerId = input.layerId;
 					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
@@ -406,7 +406,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			parentId = arguments[0].currentTarget.layerIdParent;
 			checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
 		}
-		
 		
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];

@@ -70,6 +70,73 @@ function creaClusterMap(capa) {
 				}
 			});				
 			//tipus json
+		}else if(capa.layer.options.tipus == t_url_file){
+			
+			
+			var options = {
+					url: capa.layer.options.url,//capaMare.options.url,
+					tem: tem_cluster,
+					origen: capa.layer.options.businessId,
+					tipus : t_url_file,
+//					businessId : '-1',
+					tipusFile: capa.layer.options.tipusFile,
+//					estil_do: estil_do,
+					epsgIN: capa.layer.options.epsgIN,
+					geometryType: capa.layer.options.geometryType,
+					colX: capa.layer.options.colX,
+					colY: capa.layer.options.colY,
+					dinamic: capa.layer.options.dinamic
+				};
+			
+//				console.debug(options);			
+			
+			var data = {
+					uid:$.cookie('uid'),
+					mapBusinessId: url('?businessid'),
+					serverName: capa.layer.options.nom+" "+nom,
+//					serverName: capa.layer.options.nom+" "+window.lang.convert("Bàsic"),
+					serverType: capa.layer.options.tipus,
+					calentas: false,
+		            activas: true,
+		            visibilitats: true,
+		            order: capesOrdre_sublayer,				
+		            epsg: capa.layer.options.epsgIN,
+		            imgFormat: 'image/png',
+		            infFormat: 'text/html',
+//		            tiles: true,	            
+		            transparency: true,
+		            opacity: 1,
+		            visibilitat: 'O',
+		            url: capa.layer.options.url,//capaMare.options.url,
+					options: JSON.stringify(options)
+				};
+			
+			createServidorInMap(data).then(function(results){
+				if (results.status == "OK"){
+					
+					capa.layer.eachLayer(function(layer) {
+						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
+							title : layer._leaflet_id
+						});
+						marker.bindPopup(layer._popup._content);
+						clusterLayer.addLayer(marker);
+					});					
+					
+					clusterLayer.options.businessId = results.results.businessId;
+					clusterLayer.options.nom = capa.layer.options.nom +" "+nom;
+					clusterLayer.options.tipus = t_url_file;
+					clusterLayer.options.tipusRang = tem_cluster;
+
+					map.addLayer(clusterLayer);
+					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
+					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
+
+					activaPanelCapes(true);
+				}else{
+					console.debug('error create server in map');
+				}
+			});				
+			//tipus json
 		}else if(capa.layer.options.tipus == t_json){
 			
 			var data = {

@@ -63,15 +63,9 @@ function createHeatMap(capa){
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
 //					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
-//					$(".layers-list").mCustomScrollbar({
-//						   advanced:{
-//						     autoScrollOnFocus: false,
-//						     updateOnContentResize: true
-//						   }           
-//					});	
 					
 				}else{
-					console.debug('error create server in map');
+					console.debug('error create server in map');					
 				}
 			});				
 		
@@ -125,6 +119,67 @@ function createHeatMap(capa){
 					console.debug("Error add heatmap JSON");
 				}
 			});
+		}else if(capa.layer.options.tipus == t_url_file){
+			
+			
+			var options = {
+					url: capa.layer.options.url,//capaMare.options.url,
+					tem: tem_heatmap,
+					origen: capa.layer.options.businessId,
+					tipus : t_url_file,
+//					businessId : '-1',
+					tipusFile: capa.layer.options.tipusFile,
+//					estil_do: estil_do,
+					epsgIN: capa.layer.options.epsgIN,
+					geometryType: capa.layer.options.geometryType,
+					colX: capa.layer.options.colX,
+					colY: capa.layer.options.colY,
+					dinamic: capa.layer.options.dinamic
+				};
+			
+//				console.debug(options);			
+			
+			var data = {
+					uid:$.cookie('uid'),
+					mapBusinessId: url('?businessid'),
+					serverName: capa.layer.options.nom+" "+nom,
+//					serverName: capa.layer.options.nom+" "+window.lang.convert("Bàsic"),
+					serverType: capa.layer.options.tipus,
+					calentas: false,
+		            activas: true,
+		            visibilitats: true,
+		            order: capesOrdre_sublayer,				
+		            epsg: capa.layer.options.epsgIN,
+		            imgFormat: 'image/png',
+		            infFormat: 'text/html',
+//		            tiles: true,	            
+		            transparency: true,
+		            opacity: 1,
+		            visibilitat: 'O',
+		            url: capa.layer.options.url,//capaMare.options.url,
+					options: JSON.stringify(options)
+				};
+			
+			
+			createServidorInMap(data).then(function(results){
+				if (results.status == "OK"){
+					heatLayerActiu.options.businessId = results.results.businessId;
+
+					heatLayerActiu.options.nom = capa.layer.options.nom+" "+nom;
+					heatLayerActiu.options.tipus = t_url_file;
+					heatLayerActiu.options.tipusRang = tem_heatmap;
+					
+					map.addLayer(heatLayerActiu);
+					heatLayerActiu.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
+					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
+					controlCapes._lastZIndex++;
+					activaPanelCapes(true);
+
+				}else{
+					console.debug("Error add heatmap URL FILE");
+				}
+			});
+			
 		}else if (capa.layer.options.tipus == t_tematic){
 			var rangs = JSON.stringify({rangs:[{}]});			
 			var data = {
@@ -153,12 +208,7 @@ function createHeatMap(capa){
 					controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
 					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
-//					$(".layers-list").mCustomScrollbar({
-//						   advanced:{
-//						     autoScrollOnFocus: false,
-//						     updateOnContentResize: true
-//						   }           
-//					});	
+
 					$('#input-'+results.results.businessId).trigger( "click" );
 					$('#input-'+results.results.businessId).prop( "checked", true );
 					
@@ -234,6 +284,9 @@ function loadDOHeatmapLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
 	var estil_do = retornaEstilaDO(options.dataset);
 	var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;	
+	
+	console.debug("url_param:");
+	console.debug(url_param);
 	
 	var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 		onEachFeature : popUp,
@@ -351,6 +404,7 @@ function loadJsonHeatmapLayer(layer){
 	});
 }
 
+
 function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 	
 	var options = jQuery.parseJSON(layerOptions);
@@ -458,3 +512,4 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva){
 		console.debug("getGeometriesColleccioByBusinessId ERROR");
 	});	
 }
+

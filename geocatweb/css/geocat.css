@@ -1147,9 +1147,10 @@ h1.big_text{
 	text-align: center;	
 }	
 
-#galeriaSort ul{
-	list-style-type: none;
-	margin-top: 10px;
+#galeriaSort ul{	
+    list-style-type: none;
+    margin-top: 10px;
+  
 }
 
 #galeriaSort .input-group{

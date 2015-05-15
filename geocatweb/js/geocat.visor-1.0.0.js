@@ -230,11 +230,11 @@ function addControlsInici() {
 
                 this._div = L.DomUtil.create('div', 'control-linkViewMap');
                 this._div.id='div-linkViewMap';
-                this._div.title=window.lang.convert('Compartir');
+                this._div.title=window.lang.convert('Veure a InstaMaps');
                 this._div.innerHTML = '<span id="span-linkViewMap">'+
                                                    '<a href="http://instamaps.cat/geocatweb/visor.html?businessid='+url('?businessid')+'" target="_blank">'+
-                                                   window.lang.convert('Veure a InstaMaps')+
-                                                   '&nbsp;<span class="glyphicon glyphicon-share-alt"></span>'+
+                                                   //window.lang.convert('Veure a InstaMaps')+
+                                                   '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>'+
                                                    '</a>'+
                                                '</span>';
                 return this._div;

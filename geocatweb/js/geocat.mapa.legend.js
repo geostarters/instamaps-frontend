@@ -266,8 +266,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			var borderColor = hexToRgb(estil_do.color);
 			var opacity = estil_do.fillOpacity;
 			var borderWidth = estil_do.weight;						
-			var polStyle =	'<svg height="40" width="40">'+
-									'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+			var polStyle =	'<svg height="30" width="30">'+
+									'<polygon points="5 5, 5 25, 25 25, 25 5" '+
 										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 								'</svg>';
 			
@@ -285,8 +285,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		}else if(type == t_polyline){
 			var color = hexToRgb(estil_do.fillColor);
 			var lineWidth = estil_do.weight;
-			var lineStyle =	'<svg height="30" width="30">'+
-									'<line x1="0" y1="0" x2="30" y2="30" '+
+			var lineStyle =	'<svg height="20" width="20">'+
+									'<line x1="0" y1="0" x2="20" y2="20" '+
 										'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
 								'</svg>';	
 			
@@ -402,8 +402,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					
 					var color = hexToRgb(layer.options.estil[indexEstil].color);
 					var lineWidth = layer.options.estil[indexEstil].lineWidth;
-					var stringStyle =	'<svg height="30" width="30">'+
-											'<line x1="0" y1="30" x2="30" y2="0" '+
+					var stringStyle =	'<svg height="20" width="20">'+
+											'<line x1="0" y1="20" x2="20" y2="0" '+
 												'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
 										'</svg>';	
 					
@@ -445,8 +445,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var borderColor = hexToRgb(layer.options.estil[indexEstil].borderColor);
 					var opacity = layer.options.estil[indexEstil].opacity/100;
 					var borderWidth = layer.options.estil[indexEstil].borderWidth;						
-					var stringStyle =	'<svg height="40" width="40">'+
-											'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+					var stringStyle =	'<svg height="30" width="30">'+
+											'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 										'</svg>';	
 					
@@ -586,8 +586,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					if(!existeix){
 						controlLegendLine.push(obj);
 						
-						var stringStyle =	'<svg height="30" width="30">'+
-												'<line x1="0" y1="30" x2="30" y2="0" '+
+						var stringStyle =	'<svg height="20" width="20">'+
+												'<line x1="0" y1="20" x2="20" y2="0" '+
 													'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
 											'</svg>';
 						//Reinicialitzem
@@ -626,8 +626,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					if(!existeix){
 						controlLegendPol.push(obj);					
 					
-						var stringStyle =	'<svg height="40" width="40">'+
-												'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+						var stringStyle =	'<svg height="30" width="30">'+
+												'<polygon points="5 5, 5 25, 25 25, 25 5" '+
 													'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 											'</svg>';
 						
@@ -693,16 +693,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 										'</div>';						
 					}else if(geometryType == t_polyline){
 						var lineWidth = rangs[i].lineWidth;
-						var stringStyle =	'<svg height="30" width="30">'+
-												'<line x1="0" y1="0" x2="30" y2="30" '+
+						var stringStyle =	'<svg height="20" width="20">'+
+												'<line x1="0" y1="0" x2="20" y2="20" '+
 													'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
 											'</svg>';						
 					}else{
 						var borderColor = hexToRgb(rangs[i].borderColor);
 						var opacity = rangs[i].opacity/100;
 						var borderWidth = rangs[i].borderWidth;						
-						var stringStyle =	'<svg height="40" width="40">'+
-												'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+						var stringStyle =	'<svg height="30" width="30">'+
+												'<polygon points="5 5, 5 25, 25 25, 25 5" '+
 													'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 											'</svg>';						
 					}
@@ -856,8 +856,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					if(!existeix){
 						controlLegendLine.push(obj);
 						
-						var stringStyle =	'<svg height="30" width="30">'+
-												'<line x1="0" y1="30" x2="30" y2="0" '+
+						var stringStyle =	'<svg height="20" width="20">'+
+												'<line x1="0" y1="20" x2="20" y2="0" '+
 													'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
 											'</svg>';
 						//Reinicialitzem
@@ -900,8 +900,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 //						console.debug(borderColor);
 						controlLegendPol.push(obj);					
 					
-						var stringStyle =	'<svg height="40" width="40">'+
-												'<polygon points="5.13 15.82, 25.49 5.13, 37.08 13.16, 20.66 38.01, 2.06 33.67,5.13 15.82" '+
+						var stringStyle =	'<svg height="30" width="30">'+
+												'<polygon points="5 5, 5 25, 25 25, 25 5" '+
 													'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 											'</svg>';
 						

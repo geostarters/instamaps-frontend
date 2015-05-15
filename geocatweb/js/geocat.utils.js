@@ -161,8 +161,10 @@ function parseUrlTextPopUp(txt,key){
 	if(key=='link' || key=='Web'){				
 		if(isImgURL(txt)){
 			parseText = '<img width="100" src="'+txt+'"/>';
+		}else if(txt.match("^http")){
+				parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
 		}else{
-			parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';
+			parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';				
 		}
 		return parseText;
 	}	
@@ -215,6 +217,8 @@ function redimensioMapa() {
 function getLeafletIdFromBusinessId(businessId){
 	for(val in controlCapes._layers){
 		if(controlCapes._layers[val].layer.options.businessId == businessId){
+			//console.debug("leaflet Id:");
+			//console.debug(val);
 			return val;
 		}
 	}
