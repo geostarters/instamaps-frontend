@@ -36,9 +36,6 @@ $(function(){
 	
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		var data = {uid: $.cookie('uid')};
-		
-		$('.sort').hide();
-				
 		loadGaleria(data).then(function(results){
 			results.results = jQuery.map( results.results, function( val, i ) {
 

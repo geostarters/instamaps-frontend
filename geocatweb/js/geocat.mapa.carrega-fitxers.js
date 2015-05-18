@@ -352,7 +352,6 @@ function addFuncioCarregaFitxers(){
 			drgFromBoto.on("addedfile", function(file) {
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', 'addedfile', 1]);
 				//_kmq.push.push(['record', 'carregar dades previ', {'from':'mapa', 'tipus user':tipus_user, 'forma carrega':'menu'}]);
-				drgFromBoto.removeAllFiles(true);
 				envioArxiu.isDrag=false;
 				accionaCarrega(file, envioArxiu.isDrag);			
 			});
@@ -444,7 +443,7 @@ function addFuncioCarregaFitxers(){
 		if(envioArxiu.isDrag){
 			drgFromMapa.removeAllFiles(true);	
 		}else{
-			drgFromBoto.removeAllFiles(true);
+			if (drgFromBoto != null) drgFromBoto.removeAllFiles(true); 
 		}
 		jQuery("#file_name").text("");
 		jQuery('#dv_optCapa').hide();
@@ -667,7 +666,7 @@ function accionaCarrega(file,isDrag) {
 		if(isDrag){
 			drgFromMapa.removeAllFiles(true);		
 			}else{
-			drgFromBoto.removeAllFiles(true);								
+				if (drgFromBoto != null) drgFromBoto.removeAllFiles(true); 								
 			}
 	}
 }
@@ -1257,7 +1256,7 @@ function addHtmlModalCarregarFitxers(){
 		if(envioArxiu.isDrag){
 			drgFromMapa.removeAllFiles(true);
 		}else{
-			drgFromBoto.removeAllFiles(true);
+			if (drgFromBoto != null) drgFromBoto.removeAllFiles(true);
 		}
 	});
 	
@@ -1299,7 +1298,7 @@ function addHtmlModalErrorCarregarFitxers(){
 			drgFromMapa.removeAllFiles(true);
 		}else{
 			progressBarShow=true;
-			drgFromBoto.removeAllFiles(true);
+			if (drgFromBoto != null) drgFromBoto.removeAllFiles(true); 
 		}
 	});
 };
