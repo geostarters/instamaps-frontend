@@ -112,9 +112,9 @@
 					</span>	
 				</div>
 				<button class="sort" data-sort="nomAplicacioSort" lang="ca">Ordena per nom</button>
-				<button class="sort" data-sort="byuser" lang="ca">Ordena per usuari</button>
+				<button class="sort" data-sort="byuser" lang="ca" id="sortbyuser">Ordena per usuari</button>
 				<button class="sort" data-sort="dataPublicacio" lang="ca">Ordena per data</button>
-				<button class="sort cleansort" lang="ca">Neteja ordre</button>
+				<!--  button class="sort cleansort" lang="ca">Neteja ordre</button-->
 			</div>
 		
 			<script id="galeriaPublic-template" type="text/x-handlebars-template">
@@ -122,8 +122,8 @@
 			{{#each results}}
 			 <li>
 				<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
-				<p class="dataPublicacio hidden">{{dataPublicacio}}</div>
-				<p class="rankSort hidden">{{rank}}</div>
+				<p class="dataPublicacio hidden">{{dataPublicacio}}</p>
+				<p class="rankSort hidden">{{rank}}</p>
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
 					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 						{{#if thumbnail}}
@@ -161,7 +161,9 @@
 			
 			<script id="galeria-template" type="text/x-handlebars-template">			
 			<ul class="list">
-			<li><p class="nomAplicacioSort hidden"></p>
+			<li><p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
+				<p class="dataPublicacio hidden">{{dataPublicacio}}</p>
+				<p class="rankSort hidden">{{rank}}</p>
 			<div class="col-sm-6 col-md-3">	
 				<div class="thumbnail">
 					<div class="caption text-center new_map">
@@ -177,6 +179,8 @@
 			<input type="hidden" id="userAplicacio_{{businessId}}" value="{{entitatUid}}">
 			<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
 			<p class="idSort hidden">{{businessId}}</p>
+			<p class="dataPublicacio hidden">{{dataPublicacio}}</p>
+			<p class="rankSort hidden">{{rank}}</p>
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 				<input type="hidden" name="cols" value="{{cookie.uid}}">
 				<div  class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">		
