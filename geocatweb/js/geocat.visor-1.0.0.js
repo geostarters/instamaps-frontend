@@ -127,6 +127,9 @@ function loadApp(){
 				});	
 				canviaIdioma(web_determinaIdioma());				
 				document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+				
+				var controlFons = new L.IM_controlFons().addTo(map);
+				
 			});
 		},function(results){
 			var uidUrl = url('?uid');
@@ -299,8 +302,7 @@ function addControlsInici() {
 		return this._div;
 	};
 	ctr_findBT.addTo(map);
-	
-	
+		
 	dfd.resolve();
 	return dfd.promise();
 }

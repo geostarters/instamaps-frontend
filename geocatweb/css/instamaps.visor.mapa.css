@@ -3941,3 +3941,62 @@ i.fa {
 .mCustomScrollBox > .mCSB_scrollTools {
     width: 5px;
 }
+
+/*control fons*/
+.control-btn-fons{
+	bottom: 50px;
+    position: relative;
+}
+
+.control-btn-fons .llista-fons{
+	display: none;
+}
+
+.control-btn-fons .llista-fons div{
+	width: 32px;
+	height: 32px;
+	float: left;
+}
+
+.control-btn-fons .llista-fons div:hover{
+	-ms-transform: scale(1.2,1.2); /* IE 9 */
+    -webkit-transform: scale(1.2,1.2); /* Safari */
+    transform: scale(1.2,1.2);	
+}
+
+.control-btn-fons-expanded .llista-fons{
+	display: block;
+	position: relative;
+    width: auto;
+    background: none no-repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+    height: 50px;
+    float:right;
+}
+
+.div_llistacapes:hover {
+    background: none no-repeat scroll 0 0 rgba(244, 244, 244, 0.8);
+}
+.bt_orto {
+    background: url("../img/orto.png") no-repeat scroll 0 -64px #ffffff;
+    border: 1px solid #096002;
+    color: #5a5a5a;
+    height: 50px;
+    width: 40px !important;
+    z-index: 1;
+}
+.bt_orto small {
+    line-height: 79px;
+}
+
+.bt_topo {
+    background: url("../img/topo.png") no-repeat scroll 0 -64px #ffffff;
+    border: 1px solid #096002;
+    color: #5a5a5a;
+    height: 50px;
+    width: 40px !important;
+    z-index: 1;
+}
+.bt_topo small {
+    line-height: 79px;
+}
+
