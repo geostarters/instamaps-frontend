@@ -96,13 +96,9 @@ function loadApp(){
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
 			checkEmptyMapLegend();
 			
-			//console.debug(mapConfig);
-			
 			downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
 									mapConfig.options.downloadable:[]);			
-
-			//console.debug(downloadableData);
-			
+						
 			//iniciamos los controles
 			initControls().then(function(){
 				if(typeof url('?embed') == "string"){
@@ -126,6 +122,9 @@ function loadApp(){
 				});	
 				canviaIdioma(web_determinaIdioma());				
 				document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+				
+				var controlFons = new L.IM_controlFons().addTo(map);
+				
 			});
 		},function(results){
 			var uidUrl = url('?uid');
