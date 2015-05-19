@@ -155,6 +155,18 @@ function getRadiusFromMida(mida){
 	else return 6;	
 }
 
+function getColorAwesomeMarker(markerColor, defaultColor){
+	if(markerColor.indexOf("punt_r")!=-1) return defaultColor;
+	else if(markerColor.indexOf("orange")!=-1) return "#ffc500";
+	else if(markerColor.indexOf("darkorange")!=-1) return "#ff7f0b";
+	else if(markerColor.indexOf("red")!=-1) return "#ff4b3a";
+	else if(markerColor.indexOf("purple")!=-1) return "#ae59b9";
+	else if(markerColor.indexOf("blue")!=-1) return "#00afb5";
+	else if(markerColor.indexOf("green")!=-1) return "#7cbd00";
+	else if(markerColor.indexOf("darkgray")!=-1) return "#90a6a9";
+	else if(markerColor.indexOf("gray")!=-1) return "#ebf0f1";
+}
+
 function parseUrlTextPopUp(txt,key){
 	var parseText = "";
 	
@@ -391,6 +403,10 @@ $.extend({
 //    $(this).scrollTop($(this).scrollTop() - $(this).offset().top + $(elem).offset().top); 
 //    return this; 
 //};
+
+function getCodiUnic() {
+    return Math.floor(Math.random() * (99999 + 1)) + "_";
+}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -105,10 +105,15 @@ var t_json = "json";
 var t_xarxes_socials = "xarxes socials";
 var t_tematic = "tematic";
 var t_visualitzacio = "visualitzacio";
-var t_url_file = "url_file"
+var t_url_file = "url_file";
+var t_vis_wms = "vis_wms";
+	
+/**tipus estandar instamaps**/
 var t_polyline = "polyline";
 var t_polygon = "polygon";
 var t_marker = "marker";
+/************************/
+
 var t_multiple = "multiple";
 var t_point = "point";
 var t_multipoint = "multipoint";

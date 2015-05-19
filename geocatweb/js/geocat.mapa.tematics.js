@@ -192,7 +192,7 @@ function loadTematicLayer(layer){
 //	if(type == t_polyline && player.properties.mida){
 //		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 //	}else if(type == t_polygon && player.properties.mida){
-//		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+//		html+='<div id="mida_pres"><b>'+window.lang.convert('Ã€rea')+':</b> '+player.properties.mida+'</div>';
 //	}
 //	
 //	html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
@@ -269,10 +269,10 @@ function createPopupWindowData(player,type, editable, origen){
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Ã€rea')+':</b> '+player.properties.mida+'</div>';
 	}
 	html+='</div>';
-	//he quitado el openPopup() ya que si la capa no está activa no se ha cargado en el mapa y da error.
+	//he quitado el openPopup() ya que si la capa no estÃ¡ activa no se ha cargado en el mapa y da error.
 	player.bindPopup(html,{'offset':[0,-25]});
 	
 	//Afegim events/accions al popUp
@@ -425,7 +425,7 @@ function createPopupWindowData(player,type, editable, origen){
 
 
 /** Funcions que actualitzen l'estil per defecte, al seleccionat al dialeg d'estils
- * 	per punts, línies, i polígons. 
+ * 	per punts, lÃ­nies, i polÃ­gons. 
  * */
 
 function changeDefaultLineStyle(canvas_linia){
@@ -468,7 +468,7 @@ function changeDefaultPointStyle(estilP) {
 	
 	var _colorGlif=estilP.colorGlif;
 	
-	if(_iconFons.indexOf("_r")!=-1){ //sóc rodó		
+	if(_iconFons.indexOf("_r")!=-1){ //sÃ³c rodÃ³		
 		var num=estilP.size;
 		puntTMP.options.shadowSize = new L.Point(1, 1);
 		var tt=estilP.fontsize;
@@ -496,7 +496,7 @@ function changeDefaultPointStyle(estilP) {
 			puntTMP.options.icon=_iconGlif + " "+cssText;
 			puntTMP.options.isCanvas=false;
 		}
-	}else{ // sóc pinxo
+	}else{ // sÃ³c pinxo
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
@@ -522,8 +522,8 @@ function changeDefaultPointStyle(estilP) {
 }
 /*****************************/
 
-/**Funcions per crear un objecte de tipus estil, amb les característiques que li passes
- * per punt, línia, poligon */
+/**Funcions per crear un objecte de tipus estil, amb les caracterÃ­stiques que li passes
+ * per punt, lÃ­nia, poligon */
 
 function createFeatureLineStyle(style){
 	var estilTMP = default_line_style;
@@ -725,10 +725,6 @@ function getLineRangFromStyle(styles){
 
 function getPolygonRangFromStyle(styles){
 	styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
-	console.debug("------getPolygonRangFromStyle---------");
-	
-	console.debug("styles:");
-	console.debug(styles);
 
 	var rang = {
 		borderWidth: styles.lineWidth,//styles.weight,
@@ -743,9 +739,6 @@ function getPolygonRangFromStyle(styles){
 		weight: styles.lineWidth
 	};	
 	
-	console.debug("rang:");
-	console.debug(rang);	
-	console.debug("-------------------------------------");
 	return rang;
 }
 
@@ -934,10 +927,10 @@ function addHtmlInterficieTematics(){
 			'</div>'			
 	);
 	
-	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
+	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("BÃ sic")});
 	$('#st_Tema').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
-	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
-	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});	
+	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("ConcentraciÃ³")});
+	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("AgrupaciÃ³")});	
 	
 }
 
@@ -1009,12 +1002,12 @@ function addHtmlModalCategories(){
 	'						<span>2.</span><span lang="ca">Escull l\'interval</span>:'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">'+
-	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.convert("únic")+'</label>'+
+	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.convert("Ãºnic")+'</label>'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
 	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
 	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+
-	'<!-- 							<option lang="ca" value="U">Únic</option> -->'+
+	'<!-- 							<option lang="ca" value="U">Ãšnic</option> -->'+
 	'<!-- 							<option lang="ca" value="R">Rang</option> -->'+
 	'<!-- 						</select> -->'+
 	'					</div>'+			
@@ -1130,7 +1123,7 @@ function addHtmlModalCategories(){
 	'					</table>'+	
 	'					</script>'+
 	'					<div id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>'+
-	'					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>'+
+	'					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el nÃºmero mÃ xim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>'+
 	'					<div id="list_tematic_values"></div>'+
 
 	'					<div id="paletes_colors">'+
@@ -1237,7 +1230,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			businessId : layer.businessId,
 			nom : layer.serverName,
 			tipus : layer.serverType,
-			tipusRang: visualitzacio.tipus, //¿?
+			tipusRang: visualitzacio.tipus, //Â¿?
 			geometryType: visualitzacio.geometryType,
 //			dades: hasDades, //No cal?
 //			rangs: tematic.rangs,
@@ -1312,22 +1305,22 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					for (var i = 0; i < coords.length; i++){
 						var c=coords[i];
 						if(!geomStyle.isCanvas){
-							featureTem.push(new L.marker([c[0], c[1]],
+							featureTem.push(new L.marker([c[1], c[0]],
 								{icon: rangStyle, isCanvas:false, tipus: t_marker}));
 						}else{
-							featureTem.push(new L.circleMarker([c[0], c[1]],geomStyle));
+							featureTem.push(new L.circleMarker([c[1], c[0]],geomStyle));
 						}
 					}
 				//Punt
 				}else if (geomTypeVis === t_marker){
 					var coords=geom.geometry.coordinates;
 					if(!geomStyle.isCanvas){
-						featureTem.push(new L.marker([coords[0],coords[1]],
+						featureTem.push(new L.marker([coords[1],coords[0]],
 												{icon: geomStyle, isCanvas:false, 
 												tipus: t_marker}
 											));
 					}else{
-						featureTem.push(new L.circleMarker([coords[0],coords[1]],geomStyle));
+						featureTem.push(new L.circleMarker([coords[1],coords[0]],geomStyle));
 					}
 				//MultiPoint
 				}else if (geomTypeVis === t_polyline && geomType === t_multilinestring){
@@ -1342,7 +1335,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 						
 						for (var k = 0; k < lines.length; k++){
 							var c=lines[k];
-							var punt=new L.LatLng(c[0], c[1]);
+							var punt=new L.LatLng(c[1], c[0]);
 							myPolyline.addLatLng(punt);
 //							llistaPunts.push(punt);
 						}
@@ -1358,7 +1351,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					var llistaPunts=[];
 					for (var i = 0; i < coords.length; i++){
 						var c=coords[i];
-						var punt=new L.LatLng(c[0], c[1]);
+						var punt=new L.LatLng(c[1], c[0]);
 						llistaPunts.push(punt);
 					}
 					featureTem.push(new L.polyline(llistaPunts, geomStyle));
@@ -1376,7 +1369,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 							var llistaPunts=[];
 							for (var k = 0; k < lines.length; k++){
 								var c=lines[k];
-								var punt=new L.LatLng(c[0], c[1]);
+								var punt=new L.LatLng(c[1], c[0]);
 								llistaPunts.push(punt);
 							}
 							llistaLines.push(llistaPunts);
@@ -1414,7 +1407,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 						var llistaPunts=[];
 						for (var k = 0; k < lines.length; k++){
 							var c=lines[k];
-							var punt=new L.LatLng(c[0], c[1]);
+							var punt=new L.LatLng(c[1], c[0]);
 							llistaPunts.push(punt);
 						}
 						llistaLines.push(llistaPunts);
@@ -1482,7 +1475,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			});
 		});	
 		
-		//Afegim num d'elements al nom de la capa, si és un fitxer
+		//Afegim num d'elements al nom de la capa, si Ã©s un fitxer
 		if(layer.dragdrop || layer.urlFile){
 			capaVisualitzacio.options.nom = capaVisualitzacio.options.nom;// + " ("+capaTematic.getLayers().length+")";
 			var data = {
@@ -1523,8 +1516,8 @@ function readVisualitzacio(defer, visualitzacio, layer){
 		return defer.promise();
 	}
 	
-/**Funcions per crear un objecte de tipus estil, amb les característiques que li passes
- * per punt, línia, poligon */
+/**Funcions per crear un objecte de tipus estil, amb les caracterÃ­stiques que li passes
+ * per punt, lÃ­nia, poligon */
 
 function createMarkerStyle(style, num_geometries){
 	//console.debug("createFeatureMarkerStyle");

@@ -464,7 +464,9 @@ L.Control.Search = L.Control.extend({
 			var fdata = that._filterJSON(data);//_filterJSON defined in inizialize...
 			callAfter(fdata);
 		}
-		var script = L.DomUtil.create('script','search-jsonp', document.getElementsByTagName('body')[0] ),			
+		if (this.options.url.indexOf("geocodificador")>-1) text=escape(text);
+				
+		var script = L.DomUtil.create('script','search-jsonp', document.getElementsByTagName('body')[0] ),	
 			url = L.Util.template(this.options.url+'&'+this.options.jsonpParam+'=L.Control.Search.callJsonp', {s: text}); //parsing url
 			//rnd = '&_='+Math.floor(Math.random()*10000);
 			//TODO add rnd param or randomize callback name! in recordsFromJsonp
@@ -599,7 +601,6 @@ L.Control.Search = L.Control.extend({
 	},
 	
 	_handleKeypress: function (e) {	//run _input keyup event
-		
 		switch(e.keyCode)
 		{
 			case 27: //Esc
@@ -622,7 +623,7 @@ L.Control.Search = L.Control.extend({
 			case 17://Ctrl
 			//case 32://Space
 			break;
-			case 8://backspace
+			//case 8://backspace
 			case 46://delete
 				this._autoTypeTmp = false;//disable temporarily autoType
 			break;
@@ -659,7 +660,6 @@ L.Control.Search = L.Control.extend({
 //TODO change structure of _recordsCache
 //	like this: _recordsCache = {"text-key1": {loc:[lat,lng], ..other attributes.. }, {"text-key2": {loc:[lat,lng]}...}, ...}
 //	in this mode every record can have a free structure of attributes, only 'loc' is required
-	
 		var inputText = this._input.value,
 			that;
 		
@@ -678,8 +678,7 @@ L.Control.Search = L.Control.extend({
 			});
 		}
 		else if(this.options.url)	//JSONP/AJAX REQUEST
-		{
-			if(this.options.jsonpParam)
+		{	if(this.options.jsonpParam)
 			{
 				that = this;
 				
@@ -693,6 +692,7 @@ L.Control.Search = L.Control.extend({
 			}
 			else
 			{
+				alert("2");
 				that = this;
 				this._recordsFromAjax(inputText, function(data) {// is async request then it need callback
 					that._recordsCache = data;

@@ -2,6 +2,7 @@ function carregaDadesUsuari(){
 	
 	addHtmlInterficieDadesUsuari();
 	addHtmlModalDadesUsuari();
+	addHtmlModalErrorMsg();
 	
 	var data = {uid: $.cookie('uid')};
 	//console.debug("carregaDadesUsuari");
@@ -52,7 +53,10 @@ function creaPopOverMevasDades(){
 				$("#listnav-teves-dades").listnav({
 				    initLetter: '',
 				    allText: window.lang.convert('Tots'),
-				    noMatchText: window.lang.convert('No hi ha entrades coincidents')
+				    noMatchText: window.lang.convert('No hi ha entrades coincidents'),
+				    onClick: function(letter){
+				    	if (jQuery("#error-message").length>0) $('#dialog_error_teves_dades').modal('hide');
+				     } 
 				});
 				
 				jQuery("ul.llista-teves-dades").on('click', '.usr_wms_layer', function(event) {
@@ -124,7 +128,7 @@ function creaPopOverMevasDades(){
 					
 					var parent = _this.parent();
 					var parentul = parent.parent();
-					_this.parent().remove();
+					//_this.parent().remove();
 					if (jQuery.trim(jQuery("#id_sw").text()) == ""){
 						jQuery('#id_sw').html(warninMSG);
 					}
@@ -132,7 +136,7 @@ function creaPopOverMevasDades(){
 					if(_this.data("servertype") == t_tematic){
 						deleteTematicLayerAll(data).then(function(results){
 							if (results.status == "ERROR"){
-								parentul.append(parent);
+								//parentul.append(parent);
 								if (results.results){
 									if (results.results.indexOf("DataIntegrityViolationException")!=-1){
 									var aplicacions=results.results.split("__");
@@ -153,11 +157,14 @@ function creaPopOverMevasDades(){
 									 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
 								     "</div>";
 									
-									jQuery('#id_sw').append(errorMSG);
-									//$('#dialgo_messages').modal('show');
-									//$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
+									$('#dialog_error_teves_dades').modal('show');
+									jQuery('#dialog_error_teves_dades #id_sw').append(errorMSG);
+									
+									
 								}}
 							}else{
+								_this.parent().remove();
+								$('#dialog_error_teves_dades').modal('hide');
 								//jQuery("ln-letter-count").init();
 //								console.debug(globalCounts);
 								globalCounts[''+firstLetter +'']--;
@@ -171,7 +178,7 @@ function creaPopOverMevasDades(){
 					}else{
 						deleteServidorWMS(data).then(function(results){
 							if (results.status == "ERROR"){
-								parentul.append(parent);
+								//parentul.append(parent);
 								if (results.results) {
 									if ( results.results.indexOf("DataIntegrityViolationException")!=-1){
 								
@@ -192,12 +199,13 @@ function creaPopOverMevasDades(){
 									 "<span class='fa fa-warning sign'></span><strong>"+window.lang.convert('La capa ')+_this.data("servername")+
 									 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
 								     "</div>";
-									jQuery('#id_sw').append(errorMSG);
-									//$('#dialgo_messages').modal('show');
-									//$('#dialgo_messages .modal-body').html(window.lang.convert("Aquesta capa actualment és en ús i no es pot esborrar"));
-								}}														
+									$('#dialog_error_teves_dades').modal('show');
+									jQuery('#dialog_error_teves_dades #id_sw').append(errorMSG);
+									}}														
 									
 							}else{
+								_this.parent().remove();
+								$('#dialog_error_teves_dades').modal('hide');
 //								console.debug(globalCounts);
 								globalCounts[''+firstLetter +'']--;
 //								console.debug(globalCounts[''+firstLetter +'']);
@@ -302,4 +310,26 @@ function addHtmlModalDadesUsuari(){
 	'	<!-- /.modal -->'+
 	'	<!-- fi Modal les teves dades -->'		
 	);
+}
+
+function addHtmlModalErrorMsg(){
+	jQuery('#mapa_modals').append(
+			'	<!-- Modal error les teves dades -->'+
+			'		<div class="modal fade" id="dialog_error_teves_dades">'+
+			'		<div class="modal-dialog">'+
+			'			<div class="modal-content panel-primary">'+
+			'				<div id="id_sw" class="modal-body">'+								
+			'				</div>'+
+			'				<div class="modal-footer">'+
+			'					<button type="button" class="btn btn-default" data-dismiss="modal">Tancar</button>'+
+			'        <!-- <button type="button" class="btn btn-success">Canviar</button> -->'+
+			'				</div>'+
+			'			</div>'+
+			'			<!-- /.modal-content -->'+
+			'		</div>'+
+			'		<!-- /.modal-dialog -->'+
+			'	</div>'+
+			'	<!-- /.modal -->'+
+			'	<!-- fi Modal les teves dades -->'		
+			);
 }

@@ -380,13 +380,11 @@ jquery_lang_js.prototype.lang.en = {
 	"Visualitza i analitza la teva informació":"Browse and analyze information",
 	"VISUALITZA":"VIEW",
 	"Visualitza":"View",
-	"Vols esborrar el mapa":"Do you want to delete the map",
+	"Segur que vols esborrar el mapa":"Are you sure you want to delete the map",
 	"Vols esborrar la capa":"Do you want to delete the layer",
 	"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?",
 	"Vull ser le primer":"I want to be the first",
-	"Xarxes socials":"Social networks",
-	
-	
+	"Xarxes socials":"Social networks",	
 	"És la primera vegada que utilitzes InstaMaps?":"Is this the first time you use InstaMaps?",
 	"Únic":"Unique",
 	"Descarrega mapa en format GeoPDF":"Download map as GeoPDF",
@@ -411,5 +409,6 @@ jquery_lang_js.prototype.lang.en = {
 	"Afegir col&#183;laboradors":"Add contributors",
 	"Escriu el correu electrònic de les persones que vols convidar a col&#183;laborar en aquest mapa (màxim 5)":"Enter the email addresses to invite people to cooperate in this map (maximum 5)",
 	"Col·laborador ":"Contributor ",
-	" esborrat": " erased"
+	" esborrat": " erased",
+	"A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.":"Keep in mind that erased maps will no longer show up in neither private or public gallery."
 }
