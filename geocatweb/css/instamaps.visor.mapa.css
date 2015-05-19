@@ -1621,6 +1621,8 @@ i.fa {
 	display: flex;
 }
 
+.width100{width: 100%;}
+
 .popup-data-img{
 	width: 295px;
 	padding-bottom: 2px;
@@ -3940,4 +3942,24 @@ i.fa {
 
 .mCustomScrollBox > .mCSB_scrollTools {
     width: 5px;
+}
+
+
+#info_geojsonvt {
+    background-color: white;
+    /*border: 1px dashed #bbbbbb;*/
+    padding: 5px;
+    position: absolute;
+	top: 60px;
+    width: 320px;
+    z-index: 200;
+    left: 50px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);   
+    max-height: 500px;   
+	overflow-y: auto;
+}
+#bt_info_geojsonvt_close {
+    width: 100%;
+    text-align: right;
 }

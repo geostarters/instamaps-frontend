@@ -1,20 +1,17 @@
 jQuery(document).ready(function() {
 		
-	//activaModul().then(function(){
-		defineTipusUser();	
-		
-		if (!Modernizr.canvas  || !Modernizr.sandbox){
-			jQuery("#mapaFond").show();
-			jQuery("#dialgo_old_browser").modal('show');
-			jQuery('#dialgo_old_browser').on('hide.bs.modal', function (e) {
-				window.location = paramUrl.mainPage;
-			});
-		}else{
-			loadApp();
-		}
-	//});
+	defineTipusUser();	
 	
-		addFuncioEditDataTable();
+	if (!Modernizr.canvas  || !Modernizr.sandbox){
+		jQuery("#mapaFond").show();
+		jQuery("#dialgo_old_browser").modal('show');
+		jQuery('#dialgo_old_browser').on('hide.bs.modal', function (e) {
+			window.location = paramUrl.mainPage;
+		});
+	}else{
+		loadApp();
+	}
+	addFuncioEditDataTable();
 		
 }); // Final document ready
 
@@ -33,6 +30,7 @@ function loadApp(){
     
     if(typeof url('?businessid') == "string"){
           map = new L.IM_Map('map', {
+        	  	zoomAnimation:false,
                 typeMap : 'topoMap',
                 minZoom: 2,
                 maxZoom : 19,
@@ -72,9 +70,6 @@ function loadApp(){
 			
 			$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 			
-//			console.debug("mapConfig:");
-//			console.debug(mapConfig);
-			
 			var nomUser = mapConfig.entitatUid.split("@");
 			var infoHtml = '<p>'+nomUser[0]+'</p>';
 			
@@ -101,9 +96,13 @@ function loadApp(){
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
 			checkEmptyMapLegend();
 			
+			//console.debug(mapConfig);
+			
 			downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
 									mapConfig.options.downloadable:[]);			
-						
+
+			//console.debug(downloadableData);
+			
 			//iniciamos los controles
 			initControls().then(function(){
 				if(typeof url('?embed') == "string"){
@@ -255,11 +254,6 @@ function addControlsInici() {
 		position : 'topleft'
 	});
 	
-	
-//	$(".leaflet-control-layers").mCustomScrollbar();
-//	$(".leaflet-control-layers-overlays").mCustomScrollbar();
-//	$('.leaflet-control-layers-overlays').perfectScrollbar();
-	
 	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicació');
 	var ctr_gps = new L.Control.Gps({
 		autoCenter: true,		//move map when gps location change
@@ -299,8 +293,6 @@ function addControlsInici() {
 		return this._div;
 	};
 	ctr_findBT.addTo(map);
-	
-	
 	dfd.resolve();
 	return dfd.promise();
 }
@@ -312,30 +304,25 @@ function addClicksInici() {
 	});
 	
 	jQuery('.bt_llista').on('click', function(event) {
-//		$(".layers-list").mCustomScrollbar('update');
 		aturaClick(event);
 		activaPanelCapes();
-//		$(".leaflet-control-layers-overlays").mCustomScrollbar('update');
 	});	
 	
 	jQuery('.bt_captura').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
-		//_kmq.push(['record', 'captura pantalla', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_MAPA);
 	});
 	
 	jQuery('.bt_print').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
-		//_kmq.push(['record', 'print', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_INFORME);
 	});
 	
 	jQuery('.bt_geopdf').on('click', function(event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
-		//_kmq.push(['record', 'geopdf', {'from':'visor', 'tipus user': tipus_user}]);
 		capturaPantalla(CAPTURA_GEOPDF);
 	});
 		
@@ -381,14 +368,6 @@ function activaPanelCapes(obre) {
 
 function activaLlegenda(obre) {
 	
-////	$(".visor-legend").transition({
-////		  opacity: 0.1, scale: 0.3,
-////		  duration: 500,
-////		  easing: 'in',
-////		  complete: function() { $(".visor-legend").toggle(); }
-////		});	
-	
-	
 	var cl = jQuery('.bt_legend span').attr('class');
 	if (cl && cl.indexOf('grisfort') != -1) {
 		jQuery('.bt_legend span').removeClass('grisfort');
@@ -404,9 +383,6 @@ function activaLlegenda(obre) {
 		
 		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
 		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
-		
-//		$(".bt_legend").transition({ x: '225px', y: '230px',duration: 500 });
-//		$(".visor-legend").transition({ x: '250px', y: '300px',  opacity: 0.1,duration: 500 });
 	}	
 	
 }
@@ -449,25 +425,12 @@ function addToolTipsInici() {
 		$(n).attr('data-original-title', window.lang.convert(title));
 	    var title = $(n).attr('title', $(n).attr('data-original-title'));
 	});
-		
-	//cercador
-//	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
-//	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));
 }
 
 function updateLangText(){
-
 	//Add tooltip caixa cerca
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs a Catalunya ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs a Catalunya ...'));	
-	
-//	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.convert("Situar un punt"));
-//	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
-//	$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil del mapa"));
-//	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
-//	$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
-//	$('#socialShare>h5').html(window.lang.convert("Compartir"));	
-	
 }
 
 function updateLangTooltips(){
@@ -503,8 +466,6 @@ function updateLangTooltips(){
 	    var title = $(n).attr('title', $(n).attr('data-original-title'));
 	});	
 
-
-
 	jQuery("#dv_bt_Find").on('click',function(e){
 	
 	posaClassActiu('#span_bt_Find');
@@ -514,18 +475,13 @@ function updateLangTooltips(){
 			aturaClick(e);
 			
 		});
-
-
-	
-	
 }
-
 
 function loadMapConfig(mapConfig){
 	var dfd = jQuery.Deferred();
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
-		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
+//TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			if (mapConfig.options.fons != 'topoMap'){
@@ -585,46 +541,10 @@ function loadMapConfig(mapConfig){
 			});
 		});	
 		
-//		//carga las capas en el mapa
-//		loadOrigenWMS().then(function(results){
-//			var num_origen = 0;
-//			jQuery.each(results.origen, function(index, value){
-//				loadLayer(value).then(function(){
-//					num_origen++;
-//					if (num_origen == results.origen.length){
-//						if($.isEmptyObject(results.sublayers)){
-////							$(".layers-list").mCustomScrollbar();
-//						}else{
-//							var num_sublayers = 0;
-//							jQuery.each(results.sublayers, function(index, value){
-//								loadLayer(value).then(function(){
-//									num_sublayers++;
-//									if (num_sublayers == results.sublayers.length){
-////										$(".layers-list").mCustomScrollbar();
-//									}
-//								});
-//							});							
-//						}
-//					}
-//				});
-//			});
-//		});
-		
 		jQuery('#div_loading').hide();
 		jQuery(window).trigger('resize');
 	}
-//	
-//	var source = $("#map-properties-template").html();
-//	var template = Handlebars.compile(source);
-//	var html = template(mapConfig);
-//	$('#frm_publicar').append(html);
-//	
-//	$('.make-switch').bootstrapSwitch();
-//	//$('.make-switch').bootstrapSwitch('setOnLabel', "<i class='glyphicon glyphicon-ok glyphicon-white'></i>");		
-//	//$('.make-switch').bootstrapSwitch('setOffLabel', "<i class='glyphicon glyphicon-remove'></i>");
-//		
 	dfd.resolve();
-	
 	return dfd.promise();
 }
 
@@ -662,16 +582,13 @@ function loadLayer(value){
 	if(value.serverType == t_wms){
 		loadWmsLayer(value);
 		defer.resolve();
-		//Si la capa es de tipus dades obertes
+	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_json){
 		loadCapaFromJSON(value).then(function(){
 			defer.resolve();
 		});
-		//Si la capa es de tipus url file
+	//Si la capa es de tipus url file
 	}else if(value.serverType == t_url_file){
-//		loadURLfileLayer(value).then(function(){
-//			defer.resolve();
-//		});	
 		loadURLfileLayer(value);
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes
@@ -687,21 +604,14 @@ function loadLayer(value){
 	//Si la capa es de tipus xarxes socials	
 	}else if(value.serverType == t_xarxes_socials){
 		var options = jQuery.parseJSON( value.options );
-		
 		if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
 		else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
 		else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
 		defer.resolve();
 	}else if(value.serverType == t_tematic){
 		
-		loadCacheTematicLayer(value).then(function(){
-		//loadTematicLayer(value).then(function(){
-			defer.resolve();
-		});
-		
 	}else if(value.serverType == t_visualitzacio){
-		//loadCacheVisualitzacioLayer(value).then(function(){
-		loadVisualitzacioLayer(value).then(function(){
+		loadCacheVisualitzacioLayer(value).then(function(){
 			defer.resolve();
 		});		
 	}else if(value.serverType == t_heatmap){
@@ -711,231 +621,11 @@ function loadLayer(value){
 	}else if(value.serverType == t_cluster){
 		loadClusterLayer(value);
 		defer.resolve();
+	//Si la capa es de tipus vis_wms
+	}else if(value.serverType == t_vis_wms){
+		loadVisualitzacioWmsLayer(value);
+		defer.resolve();
 	}
 	
-	//$(".leaflet-control-layers").mCustomScrollbar("update");
 	return defer.promise();
 }
-
-//function loadDadesObertesLayer(layer){
-//	var options = jQuery.parseJSON( layer.options );
-//	
-//	var defer = $.Deferred();
-//	
-//	if(options.tem == null || options.tem == tem_simple){
-//		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-//		var estil_do = options.estil_do;	
-////		var estil_do = retornaEstilaDO(options.dataset);	
-//		if (options.tem == tem_simple){
-//			//estil_do = options.style;
-//			estil_do = createFeatureMarkerStyle(options.style);
-//		}
-//		var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
-//			onEachFeature : popUp,
-//			nom : layer.serverName,
-//			tipus : layer.serverType,
-//			dataset: options.dataset,
-//			businessId : layer.businessId,
-//			dataType : "jsonp",
-////			zIndex: parseInt(layer.capesOrdre),
-//			pointToLayer : function(feature, latlng) {
-//				if(options.dataset.indexOf('meteo')!=-1){
-//					return L.marker(latlng, {icon:L.icon({					
-//						    iconUrl: feature.style.iconUrl,
-//						    iconSize:     [44, 44], 
-//						    iconAnchor:   [22, 22], 				   
-//						    popupAnchor:  [-3, -3] 
-//					})});
-//				}else if(options.dataset.indexOf('incidencies')!=-1){
-//					var inci=feature.properties.descripcio_tipus;
-//					var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
-//					var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
-//					var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
-//					return L.marker(latlng, {icon:L.icon({					
-//					    iconUrl: imgInci,
-//					    iconSize:     [30, 26], 
-//					    iconAnchor:   [15, 13], 				   
-//					    popupAnchor:  [-3, -3] 
-//					})});
-//				}else if(options.dataset.indexOf('cameres')!=-1){
-//					return L.marker(latlng, {icon:L.icon({					
-//					    iconUrl: "/geocatweb/img/st_came.png",
-//					    iconSize:     [30, 26], 
-//					    iconAnchor:   [15, 13], 				   
-//					    popupAnchor:  [-3, -3] 
-//					})});
-//				}else{
-//					if (estil_do.isCanvas){
-//						return L.circleMarker(latlng, estil_do);
-//					}else{
-//						//console.debug(L.marker(latlng, {icon:L.AwesomeMarkers.icon(estil_do)}));
-//						return L.marker(latlng, {icon:estil_do,isCanvas:false, tipus: t_marker});
-//					}
-//				}
-//			}
-//		});	
-//		
-//		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
-//			capaDadaOberta.addTo(map);
-//		}
-//		
-//		capaDadaOberta.eachLayer(function(layer) {
-//			console.debug("1"+layer);
-//		});		
-//		
-//		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
-//			capaDadaOberta.options.zIndex = controlCapes._lastZIndex + 1;
-//		}else{
-//			capaDadaOberta.options.zIndex = parseInt(layer.capesOrdre);
-//		}		
-//		
-////		controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);	
-////		controlCapes._lastZIndex++;
-//		
-//		if(!options.origen){
-//			//Fins que no estigui carregada del tot no afegim al controlcapes (per tenir be el comptador de features)
-//			capaDadaOberta.on('data:loaded', function(e){
-//				controlCapes.addOverlay(capaDadaOberta, layer.serverName, true);
-//				controlCapes._lastZIndex++;
-//				defer.resolve();
-//			});
-//		}else{//Si te origen es una sublayer
-//			var origen = getLeafletIdFromBusinessId(options.origen);
-//			controlCapes.addOverlay(capaDadaOberta, layer.serverName, true, origen);
-//			defer.resolve();
-//		}		
-//		
-//	}else if(options.tem == tem_cluster){
-//		loadDadesObertesClusterLayer(layer);
-//		defer.resolve();
-//	}else if(options.tem == tem_heatmap){
-//		loadDOHeatmapLayer(layer);
-//		defer.resolve();
-//	}
-//	return defer.promise();
-//}
-
-//function loadWmsLayer(layer){
-//	
-//	var newWMS = L.tileLayer.betterWms(layer.url, {
-//	    layers: layer.layers,
-//	    format: layer.imgFormat,
-//	    transparent: layer.transparency,
-//	    version: layer.version,
-//	    opacity: layer.opacity,
-//	    crs: layer.epsg,
-//		nom : layer.serverName,
-//		tipus: layer.serverType,
-//		zIndex :  parseInt(layer.capesOrdre),	    
-//	    businessId: layer.businessId
-//	});
-//	
-//	if (layer.capesActiva == true || layer.capesActiva == "true"){
-//		newWMS.addTo(map);
-//	}
-//	
-//	console.debug("geocat visor, newWMS");
-//	console.debug(newWMS);	
-//	
-//	controlCapes.addOverlay(newWMS, layer.serverName, true);
-//	controlCapes._lastZIndex++;
-//}
-
-/************************************************************/
-
-//function popUp(f, l) {
-//	var out = [];
-//	if (f.properties) {
-//		for (key in f.properties) {
-//			if(key!='gml_id'){
-//				if(key=='Name' || key=='Description'){
-//					out.push(f.properties[key]);
-//				}else if(key=='link' || key=='Web'){				
-//					ll=f.properties[key];
-//					if(ll.indexOf('.gif')!=-1){
-//						out.push('<img width="100" src="'+ll+'"/>');
-//					}else{
-//						out.push('<b>'+key +'</b>: <a target="_blank" href="http://'+ll+'"/>'+ll+'</a>');
-//					}
-//				}else{
-//					out.push("<b>"+key + "</b>: " + f.properties[key]);
-//				}
-//			}
-//		}
-//		l.bindPopup(out.join("<br/>"));
-//	}
-//}
-
-//function createFeatureMarkerStyle(style, num_geometries){
-//	//console.debug("createFeatureMarkerStyle");
-//	if (!num_geometries){
-//		num_geometries = num_max_pintxos - 1;
-//	}
-//	if (style.marker && num_geometries <= num_max_pintxos){
-//		//Especifiques per cercle amb glyphon
-//		if(style.marker == 'punt_r'){
-//			var puntTMP = new L.AwesomeMarkers.icon(default_circuloglyphon_style);
-//			puntTMP.options.iconColor = style.simbolColor;
-//			puntTMP.options.icon = style.simbol;
-//			puntTMP.options.markerColor = style.marker;
-//			puntTMP.options.isCanvas=false;
-//			puntTMP.options.divColor= style.color;
-//			puntTMP.options.shadowSize = new L.Point(1, 1);
-//			puntTMP.options.radius = style.radius;
-//			var anchor = style.iconAnchor.split("#");
-//			var size = style.iconSize.split("#");
-//			puntTMP.options.iconAnchor.x = parseInt(anchor[0]);
-//			puntTMP.options.iconAnchor.y = parseInt(anchor[1]);
-//			puntTMP.options.iconSize.x = size[0];
-//			puntTMP.options.iconSize.y = size[1];
-//		}else{
-//			var puntTMP = new L.AwesomeMarkers.icon(default_marker_style);
-//			puntTMP.options.iconColor = style.simbolColor;
-//			puntTMP.options.icon = style.simbol;
-//			puntTMP.options.markerColor = style.marker;
-//			puntTMP.options.isCanvas=false;
-//			puntTMP.options.iconAnchor.x = 14;
-//			puntTMP.options.iconAnchor.y = 42;
-//			puntTMP.options.iconSize.x = 28;
-//			puntTMP.options.iconSize.y = 42;
-//		}
-//	}else{ //solo circulo
-//		var puntTMP = { 
-//			radius: style.simbolSize, 
-//			isCanvas: true,
-//			fillColor: style.color,
-//			color:  style.borderColor,
-//			weight:  style.borderWidth,
-//			fillOpacity:  style.opacity/100,
-//			opacity: 1,
-//			tipus: t_marker
-//		};
-//	}
-//	return puntTMP;
-//}
-
-//function createFeatureLineStyle(style){
-//	var estilTMP = default_line_style;
-//	estilTMP.color=style.color;
-//	estilTMP.weight=style.lineWidth;
-//	return estilTMP;
-//}
-//
-//function createFeatureAreaStyle(style){
-//	var estilTMP= default_area_style;
-//	estilTMP.fillColor=style.color;
-//	estilTMP.fillOpacity=(style.opacity/100);
-//	estilTMP.weight=style.borderWidth;
-//	estilTMP.color=style.borderColor;
-//	return estilTMP;
-//}
-
-
-//function getLeafletIdFromBusinessId(businessId){
-//	for(val in controlCapes._layers){
-//		if(controlCapes._layers[val].layer.options.businessId == businessId){
-//			return val;
-//		}
-//	}
-//}
-

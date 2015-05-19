@@ -812,3 +812,7 @@ textarea {
     padding-bottom: 2px;
     text-align: center;
 }
+
+.popup_data_img_iframe {
+    width: 300px;
+}

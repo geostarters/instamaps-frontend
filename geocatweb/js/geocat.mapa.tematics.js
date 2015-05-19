@@ -725,10 +725,6 @@ function getLineRangFromStyle(styles){
 
 function getPolygonRangFromStyle(styles){
 	styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
-	console.debug("------getPolygonRangFromStyle---------");
-	
-	console.debug("styles:");
-	console.debug(styles);
 
 	var rang = {
 		borderWidth: styles.lineWidth,//styles.weight,
@@ -743,9 +739,6 @@ function getPolygonRangFromStyle(styles){
 		weight: styles.lineWidth
 	};	
 	
-	console.debug("rang:");
-	console.debug(rang);	
-	console.debug("-------------------------------------");
 	return rang;
 }
 
