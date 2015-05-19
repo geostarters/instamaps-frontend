@@ -41,7 +41,7 @@ function addControlPublicar(){
 //			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
 			
 			//actualizar los campos del dialogo publicar
-			$('#nomAplicacioPub').val(mapConfig.nomAplicacio);
+			$('#nomAplicacioPub').val("");
 			if (mapConfig.visibilitat == visibilitat_open){
 				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 			}else{
@@ -100,7 +100,7 @@ function addControlPublicar(){
 			}
 			v_url = v_url.replace('localhost',DOMINI);			
 			urlMap = v_url.replace('mapa','visor');		
-			
+			urlMap = urlMap.replace('#no-back-button','');
 			//$('#urlVisorMap').html('<a href="'+urlMap+'" target="_blank" lang="ca">Anar a la visualització del mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a>');
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);

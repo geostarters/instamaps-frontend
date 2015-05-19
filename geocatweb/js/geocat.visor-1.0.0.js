@@ -96,12 +96,12 @@ function loadApp(){
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
 			checkEmptyMapLegend();
 			
-			console.debug(mapConfig);
+			//console.debug(mapConfig);
 			
 			downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
 									mapConfig.options.downloadable:[]);			
 
-			console.debug(downloadableData);
+			//console.debug(downloadableData);
 			
 			//iniciamos los controles
 			initControls().then(function(){

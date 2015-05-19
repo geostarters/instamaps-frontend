@@ -137,16 +137,16 @@ html,body {
 
 @keyframes up {
   	0%   { margin-bottom: 0;line-height: 40px; }
-  	16%  { margin-top:1px; height: 25px; width: 25px;line-height: 25px; }
-  	50% { margin-bottom: 0; line-height: 20px;margin-top:39px;}
-  	100% { margin-bottom: 0;line-height: 20px; }
+  	16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
+  	50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
+  	100% { margin-bottom: 0;line-height: 40px; }
 }
 
 @-webkit-keyframes up{
- 	0%   { margin-bottom: 0;line-height: 15px; }
-  	16%  { margin-top:1px; height: 25px; width: 25px;line-height: 25px; }
-  	50% { margin-bottom: 0; line-height: 20px;margin-top:39px;}
-  	100% { margin-bottom: 0;line-height: 20px; }
+ 	0%   { margin-bottom: 0;line-height: 40px; }
+  	16%  { margin-top:1px; height: 50px; width: 50px;line-height: 50px; }
+  	50% { margin-bottom: 0; line-height: 40px;margin-top:39px;}
+  	100% { margin-bottom: 0;line-height: 40px; }
 }
 
 #ani1 div  { animation-delay: .285714s; }
@@ -1859,9 +1859,18 @@ i.fa {
 	overflow: auto;
 }
 
+#list_tematic_values canvas{
+	cursor: pointer;
+}
+
+#list_tematic_values div.awesome-marker-web{
+	cursor: pointer;
+}
+
 #paletes_colors{
 	float:left;
 	text-align: left;
+	width: 100%;
 }
 
 .btn-paleta{
@@ -1869,6 +1878,30 @@ i.fa {
     cursor: pointer;
     margin-right: 5px;
 }
+
+.ramp {
+    cursor: pointer;
+    float: left;
+    padding: 5px 5px 0;
+}
+
+.ramp:hover{
+	background-color: #cccccc;
+}
+
+.ramp rect{
+    stroke: #333;
+    stroke-width: 0.5px;
+}
+
+/*
+canvas.shadow svg{ 
+	cursor:pointer; 
+	-moz-box-shadow: -5px -5px 5px #888;
+	-webkit-box-shadow: -5px -5px 5px #888;
+	box-shadow: -5px -5px 5px #888; 
+}
+*/
 
 /* end Tematics*/
 

@@ -295,9 +295,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					row.appendChild(col);					
 				}				
 				
+				
 				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
 				if(obj.layer.options.tipus.indexOf(t_geojsonvt) == -1 && obj.layer.options.tipus.indexOf(t_wms) == -1 && 
+<<<<<<< HEAD
 						!jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId] && 
+=======
+						!jQuery.isEmptyObject(downloadableData) &&  downloadableData[obj.layer.options.businessId]!=undefined &&
+>>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
 						downloadableData[obj.layer.options.businessId][0].chck){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
 					L.DomEvent.on(col, 'click', this._onDownloadClick, this);

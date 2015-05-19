@@ -466,7 +466,7 @@ function addFuncioCarregaFitxers(){
 		if(envioArxiu.isDrag){
 			drgFromMapa.removeAllFiles(true);	
 		}else{
-			drgFromBoto.removeAllFiles(true);
+			if (drgFromBoto != null) drgFromBoto.removeAllFiles(true); 
 		}
 		jQuery("#file_name").text("");
 		jQuery('#dv_optCapa').hide();
@@ -689,7 +689,7 @@ function accionaCarrega(file,isDrag) {
 		if(isDrag){
 			drgFromMapa.removeAllFiles(true);		
 			}else{
-			drgFromBoto.removeAllFiles(true);								
+				if (drgFromBoto != null) drgFromBoto.removeAllFiles(true); 								
 			}
 	}
 }
@@ -1284,6 +1284,11 @@ function addHtmlModalCarregarFitxers(){
 	$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {
 		jQuery("#div_carrega_dades_message").html("");
 		jQuery("#div_carrega_dades_message").hide();		
+		if(envioArxiu.isDrag){
+			drgFromMapa.removeAllFiles(true);
+		}else{
+			if (drgFromBoto != null) drgFromBoto.removeAllFiles(true);
+		}
 	});
 	
 }
