@@ -45,6 +45,7 @@ function loadApp(){
 
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
+			zoomAnimation:false,
 			typeMap : 'topoMapGeo',
 			minZoom: 2,
 			maxZoom : 19,
@@ -666,6 +667,10 @@ function loadLayer(value){
 		
 	}else if(value.serverType == t_cluster){
 		loadClusterLayer(value);
+		defer.resolve();
+	//Si la capa es de tipus vis_wms
+	}else if(value.serverType == t_vis_wms){
+		loadVisualitzacioWmsLayer(value);
 		defer.resolve();
 	}
 	return defer.promise();

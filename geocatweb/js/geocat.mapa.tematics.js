@@ -725,10 +725,6 @@ function getLineRangFromStyle(styles){
 
 function getPolygonRangFromStyle(styles){
 	styles.fillColor = jQuery.Color(styles.fillColor).toHexString();
-	console.debug("------getPolygonRangFromStyle---------");
-	
-	console.debug("styles:");
-	console.debug(styles);
 
 	var rang = {
 		borderWidth: styles.lineWidth,//styles.weight,
@@ -743,9 +739,6 @@ function getPolygonRangFromStyle(styles){
 		weight: styles.lineWidth
 	};	
 	
-	console.debug("rang:");
-	console.debug(rang);	
-	console.debug("-------------------------------------");
 	return rang;
 }
 
@@ -1282,22 +1275,22 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					for (var i = 0; i < coords.length; i++){
 						var c=coords[i];
 						if(!geomStyle.isCanvas){
-							featureTem.push(new L.marker([c[0], c[1]],
+							featureTem.push(new L.marker([c[1], c[0]],
 								{icon: rangStyle, isCanvas:false, tipus: t_marker}));
 						}else{
-							featureTem.push(new L.circleMarker([c[0], c[1]],geomStyle));
+							featureTem.push(new L.circleMarker([c[1], c[0]],geomStyle));
 						}
 					}
 				//Punt
 				}else if (geomTypeVis === t_marker){
 					var coords=geom.geometry.coordinates;
 					if(!geomStyle.isCanvas){
-						featureTem.push(new L.marker([coords[0],coords[1]],
+						featureTem.push(new L.marker([coords[1],coords[0]],
 												{icon: geomStyle, isCanvas:false, 
 												tipus: t_marker}
 											));
 					}else{
-						featureTem.push(new L.circleMarker([coords[0],coords[1]],geomStyle));
+						featureTem.push(new L.circleMarker([coords[1],coords[0]],geomStyle));
 					}
 				//MultiPoint
 				}else if (geomTypeVis === t_polyline && geomType === t_multilinestring){
@@ -1312,7 +1305,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 						
 						for (var k = 0; k < lines.length; k++){
 							var c=lines[k];
-							var punt=new L.LatLng(c[0], c[1]);
+							var punt=new L.LatLng(c[1], c[0]);
 							myPolyline.addLatLng(punt);
 //							llistaPunts.push(punt);
 						}
@@ -1328,7 +1321,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					var llistaPunts=[];
 					for (var i = 0; i < coords.length; i++){
 						var c=coords[i];
-						var punt=new L.LatLng(c[0], c[1]);
+						var punt=new L.LatLng(c[1], c[0]);
 						llistaPunts.push(punt);
 					}
 					featureTem.push(new L.polyline(llistaPunts, geomStyle));
@@ -1346,7 +1339,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 							var llistaPunts=[];
 							for (var k = 0; k < lines.length; k++){
 								var c=lines[k];
-								var punt=new L.LatLng(c[0], c[1]);
+								var punt=new L.LatLng(c[1], c[0]);
 								llistaPunts.push(punt);
 							}
 							llistaLines.push(llistaPunts);
@@ -1384,7 +1377,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 						var llistaPunts=[];
 						for (var k = 0; k < lines.length; k++){
 							var c=lines[k];
-							var punt=new L.LatLng(c[0], c[1]);
+							var punt=new L.LatLng(c[1], c[0]);
 							llistaPunts.push(punt);
 						}
 						llistaLines.push(llistaPunts);

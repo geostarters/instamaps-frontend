@@ -20,6 +20,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	 polygonStyle.opacity = 1;
 
 	var markerStyle = getMarkerRangFromStyle(defaultPunt);
+	console.debug(markerStyle);
 	if(markerStyle.isCanvas){
 		estil_do.color = markerStyle.borderColor;
 		estil_do.fillColor = markerStyle.color;
@@ -27,6 +28,19 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		estil_do.opacity = 1;
 		estil_do.radius = markerStyle.simbolSize;
 		estil_do.weight = markerStyle.borderWidth;
+	}else{
+		estil_do.fillColor = getColorAwesomeMarker(markerStyle.marker, markerStyle.color);
+	}
+	
+	/***Parseig url en cas google drive****/
+	//https://drive.google.com/file/d/FILE_ID/edit?usp=sharing
+	//https://drive.google.com/uc?export=download&id=FILE_ID
+
+	if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
+		urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
+		var res = urlFile.split("/");
+		var fileId = res[0];
+		urlFile = "https://drive.google.com/uc?export=download&id="+fileId;
 	}
 	
 	if(dinamic){
@@ -76,20 +90,20 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				    return latlng.bindPopup(html);
 				  },			  
 			  middleware:function(data){
-			    	console.debug("capaURLfile");
-			    	console.debug(capaURLfile);				  
+			    	//console.debugbug("capaURLfile");
+			    	//console.debug(capaURLfile);				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
-					  console.debug(data);	
+					  //console.debug(data);	
 					  
 					   var stringData = JSON.stringify(data);
 					   var geometryType = defineGeometryType(stringData);
-					   console.debug("geometryType");
-					   console.debug(geometryType);	
+					   //console.debug("geometryType");
+					   //console.debug(geometryType);	
 				    	
-					   console.debug("CapaURLFILE style abans:");
-					   console.debug(capaURLfile.options.style);
+					   //console.debug("CapaURLFILE style abans:");
+					   //console.debug(capaURLfile.options.style);
 					   
 				    	if(geometryType.indexOf("point")!=-1){
 //				    		capaURLfile.setStyle(estil_do);
@@ -102,8 +116,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				    		capaURLfile.options.style = polygonStyle;
 				    	}
 				    	
-						   console.debug("CapaURLFILE style despres:");
-						   console.debug(capaURLfile.options.style);				    	
+						   //console.debug("CapaURLFILE style despres:");
+						   //console.debug(capaURLfile.options.style);				    	
 				    	
 					  capaURLfile.addData(data);
 					  
@@ -132,12 +146,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					            options: '{"tipusFile":"'+tipusFile+'","nom":"'+nomCapa+'","url":"'+urlFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 							};
 							
-							console.debug("Abans create servidor in map, data:");
-							console.debug(data);
+							//console.debug("Abans create servidor in map, data:");
+							//console.debug(data);
 							
 							createServidorInMap(data).then(function(results){
 									if (results.status == "OK"){
-										console.debug("Create servidor in Map ok!");
+										//console.debug("Create servidor in Map ok!");
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques', urlFile, 1]);
 										//_kmq.push.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'dinamiques'}]);
 										
@@ -766,7 +780,6 @@ function loadUrlFileHeatmapLayer(layer){
 	});
 
 }
-
 
 //function replacer(key, value) {
 //	console.debug(key);

@@ -296,7 +296,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}				
 				
 				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
-				if(obj.layer.options.tipus.indexOf(t_geojsonvt) == -1 && obj.layer.options.tipus.indexOf(t_wms) == -1 && !jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId][0].chck){
+				if(obj.layer.options.tipus.indexOf(t_geojsonvt) == -1 && obj.layer.options.tipus.indexOf(t_wms) == -1 && 
+						!jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId] && 
+						downloadableData[obj.layer.options.businessId][0].chck){
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
 					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 					col.layerId = input.layerId;
@@ -431,11 +433,32 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					var z = obj.layer.options.zIndex; 
 					obj.layer.setZIndex(4);
 					obj.layer.options.zIndex = z;
+				//Si es vis_wms li hem de tornar a crear i afegir al map, la capa utfgrid
+				}else if (obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
+					
+					var optionsUtfGrid = {
+				            layers : obj.layer.options.businessId,
+				            crs : L.CRS.EPSG4326,
+				            srs: "EPSG:4326",
+				            transparent : true,
+				            format : 'utfgrid',
+				            nom : obj.layer.options.nom + " utfgrid",
+					    	tipus: obj.layer.options.tipus,
+					    	businessId: obj.layer.options.businessId         
+					}
+					var utfGrid = createUtfGridLayer(obj.layer._url,optionsUtfGrid);
+					this._map.addLayer(utfGrid);
+					obj.layer.options.utfGridLeafletId = utfGrid._leaflet_id;
+					
 				}
 			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
+				//Si es vis_wms, hem d'eliminar tb la capa utfgrid
+				if(obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
+					var utfGridLayer = this._map._layers[obj.layer.options.utfGridLeafletId];
+					this._map.removeLayer(utfGridLayer);
+				}
 				this._map.removeLayer(obj.layer);
-				
 			}
 		}
 

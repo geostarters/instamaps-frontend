@@ -869,24 +869,24 @@ function objecteUserAdded(f){
 	
 	var feature = f.layer.toGeoJSON();
 	
-	//Invertim lng,lat perque es recuperi be desde el servidor despres
-    if(f.layer.options.tipus == t_marker){
-          var lng = feature.geometry.coordinates[0]
-          feature.geometry.coordinates[0] = feature.geometry.coordinates[1];
-          feature.geometry.coordinates[1] = lng;         
-    }else if(f.layer.options.tipus==t_polyline){
-          for(var i=0;i<feature.geometry.coordinates.length;i++){
-                var lng = feature.geometry.coordinates[i][0]
-                feature.geometry.coordinates[i][0] = feature.geometry.coordinates[i][1];
-                feature.geometry.coordinates[i][1] = lng;
-          }
-    }else if(f.layer.options.tipus==t_polygon){
-          var lcoordinates = [];
-          $.each( feature.geometry.coordinates[0], function(i,val) {
-                lcoordinates.push([val[1], val[0]]);
-          }); 
-          feature.geometry.coordinates[0] = lcoordinates;                  
-    }       
+//	//Invertim lng,lat perque es recuperi be desde el servidor despres
+//    if(f.layer.options.tipus == t_marker){
+//          var lng = feature.geometry.coordinates[0]
+//          feature.geometry.coordinates[0] = feature.geometry.coordinates[1];
+//          feature.geometry.coordinates[1] = lng;         
+//    }else if(f.layer.options.tipus==t_polyline){
+//          for(var i=0;i<feature.geometry.coordinates.length;i++){
+//                var lng = feature.geometry.coordinates[i][0]
+//                feature.geometry.coordinates[i][0] = feature.geometry.coordinates[i][1];
+//                feature.geometry.coordinates[i][1] = lng;
+//          }
+//    }else if(f.layer.options.tipus==t_polygon){
+//          var lcoordinates = [];
+//          $.each( feature.geometry.coordinates[0], function(i,val) {
+//                lcoordinates.push([val[1], val[0]]);
+//          }); 
+//          feature.geometry.coordinates[0] = lcoordinates;                  
+//    }       
 
 	feature.properties.data = f.layer.properties.data;    	
 
