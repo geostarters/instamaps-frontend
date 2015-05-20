@@ -29,7 +29,11 @@ L.Util.ajax = function (url, cb) {
 					console.error("ResponseText WMS error:");
 					console.error(request.responseText);
 				}
-				response = JSON.parse(request.responseText);
+				else if (request.responseText.toLowerCase().indexOf("mapServer message")!=-1){
+					console.error("MapServer Message:");
+					console.error(request.responseText);
+				}
+				else response = JSON.parse(request.responseText);
 			} else {
 				response = eval("(" + request.responseText + ")");
 			}
