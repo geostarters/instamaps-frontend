@@ -122,6 +122,8 @@ function addControlAltresFontsDades() {
 				jQuery(tbA).html(
 						'<div class="panel-dadesExternes">'+
 							lDadesExternes +
+							//TODO agregar mensaje
+							//'<div>'+window.lang.convert("Entrar URL de dades externes")+' <a lang="ca href="" title="Informació" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></div>'+
 							'<div class="input-group txt_ext">'+
 								'<input type="text" lang="ca" class="form-control" value="" placeholder="'+window.lang.convert("Entrar URL de dades externes")+'" style="height:33px" id="txt_URLfile">'+ 
 								'<span class="input-group-btn">'+
@@ -349,7 +351,7 @@ function addHtmlModalDadesExt(){
 	'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
 	'						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
-	'						<li><a href="#id_url_file" lang="ca" data-toggle="tab">Dades externes</a></li>'+
+	'						<li><a href="#id_url_file" lang="ca" data-toggle="tab">Dades externes <i class="icon icon-dropbox"></i><i class="icon icon-github"></i><i class="icon icon-drive"></i></a></li>'+
 	'					</ul>'+
 	'					<div class="tab-content">'+
 	'						<div class="tab-pane fade" id="id_do"></div>'+
