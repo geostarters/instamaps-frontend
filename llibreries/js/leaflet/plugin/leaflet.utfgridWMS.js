@@ -5,7 +5,7 @@
 */
 (function (window, undefined) {
 
-L.Util.ajax = function (url, cb) {
+L.Util.ajaxGrid = function (url, cb) {
 	// the following is from JavaScript: The Definitive Guide
 	// and https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Using_XMLHttpRequest_in_IE6
 	if (window.XMLHttpRequest === undefined) {
@@ -40,6 +40,8 @@ L.Util.ajax = function (url, cb) {
 	};
 	request.send();
 };
+
+
 L.UtfGrid = L.Class.extend({
 	includes: L.Mixin.Events,
 	options: {
@@ -328,7 +330,7 @@ L.UtfGrid = L.Class.extend({
 		
 		var key = zoom + '_' + x + '_' + y;
 		var self = this;
-		L.Util.ajax(url, function (data) {
+		L.Util.ajaxGrid(url, function (data) {
 			self._cache[key] = data;
 		});
 	},

@@ -40,12 +40,19 @@ function showModalTematicCategories(data){
 			jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
 			var fields = {};
 			fields[window.lang.convert('Escull el camp')] = '---';
-			if (results.geometries && results.geometries.options){
-				
-				var dataNames = results.geometries.options.split(',');
+			if (visualitzacio.options){
+				var options = JSON.parse(visualitzacio.options);
+				var dataNames = options.propName.split(',');
 				jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;
 				});
+			}else{
+				if (results.geometries && results.geometries.options){
+					var dataNames = results.geometries.options.split(',');
+					jQuery.each(dataNames, function( index, value ) {
+						fields[value] = value;
+					});
+				}
 			}
 			
 			//creamos el select con los campos
@@ -279,8 +286,8 @@ function createTematicLayerCategories(event){
 	
 	var estils = {
 		estils: rangs,
-		dataField: jQuery('#dataField').val(),
-		labelField: jQuery('#dataField').val()
+		dataField: jQuery('#dataField').val().toLowerCase(),
+		labelField: jQuery('#dataField').val().toLowerCase()
 	};
 	var data = {
 			businessId: tematicFrom.businessid,//businessId id de la visualización de origen
@@ -552,7 +559,8 @@ function readDataVisualitzacio(visualitzacio, key){
 	var dataValues = [];
 	jQuery.each(visualitzacio.estil, function(index, item){
 		jQuery.each( item.geometria.features, function(i,feature) {
-			var value = feature.properties[key.toLowerCase()];
+			//var value = feature.properties[key.toLowerCase()];
+			var value = feature.properties[key];
 			if(!data[value]){
 				data[value] = value;
 				dataValues.push(value);
