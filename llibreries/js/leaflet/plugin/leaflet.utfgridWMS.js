@@ -26,10 +26,12 @@ L.Util.ajax = function (url, cb) {
 		if (request.readyState === 4 && request.status === 200) {
 			if (window.JSON) {
 				if(request.responseText.toLowerCase().indexOf("error")!=-1){
-					console.error("ResponseText WMS error:");
-					console.error(request.responseText);
+					console.debug("ResponseText WMS error:"+request.responseText);
 				}
-				response = JSON.parse(request.responseText);
+				else if (request.responseText.toLowerCase().indexOf("mapserver message")!=-1){
+					console.debug("MapServer Message:"+request.responseText);
+				}
+				else response = JSON.parse(request.responseText);
 			} else {
 				response = eval("(" + request.responseText + ")");
 			}

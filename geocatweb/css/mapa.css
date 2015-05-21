@@ -4209,3 +4209,27 @@ background-image: linear-gradient(to bottom, #569908, #A8CB17);
     50% {transform: rotate(180deg);}
     100% {transform: rotate(360deg);}
 }
+
+.icon{
+	float:right;
+	position:relative;
+	margin-left: 3px;
+}
+
+.icon-drive{
+	background: url('images/galeria_icones.png') no-repeat scroll -600px -100px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-dropbox{
+	background: url('images/galeria_icones.png') no-repeat scroll -620px -100px;
+	width: 16px;
+	height: 16px;
+}
+
+.icon-github{
+	background: url('images/galeria_icones.png') no-repeat scroll -640px -100px;
+	width: 16px;
+	height: 16px;
+}
