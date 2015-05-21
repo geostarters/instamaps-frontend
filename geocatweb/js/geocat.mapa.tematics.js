@@ -209,6 +209,14 @@ function createPopupWindowData(player,type, editable, origen){
 		html+='<h4 class="my-text-center">'+player.properties.data.nom+'</h4>';
 	}else if(player.properties.name && !isBusinessId(player.properties.name)){
 		html+='<h4 class="my-text-center">'+player.properties.name+'</h4>';
+	}else if(player.properties.data.name && !isBusinessId(player.properties.data.name)){
+		html+='<h4 class="my-text-center">'+player.properties.data.name+'</h4>';
+	}else if(player.properties.nom && !isBusinessId(player.properties.nom)){
+		html+='<h4 class="my-text-center">'+player.properties.nom+'</h4>';
+	}else if(player.properties.nombre && !isBusinessId(player.properties.nombre)){
+		html+='<h4 class="my-text-center">'+player.properties.nombre+'</h4>';
+	}else if(player.properties.data.nombre && !isBusinessId(player.properties.data.nombre)){
+		html+='<h4 class="my-text-center">'+player.properties.data.nombre+'</h4>';
 	}
 	
 //	if (player.properties.data.text){
@@ -1002,12 +1010,12 @@ function addHtmlModalCategories(){
 	'						<span>2.</span><span lang="ca">Escull l\'interval</span>:'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">'+
-	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.convert("Ãºnic")+'</label>'+
+	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.convert("únic")+'</label>'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
 	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
 	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+
-	'<!-- 							<option lang="ca" value="U">Ãšnic</option> -->'+
+	'<!-- 							<option lang="ca" value="U">Únic</option> -->'+
 	'<!-- 							<option lang="ca" value="R">Rang</option> -->'+
 	'<!-- 						</select> -->'+
 	'					</div>'+			
