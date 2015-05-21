@@ -418,7 +418,7 @@ function getPollTime(midaFitxer){
 
 function enviarArxiu(){
 	ldpercent=0;
-	uploadprogress();
+	//uploadprogress();
 	if(envioArxiu.isDrag){
 		drgFromMapa.uploadFile(drgFromMapa.files[0]);	
 	}else{
