@@ -4126,6 +4126,12 @@ i.fa {
 }
 /* end tree*/
 
+/*modal error upload*/
+#dialog_error_upload_txt {
+    font-size: 15px;
+    font-weight: bold;
+}
+
 /*Animacio proces dades*/
 #info_uploadFile {
     background-color: white;
