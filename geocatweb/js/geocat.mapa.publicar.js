@@ -41,7 +41,9 @@ function addControlPublicar(){
 //			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
 			
 			//actualizar los campos del dialogo publicar
-			$('#nomAplicacioPub').val("");
+			console.debug(mapConfig.nomAplicacio);
+			if (isDefaultMapTitle(mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
+			else $('#nomAplicacioPub').val(mapConfig.nomAplicacio);
 			if (mapConfig.visibilitat == visibilitat_open){
 				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 			}else{
