@@ -96,7 +96,8 @@ function creaAreesDragDropFiles() {
 			(function(){							
 				poll = function(){
 					$.ajax({
-						url: HOST_APP +"share/tmp/"+ codiUnic + url('?businessid')+".json",
+//						url: HOST_APP +"share/tmp/"+ codiUnic + url('?businessid')+".json",
+						url: paramUrl.polling +"pollingFileName="+ codiUnic + url('?businessid')+".json",
 						dataType: 'json',
 						type: 'get',
 						success: function(data){
@@ -120,30 +121,43 @@ function creaAreesDragDropFiles() {
 							}else if(data.status.indexOf("ERROR")!=-1){
 								console.error("Error al carregar fitxer:");
 								console.error(data);
-								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', data.codi, 1]);
+								
 								clearInterval(pollInterval);
 								jQuery('#info_uploadFile').hide();
 								
-							//TODO afegir texte segons codi, primer buidar!!!
 								$('#dialog_error_upload_txt').html("");
 								
-								if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-									var msg = window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
-									$('#dialog_error_upload_txt').html(msg);
+								if(data.codi){
 									
-								}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-									var msg = window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
-									$('#dialog_error_upload_txt').html(msg);
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', data.codi, 1]);
 									
-								}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-									var msg = window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-									$('#dialog_error_upload_txt').html(msg);
+									if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
+										var msg = window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+										$('#dialog_error_upload_txt').html(msg);
 										
-								}else if(data.codi.indexOf("04")!=-1){//cas 03: OGRInfo ha donat una excepció
-									var msg = window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+									}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
+										var msg = window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+										$('#dialog_error_upload_txt').html(msg);
+										
+									}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
+										var msg = window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 										$('#dialog_error_upload_txt').html(msg);
 											
+									}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
+										var msg = window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+											$('#dialog_error_upload_txt').html(msg);
+											
+									}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
+										var msg = window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+										$('#dialog_error_upload_txt').html(msg);
+										
+									}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
+										var msg = window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+										$('#dialog_error_upload_txt').html(msg);
+									}
+									
 								}else{
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
 									$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
 								}
 								
@@ -167,9 +181,9 @@ function creaAreesDragDropFiles() {
 		
 		drgFromMapa.on('error', function(file, errorMessage) {
 			drgFromMapa.removeAllFiles(true);
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
-			console.error("drgFromMapa Error");
-			$('#dialog_error_upload').modal('show');
+//			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
+//			console.error("drgFromMapa Error");
+//			$('#dialog_error_upload').modal('show');
 		});
 	}
 }
@@ -240,7 +254,8 @@ function addFuncioCarregaFitxers(){
 				(function(){							
 					poll = function(){
 						$.ajax({
-							url: HOST_APP +"share/tmp/"+ codiUnic + url('?businessid')+".json",
+//							url: HOST_APP +"share/tmp/"+ codiUnic + url('?businessid')+".json",
+							url: paramUrl.polling +"pollingFileName="+ codiUnic + url('?businessid')+".json",
 							dataType: 'json',
 							type: 'get',
 							success: function(data){
@@ -257,30 +272,45 @@ function addFuncioCarregaFitxers(){
 								}else if(data.status.indexOf("ERROR")!=-1){
 									console.error("Error al carregar fitxer:");
 									console.error(data);
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', data.codi, 1]);
+									
+									
 									clearInterval(pollInterval);
 									jQuery('#info_uploadFile').hide();
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-										var msg =  window.lang.convert("Ha ocurregut un error inesperat durant la càrrega del fitxer.");
-										$('#dialog_error_upload_txt').html(msg);
+									if(data.codi){
 										
-									}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-										var msg =  window.lang.convert("Error durant el procés de conversió de format del fitxer.");
-										$('#dialog_error_upload_txt').html(msg);
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', data.codi, 1]);
 										
-									}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-										var msg =  window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-										$('#dialog_error_upload_txt').html(msg);
+										if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
+											var msg = window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+											$('#dialog_error_upload_txt').html(msg);
 											
-									}else if(data.codi.indexOf("04")!=-1){//cas 03: OGRInfo ha donat una excepció
-										var msg =  window.lang.convert("Ha ocurregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+										}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
+											var msg = window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+											$('#dialog_error_upload_txt').html(msg);
+											
+										}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
+											var msg = window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 											$('#dialog_error_upload_txt').html(msg);
 												
+										}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
+											var msg = window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+												$('#dialog_error_upload_txt').html(msg);
+										
+										}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
+											var msg = window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+											$('#dialog_error_upload_txt').html(msg);
+											
+										}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
+											var msg = window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+											$('#dialog_error_upload_txt').html(msg);
+										}
+										
 									}else{
-										$('#dialog_error_upload_txt').html( window.lang.convert("Error en la càrrega de l'arxiu"));
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
 									}
 									
 									$('#dialog_error_upload').modal('show');
@@ -302,10 +332,10 @@ function addFuncioCarregaFitxers(){
 			
 			drgFromBoto.on('error', function(file, errorMessage) {
 				drgFromBoto.removeAllFiles(true);
-				$('#dialog_carrega_dades').modal('hide');
-				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
-				console.error("drgFromBoto Error");
-				$('#dialog_error_upload').modal('show');	
+//				$('#dialog_carrega_dades').modal('hide');
+//				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', 'Sense codi error', 1]);
+//				console.error("drgFromBoto Error");
+//				$('#dialog_error_upload').modal('show');	
 			});
 		}
 
@@ -932,7 +962,13 @@ function addDropFileToMap(results) {
 						}
 					});					
 				}
-			}		
+			}
+			
+			//En cas que no hagi retornat cap geometria com a resultat, amaguem finestra carregant
+			if(!results.layerPolygon && !results.layerLine && !results.layerMarker){
+				jQuery('#info_uploadFile').hide();
+			}
+			
 			// carregarCapa(businessId);
 			refrescaPopOverMevasDades();
 			//jQuery('#dialog_carrega_dadesfields').modal('hide');
@@ -1171,7 +1207,9 @@ function addHtmlModalErrorUpload(){
 //						window.lang.convert("Error en la càrrega de l'arxiu")+
 		'			</div>'+
 		'			<div class="modal-footer">'+
-		'				<button type="button" class="btn btn-danger" data-dismiss="modal">Acceptar</button>'+					
+		'				<button type="button" class="btn btn-danger" data-dismiss="modal">'+
+							window.lang.convert('Acceptar')+
+		'				</button>'+					
 		'			</div>'+
 		'		</div>'+
 		'		<!-- /.modal-content -->'+

@@ -147,7 +147,7 @@ function fillModalDataTable(obj, geomBid){
 				for(var x in feature.properties){
 					var obj = {
 						title: x.toUpperCase(),
-						field: x,
+						field: x.toLowerCase(),
 						sortable: true,
 						editable: {
 							emptytext : '-'
@@ -171,7 +171,7 @@ function fillModalDataTable(obj, geomBid){
 				for(var x in feature.properties){
 					var obj = {
 						title: x.toUpperCase(),
-						field: x,
+						field: x.toLowerCase(),
 						sortable: true
 					}
 					columNames.push(obj);
