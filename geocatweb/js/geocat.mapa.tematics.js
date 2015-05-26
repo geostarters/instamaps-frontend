@@ -175,60 +175,44 @@ function loadTematicLayer(layer){
 }
 
 
-//function createPopupWindowVisor(player,type){
-//	console.debug("createPopupWindowVisor");
-//	var html='<div class="div_popup_visor">' 
-//		+'<div class="popup_pres">';
-//	
-//	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
-//		html+='<div id="titol_pres_visor">'+player.properties.data.nom+'</div>';
-//	}else if(player.properties.name && !isBusinessId(player.properties.name)){
-//		html+='<div id="titol_pres_visor">'+player.properties.name+'</div>';
-//	}
-//		
-//	if (player.properties.data.text){
-//		html+='<div id="des_pres_visor">'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
-//	}
-//	if(type == t_polyline && player.properties.mida){
-//		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
-//	}else if(type == t_polygon && player.properties.mida){
-//		html+='<div id="mida_pres"><b>'+window.lang.convert('Ã€rea')+':</b> '+player.properties.mida+'</div>';
-//	}
-//	
-//	html+='<div id="capa_pres_visor"><k>'+player.properties.capaNom+'</k></div>'
-//	+'</div></div>';
-//	
-//	player.bindPopup(html,{'offset':[0,-25]});	
-//}
-
 function createPopupWindowData(player,type, editable, origen){
 //	console.debug("createPopupWindowData");
 //	console.debug(player);
 	var html='';
 	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
 		html+='<h4 class="my-text-center">'+player.properties.data.nom+'</h4>';
+	}else if (player.properties.data.Nom && !isBusinessId(player.properties.data.Nom)){
+		html+='<h4 class="my-text-center">'+player.properties.data.Nom+'</h4>';
+	}else if (player.properties.data.NOM && !isBusinessId(player.properties.data.NOM)){
+		html+='<h4 class="my-text-center">'+player.properties.data.NOM+'</h4>';
 	}else if(player.properties.name && !isBusinessId(player.properties.name)){
 		html+='<h4 class="my-text-center">'+player.properties.name+'</h4>';
 	}else if(player.properties.data.name && !isBusinessId(player.properties.data.name)){
 		html+='<h4 class="my-text-center">'+player.properties.data.name+'</h4>';
+	}else if(player.properties.data.Name && !isBusinessId(player.properties.data.Name)){
+		html+='<h4 class="my-text-center">'+player.properties.data.Name+'</h4>';
+	}else if(player.properties.data.NAME && !isBusinessId(player.properties.data.NAME)){
+		html+='<h4 class="my-text-center">'+player.properties.data.NAME+'</h4>';
 	}else if(player.properties.nom && !isBusinessId(player.properties.nom)){
 		html+='<h4 class="my-text-center">'+player.properties.nom+'</h4>';
 	}else if(player.properties.nombre && !isBusinessId(player.properties.nombre)){
 		html+='<h4 class="my-text-center">'+player.properties.nombre+'</h4>';
 	}else if(player.properties.data.nombre && !isBusinessId(player.properties.data.nombre)){
 		html+='<h4 class="my-text-center">'+player.properties.data.nombre+'</h4>';
+	}else if(player.properties.data.nombre && !isBusinessId(player.properties.data.nombre)){
+		html+='<h4 class="my-text-center">'+player.properties.data.nombre+'</h4>';
+	}else if(player.properties.data.NOMBRE && !isBusinessId(player.properties.data.NOMBRE)){
+		html+='<h4 class="my-text-center">'+player.properties.data.NOMBRE+'</h4>';
 	}
 	
-//	if (player.properties.data.text){
-//		html+='<div>'+parseUrlTextPopUp(player.properties.data.text)+'</div>';
-//	}
 	
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
-//		alert( key + ": " + value );
-//		if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
 		if(isValidValue(key) && isValidValue(value)){
-			if (key != 'id' && key != 'businessId' && key != 'slotd50' && key != 'nom' && key != 'name'){
+			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
+					key != 'NOM' && key != 'Nom' && key != 'nom' && 
+					key != 'name' && key != 'Name' && key != 'NAME' &&
+					key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
 				html+='<div class="popup_data_row">';
 				
 				var txt = parseUrlTextPopUp(value, key);
@@ -253,12 +237,6 @@ function createPopupWindowData(player,type, editable, origen){
 						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'					
-					/*
-						+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#">'+window.lang.convert('Dades')+'<span class="glyphicon glyphicon-list-alt blau"></span></a>   </li>'
-					*/
 					+'</ul>'														
 				+'</div>';	
 	}else{

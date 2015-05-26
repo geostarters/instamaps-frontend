@@ -4,8 +4,8 @@
 
 function loadVisualitzacioWmsLayer(layer){
 	
-	console.debug("loadVisualitzacioWmsLayer");
-	console.debug(layer);
+//	console.debug("loadVisualitzacioWmsLayer");
+//	console.debug(layer);
 	
 	var optionsWMS = {
 	        layers : layer.businessId,
@@ -122,6 +122,8 @@ function createUtfGridLayer(url,options){
 			$.each( e.data, function( key, value ) {
 //				console.debug( key + ": " + value );
 				if(key.indexOf("slot")==-1 && value!=undefined && value!=null && value != " "){
+					//treiem caracter '_' del nom de la propietat
+					key = key.replace('_', ' ');
 					if (key != 'id' && key != 'businessId' && key != 'slotd50'){
 						html+='<div class="popup_data_row width100">';
 						
