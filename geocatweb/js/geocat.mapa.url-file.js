@@ -20,7 +20,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	 polygonStyle.opacity = 1;
 
 	var markerStyle = getMarkerRangFromStyle(defaultPunt);
-	console.debug(markerStyle);
+//	console.debug(markerStyle);
 	if(markerStyle.isCanvas){
 		estil_do.color = markerStyle.borderColor;
 		estil_do.fillColor = markerStyle.color;
