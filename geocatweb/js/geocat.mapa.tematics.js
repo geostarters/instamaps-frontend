@@ -988,12 +988,12 @@ function addHtmlModalCategories(){
 	'						<span>2.</span><span lang="ca">Escull l\'interval</span>:'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">'+
-	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.convert("Ãºnic")+'</label>'+
+	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.convert("únic")+'</label>'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
 	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
 	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+
-	'<!-- 							<option lang="ca" value="U">Ãšnic</option> -->'+
+	'<!-- 							<option lang="ca" value="U">Únic</option> -->'+
 	'<!-- 							<option lang="ca" value="R">Rang</option> -->'+
 	'<!-- 						</select> -->'+
 	'					</div>'+			
