@@ -208,6 +208,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Has oblidat la contrassenya?":"Forgot password?",
 	"Has oblidat la teva contrassenya?":"Have you forgotten your password?",
 	"Ha ocorregut un error inesperat durant la càrrega del fitxer.":"An unexpected error has occurred while loading file",
+	"Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.":"An unexpected error occurred during communication with the server. Please try again.",
 	"Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.":"There was an unexpected problem when analyzing file information.",
 	"Iconografia":"Iconography",
 	"Idioma":"Language",
