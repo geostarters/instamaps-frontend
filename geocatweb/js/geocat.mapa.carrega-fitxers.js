@@ -36,6 +36,8 @@ var drOpcionsMapa = {
 	}
 };
 
+function provaCommitNofaRes(){}
+
 function creaAreesDragDropFiles() {
 	// dropzone
 	var opcionsBoto = drOpcionsMapa;
