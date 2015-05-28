@@ -132,27 +132,31 @@ function creaAreesDragDropFiles() {
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', data.codi, 1]);
 									
 									if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-										var msg = window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+										var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
 										$('#dialog_error_upload_txt').html(msg);
 										
 									}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-										var msg = window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+										var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
 										$('#dialog_error_upload_txt').html(msg);
 										
 									}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-										var msg = window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+										var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 										$('#dialog_error_upload_txt').html(msg);
 											
 									}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-										var msg = window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+										var msg = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
 											$('#dialog_error_upload_txt').html(msg);
-											
+									
 									}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-										var msg = window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+										var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
 										$('#dialog_error_upload_txt').html(msg);
 										
 									}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
-										var msg = window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+										var msg = "[06]: " + window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+										$('#dialog_error_upload_txt').html(msg);
+										
+									}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
+										var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 										$('#dialog_error_upload_txt').html(msg);
 									}
 									
@@ -284,27 +288,31 @@ function addFuncioCarregaFitxers(){
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error', data.codi, 1]);
 										
 										if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-											var msg = window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+											var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
 											$('#dialog_error_upload_txt').html(msg);
 											
 										}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-											var msg = window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+											var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
 											$('#dialog_error_upload_txt').html(msg);
 											
 										}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-											var msg = window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+											var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 											$('#dialog_error_upload_txt').html(msg);
 												
 										}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-											var msg = window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+											var msg = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
 												$('#dialog_error_upload_txt').html(msg);
 										
 										}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-											var msg = window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+											var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
 											$('#dialog_error_upload_txt').html(msg);
 											
 										}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
-											var msg = window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+											var msg = "[06]: " + window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+											$('#dialog_error_upload_txt').html(msg);
+											
+										}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
+											var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 											$('#dialog_error_upload_txt').html(msg);
 										}
 										
@@ -789,7 +797,7 @@ function obteCampsXLSX(f) {
 			}
 		}
 
-		if (e.target.result.length > 5000000) {
+		if (e.target.result.length > midaFitxer) {
 			alert(window.lang.convert("Arxiu massa gran!!"));
 
 		} else {
@@ -892,7 +900,7 @@ function miraFitxer(fitxer) {
 				} else {
 								
 					obj.isValid = false;
-					obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 10MB");
+					obj.msg =  window.lang.convert("La mida del fitxer és massa gran. Mida màxima 100MB");
 					}
 		}
 
