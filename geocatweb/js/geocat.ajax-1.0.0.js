@@ -338,6 +338,7 @@ function createServidorInMap(data){
 	return jQuery.ajax({
 		url: paramUrl.createServidorInMap,
 		data: data,
+		method: 'post',
 		dataType: 'jsonp'
 	}).promise();
 }
