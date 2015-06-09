@@ -61,7 +61,7 @@ function creaAreesDragDropFiles() {
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
 			
-			console.debug(envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000);
+//			console.debug(envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000);
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);			
 			
 			formData.append("nomArxiu", file.name); 
@@ -132,8 +132,8 @@ function creaAreesDragDropFiles() {
 									'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
 								);									
 							}else if(data.status.indexOf("OK")!=-1){
-								console.debug("Ha acabat:");
-								console.debug(data);
+//								console.debug("Ha acabat:");
+//								console.debug(data);
 								clearInterval(pollInterval);
 								
 								jQuery("#div_uploading_txt").html("");
@@ -150,6 +150,7 @@ function creaAreesDragDropFiles() {
 							}else if(data.status.indexOf("ERROR")!=-1){
 								console.error("Error al carregar fitxer:");
 								console.error(data);
+								busy = false;
 								
 								clearInterval(pollInterval);
 								jQuery('#info_uploadFile').hide();
@@ -353,7 +354,7 @@ function addFuncioCarregaFitxers(){
 								}else if(data.status.indexOf("ERROR")!=-1){
 									console.error("Error al carregar fitxer:");
 									console.error(data);
-									
+									busy = false;
 									
 									clearInterval(pollInterval);
 									jQuery('#info_uploadFile').hide();
@@ -1084,9 +1085,9 @@ function addDropFileToMap(results) {
 			// carregarCapa(businessId);
 			refrescaPopOverMevasDades();
 			//jQuery('#dialog_carrega_dadesfields').modal('hide');
-			console.debug(busy);
+			//console.debug(busy);
 			busy = false;
-			console.debug(busy);
+			//console.debug(busy);
 			map.spin(false);
 			
 }
