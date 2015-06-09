@@ -109,7 +109,7 @@ L.Control.Search = L.Control.extend({
 			//this._markerLoc = new SearchMarker([0,0], {marker: this.options.markerLocation});//see below
 			//Mira si és icona
 			var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
-			console.debug(defaultPunt);
+//			console.debug(defaultPunt);
 			if(!defaultPunt.options.isCanvas){
 				this._markerLoc=L.marker([0,0],
 					{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,

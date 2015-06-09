@@ -208,9 +208,6 @@ function createPopupWindowData(player,type, editable, origen){
 	
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
-		console.debug("key,value:");
-		console.debug(key);
-		console.debug(value);
 		if(isValidValue(key) && isValidValue(value)){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 					key != 'NOM' && key != 'Nom' && key != 'nom' && 
