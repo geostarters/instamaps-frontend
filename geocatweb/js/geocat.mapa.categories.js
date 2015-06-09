@@ -3,7 +3,7 @@
  */
 
 function showModalTematicCategories(data){
-	console.debug("showModalTematicCategories");
+//	console.debug("showModalTematicCategories");
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_tematic_rangs').modal('show');
 	
@@ -33,13 +33,45 @@ function showModalTematicCategories(data){
 		businessId: data.businessid,
 		uid: jQuery.cookie('uid')
 	};
-	console.debug(data);
-	if(data.tipus == t_visualitzacio){
+//	console.debug(data);
+	
+	if(data.tipus == t_url_file){
+		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
+		jQuery("#dialog_tematic_rangs").data("visualitzacio", urlFileLayer.options);
+		var fields = {};
+		fields[window.lang.convert('Escull el camp')] = '---';
+		//Recollim propName de les geometries de la capa
+		var dataNames = urlFileLayer.options.propName.split(',');
+		jQuery.each(dataNames, function( index, value ) {
+			fields[value] = value;
+		});
 		
+		//creamos el select con los campos
+		var source1 = jQuery("#tematic-layers-fields").html();
+		var template1 = Handlebars.compile(source1);
+		var html1 = template1({fields:fields});
+		jQuery('#dataField').html(html1);
+		
+		jQuery('#dataField').on('change',function(e){
+			var this_ = jQuery(this);
+			if (this_.val() == "---"){
+				jQuery('#tipus_agrupacio_grp').hide();
+				jQuery('#num_rangs_grp').hide();
+				jQuery('#list_tematic_values').html("");
+				jQuery('#dialog_tematic_rangs .btn-success').hide();
+			}else{
+				
+				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
+					jQuery("#dialog_tematic_rangs").data("values", results);
+					getTipusValuesVisualitzacio(results);
+				});
+				
+			}
+		});			
+		
+	}else{//Si es una visualitzacio
 		getVisualitzacioByBusinessId(dataTem).then(function(results){
 			if (results.status == "OK"){
-				console.debug("results:");
-				console.debug(results);
 				var visualitzacio = results.results;
 				jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
 				var fields = {};
@@ -87,42 +119,7 @@ function showModalTematicCategories(data){
 		},function(results){
 			//TODO error
 			console.debug("getVisualitzacioByBusinessId ERROR");
-		});		
-	}else if(data.tipus == t_url_file){
-		console.debug("tipus url file");
-		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
-		jQuery("#dialog_tematic_rangs").data("visualitzacio", urlFileLayer.options);
-		var fields = {};
-		fields[window.lang.convert('Escull el camp')] = '---';
-		//Recollim propName de les geometries de la capa
-		var dataNames = urlFileLayer.options.propName.split(',');
-		jQuery.each(dataNames, function( index, value ) {
-			fields[value] = value;
-		});
-		
-		//creamos el select con los campos
-		var source1 = jQuery("#tematic-layers-fields").html();
-		var template1 = Handlebars.compile(source1);
-		var html1 = template1({fields:fields});
-		jQuery('#dataField').html(html1);
-		
-		jQuery('#dataField').on('change',function(e){
-			var this_ = jQuery(this);
-			if (this_.val() == "---"){
-				jQuery('#tipus_agrupacio_grp').hide();
-				jQuery('#num_rangs_grp').hide();
-				jQuery('#list_tematic_values').html("");
-				jQuery('#dialog_tematic_rangs .btn-success').hide();
-			}else{
-				
-				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
-					jQuery("#dialog_tematic_rangs").data("values", results);
-					getTipusValuesVisualitzacio(results);
-				});
-				
-			}
-		});			
-		
+		});	
 	}
 				
 }
@@ -191,9 +188,7 @@ function showVisualitzacioDataUnic(values){
 	values.sort();
 	
 	var scale = createScale(paleta, values.length);
-			
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
-	
 	var valuesStyle = jQuery.map( values, function( a, i) {
 		return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 	});
@@ -289,12 +284,12 @@ function div2RangStyle(tematic, tdElem){
 }
 
 function createTematicLayerCategories(event){
-	console.debug("createTematicLayerCategories"); //al guardar
+//	console.debug("createTematicLayerCategories"); //al guardar
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
-	console.debug(visualitzacio);
+//	console.debug(visualitzacio);
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	var capaMare = controlCapes._layers[tematicFrom.leafletid].layer;
 	var rangsTr = jQuery('#list_tematic_values tbody tr');
@@ -331,11 +326,48 @@ function createTematicLayerCategories(event){
 		dataField: jQuery('#dataField').val().toLowerCase(),
 		labelField: jQuery('#dataField').val().toLowerCase()
 	};
-	console.debug("estils:");
-	console.debug(estils);
 	
-	if(visualitzacio.tipus == t_visualitzacio){
+	if(visualitzacio.tipus == t_url_file){
 		
+		var options = {
+			url: capaMare.options.url,
+			tem: tem_clasic,
+			style: estils,
+			origen: capaMare.options.businessId,
+			tipus : t_url_file,
+			tipusFile: capaMare.options.tipusFile,
+			estil_do: estils,
+			epsgIN: capaMare.options.epsgIN,
+			geometryType: capaMare.options.geometryType,
+			colX: capaMare.options.colX,
+			colY: capaMare.options.colY,
+			dinamic: capaMare.options.dinamic
+		};
+	
+		var data = {
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: capaMare.options.nom+" "+window.lang.convert("Categories"),
+			serverType: capaMare.options.tipus,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            order: capesOrdre_sublayer,				
+            epsg: capaMare.options.epsgIN,
+            transparency: true,
+            opacity: 1,
+            visibilitat: 'O',
+            url: capaMare.options.url,
+			options: JSON.stringify(options)
+		};
+		
+		createServidorInMap(data).then(function(results){
+			loadURLfileLayer(results.results);
+			jQuery('#dialog_tematic_rangs').modal('hide');
+			activaPanelCapes(true);
+		});			
+		
+	}else{
 		var data = {
 				businessId: tematicFrom.businessid,//businessId id de la visualización de origen
 				uid: $.cookie('uid'),//uid id de usuario
@@ -344,14 +376,9 @@ function createTematicLayerCategories(event){
 		        activas: true,
 		        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
 		        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
-//					tipusRang: tematicFrom.from,
 				tem: tem_clasic,//visualitzacio.from,//tem_simple
-//					estils: JSON.stringify(rangs)
 				estils: JSON.stringify(estils)
 			};
-		
-		console.debug("data:");
-		console.debug(data);		
 		
 		createVisualitzacioTematica(data).then(function(results){
 			if(results.status == 'OK'){
@@ -366,56 +393,7 @@ function createTematicLayerCategories(event){
 		},function(results){
 			//TODO error
 			console.debug("createVisualitzacioTematica ERROR");
-		});			
-	}else{
-		
-		console.debug("Entre a urlFileLayer....")
-		
-		var options = {
-			url: capaMare.options.url,
-			tem: tem_clasic,
-			style: estils,
-			origen: capaMare.options.businessId,
-			tipus : t_url_file,
-//			businessId : '-1',
-			tipusFile: capaMare.options.tipusFile,
-			estil_do: estils,
-			epsgIN: capaMare.options.epsgIN,
-			geometryType: capaMare.options.geometryType,
-			colX: capaMare.options.colX,
-			colY: capaMare.options.colY,
-			dinamic: capaMare.options.dinamic
-		};
-	
-//		console.debug(options);
-		
-		var data = {
-			uid:$.cookie('uid'),
-			mapBusinessId: url('?businessid'),
-			serverName: capaMare.options.nom+" "+window.lang.convert("Categories"),
-			serverType: capaMare.options.tipus,
-			calentas: false,
-            activas: true,
-            visibilitats: true,
-            order: capesOrdre_sublayer,				
-            epsg: capaMare.options.epsgIN,
-//            imgFormat: 'image/png',
-//            infFormat: 'text/html',
-//            tiles: true,	            
-            transparency: true,
-            opacity: 1,
-            visibilitat: 'O',
-            url: capaMare.options.url,
-			options: JSON.stringify(options)
-		};
-		
-		createServidorInMap(data).then(function(results){
-//			loadDadesObertesLayer(results.results);
-			console.debug("createServidorInMap urlfile categories:");
-			console.debug(results);
-			loadURLfileLayer(results.results);
-		});		
-		
+		});					
 	}
 	
 	event.preventDefault();
@@ -681,6 +659,10 @@ function readDataVisualitzacio(visualitzacio, key){
 		jQuery.each( item.geometria.features, function(i,feature) {
 			//var value = feature.properties[key.toLowerCase()];
 			var value = feature.properties[key];
+			
+			//Si es blanc assignem categoria "Sense valor" com una més
+			if(isBlank(value)) value = window.lang.convert("Sense valor");
+			
 			if(!data[value]){
 				data[value] = value;
 				dataValues.push(value);

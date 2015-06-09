@@ -122,8 +122,6 @@ function showTematicLayersModal(tipus,className){
 				obrirMenuModal('#dialog_estils_arees','toggle',data);
 			}
 		}else if(tipus == tem_clasic){
-			console.debug("tem clasic... data:");
-			console.debug(data);
 			showModalTematicCategories(data);
 		}else if(tipus == tem_heatmap){
 			createHeatMap(controlCapes._layers[data.leafletid]);
@@ -210,6 +208,9 @@ function createPopupWindowData(player,type, editable, origen){
 	
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
+		console.debug("key,value:");
+		console.debug(key);
+		console.debug(value);
 		if(isValidValue(key) && isValidValue(value)){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 					key != 'NOM' && key != 'Nom' && key != 'nom' && 
@@ -257,7 +258,7 @@ function createPopupWindowData(player,type, editable, origen){
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Ã€rea')+':</b> '+player.properties.mida+'</div>';
+		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
 	}
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no estÃ¡ activa no se ha cargado en el mapa y da error.
@@ -1195,11 +1196,6 @@ function loadVisualitzacioLayer(layer){
 }
 
 function readVisualitzacio(defer, visualitzacio, layer){
-//	console.debug("readVisualitzacio:");
-//	console.debug(layer);
-//	if(layer.options && jQuery.type(layer.options)== "object"){
-//		layer.options = JSON.stringify();
-//	}
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 					|| (layer.options && (layer.options.indexOf("source")!=-1) );
