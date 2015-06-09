@@ -2,6 +2,7 @@
  * 
  */
 
+
 function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY){
 
 	//Estil defecte
@@ -44,7 +45,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	}
 	
 	if(dinamic){
-		
+		var propName = "";
 		var param_url = paramUrl.urlFile	+"tipusFile=" + tipusFile+
 											 "&urlFile="+encodeURIComponent(urlFile)+
 											 "&epsgIN="+epsgIN+
@@ -64,7 +65,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				var geom = L.circleMarker(latlng, estil_do);
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+		    	propName = "";
 		    	$.each( pp, function( key, value ) {
+		    		propName = propName+key+",";
 		    		if(value){
 						html+='<div class="popup_data_row">'+
 						'<div class="popup_data_key">'+key+'</div>'+
@@ -72,13 +75,17 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					    '</div>';	    			
 		    		}
 		    	});	
+		    	propName = propName.substr(0, propName.length-1);
+		    	console.debug(propName);
 		    	html+='</div></div>'; 
 			    return geom.bindPopup(html);
 			  },
 			  onEachFeature : function(feature, latlng) {
 			    	var pp = feature.properties;
 			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+			    	propName = "";
 			    	$.each( pp, function( key, value ) {
+			    		propName = propName+key+",";
 			    		if(value){
 							html+='<div class="popup_data_row">'+
 							'<div class="popup_data_key">'+key+'</div>'+
@@ -86,6 +93,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						    '</div>';	    			
 			    		}
 			    	});	
+			    	propName = propName.substr(0, propName.length-1);
+			    	console.debug(propName);
 			    	html+='</div></div>'; 
 				    return latlng.bindPopup(html);
 				  },			  
@@ -96,7 +105,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					  processFileError(data);
 				  }else{
 					  //console.debug(data);	
-					  
+					  console.debug("propName:");
+					  console.debug(propName);
 					   var stringData = JSON.stringify(data);
 					   var geometryType = defineGeometryType(stringData);
 					   //console.debug("geometryType");
@@ -143,11 +153,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					            calentas: false,
 					            activas: true,
 					            visibilitats: true,
-					            options: '{"tipusFile":"'+tipusFile+'","nom":"'+nomCapa+'","url":"'+urlFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+					            options: '{"tipusFile":"'+tipusFile+'","nom":"'+nomCapa+'","propName":"'+propName+'","url":"'+urlFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 							};
 							
-							//console.debug("Abans create servidor in map, data:");
-							//console.debug(data);
+							console.debug("Abans create servidor in map, data:");
+							console.debug(data);
 							
 							createServidorInMap(data).then(function(results){
 									if (results.status == "OK"){
@@ -169,6 +179,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 										capaURLfile.options.colX = colX;
 										capaURLfile.options.colY = colY;
 										capaURLfile.options.dinamic = dinamic;
+										capaURLfile.options.propName = propName;
 										
 										capaURLfile.addTo(map);
 										capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
@@ -193,6 +204,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				  }
 			  }
 		});
+		
 	}else{
 		
 		var data = {
@@ -321,6 +333,8 @@ function loadURLfileLayer(layer){
 	var defer = $.Deferred();
 
 	var options = JSON.parse(layer.options);
+	console.debug("options:");
+	console.debug(options);
 	
 	if(options.tem == null || options.tem == tem_simple){
 	
@@ -349,12 +363,13 @@ function loadURLfileLayer(layer){
 			nom : layer.serverName,
 			tipus : layer.serverType,
 			geometryType: geometryType,
-			estil_do: estil_do,
-			style: style,
 			businessId : layer.businessId,
+			style: style,
 			pointToLayer : function(feature, latlng) {
-				var geom = L.circleMarker(latlng, estil_do);
+				
 		    	var pp = feature.properties;
+		    	var geom = L.circleMarker(latlng, estil_do);
+		    	
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
 		    		if(value){
@@ -409,6 +424,170 @@ function loadURLfileLayer(layer){
 			}		
 			defer.resolve();
 		});
+		
+	}else if(options.tem == tem_clasic){
+		
+//		console.debug("Load layer categories!!");
+		
+		var estil_do = options.estil_do;
+		var style = options.style;
+		var tipusFile = options.tipusFile;
+		var geometryType = options.geometryType;
+		var epsgIN = options.epsgIN;
+		var colX = options.colX;
+		var colY = options.colY;
+		var urlFile = layer.url;
+		var dinamic = options.dinamic;
+		
+		options.nom = layer.serverName;
+		options.businessId = layer.businessId;
+		
+		var param_url = paramUrl.urlFile + "tipusFile=" + tipusFile+
+										   "&colX="+colX+
+										   "&colY="+colY+
+										   "&epsgIN="+epsgIN+
+										   "&dinamic="+dinamic+
+										   "&urlFile="+encodeURIComponent(urlFile)+
+										   "&uid="+$.cookie('uid');
+		
+		var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+			nom : layer.serverName,
+			tipus : layer.serverType,
+			geometryType: geometryType,
+			businessId : layer.businessId,
+			pointToLayer : function(feature, latlng) {
+				
+		    	var pp = feature.properties;
+		    	var dataFieldValue = "";
+		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+		    	$.each( pp, function( key, value ) {
+		    		if(value){
+						html+='<div class="popup_data_row">'+
+						'<div class="popup_data_key">'+key+'</div>'+
+					    '<div class="popup_data_value">'+value+'</div>'+
+					    '</div>';	    			
+		    		}
+		    		
+		    		if(key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
+		    	});	
+		    	html+='</div></div>';    	
+
+		    	var estilGeom; //ficat default point style????
+		    	$.each( estil_do.estils, function( index, estil ) {
+		    		if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
+		    			(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+	    				estilGeom = { radius : 6, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+	    				return false;	
+		    		}
+		    		
+		    	});
+		    	var geom = L.circleMarker(latlng, estilGeom);		    	
+		    	var popup = L.popup().setContent(html);
+			    return geom.bindPopup(popup);
+			    
+			  },
+			  onEachFeature : function(feature, latlng) {
+			    	var pp = feature.properties;
+			    	var dataFieldValue = "";
+			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
+			    	$.each( pp, function( key, value ) {
+			    		if(value){
+							html+='<div class="popup_data_row">'+
+							'<div class="popup_data_key">'+key+'</div>'+
+						    '<div class="popup_data_value">'+value+'</div>'+
+						    '</div>';	    			
+			    		}
+			    		if(key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
+			    	});	
+			    	html+='</div></div>'; 
+
+			    	$.each( estil_do.estils, function( index, estil ) {
+			    		//Si es rang unic
+//			    		if(estil.valueMax == estil.ValueMin){
+//			    			if(dataFieldValue == estil.valueMax){
+//					    		latlng.options.weight = 2;
+//					    		latlng.options.color = estil.estil.color;
+//			    				return false;
+//			    			}
+//			    		}else{
+//			    			if(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax){
+//			    				//var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+////			    				estilGeom = { radius : 6, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+//			    				console.debug("latlong:");
+//			    				console.debug(latlng);
+//
+//			    				if(latlng.feature.geometry.type.toLowerCase() == t_polygon){
+//				    				latlng.options.weight = 2;
+//						    		latlng.options.color = "#ffffff";
+//						    		latlng.options.fillColor = estil.estil.color;
+//						    		latlng.options.fillOpacity = 0.5;			    					
+//						    		latlng.options.opacity = 1;
+//			    				}else if(latlng.feature.geometry.type.toLowerCase().indexOf(t_polyline)!=-1 || latlng.feature.geometry.type.toLowerCase().indexOf(t_linestring)!=-1){
+//				    				latlng.options.weight = 2;
+//						    		latlng.options.color = estil.estil.color;
+//			    				}/*else{
+//			    					estilGeom = { radius : 6, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+//				    				latlng.options.radius = 6;
+//						    		latlng.options.color = "#ffffff";
+//						    		latlng.options.fillColor = estil.estil.color;
+//						    		latlng.options.weight = 2;
+//						    		latlng.options.fillOpacity = 0.8;			    					
+//						    		latlng.options.opacity = 1;
+//						    		latlng.options.isCanvas = true;
+//						    		isPoint = true;
+//			    				}*/
+//			    				return false;		    				
+//			    			}
+//			    		}
+			    		
+			    		if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
+				    			(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+			    			if(latlng.feature.geometry.type.toLowerCase() == t_polygon){
+			    				latlng.options.weight = 2;
+					    		latlng.options.color = "#ffffff";
+					    		latlng.options.fillColor = estil.estil.color;
+					    		latlng.options.fillOpacity = 0.5;			    					
+					    		latlng.options.opacity = 1;
+		    				}else if(latlng.feature.geometry.type.toLowerCase().indexOf(t_polyline)!=-1 || latlng.feature.geometry.type.toLowerCase().indexOf(t_linestring)!=-1){
+			    				latlng.options.weight = 2;
+					    		latlng.options.color = estil.estil.color;
+					    		latlng.options.fillOpacity = 1;			    					
+					    		latlng.options.opacity = 1;
+		    				}
+			    			return false;	
+			    		}
+			    	});	
+				    return latlng.bindPopup(html);
+				  }
+		});		
+			
+		capaURLfileLoad.on('data:loaded', function(e){
+//			console.debug("capa loaded!");
+			capaURLfileLoad.options = options;
+
+			if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
+				capaURLfileLoad.addTo(map);
+			}
+	
+			if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
+				capaURLfileLoad.options.zIndex = controlCapes._lastZIndex + 1;
+			}else if(layer.capesOrdre != capesOrdre_sublayer){
+				capaURLfileLoad.options.zIndex = parseInt(layer.capesOrdre);
+			}		
+			
+			if(!options.origen){
+				capaURLfileLoad.options.businessId = layer.businessId;
+				controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true);
+				controlCapes._lastZIndex++;	
+			}else{//Si te origen es una sublayer
+				var origen = getLeafletIdFromBusinessId(options.origen);
+				capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
+				controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origen);
+			}		
+			defer.resolve();
+		});		
+		
+		
 	}else if(options.tem == tem_cluster){
 		
 		var options = jQuery.parseJSON( layer.options );

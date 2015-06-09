@@ -4138,34 +4138,90 @@ i.fa {
     border-radius: 4px;
     bottom: 10px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-    height: 95px;
+    height: 220px;
     left: 270px;
     position: absolute;
     text-align: center;
-    width: 215px;
+    width: 235px;
     z-index: 200;
 }
 
 #div_uploading_txt {
     border-bottom: 1px solid #eeeeee;
     display: block;
+    font-weight: bold;
     line-height: 2;
     margin-bottom: 5%;
+    padding-left: 12px;
+    padding-right: 10px;
+    padding-top: 5px;
+    text-align: justify;
     width: 100%;
-    font-weight: bold;
 }
+.status_uncheck {
+    color: grey;
+}
+
+#div_uploading_txt2 {
+    border-top: 1px solid #eeeeee;
+    padding: 3px;
+    text-align: center;
+}
+
+.status_check {
+    color: #3c763d;
+}
+/*animacio punts suspensius*/
+.one {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.0s;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.0s;
+}
+
+.two {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.2s;
+      animation: dot 1.3s infinite;
+      animation-delay: 0.2s;
+}
+
+.three {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.3s;
+     animation: dot 1.3s infinite;
+     animation-delay: 0.3s;
+}
+
+@-webkit-keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/*******/
 
 #preloader6{
     position:relative;
     width: 42px;
     height: 42px;
--webkit-animation: preloader_6 5s infinite linear;
-   -moz-animation: preloader_6 5s infinite linear;
+	-webkit-animation: preloader_6 5s infinite linear;
+   	-moz-animation: preloader_6 5s infinite linear;
     -ms-animation: preloader_6 5s infinite linear;
-     -o-animation: preloader_6 5s infinite linear;
+    -o-animation: preloader_6 5s infinite linear;
     animation: preloader_6 5s infinite linear;
-    margin-left: 82px;
-    margin-right: 82px;
+    /*margin-left: 92px;
+    margin-right: 82px;*/
+    margin: 15px 82px 15px 92px;
 }
 
 #preloader6 span{

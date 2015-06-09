@@ -65,7 +65,7 @@ function showTematicLayersModal(tipus,className){
 						}
 					}
 				}else if (tipus==tem_clasic){
-					if (tipusCapa == t_tematic || tipusCapa == t_visualitzacio){ //tematic
+					if (tipusCapa == t_tematic || tipusCapa == t_visualitzacio || tipusCapa == t_url_file){ //tematic
 						if (this.layer.options.dades){
 							layers.push(this);
 						}else{
@@ -122,6 +122,8 @@ function showTematicLayersModal(tipus,className){
 				obrirMenuModal('#dialog_estils_arees','toggle',data);
 			}
 		}else if(tipus == tem_clasic){
+			console.debug("tem clasic... data:");
+			console.debug(data);
 			showModalTematicCategories(data);
 		}else if(tipus == tem_heatmap){
 			createHeatMap(controlCapes._layers[data.leafletid]);
