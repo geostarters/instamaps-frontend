@@ -35,7 +35,7 @@ function filterJSON(rawjson) {
 			//jQuery('.search-tip').mousedown();
 			//map.setView(loc, this.options.zoom);
 		}
-		
+		 
 	}
 	return json;
 	
