@@ -158,7 +158,8 @@ var paramUrl = {
 	removeGeometriaFromProperties: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromProperties.action?",
 	updateGeometriaProperties: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometriaProperties.action?",
 	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?",
-	createMapFile:  HOST_APP+"geocat/layers/visualitzacio/createMapFile.action?"
+	createMapFile:  HOST_APP+"geocat/layers/visualitzacio/createMapFile.action?",
+	searchAction: HOST_APP+"geocat/aplications/map/search.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

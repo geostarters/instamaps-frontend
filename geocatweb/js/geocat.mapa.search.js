@@ -47,7 +47,7 @@ function addControlCercaEdit(){
 	addHtmlInterficieCerca();
 	
 
-	ctr_cerca=new L.Control.Search({url: "http://localhost/geocat/aplications/map/search.action?searchInput={s}",
+	ctr_cerca=new L.Control.Search({url: paramUrl.searchAction+"searchInput={s}",
 		position:'topcenter',
 		filterJSON: filterJSON,
 		animateLocation: false,
