@@ -137,7 +137,7 @@ function fillModalDataTable(obj, geomBid){
 			var objGeomBBOX = {
 					field: 'geometryBBOX',
 					title: 'BBOX',
-					visible: false
+					visible: false 
 			}
 			columNames.push(objGeomBBOX);			
 			
