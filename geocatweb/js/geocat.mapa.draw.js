@@ -1153,12 +1153,12 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
         
     if(layer.properties.tipusFeature == t_marker){
         var newLatLng = layer.getLatLng();
-        feature.geometry.coordinates[0] = newLatLng.lat;
-        feature.geometry.coordinates[1] = newLatLng.lng;           
+        feature.geometry.coordinates[1] = newLatLng.lat;
+        feature.geometry.coordinates[0] = newLatLng.lng;           
     }else{
 	    var lcoordinates = [];
 	    $.each(layer._latlngs, function(i,val) {
-	    	lcoordinates.push([val.lat, val.lng]);
+	    	lcoordinates.push([val.lng, val.lat]);
 	    });              
 	    if(layer.properties.tipusFeature == t_polyline){
 	    	feature.geometry.coordinates = lcoordinates;

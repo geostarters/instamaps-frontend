@@ -105,10 +105,32 @@ L.Control.Search = L.Control.extend({
 		this._loadv = this._createLoad(this.options.textLoad,'search-load');
 		
 		
-		if(this.options.circleLocation || this.options.markerLocation)
-			this._markerLoc = new SearchMarker([0,0], {marker: this.options.markerLocation});//see below
+		if(this.options.circleLocation || this.options.markerLocation) {
+			//this._markerLoc = new SearchMarker([0,0], {marker: this.options.markerLocation});//see below
+			//Mira si és icona
+			var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
+			console.debug(defaultPunt);
+			if(!defaultPunt.options.isCanvas){
+				this._markerLoc=L.marker([0,0],
+					{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
+					 tipus: t_marker});
+			}else{
+				//Si és cercle sense glifon
+				this._markerLoc= L.circleMarker([0,0],
+						{ radius : defaultPunt.options.radius, 
+						  isCanvas:defaultPunt.options.isCanvas,
+						  fillColor : defaultPunt.options.fillColor,
+						  color :  defaultPunt.options.color,
+						  weight :  defaultPunt.options.weight,
+						  opacity :  defaultPunt.options.opacity,
+						  fillOpacity : defaultPunt.options.fillOpacity,
+						  tipus: t_marker}
+						
+				);
+			}
+	    }
 		
-		this.setLayer( this._layer );
+		//this.setLayer( this._layer );
 		
 		map.on({'resize':this._handleAutoresize()}, this);
 		 
@@ -692,7 +714,6 @@ L.Control.Search = L.Control.extend({
 			}
 			else
 			{
-				alert("2");
 				that = this;
 				this._recordsFromAjax(inputText, function(data) {// is async request then it need callback
 					that._recordsCache = data;
@@ -793,7 +814,6 @@ L.Control.Search = L.Control.extend({
 	},
 
 	showLocation: function(latlng, title) {	//set location on map from _recordsCache
-			
 		if(this.options.zoom)
 			this._map.setView(latlng, this.options.zoom);
 		else
@@ -802,11 +822,31 @@ L.Control.Search = L.Control.extend({
 		if(this._markerLoc)
 		{
 			this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
-			this._markerLoc.setTitle(title);
-			this._markerLoc.show();
-			if(this.options.animateLocation)
-				this._markerLoc.animate();
-			//TODO showLocation: start animation after setView or panTo, maybe with map.on('moveend')...	
+			capaUsrActiva = new L.FeatureGroup();
+			var index = parseInt(controlCapes._lastZIndex)+1;
+			capaUsrActiva.options = {
+				businessId : '-1',
+				nom : title,
+				zIndex :  -1,
+//				tipus : t_tematic,
+				tipus : t_visualitzacio,
+				geometryType: t_marker
+			};
+			this._markerLoc.properties={
+					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
+					'capaBusinessId':capaUsrActiva.options.businessId,
+					'capaLeafletId': capaUsrActiva._leaflet_id,
+					'tipusFeature':t_marker};	
+			
+			this._markerLoc.properties.data={
+					'nom':title,
+					'text':title,
+			};
+			capaUsrActiva.on('layeradd',objecteUserAdded);
+			capaUsrActiva.addLayer(this._markerLoc);
+			map.addLayer(capaUsrActiva);
+			
+			
 		}
 		
 		//FIXME autoCollapse option hide this._markerLoc before that visualized!!
@@ -816,6 +856,7 @@ L.Control.Search = L.Control.extend({
 	}
 });
 
+/*
 var SearchMarker = L.Marker.extend({
 
 	includes: L.Mixin.Events,
@@ -919,7 +960,7 @@ var SearchMarker = L.Marker.extend({
 		
 		return this;
 	 }
-});
+});*/
 
 L.Map.addInitHook(function () {
     if (this.options.searchControl) {
