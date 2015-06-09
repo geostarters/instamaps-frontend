@@ -62,7 +62,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Català":"Catalan",
 	"Categories":"Categories",
 	"Centrar mapa a la seva ubicació":"Center map on your location",
-	"Cercar llocs a Catalunya ...":"Find places in Catalonia ...",
+	"Cercar llocs o coordenades ...":"Find places or coordinates ...",
 	"Cercador de Topònims":"Place names search",
 	"Cercador mundial de Topònims":"Search World Place Names",
 	"Cerca":"Search",

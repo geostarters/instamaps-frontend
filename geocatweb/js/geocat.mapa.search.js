@@ -1,16 +1,44 @@
-//var ctr_cerca;
+var ctr_cerca; 
 
 
-function filterJSONICC(rawjson) {	
+function filterJSON(rawjson) {
+	var jsonData = JSON.parse(rawjson.resposta);
 	var json = {},
-		key, loc, disp = [];
-	for(var i in rawjson)
-	{
-		key = rawjson[i].nom +" ("+  rawjson[i].nomMunicipi+")";
-		loc = L.latLng( rawjson[i].coordenadesETRS89LonLat.y, rawjson[i].coordenadesETRS89LonLat.x );
-		json[ key ]= loc;	//key,value format
+	key, loc, disp = [];
+	
+	if (jsonData.resultats.length>0){
+		for (var i = 0; i < jsonData.resultats.length; i++) {
+		    var resultats = jsonData.resultats[i];
+		    if (resultats.nom) {
+			    key = resultats.nom +" ("+ resultats.nomMunicipi+")";
+			    loc = L.latLng( resultats.coordenadesETRS89LonLat.y, resultats.coordenadesETRS89LonLat.x );
+			    json[ key ]= loc;
+		    }
+		    else if (resultats.display_name){
+		    	disp = resultats.display_name.split(',');	
+				key = disp[0] +', '+ disp[1];
+				loc = L.latLng(resultats.lat, resultats.lon );
+				json[ key ]= loc;	//key,value format
+		    }
+		    
+		   
+		}
+	}
+	else {
+		var coords= jsonData.resultats.coordenades;
+		var coordsSplit = [];
+		if (coords) {
+			coordsSplit = coords.split(",");
+			loc = L.latLng(coordsSplit[0], coordsSplit[1] );
+			ctr_cerca.showLocation(loc,coords); 
+			//json[ coords ]= loc;
+			//jQuery('.search-tip').mousedown();
+			//map.setView(loc, this.options.zoom);
+		}
+		
 	}
 	return json;
+	
 }
 
 
@@ -18,35 +46,26 @@ function addControlCercaEdit(){
 	
 	addHtmlInterficieCerca();
 	
-	var jsonpurl = 'http://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
-	'&format=json&osm_type=N&limit=100&addressdetails=0';
-	var jsonpName = 'json_callback';
-	
-	var ctr_cerca=new L.Control.Search({url: paramUrl.urlGeoCoder,
+
+	ctr_cerca=new L.Control.Search({url: "http://localhost/geocat/aplications/map/search.action?searchInput={s}",
 		position:'topcenter',
-		jsonpParam:'jsonp',
-		filterJSON: filterJSONICC,
+		filterJSON: filterJSON,
 		animateLocation: false,
 		markerLocation: false,
 		zoom: 12,
 		minLength: 3,
 		autoType: false,
-		text: window.lang.convert('Cercar llocs a Catalunya ...'),
+		text: window.lang.convert('Cercar llocs al món o coordenades  ...'),
 		idInputText : '#ctr_cerca',
 		zoom : 14,
 		textSize : 22,
 		minLength : 3,
 		autoType : true,
-		/*
-		textEdit:'<a id="act_move" href="#" >Moure <span class="glyphicon glyphicon-move"></span></a> | '+
-		'<a id="act_remove" href="#" >Esborrar <span class="glyphicon glyphicon-trash"></span></a> | '+
-		'<a id="act_end" href="#" >Finaltzar Edició <span class="glyphicon glyphicon-check"></span></a>',
-		*/
 		textEdit:'<a id="act_end" href="#" >Finaltzar Edicio <span class="glyphicon glyphicon-check"></span></a>'
 		
 		}).addTo(map);
 	
-	var ctr_cercaNomen = new L.Control.Search({
+	/*var ctr_cercaNomen = new L.Control.Search({
 		url: jsonpurl,
 		jsonpParam: jsonpName,
 		filterJSON: filterJSONCall,
@@ -65,7 +84,7 @@ function addControlCercaEdit(){
 		textSize : 22,
 		minLength : 1,
 		text : window.lang.convert('Cercar llocs mudialment...'),
-	});
+	});*/
 	
 //	ctr_cercaNomen.on('search_locationfound', function(e) {
 //
@@ -78,43 +97,16 @@ function addControlCercaEdit(){
 //		});	
 //		});
 
-	map.addControl(ctr_cercaNomen ); 
+	//map.addControl(ctr_cercaNomen ); 
 	
-	jQuery("ul li").on('click', function() {
-
-		if (jQuery('a', this).attr('id') == 'ctr_cat') {
-			jQuery("#ctr_cerca").show();
-//			jQuery("#ctr_cercaCarrers").show();
-			jQuery("#ctr_cercaNomen").hide();
-			jQuery("ul li").removeClass('active');
-			jQuery(this).addClass('active');
-
-		} else if (jQuery('a', this).attr('id') == 'ctr_nomen') {
-			jQuery("#ctr_cerca").hide();
-//			jQuery("#ctr_cercaCarrers").hide();
-			jQuery("#ctr_cercaNomen").show();
-			jQuery("ul li").removeClass('active');
-			jQuery(this).addClass('active');
-
-		}
-	});	
+	
 	
 	jQuery('.search-edit a').on("click", function(e) {	
 		var id=jQuery(this).attr('id');
 		if(id=="act_move"){
 
-			/*
-			featureActive.disable();
-			crt_Editing.enable();
-			*/
 		}else if(id=="act_remove"){
-			/*
-			featureActive.disable();
-			crt_Remove.enable();
-			*/
-
-			
-			
+					
 		}else if(id=="act_end"){
 			
 			objEdicio.esticEnEdicio=false;
@@ -122,7 +114,6 @@ function addControlCercaEdit(){
 			if(crt_Editing){
 			crt_Editing.disable();
 			}
-//			showEditText('hide');
 			jQuery('.search-edit').animate({
 				height :'hide'
 			});			
@@ -131,36 +122,12 @@ function addControlCercaEdit(){
 	
 }
 
-function filterJSONCall(rawjson) {	//callback that remap fields name
-	var json = {},
-	key, loc, disp = [];
-	
-	for(var i in rawjson)
-	{
-		disp = rawjson[i].display_name.split(',');	
-		key = disp[0] +', '+ disp[1];
-		loc = L.latLng( rawjson[i].lat, rawjson[i].lon );
-		json[ key ]= loc;	//key,value format
-	}
-	return json;
-}
 
 function addHtmlInterficieCerca(){
 	
 	jQuery('#searchBar').addClass("input-group");
 	
 	jQuery('#searchBar').append(
-		      '<div id="ctr_options" class="input-group-btn">'+
-		      '  <button type="button" class="btn btn-default2 dropdown-toggle" data-toggle="dropdown">'+
-			  '	        <span class="glyphicon glyphicon-cog"></span>'+
-			'	        <span class="caret"></span>'+
-		    '    </button>'+
-		     '   <ul class="dropdown-menu">'+
-			  '        <li class="active"><a id="ctr_cat" href="#" lang="ca">Cercador de Topònims</a></li>'+
-			  '       <li><a id="ctr_nomen" href="#" lang="ca">Cercador mundial de Topònims</a></li>'+
-		        '</ul>'+
-		        '</div><!-- /btn-group -->'+
-				'<div id="ctr_cerca"></div>'+
-			  '<div id="ctr_cercaNomen"></div>'				
+	   		   '<div id="ctr_cerca"></div>'			
 	);
 }
