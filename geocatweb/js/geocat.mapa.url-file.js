@@ -76,7 +76,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		    		}
 		    	});	
 		    	propName = propName.substr(0, propName.length-1);
-		    	console.debug(propName);
+		    	//console.debug(propName);
 		    	html+='</div></div>'; 
 			    return geom.bindPopup(html);
 			  },
@@ -94,7 +94,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			    		}
 			    	});	
 			    	propName = propName.substr(0, propName.length-1);
-			    	console.debug(propName);
+			    	//console.debug(propName);
 			    	html+='</div></div>'; 
 				    return latlng.bindPopup(html);
 				  },			  
@@ -105,8 +105,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					  processFileError(data);
 				  }else{
 					  //console.debug(data);	
-					  console.debug("propName:");
-					  console.debug(propName);
+					  //console.debug("propName:");
+					  //console.debug(propName);
 					   var stringData = JSON.stringify(data);
 					   var geometryType = defineGeometryType(stringData);
 					   //console.debug("geometryType");
@@ -156,8 +156,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					            options: '{"tipusFile":"'+tipusFile+'","nom":"'+nomCapa+'","propName":"'+propName+'","url":"'+urlFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
 							};
 							
-							console.debug("Abans create servidor in map, data:");
-							console.debug(data);
+							//console.debug("Abans create servidor in map, data:");
+							//console.debug(data);
 							
 							createServidorInMap(data).then(function(results){
 									if (results.status == "OK"){
@@ -333,8 +333,8 @@ function loadURLfileLayer(layer){
 	var defer = $.Deferred();
 
 	var options = JSON.parse(layer.options);
-	console.debug("options:");
-	console.debug(options);
+	//console.debug("options:");
+	//console.debug(options);
 	
 	if(options.tem == null || options.tem == tem_simple){
 	
