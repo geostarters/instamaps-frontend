@@ -137,7 +137,7 @@ function fillModalDataTable(obj, geomBid){
 			var objGeomBBOX = {
 					field: 'geometryBBOX',
 					title: 'BBOX',
-					visible: false
+					visible: false 
 			}
 			columNames.push(objGeomBBOX);			
 			
@@ -204,7 +204,7 @@ function fillModalDataTable(obj, geomBid){
 	        'click .zoomTo': function (e, value, row, index) {
 	        	$('#modal_data_table').modal('hide');
 	        	var coords = row.geometryBBOX.split("#"); 
-				var bbox = L.latLngBounds(L.latLng(coords[0], coords[1]), L.latLng(coords[2], coords[3]));
+				var bbox = L.latLngBounds(L.latLng(coords[1], coords[0]), L.latLng(coords[3], coords[2]));
 				map.fitBounds(bbox);
 	        }
 		};	
