@@ -63,7 +63,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Categories":"Categorías",
 	"Carregant, esperi si us plau...":"Cargando, espere por favor...",
 	"Centrar mapa a la seva ubicació":"Centrar mapa a su ubicación",
-	"Cercar llocs a Catalunya ...":"Buscar lugares en Cataluña...",
+	"Cercar llocs o coordenades ...":"Buscar lugares o coordenadas...",
 	"Cercador de Topònims":"Buscador de Topónimos",
 	"Cercador mundial de Topònims":"Buscador mundial de Topónimos",
 	"Cerca":"Busca",
