@@ -9,6 +9,7 @@ function initButtonsTematic(){
 	addHtmlInterficieTematics();
 	addHtmlModalLayersTematic();
 	addHtmlModalCategories();
+	addHtmlModalBubbles();
 	
 	//botons tematic
 	jQuery('#st_Color').on('click',function(){
@@ -19,9 +20,9 @@ function initButtonsTematic(){
 		showTematicLayersModal(tem_clasic,jQuery(this).attr('class'));
 	});
 
-//	jQuery('#st_Size').on('click',function(){
-//		showTematicLayersModal(tem_size);
-//	});
+	jQuery('#st_Size').on('click',function(){
+		showTematicLayersModal(tem_size,jQuery(this).attr('class'));
+	});
 	
 	jQuery('#st_Heat').on('click',function(e) {
 		showTematicLayersModal(tem_heatmap,jQuery(this).attr('class'));
@@ -82,16 +83,20 @@ function showTematicLayersModal(tipus,className){
 						layers.push(this);
 					}
 				}else if (tipus==tem_size) {
-					$('#list_tematic_layers').html(warninMSG);
-					return;
+					var ftype = transformTipusGeometry(layerOptions.geometryType);
+					if ((tipusCapa == t_tematic || tipusCapa == t_visualitzacio || tipusCapa == t_url_file) && ftype == t_marker){ //tematic
+						if (this.layer.options.dades){
+							layers.push(this);
+						}else{
+							layers.push(this);
+						}
+					}
 				}else{		
 					$('#list_tematic_layers').html(warninMSG);
 					return;
 				}
 			}
-		
 		}
-		
 	});// fi each
 	if(layers.length ==0){
 		$('#list_tematic_layers').html(warninMSG);		
@@ -130,7 +135,7 @@ function showTematicLayersModal(tipus,className){
 			creaClusterMap(controlCapes._layers[data.leafletid]);
 			jQuery('#dialog_layers_tematic').modal('hide');
 		}else if(tipus == tem_size){
-			
+			showModalTematicBubbles(data);
 		}
 	});
 }
@@ -258,7 +263,7 @@ function createPopupWindowData(player,type, editable, origen){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
 	}
 	html+='</div>';
-	//he quitado el openPopup() ya que si la capa no estÃ¡ activa no se ha cargado en el mapa y da error.
+	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
 	player.bindPopup(html,{'offset':[0,-25]});
 	
 	//Afegim events/accions al popUp
@@ -411,7 +416,7 @@ function createPopupWindowData(player,type, editable, origen){
 
 
 /** Funcions que actualitzen l'estil per defecte, al seleccionat al dialeg d'estils
- * 	per punts, lÃ­nies, i polÃ­gons. 
+ * 	per punts, línies, i polígons. 
  * */
 
 function changeDefaultLineStyle(canvas_linia){
@@ -454,7 +459,7 @@ function changeDefaultPointStyle(estilP) {
 	
 	var _colorGlif=estilP.colorGlif;
 	
-	if(_iconFons.indexOf("_r")!=-1){ //sÃ³c rodÃ³		
+	if(_iconFons.indexOf("_r")!=-1){ //sóc rodó		
 		var num=estilP.size;
 		puntTMP.options.shadowSize = new L.Point(1, 1);
 		var tt=estilP.fontsize;
@@ -482,7 +487,7 @@ function changeDefaultPointStyle(estilP) {
 			puntTMP.options.icon=_iconGlif + " "+cssText;
 			puntTMP.options.isCanvas=false;
 		}
-	}else{ // sÃ³c pinxo
+	}else{ // sóc pinxo
 		puntTMP.options.iconAnchor= new L.Point(14, 42);
 		puntTMP.options.iconSize = new L.Point(28, 42);
 		puntTMP.options.shadowSize = new L.Point(36, 16);
@@ -508,8 +513,8 @@ function changeDefaultPointStyle(estilP) {
 }
 /*****************************/
 
-/**Funcions per crear un objecte de tipus estil, amb les caracterÃ­stiques que li passes
- * per punt, lÃ­nia, poligon */
+/**Funcions per crear un objecte de tipus estil, amb les característiques que li passes
+ * per punt, línia, poligon */
 
 function createFeatureLineStyle(style){
 	var estilTMP = default_line_style;
@@ -907,16 +912,16 @@ function addHtmlInterficieTematics(){
 			'<div class="div_gr3_estils">'+
 			'	<div id="st_Color" lang="ca" class="div_estil_1"></div>'+
 			'	<div id="st_Tema" lang="ca" class="div_estil_2"></div>'+
-			'	<!--<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>-->'+
+			'	<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>'+
 			'	<div id="st_Heat" lang="ca" class="div_estil_4"></div>'+
 			'	<div id="st_Clust" lang="ca" class="div_estil_5"></div>'+
 			'</div>'			
 	);
 	
-	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("BÃ sic")});
+	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
 	$('#st_Tema').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
-	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("ConcentraciÃ³")});
-	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("AgrupaciÃ³")});	
+	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
+	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});	
 	
 }
 
@@ -1109,7 +1114,7 @@ function addHtmlModalCategories(){
 	'					</table>'+	
 	'					</script>'+
 	'					<div id="palet_warning" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>'+
-	'					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el nÃºmero mÃ xim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>'+
+	'					<span lang="ca">Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris</span></div>'+
 	'					<div id="list_tematic_values"></div>'+
 
 	'					<div id="paletes_colors">'+
@@ -1160,6 +1165,124 @@ function addHtmlModalCategories(){
 	'	</div>'+
 	'	<!-- /.modal -->'+
 	'	<!-- fi Modal Tematics Rangs -->'		
+	);
+}
+
+
+function addHtmlModalBubbles(){
+	jQuery('#mapa_modals').append(
+			'<!-- Modal Tematics Bubble -->'+
+			'<div class="modal fade" id="dialog_tematic_bubble">'+
+			'	<div class="modal-dialog">'+
+			'		<div class="modal-content">'+
+			'			<div class="modal-header">'+
+			'				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+			'				<h4 class="modal-title" lang="ca">Defineix les categories</h4>'+
+			'			</div>'+
+			'			<div class="modal-body">'+
+			'				<div class="labels_fields">'+
+			'					<span lang="ca">Escull el camp per simbolitzar</span>:'+
+			'					<select name="dataFieldBubble" id="dataFieldBubble">'+
+			'					</select>'+
+			'				</div>'+
+			'                <script id="tematic-layers-fields-bubble" type="text/x-handlebars-template">'+
+			'						{{#each fields}}'+
+			'						<option value="{{this}}">{{@key}}</option>'+
+			'						{{/each}}'+
+			'					</script>'+
+			'				<br/>'+										
+			'				<div id="tipus_agrupacio_grp_bubble" class="labels_fields">'+
+			"					<span lang='ca'>Escull l'interval</span>:"+
+			'					<input type="radio" id="rd_tipus_graduado" name="rd_tipus_agrupacio_bubble" value="G">'+
+			'					<label for="rd_tipus_graduado" lang="ca">graduat</label>'+
+			'					<span class="rd_separator"></span>'+
+			'                   <input type="radio" id="rd_tipus_proporcional" name="rd_tipus_agrupacio_bubble" value="P">'+
+			'					<label for="rd_tipus_proporcional" lang="ca">proporcional</label>'+
+			'				</div>'+			
+			'				<div id="num_rangs_grp_bubble" class="labels_fields" >'+
+			'					<select id="cmb_num_rangs_bubble">'+
+			'						<option value="---" selected >Intervals</option>'+
+			'						<option value="3">3</option>'+
+			'						<option value="4">4</option>'+
+			'						<option value="5">5</option>'+
+			'						<option value="6">6</option>'+
+			'						<option value="7">7</option>'+
+			'					</select>'+
+			'				</div>'+
+			'				<script id="tematic-values-rangs-punt-template-bubble" type="text/x-handlebars-template">'+
+			'				<table class="table">'+
+			'					<thead>'+
+			'					<tr>'+
+		    ' 						<th lang="ca">Valor min.</th>'+
+		    ' 						<th lang="ca">Valor max.</th>'+
+			'						<th lang="ca">Mida</th>'+
+			'						<th lang="ca"></th>'+
+		  	'					</tr>'+
+		 	'					</thead>'+
+			'					<tbody>'+
+			'					{{#each values}}'+
+			'					<tr><td class="td_15"><input type="text" value="{{v.min}}" name="min"></td>'+
+			'						<td class="td_15"><input type="text" value="{{v.max}}" name="max"></td>'+
+			'						<td class="td_15"><input type="number" value="{{style.size}}" name="mida" class="mida"></td>'+
+			'						<td class="">'+
+			'						<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+			'								style="font-size: 10.5px; width: {{style.size}}px; height: {{style.size}}px; color: rgb(51, 51, 51); background-color: {{style.fillColor}}; border-radius:{{style.radius}}px"> </div>'+
+			'					</td></tr>'+
+			'					{{/each}}'+
+			'					</tbody>'+
+			'				</table>	'+
+			'				</script>'+
+			'				<script id="tematic-values-proportional-punt-template-bubble" type="text/x-handlebars-template">'+
+			'				<table class="table text-center buble_table">'+
+			'					<tbody>'+
+			'					{{#each values}}'+
+			'					<tr><td>'+
+			'                     <div class="buble_prop">'+
+			'                       <div><label lang="ca">Valor min.</label>&nbsp;{{v.min}}<input type="hidden" value="{{v.min}}" name="min"></div>'+
+			'                       <div><label lang="ca">mida</label>&nbsp;<input type="number" value="{{style.size}}" name="mida" class="mida"></div>'+
+			'						<div id="div_punt_min" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+			'								style="font-size: 10.5px; width: {{style.size}}px; height: {{style.size}}px; color: rgb(51, 51, 51); background-color: {{style.fillColor}}; border-radius:{{style.radius}}px"> </div>'+
+			'                     </div></td>'+
+			'						<td><div class="buble_prop">'+
+			'                        <div><label lang="ca">Valor max.</label>&nbsp;{{v.max}}<input type="hidden" value="{{v.max}}" name="max"></div>'+
+			'                       <div><label lang="ca">mida</label>&nbsp;<input type="number" value="{{style.sizeMax}}" name="mida_max" class="mida"></div>'+
+			'						<div id="div_punt_max" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+			'								style="font-size: 10.5px; width: {{style.sizeMax}}px; height: {{style.sizeMax}}px; color: rgb(51, 51, 51); background-color: {{style.fillColor}}; border-radius:{{style.radiusMax}}px"> </div>'+
+			'					</td></tr>'+
+			'					{{/each}}'+
+			'					</tbody>'+
+			'				</table>	'+
+			'				</script>'+
+			'				<div id="list_tematic_values_bubble"></div>'+
+			'				<div id="size_warning_bubble_grad" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>'+
+			'				<span lang="ca">Les mides han de ser creixents</span></div>'+
+			'				<div id="size_warning_bubble_prop" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>'+
+			'				<span lang="ca">La mida mínima ha de ser inferior a la màxima</span></div>'+
+			'				<div id="palet_warning_bubble" class="alert alert-warning"><span class="glyphicon glyphicon-info-sign"></span>'+
+			'				<span lang="ca">Has de seleccionar un camp amb valors numèrics</span></div>'+
+			'			</div>'+
+			'			<div class="modal-footer">'+
+			'				<div id="paletes_colors">'+
+			'					<div lang="ca">Tria el color</div>'+
+			'					<div class="btn-group">'+
+			'						<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">'+
+			'							<div id="dv_fill_color_punt_bubble" class="fill_color_punt"></div>'+
+			'						</a>'+
+			'						<ul class="dropdown-menu">'+
+			'							<li><div id="colorpalette_punt_bubble"></div></li>'+
+			'						</ul>'+
+			'					</div>'+
+			'				</div>'+
+			'				<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
+		    '     			<button type="button" class="btn btn-success" lang="ca">Canviar</button>'+
+			'			</div>'+
+			'		</div>'+
+			'		<!-- /.modal-content -->'+
+			'	</div>'+
+			'	<!-- /.modal-dialog -->'+
+			'</div>'+
+			'<!-- /.modal -->'+
+			'<!-- fi Modal Tematics Bubble -->'
 	);
 }
 
@@ -1249,11 +1372,15 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			origen = getLeafletIdFromBusinessId(options.origen);
 		}
 		
+		//ordenar los estilos de mayor a menor para los bubbles
+		if (visualitzacio.tipus == tem_size){
+			var estilDesc = visualitzacio.estil.sort(sordDesc("simbolSize"));
+			visualitzacio.estil = estilDesc;
+		}
+		
 		//Afegim geomatries a la capa
 		//per cada estil de la visualitzacio
 		jQuery.each(visualitzacio.estil, function(index, estil){
-			//console.debug("estil:");
-			//console.debug(estil);
 			var geomTypeVis = visualitzacio.geometryType;
 			var geomStyle;
 			
@@ -1456,7 +1583,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			});
 		});	
 		
-		//Afegim num d'elements al nom de la capa, si Ã©s un fitxer
+		//Afegim num d'elements al nom de la capa, si és un fitxer
 		if(layer.dragdrop || layer.urlFile){
 			capaVisualitzacio.options.nom = capaVisualitzacio.options.nom;// + " ("+capaTematic.getLayers().length+")";
 			var data = {
@@ -1497,8 +1624,8 @@ function readVisualitzacio(defer, visualitzacio, layer){
 		return defer.promise();
 	}
 	
-/**Funcions per crear un objecte de tipus estil, amb les caracterÃ­stiques que li passes
- * per punt, lÃ­nia, poligon */
+/**Funcions per crear un objecte de tipus estil, amb les característiques que li passes
+ * per punt, línia, poligon */
 
 function createMarkerStyle(style, num_geometries){
 	//console.debug("createFeatureMarkerStyle");
@@ -1586,4 +1713,16 @@ function loadCacheVisualitzacioLayer(layer){
 		defer.reject();
 	});
 	return defer.promise();
+}
+
+function sordDesc(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        var result = (a[property] > b[property]) ? -1 : (a[property] < b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
 }
