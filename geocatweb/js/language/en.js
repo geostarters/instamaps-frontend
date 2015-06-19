@@ -200,6 +200,7 @@ jquery_lang_js.prototype.lang.en = {
 	"Fes clic al mapa per posar un punt":"Click on the map to draw a point",
 	"Fitxer creat":"File created",
 	"Fitxer analitzat":"File analyzed",
+	"Fitxer pujat":"File uploaded",
 	"Formats suportats":"Supported formats",
 	"Galeria":"Gallery",
 	"Galeria de mapes":"Map gallery",

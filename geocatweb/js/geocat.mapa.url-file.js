@@ -3,7 +3,7 @@
  */
 
 
-function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY){
+function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi){
 
 	//Estil defecte
 	var estil_do = retornaEstilaDO(t_url_file);
@@ -218,6 +218,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			 uid: $.cookie('uid'),
 			 colX: colX,
 			 colY: colY,
+			 tipusAcc: tipusAcc,
+			 tipusFont: tipusFont,
+			 tipusCodi: tipusCodi,
+			 nomCampCodi: nomCampCodi,
 			 markerStyle: JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
 			 lineStyle: JSON.stringify(getLineRangFromStyle(canvas_linia)),
 			 polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
@@ -225,75 +229,39 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		
 		getUrlFile(data).then(function(results){
 			if (results.status == "OK") {
-				if(nou_model){
-					//Si geometries tipus marker
-					if(results.layerMarker){
-						var defer = $.Deferred();
+				
+				//Si geometries tipus marker
+				if(results.layerMarker){
+					var defer = $.Deferred();
 //						readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker);
-						loadVisualitzacioLayer(results.layerMarker).then(function(results1){
-							if(results1){
-								map.fitBounds(results1.getBounds());
-							}
-						});						
-					}					
-					//Si geometries tipus línies
-					if(results.layerLine){
-						var defer = $.Deferred();
-//						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine);
-						loadVisualitzacioLayer(results.layerLine).then(function(results1){
-							if(results1){
-								map.fitBounds(results1.getBounds());
-							}
-						});						
-					}
-					//Si geometries tipus polygon
-					if(results.layerPolygon){
-						var defer = $.Deferred();
-//						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon);
-						loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
-							if(results1){
-								map.fitBounds(results1.getBounds());
-							}
-						});						
-					}
-					jQuery('#dialog_dades_ex').modal('toggle');	
-					
-				}else{
-					var businessId = results.results.businessId;
-
-					// crear el servidor WMS i agregarlo al mapa
-					var data = {
-						uid : $.cookie('uid'),
-						businessId : businessId,
-						mapBusinessId : url('?businessid'),
-						serverName : nomCapa,//results.results.nom,
-						serverType : 'tematic',
-						calentas : false,
-						activas : true,
-						visibilitats : true,
-						epsg : '4326',
-						transparency : true,
-						visibilitat : 'O'
-					};
-					createServidorInMap(data).then(function(results) {
-						if (results.status == "OK") {
-
-							_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
-							//_kmq.push.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'no dinamiques'}]);
-							
-							results.results.urlFile = true;
-							loadTematicLayer(results.results).then(function(results1){
-								getRangsFromLayer(results1);
-								if(results1){
-									map.fitBounds(results1.getBounds());
-								}
-							});
-//							jQuery('#div_url_file').removeClass('waiting_animation');
-							jQuery('#dialog_dades_ex').modal('toggle');
-							refrescaPopOverMevasDades();
+					loadVisualitzacioLayer(results.layerMarker).then(function(results1){
+						if(results1){
+							map.fitBounds(results1.getBounds());
 						}
-					});					
+					});						
+				}					
+				//Si geometries tipus línies
+				if(results.layerLine){
+					var defer = $.Deferred();
+//						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine);
+					loadVisualitzacioLayer(results.layerLine).then(function(results1){
+						if(results1){
+							map.fitBounds(results1.getBounds());
+						}
+					});						
 				}
+				//Si geometries tipus polygon
+				if(results.layerPolygon){
+					var defer = $.Deferred();
+//						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon);
+					loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
+						if(results1){
+							map.fitBounds(results1.getBounds());
+						}
+					});						
+				}
+				jQuery('#dialog_dades_ex').modal('toggle');	
+					
 			}else{
 				console.debug("Error getUrlFile:"+results);
 				processFileError(results);
@@ -502,46 +470,10 @@ function loadURLfileLayer(layer){
 			    	html+='</div></div>'; 
 
 			    	$.each( estil_do.estils, function( index, estil ) {
-			    		//Si es rang unic
-//			    		if(estil.valueMax == estil.ValueMin){
-//			    			if(dataFieldValue == estil.valueMax){
-//					    		latlng.options.weight = 2;
-//					    		latlng.options.color = estil.estil.color;
-//			    				return false;
-//			    			}
-//			    		}else{
-//			    			if(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax){
-//			    				//var estil = { radius : 6, fillColor : "#FC5D5F", color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-////			    				estilGeom = { radius : 6, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-//			    				console.debug("latlong:");
-//			    				console.debug(latlng);
-//
-//			    				if(latlng.feature.geometry.type.toLowerCase() == t_polygon){
-//				    				latlng.options.weight = 2;
-//						    		latlng.options.color = "#ffffff";
-//						    		latlng.options.fillColor = estil.estil.color;
-//						    		latlng.options.fillOpacity = 0.5;			    					
-//						    		latlng.options.opacity = 1;
-//			    				}else if(latlng.feature.geometry.type.toLowerCase().indexOf(t_polyline)!=-1 || latlng.feature.geometry.type.toLowerCase().indexOf(t_linestring)!=-1){
-//				    				latlng.options.weight = 2;
-//						    		latlng.options.color = estil.estil.color;
-//			    				}/*else{
-//			    					estilGeom = { radius : 6, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-//				    				latlng.options.radius = 6;
-//						    		latlng.options.color = "#ffffff";
-//						    		latlng.options.fillColor = estil.estil.color;
-//						    		latlng.options.weight = 2;
-//						    		latlng.options.fillOpacity = 0.8;			    					
-//						    		latlng.options.opacity = 1;
-//						    		latlng.options.isCanvas = true;
-//						    		isPoint = true;
-//			    				}*/
-//			    				return false;		    				
-//			    			}
-//			    		}
-			    		
-			    		if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
-				    			(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+			    		if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
+				    			(parseInt(dataFieldValue)>=parseInt(estil.valueMin) && parseInt(dataFieldValue)<=parseInt(estil.valueMax))){//per valors
+			    			console.debug("Rang trobat!");
+			    			console.debug("--------");
 			    			if(latlng.feature.geometry.type.toLowerCase() == t_polygon){
 			    				latlng.options.weight = 2;
 					    		latlng.options.color = "#ffffff";

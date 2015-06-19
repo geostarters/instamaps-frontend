@@ -669,7 +669,7 @@ function loadLayer(value){
 		loadClusterLayer(value);
 		defer.resolve();
 	//Si la capa es de tipus vis_wms
-	}else if(value.serverType == t_vis_wms){
+	}else if(value.serverType == t_vis_wms || value.serverType == t_vis_wms_noedit){
 		loadVisualitzacioWmsLayer(value);
 		defer.resolve();
 	}
