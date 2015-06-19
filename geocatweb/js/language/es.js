@@ -134,6 +134,8 @@ jquery_lang_js.prototype.lang.es = {
 	"Distància":"Distancia",
 	"Dinàmica":"Dinámica",
 	"Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa":"Dinámico: Se accederá a la fuente de datos cada vez que se cargue la capa",
+
+
 	"Dona'ns el teu correo i et mantindrem informat":"Danos tu correo y te mantendremos informado",
 	"Edició en mode demostració":"Edición en modo demostración",
 	"Editar":"Editar",
@@ -180,6 +182,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Escull les teves icones i estils personalitzats.":"Escoge tus iconos y estilos personalizados.",
 	"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"Estamos en proceso de actualización. Pueden observar anomalías temporales en la visualización de los datos.",
 	"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Estado e incidéncias de tráfico, transporte público, previsión meteorológica y más.",
+
 	"Estil actiu":"Esilo activo",
 	"Estils d'àrees":"Estilos de áreas",
 	"Estils de línia":"Estilos de línea",
@@ -208,12 +211,14 @@ jquery_lang_js.prototype.lang.es = {
 	"Galeria de mapes":"Galeria de mapas",
 	"Geoserveis":"Geoservicios",
 	"Geometries creades":"Geometrías creadas",
+	"graduat":"graduado",
 	"Gruix contorn:":"Grosor contorno",
 	"Gruix linia:":"Grosor línea",
 	"Guardar com":"Guardar como",
 	"Ha caducat la sessió. Si vols continuar treballant torna a iniciar la sessió":"Ha caducado la sesión. Si quieres continuar trabajando vuelve a iniciar la sesión",
 	"Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a instamapes@icgc.cat, indicant el seu username per procedir al desbloqueig.":"Ha superado el número máximo de intentos. Cuenta bloqueada. Envíe un correo a XXXX, indicando su nombre de usuario para proceder al desbloqueo.",
 	"Has de posar un nom de capa":"Tienes que poner un nombre de capa",
+	"Has de seleccionar un camp amb valors numèrics":"Tienes que seleccionar un campo con valores numéricos",
 	"Has oblidat la contrassenya?":"Has olvidado la contraseña?",
 	"Has oblidat la teva contrassenya?":"Has olvidado tu contraseña?",
 	"Ha ocorregut un error inesperat durant la càrrega del fitxer.":"Ha ocurrido un error inesperado durante la carga del archivo",
@@ -243,6 +248,7 @@ jquery_lang_js.prototype.lang.es = {
 	"La informació es mostra en funció de l'àrea geogràfica visualitzada.":"La información se muestra en función del área geográfica visualizada.",
 	"La mida del fitxer supera el límit preestablert (50MB).":"El tamaño del archivo supera el límite preestablecido (50MB).",
 	"La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).":"El tamaño del archivo supera el límite preestablecido para usuarios que no han iniciado sesión (10MB).",
+	"La mida mínima ha de ser inferior a la màxima":"",
 	"La nova contrassenya ja havia estat utilitzada":"La nueva contraseña ya fue utilizada",
 	"La seva petició s'ha processat. Si no trobes el correu que t'hem enviat, revisa la teva carpeta de correu no desitjat":"Su petición se ha procesado. Si no encuentras el correo que te hemos enviado, revisa tu carpeta de correo no deseado",
 	"Les contrasenyes han de coincidir.":"Las contraseñas tienen que coincidir.",
@@ -329,20 +335,25 @@ jquery_lang_js.prototype.lang.es = {
 	"Processar arxiu":"Procesar archivo",
 	"Processant dades...":"Procesando datos...",
 	"Processant la resposta":"Procesando la respuesta",
+	"proporcional":"proporcional",
 	"Publicar el mapa": "Publicar el mapa",
 	"Publicar": "Publicar",
 	"Punts disponibles":"Puntos disponibles",
 	"Públic":"Público",
 	"puja":"sube",
 	"Pujant fitxer":"Subiendo archivo",
+
+
 	"Quin és el sistema de referència?":"Cual es el sistema de referéncia?",
 	"Rang":"Rango",
 	"Recuperar contrassenya":"Recuperar contraseña",
 	"Registreu-vos":"Registrarse",
 	" registres per pàgina":" registros por página",
+
 	"Rutes turístiques":"Rutas turísticas",
 	"S'està processant un arxiu. Si us plau, espereu que aquest acabi.":"Se está procesando un archivo. Por favor, espere que este termine.",
 	"Saber més":"Saber más",
+
 	"Sabia vostè que el seu navegador no està actualitzat?":"¿Sabía usted que su Navegador está desactualizado?",
 	"Segur que vols":"Seguro que quieres",
 	"Selecciona el camp corresponent":"Escoge el campo correspondiente",
@@ -394,6 +405,9 @@ jquery_lang_js.prototype.lang.es = {
 	"Usuari":"Usuario",
 	"Usuaris":"Usuarios",
 	"Usuari/Correu":"Usuario/Correo",
+	"Valor max.":"",
+	"Valor min.":"",
+
 	"Valors":"Valores",
 	"Veure informació al fer clic sobre el mapa":"Ver información al hacer clic sobre el mapa",
 	"Veure": "Ver",
@@ -413,23 +427,38 @@ jquery_lang_js.prototype.lang.es = {
 	"És la primera vegada que utilitzes InstaMaps?":"Es la primera vez que usas InstaMaps?",
 	"Únic":"Único",
 	"Descarrega mapa en format GeoPDF":"Descarga mapa en formato GeoPDF",
+
+
 	"Captura mapa format JPEG":"Captura mapa formato JPEG",
 	"Captura mapa mida A4":"Capture mapa tamaño A4",
 	"Captura mapa format GeoPDF":"Captura mapa formato GeoPDF",
 	"Generant imatge mapa...":"Generando imagen mapa...",
 	"Generant mapa GeoPDF...":"Generando mapa GeoPDF...",
+
+
 	"Desar mapa":"Guardar mapa",
 	"Desar mapa GeoPDF":"Guardar mapa GeoPDF",
 	"Notes":"Notas",
 	"La informació presentada no té valor normatiu ni jurídic":"La información presentada no tiene valor normativo ni jurídico",
 	"Error: No es pot generar el document":"Error:No se puede generar el documento",
 	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC.",
+
 	"El mapa és visible a la galeria pública":"El mapa es visible en la galeria pública",
 	"El mapa només és visible a la teva galeria privada":"El mapa es sólo visible en tu galería privada",
 	"No ha sigut possible canviar la visibilitat del mapa":"No ha sido posible cambiar la visibilidad de tu mapa",
+
+
+
+
+
+
 	"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos",
+
 	"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",
 	"Et convido a col&#183;laborar en el mapa ":"Te invito a colaborar en el mapa ",
+
+
+
 	" d'Instamaps (creat per ":" de Instamaps (creador por ",
 	" ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" ). Clica en el enlace para acceder. Deberás registrarte si todavía no lo has hecho.",
 	"Afegir col&#183;laboradors":"Añadir colaboradores",
@@ -437,4 +466,5 @@ jquery_lang_js.prototype.lang.es = {
 	"Col·laborador ":"Colaborador ",
 	" esborrat": " eliminado",
 	"A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.":"Al borrar el mapa desaparecerá tanto de tu galería como de la pública."
+
 }
