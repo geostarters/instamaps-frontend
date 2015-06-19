@@ -753,9 +753,9 @@ background-color: #9F9F9E;
 	width: 48%;
 }
 
-.tab-content {
+/*.tab-content {
 	margin: 5px;
-}
+}*/
 
 .modal{
 	overflow-y: auto;
@@ -2471,9 +2471,9 @@ background-color: #9F9F9E;
 	width: 48%;
 }
 
-.tab-content {
+/*.tab-content {
 	margin: 5px;
-}
+}*/
 
 .modal{
 	overflow-y: auto;
@@ -4354,7 +4354,6 @@ i.fa {
 	width: 16px;
 	height: 16px;
 }
-
 
 #list_tematic_values .awesome-marker-web, #list_tematic_values_bubble .awesome-marker-web{
 	cursor: pointer;

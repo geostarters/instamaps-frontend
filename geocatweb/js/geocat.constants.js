@@ -107,6 +107,7 @@ var t_tematic = "tematic";
 var t_visualitzacio = "visualitzacio";
 var t_url_file = "url_file";
 var t_vis_wms = "vis_wms";
+var t_vis_wms_noedit = "vis_wms_noeditable";
 	
 /**tipus estandar instamaps**/
 var t_polyline = "polyline";
