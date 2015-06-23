@@ -1,6 +1,7 @@
 var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
 var proxydir = "maps";
+var tmpdir = "/opt/geocat/maps/tmp/";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
@@ -11,6 +12,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
 	proxydir="maps"; //he creat un director maps al meu Apache
+	tmpdir="E://temp//";
 }
 
 var DOMINI = "www.instamaps.cat";
@@ -109,9 +111,7 @@ var paramUrl = {
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
 	upload_gdal_nou: HOST_APP+"share/jsp/upload_gdal_nou.jsp?",
 	upload_gdal_2015: HOST_APP+"share/jsp/upload_gdal_2015.jsp?",
-	polling: HOST_APP+"share/jsp/polling.jsp?",
-	
-	
+	polling: HOST_APP+"share/jsp/polling.jsp?",	
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json",
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
@@ -129,7 +129,6 @@ var paramUrl = {
 	getEntitatsColaboradorsByAplicacio:  HOST_APP+"geocat/entitatAplicacio/getAllEntitatsColaboradorsByAplicacio.action?",
 	getConvidatsByBusinessId: HOST_APP+"geocat/aplications/map/getConvidatsByBusinessId.action?",
 	deleteConvidatByBusinessId: HOST_APP+"geocat/aplications/map/deleteConvidatByBusinessId.action?",
-
 	updateGeometria: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometria.action?",
 	createVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioLayer.action?",
 	updateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/updateVisualitzacioLayer.action?",
@@ -159,7 +158,13 @@ var paramUrl = {
 	updateGeometriaProperties: HOST_APP+"geocat/layers/geometriesColleccio/updateGeometriaProperties.action?",
 	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?",
 	createMapFile:  HOST_APP+"geocat/layers/visualitzacio/createMapFile.action?",
-	searchAction: HOST_APP+"geocat/aplications/map/search.action?"
+	searchAction: HOST_APP+"geocat/aplications/map/search.action?",
+	buffer: HOST_APP+"geocat/aplications/map/buffer.action?",
+	centroid: HOST_APP+"geocat/aplications/map/centroid.action?",
+	intersection: HOST_APP+"geocat/aplications/map/intersection.action?",
+	union: HOST_APP+"geocat/aplications/map/union.action?",
+	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
+	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

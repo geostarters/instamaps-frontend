@@ -301,9 +301,10 @@ L.Control.Search = L.Control.extend({
 		input.placeholder = text;
 		input.style.display = 'block';
 		input.lang = 'ca';
+		input.id = 'search-input';
 		
+			
 		L.DomEvent
-			.disableClickPropagation(input)
 			.on(input, 'keyup', this._handleKeypress, this)
 			.on(input, 'keydown', this._handleAutoresize, this)
 			.on(input, 'blur', this.collapseDelayed, this)
@@ -818,34 +819,53 @@ L.Control.Search = L.Control.extend({
 			this._map.setView(latlng, this.options.zoom);
 		else
 			this._map.panTo(latlng);
-
+	
+		var v_url = window.location.href;
+	
 		if(this._markerLoc)
 		{
-			this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
-			capaUsrActiva = new L.FeatureGroup();
-			var index = parseInt(controlCapes._lastZIndex)+1;
-			capaUsrActiva.options = {
-				businessId : '-1',
-				nom : title,
-				zIndex :  -1,
-//				tipus : t_tematic,
-				tipus : t_visualitzacio,
-				geometryType: t_marker
-			};
-			this._markerLoc.properties={
-					'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
-					'capaBusinessId':capaUsrActiva.options.businessId,
-					'capaLeafletId': capaUsrActiva._leaflet_id,
-					'tipusFeature':t_marker};	
 			
-			this._markerLoc.properties.data={
-					'nom':title,
-					'text':title,
-			};
-			capaUsrActiva.on('layeradd',objecteUserAdded);
-			capaUsrActiva.addLayer(this._markerLoc);
-			map.addLayer(capaUsrActiva);
-			
+			if(v_url.indexOf('visor')==-1){
+				this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
+				capaUsrActiva = new L.FeatureGroup();
+				var index = parseInt(controlCapes._lastZIndex)+1;
+				capaUsrActiva.options = {
+					businessId : '-1',
+					nom : title,
+					zIndex :  -1,
+	//				tipus : t_tematic,
+					tipus : t_visualitzacio,
+					geometryType: t_marker
+				};
+				this._markerLoc.properties={
+						'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
+						'capaBusinessId':capaUsrActiva.options.businessId,
+						'capaLeafletId': capaUsrActiva._leaflet_id,
+						'tipusFeature':t_marker};	
+				
+				this._markerLoc.properties.data={
+						'nom':title,
+						'text':title,
+				};
+				capaUsrActiva.on('layeradd',objecteUserAdded);
+				capaUsrActiva.addLayer(this._markerLoc);
+				map.addLayer(capaUsrActiva);
+			}
+			else {
+				this._markerLoc= L.circleMarker([0,0],
+						{ isCanvas:true,
+						  simbolSize: 6,
+					      borderWidth: 2,
+					      opacity: 1,
+					      borderColor : "#ffffff",
+					      color :"red",
+					      lineWidth: 3}
+						
+				);
+				this._markerLoc.setLatLng(latlng); 
+				this._layer.addLayer(this._markerLoc);
+				map.addLayer(this._layer);
+			}
 			
 		}
 		

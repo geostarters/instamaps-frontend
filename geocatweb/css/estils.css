@@ -867,4 +867,32 @@ textarea {
 }
 
 
+.div_sig_1{
+	background: url("images/buffer.png") no-repeat scroll 0 center
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
 
+.div_sig_2{
+	background: url("images/intersect.png") no-repeat scroll 0 center
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_3{
+	background: url("images/union.png") no-repeat scroll 0 center
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_4{
+	background: url("images/centroids.png") no-repeat scroll 0 center
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_5{
+	background: url("images/filter.png") no-repeat scroll 0 center
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}

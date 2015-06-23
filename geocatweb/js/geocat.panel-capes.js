@@ -166,6 +166,7 @@ function addFuncioDownloadLayer(from){
 		var epsgOUT = $('#select-download-epsg').val();
 		var filename = $('#input-download-name').val();
 		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
+		console.debug(layer_GeoJSON);
 		/*for(var i=0;i<layer_GeoJSON.features.length;i++){
 			layer_GeoJSON.features[i].properties.tipus = "downloaded";
 		}*/
