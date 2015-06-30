@@ -10,11 +10,11 @@ function addHtmlInterficieFuncionsSIG(){
 	'		<div id="filter" lang="ca" class="div_sig_5"></div>'+
 	'	</div>'		
 	);
-	$('.div_sig_1 #buffer').tooltip({placement : 'bottom',container : 'body',title :'BUffer'});
-	$('.div_sig_2 #interseccio').tooltip({placement : 'bottom',container : 'body',title : 'Intersecció'});
-	$('.div_sig_3 #tag').tooltip({placement : 'bottom',container : 'body',title : 'Tag'});
-	$('.div_sig_4 #centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centroide'});
-	$('.div_sig_5 #filter').tooltip({placement : 'bottom',container : 'body',title : 'Filter'});
+	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :'Buffer'});
+	$('#interseccio').tooltip({placement : 'bottom',container : 'body',title : 'Intersecció'});
+	$('#tag').tooltip({placement : 'bottom',container : 'body',title : 'Tag'});
+	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centroide'});
+	$('#filter').tooltip({placement : 'bottom',container : 'body',title : 'Filter'});
 	
 	jQuery("#buffer").on('click',function(e){
 		openBufferModal();
