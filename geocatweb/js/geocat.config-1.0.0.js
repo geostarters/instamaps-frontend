@@ -163,6 +163,7 @@ var paramUrl = {
 	centroid: HOST_APP+"geocat/aplications/map/centroid.action?",
 	intersection: HOST_APP+"geocat/aplications/map/intersection.action?",
 	union: HOST_APP+"geocat/aplications/map/union.action?",
+	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?"
 }

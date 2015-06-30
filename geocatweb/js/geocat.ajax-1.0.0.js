@@ -864,6 +864,14 @@ function union(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+function tag(params){
+	return jQuery.ajax({
+		url: paramUrl.tag,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
 function getVisualitzacioSimpleByBusinessId(data){
 	return jQuery.ajax({
 		url: paramUrl.getVisualitzacioSimpleByBusinessId,
