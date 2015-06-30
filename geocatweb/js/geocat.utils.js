@@ -405,7 +405,19 @@ $.extend({
 //};
 
 function getCodiUnic() {
-    return Math.floor(Math.random() * (99999 + 1)) + "_";
+//	console.debug("getCodiUnic");
+    return  randomString(2) + Math.floor(Math.random() * (999 + 1)) + "_";
+}
+
+function randomString(len, charSet) {
+    charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var randomString = '';
+    for (var i = 0; i < len; i++) {
+    	var randomPoz = Math.floor(Math.random() * charSet.length);
+    	randomString += charSet.substring(randomPoz,randomPoz+1);
+    }
+//    console.debug(randomString);
+    return randomString;
 }
 
 function getRandomInt(min, max) {
