@@ -17,6 +17,7 @@
 						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
 						,"addControlAltresFontsDades()"
 						,"addFuncioEditDataTable()"
+						,"addHtmlInterficieFuncionsSIG()"
 						],
     "required": ["id", "name", "price"]
 }

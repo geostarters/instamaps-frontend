@@ -832,3 +832,57 @@ function updateRankAplicacio(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+function buffer(params){
+	return jQuery.ajax({
+		url: paramUrl.buffer,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function centroid(params){
+	return jQuery.ajax({
+		url: paramUrl.centroid,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function intersection(params){
+	return jQuery.ajax({
+		url: paramUrl.intersection,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function union(params){
+	return jQuery.ajax({
+		url: paramUrl.union,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function tag(params){
+	return jQuery.ajax({
+		url: paramUrl.tag,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function getVisualitzacioSimpleByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.getVisualitzacioSimpleByBusinessId,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+function filterVisualitzacio(data){
+	return jQuery.ajax({
+		url: paramUrl.filterVisualitzacio,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
