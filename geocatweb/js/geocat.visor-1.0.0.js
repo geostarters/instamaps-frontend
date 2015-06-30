@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
 		
-	defineTipusUser();	
+	defineTipusUser();
+	changeInitVisor();
 	
 	if (!Modernizr.canvas  || !Modernizr.sandbox){
 		jQuery("#mapaFond").show();
@@ -14,6 +15,13 @@ jQuery(document).ready(function() {
 	addFuncioEditDataTable();
 		
 }); // Final document ready
+
+//Funcio per canviar comportament navbar al visor
+function changeInitVisor(){
+	jQuery('.container').css('width','95%');
+	setTimeout('activaPanelCapes(false)',3000);
+}
+
 
 function loadApp(){
 	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull

@@ -753,9 +753,9 @@ background-color: #9F9F9E;
 	width: 48%;
 }
 
-.tab-content {
+/*.tab-content {
 	margin: 5px;
-}
+}*/
 
 .modal{
 	overflow-y: auto;
@@ -2500,9 +2500,9 @@ background-color: #9F9F9E;
 	width: 48%;
 }
 
-.tab-content {
+/*.tab-content {
 	margin: 5px;
-}
+}*/
 
 .modal{
 	overflow-y: auto;
@@ -4412,6 +4412,31 @@ i.fa {
 	background: url('images/galeria_icones.png') no-repeat scroll -640px -100px;
 	width: 16px;
 	height: 16px;
+}
+
+#list_tematic_values .awesome-marker-web, #list_tematic_values_bubble .awesome-marker-web{
+	cursor: pointer;
+}
+
+
+#list_tematic_values table, #list_tematic_values_bubble table{
+	margin-bottom: 0px;
+}
+
+.td_15{
+	width: 100px;
+}
+
+.td_15 input{
+	width: 94px;
+}
+
+#list_tematic_values_bubble table.buble_table td:first-child{
+	border-right: 2px solid #cccccc;
+}
+
+.buble_prop div{
+	margin-top: 10px;
 }
 
 

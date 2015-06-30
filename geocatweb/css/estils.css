@@ -866,4 +866,50 @@ textarea {
     text-align: center;
 }
 
+/*Modal altres fonts de dades > dades externes */
+.nav-pills-urlfile > li.active > a, .nav-pills-urlfile > li.active > a:hover, .nav-pills-urlfile > li.active > a:focus {
+    background-color: #ffe0aa;
+    color: #ffffff;
+}
+.nav-pills-urlfile > li.active > a, .nav-pills-urlfile > li.active > a:focus, .nav-pills-urlfile > li.active > a:hover {
+    /*background-color: #337ab7;*/
+    color: #ff6c00;
+}
+
+.pane-excel-urlfile {
+    border: 1px dashed #ff6c00;
+    list-style: outside none none;
+    margin-bottom: 5px;
+    overflow: hidden;
+    padding: 12px;
+}
+.pane-excel-urlfile li {
+    border-bottom: 1px dashed #dddddd;
+    color: #000000;
+    float: left;
+    font-size: 12px;
+    height: 28px;
+    line-height: 0.8;
+    margin: 0 -1px -1px 0;
+    padding: 5px;
+    text-align: left;
+    width: 50%;
+}
+
+.pane-excel-urlfile li {
+    border-bottom: 1px dashed #dddddd;
+    float: left;
+    font-size: 13px;
+    height: 32px;
+    line-height: 2.2;
+    width: 50%;
+}
+
+.tab-content-urlfile{
+	margin: 5px 0 0 0;
+}
+
+.tab-content-margin5px{
+	margin: 5px;
+}
 
