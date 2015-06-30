@@ -206,7 +206,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		});
 		
 	}else{
-		
+		console.debug("getUrlFile");
 		var data = {
 			 mapBusinessId: url('?businessid'),
 			 serverName: nomCapa,
@@ -263,12 +263,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				jQuery('#dialog_dades_ex').modal('toggle');	
 					
 			}else{
-				console.debug("Error getUrlFile:"+results);
+				console.debug("Error getUrlFile:");
+				console.debug(results);
 				processFileError(results);
 			}			
 			
 		},function(results){
-			console.debug("Error getUrlFile:"+results);
+			console.debug("Error getUrlFile:");
+			console.debug(results);
 			processFileError(results);
 		});
 	}

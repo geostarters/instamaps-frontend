@@ -32,7 +32,7 @@ var envioArxiu={isDrag:false,
 var drOpcionsMapa = {
 	url : paramUrl.upload_gdal_2015,
 	paramName : "file", 
-	maxFilesize : 100, // MB
+	maxFilesize : 500, // MB
 	method : 'post',
 	accept : function(file, done) {
 	}
