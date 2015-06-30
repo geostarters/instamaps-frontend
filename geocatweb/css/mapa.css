@@ -4512,7 +4512,7 @@ i.fa {
 .bt_topo small {
     line-height: 79px;
 }
-.btn-sm, .btn-xs {
+.control-btn-fons .btn-sm, .control-btn-fons .btn-xs {
     border-radius: 3px;
     font-size: 12px;
     line-height: 1.5;

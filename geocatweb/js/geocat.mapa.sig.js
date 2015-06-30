@@ -227,7 +227,7 @@ function addHtmlModalBuffer(){
 			'					<br>'+
 			'					<section>'+
 			'						<fieldset>'+
-			'							<label class="control-label" lang="ca">Radi:</label>'+
+			'							<label class="control-label" lang="ca">Radi</label>:'+
 			'							<input lang="ca" id="distancia" type="text" required'+
 			'						class="form-control my-border" value="">'+
 			'						</fieldset>'+
@@ -312,11 +312,11 @@ function addHtmlModalIntersection(){
 function createModalConfigLayers2(tipus){
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
-					window.lang.convert('Capes disponibles:')+
+					window.lang.convert('Capes disponibles')+":"+
 				'</label>';
 	if (tipus=="tag") {
 		html = '<label class="control-label" lang="ca">'+
-		window.lang.convert('Capes de polígons disponibles:')+
+		window.lang.convert('Capes de polígons disponibles')+":"+
 	'</label>';
 	}
 	jQuery.each(controlCapes._layers, function(i, item){		
@@ -356,17 +356,17 @@ function createModalConfigLayers2(tipus){
 	
 	if (tipus=="intersection") {
 		html += '<label class="control-label" lang="ca">'+
-					window.lang.convert('Capes per fer intersecció:')+
+					window.lang.convert('Capes per fer intersecció')+":"+
 			    '</label>';
 	}
 	if (tipus=="union"){
 		html += '<label class="control-label" lang="ca">'+
-					window.lang.convert('Capes per fer unió:')+
+					window.lang.convert('Capes per fer unió')+":"+
 				'</label>';
 	}
 	if (tipus=="tag"){
 		html += '<label class="control-label" lang="ca">'+
-					window.lang.convert('Capes de punts disponibles per fer tag:')+
+					window.lang.convert('Capes de punts disponibles')+":"+
 				'</label>';
 	}
 	
@@ -535,7 +535,7 @@ function addHtmlModalLayersFilter(){
 
 function showFilterLayersModal(){
 	//console.debug("showTematicLayersModal");
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No pots aplicar filtre a cap capa de les que tens en el mapa')+
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No pots aplicar filtre a cap capa del mapa')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
