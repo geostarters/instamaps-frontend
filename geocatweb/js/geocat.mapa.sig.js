@@ -288,7 +288,7 @@ function addHtmlModalIntersection(){
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Intersection</h4>'+
+							'<h4 lang="ca" class="modal-title">Intersecció</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
 							'<form id="frm_buffer">'+
@@ -298,7 +298,7 @@ function addHtmlModalIntersection(){
 			'			</div>'+
 			'			<div class="modal-footer">'+
 			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Intersection</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Intersecció</button>'+
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+
@@ -506,7 +506,7 @@ function addHtmlModalLayersFilter(){
 	'				<div class="modal-header">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Triar una capa per aplicar-hi el filtre</h4>'+
+	'					<h4 class="modal-title" lang="ca">Tria una capa per aplicar-hi el filtre</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+

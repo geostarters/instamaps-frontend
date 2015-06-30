@@ -915,6 +915,35 @@ i.fa {
 	height: 16px;
 }
 
+.div_sig_1{
+	background: url("images/galeria_icones.png") no-repeat scroll -168px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_2{
+	background: url("images/galeria_icones.png") no-repeat scroll -288px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_3{
+	background: url("images/galeria_icones.png") no-repeat scroll -348px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_4{
+	background: url("images/galeria_icones.png") no-repeat scroll -108px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_5{
+	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
 /* Retina displays */
 @media ( min--moz-device-pixel-ratio : 1.5) , ( -o-min-device-pixel-ratio : 3/2)
 		, ( -webkit-min-device-pixel-ratio : 1.5) , ( min-device-pixel-ratio :
@@ -2958,6 +2987,36 @@ i.fa {
 	cursor: pointer;
 }
 
+.div_sig_1{
+	background: url("images/galeria_icones.png") no-repeat scroll -168px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_2{
+	background: url("images/galeria_icones.png") no-repeat scroll -288px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_3{
+	background: url("images/galeria_icones.png") no-repeat scroll -348px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_4{
+	background: url("images/galeria_icones.png") no-repeat scroll -108px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
+.div_sig_5{
+	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
+		rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+}
+
 @media ( max-width :767px) {
 	.leaflet-sidebar {
 		/*width: 100%;*/
@@ -4353,4 +4412,85 @@ i.fa {
 	background: url('images/galeria_icones.png') no-repeat scroll -640px -100px;
 	width: 16px;
 	height: 16px;
+}
+
+
+/*control fons*/
+.control-btn-fons{
+	bottom: 50px;
+    position: relative;
+}
+
+
+.control-btn-fons .llista-fons{
+	width:0px; 
+    overflow: hidden;
+	transition: width 0.25s linear; 
+	height: 50px;
+	padding: 0;
+	border: 0px;
+	background: none no-repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+}
+
+.control-btn-fons .llista-fons div{
+	width: 32px;
+	height: 32px;
+	float: left;
+	margin-top: 9px;
+}
+
+.control-btn-fons .llista-fons div:first-child{
+	margin-left: 12px;
+}
+
+.control-btn-fons .llista-fons div:hover{
+	-ms-transform: scale(1.2,1.2); /* IE 9 */
+    -webkit-transform: scale(1.2,1.2); /* Safari */
+    transform: scale(1.2,1.2);	
+}
+
+.control-btn-fons-expanded .llista-fons{
+	visibility: visible;
+	position: relative;
+    width: 420px;
+    background: none no-repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+    height: 50px;
+    float:right;
+    /*padding: 9px 12px;*/
+    overflow: hidden;
+    border: 1px;
+}
+
+.div_llistacapes:hover {
+    background: none no-repeat scroll 0 0 rgba(244, 244, 244, 0.8);
+}
+.bt_orto {
+    background: url("../img/orto.png") no-repeat scroll 0 -64px #ffffff;
+    border: 1px solid #096002;
+    color: #5a5a5a;
+    height: 50px;
+    width: 40px !important;
+    z-index: 1;
+}
+.bt_orto small {
+    line-height: 79px;
+}
+
+.bt_topo {
+    background: url("../img/topo.png") no-repeat scroll 0 -64px #ffffff;
+    border: 1px solid #096002;
+    color: #5a5a5a;
+    height: 50px;
+    width: 40px !important;
+    z-index: 1;
+}
+.bt_topo small {
+    line-height: 79px;
+}
+.btn-sm, .btn-xs {
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 2px 5px;
+    margin-left: 13px;
 }
