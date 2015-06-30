@@ -5,14 +5,14 @@ function addHtmlInterficieFuncionsSIG(){
 	'	<div class="div_gr3_fons">'+
 	'		<div id="buffer" lang="ca" class="div_sig_1"></div>'+
 	'		<div id="interseccio" lang="ca" class="div_sig_2"></div>'+
-	'		<div id="unio" lang="ca" class="div_sig_3"></div>'+
+	'		<div id="tag" lang="ca" class="div_sig_3"></div>'+
 	'		<div id="centroide" lang="ca" class="div_sig_4"></div>'+
 	'		<div id="filter" lang="ca" class="div_sig_5"></div>'+
 	'	</div>'		
 	);
 	$('.div_sig_1 #buffer').tooltip({placement : 'bottom',container : 'body',title :'BUffer'});
 	$('.div_sig_2 #interseccio').tooltip({placement : 'bottom',container : 'body',title : 'Intersecció'});
-	$('.div_sig_3 #unio').tooltip({placement : 'bottom',container : 'body',title : 'Unió'});
+	$('.div_sig_3 #tag').tooltip({placement : 'bottom',container : 'body',title : 'Tag'});
 	$('.div_sig_4 #centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centroide'});
 	$('.div_sig_5 #filter').tooltip({placement : 'bottom',container : 'body',title : 'Filter'});
 	
@@ -24,8 +24,8 @@ function addHtmlInterficieFuncionsSIG(){
 		openIntersectionModal();
 	});
 	
-	jQuery("#unio").on('click',function(e){
-		openUnionModal();
+	jQuery("#tag").on('click',function(e){
+		openTagModal();
 	});
 	
 	jQuery("#centroide").on('click',function(e){
@@ -41,6 +41,7 @@ function openFilterModal(){
 	addHtmlModalLayersFilter();
 	addHtmlModalFieldsFilter();
 	showFilterLayersModal();
+	jQuery('#list_filter_values').html("");
 	$('#dialog_layers_filter').modal('show');
 }
 
@@ -56,7 +57,7 @@ function openBufferModal(){
 		var data = {
 			uid: $.cookie('uid'),
 			businessId1: businessId,
-			radi: $("#distancia").value
+			radi: $("#distancia").val()
 		};
 		buffer(data).then(function(results){
 			if (results.status == "ERROR"){
@@ -77,8 +78,10 @@ function openBufferModal(){
 					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 				}
 				doUploadFile(data2).then(function(results){
-					if (results.status="OK")
+					if (results.status="OK") {
 						addDropFileToMap(results);
+
+					}
 				});
 			}
 		});
@@ -109,7 +112,7 @@ function openIntersectionModal(){
 					mapBusinessId: url('?businessid'),
 					serverName:results.serverName,
 					path:results.path,
-					tmpFilePath:'E://usuaris//m.ortega//temp//tmp.geojson',
+					tmpFilePath:tmpdir +'tmp.geojson',
 					midaFitxer:results.midaFitxer,
 					sourceExtension:'geojson',
 					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
@@ -117,19 +120,21 @@ function openIntersectionModal(){
 					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 				}
 				doUploadFile(data2).then(function(results){
-					if (results.status="OK")
+					if (results.status="OK") {
 						addDropFileToMap(results);
+						 $('#dialog_intersection').modal('hide');
+					}
 				});
 			}
 		});
 	});		
 }
 
-function openUnionModal(){
-	addHtmlModalUnion();
-	createModalConfigLayers2("union");
-	 $('#dialog_union').modal('show');
-	 jQuery('#dialog_union .btn-primary').on('click',function(){
+function openTagModal(){
+	 addHtmlModalTag();
+	 createModalConfigLayers2("tag");
+	 $('#dialog_tag').modal('show');
+	 jQuery('#dialog_tag .btn-primary').on('click',function(){
 			//Cridar funció buffer
 		var businessId1 = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
 		var businessId2 = $("input[name='downloadable-chck2']:checked").parent().attr('data-businessId');
@@ -139,11 +144,27 @@ function openUnionModal(){
 			businessId1: businessId1,
 			businessId2: businessId2
 		};
-		union(data).then(function(results){
+		tag(data).then(function(results){
 			if (results.status == "ERROR"){
 				//TODO Mensaje de error
 			}else{
-				console.debug(results);
+				console.debug(results);				
+				var data2 = {
+					uid: $.cookie('uid'),
+					mapBusinessId: url('?businessid'),
+					serverName:results.serverName,
+					path:results.path,
+					tmpFilePath:tmpdir +'tmp.geojson',
+					midaFitxer:results.midaFitxer,
+					sourceExtension:'geojson',
+					markerStyle:results.markerEstil
+				}
+				doUploadFile(data2).then(function(results){
+					if (results.status="OK") {
+						addDropFileToMap(results);
+						 $('#dialog_tag').modal('hide');
+					}
+				});
 			}
 		});
 	});		
@@ -171,7 +192,8 @@ function openCentroideModal(){
 					mapBusinessId: url('?businessid'),
 					serverName:results.serverName,
 					path:results.path,
-					tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
+					//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
+					tmpFilePath:tmpdir +'tmp.geojson',
 					midaFitxer:results.midaFitxer,
 					sourceExtension:'geojson',
 					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
@@ -179,8 +201,10 @@ function openCentroideModal(){
 					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 				}
 				doUploadFile(data2).then(function(results){
-					if (results.status="OK")
+					if (results.status="OK") {
 						addDropFileToMap(results);
+						$('#dialog_centroid').modal('hide');
+					}
 				});
 			}
 		});
@@ -290,7 +314,11 @@ function createModalConfigLayers2(tipus){
 	var html = '<label class="control-label" lang="ca">'+
 					window.lang.convert('Capes disponibles:')+
 				'</label>';
-	
+	if (tipus=="tag") {
+		html = '<label class="control-label" lang="ca">'+
+		window.lang.convert('Capes de polígons disponibles:')+
+	'</label>';
+	}
 	jQuery.each(controlCapes._layers, function(i, item){		
 		var layer = item.layer;
 		var layerName = layer.options.nom;
@@ -301,14 +329,26 @@ function createModalConfigLayers2(tipus){
 		
 		//Si no es WMS
 		if(tipusLayer.indexOf(t_wms)== -1){
-				
-			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
-							'<div class="col-md-9 downloadable-name">'+
-								layerName+
-							'</div>'+
-							'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
-						'</div>';		
-			html+='<div class="separate-downloadable-row"></div>';			
+			if (tipus=="tag") {
+				if (layer.options.geometryType=="polygon"){
+					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+					'<div class="col-md-9 downloadable-name">'+
+						layerName+
+					'</div>'+
+					'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
+				    '</div>';		
+				   html+='<div class="separate-downloadable-row"></div>';
+				}
+			}	
+			else {
+				html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+								'<div class="col-md-9 downloadable-name">'+
+									layerName+
+								'</div>'+
+								'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
+							'</div>';		
+				html+='<div class="separate-downloadable-row"></div>';
+			}
 		}
 	});	
 	
@@ -324,25 +364,41 @@ function createModalConfigLayers2(tipus){
 					window.lang.convert('Capes per fer unió:')+
 				'</label>';
 	}
+	if (tipus=="tag"){
+		html += '<label class="control-label" lang="ca">'+
+					window.lang.convert('Capes de punts disponibles per fer tag:')+
+				'</label>';
+	}
 	
 	jQuery.each(controlCapes._layers, function(i, item){	
 		var layer = item.layer;
 		var layerName = layer.options.nom;
 		var checked = "";
-		console.debug(layer);
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
 		//Si no es WMS
 		if(tipusLayer.indexOf(t_wms)== -1){
-		
-		html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+			if (tipus=="tag") {
+				if (layer.options.geometryType=="marker"){
+					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 					'<div class="col-md-9 downloadable-name">'+
 						layerName+
 					'</div>'+
 					'<input id="downloadable-chck2" name="downloadable-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
 				'</div>';		
-		html+='<div class="separate-downloadable-row"></div>';			
+		html+='<div class="separate-downloadable-row"></div>';
+				}
+			}
+			else {
+				html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+							'<div class="col-md-9 downloadable-name">'+
+								layerName+
+							'</div>'+
+							'<input id="downloadable-chck2" name="downloadable-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
+						'</div>';		
+				html+='<div class="separate-downloadable-row"></div>';
+			}
 		}
 	});	
 	
@@ -350,7 +406,38 @@ function createModalConfigLayers2(tipus){
 	
 	if (tipus=="intersection") $('#dialog_intersection .modal-body .modal-layers-sig').html(html);
 	if (tipus=="union")  $('#dialog_union .modal-body .modal-layers-sig').html(html);
+	if (tipus=="tag")  $('#dialog_tag .modal-body .modal-layers-sig').html(html);
 }
+
+function addHtmlModalTag(){	
+	jQuery('#mapa_modals').append('<!-- Modal Tag -->'+
+			'<div id="dialog_tag" class="modal fade">'+
+				'<div class="modal-dialog">'+
+					'<div class="modal-content">'+
+						'<div class="modal-header">'+
+							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+							'<h4 lang="ca" class="modal-title">Tag</h4>'+
+						'</div>'+
+						'<div class="modal-body">'+
+							'<form id="frm_buffer">'+
+			'					<div class="modal-layers-sig">'+
+			'					</div>'+
+			'				</form>		'+			
+			'			</div>'+
+			'			<div class="modal-footer">'+
+			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Tag</button>'+
+			'			</div>'+
+			'		</div>'+
+			'		<!-- /.modal-content -->'+
+			'	</div>'+
+			'	<!-- /.modal-dialog -->'+
+			'</div>'+
+			'<!-- /.modal -->'+
+			'<!-- Fi Modal Tag -->');
+}
+
+
 
 function addHtmlModalUnion(){	
 	jQuery('#mapa_modals').append('<!-- Modal Union -->'+
@@ -550,6 +637,13 @@ function showModalFilterFields(data){
 					jQuery.each(dataNames, function( index, value ) {
 						fields[value] = value;
 					});
+				}else{
+					if (results.geometries && results.geometries.options){
+						var dataNames = results.geometries.options.split(',');
+						jQuery.each(dataNames, function( index, value ) {
+							fields[value] = value;
+						});
+					}
 				}
 				//creamos el select con los campos
 				var source1 = jQuery("#tematic-layers-fields").html();
@@ -664,8 +758,9 @@ function getTipusValuesVisualitzacio(results){
 		jQuery('#list_filter_values').html(html);
 		jQuery('#dialog_filter_rangs .btn-success').show();
 		jQuery('#dialog_filter_rangs .btn-success').on('click',function(e){
+			filtres="";
 			$('input[name="filterValue"]:checked').each(function() {
-				   filtres+=this.value+",";
+				   filtres=filtres+escape(this.value)+",";
 				   i++;
 			});		
 			
@@ -680,9 +775,13 @@ function getTipusValuesVisualitzacio(results){
 			filterVisualitzacio(data).then(function(results){
 				if (results.status=="OK"){
 					console.debug(results);
+					var defer = $.Deferred();
+					readVisualitzacio(defer, results.visualitzacio, results.layer);
+					activaPanelCapes(true);
+					$('#dialog_filter_rangs').modal('hide');
 				}
 				else {
-					
+
 				}
 			});
 			
