@@ -3,7 +3,7 @@
 //var pending = false
 var drgFromMapa = null;
 var drgFromBoto = null;
-var midaFitxer = 50000000;//en bytes
+var midaFitxer = 500000000;//en bytes
 var midaFitxerRandom = 10000000;//en bytes
 
 var busy = false; //per controlar si ja estem pujant un fitxer
@@ -32,7 +32,7 @@ var envioArxiu={isDrag:false,
 var drOpcionsMapa = {
 	url : paramUrl.upload_gdal_2015,
 	paramName : "file", 
-	maxFilesize : 100, // MB
+	maxFilesize : 500, // MB
 	method : 'post',
 	accept : function(file, done) {
 	}
@@ -61,19 +61,19 @@ function creaAreesDragDropFiles() {
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
 			
-//			console.debug(envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000);
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);			
+//			console.debug(envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer);
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);			
 			
 			formData.append("nomArxiu", file.name); 
-			formData.append("tipusAcc", envioArxiu.tipusAcc); 
+			formData.append("tipusAcc", envioArxiu.tipusAcc); //gdal,coordenades,codis,adreca
 			formData.append("colX", envioArxiu.colX);	
 			formData.append("colY", envioArxiu.colY);
 			formData.append("srid", envioArxiu.srid);
 			formData.append("bid", envioArxiu.bid);
-			formData.append("codiCAMP", envioArxiu.codi);
-			formData.append("codiType", envioArxiu.codiType);
-			formData.append("geomType", envioArxiu.geomType);
-			formData.append("type", envioArxiu.type);
+			formData.append("codiCAMP", envioArxiu.codi);//Nom de la columna de l'excel on esta el codi
+			formData.append("codiType", envioArxiu.codiType);//ine,municat,cadastre...
+			formData.append("geomType", envioArxiu.geomType);//comarques/municipis
+			formData.append("type", envioArxiu.type);//codis, coordenades
 			formData.append("camps", envioArxiu.camps);
 			formData.append("ext", envioArxiu.ext);
 			formData.append("uid", $.cookie('uid'));
@@ -145,7 +145,7 @@ function creaAreesDragDropFiles() {
 								);									
 								
 								addDropFileToMap(data);
-								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);
+								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 							
 							}else if(data.status.indexOf("ERROR")!=-1){
 								console.error("Error al carregar fitxer:");
@@ -159,7 +159,7 @@ function creaAreesDragDropFiles() {
 								
 								if(data.codi){
 									
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 									
 									if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
 										var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
@@ -191,7 +191,7 @@ function creaAreesDragDropFiles() {
 									}
 									
 								}else{
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 									$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
 								}
 								
@@ -254,7 +254,7 @@ function addFuncioCarregaFitxers(){
 
 			drgFromBoto.on("sending", function(file, xhr, formData) {
 				
-				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);				
+				_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);				
 				
 				//console.info("sending");
 				formData.append("nomArxiu", file.name); 
@@ -349,7 +349,7 @@ function addFuncioCarregaFitxers(){
 									);									
 									
 									addDropFileToMap(data);
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 								
 								}else if(data.status.indexOf("ERROR")!=-1){
 									console.error("Error al carregar fitxer:");
@@ -363,7 +363,7 @@ function addFuncioCarregaFitxers(){
 									
 									if(data.codi){
 										
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 										
 										if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
 											var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
@@ -395,7 +395,7 @@ function addFuncioCarregaFitxers(){
 										}
 										
 									}else{
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.midaFitxer/1000, 1]);
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 										$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
 									}
 									
@@ -586,6 +586,17 @@ function getPollTime(midaFitxer){
 	else if (midaFitxer > 5000000 && midaFitxer <= 10000000) return 10000;
 	else if (midaFitxer > 10000000 && midaFitxer <= 25000000) return 20000;
 	else return 30000;	
+}
+
+function getCategoriaMidaFitxer(midaFitxer){
+//	console.debug("categoria midaFitxer:");
+//	console.debug(midaFitxer);
+	if(midaFitxer <= 1000) return "<=1MB";
+	else if (midaFitxer > 1000 && midaFitxer <= 5000) return "1-5MB";
+	else if (midaFitxer > 5000 && midaFitxer <= 10000) return "5-10MB";
+	else if (midaFitxer > 10000 && midaFitxer <= 25000) return "10-25MB";
+	else if (midaFitxer > 25000 && midaFitxer <= 50000) return "25-50MB";
+	else return ">50MB";	
 }
 
 function enviarArxiu(){
@@ -1016,6 +1027,9 @@ function miraFitxer(fitxer) {
 	
 	envioArxiu.ext=obj.ext;
 	envioArxiu.midaFitxer=fitxer.size;
+	//Categoria segons mida fitxer per GA
+	envioArxiu.categoriaMidaFitxer = getCategoriaMidaFitxer(fitxer.size/1000);
+	
 //	console.debug("midaFItxer:");
 //	console.debug(midaFitxer);
 	
@@ -1024,61 +1038,68 @@ function miraFitxer(fitxer) {
 
 function addDropFileToMap(results) {
 		
+			if(results.layer && results.layer.serverType.indexOf(t_vis_wms_noedit)!=-1){
 	
-			//Si geometries tipus marker
-			if(results.layerMarker){
+				loadVisualitzacioWmsLayer(results.layer);
+				jQuery('#info_uploadFile').hide();
 				
-				//LIMIT GEOMETRIES: Comprovem si es vis_wms o normal
-				if(results.layerMarker.serverType.indexOf(t_vis_wms)!=-1){
+			}else{
+				//Si geometries tipus marker
+				if(results.layerMarker){
 					
-					loadVisualitzacioWmsLayer(results.layerMarker);
-					jQuery('#info_uploadFile').hide();
-					
-				}else{
-					var defer = $.Deferred();
-					loadVisualitzacioLayer(results.layerMarker).then(function(results1){
-						if(results1){
-							map.fitBounds(results1.getBounds());
-							jQuery('#info_uploadFile').hide();
-						}
-					});					
+					//LIMIT GEOMETRIES: Comprovem si es vis_wms o normal
+					if(results.layerMarker.serverType.indexOf(t_vis_wms)!=-1){
+						
+						loadVisualitzacioWmsLayer(results.layerMarker);
+						jQuery('#info_uploadFile').hide();
+						
+					}else{
+						var defer = $.Deferred();
+						loadVisualitzacioLayer(results.layerMarker).then(function(results1){
+							if(results1){
+								map.fitBounds(results1.getBounds());
+								jQuery('#info_uploadFile').hide();
+							}
+						});					
+					}
+				}					
+				//Si geometries tipus línies
+				if(results.layerLine){
+					if(results.layerLine.serverType.indexOf(t_vis_wms)!=-1){
+						loadVisualitzacioWmsLayer(results.layerLine);
+						jQuery('#info_uploadFile').hide();
+					}else{
+						var defer = $.Deferred();
+//						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
+						loadVisualitzacioLayer(results.layerLine).then(function(results1){
+							if(results1){
+								map.fitBounds(results1.getBounds());
+								jQuery('#info_uploadFile').hide();
+							}
+						});					
+					}
 				}
-			}					
-			//Si geometries tipus línies
-			if(results.layerLine){
-				if(results.layerLine.serverType.indexOf(t_vis_wms)!=-1){
-					loadVisualitzacioWmsLayer(results.layerLine);
-					jQuery('#info_uploadFile').hide();
-				}else{
-					var defer = $.Deferred();
-//					readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
-					loadVisualitzacioLayer(results.layerLine).then(function(results1){
-						if(results1){
-							map.fitBounds(results1.getBounds());
-							jQuery('#info_uploadFile').hide();
-						}
-					});					
-				}
+				//Si geometries tipus polygon
+				if(results.layerPolygon){
+					if(results.layerPolygon.serverType.indexOf(t_vis_wms)!=-1){
+						loadVisualitzacioWmsLayer(results.layerPolygon);
+						jQuery('#info_uploadFile').hide();
+					}else{
+						var defer = $.Deferred();
+//						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
+						loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
+							if(results1){
+								map.fitBounds(results1.getBounds());
+								jQuery('#info_uploadFile').hide();
+							}
+						});					
+					}
+				}				
 			}
-			//Si geometries tipus polygon
-			if(results.layerPolygon){
-				if(results.layerPolygon.serverType.indexOf(t_vis_wms)!=-1){
-					loadVisualitzacioWmsLayer(results.layerPolygon);
-					jQuery('#info_uploadFile').hide();
-				}else{
-					var defer = $.Deferred();
-//					readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
-					loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
-						if(results1){
-							map.fitBounds(results1.getBounds());
-							jQuery('#info_uploadFile').hide();
-						}
-					});					
-				}
-			}
+
 			
 			//En cas que no hagi retornat cap geometria com a resultat, amaguem finestra carregant
-			if(!results.layerPolygon && !results.layerLine && !results.layerMarker){
+			if(!results.layer && !results.layerPolygon && !results.layerLine && !results.layerMarker){
 				jQuery('#info_uploadFile').hide();
 			}
 			
@@ -1179,7 +1200,7 @@ function addHtmlModalCarregarFitxers(){
 		'								<li><a href="#opt_codi" lang="ca" data-toggle="tab">Per codis</a></li>'+
 		'							</ul>'+
 		'							<!-- Tab panes -->'+
-		'							<div id="dv_contentOpt" class="tab-content">'+
+		'							<div id="dv_contentOpt" class="tab-content tab-content-margin5px">'+
 		'								<div class="tab-pane active" id="opt_coord">'+
 		'									<ul class="bs-dadesO_JSON">'+
 		'										<li><label lang="ca">On són les coordenades?</label></li>'+

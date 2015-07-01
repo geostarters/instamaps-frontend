@@ -54,6 +54,10 @@ jquery_lang_js.prototype.lang.es = {
 	"Capa Polígon":"Capa Polígono",
 	"Capa Punt":"Capa Punto",
 	"Capes":"Capas",
+	"Capes disponibles":"Capas disponibles",
+	"Capes de polígons disponibles":"Capas de polígonos disponibles",
+	"Capes de punts disponibles":"Capas de puntos disponibles",
+	"Capes per fer intersecció":"Capas para hacer intersección",
 	"Capturar la vista del mapa": "Capturar la vista del mapa",
 	"Carrega arxiu":"Cargar archivo",
 	"Carrega dades":"Cargar datos",
@@ -63,6 +67,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Categories":"Categorías",
 	"Carregant, esperi si us plau...":"Cargando, espere por favor...",
 	"Centrar mapa a la seva ubicació":"Centrar mapa a su ubicación",
+	"Centroide":"Centroide",
 	"Cercar llocs o coordenades ...":"Buscar lugares o coordenadas...",
 	"Cercador de Topònims":"Buscador de Topónimos",
 	"Cercador mundial de Topònims":"Buscador mundial de Topónimos",
@@ -108,7 +113,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Crea un compte":"Crea una cuenta",
 	"Crea":"Crea",
 	"CREA":"CREA",
-	"Creant geometries":"Creating geometries",
+	"Creant geometries":"Creando geometrías",
 	"Crear una nova capa":"Crear nueva capa",
 	"D'acord":"Conforme",
 	"dades":"datos",
@@ -130,10 +135,12 @@ jquery_lang_js.prototype.lang.es = {
 	"Dibuixa punts, línies i polígons.":"Dibuja puntos, líneas y polígonos.",
 	"Dibuixa":"Dibuja",
 	"Dibuixar una línia o un polígon": "Dibujar una línea o un polígono",
-	"Dinàmica":"Dinámica",
-	"Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa":"Dinámico: Se accederá a la fuente de datos cada vez que se cargue la capa",
 	"Disculpeu les molèsties.":"Disculpen las molestias.",
 	"Distància":"Distancia",
+	"Dinàmica":"Dinámica",
+	"Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa":"Dinámico: Se accederá a la fuente de datos cada vez que se cargue la capa",
+
+
 	"Dona'ns el teu correo i et mantindrem informat":"Danos tu correo y te mantendremos informado",
 	"Edició en mode demostració":"Edición en modo demostración",
 	"Editar":"Editar",
@@ -174,12 +181,15 @@ jquery_lang_js.prototype.lang.es = {
 	"Esborrar":"Borrar",
 	"Escollir el mapa de fons": "Elegir el mapa de fondo",
 	"Escull el camp":"Escoge el campo",
+	"Escull el camp per filtrar":"Escoge el campo para filtrar",
 	"Escull el camp per simbolitzar":"Escoge el campo para simbolizar",
 	"Escull el sistema de referència d'aquest arxiu":"Escoge el sistema de referéncia de este fichero",
+	"Escull els valors pels que vols filtrar":"Escoge los valores por los que quieres filtrar",
 	"Escull l'interval":"Escoge el intervalo",
 	"Escull les teves icones i estils personalitzats.":"Escoge tus iconos y estilos personalizados.",
-	"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Estado e incidéncias de tráfico, transporte público, previsión meteorológica y más.",
 	"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"Estamos en proceso de actualización. Pueden observar anomalías temporales en la visualización de los datos.",
+	"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Estado e incidéncias de tráfico, transporte público, previsión meteorológica y más.",
+
 	"Estil actiu":"Esilo activo",
 	"Estils d'àrees":"Estilos de áreas",
 	"Estils de línia":"Estilos de línea",
@@ -199,8 +209,10 @@ jquery_lang_js.prototype.lang.es = {
 	"Fes captures de pantalla per a informes i presentacions.":"Toma capturas de pantalla para informes y presentaciones.",
 	"Fes el teu mapa":"Haz tu mapa",
 	"Fes un mapa amb les teves dades fàcilment":"Haz un mapa fácilmente con tus datos",
+	"Filtrar":"Filtrar",
 	"Fitxer creat":"Fichero creado",
-	"Fitxer analitzat":"analizado",
+	"Fitxer analitzat":"Fichero analizado",
+	"Fitxer pujat":"Fichero subido",
 	"Format":"Formato",
 	"Formats suportats":"Formatos soportados",
 	"Galeria":"Galeria",
@@ -233,6 +245,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Insereix i enllaça":"Inserta y enlaza",
 	"InstaMaps encara no està operatiu. Hi estem treballant":"InstaMaps aún no está operativo, estamos trabajando.",
 	"InstaMaps llegeix els següents formats":"InstaMaps lee los siguientes formatos",
+	"Intersecció":"Intersección",
 	"Intervals":"Intervalos",
 	"Introdueix una URL vàlida":"Introduce una URL válida",
 	"Introdueix un nom vàlid per a la publicació del mapa":"Introduce un nombre válido para la publicación del mapa",
@@ -279,6 +292,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Neteja ordre": "Limpiar orden",
 	"Nit":"Noche",
 	"No hi ha entrades coincidents":"No hay entradas coincidentes",
+	"No pots aplicar filtre a cap capa del mapa":"No puedes aplicar filtro a ninguna capa del mapa",
 	"No s'ha actualitzat la contrassenya":"No se ha actualizado la contraseña",
 	"No s'ha iniciat la sessió. Torni a intentar-ho.":"No se ha iniciado la sesión. Vuelva a intentarlo.",
 	"No s'ha iniciat la sessió":"No se ha iniciado la sesión",
@@ -334,18 +348,23 @@ jquery_lang_js.prototype.lang.es = {
 	"proporcional":"proporcional",
 	"Publicar el mapa": "Publicar el mapa",
 	"Publicar": "Publicar",
-	"puja":"sube",
-	"Pujant fitxer":"Subiendo archivo",
 	"Punts disponibles":"Puntos disponibles",
 	"Públic":"Público",
+	"puja":"sube",
+	"Pujant fitxer":"Subiendo archivo",
+
+
 	"Quin és el sistema de referència?":"Cual es el sistema de referéncia?",
+	"Radi":"Radio",
 	"Rang":"Rango",
 	"Recuperar contrassenya":"Recuperar contraseña",
-	" registres per pàgina":" registros por página",
 	"Registreu-vos":"Registrarse",
+	" registres per pàgina":" registros por página",
+
 	"Rutes turístiques":"Rutas turísticas",
-	"Saber més":"Saber más",
 	"S'està processant un arxiu. Si us plau, espereu que aquest acabi.":"Se está procesando un archivo. Por favor, espere que este termine.",
+	"Saber més":"Saber más",
+
 	"Sabia vostè que el seu navegador no està actualitzat?":"¿Sabía usted que su Navegador está desactualizado?",
 	"Segur que vols":"Seguro que quieres",
 	"Selecciona el camp corresponent":"Escoge el campo correspondiente",
@@ -388,6 +407,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Tria la teva opció":"Escoge tu opción",
 	"Triar l'estil del mapa":"Elegir el estilo del mapa",
 	"Triar una capa per aplicar-hi l'estil":"Escoge una capa a la que aplicar el estilo",
+	"Tria una capa per aplicar-hi el filtre":"Escoge una capa para aplicar el filtro",
 	"Títol":"Título",
 	"Títol Línia":"Título Línea",
 	"Títol Polígon":"Título Polígono",
@@ -399,6 +419,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Usuari/Correu":"Usuario/Correo",
 	"Valor max.":"",
 	"Valor min.":"",
+
 	"Valors":"Valores",
 	"Veure informació al fer clic sobre el mapa":"Ver información al hacer clic sobre el mapa",
 	"Veure": "Ver",
@@ -415,32 +436,47 @@ jquery_lang_js.prototype.lang.es = {
 	"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?",
 	"Vull ser le primer":"Quiero ser el primero",
 	"Xarxes socials":"Redes sociales",	
-	"A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.":"Al borrar el mapa desaparecerá tanto de tu galería como de la pública.",
-	"Afegir col&#183;laboradors":"Añadir colaboradores",
+	"És la primera vegada que utilitzes InstaMaps?":"Es la primera vez que usas InstaMaps?",
+	"Únic":"Único",
+	"Descarrega mapa en format GeoPDF":"Descarga mapa en formato GeoPDF",
+
+
 	"Captura mapa format JPEG":"Captura mapa formato JPEG",
 	"Captura mapa mida A4":"Capture mapa tamaño A4",
 	"Captura mapa format GeoPDF":"Captura mapa formato GeoPDF",
-	"Col·laborador ":"Colaborador ",
-	"Descarrega mapa en format GeoPDF":"Descarga mapa en formato GeoPDF",
-	"Desar mapa":"Guardar mapa",
-	"Desar mapa GeoPDF":"Guardar mapa GeoPDF",
-	"És la primera vegada que utilitzes InstaMaps?":"Es la primera vez que usas InstaMaps?",
-	"El mapa és visible a la galeria pública":"El mapa es visible en la galeria pública",
-	"El mapa només és visible a la teva galeria privada":"El mapa es sólo visible en tu galería privada",
-	"Et convido a col&#183;laborar en el mapa ":"Te invito a colaborar en el mapa ",
-	"Escriu el correu electrònic de les persones que vols convidar a col&#183;laborar en aquest mapa (màxim 5)":"Escribe el correo electrónico de las personas que quieres invitar a colaborar en este mapa (máximo 5)",
-	"Error: No es pot generar el document":"Error:No se puede generar el documento",
 	"Generant imatge mapa...":"Generando imagen mapa...",
 	"Generant mapa GeoPDF...":"Generando mapa GeoPDF...",
-	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC.",
-	"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos",
-	"La informació presentada no té valor normatiu ni jurídic":"La información presentada no tiene valor normativo ni jurídico",
-	"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",
+
+
+	"Desar mapa":"Guardar mapa",
+	"Desar mapa GeoPDF":"Guardar mapa GeoPDF",
 	"Notes":"Notas",
+	"La informació presentada no té valor normatiu ni jurídic":"La información presentada no tiene valor normativo ni jurídico",
+	"Error: No es pot generar el document":"Error:No se puede generar el documento",
+	"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC.",
+
+	"El mapa és visible a la galeria pública":"El mapa es visible en la galeria pública",
+	"El mapa només és visible a la teva galeria privada":"El mapa es sólo visible en tu galería privada",
 	"No ha sigut possible canviar la visibilitat del mapa":"No ha sido posible cambiar la visibilidad de tu mapa",
-	"Únic":"Único",
+
+
+
+
+
+
+	"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos",
+
+	"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",
+	"Et convido a col&#183;laborar en el mapa ":"Te invito a colaborar en el mapa ",
+
+
+
 	" d'Instamaps (creat per ":" de Instamaps (creador por ",
 	" ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" ). Clica en el enlace para acceder. Deberás registrarte si todavía no lo has hecho.",
-	" esborrat": " eliminado"
-	
+	"Afegir col&#183;laboradors":"Añadir colaboradores",
+	"Escriu el correu electrònic de les persones que vols convidar a col&#183;laborar en aquest mapa (màxim 5)":"Escribe el correo electrónico de las personas que quieres invitar a colaborar en este mapa (máximo 5)",
+	"Col·laborador ":"Colaborador ",
+	" esborrat": " eliminado",
+	"A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.":"Al borrar el mapa desaparecerá tanto de tu galería como de la pública."
+
 }

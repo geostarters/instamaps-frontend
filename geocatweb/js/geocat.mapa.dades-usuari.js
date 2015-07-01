@@ -293,7 +293,7 @@ function addHtmlModalDadesUsuari(){
 	'						<li><a href="#id_sv" lang="ca" data-toggle="tab">Serveis Vector</a></li>'+
 	'						<li><a href="#id_sw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
 	'					</ul>'+
-	'					<div class="tab-content">'+
+	'					<div class="tab-content tab-content-margin5px">'+
 	'						<div class="tab-pane fade" id="id_sv"></div>'+
 	'						<div class="tab-pane fade" id="id_sw"></div>'+
 	'					</div> -->'+

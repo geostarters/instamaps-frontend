@@ -192,19 +192,57 @@ function addControlAltresFontsDades() {
 										  '<option value="-1">'+window.lang.convert("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+
-										'<div id="input-coordenades-url-file">'+
-											'<label lang="ca">On són les coordenades?</label>'+
-											'<br>'+
-											'<div class="input-group input-group-sm">'+
-												'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada X o Longitud")+'</span>'+
-												'<input type="text" id="input-coord-x" class="form-control">'+
-											'</div>'+	
-											'<br>'+	
-											'<div class="input-group input-group-sm">'+
-												'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada Y o Latitud")+'</span>'+
-												'<input type="text" id="input-coord-y" class="form-control">'+
-											'</div>'+	
-//											'<br>'+												
+										'<div id="input-excel-url-file">'+
+										'	<div class="panel-body">'+
+										'	   <ul class="nav nav-pills nav-pills-urlfile" id="nav_pill">'+
+										'	      <li id="coordenades" class="active"><a lang="ca" data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">'+window.lang.convert("Per coordenades")+'</a></li>'+
+										'	      <li id="codis"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_codi" aria-expanded="false">'+window.lang.convert("Per codis")+'</a></li>'+
+										'	   </ul>'+
+										'	   <!-- Tab panes -->		'+					
+										'	   <div class="tab-content-urlfile tab-content" id="div_opt_urlfile">'+
+										'	      <div id="opt_urlfile_coord" class="tab-pane active">'+
+										'	         <ul class="pane-excel-urlfile">'+
+														'<label lang="ca">'+window.lang.convert("On són les coordenades?")+'</label>'+
+														'<br>'+
+														'<div class="input-group input-group-sm">'+
+															'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada X o LON")+'</span>'+
+															'<input type="text" id="input-coord-x" class="form-control">'+
+														'</div>'+	
+														'<br>'+	
+														'<div class="input-group input-group-sm">'+
+															'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada Y o LAT ")+'</span>'+
+															'<input type="text" id="input-coord-y" class="form-control">'+
+														'</div>'+
+										'	         </ul>'+
+										'	      </div>'+
+										'	      <div id="opt_urlfile_codi" class="tab-pane tab-pane-urlfile">'+
+										'	         <ul class="pane-excel-urlfile">'+
+										'	            <li><label lang="ca">'+window.lang.convert("Els teus codis són de")+'</label>:</li>'+
+										'	            <li>'+
+										'	               <select id="cmd_codiType_Capa">'+
+										'	                  <option lang="ca" value="municipis" selected="">'+window.lang.convert("Municipis")+'</option>'+
+										'	                  <option lang="ca" value="comarques">'+window.lang.convert("Comarques")+'</option>'+
+										'	               </select>'+
+										'	            </li>'+
+										'	            <li><label lang="ca">'+window.lang.convert("Tipus codi")+'</label></li>'+
+										'	            <li>'+
+										'	               <select id="cmd_codiType">'+
+										'	                  <option value="ine">INE (5 digits)</option>'+
+										'	                  <option value="idescat">IDESCAT (6 digits)</option>'+
+										'	                  <option value="municat">MUNICAT (10 digits)</option>'+
+										'	                  <option value="cadastre">CADASTRE (5 digits)</option>'+
+										'	               </select>'+
+										'	            </li>'+
+										'	            <li><label lang="ca">'+window.lang.convert("Camp que conté el codi")+'</label></li>'+
+										'	            <li>'+
+															'<div class="input-group input-group-sm">'+
+																'<input type="text" id="input-camp-codi-urlfile" class="form-control" placeholder="'+window.lang.convert("Entrar camp")+'">'+
+															'</div>'+
+										'	            </li>'+
+										'	         </ul>'+
+										'	      </div>'+
+										'	   </div>'+
+										'	</div>'+											
 										'</div>'+
 										'<br>'+
 									'EPSG:&nbsp;'+
@@ -236,7 +274,7 @@ function addControlAltresFontsDades() {
 							);
 							
 							jQuery("#div_url_file_message").hide();
-							jQuery("#input-coordenades-url-file").hide();
+							jQuery("#input-excel-url-file").hide();
 							
 							//Comprovem tipus del file
 							var type = "-1";
@@ -256,7 +294,7 @@ function addControlAltresFontsDades() {
 								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',true);
 							}else if(type==".xls" ||type==".xlsx"){
-								jQuery("#input-coordenades-url-file").show();
+								jQuery("#input-excel-url-file").show();
 							}else{
 								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',false);
@@ -268,9 +306,6 @@ function addControlAltresFontsDades() {
 							
 							jQuery("#bt_URLfitxer_go").on('click', function(e) {
 								e.stopImmediatePropagation();
-//								e.stopPropagation();
-//								e.preventDefault();
-//								console.debug("bt_URLfitxer_go");
 								jQuery("#div_url_file_message").empty();
 								jQuery("#div_url_file_message").hide();
 								var urlFile = $.trim(jQuery("#txt_URLfile").val());
@@ -281,8 +316,12 @@ function addControlAltresFontsDades() {
 									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
 									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 								}else{
-//									console.debug("abans createURLfileLayer");
-									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val());
+									console.debug("abans createURLfileLayer");
+									
+									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
+													   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
+													   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis
+													   jQuery('#cmd_codiType_Capa').val(), jQuery('#cmd_codiType').val(), jQuery("#input-camp-codi-urlfile").val());
 //									console.debug("despres createURLfileLayer");
 								}
 							});
@@ -297,18 +336,18 @@ function addControlAltresFontsDades() {
 								jQuery(this).removeClass("class_error");
 								jQuery("#div_url_file_message").empty();
 								jQuery("#div_url_file_message").hide();
-								jQuery("#input-coordenades-url-file").hide();
+								jQuery("#input-excel-url-file").hide();
 								
 								var ext = jQuery(this).val();
 								if ((ext==".kml")||(ext==".gpx")){
 									$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 									jQuery("#select-url-file-epsg").attr('disabled',true);
-//									jQuery("#input-coordenades-url-file").hide();
+//									jQuery("#input-excel-url-file").hide();
 								}else if((ext==".xls")||(ext==".xlsx")){
-									jQuery("#input-coordenades-url-file").show();
+									jQuery("#input-excel-url-file").show();
 								}else{
 									jQuery("#select-url-file-epsg").attr('disabled',false);
-//									jQuery("#input-coordenades-url-file").hide();
+//									jQuery("#input-excel-url-file").hide();
 								}
 							});								
 						}
@@ -353,7 +392,7 @@ function addHtmlModalDadesExt(){
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
 	'						<li><a href="#id_url_file" lang="ca" data-toggle="tab">Dades externes <i class="icon icon-dropbox"></i><i class="icon icon-github"></i><i class="icon icon-drive"></i></a></li>'+
 	'					</ul>'+
-	'					<div class="tab-content">'+
+	'					<div class="tab-content tab-content-margin5px">'+
 	'						<div class="tab-pane fade" id="id_do"></div>'+
 	'						<div class="tab-pane fade" id="id_xs"></div>'+
 	'						<!--  <div class="tab-pane fade" id="id_srvj"></div>-->'+

@@ -2,6 +2,9 @@
  * Funcionalitat de canvis de fons dels mapes
  * */
 
+
+
+
 function addOpcionsFonsMapes() {
 	
 	addHtmlInterficieFonsMapes();
@@ -67,12 +70,14 @@ function creaPopOverMesFons() {
 	});
 		
 	jQuery("#div_mesfons").on('click',function(e){
-		gestionaPopOver(this);
-		
+		$('.popover:not(.in)').hide().detach();
+		jQuery(this).popover('toggle');
+		jQuery(".popover").css('left', pLeft());
 	});
 }
 
 function creaPopOverMesFonsColor() {
+	
 	jQuery("#colorMap")
 	.popover(
 	{
@@ -85,15 +90,14 @@ function creaPopOverMesFonsColor() {
 				+ '</div>',
 		container : 'body',
 		html : true,
-		trigger : 'manual'
+		trigger : 'manual',
+		selector: '[rel="popover"]'
 	});
-
 	var optB = {
 			placement : 'bottom',
 			container : 'body'
 	};	
 	jQuery('#div_menufons div').tooltip(optB);
-
 	
 //	$('#div_menu_fons #topoGrisMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Topogràfic gris')});
 //	$('.div_gr3_fons #nit').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Nit')});
@@ -101,14 +105,22 @@ function creaPopOverMesFonsColor() {
 //	$('.div_gr3_fons #zombie').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Zombie')});
 //	$('.div_gr3_fons #orquidea').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Orquídea')});
 	
+	
+	
+	jQuery("#colorMap").on('click',function(e){
+		  $('.popover:not(.in)').hide().detach();
+	});
+	
 	jQuery(document).on('click', "#div_menufons div", function(e) {
 		var fons = jQuery(this).attr('id');
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
 		//_kmq.push.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
 		if (fons == 'topoGrisMap') {
 			map.topoGrisMap();
+			  jQuery("#colorMap").popover('hide');
 		}else{
 			map.colorMap(fons);			
+			jQuery("#colorMap").popover('hide');
 		}
 	});
 }
@@ -138,3 +150,4 @@ function addHtmlInterficieFonsMapes(){
 	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Combinacions de color')});	
 	
 }
+
