@@ -8,10 +8,10 @@ var CatBounds = L.latLngBounds(L.latLng(40.47, 0.1087), L.latLng(42.8855, 3.3366
 var MQ_ATTR='Font:<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>';  
 var ESRI_ATTR='Tiles © Esri  Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 var ESRI_ATTR_TERRAIN="Tiles © Esri Sources: Esri, USGS, NOAA";
-var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a>'; 
-var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
-var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)'; 
-var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a>)';
+var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>'; 
+var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>)'; 
+var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>)'; 
+var ICGC_HISTOOrto='Font:Ortofoto 1956-57 (<a  href="http://www.icc.cat" target="_blank">ICGC</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>)';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
 var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_ICC_L0_6_GEO,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
