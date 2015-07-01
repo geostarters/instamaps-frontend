@@ -216,3 +216,7 @@ var llista_dadesExternes = {
 				}
 		]
 };
+
+var NODATA_VALUE = "nodata";
+var NODATA_COLOR = "#CCCCCC";
+var NODATA_MIDA = 10;

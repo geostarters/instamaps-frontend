@@ -146,9 +146,21 @@ function getTipusValuesVisualitzacioBubbles(results){
 		jQuery('#size_warning_bubble_prop').hide();
 		jQuery('#dialog_tematic_bubble .btn-success').hide();
 	}else{
+		var nodata = [];
 		var arr = jQuery.grep(results, function( n, i ) {
-			return !jQuery.isNumeric(n);
+			var isText = false;
+			if (!jQuery.isNumeric(n)){
+				if (n == "Sense valor" || n == "Sin valor" || n == "Empty value" || n == NODATA_VALUE){
+					nodata.push(n);
+				}else{
+					isText = true;
+				}
+			}
+			return isText;
 		});
+		if (nodata.length != 0){
+			jQuery("#dialog_tematic_bubble").data("nodata",true);
+		}
 		if (arr.length == 0){
 			jQuery('#tipus_agrupacio_grp_bubble').show();
 			jQuery('#num_rangs_grp_bubble').show();
@@ -219,10 +231,12 @@ function createRangsValuesBubbles(nrangs,rtype){
 	var tematic = jQuery("#dialog_tematic_bubble").data("tematic");
 	var visualitzacio = jQuery("#dialog_tematic_bubble").data("visualitzacio");
 	var rangs = jQuery("#dialog_tematic_bubble").data("rangs");
-	values = jQuery.map(values, function( n, i ) {
-		return parseFloat(n);
-	});
+	var nodata = jQuery("#dialog_tematic_bubble").data("nodata");
 	
+	
+	values = jQuery.grep(values, function( n, i ) {
+		return (n != NODATA_VALUE && parseFloat(n));
+	});
 	values.sort(function(a,b){return a-b});
 	
 	var min = parseFloat(values[0]);
@@ -259,6 +273,10 @@ function createRangsValuesBubbles(nrangs,rtype){
 		}		
 	}
 	
+	if (nodata){
+		newRangs.push({min: NODATA_VALUE, max: NODATA_VALUE, nodata:true});
+	}
+	
 	jQuery("#dialog_tematic_bubble").data("rangs", newRangs);
 	showTematicRangsBubbles().then(function(results){
 		loadTematicValueTemplateBubbles(results, rtype);
@@ -281,7 +299,12 @@ function showTematicRangsBubbles(){
 	
 	if (ftype == t_marker){
 		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createBubbleStyle(i,ftype,scale,a.mida,a.midaMax), index: i};
+			if (a.nodata){
+				a.mida = NODATA_MIDA;
+				return {v: a, style: createBubbleStyle(i,ftype,scale,a.mida,a.midaMax,true), index: i};
+			}else{
+				return {v: a, style: createBubbleStyle(i,ftype,scale,a.mida,a.midaMax,false), index: i};
+			}
 		});
 	}
 	defer.resolve(valuesStyle);
@@ -363,7 +386,7 @@ function loadTematicValueTemplateBubbles(results, rtype){
 					}
 				}
 			}else{
-				var _listMida = jQuery('#list_tematic_values_bubble .mida');
+				var _listMida = jQuery('#list_tematic_values_bubble .mida').not('.nodata');
 				var index = _listMida.index(_$this);
 				if (index == 0){ //primer
 					if (parseInt(_$this.val()) > parseInt(jQuery(_listMida[index+1]).val())){
@@ -383,7 +406,7 @@ function loadTematicValueTemplateBubbles(results, rtype){
 						jQuery('#size_warning_bubble_grad').hide();
 						jQuery('#size_warning_bubble_prop').hide();
 					}
-				}else{
+				}else if (index != -1){
 					if((parseInt(_$this.val()) > parseInt(jQuery(_listMida[index+1]).val())) || (parseInt(_$this.val()) < parseInt(jQuery(_listMida[index-1]).val()))){
 						if (parseInt(_$this.val()) > parseInt(jQuery(_listMida[index+1]).val())){
 							_$this.val(parseInt(jQuery(_listMida[index+1]).val())-1);
@@ -465,7 +488,7 @@ function changeBubbleSize(size, bubble){
 	});
 }
 
-function createBubbleStyle(index, geometryType, paleta, mida, midaMax){
+function createBubbleStyle(index, geometryType, paleta, mida, midaMax, nodata){
 	//console.debug("createBubbleStyle");
 	var defStyle;
 		
@@ -474,6 +497,9 @@ function createBubbleStyle(index, geometryType, paleta, mida, midaMax){
 	if (ftype == t_marker){
 		defStyle = jQuery.extend({}, default_circulo_style);
 		defStyle.fillColor = paleta(index);
+		if(nodata){
+			defStyle.fillColor = NODATA_COLOR;
+		}
 		defStyle.size = mida;
 		defStyle.sizeMax = midaMax;
 		defStyle.radius = mida/2;
@@ -507,10 +533,16 @@ function createTematicLayerBubbles(event){
 		var styleMax = bubble2RangStyle(jQuery('#list_tematic_values_bubble #div_punt_max'));
 		var scale = chroma.scale([styleMin.color, styleMax.color]).domain([min, max]);
 		jQuery.each(values,function(index, value){
-			var rangEstil = bubble2RangStyle(jQuery('#list_tematic_values_bubble #div_punt_min'));
-			rangEstil.color = scale(value).hex();
-			var size = bubblePropostionalSize(min,max,mida,midaMax,value);
-			rangEstil.simbolSize = parseInt(size/2.4);
+			var rangEstil;
+			var size;
+			if (value == NODATA_VALUE){
+				rangEstil = bubble2RangStyle(jQuery('#list_tematic_values_bubble #div_punt_nodata'));
+			}else{
+				rangEstil = bubble2RangStyle(jQuery('#list_tematic_values_bubble #div_punt_min'));
+				rangEstil.color = scale(value).hex();
+				size = bubblePropostionalSize(min,max,mida,midaMax,value);
+				rangEstil.simbolSize = parseInt(size/2.4);
+			}
 			var rang = {};
 			rang.estil = rangEstil;
 			rang.valueMax = value;
