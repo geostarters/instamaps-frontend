@@ -131,10 +131,22 @@ function getTipusValuesVisualitzacio(results){
 		jQuery('#list_tematic_values').html(warninMSG);
 		jQuery('#dialog_tematic_rangs .btn-success').hide();
 	}else{
+		var nodata = [];
 		var arr = jQuery.grep(results, function( n, i ) {
-			return !jQuery.isNumeric(n);
+			var isText = false;
+			if (!jQuery.isNumeric(n)){
+				if (n == "Sense valor" || n == "Sin valor" || n == "Empty value" || n == NODATA_VALUE){
+					nodata.push(n);
+				}else{
+					isText = true;
+				}
+			}
+			return isText;
 		});
-		if (arr.length == 0){
+		if (nodata.length != 0){
+			jQuery("#dialog_tematic_rangs").data("nodata",true);
+		}
+		if (arr.length == 0){ //rangos
 			jQuery('#tipus_agrupacio_grp').show();
 			jQuery('#num_rangs_grp').show();
 			jQuery('#list_tematic_values').html("");
@@ -197,7 +209,7 @@ function showVisualitzacioDataUnic(values){
 	return defer.promise();
 }
 
-function createIntervalStyle(index, geometryType, paleta){
+function createIntervalStyle(index, geometryType, paleta, nodata){
 	//console.debug("createIntervalStyle");
 	var defStyle;
 		
@@ -206,16 +218,24 @@ function createIntervalStyle(index, geometryType, paleta){
 	if (ftype == t_marker){
 		defStyle = jQuery.extend({}, default_circulo_style);
 		defStyle.fillColor = paleta(index);
+		if(nodata){
+			defStyle.fillColor = NODATA_COLOR;
+		}
 		defStyle.isCanvas = true;		
 	}else if (ftype == t_polyline){
 		defStyle = jQuery.extend({}, default_line_style);
 		defStyle.color = paleta(index);
+		if(nodata){
+			defStyle.color = NODATA_COLOR;
+		}
 	}else if (ftype == t_polygon){
 		defStyle = jQuery.extend({}, default_area_style);
 		defStyle.color = paleta(index);
+		if(nodata){
+			defStyle.color = NODATA_COLOR;
+		}
 	}
 	defStyle.geometryType = ftype;
-	
 	return defStyle;
 }
 
@@ -232,20 +252,13 @@ function showTematicRangs(){
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
-	
-	if (ftype == t_marker){
-		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
-		});
-	}else if (ftype == t_polyline){
-		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
-		});
-	}else if (ftype == t_polygon){
-		valuesStyle = jQuery.map( values, function( a, i ) {
-			return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
-		});
-	}
+	valuesStyle = jQuery.map( values, function( a, i ) {
+		if (a.nodata){
+			return {v: a, style: createIntervalStyle(i,ftype,scale,true), index: i};
+		}else{
+			return {v: a, style: createIntervalStyle(i,ftype,scale,false), index: i};
+		}
+	});
 	defer.resolve(valuesStyle);
 	return defer.promise();
 }
@@ -445,11 +458,11 @@ function createRangsValues(rangs){
 	var values = jQuery("#dialog_tematic_rangs").data("values");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
-	
-	values = jQuery.map(values, function( n, i ) {
-		return parseFloat(n);
+	var nodata = jQuery("#dialog_tematic_rangs").data("nodata");
+		
+	values = jQuery.grep(values, function( n, i ) {
+		return (n != NODATA_VALUE && parseFloat(n));
 	});
-	
 	values.sort(function(a,b){return a-b});
 	
 	var min = parseFloat(values[0]);
@@ -468,6 +481,10 @@ function createRangsValues(rangs){
 		}
 		i++;
 	}
+	if (nodata){
+		newRangs.push({min: NODATA_VALUE, max: NODATA_VALUE, nodata:true});
+	}
+	
 	jQuery("#dialog_tematic_rangs").data("rangs", newRangs);
 	showTematicRangs().then(function(results){
 		loadTematicValueTemplate(results,'rangs');
@@ -508,7 +525,6 @@ function loadTematicValueTemplate(results, rtype){
 	var html1 = template1({values:results});
 	jQuery('#list_tematic_values').html(html1);
 	jQuery('#dialog_tematic_rangs .btn-success').show();
-	
 	if (ftype == t_marker){
 		jQuery('#list_tematic_values div.awesome-marker-web').on('click',function(e){
 			var _this = this;
@@ -661,7 +677,8 @@ function readDataVisualitzacio(visualitzacio, key){
 			var value = feature.properties[key];
 			
 			//Si es blanc assignem categoria "Sense valor" com una més
-			if(isBlank(value)) value = window.lang.convert("Sense valor");
+			//if(isBlank(value)) value = window.lang.convert("Sense valor");
+			if(isBlank(value)) value = "nodata";
 			
 			if(!data[value]){
 				data[value] = value;
