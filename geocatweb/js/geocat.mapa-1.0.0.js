@@ -219,6 +219,7 @@ function loadApp(){
 								});	
 								canviaIdioma(web_determinaIdioma());
 								document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+								var controlFons = new L.IM_controlFons().addTo(map);
 							});
 						});
 						//}

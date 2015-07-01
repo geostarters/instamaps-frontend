@@ -913,32 +913,3 @@ textarea {
 	margin: 5px;
 }
 
-.div_sig_1{
-	background: url("images/galeria_icones.png") no-repeat scroll -168px -744px
-		rgba(208, 208, 208, 0.5);
-	cursor: pointer;
-}
-
-.div_sig_2{
-	background: url("images/galeria_icones.png") no-repeat scroll -288px -744px
-		rgba(208, 208, 208, 0.5);
-	cursor: pointer;
-}
-
-.div_sig_3{
-	background: url("images/galeria_icones.png") no-repeat scroll -348px -744px
-		rgba(208, 208, 208, 0.5);
-	cursor: pointer;
-}
-
-.div_sig_4{
-	background: url("images/galeria_icones.png") no-repeat scroll -108px -744px
-		rgba(208, 208, 208, 0.5);
-	cursor: pointer;
-}
-
-.div_sig_5{
-	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
-		rgba(208, 208, 208, 0.5);
-	cursor: pointer;
-}
