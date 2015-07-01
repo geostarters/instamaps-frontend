@@ -26,6 +26,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Aquesta operació és irreversible":"Esta operación es irreversible",
 	"Ara no": "Por ahora no",
 	"Àrea":"Área",
+	"Àrea d'influència":"Área de influencia",
 	"Arrossega els vèrtex o el punt per editar l'objecte":"Arrastra los vértices o el punto para editar el objeto",
 	"Arrossega les teves dades sobre el mapa o fes clic aquí":"Arrastra tus datos sobre el mapa o haz clic aquí",
 	"Arxiu d'exemple":"Archivo de ejemplo",
@@ -67,7 +68,7 @@ jquery_lang_js.prototype.lang.es = {
 	"Categories":"Categorías",
 	"Carregant, esperi si us plau...":"Cargando, espere por favor...",
 	"Centrar mapa a la seva ubicació":"Centrar mapa a su ubicación",
-	"Centroide":"Centroide",
+	"Centro geomètric":"Centro geométrico",
 	"Cercar llocs o coordenades ...":"Buscar lugares o coordenadas...",
 	"Cercador de Topònims":"Buscador de Topónimos",
 	"Cercador mundial de Topònims":"Buscador mundial de Topónimos",
@@ -355,7 +356,7 @@ jquery_lang_js.prototype.lang.es = {
 
 
 	"Quin és el sistema de referència?":"Cual es el sistema de referéncia?",
-	"Radi":"Radio",
+	"Radi (metres)":"Radio (metros)",
 	"Rang":"Rango",
 	"Recuperar contrassenya":"Recuperar contraseña",
 	"Registreu-vos":"Registrarse",

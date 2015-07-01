@@ -10,11 +10,11 @@ function addHtmlInterficieFuncionsSIG(){
 	'		<div id="filter" lang="ca" class="div_sig_5"></div>'+
 	'	</div>'		
 	);
-	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :'Buffer'});
+	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :'Àrea d\'influència'});
 	$('#interseccio').tooltip({placement : 'bottom',container : 'body',title : 'Intersecció'});
 	$('#tag').tooltip({placement : 'bottom',container : 'body',title : 'Tag'});
-	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centroide'});
-	$('#filter').tooltip({placement : 'bottom',container : 'body',title : 'Filter'});
+	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centre geomètric'});
+	$('#filter').tooltip({placement : 'bottom',container : 'body',title : 'Filtre'});
 	
 	jQuery("#buffer").on('click',function(e){
 		openBufferModal();
@@ -48,11 +48,11 @@ function openFilterModal(){
 
 function openBufferModal(){
 	 addHtmlModalBuffer();
-	 createModalConfigLayers("buffer");
+	 createModalConfigLayersBuffer();
 	 $('#dialog_buffer').modal('show');
 	 jQuery('#dialog_buffer .btn-primary').on('click',function(){
 			//Cridar funció buffer
-		var businessId = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
+		var businessId = $("input[name='buffer-chck']:checked").parent().attr('data-businessId');
 		 
 		var data = {
 			uid: $.cookie('uid'),
@@ -75,12 +75,14 @@ function openBufferModal(){
 					sourceExtension:'geojson',
 					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
 					lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
+					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+					propertiesList: results.propertiesList,
+					geomType: results.geomType
 				}
 				doUploadFile(data2).then(function(results){
 					if (results.status="OK") {
 						addDropFileToMap(results);
-
+						 $('#dialog_buffer').modal('hide');
 					}
 				});
 			}
@@ -94,8 +96,8 @@ function openIntersectionModal(){
 	 $('#dialog_intersection').modal('show');
 	 jQuery('#dialog_intersection .btn-primary').on('click',function(){
 			//Cridar funció buffer
-		var businessId1 = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
-		var businessId2 = $("input[name='downloadable-chck2']:checked").parent().attr('data-businessId');
+		var businessId1 = $("input[name='intersect-chck']:checked").parent().attr('data-businessId');
+		var businessId2 = $("input[name='intersect-chck2']:checked").parent().attr('data-businessId');
 		 
 		var data = {
 			uid: $.cookie('uid'),
@@ -117,7 +119,9 @@ function openIntersectionModal(){
 					sourceExtension:'geojson',
 					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
 					lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
+					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+					propertiesList: results.propertiesList,
+					geomType: results.geomType
 				}
 				doUploadFile(data2).then(function(results){
 					if (results.status="OK") {
@@ -135,10 +139,12 @@ function openTagModal(){
 	 createModalConfigLayers2("tag");
 	 $('#dialog_tag').modal('show');
 	 jQuery('#dialog_tag .btn-primary').on('click',function(){
-			//Cridar funció buffer
-		var businessId1 = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
-		var businessId2 = $("input[name='downloadable-chck2']:checked").parent().attr('data-businessId');
-		 
+		 console.log("click");
+		//Cridar funció tag
+		var businessId1 = $("input[name='tag-chck']:checked").parent().attr('data-businessId');
+		var businessId2 = $("input[name='tag-chck2']:checked").parent().attr('data-businessId');
+		console.log(businessId1);
+		console.log(businessId2);
 		var data = {
 			uid: $.cookie('uid'),
 			businessId1: businessId1,
@@ -157,7 +163,9 @@ function openTagModal(){
 					tmpFilePath:tmpdir +'tmp.geojson',
 					midaFitxer:results.midaFitxer,
 					sourceExtension:'geojson',
-					markerStyle:results.markerEstil
+					markerStyle:results.markerEstil,
+					propertiesList: results.propertiesList,
+					geomType: results.geomType
 				}
 				doUploadFile(data2).then(function(results){
 					if (results.status="OK") {
@@ -172,11 +180,11 @@ function openTagModal(){
 
 function openCentroideModal(){
 	addHtmlModalCentroid();
-	createModalConfigLayers("centroide");
+	createModalConfigLayersCentroide();
 	 $('#dialog_centroid').modal('show');
 	 jQuery('#dialog_centroid .btn-primary').on('click',function(){
 			//Cridar funció buffer
-		var businessId1 = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
+		var businessId1 = $("input[name='centroide-chck']:checked").parent().attr('data-businessId');
 			 
 		var data = {
 			uid: $.cookie('uid'),
@@ -198,7 +206,9 @@ function openCentroideModal(){
 					sourceExtension:'geojson',
 					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
 					lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
+					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+					propertiesList: results.propertiesList,
+					geomType: results.geomType
 				}
 				doUploadFile(data2).then(function(results){
 					if (results.status="OK") {
@@ -218,25 +228,26 @@ function addHtmlModalBuffer(){
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Buffer</h4>'+
+							'<h4 lang="ca" class="modal-title">Àrea d\'influència</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+			'			<div class="alert alert-success"><a href="" style="text-decoration:underline;">Exemple</a></div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
 			'					<br>'+
 			'					<section>'+
 			'						<fieldset>'+
-			'							<label class="control-label" lang="ca">Radi</label>:'+
+			'							<label class="control-label" lang="ca">Radi (metres)</label>:'+
 			'							<input lang="ca" id="distancia" type="text" required'+
 			'						class="form-control my-border" value="">'+
 			'						</fieldset>'+
 			'					</section>'+
 			'				</form>		'+			
 			'			</div>'+
-			'			<div class="modal-footer">'+
+			'			<div class="modal-footer">'+				
 			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Buffer</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Àrea d\'influència</button>'+
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+
@@ -247,7 +258,7 @@ function addHtmlModalBuffer(){
 			'<!-- Fi Modal Buffer -->');
 }
 
-function createModalConfigLayers(tipus){
+function createModalConfigLayersBuffer(tipus){
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
 					window.lang.convert('Capes disponibles:')+
@@ -269,7 +280,7 @@ function createModalConfigLayers(tipus){
 							'<div class="col-md-9 downloadable-name">'+
 								layerName+
 							'</div>'+
-							'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
+							'<input id="buffer-chck" name="buffer-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
 						'</div>';		
 			html+='<div class="separate-downloadable-row"></div>';			
 		}
@@ -277,8 +288,41 @@ function createModalConfigLayers(tipus){
 	
 	html+='';
 	
-	if (tipus=="buffer") $('#dialog_buffer .modal-body .modal-layers-sig').html(html);
-	if (tipus=="centroide") $('#dialog_centroid .modal-body .modal-layers-sig').html(html);
+	$('#dialog_buffer .modal-body .modal-layers-sig').html(html);
+}
+
+
+function createModalConfigLayersCentroide(tipus){
+	var count = 0;
+	var html = '<label class="control-label" lang="ca">'+
+					window.lang.convert('Capes disponibles:')+
+				'</label>';
+	
+	jQuery.each(controlCapes._layers, function(i, item){
+		
+		var layer = item.layer;
+		var layerName = layer.options.nom;
+		var checked = "";
+		console.debug(layer);
+		var tipusLayer = "";
+		if(layer.options.tipus) tipusLayer = layer.options.tipus;
+		
+		//Si no es WMS
+		if(tipusLayer.indexOf(t_wms)== -1){
+				
+			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+							'<div class="col-md-9 downloadable-name">'+
+								layerName+
+							'</div>'+
+							'<input id="centroide-chck" name="centroide-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
+						'</div>';		
+			html+='<div class="separate-downloadable-row"></div>';			
+		}
+	});	
+	
+	html+='';
+	
+	$('#dialog_centroid .modal-body .modal-layers-sig').html(html);
 }
 
 function addHtmlModalIntersection(){	
@@ -291,6 +335,7 @@ function addHtmlModalIntersection(){
 							'<h4 lang="ca" class="modal-title">Intersecció</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+						'<div class="alert alert-success"><a href="" style="text-decoration:underline;">Exemple</a></div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
@@ -335,7 +380,7 @@ function createModalConfigLayers2(tipus){
 					'<div class="col-md-9 downloadable-name">'+
 						layerName+
 					'</div>'+
-					'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
+					'<input id="tag-chck" name="tag-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
 				    '</div>';		
 				   html+='<div class="separate-downloadable-row"></div>';
 				}
@@ -345,7 +390,7 @@ function createModalConfigLayers2(tipus){
 								'<div class="col-md-9 downloadable-name">'+
 									layerName+
 								'</div>'+
-								'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
+								'<input id="intersect-chck" name="intersect-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
 							'</div>';		
 				html+='<div class="separate-downloadable-row"></div>';
 			}
@@ -385,7 +430,7 @@ function createModalConfigLayers2(tipus){
 					'<div class="col-md-9 downloadable-name">'+
 						layerName+
 					'</div>'+
-					'<input id="downloadable-chck2" name="downloadable-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
+					'<input id="tag-chck2" name="tag-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
 				'</div>';		
 		html+='<div class="separate-downloadable-row"></div>';
 				}
@@ -395,7 +440,7 @@ function createModalConfigLayers2(tipus){
 							'<div class="col-md-9 downloadable-name">'+
 								layerName+
 							'</div>'+
-							'<input id="downloadable-chck2" name="downloadable-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
+							'<input id="intersect-chck2" name="intersect-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
 						'</div>';		
 				html+='<div class="separate-downloadable-row"></div>';
 			}
@@ -405,7 +450,6 @@ function createModalConfigLayers2(tipus){
 	html+='';
 	
 	if (tipus=="intersection") $('#dialog_intersection .modal-body .modal-layers-sig').html(html);
-	if (tipus=="union")  $('#dialog_union .modal-body .modal-layers-sig').html(html);
 	if (tipus=="tag")  $('#dialog_tag .modal-body .modal-layers-sig').html(html);
 }
 
@@ -419,6 +463,7 @@ function addHtmlModalTag(){
 							'<h4 lang="ca" class="modal-title">Tag</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+						'<div class="alert alert-success"><a href="" style="text-decoration:underline;">Exemple</a></div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
@@ -474,9 +519,10 @@ function addHtmlModalCentroid(){
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Centroide</h4>'+
+							'<h4 lang="ca" class="modal-title">Centre geomètric</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+						'<div class="alert alert-success"><a href="" style="text-decoration:underline;">Exemple</a></div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
@@ -485,7 +531,7 @@ function addHtmlModalCentroid(){
 			'			</div>'+
 			'			<div class="modal-footer">'+
 			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Centroide</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Centre geomètric</button>'+
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+

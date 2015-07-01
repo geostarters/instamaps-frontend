@@ -632,28 +632,28 @@ background-color: #9F9F9E;
 .div_estil_2 {
 	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_3 {
 	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_4 {
 	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_5 {
 	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -924,24 +924,28 @@ i.fa {
 .div_sig_2{
 	background: url("images/galeria_icones.png") no-repeat scroll -288px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_3{
 	background: url("images/galeria_icones.png") no-repeat scroll -348px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_4{
 	background: url("images/galeria_icones.png") no-repeat scroll -108px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_5{
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 /* Retina displays */
@@ -2385,28 +2389,28 @@ background-color: #9F9F9E;
 .div_estil_2 {
 	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_3 {
 	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_4 {
 	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_5 {
 	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -2996,24 +3000,28 @@ i.fa {
 .div_sig_2{
 	background: url("images/galeria_icones.png") no-repeat scroll -288px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_3{
 	background: url("images/galeria_icones.png") no-repeat scroll -348px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_4{
 	background: url("images/galeria_icones.png") no-repeat scroll -108px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_5{
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
