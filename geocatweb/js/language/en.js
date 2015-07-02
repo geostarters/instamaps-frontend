@@ -20,7 +20,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Alerta":"Caution"
 ,"amb les teves dades.":"with your data"
 ,"Analitzant fitxer":"Analyzing file"
-,"Anar a la visualització del mapa":""
+,"Anar a la visualització del mapa":"Go to the map display"
 ,"Aquest camp no te valors":"This field has no value"
 ,"Aquest estil no es pot aplicar a cap capa de les que tens en el mapa":"This style can't be applied to any of the layers in you map"
 ,"Aquesta capa actualment és en ús i no es pot esborrar":"Layer being used can't be deleted"
@@ -54,7 +54,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Capa de fitxer": "File layer"
 ,"Capa Línia":"Line Layer"
 ,"Capa no disponible per la descàrrega.":"Layer not available for downloading."
-,"Capa Polígon":"Polygon Layer",	
+,"Capa Polígon":"Polygon Layer"	
 ,"Capa Punt":"Point Layer"
 ,"Capes":"Layers"
 ,"Capes disponibles":"Available layers"
@@ -65,7 +65,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Capturar la vista del mapa": "Capture the map view"
 ,"Captura mapa format JPEG":"Capture map as JPEG"
 ,"Captura mapa mida A4":"Capture map in A4 size"
-,"Captura mapa format GeoPDF":"Capture map as GeoPDF",	
+,"Captura mapa format GeoPDF":"Capture map as GeoPDF"	
 ,"Carrega arxiu":"Load file"
 ,"Carrega dades":"Load data"
 ,"Carrega les teves pròpies dades (drag and drop).":"Upload your own data (drag and drop)."
@@ -81,10 +81,10 @@ jquery_lang_js.prototype.lang.en = {
 ,"Cerca":"Search"
 ,"Clica per començar a dibuixar una línia":"Click to start drawing a line"
 ,"Clica per continuar dibuixant una línia":"Click to continue drawing a line"
-,"Clica el darrer punt per acabar la línia":"Click the last point to finish the line",	
+,"Clica el darrer punt per acabar la línia":"Click the last point to finish the line"	
 ,"Clica per començar a dibuixar una àrea":"Click to start drawing area"
 ,"Clica per continuar dibuixant una àrea":"Click to continue drawing area"
-,"Clica el primer punt per tancar aquesta àrea":"Click the first point to close this area",	
+,"Clica el primer punt per tancar aquesta àrea":"Click the first point to close this area"
 ,"Clica per situar un punt":"Click to locate a point"
 ,"Cobertes del Sòl":"Land cover"
 ,"Cognom":"Surname"
@@ -134,7 +134,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Defineix les categories":"Define categories"
 ,"Descarrega mapa en format GeoPDF":"Download map as GeoPDF"
 ,"Desar mapa":"Save map"
-,"Desar mapa GeoPDF":"Save map as GeoPDF",	
+,"Desar mapa GeoPDF":"Save map as GeoPDF"
 ,"Desa'l i decideix si fer-lo públic o privat": "Save it and decide whether to make it public or private"
 ,"Descarrega":"Download"
 ,"descarrega":"download"
@@ -162,12 +162,12 @@ jquery_lang_js.prototype.lang.en = {
 ,"El mapa es mostrarà a la galeria pública":"The map will be displayed in the public gallery"
 ,"El mapa només es mostrarà a la teva galeria privada":"The map will only be displayed in your private gallery"
 ,"El mapa és visible a la galeria pública":"The map is visible in the public gallery"
-,"El mapa només és visible a la teva galeria privada":"El mapa es sólo visible en tu galería privada",	
+,"El mapa només és visible a la teva galeria privada":"El mapa es sólo visible en tu galería privada"
 ,"El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho":"The number of points exceeds the maximum allowed. Cut to 10000 or so and try again"
 ,"El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho":"The number of lines / polygons exceeds the maximum allowed. Cut to 2000 or so and try again"
 ,"El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho":"The total number of geometries exceeds the maximum allowed. Cut to 6000 or so and try again"
 ,"El teu registre no s'ha processat correctament.":"Your account has not been created."
-,"El teu registre s'ha processat correctament. Gràcies!":"Your account has been created succesfully. Thank you!",	
+,"El teu registre s'ha processat correctament. Gràcies!":"Your account has been created succesfully. Thank you!"	
 ,"Eliminar compte":"Delete account"
 ,"Eliminar el meu compte i esborrar-ho tot":"Delete my account and erase everything"
 ,"Eliminar el meu compte però mantenir els meus mapes públics a la galeria d'Instamaps":"Delete my account but keep my public maps in the Instamaps gallery"
@@ -190,7 +190,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Error en la càrrega de l'arxiu":"Error loading file"
 ,"Error en la càrrega de l'arxiu: retorn buit":"Error loading file: empty return"
 ,"Error en el tractament de les dades":"Error in data processing"
-,"Error: No es pot generar el document":"",	
+,"Error: No es pot generar el document":"Error: Unable to generate the document"
 ,"Esborrar el mapa":"Delete the map"
 ,"Esborrar":"Delete"
 ,"Escollir el mapa de fons": "Choose the background map"
@@ -254,7 +254,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Has oblidat la contrassenya?":"Forgot password?"
 ,"Has oblidat la teva contrassenya?":"Have you forgotten your password?"
 ,"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Your Instamaps account has been migrated. You shall now log in with your ICGC credentials."
-,"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"There has been a problem in sending emails",	
+,"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"There has been a problem in sending emails"	
 
 ,"Iconografia":"Iconography"
 ,"Idioma":"Language"
@@ -292,7 +292,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Longitud":"Length"
 
 ,"Mapa Cadastral":"Cadastral map"
-,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n",	
+,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n"	
 ,"Mapa publicat":"Published Map"
 ,"Mapa trànsit en temps real":"Real time traffic map"
 ,"Mapa Urbanístic":"Urban planning map"
@@ -452,8 +452,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"Usuaris":"Users"
 ,"Usuari/Correu":"Username/Email"
 
-,"Valor max.":""
-,"Valor min.":""
+,"Valor max.":"Max. Value"
+,"Valor min.":"Min. Value"
 ,"Valors":"Values"
 ,"Veure": "View"
 ,"Veure a InstaMaps": "View in InstaMaps"
@@ -469,9 +469,9 @@ jquery_lang_js.prototype.lang.en = {
 ,"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?"
 ,"Vull ser le primer":"I want to be the first"
 
-,"Xarxes socials":"Social networks",		
+,"Xarxes socials":"Social networks"		
 
-," d'Instamaps (creat per ": "(created by "
+," d'Instamaps (creat per ": "from Instamaps (created by "
 ," esborrat": " erased"
 ," registres per pàgina":"records per page"
 ," ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" ). Click on the link to access. You must register if you have not already done so."
