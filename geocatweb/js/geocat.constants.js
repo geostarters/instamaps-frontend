@@ -164,6 +164,8 @@ var CAPTURA_GEOPDF = "captura_geopdf";
 //VAR per nou model de dades
 var nou_model = true;
 
+var instamaps_email = "instamapes@icgc.cat";
+
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
 		"dadesExternes" : [
