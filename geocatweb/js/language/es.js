@@ -283,7 +283,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"La informació presentada no té valor normatiu ni jurídic":"La información presentada no tiene valor normativo ni jurídico"
 ,"La mida del fitxer supera el límit preestablert (50MB).":"El tamaño del archivo supera el límite preestablecido (50MB)."
 ,"La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).":"El tamaño del archivo supera el límite preestablecido para usuarios que no han iniciado sesión (10MB)."
-,"La mida mínima ha de ser inferior a la màxima":""
+,"La mida mínima ha de ser inferior a la màxima":"La medida mínima tiene que ser mayor que la máxima"
 ,"La nova contrassenya ja havia estat utilitzada":"La nueva contraseña ya fue utilizada"
 ,"La seva petició s'ha processat. Si no trobes el correu que t'hem enviat, revisa la teva carpeta de correu no desitjat":"Su petición se ha procesado. Si no encuentras el correo que te hemos enviado, revisa tu carpeta de correo no deseado"
 ,"Les contrasenyes han de coincidir.":"Las contraseñas tienen que coincidir."
@@ -452,8 +452,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Usuaris":"Usuarios"
 ,"Usuari/Correu":"Usuario/Correo"
 
-,"Valor max.":""
-,"Valor min.":""
+,"Valor max.":"Valor max."
+,"Valor min.":"Valor min."
 ,"Valors":"Valores"
 ,"Veure": "Ver"
 ,"Veure a InstaMaps": "Ver en InstaMaps"
@@ -469,9 +469,9 @@ jquery_lang_js.prototype.lang.es = {
 ,"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?"
 ,"Vull ser le primer":"Quiero ser el primero"
 
-,"Xarxes socials":"Redes sociales",
+,"Xarxes socials":"Redes sociales"
 
-," d'Instamaps (creat per ":" de Instamaps (creador por "
+," d'Instamaps (creat per ":" de Instamaps (creado por "
 ," esborrat": " eliminado"
 ," registres per pàgina":" registros por página"
 ," ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" ). Clica en el enlace para acceder. Deberás registrarte si todavía no lo has hecho."
