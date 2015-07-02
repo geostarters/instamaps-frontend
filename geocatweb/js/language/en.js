@@ -1,6 +1,6 @@
 //english
 jquery_lang_js.prototype.lang.en = {
-,"A les xarxes socials":"In social networks"
+"A les xarxes socials":"In social networks"
 ,"A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.":"Keep in mind that erased maps will no longer show up in neither private or public gallery."
 ,"Accedeix a les teves dades":"Access your data"
 ,"Accedeix a tota la informació de l'":"Access all the information of the "

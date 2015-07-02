@@ -1,6 +1,6 @@
 //español
 jquery_lang_js.prototype.lang.es = {
-,"A les xarxes socials":"En las redes sociales"
+"A les xarxes socials":"En las redes sociales"
 ,"A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.":"Al borrar el mapa desaparecerá tanto de tu galería como de la pública."
 ,"Accedeix a les teves dades":"Accede a tus datos"
 ,"Accedeix a tota la informació de l'":"Accede a toda la información del "
