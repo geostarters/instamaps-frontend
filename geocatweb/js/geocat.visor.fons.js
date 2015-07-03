@@ -89,6 +89,9 @@ L.IM_ControlFons = L.Control.extend({
     	 this._addItem(container,{id:'orquidea',className:'div_fons_9',title:'Orquídea'});
     	 this._addItem(container,{id:'historicOrtoMap',className:'div_fons_11',title:'Ortofoto històrica Catalunya 1956-57'});
     	 this._addItem(container,{id:'historicMap',className:'div_fons_10',title:'Mapa històric Catalunya 1936'});
+    	 this._addItem(container,{id:'hibridMap',className:'div_fons_13',title:'Mapa híbrid'});
+    	 this._addItem(container,{id:'historicOrtoMap46',className:'div_fons_14',title:'Mapa històric Catalunya 1946'});
+    	 this._addItem(container,{id:'alcadaMap',className:'div_fons_15',title:'Alcada Map'});
     },
     
     _addItem: function(container, properties){
@@ -120,6 +123,12 @@ L.IM_ControlFons = L.Control.extend({
 			this._map.historicOrtoMap();
 		}else if (fons == 'historicMap') {
 			this._map.historicMap();
+		}else if (fons == 'hibridMap'){
+			this._map.hibridMap();
+		}else if (fons == 'historicOrtoMap46'){
+			this._map.historicOrtoMap46();
+		}else if (fons == 'alcadaMap'){
+			this._map.alcadaMap();
 		}else{
 			this._map.colorMap(fons);			
 		}

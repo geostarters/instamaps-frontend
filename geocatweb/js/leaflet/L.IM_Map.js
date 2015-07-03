@@ -12,18 +12,25 @@ var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràf
 var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>)'; 
 var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>)'; 
 var ICGC_HISTOOrto='Font: Vol americà 1956-57 Ministerio de Defensa';
+var ICGC_HISTOOrto46='Font:Vol Americà A 1946-47 Ministerio de Defensa';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
 var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_ICC_L0_6_GEO,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
+
+var _hibridLayers=null,HIBRID_MQ_L0_18,HIBRID_ICGC_L0_18,HIBRID_ICGC_L13_18;
+
 var _histoMap=null;
 var _histoOrtoMap=null;
+var _histoOrtoMap46=null;
+var _alcadesMap=null;
 var ESRI_RELLEU_L0_13;			 
 var ICC_RELLEU_L0_14;
 var MQ_TOPO_GRIS_L7_19,ICC_TOPO_GRIS_L7_10,ICC_TOPO_GRIS_L11_19,ICC_MON_L0;
 var COLOR_TOPO_ICC_L0_6,COLOR_TOPO_MQ_L7_19,COLOR_TOPO_ICC_L11_19;
 var HISTO_ICC_L0_14;
 var HISTOOrto_ICC_L0_14;
-
+var HISTOOrto46_ICC_L0_14;
+var ALCADAMAPA_ICGC_L0_17;
 var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
@@ -46,6 +53,7 @@ var URL_MON=urlServerTiles+'/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.jpeg';
 var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg";
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
+var URL_HIBRIDICGC=urlServerTiles+'/mapcache/tms/1.0.0/hibrid3857@GMTOT/{z}/{x}/{y}.png';
 
 
 //var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
@@ -55,9 +63,10 @@ var URL_HISTORIC=urlServerTiles+'/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{
 
 //var URL_HISTORIC='https://stamen-tiles-a.a.ssl.fastly.net/toner/{z}/{x}/{y}.png';
 
-var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
-
-
+//var URL_HISTORICOrto='http://historics.icc.cat/lizardtech/iserv/ows?';
+var URL_HISTORICOrto=urlServerTiles+'/mapcache/tms/1.0.0/orto55_3857@GMTOT/{z}/{x}/{y}.png';
+var URL_HISTORICOrto46=urlServerTiles+'/mapcache/tms/1.0.0/orto46_3857@GMTOT/{z}/{x}/{y}.png';
+var URL_ALCADAMAP=urlServerTiles+'/mapcache/tms/1.0.0/h_ombra3857@GMTOT/{z}/{x}/{y}.png';
 var URL_MQ_GEO='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
 ///var URL_TOPOICC_GEO_2=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
@@ -72,12 +81,14 @@ var URL_OMBRA=urlServerTiles+'/mapcache/tms/1.0.0/ombra3857@GMTOT/{z}/{x}/{y}.jp
 var FONS_TOPOMAP='topoMap';
 var FONS_TOPOMAP_GEO='topoMapGeo';
 var FONS_ORTOMAP='ortoMap';
+var FONS_HIBRIDMAP='hibridMap';
 var FONS_TOPOGISMAP='topoGrisMap';
 var FONS_COLORMAP='colorMap';
 var FONS_TERRAINMAP='terrainMap';
 var FONS_HISTORICMAP='historicMap';
 var FONS_HISTORICORTOMAP='historicOrtoMap';
-	
+var FONS_HISTORICORTOMAP46='historicOrtoMap46';	
+var FONS_ALCADAMAP='alcadaMap';	
 var TOPO_OMBRA_L11_19= new L.TileLayer(URL_OMBRA,			  {  	    
 	  tms:true,
 	  minZoom: 11,
@@ -101,12 +112,15 @@ L.IM_Map = L.Map.extend({
 	    
 		if(this.options.typeMap==FONS_TOPOMAP){this.topoMap();		
 		}else if(this.options.typeMap==FONS_ORTOMAP){this.ortoMap();
+		}else if(this.options.typeMap==FONS_HIBRIDMAP){this.hibridMap();
 		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){this.topoMapGeo();
 		}else if(this.options.typeMap==FONS_TERRAINMAP){this.terrainMap();
 		}else if(this.options.typeMap==FONS_TOPOGISMAP){this.topoGrisMap();
 		}else if(this.options.typeMap==FONS_COLORMAP){this.colorMap();
 		}else if(this.options.typeMap==FONS_HISTORICMAP){this.historicMap();
 		}else if(this.options.typeMap==FONS_HISTORICORTOMAP){this.historicOrtoMap();
+		}else if(this.options.typeMap==FONS_HISTORICORTOMAP46){this.historicOrtoMap46();
+		}else if(this.options.typeMap==FONS_ALCADAMAP){this.alcadaMap();
 		}else{
 		this.activeMap=FONS_TOPOMAP;this.topoMap();
 		}
@@ -128,7 +142,25 @@ L.IM_Map = L.Map.extend({
 			this.gestionaFons(true);
 		});
 	},
-	
+	//Funcio nova 3D
+	getLGActiveMap:function(){
+		
+		if(this.options.typeMap==FONS_TOPOMAP){return _topoLayers;		
+		}else if(this.options.typeMap==FONS_ORTOMAP){return _ortoLayers;
+		}else if(this.options.typeMap==FONS_HIBRIDMAP){return _hibridLayers;
+		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){return _topoLayersGeo;
+		}else if(this.options.typeMap==FONS_TERRAINMAP){return _terrainLayers;
+		}else if(this.options.typeMap==FONS_TOPOGISMAP){return _grisLayers;
+		}else if(this.options.typeMap==FONS_COLORMAP){return _topoColorLayers;
+		}else if(this.options.typeMap==FONS_HISTORICMAP){return _histoMap;
+		}else if(this.options.typeMap==FONS_HISTORICORTOMAP){return _histoOrtoMap;
+		}else if(this.options.typeMap==FONS_HISTORICORTOMAP46){return _histoOrtoMap46;
+		}else if(this.options.typeMap==FONS_ALCADAMAP){return _alcadesMap;
+		}else{
+		return _topoLayers;
+		}		
+		
+	},
 	getActiveMap:function(){
 		return this.options.typeMap;	
 	},
@@ -246,7 +278,7 @@ L.IM_Map = L.Map.extend({
 	gestionaFons:function(layerAdd){		
 		var sC=this.miraBBContains(this.getBounds());
 		var f=this.getActiveMap();
-		var zT=8;
+		var zT=12;
 				
 		if(f==FONS_TOPOMAP){ //_topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_19;		
 			
@@ -376,6 +408,28 @@ L.IM_Map = L.Map.extend({
 					ORTO_ICC_L12_19.options.maxZoom=19;			
 					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 				}	
+				
+				
+		}else if(f==FONS_HIBRIDMAP){
+			this.mirarActivarHill(false,this.getZoom(),sC);	
+			if((sC==0)){ //Fora Cat
+					HIBRID_MQ_L0_18.options.maxZoom=18;			 
+					HIBRID_ICGC_L0_18.options.maxZoom=zT;
+					HIBRID_ICGC_L13_18.options.maxZoom=zT;
+					HIBRID_MQ_L0_18.setOpacity(1);
+					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());				
+				}else if(sC==1){ //Cat i altres
+					HIBRID_MQ_L0_18.options.maxZoom=18;			 
+					HIBRID_ICGC_L0_18.options.maxZoom=18;
+					HIBRID_ICGC_L13_18.options.maxZoom=18;
+					HIBRID_MQ_L0_18.setOpacity(0.8);					
+					this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
+				}else if(sC==2){ //Nomes cat
+					HIBRID_MQ_L0_18.options.maxZoom=zT;			 
+					HIBRID_ICGC_L0_18.options.maxZoom=18;
+					HIBRID_ICGC_L13_18.options.maxZoom=18;			
+					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
+				}		
 		}else if(f==FONS_TERRAINMAP){		
 			
 			this.mirarActivarHill(false,this.getZoom(),sC);	
@@ -464,6 +518,21 @@ L.IM_Map = L.Map.extend({
 			if((sC==0)){			
 				this.fitBounds(CatBounds);
 			}
+		}else if(f==FONS_HISTORICORTOMAP46){		
+			this.mirarActivarHill(false,this.getZoom(),sC);	
+			if((sC==0)){			
+				this.fitBounds(CatBounds);
+				
+			}
+			this.attributionControl.setPrefix(ICGC_HISTOOrto46 +" ZL:"+this.getZoom());		
+			
+		}else if(f==FONS_ALCADAMAP){		
+			this.mirarActivarHill(false,this.getZoom(),sC);	
+			if((sC==0)){			
+				this.fitBounds(CatBounds);
+				
+			}
+			this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());			
 		}else{
 		
 		}
@@ -636,6 +705,49 @@ if(print){
 	
 	},
 	
+	
+	hibridMap: function (print){
+		this.deletePreviousMap();	
+		this.options.maxZoom=19;
+		this.setActiveMap(FONS_HIBRIDMAP);
+		this.setMapColor(null);
+		this.options.typeMap=FONS_HIBRIDMAP;
+		_hibridLayers=L.layerGroup();	
+		  
+		HIBRID_MQ_L0_18 = new L.TileLayer(URL_ESRI,{   	   
+			minZoom: 0,
+			maxZoom:18,
+			subdomains:subDomains
+		}).addTo(_hibridLayers);
+
+
+
+		
+		HIBRID_ICGC_L13_18 = new L.TileLayer(URL_ORTOICC,{  	    
+			tms:false,
+			minZoom: 13,
+			maxZoom: 18,	                                                        			
+			continuousWorld: true,
+			worldCopyJump: false
+		}).addTo(_hibridLayers);
+			
+			
+			HIBRID_ICGC_L0_18 = new L.TileLayer(URL_HIBRIDICGC,{  	    
+				tms:true,
+				minZoom: 0,
+				maxZoom: 18,	                                                        			
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_hibridLayers);
+			
+			
+		this.addLayer(_hibridLayers,true);
+	
+	},
+	
+	
+	
+	
 	terrainMap: function (){
 		this.deletePreviousMap();	
 		this.options.maxZoom=16;
@@ -781,16 +893,75 @@ if(print){
 		//this.options.maxZoom=14;
 		_histoOrtoMap=L.layerGroup();
 		
+		HISTOOrto_ICC_L0_14= new L.TileLayer(URL_HISTORICOrto, {
+			minZoom: 0, 
+			maxZoom: 18, 
+			tms:true, 
+			continuousWorld: true,
+			worldCopyJump:false
+		
+		}).addTo(_histoOrtoMap);
+		/*
 		HISTOOrto_ICC_L0_14= new L.tileLayer.wms(URL_HISTORICOrto, {
 			layers: 'ovab5m',
 			format: 'image/png',
 			transparent: true,
 			exceptions:'application/vnd.ogc.se_xml'
 		}).addTo(_histoOrtoMap);
-		
+		*/
 		this.addLayer(_histoOrtoMap,true);
 		
 	},
+	
+	historicOrtoMap46:function(){
+		this.deletePreviousMap();	
+		this.setActiveMap(FONS_HISTORICORTOMAP46);
+		this.setMapColor(null);
+		this.options.typeMap=FONS_HISTORICORTOMAP46;
+		
+		//this.options.maxZoom=14;
+		_histoOrtoMap46=L.layerGroup();
+		
+		HISTOOrto46_ICC_L0_14= new L.TileLayer(URL_HISTORICOrto46, {
+			minZoom: 0, 
+			maxZoom: 18, 
+			tms:true, 
+			continuousWorld: true,
+			worldCopyJump:false
+			//attribution:'Font:Ministerio de Defensa'
+		}).addTo(_histoOrtoMap46);
+
+		
+		
+		this.addLayer(_histoOrtoMap46,true);
+		
+	},
+	
+	alcadaMap:function(){
+		this.deletePreviousMap();	
+		this.setActiveMap(FONS_ALCADAMAP);
+		this.setMapColor(null);
+		this.options.typeMap=FONS_ALCADAMAP;
+		
+		//this.options.maxZoom=14;
+		_alcadesMap=L.layerGroup();
+		
+		ALCADAMAPA_ICGC_L0_17= new L.TileLayer(URL_ALCADAMAP, {
+			minZoom: 0, 
+			maxZoom: 17, 
+			tms:true, 
+			continuousWorld: true,
+			worldCopyJump:false
+			//attribution:'Font:Ministerio de Defensa'
+		}).addTo(_alcadesMap);
+
+		
+		
+		this.addLayer(_alcadesMap,true);
+		
+	},
+	
+	
 	
 	rmCapa: function (grup,layer){
 	
@@ -809,11 +980,14 @@ if(print){
 		if(this.hasLayer(_topoLayers)){this.removeLayer(_topoLayers);return}
 		else if(this.hasLayer(_topoLayersGeo)){this.removeLayer(_topoLayersGeo);return}
 		else if(this.hasLayer(_ortoLayers)){this.removeLayer(_ortoLayers);return}
+		else if(this.hasLayer(_hibridLayers)){this.removeLayer(_hibridLayers);return}
 		else if(this.hasLayer(_terrainLayers)){this.removeLayer(_terrainLayers);return}
 		else if(this.hasLayer(_topoColorLayers)){this.removeLayer(_topoColorLayers);return}
 		else if(this.hasLayer(_grisLayers)){this.removeLayer(_grisLayers);return}
 		else if(this.hasLayer(_histoMap)){this.removeLayer(_histoMap);return}
 		else if(this.hasLayer(_histoOrtoMap)){this.removeLayer(_histoOrtoMap);return}
+		else if(this.hasLayer(_histoOrtoMap46)){this.removeLayer(_histoOrtoMap46);return}
+		else if(this.hasLayer(_alcadesMap)){this.removeLayer(_alcadesMap);return}
 	}
 	//fi default metode
 });

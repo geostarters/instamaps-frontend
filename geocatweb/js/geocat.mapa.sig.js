@@ -1,7 +1,7 @@
 function addHtmlInterficieFuncionsSIG(){
 	
 	jQuery("#funcio_SIG").append(
-	'	<h5 lang="ca">Escull la funció que vols executar</h5>'+
+	'	<h5 lang="ca">Triar l\'operació</h5>'+
 	'	<div class="div_gr3_fons">'+
 	'		<div id="buffer" lang="ca" class="div_sig_1"></div>'+
 	'		<div id="interseccio" lang="ca" class="div_sig_2"></div>'+
@@ -10,11 +10,11 @@ function addHtmlInterficieFuncionsSIG(){
 	'		<div id="filter" lang="ca" class="div_sig_5"></div>'+
 	'	</div>'		
 	);
-	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :'Àrea d\'influència'});
-	$('#interseccio').tooltip({placement : 'bottom',container : 'body',title : 'Intersecar'});
-	$('#tag').tooltip({placement : 'bottom',container : 'body',title : 'Transmissió (tag)'});
-	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centre geomètric'});
-	$('#filter').tooltip({placement : 'bottom',container : 'body',title : 'Filtre'});
+	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :window.lang.convert('Àrea d\'influència')});
+	$('#interseccio').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Intersecar')});
+	$('#tag').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Transmissió (tag)')});
+	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Centre geomètric')});
+	$('#filter').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Filtre')});
 	
 	jQuery("#buffer").on('click',function(e){
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);
@@ -89,7 +89,9 @@ function openBufferModal(){
 						propertiesList: results.propertiesList,
 						geomType: results.geomType
 					}
+					console.debug(data2);
 					doUploadFile(data2).then(function(results){
+						console.debug(results);
 						if (results.status="OK") {
 							addDropFileToMap(results);
 							 $('#dialog_buffer').modal('hide');
@@ -314,7 +316,7 @@ function createModalConfigLayersBuffer(){
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		//Si és visualització o visualització-wms
-		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
 				
 			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 							'<div class="col-md-9 downloadable-name">'+
@@ -365,7 +367,7 @@ function createModalConfigLayersCentroide(){
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
 		//Si és visualització o visualització-wms
-		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
 				
 			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 							'<div class="col-md-9 downloadable-name">'+
@@ -457,7 +459,7 @@ function createModalConfigLayers2(tipus){
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
 		//Si és visualització o visualització-wms
-		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
 			if (tipus=="tag") {
 				if (layer.options.geometryType=="polygon"){
 					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
@@ -516,7 +518,7 @@ function createModalConfigLayers2(tipus){
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
 		//Si és visualització o visualització-wms
-		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
 			if (tipus=="tag") {
 				if (layer.options.geometryType=="marker"){
 					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
@@ -732,33 +734,36 @@ function showFilterLayersModal(){
 	
 	jQuery('#dialog_layers_filter').modal('show');
 	
-	
-	var layers = [];
-	jQuery.each( controlCapes._layers, function( key, value ) {
-		var layerOptions = this.layer.options;
-		layers.push(this);
+
+		var layers = [];
+		jQuery.each( controlCapes._layers, function( key, value ) {
+			var layerOptions = this.layer.options;
+			var tipusLayer = "";
+			if(layer.options.tipus) tipusLayer = layer.options.tipus;
+			if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms) layers.push(this);
 		}
-
-	);
-	// fi each
-	if(layers.length ==0){
-		$('#list_filter_layers').html(warninMSG);		
-		return;
-	}
-	layers = {layers: layers};
-
-	var source = jQuery("#filter-layers-template").html();
-	var template = Handlebars.compile(source);
-	var html = template(layers);
-	$('#list_filter_layers').html(html);
 	
-	$('.usr_filter_layer').on('click',function(e){
-		var _this = jQuery(this);
-		var data = _this.data();
-			
-		showModalFilterFields(data);
+		);
+		// fi each
+		if(layers.length ==0){
+			$('#list_filter_layers').html(warninMSG);		
+			return;
+		}
+		layers = {layers: layers};
+	
+		var source = jQuery("#filter-layers-template").html();
+		var template = Handlebars.compile(source);
+		var html = template(layers);
+		$('#list_filter_layers').html(html);
 		
-	});
+		$('.usr_filter_layer').on('click',function(e){
+			var _this = jQuery(this);
+			var data = _this.data();
+				
+			showModalFilterFields(data);
+			
+		});
+	
 }
 
 function showModalFilterFields(data){
@@ -797,9 +802,9 @@ function showModalFilterFields(data){
 		var source1 = jQuery("#tematic-layers-fields").html();
 		var template1 = Handlebars.compile(source1);
 		var html1 = template1({fields:fields});
-		jQuery('#dataField').html(html1);
+		jQuery('#dataField_filter').html(html1);
 		
-		jQuery('#dataField').on('change',function(e){
+		jQuery('#dataField_filter').on('change',function(e){
 			var this_ = jQuery(this);
 			if (this_.val() == "---"){
 				jQuery('#list_filter_values').html("");
@@ -808,7 +813,7 @@ function showModalFilterFields(data){
 				jQuery('#dialog_tematic_rangs .btn-success').show();
 				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
 					jQuery("#dialog_filter_rangs").data("values", results);
-					getTipusValuesVisualitzacio(results);
+					getTipusValuesVisualitzacioFilter(results);
 				});
 				
 				
@@ -850,7 +855,7 @@ function showModalFilterFields(data){
 										
 						readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
 							jQuery("#dialog_filter_rangs").data("values", results);
-							getTipusValuesVisualitzacio(results);
+							getTipusValuesVisualitzacioFilter(results);
 						});
 
 					}
@@ -927,7 +932,7 @@ function addHtmlModalFieldsFilter(){
 	);
 }
 
-function getTipusValuesVisualitzacio(results){
+function getTipusValuesVisualitzacioFilter(results){
 	//console.debug("getTipusValuesVisualitzacio");
 	if (results.length == 0){
 		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
