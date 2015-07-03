@@ -75,17 +75,12 @@ function controlLandingForm(){
 	
 	//intro per enviament del form
 	jQuery(document).keypress(function(e) {
-		console.debug("key pressed!");
 	    if(e.which == 13 ) {
-	    	console.debug("intro pressed!");	
+	    	e.preventDefault();
 	    	if($("#landing-form-email").is(":focus")){
-	    		console.debug("email on focus!");
-	    		$("#landing-form-email").blur();
-	    		$("#id-btn-landing-form").click();	
+	    		landingFormButtonClick();  
 	    	}else if($("#landing-form-email-xs").is(":focus")){
-	    		console.debug("email-xs on focus!");
-	    		$("#landing-form-email-xs").blur();
-	    		$("#id-btn-landing-form-xs").click();	
+	    		landingFormButtonXsClick();  
 	    	}
 	    }
 	});	
@@ -98,140 +93,145 @@ function controlLandingForm(){
     });
     
     $('#id-btn-landing-form').on("click", function(){
-    	console.debug("CLICK!");
-    	
-    	var email =  $('#landing-form-email').val();
-    	
-    	if(isBlank(email)){
-			$('#landing-form-email').addClass("invalid-landing-form");
-			//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-			//deferEmail.reject();
-			$('#landing-form-message').html(
-					'<div class="alert alert-danger alert-dismissible" role="alert">'+
-					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El camp no pot estar buit")+'</div>'
-			);			
-		}else if(!isValidEmailAddress(email)){
-			$('#landing-form-email').addClass("invalid-landing-form");
-			//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El correu no és correcte</span>");
-			$('#landing-form-message').html(
-					'<div class="alert alert-danger alert-dismissible" role="alert">'+
-					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El correu no és correcte")+'</div>'
-			);	
-		}else{
-
-	    	$('#landing-form-message').html(
-	    			'<div class="three-quarters-loader">'+
-	    			'  Loading…'+
-	    			'</div>'
-	    	);			
-			
-			var data = {
-					uid: $.cookie('uid'),
-					to: instamaps_email,// to,
-					subject:window.lang.convert('Interessats 1er curs InstaMaps'),
-					content: email,//contingut,
-					esColaboratiu: 'N',
-					businessId: ""
-			};
-			console.debug(data);
-			sendMail(data).then(function(results){
-				console.debug(results);					
-				if (results.status=="OK") {
-					console.debug(results);
-					$('#landing-form-message').html(
-							'<div class="alert alert-success alert-dismissible" role="alert">'+
-							  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-							  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
-					);				
-				}
-				else {
-					$('#landing-form-message').html(
-							'<div class="alert alert-danger alert-dismissible" role="alert">'+
-							  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-							  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
-					);
-				}
-			},function(results){
-				$('#landing-form-message').html(
-					'<div class="alert alert-danger alert-dismissible" role="alert">'+
-					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
-				);
-			});			
-		}
-    	
-    	
+    	landingFormButtonClick();    	
     });
     
     $('#id-btn-landing-form-xs').on("click", function(){
-//    	console.debug("CLICK!");
-    	
-    	var email =  $('#landing-form-email-xs').val();
-    	
-    	if(isBlank(email)){
-			$('#landing-form-email-xs').addClass("invalid-landing-form");
-			//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
-			//deferEmail.reject();
-			$('#landing-form-message-xs').html(
-					'<div class="alert alert-danger alert-dismissible" role="alert">'+
-					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El camp no pot estar buit")+'</div>'
-			);			
-		}else if(!isValidEmailAddress(email)){
-			$('#landing-form-email-xs').addClass("invalid-landing-form");
-			//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El correu no és correcte</span>");
-			$('#landing-form-message-xs').html(
-					'<div class="alert alert-danger alert-dismissible" role="alert">'+
-					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El correu no és correcte")+'</div>'
-			);	
-		}else{
-
-	    	$('#landing-form-message-xs').html(
-	    			'<div class="three-quarters-loader">'+
-	    			'  Loading…'+
-	    			'</div>'
-	    	);			
-			
-			var data = {
-					uid: $.cookie('uid'),
-					to: instamaps_email,// to,
-					subject:window.lang.convert('Interessats 1er curs InstaMaps'),
-					content: email,//contingut,
-					esColaboratiu: 'N',
-					businessId: ""
-			};
-			console.debug(data);
-			sendMail(data).then(function(results){
-				console.debug(results);					
-				if (results.status=="OK") {
-					console.debug(results);
-					$('#landing-form-message-xs').html(
-							'<div class="alert alert-success alert-dismissible" role="alert">'+
-							  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-							  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
-					);				
-				}
-				else {
-					$('#landing-form-message-xs').html(
-							'<div class="alert alert-danger alert-dismissible" role="alert">'+
-							  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-							  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
-					);
-				}
-			},function(results){
-				$('#landing-form-message-xs').html(
-					'<div class="alert alert-danger alert-dismissible" role="alert">'+
-					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
-				);
-			});			
-		}
-    	
-    	
+    	landingFormButtonXsClick();    	
     });	
+}
+
+
+function landingFormButtonXsClick(){
+//	console.debug("CLICK!");
+	
+	var email =  $('#landing-form-email-xs').val();
+	
+	if(isBlank(email)){
+		$('#landing-form-email-xs').addClass("invalid-landing-form");
+		//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
+		//deferEmail.reject();
+		$('#landing-form-message-xs').html(
+				'<div class="alert alert-danger alert-dismissible" role="alert">'+
+				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El camp no pot estar buit")+'</div>'
+		);			
+	}else if(!isValidEmailAddress(email)){
+		$('#landing-form-email-xs').addClass("invalid-landing-form");
+		//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El correu no és correcte</span>");
+		$('#landing-form-message-xs').html(
+				'<div class="alert alert-danger alert-dismissible" role="alert">'+
+				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El correu no és correcte")+'</div>'
+		);	
+	}else{
+
+    	$('#landing-form-message-xs').html(
+    			'<div class="three-quarters-loader">'+
+    			'  Loading…'+
+    			'</div>'
+    	);			
+		
+		var data = {
+				uid: $.cookie('uid'),
+				to: instamaps_email,// to,
+				subject:window.lang.convert('Interessats 1er curs InstaMaps'),
+				content: email,//contingut,
+				esColaboratiu: 'N',
+				businessId: ""
+		};
+		console.debug(data);
+		sendMail(data).then(function(results){
+			console.debug(results);					
+			if (results.status=="OK") {
+				console.debug(results);
+				$('#landing-form-message-xs').html(
+						'<div class="alert alert-success alert-dismissible" role="alert">'+
+						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+						  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
+				);				
+			}
+			else {
+				$('#landing-form-message-xs').html(
+						'<div class="alert alert-danger alert-dismissible" role="alert">'+
+						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+						  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+				);
+			}
+		},function(results){
+			$('#landing-form-message-xs').html(
+				'<div class="alert alert-danger alert-dismissible" role="alert">'+
+				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+			);
+		});			
+	}	
+}
+
+function landingFormButtonClick(){
+	console.debug("CLICK!");
+	
+	var email =  $('#landing-form-email').val();
+	
+	if(isBlank(email)){
+		$('#landing-form-email').addClass("invalid-landing-form");
+		//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
+		//deferEmail.reject();
+		$('#landing-form-message').html(
+				'<div class="alert alert-danger alert-dismissible" role="alert">'+
+				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El camp no pot estar buit")+'</div>'
+		);			
+	}else if(!isValidEmailAddress(email)){
+		$('#landing-form-email').addClass("invalid-landing-form");
+		//$('#signin_email').after("<span class=\"text_error\" lang=\"ca\">El correu no és correcte</span>");
+		$('#landing-form-message').html(
+				'<div class="alert alert-danger alert-dismissible" role="alert">'+
+				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El correu no és correcte")+'</div>'
+		);	
+	}else{
+
+    	$('#landing-form-message').html(
+    			'<div class="three-quarters-loader">'+
+    			'  Loading…'+
+    			'</div>'
+    	);			
+		
+		var data = {
+				uid: $.cookie('uid'),
+				to: instamaps_email,// to,
+				subject:window.lang.convert('Interessats 1er curs InstaMaps'),
+				content: email,//contingut,
+				esColaboratiu: 'N',
+				businessId: ""
+		};
+		console.debug(data);
+		sendMail(data).then(function(results){
+			console.debug(results);					
+			if (results.status=="OK") {
+				console.debug(results);
+				$('#landing-form-message').html(
+						'<div class="alert alert-success alert-dismissible" role="alert">'+
+						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+						  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
+				);				
+			}
+			else {
+				$('#landing-form-message').html(
+						'<div class="alert alert-danger alert-dismissible" role="alert">'+
+						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+						  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+				);
+			}
+		},function(results){
+			$('#landing-form-message').html(
+				'<div class="alert alert-danger alert-dismissible" role="alert">'+
+				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+			);
+		});			
+	}	
 }
 
 function initHover(){
