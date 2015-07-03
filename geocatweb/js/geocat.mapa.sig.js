@@ -10,29 +10,34 @@ function addHtmlInterficieFuncionsSIG(){
 	'		<div id="filter" lang="ca" class="div_sig_5"></div>'+
 	'	</div>'		
 	);
-	$('.div_sig_1 #buffer').tooltip({placement : 'bottom',container : 'body',title :'BUffer'});
-	$('.div_sig_2 #interseccio').tooltip({placement : 'bottom',container : 'body',title : 'Intersecció'});
-	$('.div_sig_3 #tag').tooltip({placement : 'bottom',container : 'body',title : 'Tag'});
-	$('.div_sig_4 #centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centroide'});
-	$('.div_sig_5 #filter').tooltip({placement : 'bottom',container : 'body',title : 'Filter'});
+	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :'Àrea d\'influència'});
+	$('#interseccio').tooltip({placement : 'bottom',container : 'body',title : 'Intersecar'});
+	$('#tag').tooltip({placement : 'bottom',container : 'body',title : 'Transmissió (tag)'});
+	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : 'Centre geomètric'});
+	$('#filter').tooltip({placement : 'bottom',container : 'body',title : 'Filtre'});
 	
 	jQuery("#buffer").on('click',function(e){
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);
 		openBufferModal();
 	});
 	
 	jQuery("#interseccio").on('click',function(e){
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'interseccio', 1]);
 		openIntersectionModal();
 	});
 	
 	jQuery("#tag").on('click',function(e){
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'tag', 1]);
 		openTagModal();
 	});
 	
 	jQuery("#centroide").on('click',function(e){
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'centroide', 1]);
 		openCentroideModal();
 	});
 	
 	jQuery("#filter").on('click',function(e){
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'filter', 1]);
 		openFilterModal();
 	});
 }
@@ -48,44 +53,53 @@ function openFilterModal(){
 
 function openBufferModal(){
 	 addHtmlModalBuffer();
-	 createModalConfigLayers("buffer");
+	 createModalConfigLayersBuffer();
 	 $('#dialog_buffer').modal('show');
 	 jQuery('#dialog_buffer .btn-primary').on('click',function(){
-			//Cridar funció buffer
-		var businessId = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
-		 
-		var data = {
-			uid: $.cookie('uid'),
-			businessId1: businessId,
-			radi: $("#distancia").val()
-		};
-		buffer(data).then(function(results){
-			if (results.status == "ERROR"){
-				//TODO Mensaje de error
-			}else{
-				console.debug(results);				
-				var data2 = {
-					uid: $.cookie('uid'),
-					mapBusinessId: url('?businessid'),
-					serverName:results.serverName,
-					path:results.path,
-					//tmpFilePath:'E://usuaris//m.ortega//temp//tmp.geojson',
-					tmpFilePath:tmpdir +'tmp.geojson',
-					midaFitxer:results.midaFitxer,
-					sourceExtension:'geojson',
-					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-					lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
-				}
-				doUploadFile(data2).then(function(results){
-					if (results.status="OK") {
-						addDropFileToMap(results);
-
+		//Cridar funció buffer
+		 if (!$("input[name='buffer-chck']:checked").val()) {
+		       alert('Cal seleccionar una capa');
+		        return false;
+		   }
+		 else {
+			var businessId = $("input[name='buffer-chck']:checked").parent().attr('data-businessId');
+			 
+			var data = {
+				uid: $.cookie('uid'),
+				businessId1: businessId,
+				radi: $("#distancia").val()
+			};
+			buffer(data).then(function(results){
+				if (results.status == "ERROR"){
+					//TODO Mensaje de error
+				}else{
+					console.debug(results);				
+					var data2 = {
+						uid: $.cookie('uid'),
+						mapBusinessId: url('?businessid'),
+						serverName:results.serverName,
+						path:results.path,
+						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp.geojson',
+						tmpFilePath:tmpdir +'tmp.geojson',
+						midaFitxer:results.midaFitxer,
+						sourceExtension:'geojson',
+						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+						propertiesList: results.propertiesList,
+						geomType: results.geomType
 					}
-				});
-			}
-		});
-	});		
+					doUploadFile(data2).then(function(results){
+						if (results.status="OK") {
+							addDropFileToMap(results);
+							 $('#dialog_buffer').modal('hide');
+						}
+					});
+				}
+			});
+		 }
+		});		
+	 
 }
 
 function openIntersectionModal(){
@@ -93,40 +107,48 @@ function openIntersectionModal(){
 	 createModalConfigLayers2("intersection");
 	 $('#dialog_intersection').modal('show');
 	 jQuery('#dialog_intersection .btn-primary').on('click',function(){
-			//Cridar funció buffer
-		var businessId1 = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
-		var businessId2 = $("input[name='downloadable-chck2']:checked").parent().attr('data-businessId');
-		 
-		var data = {
-			uid: $.cookie('uid'),
-			businessId1: businessId1,
-			businessId2: businessId2
-		};
-		intersection(data).then(function(results){
-			if (results.status == "ERROR"){
-				//TODO Mensaje de error
-			}else{
-				console.debug(results);				
-				var data2 = {
-					uid: $.cookie('uid'),
-					mapBusinessId: url('?businessid'),
-					serverName:results.serverName,
-					path:results.path,
-					tmpFilePath:tmpdir +'tmp.geojson',
-					midaFitxer:results.midaFitxer,
-					sourceExtension:'geojson',
-					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-					lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
-				}
-				doUploadFile(data2).then(function(results){
-					if (results.status="OK") {
-						addDropFileToMap(results);
-						 $('#dialog_intersection').modal('hide');
+		 if (!$("input[name='intersect-chck']:checked").val() || !$("input[name='intersect-chck2']:checked").val()) {
+		       alert('Cal seleccionar dues capes');
+		        return false;
+		   }
+		 else {
+			 //Cridar funció buffer
+			var businessId1 = $("input[name='intersect-chck']:checked").parent().attr('data-businessId');
+			var businessId2 = $("input[name='intersect-chck2']:checked").parent().attr('data-businessId');
+			 
+			var data = {
+				uid: $.cookie('uid'),
+				businessId1: businessId1,
+				businessId2: businessId2
+			};
+			intersection(data).then(function(results){
+				if (results.status == "ERROR"){
+					//TODO Mensaje de error
+				}else{
+					console.debug(results);				
+					var data2 = {
+						uid: $.cookie('uid'),
+						mapBusinessId: url('?businessid'),
+						serverName:results.serverName,
+						path:results.path,
+						tmpFilePath:tmpdir +'tmp.geojson',
+						midaFitxer:results.midaFitxer,
+						sourceExtension:'geojson',
+						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+						propertiesList: results.propertiesList,
+						geomType: results.geomType
 					}
-				});
-			}
-		});
+					doUploadFile(data2).then(function(results){
+						if (results.status="OK") {
+							addDropFileToMap(results);
+							 $('#dialog_intersection').modal('hide');
+						}
+					});
+				}
+			});
+		 }
 	});		
 }
 
@@ -135,79 +157,96 @@ function openTagModal(){
 	 createModalConfigLayers2("tag");
 	 $('#dialog_tag').modal('show');
 	 jQuery('#dialog_tag .btn-primary').on('click',function(){
-			//Cridar funció buffer
-		var businessId1 = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
-		var businessId2 = $("input[name='downloadable-chck2']:checked").parent().attr('data-businessId');
-		 
-		var data = {
-			uid: $.cookie('uid'),
-			businessId1: businessId1,
-			businessId2: businessId2
-		};
-		tag(data).then(function(results){
-			if (results.status == "ERROR"){
-				//TODO Mensaje de error
-			}else{
-				console.debug(results);				
-				var data2 = {
-					uid: $.cookie('uid'),
-					mapBusinessId: url('?businessid'),
-					serverName:results.serverName,
-					path:results.path,
-					tmpFilePath:tmpdir +'tmp.geojson',
-					midaFitxer:results.midaFitxer,
-					sourceExtension:'geojson',
-					markerStyle:results.markerEstil
-				}
-				doUploadFile(data2).then(function(results){
-					if (results.status="OK") {
-						addDropFileToMap(results);
-						 $('#dialog_tag').modal('hide');
+		 console.log("click");
+		 if (!$("input[name='tag-chck']:checked").val() || !$("input[name='tag-chck2']:checked").val()) {
+		       alert('Cal seleccionar dues capes');
+		        return false;
+		   }
+		 else {
+			//Cridar funció tag
+			var businessId1 = $("input[name='tag-chck']:checked").parent().attr('data-businessId');
+			var businessId2 = $("input[name='tag-chck2']:checked").parent().attr('data-businessId');
+			console.log(businessId1);
+			console.log(businessId2);
+			var data = {
+				uid: $.cookie('uid'),
+				businessId1: businessId1,
+				businessId2: businessId2
+			};
+			tag(data).then(function(results){
+				if (results.status == "ERROR"){
+					//TODO Mensaje de error
+				}else{
+					console.debug(results);				
+					var data2 = {
+						uid: $.cookie('uid'),
+						mapBusinessId: url('?businessid'),
+						serverName:results.serverName,
+						path:results.path,
+						tmpFilePath:tmpdir +'tmp.geojson',
+						midaFitxer:results.midaFitxer,
+						sourceExtension:'geojson',
+						markerStyle:results.markerEstil,
+						propertiesList: results.propertiesList,
+						geomType: results.geomType
 					}
-				});
-			}
-		});
+					doUploadFile(data2).then(function(results){
+						if (results.status="OK") {
+							addDropFileToMap(results);
+							 $('#dialog_tag').modal('hide');
+						}
+					});
+				}
+			});
+		 }
 	});		
 }
 
 function openCentroideModal(){
 	addHtmlModalCentroid();
-	createModalConfigLayers("centroide");
+	createModalConfigLayersCentroide();
 	 $('#dialog_centroid').modal('show');
 	 jQuery('#dialog_centroid .btn-primary').on('click',function(){
-			//Cridar funció buffer
-		var businessId1 = $("input[name='downloadable-chck']:checked").parent().attr('data-businessId');
-			 
-		var data = {
-			uid: $.cookie('uid'),
-			businessId1: businessId1
-		};
-		centroid(data).then(function(results){
-			if (results.status == "ERROR"){
-				//TODO Mensaje de error
-			}else{
-				console.debug(results);				
-				var data2 = {
-					uid: $.cookie('uid'),
-					mapBusinessId: url('?businessid'),
-					serverName:results.serverName,
-					path:results.path,
-					//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
-					tmpFilePath:tmpdir +'tmp.geojson',
-					midaFitxer:results.midaFitxer,
-					sourceExtension:'geojson',
-					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-					lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
-				}
-				doUploadFile(data2).then(function(results){
-					if (results.status="OK") {
-						addDropFileToMap(results);
-						$('#dialog_centroid').modal('hide');
+		 if (!$("input[name='centroide-chck']:checked").val()) {
+		       alert('Cal seleccionar una capa');
+		        return false;
+		   }
+		 else {
+			var businessId1 = $("input[name='centroide-chck']:checked").parent().attr('data-businessId');
+				 
+			var data = {
+				uid: $.cookie('uid'),
+				businessId1: businessId1
+			};
+			centroid(data).then(function(results){
+				if (results.status == "ERROR"){
+					//TODO Mensaje de error
+				}else{
+					console.debug(results);				
+					var data2 = {
+						uid: $.cookie('uid'),
+						mapBusinessId: url('?businessid'),
+						serverName:results.serverName,
+						path:results.path,
+						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
+						tmpFilePath:tmpdir +'tmp.geojson',
+						midaFitxer:results.midaFitxer,
+						sourceExtension:'geojson',
+						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+						propertiesList: results.propertiesList,
+						geomType: results.geomType
 					}
-				});
-			}
-		});
+					doUploadFile(data2).then(function(results){
+						if (results.status="OK") {
+							addDropFileToMap(results);
+							$('#dialog_centroid').modal('hide');
+						}
+					});
+				}
+			});
+		 }
 	});		
 }
 
@@ -218,25 +257,35 @@ function addHtmlModalBuffer(){
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Buffer</h4>'+
+							'<h4 lang="ca" class="modal-title">Àrea d\'influència</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+			'			<div class="alert alert-success">'+
+			'			Aquesta operació calcula una àrea definida per una distància fixa a l\'entorn d\'un element.<br/>'+
+			'			Aplicable a punts, línies o polígons.<br/><br/>'+
+			'			<div class="imagePeu"><img src="css/images/Buffer_1.jpg" class="img1">'+
+			'			<span class="peu">Capa d\'origen</span>'+
+			'			<img src="css/images/Buffer_2.jpg">'+
+			'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+			'			</div>'+
+			'			<div id="buffer_layers">'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
 			'					<br>'+
 			'					<section>'+
 			'						<fieldset>'+
-			'							<label class="control-label" lang="ca">Radi</label>:'+
+			'							<label class="control-label" lang="ca">Radi (metres)</label>:'+
 			'							<input lang="ca" id="distancia" type="text" required'+
 			'						class="form-control my-border" value="">'+
 			'						</fieldset>'+
 			'					</section>'+
 			'				</form>		'+			
+			'				</div> '+
 			'			</div>'+
-			'			<div class="modal-footer">'+
+			'			<div class="modal-footer">'+				
 			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Buffer</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Àrea d\'influència</button>'+
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+
@@ -247,7 +296,60 @@ function addHtmlModalBuffer(){
 			'<!-- Fi Modal Buffer -->');
 }
 
-function createModalConfigLayers(tipus){
+function createModalConfigLayersBuffer(){
+	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	"<strong>  <span class='fa fa-warning sign'></span></div>";
+	var count = 0;
+	var html = '<label class="control-label" lang="ca">'+
+					window.lang.convert('Capes disponibles:')+
+				'</label>';
+	
+	console.debug(controlCapes._layers);
+	jQuery.each(controlCapes._layers, function(i, item){
+		console.debug("Hola1");
+		var layer = item.layer;
+		var layerName = layer.options.nom;
+		var checked = "";
+		console.debug(layer);
+		var tipusLayer = "";
+		if(layer.options.tipus) tipusLayer = layer.options.tipus;
+		//Si és visualització o visualització-wms
+		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
+				
+			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+							'<div class="col-md-9 downloadable-name">'+
+								layerName+
+							'</div>';
+				if (count==0){
+						html +=	'<input id="buffer-chck" name="buffer-chck" class="col-md-1 downloadable-chck" type="radio" checked >';
+				}
+				else {
+					html +=	'<input id="buffer-chck" name="buffer-chck" class="col-md-1 downloadable-chck" type="radio"  >';
+				}
+			html += '</div>';		
+			html += '<div class="separate-downloadable-row"></div>';			
+			count++;
+			console.debug(html);
+		}
+		
+	});	
+	
+	html+='';
+	if (count==0){
+		$('#dialog_buffer .modal-body #buffer_layers').html(warningMSG);
+		$('#dialog_buffer .modal-footer').attr("style","display:none;");
+	}
+	else {
+		console.debug("Hola");
+		$('#dialog_buffer .modal-body .modal-layers-sig').html(html);
+		$('#dialog_buffer .modal-footer').attr("style","display:block;");
+	}
+}
+
+
+function createModalConfigLayersCentroide(){
+	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
 					window.lang.convert('Capes disponibles:')+
@@ -262,23 +364,37 @@ function createModalConfigLayers(tipus){
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
-		//Si no es WMS
-		if(tipusLayer.indexOf(t_wms)== -1){
+		//Si és visualització o visualització-wms
+		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
 				
 			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 							'<div class="col-md-9 downloadable-name">'+
 								layerName+
-							'</div>'+
-							'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
-						'</div>';		
+							'</div>';
+			if (count==0){
+				html += '<input id="centroide-chck" name="centroide-chck" class="col-md-1 downloadable-chck" type="radio" checked >';
+			}	
+			else{
+				html += '<input id="centroide-chck" name="centroide-chck" class="col-md-1 downloadable-chck" type="radio"  >';
+			}
+			html += '</div>';		
 			html+='<div class="separate-downloadable-row"></div>';			
+			count++;
 		}
+		
 	});	
 	
 	html+='';
 	
-	if (tipus=="buffer") $('#dialog_buffer .modal-body .modal-layers-sig').html(html);
-	if (tipus=="centroide") $('#dialog_centroid .modal-body .modal-layers-sig').html(html);
+	if (count==0){
+		$('#dialog_centroid .modal-body .modal-layers-sig').html(warningMSG);
+		$('#dialog_centroid .modal-footer').attr("style","display:none;");
+	}
+	else {
+		$('#dialog_centroid .modal-body .modal-layers-sig').html(html);
+		$('#dialog_centroid .modal-footer').attr("style","display:block;");
+	}
+	
 }
 
 function addHtmlModalIntersection(){	
@@ -288,9 +404,17 @@ function addHtmlModalIntersection(){
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Intersecció</h4>'+
+							'<h4 lang="ca" class="modal-title">Intersecar</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+						'<div class="alert alert-success">'+
+						'			Aquesta operació calcula els elements que són intersecció entre diverses geometries.<br/>'+
+						'			Aplicable a polígons.<br/><br/>'+
+						'			<div class="imagePeu"><img src="css/images/Interseccio_1.jpg" class="img1">'+
+						'			<span class="peu">Capa d\'origen</span>'+
+						'			<img src="css/images/Interseccio_2.jpg">'+
+						'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+						'			</div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
@@ -298,7 +422,7 @@ function addHtmlModalIntersection(){
 			'			</div>'+
 			'			<div class="modal-footer">'+
 			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Intersecció</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Intersecar</button>'+
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+
@@ -310,7 +434,12 @@ function addHtmlModalIntersection(){
 }
 
 function createModalConfigLayers2(tipus){
+	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	var count = 0;
+	var count2 = 0;
+	var countI = 0;
+	var countI2= 0;
 	var html = '<label class="control-label" lang="ca">'+
 					window.lang.convert('Capes disponibles')+":"+
 				'</label>';
@@ -327,29 +456,38 @@ function createModalConfigLayers2(tipus){
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
-		//Si no es WMS
-		if(tipusLayer.indexOf(t_wms)== -1){
+		//Si és visualització o visualització-wms
+		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
 			if (tipus=="tag") {
 				if (layer.options.geometryType=="polygon"){
 					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 					'<div class="col-md-9 downloadable-name">'+
 						layerName+
-					'</div>'+
-					'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
-				    '</div>';		
+					'</div>';
+					if (count==0) {
+						html += '<input id="tag-chck" name="tag-chck" class="col-md-1 downloadable-chck" type="radio" checked>';
+					}
+					else {
+						html += '<input id="tag-chck" name="tag-chck" class="col-md-1 downloadable-chck" type="radio"  >';
+					}
+				   html+='</div>';		
 				   html+='<div class="separate-downloadable-row"></div>';
+				   count++;
 				}
 			}	
 			else {
 				html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
-								'<div class="col-md-9 downloadable-name">'+
-									layerName+
-								'</div>'+
-								'<input id="downloadable-chck" name="downloadable-chck" class="col-md-1 downloadable-chck" type="radio"  >'+
-							'</div>';		
+						'<div class="col-md-9 downloadable-name">'+
+							layerName+
+						'</div>';
+				html+='<input id="intersect-chck" name="intersect-chck" class="col-md-1 downloadable-chck" type="radio"  >';
+				html+='</div>';		
 				html+='<div class="separate-downloadable-row"></div>';
+				countI++;
 			}
+			
 		}
+		
 	});	
 	
 	html+='';
@@ -377,17 +515,23 @@ function createModalConfigLayers2(tipus){
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
-		//Si no es WMS
-		if(tipusLayer.indexOf(t_wms)== -1){
+		//Si és visualització o visualització-wms
+		if(tipusLayer.indexOf(t_visualitzacio)> -1 || tipusLayer.indexOf(t_vis_wms)>-1){
 			if (tipus=="tag") {
 				if (layer.options.geometryType=="marker"){
 					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 					'<div class="col-md-9 downloadable-name">'+
 						layerName+
-					'</div>'+
-					'<input id="downloadable-chck2" name="downloadable-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
-				'</div>';		
+					'</div>';
+					if (count2==0){
+						html += '<input id="tag-chck2" name="tag-chck2" class="col-md-1 downloadable-chck" type="radio" checked>';
+					}
+					else {
+						html += '<input id="tag-chck2" name="tag-chck2" class="col-md-1 downloadable-chck" type="radio"  >';
+					}
+				html += '</div>';		
 		html+='<div class="separate-downloadable-row"></div>';
+					count2++;
 				}
 			}
 			else {
@@ -395,18 +539,37 @@ function createModalConfigLayers2(tipus){
 							'<div class="col-md-9 downloadable-name">'+
 								layerName+
 							'</div>'+
-							'<input id="downloadable-chck2" name="downloadable-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
+							'<input id="intersect-chck2" name="intersect-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
 						'</div>';		
 				html+='<div class="separate-downloadable-row"></div>';
+				countI2++;
 			}
+			
 		}
 	});	
 	
 	html+='';
 	
-	if (tipus=="intersection") $('#dialog_intersection .modal-body .modal-layers-sig').html(html);
-	if (tipus=="union")  $('#dialog_union .modal-body .modal-layers-sig').html(html);
-	if (tipus=="tag")  $('#dialog_tag .modal-body .modal-layers-sig').html(html);
+	if (tipus=="intersection") {
+		if (count==0 || count2==0){
+			$('#dialog_intersection .modal-body .modal-layers-sig').html(warningMSG);
+			$('#dialog_intersection .modal-footer').attr("style","display:none;");
+		}
+		else {
+			$('#dialog_intersection .modal-body .modal-layers-sig').html(html);
+			$('#dialog_intersection .modal-footer').attr("style","display:block;");
+		}
+	}
+	if (tipus=="tag")  {
+		if (count==0 || count2==0){
+			$('#dialog_tag .modal-body .modal-layers-sig').html(warningMSG);
+			$('#dialog_tag .modal-footer').attr("style","display:none;");
+		}
+		else {
+			$('#dialog_tag .modal-body .modal-layers-sig').html(html);
+			$('#dialog_tag .modal-footer').attr("style","display:block;");
+		}
+	}
 }
 
 function addHtmlModalTag(){	
@@ -416,17 +579,24 @@ function addHtmlModalTag(){
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Tag</h4>'+
+							'<h4 lang="ca" class="modal-title">Transmissió (tag)</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
-							'<form id="frm_buffer">'+
+						'<div class="alert alert-success">'+
+						'Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests.<br/>'+
+						'Aplicable a polígons i punts.<br/><br/>'+
+						'<img src="css/images/Tag_1.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Capa d\'origen 1'+
+						'<img src="css/images/Tag_2.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Capa d\'origen 2'+
+						'<img src="css/images/Tag_3.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Resultat de l\'operació<br/>'+
+						'</div>'+
+						'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
 			'				</form>		'+			
 			'			</div>'+
 			'			<div class="modal-footer">'+
 			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Tag</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Transmissió (tag)</button>'+
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+
@@ -449,6 +619,12 @@ function addHtmlModalUnion(){
 							'<h4 lang="ca" class="modal-title">Union</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+						'<div class="alert alert-success">'+
+						'Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests.<br/>'+
+						'<img src="css/images/Tag_1.jpg" style="width:25%;height:25%"> '+
+						'<img src="css/images/Tag_2.jpg" style="width:25%;height:25%"> '+
+						'<img src="css/images/Tag_3.jpg" style="width:25%;height:25%"><br/>'+	
+						'</div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
@@ -474,9 +650,17 @@ function addHtmlModalCentroid(){
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
 							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Centroide</h4>'+
+							'<h4 lang="ca" class="modal-title">Centre geomètric</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
+						'<div class="alert alert-success">'+
+						'Aquesta operació calcula el centre geomètric o centroide d\'un polígon tancat.<br/>'+
+						'Aplicable a polígons.<br/><br/>'+
+						'			<div class="imagePeu"><img src="css/images/Centroid_1.jpg" class="img1">'+
+						'			<span class="peu">Capa d\'origen</span>'+
+						'			<img src="css/images/Centroid_2.jpg">'+
+						'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+						'</div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
 			'					</div>'+
@@ -485,7 +669,7 @@ function addHtmlModalCentroid(){
 			'			</div>'+
 			'			<div class="modal-footer">'+
 			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Centroide</button>'+
+			'				<button lang="ca" type="button" class="btn btn-primary">Centre geomètric</button>'+
 			'			</div>'+
 			'		</div>'+
 			'		<!-- /.modal-content -->'+
@@ -509,6 +693,13 @@ function addHtmlModalLayersFilter(){
 	'					<h4 class="modal-title" lang="ca">Tria una capa per aplicar-hi el filtre</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
+	'					<div class="alert alert-success">'+
+	'						Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.<br/>'+
+	'						Aplicable a punts, línies o polígons.<br/><br/>'+
+	'							<div class="imagePeu"><img src="css/images/Filtre_1.jpg" class="img1">'+
+	'							<span class="peu">Capa d\'origen</span>'+
+	'							<img src="css/images/Filtre_2.jpg">'+
+	'						<span class="peu2">Resultat de l\'operació<br/></span></div></div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
 	'					<div class="panel-warning">'+					
 	'					<ul class="bs-dadesO_USR panel-heading">'+
@@ -535,7 +726,7 @@ function addHtmlModalLayersFilter(){
 
 function showFilterLayersModal(){
 	//console.debug("showTematicLayersModal");
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('No pots aplicar filtre a cap capa del mapa')+
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	

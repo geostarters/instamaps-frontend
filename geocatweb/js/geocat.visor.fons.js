@@ -54,6 +54,8 @@ L.IM_ControlFons = L.Control.extend({
 		this._btllista = btllista;
 		btllista.innerHTML = '<small id="sm_tipus" lang="ca">Fons</small>';
 		
+		
+		
 		var llistaFons = L.DomUtil.create('div','leaflet-bar btn btn-default llista-fons');
 		
 		this._addLayers(llistaFons);

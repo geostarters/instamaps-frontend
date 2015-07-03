@@ -50,7 +50,9 @@ jquery_lang_js.prototype.lang.en = {
 ,"Cancel·lar": "Cancel"
 ,"Canviar el nom de la capa":"Change layer name"
 ,"Canviar":"Change"
+,"Cap de les capes carregades permet aquesta operació":"No layers loaded allows operation"
 ,"Capa actual:":"Active layer"
+,"Capa d'origen":"Origin layer"
 ,"Capa de fitxer": "File layer"
 ,"Capa Línia":"Line Layer"
 ,"Capa no disponible per la descàrrega.":"Layer not available for downloading."
@@ -394,6 +396,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Radi":"Radius"
 ,"Recuperar contrassenya":"Recover password"
 ,"Registreu-vos":"Sign up"
+,"Resultat de l\'operació":"Operation result"
 ,"Rutes turístiques":"Touristic routes"
 
 ,"Saber més":"Learn more"

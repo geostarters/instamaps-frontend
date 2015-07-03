@@ -284,6 +284,10 @@ h1,h2,h3,h4,h5,h6 {
 	background-color: rgba(45, 46, 41, 0.90);
 }
 
+.td6 {
+	background-color: rgba(29, 30, 31, 0.90);
+}
+
 .green,.green a,.green span {
 	color: #00ff00 !important;
 }
@@ -632,28 +636,28 @@ background-color: #9F9F9E;
 .div_estil_2 {
 	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_3 {
 	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_4 {
 	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_5 {
 	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -666,7 +670,7 @@ background-color: #9F9F9E;
 .div_fons_2 {
 	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -674,55 +678,55 @@ background-color: #9F9F9E;
 	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-32px rgba(208, 208, 208, 0.5);
 	cursor: pointer;
-	margin-left: 4px;
+	margin-left: 2px;
 }
 
 .div_fons_4 {
 	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-32px rgba(208, 208, 208, 0.5);
 	cursor: pointer;
-	margin-left: 4px;
+	margin-left: 2px;
 }
 
 .div_fons_5 {
 	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_6 {
 	background: url("images/galeria_icones.png") no-repeat scroll -354px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_7 {
 	background: url("images/galeria_icones.png") no-repeat scroll -425px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_8 {
 	background: url("images/galeria_icones.png") no-repeat scroll -497px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_9 {
 	background: url("images/galeria_icones.png") no-repeat scroll -566px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_10 {
 	background: url("images/galeria_icones.png") no-repeat scroll -638px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -730,14 +734,14 @@ background-color: #9F9F9E;
 .div_fons_11 {
 	background: url("images/galeria_icones.png") no-repeat scroll -709px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_12 {
 	background: url("images/galeria_icones.png") no-repeat scroll 0px
 		-745px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -924,24 +928,28 @@ i.fa {
 .div_sig_2{
 	background: url("images/galeria_icones.png") no-repeat scroll -288px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_3{
 	background: url("images/galeria_icones.png") no-repeat scroll -348px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_4{
 	background: url("images/galeria_icones.png") no-repeat scroll -108px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_5{
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 /* Retina displays */
@@ -2385,28 +2393,28 @@ background-color: #9F9F9E;
 .div_estil_2 {
 	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_3 {
 	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_4 {
 	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_estil_5 {
 	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-102px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -2419,7 +2427,7 @@ background-color: #9F9F9E;
 .div_fons_2 {
 	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -2427,55 +2435,55 @@ background-color: #9F9F9E;
 	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-32px rgba(208, 208, 208, 0.5);
 	cursor: pointer;
-	margin-left: 4px;
+	margin-left: 2px;
 }
 
 .div_fons_4 {
 	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-32px rgba(208, 208, 208, 0.5);
 	cursor: pointer;
-	margin-left: 4px;
+	margin-left: 2px;
 }
 
 .div_fons_5 {
 	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_6 {
 	background: url("images/galeria_icones.png") no-repeat scroll -354px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_7 {
 	background: url("images/galeria_icones.png") no-repeat scroll -425px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_8 {
 	background: url("images/galeria_icones.png") no-repeat scroll -497px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_9 {
 	background: url("images/galeria_icones.png") no-repeat scroll -566px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_10 {
 	background: url("images/galeria_icones.png") no-repeat scroll -638px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -2483,7 +2491,7 @@ background-color: #9F9F9E;
 .div_fons_11 {
 	background: url("images/galeria_icones.png") no-repeat scroll -709px
 		-32px rgba(208, 208, 208, 0.5);
-	margin-left: 4px;
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -2996,24 +3004,28 @@ i.fa {
 .div_sig_2{
 	background: url("images/galeria_icones.png") no-repeat scroll -288px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_3{
 	background: url("images/galeria_icones.png") no-repeat scroll -348px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_4{
 	background: url("images/galeria_icones.png") no-repeat scroll -108px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_sig_5{
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 
@@ -4518,4 +4530,50 @@ i.fa {
     line-height: 1.5;
     padding: 2px 5px;
     margin-left: 13px;
+<<<<<<< HEAD
 }
+#funcio_SIG {
+	margin-bottom:12px;
+	margin-top:20px;
+}
+#funcio_tematics{
+	margin-top:5px;
+}
+#funcio_fonsMapes{
+	margin-top:5px;
+	margin-bottom:10px;
+}
+.imagePeu{
+	display:table;
+	position:relative;
+	margin-bottom:20px;
+}
+.imagePeu img{
+	width:30%;
+	height:30%;
+}
+.imagePeu .img1 {
+	margin-right:10%;
+}
+.imagePeu .peu{
+	display:table-caption;
+	position:absolute;
+	bottom:0;
+	left:8%;
+	display:block;
+	width:100%;
+	top:98%;
+}
+
+.imagePeu .peu2{
+	display:table-caption;
+	position:absolute;
+	bottom:0;
+	left:45%;
+	display:block;
+	width:100%;
+	top:98%;
+}
+=======
+}
+>>>>>>> refs/remotes/origin/master

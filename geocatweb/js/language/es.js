@@ -50,7 +50,9 @@ jquery_lang_js.prototype.lang.es = {
 ,"Cancel·lar": "Cancelar"
 ,"Canviar el nom de la capa":"Cambiar nombre de la capa"
 ,"Canviar":"Cambiar"
+,"Cap de les capes carregades permet aquesta operació":"Ninguna de las capas cargadas permite esta operación"
 ,"Capa actual:":"Capa actual:"
+,"Capa d'origen":"Capa de origen"
 ,"Capa de fitxer": "Capa de fichero"
 ,"Capa Línia":"Capa Línea"
 ,"Capa no disponible per la descárrega.":"Capa no disponible para la descarga."
@@ -394,6 +396,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Rang":"Rango"
 ,"Recuperar contrassenya":"Recuperar contraseña"
 ,"Registreu-vos":"Registrarse"
+,"Resultat de l\'operació":"Resultado de la operación"
 ,"Rutes turístiques":"Rutas turísticas"
 
 ,"Saber més":"Saber más"
