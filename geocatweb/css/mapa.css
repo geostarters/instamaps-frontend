@@ -4214,7 +4214,7 @@ i.fa {
     position: absolute;
     text-align: center;
     width: 235px;
-    z-index: 200;
+    z-index: 1000;
 }
 
 #div_uploading_txt {
@@ -4530,6 +4530,7 @@ i.fa {
     line-height: 1.5;
     padding: 2px 5px;
     margin-left: 13px;
+<<<<<<< HEAD
 }
 #funcio_SIG {
 	margin-bottom:12px;
@@ -4573,3 +4574,6 @@ i.fa {
 	width:100%;
 	top:98%;
 }
+=======
+}
+>>>>>>> refs/remotes/origin/master
