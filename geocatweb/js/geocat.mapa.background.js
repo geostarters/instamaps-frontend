@@ -25,9 +25,7 @@ function addOpcionsFonsMapes() {
 			map.terrainMap();
 		} else if (fons == 'colorMap') {
 			gestionaPopOver(this);
-		} else if (fons == 'historicMap') {
-		
-		}
+		} 
 	});
 }
 
@@ -87,6 +85,13 @@ function creaPopOverMesFonsColor() {
 				+ '<div id="sepia" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Sèpia')+'" class="div_fons_7"></div>'
 				+ '<div id="zombie" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Zombie')+'" class="div_fons_8"></div>'
 				+ '<div id="orquidea" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Orquídea')+'" class="div_fons_9"></div>'
+				+ '<div id="historicOrtoMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Ortofoto històrica Catalunya 1956-57')+'" class="div_fons_11"></div>'
+				+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa històric Catalunya 1936')+'" class="div_fons_10"></div>'
+				+ '<div id="hibridMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa híbrid')+'" class="div_fons_13"></div>'
+				+ '<div id="historicOrtoMap46" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa històric Catalunya 1946')+'" class="div_fons_14"></div>'
+				+ '<div id="alcadaMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Alcada Map')+'" class="div_fons_15"></div>'
+				+'<div></div>'
+				+'<div></div>'
 				+ '</div>',
 		container : 'body',
 		html : true,
@@ -109,6 +114,8 @@ function creaPopOverMesFonsColor() {
 	
 	jQuery("#colorMap").on('click',function(e){
 		  $('.popover:not(.in)').hide().detach();
+		  jQuery(".popover").css('height','150px');
+		  jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
 	});
 	
 	jQuery(document).on('click', "#div_menufons div", function(e) {
@@ -117,7 +124,22 @@ function creaPopOverMesFonsColor() {
 		//_kmq.push.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
 		if (fons == 'topoGrisMap') {
 			map.topoGrisMap();
-			  jQuery("#colorMap").popover('hide');
+			jQuery("#colorMap").popover('hide');
+		}else if (fons == 'historicOrtoMap') {
+			map.historicOrtoMap();
+			jQuery("#colorMap").popover('hide');
+		}else if (fons == 'historicMap') {
+			map.historicMap();
+			jQuery("#colorMap").popover('hide');
+		}else if (fons == 'hibridMap') {
+			map.hibridMap();
+			jQuery("#colorMap").popover('hide');
+		}else if (fons == 'historicOrtoMap46') {
+			map.historicOrtoMap46();
+			jQuery("#colorMap").popover('hide');
+		}else if (fons == 'alcadaMap') {
+			map.alcadaMap();
+			jQuery("#colorMap").popover('hide');
 		}else{
 			map.colorMap(fons);			
 			jQuery("#colorMap").popover('hide');
@@ -130,7 +152,7 @@ function addHtmlInterficieFonsMapes(){
 	jQuery("#funcio_fonsMapes").append(
 	'	<h5 lang="ca">Escollir el mapa de fons</h5>'+
 	'		<div class="add_costat_r2">'+
-	'		<div lang="ca" id="div_mesfons" class="icon-add white pop"></div>'+
+	//'		<div lang="ca" id="div_mesfons" class="icon-add white pop"></div>'+
 	'	</div>'+
 	'	<div class="div_gr3_fons">'+
 	'		<div id="topoMap" lang="ca" class="div_fons_1"></div>'+

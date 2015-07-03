@@ -702,6 +702,25 @@ background-color: #9F9F9E;
 	cursor: pointer;
 }
 
+.div_fons_13 {
+	background: url("images/galeria_icones.png") no-repeat scroll -530px
+			-650px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+.div_fons_14 {
+	background: url("images/galeria_icones.png") no-repeat scroll -477px
+			-650px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+.div_fons_15 {
+	background: url("images/galeria_icones.png") no-repeat scroll -424px
+			-650px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+
 .div_gr2 {
 	height: 55px;
 	margin: 10px 10px 0;
@@ -3456,6 +3475,24 @@ i.fa {
 			-745px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}	
+	.div_fons_13 {
+		background: url("images/galeria_icones.png") no-repeat scroll -530px
+			-650px rgba(208, 208, 208, 0.5);
+		margin-left: 2px;
+		cursor: pointer;
+	}
+	.div_fons_14 {
+		background: url("images/galeria_icones.png") no-repeat scroll -477px
+			-650px rgba(208, 208, 208, 0.5);
+		margin-left: 2px;
+		cursor: pointer;
+	}
+	.div_fons_15 {
+		background: url("images/galeria_icones.png") no-repeat scroll -424px
+			-650px rgba(208, 208, 208, 0.5);
+		margin-left: 2px;
+		cursor: pointer;
+	}
 }
 
 @media (max-width:800px){
@@ -3969,7 +4006,7 @@ i.fa {
 }
 
 .control-btn-fons .llista-fons div:first-child{
-	margin-left: 12px;
+	margin-left: 4px;
 }
 
 .control-btn-fons .llista-fons div:hover{
@@ -3981,14 +4018,17 @@ i.fa {
 .control-btn-fons-expanded .llista-fons{
 	visibility: visible;
 	position: relative;
-    width: 420px;
+    width: 148px;
     background: none no-repeat scroll 0 0 rgba(45, 46, 41, 0.9);
-    height: 50px;
+    height: 175px;
     float:right;
     /*padding: 9px 12px;*/
     overflow: hidden;
     border: 1px;
+    margin-top:25px;
 }
+
+
 
 .div_llistacapes:hover {
     background: none no-repeat scroll 0 0 rgba(244, 244, 244, 0.8);
@@ -4017,7 +4057,13 @@ i.fa {
     line-height: 79px;
 }
 
+.control-btn-fons-expanded .bt_orto {
+  	margin-top:150px;
+}
 
+.control-btn-fons-expanded .bt_topo {
+  margin-top:150px;
+}
 
 #info_geojsonvt {
     background-color: white;

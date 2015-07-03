@@ -161,6 +161,15 @@ var CAPTURA_INFORME = "captura_informe";
 var CAPTURA_FONS = "captura_fons";
 var CAPTURA_GEOPDF = "captura_geopdf";
 
+var NODATA_VALUE = "nodata";
+
+
+
+var NODATA_COLOR = "#CCCCCC";
+
+
+var NODATA_MIDA = 10;
+
 //VAR per nou model de dades
 var nou_model = true;
 
