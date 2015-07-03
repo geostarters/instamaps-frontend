@@ -268,7 +268,10 @@ function addHtmlModalBuffer(){
 			'			<div class="imagePeu"><img src="css/images/Buffer_1.jpg" class="img1">'+
 			'			<span class="peu">Capa d\'origen</span>'+
 			'			<img src="css/images/Buffer_2.jpg">'+
-			'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+			'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+		
+			'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
+			'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+			'</div>'+
 			'			</div>'+
 			'			<div id="buffer_layers">'+
 							'<form id="frm_buffer">'+
@@ -416,6 +419,9 @@ function addHtmlModalIntersection(){
 						'			<span class="peu">Capa d\'origen</span>'+
 						'			<img src="css/images/Interseccio_2.jpg">'+
 						'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+						'</div>'+				
 						'			</div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
@@ -590,6 +596,10 @@ function addHtmlModalTag(){
 						'<img src="css/images/Tag_1.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Capa d\'origen 1'+
 						'<img src="css/images/Tag_2.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Capa d\'origen 2'+
 						'<img src="css/images/Tag_3.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Resultat de l\'operació<br/>'+
+						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+						'</div>'+
+				
 						'</div>'+
 						'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
@@ -662,6 +672,9 @@ function addHtmlModalCentroid(){
 						'			<span class="peu">Capa d\'origen</span>'+
 						'			<img src="css/images/Centroid_2.jpg">'+
 						'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+						'</div>'+				
 						'</div>'+
 							'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
@@ -701,7 +714,11 @@ function addHtmlModalLayersFilter(){
 	'							<div class="imagePeu"><img src="css/images/Filtre_1.jpg" class="img1">'+
 	'							<span class="peu">Capa d\'origen</span>'+
 	'							<img src="css/images/Filtre_2.jpg">'+
-	'						<span class="peu2">Resultat de l\'operació<br/></span></div></div>'+
+	'						<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+	'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
+	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+	'</div>'+
+	'</div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
 	'					<div class="panel-warning">'+					
 	'					<ul class="bs-dadesO_USR panel-heading">'+
