@@ -103,8 +103,7 @@
                     // bind click
                     $('.pop-social').on('click',function(){
                     	_gaq.push(['_trackEvent', $(this).attr('data-from'), tipus_user+'compartir', $(this).attr('data-type'), 1]);
-                    	_kmq.push(['record', 'compartir', {'from':$(this).attr('data-from'), 'tipus user': tipus_user_txt, 'xarxa social':$(this).attr('data-type')}]);
-                        window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
+                    	window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
                         return false;
                     });
                     

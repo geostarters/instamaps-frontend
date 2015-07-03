@@ -41,7 +41,7 @@ function addControlPublicar(){
 //			_kmq.push(['record', 'publicar previ', {'from':'mapa', 'tipus user':tipus_user}]);
 			
 			//actualizar los campos del dialogo publicar
-			console.debug(mapConfig.nomAplicacio);
+			//console.debug(mapConfig.nomAplicacio);
 			if (isDefaultMapTitle(mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(mapConfig.nomAplicacio);
 			if (mapConfig.visibilitat == visibilitat_open){
@@ -202,8 +202,7 @@ function publicarMapa(fromCompartir){
 	
 	//Enregistrem tipus de fons i visibilitat
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat+"#"+map.options.typeMap, 1]);
-//	_kmq.push(['record', 'publicar', {'from':'mapa', 'tipus user':tipus_user, 'visibilitat':visibilitat,'tipus fons':map.options.typeMap}]);
-	
+
 	//crear los archivos en disco
 	var layersId = getBusinessIdOrigenLayers();
 	var laydata = {
@@ -245,7 +244,8 @@ function publicarMapa(fromCompartir){
 					//update map name en el control de capas
 					$('#nomAplicacio').text(mapConfig.nomAplicacio);
 					$('#nomAplicacio').editable('setValue', mapConfig.nomAplicacio);
-					$('#dialgo_url_iframe').modal('show');					
+					$('#dialgo_url_iframe').modal('show');
+					addShareButtons(); 
 				}
 				var mapData = {
 					businessId: mapConfig.businessId,
@@ -495,7 +495,11 @@ function addHtmlModalIframePublicar(){
 	'					  	<label for="iframeMap"><span lang="ca">Per inserir aquest mapa al vostre web, copieu i enganxeu el següent text</span>:</label>'+
 	'					  	<textarea class="form-control" rows="3" id="iframeMap"></textarea>'+
 	'				  	</div>'+
-	'					<div id="urlVisorMap"><a href="" target="_blank" lang="ca">'+window.lang.convert('Veure el mapa')+'&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a></div>'+		
+	'                   <div class="form-group">'+
+	'                   <label><span lang="ca">Per compartir el teu mapa</span></label>'+
+	'                   <div id="socialSharePublicar"></div>'+
+	'                   </div>'+
+	'					<div id="urlVisorMap"><a href="" target="_blank" lang="ca">'+window.lang.convert('Veure el mapa')+'&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a></div>'+
 	'				</div>'+
 	'				<div class="modal-footer">'+
 	'					<button lang="ca" type="button" class="btn btn-success btn-default"'+
@@ -509,4 +513,29 @@ function addHtmlModalIframePublicar(){
 	'	<!-- /.modal -->'+
 	'	<!-- Fi Modal Url/iframe -->'		
 	);
+}
+
+function addShareButtons(){
+	var v_url = window.location.href;
+	if (!url('?id')){
+		v_url += "&id="+jQuery('#userId').val();
+	}
+	v_url = v_url.replace('localhost',DOMINI);
+	v_url = v_url.replace('mapa','visor');
+	
+	shortUrl(v_url).then(function(results){
+
+		jQuery('#socialSharePublicar').share({
+			networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
+			theme: 'square',
+			urlToShare: results.data.url
+		});
+		
+		jQuery('#socialSharePublicar .pop-social').on('click', function(event){
+			_gaq.push(['_trackEvent', $(this).attr('data-from'), tipus_user+'compartir-publicar', $(this).attr('data-type'), 1]);
+			window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
+            return false;
+		});				
+	});
+	
 }

@@ -216,5 +216,5 @@ var llista_dadesExternes = {
 					"formatDadesExternes": t_file_kml,
 					"epsgDadesExternes":"EPSG:4326"
 				}
-		]
+		] 
 };

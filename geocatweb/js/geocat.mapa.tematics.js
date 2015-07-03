@@ -1068,6 +1068,23 @@ function addHtmlModalCategories(){
 	' 						</thead>'+
 	'						<tbody>'+
 	'						{{#each values}}'+
+	'                       {{#if v.nodata}}'+
+	'						<tr><td><input type="text" value="{{v.min}}" name="min" disabled></td>'+
+	'							<td><input type="text" value="{{v.max}}" name="max" disabled></td>'+
+	'							<td>'+
+	'							{{#if style.isCanvas}}'+
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
+	'							{{else}}'+
+	'								<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
+	'									{{#if style.icon}}'+
+	'										fa-{{style.icon}}"></div>'+	
+	'									{{else}}'+
+	'										"></div>'+
+	'									{{/if}}'+
+	'							{{/if}}'+
+	'						</td></tr>'+
+	'                       {{else}}'+
 	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
 	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
 	'							<td>'+
@@ -1083,6 +1100,7 @@ function addHtmlModalCategories(){
 	'									{{/if}}'+
 	'							{{/if}}'+
 	'						</td></tr>'+
+	'                       {{/if}}'+
 	'						{{/each}}'+
 	'						</tbody>'+
 	'					</table>'+	
@@ -1091,11 +1109,19 @@ function addHtmlModalCategories(){
 	'					<table class="table">'+
 	'						<tbody>'+
 	'						{{#each values}}'+
+	'                       {{#if v.nodata}}'+
+	'						<tr><td><input type="text" value="{{v.min}}" name="min" disabled></td>'+
+	'							<td><input type="text" value="{{v.max}}" name="max" disabled></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol{{index}}" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'                       {{else}}'+
 	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
 	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
 	'							<td>'+
 	'							<canvas id="cv_pol{{index}}" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
 	'						</td></tr>'+
+	'                       {{/if}}'+
 	'						{{/each}}'+
 	'						</tbody>'+
 	'					</table>'+	
@@ -1104,11 +1130,19 @@ function addHtmlModalCategories(){
 	'					<table class="table">'+
 	'						<tbody>'+
 	'						{{#each values}}'+
+	'                       {{#if v.nodata}}'+
+	'						<tr><td><input type="text" value="{{v.min}}" name="min" disabled></td>'+
+	'							<td><input type="text" value="{{v.max}}" name="max" disabled></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol{{index}}" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'                       {{else}}'+
 	'						<tr><td><input type="text" value="{{v.min}}" name="min"></td>'+
 	'							<td><input type="text" value="{{v.max}}" name="max"></td>'+
 	'							<td>'+
 	'							<canvas id="cv_pol{{index}}" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
 	'						</td></tr>'+
+	'                       {{/if}}'+
 	'						{{/each}}'+
 	'						</tbody>'+
 	'					</table>'+	
@@ -1221,6 +1255,15 @@ function addHtmlModalBubbles(){
 		 	'					</thead>'+
 			'					<tbody>'+
 			'					{{#each values}}'+
+			'                   {{#if v.nodata}}'+
+			'					<tr><td class="td_15"><input type="text" value="{{v.min}}" name="min" disabled></td>'+
+			'						<td class="td_15"><input type="text" value="{{v.max}}" name="max" disabled></td>'+
+			'						<td class="td_15"><input type="number" value="{{style.size}}" name="mida" class="mida nodata"></td>'+
+			'						<td class="">'+
+			'						<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+			'								style="font-size: 10.5px; width: {{style.size}}px; height: {{style.size}}px; color: rgb(51, 51, 51); background-color: {{style.fillColor}}; border-radius:{{style.radius}}px"> </div>'+
+			'					</td></tr>'+
+			'                   {{else}}'+
 			'					<tr><td class="td_15"><input type="text" value="{{v.min}}" name="min"></td>'+
 			'						<td class="td_15"><input type="text" value="{{v.max}}" name="max"></td>'+
 			'						<td class="td_15"><input type="number" value="{{style.size}}" name="mida" class="mida"></td>'+
@@ -1228,6 +1271,7 @@ function addHtmlModalBubbles(){
 			'						<div id="div_punt{{index}}" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
 			'								style="font-size: 10.5px; width: {{style.size}}px; height: {{style.size}}px; color: rgb(51, 51, 51); background-color: {{style.fillColor}}; border-radius:{{style.radius}}px"> </div>'+
 			'					</td></tr>'+
+			'                   {{/if}}'+
 			'					{{/each}}'+
 			'					</tbody>'+
 			'				</table>	'+
@@ -1236,6 +1280,16 @@ function addHtmlModalBubbles(){
 			'				<table class="table text-center buble_table">'+
 			'					<tbody>'+
 			'					{{#each values}}'+
+			'                   {{#if v.nodata}}'+
+			'                   <tr><td colspan="2">'+
+			'                     <div class="buble_prop">'+
+			'                       <div><label lang="ca">Sense valor</label>&nbsp;{{v.min}}<input type="hidden" value="{{v.min}}" name="min"></div>'+
+			'                       <div><label lang="ca">mida</label>&nbsp;<input type="number" value="{{style.size}}" name="mida" class="mida nodata"></div>'+
+			'						<div id="div_punt_nodata" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+			'								style="font-size: 10.5px; width: {{style.size}}px; height: {{style.size}}px; color: rgb(51, 51, 51); background-color: {{style.fillColor}}; border-radius:{{style.radius}}px"> </div>'+
+			'                     </div></td>'+
+			'                   </td></tr>'+
+			'                   {{else}}'+
 			'					<tr><td>'+
 			'                     <div class="buble_prop">'+
 			'                       <div><label lang="ca">Valor min.</label>&nbsp;{{v.min}}<input type="hidden" value="{{v.min}}" name="min"></div>'+
@@ -1249,6 +1303,7 @@ function addHtmlModalBubbles(){
 			'						<div id="div_punt_max" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
 			'								style="font-size: 10.5px; width: {{style.sizeMax}}px; height: {{style.sizeMax}}px; color: rgb(51, 51, 51); background-color: {{style.fillColor}}; border-radius:{{style.radiusMax}}px"> </div>'+
 			'					</td></tr>'+
+			'                   {{/if}}'+
 			'					{{/each}}'+
 			'					</tbody>'+
 			'				</table>	'+
