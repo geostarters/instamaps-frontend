@@ -34,15 +34,7 @@ jQuery(document).ready(function() {
     });
     initCookies();
     
-    
-//	jQuery(document).keypress(function(e) {
-//	    if(e.which == 13) {
-//	    	jQuery("#login_button").click();	    	
-//	    }
-//	});
-    
     controlLandingForm();
-    
     
 });
 
@@ -73,12 +65,30 @@ function initCookies(){
 
 function controlLandingForm(){
     
-    $('#landing-form-checkboxes input').iCheck({
-//        checkboxClass: 'icheckbox_flat-blue',
-        checkboxClass: 'icheckbox_minimal-blue'//,
-        //radioClass: 'iradio_square',
-        //increaseArea: '20%' // optional
-    });
+//    $('#landing-form-checkboxes input').iCheck({
+////        checkboxClass: 'icheckbox_flat-blue',
+//        checkboxClass: 'icheckbox_minimal-blue'//,
+//        //radioClass: 'iradio_square',
+//        //increaseArea: '20%' // optional
+//    });
+	
+	
+	//intro per enviament del form
+	jQuery(document).keypress(function(e) {
+		console.debug("key pressed!");
+	    if(e.which == 13 ) {
+	    	console.debug("intro pressed!");	
+	    	if($("#landing-form-email").is(":focus")){
+	    		console.debug("email on focus!");
+	    		$("#landing-form-email").blur();
+	    		$("#id-btn-landing-form").click();	
+	    	}else if($("#landing-form-email-xs").is(":focus")){
+	    		console.debug("email-xs on focus!");
+	    		$("#landing-form-email-xs").blur();
+	    		$("#id-btn-landing-form-xs").click();	
+	    	}
+	    }
+	});	
     
     $('#landing-form-email, #landing-form-email-xs').focus(function(){
     	$('#landing-form-message').html('');
@@ -88,7 +98,7 @@ function controlLandingForm(){
     });
     
     $('#id-btn-landing-form').on("click", function(){
-//    	console.debug("CLICK!");
+    	console.debug("CLICK!");
     	
     	var email =  $('#landing-form-email').val();
     	

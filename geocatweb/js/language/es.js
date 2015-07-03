@@ -203,6 +203,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Escull l'interval":"Escoge el intervalo"
 ,"Escull les teves icones i estils personalitzats.":"Escoge tus iconos y estilos personalizados."
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"Estamos en proceso de actualización. Pueden observar anomalías temporales en la visualización de los datos."
+,"Estem preparant el proper curs d'InstaMaps, t'interessa?":"Estamos preparando el próximo curso de InstaMaps, te interesa?"
 ,"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Estado e incidéncias de tráfico, transporte público, previsión meteorológica y más."
 ,"Estil actiu":"Esilo activo"
 ,"Estils d'àrees":"Estilos de áreas"
@@ -239,6 +240,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Generant mapa GeoPDF...":"Generando mapa GeoPDF..."
 ,"Geometries creades":"Geometrías creadas"
 ,"Geoserveis":"Geoservicios"
+,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.":"Gracias. Tomamos nota de tu correo y te avisaremos cuando empecemos el próximo curso."
 ,"graduat":"graduado"
 ,"Gruix contorn:":"Grosor contorno"
 ,"Gruix linia:":"Grosor línea"
@@ -467,6 +469,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Visualitza":"Visualiza"
 ,"Vols esborrar la capa":"¿Deseas borrar la capa"
 ,"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?"
+,"Vull informació":"Quiero información"
 ,"Vull ser le primer":"Quiero ser el primero"
 
 ,"Xarxes socials":"Redes sociales"
