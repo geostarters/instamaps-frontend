@@ -307,7 +307,7 @@ function addClicksInici() {
 	});
 	
 	jQuery(document).on('click', function(e) {
-        if(e.target.id.indexOf("popovercloseid" )!=-1)
+        if(e.target.id!='undefined' && e.target.id.indexOf("popovercloseid" )!=-1)
         {
        	 var pop=e.target.id.split("#");
        	 var ddv="#"+pop[1];
