@@ -4202,7 +4202,7 @@ i.fa {
     position: absolute;
     text-align: center;
     width: 235px;
-    z-index: 200;
+    z-index: 1000;
 }
 
 #div_uploading_txt {

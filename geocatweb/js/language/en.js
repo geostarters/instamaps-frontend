@@ -204,6 +204,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Escull les teves icones i estils personalitzats.":"Choose your icons and custom styles."
 ,"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Conditions and traffic incidents, public transport, weather forecast and more."
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"We are updating the platform. Temporary anomalies can be observed when viewing the data."
+,"Estem preparant el proper curs d'InstaMaps, t'interessa?":"We are preparing the next InstaMaps course, interested?"
 ,"Estil actiu":"Active style"
 ,"Estils d'àrees":"Area styles"
 ,"Estils de línia":"Line styles"
@@ -240,6 +241,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Geometries creades":"Geometries created"
 ,"Geoserveis":"Geoservices"
 ,"graduat":"graduate"
+,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.":"Thank You. We take note of your email and we will notify you when we start the next course."
 ,"Gruix contorn:":"Outline width"
 ,"Gruix linia:":"Line width"
 ,"Guardar com":"Save as"
@@ -467,6 +469,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Visualitza":"View"
 ,"Vols esborrar la capa":"Do you want to delete the layer"
 ,"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?"
+,"Vull informació":"I want information"
 ,"Vull ser le primer":"I want to be the first"
 
 ,"Xarxes socials":"Social networks"		

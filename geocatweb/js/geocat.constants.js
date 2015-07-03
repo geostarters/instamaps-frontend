@@ -164,6 +164,8 @@ var CAPTURA_GEOPDF = "captura_geopdf";
 //VAR per nou model de dades
 var nou_model = true;
 
+var instamaps_email = "instamapes@icgc.cat";
+
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
 		"dadesExternes" : [
@@ -214,9 +216,5 @@ var llista_dadesExternes = {
 					"formatDadesExternes": t_file_kml,
 					"epsgDadesExternes":"EPSG:4326"
 				}
-		]
+		] 
 };
-
-var NODATA_VALUE = "nodata";
-var NODATA_COLOR = "#CCCCCC";
-var NODATA_MIDA = 10;

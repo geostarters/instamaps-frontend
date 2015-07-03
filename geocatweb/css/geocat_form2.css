@@ -331,10 +331,9 @@ footer .logo_footer {
 	}
 	
 	
-	@media (max-width: 800px) {
+	@media (max-width: 350px) {
 		.brand-txt {
 			font-size: 20px;
-			margin-right: 10px;
 		}
 	}
 
@@ -382,15 +381,6 @@ footer .logo_footer {
 	 	background-repeat: no-repeat; 
 	 	-moz-box-shadow: none;	  
 	}
-	
-	.invalid-landing-form {
-	  	/*outline: 1px solid red;*/
-		/*background-image: url(../../llibreries/img/glyph_exclamation.png);*/ 
-	 	background-position: right; 
-	 	background-repeat: no-repeat; 
-	 	-moz-box-shadow: none;	 
-	 	outline: 0.5px dotted rgba(169, 68, 66, 0.8); 
-	}	
 	
 	.text_error{
 		line-height: 2;
@@ -682,8 +672,6 @@ background-color:#FFFFFF}
 	
 #txt-image {
     background-color: #CCCCCC;
-    /*background-image: url("/llibreries/img/banner_sm_screens.png");*/
-    background-image: url("/llibreries/img/banner_orto_sm2.png");
     color: #202020;
     font-size: 30px;
     font-style: normal;
@@ -691,8 +679,7 @@ background-color:#FFFFFF}
     line-height: 1.5;
     padding: 10%;
     text-align: center;
-    /*text-shadow: 0 2px 1px #FFFFFF;*/
-    text-shadow: -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff, 2px 0 #ffffff;
+    text-shadow: 0 2px 1px #FFFFFF;
 }
 	
 	
@@ -1361,24 +1348,27 @@ h1.big_text{
 }
 
 
-/****** Formulari landing page *******/
-
+/*Formulari landing page*/
 #container1 {
     background-color: #e2dada;
 }
 
 .centered-form {
+
     margin-left: 43%;
     position: absolute;
     width: 100%;
     z-index: 1000; 
-    margin-top: -10px;   
+    margin-top: 15px;   
 }
 
 .centered-form .panel {
    /* background: rgba(255, 255, 255, 0.8);*/
-    box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+    box-shadow: rgba(0, 0, 0, 0.3) 10px 10px 10px;
 }
+
+
+
 
 #landing-form-checkboxes{
 	padding-left: 20px;
@@ -1388,29 +1378,17 @@ h1.big_text{
 	line-height: 1.4;
 	font-weight: bold;
 }
-#landing-form-panel-title-xs {
-    font-size: 14px;
-    font-weight: bold;
-}
 
-#landing-form-panel-body{}
+#landing-form-panel-body{
+		background-color: #2196f3;
+    color: #fff;
+}
 
 .panel, .panel-heading{border-radius: 0;}
 
 .panel-landing-form{
 	border: 0;	
 	border-radius: 0:
-}
-.panel-landing-form-xs{
-	/*border: 1px hidden #0288d1;*/
-	margin-bottom: 4px;
-	margin-top: 4px;
-	box-shadow: rgba(0, 0, 0, 0.3) 10px 1px 10px;
-	text-align: center;
-   	width: 80%;	
-   	margin-right: 10%;	
-   	margin-left: 10%;
-   	
 }
  
 
@@ -1419,66 +1397,32 @@ h1.big_text{
     color: #fff;
     font-weight: bold;
     border-radius: 0;
-    transition: all 0.3s ease 0s;
+    border: 2px solid #0288D1;
 }
 
 .btn-landing-form:hover{
 	background-color: #03A9F4;
-    color: #fff;
+    color: #0288D1;
+    border: 2px solid #0288D1;
 }
 
-
-.panel-landing-form > .panel-heading, .panel-landing-form-xs > .panel-heading{
-	background-color: #0288D1;/*#03A9F4;*/
+.panel-landing-form > .panel-heading{
+	background-color: #2196f3;
     color: #fff;
     font-weight: bold;
-    border-radius: 0:
+    border-radius: 0;
+    padding: 10px 15px 0;
 }
 
-#landing-form-message, #landing-form-message-xs {
-    margin-bottom: 4px;
-    margin-top: -4px;
-    text-align: center;
+#landing-form-email{
+	border-radius: 0;
+    box-shadow: none;	
+    background-color: #d2eafd;
 }
-
-#landing-form-message-xs {
-	font-size: 12px;
+#landing-form-email:focus{
+	border-radius: 0;
+    box-shadow: none;	
+    background-color: #f2f9fe;
+    border-color: #f2f9fe;
 }
-
-/***** LOADER SENDING EMAIL ********/
-
-@keyframes three-quarters-loader {
-	0% {
-	    transform: rotate(0deg);
-	}
-	100% {
-	    transform: rotate(360deg);
-	}
-}
-@keyframes three-quarters-loader {
-	0% {
-	    transform: rotate(0deg);
-	}
-	100% {
-	    transform: rotate(360deg);
-	}
-}
-.three-quarters-loader:not(:required) {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    animation: 1250ms linear 0s normal none infinite running three-quarters-loader;
-    border-color: #38e transparent #38e #38e;
-    border-image: none;
-    border-radius: 16px;
-    border-style: solid;
-    border-width: 4px;
-    box-sizing: border-box;
-    display: inline-block;
-    height: 32px;
-    overflow: hidden;
-    position: relative;
-    text-indent: -9999px;
-    width: 32px;
 }
