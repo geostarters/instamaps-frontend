@@ -1445,6 +1445,17 @@ h1.big_text{
 	font-size: 12px;
 }
 
+.my-form-control-style{
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+}
+
 /***** LOADER SENDING EMAIL ********/
 
 @keyframes three-quarters-loader {
