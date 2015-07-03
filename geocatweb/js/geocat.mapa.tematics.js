@@ -260,6 +260,8 @@ function createPopupWindowData(player,type, editable, origen){
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
+		console.debug("player.properties");
+		console.debug(player.properties);
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
 	}
 	html+='</div>';

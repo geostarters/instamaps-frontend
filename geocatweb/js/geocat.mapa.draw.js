@@ -1245,7 +1245,7 @@ function fillCmbCapesUsr(type){
 	        if(capaUsrActiva && (capaUsrActiva.options.businessId == layer.businessId)) html += " selected";
 	        html += ">"+ layer.nom + "</option>";
 	    //nou model    
-		}else if(layer.tipus==t_visualitzacio && layer.geometryType==type && !layer.source){
+		}else if(layer.tipus==t_visualitzacio && layer.geometryType==type /*&& !layer.source*/){
 	        html += "<option value=\"";
 	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
 	        if(capaUsrActiva && (capaUsrActiva.options.businessId == layer.businessId)) html += " selected";
