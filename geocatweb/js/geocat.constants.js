@@ -162,7 +162,16 @@ var CAPTURA_FONS = "captura_fons";
 var CAPTURA_GEOPDF = "captura_geopdf";
 
 var NODATA_VALUE = "nodata";
+<<<<<<< HEAD
 var NODATA_COLOR = "#CCCCCC";
+=======
+
+
+
+var NODATA_COLOR = "#CCCCCC";
+
+
+>>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
 var NODATA_MIDA = 10;
 
 //VAR per nou model de dades
