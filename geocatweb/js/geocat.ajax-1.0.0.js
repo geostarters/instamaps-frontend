@@ -879,9 +879,18 @@ function getVisualitzacioSimpleByBusinessId(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
 function filterVisualitzacio(data){
 	return jQuery.ajax({
 		url: paramUrl.filterVisualitzacio,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function registreInstamaper(data){
+	return jQuery.ajax({
+		url: paramUrl.signinInstamaper,
 		data: data,
 		dataType: 'jsonp'
 	}).promise();

@@ -34,7 +34,10 @@ jQuery(document).ready(function() {
     });
     initCookies();
     
-    controlLandingForm();
+    if(window.location.href.indexOf("index.html")!=-1){
+    	controlLandingForm();
+    }
+    
     
 });
 
@@ -73,6 +76,15 @@ function controlLandingForm(){
 //    });
 	
 	
+	$('.centered-form').transition({ opacity: 100, delay: 600  });
+//	$('.centered-form').transition({ scale: 100, delay: 600  }); 
+	
+//	$('.centered-form').transition({
+//		  perspective: '100px',
+//		  rotateY: '360deg',
+//		  delay:400
+//		});
+	
 	//intro per enviament del form
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13 ) {
@@ -101,6 +113,70 @@ function controlLandingForm(){
     });	
 }
 
+function insertDataInstamaper(email){
+	console.debug("insertDataInstamaper...");
+	var defer = $.Deferred();
+	
+	var dataInsert = {
+			email: email,
+			options: curs_instamaps
+	}
+	console.debug(dataInsert);
+	var insert_error = "";
+	registreInstamaper(dataInsert).then(function(results){
+		console.debug(results);					
+		if (results.status=="ERROR") {
+			insert_error = " (email no inserit correctament a la taula INSTAMAPERS)";
+		}
+	},function(results){
+		insert_error = " (email no inserit correctament a la taula INSTAMAPERS)";
+	});	
+	
+	console.debug(insert_error);
+	
+	defer.resolve(insert_error);
+	console.debug("... insertDataInstamaper");
+	return defer.promise();
+}
+
+function sendEmailInstamaper(email,insert_error, type){//type per saber si es per pantalles petites o grans
+	console.debug("sendEmailInstamaper ....");
+	var data = {
+			uid: $.cookie('uid'),
+			to: instamaps_email,// to,
+			subject: curs_instamaps,
+			content: email + insert_error,//contingut,
+			esColaboratiu: 'N',
+			businessId: ""
+	};
+	console.debug(data);
+	sendMail(data).then(function(results){
+		console.debug(results);					
+		if (results.status=="OK") {
+			console.debug(results)	;
+			$('#landing-form-message'+type).html(
+					'<div class="alert alert-success alert-dismissible" role="alert">'+
+					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
+			);				
+		}
+		else {
+			$('#landing-form-message'+type).html(
+					'<div class="alert alert-danger alert-dismissible" role="alert">'+
+					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+			);
+		}
+	},function(results){
+		$('#landing-form-message'+type).html(
+			'<div class="alert alert-danger alert-dismissible" role="alert">'+
+			  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+			  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+		);
+	});	
+	
+	console.debug(".... sendEmailInstamaper");
+}
 
 function landingFormButtonXsClick(){
 //	console.debug("CLICK!");
@@ -130,47 +206,69 @@ function landingFormButtonXsClick(){
     			'<div class="three-quarters-loader">'+
     			'  Loading…'+
     			'</div>'
-    	);			
-		
-		var data = {
-				uid: $.cookie('uid'),
-				to: instamaps_email,// to,
-				subject:window.lang.convert('Interessats 1er curs InstaMaps'),
-				content: email,//contingut,
-				esColaboratiu: 'N',
-				businessId: ""
-		};
-		console.debug(data);
-		sendMail(data).then(function(results){
-			console.debug(results);					
-			if (results.status=="OK") {
-				console.debug(results);
-				$('#landing-form-message-xs').html(
-						'<div class="alert alert-success alert-dismissible" role="alert">'+
-						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-						  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
-				);				
-			}
-			else {
-				$('#landing-form-message-xs').html(
-						'<div class="alert alert-danger alert-dismissible" role="alert">'+
-						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-						  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
-				);
-			}
-		},function(results){
-			$('#landing-form-message-xs').html(
-				'<div class="alert alert-danger alert-dismissible" role="alert">'+
-				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
-			);
-		});			
+    	);
+    	
+//    	var dataInsert = {
+//    			email: email,
+//    			options: curs_instamaps
+//    	}
+//    	console.debug(dataInsert);
+//    	var insert_error = "";
+//    	registreInstamaper(dataInsert).then(function(results){
+//    		console.debug(results);					
+//			if (results.status=="ERROR") {
+//				insert_error = " (email no inserit correctament a la taula INSTAMAPERS)";
+//			}
+//    	},function(results){
+//    		insert_error = " (email no inserit correctament a la taula INSTAMAPERS)";
+//    	});
+    	insertDataInstamaper(email).then(function(results){
+    		console.debug("insertDataInstamaper results:");
+    		console.debug(results);
+    			sendEmailInstamaper(email,results, '-xs');
+    		}
+    	);
+    	
+    	
+//		var data = {
+//				uid: $.cookie('uid'),
+//				to: instamaps_email,// to,
+//				subject: curs_instamaps,
+//				content: email + insert_error,//contingut,
+//				esColaboratiu: 'N',
+//				businessId: ""
+//		};
+//		console.debug(data);
+//		sendMail(data).then(function(results){
+//			console.debug(results);					
+//			if (results.status=="OK") {
+//				console.debug(results)	;
+//				$('#landing-form-message-xs').html(
+//						'<div class="alert alert-success alert-dismissible" role="alert">'+
+//						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+//						  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
+//				);				
+//			}
+//			else {
+//				$('#landing-form-message-xs').html(
+//						'<div class="alert alert-danger alert-dismissible" role="alert">'+
+//						  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+//						  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+//				);
+//			}
+//		},function(results){
+//			$('#landing-form-message-xs').html(
+//				'<div class="alert alert-danger alert-dismissible" role="alert">'+
+//				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+//				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+//			);
+//		});			
 	}	
 }
 
 function landingFormButtonClick(){
-	console.debug("CLICK!");
-	
+//	console.debug("CLICK!");
+//	
 	var email =  $('#landing-form-email').val();
 	
 	if(isBlank(email)){
@@ -196,7 +294,22 @@ function landingFormButtonClick(){
     			'<div class="three-quarters-loader">'+
     			'  Loading…'+
     			'</div>'
-    	);			
+    	);	
+    	
+    	var dataInsert = {
+    			email: email,
+    			options: curs_instamaps
+    	}
+    	console.debug(dataInsert);
+    	var insert_error = "";
+    	registreInstamaper(dataInsert).then(function(results){
+    		console.debug(results);					
+			if (results.status=="ERROR") {
+				insert_error = " (email no inserit correctament a la taula INSTAMAPERS)";
+			}
+    	},function(results){
+    		insert_error = " (email no inserit correctament a la taula INSTAMAPERS)";
+    	});    	
 		
 		var data = {
 				uid: $.cookie('uid'),

@@ -162,22 +162,15 @@ var CAPTURA_FONS = "captura_fons";
 var CAPTURA_GEOPDF = "captura_geopdf";
 
 var NODATA_VALUE = "nodata";
-<<<<<<< HEAD
 var NODATA_COLOR = "#CCCCCC";
-=======
-
-
-
-var NODATA_COLOR = "#CCCCCC";
-
-
->>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
 var NODATA_MIDA = 10;
 
 //VAR per nou model de dades
 var nou_model = true;
 
 var instamaps_email = "instamapes@icgc.cat";
+var curs_instamaps = "1er curs InstaMaps";
+
 
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
