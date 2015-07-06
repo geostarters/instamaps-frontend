@@ -192,12 +192,12 @@ function openTagModal(){
 						propertiesList: results.propertiesList,
 						geomType: results.geomType
 					}
-					doUploadFile(data2).then(function(results){
+					/*doUploadFile(data2).then(function(results){
 						if (results.status="OK") {
 							addDropFileToMap(results);
 							 $('#dialog_tag').modal('hide');
 						}
-					});
+					});*/
 				}
 			});
 		 }
