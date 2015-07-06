@@ -123,6 +123,7 @@ var paramUrl = {
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
 	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
+	signinInstamaper: HOST_APP+"geocat/registreInstamaper.action?",
 	updateMapVisibility: HOST_APP+"geocat/aplications/map/updateVisibility.action?",
 	sendMail: HOST_APP+"geocat/mail/sendMail.action?",
 	getEntitatsAplicacioRolByUidColaborador:  HOST_APP+"geocat/entitatAplicacio/getEntitatsAplicacioRolByUidColaborador.action?",
