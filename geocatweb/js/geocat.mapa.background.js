@@ -21,8 +21,8 @@ function addOpcionsFonsMapes() {
 			map.topoGrisMap();
 		}else if (fons == 'ortoMap') {
 			map.ortoMap();
-		} else if (fons == 'terrainMap') {
-			map.terrainMap();
+		}else if (fons == 'hibridMap') {
+			map.hibridMap();
 		} else if (fons == 'colorMap') {
 			gestionaPopOver(this);
 		} 
@@ -80,16 +80,16 @@ function creaPopOverMesFonsColor() {
 	.popover(
 	{
 		content : '<div id="div_menufons" class="div_gr3_fons">'
+				+ '<div id="terrainMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Terreny')+'" class="div_fons_4"></div>'
+				+ '<div id="alcadaMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Model d\'elevacions')+'" class="div_fons_15"></div>'
+				+ '<div id="historicOrtoMap46" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Ortofoto històrica Catalunya 1946')+'" class="div_fons_14"></div>'
+				+ '<div id="historicOrtoMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Ortofoto històrica Catalunya 1956-57')+'" class="div_fons_11"></div>'
+				+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa històric Catalunya 1936')+'" class="div_fons_10"></div>'
 				+ '<div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="'+window.lang.convert('Topogràfic gris')+'" class="div_fons_2"></div>'
 				+ '<div id="nit" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Nit')+'" class="div_fons_6"></div>'
 				+ '<div id="sepia" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Sèpia')+'" class="div_fons_7"></div>'
 				+ '<div id="zombie" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Zombie')+'" class="div_fons_8"></div>'
 				+ '<div id="orquidea" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Orquídea')+'" class="div_fons_9"></div>'
-				+ '<div id="historicOrtoMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Ortofoto històrica Catalunya 1956-57')+'" class="div_fons_11"></div>'
-				+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa històric Catalunya 1936')+'" class="div_fons_10"></div>'
-				+ '<div id="hibridMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa híbrid')+'" class="div_fons_13"></div>'
-				+ '<div id="historicOrtoMap46" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa històric Catalunya 1946')+'" class="div_fons_14"></div>'
-				+ '<div id="alcadaMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Alcada Map')+'" class="div_fons_15"></div>'
 				+'<div></div>'
 				+'<div></div>'
 				+ '</div>',
@@ -131,8 +131,8 @@ function creaPopOverMesFonsColor() {
 		}else if (fons == 'historicMap') {
 			map.historicMap();
 			jQuery("#colorMap").popover('hide');
-		}else if (fons == 'hibridMap') {
-			map.hibridMap();
+		} else if (fons == 'terrainMap') {
+			map.terrainMap();
 			jQuery("#colorMap").popover('hide');
 		}else if (fons == 'historicOrtoMap46') {
 			map.historicOrtoMap46();
@@ -159,7 +159,7 @@ function addHtmlInterficieFonsMapes(){
 	'		<div id="topoMapGeo" lang="ca" class="div_fons_12"></div>'+
 	'		<!-- div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div-->'+
 	'		<div id="ortoMap" lang="ca" class="div_fons_3"></div>'+
-	'		<div id="terrainMap" lang="ca" class="div_fons_4"></div>'+
+	'		<div id="hibridMap" lang="ca" class="div_fons_13"></div>'+
 	'		<div id="colorMap" lang="ca" class="div_fons_5 pop"></div>'+
 	'	</div>'		
 	);
@@ -168,7 +168,7 @@ function addHtmlInterficieFonsMapes(){
 	$('.div_gr3_fons #topoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Topogràfic')});
 	$('.div_gr3_fons #topoMapGeo').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Simple')});
 	$('.div_gr3_fons #ortoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Imatge')});
-	$('.div_gr3_fons #terrainMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Terreny')});
+	$('.div_gr3_fons #hibridMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Mapa híbrid')});
 	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Combinacions de color')});	
 	
 }
