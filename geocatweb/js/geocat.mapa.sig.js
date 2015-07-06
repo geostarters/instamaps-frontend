@@ -263,14 +263,16 @@ function addHtmlModalBuffer(){
 						'</div>'+
 						'<div class="modal-body">'+
 			'			<div class="alert alert-success">'+
-			'			Aquesta operació calcula una àrea definida per una distància fixa a l\'entorn d\'un element.<br/>'+
-			'			Aplicable a punts, línies o polígons.<br/><br/>'+
+						window.lang.convert('Aquesta operació calcula una àrea definida per una distància fixa a l\'entorn d\'un element.')+
+			'			<br/>'+
+						window.lang.convert('Aplicable a punts, línies o polígons.')+'<br/><br/>'+
 			'			<div class="imagePeu"><img src="css/images/Buffer_1.jpg" class="img1">'+
-			'			<span class="peu">Capa d\'origen</span>'+
+			'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
 			'			<img src="css/images/Buffer_2.jpg">'+
-			'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+		
+			'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+		
 			'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-			'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+			'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+
+					'<br/><br/>'+
 			'</div>'+
 			'			</div>'+
 			'			<div id="buffer_layers">'+
@@ -413,14 +415,14 @@ function addHtmlModalIntersection(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						'			Aquesta operació calcula els elements que són intersecció entre diverses geometries.<br/>'+
-						'			Aplicable a polígons.<br/><br/>'+
+						window.lang.convert('Aquesta operació calcula els elements que són intersecció entre diverses geometries.')+'<br/>'+
+						window.lang.convert('Aplicable a polígons.')+'<br/><br/>'+
 						'			<div class="imagePeu"><img src="css/images/Interseccio_1.jpg" class="img1">'+
-						'			<span class="peu">Capa d\'origen</span>'+
+						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
 						'			<img src="css/images/Interseccio_2.jpg">'+
-						'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+						'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
 						'</div>'+				
 						'			</div>'+
 							'<form id="frm_buffer">'+
@@ -591,13 +593,13 @@ function addHtmlModalTag(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						'Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests.<br/>'+
-						'Aplicable a polígons i punts.<br/><br/>'+
-						'<img src="css/images/Tag_1.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Capa d\'origen 1'+
-						'<img src="css/images/Tag_2.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Capa d\'origen 2'+
-						'<img src="css/images/Tag_3.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">Resultat de l\'operació<br/>'+
+						window.lang.convert('Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests  (polígon --> punt).')+'<br/>'+
+						window.lang.convert('Aplicable a polígons i punts.')+'<br/><br/>'+
+						'<img src="css/images/Tag_1.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">'+window.lang.convert('Capa d\'origen 1')+
+						'<img src="css/images/Tag_2.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">'+window.lang.convert('Capa d\'origen 2')+
+						'<img src="css/images/Tag_3.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">'+window.lang.convert('Resultat de l\'operació')+'<br/>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
 						'</div>'+
 				
 						'</div>'+
@@ -666,14 +668,14 @@ function addHtmlModalCentroid(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						'Aquesta operació calcula el centre geomètric o centroide d\'un polígon tancat.<br/>'+
-						'Aplicable a polígons.<br/><br/>'+
+						window.lang.convert('Aquesta operació calcula el centre geomètric o centroide d\'un polígon tancat.')+'<br/>'+
+						window.lang.convert('Aplicable a polígons.')+'<br/><br/>'+
 						'			<div class="imagePeu"><img src="css/images/Centroid_1.jpg" class="img1">'+
-						'			<span class="peu">Capa d\'origen</span>'+
+						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
 						'			<img src="css/images/Centroid_2.jpg">'+
-						'			<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+						'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
 						'</div>'+				
 						'</div>'+
 							'<form id="frm_buffer">'+
@@ -709,14 +711,14 @@ function addHtmlModalLayersFilter(){
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success">'+
-	'						Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.<br/>'+
-	'						Aplicable a punts, línies o polígons.<br/><br/>'+
+						window.lang.convert('Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.')+'<br/>'+
+						window.lang.convert('Aplicable a punts, línies o polígons.')+'<br/><br/>'+
 	'							<div class="imagePeu"><img src="css/images/Filtre_1.jpg" class="img1">'+
-	'							<span class="peu">Capa d\'origen</span>'+
+	'							<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
 	'							<img src="css/images/Filtre_2.jpg">'+
-	'						<span class="peu2">Resultat de l\'operació<br/></span></div>'+
+	'						<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 	'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;Per capes amb gran volum de dades aquesta operació no està disponible<br/><br/>'+
+	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
 	'</div>'+
 	'</div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
@@ -964,7 +966,7 @@ function getTipusValuesVisualitzacioFilter(results){
 			var check =  "<input type='checkbox' name='filterValue' value='"+n+"' id='filter_"+i+"' class='col-md-1 download'/>"+n;
 			checkboxes += check +"<br/>" ;
 		});
-		var html = "2. Escull els valors pels que vols filtrar:<br/>";
+		var html = "2. "+window.lang.convert('Escull els valors pels que vols filtrar')+":<br/>";
 		html += checkboxes;
 		var filtres="";
 		var i=0;
