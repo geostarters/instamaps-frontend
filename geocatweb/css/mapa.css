@@ -4619,6 +4619,10 @@ i.fa {
 .imagePeu .img1 {
 	margin-right:10%;
 }
+.imagePeu .img_sola {
+    margin-right: 50%;
+    float:right;
+}
 .imagePeu .peu{
 	display:table-caption;
 	position:absolute;
@@ -4638,8 +4642,19 @@ i.fa {
 	width:100%;
 	top:98%;
 }
+
+.imagePeu .peu3{
+	display:table-caption;
+	position:absolute;
+	bottom:0;
+	left:25%;
+	display:block;
+	width:100%;
+	top:98%;
+}
 #div_menufons{
-	width:190px;
+	width:180px;
+	
 }
 .popover-content{
 padding: 8px 0;

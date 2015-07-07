@@ -735,12 +735,11 @@ if(print){
 			HIBRID_ICGC_L0_18 = new L.TileLayer(URL_HIBRIDICGC,{  	    
 				tms:true,
 				minZoom: 0,
-				maxZoom: 18,	                                                        			
+				maxZoom: 17,	                                                        			
 				continuousWorld: true,
 				worldCopyJump: false
 			}).addTo(_hibridLayers);
-			
-			
+						
 		this.addLayer(_hibridLayers,true);
 	
 	},
