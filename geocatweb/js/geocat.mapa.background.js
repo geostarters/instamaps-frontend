@@ -114,7 +114,7 @@ function creaPopOverMesFonsColor() {
 	
 	jQuery("#colorMap").on('click',function(e){
 		  $('.popover:not(.in)').hide().detach();
-		  jQuery(".popover").css('height','150px');
+		  jQuery(".popover").css('height','145px');
 		  jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
 	});
 	

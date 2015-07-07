@@ -67,17 +67,19 @@ function openBufferModal(){
 			var data = {
 				uid: $.cookie('uid'),
 				businessId1: businessId,
-				radi: $("#distancia").val()
+				radi: $("#distancia").val(),
+				nom:window.lang.convert("Àrea d'influència"),
+				text:window.lang.convert("Àrea d'influència")
 			};
 			buffer(data).then(function(results){
 				if (results.status == "ERROR"){
-					//TODO Mensaje de error
+					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
 					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName:results.serverName,
+						serverName:window.lang.convert("Àrea d'influència"),
 						path:results.path,
 						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp.geojson',
 						tmpFilePath:tmpdir +'tmp.geojson',
@@ -121,17 +123,19 @@ function openIntersectionModal(){
 			var data = {
 				uid: $.cookie('uid'),
 				businessId1: businessId1,
-				businessId2: businessId2
+				businessId2: businessId2,
+				nom:window.lang.convert("Intersecció"),
+				text:window.lang.convert("Intersecció")
 			};
 			intersection(data).then(function(results){
 				if (results.status == "ERROR"){
-					//TODO Mensaje de error
+					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
 					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName:results.serverName,
+						serverName:window.lang.convert("Intersecció"),
 						path:results.path,
 						tmpFilePath:tmpdir +'tmp.geojson',
 						midaFitxer:results.midaFitxer,
@@ -173,17 +177,19 @@ function openTagModal(){
 			var data = {
 				uid: $.cookie('uid'),
 				businessId1: businessId1,
-				businessId2: businessId2
+				businessId2: businessId2,
+				nom:window.lang.convert("Transmissió (tag)"),
+				text:window.lang.convert("Transmissió (tag)")
 			};
 			tag(data).then(function(results){
 				if (results.status == "ERROR"){
-					//TODO Mensaje de error
+					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
 					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName:results.serverName,
+						serverName:window.lang.convert("Transmissió (tag)"),
 						path:results.path,
 						tmpFilePath:tmpdir +'tmp.geojson',
 						midaFitxer:results.midaFitxer,
@@ -192,12 +198,12 @@ function openTagModal(){
 						propertiesList: results.propertiesList,
 						geomType: results.geomType
 					}
-					/*doUploadFile(data2).then(function(results){
+					doUploadFile(data2).then(function(results){
 						if (results.status="OK") {
 							addDropFileToMap(results);
 							 $('#dialog_tag').modal('hide');
 						}
-					});*/
+					});
 				}
 			});
 		 }
@@ -218,17 +224,19 @@ function openCentroideModal(){
 				 
 			var data = {
 				uid: $.cookie('uid'),
-				businessId1: businessId1
+				businessId1: businessId1,
+				nom:window.lang.convert("Centre geomètric"),
+				text:window.lang.convert("Centre geomètric")
 			};
 			centroid(data).then(function(results){
 				if (results.status == "ERROR"){
-					//TODO Mensaje de error
+					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
 					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName:results.serverName,
+						serverName:window.lang.convert("Centre geomètric"),
 						path:results.path,
 						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
 						tmpFilePath:tmpdir +'tmp.geojson',
@@ -373,20 +381,21 @@ function createModalConfigLayersCentroide(){
 		
 		//Si és visualització o visualització-wms
 		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
-				
-			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
-							'<div class="col-md-9 downloadable-name">'+
-								layerName+
-							'</div>';
-			if (count==0){
-				html += '<input id="centroide-chck" name="centroide-chck" class="col-md-1 downloadable-chck" type="radio" checked >';
-			}	
-			else{
-				html += '<input id="centroide-chck" name="centroide-chck" class="col-md-1 downloadable-chck" type="radio"  >';
+			if (layer.options.geometryType=="polygon"){	
+				html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+								'<div class="col-md-9 downloadable-name">'+
+									layerName+
+								'</div>';
+				if (count==0){
+					html += '<input id="centroide-chck" name="centroide-chck" class="col-md-1 downloadable-chck" type="radio" checked >';
+				}	
+				else{
+					html += '<input id="centroide-chck" name="centroide-chck" class="col-md-1 downloadable-chck" type="radio"  >';
+				}
+				html += '</div>';		
+				html+='<div class="separate-downloadable-row"></div>';			
+				count++;
 			}
-			html += '</div>';		
-			html+='<div class="separate-downloadable-row"></div>';			
-			count++;
 		}
 		
 	});	
@@ -486,14 +495,17 @@ function createModalConfigLayers2(tipus){
 				}
 			}	
 			else {
-				html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
-						'<div class="col-md-9 downloadable-name">'+
-							layerName+
-						'</div>';
-				html+='<input id="intersect-chck" name="intersect-chck" class="col-md-1 downloadable-chck" type="radio"  >';
-				html+='</div>';		
-				html+='<div class="separate-downloadable-row"></div>';
-				countI++;
+				if (layer.options.geometryType=="polygon"){
+					
+					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+							'<div class="col-md-9 downloadable-name">'+
+								layerName+
+							'</div>';
+					html+='<input id="intersect-chck" name="intersect-chck" class="col-md-1 downloadable-chck" type="radio"  >';
+					html+='</div>';		
+					html+='<div class="separate-downloadable-row"></div>';
+					countI++;
+				}
 			}
 			
 		}
@@ -545,14 +557,16 @@ function createModalConfigLayers2(tipus){
 				}
 			}
 			else {
-				html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
-							'<div class="col-md-9 downloadable-name">'+
-								layerName+
-							'</div>'+
-							'<input id="intersect-chck2" name="intersect-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
-						'</div>';		
-				html+='<div class="separate-downloadable-row"></div>';
-				countI2++;
+				if (layer.options.geometryType=="polygon"){	
+					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+								'<div class="col-md-9 downloadable-name">'+
+									layerName+
+								'</div>'+
+								'<input id="intersect-chck2" name="intersect-chck2" class="col-md-1 downloadable-chck" type="radio"  >'+
+							'</div>';		
+					html+='<div class="separate-downloadable-row"></div>';
+					countI2++;
+				}
 			}
 			
 		}
@@ -561,7 +575,7 @@ function createModalConfigLayers2(tipus){
 	html+='';
 	
 	if (tipus=="intersection") {
-		if (count==0 || count2==0){
+		if (countI==0 || countI2==0){
 			$('#dialog_intersection .modal-body .modal-layers-sig').html(warningMSG);
 			$('#dialog_intersection .modal-footer').attr("style","display:none;");
 		}
@@ -595,9 +609,12 @@ function addHtmlModalTag(){
 						'<div class="alert alert-success">'+
 						window.lang.convert('Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests  (polígon --> punt).')+'<br/>'+
 						window.lang.convert('Aplicable a polígons i punts.')+'<br/><br/>'+
-						'<img src="css/images/Tag_1.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">'+window.lang.convert('Capa d\'origen 1')+
-						'<img src="css/images/Tag_2.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">'+window.lang.convert('Capa d\'origen 2')+
-						'<img src="css/images/Tag_3.jpg" style="width:30%;height:30%;vertical-align:text-bottom;">'+window.lang.convert('Resultat de l\'operació')+'<br/>'+
+						'<div class="imagePeu"><img src="css/images/Tag_1.jpg" class="img1">'+
+						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+' 1</span>'+
+						'			<img src="css/images/Tag_2.jpg">'+
+						'			<span class="peu2">'+window.lang.convert('Capa d\'origen')+' 2<br/></span></div>'+
+						'<div class="imagePeu"><img src="css/images/Tag_3.jpg" class="img_sola">'+
+						'<span class="peu3">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
 						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
 						'</div>'+
@@ -758,7 +775,7 @@ function showFilterLayersModal(){
 		jQuery.each( controlCapes._layers, function( key, value ) {
 			var layerOptions = this.layer.options;
 			var tipusLayer = "";
-			if(layer.options.tipus) tipusLayer = layer.options.tipus;
+			if(this.layer.options.tipus) tipusLayer = this.layer.options.tipus;
 			if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms) layers.push(this);
 		}
 	
@@ -880,11 +897,9 @@ function showModalFilterFields(data){
 					}
 				});				
 			}else{
-				//TODO error
 				console.debug("getVisualitzacioByBusinessId ERROR");				
 			}
 		},function(results){
-			//TODO error
 			console.debug("getVisualitzacioByBusinessId ERROR");
 		});	
 	}
@@ -996,7 +1011,7 @@ function getTipusValuesVisualitzacioFilter(results){
 					$('#dialog_filter_rangs').modal('hide');
 				}
 				else {
-
+					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}
 			});
 			

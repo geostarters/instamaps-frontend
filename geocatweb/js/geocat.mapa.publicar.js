@@ -244,7 +244,7 @@ function publicarMapa(fromCompartir){
 					//update map name en el control de capas
 					$('#nomAplicacio').text(mapConfig.nomAplicacio);
 					$('#nomAplicacio').editable('setValue', mapConfig.nomAplicacio);
-					$('#dialgo_url_iframe').modal('show');
+					$('#dialgo_url_iframe').modal('show');					
 					addShareButtons(); 
 				}
 				var mapData = {
@@ -516,6 +516,7 @@ function addHtmlModalIframePublicar(){
 }
 
 function addShareButtons(){
+	jQuery('#socialSharePublicar').html('');
 	var v_url = window.location.href;
 	if (!url('?id')){
 		v_url += "&id="+jQuery('#userId').val();
@@ -524,7 +525,7 @@ function addShareButtons(){
 	v_url = v_url.replace('mapa','visor');
 	
 	shortUrl(v_url).then(function(results){
-
+		
 		jQuery('#socialSharePublicar').share({
 			networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 			theme: 'square',
