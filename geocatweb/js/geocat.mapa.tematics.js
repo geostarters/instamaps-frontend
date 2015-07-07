@@ -1661,6 +1661,13 @@ function readVisualitzacio(defer, visualitzacio, layer){
 //		if (layer.options){
 //			options = jQuery.parseJSON( layer.options );
 //		}
+		
+		console.debug("layer:");
+		console.debug(layer);
+		
+		console.debug("controlCapes:");
+		console.debug(controlCapes);
+		
 		if(layer.options && options.origen){//Si es una sublayer
 //			var origen = getLeafletIdFromBusinessId(options.origen);
 //			if(dataField) capaVisualitzacio.options.dataField = dataField;
@@ -1669,14 +1676,21 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true, origen);
 		}else {
 			if (!layer.capesOrdre){
+				console.debug("No té capesOrdre, li assigno:");
+				console.debug(controlCapes._lastZIndex + 1);
 				capaVisualitzacio.options.zIndex = controlCapes._lastZIndex + 1;
 			}else{
+				console.debug("Té capes Ordre:");
+				console.debug(layer.capesOrdre);
 				capaVisualitzacio.options.zIndex = parseInt(layer.capesOrdre);
 			}
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true);
 			controlCapes._lastZIndex++;
 		}				
 	}
+		console.debug("------");
+		console.debug("capaVisualitzacio:");
+		console.debug(capaVisualitzacio);
 		defer.resolve(capaVisualitzacio);		
 		return defer.promise();
 	}

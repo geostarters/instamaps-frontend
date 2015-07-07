@@ -181,7 +181,7 @@ function creaClusterMap(capa) {
 					map.addLayer(clusterLayer);
 					clusterLayer.options.zIndex = capesOrdre_sublayer;//controlCapes._lastZIndex + 1;
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
+//					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
 //					$(".layers-list").mCustomScrollbar({
 //						   advanced:{
@@ -195,51 +195,7 @@ function creaClusterMap(capa) {
 					console.debug("Error add cluster JSON");
 				}
 			});	
-		//Si no, es que es de tipus tematic	
-		}else if (capa.layer.options.tipus == t_tematic){
-			var rangs = JSON.stringify({rangs:[{}]});			
-			var data = {
-		            businessId: capa.layer.options.businessId,
-		            uid: $.cookie('uid'),
-		            mapBusinessId: url('?businessid'),	           
-		            nom: capa.layer.options.nom+" "+nom,
-		            calentas: false,           
-		            activas: true,
-		            order: capesOrdre_sublayer,
-		            visibilitats: true,
-		            tipusRang: tem_cluster,
-		            rangs: rangs
-		        }
-			
-			duplicateTematicLayer(data).then(function(results){
-				if(results.status == 'OK'){
-					
-					capa.layer.eachLayer(function(layer) {
-						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
-							title : layer._leaflet_id
-						});
-						marker.bindPopup("<b>"+layer.properties.data.nom+"</b><br><b>"+layer.properties.data.text+"</b>");
-						clusterLayer.addLayer(marker);
-					});
-					
-					clusterLayer.options.businessId = results.results.businessId;
-					clusterLayer.options.nom = capa.layer.options.nom +" "+nom;
-					clusterLayer.options.tipus = capa.layer.options.tipus;
-					clusterLayer.options.tipusRang = tem_cluster;
-					
-					map.addLayer(clusterLayer);
-					clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
-					controlCapes.addOverlay(clusterLayer,	clusterLayer.options.nom, true, capa.layer._leaflet_id);
-					controlCapes._lastZIndex++;
-					activaPanelCapes(true);
-				}else{
-					console.debug("updateTematicRangs ERROR");					
-				}
-			},function(results){
-				//TODO error
-				console.debug("updateTematicRangs ERROR");
-			});
-		//NOU MODEL
+
 		}else if (capa.layer.options.tipus == t_visualitzacio){
 			var data = {
 					businessId: capa.layer.options.businessId,//businessId id de la visualización de origen
@@ -271,7 +227,7 @@ function creaClusterMap(capa) {
 						map.addLayer(clusterLayer);
 						clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex+1;
 						controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-						controlCapes._lastZIndex++;
+//						controlCapes._lastZIndex++;
 						activaPanelCapes(true);
 						
 					}else{
@@ -294,7 +250,7 @@ function creaClusterMap(capa) {
 		map.addLayer(clusterLayer);
 		clusterLayer.options.zIndex = capesOrdre_sublayer; //controlCapes._lastZIndex + 1;
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
-		controlCapes._lastZIndex++;
+//		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
 //		$(".layers-list").mCustomScrollbar({
 //			   advanced:{
