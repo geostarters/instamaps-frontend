@@ -1613,7 +1613,7 @@ i.fa {
 
 /*Popup data features*/
 
-.popup_data_key {
+/*.popup_data_key {
     float: left;
     width: 40%;
     background-color: #EEEEEE;
@@ -1638,7 +1638,7 @@ i.fa {
 	padding: 0px;
 	text-align: center;
 	display: flex;
-}
+}*/
 
 .width100{width: 100%;}
 
@@ -1648,10 +1648,10 @@ i.fa {
     padding-top: 2px;
 }
 
-.popup_data_value {
+/*.popup_data_value {
 	max-width: 100%;
 	overflow: hidden;	
-}
+}*/
 
 .popup_data_img_iframe img{
 	margin-top: 5px;
@@ -3294,15 +3294,19 @@ i.fa {
 .popup_data_key {
     float: left;
     min-width: 30%;
+    width: 40%;
     background-color: #EEEEEE;
     font-weight: bold;
     line-height: 1.8;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;  
 }
 
 .popup_data_value {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /*overflow: hidden;
+    text-overflow: ellipsis;*/
+    width: 60%;
     max-width: 70%;
     line-height: 1.8;
     padding-left: 8px;
@@ -3312,6 +3316,8 @@ i.fa {
 	border-bottom: 1px solid #EEEEEE;
 	margin: 2px;
 	padding: 0px;
+	text-align: center;
+	display: flex;
 }
 
 
