@@ -81,17 +81,19 @@ L.IM_ControlFons = L.Control.extend({
     	 this._addItem(container,{id:'topoMap',className:'div_fons_1',title:'Topogràfic'});
     	 this._addItem(container,{id:'topoMapGeo',className:'div_fons_12',title:'Simple'});
     	 this._addItem(container,{id:'ortoMap',className:'div_fons_3',title:'Imatge'});
+    	 this._addItem(container,{id:'hibridMap',className:'div_fons_13',title:'Mapa híbrid'});
     	 this._addItem(container,{id:'terrainMap',className:'div_fons_4',title:'Terreny'});
+    	 this._addItem(container,{id:'alcadaMap',className:'div_fons_15',title:'Model d\'elevacions'});
+    	 this._addItem(container,{id:'historicOrtoMap',className:'div_fons_11',title:'Ortofoto històrica Catalunya 1956-57'});
+    	 this._addItem(container,{id:'historicOrtoMap46',className:'div_fons_14',title:'Ortofoto històrica Catalunya 1946'});
+    	 this._addItem(container,{id:'historicMap',className:'div_fons_10',title:'Mapa històric Catalunya 1936'});     	
     	 this._addItem(container,{id:'topoGrisMap',className:'div_fons_2',title:'Topogràfic gris'});
     	 this._addItem(container,{id:'nit',className:'div_fons_6',title:'Nit'});
     	 this._addItem(container,{id:'sepia',className:'div_fons_7',title:'Sèpia'});
     	 this._addItem(container,{id:'zombie',className:'div_fons_8',title:'Zombie'});
     	 this._addItem(container,{id:'orquidea',className:'div_fons_9',title:'Orquídea'});
-    	 this._addItem(container,{id:'historicOrtoMap',className:'div_fons_11',title:'Ortofoto històrica Catalunya 1956-57'});
-    	 this._addItem(container,{id:'historicMap',className:'div_fons_10',title:'Mapa històric Catalunya 1936'});
-    	 this._addItem(container,{id:'hibridMap',className:'div_fons_13',title:'Mapa híbrid'});
-    	 this._addItem(container,{id:'historicOrtoMap46',className:'div_fons_14',title:'Mapa històric Catalunya 1946'});
-    	 this._addItem(container,{id:'alcadaMap',className:'div_fons_15',title:'Alcada Map'});
+    	
+    	
     },
     
     _addItem: function(container, properties){

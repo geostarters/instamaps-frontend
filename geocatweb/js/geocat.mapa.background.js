@@ -114,7 +114,7 @@ function creaPopOverMesFonsColor() {
 	
 	jQuery("#colorMap").on('click',function(e){
 		  $('.popover:not(.in)').hide().detach();
-		  jQuery(".popover").css('height','150px');
+		  jQuery(".popover").css('height','145px');
 		  jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
 	});
 	
@@ -169,7 +169,7 @@ function addHtmlInterficieFonsMapes(){
 	$('.div_gr3_fons #topoMapGeo').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Simple')});
 	$('.div_gr3_fons #ortoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Imatge')});
 	$('.div_gr3_fons #hibridMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Mapa híbrid')});
-	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Combinacions de color')});	
+	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Més mapes de fons')});	
 	
 }
 
