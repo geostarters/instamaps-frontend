@@ -1339,7 +1339,8 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 			capaUsrActiva2.options = {
 				businessId : results.results.businessId,
 				nom : nomNovaCapa,
-				tipus: t_tematic,
+//				tipus: t_tematic,
+				tipus: t_visualitzacio,
 				geometryType : feature.properties.tipusFeature
 //					zIndex : controlCapes._lastZIndex//+1		
 			};

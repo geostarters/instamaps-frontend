@@ -333,8 +333,8 @@ function addFuncioCarregaFitxers(){
 //										'<div id="div_uploading_txt2" lang="ca">(Pot seguir navegant)</div>'											
 									);									
 								}else if(data.status.indexOf("OK")!=-1){
-									console.debug("Ha acabat:");
-									console.debug(data);
+//									console.debug("Ha acabat:");
+//									console.debug(data);
 									clearInterval(pollInterval);
 									//jQuery("#div_uploading_txt").html("");
 									//jQuery("#div_uploading_txt").html(window.lang.convert("Processant dades..."));
@@ -1310,11 +1310,11 @@ function addHtmlModalCarregarFitxers(){
 	});
 	
 	jQuery('#dialog_carrega_dades #bt_upload_cancel').on("click", function(e) {
-		console.debug("Entra al click upload cancel!");
+//		console.debug("Entra al click upload cancel!");
 		$('#dialog_carrega_dades').modal('hide');
-		console.debug(busy);
+//		console.debug(busy);
 		busy = false;
-		console.debug(busy);
+//		console.debug(busy);
 		if(envioArxiu.isDrag){
 			drgFromMapa.uploadFile(drgFromMapa.files[0]);	
 		}else{
