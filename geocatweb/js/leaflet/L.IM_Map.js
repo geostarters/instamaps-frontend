@@ -708,7 +708,7 @@ if(print){
 	
 	hibridMap: function (print){
 		this.deletePreviousMap();	
-		this.options.maxZoom=19;
+		this.options.maxZoom=18;
 		this.setActiveMap(FONS_HIBRIDMAP);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_HIBRIDMAP;
