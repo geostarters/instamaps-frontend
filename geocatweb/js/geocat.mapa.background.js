@@ -111,10 +111,19 @@ function creaPopOverMesFonsColor() {
 //	$('.div_gr3_fons #orquidea').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Orquídea')});
 	
 	
+	// please note, that IE11 now returns undefined again for window.chrome
+	var isChromium = window.chrome,
+	    vendorName = window.navigator.vendor;
 	
 	jQuery("#colorMap").on('click',function(e){
 		  $('.popover:not(.in)').hide().detach();
-		  jQuery(".popover").css('height','145px');
+		  if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
+			   // is Google chrome
+			  jQuery(".popover").css('height','165px');
+			} else { 
+				 jQuery(".popover").css('height','145px');
+			}
+		 
 		  jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
 	});
 	
