@@ -217,7 +217,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Escull l'interval":"Escoge el intervalo"
 ,"Escull les teves icones i estils personalitzats.":"Escoge tus iconos y estilos personalizados."
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"Estamos en proceso de actualización. Pueden observar anomalías temporales en la visualización de los datos."
-,"Estem preparant el proper curs gratuït d'InstaMaps, t'interessa?":"Estamos preparando el próximo curso gratuito de InstaMaps, te interesa?"
+,"Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?":"Estamos preparando el próximo workshop gratuito de InstaMaps, te interesa?"
 ,"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Estado e incidéncias de tráfico, transporte público, previsión meteorológica y más."
 ,"Estil actiu":"Esilo activo"
 ,"Estils d'àrees":"Estilos de áreas"

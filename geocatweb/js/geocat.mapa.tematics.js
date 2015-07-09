@@ -210,7 +210,7 @@ function createPopupWindowData(player,type, editable, origen){
 		html+='<h4 class="my-text-center">'+player.properties.data.NOMBRE+'</h4>';
 	}
 	
-//	console.debug(player.properties.data);
+	
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
 		if(isValidValue(key) && isValidValue(value)){
@@ -304,6 +304,7 @@ function createPopupWindowData(player,type, editable, origen){
 			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
 		
 		}else if(accio[0].indexOf("feature_remove")!=-1){
+			map.closePopup();
 			var data = {
 	            businessId: map._layers[objEdicio.featureID].properties.businessId,
 	            uid: $.cookie('uid')
@@ -1660,12 +1661,6 @@ function readVisualitzacio(defer, visualitzacio, layer){
 //			options = jQuery.parseJSON( layer.options );
 //		}
 		
-		console.debug("layer:");
-		console.debug(layer);
-		
-		console.debug("controlCapes:");
-		console.debug(controlCapes);
-		
 		if(layer.options && options.origen){//Si es una sublayer
 //			var origen = getLeafletIdFromBusinessId(options.origen);
 //			if(dataField) capaVisualitzacio.options.dataField = dataField;
@@ -1674,21 +1669,14 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true, origen);
 		}else {
 			if (!layer.capesOrdre){
-				console.debug("No té capesOrdre, li assigno:");
-				console.debug(controlCapes._lastZIndex + 1);
 				capaVisualitzacio.options.zIndex = controlCapes._lastZIndex + 1;
 			}else{
-				console.debug("Té capes Ordre:");
-				console.debug(layer.capesOrdre);
 				capaVisualitzacio.options.zIndex = parseInt(layer.capesOrdre);
 			}
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true);
 			controlCapes._lastZIndex++;
 		}				
 	}
-		console.debug("------");
-		console.debug("capaVisualitzacio:");
-		console.debug(capaVisualitzacio);
 		defer.resolve(capaVisualitzacio);		
 		return defer.promise();
 	}
