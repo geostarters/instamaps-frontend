@@ -55,7 +55,9 @@ function openBufferModal(){
 	 addHtmlModalBuffer();
 	 createModalConfigLayersBuffer();
 	 $('#dialog_buffer').modal('show');
-	 jQuery('#dialog_buffer .btn-primary').on('click',function(){
+	 jQuery('#dialog_buffer .btn-primary').on('click',function(event){
+		 event.preventDefault();
+		 event.stopPropagation();
 		//Cridar funció buffer
 		 if (!$("input[name='buffer-chck']:checked").val()) {
 		       alert('Cal seleccionar una capa');
@@ -75,7 +77,6 @@ function openBufferModal(){
 				if (results.status == "ERROR"){
 					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
-					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
@@ -91,9 +92,7 @@ function openBufferModal(){
 						propertiesList: results.propertiesList,
 						geomType: results.geomType
 					}
-					console.debug(data2);
 					doUploadFile(data2).then(function(results){
-						console.debug(results);
 						if (results.status="OK") {
 							addDropFileToMap(results);
 							 $('#dialog_buffer').modal('hide');
@@ -110,7 +109,9 @@ function openIntersectionModal(){
 	 addHtmlModalIntersection();
 	 createModalConfigLayers2("intersection");
 	 $('#dialog_intersection').modal('show');
-	 jQuery('#dialog_intersection .btn-primary').on('click',function(){
+	 jQuery('#dialog_intersection .btn-primary').on('click',function(event){
+		 event.preventDefault();
+		 event.stopPropagation();
 		 if (!$("input[name='intersect-chck']:checked").val() || !$("input[name='intersect-chck2']:checked").val()) {
 		       alert('Cal seleccionar dues capes');
 		        return false;
@@ -131,7 +132,6 @@ function openIntersectionModal(){
 				if (results.status == "ERROR"){
 					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
-					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
@@ -162,8 +162,10 @@ function openTagModal(){
 	 addHtmlModalTag();
 	 createModalConfigLayers2("tag");
 	 $('#dialog_tag').modal('show');
-	 jQuery('#dialog_tag .btn-primary').on('click',function(){
-		 console.log("click");
+	 jQuery('#dialog_tag .btn-primary').on('click',function(event){
+		 //event.preventDefault();
+		 //event.stopPropagation();
+		 event.stopImmediatePropagation();
 		 if (!$("input[name='tag-chck']:checked").val() || !$("input[name='tag-chck2']:checked").val()) {
 		       alert('Cal seleccionar dues capes');
 		        return false;
@@ -172,8 +174,6 @@ function openTagModal(){
 			//Cridar funció tag
 			var businessId1 = $("input[name='tag-chck']:checked").parent().attr('data-businessId');
 			var businessId2 = $("input[name='tag-chck2']:checked").parent().attr('data-businessId');
-			console.log(businessId1);
-			console.log(businessId2);
 			var data = {
 				uid: $.cookie('uid'),
 				businessId1: businessId1,
@@ -185,7 +185,6 @@ function openTagModal(){
 				if (results.status == "ERROR"){
 					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
-					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
@@ -214,7 +213,9 @@ function openCentroideModal(){
 	addHtmlModalCentroid();
 	createModalConfigLayersCentroide();
 	 $('#dialog_centroid').modal('show');
-	 jQuery('#dialog_centroid .btn-primary').on('click',function(){
+	 jQuery('#dialog_centroid .btn-primary').on('click',function(event){
+		 event.preventDefault();
+		 event.stopPropagation();
 		 if (!$("input[name='centroide-chck']:checked").val()) {
 		       alert('Cal seleccionar una capa');
 		        return false;
@@ -232,7 +233,6 @@ function openCentroideModal(){
 				if (results.status == "ERROR"){
 					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				}else{
-					console.debug(results);				
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
@@ -279,7 +279,7 @@ function addHtmlModalBuffer(){
 			'			<img src="css/images/Buffer_2.jpg">'+
 			'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+		
 			'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-			'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+
+			'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+
 					'<br/><br/>'+
 			'</div>'+
 			'			</div>'+
@@ -319,17 +319,16 @@ function createModalConfigLayersBuffer(){
 					window.lang.convert('Capes disponibles:')+
 				'</label>';
 	
-	console.debug(controlCapes._layers);
 	jQuery.each(controlCapes._layers, function(i, item){
-		console.debug("Hola1");
+		
 		var layer = item.layer;
 		var layerName = layer.options.nom;
 		var checked = "";
-		console.debug(layer);
+		
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		//Si és visualització o visualització-wms
-		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ){
 				
 			html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 							'<div class="col-md-9 downloadable-name">'+
@@ -344,7 +343,6 @@ function createModalConfigLayersBuffer(){
 			html += '</div>';		
 			html += '<div class="separate-downloadable-row"></div>';			
 			count++;
-			console.debug(html);
 		}
 		
 	});	
@@ -355,7 +353,7 @@ function createModalConfigLayersBuffer(){
 		$('#dialog_buffer .modal-footer').attr("style","display:none;");
 	}
 	else {
-		console.debug("Hola");
+
 		$('#dialog_buffer .modal-body .modal-layers-sig').html(html);
 		$('#dialog_buffer .modal-footer').attr("style","display:block;");
 	}
@@ -375,12 +373,11 @@ function createModalConfigLayersCentroide(){
 		var layer = item.layer;
 		var layerName = layer.options.nom;
 		var checked = "";
-		console.debug(layer);
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
 		//Si és visualització o visualització-wms
-		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ){
 			if (layer.options.geometryType=="polygon"){	
 				html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 								'<div class="col-md-9 downloadable-name">'+
@@ -424,14 +421,14 @@ function addHtmlModalIntersection(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació calcula els elements que són intersecció entre diverses geometries.')+'<br/>'+
+						window.lang.convert('Aquesta operació calcula els elements que són intersecció entre diverses geometries.')+'&nbsp;'+
 						window.lang.convert('Aplicable a polígons.')+'<br/><br/>'+
 						'			<div class="imagePeu"><img src="css/images/Interseccio_1.jpg" class="img1">'+
 						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
 						'			<img src="css/images/Interseccio_2.jpg">'+
 						'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
 						'</div>'+				
 						'			</div>'+
 							'<form id="frm_buffer">'+
@@ -467,16 +464,17 @@ function createModalConfigLayers2(tipus){
 		window.lang.convert('Capes de polígons disponibles')+":"+
 	'</label>';
 	}
+	else if (tipus=="intersection"){
+		$('#dialog_intersection .modal-body .modal-layers-sig').html('');
+	}
 	jQuery.each(controlCapes._layers, function(i, item){		
 		var layer = item.layer;
 		var layerName = layer.options.nom;
 		var checked = "";
-		console.debug(layer);
 		var tipusLayer = "";
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
-		
 		//Si és visualització o visualització-wms
-		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms  ){
 			if (tipus=="tag") {
 				if (layer.options.geometryType=="polygon"){
 					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
@@ -496,7 +494,6 @@ function createModalConfigLayers2(tipus){
 			}	
 			else {
 				if (layer.options.geometryType=="polygon"){
-					
 					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
 							'<div class="col-md-9 downloadable-name">'+
 								layerName+
@@ -538,7 +535,7 @@ function createModalConfigLayers2(tipus){
 		if(layer.options.tipus) tipusLayer = layer.options.tipus;
 		
 		//Si és visualització o visualització-wms
-		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms){
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ){
 			if (tipus=="tag") {
 				if (layer.options.geometryType=="marker"){
 					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
@@ -607,16 +604,16 @@ function addHtmlModalTag(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests  (polígon --> punt).')+'<br/>'+
+						window.lang.convert('Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests  (polígon --> punt).')+'&nbsp;'+
 						window.lang.convert('Aplicable a polígons i punts.')+'<br/><br/>'+
-						'<div class="imagePeu"><img src="css/images/Tag_1.jpg" class="img1">'+
+						'<div class="imagePeu"><img src="css/images/Tag_1.jpg" >'+
 						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+' 1</span>'+
 						'			<img src="css/images/Tag_2.jpg">'+
-						'			<span class="peu2">'+window.lang.convert('Capa d\'origen')+' 2<br/></span></div>'+
-						'<div class="imagePeu"><img src="css/images/Tag_3.jpg" class="img_sola">'+
-						'<span class="peu3">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
+						'			<span class="peu2_2">'+window.lang.convert('Capa d\'origen')+' 2</span>'+
+						'			<img src="css/images/Tag_3.jpg" >'+
+						'			<span class="peu3">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
 						'</div>'+
 				
 						'</div>'+
@@ -685,14 +682,14 @@ function addHtmlModalCentroid(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació calcula el centre geomètric o centroide d\'un polígon tancat.')+'<br/>'+
+						window.lang.convert('Aquesta operació calcula el centre geomètric o centroide d\'un polígon tancat.')+'&nbsp;'+
 						window.lang.convert('Aplicable a polígons.')+'<br/><br/>'+
 						'			<div class="imagePeu"><img src="css/images/Centroid_1.jpg" class="img1">'+
 						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
 						'			<img src="css/images/Centroid_2.jpg">'+
 						'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
 						'</div>'+				
 						'</div>'+
 							'<form id="frm_buffer">'+
@@ -728,14 +725,14 @@ function addHtmlModalLayersFilter(){
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.')+'<br/>'+
+						window.lang.convert('Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.')+'&nbsp;'+
 						window.lang.convert('Aplicable a punts, línies o polígons.')+'<br/><br/>'+
 	'							<div class="imagePeu"><img src="css/images/Filtre_1.jpg" class="img1">'+
 	'							<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
 	'							<img src="css/images/Filtre_2.jpg">'+
 	'						<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
 	'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Per capes amb gran volum de dades aquesta operació no està disponible.')+'<br/><br/>'+
+	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
 	'</div>'+
 	'</div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
@@ -776,7 +773,7 @@ function showFilterLayersModal(){
 			var layerOptions = this.layer.options;
 			var tipusLayer = "";
 			if(this.layer.options.tipus) tipusLayer = this.layer.options.tipus;
-			if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms) layers.push(this);
+			if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ) layers.push(this);
 		}
 	
 		);
@@ -988,6 +985,9 @@ function getTipusValuesVisualitzacioFilter(results){
 		jQuery('#list_filter_values').html(html);
 		jQuery('#dialog_filter_rangs .btn-success').show();
 		jQuery('#dialog_filter_rangs .btn-success').on('click',function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			
 			filtres="";
 			$('input[name="filterValue"]:checked').each(function() {
 				   filtres=filtres+escape(this.value)+",";
@@ -1001,10 +1001,8 @@ function getTipusValuesVisualitzacioFilter(results){
 				campFiltre: $('#dataField_filter option:selected' ).val(),
 				valorsFiltre: filtres
 			};
-			console.debug(data);
 			filterVisualitzacio(data).then(function(results){
 				if (results.status=="OK"){
-					console.debug(results);
 					var defer = $.Deferred();
 					readVisualitzacio(defer, results.visualitzacio, results.layer);
 					activaPanelCapes(true);

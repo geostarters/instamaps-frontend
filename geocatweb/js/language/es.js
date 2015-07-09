@@ -31,6 +31,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Aquesta operació calcula els elements que són intersecció entre diverses geometries.":"Esta operación calcula los elementos que intersectan entre diversas geometrías."
 ,"Aquesta operació calcula una àrea definida per una distància fixa a l'entorn d'un element.":"Esta operación calcula un área definida por una distancia fija alrededor de un elemento."
 ,"Aquesta operació és irreversible":"Esta operación es irreversible"
+,"Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.":"Esta operación está disponible para capas dibujadas o creadas a partir de ficheros de menos de 50Mb."
 ,"Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests (polígon --> punt).":"Esta operación transmite la información asociada a polígonos a los puntos contenidos dentro de estos (polígono --> punto)."
 ,"Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.":"Esta operación devuelve aquellos elementos que cumplen una condición relativa a su información textual asociada."
 ,"Ara no": "Por ahora no"

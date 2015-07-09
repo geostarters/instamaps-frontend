@@ -260,9 +260,8 @@ function createPopupWindowData(player,type, editable, origen){
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-//		console.debug("player.properties");
-//		console.debug(player.properties);
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		else html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
