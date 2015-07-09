@@ -217,7 +217,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Escull les teves icones i estils personalitzats.":"Choose your icons and custom styles."
 ,"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Conditions and traffic incidents, public transport, weather forecast and more."
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"We are updating the platform. Temporary anomalies can be observed when viewing the data."
-,"Estem preparant el proper curs gratuït d'InstaMaps, t'interessa?":"We are preparing the next free course of InstaMaps, interested?"
+,"Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?":"We are preparing the next free workshop of InstaMaps, interested?"
 ,"Estil actiu":"Active style"
 ,"Estils d'àrees":"Area styles"
 ,"Estils de línia":"Line styles"
