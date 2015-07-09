@@ -256,10 +256,36 @@ function creaClusterMap(capa) {
 					if(results.status == 'OK'){
 						
 						capa.layer.eachLayer(function(layer) {
+							console.debug(layer);
 							var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 								title : layer._leaflet_id
 							});
-							marker.bindPopup("<b>"+layer.properties.data.nom+"</b><br><b>"+layer.properties.data.text+"</b>");
+							var html='';
+							$.each( layer.properties.data, function( key, value ) {
+								if(isValidValue(key) && isValidValue(value)){
+									if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
+											key != 'NOM' && key != 'Nom' && key != 'nom' && 
+											key != 'name' && key != 'Name' && key != 'NAME' &&
+											key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
+										html+='<div class="popup_data_row">';
+										
+										var txt = parseUrlTextPopUp(value, key);
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+
+											(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
+											'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+										html+= '</div>';
+									}
+								}
+							});	
+							
+							marker.bindPopup(html);
+							//marker.bindPopup("<b>"+layer.properties.data.nom+"</b><br><b>"+layer.properties.data.text+"</b>");
+							
 							clusterLayer.addLayer(marker);
 						});
 						
@@ -396,7 +422,6 @@ function loadJsonClusterLayer(layer){
 
 			pp.properties = {};
 			var empty = true;
-			
 			if (options.titol == "null") {
 				pp.properties.nom = ""
 			} else {

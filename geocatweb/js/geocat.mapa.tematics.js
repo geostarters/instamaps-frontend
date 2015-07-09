@@ -210,7 +210,7 @@ function createPopupWindowData(player,type, editable, origen){
 		html+='<h4 class="my-text-center">'+player.properties.data.NOMBRE+'</h4>';
 	}
 	
-	
+//	console.debug(player.properties.data);
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
 		if(isValidValue(key) && isValidValue(value)){
@@ -260,9 +260,8 @@ function createPopupWindowData(player,type, editable, origen){
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-		console.debug("player.properties");
-		console.debug(player.properties);
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		else html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
@@ -305,7 +304,6 @@ function createPopupWindowData(player,type, editable, origen){
 			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
 		
 		}else if(accio[0].indexOf("feature_remove")!=-1){
-			map.closePopup();
 			var data = {
 	            businessId: map._layers[objEdicio.featureID].properties.businessId,
 	            uid: $.cookie('uid')
