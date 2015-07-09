@@ -56,8 +56,7 @@ function openBufferModal(){
 	 createModalConfigLayersBuffer();
 	 $('#dialog_buffer').modal('show');
 	 jQuery('#dialog_buffer .btn-primary').on('click',function(event){
-		 event.preventDefault();
-		 event.stopPropagation();
+		 event.stopImmediatePropagation();
 		//Cridar funció buffer
 		 if (!$("input[name='buffer-chck']:checked").val()) {
 		       alert('Cal seleccionar una capa');
@@ -110,8 +109,7 @@ function openIntersectionModal(){
 	 createModalConfigLayers2("intersection");
 	 $('#dialog_intersection').modal('show');
 	 jQuery('#dialog_intersection .btn-primary').on('click',function(event){
-		 event.preventDefault();
-		 event.stopPropagation();
+		 event.stopImmediatePropagation();
 		 if (!$("input[name='intersect-chck']:checked").val() || !$("input[name='intersect-chck2']:checked").val()) {
 		       alert('Cal seleccionar dues capes');
 		        return false;
@@ -214,8 +212,7 @@ function openCentroideModal(){
 	createModalConfigLayersCentroide();
 	 $('#dialog_centroid').modal('show');
 	 jQuery('#dialog_centroid .btn-primary').on('click',function(event){
-		 event.preventDefault();
-		 event.stopPropagation();
+		 event.stopImmediatePropagation();
 		 if (!$("input[name='centroide-chck']:checked").val()) {
 		       alert('Cal seleccionar una capa');
 		        return false;
