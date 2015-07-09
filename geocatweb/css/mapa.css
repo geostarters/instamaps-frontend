@@ -4630,7 +4630,7 @@ i.fa {
 	left:8%;
 	display:block;
 	width:100%;
-	top:98%;
+	top:100%;
 }
 
 .imagePeu .peu2{
@@ -4640,17 +4640,27 @@ i.fa {
 	left:45%;
 	display:block;
 	width:100%;
-	top:98%;
+	top:100%;
+}
+
+.imagePeu .peu2_2{
+	display:table-caption;
+	position:absolute;
+	bottom:0;
+	left:40%;
+	display:block;
+	width:100%;
+	top:100%;
 }
 
 .imagePeu .peu3{
 	display:table-caption;
 	position:absolute;
 	bottom:0;
-	left:25%;
+	left:65%;
 	display:block;
 	width:100%;
-	top:98%;
+	top:100%;
 }
 #div_menufons{
 	width:180px;

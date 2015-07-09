@@ -523,6 +523,7 @@ function activaEdicioUsuari() {
 			tipusCatDes=window.lang.convert('Descripció Polígon');	
 			var nomDefecteCapa = window.lang.convert('Capa Polígon');
 			var mida = L.GeometryUtil.geodesicArea(layer.getLatLngs());
+			mida = L.GeometryUtil.readableArea(mida,true);
 			
 			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polygon){
 				capaUsrActiva.removeEventListener('layeradd');
@@ -1271,7 +1272,8 @@ function createPopUpContent(player,type){
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		else html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	
 	//+'<div id="capa_pres">'
