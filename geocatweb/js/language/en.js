@@ -234,7 +234,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"EXPLORA":"EXPLORE"
 ,"Exporta les teves dades en diversos formats.":"Export your data in many formats."
 
-,"*Fent clic a <i>Vull informació</i> accepta la":"*By clicking in <i>I want information</i> you accept the"	
+,"*Fent clic a <i>Vull més informació</i> accepta la":"*By clicking in <i>I want more information</i> you accept the"	
 ,"*Fent clic a <i>Registreu-vos</i> accepta la":"*By clicking in <i>Sign up</i> you accept the"
 ,"Fer un nou mapa": "Create a new map"
 ,"Fer mapa":"Do map"
@@ -496,7 +496,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Visualitza":"View"
 ,"Vols esborrar la capa":"Do you want to delete the layer"
 ,"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?"
-,"Vull informació":"I want information"
+,"Vull més informació":"I want more information"
 ,"Vull ser le primer":"I want to be the first"
 
 ,"Xarxes socials":"Social networks"		
