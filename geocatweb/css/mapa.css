@@ -1673,9 +1673,9 @@ i.fa {
 
 /*Popup data features*/
 
-.popup_data_key {
+/*.popup_data_key {
     float: left;
-    /*min-width: 30%;*/
+    /*min-width: 30%;*//*
     width: 40%;
     background-color: #EEEEEE;
     font-weight: bold;
@@ -1699,7 +1699,7 @@ i.fa {
 	padding: 0px;
 	text-align: center;
 	display: flex;
-}
+}*/
 
 .width100{width: 100%;}
 
@@ -3466,15 +3466,19 @@ i.fa {
 .popup_data_key {
     float: left;
     min-width: 30%;
+    width: 40%;
     background-color: #EEEEEE;
     font-weight: bold;
     line-height: 1.8;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;  
 }
 
 .popup_data_value {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /*overflow: hidden;
+    text-overflow: ellipsis;*/
+    width: 60%;
     max-width: 70%;
     line-height: 1.8;
     padding-left: 8px;
@@ -3484,8 +3488,9 @@ i.fa {
 	border-bottom: 1px solid #EEEEEE;
 	margin: 2px;
 	padding: 0px;
+	text-align: center;
+	display: flex;
 }
-
 
 /*feedback button*/
 #feedback_btn{
@@ -4663,4 +4668,23 @@ i.fa {
 }
 .popover-content{
 padding: 8px 0;
+}
+
+/*#socialSharePublicar2 {
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+}*/
+
+#socialSharePublicar {
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    width: 40%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }
