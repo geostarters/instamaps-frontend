@@ -492,7 +492,7 @@ function updateLangTooltips(){
 	$('.div_gr3_fons #topoMapGeo').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Simple')});
 	$('.div_gr3_fons #ortoMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Imatge')});
 	$('.div_gr3_fons #terrainMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Terreny')});
-	$('.div_gr3_fons #colorMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Combinacions de color')});
+	$('.div_gr3_fons #colorMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Més mapes de fons')});
 	
 	$('.bt_publicar').tooltip('destroy').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")});
 	
