@@ -615,7 +615,7 @@ function createTematicLayerBubbles(event){
 			businessId: tematicFrom.businessid,//businessId id de la visualización de origen
 			uid: $.cookie('uid'),//uid id de usuario
 	        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
-	        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
+	        nom: capaMare.options.nom+" "+window.lang.convert("Mides"),
 	        activas: true,
 	        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
 	        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
