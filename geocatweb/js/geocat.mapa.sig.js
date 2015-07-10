@@ -15,6 +15,7 @@ function addHtmlInterficieFuncionsSIG(){
 	$('#tag').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Transmissió (tag)')});
 	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Centre geomètric')});
 	$('#filter').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Filtre')});
+	$('#union').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Unió')});
 	
 	jQuery("#buffer").on('click',function(e){
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);
@@ -39,6 +40,11 @@ function addHtmlInterficieFuncionsSIG(){
 	jQuery("#filter").on('click',function(e){
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'filter', 1]);
 		openFilterModal();
+	});
+	
+	jQuery("#union").on('click',function(e){
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'union', 1]);
+		openUnionModal();
 	});
 }
 
@@ -982,9 +988,7 @@ function getTipusValuesVisualitzacioFilter(results){
 		jQuery('#list_filter_values').html(html);
 		jQuery('#dialog_filter_rangs .btn-success').show();
 		jQuery('#dialog_filter_rangs .btn-success').on('click',function(e){
-			e.preventDefault();
-			e.stopPropagation();
-			
+			e.stopImmediatePropagation();
 			filtres="";
 			$('input[name="filterValue"]:checked').each(function() {
 				   filtres=filtres+escape(this.value)+",";

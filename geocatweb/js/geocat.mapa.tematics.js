@@ -913,7 +913,7 @@ function addHtmlInterficieTematics(){
 			'<div class="div_gr3_estils">'+
 			'	<div id="st_Color" lang="ca" class="div_estil_1"></div>'+
 			'	<div id="st_Tema" lang="ca" class="div_estil_2"></div>'+
-			'	<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>'+
+			'	<div id="st_Size" lang="ca" class="div_estil_3"></div>'+
 			'	<div id="st_Heat" lang="ca" class="div_estil_4"></div>'+
 			'	<div id="st_Clust" lang="ca" class="div_estil_5"></div>'+
 			'</div>'			
@@ -921,6 +921,7 @@ function addHtmlInterficieTematics(){
 	
 	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
 	$('#st_Tema').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
+	$('#st_Size').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Mides")});	
 	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
 	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});	
 	

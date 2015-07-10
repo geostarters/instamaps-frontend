@@ -125,6 +125,7 @@ function creaPopOverMesFonsColor() {
 			}
 		 
 		  jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
+		  jQuery(".popover").css('z-index','1');
 	});
 	
 	jQuery(document).on('click', "#div_menufons div", function(e) {
