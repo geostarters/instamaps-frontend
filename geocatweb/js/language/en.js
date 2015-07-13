@@ -301,7 +301,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"La informació es mostra en funció de l'àrea geogràfica visualitzada.":"The information is retrieved based on the geographical area displayed."
 ,"La informació presentada no té valor normatiu ni jurídic":"The information presented here does not have legal or normative validity"
 //,"La mida del fitxer supera el límit preestablert (50MB).":"The file size exceeds the preset limit (50MB)."
-,"La mida del fitxer supera el límit preestablert (80MB).":"The file size exceeds the preset limit (80MB)."
+,"La mida del fitxer supera el límit preestablert (500MB).":"The file size exceeds the preset limit (500MB)."
 ,"La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).":"The file size exceeds the preset limit for users who have not logged in (10MB)."
 ,"La mida mínima ha de ser inferior a la màxima":"The minimum size must be less than the maximum"
 ,"La nova contrassenya ja havia estat utilitzada":"The new password was already used"
