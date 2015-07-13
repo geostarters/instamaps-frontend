@@ -234,7 +234,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"EXPLORA":"EXPLORE"
 ,"Exporta les teves dades en diversos formats.":"Export your data in many formats."
 
-,"*Fent clic a <i>Vull informació</i> accepta la":"*By clicking in <i>I want information</i> you accept the"	
+,"*Fent clic a <i>Vull més informació</i> accepta la":"*By clicking in <i>I want more information</i> you accept the"	
 ,"*Fent clic a <i>Registreu-vos</i> accepta la":"*By clicking in <i>Sign up</i> you accept the"
 ,"Fer un nou mapa": "Create a new map"
 ,"Fer mapa":"Do map"
@@ -300,7 +300,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"La geoinformació de Catalunya i el món:":"The geoinformation about Catalunya and the world:"
 ,"La informació es mostra en funció de l'àrea geogràfica visualitzada.":"The information is retrieved based on the geographical area displayed."
 ,"La informació presentada no té valor normatiu ni jurídic":"The information presented here does not have legal or normative validity"
-,"La mida del fitxer supera el límit preestablert (50MB).":"The file size exceeds the preset limit (50MB)."
+//,"La mida del fitxer supera el límit preestablert (50MB).":"The file size exceeds the preset limit (50MB)."
+,"La mida del fitxer supera el límit preestablert (80MB).":"The file size exceeds the preset limit (80MB)."
 ,"La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).":"The file size exceeds the preset limit for users who have not logged in (10MB)."
 ,"La mida mínima ha de ser inferior a la màxima":"The minimum size must be less than the maximum"
 ,"La nova contrassenya ja havia estat utilitzada":"The new password was already used"
@@ -496,7 +497,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Visualitza":"View"
 ,"Vols esborrar la capa":"Do you want to delete the layer"
 ,"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?"
-,"Vull informació":"I want information"
+,"Vull més informació":"I want more information"
 ,"Vull ser le primer":"I want to be the first"
 
 ,"Xarxes socials":"Social networks"		
