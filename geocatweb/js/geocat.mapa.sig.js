@@ -2,20 +2,25 @@ function addHtmlInterficieFuncionsSIG(){
 	
 	jQuery("#funcio_SIG").append(
 	'	<h5 lang="ca">Triar l\'operació</h5>'+
-	'	<div class="div_gr3_fons">'+
-	'		<div id="buffer" lang="ca" class="div_sig_1"></div>'+
-	'		<div id="interseccio" lang="ca" class="div_sig_2"></div>'+
-	'		<div id="tag" lang="ca" class="div_sig_3"></div>'+
-	'		<div id="centroide" lang="ca" class="div_sig_4"></div>'+
-	'		<div id="filter" lang="ca" class="div_sig_5"></div>'+
+	'	<div class="div_gr3_sig">'+
+	'		<div id="buffer" lang="ca" class="div_sig_1" data-toggle="tooltip" data-lang-title="Àrea d\'influència" title="Àrea d\'influència"></div>'+
+	'		<div id="interseccio" lang="ca" class="div_sig_2" data-toggle="tooltip" data-lang-title="Intersecar" title="Intersecar"></div>'+
+	'		<div id="tag" lang="ca" class="div_sig_3" data-toggle="tooltip" data-lang-title="Transmissió (tag)" title="Transmissió (tag)"></div>'+
+	'		<div id="centroide" lang="ca" class="div_sig_4" data-toggle="tooltip" data-lang-title="Centre geomètric" title="Centre geomètric"></div>'+
+	'		<div id="filter" lang="ca" class="div_sig_5" data-toggle="tooltip" data-lang-title="Filtre" title="Filtre"></div>'+
 	'	</div>'		
 	);
+	
+	$('.div_gr3_sig [data-toggle="tooltip"]').tooltip({placement : 'bottom',container : 'body'});
+	
+	/*
 	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :window.lang.convert('Àrea d\'influència')});
 	$('#interseccio').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Intersecar')});
 	$('#tag').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Transmissió (tag)')});
 	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Centre geomètric')});
 	$('#filter').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Filtre')});
 	$('#union').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Unió')});
+	*/
 	
 	jQuery("#buffer").on('click',function(e){
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);

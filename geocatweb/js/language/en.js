@@ -312,7 +312,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"Longitud":"Length"
 
 ,"Mapa Cadastral":"Cadastral map"
-,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n"	
+,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Collaborative map at Instamaps. Invitation"	
+,"Mapa històric Catalunya 1936":"Historical map of Catalunya 1936"
 ,"Mapa publicat":"Published Map"
 ,"Mapa trànsit en temps real":"Real time traffic map"
 ,"Mapa Urbanístic":"Urban planning map"

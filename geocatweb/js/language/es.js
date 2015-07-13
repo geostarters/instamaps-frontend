@@ -313,6 +313,7 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"Mapa Cadastral":"Mapa Cadastral"
 ,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n"
+,"Mapa històric Catalunya 1936":"Mapa histórico Cataluña 1936"
 ,"Mapa publicat":"Mapa publicado"
 ,"Mapa trànsit en temps real":"Mapa tráfico en tiempo real"
 ,"Mapa Urbanístic":"Mapa Urbanístico"
@@ -370,7 +371,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Ordena per nom":"Ordena por nombre"
 ,"Ordena per usuari":"Ordena por usuari"
 ,"Ordena per data":"Ordena por fecha"
-,"Orquídea":"Orchid"
+,"Orquídea":"Orquídea"
 ,"Ortofoto històrica Catalunya 1946":"Ortofoto histórica Cataluña 1946"
 ,"Ortofoto històrica Catalunya 1956-57":"Ortofoto histórica Cataluña 1956-57"
 ,"Ortofotos històriques":"Ortofotos históricas"
