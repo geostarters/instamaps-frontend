@@ -978,7 +978,7 @@ function getTipusValuesVisualitzacioFilter(results){
 		});
 		var checkboxes = "";
 		jQuery.grep(results, function( n, i ) {
-			var check =  "<input type='checkbox' name='filterValue' value='"+n+"' id='filter_"+i+"' class='col-md-1 download'/>"+n;
+			var check =  "<input type='checkbox' name='filterValue' value='"+escape(n)+"' id='filter_"+i+"' class='col-md-1 download'/>"+n;
 			checkboxes += check +"<br/>" ;
 		});
 		var html = "2. "+window.lang.convert('Escull els valors pels que vols filtrar')+":<br/>";
@@ -991,10 +991,9 @@ function getTipusValuesVisualitzacioFilter(results){
 			e.stopImmediatePropagation();
 			filtres="";
 			$('input[name="filterValue"]:checked').each(function() {
-				   filtres=filtres+escape(this.value)+",";
+				   filtres=filtres+this.value+",";
 				   i++;
 			});		
-			
 			var data = {
 				mapBusinessId: url('?businessid'),
 				uid: $.cookie('uid'),
