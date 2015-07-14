@@ -906,31 +906,6 @@ function showModalFilterFields(data){
 				
 }
 
-
-
-function readDataVisualitzacio(visualitzacio, key){
-	//console.debug("readDataVisualitzacio");
-	var defer = jQuery.Deferred();
-	var data = {};
-	var dataValues = [];
-	jQuery.each(visualitzacio.estil, function(index, item){
-		jQuery.each( item.geometria.features, function(i,feature) {
-			//var value = feature.properties[key.toLowerCase()];
-			var value = feature.properties[key];
-			
-			//Si es blanc assignem categoria "Sense valor" com una més
-			if(isBlank(value)) value = window.lang.convert("Sense valor");
-			
-			if(!data[value]){
-				data[value] = value;
-				dataValues.push(value);
-			}
-		});
-	});
-	defer.resolve(dataValues);
-	return defer.promise();
-}
-
 function addHtmlModalFieldsFilter(){
 	
 	jQuery('#mapa_modals').append(
