@@ -206,6 +206,18 @@ function addControlsInici() {
 
 		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
 
+		var btllista = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_llista\" title=\"Llista de capes\" data-lang-title=\"Llista de capes\"><span class='glyphicon glyphicon-th-list grisfort'></span></div>");
+		this._div.appendChild(btllista[0]);
+		
+		var btcamera = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_captura\" title=\"Capturar la vista del mapa\" data-lang-title=\"Capturar la vista del mapa\"><span class='glyphicon glyphicon-camera grisfort'></span></div>");
+		this._div.appendChild(btcamera[0]);
+		
+		var btprint = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_print\" title=\"Imprimir la vista del mapa\" data-lang-title=\"Imprimir la vista del mapa\"><span class='glyphicon glyphicon-print grisfort'></span></div>");
+		this._div.appendChild(btprint[0]);
+		
+		var btgeopdf = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_geopdf\" title=\"Descarrega mapa en format GeoPDF\" data-lang-title=\"Descarrega mapa en format GeoPDF\"><span class='fa fa-file-pdf-o geopdf'></span></div>");
+		this._div.appendChild(btgeopdf[0]);
+		/*
 		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_llista');
 		this._div.appendChild(btllista);
 		btllista.innerHTML = '<span class="glyphicon glyphicon-th-list grisfort"></span>';
@@ -221,7 +233,7 @@ function addControlsInici() {
 		var btgeopdf = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_geopdf');
 		this._div.appendChild(btgeopdf);
 		btgeopdf.innerHTML = '<span class="fa fa-file-pdf-o geopdf"></span>';		
-		
+		*/
 		return this._div;
 	};
 	ctr_llistaCapes.addTo(map);
@@ -277,9 +289,7 @@ function addControlsInici() {
 		callErr: null,			//function that run on gps error activating
 	});	
 	map.addControl(ctr_gps);	
-	
-	
-	
+		
 	ctr_shareBT.onAdd = function(map) {
 
 		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
@@ -300,6 +310,12 @@ function addControlsInici() {
 		return this._div;
 	};
 	ctr_findBT.addTo(map);
+	
+	jQuery('.div_barrabotons .leaflet-bar').tooltip({
+		placement : 'left',
+		container : 'body'
+	});
+	
 	dfd.resolve();
 	return dfd.promise();
 }
@@ -396,6 +412,7 @@ function activaLlegenda(obre) {
 
 
 function addToolTipsInici() {
+	/*
 	//eines mapa
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',
@@ -432,16 +449,24 @@ function addToolTipsInici() {
 		$(n).attr('data-original-title', window.lang.convert(title));
 	    var title = $(n).attr('title', $(n).attr('data-original-title'));
 	});
+	*/
 }
 
 function updateLangText(){
+	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
+		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+	});
+	
 	//Add tooltip caixa cerca
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));	
 }
 
 function updateLangTooltips(){
-	
+	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
+		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+	});
+	/*
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
@@ -472,16 +497,15 @@ function updateLangTooltips(){
 		$(n).attr('data-original-title', window.lang.convert(title));
 	    var title = $(n).attr('title', $(n).attr('data-original-title'));
 	});	
+	*/
 
 	jQuery("#dv_bt_Find").on('click',function(e){
-	
-	posaClassActiu('#span_bt_Find');
-	jQuery('#searchBar').css('top', (e.clientY - 25) +'px');
-	jQuery('#searchBar').css('left', (e.clientX + 20) +'px');
+		posaClassActiu('#span_bt_Find');
+		jQuery('#searchBar').css('top', (e.clientY - 25) +'px');
+		jQuery('#searchBar').css('left', (e.clientX + 20) +'px');
 		jQuery('#searchBar').toggle();
-			aturaClick(e);
-			
-		});
+		aturaClick(e);
+	});
 }
 
 function loadMapConfig(mapConfig){

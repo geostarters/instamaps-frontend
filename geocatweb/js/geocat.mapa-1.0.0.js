@@ -381,157 +381,16 @@ function addControlsInici(){
 
 
 function addToolTipsInici() {
-	/*
-	//eines mapa
-	$('.bt_llista').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Llista de capes")
-	});
-	$('.bt_captura').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Capturar la vista del mapa")
-	});
-	$('.bt_print').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Imprimir la vista del mapa")
-	});
-	$('.bt_geopdf').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Descarrega mapa en format GeoPDF")
-	});
-	$('.bt_save').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Desar el mapa actual")
-	});	
-	$('.bt_info').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Veure informació al fer clic sobre el mapa")
-	});
-	
-	$('.bt_hill').tooltip({
-		placement : 'right',
-		container : 'body',
-		title : window.lang.convert("Mostrar l'ombra del relleu")
-	});	
-	
-	jQuery.map(jQuery('[data-toggle="tooltip"]'), function (n, i){
-		var title = $(n).attr('title');
-		if (title == ""){
-			title = $(n).attr('data-original-title');
-		}
-		$(n).attr('data-original-title', window.lang.convert(title));
-	    var title = $(n).attr('title', $(n).attr('data-original-title'));
-	});
-	*/
+
 }
 
 function updateLangTooltips(){
-	//eines mapa
-	/*
-	$('.bt_llista').tooltip('destroy').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Llista de capes")
-	});
-	$('.bt_captura').tooltip('destroy').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Capturar la vista del mapa")
-	});
-	$('.bt_print').tooltip('destroy').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Imprimir la vista del mapa")
-	});
-	$('.bt_geopdf').tooltip('destroy').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Descarrega mapa en format GeoPDF")
-	});
-	$('.bt_save').tooltip('destroy').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Desar el mapa actual")
-	});	
-	$('.bt_info').tooltip('destroy').tooltip({
-		placement : 'left',
-		container : 'body',
-		title : window.lang.convert("Veure informació al fer clic sobre el mapa")
-	});
-	$('.bt_hill').tooltip('destroy').tooltip({
-		placement : 'right',
-		container : 'body',
-		title : window.lang.convert("Mostrar l'ombra del relleu")
-	});	
-	*/
-	
-	/*
-	$('.div_carrega_dades').tooltip('destroy').tooltip({
-		placement : 'bottom',
-		container : 'body',
-		title : window.lang.convert('Arrossega les teves dades sobre el mapa o fes clic aquí')
-	});
-	*/
-	
-	$('#div_punt').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per situar un punt')});
-	$('#div_linia').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una línia')});
-	$('#div_area').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una àrea')});		
-	$('#div_mes_punts').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més tipus de punts')});
-	$('#div_mes_linies').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més estils de línia')});
-	$('#div_mes_arees').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Més estils d'àrees")});
-	
-	//$('#div_dades_usr').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Accedeix a les teves dades")});
-	//$('#div_dades_ext').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Explora altres fonts de dades")});
-	
-	/*
-	$('#st_Color').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
-	$('#st_Tema').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
-	$('#st_Heat').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
-	$('#st_Clust').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});	
-	*/
-	
-	/*
-	$('#div_mesfons').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més mapes de fons')});
-	$('.div_gr3_fons #topoMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Topogràfic')});
-	$('.div_gr3_fons #topoMapGeo').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Simple')});
-	$('.div_gr3_fons #ortoMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Imatge')});
-	$('.div_gr3_fons #terrainMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Terreny')});
-	$('.div_gr3_fons #colorMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Més mapes de fons')});
-	$('.div_gr3_fons #historicOrtoMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Ortofoto històrica Catalunya 1956-57')});
-	$('.div_gr3_fons #historicMap').tooltip('destroy').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Mapa històric Catalunya 1936')});
-	*/
-	
-	$('.bt_publicar').tooltip('destroy').tooltip('destroy').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")});
-	
-	
-	
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
-		console.debug(jQuery(this).data('lang-title'));
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
-	
-	
-	/*
-	jQuery.map(jQuery('[data-toggle="tooltip"]'), function (n, i){
-		var title = $(n).attr('title');
-		if (title == ""){
-			title = $(n).attr('data-original-title');
-		}
-		$(n).attr('data-original-title', window.lang.convert(title));
-	    var title = $(n).attr('title', $(n).attr('data-original-title'));
-	});	
-	*/
-	
 }
 
 function updateLangText(){
-
 	//Add tooltip caixa cerca
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));	
@@ -542,7 +401,6 @@ function updateLangText(){
 	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
 	$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
 	$('#socialShare>h5').html(window.lang.convert("Compartir"));	
-	
 }
 
 function loadMapConfig(mapConfig){
