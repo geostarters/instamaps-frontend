@@ -33,7 +33,6 @@ function showModalTematicCategories(data){
 		businessId: data.businessid,
 		uid: jQuery.cookie('uid')
 	};
-	console.debug(data);
 	
 	if(data.tipus == t_url_file){
 		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
@@ -78,7 +77,6 @@ function showModalTematicCategories(data){
 				jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
-				console.debug(visualitzacio);
 				if (visualitzacio.options){
 					var options = JSON.parse(visualitzacio.options);
 					var dataNames = options.propName.split(',');
