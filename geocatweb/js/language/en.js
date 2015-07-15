@@ -257,7 +257,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Geometries creades":"Geometries created"
 ,"Geoserveis":"Geoservices"
 ,"graduat":"graduate"
-,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.":"Thank You. We take note of your email and we will notify you when we start the next course."
+,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.":"Thank You. We take note of your email and we will notify you when we start the next workshop."
 ,"Gruix contorn:":"Outline width"
 ,"Gruix linia:":"Line width"
 ,"Guardar com":"Save as"
