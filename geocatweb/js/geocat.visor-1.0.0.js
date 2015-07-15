@@ -93,13 +93,17 @@ function loadApp(){
 				infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 			}
-			jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" class="glyphicon glyphicon-info-sign pop" data-original-title="Informació"></span>');
+			jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació"></span>');
 			
 			$('#infoMap').popover({
 				placement : 'bottom',
 				html: true,
 				content: infoHtml
-			});			
+			});
+			
+			$('#infoMap').on('show.bs.popover', function () {
+				jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+			});
 			
 			mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
 			checkEmptyMapLegend();
@@ -466,6 +470,7 @@ function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
+	
 	/*
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',

@@ -928,7 +928,6 @@ function addHtmlInterficieTematics(){
 	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
 	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});
 	*/
-	
 }
 
 function addHtmlModalLayersTematic(){
