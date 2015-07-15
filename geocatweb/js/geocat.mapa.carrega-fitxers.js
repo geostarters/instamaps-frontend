@@ -1380,12 +1380,11 @@ function addHtmlModalInfoUpload(){
 
 function addHtmlInterficieCarregarFitxers(){
 	jQuery("#funcio_carregar_fitxers").append(
-			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades"></div>'		
+			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades" data-toggle="tooltip" title="Arrossega les teves dades sobre el mapa o fes clic aquí" data-lang-title="Arrossega les teves dades sobre el mapa o fes clic aquí"></div>'		
 	);
 	
 	$('.div_carrega_dades').tooltip({
 		placement : 'bottom',
-		container : 'body',
-		title : window.lang.convert('Arrossega les teves dades sobre el mapa o fes clic aquí')
+		container : 'body'
 	});	
 }

@@ -2,20 +2,25 @@ function addHtmlInterficieFuncionsSIG(){
 	
 	jQuery("#funcio_SIG").append(
 	'	<h5 lang="ca">Triar l\'operació</h5>'+
-	'	<div class="div_gr3_fons">'+
-	'		<div id="buffer" lang="ca" class="div_sig_1"></div>'+
-	'		<div id="interseccio" lang="ca" class="div_sig_2"></div>'+
-	'		<div id="tag" lang="ca" class="div_sig_3"></div>'+
-	'		<div id="centroide" lang="ca" class="div_sig_4"></div>'+
-	'		<div id="filter" lang="ca" class="div_sig_5"></div>'+
+	'	<div class="div_gr3_sig">'+
+	'		<div id="buffer" lang="ca" class="div_sig_1" data-toggle="tooltip" data-lang-title="Àrea d\'influència" title="Àrea d\'influència"></div>'+
+	'		<div id="interseccio" lang="ca" class="div_sig_2" data-toggle="tooltip" data-lang-title="Intersecar" title="Intersecar"></div>'+
+	'		<div id="tag" lang="ca" class="div_sig_3" data-toggle="tooltip" data-lang-title="Transmissió (tag)" title="Transmissió (tag)"></div>'+
+	'		<div id="centroide" lang="ca" class="div_sig_4" data-toggle="tooltip" data-lang-title="Centre geomètric" title="Centre geomètric"></div>'+
+	'		<div id="filter" lang="ca" class="div_sig_5" data-toggle="tooltip" data-lang-title="Filtre" title="Filtre"></div>'+
 	'	</div>'		
 	);
+	
+	$('.div_gr3_sig [data-toggle="tooltip"]').tooltip({placement : 'bottom',container : 'body'});
+	
+	/*
 	$('#buffer').tooltip({placement : 'bottom',container : 'body',title :window.lang.convert('Àrea d\'influència')});
 	$('#interseccio').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Intersecar')});
 	$('#tag').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Transmissió (tag)')});
 	$('#centroide').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Centre geomètric')});
 	$('#filter').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Filtre')});
 	$('#union').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Unió')});
+	*/
 	
 	jQuery("#buffer").on('click',function(e){
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);
@@ -46,11 +51,17 @@ function addHtmlInterficieFuncionsSIG(){
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'union', 1]);
 		openUnionModal();
 	});
+	
+	addHtmlModalBuffer();
+	addHtmlModalIntersection();
+	addHtmlModalTag();
+	addHtmlModalCentroid();
+	addHtmlModalLayersFilter();
+	addHtmlModalFieldsFilter();
+	
 }
 
 function openFilterModal(){
-	addHtmlModalLayersFilter();
-	addHtmlModalFieldsFilter();
 	showFilterLayersModal();
 	jQuery('#list_filter_values').html("");
 	$('#dialog_layers_filter').modal('show');
@@ -58,7 +69,7 @@ function openFilterModal(){
 
 
 function openBufferModal(){
-	 addHtmlModalBuffer();
+	//console.debug("openBufferModal");
 	 createModalConfigLayersBuffer();
 	 $('#dialog_buffer').modal('show');
 	 jQuery('#dialog_buffer .btn-primary').on('click',function(event){
@@ -106,12 +117,10 @@ function openBufferModal(){
 				}
 			});
 		 }
-		});		
-	 
+	}); 
 }
 
 function openIntersectionModal(){
-	 addHtmlModalIntersection();
 	 createModalConfigLayers2("intersection");
 	 $('#dialog_intersection').modal('show');
 	 jQuery('#dialog_intersection .btn-primary').on('click',function(event){
@@ -163,7 +172,6 @@ function openIntersectionModal(){
 }
 
 function openTagModal(){
-	 addHtmlModalTag();
 	 createModalConfigLayers2("tag");
 	 $('#dialog_tag').modal('show');
 	 jQuery('#dialog_tag .btn-primary').on('click',function(event){
@@ -214,7 +222,7 @@ function openTagModal(){
 }
 
 function openCentroideModal(){
-	addHtmlModalCentroid();
+	
 	createModalConfigLayersCentroide();
 	 $('#dialog_centroid').modal('show');
 	 jQuery('#dialog_centroid .btn-primary').on('click',function(event){
@@ -274,15 +282,15 @@ function addHtmlModalBuffer(){
 						'</div>'+
 						'<div class="modal-body">'+
 			'			<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació calcula una àrea definida per una distància fixa a l\'entorn d\'un element.')+
+			'<span lang="ca">Aquesta operació calcula una àrea definida per una distància fixa a l\'entorn d\'un element.</span>'+
 			'			<br/>'+
-						window.lang.convert('Aplicable a punts, línies o polígons.')+'<br/><br/>'+
+			'<span lang="ca">Aplicable a punts, línies o polígons.</span>'+'<br/><br/>'+
 			'			<div class="imagePeu"><img src="css/images/Buffer_1.jpg" class="img1">'+
-			'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
+			'			<span class="peu" lang="ca">Capa d\'origen</span>'+
 			'			<img src="css/images/Buffer_2.jpg">'+
-			'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+		
+			'			<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
 			'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-			'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+
+			'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span>'+
 					'<br/><br/>'+
 			'</div>'+
 			'			</div>'+
@@ -424,14 +432,14 @@ function addHtmlModalIntersection(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació calcula els elements que són intersecció entre diverses geometries.')+'&nbsp;'+
-						window.lang.convert('Aplicable a polígons.')+'<br/><br/>'+
+						'<span lang="ca">Aquesta operació calcula els elements que són intersecció entre diverses geometries.</span>'+'&nbsp;'+
+						'<span lang="ca">Aplicable a polígons.</span><br/><br/>'+
 						'			<div class="imagePeu"><img src="css/images/Interseccio_1.jpg" class="img1">'+
-						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
+						'			<span class="peu" lang="ca">Capa d\'origen</span>'+
 						'			<img src="css/images/Interseccio_2.jpg">'+
-						'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
+						'			<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span><br/><br/>'+
 						'</div>'+				
 						'			</div>'+
 							'<form id="frm_buffer">'+
@@ -607,16 +615,16 @@ function addHtmlModalTag(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests  (polígon --> punt).')+'&nbsp;'+
-						window.lang.convert('Aplicable a polígons i punts.')+'<br/><br/>'+
+						'<span lang="ca">Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests (polígon a punt).</span>'+'&nbsp;'+
+						'<span lang="ca">Aplicable a polígons i punts.</span><br/><br/>'+
 						'<div class="imagePeu"><img src="css/images/Tag_1.jpg" >'+
-						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+' 1</span>'+
+						'			<span class="peu"><span lang="ca">Capa d\'origen</span> 1</span>'+
 						'			<img src="css/images/Tag_2.jpg">'+
-						'			<span class="peu2_2">'+window.lang.convert('Capa d\'origen')+' 2</span>'+
+						'			<span class="peu2_2"><span lang="ca">Capa d\'origen</span> 2</span>'+
 						'			<img src="css/images/Tag_3.jpg" >'+
-						'			<span class="peu3">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
+						'			<span class="peu3" lang="ca">Resultat de l\'operació</span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span><br/><br/>'+
 						'</div>'+
 				
 						'</div>'+
@@ -685,14 +693,14 @@ function addHtmlModalCentroid(){
 						'</div>'+
 						'<div class="modal-body">'+
 						'<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació calcula el centre geomètric o centroide d\'un polígon tancat.')+'&nbsp;'+
-						window.lang.convert('Aplicable a polígons.')+'<br/><br/>'+
+						'<span lang="ca">Aquesta operació calcula el centre geomètric o centroide d\'un polígon tancat.</span>'+'&nbsp;'+
+						'<span lang="ca">Aplicable a polígons.</span><br/><br/>'+
 						'			<div class="imagePeu"><img src="css/images/Centroid_1.jpg" class="img1">'+
-						'			<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
+						'			<span class="peu" lang="ca">Capa d\'origen</span>'+
 						'			<img src="css/images/Centroid_2.jpg">'+
-						'			<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
+						'			<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
+						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span><br/><br/>'+
 						'</div>'+				
 						'</div>'+
 							'<form id="frm_buffer">'+
@@ -728,14 +736,14 @@ function addHtmlModalLayersFilter(){
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success">'+
-						window.lang.convert('Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.')+'&nbsp;'+
-						window.lang.convert('Aplicable a punts, línies o polígons.')+'<br/><br/>'+
+						'<span lang="ca">Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.</span>'+'&nbsp;'+
+						'<span lang="ca">Aplicable a punts, línies o polígons.</span><br/><br/>'+
 	'							<div class="imagePeu"><img src="css/images/Filtre_1.jpg" class="img1">'+
-	'							<span class="peu">'+window.lang.convert('Capa d\'origen')+'</span>'+
+	'							<span class="peu" lang="ca">Capa d\'origen</span>'+
 	'							<img src="css/images/Filtre_2.jpg">'+
-	'						<span class="peu2">'+window.lang.convert('Resultat de l\'operació')+'<br/></span></div>'+
+	'						<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
 	'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;'+window.lang.convert('Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.')+'<br/><br/>'+
+	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span><br/><br/>'+
 	'</div>'+
 	'</div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+

@@ -390,7 +390,7 @@ function addHtmlModalDadesExt(){
 	'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
 	'						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
-	'						<li><a href="#id_url_file" lang="ca" data-toggle="tab">Dades externes <i class="icon icon-dropbox"></i><i class="icon icon-github"></i><i class="icon icon-drive"></i></a></li>'+
+	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades externes</span> <i class="icon icon-dropbox"></i><i class="icon icon-github"></i><i class="icon icon-drive"></i></a></li>'+
 	'					</ul>'+
 	'					<div class="tab-content tab-content-margin5px">'+
 	'						<div class="tab-pane fade" id="id_do"></div>'+
@@ -418,9 +418,12 @@ function addHtmlModalDadesExt(){
 function addHtmlInterficieDadesExt(){
 	
 	jQuery("#carregar_dades .div_gr2").append(
-			'<div lang="ca" id="div_dades_ext" class="div_dades_ext"></div>'		
+			'<div lang="ca" id="div_dades_ext" class="div_dades_ext" data-toggle="tooltip" title="Explora altres fonts de dades" data-lang-title="Explora altres fonts de dades"></div>'		
 	);
-	$('#div_dades_ext').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Explora altres fonts de dades")});
+	$('#div_dades_ext').tooltip({
+		placement : 'bottom',
+		container : 'body'
+	});
 }
 
 //function toggleCollapseTwitter(){

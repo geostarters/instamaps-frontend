@@ -92,18 +92,20 @@ L.IM_ControlFons = L.Control.extend({
     	 this._addItem(container,{id:'sepia',className:'div_fons_7',title:'Sèpia'});
     	 this._addItem(container,{id:'zombie',className:'div_fons_8',title:'Zombie'});
     	 this._addItem(container,{id:'orquidea',className:'div_fons_9',title:'Orquídea'});
-    	
-    	
     },
     
     _addItem: function(container, properties){
     	var item = document.createElement('div');
     	item.id = properties.id;
     	item.className = properties.className;
+    	item.setAttribute("data-toggle","tooltip");
+    	item.setAttribute("data-lang-title",properties.title);
+    	item.title = properties.title;
+    	
     	L.DomEvent.on(item, 'click', L.DomEvent.stopPropagation);
     	L.DomEvent.on(item, 'click', this._onItemClick, this);
     	container.appendChild(item);
-    	$(item).tooltip({placement : 'bottom',container : 'body',title : window.lang.convert(properties.title)});
+    	$(item).tooltip({placement : 'bottom',container : 'body'});
     },
     
     _onItemClick: function(evt){
