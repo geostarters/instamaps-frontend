@@ -70,45 +70,157 @@ function openBufferModal(){
 		   }
 		 else {
 			var businessId = $("input[name='buffer-chck']:checked").parent().attr('data-businessId');
-			 
-			var data = {
-				uid: $.cookie('uid'),
-				businessId1: businessId,
-				radi: $("#distancia").val(),
-				nom:window.lang.convert("Àrea d'influència"),
-				text:window.lang.convert("Àrea d'influència")
-			};
-			buffer(data).then(function(results){
-				if (results.status == "ERROR"){
-					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
-				}else{
-					var data2 = {
-						uid: $.cookie('uid'),
-						mapBusinessId: url('?businessid'),
-						serverName:window.lang.convert("Àrea d'influència"),
-						path:results.path,
-						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp.geojson',
-						tmpFilePath:tmpdir +'tmp.geojson',
-						midaFitxer:results.midaFitxer,
-						sourceExtension:'geojson',
-						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
-						propertiesList: results.propertiesList,
-						geomType: results.geomType
-					}
-					doUploadFile(data2).then(function(results){
-						if (results.status="OK") {
-							addDropFileToMap(results);
-							 $('#dialog_buffer').modal('hide');
-						}
-					});
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: businessId
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						poll = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									console.debug(data);
+									jQuery('#dialog_buffer').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS BUFFER")!=-1){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant buffer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant buffer')+'</div>'+
+											'<div id="div_upload_step4" class="status_uncheck" lang="ca">3. '+window.lang.convert('Dibuixant la resposta')+'</div>'//+	
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1){
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant buffer')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant buffer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step4" class="status_uncheck" lang="ca">3. '+window.lang.convert('Dibuixant la resposta')+'</div>'//+	
+													);									
+									}else if(data.status.indexOf("OK")!=-1){
+//										console.debug("Ha acabat:");
+//										console.debug(data);
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant buffer')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant buffer')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step4" class="status_current" lang="ca">3. '+window.lang.convert('Dibuixant la resposta')+'</div>'//+	
+											);									
+										
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+									
+									}else if(data.status.indexOf("ERROR")!=-1){
+										console.error("Error al carregar fitxer:");
+										console.error(data);
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");
+										
+										if(data.codi){
+											
+											_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+											
+											if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
+												var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+												$('#dialog_error_upload_txt').html(msg);
+												
+											}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
+												var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+												$('#dialog_error_upload_txt').html(msg);
+												
+											}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
+												var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+												$('#dialog_error_upload_txt').html(msg);
+													
+											}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
+												var msg = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+													$('#dialog_error_upload_txt').html(msg);
+											
+											}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
+												var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+												$('#dialog_error_upload_txt').html(msg);
+												
+											}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
+												var msg = "[06]: " + window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+												$('#dialog_error_upload_txt').html(msg);
+												
+											}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
+												var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+												$('#dialog_error_upload_txt').html(msg);
+											}
+											
+										}else{
+											_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+											$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
+										}
+										
+										$('#dialog_error_upload').modal('show');
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							poll();
+						},pollTime);
+						
+					})();
 				}
-			});
-		 }
-		});		
-	 
-}
+			
+				var data = {
+					uid: $.cookie('uid'),
+					businessId1: businessId,
+					radi: $("#distancia").val(),
+					nom:window.lang.convert("Àrea d'influència"),
+					text:window.lang.convert("Àrea d'influència"),
+					tmpFilePath: tmpFile
+				};
+				buffer(data).then(function(results){
+					if (results.status == "ERROR"){
+						alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+					}else{
+						var data2 = {
+							uid: $.cookie('uid'),
+							mapBusinessId: url('?businessid'),
+							serverName:results.nomCapaOrigen+" "+window.lang.convert("Àrea d'influència"),
+							path:results.path,
+							//tmpFilePath:'E://usuaris//m.ortega//temp//tmp.geojson',
+							tmpFilePath:results.tmpFilePath,
+							midaFitxer:results.midaFitxer,
+							sourceExtension:'geojson',
+							markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+							lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+							polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+							propertiesList: results.propertiesList,
+							geomType: results.geomType
+						}
+						doUploadFile(data2).then(function(results){
+							if (results.status="OK") {
+								addDropFileToMap(results);
+								 $('#dialog_buffer').modal('hide');
+							}
+						});
+			
+					}
+				});
+			 });		
+		 }});
+	 }
 
 function openIntersectionModal(){
 	 addHtmlModalIntersection();
@@ -124,6 +236,9 @@ function openIntersectionModal(){
 			 //Cridar funció buffer
 			var businessId1 = $("input[name='intersect-chck']:checked").parent().attr('data-businessId');
 			var businessId2 = $("input[name='intersect-chck2']:checked").parent().attr('data-businessId');
+			
+			var name1 = $("input[name='intersect-chck']:checked").parent().attr('data-layername');
+			var name2 = $("input[name='intersect-chck2']:checked").parent().attr('data-layername');
 			 
 			var data = {
 				uid: $.cookie('uid'),
@@ -139,7 +254,7 @@ function openIntersectionModal(){
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName:window.lang.convert("Intersecció"),
+						serverName:window.lang.convert("Intersecció")+" "+name1 +" "+name2,
 						path:results.path,
 						tmpFilePath:tmpdir +'tmp.geojson',
 						midaFitxer:results.midaFitxer,
@@ -192,7 +307,7 @@ function openTagModal(){
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName:window.lang.convert("Transmissió (tag)"),
+						serverName:window.lang.convert("Transmissió (tag)")+" "+results.nomCapaOrigen1+" "+results.nomCapaOrigen2,
 						path:results.path,
 						tmpFilePath:tmpdir +'tmp.geojson',
 						midaFitxer:results.midaFitxer,
@@ -239,7 +354,7 @@ function openCentroideModal(){
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName:window.lang.convert("Centre geomètric"),
+						serverName:results.nomCapaOrigen+" "+window.lang.convert("Centre geomètric"),
 						path:results.path,
 						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
 						tmpFilePath:tmpdir +'tmp.geojson',
@@ -497,7 +612,7 @@ function createModalConfigLayers2(tipus){
 			}	
 			else {
 				if (layer.options.geometryType=="polygon"){
-					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'" data-layername="'+layerName+'">'+
 							'<div class="col-md-9 downloadable-name">'+
 								layerName+
 							'</div>';
@@ -558,7 +673,7 @@ function createModalConfigLayers2(tipus){
 			}
 			else {
 				if (layer.options.geometryType=="polygon"){	
-					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'">'+
+					html += '<div class="downloadable-subrow" data-businessid="'+layer.options.businessId+'" data-layername="'+layerName+'">'+
 								'<div class="col-md-9 downloadable-name">'+
 									layerName+
 								'</div>'+

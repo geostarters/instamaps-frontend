@@ -68,7 +68,8 @@ function loadApp(){
 			'prefix': 'ETRS89 UTM 31N',
 			'prefix2': 'WGS84',
 			'separator': ' ',
-			'showETRS89':true
+			'showETRS89':true,
+			'lngFirst':true
 		}).addTo(map);
 		
 		
