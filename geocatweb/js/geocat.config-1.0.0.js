@@ -166,7 +166,8 @@ var paramUrl = {
 	union: HOST_APP+"geocat/aplications/map/union.action?",
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
-	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?"
+	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
+	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
@@ -197,5 +198,4 @@ $( document ).ajaxStop(function() {
 		try {map.spin(false);} catch (Err) {console.error(Err);}
 	},10000);
 });
-
 

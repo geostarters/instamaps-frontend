@@ -68,7 +68,8 @@ function loadApp(){
 			'prefix': 'ETRS89 UTM 31N',
 			'prefix2': 'WGS84',
 			'separator': ' ',
-			'showETRS89':true
+			'showETRS89':true,
+			'lngFirst':true
 		}).addTo(map);
 		
 		
@@ -332,6 +333,9 @@ function addControlsInici(){
 		id : 'div_capes'
 	}).addTo(map);
 	
+	
+	
+
 	map.on('addItemFinish',function(){
 		$(".layers-list").mCustomScrollbar("destroy");		
 		$(".layers-list").mCustomScrollbar({
@@ -340,7 +344,10 @@ function addControlsInici(){
 			     updateOnContentResize: true
 			   }           
 		});	
+		
 	});
+	
+	
 	
 	var ctr_llistaCapes = L.control({
 		position : 'topright'
@@ -378,19 +385,23 @@ function addControlsInici(){
 		container : 'body'
 	});
 }
+}
 
 
 function addToolTipsInici() {
-
+	
 }
 
 function updateLangTooltips(){
+	
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
+	
 }
 
 function updateLangText(){
+
 	//Add tooltip caixa cerca
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));	
@@ -401,6 +412,7 @@ function updateLangText(){
 	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
 	$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
 	$('#socialShare>h5').html(window.lang.convert("Compartir"));	
+	
 }
 
 function loadMapConfig(mapConfig){
@@ -603,6 +615,7 @@ function getBusinessIdOrigenLayers(){
 }
 
 function loadControls(configuracio){
+	
 	//funcionalitats a carregar nomes si esta loginat
 	if ($.cookie('uid')){
 		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
