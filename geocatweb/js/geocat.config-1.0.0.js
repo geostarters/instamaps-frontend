@@ -171,29 +171,31 @@ var paramUrl = {
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
-//	if ( settings.url == "ajax/test.html" ) {
-	//alert("ajax send!");
-	$('.waiting_animation').show();
+	//$('.waiting_animation').show();
 	if (typeof map !== 'undefined'){
-//		map.spin(true);
 		try {map.spin(true);} catch (Err) {}
-		setTimeout(function(){
-//			map.spin(false);
-			try {map.spin(false);} catch (Err) {}
-		},100000000);
+		
 	}
-//	}
 });
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
-	$('.waiting_animation').hide();
 	if (typeof map !== 'undefined'){
-		try {map.spin(false);} catch (Err) {}
+		try {map.spin(false);} catch (Err) {console.error(Err);}
 	}
 	if (jqxhr.responseJSON){
 		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
 			sessionExpired();
 		}
 	}
+});
+
+$( document ).ajaxStop(function() {
+	//$('.waiting_animation').hide();
+	if (typeof map !== 'undefined'){
+		try {map.spin(false);} catch (Err) {console.error(Err);}
+	}
+	setTimeout(function(){
+		try {map.spin(false);} catch (Err) {console.error(Err);}
+	},10000);
 });
 

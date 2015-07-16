@@ -3,7 +3,7 @@
 //var pending = false
 var drgFromMapa = null;
 var drgFromBoto = null;
-var midaFitxer = 80000000;//en bytes
+var midaFitxer = 500000000;//en bytes
 var midaFitxerRandom = 10000000;//en bytes
 
 var busy = false; //per controlar si ja estem pujant un fitxer
@@ -894,7 +894,7 @@ function obteCampsXLSX(f) {
 			doit();
 		}else{
 			//console.debug(window.lang.convert("Arxiu massa gran!!"));
-			$('#dialog_info_upload_txt').html(window.lang.convert("La mida del fitxer supera el límit preestablert (80MB)."));
+			$('#dialog_info_upload_txt').html(window.lang.convert("La mida del fitxer supera el límit preestablert (500MB)."));
 			$('#dialog_info_upload').modal('show');
 			drgFromMapa.removeAllFiles(true);
 			busy = false;
@@ -1014,7 +1014,7 @@ function miraFitxer(fitxer) {
 				}else{
 					//console.debug(window.lang.convert("Arxiu massa gran!!"));
 					obj.isValid = false;
-					obj.msg = window.lang.convert("La mida del fitxer supera el límit preestablert (80MB).");
+					obj.msg = window.lang.convert("La mida del fitxer supera el límit preestablert (500MB).");
 					busy = false;
 				}				
 				
@@ -1385,12 +1385,11 @@ function addHtmlModalInfoUpload(){
 
 function addHtmlInterficieCarregarFitxers(){
 	jQuery("#funcio_carregar_fitxers").append(
-			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades"></div>'		
+			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades" data-toggle="tooltip" title="Arrossega les teves dades sobre el mapa o fes clic aquí" data-lang-title="Arrossega les teves dades sobre el mapa o fes clic aquí"></div>'		
 	);
 	
 	$('.div_carrega_dades').tooltip({
 		placement : 'bottom',
-		container : 'body',
-		title : window.lang.convert('Arrossega les teves dades sobre el mapa o fes clic aquí')
+		container : 'body'
 	});	
 }
