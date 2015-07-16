@@ -1056,10 +1056,11 @@ function addDropFileToMap(results) {
 					}else{
 						var defer = $.Deferred();
 						loadVisualitzacioLayer(results.layerMarker).then(function(results1){
-							if(results1){
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
 								map.fitBounds(results1.getBounds());
-								jQuery('#info_uploadFile').hide();
-							}
+							}								
+							jQuery('#info_uploadFile').hide();
+							
 						});					
 					}
 				}					
@@ -1072,10 +1073,11 @@ function addDropFileToMap(results) {
 						var defer = $.Deferred();
 //						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
 						loadVisualitzacioLayer(results.layerLine).then(function(results1){
-							if(results1){
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
 								map.fitBounds(results1.getBounds());
-								jQuery('#info_uploadFile').hide();
 							}
+							jQuery('#info_uploadFile').hide();
+							
 						});					
 					}
 				}
@@ -1088,10 +1090,13 @@ function addDropFileToMap(results) {
 						var defer = $.Deferred();
 //						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
 						loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
-							if(results1){
+							console.debug(results.layerPolygon);
+							console.debug(results1);
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
 								map.fitBounds(results1.getBounds());
-								jQuery('#info_uploadFile').hide();
 							}
+							jQuery('#info_uploadFile').hide();
+							
 						});					
 					}
 				}				
@@ -1380,12 +1385,11 @@ function addHtmlModalInfoUpload(){
 
 function addHtmlInterficieCarregarFitxers(){
 	jQuery("#funcio_carregar_fitxers").append(
-			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades"></div>'		
+			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades" data-toggle="tooltip" title="Arrossega les teves dades sobre el mapa o fes clic aquí" data-lang-title="Arrossega les teves dades sobre el mapa o fes clic aquí"></div>'		
 	);
 	
 	$('.div_carrega_dades').tooltip({
 		placement : 'bottom',
-		container : 'body',
-		title : window.lang.convert('Arrossega les teves dades sobre el mapa o fes clic aquí')
+		container : 'body'
 	});	
 }

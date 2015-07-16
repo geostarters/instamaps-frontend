@@ -1702,36 +1702,36 @@ function addHtmlInterficieDraw(){
 	jQuery("#funcio_draw").append(
 		'<h5 lang="ca" id="funcio_draw_titol_1">Situar un punt</h5>'+
 		'	<div class="add_costat_r" style="margin-right: 33%;">'+
-		'	<div lang="ca" id="div_mes_punts" class="icon-add taronja"></div>'+
+		'	<div lang="ca" id="div_mes_punts" class="icon-add taronja" data-toggle="tooltip" data-lang-title="Més tipus de punts" title="Més tipus de punts"></div>'+
 		'</div>'+
 		'<div style="height:50px ">'+
-		'	<div id="div_punt" class="dibuix_punt">'+
+		'	<div id="div_punt" class="dibuix_punt" data-toggle="tooltip" data-lang-title="Clica per situar un punt" title="Clica per situar un punt">'+
 		'	</div>'+
 		'</div>'+
 		'<h5 lang="ca" id="funcio_draw_titol_2">Dibuixar una línia o un polígon</h5>'+
 		'<div class="div_auto">'+
-		'	<div id="div_linia" class="dibuix_linia">'+
+		'	<div id="div_linia" class="dibuix_linia" data-toggle="tooltip" data-lang-title="Clica per començar a dibuixar una línia" title="Clica per començar a dibuixar una línia">'+
 		'	<canvas id="cv_linia" width="40" height="40"></canvas>'+
 		'	</div>'+
 		'	<div class="add_costat">'+
-		'		<div lang="ca" id="div_mes_linies" class="icon-add taronja"></div>'+
+		'		<div lang="ca" id="div_mes_linies" class="icon-add taronja" data-toggle="tooltip" data-lang-title="Més estils de línia" title="Més estils de línia"></div>'+
 		'	</div>'+
 		'</div>'+
 		'<div class="div_auto">'+
-		'	<div id="div_area" class="dibuix_poligon">'+
+		'	<div id="div_area" class="dibuix_poligon" data-toggle="tooltip" data-lang-title="Clica per començar a dibuixar una àrea" title="Clica per començar a dibuixar una àrea">'+
 		'	<canvas id="cv_pol" width="40" height="40"></canvas>'+
 		'	</div>'+
 		'	<div class="add_costat">'+
-		'		<div lang="ca" id="div_mes_arees" class="icon-add taronja"></div>'+
+		'		<div lang="ca" id="div_mes_arees" class="icon-add taronja" data-toggle="tooltip" data-lang-title="Més estils d\'àrees" title="Més estils d\'àrees"></div>'+
 		'	</div>'+
 		'</div>'
 	);
 	
-	$('#div_punt').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per situar un punt')});
-	$('#div_linia').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una línia')});
-	$('#div_area').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Clica per començar a dibuixar una àrea')});	
+	$('#div_punt').tooltip({placement : 'bottom',container : 'body'});
+	$('#div_linia').tooltip({placement : 'bottom',container : 'body'});
+	$('#div_area').tooltip({placement : 'bottom',container : 'body'});	
 	
-	$('#div_mes_punts').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més tipus de punts')});
-	$('#div_mes_linies').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més estils de línia')});
-	$('#div_mes_arees').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Més estils d'àrees")});	
+	$('#div_mes_punts').tooltip({placement : 'right',container : 'body'});
+	$('#div_mes_linies').tooltip({placement : 'right',container : 'body'});
+	$('#div_mes_arees').tooltip({placement : 'right',container : 'body'});	
 }

@@ -911,20 +911,23 @@ function addHtmlInterficieTematics(){
 	jQuery("#funcio_tematics").append(
 			'<h5 lang="ca">Triar l\'estil del mapa</h5>'+
 			'<div class="div_gr3_estils">'+
-			'	<div id="st_Color" lang="ca" class="div_estil_1"></div>'+
-			'	<div id="st_Tema" lang="ca" class="div_estil_2"></div>'+
-			'	<div id="st_Size" lang="ca" class="div_estil_3"></div>'+
-			'	<div id="st_Heat" lang="ca" class="div_estil_4"></div>'+
-			'	<div id="st_Clust" lang="ca" class="div_estil_5"></div>'+
+			'	<div id="st_Color" lang="ca" class="div_estil_1" data-toggle="tooltip" data-lang-title="Bàsic" title="Bàsic"></div>'+
+			'	<div id="st_Tema" lang="ca" class="div_estil_2" data-toggle="tooltip" data-lang-title="Categories" title="Categories"></div>'+
+			'	<div id="st_Size" lang="ca" class="div_estil_3" data-toggle="tooltip" data-lang-title="Mides" title="Mides"></div>'+
+			'	<div id="st_Heat" lang="ca" class="div_estil_4" data-toggle="tooltip" data-lang-title="Concentració" title="Concentració"></div>'+
+			'	<div id="st_Clust" lang="ca" class="div_estil_5" data-toggle="tooltip" data-lang-title="Agrupació" title="Agrupació"></div>'+
 			'</div>'			
 	);
 	
+	jQuery('.div_gr3_estils [data-toggle="tooltip"]').tooltip({container : 'body', placement: 'bottom'});
+		
+	/*
 	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
 	$('#st_Tema').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
 	$('#st_Size').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Mides")});	
 	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
-	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});	
-	
+	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});
+	*/
 }
 
 function addHtmlModalLayersTematic(){

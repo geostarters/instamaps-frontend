@@ -3521,12 +3521,12 @@ i.fa {
 }
 
 /* barra eines */
-.div_gr3_estils, .div_gr3_fons{
+.div_gr3_estils, .div_gr3_fons, .div_gr3_sig{
     height: 40px;
     /*margin: 10px 5px 0;*/
     text-align: center;
 }
-.div_gr3_estils div, .div_gr3_fons div{
+.div_gr3_estils div, .div_gr3_fons div, .div_gr3_sig div{
     display: inline-block;
     height: 100%;
     width: 40px;
