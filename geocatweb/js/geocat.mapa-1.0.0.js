@@ -385,7 +385,7 @@ function addControlsInici(){
 		container : 'body'
 	});
 }
-}
+
 
 
 function addToolTipsInici() {
