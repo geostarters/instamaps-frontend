@@ -333,8 +333,8 @@ function addFuncioCarregaFitxers(){
 //										'<div id="div_uploading_txt2" lang="ca">(Pot seguir navegant)</div>'											
 									);									
 								}else if(data.status.indexOf("OK")!=-1){
-									console.debug("Ha acabat:");
-									console.debug(data);
+//									console.debug("Ha acabat:");
+//									console.debug(data);
 									clearInterval(pollInterval);
 									//jQuery("#div_uploading_txt").html("");
 									//jQuery("#div_uploading_txt").html(window.lang.convert("Processant dades..."));
@@ -894,7 +894,7 @@ function obteCampsXLSX(f) {
 			doit();
 		}else{
 			//console.debug(window.lang.convert("Arxiu massa gran!!"));
-			$('#dialog_info_upload_txt').html(window.lang.convert("La mida del fitxer supera el límit preestablert (50MB)."));
+			$('#dialog_info_upload_txt').html(window.lang.convert("La mida del fitxer supera el límit preestablert (500MB)."));
 			$('#dialog_info_upload').modal('show');
 			drgFromMapa.removeAllFiles(true);
 			busy = false;
@@ -1014,7 +1014,7 @@ function miraFitxer(fitxer) {
 				}else{
 					//console.debug(window.lang.convert("Arxiu massa gran!!"));
 					obj.isValid = false;
-					obj.msg = window.lang.convert("La mida del fitxer supera el límit preestablert (50MB).");
+					obj.msg = window.lang.convert("La mida del fitxer supera el límit preestablert (500MB).");
 					busy = false;
 				}				
 				
@@ -1056,10 +1056,11 @@ function addDropFileToMap(results) {
 					}else{
 						var defer = $.Deferred();
 						loadVisualitzacioLayer(results.layerMarker).then(function(results1){
-							if(results1){
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
 								map.fitBounds(results1.getBounds());
-								jQuery('#info_uploadFile').hide();
-							}
+							}								
+							jQuery('#info_uploadFile').hide();
+							
 						});					
 					}
 				}					
@@ -1072,10 +1073,11 @@ function addDropFileToMap(results) {
 						var defer = $.Deferred();
 //						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
 						loadVisualitzacioLayer(results.layerLine).then(function(results1){
-							if(results1){
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
 								map.fitBounds(results1.getBounds());
-								jQuery('#info_uploadFile').hide();
 							}
+							jQuery('#info_uploadFile').hide();
+							
 						});					
 					}
 				}
@@ -1088,10 +1090,13 @@ function addDropFileToMap(results) {
 						var defer = $.Deferred();
 //						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
 						loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
-							if(results1){
+							console.debug(results.layerPolygon);
+							console.debug(results1);
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
 								map.fitBounds(results1.getBounds());
-								jQuery('#info_uploadFile').hide();
 							}
+							jQuery('#info_uploadFile').hide();
+							
 						});					
 					}
 				}				
@@ -1310,11 +1315,11 @@ function addHtmlModalCarregarFitxers(){
 	});
 	
 	jQuery('#dialog_carrega_dades #bt_upload_cancel').on("click", function(e) {
-		console.debug("Entra al click upload cancel!");
+//		console.debug("Entra al click upload cancel!");
 		$('#dialog_carrega_dades').modal('hide');
-		console.debug(busy);
+//		console.debug(busy);
 		busy = false;
-		console.debug(busy);
+//		console.debug(busy);
 		if(envioArxiu.isDrag){
 			drgFromMapa.uploadFile(drgFromMapa.files[0]);	
 		}else{
@@ -1380,12 +1385,11 @@ function addHtmlModalInfoUpload(){
 
 function addHtmlInterficieCarregarFitxers(){
 	jQuery("#funcio_carregar_fitxers").append(
-			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades"></div>'		
+			'<div lang="ca" id="div_carrega_dades" class="div_carrega_dades" data-toggle="tooltip" title="Arrossega les teves dades sobre el mapa o fes clic aquí" data-lang-title="Arrossega les teves dades sobre el mapa o fes clic aquí"></div>'		
 	);
 	
 	$('.div_carrega_dades').tooltip({
 		placement : 'bottom',
-		container : 'body',
-		title : window.lang.convert('Arrossega les teves dades sobre el mapa o fes clic aquí')
+		container : 'body'
 	});	
 }

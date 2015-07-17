@@ -10,7 +10,7 @@
 <meta name="geo.position" content="41.363892;2.186279" />
 <meta name="language" content="ca" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="/instamapes.ico" rel="shortcut icon">
+<link href="img/instamapes.ico" rel="shortcut icon">
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
@@ -25,29 +25,29 @@ small{font-size: 10px}
 <script>
 
 function init(){
-	//console.info(opener.mapConfig);
-			document.getElementById("map").src=	opener.document.getElementById("img_canvas").src;
-			
-			if(opener.document.getElementById("ll_canvas")){
-			
-			document.getElementById("llegenda").src=opener.document.getElementById("ll_canvas").src;
-			//document.getElementById("llegenda").style.height='25%';
-			
-			}
-			
-			
-			
-			
-			
-			document.getElementById("titolUsuari").innerHTML="<b>"+opener.document.getElementById("nomAplicacio").innerHTML+"</b>";
+	//window.lang = new jquery_lang_js();
+
+	//var lsLang;
 	
-			
-			
-			
+	//console.info(opener.mapConfig);
+	document.getElementById("map").src=	opener.document.getElementById("img_canvas").src;
+	
+	if(opener.document.getElementById("ll_canvas")){
+		document.getElementById("llegenda").src=opener.document.getElementById("ll_canvas").src;
+		//document.getElementById("llegenda").style.height='25%';
+	}
+	
+	document.getElementById("titolUsuari").innerHTML="<b>"+opener.document.getElementById("nomAplicacio").innerHTML+"</b>";
+
+	/*
+	window.lang.run();
+	lsLang=web_determinaIdioma();
+	if (lsLang == null || lsLang == "null"){
+		lsLang = "ca";
+		canviaIdioma(lsLang);
+	}
+	*/
 }
-
-
-
 
 </script>
 </head>
@@ -110,7 +110,7 @@ function init(){
     <div id="btImprimir" class="btImprimir">
         
         <div class="div_imprimir">
-	    <button onclick="window.print();" id="imprimirId" class="btn btn-success"><span class="glyphicon glyphicon-print grisfort"></span><span lang="ca"> Imprimir</span></button>	    
+	    <button onclick="window.print();" id="imprimirId" class="btn btn-success"><span class="glyphicon glyphicon-print grisfort"></span> <span lang="ca">Imprimeix</span></button>	    
         </div>
         
        
@@ -120,6 +120,15 @@ function init(){
 
 <script src="/llibreries/js/jquery/jquery-2.0.2.min.js"></script>
 <script src="/llibreries/js/bootstrap.min.js"></script>
+<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+<script src="/llibreries/js/cookieconsent.min.js"></script>
+		
+<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
+<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+
 <script src="/geocatweb/js/geocat.google-analytics.js"></script>
 </body>
 </html>

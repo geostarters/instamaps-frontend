@@ -7,8 +7,8 @@ var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 //	HOST_APP = "http://localhost:8080/";
-//	HOST_APP = "http://localhost:8181/";//Local Jess
 	HOST_APP = "http://localhost/";//Local Jess
+//	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
 	proxydir="maps"; //he creat un director maps al meu Apache
@@ -166,33 +166,36 @@ var paramUrl = {
 	union: HOST_APP+"geocat/aplications/map/union.action?",
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
-	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?"
+	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
+	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
-//	if ( settings.url == "ajax/test.html" ) {
-	//alert("ajax send!");
-	$('.waiting_animation').show();
+	//$('.waiting_animation').show();
 	if (typeof map !== 'undefined'){
-//		map.spin(true);
 		try {map.spin(true);} catch (Err) {}
-		setTimeout(function(){
-//			map.spin(false);
-			try {map.spin(false);} catch (Err) {}
-		},10000);
+		
 	}
-//	}
 });
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
-	$('.waiting_animation').hide();
 	if (typeof map !== 'undefined'){
-		try {map.spin(false);} catch (Err) {}
+		try {map.spin(false);} catch (Err) {console.error(Err);}
 	}
 	if (jqxhr.responseJSON){
 		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
 			sessionExpired();
 		}
 	}
+});
+
+$( document ).ajaxStop(function() {
+	//$('.waiting_animation').hide();
+	if (typeof map !== 'undefined'){
+		try {map.spin(false);} catch (Err) {console.error(Err);}
+	}
+	setTimeout(function(){
+		try {map.spin(false);} catch (Err) {console.error(Err);}
+	},10000);
 });
 

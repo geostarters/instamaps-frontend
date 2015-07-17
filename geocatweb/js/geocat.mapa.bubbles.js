@@ -2,6 +2,8 @@
  * Gestio del temàtic de tipus Bubbles 
  */
 function showModalTematicBubbles(data){
+	//console.debug("showModalTematicBubbles");
+	//console.debug(data);
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_tematic_bubble').modal('show');
 	
@@ -106,7 +108,6 @@ function showModalTematicBubbles(data){
 				var template1 = Handlebars.compile(source1);
 				var html1 = template1({fields:fields});
 				jQuery('#dataFieldBubble').html(html1);
-				
 				jQuery('#dataFieldBubble').on('change',function(e){
 					var this_ = jQuery(this);
 					if (this_.val() == "---"){
@@ -193,7 +194,6 @@ function getTipusValuesVisualitzacioBubbles(results){
 				if (crea){
 					createRangsValuesBubbles(jQuery('#cmb_num_rangs_bubble').val(),this_.val());
 				}
-				
 			});
 			
 			jQuery('#cmb_num_rangs_bubble').on('change',function(e){
@@ -233,9 +233,8 @@ function createRangsValuesBubbles(nrangs,rtype){
 	var rangs = jQuery("#dialog_tematic_bubble").data("rangs");
 	var nodata = jQuery("#dialog_tematic_bubble").data("nodata");
 	
-	
 	values = jQuery.grep(values, function( n, i ) {
-		return (n != NODATA_VALUE && parseFloat(n));
+		return (n != NODATA_VALUE && jQuery.isNumeric(parseFloat(n)));
 	});
 	values.sort(function(a,b){return a-b});
 	
@@ -615,7 +614,7 @@ function createTematicLayerBubbles(event){
 			businessId: tematicFrom.businessid,//businessId id de la visualización de origen
 			uid: $.cookie('uid'),//uid id de usuario
 	        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
-	        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
+	        nom: capaMare.options.nom+" "+window.lang.convert("Mides"),
 	        activas: true,
 	        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
 	        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
@@ -659,10 +658,11 @@ function bubble2RangStyle(divElement){
 function bubblePropostionalSize(min, max, minSize, maxSize, value){
 	//console.debug("bubblePropostionalSize");
 	var size;
-	var dv = parseInt(max) - parseInt(min);
+	var dv = parseFloat(max) - parseFloat(min);
 	var dm = parseInt(maxSize) - parseInt(minSize);
-	var scale = dv/dm;
-	size = parseInt(value/scale);
+	var scale = dm/dv;
+	var difVal = parseFloat(value) - parseFloat(min);
+	size = parseInt(difVal*scale);
 	size = size + parseInt(minSize);
 	return size;
 }

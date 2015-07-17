@@ -31,7 +31,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Aquesta operació calcula els elements que són intersecció entre diverses geometries.":"Esta operación calcula los elementos que intersectan entre diversas geometrías."
 ,"Aquesta operació calcula una àrea definida per una distància fixa a l'entorn d'un element.":"Esta operación calcula un área definida por una distancia fija alrededor de un elemento."
 ,"Aquesta operació és irreversible":"Esta operación es irreversible"
-,"Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests (polígon --> punt).":"Esta operación transmite la información asociada a polígonos a los puntos contenidos dentro de estos (polígono --> punto)."
+,"Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.":"Esta operación está disponible para capas dibujadas o creadas a partir de ficheros de menos de 50Mb."
+,"Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests (polígon a punt).":"Esta operación transmite la información asociada a polígonos a los puntos contenidos dentro de estos (polígono a punto)."
 ,"Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.":"Esta operación devuelve aquellos elementos que cumplen una condición relativa a su información textual asociada."
 ,"Ara no": "Por ahora no"
 ,"Àrea":"Área"
@@ -216,7 +217,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Escull l'interval":"Escoge el intervalo"
 ,"Escull les teves icones i estils personalitzats.":"Escoge tus iconos y estilos personalizados."
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"Estamos en proceso de actualización. Pueden observar anomalías temporales en la visualización de los datos."
-,"Estem preparant el proper curs gratuït d'InstaMaps, t'interessa?":"Estamos preparando el próximo curso gratuito de InstaMaps, te interesa?"
+,"Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?":"Estamos preparando el próximo workshop gratuito de InstaMaps, te interesa?"
 ,"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Estado e incidéncias de tráfico, transporte público, previsión meteorológica y más."
 ,"Estil actiu":"Esilo activo"
 ,"Estils d'àrees":"Estilos de áreas"
@@ -233,7 +234,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"EXPLORA":"EXPLORA"
 ,"Exporta les teves dades en diversos formats.":"Exporta tus datos en distintos formatos."
 
-,"*Fent clic a <i>Vull informació</i> accepta la":"*Haciendo clic en <i>Quiero información</i> acepta la"
+,"*Fent clic a <i>Vull més informació</i> accepta la":"*Haciendo clic en <i>Quiero más información</i> acepta la"
 ,"*Fent clic a <i>Registreu-vos</i> accepta la":"*Haciendo clic en <i>Registrarse</i> acepta la"
 ,"Fer un nou mapa": "Crear un nuevo mapa"
 ,"Fer mapa":"Hacer mapa"
@@ -255,7 +256,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Generant mapa GeoPDF...":"Generando mapa GeoPDF..."
 ,"Geometries creades":"Geometrías creadas"
 ,"Geoserveis":"Geoservicios"
-,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.":"Gracias. Tomamos nota de tu correo y te avisaremos cuando empecemos el próximo curso."
+,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.":"Gracias. Tomamos nota de tu correo y te avisaremos cuando empecemos el próximo taller."
 ,"graduat":"graduado"
 ,"Gruix contorn:":"Grosor contorno"
 ,"Gruix linia:":"Grosor línea"
@@ -299,7 +300,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"La geoinformació de Catalunya i el món:":"La geoinformación de Catalunya y del mundo:"
 ,"La informació es mostra en funció de l'àrea geogràfica visualitzada.":"La información se muestra en función del área geográfica visualizada."
 ,"La informació presentada no té valor normatiu ni jurídic":"La información presentada no tiene valor normativo ni jurídico"
-,"La mida del fitxer supera el límit preestablert (50MB).":"El tamaño del archivo supera el límite preestablecido (50MB)."
+//,"La mida del fitxer supera el límit preestablert (50MB).":"El tamaño del archivo supera el límite preestablecido (50MB)."
+,"La mida del fitxer supera el límit preestablert (500MB).":"El tamaño del archivo supera el límite preestablecido (500MB)."
 ,"La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).":"El tamaño del archivo supera el límite preestablecido para usuarios que no han iniciado sesión (10MB)."
 ,"La mida mínima ha de ser inferior a la màxima":"La medida mínima tiene que ser mayor que la máxima"
 ,"La nova contrassenya ja havia estat utilitzada":"La nueva contraseña ya fue utilizada"
@@ -311,6 +313,7 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"Mapa Cadastral":"Mapa Cadastral"
 ,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n"
+,"Mapa històric Catalunya 1936":"Mapa histórico Cataluña 1936"
 ,"Mapa publicat":"Mapa publicado"
 ,"Mapa trànsit en temps real":"Mapa tráfico en tiempo real"
 ,"Mapa Urbanístic":"Mapa Urbanístico"
@@ -368,7 +371,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Ordena per nom":"Ordena por nombre"
 ,"Ordena per usuari":"Ordena por usuari"
 ,"Ordena per data":"Ordena por fecha"
-,"Orquídea":"Orchid"
+,"Orquídea":"Orquídea"
 ,"Ortofoto històrica Catalunya 1946":"Ortofoto histórica Cataluña 1946"
 ,"Ortofoto històrica Catalunya 1956-57":"Ortofoto histórica Cataluña 1956-57"
 ,"Ortofotos històriques":"Ortofotos históricas"
@@ -495,7 +498,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Visualitza":"Visualiza"
 ,"Vols esborrar la capa":"¿Deseas borrar la capa"
 ,"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?"
-,"Vull informació":"Quiero información"
+,"Vull més informació":"Quiero más información"
 ,"Vull ser le primer":"Quiero ser el primero"
 
 ,"Xarxes socials":"Redes sociales"
@@ -507,3 +510,4 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Haz tu mapa"
 }
+>>>>>>> branch 'master' of git@montmajor.icc.local:v.pascual/geocatonline.git

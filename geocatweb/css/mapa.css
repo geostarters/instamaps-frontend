@@ -2826,7 +2826,7 @@ i.fa {
 }
 
 .leaflet-sidebar>.leaflet-control {
-	height: 100%;
+	height: 101%;
 	width: 100%;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
@@ -3521,12 +3521,12 @@ i.fa {
 }
 
 /* barra eines */
-.div_gr3_estils, .div_gr3_fons{
+.div_gr3_estils, .div_gr3_fons, .div_gr3_sig{
     height: 40px;
     /*margin: 10px 5px 0;*/
     text-align: center;
 }
-.div_gr3_estils div, .div_gr3_fons div{
+.div_gr3_estils div, .div_gr3_fons div, .div_gr3_sig div{
     display: inline-block;
     height: 100%;
     width: 40px;
@@ -3605,7 +3605,7 @@ i.fa {
 	}
 	
 	.div_fons_5 {
-		background: url("images/galeria_icones.png") no-repeat scroll -212px
+		background: url("images/galeria_icones.png") no-repeat scroll -745px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
@@ -3653,20 +3653,20 @@ i.fa {
 		cursor: pointer;
 	}	
 	.div_fons_13 {
-		background: url("images/galeria_icones.png") no-repeat scroll -530px
-			-650px rgba(208, 208, 208, 0.5);
+		background: url("images/galeria_icones.png") no-repeat scroll -695px
+			-600px rgba(208, 208, 208, 0.5);
 		margin-left: 2px;
 		cursor: pointer;
 	}
 	.div_fons_14 {
-		background: url("images/galeria_icones.png") no-repeat scroll -477px
-			-650px rgba(208, 208, 208, 0.5);
+		background: url("images/galeria_icones.png") no-repeat scroll -642px
+			-600px rgba(208, 208, 208, 0.5);
 		margin-left: 2px;
 		cursor: pointer;
 	}
 	.div_fons_15 {
-		background: url("images/galeria_icones.png") no-repeat scroll -424px
-			-650px rgba(208, 208, 208, 0.5);
+		background: url("images/galeria_icones.png") no-repeat scroll -588px
+			-600px rgba(208, 208, 208, 0.5);
 		margin-left: 2px;
 		cursor: pointer;
 	}
@@ -4630,7 +4630,7 @@ i.fa {
 	left:8%;
 	display:block;
 	width:100%;
-	top:98%;
+	top:100%;
 }
 
 .imagePeu .peu2{
@@ -4640,17 +4640,27 @@ i.fa {
 	left:45%;
 	display:block;
 	width:100%;
-	top:98%;
+	top:100%;
+}
+
+.imagePeu .peu2_2{
+	display:table-caption;
+	position:absolute;
+	bottom:0;
+	left:40%;
+	display:block;
+	width:100%;
+	top:100%;
 }
 
 .imagePeu .peu3{
 	display:table-caption;
 	position:absolute;
 	bottom:0;
-	left:25%;
+	left:65%;
 	display:block;
 	width:100%;
-	top:98%;
+	top:100%;
 }
 #div_menufons{
 	width:180px;

@@ -2404,6 +2404,33 @@ background-color: #9F9F9E;
 	cursor: pointer;
 }
 
+.div_fons_12 {
+	background: url("images/galeria_icones.png") no-repeat scroll 0px
+		-745px rgba(208, 208, 208, 0.5);
+	margin-left: 4px;
+	cursor: pointer;
+}
+
+.div_fons_13 {
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
+		-161px rgba(208, 208, 208, 0.5);
+	margin-left: 4px;
+	cursor: pointer;
+}
+
+.div_fons_14 {
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
+		-101px rgba(208, 208, 208, 0.5);
+	margin-left: 4px;
+	cursor: pointer;
+}
+
+.div_fons_15 {
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
+		-221px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
 
 .div_gr2 {
 	height: 55px;

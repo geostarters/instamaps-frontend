@@ -33,7 +33,6 @@ function showModalTematicCategories(data){
 		businessId: data.businessid,
 		uid: jQuery.cookie('uid')
 	};
-//	console.debug(data);
 	
 	if(data.tipus == t_url_file){
 		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
@@ -463,7 +462,7 @@ function createRangsValues(rangs){
 	var nodata = jQuery("#dialog_tematic_rangs").data("nodata");
 		
 	values = jQuery.grep(values, function( n, i ) {
-		return (n != NODATA_VALUE && parseFloat(n));
+		return (n != NODATA_VALUE && jQuery.isNumeric(parseFloat(n)));
 	});
 	values.sort(function(a,b){return a-b});
 	
@@ -677,11 +676,9 @@ function readDataVisualitzacio(visualitzacio, key){
 		jQuery.each( item.geometria.features, function(i,feature) {
 			//var value = feature.properties[key.toLowerCase()];
 			var value = feature.properties[key];
-			
 			//Si es blanc assignem categoria "Sense valor" com una més
 			//if(isBlank(value)) value = window.lang.convert("Sense valor");
 			if(isBlank(value)) value = "nodata";
-			
 			if(!data[value]){
 				data[value] = value;
 				dataValues.push(value);

@@ -31,7 +31,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"Aquesta operació calcula els elements que són intersecció entre diverses geometries.":"This operation calculates the intersection of elements from different geometries."
 ,"Aquesta operació calcula una àrea definida per una distància fixa a l'entorn d'un element.":"This operation calculates an area defined by a fixed distance around an item."
 ,"Aquesta operació és irreversible":"This operation is unreversible"
-,"Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests (polígon --> punt).":"This operation transmits the polygon associated information to the points contained within these polygons (polygon --> point)."
+,"Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.":"This operations is only available for drawing layers or layers created by 50Mb files."
+,"Aquesta operació transmet la informació associada a polígons als punts continguts dins aquests (polígon a punt).":"This operation transmits the polygon associated information to the points contained within these polygons (polygon to point)."
 ,"Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.":"This operation returns those elements that fulfill a condition relating to the associated textual information."
 ,"Ara no": "Not now"
 ,"Àrea":"Area"
@@ -217,7 +218,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Escull les teves icones i estils personalitzats.":"Choose your icons and custom styles."
 ,"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Conditions and traffic incidents, public transport, weather forecast and more."
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"We are updating the platform. Temporary anomalies can be observed when viewing the data."
-,"Estem preparant el proper curs gratuït d'InstaMaps, t'interessa?":"We are preparing the next free course of InstaMaps, interested?"
+,"Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?":"We are preparing the next free workshop of InstaMaps, interested?"
 ,"Estil actiu":"Active style"
 ,"Estils d'àrees":"Area styles"
 ,"Estils de línia":"Line styles"
@@ -233,7 +234,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"EXPLORA":"EXPLORE"
 ,"Exporta les teves dades en diversos formats.":"Export your data in many formats."
 
-,"*Fent clic a <i>Vull informació</i> accepta la":"*By clicking in <i>I want information</i> you accept the"	
+,"*Fent clic a <i>Vull més informació</i> accepta la":"*By clicking in <i>I want more information</i> you accept the"	
 ,"*Fent clic a <i>Registreu-vos</i> accepta la":"*By clicking in <i>Sign up</i> you accept the"
 ,"Fer un nou mapa": "Create a new map"
 ,"Fer mapa":"Do map"
@@ -256,7 +257,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Geometries creades":"Geometries created"
 ,"Geoserveis":"Geoservices"
 ,"graduat":"graduate"
-,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.":"Thank You. We take note of your email and we will notify you when we start the next course."
+,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.":"Thank You. We take note of your email and we will notify you when we start the next workshop."
 ,"Gruix contorn:":"Outline width"
 ,"Gruix linia:":"Line width"
 ,"Guardar com":"Save as"
@@ -299,7 +300,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"La geoinformació de Catalunya i el món:":"The geoinformation about Catalunya and the world:"
 ,"La informació es mostra en funció de l'àrea geogràfica visualitzada.":"The information is retrieved based on the geographical area displayed."
 ,"La informació presentada no té valor normatiu ni jurídic":"The information presented here does not have legal or normative validity"
-,"La mida del fitxer supera el límit preestablert (50MB).":"The file size exceeds the preset limit (50MB)."
+//,"La mida del fitxer supera el límit preestablert (50MB).":"The file size exceeds the preset limit (50MB)."
+,"La mida del fitxer supera el límit preestablert (500MB).":"The file size exceeds the preset limit (500MB)."
 ,"La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).":"The file size exceeds the preset limit for users who have not logged in (10MB)."
 ,"La mida mínima ha de ser inferior a la màxima":"The minimum size must be less than the maximum"
 ,"La nova contrassenya ja havia estat utilitzada":"The new password was already used"
@@ -310,7 +312,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"Longitud":"Length"
 
 ,"Mapa Cadastral":"Cadastral map"
-,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n"	
+,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Collaborative map at Instamaps. Invitation"	
+,"Mapa històric Catalunya 1936":"Historical map of Catalunya 1936"
 ,"Mapa publicat":"Published Map"
 ,"Mapa trànsit en temps real":"Real time traffic map"
 ,"Mapa Urbanístic":"Urban planning map"
@@ -495,7 +498,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Visualitza":"View"
 ,"Vols esborrar la capa":"Do you want to delete the layer"
 ,"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?"
-,"Vull informació":"I want information"
+,"Vull més informació":"I want more information"
 ,"Vull ser le primer":"I want to be the first"
 
 ,"Xarxes socials":"Social networks"		
@@ -507,3 +510,4 @@ jquery_lang_js.prototype.lang.en = {
 
 ,"<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Make your map"
 }
+>>>>>>> branch 'master' of git@montmajor.icc.local:v.pascual/geocatonline.git

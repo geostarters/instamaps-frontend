@@ -66,18 +66,17 @@ function addControlPublicar(){
 			jQuery('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
 			
+			
 			//Dialeg publicar
 			$('#publish-private').tooltip({
 				placement : 'bottom',
-				container : 'body',
-				title : window.lang.convert("El mapa només es mostrarà a la teva galeria privada")
+				container : 'body'
 			});
 			$('#publish-public').tooltip({
 				placement : 'bottom',
-				container : 'body',
-				title : window.lang.convert("El mapa es mostrarà a la galeria pública")
-			});				
-			
+				container : 'body'
+			});
+						
 			//Si mapconfig legend, activat, es mostra
 			if(mapConfig.options != null && mapConfig.options.llegenda){
 				createModalConfigLegend();
@@ -113,13 +112,11 @@ function addControlPublicar(){
 			publicarMapa(false);
 		});		
 	}
-	
-	var opt = {
-			placement : 'right',
-			container : 'body'
-	};	
-	$('.bt_publicar').tooltip(opt);
-	
+		
+	$('.bt_publicar').tooltip({
+		placement : 'right',
+		container : 'body'
+	});
 }
 
 function publicarMapa(fromCompartir){
@@ -347,11 +344,10 @@ function updateDownloadableData(){
 
 function addHtmlInterficiePublicar(){
 	jQuery("#funcio_publicar").append(
-		'<div class="bt_publicar">'+
+		'<div class="bt_publicar" data-toggle="tooltip" data-lang-title="Desa\'l i decideix si fer-lo públic o privat" title="Desa\'l i decideix si fer-lo públic o privat">'+
 		'<span lang="ca">Publicar el mapa</span>'+
 		'</div>'
 	);
-	$('.bt_publicar').tooltip({placement : 'right',container : 'body',title : window.lang.convert("Desa'l i decideix si fer-lo públic o privat")});
 }
 
 function addHtmlInterficiePublicarDisable(){
@@ -398,8 +394,8 @@ function addHtmlModalPublicar(){
 			'							<div tabindex="0">'+
 			'								<input class="make-switch" id="visibilitat_chk" type="checkbox"'+ 
 			'									data-label-text=\'<span class="glyphicon glyphicon-transfer"></span>\''+ 
-			'									data-on-text=\'<span><span class="fa fa-unlock glyphicon-white"></span>&nbsp;<span id="publish-public" lang="ca">Públic</span></span>\''+ 
-			'									data-off-text=\'<span><span class="fa fa-lock"></span>&nbsp;<span id="publish-private" lang="ca">Privat</span></span>\'>'+
+			'									data-on-text=\'<span><span class="fa fa-unlock glyphicon-white"></span>&nbsp;<span id="publish-public" lang="ca" data-toggle="tooltip" data-lang-title="El mapa es mostrarà a la galeria pública" title="El mapa es mostrarà a la galeria pública">Públic</span></span>\''+ 
+			'									data-off-text=\'<span><span class="fa fa-lock"></span>&nbsp;<span id="publish-private" lang="ca" data-toggle="tooltip" data-lang-title="El mapa només es mostrarà a la teva galeria privada" title="El mapa només es mostrarà a la teva galeria privada">Privat</span></span>\'>'+
 			'							</div>'+
 			'						</div>'+
 			'						</div>'+

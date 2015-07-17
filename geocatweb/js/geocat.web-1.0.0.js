@@ -153,7 +153,7 @@ function sendEmailInstamaper(email,insert_error, type){//type per saber si es pe
 			$('#landing-form-message'+type).html(
 					'<div class="alert alert-success alert-dismissible" role="alert">'+
 					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
+					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.")+'</div>'
 			);				
 		}
 		else {
@@ -210,7 +210,7 @@ function landingFormButtonClick(type){
     			$('#landing-form-message'+type).html(
     					'<div class="alert alert-success alert-dismissible" role="alert">'+
     					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-    					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper curs.")+'</div>'
+    					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.")+'</div>'
     			);	    			
     		}
     	);

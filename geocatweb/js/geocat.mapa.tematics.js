@@ -260,9 +260,8 @@ function createPopupWindowData(player,type, editable, origen){
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-		console.debug("player.properties");
-		console.debug(player.properties);
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
+		else html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
@@ -912,19 +911,23 @@ function addHtmlInterficieTematics(){
 	jQuery("#funcio_tematics").append(
 			'<h5 lang="ca">Triar l\'estil del mapa</h5>'+
 			'<div class="div_gr3_estils">'+
-			'	<div id="st_Color" lang="ca" class="div_estil_1"></div>'+
-			'	<div id="st_Tema" lang="ca" class="div_estil_2"></div>'+
-			'	<div id="st_Size" lang="ca" data-toggle="tooltip" title="Mides"	class="div_estil_3"></div>'+
-			'	<div id="st_Heat" lang="ca" class="div_estil_4"></div>'+
-			'	<div id="st_Clust" lang="ca" class="div_estil_5"></div>'+
+			'	<div id="st_Color" lang="ca" class="div_estil_1" data-toggle="tooltip" data-lang-title="Bàsic" title="Bàsic"></div>'+
+			'	<div id="st_Tema" lang="ca" class="div_estil_2" data-toggle="tooltip" data-lang-title="Categories" title="Categories"></div>'+
+			'	<div id="st_Size" lang="ca" class="div_estil_3" data-toggle="tooltip" data-lang-title="Mides" title="Mides"></div>'+
+			'	<div id="st_Heat" lang="ca" class="div_estil_4" data-toggle="tooltip" data-lang-title="Concentració" title="Concentració"></div>'+
+			'	<div id="st_Clust" lang="ca" class="div_estil_5" data-toggle="tooltip" data-lang-title="Agrupació" title="Agrupació"></div>'+
 			'</div>'			
 	);
 	
+	jQuery('.div_gr3_estils [data-toggle="tooltip"]').tooltip({container : 'body', placement: 'bottom'});
+		
+	/*
 	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
 	$('#st_Tema').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
+	$('#st_Size').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Mides")});	
 	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
-	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});	
-	
+	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});
+	*/
 }
 
 function addHtmlModalLayersTematic(){
@@ -1662,12 +1665,6 @@ function readVisualitzacio(defer, visualitzacio, layer){
 //			options = jQuery.parseJSON( layer.options );
 //		}
 		
-		console.debug("layer:");
-		console.debug(layer);
-		
-		console.debug("controlCapes:");
-		console.debug(controlCapes);
-		
 		if(layer.options && options.origen){//Si es una sublayer
 //			var origen = getLeafletIdFromBusinessId(options.origen);
 //			if(dataField) capaVisualitzacio.options.dataField = dataField;
@@ -1676,21 +1673,14 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true, origen);
 		}else {
 			if (!layer.capesOrdre){
-				console.debug("No té capesOrdre, li assigno:");
-				console.debug(controlCapes._lastZIndex + 1);
 				capaVisualitzacio.options.zIndex = controlCapes._lastZIndex + 1;
 			}else{
-				console.debug("Té capes Ordre:");
-				console.debug(layer.capesOrdre);
 				capaVisualitzacio.options.zIndex = parseInt(layer.capesOrdre);
 			}
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true);
 			controlCapes._lastZIndex++;
 		}				
 	}
-		console.debug("------");
-		console.debug("capaVisualitzacio:");
-		console.debug(capaVisualitzacio);
 		defer.resolve(capaVisualitzacio);		
 		return defer.promise();
 	}

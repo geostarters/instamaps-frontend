@@ -1,8 +1,6 @@
 /**
  *Funcionalitat Hill shading 
  */
-
-
 function addControlHillShading(){
 	
 	//Nou control hillshading
@@ -12,8 +10,9 @@ function addControlHillShading(){
 	
 	ctr_hill.onAdd = function(map) {
 		this._div = L.DomUtil.create('div', 'leaflet-bar div_hill_f');
-		var btllista = L.DomUtil.create('div', 'div_hill bt_hill');
-		this._div.appendChild(btllista);
+		var btllista = jQuery("<div data-toggle=\"tooltip\" class=\"div_hill bt_hill\" title=\"Mostrar l'ombra del relleu\" data-lang-title=\"Mostrar l'ombra del relleu\"></div>");
+		//var btllista = L.DomUtil.create('div', 'div_hill bt_hill');
+		this._div.appendChild(btllista[0]);
 		return this._div;
 	};
 	
@@ -42,10 +41,9 @@ function addControlHillShading(){
 		}			
 	});
 	
-	$('.bt_hill').tooltip('destroy').tooltip({
+	$('.bt_hill').tooltip({
 		placement : 'right',
-		container : 'body',
-		title : window.lang.convert("Mostrar l'ombra del relleu")
+		container : 'body'
 	});	
-	
+
 }

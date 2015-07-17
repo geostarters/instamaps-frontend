@@ -8,7 +8,7 @@
     					"addFuncioRemoveLayer()", 
     					"addFuncioDownloadLayer('mapa')",
     					"addControlHillShading()",
-    					"addOpcionsFonsMapes()","creaPopOverMesFonsColor()","creaPopOverMesFons()",
+    					"addOpcionsFonsMapes()","creaPopOverMesFonsColor()",
 						"initButtonsTematic()",
 						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",
 						"addControlCercaEdit()",

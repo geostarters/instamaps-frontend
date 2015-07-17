@@ -895,3 +895,11 @@ function registreInstamaper(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+function crearFitxerPolling(params){
+	return jQuery.ajax({
+		url: paramUrl.crearFitxerPolling,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
