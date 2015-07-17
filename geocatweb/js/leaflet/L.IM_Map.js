@@ -708,7 +708,7 @@ if(print){
 	
 	hibridMap: function (print){
 		this.deletePreviousMap();	
-		this.options.maxZoom=19;
+		this.options.maxZoom=18;
 		this.setActiveMap(FONS_HIBRIDMAP);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_HIBRIDMAP;
@@ -889,12 +889,12 @@ if(print){
 		this.setMapColor(null);
 		this.options.typeMap=FONS_HISTORICORTOMAP;
 		
-		//this.options.maxZoom=14;
+		this.options.maxZoom=17;
 		_histoOrtoMap=L.layerGroup();
 		
 		HISTOOrto_ICC_L0_14= new L.TileLayer(URL_HISTORICOrto, {
 			minZoom: 0, 
-			maxZoom: 18, 
+			maxZoom: 17, 
 			tms:true, 
 			continuousWorld: true,
 			worldCopyJump:false
@@ -923,7 +923,7 @@ if(print){
 		
 		HISTOOrto46_ICC_L0_14= new L.TileLayer(URL_HISTORICOrto46, {
 			minZoom: 0, 
-			maxZoom: 18, 
+			maxZoom: 17, 
 			tms:true, 
 			continuousWorld: true,
 			worldCopyJump:false
