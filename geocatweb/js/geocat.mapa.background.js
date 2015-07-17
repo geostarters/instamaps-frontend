@@ -1,10 +1,6 @@
 /**
  * Funcionalitat de canvis de fons dels mapes
  * */
-
-
-
-
 function addOpcionsFonsMapes() {
 	
 	addHtmlInterficieFonsMapes();
@@ -29,7 +25,9 @@ function addOpcionsFonsMapes() {
 	});
 }
 
+
 function creaPopOverMesFons() {
+	/*
 	jQuery("#div_mesfons")
 	.popover(
 	{
@@ -49,9 +47,6 @@ function creaPopOverMesFons() {
 	};	
 	jQuery('#div_menu_mesfons div').tooltip(optB);
 	
-//	$('.div_gr3_fons #historicOrtoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Ortofoto històrica Catalunya 1956-57')});
-//	$('.div_gr3_fons #historicMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Mapa històric Catalunya 1936')});	
-
 	jQuery(document).on('click', "#div_menu_mesfons div", function(e) {
 		var fons = jQuery(this).attr('id');
 		if (fons == 'historicMap') {
@@ -72,24 +67,24 @@ function creaPopOverMesFons() {
 		jQuery(this).popover('toggle');
 		jQuery(".popover").css('left', pLeft());
 	});
+	*/
 }
 
 function creaPopOverMesFonsColor() {
-	
 	jQuery("#colorMap")
 	.popover(
 	{
 		content : '<div id="div_menufons" class="div_gr3_fons">'
-				+ '<div id="terrainMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Terreny')+'" class="div_fons_4"></div>'
-				+ '<div id="alcadaMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Model d\'elevacions')+'" class="div_fons_15"></div>'
-				+ '<div id="historicOrtoMap46" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Ortofoto històrica Catalunya 1946')+'" class="div_fons_14"></div>'
-				+ '<div id="historicOrtoMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Ortofoto històrica Catalunya 1956-57')+'" class="div_fons_11"></div>'
-				+ '<div id="historicMap" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Mapa històric Catalunya 1936')+'" class="div_fons_10"></div>'
-				+ '<div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="'+window.lang.convert('Topogràfic gris')+'" class="div_fons_2"></div>'
-				+ '<div id="nit" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Nit')+'" class="div_fons_6"></div>'
-				+ '<div id="sepia" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Sèpia')+'" class="div_fons_7"></div>'
-				+ '<div id="zombie" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Zombie')+'" class="div_fons_8"></div>'
-				+ '<div id="orquidea" lang="ca"  data-toggle="tooltip" title="'+window.lang.convert('Orquídea')+'" class="div_fons_9"></div>'
+				+ '<div id="terrainMap" lang="ca" data-toggle="tooltip" title="Terreny" data-lang-title="Terreny" class="div_fons_4"></div>'
+				+ '<div id="alcadaMap" lang="ca" data-toggle="tooltip" title="Model d\'elevacions" data-lang-title="Model d\'elevacions" class="div_fons_15"></div>'
+				+ '<div id="historicOrtoMap46" lang="ca" data-toggle="tooltip" title="Ortofoto històrica Catalunya 1946" data-lang-title="Ortofoto històrica Catalunya 1946" class="div_fons_14"></div>'
+				+ '<div id="historicOrtoMap" lang="ca" data-toggle="tooltip" title="Ortofoto històrica Catalunya 1956-57" data-lang-title="Ortofoto històrica Catalunya 1956-57" class="div_fons_11"></div>'
+				+ '<div id="historicMap" lang="ca" data-toggle="tooltip" title="Mapa històric Catalunya 1936" data-lang-title="Mapa històric Catalunya 1936" class="div_fons_10"></div>'
+				+ '<div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" data-lang-title="Topogràfic gris" class="div_fons_2"></div>'
+				+ '<div id="nit" lang="ca" data-toggle="tooltip" title="Nit" data-lang-title="Nit" class="div_fons_6"></div>'
+				+ '<div id="sepia" lang="ca" data-toggle="tooltip" title="Sèpia" data-lang-title="Sèpia" class="div_fons_7"></div>'
+				+ '<div id="zombie" lang="ca" data-toggle="tooltip" title="Zombie" data-lang-title="Zombie" class="div_fons_8"></div>'
+				+ '<div id="orquidea" lang="ca" data-toggle="tooltip" title="Orquídea" data-lang-title="Orquídea" class="div_fons_9"></div>'
 				+'<div></div>'
 				+'<div></div>'
 				+ '</div>',
@@ -98,24 +93,28 @@ function creaPopOverMesFonsColor() {
 		trigger : 'manual',
 		selector: '[rel="popover"]'
 	});
-	var optB = {
-			placement : 'bottom',
-			container : 'body'
-	};	
-	jQuery('#div_menufons div').tooltip(optB);
 	
-//	$('#div_menu_fons #topoGrisMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Topogràfic gris')});
-//	$('.div_gr3_fons #nit').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Nit')});
-//	$('.div_gr3_fons #sepia').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Sèpia')});
-//	$('.div_gr3_fons #zombie').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Zombie')});
-//	$('.div_gr3_fons #orquidea').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Orquídea')});
-	
-	
+	// please note, that IE11 now returns undefined again for window.chrome
+	var isChromium = window.chrome,
+	    vendorName = window.navigator.vendor;
 	
 	jQuery("#colorMap").on('click',function(e){
-		  $('.popover:not(.in)').hide().detach();
-		  jQuery(".popover").css('height','145px');
-		  jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
+		jQuery('#div_menufons [data-toggle="tooltip"]').tooltip({
+			placement : 'bottom',
+			container : 'body'
+		});
+		
+		$('.popover:not(.in)').hide().detach();
+		
+		if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
+		   // is Google chrome
+		  jQuery(".popover").css('height','175px');
+		} else { 
+			 jQuery(".popover").css('height','175px');
+		}
+				
+		jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
+		jQuery(".popover").css('z-index','1');
 	});
 	
 	jQuery(document).on('click', "#div_menufons div", function(e) {
@@ -152,24 +151,24 @@ function addHtmlInterficieFonsMapes(){
 	jQuery("#funcio_fonsMapes").append(
 	'	<h5 lang="ca">Escollir el mapa de fons</h5>'+
 	'		<div class="add_costat_r2">'+
-	//'		<div lang="ca" id="div_mesfons" class="icon-add white pop"></div>'+
 	'	</div>'+
 	'	<div class="div_gr3_fons">'+
-	'		<div id="topoMap" lang="ca" class="div_fons_1"></div>'+
-	'		<div id="topoMapGeo" lang="ca" class="div_fons_12"></div>'+
-	'		<!-- div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" class="div_fons_2"></div-->'+
-	'		<div id="ortoMap" lang="ca" class="div_fons_3"></div>'+
-	'		<div id="hibridMap" lang="ca" class="div_fons_13"></div>'+
-	'		<div id="colorMap" lang="ca" class="div_fons_5 pop"></div>'+
+	'		<div id="topoMap" lang="ca" class="div_fons_1" data-toggle="tooltip" data-lang-title="Topogràfic" title="Topogràfic"></div>'+
+	'		<div id="topoMapGeo" lang="ca" class="div_fons_12" data-toggle="tooltip" data-lang-title="Simple" title="Simple"></div>'+
+	'		<div id="ortoMap" lang="ca" class="div_fons_3" data-toggle="tooltip" data-lang-title="Imatge" title="Imatge"></div>'+
+	'		<div id="hibridMap" lang="ca" class="div_fons_13" data-toggle="tooltip" data-lang-title="Mapa híbrid" title="Mapa híbrid"></div>'+
+	'		<div id="colorMap" lang="ca" class="div_fons_5 pop" data-toggle="tooltip" data-lang-title="Més mapes de fons" title="Més mapes de fons"></div>'+
 	'	</div>'		
 	);
 	
+	$('.div_gr3_fons [data-toggle="tooltip"]').tooltip({placement : 'bottom',container : 'body'});
+	/*
 	$('#div_mesfons').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més mapes de fons')});
 	$('.div_gr3_fons #topoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Topogràfic')});
 	$('.div_gr3_fons #topoMapGeo').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Simple')});
 	$('.div_gr3_fons #ortoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Imatge')});
 	$('.div_gr3_fons #hibridMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Mapa híbrid')});
 	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Més mapes de fons')});	
-	
+	*/
 }
 

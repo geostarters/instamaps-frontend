@@ -917,8 +917,6 @@ if(print){
 	},
 	
 	historicOrtoMap46:function(){
-		
-		
 		this.deletePreviousMap();	
 		this.setActiveMap(FONS_HISTORICORTOMAP46);
 		this.setMapColor(null);
