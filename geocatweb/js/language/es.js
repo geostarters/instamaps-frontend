@@ -15,7 +15,6 @@ jquery_lang_js.prototype.lang.es = {
 ,"Adreça en 1 camp":"Dirección en un campo"
 ,"Adreça en 2 camps":"Dirección en dos campos"
 ,"Adreça en 3 camps":"Dirección en tres campos"
-,"Afegir capes":"Añadir capas"
 ,"Afegir col&#183;laboradors":"Añadir colaboradores"
 ,"Agrupació":"Agrupación"
 ,"Alerta":"Atención"
@@ -511,3 +510,4 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Haz tu mapa"
 }
+>>>>>>> branch 'master' of git@montmajor.icc.local:v.pascual/geocatonline.git

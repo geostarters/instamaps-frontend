@@ -1,0 +1,36 @@
+@import url(/llibreries/cesium/Widgets/widgets.css);
+      #map3D {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        font-family: sans-serif;
+		display:none;
+      }
+	  
+	  
+	  
+ .bt_3D_2D {
+ 
+ background-color:#464646;
+ color:#ffffff;
+ font-weight:bold;
+ 
+ 
+ 
+ }	 
+
+
+ .bt_3D_2D:hover{
+ 
+ background-color:#464646;
+ color:#ED8F12;
+ font-weight:bold;
+ 
+ 
+ 
+ } 

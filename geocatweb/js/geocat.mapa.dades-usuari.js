@@ -261,7 +261,7 @@ function refrescaPopOverMevasDades(){
 function addHtmlInterficieDadesUsuari(){
 	
 	jQuery("#carregar_dades .div_gr2").append(
-		'<div lang="ca" id="div_dades_usr" class="div_dades_usr" data-toggle="tooltip" title="Accedeix a les teves dades" data-lang-title="Accedeix a les teves dades">'+
+		'<div lang="ca" id="div_dades_usr" class="div_dades_usr">'+
 		'	<script id="meus-wms-template" type="text/x-handlebars-template">'+
 		'	<div class="panel-body">'+
 		'		<ul id="listnav-teves-dades" class="llista-teves-dades panel-heading">'+
@@ -273,10 +273,7 @@ function addHtmlInterficieDadesUsuari(){
 		'	</script>'+
 		'</div>'		
 	);
-	$('#div_dades_usr').tooltip({
-		placement : 'bottom',
-		container : 'body'
-	});
+	$('#div_dades_usr').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Accedeix a les teves dades")});
 }
 
 function addHtmlModalDadesUsuari(){
