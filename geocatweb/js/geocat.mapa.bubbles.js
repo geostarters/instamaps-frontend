@@ -83,7 +83,7 @@ function showModalTematicBubbles(data){
 				jQuery('#size_warning_bubble_prop').hide();
 			}else{
 				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
-					jQuery("#tematic-layers-fields-bubble").data("values", results);
+					jQuery("#dialog_tematic_bubble").data("values", results);
 					getTipusValuesVisualitzacioBubbles(results);
 				});
 			}
@@ -611,7 +611,6 @@ function createTematicLayerBubbles(event){
             url: capaMare.options.url,
 			options: JSON.stringify(options)
 		};
-		
 		
 		createServidorInMap(data).then(function(results){
 			jQuery('#info_uploadFile').show();

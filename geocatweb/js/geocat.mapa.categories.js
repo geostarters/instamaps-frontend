@@ -61,7 +61,6 @@ function showModalTematicCategories(data){
 		
 		jQuery('#dataField').on('change',function(e){
 			var this_ = jQuery(this);
-			console.debug("change datafield!");
 			if (this_.val() == "---"){
 				
 				jQuery('#tipus_agrupacio_grp').hide();
