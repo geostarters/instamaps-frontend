@@ -27,47 +27,7 @@ function addOpcionsFonsMapes() {
 
 
 function creaPopOverMesFons() {
-	/*
-	jQuery("#div_mesfons")
-	.popover(
-	{
-		content : '<div id="div_menu_mesfons" class="div_gr3_fons">'
-			+ '<div id="historicOrtoMap" data-toggle="tooltip" title="'+window.lang.convert('Ortofoto històrica Catalunya 1956-57')+'" lang="ca"  class="div_fons_11"></div>'	
-			+ '<div id="historicMap" data-toggle="tooltip" title="'+window.lang.convert('Mapa històric Catalunya 1936')+'" lang="ca"  class="div_fons_10"></div>'
-				
-				+ '</div>',
-		container : 'body',
-		html : true,
-		trigger : 'manual'
-	});
 	
-	var optB = {
-			placement : 'bottom',
-			container : 'body'
-	};	
-	jQuery('#div_menu_mesfons div').tooltip(optB);
-	
-	jQuery(document).on('click', "#div_menu_mesfons div", function(e) {
-		var fons = jQuery(this).attr('id');
-		if (fons == 'historicMap') {
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
-			//_kmq.push.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
-			map.historicMap();
-		}
-		if (fons == 'historicOrtoMap') {
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
-			//_kmq.push.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
-			map.historicOrtoMap();
-		}
-		
-	});
-		
-	jQuery("#div_mesfons").on('click',function(e){
-		$('.popover:not(.in)').hide().detach();
-		jQuery(this).popover('toggle');
-		jQuery(".popover").css('left', pLeft());
-	});
-	*/
 }
 
 function creaPopOverMesFonsColor() {
@@ -94,6 +54,10 @@ function creaPopOverMesFonsColor() {
 		selector: '[rel="popover"]'
 	});
 	
+	jQuery("#colorMap").on('show.bs.popover',function(){
+		jQuery(this).attr('data-original-title','');
+	});
+	
 	// please note, that IE11 now returns undefined again for window.chrome
 	var isChromium = window.chrome,
 	    vendorName = window.navigator.vendor;
@@ -108,9 +72,9 @@ function creaPopOverMesFonsColor() {
 		
 		if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
 		   // is Google chrome
-		  jQuery(".popover").css('height','175px');
+		  jQuery(".popover").css('height','150px');
 		} else { 
-			 jQuery(".popover").css('height','175px');
+			 jQuery(".popover").css('height','150px');
 		}
 				
 		jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
@@ -118,6 +82,7 @@ function creaPopOverMesFonsColor() {
 	});
 	
 	jQuery(document).on('click', "#div_menufons div", function(e) {
+		jQuery('#div_menufons [data-toggle="tooltip"]').tooltip('hide');
 		var fons = jQuery(this).attr('id');
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
 		//_kmq.push.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);

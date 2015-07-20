@@ -541,7 +541,7 @@ L.IM_Map = L.Map.extend({
 	topoMap: function (print){	
 		this.deletePreviousMap();
 		this.options.typeMap=FONS_TOPOMAP;
-		this.options.maxZoom=19;
+		this.ajustaZoom(19);
 		this.setActiveMap(FONS_TOPOMAP);
 		this.setMapColor(null);
 		_topoLayers=L.layerGroup();						 
@@ -616,7 +616,7 @@ L.IM_Map = L.Map.extend({
 	topoMapGeo: function (){	
 		this.deletePreviousMap();
 		this.options.typeMap=FONS_TOPOMAP_GEO;
-		this.options.maxZoom=18;
+		this.ajustaZoom(18);
 		this.setActiveMap(FONS_TOPOMAP_GEO);
 		this.setMapColor(null);
 		_topoLayersGeo=L.layerGroup();						 
@@ -654,11 +654,15 @@ L.IM_Map = L.Map.extend({
 	},
 	
 	
+	ajustaZoom:function (maxZoom){
+	this.options.maxZoom=maxZoom;
+	this.getZoom() > maxZoom ?  this.setZoom(maxZoom) : null;
 	
+	},
 	
 	ortoMap: function (print){
 		this.deletePreviousMap();	
-		this.options.maxZoom=19;
+		this.ajustaZoom(19);
 		this.setActiveMap(FONS_ORTOMAP);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_ORTOMAP;
@@ -708,7 +712,7 @@ if(print){
 	
 	hibridMap: function (print){
 		this.deletePreviousMap();	
-		this.options.maxZoom=18;
+		this.ajustaZoom(18);
 		this.setActiveMap(FONS_HIBRIDMAP);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_HIBRIDMAP;
@@ -749,7 +753,7 @@ if(print){
 	
 	terrainMap: function (){
 		this.deletePreviousMap();	
-		this.options.maxZoom=16;
+		this.ajustaZoom(16);
 		this.setActiveMap(FONS_TERRAINMAP);
 		this.setMapColor(null);
 		_terrainLayers=L.layerGroup();	
@@ -772,7 +776,7 @@ if(print){
 		
 	topoGrisMap: function (print){
 		this.deletePreviousMap();
-		this.options.maxZoom=19;
+		this.ajustaZoom(19);
 		this.setActiveMap(FONS_TOPOGISMAP);
 		this.setMapColor(null);
 		_grisLayers=L.layerGroup();				
@@ -829,7 +833,7 @@ if(print){
 	
 	colorMap: function (color){
 		//this.options.maxZoom=19;	
-		this.options.maxZoom=19;
+		this.ajustaZoom(19);
 		this.deletePreviousMap();	
 		this.setActiveMap(FONS_COLORMAP);
 		this.setMapColor(color);
@@ -868,7 +872,7 @@ if(print){
 		this.setActiveMap(FONS_HISTORICMAP);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_HISTORICMAP;
-		this.options.maxZoom=14;
+		this.ajustaZoom(14);
 		_histoMap=L.layerGroup();
 		
 		HISTO_ICC_L0_14= new L.TileLayer(URL_HISTORIC, {
@@ -889,7 +893,7 @@ if(print){
 		this.setMapColor(null);
 		this.options.typeMap=FONS_HISTORICORTOMAP;
 		
-		this.options.maxZoom=17;
+		this.ajustaZoom(17);
 		_histoOrtoMap=L.layerGroup();
 		
 		HISTOOrto_ICC_L0_14= new L.TileLayer(URL_HISTORICOrto, {
@@ -918,7 +922,8 @@ if(print){
 		this.setMapColor(null);
 		this.options.typeMap=FONS_HISTORICORTOMAP46;
 		
-		//this.options.maxZoom=14;
+		this.ajustaZoom(17);
+
 		_histoOrtoMap46=L.layerGroup();
 		
 		HISTOOrto46_ICC_L0_14= new L.TileLayer(URL_HISTORICOrto46, {
@@ -942,7 +947,7 @@ if(print){
 		this.setMapColor(null);
 		this.options.typeMap=FONS_ALCADAMAP;
 		
-		//this.options.maxZoom=14;
+		this.ajustaZoom(17);
 		_alcadesMap=L.layerGroup();
 		
 		ALCADAMAPA_ICGC_L0_17= new L.TileLayer(URL_ALCADAMAP, {
