@@ -8,6 +8,14 @@ function showModalTematicCategories(data){
 	jQuery('#dialog_tematic_rangs').modal('show');
 	
 	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
+		jQuery('#dialog_tematic_rangs').hide();
+		jQuery('#info_uploadFile').show();
+		busy=true;
+		jQuery("#div_uploading_txt").html("");
+		jQuery("#div_uploading_txt").html(
+				'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic de categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+				'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+		);	
 		createTematicLayerCategories(e);
 	});	
 	
@@ -53,7 +61,6 @@ function showModalTematicCategories(data){
 		
 		jQuery('#dataField').on('change',function(e){
 			var this_ = jQuery(this);
-			console.debug("change datafield!");
 			if (this_.val() == "---"){
 				
 				jQuery('#tipus_agrupacio_grp').hide();
@@ -376,9 +383,18 @@ function createTematicLayerCategories(event){
 		};
 		
 		createServidorInMap(data).then(function(results){
-			loadURLfileLayer(results.results);
-			jQuery('#dialog_tematic_rangs').modal('hide');
-			activaPanelCapes(true);
+			jQuery('#info_uploadFile').show();
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic de categories creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+			);
+
+			loadURLfileLayer(results.results).then(function(results){
+				busy=false;					
+				jQuery('#info_uploadFile').hide();
+				activaPanelCapes(true);
+			});
 		});			
 		
 	}else{
@@ -393,20 +409,36 @@ function createTematicLayerCategories(event){
 				tem: tem_clasic,//visualitzacio.from,//tem_simple
 				estils: JSON.stringify(estils)
 			};
-		
+		jQuery('#dialog_tematic_rangs').modal('hide');
 		createVisualitzacioTematica(data).then(function(results){
 			if(results.status == 'OK'){
+				jQuery('#info_uploadFile').show();
+				jQuery("#div_uploading_txt").html("");
+				jQuery("#div_uploading_txt").html(
+						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic de categories creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+				);
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacio, results.layer);
-				jQuery('#dialog_tematic_rangs').modal('hide');
-				activaPanelCapes(true);
+				readVisualitzacio(defer, results.visualitzacio, results.layer).then(function(results){
+					busy=false;					
+					jQuery('#info_uploadFile').hide();
+					activaPanelCapes(true);
+				});
+				
+				
 			}else{
-				//TODO error
-				console.debug("createVisualitzacioTematica ERROR");					
+				jQuery('#info_uploadFile').hide();		
+				busy=false;
+				$('#dialog_error_upload_txt').html("");					
+				$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic de categories"));					
+				$('#dialog_error_upload').modal('show');				
 			}
 		},function(results){
-			//TODO error
-			console.debug("createVisualitzacioTematica ERROR");
+			jQuery('#info_uploadFile').hide();		
+			busy=false;
+			$('#dialog_error_upload_txt').html("");					
+			$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic de categories"));					
+			$('#dialog_error_upload').modal('show');			
 		});					
 	}
 	

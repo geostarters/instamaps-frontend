@@ -33,7 +33,22 @@ function addDialegEstilsTematics(){
 			updateGeometriaEstil(feature, nouEstil[0]);
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
 			var cvStyle=changeDefaultPointStyle(estilP);
-			createTematicLayerBasic(objEdicio.obroModalFrom, cvStyle);
+			jQuery('#dialog_estils_punts').hide();
+			jQuery('#info_uploadFile').show();
+			busy=true;
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+					'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+			);	
+			createTematicLayerBasic(objEdicio.obroModalFrom, cvStyle).then(function(results){
+				jQuery('#info_uploadFile').show();
+				jQuery("#div_uploading_txt").html("");
+				jQuery("#div_uploading_txt").html(
+						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàisc creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+				);
+			});
 			
 		}else if (objEdicio.obroModalFrom.from==tem_clasic){
 			//TODO
@@ -59,7 +74,23 @@ function addDialegEstilsTematics(){
 			updateGeometriaEstil(feature, nouEstil[0]);
 			
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
-			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia));
+			jQuery('#dialog_estils_linies').hide();
+			jQuery('#info_uploadFile').show();
+			busy=true;
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+					'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+			);	
+	
+			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultLineStyle(canvas_linia)).then(function(results){
+				jQuery('#info_uploadFile').show();
+				jQuery("#div_uploading_txt").html("");
+				jQuery("#div_uploading_txt").html(
+						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàisc creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+				);
+			});
 		}else if (objEdicio.obroModalFrom.from==tem_clasic){
 			//TODO
 		}else{
@@ -81,7 +112,23 @@ function addDialegEstilsTematics(){
 			var nouEstil = getRangsFromStyles(capaMare.options,cvStyle);
 			updateGeometriaEstil(feature, nouEstil[0]);
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
-			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol));
+			jQuery('#dialog_estils_arees').hide();
+			jQuery('#info_uploadFile').show();
+			busy=true;
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+					'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+			);	
+	
+			createTematicLayerBasic(objEdicio.obroModalFrom, changeDefaultAreaStyle(canvas_pol)).then(function(results){
+				jQuery('#info_uploadFile').show();
+				jQuery("#div_uploading_txt").html("");
+				jQuery("#div_uploading_txt").html(
+						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàisc creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+				);
+			});
 		}else if (objEdicio.obroModalFrom.from==tem_clasic){
 			//TODO
 			/*

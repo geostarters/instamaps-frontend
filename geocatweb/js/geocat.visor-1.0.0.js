@@ -522,20 +522,28 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
-				if (fons == 'topoMap') {
+				if (fons == 'topoMap'){
 					map.topoMap();
-				} else if (fons == 'topoMapGeo') {
+				}else if (fons == 'topoMapGeo') {
 					map.topoMapGeo();
-				} else if (fons == 'topoGrisMap') {
-					map.topoGrisMap();
-				} else if (fons == 'ortoMap') {
+				}else if (fons == 'ortoMap') {
 					map.ortoMap();
-				} else if (fons == 'terrainMap') {
+				}else if (fons == 'terrainMap') {
 					map.terrainMap();
-				} else if (fons == 'colorMap') {
-					map.colorMap(mapConfig.options.fonsColor);
-				} else if (fons == 'historicMap') {
+				}else if (fons == 'topoGrisMap') {
+					map.topoGrisMap();
+				}else if (fons == 'historicOrtoMap') {
+					map.historicOrtoMap();
+				}else if (fons == 'historicMap') {
 					map.historicMap();
+				}else if (fons == 'hibridMap'){
+					map.hibridMap();
+				}else if (fons == 'historicOrtoMap46'){
+					map.historicOrtoMap46();
+				}else if (fons == 'alcadaMap'){
+					map.alcadaMap();
+				}else if (fons == 'colorMap') {
+					map.colorMap(mapConfig.options.fonsColor);			
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
