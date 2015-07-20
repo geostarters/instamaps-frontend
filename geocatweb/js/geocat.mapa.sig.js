@@ -59,7 +59,7 @@ function addHtmlInterficieFuncionsSIG(){
 	addHtmlModalLayersFilter();
 	addHtmlModalFieldsFilter();
 	
-<<<<<<< HEAD
+
 }
 
 function openFilterModal(){
@@ -1479,13 +1479,15 @@ function addHtmlModalLayersFilter(){
 	'</div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
 	'					<div class="panel-warning">'+					
-	'					<ul class="bs-dadesO_USR panel-heading">'+
+	'					Capa: <select class="bs-dadesO_USR panel-heading">'+
 	'						{{#each layers}}'+
-	'						<li><a class="usr_filter_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>'+
+	'						<option value="{{layer.options.businessId}}">{{name}}</option>'+
 	'						{{/each}}'+
-	'					</ul>'+	
+	'					</select>'+	
 	'					</div>'+
 	'					</script>'+
+	'					Selecciona els camps:<br/> '+
+	'					'+
 	'					<div id="list_filter_layers"></div>'+
 	'			</div>'+
 	'				<div class="modal-footer">'+
@@ -1875,5 +1877,5 @@ function getTipusValuesVisualitzacioFilter(results){
 			
 		});
 	}
->>>>>>> refs/remotes/origin/master
+
 }
