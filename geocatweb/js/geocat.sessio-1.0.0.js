@@ -207,33 +207,33 @@ function redirectLogin(results){
 	console.debug(results);
 	if(results.results === 'login_map'){
 		if (results.mapBusinessId){
-			window.location=HOST_APP+paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
+			window.location=GEOCAT02+paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
 		}else{
-			window.location=HOST_APP+paramUrl.mapaPage;
+			window.location=GEOCAT02+paramUrl.mapaPage;
 		}
 	}else{
 		if ($.cookie('collaboratebid')) {
 			if ($.cookie('collaborateuid')){
 				if ($.cookie('collaborateuid')!=$.cookie('uid')) {
-					//window.location=HOST_APP+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+					//window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
 					alert("No pots donar d'alta el mapa col·laboratiu perquè els usuaris no són iguals")
-					window.location=HOST_APP+paramUrl.galeriaPage+"?private=1";
+					window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1";
 					$.removeCookie('collaboratebid',{path: '/' });
 					$.removeCookie('collaborateuid',{path: '/' });
 				}
 				else {
-					window.location=HOST_APP+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+					window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
 					$.removeCookie('collaboratebid',{path: '/' });
 					$.removeCookie('collaborateuid',{path: '/' });
 				}
 			}
 			else {
-				window.location=HOST_APP+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+				window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
 				$.removeCookie('collaboratebid',{path: '/' });
 				$.removeCookie('collaborateuid',{path: '/' });
 			}
 		}
-		else window.location=HOST_APP+paramUrl.galeriaPage+"?private=1";
+		else window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1";
 	}
 }
 

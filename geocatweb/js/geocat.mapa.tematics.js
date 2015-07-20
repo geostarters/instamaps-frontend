@@ -84,7 +84,7 @@ function showTematicLayersModal(tipus,className){
 					}
 				}else if (tipus==tem_size) {
 					var ftype = transformTipusGeometry(layerOptions.geometryType);
-					if ((tipusCapa == t_tematic || tipusCapa == t_visualitzacio || tipusCapa == t_url_file) && ftype == t_marker){ //tematic
+					if ((tipusCapa == t_tematic || tipusCapa == t_visualitzacio /*|| tipusCapa == t_url_file*/) && ftype == t_marker){ //tematic
 						if (this.layer.options.dades){
 							layers.push(this);
 						}else{
