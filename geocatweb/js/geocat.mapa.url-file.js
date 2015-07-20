@@ -206,7 +206,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		});
 		
 	}else{
-		console.debug("getUrlFile");
+//		console.debug("getUrlFile");
 		var data = {
 			 mapBusinessId: url('?businessid'),
 			 serverName: nomCapa,
@@ -690,7 +690,6 @@ function loadURLfileLayer(layer){
 		});		
 //		defer.resolve();		
 	}
-	
 	return defer.promise();
 }
 

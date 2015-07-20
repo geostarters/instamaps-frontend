@@ -56,6 +56,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Cal indicar el sistema de referència":"Tienes que indicar els sistema de referéncia"
 ,"Cal indicar els camps de les coordenades i el sistema de referència":"Tienes que indicar los campos de las coordenadas y el sistema de referéncia"
 ,"Cal indicar els camps que contenen l'adreça":"Tienes que indicar los campos que contienen la dirección"
+,"Calculant operació":"Calculando operación"
 ,"Camp que conté el codi":"Campo que contiene el código"
 ,"Camps necessaris":"Campos necesarios"
 ,"Cancel·lar": "Cancelar"
@@ -135,6 +136,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Crea":"Crea"
 ,"CREA":"CREA"
 ,"Creant geometries":"Creando geometrías"
+,"Creant temàtic de categories":"Creando temático de categorías"
+,"Creant temàtic de mides":"Creando temático de medidas"
 ,"Crear una nova capa":"Crear nueva capa"
 
 ,"D'acord":"Conforme"
@@ -197,6 +200,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Entrar URL de dades externes":"Entrar URL de datos externos"
 ,"Envia per correu-e":"Envía por correo electrónico"
 ,"Error: No s'ha pogut executar l'operació":"Error: No se ha podido ejecutar la operación"
+,"Error creant el temàtic de categories":"Error creando temático de categorías"
+,"Error creant el temàtic de mides":"Error creando temático de medidas"
 ,"Error de conversió: format o EPSG incorrectes":"Error de conversión: formato o EPSG incorrectos"
 ,"Error de xarxa. Torni a intentar-ho":"Error de red. Vuelva a intentarlo"
 ,"Error durant el tractament de les dades":"Error durante el tratamiento de los datos"
@@ -456,6 +461,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Tambe pots carregar dades arrossegant l'arxiu directament sobre el mapa":"También puedes cargar datos arrastrando el archivo directamente sobre el mapa"
 ,"Tanca la sessió":"Cerrar la sesión"
 ,"Tancar":"Cerrar"
+,"Temàtic de categories creat":"Temático de categorías creado"
+,"Temàtic de mides creat":"Temático de medidas creado"
 ,"Terreny":"Terreno"
 ,"Tipus codi":"Tipos de código"
 ,"Títol":"Título"
@@ -511,3 +518,4 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Haz tu mapa"
 }
+
