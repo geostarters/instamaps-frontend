@@ -73,6 +73,7 @@ function openBufferModal(){
 	 createModalConfigLayersBuffer();
 	 $('#dialog_buffer').modal('show');
 	 jQuery('#dialog_buffer .btn-primary').on('click',function(event){
+		 busy=true;
 		 event.stopImmediatePropagation();
 		//Cridar funció buffer
 		 if (!$("input[name='buffer-chck']:checked").val()) {
@@ -93,7 +94,7 @@ function openBufferModal(){
 					var pollTime =3000;
 					//Fem polling
 					(function(){							
-						poll = function(){
+						pollBuffer = function(){
 							$.ajax({
 								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
 								dataType: 'json',
@@ -102,38 +103,37 @@ function openBufferModal(){
 									console.debug(data);
 									jQuery('#dialog_buffer').hide();
 									jQuery('#info_uploadFile').show();
-									if(data.status.indexOf("ABANS BUFFER")!=-1){
+									if(data.status.indexOf("ABANS BUFFER")!=-1 && busy){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant buffer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant buffer')+'</div>'+
-											'<div id="div_upload_step4" class="status_uncheck" lang="ca">3. '+window.lang.convert('Dibuixant la resposta')+'</div>'//+	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
 										);									
 										
-									}else if(data.status.indexOf("DESPRES")!=-1){
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant buffer')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant buffer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step4" class="status_uncheck" lang="ca">3. '+window.lang.convert('Dibuixant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
 													);									
-									}else if(data.status.indexOf("OK")!=-1){
+									}else if(data.status.indexOf("OK")!=-1 && busy){
 //										console.debug("Ha acabat:");
 //										console.debug(data);
 										clearInterval(pollInterval);
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant buffer')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant buffer')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step4" class="status_current" lang="ca">3. '+window.lang.convert('Dibuixant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 											);									
 										
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
-									
-									}else if(data.status.indexOf("ERROR")!=-1){
-										console.error("Error al carregar fitxer:");
+										
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										console.error("Error calculant l'operació");
 										console.error(data);
 										busy = false;
 										
@@ -142,55 +142,27 @@ function openBufferModal(){
 										
 										$('#dialog_error_upload_txt').html("");
 										
-										if(data.codi){
-											
-											_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
-											
-											if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-												var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
-												$('#dialog_error_upload_txt').html(msg);
-												
-											}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-												var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
-												$('#dialog_error_upload_txt').html(msg);
-												
-											}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-												var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-												$('#dialog_error_upload_txt').html(msg);
-													
-											}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-												var msg = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
-													$('#dialog_error_upload_txt').html(msg);
-											
-											}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-												var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
-												$('#dialog_error_upload_txt').html(msg);
-												
-											}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
-												var msg = "[06]: " + window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
-												$('#dialog_error_upload_txt').html(msg);
-												
-											}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
-												var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
-												$('#dialog_error_upload_txt').html(msg);
-											}
-											
-										}else{
-											_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
-										}
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
 										
 										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
 									}
 								}
 							});
 						};
 						
 						pollInterval = setInterval(function(){
-							poll();
+							pollBuffer();
 						},pollTime);
 						
 					})();
+				}
+				else {
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
 				}
 			
 				var data = {
@@ -203,7 +175,11 @@ function openBufferModal(){
 				};
 				buffer(data).then(function(results){
 					if (results.status == "ERROR"){
-						alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+						$('#dialog_error_upload').modal('show');
 					}else{
 						var data2 = {
 							uid: $.cookie('uid'),
@@ -223,7 +199,15 @@ function openBufferModal(){
 						doUploadFile(data2).then(function(results){
 							if (results.status="OK") {
 								addDropFileToMap(results);
-								 $('#dialog_buffer').modal('hide');
+								 busy=false;
+								 jQuery('#info_uploadFile').hide();
+							}
+							else{
+								jQuery('#info_uploadFile').hide();		
+								busy=false;
+								$('#dialog_error_upload_txt').html("");					
+								$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+								$('#dialog_error_upload').modal('show');
 							}
 						});
 			
@@ -237,16 +221,100 @@ function openIntersectionModal(){
 	 createModalConfigLayers2("intersection");
 	 $('#dialog_intersection').modal('show');
 	 jQuery('#dialog_intersection .btn-primary').on('click',function(event){
+		 busy=true;
 		 event.stopImmediatePropagation();
 		 if (!$("input[name='intersect-chck']:checked").val() || !$("input[name='intersect-chck2']:checked").val()) {
 		       alert('Cal seleccionar dues capes');
-		        return false;
+		       busy=false;
+		       return false;
 		   }
 		 else {
-			 //Cridar funció buffer
+			 //Cridar funció intersecció
 			var businessId1 = $("input[name='intersect-chck']:checked").parent().attr('data-businessId');
 			var businessId2 = $("input[name='intersect-chck2']:checked").parent().attr('data-businessId');
-			
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: businessId1,
+					businessId2: businessId2
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						pollIntersect = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									console.debug(data);
+									jQuery('#dialog_intersection').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS INTERSECTION")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+													);									
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+//										console.debug("Ha acabat:");
+//										console.debug(data);
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+											);									
+										
+										
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										console.error("Error calculant l'operació");
+										console.error(data);
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");
+										
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+										
+										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollIntersect();
+						},pollTime);
+						
+					})();
+				}
+				else {
+					jQuery('#info_uploadFile').hide();		
+					busy=false;					
+				}
 			var name1 = $("input[name='intersect-chck']:checked").parent().attr('data-layername');
 			var name2 = $("input[name='intersect-chck2']:checked").parent().attr('data-layername');
 			 
@@ -255,18 +323,23 @@ function openIntersectionModal(){
 				businessId1: businessId1,
 				businessId2: businessId2,
 				nom:window.lang.convert("Intersecció"),
-				text:window.lang.convert("Intersecció")
+				text:window.lang.convert("Intersecció"),
+				tmpFilePath: tmpFile
 			};
 			intersection(data).then(function(results){
 				if (results.status == "ERROR"){
-					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+					$('#dialog_error_upload_txt').html("");					
+					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+					$('#dialog_error_upload').modal('show');
 				}else{
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
 						serverName:window.lang.convert("Intersecció")+" "+name1 +" "+name2,
 						path:results.path,
-						tmpFilePath:tmpdir +'tmp.geojson',
+						tmpFilePath:results.tmpFilePath,
 						midaFitxer:results.midaFitxer,
 						sourceExtension:'geojson',
 						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
@@ -279,13 +352,23 @@ function openIntersectionModal(){
 						if (results.status="OK") {
 							addDropFileToMap(results);
 							 $('#dialog_intersection').modal('hide');
+							 busy=false;
+							 jQuery('#info_uploadFile').hide();
+						}
+						else {
+							jQuery('#info_uploadFile').hide();		
+							busy=false;
+							$('#dialog_error_upload_txt').html("");					
+							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+							$('#dialog_error_upload').modal('show');
 						}
 					});
+					
 				}
 			});
-		 }
-	});		
-}
+		 });		
+	 }});
+ }
 
 function openTagModal(){
 	 createModalConfigLayers2("tag");
@@ -294,31 +377,122 @@ function openTagModal(){
 		 //event.preventDefault();
 		 //event.stopPropagation();
 		 event.stopImmediatePropagation();
+		 busy=true;
 		 if (!$("input[name='tag-chck']:checked").val() || !$("input[name='tag-chck2']:checked").val()) {
 		       alert('Cal seleccionar dues capes');
+		       busy=false;
 		        return false;
 		   }
 		 else {
 			//Cridar funció tag
 			var businessId1 = $("input[name='tag-chck']:checked").parent().attr('data-businessId');
 			var businessId2 = $("input[name='tag-chck2']:checked").parent().attr('data-businessId');
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: businessId1,
+					businessId2: businessId2
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						pollTag = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									console.debug(data);
+									jQuery('#dialog_tag').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS TAG")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+													);									
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+//										console.debug("Ha acabat:");
+//										console.debug(data);
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+											);									
+										
+										
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										console.error("Error calculant l'operació");
+										console.error(data);
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");
+										
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+										
+										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollTag();
+						},pollTime);
+						
+					})();
+				}
+				else {
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+				}
+
 			var data = {
 				uid: $.cookie('uid'),
 				businessId1: businessId1,
 				businessId2: businessId2,
 				nom:window.lang.convert("Transmissió (tag)"),
-				text:window.lang.convert("Transmissió (tag)")
+				text:window.lang.convert("Transmissió (tag)"),
+				tmpFilePath: tmpFile
 			};
 			tag(data).then(function(results){
 				if (results.status == "ERROR"){
-					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+					$('#dialog_error_upload_txt').html("");					
+					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+					$('#dialog_error_upload').modal('show');
 				}else{
 					var data2 = {
 						uid: $.cookie('uid'),
 						mapBusinessId: url('?businessid'),
 						serverName:window.lang.convert("Transmissió (tag)")+" "+results.nomCapaOrigen1+" "+results.nomCapaOrigen2,
 						path:results.path,
-						tmpFilePath:tmpdir +'tmp.geojson',
+						tmpFilePath:results.tmpFilePath,
 						midaFitxer:results.midaFitxer,
 						sourceExtension:'geojson',
 						markerStyle:results.markerEstil,
@@ -329,13 +503,23 @@ function openTagModal(){
 						if (results.status="OK") {
 							addDropFileToMap(results);
 							 $('#dialog_tag').modal('hide');
+							 jQuery('#info_uploadFile').hide();
+							 busy=false;
+						}
+						else {
+							jQuery('#info_uploadFile').hide();		
+							busy=false;
+							$('#dialog_error_upload_txt').html("");					
+							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+							$('#dialog_error_upload').modal('show');
 						}
 					});
+					
 				}
 			});
-		 }
-	});		
-}
+		 });		
+	 }});
+ }
 
 function openCentroideModal(){
 	//addHtmlModalCentroid();
@@ -343,22 +527,111 @@ function openCentroideModal(){
 	 $('#dialog_centroid').modal('show');
 	 jQuery('#dialog_centroid .btn-primary').on('click',function(event){
 		 event.stopImmediatePropagation();
+		 busy=true;
 		 if (!$("input[name='centroide-chck']:checked").val()) {
 		       alert('Cal seleccionar una capa');
+		       busy=false;
 		        return false;
 		   }
 		 else {
 			var businessId1 = $("input[name='centroide-chck']:checked").parent().attr('data-businessId');
-				 
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: businessId1
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						pollCentroid = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									console.debug(data);
+									jQuery('#dialog_centroid').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS CENTROIDE")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+													);									
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+//										console.debug("Ha acabat:");
+//										console.debug(data);
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+											);									
+										
+										
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										console.error("Error calculant l'operació");
+										console.error(data);
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");
+										
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+										
+										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+	
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollCentroid();
+						},pollTime);
+						
+					})();
+				}	
+				else {
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+				}
 			var data = {
 				uid: $.cookie('uid'),
 				businessId1: businessId1,
 				nom:window.lang.convert("Centre geomètric"),
-				text:window.lang.convert("Centre geomètric")
+				text:window.lang.convert("Centre geomètric"),
+				tmpFilePath: tmpFile
 			};
 			centroid(data).then(function(results){
 				if (results.status == "ERROR"){
-					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+					$('#dialog_error_upload_txt').html("");					
+					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+					$('#dialog_error_upload').modal('show');
 				}else{
 					var data2 = {
 						uid: $.cookie('uid'),
@@ -366,7 +639,7 @@ function openCentroideModal(){
 						serverName:results.nomCapaOrigen+" "+window.lang.convert("Centre geomètric"),
 						path:results.path,
 						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
-						tmpFilePath:tmpdir +'tmp.geojson',
+						tmpFilePath:results.tmpFilePath,
 						midaFitxer:results.midaFitxer,
 						sourceExtension:'geojson',
 						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
@@ -379,13 +652,23 @@ function openCentroideModal(){
 						if (results.status="OK") {
 							addDropFileToMap(results);
 							$('#dialog_centroid').modal('hide');
+							 jQuery('#info_uploadFile').hide();
+							 busy=false;
+						}
+						else {
+							jQuery('#info_uploadFile').hide();		
+							busy=false;
+							$('#dialog_error_upload_txt').html("");					
+							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+							$('#dialog_error_upload').modal('show');
 						}
 					});
+					
 				}
 			});
-		 }
-	});		
-}
+		 });		
+	 }});
+ }
 
 function addHtmlModalBuffer(){	
 	jQuery('#mapa_modals').append('<!-- Modal Buffer -->'+
@@ -1093,26 +1376,119 @@ function getTipusValuesVisualitzacioFilter(results){
 			$('input[name="filterValue"]:checked').each(function() {
 				   filtres=filtres+this.value+",";
 				   i++;
-			});		
+			});	
+			busy=true;
+			console.debug(filtres);
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: $('#visFilter').val()
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						pollFiltre = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									jQuery('#dialog_filter_rangs').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS FILTRE")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'	
+											);									
+										
+										
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
+											);									
+										
+										
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");
+										
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error generant filtre"));
+										
+										
+										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollFiltre();
+						},pollTime);
+						
+					})();
+				}
+				else {
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+				}
+				
 			var data = {
 				mapBusinessId: url('?businessid'),
 				uid: $.cookie('uid'),
 				businessId: $('#visFilter').val(),
 				campFiltre: $('#dataField_filter option:selected' ).val(),
-				valorsFiltre: filtres
+				valorsFiltre: filtres,
+				tmpFilePath: tmpFile
 			};
-			filterVisualitzacio(data).then(function(results){
-				if (results.status=="OK"){
+			filterVisualitzacio(data).then(function(results2){
+				console.debug(results2.status);
+				if (results2.status=="OK"){					
+							
 					var defer = $.Deferred();
-					readVisualitzacio(defer, results.visualitzacio, results.layer);
+					readVisualitzacio(defer, results2.visualitzacio, results2.layer);
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
 					activaPanelCapes(true);
-					$('#dialog_filter_rangs').modal('hide');
 				}
 				else {
-					alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+					$('#dialog_error_upload_txt').html("");					
+					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+					$('#dialog_error_upload').modal('show');
+					
 				}
 			});
-			
+			});
 		});
 	}
 }

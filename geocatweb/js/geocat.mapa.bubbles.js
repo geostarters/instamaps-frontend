@@ -10,6 +10,14 @@ function showModalTematicBubbles(data){
 	jQuery("#dialog_tematic_bubble").data("capamare", data);
 	
 	jQuery('#dialog_tematic_bubble .btn-success').on('click',function(e){
+		jQuery('#dialog_tematic_bubble').hide();
+		jQuery('#info_uploadFile').show();
+		busy=true;
+		jQuery("#div_uploading_txt").html("");
+		jQuery("#div_uploading_txt").html(
+				'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic de mides')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+				'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+		);	
 		createTematicLayerBubbles(e);
 	});
 	
@@ -604,11 +612,21 @@ function createTematicLayerBubbles(event){
 			options: JSON.stringify(options)
 		};
 		
+		
 		createServidorInMap(data).then(function(results){
-			loadURLfileLayer(results.results);
-			jQuery('#dialog_tematic_bubble').modal('hide');
-			activaPanelCapes(true);
-		});		
+			jQuery('#info_uploadFile').show();
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic de mides creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+			);
+
+			loadURLfileLayer(results.results).then(function(results){
+				busy=false;					
+				jQuery('#info_uploadFile').hide();
+				activaPanelCapes(true);
+			});
+		});			
 	}else{
 		var data = {
 			businessId: tematicFrom.businessid,//businessId id de la visualización de origen
@@ -624,17 +642,32 @@ function createTematicLayerBubbles(event){
 		
 		createVisualitzacioTematica(data).then(function(results){
 			if(results.status == 'OK'){
+				jQuery('#info_uploadFile').show();
+				jQuery("#div_uploading_txt").html("");
+				jQuery("#div_uploading_txt").html(
+						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic de mides creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+				);
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacio, results.layer);
-				jQuery('#dialog_tematic_bubble').modal('hide');
-				activaPanelCapes(true);
+				readVisualitzacio(defer, results.visualitzacio, results.layer).then(function(results){
+					busy=false;					
+					jQuery('#info_uploadFile').hide();
+					activaPanelCapes(true);
+				});
+				
 			}else{
-				//TODO error
-				console.debug("createTematicLayerBubbles ERROR");					
+				jQuery('#info_uploadFile').hide();		
+				busy=false;
+				$('#dialog_error_upload_txt').html("");					
+				$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic de mides"));					
+				$('#dialog_error_upload').modal('show');				
 			}
 		},function(results){
-			//TODO error
-			console.debug("createTematicLayerBubbles ERROR");
+			jQuery('#info_uploadFile').hide();		
+			busy=false;
+			$('#dialog_error_upload_txt').html("");					
+			$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic de mides"));					
+			$('#dialog_error_upload').modal('show');
 		});					
 	}
 	
