@@ -81,12 +81,12 @@ function createTematicLayerBasic(tematic, styles){
 			
 		}else{
 			var markerStyle2 = rangs[0];
-			estil_do.color = markerStyle2.borderColor;
-			estil_do.fillColor = markerStyle2.color;
-			estil_do.fillOpacity = 1;
-			estil_do.opacity = 1;
-			estil_do.radius = markerStyle2.simbolSize;
-			estil_do.weight = markerStyle2.borderWidth;
+			rangs[0].color = markerStyle2.borderColor;
+			rangs[0].fillColor = markerStyle2.color;
+			rangs[0].fillOpacity = 1;
+			rangs[0].opacity = 1;
+			rangs[0].radius = markerStyle2.simbolSize;
+			rangs[0].weight = markerStyle2.borderWidth;
 		}
 		
 		var options = {
@@ -97,7 +97,7 @@ function createTematicLayerBasic(tematic, styles){
 			tipus : t_url_file,
 //			businessId : '-1',
 			tipusFile: capaMare.options.tipusFile,
-			estil_do: estil_do,
+			estil_do: rangs[0],
 			epsgIN: capaMare.options.epsgIN,
 			geometryType: capaMare.options.geometryType,
 			colX: capaMare.options.colX,

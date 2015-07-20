@@ -206,7 +206,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		});
 		
 	}else{
-		console.debug("getUrlFile");
+//		console.debug("getUrlFile");
 		var data = {
 			 mapBusinessId: url('?businessid'),
 			 serverName: nomCapa,
@@ -474,8 +474,8 @@ function loadURLfileLayer(layer){
 			    	$.each( estil_do.estils, function( index, estil ) {
 			    		if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 				    			(parseInt(dataFieldValue)>=parseInt(estil.valueMin) && parseInt(dataFieldValue)<=parseInt(estil.valueMax))){//per valors
-			    			console.debug("Rang trobat!");
-			    			console.debug("--------");
+//			    			console.debug("Rang trobat!");
+//			    			console.debug("--------");
 			    			if(latlng.feature.geometry.type.toLowerCase() == t_polygon){
 			    				latlng.options.weight = 2;
 					    		latlng.options.color = "#ffffff";
