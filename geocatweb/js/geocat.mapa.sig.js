@@ -181,6 +181,14 @@ function openBufferModal(){
 						$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
 						$('#dialog_error_upload').modal('show');
 					}else{
+						if (results.midaFitxer==0){
+							jQuery('#info_uploadFile').hide();		
+							busy=false;
+							$('#dialog_error_upload_txt').html("");					
+							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+							$('#dialog_error_upload').modal('show');
+						}
+						else {
 						var data2 = {
 							uid: $.cookie('uid'),
 							mapBusinessId: url('?businessid'),
@@ -210,7 +218,7 @@ function openBufferModal(){
 								$('#dialog_error_upload').modal('show');
 							}
 						});
-			
+						}
 					}
 				});
 			 });		
@@ -334,36 +342,44 @@ function openIntersectionModal(){
 					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
 					$('#dialog_error_upload').modal('show');
 				}else{
-					var data2 = {
-						uid: $.cookie('uid'),
-						mapBusinessId: url('?businessid'),
-						serverName:window.lang.convert("Intersecció")+" "+name1 +" "+name2,
-						path:results.path,
-						tmpFilePath:results.tmpFilePath,
-						midaFitxer:results.midaFitxer,
-						sourceExtension:'geojson',
-						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
-						propertiesList: results.propertiesList,
-						geomType: results.geomType
+					if (results.midaFitxer==0){
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+						$('#dialog_error_upload').modal('show');
 					}
-					doUploadFile(data2).then(function(results){
-						if (results.status="OK") {
-							addDropFileToMap(results);
-							 $('#dialog_intersection').modal('hide');
-							 busy=false;
-							 jQuery('#info_uploadFile').hide();
+					else {
+						var data2 = {
+							uid: $.cookie('uid'),
+							mapBusinessId: url('?businessid'),
+							serverName:window.lang.convert("Intersecció")+" "+name1 +" "+name2,
+							path:results.path,
+							tmpFilePath:results.tmpFilePath,
+							midaFitxer:results.midaFitxer,
+							sourceExtension:'geojson',
+							markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+							lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+							polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+							propertiesList: results.propertiesList,
+							geomType: results.geomType
 						}
-						else {
-							jQuery('#info_uploadFile').hide();		
-							busy=false;
-							$('#dialog_error_upload_txt').html("");					
-							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
-							$('#dialog_error_upload').modal('show');
-						}
-					});
-					
+						doUploadFile(data2).then(function(results){
+							if (results.status="OK") {
+								addDropFileToMap(results);
+								 $('#dialog_intersection').modal('hide');
+								 busy=false;
+								 jQuery('#info_uploadFile').hide();
+							}
+							else {
+								jQuery('#info_uploadFile').hide();		
+								busy=false;
+								$('#dialog_error_upload_txt').html("");					
+								$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+								$('#dialog_error_upload').modal('show');
+							}
+						});
+					}
 				}
 			});
 		 });		
@@ -487,34 +503,42 @@ function openTagModal(){
 					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
 					$('#dialog_error_upload').modal('show');
 				}else{
-					var data2 = {
-						uid: $.cookie('uid'),
-						mapBusinessId: url('?businessid'),
-						serverName:window.lang.convert("Transmissió (tag)")+" "+results.nomCapaOrigen1+" "+results.nomCapaOrigen2,
-						path:results.path,
-						tmpFilePath:results.tmpFilePath,
-						midaFitxer:results.midaFitxer,
-						sourceExtension:'geojson',
-						markerStyle:results.markerEstil,
-						propertiesList: results.propertiesList,
-						geomType: results.geomType
+					if (results.midaFitxer==0){
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+						$('#dialog_error_upload').modal('show');
 					}
-					doUploadFile(data2).then(function(results){
-						if (results.status="OK") {
-							addDropFileToMap(results);
-							 $('#dialog_tag').modal('hide');
-							 jQuery('#info_uploadFile').hide();
-							 busy=false;
+					else {
+						var data2 = {
+							uid: $.cookie('uid'),
+							mapBusinessId: url('?businessid'),
+							serverName:window.lang.convert("Transmissió (tag)")+" "+results.nomCapaOrigen1+" "+results.nomCapaOrigen2,
+							path:results.path,
+							tmpFilePath:results.tmpFilePath,
+							midaFitxer:results.midaFitxer,
+							sourceExtension:'geojson',
+							markerStyle:results.markerEstil,
+							propertiesList: results.propertiesList,
+							geomType: results.geomType
 						}
-						else {
-							jQuery('#info_uploadFile').hide();		
-							busy=false;
-							$('#dialog_error_upload_txt').html("");					
-							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
-							$('#dialog_error_upload').modal('show');
-						}
-					});
-					
+						doUploadFile(data2).then(function(results){
+							if (results.status="OK") {
+								addDropFileToMap(results);
+								 $('#dialog_tag').modal('hide');
+								 jQuery('#info_uploadFile').hide();
+								 busy=false;
+							}
+							else {
+								jQuery('#info_uploadFile').hide();		
+								busy=false;
+								$('#dialog_error_upload_txt').html("");					
+								$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+								$('#dialog_error_upload').modal('show');
+							}
+						});
+					}
 				}
 			});
 		 });		
@@ -633,37 +657,45 @@ function openCentroideModal(){
 					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
 					$('#dialog_error_upload').modal('show');
 				}else{
-					var data2 = {
-						uid: $.cookie('uid'),
-						mapBusinessId: url('?businessid'),
-						serverName:results.nomCapaOrigen+" "+window.lang.convert("Centre geomètric"),
-						path:results.path,
-						//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
-						tmpFilePath:results.tmpFilePath,
-						midaFitxer:results.midaFitxer,
-						sourceExtension:'geojson',
-						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
-						propertiesList: results.propertiesList,
-						geomType: results.geomType
+					if (results.midaFitxer==0){
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+						$('#dialog_error_upload').modal('show');
 					}
-					doUploadFile(data2).then(function(results){
-						if (results.status="OK") {
-							addDropFileToMap(results);
-							$('#dialog_centroid').modal('hide');
-							 jQuery('#info_uploadFile').hide();
-							 busy=false;
+					else {
+						var data2 = {
+							uid: $.cookie('uid'),
+							mapBusinessId: url('?businessid'),
+							serverName:results.nomCapaOrigen+" "+window.lang.convert("Centre geomètric"),
+							path:results.path,
+							//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
+							tmpFilePath:results.tmpFilePath,
+							midaFitxer:results.midaFitxer,
+							sourceExtension:'geojson',
+							markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+							lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+							polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+							propertiesList: results.propertiesList,
+							geomType: results.geomType
 						}
-						else {
-							jQuery('#info_uploadFile').hide();		
-							busy=false;
-							$('#dialog_error_upload_txt').html("");					
-							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
-							$('#dialog_error_upload').modal('show');
-						}
-					});
-					
+						doUploadFile(data2).then(function(results){
+							if (results.status="OK") {
+								addDropFileToMap(results);
+								$('#dialog_centroid').modal('hide');
+								 jQuery('#info_uploadFile').hide();
+								 busy=false;
+							}
+							else {
+								jQuery('#info_uploadFile').hide();		
+								busy=false;
+								$('#dialog_error_upload_txt').html("");					
+								$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+								$('#dialog_error_upload').modal('show');
+							}
+						});
+					}
 				}
 			});
 		 });		
@@ -1132,7 +1164,7 @@ function addHtmlModalLayersFilter(){
 	'				<div class="modal-header">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Tria una capa per aplicar-hi el filtre</h4>'+
+	'					<h4 class="modal-title" lang="ca">Filtre</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success">'+
@@ -1148,12 +1180,21 @@ function addHtmlModalLayersFilter(){
 	'</div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
 	'					<div class="panel-warning">'+					
-	'					<ul class="bs-dadesO_USR panel-heading">'+
+	'					Capes:'+
+	'					<select id="filter-layer">'+
 	'						{{#each layers}}'+
-	'						<li><a class="usr_filter_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>'+
+	'						<option value="{{layer.options.businessId}}" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</option>'+
 	'						{{/each}}'+
-	'					</ul>'+	
+	'					</select>'+	
 	'					</div>'+
+	'					</script>'+
+	'					<script id="filter-layers-fields" type="text/x-handlebars-template">'+
+	'					Camps: '+
+	'					<select id="filter-field">'+
+	'						{{#each fields}}'+
+	'						<option value="{{layer.options.businessId}}">{{name}}</option>'+
+	'						{{/each}}'+
+	'					</select>'+	
 	'					</script>'+
 	'					<div id="list_filter_layers"></div>'+
 	'			</div>'+
@@ -1200,7 +1241,7 @@ function showFilterLayersModal(){
 		var html = template(layers);
 		$('#list_filter_layers').html(html);
 		
-		$('.usr_filter_layer').on('click',function(e){
+		$('#filter-layer').on('change',function(e){
 			var _this = jQuery(this);
 			var data = _this.data();
 				
@@ -1211,17 +1252,7 @@ function showFilterLayersModal(){
 }
 
 function showModalFilterFields(data){
-//	console.debug("showModalTematicCategories");
-	jQuery('.modal').modal('hide');
-	jQuery('#dialog_filter_rangs').modal('show');
-	
-	jQuery('#dialog_filter_rangs .btn-success').on('click',function(e){
-		
-	});	
-	
-	jQuery("#dialog_filter_rangs").data("capamare", data);
-	
-	jQuery('#dialog_filter_rangs .btn-success').hide();
+
 	
 	var dataTem={
 		businessId: data.businessid,
