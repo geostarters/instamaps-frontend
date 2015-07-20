@@ -395,7 +395,7 @@ function loadURLfileLayer(layer){
 			defer.resolve();
 		});
 		
-	}else if(options.tem == tem_clasic){
+	}else if(options.tem == tem_clasic || options.tem == tem_size){
 		
 //		console.debug("Load layer categories!!");
 		
@@ -446,7 +446,7 @@ function loadURLfileLayer(layer){
 		    	$.each( estil_do.estils, function( index, estil ) {
 		    		if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
 		    			(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
-	    				estilGeom = { radius : 6, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+	    				estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
 	    				return false;	
 		    		}
 		    		
@@ -454,7 +454,6 @@ function loadURLfileLayer(layer){
 		    	var geom = L.circleMarker(latlng, estilGeom);		    	
 		    	var popup = L.popup().setContent(html);
 			    return geom.bindPopup(popup);
-			    
 			  },
 			  onEachFeature : function(feature, latlng) {
 			    	var pp = feature.properties;
@@ -474,8 +473,6 @@ function loadURLfileLayer(layer){
 			    	$.each( estil_do.estils, function( index, estil ) {
 			    		if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
 				    			(parseInt(dataFieldValue)>=parseInt(estil.valueMin) && parseInt(dataFieldValue)<=parseInt(estil.valueMax))){//per valors
-			    			console.debug("Rang trobat!");
-			    			console.debug("--------");
 			    			if(latlng.feature.geometry.type.toLowerCase() == t_polygon){
 			    				latlng.options.weight = 2;
 					    		latlng.options.color = "#ffffff";
@@ -693,6 +690,7 @@ function loadURLfileLayer(layer){
 		});		
 //		defer.resolve();		
 	}
+	
 	return defer.promise();
 }
 

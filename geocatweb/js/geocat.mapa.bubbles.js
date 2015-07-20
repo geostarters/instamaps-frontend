@@ -75,7 +75,7 @@ function showModalTematicBubbles(data){
 				jQuery('#size_warning_bubble_prop').hide();
 			}else{
 				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
-					jQuery("#tematic-layers-fields-bubble").data("values", results);
+					jQuery("#dialog_tematic_bubble").data("values", results);
 					getTipusValuesVisualitzacioBubbles(results);
 				});
 			}
@@ -605,10 +605,15 @@ function createTematicLayerBubbles(event){
 		};
 		
 		createServidorInMap(data).then(function(results){
-			loadURLfileLayer(results.results);
-			jQuery('#dialog_tematic_bubble').modal('hide');
-			activaPanelCapes(true);
-		});		
+			if(results.status == 'OK'){
+				loadURLfileLayer(results.results);
+				jQuery('#dialog_tematic_bubble').modal('hide');
+				activaPanelCapes(true);
+			}else{
+				//TODO error
+				console.debug("createTematicLayerBubbles ERROR");					
+			}
+		});	
 	}else{
 		var data = {
 			businessId: tematicFrom.businessid,//businessId id de la visualización de origen
