@@ -58,7 +58,16 @@ function createTematicLayerBasic(tematic, styles){
 		};
 		
 		createServidorInMap(data).then(function(results){
-			loadDadesObertesLayer(results.results);
+			jQuery('#info_uploadFile').show();
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+			);
+			loadDadesObertesLayer(results.results).then(function(results){
+				busy=false;					
+				jQuery('#info_uploadFile').hide();
+			});
 		});
 		
 	}else if(capaMare.options.tipus == t_url_file){
@@ -131,7 +140,17 @@ function createTematicLayerBasic(tematic, styles){
 //			loadDadesObertesLayer(results.results);
 			console.debug("createServidorInMap:");
 			console.debug(results);
-			loadURLfileLayer(results.results);
+			jQuery('#info_uploadFile').show();
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+			);
+			loadURLfileLayer(results.results).then(function(results){
+				busy=false;					
+				jQuery('#info_uploadFile').hide();
+				activaPanelCapes(true);
+			});
 		});
 		
 	}else if(capaMare.options.tipus == t_json){
@@ -161,8 +180,18 @@ function createTematicLayerBasic(tematic, styles){
 		};		
 		
 		createServidorInMap(data).then(function(results){
+			jQuery('#info_uploadFile').show();
+			jQuery("#div_uploading_txt").html("");
+			jQuery("#div_uploading_txt").html(
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+			);
 //			console.debug(results.results);
-			loadCapaFromJSON(results.results);
+			loadCapaFromJSON(results.results).then(function(results){
+				busy=false;					
+				jQuery('#info_uploadFile').hide();
+				activaPanelCapes(true);
+			});
 		});
 		
 	}else if (tematic.tipus == t_tematic){
@@ -184,15 +213,23 @@ function createTematicLayerBasic(tematic, styles){
 		duplicateTematicLayer(data).then(function(results){
 			if(results.status == 'OK'){
 //				console.debug(results.results);
+				busy=false;					
+				jQuery('#info_uploadFile').hide();
 				loadTematicLayer(results.results);
 				activaPanelCapes(true);
 			}else{
-				//TODO error
-				console.debug("updateTematicRangs ERROR");					
+				jQuery('#info_uploadFile').hide();		
+				busy=false;
+				$('#dialog_error_upload_txt').html("");					
+				$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic bàsic"));					
+				$('#dialog_error_upload').modal('show');					
 			}
 		},function(results){
-			//TODO error
-			console.debug("updateTematicRangs ERROR");
+			jQuery('#info_uploadFile').hide();		
+			busy=false;
+			$('#dialog_error_upload_txt').html("");					
+			$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic bàsic"));					
+			$('#dialog_error_upload').modal('show');
 		});
 	//NOU MODEL	
 	}else if (tematic.tipus == t_visualitzacio){
@@ -210,15 +247,31 @@ function createTematicLayerBasic(tematic, styles){
 		createVisualitzacioSimple(data).then(function(results){
 			if(results.status == 'OK'){
 				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacio, results.layer);
-				activaPanelCapes(true);
+				jQuery('#info_uploadFile').show();
+				jQuery("#div_uploading_txt").html("");
+				jQuery("#div_uploading_txt").html(
+						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
+				);
+		
+				readVisualitzacio(defer, results.visualitzacio, results.layer).then(function(results){
+					busy=false;					
+					jQuery('#info_uploadFile').hide();
+					activaPanelCapes(true);
+				});
 			}else{
-				//TODO error
-				console.debug("createVisualitzacioSimple ERROR");					
+				jQuery('#info_uploadFile').hide();		
+				busy=false;
+				$('#dialog_error_upload_txt').html("");					
+				$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic bàsic"));					
+				$('#dialog_error_upload').modal('show');				
 			}
 		},function(results){
-			//TODO error
-			console.debug("createVisualitzacioSimple ERROR");
+			jQuery('#info_uploadFile').hide();		
+			busy=false;
+			$('#dialog_error_upload_txt').html("");					
+			$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic bàsic"));					
+			$('#dialog_error_upload').modal('show');		
 		});		
 		
 	}
