@@ -304,7 +304,7 @@ L.IM_Map = L.Map.extend({
 				TOPO_MQ_L7_19.setOpacity(1);
 				TOPO_MQ_L7_19.options.maxZoom=19;				
 				TOPO_ICC_L11_12.options.maxZoom=12;
-				TOPO_ICC_L12_19.options.maxZoom=19;
+				TOPO_ICC_L12_19.options.maxZoom=20;
 				TOPO_ICC_L7_10.options.maxZoom=10;					
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
@@ -316,7 +316,7 @@ L.IM_Map = L.Map.extend({
 			}else if(sC==2){
 				TOPO_MQ_L7_19.options.maxZoom=zT;
 				TOPO_ICC_L11_12.options.maxZoom=12;
-				TOPO_ICC_L12_19.options.maxZoom=19;
+				TOPO_ICC_L12_19.options.maxZoom=20;
 				TOPO_ICC_L7_10.options.maxZoom=10;	
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 			}
@@ -544,7 +544,7 @@ L.IM_Map = L.Map.extend({
 	topoMap: function (print){	
 		this.deletePreviousMap();
 		this.options.typeMap=FONS_TOPOMAP;
-		this.ajustaZoom(19);
+		this.ajustaZoom(20);
 		this.setActiveMap(FONS_TOPOMAP);
 		this.setMapColor(null);
 		_topoLayers=L.layerGroup();						 
@@ -607,7 +607,7 @@ L.IM_Map = L.Map.extend({
 		TOPO_ICC_L12_19 = new L.TileLayer(URL_TOPOICC,{  	    
 			tms:false,
 			minZoom: 13,
-			maxZoom: 19,	                                                        
+			maxZoom: 20,	                                                        
 			continuousWorld: true,
 			worldCopyJump: false
 		}).addTo(_topoLayers);
