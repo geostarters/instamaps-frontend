@@ -34,6 +34,7 @@ var paramUrl = {
 	loginPage:"/geocatweb/sessio.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
+	visorCloudifier:"/geocatweb/visor_cloudifier.html",
 	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
 	perfilPage:"/geocatweb/perfil.html",

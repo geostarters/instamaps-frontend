@@ -39,7 +39,7 @@ function loadApp(){
     if(typeof url('?businessid') == "string"){
           map = new L.IM_Map('map', {
         	  	zoomAnimation:false,
-                typeMap : 'topoMap',
+                typeMap : 'topoMapGeo',
                 minZoom: 2,
                 maxZoom : 19,
                 zoomControl: addDefaultZoomControl,
