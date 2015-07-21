@@ -159,7 +159,14 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
+	console.debug("getCapabilitiesWMS:");
+	console.debug(url);
+	console.debug(servidor);
+	
 	getWMSLayers(url).then(function(results) {
+		
+		console.debug("results:");
+		console.debug(results);
 		
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);

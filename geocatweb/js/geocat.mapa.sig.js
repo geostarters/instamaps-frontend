@@ -73,6 +73,11 @@ function openBufferModal(){
 	 createModalConfigLayersBuffer();
 	 $('#dialog_buffer').modal('show');
 	 jQuery('#dialog_buffer .btn-primary').on('click',function(event){
+		 if(busy){
+			 	jQuery('#dialog_buffer').hide();
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+		}else{
 		 busy=true;
 		 event.stopImmediatePropagation();
 		//Cridar funció buffer
@@ -222,13 +227,18 @@ function openBufferModal(){
 					}
 				});
 			 });		
-		 }});
+		 }}});
 	 }
 
 function openIntersectionModal(){
 	 createModalConfigLayers2("intersection");
 	 $('#dialog_intersection').modal('show');
 	 jQuery('#dialog_intersection .btn-primary').on('click',function(event){
+		 if(busy){
+			 	jQuery('#dialog_intersection').hide();
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+		}else{
 		 busy=true;
 		 event.stopImmediatePropagation();
 		 if (!$("input[name='intersect-chck']:checked").val() || !$("input[name='intersect-chck2']:checked").val()) {
@@ -383,7 +393,7 @@ function openIntersectionModal(){
 				}
 			});
 		 });		
-	 }});
+		 }}});
  }
 
 function openTagModal(){
@@ -393,6 +403,11 @@ function openTagModal(){
 		 //event.preventDefault();
 		 //event.stopPropagation();
 		 event.stopImmediatePropagation();
+		 if(busy){
+			 	jQuery('#dialog_tag').hide();
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+		}else{
 		 busy=true;
 		 if (!$("input[name='tag-chck']:checked").val() || !$("input[name='tag-chck2']:checked").val()) {
 		       alert('Cal seleccionar dues capes');
@@ -542,7 +557,7 @@ function openTagModal(){
 				}
 			});
 		 });		
-	 }});
+	 }}});
  }
 
 function openCentroideModal(){
@@ -551,6 +566,11 @@ function openCentroideModal(){
 	 $('#dialog_centroid').modal('show');
 	 jQuery('#dialog_centroid .btn-primary').on('click',function(event){
 		 event.stopImmediatePropagation();
+		 if(busy){
+			 	jQuery('#dialog_centroid').hide();
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+		}else{
 		 busy=true;
 		 if (!$("input[name='centroide-chck']:checked").val()) {
 		       alert('Cal seleccionar una capa');
@@ -699,7 +719,7 @@ function openCentroideModal(){
 				}
 			});
 		 });		
-	 }});
+	 }}});
  }
 
 function addHtmlModalBuffer(){	
@@ -1164,7 +1184,7 @@ function addHtmlModalLayersFilter(){
 	'				<div class="modal-header">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Filtre</h4>'+
+	'					<h4 class="modal-title" lang="ca">Tria una capa per aplicar-hi el filtre</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success">'+
@@ -1180,21 +1200,12 @@ function addHtmlModalLayersFilter(){
 	'</div>'+
 	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
 	'					<div class="panel-warning">'+					
-	'					Capes:'+
-	'					<select id="filter-layer">'+
+	'					<ul class="bs-dadesO_USR panel-heading">'+
 	'						{{#each layers}}'+
-	'						<option value="{{layer.options.businessId}}" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</option>'+
+	'						<li><a class="usr_filter_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>'+
 	'						{{/each}}'+
-	'					</select>'+	
+	'					</ul>'+	
 	'					</div>'+
-	'					</script>'+
-	'					<script id="filter-layers-fields" type="text/x-handlebars-template">'+
-	'					Camps: '+
-	'					<select id="filter-field">'+
-	'						{{#each fields}}'+
-	'						<option value="{{layer.options.businessId}}">{{name}}</option>'+
-	'						{{/each}}'+
-	'					</select>'+	
 	'					</script>'+
 	'					<div id="list_filter_layers"></div>'+
 	'			</div>'+
@@ -1241,7 +1252,7 @@ function showFilterLayersModal(){
 		var html = template(layers);
 		$('#list_filter_layers').html(html);
 		
-		$('#filter-layer').on('change',function(e){
+		$('.usr_filter_layer').on('click',function(e){
 			var _this = jQuery(this);
 			var data = _this.data();
 				
@@ -1408,7 +1419,12 @@ function getTipusValuesVisualitzacioFilter(results){
 				   filtres=filtres+this.value+",";
 				   i++;
 			});	
-			busy=true;
+			if(busy){
+				jQuery('#dialog_filter_rangs').hide();
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+			}else{
+			busy=true; 
 			console.debug(filtres);
 			var data1 = {
 					uid: $.cookie('uid'),
@@ -1520,6 +1536,5 @@ function getTipusValuesVisualitzacioFilter(results){
 				}
 			});
 			});
-		});
+		}});
 	}
-}
