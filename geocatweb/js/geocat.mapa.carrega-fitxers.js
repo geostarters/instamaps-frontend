@@ -1176,16 +1176,24 @@ function addHtmlModalCarregarFitxers(){
 		'						<div class="panel-body">'+
 		'							<ul class="bs-dadesO_JSON">'+
 		'								<li>'+
-		'								<select id="select-upload-ff-epsg" style="width: 100%;">'+
+		'								<select id="select-upload-ff-epsg" style="width: 100%">'+
 		'									<option lang="ca" value="null">Selecciona un SR</option>'+
 		'									<option value="EPSG:4326">EPSG:4326 GPS(WGS84 geogràfiques (lat, lon) - G.G)</option>'+
-		'									<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N	Easting,Northing o X,Y)</option>'+
 		'									<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:25830">EPSG:25830 (ETRS89-UTM 30N Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:25829">EPSG:25829 (ETRS89-UTM 29N Easting,Northing o X,Y)</option>'+
 		'									<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
 		'									<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
-		'									<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
 		'									<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
-		'									<option value="EPSG:2180">EPSG:2180 (ETRS89 / Poland CS92)</option>'+
+		'									<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N	Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:23030">EPSG:23030 (ED50-UTM 30N	Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:23029">EPSG:23029 (ED50-UTM 29N	Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
+		'									<option value="EPSG:3034">EPSG:3034 (ETRS89 / ETRS-LCC) </option>'+
+		'									<option value="EPSG:3035">EPSG:3035 (ETRS89 / ETRS-LAEA)</option>'+
+		'									<option value="EPSG:3041">EPSG:3041 (ETRS89 / ETRS-TM29)</option>'+ 
+		'									<option value="EPSG:3042">EPSG:3042 (ETRS89 / ETRS-TM30)</option>'+ 
+		'									<option value="EPSG:3043">EPSG:3043 (ETRS89 / ETRS-TM31)</option>'+  
 		'								</select>'+
 		'								</li>'+
 		'							</ul>'+
@@ -1216,15 +1224,24 @@ function addHtmlModalCarregarFitxers(){
 		'										<li><select style="width: 100%;" id=\'cmd_upload_colY\'></select></li>'+
 		'										<li><label lang="ca">Quin és el sistema de referència?</label></li>'+
 		'										<li>'+
-		'										<select id="select-upload-epsg" style="width: 100%;">'+
+		'										<select id="select-upload-epsg" style="width: 100%">'+
 		'											<option lang="ca" value="null">Selecciona un SR</option>'+
-		'											<option value="EPSG:4326">EPSG:4326 GPS (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
-		'											<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:4326">EPSG:4326 GPS(WGS84 geogràfiques (lat, lon) - G.G)</option>'+
 		'											<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
-		'											<option value="EPSG:4258">EPSG:4258 INSPIRE (ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
+		'											<option value="EPSG:25830">EPSG:25830 (ETRS89-UTM 30N Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:25829">EPSG:25829 (ETRS89-UTM 29N Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
 		'											<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
-		'											<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
 		'											<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:23031">EPSG:23031 (ED50-UTM 31N	Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:23030">EPSG:23030 (ED50-UTM 30N	Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:23029">EPSG:23029 (ED50-UTM 29N	Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
+		'											<option value="EPSG:3034">EPSG:3034 (ETRS89 / ETRS-LCC) </option>'+
+		'											<option value="EPSG:3035">EPSG:3035 (ETRS89 / ETRS-LAEA)</option>'+
+		'											<option value="EPSG:3041">EPSG:3041 (ETRS89 / ETRS-TM29)</option>'+ 
+		'											<option value="EPSG:3042">EPSG:3042 (ETRS89 / ETRS-TM30)</option>'+ 
+		'											<option value="EPSG:3043">EPSG:3043 (ETRS89 / ETRS-TM31)</option>'+  
 		'										</select>'+
 		'										</li>'+
 		'									</ul>'+
