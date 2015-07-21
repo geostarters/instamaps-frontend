@@ -1538,3 +1538,4 @@ function getTipusValuesVisualitzacioFilter(results){
 			});
 		}});
 	}
+}
