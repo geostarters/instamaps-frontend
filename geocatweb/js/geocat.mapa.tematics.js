@@ -120,14 +120,30 @@ function showTematicLayersModal(tipus,className){
 		
 		if (tipus == tem_simple){
 			if (ftype == t_marker  || data.tipus == t_dades_obertes || data.tipus == t_json ){
-				obrirMenuModal('#dialog_estils_punts','toggle',data);
+				if (busy){
+					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload').modal('show');
+				}
+				else obrirMenuModal('#dialog_estils_punts','toggle',data);
 			}else if (ftype == t_polyline){
-				obrirMenuModal('#dialog_estils_linies','toggle',data);
+				if (busy){
+					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload').modal('show');
+				}
+				else obrirMenuModal('#dialog_estils_linies','toggle',data);
 			}else if (ftype == t_polygon){
-				obrirMenuModal('#dialog_estils_arees','toggle',data);
+				if (busy){
+					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload').modal('show');
+				}
+				else obrirMenuModal('#dialog_estils_arees','toggle',data);
 			}
 		}else if(tipus == tem_clasic){
-			showModalTematicCategories(data);
+			if (busy){
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+			}
+			else showModalTematicCategories(data);
 		}else if(tipus == tem_heatmap){
 			createHeatMap(controlCapes._layers[data.leafletid]);
 			jQuery('#dialog_layers_tematic').modal('hide');
@@ -135,7 +151,11 @@ function showTematicLayersModal(tipus,className){
 			creaClusterMap(controlCapes._layers[data.leafletid]);
 			jQuery('#dialog_layers_tematic').modal('hide');
 		}else if(tipus == tem_size){
-			showModalTematicBubbles(data);
+			if (busy){
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+			}
+			else showModalTematicBubbles(data);
 		}
 	});
 }

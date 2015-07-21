@@ -3,7 +3,7 @@
  */
 
 function createTematicLayerBasic(tematic, styles){
-	
+	var defer = $.Deferred();
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);
 	//_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'basic'}]);
 	
@@ -275,4 +275,5 @@ function createTematicLayerBasic(tematic, styles){
 		});		
 		
 	}
+	return defer.promise();
 }
