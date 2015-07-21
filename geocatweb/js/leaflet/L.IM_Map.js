@@ -14,7 +14,7 @@ var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" targe
 var ICGC_HISTOOrto='Font: Vol americà 1956-57 Ministerio de Defensa';
 var ICGC_HISTOOrto46='Font:Vol Americà A 1946-47 Ministerio de Defensa';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
-var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_ICC_L0_6_GEO,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
+var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
 
 var _hibridLayers=null,HIBRID_MQ_L0_18,HIBRID_ICGC_L0_18,HIBRID_ICGC_L13_18;
@@ -69,7 +69,7 @@ var URL_HISTORICOrto46=urlServerTiles+'/mapcache/tms/1.0.0/orto46_3857@GMTOT/{z}
 var URL_ALCADAMAP=urlServerTiles+'/mapcache/tms/1.0.0/h_ombra3857@GMTOT/{z}/{x}/{y}.png';
 var URL_MQ_GEO='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
-///var URL_TOPOICC_GEO_2=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
+var URL_TOPOICC_GEO_MON=urlServerTiles+'/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
 //var URL_TOPOICC_GEO_2=urlServerTiles+'/mapcache/tms/1.0.0/A2503857@GMTOT/{z}/{x}/{y}.png';
 
 //var URL_TERRAIN='http://www.instamaps.cat/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png';
@@ -304,7 +304,7 @@ L.IM_Map = L.Map.extend({
 				TOPO_MQ_L7_19.setOpacity(1);
 				TOPO_MQ_L7_19.options.maxZoom=19;				
 				TOPO_ICC_L11_12.options.maxZoom=12;
-				TOPO_ICC_L12_19.options.maxZoom=19;
+				TOPO_ICC_L12_19.options.maxZoom=20;
 				TOPO_ICC_L7_10.options.maxZoom=10;					
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
@@ -316,12 +316,12 @@ L.IM_Map = L.Map.extend({
 			}else if(sC==2){
 				TOPO_MQ_L7_19.options.maxZoom=zT;
 				TOPO_ICC_L11_12.options.maxZoom=12;
-				TOPO_ICC_L12_19.options.maxZoom=19;
+				TOPO_ICC_L12_19.options.maxZoom=20;
 				TOPO_ICC_L7_10.options.maxZoom=10;	
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 			}
 		
-		//var _topoLayersGeo=null,TOPO_GEO_MQ_L7_19,TOPO_GEO_ICC_L8_12,TOPO_GEO_ICC_L8_17;	
+		//var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_ICC_L8_12,TOPO_GEO_ICC_L8_17;	
 		}else if(f==FONS_TOPOMAP_GEO){
 			
 			
@@ -330,41 +330,44 @@ L.IM_Map = L.Map.extend({
 			
 			
 			if((sC==0)){  
-				TOPO_GEO_MQ_L7_19.setOpacity(1);
-				TOPO_GEO_MQ_L7_19.options.maxZoom=18;		
+				TOPO_GEO_MQ_L15_18.setOpacity(1);
+				TOPO_GEO_MQ_L15_18.options.maxZoom=18;		
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
-				TOPO_GEO_ICC_L8_17.options.maxZoom=zT;
+				TOPO_GEO_ICC_L8_17.options.maxZoom=18;
+				
+				/*
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
 					//TOPO_ICC_L0_6
-					_topoLayersGeo.removeLayer(TOPO_ICC_L0_6_GEO);
+					_topoLayersGeo.removeLayer(TOPO_GEO_MON_L0_14);
 				}else{
 					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
-					_topoLayersGeo.addLayer(TOPO_ICC_L0_6_GEO);
+					_topoLayersGeo.addLayer(TOPO_GEO_MON_L0_14);
 				}	
-				
+				*/
+				this.attributionControl.setPrefix(ICGC+" - "+MQ_ATTR +" ZL:"+this.getZoom());
 			}else if(sC==1){
 					
-				TOPO_GEO_MQ_L7_19.setOpacity(1);
-				TOPO_GEO_MQ_L7_19.options.maxZoom=18;				
+				TOPO_GEO_MQ_L15_18.setOpacity(1);
+				TOPO_GEO_MQ_L15_18.options.maxZoom=18;				
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 			//	TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
 				TOPO_GEO_ICC_L8_17.options.maxZoom=18;
 				
 				//TOPO_GEO_ICC_L8_12.setOpacity(1);
 				//TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
-				
+				/*
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());
 					//TOPO_ICC_L0_6
-					_topoLayersGeo.removeLayer(TOPO_ICC_L0_6_GEO);
+					_topoLayersGeo.removeLayer(TOPO_GEO_MON_L0_14);
 				}else{
 					this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
-					_topoLayersGeo.addLayer(TOPO_ICC_L0_6_GEO);
+					_topoLayersGeo.addLayer(TOPO_GEO_MON_L0_14);
 				}
-				
-				
+				*/
+			this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
 			}else if(sC==2){
 				
 				
@@ -372,9 +375,9 @@ L.IM_Map = L.Map.extend({
 				
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
-				
+				TOPO_GEO_MQ_L15_18.setOpacity(1);
 				TOPO_GEO_ICC_L8_17.options.maxZoom=18;	
-				TOPO_GEO_MQ_L7_19.options.maxZoom=zT;
+				//TOPO_GEO_MQ_L15_18.options.maxZoom=zT;
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());	
 				
 				
@@ -541,7 +544,7 @@ L.IM_Map = L.Map.extend({
 	topoMap: function (print){	
 		this.deletePreviousMap();
 		this.options.typeMap=FONS_TOPOMAP;
-		this.ajustaZoom(19);
+		this.ajustaZoom(20);
 		this.setActiveMap(FONS_TOPOMAP);
 		this.setMapColor(null);
 		_topoLayers=L.layerGroup();						 
@@ -604,7 +607,7 @@ L.IM_Map = L.Map.extend({
 		TOPO_ICC_L12_19 = new L.TileLayer(URL_TOPOICC,{  	    
 			tms:false,
 			minZoom: 13,
-			maxZoom: 19,	                                                        
+			maxZoom: 20,	                                                        
 			continuousWorld: true,
 			worldCopyJump: false
 		}).addTo(_topoLayers);
@@ -622,25 +625,28 @@ L.IM_Map = L.Map.extend({
 		_topoLayersGeo=L.layerGroup();						 
 		
 		
-		TOPO_ICC_L0_6_GEO=  new L.TileLayer(URL_MON, {
+		TOPO_GEO_MON_L0_14=  new L.TileLayer(URL_TOPOICC_GEO_MON, {
 			minZoom: 0,
-			maxZoom: 6,
+			maxZoom: 14,
 			tms:true,
 			continuousWorld: false,
 			worldCopyJump: false,
-		}).addTo(_topoLayersGeo);
+		}).addTo(_topoLayersGeo);		
 		
 		
-		
-		
-		TOPO_GEO_MQ_L7_19 = new L.TileLayer(URL_MQ,{   	   
-			minZoom: 7,
+		TOPO_GEO_MQ_L15_18 = new L.TileLayer(URL_MQ,{   	   
+			minZoom: 15,
 			maxZoom:18,
 			
 			subdomains:subDomains}
 		).addTo(_topoLayersGeo);
 		
 
+		
+		
+		
+		
+		
 		
 		TOPO_GEO_ICC_L8_17 = new L.TileLayer(URL_TOPOICC_GEO_1,{  	    
 			tms:true,

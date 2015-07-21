@@ -1424,7 +1424,7 @@ function getTipusValuesVisualitzacioFilter(results){
 				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 			}else{
-			busy=true;
+			busy=true; 
 			console.debug(filtres);
 			var data1 = {
 					uid: $.cookie('uid'),
@@ -1538,4 +1538,3 @@ function getTipusValuesVisualitzacioFilter(results){
 			});
 		}});
 	}
-}
