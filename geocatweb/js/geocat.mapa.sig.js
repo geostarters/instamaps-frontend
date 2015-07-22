@@ -1263,6 +1263,16 @@ function showFilterLayersModal(){
 }
 
 function showModalFilterFields(data){
+	jQuery('.modal').modal('hide');
+	jQuery('#dialog_filter_rangs').modal('show');
+	
+	jQuery('#dialog_filter_rangs .btn-success').on('click',function(e){
+		
+	});	
+	
+	jQuery("#dialog_filter_rangs").data("capamare", data);
+	
+	jQuery('#dialog_filter_rangs .btn-success').hide();
 
 	
 	var dataTem={
