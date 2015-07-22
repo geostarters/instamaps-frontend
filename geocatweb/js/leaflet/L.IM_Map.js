@@ -423,13 +423,13 @@ L.IM_Map = L.Map.extend({
 					this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());				
 				}else if(sC==1){ //Cat i altres
 					HIBRID_MQ_L0_18.options.maxZoom=18;			 
-					HIBRID_ICGC_L0_18.options.maxZoom=18;
+					HIBRID_ICGC_L0_18.options.maxZoom=17;
 					HIBRID_ICGC_L13_18.options.maxZoom=18;
 					HIBRID_MQ_L0_18.setOpacity(0.8);					
 					this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
 				}else if(sC==2){ //Nomes cat
 					HIBRID_MQ_L0_18.options.maxZoom=zT;			 
-					HIBRID_ICGC_L0_18.options.maxZoom=18;
+					HIBRID_ICGC_L0_18.options.maxZoom=17;
 					HIBRID_ICGC_L13_18.options.maxZoom=18;			
 					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 				}		
