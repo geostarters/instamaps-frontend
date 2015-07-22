@@ -243,7 +243,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"EXPLORA":"EXPLORA"
 ,"Exporta les teves dades en diversos formats.":"Exporta tus datos en distintos formatos."
 
-,"*Fent clic a <i>Vull més informació</i> accepta la":"*Haciendo clic en <i>Quiero más información</i> acepta la"
+,"*Fent clic a 'Vull més informació' accepta la":"*Haciendo clic en 'Quiero más información' acepta la"
 ,"*Fent clic a <i>Registreu-vos</i> accepta la":"*Haciendo clic en <i>Registrarse</i> acepta la"
 ,"Fer un nou mapa": "Crear un nuevo mapa"
 ,"Fer mapa":"Hacer mapa"
