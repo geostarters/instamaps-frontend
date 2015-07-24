@@ -525,8 +525,7 @@ function createRangsValues(rangs){
 }
 
 function loadTematicValueTemplate(results, rtype){
-	//TODO cambiar el nombre a la funcion
-	//console.debug("loadTematicValueTemplate");
+
 	var source1;
 	var geometryType = results[0].style.geometryType;
 	if (!geometryType){

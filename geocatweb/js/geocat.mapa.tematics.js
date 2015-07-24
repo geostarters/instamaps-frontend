@@ -1397,6 +1397,7 @@ function loadVisualitzacioLayer(layer){
 
 function readVisualitzacio(defer, visualitzacio, layer){
 	
+	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 					|| (layer.options && (layer.options.indexOf("source")!=-1) );
 	
@@ -1701,6 +1702,19 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			controlCapes._lastZIndex++;
 		}				
 	}
+	
+		
+	console.debug("readVisualitzacio:");
+	console.debug(visualitzacio);
+	console.debug(layer);
+	console.debug(capaVisualitzacio);
+	
+		//Si la capa es tematic categories, afegir llegenda al mode edicio
+		if (visualitzacio.tipus == tem_clasic && $(location).attr('href').indexOf('/mapa.html')!=-1){
+//			console.debug("Holaaaa");
+			loadMapLegendEdicio(capaVisualitzacio);
+		}
+		
 		defer.resolve(capaVisualitzacio);		
 		return defer.promise();
 	}

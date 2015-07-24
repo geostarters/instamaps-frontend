@@ -400,12 +400,19 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		this._handlingClick = true;
 		var checkHeat = false;
 		var id, parentId;
+		
+		var currentbid = arguments[0].currentTarget.id.replace("input-", "");
+		console.debug(currentbid);
+		
 		//tractament en cas heatmap
 		if(arguments[0].currentTarget.layerIdParent){
 			id = arguments[0].currentTarget.layerId;
 			parentId = arguments[0].currentTarget.layerIdParent;
 			checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
 		}
+		
+		console.debug("id:");
+		console.debug(id);
 		
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
@@ -416,6 +423,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
 			
+			console.debug("Input click layer:");
+			console.debug(obj);
+			
+			
 			//Si la capa clickada �s heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
 			if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
 				input.checked = false;
@@ -425,17 +436,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
 
 				this._map.addLayer(obj.layer);	
-				if(obj.layer.options.tipus.indexOf("geojsonvt")!= -1){
-					var topPane = map.getPanes().mapPane.getElementsByClassName("leaflet-top-pane");
-					if(topPane.length <= 0){
-						topPane = L.DomUtil.create('div', 'leaflet-top-pane', map.getPanes().mapPane);
-					}
-					$("div.leaflet-top-pane").append(obj.layer.getContainer());				
-					var z = obj.layer.options.zIndex; 
-					obj.layer.setZIndex(4);
-					obj.layer.options.zIndex = z;
-				//Si es vis_wms li hem de tornar a crear i afegir al map, la capa utfgrid
-				}else if (obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
+				
+				if (obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
 					
 					var optionsUtfGrid = {
 				            layers : obj.layer.options.businessId,
@@ -452,6 +454,11 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					obj.layer.options.utfGridLeafletId = utfGrid._leaflet_id;
 					
 				}
+				
+				if(currentbid == obj.layer.options.businessId){
+					thisLoadMapLegendEdicio(obj.layer);
+				}
+				
 			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
 				//Si es vis_wms, hem d'eliminar tb la capa utfgrid
@@ -461,6 +468,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}
 				this._map.removeLayer(obj.layer);
 			}
+			
 		}
 
 		this._handlingClick = false;
@@ -699,4 +707,8 @@ function updateCheckStyle(){
 
 function thisFillModalDataTable(obj){
 	fillModalDataTable(obj);
+}
+
+function thisLoadMapLegendEdicio(obj){
+	loadMapLegendEdicio(obj);
 }
