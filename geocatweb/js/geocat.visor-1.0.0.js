@@ -520,7 +520,7 @@ function loadMapConfig(mapConfig){
 //TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
-			if (mapConfig.options.fons != 'topoMap'){
+			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap'){
 					map.topoMap();
@@ -548,7 +548,7 @@ function loadMapConfig(mapConfig){
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
-			}
+			//}
 			
 			var hash = location.hash;
 			hashControl = new L.Hash(map);
