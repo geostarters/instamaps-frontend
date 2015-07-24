@@ -402,7 +402,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var id, parentId;
 		
 		var currentbid = arguments[0].currentTarget.id.replace("input-", "");
-		console.debug(currentbid);
 		
 		//tractament en cas heatmap
 		if(arguments[0].currentTarget.layerIdParent){
@@ -410,9 +409,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			parentId = arguments[0].currentTarget.layerIdParent;
 			checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
 		}
-		
-		console.debug("id:");
-		console.debug(id);
 		
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
@@ -422,10 +418,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			}else{
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
-			
-			console.debug("Input click layer:");
-			console.debug(obj);
-			
 			
 			//Si la capa clickada �s heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
 			if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
@@ -454,8 +446,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					obj.layer.options.utfGridLeafletId = utfGrid._leaflet_id;
 					
 				}
-				
-				if(currentbid == obj.layer.options.businessId){
+				//Si hem activat capa de tipus tematic categories, mostrem la seva llegenda
+				if(currentbid == obj.layer.options.businessId && obj.layer.options.tipusRang 
+						&& obj.layer.options.tipusRang==tem_clasic){
 					thisLoadMapLegendEdicio(obj.layer);
 				}
 				
@@ -467,6 +460,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					this._map.removeLayer(utfGridLayer);
 				}
 				this._map.removeLayer(obj.layer);
+				
+				//Si hem desactivat capa de tipus tematic categories, mostrem la seva llegenda
+				if(currentbid == obj.layer.options.businessId && obj.layer.options.tipusRang 
+						&& obj.layer.options.tipusRang==tem_clasic){
+					thisEmptyMapLegendEdicio(obj.layer);
+				}
 			}
 			
 		}
@@ -711,4 +710,9 @@ function thisFillModalDataTable(obj){
 
 function thisLoadMapLegendEdicio(obj){
 	loadMapLegendEdicio(obj);
+}
+
+
+function thisEmptyMapLegendEdicio(obj){
+	emptyMapLegendEdicio(obj);
 }

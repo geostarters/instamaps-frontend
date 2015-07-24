@@ -1044,52 +1044,10 @@ function addLegendEdicio(){
 	legend = L.control({position: 'bottomright'});
 	
 	legend.onAdd = function (map) {
-
 	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
 	    div.id = "mapLegendEdicio";
-	    
-//	    jQuery.each(mapLegend, function(i, row){
-//	    	for (var i = 0; i < row.length; i++) {
-//	    		if(row[i].chck){
-//	    			div.innerHTML +='<div class="visor-legend-row">'+
-//						    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
-//						    			'<div class="visor-legend-name col-md-8 col-xs-8">'+row[i].name+'</div>'+
-//	    							'</div>'+
-//	    							'<div class="visor-separate-legend-row"></div>';
-//	    		}
-//	    	}
-//	    });
-	    
-//	    div.innerHTML += '<div class="visor-legend-row">'+
-//						 '	<div class="visor-legend-symbol col-md-4 col-xs-4">'+
-//						 '       <svg width="30" height="30">'+
-//						 '          <polygon style=" fill:rgb(255, 197, 0); stroke:rgb(255, 255, 255); stroke-width:2; fill-rule:evenodd; fill-opacity:0.8;" points="5 5, 5 25, 25 25, 25 5"/>'+
-//						 '       </svg>'+
-//						 '    </div>'+
-//						 '    <div class="visor-legend-name col-md-8 col-xs-8">poligons din</div>'+
-//						 ' </div>'+
-//						 ' <div class="visor-separate-legend-row"></div>'+
-//						 ' <div class="visor-legend-row">'+
-//						 '    <div class="visor-legend-symbol col-md-4 col-xs-4">'+
-//						 '       <svg width="30" height="30">'+
-//						 '          <polygon style=" fill:rgb(64, 0, 75); stroke:rgb(255, 255, 255); stroke-width:1; fill-rule:evenodd; fill-opacity:0.75;" stroke-linejoin="round" points="5 5, 5 25, 25 25, 25 5"/>'+
-//						 '       </svg>'+
-//						 '    </div>'+
-//						 '    <div class="visor-legend-name col-md-8 col-xs-8">10</div>'+
-//						 ' </div>'+
-//						 ' <div class="visor-separate-legend-row"></div>'+
-//						 ' <div class="visor-legend-row">'+
-//						 '    <div class="visor-legend-symbol col-md-4 col-xs-4">'+
-//						 '       <svg width="30" height="30">'+
-//						 '          <polygon style=" fill:rgb(0, 68, 27); stroke:rgb(255, 255, 255); stroke-width:1; fill-rule:evenodd; fill-opacity:0.75;" stroke-linejoin="round" points="5 5, 5 25, 25 25, 25 5"/>'+
-//						 '       </svg>'+
-//						 '    </div>'+
-//						 '    <div class="visor-legend-name col-md-8 col-xs-8">5</div>'+
-//						 ' </div>';
-	    
 	    return div;
 	};
-	
 	
 	
 	ctr_legend = L.control({
@@ -1109,28 +1067,26 @@ function addLegendEdicio(){
 	legend.addTo(map);
 	
 	$("#mapLegendEdicio").mCustomScrollbar();
-
-	
-//	activaLlegenda(true);
+	$(".bt_legend").hide();
 	activaLlegenda(false);
-	
 }
 
+function emptyMapLegendEdicio(layer){
+	
+	if($("#mapLegendEdicio").data("businessid") == layer.options.businessId ){
+		$("#mapLegendEdicio").html("");
+		activaLlegenda(false);
+		$(".bt_legend").hide();
+	}
+}
 
 function loadMapLegendEdicio(layer){
 	
-	console.debug("loadMapLegendEdicio");
 	//Eliminem de la lleganda tematització anterior
 	$("#mapLegendEdicio").html("");
-
-	var html = "";
+	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
 	
-	
-	
-	
-	
-	
-	
+	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';
 	
 	var geometryType = transformTipusGeometry(layer.options.geometryType);
 	var i = 0;
@@ -1251,26 +1207,16 @@ function loadMapLegendEdicio(layer){
 				}
 			}						
 			
-			html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
-			html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
-			html +=	'<div class="col-md-2 legend-symbol">'+
+			html += '<div class="visor-legend-row ">';
+			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="col-md-9 legend-name">'+
-								'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
-							'</div>';				
-			html+='</div>';	
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+//			
+			html+='</div><div class="visor-separate-legend-row"></div>';
 		});					
 		
 	}	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	$("#mapLegendEdicio").html(html);
 	//Afegim de nou les classes i l'scroll
@@ -1280,7 +1226,7 @@ function loadMapLegendEdicio(layer){
 	$("#mapLegendEdicio").addClass("mCustomScrollbar");
 	$("#mapLegendEdicio").mCustomScrollbar();
 	
-	
+	$(".bt_legend").show();
 	activaLlegenda(true);
 	
 }
@@ -1290,8 +1236,12 @@ function loadMapLegendEdicio(layer){
 
 function activaLlegenda(obre) {
 	
+	var dfd = $.Deferred();
 	var cl = jQuery('.bt_legend span').attr('class');
-	if (obre || (cl && cl.indexOf('grisfort') != -1)) {
+	var funcioObrir = (obre!=undefined ? obre : cl.indexOf('grisfort') != -1);
+	
+//	if (obre || (cl && cl.indexOf('grisfort') != -1)) {
+	if (funcioObrir) {
 		jQuery('.bt_legend span').removeClass('grisfort');
 		jQuery('.bt_legend span').addClass('greenfort');
 		$(".bt_legend").transition({ x: '0px', y: '0px',easing: 'in', duration: 500 });
@@ -1306,5 +1256,9 @@ function activaLlegenda(obre) {
 		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
 		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
 	}	
+	
+	dfd.resolve();
+	
+	return dfd.promise();
 	
 }
