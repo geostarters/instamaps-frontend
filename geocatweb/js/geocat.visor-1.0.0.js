@@ -393,26 +393,26 @@ function activaPanelCapes(obre) {
 	}
 }
 
-function activaLlegenda(obre) {
-	
-	var cl = jQuery('.bt_legend span').attr('class');
-	if (cl && cl.indexOf('grisfort') != -1) {
-		jQuery('.bt_legend span').removeClass('grisfort');
-		jQuery('.bt_legend span').addClass('greenfort');
-		$(".bt_legend").transition({ x: '0px', y: '0px',easing: 'in', duration: 500 });
-		$(".visor-legend").transition({ x: '0px', y: '0px',easing: 'in', opacity: 1,duration: 500 });
-	} else {
-		jQuery('.bt_legend span').removeClass('greenfort');
-		jQuery('.bt_legend span').addClass('grisfort');
-		var height = $(".visor-legend").height();
-		var y1 = $(".visor-legend").height() - 20;
-		var y2 = $(".visor-legend").height() +50;
-		
-		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
-		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
-	}	
-	
-}
+//function activaLlegenda(obre) {
+//	
+//	var cl = jQuery('.bt_legend span').attr('class');
+//	if (cl && cl.indexOf('grisfort') != -1) {
+//		jQuery('.bt_legend span').removeClass('grisfort');
+//		jQuery('.bt_legend span').addClass('greenfort');
+//		$(".bt_legend").transition({ x: '0px', y: '0px',easing: 'in', duration: 500 });
+//		$(".visor-legend").transition({ x: '0px', y: '0px',easing: 'in', opacity: 1,duration: 500 });
+//	} else {
+//		jQuery('.bt_legend span').removeClass('greenfort');
+//		jQuery('.bt_legend span').addClass('grisfort');
+//		var height = $(".visor-legend").height();
+//		var y1 = $(".visor-legend").height() - 20;
+//		var y2 = $(".visor-legend").height() +50;
+//		
+//		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
+//		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
+//	}	
+//	
+//}
 
 
 function addToolTipsInici() {
@@ -520,7 +520,7 @@ function loadMapConfig(mapConfig){
 //TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
-			if (mapConfig.options.fons != 'topoMap'){
+			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap'){
 					map.topoMap();
@@ -548,7 +548,7 @@ function loadMapConfig(mapConfig){
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
-			}
+			//}
 			
 			var hash = location.hash;
 			hashControl = new L.Hash(map);

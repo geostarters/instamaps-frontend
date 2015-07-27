@@ -1379,10 +1379,6 @@ function loadVisualitzacioLayer(layer){
 	//console.time("loadTematicLayer " + layerWms.serverName);
 	getVisualitzacioByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
-			//console.debug("visualitzacio:");
-			//console.debug(results.results);
-			//console.debug("layer:");
-			//console.debug(layer);			
 			readVisualitzacio(defer, results.results, layer);			
 		}else{
 			console.debug('getVisualitzacioByBusinessId ERROR');
@@ -1396,6 +1392,7 @@ function loadVisualitzacioLayer(layer){
 }
 
 function readVisualitzacio(defer, visualitzacio, layer){
+	
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 					|| (layer.options && (layer.options.indexOf("source")!=-1) );
@@ -1701,6 +1698,13 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			controlCapes._lastZIndex++;
 		}				
 	}
+	
+		//Si la capa es tematic categories, afegir llegenda al mode edicio
+		if (visualitzacio.tipus == tem_clasic && $(location).attr('href').indexOf('/mapa.html')!=-1){
+//			console.debug("Holaaaa");
+			loadMapLegendEdicio(capaVisualitzacio);
+		}
+		
 		defer.resolve(capaVisualitzacio);		
 		return defer.promise();
 	}
