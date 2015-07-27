@@ -3699,21 +3699,21 @@ i.fa {
 
 .visor-separate-legend-row{
     border-bottom: 1px solid rgba(229,229,229,0.2);/*#E5E5E5;*/
-    margin-bottom: 4px;
-    padding-top: 4px;
+    /*margin-bottom: 4px;*/
+    padding-top: 2px;
     overflow: hidden;
     width: 100%;
 }
 
 .visor-legend{
 	overflow: hidden;
-	width: 200px;
+	width: 195px;
 	max-height: 250px;
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
+	padding-bottom: 12px;
+	padding-top: 12px;
 	box-sizing: content-box;
-	padding-bottom: 10px;
-	padding-top: 10px;
 }
 
 .visor-legend-row{
@@ -3729,8 +3729,17 @@ i.fa {
     color: #FFFFFF;
     font-size: 1em;
     padding-left: 2px;
-    padding-right: 2px;
+    padding-right: 4px;
     word-wrap: break-word;    
+}
+
+.titol-legend {
+   /* border-bottom: 2px solid #595959;*/
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    word-wrap: break-word;
 }
 
 /* Llistat downloadable layers */
