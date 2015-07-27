@@ -229,25 +229,18 @@ function refrescaPopOverMevasDades(){
 	getAllServidorsWMSByUser(data).then(function(results){
 		var serverOrigen = [];
 		jQuery.each(results.results, function(i, item){
+//			console.debug(item);
 			if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
-				//console.debug(item);
 				if (item.options == null){
 					serverOrigen.push(item);
 				}else{
 					var options = jQuery.parseJSON( item.options );
-					if (options.tem == tem_origen){
+					if (options.tem == tem_origen || options.tipus == tem_origen){
 						serverOrigen.push(item);
-					//NOU MODEL
-					}else if(options.tipus == tem_origen){
-						serverOrigen.push(item);
-					}else{
-						//no cargar
-						//serverOrigen.push(item);
 					}
 				}
-			}else{
-				//no cargar
-				//serverOrigen.push(item);
+			}else if(item.serverType ==t_wms || item.serverType ==t_url_file){
+				serverOrigen.push(item);
 			}
 		});
 		dades1.results = serverOrigen;

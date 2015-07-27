@@ -1036,29 +1036,229 @@ function addHtmlModalLegend(){
 
 /*************** FI:LLEGENDA ********************/
 
-/*addLegend que estava a geocat.mapa
-function addLegend(){
-	var legend = L.control({position: 'bottomright'});
 
+/**** LLEGENDA TEMATICA MODE EDICIO ****/
+
+function addLegendEdicio(){
+	
+	legend = L.control({position: 'bottomright'});
+	
 	legend.onAdd = function (map) {
-
-	    var div = L.DomUtil.create('div', 'info legend visor-legend');
-	    	div.id = "mapLegend";
-	    
-	    jQuery.each(mapLegend, function(i, row){
-	    	console.debug(row);
-	    	for (var i = 0; i < row.length; i++) {
-	    		console.debug(row[i]);
-	    		if(row[i].chck){
-	    			div.innerHTML +='<div class="visor-legend-row">'+
-						    			'<div class="visor-legend-symbol col-md-6">'+row[i].symbol+'</div>'+
-						    			'<div class="visor-legend-name col-md-6">'+row[i].name+'</div>'+
-	    							'</div>'+
-	    							'<div class="visor-separate-legend-row"></div>';
-	    		}
-	    	}
-	    });
+	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
+	    div.id = "mapLegendEdicio";
 	    return div;
 	};
-	legend.addTo(map);	
-}*/
+	
+	
+	ctr_legend = L.control({
+		position : 'bottomright'
+	});
+	ctr_legend.onAdd = function(map) {
+
+		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
+
+		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
+		this._div.appendChild(btllista);
+		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
+
+		return this._div;
+	};
+	ctr_legend.addTo(map);	
+	legend.addTo(map);
+	
+	$("#mapLegendEdicio").mCustomScrollbar();
+	$(".bt_legend").hide();
+	activaLlegenda(false);
+}
+
+function emptyMapLegendEdicio(layer){
+	
+	if($("#mapLegendEdicio").data("businessid") == layer.options.businessId ){
+		$("#mapLegendEdicio").html("");
+		activaLlegenda(false);
+		$(".bt_legend").hide();
+	}
+}
+
+function loadMapLegendEdicio(layer){
+	
+	//Eliminem de la lleganda tematització anterior
+	$("#mapLegendEdicio").html("");
+	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
+	
+	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';
+	
+	var geometryType = transformTipusGeometry(layer.options.geometryType);
+	var i = 0;
+//	var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
+	
+	var estilsRangs = layer.options.estilsRangs;
+	var rangsEstilsLegend = layer.options.rangsEstilsLegend;
+//	rangsEstilsLegend.sort(sortByValorMax);
+	
+	var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
+	arrRangsEstilsLegend.sort(sortByValueMax);
+	//console.debug(arrRangsEstilsLegend);
+	
+	if(geometryType == t_marker){
+
+		jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
+			var indexEstil = 0;
+			while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
+				indexEstil++;
+			}
+			
+			var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
+			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
+			var color = hexToRgb(layer.options.estil[indexEstil].color);
+			var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+								'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
+								' '+iconSize+'">'+
+							'</div>';
+			
+			var labelNomCategoria = "";
+//			checked = "";						
+			
+			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+			if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+				labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+				if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+			}else{
+				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+				if(labelNomCategoria == "Altres"){
+					labelNomCategoria = window.lang.convert("Altres");
+				}
+			}						
+			
+			html += '<div class="visor-legend-row ">';
+			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+								stringStyle+
+							'</div>'+
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+//			
+			html+='</div><div class="visor-separate-legend-row"></div>';	
+		});
+	}else if(geometryType == t_polyline){
+		
+		jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
+			var indexEstil = 0;
+			while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
+				indexEstil++;
+			}
+			
+			var color = hexToRgb(layer.options.estil[indexEstil].color);
+			var lineWidth = layer.options.estil[indexEstil].lineWidth;
+			var stringStyle =	'<svg height="20" width="20">'+
+									'<line x1="0" y1="20" x2="20" y2="0" '+
+										'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
+								'</svg>';	
+			
+			var labelNomCategoria = "";
+			checked = "";						
+			
+			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+			if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+				labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+				if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+			}else{
+				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+				if(labelNomCategoria == "Altres"){
+					labelNomCategoria = window.lang.convert("Altres");
+				}
+			}						
+			
+			html += '<div class="visor-legend-row ">';
+			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+								stringStyle+
+							'</div>'+
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+//			
+			html+='</div><div class="visor-separate-legend-row"></div>';
+		});				
+		
+	}else{
+		
+		jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
+			var indexEstil = 0;
+			while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
+				indexEstil++;
+			}
+			
+			var color = hexToRgb(layer.options.estil[indexEstil].color);
+			var borderColor = hexToRgb(layer.options.estil[indexEstil].borderColor);
+			var opacity = layer.options.estil[indexEstil].opacity/100;
+			var borderWidth = layer.options.estil[indexEstil].borderWidth;						
+			var stringStyle =	'<svg height="30" width="30">'+
+									'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
+										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
+								'</svg>';	
+			
+			var labelNomCategoria = "";
+			checked = "";						
+			
+			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+			if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+				labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+				if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+			}else{
+				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+				if(labelNomCategoria == "Altres"){
+					labelNomCategoria = window.lang.convert("Altres");
+				}
+			}						
+			
+			html += '<div class="visor-legend-row ">';
+			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+								stringStyle+
+							'</div>'+
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+//			
+			html+='</div><div class="visor-separate-legend-row"></div>';
+		});					
+		
+	}	
+	
+	$("#mapLegendEdicio").html(html);
+	//Afegim de nou les classes i l'scroll
+	$("#mapLegendEdicio").addClass("info");
+	$("#mapLegendEdicio").addClass("legend");
+	$("#mapLegendEdicio").addClass("visor-legend");
+	$("#mapLegendEdicio").addClass("mCustomScrollbar");
+	$("#mapLegendEdicio").mCustomScrollbar();
+	
+	$(".bt_legend").show();
+	activaLlegenda(true);
+	
+}
+
+/**** fi/LLEGENDA TEMATICA MODE EDICIO ****/
+
+
+function activaLlegenda(obre) {
+	
+	var dfd = $.Deferred();
+	var cl = jQuery('.bt_legend span').attr('class');
+	var funcioObrir = (obre!=undefined ? obre : cl.indexOf('grisfort') != -1);
+	
+//	if (obre || (cl && cl.indexOf('grisfort') != -1)) {
+	if (funcioObrir) {
+		jQuery('.bt_legend span').removeClass('grisfort');
+		jQuery('.bt_legend span').addClass('greenfort');
+		$(".bt_legend").transition({ x: '0px', y: '0px',easing: 'in', duration: 500 });
+		$(".visor-legend").transition({ x: '0px', y: '0px',easing: 'in', opacity: 1,duration: 500 });
+	} else {
+		jQuery('.bt_legend span').removeClass('greenfort');
+		jQuery('.bt_legend span').addClass('grisfort');
+		var height = $(".visor-legend").height();
+		var y1 = $(".visor-legend").height() - 20;
+		var y2 = $(".visor-legend").height() +50;
+		
+		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
+		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
+	}	
+	
+	dfd.resolve();
+	
+	return dfd.promise();
+	
+}
