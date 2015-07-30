@@ -195,11 +195,13 @@ jquery_lang_js.prototype.lang.es = {
 ,"Els teus codis són de":"Tus códigos son de"
 ,"Els teus mapes instantàniament":"Tus mapas instantáneamente"
 ,"Els teus propis mapes de manera ràpida i fàcil":"Tus propios mapas de forma rápida y fácil"
+,"El vostre registre s'ha completat amb éxit.":"Su registro se ha completado con éxito."
 ,"En compliment de la Llei Orgànica 15/1999, de 13 de desembre, de Protecció de Dades de Caràcter Personal (LOPD), l’informem que les dades personals facilitades voluntàriament en aquest formulari seran incorporades en un fitxer automatitzat titularitat de l’Institut Cartogràfic i Geològic de Catalunya amb domicili social en Parc de Montjuïc, 08038 Barcelona, amb la finalitat d’habilitar l’accés a productes i serveis de l’ICGC via Internet així com mantenir-li informat de les activitats de l’ICGC. Pot exercir els seus drets d'accés, rectificació, cancel·lació i oposició respecte de les dades incloses en l’esmentat fitxer adreçant una carta a l’Institut Cartogràfic i Geològic de Catalunya (Parc de Montjuïc, 08038 Barcelona), o a través d'una sol·licitud per correu electrònic a":"En cumplimiento de la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal (LOPD), le informamos que los datos personales facilitados voluntariamente en este formulario serán incorporados en un fichero automatizado titularidad del Institut Cartogràfic i Geològic de Catalunya con domicilio social en Parc de Montjuïc, 08038 Barcelona, con la finalidad de habilitar el acceso a productos y servicios del ICGC vía Internet así como mantenerle informado de las actividades del ICGC. Puede ejercer sus derechos de acceso, rectificación, cancelación y oposición respecto de los datos incluidos en el citado fichero dirigiendo una carta al Institut Cartogràfic i Geològic de Catalunya (Parc de Montjuïc, 08038 Barcelona), o a través de una solicitud por correo electrónico a"
 ,"Encara no has creat cap capa de dades":"Todavía no has creado ninguna capa de datos"
 ,"Enllaça servidors WMS i TMS, i afegeix serveis JSON.":"Enlaza servidores WMS y TMS, y añade servicios JSON."
 ,"Enllaça":"Enlaza"
 ,"Entrar URL de dades externes":"Entrar URL de datos externos"
+,"Entendre com utilitzeu aquesta eina i quines funcionalitats trobeu a faltar és clau pel seu desenvolupament.":"Entender cómo usa esta herramienta y que funcionalidades echa en falta es clave para futuros desarrollos."
 ,"Envia per correu-e":"Envía por correo electrónico"
 ,"Error: No s'ha pogut executar l'operació":"Error: No se ha podido ejecutar la operación"
 ,"Error creant categories":"Error creando categorías"
@@ -282,7 +284,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Has oblidat la teva contrassenya?":"Has olvidado tu contraseña?"
 ,"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC."
 ,"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos"
-
+,"Hola":"Hola"
+	
 ,"Iconografia":"Iconografia"
 ,"Idioma":"Idioma"
 ,"Imatge":"Imagen"
@@ -301,7 +304,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Intervals":"Intervalos"
 ,"Introdueix una URL vàlida":"Introduce una URL válida"
 ,"Introdueix un nom vàlid per a la publicació del mapa":"Introduce un nombre válido para la publicación del mapa"
-
+,"I si us voleu inspirar per crear mapes espectaculars podeu consultar la galeria de mapes públics compartits per altres usuaris":"I si necesita inspiración para crear mapas espectaculares puede consultar la galeria de mapas públicos compartidos por otros usuarios"
+	
 ,"L'adreça he de contenir: Nom carrer, número i  municipi":"La dirección debe contener: Nombre de calle, número y municipio"
 ,"L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.":"El análisis de la información del archivo no ha devuelto resultados. Compruebe el archivo y vuelva a intentarlo."
 ,"La contrassenya antiga no és correcte":"La contraseña antigua no es correcta"
@@ -458,9 +462,11 @@ jquery_lang_js.prototype.lang.es = {
 ,"Si eliminies el teu compte perdràs els teus mapes i les teves dades":"Si eliminas tu cuenta perderás tus mapas y tus datos"
 ,"Sípia":"Sepia"
 ,"Situar un punt": "Situar un punto"
+,"Si teniu dubtes a l'hora d'utilitzar Instamaps podeu consultar l'apartat de preguntes freqüents a":"Si tiene dudas acerca de Instamaps puede consultar el apartado de preguntas frecuentes en"
 ,"S'està processant un arxiu. Si us plau, espereu que aquest acabi.":"Se está procesando un archivo. Por favor, espere que este termine."
 
 ,"T'interessa?":"Te interesa?"
+,"També podeu veure consells i exemples per crear mapes amb Instamaps al Betaportal de l'ICGC":"También puede ver consejos y ejemplos para crear mapas con Instamaps en el Betaportal del ICGC"
 ,"Tambe pots carregar dades arrossegant l'arxiu directament sobre el mapa":"También puedes cargar datos arrastrando el archivo directamente sobre el mapa"
 ,"Tanca la sessió":"Cerrar la sesión"
 ,"Tancar":"Cerrar"
@@ -493,6 +499,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Usuari":"Usuario"
 ,"Usuaris":"Usuarios"
 ,"Usuari/Correu":"Usuario/Correo"
+,"Us convidem a fer les vostres consideracions a ":"Le invitamos a enviarnos sus consideraciones a "
+,"Us donem la benvinguda de part de tot l'equip d'Instamaps.":"Le damos la bienvenida de parte de todo el equipo de Instamaps."
 
 ,"Valor max.":"Valor max."
 ,"Valor min.":"Valor min."
