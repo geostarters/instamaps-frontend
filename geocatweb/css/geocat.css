@@ -1296,10 +1296,8 @@ h1.big_text{
     color: white;
     text-decoration: none;
 }
-.sp_rs_maps{
-	
+.sp_rs_maps, .sp_total_maps{
 	font-weight: bold;
-	
 }
 
 .thumbnail .data{

@@ -2,6 +2,10 @@
 
 var pageGaleria = 0;
 var	userList;
+var loading = false;
+var searchString;
+var businessIds = [];
+var mapsGalery = [];
 
 $(function(){
 	var source = $("#galeria-template").html();
@@ -17,11 +21,6 @@ $(function(){
 	
 	//per GA
 	defineTipusUser();
-//	var uid = $.cookie('uid');
-//	var tipus_user = t_user_loginat;
-//	if(!uid || isRandomUser(uid)){
-//		tipus_user = t_user_random;
-//	}
 		
 	if(typeof url('?uid') == "string"){
 		$.removeCookie('uid', { path: '/' });
@@ -31,16 +30,13 @@ $(function(){
 	}
 		
 	$("body").on("change-lang", function(event, lang){
-		/*$('.btn-tooltip').tooltip().each(function(){
-			$(this).attr('data-title', window.lang.convert($(this).attr('data-title')));
-		});*/
 		$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
-		//$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));		
-		
 	});
 	
 	/*******PRIVAT GALERIA**********/
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
+		$('.total_maps').hide();
+		
 		var data = {uid: $.cookie('uid')};
 		loadGaleria(data).then(function(results){
 			$('#loadingGaleria').hide();
@@ -368,6 +364,13 @@ $(function(){
 	}else{
 		
 		/*******PUBLIC GALERIA**********/
+		loadNumGaleria().then(function(results){
+			if (results.status == "OK"){
+				$('.sp_total_maps').html(results.results);
+			}else{
+				$('.total_maps').hide();
+			}
+		});
 		
 		var data = {};
 		if(typeof $.cookie('uid') !== "undefined"){
@@ -385,6 +388,38 @@ $(function(){
 		$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
 		//$('#galeriaSort>button').html(window.lang.convert("Ordena per nom"));			
 		
+		var delay = (function(){
+			  var timer = 0;
+			  return function(callback, ms){
+			    clearTimeout (timer);
+			    timer = setTimeout(callback, ms);
+			  };
+		})();
+		
+		$('input.search.form-control').on('keyup', function(event){
+			var q = $(this).val();
+			if(q != "" && q.length >= 3){
+				if (userList.size() < $('.sp_total_maps').text()){
+					delay(function(){
+						loading = true;
+						$('#loadingGaleria').show();
+						if (userList && userList.searched){
+			    			searchString = userList.searchString;
+			    			//userList.search();
+			    		}
+						searchGaleriaMaps({q: q.toLowerCase()}).then(function(results){
+							pintaGaleria(results);
+							loading = false;
+							if (searchString && searchString != ""){
+								userList.search(searchString);
+								searchString = null;
+							}
+						});
+				    }, 400 );
+				}	
+			}
+		});
+		
 		$('#geoRss').on('click', function(event){
 			_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'rss']);
 		});
@@ -394,8 +429,11 @@ $(function(){
 		
 		if(typeof url('?q') == "string"){
 			$('#galeriaSort>div>input').val(url('?q'));
+			//TODO hacer la busqueda inicial
+			/*
 			userList.search(url('?q'));
 			escriuResultats(userList.visibleItems.length);
+			*/
 		}
 		
 		//cargar mapas
@@ -403,23 +441,97 @@ $(function(){
 			pintaGaleria(results);
 		});
 		
+		$(window).scroll(function(){
+		    if ($(window).scrollTop() == $(document).height() - $(window).height()){
+		    	if (!loading){
+		    		if (userList.size() < $('.sp_total_maps').text()){
+		    			loading = true;
+		    			pageGaleria++;
+		    			var sort = getOrderGaleria();
+		    			$('#loadingGaleria').show();
+		    			if (userList && userList.searched){
+			    			searchString = userList.searchString;
+			    			searchGaleriaMaps({q: searchString.toLowerCase(), page: pageGaleria}).then(function(results){
+								pintaGaleria(results);
+								loading = false;
+								if (searchString && searchString != ""){
+									userList.search(searchString);
+									searchString = null;
+									reorderGaleria(sort);
+								}
+							});
+			    		}else{
+			    			var data = {};
+							if(typeof $.cookie('uid') !== "undefined"){
+								data = {uid: $.cookie('uid')};
+							}
+							data.page = pageGaleria;
+							loadPublicGaleria(data).then(function(results){
+								pintaGaleria(results);
+								loading = false;
+								reorderGaleria(sort);
+							});
+			    		}
+			    	}
+		    	}
+			}
+		});
+	}
+	
+	function reorderGaleria(sort){
+		if (sort.order == "asc"){
+			userList.sort(sort.sortField, { order: "asc" });
+		}else if(sort.order == "desc"){
+			userList.sort(sort.sortField, { order: "desc" });
+		}
+	}
+	
+	function getOrderGaleria(){
+		var asc = $('#galeriaSort > button.sort.asc');
+		var desc = $('#galeriaSort > button.sort.desc');
+		var sort = {};
+		if (asc.length > 0){
+			var btn = asc[0];
+			var sortField = $(btn).data('sort');
+			sort.sortField = sortField;
+			sort.order = "asc";
+		}else if(desc.length > 0){
+			var btn = desc[0];
+			var sortField = $(btn).data('sort');
+			sort.sortField = sortField;
+			sort.order = "desc";
+		}
+		return sort;
 	}
 	
 	function pintaGaleria(results){
 		$('#loadingGaleria').hide();
-		
 		results.results = jQuery.map( results.results, function( val, i ) {
-			val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
-			if (val.options){
-				val.options = $.parseJSON(val.options);	
+			if($.inArray(val.businessId, businessIds) == -1){
+				businessIds.push(val.businessId);
+				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
+				if (val.options){
+					val.options = $.parseJSON(val.options);	
+				}
+				if (isDefaultMapTitle(val.nomAplicacio)){
+					val.rank = -1;
+				}
+				val.entitatUid = val.entitatUid.split("@")[0];
+				val.data =  new Date(val.dataPublicacio).toLocaleDateString();
+				mapsGalery.push(val);
+				return val;
+			}else{
+				return null;
 			}
-			if (isDefaultMapTitle(val.nomAplicacio)){
-				val.rank = -1;
-			}
-			val.entitatUid = val.entitatUid.split("@")[0];
-			val.data =  new Date(val.dataPublicacio).toLocaleDateString();
-			return val;
 		});
+		
+		/*
+		results.results = jQuery.grep(results.results, function(n, i){
+		  return (n != null);
+		});
+		*/
+		
+		results.results = mapsGalery;
 		
 		results.results.sort(function(a,b) { 
             return parseFloat(a.rank) < parseFloat(b.rank) 
@@ -431,7 +543,7 @@ $(function(){
 			var html = templatePublic(results);
 		}
 					
-		$('#galeriaSort .list').append(html);						
+		$('#galeriaSort .list').html(html);						
 		
 		$('.btn.btn-success').on('click', function(event){
 			event.preventDefault();
@@ -444,6 +556,7 @@ $(function(){
 			var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
 			if ($.trim($this.data("idusr")) != ""){
 				urlMap += "&id="+$this.data("idusr");
+				
 			}
 			_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'veure mapa']);
 			//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
@@ -529,30 +642,24 @@ $(function(){
 			window.open(urlMap);
 		});
 		
-		//Search function
-		var optionsSearch = {
-			valueNames: [ 'nomAplicacioSort', 'byuser', 'dataPublicacio', 'rankSort' ],
-			page: 10000
-		};
+		if (userList){
+			userList.reIndex();
+		}else{
+			//Search function
+			var optionsSearch = {
+				valueNames: [ 'nomAplicacioSort', 'byuser', 'dataPublicacio', 'rankSort' ],
+				page: 10000
+			};
+			
+			userList = new List('galeriaSort', optionsSearch);
+			
+			userList.on('searchComplete',function(){
+				escriuResultats(userList.visibleItems.length);
+			});
+			
+		}
 		
-		userList = new List('galeriaSort', optionsSearch);
-				
 		escriuResultats(userList.visibleItems.length);
-		
-		$(window).scroll(function(){
-		    if ($(window).scrollTop() == $(document).height() - $(window).height()){
-		    	pageGaleria++;
-		    	var data = {};
-				if(typeof $.cookie('uid') !== "undefined"){
-					data = {uid: $.cookie('uid')};
-				}
-				data.page = pageGaleria;
-				$('#loadingGaleria').show();
-				loadPublicGaleria(data).then(function(results){
-					pintaGaleria(results);
-				});
-			}
-		}); 
 		
 	}
 	

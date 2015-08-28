@@ -777,7 +777,31 @@ var List = function(id, options, values) {
         }
     };
 
+	/*
+	* Re-parse the List, use if html have changed
+	*/
+	this.reIndex = function() {
+		self.items          = [];
+		self.visibleItems   = [];
+		self.matchingItems  = [];
+		self.searched       = false;
+		self.filtered       = false;
+		
+		parse(self.list);
+		if (values !== undefined) {
+			self.add(values);
+		}
+		self.update();
+	};
 
+	this.toJSON = function() {
+		var json = [];
+		for (var i = 0, il = self.items.length; i < il; i++) {
+		  json.push(self.items[i].values());
+		}
+		return json;
+	};
+	
     /*
     * Add object to list
     */
@@ -907,8 +931,8 @@ var List = function(id, options, values) {
     this.update = function() {
         var is = self.items,
 			il = is.length;
-
-        self.visibleItems = [];
+		
+		self.visibleItems = [];
         self.matchingItems = [];
         self.templater.clear();
         for (var i = 0; i < il; i++) {
@@ -970,6 +994,7 @@ module.exports = function(list) {
             s = toString(s).toLowerCase();
             s = s.replace(/[-[\]{}()*+?.,\\^$|#]/g, "\\$&"); // Escape regular expression characters
             searchString = s;
+			list.searchString = s;
         },
         toArray: function(values) {
             var tmpColumn = [];
