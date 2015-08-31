@@ -376,10 +376,12 @@ $(function(){
 		if(typeof $.cookie('uid') !== "undefined"){
 			data = {uid: $.cookie('uid')};
 		}
-				
+			
+		/*
 		$('input.search.form-control').on('keyup', function(event){
 			escriuResultats(userList.visibleItems.length);
 		});
+		*/
 					
 		$('.cleansort').on('click', function(){
 			userList.sort('rankSort', { order: "desc" });
@@ -398,6 +400,7 @@ $(function(){
 		
 		$('input.search.form-control').on('keyup', function(event){
 			var q = $(this).val();
+			q = $.trim(q);
 			if(q != "" && q.length >= 3){
 				if (userList.size() < $('.sp_total_maps').text()){
 					delay(function(){
@@ -405,6 +408,7 @@ $(function(){
 						$('#loadingGaleria').show();
 						if (userList && userList.searched){
 			    			searchString = userList.searchString;
+			    			searchString = $.trim(searchString);
 			    			//userList.search();
 			    		}
 						searchGaleriaMaps({q: q.toLowerCase()}).then(function(results){
@@ -417,6 +421,8 @@ $(function(){
 						});
 				    }, 400 );
 				}	
+			}else if (q == ""){
+				escriuTotal();
 			}
 		});
 		
