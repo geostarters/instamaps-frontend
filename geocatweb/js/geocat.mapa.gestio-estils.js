@@ -74,7 +74,7 @@ function addDialegEstilsTematics(){
 			updateGeometriaEstil(feature, nouEstil[0]);
 			
 		}else if (objEdicio.obroModalFrom.from==tem_simple){
-			var cvStyle=changeDefaultPointStyle(canvas_linia);
+			var cvStyle=changeDefaultLineStyle(canvas_linia);
 			jQuery('#dialog_estils_linies').hide();
 			jQuery('#info_uploadFile').show();
 			busy=true;
