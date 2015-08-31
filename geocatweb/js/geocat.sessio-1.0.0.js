@@ -31,7 +31,7 @@ jQuery("#login_button").click(function(){
 		}
 		
 		doLogin(dataUrl).then(function(results){
-//			console.debug(results);
+			console.debug(results);
 			if(results.status==='OK'){
 				if (results.uid){
 					$.cookie('uid', results.uid, {path:'/'});
@@ -63,10 +63,10 @@ jQuery("#login_button").click(function(){
 			}else if(results.results === 'unregistered_user'){
 				$('#modal_login_ko_donat_baixa').modal('toggle');
 				if ($.cookie('collaboratebid')) $.removeCookie('collaboratebid',{path: '/' });
-				if ($.cookie('collaborateuid')) $.removeCookie('collaborateuid',{path: '/' });
-				
-			}
-			else{
+				if ($.cookie('collaborateuid')) $.removeCookie('collaborateuid',{path: '/' });	
+			}else if (results.status === 'MAIL'){
+				window.location = results.url;
+			}else{
 				$('#modal_login_ko').modal('toggle');				
 			}				
 		},function(results){
@@ -97,7 +97,7 @@ sendMail(data).then(function(results){
 });
 
 function loginUserIcgc(){
-
+	console.debug("loginUserIcgc");
 	checkValidityLogin("_icgc");
 	
 	if(! $("span").hasClass( "text_error" )){

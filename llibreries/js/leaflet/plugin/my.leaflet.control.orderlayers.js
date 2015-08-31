@@ -608,20 +608,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			$('#dialog_delete_capa').modal('show');
 			$('#dialog_delete_capa #nom_capa_delete').text(obj.layer.options.nom);
 			$('#dialog_delete_capa .btn-danger').data("data", data);
-			$('#dialog_delete_capa .btn-danger').data("obj", obj);	
-			
-//			removeServerToMap(data).then(function(results){
-//				if(results.status==='OK'){
-//					myRemoveLayer(obj);
-//					deleteServerRemoved(data).then(function(results){
-//						//se borran del listado de servidores
-//					});
-//				}else{
-//					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-//				}				
-//			},function(results){
-//				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-//			});				
+			$('#dialog_delete_capa .btn-danger').data("obj", obj);					
 		}		
 		
 	},
