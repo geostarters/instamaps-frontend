@@ -65,7 +65,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 				registerUser(reg_url, dataUrl).then(function(results){
 					if(results.status==='OK'){
 						//Enviar mail confirmació de registre
-						var contingut= window.lang.convert("Registre completat correctament");
+						var contingut= createContingutEmail(id);//window.lang.convert("Registre completat correctament");
 						var data = {
 								uid: id,
 								to:correu_usuari,
@@ -76,7 +76,6 @@ var text_confirma_dades = 'Confirmeu les dades';
 							console.debug(results);							
 						});
 						_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
-//						_kmq.push(['record', 'registre', {'from':trackEventFrom, 'funnel':'activation'}]);
 						
 						$.cookie('uid', id, {path:'/'});
 						$('#modal_registre_ok').modal('toggle');						
@@ -226,4 +225,48 @@ var text_confirma_dades = 'Confirmeu les dades';
 				window.location=paramUrl.galeriaPage+"?private=1";
 			}
 		}
+	}
+	
+	function createContingutEmail(email){
+		
+		console.debug("Create contingut email....");
+		console.debug(email);
+		uid = email.split("@");
+		
+		user = (uid[0]?uid[0]:email);
+		console.debug(user);
+		
+		var contingut = "<br><br>";
+		contingut+= window.lang.convert("Hola");
+		contingut+= " "+user+",<br><br>";
+		contingut+= window.lang.convert("El vostre registre s'ha completat amb éxit.");
+		contingut+= "<br>";
+		contingut+= window.lang.convert("Us donem la benvinguda de part de tot l'equip d'Instamaps.");
+		contingut+= "<br>";
+		contingut+= "<br>";
+		contingut+= window.lang.convert("Si teniu dubtes a l'hora d'utilitzar Instamaps podeu consultar l'apartat de preguntes freqüents a");
+		contingut+= "<br>";
+		contingut+= "<a href=\"http://betaportal.icgc.cat/wordpress/faq-dinstamaps/\" target=\"_blank\">http://betaportal.icgc.cat/wordpress/faq-dinstamaps/</a>";
+		contingut+= "<br>";
+		contingut+= "<br>";
+		contingut+= window.lang.convert("També podeu veure consells i exemples per crear mapes amb Instamaps al Betaportal de l'ICGC");
+		contingut+= "<br>";
+		contingut+= "<a href=\"http://betaportal.icgc.cat/wordpress/category/instamaps/\" target=\"_blank\">http://betaportal.icgc.cat/wordpress/category/instamaps/</a>";		
+		contingut+= "<br>";
+		contingut+= "<br>";
+		contingut+= window.lang.convert("I si us voleu inspirar per crear mapes espectaculars podeu consultar la galeria de mapes públics compartits per altres usuaris");
+		contingut+= "<br>";
+		contingut+= "<a href=\"http://www.instamaps.cat/geocatweb/galeria.html\" target=\"_blank\">http://www.instamaps.cat/geocatweb/galeria.html</a>";
+		contingut+= "<br>";
+		contingut+= "<br>";
+		contingut+= window.lang.convert("Us convidem a fer les vostres consideracions a ");
+		contingut+= "<a href=\"mailto:instamaps@icgc.cat\" target=\"_blank\">instamaps@icgc.cat</a>. ";
+		contingut+= window.lang.convert("Entendre com utilitzeu aquesta eina i quines funcionalitats trobeu a faltar és clau pel seu desenvolupament.");
+		contingut+= "<br>";
+		contingut+= "<br>";		
+			
+			
+		console.debug(contingut);
+		return contingut;
+		
 	}
