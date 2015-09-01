@@ -456,17 +456,12 @@ function updatePaletaRangs(){
 	var rangs = jQuery("#dialog_tematic_rangs").data("rangs");
 	
 	var tipusrang = jQuery("#dialog_tematic_rangs").data("tipusrang");
-	var nodata = jQuery("#dialog_tematic_rangs").data("nodata");
 	
 	var val_leng = 0;
 	if (tipusrang == 'rangs'){
 		val_leng = rangs.length;
 	}else{
 		val_leng = values.length;
-	}
-	
-	if (nodata){
-		val_leng = val_leng -1; //quitamos uno del valor del nodata
 	}
 	
 	var ftype = transformTipusGeometry(tematicFrom.geometrytype);
@@ -476,29 +471,17 @@ function updatePaletaRangs(){
 	if (ftype == t_marker){
 		jQuery('#list_tematic_values tbody td div').each(function(i, elm){
 			var color = scale(i);
-			if (nodata && i != val_leng){
-				jQuery(elm).css('background-color', color);
-			}else if (!nodata){
-				jQuery(elm).css('background-color', color);
-			}
+			jQuery(elm).css('background-color', color);
 		});
 	}else if (ftype == t_polyline){
 		jQuery('#list_tematic_values canvas').each(function(i, elm){
 			var color = scale(i);
-			if (nodata && i != val_leng){
-				addGeometryInitLRang(elm, {style:{color: color}});
-			}else if (!nodata){
-				addGeometryInitLRang(elm, {style:{color: color}});
-			}
+			addGeometryInitLRang(elm, {style:{color: color}});
 		});
 	}else if (ftype == t_polygon){
 		jQuery('#list_tematic_values canvas').each(function(i, elm){
 			var color = scale(i);
-			if (nodata && i != val_leng){
-				addGeometryInitPRang(elm, {style:{color: color}});
-			}else if (!nodata){
-				addGeometryInitPRang(elm, {style:{color: color}});
-			}
+			addGeometryInitPRang(elm, {style:{color: color}});
 		});
 	}
 }
