@@ -364,14 +364,6 @@ $(function(){
 	}else{
 		
 		/*******PUBLIC GALERIA**********/
-		loadNumGaleria().then(function(results){
-			if (results.status == "OK"){
-				$('.sp_total_maps').html(results.results);
-			}else{
-				$('.total_maps').hide();
-			}
-		});
-		
 		var data = {};
 		if(typeof $.cookie('uid') !== "undefined"){
 			data = {uid: $.cookie('uid')};
@@ -452,24 +444,45 @@ $(function(){
 		window.lang.run();
 		$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 		
-		if(typeof url('?q') == "string"){
-			$('#galeriaSort>div>input').val(url('?q'));
-			var searchString = url('?q');
-			searchGaleriaMaps({q: searchString.toLowerCase(), page: pageGaleria}).then(function(results){
-				pintaGaleria(results);
-				loading = false;
-				if (searchString && searchString != ""){
-					userList.search(searchString);
-					searchString = null;
-				}
-			});
-		}
-		
-		//cargar mapas
-		loadPublicGaleria(data).then(function(results){
-			pintaGaleria(results);
+		loadNumGaleria().then(function(results){
+			if (results.status == "OK"){
+				$('.sp_total_maps').html(results.results);
+			}else{
+				$('.total_maps').hide();
+			}
 		});
 		
+		//cargar mapas
+		if(typeof url('?q') == "string"){
+			var searchString = url('?q');
+			searchString = $.trim(searchString);
+			if(searchString != "" && searchString.length >= 3){
+				$('#galeriaSort>div>input').val(searchString);
+				searchGaleriaMaps({q: searchString.toLowerCase(), page: pageGaleria}).then(function(results){
+					pintaGaleria(results);
+					loading = false;
+					if (searchString && searchString != ""){
+						userList.search(searchString);
+					}
+					loadPublicGaleria(data).then(function(results){
+						pintaGaleria(results);
+						if (searchString && searchString != ""){
+							userList.search(searchString);
+							searchString = null;
+						}
+					});
+				});
+			}else{
+				loadPublicGaleria(data).then(function(results){
+					pintaGaleria(results);
+				});
+			}
+		}else{
+			loadPublicGaleria(data).then(function(results){
+				pintaGaleria(results);
+			});
+		}
+						
 		$(window).scroll(function(){
 		    if ($(window).scrollTop() == $(document).height() - $(window).height()){
 		    	if (!loading){
@@ -479,33 +492,6 @@ $(function(){
 			    			pageGaleria++;
 			    			var sort = getOrderGaleria();
 			    			$('#loadingGaleria').show();
-		    			/*
-		    			if (userList && userList.searched){
-			    			searchString = userList.searchString;
-			    			searchGaleriaMaps({q: searchString.toLowerCase(), page: pageGaleria}).then(function(results){
-								pintaGaleria(results);
-								loading = false;
-								if (searchString && searchString != ""){
-									userList.search(searchString);
-									searchString = null;
-									reorderGaleria(sort);
-								}
-							});
-			    		}else{
-			    			var data = {};
-							if(typeof $.cookie('uid') !== "undefined"){
-								data = {uid: $.cookie('uid')};
-							}
-							data.page = pageGaleria;
-							data.ordre = sort.order;
-							data.field = sort.sortField;
-							loadPublicGaleria(data).then(function(results){
-								pintaGaleria(results);
-								loading = false;
-								reorderGaleria(sort);
-							});
-			    		}
-		    			*/
 		    				var data = {};
 							if(typeof $.cookie('uid') !== "undefined"){
 								data = {uid: $.cookie('uid')};
@@ -572,12 +558,6 @@ $(function(){
 				return null;
 			}
 		});
-		
-		/*
-		results.results = jQuery.grep(results.results, function(n, i){
-		  return (n != null);
-		});
-		*/
 		
 		results.results = mapsGalery;
 		
@@ -658,10 +638,6 @@ $(function(){
 			});
 		});
 		
-		/*$('.btn-tooltip').tooltip().each(function(){
-			$(this).attr('data-title', window.lang.convert($(this).attr('data-title')));
-		});*/
-		
 		$('.thumbnail').hover(function(){
 			var descAplicacio = $(this).find(".descAplicacio");
 			descAplicacio.fadeIn(500);
@@ -686,7 +662,6 @@ $(function(){
 				urlMap += "&id="+$this.data("idusr");
 			}
 			_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
-			//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
 			window.open(urlMap);
 		});
 		
@@ -705,6 +680,7 @@ $(function(){
 				escriuResultats(userList.visibleItems.length);
 			});
 		}
+		
 		if(userList && userList.searched){
 			escriuResultats(userList.visibleItems.length);
 		}else{
