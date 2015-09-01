@@ -677,6 +677,7 @@ function analitzaMatriu(matriu) {
 	var op = [];
 	jQuery('#dv_optCapa').show();
 	jQuery('#dv_optSRS').hide();
+
 	
 	$.each(matriu, function(index, value) {
 		op.push("<option value=\"" + value + "\">" + value.toUpperCase()
@@ -748,8 +749,12 @@ function analitzaMatriu(matriu) {
 					'selected', true);
 			$('#nav_pill a[href="#opt_codi"]').tab('show');
 		}
+
 	}
+
 }
+
+
 
 function obteCampsCSV(file) {
 	var matriuActiva = [];
@@ -777,6 +782,9 @@ function obteCampsCSV(file) {
 function xlsworker(data, cb) {
 	var worker = new Worker('/llibreries/js/formats/xlsworker.js');
 	worker.onmessage = function(e) {
+		
+		
+		
 		switch (e.data.t) {
 		case 'ready':
 			break;
@@ -1029,101 +1037,85 @@ function miraFitxer(fitxer) {
 }
 
 function addDropFileToMap(results) {
-	//console.debug("addDropFileToMap");	
-	if(results.layer && results.layer.serverType.indexOf(t_vis_wms_noedit)!=-1){
-		loadVisualitzacioWmsLayer(results.layer);
-		jQuery('#info_uploadFile').hide();
-	}else{
-		//Si geometries tipus marker
-		if(results.layerMarker){
-			//LIMIT GEOMETRIES: Comprovem si es vis_wms o normal
-			if(results.layerMarker.serverType.indexOf(t_vis_wms)!=-1){
-				loadVisualitzacioWmsLayer(results.layerMarker);
+		
+			if(results.layer && results.layer.serverType.indexOf(t_vis_wms_noedit)!=-1){
+	
+				loadVisualitzacioWmsLayer(results.layer);
 				jQuery('#info_uploadFile').hide();
 				
 			}else{
-				var defer = $.Deferred();
-				loadVisualitzacioLayer(results.layerMarker).then(function(results1){
-					if(results1 && !jQuery.isEmptyObject(results1._layers)){
-						map.fitBounds(results1.getBounds());
-					}else if (jQuery.isEmptyObject(results1._layers)){
-						showMsgNoGeometriasCapa(results.layerMarker.businessId, results1);
-					}								
-					jQuery('#info_uploadFile').hide();
-				});					
-			}
-		}					
-		//Si geometries tipus línies
-		if(results.layerLine){
-			if(results.layerLine.serverType.indexOf(t_vis_wms)!=-1){
-				loadVisualitzacioWmsLayer(results.layerLine);
-				jQuery('#info_uploadFile').hide();
-			}else{
-				var defer = $.Deferred();
-				loadVisualitzacioLayer(results.layerLine).then(function(results1){
-					if(results1 && !jQuery.isEmptyObject(results1._layers)){
-						map.fitBounds(results1.getBounds());
-					}else if (jQuery.isEmptyObject(results1._layers)){
-						showMsgNoGeometriasCapa(results.layerLine.businessId, results1);
+				//Si geometries tipus marker
+				if(results.layerMarker){
+					
+					//LIMIT GEOMETRIES: Comprovem si es vis_wms o normal
+					if(results.layerMarker.serverType.indexOf(t_vis_wms)!=-1){
+						
+						loadVisualitzacioWmsLayer(results.layerMarker);
+						jQuery('#info_uploadFile').hide();
+						
+					}else{
+						var defer = $.Deferred();
+						loadVisualitzacioLayer(results.layerMarker).then(function(results1){
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
+								map.fitBounds(results1.getBounds());
+							}								
+							jQuery('#info_uploadFile').hide();
+							
+						});					
 					}
-					jQuery('#info_uploadFile').hide();
-				});					
-			}
-		}
-		//Si geometries tipus polygon
-		if(results.layerPolygon){
-			if(results.layerPolygon.serverType.indexOf(t_vis_wms)!=-1){
-				loadVisualitzacioWmsLayer(results.layerPolygon);
-				jQuery('#info_uploadFile').hide();
-			}else{
-				var defer = $.Deferred();
-				loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
-					if(results1 && !jQuery.isEmptyObject(results1._layers)){
-						map.fitBounds(results1.getBounds());
-					}else if (jQuery.isEmptyObject(results1._layers)){
-						showMsgNoGeometriasCapa(results.layerPolygon.businessId, results1);
+				}					
+				//Si geometries tipus línies
+				if(results.layerLine){
+					if(results.layerLine.serverType.indexOf(t_vis_wms)!=-1){
+						loadVisualitzacioWmsLayer(results.layerLine);
+						jQuery('#info_uploadFile').hide();
+					}else{
+						var defer = $.Deferred();
+//						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine).then(function(results1){
+						loadVisualitzacioLayer(results.layerLine).then(function(results1){
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
+								map.fitBounds(results1.getBounds());
+							}
+							jQuery('#info_uploadFile').hide();
+							
+						});					
 					}
-					jQuery('#info_uploadFile').hide();
-				});					
+				}
+				//Si geometries tipus polygon
+				if(results.layerPolygon){
+					if(results.layerPolygon.serverType.indexOf(t_vis_wms)!=-1){
+						loadVisualitzacioWmsLayer(results.layerPolygon);
+						jQuery('#info_uploadFile').hide();
+					}else{
+						var defer = $.Deferred();
+//						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
+						loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
+							console.debug(results.layerPolygon);
+							console.debug(results1);
+							if(results1 && !jQuery.isEmptyObject(results1._layers)){
+								map.fitBounds(results1.getBounds());
+							}
+							jQuery('#info_uploadFile').hide();
+							
+						});					
+					}
+				}				
 			}
-		}				
-	}
-	
-	//En cas que no hagi retornat cap geometria com a resultat, amaguem finestra carregant
-	if(!results.layer && !results.layerPolygon && !results.layerLine && !results.layerMarker){
-		showMsgNoGeometriasCapa();
-		jQuery('#info_uploadFile').hide();
-	}
-	
-	// carregarCapa(businessId);
-	refrescaPopOverMevasDades();
-	//jQuery('#dialog_carrega_dadesfields').modal('hide');
-	//console.debug(busy);
-	busy = false;
-	//console.debug(busy);
-	map.spin(false);
-			
-}
 
-function showMsgNoGeometriasCapa(lbusinessId, layer){
-	//console.debug("showMsgNoGeometriasCapa");
-	$('#dialog_error_upload_txt').html(window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho."));
-	$('#dialog_error_upload').modal('show');
-	if(lbusinessId){
-		var data = {
-			businessId: url('?businessid'),
-			uid: $.cookie('uid'),
-			servidorWMSbusinessId: lbusinessId.toString()
-		};
-		var obj = {
-			_layers:{},	
-			layer: layer,
-			name: "",
-			overlay: true,
-			sublayer: false
-		};
-		removeLayerMapPanelCapes(data, obj);
-	}
+			
+			//En cas que no hagi retornat cap geometria com a resultat, amaguem finestra carregant
+			if(!results.layer && !results.layerPolygon && !results.layerLine && !results.layerMarker){
+				jQuery('#info_uploadFile').hide();
+			}
+			
+			// carregarCapa(businessId);
+			refrescaPopOverMevasDades();
+			//jQuery('#dialog_carrega_dadesfields').modal('hide');
+			//console.debug(busy);
+			busy = false;
+			//console.debug(busy);
+			map.spin(false);
+			
 }
 
 function loadDefaultStyles(){
