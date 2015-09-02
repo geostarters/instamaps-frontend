@@ -558,7 +558,7 @@ function activaEdicioUsuari() {
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_polygon,
-					'mida': calculateArea(layer.getLatLngs())};
+					'mida': calculateArea(layer)};
 			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,

@@ -276,7 +276,8 @@ function createPopupWindowData(player,type, editable, origen){
 		+'</div>';			
 	}
 	
-	html+='</div>'; 
+	html+='</div>';
+	
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
@@ -1626,7 +1627,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					//console.debug(feat);
 				
 					if(geomTypeVis == t_polygon){
-						feat.properties.mida = calculateArea(feat.getLatLngs());
+						feat.properties.mida = calculateArea(feat);
 					}else if(geomTypeVis == t_polyline){
 						feat.properties.mida = calculateDistance(feat.getLatLngs());
 					}
