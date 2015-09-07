@@ -175,46 +175,44 @@ function addFuncioRemoveLayer(){
 		var $this = $(this);
 		var data = $this.data("data");
 		var obj = $this.data("obj");
-		removeLayerMapPanelCapes(data, obj);				
-	});	
-}
-
-function removeLayerMapPanelCapes(data, obj){
-	removeServerToMap(data).then(function(results){
-		if(results.status==='OK'){
-			map.closePopup();
-			map.removeLayer(obj.layer);
-			//Eliminem la capa de controlCapes
-			controlCapes.removeLayer(obj);
+		
+		removeServerToMap(data).then(function(results){
+			if(results.status==='OK'){
 			
-			//actualitzem valors zindex de la resta si no es sublayer
-			if(!obj.sublayer){
-				var removeZIndex = obj.layer.options.zIndex;
-				controlCapes._lastZIndex--;
-				var aux = controlCapes._layers;
-				for (var i in aux) {
-					if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+				map.closePopup();
+				map.removeLayer(obj.layer);
+				//Eliminem la capa de controlCapes
+				controlCapes.removeLayer(obj);
+				
+				//actualitzem valors zindex de la resta si no es sublayer
+				if(!obj.sublayer){
+					var removeZIndex = obj.layer.options.zIndex;
+					controlCapes._lastZIndex--;
+					var aux = controlCapes._layers;
+					for (var i in aux) {
+						if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+					}
+					//Eliminem les seves sublayers en cas que tingui
+					for(indexSublayer in obj._layers){
+						map.removeLayer(map._layers[indexSublayer]);
+					}
 				}
-				//Eliminem les seves sublayers en cas que tingui
-				for(indexSublayer in obj._layers){
-					map.removeLayer(map._layers[indexSublayer]);
-				}
-			}
 
-			//Actualitzem capaUsrActiva
-			if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
-				capaUsrActiva.removeEventListener('layeradd');
-				capaUsrActiva = null;
+				//Actualitzem capaUsrActiva
+				if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+					capaUsrActiva.removeEventListener('layeradd');
+					capaUsrActiva = null;
+				}				
+				
+				deleteServerRemoved(data).then(function(results){
+					//se borran del listado de servidores
+				});
+			}else{
+				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
 			}				
-			
-			deleteServerRemoved(data).then(function(results){
-				//se borran del listado de servidores
-			});
-		}else{
+		},function(results){
 			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-		}				
-	},function(results){
-		return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+		});					
 	});	
 }
 
