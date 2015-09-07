@@ -183,9 +183,13 @@ function addControlAltresFontsDades() {
 										  '<option value=".geojson">GeoJSON</option>'+
 										  '<option value=".shp">ESRI Shapefile</option>'+
 										  '<option value=".dxf">DXF</option>'+
+										  '<option value=".dgn">DGN</option>'+
 										  '<option value=".kml">KML</option>'+
 										  '<option value=".gpx">GPX</option>'+
+										  '<option value=".gml">GML</option>'+
 										  '<option value=".kmz">KMZ</option>'+
+										  '<option value=".csv">CSV</option>'+
+										  '<option value=".txt">TXT</option>'+
 										  '<option value=".xls">XLS</option>'+
 										  '<option value=".xlsx">XLSX</option>'+
 										  '<option value=".zip">Zip File</option>'+
@@ -287,13 +291,17 @@ function addControlAltresFontsDades() {
 							else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
 							else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
 							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
+							else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
+							else if(urlFile.indexOf(t_file_txt)!=-1) type = t_file_txt;
+							else if(urlFile.indexOf(t_file_dgn)!=-1) type = t_file_dgn;
+							else if(urlFile.indexOf(t_file_gml)!=-1) type = t_file_gml;
 							
 							$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
 							
-							if (type==".kml" ||type==".gpx"){
+							if (type==".kml" ||type==".gpx" || type==".gml"){
 								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',true);
-							}else if(type==".xls" ||type==".xlsx"){
+							}else if(type==".xls" || type==".xlsx" || type==".csv" || type==".txt"){
 								jQuery("#input-excel-url-file").show();
 							}else{
 								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
@@ -339,11 +347,11 @@ function addControlAltresFontsDades() {
 								jQuery("#input-excel-url-file").hide();
 								
 								var ext = jQuery(this).val();
-								if ((ext==".kml")||(ext==".gpx")){
+								if ((ext==".kml")||(ext==".gpx") ||(ext==".gml")){
 									$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 									jQuery("#select-url-file-epsg").attr('disabled',true);
 //									jQuery("#input-excel-url-file").hide();
-								}else if((ext==".xls")||(ext==".xlsx")){
+								}else if((ext==".xls")||(ext==".xlsx") || (ext==".csv") || (ext==".txt") ){
 									jQuery("#input-excel-url-file").show();
 								}else{
 									jQuery("#select-url-file-epsg").attr('disabled',false);

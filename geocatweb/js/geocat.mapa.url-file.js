@@ -314,7 +314,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		jQuery('#info_uploadFile').show();			
 		jQuery('#info_uploadFile').show();		
 		
-		var pollTime = 3000;
+		var pollTime = 2000;
 		
 		//Fem polling
 		(function(){							
@@ -419,7 +419,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			
 		})();		
 		
-		getUrlFileProves(data);
+		getUrlFileNoDin(data);
 		
 		
 	}
