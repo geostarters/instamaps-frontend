@@ -299,6 +299,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Insereix i enllaça":"Insert and link"
 ,"InstaMaps encara no està operatiu. Hi estem treballant":"InstaMaps is not ready yet, we are working on it."
 ,"InstaMaps llegeix els següents formats":"InstaMaps understands the following formats"
+,"Instamaps carrega serveis WMS globals en EPSG:3857 i EPSG:4326":"Instamaps loads global WMS services in EPSG:3857 and EPSG:4326"
 ,"Intersecar":"Intersection"
 ,"Intersecció":"Intersection"
 ,"Intervals":"Ranges"
