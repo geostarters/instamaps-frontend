@@ -77,10 +77,21 @@ function calculateArea(layer){
 
 function getAreaLayer(layer){
 	var totalArea = 0;
+	
 	if (layer._layers){
 		layer.eachLayer(function (layer) {
 			totalArea += getAreaLayer(layer);
 		});
+		
+	}else if(layer.length > 0){ 
+		for(var i=0; i<layer.length;i++){
+			var lLatLngs = new L.latLng(0,0);
+			if(layer[i].lat && layer[i].lng){
+				lLatLngs = new L.latLng(layer[i].lat,layer[i].lng);
+			}
+			totalArea += L.GeometryUtil.geodesicArea(lLatLngs);
+		}
+		
 	}else{
 		var lLatLngs = layer.getLatLngs();
 		totalArea = L.GeometryUtil.geodesicArea(lLatLngs);

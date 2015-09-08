@@ -5,6 +5,11 @@
 
 function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi){
 
+	console.debug("createURLfileLayer...");
+//	console.debug(tipusAcc);
+	console.debug(tipusCodi);
+	console.debug(tipusFont);
+	
 	//Estil defecte
 	var estil_do = retornaEstilaDO(t_url_file);
 	var estil_lin_pol = estil_do;
@@ -46,6 +51,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	
 	/*** DINAMIC ***/
 	if(dinamic){
+
+		//TODO: PENDENT ON FICAR BUSY A FALSE QUAN ACABA!!!		
+		busy = false;
+
+		console.debug("Dinamic...");
 		var propName = "";
 		var param_url = paramUrl.urlFile	+"tipusFile=" + tipusFile+
 											 "&urlFile="+encodeURIComponent(urlFile)+
@@ -55,6 +65,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 											 "&colX="+colX+
 											 "&colY="+colY+
 											 "&uid="+$.cookie('uid');		
+		
+		console.debug(param_url);
 		
 		var capaURLfile = new L.GeoJSON.AJAX(param_url, {
 			nom : nomCapa,
@@ -77,7 +89,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		    		}
 		    	});	
 		    	propName = propName.substr(0, propName.length-1);
-		    	//console.debug(propName);
+		    	console.debug(propName);
 		    	html+='</div></div>'; 
 			    return geom.bindPopup(html);
 			  },
@@ -95,26 +107,27 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			    		}
 			    	});	
 			    	propName = propName.substr(0, propName.length-1);
-			    	//console.debug(propName);
+			    	console.debug(propName);
 			    	html+='</div></div>'; 
 				    return latlng.bindPopup(html);
 				  },			  
 			  middleware:function(data){
-			    	//console.debugbug("capaURLfile");
-			    	//console.debug(capaURLfile);				  
+			    	console.debugbug("capaURLfile");
+			    	console.debug(capaURLfile);
+			    	busy = false;
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data);
 				  }else{
-					  //console.debug(data);	
-					  //console.debug("propName:");
-					  //console.debug(propName);
+					  console.debug(data);	
+					  console.debug("propName:");
+					  console.debug(propName);
 					   var stringData = JSON.stringify(data);
 					   var geometryType = defineGeometryType(stringData);
-					   //console.debug("geometryType");
-					   //console.debug(geometryType);	
+					   console.debug("geometryType");
+					   console.debug(geometryType);	
 				    	
-					   //console.debug("CapaURLFILE style abans:");
-					   //console.debug(capaURLfile.options.style);
+					   console.debug("CapaURLFILE style abans:");
+					   console.debug(capaURLfile.options.style);
 					   
 				    	if(geometryType.indexOf("point")!=-1){
 //				    		capaURLfile.setStyle(estil_do);
@@ -127,155 +140,80 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				    		capaURLfile.options.style = polygonStyle;
 				    	}
 				    	
-						   //console.debug("CapaURLFILE style despres:");
-						   //console.debug(capaURLfile.options.style);				    	
+						   console.debug("CapaURLFILE style despres:");
+						   console.debug(capaURLfile.options.style);				    	
 				    	
 					  capaURLfile.addData(data);
 					  
 						//Un cop tinc la capa a client, la creo a servidor
-						if(typeof url('?businessid') == "string"){
-							var data = {
-								uid:$.cookie('uid'),
-								mapBusinessId: url('?businessid'),
-								serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
-								serverType: t_url_file,
-								calentas: false,
-					            activas: true,
-					            visibilitats: true,
-					            order: controlCapes._lastZIndex+1,
-					            epsg: '4326',
-					            imgFormat: 'image/png',
-					            infFormat: 'text/html',
-					            tiles: true,	            
-					            transparency: true,
-					            opacity: 1,
-					            visibilitat: 'O',
-					            url: urlFile,//Provar jQuery("#txt_URLJSON")
-					            calentas: false,
-					            activas: true,
-					            visibilitats: true,
-					            options: '{"tipusFile":"'+tipusFile+'","nom":"'+nomCapa+'","propName":"'+propName+'","url":"'+urlFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
-							};
-							
-							//console.debug("Abans create servidor in map, data:");
-							//console.debug(data);
-							
-							createServidorInMap(data).then(function(results){
-									if (results.status == "OK"){
-										//console.debug("Create servidor in Map ok!");
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques', urlFile, 1]);
-										//_kmq.push.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'url':urlFile,'mode':'dinamiques'}]);
-										
-										jQuery('#dialog_dades_ex').modal('toggle');					
-										
-										capaURLfile.options.businessId = results.results.businessId;
-										capaURLfile.options.nom = nomCapa;
-										capaURLfile.options.tipus = t_url_file;
-										capaURLfile.options.url = urlFile;
-										capaURLfile.options.epsgIN = epsgIN;
-										capaURLfile.options.tipusFile = tipusFile;
-										capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
-										capaURLfile.options.options.estil_do = estil_do;
-										capaURLfile.options.geometryType = geometryType;
-										capaURLfile.options.colX = colX;
-										capaURLfile.options.colY = colY;
-										capaURLfile.options.dinamic = dinamic;
-										capaURLfile.options.propName = propName;
-										
-										capaURLfile.addTo(map);
-										capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
-										controlCapes.addOverlay(capaURLfile, nomCapa, true);
-										controlCapes._lastZIndex++;
-										activaPanelCapes(true);	
-										
-									}else{
-										console.debug("1.Error a createServidorInMap:"+results.status);
-										var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-										jQuery("#div_url_file_message").html(txt_error);							
-									}
-							},function(results){
-								console.debug("2.Error a createServidorInMap:"+results.status);
-								var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
-								jQuery("#div_url_file_message").html(txt_error);					
-							});
-							
-						}else{
-							//usuari no logat, no entra mai
-						}					  
+						var data = {
+							uid:$.cookie('uid'),
+							mapBusinessId: url('?businessid'),
+							serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
+							serverType: t_url_file,
+							calentas: false,
+				            activas: true,
+				            visibilitats: true,
+				            order: controlCapes._lastZIndex+1,
+				            epsg: '4326',
+				            imgFormat: 'image/png',
+				            infFormat: 'text/html',
+				            tiles: true,	            
+				            transparency: true,
+				            opacity: 1,
+				            visibilitat: 'O',
+				            url: urlFile,//Provar jQuery("#txt_URLJSON")
+				            calentas: false,
+				            activas: true,
+				            visibilitats: true,
+				            options: '{"tipusFile":"'+tipusFile+'","nom":"'+nomCapa+'","propName":"'+propName+'","url":"'+urlFile+'","tipus":"'+t_url_file+'","epsgIN":"'+epsgIN+'", "geometryType":"'+geometryType+'","colX":"'+colX+'","colY":"'+colY+'", "dinamic":"'+dinamic+'", "style":'+JSON.stringify(capaURLfile.options.style)+',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'
+						};
+						
+						console.debug("Abans create servidor in map, data:");
+						console.debug(data);
+						
+						createServidorInMap(data).then(function(results){
+								if (results.status == "OK"){
+									console.debug("Create servidor in Map ok!");
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques', urlFile, 1]);
+									
+									jQuery('#dialog_dades_ex').modal('toggle');					
+									
+									capaURLfile.options.businessId = results.results.businessId;
+									capaURLfile.options.nom = nomCapa;
+									capaURLfile.options.tipus = t_url_file;
+									capaURLfile.options.url = urlFile;
+									capaURLfile.options.epsgIN = epsgIN;
+									capaURLfile.options.tipusFile = tipusFile;
+									capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
+									capaURLfile.options.options.estil_do = estil_do;
+									capaURLfile.options.geometryType = geometryType;
+									capaURLfile.options.colX = colX;
+									capaURLfile.options.colY = colY;
+									capaURLfile.options.dinamic = dinamic;
+									capaURLfile.options.propName = propName;
+									
+									capaURLfile.addTo(map);
+									capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
+									controlCapes.addOverlay(capaURLfile, nomCapa, true);
+									controlCapes._lastZIndex++;
+									activaPanelCapes(true);	
+									
+								}else{
+									console.debug("1.Error a createServidorInMap:"+results.status);
+									var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+									jQuery("#div_url_file_message").html(txt_error);							
+								}
+						},function(results){
+							console.debug("2.Error a createServidorInMap:"+results.status);
+							var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+							jQuery("#div_url_file_message").html(txt_error);					
+						});
 				  }
 			  }
 		});
 	
-  /*** NO DINAMICA ***/
-//	}else{
-////		console.debug("getUrlFile");
-//		var data = {
-//			 mapBusinessId: url('?businessid'),
-//			 serverName: nomCapa,
-//			 tipusFile: tipusFile,
-//			 urlFile: urlFile,
-//			 epsgIN: epsgIN,
-//			 dinamic: dinamic,
-//			 uploadFile: paramUrl.uploadFile,
-//			 uid: $.cookie('uid'),
-//			 colX: colX,
-//			 colY: colY,
-//			 tipusAcc: tipusAcc,
-//			 tipusFont: tipusFont,
-//			 tipusCodi: tipusCodi,
-//			 nomCampCodi: nomCampCodi,
-//			 markerStyle: JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-//			 lineStyle: JSON.stringify(getLineRangFromStyle(canvas_linia)),
-//			 polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
-//		}
-//		
-//		getUrlFile(data).then(function(results){
-//			if (results.status == "OK") {
-//				
-//				//Si geometries tipus marker
-//				if(results.layerMarker){
-//					var defer = $.Deferred();
-////						readVisualitzacio(defer, results.visualitzacioMarker, results.layerMarker);
-//					loadVisualitzacioLayer(results.layerMarker).then(function(results1){
-//						if(results1){
-//							map.fitBounds(results1.getBounds());
-//						}
-//					});						
-//				}					
-//				//Si geometries tipus línies
-//				if(results.layerLine){
-//					var defer = $.Deferred();
-////						readVisualitzacio(defer, results.visualitzacioLine, results.layerLine);
-//					loadVisualitzacioLayer(results.layerLine).then(function(results1){
-//						if(results1){
-//							map.fitBounds(results1.getBounds());
-//						}
-//					});						
-//				}
-//				//Si geometries tipus polygon
-//				if(results.layerPolygon){
-//					var defer = $.Deferred();
-////						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon);
-//					loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
-//						if(results1){
-//							map.fitBounds(results1.getBounds());
-//						}
-//					});						
-//				}
-//				jQuery('#dialog_dades_ex').modal('toggle');	
-//					
-//			}else{
-//				console.debug("Error getUrlFile:");
-//				console.debug(results);
-//				processFileError(results);
-//			}			
-//			
-//		},function(results){
-//			console.debug("Error getUrlFile:");
-//			console.debug(results);
-//			processFileError(results);
-//		});
-		
+  /*** NO DINAMICA ***/		
 	}else{
 		console.debug("getUrlFile PROVES NO DINAMICA");
 		
@@ -306,7 +244,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html(
-				'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Pujant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
+				'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Descarregant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
 				'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'</div>'+
 				'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
 				'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
@@ -329,7 +267,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							
 							jQuery("#div_uploading_txt").html("");
 							jQuery("#div_uploading_txt").html(
-								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
 								'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
 								'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
 								'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
@@ -338,7 +276,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						}else if(data.status.indexOf("PAS3")!=-1){
 							jQuery("#div_uploading_txt").html("");
 							jQuery("#div_uploading_txt").html(
-								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
 								'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 								'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
 								'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
@@ -350,7 +288,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							
 							jQuery("#div_uploading_txt").html("");
 							jQuery("#div_uploading_txt").html(
-								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
 								'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 								'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 								'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	

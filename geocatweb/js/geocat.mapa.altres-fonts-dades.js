@@ -140,7 +140,7 @@ function addControlAltresFontsDades() {
 				jQuery("#div_url_file").hide();
 				
 				jQuery(".label-dadesExternes").on('click', function(e) {
-					//console.debug(e);
+					console.debug(e);
 					//URL PRESIDENT JSON
 					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
 						jQuery("#div_url_file").show();
@@ -151,7 +151,17 @@ function addControlAltresFontsDades() {
 						getServeiJSONP(this.dataset.url);
 						
 					}else{//LA RESTA
-						createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
+						if(!busy){
+							console.debug("No esta busy.. faig la carrega!");
+							busy = true;
+							createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
+						}else{
+							console.debug("Esta busy, no puc carregar");
+							$('#dialog_dades_ex').modal('hide');
+							$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+							$('#dialog_info_upload').modal('show');
+							//drgFromMapa.removeAllFiles(true);							
+						}
 					}
 				});
 				
@@ -223,14 +233,14 @@ function addControlAltresFontsDades() {
 										'	         <ul class="pane-excel-urlfile">'+
 										'	            <li><label lang="ca">'+window.lang.convert("Els teus codis són de")+'</label>:</li>'+
 										'	            <li>'+
-										'	               <select id="cmd_codiType_Capa">'+
+										'	               <select id="cmd_codiType_Capa_de">'+
 										'	                  <option lang="ca" value="municipis" selected="">'+window.lang.convert("Municipis")+'</option>'+
 										'	                  <option lang="ca" value="comarques">'+window.lang.convert("Comarques")+'</option>'+
 										'	               </select>'+
 										'	            </li>'+
 										'	            <li><label lang="ca">'+window.lang.convert("Tipus codi")+'</label></li>'+
 										'	            <li>'+
-										'	               <select id="cmd_codiType">'+
+										'	               <select name="select_codiType" id="cmd_codiType_de">'+
 										'	                  <option value="ine">INE (5 digits)</option>'+
 										'	                  <option value="idescat">IDESCAT (6 digits)</option>'+
 										'	                  <option value="municat">MUNICAT (10 digits)</option>'+
@@ -277,6 +287,10 @@ function addControlAltresFontsDades() {
 									'<div id="div_url_file_message" class="alert alert-danger"></div>'
 							);
 							
+							$('#opt_urlfile_codi').on('click',function(){
+								console.debug("click opt_urlfile_codi");
+							});
+							
 							jQuery("#div_url_file_message").hide();
 							jQuery("#input-excel-url-file").hide();
 							
@@ -316,22 +330,80 @@ function addControlAltresFontsDades() {
 								e.stopImmediatePropagation();
 								jQuery("#div_url_file_message").empty();
 								jQuery("#div_url_file_message").hide();
+								
 								var urlFile = $.trim(jQuery("#txt_URLfile").val());
 								var type = jQuery("#select-url-file-format").val();
 								var epsg = jQuery("#select-url-file-epsg").val();
+								var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
+								var coordX = jQuery("#input-coord-x").val();
+								var coordY = jQuery("#input-coord-y").val();
+								
 								
 								if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1){
 									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
 									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
+									
+								}else if( (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
+											&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY) ) ){
+									
+									if(!isValidValue(coordX)) jQuery("#input-coord-x").addClass("class_error");
+									if(!isValidValue(coordY)) jQuery("#input-coord-y").addClass("class_error");
+								
+								}else if( (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
+											&&  opcio == "codis" && (!isValidValue(jQuery("#input-camp-codi-urlfile").val())) ){
+									
+									jQuery("#input-camp-codi-urlfile").addClass("class_error");
+								
 								}else{
 									console.debug("abans createURLfileLayer");
-									
-									createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
-													   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
-													   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis
-													   jQuery('#cmd_codiType_Capa').val(), jQuery('#cmd_codiType').val(), jQuery("#input-camp-codi-urlfile").val());
-//									console.debug("despres createURLfileLayer");
+									console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
+									if(!busy){
+										console.debug("No esta busy.. faig la carrega!");
+										console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
+										console.debug(jQuery('#cmd_codiType_de').val());
+										busy = true;
+										createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
+												   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
+												   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis
+												   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
+//										console.debug("despres createURLfileLayer");										
+									}else{
+										console.debug("Esta busy, no puc carregar");
+										$('#dialog_dades_ex').modal('hide');
+										$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+										$('#dialog_info_upload').modal('show');										
+									}
 								}
+							});
+							
+							jQuery('#cmd_codiType_Capa_de').on('change',function(e) {
+								var html = "";
+								if (jQuery(this).val() == "municipis") {
+									html = "<option value='ine'>INE (5 digits)</option><option value='idescat'>IDESCAT (6 digits)</option><option value='municat'>MUNICAT (10 digits)</option><option value='cadastre'>CADASTRE (5 digits)</option>";
+								} else {
+									html = "<option value='ine'>NUM_COMARCA (2 digits)</option><option value='municat'>MUNICAT (10 digits)</option>";
+								}
+								jQuery('#cmd_codiType_de').html(html);
+							});
+							
+							jQuery('.nav-pills-urlfile #codis').on('click', function(){
+								jQuery("#select-url-file-epsg").attr('disabled',true);
+							});
+							
+							jQuery('.nav-pills-urlfile #coordenades').on('click', function(){
+								jQuery("#select-url-file-epsg").attr('disabled',false);
+							});
+							
+							jQuery("#input-coord-x").focus(function() {
+								jQuery(this).removeClass("class_error");
+							});	
+							
+							jQuery("#input-coord-y").focus(function() {
+								jQuery(this).removeClass("class_error");
+							});
+							
+							jQuery("#input-camp-codi-urlfile").focus(function() {
+								jQuery(this).removeClass("class_error");
 							});
 							
 							jQuery("#select-url-file-epsg").change(function(){
