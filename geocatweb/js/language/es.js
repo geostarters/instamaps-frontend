@@ -128,6 +128,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Contrassenya actualitzada correctament":"Contraseña actualizada correctamente"
 ,"Contrassenya antiga":"Contraseña antigua"
 ,"Contrassenya":"Contraseña"
+,"Contrassenya incorrecta":"Contraseña incorrecta"
 ,"Coordenada X o Longitud":"Coordenada X o Longitud"
 ,"Coordenada Y o Latitud":"Coordenada Y o Latitud"
 ,"Correu associat a un altre usuari.":"Correo asociado a otro usuario."

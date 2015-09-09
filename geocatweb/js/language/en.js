@@ -128,6 +128,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Contrassenya actualitzada correctament":"Password updated succesfully"
 ,"Contrassenya antiga":"Old password"
 ,"Contrassenya":"Password"
+,"Contrassenya incorrecta":"Wrong password"	
 ,"Coordenada X o Longitud":"X coordinate or Longitude"
 ,"Coordenada Y o Latitud":"Y coordinate or Latitude"
 ,"Correu associat a un altre usuari.":"Email associated to another user"

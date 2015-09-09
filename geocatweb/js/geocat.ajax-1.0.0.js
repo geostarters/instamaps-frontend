@@ -919,3 +919,20 @@ function crearFitxerPolling(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+
+function resetClauMapa(data){
+	return jQuery.ajax({
+		url: paramUrl.resetClauMapa,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function loadPrivateMapByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.loadPrivateMapByBusinessId,
+		method: 'post',
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
