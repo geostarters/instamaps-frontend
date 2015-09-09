@@ -46,9 +46,9 @@ function addControlPublicar(){
 			else $('#nomAplicacioPub').val(mapConfig.nomAplicacio);
 			if (mapConfig.visibilitat == visibilitat_open){
 				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
+				$('.protegit').hide();
 			}else{
 				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
-				//TODO ver lo de la clave
 				if (mapConfig.clau){
 					$('#is_map_protegit').iCheck('check');
 					$('#map_clau').prop('disabled',true);
@@ -234,7 +234,7 @@ function publicarMapa(fromCompartir){
 			callPublicarMapa(data, newMap, fromCompartir);
 		}
 	}else{
-		if(!$('#is_map_protegit').is(':checked')){
+		if(!$('#is_map_protegit').is(':checked') || visibilitat == visibilitat_open){
 			var mapData = {
 				businessId: mapConfig.businessId,
 				uid: $.cookie('uid')
