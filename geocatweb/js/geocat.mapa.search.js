@@ -54,7 +54,7 @@ function addControlCercaEdit(){
 		markerLocation: false,
 		zoom: 12,
 		minLength: 3,
-		autoType: false,
+		autoType: true,
 		text: window.lang.convert('Cercar llocs al món o coordenades  ...'),
 		idInputText : '#ctr_cerca',
 		zoom : 14,

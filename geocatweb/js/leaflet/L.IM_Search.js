@@ -303,7 +303,7 @@ L.Control.Search = L.Control.extend({
 		input.lang = 'ca';
 		input.id = 'search-input';
 		
-			
+		
 		L.DomEvent
 			.on(input, 'keyup', this._handleKeypress, this)
 			.on(input, 'keydown', this._handleAutoresize, this)
@@ -868,7 +868,7 @@ L.Control.Search = L.Control.extend({
 			}
 			
 		}
-		
+		clearTimeout(this.timerKeypress);
 		//FIXME autoCollapse option hide this._markerLoc before that visualized!!
 		if(this.options.autoCollapse)
 			this.collapse();

@@ -17,6 +17,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Adreça en 3 camps":"Dirección en tres campos"
 ,"Afegir capes":"Añadir capas"
 ,"Afegir col&#183;laboradors":"Añadir colaboradores"
+,"Afegir valor":"Añadir valor"
 ,"Agrupació":"Agrupación"
 ,"Alerta":"Atención"
 ,"amb les teves dades.":"con tus datos."
@@ -58,6 +59,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Cal indicar els camps que contenen l'adreça":"Tienes que indicar los campos que contienen la dirección"
 ,"Calculant operació":"Calculando operación"
 ,"Camp que conté el codi":"Campo que contiene el código"
+,"Camps":"Campos"
 ,"Camps necessaris":"Campos necesarios"
 ,"Cancel·lar": "Cancelar"
 ,"Canviar el nom de la capa":"Cambiar nombre de la capa"
@@ -174,6 +176,7 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"Edició en mode demostració":"Edición en modo demostración"
 ,"Editar":"Editar"
+,"Editar filtre":"Editar filtro"
 ,"elimina":"elimina"
 ,"El camp no pot estar buit":"El campo no puede estar vacío"
 ,"El correu no és correcte":"El correo no es correcto"
@@ -256,6 +259,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Fes el teu mapa":"Haz tu mapa"
 ,"Fes un mapa amb les teves dades fàcilment":"Haz un mapa fácilmente con tus datos"
 ,"Filtrar":"Filtrar"
+,"Filtre":"Filtro"
+,"Filtre avançat":"Filtro avanzado"
 ,"Fitxer creat":"Fichero creado"
 ,"Fitxer analitzat":"Fichero analizado"
 ,"Fitxer pujat":"Fichero subido"
@@ -286,7 +291,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC."
 ,"Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos"
 ,"Hola":"Hola"
-	
+
 ,"Iconografia":"Iconografia"
 ,"Idioma":"Idioma"
 ,"Imatge":"Imagen"
@@ -383,6 +388,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Opcional: en blanc s'assignarà un nom automàtic":"Opcional: en blanco se asignará un nombre automático"
 ,"Opcionals":"Opcionales"
 ,"opcions":"opciones"
+,"Operador":"Operador"
 ,"Ordena per nom":"Ordena por nombre"
 ,"Ordena per usuari":"Ordena por usuari"
 ,"Ordena per data":"Ordena por fecha"
@@ -504,9 +510,11 @@ jquery_lang_js.prototype.lang.es = {
 ,"Us convidem a fer les vostres consideracions a ":"Le invitamos a enviarnos sus consideraciones a "
 ,"Us donem la benvinguda de part de tot l'equip d'Instamaps.":"Le damos la bienvenida de parte de todo el equipo de Instamaps."
 
+,"Valor filtre":"Valor filtro"
 ,"Valor max.":"Valor max."
 ,"Valor min.":"Valor min."
 ,"Valors":"Valores"
+,"Valors únics":"Valores únicos"
 ,"Veure": "Ver"
 ,"Veure a InstaMaps": "Ver en InstaMaps"
 ,"Veure el mapa":"Ver el mapa"
@@ -530,5 +538,7 @@ jquery_lang_js.prototype.lang.es = {
 ," ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.":" ). Clica en el enlace para acceder. Deberás registrarte si todavía no lo has hecho."
 
 ,"<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Haz tu mapa"
+	
+,"10 valors":"10 valores"
 }
 

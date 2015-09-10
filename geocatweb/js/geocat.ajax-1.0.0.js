@@ -919,7 +919,6 @@ function crearFitxerPolling(params){
   		dataType: 'jsonp'
 	}).promise();
 }
-
 function resetClauMapa(data){
 	return jQuery.ajax({
 		url: paramUrl.resetClauMapa,
@@ -934,5 +933,13 @@ function loadPrivateMapByBusinessId(data){
 		method: 'post',
 		data: data,
 		dataType: 'jsonp'
+	}).promise();
+}
+function filter(params){
+	return jQuery.ajax({
+		url: paramUrl.filter,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
 	}).promise();
 }
