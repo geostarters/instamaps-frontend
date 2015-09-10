@@ -84,6 +84,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Carrega dades":"Load data"
 ,"Carrega les teves pròpies dades (drag and drop).":"Upload your own data (drag and drop)."
 ,"Carregant, esperi si us plau...":"Loading, please wait..."
+,"Carregant dades":"Loading data"
 ,"Carregar dades":"Load data"
 ,"Català":"Catalan"
 ,"Categories":"Categories"
