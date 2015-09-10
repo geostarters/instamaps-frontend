@@ -1308,14 +1308,16 @@ function showModalFilterFieldsAvancat(data){
 				if (results.length == 0){
 					var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 				}else{
-					var fields = {};								
+					var fields = {};	
+					results.sort();
 					jQuery.grep(results, function( n, i ) {
-						fields[n] =n;									
+						fields[n] =n;
 						var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
 						var template2 = Handlebars.compile(source2);
 						var html2 = template2({fields:fields});
 						jQuery('#dataField_filter_avancat2').html(html2);
 					});
+		
 				}
 			});
 		});	
@@ -1357,7 +1359,8 @@ function showModalFilterFieldsAvancat(data){
 							if (results.length == 0){
 								var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 							}else{
-								var fields = {};								
+								var fields = {};
+								results.sort();
 								jQuery.grep(results, function( n, i ) {
 									fields[n] = n;									
 									var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
@@ -1381,8 +1384,9 @@ function showModalFilterFieldsAvancat(data){
 							}else{
 								var fields = {};			
 								var j=0;
+								results.sort();
 								jQuery.grep(results.slice(0,10), function( n, i ) {
-											fields[n] = n;									
+											fields[n] = n;		
 											var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
 											var template2 = Handlebars.compile(source2);
 											var html2 = template2({fields:fields});
