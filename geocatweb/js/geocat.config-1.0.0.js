@@ -168,7 +168,8 @@ var paramUrl = {
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
-	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?"
+	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
+	filter: HOST_APP+"geocat/aplications/map/filter.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
@@ -181,7 +182,7 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	if (typeof map !== 'undefined'){
-		try {map.spin(false);} catch (Err) {console.error(Err);}
+		try {map.spin(false);} catch (Err) {}
 	}
 	if (jqxhr.responseJSON){
 		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
