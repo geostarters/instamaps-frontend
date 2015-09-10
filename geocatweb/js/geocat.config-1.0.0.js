@@ -43,8 +43,13 @@ var paramUrl = {
 	wmsOpenData:"/dadesobertes/wms/service?",
 	tmsOpenData:"/geocatcache/?",
 	getAllMapsByUser: HOST_APP+"geocat/aplications/map/getAllMapsByUser.action?",
-	getAllPublicsMaps: HOST_APP+"geocat/aplications/map/getAllPublicsMaps.action?",
+	//getAllPublicsMaps: HOST_APP+"geocat/aplications/map/getAllPublicsMaps.action?",
+	getAllPublicsMaps: HOST_APP+"geocat/aplications/map/getAllGaleriaMaps.action?",
+	searchGaleriaMaps: HOST_APP+"geocat/aplications/map/searchGaleriaMaps.action?",
+	getNumGaleria: HOST_APP+"geocat/aplications/map/getNumGaleria.action?",
+	loadPrivateMapByBusinessId: HOST_APP+"geocat/aplications/map/loadPrivateMapByBusinessId.action?",
 	deleteMap: HOST_APP+"geocat/aplications/map/deleteMap.action?",
+	resetClauMapa: HOST_APP+"geocat/aplications/map/resetClauMapa.action?",
 	loginUser: HOST_APP+"geocat/login.action?",
 	loginUserIcgc: HOST_APP+"geocat/loginIcgc.action?",
 	logoutUser: HOST_APP+"geocat/logout.action?",
@@ -194,10 +199,13 @@ $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 $( document ).ajaxStop(function() {
 	//$('.waiting_animation').hide();
 	if (typeof map !== 'undefined'){
-		try {map.spin(false);} catch (Err) {console.error(Err);}
+		try {map.spin(false);} catch (Err) {
+			//console.error(Err);
+		}
 	}
 	setTimeout(function(){
-		try {map.spin(false);} catch (Err) {console.error(Err);}
+		try {map.spin(false);} catch (Err) {
+			//console.error(Err);
+		}
 	},10000);
 });
-

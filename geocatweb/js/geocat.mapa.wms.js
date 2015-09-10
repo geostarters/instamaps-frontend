@@ -164,10 +164,8 @@ function getCapabilitiesWMS(url, servidor) {
 	console.debug(servidor);
 	
 	getWMSLayers(url).then(function(results) {
-		
-		console.debug("results:");
-		console.debug(results);
-		
+		//console.debug("results:");
+		//console.debug(results);
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
@@ -181,7 +179,6 @@ function getCapabilitiesWMS(url, servidor) {
 		  }
 		  return ret;
 		});
-		
 		
 		jQuery('#div_layersWMS').html('');
 		jQuery("#div_layersWMS").show();
@@ -204,10 +201,15 @@ function getCapabilitiesWMS(url, servidor) {
 			}
 
 			var epsg = [];
-			jQuery.each(matriuEPSG, function(index, value) {
-				epsg.push(value);
-			});
-
+			
+			if (jQuery.isArray(matriuEPSG)){
+				jQuery.each(matriuEPSG, function(index, value) {
+					epsg.push(value);
+				});
+			}else{
+				epsg.push(matriuEPSG);
+			}
+			
 			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG3857;
 				ActiuWMS.epsgtxt = 'EPSG:3857';
@@ -221,7 +223,7 @@ function getCapabilitiesWMS(url, servidor) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';
 			} else {
-				alert(window.lang.convert("El sistema de coordenades no és compatible amb el mapa"));
+				alert(window.lang.convert("Instamaps carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 				return;
 			}
 			

@@ -88,155 +88,87 @@ function loadApp(){
 		getUserSimple(data).then(function(results){
 			$('#userId').val(results.results.id);
 		});
-
-
-		if(false){
-			getVisualitzacioByBusinessId(data).then(function(results){
-				if (results.status == "ERROR"){
-					gestioCookie('getMapByBusinessId');					
-				}else{
-					try{
-						mapConfig = results.results;
-						gestioCookie('diferentUser');					
-
-						document.title = "InstaMaps: "+mapConfig.nomAplicacio;
-						$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
+		
+		getMapByBusinessId(data).then(function(results){
+			if (results.status == "ERROR"){
+				gestioCookie('getMapByBusinessId');
+			}else{
+				try{
+					mapConfig = results.results;
+					//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
+					//jQuery.map( bloquejatJson, function( val, i ) {
+					//		console.debug(val.uid);
+					//		console.debug(val.bloquejat);
+					//});
+					//if (true) { //CANVIAR
+					gestioCookie('diferentUser');
+					$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
+					
+					if (mapConfig.options){
+						mapConfig.options = $.parseJSON( mapConfig.options );
+						$('meta[name="description"]').attr('content', mapConfig.options.description);
 						
-						if (mapConfig.options){
-							mapConfig.options = $.parseJSON( mapConfig.options );
-							$('meta[name="description"]').attr('content', mapConfig.options.description);
-							
-							$('meta[name="og:description"]').attr('content', mapConfig.options.description);
-							
-							var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
-							$('meta[name="og:image"]').attr('content', urlThumbnail);
-						}
-						mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
-
-						downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
-												mapConfig.options.downloadable:[]);
-						mapConfig.newMap = false;
-						console.debug("mapConfig");
-						console.debug(mapConfig);
-						//Afegim barres d'eines i control de capes 
-						addControlsInici();
-
-						loadMapConfig(mapConfig).then(function(){
-							$('#nomAplicacio').html(mapConfig.nomAplicacio);
-							//llegim configuracio de funcionalitats del mapa, si no te, per defecte
-							
-							var configuracio = "";
-							loadConfiguracio(mapConfig.configuracio).then(function(results){
-								//iniciem els controls basics
-								initControls();
-								//careguem funcionalitats:
-								loadControls(results);
-								//Actualitzar idiomes
-								updateLangText();
-
-								//Add tooltips
-								addToolTipsInici();
-								
-								//Actulitza idioma dels tooltips
-								$("body").on("change-lang", function(event, lang){
-									addDrawTooltips();//Actualitzem tootltips funcionalitat draw
-									window.lang.change(lang);
-									window.lang.run(lang);								
-									updateLangTooltips();
-									updateLangText();
-								});	
-								canviaIdioma(web_determinaIdioma());
-							});
-						});						
+						$('meta[name="og:description"]').attr('content', mapConfig.options.description);
 						
-					}catch(err){
-						gestioCookie('loadMapConfig');
+						var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
+						$('meta[name="og:image"]').attr('content', urlThumbnail);
 					}
-				}
-			},function(results){
-				gestioCookie('getMapByBusinessIdError');
-			});
-			
-		}else{
-			getMapByBusinessId(data).then(function(results){
-				if (results.status == "ERROR"){
-					gestioCookie('getMapByBusinessId');
-				}else{
-					try{
-						mapConfig = results.results;
-						//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
-						//jQuery.map( bloquejatJson, function( val, i ) {
-						//		console.debug(val.uid);
-						//		console.debug(val.bloquejat);
-						//});
-						//if (true) { //CANVIAR
-						gestioCookie('diferentUser');
-						$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
-						
-						if (mapConfig.options){
-							mapConfig.options = $.parseJSON( mapConfig.options );
-							$('meta[name="description"]').attr('content', mapConfig.options.description);
-							
-							$('meta[name="og:description"]').attr('content', mapConfig.options.description);
-							
-							var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
-							$('meta[name="og:image"]').attr('content', urlThumbnail);
-						}
-						
-						mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
-						
-						downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
-												mapConfig.options.downloadable:[]);
-						
-						mapConfig.newMap = false;
+					
+					mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
+					
+					downloadableData = (mapConfig.options && mapConfig.options.downloadable? 
+											mapConfig.options.downloadable:[]);
+					
+					mapConfig.newMap = false;
 
-						//Afegim barres d'eines i control de capes 
-						addControlsInici();
-						
-						loadMapConfig(mapConfig).then(function(){
+					//Afegim barres d'eines i control de capes 
+					addControlsInici();
+					
+					addLegendEdicio();
+					
+					loadMapConfig(mapConfig).then(function(){
 
-							$('#nomAplicacio').html(mapConfig.nomAplicacio);
-							//llegim configuracio de funcionalitats del mapa, si no te, per defecte
+						$('#nomAplicacio').html(mapConfig.nomAplicacio);
+						//llegim configuracio de funcionalitats del mapa, si no te, per defecte
+						
+						var configuracio = "";
+						loadConfiguracio(mapConfig.configuracio).then(function(results){
+							//iniciem els controls basics
+							initControls();
+							//careguem funcionalitats:
+							loadControls(results);
+							//Actualitzar idiomes
+							updateLangText();
+							//Add tooltips
+							addToolTipsInici();
 							
-							var configuracio = "";
-							loadConfiguracio(mapConfig.configuracio).then(function(results){
-								//iniciem els controls basics
-								initControls();
-								//careguem funcionalitats:
-								loadControls(results);
-								//Actualitzar idiomes
+							//Actulitza idioma dels tooltips
+							$("body").on("change-lang", function(event, lang){
+								addDrawTooltips();//Actualitzem tootltips funcionalitat draw
+								window.lang.change(lang);
+								window.lang.run(lang);								
+								updateLangTooltips();
 								updateLangText();
-								//Add tooltips
-								addToolTipsInici();
-								
-								//Actulitza idioma dels tooltips
-								$("body").on("change-lang", function(event, lang){
-									addDrawTooltips();//Actualitzem tootltips funcionalitat draw
-									window.lang.change(lang);
-									window.lang.run(lang);								
-									updateLangTooltips();
-									updateLangText();
-								});	
-								canviaIdioma(web_determinaIdioma());
-								document.title = "InstaMaps: "+mapConfig.nomAplicacio;
-							});
+							});	
+							canviaIdioma(web_determinaIdioma());
+							document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 						});
-						//}
-						//else {
-						//	alert("Aquest mapa està bloquejat per un altre usuari");
-						//	window.location.href = paramUrl.galeriaPage;
-						//}												
-					}catch(err){
-						gestioCookie('loadMapConfig');
-					}
+					});
+					//}
+					//else {
+					//	alert("Aquest mapa està bloquejat per un altre usuari");
+					//	window.location.href = paramUrl.galeriaPage;
+					//}												
+				}catch(err){
+					gestioCookie('loadMapConfig');
 				}
+			}
 			
 		},function(results){
 			gestioCookie('getMapByBusinessIdError');
 			
 		});
 
-		}
 		
 		addLeaveModal();
 		
@@ -278,6 +210,10 @@ function initControls(){
 }
 
 function addClicksInici() {
+	
+	jQuery('.bt_legend').on('click', function() {
+		activaLlegenda();
+	});	
 	
 	jQuery('.bt_llista').on('click', function(event) {
 		aturaClick(event);

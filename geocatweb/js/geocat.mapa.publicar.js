@@ -46,8 +46,18 @@ function addControlPublicar(){
 			else $('#nomAplicacioPub').val(mapConfig.nomAplicacio);
 			if (mapConfig.visibilitat == visibilitat_open){
 				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
+				$('.protegit').hide();
 			}else{
 				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
+				if (mapConfig.clau){
+					$('#is_map_protegit').iCheck('check');
+					$('#map_clau').prop('disabled',true);
+					$('#map_clau').val(randomString(10));
+				}else{
+					$('#is_map_protegit').iCheck('uncheck');
+					$('#map_clau').prop('disabled',true);
+					$('#map_clau').val('');
+				}
 			}
 			if(mapConfig.options){
 				$('#optDescripcio').val(mapConfig.options.description);
@@ -117,6 +127,11 @@ function addControlPublicar(){
 		placement : 'right',
 		container : 'body'
 	});
+}
+
+function publicarMapaRandom(){
+	var visibilitat = visibilitat_privat;
+		
 }
 
 function publicarMapa(fromCompartir){
@@ -211,6 +226,31 @@ function publicarMapa(fromCompartir){
 	//Captura Map per la Galeria
 	capturaPantalla(CAPTURA_GALERIA);	
 	
+	if(!mapConfig.clau){
+		if($('#is_map_protegit').is(':checked')){
+			if($.trim($('#map_clau').val()) != ""){
+				data.clauVisor = $.trim($('#map_clau').val());
+			}
+			callPublicarMapa(data, newMap, fromCompartir);
+		}
+	}else{
+		if(!$('#is_map_protegit').is(':checked') || visibilitat == visibilitat_open){
+			var mapData = {
+				businessId: mapConfig.businessId,
+				uid: $.cookie('uid')
+			};
+			resetClauMapa(mapData).then(function(results){
+				mapConfig.clau = null;
+				$('#map_clau').val('');
+				callPublicarMapa(data, newMap, fromCompartir);
+			});
+		}else{
+			callPublicarMapa(data, newMap, fromCompartir);
+		}
+	}
+}
+
+function callPublicarMapa(data, newMap, fromCompartir){
 	if (newMap){
 		createMap(data).then(function(results){
 			if (results.status == "ERROR"){
@@ -218,13 +258,14 @@ function publicarMapa(fromCompartir){
 			}else{
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
-				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
 				var mapData = {
 					businessId: mapConfig.businessId,
 					uid: $.cookie('uid')
 				};
 				publicarMapConfig(mapData);
+				
+				jQuery('#businessId').val(mapConfig.businessId);
 			}
 		});
 	}else{
@@ -236,6 +277,12 @@ function publicarMapa(fromCompartir){
 				mapConfig = results.results;
 				mapConfig.options = $.parseJSON( mapConfig.options );
 				mapConfig.newMap = false;
+				var mapData = {
+					businessId: mapConfig.businessId,
+					uid: $.cookie('uid')
+				};
+				publicarMapConfig(mapData);
+				
 				if(!fromCompartir){
 					$('#dialgo_publicar').modal('hide');
 					//update map name en el control de capas
@@ -244,11 +291,6 @@ function publicarMapa(fromCompartir){
 					$('#dialgo_url_iframe').modal('show');					
 					addShareButtons(); 
 				}
-				var mapData = {
-					businessId: mapConfig.businessId,
-					uid: $.cookie('uid')
-				};
-				publicarMapConfig(mapData);
 			}
 		});
 	}
@@ -304,25 +346,17 @@ function createModalConfigDownload(){
 	$('#div_downloadable input').iCheck({
 	    checkboxClass: 'icheckbox_flat-blue',
 	    radioClass: 'iradio_flat-blue'
-	});	
-	
-	$('.downloadable-subrow-all input').on('ifChecked', function(event){
-		  //alert(event.type + ' callback');
-		  $('.downloadable-subrow input').iCheck('check');
 	});
 	
-	$('.downloadable-subrow-all input').on('ifUnchecked', function(event){
-//		  alert(event.type + ' callback');
-		  $('.downloadable-subrow input').iCheck('uncheck');
-	});	
-	
-//	$('#downloadable-chck-all').on('click', function(e){
-//		 if($('#downloadable-chck-all').is(':checked')){
-//			 $('.downloadable-chck').prop('checked', true);
-//		 }else{
-//			 $('.downloadable-chck').prop('checked', false);
-//		 }
-//	});	
+	$('.downloadable-subrow-all input').on({
+		'ifChecked': function(event){
+			$('.downloadable-subrow input').iCheck('check');
+		},
+		'ifUnchecked': function(event){
+			$('.downloadable-subrow input').iCheck('uncheck');
+		} 
+	});
+
 }
 
 function updateDownloadableData(){
@@ -362,112 +396,166 @@ function addHtmlInterficiePublicarDisable(){
 function addHtmlModalPublicar(){
 	
 	jQuery('#mapa_modals').append('<!-- Modal Publicar -->'+
-			'<div id="dialgo_publicar" class="modal fade">'+
-				'<div class="modal-dialog">'+
-					'<div class="modal-content">'+
-						'<div class="modal-header">'+
-							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-							'<h4 lang="ca" class="modal-title">Publicar el mapa</h4>'+
-						'</div>'+
-						'<div class="modal-body">'+
-							'<form id="frm_publicar">'+
-								'<section>'+
-								'<fieldset>'+
-								'		<input lang="ca" id="nomAplicacioPub" type="text" required'+
-								'			class="form-control my-border" placeholder="Nom" value="">'+
-								'		<br> '+
-								'		<input lang="ca" id="optDescripcio" type="text"'+ 
-								'			class="form-control my-border" placeholder="Descripció" value="">'+ 
-								'		<input lang="ca" id="optTags" type="text" '+
-								'			class="form-control my-border" placeholder="Etiquetes" value="">'+
-								'</fieldset>'+
-			'					</section>'+
-			'					<br>'+
-			'					<div lang="ca" class="alert alert-info">'+
-			'					<span class="glyphicon glyphicon-info-sign"></span>'+ 
-			'					<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span>'+ 
-			'					</div>'+
-			'					<div class="control-group">'+
-			'						<div class="control-switch">'+
-			'						<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>'+
-			'						<div class="controls">'+
-			'							<div tabindex="0">'+
-			'								<input class="make-switch" id="visibilitat_chk" type="checkbox"'+ 
-			'									data-label-text=\'<span class="glyphicon glyphicon-transfer"></span>\''+ 
-			'									data-on-text=\'<span><span class="fa fa-unlock glyphicon-white"></span>&nbsp;<span id="publish-public" lang="ca" data-toggle="tooltip" data-lang-title="El mapa es mostrarà a la galeria pública" title="El mapa es mostrarà a la galeria pública">Públic</span></span>\''+ 
-			'									data-off-text=\'<span><span class="fa fa-lock"></span>&nbsp;<span id="publish-private" lang="ca" data-toggle="tooltip" data-lang-title="El mapa només es mostrarà a la teva galeria privada" title="El mapa només es mostrarà a la teva galeria privada">Privat</span></span>\'>'+
-			'							</div>'+
-			'						</div>'+
-			'						</div>'+
-			'					</div>'+
-			'					<div class="modal-downloadable">'+
-			'					</div>'+
-			'					<br>'+
-			'					<div class="control-group">'+
-			'						<div class="control-switch">'+
-			'							<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>'+
-			'							<div class="controls">'+
-			'								<div tabindex="0">'+
-			'									<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox"'+ 
-			'										data-label-text=\'<span class="glyphicon glyphicon-transfer"></span>\' '+
-			'										data-on-text=\'<span id="publish-legend-yes" lang="ca">Si</span>\' '+
-			'										data-off-text=\'<span id="publish-legend-no" lang="ca">No</span>\'>'+
-			'								</div>'+
-			'							</div>'+
-			'						</div>'+
-			'					</div>	'+			
-			'					<div class="modal-legend">'+
-			'					</div>'+
-			'				</form>		'+			
-			'			</div>'+
-			'			<div class="modal-footer">'+
-			'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
-			'				<button lang="ca" type="button" class="btn btn-primary">Publicar</button>'+
-			'			</div>'+
-			'		</div>'+
-			'		<!-- /.modal-content -->'+
-			'	</div>'+
-			'	<!-- /.modal-dialog -->'+
-			'</div>'+
-			'<!-- /.modal -->'+
-			'<!-- Fi Modal Publicar -->'+
-			'<!-- Modal Publicar random -->'+
-			'<div id="dialgo_publicar_random" class="modal fade">'+
-			'	<div class="modal-dialog">'+
-			'		<div class="modal-content">'+
-			'			<div class="modal-header">'+
-			'				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-			'				<h4 lang="ca" class="modal-title">Publicar el mapa</h4>'+
-			'			</div>'+
-			'			<div class="modal-body" lang="ca">'+
-			'				Per publicar o compartir el mapa has d\'iniciar sessió'+
-			'			</div>'+
-			'			<div class="modal-footer">'+
-			'				<button lang="ca" type="button" class="btn bt-sessio"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "inici sessio", "modal pre-publicar"]);">Inicia la sessió</button>'+
-			'				<button lang="ca" type="button" class="btn bt_orange"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "registre", "modal pre-publicar"]);">Crea un compte</button>'+
-			'				<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
-			'						onClick="_gaq.push(["_trackEvent", "mapa", "guest", "modal pre-publicar"]);">Més tard</button>'+					
-			'			</div>'+
-			'		</div>'+
-			'		<!-- /.modal-content -->'+
-			'	</div>'+
-			'	<!-- /.modal-dialog -->'+
-			'</div>'+
-			'<!-- /.modal -->'+
-			'<!-- Fi Modal Publicar random -->');
+		'<div id="dialgo_publicar" class="modal fade">'+
+			'<div class="modal-dialog">'+
+				'<div class="modal-content">'+
+					'<div class="modal-header">'+
+						'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+						'<h4 lang="ca" class="modal-title">Publicar el mapa</h4>'+
+					'</div>'+
+					'<div class="modal-body">'+
+						'<form id="frm_publicar">'+
+							'<section>'+
+							'<fieldset>'+
+							'		<input lang="ca" id="nomAplicacioPub" type="text" required'+
+							'			class="form-control my-border" placeholder="Nom" value="">'+
+							'		<br> '+
+							'		<input lang="ca" id="optDescripcio" type="text"'+ 
+							'			class="form-control my-border" placeholder="Descripció" value="">'+ 
+							'		<input lang="ca" id="optTags" type="text" '+
+							'			class="form-control my-border" placeholder="Etiquetes" value="">'+
+							'</fieldset>'+
+		'					</section>'+
+		'					<br>'+
+		'					<div lang="ca" class="alert alert-info">'+
+		'					<span class="glyphicon glyphicon-info-sign"></span>'+ 
+		'					<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span>'+ 
+		'					</div>'+
+		'					<div class="control-group">'+
+		'						<div class="control-switch">'+
+		'						<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat</label>'+
+		'						<div class="controls">'+
+		'							<div tabindex="0">'+
+		'								<input class="make-switch" id="visibilitat_chk" type="checkbox"'+ 
+		'									data-label-text=\'<span class="glyphicon glyphicon-transfer"></span>\''+ 
+		'									data-on-text=\'<span><span class="fa fa-unlock glyphicon-white"></span>&nbsp;<span id="publish-public" lang="ca" data-toggle="tooltip" data-lang-title="El mapa es mostrarà a la galeria pública" title="El mapa es mostrarà a la galeria pública">Públic</span></span>\''+ 
+		'									data-off-text=\'<span><span class="fa fa-lock"></span>&nbsp;<span id="publish-private" lang="ca" data-toggle="tooltip" data-lang-title="El mapa només es mostrarà a la teva galeria privada" title="El mapa només es mostrarà a la teva galeria privada">Privat</span></span>\'>'+
+		'                           <span class="protegit"><input type="checkbox" id="is_map_protegit"><label for="is_map_protegit" lang="ca">Protegit amb clau</label></span>'+
+		'							</div>'+
+		'						</div>'+
+		'						</div>'+
+		'					</div>'+
+		
+		
+		
+		'                   <div class="control-group protegit">'+
+		'						<div><label class="control-label" lang="ca">Clau</label></div>'+
+		'                       <span class="clau"><input type="password" id="map_clau" maxLength="20" disabled></span>'+
+		'                       <button type="button" id="resetClau" class="btn btn-xs btn-info" lang="ca">Reiniciar clau</button>'+
+		'					</div>'+
+		
+		
+		'					<div class="modal-downloadable">'+
+		'					</div>'+
+		'					<br>'+
+		'					<div class="control-group">'+
+		'						<div class="control-switch">'+
+		'							<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>'+
+		'							<div class="controls">'+
+		'								<div tabindex="0">'+
+		'									<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox"'+ 
+		'										data-label-text=\'<span class="glyphicon glyphicon-transfer"></span>\' '+
+		'										data-on-text=\'<span id="publish-legend-yes" lang="ca">Si</span>\' '+
+		'										data-off-text=\'<span id="publish-legend-no" lang="ca">No</span>\'>'+
+		'								</div>'+
+		'							</div>'+
+		'						</div>'+
+		'					</div>	'+			
+		'					<div class="modal-legend">'+
+		'					</div>'+
+		'				</form>		'+			
+		'			</div>'+
+		'			<div class="modal-footer">'+
+		'				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>'+
+		'				<button lang="ca" type="button" class="btn btn-primary">Publicar</button>'+
+		'			</div>'+
+		'		</div>'+
+		'		<!-- /.modal-content -->'+
+		'	</div>'+
+		'	<!-- /.modal-dialog -->'+
+		'</div>'+
+		'<!-- /.modal -->'+
+		'<!-- Fi Modal Publicar -->'+
+		'<!-- Modal Publicar random -->'+
+		'<div id="dialgo_publicar_random" class="modal fade">'+
+		'	<div class="modal-dialog">'+
+		'		<div class="modal-content">'+
+		'			<div class="modal-header">'+
+		'				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+		'				<h4 lang="ca" class="modal-title">Publicar el mapa</h4>'+
+		'			</div>'+
+		'			<div class="modal-body" lang="ca">'+
+		'				Per publicar o compartir el mapa has d\'iniciar sessió'+
+		'			</div>'+
+		'			<div class="modal-footer">'+
+		'				<button lang="ca" type="button" class="btn bt-sessio"'+ 
+		'						onClick="_gaq.push(["_trackEvent", "mapa", "inici sessio", "modal pre-publicar"]);">Inicia la sessió</button>'+
+		'				<button lang="ca" type="button" class="btn bt_orange"'+ 
+		'						onClick="_gaq.push(["_trackEvent", "mapa", "registre", "modal pre-publicar"]);">Crea un compte</button>'+
+		'				<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
+		'						onClick="_gaq.push(["_trackEvent", "mapa", "guest", "modal pre-publicar"]);">Més tard</button>'+					
+		'			</div>'+
+		'		</div>'+
+		'		<!-- /.modal-content -->'+
+		'	</div>'+
+		'	<!-- /.modal-dialog -->'+
+		'</div>'+
+		'<!-- /.modal -->'+
+		'<!-- Fi Modal Publicar random -->'
+	);
 	
-			$('.make-switch').bootstrapSwitch();
-			//Configurar Llegenda
-			$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
-				if(state.value == true) {
-					createModalConfigLegend();
-				}else{
-					$('#dialgo_publicar .modal-body .modal-legend').hide();
-				}
-			});	
+	$('.make-switch').bootstrapSwitch();
+	//Configurar Llegenda
+	$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+		if(state.value == true) {
+			createModalConfigLegend();
+		}else{
+			$('#dialgo_publicar .modal-body .modal-legend').hide();
+		}
+	});	
+
+	$('#visibilitat_chk').on('switchChange.bootstrapSwitch', function(event, state) {
+		if(state.value == true) { //public
+			$('.protegit').hide();
+		}else{ //privat
+			$('.protegit').show();
+		}
+	});	
 	
+	$('#is_map_protegit').iCheck({
+	    checkboxClass: 'icheckbox_flat-blue',
+	    radioClass: 'iradio_flat-blue'
+	});	
+	
+	$('#is_map_protegit').on({
+		'ifChecked': function(event){
+			if (mapConfig.clau){
+				$('#map_clau').val(randomString(10));
+				$('#map_clau').prop('disabled',true);
+			}else{
+				$('#map_clau').prop('disabled',false);
+			}	
+		},
+		'ifUnchecked': function(event){
+			if (mapConfig.clau){
+				$('#map_clau').val('');
+			}else{
+				$('#map_clau').prop('disabled',true);
+			}
+		}
+	});
+	
+	$('#resetClau').on('click',function(){
+		var mapData = {
+			businessId: mapConfig.businessId,
+			uid: $.cookie('uid')
+		};
+		resetClauMapa(mapData).then(function(results){
+			mapConfig.clau = null;
+			$('#map_clau').val('');
+		});
+	});
+			
 }
 
 function addHtmlModalIframePublicar(){

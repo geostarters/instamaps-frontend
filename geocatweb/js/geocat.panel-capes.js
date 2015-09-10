@@ -19,7 +19,7 @@ function addFuncioRenameMap(){
 			}
 			updateMapName(data).then(function(results){
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom aplicacio', 'label editar nom', 1]);
-				//_kmq.push(['record', 'editar nom aplicacio', {'from':'mapa', 'tipus user':tipus_user}]);
+
 				if(results.status=='OK'){
 					$('#dialgo_publicar #nomAplicacioPub').val(results.results);
 					mapConfig.nomAplicacio = results.results;
@@ -36,7 +36,7 @@ function addFuncioRenameMap(){
  * */
 
 function updateEditableElements(){
-	//console.debug('updateEditableElements');
+
 	$('.leaflet-name .editable').editable({
 		type: 'text',
 		mode: 'inline',
@@ -57,81 +57,46 @@ function updateEditableElements(){
 					editableLayer = controlCapes._layers[this.id];
 				}
 				
-				if(typeof url('?businessid') == "string"){
+				var data = {
+					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	serverName: newValue
+					 }
+					var oldName = this.innerHTML;
 					
-					if(false){
-						var data = {
-							 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
-							 	uid: $.cookie('uid'),
-							 	nom: newValue
-							 }
-							var oldName = this.innerHTML;
+					updateServidorWMSName(data).then(function(results){
+						if(results.status==='OK'){
+							_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
+	//						console.debug('udpate map name OK');
+							editableLayer.name = newValue;
+							editableLayer.layer.options.nom = newValue;
 							
-						updateServidorWMSName(data).then(function(results){
-								if(results.status==='OK'){
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-									//_kmq.push(['record', 'editar nom capa', {'from':'mapa', 'tipus user':tipus_user}]);
-			//						console.debug('udpate map name OK');
-									editableLayer.name = newValue;
-									editableLayer.layer.options.nom = newValue;
-								}else{
-									editableLayer.name = oldName;
-									$('.leaflet-name label span#'+id).text(results.results.nom);
-								}				
-							},function(results){
-								editableLayer.name = oldName;
-								var obj = $('.leaflet-name label span#'+id).text();
-								$('.leaflet-name label span#'+id).text(oldName);
-							});							
-					}else{
-						var data = {
-							 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
-							 	uid: $.cookie('uid'),
-							 	serverName: newValue
-							 }
-							var oldName = this.innerHTML;
-							
-							updateServidorWMSName(data).then(function(results){
-								if(results.status==='OK'){
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-									//_kmq.push(['record', 'editar nom capa', {'from':'mapa', 'tipus user':tipus_user}]);
-			//						console.debug('udpate map name OK');
-									editableLayer.name = newValue;
-									editableLayer.layer.options.nom = newValue;
-								}else{
-									editableLayer.name = oldName;
-									$('.leaflet-name label span#'+id).text(results.results.nom);
-								}				
-							},function(results){
-								editableLayer.name = oldName;
-								var obj = $('.leaflet-name label span#'+id).text();
-								$('.leaflet-name label span#'+id).text(oldName);
-							});							
-					}
-					
-					
-			}else{
-				editableLayer.name = newValue;
-				editableLayer.layer.options.nom = newValue;
-			}		
-	 }
+							if(editableLayer.layer.options.businessId == $("#mapLegendEdicio").data("businessid")){
+								$(".titol-legend").html(newValue);
+							}
+						}else{
+							editableLayer.name = oldName;
+							$('.leaflet-name label span#'+id).text(results.results.nom);
+						}				
+					},function(results){
+						editableLayer.name = oldName;
+						var obj = $('.leaflet-name label span#'+id).text();
+						$('.leaflet-name label span#'+id).text(oldName);
+					});							
+		}
 	});
 	
     $('.leaflet-name .editable').on('shown', function(e, editable) {
-//        console.debug('shown editable:'+editable);
         jQuery('.opcio-conf').hide();
         jQuery('.subopcio-conf').hide();
         jQuery('.leaflet-data-table').hide();
         
     });
     $('.leaflet-name .editable').on('hidden', function(e, editable) {
-//    	console.debug('hidden editable:'+editable);
         jQuery('.opcio-conf').show();
         jQuery('.leaflet-data-table').show();
     });    
 }
-
-//function updateEditableElementsVisor(){}
 
 /**
  * Funcionalitat de descarrega de capes
@@ -167,9 +132,6 @@ function addFuncioDownloadLayer(from){
 		var filename = $('#input-download-name').val();
 		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
 		console.debug(layer_GeoJSON);
-		/*for(var i=0;i<layer_GeoJSON.features.length;i++){
-			layer_GeoJSON.features[i].properties.tipus = "downloaded";
-		}*/
 
 		var data = {
 			cmb_formatOUT: formatOUT,
@@ -179,11 +141,10 @@ function addFuncioDownloadLayer(from){
 		};
 		
 		_gaq.push(['_trackEvent', from, tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
-		//_kmq.push(['record', 'descarregar capa', {'from':'mapa', 'tipus user':tipus_user, 'format out':formatOUT,'epsgOUT':epsgOUT}]);
+		
 		getDownloadLayer(data).then(function(results){
 			results = results.trim();
 			if (results == "ERROR"){
-				//alert("Error 1");
 				$('#modal-body-download-error').show();
 				$('#modal-body-download').hide();
 				$('#modal_download_layer .modal-footer').hide();
@@ -218,7 +179,6 @@ function addFuncioRemoveLayer(){
 		removeServerToMap(data).then(function(results){
 			if(results.status==='OK'){
 			
-//				this.myRemoveLayer(obj);
 				map.closePopup();
 				map.removeLayer(obj.layer);
 				//Eliminem la capa de controlCapes

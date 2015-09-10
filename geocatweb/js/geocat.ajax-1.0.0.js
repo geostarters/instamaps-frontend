@@ -15,6 +15,22 @@ function loadPublicGaleria(params){
 	}).promise();
 }
 
+function loadNumGaleria(){
+	return jQuery.ajax({
+		url: paramUrl.getNumGaleria,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+function searchGaleriaMaps(params){
+	return jQuery.ajax({
+		url: paramUrl.searchGaleriaMaps,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+
 function deleteMap(data){
 	return jQuery.ajax({
 		url: paramUrl.deleteMap,
@@ -901,6 +917,22 @@ function crearFitxerPolling(params){
   		data: params,
   		method: 'post',
   		dataType: 'jsonp'
+	}).promise();
+}
+function resetClauMapa(data){
+	return jQuery.ajax({
+		url: paramUrl.resetClauMapa,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function loadPrivateMapByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.loadPrivateMapByBusinessId,
+		method: 'post',
+		data: data,
+		dataType: 'jsonp'
 	}).promise();
 }
 function filter(params){

@@ -30,6 +30,15 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		}else{
 		
 			var esNomesWMS = true;
+			
+			//De moment, si es un wms creat pel cloudifier, demanem text/pla
+			//mes endavant passarem per ogrinfo i podrem demanar HTML amb template
+			//per mostrar la informacio
+			if (params.indexOf('http://betaserver.icgc.cat/geoservice/')!=-1){
+				params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
+			}
+			
+			
 			for(val in controlCapes._layers){
 				if(controlCapes._layers[val].layer.options.tipus != t_wms){
 					esNomesWMS = false;

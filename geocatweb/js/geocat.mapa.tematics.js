@@ -276,7 +276,8 @@ function createPopupWindowData(player,type, editable, origen){
 		+'</div>';			
 	}
 	
-	html+='</div>'; 
+	html+='</div>';
+	
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
@@ -1379,10 +1380,6 @@ function loadVisualitzacioLayer(layer){
 	//console.time("loadTematicLayer " + layerWms.serverName);
 	getVisualitzacioByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
-			//console.debug("visualitzacio:");
-			//console.debug(results.results);
-			//console.debug("layer:");
-			//console.debug(layer);			
 			readVisualitzacio(defer, results.results, layer);			
 		}else{
 			console.debug('getVisualitzacioByBusinessId ERROR');
@@ -1396,6 +1393,7 @@ function loadVisualitzacioLayer(layer){
 }
 
 function readVisualitzacio(defer, visualitzacio, layer){
+	
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 					|| (layer.options && (layer.options.indexOf("source")!=-1) );
@@ -1629,7 +1627,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					//console.debug(feat);
 				
 					if(geomTypeVis == t_polygon){
-						feat.properties.mida = calculateArea(feat.getLatLngs());
+						feat.properties.mida = calculateArea(feat);
 					}else if(geomTypeVis == t_polyline){
 						feat.properties.mida = calculateDistance(feat.getLatLngs());
 					}
@@ -1701,6 +1699,13 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			controlCapes._lastZIndex++;
 		}				
 	}
+	
+		//Si la capa es tematic categories, afegir llegenda al mode edicio
+		if (visualitzacio.tipus == tem_clasic && $(location).attr('href').indexOf('/mapa.html')!=-1){
+//			console.debug("Holaaaa");
+			loadMapLegendEdicio(capaVisualitzacio);
+		}
+		
 		defer.resolve(capaVisualitzacio);		
 		return defer.promise();
 	}

@@ -70,9 +70,22 @@ function calculateDistance(lLatLngs){
 	return L.GeometryUtil.readableDistance(totalDistance, true);
 }
 
-function calculateArea(lLatLngs){
-	var totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
+function calculateArea(layer){
+	var totalArea = getAreaLayer(layer);
 	return L.GeometryUtil.readableArea(totalArea, true);
+}
+
+function getAreaLayer(layer){
+	var totalArea = 0;
+	if (layer._layers){
+		layer.eachLayer(function (layer) {
+			totalArea += getAreaLayer(layer);
+		});
+	}else{
+		var lLatLngs = layer.getLatLngs();
+		totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
+	}
+	return totalArea;
 }
 
 function transformTipusGeometry(geometrytype){

@@ -1189,11 +1189,11 @@ function addHtmlModalCarregarFitxers(){
 		'									<option value="EPSG:23030">EPSG:23030 (ED50-UTM 30N	Easting,Northing o X,Y)</option>'+
 		'									<option value="EPSG:23029">EPSG:23029 (ED50-UTM 29N	Easting,Northing o X,Y)</option>'+
 		'									<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
-		'									<option value="EPSG:3034">EPSG:3034 (ETRS89 / ETRS-LCC) </option>'+
-		'									<option value="EPSG:3035">EPSG:3035 (ETRS89 / ETRS-LAEA)</option>'+
-		'									<option value="EPSG:3041">EPSG:3041 (ETRS89 / ETRS-TM29)</option>'+ 
-		'									<option value="EPSG:3042">EPSG:3042 (ETRS89 / ETRS-TM30)</option>'+ 
-		'									<option value="EPSG:3043">EPSG:3043 (ETRS89 / ETRS-TM31)</option>'+  
+//		'									<option value="EPSG:3034">EPSG:3034 (ETRS89 / ETRS-LCC) </option>'+
+//		'									<option value="EPSG:3035">EPSG:3035 (ETRS89 / ETRS-LAEA)</option>'+
+//		'									<option value="EPSG:3041">EPSG:3041 (ETRS89 / ETRS-TM29)</option>'+ 
+//		'									<option value="EPSG:3042">EPSG:3042 (ETRS89 / ETRS-TM30)</option>'+ 
+//		'									<option value="EPSG:3043">EPSG:3043 (ETRS89 / ETRS-TM31)</option>'+  
 		'								</select>'+
 		'								</li>'+
 		'							</ul>'+
@@ -1237,11 +1237,11 @@ function addHtmlModalCarregarFitxers(){
 		'											<option value="EPSG:23030">EPSG:23030 (ED50-UTM 30N	Easting,Northing o X,Y)</option>'+
 		'											<option value="EPSG:23029">EPSG:23029 (ED50-UTM 29N	Easting,Northing o X,Y)</option>'+
 		'											<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
-		'											<option value="EPSG:3034">EPSG:3034 (ETRS89 / ETRS-LCC) </option>'+
-		'											<option value="EPSG:3035">EPSG:3035 (ETRS89 / ETRS-LAEA)</option>'+
-		'											<option value="EPSG:3041">EPSG:3041 (ETRS89 / ETRS-TM29)</option>'+ 
-		'											<option value="EPSG:3042">EPSG:3042 (ETRS89 / ETRS-TM30)</option>'+ 
-		'											<option value="EPSG:3043">EPSG:3043 (ETRS89 / ETRS-TM31)</option>'+  
+//		'											<option value="EPSG:3034">EPSG:3034 (ETRS89 / ETRS-LCC) </option>'+
+//		'											<option value="EPSG:3035">EPSG:3035 (ETRS89 / ETRS-LAEA)</option>'+
+//		'											<option value="EPSG:3041">EPSG:3041 (ETRS89 / ETRS-TM29)</option>'+ 
+//		'											<option value="EPSG:3042">EPSG:3042 (ETRS89 / ETRS-TM30)</option>'+ 
+//		'											<option value="EPSG:3043">EPSG:3043 (ETRS89 / ETRS-TM31)</option>'+  
 		'										</select>'+
 		'										</li>'+
 		'									</ul>'+
