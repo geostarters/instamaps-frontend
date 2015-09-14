@@ -72,6 +72,8 @@ var paramUrl = {
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	urlFile:GEOCAT02+"/share/jsp/urlFile.jsp?",
 	urlFileProves:GEOCAT02+"/share/jsp/urlFileProves.jsp?",
+	urlFileNoDin:GEOCAT02+"/share/jsp/urlFileNoDin.jsp?",
+	urlFileDin:GEOCAT02+"/share/jsp/urlFileDin.jsp?",
 	//getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",

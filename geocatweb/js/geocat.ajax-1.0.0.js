@@ -600,6 +600,26 @@ function getUrlFileProves(data){
 	}).promise();
 }
 
+function getUrlFileNoDin(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFileNoDin,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getUrlFileDin(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFileDin,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function getUserSimple(data){
 	return jQuery.ajax({
 		url: paramUrl.getUserSimple,

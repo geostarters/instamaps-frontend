@@ -61,7 +61,7 @@ function createTematicLayerBasic(tematic, styles){
 			jQuery('#info_uploadFile').show();
 			jQuery("#div_uploading_txt").html("");
 			jQuery("#div_uploading_txt").html(
-					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
 			);
 			loadDadesObertesLayer(results.results).then(function(results){
@@ -90,8 +90,8 @@ function createTematicLayerBasic(tematic, styles){
 			
 		}else{
 			var markerStyle2 = rangs[0];
-			rangs[0].color = markerStyle2.borderColor;
 			rangs[0].fillColor = markerStyle2.color;
+			rangs[0].color = markerStyle2.borderColor;
 			rangs[0].fillOpacity = 1;
 			rangs[0].opacity = 1;
 			rangs[0].radius = markerStyle2.simbolSize;
@@ -143,7 +143,7 @@ function createTematicLayerBasic(tematic, styles){
 			jQuery('#info_uploadFile').show();
 			jQuery("#div_uploading_txt").html("");
 			jQuery("#div_uploading_txt").html(
-					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
 			);
 			loadURLfileLayer(results.results).then(function(results){
@@ -183,7 +183,7 @@ function createTematicLayerBasic(tematic, styles){
 			jQuery('#info_uploadFile').show();
 			jQuery("#div_uploading_txt").html("");
 			jQuery("#div_uploading_txt").html(
-					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
 			);
 //			console.debug(results.results);
@@ -250,7 +250,7 @@ function createTematicLayerBasic(tematic, styles){
 				jQuery('#info_uploadFile').show();
 				jQuery("#div_uploading_txt").html("");
 				jQuery("#div_uploading_txt").html(
-						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
 				);
 		
