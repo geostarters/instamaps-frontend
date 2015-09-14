@@ -90,8 +90,8 @@ function createTematicLayerBasic(tematic, styles){
 			
 		}else{
 			var markerStyle2 = rangs[0];
-			rangs[0].color = markerStyle2.borderColor;
 			rangs[0].fillColor = markerStyle2.color;
+			rangs[0].color = markerStyle2.borderColor;
 			rangs[0].fillOpacity = 1;
 			rangs[0].opacity = 1;
 			rangs[0].radius = markerStyle2.simbolSize;

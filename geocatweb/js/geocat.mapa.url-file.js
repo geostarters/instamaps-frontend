@@ -5,10 +5,10 @@
 
 function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi){
 
-	console.debug("createURLfileLayer...");
-	console.debug(tipusAcc);
-	console.debug(tipusCodi);
-	console.debug(tipusFont);
+	//console.debug("createURLfileLayer...");
+	//console.debug(tipusAcc);
+	//console.debug(tipusCodi);
+	//console.debug(tipusFont);
 	
 	//Estil defecte
 	var estil_do = retornaEstilaDO(t_url_file);
@@ -155,7 +155,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				    	
 					  capaURLfile.addData(data);
 					  
-					  var llita_options = '{"tipusFile":"'+tipusFile+
+					  var llista_options = '{"tipusFile":"'+tipusFile+
 					  						'","nom":"'+nomCapa+
 					  						'","propName":"'+propName+
 					  						'","url":"'+urlFile+
@@ -254,7 +254,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	
   /*** NO DINAMICA ***/		
 	}else{
-		console.debug("getUrlFile PROVES NO DINAMICA");
+		//console.debug("getUrlFile PROVES NO DINAMICA");
 		
 		var codiUnic = getCodiUnic();
 		
@@ -377,6 +377,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
 									var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 									$('#dialog_error_upload_txt').html(msg);
+									
+								}else if(data.codi.indexOf("08")!=-1){//cas 08: Mida de fitxer supera els 50MB permesos per dades externes dinamiques
+									var msg = "[08]: " + window.lang.convert("La mida del fitxer supera el límit preestablert per a dades externes no dinàmiques (50MB).");
+									$('#dialog_error_upload_txt').html(msg);
 								}
 								
 							}else{
@@ -404,8 +408,48 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 function processFileError(data){
 	
-	var txt_error = window.lang.convert("Error durant el tractament de les dades");
+	if(data.codi){
+		
+		if(data.codi.indexOf("01")!=-1){//cas 01: Erro al descarregar el fitxer zip (download_zip_file)
+			var txt_error = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la descàrrega del fitxer.");
+			
+		}else if(data.codi.indexOf("02")!=-1){//cas 02: EnviaFileReadyCodiDin a myUtils.jsp ha donat una excepcio
+			var msg = "[02]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+			
+		}else if(data.codi.indexOf("03")!=-1){//cas 03: Error de conversio del fitxer
+			var txt_error = "[03]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+//			$('#dialog_error_upload_txt').html(msg);
+			
+		}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
+			var txt_error = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+//				$('#dialog_error_upload_txt').html(msg);
+		
+		}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
+			var txt_error = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+//			$('#dialog_error_upload_txt').html(msg);
+			
+		}else if(data.codi.indexOf("06")!=-1){//cas 06: OGRInfo ha donat resposta fallida
+			var txt_error = "[06]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+//			$('#dialog_error_upload_txt').html(msg);
+				
+		}else if(data.codi.indexOf("07")!=-1){//cas 07: Num maxim de punts excedit
+			var txt_error = "[07]: " + window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
+//			$('#dialog_error_upload_txt').html(msg);
+		
+		}else if(data.codi.indexOf("08")!=-1){//cas 08: Num maxim de linies/poligons exedit
+			var txt_error = "[08]: " + window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+//			$('#dialog_error_upload_txt').html(msg);
+		
+		}else if(data.codi.indexOf("09")!=-1){//cas 09: Mida de fitxer supera els 25MB permesos per dades externes dinamiques
+			var txt_error = "[09]: " + window.lang.convert("La mida del fitxer supera el límit preestablert per a dades externes dinàmiques (25MB).");
+//			$('#dialog_error_upload_txt').html(msg);
+		}			
+		
+	}else{
+		var txt_error = window.lang.convert("Error durant el tractament de les dades");
+	}
 	
+	/*
 	if(data.results.indexOf("CONVERT ERROR")!= -1){
 		var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
 	}else if(data.results.indexOf("501")!= -1){//+ de 5000 punts
@@ -414,13 +458,11 @@ function processFileError(data){
 		txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho");
 	}else if(data.results.indexOf("503")!= -1){//+ de 6000 geometries
 		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
-	}
+	}*/
 	
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
-	//_kmq.push.push(['record', 'dades externes error', {'from':'mapa', 'tipus user':tipus_user, 'tipus error':data.results}]);
 	
 	jQuery("#div_url_file_message").html(txt_error);
-//	jQuery('#div_url_file').removeClass('waiting_animation');
 	jQuery("#div_url_file_message").show();
 }
 
@@ -451,16 +493,17 @@ function loadURLfileLayer(layer){
 		options.nom = layer.serverName;
 		options.businessId = layer.businessId;
 		
-		var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+
+		var param_url = paramUrl.urlFileDin +  "tipusFile=" + tipusFile+
 											   "&colX="+colX+
 											   "&colY="+colY+
 											   "&epsgIN="+epsgIN+
 											   "&dinamic="+dinamic+
 											   "&urlFile="+encodeURIComponent(urlFile)+
 											   "&tipusAcc="+tipusAcc+
-												 "&tipusCodi="+tipusCodi+
-												 "&tipusFont="+tipusFont+
-												 "&nomCampCodi="+nomCampCodi+
+											   "&tipusCodi="+tipusCodi+
+											   "&tipusFont="+tipusFont+
+											   "&nomCampCodi="+nomCampCodi+
+											   "&uploadFile="+paramUrl.uploadFile+
 											   "&uid="+$.cookie('uid');
 
 		
@@ -551,16 +594,17 @@ function loadURLfileLayer(layer){
 		options.nom = layer.serverName;
 		options.businessId = layer.businessId;
 		
-		var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+
+		var param_url = paramUrl.urlFileDin +  "tipusFile=" + tipusFile+
 											   "&colX="+colX+
 											   "&colY="+colY+
 											   "&epsgIN="+epsgIN+
 											   "&dinamic="+dinamic+
 											   "&urlFile="+encodeURIComponent(urlFile)+
 											   "&tipusAcc="+tipusAcc+
-												 "&tipusCodi="+tipusCodi+
-												 "&tipusFont="+tipusFont+
-												 "&nomCampCodi="+nomCampCodi+											   
+											   "&tipusCodi="+tipusCodi+
+											   "&tipusFont="+tipusFont+
+											   "&nomCampCodi="+nomCampCodi+	
+											   "&uploadFile="+paramUrl.uploadFile+
 											   "&uid="+$.cookie('uid');
 		
 		var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
@@ -682,6 +726,7 @@ function loadURLfileLayer(layer){
 											   "&colY="+colY+
 											   "&epsgIN="+epsgIN+
 											   "&dinamic="+dinamic+
+											   "&uploadFile="+paramUrl.uploadFile+
 											   "&urlFile="+encodeURIComponent(urlFile);	
 		
 		var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
@@ -776,19 +821,20 @@ function loadURLfileLayer(layer){
 											   "&dinamic="+dinamic+
 											   "&urlFile="+encodeURIComponent(urlFile)+
 											   "&uid="+$.cookie('uid')+
+											   "&uploadFile="+paramUrl.uploadFile+
 											   "&tem="+tem_heatmap;	
 		
 		var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
-			nom : layer.serverName,
-			tipus : layer.serverType,
-			geometryType: geometryType,
-			estil_do: estil_do,
-			businessId : layer.businessId,
-			pointToLayer : function(feature, latlng) {
-				var geom = L.circleMarker(latlng, estil_do);
-				var popup = L.popup().setContent("");
-			    return geom.bindPopup(popup);
-			  }
+												nom : layer.serverName,
+												tipus : layer.serverType,
+												geometryType: geometryType,
+												estil_do: estil_do,
+												businessId : layer.businessId,
+												pointToLayer : function(feature, latlng) {
+													var geom = L.circleMarker(latlng, estil_do);
+													var popup = L.popup().setContent("");
+												    return geom.bindPopup(popup);
+												  }
 		});		
 		
 		capaURLfileLoad.on('data:loaded', function(e){
@@ -966,7 +1012,7 @@ function defineGeometryType(data){
 }
 
 function loadUrlFileHeatmapLayer(layer){
-	console.debug("loadUrlFileHeatmapLayer");
+	//console.debug("loadUrlFileHeatmapLayer");
 
 	var options = jQuery.parseJSON( layer.options );
 //	var estil_do = options.estil_do;
