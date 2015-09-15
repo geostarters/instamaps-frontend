@@ -92,8 +92,8 @@
 	 display: block;
 	 float: left;
 	 height: 34px;
-	 margin: -1px 0 0 2px;
-	 padding: 0 18px 0 2px;
+	 /*margin: -1px 0 0 2px;*/
+	 padding: 0 10px;
 }
 
 .leaflet-control-search.search-load .search-input {
@@ -911,5 +911,9 @@ textarea {
 
 .tab-content-margin5px{
 	margin: 5px;
+}
+
+#input-camp-codi-urlfile {
+    height: 24px;
 }
 

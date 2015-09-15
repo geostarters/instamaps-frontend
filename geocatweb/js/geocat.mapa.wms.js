@@ -223,7 +223,7 @@ function getCapabilitiesWMS(url, servidor) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';
 			} else {
-				alert(window.lang.convert("Instamaps carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
+				alert(window.lang.convert("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 				return;
 			}
 			

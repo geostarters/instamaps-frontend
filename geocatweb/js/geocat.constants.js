@@ -136,14 +136,17 @@ var visibilitat_open = 'O';
 var visibilitat_privat = 'P';
 
 var t_file_csv = ".csv";
+var t_file_txt = ".txt";
 var t_file_gpx = ".gpx";
 var t_file_kml = ".kml";
+var t_file_gml = ".gml";
 var t_file_wkt = ".wkt";
 var t_file_json = ".json";
 var t_file_geojson = ".geojson";
 var t_file_topojson = ".topojson";
 var t_file_shp = ".shp";
 var t_file_dxf = ".dxf";
+var t_file_dgn = ".dgn";
 var t_file_xls = ".xls";
 var t_file_xlsx = ".xlsx";
 

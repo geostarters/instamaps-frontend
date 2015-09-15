@@ -35,9 +35,9 @@ jQuery(document).ready(function(){
 
 function loadUrlCloudifier(p_url, p_layername, p_crs){
 //	
-//	console.debug(p_url);
-//	console.debug(p_layername);
-//	console.debug(p_crs);
+	console.debug(p_url);
+	console.debug(p_layername);
+	console.debug(p_crs);
 	
 	var wmsLayer = L.tileLayer.betterWms(p_url, {
 		layers :p_layername,
@@ -105,21 +105,21 @@ function createNewMap(url, layername, epsg){
 		tipusApp: 'vis',
 	};
 	
-	createMap(data).then(function(results){
-		if (results.status == "ERROR"){
-			console.debug("1.ERROR createMap modul cloudifier");
-			gestioCookie('createMapError');
-		}else{
-			try{
-				mapConfig = results.results;
-				mapConfig.options = jQuery.parseJSON( mapConfig.options );
-				jQuery('#businessId').val(mapConfig.businessId);
-				mapConfig.newMap = false;
-				window.location = paramUrl.visorCloudifier+"?businessid="+mapConfig.businessId+"&urlcloudifier="+url+"&layername="+layername+"&epsg="+epsg;
-			}catch(err){
-				console.debug("2.ERROR createMap modul cloudifier");
-				gestioCookie('createMap');
-			}
-		}
-	});
+//	createMap(data).then(function(results){
+//		if (results.status == "ERROR"){
+//			console.debug("1.ERROR createMap modul cloudifier");
+//			gestioCookie('createMapError');
+//		}else{
+//			try{
+//				mapConfig = results.results;
+//				mapConfig.options = jQuery.parseJSON( mapConfig.options );
+//				jQuery('#businessId').val(mapConfig.businessId);
+//				mapConfig.newMap = false;
+//				window.location = paramUrl.visorCloudifier+"?businessid="+mapConfig.businessId+"&urlcloudifier="+url+"&layername="+layername+"&epsg="+epsg;
+//			}catch(err){
+//				console.debug("2.ERROR createMap modul cloudifier");
+//				gestioCookie('createMap');
+//			}
+//		}
+//	});
 }
