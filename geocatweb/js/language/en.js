@@ -373,6 +373,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"No s'ha iniciat la sessió":"Not signed in."
 ,"No s'ha iniciat la sessió. Torni a intentar-ho.":"Session has not been started. Try again."
 ,"No s'ha pogut esborrar l'usuari. Si us plau torna-ho a provar":"Could not delete the user. Please try again"
+,"No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326":"Service could not be displayed: Instamaps only loads global WMS services in EPSG:3857 and EPSG:4326"
 ,"Nodes guifi.net":"guifi.net nodes"
 ,"Nom capa":"Layer name"
 ,"Nom d'usuari no disponible.":"Username not available."
