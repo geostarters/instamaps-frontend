@@ -125,7 +125,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			    	//console.debug(capaURLfile);				  
 				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
-					  processFileError(data);
+					  processFileError(data, urlFile);
 					  jQuery('#info_uploadFile').hide();
 				  }else{
 					  //console.debug(data);	
@@ -237,12 +237,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									
 								}else{
 									console.debug("1.Error a createServidorInMap:"+results.status);
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques error createServidorInMap1', urlFile, 1]);
 									var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
 									jQuery("#div_url_file_message").html(txt_error);							
 
 								}
 						},function(results){
 							console.debug("2.Error a createServidorInMap:"+results.status);
+							_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques error createServidorInMap2', urlFile, 1]);
 							var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
 							jQuery("#div_url_file_message").html(txt_error);
 							jQuery('#info_uploadFile').hide();
@@ -334,7 +336,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							);									
 							
 							addDropFileToMap(data);
-							_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+							_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
 						
 						}else if(data.status.indexOf("ERROR")!=-1){
 							console.error("Error al carregar fitxer:");
@@ -348,7 +350,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							
 							if(data.codi){
 								
-								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+								_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error '+data.codi, urlFile, 1]);
 								
 								if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
 									var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
@@ -384,7 +386,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								}
 								
 							}else{
-								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+								_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error sense codi', urlFile, 1]);
 								$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
 							}
 							
@@ -406,9 +408,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	}
 }
 
-function processFileError(data){
+function processFileError(data, urlFile){
 	
 	if(data.codi){
+		
+		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques error '+data.codi, urlFile, 1]);
 		
 		if(data.codi.indexOf("01")!=-1){//cas 01: Erro al descarregar el fitxer zip (download_zip_file)
 			var txt_error = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la descàrrega del fitxer.");
@@ -460,7 +464,7 @@ function processFileError(data){
 		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 	}*/
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
+	//_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
 	
 	jQuery("#div_url_file_message").html(txt_error);
 	jQuery("#div_url_file_message").show();
