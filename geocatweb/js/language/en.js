@@ -316,14 +316,11 @@ jquery_lang_js.prototype.lang.en = {
 
 ,"L'adreça he de contenir: Nom carrer, número i  municipi":"The address must contain: street name, number and municipality"
 ,"L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.":"Analysis of file information has not returned results. Check the file and try again."
-<<<<<<< HEAD
 ,"L'estil bàsic genera una visualització dels elements d'una capa uniformement per al conjunt.":"The basic style generates a visualization of the elements of a layer uniformly for the whole set."
 ,"L'estil categories genera una visualització dels elements d'una capa a partir d'un camp, numèric o de text, de les dades.":"The categories style generates a visualization of the elements of a given layer from a numeric or text field of the data."
 ,"L'estil mides genera una visualització dels elements d'una capa a partir d'un camp numèric de les dades. Permet escollir entre interval graduat o proporcional al valor.":"The measurement style generates a visualization of the elements of a layer from a numeric field of the data. Allows choosing between graduated interval or proportional to the value."
 ,"L'estil concentració genera una visualització dels elements d'una capa a partir de la densitat de les dades en forma de mapa de calor (heatmap).":"The density style generates a visualization of the elements of a layer from the data density as a heatmap."
 ,"L'estil agrupació genera una visualització dels elements d'una capa a partir de la densitat de les dades agrupats en grups de proximitat (clusters).":"The cluster style generates a visualization of the elements of a layer from the density of the data grouped in proximity groups (clusters)."
-=======
->>>>>>> refs/remotes/origin/master
 ,"La contrassenya antiga no és correcte":"The old password is not correct"
 ,"La contrassenya ha de tenir un mínim de 4 caràcters.":"The password has to be at least 5 characters long"
 ,"La geoinformació de Catalunya i el món:":"The geoinformation about Catalunya and the world:"
