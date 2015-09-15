@@ -1586,58 +1586,147 @@ function showModalFilterFieldsAvancat(data){
 		jQuery("#select_filter").val('');				
 	});	
 	jQuery('#filtrarBtn').on('click',function(event){
-		 event.stopImmediatePropagation();
-		 var dataFiltre={
-			businessId1: data.businessid,
-			uid: jQuery.cookie('uid'),
-			mapBusinessId:url('?businessid'),
-			key: keys,
-			operand: operands,
-			filter: valors,
-			markerStyle : JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-			lineStyle : JSON.stringify(getLineRangFromStyle(canvas_linia)),
-			polygonStyle : JSON.stringify(getPolygonRangFromStyle(canvas_pol))
-		};		
-		 filter(dataFiltre).then(function(results){
-			 console.debug(results.status);
-				if (results.status=="OK"){							
-					var defer = $.Deferred();
-					jQuery('#dialog_filter_rangs_avancat').modal('hide');
-					//readVisualitzacio(defer, results.visualitzacio, results.layerMarker );
-					addDropFileToMap(results);
-					jQuery('#info_uploadFile').hide();		
-					busy=false;
-					activaPanelCapes(true);
-					keys="";
-					operands="";
-					valors="";
-				}
-				else if (results.status=="KO"){
-					var defer = $.Deferred();
-					jQuery('#dialog_filter_rangs_avancat').modal('hide');
-					jQuery('#info_uploadFile').hide();	
-					$('#dialog_error_upload_txt').html("");					
-					$('#dialog_error_upload_txt').html(window.lang.convert("No hi ha resultats per el filtre"));					
-					$('#dialog_error_upload').modal('show');
-					busy=false;
-					keys="";
-					operands="";
-					valors="";
+		if(busy){
+		 	jQuery('#dialog_filter_rangs_avancat').hide();
+			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload').modal('show');
+		}else{
+			busy=true;
+			event.stopImmediatePropagation();
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: data.businessid
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						pollIntersect = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									console.debug(data);
+									jQuery('#dialog_filter_rangs_avancat').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS FILTRE")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+													);									
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+//										console.debug("Ha acabat:");
+//										console.debug(data);
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+											);									
+										
+										
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										console.error("Error calculant l'operació");
+										console.error(data);
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");
+										
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+										
+										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollIntersect();
+						},pollTime);
+						
+					})();
 				}
 				else {
 					jQuery('#info_uploadFile').hide();		
-					busy=false;
-					jQuery('#dialog_filter_rangs_avancat').modal('hide');
-					$('#dialog_error_upload_txt').html("");					
-					$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
-					$('#dialog_error_upload').modal('show');
-					keys="";
-					operands="";
-					valors="";
+					busy=false;					
 				}
-		 });
+			 var dataFiltre={
+				businessId1: data.businessid,
+				uid: jQuery.cookie('uid'),
+				mapBusinessId:url('?businessid'),
+				key: keys,
+				operand: operands,
+				filter: valors,
+				markerStyle : JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+				lineStyle : JSON.stringify(getLineRangFromStyle(canvas_linia)),
+				polygonStyle : JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+				tmpFilePath: tmpFile
+			};		
+			 filter(dataFiltre).then(function(results){				 
+					if (results.status=="OK"){							
+						var defer = $.Deferred();
+						jQuery('#dialog_filter_rangs_avancat').modal('hide');
+						//readVisualitzacio(defer, results.visualitzacio, results.layerMarker );
+						addDropFileToMap(results);
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						activaPanelCapes(true);
+						keys="";
+						operands="";
+						valors="";
+					}
+					else if (results.status=="KO"){
+						var defer = $.Deferred();
+						jQuery('#dialog_filter_rangs_avancat').modal('hide');
+						jQuery('#info_uploadFile').hide();	
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("No hi ha resultats per el filtre"));					
+						$('#dialog_error_upload').modal('show');
+						busy=false;
+						keys="";
+						operands="";
+						valors="";
+					}
+					else {
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						jQuery('#dialog_filter_rangs_avancat').modal('hide');
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+						$('#dialog_error_upload').modal('show');
+						keys="";
+						operands="";
+						valors="";
+					}
+			 });
+		}});
 	});	
-
+	
 }
 
 
