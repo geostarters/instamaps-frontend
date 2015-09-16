@@ -448,6 +448,35 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+//Comprovar i forcar carrega dun script
+function forceLoadScript(path){
+	
+	var len = $('script[src*="'+path+'"]').length; 
+	console.debug("len:");
+	console.debug(len);
+	if (len === 0) {
+	        console.debug('script not loaded');
+	        loadScript(path);
+
+	        if ($('script[src*="'+path+'"]').length === 0) {
+	        	console.debug('still not loaded');
+	        }
+	        else {
+	        	console.debug('loaded now');
+	        }
+    }else{
+    	console.debug('script loaded');
+    }		
+}
+
+function loadScript(scriptLocationAndName) {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptLocationAndName;
+    head.appendChild(script);
+}
+
 function htmlentities(string, quote_style, charset, double_encode) {
 	  //  discuss at: http://phpjs.org/functions/htmlentities/
 	  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
