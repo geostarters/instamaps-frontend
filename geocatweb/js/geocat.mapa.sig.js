@@ -106,7 +106,7 @@ function openBufferModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_buffer').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS BUFFER")!=-1 && busy){
@@ -270,7 +270,7 @@ function openIntersectionModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_intersection').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS INTERSECTION")!=-1 && busy){
@@ -438,7 +438,7 @@ function openTagModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_tag').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS TAG")!=-1 && busy){
@@ -598,7 +598,7 @@ function openCentroideModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_centroid').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS CENTROIDE")!=-1 && busy){
@@ -1280,7 +1280,7 @@ function showModalFilterFieldsAvancat(data){
 		uid: jQuery.cookie('uid')
 	};
 //	console.debug(data);
-	console.debug(data);
+//	console.debug(data);
 	$('#visFilter').val(data.businessid);
 	
 	if(data.tipus == t_url_file){
@@ -1292,7 +1292,7 @@ function showModalFilterFieldsAvancat(data){
 		jQuery.each(dataNames, function( index, value ) {
 			fields[value] = value;
 		});
-		console.debug(fields);
+		//console.debug(fields);
 		//creamos el select con los campos
 			
 		var source2 = jQuery("#tematic-layers-fields-avancat").html();
@@ -1431,7 +1431,7 @@ function showModalFilterFieldsAvancat(data){
 	 $('#dataField_filter_avancat2').on('dblclick', function(e) {
 			e.stopImmediatePropagation();
 			var this_ = jQuery(this);
-			console.debug(jQuery("#select_filter").val());
+			//console.debug(jQuery("#select_filter").val());
 			var html = jQuery("#select_filter").val() ;
 			html += " "+this_.val();
 			if (valors=="") valors+=this_.val();
@@ -1611,7 +1611,7 @@ function showModalFilterFieldsAvancat(data){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_filter_rangs_avancat').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS FILTRE")!=-1 && busy){
@@ -1884,7 +1884,7 @@ function getTipusValuesVisualitzacioFilter(results){
 				$('#dialog_info_upload').modal('show');
 			}else{
 			busy=true; 
-			console.debug(filtres);
+			//console.debug(filtres);
 			var data1 = {
 					uid: $.cookie('uid'),
 					businessId1: $('#visFilter').val()
@@ -1976,7 +1976,7 @@ function getTipusValuesVisualitzacioFilter(results){
 				tmpFilePath: tmpFile
 			};
 			filterVisualitzacio(data).then(function(results2){
-				console.debug(results2.status);
+				//console.debug(results2.status);
 				if (results2.status=="OK"){					
 							
 					var defer = $.Deferred();
