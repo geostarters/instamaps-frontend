@@ -231,8 +231,8 @@ function publicarMapa(fromCompartir){
 			if($.trim($('#map_clau').val()) != ""){
 				data.clauVisor = $.trim($('#map_clau').val());
 			}
-			callPublicarMapa(data, newMap, fromCompartir);
 		}
+		callPublicarMapa(data, newMap, fromCompartir);
 	}else{
 		if(!$('#is_map_protegit').is(':checked') || visibilitat == visibilitat_open){
 			var mapData = {
