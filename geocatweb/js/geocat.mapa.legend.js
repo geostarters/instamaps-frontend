@@ -44,6 +44,7 @@ function addLegend(){
 pero cap opcio de la llegenda marcada*/
 function checkEmptyMapLegend(){
 	var trobat = false;
+	if(typeof mapLegend == "string" ) mapLegend = [mapLegend]
 	jQuery.each(mapLegend, function(i, row){
     	for (var i = 0; i < row.length && !trobat; i++) {
     		if(row[i].chck){
