@@ -1090,8 +1090,8 @@ function addDropFileToMap(results) {
 						var defer = $.Deferred();
 //						readVisualitzacio(defer, results.visualitzacioPolygon, results.layerPolygon).then(function(results1){
 						loadVisualitzacioLayer(results.layerPolygon).then(function(results1){
-							console.debug(results.layerPolygon);
-							console.debug(results1);
+							//console.debug(results.layerPolygon);
+							//console.debug(results1);
 							if(results1 && !jQuery.isEmptyObject(results1._layers)){
 								map.fitBounds(results1.getBounds());
 							}

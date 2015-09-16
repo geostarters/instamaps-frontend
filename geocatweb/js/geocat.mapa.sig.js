@@ -58,6 +58,7 @@ function addHtmlInterficieFuncionsSIG(){
 	addHtmlModalCentroid();
 	addHtmlModalLayersFilter();
 	addHtmlModalFieldsFilter();
+	addHtmlModalFieldsFilterAvancat();
 	
 }
 
@@ -105,7 +106,7 @@ function openBufferModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_buffer').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS BUFFER")!=-1 && busy){
@@ -269,7 +270,7 @@ function openIntersectionModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_intersection').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS INTERSECTION")!=-1 && busy){
@@ -437,7 +438,7 @@ function openTagModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_tag').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS TAG")!=-1 && busy){
@@ -597,7 +598,7 @@ function openCentroideModal(){
 								dataType: 'json',
 								type: 'get',
 								success: function(data){
-									console.debug(data);
+									//console.debug(data);
 									jQuery('#dialog_centroid').hide();
 									jQuery('#info_uploadFile').show();
 									if(data.status.indexOf("ABANS CENTROIDE")!=-1 && busy){
@@ -1256,73 +1257,79 @@ function showFilterLayersModal(){
 			var _this = jQuery(this);
 			var data = _this.data();
 				
-			showModalFilterFields(data);
+			showModalFilterFieldsAvancat(data);
 			
 		});
 	
 }
-
-function showModalFilterFields(data){
+function showModalFilterFieldsAvancat(data){
 	jQuery('.modal').modal('hide');
-	jQuery('#dialog_filter_rangs').modal('show');
-	
-	jQuery('#dialog_filter_rangs .btn-success').on('click',function(e){
-		
-	});	
-	
-	jQuery("#dialog_filter_rangs").data("capamare", data);
-	
-	jQuery('#dialog_filter_rangs .btn-success').hide();
 
+	jQuery('#dialog_filter_rangs_avancat').modal('show');
+	
+	jQuery("#dialog_filter_rangs_avancat").data("capamare", data);
+	
+	jQuery("#filtre_avancat").val("");
+	
+	jQuery("#select_filter").val("");
+	
+	jQuery('#dataField_filter_avancat2').html('');
 	
 	var dataTem={
 		businessId: data.businessid,
 		uid: jQuery.cookie('uid')
 	};
 //	console.debug(data);
-	
+//	console.debug(data);
 	$('#visFilter').val(data.businessid);
 	
 	if(data.tipus == t_url_file){
 		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
-		jQuery("#dialog_filter_rangs").data("visualitzacio", urlFileLayer.options);
+		jQuery("#dialog_filter_rangs_avancat").data("visualitzacio", urlFileLayer.options);
 		var fields = {};
-		fields[window.lang.convert('Escull el camp')] = '---';
 		//Recollim propName de les geometries de la capa
 		var dataNames = urlFileLayer.options.propName.split(',');
 		jQuery.each(dataNames, function( index, value ) {
 			fields[value] = value;
 		});
-		
+		//console.debug(fields);
 		//creamos el select con los campos
-		var source1 = jQuery("#tematic-layers-fields").html();
-		var template1 = Handlebars.compile(source1);
-		var html1 = template1({fields:fields});
-		jQuery('#dataField_filter').html(html1);
+			
+		var source2 = jQuery("#tematic-layers-fields-avancat").html();
+		var template2 = Handlebars.compile(source2);
+		var html2 = template2({fields:fields});
 		
-		jQuery('#dataField_filter').on('change',function(e){
-			var this_ = jQuery(this);
-			if (this_.val() == "---"){
-				jQuery('#list_filter_values').html("");
-				jQuery('#dialog_filter_rangs .btn-success').hide();
-			}else{
-				jQuery('#dialog_tematic_rangs .btn-success').show();
-				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
-					jQuery("#dialog_filter_rangs").data("values", results);
-					getTipusValuesVisualitzacioFilter(results);
-				});
-				
-				
-			}
-		});			
 		
-	}else{//Si es una visualitzacio
+		jQuery('#dataField_filter_avancat').html(html2);
+		jQuery('#valors_unics').on('click',function(e){
+			e.stopImmediatePropagation();
+			var this_ = jQuery('#dataField_filter_avancat');
+			readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
+				if (results.length == 0){
+					var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+				}else{
+					var fields = {};	
+					results.sort();
+					jQuery.grep(results, function( n, i ) {
+						fields[n] =n;
+						var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
+						var template2 = Handlebars.compile(source2);
+						var html2 = template2({fields:fields});
+						jQuery('#dataField_filter_avancat2').html(html2);
+					});
+		
+				}
+			});
+		});	
+			
+	}
+	else{//Si es una visualitzacio
 		getVisualitzacioByBusinessId(dataTem).then(function(results){
 			if (results.status == "OK"){
+				resultsVis = results;
 				var visualitzacio = results.results;
-				jQuery("#dialog_filter_rangs").data("visualitzacio", visualitzacio);
+				jQuery("#dialog_filter_rangs_avancat").data("visualitzacio", visualitzacio);
 				var fields = {};
-				fields[window.lang.convert('Escull el camp')] = '---';
 				if (visualitzacio.options){
 					var options = JSON.parse(visualitzacio.options);
 					var dataNames = options.propName.split(',');
@@ -1338,24 +1345,61 @@ function showModalFilterFields(data){
 					}
 				}
 				//creamos el select con los campos
-				var source1 = jQuery("#tematic-layers-fields").html();
+				var source1 = jQuery("#tematic-layers-fields-avancat").html();
 				var template1 = Handlebars.compile(source1);
 				var html1 = template1({fields:fields});
-				jQuery('#dataField_filter').html(html1);
+					
+				jQuery('#dataField_filter_avancat').html(html1);
 				
-				jQuery('#dataField_filter').on('change',function(){
-					var this_ = jQuery(this);
-					if (this_.val() == "---"){
-						jQuery('#dialog_filter_rangs .btn-success').hide();
-					}else{
-										
-						readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
-							jQuery("#dialog_filter_rangs").data("values", results);
-							getTipusValuesVisualitzacioFilter(results);
-						});
-
-					}
-				});				
+				
+				jQuery('#valors_unics').on('click',function(e){
+					e.stopImmediatePropagation();
+					var this_ = jQuery('#dataField_filter_avancat');
+					readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
+							if (results.length == 0){
+								var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+							}else{
+								var fields = {};
+								results.sort();
+								jQuery.grep(results, function( n, i ) {
+									fields[n] = n;									
+									var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
+									var template2 = Handlebars.compile(source2);
+									var html2 = template2({fields:fields});
+									jQuery('#dataField_filter_avancat2').html(html2);
+								});
+							}
+							
+					});
+					
+					
+				});		
+				
+				jQuery('#nomes_10_valors').on('click',function(e){
+					e.stopImmediatePropagation();
+					var this_ = jQuery('#dataField_filter_avancat');
+					readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
+							if (results.length == 0){
+								var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+							}else{
+								var fields = {};			
+								var j=0;
+								results.sort();
+								jQuery.grep(results.slice(0,10), function( n, i ) {
+											fields[n] = n;		
+											var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
+											var template2 = Handlebars.compile(source2);
+											var html2 = template2({fields:fields});
+											jQuery('#dataField_filter_avancat2').html(html2);
+											
+								});
+							}
+							
+					});
+					
+					
+				});	
+				
 			}else{
 				console.debug("getVisualitzacioByBusinessId ERROR");				
 			}
@@ -1363,8 +1407,334 @@ function showModalFilterFields(data){
 			console.debug("getVisualitzacioByBusinessId ERROR");
 		});	
 	}
-				
+
+	 $('#dataField_filter_avancat').on('dblclick', function(e) {
+		e.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " "+this_.val();
+		if (keys=="") keys+=this_.val();
+		else keys+=","+this_.val();
+		jQuery("#select_filter").val(html);	
+		 
+	   }); 
+	 	
+	 $('#dataField_filter_avancat').on('change', function(e) {
+		 e.stopImmediatePropagation();
+		 var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
+		 var template2 = Handlebars.compile(source2);
+		 var html2 = template2({});
+		 jQuery('#dataField_filter_avancat2').html(html2);
+	 });
+	 
+	 
+	 $('#dataField_filter_avancat2').on('dblclick', function(e) {
+			e.stopImmediatePropagation();
+			var this_ = jQuery(this);
+			//console.debug(jQuery("#select_filter").val());
+			var html = jQuery("#select_filter").val() ;
+			html += " "+this_.val();
+			if (valors=="") valors+=this_.val();
+			else valors+=","+this_.val();
+			jQuery("#select_filter").val(html);				 
+	 }); 
+
+	 var keys="";
+	 var operands="";
+	 var valors="";
+	 jQuery('#edicio_filtre').on('click',function(event){
+			event.stopImmediatePropagation();
+			var this_ = jQuery(this);
+			 if (!$("input[id='edicio_filtre']:checked").val()) {
+				  $('#select_filter').attr('readonly', true);
+			 }	
+			 else {
+				$('#select_filter').attr('readonly', false);
+			 }
+		});	
+	
+	jQuery('#equals').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " = ";
+		if (operands=="") operands+="=";
+		else operands+=",=";
+		jQuery("#select_filter").val(html);				
+	});	
+	
+	jQuery('#notequals').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " <> ";
+		if (operands=="") operands+="<>";
+		else operands+=",<>";
+		jQuery("#select_filter").val(html);				
+	});	
+	jQuery('#like').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " like ";
+		if (operands=="") operands+="like";
+		else operands+=",like";
+		jQuery("#select_filter").val(html);				
+	});	
+	jQuery('#major').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " > ";
+		if (operands=="") operands+=">";
+		else operands+=",>";
+		jQuery("#select_filter").val(html);				
+	});	
+	jQuery('#majorequals').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " >= ";
+		if (operands=="") operands+=">=";
+		else operands+=",>=";
+		jQuery("#select_filter").val(html);				
+	});	
+	jQuery('#and').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " and ";
+		keys+=","+" ";
+		valors+=","+" ";
+		if (operands=="") operands+="and";
+		else operands+=",and";
+		jQuery("#select_filter").val(html);				
+	});
+	jQuery('#menor').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " < ";
+		if (operands=="") operands+="<";
+		else operands+=",<";
+		jQuery("#select_filter").val(html);				
+	});	
+	jQuery('#menorequals').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " <= ";
+		if (operands=="") operands+="<=";
+		else operands+=",<=";
+		jQuery("#select_filter").val(html);				
+	});
+	jQuery('#or').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " or ";
+		if (keys=="")  keys+=" ";
+		else keys+=","+" ";
+		if (valors=="") valors+=" "; 
+		else valors+=","+" ";
+		if (operands=="") operands+="or";
+		else operands+=",or";
+		jQuery("#select_filter").val(html);				
+	});	
+	jQuery('#not').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " not like ";
+		if (operands=="") operands+="not like";
+		else operands+=",not like";
+		jQuery("#select_filter").val(html);				
+	});
+	jQuery('#parentobrir').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " (";
+		if (operands=="") operands+="(";
+		else operands+=",(";
+		jQuery("#select_filter").val(html);				
+	});
+	jQuery('#parenttancar').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += " )";
+		if (operands=="") operands+=")";
+		else operands+=",)";
+		jQuery("#select_filter").val(html);				
+	});
+	jQuery('#valorFiltre').on('click',function(event){
+		event.stopImmediatePropagation();
+		var this_ = jQuery(this);
+		var html = jQuery("#select_filter").val() ;
+		html += jQuery('#filtre_avancat').val();
+		if (valors=="") valors+=jQuery('#filtre_avancat').val(); 
+		else valors+=","+jQuery('#filtre_avancat').val();
+		jQuery("#select_filter").val(html);				
+	});	
+	jQuery('#resetFiltre').on('click',function(event){
+		event.stopImmediatePropagation();
+		keys="";
+		operands="";
+		valors="";
+		jQuery('#filtre_avancat').val('');
+		jQuery("#select_filter").val('');				
+	});	
+	jQuery('#filtrarBtn').on('click',function(event){
+		if(busy){
+		 	jQuery('#dialog_filter_rangs_avancat').hide();
+			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload').modal('show');
+		}else{
+			busy=true;
+			event.stopImmediatePropagation();
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: data.businessid
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						pollIntersect = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									//console.debug(data);
+									jQuery('#dialog_filter_rangs_avancat').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS FILTRE")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+													);									
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+//										console.debug("Ha acabat:");
+//										console.debug(data);
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+											);									
+										
+										
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										console.error("Error calculant l'operació");
+										console.error(data);
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");
+										
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+										
+										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollIntersect();
+						},pollTime);
+						
+					})();
+				}
+				else {
+					jQuery('#info_uploadFile').hide();		
+					busy=false;					
+				}
+			 var dataFiltre={
+				businessId1: data.businessid,
+				uid: jQuery.cookie('uid'),
+				mapBusinessId:url('?businessid'),
+				key: keys,
+				operand: operands,
+				filter: valors,
+				markerStyle : JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+				lineStyle : JSON.stringify(getLineRangFromStyle(canvas_linia)),
+				polygonStyle : JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+				tmpFilePath: tmpFile
+			};		
+			 filter(dataFiltre).then(function(results){				 
+					if (results.status=="OK"){							
+						var defer = $.Deferred();
+						jQuery('#dialog_filter_rangs_avancat').modal('hide');
+						//readVisualitzacio(defer, results.visualitzacio, results.layerMarker );
+						addDropFileToMap(results);
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						activaPanelCapes(true);
+						keys="";
+						operands="";
+						valors="";
+					}
+					else if (results.status=="KO"){
+						var defer = $.Deferred();
+						jQuery('#dialog_filter_rangs_avancat').modal('hide');
+						jQuery('#info_uploadFile').hide();	
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("No hi ha resultats per el filtre"));					
+						$('#dialog_error_upload').modal('show');
+						busy=false;
+						keys="";
+						operands="";
+						valors="";
+					}
+					else {
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+						jQuery('#dialog_filter_rangs_avancat').modal('hide');
+						$('#dialog_error_upload_txt').html("");					
+						$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+						$('#dialog_error_upload').modal('show');
+						keys="";
+						operands="";
+						valors="";
+					}
+			 });
+			});
+		
+		}});
+
+	
 }
+
+
+
+
+
 
 function addHtmlModalFieldsFilter(){
 	
@@ -1373,6 +1743,10 @@ function addHtmlModalFieldsFilter(){
 	'		<div class="modal fade" id="dialog_filter_rangs">'+
 	'		<div class="modal-dialog">'+
 	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>'+
+	'				<h4 class="modal-title" lang="ca">Filtre simple</h4>'+
+	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="labels_fields">'+
 	'					    <input type="hidden" name="visFilter"  id="visFilter" value="">'+ 
@@ -1387,9 +1761,84 @@ function addHtmlModalFieldsFilter(){
 	'					</script>'+
 	'					<br/>'+				
 	'					<div id="list_filter_values"></div>'+
+	'					<button type="button" class="filtre-avancat" lang="ca">Filtre avançat</button>'+
 	'				<div class="modal-footer">'+
 	'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
 	'         			<button type="button" class="btn btn-success" lang="ca">Filtrar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- fi Modal Tematics Rangs -->'		
+	);
+}
+
+function addHtmlModalFieldsFilterAvancat(){
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Filter -->'+
+	'		<div class="modal fade" id="dialog_filter_rangs_avancat">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>'+
+	'				<h4 class="modal-title" lang="ca">Filtre</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div class="labels_fields" >'+
+	'					    <input type="hidden" name="visFilter"  id="visFilter" value="">'+ 
+	'						<span lang="ca">Camps</span>:<span lang="ca" style="margin-left:31%">Valors</span>:<br/>'+
+	'						<select name="dataField_filter_avancat" id="dataField_filter_avancat" multiple="multiple" style="width: 30%;" size="6">'+
+	'						</select>'+
+	'						<select name="dataField_filter_avancat2" id="dataField_filter_avancat2" style="margin-left:8%;width:30%;" size="6">'+
+	'						</select>'+
+	'					<script id="tematic-layers-fields-avancat" type="text/x-handlebars-template">'+
+	'						{{#each fields}}'+
+	'						<option value="{{this}}">{{@key}}</option>'+
+	'						{{/each}}'+
+	'					</script>'+	
+	'					<script id="tematic-layers-fields-values-avancat" type="text/x-handlebars-template">'+
+	'						{{#each fields}}'+
+	'						<option value="{{this}}">{{@key}}</option>'+
+	'						{{/each}}'+
+	'					</script>'+
+	'					<br/>'+
+	'					<span  style="margin-left:38%">'+
+	'					<button type="button" lang="ca" id="valors_unics">Valors únics</button>'+
+	'					<button type="button" lang="ca" id="nomes_10_valors">10 valors</button>'+
+	'					</span></div>'+
+	'					<br/>'+
+	'					<div>'+
+	'					<span lang="ca" style="font-size: 13px;font-weight: bold;">Filtre avançat</span><br/>'+
+	'					<span lang="ca">Operador</span>:<br/>'+
+	'					<button type="button" lang="ca" id="equals">=</button>'+
+	'					<button type="button" lang="ca" id="notequals"><></button>'+
+	'					<button type="button" lang="ca" id="like">Like</button>'+
+	'					<button type="button" lang="ca" id="not">Not Like</button>'+
+	'					<button type="button" lang="ca" id="major">></button>'+
+	'					<button type="button" lang="ca" id="majorequals">>=</button>'+	
+	'					<button type="button" lang="ca" id="menor"><</button>'+
+	'					<button type="button" lang="ca" id="menorequals"><=</button>'+
+//	'					<button type="button" lang="ca" id="parentobrir">(</button>'+
+//	'					<button type="button" lang="ca" id="parenttancar">)</button>'+	
+	'					<button type="button" lang="ca" id="and">And</button>'+
+	'					<button type="button" lang="ca" id="or">Or</button>'+
+	'					</div>'+
+	'					<div>'+
+	'					<span class="ca">Valor filtre</span>:<br/>'+
+	'					<input type="text" id="filtre_avancat"/>&nbsp;<button type="button" lang="ca" id="valorFiltre">Afegir valor</button>'+
+	'					</div>'+
+	'					<div>'+
+	'					<span class="ca">Filtre resultant</span>:</br>'+
+	'					<textarea rows="4" cols="50" id="select_filter" readonly></textarea>'+
+	'					<br/><input type="checkbox" id="edicio_filtre"/>&nbsp;<span lang="ca">Editar filtre</span>'+
+	'					</div>'+
+	'				<div class="modal-footer">'+
+	'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
+	'         			<button type="button" class="btn btn-success" lang="ca" id="filtrarBtn">Filtrar</button>'+
 	'				</div>'+
 	'			</div>'+
 	'			<!-- /.modal-content -->'+
@@ -1435,7 +1884,7 @@ function getTipusValuesVisualitzacioFilter(results){
 				$('#dialog_info_upload').modal('show');
 			}else{
 			busy=true; 
-			console.debug(filtres);
+			//console.debug(filtres);
 			var data1 = {
 					uid: $.cookie('uid'),
 					businessId1: $('#visFilter').val()
@@ -1527,7 +1976,7 @@ function getTipusValuesVisualitzacioFilter(results){
 				tmpFilePath: tmpFile
 			};
 			filterVisualitzacio(data).then(function(results2){
-				console.debug(results2.status);
+				//console.debug(results2.status);
 				if (results2.status=="OK"){					
 							
 					var defer = $.Deferred();
@@ -1549,3 +1998,5 @@ function getTipusValuesVisualitzacioFilter(results){
 		}});
 	}
 }
+
+	

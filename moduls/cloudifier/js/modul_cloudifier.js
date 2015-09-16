@@ -14,7 +14,7 @@ jQuery(document).ready(function(){
 					doLogin(dataUrl).then(function(results){
 						if(results.status==='OK'){
 							jQuery.cookie('uid', user_login, {path:'/'});
-							createNewMap();
+							createNewMap(url('?urlcloudifier'), url('?layername'),url('?epsg'));
 						}				
 					});
 				}
@@ -24,7 +24,7 @@ jQuery(document).ready(function(){
 			createNewMap(url('?urlcloudifier'), url('?layername'),url('?epsg'));
 		}			
 	}else{
-
+		
 		if (url('?urlcloudifier') &&  url('?layername') && url('?epsg')){
 			loadUrlCloudifier(url('?urlcloudifier'), url('?layername'),url('?epsg'));
 		}else{
@@ -35,9 +35,9 @@ jQuery(document).ready(function(){
 
 function loadUrlCloudifier(p_url, p_layername, p_crs){
 //	
-//	console.debug(p_url);
-//	console.debug(p_layername);
-//	console.debug(p_crs);
+	console.debug(p_url);
+	console.debug(p_layername);
+	console.debug(p_crs);
 	
 	var wmsLayer = L.tileLayer.betterWms(p_url, {
 		layers :p_layername,
@@ -94,10 +94,7 @@ function loadUrlCloudifier(p_url, p_layername, p_crs){
 
 
 function createNewMap(url, layername, epsg){
-	console.debug("createNewMap");
-	console.debug(url);
-	console.debug(layername);
-	console.debug(epsg);	
+	
 	var data = {
 		nom: layername + " cloudifier",//getTimeStamp(),
 		uid: $.cookie('uid'),
@@ -123,3 +120,4 @@ function createNewMap(url, layername, epsg){
 		}
 	});
 }
+

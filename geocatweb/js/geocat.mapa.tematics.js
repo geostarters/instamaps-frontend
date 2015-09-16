@@ -45,6 +45,53 @@ function showTematicLayersModal(tipus,className){
 	jQuery('#stActiu').removeClass();
 	jQuery('#stActiu').addClass(className);
 	
+	var basicHTML ='<span lang="ca">L\'estil bàsic genera una visualització dels elements d\'una capa uniformement per al conjunt.</span>'+
+					'<br><br>'+
+					'<div class="imagePeu">'+
+					'	<img class="img1" src="css/images/original.jpg">'+
+					'	<span class="peu" lang="ca">Capa d\'origen</span>'+
+					'	<img src="css/images/basic.jpg">'+
+					'	<span class="peu2" lang="ca">Visualització</span>'
+					'</div>' ;
+	var categoriesHTML ='<span lang="ca">L\'estil categories genera una visualització dels elements d\'una capa a partir d\'un camp, numèric o de text, de les dades.</span>'+
+						'<br><br>'+
+						'<div class="imagePeu">'+
+						'	<img class="img1" src="css/images/original.jpg">'+
+						'	<span class="peu" lang="ca">Capa d\'origen</span>'+
+						'	<img src="css/images/categories.jpg">'+
+						'	<span class="peu2" lang="ca">Visualització</span>'
+						'</div>' ;
+	var midesHTML ='<span lang="ca">L\'estil mides genera una visualització dels elements d\'una capa a partir d\'un camp numèric de les dades. Permet escollir entre interval graduat o proporcional al valor.</span>'+
+					'<br><br>'+
+					'<div class="imagePeu">'+
+					'	<img class="img1" src="css/images/original.jpg">'+
+					'	<span class="peu" lang="ca">Capa d\'origen</span>'+
+					'	<img src="css/images/mides.jpg">'+
+					'	<span class="peu2" lang="ca">Visualització</span>'
+					'</div>' ;
+	var heatMapHTML='<span lang="ca">L\'estil concentració genera una visualització dels elements d\'una capa a partir de la densitat de les dades en forma de mapa de calor (heatmap).</span>'+
+					'<br><br>'+
+					'<div class="imagePeu">'+
+					'	<img class="img1" src="css/images/original.jpg">'+
+					'	<span class="peu" lang="ca">Capa d\'origen</span>'+
+					'	<img src="css/images/concentracio.jpg">'+
+					'	<span class="peu2" lang="ca">Visualització</span>'
+					'</div>' ;
+	var clusterHTML ='<span lang="ca">L\'estil agrupació genera una visualització dels elements d\'una capa a partir de la densitat de les dades agrupats en grups de proximitat (clusters).</span>'+
+					'<br><br>'+
+					'<div class="imagePeu">'+
+					'	<img class="img1" src="css/images/original.jpg">'+
+					'	<span class="peu" lang="ca">Capa d\'origen</span>'+
+					'	<img src="css/images/agrupacio.jpg">'+
+					'	<span class="peu2" lang="ca">Visualització</span>'
+					'</div>' ;
+	
+	if(tipus==tem_simple) jQuery('#txtTematic').html(basicHTML);
+	else if (tipus==tem_clasic) jQuery('#txtTematic').html(categoriesHTML);
+	else if (tipus==tem_size) jQuery('#txtTematic').html(midesHTML);
+	else if (tipus==tem_heatmap)  jQuery('#txtTematic').html(heatMapHTML);
+	else if (tipus==tem_cluster) jQuery('#txtTematic').html(clusterHTML); 
+	
 	var layers = [];
 	jQuery.each( controlCapes._layers, function( key, value ) {
 		var layerOptions = this.layer.options;
@@ -276,7 +323,8 @@ function createPopupWindowData(player,type, editable, origen){
 		+'</div>';			
 	}
 	
-	html+='</div>'; 
+	html+='</div>';
+	
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
@@ -963,6 +1011,8 @@ function addHtmlModalLayersTematic(){
 	'					<h4 class="modal-title" lang="ca">Triar una capa per aplicar-hi l\'estil</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
+	'					<div class="alert alert-success" id="txtTematic">'+
+	'					</div>'+
 	'					<script id="tematic-layers-template" type="text/x-handlebars-template">'+
 	'					<div class="panel-warning">'+					
 	'					<ul class="bs-dadesO_USR panel-heading">'+
@@ -1626,7 +1676,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					//console.debug(feat);
 				
 					if(geomTypeVis == t_polygon){
-						feat.properties.mida = calculateArea(feat.getLatLngs());
+						feat.properties.mida = calculateArea(feat);
 					}else if(geomTypeVis == t_polyline){
 						feat.properties.mida = calculateDistance(feat.getLatLngs());
 					}

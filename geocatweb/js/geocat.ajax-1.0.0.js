@@ -15,6 +15,22 @@ function loadPublicGaleria(params){
 	}).promise();
 }
 
+function loadNumGaleria(){
+	return jQuery.ajax({
+		url: paramUrl.getNumGaleria,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+function searchGaleriaMaps(params){
+	return jQuery.ajax({
+		url: paramUrl.searchGaleriaMaps,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+
 function deleteMap(data){
 	return jQuery.ajax({
 		url: paramUrl.deleteMap,
@@ -584,6 +600,26 @@ function getUrlFileProves(data){
 	}).promise();
 }
 
+function getUrlFileNoDin(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFileNoDin,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getUrlFileDin(data){
+	return jQuery.ajax({
+		url: paramUrl.urlFileDin,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function getUserSimple(data){
 	return jQuery.ajax({
 		url: paramUrl.getUserSimple,
@@ -898,6 +934,30 @@ function registreInstamaper(data){
 function crearFitxerPolling(params){
 	return jQuery.ajax({
 		url: paramUrl.crearFitxerPolling,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function resetClauMapa(data){
+	return jQuery.ajax({
+		url: paramUrl.resetClauMapa,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function loadPrivateMapByBusinessId(data){
+	return jQuery.ajax({
+		url: paramUrl.loadPrivateMapByBusinessId,
+		method: 'post',
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+function filter(params){
+	return jQuery.ajax({
+		url: paramUrl.filter,
   		data: params,
   		method: 'post',
   		dataType: 'jsonp'

@@ -43,8 +43,13 @@ var paramUrl = {
 	wmsOpenData:"/dadesobertes/wms/service?",
 	tmsOpenData:"/geocatcache/?",
 	getAllMapsByUser: HOST_APP+"geocat/aplications/map/getAllMapsByUser.action?",
-	getAllPublicsMaps: HOST_APP+"geocat/aplications/map/getAllPublicsMaps.action?",
+	//getAllPublicsMaps: HOST_APP+"geocat/aplications/map/getAllPublicsMaps.action?",
+	getAllPublicsMaps: HOST_APP+"geocat/aplications/map/getAllGaleriaMaps.action?",
+	searchGaleriaMaps: HOST_APP+"geocat/aplications/map/searchGaleriaMaps.action?",
+	getNumGaleria: HOST_APP+"geocat/aplications/map/getNumGaleria.action?",
+	loadPrivateMapByBusinessId: HOST_APP+"geocat/aplications/map/loadPrivateMapByBusinessId.action?",
 	deleteMap: HOST_APP+"geocat/aplications/map/deleteMap.action?",
+	resetClauMapa: HOST_APP+"geocat/aplications/map/resetClauMapa.action?",
 	loginUser: HOST_APP+"geocat/login.action?",
 	loginUserIcgc: HOST_APP+"geocat/loginIcgc.action?",
 	logoutUser: HOST_APP+"geocat/logout.action?",
@@ -67,6 +72,8 @@ var paramUrl = {
 	dadesObertes:GEOCAT02+"/share/jsp/dadesObertes.jsp?",
 	urlFile:GEOCAT02+"/share/jsp/urlFile.jsp?",
 	urlFileProves:GEOCAT02+"/share/jsp/urlFileProves.jsp?",
+	urlFileNoDin:GEOCAT02+"/share/jsp/urlFileNoDin.jsp?",
+	urlFileDin:GEOCAT02+"/share/jsp/urlFileDin.jsp?",
 	//getMapById: HOST_APP+"geocat/aplications/map/getMapById.action?",
 	getMapByBusinessId: HOST_APP+"geocat/aplications/map/getMapByBusinessId.action?",
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
@@ -168,7 +175,8 @@ var paramUrl = {
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
-	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?"
+	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
+	filter: HOST_APP+"geocat/aplications/map/filter.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
@@ -181,7 +189,7 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 
 $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 	if (typeof map !== 'undefined'){
-		try {map.spin(false);} catch (Err) {console.error(Err);}
+		try {map.spin(false);} catch (Err) {}
 	}
 	if (jqxhr.responseJSON){
 		if (jqxhr.responseJSON.status == "ERROR" && jqxhr.responseJSON.results == "expired"){
@@ -193,10 +201,13 @@ $( document ).ajaxComplete(function( event, jqxhr, settings ) {
 $( document ).ajaxStop(function() {
 	//$('.waiting_animation').hide();
 	if (typeof map !== 'undefined'){
-		try {map.spin(false);} catch (Err) {console.error(Err);}
+		try {map.spin(false);} catch (Err) {
+			//console.error(Err);
+		}
 	}
 	setTimeout(function(){
-		try {map.spin(false);} catch (Err) {console.error(Err);}
+		try {map.spin(false);} catch (Err) {
+			//console.error(Err);
+		}
 	},10000);
 });
-

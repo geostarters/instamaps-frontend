@@ -167,12 +167,14 @@ function initCanvas(){
     $('#colorpalette_pf').colorPalette().on('selectColor', function(e) {   	
     $('.fill_color_pol').css('background-color',e.color);
     $('.fill_color_pol').css('color',e.color);
-    	canvas_pol.fillStyle="rgba("+hexToRgb(e.color).r+", "+hexToRgb(e.color).g+", "+hexToRgb(e.color).b+","+jQuery('#cmb_trans').val()+")";
+        canvas_pol.opacity=jQuery('#cmb_trans').val();//Forcem el valor de opacity pq en Chrome no anava bé
+        canvas_pol.fillStyle="rgba("+hexToRgb(e.color).r+", "+hexToRgb(e.color).g+", "+hexToRgb(e.color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
     });	
     
     $('#colorpalette_pl').colorPalette().on('selectColor', function(e) {   	
     $('.border_color_pol').css('border-color',e.color);
+    	canvas_pol.opacity=jQuery('#cmb_trans').val();//Forcem el valor de opacity pq en Chrome no anava bé
     	canvas_pol.strokeStyle=e.color;
     	addGeometryInitP(document.getElementById("cv_pol0"));  
     });
@@ -558,7 +560,7 @@ function activaEdicioUsuari() {
 					'capaBusinessId':capaUsrActiva.options.businessId,
 					'capaLeafletId': capaUsrActiva._leaflet_id,
 					'tipusFeature':t_polygon,
-					'mida': calculateArea(layer.getLatLngs())};
+					'mida': calculateArea(layer)};
 			
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,

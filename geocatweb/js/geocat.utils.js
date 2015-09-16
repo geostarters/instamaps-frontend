@@ -70,9 +70,33 @@ function calculateDistance(lLatLngs){
 	return L.GeometryUtil.readableDistance(totalDistance, true);
 }
 
-function calculateArea(lLatLngs){
-	var totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
+function calculateArea(layer){
+	var totalArea = getAreaLayer(layer);
 	return L.GeometryUtil.readableArea(totalArea, true);
+}
+
+function getAreaLayer(layer){
+	var totalArea = 0;
+	
+	if (layer._layers){
+		layer.eachLayer(function (layer) {
+			totalArea += getAreaLayer(layer);
+		});
+		
+	}else if(layer.length > 0){ 
+		for(var i=0; i<layer.length;i++){
+			var lLatLngs = new L.latLng(0,0);
+			if(layer[i].lat && layer[i].lng){
+				lLatLngs = new L.latLng(layer[i].lat,layer[i].lng);
+			}
+			totalArea += L.GeometryUtil.geodesicArea(lLatLngs);
+		}
+		
+	}else{
+		var lLatLngs = layer.getLatLngs();
+		totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
+	}
+	return totalArea;
 }
 
 function transformTipusGeometry(geometrytype){
@@ -422,6 +446,35 @@ function randomString(len, charSet) {
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+//Comprovar i forcar carrega dun script
+function forceLoadScript(path){
+	
+	var len = $('script[src*="'+path+'"]').length; 
+	console.debug("len:");
+	console.debug(len);
+	if (len === 0) {
+	        console.debug('script not loaded');
+	        loadScript(path);
+
+	        if ($('script[src*="'+path+'"]').length === 0) {
+	        	console.debug('still not loaded');
+	        }
+	        else {
+	        	console.debug('loaded now');
+	        }
+    }else{
+    	console.debug('script loaded');
+    }		
+}
+
+function loadScript(scriptLocationAndName) {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptLocationAndName;
+    head.appendChild(script);
 }
 
 function htmlentities(string, quote_style, charset, double_encode) {

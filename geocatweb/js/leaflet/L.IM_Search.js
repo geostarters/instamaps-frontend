@@ -303,7 +303,7 @@ L.Control.Search = L.Control.extend({
 		input.lang = 'ca';
 		input.id = 'search-input';
 		
-			
+		
 		L.DomEvent
 			.on(input, 'keyup', this._handleKeypress, this)
 			.on(input, 'keydown', this._handleAutoresize, this)
@@ -826,7 +826,28 @@ L.Control.Search = L.Control.extend({
 		{
 			
 			if(v_url.indexOf('visor')==-1){
-				this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
+				var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
+				var marker;
+				//this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
+				if(!defaultPunt.options.isCanvas){
+					marker=L.marker([0,0],
+						{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
+						 tipus: t_marker});
+				}else{
+					//Si és cercle sense glifon
+					marker= L.circleMarker([0,0],
+							{ radius : defaultPunt.options.radius, 
+							  isCanvas:defaultPunt.options.isCanvas,
+							  fillColor : defaultPunt.options.fillColor,
+							  color :  defaultPunt.options.color,
+							  weight :  defaultPunt.options.weight,
+							  opacity :  defaultPunt.options.opacity,
+							  fillOpacity : defaultPunt.options.fillOpacity,
+							  tipus: t_marker}
+							
+					);
+				}
+				marker.setLatLng(latlng);
 				capaUsrActiva = new L.FeatureGroup();
 				var index = parseInt(controlCapes._lastZIndex)+1;
 				capaUsrActiva.options = {
@@ -837,22 +858,22 @@ L.Control.Search = L.Control.extend({
 					tipus : t_visualitzacio,
 					geometryType: t_marker
 				};
-				this._markerLoc.properties={
+				marker.properties={
 						'capaNom':capaUsrActiva.options.nom,//TODO desactualitzat quan es canvii nom capa!
 						'capaBusinessId':capaUsrActiva.options.businessId,
 						'capaLeafletId': capaUsrActiva._leaflet_id,
 						'tipusFeature':t_marker};	
 				
-				this._markerLoc.properties.data={
+				marker.properties.data={
 						'nom':title,
 						'text':title,
 				};
 				capaUsrActiva.on('layeradd',objecteUserAdded);
-				capaUsrActiva.addLayer(this._markerLoc);
+				capaUsrActiva.addLayer(marker);
 				map.addLayer(capaUsrActiva);
 			}
 			else {
-				this._markerLoc= L.circleMarker([0,0],
+				/*this._markerLoc= L.circleMarker([0,0],
 						{ isCanvas:true,
 						  simbolSize: 6,
 					      borderWidth: 2,
@@ -863,12 +884,25 @@ L.Control.Search = L.Control.extend({
 						
 				);
 				this._markerLoc.setLatLng(latlng); 
-				this._layer.addLayer(this._markerLoc);
+				this._layer.addLayer(this._markerLoc);*/
+				var marker= L.circleMarker([0,0],
+						{ isCanvas:true,
+						  simbolSize: 6,
+					      borderWidth: 2,
+					      opacity: 1,
+					      borderColor : "#ffffff",
+					      color :"red",
+					      lineWidth: 3}
+						
+				);
+				marker.setLatLng(latlng); 
+				this._layer.addLayer(marker);
+				map.addLayer(this._layer);
 				map.addLayer(this._layer);
 			}
 			
 		}
-		
+		clearTimeout(this.timerKeypress);
 		//FIXME autoCollapse option hide this._markerLoc before that visualized!!
 		if(this.options.autoCollapse)
 			this.collapse();
