@@ -140,7 +140,7 @@ function addControlAltresFontsDades() {
 				jQuery("#div_url_file").hide();
 				
 				jQuery(".label-dadesExternes").on('click', function(e) {
-					console.debug(e);
+					//console.debug(e);
 					//URL PRESIDENT JSON
 					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
 						jQuery("#div_url_file").show();
@@ -152,11 +152,11 @@ function addControlAltresFontsDades() {
 						
 					}else{//LA RESTA
 						if(!busy){
-							console.debug("No esta busy.. faig la carrega!");
+							//console.debug("No esta busy.. faig la carrega!");
 							busy = true;
 							createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
 						}else{
-							console.debug("Esta busy, no puc carregar");
+							//console.debug("Esta busy, no puc carregar");
 							$('#dialog_dades_ex').modal('hide');
 							$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 							$('#dialog_info_upload').modal('show');
@@ -288,7 +288,7 @@ function addControlAltresFontsDades() {
 							);
 							
 							$('#opt_urlfile_codi').on('click',function(){
-								console.debug("click opt_urlfile_codi");
+								//console.debug("click opt_urlfile_codi");
 							});
 							
 							jQuery("#div_url_file_message").hide();
@@ -355,12 +355,12 @@ function addControlAltresFontsDades() {
 									jQuery("#input-camp-codi-urlfile").addClass("class_error");
 								
 								}else{
-									console.debug("abans createURLfileLayer");
-									console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
+									//console.debug("abans createURLfileLayer");
+									//console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
 									if(!busy){
-										console.debug("No esta busy.. faig la carrega!");
-										console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
-										console.debug(jQuery('#cmd_codiType_de').val());
+										//console.debug("No esta busy.. faig la carrega!");
+										//console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
+										//console.debug(jQuery('#cmd_codiType_de').val());
 										busy = true;
 										createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 												   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
@@ -368,7 +368,7 @@ function addControlAltresFontsDades() {
 												   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
 //										console.debug("despres createURLfileLayer");										
 									}else{
-										console.debug("Esta busy, no puc carregar");
+										//console.debug("Esta busy, no puc carregar");
 										$('#dialog_dades_ex').modal('hide');
 										$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 										$('#dialog_info_upload').modal('show');										
