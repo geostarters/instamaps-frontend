@@ -1355,7 +1355,7 @@ function showModalFilterFieldsAvancat(data){
 				jQuery('#valors_unics').on('click',function(e){
 					e.stopImmediatePropagation();
 					var this_ = jQuery('#dataField_filter_avancat');
-					readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
+					readDataVisualitzacio(resultsVis.results, this_.val()).then(function(results){
 							if (results.length == 0){
 								var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 							}else{
@@ -1378,7 +1378,7 @@ function showModalFilterFieldsAvancat(data){
 				jQuery('#nomes_10_valors').on('click',function(e){
 					e.stopImmediatePropagation();
 					var this_ = jQuery('#dataField_filter_avancat');
-					readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
+					readDataVisualitzacio(resultsVis.results, this_.val()).then(function(results){
 							if (results.length == 0){
 								var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 							}else{
@@ -1791,7 +1791,7 @@ function addHtmlModalFieldsFilterAvancat(){
 	'					<div class="labels_fields" >'+
 	'					    <input type="hidden" name="visFilter"  id="visFilter" value="">'+ 
 	'						<span lang="ca">Camps</span>:<span lang="ca" style="margin-left:31%">Valors</span>:<br/>'+
-	'						<select name="dataField_filter_avancat" id="dataField_filter_avancat" multiple="multiple" style="width: 30%;" size="6">'+
+	'						<select name="dataField_filter_avancat" id="dataField_filter_avancat" style="width: 30%;" size="6">'+
 	'						</select>'+
 	'						<select name="dataField_filter_avancat2" id="dataField_filter_avancat2" style="margin-left:8%;width:30%;" size="6">'+
 	'						</select>'+
