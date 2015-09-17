@@ -1283,6 +1283,8 @@ function showModalFilterFieldsAvancat(data){
 //	console.debug(data);
 	$('#visFilter').val(data.businessid);
 	
+	visFilter = data.businessid;
+	
 	if(data.tipus == t_url_file){
 		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
 		jQuery("#dialog_filter_rangs_avancat").data("visualitzacio", urlFileLayer.options);
@@ -1595,7 +1597,7 @@ function showModalFilterFieldsAvancat(data){
 			event.stopImmediatePropagation();
 			var data1 = {
 					uid: $.cookie('uid'),
-					businessId1: data.businessid
+					businessId1: visFilter
 			}
 			crearFitxerPolling(data1).then(function(results) {
 				var tmpFile="";
@@ -1676,7 +1678,7 @@ function showModalFilterFieldsAvancat(data){
 					busy=false;					
 				}
 			 var dataFiltre={
-				businessId1: data.businessid,
+				businessId1: visFilter,
 				uid: jQuery.cookie('uid'),
 				mapBusinessId:url('?businessid'),
 				key: keys,
