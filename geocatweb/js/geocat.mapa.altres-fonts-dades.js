@@ -317,6 +317,15 @@ function addControlAltresFontsDades() {
 								jQuery("#select-url-file-epsg").attr('disabled',true);
 							}else if(type==".xls" || type==".xlsx" || type==".csv" || type==".txt"){
 								jQuery("#input-excel-url-file").show();
+								
+								//#379: temporal, treure quan es faci la issue 378
+								if(type==".csv" || type==".txt"){
+									$('#input-excel-url-file .nav-pills-urlfile li#codis').addClass("disabled");
+									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').removeAttr("data-toggle");
+								}else{
+									$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+								}
 							}else{
 								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',false);
@@ -355,20 +364,13 @@ function addControlAltresFontsDades() {
 									jQuery("#input-camp-codi-urlfile").addClass("class_error");
 								
 								}else{
-									//console.debug("abans createURLfileLayer");
-									//console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
 									if(!busy){
-										//console.debug("No esta busy.. faig la carrega!");
-										//console.debug(jQuery('.nav-pills-urlfile .active').attr('id'));
-										//console.debug(jQuery('#cmd_codiType_de').val());
 										busy = true;
 										createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 												   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
 												   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis
 												   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
-//										console.debug("despres createURLfileLayer");										
 									}else{
-										//console.debug("Esta busy, no puc carregar");
 										$('#dialog_dades_ex').modal('hide');
 										$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 										$('#dialog_info_upload').modal('show');										
@@ -425,6 +427,14 @@ function addControlAltresFontsDades() {
 //									jQuery("#input-excel-url-file").hide();
 								}else if((ext==".xls")||(ext==".xlsx") || (ext==".csv") || (ext==".txt") ){
 									jQuery("#input-excel-url-file").show();
+									//#379: temporal, treure quan es faci la issue 378
+									if(ext==".csv" || ext==".txt"){
+										$('#input-excel-url-file .nav-pills-urlfile li#codis').addClass("disabled");
+										$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').removeAttr("data-toggle");
+									}else{
+										$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+										$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+									}									
 								}else{
 									jQuery("#select-url-file-epsg").attr('disabled',false);
 //									jQuery("#input-excel-url-file").hide();

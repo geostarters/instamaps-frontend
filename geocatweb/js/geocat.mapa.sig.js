@@ -1790,6 +1790,7 @@ function addHtmlModalFieldsFilterAvancat(){
 	'				<h4 class="modal-title" lang="ca">Filtre</h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
+	'				<span class="ca">Fes doble-clic sobre els elements per afegir-los al filtre.</span>'+
 	'					<div class="labels_fields" >'+
 	'					    <input type="hidden" name="visFilter"  id="visFilter" value="">'+ 
 	'						<span lang="ca">Camps</span>:<span lang="ca" style="margin-left:31%">Valors</span>:<br/>'+
@@ -1810,7 +1811,7 @@ function addHtmlModalFieldsFilterAvancat(){
 	'					<br/>'+
 	'					<span  style="margin-left:38%">'+
 	'					<button type="button" lang="ca" id="valors_unics">Valors únics</button>'+
-	'					<button type="button" lang="ca" id="nomes_10_valors">10 valors</button>'+
+	'					<button type="button" lang="ca" id="nomes_10_valors">10 primers</button>'+
 	'					</span></div>'+
 	'					<br/>'+
 	'					<div>'+

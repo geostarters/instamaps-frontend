@@ -678,6 +678,15 @@ function analitzaMatriu(matriu) {
 	jQuery('#dv_optCapa').show();
 	jQuery('#dv_optSRS').hide();
 
+	//#379: temporal, treure quan es faci la issue 378
+	if ((envioArxiu.ext == "csv") || (envioArxiu.ext == "txt")) {
+		$('#nav_pill a[href="#opt_codi"]').removeAttr("data-toggle");
+		$('#nav_pill a[href="#opt_adreca"]').removeAttr("data-toggle");
+	}else{
+
+		$('#nav_pill a[href="#opt_codi"]').attr("data-toggle","tab");
+		$('#nav_pill a[href="#opt_adreca"]').attr("data-toggle","tab");
+	}
 	
 	$.each(matriu, function(index, value) {
 		op.push("<option value=\"" + value + "\">" + value.toUpperCase()
@@ -832,7 +841,11 @@ function llegirTitolXLS(workbook) {
 	}else{
 		
 		$('#dialog_carrega_dades').modal('hide');
-		alert(window.lang.convert("Versió incorrecta. No es pot llegir aquest XLS."));
+		busy = false;
+		//alert(window.lang.convert("Versió incorrecta. No es pot llegir aquest XLS."));
+		$('#dialog_error_upload_txt').html("");
+		var msg = window.lang.convert("Versió incorrecta. No es pot llegir aquest XLS.");
+		$('#dialog_error_upload_txt').html(msg);
 	}
 	return matriuActiva;
 
@@ -875,7 +888,12 @@ function obteCampsXLSX(f) {
 					llegirTitolXLSX(wb, 'XLSX');
 				}
 			} catch (e) {
-				alert(window.lang.convert("No es pot llegir l'arxiu"));
+//				alert(window.lang.convert("No es pot llegir l'arxiu"));
+				$('#dialog_carrega_dades').modal('hide');
+				busy = false;
+				$('#dialog_error_upload_txt').html("");
+				var msg = window.lang.convert("No es pot llegir l'arxiu");
+				$('#dialog_error_upload_txt').html(msg);
 			}
 		}
 
@@ -1209,8 +1227,8 @@ function addHtmlModalCarregarFitxers(){
 		'							<ul id="nav_pill" class="nav nav-pills">'+
 		'								<li class="active"><a href="#opt_coord" lang="ca"'+
 		'									data-toggle="tab">Per coordenades</a></li>'+
-		'								<li><a href="#opt_adreca" lang="ca" data-toggle="tab">Per adreces</a></li>'+
-		'								<li><a href="#opt_codi" lang="ca" data-toggle="tab">Per codis</a></li>'+
+		'								<li ><a href="#opt_adreca" lang="ca" data-toggle="tab">Per adreces</a></li>'+
+		'								<li ><a href="#opt_codi" lang="ca" data-toggle="tab">Per codis</a></li>'+
 		'							</ul>'+
 		'							<!-- Tab panes -->'+
 		'							<div id="dv_contentOpt" class="tab-content tab-content-margin5px">'+
