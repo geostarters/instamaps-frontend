@@ -258,6 +258,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Fes clic al mapa per posar un punt":"Haz clic en el mapa para dibujar un punto"
 ,"Fes clic sobre el mapa per finalitzar":"Haz clic sobre el mapa para finalizar"
 ,"Fes captures de pantalla per a informes i presentacions.":"Toma capturas de pantalla para informes y presentaciones."
+,"Fes doble-clic sobre els elements per afegir-los al filtre.":"Haz doble clic sobre los elementos para añadirlos al filtro."
 ,"Fes el teu mapa":"Haz tu mapa"
 ,"Fes un mapa amb les teves dades fàcilment":"Haz un mapa fácilmente con tus datos"
 ,"Filtrar":"Filtrar"
@@ -551,6 +552,6 @@ jquery_lang_js.prototype.lang.es = {
 
 ,"<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Haz tu mapa"
 	
-,"10 valors":"10 valores"
+,"10 primers":"10 primeros"
 }
 
