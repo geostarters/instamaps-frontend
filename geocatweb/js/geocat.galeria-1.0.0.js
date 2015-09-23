@@ -35,6 +35,8 @@ $(function(){
 	
 	/*******PRIVAT GALERIA**********/
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
+		$('#tabs_links').removeClass('hide');
+		
 		$('.total_maps').hide();
 		
 		var data = {uid: $.cookie('uid')};
@@ -374,7 +376,7 @@ $(function(){
 			escriuResultats(userList.visibleItems.length);
 		});
 		*/
-					
+		
 		$('.cleansort').on('click', function(){
 			userList.sort('rankSort', { order: "desc" });
 		});
