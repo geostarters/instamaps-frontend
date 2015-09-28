@@ -153,6 +153,19 @@ function loadApp(){
 							canviaIdioma(web_determinaIdioma());
 							document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 						});
+						
+						//carreguem WMS en cas que s'hagi passat parametre
+						if(typeof url('?urlwms') == "string"){
+							ActiuWMS.url = url('?urlwms');
+							var layername = url('?layername');
+							console.debug(layername);
+							ActiuWMS.servidor = layername;
+							ActiuWMS.layers = layername;
+							ActiuWMS.epsg = undefined;
+						
+							addExternalWMS(true);
+						}
+						
 					});
 					//}
 					//else {
@@ -168,8 +181,6 @@ function loadApp(){
 			gestioCookie('getMapByBusinessIdError');
 			
 		});
-
-		
 		addLeaveModal();
 		
 	}else{
@@ -530,7 +541,15 @@ function createNewMap(){
 				mapConfig.options = jQuery.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
-				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
+				
+				//Si hi ha parametre enllac servei wms, etc
+				var param = "";				
+				if(typeof url('?urlwms') == "string"){
+					param = "&urlwms="+url('?urlwms')+"&layername="+url('?layername');
+				}
+//				console.debug(param);
+				
+				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 			}catch(err){
 				gestioCookie('createMap');
 			}

@@ -10,7 +10,14 @@ jQuery(document).ready(function() {
 			window.location = paramUrl.mainPage;
 		});
 	}else{
-		loadApp();
+		//jQuery("#menu_login").show();
+		//Si es visor senzill, cloudifier
+		if(typeof url('?urlwms') == "string"){
+			loadVisorSimple();
+			loadWmsVisorSimple();
+		}else{
+			loadApp();
+		}
 	}
 	addFuncioEditDataTable();
 		
@@ -21,6 +28,98 @@ function changeInitVisor(){
 	jQuery('.container').css('width','95%');
 	//TODO ver como hacer para no depender del timeout
 	setTimeout('activaPanelCapes(false)',3000);
+}
+
+function loadWmsVisorSimple(){
+	var layer = {
+		"url" : url('?urlwms'),
+		"servername": url('?layername'),
+		"layers" : url('?layername'),
+	    "imgFormat": "image/png",
+	    "transparency": "true",
+	    "version": "1.1.1",
+	    "opacity": 1,
+	    "epsg": undefined,
+		"serverName" : url('?layername'),
+		"serverType": t_wms,
+		"capesActiva" : "true",
+		"capesCalenta" : "false",
+		"capesOrdre" :  "1",
+		"capesVisibilitat" :  "true",
+		"visibilitat": "O",
+	    "businessId": "-1"				
+	};
+	loadWmsLayer(layer);	
+}
+
+function loadVisorSimple(){
+	
+	_gaq.push(['_trackPageview']);
+	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
+	if(typeof url('?embed') == "string"){
+	      jQuery('#navbar-visor').hide();
+	      jQuery('#searchBar').css('top', '0');
+	      addDefaultZoomControl = false;
+	      _gaq.push(['_trackEvent', 'visor', 'embed']);
+	}else{
+	      _gaq.push(['_trackEvent', 'visor', 'no embed']);
+	
+	}
+	
+	jQuery("#menu_login").hide();
+	
+    //Init MAPA
+	map = new L.IM_Map('map', {
+	  	zoomAnimation:false,
+	    typeMap : 'topoMapGeo',
+	        minZoom: 2,
+	        maxZoom : 19,
+	        zoomControl: addDefaultZoomControl,
+	}).setView([ 41.431, 1.8580 ], 8);
+	
+	L.control.coordinates({
+		position : 'bottomright', 
+		'emptystring':' ',
+		'numDigits': 2,
+		'numDigits2': 6,
+		'prefix': 'ETRS89 UTM 31N',
+		'prefix2': 'WGS84',
+		'separator': ' ',
+		'showETRS89':true
+	}).addTo(map);
+          
+	L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
+				
+	var _minTopo= new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
+	var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
+	
+	//Init controls
+	initControls();	
+	var controlFons = new L.IM_controlFons().addTo(map);
+	map.topoMapGeo();
+	map.setActiveMap(topoMapGeo);
+	map.setMapColor("");	
+	
+	$('meta[name="og:title"]').attr('content', "InstaMaps: "+ url('?layername')+" cloudifier");
+	$('#nomAplicacio').html("InstaMaps: "+ url('?layername')+" cloudifier");
+	document.title = "InstaMaps: "+ url('?layername')+" cloudifier";
+	jQuery("#mapTitle").html("InstaMaps: "+ url('?layername')+" cloudifier");
+
+	
+	activaPanelCapes(true);	
+	
+	//Actualitza idioma dels tooltips
+	$("body").on("change-lang", function(event, lang){
+		window.lang.change(lang);
+		window.lang.run(lang);								
+		updateLangTooltips();
+		updateLangText();
+	});	
+	canviaIdioma(web_determinaIdioma());				
+				
+	jQuery('#div_loading').hide();
+	jQuery(window).trigger('resize');		
+		
 }
 
 function loadApp(){
@@ -601,6 +700,7 @@ function loadMapConfig(mapConfig){
 	dfd.resolve();
 	return dfd.promise();
 }
+
 
 
 function loadOrigenWMS(){
