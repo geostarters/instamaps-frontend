@@ -1,3 +1,4 @@
+/*
 var context;
 var newCanvas;
 var objLLegenda=null;
@@ -915,6 +916,8 @@ function rag2deg(deg) {
       return deg * (180 / Math.PI)
 }
 
+
+*/
 var context;
 var newCanvas;
 var objLLegenda=null;

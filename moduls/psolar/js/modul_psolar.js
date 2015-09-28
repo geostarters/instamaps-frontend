@@ -299,6 +299,24 @@ jQuery(document).ready(function () {
 	// setTimeout(addControLSolar(),1000);
 
 	// setTimeout(addBarraPSolar(),10000);
+
+	
+	
+	
+	
+
+});
+
+$('#mapTitle').on('click',function(){
+	
+	
+	
+	var txt=jQuery(this).find('.popover-content').html();
+	if(txt){
+		txt=txt.replace('geostarters','');
+			jQuery(this).find('.popover-content').html(txt);	
+	}
+	
 });
 
 function addBarraPSolar() {
@@ -390,6 +408,10 @@ function addBarraPSolar() {
 		});
 
 	}
+	
+	
+	
+	
 
 }
 
@@ -403,6 +425,8 @@ function addDrawToolPSolar() {
 	L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Clica i arrosega per dibuixar un rectangle';
 	L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Deixa anar el ratolí per finalitzar el rectangle';
 
+	
+	
 }
 
 function esborraCapes() {
