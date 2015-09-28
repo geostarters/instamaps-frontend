@@ -35,6 +35,7 @@ jQuery("#login_button").click(function(){
 			if(results.status==='OK'){
 				if (results.uid){
 					$.cookie('uid', results.uid, {path:'/'});
+					$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
 				}else{
 					$.cookie('uid', user_login, {path:'/'});
 				}
@@ -111,6 +112,7 @@ function loginUserIcgc(){
 		doLoginIcgc(dataUrl).then(function(results){
 			if(results.status==='OK'){
 				$.cookie('uid', results.uid, {path:'/'});
+				$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
 				redirectLogin(results);
 			}else if (results.status === 'MAIL'){
 				/*

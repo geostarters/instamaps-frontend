@@ -1,4 +1,5 @@
 /*require Listjs http://www.listjs.com/docs/list-api*/
+/*require url https://github.com/websanova/js-url*/
 
 var pageGaleria = 0;
 var	userList;
@@ -19,6 +20,8 @@ $(function(){
 	
 	var privatGaleria = url('?private');
 	
+	var aplicacionsGaleria = url('?aplicacions');
+	
 	//per GA
 	defineTipusUser();
 		
@@ -35,7 +38,9 @@ $(function(){
 	
 	/*******PRIVAT GALERIA**********/
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
-		$('#tabs_links').removeClass('hide');
+		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+			$('#tabs_links').removeClass('hide');
+		}
 		
 		$('.total_maps').hide();
 		
@@ -344,9 +349,7 @@ $(function(){
 								esColaboratiu: 'S',
 								businessId: businessId
 							};
-							console.debug(data);
 							sendMail(data).then(function(results){
-								console.debug(results);					
 								if (results.status=="OK") {
 									console.debug(results);
 									$('#dialgo_colaborate').modal('hide');
@@ -360,6 +363,11 @@ $(function(){
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'convidar',totalConv]);
 				
 			});
+			
+			if(aplicacionsGaleria){
+				$('#typesTabs a:last').tab('show');
+			}
+			
 			window.lang.run();
 		});
 

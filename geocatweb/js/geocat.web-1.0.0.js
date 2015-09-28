@@ -246,6 +246,7 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = $.cookie('uid');
+	var tipusEntitat = parseInt($.cookie('tipusEntitat'));
 	if(!uid || isRandomUser(uid)){
 		$("#menu_login").show();
 		$("#menu_user").hide();
@@ -256,7 +257,13 @@ function checkUserLogin(){
 //		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
 		$("#text_username").text(" "+uid);
 		var galeria_url = paramUrl.galeriaPage + "?private=1";
-		$("#galeria a").attr('href', galeria_url);		
+		$("#galeria a").attr('href', galeria_url);
+		$("#aplicacions a").attr('href', galeria_url + "&aplicacions=1");
+	}
+	if($.inArray(tipusEntitat,TIPUS_ENTITATS_GEOLOCAL) != -1){
+		$("#aplicacions").show();
+	}else{
+		$("#aplicacions").hide();
 	}
 }
 

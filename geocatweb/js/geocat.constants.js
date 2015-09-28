@@ -227,3 +227,5 @@ var llista_dadesExternes = {
 				}
 		] 
 };
+
+var TIPUS_ENTITATS_GEOLOCAL = [0,2];
