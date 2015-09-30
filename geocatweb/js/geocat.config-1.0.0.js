@@ -59,6 +59,7 @@ var paramUrl = {
 	validateUsername: HOST_APP+"geocat/validateUid?",
 	validateEmail: HOST_APP+"geocat/validateEmail?",
 	getUser: HOST_APP+"geocat/user/getUser.action?",
+	getUserSimple: HOST_APP+"geocat/user/getUserSimple.action?",
 	updateUser: HOST_APP+"geocat/user/updateUser.action?",
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
 	updatePassword: HOST_APP+"geocat/user/updatePassword.action?",
@@ -176,7 +177,9 @@ var paramUrl = {
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
 	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
-	filter: HOST_APP+"geocat/aplications/map/filter.action?"
+	filter: HOST_APP+"geocat/aplications/map/filter.action?",
+	loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
+	getConfiguradesUser: "http://geolocaldev.icgc.local/PRG/eines/getConfiguradesUser.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

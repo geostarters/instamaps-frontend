@@ -290,7 +290,60 @@
 				</div>
 			</div>
 			<div id="aplicacionsTab" class="tab-pane" role="tabpanel">
-				<div id="AplicacionsRow" class="row">Aplicaciones</div>
+				<div id="AplicacionsRow" class="row"><ul class="list"></ul></div>
+				
+			<script id="aplicacions-template" type="text/x-handlebars-template">			
+			{{#each results}}
+			<li>
+			<div class="col-sm-6 col-md-3">
+				<input type="hidden" name="cols" value="{{cookie.uid}}">
+				<div class="thumbnail" data-idusr="{{cookie.uid}}">		
+			    	<img src="{{img}}" alt="{{nom}}">
+					<div class="caption text-center nomAplicacio">
+						<h4>{{nom}}</h4>
+					</div>					
+					<div class="caption text-center descAplicacio">
+						<span class="starwarsmain">
+						<span class="starwarsbody">
+						{{description}}
+						</span>
+						</span>
+					</div>
+					<div class="caption text-center btn-acctions" >
+						{{#if configurador}}
+							<button type="button" data-url="{{url}}" data-idusr="{{cookie.uid}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
+						{{else}}						
+							<button type="button" data-url="{{url}}" data-idusr="{{cookie.uid}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+			</li>
+			{{/each}}
+			</script>
+			
+			<script id="configurades-template" type="text/x-handlebars-template">			
+			{{#each results}}
+			<li>
+			<div class="col-sm-6 col-md-3">
+				<input type="hidden" name="cols" value="{{cookie.uid}}">
+				<div class="thumbnail" data-idusr="{{cookie.uid}}">		
+			    	<img src="img/generic_thumb_{{tipusAplicacio.businessId}}.jpg" alt="{{titol}}">
+					<div class="caption text-center nomAplicacio">
+						<h4>{{titol}}</h4>
+					</div>					
+					<div class="caption text-center descAplicacio">
+						<span lang="ca">Sense descripció</span>
+					</div>
+					<div class="caption text-center btn-acctions" >
+						<button type="button" data-url="http://www.geolocal.cat{{tipusAplicacio.url}}visorId={{businessId}}" data-idusr="{{cookie.uid}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+					</div>
+				</div>
+			</div>
+			</li>
+			{{/each}}
+			</script>
+				
 			</div>
 		</div>
 	</div>

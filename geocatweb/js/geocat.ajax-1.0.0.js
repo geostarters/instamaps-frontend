@@ -75,7 +75,7 @@ function checkEmail(user_email){
 
 function getUserData(username){
 	return jQuery.ajax({
-		url: paramUrl.getUser,
+		url: paramUrl.getUserSimple,
 		data: {uid : username},
 		async: false,
 		method: 'post',
@@ -961,5 +961,32 @@ function filter(params){
   		data: params,
   		method: 'post',
   		dataType: 'jsonp'
+	}).promise();
+}
+
+function loadAplicacionsUser(){
+	return jQuery.ajax({
+		url: paramUrl.loadAplicacionsUser,
+		method: 'get',
+		dataType: 'json'
+	}).promise();
+}
+
+function getUser(username){
+	return jQuery.ajax({
+		url: paramUrl.getUser,
+		data: {uid : username},
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getConfiguradesUser(data){
+	return jQuery.ajax({
+		url: paramUrl.getConfiguradesUser,
+		data: data,
+		crossDomain: true,
+		method: 'post',
+		dataType: 'jsonp'
 	}).promise();
 }

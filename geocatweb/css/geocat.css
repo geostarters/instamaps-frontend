@@ -1153,7 +1153,7 @@ background-color:#FFFFFF}
 /*stats*/
 
 h1.big_text{
-	font-size: 76pt;
+	font-size: 70pt;
 }
 
 /** GALERIA SEARCH **/
@@ -1162,7 +1162,7 @@ h1.big_text{
 	text-align: center;	
 }	
 
-#galeriaSort ul{	
+#galeriaSort ul, #AplicacionsRow ul{	
     list-style-type: none;
     margin-top: 10px;
   
