@@ -164,8 +164,8 @@ function getCapabilitiesWMS(url, servidor) {
 	console.debug(servidor);
 	
 	getWMSLayers(url).then(function(results) {
-		//console.debug("results:");
-		//console.debug(results);
+		console.debug("results:");
+		console.debug(results);
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
