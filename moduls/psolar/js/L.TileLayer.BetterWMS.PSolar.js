@@ -7,11 +7,11 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			map.on('click', this.getFeatureInfo, this);
 			addBarraPSolar();
 			activaPanelCapes(true);
-			if (this.wmsParams.layers.indexOf('irradiacio_global_calculada') != -1) {
+			//if (this.wmsParams.layers.indexOf('irradiacio_global_calculada') != -1) {
 				addControLSolarLL();
 				var params = this.getLegendGraphic();
-				updateLLegendaPSolar(params);
-			}
+				updateLLegendaPSolar(params,this.wmsParams.layers,true);
+			//}
 		},
 		onRemove : function (map) {
 			// Triggered when the layer is removed from a map.
@@ -20,9 +20,12 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			map.off('click', this.getFeatureInfo, this);
 			esborraCapes();
 			jQuery('#psolar_info_dv').hide();
-			if (this.wmsParams.layers.indexOf('irradiacio_global_calculada') != -1) {
-			jQuery('#psolar_info_dvLL').hide();
-			}
+			//if (this.wmsParams.layers.indexOf('irradiacio_global_calculada') != -1) {
+			//jQuery('#psolar_info_dvLL').hide();
+			//}
+			var params = this.getLegendGraphic();
+			//console.info(this.wmsParams.layers);
+			updateLLegendaPSolar(params,this.wmsParams.layers,false);
 			
 		},
 		getFeature : function (feature) {
@@ -41,7 +44,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			var urlApp = document.location.href;
 			if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
 				params = params.replace('betaserver.icgc.cat', '172.70.1.31');
-				params = params.replace('www.instamaps.cat', '172.70.1.31');
+				params = params.replace('www.instamaps.cat', '172.70.1.11');
 			}
 			//params=params.replace('betaserver.icgc.cat','84.88.72.98');
 
