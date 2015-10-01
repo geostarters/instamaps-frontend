@@ -341,8 +341,9 @@ function addExternalWMS(fromParam) {
 		transparent : true,
 		format : 'image/png'
 	});
-console.debug(wmsLayer);
-console.debug(ActiuWMS);
+//console.debug(wmsLayer);
+//console.debug(ActiuWMS);
+
 	wmsLayer.options.businessId = '-1';
 	wmsLayer.options.nom = ActiuWMS.servidor;
 	wmsLayer.options.tipus = t_wms;
