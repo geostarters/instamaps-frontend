@@ -198,7 +198,7 @@ function loadApp(){
 	}
 	
 		jQuery('#socialShare_visor').on('click', function(evt){
-			console.debug('on click social');
+			//console.debug('on click social');
 		});
 		
 		_gaq.push(['_trackPageview']);
@@ -435,11 +435,11 @@ function addControlsInici() {
 function addClicksInici() {
 	
 	
-	jQuery('.bt_legend').on('click', function(event) {
-		
+	//jQuery('.bt_legend').on('click', function(event) {
+	
+	jQuery(document).on('click','.bt_legend', function(event) {
 		
 		aturaClick(event);
-		
 		activaLlegenda();
 	});
 	
@@ -448,7 +448,11 @@ function addClicksInici() {
 		activaPanelCapes();
 	});	
 	
+	
+	
 	jQuery('.bt_captura').on('click', function(event) {
+	
+		
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
 		capturaPantalla(CAPTURA_MAPA);
@@ -753,7 +757,7 @@ function loadLayer(value){
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_geojsonvt){
-		console.debug(loadGeojsonvtLayer);
+		//console.debug(loadGeojsonvtLayer);
 		loadGeojsonvtLayer(value);
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes

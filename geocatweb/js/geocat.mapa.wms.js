@@ -159,9 +159,9 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
-	console.debug("getCapabilitiesWMS:");
-	console.debug(url);
-	console.debug(servidor);
+	//console.debug("getCapabilitiesWMS:");
+	//console.debug(url);
+	//console.debug(servidor);
 	
 	getWMSLayers(url).then(function(results) {
 		//console.debug("results:");
@@ -222,6 +222,9 @@ function getCapabilitiesWMS(url, servidor) {
 			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';
+			} else if (jQuery.inArray('EPSG:4258', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';	
 			} else {
 				alert(window.lang.convert("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 				return;

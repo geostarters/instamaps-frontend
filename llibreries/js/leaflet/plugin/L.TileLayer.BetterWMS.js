@@ -25,6 +25,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
 		
 		
+		//És mol lleig xurro
+		if(evt.originalEvent.target.className.indexOf('tile')!=-1){
+		
 		
 		if (params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1){
 			
@@ -74,7 +77,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					});				
 			}
 		}
-		
+		}
 		
 	},
 	getFeatureInfoUrl: function (latlng) {
@@ -186,6 +189,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		
 		
 		if($("#mapLegend").length==0 && $("#mapLegendEdicio").length==0){
+			
 			
 			addLegend();
 			
