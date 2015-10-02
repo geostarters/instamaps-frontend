@@ -49,7 +49,25 @@ function loadWmsVisorSimple(){
 		"visibilitat": "O",
 	    "businessId": "-1"				
 	};
-	loadWmsLayer(layer);	
+	loadWmsLayer(layer);
+	setMapWMSBoundingBox(layer.url);
+	
+}
+
+function setMapWMSBoundingBox(url){
+	
+	getWMSLayers(url).then(function(results) {
+		//Fem Layer.Layer perq des de el cloudifier sempre tindrem nomes una capa
+		var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
+		map.fitBounds([
+	       [bbox["@miny"], bbox["@minx"]],
+	       [bbox["@maxy"], bbox["@maxx"]]
+		]);
+	},function(){
+		console.error("Error getCapabilities");
+		console.debug(results);
+	});
+	
 }
 
 function loadVisorSimple(){
@@ -357,16 +375,23 @@ function addControlsInici() {
           
           ctr_linkViewMap.onAdd = function(map) {
 
-                this._div = L.DomUtil.create('div', 'control-linkViewMap');
-                this._div.id='div-linkViewMap';
-                this._div.title=window.lang.convert('Veure a InstaMaps');
-                this._div.innerHTML = '<span id="span-linkViewMap">'+
-                                                   '<a href="http://instamaps.cat/geocatweb/visor.html?businessid='+url('?businessid')+'" target="_blank">'+
-                                                   //window.lang.convert('Veure a InstaMaps')+
-                                                   '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>'+
-                                                   '</a>'+
-                                               '</span>';
-                return this._div;
+        	  
+        	  var urlVisor = 'http://instamaps.cat/geocatweb/visor.html?businessid='+url('?businessid');
+        	  if(typeof url('?urlwms') == "string"){
+        		  urlVisor = 'http://instamaps.cat/geocatweb/visor.html?urlwms='+url('?urlwms')+'&layername='+url('?layername');
+        	  }
+        	  
+            this._div = L.DomUtil.create('div', 'control-linkViewMap');
+            this._div.id='div-linkViewMap';
+            this._div.title=window.lang.convert('Veure a InstaMaps');
+            this._div.innerHTML = '<span id="span-linkViewMap">'+
+                                               '<a href="'+urlVisor+'" target="_blank">'+
+                                               //window.lang.convert('Veure a InstaMaps')+
+                                               '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>'+
+                                               '</a>'+
+                                           '</span>';
+            return this._div;
+            
           };
           ctr_linkViewMap.addTo(map);  
           jQuery('#span-linkViewMap a').on('click', function(event) {
