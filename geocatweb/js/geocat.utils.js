@@ -384,7 +384,7 @@ function popUp(f, l) {
 	}
 }
 
-function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){}}
+function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){console.info(err)}}
 
 //Funcions d'estils
 function retornaEstilaDO(dataset) {

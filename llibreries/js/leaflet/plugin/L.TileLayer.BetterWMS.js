@@ -1,16 +1,23 @@
+var control_llegenda_WMS;
 L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	onAdd: function (map) {
+		this.creaControlLLegenda(map);
 		// Triggered when the layer is added to a map.
 		// Register a click listener, then do all the upstream WMS things
 		this.options.maxZoom=19;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		map.on('click', this.getFeatureInfo, this);
+		
+		var params = this.getLegendGraphic();
+		this.updateControlLLegenda(params,this.wmsParams.layers,true,this.options.nom,this.options.businessId);
 	},
 	onRemove: function (map) {
 		// Triggered when the layer is removed from a map.
 		// Unregister a click listener, then do all the upstream WMS things
 		L.TileLayer.WMS.prototype.onRemove.call(this, map);
 		map.off('click', this.getFeatureInfo, this);
+		var params = this.getLegendGraphic();
+		this.updateControlLLegenda(params,this.wmsParams.layers,false,this.options.nom,this.options.businessId);
 	},
 	getFeatureInfo: function (evt) {
 		// Make an AJAX request to the server and hope for the best
@@ -18,10 +25,13 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
 		
 		
+		//És mol lleig xurro
+		if(evt.originalEvent.target.className.indexOf('tile')!=-1){
 		
-		if (params.indexOf('psolar_v2.map')!=-1){
+		
+		if (params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1){
 			
-			var dataF="<iframe style=\"display: block; width:300px; height:600px;border:none;\"  src="+params+" ></iframe></div>";
+			var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
 			
 			var pop=L.popup({ maxWidth: 800})
 			.setLatLng(evt.latlng)
@@ -67,7 +77,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					});				
 			}
 		}
-		
+		}
 		
 	},
 	getFeatureInfoUrl: function (latlng) {
@@ -114,7 +124,144 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		.setLatLng(latlng)
 		.setContent(content)
 		.openOn(this._map);
+	},
+	
+	getLegendGraphic : function () {
+
+		params = {
+			request : 'GetLegendGraphic',
+			service : 'WMS',
+			version : this.wmsParams.version,
+			format : this.wmsParams.format,
+			layer : this.wmsParams.layers
+
+		};
+
+		return this._url + L.Util.getParamString(params, this._url, true);
+
+		return params;
+
+	},
+	
+	creaControlLLegenda : function (map) {
+	
+		var fet = false;
+
+		
+		
+	
+		if(jQuery('#div_control_wms_llegenda').length==0){
+			
+				if (map) {
+				
+					control_llegenda_WMS = L.control({
+						position : 'bottomright'
+					});
+		
+					control_llegenda_WMS.onAdd = function(map) {
+						this._div = L.DomUtil.create('div', 'psolar_infoLL'); // create a
+						// div
+						this._div.id = 'div_control_wms_llegenda'; // with a class
+						// "info"
+						this.update();
+						return this._div;
+					};
+		
+					control_llegenda_WMS.update = function(props) {
+						this._div.innerHTML = props;
+					};
+		
+					control_llegenda_WMS.addTo(map);
+					control_llegenda_WMS.update("");
+		
+					
+					fet = true;
+					return fet;
+				}
+
+		}
+		
+		return fet;
+
+	},
+	
+	updateControlLLegenda :function (params,layer,estat,nom,businessId){
+		
+		
+		if($("#mapLegend").length==0 && $("#mapLegendEdicio").length==0){
+			
+			
+			addLegend();
+			
+		}
+		
+		
+		
+		
+		if(estat){ //afegeixo
+			//jQuery('#div_control_wms_llegenda').append('<img onerror="this.style.display=\'none\';" id="' + layer + '" src="' + params + '"><br>');
+			//$("#mapLegend").html("");
+			var html = '<div style="text-align:center" id="wms_' + businessId + '"><div class="titol-legend col-md-12 col-xs-12">'+nom+'</div><div class="titol-separate-legend-row"></div>';
+			html+='<img onerror="document.getElementById(\'wms_' + businessId + '\').style.display=\'none\';"  src="' + params + '"></div>';
+			//mapLegendEdicio
+			var divLlegenda='mapLegendEdicio';
+			
+			if($("#mapLegend").length > 0){divLlegenda='mapLegend';}
+			
+			$("#"+divLlegenda).append(html);
+			//Afegim de nou les classes i l'scroll
+			$("#"+divLlegenda).addClass("info");
+			$("#"+divLlegenda).addClass("legend");
+			$("#"+divLlegenda).addClass("visor-legend");
+			//$("#mapLegend").addClass("mCustomScrollbar");
+			//$("#mapLegend").mCustomScrollbar();
+			
+		
+			
+			
+			
+			
+			if(!$("#mapLegend").hasClass("mCustomScrollbar") && $("#mapLegend").length > 0){
+			
+				$("#mapLegend").addClass("mCustomScrollbar");
+				$("#mapLegend").mCustomScrollbar();
+			}
+			
+			if(!$("#mapLegendEdicio").hasClass("mCustomScrollbar") && $("#mapLegendEdicio").length > 0){
+				
+				$("#mapLegendEdicio").addClass("mCustomScrollbar");
+				$("#mapLegendEdicio").mCustomScrollbar();
+			}
+			
+			
+			
+			
+			
+			
+			
+			$(".bt_legend").show();
+			activaLlegenda(true);
+		
+		
+		
+		}else{ //esborro
+			//$(".bt_legend").hide();
+			activaLlegenda(false);
+			jQuery('#wms_' + businessId).remove();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
+	
+	
 });
  
 L.tileLayer.betterWms = function (url, options) {
