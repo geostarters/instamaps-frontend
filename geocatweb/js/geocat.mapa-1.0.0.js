@@ -222,7 +222,8 @@ function initControls(){
 
 function addClicksInici() {
 	
-	jQuery('.bt_legend').on('click', function() {
+	jQuery('.bt_legend').on('click', function(event) {
+		aturaClick(event);
 		activaLlegenda();
 	});	
 	

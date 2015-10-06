@@ -375,7 +375,7 @@ L.IM_Map = L.Map.extend({
 				
 				//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
 				//TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
-				TOPO_GEO_MQ_L15_18.setOpacity(1);
+				TOPO_GEO_MQ_L15_18.setOpacity(0);
 				TOPO_GEO_ICC_L8_17.options.maxZoom=18;	
 				//TOPO_GEO_MQ_L15_18.options.maxZoom=zT;
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());	

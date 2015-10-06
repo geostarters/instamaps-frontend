@@ -210,6 +210,7 @@ function addControlAltresFontsDades() {
 										'	<div class="panel-body">'+
 										'	   <ul class="nav nav-pills nav-pills-urlfile" id="nav_pill">'+
 										'	      <li id="coordenades" class="active"><a lang="ca" data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">'+window.lang.convert("Per coordenades")+'</a></li>'+
+										'	      <li id="adreca"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_adreca" aria-expanded="false">'+window.lang.convert("Per adreces")+'</a></li>'+
 										'	      <li id="codis"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_codi" aria-expanded="false">'+window.lang.convert("Per codis")+'</a></li>'+
 										'	   </ul>'+
 										'	   <!-- Tab panes -->		'+					
@@ -227,6 +228,15 @@ function addControlAltresFontsDades() {
 															'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada Y o LAT ")+'</span>'+
 															'<input type="text" id="input-coord-y" class="form-control">'+
 														'</div>'+
+										'	         </ul>'+
+										'	      </div>'+
+										'	      <div id="opt_urlfile_adreca" class="tab-pane active">'+
+										'	         <ul class="pane-excel-urlfile">'+
+										'					<span lang="ca">Per codificar per adreces utilitza aquest</span>'+ 
+										'					<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a>'+ 
+										'					<span lang="ca">amb les teves dades.</span>'+
+										'					<br/>'+
+										'					<span lang="ca">Els camps Nom_via, Portal i Municipi són obligatoris.</span>'+
 										'	         </ul>'+
 										'	      </div>'+
 										'	      <div id="opt_urlfile_codi" class="tab-pane tab-pane-urlfile">'+
@@ -317,15 +327,8 @@ function addControlAltresFontsDades() {
 								jQuery("#select-url-file-epsg").attr('disabled',true);
 							}else if(type==".xls" || type==".xlsx" || type==".csv" || type==".txt"){
 								jQuery("#input-excel-url-file").show();
-								
-								//#379: temporal, treure quan es faci la issue 378
-								if(type==".csv" || type==".txt"){
-									$('#input-excel-url-file .nav-pills-urlfile li#codis').addClass("disabled");
-									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').removeAttr("data-toggle");
-								}else{
-									$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
-									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
-								}
+								$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+								$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
 							}else{
 								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',false);
@@ -346,9 +349,9 @@ function addControlAltresFontsDades() {
 								var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
 								var coordX = jQuery("#input-coord-x").val();
 								var coordY = jQuery("#input-coord-y").val();
+								console.debug(opcio);
 								
-								
-								if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1){
+								if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1 && opcio!="codis" && opcio!="adreca"){
 									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
 									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 									
@@ -368,7 +371,7 @@ function addControlAltresFontsDades() {
 										busy = true;
 										createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 												   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
-												   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis
+												   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
 												   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
 									}else{
 										$('#dialog_dades_ex').modal('hide');
@@ -393,6 +396,10 @@ function addControlAltresFontsDades() {
 							});
 							
 							jQuery('.nav-pills-urlfile #coordenades').on('click', function(){
+								jQuery("#select-url-file-epsg").attr('disabled',false);
+							});
+							
+							jQuery('.nav-pills-urlfile #adreca').on('click', function(){
 								jQuery("#select-url-file-epsg").attr('disabled',false);
 							});
 							
@@ -427,14 +434,8 @@ function addControlAltresFontsDades() {
 //									jQuery("#input-excel-url-file").hide();
 								}else if((ext==".xls")||(ext==".xlsx") || (ext==".csv") || (ext==".txt") ){
 									jQuery("#input-excel-url-file").show();
-									//#379: temporal, treure quan es faci la issue 378
-									if(ext==".csv" || ext==".txt"){
-										$('#input-excel-url-file .nav-pills-urlfile li#codis').addClass("disabled");
-										$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').removeAttr("data-toggle");
-									}else{
-										$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
-										$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
-									}									
+									$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
 								}else{
 									jQuery("#select-url-file-epsg").attr('disabled',false);
 //									jQuery("#input-excel-url-file").hide();
