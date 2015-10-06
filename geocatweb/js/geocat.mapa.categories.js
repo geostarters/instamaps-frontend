@@ -349,97 +349,262 @@ function createTematicLayerCategories(event){
 	};
 	
 	if(visualitzacio.tipus == t_url_file){
-		
-		var options = {
-			url: capaMare.options.url,
-			tem: tem_clasic,
-			style: estils,
-			origen: capaMare.options.businessId,
-			tipus : t_url_file,
-			tipusFile: capaMare.options.tipusFile,
-			estil_do: estils,
-			epsgIN: capaMare.options.epsgIN,
-			geometryType: capaMare.options.geometryType,
-			colX: capaMare.options.colX,
-			colY: capaMare.options.colY,
-			dinamic: capaMare.options.dinamic
-		};
-	
-		var data = {
-			uid:$.cookie('uid'),
-			mapBusinessId: url('?businessid'),
-			serverName: capaMare.options.nom+" "+window.lang.convert("Categories"),
-			serverType: capaMare.options.tipus,
-			calentas: false,
-            activas: true,
-            visibilitats: true,
-            order: capesOrdre_sublayer,				
-            epsg: capaMare.options.epsgIN,
-            transparency: true,
-            opacity: 1,
-            visibilitat: 'O',
-            url: capaMare.options.url,
-			options: JSON.stringify(options)
-		};
-		
-		createServidorInMap(data).then(function(results){
-			jQuery('#info_uploadFile').show();
-			jQuery("#div_uploading_txt").html("");
-			jQuery("#div_uploading_txt").html(
-					'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-					'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
-			);
-
-			loadURLfileLayer(results.results).then(function(results){
-				busy=false;					
-				jQuery('#info_uploadFile').hide();
-				activaPanelCapes(true);
-			});
-		});			
-		
-	}else{
-		var data = {
-				businessId: tematicFrom.businessid,//businessId id de la visualización de origen
-				uid: $.cookie('uid'),//uid id de usuario
-		        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
-		        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
-		        activas: true,
-		        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
-		        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
-				tem: tem_clasic,//visualitzacio.from,//tem_simple
-				estils: JSON.stringify(estils)
-			};
-		jQuery('#dialog_tematic_rangs').modal('hide');
-		createVisualitzacioTematica(data).then(function(results){
-			if(results.status == 'OK'){
-				jQuery('#info_uploadFile').show();
-				jQuery("#div_uploading_txt").html("");
-				jQuery("#div_uploading_txt").html(
-						'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-						'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'
-				);
-				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacio, results.layer).then(function(results){
-					busy=false;					
-					jQuery('#info_uploadFile').hide();
-					activaPanelCapes(true);
-				});
+		var data1 = {
+				uid: $.cookie('uid'),
+				businessId1: capaMare.options.businessId
+		}
+		crearFitxerPolling(data1).then(function(results) {
+			var tmpFile="";
+			if (results.status=="OK"){
+				tmpFile = results.tmpFilePath;
+				//Definim interval de polling en funcio de la mida del fitxer
+				var pollTime =3000;
+				//Fem polling
+				(function(){							
+					pollBuffer = function(){
+						$.ajax({
+							url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+							dataType: 'json',
+							type: 'get',
+							success: function(data){
+								//console.debug(data);
+								jQuery('#dialog_tematic_rangs').hide();
+								jQuery('#info_uploadFile').show();
+								if(data.status.indexOf("PAS 1")!=-1 && busy){
+									
+									jQuery("#div_uploading_txt").html("");
+									jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+									);									
+									
+								}else if((data.status.indexOf("PAS 2") || data.status.indexOf("PAS 3"))!=-1 && busy){
+									jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+									);										
+								}else if(data.status.indexOf("OK")!=-1 && busy){
+									clearInterval(pollInterval);
+									
+									jQuery("#div_uploading_txt").html("");
+									jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+									);									
+									
+									loadURLfileLayer(data.results).then(function(results){
+										activaPanelCapes(true);
+									});
+									busy=false;					
+									jQuery('#info_uploadFile').hide();
+									
+								}else if(data.status.indexOf("ERROR")!=-1 && busy){
+									console.error("Error calculant l'operació");
+									console.error(data);
+									busy = false;
+									
+									clearInterval(pollInterval);
+									jQuery('#info_uploadFile').hide();
+									
+									$('#dialog_error_upload_txt').html("");
+									
+									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									
+									$('#dialog_error_upload').modal('show');
+								}
+								else if (!busy){
+									clearInterval(pollInterval);
+									jQuery('#info_uploadFile').hide();
+								}
+							}
+						});
+					};
+					
+					pollInterval = setInterval(function(){
+						pollBuffer();
+					},pollTime);
+					
+				})();
 				
-				
-			}else{
+				var options = {
+						url: capaMare.options.url,
+						tem: tem_clasic,
+						style: estils,
+						origen: capaMare.options.businessId,
+						tipus : t_url_file,
+						tipusFile: capaMare.options.tipusFile,
+						estil_do: estils,
+						epsgIN: capaMare.options.epsgIN,
+						geometryType: capaMare.options.geometryType,
+						colX: capaMare.options.colX,
+						colY: capaMare.options.colY,
+						dinamic: capaMare.options.dinamic
+					};
+			
+					var data = {
+						uid:$.cookie('uid'),
+						mapBusinessId: url('?businessid'),
+						serverName: capaMare.options.nom+" "+window.lang.convert("Categories"),
+						serverType: capaMare.options.tipus,
+						calentas: false,
+				        activas: true,
+				        visibilitats: true,
+				        order: capesOrdre_sublayer,				
+				        epsg: capaMare.options.epsgIN,
+				        transparency: true,
+				        opacity: 1,
+				        visibilitat: 'O',
+				        url: capaMare.options.url,
+						options: JSON.stringify(options),
+						tmpFilePath: tmpFile,
+						tipusTematic:"t_url_file",
+						urlTematic:paramUrl.createServidorInMap  
+					};
+					
+					callActions(data);
+					/*createServidorInMap(data);/*.then(function(results){
+						busy=false;					
+						jQuery('#info_uploadFile').hide();
+						loadURLfileLayer(results.results).then(function(results){
+							
+							activaPanelCapes(true);
+						});
+					});*/
+			}
+			else {
 				jQuery('#info_uploadFile').hide();		
 				busy=false;
-				$('#dialog_error_upload_txt').html("");					
-				$('#dialog_error_upload_txt').html(window.lang.convert("Error creant categories"));					
-				$('#dialog_error_upload').modal('show');				
 			}
-		},function(results){
-			jQuery('#info_uploadFile').hide();		
-			busy=false;
-			$('#dialog_error_upload_txt').html("");					
-			$('#dialog_error_upload_txt').html(window.lang.convert("Error creant categories"));					
-			$('#dialog_error_upload').modal('show');			
-		});					
+					
+		 });
+		
+		
+	}else{
+		var data1 = {
+				uid: $.cookie('uid'),
+				businessId1: capaMare.options.businessId
+		}
+		crearFitxerPolling(data1).then(function(results) {
+			var tmpFile="";
+			if (results.status=="OK"){
+				tmpFile = results.tmpFilePath;
+				//Definim interval de polling en funcio de la mida del fitxer
+				var pollTime =3000;
+				//Fem polling
+				(function(){							
+					pollBuffer = function(){
+						$.ajax({
+							url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+							dataType: 'json',
+							type: 'get',
+							success: function(data){
+								//console.debug(data);
+								jQuery('#dialog_tematic_rangs').hide();
+								jQuery('#info_uploadFile').show();
+								if(data.status.indexOf("PAS 1")!=-1 && busy){
+									
+									jQuery("#div_uploading_txt").html("");
+									jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+									);									
+									
+								}else if((data.status.indexOf("PAS 2")!=-1 || data.status.indexOf("PAS 3")!=-1) && busy){
+									jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+									);										
+								}else if(data.status.indexOf("OK")!=-1 && busy){
+									clearInterval(pollInterval);
+									
+									jQuery("#div_uploading_txt").html("");
+									jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+									);									
+									var defer = $.Deferred();
+									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
+										activaPanelCapes(true);
+									});
+									jQuery('#info_uploadFile').hide();		
+									busy=false;
+								}else if(data.status.indexOf("ERROR")!=-1 && busy){
+									console.error("Error calculant l'operació");
+									console.error(data);
+									busy = false;
+									
+									clearInterval(pollInterval);
+									jQuery('#info_uploadFile').hide();
+									
+									$('#dialog_error_upload_txt').html("");
+									
+									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									
+									$('#dialog_error_upload').modal('show');
+								}
+								else if (!busy){
+									clearInterval(pollInterval);
+									jQuery('#info_uploadFile').hide();
+								}
+							}
+						});
+					};
+					
+					pollInterval = setInterval(function(){
+						pollBuffer();
+					},pollTime);
+					
+				})();
+				var options = {
+						url: capaMare.options.url,
+						tem: tem_clasic,
+						style: estils,
+						origen: capaMare.options.businessId,
+						tipus : t_url_file,
+						tipusFile: capaMare.options.tipusFile,
+						estil_do: estils,
+						epsgIN: capaMare.options.epsgIN,
+						geometryType: capaMare.options.geometryType,
+						colX: capaMare.options.colX,
+						colY: capaMare.options.colY,
+						dinamic: capaMare.options.dinamic
+				};
+
+				var data = {
+						businessId: tematicFrom.businessid,//businessId id de la visualización de origen
+						uid: $.cookie('uid'),//uid id de usuario
+				        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
+				        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
+				        activas: true,
+				        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
+				        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
+						tem: tem_clasic,//visualitzacio.from,//tem_simple
+						estils: JSON.stringify(estils),
+						tmpFilePath: tmpFile,
+						tipusTematic:"t_visualitzacio",
+						urlTematic:paramUrl.createVisualitzacioTematica  
+					};
+					
+					callActions(data);
+			}
+			else {
+				jQuery('#info_uploadFile').hide();		
+				busy=false;
+			}
+		
+			
+			
+			/*createVisualitzacioTematica(data);/*.then(function(results){
+				jQuery('#info_uploadFile').hide();		
+				busy=false;
+				if(results.status == 'OK'){
+					var defer = $.Deferred();
+					readVisualitzacio(defer, results.visualitzacio, results.layer).then(function(results){
+						activaPanelCapes(true);
+					});				
+				}
+			});		*/
+		});				
 	}
 	
 	event.preventDefault();
