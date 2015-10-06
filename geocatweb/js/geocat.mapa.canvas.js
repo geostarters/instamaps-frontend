@@ -1070,7 +1070,8 @@ function ompleCapesMatriu(item){
             if(pucPassar(item)){
                   
                   var L_JSON=item.layer.toGeoJSONcustom();
-                  
+                 // var matriuFF=[];
+                 
                   jQuery.each(L_JSON.features, function(i, feature){
                 	 
                 	  var tipus=feature.geometry.type;
@@ -1079,7 +1080,7 @@ function ompleCapesMatriu(item){
                      
                     	 if(!feature.styles.icon){
                     		 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:6px);BRUSH(fc:"+feature.styles.fillColor+")";                             
-                    	 }else{
+                    		
                     		 var icona;
                     		 if(feature.styles.icon.options.markerColor){
                     			 icona="/opt/geocat/maps/galeria/"+feature.styles.icon.options.markerColor;
@@ -1087,23 +1088,59 @@ function ompleCapesMatriu(item){
                     			 var ff=feature.styles.icon.options.iconUrl
                     			 icona="/opt/geocat/maps/galeria/"+ff.substring(ff.lastIndexOf("/")+1,ff.lastIndexOf("."));
                     		 }
-                    		 feature.properties.OGR="SYMBOL(c:#ff0000,id:"+icona+".png)";                                                                                                                     
+                    		 feature.properties.OGR="SYMBOL(c:#ff0000,id:"+icona+".png)";   
+                    		
                     	 }
                      
+                    	// matriuFF.push(JSON.stringify(feature));
                     //Polyline
                      }else if(tipus.indexOf("Line")!=-1){
-                    	 console.debug(feature);
+                    	
                     	 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px)";
+                    	// matriuFF.push(JSON.stringify(feature));
                      
                      }else if(tipus.indexOf("Polygon")!=-1){
                      
-                      feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px);BRUSH(fc:"+feature.styles.fillColor+")";                        
-                     
+                    	 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px);BRUSH(fc:"+feature.styles.fillColor+")";
+                    	
+                    	 /*
+                    	  * Exemple de passar Multipoligon a poligon
+                    	  * 
+                    	  * 
+                    	 if(tipus.indexOf("Multi")!=-1){
+                    		console.info(i);
+                    	 var polMatriu=[];
+                    		 for (var j=0; j < feature.geometry.coordinates.length; j++){
+                    	          var polygon = {
+                    	               'type':'Feature',                    	              
+                    	               "geometry" : {
+                    	   				"type" : "Polygon",
+                    	   				"coordinates" : feature.geometry.coordinates[j],
+                    	   				},
+                    	               'properties': feature.properties};
+                    	     
+                    	          matriuFF.push(JSON.stringify(polygon));
+                    	      } 
+                    		
+                    		 //feature=JSON.stringify(polMatriu);
+                    	
+                    	 }else{
+                    		
+                    		 matriuFF.push(JSON.stringify(feature));
+                    		 
+                    		 
+                    	 } 
+                    	 */
+                    	 
+                    	 
                      }else{
                            feature.properties.OGR="PEN(c:#0000ff,w:5px);BRUSH(fc:#0000ff90)";
+                          // matriuFF.push(JSON.stringify(feature));
                      }
                   });
-                  
+
+
+                //  matriuFF.push(']}');
                  // matriuCapesLL.layers.push(JSON.stringify(L_JSON));
 				  
 				//JA NO CAL, EN CAS DE JSON CIRCULAR...
@@ -1121,8 +1158,11 @@ function ompleCapesMatriu(item){
 //					}));
 //					cache = null;
 				  
+               //   console.info(JSON.stringify(matriuFF));
+                 // console.info(matriuFF.join(","));
+                  
 				matriuCapesLL.layers.push(JSON.stringify(L_JSON));
-						  
+                 // matriuCapesLL.layers.push('{"type" : "FeatureCollection","features" : ['+matriuFF.join(",")+']}');		  
                   matriuCapesLL.n_layers.push(item.name);
                   matriuCapesLL.id_layers.push(item.layer.options.businessId);
                   

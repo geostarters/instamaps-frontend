@@ -1083,7 +1083,7 @@ function emptyMapLegendEdicio(layer){
 
 function loadMapLegendEdicio(layer){
 	
-	console.info(layer);
+	//console.info(layer);
 	
 	//Eliminem de la lleganda tematització anterior
 	$("#mapLegendEdicio").html("");
