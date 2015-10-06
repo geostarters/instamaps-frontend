@@ -726,12 +726,10 @@ function calculaNivellAprofitament() {
 		var retorn_area_instalable_fv = sumValue_FV(i);
 
 	
-		//console.info(parseFloat(retorn_area_instalable_fv.area_instalable_fv));		
-		//console.info(parseFloat(area_instalada_fv));
 		
-		if (parseFloat(retorn_area_instalable_fv.area_instalable_fv) >= parseFloat(area_instalada_fv).toFixed(0)) {
+		if (parseFloat(retorn_area_instalable_fv.area_instalable_fv + parseFloat(1)) >= parseFloat(area_instalada_fv).toFixed(0)) {
 
-		//console.info("entro");
+		
 			
 			return retorn_area_instalable_fv;
 
@@ -770,12 +768,16 @@ function sumValue_FV(valor) {
 		irradiacio_aprofitable_fv_mes1 = (parseFloat(val_ghifv2_fv)
 				+ parseFloat(val_ghifv3_fv) + parseFloat(val_ghifv4_fv))
 				.toFixed(0);
+		
+		//console.info(irradiacio_aprofitable_fv_mes1);
 
 	} else if (valor == 2) {
 
 		irradiacio_aprofitable_fv = (parseFloat(val_ghifv2_fv)
 				+ parseFloat(val_ghifv3_fv) + parseFloat(val_ghifv4_fv))
 				.toFixed(0);
+		
+		
 		area_instalable_fv = (parseFloat(val_sfv2_fv) + parseFloat(val_sfv3_fv) + parseFloat(val_sfv4_fv))
 				.toFixed(1);
 
@@ -787,7 +789,7 @@ function sumValue_FV(valor) {
 
 		val_ghifv_actual = parseFloat(val_ghifv2_fv);
 		val_sfv_actual = parseFloat(val_sfv2_fv);
-
+		//console.info(irradiacio_aprofitable_fv_mes1);
 	} else if (valor == 3) {
 
 		// irradiacio_global_fv = (parseFloat(val_ghifv3_fv) +
@@ -803,7 +805,7 @@ function sumValue_FV(valor) {
 
 		val_ghifv_actual = parseFloat(val_ghifv3_fv);
 		val_sfv_actual = parseFloat(val_sfv3_fv);
-
+		//console.info(irradiacio_aprofitable_fv_mes1);
 	} else if (valor == 4) {
 		irradiacio_aprofitable_fv = (parseFloat(val_ghifv4_fv)).toFixed(0);
 		area_instalable_fv = (parseFloat(val_sfv4_fv)).toFixed(1);
@@ -812,7 +814,7 @@ function sumValue_FV(valor) {
 		irradiacio_aprofitable_fv_mes1 = 0;
 		val_ghifv_actual = parseFloat(val_ghifv4_fv);
 		val_sfv_actual = parseFloat(val_sfv4_fv);
-
+		//console.info(irradiacio_aprofitable_fv_mes1);
 	}
 	jQuery('#fv_global').html(addCommas(irradiacio_global_fv));
 	// jQuery('#fv_area_i').html(addCommas(area_instalable_fv));
@@ -887,6 +889,8 @@ function calculaElectricitatGenerada_FV(valor) {
 
 	var nivellAprofitament = calculaNivellAprofitament();
 
+	
+	
 	var energia_inicident = parseFloat(nivellAprofitament.irradiacio_aprofitable_fv_mes1)
 			+ parseFloat(nivellAprofitament.val_ghifv_actual)
 			* ((area_instalada_fv - nivellAprofitament.area_instalable_fv_meny1) / nivellAprofitament.val_sfv_actual);
