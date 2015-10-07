@@ -581,7 +581,7 @@ function createTematicLayerCategories(event){
 						tem: tem_clasic,//visualitzacio.from,//tem_simple
 						estils: JSON.stringify(estils),
 						tmpFilePath: tmpFile,
-						tipusTematic:"t_visualitzacio",
+						tipusTematic:"t_visualitzacio_categories",
 						urlTematic:paramUrl.createVisualitzacioTematica  
 					};
 					
