@@ -56,10 +56,12 @@ L.LayerGroup.include({
         	
         	
  if(tipus.indexOf("Multi")!=-1){
-        		 
+        		// console.info(layer.properties);
         		 json.styles.fillColor=layer.properties.estil.color;
         		 json.styles.borderColor=layer.properties.estil.borderColor;
-       		 
+        		 json.styles.color=layer.properties.estil.borderColor;
+        		 json.styles.weight=layer.properties.estil.borderWidth;
+        		 json.styles.borderWidth=layer.properties.estil.borderWidth;
              	
               }
         
