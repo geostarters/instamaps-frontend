@@ -18,11 +18,14 @@ var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
 
 var _hibridLayers=null,HIBRID_MQ_L0_18,HIBRID_ICGC_L0_18,HIBRID_ICGC_L13_18;
-
 var _histoMap=null;
 var _histoOrtoMap=null;
 var _histoOrtoMap46=null;
 var _alcadesMap=null;
+var _naturalMap=null;
+var _divadminMap=null;
+
+
 var ESRI_RELLEU_L0_13;			 
 var ICC_RELLEU_L0_14;
 var MQ_TOPO_GRIS_L7_19,ICC_TOPO_GRIS_L7_10,ICC_TOPO_GRIS_L11_19,ICC_MON_L0;
@@ -31,6 +34,7 @@ var HISTO_ICC_L0_14;
 var HISTOOrto_ICC_L0_14;
 var HISTOOrto46_ICC_L0_14;
 var ALCADAMAPA_ICGC_L0_17;
+var DIVADMIN_L0_14;
 var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
@@ -70,6 +74,11 @@ var URL_ALCADAMAP=urlServerTiles+'/mapcache/tms/1.0.0/h_ombra3857@GMTOT/{z}/{x}/
 var URL_MQ_GEO='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
 var URL_TOPOICC_GEO_MON=urlServerTiles+'/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
+
+var URL_TOPOICC_GEO_NATURAL=urlServerTiles+'/mapcache/tms/1.0.0/natural3857@GMTOT/{z}/{x}/{y}.png';
+var URL_DIVADMIN=urlServerTiles+'/mapcache/tms/1.0.0/BOUNDARIES@GM14/{z}/{x}/{y}.png';
+
+
 //var URL_TOPOICC_GEO_2=urlServerTiles+'/mapcache/tms/1.0.0/A2503857@GMTOT/{z}/{x}/{y}.png';
 
 //var URL_TERRAIN='http://www.instamaps.cat/mapcache/tms/1.0.0/relleu3857@GM14/{z}/{x}/{y}.png';
@@ -89,6 +98,10 @@ var FONS_HISTORICMAP='historicMap';
 var FONS_HISTORICORTOMAP='historicOrtoMap';
 var FONS_HISTORICORTOMAP46='historicOrtoMap46';	
 var FONS_ALCADAMAP='alcadaMap';	
+var FONS_NATURAL='naturalMap';	
+var FONS_DIVADMIN='divadminMap';	
+
+
 var TOPO_OMBRA_L11_19= new L.TileLayer(URL_OMBRA,			  {  	    
 	  tms:true,
 	  minZoom: 11,
@@ -121,6 +134,8 @@ L.IM_Map = L.Map.extend({
 		}else if(this.options.typeMap==FONS_HISTORICORTOMAP){this.historicOrtoMap();
 		}else if(this.options.typeMap==FONS_HISTORICORTOMAP46){this.historicOrtoMap46();
 		}else if(this.options.typeMap==FONS_ALCADAMAP){this.alcadaMap();
+		}else if(this.options.typeMap==FONS_NATURAL){this.naturalMap();
+		}else if(this.options.typeMap==FONS_FONS_DIVADMIN){this.divadminMap();
 		}else{
 		this.activeMap=FONS_TOPOMAP;this.topoMap();
 		}
@@ -156,6 +171,8 @@ L.IM_Map = L.Map.extend({
 		}else if(this.options.typeMap==FONS_HISTORICORTOMAP){return _histoOrtoMap;
 		}else if(this.options.typeMap==FONS_HISTORICORTOMAP46){return _histoOrtoMap46;
 		}else if(this.options.typeMap==FONS_ALCADAMAP){return _alcadesMap;
+		}else if(this.options.typeMap==FONS_NATURAL){return _naturalMap;
+		}else if(this.options.typeMap==FONS_FONS_DIVADMIN){return _divadminMap;
 		}else{
 		return _topoLayers;
 		}		
@@ -388,7 +405,70 @@ L.IM_Map = L.Map.extend({
 			}
 		
 			
+		}else if(f==FONS_NATURAL){
 			
+			
+			
+			this.mirarActivarHill(false,this.getZoom(),sC);	
+		
+		
+		if((sC==0)){  
+			TOPO_GEO_MQ_L15_18.setOpacity(1);
+			TOPO_GEO_MQ_L15_18.options.maxZoom=18;		
+			//TOPO_GEO_ICC_L8_12.options.maxZoom=zT;
+			//TOPO_GEO_OMBRA_L8_12.options.maxZoom=zT;
+			TOPO_GEO_ICC_L8_17.options.maxZoom=18;
+			
+			/*
+			if(this.getZoom() > 6){
+				this.attributionControl.setPrefix(MQ_ATTR +" ZL:"+this.getZoom());
+				//TOPO_ICC_L0_6
+				_topoLayersGeo.removeLayer(TOPO_GEO_MON_L0_14);
+			}else{
+				this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
+				_topoLayersGeo.addLayer(TOPO_GEO_MON_L0_14);
+			}	
+			*/
+			this.attributionControl.setPrefix(ICGC+" - "+MQ_ATTR +" ZL:"+this.getZoom());
+		}else if(sC==1){
+				
+			TOPO_GEO_MQ_L15_18.setOpacity(0.8);
+			TOPO_GEO_MQ_L15_18.options.maxZoom=18;				
+			//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
+		//	TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
+			TOPO_GEO_ICC_L8_17.options.maxZoom=18;
+			
+			//TOPO_GEO_ICC_L8_12.setOpacity(1);
+			//TOPO_GEO_OMBRA_L8_12.setOpacity(0.1);
+			/*
+			if(this.getZoom() > 6){
+				this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());
+				//TOPO_ICC_L0_6
+				_topoLayersGeo.removeLayer(TOPO_GEO_MON_L0_14);
+			}else{
+				this.attributionControl.setPrefix(ICGC_MON +" ZL:"+this.getZoom());
+				_topoLayersGeo.addLayer(TOPO_GEO_MON_L0_14);
+			}
+			*/
+		this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +" ZL:"+this.getZoom());	
+		}else if(sC==2){
+			
+			
+			
+			
+			//TOPO_GEO_ICC_L8_12.options.maxZoom=12;
+			//TOPO_GEO_OMBRA_L8_12.options.maxZoom=12;
+			TOPO_GEO_MQ_L15_18.setOpacity(0);
+			TOPO_GEO_ICC_L8_17.options.maxZoom=18;	
+			//TOPO_GEO_MQ_L15_18.options.maxZoom=zT;
+			this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());	
+			
+			
+			//TOPO_GEO_ICC_L8_12.setOpacity(0.8);
+			//TOPO_GEO_OMBRA_L8_12.setOpacity(1);
+			
+			
+		}	
 			
 			
 		}else if(f==FONS_ORTOMAP){
@@ -505,7 +585,8 @@ L.IM_Map = L.Map.extend({
 				COLOR_TOPO_MQ_L7_19.options.maxZoom=zT;
 				COLOR_TOPO_ICC_L11_19.options.maxZoom=19;			
 				this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
-			}		
+			}
+			
 		}else if(f==FONS_HISTORICMAP){	
 			this.mirarActivarHill(false,this.getZoom(),sC);	
 			if(this.getZoom() > 14){
@@ -515,6 +596,16 @@ L.IM_Map = L.Map.extend({
 			if((sC==0)){				
 				this.fitBounds(CatBounds);
 			}
+			
+		
+		}else if(f==FONS_DIVADMIN){	
+			this.mirarActivarHill(false,this.getZoom(),sC);	
+			if(this.getZoom() > 14){
+				map.setZoom(14);
+			}
+			this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
+				
+			
 		}else if(f==FONS_HISTORICORTOMAP){		
 			this.mirarActivarHill(false,this.getZoom(),sC);	
 			this.attributionControl.setPrefix(ICGC_HISTOOrto +" ZL:"+this.getZoom());
@@ -716,6 +807,51 @@ if(print){
 	},
 	
 	
+	naturalMap: function (){	
+		this.deletePreviousMap();
+		this.options.typeMap=FONS_NATURAL;
+		this.ajustaZoom(18);
+		this.setActiveMap(FONS_NATURAL);
+		this.setMapColor(null);
+		_naturalMap=L.layerGroup();						 
+		
+		
+		TOPO_GEO_MON_L0_14=  new L.TileLayer(URL_TOPOICC_GEO_MON, {
+			minZoom: 0,
+			maxZoom: 14,
+			tms:true,
+			continuousWorld: false,
+			worldCopyJump: false,
+		}).addTo(_naturalMap);		
+		
+		
+		TOPO_GEO_MQ_L15_18 = new L.TileLayer(URL_MQ,{   	   
+			minZoom: 15,
+			maxZoom:18,
+			
+			subdomains:subDomains}
+		).addTo(_naturalMap);
+				
+		TOPO_GEO_ICC_L8_17 = new L.TileLayer(URL_TOPOICC_GEO_NATURAL,{  	    
+			tms:true,
+			continuousWorld: true,
+			worldCopyJump: false,
+			minZoom: 8,
+			maxZoom: 18	                                                        
+			
+		}).addTo(_naturalMap);
+		this.addLayer(_naturalMap,true);
+	},
+	
+	
+	ajustaZoom:function (maxZoom){
+	this.options.maxZoom=maxZoom;
+	this.getZoom() > maxZoom ?  this.setZoom(maxZoom) : null;
+	
+	},
+	
+	
+	
 	hibridMap: function (print){
 		this.deletePreviousMap();	
 		this.ajustaZoom(18);
@@ -893,6 +1029,26 @@ if(print){
 		
 	},
 	
+	divadminMap:function(){
+		this.deletePreviousMap();	
+		this.setActiveMap(FONS_DIVADMIN);
+		this.setMapColor(null);
+		this.options.typeMap=FONS_DIVADMIN;
+		this.ajustaZoom(14);
+		_divadminMap=L.layerGroup();
+		
+		DIVADMIN_L0_14= new L.TileLayer(URL_DIVADMIN, {
+			minZoom: 0, 
+			maxZoom: 14, 
+			tms:true, 
+			continuousWorld: true,
+			worldCopyJump:false, 
+		}).addTo(_divadminMap);
+		
+		this.addLayer(_divadminMap,true);
+		
+	},
+	
 	historicOrtoMap:function(){
 		this.deletePreviousMap();	
 		this.setActiveMap(FONS_HISTORICORTOMAP);
@@ -997,6 +1153,8 @@ if(print){
 		else if(this.hasLayer(_histoMap)){this.removeLayer(_histoMap);return}
 		else if(this.hasLayer(_histoOrtoMap)){this.removeLayer(_histoOrtoMap);return}
 		else if(this.hasLayer(_histoOrtoMap46)){this.removeLayer(_histoOrtoMap46);return}
+		else if(this.hasLayer( _naturalMap)){this.removeLayer( _naturalMap);return}		
+		else if(this.hasLayer(_divadminMap)){this.removeLayer(_divadminMap);return}
 		else if(this.hasLayer(_alcadesMap)){this.removeLayer(_alcadesMap);return}
 	}
 	//fi default metode

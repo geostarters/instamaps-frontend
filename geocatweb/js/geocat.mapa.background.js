@@ -19,6 +19,7 @@ function addOpcionsFonsMapes() {
 			map.ortoMap();
 		}else if (fons == 'hibridMap') {
 			map.hibridMap();
+		
 		} else if (fons == 'colorMap') {
 			gestionaPopOver(this);
 		} 
@@ -45,8 +46,8 @@ function creaPopOverMesFonsColor() {
 				+ '<div id="sepia" lang="ca" data-toggle="tooltip" title="Sèpia" data-lang-title="Sèpia" class="div_fons_7"></div>'
 				+ '<div id="zombie" lang="ca" data-toggle="tooltip" title="Zombie" data-lang-title="Zombie" class="div_fons_8"></div>'
 				+ '<div id="orquidea" lang="ca" data-toggle="tooltip" title="Orquídea" data-lang-title="Orquídea" class="div_fons_9"></div>'
-				+ '<div id="natural" lang="ca" data-toggle="tooltip" title="Natural" data-lang-title="Natural" class="div_fons_16"></div>'
-				+ '<div id="divadmin" lang="ca" data-toggle="tooltip" title="Divisions administratives" data-lang-title="Divisions administratives" class="div_fons_17"></div>'
+				+ '<div id="naturalMap" lang="ca" data-toggle="tooltip" title="Natural" data-lang-title="Natural" class="div_fons_16"></div>'
+				+ '<div id="divadminMap" lang="ca" data-toggle="tooltip" title="Divisions administratives" data-lang-title="Divisions administratives" class="div_fons_17"></div>'
 				+ '</div>',
 		container : 'body',
 		html : true,
@@ -105,6 +106,12 @@ function creaPopOverMesFonsColor() {
 			jQuery("#colorMap").popover('hide');
 		}else if (fons == 'alcadaMap') {
 			map.alcadaMap();
+			jQuery("#colorMap").popover('hide');
+		}else if (fons == 'naturalMap') {
+			map.naturalMap();
+			jQuery("#colorMap").popover('hide');
+		}else if (fons == 'divadminMap') {
+			map.divadminMap();
 			jQuery("#colorMap").popover('hide');
 		}else{
 			map.colorMap(fons);			
