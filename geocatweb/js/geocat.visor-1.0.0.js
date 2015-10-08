@@ -686,6 +686,14 @@ function loadMapConfig(mapConfig){
 					map.historicOrtoMap46();
 				}else if (fons == 'alcadaMap'){
 					map.alcadaMap();
+					
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();
+					
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();
+					
+					
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);			
 				}
