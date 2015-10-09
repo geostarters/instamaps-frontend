@@ -163,7 +163,7 @@ function loadApp(){
 						if(typeof url('?urlwms') == "string"){
 							ActiuWMS.url = url('?urlwms');
 							var layername = url('?layername');
-							console.debug(layername);
+							
 							ActiuWMS.servidor = layername;
 							ActiuWMS.layers = layername;
 							ActiuWMS.epsg = undefined;
@@ -376,7 +376,7 @@ function loadMapConfig(mapConfig){
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
-				var fons = mapConfig.options.fons;
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
@@ -404,6 +404,9 @@ function loadMapConfig(mapConfig){
 					map.divadminMap();
 					
 				}else if (fons == 'colorMap') {
+					
+					
+					
 					map.colorMap(mapConfig.options.fonsColor);			
 				}
 				map.setActiveMap(mapConfig.options.fons);
