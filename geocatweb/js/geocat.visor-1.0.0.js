@@ -116,7 +116,9 @@ function loadVisorSimple(){
 	var controlFons = new L.IM_controlFons().addTo(map);
 	map.topoMapGeo();
 	map.setActiveMap(topoMapGeo);
-	map.setMapColor("");	
+	map.setMapColor("");
+	jQuery("#topoMapGeo").css('opacity','1');
+	
 	
 	$('meta[name="og:title"]').attr('content', "InstaMaps: "+ url('?layername')+" cloudifier");
 	$('#nomAplicacio').html("InstaMaps: "+ url('?layername')+" cloudifier");
@@ -666,6 +668,8 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
+				
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
