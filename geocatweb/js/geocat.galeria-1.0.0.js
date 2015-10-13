@@ -8,8 +8,15 @@ var searchString;
 var businessIds = [];
 var mapsGalery = [];
 //var temporales para pruebas
+//cda11
+var codiUsuari = "cda11";
+var tipusEntitat = 2
+
+/*
+//incasol
 var codiUsuari = "axis";
-var tipusEntitat = 3
+var tipusEntitat = 7
+*/
 
 $(function(){
 	var source = $("#galeria-template").html();
@@ -33,7 +40,6 @@ $(function(){
 	    else
 	        return opts.inverse(this);
 	});
-	
 	
 	var privatGaleria = url('?private');
 	
@@ -302,7 +308,7 @@ $(function(){
 			window.location.href = paramUrl.mapaPage;
 		});
 		
-		$('.btn.btn-danger').on('click', function(event){
+		$('#galeriaRow').on('click', '.btn.btn-danger', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -330,7 +336,7 @@ $(function(){
 			});
 		});
 					
-		$('.btn.btn-warning').on('click', function(event){
+		$('#galeriaRow').on('click', '.btn.btn-warning', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -346,7 +352,7 @@ $(function(){
 			window.location.href = urlMap;
 		});
 		
-		$('.btn.btn-success').on('click', function(event){
+		$('#galeriaRow').on('click', '.btn.btn-success', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -424,7 +430,7 @@ $(function(){
 			//window.location.href = urlMap;
 		});
 		
-		$('.btn.btn-primary').on('click', function(event){
+		$('#galeriaRow').on('click', '.btn.btn-primary', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -443,7 +449,7 @@ $(function(){
 			//_kmq.push(['record', 'enllaça mapa', {'from':'galeria privada','funnel':'referral', 'tipus user':t_user_loginat}]);
 		});
 		
-		$('.caption.descAplicacio').on('click', function(event){
+		$('#galeriaRow').on('click', '.caption.descAplicacio', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -462,7 +468,7 @@ $(function(){
 		});*/
 		
 		//Change visibility
-		$('.btn.btn-visibility').on('click', function(event){
+		$('#galeriaRow').on('click', '.btn.btn-visibility', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -617,7 +623,7 @@ $(function(){
 					
 		$('#galeriaSort .list').html(html);						
 		
-		$('#galeriaTab').on('click', '.btn.btn-success', function(event){
+		$('#galeriaRow').on('click', '.btn.btn-success', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -635,7 +641,7 @@ $(function(){
 			window.open(urlMap);
 		});
 		
-		$('#galeriaTab').on('click', '.btn-acctions .btn.btn-primary', function(event){
+		$('#galeriaRow').on('click', '.btn-acctions .btn.btn-primary', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -653,7 +659,7 @@ $(function(){
 			//_kmq.push(['record', 'enllaça mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
 		});
 		
-		$('#galeriaTab').on('click', '.btn.btn-warning', function(event){
+		$('#galeriaRow').on('click', '.btn.btn-warning', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -662,7 +668,7 @@ $(function(){
 			$('#dialgo_rank .btn-primary').data("businessid", $this.data("businessid"));
 		});
 		
-		$('#galeriaTab').on('click', '#dialgo_rank .btn-primary', function(event){
+		$('#galeriaRow').on('click', '#dialgo_rank .btn-primary', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -697,7 +703,7 @@ $(function(){
 			return false;	
 		});
 		
-		$('#galeriaTab').on('click', '.caption.descAplicacio', function(event){
+		$('#galeriaRow').on('click', '.caption.descAplicacio', function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
@@ -754,9 +760,20 @@ $(function(){
 	function pintaGaleriaAplicacions(results, tipusEntitat){
 		var html = templateAplicacions({results: results[tipusEntitat]});
 		$('#AplicacionsRow .list').append(html);
-		$('#AplicacionsRow').on('click', '.btn.btn-success' ,function(event){
+		$('#AplicacionsRow').on('click', '.btn.btn-warning' ,function(event){
 			var urlMap = $(this).data('url');
-			window.open(urlMap);
+			if (!urlMap){
+				var editor = $(this).data('editor');
+				if(editor){
+					editor = editor.split("|");
+					urlMap = paramAplications[editor[0]].editor + editor[1]
+				}
+			}
+			if($.cookie('token')){
+				urlMap += '&token='+$.cookie('token');
+			}
+			console.debug(urlMap);
+			//window.open(urlMap);
 		});
 	}
 	
@@ -772,5 +789,54 @@ $(function(){
 		});
 		var html = templateConfigurades({results: configurades});
 		$('#AplicacionsRow .list').append(html);
+		
+		$('#AplicacionsRow').on('click', '.btn.btn-success' ,function(event){
+			var urlMap = $(this).data('url');
+			window.open(urlMap);
+		});
+		
+		$('#AplicacionsRow').on('click', '.btn.btn-danger', function(event){
+			event.preventDefault();
+			event.stopPropagation();
+			var $this = $(this);
+			$('#dialgo_delete_aplicacio').modal('show');
+			$('#dialgo_delete_aplicacio .nom_mapa').text($this.data("nom"));
+			$('#dialgo_delete_aplicacio .btn-danger').data("businessid", $this.data("businessid"));
+			var eliminar = $(this).data('eliminar');
+			eliminar = eliminar.split("|");
+			console.debug(eliminar);
+			var urlMap = "";
+			switch (eliminar[0]){
+				case 'ics': 
+					urlMap = paramAplications.incasol.eliminar;
+					break;
+				case 'at':
+					urlMap = paramAplications.atles.eliminar;
+					break;
+				case 'par':
+					urlMap = paramAplications.infoparcela.eliminar;
+					break;
+			}
+			urlMap += eliminar[1] + "&token="+$.cookie('token');
+			$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
+		});
+		
+		$('#dialgo_delete_aplicacio .btn-danger').on('click', function(event){
+			var $this = $(this);
+			/*
+			$('#'+$this.data("businessid")).remove();
+			$('#dialgo_delete_aplicacio').modal('hide');
+			*/
+			console.debug($this.data("url"));
+			deleteAplicacionsGeolocal($this.data("url")).then(function(results){
+				console.debug(results);
+				if (results.status == "OK"){
+					$('#'+$this.data("businessid")).remove();
+					$('#dialgo_delete_aplicacio').modal('hide');
+					_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar aplicacio']);
+				}
+			});
+		});
+		
 	}
 });

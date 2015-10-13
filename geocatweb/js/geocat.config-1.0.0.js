@@ -32,6 +32,7 @@ var paramUrl = {
 	proxy_betterWMS:"/"+proxydir+"/proxy_betterWMS.cgi",
 	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
+	loginGeolocalPage:"/geocatweb/sessio_geolocal.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
 	visorCloudifier:"/geocatweb/visor_cloudifier.html",
@@ -179,8 +180,62 @@ var paramUrl = {
 	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
 	loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
-	getConfiguradesUser: "http://geolocaldev.icgc.local/PRG/eines/getConfiguradesUser.action?"
+	getConfiguradesUser: "http://geolocaldev.icgc.local/PRG/eines/getConfiguradesUser.action?",
+	prgIncasol: "http://geolocaldev.icgc.local/"
 }
+
+var paramAplications = {
+	'pcivil':{
+		"nom":"Protecció civil",
+		"description":"Gestiona la informació relativa a Protecció civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuació prioritària en cas d'una emergència.",
+		"img":"img/thumb_ed_pcivil.png",
+		"url":"http://localhost:8080/geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari=cda11"
+	},
+    'infoparcela':{
+    	"nom":"InfoParcela",
+    	"description":"Permet realitzar un document amb informació referent a la parcel·la.",
+    	"img":"img/thumb_ed_infoparcela.png",
+    	"url":"http://localhost:8080/PRG/aplicacions/infoparcela.action?fallback=infoparcela",
+    	"eliminar":"http://localhost:8080/PRG/aplicacions/infoparcela/eliminar.action?businessId=",
+    	"editor":"http://localhost:8080/PRG/aplicacions/infoparcela/modificar.action?businessId=" 
+    },
+    'peolics':{
+    	"nom":"Editor de Parcs Eòlics",
+    	"description":"Actualitza la informació dels parcs eòlics. Col·labora mantenint la informació.",
+    	"img":"img/thumb_ed_peolics.png",
+    	"url":"http://localhost:8080/geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari=cda10"
+    },
+    'carrerer':{
+    	"nom":"Gestor de canvis carrerer",
+    	"description":"Gestiona els canvis del carrerer. Ajuda a mantenir la base de carrers de l'ICC.",
+    	"img":"img/thumb_ed_carrerer.png",
+    	"url":"http://localhost:8080/EdCarrerer/editorCarrerer.action?codiUsuari=cda11&muniIne=171609"
+    	//"url":"http://geolocaldev.icgc.local/EdCarrerer/editorCarrerer.action?codiUsuari=cda10&muniIne=171609"
+    },
+    'incasol':{
+    	"nom":"Visors INCASÒL",
+    	"description":"Ja pots tenir un visor de mapes a la teva web!. Crea els teus propis visors personalitzats i afegeix-hi la teva cartografia.",
+    	"img":"img/thumb_ed_incasol.png",
+    	"url":"http://localhost:8080/PRG/aplicacions/incasol.action?",
+    	"editor":"http://localhost:8080/PRG/aplicacions/incasol/modificar.action?businessId=",
+    	"eliminar":"http://localhost:8080/PRG/aplicacions/incasol/eliminar.action?businessId="
+    },
+    'atles':{
+    	"eliminar":"http://localhost:8080/PRG/aplicacions/atles/eliminar_geolocal.action?businessId="
+    }
+};
+
+var perfilConfig = {
+	"0":[paramAplications.pcivil, paramAplications.infoparcela, paramAplications.peolics, paramAplications.carrerer, paramAplications.incasol],
+	"1":[],
+	"2":[paramAplications.pcivil, paramAplications.infoparcela, paramAplications.carrerer],
+	"3":[paramAplications.pcivil],
+	"4":[],
+	"5":[],
+	"6":[paramAplications.peolics],
+	"7":[paramAplications.incasol],
+	"8":[paramAplications.pcivil]
+};
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
 	//$('.waiting_animation').show();

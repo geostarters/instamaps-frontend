@@ -36,26 +36,18 @@ jQuery("#login_button").click(function(){
 				if (results.uid){
 					$.cookie('uid', results.uid, {path:'/'});
 					$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
+					$.cookie('token', results.token, {path:'/'});
 				}else{
 					$.cookie('uid', user_login, {path:'/'});
+					$.cookie('token', results.token, {path:'/'});
 				}
 				if(results.login_icgc){
 					$('#modal_login_new_icgc').modal('toggle');
 					jQuery('#modal_login_new_icgc').on('hide.bs.modal', function (e) {
-						
-//						jQuery('#dialog-migracio').modal('show');
-//						jQuery('#dialog-migracio').on('hide.bs.modal', function (e) {
-//							redirectLogin(results);
-//						});
-						
-						redirectLogin(results);
+						redirectLogin(results, trackEventFrom);
 					});
 				}else{
-					redirectLogin(results);
-//					jQuery('#dialog-migracio').modal('show');
-//					jQuery('#dialog-migracio').on('hide.bs.modal', function (e) {
-//						redirectLogin(results);
-//					});					
+					redirectLogin(results, trackEventFrom);
 				}
 			}else if(results.results === 'cannot_authenticate'){
 				$('#modal_wrong_user').modal('toggle');						
@@ -98,7 +90,7 @@ sendMail(data).then(function(results){
 });
 
 function loginUserIcgc(){
-	console.debug("loginUserIcgc");
+	//console.debug("loginUserIcgc");
 	checkValidityLogin("_icgc");
 	
 	if(! $("span").hasClass( "text_error" )){
@@ -113,14 +105,9 @@ function loginUserIcgc(){
 			if(results.status==='OK'){
 				$.cookie('uid', results.uid, {path:'/'});
 				$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
-				redirectLogin(results);
+				$.cookie('token', results.token, {path:'/'});
+				redirectLogin(results, trackEventFrom);
 			}else if (results.status === 'MAIL'){
-				/*
-				//solo para local OJO al subir
-				if(results.url.indexOf('instamapes.icgc.cat')!= -1){
-					results.url = results.url.replace('instamapes.icgc.cat','localhost');
-				}
-				*/
 				window.location = results.url;
 			}else if(results.results === 'cannot_authenticate'){
 				$('#dialog_session_icgc').modal('toggle');
@@ -136,12 +123,10 @@ function loginUserIcgc(){
 			$('#dialog_session_icgc').modal('toggle');
 			$('#modal_login_ko').modal('toggle');
 		});
-
 	}
 }
 
 function checkValidityLogin(tipus){
-	
 	$('#login_user'+tipus).removeClass("invalid");
 	$('#login_pass'+tipus).removeClass("invalid");
 	$( ".text_error" ).remove();
@@ -197,22 +182,26 @@ function fesRegistre(){
 	if(trackEventFrom==null || trackEventFrom=="") trackEventFrom = "inici sessio";
 	_gaq.push(['_trackEvent', trackEventFrom,'registre', 'pre-activation']);
 	window.location = "registre.html?from="+trackEventFrom;
-	
-//	if(url('?from')){
-//		window.location = "registre.html?from="+url('?from');
-//	}else{
-//		window.location = "registre.html";
-//	}
 }
 
-function redirectLogin(results){
-	console.debug(results);
+function redirectLogin(results, from){
 	if(results.results === 'login_map'){
 		if (results.mapBusinessId){
 			window.location=GEOCAT02+paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
 		}else{
 			window.location=GEOCAT02+paramUrl.mapaPage;
 		}
+	}else if(from != '' && from in paramAplications){
+		console.debug(from);
+		console.debug(results);
+		//cda10
+		//var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NDQzMDIzMzMsInN1YiI6Imluc3RhbWFwc3xjZGExMCIsIm5iZiI6MTQ0NDI5NTEyOCwiaXNzIjoiaHR0cDovL3d3dy5pbnN0YW1hcHMuY2F0IiwiYXVkIjoiZ2Vvc3RhcnRlcnMiLCJqdGkiOiI1NDIyMzJkMS02NTVjLTQwN2QtOGYwYS05OTAwM2M2MjA2ZTYiLCJpYXQiOjE0NDQyOTUxMzN9.tUugqdfhga0FVQHZjyvDYcgX9osxFMqmpPYltlM0O7A";
+		//incasol
+		//var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NDQzMDI3MDMsInN1YiI6Imluc3RhbWFwc3xheGlzIiwibmJmIjoxNDQ0Mjk1NDk4LCJpc3MiOiJodHRwOi8vd3d3Lmluc3RhbWFwcy5jYXQiLCJhdWQiOiJnZW9zdGFydGVycyIsImp0aSI6IjY3MzU1ODExLTJiNmItNDM2Yi1iMjEyLWVmMmEzNGJkYmExNSIsImlhdCI6MTQ0NDI5NTUwM30.4rJWEnnDzexGoAOrE5FWhNOgCfeLBia8hi59ykqbUbo";
+		//TODO usar el token de la cookie
+		var token = $.cookie('token');
+		window.open(paramAplications[from].url+"&token="+token);
+		//window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1&aplicacions=1";
 	}else{
 		if ($.cookie('collaboratebid')) {
 			if ($.cookie('collaborateuid')){
@@ -238,4 +227,3 @@ function redirectLogin(results){
 		else window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1";
 	}
 }
-

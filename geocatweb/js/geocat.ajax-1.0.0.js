@@ -965,11 +965,16 @@ function filter(params){
 }
 
 function loadAplicacionsUser(){
+	/*
 	return jQuery.ajax({
 		url: paramUrl.loadAplicacionsUser,
 		method: 'get',
 		dataType: 'json'
 	}).promise();
+	*/
+	var defer = jQuery.Deferred();
+	defer.resolve(perfilConfig);
+	return defer.promise();
 }
 
 function getUser(username){
@@ -985,6 +990,15 @@ function getConfiguradesUser(data){
 	return jQuery.ajax({
 		url: paramUrl.getConfiguradesUser,
 		data: data,
+		crossDomain: true,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteAplicacionsGeolocal(url){
+	return jQuery.ajax({
+		url: url,
 		crossDomain: true,
 		method: 'post',
 		dataType: 'jsonp'

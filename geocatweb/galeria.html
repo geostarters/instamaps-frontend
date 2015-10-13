@@ -310,11 +310,7 @@
 						</span>
 					</div>
 					<div class="caption text-center btn-acctions" >
-						{{#if configurador}}
-							<button type="button" data-url="{{url}}" data-idusr="{{cookie.uid}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
-						{{else}}						
-							<button type="button" data-url="{{url}}" data-idusr="{{cookie.uid}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-						{{/if}}
+						<button type="button" data-url="{{url}}" data-idusr="{{cookie.uid}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>						
 					</div>
 				</div>
 			</div>
@@ -324,11 +320,11 @@
 			
 			<script id="configurades-template" type="text/x-handlebars-template">			
 			{{#each results}}
-			<li>
+			<li id="{{businessId}}">
 			<div class="col-sm-6 col-md-3">
 				<input type="hidden" name="cols" value="{{cookie.uid}}">
 				<div class="thumbnail" data-idusr="{{cookie.uid}}">		
-			    	<img src="img/generic_thumb_{{tipusAplicacio.businessId}}.jpg" alt="{{titol}}">
+			    	<img src="img/generic_thumb_{{tipusAplicacio.businessId}}.png" alt="{{titol}}">
 					<div class="caption text-center nomAplicacio">
 						<h4>{{titol}}</h4>
 					</div>					
@@ -336,7 +332,11 @@
 						<span lang="ca">Sense descripció</span>
 					</div>
 					<div class="caption text-center btn-acctions" >
+						{{#if_eq tipusAplicacio.businessId "ics"}}
+							<button type="button" data-editor="incasol|{{businessId}}" data-idusr="{{cookie.uid}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
+						{{/if_eq}}
 						<button type="button" data-url="http://www.geolocal.cat{{tipusAplicacio.url}}visorId={{businessId}}" data-idusr="{{cookie.uid}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+						<button type="button" data-eliminar="{{tipusAplicacio.businessId}}|{{businessId}}" data-idusr="{{cookie.uid}}" data-businessid="{{businessId}}" data-nom="{{titol}}" class="btn btn-danger btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-remove-circle"></span></button>
 					</div>
 				</div>
 			</div>
@@ -416,6 +416,33 @@
 	</div>
 	<!-- /.modal -->
 	<!-- Fi Modal delete -->
+	
+	<!-- Modal delete aplicacio -->
+	<div id="dialgo_delete_aplicacio" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>
+				</div>
+				<div class="modal-body">
+					<h4><span lang="ca">Segur que vols esborrar la aplicació</span> "<span class="nom_mapa"></span>" ?</h4>
+					<span lang="ca">A l’esborrar la aplicació desapareixerà de la teva galeria.</span>
+				</div>
+				<div class="modal-footer">
+					<button lang="ca" type="button" class="btn btn-default"
+						data-dismiss="modal">Cancel·lar</button>
+					<button lang="ca" type="button" class="btn btn-danger"
+						data-dismiss="modal">Esborrar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- Fi Modal delete aplicacio -->
 	
 	<!-- Modal colaboració -->
 	<div id="dialgo_colaborate" class="modal fade">

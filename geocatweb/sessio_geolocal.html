@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="InstaMaps">
+<meta name="description" content="Inici sessió InstaMaps">
+<meta name="robots" content="index,follow">
+<meta name="geo.region" content="ES-CT" />
+<meta name="geo.placename" content="Barcelona" />
+<meta name="geo.position" content="41.363892;2.186279" />
+<meta name="language" content="ca" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="img/instamapes.ico" rel="shortcut icon">
+
+<!-- Le styles -->
+<link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
+<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+<title lang="ca">Inici sessió InstaMaps</title>
+</head>
+<body class="my-body">
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				</button>
+				<a class="navbar-brand" href="/index.html">
+					<div class="img-circle2-icon descobreix_color"></div>
+					<div class="img-circle2-icon crea_color"></div>
+					<div class="img-circle2-icon visualitza_color"></div>
+					<div class="img-circle2-icon comparteix_color"></div>
+					<div class="brand-txt">InstaMaps</div>
+				</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right my-nav">
+					<li><a id="hl_index" lang="ca" href="../geocatweb/galeria.html">Galeria</a></li>
+					<li><a id="hl_index" lang="ca" target="_blank" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
+					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
+					<li><a id="hl_contact" lang="ca" target="_blank" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/">FAQs</a></li>
+					<!--<li><a lang="ca" id="hl_info" href="/properament.html">Informaci&oacute;</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Indicadors</a></li>
+					<li><a lang="ca" id="hl_contact" href="/properament.html">Contacte</a></li>
+					-->
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
+						<ul id="ch_idioma" class="dropdown-menu">
+							<li id="ca"><a href="#">Catal&agrave;</a></li>
+							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
+							<li id="en"><a href="#">English</a></li>
+						</ul>
+					</li>
+					
+					<li id="menu_login">
+						<form class="navbar-form">
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" class="btn bt-sessio">Inicia la sessi&oacute;</a>
+						</form>					
+					</li>
+					
+					<li id="menu_user" class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">  
+							&nbsp;
+							<span class="glyphicon glyphicon-user green"></span>
+							<b class="caret"></b>
+						</a>
+						<ul id="ch_perfil" class="dropdown-menu">
+							<li><span id="text_welcome" lang="ca">Benvingut</span><span id="text_username"></span></li>
+							<li class="divider" role="presentation"></li>						
+							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
+							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
+							<li id="aplicacions"><a href="/geocatweb/galeria.html"><span lang="ca">Les meves aplicacions</span></a></li>
+							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
+							<li class="divider" role="presentation"></li>
+							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
+						</ul>
+					</li>					
+					<!-- <li><a href="/properament.html" class="glyphicon glyphicon-stats"></a></li> -->
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+	<!-- / Fixed navbar -->
+		
+	<div class="my-background-signin">	
+	<div class="container ">
+	
+      <form id="frm_login" class="my-form-signin">
+       <section>
+        <h3  lang="ca" class="form-signin-heading">Inicia la sessió</h3>
+	        <fieldset>
+		       	<input id="login_user" lang="ca" type="text"  required class="form-control my-border" placeholder="Usuari/Correu" autofocus>
+		        <input id="login_pass" lang="ca" type="password" required class="form-control my-border" placeholder="Contrassenya">
+	        </fieldset>
+	        <br>
+        	<button id="login_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Inicia la sessió</button>
+         	      
+       <!-- <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>-->
+        
+        
+       <div class="social-sign">
+			<span lang="ca">o amb:</span>
+			<p></p>
+			<p>
+		       	<a href="#" id="signin_geolocal" title="Inicia sessió amb Geolocal" class="zocial icon geolocal_fd"></a>
+				<a href="#" id="signin_eacat"  title="Inicia sessió amb EACAT" class="zocial icon eacat_fd"></a>
+			</p>
+	        <p></p>
+        </div>
+        <hr/>
+       	<div class="social-sign sm-top">
+      		<h6 lang="ca">És la primera vegada que utilitzes InstaMaps?</h6>
+   			<h4>
+   				<!-- a lang="ca" href="registre.html" onClick="_gaq.push(['_trackEvent', 'sessio_registre', 'Registre']);">Crea un compte</a-->
+   				<a lang="ca" href="javascript:fesRegistre()">Crea un compte</a>
+   			</h4>
+<!--    			<small><a lang="ca" href="oblidat.html">Has oblidat la teva contrassenya?</a></small> -->
+ 	  	</div>
+       
+       
+		<button id="btn_remember_pssw" lang="ca" type="button" class="btn btn-link">Recordar contrassenya</button>
+		 </section>
+        
+      </form>
+	 	<div class="modal fade" id="modal_wrong_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Nom d'usuari o contrassenya incorrectes.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->	
+		
+		<div class="modal fade" id="modal_account_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Ha superat el número màxim d'intents. Compte bloquejat. Envii un correu a instamapes@icgc.cat, indicant el seu username per procedir al desbloqueig</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_login_ko" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha iniciat la sessió. Torni a intentar-ho.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_login_new_icgc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal_login_ko_donat_baixa" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content my-modal-content">
+		      <div class="modal-body">
+		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha iniciat la sessió perquè l'usuari està donat de baixa.</span></h4>
+		      </div>
+		      <div class="modal-footer my-modal-footer">
+		        <button id="button-alta-ko" type="button" class="btn btn-default btn-warning no-radius" data-dismiss="modal" lang="ca">D'acord</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	<!-- Modal Inici sessio ICGC -->
+	<div class="modal fade" id="dialog_session_icgc">
+		<div class="modal-dialog my-modal-dialog">
+			<div class="modal-content my-border">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<!--  h4 class="modal-title" lang="ca">Inicia sessió</h4-->
+					<img alt="logo-icgc" src="../llibreries/img/logo_icgc.png"/>
+				</div>
+				<div lang="ca" class="modal-body">
+			      <form id="frm_login_icgc" class="my-form-signin_icgc">
+			       <section>
+			        <!--<h3  lang="ca" class="form-signin-heading">Inicia la sessió</h3>-->
+				        <fieldset>
+					       	<input id="login_user_icgc" lang="ca" type="text"  required class="form-control my-border" placeholder="Usuari" autofocus>
+					        <input id="login_pass_icgc" lang="ca" type="password" required class="form-control my-border" placeholder="Contrassenya">
+				        </fieldset>
+				        <br>
+			        	<p>
+			         		<button id="login_button_icgc" lang="ca" class="btn btn-lg bt-sessio-icgc btn-block" type="button" onclick="javascript:loginUserIcgc()">Inicia la sessió</button>
+			         	</p>
+			       </section>
+			      </form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal inici sessio -->		
+	
+	<!-- Modal Old Browser -->
+	<div id="dialgo_old_browser" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Sabia vostè que el seu navegador no està actualitzat?</h4>
+				</div>
+				<div class="modal-body">
+					<div lang="ca">Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.</div>
+					<div>
+					<a href="http://www.microsoft.com/windows/Internet-explorer/default.aspx" target="_blank"><div class='ie_img browser_img'></div></a>
+					<a href="http://www.mozilla.com/firefox/" target="_blank"><div class='firefox_img browser_img'></div></a>
+					<a href="http://www.apple.com/safari/download/" target="_blank"><div class='safari_img browser_img'></div></a>
+					<a href="http://www.opera.com/download/" target="_blank"><div class='opera_img browser_img'></div></a>
+					<a href="http://www.google.com/chrome" target="_blank"><div class='chrome_img browser_img'></div></a>
+					</div>
+					<div lang="ca">Només faci clic a les icones per anar a la pàgina de descàrrega</div>
+				</div>
+				<div class="modal-footer">
+					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Old Browser -->
+	
+	<!-- Modal Migracio -->
+	<div id="dialog-migracio" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">INSTAMAPS.CAT</h4>
+				</div>
+				<div class="modal-body">
+					<div lang="ca">Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.</div> 
+					<br>
+					<div lang="ca">Disculpeu les molèsties.</div>
+				</div>
+				<div class="modal-footer">
+					<button id="old_btn_close" lang="ca" type="button" class="btn btn-info" data-dismiss="modal">Continuar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Migracio -->	
+	
+					
+    </div> 
+    <!-- /container -->
+</div>
+	<footer>
+		<div class="container text-center">
+			<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+				<img height="50" src="/llibreries/img/icgc.gif">
+			</a>
+			<span>InstaMaps Beta</span>
+		</div>
+	</footer>    
+
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
+	<script type="text/javascript">
+	if (!Modernizr.canvas || !Modernizr.sandbox){
+		document.getElementById("dialgo_old_browser").style.display = "block";
+		document.getElementById("old_icon_close").style.display = "none";
+		document.getElementById("old_btn_close").onclick = function () {
+			window.location = "/index.html";
+		}
+	}
+	</script>
+	
+	<script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
+	<script src="/llibreries/js/bootstrap.min.js"></script>
+	<script src="/llibreries/js/leaflet/leaflet.0.7.3.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
+	<script src="/llibreries/js/cookieconsent.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.constants.js"></script>
+	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.utils.js"></script>
+	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
+
+	<script src="/geocatweb/js/geocat.sessio-1.0.0.js"></script>
+	
+</body>
+</html>

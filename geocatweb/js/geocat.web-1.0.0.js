@@ -241,7 +241,48 @@ function initHover(){
 		$("#img_C1").attr('src','llibreries/img/Comparteix_pujat.jpg');
 	},function(){
 		$("#img_C1").attr('src','llibreries/img/Comparteix_.jpg');
-	});	
+	});
+	
+	/*langing geolocal*/
+	$("#div_PC").hover(function(){
+		//$("#img_PC").attr('src','geocatweb/img/thumb_ed_pcivil.png');
+		$(this).fadeTo( 0, 0.7 );
+	},function(){
+		//$("#img_PC").attr('src','geocatweb/img/thumb_ed_pcivil.png');
+		$(this).fadeTo( 0, 1 );
+	});
+	
+	$("#div_IP").hover(function(){
+		//$("#img_IP").attr('src','geocatweb/img/thumb_ed_infoparcela.png');
+		$(this).fadeTo( 0, 0.7 );
+	},function(){
+		//$("#img_IP").attr('src','geocatweb/img/thumb_ed_infoparcela.png');
+		$(this).fadeTo( 0, 1 );
+	});
+	
+	$("#div_CC").hover(function(){
+		//$("#img_CC").attr('src','geocatweb/img/thumb_ed_carrerer.png');
+		$(this).fadeTo( 0, 0.7 );
+	},function(){
+		//$("#img_CC").attr('src','geocatweb/img/thumb_ed_carrerer.png');
+		$(this).fadeTo( 0, 1 );
+	});
+	
+	jQuery('#div_PC').on('click', function(e) {
+		e.preventDefault();
+		console.debug(this);
+		document.location.href = paramUrl.loginGeolocalPage + "?from=pcivil";
+	});
+	jQuery('#div_IP').on('click', function(e) {
+		e.preventDefault();
+		console.debug(this);
+		document.location.href = paramUrl.loginGeolocalPage + "?from=infoparcela";
+	});
+	jQuery('#div_CC').on('click', function(e) {
+		e.preventDefault();
+		console.debug(this);
+		document.location.href = paramUrl.loginGeolocalPage + "?from=carrerer";
+	});
 }
 
 function checkUserLogin(){
