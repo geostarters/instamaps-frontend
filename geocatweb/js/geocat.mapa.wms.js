@@ -159,13 +159,13 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
-	console.debug("getCapabilitiesWMS:");
-	console.debug(url);
-	console.debug(servidor);
+	//console.debug("getCapabilitiesWMS:");
+	//console.debug(url);
+	//console.debug(servidor);
 	
 	getWMSLayers(url).then(function(results) {
-		//console.debug("results:");
-		//console.debug(results);
+		console.debug("results:");
+		console.debug(results);
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
@@ -222,6 +222,9 @@ function getCapabilitiesWMS(url, servidor) {
 			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';
+			} else if (jQuery.inArray('EPSG:4258', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';	
 			} else {
 				alert(window.lang.convert("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 				return;
@@ -285,57 +288,55 @@ function getCapabilitiesWMS(url, servidor) {
 }
 
 jQuery(document).on('click', "#bt_addWMS", function(e) {
-    addExternalWMS();
+    addExternalWMS(false);
 
 });
 
 
-function addExternalWMS2() {
-	var cc = [];
+//function addExternalWMS2() {
+//	var cc = [];
+//
+//	jQuery('input[name="chk_WMS"]:checked').each(function() {
+//		cc.push(jQuery(this).val());
+//	});
+//
+//	ActiuWMS.layers = cc.join(',');
+//	
+//	var wmsLayer = new L.tileLayer.betterWms(ActiuWMS.url, {
+//		layers : ActiuWMS.layers,
+//		crs : ActiuWMS.epsg,
+//		transparent : true,
+//		format : 'image/png'
+//	});
+//
+//	wmsLayer.options.businessId = '-1';
+//	wmsLayer.options.nom = ActiuWMS.servidor;
+//	wmsLayer.options.tipus = 'WMS';
+//	
+//	map.addLayer(wmsLayer);
+//	wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
+//	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
+//	controlCapes._lastZIndex++;
+//	activaPanelCapes(true);
+//	jQuery('#dialog_dades_ex').modal('toggle');
+//
+//}
 
-	jQuery('input[name="chk_WMS"]:checked').each(function() {
-		cc.push(jQuery(this).val());
-	});
+/*
+ * fromParam = true -> Si afegim WMS directamente dun parametre de la url
+ * fromParam = false -> Si afegim WMS des de la interficie dInstaMaps
+ * */
+function addExternalWMS(fromParam) {
 
-	ActiuWMS.layers = cc.join(',');
-	
-	var wmsLayer = new L.tileLayer.betterWms(ActiuWMS.url, {
-		layers : ActiuWMS.layers,
-		crs : ActiuWMS.epsg,
-		transparent : true,
-		format : 'image/png'
-	});
-
-	wmsLayer.options.businessId = '-1';
-	wmsLayer.options.nom = ActiuWMS.servidor;
-	wmsLayer.options.tipus = 'WMS';
-	
-	map.addLayer(wmsLayer);
-	wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-	controlCapes._lastZIndex++;
-	activaPanelCapes(true);
-	jQuery('#dialog_dades_ex').modal('toggle');
-
-}
-
-function addExternalWMS() {
-	//console.debug("addExternalWMS");
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', ActiuWMS.url, 1]);
-//	_kmq.push(['record', 'wms', {'from':'mapa', 'tipus user':tipus_user, 'url':ActiuWMS.url}]);
-	/*
-	var cc = [];
-	jQuery('input[name="chk_WMS"]:checked').each(function() {
-		cc.push(jQuery(this).val());
-	});
-	ActiuWMS.layers = cc.join(',');
-	*/
 	
-	var cc = $('#div_layersWMS input:checked').map(function(){
-		return this.value;
-	});
-	cc = jQuery.makeArray(cc);
-	ActiuWMS.layers = cc.join(',');
+	if(!fromParam){
+		var cc = $('#div_layersWMS input:checked').map(function(){
+			return this.value;
+		});
+		cc = jQuery.makeArray(cc);
+		ActiuWMS.layers = cc.join(',');
+	}
 	
 	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
 		layers : ActiuWMS.layers,
@@ -343,6 +344,8 @@ function addExternalWMS() {
 		transparent : true,
 		format : 'image/png'
 	});
+//console.debug(wmsLayer);
+//console.debug(ActiuWMS);
 
 	wmsLayer.options.businessId = '-1';
 	wmsLayer.options.nom = ActiuWMS.servidor;
@@ -383,7 +386,7 @@ function addExternalWMS() {
 				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 				controlCapes._lastZIndex++;
 				activaPanelCapes(true);
-				jQuery('#dialog_dades_ex').modal('toggle');				
+				jQuery('#dialog_dades_ex').modal('hide');				
 				
 			}else{
 				console.debug('createServidorInMap ERROR');
@@ -396,12 +399,13 @@ function addExternalWMS() {
 		controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
-		jQuery('#dialog_dades_ex').modal('toggle');	
+		jQuery('#dialog_dades_ex').modal('hide');	
 	}	
 }
 
 function loadWmsLayer(layer){
-	
+	//console.debug("Load WMS Layer:");
+	//console.debug(layer);
 	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,

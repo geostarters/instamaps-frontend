@@ -963,3 +963,13 @@ function filter(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+
+function callActions(data){
+	return jQuery.ajax({
+		url: paramUrl.callActions,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}

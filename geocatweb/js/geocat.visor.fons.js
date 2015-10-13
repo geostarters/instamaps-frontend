@@ -92,6 +92,8 @@ L.IM_ControlFons = L.Control.extend({
     	 this._addItem(container,{id:'sepia',className:'div_fons_7',title:'Sèpia'});
     	 this._addItem(container,{id:'zombie',className:'div_fons_8',title:'Zombie'});
     	 this._addItem(container,{id:'orquidea',className:'div_fons_9',title:'Orquídea'});
+    	 this._addItem(container,{id:'naturalMap',className:'div_fons_16',title:'Natural'});
+    	 this._addItem(container,{id:'divadminMap',className:'div_fons_17',title:'Divisions administratives'});
     },
     
     _addItem: function(container, properties){
@@ -133,6 +135,14 @@ L.IM_ControlFons = L.Control.extend({
 			this._map.historicOrtoMap46();
 		}else if (fons == 'alcadaMap'){
 			this._map.alcadaMap();
+			
+		}else if (fons == 'naturalMap') {
+			this._map.naturalMap();
+			
+		}else if (fons == 'divadminMap') {
+			this._map.divadminMap();
+			
+			
 		}else{
 			this._map.colorMap(fons);			
 		}

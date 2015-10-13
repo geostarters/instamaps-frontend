@@ -37,7 +37,7 @@ function addDialegEstilsDraw() {
  * */
 function obrirMenuModal(_menuClass,estat,_from){
 	objEdicio.obroModalFrom=_from;
-	
+	console.debug(_menuClass+","+estat+","+_from);
 	//Udate dialog estils a mostrar
 	if(_from == from_creaCapa){
 		
@@ -66,7 +66,7 @@ function obrirMenuModal(_menuClass,estat,_from){
 			 var styleProps = $("#div_punt").css(["width","height","color","background-color","font-size"]);
 			 var punt_class = $("#div_punt").attr("class");
 			 var lclass = punt_class.split(" ");
-			 
+			 console.debug(punt_class);
 			 //Si es punt inicial per defecte
 			 if(punt_class == "dibuix_punt"){
 					var icon = {icon: "",//glyph
@@ -1497,7 +1497,7 @@ function modeEditText(){
  * amb el de la feature que es col editar 
  * */
 function updateDialogStyleSelected(icon){
-
+   console.debug(icon);
 	if(icon.tipus == t_polyline){
 		
 		canvas_linia.lineWidth = icon.weight;

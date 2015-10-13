@@ -78,7 +78,7 @@ function createModalConfigLegend(){
 		controlLegendMarker = [];
 		controlLegendLine = [];
 		controlLegendPol = [];
-		console.debug(item);
+		//console.debug(item);
 		layersHtml = addLayerToLegend(item.layer, count,layersHtml);
 		count++;
 		jQuery.each(item._layers, function(i, sublayer){
@@ -1082,6 +1082,8 @@ function emptyMapLegendEdicio(layer){
 }
 
 function loadMapLegendEdicio(layer){
+	
+	//console.info(layer);
 	
 	//Eliminem de la lleganda tematització anterior
 	$("#mapLegendEdicio").html("");

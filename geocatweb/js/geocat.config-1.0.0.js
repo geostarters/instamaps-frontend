@@ -176,7 +176,8 @@ var paramUrl = {
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
 	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
-	filter: HOST_APP+"geocat/aplications/map/filter.action?"
+	filter: HOST_APP+"geocat/aplications/map/filter.action?",
+	callActions:"/share/jsp/callActions.jsp?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
