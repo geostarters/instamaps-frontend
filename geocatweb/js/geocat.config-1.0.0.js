@@ -181,7 +181,8 @@ var paramUrl = {
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
 	loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
 	getConfiguradesUser: "http://geolocaldev.icgc.local/PRG/eines/getConfiguradesUser.action?",
-	prgIncasol: "http://geolocaldev.icgc.local/"
+	prgIncasol: "http://geolocaldev.icgc.local/",
+	createToken: HOST_APP +"/geocat/createToken.action?"
 }
 
 var paramAplications = {
@@ -196,7 +197,7 @@ var paramAplications = {
     	"description":"Permet realitzar un document amb informació referent a la parcel·la.",
     	"img":"img/thumb_ed_infoparcela.png",
     	"url":"http://localhost:8080/PRG/aplicacions/infoparcela.action?fallback=infoparcela",
-    	"eliminar":"http://localhost:8080/PRG/aplicacions/infoparcela/eliminar.action?businessId=",
+    	"eliminar":"http://localhost:8080/PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
     	"editor":"http://localhost:8080/PRG/aplicacions/infoparcela/modificar.action?businessId=" 
     },
     'peolics':{
@@ -218,7 +219,7 @@ var paramAplications = {
     	"img":"img/thumb_ed_incasol.png",
     	"url":"http://localhost:8080/PRG/aplicacions/incasol.action?",
     	"editor":"http://localhost:8080/PRG/aplicacions/incasol/modificar.action?businessId=",
-    	"eliminar":"http://localhost:8080/PRG/aplicacions/incasol/eliminar.action?businessId="
+    	"eliminar":"http://localhost:8080/PRG/aplicacions/incasol/eliminar_geolocal.action?businessId="
     },
     'atles':{
     	"eliminar":"http://localhost:8080/PRG/aplicacions/atles/eliminar_geolocal.action?businessId="

@@ -1004,3 +1004,12 @@ function deleteAplicacionsGeolocal(url){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function createToken(data){
+	return jQuery.ajax({
+		url: paramUrl.createToken,
+		data: data,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}

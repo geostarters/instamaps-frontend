@@ -8,15 +8,16 @@ var searchString;
 var businessIds = [];
 var mapsGalery = [];
 //var temporales para pruebas
+/*
 //cda11
 var codiUsuari = "cda11";
 var tipusEntitat = 2
+*/
 
-/*
 //incasol
 var codiUsuari = "axis";
 var tipusEntitat = 7
-*/
+
 
 $(function(){
 	var source = $("#galeria-template").html();
@@ -769,11 +770,19 @@ $(function(){
 					urlMap = paramAplications[editor[0]].editor + editor[1]
 				}
 			}
+			createToken({uid:codiUsuari}).then(function(results){
+				urlMap += "&token="+results.results;
+				console.debug(urlMap);
+				window.open(urlMap);
+			});
+			//TODO usar el cookie token
+			/*
 			if($.cookie('token')){
 				urlMap += '&token='+$.cookie('token');
 			}
 			console.debug(urlMap);
-			//window.open(urlMap);
+			window.open(urlMap);
+			*/
 		});
 	}
 	
@@ -817,8 +826,13 @@ $(function(){
 					urlMap = paramAplications.infoparcela.eliminar;
 					break;
 			}
-			urlMap += eliminar[1] + "&token="+$.cookie('token');
-			$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
+			createToken({uid:codiUsuari}).then(function(results){
+				urlMap += eliminar[1] + "&token="+results.results;
+				$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
+			});
+			//TODO usar el cookie token
+			//urlMap += eliminar[1] + "&token="+$.cookie('token');
+			//$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
 		});
 		
 		$('#dialgo_delete_aplicacio .btn-danger').on('click', function(event){
@@ -839,4 +853,29 @@ $(function(){
 		});
 		
 	}
+	
+	function onMessage(e){
+		//TODO cambiar por la URL de geolocal
+		if (e.origin == "http://localhost:8080"){
+			//alert("message from " + e.origin);
+			console.debug(e);
+			switch(e.data){
+				case 'reload':
+					reload();
+					break;
+			}
+		}
+	}
+	
+	window.addEventListener("message", onMessage, true);
+	
+	function reload(){
+		console.debug("reload configurades");
+		console.debug($("#AplicacionsRow .configurades"));
+		$("#AplicacionsRow .configurades").remove();
+		getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
+			pintaGaleriaConfigurades(results);
+		});
+	}
+	
 });
