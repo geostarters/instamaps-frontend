@@ -241,11 +241,53 @@ function initHover(){
 		$("#img_C1").attr('src','llibreries/img/Comparteix_pujat.jpg');
 	},function(){
 		$("#img_C1").attr('src','llibreries/img/Comparteix_.jpg');
-	});	
+	});
+	
+	/*langing geolocal*/
+	$("#div_PC").hover(function(){
+		//$("#img_PC").attr('src','geocatweb/img/thumb_ed_pcivil.png');
+		$(this).fadeTo( 0, 0.7 );
+	},function(){
+		//$("#img_PC").attr('src','geocatweb/img/thumb_ed_pcivil.png');
+		$(this).fadeTo( 0, 1 );
+	});
+	
+	$("#div_IP").hover(function(){
+		//$("#img_IP").attr('src','geocatweb/img/thumb_ed_infoparcela.png');
+		$(this).fadeTo( 0, 0.7 );
+	},function(){
+		//$("#img_IP").attr('src','geocatweb/img/thumb_ed_infoparcela.png');
+		$(this).fadeTo( 0, 1 );
+	});
+	
+	$("#div_CC").hover(function(){
+		//$("#img_CC").attr('src','geocatweb/img/thumb_ed_carrerer.png');
+		$(this).fadeTo( 0, 0.7 );
+	},function(){
+		//$("#img_CC").attr('src','geocatweb/img/thumb_ed_carrerer.png');
+		$(this).fadeTo( 0, 1 );
+	});
+	
+	jQuery('#div_PC').on('click', function(e) {
+		e.preventDefault();
+		console.debug(this);
+		document.location.href = paramUrl.loginGeolocalPage + "?from=pcivil";
+	});
+	jQuery('#div_IP').on('click', function(e) {
+		e.preventDefault();
+		console.debug(this);
+		document.location.href = paramUrl.loginGeolocalPage + "?from=infoparcela";
+	});
+	jQuery('#div_CC').on('click', function(e) {
+		e.preventDefault();
+		console.debug(this);
+		document.location.href = paramUrl.loginGeolocalPage + "?from=carrerer";
+	});
 }
 
 function checkUserLogin(){
 	var uid = $.cookie('uid');
+	var tipusEntitat = parseInt($.cookie('tipusEntitat'));
 	if(!uid || isRandomUser(uid)){
 		$("#menu_login").show();
 		$("#menu_user").hide();
@@ -258,7 +300,13 @@ function checkUserLogin(){
 		$("#text_username").text(" "+nomUser[0]);
 		
 		var galeria_url = paramUrl.galeriaPage + "?private=1";
-		$("#galeria a").attr('href', galeria_url);		
+		$("#galeria a").attr('href', galeria_url);
+		$("#aplicacions a").attr('href', galeria_url + "&aplicacions=1");
+	}
+	if($.inArray(tipusEntitat,TIPUS_ENTITATS_GEOLOCAL) != -1){
+		$("#aplicacions").show();
+	}else{
+		$("#aplicacions").hide();
 	}
 }
 

@@ -75,7 +75,7 @@ function checkEmail(user_email){
 
 function getUserData(username){
 	return jQuery.ajax({
-		url: paramUrl.getUser,
+		url: paramUrl.getUserSimple,
 		data: {uid : username},
 		async: false,
 		method: 'post',
@@ -969,6 +969,56 @@ function callActions(data){
 		url: paramUrl.callActions,
 		data: data,
 		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function loadAplicacionsUser(){
+	/*
+	return jQuery.ajax({
+		url: paramUrl.loadAplicacionsUser,
+		method: 'get',
+		dataType: 'json'
+	}).promise();
+	*/
+	var defer = jQuery.Deferred();
+	defer.resolve(perfilConfig);
+	return defer.promise();
+}
+
+function getUser(username){
+	return jQuery.ajax({
+		url: paramUrl.getUser,
+		data: {uid : username},
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getConfiguradesUser(data){
+	return jQuery.ajax({
+		url: paramUrl.getConfiguradesUser,
+		data: data,
+		crossDomain: true,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteAplicacionsGeolocal(url){
+	return jQuery.ajax({
+		url: url,
+		crossDomain: true,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createToken(data){
+	return jQuery.ajax({
+		url: paramUrl.createToken,
+		data: data,
 		method: 'post',
 		dataType: 'jsonp'
 	}).promise();
