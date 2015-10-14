@@ -160,6 +160,7 @@ function openBufferModal(){
 											doUploadFile(data2).then(function(results){
 												if (results.status="OK") {
 													addDropFileToMap(results);
+													 $('#dialog_buffer').modal('hide');
 													 busy=false;
 													 jQuery('#info_uploadFile').hide();
 												}
@@ -204,7 +205,8 @@ function openBufferModal(){
 							businessId1: businessId,
 							nom:window.lang.convert("Àrea d'influència"),
 							text:window.lang.convert("Àrea d'influència"),
-							tmpFilePath: tmpFile
+							tmpFilePath: tmpFile,
+							radi: $('#distancia').val()
 						};
 					
 					callActions(data);
