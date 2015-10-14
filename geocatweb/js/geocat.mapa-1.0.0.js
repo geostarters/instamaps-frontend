@@ -45,6 +45,11 @@ function loadApp(){
 	if(typeof url('?businessid') == "string"){
 		map = new L.IM_Map('map', {
 			zoomAnimation:false,
+			dragging: true,
+			touchZoom: true,
+			scrollWheelZoom: true,
+			doubleClickZoom: true,
+			boxzoom: true,
 			typeMap : 'topoMapGeo',
 			minZoom: 2,
 			maxZoom : 19,
@@ -153,6 +158,19 @@ function loadApp(){
 							canviaIdioma(web_determinaIdioma());
 							document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 						});
+						
+						//carreguem WMS en cas que s'hagi passat parametre
+						if(typeof url('?urlwms') == "string"){
+							ActiuWMS.url = url('?urlwms');
+							var layername = url('?layername');
+							
+							ActiuWMS.servidor = layername;
+							ActiuWMS.layers = layername;
+							ActiuWMS.epsg = undefined;
+						
+							addExternalWMS(true);
+						}
+						
 					});
 					//}
 					//else {
@@ -168,8 +186,6 @@ function loadApp(){
 			gestioCookie('getMapByBusinessIdError');
 			
 		});
-
-		
 		addLeaveModal();
 		
 	}else{
@@ -211,7 +227,8 @@ function initControls(){
 
 function addClicksInici() {
 	
-	jQuery('.bt_legend').on('click', function() {
+	jQuery('.bt_legend').on('click', function(event) {
+		aturaClick(event);
 		activaLlegenda();
 	});	
 	
@@ -359,7 +376,7 @@ function loadMapConfig(mapConfig){
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
-				var fons = mapConfig.options.fons;
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
@@ -380,7 +397,16 @@ function loadMapConfig(mapConfig){
 					map.historicOrtoMap46();
 				}else if (fons == 'alcadaMap'){
 					map.alcadaMap();
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();
+					
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();
+					
 				}else if (fons == 'colorMap') {
+					
+					
+					
 					map.colorMap(mapConfig.options.fonsColor);			
 				}
 				map.setActiveMap(mapConfig.options.fons);
@@ -530,7 +556,15 @@ function createNewMap(){
 				mapConfig.options = jQuery.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
-				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId;
+				
+				//Si hi ha parametre enllac servei wms, etc
+				var param = "";				
+				if(typeof url('?urlwms') == "string"){
+					param = "&urlwms="+url('?urlwms')+"&layername="+url('?layername');
+				}
+//				console.debug(param);
+				
+				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 			}catch(err){
 				gestioCookie('createMap');
 			}

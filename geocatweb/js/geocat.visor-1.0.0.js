@@ -10,7 +10,14 @@ jQuery(document).ready(function() {
 			window.location = paramUrl.mainPage;
 		});
 	}else{
-		loadApp();
+		//jQuery("#menu_login").show();
+		//Si es visor senzill, cloudifier
+		if(typeof url('?urlwms') == "string"){
+			loadVisorSimple();
+			loadWmsVisorSimple();
+		}else{
+			loadApp();
+		}
 	}
 	addFuncioEditDataTable();
 		
@@ -21,6 +28,118 @@ function changeInitVisor(){
 	jQuery('.container').css('width','95%');
 	//TODO ver como hacer para no depender del timeout
 	setTimeout('activaPanelCapes(false)',3000);
+}
+
+function loadWmsVisorSimple(){
+	var layer = {
+		"url" : url('?urlwms'),
+		"servername": url('?layername'),
+		"layers" : url('?layername'),
+	    "imgFormat": "image/png",
+	    "transparency": "true",
+	    "version": "1.1.1",
+	    "opacity": 1,
+	    "epsg": undefined,
+		"serverName" : url('?layername'),
+		"serverType": t_wms,
+		"capesActiva" : "true",
+		"capesCalenta" : "false",
+		"capesOrdre" :  "1",
+		"capesVisibilitat" :  "true",
+		"visibilitat": "O",
+	    "businessId": "-1"				
+	};
+	loadWmsLayer(layer);
+	setMapWMSBoundingBox(layer.url);
+	
+}
+
+function setMapWMSBoundingBox(url){
+	
+	getWMSLayers(url).then(function(results) {
+		//Fem Layer.Layer perq des de el cloudifier sempre tindrem nomes una capa
+		var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
+		map.fitBounds([
+	       [bbox["@miny"], bbox["@minx"]],
+	       [bbox["@maxy"], bbox["@maxx"]]
+		]);
+	},function(){
+		console.error("Error getCapabilities");
+		console.debug(results);
+	});
+	
+}
+
+function loadVisorSimple(){
+	
+	_gaq.push(['_trackPageview']);
+	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
+	if(typeof url('?embed') == "string"){
+	      jQuery('#navbar-visor').hide();
+	      jQuery('#searchBar').css('top', '0');
+	      addDefaultZoomControl = false;
+	      _gaq.push(['_trackEvent', 'visor', 'embed']);
+	}else{
+	      _gaq.push(['_trackEvent', 'visor', 'no embed']);
+	
+	}
+	
+	jQuery("#menu_login").hide();
+	
+    //Init MAPA
+	map = new L.IM_Map('map', {
+	  	zoomAnimation:false,
+	    typeMap : 'topoMapGeo',
+	        minZoom: 2,
+	        maxZoom : 19,
+	        zoomControl: addDefaultZoomControl,
+	}).setView([ 41.431, 1.8580 ], 8);
+	
+	L.control.coordinates({
+		position : 'bottomright', 
+		'emptystring':' ',
+		'numDigits': 2,
+		'numDigits2': 6,
+		'prefix': 'ETRS89 UTM 31N',
+		'prefix2': 'WGS84',
+		'separator': ' ',
+		'showETRS89':true
+	}).addTo(map);
+          
+	L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
+				
+	var _minTopo= new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
+	var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);	
+	
+	//Init controls
+	initControls();	
+	var controlFons = new L.IM_controlFons().addTo(map);
+	map.topoMapGeo();
+	map.setActiveMap(topoMapGeo);
+	map.setMapColor("");
+	jQuery("#topoMapGeo").css('opacity','1');
+	
+	
+	$('meta[name="og:title"]').attr('content', "InstaMaps: "+ url('?layername')+" cloudifier");
+	$('#nomAplicacio').html("InstaMaps: "+ url('?layername')+" cloudifier");
+	document.title = "InstaMaps: "+ url('?layername')+" cloudifier";
+	jQuery("#mapTitle").html("InstaMaps: "+ url('?layername')+" cloudifier");
+
+	
+	activaPanelCapes(true);	
+	
+	//Actualitza idioma dels tooltips
+	$("body").on("change-lang", function(event, lang){
+		window.lang.change(lang);
+		window.lang.run(lang);								
+		updateLangTooltips();
+		updateLangText();
+	});	
+	canviaIdioma(web_determinaIdioma());				
+				
+	jQuery('#div_loading').hide();
+	jQuery(window).trigger('resize');		
+		
 }
 
 function loadApp(){
@@ -99,7 +218,7 @@ function loadApp(){
 	}
 	
 		jQuery('#socialShare_visor').on('click', function(evt){
-			console.debug('on click social');
+			//console.debug('on click social');
 		});
 		
 		_gaq.push(['_trackPageview']);
@@ -258,16 +377,23 @@ function addControlsInici() {
           
           ctr_linkViewMap.onAdd = function(map) {
 
-                this._div = L.DomUtil.create('div', 'control-linkViewMap');
-                this._div.id='div-linkViewMap';
-                this._div.title=window.lang.convert('Veure a InstaMaps');
-                this._div.innerHTML = '<span id="span-linkViewMap">'+
-                                                   '<a href="http://instamaps.cat/geocatweb/visor.html?businessid='+url('?businessid')+'" target="_blank">'+
-                                                   //window.lang.convert('Veure a InstaMaps')+
-                                                   '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>'+
-                                                   '</a>'+
-                                               '</span>';
-                return this._div;
+        	  
+        	  var urlVisor = 'http://instamaps.cat/geocatweb/visor.html?businessid='+url('?businessid');
+        	  if(typeof url('?urlwms') == "string"){
+        		  urlVisor = 'http://instamaps.cat/geocatweb/visor.html?urlwms='+url('?urlwms')+'&layername='+url('?layername');
+        	  }
+        	  
+            this._div = L.DomUtil.create('div', 'control-linkViewMap');
+            this._div.id='div-linkViewMap';
+            this._div.title=window.lang.convert('Veure a InstaMaps');
+            this._div.innerHTML = '<span id="span-linkViewMap">'+
+                                               '<a href="'+urlVisor+'" target="_blank">'+
+                                               //window.lang.convert('Veure a InstaMaps')+
+                                               '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>'+
+                                               '</a>'+
+                                           '</span>';
+            return this._div;
+            
           };
           ctr_linkViewMap.addTo(map);  
           jQuery('#span-linkViewMap a').on('click', function(event) {
@@ -334,7 +460,13 @@ function addControlsInici() {
 
 
 function addClicksInici() {
-	jQuery('.bt_legend').on('click', function() {
+	
+	
+	//jQuery('.bt_legend').on('click', function(event) {
+	
+	jQuery(document).on('click','.bt_legend', function(event) {
+		
+		aturaClick(event);
 		activaLlegenda();
 	});
 	
@@ -343,7 +475,11 @@ function addClicksInici() {
 		activaPanelCapes();
 	});	
 	
+	
+	
 	jQuery('.bt_captura').on('click', function(event) {
+	
+		
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
 		capturaPantalla(CAPTURA_MAPA);
@@ -532,6 +668,8 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
+				
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
@@ -552,6 +690,14 @@ function loadMapConfig(mapConfig){
 					map.historicOrtoMap46();
 				}else if (fons == 'alcadaMap'){
 					map.alcadaMap();
+					
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();
+					
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();
+					
+					
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);			
 				}
@@ -603,6 +749,7 @@ function loadMapConfig(mapConfig){
 }
 
 
+
 function loadOrigenWMS(){
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
@@ -647,7 +794,7 @@ function loadLayer(value){
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_geojsonvt){
-		console.debug(loadGeojsonvtLayer);
+		//console.debug(loadGeojsonvtLayer);
 		loadGeojsonvtLayer(value);
 		defer.resolve();		
 	//Si la capa es de tipus dades obertes

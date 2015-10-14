@@ -964,6 +964,16 @@ function filter(params){
 	}).promise();
 }
 
+function callActions(data){
+	return jQuery.ajax({
+		url: paramUrl.callActions,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function loadAplicacionsUser(){
 	/*
 	return jQuery.ajax({

@@ -179,10 +179,12 @@ var paramUrl = {
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
 	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
+	callActions:"/share/jsp/callActions.jsp?",
 	loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
 	getConfiguradesUser: "http://geolocaldev.icgc.local/PRG/eines/getConfiguradesUser.action?",
 	prgIncasol: "http://geolocaldev.icgc.local/",
 	createToken: HOST_APP +"/geocat/createToken.action?"
+	
 }
 
 var paramAplications = {

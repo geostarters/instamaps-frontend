@@ -606,6 +606,13 @@ function enviarArxiu(){
 	}else{
 		drgFromBoto.uploadFile(drgFromBoto.files[0]);;
 	}
+
+if(envioArxiu.tipusAcc=="codis"){
+	
+	map.divadminMap();
+}
+
+
 }
 
 function obreModalCarregaDades(isDrag) {
@@ -678,15 +685,9 @@ function analitzaMatriu(matriu) {
 	jQuery('#dv_optCapa').show();
 	jQuery('#dv_optSRS').hide();
 
-	//#379: temporal, treure quan es faci la issue 378
-	if ((envioArxiu.ext == "csv") || (envioArxiu.ext == "txt")) {
-		$('#nav_pill a[href="#opt_codi"]').removeAttr("data-toggle");
-		$('#nav_pill a[href="#opt_adreca"]').removeAttr("data-toggle");
-	}else{
-
-		$('#nav_pill a[href="#opt_codi"]').attr("data-toggle","tab");
-		$('#nav_pill a[href="#opt_adreca"]').attr("data-toggle","tab");
-	}
+	$('#nav_pill a[href="#opt_codi"]').attr("data-toggle","tab");
+	$('#nav_pill a[href="#opt_adreca"]').attr("data-toggle","tab");
+	
 	
 	$.each(matriu, function(index, value) {
 		op.push("<option value=\"" + value + "\">" + value.toUpperCase()
@@ -1177,7 +1178,7 @@ function addHtmlModalCarregarFitxers(){
 		'					<tr>'+
 		'						<td><input type=\'hidden\' id=\'formFile\' value=\'false\'>'+
 		'							<input type=\'hidden\' id=\'file_path\' value=\'\'>'+
-		'							<button lang="ca" type="button" class="btn btn-success"  name=\'upload\' id=\'upload_file\'>Carrega arxiu</button>'+ 
+		'							<button lang="ca" type="button" class="btn btn-success btn-upload"  name=\'upload\' id=\'upload_file\'>Carrega arxiu</button>'+ 
 		'							<!--<input type=\'button\' lang="ca" class="btn btn-success" name=\'upload\' id=\'upload_file\' value=\'Carrega arxiu\'></td> -->'+
 		'						<td>'+
 		'							<div id=\'file_name\' style="font-size: 100%"	class="label label-default"></div>'+

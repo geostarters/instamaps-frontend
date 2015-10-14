@@ -766,6 +766,20 @@ background-color: #9F9F9E;
 	cursor: pointer;
 }
 
+.div_fons_16 {
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
+		-340px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+
+.div_fons_17 {
+	background: url("images/galeria_icones.png") no-repeat scroll -752px
+		-340px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+
 .div_gr2 {
 	height: 55px;
 	margin: 10px 10px 0;
@@ -824,6 +838,11 @@ background-color: #9F9F9E;
 .btn {
 	border-radius: 0;
 	 font-size: 13px;
+}
+
+.btn-upload {
+	height:30px;
+	width:110px;
 }
 
 #dialog_tematic_rangs .labels_fields{
@@ -2537,6 +2556,19 @@ background-color: #9F9F9E;
 	cursor: pointer;
 }
 
+.div_fons_16 {
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
+		-340px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+
+.div_fons_17 {
+	background: url("images/galeria_icones.png") no-repeat scroll -752px
+		-340px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
 
 .div_gr2 {
 	height: 55px;
@@ -2597,6 +2629,12 @@ background-color: #9F9F9E;
 	border-radius: 0;
 	 font-size: 13px;
 }
+
+.btn-upload {
+	height:30px;
+	width:110px;
+}
+
 
 #dialog_tematic_rangs .labels_fields{
 	display: inline;
@@ -3655,19 +3693,28 @@ i.fa {
 	.div_fons_13 {
 		background: url("images/galeria_icones.png") no-repeat scroll -695px
 			-600px rgba(208, 208, 208, 0.5);
-		margin-left: 2px;
 		cursor: pointer;
 	}
 	.div_fons_14 {
 		background: url("images/galeria_icones.png") no-repeat scroll -642px
 			-600px rgba(208, 208, 208, 0.5);
-		margin-left: 2px;
 		cursor: pointer;
 	}
 	.div_fons_15 {
 		background: url("images/galeria_icones.png") no-repeat scroll -588px
 			-600px rgba(208, 208, 208, 0.5);
-		margin-left: 2px;
+		cursor: pointer;
+	}
+	
+	.div_fons_16 {
+	background: url("images/galeria_icones.png") no-repeat scroll -695px
+		-650px rgba(208, 208, 208, 0.5);
+	cursor: pointer;
+	}
+	
+	.div_fons_17 {
+		background: url("images/galeria_icones.png") no-repeat scroll -744px
+			-650px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 }

@@ -447,6 +447,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					
 				}
 				//Si hem activat capa de tipus tematic categories, mostrem la seva llegenda
+				
+				
 				if(currentbid == obj.layer.options.businessId && obj.layer.options.tipusRang 
 						&& obj.layer.options.tipusRang==tem_clasic){
 					thisLoadMapLegendEdicio(obj.layer);

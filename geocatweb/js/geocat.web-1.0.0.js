@@ -296,7 +296,9 @@ function checkUserLogin(){
 		$("#menu_login").hide();
 		$("#menu_user").show();	
 //		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
-		$("#text_username").text(" "+uid);
+		var nomUser = uid.split("@");
+		$("#text_username").text(" "+nomUser[0]);
+		
 		var galeria_url = paramUrl.galeriaPage + "?private=1";
 		$("#galeria a").attr('href', galeria_url);
 		$("#aplicacions a").attr('href', galeria_url + "&aplicacions=1");

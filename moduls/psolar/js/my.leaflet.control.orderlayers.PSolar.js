@@ -585,7 +585,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var layerId = e.currentTarget.layerId;
 		var obj = this._layers[layerId];
 		download_layer = obj;		
-		console.debug(obj);
+		
 		
 		fillModalDataTable(obj);
 		/*

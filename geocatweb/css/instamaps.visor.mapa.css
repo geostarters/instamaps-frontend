@@ -720,6 +720,18 @@ background-color: #9F9F9E;
 	margin-left: 2px;
 	cursor: pointer;
 }
+.div_fons_16 {
+	background: url("images/galeria_icones.png") no-repeat scroll  -695px
+		-650px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+.div_fons_17 {
+	background: url("images/galeria_icones.png") no-repeat scroll -744px
+			-650px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
 
 .div_gr2 {
 	height: 55px;
