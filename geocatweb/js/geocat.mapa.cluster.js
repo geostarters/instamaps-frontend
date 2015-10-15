@@ -288,10 +288,10 @@ function creaClusterMap(capa) {
 							if(results.status == 'OK'){
 								loadVisualitzacioWmsLayerSenseUtfGrid(results.layer);
 								$('#input-'+results.layer.businessId).trigger( "click" );
+								$('#input-'+results.layer.businessId).prop( "checked", false );
+								$('#input-'+results.layer.businessId).trigger( "click" );
 								$('#input-'+results.layer.businessId).prop( "checked", true );
-								activaPanelCapes(true);
-							
-								
+								activaPanelCapes(true);	
 							}else{
 								//TODO error
 								console.debug("createVisualitzacioCluster ERROR");					

@@ -32,7 +32,11 @@ function createHeatMap(capa,tipus){
 							$('#input-'+results.layer.businessId).trigger( "click" );
 							$('#input-'+results.layer.businessId).prop( "checked", true );
 							activaPanelCapes(true);
-							
+							$('#input-'+results.layer.businessId).trigger( "click" );
+							$('#input-'+results.layer.businessId).prop( "checked", false );
+							$('#input-'+results.layer.businessId).trigger( "click" );
+							$('#input-'+results.layer.businessId).prop( "checked", true );
+							activaPanelCapes(true);	
 							
 						}else{
 							//TODO error
