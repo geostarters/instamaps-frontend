@@ -29,9 +29,10 @@ function createHeatMap(capa,tipus){
 					createVisualitzacioHeatCluster(data).then(function(results){
 						if(results.status == 'OK'){
 							loadVisualitzacioWmsLayerSenseUtfGrid(results.layer);			
-							activaPanelCapes(true);
 							$('#input-'+results.layer.businessId).trigger( "click" );
 							$('#input-'+results.layer.businessId).prop( "checked", true );
+							activaPanelCapes(true);
+							
 							
 						}else{
 							//TODO error
