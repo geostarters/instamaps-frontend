@@ -404,8 +404,8 @@ function addExternalWMS(fromParam) {
 }
 
 function loadWmsLayer(layer){
-	//console.debug("Load WMS Layer:");
-	//console.debug(layer);
+	console.debug("Load WMS Layer:");
+	console.debug(layer);
 	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
