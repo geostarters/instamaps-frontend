@@ -974,12 +974,12 @@ if(print){
 		this.setActiveMap(FONS_DIVADMIN);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_DIVADMIN;
-		this.ajustaZoom(14);
+		this.ajustaZoom(13);
 		_divadminMap=L.layerGroup();
 		
 		DIVADMIN_L0_14= new L.TileLayer(URL_DIVADMIN, {
 			minZoom: 0, 
-			maxZoom: 14, 
+			maxZoom: 13, 
 			tms:true, 
 			continuousWorld: true,
 			worldCopyJump:false, 
