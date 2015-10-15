@@ -688,6 +688,10 @@ function loadMapConfig(mapConfig){
 					map.alcadaMap();
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);			
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();					
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();					
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
