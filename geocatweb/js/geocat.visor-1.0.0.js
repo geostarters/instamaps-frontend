@@ -815,6 +815,10 @@ function loadLayer(value){
 		loadVisualitzacioWmsLayer(value);
 		defer.resolve();
 	}
+	else if(value.serverType == tem_heatmap_wms || value.serverType == tem_cluster_wms){
+		loadVisualitzacioWmsLayerSenseUtfGrid(value);
+		defer.resolve();
+	}
 	
 	return defer.promise();
 }

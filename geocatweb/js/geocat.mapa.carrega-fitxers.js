@@ -606,6 +606,13 @@ function enviarArxiu(){
 	}else{
 		drgFromBoto.uploadFile(drgFromBoto.files[0]);;
 	}
+
+if(envioArxiu.tipusAcc=="codis"){
+	
+	map.divadminMap();
+}
+
+
 }
 
 function obreModalCarregaDades(isDrag) {

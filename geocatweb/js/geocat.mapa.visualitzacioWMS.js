@@ -103,6 +103,32 @@ function loadVisualitzacioWmsLayer(layer){
 	controlCapes._lastZIndex++;	
 }
 
+function loadVisualitzacioWmsLayerSenseUtfGrid(layer){
+	var defer = $.Deferred();
+	var optionsWMS = {
+	        layers : layer.serverName,
+	        crs : L.CRS.EPSG3857,
+	        transparent : true,
+	        format : layer.imgFormat,//'image/png'
+	    	version: layer.version,
+	    	tileSize:512,
+	    	//    opacity: layer.opacity,	    
+	    	nom : layer.serverName,
+	    	tipus: layer.serverType,
+	    	zIndex :  parseInt(layer.capesOrdre),	    
+	    	businessId: layer.businessId	        	
+	}
+	var wmsLayer =L.tileLayer.betterWms(layer.url, optionsWMS);
+	map.addLayer(wmsLayer);
+	
+	var jsonOptions = JSON.parse(layer.options);
+	var origen = getLeafletIdFromBusinessId(jsonOptions.origen);
+    wmsLayer.options.zIndex = capesOrdre_sublayer;
+	controlCapes.addOverlay(wmsLayer, wmsLayer.options.nom, true,origen);
+	defer.resolve();
+	
+}
+
 function createUtfGridLayer(url,options){
 
 	var utfGrid = new L.UtfGrid(url,options);
