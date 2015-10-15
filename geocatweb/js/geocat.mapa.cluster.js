@@ -286,10 +286,11 @@ function creaClusterMap(capa) {
 						};
 						createVisualitzacioHeatCluster(data).then(function(results){
 							if(results.status == 'OK'){
-								loadVisualitzacioWmsLayerSenseUtfGrid(results.layer);							
-								activaPanelCapes(true);
+								loadVisualitzacioWmsLayerSenseUtfGrid(results.layer);
 								$('#input-'+results.layer.businessId).trigger( "click" );
 								$('#input-'+results.layer.businessId).prop( "checked", true );
+								activaPanelCapes(true);
+							
 								
 							}else{
 								//TODO error
