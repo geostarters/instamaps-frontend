@@ -126,7 +126,8 @@ function showTematicLayersModal(tipus,className){
 					if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
 						(tipusCapa == t_tematic && ftype == t_marker) ||
 						(tipusCapa == t_url_file && ftype == t_marker) ||
-						(tipusCapa == t_visualitzacio && ftype == t_marker)){
+						(tipusCapa == t_visualitzacio && ftype == t_marker) ||
+						(tipusCapa == t_vis_wms)){
 						layers.push(this);
 					}
 				}else if (tipus==tem_size) {
@@ -192,7 +193,7 @@ function showTematicLayersModal(tipus,className){
 			}
 			else showModalTematicCategories(data);
 		}else if(tipus == tem_heatmap){
-			createHeatMap(controlCapes._layers[data.leafletid]);
+			createHeatMap(controlCapes._layers[data.leafletid],data.tipus);
 			jQuery('#dialog_layers_tematic').modal('hide');
 		}else if(tipus == tem_cluster){
 			creaClusterMap(controlCapes._layers[data.leafletid]);
