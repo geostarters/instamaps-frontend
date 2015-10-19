@@ -713,6 +713,7 @@ L.IM_Map = L.Map.extend({
 		   maxZoom:19}
 		).addTo(_ortoLayers);
 
+		
 if(print){
 			ORTO_ICC_L0_11 = new L.TileLayer(URL_ORTOICC,{  	    
 				tms:false,
