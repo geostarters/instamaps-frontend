@@ -423,15 +423,15 @@ L.IM_Map = L.Map.extend({
 					ORTO_ESRI_L0_19.setOpacity(1);
 					this.attributionControl.setPrefix(ESRI_ATTR +" ZL:"+this.getZoom());				
 				}else if(sC==1){ //Cat i altres
-					ORTO_ESRI_L0_19.options.maxZoom=19;			 
+					ORTO_ESRI_L0_19.options.maxZoom=17;			 
 					ORTO_ICC_L0_11.options.maxZoom=11;
-					ORTO_ICC_L12_19.options.maxZoom=12;
+					ORTO_ICC_L12_19.options.maxZoom=20;
 					ORTO_ESRI_L0_19.setOpacity(0.8);					
 					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR +" ZL:"+this.getZoom());	
 				}else if(sC==2){ //Nomes cat
 					ORTO_ESRI_L0_19.setOpacity(0);		 
 					ORTO_ICC_L0_11.options.maxZoom=11;
-					ORTO_ICC_L12_19.options.maxZoom=19;			
+					ORTO_ICC_L12_19.options.maxZoom=20;			
 					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 				}
 				
@@ -703,7 +703,7 @@ L.IM_Map = L.Map.extend({
 	
 	ortoMap: function (print){
 		this.deletePreviousMap();	
-		this.ajustaZoom(19);
+		this.ajustaZoom(20);
 		this.setActiveMap(FONS_ORTOMAP);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_ORTOMAP;
@@ -740,7 +740,7 @@ if(print){
 		ORTO_ICC_L12_19 = new L.TileLayer(URL_ORTOICC,{  	    
 			tms:false,
 			minZoom: 12,
-			maxZoom: 19,	                                                        
+			maxZoom: 20,	                                                        
 			boundary: catContorn5k, 
 			continuousWorld: true,
 			worldCopyJump: false
