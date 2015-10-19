@@ -9,7 +9,7 @@ function loadVisualitzacioWmsLayer(layer){
 	
 	var optionsWMS = {
 	        layers : layer.businessId,
-	        crs : L.CRS.EPSG4326,
+	        crs : L.CRS.EPSG3857,
 	        transparent : true,
 	        format : layer.imgFormat,//'image/png'
 	    	version: layer.version,
