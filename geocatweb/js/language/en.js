@@ -26,7 +26,6 @@ jquery_lang_js.prototype.lang.en = {
 ,"Aplicable a polígons.":"Applies only to polygon type layers."
 ,"Aplicable a polígons i punts.":"Applicable to point or polygon layers."
 ,"Aplicable a punts, línies o polígons.":"Applicable to point, line or polygon layers."
-<<<<<<< HEAD
 ,"Aplicacions": "Applications"
 ,"Aquest camp no te valors":"This field has no value"
 ,"Aquest estil no es pot aplicar a cap capa de les que tens en el mapa":"This style can't be applied to any of the layers in you map"
