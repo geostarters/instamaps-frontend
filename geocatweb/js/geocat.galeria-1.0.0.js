@@ -8,18 +8,24 @@ var searchString;
 var businessIds = [];
 var mapsGalery = [];
 //var temporales para pruebas
+//cda10
+var codiUsuari = "cda10";
+var tipusEntitat = 0;
+
 /*
 //cda11
 var codiUsuari = "cda11";
-var tipusEntitat = 2
+var tipusEntitat = 2;
 */
 
+/*
 //incasol
 var codiUsuari = "axis";
-var tipusEntitat = 7
-
+var tipusEntitat = 7;
+*/
 
 $(function(){
+	
 	var source = $("#galeria-template").html();
 	var template = Handlebars.compile(source);
 	

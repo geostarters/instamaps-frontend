@@ -4,21 +4,25 @@
     "description": "Default configuration for InstaMaps",
     "type": "object",
     "funcionalitatsLoginat": ["carregaDadesUsuari()"],
-    "funcionalitats": [	"addFuncioRenameMap()",
-    					"addFuncioRemoveLayer()", 
-    					"addFuncioDownloadLayer('mapa')",
-    					"addControlHillShading()",
-    					"addOpcionsFonsMapes()","creaPopOverMesFonsColor()",
-						"initButtonsTematic()",
-						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",
-						"addControlCercaEdit()",
-						"addControlPublicar()",
-						"addCompartirMapa()"
-						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
+    "funcionalitats": [	"addFuncioRenameMap()"
+    					,"addFuncioRemoveLayer()" 
+    					,"addFuncioDownloadLayer('mapa')"
+    					,"addControlHillShading()"
+    					,"addOpcionsFonsMapes()"
+    					,"creaPopOverMesFonsColor()"
+						,"initButtonsTematic()"
+						,"creaAreesDragDropFiles()"
+						,"addFuncioCarregaFitxers()"
+						,"addControlCercaEdit()"
+						,"Publicar.addControl('#funcio_publicar',$.cookie('uid'),$.cookie('collaborateuid'))"
+						,"addCompartirMapa()"
+						,"addDialegEstilsDraw()"
+						,"addDialegEstilsTematics()"
+						,"addDrawToolbar()"
+						,"activaEdicioUsuari()"							
 						,"addControlAltresFontsDades()"
 						,"addFuncioEditDataTable()"
 						,"addHtmlInterficieFuncionsSIG()"
 						],
     "required": ["id", "name", "price"]
 }
-

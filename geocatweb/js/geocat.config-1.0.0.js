@@ -183,7 +183,8 @@ var paramUrl = {
 	loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
 	getConfiguradesUser: "http://geolocaldev.icgc.local/PRG/eines/getConfiguradesUser.action?",
 	prgIncasol: "http://geolocaldev.icgc.local/",
-	createToken: HOST_APP +"/geocat/createToken.action?"
+	createToken: HOST_APP +"/geocat/createToken.action?",
+	uploadLogo: HOST_APP +"/share_local/jsp/uploadLogo.jsp?"
 	
 }
 
