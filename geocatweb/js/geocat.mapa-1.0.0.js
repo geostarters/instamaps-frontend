@@ -163,14 +163,13 @@ function loadApp(){
 						if(typeof url('?urlwms') == "string"){
 							ActiuWMS.url = url('?urlwms');
 							var layername = url('?layername');
-							console.debug(layername);
+							
 							ActiuWMS.servidor = layername;
 							ActiuWMS.layers = layername;
 							ActiuWMS.epsg = undefined;
 						
 							addExternalWMS(true);
 						}
-						
 					});
 					//}
 					//else {
@@ -181,13 +180,10 @@ function loadApp(){
 					gestioCookie('loadMapConfig');
 				}
 			}
-			
 		},function(results){
 			gestioCookie('getMapByBusinessIdError');
-			
 		});
 		addLeaveModal();
-		
 	}else{
 		if (!$.cookie('uid')){
 			createRandomUser().then(function(results){
@@ -209,6 +205,23 @@ function loadApp(){
 		}
 	}
 
+	/********Events*************/
+	
+	$.subscribe('reloadMapConfig',function(e, namespace){
+		if (namespace){
+			$.publish(namespace+'loadMapConfig', mapConfig);
+		}else{
+			$.publish('loadMapConfig', mapConfig);
+		}
+	});
+	
+	$.subscribe('getMap',function(e, namespace){
+		if (namespace){
+			$.publish(namespace+'setMap', map);
+		}else{
+			$.publish('setMap', map);
+		}
+	});
 }
 
 function initControls(){
@@ -397,6 +410,10 @@ function loadMapConfig(mapConfig){
 					map.historicOrtoMap46();
 				}else if (fons == 'alcadaMap'){
 					map.alcadaMap();
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);			
 				}
@@ -586,15 +603,12 @@ function getBusinessIdOrigenLayers(){
 }
 
 function loadControls(configuracio){
-	
 	//funcionalitats a carregar nomes si esta loginat
 	if ($.cookie('uid')){
 		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
-//			console.debug(funcionalitatLoginat+"("+data+")");
 			eval(funcionalitatLoginat);
 		});			
 	}
-	
 	jQuery.each(configuracio.funcionalitats, function(i, funcionalitat){
 		eval(funcionalitat);
 	});
@@ -615,7 +629,6 @@ function loadConfiguracio(configuracio){
 }
 
 function addLeaveModal(){
-	
 	addHtmlModalLeave();
 
 	if (isRandomUser($.cookie('uid'))){

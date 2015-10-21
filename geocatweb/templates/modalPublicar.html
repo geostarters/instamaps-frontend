@@ -1,0 +1,113 @@
+<!-- Modal Publicar -->
+<div id="dialgo_publicar" class="modal fade">
+	<div class="modal-dialog">
+  	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 lang="ca" class="modal-title">Publicar el mapa</h4>
+		</div>
+		<div class="modal-body">
+			<form id="frm_publicar">
+			<section>
+			<fieldset>
+				<input lang="ca" id="nomAplicacioPub" type="text" required
+					class="form-control my-border" placeholder="Nom" value="">
+				<br> 
+				<input lang="ca" id="optDescripcio" type="text" 
+					class="form-control my-border" placeholder="Descripció" value=""> 
+				<input lang="ca" id="optTags" type="text" 
+					class="form-control my-border" placeholder="Etiquetes" value="">
+			</fieldset>
+			</section>
+			<br>
+			<div lang="ca" class="alert alert-info">
+				<span class="glyphicon glyphicon-info-sign"></span> 
+				<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
+			</div>
+            <div class="row">
+				<div class="col-xs-6">
+					<div class=""><label class="control-label" lang="ca">Aspecte</label></div>
+					<div class="">
+						<span lang="ca">Color de la barra superior</span>
+						<div class="btn-group">
+							<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+								<div id="dv_fill_menu_bar" class="color_selector dv_fill_menu_bar"></div>
+							</a>
+							<ul class="dropdown-menu">
+								<li><div id="colorpalette_menu_bar"></div></li>
+							</ul>
+						</div>	
+					</div>
+					<div class="">
+						<span lang="ca">Color del text</span>
+						<div class="btn-group">
+							<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+								<div id="dv_color_text_bar" class="color_selector dv_color_text_bar"></div>
+							</a>
+							<ul class="dropdown-menu">
+								<li><div id="colorpalette_text_bar"></div></li>
+							</ul>
+						</div>
+					</div>
+					<div class="text-font">
+						<span lang="ca">Font</span>
+						<div class="bfh-selectbox bfh-fonts" data-font="Arial"></div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class=""><label class="control-label" lang="ca">Escut</label></div>
+					<div class="dropzone" id="file-logo">
+						<img class="logo" src="/logos/blank.gif">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="control-group">
+						<div class="control-switch">
+							<label class="control-label" for="visibilitat_chk" lang="ca">Visibilitat a la galeria Instamaps</label>
+							<div class="controls">
+								<div tabindex="0">
+									<input class="make-switch" id="visibilitat_chk" type="checkbox" data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+										data-on-text="<span><span class='fa fa-unlock glyphicon-white'></span>&nbsp;<span id='publish-public' lang='ca' data-toggle='tooltip' data-lang-title='El mapa es mostrarà a la galeria pública' title='El mapa es mostrarà a la galeria pública'>Públic</span></span>" 
+										data-off-text="<span><span class='fa fa-lock'></span>&nbsp;<span id='publish-private' lang='ca' data-toggle='tooltip' data-lang-title='El mapa només es mostrarà a la teva galeria privada' title='El mapa només es mostrarà a la teva galeria privada'>Privat</span></span>">
+			                        &nbsp;<span class="protegit"><input type="checkbox" id="is_map_protegit"><label for="is_map_protegit">&nbsp;<small lang="ca">Protegit amb clau</small></label></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="control-group protegit">
+						<div><label class="control-label" lang="ca">Clau</label></div>
+		                <span class="clau"><input type="password" id="map_clau" maxLength="20" disabled></span>
+		                <button type="button" id="resetClau" class="btn btn-xs btn-info" lang="ca">Reiniciar</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-downloadable"></div>
+			<br>
+			<div class="control-group">
+				<div class="control-switch">
+					<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
+					<div class="controls">
+						<div tabindex="0">
+							<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" 
+								data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+								data-on-text="<span id='publish-legend-yes' lang='ca'>Si</span>"
+								data-off-text="<span id='publish-legend-no' lang='ca'>No</span>">
+						</div>
+					</div>
+				</div>
+			</div>				
+			<div class="modal-legend"></div>
+			</form>					
+		</div>
+		<div class="modal-footer">
+			<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Cancel·lar</button>
+			<button lang="ca" type="button" class="btn btn-primary">Publicar</button>
+		</div>
+	</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Fi Modal Publicar -->
