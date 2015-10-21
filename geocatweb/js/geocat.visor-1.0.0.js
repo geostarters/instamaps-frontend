@@ -116,9 +116,7 @@ function loadVisorSimple(){
 	var controlFons = new L.IM_controlFons().addTo(map);
 	map.topoMapGeo();
 	map.setActiveMap(topoMapGeo);
-	map.setMapColor("");
-	jQuery("#topoMapGeo").css('opacity','1');
-	
+	map.setMapColor("");	
 	
 	$('meta[name="og:title"]').attr('content', "InstaMaps: "+ url('?layername')+" cloudifier");
 	$('#nomAplicacio').html("InstaMaps: "+ url('?layername')+" cloudifier");
@@ -668,8 +666,6 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
-				
-				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
@@ -690,16 +686,12 @@ function loadMapConfig(mapConfig){
 					map.historicOrtoMap46();
 				}else if (fons == 'alcadaMap'){
 					map.alcadaMap();
-					
-				}else if (fons == 'naturalMap') {
-					map.naturalMap();
-					
-				}else if (fons == 'divadminMap') {
-					map.divadminMap();
-					
-					
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);			
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();					
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();					
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
@@ -825,6 +817,10 @@ function loadLayer(value){
 	//Si la capa es de tipus vis_wms
 	}else if(value.serverType == t_vis_wms || value.serverType == t_vis_wms_noedit){
 		loadVisualitzacioWmsLayer(value);
+		defer.resolve();
+	}
+	else if(value.serverType == tem_heatmap_wms || value.serverType == tem_cluster_wms){
+		loadVisualitzacioWmsLayerSenseUtfGrid(value);
 		defer.resolve();
 	}
 	

@@ -5,6 +5,8 @@ var infoPSolarLL = null;
 var CONTS_Increment_preu_fv = 6;
 
 var val_area3d_fv = 0;
+var val_area2d_fv=0;
+var val_alliure2d_fv=0;
 var val_ghifv1_fv = 0;
 var val_ghifv2_fv = 0;
 var val_ghifv3_fv = 0;
@@ -727,7 +729,7 @@ function calculaNivellAprofitament() {
 
 	
 		
-		if (parseFloat(retorn_area_instalable_fv.area_instalable_fv + parseFloat(1)) >= parseFloat(area_instalada_fv).toFixed(0)) {
+		if (parseFloat(retorn_area_instalable_fv.area_instalable_fv ) >= parseFloat(area_instalada_fv).toFixed(0)) {
 
 		
 			
@@ -893,7 +895,7 @@ function calculaElectricitatGenerada_FV(valor) {
 	
 	var energia_inicident = parseFloat(nivellAprofitament.irradiacio_aprofitable_fv_mes1)
 			+ parseFloat(nivellAprofitament.val_ghifv_actual)
-			* ((area_instalada_fv - nivellAprofitament.area_instalable_fv_meny1) / nivellAprofitament.val_sfv_actual);
+			* (((area_instalada_fv * val_area2d_fv/val_area3d_fv) - nivellAprofitament.area_instalable_fv_meny1) / nivellAprofitament.val_sfv_actual);
 
 	irradiacio_aprofitable_fv = (energia_inicident * (1 - perdues_estimades)
 			* eficiencia_panells_fv / 100).toFixed(2);
@@ -1310,6 +1312,9 @@ function iniciaInfoPSolar(capa, geojson) {
 		CONTS_serie_geometrica2 = 0.97;
 
 		val_area3d_fv = sumaPropietats(geojson, 'area3d');
+		val_area2d_fv=sumaPropietats(geojson, 'area2d');
+		//val_alliure2d_fv=sumaPropietats(geojson, 'alliure2d');
+		
 		val_ghifv1_fv = sumaPropietats(geojson, 'ghifv1');
 		val_ghifv2_fv = sumaPropietats(geojson, 'ghifv2'); // optim
 		val_ghifv3_fv = sumaPropietats(geojson, 'ghifv3');
@@ -1338,6 +1343,8 @@ function iniciaInfoPSolar(capa, geojson) {
 		CONTS_serie_geometrica1 = 1.04;
 		CONTS_serie_geometrica2 = 0.98;
 		val_area3d_fv = sumaPropietats(geojson, 'area3d');
+		val_area2d_fv=sumaPropietats(geojson, 'area2d');
+		
 		val_ghifv1_fv = sumaPropietats(geojson, 'ghits1');
 		val_ghifv2_fv = 0;
 		val_ghifv3_fv = sumaPropietats(geojson, 'ghits2');
@@ -1355,6 +1362,8 @@ function iniciaInfoPSolar(capa, geojson) {
 		// Teulades_fv
 		// console.info(geojson);
 		val_area3d_fv = sumaPropietats(geojson, 'area3d');
+		val_area2d_fv=sumaPropietats(geojson, 'area2d');
+		
 		val_ghifv1_fv = sumaPropietats(geojson, 'fv1_sum');
 		val_ghifv2_fv = sumaPropietats(geojson, 'fv2_sum');
 		val_ghifv3_fv = sumaPropietats(geojson, 'fv3_sum');
@@ -1387,6 +1396,8 @@ function iniciaInfoPSolar(capa, geojson) {
 	} else if (capa == T_TS) {
 
 		val_area3d_fv = sumaPropietats(geojson, 'area3d');
+		val_area2d_fv=sumaPropietats(geojson, 'area2d');
+		
 		val_ghifv1_fv = sumaPropietats(geojson, 'ts1_sum');
 		val_ghifv2_fv = 0;
 		val_ghifv3_fv = sumaPropietats(geojson, 'ts2_sum');
