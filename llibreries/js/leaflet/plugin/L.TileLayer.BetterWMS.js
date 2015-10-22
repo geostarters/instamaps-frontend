@@ -80,6 +80,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		}
 		
 	},
+	
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
 		var SRS=this.wmsParams.srs;
@@ -222,7 +223,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			
 			
 			if(!$("#mapLegend").hasClass("mCustomScrollbar") && $("#mapLegend").length > 0){
-			
+				
 				$("#mapLegend").addClass("mCustomScrollbar");
 				$("#mapLegend").mCustomScrollbar();
 			}
@@ -246,7 +247,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		
 		}else{ //esborro
 			//$(".bt_legend").hide();
-			activaLlegenda(false);
+		
+			//activaLlegenda(false);
+			
 			jQuery('#wms_' + businessId).remove();
 		}
 		
