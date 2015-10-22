@@ -106,11 +106,11 @@ function creaPopOverMesFonsColor() {
 		
 		if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
 		   // is Google chrome
-		  jQuery(".popover").css('height','150px');
-		  jQuery(".popover").css('width','185px');
+		  jQuery(".popover").css('height','155px');
+		  jQuery(".popover").css('width','200px');
 		} else { 
 			 jQuery(".popover").css('height','150px');
-			 jQuery(".popover").css('width','185px');
+			 jQuery(".popover").css('width','190px');
 		}
 				
 		jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
