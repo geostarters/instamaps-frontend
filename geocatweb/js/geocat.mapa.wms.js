@@ -26,18 +26,15 @@ function generaLlistaServeisWMS() {
 
 					{
 						"TITOL" : "Mapa Cadastral",
-						"ORGANITZAC" : "Dirección General del Catastro ",
+						"ORGANITZAC" : "Dirección General del Catastro",
 						"IDARXIU" : "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?",
 						"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 					},
 
-					/*
-					 * { "TITOL" : "Avistaments cetàcis", "ORGANITZAC" : "Centre de
-					 * Recerca Ecològica i Aplicacions Forestals (CREAF) - UAB",
-					 * "IDARXIU" :
-					 * "http://www.ogc.uab.es/cgi-bin/cetcat/MiraMon5_0.cgi?", "URN" :
-					 * "urn:uuid:dc86e70e-79ca-11e3-aa3b-07b03c41b8e8" },
-					 */
+					
+					  { "TITOL" : "Atermenament i usos de costes", "ORGANITZAC" : "Departament de Territori i Sostenibilitat",
+					  "IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?", "URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722" },
+					 
 					{
 						"TITOL" : "Parcs eòlics",
 						"ORGANITZAC" : "Direcció General de Polítiques Ambientals",
@@ -157,6 +154,8 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 	}
 });
 
+var WMS_BBOX;
+
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
 	//console.debug("getCapabilitiesWMS:");
@@ -188,6 +187,24 @@ function getCapabilitiesWMS(url, servidor) {
 			servidor = results.Service.Title;
 		}
 
+		try{
+			
+		if(results.Capability.Layer.Layer.LatLonBoundingBox){
+			var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
+			WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+		}else if(results.Capability.Layer.LatLonBoundingBox){
+			
+			var bbox = results.Capability.Layer.LatLonBoundingBox;
+			WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+		}else{
+			WMS_BBOX=null;
+		}	
+			
+	
+		} catch (err) {
+			WMS_BBOX=null;
+		}
+		
 		try {
 			ActiuWMS.servidor = servidor;
 			ActiuWMS.url = jQuery.trim(url);
@@ -351,6 +368,10 @@ function addExternalWMS(fromParam) {
 	wmsLayer.options.nom = ActiuWMS.servidor;
 	wmsLayer.options.tipus = t_wms;
 
+	
+	if(WMS_BBOX){map.fitBounds(WMS_BBOX);}
+	
+	
 	if(typeof url('?businessid') == "string"){
 		var data = {
 				uid:$.cookie('uid'),
