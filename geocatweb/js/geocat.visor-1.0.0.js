@@ -782,8 +782,9 @@ function loadLayer(value){
 		});
 	//Si la capa es de tipus url file
 	}else if(value.serverType == t_url_file){
-		loadURLfileLayer(value);
-		defer.resolve();		
+		loadURLfileLayer(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_geojsonvt){
 		//console.debug(loadGeojsonvtLayer);
