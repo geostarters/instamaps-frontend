@@ -164,8 +164,8 @@ function getCapabilitiesWMS(url, servidor) {
 	//console.debug(servidor);
 	
 	getWMSLayers(url).then(function(results) {
-		console.debug("results:");
-		console.debug(results);
+		//console.debug("results:");
+		//console.debug(results);
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
@@ -404,8 +404,8 @@ function addExternalWMS(fromParam) {
 }
 
 function loadWmsLayer(layer){
-	console.debug("Load WMS Layer:");
-	console.debug(layer);
+	//console.debug("Load WMS Layer:");
+	//console.debug(layer);
 	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,

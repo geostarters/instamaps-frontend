@@ -263,11 +263,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 				//Tipus WMS no admet decarrega
 				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1 && obj.layer.options.tipus.indexOf(t_geojsonvt) == -1){
+				
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save subopcio-conf');
 					col.layerId = input.layerId;
 					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 					row.appendChild(col);					
 				}
+				
+				
+				
+				
 				
 				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
 				col.layerId = input.layerId;
@@ -283,6 +288,26 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				L.DomEvent.on(col, 'click', this._onUpClick, this);
 				col.layerId = input.layerId;
 				row.appendChild(col);				
+				
+				
+				
+				
+				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1){
+					console.info(2);
+					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-trans glyphicon glyphicon-adjust subopcio-conf');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onTransparenciaClick, this);
+					row.appendChild(col);	
+					
+					$(col).tooltip({
+						placement : 'bottom',
+						container : 'body',
+						title : window.lang.convert("Transparencia")
+					});
+					
+				}
+				
+				
 				
 			}else{
 				
@@ -311,6 +336,37 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						title : window.lang.convert("Descarrega")
 					});
 				}
+				
+				
+				
+				
+				
+				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1){
+					console.info(2);
+					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-trans glyphicon glyphicon-adjust subopcio-conf');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onTransparenciaClick, this);
+					row.appendChild(col);	
+					
+					$(col).tooltip({
+						placement : 'bottom',
+						container : 'body',
+						title : window.lang.convert("Transperencia")
+					});
+					
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			}
 			container = this._overlaysList;
 			
@@ -650,6 +706,20 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		
 		fillModalDataTable(obj);
 	},	
+	
+	
+	_onTransparenciaClick:function(e){
+		var layerId = e.currentTarget.layerId;
+		var obj = this._layers[layerId];
+		
+		var op =obj.layer.options.opacity;
+		if(!op)
+		console.info(op);
+		
+		console.info(obj.layer.options);
+		console.info(obj.layer.setOpacity(0.5));
+	},
+	
 	_onDownloadClick: function(e) {
 		
 //		console.debug("_onDownloadClick");

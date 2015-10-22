@@ -116,6 +116,23 @@
     cursor: pointer;
     display: none;
 }
+
+
+.leaflet-control-layers .leaflet-row .leaflet-trans {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: none;
+}
+
+
+
+
+
 .leaflet-control-layers .leaflet-row .leaflet-data-table {
 	float: right;	
 	background-repeat: no-repeat;
@@ -134,6 +151,18 @@
     opacity: 0.75;
     cursor: pointer;
 }
+
+
+.leaflet-control-layers .leaflet-row .leaflet-trans-visor {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
 
 .leaflet-control-layers .leaflet-row .leaflet-conf {
 	float: right;	

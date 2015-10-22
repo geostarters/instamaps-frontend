@@ -1079,6 +1079,38 @@ function ompleCapesMatriu(item){
                      if(tipus.indexOf("Point")!=-1){
                      
                     	 if(!feature.styles.icon){
+                             
+                             //feature.properties.OGR="SYMBOL(c:"+fillColor+",id:ogr-sym-3,s:"+(parseInt(feature.styles.weight)+2)+");BRUSH(fc:"+color+")";
+                                                                           
+                             feature.properties.OGR="PEN(c:"+feature.styles.color+",w:6px);BRUSH(fc:"+feature.styles.fillColor+")";                             
+                             //feature.properties.OGR="BRUSH(fc:"+fillColor+"80)";
+                            
+                            }else{
+                            
+                            var icona;
+                            
+                            if(feature.styles.icon.options.markerColor){
+                            
+                             icona="/opt/geocat/maps/galeria/"+feature.styles.icon.options.markerColor;
+                            
+                            }else{
+                            
+                            var ff=feature.styles.icon.options.iconUrl
+                            
+                             icona="/opt/geocat/maps/galeria/"+ff.substring(ff.lastIndexOf("/")+1,ff.lastIndexOf("."));
+                            }
+                            
+                                  
+                            
+                            feature.properties.OGR="SYMBOL(c:#ff0000,id:"+icona+".png)";                                                                                                                     
+                             //feature.properties.OGR="PEN(c:#FFC400,w:"+feature.styles.weight+"px)";
+                            
+                            }
+                    	 
+                    	 
+                    	 /*
+                    	 
+                    	 if(!feature.styles.icon){
                     		 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:6px);BRUSH(fc:"+feature.styles.fillColor+")";                             
                     		
                     		 var icona;
@@ -1091,6 +1123,8 @@ function ompleCapesMatriu(item){
                     		 feature.properties.OGR="SYMBOL(c:#ff0000,id:"+icona+".png)";   
                     		
                     	 }
+                    	 
+                    	 */
                      
                     	// matriuFF.push(JSON.stringify(feature));
                     //Polyline
