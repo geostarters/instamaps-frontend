@@ -12,14 +12,12 @@
 			<fieldset>
 				<input lang="ca" id="nomAplicacioPub" type="text" required
 					class="form-control my-border" placeholder="Nom" value="">
-				<br> 
 				<input lang="ca" id="optDescripcio" type="text" 
 					class="form-control my-border" placeholder="Descripció" value=""> 
 				<input lang="ca" id="optTags" type="text" 
 					class="form-control my-border" placeholder="Etiquetes" value="">
 			</fieldset>
 			</section>
-			<br>
 			<div lang="ca" class="alert alert-info">
 				<span class="glyphicon glyphicon-info-sign"></span> 
 				<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
@@ -30,17 +28,19 @@
 					<div class="">
 						<span lang="ca">Color de la barra superior</span>
 						<div class="btn-group">
+							<input type="text" id="in_fill_menu_bar" class="text_color">
 							<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
 								<div id="dv_fill_menu_bar" class="color_selector dv_fill_menu_bar"></div>
 							</a>
 							<ul class="dropdown-menu">
 								<li><div id="colorpalette_menu_bar"></div></li>
 							</ul>
-						</div>	
+						</div>
 					</div>
 					<div class="">
 						<span lang="ca">Color del text</span>
 						<div class="btn-group">
+							<input type="text" id="in_color_text_bar" class="text_color">
 							<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
 								<div id="dv_color_text_bar" class="color_selector dv_color_text_bar"></div>
 							</a>
@@ -51,7 +51,7 @@
 					</div>
 					<div class="text-font">
 						<span lang="ca">Font</span>
-						<div class="bfh-selectbox bfh-fonts" data-font="Arial"></div>
+						<div class="bfh-selectbox bfh-fonts" data-font="Arial" data-available="Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana"></div>
 					</div>
 				</div>
 				<div class="col-xs-6">
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row modal-public-group">
 				<div class="col-xs-6">
 					<div class="control-group">
 						<div class="control-switch">
@@ -86,8 +86,7 @@
 				</div>
 			</div>
 			<div class="modal-downloadable"></div>
-			<br>
-			<div class="control-group">
+			<div class="control-group modal-public-group">
 				<div class="control-switch">
 					<label class="control-label" for="llegenda_chk" lang="ca">Llegenda</label>
 					<div class="controls">

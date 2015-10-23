@@ -123,14 +123,16 @@
 			//aspecte
 			if(this.mapConfig.options.barColor){
 				$('#dv_fill_menu_bar').css('background-color',this.mapConfig.options.barColor);
+				$("#in_fill_menu_bar").val(this.mapConfig.options.barColor);
 			}
 			
 			if(this.mapConfig.options.textColor){
 				$('#dv_color_text_bar').css('background-color',this.mapConfig.options.textColor);
+				$("#in_color_text_bar").val(this.mapConfig.options.textColor);
 			}
 			
 			if(this.mapConfig.options.fontType){
-				$('.bfh-selectbox').bfhselectbox().bfhfonts({font: this.mapConfig.options.fontType});
+				$('.bfh-selectbox').bfhselectbox().bfhfonts({font: this.mapConfig.options.fontType, available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
 			}
 			
 			//escut
@@ -181,47 +183,7 @@
 			$('#urlMap').val(urlMap);
 			$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 			
-			//require dropzone
-			$('#file-logo').dropzone({ 
-			    url: paramUrl.uploadLogo,
-			    maxFilesize: 100,
-			    maxFiles: 1,
-			    paramName: "uploadfile",
-			    maxThumbnailFilesize: 1,
-			    acceptedFiles: 'image/*',
-			    dictDefaultMessage: "<span lang='ca'>Arrossega aquí la teva imatge del teu escut o logo</span>",
-			    init: function() {
-			      var myDropZone = this;
-			      this.on('success', function(file, json) {
-			    	  //console.debug(file);
-			    	  //console.debug(json);
-			    	  myDropZone.removeAllFiles();
-			    	  $(".logo").prop('src',"/logos/"+json.filePath);
-			      });
-			      /*
-			      this.on('addedfile', function(file) {
-			    	  console.debug(file);
-			      });
-			      
-			      this.on('drop', function(file) {
-			    	  console.debug(file);
-			      });
-			      */
-			    }
-			});
-			
-			//require colorPallete
-		    $('#colorpalette_menu_bar').colorPalette()
-		      .on('selectColor', function(e) {
-		    	$("#dv_fill_menu_bar").css("background-color",e.color);
-		    });
-		    
-		    $('#colorpalette_text_bar').colorPalette()
-		      .on('selectColor', function(e) {
-		    	$("#dv_color_text_bar").css("background-color",e.color);
-		    });
-			
-		    //$('.bfh-selectbox').bfhselectbox().bfhfonts({font: 'Arial'});
+			//$('.bfh-selectbox').bfhselectbox().bfhfonts({font: 'Arial'});
 		},
         
         _addHtmlInterficiePublicar: function(){
@@ -244,6 +206,7 @@
         },
         
         _addHtmlModalPublicar: function(){
+        	var that = this;
         	$.get("templates/modalPublicar.html",function(data){
         		//TODO ver como pasar el modal container
         		$('#mapa_modals').append(data);
@@ -274,7 +237,7 @@
             	
             	$('#is_map_protegit').on({
             		'ifChecked': function(event){
-            			if (this.mapConfig.clau){
+            			if (that.mapConfig.clau){
             				$('#map_clau').val(randomString(10));
             				$('#map_clau').prop('disabled',true);
             			}else{
@@ -282,7 +245,7 @@
             			}	
             		},
             		'ifUnchecked': function(event){
-            			if (this.mapConfig.clau){
+            			if (that.mapConfig.clau){
             				$('#map_clau').val('');
             			}else{
             				$('#map_clau').prop('disabled',true);
@@ -292,16 +255,72 @@
             	
             	$('#resetClau').on('click',function(){
             		var mapData = {
-            			businessId: this.mapConfig.businessId,
-            			uid: this.uid
+            			businessId: that.mapConfig.businessId,
+            			uid: that.uid
             		};
             		//require ajax
             		resetClauMapa(mapData).then(function(results){
-            			this.mapConfig.clau = null;
+            			that.mapConfig.clau = null;
             			$('#map_clau').val('');
             		});
             	});
         		
+            	//require dropzone
+    			$('#file-logo').dropzone({ 
+    			    url: paramUrl.uploadLogo,
+    			    maxFilesize: 100,
+    			    maxFiles: 1,
+    			    paramName: "uploadfile",
+    			    maxThumbnailFilesize: 1,
+    			    acceptedFiles: 'image/*',
+    			    dictDefaultMessage: "<span lang='ca'>Arrossega aquí la teva imatge del teu escut o logo</span>",
+    			    init: function() {
+    			      var myDropZone = this;
+    			      this.on('success', function(file, json) {
+    			    	  //console.debug(file);
+    			    	  //console.debug(json);
+    			    	  myDropZone.removeAllFiles();
+    			    	  $(".logo").prop('src',"/logos/"+json.filePath);
+    			      });
+    			      /*
+    			      this.on('addedfile', function(file) {
+    			    	  console.debug(file);
+    			      });
+    			      
+    			      this.on('drop', function(file) {
+    			    	  console.debug(file);
+    			      });
+    			      */
+    			    }
+    			});
+    			
+    			//require colorPallete
+    		    $('#colorpalette_menu_bar').colorPalette()
+    		      .on('selectColor', function(e) {
+    		    	$("#dv_fill_menu_bar").css("background-color",e.color);
+    		    	$("#in_fill_menu_bar").val(e.color);
+    		    });
+    		    
+    		    $('#colorpalette_text_bar').colorPalette()
+    		      .on('selectColor', function(e) {
+    		    	$("#dv_color_text_bar").css("background-color",e.color);
+    		    	$("#in_color_text_bar").val(e.color);
+    		    });
+            	
+    		    $("#in_fill_menu_bar").on('keyup',function(){
+    		    	var _this = $(this).val();
+    		    	if(isHexColor(_this)){
+    		    		$("#dv_fill_menu_bar").css("background-color",_this);
+    		    	}
+    		    });
+    		    
+    		    $("#in_color_text_bar").on('keyup',function(){
+    		    	var _this = $(this).val();
+    		    	if(isHexColor(_this)){
+    		    		$("#dv_color_text_bar").css("background-color",_this);
+    		    	}
+    		    });
+    		    
         	});
         	
         	$.get("templates/modalPublicarRandom.html",function(data){
