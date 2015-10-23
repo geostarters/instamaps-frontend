@@ -194,7 +194,7 @@ function loadApp(){
 				//mostar modal con contraseña
 				loadPasswordModal();
 			}else{
-				loadPublicMap(results)
+				loadPublicMap(results);
 			}
 		},function(results){
 			var uidUrl = url('?uid');
@@ -225,6 +225,8 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 	
+	console.debug(mapConfig);
+	
 	$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 	
 	var nomUser = mapConfig.entitatUid.split("@");
@@ -241,6 +243,35 @@ function loadPublicMap(results){
 		
 		infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+		//TODO ver como sacar el módulo
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+			VisorGeolocal.addLogosGeolocal();
+			
+			if (mapConfig.options.barColor){
+				$('#navbar-visor').css('background-color', mapConfig.options.barColor);
+			}
+			
+			if (mapConfig.options.textColor){
+				$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
+				$('.navbar-brand').css('color', mapConfig.options.textColor);
+				$('#mapTitle').css('color', mapConfig.options.textColor);
+				$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
+				$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
+				$('.navbar-form').css('border-color', 'transparent');
+				$('.bt-sessio').css('border-color', '#ffffff');
+			}
+			
+			if (mapConfig.options.fontType){
+				$('#navbar-visor').css('font-family', mapConfig.options.fontType);
+			}
+			
+			if (mapConfig.options.escut){
+				$('.img-circle2-icon').hide();
+				$('.escut img').prop('src', '/logos/'+mapConfig.options.escut);
+			}else{
+				$('.logo_instamaps').hide();
+			}
+		}
 	}
 	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació"></span>');
 	

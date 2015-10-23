@@ -26,6 +26,11 @@ function isBlank(str) {
     return (!str || (/^\s*$/).test(str));
 }
 
+function isHexColor(color){
+	var pattern = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
+	return pattern.test(color);
+}
+
 function isDefaultMapTitle(str){
 //	var pattern = new RegExp('^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$');
 	var pattern = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$/;

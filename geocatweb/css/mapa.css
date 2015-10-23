@@ -3959,7 +3959,7 @@ i.fa {
 .modal-downloadable{
 	overflow: hidden;
 	width: 100%;
-	padding-top: 20px;
+	padding-top: 10px;
 	padding-right: 20%;
 	/*padding-left: 5%;*/
 }
@@ -4762,6 +4762,11 @@ padding: 8px 0;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }
 
+.alert{
+	padding: 5px;
+	margin-bottom: 10px;
+	margin-top: 3px;
+}
 
 #file-logo {
   height: 54px;
@@ -4803,10 +4808,15 @@ padding: 8px 0;
     background-color: #000000;
 }
 
+.text_color{
+	width: 68px;
+}
+
 .text-font > span{
 	float: left;
 	position: relative;
 	padding-right: 13px;
+	padding-top: 5px;
 }
 
 .text-font .bfh-selectbox{
@@ -4814,5 +4824,12 @@ padding: 8px 0;
 	width: 200px;
 }
 
+.form-control.my-border {
+    margin-top: 2px;
+}
+
+.modal-public-group{
+	padding-top: 10px;
+}
 
 /* skin.css Style*/

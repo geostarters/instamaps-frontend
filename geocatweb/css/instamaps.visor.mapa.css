@@ -38,6 +38,26 @@ html,body {
 	left: 270px;
 }
 
+#logos .logo_instamaps{
+	/*
+	margin-left: 50px;
+    margin-top: -31px;
+    position: absolute;
+    */
+}
+
+.escut {
+    float: left;
+    max-height: 50px;
+    max-width: 200px;
+    margin-top: -15px;
+}
+
+.escut > img {
+    max-height: 50px;
+    max-width: 200px;
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;

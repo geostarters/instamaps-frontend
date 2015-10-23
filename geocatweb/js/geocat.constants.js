@@ -170,6 +170,8 @@ var NODATA_VALUE = "nodata";
 var NODATA_COLOR = "#CCCCCC";
 var NODATA_MIDA = 10;
 
+var TIPUS_APLIACIO_GEOLOCAL = 1;
+
 //VAR per nou model de dades
 var nou_model = true;
 
