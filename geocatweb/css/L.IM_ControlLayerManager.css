@@ -1,3 +1,174 @@
+
+.leaflet-control-layers {
+	width: 150px;
+	padding: 10px !important;
+}
+
+.leaflet-control-layers-separator {
+	float: left;
+    width: 100%;
+}
+
+.leaflet-control-layers .leaflet-control-layers-title {
+	font-size: 1.2em;
+}
+
+.leaflet-control-layers .leaflet-row {
+	float: left;
+    width: 100%;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-input {
+	float: left;
+	width: 10%;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-name {
+	float: left;
+	/*width: 45%;*/
+	/*width: 52%; /*75%;*/
+	padding-right: 5px;
+}
+
+.leaflet-name label {
+    word-wrap: break-word;
+    width: auto;
+    max-width: 115px;
+}
+
+.layer-count{
+	font-weight: normal;
+}
+
+/*
+.leaflet-control-layers .leaflet-row .leaflet-subrow .leaflet-name {
+	float: left;
+	/*width: 45%;*/
+	/*width: 75%;
+	padding-right: 5px;
+}*/
+
+
+.leaflet-count{
+	float: left;
+	/*width: 45%;
+	width: 10%;
+	padding-right: 5px;	*/
+}
+
+.options-conf{
+	float: right;
+	margin-right: 16px;
+}
+
+/*background-image: url(images/arrow-up.png);*/
+.leaflet-control-layers .leaflet-row .leaflet-up {
+	float: right;
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: none;
+}
+
+/*background-image: url(images/arrow-down.png);*/
+.leaflet-control-layers .leaflet-row .leaflet-down {
+	float: right;
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: none;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-remove {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: none;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-subrow .leaflet-remove {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: block;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-download {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: none;
+}
+.leaflet-control-layers .leaflet-row .leaflet-data-table {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+.leaflet-control-layers .leaflet-row .leaflet-download-visor {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-conf {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-conf:hover,
+.leaflet-control-layers .leaflet-row .leaflet-up:hover,
+.leaflet-control-layers .leaflet-row .leaflet-down:hover,
+.leaflet-control-layers .leaflet-row .leaflet-remove:hover,
+.leaflet-control-layers .leaflet-row .leaflet-download:hover,
+.leaflet-control-layers .leaflet-row .leaflet-data-table:hover,
+.leaflet-control-layers .leaflet-row .leaflet-download-visor:hover{
+	opacity: 1;
+}
+
+.leaflet-subrow {
+	margin-left: 15px;
+}
+
+.leaflet-control-layers .leaflet-subrow .leaflet-remove{
+	margin-right:16px;
+}
+
+/*
+nou cc
+
+*/
+
 @font-face {
     font-family: BebasNeueRegular;
     src: url(fonts/BebasNeue-webfont.woff);
