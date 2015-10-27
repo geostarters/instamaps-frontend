@@ -171,6 +171,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		html+='</div>';
 //		html+='<div class="separate-legend-subrow" ></div>';
 		
+		
 	}else if(layer.options.tipus == t_wms){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	

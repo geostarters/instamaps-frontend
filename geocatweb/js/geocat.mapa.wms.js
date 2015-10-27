@@ -369,7 +369,7 @@ function addExternalWMS(fromParam) {
 	wmsLayer.options.tipus = t_wms;
 
 	
-	if(WMS_BBOX){map.fitBounds(WMS_BBOX);}
+	//if(WMS_BBOX){map.fitBounds(WMS_BBOX);}
 	
 	
 	if(typeof url('?businessid') == "string"){
