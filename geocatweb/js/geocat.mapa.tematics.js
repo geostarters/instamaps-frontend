@@ -1430,7 +1430,7 @@ function loadVisualitzacioLayer(layer){
 	//console.time("loadTematicLayer " + layerWms.serverName);
 	getVisualitzacioByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
-			readVisualitzacio(defer, results.results, layer);			
+			readVisualitzacio(defer, results.results, layer, results.geometries);			
 		}else{
 			console.debug('getVisualitzacioByBusinessId ERROR');
 			defer.reject();
@@ -1442,7 +1442,7 @@ function loadVisualitzacioLayer(layer){
 	return defer.promise();
 }
 
-function readVisualitzacio(defer, visualitzacio, layer){
+function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
@@ -1457,7 +1457,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 	}else{
 		
 		capaVisualitzacio = new L.FeatureGroup();
-		
+	
 		capaVisualitzacio.options = {
 			businessId : layer.businessId,
 			nom : layer.serverName,
@@ -1726,6 +1726,18 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					else console.debug("CapaTematic name changed KO");
 					*/
 				});					
+		}
+		
+		if (visualitzacio.options){
+			console.debug(visualitzacio.options);
+			var options = JSON.parse(visualitzacio.options);
+			var dataNames = options.propName.split(',');
+			capaVisualitzacio.options.propName = dataNames;
+		}else{
+			if (geometries && geometries.options){
+				var dataNames = geometries.options.split(',');
+				capaVisualitzacio.options.propName = dataNames;
+			}
 		}
 		
 //		var options;

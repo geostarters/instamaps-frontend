@@ -171,6 +171,17 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		html+='</div>';
 //		html+='<div class="separate-legend-subrow" ></div>';
 		
+	}else if(layer.options.tipus == t_wms){
+		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
+		html += '<div   class="col-md-2 legend-symbol">'+
+					'<img src="'+layer.getLegendGraphic()+'" class="btn-paleta" style="width:26px;max-width:150px"/>'+
+				'</div>'+
+				'<div class="col-md-9 legend-name">'+
+					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+				'</div>';		
+		html+='</div>';	
+		
 	//Dades Obertes y JSON
 	}else if(layer.options.tipus == t_dades_obertes || layer.options.tipus == t_json){//es un punt
 		
@@ -970,10 +981,20 @@ function updateMapLegendData(){
 	$(".legend-subrow").each(function(index,element){
 		
 		var businessId = $(element).attr('data-businessId');
+		
+		
+		var html=$(element).children( ".legend-symbol").html();
+		
+		if(html.indexOf('GetLegendGraphic')!= -1){
+			
+			html=html.replace('width:26px;','');
+			html=html.replace('<img','<br><img');
+		}
+		
 		var obj = {
 //				chck : $(element).children( ".legend-chck").is(':checked'),
 				chck : $(element).children(".icheckbox_flat-blue").hasClass("checked"),
-				symbol : $(element).children( ".legend-symbol").html(),
+				symbol : html,
 				name : $(element).children( ".legend-name").children("input").val(),
 				order: index
 		};
