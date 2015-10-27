@@ -973,3 +973,19 @@ function callActions(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+function getValuesFromKeysProperty(params){
+	return jQuery.ajax({
+		url: paramUrl.getValuesFromKeysProperty,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function columnJoin(params){
+	return jQuery.ajax({
+		url: paramUrl.columnJoin,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}

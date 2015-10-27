@@ -606,7 +606,7 @@ function loadConfiguracio(configuracio){
 		configuracio = $.parseJSON(mapConfig.configuracio);
 		dfd.resolve(configuracio);
 	}else{
-		jQuery.get('../../default_config_mapa_0.2.txt', function(data) {
+		jQuery.get('../../default_config_mapa_0.3.txt', function(data) {
 			   configuracio = $.parseJSON(data);
 			   dfd.resolve(configuracio);
 		});							

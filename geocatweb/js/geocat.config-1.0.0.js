@@ -177,7 +177,9 @@ var paramUrl = {
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
 	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
-	callActions:"/share/jsp/callActions.jsp?"
+	callActions:"/share/jsp/callActions.jsp?",
+	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",
+	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
