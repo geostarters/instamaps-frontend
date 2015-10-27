@@ -990,6 +990,22 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
+	margin-right:4px;
+	cursor: pointer;
+}
+
+.div_sig_6{
+	background: url("images/galeria_icones.png") no-repeat scroll -408px -744px
+		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	margin-right:4px;
+	cursor: pointer;
+}
+
+.div_sig_7{
+	background: url("images/galeria_icones.png") no-repeat scroll -468px -744px
+		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
 	cursor: pointer;
 }
 /* Retina displays */
@@ -3104,6 +3120,22 @@ i.fa {
 
 .div_sig_5{
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
+		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	margin-right:4px;
+	cursor: pointer;
+}
+
+.div_sig_6{
+	background: url("images/galeria_icones.png") no-repeat scroll -408px -744px
+		rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	margin-right:4px;
+	cursor: pointer;
+}
+
+.div_sig_7{
+	background: url("images/galeria_icones.png") no-repeat scroll -468px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
