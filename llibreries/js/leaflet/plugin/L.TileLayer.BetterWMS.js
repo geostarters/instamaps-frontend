@@ -189,6 +189,10 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	updateControlLLegenda :function (params,layer,estat,nom,businessId){
 		
 		
+		if(getModeMapa()){//si estic visor i no hi ha llegenda
+			
+			
+			
 		if($("#mapLegend").length==0 && $("#mapLegendEdicio").length==0){
 			
 			
@@ -200,8 +204,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		
 		
 		if(estat){ //afegeixo
-			//jQuery('#div_control_wms_llegenda').append('<img onerror="this.style.display=\'none\';" id="' + layer + '" src="' + params + '"><br>');
-			//$("#mapLegend").html("");
+			
 			var html = '<div style="text-align:center" id="wms_' + businessId + '"><div class="titol-legend col-md-12 col-xs-12">'+nom+'</div><div class="titol-separate-legend-row"></div>';
 			html+='<img onerror="document.getElementById(\'wms_' + businessId + '\').style.display=\'none\';"  src="' + params + '"></div>';
 			//mapLegendEdicio
@@ -209,21 +212,12 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			
 			if($("#mapLegend").length > 0){divLlegenda='mapLegend';}
 			
-			$("#"+divLlegenda).append(html);
-			//Afegim de nou les classes i l'scroll
-			$("#"+divLlegenda).addClass("info");
-			$("#"+divLlegenda).addClass("legend");
-			$("#"+divLlegenda).addClass("visor-legend");
-			//$("#mapLegend").addClass("mCustomScrollbar");
-			//$("#mapLegend").mCustomScrollbar();
+					$("#"+divLlegenda).append(html);			
+					$("#"+divLlegenda).addClass("info");
+					$("#"+divLlegenda).addClass("legend");
+					$("#"+divLlegenda).addClass("visor-legend");
 			
-		
-			
-			
-			
-			
-			if(!$("#mapLegend").hasClass("mCustomScrollbar") && $("#mapLegend").length > 0){
-				
+			if(!$("#mapLegend").hasClass("mCustomScrollbar") && $("#mapLegend").length > 0){				
 				$("#mapLegend").addClass("mCustomScrollbar");
 				$("#mapLegend").mCustomScrollbar();
 			}
@@ -256,7 +250,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		
 		
 		
-		
+		}
 		
 		
 		
