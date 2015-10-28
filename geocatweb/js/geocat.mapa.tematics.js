@@ -1018,7 +1018,7 @@ function addHtmlModalLayersTematic(){
 	'					<div class="panel-warning">'+					
 	'					<ul class="bs-dadesO_USR panel-heading">'+
 	'						{{#each layers}}'+
-	'						<li><a class="usr_wms_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>'+
+	'						<li><a class="usr_wms_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}" data-propName="{{layer.options.propName}}">{{name}}</a></li>'+
 	'						{{/each}}'+
 	'					</ul>'+	
 	'					</div>'+

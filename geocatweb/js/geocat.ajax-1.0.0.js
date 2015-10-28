@@ -989,3 +989,12 @@ function columnJoin(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+function spatialJoin(params){
+	return jQuery.ajax({
+		url: paramUrl.spatialJoin,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+

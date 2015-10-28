@@ -179,7 +179,8 @@ var paramUrl = {
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
 	callActions:"/share/jsp/callActions.jsp?",
 	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",
-	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?"
+	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
+	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?"
 }
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

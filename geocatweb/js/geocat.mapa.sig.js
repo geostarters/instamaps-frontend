@@ -1121,8 +1121,7 @@ function addHtmlModalTag(){
 						'			<span class="peu3" lang="ca">Resultat de l\'operació</span></div>'+
 						'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
 						'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span><br/><br/>'+
-						'</div>'+
-				
+						'</div>'+				
 						'</div>'+
 						'<form id="frm_buffer">'+
 			'					<div class="modal-layers-sig">'+
@@ -1269,54 +1268,7 @@ function addHtmlModalLayersFilter(){
 
 
 
-function addHtmlModalSpatialJoin(){
-	
-	jQuery('#mapa_modals').append(
-	'	<!-- Modal Filter Layers -->'+
-	'		<div class="modal fade" id="dialog_layers_filter">'+
-	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
-	'					<button type="button" class="close" data-dismiss="modal"'+
-	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Tria una capa per aplicar-hi el filtre</h4>'+
-	'				</div>'+
-	'				<div class="modal-body">'+
-	'					<div class="alert alert-success">'+
-						'<span lang="ca">Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.</span>'+'&nbsp;'+
-						'<span lang="ca">Aplicable a punts, línies o polígons.</span><br/><br/>'+
-	'							<div class="imagePeu"><img src="css/images/Filtre_1.jpg" class="img1">'+
-	'							<span class="peu" lang="ca">Capa d\'origen</span>'+
-	'							<img src="css/images/Filtre_2.jpg">'+
-	'						<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
-	'			<div style="margin-top:30px;margin-bottom:-20px;">	'+
-	'			<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span><br/><br/>'+
-	'</div>'+
-	'</div>'+
-	'					<script id="filter-layers-template" type="text/x-handlebars-template">'+
-	'					<div class="panel-warning">'+					
-	'					<ul class="bs-dadesO_USR panel-heading">'+
-	'						{{#each layers}}'+
-	'						<li><a class="usr_filter_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>'+
-	'						{{/each}}'+
-	'					</ul>'+	
-	'					</div>'+
-	'					</script>'+
-	'					<div id="list_filter_layers"></div>'+
-	'					<div id="estil-id"></div>'+
-	'			</div>'+
-	'				<div class="modal-footer">'+
-	'				</div>'+
-	'			</div>'+
-	'			<!-- /.modal-content -->'+
-	'		</div>'+
-	'		<!-- /.modal-dialog -->'+
-	'	</div>'+
-	'	<!-- /.modal -->'+
-	'	<!-- fi Modal Tematics Layers -->'		
-	);
-	
-}
+
 
 function showFilterLayersModal(){
 	//console.debug("showTematicLayersModal");
@@ -2099,6 +2051,7 @@ function addHtmlModalColumnJoin(){
 			'					<br/><br/>'+
 			'				 </div>'+
 			'			   </div>'+
+			'				<div id="warning-spatial"></div>'+
 			'				<div id="list-layers-join1">'+
 			'				<span class="ca">1. Selecciona les capes que vols relacionar</span>'+
 			'					<div class="labels_fields" >'+
@@ -2163,7 +2116,7 @@ function addHtmlModalColumnJoin(){
 			'						{{/each}}'+
 			'					</script>'+
 			'					<br/>'+
-			'					</div>'+		
+			'					</div></div>'+		
 			'					<br/>'+
 			'				<div class="modal-footer">'+
 			'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
@@ -2184,6 +2137,17 @@ function openColumnJoinModal(){
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
+	$('#dataField_capa1').empty();
+	$('#dataField_capa2').empty();
+
+	$('#dataField_camps_capa1').empty();
+	$('#dataField_camps_capa2').empty();
+	
+	$('#list_join_fields').html('');
+	$('#list_join_fields2').html('');
+	
+	
+	
 	jQuery('#dialog_column_join').modal('show');
 	
 
@@ -2200,16 +2164,19 @@ function openColumnJoinModal(){
 		);
 		
 		if(layers.length ==0){
-			$('#list-layers-join1').html(warninMSG);
+			$('#warning-spatial').html(warninMSG);
+			$('#list-layers-join1').attr("style","display:none;");
 			$('#list-fields-join2').attr("style","display:none;");
 			$('#list-fields-join3').attr("style","display:none;");
-			$('#joinBtn').attr("style","display:none;");
+			$('#joinBtn').attr("disabled", true);
 			return;
 		}
 		else {
+			$('#warning-spatial').html('');
+			$('#list-layers-join1').attr("style","display:block;");
 			$('#list-fields-join2').attr("style","display:block;");
 			$('#list-fields-join3').attr("style","display:block;");
-			$('#joinBtn').attr("style","display:block;");
+			$('#joinBtn').removeAttr("disabled");
 		}
 		// fi each
 		
@@ -2219,64 +2186,79 @@ function openColumnJoinModal(){
 		var source = jQuery("#tematic-layers1").html();
 		var template = Handlebars.compile(source);
 		var html = template(layers);
-		var htmlCapa1=$('#dataField_capa1').html();
-		
+		$('#dataField_capa1').html('<option value="null">Escull la capa</option>');
+		var htmlCapa1=$('#dataField_capa1').html();		
 		$('#dataField_capa1').html(htmlCapa1 + html);
 		
 		var source2 = jQuery("#tematic-layers2").html();
 		var template = Handlebars.compile(source2);
 		var html2 = template(layers);
+		$('#dataField_capa2').html('<option value="null">Escull la capa</option>');
 		var htmlCapa2=$('#dataField_capa2').html();
 		$('#dataField_capa2').html(htmlCapa2 + html);
 		
 		jQuery('#dialog_column_join #dataField_capa1').on('change',function(event){
-			var fields = {};
-			var fields2 = {};	
-			var props = event.target.value.split('___');
-			var businessId = props[0];
-			var propName=props[1];
-			var dataNames=propName.split(',');
-			fields[window.lang.convert('Escull el camp')] = '---';
-			jQuery.each(dataNames, function( index, value ) {
-					fields[value] = value;		
-					fields2[value]=value;
-			});
-			
-			
-			var source1 = jQuery("#tematic-camp-layers1").html();
-			var template1 = Handlebars.compile(source1);
-			var html1 = template1({fields:fields});
-			jQuery('#dataField_camps_capa1').html(html1);
-
-			var source2 = jQuery("#join-fields-template").html();
-			var template2 = Handlebars.compile(source2);
-			var html2 = template2({fields:fields2});
-			jQuery('#list_join_fields').html(html2);
+			if (event.target.value=="null"){
+				$('#dataField_camps_capa1').empty();
+				
+				$('#list_join_fields').html('');
+			}
+			else {
+				var fields = {};
+				var fields2 = {};	
+				var props = event.target.value.split('___');
+				var businessId = props[0];
+				var propName=props[1];
+				var dataNames=propName.split(',');
+				fields[window.lang.convert('Escull el camp')] = '---';
+				jQuery.each(dataNames, function( index, value ) {
+						fields[value] = value;		
+						fields2[value]=value;
+				});
+				
+				
+				var source1 = jQuery("#tematic-camp-layers1").html();
+				var template1 = Handlebars.compile(source1);
+				var html1 = template1({fields:fields});
+				jQuery('#dataField_camps_capa1').html(html1);
+	
+				var source2 = jQuery("#join-fields-template").html();
+				var template2 = Handlebars.compile(source2);
+				var html2 = template2({fields:fields2});
+				jQuery('#list_join_fields').html(html2);
+			}
 		});
 		
 		jQuery('#dialog_column_join #dataField_capa2').on('change',function(event){
-			var fields = {};
-			var fields2 = {};
-			var props = event.target.value.split('___');
-			var businessId = props[0];
-			var propName=props[1];
-			var dataNames=propName.split(',');
-			fields[window.lang.convert('Escull el camp')] = '---';
-			jQuery.each(dataNames, function( index, value ) {
-					fields[value] = value;		
-					fields2[value]=value;
-			});
-			
-			
-			var source1 = jQuery("#tematic-camp-layers2").html();
-			var template1 = Handlebars.compile(source1);
-			var html1 = template1({fields:fields});
-			jQuery('#dataField_camps_capa2').html(html1);
-			
-			var source2 = jQuery("#join-fields-template2").html();
-			var template2 = Handlebars.compile(source2);
-			var html2 = template2({fields:fields2});
-			jQuery('#list_join_fields2').html(html2);
+			if (event.target.value=="null"){
+				$('#dataField_camps_capa2').empty();
+				
+				$('#list_join_fields2').html('');
+			}
+			else {
+				var fields = {};
+				var fields2 = {};
+				var props = event.target.value.split('___');
+				var businessId = props[0];
+				var propName=props[1];
+				var dataNames=propName.split(',');
+				fields[window.lang.convert('Escull el camp')] = '---';
+				jQuery.each(dataNames, function( index, value ) {
+						fields[value] = value;		
+						fields2[value]=value;
+				});
+				
+				
+				var source1 = jQuery("#tematic-camp-layers2").html();
+				var template1 = Handlebars.compile(source1);
+				var html1 = template1({fields:fields});
+				jQuery('#dataField_camps_capa2').html(html1);
+				
+				var source2 = jQuery("#join-fields-template2").html();
+				var template2 = Handlebars.compile(source2);
+				var html2 = template2({fields:fields2});
+				jQuery('#list_join_fields2').html(html2);
+			}
 		});
 		
 		jQuery('#joinBtn').on('click',function(event){
@@ -2351,7 +2333,6 @@ function openColumnJoinModal(){
 													'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 													'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
 												);									
-											var defer = $.Deferred();
 											jQuery('#dialog_column_join').modal('hide');
 											
 											addDropFileToMap(data.results);
@@ -2391,7 +2372,7 @@ function openColumnJoinModal(){
 				
 				var data = {
 						uid: $.cookie('uid'),
-						urlSIG: paramURL.columnJoin,
+						urlSIG: paramUrl.columnJoin,
 						tipusSIG: "columnJoin",
 						mapBusinessId: url('?businessid'),
 						businessId1: businessId1[0],
@@ -2439,29 +2420,67 @@ function addHtmlModalSpatialJoin(){
 			'				</div>'+
 			'				<div class="modal-body">'+
 			'					<div class="alert alert-success">'+
-			'					<span lang="ca">Aquesta operació crea una nova capa que conté aquells punts que estan continguts dins els polígons d’una altra capa.</span>'+
-			'					<span lang="ca">Aplicable a punts.</span>'+'<br/><br/>'+
-			'					<div class="imagePeu"><img src="css/images/spatialJ_1a.png" class="img1">'+
-			'					<span class="peu" lang="ca">Capa d\'origen</span>'+
-			'					<img src="css/images/spatialJ_1b.png">'+
-			'					<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
-			'					<div style="margin-top:30px;margin-bottom:-20px;">	'+
-			'					<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span>'+
+			'						<span lang="ca">Aquesta operació crea una nova capa que conté aquells punts que estan continguts dins els polígons d’una altra capa.</span>'+
+			'						<span lang="ca">Aplicable a punts.</span>'+'<br/><br/>'+
+			'						<div class="imagePeu"><img src="css/images/spatialJ_1a.png" class="img1">'+
+			'							<span class="peu" lang="ca">Capa d\'origen</span>'+
+			'							<img src="css/images/spatialJ_1b.png">'+
+			'							<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
+			'						<div style="margin-top:30px;margin-bottom:-20px;">	'+
+			'							<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span>'+
+			'						<br/><br/>'+
+			'					 	</div>'+
+			'			   		</div>'+
+			'				<div id="warning-spatial"></div>'+
+			'				<div id="list-layers-spatial-join1">'+
+			'				<span class="ca">1. Selecciona les capes que vols relacionar</span>'+
+			'					<div class="labels_fields" >'+
+			'						<span lang="ca">Capa de punts</span>:<span lang="ca" style="margin-left:24%">Capa de polígons</span>:<br/>'+
+			'						<select name="dataField_spatial_capa1" id="dataField_spatial_capa1" style="width: 30%;">'+
+			'							<option value="null">Escull la capa</option>'+
+			'						</select>'+
+			'						<select name="dataField_spatial_capa2" id="dataField_spatial_capa2" style="margin-left:8%;width:30%;">'+
+			'							<option value="null">Escull la capa</option>'+
+			'						</select>'+
+			'					<script id="tematic-spatial-layers1" type="text/x-handlebars-template">'+
+			'						{{#each layers}}'+
+			'						<option value="{{layer.options.businessId}}___{{layer.options.propName}}">{{name}}</option>'+
+			'						{{/each}}'+
+			'					</script>'+	
+			'					<script id="tematic-spatial-layers2" type="text/x-handlebars-template">'+
+			'						{{#each layers}}'+
+			'						<option value="{{layer.options.businessId}}___{{layer.options.propName}}">{{name}}</option>'+
+			'						{{/each}}'+
+			'					</script>'+
 			'					<br/><br/>'+
-			'				 </div>'+
-			'			   </div>'+
-			'				<form id="frm_buffer">'+
-			'					<div class="modal-layers-sig">'+
 			'					</div>'+
-			'				</form>'+
+			'					</div>'+
+			'					<div id="list-fields-spatial-join2">'+
+			'					<span class="ca">2. Selecciona els camps que apareixeran a la capa nova</span>'+
+			'					<div >'+
+			'						<span id="list_spatial_join_fields" style="float:left;"></span>'+
+			'						<span id="list_spatial_join_fields2" style="float:left;margin-left:80px;"></span>'+
+			'					</div>'+	
+			'					<script id="join-spatial-fields-template" type="text/x-handlebars-template">'+
+			'						{{#each fields}}'+
+			'							<input type="checkbox" value="{{@key}}" name="listCol1_spatial"/>&nbsp;&nbsp;{{@key}}<br/>'+
+			'						{{/each}}'+
+			'					</script>'+
+			'					<script id="join-spatial-fields-template2" type="text/x-handlebars-template">'+
+			'						{{#each fields}}'+
+			'							<input type="checkbox" value="{{@key}}" name="listCol2_spatial"/>&nbsp;&nbsp;{{@key}}<br/>'+
+			'						{{/each}}'+
+			'					</script>'+
+			'					<br/>'+
+			'					</div>'+		
+			'					<br/>'+
 			'				</div>'+
 			'				<div class="modal-footer">'+
 			'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
-			'         			<button type="button" class="btn btn-success" lang="ca" id="joinBtn">Join</button>'+
+			'         			<button type="button" class="btn btn-success" lang="ca" id="spatialjoinBtn">Join</button>'+
 			'				</div>'+
 			'			<!-- /.modal-content -->'+
-			'		</div>'+
-			'		<!-- /.modal-dialog -->'+
+				'		<!-- /.modal-dialog -->'+
 			'	</div>'+
 			'	<!-- /.modal -->'+
 			'	<!-- fi Modal Column Join -->'		
@@ -2470,37 +2489,323 @@ function addHtmlModalSpatialJoin(){
 }
 
 function openSpatialJoinModal(){
-	 createModalConfigLayers2("spatialJoin");
-	$('.make-switch').bootstrapSwitch('size','mini');
-	//console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
 	jQuery('#dialog_spatial_join').modal('show');
 	
+	$('#dataField_spatial_capa1').empty();
+	$('#dataField_spatial_capa2').empty();
 
-		var layers = [];
+
+	$('#list_spatial_join_fields').html('');
+	$('#list_spatial_join_fields2').html('');
+	
+	 var layersMarkers = [];
+	 var layersPolygons = [];
+	 	
 		jQuery.each( controlCapes._layers, function( key, value ) {
 			var layerOptions = this.layer.options;
 			var tipusLayer = "";
+			console.debug(this.layer);
 			if(this.layer.options.tipus) tipusLayer = this.layer.options.tipus;
-			if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ) layers.push(this);
+			if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ) {
+				
+				if (this.layer.options.geometryType=="marker"){
+					layersMarkers.push(this);
+				}
+				if (this.layer.options.geometryType=="polygon"){
+					layersPolygons.push(this);
+				}
+				
+			}
+
 		}
 	
 		);
+		
+		if(layersMarkers.length ==0 || layersPolygons.length==0){
+			$('#warning-spatial').html(warninMSG);
+			$('#list-layers-spatial-join1').attr("style","display:none;");
+			$('#list-fields-spatial-join2').attr("style","display:none;");
+			$('#spatialjoinBtn').attr("disabled", true);
+			return;
+		}
+		else {
+			$('#warning-spatial').html('');
+			$('#list-layers-spatial-join1').attr("style","display:block;");
+			$('#list-fields-spatial-join2').attr("style","display:block;");
+			$('#spatialjoinBtn').removeAttr("disabled");
+		}
 		// fi each
 		
-		layers = {layers: layers};
+		layersMarkers = {layers: layersMarkers};
+		layersPolygons = {layers: layersPolygons};
+	
 		
-		
-		
-		var source = jQuery("#tematic-layers1").html();
+		var source = jQuery("#tematic-spatial-layers1").html();
 		var template = Handlebars.compile(source);
-		var html = template(layers);
-		$('#dataField_capa1').html(html);
+		var html = template(layersMarkers);
+		$('#dataField_spatial_capa1').html('<option value="null">Escull la capa</option>');
+		var htmlCapa1=$('#dataField_spatial_capa1').html();
+		$('#dataField_spatial_capa1').html(htmlCapa1 + html);
+		
+		var source2 = jQuery("#tematic-spatial-layers2").html();
+		var template = Handlebars.compile(source2);
+		var html2 = template(layersPolygons);
+		$('#dataField_spatial_capa2').html('<option value="null">Escull la capa</option>');
+		var htmlCapa2=$('#dataField_spatial_capa2').html();
+		$('#dataField_spatial_capa2').html(htmlCapa2 + html2);
+	 
+		
+		jQuery('#dialog_spatial_join #dataField_spatial_capa1').on('change',function(event){
+			if (event.target.value=="null"){
+				$('#dataField_spatial_capa1').empty();				
+				$('#list_spatial_join_fields').html('');
+			}
+			else {
+				var fields = {};
+				var props = event.target.value.split('___');
+				var businessId = props[0];
+				var propName=props[1];
+				var dataNames=propName.split(',');
+				jQuery.each(dataNames, function( index, value ) {
+						fields[value] = value;						
+				});
+	
+	
+				var source = jQuery("#join-spatial-fields-template").html();
+				var template = Handlebars.compile(source);
+				var html = template({fields:fields});
+				jQuery('#list_spatial_join_fields').html(html);
+			}
+		});
+		
+		jQuery('#dialog_spatial_join #dataField_spatial_capa2').on('change',function(event){
+			if (event.target.value=="null"){
+				$('#dataField_spatial_capa2').empty();				
+				$('#list_spatial_join_fields2').html('');
+			}
+			else {
+				var fields = {};
+				var props = event.target.value.split('___');
+				var businessId = props[0];
+				var propName=props[1];
+				var dataNames=propName.split(',');
+				jQuery.each(dataNames, function( index, value ) {
+						fields[value] = value;						
+				});
+	
+	
+				var source = jQuery("#join-spatial-fields-template2").html();
+				var template = Handlebars.compile(source);
+				var html = template({fields:fields});
+				jQuery('#list_spatial_join_fields2').html(html);
+			}
+		});
 		
 		
+		jQuery('#spatialjoinBtn').on('click',function(event){
+			event.stopImmediatePropagation();
+			 if(busy){
+				 	jQuery('#dialog_spatial_join').hide();
+					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload').modal('show');
+			}else{
+			 busy=true;
+			 	var listCols1="";
+				var listCols2="";
+				$('input[name="listCol1_spatial"]:checked').each(function() {
+					listCols1=listCols1+this.value+",";				  
+				});
+				$('input[name="listCol2_spatial"]:checked').each(function() {
+					listCols2=listCols2+this.value+",";				  
+				});
+				var businessId1_props=$('#dataField_spatial_capa1').val();
+				var businessId1=businessId1_props.split('___');
+				
+				var businessId2_props=$('#dataField_spatial_capa2').val();
+				var businessId2=businessId2_props.split('___');
+				
+				var data1 = {
+						uid: $.cookie('uid'),
+						businessId1: businessId1[0],
+						businessId2: businessId2[0]
+				}
+				crearFitxerPolling(data1).then(function(results) {
+					var tmpFile="";
+					if (results.status=="OK"){
+						tmpFile = results.tmpFilePath;
+						//Definim interval de polling en funcio de la mida del fitxer
+						var pollTime =3000;
+						//Fem polling
+						(function(){							
+							pollFiltre = function(){
+								$.ajax({
+									url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+									dataType: 'json',
+									type: 'get',
+									success: function(data){
+										jQuery('#dialog_spatial_join').hide();
+										jQuery('#info_uploadFile').show();
+										if(data.status.indexOf("ABANS SPATIAL JOIN")!=-1 && busy){
+											
+											jQuery("#div_uploading_txt").html("");
+											jQuery("#div_uploading_txt").html(
+												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'
+											);									
+											
+										}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+											
+											jQuery("#div_uploading_txt").html("");
+											jQuery("#div_uploading_txt").html(
+													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+													'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+													'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'	
+												);									
+											
+											
+										}else if(data.status.indexOf("OK")!=-1 && busy){
+											clearInterval(pollInterval);
+											
+											jQuery("#div_uploading_txt").html("");
+											jQuery("#div_uploading_txt").html(
+													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+													'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+													'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
+												);									
+											jQuery('#dialog_spatial_join').modal('hide');
+											if (data.midaFitxer==0){
+												jQuery('#info_uploadFile').hide();		
+												busy=false;
+												$('#dialog_error_upload_txt').html("");					
+												$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+												$('#dialog_error_upload').modal('show');
+											}
+											else {
+												var data2 = {
+													uid: $.cookie('uid'),
+													mapBusinessId: url('?businessid'),
+													serverName:window.lang.convert("Punts dins de polígons:")+" "+data.nomCapaOrigen1+" "+data.nomCapaOrigen2,
+													path:data.path,
+													tmpFilePath:data.tmpFilePath,
+													midaFitxer:data.midaFitxer,
+													sourceExtension:'geojson',
+													markerStyle:data.markerEstil,
+													propertiesList: data.propertiesList,
+													geomType: data.geomType
+												}
+												doUploadFile(data2).then(function(results){
+													if (results.status="OK") {
+														addDropFileToMap(results);
+														 $('#dialog_spatial_join').modal('hide');
+														 jQuery('#info_uploadFile').hide();
+														 busy=false;
+													}
+													else {
+														jQuery('#info_uploadFile').hide();		
+														busy=false;
+														$('#dialog_error_upload_txt').html("");					
+														$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+														$('#dialog_error_upload').modal('show');
+													}
+												});
+											}
+											
+										
+											
+										}else if(data.status.indexOf("ERROR")!=-1 && busy){
+											busy = false;
+											
+											clearInterval(pollInterval);
+											jQuery('#info_uploadFile').hide();
+											
+											$('#dialog_error_upload_txt').html("");											
+											$('#dialog_error_upload_txt').html(window.lang.convert("Error unint taules per columnes"));		
+											$('#dialog_error_upload').modal('show');
+										}
+										else if (!busy){
+											clearInterval(pollInterval);
+											jQuery('#info_uploadFile').hide();
+										}
+									}
+								});
+							};
+							
+							pollInterval = setInterval(function(){
+								pollFiltre();
+							},pollTime);
+							
+						})();
+					}
+					else {
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+					}
+				
+					var data = {
+							uid: $.cookie('uid'),
+							urlSIG: paramUrl.spatialJoin,
+							tipusSIG: "spatialJoin",
+							mapBusinessId: url('?businessid'),
+							businessId1: businessId1[0],
+							businessId2: businessId2[0],
+							nom: "Punts dins polígons: "+$('#dataField_spatial_capa1 option:selected').text()+","+$('#dataField_spatial_capa2 option:selected').text(),
+							listColumns1: listCols1,
+							listColumns2:listCols2,
+							markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+							lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+							polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+							tmpFilePath:tmpFile
+							
+					};
+				callActions(data);
+				
+				});
+			}
+				
+			/*spatialJoin(data).then(function(results) {
+			if (results.status=="OK") {
+				var data2 = {
+						uid: $.cookie('uid'),
+						mapBusinessId: url('?businessid'),
+						serverName:window.lang.convert("Punts dins de polígons:")+" "+results.nomCapaOrigen1+" "+results.nomCapaOrigen2,
+						path:results.path,
+						tmpFilePath:results.tmpFilePath,
+						midaFitxer:results.midaFitxer,
+						sourceExtension:'geojson',
+						markerStyle:results.markerEstil,
+						propertiesList: results.propertiesList,
+						geomType: results.geomType
+					}
+					doUploadFile(data2).then(function(results){
+						if (results.status="OK") {
+							addDropFileToMap(results);
+							 $('#dialog_tag').modal('hide');
+							 jQuery('#info_uploadFile').hide();
+							 busy=false;
+						}
+						else {
+							jQuery('#info_uploadFile').hide();		
+							busy=false;
+							$('#dialog_error_upload_txt').html("");					
+							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+							$('#dialog_error_upload').modal('show');
+						}
+					});
+				
+				jQuery('#dialog_spatial_join').hide();		
+			}
+			else {
+				$('#dialog_error_upload_txt').html("");					
+				$('#dialog_error_upload_txt').html(window.lang.convert("Error spatial join"));				
+				$('#dialog_error_upload').modal('show');
+			}
+		});*/
+});
 	
 }
 
