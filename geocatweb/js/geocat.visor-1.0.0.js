@@ -118,10 +118,10 @@ function loadVisorSimple(){
 	map.setActiveMap(topoMapGeo);
 	map.setMapColor("");	
 	
-	$('meta[name="og:title"]').attr('content', "InstaMaps: "+ url('?layername')+" cloudifier");
-	$('#nomAplicacio').html("InstaMaps: "+ url('?layername')+" cloudifier");
-	document.title = "InstaMaps: "+ url('?layername')+" cloudifier";
-	jQuery("#mapTitle").html("InstaMaps: "+ url('?layername')+" cloudifier");
+	$('meta[name="og:title"]').attr('content', "Mapa  "+ url('?layername')+" cloudifier");
+	$('#nomAplicacio').html("Mapa "+ url('?layername')+" cloudifier");
+	document.title = "Mapa "+ url('?layername')+" cloudifier";
+	jQuery("#mapTitle").html("Mapa  "+ url('?layername')+" cloudifier");
 
 	
 	activaPanelCapes(true);	
@@ -225,7 +225,7 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 	
-	$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
+	$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 	
 	var nomUser = mapConfig.entitatUid.split("@");
 	var infoHtml = '<p>'+nomUser[0]+'</p>';
@@ -233,8 +233,12 @@ function loadPublicMap(results){
 	if (mapConfig.options){
 		mapConfig.options = $.parseJSON( mapConfig.options );
 
-		$('meta[name="description"]').attr('content', mapConfig.options.description);	
-		$('meta[name="og:description"]').attr('content', mapConfig.options.description);
+		var desc=mapConfig.options.description;
+		
+		desc==""?desc=mapConfig.nomAplicacio:desc=desc;
+		
+		$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');	
+		$('meta[name="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 		
 		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
 		$('meta[name="og:image"]').attr('content', urlThumbnail);
@@ -282,7 +286,7 @@ function loadPublicMap(results){
 			updateLangText();
 		});	
 		canviaIdioma(web_determinaIdioma());				
-		document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+		document.title = mapConfig.nomAplicacio +" - Mapa";
 		
 		var controlFons = new L.IM_controlFons().addTo(map);
 		
