@@ -1,7 +1,3 @@
-/*
- * L.Control.OrderLayers is a control to allow users to switch between different layers on the map.
- */
-
 L.Control.OrderLayers = L.Control.Layers.extend({
 	options: {
 		title: 'Title',
@@ -22,9 +18,18 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			this._addLayer(baseLayers[i], i);
 		}
 
+		/*
 		for (i in overlays) {
 			this._addLayer(overlays[i], i, true);
 		}
+		*/
+		
+		for (i in overlays) {
+				for (var j in overlays[i].layers) {
+					this._addLayer(overlays[i].layers[j], j, overlays[i], true);
+				}
+			}
+	
 	},	
 
 	onAdd: function (map) {
@@ -47,7 +52,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 
 	addOverlay: function (layer, name, overlay, groupLeafletId) {
-		this._addLayer(layer, name, overlay, groupLeafletId);
+		//this._addLayer(layer, name, overlay, groupLeafletId);
+		this._addLayer(layer, name, overlay,  groupLeafletId);
 		this._update();
 		return this;
 	},
@@ -67,6 +73,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},	
 
 	_initLayout: function () {
+		
+		console.info("inici");
 		var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
 		var className = 'leaflet-control-layers';
 //		if(modeMapa){
@@ -84,8 +92,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
 		}
 
+		var section = document.createElement('section');
+			section.className = 'ac-container ' + className + '-list';
+			
 		var form = this._form = L.DomUtil.create('div', className + '-list');
-
+		
+		section.appendChild( form );
+		
 		if (this.options.collapsed) {
 			if (!L.Browser.android) {
 				L.DomEvent
@@ -124,6 +137,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 //		}
 		this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
 		this._separator = L.DomUtil.create('div', className + '-separator', form);
+		this._addButton = L.DomUtil.create('div', ' fa fa-plus-square addVerd', form);
 		this._overlaysList = L.DomUtil.create('div', className + '-overlays '+strLayersList, form);
 
 		container.appendChild(form);

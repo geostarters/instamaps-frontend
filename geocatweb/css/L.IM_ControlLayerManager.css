@@ -347,4 +347,10 @@ nou cc
 }
 */
 
-
+.addVerd{
+	color: #00ff00;
+    cursor: pointer;
+    float: right;
+    font-size: 14px;
+    margin-top: 0;
+}
