@@ -2043,7 +2043,7 @@ function addHtmlModalColumnJoin(){
 			'					<span lang="ca">Aquesta operació combina els registres de dues taules en una de sola a partir dels valors coincidents d\'una columna comuna.</span>'+
 			'					<span lang="ca">Aplicable a punts, línies o polígons.</span>'+'<br/><br/>'+
 			'					<div class="imagePeu"><img src="css/images/Column_join_1.png" class="img1">'+
-			'					<span class="peu" lang="ca">Capa d\'origen</span>'+
+			'					<span class="peu" lang="ca">Taules d\'origen</span>'+
 			'					<img src="css/images/Column_join_2.png">'+
 			'					<span class="peu2" lang="ca">Resultat de l\'operació</span></div>'+
 			'					<div style="margin-top:30px;margin-bottom:-20px;">	'+
@@ -2053,7 +2053,7 @@ function addHtmlModalColumnJoin(){
 			'			   </div>'+
 			'				<div id="warning-spatial"></div>'+
 			'				<div id="list-layers-join1">'+
-			'				<span class="ca">1. Selecciona les capes que vols relacionar</span>'+
+			'				<span class="ca">1. Selecciona les capes a unir:</span>'+
 			'					<div class="labels_fields" >'+
 			'						<span lang="ca">Capa1</span>:<span lang="ca" style="margin-left:31%">Capa2</span>:<br/>'+
 			'						<select name="dataField_capa1" id="dataField_capa1" style="width: 30%;">'+
@@ -2062,6 +2062,8 @@ function addHtmlModalColumnJoin(){
 			'						<select name="dataField_capa2" id="dataField_capa2" style="margin-left:8%;width:30%;">'+
 			'							<option value="null">Escull la capa</option>'+
 			'						</select>'+
+			'						<br/><span lang="ca" style="width: 30%;"><input type="radio" value="capa1_geom" name="geom_capa">Usa com a capa de geometries</span>'+
+			'						<span lang="ca" style="margin-left:4.5%;width: 30%;"><input type="radio" value="capa2_geom" name="geom_capa">Usa com a capa de geometries</span>'+
 			'					<script id="tematic-layers1" type="text/x-handlebars-template">'+
 			'						{{#each layers}}'+
 			'						<option value="{{layer.options.businessId}}___{{layer.options.propName}}">{{name}}</option>'+
@@ -2076,7 +2078,7 @@ function addHtmlModalColumnJoin(){
 			'					</div>'+
 			'					</div>'+
 			'					<div id="list-fields-join2">'+
-			'					<span class="ca">2. Selecciona els camps que vols relacionar</span>'+
+			'					<span class="ca">2. Selecciona els camps a combinar:</span>'+
 			'					<div class="labels_fields" >'+
 			'						<span lang="ca">Camps de la capa1</span>:<span lang="ca" style="margin-left:20%">Camps de la capa2</span>:<br/>'+
 			'						<select name="dataField_camps_capa1" id="dataField_camps_capa1" style="width: 30%;">'+
@@ -2097,20 +2099,17 @@ function addHtmlModalColumnJoin(){
 			'					</div>'+
 			'					</div>'+
 			'					<div id="list-fields-join3">'+
-			'					<span class="ca">3. Selecciona els camps que apareixeran a la capa nova</span>'+
+			'					<span class="ca">3. Selecciona els camps que apareixeran a la capa resultant:</span>'+
 			'					<div >'+
-			'						<span id="list_join_fields" style="float:left;"></span>'+
-			'						<span id="list_join_fields2" style="float:left;margin-left:80px;"></span>'+
-			'					</div>'+	
-			'					<div id="list_join_fields2" style="width: 30%;"></div>'+	
+			'						<div id="list_join_fields" style="float:left;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></div>'+
+			'						<div id="list_join_fields2" style="float:left;margin-left:50px;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></div>'+
+			'					</div>'+							
 			'					<script id="join-fields-template" type="text/x-handlebars-template">'+
-			'						<input type="checkbox" value="geometry_id" name="listCol2"/>&nbsp;&nbsp;Geometria<br/>'+
 			'						{{#each fields}}'+
 			'							<input type="checkbox" value="{{@key}}" name="listCol1"/>&nbsp;&nbsp;{{@key}}<br/>'+
 			'						{{/each}}'+
 			'					</script>'+
 			'					<script id="join-fields-template2" type="text/x-handlebars-template">'+
-			'						<input type="checkbox" value="geometry_id" name="listCol2"/>&nbsp;&nbsp;Geometria<br/>'+
 			'						{{#each fields}}'+
 			'							<input type="checkbox" value="{{@key}}" name="listCol2"/>&nbsp;&nbsp;{{@key}}<br/>'+
 			'						{{/each}}'+
@@ -2264,7 +2263,7 @@ function openColumnJoinModal(){
 		jQuery('#joinBtn').on('click',function(event){
 			 
 			 if(busy){
-					jQuery('#dialog_filter_rangs').hide();
+					jQuery('#dialog_column_join').hide();
 					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
 			}else{
@@ -2273,6 +2272,8 @@ function openColumnJoinModal(){
 				//console.debug(filtres);
 				var listCols1="";
 				var listCols2="";
+				if ($('input[name=geom_capa]:checked').val()=="capa1_geom") listCols1 = "geometry_id,";
+				if ($('input[name=geom_capa]:checked').val()=="capa2_geom") listCols1 = "geometry_id,";
 				$('input[name="listCol1"]:checked').each(function() {
 					listCols1=listCols1+this.value+",";				  
 				});
@@ -2303,7 +2304,7 @@ function openColumnJoinModal(){
 									dataType: 'json',
 									type: 'get',
 									success: function(data){
-										jQuery('#dialog_filter_rangs').hide();
+										jQuery('#dialog_column_join').hide();
 										jQuery('#info_uploadFile').show();
 										if(data.status.indexOf("ABANS FILTRE")!=-1 && busy){
 											
@@ -2343,7 +2344,7 @@ function openColumnJoinModal(){
 											
 										}else if(data.status.indexOf("ERROR")!=-1 && busy){
 											busy = false;
-											
+											jQuery('#dialog_column_join').hide();
 											clearInterval(pollInterval);
 											jQuery('#info_uploadFile').hide();
 											
@@ -2435,7 +2436,7 @@ function addHtmlModalSpatialJoin(){
 			'				<div id="list-layers-spatial-join1">'+
 			'				<span class="ca">1. Selecciona les capes que vols relacionar</span>'+
 			'					<div class="labels_fields" >'+
-			'						<span lang="ca">Capa de punts</span>:<span lang="ca" style="margin-left:24%">Capa de polígons</span>:<br/>'+
+			'						<span lang="ca">Capa de punts disponibles</span>:<span lang="ca" style="margin-left:24%">Capa de polígons disponibles</span>:<br/>'+
 			'						<select name="dataField_spatial_capa1" id="dataField_spatial_capa1" style="width: 30%;">'+
 			'							<option value="null">Escull la capa</option>'+
 			'						</select>'+
@@ -2456,7 +2457,7 @@ function addHtmlModalSpatialJoin(){
 			'					</div>'+
 			'					</div>'+
 			'					<div id="list-fields-spatial-join2">'+
-			'					<span class="ca">2. Selecciona els camps que apareixeran a la capa nova</span>'+
+			'					<span class="ca">2. Selecciona els camps que apareixeran a la capa resultant</span>'+
 			'					<div >'+
 			'						<span id="list_spatial_join_fields" style="float:left;"></span>'+
 			'						<span id="list_spatial_join_fields2" style="float:left;margin-left:80px;"></span>'+
