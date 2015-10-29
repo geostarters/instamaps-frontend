@@ -193,14 +193,16 @@ nou cc
 
 .ac-container{
 	width: auto;
+	/*
 	margin: 10px auto 10px auto;
+	*/
 	text-align: left;
 	overflow-y: auto;
 	overflow-x: hidden;
 	height: auto;
 }
 .ac-container label{
-	font-size: 1.2em;
+	
 	padding: 5px 10px;
 	position: relative;
 	z-index: 20;
@@ -209,12 +211,18 @@ nou cc
 	color: #FFFFFF;
 	line-height: 18px;
 	background:  no-repeat scroll rgba(49, 50, 48, 0.5);
+	
+	/*
 	border: 1px solid #8C8B8A;
 	box-shadow: 
 		0px 0px 0px 1px rgba(155,155,155,0.3), 
 		1px 0px 0px 0px rgba(255,255,255,0.9) inset, 
 		0px 2px 2px rgba(0,0,0,0.1);
     box-sizing: content-box;
+    font-size: 1.2em;
+    */
+    
+    
     margin-top: 5px !important;
     margin-bottom: 0px !important;
     font-family: inherit;
@@ -249,7 +257,9 @@ nou cc
 	height: 24px;
 	right: 13px;
 	top: 4px;
+	/*
 	background: transparent url(images/arrow_down.png) no-repeat center center;	
+	*/
 }
 
 
@@ -305,6 +315,7 @@ nou cc
 
 .ac-container input.menu:checked ~ article.ac-large{
 	height: auto;
+	min-height: 30px;
 	max-height : 100px;
 	padding-top: 5px;
 	overflow-y: auto;
@@ -348,9 +359,35 @@ nou cc
 */
 
 .addVerd{
-	color: #00ff00;
+	  background-color: transparent;
+    background-image: url("images/addStuff.png");
+    background-position: 99% 0;
+    background-repeat: no-repeat;
+    border: medium none;
+    color: #00ff00;
     cursor: pointer;
-    float: right;
-    font-size: 14px;
-    margin-top: 0;
+    float: none;
+    height: 25px;
+    margin-bottom: 5px;
+    position: relative;
+    text-align: end;
+    vertical-align: middle;
+    width: 100%;
 }
+
+.addVerd:hover{
+	 background-color: #4A4C47;
+	
+}	
+
+
+.tema_verd{
+	color: #4AB026;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 1px;
+    float:right;
+	
+	
+}
+

@@ -12,7 +12,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		this._handlingClick = false;
 		this._groupList = [];
 		this._domGroups = [];
-		
+		this.numItemMenu=0;
 		
 		for (var i in baseLayers) {
 			this._addLayer(baseLayers[i], i);
@@ -92,12 +92,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
 		}
 
-		var section = document.createElement('section');
-			section.className = 'ac-container ' + className + '-list';
+		//var section = document.createElement('section');
+			//section.className = 'ac-container ' + className + '-list';
 			
 		var form = this._form = L.DomUtil.create('div', className + '-list');
 		
-		section.appendChild( form );
+		//section.appendChild( form );
 		
 		if (this.options.collapsed) {
 			if (!L.Browser.android) {
@@ -132,15 +132,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 
 		var strLayersList = 'layers-list';
-//		if(modeMapa){
-//			strLayersList ='layers-list-editable';
-//		}
-		this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
-		this._separator = L.DomUtil.create('div', className + '-separator', form);
-		this._addButton = L.DomUtil.create('div', ' fa fa-plus-square addVerd', form);
-		this._overlaysList = L.DomUtil.create('div', className + '-overlays '+strLayersList, form);
 
+		this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
+		this._separator = L.DomUtil.create('div', className + '-separator', form);		
+		this._addButton = L.DomUtil.create('div', 'addVerd', form);		
+		L.DomEvent.on(this._addButton, 'click', this._addTemaNou, this);				
+		this._overlaysList = L.DomUtil.create('div', className + '-overlays '+strLayersList, form);
 		container.appendChild(form);
+		//container.appendChild(section);
 	},
 
 	_addLayer: function (layer, name, overlay, groupLeafletId) {
@@ -205,6 +204,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		this._separator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
 	},
 
+	
+	
 	_addItem: function (obj) {
 		var row = L.DomUtil.create('div', 'leaflet-row');
 		
@@ -351,9 +352,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					});
 				}
 				
-				
-				
-				
+												
 				
 				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1){
 				
@@ -459,6 +458,74 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			row_sublayer.appendChild(col_sublayer);				
 		}
 		return row_sublayer;
+		
+	},
+	
+	_addTemaNou:function(){
+	
+		var container=this._overlaysList;
+		//container.appendChild(row);
+		var id=5;
+		this.numItemMenu=this.numItemMenu +1;
+		var nom="Tema "+ this.numItemMenu ;
+		var groupContainer = document.createElement('div');
+		
+		groupContainer.id = 'leaflet-control-accordion-layers-' + id;
+		groupContainer.className='ac-container';
+		
+		// verify if group is expanded
+		var s_expanded =' checked = "true" ' ;
+		
+		// verify if type is exclusive
+		var s_type_exclusive = ' type="checkbox" ';
+		
+		inputElement = '<input id="ac' + this.numItemMenu + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
+		//inputLabel   = '<label for="ac' + this.numItemMenu + '">' + nom + '</label>';
+		//inputLabel = L.DomUtil.create('label','glyphicon glyphicon-remove');
+		inputLabel = document.createElement('label');
+		var _for=document.createAttribute('for');
+		_for.value="ac" + this.numItemMenu;
+		inputLabel.setAttributeNode(_for);
+		inputLabel.innerHTML =nom;
+		
+		
+		var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-remove');
+		//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
+		col.id='mv-'+this.numItemMenu;
+		inputLabel.appendChild(col);
+
+		var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-move');
+		//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
+		col.id='th-'+this.numItemMenu;
+		inputLabel.appendChild(col);
+		
+		
+		
+		
+		
+		article = document.createElement('article');
+		article.className = 'ac-large';
+		//article.appendChild( label );
+		
+		
+		groupContainer.innerHTML = inputElement;
+		groupContainer.appendChild(inputLabel);
+		groupContainer.appendChild( article );
+		container.appendChild(groupContainer); 
+
+			
+		
+		/*
+		 * 
+		 * 
+		 * col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
+				col.layerId = input.layerId;
+				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
+				row.appendChild(col);	
+		*/		
+		
+		
+		//console.info("eeeee");
 		
 	},
 	

@@ -69,9 +69,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	_initLayout: function () {
 		var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
 		var className = 'leaflet-control-layers';
-//		if(modeMapa){
-//			className = 'leaflet-control-layers';
-//		}
 		var container = this._container = L.DomUtil.create('div', className);
 		
 		//Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
