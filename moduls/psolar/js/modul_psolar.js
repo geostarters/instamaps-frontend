@@ -912,7 +912,8 @@ function calculaElectricitatGenerada_FV(valor) {
 	//var generacio_propia=parseInt(consum_anual *100) / electricitat_generada_fv;
 	
 	//correcció 29_10_2015
-	var generacio_propia=parseInt(electricitat_generada_fv *100) / consum_anual;
+	var generacio_propia=parseInt(electricitat_generada_fv) *100 / consum_anual;
+	
 	
 	//if(parseFloat(consum_anual) > parseFloat(electricitat_generada_fv)){
 		//alert("El consum anual no pot ser més gran que l'energia generada.");
