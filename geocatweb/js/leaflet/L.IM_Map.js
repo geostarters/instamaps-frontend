@@ -34,6 +34,8 @@ var HISTOOrto_ICC_L0_14;
 var HISTOOrto46_ICC_L0_14;
 var ALCADAMAPA_ICGC_L0_17;
 var DIVADMIN_L0_14;
+var DIVADMIN_L14_18;
+var DIVADMIN_L14_18_TOPO;
 var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
@@ -543,8 +545,8 @@ L.IM_Map = L.Map.extend({
 		
 		}else if(f==FONS_DIVADMIN){	
 			this.mirarActivarHill(false,this.getZoom(),sC);	
-			if(this.getZoom() > 14){
-				map.setZoom(14);
+			if(this.getZoom() > 18){
+				map.setZoom(18);
 			}
 			this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
 				
@@ -996,9 +998,10 @@ if(print){
 		this.setActiveMap(FONS_DIVADMIN);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_DIVADMIN;
-		this.ajustaZoom(13);
+		this.ajustaZoom(18);
 		_divadminMap=L.layerGroup();
 		
+	
 		DIVADMIN_L0_14= new L.TileLayer(URL_DIVADMIN, {
 			minZoom: 0, 
 			maxZoom: 13, 
@@ -1006,6 +1009,29 @@ if(print){
 			continuousWorld: true,
 			worldCopyJump:false, 
 		}).addTo(_divadminMap);
+		
+		
+		
+		
+		
+		DIVADMIN_L14_18= new L.IM_ColorLayer(URL_TOPOICC_GEO_NATURAL, {
+			minZoom: 14,
+			maxZoom: 18,
+			tms:true,
+			color:'gris',
+			continuousWorld: true,
+			worldCopyJump: false,
+		}).addTo(_divadminMap);
+		
+		
+		DIVADMIN_L14_18_TOPO= new L.TileLayer(URL_TOPONIMS_GEO, {
+			minZoom: 14,
+			maxZoom: 18,
+			tms:true,
+			continuousWorld: true,
+			worldCopyJump: false,
+		}).addTo(_divadminMap);
+		
 		
 		this.addLayer(_divadminMap,true);
 		
