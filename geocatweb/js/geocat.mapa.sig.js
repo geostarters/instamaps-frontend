@@ -2038,7 +2038,7 @@ function addHtmlModalColumnJoin(){
 			'				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>'+
 			'				<h4 class="modal-title" lang="ca">Unió per columna</h4>'+
 			'				</div>'+
-			'				<div class="modal-body">'+
+			'				<div class="modal-body" style="max-height:620px;">'+
 			'					<div class="alert alert-success">'+
 			'					<span lang="ca">Aquesta operació combina els registres de dues taules en una de sola a partir dels valors coincidents d\'una columna comuna.</span>'+
 			'					<span lang="ca">Aplicable a punts, línies o polígons.</span>'+'<br/><br/>'+
@@ -2054,7 +2054,7 @@ function addHtmlModalColumnJoin(){
 			'				<div id="warning-spatial"></div>'+
 			'				<div id="list-layers-join1">'+
 			'				<span class="ca">1. Selecciona les capes a unir:</span>'+
-			'					<div class="labels_fields" >'+
+			'					<div class="labels_fields" style="margin-left:15px;">'+
 			'						<span lang="ca">Capa1</span>:<span lang="ca" style="margin-left:31%">Capa2</span>:<br/>'+
 			'						<select name="dataField_capa1" id="dataField_capa1" style="width: 30%;">'+
 			'							<option value="null">Escull la capa</option>'+
@@ -2079,7 +2079,7 @@ function addHtmlModalColumnJoin(){
 			'					</div>'+
 			'					<div id="list-fields-join2">'+
 			'					<span class="ca">2. Selecciona els camps a combinar:</span>'+
-			'					<div class="labels_fields" >'+
+			'					<div class="labels_fields" style="margin-left:15px;">'+
 			'						<span lang="ca">Camps de la capa1</span>:<span lang="ca" style="margin-left:20%">Camps de la capa2</span>:<br/>'+
 			'						<select name="dataField_camps_capa1" id="dataField_camps_capa1" style="width: 30%;">'+
 			'						</select>'+
@@ -2099,28 +2099,33 @@ function addHtmlModalColumnJoin(){
 			'					</div>'+
 			'					</div>'+
 			'					<div id="list-fields-join3">'+
-			'					<span class="ca">3. Selecciona els camps que apareixeran a la capa resultant:</span>'+
-			'					<div >'+
-			'						<div id="list_join_fields" style="float:left;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></div>'+
-			'						<div id="list_join_fields2" style="float:left;margin-left:50px;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></div>'+
-			'					</div>'+							
-			'					<script id="join-fields-template" type="text/x-handlebars-template">'+
+			'					<span class="ca">3. Selecciona el nom i els camps que apareixeran a la capa resultant</span>:'+
+			'						<div class="input-group input-group-sm" style="margin-left:15px;">'+
+			'							<span class="input-group-addon" lang="ca">Nom capa resultant</span>'+
+			'							<input id="input-join-name" class="form-control" type="text" style="width:260px">'+
+			'						</div>'+
+			'						<br/>'+
+			'						<div style="margin-left:15px;">'+
+			'							<div id="list_join_fields" style="float:left;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></div>'+
+			'							<div id="list_join_fields2" style="float:left;margin-left:50px;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></div>'+
+			'						</div>'+							
+			'						<script id="join-fields-template" type="text/x-handlebars-template">'+
 			'						{{#each fields}}'+
 			'							<input type="checkbox" value="{{@key}}" name="listCol1"/>&nbsp;&nbsp;{{@key}}<br/>'+
 			'						{{/each}}'+
-			'					</script>'+
-			'					<script id="join-fields-template2" type="text/x-handlebars-template">'+
+			'						</script>'+
+			'						<script id="join-fields-template2" type="text/x-handlebars-template">'+
 			'						{{#each fields}}'+
 			'							<input type="checkbox" value="{{@key}}" name="listCol2"/>&nbsp;&nbsp;{{@key}}<br/>'+
 			'						{{/each}}'+
-			'					</script>'+
-			'					<br/>'+
-			'					</div></div>'+		
-			'					<br/>'+
-			'				<div class="modal-footer">'+
-			'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
-			'         			<button type="button" class="btn btn-success" lang="ca" id="joinBtn">Unió</button>'+
-			'				</div>'+
+			'						</script>'+
+			'						<br/>'+
+			'						</div></div>'+		
+			'						<br/>'+
+			'					<div class="modal-footer">'+
+			'						<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
+			'         				<button type="button" class="btn btn-success" lang="ca" id="joinBtn">Unió per columna</button>'+
+			'					</div>'+
 			'			<!-- /.modal-content -->'+
 			'		<!-- /.modal-dialog -->'+
 			'	</div>'+
@@ -2225,6 +2230,17 @@ function openColumnJoinModal(){
 				var template2 = Handlebars.compile(source2);
 				var html2 = template2({fields:fields2});
 				jQuery('#list_join_fields').html(html2);
+				
+				var nomCapa="Unió taules: ";
+				if ($('#dataField_capa1 option:selected').text()!="Escull la capa"){
+					if (nomCapa=="Unió taules: ") nomCapa += $('#dataField_capa1 option:selected').text();
+					else nomCapa += ","+$('#dataField_capa1 option:selected').text();
+				}
+				if ($('#dataField_capa2 option:selected').text()!="Escull la capa"){
+					if (nomCapa=="Unió taules: ")  nomCapa += $('#dataField_capa2 option:selected').text();
+					else nomCapa +=","+$('#dataField_capa2 option:selected').text();
+				}
+				$('#input-join-name').val(nomCapa);
 			}
 		});
 		
@@ -2257,6 +2273,17 @@ function openColumnJoinModal(){
 				var template2 = Handlebars.compile(source2);
 				var html2 = template2({fields:fields2});
 				jQuery('#list_join_fields2').html(html2);
+				
+				var nomCapa="Unió taules: ";
+				if ($('#dataField_capa1 option:selected').text()!="Escull la capa"){
+					if (nomCapa=="Unió taules: ") nomCapa += $('#dataField_capa1 option:selected').text();
+					else nomCapa += ","+$('#dataField_capa1 option:selected').text();
+				}
+				if ($('#dataField_capa2 option:selected').text()!="Escull la capa"){
+					if (nomCapa=="Unió taules: ")  nomCapa += $('#dataField_capa2 option:selected').text();
+					else nomCapa +=","+$('#dataField_capa2 option:selected').text();
+				}
+				$('#input-join-name').val(nomCapa);
 			}
 		});
 		
@@ -2273,7 +2300,7 @@ function openColumnJoinModal(){
 				var listCols1="";
 				var listCols2="";
 				if ($('input[name=geom_capa]:checked').val()=="capa1_geom") listCols1 = "geometry_id,";
-				if ($('input[name=geom_capa]:checked').val()=="capa2_geom") listCols1 = "geometry_id,";
+				if ($('input[name=geom_capa]:checked').val()=="capa2_geom") listCols2 = "geometry_id,";
 				$('input[name="listCol1"]:checked').each(function() {
 					listCols1=listCols1+this.value+",";				  
 				});
@@ -2378,7 +2405,7 @@ function openColumnJoinModal(){
 						mapBusinessId: url('?businessid'),
 						businessId1: businessId1[0],
 						businessId2: businessId2[0],
-						nom: "Unió taules: "+$('#dataField_capa1 option:selected').text()+","+$('#dataField_capa2 option:selected').text(),
+						nom: $('#input-join-name').val(),
 						column1:$('#dataField_camps_capa1').val(),
 						column2:$('#dataField_camps_capa2').val(),
 						listColumns1: listCols1,
@@ -2390,7 +2417,32 @@ function openColumnJoinModal(){
 						
 				};
 				callActions(data);
-				/*columnJoin(data1).then(function(results) {
+				
+			
+				});
+				}
+				
+				/*var data = {
+						uid: $.cookie('uid'),
+						urlSIG: paramUrl.columnJoin,
+						tipusSIG: "columnJoin",
+						mapBusinessId: url('?businessid'),
+						businessId1: businessId1[0],
+						businessId2: businessId2[0],
+						nom: $('#input-join-name').val(),
+						column1:$('#dataField_camps_capa1').val(),
+						column2:$('#dataField_camps_capa2').val(),
+						listColumns1: listCols1,
+						listColumns2:listCols2,
+						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+						tmpFilePath: 'E://usuaris//m.ortega//temp//tmp2.geojson'
+						
+						
+				};
+				//callActions(data);
+				columnJoin(data).then(function(results) {
 					if (results.status=="OK") {
 						addDropFileToMap(results);
 						activaPanelCapes(true);
@@ -2403,8 +2455,8 @@ function openColumnJoinModal(){
 					}
 				});*/
 			
-				});
-			}});
+			
+		});
 	
 }
 
@@ -2433,10 +2485,10 @@ function addHtmlModalSpatialJoin(){
 			'					 	</div>'+
 			'			   		</div>'+
 			'				<div id="warning-spatial"></div>'+
-			'				<div id="list-layers-spatial-join1">'+
+			'				<div id="list-layers-spatial-join1" >'+
 			'				<span class="ca">1. Selecciona les capes que vols relacionar</span>'+
-			'					<div class="labels_fields" >'+
-			'						<span lang="ca">Capa de punts disponibles</span>:<span lang="ca" style="margin-left:24%">Capa de polígons disponibles</span>:<br/>'+
+			'					<div class="labels_fields" style="margin-left:15px;">'+
+			'						<span lang="ca">Capa de punts disponibles</span>:<span lang="ca" style="margin-left:11%">Capa de polígons disponibles</span>:<br/>'+
 			'						<select name="dataField_spatial_capa1" id="dataField_spatial_capa1" style="width: 30%;">'+
 			'							<option value="null">Escull la capa</option>'+
 			'						</select>'+
@@ -2457,10 +2509,15 @@ function addHtmlModalSpatialJoin(){
 			'					</div>'+
 			'					</div>'+
 			'					<div id="list-fields-spatial-join2">'+
-			'					<span class="ca">2. Selecciona els camps que apareixeran a la capa resultant</span>'+
-			'					<div >'+
-			'						<span id="list_spatial_join_fields" style="float:left;"></span>'+
-			'						<span id="list_spatial_join_fields2" style="float:left;margin-left:80px;"></span>'+
+			'					<span class="ca">2. Selecciona el nom i els camps que apareixeran a la capa resultant</span>:'+
+			'						<div class="input-group input-group-sm" style="margin-left:15px;">'+
+			'							<span class="input-group-addon" lang="ca">Nom capa resultant</span>'+
+			'							<input id="input-spatial-join-name" class="form-control" type="text" style="width:260px">'+
+			'						</div>'+
+			'						<br/>'+
+			'					<div style="margin-left:15px;">'+
+			'						<span id="list_spatial_join_fields" style="float:left;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></span>'+
+			'						<span id="list_spatial_join_fields2" style="float:left;margin-left:50px;width:30%;max-height:90px;overflow-x:hidden;overflow-y:auto;"></span>'+
 			'					</div>'+	
 			'					<script id="join-spatial-fields-template" type="text/x-handlebars-template">'+
 			'						{{#each fields}}'+
@@ -2478,7 +2535,7 @@ function addHtmlModalSpatialJoin(){
 			'				</div>'+
 			'				<div class="modal-footer">'+
 			'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>'+
-			'         			<button type="button" class="btn btn-success" lang="ca" id="spatialjoinBtn">Join</button>'+
+			'         			<button type="button" class="btn btn-success" lang="ca" id="spatialjoinBtn">Punts dins de polígons</button>'+
 			'				</div>'+
 			'			<!-- /.modal-content -->'+
 				'		<!-- /.modal-dialog -->'+
@@ -2580,6 +2637,15 @@ function openSpatialJoinModal(){
 				var template = Handlebars.compile(source);
 				var html = template({fields:fields});
 				jQuery('#list_spatial_join_fields').html(html);
+				
+				var nomCapa="Punts dins polígons: ";
+				if ($('#dataField_spatial_capa1 option:selected').text()!="Escull la capa"){
+					nomCapa += $('#dataField_spatial_capa1 option:selected').text()+",";
+				}
+				if ($('#dataField_spatial_capa2 option:selected').text()!="Escull la capa"){
+					nomCapa += $('#dataField_spatial_capa2 option:selected').text()+",";
+				}
+				$('#input-spatial-join-name').val(nomCapa);
 			}
 		});
 		
@@ -2603,6 +2669,15 @@ function openSpatialJoinModal(){
 				var template = Handlebars.compile(source);
 				var html = template({fields:fields});
 				jQuery('#list_spatial_join_fields2').html(html);
+				
+				var nomCapa="Punts dins polígons: ";
+				if ($('#dataField_spatial_capa1 option:selected').text()!="Escull la capa"){
+					nomCapa += $('#dataField_spatial_capa1 option:selected').text()+",";
+				}
+				if ($('#dataField_spatial_capa2 option:selected').text()!="Escull la capa"){
+					nomCapa += $('#dataField_spatial_capa2 option:selected').text()+",";
+				}
+				$('#input-spatial-join-name').val(nomCapa);
 			}
 		});
 		
@@ -2754,7 +2829,7 @@ function openSpatialJoinModal(){
 							mapBusinessId: url('?businessid'),
 							businessId1: businessId1[0],
 							businessId2: businessId2[0],
-							nom: "Punts dins polígons: "+$('#dataField_spatial_capa1 option:selected').text()+","+$('#dataField_spatial_capa2 option:selected').text(),
+							nom:$('#input-spatial-join-name').val(),
 							listColumns1: listCols1,
 							listColumns2:listCols2,
 							markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),

@@ -455,6 +455,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Publicar": "Publicar"
 ,"puja":"sube"
 ,"Pujant fitxer":"Subiendo archivo"
+,"Punts dins de polígons":"Puntos dentro polígonos"
 ,"Punts disponibles":"Puntos disponibles"
 ,"Quin és el sistema de referència?":"Cual es el sistema de referéncia?"
 
@@ -472,6 +473,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Selecciona el camp corresponent":"Escoge el campo correspondiente"
 ,"Selecciona el EPSG":"Selecciona el EPSG"
 ,"Selecciona el Format":"Selecciona el Formato"
+,"Selecciona el nom i els camps que apareixeran a la capa resultant":"Selecciona el nombre y los campos que apareceran en la capa resultante"
 ,"Selecciona els camps a combinar":"Selecciona los campos a combinar"
 ,"Selecciona els camps que apareixeran a la capa resultant":"Selecciona los campos que apareceran en la capa resultante"
 ,"Selecciona les capes a unir":"Selecciona las capas a unir"
@@ -531,6 +533,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"únic":"único"
 ,"Únic":"Único"
 ,"Unió":"Unión"
+,"Unió per columnes":"Unión por columnas"
 ,"Urbanisme, medi ambient, equipaments locals, cadastre i altres portals.":"Urbanismo, medio ambiente, equipamientos locales, catastro y otros portales."
 ,"Usa com a capa de geometries":"Usa como capa de geometrías"
 ,"Usuari":"Usuario"
