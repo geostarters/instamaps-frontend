@@ -1,842 +1,400 @@
 L.Control.OrderLayers = L.Control.Layers.extend({
-	options: {
-		title: 'Title',
-		autoZIndex: false
-	},
-	
-	initialize: function (baseLayers, overlays, options) {
-		L.setOptions(this, options);
+		options : {
+			collapsed : true,
+			position : 'topright',
+			autoZIndex : true
+		},
 
-		this._layers = {};
-		this._lastZIndex = 0;
-		this._handlingClick = false;
-		this._groupList = [];
-		this._domGroups = [];
-		this.numItemMenu=0;
-		
-		for (var i in baseLayers) {
-			this._addLayer(baseLayers[i], i);
-		}
+		initialize : function (baseLayers, groupedOverlays, options) {
+			var i,
+			j;
+			L.Util.setOptions(this, options);
 
-		/*
-		for (i in overlays) {
-			this._addLayer(overlays[i], i, true);
-		}
-		*/
-		
-		for (i in overlays) {
-				for (var j in overlays[i].layers) {
-					this._addLayer(overlays[i].layers[j], j, overlays[i], true);
+			this._layers = {};
+			this._lastZIndex = 0;
+			this._handlingClick = false;
+			this._groupList = [];
+			this._domGroups = [];
+
+			for (i in baseLayers) {
+				for (var j in baseLayers[i].layers) {
+					this._addLayer(baseLayers[i].layers[j], j, baseLayers[i], false);
 				}
 			}
-	
-	},	
 
-	onAdd: function (map) {
-		this._initLayout();
-		this._update();
+			for (i in groupedOverlays) {
+				for (var j in groupedOverlays[i].layers) {
+					this._addLayer(groupedOverlays[i].layers[j], j, groupedOverlays[i], true);
+				}
+			}
+			
+			
+		},
 
-		map
-		    .on('layeradd', this._onLayerChange, this)
-		    .on('layerremove', this._onLayerChange, this)
-			.on('changeorder', this._onLayerChange, this);
+		onAdd : function (map) {
+			this._initLayout();
+			this._update();
 
-		return this._container;
-	},
+			map
+			.on('layeradd', this._onLayerChange, this)
+			.on('layerremove', this._onLayerChange, this);
 
-	onRemove: function (map) {
-		map
-		    .off('layeradd', this._onLayerChange)
-		    .off('layerremove', this._onLayerChange)
-			.off('changeorder', this._onLayerChange);
-	},
+			return this._container;
+		},
 
-	addOverlay: function (layer, name, overlay, groupLeafletId) {
-		//this._addLayer(layer, name, overlay, groupLeafletId);
-		this._addLayer(layer, name, overlay,  groupLeafletId);
-		this._update();
-		return this;
-	},
-	
-	removeLayer: function (obj) {
-		var id = L.stamp(obj.layer);
-		if(!obj.sublayer){
+		onRemove : function (map) {
+			map
+			.off('layeradd', this._onLayerChange)
+			.off('layerremove', this._onLayerChange);
+		},
+
+		addBaseLayer : function (layer, name, group) {
+			this._addLayer(layer, name, group, false);
+			this._update();
+			return this;
+		},
+
+		addOverlay : function (layer, name, group) {
+			this._addLayer(layer, name, group, true);
+			this._update();
+			return this;
+		},
+
+		removeLayer : function (layer) {
+			var id = L.Util.stamp(layer);
 			delete this._layers[id];
-		}else{
-//			console.debug("this delete:");
-//			console.debug(this._layers);
-			delete this._layers[obj.layerIdParent]._layers[id];
-		}
-
-		this._update();
-		return this;
-	},	
-
-	_initLayout: function () {
-		
-		console.info("inici");
-		var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
-		var className = 'leaflet-control-layers';
-//		if(modeMapa){
-//			className = 'leaflet-control-layers';
-//		}
-		var container = this._container = L.DomUtil.create('div', className);
-		
-		//Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
-		container.setAttribute('aria-haspopup', true);
-
-		if (!L.Browser.touch) {
-			L.DomEvent.disableClickPropagation(container);
-			L.DomEvent.on(container, 'mousewheel', L.DomEvent.stopPropagation);
-		} else {
-			L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
-		}
-
-		//var section = document.createElement('section');
-			//section.className = 'ac-container ' + className + '-list';
+			this._update();
+			return this;
+		},
 			
-		var form = this._form = L.DomUtil.create('div', className + '-list');
-		
-		//section.appendChild( form );
-		
-		if (this.options.collapsed) {
-			if (!L.Browser.android) {
-				L.DomEvent
-				    .on(container, 'mouseover', this._expand, this)
-				    .on(container, 'mouseout', this._collapse, this);
-			}
-			var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
-			link.href = '#';
-			link.title = 'Layers';
-
-			if (L.Browser.touch) {
-				L.DomEvent
-				    .on(link, 'click', L.DomEvent.stop)
-				    .on(link, 'click', this._expand, this);
-			}
-			else {
-				L.DomEvent.on(link, 'focus', this._expand, this);
-			}
-
-			this._map.on('click', this._collapse, this);
-			// TODO keyboard accessibility
-		} else {
-			this._expand();
-		}
-
-		if(this.options.title) {
-			var title = L.DomUtil.create('h3', className + '-title editable');
-			title.innerHTML = this.options.title;
-			title.id='nomAplicacio';
-			form.appendChild(title);
-		}
-
-		var strLayersList = 'layers-list';
-
-		this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
-		this._separator = L.DomUtil.create('div', className + '-separator', form);		
-		this._addButton = L.DomUtil.create('div', 'addVerd', form);		
-		L.DomEvent.on(this._addButton, 'click', this._addTemaNou, this);				
-		this._overlaysList = L.DomUtil.create('div', className + '-overlays '+strLayersList, form);
-		container.appendChild(form);
-		//container.appendChild(section);
-	},
-
-	_addLayer: function (layer, name, overlay, groupLeafletId) {
-		var id = L.stamp(layer);
-		if(groupLeafletId){
-			this._layers[groupLeafletId]._layers[id] = {
-					layer: layer,
-					name: name,
-					overlay: overlay,
-					sublayer: true,
-					layerIdParent: groupLeafletId
-				};			
-		}else{
-			this._layers[id] = {
-					layer: layer,
-					name: name,
-					overlay: overlay,
-					sublayer: false,
-					_layers: {}
-				};			
-		}
-		
-		if (this.options.autoZIndex && layer.setZIndex) {
-			this._lastZIndex++;
-			layer.setZIndex(this._lastZIndex);
-		}
-	},	
-	
-	_update: function () {
-		if (!this._container) {
-			return;
-		}
-
-		this._baseLayersList.innerHTML = '';
-		this._overlaysList.innerHTML = '';
-
-		var baseLayersPresent = false,
-		    overlaysPresent = false,
-		    i, obj;
-		
-		var overlaysLayers = [];
-		for (i in this._layers) {
-			obj = this._layers[i];
-			if(!obj.overlay) {
-				this._addItem(obj);
-			} else if(obj.layer.options.zIndex) {
-				
-				overlaysLayers[obj.layer.options.zIndex] = obj;
-			}
-			overlaysPresent = overlaysPresent || obj.overlay;
-			baseLayersPresent = baseLayersPresent || !obj.overlay;
-		}
-		
-		for(i = 0; i < overlaysLayers.length; i++) {
-			if(overlaysLayers[i]) {
-				this._addItem(overlaysLayers[i]);
-			}
-		}
-		
-		L.DomUtil.create('div', 'clearfix', this._baseLayersList);
-		L.DomUtil.create('div', 'clearfix', this._overlaysList);
-		this._separator.style.display = overlaysPresent && baseLayersPresent ? '' : 'none';
-	},
-
-	
-	
-	_addItem: function (obj) {
-		var row = L.DomUtil.create('div', 'leaflet-row');
-		
-		var label = L.DomUtil.create('label', ''),
-		    input,
-		    checked = this._map.hasLayer(obj.layer);
-
-		if (obj.overlay) {
-			input = L.DomUtil.create('input');
-			input.id='input-'+obj.layer.options.businessId;
-			input.type = 'checkbox';
-			input.className = 'leaflet-control-layers-selector';
-			input.defaultChecked = checked;
-		} else {
-			input = this._createRadioElement('leaflet-base-layers', checked);
-		}
-
-		input.layerId = L.stamp(obj.layer);
-
-		L.DomEvent.on(input, 'click', this._onInputClick, this);
-
-		var name = document.createElement('span');
-		name.className = 'editable';
-		name.id=input.layerId;
-		name.innerHTML = ' ' + obj.name;
-		
-		var col = L.DomUtil.create('div', 'leaflet-input');
-		col.appendChild(input);
-		row.appendChild(col);
-		
-		col = L.DomUtil.create('div', 'leaflet-name');
-		col.appendChild(label);
-		row.appendChild(col);
-		label.appendChild(name);
-		
-		//Comptador d'elements de la capa si es tematic, dades obertes, dades externes, nou model
-//		if(obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json || obj.layer.options.tipus == t_url_file){
-		if(obj.layer.options.tipus == t_visualitzacio || obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json || obj.layer.options.tipus == t_url_file){
-			var count = document.createElement('span');
-			count.className = 'layer-count';
-			count.id='count-'+obj.layer.options.businessId;
-			count.innerHTML = ' (' + obj.layer.getLayers().length + ')';		
-			label.appendChild(count);
-		}
-		
-		var container;
-		var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
-		if(obj.overlay) {
-			
-			if(modeMapa){
-				col = L.DomUtil.create('div', 'leaflet-conf glyphicon glyphicon-cog opcio-conf');
-				L.DomEvent.on(col, 'click', this._showOptions, this);
-				col.layerId = input.layerId;
-				row.appendChild(col);
-				
-//				var row_conf = L.DomUtil.create('div', 'leaflet-row');
-				
-//				var row2 = L.DomUtil.create('div', 'options-conf');
-//				row2.id='conf-'+obj.layer.options.businessId;
-////				row_conf.appendChild(row2);
-//				col.appendChild(row2);
-				
-				//Data Table: Si es capa origen i prove de fitxer (te source)
-				if(obj.layer.options.source){
-					col = L.DomUtil.create('div', 'data-table-'+obj.layer.options.businessId+' leaflet-data-table glyphicon glyphicon-list-alt');
-					col.layerId = input.layerId;
-					L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-					row.appendChild(col);					
-				}		
-				
-				//Tipus WMS no admet decarrega
-				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1 && obj.layer.options.tipus.indexOf(t_geojsonvt) == -1){
-				
-					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save subopcio-conf');
-					col.layerId = input.layerId;
-					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-					row.appendChild(col);					
-				}
-				
-				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1){
-					
-					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-trans glyphicon glyphicon-adjust subopcio-conf');
-					col.layerId = input.layerId;
-					L.DomEvent.on(col, 'click', this._onTransparenciaClick, this);
-					row.appendChild(col);	
-					
-					$(col).tooltip({
-						placement : 'bottom',
-						container : 'body',
-						title : window.lang.convert("Transparència")
-					});
-					
-				}
-				
-				
-				
-				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-				row.appendChild(col);	
-				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-down glyphicon glyphicon-chevron-down subopcio-conf');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onDownClick, this);
-				row.appendChild(col);	
-				
-				col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-up glyphicon glyphicon-chevron-up subopcio-conf');
-				L.DomEvent.on(col, 'click', this._onUpClick, this);
-				col.layerId = input.layerId;
-				row.appendChild(col);				
-				
-				
-				
-				
-				
-				
-				
-			}else{
-				
-				//Visualitzem taula de dades pero sense mode edicio
-				//Data Table: Si es capa origen i prove de fitxer (te source)
-				if(obj.layer.options.source){
-					col = L.DomUtil.create('div', 'data-table-'+obj.layer.options.businessId+' leaflet-data-table glyphicon glyphicon-list-alt');
-					col.layerId = input.layerId;
-					L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-					row.appendChild(col);					
-				}				
-				
-				
-				//Tipus WMS no admet decarrega i mirem configuracio descarregable de les capes
-				if(obj.layer.options.tipus.indexOf(t_geojsonvt) == -1 && obj.layer.options.tipus.indexOf(t_wms) == -1 && 
-						!jQuery.isEmptyObject(downloadableData) && downloadableData[obj.layer.options.businessId] && downloadableData[obj.layer.options.businessId]!=undefined &&
-						downloadableData[obj.layer.options.businessId][0].chck){
-					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
-					L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-					col.layerId = input.layerId;
-					row.appendChild(col);	
-					
-					$(col).tooltip({
-						placement : 'left',
-						container : 'body',
-						title : window.lang.convert("Descàrrega")
-					});
-				}
-				
-												
-				
-				if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1){
-				
-					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-trans-visor glyphicon glyphicon-adjust');
-					col.layerId = input.layerId;
-					L.DomEvent.on(col, 'click', this._onTransparenciaClick, this);
-					row.appendChild(col);	
-					
-					$(col).tooltip({
-						placement : 'bottom',
-						container : 'body',
-						title : window.lang.convert("Transparència")
-					});
-					
-				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			}
-			container = this._overlaysList;
-			
-		} else {
-			container = this._baseLayersList;
-		}
-		container.appendChild(row);
-//		if(modeMapa) {
-//			//container.appendChild(row_conf);
-//			row.appendChild(row2);
-//		}
-		
-		var sublayers = obj._layers;
-		for (j in sublayers) { 
-			var row_sublayer = this._createSubItem(sublayers[j],input.layerId, modeMapa);
-			row.appendChild(row_sublayer);
-			
-		}		
-		
-		//Afegim tooltips
-		$(".data-table-"+obj.layer.options.businessId+".leaflet-data-table").tooltip({
-			placement : 'bottom',
-			container : 'body',
-			title : window.lang.convert("dades")
-		});
-		
-		$(".opcio-conf").tooltip({
-			placement : 'bottom',
-			container : 'body',
-			title : window.lang.convert("opcions")
-		});		
-		
-		if(modeMapa) updateEditableElements();
-		map.fireEvent('addItemFinish'); 
-		return label;
-	},
-	
-	_createSubItem: function(sublayer,layerIdParent, modeMapa){
-		
-		var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
-		
-		var label_sublayer = L.DomUtil.create('label', ''),
-		    input_sublayer,
-		    checked = this._map.hasLayer(sublayer.layer);
-
-		input_sublayer = L.DomUtil.create('input');
-		input_sublayer.id='input-'+sublayer.layer.options.businessId;
-		input_sublayer.type = 'checkbox';
-		input_sublayer.className = 'leaflet-control-layers-selector';
-		input_sublayer.defaultChecked = checked;
-
-		input_sublayer.layerId = L.stamp(sublayer.layer);
-		input_sublayer.layerIdParent = layerIdParent; //input.layerId;
-		
-		L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
-
-		var name_sublayer = document.createElement('span');
-		name_sublayer.className = 'editable';
-		name_sublayer.idParent=layerIdParent;
-		name_sublayer.id=L.stamp(sublayer.layer);
-		name_sublayer.innerHTML = ' ' + sublayer.name;
-		
-		var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
-		col_sublayer.appendChild(input_sublayer);
-		row_sublayer.appendChild(col_sublayer);
-		col_sublayer = L.DomUtil.create('div', 'leaflet-name');
-		col_sublayer.appendChild(label_sublayer);
-		row_sublayer.appendChild(col_sublayer);
-		label_sublayer.appendChild(name_sublayer);
-		
-		if(modeMapa){
-			col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove opcio-conf');
-			L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
-			col_sublayer.layerId = input_sublayer.layerId;
-			col_sublayer.layerIdParent = layerIdParent;
-			row_sublayer.appendChild(col_sublayer);				
-		}
-		return row_sublayer;
-		
-	},
-	
-	_addTemaNou:function(){
-	
-		var container=this._overlaysList;
-		//container.appendChild(row);
-		var id=5;
-		this.numItemMenu=this.numItemMenu +1;
-		var nom="Tema "+ this.numItemMenu ;
-		var groupContainer = document.createElement('div');
-		
-		groupContainer.id = 'leaflet-control-accordion-layers-' + id;
-		groupContainer.className='ac-container';
-		
-		// verify if group is expanded
-		var s_expanded =' checked = "true" ' ;
-		
-		// verify if type is exclusive
-		var s_type_exclusive = ' type="checkbox" ';
-		
-		inputElement = '<input id="ac' + this.numItemMenu + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
-		//inputLabel   = '<label for="ac' + this.numItemMenu + '">' + nom + '</label>';
-		//inputLabel = L.DomUtil.create('label','glyphicon glyphicon-remove');
-		inputLabel = document.createElement('label');
-		var _for=document.createAttribute('for');
-		_for.value="ac" + this.numItemMenu;
-		inputLabel.setAttributeNode(_for);
-		inputLabel.innerHTML =nom;
-		
-		
-		var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-remove');
-		//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
-		col.id='mv-'+this.numItemMenu;
-		inputLabel.appendChild(col);
-
-		var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-move');
-		//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
-		col.id='th-'+this.numItemMenu;
-		inputLabel.appendChild(col);
-		
-		
-		
-		
-		
-		article = document.createElement('article');
-		article.className = 'ac-large';
-		//article.appendChild( label );
-		
-		
-		groupContainer.innerHTML = inputElement;
-		groupContainer.appendChild(inputLabel);
-		groupContainer.appendChild( article );
-		container.appendChild(groupContainer); 
-
-			
-		
-		/*
-		 * 
-		 * 
-		 * col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-				row.appendChild(col);	
-		*/		
-		
-		
-		//console.info("eeeee");
-		
-	},
-	
-	_onInputClick: function () {
-		var i, input, obj,
-		    inputs = this._form.getElementsByTagName('input'),
-		    inputsLen = inputs.length;
-
-		this._handlingClick = true;
-		var checkHeat = false;
-		var id, parentId;
-		
-		var currentbid = arguments[0].currentTarget.id.replace("input-", "");
-		
-		//tractament en cas heatmap
-		if(arguments[0].currentTarget.layerIdParent){
-			id = arguments[0].currentTarget.layerId;
-			parentId = arguments[0].currentTarget.layerIdParent;
-			checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
-		}
-		
-		for (i = 0; i < inputsLen; i++) {
-			input = inputs[i];
-			
-			if(!input.layerIdParent){
-				obj = this._layers[input.layerId];				
-			}else{
-				obj = this._layers[input.layerIdParent]._layers[input.layerId];
-			}
-			
-			//Si la capa clickada �s heatmap i s'ha d'activar, i la que estem tractant tb, no s'ha de mostrar
-			if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
-				input.checked = false;
-			}
-
-			//Afegir
-			if (input.checked && !this._map.hasLayer(obj.layer)) {
-
-				this._map.addLayer(obj.layer);	
-				
-				if (obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
-					
-					var optionsUtfGrid = {
-				            layers : obj.layer.options.businessId,
-				            crs : L.CRS.EPSG4326,
-				            srs: "EPSG:4326",
-				            transparent : true,
-				            format : 'utfgrid',
-				            nom : obj.layer.options.nom + " utfgrid",
-					    	tipus: obj.layer.options.tipus,
-					    	businessId: obj.layer.options.businessId         
+		removeGroup : function (group_Name){
+			for(group in this._groupList){
+				if( this._groupList[group].groupName == group_Name ){
+					for(layer in this._layers){
+						if( this._layers[layer].group && this._layers[layer].group.name == group_Name ){
+							delete this._layers[layer];
+						}
 					}
-					var utfGrid = createUtfGridLayer(obj.layer._url,optionsUtfGrid);
-					this._map.addLayer(utfGrid);
-					obj.layer.options.utfGridLeafletId = utfGrid._leaflet_id;
+					delete this._groupList[group];
+					this._update();
+					break;
+				}
+			}
+		},	
+
+		_initLayout : function () {
+			var className = 'leaflet-control-layers',
+			container = this._container = L.DomUtil.create('div', className);
+
+			//Makes this work on IE10 Touch devices by stopping it from firing a mouseout event when the touch is released
+			container.setAttribute('aria-haspopup', true);
+
+			if (!L.Browser.touch) {
+				L.DomEvent.disableClickPropagation(container);
+				L.DomEvent.on(container, 'wheel', L.DomEvent.stopPropagation);
+			} else {
+				L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
+			}
+			
+			var section = document.createElement('section');
+			section.className = 'ac-container ' + className + '-list';
+			
+			var form = this._form = L.DomUtil.create('form');
+			
+			section.appendChild( form );
+
+			if (this.options.collapsed) {
+				if (!L.Browser.android) {
+					L.DomEvent
+					.on(container, 'mouseover', this._expand, this)
+					.on(container, 'mouseout', this._collapse, this);
+				}
+				var link = this._layersLink = L.DomUtil.create('a', className + '-toggle', container);
+				link.href = '#';
+				link.title = 'Layers';
+
+				if (L.Browser.touch) {
+					L.DomEvent
+					.on(link, 'click', L.DomEvent.stop)
+					.on(link, 'click', this._expand, this);
+				} else {
+					L.DomEvent.on(link, 'focus', this._expand, this);
+				}
+
+				this._map.on('click', this._collapse, this);
+				// TODO keyboard accessibility
+				
+			} else {
+				this._expand();
+			}
+
+			this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
+			this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
+
+			container.appendChild(section);
+			
+			// process options of ac-container css class - to options.container_width and options.container_maxHeight
+			for(var c = 0; c < (containers = container.getElementsByClassName('ac-container')).length; c++ ){
+				if (this.options.container_width) {
+					containers[c].style.width = this.options.container_width;
+				}	
 					
-				}
-				//Si hem activat capa de tipus tematic categories, mostrem la seva llegenda
+				// set the max-height of control to y value of map object
+				this._default_maxHeight = this.options.container_maxHeight ?  this.options.container_maxHeight : (this._map._size.y - 70);
+				containers[c].style.maxHeight = this._default_maxHeight + "px";
 				
-				
-				if(currentbid == obj.layer.options.businessId && obj.layer.options.tipusRang 
-						&& obj.layer.options.tipusRang==tem_clasic){
-					thisLoadMapLegendEdicio(obj.layer);
-				}
-				
-			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
+			}
+			
+			window.onresize = this._on_resize_window.bind(this);
+			
+		},
+			
+		_on_resize_window : function(){
+			// listen to resize of screen to reajust de maxHeight of container
+			for(var c = 0; c < containers.length; c++ ){
+				// input the new value to height
+				containers[c].style.maxHeight = (window.innerHeight-90) < this._removePxToInt(this._default_maxHeight) ? (window.innerHeight - 90) + "px" : this._removePxToInt(this._default_maxHeight) + "px";
+			}
+		},
+    
+        // remove the px from a css value and convert to a int
+        _removePxToInt: function( value ){
+            return parseInt(value.replace( "px", ""));
+        },
 
-				//Si es vis_wms, hem d'eliminar tb la capa utfgrid
-				if(obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
-					var utfGridLayer = this._map._layers[obj.layer.options.utfGridLeafletId];
-					this._map.removeLayer(utfGridLayer);
-				}
-				this._map.removeLayer(obj.layer);
-				
-				//Si hem desactivat capa de tipus tematic categories, mostrem la seva llegenda
-				if(currentbid == obj.layer.options.businessId && obj.layer.options.tipusRang 
-						&& obj.layer.options.tipusRang==tem_clasic){
-					thisEmptyMapLegendEdicio(obj.layer);
-				}
-			}
-			
-		}
+		_addLayer : function (layer, name, group, overlay) {
+			var id = L.Util.stamp(layer);
 
-		this._handlingClick = false;
+			this._layers[id] = {
+				layer : layer,
+				name : name,
+				overlay : overlay
+			};
 
-		this._refocusOnMap();
-	},	
-	
-	_showOptions: function(e){
-		var layerId = e.currentTarget.layerId;
-		var inputs = this._form.getElementsByTagName('input');
-		var obj = this._layers[layerId];
-		//console.debug('openConfig:'+obj.layer.options.businessId);
-		showConfOptions(obj.layer.options.businessId);
-		//jQuery(".conf-"+obj.layer.options.businessId+"").show();
-	},
-	_onUpClick: function(e) {
-		$('.tooltip').hide();
-		var layerId = e.currentTarget.layerId;
-		var inputs = this._form.getElementsByTagName('input');
-		var obj = this._layers[layerId];
-		
-		if(!obj.overlay) {
-			return;
-		}
-		
-		var replaceLayer = null;
-		for(var i=0; i < inputs.length; i++) {
-			if(!inputs[i].layerIdParent){
-				var auxLayer = this._layers[inputs[i].layerId];
-				if(auxLayer.overlay && ((obj.layer.options.zIndex - 1) === auxLayer.layer.options.zIndex)) {
-					replaceLayer = auxLayer;
-					break;
-				}				
-			}
-		}
-		
-		var newZIndex = obj.layer.options.zIndex - 1;
-		if(replaceLayer) {
-			
-			if(typeof url('?businessid') == "string"){
-				var data = {
-						uid: $.cookie('uid'),
-						businessId: url('?businessid'),
-						servidorWMSbusinessId: obj.layer.options.businessId +','+replaceLayer.layer.options.businessId,
-			            order: newZIndex+','+ (newZIndex+1)
-					};			
+			if (group) {
+				var groupId = this._groupList.indexOf(group);
 				
-				updateServersOrderToMap(data).then(function(results){
-					if(results.status!='OK')
-						return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-				},function(results){
-					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-				});				
+				// if not find the group search for the name
+				if( groupId === -1 ){
+					for( g in this._groupList){
+						if( this._groupList[g].groupName == group.groupName ){
+							groupId = g;
+							break;
+						}
+					}
+				}
+
+				if (groupId === -1) {
+					groupId = this._groupList.push(group) - 1;
+				}
+
+				this._layers[id].group = {
+					name : group.groupName,
+					id : groupId,
+					expanded : group.expanded
+				};
 			}
-			
-			obj.layer.options.zIndex = newZIndex;
-			replaceLayer.layer.options.zIndex = newZIndex+1;
-			
-			this._map.fire('changeorder', obj, this);
-		}
-	},
-	
-	_onDownClick: function(e) {
-		$('.tooltip').hide();
-		var layerId = e.currentTarget.layerId;
-		var inputs = this._form.getElementsByTagName('input');
-		var obj = this._layers[layerId];
-		
-		if(!obj.overlay) {
-			return;
-		}
-		
-		var replaceLayer = null;
-		for(var i=0; i < inputs.length; i++) {
-			if(!inputs[i].layerIdParent){
-				var auxLayer = this._layers[inputs[i].layerId];
-				if(auxLayer.overlay && ((obj.layer.options.zIndex + 1) === auxLayer.layer.options.zIndex)) {
-					replaceLayer = auxLayer;
-					break;
-				}				
+
+			if (this.options.autoZIndex && layer.setZIndex) {
+				this._lastZIndex++;
+				layer.setZIndex(this._lastZIndex);
 			}
-		}
-		
-		var newZIndex = obj.layer.options.zIndex + 1;
-		if(replaceLayer) {
-			
-			if(typeof url('?businessid') == "string"){
-				var data = {
-						uid: $.cookie('uid'),
-						businessId: url('?businessid'),
-						servidorWMSbusinessId: obj.layer.options.businessId +','+replaceLayer.layer.options.businessId,
-			            order: newZIndex+','+ (newZIndex-1)
-					};			
-				
-				updateServersOrderToMap(data).then(function(results){
-					if(results.status!='OK')
-						return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-				},function(results){
-					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-				});				
+		},
+
+		_update : function () {
+			if (!this._container) {
+				return;
 			}
-			
-			obj.layer.options.zIndex = newZIndex;
-			replaceLayer.layer.options.zIndex = newZIndex-1;
-			
-			this._map.fire('changeorder', obj, this);
-		}
-	},
-	_onRemoveClick: function(e) {
-		$('.tooltip').hide();
-		var layerId = e.currentTarget.layerId;
-		var layerIdParent = e.currentTarget.layerIdParent;
-		var lbusinessId = [];
-		if(!layerIdParent){
-			var obj = this._layers[layerId];
-			lbusinessId.push(obj.layer.options.businessId);
-			for(i in obj._layers){
-				lbusinessId.push(obj._layers[i].layer.options.businessId);
+
+			this._baseLayersList.innerHTML = '';
+			this._overlaysList.innerHTML = '';
+			this._domGroups.length = 0;
+
+			var baseLayersPresent = false,
+			overlaysPresent = false,
+			i,
+			obj;
+
+			for (i in this._layers) {
+				obj = this._layers[i];
+				this._addItem(obj);
+				overlaysPresent = overlaysPresent || obj.overlay;
+				baseLayersPresent = baseLayersPresent || !obj.overlay;
 			}
-		}else{
-			var objParent = this._layers[layerIdParent];
-			var obj = objParent._layers[layerId];
-			lbusinessId.push(obj.layer.options.businessId);
-		}
 		
-		
-		if(!obj.overlay) {
-			return;
-		}
-		
-		if(typeof url('?businessid') == "string"){
-			var data = {
-					businessId: url('?businessid'),
-					uid: $.cookie('uid'),
-					servidorWMSbusinessId: lbusinessId.toString()
-				};			
-			
-			$('#dialog_delete_capa').modal('show');
-			$('#dialog_delete_capa #nom_capa_delete').text(obj.layer.options.nom);
-			$('#dialog_delete_capa .btn-danger').data("data", data);
-			$('#dialog_delete_capa .btn-danger').data("obj", obj);	
-			
-//			removeServerToMap(data).then(function(results){
-//				if(results.status==='OK'){
-//					myRemoveLayer(obj);
-//					deleteServerRemoved(data).then(function(results){
-//						//se borran del listado de servidores
-//					});
-//				}else{
-//					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-//				}				
-//			},function(results){
-//				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-//			});				
-		}		
-		
-	},
-	_onEditNameClick: function(e) {
-		
-		var layerId = e.currentTarget.layerId;
-		var obj = this._layers[layerId];
-		
-		if(!obj.overlay) {
-			return;
-		}
-	},
-	
-	_onOpenDataTable: function(e) {
+		},
+
+		_onLayerChange : function (e) {
+			var obj = this._layers[L.Util.stamp(e.layer)];
+
+			if (!obj) {
+				return;
+			}
+
+			if (!this._handlingClick) {
+				this._update();
+			}
+
+			var type = obj.overlay ?
+				(e.type === 'layeradd' ? 'overlayadd' : 'overlayremove') :
+				(e.type === 'layeradd' ? 'baselayerchange' : null);
+
+			if (type) {
+				this._map.fire(type, obj);
+			}
+		},
+
+		// IE7 bugs out if you create a radio dynamically, so you have to do it this hacky way (see http://bit.ly/PqYLBe)
+		_createRadioElement : function (name, checked) {
+
+			var radioHtml = '<input type="radio" class="leaflet-control-layers-selector" name="' + name + '"';
+			if (checked) {
+				radioHtml += ' checked="checked"';
+			}
+			radioHtml += '/>';
+
+			var radioFragment = document.createElement('div');
+			radioFragment.innerHTML = radioHtml;
+
+			return radioFragment.firstChild;
+		},
+
+		_addItem : function (obj) {
+			var label = document.createElement('div'),
+			input,
+			checked = this._map.hasLayer(obj.layer),
+			container;
 		
 
-		$('.tooltip').hide();
-		
-		$('#modal_data_table').modal('show');
-		
-		var layerId = e.currentTarget.layerId;
-		var obj = this._layers[layerId];
-		download_layer = obj;		
-//		console.debug(obj);
-		
-		fillModalDataTable(obj);
-	},	
-	
-	
-	_onTransparenciaClick:function(e){
-		var layerId = e.currentTarget.layerId;
-		var obj = this._layers[layerId];		
-		var op =obj.layer.options.opacity;
-		if(!op){op=1;}else{			
-			if(op==0){op=1}else{			
-				op=(parseFloat(op)-0.25)				
-			}				
-		}		
-		obj.layer.setOpacity(op);
-	},
-	
-	_onDownloadClick: function(e) {
-		
-//		console.debug("_onDownloadClick");
-		
-		$('.tooltip').hide();
-		var layerId = e.currentTarget.layerId;
-		var obj = this._layers[layerId];
-		download_layer = obj;
-		
-		if(obj.layer.options.tipusRang && (obj.layer.options.tipusRang == tem_cluster || obj.layer.options.tipusRang == tem_heatmap )){
-			$('#modal-body-download-not-available').show();
-			$('#modal-body-download-error').hide();
-			$('#modal-body-download').hide();
-			$('#modal_download_layer .modal-footer').show();
-			$('#bt_download_tancar').show();
-			$('#bt_download_accept').hide();			
-			$('#modal_download_layer').modal('show');
-		}else{
-			$('#modal-body-download-not-available').hide();
-			$('#modal-body-download-error').hide();
-			$('#modal-body-download').show();
-			$('#modal_download_layer .modal-footer').show();
-			$('#bt_download_tancar').hide();
-			$('#bt_download_accept').show();			
-			$('#modal_download_layer').modal('show');
+			if (obj.overlay) {
+				input = document.createElement('input');
+				input.type = 'checkbox';
+				input.className = 'leaflet-control-layers-selector';
+				input.defaultChecked = checked;
+				
+				label.className = "menu-item-checkbox"; 
+				
+			} else {
+				input = this._createRadioElement('leaflet-base-layers', checked);
+				
+				label.className = "menu-item-radio"; 
+			}
+			
+			
+			input.layerId = L.Util.stamp(obj.layer);
+
+			L.DomEvent.on(input, 'click', this._onInputClick, this);
+
+			var name = document.createElement('span');
+			name.innerHTML = ' ' + obj.name;
+
+			label.appendChild(input);
+			label.appendChild(name);
+			
+			// configure the delete button for layers with attribute removable = true
+			if( obj.layer.OrderLayers && obj.layer.OrderLayers.removable ){
+				var bt_delete = document.createElement("input");
+				bt_delete.type = "button";
+				bt_delete.className = "bt_delete";
+				L.DomEvent.on(bt_delete, 'click', this._onDeleteClick, this);
+				label.appendChild(bt_delete);
+			}	
+
+			if (obj.overlay) {
+				container = this._overlaysList;
+			} else {
+				container = this._baseLayersList;
+			}
+						
+			var groupContainer = this._domGroups[obj.group.id];
+
+			if (!groupContainer) {
+				
+				groupContainer = document.createElement('div');
+				groupContainer.id = 'leaflet-control-accordion-layers-' + obj.group.id;
+				
+				// verify if group is expanded
+				var s_expanded = obj.group.expanded ? ' checked = "true" ' : '';
+				
+				// verify if type is exclusive
+				var s_type_exclusive = this.options.exclusive ? ' type="radio" ' : ' type="checkbox" ';
+				
+				inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
+				inputLabel   = '<label for="ac' + obj.group.id + '">' + obj.group.name + '</label>';
+				
+				article = document.createElement('article');
+				article.className = 'ac-large';
+				article.appendChild( label );
+				
+				// process options of ac-large css class - to options.group_maxHeight property
+				if(this.options.group_maxHeight){
+					article.style.maxHeight = this.options.group_maxHeight;
+				}
+				
+				groupContainer.innerHTML = inputElement + inputLabel;
+				groupContainer.appendChild( article );
+				container.appendChild(groupContainer); 
+
+				this._domGroups[obj.group.id] = groupContainer;
+			} else {
+				groupContainer.lastElementChild.appendChild( label );
+			}	
+
+			return label;
+		},
+
+		_onInputClick : function () {
+			var i,
+			input,
+			obj,
+			inputs = this._form.getElementsByTagName('input'),
+			inputsLen = inputs.length;
+
+			this._handlingClick = true;
+
+			for (i = 0; i < inputsLen; i++) {
+				input = inputs[i];
+				obj = this._layers[input.layerId];
+				
+			    if ( !obj ) { continue; }
+
+				if (input.checked && !this._map.hasLayer(obj.layer)) {
+					this._map.addLayer(obj.layer);
+
+				} else if (!input.checked && this._map.hasLayer(obj.layer)) {
+					this._map.removeLayer(obj.layer);
+				}
+			}
+
+			this._handlingClick = false;
+		},
+			
+		_onDeleteClick : function(obj){
+			var node = obj.target.parentElement.childNodes[0];
+			n_obj = this._layers[node.layerId];
+			
+			// verify if obj is a basemap and checked to not remove
+			if( !n_obj.overlay && node.checked ){
+				return false;
+			}	
+			
+			if( this._map.hasLayer(n_obj.layer) ){
+				this._map.removeLayer(n_obj.layer);
+			}
+			this.removeLayer(n_obj.layer); 
+			obj.target.parentNode.remove();
+			
+			return false;
+		},
+
+		_expand : function () {
+			L.DomUtil.addClass(this._container, 'leaflet-control-layers-expanded');
+		},
+
+		_collapse : function () {
+			this._container.className = this._container.className.replace(' leaflet-control-layers-expanded', '');
 		}
-	},
-	hide: function() {
-		this._container.style.display = 'none';
-	},
-	
-	show: function() {
-		this._container.style.display = '';
-	}
-});
+	});
 
 L.control.orderlayers = function (baseLayers, overlays, options) {
 	return new L.Control.OrderLayers(baseLayers, overlays, options);

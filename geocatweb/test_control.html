@@ -106,6 +106,9 @@
 	
 	<script src="/geocatweb/js/leaflet/L.IM_ControlLayerManager.js" type="text/javascript"></script>
 	
+	<!--  
+	<script src="/llibreries/js/leaflet/plugin/styledLayerControl.js" type="text/javascript"></script>
+	-->
 <script>
 		L_PREFER_CANVAS = true;
 		L_DISABLE_3D = false;
@@ -158,6 +161,13 @@
     	transparent: true,
     	format: 'image/jpeg'
       });
+    
+    
+    var orto2 = L.tileLayer.wms('http://172.70.1.11/maps/instaserver?map=/opt/maps/dades/orto/orto_historica.map&', {
+    	layers: 'orto5m',
+    	transparent: true,
+    	format: 'image/jpeg'
+      });
   
     var overlays = [
                     {
@@ -195,9 +205,16 @@
             collapsed:false
         };
 	
-    var control = L.Control.controlLayerManager(null, overlays, options);
+    var control = L.Control.styledLayerControl(null, overlays, options);
     map.addControl(control);
+	
+    control.addOverlay( orto2, "Corn Plant", {groupName : "grup13"} );
+	
 	});
+	
+	
+	
+	
 	</script>
 </body>
 </html>
