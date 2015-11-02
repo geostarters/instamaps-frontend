@@ -205,10 +205,26 @@
             collapsed:false
         };
 	
-    var control = L.Control.styledLayerControl(null, overlays, options);
+    /*
+    var control = L.control.orderlayers(null, overlays, options);
     map.addControl(control);
+	*/
 	
-    control.addOverlay( orto2, "Corn Plant", {groupName : "grup13"} );
+	var controlCapes = L.control.orderlayers(null, null, {
+		collapsed : false,
+		title:'titol',
+		id : 'div_capes',
+		 container_width     : "270px",
+         container_maxHeight : "300px", 
+         group_maxHeight     : "80px",
+         exclusive           : false,
+         collapsed:false
+	}).addTo(map);
+	
+  //  control.addOverlay( orto2, "Corn Plant", {groupName : "grup13"} );
+  
+  
+	controlCapes.addOverlay(orto2, "nom servidor", true,0 );
 	
 	});
 	

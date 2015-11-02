@@ -24,7 +24,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 			for (i in groupedOverlays) {
 				for (var j in groupedOverlays[i].layers) {
-					this._addLayer(groupedOverlays[i].layers[j], j, groupedOverlays[i], true);
+					//this._addLayer(groupedOverlays[i].layers[j], j, groupedOverlays[i], true);
+					
+					this._addLayer(groupedOverlays[i].layers[j], j,true,null, groupedOverlays[i]);
 				}
 			}
 			
@@ -54,8 +56,11 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			return this;
 		},
 
-		addOverlay : function (layer, name, group) {
-			this._addLayer(layer, name, group, true);
+		addOverlay: function (layer, name, overlay, groupLeafletId,group) {
+			this._addLayer(layer, name, overlay, groupLeafletId,group);
+		
+		//addOverlay : function (layer, name, group) {
+		//	this._addLayer(layer, name, group, true);
 			this._update();
 			return this;
 		},
@@ -83,6 +88,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		},	
 
 		_initLayout : function () {
+			var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
 			var className = 'leaflet-control-layers',
 			container = this._container = L.DomUtil.create('div', className);
 
@@ -99,7 +105,17 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			var section = document.createElement('section');
 			section.className = 'ac-container ' + className + '-list';
 			
-			var form = this._form = L.DomUtil.create('form');
+			//var form = this._form = L.DomUtil.create('form');
+			
+			var form = this._form = L.DomUtil.create('div', className + '-list');
+			
+			if(this.options.title) {
+				var title = L.DomUtil.create('h3', className + '-title editable');
+				title.innerHTML = this.options.title;
+				title.id='nomAplicacio';
+				container.appendChild(title);
+			}
+			this._separator = L.DomUtil.create('div', className + '-separator', container);
 			
 			section.appendChild( form );
 
@@ -128,8 +144,18 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				this._expand();
 			}
 
+			
+			
+			
+			
+			
+			var strLayersList = 'layers-list';
 			this._baseLayersList = L.DomUtil.create('div', className + '-base', form);
-			this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
+			
+		
+			this._overlaysList = L.DomUtil.create('div', className + '-overlays ', form);
+			
+			//this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
 
 			container.appendChild(section);
 			
@@ -162,7 +188,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
             return parseInt(value.replace( "px", ""));
         },
 
-		_addLayer : function (layer, name, group, overlay) {
+		//_addLayer : function (layer, name, group, overlay) {
+		
+		_addLayer: function (layer, name, overlay, groupLeafletId,group){
 			var id = L.Util.stamp(layer);
 
 			this._layers[id] = {
@@ -171,10 +199,23 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				overlay : overlay
 			};
 
-			if (group) {
-				var groupId = this._groupList.indexOf(group);
+			if(!group){
+			group={"groupName":"Tema"+1,"id":0,"expanded":true};
+			
 				
+			}
+			
+			
+			
+			
+			if (group) {
+			
+				
+			var groupId = this._groupList.indexOf(group);
+			
+			//if(!group.groupName){group.groupName="Tema"+groupId;};	
 				// if not find the group search for the name
+				//console.info(group.groupName);	
 				if( groupId === -1 ){
 					for( g in this._groupList){
 						if( this._groupList[g].groupName == group.groupName ){
@@ -217,6 +258,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 			for (i in this._layers) {
 				obj = this._layers[i];
+				
+				console.info(obj);
+				
 				this._addItem(obj);
 				overlaysPresent = overlaysPresent || obj.overlay;
 				baseLayersPresent = baseLayersPresent || !obj.overlay;
@@ -260,6 +304,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		},
 
 		_addItem : function (obj) {
+			
+			console.info(obj);
+			
 			var label = document.createElement('div'),
 			input,
 			checked = this._map.hasLayer(obj.layer),
@@ -320,7 +367,29 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				var s_type_exclusive = this.options.exclusive ? ' type="radio" ' : ' type="checkbox" ';
 				
 				inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
-				inputLabel   = '<label for="ac' + obj.group.id + '">' + obj.group.name + '</label>';
+				//inputLabel   = '<label for="ac' + obj.group.id + '">' + obj.group.name + '</label>';
+				
+				inputLabel = document.createElement('label');
+				
+				
+				var _for=document.createAttribute('for');
+				_for.value="ac" + obj.group.id;
+				inputLabel.setAttributeNode(_for);
+				inputLabel.innerHTML =obj.group.name;
+				
+				
+				var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-remove');
+				//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
+				col.id='mv-'+obj.group.id;
+				inputLabel.appendChild(col);
+
+				var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-move');
+				//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
+				col.id='th-'+obj.group.id;
+				inputLabel.appendChild(col);
+				
+				
+				
 				
 				article = document.createElement('article');
 				article.className = 'ac-large';
@@ -331,7 +400,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					article.style.maxHeight = this.options.group_maxHeight;
 				}
 				
-				groupContainer.innerHTML = inputElement + inputLabel;
+				groupContainer.innerHTML = inputElement;
+				groupContainer.appendChild( inputLabel);
 				groupContainer.appendChild( article );
 				container.appendChild(groupContainer); 
 
