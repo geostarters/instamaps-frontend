@@ -2635,6 +2635,17 @@ background-color: #9F9F9E;
 	
 }
 
+#dialog_estils_arees .modal-body{
+	overflow:visible !important;
+}
+
+#dialog_estils_punts .modal-body{
+	overflow:visible !important;
+}
+
+#dialog_estils_linies .modal-body{
+	overflow:visible !important;
+}
 .modal-footer {
 	padding-bottom: 10px;
     padding-left: 10px;
