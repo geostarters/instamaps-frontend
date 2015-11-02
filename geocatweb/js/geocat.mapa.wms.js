@@ -1,4 +1,5 @@
 var _htmlServeisWMS = [];
+var _NomServer2="";
 var ActiuWMS = {
 		"servidor" : "servidor",
 		"url" : "url",
@@ -113,9 +114,9 @@ function generaLlistaServeisWMS() {
 	_htmlServeisWMS.push('	<li>');
 	_htmlServeisWMS.push('        {{#if Name}}');
 	_htmlServeisWMS.push('			{{#if Layer}}');
-	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" id="{{Title}}" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
 	_htmlServeisWMS.push('			{{else}}');
-	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" value="{{Name}}"> {{Title}}</span>');
+	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" id="{{Title}}" value="{{Name}}"> {{Title}}</span>');
 	_htmlServeisWMS.push('			{{/if}}');
 	_htmlServeisWMS.push('		{{else}}');
 	_htmlServeisWMS.push('			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
@@ -207,6 +208,7 @@ function getCapabilitiesWMS(url, servidor) {
 		
 		try {
 			ActiuWMS.servidor = servidor;
+			_NomServer2=ActiuWMS.servidor;
 			ActiuWMS.url = jQuery.trim(url);
 			var matriuEPSG = results.Capability.Layer.CRS;
 
@@ -353,6 +355,25 @@ function addExternalWMS(fromParam) {
 		});
 		cc = jQuery.makeArray(cc);
 		ActiuWMS.layers = cc.join(',');
+		
+		var _nomCapesWMS=[];
+		var cc1 = $('#div_layersWMS input:checked').map(function(){
+			
+			
+			return this.id;
+		});
+		cc1 = jQuery.makeArray(cc1);	
+		if(cc1.length==1){
+				ActiuWMS.servidor=cc1.join(" ");
+		
+		}else{
+			ActiuWMS.servidor=_NomServer2;		
+			
+		}
+		
+		
+		
+		
 	}
 	
 	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
@@ -364,8 +385,10 @@ function addExternalWMS(fromParam) {
 //console.debug(wmsLayer);
 //console.debug(ActiuWMS);
 
+	var nomCapaWMS=ActiuWMS.servidor;
+	
 	wmsLayer.options.businessId = '-1';
-	wmsLayer.options.nom = ActiuWMS.servidor;
+	wmsLayer.options.nom = nomCapaWMS;
 	wmsLayer.options.tipus = t_wms;
 
 	
