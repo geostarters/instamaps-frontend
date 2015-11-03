@@ -14,17 +14,17 @@
 	 margin: 5px;
 }
 
-.leaflet-control-layers .leaflet-row {
+.leaflet-control-layers {
 	float: left;
     width: 100%;
 }
 
-.leaflet-control-layers .leaflet-row .leaflet-input {
+.leaflet-control-layers .leaflet-input {
 	float: left;
 	width: 10%;
 }
 
-.leaflet-control-layers .leaflet-row .leaflet-name {
+.leaflet-control-layers .leaflet-name {
 	float: left;
 	/*width: 45%;*/
 	/*width: 52%; /*75%;*/
@@ -42,7 +42,7 @@
 }
 
 /*
-.leaflet-control-layers .leaflet-row .leaflet-subrow .leaflet-name {
+.leaflet-control-layers .leaflet-subrow .leaflet-name {
 	float: left;
 	/*width: 45%;*/
 	/*width: 75%;
@@ -63,7 +63,7 @@
 }
 
 /*background-image: url(images/arrow-up.png);*/
-.leaflet-control-layers .leaflet-row .leaflet-up {
+.leaflet-control-layers .leaflet-up {
 	float: right;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -75,7 +75,7 @@
 }
 
 /*background-image: url(images/arrow-down.png);*/
-.leaflet-control-layers .leaflet-row .leaflet-down {
+.leaflet-control-layers .leaflet-down {
 	float: right;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -86,7 +86,7 @@
     display: none;
 }
 
-.leaflet-control-layers .leaflet-row .leaflet-remove {
+.leaflet-control-layers .leaflet-remove {
 	float: right;	
 	background-repeat: no-repeat;
 	background-position: center;
@@ -97,7 +97,7 @@
     display: none;
 }
 
-.leaflet-control-layers .leaflet-row .leaflet-subrow .leaflet-remove {
+.leaflet-control-layers .leaflet-subrow .leaflet-remove {
 	float: right;	
 	background-repeat: no-repeat;
 	background-position: center;
@@ -108,7 +108,7 @@
     display: block;
 }
 
-.leaflet-control-layers .leaflet-row .leaflet-download {
+.leaflet-control-layers .leaflet-download {
 	float: right;	
 	background-repeat: no-repeat;
 	background-position: center;
@@ -118,7 +118,7 @@
     cursor: pointer;
     display: none;
 }
-.leaflet-control-layers .leaflet-row .leaflet-data-table {
+.leaflet-control-layers .leaflet-data-table {
 	float: right;	
 	background-repeat: no-repeat;
 	background-position: center;
@@ -127,17 +127,7 @@
     opacity: 0.75;
     cursor: pointer;
 }
-.leaflet-control-layers .leaflet-row .leaflet-download-visor {
-	float: right;	
-	background-repeat: no-repeat;
-	background-position: center;
-    height: 20px;
-    width: 16px;
-    opacity: 0.75;
-    cursor: pointer;
-}
-
-.leaflet-control-layers .leaflet-row .leaflet-conf {
+.leaflet-control-layers .leaflet-download-visor {
 	float: right;	
 	background-repeat: no-repeat;
 	background-position: center;
@@ -147,13 +137,23 @@
     cursor: pointer;
 }
 
-.leaflet-control-layers .leaflet-row .leaflet-conf:hover,
-.leaflet-control-layers .leaflet-row .leaflet-up:hover,
-.leaflet-control-layers .leaflet-row .leaflet-down:hover,
-.leaflet-control-layers .leaflet-row .leaflet-remove:hover,
-.leaflet-control-layers .leaflet-row .leaflet-download:hover,
-.leaflet-control-layers .leaflet-row .leaflet-data-table:hover,
-.leaflet-control-layers .leaflet-row .leaflet-download-visor:hover{
+.leaflet-control-layers .leaflet-conf {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.leaflet-control-layers .leaflet-conf:hover,
+.leaflet-control-layers .leaflet-up:hover,
+.leaflet-control-layers .leaflet-down:hover,
+.leaflet-control-layers .leaflet-remove:hover,
+.leaflet-control-layers .leaflet-download:hover,
+.leaflet-control-layers .leaflet-data-table:hover,
+.leaflet-control-layers .leaflet-download-visor:hover{
 	opacity: 1;
 }
 
@@ -211,8 +211,9 @@ nou cc
 	cursor: pointer;
 	color: #FFFFFF;
 	line-height: 18px;
+	/*
 	background:  no-repeat scroll rgba(49, 50, 48, 0.5);
-	
+	*/
 	/*
 	border: 1px solid #8C8B8A;
 	box-shadow: 
@@ -320,7 +321,7 @@ nou cc
 	max-height : 100px;
 	padding-top: 5px;
 	overflow-y: auto;
-	padding-left: 15px;
+	padding-left: 5px;
 }
 
 .menu-item-radio{
@@ -332,6 +333,15 @@ nou cc
 .menu-item-checkbox{
 	 font-family: inherit;
 	font-size: 12px;
+	
+}
+
+
+.menu-sub-item-checkbox{
+	 font-family: inherit;
+	font-size: 11px;
+	font-style: italic;
+	margin-left: 15px;
 	
 }
 
@@ -390,5 +400,57 @@ nou cc
     float:right;
 	
 	
+}
+
+.leaflet-control-layers #nomAplicacio {
+    border-bottom: 1px solid #cccccc;
+    font-weight: bold;
+    margin-top: 10px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+
+/*the second method - much cleaner look: Using 2 :pseudo classes from predefined bootstrap icons*/
+input[type='checkbox'].checkbox_styled + label:before,
+input[type='checkbox'].checkbox_styled + label:after{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+input[type='checkbox'].checkbox_styled + label:before{/*unchecked icon*/
+    content: "\e157";
+}
+input[type='checkbox']:checked.checkbox_styled + label:before{/*checked icon*/
+    content: "\e067";
+}
+
+
+
+
+/*the second method - much cleaner look: Using 2 :pseudo classes from predefined bootstrap icons*/
+input[type='checkbox'].checkbox_eye + label:before,
+input[type='checkbox'].checkbox_eye + label:after{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+input[type='checkbox'].checkbox_eye + label:before{/*unchecked icon*/
+    content: "\e105";
+}
+input[type='checkbox']:checked.checkbox_eye + label:before{/*checked icon*/
+    content: "\e067"";
 }
 
