@@ -1,27 +1,39 @@
 /**
  * 
+ * require: WidgetsGeolocal, 
  */
 (function ( $, window, document, undefined ) {
 	"use strict";
    	var VisorGeolocal = {
 		init: function() {
-        	this.containerId = '#logos',
+        	this.logosContainerId = '#logos',
         	this.cache();
+        		
         	this.subscriptions();
         	this.bindEvents();
-                                    
+        	
             return this;
         },
         
         cache: function(){
-        	this.container = $(this.containerId);
+        	this.logosContainer = $(this.logosContainerId);
         },
    			
+        initUi: function(){
+        	this.addLogosGeolocal();        	
+        	WidgetsGeolocal.setUiLoaded(true);
+        },
+        
    		addLogosGeolocal: function(){
    			var that = this;
    			$.get("templates/logosGeolocal.html",function(data){
-   				that.container.append(data);
+   				that.logosContainer.append(data);
    			});
+   		},
+   		
+   		addWidgets: function(){
+   			var that = this;
+   			that.widgets = WidgetsGeolocal.getWidgets();
    		},
         
         /**********Events**************/

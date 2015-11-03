@@ -63,7 +63,7 @@ function addControlCercaEdit(){
 		autoType : true,
 		textEdit:'<a id="act_end" href="#" >Finaltzar Edicio <span class="glyphicon glyphicon-check"></span></a>'
 		
-		}).addTo(map);
+	}).addTo(map);
 	
 	/*var ctr_cercaNomen = new L.Control.Search({
 		url: jsonpurl,
