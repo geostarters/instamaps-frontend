@@ -719,6 +719,22 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			}				
 		}		
 		obj.layer.setOpacity(op);
+		
+		if( getModeMapa()){
+				var data = {
+					 	businessId: obj.layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	serverName: obj.layer.options.nom +"##"+op
+					 }
+				
+				updateServidorWMSName(data).then(function(results){
+					if(results.status==='OK'){
+						//console.debug(results);
+					}
+				});	
+				
+		}
+		
 	},
 	
 	_onDownloadClick: function(e) {
