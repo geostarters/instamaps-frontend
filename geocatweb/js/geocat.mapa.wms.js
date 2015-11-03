@@ -411,14 +411,14 @@ function addExternalWMS(fromParam) {
 	            infFormat: 'text/html',
 	            tiles: true,	            
 	            transparency: true,
-	            opacity: 1,
+	            opacity: 0.75,
 	            visibilitat: 'O',
 	            url: ActiuWMS.url,
 	            layers: JSON.stringify([{name:ActiuWMS.layers,title:ActiuWMS.layers,group:0,check:true,query:true}]),
 	            calentas: false,
 	            activas: true,
 	            visibilitats: true,
-				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'"}'
+				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+0.75+'"}'
 		};
 		
 		createServidorInMap(data).then(function(results){
@@ -449,15 +449,25 @@ function addExternalWMS(fromParam) {
 
 function loadWmsLayer(layer){
 	//console.debug("Load WMS Layer:");
-	//console.debug(layer);
+	//console.info(layer);
+	var op=1;
+	var nomServidor=layer.serverName;
+	if(layer.serverName.indexOf('##') !=-1){
+		
+		var valors=layer.serverName.split("##");
+		op=valors[1];
+		nomServidor=valors[0];
+	}  
+	
+	
 	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
 	    transparent: layer.transparency,
 	    version: layer.version,
-	    opacity: layer.opacity,
+	    opacity:op ,
 	    crs: layer.epsg,
-		nom : layer.serverName,
+		nom :nomServidor ,
 		tipus: layer.serverType,
 		zIndex :  parseInt(layer.capesOrdre),	    
 	    businessId: layer.businessId
@@ -467,7 +477,7 @@ function loadWmsLayer(layer){
 		newWMS.addTo(map);
 	}
 	
-	controlCapes.addOverlay(newWMS, layer.serverName, true);
+	controlCapes.addOverlay(newWMS, nomServidor, true);
 	controlCapes._lastZIndex++;
 }
 
