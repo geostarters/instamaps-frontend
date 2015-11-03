@@ -171,7 +171,7 @@ function loadApp(){
   			'prefix2': 'WGS84',
   			'separator': ' ',
   			'showETRS89':true
-  		}).addTo(map);
+  		}).addTo(map);  
           
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
 				
@@ -225,8 +225,6 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 	
-	console.debug(mapConfig);
-	
 	$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 	
 	var nomUser = mapConfig.entitatUid.split("@");
@@ -245,7 +243,7 @@ function loadPublicMap(results){
 		infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 		//TODO ver como sacar el módulo
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
-			VisorGeolocal.addLogosGeolocal();
+			VisorGeolocal.initUi();
 			
 			if (mapConfig.options.barColor){
 				$('#navbar-visor').css('background-color', mapConfig.options.barColor);
@@ -316,6 +314,12 @@ function loadPublicMap(results){
 		document.title = "InstaMaps: "+mapConfig.nomAplicacio;
 		
 		var controlFons = new L.IM_controlFons().addTo(map);
+		
+		$.publish('loadMap', map);
+		
+		map.on('moveend',function(e){
+      		$.publish('mapMoveend', this);
+      	});
 		
 	});
 }

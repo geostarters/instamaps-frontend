@@ -286,6 +286,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Generant mapa GeoPDF...":"Generando mapa GeoPDF..."
 ,"Geometries creades":"Geometrías creadas"
 ,"Geoserveis":"Geoservicios"
+,"Ginys":"Widgets"
 ,"Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.":"Gracias. Tomamos nota de tu correo y te avisaremos cuando empecemos el próximo taller."
 ,"graduat":"graduado"
 ,"Gruix contorn:":"Grosor contorno"
