@@ -19,6 +19,11 @@
     width: 100%;
 }
 
+.leaflet-row {
+	float: left;
+    width: 100%;
+}
+
 .leaflet-control-layers .leaflet-input {
 	float: left;
 	width: 10%;
@@ -154,7 +159,8 @@
 .leaflet-control-layers .leaflet-download:hover,
 .leaflet-control-layers .leaflet-data-table:hover,
 .leaflet-control-layers .leaflet-download-visor:hover{
-	opacity: 1;
+	 opacity: 1;
+	color:#fcc403:
 }
 
 .leaflet-subrow {
@@ -202,7 +208,7 @@ nou cc
 	overflow-x: hidden;
 	height: auto;
 }
-.ac-container label{
+.ac-container .label_ac{
 	
 	padding: 5px 10px;
 	position: relative;
@@ -230,13 +236,15 @@ nou cc
     font-family: inherit;
   
 }
-.ac-container label:hover{
+.ac-container .label_ac:hover{
 	background:  no-repeat scroll rgba(49, 50, 48, 0.5);
 }
 .ac-container input.menu:checked + label,
 .ac-container input.menu:checked + label:hover{
+	/*
 	background:  no-repeat scroll rgba(49, 50, 48, 0.5);
-	color: #ffffff;
+	*/
+	color: #FFFFFF;
 	
 	
 	/*
@@ -318,7 +326,7 @@ nou cc
 .ac-container input.menu:checked ~ article.ac-large{
 	height: auto;
 	min-height: 30px;
-	max-height : 100px;
+	max-height : 350px;
 	padding-top: 5px;
 	overflow-y: auto;
 	padding-left: 5px;
@@ -393,7 +401,7 @@ nou cc
 
 
 .tema_verd{
-	color: #4AB026;
+	color: #FFC500;
     cursor: pointer;
     font-size: 12px;
     margin-left: 4px;
@@ -411,7 +419,7 @@ nou cc
 }
 
 
-/*the second method - much cleaner look: Using 2 :pseudo classes from predefined bootstrap icons*/
+
 input[type='checkbox'].checkbox_styled + label:before,
 input[type='checkbox'].checkbox_styled + label:after{
     position: relative;
@@ -419,22 +427,25 @@ input[type='checkbox'].checkbox_styled + label:after{
     display: inline-block;
     font-family: 'Glyphicons Halflings';
     font-style: normal;
-    font-weight: 400;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor:pointer;
+    color:white;
 }
-input[type='checkbox'].checkbox_styled + label:before{/*unchecked icon*/
+input[type='checkbox'].checkbox_styled + label:before{
     content: "\e157";
 }
-input[type='checkbox']:checked.checkbox_styled + label:before{/*checked icon*/
+input[type='checkbox']:checked.checkbox_styled + label:before{
     content: "\e067";
 }
 
 
 
 
-/*the second method - much cleaner look: Using 2 :pseudo classes from predefined bootstrap icons*/
 input[type='checkbox'].checkbox_eye + label:before,
 input[type='checkbox'].checkbox_eye + label:after{
     position: relative;
@@ -442,15 +453,19 @@ input[type='checkbox'].checkbox_eye + label:after{
     display: inline-block;
     font-family: 'Glyphicons Halflings';
     font-style: normal;
-    font-weight: 400;
+     font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor:pointer;
+     color:white;
 }
-input[type='checkbox'].checkbox_eye + label:before{/*unchecked icon*/
+input[type='checkbox'].checkbox_eye + label:before{
+    content: "\e106";
+}
+input[type='checkbox']:checked.checkbox_eye + label:before{
     content: "\e105";
-}
-input[type='checkbox']:checked.checkbox_eye + label:before{/*checked icon*/
-    content: "\e067"";
 }
 

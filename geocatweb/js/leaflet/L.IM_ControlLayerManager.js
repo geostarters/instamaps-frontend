@@ -338,92 +338,66 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			
 			
-			var label = document.createElement('div'),
+			var _menu_item_checkbox = document.createElement('div'),
 			input,
 			checked = this._map.hasLayer(obj.layer),
 			container;
-			
-			/*
-			var row = L.DomUtil.create('div', 'leaflet-row');
-			if (obj.overlay) {
-				input = L.DomUtil.create('input');
-				input.id='input-'+obj.layer.options.businessId;
-				input.type = 'checkbox';
-				input.className = 'leaflet-control-layers-selector';
-				input.defaultChecked = checked;
-			} else {
-				input = this._createRadioElement('leaflet-base-layers', checked);
-			}
-
-			input.layerId = L.stamp(obj.layer);
-
-			L.DomEvent.on(input, 'click', this._onInputClick, this);
-
-			var name = document.createElement('span');
-			name.className = 'editable';
-			name.id=input.layerId;
-			name.innerHTML = ' ' + obj.name;
-			
-			var col = L.DomUtil.create('div', 'leaflet-input');
-			col.appendChild(input);
-			row.appendChild(col);
-			
-			col = L.DomUtil.create('div', 'leaflet-name');
-			col.appendChild(label);
-			row.appendChild(col);
-			label.appendChild(name);
-			*/
 		
-
+			var _leaflet_input = document.createElement('div');
 			if (obj.overlay) {
+				
+				_menu_item_checkbox.className = "leaflet-row"; 
+				
 				input = document.createElement('input');
 				//input = L.DomUtil.create('input');
 				input.id='input-'+obj.layer.options.businessId;
 				input.type = 'checkbox';
-				input.className = 'leaflet-control-layers-selector';
+				//input.className = 'leaflet-control-layers-selector';
+				input.className = 'checkbox_styled sr-only';
 				input.defaultChecked = checked;
-				
-				label.className = "menu-item-checkbox"; 
-				
+								
 			} else {
 				input = this._createRadioElement('leaflet-base-layers', checked);
-				
-				//label.className = "menu-item-radio"; 
+
 			}
 			
+			_leaflet_input.className="leaflet-input";
 			
-			input.layerId = L.Util.stamp(obj.layer);
-
+			input.layerId = L.Util.stamp(obj.layer);						
+			var label_for = document.createElement('label');			
+			var _for=document.createAttribute('for');
+			_for.value='input-'+obj.layer.options.businessId;
+			label_for.setAttributeNode(_for);			
+			//label_for.innerHTML="--";
+			_leaflet_input.appendChild(input);
+			_leaflet_input.appendChild(label_for);			
+			
+			
+			var _leaflet_name = document.createElement('div');
+			_leaflet_name.className = 'leaflet-name';
+			var _label_buit = document.createElement('label');			
+			var nomCapa= document.createElement('span');
+			
+			nomCapa.innerHTML = ' ' + obj.name;
+			nomCapa.className = 'editable';
+			nomCapa.id=input.layerId;
+			nomCapa.innerHTML = ' ' + obj.name;			
 			L.DomEvent.on(input, 'click', this._onInputClick, this);
-
-			var name = document.createElement('span');
-			name.innerHTML = ' ' + obj.name;
-			name.className = 'editable';
-			name.id=input.layerId;
-			name.innerHTML = ' ' + obj.name;
-			label.appendChild(input);
-			label.appendChild(name);
-			
-			
-			// configure the delete button for layers with attribute removable = true
-			
-			/*
-			if( obj.layer.OrderLayers && obj.layer.OrderLayers.removable ){
-				var bt_delete = document.createElement("input");
-				bt_delete.type = "button";
-				bt_delete.className = "bt_delete";
-				L.DomEvent.on(bt_delete, 'click', this._onDeleteClick, this);
-				label.appendChild(bt_delete);
-			}
-			*/
+				
+			_label_buit.appendChild(nomCapa);
 			
 			if(obj.layer.options.tipus == t_visualitzacio || obj.layer.options.tipus == t_tematic || obj.layer.options.tipus == t_dades_obertes || obj.layer.options.tipus == t_json || obj.layer.options.tipus == t_url_file){
 				var count = document.createElement('span');
 				count.className = 'layer-count';
 				count.id='count-'+obj.layer.options.businessId;
 				count.innerHTML = ' (' + obj.layer.getLayers().length + ')';		
-				label.appendChild(count);
+				//name.appendChild(count);
+				_label_buit.appendChild(count);
 			}
+			
+			_leaflet_name.appendChild(_label_buit);			
+			_menu_item_checkbox.appendChild(_leaflet_input);
+			_menu_item_checkbox.appendChild(_leaflet_name);
 			
 			var container;
 			var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
@@ -440,7 +414,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					col = L.DomUtil.create('div', 'leaflet-conf glyphicon glyphicon-cog opcio-conf');					
 					L.DomEvent.on(col, 'click', this._showOptions, this);					
 					col.layerId = input.layerId;					
-					label.appendChild(col);
+					_menu_item_checkbox.appendChild(col);
 					
 					
 										
@@ -448,7 +422,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
 					col.layerId = input.layerId;
 					L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-					label.appendChild(col);	
+					_menu_item_checkbox.appendChild(col);	
 					
 															
 					
@@ -456,14 +430,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						col = L.DomUtil.create('div', 'data-table-'+obj.layer.options.businessId+' leaflet-data-table glyphicon glyphicon-list-alt');
 						col.layerId = input.layerId;
 						L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-						label.appendChild(col);					
+						_menu_item_checkbox.appendChild(col);					
 					}		
 					
 					if(obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1 && obj.layer.options.tipus.indexOf(t_geojsonvt) == -1){
 						col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download glyphicon glyphicon-save subopcio-conf');
 						col.layerId = input.layerId;
 						L.DomEvent.on(col, 'click', this._onDownloadClick, this);
-						label.appendChild(col);					
+						_menu_item_checkbox.appendChild(col);					
 					}
 					
 										
@@ -474,7 +448,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-trans glyphicon glyphicon-adjust subopcio-conf');
 						col.layerId = input.layerId;
 						L.DomEvent.on(col, 'click', this._onTransparenciaClick, this);
-						label.appendChild(col);	
+						_menu_item_checkbox.appendChild(col);	
 						
 						$(col).tooltip({
 							placement : 'bottom',
@@ -505,7 +479,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						col = L.DomUtil.create('div', 'data-table-'+obj.layer.options.businessId+' leaflet-data-table glyphicon glyphicon-list-alt');
 						col.layerId = input.layerId;
 						L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-						label.appendChild(col);					
+						_menu_item_checkbox.appendChild(col);					
 					}				
 					
 					
@@ -516,7 +490,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-download-visor glyphicon glyphicon-save');
 						L.DomEvent.on(col, 'click', this._onDownloadClick, this);
 						col.layerId = input.layerId;
-						label.appendChild(col);	
+						_menu_item_checkbox.appendChild(col);	
 						
 						$(col).tooltip({
 							placement : 'left',
@@ -532,7 +506,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-trans-visor glyphicon glyphicon-adjust');
 						col.layerId = input.layerId;
 						L.DomEvent.on(col, 'click', this._onTransparenciaClick, this);
-						label.appendChild(col);	
+						_menu_item_checkbox.appendChild(col);	
 						
 						$(col).tooltip({
 							placement : 'bottom',
@@ -562,7 +536,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 				//console.info(sublayers[j]);
 				var row_sublayer = this._createSubItem(sublayers[j],input.layerId, modeMapa);
-				label.appendChild(row_sublayer);
+				_menu_item_checkbox.appendChild(row_sublayer);
 				
 			}
 			
@@ -589,7 +563,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				_for.value="ac" + obj.group.id;
 				inputLabel.setAttributeNode(_for);
 				inputLabel.innerHTML =obj.group.name;
-				
+				inputLabel.className='label_ac';
 				
 				var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-remove');
 				//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
@@ -606,7 +580,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 				article = document.createElement('article');
 				article.className = 'ac-large';
-				article.appendChild( label );
+				article.appendChild( _menu_item_checkbox );
 				
 				// process options of ac-large css class - to options.group_maxHeight property
 				if(this.options.group_maxHeight){
@@ -620,7 +594,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 				this._domGroups[obj.group.id] = groupContainer;
 			} else {
-				groupContainer.lastElementChild.appendChild( label );
+				groupContainer.lastElementChild.appendChild(_menu_item_checkbox );
 				
 				
 				
@@ -646,10 +620,71 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if(modeMapa) updateEditableElements();
 			map.fireEvent('addItemFinish'); 
 
-			return label;
+			return _menu_item_checkbox;
 		},
-
 		_createSubItem: function(sublayer,layerIdParent, modeMapa){
+			
+			var row_sublayer = L.DomUtil.create('div', 'leaflet-row leaflet-subrow');
+			
+			var label_sublayer = L.DomUtil.create('label', ''),
+			    input_sublayer,
+			    checked = this._map.hasLayer(sublayer.layer);
+
+			input_sublayer = L.DomUtil.create('input');
+			input_sublayer.id='input-'+sublayer.layer.options.businessId;
+			input_sublayer.type = 'checkbox';
+			//input_sublayer.className = 'leaflet-control-layers-selector';
+			input_sublayer.className = 'checkbox_eye sr-only';
+			input_sublayer.defaultChecked = checked;
+
+			input_sublayer.layerId = L.stamp(sublayer.layer);
+			input_sublayer.layerIdParent = layerIdParent; //input.layerId;
+			
+			L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
+
+			var name_sublayer = document.createElement('span');
+			name_sublayer.className = 'editable';
+			name_sublayer.idParent=layerIdParent;
+			name_sublayer.id=L.stamp(sublayer.layer);
+			name_sublayer.innerHTML = ' ' + sublayer.name;
+			
+			var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
+			
+			var label_for = document.createElement('label');			
+			var _for=document.createAttribute('for');
+			_for.value='input-'+sublayer.layer.options.businessId;
+			label_for.setAttributeNode(_for);			
+			//label_for.innerHTML="--";
+		
+			
+			
+			
+			col_sublayer.appendChild(input_sublayer);
+			col_sublayer.appendChild(label_for);
+			
+			
+			
+			
+			
+			
+			
+			row_sublayer.appendChild(col_sublayer);
+			col_sublayer = L.DomUtil.create('div', 'leaflet-name');
+			col_sublayer.appendChild(label_sublayer);
+			row_sublayer.appendChild(col_sublayer);
+			label_sublayer.appendChild(name_sublayer);
+			
+			if(modeMapa){
+				col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove opcio-conf');
+				L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
+				col_sublayer.layerId = input_sublayer.layerId;
+				col_sublayer.layerIdParent = layerIdParent;
+				row_sublayer.appendChild(col_sublayer);				
+			}
+			return row_sublayer;
+			
+		},
+		_createSubItem_old: function(sublayer,layerIdParent, modeMapa){
 			//console.info("entro sub item");
 			
 			var row_sublayer = L.DomUtil.create('div', 'menu-sub-item-checkbox');
@@ -671,9 +706,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			input_sublayer.defaultChecked = checked;
 
 			input_sublayer.layerId = L.stamp(sublayer.layer);
-			console.info(input_sublayer.layerId);
+		
 			input_sublayer.layerIdParent = layerIdParent; //input.layerId;
-			
+			console.info("input_sublayer.layerIdParent");
+			console.info(input_sublayer.layerIdParent);
 			L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
 			
 		var name_sublayer = document.createElement('label');
@@ -690,8 +726,24 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			name_sublayer.id=L.stamp(sublayer.layer);
 			name_sublayer.innerHTML = ' ' + sublayer.name;
 			
+			
+			
+			
+			
+			
 			row_sublayer.appendChild(input_sublayer);
 			row_sublayer.appendChild(name_sublayer);
+			
+			
+			
+			
+			if(modeMapa){
+				col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove opcio-conf');
+				L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
+				col_sublayer.layerId = input_sublayer.layerId;
+				col_sublayer.layerIdParent = layerIdParent;
+				row_sublayer.appendChild(col_sublayer);				
+			}
 			
 			/*
 			var name_sublayer = document.createElement('span');
@@ -731,21 +783,29 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var id, parentId;
 		
 		var currentbid = arguments[0].currentTarget.id.replace("input-", "");
-		
+		console.info(arguments[0].currentTarget.layerIdParent);
 		//tractament en cas heatmap
 		if(arguments[0].currentTarget.layerIdParent){
 			id = arguments[0].currentTarget.layerId;
 			parentId = arguments[0].currentTarget.layerIdParent;
 			console.info(parentId);
-			
+			console.info(controlCapes._layers[parentId]._layers[id]);
+			console.info(arguments[0].currentTarget.value);
 			checkHeat = isHeat(controlCapes._layers[parentId]._layers[id]) && arguments[0].currentTarget.value == "on";
 		}
 		
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
 			
-			if(!input.layerIdParent){
-				obj = this._layers[input.layerId];				
+			
+			//obj = this._layers[input.layerId];
+			
+		    //if ( !obj ) { continue; }
+
+		    if(!input.layerId){
+		    	continue;
+		    }else if(!input.layerIdParent){
+				obj = this._layers[input.layerId];	
 			}else{
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
@@ -757,10 +817,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if(isHeat(obj) && checkHeat && obj.layer._leaflet_id != id ){
 				input.checked = false;
 			}
-
+			console.info(obj);
 			//Afegir
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
-
+				console.info(obj);
 				this._map.addLayer(obj.layer);	
 				
 				if (obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
@@ -790,11 +850,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
+				console.info(obj);
 				//Si es vis_wms, hem d'eliminar tb la capa utfgrid
 				if(obj.layer.options.tipus.indexOf(t_vis_wms)!= -1){
 					var utfGridLayer = this._map._layers[obj.layer.options.utfGridLeafletId];
 					this._map.removeLayer(utfGridLayer);
 				}
+				
+				console.info(obj);
 				this._map.removeLayer(obj.layer);
 				
 				//Si hem desactivat capa de tipus tematic categories, mostrem la seva llegenda
@@ -1091,6 +1154,8 @@ L.control.orderlayers = function (baseLayers, overlays, options) {
 };
 
 function isHeat(obj){
+	
+	//return false;
 	return (obj.layer.options.tipusRang && obj.layer.options.tipusRang.indexOf('heatmap')!=-1);
 }
 
