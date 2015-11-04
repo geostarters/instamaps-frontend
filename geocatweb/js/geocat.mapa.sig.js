@@ -2289,7 +2289,7 @@ function openColumnJoinModal(){
 		
 		jQuery('#joinBtn').on('click',function(event){
 			 
-			 if(busy){
+			/* if(busy){
 					jQuery('#dialog_column_join').hide();
 					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
@@ -2420,9 +2420,29 @@ function openColumnJoinModal(){
 				
 			
 				});
-				}
-				
-				/*var data = {
+				}*/
+			event.stopImmediatePropagation();
+			var listCols1="";
+			var listCols2="";
+			if ($('input[name=geom_capa]:checked').val()=="capa1_geom") listCols1 = "geometry_id,";
+			if ($('input[name=geom_capa]:checked').val()=="capa2_geom") listCols2 = "geometry_id,";
+			$('input[name="listCol1"]:checked').each(function() {
+				listCols1=listCols1+this.value+",";				  
+			});
+			$('input[name="listCol2"]:checked').each(function() {
+				listCols2=listCols2+this.value+",";				  
+			});
+			var businessId1_props=$('#dataField_capa1').val();
+			var businessId1=businessId1_props.split('___');
+			
+			var businessId2_props=$('#dataField_capa2').val();
+			var businessId2=businessId2_props.split('___');
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: businessId1[0],
+					businessId2: businessId2[0]
+			}
+				var data = {
 						uid: $.cookie('uid'),
 						urlSIG: paramUrl.columnJoin,
 						tipusSIG: "columnJoin",
@@ -2453,7 +2473,7 @@ function openColumnJoinModal(){
 						$('#dialog_error_upload_txt').html(window.lang.convert("Error column join"));				
 						$('#dialog_error_upload').modal('show');
 					}
-				});*/
+				});
 			
 			
 		});

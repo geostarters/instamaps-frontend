@@ -1430,7 +1430,7 @@ function loadVisualitzacioLayer(layer){
 	//console.time("loadTematicLayer " + layerWms.serverName);
 	getVisualitzacioByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
-			readVisualitzacio(defer, results.results, layer, results.geometries);			
+			readVisualitzacio(defer, results.results, layer);			
 		}else{
 			console.debug('getVisualitzacioByBusinessId ERROR');
 			defer.reject();
@@ -1442,7 +1442,7 @@ function loadVisualitzacioLayer(layer){
 	return defer.promise();
 }
 
-function readVisualitzacio(defer, visualitzacio, layer,geometries){
+function readVisualitzacio(defer, visualitzacio, layer){
 	
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
@@ -1457,7 +1457,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	}else{
 		
 		capaVisualitzacio = new L.FeatureGroup();
-	
+		
 		capaVisualitzacio.options = {
 			businessId : layer.businessId,
 			nom : layer.serverName,
@@ -1728,9 +1728,12 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 				});					
 		}
 		
-		if (visualitzacio.options){
-			console.debug(visualitzacio.options);
-			var options = JSON.parse(visualitzacio.options);
+//		var options;
+//		if (layer.options){
+//			options = jQuery.parseJSON( layer.options );
+//		}
+		if (layer.options){
+			var options = JSON.parse(layer.options);
 			if (options.propName != undefined) {
 				var dataNames = options.propName.split(',');
 				capaVisualitzacio.options.propName = dataNames;
@@ -1741,11 +1744,6 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 				capaVisualitzacio.options.propName = dataNames;
 			}
 		}
-		
-//		var options;
-//		if (layer.options){
-//			options = jQuery.parseJSON( layer.options );
-//		}
 		
 		if(layer.options && options.origen){//Si es una sublayer
 //			var origen = getLeafletIdFromBusinessId(options.origen);
