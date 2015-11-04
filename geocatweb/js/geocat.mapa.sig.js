@@ -2062,7 +2062,7 @@ function addHtmlModalColumnJoin(){
 			'						<select name="dataField_capa2" id="dataField_capa2" style="margin-left:8%;width:30%;">'+
 			'							<option value="null">Escull la capa</option>'+
 			'						</select>'+
-			'						<br/><span lang="ca" style="width: 30%;"><input type="radio" value="capa1_geom" name="geom_capa">Usa com a capa de geometries</span>'+
+			'						<br/><span lang="ca" style="width: 30%;"><input type="radio" value="capa1_geom" name="geom_capa" checked>Usa com a capa de geometries</span>'+
 			'						<span lang="ca" style="margin-left:4.5%;width: 30%;"><input type="radio" value="capa2_geom" name="geom_capa">Usa com a capa de geometries</span>'+
 			'					<script id="tematic-layers1" type="text/x-handlebars-template">'+
 			'						{{#each layers}}'+
