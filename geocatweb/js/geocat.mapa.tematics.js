@@ -1733,14 +1733,22 @@ function readVisualitzacio(defer, visualitzacio, layer){
 //			options = jQuery.parseJSON( layer.options );
 //		}
 		if (layer.options){
-			var options = JSON.parse(layer.options);
-			if (options.propName != undefined) {
-				var dataNames = options.propName.split(',');
+			var options2 = JSON.parse(layer.options);
+			if (options2.propName != undefined) {
+				var dataNames = options2.propName.split(',');
 				capaVisualitzacio.options.propName = dataNames;
 			}
+			else if (visualitzacio.options){
+				var options2 = JSON.parse(visualitzacio.options);
+				if (options2.propName != undefined) {
+					var dataNames = options2.propName.split(',');
+					capaVisualitzacio.options.propName = dataNames;
+				}				
+			}			
 		}else{
 			if (geometries && geometries.options){
 				var dataNames = geometries.options.split(',');
+				console.debug(dataNames);
 				capaVisualitzacio.options.propName = dataNames;
 			}
 		}
