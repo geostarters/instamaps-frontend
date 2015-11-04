@@ -42,7 +42,9 @@ $(function(){
 			$('#loadingGaleria').hide();
 			
 			results.results = jQuery.map( results.results, function( val, i ) {
-				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
+				//val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
+				val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+				
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}
@@ -108,6 +110,14 @@ $(function(){
 						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
 						//_kmq.push(['record', 'esborrar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 						updateResultats();
+						
+						var data2 = {
+								businessId: $this.data("businessid"),
+								metode: "rmGaleria"
+							};
+						deleteImageGaleria(data2).then(function(results){});
+						
+						
 					}
 				});
 			});
@@ -543,7 +553,8 @@ $(function(){
 		results.results = jQuery.map( results.results, function( val, i ) {
 			if($.inArray(val.businessId, businessIds) == -1){
 				businessIds.push(val.businessId);
-				val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
+				//val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
+				val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}

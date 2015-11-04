@@ -649,6 +649,21 @@ function createGeoPdfMap(data){
 	}).promise();
 }	
 
+
+//esborra imatge galeria
+
+function deleteImageGaleria(data){
+	return jQuery.ajax({
+		url: paramUrl.urlgetMapImage,
+		data:data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+
+
 function updatePasswordIcgc(data){
 	return jQuery.ajax({
 		url: paramUrl.updatePasswordIcgc,

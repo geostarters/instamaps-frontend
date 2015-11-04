@@ -136,7 +136,7 @@
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
 					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 						{{#if thumbnail}}
-							<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
+							<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
 						{{else}}
 							<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 						{{/if}}
@@ -191,7 +191,7 @@
 				<input type="hidden" name="cols" value="{{cookie.uid}}">
 				<div  class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">		
 			    	{{#if thumbnail}}
-			      		<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
+			      		<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
 					{{else}}
 						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
@@ -246,7 +246,7 @@
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
 					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 						{{#if thumbnail}}
-							<img src="{{thumbnail}}" alt="{{nomAplicacio}}">
+							<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
 						{{else}}
 							<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 						{{/if}}
