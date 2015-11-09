@@ -1442,7 +1442,7 @@ function loadVisualitzacioLayer(layer){
 	return defer.promise();
 }
 
-function readVisualitzacio(defer, visualitzacio, layer){
+function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
