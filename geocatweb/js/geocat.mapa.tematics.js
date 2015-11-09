@@ -1746,10 +1746,12 @@ function readVisualitzacio(defer, visualitzacio, layer){
 				}				
 			}			
 		}else{
-			if (geometries!="undefined" && geometries.options){
-				var dataNames = geometries.options.split(',');
-				console.debug(dataNames);
-				capaVisualitzacio.options.propName = dataNames;
+			if (geometries!=undefined){
+				if (  geometries.options){
+					var dataNames = geometries.options.split(',');
+					console.debug(dataNames);
+					capaVisualitzacio.options.propName = dataNames;
+				}
 			}
 		}
 		
