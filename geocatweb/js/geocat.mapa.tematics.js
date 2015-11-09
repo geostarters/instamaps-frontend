@@ -1746,7 +1746,7 @@ function readVisualitzacio(defer, visualitzacio, layer){
 				}				
 			}			
 		}else{
-			if (geometries && geometries.options){
+			if (geometries!="undefined" && geometries.options){
 				var dataNames = geometries.options.split(',');
 				console.debug(dataNames);
 				capaVisualitzacio.options.propName = dataNames;
