@@ -79,6 +79,20 @@
     display: none;
 }
 
+.leaflet-control-layers .leaflet-move {
+	float: right;
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: move;
+    display: none;
+}
+
+
+
+
 /*background-image: url(images/arrow-down.png);*/
 .leaflet-control-layers .leaflet-down {
 	float: right;
@@ -102,6 +116,18 @@
     display: none;
 }
 
+.leaflet-control-layers .leaflet-trans {
+	float: right;	
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: none;
+}
+
+
 .leaflet-control-layers .leaflet-subrow .leaflet-remove {
 	float: right;	
 	background-repeat: no-repeat;
@@ -112,6 +138,9 @@
     cursor: pointer;
     display: block;
 }
+
+
+
 
 .leaflet-control-layers .leaflet-download {
 	float: right;	
@@ -215,7 +244,10 @@ nou cc
 	z-index: 20;
 	display: block;
 	cursor: pointer;
-	color: #FFFFFF;
+	 border-left: 1px dashed #aaaaaa;
+    border-right: 1px dashed #aaaaaa;
+    border-top: 1px dashed #aaaaaa;
+    color: #ffc500 !important;
 	line-height: 18px;
 	/*
 	background:  no-repeat scroll rgba(49, 50, 48, 0.5);
@@ -296,7 +328,11 @@ nou cc
 }
 .ac-container article{
 	 background: rgba(166, 166, 166, 0.5) no-repeat scroll;
+   
+   /*
     border-bottom: 1px dashed #aaaaaa;
+     */
+     
      border-left: 1px dashed #aaaaaa;
       border-right: 1px dashed #aaaaaa;
 	margin-top: 0px !important;
@@ -387,7 +423,7 @@ nou cc
     cursor: pointer;
     float: none;
     height: 25px;
-    margin-bottom: 5px;
+    margin-top: 8px;
     position: relative;
     text-align: end;
     vertical-align: middle;
@@ -409,6 +445,19 @@ nou cc
 	
 	
 }
+
+
+
+.tema_verd_move{
+	color: #FFC500;
+    cursor: move;
+    font-size: 12px;
+    margin-left: 4px;
+    float:right;
+	
+	
+}
+
 
 .leaflet-control-layers #nomAplicacio {
     border-bottom: 1px solid #cccccc;
@@ -469,3 +518,10 @@ input[type='checkbox']:checked.checkbox_eye + label:before{
     content: "\e105";
 }
 
+.leaflet-control-layers {
+    background: rgba(45, 46, 41, 0.9) none repeat scroll 0 0;  
+    max-height: 600px;
+   overflow-x: none;
+    overflow-y: auto;
+   
+}

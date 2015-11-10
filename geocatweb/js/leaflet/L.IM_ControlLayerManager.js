@@ -3,7 +3,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			collapsed : true,
 			position : 'topright',
 			title: 'Title',
-			autoZIndex : true
+			autoZIndex : false
 		},
 
 		initialize : function (baseLayers, groupedOverlays, options) {
@@ -66,26 +66,128 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			return this;
 		},
 
-		removeLayer : function (layer) {
+		removeLayer : function (obj) {
+			/*
 			var id = L.Util.stamp(layer);
 			delete this._layers[id];
 			this._update();
 			return this;
-		},
+			*/
 			
-		removeGroup : function (group_Name){
+			
+			var id = L.stamp(obj.layer);
+			if(!obj.sublayer){
+				delete this._layers[id];
+			}else{
+//				console.debug("this delete:");
+			console.debug(this._layers);
+				delete this._layers[obj.layerIdParent]._layers[id];
+			}
+
+			this._update();
+			return this;
+			
+			
+			
+			
+		},
+		
+		getLayersFromGroupId:function(groupId){
+			var resp_Layer=[];	
+			
 			for(group in this._groupList){
-				if( this._groupList[group].groupName == group_Name ){
+				
+				if( this._groupList[group].id == groupId ){
+								 
 					for(layer in this._layers){
-						if( this._layers[layer].group && this._layers[layer].group.name == group_Name ){
+							console.info(this._layers[layer])	;							
+							
+							
+							for(sublayer in this._layers[layer]._layers){
+								console.info(this._layers[layer]._layers[sublayer])	;
+								//resp_Layer.push(this._layers[layer]._layers[sublayer]);
+							}
+							
+							
+							resp_Layer.push(this._layers[layer]);
+							
+					}
+					
+				}
+			}
+			
+		return resp_Layer;
+			
+			
+			
+			
+		},
+		
+		updateGroupName:function(oldName,newName,groupId){
+		
+		var resp_Layer=[];	
+			
+				for(group in this._groupList){
+				
+				if( this._groupList[group].groupName == oldName && this._groupList[group].id==groupId){
+					
+					 this._groupList[group].groupName =newName; 
+					 this._groupList[group].name =newName; 					 
+					for(layer in this._layers){
+										
+						if( this._layers[layer].layer.options.group && this._layers[layer].layer.options.group.name == oldName ){
+							this._layers[layer].layer.options.group.name = newName;
+							resp_Layer.push(this._layers[layer].layer);
+							
+							for(sublayer in this._layers[layer]._layers){
+							this._layers[layer]._layers[sublayer].layer.options.group.name = newName;
+								resp_Layer.push(this._layers[layer]._layers[sublayer]);
+							}
+							
+							
+							
+							
+						}
+					}
+					
+				}
+			}
+			
+		return resp_Layer;	
+			
+		},
+		
+		removeGroup : function (groupName,groupId){
+			console.info("Entro ha esborra he esborrat");
+			if(groupName){
+				console.info("he esborrat");
+				console.info(this._groupList);
+				//leaflet-control-accordion-layers-0
+			for(group in this._groupList){
+				
+				if( this._groupList[group].groupName == groupName && this._groupList[group].id == groupId){
+					
+					
+					for(layer in this._layers){
+						
+						console.info(this._layers[layer]);
+						
+						if( this._layers[layer].layer.options.group && this._layers[layer].layer.options.group.name == groupName ){
+							//var id = L.stamp(obj.layer);
 							delete this._layers[layer];
 						}
 					}
-					delete this._groupList[group];
+					
+					
+					console.info("he esborrat");
+					console.info(this._groupList[group]);					
+					delete this._groupList[group];					
 					this._update();
 					break;
 				}
 			}
+			
+		}
 		},	
 
 		_initLayout : function () {
@@ -154,7 +256,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			this._baseLayersList = L.DomUtil.create('div', className + '-base', form);			
 			//this._separator = L.DomUtil.create('div', className + '-separator', form);
 			this._overlaysList = L.DomUtil.create('div', className + '-overlays ', form);
-			
+			this._addButton = L.DomUtil.create('div', 'addVerd', form);		
+			L.DomEvent.on(this._addButton, 'click', this._addGroupFromScratch, this);
 			//this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
 
 			container.appendChild(section);
@@ -196,6 +299,171 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 		//_addLayer : function (layer, name, group, overlay) {
 		
+        _createGroupFromScratch:function(position){
+        	console.info("_createGroupFromScratch: pos "+ position);
+        	console.info("_createGroupFromScratch: length "+ this._groupList.length);
+        	var pos=this._groupList.length;
+			var posTXT;
+			
+			
+			if(position== 1 && pos==0){ //estic afegint una capa nova i grup nou
+				
+				console.info("estic afegint una capa nova i no existeix gruo");
+				return group={"groupName":"Capes","name":"Capes","id":pos,"expanded":true};
+				
+			}else if(position== 1 && pos>0){ //estic afegint una capa però ja existeix un grup 
+				console.info("estic afegint una capa nova a un grup existent");
+				
+				return this._groupList[this._groupList.length -1];
+				
+			
+			}else if(position==0){ //usuari afegeix grup nou buit
+				
+				
+				console.info("usuari afegeix grup nou");
+				
+				return group={"groupName":"Capes "+this._groupList.length,"name":"Capes "+this._groupList.length,"id":this._groupList.length,"expanded":true};
+				
+				
+			}
+			
+			
+			
+			
+			//pos==-1 ? pos=0:pos=pos;
+			//pos==0 ? posTXT="":posTXT=pos;
+			
+			//console.info("_createGroupFromScratch: length "+ posTXT);
+		
+        	
+        	
+        	
+        	
+        },
+        
+        _addGroupFromScratch:function(){       
+        	var container = this._overlaysList;        	
+        	var obj={}; 
+        	console.info(" _addGroupFromScratch");
+        	var group=this._createGroupFromScratch(0);
+        	
+        	obj.group=group;
+        	//obj.group={"groupName":"Tema "+this._groupList.length,"name":"Tema "+this._groupList.length,"id":this._groupList.length,"expanded":true};        	              	
+        	//var groupId = this._groupList.push(obj.group) - 1; 
+        	this._groupList.push(obj.group) 
+        	this._addGroup(container,obj,null);        	
+        },
+        
+        _addGroupFromObject:function(group){
+        	
+        	console.info("_addGroupFromObject");
+        	var container = this._overlaysList;        	
+        	var obj={};        	
+        	obj.group=group;       	
+        	this._groupList.push(obj.group) 
+        	this._addGroup(container,obj,null);  
+        	
+        },
+        
+        _addGroup:function(container,_obj, _menu_item_checkbox){
+        	
+      
+        	var _id;
+        	console.info(obj);
+        	var obj=_obj;
+        
+        
+        	if(obj.group){_id=obj.group.id;
+        	}else if(obj.layer){_id=obj.layer.options.group.id;
+        	}else{
+        		
+        		console.info(obj);
+        	}
+        	
+        	
+        	
+        	var groupContainer = this._domGroups[_id];
+        
+        	
+        	
+			if (!groupContainer) {
+				console.info(obj);
+				
+				groupContainer = document.createElement('div');
+				groupContainer.id = 'leaflet-control-accordion-layers-' + obj.group.id;				
+				// verify if group is expanded
+				var s_expanded = obj.group.expanded ? ' checked = "true" ' : '';				
+				// verify if type is exclusive
+				var s_type_exclusive = this.options.exclusive ? ' type="radio" ' : ' type="checkbox" ';				
+				inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
+				//inputLabel   = '<label for="ac' + obj.group.id + '">' + obj.group.name + '</label>';				
+				inputLabel = document.createElement('label');								
+				var _for=document.createAttribute('for');
+				_for.value="ac" + obj.group.id;
+				inputLabel.setAttributeNode(_for);
+				var spanGroup=document.createElement('span');
+				spanGroup.innerHTML =obj.group.name;
+				inputLabel.className='label_ac';
+				spanGroup.className='span_ac editable';
+				spanGroup.id='mv-'+obj.group.id;
+				spanGroup.groupId=obj.group.id;
+				spanGroup.groupName=obj.group.name;
+				inputLabel.appendChild(spanGroup);
+				var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-remove group-conf');				
+				col.id='mv-'+obj.group.id;
+				col.groupId=obj.group.id;
+				col.groupName=obj.group.name;
+				L.DomEvent.on(col, 'click', this._onRemoveGroup, this);
+				inputLabel.appendChild(col);
+				
+				$(col).tooltip({
+					placement : 'left',
+					container : 'body',
+					title : window.lang.convert("Esborrar grup")
+				});
+				
+				
+				var col = L.DomUtil.create('span', 'tema_verd_move glyphicon glyphicon-move group-conf');
+				//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
+				col.id='mv-'+obj.group.id;
+				col.groupName=obj.group.name;
+				col.groupId=obj.group.id;
+				inputLabel.appendChild(col);	
+				$(col).tooltip({
+					placement : 'left',
+					container : 'body',
+					title : window.lang.convert("Moure grup")
+				});
+				article = document.createElement('article');
+				article.className = 'ac-large';
+				
+				if( _menu_item_checkbox){				
+				article.appendChild( _menu_item_checkbox );
+				}
+				
+				// process options of ac-large css class - to options.group_maxHeight property
+				if(this.options.group_maxHeight){
+					article.style.maxHeight = this.options.group_maxHeight;
+				}
+				
+				groupContainer.innerHTML = inputElement;
+				groupContainer.appendChild( inputLabel);
+				groupContainer.appendChild( article );
+				container.appendChild(groupContainer); 
+
+				this._domGroups[obj.group.id] = groupContainer;
+			} else {
+				if( _menu_item_checkbox){	
+				groupContainer.lastElementChild.appendChild(_menu_item_checkbox );
+				}
+			}
+        	
+        	
+        	
+        	
+    },
+        
+        
 		_addLayer: function (layer, name, overlay, groupLeafletId,group){
 			var id = L.Util.stamp(layer);
 
@@ -229,8 +497,24 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			
 			if(!group){
-			group={"groupName":"Tema"+1,"id":0,"expanded":true};
+				
+			/*	
+			console.info(this._groupList.length)	;
+			var pos=this._groupList.length -1;
+			var posTXT;
 			
+			pos==-1 ? pos=0:pos=pos;
+			
+			pos==0 ? posTXT="":posTXT=pos;
+			
+			group={"groupName":"Capes "+posTXT,"name":"Capes "+posTXT,"id":pos,"expanded":true};
+			
+			console.info(group);
+			//this._groupList.push(group);
+			*/
+				
+			console.info("passo valor 1");	
+			group=this._createGroupFromScratch(1);	
 				
 			}
 			
@@ -259,7 +543,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}
 
 			if(this._layers[id]){
-						this._layers[id].group = {
+				console.info(this._layers[id]);
+				//if(!this._layers[id].options){this._layers[id].options;}
+				
+						this._layers[id].layer.options.group = {
 							name : group.groupName,
 							id : groupId,
 							expanded : group.expanded
@@ -279,11 +566,24 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if (!this._container) {
 				return;
 			}
-
+		
+			
+			
+			this._domGroupsTMP=this._groupList;
+			this._groupList = [];
+			this._domGroupsTM2=this._domGroups;
 			this._baseLayersList.innerHTML = '';
 			this._overlaysList.innerHTML = '';
 			this._domGroups.length = 0;
 
+			console.info(this._domGroupsTMP);
+			console.info(this._domGroups);
+			var that=this;
+			this._domGroupsTMP.forEach(function (item, index, array) {
+			
+				that._addGroupFromObject(item);
+			});
+			
 			var baseLayersPresent = false,
 			overlaysPresent = false,
 			i,
@@ -292,12 +592,76 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			for (i in this._layers) {
 				obj = this._layers[i];							
 				this._addItem(obj);
+				
+			
+				
 				overlaysPresent = overlaysPresent || obj.overlay;
 				baseLayersPresent = baseLayersPresent || !obj.overlay;
 			}
+			
 		
+			/*
+			if(this._domGroups.length < this._domGroupsTMP.length ){
+				
+				console.info("Entro");
+				var fullGrups=[];
+				this._domGroups.forEach(function (item, index, array) {
+					fullGrups.push(parseInt(item.id.replace("leaflet-control-accordion-layers-",'')));
+				});
+				
+			    var emptyGrups=[];
+				this._domGroupsTMP.forEach(function (item, index, array) {
+					emptyGrups.push(item.id);
+				});
+					
+				
+				var recoveryGroup=this._diferences(emptyGrups,fullGrups);
+				
+				console.info( recoveryGroup);
+				var that_GroupTMP=this._domGroupsTMP;
+				var that=this;
+				recoveryGroup.forEach(function (item, index, array) {
+				
+					console.info(item);
+					
+					 for (var i=0; i < that_GroupTMP.length; i++) {
+					        if (that_GroupTMP[i].id === item) {
+					        	
+					        	console.info(that_GroupTMP[i]);
+					      	that._addGroupFromObject(that_GroupTMP[i]);
+					      	break;
+					        }
+					    }
+				});
+					 
+					
+				
+				
+			}
+			
+		*/
 		},
 
+		
+		
+		_diferences:function (a1, a2)
+		{
+		  var a=[], diff=[];
+		  for(var i=0;i<a1.length;i++)
+		    a[a1[i]]=true;
+		  for(var i=0;i<a2.length;i++)
+		    if(a[a2[i]]) delete a[a2[i]];
+		    else a[a2[i]]=true;
+		  for(var k in a)
+		    diff.push(parseInt(k));
+		  return diff;
+		},
+		
+		
+		
+		
+		
+		
 		_onLayerChange : function (e) {
 			var obj = this._layers[L.Util.stamp(e.layer)];
 
@@ -459,6 +823,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					}
 					
 					
+					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-move glyphicon glyphicon-move subopcio-conf');
+					col.layerId = input.layerId;
+					//L.DomEvent.on(col, 'click', this._onDownClick, this);
+					_menu_item_checkbox.appendChild(col);	
+					
+					$(col).tooltip({
+						placement : 'bottom',
+						container : 'body',
+						title : window.lang.convert("Moure")
+					});
 				
 					/*
 					col = L.DomUtil.create('div', 'conf-'+obj.layer.options.businessId+' leaflet-down glyphicon glyphicon-chevron-down subopcio-conf');
@@ -540,69 +914,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			}
 			
-			var groupContainer = this._domGroups[obj.group.id];
-
-			if (!groupContainer) {
-				
-				groupContainer = document.createElement('div');
-				groupContainer.id = 'leaflet-control-accordion-layers-' + obj.group.id;
-				
-				// verify if group is expanded
-				var s_expanded = obj.group.expanded ? ' checked = "true" ' : '';
-				
-				// verify if type is exclusive
-				var s_type_exclusive = this.options.exclusive ? ' type="radio" ' : ' type="checkbox" ';
-				
-				inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
-				//inputLabel   = '<label for="ac' + obj.group.id + '">' + obj.group.name + '</label>';
-				
-				inputLabel = document.createElement('label');
-				
-				
-				var _for=document.createAttribute('for');
-				_for.value="ac" + obj.group.id;
-				inputLabel.setAttributeNode(_for);
-				inputLabel.innerHTML =obj.group.name;
-				inputLabel.className='label_ac';
-				
-				var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-remove');
-				//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
-				col.id='mv-'+obj.group.id;
-				inputLabel.appendChild(col);
-
-				var col = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-move');
-				//L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
-				col.id='th-'+obj.group.id;
-				inputLabel.appendChild(col);
-				
-				
-				
-				
-				article = document.createElement('article');
-				article.className = 'ac-large';
-				article.appendChild( _menu_item_checkbox );
-				
-				// process options of ac-large css class - to options.group_maxHeight property
-				if(this.options.group_maxHeight){
-					article.style.maxHeight = this.options.group_maxHeight;
-				}
-				
-				groupContainer.innerHTML = inputElement;
-				groupContainer.appendChild( inputLabel);
-				groupContainer.appendChild( article );
-				container.appendChild(groupContainer); 
-
-				this._domGroups[obj.group.id] = groupContainer;
-			} else {
-				groupContainer.lastElementChild.appendChild(_menu_item_checkbox );
+			
+				this._addGroup(container,obj, _menu_item_checkbox);
 				
 				
 				
 				
 				
 				
-				
-			}	
+			
 			
 			//Afegim tooltips
 			$(".data-table-"+obj.layer.options.businessId+".leaflet-data-table").tooltip({
@@ -684,96 +1004,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			return row_sublayer;
 			
 		},
-		_createSubItem_old: function(sublayer,layerIdParent, modeMapa){
-			//console.info("entro sub item");
-			
-			var row_sublayer = L.DomUtil.create('div', 'menu-sub-item-checkbox');
-			
-			var label_sublayer = L.DomUtil.create('label', ''),
-			    input_sublayer,
-			    checked = this._map.hasLayer(sublayer.layer);
-
-			input_sublayer = L.DomUtil.create('input');
-			input_sublayer.id='input-'+sublayer.layer.options.businessId;
-			input_sublayer.type = 'checkbox';
-			//input_sublayer.className = 'leaflet-control-layers-selector';
-			
-		input_sublayer.className = 'checkbox_styled sr-only';
-			
-			//input_sublayer.className = 'checkbox_eye sr-only';
-			
-			
-			input_sublayer.defaultChecked = checked;
-
-			input_sublayer.layerId = L.stamp(sublayer.layer);
 		
-			input_sublayer.layerIdParent = layerIdParent; //input.layerId;
-			console.info("input_sublayer.layerIdParent");
-			console.info(input_sublayer.layerIdParent);
-			L.DomEvent.on(input_sublayer, 'click', this._onInputClick, this);
-			
-		var name_sublayer = document.createElement('label');
-			
-			
-			var _for=document.createAttribute('for');
-			_for.value='input-'+sublayer.layer.options.businessId;
-			name_sublayer.setAttributeNode(_for);
-			//inputLabel.innerHTML =obj.group.name;
-			
-			//var name_sublayer = document.createElement('span');
-			name_sublayer.className = 'editable';
-			name_sublayer.idParent=layerIdParent;
-			name_sublayer.id=L.stamp(sublayer.layer);
-			name_sublayer.innerHTML = ' ' + sublayer.name;
-			
-			
-			
-			
-			
-			
-			row_sublayer.appendChild(input_sublayer);
-			row_sublayer.appendChild(name_sublayer);
-			
-			
-			
-			
-			if(modeMapa){
-				col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove opcio-conf');
-				L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
-				col_sublayer.layerId = input_sublayer.layerId;
-				col_sublayer.layerIdParent = layerIdParent;
-				row_sublayer.appendChild(col_sublayer);				
-			}
-			
-			/*
-			var name_sublayer = document.createElement('span');
-			name_sublayer.className = 'editable';
-			name_sublayer.idParent=layerIdParent;
-			name_sublayer.id=L.stamp(sublayer.layer);
-			name_sublayer.innerHTML = ' ' + sublayer.name;
-			
-			var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
-			col_sublayer.appendChild(input_sublayer);
-			row_sublayer.appendChild(col_sublayer);
-			col_sublayer = L.DomUtil.create('div', 'leaflet-name');
-			col_sublayer.appendChild(label_sublayer);
-			row_sublayer.appendChild(col_sublayer);
-			label_sublayer.appendChild(name_sublayer);
-			
-			if(modeMapa){
-				col_sublayer = L.DomUtil.create('div', 'leaflet-remove glyphicon glyphicon-remove opcio-conf');
-				L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
-				col_sublayer.layerId = input_sublayer.layerId;
-				col_sublayer.layerIdParent = layerIdParent;
-				row_sublayer.appendChild(col_sublayer);				
-			}
-			
-			*/
-			return row_sublayer;
-			
-		},
 		
 		_onInputClick : function () {
+			
+			console.info("aqui");
+			
 			var i, input, obj,
 		    inputs = this._form.getElementsByTagName('input'),
 		    inputsLen = inputs.length;
@@ -1001,6 +1237,20 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				this._map.fire('changeorder', obj, this);
 			}
 		},
+		
+		
+		_onRemoveGroup:function(e){
+			$('.tooltip').hide();						
+				 L.DomEvent.stop(e);			
+				console.info(e.currentTarget.groupName);				
+				console.info(e.currentTarget.groupId);		
+			$('#dialog_delete_group').modal('show');
+			$('#dialog_delete_group #nom_group_delete').text(e.currentTarget.groupName);
+			$('#dialog_delete_group .btn-danger').data("group", e.currentTarget);
+			//$('#dialog_delete_capa .btn-danger').data("obj", obj);	
+			
+		},
+		
 		_onRemoveClick: function(e) {
 			$('.tooltip').hide();
 			var layerId = e.currentTarget.layerId;
@@ -1035,18 +1285,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				$('#dialog_delete_capa .btn-danger').data("data", data);
 				$('#dialog_delete_capa .btn-danger').data("obj", obj);	
 				
-//				removeServerToMap(data).then(function(results){
-//					if(results.status==='OK'){
-//						myRemoveLayer(obj);
-//						deleteServerRemoved(data).then(function(results){
-//							//se borran del listado de servidores
-//						});
-//					}else{
-//						return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-//					}				
-//				},function(results){
-//					return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-//				});				
+			
 			}		
 			
 		},
@@ -1096,12 +1335,57 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			var layerId = e.currentTarget.layerId;
 			var obj = this._layers[layerId];		
 			var op =obj.layer.options.opacity;
-			if(!op){op=1;}else{			
+			console.info(obj);
+			if(!op){
+				
+				
+				console.info(op);
+			}
+			console.info(op);
+			
+			if(!op){op=1;obj.layer.options.fillOpacity=1;}else{	
+				
 				if(op==0){op=1}else{			
 					op=(parseFloat(op)-0.25)				
 				}				
 			}		
-			obj.layer.setOpacity(op);
+			
+			try{
+				
+				obj.layer.setOpacity(op);	
+			} catch(err){
+				console.info(op);
+				//obj.layer.options.opacity=op;
+				obj.layer.options.fillOpacity=op;
+				obj.layer.setStyle({fillOpacity:op});	
+			}
+			
+		
+			
+			
+			if( getModeMapa()){
+				var data = {
+					 	businessId: obj.layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	opacity:op
+					 }
+				
+				updateServidorWMSOpacity(data).then(function(results){
+					if(results.status==='OK'){
+						//console.debug(results);
+					}
+				});	
+				
+		}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		},
 		
 		_onDownloadClick: function(e) {
@@ -1183,3 +1467,6 @@ function thisLoadMapLegendEdicio(obj){
 function thisEmptyMapLegendEdicio(obj){
 	emptyMapLegendEdicio(obj);
 }
+
+
+

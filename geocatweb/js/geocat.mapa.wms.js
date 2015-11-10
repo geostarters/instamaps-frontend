@@ -196,7 +196,11 @@ function getCapabilitiesWMS(url, servidor) {
 			if (!matriuEPSG) {
 				matriuEPSG = results.Capability.Layer.SRS;
 				if (!matriuEPSG) {
-					matriuEPSG = results.Capability.Layer[0].CRS;
+					matriuEPSG = results.Capability.Layer[0].SRS;
+					if (!matriuEPSG) {
+						matriuEPSG = results.Capability.Layer[0].CRS;
+					}
+				
 				}
 			}
 
@@ -209,6 +213,10 @@ function getCapabilitiesWMS(url, servidor) {
 			}else{
 				epsg.push(matriuEPSG);
 			}
+			
+			
+			
+			
 			
 			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG3857;

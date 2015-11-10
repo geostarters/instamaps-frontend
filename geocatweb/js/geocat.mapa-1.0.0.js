@@ -566,6 +566,7 @@ function createNewMap(){
 				
 				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 			}catch(err){
+				
 				gestioCookie('createMap');
 			}
 		}

@@ -822,7 +822,9 @@ background-color: #9F9F9E;
 
 .modal-body {
 	padding: 10px 10px;
+	max-height:600px;
 }
+
 
 .modal-footer {
 	padding-bottom: 10px;

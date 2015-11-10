@@ -37,6 +37,62 @@ function addFuncioRenameMap(){
 
 function updateEditableElements(){
 
+	console.info("entro edicio capes")
+	
+	
+	$('.label_ac .editable').editable({
+		type: 'text',
+		mode: 'inline',
+	    validate: function(value) {
+	    	
+	    	
+	        if($.trim(value) == '') {
+	        	return {newValue: this.innerHTML};
+	        }
+        },		
+		success: function(response, newName) {
+		
+			var oldName=this.group_name;
+			
+			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
+			
+			for(i=0;resp_Layer.length;i++){
+			
+				var data = {
+					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	options: resp_Layer.options
+					 }
+					
+					updateServidorWMSOptions(data).then(function(results){
+						console.info(results);
+					});			
+			
+			
+			
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+	});	
+	
+	 $('.label_ac .editable').on('shown', function(e, editable) {
+	        jQuery('.group-conf').hide();
+	       
+	        
+	    });
+	    $('.label_ac .editable').on('hidden', function(e, editable) {
+	        jQuery('.group-conf').show();
+	       
+	    });  
+	
+	
 	$('.leaflet-name .editable').editable({
 		type: 'text',
 		mode: 'inline',
@@ -167,53 +223,189 @@ function addFuncioDownloadLayer(from){
  * Funcionalitat remove layers
  **/
 
+
+function removeAtomicLayer(data,obj){
+	
+	removeServerToMap(data).then(function(results){
+		if(results.status==='OK'){
+		
+			map.closePopup();
+			map.removeLayer(obj.layer);
+			//Eliminem la capa de controlCapes
+			controlCapes.removeLayer(obj);
+			
+			//actualitzem valors zindex de la resta si no es sublayer
+			if(!obj.sublayer){
+				var removeZIndex = obj.layer.options.zIndex;
+				controlCapes._lastZIndex--;
+				var aux = controlCapes._layers;
+				for (var i in aux) {
+					if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+				}
+				//Eliminem les seves sublayers en cas que tingui
+				for(indexSublayer in obj._layers){
+					map.removeLayer(map._layers[indexSublayer]);
+				}
+			}
+
+			//Actualitzem capaUsrActiva
+			if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+				capaUsrActiva.removeEventListener('layeradd');
+				capaUsrActiva = null;
+			}				
+			
+			deleteServerRemoved(data).then(function(results){
+				//se borran del listado de servidores
+			});
+		}else{
+			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+		}				
+	},function(results){
+		return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+	});		
+	
+	
+	
+	
+}
+
+
+
 function addFuncioRemoveLayer(){
 	
 	addHtmlModalRemoveLayer();
+	addHtmlModalRemoveGroup();
 	
 	$('#dialog_delete_capa .btn-danger').on('click', function(event){
 		var $this = $(this);
 		var data = $this.data("data");
 		var obj = $this.data("obj");
 		
-		removeServerToMap(data).then(function(results){
-			if(results.status==='OK'){
-			
-				map.closePopup();
-				map.removeLayer(obj.layer);
-				//Eliminem la capa de controlCapes
-				controlCapes.removeLayer(obj);
-				
-				//actualitzem valors zindex de la resta si no es sublayer
-				if(!obj.sublayer){
-					var removeZIndex = obj.layer.options.zIndex;
-					controlCapes._lastZIndex--;
-					var aux = controlCapes._layers;
-					for (var i in aux) {
-						if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
-					}
-					//Eliminem les seves sublayers en cas que tingui
-					for(indexSublayer in obj._layers){
-						map.removeLayer(map._layers[indexSublayer]);
-					}
-				}
-
-				//Actualitzem capaUsrActiva
-				if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
-					capaUsrActiva.removeEventListener('layeradd');
-					capaUsrActiva = null;
-				}				
-				
-				deleteServerRemoved(data).then(function(results){
-					//se borran del listado de servidores
-				});
-			}else{
-				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-			}				
-		},function(results){
-			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-		});					
+		console.info("data");
+		console.info(data);
+		
+		console.info("obj");
+		console.info(obj);
+		
+		 removeAtomicLayer(data,obj);
+					
 	});	
+	
+	
+	//Esborra grup capes
+	
+	$('#dialog_delete_group .btn-danger').on('click', function(event){
+		var $this = $(this);
+		var group = $this.data("group");
+	
+		console.info(group);
+		var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId);
+		
+	
+			for(i=0; i < matriuCapesGroup.length;i++){
+				
+				
+				console.info(matriuCapesGroup[i]);				
+				console.info(matriuCapesGroup[i].layer.options.businessId);
+				var obj;
+				//var layerId = e.currentTarget.layerId;
+				var layerIdParent = matriuCapesGroup[i].layerIdParent;
+				var lbusinessId = [];
+				if(!layerIdParent){
+					 obj = matriuCapesGroup[i];
+					lbusinessId.push(obj.layer.options.businessId);
+					for(j in obj._layers){
+						lbusinessId.push(obj._layers[j].layer.options.businessId);
+					}
+				}else{
+					//var objParent = this._layers[layerIdParent];
+					 obj =matriuCapesGroup[i];
+					lbusinessId.push(obj.layer.options.businessId);
+				}
+				
+				
+				if(!obj.overlay) {
+					return;
+				}
+				
+				
+	
+				
+				if(typeof url('?businessid') == "string"){
+					var data = {
+							businessId: url('?businessid'),
+							uid: $.cookie('uid'),
+							servidorWMSbusinessId:lbusinessId.toString()
+						};	
+				
+					removeAtomicLayer(data,obj);
+				
+				}
+		
+			}
+	
+			
+			console.info("Ara esborra grup"+group.groupName);
+			controlCapes.removeGroup(group.groupName,group.groupId);
+			
+			console.info("He esborrap"+group.groupName);
+				
+			
+	
+	/*
+	 * 
+	 * var layerId = e.currentTarget.layerId;
+			var layerIdParent = e.currentTarget.layerIdParent;
+			var lbusinessId = [];
+			if(!layerIdParent){
+				var obj = this._layers[layerId];
+				lbusinessId.push(obj.layer.options.businessId);
+				for(i in obj._layers){
+					lbusinessId.push(obj._layers[i].layer.options.businessId);
+				}
+			}else{
+				var objParent = this._layers[layerIdParent];
+				var obj = objParent._layers[layerId];
+				lbusinessId.push(obj.layer.options.businessId);
+			}
+			
+			
+			if(!obj.overlay) {
+				return;
+			}
+			
+			if(typeof url('?businessid') == "string"){
+				var data = {
+						businessId: url('?businessid'),
+						uid: $.cookie('uid'),
+						servidorWMSbusinessId: lbusinessId.toString()
+					};			
+				
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	
+	
+	
+		//removeAtomicLayer(data,obj);
+	
+	
+	
+	
+	
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 /**
@@ -344,5 +536,37 @@ function addHtmlModalRemoveLayer(){
 	'	<!-- /.modal -->'+
 	'	<!-- Fi Modal delete -->'		
 	);
+		
+}
+
+
+function addHtmlModalRemoveGroup(){
 	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal delete layer -->'+
+	'		<div id="dialog_delete_group" class="modal fade">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<!-- <div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Esborrar el grup de capes</h4>'+
+	'				</div> -->'+
+	'				<div class="modal-body">'+
+	'					<h4><span lang="ca">Vols esborrar el grup </span> "<span id="nom_group_delete"></span>" i totes les seves capes ?</h4>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'						data-dismiss="modal">Cancel·lar</button>'+
+	'					<button lang="ca" type="button" class="btn btn-danger"'+
+	'						data-dismiss="modal">Esborrar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- Fi Modal delete -->'		
+	);
 }
