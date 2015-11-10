@@ -649,6 +649,21 @@ function createGeoPdfMap(data){
 	}).promise();
 }	
 
+
+//esborra imatge galeria
+
+function deleteImageGaleria(data){
+	return jQuery.ajax({
+		url: paramUrl.urlgetMapImage,
+		data:data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+
+
 function updatePasswordIcgc(data){
 	return jQuery.ajax({
 		url: paramUrl.updatePasswordIcgc,
@@ -1023,3 +1038,29 @@ function createToken(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+}
+function getValuesFromKeysProperty(params){
+	return jQuery.ajax({
+		url: paramUrl.getValuesFromKeysProperty,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function columnJoin(params){
+	return jQuery.ajax({
+		url: paramUrl.columnJoin,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function spatialJoin(params){
+	return jQuery.ajax({
+		url: paramUrl.spatialJoin,
+  		data: params,
+  		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+

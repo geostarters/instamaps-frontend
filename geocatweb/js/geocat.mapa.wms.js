@@ -1,4 +1,5 @@
 var _htmlServeisWMS = [];
+var _NomServer2="";
 var ActiuWMS = {
 		"servidor" : "servidor",
 		"url" : "url",
@@ -26,18 +27,15 @@ function generaLlistaServeisWMS() {
 
 					{
 						"TITOL" : "Mapa Cadastral",
-						"ORGANITZAC" : "Dirección General del Catastro ",
+						"ORGANITZAC" : "Dirección General del Catastro",
 						"IDARXIU" : "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?",
 						"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 					},
 
-					/*
-					 * { "TITOL" : "Avistaments cetàcis", "ORGANITZAC" : "Centre de
-					 * Recerca Ecològica i Aplicacions Forestals (CREAF) - UAB",
-					 * "IDARXIU" :
-					 * "http://www.ogc.uab.es/cgi-bin/cetcat/MiraMon5_0.cgi?", "URN" :
-					 * "urn:uuid:dc86e70e-79ca-11e3-aa3b-07b03c41b8e8" },
-					 */
+					
+					  { "TITOL" : "Atermenament i usos de costes", "ORGANITZAC" : "Departament de Territori i Sostenibilitat",
+					  "IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?", "URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722" },
+					 
 					{
 						"TITOL" : "Parcs eòlics",
 						"ORGANITZAC" : "Direcció General de Polítiques Ambientals",
@@ -112,13 +110,13 @@ function generaLlistaServeisWMS() {
 	
 	
 	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
-	_htmlServeisWMS.push('    {{#layer Layer}}');
-	_htmlServeisWMS.push('	<li>');
-	_htmlServeisWMS.push('        {{#if Name}}');
+	_htmlServeisWMS.push('  {{#layer Layer}}');
+	_htmlServeisWMS.push('	  <li>');
+	_htmlServeisWMS.push('      {{#if Name}}');
 	_htmlServeisWMS.push('			{{#if Layer}}');
-	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" id="{{Title}}" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
 	_htmlServeisWMS.push('			{{else}}');
-	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" value="{{Name}}"> {{Title}}</span>');
+	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" id="{{Title}}" value="{{Name}}"> {{Title}}</span>');
 	_htmlServeisWMS.push('			{{/if}}');
 	_htmlServeisWMS.push('		{{else}}');
 	_htmlServeisWMS.push('			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
@@ -157,6 +155,8 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 	}
 });
 
+var WMS_BBOX;
+
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
 	//console.debug("getCapabilitiesWMS:");
@@ -164,8 +164,8 @@ function getCapabilitiesWMS(url, servidor) {
 	//console.debug(servidor);
 	
 	getWMSLayers(url).then(function(results) {
-		console.debug("results:");
-		console.debug(results);
+		//console.debug("results:");
+		//console.debug(results);
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
@@ -175,7 +175,13 @@ function getCapabilitiesWMS(url, servidor) {
 			  context = [context];
 		  }
 		  for(var i=0, j=context.length; i<j; i++) {
-		    ret = ret + options.fn(context[i]);
+			  if (!Handlebars.Utils.isArray(context[i])){
+				  ret = ret + options.fn(context[i]);
+			  }else{
+				  for(var k=0, l=context.length; k<l; k++) {
+					  ret = ret + options.fn(context[i][k]);
+				  }
+			  }
 		  }
 		  return ret;
 		});
@@ -188,8 +194,27 @@ function getCapabilitiesWMS(url, servidor) {
 			servidor = results.Service.Title;
 		}
 
+		try{
+			
+		if(results.Capability.Layer.Layer.LatLonBoundingBox){
+			var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
+			WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+		}else if(results.Capability.Layer.LatLonBoundingBox){
+			
+			var bbox = results.Capability.Layer.LatLonBoundingBox;
+			WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+		}else{
+			WMS_BBOX=null;
+		}	
+			
+	
+		} catch (err) {
+			WMS_BBOX=null;
+		}
+		
 		try {
 			ActiuWMS.servidor = servidor;
+			_NomServer2=ActiuWMS.servidor;
 			ActiuWMS.url = jQuery.trim(url);
 			var matriuEPSG = results.Capability.Layer.CRS;
 
@@ -197,6 +222,12 @@ function getCapabilitiesWMS(url, servidor) {
 				matriuEPSG = results.Capability.Layer.SRS;
 				if (!matriuEPSG) {
 					matriuEPSG = results.Capability.Layer[0].CRS;
+					
+					if (!matriuEPSG) {
+						matriuEPSG = results.Capability.Layer[0].SRS;
+					}
+					
+					
 				}
 			}
 
@@ -336,6 +367,25 @@ function addExternalWMS(fromParam) {
 		});
 		cc = jQuery.makeArray(cc);
 		ActiuWMS.layers = cc.join(',');
+		
+		var _nomCapesWMS=[];
+		var cc1 = $('#div_layersWMS input:checked').map(function(){
+			
+			
+			return this.id;
+		});
+		cc1 = jQuery.makeArray(cc1);	
+		if(cc1.length==1){
+				ActiuWMS.servidor=cc1.join(" ");
+		
+		}else{
+			ActiuWMS.servidor=_NomServer2;		
+			
+		}
+		
+		
+		
+		
 	}
 	
 	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
@@ -347,10 +397,16 @@ function addExternalWMS(fromParam) {
 //console.debug(wmsLayer);
 //console.debug(ActiuWMS);
 
+	var nomCapaWMS=ActiuWMS.servidor;
+	
 	wmsLayer.options.businessId = '-1';
-	wmsLayer.options.nom = ActiuWMS.servidor;
+	wmsLayer.options.nom = nomCapaWMS;
 	wmsLayer.options.tipus = t_wms;
 
+	
+	//if(WMS_BBOX){map.fitBounds(WMS_BBOX);}
+	
+	
 	if(typeof url('?businessid') == "string"){
 		var data = {
 				uid:$.cookie('uid'),
@@ -367,14 +423,14 @@ function addExternalWMS(fromParam) {
 	            infFormat: 'text/html',
 	            tiles: true,	            
 	            transparency: true,
-	            opacity: 1,
+	            opacity: 0.75,
 	            visibilitat: 'O',
 	            url: ActiuWMS.url,
 	            layers: JSON.stringify([{name:ActiuWMS.layers,title:ActiuWMS.layers,group:0,check:true,query:true}]),
 	            calentas: false,
 	            activas: true,
 	            visibilitats: true,
-				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'"}'
+				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+0.75+'"}'
 		};
 		
 		createServidorInMap(data).then(function(results){
@@ -404,16 +460,26 @@ function addExternalWMS(fromParam) {
 }
 
 function loadWmsLayer(layer){
-	console.debug("Load WMS Layer:");
-	console.debug(layer);
+	//console.debug("Load WMS Layer:");
+	//console.info(layer);
+	var op=1;
+	var nomServidor=layer.serverName;
+	if(layer.serverName.indexOf('##') !=-1){
+		
+		var valors=layer.serverName.split("##");
+		op=valors[1];
+		nomServidor=valors[0];
+	}  
+	
+	
 	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
 	    transparent: layer.transparency,
 	    version: layer.version,
-	    opacity: layer.opacity,
+	    opacity:op ,
 	    crs: layer.epsg,
-		nom : layer.serverName,
+		nom :nomServidor ,
 		tipus: layer.serverType,
 		zIndex :  parseInt(layer.capesOrdre),	    
 	    businessId: layer.businessId
@@ -423,7 +489,7 @@ function loadWmsLayer(layer){
 		newWMS.addTo(map);
 	}
 	
-	controlCapes.addOverlay(newWMS, layer.serverName, true);
+	controlCapes.addOverlay(newWMS, nomServidor, true);
 	controlCapes._lastZIndex++;
 }
 

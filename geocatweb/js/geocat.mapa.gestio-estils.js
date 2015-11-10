@@ -496,6 +496,44 @@ function addHtmlModalPunts(){
 			'								<li><span class="fa fa-volume-up"></span></li>'+
 			'								<li><span class="fa fa-warning sign"></span></li>'+
 			'								<li><span class="fa fa-wrench"></span></li>'+
+			'								<li><span class="fa fa-industry"></span></li>'+
+			'								<li><span class="fa fa-map-signs"></span></li>'+
+			'								<li><span class="fa fa-map-pin"></span></li>'+
+			'								<li><span class="fa fa-commenting"></span></li>'+
+			'								<li><span class="fa fa-hand-pointer-o"></span></li>'+
+			'								<li><span class="fa fa-map"></span></li>'+
+			'								<li><span class="fa fa-mouse-pointer"></span></li>'+
+			'								<li><span class="fa fa-sticky-note"></span></li>'+
+			'								<li><span class="fa fa-car"></span></li>'+
+			'								<li><span class="fa fa-university"></span></li>'+
+			'								<li><span class="fa fa-bicycle"></span></li>'+
+			'								<li><span class="fa fa-bus"></span></li>'+
+			'								<li><span class="fa fa-taxi"></span></li>'+
+			'								<li><span class="fa fa-check-circle"></span></li>'+
+			'								<li><span class="fa fa-compass"></span></li>'+
+			'								<li><span class="fa fa-diamond"></span></li>'+
+			'								<li><span class="fa fa-file-image-o"></span></li>'+
+			'								<li><span class="fa fa-file-video-o"></span></li>'+
+			'								<li><span class="fa fa-futbol-o"></span></li>'+
+			'								<li><span class="fa fa-glass"></span></li>'+
+			'								<li><span class="fa fa-location-arrow"></span></li>'+
+			'								<li><span class="fa fa-graduation-cap"></span></li>'+
+			'								<li><span class="fa fa-motorcycle"></span></li>'+
+			'								<li><span class="fa fa-newspaper-o"></span></li>'+
+			'								<li><span class="fa fa-paw"></span></li>'+
+			'								<li><span class="fa fa-road"></span></li>'+
+			'								<li><span class="fa fa-suitcase"></span></li>'+
+			'								<li><span class="fa fa-tree"></span></li>'+
+			'								<li><span class="fa fa-subway"></span></li>'+
+			'								<li><span class="fa fa-ship"></span></li>'+
+			'								<li><span class="fa fa-train"></span></li>'+
+			
+			
+			
+			
+			
+			
+			
 			'							</ul>'+
 			'						</div>'+
 			'					</td>'+

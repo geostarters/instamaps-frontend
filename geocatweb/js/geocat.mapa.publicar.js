@@ -181,7 +181,7 @@
 			//$('#urlVisorMap').html('<a href="'+urlMap+'" target="_blank" lang="ca">Anar a la visualització del mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a>');
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
-			$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+			$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 			
 			//$('.bfh-selectbox').bfhselectbox().bfhfonts({font: 'Arial'});
 		},

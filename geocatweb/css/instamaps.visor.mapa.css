@@ -13,6 +13,11 @@ html,body {
 	padding: 0;
 }
 
+.navbar-inverse .navbar-form{
+	border: 0;
+	box-shadow: none;
+}
+
 .spinner{
 	z-index: 3000;
 }

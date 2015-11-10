@@ -691,6 +691,9 @@ hash_map[String.fromCharCode(decimal)] = entities[decimal];
 return hash_map;
 }
 
+function getModeMapa(){
+	return  ($(location).attr('href').indexOf('/mapa.html')!=-1);
+}
 
 (function($){
 	var o = $({});

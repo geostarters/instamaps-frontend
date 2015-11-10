@@ -1018,7 +1018,7 @@ function addHtmlModalLayersTematic(){
 	'					<div class="panel-warning">'+					
 	'					<ul class="bs-dadesO_USR panel-heading">'+
 	'						{{#each layers}}'+
-	'						<li><a class="usr_wms_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}">{{name}}</a></li>'+
+	'						<li><a class="usr_wms_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}}" data-tipus="{{layer.options.tipus}}" data-propName="{{layer.options.propName}}">{{name}}</a></li>'+
 	'						{{/each}}'+
 	'					</ul>'+	
 	'					</div>'+
@@ -1442,7 +1442,7 @@ function loadVisualitzacioLayer(layer){
 	return defer.promise();
 }
 
-function readVisualitzacio(defer, visualitzacio, layer){
+function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
@@ -1732,6 +1732,28 @@ function readVisualitzacio(defer, visualitzacio, layer){
 //		if (layer.options){
 //			options = jQuery.parseJSON( layer.options );
 //		}
+		if (layer.options){
+			var options2 = JSON.parse(layer.options);
+			if (options2.propName != undefined) {
+				var dataNames = options2.propName.split(',');
+				capaVisualitzacio.options.propName = dataNames;
+			}
+			else if (visualitzacio.options){
+				var options2 = JSON.parse(visualitzacio.options);
+				if (options2.propName != undefined) {
+					var dataNames = options2.propName.split(',');
+					capaVisualitzacio.options.propName = dataNames;
+				}				
+			}			
+		}else{
+			if (geometries!=undefined){
+				if (  geometries.options){
+					var dataNames = geometries.options.split(',');
+					console.debug(dataNames);
+					capaVisualitzacio.options.propName = dataNames;
+				}
+			}
+		}
 		
 		if(layer.options && options.origen){//Si es una sublayer
 //			var origen = getLeafletIdFromBusinessId(options.origen);

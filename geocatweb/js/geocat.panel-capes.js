@@ -57,10 +57,15 @@ function updateEditableElements(){
 					editableLayer = controlCapes._layers[this.id];
 				}
 				
+				var op="";
+				if(editableLayer.layer.options.tipus.indexOf(t_wms) != -1){
+					op="##"+ editableLayer.layer.options.opacity;
+					
+				}
 				var data = {
 					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
-					 	serverName: newValue
+					 	serverName: newValue + op
 					 }
 					var oldName = this.innerHTML;
 					
@@ -131,7 +136,7 @@ function addFuncioDownloadLayer(from){
 		var epsgOUT = $('#select-download-epsg').val();
 		var filename = $('#input-download-name').val();
 		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
-		console.debug(layer_GeoJSON);
+		//console.debug(layer_GeoJSON);
 
 		var data = {
 			cmb_formatOUT: formatOUT,
