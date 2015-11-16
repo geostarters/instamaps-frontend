@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
 <link rel="stylesheet" href="/llibreries/css/blue.css" />
 <link rel="stylesheet" href="/llibreries/css/component.css" />
+<link href="/geocatweb/css/geolocal.css" rel="stylesheet">
 
 <!-- KISSMETRICS SNIPPET 
 <script src="/geocatweb/js/geocat.kissmetrics.js"></script>-->
@@ -104,7 +105,7 @@
 			<!-- Carrusel imatges -->
 			<div class="row sub-row my-elem hidden-xs">
 				<div id="carousel-land-page" class="carousel slide" data-ride="carousel">
-				
+					<!--
 			        <div class="centered-form">
 			            <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
 			                <div class="panel panel-landing-form ">
@@ -112,38 +113,23 @@
 			                        <h3 class="panel-title" id="landing-form-panel-title" lang="ca">Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?</h3>
 			                    </div>
 			                    <div class="panel-body" id="landing-form-panel-body">
-			                        <form role="form">
-			
+			                        <form role="form">			
 			                            <div class="form-group">
 			                                <input lang="ca" name="email" id="landing-form-email" class="form-control input-sm" placeholder="Email" >
-			                            </div>
-			                            
-			                            <!-- <div class="row">
-			                            <div class="form-group" id="landing-form-checkboxes">
-			                                <label>Motivació</label><br>
-			                                <input type="checkbox" value="x"/>&nbsp;Personal&nbsp;&nbsp;                                
-			                                <input type="checkbox" value="y"/>&nbsp;Professional
-			                                <!-- <div class="inline"><input type="checkbox" value=""><label>Personal</label></div>
-											<input type="checkbox" value=""><label>Professional</label>
-											label class="checkbox"><input type="checkbox" value="">Administració</label-->
-			                            <!--</div>           
-			                            </div-->                 
-			                            <div id="landing-form-message"></div>
-			                            
+			                            </div>                         
+			                            <div id="landing-form-message"></div>		                            
 										  <button id="id-btn-landing-form" class="btn btn-landing-form btn-block" type="button" aria-haspopup="true" aria-expanded="false">
 										    <span class="glyphicon glyphicon-send">&nbsp;</span> <span lang="ca">Vull més informació</span> 
 										  </button>
 										  <div id="div-avis-legal" lang="ca">
 										  	<span lang="ca">*Fent clic a 'Vull més informació' accepta la</span> <a href="/geocatweb/politica_privacitat.html" target="_blank" lang="ca">política de privacitat</a>
-										  </div> 
-			                            <!-- 
-			                            <input id="id-btn-landing-form" type="button" value="Vull informació" class="btn btn-landing-form btn-block">
-			                            <input type="submit" value="Vull informació" class="gbtn gbtn-1 gbtn-1a"> -->
+										  </div>			       
 			                        </form>
 			                    </div>
 			                </div>
 			            </div>
-			        </div>				
+			        </div>
+			        -->				
 				
 					<!-- Indicators -->
 					<ol class="carousel-indicators">
@@ -155,50 +141,44 @@
 		
 					<!-- Wrapper for slides -->
 					<div class="carousel-inner">
-		
-						<!-- div class="item active">
-							<img class="img-carousel" alt="Explora mapes d’altres usuaris i dades de diverses fonts"
-								data-src="holder.js/900x500/auto/#777:#555/text:Explora mapes d’altres usuaris i dades de diverses fonts"
-								src="llibreries/img/carousel03.jpg">
-							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								<h1><b>InstaMaps:</b></h1>Fes el teu mapa
-							</div>
-						</div-->
-						
+			
 						<div class="item active">
 							<img class="img-carousel" alt="Explora mapes d’altres usuaris i dades de diverses fonts"
 								data-src="holder.js/900x500/auto/#777:#555/text:Explora mapes d’altres usuaris i dades de diverses fonts"
-								src="llibreries/img/banner_social.png">
-							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Explora mapes d'altres usuaris i dades de diverses fonts
+								src="llibreries/img/banner_geolocal_Aiguafreda.png">
+							<div class="carousel-caption  my-carousel-caption">
+								<span lang="ca">Crea, gestiona i mostra mapes del teu ens local</span>
+								<div class="logo_geolocal"></div>
 							</div>
 						</div>						
 		
 						<div class="item">
 							<img class="img-carousel img-responsive" alt="Fes un mapa amb les teves dades f&agrave;cilment"
 								data-src="holder.js/900x500/auto/#777:#555/text:Fes un mapa amb les teves dades f&agrave;cilment"
-								src="llibreries/img/banner_orto.png">
+								src="llibreries/img/banner_geolocal_Cadaques.png">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Fes un mapa amb les teves dades f&agrave;cilment
+								<span lang="ca">Fes la teva informació accessible a la ciutadania</span>
+								<div class="logo_geolocal"></div>
 							</div>
 						</div>
 		
 						<div class="item">
 							<img class="img-carousel" alt="Visualitza i analitza la teva informacio;"
 								data-src="holder.js/900x500/auto/#777:#555/text:Visualitza i analitza la teva informaci&oacute;"
-								src="llibreries/img/banner_clusters_bcn.png">
+								src="llibreries/img/banner_geolocal_Girona.png">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Visualitza i analitza la teva informaci&oacute;
+								<span lang="ca">Fes les teves dades reutilitzables i transparents</span>
+								<div class="logo_geolocal"></div>
 							</div>
 						</div>
-		
 		
 						<div class="item">
 							<img class="img-carousel" alt="Comunica el teu missatge de manera impactant"
 								data-src="holder.js/900x500/auto/#777:#555/text:Comunica el teu missatge de manera impactant"
-								src="llibreries/img/banner_heatmap.png">
+								src="llibreries/img/banner_geolocal_Lleida.png">
 							<div class="carousel-caption  my-carousel-caption" lang="ca">
-								Comunica el teu missatge de manera impactant
+								<span lang="ca">Accedeix a la geoinformació de la xarxa IDEC</span>
+								<div class="logo_geolocal"></div>
 							</div>
 						</div>
 					</div>
@@ -218,7 +198,7 @@
 			<div class="row sub-row my-elem visible-xs">
 
 					<div id="txt-image" lang="ca">
-						<b>InstaMaps:</b><br>Fes el teu mapa
+						<b>GeoLocal:</b><br>Crea, gestiona i mostra mapes del teu ens local
 					</div>
 			</div>
 			
@@ -226,35 +206,29 @@
 		
 			<!-- Tercera subfila -->
 			<div class="row sub-row">
-			
+				<!-- 			
 				<div class="col-md-6 col-sm-6 my-elem visible-xs">
 	                <div class="panel panel-landing-form-xs">
 	                    <div class="panel-heading ">
 	                        <h3 class="panel-title" id="landing-form-panel-title-xs" lang="ca">Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?</h3>
 	                    </div>
 	                    <div class="panel-body" id="landing-form-panel-body-xs">
-	                        <form role="form">
-	
+	                        <form role="form">	
 	                            <div class="form-group">
 	                                <input name="email" id="landing-form-email-xs" class="form-control input-sm" lang="ca" placeholder="Email">
-	                            </div>
-	                            
-	                            <div id="landing-form-message-xs"></div>
-	                            
+	                            </div>	                            
+	                            <div id="landing-form-message-xs"></div>	                            
 								  <button id="id-btn-landing-form-xs" class="btn btn-landing-form btn-block" type="button" aria-haspopup="true" aria-expanded="false">
 								    <span class="glyphicon glyphicon-send">&nbsp;</span> <span lang="ca">Vull més informació</span> 
-								  </button> 
-								  
+								  </button> 								  
 								  <div id="div-avis-legal" lang="ca">
 								  	<span lang="ca">*Fent clic a 'Vull més informació' accepta la</span> <a href="/geocatweb/politica_privacitat.html" target="_blank" lang="ca">política de privacitat</a>
-								  </div> 								  
-	                            <!-- 
-	                            <input id="id-btn-landing-form" type="button" value="Vull informació" class="btn btn-landing-form btn-block">
-	                            <input type="submit" value="Vull informació" class="gbtn gbtn-1 gbtn-1a"> -->
+								  </div> 								  	               
 	                        </form>
 	                    </div>
 	                </div>
 				</div>
+				-->
 
 				<div class="col-md-6 col-sm-6 my-elem">
 					<a id="btn-galeria"  href="../geocatweb/galeria.html" onClick="_gaq.push(['_trackEvent', 'landing', 'galeria']);" 
@@ -278,30 +252,63 @@
 			<div class="row sub-row">
 				<div id="div_PC" class="col-md-4 col-sm-4 col-xs-6 my-elem">
 					<a href="#row_PC" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'explora']);">
-						<img id="img_PC" class="img-responsive img-hover" alt="Explora" src="geocatweb/img/thumb_ed_pcivil.png">
-						<span class="title_white" lang="ca">Protecció civil</span>						
+						<img id="img_PC" class="img-responsive img-hover" alt="Explora" src="/llibreries/img/proteccio_civil.png">
+						<span class="title_white left_title" lang="ca">Protecció civil</span>						
 					</a>
 				</div>
 	
 				<div id="div_IP" class="col-md-4 col-sm-4 col-xs-6 my-elem">
 					<a href="#row_IP" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'crea']);">
-						<img id="img_IP" class="img-responsive img-hover" alt="Crea" src="geocatweb/img/thumb_ed_infoparcela.png">
-						<span class="title_white" lang="ca">Infoparcela</span>
+						<img id="img_IP" class="img-responsive img-hover" alt="Crea" src="/llibreries/img/infoparcela.png">
+						<span class="title_white left_title" lang="ca">Info parcela</span>
 					</a>
 				</div>
 	
 				<div id="div_CC" class="col-md-4 col-sm-4 col-xs-6 my-elem">
 					<a href="#row_CC" onClick="_gaq.push(['_trackEvent', 'landing', 'info', 'visualitza']);">
-						<img id="img_CC" class="img-responsive img-hover" alt="Visualitza" src="geocatweb/img/thumb_ed_carrerer.png">
-						<span class="title_white" lang="ca">Canvis de carrerer</span>
+						<img id="img_CC" class="img-responsive img-hover" alt="Visualitza" src="/llibreries/img/carrerer.png">
+						<span class="title_white left_title" lang="ca">Canvis de carrerer</span>
 					</a>
 				</div>
 				
 			</div>
 			
 		</div>
-		
+		<br>
 		<div class="main-row marketing">
+			
+			<!-- Geolocal -->
+			<hr id="row_E" class="soften">
+			
+			<div class="row">
+				<div class="col-md-12">
+					<img alt="geolocal" src="/geocatweb/css/images/logo_geolocal.png">
+					<h2 lang="ca">La Plataforma de Recursos de Geoinformació (PRG)</h2>
+					<p lang="ca" class="text-justify">La Plataforma de Recursos de Geoinformació (PRG) és un espai Web a disposició, actualment, de les administracions públiques i els seus organismes i, eventualment, d’altres organitzacions, on es reuneixen diverses funcionalitats per a utilitzar, mitjançant el navegador web de l’usuari, l’extens inventari de geoinformació disponible a la xarxa IDEC a més d’altres serveis i aplicacions.</p>
+					<br>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-4 ">
+					<img class="marketing-img" src="/geocatweb/img/pcivil.png">
+					<h3 lang="ca">Protecció civil</h3>
+					<p lang="ca">Gestiona la informació relativa a protecció civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuació prioritària en cas d’una emergència.</p>
+				</div>
+	
+				<div class="col-md-4 ">
+					<img class="marketing-img" src="/geocatweb/img/infoparcela.png">
+					<h3 lang="ca">Inforparcela</h3>
+					<p lang="ca">Genera informes de parcel·les a partir de la referència cadastral.</p>
+				</div>
+	
+				<div class="col-md-4 ">
+					<img class="marketing-img" src="/geocatweb/img/carrerer.png">
+					<h3 lang="ca">Canvis de carrerer</h3>
+					<p lang="ca">Gestiona els canvis del carrerer. Ajuda a mantenir la base de carrers de l'ICC.</p>					
+				</div>
+			</div>
+			<br><br>
 			
 			<!-- EXPLORA -->
 			<hr id="row_E" class="soften">
