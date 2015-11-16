@@ -1038,7 +1038,7 @@ function createToken(data){
 		dataType: 'jsonp'
 	}).promise();
 }
-}
+
 function getValuesFromKeysProperty(params){
 	return jQuery.ajax({
 		url: paramUrl.getValuesFromKeysProperty,
@@ -1047,6 +1047,7 @@ function getValuesFromKeysProperty(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+
 function columnJoin(params){
 	return jQuery.ajax({
 		url: paramUrl.columnJoin,
@@ -1055,6 +1056,7 @@ function columnJoin(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+
 function spatialJoin(params){
 	return jQuery.ajax({
 		url: paramUrl.spatialJoin,
