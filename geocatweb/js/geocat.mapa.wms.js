@@ -110,9 +110,9 @@ function generaLlistaServeisWMS() {
 	
 	
 	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
-	_htmlServeisWMS.push('    {{#layer Layer}}');
-	_htmlServeisWMS.push('	<li>');
-	_htmlServeisWMS.push('        {{#if Name}}');
+	_htmlServeisWMS.push('  {{#layer Layer}}');
+	_htmlServeisWMS.push('	  <li>');
+	_htmlServeisWMS.push('      {{#if Name}}');
 	_htmlServeisWMS.push('			{{#if Layer}}');
 	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" id="{{Title}}" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
 	_htmlServeisWMS.push('			{{else}}');
@@ -175,7 +175,13 @@ function getCapabilitiesWMS(url, servidor) {
 			  context = [context];
 		  }
 		  for(var i=0, j=context.length; i<j; i++) {
-		    ret = ret + options.fn(context[i]);
+			  if (!Handlebars.Utils.isArray(context[i])){
+				  ret = ret + options.fn(context[i]);
+			  }else{
+				  for(var k=0, l=context.length; k<l; k++) {
+					  ret = ret + options.fn(context[i][k]);
+				  }
+			  }
 		  }
 		  return ret;
 		});
@@ -216,6 +222,12 @@ function getCapabilitiesWMS(url, servidor) {
 				matriuEPSG = results.Capability.Layer.SRS;
 				if (!matriuEPSG) {
 					matriuEPSG = results.Capability.Layer[0].CRS;
+					
+					if (!matriuEPSG) {
+						matriuEPSG = results.Capability.Layer[0].SRS;
+					}
+					
+					
 				}
 			}
 

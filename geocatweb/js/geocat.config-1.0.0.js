@@ -2,6 +2,7 @@ var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
 var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
+var tmpdirPolling = "poll/";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){

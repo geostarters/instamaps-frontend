@@ -2289,7 +2289,7 @@ function openColumnJoinModal(){
 		
 		jQuery('#joinBtn').on('click',function(event){
 			 
-			/* if(busy){
+			 if(busy){
 					jQuery('#dialog_column_join').hide();
 					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
@@ -2420,8 +2420,8 @@ function openColumnJoinModal(){
 				
 			
 				});
-				}*/
-			event.stopImmediatePropagation();
+				}
+			/*event.stopImmediatePropagation();
 			var listCols1="";
 			var listCols2="";
 			if ($('input[name=geom_capa]:checked').val()=="capa1_geom") listCols1 = "geometry_id,";
@@ -2474,7 +2474,7 @@ function openColumnJoinModal(){
 						$('#dialog_error_upload').modal('show');
 					}
 				});
-			
+			*/
 			
 		});
 	
