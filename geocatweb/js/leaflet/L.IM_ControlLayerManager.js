@@ -257,7 +257,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			//this._separator = L.DomUtil.create('div', className + '-separator', form);
 			this._overlaysList = L.DomUtil.create('div', className + '-overlays ', form);
 			this._addButton = L.DomUtil.create('div', 'addVerd', form);		
-			L.DomEvent.on(this._addButton, 'click', this._addGroupFromScratch, this);
+			var addBT=L.DomEvent.on(this._addButton, 'click', this._addGroupFromScratch, this);
+			$(addBT).tooltip({
+				placement : 'left',
+				container : 'body',
+				title : window.lang.convert("Nou grup")
+			});
 			//this._overlaysList = L.DomUtil.create('div', className + '-overlays', form);
 
 			container.appendChild(section);
@@ -303,43 +308,33 @@ L.Control.OrderLayers = L.Control.Layers.extend({
         	console.info("_createGroupFromScratch: pos "+ position);
         	console.info("_createGroupFromScratch: length "+ this._groupList.length);
         	var pos=this._groupList.length;
-			var posTXT;
-			
-			
-			if(position== 1 && pos==0){ //estic afegint una capa nova i grup nou
-				
+			var posTXT;						
+			if(position== 1 && pos==0){ //estic afegint una capa nova i grup nou				
 				console.info("estic afegint una capa nova i no existeix gruo");
-				return group={"groupName":"Capes","name":"Capes","id":pos,"expanded":true};
-				
+				return group={"groupName":"Capes","name":"Capes","id":pos,"expanded":true};				
 			}else if(position== 1 && pos>0){ //estic afegint una capa però ja existeix un grup 
-				console.info("estic afegint una capa nova a un grup existent");
-				
-				return this._groupList[this._groupList.length -1];
-				
-			
-			}else if(position==0){ //usuari afegeix grup nou buit
-				
-				
-				console.info("usuari afegeix grup nou");
-				
+				console.info("estic afegint una capa nova a un grup existent");				
+				return this._groupList[this._groupList.length -1];							
+			}else if(position==0){ //usuari afegeix grup nou buit								
+				console.info("usuari afegeix grup nou");				
 				return group={"groupName":"Capes "+this._groupList.length,"name":"Capes "+this._groupList.length,"id":this._groupList.length,"expanded":true};
 				
 				
 			}
 			
-			
-			
-			
-			//pos==-1 ? pos=0:pos=pos;
-			//pos==0 ? posTXT="":posTXT=pos;
-			
-			//console.info("_createGroupFromScratch: length "+ posTXT);
-		
-        	
-        	
-        	
         	
         },
+        
+        getGroupWhereIBelong:function(){
+        	
+        	var pos=this._groupList.length;
+        	if( pos>0){ //estic afegint una capa però ja existeix un grup 						
+				return this._groupList[this._groupList.length -1];	
+        	}else{        		
+        		return null;	
+        	}	
+        },
+        
         
         _addGroupFromScratch:function(){       
         	var container = this._overlaysList;        	
@@ -464,7 +459,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
     },
         
         
-		_addLayer: function (layer, name, overlay, groupLeafletId,group){
+		_addLayer: function (layer, name, overlay, groupLeafletId,group1){
 			var id = L.Util.stamp(layer);
 
 			
@@ -475,7 +470,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				overlay : overlay
 			};
 			*/			
-			
+			console.info(layer.options);
+			console.info(layer.options.group);
+			//console.info(layer.options.group.name);
 
 			if(groupLeafletId){
 				this._layers[groupLeafletId]._layers[id] = {
@@ -495,6 +492,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					};			
 			}
 			
+			console.info(layer.options.group);
+			var group=layer.options.group;
+			
+			var _heCreat=false;
 			
 			if(!group){
 				
@@ -515,6 +516,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 			console.info("passo valor 1");	
 			group=this._createGroupFromScratch(1);	
+			_heCreat=true;
 				
 			}
 			
@@ -551,6 +553,39 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 							id : groupId,
 							expanded : group.expanded
 						};
+						
+						
+				if(_heCreat){
+					
+					console.info("he creat grup")
+					
+					if( getModeMapa()){
+						
+						console.info("estic mode mapa");
+						
+						console.info(this._layers[id].layer.options.businessId);
+						console.info(this._layers[id].layer.options);
+						var data = {
+							 	businessId: this._layers[id].layer.options.businessId, //url('?businessid') 
+							 	uid: $.cookie('uid'),
+							 	options:JSON.stringify(this._layers[id].layer.options)
+							 }
+						
+						updateServidorWMSOptions(data).then(function(results){
+							console.info(results);
+							if(results.status==='OK'){
+								console.debug(results);
+								console.debug(data);
+							}
+						});	
+						
+				}
+					
+					
+					
+					
+				}		
+						
 				
 			}
 			

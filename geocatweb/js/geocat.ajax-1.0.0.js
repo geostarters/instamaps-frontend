@@ -342,6 +342,28 @@ function updateServidorWMSName(data){
 	}).promise();
 }
 
+
+
+function updateServidorWMSOptions(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSOptions,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+function updateServidorWMSOpacity(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSOpacity,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
 function addServerToMap(data){
 	return jQuery.ajax({
 		url: paramUrl.addServerToMap,

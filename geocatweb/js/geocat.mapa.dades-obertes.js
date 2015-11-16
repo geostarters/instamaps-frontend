@@ -100,11 +100,13 @@ function addCapaDadesObertes(dataset,nom_dataset) {
     					if (results.status == "OK"){
     						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
     						capaDadaOberta.options.businessId = results.results.businessId;
+    						
     						capaDadaOberta.addTo(map)
     						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
     						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
     						controlCapes._lastZIndex++;
     						activaPanelCapes(true);
+    						
     					}
     				});
     			}else{
