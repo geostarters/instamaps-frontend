@@ -1735,8 +1735,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		if (layer.options){
 			var options2 = JSON.parse(layer.options);
 			if (options2.propName != undefined) {
-				var dataNames = options2.propName.split(',');
-				capaVisualitzacio.options.propName = dataNames;
+				capaVisualitzacio.options.propName = options2.propName;
 			}
 			else if (visualitzacio.options){
 				var options2 = JSON.parse(visualitzacio.options);
