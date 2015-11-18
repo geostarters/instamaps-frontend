@@ -12,7 +12,6 @@
 						"initButtonsTematic()",
 						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",
 						"addControlCercaEdit()",
-						"addControlPublicar()",
 						"addCompartirMapa()"
 						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
 						,"addControlAltresFontsDades()"

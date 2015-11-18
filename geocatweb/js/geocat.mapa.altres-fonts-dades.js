@@ -96,7 +96,14 @@ function addControlAltresFontsDades() {
 					addWikipediaLayer();
 				});				
 				
-			}else if(tbA == "#id_url_file"){
+			}else if(tbA == "#id_capes_instamaps"){
+				jQuery(tbA).empty();
+				jQuery(tbA).html('<div class="input-group txt_capes"><input type="text" lang="ca" class="form-control" placeholder="Entra el nom de la capa que vols buscar" style="height:33px" id="txt_capesInstamaps"> <span class="input-group-btn"><button type="button" id="bt_capesInstamaps" class="btn btn-success"><span class="glyphicon glyphicon-play"></span></button></span> </div>');
+				jQuery("#bt_capesInstamaps").on('click', function(e) {
+					alert(jQuery("#txt_capesInstamaps").val());
+				});
+			}
+			else if(tbA == "#id_url_file"){
 				jQuery(tbA).empty();
 
 				//Carreguem exemples de dades externes 
@@ -467,7 +474,7 @@ function addHtmlModalDadesExt(){
 	
 	jQuery('#mapa_modals').append(
 	'	<!-- Modal Dades Externes -->'+
-	'		<div class="modal fade" id="dialog_dades_ex">'+
+	'		<div class="modal fade" id="dialog_dades_ex" style="width:105%">'+
 	'		<div class="modal-dialog">'+
 	'			<div class="modal-content">'+
 	'				<div class="modal-header">'+
@@ -481,6 +488,7 @@ function addHtmlModalDadesExt(){
 	'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
 	'						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
+	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Capes d\'Instamaps</a></li>'+
 	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades externes</span> <i class="icon icon-dropbox"></i><i class="icon icon-github"></i><i class="icon icon-drive"></i></a></li>'+
 	'					</ul>'+
 	'					<div class="tab-content tab-content-margin5px">'+
@@ -488,6 +496,7 @@ function addHtmlModalDadesExt(){
 	'						<div class="tab-pane fade" id="id_xs"></div>'+
 	'						<!--  <div class="tab-pane fade" id="id_srvj"></div>-->'+
 	'						<div class="tab-pane fade" id="id_srvw"></div>'+
+	'						<div class="tab-pane fade" id="id_capes_instamaps"></div>'+
 	'						<div class="tab-pane fade" id="id_url_file"></div>'+
 	'					</div>'+
 	'				</div>'+

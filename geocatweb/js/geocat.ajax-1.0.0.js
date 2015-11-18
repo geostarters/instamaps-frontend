@@ -1065,4 +1065,11 @@ function spatialJoin(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+function searchCapesPubliques(params){
+	return jQuery.ajax({
+		url: paramUrl.searchCapesPubliques,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
 
