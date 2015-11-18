@@ -174,7 +174,7 @@ L.Control.OrderLayers = L.Control.Layers
 			
 			
 
-			updateTreeGroupLayers:function (groupId,groupName,bussinesId,z_order){
+			updateTreeGroupLayers:function (groupId,groupName,businessId,z_order){
 				
 				this._groupList[groupId].groupName=groupName; 
 				this._groupList[groupId].name=groupName; 
@@ -182,7 +182,7 @@ L.Control.OrderLayers = L.Control.Layers
 				
 				for (layer in this._layers) {
 
-					if (this._layers[layer].layer.options.group && this._layers[layer].layer.options.bussinesId == bussinesId){
+					if (this._layers[layer].layer.options.group && this._layers[layer].layer.options.businessId == businessId){
 						
 						this._layers[layer].layer.options.group.name = groupName;
 						this._layers[layer].layer.options.group.groupName = groupName;

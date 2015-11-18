@@ -570,3 +570,49 @@ ol.leaflet-control-layers-overlays{
     padding-left: 0
 	
 }
+
+
+
+ol.ac-large li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ol.ac-large li.placeholder:before {
+  position: absolute;
+  -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: transparent -moz-use-text-color transparent red;
+    border-image: none;
+    border-style: solid none solid solid;
+    border-width: 5px medium 5px 5px;
+    content: "";
+    height: 0;
+    left: -5px;
+    margin-top: -5px;
+    position: absolute;
+    top: -4px;
+    width: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

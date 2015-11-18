@@ -34,7 +34,7 @@ function addFuncioRenameMap(){
 function reOrderGroupsAndLayers(){
 	
 	 var z_order=-1;
-	 var _groupName,_groupId,_bussinesId; 
+	 var _groupName,_groupId,_businessId; 
 	   // $("span.span_ac").each(function( index, element ) {
 	  $("div.leaflet-control-accordion-layers").each(function( index, element ) {	
 		  
@@ -52,9 +52,9 @@ function reOrderGroupsAndLayers(){
 		  
 	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
 	    	        $this; // parent li
-	    	        _bussinesId=this.id.replace("li-",""); // child li
+	    	        _businessId=this.id.replace("li-",""); // child li
 	    	      
-	    	    var resp_layer= updateTreeGroupLayers(_groupId,_groupName,_bussinesId,z_order);	    	    	    	    
+	    	    var resp_layer= updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order);	    	    	    	    
 	    	    var data = {
 					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
