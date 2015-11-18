@@ -159,26 +159,26 @@ var WMS_BBOX;
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
-	//console.debug("getCapabilitiesWMS:");
-	//console.debug(url);
-	//console.debug(servidor);
 	
 	getWMSLayers(url).then(function(results) {
-		//console.debug("results:");
-		//console.debug(results);
+		
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
 		Handlebars.registerHelper('layer', function(context, options) {
+			
+			
+			
 		  var ret = "";
 		  if (!Handlebars.Utils.isArray(context)){
-			  context = [context];
+			  context = [context.length];
 		  }
+		
 		  for(var i=0, j=context.length; i<j; i++) {
 			  if (!Handlebars.Utils.isArray(context[i])){
 				  ret = ret + options.fn(context[i]);
 			  }else{
-				  for(var k=0, l=context.length; k<l; k++) {
+				  for(var k=0, l=context[i].length; k<l; k++) {
 					  ret = ret + options.fn(context[i][k]);
 				  }
 			  }
