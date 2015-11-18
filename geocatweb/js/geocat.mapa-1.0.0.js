@@ -95,6 +95,9 @@ function loadApp(){
 		});
 		
 		getMapByBusinessId(data).then(function(results){
+			
+			console.info("getMapByBusinessId");
+			
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
 			}else{
@@ -448,6 +451,7 @@ function loadMapConfig(mapConfig){
 }
 
 function loadOrigenWMS(){
+	console.info("loadOrigenWMS");
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
 	jQuery.each(mapConfig.servidorsWMS, function(index, value){
@@ -458,12 +462,15 @@ function loadOrigenWMS(){
 			layer_map.origen.push(value);
 		}
 	});
+	
+	console.info(layer_map);
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
 
 function loadLayer(value){
-	
+	console.info("loadLayer");
+	console.info(value);
 	var defer = $.Deferred();
 	
 	if (value.epsg == "4326"){

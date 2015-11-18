@@ -31,14 +31,195 @@ function addFuncioRenameMap(){
 	});	
 }
 
+function reOrderGroupsAndLayers(){
+	
+	 var z_order=-1;
+	 var _groupName,_groupId,_bussinesId; 
+	   // $("span.span_ac").each(function( index, element ) {
+	  $("div.leaflet-control-accordion-layers").each(function( index, element ) {	
+		  
+		  var $this = $(this);
+	    	
+	    	 
+	    	 var gr=$this.children("label").children('span.span_ac');
+	    	 
+	    	 _groupId=index;
+	    	
+	    	 _groupName=gr.text();
+	    	 
+	    	 console.warn("********NOMGRUP0:"+gr.text());
+	    	 console.warn("********IDGRUP0:"+index);
+		  
+	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
+	    	        $this; // parent li
+	    	        _bussinesId=this.id.replace("li-",""); // child li
+	    	      
+	    	    var resp_layer= updateTreeGroupLayers(_groupId,_groupName,_bussinesId,z_order);	    	    	    	    
+	    	    var data = {
+					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	options: JSON.stringify(resp_Layer.options)
+					 }	
+				
+				var data2 = {
+					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	order: z_order
+					 }	
+				
+			
+				updateGroupsLayerOptions(data,data2);	
+	    	    
+   	    
+	    	    });
+	    	 
+	  console.warn("FI GROUP:");
+	  });
+	    	
+	  
+	
+}
+
+function updateGroupsLayerOptions(data,data2){
+	
+	updateServidorWMSOptions(data).then(function(results){
+		console.info(results);
+		if(results.status==='OK'){
+			
+			if(data2){
+				
+				updateServerOrderToMap(data2).then(function(results) {
+					
+					console.debug(results);
+					if (results.status != 'OK')
+						return;// SI no ha anat be el canvi a BD. que
+								// no es faci tampoc a client, i es
+								// mostri un error
+				}, function(results) {
+					return;// SI no ha anat be el canvi a BD. que no es
+							// faci tampoc a client, i es mostri un
+							// error
+				});
+				
+			}
+			
+			console.debug(results);
+			console.debug(data);
+		}
+	});
+	
+	
+}
+
+
+
+
+
+
+
+function updateSortablesElements(){
+	
+	var group = $("ol.leaflet-control-layers-overlays").sortable({
+		  group: 'no-drop',
+		  handle: 'span.glyphicon-move',
+		  onDragStart: function ($item, container, _super,event) {
+		    // Duplicate items of the no drop area
+			  console.debug($item);
+		    if(!container.options.drop)
+		      $item.clone().insertAfter($item);
+		    _super($item, container);
+		  },
+		  onDrag:function ($item, position, _super, event) {
+			  
+			 // console.debug("onDrag");
+			  position.left=0;
+			  //console.info(position);
+			  $item.css(position);
+			 //console.debug($item.css(position));
+		  },
+		  onDrop: function ($item, container, _super) {
+			  
+			   // $("div.leaflet-control-accordion-layers").each(function( index, element ) {
+			  
+			  reOrderGroupsAndLayers();
+			    
+			    _super($item, container);
+			  }
+		  
+		});
+	
+	
+	
+	
+	var layer_in_groups = $("ol.ac-large").sortable({
+		  group: 'no-drop-layer',
+		  handle: 'div.glyphicon-move',
+		  onDragStart: function ($item, container, _super,event) {
+		   
+		    if(!container.options.drop)
+		      $item.clone().insertAfter($item);
+		    _super($item, container);
+		  },
+		  onDrag:function ($item, position, _super, event) {
+			  
+			 // console.debug("onDrag");
+			  position.left=0;
+			  //console.info(position);
+			  $item.css(position);
+			 //console.debug($item.css(position));
+		  },
+		  onDrop: function ($item, container, _super) {
+			 
+			  reOrderGroupsAndLayers();
+			    _super($item, container);
+			  }
+		  
+		});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+
+
+
 /**
  * Funcionalitats edicio noms capes 
  * */
 
 function updateEditableElements(){
 
-	console.info("entro edicio capes")
+	console.info("entro edicio capes*****************")
+	updateSortablesElements();
 	
+	console.info($('.label_ac .editable'));
 	
 	$('.label_ac .editable').editable({
 		type: 'text',
@@ -51,22 +232,25 @@ function updateEditableElements(){
 	        }
         },		
 		success: function(response, newName) {
-		
-			var oldName=this.group_name;
+			console.info(this);
+			var oldName=this.groupName;
+			
 			
 			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
 			
-			for(i=0;resp_Layer.length;i++){
+			console.info(resp_Layer);
+			console.info(resp_Layer.length);
 			
+			for(i=0;i < resp_Layer.length;i++){
+			
+				console.info(resp_Layer[i]);
 				var data = {
-					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+					 	businessId: resp_Layer[i].options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
-					 	options: resp_Layer.options
+					 	options: JSON.stringify(resp_Layer[i].options)
 					 }
 					
-					updateServidorWMSOptions(data).then(function(results){
-						console.info(results);
-					});			
+				updateGroupsLayerOptions(data,null);		
 			
 			
 			
@@ -298,9 +482,13 @@ function addFuncioRemoveLayer(){
 		var $this = $(this);
 		var group = $this.data("group");
 	
-		console.info(group);
-		var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId);
+		console.info('#dialog_delete_group .btn-danger');
 		
+		console.info('groupId:'+group.groupId);
+		
+		var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId,group.groupName);
+		
+		console.info('Capes que conté el grup:'+matriuCapesGroup.length);
 	
 			for(i=0; i < matriuCapesGroup.length;i++){
 				
@@ -337,7 +525,7 @@ function addFuncioRemoveLayer(){
 							uid: $.cookie('uid'),
 							servidorWMSbusinessId:lbusinessId.toString()
 						};	
-				
+					console.info("esborro capes:"+i);
 					removeAtomicLayer(data,obj);
 				
 				}

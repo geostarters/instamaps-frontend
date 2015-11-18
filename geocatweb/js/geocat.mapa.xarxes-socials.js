@@ -65,6 +65,11 @@ function loadPanoramioLayer(layer){
 		businessId: layer.businessId
 	});	
 	
+	var options = jQuery.parseJSON( layer.options );
+	if (options.group){
+		panoramio.options.group=options.group;
+	}
+	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		panoramio.addTo(map);
 	}
@@ -140,6 +145,13 @@ function loadTwitterLayer(layer, hashtag){
 		businessId: layer.businessId
 	});	
 	
+	
+	var options = jQuery.parseJSON( layer.options );
+	if (options.group){
+		twitter.options.group=options.group;
+	}
+	
+	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		twitter.addTo(map);
 	}
@@ -182,6 +194,8 @@ function addWikipediaLayer(){
 			options: '{"xarxa_social": "wikipedia", "key": "'+keyName+'"}'
 		};
 		
+		
+		
 		createServidorInMap(data).then(function(results){
 			if (results.status == "OK"){
 				wikipedia.options.businessId = results.results.businessId;
@@ -195,6 +209,10 @@ function addWikipediaLayer(){
 			}
 		});
 	}else{
+		
+		
+		
+		
 		wikipedia.addTo(map);
 		wikipedia.options.zIndex = controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(wikipedia, 'wikipedia', true);
@@ -211,6 +229,12 @@ function loadWikipediaLayer(layer){
 		tipus : layer.serverType,
 		businessId: layer.businessId
 	});	
+	
+	var options = jQuery.parseJSON( layer.options );
+	if (options.group){
+		wikipedia.options.group=options.group;
+	}
+	
 	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		wikipedia.addTo(map);

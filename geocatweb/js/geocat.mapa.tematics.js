@@ -1426,7 +1426,8 @@ function loadVisualitzacioLayer(layer){
 	};
 	
 //	var layerWms = layer;
-	//console.time("loadTematicLayer " + layerWms.serverName);
+	//console.info("loadTematicLayer " + layerWms.serverName);
+	console.info("loadTematicLayer ");
 	getVisualitzacioByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
 			readVisualitzacio(defer, results.results, layer);			
@@ -1445,7 +1446,10 @@ function readVisualitzacio(defer, visualitzacio, layer){
 	
 	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
-					|| (layer.options && (layer.options.indexOf("source")!=-1) );
+	|| (layer.options && (layer.options.indexOf("source")!=-1) );
+	
+	var hasGroup=(visualitzacio.options && (visualitzacio.options.indexOf("group")!=-1) ) 
+	|| (layer.options && (layer.options.indexOf("group")!=-1) );
 	
 	if(visualitzacio.tipus == tem_heatmap){
 //		loadTematicHeatmap(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva);
@@ -1472,6 +1476,16 @@ function readVisualitzacio(defer, visualitzacio, layer){
 		if(hasSource) {
 			var source = jQuery.parseJSON(visualitzacio.options);					
 			capaVisualitzacio.options.source = source.source;
+		}
+		
+	
+		
+		
+		//console.debug(hasGroup);
+		//console.debug(layer.options);
+		if(hasGroup) {
+			var group = jQuery.parseJSON(layer.options);					
+			capaVisualitzacio.options.group = group.group;
 		}
 		
 		//Pel cas de del tematic categories, tenir els rangs d'estils
@@ -1724,6 +1738,8 @@ function readVisualitzacio(defer, visualitzacio, layer){
 					if(results.status==='OK')console.debug("CapaTematic name changed OK");
 					else console.debug("CapaTematic name changed KO");
 					*/
+					console.debug("**********************Entro soc URL");
+					
 				});					
 		}
 		

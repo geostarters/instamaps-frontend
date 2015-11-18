@@ -302,6 +302,15 @@ function updateServersOrderToMap(data){
 	}).promise();
 }
 
+
+function updateServerOrderToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServerOrderToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function updateMapName(data){
 	return jQuery.ajax({
 		url: paramUrl.updateMapName,

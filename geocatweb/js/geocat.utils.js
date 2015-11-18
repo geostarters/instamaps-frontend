@@ -691,7 +691,14 @@ return hash_map;
 
 
 function getModeMapa(){
-	
+	console.info("getmodemapa");
 	return  ($(location).attr('href').indexOf('/mapa.html')!=-1);
 	
+}
+
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 }

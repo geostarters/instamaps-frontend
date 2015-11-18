@@ -326,7 +326,7 @@ nou cc
 .ac-container input.menu{
 	display: none;
 }
-.ac-container article{
+ol .ac-large{
 	 background: rgba(166, 166, 166, 0.5) no-repeat scroll;
    
    /*
@@ -350,7 +350,7 @@ nou cc
 
 
 
-.ac-container input.menu:checked ~ article{
+.ac-container input.menu:checked ~ ol{
 	-webkit-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
 	-moz-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
 	-o-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
@@ -359,7 +359,7 @@ nou cc
 	box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3);
 }
 
-.ac-container input.menu:checked ~ article.ac-large{
+.ac-container input.menu:checked ~ ol.ac-large{
 	height: auto;
 	min-height: 30px;
 	max-height : 350px;
@@ -414,20 +414,20 @@ nou cc
 */
 
 .addVerd{
-	  background-color: transparent;
+	   background-color: transparent;
     background-image: url("images/addStuff.png");
     background-position: 99% 0;
     background-repeat: no-repeat;
     border: medium none;
     color: #00ff00;
     cursor: pointer;
-    float: none;
+    float: right;
     height: 25px;
     margin-top: 8px;
     position: relative;
     text-align: end;
     vertical-align: middle;
-    width: 100%;
+    width: 30px;
 }
 
 .addVerd:hover{
@@ -524,4 +524,49 @@ input[type='checkbox']:checked.checkbox_eye + label:before{
    overflow-x: none;
     overflow-y: auto;
    
+}
+
+
+
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  right:100px;
+  opacity: 0.8;
+  z-index: 2000;
+}
+
+ol.leaflet-control-layers-overlays li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ol.leaflet-control-layers-overlays li.placeholder:before {
+  position: absolute;
+  -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: transparent -moz-use-text-color transparent red;
+    border-image: none;
+    border-style: solid none solid solid;
+    border-width: 5px medium 5px 5px;
+    content: "";
+    height: 0;
+    left: -5px;
+    margin-top: -5px;
+    position: absolute;
+    top: -4px;
+    width: 0;
+}
+
+ol.leaflet-control-layers-overlays{
+	list-style-type: none;
+	 list-style-type: none;
+    margin-left: 0;
+    min-height: 250px;
+    padding-left: 0
+	
 }

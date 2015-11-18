@@ -85,6 +85,7 @@ var paramUrl = {
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
 	getTwitterLayer: HOST_APP+"geocat/layers/getTwitterLayer.action?",
 	updateServersOrderToMap: HOST_APP+"geocat/aplications/map/updateServersOrderToMap.action?",
+	updateServerOrderToMap: HOST_APP+"geocat/aplications/map/updateServerOrderToMap.action?",
 	updateMapName: HOST_APP+"geocat/aplications/map/updateMapName.action?",
 	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
 	deleteServerRemoved: HOST_APP+"geocat/aplications/map/deleteServerRemoved.action?",

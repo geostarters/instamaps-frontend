@@ -129,7 +129,8 @@ function loadDadesObertesLayer(layer){
 	var options = jQuery.parseJSON( layer.options );
 	if(options.tem == null || options.tem == tem_simple){
 		var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;
-		var estil_do = options.estil_do;	
+		var estil_do = options.estil_do;
+		
 		if (options.tem == tem_simple){
 			estil_do = createFeatureMarkerStyle(options.style);
 		}
@@ -176,6 +177,13 @@ function loadDadesObertesLayer(layer){
 				}
 			}
 		});	
+		
+		
+		//afegim group
+		if (options.group){
+			capaDadaOberta.options.group=options.group;
+		}
+		
 		
 		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaDadaOberta.addTo(map);

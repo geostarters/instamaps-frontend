@@ -427,6 +427,15 @@ function loadWmsLayer(layer){
 	    businessId: layer.businessId
 	});
 	
+	
+	//afegim group
+	var options = jQuery.parseJSON( layer.options );
+	if (options.group){
+		newWMS.options.group=options.group;
+	}
+	
+	
+	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		newWMS.addTo(map);
 	}
