@@ -223,17 +223,23 @@ function initCanvas(){
 	jQuery("#cmb_trans").on('change', function(e) { 
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
     	canvas_pol.opacity=jQuery(this).val();
-    	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+canvas_pol.opacity+")";
+    	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
     });
     
     jQuery("#cmb_gruix").on('change', function(e) { 
     	canvas_pol.lineWidth=jQuery(this).val();
+    	var color=rgb2hex($('.fill_color_pol').css('background-color'));
+    	canvas_pol.opacity=jQuery(this).val();
+    	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
     });
     
     jQuery("#cmb_gruix_l").on('change', function(e) { 
     	canvas_linia.lineWidth=jQuery(this).val();
+    	var color=rgb2hex($('.fill_color_pol').css('background-color'));
+    	canvas_pol.opacity=jQuery(this).val();
+    	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitL(document.getElementById("cv_linia0"));
     });
 }
@@ -1051,11 +1057,11 @@ function getFeatureStyle(f, fId){
 	}else{
 		var fillColor = f.layer.options.color;
 		if(f.layer.options.fillColor) fillColor = rgb2hex(f.layer.options.fillColor);	
-		
+		var fillOpacity = f.layer.options.fillOpacity;
 		rangs = {
 				color : fillColor,
 				fillColor: fillColor,
-				fillOpacity: f.layer.options.fillOpacity,
+				fillOpacity: fillOpacity,
 				lineWidth : f.layer.options.dashArray,
 				lineStyle : 'solid',
 				borderWidth : f.layer.options.dashArray,
