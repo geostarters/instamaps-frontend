@@ -34,7 +34,7 @@ function addFuncioRenameMap(){
 function reOrderGroupsAndLayers(){
 	
 	 var z_order=-1;
-	 var _groupName,_groupId,_businessId; 
+	 var _groupName,_groupId,_businessId,_expanded; 
 	   // $("span.span_ac").each(function( index, element ) {
 	  $("div.leaflet-control-accordion-layers").each(function( index, element ) {	
 		  
@@ -50,11 +50,17 @@ function reOrderGroupsAndLayers(){
 	    	 console.warn("********NOMGRUP0:"+gr.text());
 	    	 console.warn("********IDGRUP0:"+index);
 		  
+	    	 _expanded=$('input.expanded_input')[index].attr('checked');
+	    	 
+	    	 console.warn("********EXPANDED:"+ _expanded);
+	    	 
 	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
 	    	        $this; // parent li
 	    	        _businessId=this.id.replace("li-",""); // child li
-	    	      
-	    	    var resp_layer= updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order);	    	    	    	    
+	    	        z_order=z_order+1; 
+	    	        
+	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
+	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);	    	    	    	    
 	    	    var data = {
 					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
@@ -69,7 +75,7 @@ function reOrderGroupsAndLayers(){
 				
 			
 				updateGroupsLayerOptions(data,data2);	
-	    	    
+	    	       //}
    	    
 	    	    });
 	    	 
@@ -140,7 +146,7 @@ function updateSortablesElements(){
 		  onDrop: function ($item, container, _super) {
 			  
 			   // $("div.leaflet-control-accordion-layers").each(function( index, element ) {
-			  
+			  $('.tooltip').hide();
 			  reOrderGroupsAndLayers();
 			    
 			    _super($item, container);
@@ -169,7 +175,7 @@ function updateSortablesElements(){
 			 //console.debug($item.css(position));
 		  },
 		  onDrop: function ($item, container, _super) {
-			 
+			  $('.tooltip').hide();
 			  reOrderGroupsAndLayers();
 			    _super($item, container);
 			  }

@@ -95,13 +95,13 @@ L.Control.OrderLayers = L.Control.Layers
 				// this._groupList[group].name == groupId ){
 
 				for (layer in this._layers) {
-					console.info(this._layers[layer]);
+					//console.info(this._layers[layer]);
 
 					if (this._layers[layer].layer.options.group.groupName == groupName
 							&& this._layers[layer].layer.options.group.id == groupId) {
 
 						for (sublayer in this._layers[layer]._layers) {
-							console.info(this._layers[layer]._layers[sublayer]);
+							//console.info(this._layers[layer]._layers[sublayer]);
 							// resp_Layer.push(this._layers[layer]._layers[sublayer]);
 						}
 
@@ -174,12 +174,15 @@ L.Control.OrderLayers = L.Control.Layers
 			
 			
 
-			updateTreeGroupLayers:function (groupId,groupName,businessId,z_order){
+			updateTreeGroupLayers:function (groupId,groupName,businessId,z_order,expanded){
+				
+				
+				console.debug(this._groupList);
 				
 				this._groupList[groupId].groupName=groupName; 
 				this._groupList[groupId].name=groupName; 
 				this._groupList[groupId].id=groupId; 
-				
+				this._groupList[groupId].expanded=expanded;
 				for (layer in this._layers) {
 
 					if (this._layers[layer].layer.options.group && this._layers[layer].layer.options.businessId == businessId){
@@ -187,15 +190,37 @@ L.Control.OrderLayers = L.Control.Layers
 						this._layers[layer].layer.options.group.name = groupName;
 						this._layers[layer].layer.options.group.groupName = groupName;
 						this._layers[layer].layer.options.group.id =groupId;
+						
+						this._layers[layer].layer.options.group.expanded=expanded;
+						
 						this._layers[layer].layer.options.zIndex=z_order;
 						this._layers[layer].layer.setZIndex(z_order);
+						
+						
+						
+					//	map.removeLayer(this._layers[layer].layer);												
+					
+					
+						//console.warn(this._layers[layer].layer);
+						
+						map.eachLayer(function (layer) {
+						    if(layer.options && layer.options.businessId==businessId){
+						    	//console.warn(layer);
+						    	try{
+						    	layer.bringToBack();
+						    	}catch(Err){}
+						    }
+							
+							
+						});
+						
 						
 						return this._layers[layer].layer;
 					}
 				}
 				
 				
-				//this._update();
+				this._update();
 				
 				
 				
@@ -244,33 +269,32 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 
 			removeGroup : function(groupName, groupId) {
-				console.info("Entro ha esborra he esborrat: " + groupName + ":"
-						+ groupId);
+				//console.info("Entro ha esborra he esborrat: " + groupName + ":"+ groupId);
 				if (groupName) {
-					console.info("he esborrat");
-					console.info(this._groupList);
+					//console.info("he esborrat");
+					//console.info(this._groupList);
 					// leaflet-control-accordion-layers-0
 					for (group in this._groupList) {
-
+						console.info("esborrat he esborrat");
+						console.info(groupName);
 						if (this._groupList[group].groupName == groupName
 								&& this._groupList[group].id == groupId) {
 
 							for (layer in this._layers) {
 
-								console.info(this._layers[layer]);
+								//console.info(this._layers[layer]);
 
 								if (this._layers[layer].layer.options.group
 										&& this._layers[layer].layer.options.group.groupName == groupName
 										&& this._layers[layer].layer.options.group.id == groupId) {
 									// var id = L.stamp(obj.layer);
-									console.info("Esborro Capa: " + groupName
-											+ ":" + groupId);
+									//console.info("Esborro Capa: " + groupName+ ":" + groupId);
 									delete this._layers[layer];
 								}
 							}
 
-							console.info("he esborrat");
-							console.info(this._groupList[group]);
+							//console.info("he esborrat");
+							//console.info(this._groupList[group]);
 							delete this._groupList[group];
 							this._update();
 							break;
@@ -352,16 +376,18 @@ L.Control.OrderLayers = L.Control.Layers
 				// this._overlaysList = L.DomUtil.create('div', className +
 				// '-overlays', form);
 
-				this._addButton = L.DomUtil.create('div', 'addVerd', form);
-				L.DomEvent.on(this._addButton, 'click',
-						this._addGroupFromScratch, this);
-
-				$(this._addButton).tooltip({
-					placement : 'left',
-					container : 'body',
-					title : window.lang.convert("Nou grup")
-				});
-
+				
+				if (getModeMapa()) {
+						this._addButton = L.DomUtil.create('div', 'addVerd', form);
+						L.DomEvent.on(this._addButton, 'click',
+								this._addGroupFromScratch, this);
+		
+						$(this._addButton).tooltip({
+							placement : 'left',
+							container : 'body',
+							title : window.lang.convert("Nou grup")
+						});
+				}
 				// this._overlaysList = L.DomUtil.create('div', className +
 				// '-overlays', form);
 
@@ -415,15 +441,13 @@ L.Control.OrderLayers = L.Control.Layers
 			// _addLayer : function (layer, name, group, overlay) {
 
 			_createGroupFromScratch : function(position) {
-				console.info("_createGroupFromScratch: pos " + position);
-				console.info("_createGroupFromScratch: length "
-						+ this._groupList.length);
+				//console.info("_createGroupFromScratch: pos " + position);
+				//console.info("_createGroupFromScratch: length "+ this._groupList.length);
 				var pos = this._groupList.length;
 				var posTXT;
 				if (position == 1 && pos == 0) { // estic afegint una capa
 													// nova i grup nou
-					console
-							.info("estic afegint una capa nova i no existeix gruo");
+					//console.info("estic afegint una capa nova i no existeix gruo");
 					return group = {
 						"groupName" : "Capes",
 						"name" : "Capes",
@@ -433,11 +457,10 @@ L.Control.OrderLayers = L.Control.Layers
 				} else if (position == 1 && pos > 0) { // estic afegint una
 														// capa però ja existeix
 														// un grup
-					console
-							.info("estic afegint una capa nova a un grup existent");
+					//console.info("estic afegint una capa nova a un grup existent");
 					return this._groupList[this._groupList.length - 1];
 				} else if (position == 0) { // usuari afegeix grup nou buit
-					console.info("usuari afegeix grup nou");
+					//console.info("usuari afegeix grup nou");
 					return group = {
 						"groupName" : "Capes " + this._groupList.length,
 						"name" : "Capes " + this._groupList.length,
@@ -463,7 +486,7 @@ L.Control.OrderLayers = L.Control.Layers
 			_addGroupFromScratch : function() {
 				var container = this._overlaysList;
 				var obj = {};
-				console.info(" _addGroupFromScratch");
+				//console.info(" _addGroupFromScratch");
 				var group = this._createGroupFromScratch(0);
 
 				obj.group = group;
@@ -471,7 +494,7 @@ L.Control.OrderLayers = L.Control.Layers
 				// "+this._groupList.length,"name":"Tema
 				// "+this._groupList.length,"id":this._groupList.length,"expanded":true};
 				// var groupId = this._groupList.push(obj.group) - 1;
-				this._groupList.push(obj.group)
+				this._groupList.push(obj.group) -1;
 				this._addGroup(container, obj, null);
 				if (getModeMapa()) {
 					updateEditableElements();
@@ -480,13 +503,13 @@ L.Control.OrderLayers = L.Control.Layers
 
 			_addGroupFromObject : function(group) {
 
-				console.info("_addGroupFromObject");
+				console.debug("_addGroupFromObject");
 				var container = this._overlaysList;
 				var obj = {};
 				obj.group = group;
-				this._groupList.push(obj.group)
+				this._groupList.push(obj.group)-1;
 				this._addGroup(container, obj, null);
-
+				
 			},
 
 			_addGroup : function(container, _obj, _menu_item_checkbox) {
@@ -505,19 +528,22 @@ L.Control.OrderLayers = L.Control.Layers
 					obj = _obj.layer.options;
 					_id = _obj.layer.options.group.id;
 				} else {
-
-					console.info(_obj);
+					console.warn("NO_OBJECTE");
+					console.warn(_obj);
 				}
 
-				console.debug(_id);
+				console.warn(_id);
 				var groupContainer = this._domGroups[_id];
-
+console.warn(groupContainer);
+				
+				
 				if (!groupContainer) {
-					console.debug(obj);
+					//console.debug(obj);
 					// if(obj.group){
+					
+					
 					groupContainer = document.createElement('div');
-					groupContainer.id = 'leaflet-control-accordion-layers-'
-							+ _id;
+					groupContainer.id = 'leaflet-control-accordion-layers-'+ _id;
 					groupContainer.className = 'leaflet-control-accordion-layers';
 					// verify if group is expanded
 					var s_expanded = obj.group.expanded ? ' checked = "true" '
@@ -526,13 +552,13 @@ L.Control.OrderLayers = L.Control.Layers
 					var s_type_exclusive = this.options.exclusive ? ' type="radio" '
 							: ' type="checkbox" ';
 					inputElement = '<input id="ac' + _id
-							+ '" name="accordion-1" class="menu" ' + s_expanded
+							+ '" name="accordion-'+ _id+'" class="menu expanded_input" ' + s_expanded
 							+ s_type_exclusive + '/>';
 					// inputLabel = '<label for="ac' + obj.group.id + '">' +
 					// obj.group.name + '</label>';
 					inputLabel = document.createElement('label');
 					var _for = document.createAttribute('for');
-					_for.value = "ac" + obj.group.id;
+					_for.value = "ac" + _id;
 					inputLabel.setAttributeNode(_for);
 
 					var spanGroup = document.createElement('span');
@@ -544,34 +570,39 @@ L.Control.OrderLayers = L.Control.Layers
 					spanGroup.groupName = obj.group.name;
 					inputLabel.appendChild(spanGroup);
 
-					var col = L.DomUtil.create('span',
-							'tema_verd glyphicon glyphicon-remove group-conf');
-					col.id = 'mv-' + _id;
-					col.groupId = _id;
-					col.groupName = obj.group.name;
-					L.DomEvent.on(col, 'click', this._onRemoveGroup, this);
-					inputLabel.appendChild(col);
+					
+					if(getModeMapa()){
+					
+						var col = L.DomUtil.create('span',
+								'tema_verd glyphicon glyphicon-remove group-conf');
+						col.id = 'mv-' + _id;
+						col.groupId = _id;
+						col.groupName = obj.group.name;
+						L.DomEvent.on(col, 'click', this._onRemoveGroup, this);
+						inputLabel.appendChild(col);
+	
+						$(col).tooltip({
+							placement : 'left',
+							container : 'body',
+							title : window.lang.convert("Esborrar grup")
+						});
+	
+						var col = L.DomUtil
+								.create('span',
+										'tema_verd_move glyphicon glyphicon-move group-conf');
+						// L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
+						col.id = 'rv-' + _id;
+						col.groupName = obj.group.name;
+						col.groupId = _id;
+						inputLabel.appendChild(col);
+						$(col).tooltip({
+							placement : 'left',
+							container : 'body',
+							title : window.lang.convert("Moure grup")
+						});
 
-					$(col).tooltip({
-						placement : 'left',
-						container : 'body',
-						title : window.lang.convert("Esborrar grup")
-					});
-
-					var col = L.DomUtil
-							.create('span',
-									'tema_verd_move glyphicon glyphicon-move group-conf');
-					// L.DomEvent.on(col, 'click', this._onRemoveTeme, this);
-					col.id = 'rv-' + _id;
-					col.groupName = obj.group.name;
-					col.groupId = _id;
-					inputLabel.appendChild(col);
-					$(col).tooltip({
-						placement : 'left',
-						container : 'body',
-						title : window.lang.convert("Moure grup")
-					});
-
+					}
+					
 					article = document.createElement('ol');
 					// article = document.createElement('article');
 					article.className = 'ac-large';
@@ -622,8 +653,8 @@ L.Control.OrderLayers = L.Control.Layers
 				 * this._layers[id] = { layer : layer, name : name, overlay :
 				 * overlay };
 				 */
-				console.info(layer.options);
-				console.info(layer.options.group);
+				//console.info(layer.options);
+				//console.info(layer.options.group);
 				// console.info(layer.options.group.name);
 
 				if (groupLeafletId) {
@@ -644,7 +675,7 @@ L.Control.OrderLayers = L.Control.Layers
 					};
 				}
 
-				console.info(layer.options.group);
+				console.info(layer);
 				var group = layer.options.group;
 
 				var _heCreat = false;
@@ -665,7 +696,8 @@ L.Control.OrderLayers = L.Control.Layers
 					 * console.info(group); //this._groupList.push(group);
 					 */
 
-					console.info("passo valor 1");
+					console.warn("createGroupFromScratch");
+					
 					group = this._createGroupFromScratch(1);
 					_heCreat = true;
 
@@ -674,7 +706,16 @@ L.Control.OrderLayers = L.Control.Layers
 				if (group) {
 
 					var groupId = this._groupList.indexOf(group);
-
+					
+					
+					
+							if(group.id){
+								
+								groupId=group.id;	
+								//if(!getModeMapa()){
+									this._groupList.push(group) - 1;
+								//}					
+							}
 					// if(!group.groupName){group.groupName="Tema"+groupId;};
 					// if not find the group search for the name
 					// console.info(group.groupName);
@@ -693,6 +734,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					if (this._layers[id]) {
 						console.info(this._layers[id]);
+						console.info(groupId);
 						// if(!this._layers[id].options){this._layers[id].options;}
 
 						this._layers[id].layer.options.group = {
@@ -704,15 +746,14 @@ L.Control.OrderLayers = L.Control.Layers
 
 						if (_heCreat) {
 
-							console.info("he creat grup")
+							//console.info("he creat grup")
 
 							if (getModeMapa()) {
 
 								console.info("estic mode mapa");
 
-								console
-										.info(this._layers[id].layer.options.businessId);
-								console.info(this._layers[id].layer.options);
+								//console.info(this._layers[id].layer.options.businessId);
+								//console.info(this._layers[id].layer.options);
 								var data = {
 									businessId : this._layers[id].layer.options.businessId, // url('?businessid')
 									uid : $.cookie('uid'),
@@ -742,9 +783,17 @@ L.Control.OrderLayers = L.Control.Layers
 					return;
 				}
 
+				
+				
+				
 				this._domGroupsTMP = this._groupList;
-				this._groupList = [];
-				this._domGroupsTM2 = this._domGroups;
+				
+				
+				
+				
+				this._groupList = [];	
+				
+				
 				this._baseLayersList.innerHTML = '';
 				this._overlaysList.innerHTML = '';
 				this._domGroups.length = 0;
@@ -753,10 +802,14 @@ L.Control.OrderLayers = L.Control.Layers
 				// console.info(this._domGroups);
 				var that = this;
 
-				// this._domGroupsTMP=sortByKey(this._domGroupsTMP, "id");
+				
+				
+				this._domGroupsTMP=sortByKey(this._domGroupsTMP, "id");
 
 				this._domGroupsTMP.forEach(function(item, index, array) {
-					console.debug(item);
+					
+					
+					
 					that._addGroupFromObject(item);
 				});
 
@@ -770,46 +823,10 @@ L.Control.OrderLayers = L.Control.Layers
 					baseLayersPresent = baseLayersPresent || !obj.overlay;
 				}
 
-				/*
-				 * if(this._domGroups.length < this._domGroupsTMP.length ){
-				 * 
-				 * console.info("Entro"); var fullGrups=[];
-				 * this._domGroups.forEach(function (item, index, array) {
-				 * fullGrups.push(parseInt(item.id.replace("leaflet-control-accordion-layers-",'')));
-				 * });
-				 * 
-				 * var emptyGrups=[]; this._domGroupsTMP.forEach(function (item,
-				 * index, array) { emptyGrups.push(item.id); });
-				 * 
-				 * 
-				 * var recoveryGroup=this._diferences(emptyGrups,fullGrups);
-				 * 
-				 * console.info( recoveryGroup); var
-				 * that_GroupTMP=this._domGroupsTMP; var that=this;
-				 * recoveryGroup.forEach(function (item, index, array) {
-				 * 
-				 * console.info(item);
-				 * 
-				 * for (var i=0; i < that_GroupTMP.length; i++) { if
-				 * (that_GroupTMP[i].id === item) {
-				 * 
-				 * console.info(that_GroupTMP[i]);
-				 * that._addGroupFromObject(that_GroupTMP[i]); break; } } });
-				 * 
-				 * 
-				 * 
-				 *  }
-				 * 
-				 */
+				
 			},
 
-			_sortByKey : function(array, key) {
-				return array.sort(function(a, b) {
-					var x = a[key];
-					var y = b[key];
-					return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-				});
-			},
+			
 
 			_diferences : function(a1, a2) {
 				var a = [], diff = [];
@@ -881,9 +898,9 @@ L.Control.OrderLayers = L.Control.Layers
 					input.id = 'input-' + obj.layer.options.businessId;
 					input.type = 'checkbox';
 					// input.className = 'leaflet-control-layers-selector';
-					input.className = 'checkbox_styled sr-only';
+					input.className = 'checkbox_styled sr-only leaflet-control-layers-selector';
 					input.defaultChecked = checked;
-
+					
 				} else {
 					input = this._createRadioElement('leaflet-base-layers',
 							checked);
@@ -893,6 +910,7 @@ L.Control.OrderLayers = L.Control.Layers
 				_leaflet_input.className = "leaflet-input";
 
 				input.layerId = L.Util.stamp(obj.layer);
+				L.DomEvent.on(input, 'click', this._onInputClick, this);
 				var label_for = document.createElement('label');
 				var _for = document.createAttribute('for');
 				_for.value = 'input-' + obj.layer.options.businessId;
@@ -910,7 +928,7 @@ L.Control.OrderLayers = L.Control.Layers
 				nomCapa.className = 'editable';
 				nomCapa.id = input.layerId;
 				nomCapa.innerHTML = ' ' + obj.name;
-				L.DomEvent.on(input, 'click', this._onInputClick, this);
+				
 
 				_label_buit.appendChild(nomCapa);
 
@@ -938,7 +956,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 				if (obj.overlay) {
 
-					if (modeMapa) {
+					if (getModeMapa()) {
 
 						col = L.DomUtil
 								.create('div',
@@ -947,16 +965,20 @@ L.Control.OrderLayers = L.Control.Layers
 						col.layerId = input.layerId;
 						_menu_item_checkbox.appendChild(col);
 
-						col = L.DomUtil
-								.create(
-										'div',
-										'conf-'
-												+ obj.layer.options.businessId
-												+ ' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
-						col.layerId = input.layerId;
-						L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-						_menu_item_checkbox.appendChild(col);
+						
+						if(getModeMapa()){
+								col = L.DomUtil
+										.create(
+												'div',
+												'conf-'
+														+ obj.layer.options.businessId
+														+ ' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
+								col.layerId = input.layerId;
+								L.DomEvent.on(col, 'click', this._onRemoveClick, this);
+								_menu_item_checkbox.appendChild(col);
 
+						}
+						
 						if (obj.layer.options.source) {
 							col = L.DomUtil
 									.create(
@@ -985,9 +1007,7 @@ L.Control.OrderLayers = L.Control.Layers
 							_menu_item_checkbox.appendChild(col);
 						}
 
-						if (obj.layer.options.tipus
-								&& obj.layer.options.tipus.indexOf(t_wms) != -1) {
-
+						
 							col = L.DomUtil
 									.create(
 											'div',
@@ -1005,38 +1025,28 @@ L.Control.OrderLayers = L.Control.Layers
 								title : window.lang.convert("Transparència")
 							});
 
+						
+
+						
+						
+						if(getModeMapa()){
+								col = L.DomUtil
+										.create(
+												'div',
+												'conf-'
+														+ obj.layer.options.businessId
+														+ ' leaflet-move glyphicon glyphicon-move subopcio-conf');
+								col.layerId = input.layerId;
+								// L.DomEvent.on(col, 'click', this._onDownClick, this);
+								_menu_item_checkbox.appendChild(col);
+		
+								$(col).tooltip({
+									placement : 'bottom',
+									container : 'body',
+									title : window.lang.convert("Moure")
+								});
 						}
-
-						col = L.DomUtil
-								.create(
-										'div',
-										'conf-'
-												+ obj.layer.options.businessId
-												+ ' leaflet-move glyphicon glyphicon-move subopcio-conf');
-						col.layerId = input.layerId;
-						// L.DomEvent.on(col, 'click', this._onDownClick, this);
-						_menu_item_checkbox.appendChild(col);
-
-						$(col).tooltip({
-							placement : 'bottom',
-							container : 'body',
-							title : window.lang.convert("Moure")
-						});
-
-						/*
-						 * col = L.DomUtil.create('div',
-						 * 'conf-'+obj.layer.options.businessId+' leaflet-down
-						 * glyphicon glyphicon-chevron-down subopcio-conf');
-						 * col.layerId = input.layerId; L.DomEvent.on(col,
-						 * 'click', this._onDownClick, this);
-						 * label.appendChild(col);
-						 * 
-						 * col = L.DomUtil.create('div',
-						 * 'conf-'+obj.layer.options.businessId+' leaflet-up
-						 * glyphicon glyphicon-chevron-up subopcio-conf');
-						 * L.DomEvent.on(col, 'click', this._onUpClick, this);
-						 * col.layerId = input.layerId; label.appendChild(col);
-						 */
+						
 
 					} else {
 
@@ -1101,6 +1111,8 @@ L.Control.OrderLayers = L.Control.Layers
 
 					}
 
+					
+					
 					container = this._overlaysList;
 				} else {
 					container = this._baseLayersList;
@@ -1118,7 +1130,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 				}
 
-				console.debug(obj);
+				//console.debug(obj);
 
 				this._addGroup(container, obj, _menu_item_checkbox);
 
@@ -1158,7 +1170,7 @@ L.Control.OrderLayers = L.Control.Layers
 						+ sublayer.layer.options.businessId;
 				input_sublayer.type = 'checkbox';
 				// input_sublayer.className = 'leaflet-control-layers-selector';
-				input_sublayer.className = 'checkbox_eye sr-only';
+				input_sublayer.className = 'checkbox_eye sr-only leaflet-control-layers-selector';
 				input_sublayer.defaultChecked = checked;
 
 				input_sublayer.layerId = L.stamp(sublayer.layer);
@@ -1206,7 +1218,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 			_onInputClick : function() {
 
-				console.info("aqui");
+				//console.info("aqui");
 
 				var i, input, obj, inputs = this._form
 						.getElementsByTagName('input'), inputsLen = inputs.length;
@@ -1217,14 +1229,14 @@ L.Control.OrderLayers = L.Control.Layers
 
 				var currentbid = arguments[0].currentTarget.id.replace(
 						"input-", "");
-				console.info(arguments[0].currentTarget.layerIdParent);
+				//console.info(arguments[0].currentTarget.layerIdParent);
 				// tractament en cas heatmap
 				if (arguments[0].currentTarget.layerIdParent) {
 					id = arguments[0].currentTarget.layerId;
 					parentId = arguments[0].currentTarget.layerIdParent;
-					console.info(parentId);
-					console.info(controlCapes._layers[parentId]._layers[id]);
-					console.info(arguments[0].currentTarget.value);
+					//console.info(parentId);
+					//console.info(controlCapes._layers[parentId]._layers[id]);
+					//console.info(arguments[0].currentTarget.value);
 					checkHeat = isHeat(controlCapes._layers[parentId]._layers[id])
 							&& arguments[0].currentTarget.value == "on";
 				}
@@ -1247,15 +1259,15 @@ L.Control.OrderLayers = L.Control.Layers
 					// Si la capa clickada �s heatmap i s'ha d'activar, i la que
 					// estem tractant tb, no s'ha de mostrar
 
-					console.info(obj);
+					//console.info(obj);
 
 					if (isHeat(obj) && checkHeat && obj.layer._leaflet_id != id) {
 						input.checked = false;
 					}
-					console.info(obj);
+					//console.info(obj);
 					// Afegir
 					if (input.checked && !this._map.hasLayer(obj.layer)) {
-						console.info(obj);
+						//console.info(obj);
 						this._map.addLayer(obj.layer);
 
 						if (obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
@@ -1287,14 +1299,14 @@ L.Control.OrderLayers = L.Control.Layers
 
 					} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
-						console.info(obj);
+						//console.info(obj);
 						// Si es vis_wms, hem d'eliminar tb la capa utfgrid
 						if (obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
 							var utfGridLayer = this._map._layers[obj.layer.options.utfGridLeafletId];
 							this._map.removeLayer(utfGridLayer);
 						}
 
-						console.info(obj);
+						//console.info(obj);
 						this._map.removeLayer(obj.layer);
 
 						// Si hem desactivat capa de tipus tematic categories,
@@ -1450,8 +1462,8 @@ L.Control.OrderLayers = L.Control.Layers
 			_onRemoveGroup : function(e) {
 				$('.tooltip').hide();
 				L.DomEvent.stop(e);
-				console.info(e.currentTarget.groupName);
-				console.info(e.currentTarget.groupId);
+				//console.info(e.currentTarget.groupName);
+				//console.info(e.currentTarget.groupId);
 				$('#dialog_delete_group').modal('show');
 				$('#dialog_delete_group #nom_group_delete').text(
 						e.currentTarget.groupName);
@@ -1545,12 +1557,12 @@ L.Control.OrderLayers = L.Control.Layers
 				var layerId = e.currentTarget.layerId;
 				var obj = this._layers[layerId];
 				var op = obj.layer.options.opacity;
-				console.info(obj);
+				//console.info(obj);
 				if (!op) {
 
-					console.info(op);
+					//console.info(op);
 				}
-				console.info(op);
+				//console.info(op);
 
 				if (!op) {
 					op = 1;
@@ -1568,7 +1580,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					obj.layer.setOpacity(op);
 				} catch (err) {
-					console.info(op);
+					//console.info(op);
 					// obj.layer.options.opacity=op;
 					obj.layer.options.fillOpacity = op;
 					obj.layer.setStyle({

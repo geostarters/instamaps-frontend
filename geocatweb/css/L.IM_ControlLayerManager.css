@@ -599,7 +599,11 @@ ol.ac-large li.placeholder:before {
 
 
 
-
+.leaflet-control-layers-selector {
+   
+    top: 0 !important;
+    position: absolute !important;
+}
 
 
 

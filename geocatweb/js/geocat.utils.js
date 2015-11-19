@@ -691,7 +691,7 @@ return hash_map;
 
 
 function getModeMapa(){
-	console.info("getmodemapa");
+
 	return  ($(location).attr('href').indexOf('/mapa.html')!=-1);
 	
 }

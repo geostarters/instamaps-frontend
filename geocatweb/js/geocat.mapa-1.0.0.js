@@ -181,6 +181,8 @@ function loadApp(){
 					//	window.location.href = paramUrl.galeriaPage;
 					//}												
 				}catch(err){
+					
+					console.debug(err);
 					gestioCookie('loadMapConfig');
 				}
 			}
@@ -380,6 +382,8 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				
+			var fons = mapConfig.options.fons;
+			
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
