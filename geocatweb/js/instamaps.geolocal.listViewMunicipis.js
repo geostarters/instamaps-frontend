@@ -37,7 +37,9 @@
         
         drawList: function(){
         	var that = this;
-        	that.label.show();
+        	if(that.label){
+        		that.label.show();
+        	}
         	$.each(that.filtered, function() {
         		var item = this;
         		var option = $('<li/>')
