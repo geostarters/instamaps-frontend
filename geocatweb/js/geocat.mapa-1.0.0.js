@@ -455,7 +455,7 @@ function loadMapConfig(mapConfig){
 }
 
 function loadOrigenWMS(){
-	console.info("loadOrigenWMS");
+	
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
 	jQuery.each(mapConfig.servidorsWMS, function(index, value){
@@ -473,16 +473,13 @@ function loadOrigenWMS(){
 	
 	jQuery.each(layer_map.origen, function(index, value){
 		
-		var options=JSON.parse(value.options);
-		console.info(options);
-		
-		console.info(options.group);
+		var options=JSON.parse(value.options);		
 		controlCapes._addGroupFromObject (options.group);
 		
 	});
 	
 	
-	console.info(layer_map);
+	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
