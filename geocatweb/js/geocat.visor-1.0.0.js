@@ -249,6 +249,8 @@ function loadPublicMap(results){
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 			VisorGeolocal.initUi();
 			
+			console.debug(mapConfig.options);
+			
 			if (mapConfig.options.barColor){
 				$('#navbar-visor').css('background-color', mapConfig.options.barColor);
 			}
@@ -267,9 +269,9 @@ function loadPublicMap(results){
 				$('#navbar-visor').css('font-family', mapConfig.options.fontType);
 			}
 			
-			if (mapConfig.options.escut){
+			if (mapConfig.logo){
 				$('.img-circle2-icon').hide();
-				$('.escut img').prop('src', '/logos/'+mapConfig.options.escut);
+				$('.escut img').prop('src', '/logos/'+mapConfig.logo);
 			}else{
 				$('.logo_instamaps').hide();
 			}

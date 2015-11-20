@@ -49,7 +49,9 @@
         
         cleanList: function(){
         	var that = this;
-        	that.label.hide();
+        	if(that.label){
+        		that.label.hide();
+        	}
         	if(that.listMuni){
         		that.listMuni.empty();
         	}
