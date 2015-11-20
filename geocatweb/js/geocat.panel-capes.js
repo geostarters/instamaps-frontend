@@ -183,7 +183,7 @@ function addFuncioRemoveLayer(){
 		
 		removeServerToMap(data).then(function(results){
 			if(results.status==='OK'){
-			
+				emptyMapLegendEdicio(obj.layer);
 				map.closePopup();
 				map.removeLayer(obj.layer);
 				//Eliminem la capa de controlCapes

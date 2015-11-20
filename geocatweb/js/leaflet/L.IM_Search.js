@@ -216,9 +216,8 @@ L.Control.Search = L.Control.extend({
 	
 	cancel: function() {
 		this._input.value = '';
-		this._handleKeypress({keyCode:8});//simulate backspace keypress
-		this._input.size = this._inputMinSize;
-		this._input.focus();
+		//this._handleKeypress({keyCode:46});//simulate backspace keypress
+		//this._input.focus();
 		this._cancel.style.display = 'none';
 		return this;
 	},
@@ -305,6 +304,7 @@ L.Control.Search = L.Control.extend({
 		
 		
 		L.DomEvent
+			.disableClickPropagation(input)
 			.on(input, 'keyup', this._handleKeypress, this)
 			.on(input, 'keydown', this._handleAutoresize, this)
 			.on(input, 'blur', this.collapseDelayed, this)
@@ -646,7 +646,7 @@ L.Control.Search = L.Control.extend({
 			case 17://Ctrl
 			//case 32://Space
 			break;
-			//case 8://backspace
+			case 8://backspace
 			case 46://delete
 				this._autoTypeTmp = false;//disable temporarily autoType
 			break;
@@ -824,9 +824,9 @@ L.Control.Search = L.Control.extend({
 	
 		if(this._markerLoc)
 		{
-			
+			var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
 			if(v_url.indexOf('visor')==-1){
-				var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
+				
 				var marker;
 				//this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
 				if(!defaultPunt.options.isCanvas){
@@ -843,9 +843,9 @@ L.Control.Search = L.Control.extend({
 							  weight :  defaultPunt.options.weight,
 							  opacity :  defaultPunt.options.opacity,
 							  fillOpacity : defaultPunt.options.fillOpacity,
-							  tipus: t_marker}
-							
+							  tipus: t_marker}							
 					);
+					
 				}
 				marker.setLatLng(latlng);
 				capaUsrActiva = new L.FeatureGroup();
@@ -885,17 +885,28 @@ L.Control.Search = L.Control.extend({
 				);
 				this._markerLoc.setLatLng(latlng); 
 				this._layer.addLayer(this._markerLoc);*/
-				var marker= L.circleMarker([0,0],
-						{ isCanvas:true,
-						  simbolSize: 6,
-					      borderWidth: 2,
-					      opacity: 1,
-					      borderColor : "#ffffff",
-					      color :"red",
-					      lineWidth: 3}
-						
-				);
+				var marker=null;
+				if(!defaultPunt.options.isCanvas){
+					marker=L.marker([0,0],
+						{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
+						 tipus: t_marker});
+				}else{
+					//Si és cercle sense glifon
+					marker= L.circleMarker([0,0],
+							{ radius : defaultPunt.options.radius, 
+							  isCanvas:defaultPunt.options.isCanvas,
+							  fillColor : defaultPunt.options.fillColor,
+							  color :  defaultPunt.options.color,
+							  weight :  defaultPunt.options.weight,
+							  opacity :  defaultPunt.options.opacity,
+							  fillOpacity : defaultPunt.options.fillOpacity,
+							  tipus: t_marker}							
+					);
+					
+				}
+				
 				marker.setLatLng(latlng); 
+				
 				this._layer.addLayer(marker);
 				map.addLayer(this._layer);
 				map.addLayer(this._layer);
@@ -903,6 +914,7 @@ L.Control.Search = L.Control.extend({
 			
 		}
 		clearTimeout(this.timerKeypress);
+		
 		//FIXME autoCollapse option hide this._markerLoc before that visualized!!
 		if(this.options.autoCollapse)
 			this.collapse();
