@@ -466,6 +466,21 @@ function loadOrigenWMS(){
 			layer_map.origen.push(value);
 		}
 	});
+	
+	
+	//NOu 
+	
+	jQuery.each(layer_map.origen, function(index, value){	
+		var options=JSON.parse(value.options);		
+		controlCapes._addGroupFromObject (options.group);	
+	});
+	
+	
+	
+	
+	
+	
+	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
