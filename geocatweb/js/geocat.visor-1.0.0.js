@@ -116,14 +116,12 @@ function loadVisorSimple(){
 	var controlFons = new L.IM_controlFons().addTo(map);
 	map.topoMapGeo();
 	map.setActiveMap(topoMapGeo);
-	map.setMapColor("");
-	jQuery("#topoMapGeo").css('opacity','1');
+	map.setMapColor("");	
 	
-	
-	$('meta[name="og:title"]').attr('content', "InstaMaps: "+ url('?layername')+" cloudifier");
-	$('#nomAplicacio').html("InstaMaps: "+ url('?layername')+" cloudifier");
-	document.title = "InstaMaps: "+ url('?layername')+" cloudifier";
-	jQuery("#mapTitle").html("InstaMaps: "+ url('?layername')+" cloudifier");
+	$('meta[name="og:title"]').attr('content', "Mapa  "+ url('?layername')+" cloudifier");
+	$('#nomAplicacio').html("Mapa "+ url('?layername')+" cloudifier");
+	document.title = "Mapa "+ url('?layername')+" cloudifier";
+	jQuery("#mapTitle").html("Mapa  "+ url('?layername')+" cloudifier");
 
 	
 	activaPanelCapes(true);	
@@ -173,7 +171,7 @@ function loadApp(){
   			'prefix2': 'WGS84',
   			'separator': ' ',
   			'showETRS89':true
-  		}).addTo(map);
+  		}).addTo(map);  
           
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
 				
@@ -196,7 +194,7 @@ function loadApp(){
 				//mostar modal con contraseña
 				loadPasswordModal();
 			}else{
-				loadPublicMap(results)
+				loadPublicMap(results);
 			}
 		},function(results){
 			var uidUrl = url('?uid');
@@ -227,7 +225,7 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 	
-	$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
+	$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 	
 	var nomUser = mapConfig.entitatUid.split("@");
 	var infoHtml = '<p>'+nomUser[0]+'</p>';
@@ -235,14 +233,49 @@ function loadPublicMap(results){
 	if (mapConfig.options){
 		mapConfig.options = $.parseJSON( mapConfig.options );
 
-		$('meta[name="description"]').attr('content', mapConfig.options.description);	
-		$('meta[name="og:description"]').attr('content', mapConfig.options.description);
+		var desc=mapConfig.options.description;
+		
+		desc==""?desc=mapConfig.nomAplicacio:desc=desc;
+		
+		$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');	
+		$('meta[name="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 		
 		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid'); 
 		$('meta[name="og:image"]').attr('content', urlThumbnail);
 		
 		infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+		//TODO ver como sacar el módulo
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+			VisorGeolocal.initUi();
+			
+			console.debug(mapConfig.options);
+			
+			if (mapConfig.options.barColor){
+				$('#navbar-visor').css('background-color', mapConfig.options.barColor);
+			}
+			
+			if (mapConfig.options.textColor){
+				$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
+				$('.navbar-brand').css('color', mapConfig.options.textColor);
+				$('#mapTitle').css('color', mapConfig.options.textColor);
+				$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
+				$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
+				$('.navbar-form').css('border-color', 'transparent');
+				$('.bt-sessio').css('border-color', '#ffffff');
+			}
+			
+			if (mapConfig.options.fontType){
+				$('#navbar-visor').css('font-family', mapConfig.options.fontType);
+			}
+			
+			if (mapConfig.logo){
+				$('.img-circle2-icon').hide();
+				$('.escut img').prop('src', '/logos/'+mapConfig.logo);
+			}else{
+				$('.logo_instamaps').hide();
+			}
+		}
 	}
 	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació"></span>');
 	
@@ -284,9 +317,15 @@ function loadPublicMap(results){
 			updateLangText();
 		});	
 		canviaIdioma(web_determinaIdioma());				
-		document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+		document.title = mapConfig.nomAplicacio +" - Mapa";
 		
 		var controlFons = new L.IM_controlFons().addTo(map);
+		
+		$.publish('loadMap', map);
+		
+		map.on('moveend',function(e){
+      		$.publish('mapMoveend', this);
+      	});
 		
 	});
 }
@@ -668,8 +707,6 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
-				
-				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
@@ -690,16 +727,12 @@ function loadMapConfig(mapConfig){
 					map.historicOrtoMap46();
 				}else if (fons == 'alcadaMap'){
 					map.alcadaMap();
-					
-				}else if (fons == 'naturalMap') {
-					map.naturalMap();
-					
-				}else if (fons == 'divadminMap') {
-					map.divadminMap();
-					
-					
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);			
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();					
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();					
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
@@ -790,8 +823,9 @@ function loadLayer(value){
 		});
 	//Si la capa es de tipus url file
 	}else if(value.serverType == t_url_file){
-		loadURLfileLayer(value);
-		defer.resolve();		
+		loadURLfileLayer(value).then(function(){
+			defer.resolve();
+		});
 	//Si la capa es de tipus dades obertes
 	}else if(value.serverType == t_geojsonvt){
 		//console.debug(loadGeojsonvtLayer);
@@ -825,6 +859,10 @@ function loadLayer(value){
 	//Si la capa es de tipus vis_wms
 	}else if(value.serverType == t_vis_wms || value.serverType == t_vis_wms_noedit){
 		loadVisualitzacioWmsLayer(value);
+		defer.resolve();
+	}
+	else if(value.serverType == tem_heatmap_wms || value.serverType == tem_cluster_wms){
+		loadVisualitzacioWmsLayerSenseUtfGrid(value);
 		defer.resolve();
 	}
 	

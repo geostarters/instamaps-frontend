@@ -14,7 +14,7 @@ var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" targe
 var ICGC_HISTOOrto='Font: Vol americà 1956-57 Ministerio de Defensa';
 var ICGC_HISTOOrto46='Font:Vol Americà A 1946-47 Ministerio de Defensa';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
-var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17;
+var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17,TOPO_GEO_ICC_L8_17_TOPONIMS;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19;
 
 var _hibridLayers=null,HIBRID_MQ_L0_18,HIBRID_ICGC_L0_18,HIBRID_ICGC_L13_18;
@@ -25,7 +25,6 @@ var _alcadesMap=null;
 var _naturalMap=null;
 var _divadminMap=null;
 
-
 var ESRI_RELLEU_L0_13;			 
 var ICC_RELLEU_L0_14;
 var MQ_TOPO_GRIS_L7_19,ICC_TOPO_GRIS_L7_10,ICC_TOPO_GRIS_L11_19,ICC_MON_L0;
@@ -35,6 +34,8 @@ var HISTOOrto_ICC_L0_14;
 var HISTOOrto46_ICC_L0_14;
 var ALCADAMAPA_ICGC_L0_17;
 var DIVADMIN_L0_14;
+var DIVADMIN_L14_18;
+var DIVADMIN_L14_18_TOPO;
 var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
@@ -87,6 +88,7 @@ var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}
 var URL_TOPOICC_GEO_MON=urlServerTiles+'/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
 
 var URL_TOPOICC_GEO_NATURAL=urlServerTiles+'/mapcache/tms/1.0.0/natural3857@GMTOT/{z}/{x}/{y}.png';
+var URL_TOPONIMS_GEO=urlServerTiles+'/mapcache/tms/1.0.0/toponims3857@GMTOT/{z}/{x}/{y}.png';
 var URL_DIVADMIN=urlServerTiles+'/mapcache/tms/1.0.0/BOUNDARIES@GM14/{z}/{x}/{y}.png';
 
 
@@ -389,8 +391,13 @@ L.IM_Map = L.Map.extend({
 				
 				
 					this.mirarActivarHill(false,this.getZoom(),sC);							
-				if((sC==0)|| (sC==1)){  
+				if(sC==0){
 					TOPO_GEO_MQ_L15_18.setOpacity(1);
+					TOPO_GEO_MON_L0_14.setOpacity(1);						
+					this.attributionControl.setPrefix(ICGC+" - "+MQ_ATTR +" ZL:"+this.getZoom());	
+					
+				}else if(sC==1){  
+					TOPO_GEO_MQ_L15_18.setOpacity(0.7);
 					TOPO_GEO_MON_L0_14.setOpacity(1);						
 					this.attributionControl.setPrefix(ICGC+" - "+MQ_ATTR +" ZL:"+this.getZoom());			
 				}else if(sC==2){											
@@ -426,15 +433,15 @@ L.IM_Map = L.Map.extend({
 					ORTO_ESRI_L0_19.setOpacity(1);
 					this.attributionControl.setPrefix(ESRI_ATTR +" ZL:"+this.getZoom());				
 				}else if(sC==1){ //Cat i altres
-					ORTO_ESRI_L0_19.options.maxZoom=19;			 
+					ORTO_ESRI_L0_19.options.maxZoom=17;			 
 					ORTO_ICC_L0_11.options.maxZoom=11;
-					ORTO_ICC_L12_19.options.maxZoom=12;
+					ORTO_ICC_L12_19.options.maxZoom=20;
 					ORTO_ESRI_L0_19.setOpacity(0.8);					
 					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR +" ZL:"+this.getZoom());	
 				}else if(sC==2){ //Nomes cat
 					ORTO_ESRI_L0_19.setOpacity(0);		 
 					ORTO_ICC_L0_11.options.maxZoom=11;
-					ORTO_ICC_L12_19.options.maxZoom=19;			
+					ORTO_ICC_L12_19.options.maxZoom=20;			
 					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 				}
 				
@@ -547,8 +554,8 @@ L.IM_Map = L.Map.extend({
 		
 		}else if(f==FONS_DIVADMIN){	
 			this.mirarActivarHill(false,this.getZoom(),sC);	
-			if(this.getZoom() > 14){
-				map.setZoom(14);
+			if(this.getZoom() > 18){
+				map.setZoom(18);
 			}
 			this.attributionControl.setPrefix(ICGC+ ","+MQ_ATTR +" ZL:"+this.getZoom());	
 				
@@ -706,7 +713,7 @@ L.IM_Map = L.Map.extend({
 	
 	ortoMap: function (print){
 		this.deletePreviousMap();	
-		this.ajustaZoom(19);
+		this.ajustaZoom(20);
 		this.setActiveMap(FONS_ORTOMAP);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_ORTOMAP;
@@ -717,6 +724,7 @@ L.IM_Map = L.Map.extend({
 		   maxZoom:19}
 		).addTo(_ortoLayers);
 
+		
 if(print){
 			ORTO_ICC_L0_11 = new L.TileLayer(URL_ORTOICC,{  	    
 				tms:false,
@@ -743,7 +751,7 @@ if(print){
 		ORTO_ICC_L12_19 = new L.TileLayer(URL_ORTOICC,{  	    
 			tms:false,
 			minZoom: 12,
-			maxZoom: 19,	                                                        
+			maxZoom: 20,	                                                        
 			boundary: catContorn5k, 
 			continuousWorld: true,
 			worldCopyJump: false
@@ -789,6 +797,22 @@ if(print){
 			maxZoom: 18	                                                        
 			
 		}).addTo(_naturalMap);
+		
+		
+		TOPO_GEO_ICC_L8_17_TOPONIMS = new L.TileLayer(URL_TOPONIMS_GEO,{  	    
+			tms:true,
+			continuousWorld: true,
+			worldCopyJump: false,
+			minZoom: 8,
+			maxZoom: 18	                                                        
+			
+		}).addTo(_naturalMap);
+		
+		
+		
+		
+		
+		
 		this.addLayer(_naturalMap,true);
 	},
 	
@@ -983,16 +1007,40 @@ if(print){
 		this.setActiveMap(FONS_DIVADMIN);
 		this.setMapColor(null);
 		this.options.typeMap=FONS_DIVADMIN;
-		this.ajustaZoom(14);
+		this.ajustaZoom(18);
 		_divadminMap=L.layerGroup();
 		
+	
 		DIVADMIN_L0_14= new L.TileLayer(URL_DIVADMIN, {
 			minZoom: 0, 
-			maxZoom: 14, 
+			maxZoom: 13, 
 			tms:true, 
 			continuousWorld: true,
 			worldCopyJump:false, 
 		}).addTo(_divadminMap);
+		
+		
+		
+		
+		
+		DIVADMIN_L14_18= new L.IM_ColorLayer(URL_TOPOICC_GEO_NATURAL, {
+			minZoom: 14,
+			maxZoom: 18,
+			tms:true,
+			color:'gris',
+			continuousWorld: true,
+			worldCopyJump: false,
+		}).addTo(_divadminMap);
+		
+		
+		DIVADMIN_L14_18_TOPO= new L.TileLayer(URL_TOPONIMS_GEO, {
+			minZoom: 14,
+			maxZoom: 18,
+			tms:true,
+			continuousWorld: true,
+			worldCopyJump: false,
+		}).addTo(_divadminMap);
+		
 		
 		this.addLayer(_divadminMap,true);
 		

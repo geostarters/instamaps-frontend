@@ -203,10 +203,6 @@ function publicarMapa(fromCompartir){
 	}).get();
 	//console.debug(layers);
 	
-	//Atencio miro estat de les capes
-	reOrderGroupsAndLayers();
-	alert(1);
-	
 	var nomApp = jQuery('#nomAplicacio').html();
 	
 	if(!fromCompartir) nomApp = jQuery('#dialgo_publicar #nomAplicacioPub').val();

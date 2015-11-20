@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Default config",
+    "description": "Default configuration for InstaMaps",
+    "type": "object",
+    "funcionalitatsLoginat": ["carregaDadesUsuari()"],
+    "funcionalitats": [	"addFuncioRenameMap()",
+    					"addFuncioRemoveLayer()", 
+    					"addFuncioDownloadLayer('mapa')",
+    					"addControlHillShading()",
+    					"addOpcionsFonsMapes()","creaPopOverMesFonsColor()",
+						"initButtonsTematic()",
+						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",
+						"addControlCercaEdit()",
+						"Publicar.addControl('#funcio_publicar',$.cookie('uid'),$.cookie('collaborateuid'))",
+						"addCompartirMapa()"
+						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
+						,"addControlAltresFontsDades()"
+						,"addFuncioEditDataTable()"
+						,"addHtmlInterficieFuncionsSIG()","creaPopOverMesFuncionsGIS()"
+						],
+    "required": ["id", "name", "price"]
+}
+

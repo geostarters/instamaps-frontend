@@ -265,6 +265,46 @@ function creaClusterMap(capa) {
 					console.debug("createVisualitzacioCluster ERROR");
 				});			
 		}
+		else if (capa.layer.options.tipus == t_vis_wms){
+			getWMSLayers(capa.layer._url).then(function(results) {
+				var layers = [];
+				layers=results.Capability.Layer.Layer;
+				for (var i=0;i<layers.length;i++){
+					var layer = layers[i];
+					if (layers[i].Name.indexOf("cluster")>-1) {
+						var data = {
+								businessId: capa.layer.options.businessId,//businessId id de la visualización de origen
+								uid: $.cookie('uid'),//uid id de usuario
+					            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
+					            nom: layers[i].Name,//nom nombre de la nueva visualizacion
+					            activas: true,
+					            order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
+								tem: tem_heatmap,
+								serverType: tem_cluster_wms,//tem_cluster
+								url: capa.layer._url
+//					            estils: JSON.stringify(rangs[0])
+						};
+						createVisualitzacioHeatCluster(data).then(function(results){
+							if(results.status == 'OK'){
+								loadVisualitzacioWmsLayerSenseUtfGrid(results.layer);
+								$('#input-'+results.layer.businessId).trigger( "click" );
+								$('#input-'+results.layer.businessId).prop( "checked", false );
+								$('#input-'+results.layer.businessId).trigger( "click" );
+								$('#input-'+results.layer.businessId).prop( "checked", true );
+								activaPanelCapes(true);	
+							}else{
+								//TODO error
+								console.debug("createVisualitzacioCluster ERROR");					
+							}
+						},function(results){
+							//TODO error
+							console.debug("createVisualitzacioCluster ERROR");
+						});
+						
+					}
+				}
+			});
+		}
 
 	}else{
 		

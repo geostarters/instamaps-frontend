@@ -318,10 +318,15 @@ function updateEditableElements(){
 					editableLayer = controlCapes._layers[this.id];
 				}
 				
+				var op="";
+				if(editableLayer.layer.options.tipus.indexOf(t_wms) != -1){
+					op="##"+ editableLayer.layer.options.opacity;
+					
+				}
 				var data = {
 					 	businessId: editableLayer.layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
-					 	serverName: newValue
+					 	serverName: newValue + op
 					 }
 					var oldName = this.innerHTML;
 					

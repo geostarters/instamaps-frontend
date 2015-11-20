@@ -95,9 +95,6 @@ function loadApp(){
 		});
 		
 		getMapByBusinessId(data).then(function(results){
-			
-			console.info("getMapByBusinessId");
-			
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
 			}else{
@@ -173,7 +170,6 @@ function loadApp(){
 						
 							addExternalWMS(true);
 						}
-						
 					});
 					//}
 					//else {
@@ -181,18 +177,13 @@ function loadApp(){
 					//	window.location.href = paramUrl.galeriaPage;
 					//}												
 				}catch(err){
-					
-					console.debug(err);
 					gestioCookie('loadMapConfig');
 				}
 			}
-			
 		},function(results){
 			gestioCookie('getMapByBusinessIdError');
-			
 		});
 		addLeaveModal();
-		
 	}else{
 		if (!$.cookie('uid')){
 			createRandomUser().then(function(results){
@@ -214,6 +205,23 @@ function loadApp(){
 		}
 	}
 
+	/********Events*************/
+	
+	$.subscribe('reloadMapConfig',function(e, namespace){
+		if (namespace){
+			$.publish(namespace+'loadMapConfig', mapConfig);
+		}else{
+			$.publish('loadMapConfig', mapConfig);
+		}
+	});
+	
+	$.subscribe('getMap',function(e, namespace){
+		if (namespace){
+			$.publish(namespace+'setMap', map);
+		}else{
+			$.publish('setMap', map);
+		}
+	});
 }
 
 function initControls(){
@@ -381,9 +389,7 @@ function loadMapConfig(mapConfig){
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
-				
-			var fons = mapConfig.options.fons;
-			
+				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
@@ -406,14 +412,9 @@ function loadMapConfig(mapConfig){
 					map.alcadaMap();
 				}else if (fons == 'naturalMap') {
 					map.naturalMap();
-					
 				}else if (fons == 'divadminMap') {
 					map.divadminMap();
-					
 				}else if (fons == 'colorMap') {
-					
-					
-					
 					map.colorMap(mapConfig.options.fonsColor);			
 				}
 				map.setActiveMap(mapConfig.options.fons);
@@ -455,7 +456,6 @@ function loadMapConfig(mapConfig){
 }
 
 function loadOrigenWMS(){
-	
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
 	jQuery.each(mapConfig.servidorsWMS, function(index, value){
@@ -464,29 +464,14 @@ function loadOrigenWMS(){
 			lsublayers.push(value);
 		}else{
 			layer_map.origen.push(value);
-			
-			
-			
 		}
 	});
-	
-	
-	jQuery.each(layer_map.origen, function(index, value){
-		
-		var options=JSON.parse(value.options);		
-		controlCapes._addGroupFromObject (options.group);
-		
-	});
-	
-	
-	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
 
 function loadLayer(value){
-	console.info("loadLayer");
-	console.info(value);
+	
 	var defer = $.Deferred();
 	
 	if (value.epsg == "4326"){
@@ -554,6 +539,10 @@ function loadLayer(value){
 		loadVisualitzacioWmsLayer(value);
 		defer.resolve();
 	}
+	else if(value.serverType == tem_heatmap_wms || value.serverType == tem_cluster_wms){
+		loadVisualitzacioWmsLayerSenseUtfGrid(value);
+		defer.resolve();
+	}
 	return defer.promise();
 }
 
@@ -562,11 +551,20 @@ function loadLayer(value){
 
 function createNewMap(){
 	//console.debug("createNewMap");
+	
+	var tipusApp = 'vis';
+	
+	if($.cookie('tipusEntitat')){
+		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+			tipusApp = 'geolo'; //para visores geolocal
+		}
+	}
+	
 	var data = {
 		nom: getTimeStamp(),
 		uid: $.cookie('uid'),
 		visibilitat: visibilitat_privat,
-		tipusApp: 'vis',
+		tipusApp: tipusApp,
 	};
 	
 	createMap(data).then(function(results){
@@ -589,7 +587,6 @@ function createNewMap(){
 				
 				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 			}catch(err){
-				
 				gestioCookie('createMap');
 			}
 		}
@@ -615,15 +612,12 @@ function getBusinessIdOrigenLayers(){
 }
 
 function loadControls(configuracio){
-	
 	//funcionalitats a carregar nomes si esta loginat
 	if ($.cookie('uid')){
 		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
-//			console.debug(funcionalitatLoginat+"("+data+")");
 			eval(funcionalitatLoginat);
 		});			
 	}
-	
 	jQuery.each(configuracio.funcionalitats, function(i, funcionalitat){
 		eval(funcionalitat);
 	});
@@ -635,7 +629,7 @@ function loadConfiguracio(configuracio){
 		configuracio = $.parseJSON(mapConfig.configuracio);
 		dfd.resolve(configuracio);
 	}else{
-		jQuery.get('../../default_config_mapa_0.2.txt', function(data) {
+		jQuery.get('../../default_config_mapa_0.3.txt', function(data) {
 			   configuracio = $.parseJSON(data);
 			   dfd.resolve(configuracio);
 		});							
@@ -644,7 +638,6 @@ function loadConfiguracio(configuracio){
 }
 
 function addLeaveModal(){
-	
 	addHtmlModalLeave();
 
 	if (isRandomUser($.cookie('uid'))){

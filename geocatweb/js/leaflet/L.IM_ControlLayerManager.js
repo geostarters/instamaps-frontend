@@ -1705,3 +1705,4 @@ function thisLoadMapLegendEdicio(obj) {
 function thisEmptyMapLegendEdicio(obj) {
 	emptyMapLegendEdicio(obj);
 }
+

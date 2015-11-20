@@ -130,6 +130,8 @@ var tem_clasic = "clasicTematic";
 var tem_size = "sizeTematic";
 var tem_heatmap = "heatmapTematic";
 var tem_cluster = "clusterTematic";
+var tem_heatmap_wms = "heatmapTematic_wms";
+var tem_cluster_wms = "clusterTematic_wms";
 var from_creaPopup = "creaPopup";
 var from_creaCapa = "creaCapa";
 var visibilitat_open = 'O';
@@ -167,6 +169,8 @@ var CAPTURA_GEOPDF = "captura_geopdf";
 var NODATA_VALUE = "nodata";
 var NODATA_COLOR = "#CCCCCC";
 var NODATA_MIDA = 10;
+
+var TIPUS_APLIACIO_GEOLOCAL = 2;
 
 //VAR per nou model de dades
 var nou_model = true;
@@ -227,3 +231,5 @@ var llista_dadesExternes = {
 				}
 		] 
 };
+
+var TIPUS_ENTITATS_GEOLOCAL = [0,2];
