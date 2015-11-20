@@ -464,8 +464,23 @@ function loadOrigenWMS(){
 			lsublayers.push(value);
 		}else{
 			layer_map.origen.push(value);
+			
+			
+			
 		}
 	});
+	
+	
+	jQuery.each(layer_map.origen, function(index, value){
+		
+		var options=JSON.parse(value.options);
+		console.info(options);
+		
+		console.info(options.group);
+		controlCapes._addGroupFromObject (options.group);
+		
+	});
+	
 	
 	console.info(layer_map);
 	dfd.resolve(layer_map);

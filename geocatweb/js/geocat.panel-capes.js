@@ -34,7 +34,8 @@ function addFuncioRenameMap(){
 function reOrderGroupsAndLayers(){
 	
 	 var z_order=-1;
-	 var _groupName,_groupId,_businessId,_expanded; 
+	 
+	 var _groupName,_groupId,_groupSubId,_businessId,_expanded; 
 	   // $("span.span_ac").each(function( index, element ) {
 	  $("div.leaflet-control-accordion-layers").each(function( index, element ) {	
 		  
@@ -47,12 +48,26 @@ function reOrderGroupsAndLayers(){
 	    	
 	    	 _groupName=gr.text();
 	    	 
-	    	 console.warn("********NOMGRUP0:"+gr.text());
-	    	 console.warn("********IDGRUP0:"+index);
+	    	 //console.warn("********NOMGRUP0:"+gr.text());
+	    	 //console.warn("********IDGRUP0:"+index);
+	    	 //console.warn($('input.expanded_input').get(index));
 		  
-	    	 _expanded=$('input.expanded_input')[index].attr('checked');
-	    	 
-	    	 console.warn("********EXPANDED:"+ _expanded);
+	    	 var _exp=$this.children("label").children('i.label_gl');
+	    		 
+	    		 var _id=$(_exp).attr("id");	
+	    		 
+	    		 ////console.debug(_id);
+				
+				
+				
+					_expanded=true;
+				
+			if($('#'+_id).hasClass('glyphicon-triangle-right')){
+					
+					_expanded=false;
+				
+				
+				}	
 	    	 
 	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
 	    	        $this; // parent li
@@ -79,7 +94,7 @@ function reOrderGroupsAndLayers(){
    	    
 	    	    });
 	    	 
-	  console.warn("FI GROUP:");
+	  ////console.warn("FI GROUP:");
 	  });
 	    	
 	  
@@ -89,14 +104,14 @@ function reOrderGroupsAndLayers(){
 function updateGroupsLayerOptions(data,data2){
 	
 	updateServidorWMSOptions(data).then(function(results){
-		console.info(results);
+		////console.info(results);
 		if(results.status==='OK'){
 			
 			if(data2){
 				
 				updateServerOrderToMap(data2).then(function(results) {
 					
-					console.debug(results);
+					////console.debug(results);
 					if (results.status != 'OK')
 						return;// SI no ha anat be el canvi a BD. que
 								// no es faci tampoc a client, i es
@@ -109,8 +124,8 @@ function updateGroupsLayerOptions(data,data2){
 				
 			}
 			
-			console.debug(results);
-			console.debug(data);
+			////console.debug(results);
+			//console.debug(data);
 		}
 	});
 	
@@ -130,18 +145,18 @@ function updateSortablesElements(){
 		  handle: 'span.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
 		    // Duplicate items of the no drop area
-			  console.debug($item);
+			  //console.debug($item);
 		    if(!container.options.drop)
 		      $item.clone().insertAfter($item);
 		    _super($item, container);
 		  },
 		  onDrag:function ($item, position, _super, event) {
 			  
-			 // console.debug("onDrag");
+			 // //console.debug("onDrag");
 			  position.left=0;
-			  //console.info(position);
+			  ////console.info(position);
 			  $item.css(position);
-			 //console.debug($item.css(position));
+			 ////console.debug($item.css(position));
 		  },
 		  onDrop: function ($item, container, _super) {
 			  
@@ -168,11 +183,11 @@ function updateSortablesElements(){
 		  },
 		  onDrag:function ($item, position, _super, event) {
 			  
-			 // console.debug("onDrag");
+			 // //console.debug("onDrag");
 			  position.left=0;
-			  //console.info(position);
+			  ////console.info(position);
 			  $item.css(position);
-			 //console.debug($item.css(position));
+			 ////console.debug($item.css(position));
 		  },
 		  onDrop: function ($item, container, _super) {
 			  $('.tooltip').hide();
@@ -222,10 +237,10 @@ function updateSortablesElements(){
 
 function updateEditableElements(){
 
-	console.info("entro edicio capes*****************")
+	//console.info("entro edicio capes*****************")
 	updateSortablesElements();
 	
-	console.info($('.label_ac .editable'));
+	//console.info($('.label_ac .editable'));
 	
 	$('.label_ac .editable').editable({
 		type: 'text',
@@ -238,18 +253,18 @@ function updateEditableElements(){
 	        }
         },		
 		success: function(response, newName) {
-			console.info(this);
+			//console.info(this);
 			var oldName=this.groupName;
 			
 			
 			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
 			
-			console.info(resp_Layer);
-			console.info(resp_Layer.length);
+			//console.info(resp_Layer);
+			//console.info(resp_Layer.length);
 			
 			for(i=0;i < resp_Layer.length;i++){
 			
-				console.info(resp_Layer[i]);
+				//console.info(resp_Layer[i]);
 				var data = {
 					 	businessId: resp_Layer[i].options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
@@ -313,7 +328,7 @@ function updateEditableElements(){
 					updateServidorWMSName(data).then(function(results){
 						if(results.status==='OK'){
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-	//						console.debug('udpate map name OK');
+	//						//console.debug('udpate map name OK');
 							editableLayer.name = newValue;
 							editableLayer.layer.options.nom = newValue;
 							
@@ -377,7 +392,7 @@ function addFuncioDownloadLayer(from){
 		var epsgOUT = $('#select-download-epsg').val();
 		var filename = $('#input-download-name').val();
 		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
-		console.debug(layer_GeoJSON);
+		//console.debug(layer_GeoJSON);
 
 		var data = {
 			cmb_formatOUT: formatOUT,
@@ -471,11 +486,11 @@ function addFuncioRemoveLayer(){
 		var data = $this.data("data");
 		var obj = $this.data("obj");
 		
-		console.info("data");
-		console.info(data);
+		//console.info("data");
+		//console.info(data);
 		
-		console.info("obj");
-		console.info(obj);
+		//console.info("obj");
+		//console.info(obj);
 		
 		 removeAtomicLayer(data,obj);
 					
@@ -488,19 +503,19 @@ function addFuncioRemoveLayer(){
 		var $this = $(this);
 		var group = $this.data("group");
 	
-		console.info('#dialog_delete_group .btn-danger');
+		//console.info('#dialog_delete_group .btn-danger');
 		
-		console.info('groupId:'+group.groupId);
+		//console.info('groupId:'+group.groupId);
 		
 		var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId,group.groupName);
 		
-		console.info('Capes que conté el grup:'+matriuCapesGroup.length);
+		//console.info('Capes que conté el grup:'+matriuCapesGroup.length);
 	
 			for(i=0; i < matriuCapesGroup.length;i++){
 				
 				
-				console.info(matriuCapesGroup[i]);				
-				console.info(matriuCapesGroup[i].layer.options.businessId);
+				//console.info(matriuCapesGroup[i]);				
+				//console.info(matriuCapesGroup[i].layer.options.businessId);
 				var obj;
 				//var layerId = e.currentTarget.layerId;
 				var layerIdParent = matriuCapesGroup[i].layerIdParent;
@@ -531,7 +546,7 @@ function addFuncioRemoveLayer(){
 							uid: $.cookie('uid'),
 							servidorWMSbusinessId:lbusinessId.toString()
 						};	
-					console.info("esborro capes:"+i);
+					//console.info("esborro capes:"+i);
 					removeAtomicLayer(data,obj);
 				
 				}
@@ -539,10 +554,10 @@ function addFuncioRemoveLayer(){
 			}
 	
 			
-			console.info("Ara esborra grup"+group.groupName);
+			//console.info("Ara esborra grup"+group.groupName);
 			controlCapes.removeGroup(group.groupName,group.groupId);
 			
-			console.info("He esborrap"+group.groupName);
+			//console.info("He esborrap"+group.groupName);
 				
 			
 	

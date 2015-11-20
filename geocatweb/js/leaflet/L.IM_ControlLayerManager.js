@@ -118,61 +118,6 @@ L.Control.OrderLayers = L.Control.Layers
 
 			},
 
-			updateGroupById : function(newID, groupId, groupName) {
-				
-				/*
-				var resp_Layer = [];
-
-				for (group in this._groupList) {
-
-					this._groupList[group].groupName = groupName;
-					this._groupList[group].id = newID;
-
-						for (layer in this._layers) {
-							console.debug("Inici Pas3::************");
-							console.debug(this._layers[layer].layer.options.group);
-							console.debug("groupName:"+groupName);
-							console.debug("groupId:"+groupId);
-							console.debug("Fi Pas3****************");
-							if (this._layers[layer].layer.options.group
-									&& this._layers[layer].layer.options.group.name == groupName
-									&& this._layers[layer].layer.options.group.id == groupId) {
-								// this._layers[layer].layer.options.group.name
-								// = newName;
-								// this._layers[layer].layer.options.group.groupName
-								// = newName;
-								console.debug("Pas4");
-								this._layers[layer].layer.options.group.id = newID;
-								resp_Layer.push(this._layers[layer].layer);
-
-								for (sublayer in this._layers[layer]._layers) {
-									// this._layers[layer]._layers[sublayer].layer.options.group.name
-									// = newName;
-									// this._layers[layer]._layers[sublayer].layer.options.group.groupName
-									// = newName;
-									
-									console.info(this._layers[layer]._layers[sublayer]);
-									
-									
-									//this._layers[layer]._layers[sublayer].layer.options.group.id = newID;
-									//resp_Layer.push(this._layers[layer]._layers[sublayer]);
-								}
-
-							}
-						}
-
-					}
-				}
-
-				return resp_Layer;
-*/
-			},
-			
-			
-			
-		
-			
-			
 
 			updateTreeGroupLayers:function (groupId,groupName,businessId,z_order,expanded){
 				
@@ -207,7 +152,7 @@ L.Control.OrderLayers = L.Control.Layers
 						    if(layer.options && layer.options.businessId==businessId){
 						    	//console.warn(layer);
 						    	try{
-						    	layer.bringToBack();
+						    	layer.bringToFront();
 						    	}catch(Err){}
 						    }
 							
@@ -445,30 +390,30 @@ L.Control.OrderLayers = L.Control.Layers
 				//console.info("_createGroupFromScratch: length "+ this._groupList.length);
 				var pos = this._groupList.length;
 				var posTXT;
-				if (position == 1 && pos == 0) { // estic afegint una capa
-													// nova i grup nou
-					//console.info("estic afegint una capa nova i no existeix gruo");
+				
+				if (position == 1 && pos > 0) { // estic afegint una
+					// capa però ja existeix
+					// un grup
+						console.info("estic afegint una capa nova a un grup existent");
+						return this._groupList[this._groupList.length-1];
+				} else{
+					
+					console.info("estic afegint una capa nova i no existeix gruo");
 					return group = {
-						"groupName" : "Capes",
-						"name" : "Capes",
-						"id" : pos,
+						"groupName" : "Grup "+pos,
+						"name" : "Grup "+pos,
+						"id" : pos ,
 						"expanded" : true
-					};
-				} else if (position == 1 && pos > 0) { // estic afegint una
-														// capa però ja existeix
-														// un grup
-					//console.info("estic afegint una capa nova a un grup existent");
-					return this._groupList[this._groupList.length - 1];
-				} else if (position == 0) { // usuari afegeix grup nou buit
-					//console.info("usuari afegeix grup nou");
-					return group = {
-						"groupName" : "Capes " + this._groupList.length,
-						"name" : "Capes " + this._groupList.length,
-						"id" : this._groupList.length,
-						"expanded" : true
-					};
-
+					
 				}
+				
+				
+				
+				//if (pos == 0) { // estic afegint una capa
+													// nova i grup nou
+					
+					};
+				//} else 
 
 			},
 
@@ -507,7 +452,18 @@ L.Control.OrderLayers = L.Control.Layers
 				var container = this._overlaysList;
 				var obj = {};
 				obj.group = group;
-				this._groupList.push(obj.group)-1;
+				var trobat=false;
+				for (g in this._groupList) {
+					if (this._groupList[g].id == group.id) {
+						trobat=true;
+						break;
+					}
+				}
+				
+				if(!trobat){
+				this._groupList.push(obj.group);
+				}
+				
 				this._addGroup(container, obj, null);
 				
 			},
@@ -563,7 +519,18 @@ console.warn(groupContainer);
 
 					var spanGroup = document.createElement('span');
 					spanGroup.innerHTML = obj.group.name;
+					var classExpanded='glyphicon glyphicon-triangle-bottom label_gl';
+					if(!obj.group.expanded){classExpanded='glyphicon glyphicon-triangle-right label_gl';}
+					
+					
+					inputLabel.id = 'lbl_ac_' + _id;;
 					inputLabel.className = 'label_ac';
+					L.DomEvent.on(inputLabel, 'click', this._onExpandGroup, this);
+					
+					var _i =document.createElement('i');
+					_i.id='_i_'+_id;
+					_i.className=classExpanded
+					inputLabel.appendChild(_i);
 					spanGroup.className = 'span_ac editable';
 					spanGroup.id = 'ac' + _id;
 					spanGroup.groupId = _id;
@@ -712,9 +679,29 @@ console.warn(groupContainer);
 							if(group.id){
 								
 								groupId=group.id;	
-								//if(!getModeMapa()){
-									this._groupList.push(group) - 1;
-								//}					
+							
+								var trobat=false;
+								for (g in this._groupList) {
+									if (this._groupList[g].id == group.id) {
+										trobat=true;
+										break;
+									}
+								}
+								
+								if(!trobat){
+								this._groupList.push(group);
+								}
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
 							}
 					// if(!group.groupName){group.groupName="Tema"+groupId;};
 					// if not find the group search for the name
@@ -1459,6 +1446,37 @@ console.warn(groupContainer);
 				}
 			},
 
+			
+			_onExpandGroup:function(e){
+				
+				
+			var _id=e.currentTarget.id;
+			_id=_id.replace('lbl_ac_','_i_');
+			
+			
+			if($('#'+_id).hasClass('glyphicon-triangle-bottom')){				
+			
+				$('#'+_id).removeClass('glyphicon-triangle-bottom');
+				$('#'+_id).addClass('glyphicon-triangle-right');
+			
+			}else if($('#'+_id).hasClass('glyphicon-triangle-right')){
+				
+				$('#'+_id).removeClass('glyphicon-triangle-right');
+				$('#'+_id).addClass('glyphicon-triangle-bottom');
+			
+			
+			}	
+				
+		
+				if(getModeMapa()){	
+				//	reOrderGroupsAndLayers();
+					
+				}
+				
+				
+				
+			},
+			
 			_onRemoveGroup : function(e) {
 				$('.tooltip').hide();
 				L.DomEvent.stop(e);

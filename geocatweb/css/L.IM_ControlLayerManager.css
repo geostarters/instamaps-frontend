@@ -318,6 +318,19 @@ nou cc
 }
 */
 
+
+.label_gl{	
+	
+   cursor: pointer;
+    font-size: 7px;
+    font-style: normal;
+    margin-right: 5px;
+   
+	
+}
+
+
+
 .ac-container input.menu:checked + label:hover:after{
 	/*
 	background-image: url(images/arrow_up.png);
