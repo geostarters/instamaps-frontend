@@ -1072,4 +1072,11 @@ function searchCapesPubliques(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+function addServerDuplicateToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.addServerDuplicateToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
 

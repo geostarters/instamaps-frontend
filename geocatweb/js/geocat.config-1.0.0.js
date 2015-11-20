@@ -189,6 +189,7 @@ var paramUrl = {
 	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
 	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?",
 	searchCapesPubliques: HOST_APP+"geocat/aplications/map/searchCapesPubliques.action?",
+	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?"
 }
 
 var paramAplications = {
