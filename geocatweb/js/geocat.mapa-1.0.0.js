@@ -551,11 +551,20 @@ function loadLayer(value){
 
 function createNewMap(){
 	//console.debug("createNewMap");
+	
+	var tipusApp = 'vis';
+	
+	if($.cookie('tipusEntitat')){
+		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+			tipusApp = 'geolo'; //para visores geolocal
+		}
+	}
+	
 	var data = {
 		nom: getTimeStamp(),
 		uid: $.cookie('uid'),
 		visibilitat: visibilitat_privat,
-		tipusApp: 'vis',
+		tipusApp: tipusApp,
 	};
 	
 	createMap(data).then(function(results){
