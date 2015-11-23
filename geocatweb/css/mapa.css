@@ -990,7 +990,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -998,7 +997,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -408px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -2646,6 +2644,9 @@ background-color: #9F9F9E;
 #dialog_estils_linies .modal-body{
 	overflow:visible !important;
 }
+#dialog_tematic_rangs .modal-body{
+	overflow:visible !important;
+}
 .modal-footer {
 	padding-bottom: 10px;
     padding-left: 10px;
@@ -3138,7 +3139,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -3146,7 +3146,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -408px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -4007,7 +4006,7 @@ i.fa {
 .modal-downloadable{
 	overflow: hidden;
 	width: 100%;
-	padding-top: 10px;
+	padding-top: 20px;
 	padding-right: 20%;
 	/*padding-left: 5%;*/
 }

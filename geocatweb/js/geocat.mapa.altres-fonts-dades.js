@@ -533,7 +533,7 @@ function addControlAltresFontsDades() {
 							});
 							
 							jQuery('.nav-pills-urlfile #adreca').on('click', function(){
-								jQuery("#select-url-file-epsg").attr('disabled',false);
+								jQuery("#select-url-file-epsg").attr('disabled',true);
 							});
 							
 							jQuery("#input-coord-x").focus(function() {
