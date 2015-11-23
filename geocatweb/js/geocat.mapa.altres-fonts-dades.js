@@ -143,7 +143,45 @@ function addControlAltresFontsDades() {
 										order: controlCapes._lastZIndex+ 1
 								};	
 								var servertype = this.dataset.servertype;
-								addServerDuplicateToMap(data).then(function(results){
+								duplicateVisualitzacioLayer(data).then(function(results){
+									if(results.status==='OK'){
+										
+										var value = results.results;
+										
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar meves dades', value.serverType, 1]);
+//										_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
+										
+										if (value.epsg == "4326"){
+											value.epsg = L.CRS.EPSG4326;
+										}else if (value.epsg == "25831"){
+											value.epsg = L.CRS.EPSG25831;
+										}else if (value.epsg == "23031"){
+											value.epsg = L.CRS.EPSG23031;
+										}else{
+											value.epsg = map.crs;
+										}							
+										console.debug(servertype);
+										if(servertype == t_wms){
+											loadWmsLayer(value);
+										}else if((servertype == t_dades_obertes)){
+											loadDadesObertesLayer(value);
+										}else if(servertype == t_xarxes_socials){
+											
+											var options = jQuery.parseJSON( value.options );
+											if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
+											else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
+											else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+											
+										}else if(servertype == t_tematic){
+											loadTematicLayer(value);
+										}else if(servertype == t_visualitzacio){
+											loadVisualitzacioLayer(value);
+										}							
+										$('#dialog_dades_ex').modal('hide');
+										activaPanelCapes(true);
+									}
+								});
+								/*addServerDuplicateToMap(data).then(function(results){
 									if(results.status==='OK'){
 										
 										var value = results.results;
@@ -180,7 +218,7 @@ function addControlAltresFontsDades() {
 										$('#dialog_dades_ex').modal('hide');
 										activaPanelCapes(true);
 									}		
-								});
+								});*/
 								
 								
 							});
