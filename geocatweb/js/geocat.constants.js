@@ -232,4 +232,4 @@ var llista_dadesExternes = {
 		] 
 };
 
-var TIPUS_ENTITATS_GEOLOCAL = [0,2];
+var TIPUS_ENTITATS_GEOLOCAL = [2,3,4,5,6,7,8,9];
