@@ -109,11 +109,12 @@ function generaLlistaServeisWMS() {
 
 
 	_htmlServeisWMS.push('</ul></div>');
-	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
-	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
-	_htmlServeisWMS.push('</div>');
 	_htmlServeisWMS.push('<div id="resultats_idec">');
 	_htmlServeisWMS.push('</div>');
+	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
+	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-default" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+	_htmlServeisWMS.push('</div>');
+	
 	
 	
 	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
