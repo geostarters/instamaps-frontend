@@ -1742,7 +1742,14 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 				if (options2.propName != undefined) {
 					var dataNames = options2.propName.split(',');
 					capaVisualitzacio.options.propName = dataNames;
-				}				
+				}		
+				else if (geometries!=undefined){
+					if (  geometries.options){
+						var dataNames = geometries.options.split(',');
+						console.debug(dataNames);
+						capaVisualitzacio.options.propName = dataNames;
+					}
+				}
 			}			
 		}else{
 			if (geometries!=undefined){

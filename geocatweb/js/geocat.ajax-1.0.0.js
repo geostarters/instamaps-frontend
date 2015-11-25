@@ -31,6 +31,14 @@ function searchGaleriaMaps(params){
 	}).promise();
 }
 
+function searchGaleriaMapsByUser(params){
+	return jQuery.ajax({
+		url: paramUrl.searchGaleriaMapsByUser,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+
 function deleteMap(data){
 	return jQuery.ajax({
 		url: paramUrl.deleteMap,
@@ -1077,6 +1085,20 @@ function addServerDuplicateToMap(data){
 		url: paramUrl.addServerDuplicateToMap,
 		data: data,
 		dataType: 'jsonp'
+	}).promise();
+}
+function duplicateVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.duplicateVisualitzacioLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+function searchCatalegIdec(params){
+	return jQuery.ajax({
+		url: paramUrl.searchCatalegIdec,
+		data: params,
+  		dataType: 'jsonp'
 	}).promise();
 }
 

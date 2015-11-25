@@ -1177,8 +1177,24 @@ h1.big_text{
     */
     
      margin-left: 35%;
-    margin-right: 40%;
+   /* margin-right: 40%;*/
+   float:left;
     width: 35%;
+}
+#galeriaSort .urlPublica{
+	float:right;
+}
+
+#galeriaSort .botoUrlPublica {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 5px;
+  border: 1px solid #cccccc;
+  display:inline-block;
+  color:#555555;
+  text-decoration: none;
+  background-color: #eeeeee;
+  height:30px;
 }
 /*
 #galeriaSort input {

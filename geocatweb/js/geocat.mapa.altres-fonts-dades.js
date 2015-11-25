@@ -11,7 +11,14 @@ function addControlAltresFontsDades() {
 		//gestionaPopOver(this);
 		jQuery('.modal').modal('hide');
 		$('#dialog_dades_ex').modal('show');
-		
+		$('a[href^="#id_do').click();
+		jQuery('#id_do').html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+
+		jQuery("#id_do a.label-explora").on('click', function(e) {
+			if(e.target.id !="id_do"){
+				addCapaDadesObertes(e.target.id,jQuery(e.target).text());
+			}
+		});
 		jQuery('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 			var tbA = e.target.attributes.href.value;
 
@@ -100,6 +107,8 @@ function addControlAltresFontsDades() {
 				jQuery(tbA).empty();
 				jQuery(tbA).html('<div class="input-group txt_capes"><input type="text" lang="ca" class="form-control" placeholder="Entra el nom de la capa que vols buscar" style="height:33px" id="txt_capesInstamaps"> <span class="input-group-btn"><button type="button" id="bt_capesInstamaps" class="btn btn-success"><span class="glyphicon glyphicon-play"></span></button></span> </div>');
 				jQuery("#bt_capesInstamaps").on('click', function(e) {
+					e.stopImmediatePropagation();
+					
 					var data = {
 			        		searchInput: jQuery("#txt_capesInstamaps").val()
 					};
@@ -111,7 +120,7 @@ function addControlAltresFontsDades() {
 							
 							
 							jQuery.each(results.results, function(i, item) {
-								lDadesInstamaps += '<li><a class="label-dadesInstamaps" href="#" data-url="'+item.businessId+'" data-servertype="'+servidors[item.businessId]+'">'
+								lDadesInstamaps += '<li><a class="label-dadesInstamaps" href="#" data-url="'+item.businessId+'" data-servertype="'+servidors[item.businessId]+'" data-nom="'+item.nom+'">'
 										+ item.nom
 										+ '</a>'
 										+ '</li>';
@@ -135,12 +144,12 @@ function addControlAltresFontsDades() {
 							jQuery(".label-dadesInstamaps").on('click', function(e) {
 								var data = {
 										uid: $.cookie('uid'),
-										businessId: url('?businessid'),
-										servidorWMSbusinessId: this.dataset.url,
-										calentas:false,
-										activas:true,
-										visibilitats:true,
-										order: controlCapes._lastZIndex+ 1
+										mapBusinessId: url('?businessid'),
+										businessId: this.dataset.url,
+										nom: this.dataset.nom +"_duplicat",
+										markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+										lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+										polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 								};	
 								var servertype = this.dataset.servertype;
 								duplicateVisualitzacioLayer(data).then(function(results){
@@ -180,46 +189,7 @@ function addControlAltresFontsDades() {
 										$('#dialog_dades_ex').modal('hide');
 										activaPanelCapes(true);
 									}
-								});
-								/*addServerDuplicateToMap(data).then(function(results){
-									if(results.status==='OK'){
-										
-										var value = results.results;
-										
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar meves dades', value.serverType, 1]);
-//										_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
-										
-										if (value.epsg == "4326"){
-											value.epsg = L.CRS.EPSG4326;
-										}else if (value.epsg == "25831"){
-											value.epsg = L.CRS.EPSG25831;
-										}else if (value.epsg == "23031"){
-											value.epsg = L.CRS.EPSG23031;
-										}else{
-											value.epsg = map.crs;
-										}							
-										console.debug(servertype);
-										if(servertype == t_wms){
-											loadWmsLayer(value);
-										}else if((servertype == t_dades_obertes)){
-											loadDadesObertesLayer(value);
-										}else if(servertype == t_xarxes_socials){
-											
-											var options = jQuery.parseJSON( value.options );
-											if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
-											else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
-											else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-											
-										}else if(servertype == t_tematic){
-											loadTematicLayer(value);
-										}else if(servertype == t_visualitzacio){
-											loadVisualitzacioLayer(value);
-										}							
-										$('#dialog_dades_ex').modal('hide');
-										activaPanelCapes(true);
-									}		
-								});*/
-								
+								});								
 								
 							});
 						}

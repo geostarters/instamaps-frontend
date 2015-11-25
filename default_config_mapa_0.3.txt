@@ -12,7 +12,7 @@
 						"initButtonsTematic()",
 						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",
 						"addControlCercaEdit()",
-						"addControlPublicar()",
+						"Publicar.addControl('#funcio_publicar',$.cookie('uid'),$.cookie('collaborateuid'))",
 						"addCompartirMapa()"
 						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
 						,"addControlAltresFontsDades()"
@@ -21,4 +21,3 @@
 						],
     "required": ["id", "name", "price"]
 }
-
