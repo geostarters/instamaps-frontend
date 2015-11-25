@@ -190,7 +190,10 @@ var paramUrl = {
 	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
 	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?",
 	searchCapesPubliques: HOST_APP+"geocat/aplications/map/searchCapesPubliques.action?",
-	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?"
+	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?",
+	duplicateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/duplicateVisualitzacioLayer.action?",
+	searchCatalegIdec: HOST_APP+"geocat/aplications/map/searchCatalegIdec.action?",
+	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?"
 }
 
 var paramAplications = {
