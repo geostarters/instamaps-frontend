@@ -297,9 +297,6 @@ function addControlsInici(){
 		collapsed : false,
 		id : 'div_capes'
 	}).addTo(map);
-	
-	
-	
 
 	map.on('addItemFinish',function(){
 		$(".layers-list").mCustomScrollbar("destroy");		
@@ -309,9 +306,7 @@ function addControlsInici(){
 			     updateOnContentResize: true
 			   }           
 		});	
-		
 	});
-	
 	
 	
 	var ctr_llistaCapes = L.control({
@@ -352,13 +347,11 @@ function addControlsInici(){
 }
 
 
-
 function addToolTipsInici() {
 	
 }
 
-function updateLangTooltips(){
-	
+function updateLangTooltips(){	
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
@@ -388,7 +381,7 @@ function loadMapConfig(mapConfig){
 		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
-			//if (mapConfig.options.fons != 'topoMap'){
+			if (mapConfig.options.fons){
 				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap'){
 					map.topoMap();
@@ -420,7 +413,7 @@ function loadMapConfig(mapConfig){
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
-			//}
+			}
 			if (mapConfig.options.center){
 				var opcenter = mapConfig.options.center.split(",");
 				map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);

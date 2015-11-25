@@ -41,21 +41,16 @@ function addOpcionsFonsMapes() {
 					jQuery(this).css('border','0px solid #FFC500');
 				});
 		}else{
-			
-			
+		
 			jQuery(".div_gr3_fons div").each(function( index ) {
 				jQuery(this).css('opacity','0.7');
 				jQuery(this).css('border','0px solid #FFC500');
 			});
 		}
-		
-		
+	
 		jQuery(this).css('opacity','1');
 		jQuery(this).css('border','1px solid #FFC500');
-		
-		
-		
-		
+
 	});
 }
 
@@ -192,8 +187,6 @@ function addHtmlInterficieFonsMapes(){
 	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Més mapes de fons')});	
 	*/
 
-
-	
 	
 	jQuery(".div_gr3_fons div").each(function( index ) {
 		jQuery(this).css('opacity','0.7');
