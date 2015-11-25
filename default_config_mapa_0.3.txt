@@ -12,7 +12,7 @@
 						"initButtonsTematic()",
 						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",
 						"addControlCercaEdit()",
-						"Publicar.addControl('#funcio_publicar',$.cookie('uid'),$.cookie('collaborateuid'))",
+						"addControlPublicar()",
 						"addCompartirMapa()"
 						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
 						,"addControlAltresFontsDades()"
