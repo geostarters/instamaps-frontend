@@ -3,7 +3,7 @@
 .my-carousel-caption {
 	color: #cc0000;
 	font-size: 30px;
-	text-shadow: 2px 2px 1px #595959;
+	text-shadow: 2px 2px 1px #eeeeee;
 	/*text-shadow: -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff, 2px 0 #ffffff;*/
 	bottom: 40px;
 }
@@ -23,8 +23,8 @@
 }
 
 .carousel-indicators li {
-	background-color: #595959;
-	border-color: #595959;	
+	background-color: #dddddd;
+	border-color: #dddddd;	
 }
 
 .carousel-indicators .active {
@@ -43,9 +43,13 @@
     width: 49%;
     font-size: 23px;
     color: #cc0000;
-    top: 10px;
-    left: 4px;
-    text-shadow: 2px 2px 1px #595959;
+    top: 20px;
+    left: 7px;
+    text-shadow: 2px 2px 1px #eeeeee;
+}
+
+.infoparcela{
+	max-width: 42%;
 }
 
 .btn-group-lg > .btn, .btn-lg {
@@ -85,17 +89,31 @@
 	.logo_geolocal{
 		bottom: -10px;
 	}
+	
 }
 
 @media (max-width: 1024px) {
 	.my-carousel-caption {
 		bottom: 40px;
 	}
+	
+	.left_title{
+		font-size: 23px;
+    	top: 5px;
+    	left: 4px;
+	}
+		
 }
 
 @media (max-width: 800px){
 	.my-carousel-caption {
 		bottom: 6px;
+	}
+	
+	.left_title{
+		font-size: 20px;
+    	top: 0px;
+    	left: 3px;
 	}
 }
 
@@ -103,10 +121,22 @@
 	.my-carousel-caption {
 		bottom: 40px;
 	}
+	
+	.left_title{
+		font-size: 20px;
+    	top: 10px;
+    	left: 3px;
+	}
 }
 
 @media (max-width: 360px){
 	.my-carousel-caption {
 		bottom: 40px;
+	}
+	
+	.left_title{
+		font-size: 12px;
+    	top: -8px;
+    	left: 3px;
 	}
 }

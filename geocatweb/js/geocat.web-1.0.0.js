@@ -42,7 +42,7 @@ jQuery(document).ready(function() {
     	controlLandingForm();
     }
     
-    
+    cambiarTitle();
 });
 
 function initCookies(){
@@ -411,11 +411,19 @@ function logoutUser(){
 	if (isRandomUser($.cookie('uid'))){
 		deleteRandomUser({uid: $.cookie('uid')});
 	}
+	var redirect = "/index.html";
+	if(isGeolocalUser()){
+		redirect = "/geolocal.html";
+	}
 	$.removeCookie('uid', { path: '/' });
+	$.removeCookie('tipusEntitat', { path: '/' });
+	$.removeCookie('token', { path: '/' });
 	doLogout().then(function(results){
 		if(results.status==='OK'){
 			$.removeCookie('uid', { path: '/' });
-			window.location.href="/index.html";
+			$.removeCookie('tipusEntitat', { path: '/' });
+			$.removeCookie('token', { path: '/' });
+			window.location.href=redirect;
 		}else{
 			alert("no logout");
 		}			
@@ -555,4 +563,26 @@ function addHtmlModalOldBrowser(){
 	'	</div>'+
 	'	<!-- fi Modal Old Browser -->'		
 	);
+}
+
+function isGeolocalUser(){
+	var isGeolocal = false;
+	if($.cookie('tipusEntitat')){
+		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+			isGeolocal = true;
+		}
+	}
+	return isGeolocal;
+}
+
+function cambiarTitle(){
+	if($.cookie('tipusEntitat')){
+		if(isGeolocalUser()){
+			$('.brand-txt').text("InstaMaps.GeoLocal");
+			$('.navbar-brand').prop('href','/geolocal.html');
+		}else{
+			$('.brand-txt').text("InstaMaps");
+			$('.navbar-brand').prop('href','/index.html');
+		}
+	}
 }

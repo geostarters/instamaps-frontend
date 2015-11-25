@@ -201,7 +201,7 @@ var paramAplications = {
 		"nom":"Protecció civil",
 		"description":"Gestiona la informació relativa a Protecció civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuació prioritària en cas d'una emergència.",
 		"img":"img/thumb_ed_pcivil.png",
-		"url":"http://localhost:8080/geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari=cda11"
+		"url":"http://localhost:8080/geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari="
 	},
     'infoparcela':{
     	"nom":"InfoParcela",
@@ -215,7 +215,7 @@ var paramAplications = {
     	"nom":"Editor de Parcs Eòlics",
     	"description":"Actualitza la informació dels parcs eòlics. Col·labora mantenint la informació.",
     	"img":"img/thumb_ed_peolics.png",
-    	"url":"http://localhost:8080/geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari=cda10"
+    	"url":"http://localhost:8080/geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari="
     },
     'carrerer':{
     	"nom":"Gestor de canvis carrerer",
@@ -244,9 +244,10 @@ var perfilConfig = {
 	"3":[paramAplications.pcivil],
 	"4":[],
 	"5":[],
-	"6":[paramAplications.peolics],
-	"7":[paramAplications.incasol],
-	"8":[paramAplications.pcivil]
+	"6":[],
+	"7":[paramAplications.peolics],
+	"8":[paramAplications.incasol],
+	"9":[paramAplications.pcivil]
 };
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
