@@ -72,7 +72,7 @@ $(function(){
 	
 	/*******PRIVAT GALERIA**********/
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
-		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+		if(isGeolocalUser()){
 			$('#tabs_links').removeClass('hide');
 		}
 		

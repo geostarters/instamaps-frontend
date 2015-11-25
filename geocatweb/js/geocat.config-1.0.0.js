@@ -241,9 +241,10 @@ var perfilConfig = {
 	"3":[paramAplications.pcivil],
 	"4":[],
 	"5":[],
-	"6":[paramAplications.peolics],
-	"7":[paramAplications.incasol],
-	"8":[paramAplications.pcivil]
+	"6":[],
+	"7":[paramAplications.peolics],
+	"8":[paramAplications.incasol],
+	"9":[paramAplications.pcivil]
 };
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
