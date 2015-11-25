@@ -4,7 +4,6 @@ jQuery(document).ready(function() {
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13) {
 	    	jQuery("#login_button").click();
-	    	
 	    }
 	});
 	
@@ -200,8 +199,8 @@ function redirectLogin(results, from){
 		//var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NDQzMDI3MDMsInN1YiI6Imluc3RhbWFwc3xheGlzIiwibmJmIjoxNDQ0Mjk1NDk4LCJpc3MiOiJodHRwOi8vd3d3Lmluc3RhbWFwcy5jYXQiLCJhdWQiOiJnZW9zdGFydGVycyIsImp0aSI6IjY3MzU1ODExLTJiNmItNDM2Yi1iMjEyLWVmMmEzNGJkYmExNSIsImlhdCI6MTQ0NDI5NTUwM30.4rJWEnnDzexGoAOrE5FWhNOgCfeLBia8hi59ykqbUbo";
 		//TODO usar el token de la cookie
 		var token = $.cookie('token');
-		window.open(paramAplications[from].url+"&token="+token);
-		//window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1&aplicacions=1";
+		window.open(paramAplications[from].url+results.uid+"&token="+token);
+		window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1&aplicacions=1";
 	}else{
 		if ($.cookie('collaboratebid')) {
 			if ($.cookie('collaborateuid')){

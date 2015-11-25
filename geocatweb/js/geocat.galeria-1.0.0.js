@@ -7,10 +7,14 @@ var loading = false;
 var searchString;
 var businessIds = [];
 var mapsGalery = [];
+var codiUsuari;
+var tipusEntitat;
 //var temporales para pruebas
+/*
 //cda10
 var codiUsuari = "cda10";
 var tipusEntitat = 0;
+*/
 
 /*
 //cda11
@@ -68,7 +72,7 @@ $(function(){
 	
 	/*******PRIVAT GALERIA**********/
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
-		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+		if(isGeolocalUser()){
 			$('#tabs_links').removeClass('hide');
 		}
 		
@@ -81,11 +85,9 @@ $(function(){
 
 		getUserData($.cookie('uid')).then(function(results){
 			loadAplicacionsUser().then(function(results1){
-				//var tipusEntitat = $.cookie('tipusEntitat');
-				//TODO coger el tipus de la cookie
+				codiUsuari = $.cookie('uid');
+				tipusEntitat = $.cookie('tipusEntitat');
 				pintaGaleriaAplicacions(results1, tipusEntitat);
-				//TODO coger la cookie
-				//var codiUsuari = $.cookie('uid');
 				getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
 					pintaGaleriaConfigurades(results);
 				});
@@ -833,7 +835,7 @@ $(function(){
 				}
 			}
 			createToken({uid:codiUsuari}).then(function(results){
-				urlMap += "&token="+results.results;
+				urlMap += $.cookie('uid')+"&token="+results.results;
 				console.debug(urlMap);
 				window.open(urlMap);
 			});
