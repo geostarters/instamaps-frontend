@@ -1,3 +1,4 @@
+var plan,route;
 jQuery(document).ready(function() {
 		
 	defineTipusUser();
@@ -19,6 +20,7 @@ jQuery(document).ready(function() {
 			loadApp();
 		}
 	}
+	loadRouteControl();	
 	addFuncioEditDataTable();
 		
 }); // Final document ready
@@ -450,6 +452,10 @@ function addControlsInici() {
 		position : 'topleft'
 	});
 	
+	ctr_routingBT = L.control({
+		position : 'topleft'
+	});
+	
 	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicació');
 	var ctr_gps = new L.Control.Gps({
 		autoCenter: true,		//move map when gps location change
@@ -487,6 +493,16 @@ function addControlsInici() {
 		return this._div;
 	};
 	ctr_findBT.addTo(map);
+	
+	ctr_routingBT.onAdd = function(map) {
+
+		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
+		this._div.id='dv_bt_Routing';
+		this._div.title=window.lang.convert('Routing');
+		this._div.innerHTML = '<span id="span_bt_Routing" class="fa fa-exchange fa-rotate-90 grisfort"></span>';
+		return this._div;
+	};
+	ctr_routingBT.addTo(map);
 	
 	jQuery('.div_barrabotons .leaflet-bar').tooltip({
 		placement : 'left',
@@ -651,6 +667,14 @@ function updateLangText(){
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));	
 }
 
+function createButton(label, container) {
+    var btn = L.DomUtil.create('button', '', container);
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('title','Ruta inversa');
+    btn.innerHTML = label;
+    return btn;
+}
+
 function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
@@ -696,6 +720,47 @@ function updateLangTooltips(){
 		jQuery('#searchBar').toggle();
 		aturaClick(e);
 	});
+	
+	jQuery("#dv_bt_Routing").on('click',function(e){
+		
+		posaClassActiu('#span_bt_Routing');	
+			
+		if ($('.leaflet-routing-container').is(':visible')) {
+			route.removeFrom(map);
+			map.off('click', routingPopup);
+		}
+		else route.addTo(map);
+		
+		jQuery('.leaflet-routing-container').css('top', '170px');
+		jQuery('.leaflet-routing-container').css('left', '45px');
+		jQuery('.leaflet-routing-container').css('position','absolute');
+		jQuery('.leaflet-routing-container').css('z-index','100');
+		
+		map.on('click', routingPopup);
+		aturaClick(e);
+		
+	});
+}
+
+function routingPopup(e) {
+    var container = L.DomUtil.create('div'),
+        startBtn = createButton('Origen', container),
+        destBtn = createButton('Destí', container);
+
+    L.popup()
+        .setContent(container)
+        .setLatLng(e.latlng)
+        .openOn(map);
+    
+    L.DomEvent.on(startBtn, 'click', function() {
+        route.spliceWaypoints(0, 1, e.latlng);
+        map.closePopup();
+    });
+
+    L.DomEvent.on(destBtn, 'click', function() {
+        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);
+        map.closePopup();
+    });
 }
 
 function loadMapConfig(mapConfig){
@@ -894,4 +959,63 @@ function loadPasswordModal(){
 		}
 	});
 	
+}
+
+function loadRouteControl(){
+	var marker_style = {
+			icon : '',
+			markerColor : 'red',
+			divColor:'transparent',
+			iconAnchor : new L.Point(14, 42),
+			iconSize : new L.Point(28, 42),
+			iconColor : '#000000',
+			prefix : 'fa',
+			isCanvas:false,
+			radius:6,
+			opacity:1,
+			weight : 2,
+			fillOpacity : 0.9,
+			color : "#ffffff",
+			fillColor :"transparent"
+		};
+	var punt= L.AwesomeMarkers.icon(marker_style);
+	
+	var ReversablePlan = L.Routing.Plan.extend({
+	    createGeocoders: function() {
+	        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
+	            reverseButton = createButton('&#8593;&#8595;', container);
+	        L.DomEvent.on(reverseButton, 'click', function() {
+	            var waypoints = this.getWaypoints();
+	            this.setWaypoints(waypoints.reverse());
+	        }, this);
+	        return container;
+	    }
+	});
+	
+	plan = new ReversablePlan([], {
+        geocoder: L.Control.Geocoder.nominatim(),
+        routeWhileDragging: true,
+        createMarker: function(i, wp) {
+    			return L.marker(wp.latLng, {
+    				draggable: true,
+    				icon: punt
+    			});
+    		}}),
+	route = L.Routing.control({
+	         routeWhileDragging: true,
+	         plan: plan,
+	         position: 'topleft',
+			     language: 'ca',
+			     showAlternatives: true,
+			     lineOptions: {
+		            styles: [
+		              {color: '#00B3FD', opacity: 1, weight: 4},
+		            ]
+		           },
+		         altLineOptions:{
+		        	styles: [
+		     	      {color: 'black', opacity: 1, weight: 2},
+		     	    ]
+		         }
+	});
 }
