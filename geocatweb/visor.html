@@ -50,7 +50,7 @@
 <link href="/geocatweb/css/instamaps.visor.geocat.css" rel="stylesheet" />
 <link href="/geocatweb/css/instamaps.visor.mapa.css" rel="stylesheet" />
 <link href="/geocatweb/css/collapse_visor.css" rel="stylesheet"/>
-
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet-routing-machine.css" />
 
 <!-- KISSMETRICS SNIPPET -->
 <!-- script src="/geocatweb/js/geocat.kissmetrics.js"></script -->
@@ -180,6 +180,8 @@
     <div id="searchBar" class="input-group">
       	<div id="ctr_cerca"></div>
     </div><!-- /input-group -->		
+    
+  
 	<div id="map" class="visor"></div>
 	
 	<div id="info_geojsonvt" class="leaflet-control" style="display: none;">
@@ -189,6 +191,9 @@
 	</div>	
 	
 	<div id="socialShare_visor" class="div_gr5"></div>
+	
+	
+	
 	<div id="logos">
 		<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
 			<img height="45" src="/llibreries/img/icgc.png">
@@ -481,6 +486,9 @@
 	<script src="/llibreries/js/leaflet/plugin/geojson-vt-dev.js"></script>
 	<script src='https://code.createjs.com/easeljs-0.8.0.min.js'></script>	
 
+   <script src="/llibreries/js/leaflet/plugin/leaflet-routing-machine.js"></script>
+    <script src="/llibreries/js/leaflet/plugin/Control.Geocoder.js"></script>
+   
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
