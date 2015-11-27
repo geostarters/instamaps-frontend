@@ -103,7 +103,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Categories creades":"Categories created"
 ,"Centrar mapa a la seva ubicació":"Center map on your location"
 ,"Centre geomètric":"Centroid"
-,"Cercar catàleg IDEC","Search into IDEC catalog"
+,"Cercar catàleg IDEC":"Search into IDEC catalog"
 ,"Cercar llocs o coordenades ...":"Find places or coordinates ..."
 ,"Cercador de Topònims":"Place names search"
 ,"Cercador mundial de Topònims":"Search World Place Names"
