@@ -277,6 +277,8 @@ function loadPublicMap(results){
 			}else{
 				$('.logo_instamaps').hide();
 			}
+		}else{
+			$('.escut').hide();
 		}
 	}
 	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació"></span>');
@@ -499,7 +501,12 @@ function addControlsInici() {
 		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
 		this._div.id='dv_bt_Routing';
 		this._div.title=window.lang.convert('Routing');
-		this._div.innerHTML = '<span id="span_bt_Routing" class="fa fa-exchange fa-rotate-90 grisfort"></span>';
+		//this._div.innerHTML = '<span id="span_bt_Routing" class="fa fa-exchange fa-rotate-90 grisfort"></span>';
+		var html ='<span id="span_bt_Routing" class="t" style="font-size:16px; margin-top:-2px;">'+
+		'<i class="t-square-rounded grisfort" style="-webkit-transform:scale(1.25) scale(0.65) rotate(45deg);-moz-transform:scale(1.25) scale(0.65) rotate(45deg);transform:scale(1.25) scale(0.65) rotate(45deg)"></i>'+
+		'<i class="t-turn-90-l t-c-white" style="-webkit-transform:scale(-1.3, 1.3);-moz-transform:scale(-1.3, 1.3);transform:scale(-1.3, 1.3)"></i>'+
+		'</span>';
+		this._div.innerHTML = html;
 		return this._div;
 	};
 	ctr_routingBT.addTo(map);
@@ -726,41 +733,45 @@ function updateLangTooltips(){
 		posaClassActiu('#span_bt_Routing');	
 			
 		if ($('.leaflet-routing-container').is(':visible')) {
-			route.removeFrom(map);
-			map.off('click', routingPopup);
+			map.off('click',routingPopup);
+			route.removeFrom(map);			
 		}
-		else route.addTo(map);
+		else {
+			map.on('click', routingPopup);
+			route.addTo(map);
+			
+		}
 		
 		jQuery('.leaflet-routing-container').css('top', '170px');
 		jQuery('.leaflet-routing-container').css('left', '45px');
 		jQuery('.leaflet-routing-container').css('position','absolute');
-		jQuery('.leaflet-routing-container').css('z-index','100');
+		jQuery('.leaflet-routing-container').css('z-index','100');	
 		
-		map.on('click', routingPopup);
 		aturaClick(e);
 		
 	});
 }
 
 function routingPopup(e) {
-    var container = L.DomUtil.create('div'),
-        startBtn = createButton('Origen', container),
-        destBtn = createButton('Destí', container);
-
-    L.popup()
-        .setContent(container)
-        .setLatLng(e.latlng)
-        .openOn(map);
-    
-    L.DomEvent.on(startBtn, 'click', function() {
-        route.spliceWaypoints(0, 1, e.latlng);
-        map.closePopup();
-    });
-
-    L.DomEvent.on(destBtn, 'click', function() {
-        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);
-        map.closePopup();
-    });
+	    var container = L.DomUtil.create('div'),
+	        startBtn = createButton(window.lang.convert('Defineix com a origen'), container),
+	        destBtn = createButton(window.lang.convert('Defineix com a destí'), container);
+	
+	    L.popup()
+	        .setContent(container)
+	        .setLatLng(e.latlng)
+	        .openOn(map);
+	    
+	    L.DomEvent.on(startBtn, 'click', function() {
+	        route.spliceWaypoints(0, 1, e.latlng);
+	        map.closePopup();
+	    });
+	
+	    L.DomEvent.on(destBtn, 'click', function() {
+	        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);
+	        map.closePopup();
+	    });
+	
 }
 
 function loadMapConfig(mapConfig){
@@ -962,7 +973,25 @@ function loadPasswordModal(){
 }
 
 function loadRouteControl(){
-	var marker_style = {
+	var marker_style_origen = {
+			icon : '',
+			markerColor : 'green',
+			divColor:'transparent',
+			iconAnchor : new L.Point(14, 42),
+			iconSize : new L.Point(28, 42),
+			iconColor : '#000000',
+			prefix : 'fa',
+			isCanvas:false,
+			radius:6,
+			opacity:1,
+			weight : 2,
+			fillOpacity : 0.9,
+			color : "#ffffff",
+			fillColor :"transparent"
+		};
+	var puntOrigen= L.AwesomeMarkers.icon(marker_style_origen);
+	
+	var marker_style_desti = {
 			icon : '',
 			markerColor : 'red',
 			divColor:'transparent',
@@ -978,13 +1007,33 @@ function loadRouteControl(){
 			color : "#ffffff",
 			fillColor :"transparent"
 		};
-	var punt= L.AwesomeMarkers.icon(marker_style);
+	var puntDesti= L.AwesomeMarkers.icon(marker_style_desti);
+	
+	var marker_style_intermig = {
+			icon : '',
+			markerColor : 'orange',
+			divColor:'transparent',
+			iconAnchor : new L.Point(14, 42),
+			iconSize : new L.Point(28, 42),
+			iconColor : '#000000',
+			prefix : 'fa',
+			isCanvas:false,
+			radius:6,
+			opacity:1,
+			weight : 2,
+			fillOpacity : 0.9,
+			color : "#ffffff",
+			fillColor :"transparent"
+		};
+	var puntIntermig= L.AwesomeMarkers.icon(marker_style_intermig);
+	
+	var lang=web_determinaIdioma();
 	
 	var ReversablePlan = L.Routing.Plan.extend({
 	    createGeocoders: function() {
 	        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
-	            reverseButton = createButton('&#8593;&#8595;', container);
-	        L.DomEvent.on(reverseButton, 'click', function() {
+	            reverseButton = createButton('<span class="glyphicon glyphicon-sort" style="font-size:15px;"></span>', container);
+	        L.DomEvent.on(reverseButton, 'click', function() { 
 	            var waypoints = this.getWaypoints();
 	            this.setWaypoints(waypoints.reverse());
 	        }, this);
@@ -995,17 +1044,33 @@ function loadRouteControl(){
 	plan = new ReversablePlan([], {
         geocoder: L.Control.Geocoder.nominatim(),
         routeWhileDragging: true,
+        language: lang,
         createMarker: function(i, wp) {
-    			return L.marker(wp.latLng, {
+        	if(i == 0){
+        		return L.marker(wp.latLng, {
     				draggable: true,
-    				icon: punt
+    				icon: puntOrigen
     			});
+        	}
+        	else if (i==route.getWaypoints().length - 1){
+        		return L.marker(wp.latLng, {
+    				draggable: true,
+    				icon: puntDesti
+    			});
+        	}
+        	else {
+        		return L.marker(wp.latLng, {
+    				draggable: true,
+    				icon: puntIntermig
+    			});
+        	}
+    			
     		}}),
 	route = L.Routing.control({
 	         routeWhileDragging: true,
 	         plan: plan,
 	         position: 'topleft',
-			     language: 'ca',
+			     language: lang,
 			     showAlternatives: true,
 			     lineOptions: {
 		            styles: [
@@ -1018,4 +1083,6 @@ function loadRouteControl(){
 		     	    ]
 		         }
 	});
+	
+	map.on('click', routingPopup);
 }

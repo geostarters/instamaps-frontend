@@ -1595,7 +1595,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			}
 		},
 
-		'sp': {
+		'es': {
 			directions: {
 				N: 'norte',
 				NE: 'noreste',
@@ -1684,7 +1684,7 @@ if (typeof module !== undefined) module.exports = polyline;
 				return n + 'º';
 			},
 			ui: {
-				startPlaceholder: 'Inici',
+				startPlaceholder: 'Origen',
 				viaPlaceholder: 'Via {viaNumber}',
 				endPlaceholder: 'Destí'
 			}

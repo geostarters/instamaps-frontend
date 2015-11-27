@@ -867,9 +867,22 @@ textarea {
 }
 
 .leaflet-routing-geocoders {
-	background: #4285f4 none repeat scroll 0 0 !important;
+	background: #686868 none repeat scroll 0 0 !important;
 	margin-top:0px !important;
 }
 .leaflet-routing-container {
 	padding-top:0px !important;
 }
+
+div.leaflet-routing-geocoder:first-of-type{
+	color:green;
+}
+
+div.leaflet-routing-geocoder:last-of-type{
+	color:red;
+}
+
+div.leaflet-routing-geocoder input::-webkit-input-placeholder { opacity: 0.8; }
+div.leaflet-routing-geocoder input::-moz-placeholder { opacity: 0.8; } /* firefox 19+ */
+div.leaflet-routing-geocoder input:-ms-input-placeholder { opacity: 0.8; } /* ie */
+div.leaflet-routing-geocoder input:-moz-placeholder { opacity: 0.8; }

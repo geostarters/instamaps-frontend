@@ -105,7 +105,7 @@ function addControlAltresFontsDades() {
 				
 			}else if(tbA == "#id_capes_instamaps"){				
 				jQuery(tbA).empty();
-				jQuery(tbA).html('<div class="input-group txt_capes"><input type="text" lang="ca" class="form-control" placeholder="Entra el nom de la capa que vols buscar" style="height:33px" id="txt_capesInstamaps"> <span class="input-group-btn"><button type="button" id="bt_capesInstamaps" class="btn btn-success"><span class="glyphicon glyphicon-play"></span></button></span> </div>');
+				jQuery(tbA).html('<div class="input-group txt_capes"><input type="text" lang="ca" class="form-control" placeholder="Entrar el nom de la capa que es vol buscar" style="height:33px" id="txt_capesInstamaps"> <span class="input-group-btn"><button type="button" id="bt_capesInstamaps" class="btn btn-success"><span class="glyphicon glyphicon-play"></span></button></span> </div>');
 				jQuery("#bt_capesInstamaps").on('click', function(e) {
 					e.stopImmediatePropagation();
 					
