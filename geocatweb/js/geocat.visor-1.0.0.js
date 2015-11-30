@@ -737,6 +737,7 @@ function updateLangTooltips(){
 			route.removeFrom(map);			
 		}
 		else {
+			_gaq.push(['_trackEvent', 'visor', tipus_user+'routing', 'label routing', 1]);
 			map.on('click', routingPopup);
 			route.addTo(map);
 			
@@ -1084,5 +1085,5 @@ function loadRouteControl(){
 		         }
 	});
 	
-	map.on('click', routingPopup);
+	//map.on('click', routingPopup);
 }

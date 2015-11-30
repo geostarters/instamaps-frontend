@@ -2,7 +2,11 @@
  * 
  */
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-46332195-3']);
+//Diferenciem entre usuari Geolocal i Instamaps
+  if (isGeolocalUser()) _gaq.push(['_setAccount', 'UA-46332195-6']);
+  else  _gaq.push(['_setAccount', 'UA-46332195-3']);
+
+  
   _gaq.push(['_trackPageview']);
 
   (function() {

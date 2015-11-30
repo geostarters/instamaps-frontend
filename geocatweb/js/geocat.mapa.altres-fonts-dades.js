@@ -157,7 +157,7 @@ function addControlAltresFontsDades() {
 										
 										var value = results.results;
 										
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar meves dades', value.serverType, 1]);
+										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
 //										_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
 										
 										if (value.epsg == "4326"){
