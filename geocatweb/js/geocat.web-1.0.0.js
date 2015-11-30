@@ -271,16 +271,19 @@ function initHover(){
 	jQuery('#div_PC').on('click', function(e) {
 		e.preventDefault();
 		console.debug(this);
+		_gaq.push(['_trackEvent', 'aplicacions', t_user_loginat+'protecció civil']);
 		document.location.href = paramUrl.loginGeolocalPage + "?from=pcivil";
 	});
 	jQuery('#div_IP').on('click', function(e) {
 		e.preventDefault();
 		console.debug(this);
+		_gaq.push(['_trackEvent', 'aplicacions', t_user_loginat+'infoParcela']);
 		document.location.href = paramUrl.loginGeolocalPage + "?from=infoparcela";
 	});
 	jQuery('#div_CC').on('click', function(e) {
 		e.preventDefault();
 		console.debug(this);
+		_gaq.push(['_trackEvent', 'aplicacions', t_user_loginat+'carrerer']);
 		document.location.href = paramUrl.loginGeolocalPage + "?from=carrerer";
 	});
 }

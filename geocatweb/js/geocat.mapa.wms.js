@@ -201,6 +201,7 @@ jQuery(document).on('click', "#bt_cercaWMS", function(e) {
 			 jQuery(".label-dadesIdec").on('click', function(e) {
 				 jQuery('#resultats_idec').empty();
 				 var urlWMS= this.dataset.wms_url;
+				 _gaq.push(['_trackEvent', 'mapa', tipus_user+'afegir WMS catàleg IDEC', this.dataset.nom, 1]);
 				 jQuery('#txt_URLWMS').val(urlWMS);
 				 jQuery('#bt_connWMS').click();
 			 });

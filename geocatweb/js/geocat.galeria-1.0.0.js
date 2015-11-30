@@ -96,6 +96,7 @@ $(function(){
 		$('#galeriaSort #obtenirUrlPublica').attr("style","display:block;");
 		
 		$('#galeriaSort #obtenirUrlPublica').on('click', function(event){
+			_gaq.push(['_trackEvent', 'galeria usuari', t_user_loginat+'obtenir URL galeria pública']);
 			var urlGaleriaUsuari = "http://www.instamaps.cat/"+paramUrl.galeriaPage.substring(1,paramUrl.galeriaPage.length)+"?user="+$.cookie('uid');
 			
 			$('#urlPublicaLlarga').val(urlGaleriaUsuari);
