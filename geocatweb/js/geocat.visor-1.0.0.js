@@ -1085,5 +1085,5 @@ function loadRouteControl(){
 		         }
 	});
 	
-	map.on('click', routingPopup);
+	//map.on('click', routingPopup);
 }
