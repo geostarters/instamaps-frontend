@@ -103,7 +103,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Categories creades":"Categorías creadas"
 ,"Centrar mapa a la seva ubicació":"Centrar mapa a su ubicación"
 ,"Centre geomètric":"Centro geométrico"
-,"Cercar catàleg IDEC","Buscar catálogo IDEC"
+,"Cercar catàleg IDEC":"Buscar catálogo IDEC"
 ,"Cercar llocs o coordenades ...":"Buscar lugares o coordenadas..."
 ,"Cercador de Topònims":"Buscador de Topónimos"
 ,"Cercador mundial de Topònims":"Buscador mundial de Topónimos"
