@@ -165,17 +165,19 @@ function initCanvas(){
 	addGeometryInitL(document.getElementById(canvas_linia.id+"0"));
 	
     $('#colorpalette_pf').colorPalette().on('selectColor', function(e) {   	
-    $('.fill_color_pol').css('background-color',e.color);
-    $('.fill_color_pol').css('color',e.color);
+    	$('.fill_color_pol').css('background-color',e.color);
+        $('.fill_color_pol').css('color',e.color);
         canvas_pol.opacity=jQuery('#cmb_trans').val();//Forcem el valor de opacity pq en Chrome no anava bé
         canvas_pol.fillStyle="rgba("+hexToRgb(e.color).r+", "+hexToRgb(e.color).g+", "+hexToRgb(e.color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
     });	
     
-    $('#colorpalette_pl').colorPalette().on('selectColor', function(e) {   	
-    $('.border_color_pol').css('border-color',e.color);
+    $('#colorpalette_pl').colorPalette().on('selectColor', function(e) {    	
+    	var color=rgb2hex($('.fill_color_pol').css('background-color'));
+    	$('.border_color_pol').css('border-color',e.color);
     	canvas_pol.opacity=jQuery('#cmb_trans').val();//Forcem el valor de opacity pq en Chrome no anava bé
     	canvas_pol.strokeStyle=e.color;
+    	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));  
     });
 	
@@ -230,7 +232,7 @@ function initCanvas(){
     jQuery("#cmb_gruix").on('change', function(e) { 
     	canvas_pol.lineWidth=jQuery(this).val();
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
-    	canvas_pol.opacity=jQuery(this).val();
+    	canvas_pol.opacity=jQuery('#cmb_trans').val();
     	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitP(document.getElementById("cv_pol0"));
     });
@@ -238,7 +240,7 @@ function initCanvas(){
     jQuery("#cmb_gruix_l").on('change', function(e) { 
     	canvas_linia.lineWidth=jQuery(this).val();
     	var color=rgb2hex($('.fill_color_pol').css('background-color'));
-    	canvas_pol.opacity=jQuery(this).val();
+    	canvas_pol.opacity=jQuery('#cmb_trans').val();
     	canvas_pol.fillStyle="rgba("+hexToRgb(color).r+", "+hexToRgb(color).g+", "+hexToRgb(color).b+","+jQuery('#cmb_trans').val()+")";
     	addGeometryInitL(document.getElementById("cv_linia0"));
     });
