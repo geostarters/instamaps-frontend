@@ -5,11 +5,10 @@ function filterJSON(rawjson) {
 	var jsonData = JSON.parse(rawjson.resposta);
 	var json = {},
 	key, loc, disp = [];
-	console.debug(jsonData);
+	//console.debug(jsonData);
 	if (jsonData.resultats.length>1){
 		for (var i = 0; i < jsonData.resultats.length; i++) {
 		    var resultat = jsonData.resultats[i];
-		    console.debug(resultat);
 		    var coordsSplit = resultat.coordenades.split(",");
 		    json[ resultat.nom ] = L.latLng(coordsSplit[0], coordsSplit[1]);
 		}

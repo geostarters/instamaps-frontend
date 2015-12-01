@@ -4264,5 +4264,24 @@ ul.listMunicipis{
 .widget-cartoteca{
 	background-image: url("images/widget_cartoteca.png");
 }
+.leaflet-routing-geocoders a{
+	display:inline;
+	 background-position: 0%;
+	 background-color:transparent;
+	
+}
+.leaflet-routing-geocoders a:hover{
+	display:inline;
+	 background-position: 0%;
+	 background-color:transparent;
+	
+}
+.leaflet-routing-geocoders a:first-child {
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
 
-
+.leaflet-routing-geocoders a:last-child {
+	 border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
