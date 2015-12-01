@@ -681,6 +681,19 @@ function createGeoPdfMap(data){
 }	
 
 
+
+function createMapToWMS(data){
+	return jQuery.ajax({
+		url: paramUrl.urlMapToWMS,
+		data: data,	
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		method: 'POST',
+		dataType: 'json'
+	}).promise();
+}	
+
+
+
 //esborra imatge galeria
 
 function deleteImageGaleria(data){

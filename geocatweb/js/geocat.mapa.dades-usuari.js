@@ -173,6 +173,13 @@ function creaPopOverMevasDades(){
 //									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled');
 //									//jQuery(".ln-letters."+firstLetter).removeClass('ln-selected');
 //								}
+								
+								
+								//esborra MapFile WMS
+								
+								
+								
+								
 							}					
 						});
 					}else{
@@ -212,6 +219,22 @@ function creaPopOverMevasDades(){
 //								if(globalCounts[''+firstLetter +'']<=0){
 //									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled')
 //								}
+								
+								
+
+								//Esborra GeoJson creat per el servei WMS
+								
+								var data3 = {
+										businessId:  _this.data("businessid"),
+										entitatUid: mapConfig.id,
+										metode: "deleteGeoJSONfromMap"
+									};
+								console.debug(data3);
+								createMapToWMS(data3).then(function(results){});
+								
+								
+								
+								
 							}
 						});						
 					}

@@ -349,7 +349,7 @@ function gestioCookie(from){
 		case 'loadMapConfig':
 			if (isRandomUser(_cookie) ){
 				$.removeCookie('uid', { path: '/' });
-				//jQuery(window).off('beforeunload');
+				jQuery(window).off('beforeunload');
 				//window.location.href = paramUrl.mainPage;
 			}else{
 				//window.location.href = paramUrl.galeriaPage;

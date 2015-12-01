@@ -1,5 +1,6 @@
 var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
+var HOST_APP2 = "http://www.instamaps.cat";
 var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
 
@@ -8,6 +9,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 //	HOST_APP = "http://localhost:8080/";
 	HOST_APP = "http://localhost/";//Local Jess
+	HOST_APP2 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
@@ -18,6 +20,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 var DOMINI = "www.instamaps.cat";
 if(urlApp.indexOf('172.70.1.11')!=-1){
 	HOST_APP = "http://172.70.1.11/";
+	HOST_APP2 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.11";
 	proxydir="maps"; //he creat un director maps al meu Apache
@@ -139,6 +142,9 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
+	
+	urlMapToWMS:"/share/jsp/getMapToWMS.jsp?",
+	
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
 	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinInstamaper: HOST_APP+"geocat/registreInstamaper.action?",

@@ -99,6 +99,16 @@ function addCapaDadesObertes(dataset,nom_dataset) {
     				createServidorInMap(data).then(function(results){
     					if (results.status == "OK"){
     						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+    						
+    						capaDadaOberta.options={"dataset":dataset,
+    								"estil_do":{"radius":estil_do.radius,
+    									"fillColor":estil_do.fillColor,
+    									"color":estil_do.color,
+    									"weight":estil_do.weight,
+    									"opacity":estil_do.opacity,
+    									"fillOpacity":estil_do.fillOpacity,
+    									"isCanvas":estil_do.isCanvas}};
+    						
     						capaDadaOberta.options.businessId = results.results.businessId;
     						
     						capaDadaOberta.addTo(map)

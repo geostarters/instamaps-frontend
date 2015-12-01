@@ -31,7 +31,7 @@ function addFuncioRenameMap(){
 	});	
 }
 
-function reOrderGroupsAndLayers(){
+function reOrderGroupsAndLayers(action){
 	
 	 var z_order=-1;
 	 
@@ -48,9 +48,7 @@ function reOrderGroupsAndLayers(){
 	    	
 	    	 _groupName=gr.text();
 	    	 
-	    	 //console.warn("********NOMGRUP0:"+gr.text());
-	    	 //console.warn("********IDGRUP0:"+index);
-	    	 //console.warn($('input.expanded_input').get(index));
+	    	
 		  
 	    	 var _exp=$this.children("label").children('i.label_gl');
 	    		 
@@ -76,6 +74,10 @@ function reOrderGroupsAndLayers(){
 	    	        
 	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
 	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);	    	    	    	    
+	    	  
+	    	    
+	    	  if(action){
+	    	    
 	    	    var data = {
 					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
@@ -83,15 +85,19 @@ function reOrderGroupsAndLayers(){
 					 }	
 				
 				var data2 = {
-					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+					 	servidorWMSbusinessId:resp_Layer.options.businessId,
+	    	    		businessId:url('?businessid'), //url('?businessid') 
 					 	uid: $.cookie('uid'),
 					 	order: z_order
 					 }	
 				
 			
+	    	    
 				updateGroupsLayerOptions(data,data2);	
 	    	       //}
    	    
+	    	  }
+	    	    
 	    	    });
 	    	 
 	  ////console.warn("FI GROUP:");
@@ -103,6 +109,9 @@ function reOrderGroupsAndLayers(){
 
 function updateGroupsLayerOptions(data,data2){
 	
+	
+	//console.debug("_updateGroupsLayerOptions");
+	
 	updateServidorWMSOptions(data).then(function(results){
 		////console.info(results);
 		if(results.status==='OK'){
@@ -110,8 +119,7 @@ function updateGroupsLayerOptions(data,data2){
 			if(data2){
 				
 				updateServerOrderToMap(data2).then(function(results) {
-					
-					////console.debug(results);
+					//console.debug(results);
 					if (results.status != 'OK')
 						return;// SI no ha anat be el canvi a BD. que
 								// no es faci tampoc a client, i es
@@ -123,8 +131,7 @@ function updateGroupsLayerOptions(data,data2){
 				});
 				
 			}
-			
-			////console.debug(results);
+			//console.debug(results);
 			//console.debug(data);
 		}
 	});
@@ -162,7 +169,7 @@ function updateSortablesElements(){
 			  
 			   // $("div.leaflet-control-accordion-layers").each(function( index, element ) {
 			  $('.tooltip').hide();
-			  reOrderGroupsAndLayers();
+			  reOrderGroupsAndLayers(true);
 			    
 			    _super($item, container);
 			  }
@@ -191,7 +198,7 @@ function updateSortablesElements(){
 		  },
 		  onDrop: function ($item, container, _super) {
 			  $('.tooltip').hide();
-			  reOrderGroupsAndLayers();
+			  reOrderGroupsAndLayers(true);
 			    _super($item, container);
 			  }
 		  

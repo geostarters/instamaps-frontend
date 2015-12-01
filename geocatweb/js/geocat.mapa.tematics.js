@@ -1442,8 +1442,6 @@ function loadVisualitzacioLayer(layer){
 }
 
 function readVisualitzacio(defer, visualitzacio, layer){
-	
-	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 					|| (layer.options && (layer.options.indexOf("source")!=-1) );
 	
@@ -1457,6 +1455,8 @@ function readVisualitzacio(defer, visualitzacio, layer){
 		
 		capaVisualitzacio = new L.FeatureGroup();
 		
+		var layOptions = JSON.parse(layer.options);
+		
 		capaVisualitzacio.options = {
 			businessId : layer.businessId,
 			nom : layer.serverName,
@@ -1465,8 +1465,9 @@ function readVisualitzacio(defer, visualitzacio, layer){
 			geometryType: visualitzacio.geometryType,
 //			dades: hasDades, //No cal?
 //			rangs: tematic.rangs,
-			estil: visualitzacio.estil
+			estil: visualitzacio.estil,
 //			rangsField: rangsField
+			group: layOptions.group
 		};
 	
 		if(hasSource) {

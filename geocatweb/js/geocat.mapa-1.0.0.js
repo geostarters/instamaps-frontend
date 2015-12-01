@@ -53,6 +53,17 @@ function loadApp(){
 			typeMap : 'topoMapGeo',
 			minZoom: 2,
 			maxZoom : 19,
+			timeDimension: true,
+		    timeDimensionControl: true,
+		    timeDimensionControlOptions:{
+		    	speedSlider:false	
+		    },
+			timeDimensionOptions: {
+		        timeInterval: "2003-01-01/"+ new Date().toISOString(),
+		        period: "P1M"
+		    }
+			
+			
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
 		
@@ -177,6 +188,8 @@ function loadApp(){
 					//	window.location.href = paramUrl.galeriaPage;
 					//}												
 				}catch(err){
+					console.debug(err);
+					
 					gestioCookie('loadMapConfig');
 				}
 			}
@@ -449,6 +462,12 @@ function loadMapConfig(mapConfig){
 		});
 		
 		jQuery('#div_loading').hide();
+		
+		//console.warn("Capes afegides")
+		
+		
+		
+		
 	}
 	
 	dfd.resolve();
@@ -470,23 +489,24 @@ function loadOrigenWMS(){
 	
 	//NOu 
 	
-	jQuery.each(layer_map.origen, function(index, value){	
+	//console.debug("Totes les capes");
+	//console.debug(layer_map.origen);
+	
+	
+	jQuery.each(layer_map.origen, function(index, value){
+		//console.debug(index);
+		//console.debug(value);
 		var options=JSON.parse(value.options);		
-		controlCapes._addGroupFromObject (options.group);	
+		controlCapes._addGroupFromObject(options.group);
 	});
-	
-	
-	
-	
-	
-	
-	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
 
 function loadLayer(value){
 	
+	//console.info("loadLayer");
+	//console.info(value);
 	var defer = $.Deferred();
 	
 	if (value.epsg == "4326"){

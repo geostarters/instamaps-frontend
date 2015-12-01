@@ -4181,7 +4181,7 @@ i.fa {
 	font-size: 16px;
 }
 
-#iframeMap, #urlMap{background-color: #eeeeee;}
+#iframeMap, #urlMap , #urlMapWMS{background-color: #eeeeee;}
 
 #urlVisorMap {
     border: 1px none black;
@@ -4890,3 +4890,44 @@ padding: 8px 0;
 }
 
 /* skin.css Style*/
+
+
+.barra_temps{
+	
+	display:none;
+	
+	
+}
+
+a.timecontrol-slider .ui-slider-handle {
+   
+    width: 10px !important;
+}
+
+
+.leaflet-bar-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+
+a.leaflet-control-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+a.leaflet-control-timecontrol {
+    color: white !important;
+  
+}
+
+
+a.leaflet-control-timecontrol:hover {
+    color: #FFC500 !important;
+  
+}
+
+
+
+
+

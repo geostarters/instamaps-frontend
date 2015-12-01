@@ -796,13 +796,16 @@ function loadOrigenWMS(){
 	});
 	
 	
-	//crea primer grups
+//NOu 
+	
+	console.debug("Totes les capes");
+	console.debug(layer_map.origen);
+	
 	
 	jQuery.each(layer_map.origen, function(index, value){	
 		var options=JSON.parse(value.options);		
-		controlCapes._addGroupFromObject (options.group);	
+		controlCapes._addGroupFromObject(options.group);	
 	});
-	
 	
 	dfd.resolve(layer_map);
 	return dfd.promise();

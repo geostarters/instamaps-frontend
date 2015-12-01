@@ -423,6 +423,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Per codis":"On codes"
 ,"Per compartir el teu mapa": "To share your map"
 ,"Per coordenades":"On coordinates"
+	,"Per reutilitzar com a WMS les vostres capes, copieu i enganxeu el següent text":"To reuse your layers as a WMS service, copy and paste this text"
 ,"Per enllaçar amb aquest mapa, copieu i enganxeu el següent text":"To link to this map, copy and paste the following text"
 ,"Per facilitar la llegibilitat del mapa hem limitat el número màxim de colors per a aquest estil a 9. La resta de categories es simbolitzaran amb color gris":"To facilitate map readability we have limited the maximum number of colors for this style to 9. The remaining categories will be symbolized in gray color"
 ,"Per fitxers amb gran quantitat de dades el procés pot tardar uns minuts":"For large data files the process may take a few minutes"

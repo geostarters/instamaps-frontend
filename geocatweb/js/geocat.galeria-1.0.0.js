@@ -320,14 +320,21 @@ $(function(){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
+			
+	
 			$('#dialgo_delete').modal('show');
 			$('#dialgo_delete .nom_mapa').text($this.data("nom"));
 			$('#dialgo_delete .btn-danger').data("businessid", $this.data("businessid"));
+			$('#dialgo_delete .btn-danger').data("idusr", $this.data("idusr"));
 			
 		});
 		
 		$('#dialgo_delete .btn-danger').on('click', function(event){
+			
+			
 			var $this = $(this);
+			
+		
 			var data = {
 				businessId: $this.data("businessid"),
 				uid: $.cookie('uid')
@@ -346,6 +353,25 @@ $(function(){
 						metode: "rmGaleria"
 					};
 					deleteImageGaleria(data2).then(function(results){});
+					
+					
+					if($this.data("idusr")){
+							var data3 = {
+									businessId: $this.data("businessid"),
+									entitatUid: $this.data("idusr"),
+									metode: "deleteWMSfromMap"
+								};
+							
+							createMapToWMS(data3).then(function(results){});
+					}
+					
+					
+					
+					
+					
+					
+					
+					
 				}
 			});
 		});
@@ -825,6 +851,7 @@ $(function(){
 			$('#dialgo_delete_aplicacio').modal('show');
 			$('#dialgo_delete_aplicacio .nom_mapa').text($this.data("nom"));
 			$('#dialgo_delete_aplicacio .btn-danger').data("businessid", $this.data("businessid"));
+			$('#dialgo_delete_aplicacio .btn-danger').data("idusr", $this.data("idusr"));
 			var eliminar = $(this).data('eliminar');
 			eliminar = eliminar.split("|");
 			console.debug(eliminar);

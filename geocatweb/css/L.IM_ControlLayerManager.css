@@ -508,6 +508,49 @@ input[type='checkbox']:checked.checkbox_styled + label:before{
 
 
 
+input[type='checkbox'].checkbox_time + label:before,
+input[type='checkbox'].checkbox_time + label:after{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor:pointer;
+    color:white;
+}
+input[type='checkbox'].checkbox_time + label:before{
+    content: "\e090";
+     color:white;
+}
+input[type='checkbox']:checked.checkbox_time + label:before{
+   
+     content: "\e023";
+    
+     color:white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 input[type='checkbox'].checkbox_eye + label:before,
 input[type='checkbox'].checkbox_eye + label:after{
     position: relative;
