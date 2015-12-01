@@ -682,6 +682,12 @@ function createButton(label, container) {
     return btn;
 }
 
+function createSpan(label, container) {
+    var span = L.DomUtil.create('span', '', container);
+    span.innerHTML = label;
+    return span;
+}
+
 function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
@@ -754,21 +760,30 @@ function updateLangTooltips(){
 }
 
 function routingPopup(e) {
-	    var container = L.DomUtil.create('div'),
-	        startBtn = createButton(window.lang.convert('Defineix com a origen'), container),
-	        destBtn = createButton(window.lang.convert('Defineix com a destí'), container);
+	
+		var container ='<div id="contentRoutingPopup">';
+	   
+	    container +='<h4 style="border-bottom:0px;">Càlcul de rutes</h4>';
+	    container +='<button class="btn" title="Ruta inversa" type="button" id="startBtn">Defineix com a origen</button>'+
+	    	'<span class="awesome-marker-icon-green awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" style="position:relative;float:right;margin-top:-5px;"></span>'+
+	    	'<button class="btn" title="Ruta inversa" type="button" id="destBtn" style="margin-top:10px;width:152px">Defineix com a destí</button>'+
+	    	'<span class="awesome-marker-icon-red awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" style="position:relative;float:right;margin-top:-35px;"></span>';
+	    container += "</div>";
 	
 	    L.popup()
 	        .setContent(container)
 	        .setLatLng(e.latlng)
 	        .openOn(map);
 	    
-	    L.DomEvent.on(startBtn, 'click', function() {
+		jQuery(".leaflet-popup-content").css('width','184px');
+		jQuery(".leaflet-popup-content").css('margin','5px 15px');
+		
+	    jQuery('#startBtn').on('click', function() {
 	        route.spliceWaypoints(0, 1, e.latlng);
 	        map.closePopup();
 	    });
 	
-	    L.DomEvent.on(destBtn, 'click', function() {
+	    jQuery('#destBtn').on('click', function() {
 	        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);
 	        map.closePopup();
 	    });
@@ -1033,7 +1048,8 @@ function loadRouteControl(){
 	var ReversablePlan = L.Routing.Plan.extend({
 	    createGeocoders: function() {
 	        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
-	            reverseButton = createButton('<span class="glyphicon glyphicon-sort" style="font-size:15px;"></span>', container);
+	            infoButton = createSpan('<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank"><span class="glyphicon glyphicon-info-sign" style="font-size:14px;"></span></a>', container),
+	            reverseButton = createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container);
 	        L.DomEvent.on(reverseButton, 'click', function() { 
 	            var waypoints = this.getWaypoints();
 	            this.setWaypoints(waypoints.reverse());
