@@ -1048,7 +1048,10 @@ function loadRouteControl(){
 	var ReversablePlan = L.Routing.Plan.extend({
 	    createGeocoders: function() {
 	        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
+<<<<<<< HEAD
 	            infoButton = createSpan('<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank"><span class="glyphicon glyphicon-info-sign" style="font-size:14px;"></span></a>', container),
+=======
+>>>>>>> branch 'master_geolocal' of http://montmajor.icc.local/v.pascual/geocatonline.git
 	            reverseButton = createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container);
 	        L.DomEvent.on(reverseButton, 'click', function() { 
 	            var waypoints = this.getWaypoints();
