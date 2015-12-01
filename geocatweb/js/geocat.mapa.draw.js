@@ -1011,7 +1011,7 @@ function getFeatureStyle(f, fId){
 	var rangs = {};
 	//ESTIL MARKER
 	if(f.layer.options.tipus == t_marker){
-		if (!f.layer._ctx){
+		if (!f.layer._ctx && f.layer.options.icon!= undefined){
 			rangs = {
 				color : f.layer.options.icon.options.fillColor,//Color principal
 				marker: f.layer.options.icon.options.markerColor,//Si es de tipus punt_r o el color del marker
