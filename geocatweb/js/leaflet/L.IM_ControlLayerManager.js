@@ -1004,170 +1004,93 @@ L.Control.OrderLayers = L.Control.Layers
 
 				if (obj.overlay) {
 
-					if (getModeMapa()) {
+				
 
-						col = L.DomUtil
-								.create('div',
-										'leaflet-conf glyphicon glyphicon-cog opcio-conf');
-						L.DomEvent.on(col, 'click', this._showOptions, this);
-						col.layerId = input.layerId;
-						_menu_item_checkbox.appendChild(col);
+					//Icona conf Sempre
 
-						
+						col = L.DomUtil.create('div','leaflet-conf glyphicon glyphicon-cog opcio-conf');
+											L.DomEvent.on(col, 'click', this._showOptions, this);
+											col.layerId = input.layerId;
+											_menu_item_checkbox.appendChild(col);
+											
+						//Icona remove només Edicio
+
 						if(getModeMapa()){
-								col = L.DomUtil
-										.create(
-												'div',
-												'conf-'
-														+ obj.layer.options.businessId
-														+ ' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
-								col.layerId = input.layerId;
-								L.DomEvent.on(col, 'click', this._onRemoveClick, this);
-								_menu_item_checkbox.appendChild(col);
+							col = L.DomUtil.create('div','conf-'+ obj.layer.options.businessId+ ' leaflet-remove glyphicon glyphicon-remove subopcio-conf');
+													col.layerId = input.layerId;
+													L.DomEvent.on(col, 'click', this._onRemoveClick, this);
+													_menu_item_checkbox.appendChild(col);
+							}				
+						//Icona Taula de Dades	Sempre
+											
+					if (obj.layer.options.source) {
+							col = L.DomUtil.create('div','data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
+												col.layerId = input.layerId;
+												L.DomEvent.on(col, 'click', this._onOpenDataTable,
+														this);
+												_menu_item_checkbox.appendChild(col);
+							}						
+							//Icona Descàrrega sempre
 
-						}
-						
-						if (obj.layer.options.source) {
-							col = L.DomUtil
-									.create(
-											'div',
-											'data-table-'
-													+ obj.layer.options.businessId
-													+ ' leaflet-data-table glyphicon glyphicon-list-alt');
-							col.layerId = input.layerId;
-							L.DomEvent.on(col, 'click', this._onOpenDataTable,
-									this);
-							_menu_item_checkbox.appendChild(col);
-						}
+							if (obj.layer.options.tipus
+													&& obj.layer.options.tipus.indexOf(t_wms) == -1
+													&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
+												col = L.DomUtil
+														.create(
+																'div',
+																'conf-'
+																		+ obj.layer.options.businessId
+																		+ ' leaflet-download glyphicon glyphicon-save subopcio-conf');
+												col.layerId = input.layerId;
+												L.DomEvent.on(col, 'click', this._onDownloadClick,
+														this);
+												_menu_item_checkbox.appendChild(col);
+							}
+							
+							
+							//Icona Transparència
+							
+							if (obj.layer.options.tipus
+									&& obj.layer.options.tipus.indexOf(t_wms) != -1) {
+								
+								col = L.DomUtil.create('div','conf-'+ obj.layer.options.businessId+ ' leaflet-trans glyphicon glyphicon-adjust subopcio-conf');
+													col.layerId = input.layerId;
+													L.DomEvent.on(col, 'click',
+															this._onTransparenciaClick, this);
+													_menu_item_checkbox.appendChild(col);
+	
+													$(col).tooltip({
+														placement : 'bottom',
+														container : 'body',
+														title : window.lang.convert("Transparència")
+													});
+								}
 
-						if (obj.layer.options.tipus
-								&& obj.layer.options.tipus.indexOf(t_wms) == -1
-								&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
-							col = L.DomUtil
-									.create(
-											'div',
-											'conf-'
-													+ obj.layer.options.businessId
-													+ ' leaflet-download glyphicon glyphicon-save subopcio-conf');
-							col.layerId = input.layerId;
-							L.DomEvent.on(col, 'click', this._onDownloadClick,
-									this);
-							_menu_item_checkbox.appendChild(col);
-						}
-
-						
-							col = L.DomUtil
-									.create(
-											'div',
-											'conf-'
-													+ obj.layer.options.businessId
-													+ ' leaflet-trans glyphicon glyphicon-adjust subopcio-conf');
-							col.layerId = input.layerId;
-							L.DomEvent.on(col, 'click',
-									this._onTransparenciaClick, this);
-							_menu_item_checkbox.appendChild(col);
-
-							$(col).tooltip({
-								placement : 'bottom',
-								container : 'body',
-								title : window.lang.convert("Transparència")
-							});
-
-						
-
-						
-						
-						if(getModeMapa()){
-								col = L.DomUtil
-										.create(
-												'div',
-												'conf-'
-														+ obj.layer.options.businessId
-														+ ' leaflet-move glyphicon glyphicon-move subopcio-conf');
-								col.layerId = input.layerId;
-								// L.DomEvent.on(col, 'click', this._onDownClick, this);
-								_menu_item_checkbox.appendChild(col);
-		
-								$(col).tooltip({
-									placement : 'bottom',
-									container : 'body',
-									title : window.lang.convert("Moure")
-								});
-						}
-						
-						
+							//Icona Moure només Edicio
+							
+											if(getModeMapa()){
+													col = L.DomUtil.create('div','conf-'+ obj.layer.options.businessId+ ' leaflet-move glyphicon glyphicon-move subopcio-conf');
+													col.layerId = input.layerId;
+													// L.DomEvent.on(col, 'click', this._onDownClick, this);
+													_menu_item_checkbox.appendChild(col);
+							
+													$(col).tooltip({
+														placement : 'bottom',
+														container : 'body',
+														title : window.lang.convert("Moure")
+													});
+											}
 						
 					
-						
-						
-						
-						
-						
-						
-
-					} else {
-
-						if (obj.layer.options.source) {
-							col = L.DomUtil
-									.create(
-											'div',
-											'data-table-'
-													+ obj.layer.options.businessId
-													+ ' leaflet-data-table glyphicon glyphicon-list-alt');
-							col.layerId = input.layerId;
-							L.DomEvent.on(col, 'click', this._onOpenDataTable,
-									this);
-							_menu_item_checkbox.appendChild(col);
-						}
-
-						if (obj.layer.options.tipus.indexOf(t_geojsonvt) == -1
-								&& obj.layer.options.tipus.indexOf(t_wms) == -1
-								&& !jQuery.isEmptyObject(downloadableData)
-								&& downloadableData[obj.layer.options.businessId]
-								&& downloadableData[obj.layer.options.businessId] != undefined
-								&& downloadableData[obj.layer.options.businessId][0].chck) {
-							col = L.DomUtil
-									.create(
-											'div',
-											'conf-'
-													+ obj.layer.options.businessId
-													+ ' leaflet-download-visor glyphicon glyphicon-save');
-							L.DomEvent.on(col, 'click', this._onDownloadClick,
-									this);
-							col.layerId = input.layerId;
-							_menu_item_checkbox.appendChild(col);
-
-							$(col).tooltip({
-								placement : 'left',
-								container : 'body',
-								title : window.lang.convert("Descàrrega")
-							});
-						}
-
-						if (obj.layer.options.tipus
-								&& obj.layer.options.tipus.indexOf(t_wms) != -1) {
-
-							col = L.DomUtil
-									.create(
-											'div',
-											'conf-'
-													+ obj.layer.options.businessId
-													+ ' leaflet-trans-visor glyphicon glyphicon-adjust');
-							col.layerId = input.layerId;
-							L.DomEvent.on(col, 'click',
-									this._onTransparenciaClick, this);
-							_menu_item_checkbox.appendChild(col);
-
-							$(col).tooltip({
-								placement : 'bottom',
-								container : 'body',
-								title : window.lang.convert("Transparència")
-							});
-
-						}
-
-					}
-
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					
 					
 					container = this._overlaysList;
@@ -1683,19 +1606,20 @@ L.Control.OrderLayers = L.Control.Layers
 			_onTransparenciaClick : function(e) {
 				var layerId = e.currentTarget.layerId;
 				var obj = this._layers[layerId];
-				var op = obj.layer.options.opacity;
-				//console.info(obj);
-				if (!op) {
-
-					//console.info(op);
-				}
-				//console.info(op);
+				var op=obj.layer.options.opacity;
+					
+				op?op=obj.layer.options.opacity:op=obj.layer.options.fillOpacity;
+				
+				
+					
+				console.info(obj);
+		
 
 				if (!op) {
 					op = 1;
 					obj.layer.options.fillOpacity = 1;
 				} else {
-
+					console.info(op);
 					if (op == 0) {
 						op = 1
 					} else {
@@ -1703,12 +1627,17 @@ L.Control.OrderLayers = L.Control.Layers
 					}
 				}
 
+				
+				
+				
+				
 				try {
-
+					console.info(op);
 					obj.layer.setOpacity(op);
 				} catch (err) {
 					//console.info(op);
 					// obj.layer.options.opacity=op;
+					console.info(op);
 					obj.layer.options.fillOpacity = op;
 					obj.layer.setStyle({
 						fillOpacity : op

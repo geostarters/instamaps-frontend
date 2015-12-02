@@ -169,7 +169,12 @@ function generaLlistaServeisWMS() {
 	_htmlServeisWMS.push('	  <li>');
 	_htmlServeisWMS.push('      {{#if Name}}');
 	_htmlServeisWMS.push('			{{#if Layer}}');
-	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" id="{{Title}}" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	
+	//_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input  type="checkbox" id="{{Title}}" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	
+	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i></span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	
+	
 	_htmlServeisWMS.push('			{{else}}');
 	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" id="{{Title}}" value="{{Name}}"> {{Title}}</span>');
 	_htmlServeisWMS.push('				{{#if Dimension}}');
@@ -217,13 +222,10 @@ var WMS_BBOX;
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
-	//console.debug("getCapabilitiesWMS:");
-	//console.debug(url);
-	//console.debug(servidor);
+	
 	
 	getWMSLayers(url).then(function(results) {
-		//console.debug("results:");
-		//console.debug(results);
+		
 		var souce_capabilities_template = $("#capabilities-template").html();
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
@@ -364,9 +366,7 @@ function addExternalWMS(fromParam) {
 	if(!fromParam){
 		var cc = $('#div_layersWMS input:checked').map(function(){
 			
-			console.info('#geoservicetime_'+this.value);
-			console.info($('#geoservicetime_'+this.value));
-			console.info($($('#geoservicetime_'+this.value).lengt));
+			
 			
 			if($('#geoservicetime_'+this.value).length > 0){
 				_dateFormat=true;
@@ -386,19 +386,6 @@ function addExternalWMS(fromParam) {
 		
 		
 		
-		/*
-		var ccTIME = $('#div_layersWMS input:checked').map(function(){			
-			
-			
-			console.info('#geoservicetime_'+this.id);
-			console.info($('#geoservicetime_'+this.id));
-			
-			console.info($('#geoservicetime_'+this.id).length);
-			
-			
-			//return this.id;
-		});
-		*/
 		
 		cc1 = jQuery.makeArray(cc1);	
 		if(cc1.length==1){
@@ -422,7 +409,8 @@ function addExternalWMS(fromParam) {
 			crs : ActiuWMS.epsg,
 			transparent : true,
 			format : 'image/png',
-			wmstime:ActiuWMS.wmstime
+			wmstime:ActiuWMS.wmstime,
+			tileSize:512
 		});
 		
 	}else{
@@ -432,20 +420,14 @@ function addExternalWMS(fromParam) {
 			crs : ActiuWMS.epsg,
 			transparent : true,
 			format : 'image/png',
-			wmstime:ActiuWMS.wmstime
+			wmstime:ActiuWMS.wmstime,
+			tileSize:512
 		});
 		
 		
 	}
 	
 	
-	
-	
-	
-	
-	
-console.debug(wmsLayer);
-console.debug(ActiuWMS);
 
 	var nomCapaWMS=ActiuWMS.servidor;
 	
@@ -486,19 +468,10 @@ console.debug(ActiuWMS);
 		createServidorInMap(data).then(function(results){
 			if (results.status == "OK"){
 				
-				console.info("Faig check2");
+				
 				wmsLayer.options.businessId = results.results.businessId;
-				//map.addLayer(wmsLayer); //
-				console.info("Faig check3");
 				
-				//wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-				//controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-				//controlCapes._lastZIndex++;
-				//activaPanelCapes(true);
-				
-				
-				//jQuery('#dialog_dades_ex').modal('hide');		
-				console.info("Faig check4");
+			
 				checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
 				
 			}else{
@@ -509,18 +482,13 @@ console.debug(ActiuWMS);
 	}else{
 		
 		checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
-		//wmsLayer.addTo(map);
-		//wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-		//controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-		//controlCapes._lastZIndex++;
-		//activaPanelCapes(true);
-		//jQuery('#dialog_dades_ex').modal('hide');	
+		
 	}	
 }
 
 function showTimeControl(show){
 	
-	console.info(show);
+	
 	
 	show?$('.barra_temps').show():$('.barra_temps').hide();
 	
@@ -529,8 +497,7 @@ function showTimeControl(show){
 
 function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,capesActiva){
 	
-	console.info(wmsLayer);
-	console.info(wmsLayer);
+
 	var DL=wmsLayer.options.wmstime;
 	if(wmsLayer.options.wmstime) {
 		
@@ -539,21 +506,22 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 		 var dimensionsTimeLayer  = L.timeDimension.layer.wms(wmsLayer, {
 		    proxy: paramUrl.proxy_betterWMS,
 		    updateTimeDimension: true,
-		    updateTimeDimensionMode:'intersect',//replace, union
+		    updateTimeDimensionMode:'intersect',//replace, union,intersect
+		    
 		    tileSize:512,
-		    setDefaultTime:true,
+		    setDefaultTime:false,
 		    tipus : t_wms
 			
 		});
 		
 		dimensionsTimeLayer.options=wmsLayer.options;
 		
-		console.info(dimensionsTimeLayer);
-		
+	
 		//map.addLayer(dimensionsTimeLayer);
 		dimensionsTimeLayer.addTo(map);
 		dimensionsTimeLayer.bringToFront();
 		dimensionsTimeLayer.options.zIndex = controlCapes._lastZIndex+ 1;
+		
 		controlCapes.addOverlay(dimensionsTimeLayer, _nomServidor, true);
 		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
@@ -566,7 +534,7 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 		
 	}else{
 		
-		console.info("NO Soc dimension layer");
+		
 		
 		if(ckeckCapaActiva){
 			
@@ -600,9 +568,8 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 
 
 function loadWmsLayer(layer){
-	console.debug("Load WMS Layer:");
-	console.debug(layer);
-	var op=1;
+	
+	var op=layer.opacity;
 	var nomServidor=layer.serverName;
 	if(layer.serverName.indexOf('##') !=-1){
 		
@@ -610,6 +577,7 @@ function loadWmsLayer(layer){
 		op=valors[1];
 		nomServidor=valors[0];
 	}  
+	
 	
 	var jsonOptions;
 	

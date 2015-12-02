@@ -300,8 +300,7 @@ function pLeft() {
 
 function gestioCookie(from){
 	var _cookie = $.cookie('uid');
-	console.info(from);
-	
+
 	switch(from){
 		case 'createMap':
 			if (isRandomUser(_cookie)){
@@ -350,9 +349,9 @@ function gestioCookie(from){
 			if (isRandomUser(_cookie) ){
 				$.removeCookie('uid', { path: '/' });
 				jQuery(window).off('beforeunload');
-				//window.location.href = paramUrl.mainPage;
+				window.location.href = paramUrl.mainPage;
 			}else{
-				//window.location.href = paramUrl.galeriaPage;
+				window.location.href = paramUrl.galeriaPage;
 			}
 			break;
 		case 'carregaDadesUsuari':
