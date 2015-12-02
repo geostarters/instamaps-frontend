@@ -750,7 +750,7 @@ function updateNameVisualitzacioLayer(data){
 
 function deleteVisualitzacioLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.updateNameVisualitzacioLayer,
+		url: paramUrl.deleteVisualitzacioLayer,
 		data: data,
 		method: 'post',
         dataType: 'jsonp'

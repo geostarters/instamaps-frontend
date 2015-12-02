@@ -208,6 +208,13 @@ function creaPopOverMevasDades(){
 								$('#dialog_error_teves_dades').modal('hide');
 //								console.debug(globalCounts);
 								globalCounts[''+firstLetter +'']--;
+								var data2 = {
+										uid: $.cookie('uid'),
+										businessId: _this.data("businessid")
+								};
+								deleteVisualitzacioLayer(data2).then(function(results){
+									
+								});
 //								console.debug(globalCounts[''+firstLetter +'']);
 //								if(globalCounts[''+firstLetter +'']<=0){
 //									jQuery(".ln-letters."+firstLetter).addClass('ln-disabled')
