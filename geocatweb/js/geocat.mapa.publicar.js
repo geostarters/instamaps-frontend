@@ -120,35 +120,45 @@
 			$('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
 			
-			//aspecte
-			if (this.mapConfig.options){
-				if(this.mapConfig.options.barColor){
-					$('#dv_fill_menu_bar').css('background-color',this.mapConfig.options.barColor);
-					$("#in_fill_menu_bar").val(this.mapConfig.options.barColor);
-				}
-				
-				if(this.mapConfig.options.textColor){
-					$('#dv_color_text_bar').css('background-color',this.mapConfig.options.textColor);
-					$("#in_color_text_bar").val(this.mapConfig.options.textColor);
-				}
-				
-				if(this.mapConfig.options.fontType){
-					$('.bfh-selectbox').bfhselectbox().bfhfonts({font: this.mapConfig.options.fontType, available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
+			if(isGeolocalUser()){ //solo usuarios geolocal
+				//aspecte
+				if (this.mapConfig.options){
+					if(this.mapConfig.options.barColor){
+						$('#dv_fill_menu_bar').css('background-color',this.mapConfig.options.barColor);
+						$("#in_fill_menu_bar").val(this.mapConfig.options.barColor);
+					}
+					
+					if(this.mapConfig.options.textColor){
+						$('#dv_color_text_bar').css('background-color',this.mapConfig.options.textColor);
+						$("#in_color_text_bar").val(this.mapConfig.options.textColor);
+					}
+					
+					if(this.mapConfig.options.fontType){
+						$('.bfh-selectbox').bfhselectbox().bfhfonts({font: this.mapConfig.options.fontType, available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
+					}else{
+						$('.bfh-selectbox').bfhselectbox().bfhfonts({font:'Arial', available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
+					}
+					
+					//contacte
+					if(this.mapConfig.options.contacte){
+						$('#contacte').val(this.mapConfig.options.contacte);
+					}
+					
 				}else{
-					$('.bfh-selectbox').bfhselectbox().bfhfonts({font:'Arial', available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
+					$('#dv_fill_menu_bar').css('background-color',"#333333");
+					$("#in_fill_menu_bar").val("#333333");
+					
+					$('#dv_color_text_bar').css('background-color',"#9d9d9d");
+					$("#in_color_text_bar").val("#9d9d9d");
+					
+					$('.bfh-selectbox').bfhselectbox().bfhfonts({font:'Arial', available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});		
 				}
-				
-				//contacte
-				if(this.mapConfig.options.contacte){
-					$('#contacte').val(this.mapConfig.options.contacte);
+				//escut
+				if(this.mapConfig.logo){
+					$(".logo").prop('src',"/logos/"+this.mapConfig.logo);
 				}
-				
 			}else{
-				$('.bfh-selectbox').bfhselectbox().bfhfonts({font:'Arial', available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
-			}
-			//escut
-			if(this.mapConfig.logo){
-				$(".logo").prop('src',"/logos/"+this.mapConfig.logo);
+				$(".modal-public-aspect").hide();
 			}
 			
 			//Dialeg publicar
@@ -417,15 +427,17 @@
         	options.zoom = _map.getZoom();
         	options.bbox = _map.getBounds().toBBoxString();
         	
-        	//aspecte
-        	options.fontType = $('.bfh-selectbox input[type=hidden]').val();
-        	options.textColor = rgb2hex($('#dv_color_text_bar').css('background-color'));
-        	options.barColor = rgb2hex($('#dv_fill_menu_bar').css('background-color'));
-        	options.contacte = $('#contacte').val();
         	var logo = null;
-        	if($(".logo").prop('src') != '/logos/blank.gif'){
-        		logo = $(".logo").prop('src').match(/([\w\d_-]*)\.?[^\\\/]*$/i)[0];
-        		logo = logo.substring(0,logo.indexOf('?'));
+        	if(isGeolocalUser()){
+        		//aspecte
+            	options.fontType = $('.bfh-selectbox input[type=hidden]').val();
+            	options.textColor = rgb2hex($('#dv_color_text_bar').css('background-color'));
+            	options.barColor = rgb2hex($('#dv_fill_menu_bar').css('background-color'));
+            	options.contacte = $('#contacte').val();
+            	if($(".logo").prop('src') != '/logos/blank.gif'){
+            		logo = $(".logo").prop('src').match(/([\w\d_-]*)\.?[^\\\/]*$/i)[0];
+            		logo = logo.substring(0,logo.indexOf('?'));
+            	}
         	}
         	
         	var visibilitat = visibilitat_open;
