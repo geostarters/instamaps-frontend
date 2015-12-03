@@ -490,17 +490,42 @@ function loadOrigenWMS(){
 	
 	
 	//NOu 
-	
-	//console.debug("Totes les capes");
-	//console.debug(layer_map.origen);
-	
-	
-	jQuery.each(layer_map.origen, function(index, value){
-		//console.debug(index);
-		//console.debug(value);
+
+	/*
+	jQuery.each(layer_map.origen, function(index, value){		
 		var options=JSON.parse(value.options);		
 		controlCapes._addGroupFromObject(options.group);
 	});
+	*/
+	
+jQuery.each(layer_map.origen, function(index, value){	
+		
+		var jsonOptions;
+		if(typeof (value.options)=="string"){
+			
+			jsonOptions = JSON.parse(value.options);	
+			
+		}else{
+			
+			jsonOptions = value.options;	
+		}
+		
+		console.info(jsonOptions);
+		if(jsonOptions && jsonOptions.group){
+		controlCapes._addGroupFromObject(jsonOptions.group);	
+		}
+	
+	
+	
+	
+	});
+	
+	
+	
+	
+	
+	
+	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }

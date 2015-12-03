@@ -357,6 +357,7 @@ function updateServidorWMSOptions(data){
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMSOptions,
 		data: data,
+		method: 'post',
 		dataType: 'jsonp'
 	}).promise();
 }

@@ -813,8 +813,25 @@ function loadOrigenWMS(){
 
 	
 	jQuery.each(layer_map.origen, function(index, value){	
-		var options=JSON.parse(value.options);		
-		controlCapes._addGroupFromObject(options.group);	
+		
+		var jsonOptions;
+		if(typeof (value.options)=="string"){
+			
+			jsonOptions = JSON.parse(value.options);	
+			
+		}else{
+			
+			jsonOptions = value.options;	
+		}
+		
+		console.info(jsonOptions);
+		if(jsonOptions && jsonOptions.group){
+		controlCapes._addGroupFromObject(jsonOptions.group);	
+		}
+	
+	
+	
+	
 	});
 	
 	dfd.resolve(layer_map);
