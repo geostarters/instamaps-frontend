@@ -300,6 +300,7 @@ function pLeft() {
 
 function gestioCookie(from){
 	var _cookie = $.cookie('uid');
+
 	switch(from){
 		case 'createMap':
 			if (isRandomUser(_cookie)){
@@ -691,9 +692,21 @@ hash_map[String.fromCharCode(decimal)] = entities[decimal];
 return hash_map;
 }
 
+
+
 function getModeMapa(){
+
 	return  ($(location).attr('href').indexOf('/mapa.html')!=-1);
+	
 }
+
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
 
 (function($){
 	var o = $({});

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+<meta charset="UTF-8" />
+<meta name="author" content="InstaMaps" />
+<meta name="description" content="InstaMaps ofereix eines per a la creaci&oacute; de mapes i visors. &Eacute;s gratuïta i oberta a tothom" />
+<meta name="robots" content="index,follow" />
+<meta name="geo.region" content="ES-CT" />
+<meta name="geo.placename" content="Barcelona" />
+<meta name="geo.position" content="41.363892;2.186279" />
+<meta name="language" content="ca" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- for Facebook -->
+<meta name="fb:app_id" content="620717167980164">          
+<meta name="og:title" content="Mapa d'InstaMaps" />
+<meta name="og:type" content="website" />
+<meta name="og:image" content="http://www.instamaps.cat/geocatweb/img/instamapes_icon_color.jpeg" />
+<meta name="og:image:type" content="image/jpeg">
+<meta name="og:url" content="http://www.instamaps.cat" />
+<meta name="og:description" content="InstaMaps ofereix eines per a la creaci&oacute; de mapes i visors. &Eacute;s gratuïta i oberta a tothom" />
+
+
+<link href="img/instamapes.ico" rel="shortcut icon" />
+
+<!-- Le styles -->
+<link rel="stylesheet" href="/llibreries/css/bootstrap.min.css">
+<link rel="stylesheet" href="/llibreries/css/glyph.css">
+<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.0.7.3.css">
+
+<!-- 
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/MarkerCluster.css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/L.Control.MousePosition.css">
+<link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css">
+<link rel="stylesheet" href="/llibreries/css/leaflet/Control.MiniMap.css" type="text/css">
+<link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
+<link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
+<link rel="stylesheet" href="/llibreries/css/jquery.mCustomScrollbar.css"  />
+<link rel="stylesheet" href="/llibreries/css/listnav.css" />
+<link rel="stylesheet" href="/llibreries/css/blue.css" />
+<link rel="stylesheet" href="/llibreries/css/futurico.css" />
+<link rel="stylesheet" href="/llibreries/css/bootstrap-table.css" />
+
+
+<link href="/llibreries/css/bootstrap-editable.custom.css" rel="stylesheet">
+
+<link href="/llibreries/css/jquery.share.css" rel="stylesheet">
+
+<link href="/geocatweb/css/estils.css" rel="stylesheet">
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+
+
+
+ -->
+ <link href="/geocatweb/css/mapa.css" rel="stylesheet">
+ <!-- 
+<link href="/geocatweb/css/L.IM_ControlLayerManager.css" rel="stylesheet">
+-->
+
+<link href="/llibreries/css/leaflet/styledLayerControl.css" rel="stylesheet">
+
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
+    <![endif]-->
+
+
+<style>
+			#map {
+				width:100%;
+				height:936px;
+		    }
+			.leaflet-google-layer{
+				z-index: 0;
+			}
+			.leaflet-map-pane{
+				z-index: 100;
+			}
+			
+			.leaflet-control-layers {
+    background: rgba(45, 46, 41, 0.9) none repeat scroll 0 0;
+    border-radius: 0;
+    color: #ffffff;
+    display: block !important;
+    min-height: 300px;
+    width: auto !important;
+}
+        </style>
+<title lang="ca">Mapa InstaMaps</title>
+</head>
+<body>
+
+<div id="map"></div>
+
+	<script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
+	
+	
+	<!-- Nou pluguin  -->
+		<script src="/llibreries/js/jquery/plugins/jquery-sortable.js"></script>	
+	
+	
+	
+	<script src="/llibreries/js/leaflet/leaflet.0.7.3.min.js"></script>
+	<!--<script src="/llibreries/js/leaflet/leaflet.0.7.min.custom.js"></script> -->
+	<script src="/llibreries/js/includes.js"></script>
+	<script src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_Map.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
+	
+	<!-- 
+	<script src="/geocatweb/js/leaflet/L.IM_ControlLayerManager.js" type="text/javascript"></script>
+	 -->
+	  
+	<script src="/llibreries/js/leaflet/plugin/styledLayerControl.js" type="text/javascript"></script>
+	
+<script>
+		L_PREFER_CANVAS = true;
+		L_DISABLE_3D = false;
+	</script>	
+	
+	<script>
+	
+	
+	
+	
+	jQuery(document).ready(function() {
+		var map;
+	map = new L.IM_Map('map', {
+		zoomAnimation:false,
+		dragging: true,
+		touchZoom: true,
+		scrollWheelZoom: true,
+		doubleClickZoom: true,
+		boxzoom: true,
+		typeMap : 'topoMapGeo',
+		minZoom: 2,
+		maxZoom : 19,
+		//drawControl: true
+	}).setView([ 41.431, 1.8580 ], 8);
+	
+	
+	
+	
+	
+	var osmUrl='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+    var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+    var osm = new L.TileLayer(osmUrl, {attribution: osmAttrib});
+
+    // ... more Base Maps
+
+    // Sao Paulo Soybeans Plant
+    var grup1 = new L.LayerGroup();
+    L.marker([42.41692, 2.34386]).addTo(grup1),
+    L.marker([42.23994, 1.70293]).addTo(grup1),
+    L.marker([42.78526, 0.75871]).addTo(grup1);
+
+    // Rio de Janeiro Corn Plant
+    var grup2 = new L.LayerGroup();
+    L.marker([42.32058, 1.89264]).addTo(grup2),
+    L.marker([42.28369, 1.72629]).addTo(grup2);
+	
+    
+    var orto = L.tileLayer.wms('http://172.70.1.11/maps/instaserver?map=/opt/maps/dades/orto/orto_historica.map&', {
+    	layers: 'orto5m',
+    	transparent: true,
+    	format: 'image/jpeg'
+      });
+    
+    
+    var orto2 = L.tileLayer.wms('http://172.70.1.11/maps/instaserver?map=/opt/maps/dades/orto/orto_historica.map&', {
+    	layers: 'orto5m',
+    	transparent: true,
+    	format: 'image/jpeg'
+      });
+  
+    var overlays = [
+                    {
+                       groupName : "Grup",
+                       expanded  : true,
+                       layers    : { 
+                           "grup1" : grup1,
+                           "osm" :osm
+                           
+                       }   
+                    }, {
+                       groupName : "grup1",
+                       expanded  : true,
+                       layers    : { 
+                         
+                           "grup2"     : grup2,
+                           "WMS"	:orto
+                         
+                       }   
+                    }  
+                                             
+   ];
+	
+   
+   /* 
+    grup1.StyledLayerControl = {
+            removable : true
+        };
+    */
+    var options = {
+            container_width     : "270px",
+            container_maxHeight : "300px", 
+            group_maxHeight     : "80px",
+            exclusive           : false,
+            collapsed:false
+        };
+	
+    /*
+    var control = L.control.orderlayers(null, overlays, options);
+    map.addControl(control);
+	*/
+	
+	var controlCapes = L.Control.styledLayerControl(null, null, {
+		collapsed : false,
+		title:'titol',
+		id : 'div_capes',
+		 container_width     : "270px",
+         container_maxHeight : "300px", 
+         group_maxHeight     : "80px",
+         exclusive           : false,
+         collapsed:false
+	}).addTo(map);
+	
+  //  control.addOverlay( orto2, "Corn Plant", {groupName : "grup13"} );
+  
+  
+	controlCapes.addOverlay(orto2, "nom servidor",  {groupName : "grup13","expanded":true} );
+	
+	controlCapes.addOverlay(orto, "nom servidor2",  {groupName : "grup13","expanded":true} );
+	
+	
+	
+	controlCapes.addOverlay(osm, "nom servidor",  {groupName : "grup12","expanded":true} );
+	
+	
+	
+	});
+	
+	
+	
+	
+	</script>
+</body>
+</html>

@@ -193,7 +193,7 @@ function showTematicLayersModal(tipus,className){
 			}
 			else showModalTematicCategories(data);
 		}else if(tipus == tem_heatmap){
-			createHeatMap(controlCapes._layers[data.leafletid],data.tipus);
+			createHeatMap(controlCapes._layers[data.leafletid]);
 			jQuery('#dialog_layers_tematic').modal('hide');
 		}else if(tipus == tem_cluster){
 			creaClusterMap(controlCapes._layers[data.leafletid]);
@@ -1443,8 +1443,6 @@ function loadVisualitzacioLayer(layer){
 }
 
 function readVisualitzacio(defer, visualitzacio, layer,geometries){
-	
-	
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 					|| (layer.options && (layer.options.indexOf("source")!=-1) );
 	
@@ -1458,6 +1456,8 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		
 		capaVisualitzacio = new L.FeatureGroup();
 		
+		var layOptions = JSON.parse(layer.options);
+		
 		capaVisualitzacio.options = {
 			businessId : layer.businessId,
 			nom : layer.serverName,
@@ -1466,8 +1466,9 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			geometryType: visualitzacio.geometryType,
 //			dades: hasDades, //No cal?
 //			rangs: tematic.rangs,
-			estil: visualitzacio.estil
+			estil: visualitzacio.estil,
 //			rangsField: rangsField
+			group: layOptions.group
 		};
 	
 		if(hasSource) {

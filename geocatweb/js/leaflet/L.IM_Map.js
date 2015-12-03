@@ -41,7 +41,8 @@ var _topoColorLayers=null;
 var _grisLayers=null;
 var _ombraLayer=null;
 
-var subDomains=['otile1','otile2','otile3','otile4'];
+//var subDomains=['otile1','otile2','otile3','otile4'];
+var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 
 var urlServerTiles="http://www.instamaps.cat"
@@ -51,11 +52,20 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 	urlServerTiles="http://172.70.1.11"
 }
 
-var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+//var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+
+var URL_MQ='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+
+
 var URL_ESRI='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var URL_ESRI_T='http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}';
 var URL_MON=urlServerTiles+'/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.jpeg';
+
+
 var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
+
+//var URL_TOPOICC='http://172.30.22.14/mapproxy/wmts/A250TARJ3857/GLOBAL_MERCATOR/{z}/{x}/{y}.png';
+
 var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg";
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_HIBRIDICGC=urlServerTiles+'/mapcache/tms/1.0.0/hibrid3857@GMTOT/{z}/{x}/{y}.png';
@@ -75,7 +85,11 @@ var URL_ALCADAMAP=urlServerTiles+'/mapcache/tms/1.0.0/h_ombra3857@GMTOT/{z}/{x}/
 var URL_MQ_GEO='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 var URL_MQ_NATURAL='http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
 
+//var URL_TOPOICC_GEO_1='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.png';
+
+
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
+
 var URL_TOPOICC_GEO_MON=urlServerTiles+'/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
 
 var URL_TOPOICC_GEO_NATURAL=urlServerTiles+'/mapcache/tms/1.0.0/natural3857@GMTOT/{z}/{x}/{y}.png';
@@ -370,6 +384,7 @@ L.IM_Map = L.Map.extend({
 				}	
 			}else if(sC==2){
 				TOPO_MQ_L7_19.setOpacity(0);
+				TOPO_MQ_L7_19.options.maxZoom=zT;
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=20;
 				TOPO_ICC_L7_10.options.maxZoom=10;	
@@ -384,14 +399,17 @@ L.IM_Map = L.Map.extend({
 					this.mirarActivarHill(false,this.getZoom(),sC);							
 				if(sC==0){
 					TOPO_GEO_MQ_L15_18.setOpacity(1);
-					TOPO_GEO_MON_L0_14.setOpacity(1);						
+					TOPO_GEO_MON_L0_14.setOpacity(1);	
+					TOPO_GEO_MQ_L15_18.options.maxZoom=18;
 					this.attributionControl.setPrefix(ICGC+" - "+MQ_ATTR +" ZL:"+this.getZoom());	
 					
 				}else if(sC==1){  
 					TOPO_GEO_MQ_L15_18.setOpacity(0.7);
+					TOPO_GEO_MQ_L15_18.options.maxZoom=18;
 					TOPO_GEO_MON_L0_14.setOpacity(1);						
 					this.attributionControl.setPrefix(ICGC+" - "+MQ_ATTR +" ZL:"+this.getZoom());			
-				}else if(sC==2){											
+				}else if(sC==2){
+					TOPO_GEO_MQ_L15_18.options.maxZoom=10;
 					TOPO_GEO_MQ_L15_18.setOpacity(0);
 					TOPO_GEO_MON_L0_14.setOpacity(0);				
 					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());					
