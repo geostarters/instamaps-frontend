@@ -202,7 +202,12 @@ var paramUrl = {
 	uploadLogo: HOST_APP +"/share_local/jsp/uploadLogo.jsp?",
 	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",
 	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
-	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?"
+	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?",
+	searchCapesPubliques: HOST_APP+"geocat/aplications/map/searchCapesPubliques.action?",
+	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?",
+	duplicateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/duplicateVisualitzacioLayer.action?",
+	searchCatalegIdec: HOST_APP+"geocat/aplications/map/searchCatalegIdec.action?",
+	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?"
 }
 
 var paramAplications = {
@@ -210,7 +215,7 @@ var paramAplications = {
 		"nom":"Protecció civil",
 		"description":"Gestiona la informació relativa a Protecció civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuació prioritària en cas d'una emergència.",
 		"img":"img/thumb_ed_pcivil.png",
-		"url":"http://localhost:8080/geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari=cda11"
+		"url":"http://localhost:8080/geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari="
 	},
     'infoparcela':{
     	"nom":"InfoParcela",
@@ -224,7 +229,7 @@ var paramAplications = {
     	"nom":"Editor de Parcs Eòlics",
     	"description":"Actualitza la informació dels parcs eòlics. Col·labora mantenint la informació.",
     	"img":"img/thumb_ed_peolics.png",
-    	"url":"http://localhost:8080/geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari=cda10"
+    	"url":"http://localhost:8080/geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari="
     },
     'carrerer':{
     	"nom":"Gestor de canvis carrerer",
@@ -253,9 +258,10 @@ var perfilConfig = {
 	"3":[paramAplications.pcivil],
 	"4":[],
 	"5":[],
-	"6":[paramAplications.peolics],
-	"7":[paramAplications.incasol],
-	"8":[paramAplications.pcivil]
+	"6":[],
+	"7":[paramAplications.peolics],
+	"8":[paramAplications.incasol],
+	"9":[paramAplications.pcivil]
 };
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {

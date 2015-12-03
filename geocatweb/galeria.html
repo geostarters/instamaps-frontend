@@ -118,10 +118,17 @@
 								<img width="26px" src="/llibreries/img/georss.png">
 								</a>
 							</span>	
+							
 						</div>
+						<div class="urlPublica" >
+								<button class="botoUrlPublica" id="obtenirUrlPublica" lang="ca" style="display:none;">Obtenir URL pública de la galeria</button>
+						</div>
+						<br/><br/>
+						<div class="sortButton">
 						<button class="sort" data-sort="nomAplicacioSort" lang="ca">Ordena per nom</button>
 						<button class="sort" data-sort="byuser" lang="ca" id="sortbyuser">Ordena per usuari</button>
 						<button class="sort" data-sort="dataPublicacio" lang="ca">Ordena per data</button>
+						</div>
 						<!--  button class="sort cleansort" lang="ca">Neteja ordre</button-->
 						<ul class="list"></ul>
 					</div>
@@ -563,6 +570,30 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- fi Modal Old Browser -->
+	
+	<!-- Modal urlpublica -->
+	<div class="modal fade" id="dialog_public_url">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca">Obtenir URL pública de la galeria</h4>
+				</div>
+				<div lang="ca" class="modal-body">
+					<span class="ca">Enllaç galeria pública:</span><input type="text" id="urlPublicaLlarga" style="width:400px;margin-left:28px;margin-bottom:5px;"><br/>
+					<span class="ca">Enllaç curt galeria pública:</span><input type="text" id="urlPublicaCurta" style="width:400px;margin-left:2px;">
+				</div>
+				<div class="modal-footer">
+			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-success btn-default" data-dismiss="modal">Acceptar</button>
+			    </div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal urlpublica -->
 
 	<!-- Le javascript
     ================================================== -->

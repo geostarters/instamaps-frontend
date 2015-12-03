@@ -157,11 +157,19 @@ function generaLlistaServeisWMS() {
 		
 	
 	});
+	_htmlServeisWMS.push('<li></li>');
+	_htmlServeisWMS.push('<li><div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS_cataleg" style="height:33px" placeholder="Cercar catàleg IDEC" class="form-control">');
+	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_cercaWMS"  type="button"><span class="glyphicon glyphicon-search"></span></button></span>');
+	_htmlServeisWMS.push('</div></li>');
+
 
 	_htmlServeisWMS.push('</ul></div>');
-	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
-	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+	_htmlServeisWMS.push('<div id="resultats_idec">');
 	_htmlServeisWMS.push('</div>');
+	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
+	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-default" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+	_htmlServeisWMS.push('</div>');
+	
 	
 	
 	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
@@ -215,6 +223,53 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 		alert(window.lang.convert("La URL introduïda no sembla correcte"));
 	} else {
 		getCapabilitiesWMS(url, null);
+	}
+});
+
+jQuery(document).on('click', "#bt_cercaWMS", function(e) {
+	var cerca = $.trim(jQuery('#txt_URLWMS_cataleg').val());
+
+	if (cerca == "") {
+		alert(window.lang.convert("Has d'introduïr un valor per fer la cerca"));
+
+	} else {
+		var data ={
+			searchInput : cerca	
+		};
+		//Cerca catàleg IDEC
+		searchCatalegIdec(data).then(function(results){
+			 var resultats = JSON.parse(results.resultats);
+			 jQuery('#div_layersWMS').attr("style","display:none;");
+			 var lDadesIdec = '<ul class="bs-dadesO panel-heading llista-dadesInstamaps">';
+			 jQuery.each(resultats.aaData, function( index, wmsidec ) {
+					var titol=wmsidec.TITOL;
+					var desc=wmsidec.DESCRIPCIO;
+					var org =wmsidec.ORGANITZAC;
+					var idarxiu=wmsidec.IDARXIU;
+					var classificaico=wmsidec.CLASSIFICA;
+					var urn=wmsidec.URN;
+					var xmin=wmsidec.XMIN;
+					var xmax=wmsidec.XMAX;
+					var ymin=wmsidec.YMIN;
+					var ymax=wmsidec.YMAX;
+					var escala=wmsidec.ESCALA;
+					var conjunt=wmsidec.CONJUNT;
+					var temes=wmsidec.TEMES;
+					lDadesIdec += '<li><a class="label-dadesIdec" href="#"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titol;
+					lDadesIdec += '<a lang="ca" href="http://www.geoportal.cat/wefex/client?do=mostraDetallServeiWMS&id='+urn+'&idioma=ca&" target="_blank">';
+					lDadesIdec += '<span class="glyphicon glyphicon-info-sign"></span></a></li>';
+				});
+			 lDadesIdec += '</ul>';
+			 jQuery('#resultats_idec').html(lDadesIdec);
+			 jQuery(".label-dadesIdec").on('click', function(e) {
+				 jQuery('#resultats_idec').empty();
+				 var urlWMS= this.dataset.wms_url;
+				 _gaq.push(['_trackEvent', 'mapa', tipus_user+'afegir WMS catàleg IDEC', this.dataset.nom, 1]);
+				 jQuery('#txt_URLWMS').val(urlWMS);
+				 jQuery('#bt_connWMS').click();
+			 });
+		});
+
 	}
 });
 

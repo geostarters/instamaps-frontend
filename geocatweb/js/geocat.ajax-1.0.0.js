@@ -31,6 +31,14 @@ function searchGaleriaMaps(params){
 	}).promise();
 }
 
+function searchGaleriaMapsByUser(params){
+	return jQuery.ajax({
+		url: paramUrl.searchGaleriaMapsByUser,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+
 function deleteMap(data){
 	return jQuery.ajax({
 		url: paramUrl.deleteMap,
@@ -787,7 +795,7 @@ function updateNameVisualitzacioLayer(data){
 
 function deleteVisualitzacioLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.updateNameVisualitzacioLayer,
+		url: paramUrl.deleteVisualitzacioLayer,
 		data: data,
 		method: 'post',
         dataType: 'jsonp'
@@ -1107,6 +1115,34 @@ function spatialJoin(params){
 		url: paramUrl.spatialJoin,
   		data: params,
   		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function searchCapesPubliques(params){
+	return jQuery.ajax({
+		url: paramUrl.searchCapesPubliques,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+function addServerDuplicateToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.addServerDuplicateToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+function duplicateVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.duplicateVisualitzacioLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+function searchCatalegIdec(params){
+	return jQuery.ajax({
+		url: paramUrl.searchCatalegIdec,
+		data: params,
   		dataType: 'jsonp'
 	}).promise();
 }

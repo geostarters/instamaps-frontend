@@ -718,8 +718,34 @@ function loadTematicValueTemplate(results, rtype){
 			source1 = jQuery("#tematic-values-unic-polygon-template").html();
 		}
 	}
+	
+	//match ints and floats/decimals
+	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+	var resultsFloat = [];
+	var i=0;
+	jQuery.grep(results, function( n, i ) {
+		if (floatRegex.test(n.v)) {
+			resultsFloat[i]=n;
+			i++;
+		}
+			
+	});
+	
+	
+	
 	var template1 = Handlebars.compile(source1);
-	var html1 = template1({values:results});
+	var html1 = "";
+	if (resultsFloat.length>0) {
+		resultsFloat.sort(function(a,b){return a.v-b.v;});
+		html1 = template1({values:resultsFloat});
+	}
+	else {
+		results.sort();
+		html1 = template1({values:results});
+	}
+	
+	
+	
 	jQuery('#list_tematic_values').html(html1);
 	jQuery('#dialog_tematic_rangs .btn-success').show();
 	if (ftype == t_marker){

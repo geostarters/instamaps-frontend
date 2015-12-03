@@ -992,7 +992,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -1000,7 +999,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -408px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -2648,6 +2646,9 @@ background-color: #9F9F9E;
 #dialog_estils_linies .modal-body{
 	overflow:visible !important;
 }
+#dialog_tematic_rangs .modal-body{
+	overflow:visible !important;
+}
 .modal-footer {
 	padding-bottom: 10px;
     padding-left: 10px;
@@ -3140,7 +3141,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -228px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -3148,7 +3148,6 @@ i.fa {
 	background: url("images/galeria_icones.png") no-repeat scroll -408px -744px
 		rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
-	margin-right:4px;
 	cursor: pointer;
 }
 
@@ -4009,7 +4008,7 @@ i.fa {
 .modal-downloadable{
 	overflow: hidden;
 	width: 100%;
-	padding-top: 10px;
+	padding-top: 20px;
 	padding-right: 20%;
 	/*padding-left: 5%;*/
 }
@@ -4136,6 +4135,12 @@ i.fa {
 #label-dinamic{
 	font-size: 90%;
 	line-height: 3;
+}
+
+.llista-teves-dades {
+	margin-left: -40px;
+	margin-top: 5px;
+	width:100%;
 }
 
 .llista-teves-dades li a:hover{
@@ -4889,6 +4894,25 @@ padding: 8px 0;
 	padding-top: 10px;
 }
 
+.display-block{
+	display:block;
+}
+
+.display-none{
+	display:none;	
+}
+
+.btn-tevesDades{
+	margin-bottom:4px;
+	padding-bottom:4px;
+	padding-top:4px;
+}
+
+.input-tevesDades{
+	margin-bottom:4px;
+	width:91.5%;
+	float:left;
+}
 /* skin.css Style*/
 
 

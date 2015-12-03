@@ -956,12 +956,21 @@ function sortByValorMax(a, b){
 
 //This will sort your array
 function sortByValueMax(a, b){
-	var aName = a.value.toLowerCase();
-	var bName = b.value.toLowerCase(); 
-	return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
-//	if (a.valorMax < b.valorMax) return -1;
-//	if (a.valorMax > b.valorMax) return 1;
-//	return 0;	
+	console.debug("sort!");
+	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+	if (floatRegex.test(a.value) && floatRegex.test(b.value)) {
+		console.debug("1");
+		var aValue = a.value;
+		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		var bValue = b.value; 
+		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		return (aValue-bValue);
+	}
+	else {
+		var aName = a.value.toLowerCase();
+		var bName = b.value.toLowerCase(); 
+		return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+	}	
 }
 
 function sortObject(obj) {

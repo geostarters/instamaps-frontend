@@ -7,10 +7,14 @@ var loading = false;
 var searchString;
 var businessIds = [];
 var mapsGalery = [];
+var codiUsuari;
+var tipusEntitat;
 //var temporales para pruebas
+/*
 //cda10
 var codiUsuari = "cda10";
 var tipusEntitat = 0;
+*/
 
 /*
 //cda11
@@ -66,9 +70,12 @@ $(function(){
 		$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 	});
 	
+	
+	
+	
 	/*******PRIVAT GALERIA**********/
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
-		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+		if(isGeolocalUser()){
 			$('#tabs_links').removeClass('hide');
 		}
 		
@@ -81,15 +88,33 @@ $(function(){
 
 		getUserData($.cookie('uid')).then(function(results){
 			loadAplicacionsUser().then(function(results1){
-				//var tipusEntitat = $.cookie('tipusEntitat');
-				//TODO coger el tipus de la cookie
+				codiUsuari = $.cookie('uid');
+				tipusEntitat = $.cookie('tipusEntitat');
 				pintaGaleriaAplicacions(results1, tipusEntitat);
-				//TODO coger la cookie
-				//var codiUsuari = $.cookie('uid');
 				getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
 					pintaGaleriaConfigurades(results);
 				});
 			});
+		});
+		$('#galeriaSort #obtenirUrlPublica').attr("style","display:block;");
+		
+		$('#galeriaSort #obtenirUrlPublica').on('click', function(event){
+			_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'obtenir URL galeria pública']);
+			var urlGaleriaUsuari = "http://www.instamaps.cat/"+paramUrl.galeriaPage.substring(1,paramUrl.galeriaPage.length)+"?user="+$.cookie('uid');
+			
+			$('#urlPublicaLlarga').val(urlGaleriaUsuari);
+			shortUrl(urlGaleriaUsuari).then(function(results){
+				$('#urlPublicaCurta').val(results.data.url);
+			});
+			$('#dialog_public_url').modal('show');
+		});
+		
+		$('#typesTabs a[href="#galeriaTab"]').on('click',function(){
+			_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'accés galeria de mapes']);
+		});
+		
+		$('#typesTabs a[href="#aplicacionsTab"]').on('click',function(){
+			_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'accés aplicacions']);
 		});
 		
 	}else{
@@ -105,6 +130,7 @@ $(function(){
 			escriuResultats(userList.visibleItems.length);
 		});
 		*/
+		$('#galeriaSort #obtenirUrlPublica').attr("style","display:none;");
 		
 		$('.cleansort').on('click', function(){
 			userList.sort('rankSort', { order: "desc" });
@@ -124,7 +150,7 @@ $(function(){
 		$('input.search.form-control').on('keyup', function(event){
 			var q = $(this).val();
 			q = $.trim(q);
-			if(q != "" && q.length >= 3){
+			if(q != "" && q.length >= 3 && (typeof url('?user')== "undefined")){
 				if (userList.size() < $('.sp_total_maps').text()){
 					delay(function(){
 						loading = true;
@@ -135,16 +161,36 @@ $(function(){
 			    			//userList.search();
 			    		}
 						searchGaleriaMaps({q: q.toLowerCase()}).then(function(results){
-							pintaGaleria(results);
-							loading = false;
-							if (searchString && searchString != ""){
-								userList.search(searchString);
-								searchString = null;
-							}
+								pintaGaleria(results);
+								loading = false;
+								if (searchString && searchString != ""){
+									userList.search(searchString);
+									searchString = null;
+								}
 						});
+						
 				    }, 400 );
 				}	
-			}else if (q == ""){
+			}else if ((typeof url('?user') == "string")){
+				delay(function(){
+					loading = true;
+					$('#loadingGaleria').show();
+					if (userList && userList.searched){
+		    			searchString = userList.searchString;
+		    			searchString = $.trim(searchString);
+		    			//userList.search();
+		    		}
+					searchGaleriaMapsByUser({user: url('?user'),q: q.toLowerCase()}).then(function(results){
+						pintaGaleria(results);
+						loading = false;
+						if (searchString && searchString != ""){
+							userList.search(searchString);
+							searchString = null;
+						}
+					});
+				 }, 400 );
+			}
+			else if (q == ""){
 				escriuTotal();
 			}
 		});
@@ -152,6 +198,7 @@ $(function(){
 		$('#geoRss').on('click', function(event){
 			_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'rss']);
 		});
+		
 		
 		$('#galeriaSort > button.sort').on('click',function(event){
 			if (userList && !userList.searched){
@@ -208,6 +255,19 @@ $(function(){
 					pintaGaleria(results);
 				});
 			}
+		}else if(typeof url('?user') == "string"){
+			var searchString = url('?user');
+			searchString = $.trim(searchString);
+			var searchString2 = url('?q');
+			searchString2 = $.trim(searchString2);
+			$('#galeriaSort>div>input').val(searchString);
+				searchGaleriaMapsByUser({user: searchString, q:searchString2.toLowerCase(), page: pageGaleria}).then(function(results){
+					pintaGaleria(results);
+					loading = false;
+					if (searchString && searchString != ""){
+						userList.search(searchString);
+					}
+			});			
 		}else{
 			loadPublicGaleria(data).then(function(results){
 				pintaGaleria(results);
@@ -811,7 +871,7 @@ $(function(){
 				}
 			}
 			createToken({uid:codiUsuari}).then(function(results){
-				urlMap += "&token="+results.results;
+				urlMap += $.cookie('uid')+"&token="+results.results;
 				console.debug(urlMap);
 				window.open(urlMap);
 			});

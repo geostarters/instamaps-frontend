@@ -37,14 +37,18 @@
         
         drawList: function(){
         	var that = this;
-        	that.label.show();
-        	$.each(that.filtered, function() {
-        		var item = this;
-        		var option = $('<li/>')
-        		.data('item', item)
-        		.html(item.municipi);
-        		that.listMuni.append(option);
-        	});
+        	if(that.label){
+        		that.label.show();
+        	}
+        	if(that.listMuni){
+        		$.each(that.filtered, function() {
+            		var item = this;
+            		var option = $('<li/>')
+            		.data('item', item)
+            		.html(item.municipi);
+            		that.listMuni.append(option);
+            	});
+        	}
         },
         
         cleanList: function(){
