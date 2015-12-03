@@ -394,7 +394,7 @@ L.Control.OrderLayers = L.Control.Layers
 				// this._groupList.length);
 				var pos = this._groupList.length;
 				var posTXT;
-				var genericName="Grup";
+				var genericName=window.lang.convert('Capes');
 				
 				this._socVisorInstamaps()?genericName=this._socInstamapsVell:genericName=genericName;
 				
@@ -576,8 +576,7 @@ L.Control.OrderLayers = L.Control.Layers
 						inputLabel.id = 'lbl_ac_' + _id;
 						;
 						
-						console.info(this._socInstamapsVell);
-						console.info(obj.group.name);
+						
 						if(obj.group.name.indexOf(this._socInstamapsVell)==-1){
 						
 							inputLabel.className = 'label_ac';
@@ -1562,13 +1561,13 @@ L.Control.OrderLayers = L.Control.Layers
 				op ? op = obj.layer.options.opacity
 						: op = obj.layer.options.fillOpacity;
 
-				console.info(obj);
+				//console.info(obj);
 
 				if (!op) {
 					op = 1;
 					obj.layer.options.fillOpacity = 1;
 				} else {
-					console.info(op);
+					//console.info(op);
 					if (op == 0) {
 						op = 1
 					} else {
@@ -1577,12 +1576,12 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 
 				try {
-					console.info(op);
+				//	console.info(op);
 					obj.layer.setOpacity(op);
 				} catch (err) {
 					// console.info(op);
 					// obj.layer.options.opacity=op;
-					console.info(op);
+					//console.info(op);
 					obj.layer.options.fillOpacity = op;
 					obj.layer.setStyle({
 						fillOpacity : op
