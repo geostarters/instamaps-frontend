@@ -310,6 +310,15 @@ function updateServersOrderToMap(data){
 	}).promise();
 }
 
+
+function updateServerOrderToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServerOrderToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function updateMapName(data){
 	return jQuery.ajax({
 		url: paramUrl.updateMapName,
@@ -349,6 +358,29 @@ function updateServidorWMSName(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+
+
+function updateServidorWMSOptions(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSOptions,
+		data: data,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+function updateServidorWMSOpacity(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSOpacity,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
 
 function addServerToMap(data){
 	return jQuery.ajax({
@@ -656,6 +688,19 @@ function createGeoPdfMap(data){
 		dataType: 'json'
 	}).promise();
 }	
+
+
+
+function createMapToWMS(data){
+	return jQuery.ajax({
+		url: paramUrl.urlMapToWMS,
+		data: data,	
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		method: 'POST',
+		dataType: 'json'
+	}).promise();
+}	
+
 
 
 //esborra imatge galeria

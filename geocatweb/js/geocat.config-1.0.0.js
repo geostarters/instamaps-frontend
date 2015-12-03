@@ -1,5 +1,6 @@
 var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
+var HOST_APP2 = "http://www.instamaps.cat";
 var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
 var tmpdirPolling = "poll/";
@@ -9,6 +10,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 //	HOST_APP = "http://localhost:8080/";
 	HOST_APP = "http://localhost/";//Local Jess
+	HOST_APP2 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
@@ -19,6 +21,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 var DOMINI = "www.instamaps.cat";
 if(urlApp.indexOf('172.70.1.11')!=-1){
 	HOST_APP = "http://172.70.1.11/";
+	HOST_APP2 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.11";
 	proxydir="maps"; //he creat un director maps al meu Apache
@@ -88,10 +91,18 @@ var paramUrl = {
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
 	getTwitterLayer: HOST_APP+"geocat/layers/getTwitterLayer.action?",
 	updateServersOrderToMap: HOST_APP+"geocat/aplications/map/updateServersOrderToMap.action?",
+	updateServerOrderToMap: HOST_APP+"geocat/aplications/map/updateServerOrderToMap.action?",
 	updateMapName: HOST_APP+"geocat/aplications/map/updateMapName.action?",
 	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
 	deleteServerRemoved: HOST_APP+"geocat/aplications/map/deleteServerRemoved.action?",
 	updateServidorWMSName: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSName.action?",
+	
+	
+	//nous updates
+	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",	
+	updateServidorWMSOpacity: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOpacity.action?",
+	
+	
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
@@ -132,6 +143,9 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
+	
+	urlMapToWMS:"/share/jsp/getMapToWMS.jsp?",
+	
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
 	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinInstamaper: HOST_APP+"geocat/registreInstamaper.action?",

@@ -7,6 +7,29 @@ function loadVisualitzacioWmsLayer(layer){
 //	console.debug("loadVisualitzacioWmsLayer");
 //	console.debug(layer);
 	
+var jsonOptions;
+	
+	
+	
+	if(typeof (layer.options)=="string"){
+		
+		jsonOptions = JSON.parse(layer.options);	
+		
+	}else{
+		
+		jsonOptions = layer.options;	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	var optionsWMS = {
 	        layers : layer.businessId,
 	        crs : L.CRS.EPSG3857,
@@ -14,10 +37,11 @@ function loadVisualitzacioWmsLayer(layer){
 	        format : layer.imgFormat,//'image/png'
 	    	version: layer.version,
 	    	tileSize:512,
-	    	//    opacity: layer.opacity,	    
+	       opacity: layer.opacity,	    
 	    	nom : layer.serverName,
 	    	tipus: layer.serverType,
-	    	zIndex :  parseInt(layer.capesOrdre),	    
+	    	zIndex :  parseInt(layer.capesOrdre),
+	    	group: jsonOptions.group,
 	    	businessId: layer.businessId	        	
 	}
 	var wmsLayer = new L.tileLayer.betterWms(layer.url, optionsWMS);
@@ -30,6 +54,7 @@ function loadVisualitzacioWmsLayer(layer){
             format : 'utfgrid',
             nom : layer.serverName + " utfgrid",
 	    	tipus: layer.serverType,
+	    	group: jsonOptions.group,
 	    	//zIndex :  parseInt(layer.capesOrdre),	    
 	    	businessId: layer.businessId            
 	}

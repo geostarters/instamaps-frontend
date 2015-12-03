@@ -1,4 +1,4 @@
-/**
+/*
  * Funcionalitat de publicació del mapa
  * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url 
  */
@@ -482,6 +482,11 @@
         		return {businessId: this.id.replace('input-',''), activa: $(this).is(':checked')};
         	}).get();
         	
+        	
+        	//Atencio miro estat de les capes
+        	reOrderGroupsAndLayers();
+        	
+        	
         	var nomApp = $('#nomAplicacio').html();
         	
         	if(!that.fromCompartir) nomApp = $('#dialgo_publicar #nomAplicacioPub').val();
@@ -496,7 +501,7 @@
         	
         	$("#urlVisorMap a").attr("href", urlMap);
         	$('#urlMap').val(urlMap);
-        	$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+        	$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
         	
         	var data = {
         		nom: nomApp, //jQuery('#dialgo_publicar #nomAplicacio').val(),
@@ -523,7 +528,15 @@
         	
         	//Captura Map per la Galeria
         	//require geocat.canvas
-        	capturaPantalla(CAPTURA_GALERIA);	
+        	
+        	console.info("Capturo pantalla");
+        	capturaPantalla(CAPTURA_GALERIA);
+        	
+        	
+        	console.info("UrlMapwms");
+       	this.createWMSFromMap();
+        	
+        	
         	
         	if(!that.mapConfig.clau){
         		if($('#is_map_protegit').is(':checked')){
@@ -663,6 +676,48 @@
         	});
         },
         
+        //********* Nova funcio per crear WMS*************//
+        
+        
+        createWMSFromMap:function(){
+        	
+        	 var data=getCapesVectorActives();
+        	
+        	 console.info(mapConfig);
+        	 
+        	    data.request="createWMSfromMap";
+               // data.entitatUid=mapConfig.entitatUid;
+        	    data.entitatUid=mapConfig.id;
+                data.businessId=mapConfig.businessId;
+                data.nomAplicacio=mapConfig.nomAplicacio;
+                                                            
+                
+               createMapToWMS(data).then(
+                            
+                function(results) {
+				   
+				
+                      if (results.status == "OK") {
+                    	  
+                    	  $('#div_urlMapWMS').show();
+                    	  $('#urlMapWMS').val(results.url);
+                      }else  if (results.status == "VOID") {  
+                    	  
+                    	
+                    	  $('#div_urlMapWMS').hide();
+                    	  
+                      }else{
+                    	
+                    	  $('#div_urlMapWMS').hide();
+                    	  $('#urlMapWMS').val(results.msg);
+                    	
+                    	  
+                      }
+        	
+                });
+        	
+        	
+        },
         /**********Events**************/
         
         bindEvents: function(){

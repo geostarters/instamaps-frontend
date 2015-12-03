@@ -4281,6 +4281,44 @@ ul.listMunicipis{
     border-top-right-radius: 0px;
 }
 
+
+
+.barra_temps{
+	
+	display:none;
+	left: 30%;
+	
+}
+
+a.timecontrol-slider .ui-slider-handle {
+   
+    width: 10px !important;
+}
+
+
+.leaflet-bar-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+
+a.leaflet-control-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+a.leaflet-control-timecontrol {
+    color: white !important;
+  
+}
+
+
+a.leaflet-control-timecontrol:hover {
+    color: #FFC500 !important;
+  
+}
+
+
 .leaflet-routing-geocoders a:last-child {
 	 border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;

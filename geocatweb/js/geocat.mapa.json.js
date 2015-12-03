@@ -339,6 +339,10 @@ function loadCapaFromJSON(layer) {
 				options: options
 			};		
 			
+			if (options.group){
+				capaJSON.options.group=options.group;
+			}
+			
 //			var options = jQuery.parseJSON( layer.options );
 	//		var estil_do = retornaEstilaDO('json');
 			var estil_do = options.estil_do;

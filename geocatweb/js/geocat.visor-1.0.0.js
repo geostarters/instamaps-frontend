@@ -94,7 +94,14 @@ function loadVisorSimple(){
 	    typeMap : 'topoMapGeo',
 	        minZoom: 2,
 	        maxZoom : 19,
-	        zoomControl: addDefaultZoomControl,
+	        zoomControl: addDefaultZoomControl,	        
+	        timeDimension: true,
+		    timeDimensionControl: true,
+		    timeDimensionControlOptions:{
+		    	speedSlider:false	
+		    }
+	        
+	        
 	}).setView([ 41.431, 1.8580 ], 8);
 	
 	L.control.coordinates({
@@ -162,6 +169,11 @@ function loadApp(){
                 minZoom: 2,
                 maxZoom : 19,
                 zoomControl: addDefaultZoomControl,
+                timeDimension: true,
+    		    timeDimensionControl: true,
+    		    timeDimensionControlOptions:{
+    		    	speedSlider:false	
+    		    }
           }).setView([ 41.431, 1.8580 ], 8);
 
           L.control.coordinates({
@@ -886,6 +898,34 @@ function loadOrigenWMS(){
 			layer_map.origen.push(value);
 		}
 	});
+	
+	
+//NOu 
+	
+
+	
+	jQuery.each(layer_map.origen, function(index, value){	
+		
+		var jsonOptions;
+		if(typeof (value.options)=="string"){
+			
+			jsonOptions = JSON.parse(value.options);	
+			
+		}else{
+			
+			jsonOptions = value.options;	
+		}
+		
+		console.info(jsonOptions);
+		if(jsonOptions && jsonOptions.group){
+		controlCapes._addGroupFromObject(jsonOptions.group);	
+		}
+	
+	
+	
+	
+	});
+	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
