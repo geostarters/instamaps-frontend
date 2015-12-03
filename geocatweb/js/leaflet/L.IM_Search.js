@@ -824,12 +824,14 @@ L.Control.Search = L.Control.extend({
 	
 		if(this._markerLoc)
 		{
-			var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
+			
+			console.debug(defaultPunt);
+			
 			if(v_url.indexOf('visor')==-1){
 				
 				var marker;
 				//this._markerLoc.setLatLng(latlng);  //show circle/marker in location found
-				if(!defaultPunt.options.isCanvas){
+				if(defaultPunt.options.markerColor!="punt_r"){					
 					marker=L.marker([0,0],
 						{icon: defaultPunt,isCanvas:defaultPunt.options.isCanvas,
 						 tipus: t_marker});
@@ -885,6 +887,7 @@ L.Control.Search = L.Control.extend({
 				);
 				this._markerLoc.setLatLng(latlng); 
 				this._layer.addLayer(this._markerLoc);*/
+				
 				var marker=null;
 				if(!defaultPunt.options.isCanvas){
 					marker=L.marker([0,0],

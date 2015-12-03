@@ -1,10 +1,13 @@
 var _htmlServeisWMS = [];
+
 var _NomServer2="";
 var ActiuWMS = {
 		"servidor" : "servidor",
 		"url" : "url",
 		"layers" : "layers",
-		"epsg" : 'L.CRS.EPSG4326'
+		"epsg" : 'L.CRS.EPSG4326',
+		"tileSize":"512",
+		"wmstime":false
 	};
 
 function generaLlistaServeisWMS() {
@@ -36,7 +39,9 @@ function generaLlistaServeisWMS() {
 					  { "TITOL" : "Atermenament i usos de costes", "ORGANITZAC" : "Departament de Territori i Sostenibilitat",
 					  "IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?", "URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722" },
 					 
-					{
+					
+					  
+					  {
 						"TITOL" : "Parcs eòlics",
 						"ORGANITZAC" : "Direcció General de Polítiques Ambientals",
 						"IDARXIU" : "http://mapaidec.icc.cat/ogc/geoservei?map=/opt/idec/dades/peolics/parcseolics.map&amp",
@@ -50,7 +55,7 @@ function generaLlistaServeisWMS() {
 					},
 					{
 						"TITOL" : "Ortofotos històriques",
-						"ORGANITZAC" : "Institut Cartogràfic de Catalunya",
+						"ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
 						"IDARXIU" : "http://historics.icc.cat:80/lizardtech/iserv/ows?",
 						"URN" : "urn:uuid:6434ad48-66df-11e2-8be5-bd1ed7ebebe1"
 					},
@@ -87,26 +92,84 @@ function generaLlistaServeisWMS() {
 		                "ORGANITZAC" : "Servei Català de Trànsit ",
 		                "IDARXIU" : "http://sctwms.gencat.cat/WMS/mapserv.exe?map=//sctbrsscc05/AGATA/EstatdelTransit.map&amp",
 		                "URN" : "urn:uuid:fe8365ca-233c-11e2-a4dd-13da4f953834"
+					},
+					
+					
+					
+					{
+		                "TITOL" : "Mapa Cadastral per anys",
+		                "ORGANITZAC" : "Dirección General de Cadastro",
+		                "IDARXIU" : HOST_APP2+"geotimeservices/catastro_dgc",
+		                "WMST" : true
+					},
+					
+					
+					
+					{
+		                "TITOL" : "Ortofotos per anys",
+		                "ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
+		                "IDARXIU" : HOST_APP2+"geotimeservices/orto_icgc",
+		                "WMST" : true
+					},
+					
+					
+					{
+		                "TITOL" : "Seccions Censals per anys",
+		                "ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
+		                "IDARXIU" : HOST_APP2+"geotimeservices/seccionsc_icgc",
+		                "WMST" : true
 					}
+					
+					
+					
+					
+					
 			]
 		};	
 	
 	jQuery.each(llista_servidorsWMS.WMS, function(key, WMS) {
-		_htmlServeisWMS.push('<li><a class="label-wms" href="#" id="'
-			+ WMS.IDARXIU
-			+ '">'
-			+ window.lang.convert(WMS.TITOL)
-			+ '</a>'
-			+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
-			+ WMS.URN
-			+ '"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>'
-			+ '</li>');
+		
+		if(WMS.WMST){
+			_htmlServeisWMS.push('<li><a class="label-wms" href="#" id="'
+					+ WMS.IDARXIU
+					+ '">'
+					+ window.lang.convert(WMS.TITOL)
+					+ '</a>'
+					+ '<a target="_blank" lang="ca" title="Servei WMS-TIME" href="http://'
+					+  WMS.IDARXIU +'&Request=GetCapabilities&service=WMS'
+					+ '"><span class="glyphicon glyphicon-time info-wms"></span></a>'
+					+ '</li>');
+			
+		}else{
+		
+			_htmlServeisWMS.push('<li><a class="label-wms" href="#" id="'
+					+ WMS.IDARXIU
+					+ '">'
+					+ window.lang.convert(WMS.TITOL)
+					+ '</a>'
+					+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
+					+ WMS.URN
+					+ '"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>'
+					+ '</li>');
+			
+		}
+		
+		
+	
 	});
+	_htmlServeisWMS.push('<li></li>');
+	_htmlServeisWMS.push('<li><div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS_cataleg" style="height:33px" placeholder="Cercar catàleg IDEC" class="form-control">');
+	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_cercaWMS"  type="button"><span class="glyphicon glyphicon-search"></span></button></span>');
+	_htmlServeisWMS.push('</div></li>');
+
 
 	_htmlServeisWMS.push('</ul></div>');
-	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
-	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-success" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+	_htmlServeisWMS.push('<div id="resultats_idec">');
 	_htmlServeisWMS.push('</div>');
+	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
+	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-default" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
+	_htmlServeisWMS.push('</div>');
+	
 	
 	
 	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
@@ -114,9 +177,17 @@ function generaLlistaServeisWMS() {
 	_htmlServeisWMS.push('	  <li>');
 	_htmlServeisWMS.push('      {{#if Name}}');
 	_htmlServeisWMS.push('			{{#if Layer}}');
-	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input type="checkbox" id="{{Title}}" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	
+	//_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;<input  type="checkbox" id="{{Title}}" class="ckbox_layer" value="{{Name}}"> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	
+	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i></span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
+	
+	
 	_htmlServeisWMS.push('			{{else}}');
 	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" id="{{Title}}" value="{{Name}}"> {{Title}}</span>');
+	_htmlServeisWMS.push('				{{#if Dimension}}');
+	_htmlServeisWMS.push('				<span id="geoservicetime_{{Name}}" class="glyphicon glyphicon-time info-wms"></span>');		
+	_htmlServeisWMS.push('			    {{/if}}');		
 	_htmlServeisWMS.push('			{{/if}}');
 	_htmlServeisWMS.push('		{{else}}');
 	_htmlServeisWMS.push('			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
@@ -155,10 +226,58 @@ jQuery(document).on('click', "#bt_connWMS", function(e) {
 	}
 });
 
+jQuery(document).on('click', "#bt_cercaWMS", function(e) {
+	var cerca = $.trim(jQuery('#txt_URLWMS_cataleg').val());
+
+	if (cerca == "") {
+		alert(window.lang.convert("Has d'introduïr un valor per fer la cerca"));
+
+	} else {
+		var data ={
+			searchInput : cerca	
+		};
+		//Cerca catàleg IDEC
+		searchCatalegIdec(data).then(function(results){
+			 var resultats = JSON.parse(results.resultats);
+			 jQuery('#div_layersWMS').attr("style","display:none;");
+			 var lDadesIdec = '<ul class="bs-dadesO panel-heading llista-dadesInstamaps">';
+			 jQuery.each(resultats.aaData, function( index, wmsidec ) {
+					var titol=wmsidec.TITOL;
+					var desc=wmsidec.DESCRIPCIO;
+					var org =wmsidec.ORGANITZAC;
+					var idarxiu=wmsidec.IDARXIU;
+					var classificaico=wmsidec.CLASSIFICA;
+					var urn=wmsidec.URN;
+					var xmin=wmsidec.XMIN;
+					var xmax=wmsidec.XMAX;
+					var ymin=wmsidec.YMIN;
+					var ymax=wmsidec.YMAX;
+					var escala=wmsidec.ESCALA;
+					var conjunt=wmsidec.CONJUNT;
+					var temes=wmsidec.TEMES;
+					lDadesIdec += '<li><a class="label-dadesIdec" href="#"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titol;
+					lDadesIdec += '<a lang="ca" href="http://www.geoportal.cat/wefex/client?do=mostraDetallServeiWMS&id='+urn+'&idioma=ca&" target="_blank">';
+					lDadesIdec += '<span class="glyphicon glyphicon-info-sign"></span></a></li>';
+				});
+			 lDadesIdec += '</ul>';
+			 jQuery('#resultats_idec').html(lDadesIdec);
+			 jQuery(".label-dadesIdec").on('click', function(e) {
+				 jQuery('#resultats_idec').empty();
+				 var urlWMS= this.dataset.wms_url;
+				 _gaq.push(['_trackEvent', 'mapa', tipus_user+'afegir WMS catàleg IDEC', this.dataset.nom, 1]);
+				 jQuery('#txt_URLWMS').val(urlWMS);
+				 jQuery('#bt_connWMS').click();
+			 });
+		});
+
+	}
+});
+
 var WMS_BBOX;
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
+	
 	
 	getWMSLayers(url).then(function(results) {
 		
@@ -166,19 +285,15 @@ function getCapabilitiesWMS(url, servidor) {
 		var capabilities_template = Handlebars.compile(souce_capabilities_template);
 		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
 		Handlebars.registerHelper('layer', function(context, options) {
-			
-			
-			
 		  var ret = "";
 		  if (!Handlebars.Utils.isArray(context)){
-			  context = [context.length];
+			  context = [context];
 		  }
-		
 		  for(var i=0, j=context.length; i<j; i++) {
 			  if (!Handlebars.Utils.isArray(context[i])){
 				  ret = ret + options.fn(context[i]);
 			  }else{
-				  for(var k=0, l=context[i].length; k<l; k++) {
+				  for(var k=0, l=context.length; k<l; k++) {
 					  ret = ret + options.fn(context[i][k]);
 				  }
 			  }
@@ -267,41 +382,7 @@ function getCapabilitiesWMS(url, servidor) {
 			
 			addTreeEvents();
 			
-			/*
-			_htmlLayersWMS.push('<ul class="bs-dadesO_WMS">');
-
-			if (typeof results.Capability.Layer.Layer != 'undefined') {
-
-				if (typeof results.Capability.Layer.Layer.length == 'undefined') {
-					_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-						+ results.Capability.Layer.Layer.Name
-						+ '">'
-						+ results.Capability.Layer.Layer.Title
-						+ '</label></li>');
-				} else if ((typeof results.Capability.Layer.Layer.length != 'undefined')) {
-					jQuery.each(results.Capability.Layer.Layer,	function(index, value) {
-					_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-						+ value.Name
-						+ '">'
-						+ value.Title
-						+ '</label></li>');
-					});
-				}
-			} else {
-				if (typeof results.Capability.Layer.length != 'undefined') {
-					jQuery.each(results.Capability.Layer, function(index, value) {
-					_htmlLayersWMS.push('<li><label><input name="chk_WMS" id="chk_WMS" type="checkbox" value="'
-						+ value.Name
-						+ '">'
-						+ value.Title
-						+ '</label></li>');
-					});
-				}
-			}
-			_htmlLayersWMS.push('</ul>');
-
-			jQuery('#div_layersWMS').html(_htmlLayersWMS.join(''));
-			*/
+			
 			
 			jQuery('#div_emptyWMS').empty();
 
@@ -324,34 +405,7 @@ jQuery(document).on('click', "#bt_addWMS", function(e) {
 });
 
 
-//function addExternalWMS2() {
-//	var cc = [];
-//
-//	jQuery('input[name="chk_WMS"]:checked').each(function() {
-//		cc.push(jQuery(this).val());
-//	});
-//
-//	ActiuWMS.layers = cc.join(',');
-//	
-//	var wmsLayer = new L.tileLayer.betterWms(ActiuWMS.url, {
-//		layers : ActiuWMS.layers,
-//		crs : ActiuWMS.epsg,
-//		transparent : true,
-//		format : 'image/png'
-//	});
-//
-//	wmsLayer.options.businessId = '-1';
-//	wmsLayer.options.nom = ActiuWMS.servidor;
-//	wmsLayer.options.tipus = 'WMS';
-//	
-//	map.addLayer(wmsLayer);
-//	wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-//	controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-//	controlCapes._lastZIndex++;
-//	activaPanelCapes(true);
-//	jQuery('#dialog_dades_ex').modal('toggle');
-//
-//}
+
 
 /*
  * fromParam = true -> Si afegim WMS directamente dun parametre de la url
@@ -361,19 +415,33 @@ function addExternalWMS(fromParam) {
 
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', ActiuWMS.url, 1]);
 	
+	var _dateFormat=false;
+	
+	
 	if(!fromParam){
 		var cc = $('#div_layersWMS input:checked').map(function(){
+			
+			
+			
+			if($('#geoservicetime_'+this.value).length > 0){
+				_dateFormat=true;
+				
+			}
+			
+			
 			return this.value;
 		});
 		cc = jQuery.makeArray(cc);
 		ActiuWMS.layers = cc.join(',');
 		
 		var _nomCapesWMS=[];
-		var cc1 = $('#div_layersWMS input:checked').map(function(){
-			
-			
+		var cc1 = $('#div_layersWMS input:checked').map(function(){			
 			return this.id;
 		});
+		
+		
+		
+		
 		cc1 = jQuery.makeArray(cc1);	
 		if(cc1.length==1){
 				ActiuWMS.servidor=cc1.join(" ");
@@ -383,19 +451,38 @@ function addExternalWMS(fromParam) {
 			
 		}
 		
-		
+		ActiuWMS.wmstime=_dateFormat;
 		
 		
 	}
 	
-	var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
-		layers : ActiuWMS.layers,
-		crs : ActiuWMS.epsg,
-		transparent : true,
-		format : 'image/png'
-	});
-//console.debug(wmsLayer);
-//console.debug(ActiuWMS);
+	
+	if(ActiuWMS.wmstime){
+		
+		var wmsLayer =L.tileLayer.wms(ActiuWMS.url, {
+			layers : ActiuWMS.layers,
+			crs : ActiuWMS.epsg,
+			transparent : true,
+			format : 'image/png',
+			wmstime:ActiuWMS.wmstime,
+			tileSize:512
+		});
+		
+	}else{
+	
+		var wmsLayer = L.tileLayer.betterWms(ActiuWMS.url, {
+			layers : ActiuWMS.layers,
+			crs : ActiuWMS.epsg,
+			transparent : true,
+			format : 'image/png',
+			wmstime:ActiuWMS.wmstime,
+			tileSize:512
+		});
+		
+		
+	}
+	
+	
 
 	var nomCapaWMS=ActiuWMS.servidor;
 	
@@ -430,19 +517,17 @@ function addExternalWMS(fromParam) {
 	            calentas: false,
 	            activas: true,
 	            visibilitats: true,
-				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+0.75+'"}'
+				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+0.75+'","wmstime":'+ActiuWMS.wmstime+'}'
 		};
 		
 		createServidorInMap(data).then(function(results){
 			if (results.status == "OK"){
+				
+				
 				wmsLayer.options.businessId = results.results.businessId;
-				map.addLayer(wmsLayer); //wmsLayer.addTo(map);
-				wmsLayer.bringToFront();
-				wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-				controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-				controlCapes._lastZIndex++;
-				activaPanelCapes(true);
-				jQuery('#dialog_dades_ex').modal('hide');				
+				
+			
+				checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
 				
 			}else{
 				console.debug('createServidorInMap ERROR');
@@ -450,19 +535,96 @@ function addExternalWMS(fromParam) {
 		});
 		
 	}else{
-		wmsLayer.addTo(map);
-		wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-		controlCapes.addOverlay(wmsLayer, ActiuWMS.servidor, true);
-		controlCapes._lastZIndex++;
-		activaPanelCapes(true);
-		jQuery('#dialog_dades_ex').modal('hide');	
+		
+		checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
+		
 	}	
 }
 
+function showTimeControl(show){
+	
+	
+	
+	show?$('.barra_temps').show():$('.barra_temps').hide();
+	
+	
+}
+
+function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,capesActiva){
+	
+
+	var DL=wmsLayer.options.wmstime;
+	if(wmsLayer.options.wmstime) {
+		
+		
+		//wmsLayer.options.tileSize=512;
+		 var dimensionsTimeLayer  = L.timeDimension.layer.wms(wmsLayer, {
+		    proxy: paramUrl.proxy_betterWMS,
+		    updateTimeDimension: true,
+		    updateTimeDimensionMode:'intersect',//replace, union,intersect
+		    
+		    tileSize:512,
+		    setDefaultTime:false,
+		    tipus : t_wms
+			
+		});
+		
+		dimensionsTimeLayer.options=wmsLayer.options;
+		
+	
+		//map.addLayer(dimensionsTimeLayer);
+		dimensionsTimeLayer.addTo(map);
+		dimensionsTimeLayer.bringToFront();
+		dimensionsTimeLayer.options.zIndex = controlCapes._lastZIndex+ 1;
+		
+		controlCapes.addOverlay(dimensionsTimeLayer, _nomServidor, true);
+		controlCapes._lastZIndex++;
+		activaPanelCapes(true);
+		jQuery('#dialog_dades_ex').modal('hide');	
+		
+		//showTimeControl(false);
+		showTimeControl(true);
+		
+		
+		
+	}else{
+		
+		
+		
+		if(ckeckCapaActiva){
+			
+			if (capesActiva==true || capesActiva=='true' ){
+				wmsLayer.addTo(map);
+			}
+			
+			controlCapes.addOverlay(wmsLayer, _nomServidor, true);
+			controlCapes._lastZIndex++;	
+			
+			
+		}else{
+			
+			map.addLayer(wmsLayer);
+			wmsLayer.bringToFront();
+			wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
+		controlCapes.addOverlay(wmsLayer, _nomServidor, true);
+			controlCapes._lastZIndex++;
+			activaPanelCapes(true);
+			jQuery('#dialog_dades_ex').modal('hide');	
+			
+		}
+		
+		
+		
+	}
+	
+	
+	
+}
+
+
 function loadWmsLayer(layer){
-	//console.debug("Load WMS Layer:");
-	//console.info(layer);
-	var op=1;
+	
+	var op=layer.opacity;
 	var nomServidor=layer.serverName;
 	if(layer.serverName.indexOf('##') !=-1){
 		
@@ -470,6 +632,21 @@ function loadWmsLayer(layer){
 		op=valors[1];
 		nomServidor=valors[0];
 	}  
+	
+	
+	var jsonOptions;
+	
+	
+	
+	if(typeof (layer.options)=="string"){
+		
+		jsonOptions = JSON.parse(layer.options);	
+		
+	}else{
+		
+		jsonOptions = layer.options;	
+	}
+	
 	
 	
 	var newWMS = L.tileLayer.betterWms(layer.url, {
@@ -481,16 +658,16 @@ function loadWmsLayer(layer){
 	    crs: layer.epsg,
 		nom :nomServidor ,
 		tipus: layer.serverType,
-		zIndex :  parseInt(layer.capesOrdre),	    
-	    businessId: layer.businessId
+		zIndex :  parseInt(layer.capesOrdre),
+	    businessId: layer.businessId,
+	    tileSize:512
 	});
+	newWMS.options.wmstime=jsonOptions.wmstime;
+	newWMS.options.group=jsonOptions.group;
 	
-	if (layer.capesActiva == true || layer.capesActiva == "true"){
-		newWMS.addTo(map);
-	}
+	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva);
 	
-	controlCapes.addOverlay(newWMS, nomServidor, true);
-	controlCapes._lastZIndex++;
+	
 }
 
 function addTreeEvents(){

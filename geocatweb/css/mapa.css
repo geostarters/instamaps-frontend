@@ -822,7 +822,9 @@ background-color: #9F9F9E;
 
 .modal-body {
 	padding: 10px 10px;
+	max-height:600px;
 }
+
 
 .modal-footer {
 	padding-bottom: 10px;
@@ -4135,6 +4137,12 @@ i.fa {
 	line-height: 3;
 }
 
+.llista-teves-dades {
+	margin-left: -40px;
+	margin-top: 5px;
+	width:100%;
+}
+
 .llista-teves-dades li a:hover{
  color: #428BCA;
  text-decoration: none;
@@ -4178,7 +4186,7 @@ i.fa {
 	font-size: 16px;
 }
 
-#iframeMap, #urlMap{background-color: #eeeeee;}
+#iframeMap, #urlMap , #urlMapWMS{background-color: #eeeeee;}
 
 #urlVisorMap {
     border: 1px none black;
@@ -4815,3 +4823,135 @@ padding: 8px 0;
     width: 40%;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }
+
+.alert{
+	padding: 5px;
+	margin-bottom: 10px;
+	margin-top: 3px;
+}
+
+#file-logo {
+  height: 54px;
+  border-width: 2px;
+  margin-bottom: 20px;
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  text-align: center;
+  position: relative;
+}
+
+#file-logo.drop {
+  color: #222;
+  border-color: #222;
+}
+
+#file-logo img.logo {
+    float: left;
+    height: 50px;
+    opacity: 0.5;
+    position: relative;
+}
+
+#file-logo .dz-default.dz-message {
+    color: #4F4B4B;
+    float: left;
+    position: absolute;
+    line-height: 16px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+}
+
+.color_selector {
+	border: 1px solid #aaaaaa;
+    color: #000000;
+    height: 15px;
+    width: 20px;
+    background-color: #000000;
+}
+
+.text_color{
+	width: 68px;
+}
+
+.text-font > span{
+	float: left;
+	position: relative;
+	padding-right: 13px;
+	padding-top: 5px;
+}
+
+.text-font .bfh-selectbox{
+	float: left;
+	width: 200px;
+}
+
+.form-control.my-border {
+    margin-top: 2px;
+}
+
+.modal-public-group{
+	padding-top: 10px;
+}
+
+.display-block{
+	display:block;
+}
+
+.display-none{
+	display:none;	
+}
+
+.btn-tevesDades{
+	margin-bottom:4px;
+	padding-bottom:4px;
+	padding-top:4px;
+}
+
+.input-tevesDades{
+	margin-bottom:4px;
+	width:91.5%;
+	float:left;
+}
+/* skin.css Style*/
+
+
+.barra_temps{
+	
+	display:none;
+	
+	
+}
+
+a.timecontrol-slider .ui-slider-handle {
+   
+    width: 10px !important;
+}
+
+
+.leaflet-bar-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+
+a.leaflet-control-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+a.leaflet-control-timecontrol {
+    color: white !important;
+  
+}
+
+
+a.leaflet-control-timecontrol:hover {
+    color: #FFC500 !important;
+  
+}
+
+
+
+
+

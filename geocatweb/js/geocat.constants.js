@@ -170,6 +170,8 @@ var NODATA_VALUE = "nodata";
 var NODATA_COLOR = "#CCCCCC";
 var NODATA_MIDA = 10;
 
+var TIPUS_APLIACIO_GEOLOCAL = 2;
+
 //VAR per nou model de dades
 var nou_model = true;
 
@@ -229,3 +231,5 @@ var llista_dadesExternes = {
 				}
 		] 
 };
+
+var TIPUS_ENTITATS_GEOLOCAL = [2,3,4,5,6,7,8,9];
