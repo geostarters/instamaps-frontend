@@ -1,9 +1,114 @@
-function carregaDadesUsuari(){
+var delay = (function(){
+			  var timer = 0;
+			  return function(callback, ms){
+			    clearTimeout (timer);
+			    timer = setTimeout(callback, ms);
+			  };
+		})();
+
+var serverType="";
+var primerCop="";
+var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+
+$(function() {
+	$(document).on("keyup", 'input.search.form-control', function() {
+		var q = $(this).val();
+		q = $.trim(q);
+		if(q != "" && q.length >= 3 ){
+			jQuery("#id_sw").empty();
+			
+			var data ={
+				uid: $.cookie('uid'),
+				serverName: q,
+				serverType: serverType
+			};
+			delay(function(){
+				primerCop="false";
+				refrescaPopOverMevasDades(data).then(function(results){
+						actualitzarMevesDades(results);
+						$('input.search.form-control').val(q);
+				});
+			}, 400 );
+		}
+		else if (q==""){
+			jQuery("#id_sw").empty();
+			
+			var data ={
+				uid: $.cookie('uid'),
+				serverType: serverType
+			};
+			primerCop="false";
+			refrescaPopOverMevasDades(data).then(function(results){
+					actualitzarMevesDades(results);
+			});
+		}
+	});
 	
+	$(document).on("click",'#bt_cercaTevesDades', function() {
+		var q = $('input.search.form-control').val();
+		q = $.trim(q);
+		if(q != "" && q.length >= 3 ){
+			jQuery("#id_sw").empty();
+			
+			var data ={
+				uid: $.cookie('uid'),
+				serverName: q,
+				serverType: serverType
+			};
+			delay(function(){
+				primerCop="false";
+				refrescaPopOverMevasDades(data).then(function(results){
+						actualitzarMevesDades(results);
+						$('input.search.form-control').val(q);
+				});
+			}, 400 );
+		}
+		else if (q==""){
+			jQuery("#id_sw").empty();
+			
+			var data ={
+				uid: $.cookie('uid'),
+				serverType: serverType
+			};
+			primerCop="false";
+			refrescaPopOverMevasDades(data).then(function(results){
+					actualitzarMevesDades(results);
+			});
+		}
+	});
+	
+	$(document).on("ifChecked",'#checkbox-filtres input',function () {
+		if (primerCop=="false") {
+			 var sThisVal =  $(this).val() ;
+			 if (serverType.indexOf(sThisVal)==-1) {
+				 if (serverType=="") serverType += sThisVal;
+				 else serverType += ","+sThisVal;
+			 }
+		     $('#listnav-teves-dades > .'+sThisVal).each(function(){
+		    	  $(this).removeClass("display-none");
+	   		      $(this).addClass("display-block");  		      
+		     });
+		}		
+	 });
+	
+	$(document).on("ifUnchecked",'#checkbox-filtres input',function () {
+		 var sThisVal =  $(this).val() ;
+		 if (serverType.indexOf(sThisVal)>-1) {
+			 serverType = serverType.replace(","+sThisVal,"");			 
+		 }
+		 $('#listnav-teves-dades > .'+sThisVal).each(function(){
+	    	  $(this).removeClass("display-block");
+  		      $(this).addClass("display-none");   	
+	     });
+	   });
+
+});
+
+function carregaDadesUsuari(){
 	addHtmlInterficieDadesUsuari();
 	addHtmlModalDadesUsuari();
 	addHtmlModalErrorMsg();
-	
+	primerCop="true";
 	var data = {uid: $.cookie('uid')};
 	//console.debug("carregaDadesUsuari");
 	getAllServidorsWMSByUser(data).then(function(results){
@@ -20,19 +125,28 @@ function carregaDadesUsuari(){
 	});
 }
 
+
 function creaPopOverMevasDades(){
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 	
 	
 	jQuery(".div_dades_usr").on('click', function() {
 		//console.debug("creaPopOverMevasDades");
 		jQuery('.modal').modal('hide');
+		$('#cercaTevesDades').attr("style","width:98%");
 		$('#dialog_teves_dades').modal('show');
-		
+				
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
+		serverType="";
 		jQuery("#id_sw").empty();
-		
-		refrescaPopOverMevasDades().then(function(results){
+		var data = {uid: $.cookie('uid')};
+		refrescaPopOverMevasDades(data).then(function(results){
+			actualitzarMevesDades(results);
+		});
+	});
+	
+}
+
+function actualitzarMevesDades(results){
 			initMevesDades = true;
 			if(results.results.length == 0){
 				jQuery('#id_sw').html(warninMSG);		
@@ -50,8 +164,32 @@ function creaPopOverMevasDades(){
 				var html1 = template1(results);				
 				jQuery("#id_sw").append(html1);
 				
-				$("#listnav-teves-dades").listnav({
-				    initLetter: '',
+				$('#checkbox-filtres input').iCheck({
+	        	    checkboxClass: 'icheckbox_flat-blue',
+	        	    radioClass: 'iradio_flat-blue'
+	        	});
+				
+				$('#checkbox-filtres input').each(function(){
+					if (serverType==""){
+						 var sThisVal =  $(this).val() ;
+						$(this).iCheck('check');
+						 if (serverType=="") serverType += sThisVal;
+						 else serverType += ","+sThisVal;
+					}
+					else {
+						if (serverType.indexOf($(this).val())>-1) {
+							$(this).iCheck('check');
+						}
+						else {
+							$(this).iCheck('uncheck');
+						}
+					}
+			     });
+				
+				$('#id_sw>input').attr("placeholder", window.lang.convert("Cerca"));
+				
+				$("#listnav-teves-dades").listnav({					
+				    initLetter: '',				    
 				    allText: window.lang.convert('Tots'),
 				    noMatchText: window.lang.convert('No hi ha entrades coincidents'),
 				    onClick: function(letter){
@@ -225,14 +363,13 @@ function creaPopOverMevasDades(){
 				});
 				
 			}	
-		});
-	});	
+		
 }
 
-function refrescaPopOverMevasDades(){
+function refrescaPopOverMevasDades(data){
 	//console.debug("refrescaPopOverMevasDades");
 	var dfd = jQuery.Deferred();
-	var data = {uid: $.cookie('uid')};
+	
 	getAllServidorsWMSByUser(data).then(function(results){
 		var serverOrigen = [];
 		jQuery.each(results.results, function(i, item){
@@ -264,11 +401,28 @@ function addHtmlInterficieDadesUsuari(){
 		'<div lang="ca" id="div_dades_usr" class="div_dades_usr" data-toggle="tooltip" title="Accedeix a les teves dades" data-lang-title="Accedeix a les teves dades">'+
 		'	<script id="meus-wms-template" type="text/x-handlebars-template">'+
 		'	<div class="panel-body">'+
-		'		<ul id="listnav-teves-dades" class="llista-teves-dades panel-heading">'+
-		'		{{#each results}}'+
-		'			<li><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a><span data-businessid="{{businessId}}" data-servername="{{serverName}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span></li>'+
+		'		<div >'+
+		'			<button id="bt_cercaTevesDades" class="btn btn-tevesDades" type="button"><span class="glyphicon glyphicon-search"></span></button>'+
+		'			<input type="text" class="search form-control input-tevesDades" id="cercaTevesDades" placeholder="Cercar a les teves dades"><br/>'+
+		'		</div>'+
+		'		<!--div style="margin-bottom:3px;" id="checkbox-filtres">'+
+		'           Filtre per: '+
+		'				<input type="checkbox" id="filtre" style="position: absolute; opacity: 0;" name="tipusCapa" value="visualitzacio">'+
+		'			Capes Vector'+
+		'				<input type="checkbox" id="filtre" style="position: absolute; opacity: 0;" name="tipusCapa" value="wms">'+
+		'			Capes WMS'+
+		'				<input type="checkbox" id="filtre" style="position: absolute; opacity: 0;" name="tipusCapa" value="url_file">'+
+		'			Capes de fitxers'+
+		'		</div-->'+
+		'		<div id="list-teves-dades" >'+
+		'		<ul id="listnav-teves-dades" class="llista-teves-dades">'+
+		'		{{#each results}}'+				    
+		'			<li  class="{{serverType}}"><a href="#" data-businessid="{{businessId}}" data-layers="{{layers}}" data-servertype="{{serverType}}" data-options="{{options}}" class="usr_wms_layer label-teves-dades">{{serverName}}</a>'+
+		'			<span data-businessid="{{businessId}}" data-servername="{{serverName}}" data-servertype="{{serverType}}" class="glyphicon glyphicon-remove info-teves-dades"></span>'+
+		'			</li>'+
 		'		{{/each}}'+
 		'		</ul>'+
+		'		</div>'+
 		'	</div>'+
 		'	</script>'+
 		'</div>'		
