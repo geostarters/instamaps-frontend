@@ -552,7 +552,7 @@ L.Control.OrderLayers = L.Control.Layers
 							groupContainer.className = 'leaflet-control-accordion-layers';	
 						
 						// verify if group is expanded
-							console.warn(obj.group.expanded);
+						//	console.warn(obj.group.expanded);
 						var s_expanded = obj.group.expanded ? ' checked = "true" ': '';
 						
 						//console.info(s_expanded);
