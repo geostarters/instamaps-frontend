@@ -956,10 +956,8 @@ function sortByValorMax(a, b){
 
 //This will sort your array
 function sortByValueMax(a, b){
-	console.debug("sort!");
 	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
 	if (floatRegex.test(a.value) && floatRegex.test(b.value)) {
-		console.debug("1");
 		var aValue = a.value;
 		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
 		var bValue = b.value; 
