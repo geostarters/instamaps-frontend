@@ -67,7 +67,7 @@ function setMapWMSBoundingBox(url){
 		]);
 	},function(){
 		console.error("Error getCapabilities");
-		console.debug(results);
+		//console.debug(results);
 	});
 	
 }
@@ -263,7 +263,7 @@ function loadPublicMap(results){
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 			VisorGeolocal.initUi();
 			
-			console.debug(mapConfig.options);
+			//console.debug(mapConfig.options);
 			
 			if (mapConfig.options.barColor){
 				$('#navbar-visor').css('background-color', mapConfig.options.barColor);
@@ -916,7 +916,7 @@ function loadOrigenWMS(){
 			jsonOptions = value.options;	
 		}
 		
-		console.info(jsonOptions);
+		
 		if(jsonOptions && jsonOptions.group){
 		controlCapes._addGroupFromObject(jsonOptions.group);	
 		}

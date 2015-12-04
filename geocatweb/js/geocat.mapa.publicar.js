@@ -486,7 +486,7 @@
         	
         	
         	//Atencio miro estat de les capes
-        	reOrderGroupsAndLayers(); 	
+        	reOrderGroupsAndLayers(true); 	
         	
         	var nomApp = $('#nomAplicacio').html();
         	
