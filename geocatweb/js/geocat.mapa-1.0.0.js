@@ -58,14 +58,6 @@ function loadApp(){
 		    timeDimensionControlOptions:{
 		    	speedSlider:false	
 		    }
-		/*
-		,
-			timeDimensionOptions: {
-		        timeInterval: "2003-01-01/"+ new Date().toISOString(),
-		        period: "P1M"
-		    }
-			*/
-			
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
 		
@@ -503,19 +495,12 @@ jQuery.each(layer_map.origen, function(index, value){
 			jsonOptions = value.options;	
 		}
 		
-		console.info(jsonOptions);
 		if(jsonOptions && jsonOptions.group){
-		controlCapes._addGroupFromObject(jsonOptions.group);	
+			controlCapes._addGroupFromObject(jsonOptions.group);	
 		}
-	
-	
-	
+
 	
 	});
-	
-	
-	
-	
 	
 	
 	

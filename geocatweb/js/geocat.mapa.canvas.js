@@ -1146,13 +1146,10 @@ function ompleCapesMatriu(item){
                     	  mainColor=feature.styles.color;
                      
                      }else if(tipus.indexOf("Polygon")!=-1){
-                     
-                    	 console.info(feature);
                     	 mainColor=feature.styles.fillColor;
                     	 
                     	 if(!mainColor || mainColor.indexOf("rgba")!=-1){
                     		 mainColor= feature.styles.color + "90 "; 
-                    		 
                     	 }
                     	 
                     	 
