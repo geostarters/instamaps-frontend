@@ -510,14 +510,14 @@ function addExternalWMS(fromParam) {
 	            infFormat: 'text/html',
 	            tiles: true,	            
 	            transparency: true,
-	            opacity: 0.75,
+	            opacity: 1,
 	            visibilitat: 'O',
 	            url: ActiuWMS.url,
 	            layers: JSON.stringify([{name:ActiuWMS.layers,title:ActiuWMS.layers,group:0,check:true,query:true}]),
 	            calentas: false,
 	            activas: true,
 	            visibilitats: true,
-				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+0.75+'","wmstime":'+ActiuWMS.wmstime+'}'
+				options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+1+'","wmstime":'+ActiuWMS.wmstime+'}'
 		};
 		
 		createServidorInMap(data).then(function(results){

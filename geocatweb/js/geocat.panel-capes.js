@@ -60,22 +60,26 @@ function reOrderGroupsAndLayers(action){
 				
 					_expanded=true;
 				
+					
+		
+					
 			if($('#'+_id).hasClass('glyphicon-triangle-right')){
 					
 					_expanded=false;
 				
 				
 				}	
-	    	 
+		
+	    	
 	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
 	    	        $this; // parent li
 	    	        _businessId=this.id.replace("li-",""); // child li
 	    	        z_order=z_order+1; 
 	    	        
+	    	    
 	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
 	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);	    	    	    	    
-	    	  
-	    	    
+	    	 
 	    	  if(action){
 	    	    
 	    	    var data = {
@@ -110,10 +114,10 @@ function reOrderGroupsAndLayers(action){
 function updateGroupsLayerOptions(data,data2){
 	
 	
-	//console.debug("_updateGroupsLayerOptions");
+	
 	
 	updateServidorWMSOptions(data).then(function(results){
-		////console.info(results);
+	
 		if(results.status==='OK'){
 			
 			if(data2){
