@@ -885,8 +885,6 @@ function loadMapConfig(mapConfig){
 	return dfd.promise();
 }
 
-
-
 function loadOrigenWMS(){
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
@@ -901,9 +899,6 @@ function loadOrigenWMS(){
 	
 	
 //NOu 
-	
-
-	
 	jQuery.each(layer_map.origen, function(index, value){	
 		
 		var jsonOptions;
@@ -916,14 +911,9 @@ function loadOrigenWMS(){
 			jsonOptions = value.options;	
 		}
 		
-		console.info(jsonOptions);
 		if(jsonOptions && jsonOptions.group){
-		controlCapes._addGroupFromObject(jsonOptions.group);	
+			controlCapes._addGroupFromObject(jsonOptions.group);	
 		}
-	
-	
-	
-	
 	});
 	
 	dfd.resolve(layer_map);
