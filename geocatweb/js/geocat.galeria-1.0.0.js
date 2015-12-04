@@ -9,24 +9,6 @@ var businessIds = [];
 var mapsGalery = [];
 var codiUsuari;
 var tipusEntitat;
-//var temporales para pruebas
-/*
-//cda10
-var codiUsuari = "cda10";
-var tipusEntitat = 0;
-*/
-
-/*
-//cda11
-var codiUsuari = "cda11";
-var tipusEntitat = 2;
-*/
-
-/*
-//incasol
-var codiUsuari = "axis";
-var tipusEntitat = 7;
-*/
 
 $(function(){
 	
@@ -70,9 +52,6 @@ $(function(){
 		$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 	});
 	
-	
-	
-	
 	/*******PRIVAT GALERIA**********/
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		if(isGeolocalUser()){
@@ -86,16 +65,19 @@ $(function(){
 			pintaGaleriaPrivada(results);
 		});
 
-		getUserData($.cookie('uid')).then(function(results){
-			loadAplicacionsUser().then(function(results1){
-				codiUsuari = $.cookie('uid');
-				tipusEntitat = $.cookie('tipusEntitat');
-				pintaGaleriaAplicacions(results1, tipusEntitat);
-				getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
-					pintaGaleriaConfigurades(results);
+		if( isGeolocalUser() ){
+			getUserData($.cookie('uid')).then(function(results){
+				loadAplicacionsUser().then(function(results1){
+					codiUsuari = $.cookie('uid');
+					tipusEntitat = $.cookie('tipusEntitat');
+					pintaGaleriaAplicacions(results1, tipusEntitat);
+					getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
+						pintaGaleriaConfigurades(results);
+					});
 				});
 			});
-		});
+		}
+		
 		$('#galeriaSort #obtenirUrlPublica').attr("style","display:block;");
 		
 		$('#galeriaSort #obtenirUrlPublica').on('click', function(event){
@@ -380,7 +362,6 @@ $(function(){
 			event.preventDefault();
 			event.stopPropagation();
 			var $this = $(this);
-			
 	
 			$('#dialgo_delete').modal('show');
 			$('#dialgo_delete .nom_mapa').text($this.data("nom"));
@@ -390,8 +371,7 @@ $(function(){
 		});
 		
 		$('#dialgo_delete .btn-danger').on('click', function(event){
-			
-			
+		
 			var $this = $(this);
 			
 		
@@ -413,25 +393,16 @@ $(function(){
 						metode: "rmGaleria"
 					};
 					deleteImageGaleria(data2).then(function(results){});
-					
-					
+										
 					if($this.data("idusr")){
-							var data3 = {
-									businessId: $this.data("businessid"),
-									entitatUid: $this.data("idusr"),
-									metode: "deleteWMSfromMap"
-								};
-							
-							createMapToWMS(data3).then(function(results){});
+						var data3 = {
+							businessId: $this.data("businessid"),
+							entitatUid: $this.data("idusr"),
+							metode: "deleteWMSfromMap"
+						};
+						
+						createMapToWMS(data3).then(function(results){});
 					}
-					
-					
-					
-					
-					
-					
-					
-					
 				}
 			});
 		});
@@ -872,7 +843,6 @@ $(function(){
 			}
 			createToken({uid:codiUsuari}).then(function(results){
 				urlMap += $.cookie('uid')+"&token="+results.results;
-				console.debug(urlMap);
 				window.open(urlMap);
 			});
 			//TODO usar el cookie token
@@ -889,7 +859,6 @@ $(function(){
 	function pintaGaleriaConfigurades(results){
 		//console.debug(results);
 		var configurades = $.map(results,function(val, i){
-			console.debug(val.tipusAplicacio.businessId);
 			if (val.tipusAplicacio.businessId == "at" || 
 				val.tipusAplicacio.businessId == "par" ||
 				val.tipusAplicacio.businessId == "ics"){
@@ -914,7 +883,6 @@ $(function(){
 			$('#dialgo_delete_aplicacio .btn-danger').data("idusr", $this.data("idusr"));
 			var eliminar = $(this).data('eliminar');
 			eliminar = eliminar.split("|");
-			console.debug(eliminar);
 			var urlMap = "";
 			switch (eliminar[0]){
 				case 'ics': 
@@ -938,13 +906,7 @@ $(function(){
 		
 		$('#dialgo_delete_aplicacio .btn-danger').on('click', function(event){
 			var $this = $(this);
-			/*
-			$('#'+$this.data("businessid")).remove();
-			$('#dialgo_delete_aplicacio').modal('hide');
-			*/
-			console.debug($this.data("url"));
 			deleteAplicacionsGeolocal($this.data("url")).then(function(results){
-				console.debug(results);
 				if (results.status == "OK"){
 					$('#'+$this.data("businessid")).remove();
 					$('#dialgo_delete_aplicacio').modal('hide');
@@ -971,12 +933,12 @@ $(function(){
 	window.addEventListener("message", onMessage, true);
 	
 	function reload(){
-		console.debug("reload configurades");
-		console.debug($("#AplicacionsRow .configurades"));
-		$("#AplicacionsRow .configurades").remove();
-		getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
-			pintaGaleriaConfigurades(results);
-		});
+		if( isGeolocalUser() ){
+			$("#AplicacionsRow .configurades").remove();
+			getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
+				pintaGaleriaConfigurades(results);
+			});
+		}
 	}
 	
 });

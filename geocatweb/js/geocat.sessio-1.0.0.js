@@ -190,14 +190,9 @@ function redirectLogin(results, from){
 		}else{
 			window.location=GEOCAT02+paramUrl.mapaPage;
 		}
-	}else if(from != '' && from in paramAplications){
+	}else if(isGeolocalUser() && from != '' && from in paramAplications){
 		console.debug(from);
 		console.debug(results);
-		//cda10
-		//var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NDQzMDIzMzMsInN1YiI6Imluc3RhbWFwc3xjZGExMCIsIm5iZiI6MTQ0NDI5NTEyOCwiaXNzIjoiaHR0cDovL3d3dy5pbnN0YW1hcHMuY2F0IiwiYXVkIjoiZ2Vvc3RhcnRlcnMiLCJqdGkiOiI1NDIyMzJkMS02NTVjLTQwN2QtOGYwYS05OTAwM2M2MjA2ZTYiLCJpYXQiOjE0NDQyOTUxMzN9.tUugqdfhga0FVQHZjyvDYcgX9osxFMqmpPYltlM0O7A";
-		//incasol
-		//var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NDQzMDI3MDMsInN1YiI6Imluc3RhbWFwc3xheGlzIiwibmJmIjoxNDQ0Mjk1NDk4LCJpc3MiOiJodHRwOi8vd3d3Lmluc3RhbWFwcy5jYXQiLCJhdWQiOiJnZW9zdGFydGVycyIsImp0aSI6IjY3MzU1ODExLTJiNmItNDM2Yi1iMjEyLWVmMmEzNGJkYmExNSIsImlhdCI6MTQ0NDI5NTUwM30.4rJWEnnDzexGoAOrE5FWhNOgCfeLBia8hi59ykqbUbo";
-		//TODO usar el token de la cookie
 		var token = $.cookie('token');
 		window.open(paramAplications[from].url+results.uid+"&token="+token);
 		window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1&aplicacions=1";
