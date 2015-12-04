@@ -163,12 +163,17 @@ $(function(){
 		    			//userList.search();
 		    		}
 					searchGaleriaMapsByUser({user: url('?user'),q: q.toLowerCase()}).then(function(results){
-						pintaGaleria(results);
-						loading = false;
-						if (searchString && searchString != ""){
-							userList.search(searchString);
-							searchString = null;
+						if (results.results!=undefined && results.results.length>0){
+							pintaGaleria(results);
+							loading = false;
+							if (searchString && searchString != ""){
+								userList.search(searchString);
+							}
 						}
+						else {
+							var redirect=paramUrl.galeriaPage;
+							window.location.href=redirect;
+						}						
 					});
 				 }, 400 );
 			}
@@ -244,10 +249,16 @@ $(function(){
 			searchString2 = $.trim(searchString2);
 			$('#galeriaSort>div>input').val(searchString);
 				searchGaleriaMapsByUser({user: searchString, q:searchString2.toLowerCase(), page: pageGaleria}).then(function(results){
-					pintaGaleria(results);
-					loading = false;
-					if (searchString && searchString != ""){
-						userList.search(searchString);
+					if (results.results!=undefined && results.results.length>0){
+						pintaGaleria(results);
+						loading = false;
+						if (searchString && searchString != ""){
+							userList.search(searchString);
+						}
+					}
+					else {
+						var redirect=paramUrl.galeriaPage;
+						window.location.href=redirect;
 					}
 			});			
 		}else{
