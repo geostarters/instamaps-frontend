@@ -371,10 +371,10 @@ function actualitzarMevesDades(results){
 								
 								var data3 = {
 										businessId:  _this.data("businessid"),
-										entitatUid: mapConfig.id,
+										entitatUid:  $.cookie('uid'),
 										metode: "deleteGeoJSONfromMap"
 									};
-								console.debug(data3);
+								
 								createMapToWMS(data3).then(function(results){});
 								
 								
