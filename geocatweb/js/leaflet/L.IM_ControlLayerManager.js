@@ -404,9 +404,11 @@ L.Control.OrderLayers = L.Control.Layers
 					// un grup
 					// console.info("estic afegint una capa nova a un grup
 					// existent");
-					return this.getActiveGroup();
+					//console.info(this.getActiveGroup());
+					
+					//return this.getActiveGroup();
 
-					// return this._groupList[this._groupList.length-1];
+					 return this._groupList[this._groupList.length-1];
 				} else {
 
 					// console.info("estic afegint una capa nova i no existeix
@@ -550,8 +552,10 @@ L.Control.OrderLayers = L.Control.Layers
 							groupContainer.className = 'leaflet-control-accordion-layers';	
 						
 						// verify if group is expanded
-						var s_expanded = obj.group.expanded ? ' checked = "true" '
-								: '';
+							console.warn(obj.group.expanded);
+						var s_expanded = obj.group.expanded ? ' checked = "true" ': '';
+						
+						//console.info(s_expanded);
 						// verify if type is exclusive
 						var s_type_exclusive = this.options.exclusive ? ' type="radio" '
 								: ' type="checkbox" ';
@@ -904,7 +908,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					input.className = 'checkbox_styled sr-only leaflet-control-layers-selector';
 
-					if (obj.layer.options.tipus.indexOf(t_wms) != -1) {
+					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1) {
 
 						if (obj.layer.options.wmstime == true) {
 							input.className = 'checkbox_time sr-only leaflet-control-layers-selector';
@@ -1024,6 +1028,8 @@ L.Control.OrderLayers = L.Control.Layers
 
 					if (obj.layer.options.tipus
 							&& obj.layer.options.tipus.indexOf(t_wms) != -1) {
+						
+						//if (!obj.layer.options.wmstime) {
 
 						col = L.DomUtil
 								.create(
@@ -1041,6 +1047,7 @@ L.Control.OrderLayers = L.Control.Layers
 							container : 'body',
 							title : window.lang.convert("Transparència")
 						});
+						//}
 					}
 
 					// Icona Moure només Edicio
@@ -1576,16 +1583,20 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 
 				try {
-				//	console.info(op);
+					
 					obj.layer.setOpacity(op);
+					
 				} catch (err) {
 					// console.info(op);
 					// obj.layer.options.opacity=op;
 					//console.info(op);
 					obj.layer.options.fillOpacity = op;
+					obj.layer.options.opacity = op;
+					/*
 					obj.layer.setStyle({
 						fillOpacity : op
 					});
+					*/
 				}
 
 				if (getModeMapa()) {
