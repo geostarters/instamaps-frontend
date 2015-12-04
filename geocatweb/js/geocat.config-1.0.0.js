@@ -215,39 +215,39 @@ var paramAplications = {
 		"nom":"Protecció civil",
 		"description":"Gestiona la informació relativa a Protecció civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuació prioritària en cas d'una emergència.",
 		"img":"img/thumb_ed_pcivil.png",
-		"url":"http://localhost:8080/geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari="
+		"url":"http://www.geolocal.cat/geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari="
 	},
     'infoparcela':{
     	"nom":"InfoParcela",
     	"description":"Permet realitzar un document amb informació referent a la parcel·la.",
     	"img":"img/thumb_ed_infoparcela.png",
-    	"url":"http://localhost:8080/PRG/aplicacions/infoparcela.action?fallback=infoparcela",
-    	"eliminar":"http://localhost:8080/PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
-    	"editor":"http://localhost:8080/PRG/aplicacions/infoparcela/modificar.action?businessId=" 
+    	"url":"http://www.geolocal.cat/PRG/aplicacions/infoparcela.action?fallback=infoparcela",
+    	"eliminar":"http://www.geolocal.cat/PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
+    	"editor":"http://www.geolocal.cat/PRG/aplicacions/infoparcela/modificar.action?businessId=" 
     },
     'peolics':{
     	"nom":"Editor de Parcs Eòlics",
     	"description":"Actualitza la informació dels parcs eòlics. Col·labora mantenint la informació.",
     	"img":"img/thumb_ed_peolics.png",
-    	"url":"http://localhost:8080/geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari="
+    	"url":"http://www.geolocal.cat/geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari="
     },
     'carrerer':{
     	"nom":"Gestor de canvis carrerer",
     	"description":"Gestiona els canvis del carrerer. Ajuda a mantenir la base de carrers de l'ICC.",
     	"img":"img/thumb_ed_carrerer.png",
-    	"url":"http://localhost:8080/EdCarrerer/editorCarrerer.action?codiUsuari=cda11&muniIne=171609"
+    	"url":"http://www.geolocal.cat/EdCarrerer/editorCarrerer.action?codiUsuari=cda11&muniIne=171609"
     	//"url":"http://geolocaldev.icgc.local/EdCarrerer/editorCarrerer.action?codiUsuari=cda10&muniIne=171609"
     },
     'incasol':{
     	"nom":"Visors INCASÒL",
     	"description":"Ja pots tenir un visor de mapes a la teva web!. Crea els teus propis visors personalitzats i afegeix-hi la teva cartografia.",
     	"img":"img/thumb_ed_incasol.png",
-    	"url":"http://localhost:8080/PRG/aplicacions/incasol.action?",
-    	"editor":"http://localhost:8080/PRG/aplicacions/incasol/modificar.action?businessId=",
-    	"eliminar":"http://localhost:8080/PRG/aplicacions/incasol/eliminar_geolocal.action?businessId="
+    	"url":"http://www.geolocal.cat/PRG/aplicacions/incasol.action?",
+    	"editor":"http://www.geolocal.cat/PRG/aplicacions/incasol/modificar.action?businessId=",
+    	"eliminar":"http://www.geolocal.cat/PRG/aplicacions/incasol/eliminar_geolocal.action?businessId="
     },
     'atles':{
-    	"eliminar":"http://localhost:8080/PRG/aplicacions/atles/eliminar_geolocal.action?businessId="
+    	"eliminar":"http://www.geolocal.cat/PRG/aplicacions/atles/eliminar_geolocal.action?businessId="
     }
 };
 

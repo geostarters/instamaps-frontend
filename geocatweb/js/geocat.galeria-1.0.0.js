@@ -56,6 +56,9 @@ $(function(){
 	if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
 		if(isGeolocalUser()){
 			$('#tabs_links').removeClass('hide');
+			
+			//cambiar el footer
+			$('footer div.container span').text("InstaMaps.Geolocal");
 		}
 		
 		$('.total_maps').hide();
