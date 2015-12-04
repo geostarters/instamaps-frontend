@@ -199,7 +199,7 @@ var paramUrl = {
 	getConfiguradesUser: "http://geolocaldev.icgc.local/PRG/eines/getConfiguradesUser.action?",
 	prgIncasol: "http://geolocaldev.icgc.local/",
 	createToken: HOST_APP +"/geocat/createToken.action?",
-	uploadLogo: HOST_APP +"/share_local/jsp/uploadLogo.jsp?",
+	uploadLogo: HOST_APP +"/share/jsp/uploadLogo.jsp?",
 	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",
 	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
 	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?",
