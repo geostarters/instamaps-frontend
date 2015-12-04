@@ -6,14 +6,14 @@
    "use strict";
    	var Publicar = {
         init: function() {
-        	this.containerId = '#funcio_publicar',
+        	this.containerId = '#funcio_publicar';
         	//By using the object PROJ you can reference it with "this" (i.e. this.whatever();), easy peazy "namespacing"
             //Example:
-        	this.buttonClass = "bt_publicar",
-        	this.disabledClass = "bt_publicar_disabled",
+        	this.buttonClass = "bt_publicar";
+        	this.disabledClass = "bt_publicar_disabled";
         	this.cache();
         	this.subscriptions();
-        	this.button
+        	this.button;
         	this.bindEvents();
                                     
             return this;
@@ -74,9 +74,7 @@
         			
         			$.publish('reloadMapConfig','publicar/');
         			
-        			$('#dialgo_publicar .btn-primary').on('click',function(){
-        				that._loadPublicarData(false);
-        			});
+        			
         		});
         	}
         },
@@ -333,6 +331,10 @@
     		    	}
     		    });
     		    
+    		    $('#dialgo_publicar .btn-primary').on('click',function(){
+    				that._loadPublicarData(false);
+    			});
+    		    
         	});
         	
         	$.get("templates/modalPublicarRandom.html",function(data){
@@ -484,8 +486,7 @@
         	
         	
         	//Atencio miro estat de les capes
-        	reOrderGroupsAndLayers();
-        	
+        	reOrderGroupsAndLayers(); 	
         	
         	var nomApp = $('#nomAplicacio').html();
         	
@@ -528,14 +529,8 @@
         	
         	//Captura Map per la Galeria
         	//require geocat.canvas
-        	
-        	console.info("Capturo pantalla");
         	capturaPantalla(CAPTURA_GALERIA);
-        	
-        	
-        	console.info("UrlMapwms");
-       	this.createWMSFromMap();
-        	
+        	this.createWMSFromMap();
         	
         	
         	if(!that.mapConfig.clau){
@@ -608,7 +603,7 @@
         					//update map name en el control de capas
         					$('#nomAplicacio').text(that.mapConfig.nomAplicacio);
         					$('#nomAplicacio').editable('setValue', that.mapConfig.nomAplicacio);
-        					$('#dialgo_url_iframe').modal('show');					
+        					$('#dialgo_url_iframe').modal('show');
         					that._addShareButtons();
         				}
         			}
@@ -683,8 +678,6 @@
         	
         	 var data=getCapesVectorActives();
         	
-        	 console.info(mapConfig);
-        	 
         	    data.request="createWMSfromMap";
                // data.entitatUid=mapConfig.entitatUid;
         	    data.entitatUid=mapConfig.id;
