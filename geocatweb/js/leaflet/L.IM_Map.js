@@ -5,7 +5,7 @@ var CatBounds = L.latLngBounds(L.latLng(40.47, 0.1087), L.latLng(42.8855, 3.3366
 
 //var CatBounds = L.latLngBounds(L.latLng(40.47, 0.77), L.latLng(42.45, 3.33669));
 
-var MQ_ATTR='Font:<a  href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>';  
+var MQ_ATTR='Font:<a  href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap </a>';  
 var ESRI_ATTR='Tiles © Esri  Sources: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping,Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
 var ESRI_ATTR_TERRAIN="Tiles © Esri Sources: Esri, USGS, NOAA";
 var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>'; 

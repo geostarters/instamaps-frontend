@@ -408,7 +408,8 @@ $(function(){
 					if($this.data("idusr")){
 						var data3 = {
 							businessId: $this.data("businessid"),
-							entitatUid: $this.data("idusr"),
+							//entitatUid: $this.data("idusr"),
+							entitatUid: $.cookie('uid'),
 							metode: "deleteWMSfromMap"
 						};
 						
