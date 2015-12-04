@@ -392,7 +392,9 @@ function actualitzarMevesDades(results){
 function refrescaPopOverMevasDades(data){
 	//console.debug("refrescaPopOverMevasDades");
 	var dfd = jQuery.Deferred();
-	var data = {uid: $.cookie('uid')};
+	var q = $('input.search.form-control').val();
+	q = $.trim(q);
+	var data = {uid: $.cookie('uid'),serverName: q};
 	getAllServidorsWMSByUser(data).then(function(results){
 		var serverOrigen = [];
 		jQuery.each(results.results, function(i, item){
