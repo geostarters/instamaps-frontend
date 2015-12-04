@@ -335,7 +335,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 							);									
 							
-							addDropFileToMap(data);
+							$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+								if(data.status.indexOf("OK")!=-1){											
+										addDropFileToMap(data);
+									}								
+							});
+							//addDropFileToMap(data);
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
 						
 						}else if(data.status.indexOf("ERROR")!=-1){
