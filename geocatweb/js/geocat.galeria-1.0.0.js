@@ -855,19 +855,22 @@ $(function(){
 					editor = editor.split("|");
 					urlMap = paramAplications[editor[0]].editor + editor[1]
 				}
-			}
+			}			
+			/*
 			createToken({uid:codiUsuari}).then(function(results){
 				urlMap += $.cookie('uid')+"&token="+results.results;
+				if(urlMap.indexOf("EdCarrerer") != -1){
+					urlMap += "&muniIne="+$.cookie('uid').substring(1); 
+				}
 				window.open(urlMap);
 			});
-			//TODO usar el cookie token
-			/*
-			if($.cookie('token')){
-				urlMap += '&token='+$.cookie('token');
-			}
-			console.debug(urlMap);
-			window.open(urlMap);
 			*/
+			//usar el cookie token	
+			urlMap += $.cookie('uid')+"&token="+$.cookie('token');
+			if(urlMap.indexOf("EdCarrerer") != -1){
+				urlMap += "&muniIne="+$.cookie('uid').substring(1); 
+			}
+			window.open(urlMap);	
 		});
 	}
 	
@@ -910,13 +913,15 @@ $(function(){
 					urlMap = paramAplications.infoparcela.eliminar;
 					break;
 			}
+			/*
 			createToken({uid:codiUsuari}).then(function(results){
 				urlMap += eliminar[1] + "&token="+results.results;
 				$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
 			});
-			//TODO usar el cookie token
-			//urlMap += eliminar[1] + "&token="+$.cookie('token');
-			//$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
+			*/
+			//usar el cookie token
+			urlMap += eliminar[1] + "&token="+$.cookie('token');
+			$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
 		});
 		
 		$('#dialgo_delete_aplicacio .btn-danger').on('click', function(event){

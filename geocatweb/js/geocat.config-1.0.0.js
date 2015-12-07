@@ -238,7 +238,7 @@ var paramAplications = {
     	"nom":"Gestor de canvis carrerer",
     	"description":"Gestiona els canvis del carrerer. Ajuda a mantenir la base de carrers de l'ICC.",
     	"img":"img/thumb_ed_carrerer.png",
-    	"url":HOST_GEOLOCAL+"EdCarrerer/editorCarrerer.action?codiUsuari=cda11&muniIne=171609"
+    	"url":HOST_GEOLOCAL+"EdCarrerer/editorCarrerer.action?codiUsuari="
     },
     'incasol':{
     	"nom":"Visors INCASÒL",
