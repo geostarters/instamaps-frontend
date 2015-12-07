@@ -183,6 +183,7 @@ function updateSortablesElements(){
 	
 	
 	
+	
 	var layer_in_groups = $("ol.ac-large").sortable({
 		  group: 'no-drop-layer',
 		  handle: 'div.glyphicon-move',

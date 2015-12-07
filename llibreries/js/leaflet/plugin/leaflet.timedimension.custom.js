@@ -413,7 +413,7 @@ L.TimeDimension.Util = {
     parseTimeInterval: function(timeInterval) {
         var parts = timeInterval.split("/");
         if (parts.length != 2) {
-            throw "Incorrect ISO9601 TimeInterval: " + timeInterval;
+            throw "Incorrecte ISO9601 Interval: " + timeInterval;
         }
         var startTime = Date.parse(parts[0]);
         var endTime = null;
@@ -528,7 +528,7 @@ L.TimeDimension.Layer = (L.Layer || L.Class).extend({
         this._map = null;
         this._baseLayer = layer;
         this._currentLayer = null;
-        this._global_dateFormat="YYYY2";
+        this._global_dateFormat="YYYY";
         this._timeDimension = this.options.timeDimension || null;
     },
 
@@ -1538,7 +1538,7 @@ L.Control.TimeDimension = L.Control.extend({
 			}
 		}else{
 			if (this._displayDate){
-				this._displayDate.innerHTML = "Time not available";
+				this._displayDate.innerHTML = "Temps no disponible";
 			}
 			if (this._slider){
 	        	this._slider.slider( "value", 0);
@@ -1549,7 +1549,7 @@ L.Control.TimeDimension = L.Control.extend({
 	_createBackwardButton: function(className, container) {
 		var link = L.DomUtil.create('a', className, container);
 		link.href = '#';
-		link.title = 'Backward';
+		link.title = 'Enrrera';
 		// link.innerHTML = '<span class="glyphicon glyphicon-backward"></span>';
 
 		L.DomEvent
@@ -1563,7 +1563,7 @@ L.Control.TimeDimension = L.Control.extend({
 	_createForwardButton: function(className, container) {
 		var link = L.DomUtil.create('a', className, container);
 		link.href = '#';
-		link.title = 'Forward';
+		link.title = 'Endavant';
 		// link.innerHTML = '<span class="glyphicon glyphicon-forward"></span>';
 
 		L.DomEvent
@@ -1577,7 +1577,7 @@ L.Control.TimeDimension = L.Control.extend({
 	_createPlayPauseButton: function(className, container) {
 		var link = L.DomUtil.create('a', className, container);
 		link.href = '#';
-		link.title = 'Play';
+		link.title = 'Iniciar';
 		// link.innerHTML = '<span class="glyphicon glyphicon-play"></span>';
 
 		L.DomEvent
@@ -1591,7 +1591,7 @@ L.Control.TimeDimension = L.Control.extend({
 	_createDisplayDate: function(className, container) {
 		var link = L.DomUtil.create('a', className, container);		
 		link.href = '#';
-		link.title = 'UTC Time';
+		link.title = 'UTC Temps';
 		L.DomEvent
 			.addListener(link, 'click', L.DomEvent.stopPropagation)
 			.addListener(link, 'click', L.DomEvent.preventDefault)
@@ -1704,9 +1704,9 @@ L.Control.TimeDimension = L.Control.extend({
 
 	_toggleDateUTC: function(event){
 		if (this._dateUTC){
-			this._displayDate.title = 'Local Time';
+			this._displayDate.title = 'Local Temps';
 		}else{
-			this._displayDate.title = 'UTC Time';
+			this._displayDate.title = 'UTC Temps';
 		}
 		this._dateUTC = !this._dateUTC;
 		this._update();

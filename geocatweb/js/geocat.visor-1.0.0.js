@@ -80,9 +80,9 @@ function loadVisorSimple(){
 	      jQuery('#navbar-visor').hide();
 	      jQuery('#searchBar').css('top', '0');
 	      addDefaultZoomControl = false;
-	      _gaq.push(['_trackEvent', 'visor', 'embed']);
+	     (['_trackEvent', 'visor', 'embed']);
 	}else{
-	      _gaq.push(['_trackEvent', 'visor', 'no embed']);
+	     (['_trackEvent', 'visor', 'no embed']);
 	
 	}
 	
@@ -151,14 +151,19 @@ function loadVisorSimple(){
 
 function loadApp(){
 	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
+	
     if(typeof url('?embed') == "string"){
 //        jQuery('#navbar-visor').remove();
           jQuery('#navbar-visor').hide();
           jQuery('#searchBar').css('top', '0');
           addDefaultZoomControl = false;
-          _gaq.push(['_trackEvent', 'visor', 'embed']);
+          
+         
+          
+          
+         (['_trackEvent', 'visor', 'embed']);
     }else{
-          _gaq.push(['_trackEvent', 'visor', 'no embed']);
+         (['_trackEvent', 'visor', 'no embed']);
 
     }
     
@@ -362,6 +367,15 @@ function initControls(){
 	//Funcionalitat compartir visor
 	addCompartirVisor();
 	
+	
+	// console.info(mapConfig);
+	 
+	//posem event per controlar visor
+	if(mapConfig){
+	 (['_trackEvent', 'geolocalvisor', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+	 
+	}
+	 
 	dfd.resolve();
 	
 	return dfd.promise();
@@ -452,7 +466,7 @@ function addControlsInici() {
           };
           ctr_linkViewMap.addTo(map);  
           jQuery('#span-linkViewMap a').on('click', function(event) {
-              _gaq.push(['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
+             (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
           });
           new L.Control.Zoom({ position: 'topleft' }).addTo(map);
     }
