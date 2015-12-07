@@ -354,16 +354,21 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 
 			_on_resize_window : function() {
-				// listen to resize of screen to reajust de maxHeight of
-				// container
+				
+				/*
+				
+				if(containers){
 				for (var c = 0; c < containers.length; c++) {
-					// input the new value to height
+					
 					containers[c].style.maxHeight = (window.innerHeight - 90) < this
 							._removePxToInt(this._default_maxHeight) ? (window.innerHeight - 90)
 							+ "px"
 							: this._removePxToInt(this._default_maxHeight)
 									+ "px";
 				}
+				}
+			*/
+			
 			},
 
 			// remove the px from a css value and convert to a int
@@ -395,6 +400,9 @@ L.Control.OrderLayers = L.Control.Layers
 				var pos = this._groupList.length;
 				var posTXT;
 				var genericName=window.lang.convert('Capes');
+				var genericPos="";
+				
+				pos==0?genericPos="":genericPos=pos;
 				
 				this._socVisorInstamaps()?genericName=this._socInstamapsVell:genericName=genericName;
 				
@@ -414,8 +422,8 @@ L.Control.OrderLayers = L.Control.Layers
 					// console.info("estic afegint una capa nova i no existeix
 					// gruo");
 					var group = {
-						"groupName" : genericName+" "+ pos,
-						"name" : genericName+" "+ pos,
+						"groupName" : genericName+" "+ genericPos,
+						"name" : genericName+" "+ genericPos,
 						"id" : pos,
 						"expanded" : true
 
@@ -804,6 +812,9 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 
 			_update : function() {
+				
+				
+				
 				if (!this._container) {
 					return;
 				}
@@ -906,12 +917,14 @@ L.Control.OrderLayers = L.Control.Layers
 					input.type = 'checkbox';
 					// input.className = 'leaflet-control-layers-selector';
 
-					input.className = 'checkbox_styled sr-only leaflet-control-layers-selector';
+					input.className = 'checkbox_styled hide leaflet-control-layers-selector';
+					
+				//	input.className = 'leaflet-control-layers-selector';
 
 					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1) {
 
 						if (obj.layer.options.wmstime == true) {
-							input.className = 'checkbox_time sr-only leaflet-control-layers-selector';
+							input.className = 'checkbox_time hide leaflet-control-layers-selector';
 
 						}
 					}
@@ -927,12 +940,18 @@ L.Control.OrderLayers = L.Control.Layers
 				_leaflet_input.className = "leaflet-input";
 
 				input.layerId = L.Util.stamp(obj.layer);
+				
+				
 				L.DomEvent.on(input, 'click', this._onInputClick, this);
+				
+				
 				var label_for = document.createElement('label');
 				var _for = document.createAttribute('for');
 				_for.value = 'input-' + obj.layer.options.businessId;
 				label_for.setAttributeNode(_for);
 				// label_for.innerHTML="--";
+				
+				
 				_leaflet_input.appendChild(input);
 				_leaflet_input.appendChild(label_for);
 
@@ -1127,7 +1146,7 @@ L.Control.OrderLayers = L.Control.Layers
 						+ sublayer.layer.options.businessId;
 				input_sublayer.type = 'checkbox';
 				// input_sublayer.className = 'leaflet-control-layers-selector';
-				input_sublayer.className = 'checkbox_eye sr-only leaflet-control-layers-selector';
+				input_sublayer.className = 'checkbox_eye hide leaflet-control-layers-selector';
 				input_sublayer.defaultChecked = checked;
 
 				input_sublayer.layerId = L.stamp(sublayer.layer);
@@ -1136,6 +1155,9 @@ L.Control.OrderLayers = L.Control.Layers
 				L.DomEvent
 						.on(input_sublayer, 'click', this._onInputClick, this);
 
+				
+				
+				
 				var name_sublayer = document.createElement('span');
 				name_sublayer.className = 'editable';
 				name_sublayer.idParent = layerIdParent;
@@ -1173,10 +1195,14 @@ L.Control.OrderLayers = L.Control.Layers
 
 			},
 
-			_onInputClick : function() {
+			
+			
+			_onInputClick : function(event) {
+				
+				 
 
-				// console.info("aqui");
-
+				// $('ol.ac-large').scrollTo(1138 , 0);
+				 
 				var i, input, obj, inputs = this._form
 						.getElementsByTagName('input'), inputsLen = inputs.length;
 
@@ -1186,6 +1212,11 @@ L.Control.OrderLayers = L.Control.Layers
 
 				var currentbid = arguments[0].currentTarget.id.replace(
 						"input-", "");
+				
+				
+				
+				
+				
 				// console.info(arguments[0].currentTarget.layerIdParent);
 				// tractament en cas heatmap
 				if (arguments[0].currentTarget.layerIdParent) {
@@ -1284,37 +1315,13 @@ L.Control.OrderLayers = L.Control.Layers
 
 				}
 
+			
 				this._validateWmsTime(_timeLayers);
-
+			
 				this._handlingClick = false;
-
+			
 				this._refocusOnMap();
-				/*
-				 * var i, input, obj, inputs =
-				 * this._form.getElementsByTagName('input'), inputsLen =
-				 * inputs.length;
-				 * 
-				 * console.info(inputs.length);
-				 * 
-				 * this._handlingClick = true;
-				 * 
-				 * for (i = 0; i < inputsLen; i++) { input = inputs[i];
-				 * 
-				 * obj = this._layers[input.layerId];
-				 * 
-				 * if ( !obj ) { continue; }
-				 * 
-				 * if (input.checked && !this._map.hasLayer(obj.layer)) {
-				 * this._map.addLayer(obj.layer); } else if (!input.checked &&
-				 * this._map.hasLayer(obj.layer)) {
-				 * 
-				 * 
-				 * 
-				 * this._map.removeLayer(obj.layer); } }
-				 * 
-				 * this._handlingClick = false;
-				 * 
-				 */
+				
 
 			},
 

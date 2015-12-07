@@ -494,7 +494,9 @@ input[type='checkbox'].checkbox_styled + label:after{
     position: relative;
     top: 1px;
     display: inline-block;
+    
     font-family: 'Glyphicons Halflings';
+    
     font-style: normal;
     font-size: 13px;
     font-style: normal;
@@ -505,12 +507,15 @@ input[type='checkbox'].checkbox_styled + label:after{
     cursor:pointer;
     color:white;
 }
+
+
 input[type='checkbox'].checkbox_styled + label:before{
     content: "\e157";
 }
 input[type='checkbox']:checked.checkbox_styled + label:before{
     content: "\e067";
 }
+
 
 
 
