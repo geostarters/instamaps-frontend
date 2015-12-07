@@ -354,16 +354,21 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 
 			_on_resize_window : function() {
-				// listen to resize of screen to reajust de maxHeight of
-				// container
+				
+				/*
+				
+				if(containers){
 				for (var c = 0; c < containers.length; c++) {
-					// input the new value to height
+					
 					containers[c].style.maxHeight = (window.innerHeight - 90) < this
 							._removePxToInt(this._default_maxHeight) ? (window.innerHeight - 90)
 							+ "px"
 							: this._removePxToInt(this._default_maxHeight)
 									+ "px";
 				}
+				}
+			*/
+			
 			},
 
 			// remove the px from a css value and convert to a int

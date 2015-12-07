@@ -80,9 +80,9 @@ function loadVisorSimple(){
 	      jQuery('#navbar-visor').hide();
 	      jQuery('#searchBar').css('top', '0');
 	      addDefaultZoomControl = false;
-	     (['_trackEvent', 'visor', 'embed']);
+	      _gaq.push(['_trackEvent', 'visor', 'embed']);
 	}else{
-	     (['_trackEvent', 'visor', 'no embed']);
+		_gaq.push(['_trackEvent', 'visor', 'no embed']);
 	
 	}
 	
@@ -161,9 +161,9 @@ function loadApp(){
          
           
           
-         (['_trackEvent', 'visor', 'embed']);
+          _gaq.push (['_trackEvent', 'visor', 'embed']);
     }else{
-         (['_trackEvent', 'visor', 'no embed']);
+    	_gaq.push (['_trackEvent', 'visor', 'no embed']);
 
     }
     
@@ -371,8 +371,9 @@ function initControls(){
 	// console.info(mapConfig);
 	 
 	//posem event per controlar visor
+	
 	if(mapConfig){
-	 (['_trackEvent', 'geolocalvisor', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+		_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
 	 
 	}
 	 
@@ -466,7 +467,7 @@ function addControlsInici() {
           };
           ctr_linkViewMap.addTo(map);  
           jQuery('#span-linkViewMap a').on('click', function(event) {
-             (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
+        	  _gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
           });
           new L.Control.Zoom({ position: 'topleft' }).addTo(map);
     }
