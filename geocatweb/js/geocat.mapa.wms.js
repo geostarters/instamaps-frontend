@@ -240,7 +240,7 @@ jQuery(document).on('click', "#bt_cercaWMS", function(e) {
 		searchCatalegIdec(data).then(function(results){
 			 var resultats = JSON.parse(results.resultats);
 			 jQuery('#div_layersWMS').attr("style","display:none;");
-			 var lDadesIdec = '<ul class="bs-dadesO panel-heading llista-dadesInstamaps">';
+			 var lDadesIdec = '<ul class="panel-heading llista-dadesIdec">';
 			 jQuery.each(resultats.aaData, function( index, wmsidec ) {
 					var titol=wmsidec.TITOL;
 					var desc=wmsidec.DESCRIPCIO;
@@ -257,7 +257,7 @@ jQuery(document).on('click', "#bt_cercaWMS", function(e) {
 					var temes=wmsidec.TEMES;
 					lDadesIdec += '<li><a class="label-dadesIdec" href="#"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titol;
 					lDadesIdec += '<a lang="ca" href="http://www.geoportal.cat/wefex/client?do=mostraDetallServeiWMS&id='+urn+'&idioma=ca&" target="_blank">';
-					lDadesIdec += '<span class="glyphicon glyphicon-info-sign"></span></a></li>';
+					lDadesIdec += '&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a></li>';
 				});
 			 lDadesIdec += '</ul>';
 			 jQuery('#resultats_idec').html(lDadesIdec);
