@@ -147,7 +147,7 @@ function generaLlistaServeisWMS() {
 					+ '">'
 					+ window.lang.convert(WMS.TITOL)
 					+ '</a>'
-					+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://catalegidec.icc.cat/wefex/client?do=cercaAssociacions&resposta=detall&idioma=ca&id='
+					+ '<a target="_blank" lang="ca" title="Informació dels serveis" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id='
 					+ WMS.URN
 					+ '"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>'
 					+ '</li>');
