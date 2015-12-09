@@ -4323,3 +4323,15 @@ a.leaflet-control-timecontrol:hover {
 	 border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
+
+.routing-title{
+	color:white;
+	font-size:13.5px;
+	font-weight:bold;
+}
+
+.div-routing-title{
+	background: #686868 none repeat scroll 0 0 !important;
+    margin-top: 0 !important;
+}
+

@@ -773,7 +773,8 @@ function updateLangTooltips(){
 			_gaq.push(['_trackEvent', 'visor', tipus_user+'routing', 'label routing', 1]);
 			map.on('click', routingPopup);
 			route.addTo(map);
-			
+			$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">Càlcul de rutes</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
+			$('.leaflet-routing-add-waypoint').attr('title','Afegir punts');
 		}
 		
 		jQuery('.leaflet-routing-container').css('top', '170px');
@@ -806,15 +807,15 @@ function routingPopup(e) {
 		jQuery(".leaflet-popup-content").css('margin','5px 15px');
 		
 	    jQuery('#startBtn').on('click', function() {
-	        route.spliceWaypoints(0, 1, e.latlng);
-	        map.closePopup();
+	    	route.spliceWaypoints(0, 1, e.latlng);	    	
+	    	map.closePopup();
 	    });
 	
 	    jQuery('#destBtn').on('click', function() {
-	        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);
+	        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);	       
 	        map.closePopup();
 	    });
-	
+	   
 }
 
 function loadMapConfig(mapConfig){
@@ -1093,7 +1094,6 @@ function loadRouteControl(){
 	var ReversablePlan = L.Routing.Plan.extend({
 	    createGeocoders: function() {
 	        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
-	            infoButton = createSpan('<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank"><span class="glyphicon glyphicon-info-sign" style="font-size:14px;"></span></a>', container),
 	            reverseButton = createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container);
 	        L.DomEvent.on(reverseButton, 'click', function() { 
 	            var waypoints = this.getWaypoints();
