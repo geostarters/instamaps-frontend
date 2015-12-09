@@ -31,6 +31,14 @@ function searchGaleriaMaps(params){
 	}).promise();
 }
 
+function searchGaleriaMapsByUser(params){
+	return jQuery.ajax({
+		url: paramUrl.searchGaleriaMapsByUser,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+
 function deleteMap(data){
 	return jQuery.ajax({
 		url: paramUrl.deleteMap,
@@ -75,7 +83,7 @@ function checkEmail(user_email){
 
 function getUserData(username){
 	return jQuery.ajax({
-		url: paramUrl.getUser,
+		url: paramUrl.getUserSimple,
 		data: {uid : username},
 		async: false,
 		method: 'post',
@@ -302,6 +310,15 @@ function updateServersOrderToMap(data){
 	}).promise();
 }
 
+
+function updateServerOrderToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServerOrderToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function updateMapName(data){
 	return jQuery.ajax({
 		url: paramUrl.updateMapName,
@@ -341,6 +358,29 @@ function updateServidorWMSName(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+
+
+function updateServidorWMSOptions(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSOptions,
+		data: data,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
+
+function updateServidorWMSOpacity(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSOpacity,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
 
 function addServerToMap(data){
 	return jQuery.ajax({
@@ -650,6 +690,19 @@ function createGeoPdfMap(data){
 }	
 
 
+
+function createMapToWMS(data){
+	return jQuery.ajax({
+		url: paramUrl.urlMapToWMS,
+		data: data,	
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		method: 'POST',
+		dataType: 'json'
+	}).promise();
+}	
+
+
+
 //esborra imatge galeria
 
 function deleteImageGaleria(data){
@@ -742,7 +795,7 @@ function updateNameVisualitzacioLayer(data){
 
 function deleteVisualitzacioLayer(data){
 	return jQuery.ajax({
-		url: paramUrl.updateNameVisualitzacioLayer,
+		url: paramUrl.deleteVisualitzacioLayer,
 		data: data,
 		method: 'post',
         dataType: 'jsonp'
@@ -988,6 +1041,57 @@ function callActions(data){
 		dataType: 'jsonp'
 	}).promise();
 }
+
+function loadAplicacionsUser(){
+	/*
+	return jQuery.ajax({
+		url: paramUrl.loadAplicacionsUser,
+		method: 'get',
+		dataType: 'json'
+	}).promise();
+	*/
+	var defer = jQuery.Deferred();
+	defer.resolve(perfilConfig);
+	return defer.promise();
+}
+
+function getUser(username){
+	return jQuery.ajax({
+		url: paramUrl.getUser,
+		data: {uid : username},
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function getConfiguradesUser(data){
+	return jQuery.ajax({
+		url: paramUrl.getConfiguradesUser,
+		data: data,
+		crossDomain: true,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function deleteAplicacionsGeolocal(url){
+	return jQuery.ajax({
+		url: url,
+		crossDomain: true,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+function createToken(data){
+	return jQuery.ajax({
+		url: paramUrl.createToken,
+		data: data,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
 function getValuesFromKeysProperty(params){
 	return jQuery.ajax({
 		url: paramUrl.getValuesFromKeysProperty,
@@ -996,6 +1100,7 @@ function getValuesFromKeysProperty(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+
 function columnJoin(params){
 	return jQuery.ajax({
 		url: paramUrl.columnJoin,
@@ -1004,11 +1109,40 @@ function columnJoin(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+
 function spatialJoin(params){
 	return jQuery.ajax({
 		url: paramUrl.spatialJoin,
   		data: params,
   		method: 'post',
+  		dataType: 'jsonp'
+	}).promise();
+}
+function searchCapesPubliques(params){
+	return jQuery.ajax({
+		url: paramUrl.searchCapesPubliques,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+function addServerDuplicateToMap(data){
+	return jQuery.ajax({
+		url: paramUrl.addServerDuplicateToMap,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+function duplicateVisualitzacioLayer(data){
+	return jQuery.ajax({
+		url: paramUrl.duplicateVisualitzacioLayer,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
+function searchCatalegIdec(params){
+	return jQuery.ajax({
+		url: paramUrl.searchCatalegIdec,
+		data: params,
   		dataType: 'jsonp'
 	}).promise();
 }

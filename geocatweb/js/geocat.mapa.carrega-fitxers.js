@@ -354,7 +354,7 @@ function addFuncioCarregaFitxers(){
 //										'<div id="div_uploading_txt2" lang="ca">(Pot seguir navegant)</div>'											
 									);									
 									
-									//addDropFileToMap(data);
+									//addDropFileToMap(data);					
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 										if(data.status.indexOf("OK")!=-1){											
 												addDropFileToMap(data);

@@ -452,6 +452,30 @@ a.zocial {
     text-shadow:0;
 }
 
+.zocial.geolocal_fd {
+	background-color: #FFFFFF;
+    background-image: url("/llibreries/img/geolocal_logo_small.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: #FFCC00;
+    border-radius: 0;
+    border: none;
+    text-shadow:0;
+}
+
+.zocial.eacat_fd {
+	background-color: #FFFFFF;
+    background-image: url("/llibreries/img/eacat_logo_small.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: #FFCC00;
+    border-radius: 0;
+    border: none;
+    text-shadow:0;
+}
+
 .zocial.facebook_fd {
 	background-color: #FFFFFF;
     background-image: url("/llibreries/img/facebook_fd.png");
@@ -504,6 +528,8 @@ a.zocial {
 .zocial.google_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
 .zocial.twitter_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
 .zocial.linkedin_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
+.zocial.geolocal_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
+.zocial.eacat_fd:hover{transform:scale(1.1);-ms-transform:scale(1.1);-webkit-transform:scale(1.1);-moz-transform:scale(1.1);}
 
 
 /*

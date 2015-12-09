@@ -26,6 +26,11 @@ function isBlank(str) {
     return (!str || (/^\s*$/).test(str));
 }
 
+function isHexColor(color){
+	var pattern = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
+	return pattern.test(color);
+}
+
 function isDefaultMapTitle(str){
 //	var pattern = new RegExp('^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$');
 	var pattern = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$/;
@@ -295,6 +300,7 @@ function pLeft() {
 
 function gestioCookie(from){
 	var _cookie = $.cookie('uid');
+
 	switch(from){
 		case 'createMap':
 			if (isRandomUser(_cookie)){
@@ -689,8 +695,28 @@ return hash_map;
 
 
 function getModeMapa(){
-	
+
 	return  ($(location).attr('href').indexOf('/mapa.html')!=-1);
 	
 }
 
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
+
+(function($){
+	var o = $({});
+	$.each({
+		trigger: 'publish',
+		on: 'subscribe',
+		off: 'unsubscribe'
+	},function(key, val){
+		$[val] = function(){
+			o[key].apply(o, arguments);
+		};
+	});
+})(jQuery);

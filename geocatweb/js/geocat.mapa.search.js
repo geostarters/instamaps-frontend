@@ -5,47 +5,30 @@ function filterJSON(rawjson) {
 	var jsonData = JSON.parse(rawjson.resposta);
 	var json = {},
 	key, loc, disp = [];
-	
-	if (jsonData.resultats.length>0){
+	//console.debug(jsonData);
+	if (jsonData.resultats.length>1){
 		for (var i = 0; i < jsonData.resultats.length; i++) {
-		    var resultats = jsonData.resultats[i];
-		    if (resultats.nom) {
-			    key = resultats.nom +" ("+ resultats.nomMunicipi+")";
-			    loc = L.latLng( resultats.coordenadesETRS89LonLat.y, resultats.coordenadesETRS89LonLat.x );
-			    json[ key ]= loc;
-		    }
-		    else if (resultats.display_name){
-		    	disp = resultats.display_name.split(',');	
-				key = disp[0] +', '+ disp[1];
-				loc = L.latLng(resultats.lat, resultats.lon );
-				json[ key ]= loc;	//key,value format
-		    }
-		    
-		   
+		    var resultat = jsonData.resultats[i];
+		    var coordsSplit = resultat.coordenades.split(",");
+		    json[ resultat.nom ] = L.latLng(coordsSplit[0], coordsSplit[1]);
 		}
 	}
 	else {
-		var coords= jsonData.resultats.coordenades;
+		var coords= jsonData.resultats[0].coordenades;
 		var coordsSplit = [];
 		if (coords) {
 			coordsSplit = coords.split(",");
 			loc = L.latLng(coordsSplit[0], coordsSplit[1] );
 			ctr_cerca.showLocation(loc,coords); 
-			//json[ coords ]= loc;
-			//jQuery('.search-tip').mousedown();
-			//map.setView(loc, this.options.zoom);
 		}
-		 
 	}
 	return json;
-	
 }
 
 
 function addControlCercaEdit(){
 	
 	addHtmlInterficieCerca();
-	
 
 	ctr_cerca=new L.Control.Search({url: paramUrl.searchAction+"searchInput={s}",
 		position:'topcenter',
@@ -59,11 +42,9 @@ function addControlCercaEdit(){
 		idInputText : '#ctr_cerca',
 		zoom : 14,
 		textSize : 22,
-		minLength : 3,
-		autoType : true,
 		textEdit:'<a id="act_end" href="#" >Finaltzar Edicio <span class="glyphicon glyphicon-check"></span></a>'
 		
-		}).addTo(map);
+	}).addTo(map);
 	
 	/*var ctr_cercaNomen = new L.Control.Search({
 		url: jsonpurl,

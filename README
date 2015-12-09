@@ -6,3 +6,4 @@ En en config de Apache poner como raiz geocatonline
 
 La rama production es la que tiene el código de producción de Instamaps
 
+La rama geolocal_master es la que tiene el código para geolocal

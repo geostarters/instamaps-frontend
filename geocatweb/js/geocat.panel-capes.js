@@ -31,12 +31,285 @@ function addFuncioRenameMap(){
 	});	
 }
 
+function reOrderGroupsAndLayers(action){
+	
+	 var z_order=-1;
+	 
+	 var _groupName,_groupId,_groupSubId,_businessId,_expanded; 
+	   // $("span.span_ac").each(function( index, element ) {
+	  $("div.leaflet-control-accordion-layers").each(function( index, element ) {	
+		  
+		  var $this = $(this);
+	    	
+	    	 
+	    	 var gr=$this.children("label").children('span.span_ac');
+	    	 
+	    	 _groupId=index;
+	    	
+	    	 _groupName=gr.text();
+	    	 
+	    	
+		  
+	    	 var _exp=$this.children("label").children('i.label_gl');
+	    		 
+	    		 var _id=$(_exp).attr("id");	
+	    		 
+	    		 ////console.debug(_id);
+				
+				
+				
+					_expanded=true;
+				
+					
+		
+					
+			if($('#'+_id).hasClass('glyphicon-triangle-right')){
+					
+					_expanded=false;
+				
+				
+				}	
+		
+	    	
+	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
+	    	        $this; // parent li
+	    	        _businessId=this.id.replace("li-",""); // child li
+	    	        z_order=z_order+1; 
+	    	        
+	    	    
+	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
+	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);	    	    	    	    
+	    	 
+	    	  if(action){
+	    	    
+	    	    var data = {
+					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	options: JSON.stringify(resp_Layer.options)
+					 }	
+				
+				var data2 = {
+					 	servidorWMSbusinessId:resp_Layer.options.businessId,
+	    	    		businessId:url('?businessid'), //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	order: z_order
+					 }	
+				
+			
+	    	    
+				updateGroupsLayerOptions(data,data2);	
+	    	       //}
+   	    
+	    	  }
+	    	    
+	    	    });
+	    	 
+	  ////console.warn("FI GROUP:");
+	  });
+	    	
+	  
+	
+}
+
+function updateGroupsLayerOptions(data,data2){
+	
+	
+	
+	
+	updateServidorWMSOptions(data).then(function(results){
+	
+		if(results.status==='OK'){
+			
+			if(data2){
+				
+				updateServerOrderToMap(data2).then(function(results) {
+					//console.debug(results);
+					if (results.status != 'OK')
+						return;// SI no ha anat be el canvi a BD. que
+								// no es faci tampoc a client, i es
+								// mostri un error
+				}, function(results) {
+					return;// SI no ha anat be el canvi a BD. que no es
+							// faci tampoc a client, i es mostri un
+							// error
+				});
+				
+			}
+			//console.debug(results);
+			//console.debug(data);
+		}
+	});
+	
+	
+}
+
+
+
+
+
+
+
+function updateSortablesElements(){
+	
+	var group = $("ol.leaflet-control-layers-overlays").sortable({
+		  group: 'no-drop',
+		  handle: 'span.glyphicon-move',
+		  onDragStart: function ($item, container, _super,event) {
+		    // Duplicate items of the no drop area
+			  //console.debug($item);
+		    if(!container.options.drop)
+		      $item.clone().insertAfter($item);
+		    _super($item, container);
+		  },
+		  onDrag:function ($item, position, _super, event) {
+			  
+			 // //console.debug("onDrag");
+			  position.left=0;
+			  ////console.info(position);
+			  $item.css(position);
+			 ////console.debug($item.css(position));
+		  },
+		  onDrop: function ($item, container, _super) {
+			  
+			   // $("div.leaflet-control-accordion-layers").each(function( index, element ) {
+			  $('.tooltip').hide();
+			  reOrderGroupsAndLayers(true);
+			    
+			    _super($item, container);
+			  }
+		  
+		});
+	
+	
+	
+	
+	
+	var layer_in_groups = $("ol.ac-large").sortable({
+		  group: 'no-drop-layer',
+		  handle: 'div.glyphicon-move',
+		  onDragStart: function ($item, container, _super,event) {
+		   
+		    if(!container.options.drop)
+		      $item.clone().insertAfter($item);
+		    _super($item, container);
+		  },
+		  onDrag:function ($item, position, _super, event) {
+			  
+			 // //console.debug("onDrag");
+			  position.left=0;
+			  ////console.info(position);
+			  $item.css(position);
+			 ////console.debug($item.css(position));
+		  },
+		  onDrop: function ($item, container, _super) {
+			  $('.tooltip').hide();
+			  reOrderGroupsAndLayers(true);
+			    _super($item, container);
+			  }
+		  
+		});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+
+
+
 /**
  * Funcionalitats edicio noms capes 
  * */
 
 function updateEditableElements(){
 
+	//console.info("entro edicio capes*****************")
+	updateSortablesElements();
+	
+	//console.info($('.label_ac .editable'));
+	
+	$('.label_ac .editable').editable({
+		type: 'text',
+		mode: 'inline',
+	    validate: function(value) {
+	    	
+	    	
+	        if($.trim(value) == '') {
+	        	return {newValue: this.innerHTML};
+	        }
+        },		
+		success: function(response, newName) {
+			//console.info(this);
+			var oldName=this.groupName;
+			
+			
+			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
+			
+			//console.info(resp_Layer);
+			//console.info(resp_Layer.length);
+			
+			for(i=0;i < resp_Layer.length;i++){
+			
+				//console.info(resp_Layer[i]);
+				var data = {
+					 	businessId: resp_Layer[i].options.businessId, //url('?businessid') 
+					 	uid: $.cookie('uid'),
+					 	options: JSON.stringify(resp_Layer[i].options)
+					 }
+					
+				updateGroupsLayerOptions(data,null);		
+			
+			
+			
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+	});	
+	
+	 $('.label_ac .editable').on('shown', function(e, editable) {
+	        jQuery('.group-conf').hide();
+	       
+	        
+	    });
+	    $('.label_ac .editable').on('hidden', function(e, editable) {
+	        jQuery('.group-conf').show();
+	       
+	    });  
+	
+	
 	$('.leaflet-name .editable').editable({
 		type: 'text',
 		mode: 'inline',
@@ -72,7 +345,7 @@ function updateEditableElements(){
 					updateServidorWMSName(data).then(function(results){
 						if(results.status==='OK'){
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-	//						console.debug('udpate map name OK');
+	//						//console.debug('udpate map name OK');
 							editableLayer.name = newValue;
 							editableLayer.layer.options.nom = newValue;
 							
@@ -172,53 +445,193 @@ function addFuncioDownloadLayer(from){
  * Funcionalitat remove layers
  **/
 
+
+function removeAtomicLayer(data,obj){
+	
+	removeServerToMap(data).then(function(results){
+		if(results.status==='OK'){
+		
+			map.closePopup();
+			map.removeLayer(obj.layer);
+			//Eliminem la capa de controlCapes
+			controlCapes.removeLayer(obj);
+			
+			//actualitzem valors zindex de la resta si no es sublayer
+			if(!obj.sublayer){
+				var removeZIndex = obj.layer.options.zIndex;
+				controlCapes._lastZIndex--;
+				var aux = controlCapes._layers;
+				for (var i in aux) {
+					if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
+				}
+				//Eliminem les seves sublayers en cas que tingui
+				for(indexSublayer in obj._layers){
+					map.removeLayer(map._layers[indexSublayer]);
+				}
+			}
+
+			//Actualitzem capaUsrActiva
+			if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
+				capaUsrActiva.removeEventListener('layeradd');
+				capaUsrActiva = null;
+			}				
+			
+			deleteServerRemoved(data).then(function(results){
+				//se borran del listado de servidores
+			});
+		}else{
+			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+		}				
+	},function(results){
+		return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
+	});		
+	
+	
+	
+	
+}
+
+
+
 function addFuncioRemoveLayer(){
 	
 	addHtmlModalRemoveLayer();
+	addHtmlModalRemoveGroup();
 	
 	$('#dialog_delete_capa .btn-danger').on('click', function(event){
 		var $this = $(this);
 		var data = $this.data("data");
 		var obj = $this.data("obj");
 		
-		removeServerToMap(data).then(function(results){
-			if(results.status==='OK'){
-				emptyMapLegendEdicio(obj.layer);
-				map.closePopup();
-				map.removeLayer(obj.layer);
-				//Eliminem la capa de controlCapes
-				controlCapes.removeLayer(obj);
-				
-				//actualitzem valors zindex de la resta si no es sublayer
-				if(!obj.sublayer){
-					var removeZIndex = obj.layer.options.zIndex;
-					controlCapes._lastZIndex--;
-					var aux = controlCapes._layers;
-					for (var i in aux) {
-						if (aux[i].layer.options.zIndex > removeZIndex) aux[i].layer.options.zIndex--;
-					}
-					//Eliminem les seves sublayers en cas que tingui
-					for(indexSublayer in obj._layers){
-						map.removeLayer(map._layers[indexSublayer]);
-					}
-				}
-
-				//Actualitzem capaUsrActiva
-				if(capaUsrActiva!=null && capaUsrActiva.options.businessId == obj.layer.options.businessId){
-					capaUsrActiva.removeEventListener('layeradd');
-					capaUsrActiva = null;
-				}				
-				
-				deleteServerRemoved(data).then(function(results){
-					//se borran del listado de servidores
-				});
-			}else{
-				return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-			}				
-		},function(results){
-			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
-		});					
+		//console.info("data");
+		//console.info(data);
+		
+		//console.info("obj");
+		//console.info(obj);
+		
+		 removeAtomicLayer(data,obj);
+					
 	});	
+	
+	
+	//Esborra grup capes
+	
+	$('#dialog_delete_group .btn-danger').on('click', function(event){
+		var $this = $(this);
+		var group = $this.data("group");
+	
+		//console.info('#dialog_delete_group .btn-danger');
+		
+		//console.info('groupId:'+group.groupId);
+		
+		var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId,group.groupName);
+		
+		//console.info('Capes que conté el grup:'+matriuCapesGroup.length);
+	
+			for(i=0; i < matriuCapesGroup.length;i++){
+				
+				
+				//console.info(matriuCapesGroup[i]);				
+				//console.info(matriuCapesGroup[i].layer.options.businessId);
+				var obj;
+				//var layerId = e.currentTarget.layerId;
+				var layerIdParent = matriuCapesGroup[i].layerIdParent;
+				var lbusinessId = [];
+				if(!layerIdParent){
+					 obj = matriuCapesGroup[i];
+					lbusinessId.push(obj.layer.options.businessId);
+					for(j in obj._layers){
+						lbusinessId.push(obj._layers[j].layer.options.businessId);
+					}
+				}else{
+					//var objParent = this._layers[layerIdParent];
+					 obj =matriuCapesGroup[i];
+					lbusinessId.push(obj.layer.options.businessId);
+				}
+				
+				
+				if(!obj.overlay) {
+					return;
+				}
+				
+				
+	
+				
+				if(typeof url('?businessid') == "string"){
+					var data = {
+							businessId: url('?businessid'),
+							uid: $.cookie('uid'),
+							servidorWMSbusinessId:lbusinessId.toString()
+						};	
+					//console.info("esborro capes:"+i);
+					removeAtomicLayer(data,obj);
+				
+				}
+		
+			}
+	
+			
+			//console.info("Ara esborra grup"+group.groupName);
+			controlCapes.removeGroup(group.groupName,group.groupId);
+			
+			//console.info("He esborrap"+group.groupName);
+				
+			
+	
+	/*
+	 * 
+	 * var layerId = e.currentTarget.layerId;
+			var layerIdParent = e.currentTarget.layerIdParent;
+			var lbusinessId = [];
+			if(!layerIdParent){
+				var obj = this._layers[layerId];
+				lbusinessId.push(obj.layer.options.businessId);
+				for(i in obj._layers){
+					lbusinessId.push(obj._layers[i].layer.options.businessId);
+				}
+			}else{
+				var objParent = this._layers[layerIdParent];
+				var obj = objParent._layers[layerId];
+				lbusinessId.push(obj.layer.options.businessId);
+			}
+			
+			
+			if(!obj.overlay) {
+				return;
+			}
+			
+			if(typeof url('?businessid') == "string"){
+				var data = {
+						businessId: url('?businessid'),
+						uid: $.cookie('uid'),
+						servidorWMSbusinessId: lbusinessId.toString()
+					};			
+				
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	
+	
+	
+		//removeAtomicLayer(data,obj);
+	
+	
+	
+	
+	
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 /**
@@ -349,5 +762,37 @@ function addHtmlModalRemoveLayer(){
 	'	<!-- /.modal -->'+
 	'	<!-- Fi Modal delete -->'		
 	);
+		
+}
+
+
+function addHtmlModalRemoveGroup(){
 	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal delete layer -->'+
+	'		<div id="dialog_delete_group" class="modal fade">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<!-- <div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Esborrar el grup de capes</h4>'+
+	'				</div> -->'+
+	'				<div class="modal-body">'+
+	'					<h4><span lang="ca">Vols esborrar el grup </span> "<span id="nom_group_delete"></span>" i totes les seves capes ?</h4>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'						data-dismiss="modal">Cancel·lar</button>'+
+	'					<button lang="ca" type="button" class="btn btn-danger"'+
+	'						data-dismiss="modal">Esborrar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- Fi Modal delete -->'		
+	);
 }

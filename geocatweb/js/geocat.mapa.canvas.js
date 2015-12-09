@@ -1062,10 +1062,14 @@ var matriuCapesLL={};
 matriuCapesLL.layers = [];
 matriuCapesLL.n_layers=[];
 matriuCapesLL.id_layers=[];
+matriuCapesLL.t_layers=[];
+matriuCapesLL.c_layers=[];
+
 
 
 function ompleCapesMatriu(item){
 
+	var mainColor="#FF0000";
             //console.info(item.layer.options.tipus);
             if(pucPassar(item)){
                   
@@ -1085,6 +1089,8 @@ function ompleCapesMatriu(item){
                              feature.properties.OGR="PEN(c:"+feature.styles.color+",w:6px);BRUSH(fc:"+feature.styles.fillColor+")";                             
                              //feature.properties.OGR="BRUSH(fc:"+fillColor+"80)";
                             
+                             mainColor=feature.styles.fillColor;
+                             
                             }else{
                             
                             var icona;
@@ -1093,11 +1099,16 @@ function ompleCapesMatriu(item){
                             
                              icona="/opt/geocat/maps/galeria/"+feature.styles.icon.options.markerColor;
                             
+                             mainColor=icona;
+                             
                             }else{
                             
                             var ff=feature.styles.icon.options.iconUrl
                             
                              icona="/opt/geocat/maps/galeria/"+ff.substring(ff.lastIndexOf("/")+1,ff.lastIndexOf("."));
+                            
+                            mainColor=icona;
+                            
                             }
                             
                                   
@@ -1132,11 +1143,20 @@ function ompleCapesMatriu(item){
                     	
                     	 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px)";
                     	// matriuFF.push(JSON.stringify(feature));
+                    	  mainColor=feature.styles.color;
                      
                      }else if(tipus.indexOf("Polygon")!=-1){
                      
-                    	 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px);BRUSH(fc:"+feature.styles.fillColor+")";
-                    	
+                    	// console.info(feature);
+                    	 mainColor=feature.styles.fillColor;
+                    	 
+                    	 if(!mainColor || mainColor.indexOf("rgba")!=-1){
+                    		 mainColor= feature.styles.color + "90 "; 
+                    	 }
+                    	 
+                    	 
+                    	 feature.properties.OGR="PEN(c:"+feature.styles.color+",w:"+(parseInt(feature.styles.weight)+3)+"px);BRUSH(fc:"+ mainColor+")";
+                    	 
                     	 /*
                     	  * Exemple de passar Multipoligon a poligon
                     	  * 
@@ -1199,7 +1219,8 @@ function ompleCapesMatriu(item){
                  // matriuCapesLL.layers.push('{"type" : "FeatureCollection","features" : ['+matriuFF.join(",")+']}');		  
                   matriuCapesLL.n_layers.push(item.name);
                   matriuCapesLL.id_layers.push(item.layer.options.businessId);
-                  
+                  matriuCapesLL.t_layers.push(item.layer.options.geometryType);
+                  matriuCapesLL.c_layers.push(mainColor);
             }
             
 }
@@ -1211,7 +1232,8 @@ function getCapesVectorActives(){
       matriuCapesLL.layers = [];
       matriuCapesLL.n_layers=[];
       matriuCapesLL.id_layers=[];
-      
+      matriuCapesLL.t_layers=[];
+      matriuCapesLL.c_layers=[];
       
       jQuery.each(controlCapes._layers, function(i, item){ 
             ompleCapesMatriu(item);      

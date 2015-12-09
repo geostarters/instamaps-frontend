@@ -1,0 +1,142 @@
+@CHARSET "UTF-8";
+
+.my-carousel-caption {
+	color: #cc0000;
+	font-size: 30px;
+	text-shadow: 2px 2px 1px #eeeeee;
+	/*text-shadow: -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff, 2px 0 #ffffff;*/
+	bottom: 40px;
+}
+
+.carousel-caption{
+	left:10%;
+	right:10%;
+	/*bottom: 180px;*/
+}
+
+.carousel-control{
+	color: #cc0000;
+}
+
+.carousel-control:focus, .carousel-control:hover {
+	color: #cc0000;
+}
+
+.carousel-indicators li {
+	background-color: #dddddd;
+	border-color: #dddddd;	
+}
+
+.carousel-indicators .active {
+	background-color: #ff0000;
+	border-color: #ff0000;
+}
+
+#txt-image{
+	background-image: url("/llibreries/img/banner_geolocal_Cadaques.png");
+	color: #ff0000;
+	text-shadow: 2px 2px 1px #595959;
+}
+
+.left_title{
+	position: absolute;
+    width: 49%;
+    font-size: 23px;
+    color: #cc0000;
+    top: 20px;
+    left: 7px;
+    text-shadow: 2px 2px 1px #eeeeee;
+}
+
+.infoparcela{
+	max-width: 42%;
+}
+
+.btn-group-lg > .btn, .btn-lg {
+	line-height: 2.333;	
+}
+
+#btn-galeria{
+	background-color: #3E3E3E;
+}
+#btn-galeria:hover {
+    background-color: #2B2A2A;
+}
+
+#btn-fes-mapa{
+	background-color: #cc0000;
+}
+#btn-fes-mapa:hover {
+    background-color: #BF1E18;
+}
+
+@media (min-width: 1024px) {
+	.logo_geolocal{
+		background-image: url("images/logo_geolocal.png");
+		width: 152px;
+		height: 45px;
+		left: 39%;
+	    position: absolute;
+	    bottom: 10px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.my-carousel-caption {
+		bottom: 70px;
+	}
+	
+	.logo_geolocal{
+		bottom: -10px;
+	}
+	
+}
+
+@media (max-width: 1024px) {
+	.my-carousel-caption {
+		bottom: 40px;
+	}
+	
+	.left_title{
+		font-size: 23px;
+    	top: 5px;
+    	left: 4px;
+	}
+		
+}
+
+@media (max-width: 800px){
+	.my-carousel-caption {
+		bottom: 6px;
+	}
+	
+	.left_title{
+		font-size: 20px;
+    	top: 0px;
+    	left: 3px;
+	}
+}
+
+@media (max-width: 604px) {
+	.my-carousel-caption {
+		bottom: 40px;
+	}
+	
+	.left_title{
+		font-size: 20px;
+    	top: 10px;
+    	left: 3px;
+	}
+}
+
+@media (max-width: 360px){
+	.my-carousel-caption {
+		bottom: 40px;
+	}
+	
+	.left_title{
+		font-size: 12px;
+    	top: -8px;
+    	left: 3px;
+	}
+}

@@ -959,7 +959,9 @@ function sortByValueMax(a, b){
 	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
 	if (floatRegex.test(a.value) && floatRegex.test(b.value)) {
 		var aValue = a.value;
+		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
 		var bValue = b.value; 
+		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
 		return (aValue-bValue);
 	}
 	else {

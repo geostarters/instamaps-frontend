@@ -53,6 +53,11 @@ function loadApp(){
 			typeMap : 'topoMapGeo',
 			minZoom: 2,
 			maxZoom : 19,
+			timeDimension: true,
+		    timeDimensionControl: true,
+		    timeDimensionControlOptions:{
+		    	speedSlider:false	
+		    }
 			//drawControl: true
 		}).setView([ 41.431, 1.8580 ], 8);
 		
@@ -163,14 +168,13 @@ function loadApp(){
 						if(typeof url('?urlwms') == "string"){
 							ActiuWMS.url = url('?urlwms');
 							var layername = url('?layername');
-							console.debug(layername);
+							
 							ActiuWMS.servidor = layername;
 							ActiuWMS.layers = layername;
 							ActiuWMS.epsg = undefined;
 						
 							addExternalWMS(true);
 						}
-						
 					});
 					//}
 					//else {
@@ -178,16 +182,15 @@ function loadApp(){
 					//	window.location.href = paramUrl.galeriaPage;
 					//}												
 				}catch(err){
+					console.debug(err);
+					
 					gestioCookie('loadMapConfig');
 				}
 			}
-			
 		},function(results){
 			gestioCookie('getMapByBusinessIdError');
-			
 		});
 		addLeaveModal();
-		
 	}else{
 		if (!$.cookie('uid')){
 			createRandomUser().then(function(results){
@@ -209,6 +212,23 @@ function loadApp(){
 		}
 	}
 
+	/********Events*************/
+	
+	$.subscribe('reloadMapConfig',function(e, namespace){
+		if (namespace){
+			$.publish(namespace+'loadMapConfig', mapConfig);
+		}else{
+			$.publish('loadMapConfig', mapConfig);
+		}
+	});
+	
+	$.subscribe('getMap',function(e, namespace){
+		if (namespace){
+			$.publish(namespace+'setMap', map);
+		}else{
+			$.publish('setMap', map);
+		}
+	});
 }
 
 function initControls(){
@@ -284,9 +304,6 @@ function addControlsInici(){
 		collapsed : false,
 		id : 'div_capes'
 	}).addTo(map);
-	
-	
-	
 
 	map.on('addItemFinish',function(){
 		$(".layers-list").mCustomScrollbar("destroy");		
@@ -296,9 +313,7 @@ function addControlsInici(){
 			     updateOnContentResize: true
 			   }           
 		});	
-		
 	});
-	
 	
 	
 	var ctr_llistaCapes = L.control({
@@ -339,13 +354,11 @@ function addControlsInici(){
 }
 
 
-
 function addToolTipsInici() {
 	
 }
 
-function updateLangTooltips(){
-	
+function updateLangTooltips(){	
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
@@ -375,7 +388,7 @@ function loadMapConfig(mapConfig){
 		//TODO ver los errores de leaflet al cambiar el mapa de fondo 
 		//cambiar el mapa de fondo a orto y gris
 		if (mapConfig.options != null){
-			//if (mapConfig.options.fons != 'topoMap'){
+			if (mapConfig.options.fons){
 				var fons = mapConfig.options.fons;
 				if (fons == 'topoMap'){
 					map.topoMap();
@@ -397,13 +410,17 @@ function loadMapConfig(mapConfig){
 					map.historicOrtoMap46();
 				}else if (fons == 'alcadaMap'){
 					map.alcadaMap();
+				}else if (fons == 'naturalMap') {
+					map.naturalMap();
+				}else if (fons == 'divadminMap') {
+					map.divadminMap();
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);			
 				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
-			//}
+			}
 			if (mapConfig.options.center){
 				var opcenter = mapConfig.options.center.split(",");
 				map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
@@ -432,6 +449,12 @@ function loadMapConfig(mapConfig){
 		});
 		
 		jQuery('#div_loading').hide();
+		
+		//console.warn("Capes afegides")
+		
+		
+		
+		
 	}
 	
 	dfd.resolve();
@@ -449,12 +472,46 @@ function loadOrigenWMS(){
 			layer_map.origen.push(value);
 		}
 	});
+	
+	
+	//NOu 
+
+	/*
+	jQuery.each(layer_map.origen, function(index, value){		
+		var options=JSON.parse(value.options);		
+		controlCapes._addGroupFromObject(options.group);
+	});
+	*/
+	
+jQuery.each(layer_map.origen, function(index, value){	
+		
+		var jsonOptions;
+		if(typeof (value.options)=="string"){
+			
+			jsonOptions = JSON.parse(value.options);	
+			
+		}else{
+			
+			jsonOptions = value.options;	
+		}
+		
+		if(jsonOptions && jsonOptions.group){
+			controlCapes._addGroupFromObject(jsonOptions.group);	
+		}
+
+	
+	});
+	
+	
+	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
 
 function loadLayer(value){
 	
+	//console.info("loadLayer");
+	//console.info(value);
 	var defer = $.Deferred();
 	
 	if (value.epsg == "4326"){
@@ -534,11 +591,18 @@ function loadLayer(value){
 
 function createNewMap(){
 	//console.debug("createNewMap");
+	
+	var tipusApp = 'vis';
+	
+	if(isGeolocalUser()){
+		tipusApp = 'geolo'; //para visores geolocal
+	}
+	
 	var data = {
 		nom: getTimeStamp(),
 		uid: $.cookie('uid'),
 		visibilitat: visibilitat_privat,
-		tipusApp: 'vis',
+		tipusApp: tipusApp,
 	};
 	
 	createMap(data).then(function(results){
@@ -586,15 +650,12 @@ function getBusinessIdOrigenLayers(){
 }
 
 function loadControls(configuracio){
-	
 	//funcionalitats a carregar nomes si esta loginat
 	if ($.cookie('uid')){
 		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
-//			console.debug(funcionalitatLoginat+"("+data+")");
 			eval(funcionalitatLoginat);
 		});			
 	}
-	
 	jQuery.each(configuracio.funcionalitats, function(i, funcionalitat){
 		eval(funcionalitat);
 	});
@@ -615,7 +676,6 @@ function loadConfiguracio(configuracio){
 }
 
 function addLeaveModal(){
-	
 	addHtmlModalLeave();
 
 	if (isRandomUser($.cookie('uid'))){

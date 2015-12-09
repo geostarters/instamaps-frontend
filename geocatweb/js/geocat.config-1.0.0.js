@@ -1,5 +1,7 @@
 var HOST_APP = "http://www.instamaps.cat/";
 var GEOCAT02 = "http://www.instamaps.cat";
+var HOST_APP2 = "http://www.instamaps.cat";
+var HOST_GEOLOCAL = "http://www.geolocal.cat/";
 var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
 var tmpdirPolling = "poll/";
@@ -9,9 +11,11 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 //	HOST_APP = "http://localhost:8080/";
 	HOST_APP = "http://localhost/";//Local Jess
+	HOST_APP2 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
+	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
 	tmpdir="E://temp//";
 }
@@ -19,8 +23,10 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 var DOMINI = "www.instamaps.cat";
 if(urlApp.indexOf('172.70.1.11')!=-1){
 	HOST_APP = "http://172.70.1.11/";
+	HOST_APP2 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.11";
+	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
 
@@ -33,6 +39,7 @@ var paramUrl = {
 	proxy_betterWMS:"/"+proxydir+"/proxy_betterWMS.cgi",
 	mainPage:"/index.html",
 	loginPage:"/geocatweb/sessio.html",
+	loginGeolocalPage:"/geocatweb/sessio_geolocal.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
 	visorCloudifier:"/geocatweb/visor_cloudifier.html",
@@ -60,6 +67,7 @@ var paramUrl = {
 	validateUsername: HOST_APP+"geocat/validateUid?",
 	validateEmail: HOST_APP+"geocat/validateEmail?",
 	getUser: HOST_APP+"geocat/user/getUser.action?",
+	getUserSimple: HOST_APP+"geocat/user/getUserSimple.action?",
 	updateUser: HOST_APP+"geocat/user/updateUser.action?",
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
 	updatePassword: HOST_APP+"geocat/user/updatePassword.action?",
@@ -86,10 +94,18 @@ var paramUrl = {
 	updateMap: HOST_APP+"geocat/aplications/map/updateMap.action?",
 	getTwitterLayer: HOST_APP+"geocat/layers/getTwitterLayer.action?",
 	updateServersOrderToMap: HOST_APP+"geocat/aplications/map/updateServersOrderToMap.action?",
+	updateServerOrderToMap: HOST_APP+"geocat/aplications/map/updateServerOrderToMap.action?",
 	updateMapName: HOST_APP+"geocat/aplications/map/updateMapName.action?",
 	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
 	deleteServerRemoved: HOST_APP+"geocat/aplications/map/deleteServerRemoved.action?",
 	updateServidorWMSName: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSName.action?",
+	
+	
+	//nous updates
+	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",	
+	updateServidorWMSOpacity: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOpacity.action?",
+	
+	
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
@@ -130,6 +146,9 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
+	
+	urlMapToWMS:"/share/jsp/getMapToWMS.jsp?",
+	
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
 	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinInstamaper: HOST_APP+"geocat/registreInstamaper.action?",
@@ -179,10 +198,73 @@ var paramUrl = {
 	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
 	callActions:"/share/jsp/callActions.jsp?",
+	//loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
+	getConfiguradesUser: HOST_GEOLOCAL+"PRG/eines/getConfiguradesUser.action?",
+	prgIncasol: HOST_GEOLOCAL,
+	createToken: HOST_APP +"/geocat/createToken.action?",
+	uploadLogo: HOST_APP +"share/jsp/uploadLogo.jsp?",
 	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",
 	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
-	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?"
+	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?",
+	searchCapesPubliques: HOST_APP+"geocat/aplications/map/searchCapesPubliques.action?",
+	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?",
+	duplicateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/duplicateVisualitzacioLayer.action?",
+	searchCatalegIdec: HOST_APP+"geocat/aplications/map/searchCatalegIdec.action?",
+	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?"
 }
+
+var paramAplications = {
+	'pcivil':{
+		"nom":"Protecció civil",
+		"description":"Gestiona la informació relativa a Protecció civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuació prioritària en cas d'una emergència.",
+		"img":"img/thumb_ed_pcivil.png",
+		"url":HOST_GEOLOCAL+"geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari="
+	},
+    'infoparcela':{
+    	"nom":"InfoParcela",
+    	"description":"Permet realitzar un document amb informació referent a la parcel·la.",
+    	"img":"img/thumb_ed_infoparcela.png",
+    	"url":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela.action?fallback=infoparcela",
+    	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
+    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId=" 
+    },
+    'peolics':{
+    	"nom":"Editor de Parcs Eòlics",
+    	"description":"Actualitza la informació dels parcs eòlics. Col·labora mantenint la informació.",
+    	"img":"img/thumb_ed_peolics.png",
+    	"url":HOST_GEOLOCAL+"geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari="
+    },
+    'carrerer':{
+    	"nom":"Gestor de canvis carrerer",
+    	"description":"Gestiona els canvis del carrerer. Ajuda a mantenir la base de carrers de l'ICC.",
+    	"img":"img/thumb_ed_carrerer.png",
+    	"url":HOST_GEOLOCAL+"EdCarrerer/editorCarrerer.action?codiUsuari="
+    },
+    'incasol':{
+    	"nom":"Visors INCASÒL",
+    	"description":"Ja pots tenir un visor de mapes a la teva web!. Crea els teus propis visors personalitzats i afegeix-hi la teva cartografia.",
+    	"img":"img/thumb_ed_incasol.png",
+    	"url":HOST_GEOLOCAL+"PRG/aplicacions/incasol.action?",
+    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/incasol/modificar.action?businessId=",
+    	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/incasol/eliminar_geolocal.action?businessId="
+    },
+    'atles':{
+    	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/atles/eliminar_geolocal.action?businessId="
+    }
+};
+
+var perfilConfig = {
+	"0":[paramAplications.pcivil, paramAplications.infoparcela, paramAplications.peolics, paramAplications.carrerer, paramAplications.incasol],
+	"1":[],
+	"2":[paramAplications.pcivil, paramAplications.infoparcela, paramAplications.carrerer],
+	"3":[paramAplications.pcivil],
+	"4":[],
+	"5":[],
+	"6":[],
+	"7":[paramAplications.peolics],
+	"8":[paramAplications.incasol],
+	"9":[paramAplications.pcivil]
+};
 
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
 	//$('.waiting_animation').show();

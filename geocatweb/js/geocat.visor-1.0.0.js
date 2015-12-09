@@ -1,3 +1,4 @@
+var plan,route;
 jQuery(document).ready(function() {
 		
 	defineTipusUser();
@@ -19,6 +20,7 @@ jQuery(document).ready(function() {
 			loadApp();
 		}
 	}
+	loadRouteControl();	
 	addFuncioEditDataTable();
 		
 }); // Final document ready
@@ -65,7 +67,7 @@ function setMapWMSBoundingBox(url){
 		]);
 	},function(){
 		console.error("Error getCapabilities");
-		console.debug(results);
+		//console.debug(results);
 	});
 	
 }
@@ -80,7 +82,7 @@ function loadVisorSimple(){
 	      addDefaultZoomControl = false;
 	      _gaq.push(['_trackEvent', 'visor', 'embed']);
 	}else{
-	      _gaq.push(['_trackEvent', 'visor', 'no embed']);
+		_gaq.push(['_trackEvent', 'visor', 'no embed']);
 	
 	}
 	
@@ -92,7 +94,14 @@ function loadVisorSimple(){
 	    typeMap : 'topoMapGeo',
 	        minZoom: 2,
 	        maxZoom : 19,
-	        zoomControl: addDefaultZoomControl,
+	        zoomControl: addDefaultZoomControl,	        
+	        timeDimension: true,
+		    timeDimensionControl: true,
+		    timeDimensionControlOptions:{
+		    	speedSlider:false	
+		    }
+	        
+	        
 	}).setView([ 41.431, 1.8580 ], 8);
 	
 	L.control.coordinates({
@@ -142,14 +151,19 @@ function loadVisorSimple(){
 
 function loadApp(){
 	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
+	
     if(typeof url('?embed') == "string"){
 //        jQuery('#navbar-visor').remove();
           jQuery('#navbar-visor').hide();
           jQuery('#searchBar').css('top', '0');
           addDefaultZoomControl = false;
-          _gaq.push(['_trackEvent', 'visor', 'embed']);
+          
+         
+          
+          
+          _gaq.push (['_trackEvent', 'visor', 'embed']);
     }else{
-          _gaq.push(['_trackEvent', 'visor', 'no embed']);
+    	_gaq.push (['_trackEvent', 'visor', 'no embed']);
 
     }
     
@@ -160,6 +174,11 @@ function loadApp(){
                 minZoom: 2,
                 maxZoom : 19,
                 zoomControl: addDefaultZoomControl,
+                timeDimension: true,
+    		    timeDimensionControl: true,
+    		    timeDimensionControlOptions:{
+    		    	speedSlider:false	
+    		    }
           }).setView([ 41.431, 1.8580 ], 8);
 
           L.control.coordinates({
@@ -171,7 +190,7 @@ function loadApp(){
   			'prefix2': 'WGS84',
   			'separator': ' ',
   			'showETRS89':true
-  		}).addTo(map);
+  		}).addTo(map);  
           
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
 				
@@ -194,7 +213,7 @@ function loadApp(){
 				//mostar modal con contraseña
 				loadPasswordModal();
 			}else{
-				loadPublicMap(results)
+				loadPublicMap(results);
 			}
 		},function(results){
 			var uidUrl = url('?uid');
@@ -245,6 +264,39 @@ function loadPublicMap(results){
 		
 		infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+		//TODO ver como sacar el módulo
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+			VisorGeolocal.initUi();
+			
+			//console.debug(mapConfig.options);
+			
+			if (mapConfig.options.barColor){
+				$('#navbar-visor').css('background-color', mapConfig.options.barColor);
+			}
+			
+			if (mapConfig.options.textColor){
+				$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
+				$('.navbar-brand').css('color', mapConfig.options.textColor);
+				$('#mapTitle').css('color', mapConfig.options.textColor);
+				$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
+				$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
+				$('.navbar-form').css('border-color', 'transparent');
+				$('.bt-sessio').css('border-color', '#ffffff');
+			}
+			
+			if (mapConfig.options.fontType){
+				$('#navbar-visor').css('font-family', mapConfig.options.fontType);
+			}
+			
+			if (mapConfig.logo){
+				$('.img-circle2-icon').hide();
+				$('.escut img').prop('src', '/logos/'+mapConfig.logo);
+			}else{
+				$('.logo_instamaps').hide();
+			}
+		}else{
+			$('.escut').hide();
+		}
 	}
 	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació"></span>');
 	
@@ -290,6 +342,12 @@ function loadPublicMap(results){
 		
 		var controlFons = new L.IM_controlFons().addTo(map);
 		
+		$.publish('loadMap', map);
+		
+		map.on('moveend',function(e){
+      		$.publish('mapMoveend', this);
+      	});
+		
 	});
 }
 
@@ -309,6 +367,22 @@ function initControls(){
 	//Funcionalitat compartir visor
 	addCompartirVisor();
 	
+	
+	// console.info(mapConfig);
+	 
+	//posem event per controlar visor
+	
+	if(mapConfig){
+		
+		if(mapConfig.nomEntitat){
+			//_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.nomEntitat, mapConfig.nomAplicacio, 1]);
+		}else{
+			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+			
+		}
+	}
+	 
 	dfd.resolve();
 	
 	return dfd.promise();
@@ -399,7 +473,7 @@ function addControlsInici() {
           };
           ctr_linkViewMap.addTo(map);  
           jQuery('#span-linkViewMap a').on('click', function(event) {
-              _gaq.push(['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
+        	  _gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
           });
           new L.Control.Zoom({ position: 'topleft' }).addTo(map);
     }
@@ -410,6 +484,10 @@ function addControlsInici() {
 	});
 	
 	ctr_findBT = L.control({
+		position : 'topleft'
+	});
+	
+	ctr_routingBT = L.control({
 		position : 'topleft'
 	});
 	
@@ -450,6 +528,21 @@ function addControlsInici() {
 		return this._div;
 	};
 	ctr_findBT.addTo(map);
+	
+	ctr_routingBT.onAdd = function(map) {
+
+		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
+		this._div.id='dv_bt_Routing';
+		this._div.title=window.lang.convert('Routing');
+		//this._div.innerHTML = '<span id="span_bt_Routing" class="fa fa-exchange fa-rotate-90 grisfort"></span>';
+		var html ='<span id="span_bt_Routing" class="t" style="font-size:16px; margin-top:-2px;">'+
+		'<i class="t-square-rounded grisfort" style="-webkit-transform:scale(1.25) scale(0.65) rotate(45deg);-moz-transform:scale(1.25) scale(0.65) rotate(45deg);transform:scale(1.25) scale(0.65) rotate(45deg)"></i>'+
+		'<i class="t-turn-90-l t-c-white" style="-webkit-transform:scale(-1.3, 1.3);-moz-transform:scale(-1.3, 1.3);transform:scale(-1.3, 1.3)"></i>'+
+		'</span>';
+		this._div.innerHTML = html;
+		return this._div;
+	};
+	ctr_routingBT.addTo(map);
 	
 	jQuery('.div_barrabotons .leaflet-bar').tooltip({
 		placement : 'left',
@@ -614,6 +707,20 @@ function updateLangText(){
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));	
 }
 
+function createButton(label, container) {
+    var btn = L.DomUtil.create('button', '', container);
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('title','Ruta inversa');
+    btn.innerHTML = label;
+    return btn;
+}
+
+function createSpan(label, container) {
+    var span = L.DomUtil.create('span', '', container);
+    span.innerHTML = label;
+    return span;
+}
+
 function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
@@ -659,6 +766,62 @@ function updateLangTooltips(){
 		jQuery('#searchBar').toggle();
 		aturaClick(e);
 	});
+	
+	jQuery("#dv_bt_Routing").on('click',function(e){
+		
+		posaClassActiu('#span_bt_Routing');	
+			
+		if ($('.leaflet-routing-container').is(':visible')) {
+			map.off('click',routingPopup);
+			route.removeFrom(map);			
+		}
+		else {
+			_gaq.push(['_trackEvent', 'visor', tipus_user+'routing', 'label routing', 1]);
+			map.on('click', routingPopup);
+			route.addTo(map);
+			$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">Càlcul de rutes</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
+			$('.leaflet-routing-add-waypoint').attr('title','Afegir punts');
+		}
+		
+		jQuery('.leaflet-routing-container').css('top', '170px');
+		jQuery('.leaflet-routing-container').css('left', '45px');
+		jQuery('.leaflet-routing-container').css('position','absolute');
+		jQuery('.leaflet-routing-container').css('z-index','100');	
+		
+		aturaClick(e);
+		
+	});
+}
+
+function routingPopup(e) {
+	
+		var container ='<div id="contentRoutingPopup">';
+	   
+	    container +='<h4 style="border-bottom:0px;">Càlcul de rutes</h4>';
+	    container +='<button class="btn" title="Ruta inversa" type="button" id="startBtn">Defineix com a origen</button>'+
+	    	'<span class="awesome-marker-icon-green awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" style="position:relative;float:right;margin-top:-5px;"></span>'+
+	    	'<button class="btn" title="Ruta inversa" type="button" id="destBtn" style="margin-top:10px;width:152px">Defineix com a destí</button>'+
+	    	'<span class="awesome-marker-icon-red awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" style="position:relative;float:right;margin-top:-35px;"></span>';
+	    container += "</div>";
+	
+	    L.popup()
+	        .setContent(container)
+	        .setLatLng(e.latlng)
+	        .openOn(map);
+	    
+		jQuery(".leaflet-popup-content").css('width','184px');
+		jQuery(".leaflet-popup-content").css('margin','5px 15px');
+		
+	    jQuery('#startBtn').on('click', function() {
+	    	route.spliceWaypoints(0, 1, e.latlng);	    	
+	    	map.closePopup();
+	    });
+	
+	    jQuery('#destBtn').on('click', function() {
+	        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);	       
+	        map.closePopup();
+	    });
+	   
 }
 
 function loadMapConfig(mapConfig){
@@ -744,8 +907,6 @@ function loadMapConfig(mapConfig){
 	return dfd.promise();
 }
 
-
-
 function loadOrigenWMS(){
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
@@ -757,6 +918,26 @@ function loadOrigenWMS(){
 			layer_map.origen.push(value);
 		}
 	});
+	
+	
+//NOu 
+	jQuery.each(layer_map.origen, function(index, value){	
+		
+		var jsonOptions;
+		if(typeof (value.options)=="string"){
+			
+			jsonOptions = JSON.parse(value.options);	
+			
+		}else{
+			
+			jsonOptions = value.options;	
+		}
+		
+		if(jsonOptions && jsonOptions.group){
+			controlCapes._addGroupFromObject(jsonOptions.group);	
+		}
+	});
+	
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
@@ -857,4 +1038,120 @@ function loadPasswordModal(){
 		}
 	});
 	
+}
+
+function loadRouteControl(){
+	var marker_style_origen = {
+			icon : '',
+			markerColor : 'green',
+			divColor:'transparent',
+			iconAnchor : new L.Point(14, 42),
+			iconSize : new L.Point(28, 42),
+			iconColor : '#000000',
+			prefix : 'fa',
+			isCanvas:false,
+			radius:6,
+			opacity:1,
+			weight : 2,
+			fillOpacity : 0.9,
+			color : "#ffffff",
+			fillColor :"transparent"
+		};
+	var puntOrigen= L.AwesomeMarkers.icon(marker_style_origen);
+	
+	var marker_style_desti = {
+			icon : '',
+			markerColor : 'red',
+			divColor:'transparent',
+			iconAnchor : new L.Point(14, 42),
+			iconSize : new L.Point(28, 42),
+			iconColor : '#000000',
+			prefix : 'fa',
+			isCanvas:false,
+			radius:6,
+			opacity:1,
+			weight : 2,
+			fillOpacity : 0.9,
+			color : "#ffffff",
+			fillColor :"transparent"
+		};
+	var puntDesti= L.AwesomeMarkers.icon(marker_style_desti);
+	
+	var marker_style_intermig = {
+			icon : '',
+			markerColor : 'orange',
+			divColor:'transparent',
+			iconAnchor : new L.Point(14, 42),
+			iconSize : new L.Point(28, 42),
+			iconColor : '#000000',
+			prefix : 'fa',
+			isCanvas:false,
+			radius:6,
+			opacity:1,
+			weight : 2,
+			fillOpacity : 0.9,
+			color : "#ffffff",
+			fillColor :"transparent"
+		};
+	var puntIntermig= L.AwesomeMarkers.icon(marker_style_intermig);
+	
+	var lang=web_determinaIdioma();
+	
+	var ReversablePlan = L.Routing.Plan.extend({
+	    createGeocoders: function() {
+	        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
+	            reverseButton = createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container);
+	        L.DomEvent.on(reverseButton, 'click', function() { 
+	            var waypoints = this.getWaypoints();
+	            this.setWaypoints(waypoints.reverse());
+	        }, this);
+	        return container;
+	    }
+	});
+	
+	
+	plan = new ReversablePlan([], {
+        geocoder: L.Control.Geocoder.nominatim(),
+        routeWhileDragging: true,
+        language: lang,
+        createMarker: function(i, wp) {
+        	if(i == 0){
+        		return L.marker(wp.latLng, {
+    				draggable: true,
+    				icon: puntOrigen
+    			});
+        	}
+        	else if (i==route.getWaypoints().length - 1){
+        		return L.marker(wp.latLng, {
+    				draggable: true,
+    				icon: puntDesti
+    			});
+        	}
+        	else {
+        		return L.marker(wp.latLng, {
+    				draggable: true,
+    				icon: puntIntermig
+    			});
+        	}
+    			
+    		}}),
+	route = L.Routing.control({
+	         routeWhileDragging: true,
+	         plan: plan,
+	         position: 'topleft',
+			     language: lang,
+			     showAlternatives: true,
+			     lineOptions: {
+		            styles: [
+		              {color: '#00B3FD', opacity: 1, weight: 4},
+		            ]
+		           },
+		         altLineOptions:{
+		        	styles: [
+		     	      {color: 'black', opacity: 1, weight: 2},
+		     	    ]
+		         }
+	});
+	
+	//map.on('click', routingPopup);
 }

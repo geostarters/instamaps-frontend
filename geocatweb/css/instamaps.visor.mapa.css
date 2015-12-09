@@ -43,6 +43,26 @@ html,body {
 	left: 270px;
 }
 
+#logos .logo_instamaps{
+	/*
+	margin-left: 50px;
+    margin-top: -31px;
+    position: absolute;
+    */
+}
+
+.escut {
+    float: left;
+    max-height: 50px;
+    max-width: 200px;
+    margin-top: -15px;
+}
+
+.escut > img {
+    max-height: 50px;
+    max-width: 200px;
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;
@@ -3971,6 +3991,12 @@ i.fa {
 	font-weight: bold;
 }
 
+.widgets,.widgets a,.widgets div {
+	color: #464646 !important;
+	cursor: pointer;
+	font-size: 17px;
+	font-weight: bold;
+}
 
 .groc,.groc a,.groc span {
 	color: #FFAF00;
@@ -3978,16 +4004,13 @@ i.fa {
 	font-size: 16px;
 }
 
-
 .bt_share,.bt_share a,.bt_share div {
 	color: #464646 !important;
 	cursor: pointer;
-	font-size: 17px;
-	
+	font-size: 17px;	
 }
 
 #socialShare_visor{
-
 	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
     border-radius: 0;
     color: #ffffff;
@@ -4000,8 +4023,7 @@ i.fa {
 
 .share-square {
     height: 30px !important;
-    width: 30px !important;
-	
+    width: 30px !important;	
 }
 
 /*Modal data table*/
@@ -4146,5 +4168,170 @@ i.fa {
 #bt_info_geojsonvt_close {
     width: 100%;
     text-align: right;
+}
+
+/***********widgets**********/
+.widget-button{
+	width:60px;
+	height:60px;
+	border: 1px solid black;
+	float: left;
+	margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.widget-header{
+	min-height: 60px;
+	margin-bottom: 5px;
+}
+
+.widget-button-active{
+	border: 2px solid #FFBB00;
+}
+
+.widgets-list{
+	position: relative;
+	min-height: 60px;
+	/*margin-bottom: 10px;*/
+	float: right;
+}
+
+.widget-body{
+	border-top: 1px solid #e5e5e5;
+	min-height: 270px;
+	position: relative;
+	padding-top: 5px;
+}
+
+.listMunicipis{
+	padding-left: 5px;
+	padding-top: 5px;
+}
+
+ul.listMunicipis{
+	padding-top: 3px;
+	padding-left: 0;
+}
+
+.listMunicipis li{
+	list-style: none;
+	cursor: pointer;	
+}
+
+.listMunicipis li:hover{
+	text-decoration: underline;
+}
+
+.listlabel{
+	font-weight: bold;
+}
+
+.drawWidgets {
+    float: right;
+    height: 270px;
+    position: relative;
+    width: 350px;
+}
+
+.drawWidgets iframe{
+	height: 270px;
+    width: 350px;
+    border: medium none;
+    overflow:hidden;
+}
+
+.drawWidgets div.list span{
+	padding-left: 5px;
+}
+
+.widget-meteo{
+	background-image: url("images/widget_meteo.png");
+}
+
+.widget-cadastre{
+	background-image: url("images/widget_cadastre.png");
+}
+
+.widget-rpuc{
+	background-image: url("images/widget_rpuc.png");
+}
+
+.widget-idescat{
+	background-image: url("images/widget_idescat.png");
+}
+
+.widget-cartoteca{
+	background-image: url("images/widget_cartoteca.png");
+}
+.leaflet-routing-geocoders a{
+	display:inline;
+	 background-position: 0%;
+	 background-color:transparent;
+	
+}
+.leaflet-routing-geocoders a:hover{
+	display:inline;
+	 background-position: 0%;
+	 background-color:transparent;
+	
+}
+.leaflet-routing-geocoders a:first-child {
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+
+
+.barra_temps{
+	
+	display:none;
+	left: 30%;
+	
+}
+
+a.timecontrol-slider .ui-slider-handle {
+   
+    width: 10px !important;
+}
+
+
+.leaflet-bar-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+
+a.leaflet-control-timecontrol {
+    background-color: #3f3f39 !important;
+   
+}
+
+a.leaflet-control-timecontrol {
+    color: white !important;
+  
+}
+
+
+a.leaflet-control-timecontrol:hover {
+    color: #FFC500 !important;
+  
+}
+
+
+.leaflet-routing-geocoders a:last-child {
+	 border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.routing-title{
+	color:white;
+	font-size:13.5px;
+	font-weight:bold;
+	margin-left:6px;
+}
+
+.div-routing-title{
+	background: #686868 none repeat scroll 0 0 !important;
 }
 

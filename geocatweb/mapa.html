@@ -36,12 +36,33 @@
 <link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css">
 <link rel="stylesheet" href="/llibreries/css/leaflet/Control.MiniMap.css" type="text/css">
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css">
+
+<!-- 
 <link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
+-->
+
+<link rel="stylesheet" href="/geocatweb/css/L.IM_ControlLayerManager.css" />
+
+
 <link rel="stylesheet" href="/llibreries/css/jquery.mCustomScrollbar.css"  />
+
+
+<!-- 
+Nous CSS per les dimensions
+ -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet.timedimension.control.css"  />
+
+
+
+
+
+
 <link rel="stylesheet" href="/llibreries/css/listnav.css" />
 <link rel="stylesheet" href="/llibreries/css/blue.css" />
 <link rel="stylesheet" href="/llibreries/css/futurico.css" />
 <link rel="stylesheet" href="/llibreries/css/bootstrap-table.css" />
+<link rel="stylesheet" href="/llibreries/css/bootstrap-formhelpers.min.css" />
 
 <!-- link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/-->
 <link href="/llibreries/css/bootstrap-editable.custom.css" rel="stylesheet">
@@ -136,6 +157,7 @@
 							<li class="divider" role="presentation"></li>
 							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
 							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
+							<li id="aplicacions"><a href="/geocatweb/galeria.html"><span lang="ca">Les meves aplicacions</span></a></li>
 							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
 							<li class="divider" role="presentation"></li>
 							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
@@ -186,7 +208,7 @@
 				<td id="funcio_compartir" class="td6"></td>
 			</tr>
 			<tr>
-				<td class="td6" height="15px"><label class="textGris">InstaMaps Beta v.0.8.7 </label></td>
+				<td class="td6" height="15px"><label class="textGris">InstaMaps Beta v.0.9 </label></td>
 			</tr>
 		</table>
 	</div>
@@ -307,7 +329,7 @@
 	}
 	</script>
 	<script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+	<script src="/llibreries/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
 	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
@@ -326,7 +348,10 @@
 	<script src="/llibreries/js/jquery/plugins/icheck.min.js"></script>
 	<script src="/llibreries/js/dropzone.js" type="text/javascript"></script>
 	<script src="/llibreries/js/jquery/plugins/jquery.scrollTo.js"></script>		
-	<script src="/llibreries/js/jquery/plugins/jquery.transit.js"></script>		
+	<script src="/llibreries/js/jquery/plugins/jquery.transit.js"></script>	
+	
+	<!-- NOu pluguin per arrosegar -->
+	<script src="/llibreries/js/jquery/plugins/jquery-sortable.js"></script>		
 	
 	<script>
 		L_PREFER_CANVAS = true;
@@ -353,7 +378,16 @@
 	<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js"	type="text/javascript"></script>
 	<script	src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers-custom.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet-heat_custom.js" type="text/javascript"></script>
+	
+	<!--  
 	<script src="/llibreries/js/leaflet/plugin/my.leaflet.control.orderlayers.js" type="text/javascript"></script>
+	-->
+	
+	<script src="/geocatweb/js/leaflet/L.IM_ControlLayerManager.js" type="text/javascript"></script>
+	
+	
+	
+	
 	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Map.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
@@ -361,9 +395,7 @@
 	<!-- script src="/llibreries/js/leaflet/plugin/leaflet-omnivore.min.js" type="text/javascript"></script-->
 	<script src="/llibreries/js/leaflet/plugin/leaflet-omnivore-custom.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/TileGeoJSON.Canvas.js" type="text/javascript"></script>
-	<script src="/llibreries/js/leaflet/plugin/leaflet.utfgridWMS.js" type="text/javascript"></script>
-	
-	
+	<script src="/llibreries/js/leaflet/plugin/leaflet.utfgridWMS.js" type="text/javascript"></script>		
 	<script src="/geocatweb/js/leaflet/L.Wikipedia.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.Twitter.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/L.Panoramio.js" type="text/javascript"></script>
@@ -375,26 +407,41 @@
 	<script src="/llibreries/js/bootstrap-colorpalette.js"></script>
 	<script src="/llibreries/js/bootstrap-table.js"></script>
 	<script src="/llibreries/js/bootstrap-table-es-ca-en.min.js"></script>
+	<script src="/llibreries/js/bootstrap-formhelpers.min.js"></script>
 	<script src="/llibreries/js/extensions/editable/bootstrap-table-editable.js"></script>
-	<script src="/llibreries/js/extensions/export/bootstrap-table-export.js"></script>
-	
+	<script src="/llibreries/js/extensions/export/bootstrap-table-export.js"></script>	
 	<script src="/llibreries/js/extensions/export/tableExport.js"></script>
-	<script src="/llibreries/js/extensions/export/jquery.base64.js"></script>
-	
+	<script src="/llibreries/js/extensions/export/jquery.base64.js"></script>	
 	<script src="/llibreries/js/bootstrap3-typeahead.min.js"></script>
 	<script src="/llibreries/js/cookieconsent.min.js"></script>
 	<script src="/llibreries/js/formats/xlsx.min.js"></script>
 	<script src="/llibreries/js/formats/xls.min.js"></script>
 	<script src="/llibreries/js/formats/jszip.js"></script>
-	<script src="/llibreries/js/formats/shim.js"></script>
-	
-	<script src="/llibreries/js/chroma.min.js"></script>
-	
+	<script src="/llibreries/js/formats/shim.js"></script>	
+	<script src="/llibreries/js/chroma.min.js"></script>	
 	<script src="/llibreries/js/leaflet/plugin/geojson-vt-dev.js"></script>
 	<!--  <script src="/llibreries/js/leaflet/plugin/TileLayer.GeoJSON.js"></script>
 	<script src="/llibreries/js/leaflet/plugin/geojson-tiles.js"></script>-->
 	<!-- <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.6.0/mapbox-gl.js'></script> -->
+	<!-- 
 	<script src='https://code.createjs.com/easeljs-0.8.0.min.js'></script>
+	 -->
+	<!-- 
+Nous JS per les dimensions
+ -->
+ 	<script src='/llibreries/js/easeljs-0.8.0.min.js'></script>
+	<script src="/llibreries/js/DateFormat.js"></script>
+	<script src="/llibreries/js/iso8601.js"></script>
+	<script  src="/llibreries/js/leaflet/plugin/leaflet.timedimension.custom.js"></script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<script src="/geocatweb/js/geocat.utils.js"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
