@@ -19,6 +19,7 @@ var controlLegendLine = [];
 var controlLegendPol = [];
 var mapLegend = {};
 var downloadableData = {};
+var _UsrID;
 
 var dades1;
 
