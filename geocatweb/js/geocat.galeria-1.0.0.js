@@ -412,7 +412,8 @@ $(function(){
 						var data3 = {
 							businessId: $this.data("businessid"),
 							//entitatUid: $this.data("idusr"),
-							entitatUid: $.cookie('uid'),
+							//entitatUid:  $.cookie('uid'),										
+							entitatUid:mapConfig.options.idusr,
 							metode: "deleteWMSfromMap"
 						};
 						
