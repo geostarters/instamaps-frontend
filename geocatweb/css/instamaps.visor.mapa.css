@@ -4328,10 +4328,10 @@ a.leaflet-control-timecontrol:hover {
 	color:white;
 	font-size:13.5px;
 	font-weight:bold;
+	margin-left:6px;
 }
 
 .div-routing-title{
 	background: #686868 none repeat scroll 0 0 !important;
-    margin-top: 0 !important;
 }
 
