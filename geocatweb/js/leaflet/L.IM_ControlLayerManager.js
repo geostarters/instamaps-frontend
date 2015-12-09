@@ -1045,8 +1045,7 @@ L.Control.OrderLayers = L.Control.Layers
 					}
 					// Icona Descàrrega sempre
 
-					if (obj.layer.options.tipus
-							&& obj.layer.options.tipus.indexOf(t_wms) == -1
+					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1
 							&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
 						col = L.DomUtil
 								.create(
@@ -1282,7 +1281,7 @@ L.Control.OrderLayers = L.Control.Layers
 						// console.info(obj);
 						this._map.addLayer(obj.layer);
 
-						if (obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
+						if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
 
 							var optionsUtfGrid = {
 								layers : obj.layer.options.businessId,
@@ -1313,7 +1312,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 						// console.info(obj);
 						// Si es vis_wms, hem d'eliminar tb la capa utfgrid
-						if (obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
+						if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
 							var utfGridLayer = this._map._layers[obj.layer.options.utfGridLeafletId];
 							this._map.removeLayer(utfGridLayer);
 						}
