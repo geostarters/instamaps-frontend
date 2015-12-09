@@ -80,7 +80,7 @@ L.Control.OrderLayers = L.Control.Layers
 				var _thereIs = false;
 				for (layer in this._layers) {
 
-					// console.info(this._layers[layer].layer.options.tipus);
+					
 					if (this._layers[layer].layer.options.tipus && this._layers[layer].layer.options.tipus.indexOf(t_wms) != -1) {
 						if (this._layers[layer].layer.options.wmstime == true) {
 							_thereIs = true;
@@ -394,7 +394,7 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 			
 			_createGroupFromScratch : function(position) {
-				 console.info("_createGroupFromScratch: pos " + position);
+				// console.info("_createGroupFromScratch: pos " + position);
 				 
 				// this._groupList.length);
 				var pos = this._groupList.length;
@@ -732,6 +732,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 				var _heCreat = false;
 				
+				var _heCreatFromScratch=false;
 
 				if (!group) {
 
@@ -741,7 +742,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					_heCreat = true;
 					
-					
+					_heCreatFromScratch=true;
 					
 
 				}
@@ -798,7 +799,10 @@ L.Control.OrderLayers = L.Control.Layers
 						if (_heCreat) {
 
 							if (getModeMapa()) {
+								
+								if(_heCreatFromScratch){
 
+									//console.info("entro");
 								var data = {
 									businessId : this._layers[id].layer.options.businessId, // url('?businessid')
 									uid : $.cookie('uid'),
@@ -808,6 +812,8 @@ L.Control.OrderLayers = L.Control.Layers
 
 								// Ara desactivat
 								updateGroupsLayerOptions(data, null);
+								
+								}
 							}
 
 						}
