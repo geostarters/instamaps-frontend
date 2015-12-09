@@ -372,7 +372,7 @@ function actualitzarMevesDades(results){
 								var data3 = {
 										businessId:  _this.data("businessid"),
 										//entitatUid:  $.cookie('uid'),										
-										entitatUid:jQuery('#userId').val(),
+										entitatUid: _UsrID,
 										metode: "deleteGeoJSONfromMap"
 									};
 								
