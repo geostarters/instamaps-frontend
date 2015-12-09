@@ -21,6 +21,7 @@ jQuery(document).ready(function() {
 				};
 				getUserSimple(data).then(function(results){
 					$('#userId').val(results.results.id);
+					_UsrID=results.results.id;
 					loadApp();
 				});
 		}else{
@@ -97,6 +98,7 @@ function loadApp(){
 		
 		getUserSimple(data).then(function(results){
 			$('#userId').val(results.results.id);
+			_UsrID=results.results.id;
 		});
 		
 		getMapByBusinessId(data).then(function(results){
