@@ -406,14 +406,17 @@ $(function(){
 						businessId: $this.data("businessid"),
 						metode: "rmGaleria"
 					};
-					deleteImageGaleria(data2).then(function(results){});
-										
+					deleteImageGaleria(data2).then(function(results){
+						
+					});
+					
+					
 					if($this.data("idusr")){
 						var data3 = {
 							businessId: $this.data("businessid"),
-							//entitatUid: $this.data("idusr"),
+							entitatUid: $this.data("idusr"),
 							//entitatUid:  $.cookie('uid'),										
-							entitatUid: _UsrID,
+							//entitatUid: _UsrID,
 							metode: "deleteWMSfromMap"
 						};
 						
