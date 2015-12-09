@@ -81,7 +81,7 @@ L.Control.OrderLayers = L.Control.Layers
 				for (layer in this._layers) {
 
 					// console.info(this._layers[layer].layer.options.tipus);
-					if (this._layers[layer].layer.options.tipus.indexOf(t_wms) != -1) {
+					if (this._layers[layer].layer.options.tipus && this._layers[layer].layer.options.tipus.indexOf(t_wms) != -1) {
 						if (this._layers[layer].layer.options.wmstime == true) {
 							_thereIs = true;
 						}
@@ -394,7 +394,7 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 			
 			_createGroupFromScratch : function(position) {
-				// console.info("_createGroupFromScratch: pos " + position);
+				 console.info("_createGroupFromScratch: pos " + position);
 				 
 				// this._groupList.length);
 				var pos = this._groupList.length;
@@ -410,13 +410,11 @@ L.Control.OrderLayers = L.Control.Layers
 				if (position == 1 && pos > 0) { // estic afegint una
 					// capa però ja existeix
 					// un grup
-					// console.info("estic afegint una capa nova a un grup
-					// existent");
-					//console.info(this.getActiveGroup());
+				
 					
-					//return this.getActiveGroup();
+					return this.getActiveGroup();
 
-					 return this._groupList[this._groupList.length-1];
+					 //return this._groupList[this._groupList.length-1];
 				} else {
 
 					// console.info("estic afegint una capa nova i no existeix
@@ -446,30 +444,37 @@ L.Control.OrderLayers = L.Control.Layers
 
 				var groupLast = this._groupList[this._groupList.length - 1];
 				var notExpanded = false;
-
-				// console.info(groupLast);
-
-				if (groupLast.expanded) {
+				if (groupLast.expanded==true || groupLast.expanded=="true") {					
+					
 					return groupLast;
 
 				} else {
-
-					for (group in this._groupList) {
-
-						if (group.expanded) {
+					
+					for (j=0; j < this._groupList.length;j++ ){
+						
+						var _gr=this._groupList[j];
+						
+						if (_gr.expanded==true || _gr.expanded=="true") {
 							notExpanded = true;
-							return group;
+							
+							return _gr;
 
 						}
 
-					}
+						
+					} 
+					 
+					 
+					
 
 				}
 
-				if (notExpanded) {
+				
+				if (!notExpanded) {
 
 					return groupLast;
 				}
+				
 
 			},
 
@@ -540,7 +545,13 @@ L.Control.OrderLayers = L.Control.Layers
 
 				} else if (_obj.layer) {
 					obj = _obj.layer.options;
+					try{
 					_id = _obj.layer.options.group.id;
+					}catch(Err){
+						
+					_id= this._domGroups.length -1;	
+					}
+					
 				} else {
 					// console.warn("NO_OBJECTE");
 					// console.warn(_obj);
@@ -1253,7 +1264,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					// valida tipus CapaTime
 
-					if (obj.layer.options.tipus.indexOf(t_wms) != -1) {
+					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1) {
 						if (obj.layer.options.wmstime == true) {
 							_timeLayers.push(input);
 						}
