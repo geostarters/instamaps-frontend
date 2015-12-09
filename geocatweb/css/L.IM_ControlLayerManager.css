@@ -233,7 +233,7 @@ nou cc
 	margin: 10px auto 10px auto;
 	*/
 	text-align: left;
-	overflow-y: auto;
+	overflow-y: hidden;
 	overflow-x: hidden;
 	height: auto;
 }
@@ -588,7 +588,7 @@ input[type='checkbox']:checked.checkbox_eye + label:before{
 
 .leaflet-control-layers {
     background: rgba(45, 46, 41, 0.9) none repeat scroll 0 0;  
-    max-height: 600px;
+    max-height: 650px;
    overflow-x: none;
     overflow-y: auto;
    
