@@ -413,7 +413,7 @@ $(function(){
 							businessId: $this.data("businessid"),
 							//entitatUid: $this.data("idusr"),
 							//entitatUid:  $.cookie('uid'),										
-							entitatUid:mapConfig.options.idusr,
+							entitatUid:jQuery('#userId').val(),
 							metode: "deleteWMSfromMap"
 						};
 						
