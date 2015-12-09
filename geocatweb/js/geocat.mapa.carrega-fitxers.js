@@ -1137,9 +1137,11 @@ function addDropFileToMap(results) {
 			if(!results.layer && !results.layerPolygon && !results.layerLine && !results.layerMarker){
 				jQuery('#info_uploadFile').hide();
 			}
-			
+			var dataPopover ={
+					uid: $.cookie('uid')
+			};
 			// carregarCapa(businessId);
-			refrescaPopOverMevasDades();
+			refrescaPopOverMevasDades(dataPopover);
 			//jQuery('#dialog_carrega_dadesfields').modal('hide');
 			//console.debug(busy);
 			busy = false;
