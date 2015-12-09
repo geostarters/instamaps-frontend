@@ -373,8 +373,14 @@ function initControls(){
 	//posem event per controlar visor
 	
 	if(mapConfig){
-		_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
-	 
+		
+		if(mapConfig.nomEntitat){
+			//_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.nomEntitat, mapConfig.nomAplicacio, 1]);
+		}else{
+			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+			
+		}
 	}
 	 
 	dfd.resolve();
