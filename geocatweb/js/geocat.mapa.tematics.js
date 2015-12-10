@@ -1456,7 +1456,36 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		
 		capaVisualitzacio = new L.FeatureGroup();
 		
-		var layOptions = JSON.parse(layer.options);
+		var layOptions; 
+		
+		
+		if(typeof (layer.options)=="string"){
+			
+			layOptions = JSON.parse(layer.options);;	
+			
+		}else{
+			
+			layOptions = layer.options;	
+		}
+		
+		if(layOptions && layOptions.group){
+			
+			capaVisualitzacio.options = {
+					businessId : layer.businessId,
+					nom : layer.serverName,
+					tipus : layer.serverType,
+					tipusRang: visualitzacio.tipus, //Â¿?
+					geometryType: visualitzacio.geometryType,
+//					dades: hasDades, //No cal?
+//					rangs: tematic.rangs,
+					estil: visualitzacio.estil,
+//					rangsField: rangsField
+					group: layOptions.group
+				};
+			
+		}else{
+		
+		
 		
 		capaVisualitzacio.options = {
 			businessId : layer.businessId,
@@ -1466,11 +1495,12 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			geometryType: visualitzacio.geometryType,
 //			dades: hasDades, //No cal?
 //			rangs: tematic.rangs,
-			estil: visualitzacio.estil,
+			estil: visualitzacio.estil
 //			rangsField: rangsField
-			group: layOptions.group
+			//group: layOptions.group
 		};
 	
+		}
 		if(hasSource) {
 			var source = jQuery.parseJSON(visualitzacio.options);					
 			capaVisualitzacio.options.source = source.source;
