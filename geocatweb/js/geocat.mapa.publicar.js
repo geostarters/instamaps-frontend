@@ -450,7 +450,9 @@
             	options.contacte = $('#contacte').val();
             	if($(".logo").prop('src') != '/logos/blank.gif'){
             		logo = $(".logo").prop('src').match(/([\w\d_-]*)\.?[^\\\/]*$/i)[0];
-            		logo = logo.substring(0,logo.indexOf('?'));
+            		if(logo.indexOf('?') != -1){
+            			logo = logo.substring(0,logo.indexOf('?'));
+                	}
             	}
         	}
         	
