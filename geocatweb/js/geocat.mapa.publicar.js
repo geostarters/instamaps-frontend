@@ -680,7 +680,7 @@
         	
         	    data.request="createWMSfromMap";
                // data.entitatUid=mapConfig.entitatUid;
-        	    data.entitatUid= $.cookie('uid'),
+        	    data.entitatUid=_UsrID,
                 data.businessId=mapConfig.businessId;
                 data.nomAplicacio=mapConfig.nomAplicacio;
                                                             

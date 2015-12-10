@@ -371,7 +371,8 @@ function actualitzarMevesDades(results){
 								
 								var data3 = {
 										businessId:  _this.data("businessid"),
-										entitatUid:  $.cookie('uid'),
+										//entitatUid:  $.cookie('uid'),										
+										entitatUid: _UsrID,
 										metode: "deleteGeoJSONfromMap"
 									};
 								
@@ -390,21 +391,19 @@ function actualitzarMevesDades(results){
 }
 
 function refrescaPopOverMevasDades(data){
-	//console.debug("refrescaPopOverMevasDades");
 	var dfd = jQuery.Deferred();
-	var q = $('input.search.form-control').val();
-	q = $.trim(q);
-	var data = {uid: $.cookie('uid'),serverName: q};
+	
+	
 	getAllServidorsWMSByUser(data).then(function(results){
 		var serverOrigen = [];
 		jQuery.each(results.results, function(i, item){
-//			console.debug(item);
 			if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
 				if (item.options == null){
 					serverOrigen.push(item);
 				}else{
 					var options = jQuery.parseJSON( item.options );
-					if (options.tem == tem_origen || options.tipus == tem_origen){
+					
+					if (options.tem == tem_origen || options.tipus == tem_origen || options.tipus ==t_visualitzacio ||  options.tipus ==t_tematic){
 						serverOrigen.push(item);
 					}
 				}
