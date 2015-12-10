@@ -231,6 +231,10 @@ function loadApp(){
 			$.publish('setMap', map);
 		}
 	});
+	
+	$.subscribe('updateMapConfig',function(e, data){
+		mapConfig = data;
+	});
 }
 
 function initControls(){
