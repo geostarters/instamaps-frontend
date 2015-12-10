@@ -793,7 +793,7 @@ L.Control.Search = L.Control.extend({
 					this.showAlert();
 				else
 				{
-					this.showLocation(loc, this._input.value);
+					this.showLocation(loc, this._input.value,this._input.value);
 					this.fire('search_locationfound', {
 							latlng: loc,
 							text: this._input.value,
@@ -814,7 +814,7 @@ L.Control.Search = L.Control.extend({
 			return false;
 	},
 
-	showLocation: function(latlng, title) {	//set location on map from _recordsCache
+	showLocation: function(latlng, title,nom) {	//set location on map from _recordsCache
 		if(this.options.zoom)
 			this._map.setView(latlng, this.options.zoom);
 		else
@@ -825,7 +825,6 @@ L.Control.Search = L.Control.extend({
 		if(this._markerLoc)
 		{
 			
-			console.debug(defaultPunt);
 			
 			if(v_url.indexOf('visor')==-1){
 				
@@ -854,7 +853,7 @@ L.Control.Search = L.Control.extend({
 				var index = parseInt(controlCapes._lastZIndex)+1;
 				capaUsrActiva.options = {
 					businessId : '-1',
-					nom : title,
+					nom : nom,
 					zIndex :  -1,
 	//				tipus : t_tematic,
 					tipus : t_visualitzacio,
@@ -867,7 +866,7 @@ L.Control.Search = L.Control.extend({
 						'tipusFeature':t_marker};	
 				
 				marker.properties.data={
-						'nom':title,
+						'nom':nom,
 						'text':title,
 				};
 				capaUsrActiva.on('layeradd',objecteUserAdded);
