@@ -374,7 +374,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.btn.btn-danger', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 	
 			$('#dialgo_delete').modal('show');
@@ -428,7 +428,7 @@ $(function(){
 					
 		$('#galeriaRow').on('click', '.btn.btn-warning', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			//_kmq.push(['record', 'editar mapa', {'from':'galeria privada', 'tipus user':t_user_loginat}]);
 			var urlMap = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
@@ -444,7 +444,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.btn.btn-success', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			//$('#dialgo_colaborate').modal('show');
 			$('#dialgo_colaborate').data('businessid', $this.data("businessid")).modal('show');
@@ -463,7 +463,7 @@ $(function(){
 						$('#convidats'+j+"_remove").attr("style","display:none;");
 						$('#convidats'+j+"_remove").on('click', function(event){
 							event.preventDefault();
-							event.stopPropagation();
+							event.stopImmediatePropagation();
 							var id=event.target.attributes.id.value;
 							var idC=id.toString().substring(0,10);
 							console.debug($('#'+idC).val());
@@ -522,7 +522,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.btn.btn-primary', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			var urlMap = 'http://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
 			if ($.trim($this.data("idusr")) != ""){
@@ -541,7 +541,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.caption.descAplicacio', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			var appbusinessid = appbusinessid = $this.parent().data("businessid");
 			var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
@@ -560,7 +560,7 @@ $(function(){
 		//Change visibility
 		$('#galeriaRow').on('click', '.btn.btn-visibility', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			
 			var visibilitatAntiga="P";
@@ -716,7 +716,8 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.btn.btn-success', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			var appbusinessid = $this.data("businessid");
 			if (!appbusinessid){
@@ -734,7 +735,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.btn-acctions .btn.btn-primary', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			var urlMap = 'http://'+DOMINI+paramUrl.visorPage+'?businessid='+$this.data("businessid");
 			if ($.trim($this.data("idusr")) != ""){
@@ -752,7 +753,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.btn.btn-warning', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			$('#dialgo_rank').modal('show');
 			$('#dialgo_rank .rank_mapa').val($this.data("rank"));
@@ -761,7 +762,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '#dialgo_rank .btn-primary', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			var businessid =  $this.data("businessid");
 			var params = {
@@ -796,7 +797,7 @@ $(function(){
 		
 		$('#galeriaRow').on('click', '.caption.descAplicacio', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			var appbusinessid = appbusinessid = $this.parent().data("businessid");
 			var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
@@ -897,7 +898,7 @@ $(function(){
 		
 		$('#AplicacionsRow').on('click', '.btn.btn-danger', function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			event.stopImmediatePropagation();
 			var $this = $(this);
 			$('#dialgo_delete_aplicacio').modal('show');
 			$('#dialgo_delete_aplicacio .nom_mapa').text($this.data("nom"));
