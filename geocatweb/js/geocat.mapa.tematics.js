@@ -1456,7 +1456,36 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		
 		capaVisualitzacio = new L.FeatureGroup();
 		
-		var layOptions = JSON.parse(layer.options);
+		var layOptions; 
+		
+		
+		if(typeof (layer.options)=="string"){
+			
+			layOptions = JSON.parse(layer.options);;	
+			
+		}else{
+			
+			layOptions = layer.options;	
+		}
+		
+		if(layOptions && layOptions.group){
+			
+			capaVisualitzacio.options = {
+					businessId : layer.businessId,
+					nom : layer.serverName,
+					tipus : layer.serverType,
+					tipusRang: visualitzacio.tipus, //Â¿?
+					geometryType: visualitzacio.geometryType,
+//					dades: hasDades, //No cal?
+//					rangs: tematic.rangs,
+					estil: visualitzacio.estil,
+//					rangsField: rangsField
+					group: layOptions.group
+				};
+			
+		}else{
+		
+		
 		
 		capaVisualitzacio.options = {
 			businessId : layer.businessId,
@@ -1466,11 +1495,12 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			geometryType: visualitzacio.geometryType,
 //			dades: hasDades, //No cal?
 //			rangs: tematic.rangs,
-			estil: visualitzacio.estil,
+			estil: visualitzacio.estil
 //			rangsField: rangsField
-			group: layOptions.group
+			//group: layOptions.group
 		};
 	
+		}
 		if(hasSource) {
 			var source = jQuery.parseJSON(visualitzacio.options);					
 			capaVisualitzacio.options.source = source.source;
@@ -1734,12 +1764,23 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 //			options = jQuery.parseJSON( layer.options );
 //		}
 		if (layer.options){
-			var options2 = JSON.parse(layer.options);
+			var options2;
+			if(typeof (layer.options)=="string"){				
+				options2 = JSON.parse(layer.options);				
+			}else{				
+				options2 = layer.options;	
+			}
+		
 			if (options2.propName != undefined) {
 				capaVisualitzacio.options.propName = options2.propName;
 			}
 			else if (visualitzacio.options){
-				var options2 = JSON.parse(visualitzacio.options);
+				var options2;
+				if(typeof (visualitzacio.options)=="string"){				
+					options2 = JSON.parse(visualitzacio.options);				
+				}else{				
+					options2 = visualitzacio.options;	
+				}				
 				if (options2.propName != undefined) {
 					var dataNames = options2.propName.split(',');
 					capaVisualitzacio.options.propName = dataNames;

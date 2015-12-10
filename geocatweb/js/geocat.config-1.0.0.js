@@ -15,6 +15,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
+	//HOST_GEOLOCAL = "http://localhost/";
 	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
 	tmpdir="E://temp//";
@@ -224,7 +225,7 @@ var paramAplications = {
     	"nom":"InfoParcela",
     	"description":"Permet realitzar un document amb informació referent a la parcel·la.",
     	"img":"img/thumb_ed_infoparcela.png",
-    	"url":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela.action?fallback=infoparcela",
+    	"url":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela.action?fallback=infoparcela&codiUsuari=",
     	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
     	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId=" 
     },

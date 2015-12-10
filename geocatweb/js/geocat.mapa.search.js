@@ -5,7 +5,8 @@ function filterJSON(rawjson) {
 	var jsonData = JSON.parse(rawjson.resposta);
 	var json = {},
 	key, loc, disp = [];
-	//console.debug(jsonData);
+	console.debug(jsonData);
+	
 	if (jsonData.resultats.length>1){
 		for (var i = 0; i < jsonData.resultats.length; i++) {
 		    var resultat = jsonData.resultats[i];
@@ -15,11 +16,13 @@ function filterJSON(rawjson) {
 	}
 	else {
 		var coords= jsonData.resultats[0].coordenades;
+		var nom = jsonData.resultats[0].nom;
+		console.debug(jsonData);
 		var coordsSplit = [];
 		if (coords) {
 			coordsSplit = coords.split(",");
 			loc = L.latLng(coordsSplit[0], coordsSplit[1] );
-			ctr_cerca.showLocation(loc,coords); 
+			ctr_cerca.showLocation(loc,coords,nom); 
 		}
 	}
 	return json;

@@ -611,13 +611,23 @@ L.Control.OrderLayers = L.Control.Layers
 						}
 						
 						
-						L.DomEvent.on(inputLabel, 'click', this._onExpandGroup,
-								this);
+						
 
 						var _i = document.createElement('i');
 						_i.id = '_i_' + _id;
 						_i.className = classExpanded
 						inputLabel.appendChild(_i);
+						
+						
+						
+							
+							L.DomEvent.on(inputLabel, 'click', this._onExpandGroup,this);
+							
+					
+						
+						
+						
+						
 						spanGroup.className = 'span_ac editable';
 						spanGroup.id = 'ac' + _id;
 						spanGroup.groupId = _id;
@@ -1465,22 +1475,52 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 			},
 
+			
+			
 			_onExpandGroup : function(e) {
 
+
+				
+				var cl=e.explicitOriginalTarget.className;
+				
+				if(getModeMapa()){
+						if(cl && cl.indexOf('label')!=-1){
+																			
+								var _id = e.currentTarget.id;
+								_id = _id.replace('lbl_ac_', '_i_');		
+								if ($('#' + _id).hasClass('glyphicon-triangle-bottom')) {		
+									$('#' + _id).removeClass('glyphicon-triangle-bottom');
+									$('#' + _id).addClass('glyphicon-triangle-right');
+				
+								} else if ($('#' + _id).hasClass('glyphicon-triangle-right')) {		
+									$('#' + _id).removeClass('glyphicon-triangle-right');
+									$('#' + _id).addClass('glyphicon-triangle-bottom');
+				
+								}
+						}
+				
+			}else{
+				
+				
 				var _id = e.currentTarget.id;
-				_id = _id.replace('lbl_ac_', '_i_');
-
-				if ($('#' + _id).hasClass('glyphicon-triangle-bottom')) {
-
+				_id = _id.replace('lbl_ac_', '_i_');		
+				if ($('#' + _id).hasClass('glyphicon-triangle-bottom')) {		
 					$('#' + _id).removeClass('glyphicon-triangle-bottom');
 					$('#' + _id).addClass('glyphicon-triangle-right');
 
-				} else if ($('#' + _id).hasClass('glyphicon-triangle-right')) {
-
+				} else if ($('#' + _id).hasClass('glyphicon-triangle-right')) {		
 					$('#' + _id).removeClass('glyphicon-triangle-right');
 					$('#' + _id).addClass('glyphicon-triangle-bottom');
 
 				}
+				
+				
+				
+				
+				
+			}		
+						
+						
 
 				if (getModeMapa()) {
 					reOrderGroupsAndLayers(false);
