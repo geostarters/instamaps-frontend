@@ -1764,12 +1764,23 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 //			options = jQuery.parseJSON( layer.options );
 //		}
 		if (layer.options){
-			var options2 = JSON.parse(layer.options);
+			var options2;
+			if(typeof (layer.options)=="string"){				
+				options2 = JSON.parse(layer.options);				
+			}else{				
+				options2 = layer.options;	
+			}
+		
 			if (options2.propName != undefined) {
 				capaVisualitzacio.options.propName = options2.propName;
 			}
 			else if (visualitzacio.options){
-				var options2 = JSON.parse(visualitzacio.options);
+				var options2;
+				if(typeof (visualitzacio.options)=="string"){				
+					options2 = JSON.parse(visualitzacio.options);				
+				}else{				
+					options2 = visualitzacio.options;	
+				}				
 				if (options2.propName != undefined) {
 					var dataNames = options2.propName.split(',');
 					capaVisualitzacio.options.propName = dataNames;
