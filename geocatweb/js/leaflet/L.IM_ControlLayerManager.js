@@ -182,6 +182,8 @@ L.Control.OrderLayers = L.Control.Layers
 
 						this._groupList[group].groupName = newName;
 						this._groupList[group].name = newName;
+						
+					
 						// this._groupList[group].id=groupId;
 						for (layer in this._layers) {
 
@@ -208,7 +210,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					}
 				}
-
+				this._update();
 				return resp_Layer;
 
 			},
@@ -216,6 +218,9 @@ L.Control.OrderLayers = L.Control.Layers
 			removeGroup : function(groupName, groupId) {
 				// console.info("Entro ha esborra he esborrat: " + groupName +
 				// ":"+ groupId);
+				
+				
+				
 				if (groupName) {
 
 					for (group in this._groupList) {
