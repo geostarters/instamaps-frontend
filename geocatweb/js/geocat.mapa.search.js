@@ -15,15 +15,18 @@ function filterJSON(rawjson) {
 		}
 	}
 	else {
-		var coords= jsonData.resultats[0].coordenades;
-		var nom = jsonData.resultats[0].nom;
-		console.debug(jsonData);
-		var coordsSplit = [];
-		if (coords) {
-			coordsSplit = coords.split(",");
-			loc = L.latLng(coordsSplit[0], coordsSplit[1] );
-			ctr_cerca.showLocation(loc,coords,nom); 
+		if (jsonData.resultats.length>0){
+			var coords= jsonData.resultats[0].coordenades;
+			var nom = jsonData.resultats[0].nom;
+			console.debug(jsonData);
+			var coordsSplit = [];
+			if (coords) {
+				coordsSplit = coords.split(",");
+				loc = L.latLng(coordsSplit[0], coordsSplit[1] );
+				ctr_cerca.showLocation(loc,coords,nom); 
+			}
 		}
+		else ctr_cerca.showAlert(ctr_cerca.options.textErr);
 	}
 	return json;
 }
@@ -40,11 +43,12 @@ function addControlCercaEdit(){
 		markerLocation: false,
 		zoom: 12,
 		minLength: 3,
-		autoType: true,
+		autoType: false,
 		text: window.lang.convert('Cercar llocs al món o coordenades  ...'),
 		idInputText : '#ctr_cerca',
 		zoom : 14,
 		textSize : 22,
+		autoCollapseTime: 3200,
 		textEdit:'<a id="act_end" href="#" >Finaltzar Edicio <span class="glyphicon glyphicon-check"></span></a>'
 		
 	}).addTo(map);

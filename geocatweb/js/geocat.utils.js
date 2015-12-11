@@ -198,11 +198,10 @@ function getColorAwesomeMarker(markerColor, defaultColor){
 
 function parseUrlTextPopUp(txt,key){
 	var parseText = "";
-	
-	if(key=='link' || key=='Web'){				
-		if(isImgURL(txt)){
+	if(!$.isNumeric(txt) && (key=='link' || key=='Web')){	
+		if( isImgURL(txt)){
 			parseText = '<img width="100" src="'+txt+'"/>';
-		}else if(txt.match("^http")){
+		}else if( txt.match("^http")){
 				parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
 		}else{
 			parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';				
@@ -210,9 +209,11 @@ function parseUrlTextPopUp(txt,key){
 		return parseText;
 	}	
 	
-	if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 
-			|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
-		return txt;
+	if (!$.isNumeric(txt)) {
+		if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 
+				|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
+			return txt;
+		}
 	}
 
 	var lwords = txt.split(" "); 
@@ -220,17 +221,21 @@ function parseUrlTextPopUp(txt,key){
 		var text;
 		var word = lwords[index];
 		//console.debug(word);
-		if(isValidURL(word)){
-			if(isImgURL(word)){
-				//console.debug("Image:"+word);
-				text = "<img width=\"100\" src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
-			}else if(word.indexOf("html?") != -1){
-				//console.debug("Iframe:"+word);
-				text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
-						"marginwidth=\"0\" src=\""+word+"\"></iframe>";
+		if(!$.isNumeric(txt) ){
+			if (isValidURL(word)){
+				if(isImgURL(word)){
+					//console.debug("Image:"+word);
+					text = "<img width=\"100\" src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
+				}else if (word.indexOf("html?") != -1){
+					//console.debug("Iframe:"+word);
+					text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+							"marginwidth=\"0\" src=\""+word+"\"></iframe>";
+				}else{
+					//console.debug("URL:"+word);
+					text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";	
+				}
 			}else{
-				//console.debug("URL:"+word);
-				text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";	
+				text = word;
 			}
 			
 		}else{

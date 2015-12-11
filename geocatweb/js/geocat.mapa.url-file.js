@@ -89,12 +89,25 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	propName = "";
 		    	$.each( pp, function( key, value ) {
-		    		propName = propName+key+",";
-		    		if(value){
-						html+='<div class="popup_data_row">'+
-						'<div class="popup_data_key">'+key+'</div>'+
-					    '<div class="popup_data_value">'+value+'</div>'+
-					    '</div>';	    			
+		    		if(isValidValue(value)){
+		    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+		    				html+='<div class="popup_data_row">';
+		    				var txt = value;
+		    				if (!$.isNumeric(txt)) {		    				
+			    				txt = parseUrlTextPopUp(value,key);
+			    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+			    					html+='<div class="popup_data_key">'+key+'</div>';
+			    					html+='<div class="popup_data_value">'+txt+'</div>';
+			    				}else{
+			    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+			    				}
+		    				}
+		    				else {
+		    					html+='<div class="popup_data_key">'+key+'</div>';
+		    					html+='<div class="popup_data_value">'+txt+'</div>';
+		    				}
+		    				html+= '</div>';
+		    			}
 		    		}
 		    	});	
 		    	propName = propName.substr(0, propName.length-1);
@@ -107,12 +120,25 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 			    	propName = "";
 			    	$.each( pp, function( key, value ) {
-			    		propName = propName+key+",";
-			    		if(value){
-							html+='<div class="popup_data_row">'+
-							'<div class="popup_data_key">'+key+'</div>'+
-						    '<div class="popup_data_value">'+value+'</div>'+
-						    '</div>';	    			
+			    		if(isValidValue(value)){
+			    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+			    				html+='<div class="popup_data_row">';
+			    				var txt = value;
+			    				if (!$.isNumeric(txt)) {		    				
+				    				txt = parseUrlTextPopUp(value,key);
+				    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+				    					html+='<div class="popup_data_key">'+key+'</div>';
+				    					html+='<div class="popup_data_value">'+txt+'</div>';
+				    				}else{
+				    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+				    				}
+			    				}
+			    				else {
+			    					html+='<div class="popup_data_key">'+key+'</div>';
+			    					html+='<div class="popup_data_value">'+txt+'</div>';
+			    				}
+			    				html+= '</div>';
+			    			}
 			    		}
 			    	});	
 			    	propName = propName.substr(0, propName.length-1);
@@ -529,11 +555,25 @@ function loadURLfileLayer(layer){
 		    	
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
-		    		if(value){
-						html+='<div class="popup_data_row">'+
-						'<div class="popup_data_key">'+key+'</div>'+
-					    '<div class="popup_data_value">'+value+'</div>'+
-					    '</div>';	    			
+		    		if(isValidValue(value)){
+		    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+		    				html+='<div class="popup_data_row">';
+		    				var txt = value;
+		    				if (!$.isNumeric(txt)) {		    				
+			    				txt = parseUrlTextPopUp(value,key);
+			    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+			    					html+='<div class="popup_data_key">'+key+'</div>';
+			    					html+='<div class="popup_data_value">'+txt+'</div>';
+			    				}else{
+			    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+			    				}
+		    				}
+		    				else {
+		    					html+='<div class="popup_data_key">'+key+'</div>';
+		    					html+='<div class="popup_data_value">'+txt+'</div>';
+		    				}
+		    				html+= '</div>';
+		    			}
 		    		}
 		    	});	
 		    	html+='</div></div>';    	
@@ -627,11 +667,25 @@ function loadURLfileLayer(layer){
 		    	var dataFieldValue = "";
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
-		    		if(value){
-						html+='<div class="popup_data_row">'+
-						'<div class="popup_data_key">'+key+'</div>'+
-					    '<div class="popup_data_value">'+value+'</div>'+
-					    '</div>';	    			
+		    		if(isValidValue(value)){
+		    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+		    				html+='<div class="popup_data_row">';
+		    				var txt = value;
+		    				if (!$.isNumeric(txt)) {		    				
+			    				txt = parseUrlTextPopUp(value,key);
+			    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+			    					html+='<div class="popup_data_key">'+key+'</div>';
+			    					html+='<div class="popup_data_value">'+txt+'</div>';
+			    				}else{
+			    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+			    				}
+		    				}
+		    				else {
+		    					html+='<div class="popup_data_key">'+key+'</div>';
+		    					html+='<div class="popup_data_value">'+txt+'</div>';
+		    				}
+		    				html+= '</div>';
+		    			}
 		    		}
 		    		
 		    		if(key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
@@ -656,11 +710,25 @@ function loadURLfileLayer(layer){
 			    	var dataFieldValue = "";
 			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 			    	$.each( pp, function( key, value ) {
-			    		if(value){
-							html+='<div class="popup_data_row">'+
-							'<div class="popup_data_key">'+key+'</div>'+
-						    '<div class="popup_data_value">'+value+'</div>'+
-						    '</div>';	    			
+			    		if(isValidValue(value)){
+			    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+			    				html+='<div class="popup_data_row">';
+			    				var txt = value;
+			    				if (!$.isNumeric(txt)) {		    				
+				    				txt = parseUrlTextPopUp(value,key);
+				    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+				    					html+='<div class="popup_data_key">'+key+'</div>';
+				    					html+='<div class="popup_data_value">'+txt+'</div>';
+				    				}else{
+				    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+				    				}
+			    				}
+			    				else {
+			    					html+='<div class="popup_data_key">'+key+'</div>';
+			    					html+='<div class="popup_data_value">'+txt+'</div>';
+			    				}
+			    				html+= '</div>';
+			    			}
 			    		}
 			    		if(key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
 			    	});	
@@ -749,13 +817,27 @@ function loadURLfileLayer(layer){
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
-		    		if(value){
-						html+='<div class="popup_data_row">'+
-						'<div class="popup_data_key">'+key+'</div>'+
-					    '<div class="popup_data_value">'+value+'</div>'+
-					    '</div>';	    			
+		    		if(isValidValue(value)){
+		    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+		    				html+='<div class="popup_data_row">';
+		    				var txt = value;
+		    				if (!$.isNumeric(txt)) {		    				
+			    				txt = parseUrlTextPopUp(value,key);
+			    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+			    					html+='<div class="popup_data_key">'+key+'</div>';
+			    					html+='<div class="popup_data_value">'+txt+'</div>';
+			    				}else{
+			    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+			    				}
+		    				}
+		    				else {
+		    					html+='<div class="popup_data_key">'+key+'</div>';
+		    					html+='<div class="popup_data_value">'+txt+'</div>';
+		    				}
+		    				html+= '</div>';
+		    			}
 		    		}
-		    	});	
+		    	});		
 		    	html+='</div></div>';    	
 		    	var popup = L.popup().setContent(html);
 			    return geom.bindPopup(popup);
@@ -907,11 +989,27 @@ function constructLayer(layer, estil_do){
     	var pp = marker.toGeoJSON().properties;
     	var html ='<div class="div_popup_visor"><div class="popup_pres">';
     	$.each( pp, function( key, value ) {
-			html+='<div class="popup_data_row">'+
-			'<div class="popup_data_key">'+key+'</div>'+
-		    '<div class="popup_data_value">'+value+'</div>'+
-		    '</div>';
-    	});	
+    		if(isValidValue(value)){
+    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+    				html+='<div class="popup_data_row">';
+    				var txt = value;
+    				if (!$.isNumeric(txt)) {		    				
+	    				txt = parseUrlTextPopUp(value,key);
+	    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+	    					html+='<div class="popup_data_key">'+key+'</div>';
+	    					html+='<div class="popup_data_value">'+txt+'</div>';
+	    				}else{
+	    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+	    				}
+    				}
+    				else {
+    					html+='<div class="popup_data_key">'+key+'</div>';
+    					html+='<div class="popup_data_value">'+txt+'</div>';
+    				}
+    				html+= '</div>';
+    			}
+    		}
+    	});		
     	html+='</div></div>';    	
     	geom.bindPopup(html);
     	layer.removeLayer(marker);

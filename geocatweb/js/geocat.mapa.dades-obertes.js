@@ -241,20 +241,30 @@ function createPopupWindowDadesObertes(player,l){
 		html+='<h4>'+player.properties.Name+'</h4>';
 	}
 	if (player.properties.description){
-		html+='<div>'+parseUrlTextPopUp(player.properties.description)+'</div>';
+		if (!$.isNumeric(player.properties.description)) html+='<div>'+parseUrlTextPopUp(player.properties.description)+'</div>';
+		else html+='<div>'+player.properties.description+'</div>';
 	}
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
+	var pp = player.properties;
 
-	$.each( player.properties, function( key, value ) {
+	$.each( pp, function( key, value ) {
 		if(isValidValue(value)){
 			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 				html+='<div class="popup_data_row">';
-				var txt = parseUrlTextPopUp(value,key);
-				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+				var txt = value;
+				if (!$.isNumeric(txt)) {
+					txt = parseUrlTextPopUp(value,key);				
+				
+					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+						html+='<div class="popup_data_key">'+key+'</div>';
+						html+='<div class="popup_data_value">'+txt+'</div>';
+					}else{
+						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+					}
+				}
+				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-				}else{
-					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 				}
 				html+= '</div>';
 			}
