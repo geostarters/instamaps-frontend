@@ -4972,6 +4972,12 @@ a.leaflet-control-timecontrol:hover {
 }
 
 
-
+.iconSearch{
+	position:absolute;
+	margin-top:1px;
+	padding:10.5px;
+	background-color:white;
+	cursor: pointer;
+}
 
 
