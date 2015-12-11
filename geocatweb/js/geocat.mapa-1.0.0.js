@@ -116,8 +116,11 @@ function loadApp(){
 					gestioCookie('diferentUser');
 					$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 					
-					if (mapConfig.options){
+					if(typeof (mapConfig.options)=="string"){
 						mapConfig.options = $.parseJSON( mapConfig.options );
+					}
+					
+					if (mapConfig.options){
 						$('meta[name="description"]').attr('content', mapConfig.options.description);
 						
 						$('meta[name="og:description"]').attr('content', mapConfig.options.description);
@@ -457,10 +460,6 @@ function loadMapConfig(mapConfig){
 		jQuery('#div_loading').hide();
 		
 		//console.warn("Capes afegides")
-		
-		
-		
-		
 	}
 	
 	dfd.resolve();
