@@ -5,6 +5,10 @@
 (function ( $, window, document, undefined ) {
    "use strict";
    	var Publicar = {
+   			
+   		mapConfig:null,
+        map:null,	
+   			
         init: function() {
         	this.containerId = '#funcio_publicar';
         	//By using the object PROJ you can reference it with "this" (i.e. this.whatever();), easy peazy "namespacing"
@@ -21,6 +25,14 @@
         
         cache: function(){
         	this.container = $(this.containerId);
+        },
+        
+        _setMapConfig: function(mapConfig){
+        	this.mapConfig = mapConfig;
+        },
+        
+        _setMap: function(map){
+        	this.map = map;
         },
         
         addControl: function(){
@@ -81,17 +93,17 @@
         
         _updateModalPublicar: function(){
         	//actualizar los campos del dialogo publicar
-			//console.debug(this.mapConfig);
-        	
+			       	
         	//require utils
-			if (isDefaultMapTitle(this.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
-			else $('#nomAplicacioPub').val(this.mapConfig.nomAplicacio);
-			if (this.mapConfig.visibilitat == visibilitat_open){
+        	var that = this;
+        	if (isDefaultMapTitle(that.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
+			else $('#nomAplicacioPub').val(that.mapConfig.nomAplicacio);
+			if (that.mapConfig.visibilitat == visibilitat_open){
 				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 				$('.protegit').hide();
 			}else{
 				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
-				if (this.mapConfig.clau){
+				if (that.mapConfig.clau){
 					$('#is_map_protegit').iCheck('check');
 					$('#map_clau').prop('disabled',true);
 					$('#map_clau').val(randomString(10));
@@ -101,17 +113,17 @@
 					$('#map_clau').val('');
 				}
 			}
-			if(this.mapConfig.options){
-				$('#optDescripcio').val(this.mapConfig.options.description);
-				$('#optTags').val(this.mapConfig.options.tags);	
-				if (this.mapConfig.options.llegenda){
+			if(that.mapConfig.options){
+				$('#optDescripcio').val(that.mapConfig.options.description);
+				$('#optTags').val(that.mapConfig.options.tags);	
+				if (that.mapConfig.options.llegenda){
 					$('#llegenda_chk').bootstrapSwitch('state', true, true);
 				}else{
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
 				}				
 			}
 			
-			this._createModalConfigDownload();
+			that._createModalConfigDownload();
 
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
@@ -120,25 +132,25 @@
 			
 			if(isGeolocalUser()){ //solo usuarios geolocal
 				//aspecte
-				if (this.mapConfig.options){
-					if(this.mapConfig.options.barColor){
-						$('#dv_fill_menu_bar').css('background-color',this.mapConfig.options.barColor);
-						$("#in_fill_menu_bar").val(this.mapConfig.options.barColor);
+				if (that.mapConfig.options){
+					if(that.mapConfig.options.barColor){
+						$('#dv_fill_menu_bar').css('background-color',that.mapConfig.options.barColor);
+						$("#in_fill_menu_bar").val(that.mapConfig.options.barColor);
 					}
 					
-					if(this.mapConfig.options.textColor){
-						$('#dv_color_text_bar').css('background-color',this.mapConfig.options.textColor);
-						$("#in_color_text_bar").val(this.mapConfig.options.textColor);
+					if(that.mapConfig.options.textColor){
+						$('#dv_color_text_bar').css('background-color',that.mapConfig.options.textColor);
+						$("#in_color_text_bar").val(that.mapConfig.options.textColor);
 					}
 					
-					if(this.mapConfig.options.fontType){
-						$('.bfh-selectbox').bfhselectbox().bfhfonts({font: this.mapConfig.options.fontType, available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
+					if(that.mapConfig.options.fontType){
+						$('.bfh-selectbox').bfhselectbox().bfhfonts({font: that.mapConfig.options.fontType, available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
 					}else{
 						$('.bfh-selectbox').bfhselectbox().bfhfonts({font:'Arial', available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});
 					}
 					
 					//contacte
-					if(this.mapConfig.options.contacte){
+					if(that.mapConfig.options.contacte){
 						$('#contacte').val(this.mapConfig.options.contacte);
 					}
 					
@@ -152,8 +164,8 @@
 					$('.bfh-selectbox').bfhselectbox().bfhfonts({font:'Arial', available: 'Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana'});		
 				}
 				//escut
-				if(this.mapConfig.logo){
-					$(".logo").prop('src',"/logos/"+this.mapConfig.logo);
+				if(that.mapConfig.logo){
+					$(".logo").prop('src',"/logos/"+that.mapConfig.logo);
 				}
 			}else{
 				$(".modal-public-aspect").hide();
@@ -170,7 +182,7 @@
 			});
 						
 			//Si mapconfig legend, activat, es mostra
-			if(this.mapConfig.options != null && this.mapConfig.options.llegenda){
+			if(that.mapConfig.options != null && that.mapConfig.options.llegenda){
 				//require geocat.legend
 				createModalConfigLegend();
 				$('#dialgo_publicar .modal-body .modal-legend').show();
@@ -438,7 +450,9 @@
             	options.contacte = $('#contacte').val();
             	if($(".logo").prop('src') != '/logos/blank.gif'){
             		logo = $(".logo").prop('src').match(/([\w\d_-]*)\.?[^\\\/]*$/i)[0];
-            		logo = logo.substring(0,logo.indexOf('?'));
+            		if(logo.indexOf('?') != -1){
+            			logo = logo.substring(0,logo.indexOf('?'));
+                	}
             	}
         	}
         	
@@ -567,9 +581,13 @@
         			if (results.status == "ERROR"){
         				//TODO Mensaje de error
         			}else{
-        				that.mapConfig = results.results;
-        				that.mapConfig.options = $.parseJSON( that.mapConfig.options );
-        				that.mapConfig.newMap = false;
+        				var mapConfig = results.results;
+        				mapConfig.options = $.parseJSON( mapConfig.options );
+        				mapConfig.newMap = false;
+        				that._setMapConfig(mapConfig);
+        				
+        				$.publish('updateMapConfig', mapConfig);
+        				
         				var mapData = {
         					businessId: that.mapConfig.businessId,
         					uid: that.uid
@@ -587,9 +605,13 @@
         			if (results.status == "ERROR"){
         				//TODO Mensaje de error
         			}else{
-        				that.mapConfig = results.results;
-        				that.mapConfig.options = $.parseJSON( that.mapConfig.options );
-        				that.mapConfig.newMap = false;
+        				var mapConfig = results.results;
+        				mapConfig.options = $.parseJSON( mapConfig.options );
+        				mapConfig.newMap = false;
+        				that._setMapConfig(mapConfig);
+        				
+        				$.publish('updateMapConfig', mapConfig);
+        				        				
         				var mapData = {
         					businessId: that.mapConfig.businessId,
         					uid: that.uid
@@ -720,12 +742,12 @@
         subscriptions: function() {
         	var that = this;
         	$.subscribe('publicar/loadMapConfig',function(e, data){
-        		that.mapConfig = data;
+        		that._setMapConfig(data);
         		that._updateModalPublicar();
         	});
         	
         	$.subscribe('publicar/setMap',function(e, data){
-        		that.map = data;
+        		that._setMap(data);
         		that._publicarMapa();
         	});
         	

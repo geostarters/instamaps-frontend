@@ -54,15 +54,8 @@ function reOrderGroupsAndLayers(action){
 	    		 
 	    		 var _id=$(_exp).attr("id");	
 	    		 
-	    		 ////console.debug(_id);
-				
-				
-				
-					_expanded=true;
-				
-					
-		
-					
+				_expanded=true;
+									
 			if($('#'+_id).hasClass('glyphicon-triangle-right')){
 					
 					_expanded=false;
@@ -75,8 +68,7 @@ function reOrderGroupsAndLayers(action){
 	    	        $this; // parent li
 	    	        _businessId=this.id.replace("li-",""); // child li
 	    	        z_order=z_order+1; 
-	    	        
-	    	    
+	    	        	    	    
 	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
 	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);	    	    	    	    
 	    	 
@@ -263,9 +255,12 @@ function updateEditableElements(){
 	        if($.trim(value) == '') {
 	        	return {newValue: this.innerHTML};
 	        }
-        },		
+        },
+       
 		success: function(response, newName) {
 			//console.info(this);
+			
+		
 			var oldName=this.groupName;
 			
 			
