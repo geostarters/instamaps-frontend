@@ -371,6 +371,16 @@ function updateServidorWMSOptions(data){
 }
 
 
+function updateServidorWMSGroup(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSGroup,
+		data: data,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
+
 
 function updateServidorWMSOpacity(data){
 	return jQuery.ajax({

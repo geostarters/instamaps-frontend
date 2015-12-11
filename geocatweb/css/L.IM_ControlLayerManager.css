@@ -347,26 +347,7 @@ nou cc
 .ac-container input.menu{
 	display: none;
 }
-ol .ac-large{
-	 background: rgba(166, 166, 166, 0.5) no-repeat scroll;
-   
-   /*
-    border-bottom: 1px dashed #aaaaaa;
-     */
-     
-     border-left: 1px dashed #aaaaaa;
-      border-right: 1px dashed #aaaaaa;
-	margin-top: 0px !important;
-	overflow: hidden;
-	height: 0px;
-	position: relative;
-	z-index: 10;
-	-webkit-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	-moz-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	-o-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	-ms-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-	transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-}
+
 
 
 
@@ -640,6 +621,27 @@ ol.leaflet-control-layers-overlays{
 	
 }
 
+
+ol.ac-large{
+	 background: rgba(166, 166, 166, 0.5) no-repeat scroll;
+   
+   /*
+    border-bottom: 1px dashed #aaaaaa;
+     */
+     
+     border-left: 1px dashed #aaaaaa;
+      border-right: 1px dashed #aaaaaa;
+	margin-top: 0px !important;
+	overflow: hidden;
+	height: 0px;
+	position: relative;
+	z-index: 10;
+	-webkit-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	-moz-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	-o-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	-ms-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+}
 
 
 ol.ac-large li.placeholder {

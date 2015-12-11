@@ -819,6 +819,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 									//console.info("entro");
 								var data = {
+									mapBusinessId: url('?businessid'),	
 									businessId : this._layers[id].layer.options.businessId, // url('?businessid')
 									uid : $.cookie('uid'),
 									options : JSON
@@ -826,7 +827,7 @@ L.Control.OrderLayers = L.Control.Layers
 								}
 
 								// Ara desactivat
-								updateGroupsLayerOptions(data, null);
+								updateGroupsLayerGroup(data, null);
 								
 								}
 							}
@@ -940,7 +941,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					_menu_item_checkbox.className = "leaflet-row";
 
-					_menu_item_checkbox.id = 'li-'
+					_menu_item_checkbox.id = 'LI-'
 							+ obj.layer.options.businessId;
 
 					input = document.createElement('input');
@@ -949,6 +950,9 @@ L.Control.OrderLayers = L.Control.Layers
 					input.type = 'checkbox';
 					// input.className = 'leaflet-control-layers-selector';
 
+					//input.className = 'checkbox_styled hide leaflet-control-layers-selector';
+					
+					
 					input.className = 'checkbox_styled hide leaflet-control-layers-selector';
 					
 				//	input.className = 'leaflet-control-layers-selector';
@@ -1485,11 +1489,19 @@ L.Control.OrderLayers = L.Control.Layers
 			_onExpandGroup : function(e) {
 
 
+				var cl=e.explicitOriginalTarget;
 				
-				var cl=e.explicitOriginalTarget.className;
+				if(!cl){
+					cl=e.srcElement;
+					
+				}
+				
+				
+		
+				var cls=jQuery(cl).attr('class');
 				
 				if(getModeMapa()){
-						if(cl && cl.indexOf('label')!=-1){
+						if(cls && cls.indexOf('label')!=-1){
 																			
 								var _id = e.currentTarget.id;
 								_id = _id.replace('lbl_ac_', '_i_');		
@@ -1536,9 +1548,9 @@ L.Control.OrderLayers = L.Control.Layers
 
 			_onRemoveGroup : function(e) {
 				$('.tooltip').hide();
-				L.DomEvent.stop(e);
-				// console.info(e.currentTarget.groupName);
-				// console.info(e.currentTarget.groupId);
+				//L.DomEvent.stop(e);
+				e.stopImmediatePropagation();
+			
 				$('#dialog_delete_group').modal('show');
 				$('#dialog_delete_group #nom_group_delete').text(
 						e.currentTarget.groupName);
