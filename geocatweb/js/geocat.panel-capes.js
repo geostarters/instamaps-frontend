@@ -32,7 +32,7 @@ function addFuncioRenameMap(){
 }
 
 function reOrderGroupsAndLayers(action){
-	
+	//console.info("reOrderGroupsAndLayers");
 	 var z_order=-1;
 	 
 	 var _groupName,_groupId,_groupSubId,_businessId,_expanded; 
@@ -66,7 +66,7 @@ function reOrderGroupsAndLayers(action){
 	    	
 	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
 	    	        $this; // parent li
-	    	        _businessId=this.id.replace("li-",""); // child li
+	    	        _businessId=this.id.replace("LI-",""); // child li
 	    	        z_order=z_order+1; 
 	    	        	    	    
 	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
@@ -75,9 +75,10 @@ function reOrderGroupsAndLayers(action){
 	    	  if(action){
 	    	    
 	    	    var data = {
-					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+	    	    		mapBusinessId: url('?businessid'),
+	    	    		businessId: resp_Layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
-					 	options: JSON.stringify(resp_Layer.options)
+					 	options: JSON.stringify(resp_Layer.options.group)
 					 }	
 				
 				var data2 = {
@@ -89,7 +90,7 @@ function reOrderGroupsAndLayers(action){
 				
 			
 	    	    
-				updateGroupsLayerOptions(data,data2);	
+				updateGroupsLayerGroup(data,data2);	
 	    	       //}
    	    
 	    	  }
@@ -103,12 +104,12 @@ function reOrderGroupsAndLayers(action){
 	
 }
 
-function updateGroupsLayerOptions(data,data2){
+function updateGroupsLayerGroup(data,data2){
 	
 	
 	
 	
-	updateServidorWMSOptions(data).then(function(results){
+	updateServidorWMSGroup(data).then(function(results){
 	
 		if(results.status==='OK'){
 			
@@ -127,8 +128,7 @@ function updateGroupsLayerOptions(data,data2){
 				});
 				
 			}
-			//console.debug(results);
-			//console.debug(data);
+			
 		}
 	});
 	
@@ -147,27 +147,23 @@ function updateSortablesElements(){
 		  group: 'no-drop',
 		  handle: 'span.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
-		    // Duplicate items of the no drop area
-			  //console.debug($item);
+		  
 		    if(!container.options.drop)
 		      $item.clone().insertAfter($item);
 		    _super($item, container);
 		  },
 		  onDrag:function ($item, position, _super, event) {
-			  
-			 // //console.debug("onDrag");
-			  position.left=0;
-			  ////console.info(position);
+			  			
+			  position.left=0;			
 			  $item.css(position);
-			 ////console.debug($item.css(position));
 		  },
 		  onDrop: function ($item, container, _super) {
+			  			  
+			  $('.tooltip').hide();	
 			  
-			   // $("div.leaflet-control-accordion-layers").each(function( index, element ) {
-			  $('.tooltip').hide();
-			  reOrderGroupsAndLayers(true);
+			    _super($item, container);			    			  
+			    reOrderGroupsAndLayers(true);
 			    
-			    _super($item, container);
 			  }
 		  
 		});
@@ -177,27 +173,37 @@ function updateSortablesElements(){
 	
 	
 	var layer_in_groups = $("ol.ac-large").sortable({
+		
+	//var layer_in_groups = $("li.lealfte-row").sortable({	
 		  group: 'no-drop-layer',
 		  handle: 'div.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
-		   
+		 
 		    if(!container.options.drop)
 		      $item.clone().insertAfter($item);
 		    _super($item, container);
 		  },
 		  onDrag:function ($item, position, _super, event) {
-			  
-			 // //console.debug("onDrag");
-			  position.left=0;
-			  ////console.info(position);
+			  		
+			  position.left=0;			 
 			  $item.css(position);
-			 ////console.debug($item.css(position));
+			
 		  },
 		  onDrop: function ($item, container, _super) {
+			  
 			  $('.tooltip').hide();
-			  reOrderGroupsAndLayers(true);
+			 
+			  try{				  
+				  //console.info($item.index());
+				  //console.info($item);
 			    _super($item, container);
+			    
+			  }catch(err){
+				  
+				  console.info(err);
 			  }
+			  reOrderGroupsAndLayers(true);
+		  }
 		  
 		});
 	
@@ -259,8 +265,6 @@ function updateEditableElements(){
        
 		success: function(response, newName) {
 			//console.info(this);
-			
-		
 			var oldName=this.groupName;
 			
 			
@@ -273,24 +277,16 @@ function updateEditableElements(){
 			
 				//console.info(resp_Layer[i]);
 				var data = {
+						mapBusinessId: url('?businessid'),
 					 	businessId: resp_Layer[i].options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
-					 	options: JSON.stringify(resp_Layer[i].options)
+					 	options: JSON.stringify(resp_Layer[i].options.group)
 					 }
 					
-				updateGroupsLayerOptions(data,null);		
-			
-			
+				updateGroupsLayerGroup(data,null);		
 			
 			}
-			
-			
-			
-			
-			
-			
-			
-			
+		
 		}
 	});	
 	
