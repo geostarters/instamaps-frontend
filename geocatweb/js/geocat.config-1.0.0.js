@@ -104,7 +104,7 @@ var paramUrl = {
 	
 	//nous updates
 	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",	
-	updateServidorWMSGroup: HOST_APP+"geocat/aplications/map/updateServidorWMSGroup.action?",	
+	updateServidorWMSGroup: HOST_APP+"geocat/aplications/map/updateServidorWMSGroup.action?",
 	updateServidorWMSOpacity: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOpacity.action?",
 	
 	
