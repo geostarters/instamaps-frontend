@@ -911,6 +911,14 @@ function loadOrigenWMS(){
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
 	jQuery.each(mapConfig.servidorsWMS, function(index, value){
+		//TODO parsear las options y el group y dejarlo en json. 
+		//TODO quitar el parse de cada tipo de capa.
+		if(value.options && value.capesGroup){
+			var options = JSON.parse(value.options);
+			var group = JSON.parse(value.capesGroup);
+			options.group = group;
+			value.options = JSON.stringify(options);
+		}
 		if(value.capesOrdre == capesOrdre_sublayer){
 			layer_map.sublayers.push(value);
 			lsublayers.push(value);

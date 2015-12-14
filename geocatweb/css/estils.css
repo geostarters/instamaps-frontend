@@ -189,15 +189,28 @@
 }
 
 .leaflet-control-search .search-alert {
-	cursor: pointer;
-	clear: both;
-	font-size: .75em;
-	margin-bottom: 5px;
-	padding: 0 .25em;
-	color: #e00;
-	font-weight: bold;
-	border-radius: .25em;
+
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    float: left;
+    left: 0;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    text-align: start;
+    top: 100%;
+    width: 212px;
+    z-index: 1010;
+    background-color: #FFFFFF;
+    border-bottom: 1px dotted #5E5E5E;
+    color: #e00;
+    display: block;  
+    margin: 0;
+    padding: 2px;
+    text-decoration: none;
+    white-space: nowrap;
 }
+
 
 .leaflet-center {
 	

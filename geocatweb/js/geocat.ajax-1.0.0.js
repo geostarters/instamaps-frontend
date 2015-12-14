@@ -360,7 +360,6 @@ function updateServidorWMSName(data){
 }
 
 
-
 function updateServidorWMSOptions(data){
 	return jQuery.ajax({
 		url: paramUrl.updateServidorWMSOptions,
@@ -370,7 +369,14 @@ function updateServidorWMSOptions(data){
 	}).promise();
 }
 
-
+function updateServidorWMSGroup(data){
+	return jQuery.ajax({
+		url: paramUrl.updateServidorWMSGroup,
+		data: data,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
 
 function updateServidorWMSOpacity(data){
 	return jQuery.ajax({

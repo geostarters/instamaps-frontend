@@ -32,7 +32,7 @@ function addFuncioRenameMap(){
 }
 
 function reOrderGroupsAndLayers(action){
-	
+	//console.info("reOrderGroupsAndLayers");
 	 var z_order=-1;
 	 
 	 var _groupName,_groupId,_groupSubId,_businessId,_expanded; 
@@ -66,7 +66,7 @@ function reOrderGroupsAndLayers(action){
 	    	
 	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
 	    	        $this; // parent li
-	    	        _businessId=this.id.replace("li-",""); // child li
+	    	        _businessId=this.id.replace("LI-",""); // child li
 	    	        z_order=z_order+1; 
 	    	        	    	    
 	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
@@ -75,9 +75,10 @@ function reOrderGroupsAndLayers(action){
 	    	  if(action){
 	    	    
 	    	    var data = {
-					 	businessId: resp_Layer.options.businessId, //url('?businessid') 
+	    	    		mapBusinessId: url('?businessid'),
+	    	    		businessId: resp_Layer.options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
-					 	options: JSON.stringify(resp_Layer.options)
+					 	options: JSON.stringify(resp_Layer.options.group)
 					 }	
 				
 				var data2 = {
@@ -89,7 +90,7 @@ function reOrderGroupsAndLayers(action){
 				
 			
 	    	    
-				updateGroupsLayerOptions(data,data2);	
+				updateGroupsLayerGroup(data,data2);	
 	    	       //}
    	    
 	    	  }
@@ -103,12 +104,10 @@ function reOrderGroupsAndLayers(action){
 	
 }
 
-function updateGroupsLayerOptions(data,data2){
+function updateGroupsLayerGroup(data,data2){
+		
 	
-	
-	
-	
-	updateServidorWMSOptions(data).then(function(results){
+	updateServidorWMSGroup(data).then(function(results){
 	
 		if(results.status==='OK'){
 			
@@ -127,8 +126,7 @@ function updateGroupsLayerOptions(data,data2){
 				});
 				
 			}
-			//console.debug(results);
-			//console.debug(data);
+			
 		}
 	});
 	
@@ -137,96 +135,67 @@ function updateGroupsLayerOptions(data,data2){
 
 
 
-
-
-
-
 function updateSortablesElements(){
-	
+			
+
 	var group = $("ol.leaflet-control-layers-overlays").sortable({
 		  group: 'no-drop',
 		  handle: 'span.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
-		    // Duplicate items of the no drop area
-			  //console.debug($item);
+		  
 		    if(!container.options.drop)
 		      $item.clone().insertAfter($item);
 		    _super($item, container);
 		  },
 		  onDrag:function ($item, position, _super, event) {
-			  
-			 // //console.debug("onDrag");
-			  position.left=0;
-			  ////console.info(position);
+			  			
+			  position.left=0;			
 			  $item.css(position);
-			 ////console.debug($item.css(position));
 		  },
 		  onDrop: function ($item, container, _super) {
+			  			  
+			  $('.tooltip').hide();	
 			  
-			   // $("div.leaflet-control-accordion-layers").each(function( index, element ) {
-			  $('.tooltip').hide();
-			  reOrderGroupsAndLayers(true);
+			    _super($item, container);			    			  
+			    reOrderGroupsAndLayers(true);
 			    
-			    _super($item, container);
 			  }
 		  
 		});
 	
-	
-	
-	
-	
+				
 	var layer_in_groups = $("ol.ac-large").sortable({
+		
 		  group: 'no-drop-layer',
 		  handle: 'div.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
-		   
+		 
 		    if(!container.options.drop)
 		      $item.clone().insertAfter($item);
 		    _super($item, container);
 		  },
-		  onDrag:function ($item, position, _super, event) {
-			  
-			 // //console.debug("onDrag");
-			  position.left=0;
-			  ////console.info(position);
-			  $item.css(position);
-			 ////console.debug($item.css(position));
+		  onDrag:function ($item, position, _super, event) {			  		
+			  position.left=0;			 
+			  $item.css(position);			
 		  },
 		  onDrop: function ($item, container, _super) {
+			  
 			  $('.tooltip').hide();
-			  reOrderGroupsAndLayers(true);
+			 
+			  try{				  
+				 
 			    _super($item, container);
+			    reOrderGroupsAndLayers(true);
+			    
+			  }catch(err){
+				  
+				  console.info(err);
 			  }
+			 
+		  }
 		  
 		});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 }
 
@@ -240,64 +209,43 @@ function updateSortablesElements(){
  * */
 
 function updateEditableElements(){
-
-	//console.info("entro edicio capes*****************")
-	updateSortablesElements();
-	
-	//console.info($('.label_ac .editable'));
+		
+	setTimeout(function(){ updateSortablesElements(); }, 2000);	
 	
 	$('.label_ac .editable').editable({
 		type: 'text',
 		mode: 'inline',
 	    validate: function(value) {
-	    	
-	    	
+	    	    	
 	        if($.trim(value) == '') {
 	        	return {newValue: this.innerHTML};
 	        }
         },
        
 		success: function(response, newName) {
-			//console.info(this);
 			
-		
-			var oldName=this.groupName;
-			
-			
+			var oldName=this.groupName;						
 			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
-			
-			//console.info(resp_Layer);
-			//console.info(resp_Layer.length);
-			
+					
 			for(i=0;i < resp_Layer.length;i++){
-			
-				//console.info(resp_Layer[i]);
+						
 				var data = {
+						mapBusinessId: url('?businessid'),
 					 	businessId: resp_Layer[i].options.businessId, //url('?businessid') 
 					 	uid: $.cookie('uid'),
-					 	options: JSON.stringify(resp_Layer[i].options)
+					 	options: JSON.stringify(resp_Layer[i].options.group)
 					 }
 					
-				updateGroupsLayerOptions(data,null);		
-			
-			
+				updateGroupsLayerGroup(data,null);		
 			
 			}
-			
-			
-			
-			
-			
-			
-			
-			
+		
 		}
 	});	
 	
 	 $('.label_ac .editable').on('shown', function(e, editable) {
 	        jQuery('.group-conf').hide();
-	       
-	        
+	       	        
 	    });
 	    $('.label_ac .editable').on('hidden', function(e, editable) {
 	        jQuery('.group-conf').show();
@@ -340,7 +288,7 @@ function updateEditableElements(){
 					updateServidorWMSName(data).then(function(results){
 						if(results.status==='OK'){
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-	//						//console.debug('udpate map name OK');
+	
 							editableLayer.name = newValue;
 							editableLayer.layer.options.nom = newValue;
 							

@@ -178,15 +178,24 @@ function createUtfGridLayer(url,options){
 					if (key != 'id' && key != 'businessId' && key != 'slotd50'){
 						html+='<div class="popup_data_row width100">';
 						
-						var txt = parseUrlTextPopUp(String(value), key);
-						if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-							html+='<div class="popup_data_key">'+key+'</div>';
-							html+='<div class="popup_data_value">'+
-							(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
-							'</div>';
-						}else{
-							html+='<div class="popup_data_img_iframe">'+txt+'</div>';
-						}
+						var txt = value;
+	    				if (!$.isNumeric(txt)) {		    				
+		    				txt = parseUrlTextPopUp(value,key);
+		    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+		    					html+='<div class="popup_data_key">'+key+'</div>';
+		    					html+='<div class="popup_data_value">'+
+								(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
+								'</div>';
+		    				}else{
+		    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+		    				}
+	    				}
+	    				else {
+	    					html+='<div class="popup_data_key">'+key+'</div>';
+	    					html+='<div class="popup_data_value">'+
+								(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
+								'</div>';
+	    				}
 						html+= '</div>';
 					}
 				}

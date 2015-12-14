@@ -33,7 +33,7 @@ L.Control.Search = L.Control.extend({
 		filterJSON: null,			//callback for filtering data to _recordsCache
 		minLength: 1,				//minimal text length for autocomplete
 		initial: true,				//search elements only by initial text
-		autoType: true,				//complete input with first suggested result and select this filled-in text.
+		autoType: true,			//complete input with first suggested result and select this filled-in text.
 		delayType: 400,				//delay while typing for show tooltip
 		tooltipLimit: -1,			//limit max results to show in tooltip. -1 for no limit.
 		tipAutoSubmit: true,  		//auto map panTo when click on tooltip
@@ -99,6 +99,7 @@ L.Control.Search = L.Control.extend({
 		this._cancel = this._createCancel(this.options.textCancel, 'search-cancel');
 //		this._button = this._createButton(this.options.text, 'search-button glyphicon glyphicon-search grisfort');
 		this._input = this._createInput(this.options.text, 'search-input');
+		this._icon= this._createIcon('fa fa-search iconSearch');
 		this._tooltip = this._createTooltip('search-tooltip');
 		this._alert = this._createAlert('search-alert');
 		this._edit = this._createEdit(this.options.textEdit,'search-edit');
@@ -179,11 +180,11 @@ L.Control.Search = L.Control.extend({
 		text = text || this.options.textLoad;
 		this._loadv.style.display = 'block';
 		this._loadv.innerHTML = text;
-		//clearTimeout(this.timerAlert);
+		clearTimeout(this.timerAlert);
 		var that = this;		
-		//this.timerAlert = setTimeout(function() {
-			//that.hideAlert();
-		//},this.options.autoCollapseTime);
+		this.timerAlert = setTimeout(function() {
+			that.hideAlert();
+		},this.options.autoCollapseTime);
 		return this;
 	},
 	
@@ -397,6 +398,15 @@ L.Control.Search = L.Control.extend({
 		return tip;
 	},
 
+	_createIcon: function ( className) {
+		var icon = L.DomUtil.create('i', className, this._container);
+		icon.id = 'searchIcon';
+		
+		L.DomEvent
+		.disableClickPropagation(icon)
+		.on(icon, 'click', this._makeSearch,this);
+		return icon;
+	},
 //////end DOM creations
 
 	_filterRecords: function(text) {	//Filter this._recordsCache case insensitive and much more..
@@ -419,6 +429,7 @@ L.Control.Search = L.Control.extend({
 	},
 
 	showTooltip: function() {
+		
 		var filteredRecords, newTip;
 
 		this._countertips = 0;
@@ -630,9 +641,7 @@ L.Control.Search = L.Control.extend({
 				this.collapse();
 			break;
 			case 13: //Enter
-				if(this._countertips == 1)
-					this._handleArrowSelect(1);
-				this._handleSubmit();	//do search
+				this._makeSearch(this);				
 			break;
 			case 38://Up
 				this._handleArrowSelect(-1);
@@ -652,27 +661,31 @@ L.Control.Search = L.Control.extend({
 			break;
 			default://All keys
 
-				if(this._input.value.length)
-					this._cancel.style.display = 'block';
-				else
-					this._cancel.style.display = 'none';
-
-				if(this._input.value.length >= this.options.minLength)
-				{
-					var that = this;
-					clearTimeout(this.timerKeypress);	//cancel last search request while type in				
-					this.timerKeypress = setTimeout(function() {	//delay before request, for limit jsonp/ajax request
-
-						that._fillRecordsCache();
-					
-					}, this.options.delayType);
-				}
-				else
-					this._hideTooltip();
 		}
 	},
 	
+	_makeSearch: function(){
+		if(this._input.value.length)
+			this._cancel.style.display = 'block';
+		else
+			this._cancel.style.display = 'none';
+
+		if(this._input.value.length >= this.options.minLength)
+		{
+			var that = this;
+			clearTimeout(this.timerKeypress);	//cancel last search request while type in				
+			//this.timerKeypress = setTimeout(function() {	//delay before request, for limit jsonp/ajax request
+
+				that._fillRecordsCache();
+			
+			//}, this.options.delayType);
+		}
+		else
+			this._hideTooltip();
+	},
+	
 	_fillRecordsCache: function() {
+		//that.hideAlert();
 //TODO important optimization!!! always append data in this._recordsCache
 //  now _recordsCache content is emptied and replaced with new data founded
 //  always appending data on _recordsCache give the possibility of caching ajax, jsonp and layersearch!
@@ -789,17 +802,17 @@ L.Control.Search = L.Control.extend({
 			{
 				var loc = this._getLocation(this._input.value);
 				
-				if(loc===false)
-					this.showAlert();
-				else
-				{
+				//if(loc===false)
+					//this.showAlert();
+				//else
+				//{
 					this.showLocation(loc, this._input.value,this._input.value);
 					this.fire('search_locationfound', {
 							latlng: loc,
 							text: this._input.value,
 							layer: loc.layer ? loc.layer : null
 						});
-				}
+				//}
 				//this.collapse();
 				//FIXME if collapse in _handleSubmit hide _markerLoc!
 			}
@@ -821,7 +834,7 @@ L.Control.Search = L.Control.extend({
 			this._map.panTo(latlng);
 	
 		var v_url = window.location.href;
-	
+		var defaultPunt= L.AwesomeMarkers.icon(default_marker_style);	
 		if(this._markerLoc)
 		{
 			
@@ -874,18 +887,7 @@ L.Control.Search = L.Control.extend({
 				map.addLayer(capaUsrActiva);
 			}
 			else {
-				/*this._markerLoc= L.circleMarker([0,0],
-						{ isCanvas:true,
-						  simbolSize: 6,
-					      borderWidth: 2,
-					      opacity: 1,
-					      borderColor : "#ffffff",
-					      color :"red",
-					      lineWidth: 3}
-						
-				);
-				this._markerLoc.setLatLng(latlng); 
-				this._layer.addLayer(this._markerLoc);*/
+							
 				
 				var marker=null;
 				if(!defaultPunt.options.isCanvas){
@@ -908,6 +910,14 @@ L.Control.Search = L.Control.extend({
 				}
 				
 				marker.setLatLng(latlng); 
+				
+				//console.debug("createPopupWindowData");
+				var html='';
+				
+				html+='<h4>'+nom+'</h4>';				
+				html+='<div>'+title+'</div>';
+				
+				marker.bindPopup(html,{'offset':[0,-25]});
 				
 				this._layer.addLayer(marker);
 				map.addLayer(this._layer);

@@ -116,8 +116,11 @@ function loadApp(){
 					gestioCookie('diferentUser');
 					$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 					
-					if (mapConfig.options){
+					if(typeof (mapConfig.options)=="string"){
 						mapConfig.options = $.parseJSON( mapConfig.options );
+					}
+					
+					if (mapConfig.options){
 						$('meta[name="description"]').attr('content', mapConfig.options.description);
 						
 						$('meta[name="og:description"]').attr('content', mapConfig.options.description);
@@ -457,10 +460,6 @@ function loadMapConfig(mapConfig){
 		jQuery('#div_loading').hide();
 		
 		//console.warn("Capes afegides")
-		
-		
-		
-		
 	}
 	
 	dfd.resolve();
@@ -471,6 +470,15 @@ function loadOrigenWMS(){
 	var dfd = $.Deferred();
 	var layer_map = {origen:[],sublayers:[]};
 	jQuery.each(mapConfig.servidorsWMS, function(index, value){
+		//TODO parsear las options y el group y dejarlo en json. 
+		//TODO quitar el parse de cada tipo de capa.
+		if(value.options && value.capesGroup){
+			var options = JSON.parse(value.options);
+			var group = JSON.parse(value.capesGroup);
+			options.group = group;
+			value.options = JSON.stringify(options);
+		}
+		
 		if(value.capesOrdre == capesOrdre_sublayer){
 			layer_map.sublayers.push(value);
 			lsublayers.push(value);
@@ -478,10 +486,7 @@ function loadOrigenWMS(){
 			layer_map.origen.push(value);
 		}
 	});
-	
-	
-	//NOu 
-
+	//NOu
 	/*
 	jQuery.each(layer_map.origen, function(index, value){		
 		var options=JSON.parse(value.options);		
@@ -489,8 +494,7 @@ function loadOrigenWMS(){
 	});
 	*/
 	
-jQuery.each(layer_map.origen, function(index, value){	
-		
+jQuery.each(layer_map.origen, function(index, value){			
 		var jsonOptions;
 		if(typeof (value.options)=="string"){
 			
@@ -505,7 +509,6 @@ jQuery.each(layer_map.origen, function(index, value){
 			controlCapes._addGroupFromObject(jsonOptions.group);	
 		}
 
-	
 	});
 	
 	

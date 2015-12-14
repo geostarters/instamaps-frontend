@@ -151,10 +151,26 @@ function constructLayer2(capaURLfile, estil_do, nomCapa, businessId, urlFile, ti
 		    	var pp = feature.properties;
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	$.each( pp, function( key, value ) {
-					html+='<div class="popup_data_row">'+
-					'<div class="popup_data_key">'+key+'</div>'+
-				    '<div class="popup_data_value">'+value+'</div>'+
-				    '</div>';
+		    		if(isValidValue(value)){
+		    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+		    				html+='<div class="popup_data_row">';
+		    				var txt = value;
+		    				if (!$.isNumeric(txt)) {
+			    				txt = parseUrlTextPopUp(value,key);
+			    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+			    					html+='<div class="popup_data_key">'+key+'</div>';
+			    					html+='<div class="popup_data_value">'+txt+'</div>';
+			    				}else{
+			    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+			    				}
+		    				}
+		    				else {
+		    					html+='<div class="popup_data_key">'+key+'</div>';
+		    					html+='<div class="popup_data_value">'+txt+'</div>';
+		    				}
+		    				html+= '</div>';
+		    			}
+		    		}
 		    	});	
 		    	html+='</div></div>';    	
 //		    					    			  
@@ -202,10 +218,27 @@ function constructLayer(layer, estil_do){
     	var pp = marker.toGeoJSON().properties;
     	var html ='<div class="div_popup_visor"><div class="popup_pres">';
     	$.each( pp, function( key, value ) {
-			html+='<div class="popup_data_row">'+
-			'<div class="popup_data_key">'+key+'</div>'+
-		    '<div class="popup_data_value">'+value+'</div>'+
-		    '</div>';
+    		if(isValidValue(value)){
+    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+    				html+='<div class="popup_data_row">';
+    				var txt=value;
+
+    				if (!$.isNumeric(txt)) {
+	    				 txt = parseUrlTextPopUp(value,key);
+	    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+	    					html+='<div class="popup_data_key">'+key+'</div>';
+	    					html+='<div class="popup_data_value">'+txt+'</div>';
+	    				}else{
+	    					html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+	    				}
+    				}
+    				else {
+    					html+='<div class="popup_data_key">'+key+'</div>';
+    					html+='<div class="popup_data_value">'+txt+'</div>';
+    				}
+    				html+= '</div>';
+    			}
+    		}
     	});	
     	html+='</div></div>';    	
     	geom.bindPopup(html);

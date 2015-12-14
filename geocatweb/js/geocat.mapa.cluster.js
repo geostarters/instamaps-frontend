@@ -224,15 +224,21 @@ function creaClusterMap(capa) {
 											key != 'name' && key != 'Name' && key != 'NAME' &&
 											key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
 										html+='<div class="popup_data_row">';
-										
-										var txt = parseUrlTextPopUp(value, key);
-										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+										var txt = value;
+										if (!$.isNumeric(txt)) {
+											txt = parseUrlTextPopUp(value, key);
+											if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+												html+='<div class="popup_data_key">'+key+'</div>';
+												html+='<div class="popup_data_value">'+
+												(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
+												'</div>';
+											}else{
+												html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+											}
+										}
+										else {
 											html+='<div class="popup_data_key">'+key+'</div>';
-											html+='<div class="popup_data_value">'+
-											(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
-											'</div>';
-										}else{
-											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
 										}
 										html+= '</div>';
 									}
