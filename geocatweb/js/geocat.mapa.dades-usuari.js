@@ -396,23 +396,60 @@ function refrescaPopOverMevasDades(data){
 	
 	getAllServidorsWMSByUser(data).then(function(results){
 		var serverOrigen = [];
-		jQuery.each(results.results, function(i, item){
-			if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
-				if (item.options == null){
-					serverOrigen.push(item);
-				}else{
-					var options = jQuery.parseJSON( item.options );
-					
-					if (options.tem == tem_origen || options.tipus == tem_origen || options.tipus ==t_visualitzacio ||  options.tipus ==t_tematic){
+		if (results.results.length>0){
+			jQuery.each(results.results, function(i, item){
+				if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
+					if (item.options == null){
 						serverOrigen.push(item);
+					}else{
+						var options = jQuery.parseJSON( item.options );
+						
+						if (options.tem == tem_origen || options.tipus == tem_origen || options.tipus ==t_visualitzacio ||  options.tipus ==t_tematic){
+							serverOrigen.push(item);
+						}
 					}
+				}else if(item.serverType ==t_wms || item.serverType ==t_url_file){
+					serverOrigen.push(item);
 				}
-			}else if(item.serverType ==t_wms || item.serverType ==t_url_file){
-				serverOrigen.push(item);
+			});
+			dades1.results = serverOrigen;
+			dfd.resolve(dades1);
+		}
+		else {//No es troben resultats
+			
+			if (!isRandomUser($.cookie('uid'))){
+				var data ={
+					uid: $.cookie('uid')
+				};
+				getAllServidorsWMSByUser(data).then(function(results){
+					var serverOrigen = [];
+					if (results.results.length>0){
+						jQuery.each(results.results, function(i, item){
+							if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
+								if (item.options == null){
+									serverOrigen.push(item);
+								}else{
+									var options = jQuery.parseJSON( item.options );
+									
+									if (options.tem == tem_origen || options.tipus == tem_origen || options.tipus ==t_visualitzacio ||  options.tipus ==t_tematic){
+										serverOrigen.push(item);
+									}
+								}
+							}else if(item.serverType ==t_wms || item.serverType ==t_url_file){
+								serverOrigen.push(item);
+							}
+						});
+						dades1.results = serverOrigen;
+						dfd.resolve(dades1);
+					}
+					
+					
+				},function(results){
+					gestioCookie('refrescaPopOverMevasDades');
+				});
 			}
-		});
-		dades1.results = serverOrigen;
-		dfd.resolve(dades1);
+		}
+		
 	},function(results){
 		gestioCookie('refrescaPopOverMevasDades');
 	});
