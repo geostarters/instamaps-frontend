@@ -105,9 +105,7 @@ function reOrderGroupsAndLayers(action){
 }
 
 function updateGroupsLayerGroup(data,data2){
-	
-	
-	
+		
 	
 	updateServidorWMSGroup(data).then(function(results){
 	
@@ -137,12 +135,9 @@ function updateGroupsLayerGroup(data,data2){
 
 
 
-
-
-
-
 function updateSortablesElements(){
-	
+			
+
 	var group = $("ol.leaflet-control-layers-overlays").sortable({
 		  group: 'no-drop',
 		  handle: 'span.glyphicon-move',
@@ -168,10 +163,7 @@ function updateSortablesElements(){
 		  
 		});
 	
-	
-	
-	
-	
+				
 	var layer_in_groups = $("ol.ac-large").sortable({
 		
 		  group: 'no-drop-layer',
@@ -203,33 +195,7 @@ function updateSortablesElements(){
 		  }
 		  
 		});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 }
 
@@ -243,38 +209,26 @@ function updateSortablesElements(){
  * */
 
 function updateEditableElements(){
-
-	//console.info("entro edicio capes*****************")
-	
-	setTimeout(function(){ updateSortablesElements(); }, 3000);
-	
-	
-	//console.info($('.label_ac .editable'));
+		
+	setTimeout(function(){ updateSortablesElements(); }, 2000);	
 	
 	$('.label_ac .editable').editable({
 		type: 'text',
 		mode: 'inline',
 	    validate: function(value) {
-	    	
-	    	
+	    	    	
 	        if($.trim(value) == '') {
 	        	return {newValue: this.innerHTML};
 	        }
         },
        
 		success: function(response, newName) {
-			//console.info(this);
-			var oldName=this.groupName;
 			
-			
+			var oldName=this.groupName;						
 			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
-			
-			//console.info(resp_Layer);
-			//console.info(resp_Layer.length);
-			
+					
 			for(i=0;i < resp_Layer.length;i++){
-			
-				//console.info(resp_Layer[i]);
+						
 				var data = {
 						mapBusinessId: url('?businessid'),
 					 	businessId: resp_Layer[i].options.businessId, //url('?businessid') 
@@ -291,8 +245,7 @@ function updateEditableElements(){
 	
 	 $('.label_ac .editable').on('shown', function(e, editable) {
 	        jQuery('.group-conf').hide();
-	       
-	        
+	       	        
 	    });
 	    $('.label_ac .editable').on('hidden', function(e, editable) {
 	        jQuery('.group-conf').show();
@@ -335,7 +288,7 @@ function updateEditableElements(){
 					updateServidorWMSName(data).then(function(results){
 						if(results.status==='OK'){
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-	//						//console.debug('udpate map name OK');
+	
 							editableLayer.name = newValue;
 							editableLayer.layer.options.nom = newValue;
 							
