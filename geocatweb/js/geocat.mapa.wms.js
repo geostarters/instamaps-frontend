@@ -256,7 +256,7 @@ jQuery(document).on('click', "#bt_cercaWMS", function(e) {
 					var conjunt=wmsidec.CONJUNT;
 					var temes=wmsidec.TEMES;
 					lDadesIdec += '<li><a class="label-dadesIdec" href="#"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titol;
-					lDadesIdec += '<a lang="ca" href="http://www.geoportal.cat/wefex/client?do=mostraDetallServeiWMS&id='+urn+'&idioma=ca&" target="_blank">';
+					lDadesIdec += '<a lang="ca" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id='+urn+'&idioma=ca&" target="_blank">';
 					lDadesIdec += '&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a></li>';
 				});
 			 lDadesIdec += '</ul>';
