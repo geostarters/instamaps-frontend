@@ -174,7 +174,6 @@ function updateSortablesElements(){
 	
 	var layer_in_groups = $("ol.ac-large").sortable({
 		
-	//var layer_in_groups = $("li.lealfte-row").sortable({	
 		  group: 'no-drop-layer',
 		  handle: 'div.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
@@ -183,26 +182,24 @@ function updateSortablesElements(){
 		      $item.clone().insertAfter($item);
 		    _super($item, container);
 		  },
-		  onDrag:function ($item, position, _super, event) {
-			  		
+		  onDrag:function ($item, position, _super, event) {			  		
 			  position.left=0;			 
-			  $item.css(position);
-			
+			  $item.css(position);			
 		  },
 		  onDrop: function ($item, container, _super) {
 			  
 			  $('.tooltip').hide();
 			 
 			  try{				  
-				  //console.info($item.index());
-				  //console.info($item);
+				 
 			    _super($item, container);
+			    reOrderGroupsAndLayers(true);
 			    
 			  }catch(err){
 				  
 				  console.info(err);
 			  }
-			  reOrderGroupsAndLayers(true);
+			 
 		  }
 		  
 		});
@@ -248,7 +245,9 @@ function updateSortablesElements(){
 function updateEditableElements(){
 
 	//console.info("entro edicio capes*****************")
-	updateSortablesElements();
+	
+	setTimeout(function(){ updateSortablesElements(); }, 3000);
+	
 	
 	//console.info($('.label_ac .editable'));
 	

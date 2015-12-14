@@ -135,7 +135,7 @@
 
       delete result.subContainers
       delete result.sortable
-
+//console.info(result);
       return result
     },
     // Set tolerance while dragging. Positive values decrease sensitivity,
@@ -282,9 +282,10 @@
       var p = this.getPointer(e),
       box = this.sameResultBox,
       t = this.options.tolerance
-
+      //console.info(this.searchValidTarget());
       if(!box || box.top - t > p.top || box.bottom + t < p.top || box.left - t > p.left || box.right + t < p.left)
         if(!this.searchValidTarget()){
+        	
           this.placeholder.detach()
           this.lastAppendedItem = undefined
         }
@@ -297,12 +298,15 @@
       if(this.dragging){
         // processing Drop, check if placeholder is detached
         if(this.placeholder.closest("html")[0]){
+        	 //console.info(this.placeholder.closest("html")[0]);
           this.placeholder.before(this.item).detach()
         } else {
+        	
+        	 //console.info(this.itemContainer);
           this.options.onCancel(this.item, this.itemContainer, groupDefaults.onCancel, e)
         }
         this.options.onDrop(this.item, this.getContainer(this.item), groupDefaults.onDrop, e)
-
+  
         // cleanup
         this.clearDimensions()
         this.clearOffsetParent()
@@ -467,9 +471,11 @@
     this.target = itemPath ? this.el.find(itemPath) : this.el
 
     this.target.on(eventNames.start, this.handle, $.proxy(this.dragInit, this))
-
-    if(this.options.drop)
-      this.group.containers.push(this)
+	//console.info(this);
+    if(this.options.drop){
+    	//console.info(this);
+      this.group.containers.push(this);
+    }
   }
 
   Container.prototype = {
@@ -515,6 +521,7 @@
         }
     },
     movePlaceholder: function  (index, pointer) {
+    	//console.info(this.items[index]);
       var item = $(this.items[index]),
       dim = this.itemDimensions[index],
       method = "after",
@@ -549,10 +556,16 @@
       this.rootGroup.movePlaceholder(this, item, method, sameResultBox)
     },
     getItemDimensions: function  () {
+    	
+   
       if(!this.itemDimensions){
+    	  
+    	
         this.items = this.$getChildren(this.el, "item").filter(
           ":not(." + this.group.options.placeholderClass + ", ." + this.group.options.draggedClass + ")"
-        ).get()
+        ).get();
+        
+        //console.warn( this.items);
         setDimensions(this.items, this.itemDimensions = [], this.options.tolerance)
       }
       return this.itemDimensions
@@ -572,6 +585,7 @@
       return this.options.nested && this.getContainerGroup(index)
     },
     getContainerGroup: function  (index) {
+    	//console.info(this.items[index]);
       var childGroup = $.data(this.items[index], subContainerKey)
       if( childGroup === undefined){
         var childContainers = this.$getChildren(this.items[index], "container")
@@ -588,14 +602,24 @@
       }
       return childGroup
     },
+    
     $getChildren: function (parent, type) {
+    	
+    	
+    	
       var options = this.rootGroup.options,
       path = options[type + "Path"],
       selector = options[type + "Selector"]
 
+     
       parent = $(parent)
-      if(path)
-        parent = parent.find(path)
+      if(path){
+        parent = parent.find(path);
+     
+      
+      }
+      
+        
 
       return parent.children(selector)
     },

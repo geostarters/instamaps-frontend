@@ -609,30 +609,14 @@ L.Control.OrderLayers = L.Control.Layers
 						
 							inputLabel.className = 'label_ac';
 						}else{
-							inputLabel.className = 'label_ac_novisible';	
-							
-							
-							
-						}
-						
-						
-						
-
+							inputLabel.className = 'label_ac_novisible';																						
+						}						
+												
 						var _i = document.createElement('i');
 						_i.id = '_i_' + _id;
 						_i.className = classExpanded
-						inputLabel.appendChild(_i);
-						
-						
-						
-							
-							L.DomEvent.on(inputLabel, 'click', this._onExpandGroup,this);
-							
-					
-						
-						
-						
-						
+						inputLabel.appendChild(_i);																							
+							L.DomEvent.on(inputLabel, 'click', this._onExpandGroup,this);																	
 						spanGroup.className = 'span_ac editable';
 						spanGroup.id = 'ac' + _id;
 						spanGroup.groupId = _id;
@@ -939,6 +923,7 @@ L.Control.OrderLayers = L.Control.Layers
 				if (obj.overlay) {
 
 					_menu_item_checkbox.className = "leaflet-row";
+					
 
 					_menu_item_checkbox.id = 'LI-'
 							+ obj.layer.options.businessId;
