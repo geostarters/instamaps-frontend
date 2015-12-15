@@ -128,6 +128,8 @@ function createModalConfigLegend(){
 		  $('.legend-subrow input').iCheck('uncheck');
 	});	
 	
+	console.debug($('.sortable'));
+	
 	$('.sortable').sortable();
 	
 }

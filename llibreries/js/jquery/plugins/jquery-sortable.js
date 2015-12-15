@@ -714,4 +714,4 @@
     });
   };
 
-}(jQuery, window, 'sortable');
+}(jQuery, window, 'sortableTree');

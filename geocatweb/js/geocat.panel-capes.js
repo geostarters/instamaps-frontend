@@ -138,7 +138,7 @@ function updateGroupsLayerGroup(data,data2){
 function updateSortablesElements(){
 			
 
-	var group = $("ol.leaflet-control-layers-overlays").sortable({
+	var group = $("ol.leaflet-control-layers-overlays").sortableTree({
 		  group: 'no-drop',
 		  handle: 'span.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
@@ -164,7 +164,7 @@ function updateSortablesElements(){
 		});
 	
 				
-	var layer_in_groups = $("ol.ac-large").sortable({
+	var layer_in_groups = $("ol.ac-large").sortableTree({
 		
 		  group: 'no-drop-layer',
 		  handle: 'div.glyphicon-move',
