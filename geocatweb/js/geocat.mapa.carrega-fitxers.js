@@ -154,7 +154,11 @@ function creaAreesDragDropFiles() {
 								  .done(function( data ) {
 									  if(data.status.indexOf("OK")!=-1){											
 											addDropFileToMap(data);
-									 }	
+									 }
+									  else if (data.status.indexOf("ERROR")!=-1){											
+										  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+											$('#dialog_error_upload_txt').html(msg);
+									 })
 								  })								  
 								  .fail(function(data){
 									  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
@@ -379,6 +383,10 @@ function addFuncioCarregaFitxers(){
 										  if(data.status.indexOf("OK")!=-1){											
 												addDropFileToMap(data);
 										 }	
+										  else if (data.status.indexOf("ERROR")!=-1){											
+											  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+												$('#dialog_error_upload_txt').html(msg);
+										 })
 									  })
 									  .fail(function(data){
 										  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
