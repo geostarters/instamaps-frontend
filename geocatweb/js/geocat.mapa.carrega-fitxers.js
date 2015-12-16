@@ -147,12 +147,28 @@ function creaAreesDragDropFiles() {
 								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 									if(data.status.indexOf("OK")!=-1){											
 											addDropFileToMap(data);
-										}								
+									 }							
 								});
 								
+							
 								
 								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
-							
+							}else if(data.status.indexOf("KO")!=-1){
+								console.error("Error al carregar fitxer:");
+								console.error(data);
+								busy = false;
+								
+								clearInterval(pollInterval);
+								jQuery('#info_uploadFile').hide();
+								
+								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+									var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
+									$('#dialog_error_upload_txt').html(msg);
+									$('#dialog_error_upload').modal('show');
+								});
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+								
+								
 							}else if(data.status.indexOf("ERROR")!=-1){
 								console.error("Error al carregar fitxer:");
 								console.error(data);
@@ -194,6 +210,7 @@ function creaAreesDragDropFiles() {
 									}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
 										var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 										$('#dialog_error_upload_txt').html(msg);
+										
 									}
 									
 								}else{
@@ -360,7 +377,27 @@ function addFuncioCarregaFitxers(){
 												addDropFileToMap(data);
 											}								
 									});
+									
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+								
+								}else if(data.status.indexOf("KO")!=-1){
+//								
+									busy = false;
+									
+									clearInterval(pollInterval);
+									jQuery('#info_uploadFile').hide();
+									
+									$('#dialog_error_upload_txt').html("");
+									
+									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+										var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
+										$('#dialog_error_upload_txt').html(msg);
+										$('#dialog_error_upload').modal('show');
+									});
+									
+									
+									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+								
 								
 								}else if(data.status.indexOf("ERROR")!=-1){
 									console.error("Error al carregar fitxer:");
@@ -403,6 +440,7 @@ function addFuncioCarregaFitxers(){
 										}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
 											var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 											$('#dialog_error_upload_txt').html(msg);
+											
 										}
 										
 									}else{

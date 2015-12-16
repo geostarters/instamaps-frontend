@@ -111,9 +111,11 @@ function addCapaDadesObertes(dataset,nom_dataset) {
     						
     						capaDadaOberta.options.businessId = results.results.businessId;
     						
-    						capaDadaOberta.addTo(map)
     						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
     						capaDadaOberta.options.tipus= t_dades_obertes;
+    						capaDadaOberta.options.nom = nom_dataset;
+    						capaDadaOberta.addTo(map)
+    						
     						
     						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
     						controlCapes._lastZIndex++;
