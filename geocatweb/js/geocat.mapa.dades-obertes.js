@@ -113,6 +113,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
     						
     						capaDadaOberta.addTo(map)
     						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+    						capaDadaOberta.options.tipus= t_dades_obertes;
     						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
     						controlCapes._lastZIndex++;
     						activaPanelCapes(true);
