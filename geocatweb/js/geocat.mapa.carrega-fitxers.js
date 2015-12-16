@@ -144,26 +144,13 @@ function creaAreesDragDropFiles() {
 									'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 								);									
 								
-								/*$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 									if(data.status.indexOf("OK")!=-1){											
 											addDropFileToMap(data);
-									 }								
-								});*/
+									 }							
+								});
 								
-								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json")
-								  .done(function( data ) {
-									  if(data.status.indexOf("OK")!=-1){											
-											addDropFileToMap(data);
-									 }
-									  else if (data.status.indexOf("ERROR")!=-1){											
-										  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-											$('#dialog_error_upload_txt').html(msg);
-									 }
-								  })								  
-								  .fail(function(data){
-									  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-										$('#dialog_error_upload_txt').html(msg);
-								  });
+							
 								
 								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 							}else if(data.status.indexOf("KO")!=-1){
@@ -174,17 +161,11 @@ function creaAreesDragDropFiles() {
 								clearInterval(pollInterval);
 								jQuery('#info_uploadFile').hide();
 								
-								$('#dialog_error_upload_txt').html("");	
-									
-									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json")
-									  .done(function( data ) {
-										  if (data.status.indexOf("KO")!=-1){											
-											  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-												$('#dialog_error_upload_txt').html(msg);
-										 }
-									  })								  
-									  ;
-									
+								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+									var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+									$('#dialog_error_upload_txt').html(msg);
+									$('#dialog_error_upload').modal('show');
+								});
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 								
 								
@@ -391,31 +372,16 @@ function addFuncioCarregaFitxers(){
 									);									
 									
 									//addDropFileToMap(data);					
-									/*$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 										if(data.status.indexOf("OK")!=-1){											
 												addDropFileToMap(data);
 											}								
-									});*/
-									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json")
-									  .done(function( data ) {
-										  if(data.status.indexOf("OK")!=-1){											
-												addDropFileToMap(data);
-										 }	
-										  else if (data.status.indexOf("KO")!=-1){											
-											  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-												$('#dialog_error_upload_txt').html(msg);
-										 }
-									  })
-									  .fail(function(data){
-										  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-											$('#dialog_error_upload_txt').html(msg);
-									  });
+									});
+									
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 								
 								}else if(data.status.indexOf("KO")!=-1){
 //								
-									console.error("Error al carregar fitxer:");
-									console.error(data);
 									busy = false;
 									
 									clearInterval(pollInterval);
@@ -423,14 +389,12 @@ function addFuncioCarregaFitxers(){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json")
-									  .done(function( data ) {
-										  if (data.status.indexOf("KO")!=-1){											
-											  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-												$('#dialog_error_upload_txt').html(msg);
-										 }
-									  })								  
-									  ;
+									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+										var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+										$('#dialog_error_upload_txt').html(msg);
+										$('#dialog_error_upload').modal('show');
+									});
+									
 									
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 								
