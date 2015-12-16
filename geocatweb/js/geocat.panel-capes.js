@@ -210,7 +210,7 @@ function updateSortablesElements(){
 
 function updateEditableElements(){
 		
-	setTimeout(function(){ updateSortablesElements(); }, 2000);	
+	setTimeout(function(){ updateSortablesElements(); }, 3000);	
 	
 	$('.label_ac .editable').editable({
 		type: 'text',
