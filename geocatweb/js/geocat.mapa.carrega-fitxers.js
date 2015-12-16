@@ -172,11 +172,13 @@ function creaAreesDragDropFiles() {
 								busy = false;
 								
 								clearInterval(pollInterval);
-									
+								jQuery('#info_uploadFile').hide();
+								
+								$('#dialog_error_upload_txt').html("");	
 									
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json")
 									  .done(function( data ) {
-										  if (data.status.indexOf("ERROR")!=-1){											
+										  if (data.status.indexOf("KO")!=-1){											
 											  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 												$('#dialog_error_upload_txt').html(msg);
 										 }
@@ -399,7 +401,7 @@ function addFuncioCarregaFitxers(){
 										  if(data.status.indexOf("OK")!=-1){											
 												addDropFileToMap(data);
 										 }	
-										  else if (data.status.indexOf("ERROR")!=-1){											
+										  else if (data.status.indexOf("KO")!=-1){											
 											  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 												$('#dialog_error_upload_txt').html(msg);
 										 }
@@ -417,11 +419,13 @@ function addFuncioCarregaFitxers(){
 									busy = false;
 									
 									clearInterval(pollInterval);
+									jQuery('#info_uploadFile').hide();
 									
+									$('#dialog_error_upload_txt').html("");
 									
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json")
 									  .done(function( data ) {
-										  if (data.status.indexOf("ERROR")!=-1){											
+										  if (data.status.indexOf("KO")!=-1){											
 											  var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 												$('#dialog_error_upload_txt').html(msg);
 										 }
