@@ -36,7 +36,7 @@ function initButtonsTematic(){
 }
 
 function showTematicLayersModal(tipus,className){
-	console.debug("showTematicLayersModal");
+//	console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar a cap capa de les que tens en el mapa')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
