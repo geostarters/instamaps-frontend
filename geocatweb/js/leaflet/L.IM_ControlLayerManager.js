@@ -508,6 +508,7 @@ L.Control.OrderLayers = L.Control.Layers
 				this._addGroup(container, obj, null);
 				if (getModeMapa()) {
 					updateEditableElements();
+					updateSortablesElements();
 				}
 			},
 

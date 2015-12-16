@@ -455,6 +455,8 @@ function loadMapConfig(mapConfig){
 					}
 				});
 			});
+			
+			
 		});
 		
 		jQuery('#div_loading').hide();
