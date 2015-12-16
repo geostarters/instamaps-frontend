@@ -229,6 +229,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Error de xarxa. Torni a intentar-ho":"Network error. Try again"
 ,"Error durant el tractament de les dades":"Error while processing data"
 ,"Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.":"Error during conversion of the file format. Check that the file is correct."
+,"Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.":"Error while processing information of the file. Check that the file is correct."
 ,"Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.":"Error while analyzing information in the file. Check that the file is correct."
 ,"Error en la càrrega de l'arxiu":"Error loading file"
 ,"Error en la càrrega de l'arxiu: retorn buit":"Error loading file: empty return"

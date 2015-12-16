@@ -162,7 +162,7 @@ function creaAreesDragDropFiles() {
 								jQuery('#info_uploadFile').hide();
 								
 								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
-									var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+									var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
 									$('#dialog_error_upload_txt').html(msg);
 									$('#dialog_error_upload').modal('show');
 								});
@@ -390,7 +390,7 @@ function addFuncioCarregaFitxers(){
 									$('#dialog_error_upload_txt').html("");
 									
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
-										var msg = "[08]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+										var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
 										$('#dialog_error_upload_txt').html(msg);
 										$('#dialog_error_upload').modal('show');
 									});
