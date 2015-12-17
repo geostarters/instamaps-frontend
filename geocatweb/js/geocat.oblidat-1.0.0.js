@@ -28,7 +28,15 @@ jQuery("#login_button").click(function(){
 		
 		reminderMail(dataUrl).always(function(results){
 			if (results.status=="OK") {
-				$('#modal_send_mail').modal('toggle');
+				if (results.results =="reminderMail") {
+					$('#modal_send_mail').modal('toggle');
+				}
+				else {
+					var providers = results.results;
+					var html ='No és possible recuperar la contrasenya perquè et vas registrar amb: '+providers;					
+					$('#profiler').val(html);
+					$('#modal_provider_noticgc').modal('toggle');
+				}
 			}
 			else if (results.status=="ERROR") {
 				if (results.results=="EntitatNotFoundException"){
