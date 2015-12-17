@@ -77,60 +77,62 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	    			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
 	    		}            	
             }else{
-            	
-            	capaDadaOberta.addData(data);
-            	
-            	if(typeof url('?businessid') == "string"){
-    				var data = {
-    					uid:$.cookie('uid'),
-    					mapBusinessId: url('?businessid'),
-    					serverName: nom_dataset,
-    					serverType: t_dades_obertes,
-    					calentas: false,
-    		            activas: true,
-    		            visibilitats: true,
-    		            order: controlCapes._lastZIndex+1,
-    		            epsg: '4326',
-    		            transparency: true,
-    		            visibilitat: visibilitat_open,
-    					options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
-    				};
-    				
-    				createServidorInMap(data).then(function(results){
-    					if (results.status == "OK"){
-    						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
-    						
-    						capaDadaOberta.options={"dataset":dataset,
-    								"estil_do":{"radius":estil_do.radius,
-    									"fillColor":estil_do.fillColor,
-    									"color":estil_do.color,
-    									"weight":estil_do.weight,
-    									"opacity":estil_do.opacity,
-    									"fillOpacity":estil_do.fillOpacity,
-    									"isCanvas":estil_do.isCanvas}};
-    						
-    						capaDadaOberta.options.businessId = results.results.businessId;
-    						
-    						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-    						capaDadaOberta.options.tipus= t_dades_obertes;
-    						capaDadaOberta.options.nom = nom_dataset;
-    						capaDadaOberta.addTo(map)
-    						
-    						
-    						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-    						controlCapes._lastZIndex++;
-    						activaPanelCapes(true);
-    						
-    					}
-    				});
-    			}else{
-    				capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
-    				capaDadaOberta.addTo(map);
-    				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
-    				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
-    				controlCapes._lastZIndex++;
-    				activaPanelCapes(true);
-    			}		            	
+            	if (data!=null && data.features!="undefined"){
+            		jQuery("#div_do_message").html("");
+	            	capaDadaOberta.addData(data);
+	            	
+	            	if(typeof url('?businessid') == "string"){
+	    				var data = {
+	    					uid:$.cookie('uid'),
+	    					mapBusinessId: url('?businessid'),
+	    					serverName: nom_dataset,
+	    					serverType: t_dades_obertes,
+	    					calentas: false,
+	    		            activas: true,
+	    		            visibilitats: true,
+	    		            order: controlCapes._lastZIndex+1,
+	    		            epsg: '4326',
+	    		            transparency: true,
+	    		            visibilitat: visibilitat_open,
+	    					options: '{"dataset":"'+dataset+'","estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}'			
+	    				};
+	    				
+	    				createServidorInMap(data).then(function(results){
+	    					if (results.status == "OK"){
+	    						capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+	    						
+	    						capaDadaOberta.options={"dataset":dataset,
+	    								"estil_do":{"radius":estil_do.radius,
+	    									"fillColor":estil_do.fillColor,
+	    									"color":estil_do.color,
+	    									"weight":estil_do.weight,
+	    									"opacity":estil_do.opacity,
+	    									"fillOpacity":estil_do.fillOpacity,
+	    									"isCanvas":estil_do.isCanvas}};
+	    						
+	    						capaDadaOberta.options.businessId = results.results.businessId;
+	    						
+	    						capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+	    						capaDadaOberta.options.tipus= t_dades_obertes;
+	    						capaDadaOberta.options.nom = nom_dataset;
+	    						capaDadaOberta.addTo(map)
+	    						
+	    						
+	    						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+	    						controlCapes._lastZIndex++;
+	    						activaPanelCapes(true);
+	    						
+	    					}
+	    				});
+	    			}else{
+	    				capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
+	    				capaDadaOberta.addTo(map);
+	    				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
+	    				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
+	    				controlCapes._lastZIndex++;
+	    				activaPanelCapes(true);
+	    			}	
+            	}
             }
         }
 	});
