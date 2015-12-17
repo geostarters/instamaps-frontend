@@ -89,6 +89,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		    	propName = "";
 		    	$.each( pp, function( key, value ) {
+		    		propName = propName+key+",";
 		    		if(isValidValue(value)){
 		    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 		    				html+='<div class="popup_data_row">';
@@ -120,6 +121,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			    	var html ='<div class="div_popup_visor"><div class="popup_pres">';
 			    	propName = "";
 			    	$.each( pp, function( key, value ) {
+			    		propName = propName+key+",";
 			    		if(isValidValue(value)){
 			    			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 			    				html+='<div class="popup_data_row">';
