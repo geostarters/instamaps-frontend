@@ -1365,7 +1365,7 @@ function showModalFilterFieldsAvancat(data){
 					var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 				}else{
 					var fields = {};	
-					results.sort();
+					results.sort(sortByValueMax);
 					jQuery.grep(results, function( n, i ) {
 						fields[n] =n;
 						var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
@@ -1406,7 +1406,7 @@ function showModalFilterFieldsAvancat(data){
 					getValuesFromKeysProperty(dataVis).then(function(results){
 						var valors = results.valors;
 						var fields = {};
-						valors.sort();
+						valors = valors.sort(sortByValueMax);
 						jQuery.grep(valors, function( n, i ) {
 							fields[n] = n;									
 							var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
@@ -1428,8 +1428,9 @@ function showModalFilterFieldsAvancat(data){
 					getValuesFromKeysProperty(dataVis).then(function(results){
 						var valors = results.valors;
 						var fields = {};
-						valors.sort();
-						jQuery.grep(valors.slice(0,10), function( n, i ) {
+						valors = valors.sort(sortByValueMax);
+						var valors10 = valors.slice(0,10);
+						jQuery.grep(valors10, function( n, i ) {
 							fields[n] = n;									
 							var source2 = jQuery("#tematic-layers-fields-values-avancat").html();
 							var template2 = Handlebars.compile(source2);
@@ -1758,9 +1759,21 @@ function showModalFilterFieldsAvancat(data){
 	
 }
 
-
-
-
+function sortByValueMax(a, b){
+	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+	if (floatRegex.test(a) && floatRegex.test(b)) {
+		var aValue = a;
+		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		var bValue = b; 
+		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		return (aValue-bValue);
+	}
+	else {
+		var aName = a.toLowerCase();
+		var bName = b.toLowerCase(); 
+		return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+	}	
+}
 
 
 function addHtmlModalFieldsFilter(){
