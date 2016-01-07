@@ -398,7 +398,7 @@
         _updateDownloadableData: function(){
         	var downloadableData = {};
         	$(".downloadable-subrow").each(function(index,element){
-        		var businessId = $(element).attr('data-businessId');
+        		var businessId = $(element).attr('data-businessid');
         		var obj = {
     				chck : $(element).children( "div.icheckbox_flat-blue").hasClass('checked'),
     				businessId : businessId
@@ -484,7 +484,8 @@
         	options.fons = _map.getActiveMap();
         	options.fonsColor = _map.getMapColor();
         	options.idusr = $('#userId').val();
-        	options.downloadable = downloadableData;
+        	//Issue #467: S'ha de respectar el que es selecciona al publicar sobre si una capa és descarregable o no.
+        	options.downloadable = this.downloadableData;
         	
         	options = JSON.stringify(options);
         		
