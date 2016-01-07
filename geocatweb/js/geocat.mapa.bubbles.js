@@ -97,7 +97,22 @@ function showModalTematicBubbles(data){
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
 				if (visualitzacio.options){
-					var options = JSON.parse(visualitzacio.options);
+					//var options = JSON.parse(visualitzacio.options);
+					var options;
+					if(typeof (visualitzacio.options)=="string"){
+						try {
+							options = JSON.parse(visualitzacio.options);
+						}
+						catch (err) {
+							options = visualitzacio.options;	
+						}
+						
+					}else{
+						
+						options = visualitzacio.options;	
+					}
+					
+					
 					var dataNames = options.propName.split(',');
 					jQuery.each(dataNames, function( index, value ) {
 						fields[value] = value;

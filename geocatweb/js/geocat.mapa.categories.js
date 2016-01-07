@@ -86,7 +86,21 @@ function showModalTematicCategories(data){
 				fields[window.lang.convert('Escull el camp')] = '---';
 				var dataNames = [];
 				if (visualitzacio.options){
-					var options = JSON.parse(visualitzacio.options);
+					//var options = JSON.parse(visualitzacio.options);
+					var options;
+					if(typeof (visualitzacio.options)=="string"){
+						try {
+							options = JSON.parse(visualitzacio.options);
+						}
+						catch (err) {
+							options = visualitzacio.options;	
+						}
+						
+					}else{
+						
+						options = visualitzacio.options;	
+					}
+					
 					if(options.propName){
 						dataNames = options.propName.split(',');
 						jQuery.each(dataNames, function( index, value ) {

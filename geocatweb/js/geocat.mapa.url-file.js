@@ -507,7 +507,20 @@ function loadURLfileLayer(layer){
 	
 	var defer = $.Deferred();
 
-	var options = JSON.parse(layer.options);
+	//var options = JSON.parse(layer.options);
+	var options;
+	if(typeof (layer.options)=="string"){
+		try {
+			options = JSON.parse(layer.options);
+		}
+		catch (err) {
+			options = layer.options;	
+		}
+		
+	}else{
+		
+		options = layer.options;	
+	}
 	//console.debug("options:");
 	//console.debug(options);
 	
