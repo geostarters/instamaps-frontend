@@ -1759,21 +1759,7 @@ function showModalFilterFieldsAvancat(data){
 	
 }
 
-function sortByValueMax(a, b){
-	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
-	if (floatRegex.test(a) && floatRegex.test(b)) {
-		var aValue = a;
-		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
-		var bValue = b; 
-		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
-		return (aValue-bValue);
-	}
-	else {
-		var aName = a.toLowerCase();
-		var bName = b.toLowerCase(); 
-		return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
-	}	
-}
+
 
 
 function addHtmlModalFieldsFilter(){

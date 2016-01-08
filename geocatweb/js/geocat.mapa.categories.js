@@ -229,7 +229,7 @@ function showVisualitzacioDataUnic(values){
 	jQuery("#dialog_tematic_rangs").data("tipusrang","unic");
 	
 	//Ordenar valores
-	values.sort();
+	values.sort(sortByValueMax);
 	
 	var scale = createScale(paleta, values.length);
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
