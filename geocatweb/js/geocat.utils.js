@@ -712,6 +712,71 @@ function sortByKey(array, key) {
     });
 }
 
+function sortByValueMax(a, b){
+	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+	var floatRegex2 = new RegExp('[-+]?([0-9]*,[0-9]+|[0-9]+)');
+	var aValue;
+	if (a.value!=undefined) aValue= a.value;
+	else if (a.v!=undefined) aValue=a.v;
+	else aValue = a;
+	
+	var bValue;
+	if (b.value!=undefined) bValue= b.value;
+	else if (b.v!=undefined) bValue=b.v;
+	else bValue =b;
+	
+	if (floatRegex.test(aValue) && floatRegex.test(bValue)) {
+		if (aValue.indexOf(",")>-1){
+			if (aValue.indexOf(".")>-1){
+				aValue=aValue.replace(".","");
+				aValue=aValue.replace(",",".");
+			}
+			else {
+				aValue = aValue.replace(",",".");
+			}
+		}
+		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		if (bValue.indexOf(",")>-1){
+			if (bValue.indexOf(".")>-1){
+				bValue=bValue.replace(".","");
+				bValue=bValue.replace(",",".");
+			}
+			else {
+				bValue = bValue.replace(",",".");
+			}
+		}
+		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		return (aValue-bValue);
+	}
+	else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {
+		if (aValue.indexOf(",")>-1){
+			if (aValue.indexOf(".")>-1){
+				aValue=aValue.replace(".","");
+				aValue=aValue.replace(",",".");
+			}
+			else {
+				aValue = aValue.replace(",",".");
+			}
+		}
+		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		if (bValue.indexOf(",")>-1){
+			if (bValue.indexOf(".")>-1){
+				bValue=bValue.replace(".","");
+				bValue=bValue.replace(",",".");
+			}
+			else {
+				bValue = bValue.replace(",",".");
+			}
+		}
+		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		return (aValue-bValue);
+	}
+	else {
+		var aName = aValue.toLowerCase();
+		var bName = bValue.toLowerCase();
+		return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+	}	
+}
 
 (function($){
 	var o = $({});

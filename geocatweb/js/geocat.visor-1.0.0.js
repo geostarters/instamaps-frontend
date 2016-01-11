@@ -914,7 +914,21 @@ function loadOrigenWMS(){
 		//TODO parsear las options y el group y dejarlo en json. 
 		//TODO quitar el parse de cada tipo de capa.
 		if(value.options && value.capesGroup){
-			var options = JSON.parse(value.options);
+			//var options = JSON.parse(value.options);
+			var options;
+			if(typeof (value.options)=="string"){
+				try {
+					options = JSON.parse(value.options);
+				}
+				catch (err) {
+					options = value.options;	
+				}
+				
+			}else{
+				
+				options = value.options;	
+			}
+			
 			var group = JSON.parse(value.capesGroup);
 			options.group = group;
 			value.options = JSON.stringify(options);
@@ -934,8 +948,12 @@ function loadOrigenWMS(){
 		var jsonOptions;
 		if(typeof (value.options)=="string"){
 			
-			jsonOptions = JSON.parse(value.options);	
-			
+			try {
+				jsonOptions = JSON.parse(value.options);
+			}
+			catch (err) {
+				jsonOptions = value.options;	
+			}
 		}else{
 			
 			jsonOptions = value.options;	
