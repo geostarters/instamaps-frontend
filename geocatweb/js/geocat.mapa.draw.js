@@ -838,7 +838,6 @@ function createPopupWindow(layer,type){
 	});	
 
 	layer.on('popupopen', function(e){
-		
 		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
 			map.closePopup();
 		}else{
@@ -848,7 +847,26 @@ function createPopupWindow(layer,type){
 				jQuery('#titol_pres').text(layer.properties.data.nom).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
 			}
 			if (layer.properties.data.text){
-				jQuery('#des_pres').text(layer.properties.data.text).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+				var txt = layer.properties.data.text;
+				
+				if (!$.isNumeric(txt)) {
+					txt = parseUrlTextPopUp(txt,"");
+					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+						jQuery('#des_pres').html('');
+						jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
+						jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+					}else{
+						jQuery('#des_pres').html('');
+						jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
+						jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+					}
+				}
+				else {
+					jQuery('#des_pres').html('');
+					jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
+					jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+				}
+				
 			}			
 		}
 	});
@@ -1141,8 +1159,27 @@ function updateFeatureNameDescr(layer, titol, descr){
 	
     updateGeometria(data).then(function(results){
 	    if(results.status == 'OK'){
-			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil blau"></i>');	
-			jQuery('#des_pres').text(descr).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+			var txt = descr;
+			
+			if (!$.isNumeric(txt)) {
+				txt = parseUrlTextPopUp(txt,"");
+				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+					jQuery('#des_pres').html('');
+					jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
+					jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+				}else{
+					jQuery('#des_pres').html('');
+					jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
+					jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+				}
+			}
+			else {
+				jQuery('#des_pres').html('');
+				jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
+				jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+			}
+			
 			jQuery('.popup_pres').show();
 			jQuery('.popup_edit').hide();           
 	    }else{
@@ -1298,10 +1335,18 @@ function createPopUpContent(player,type){
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
 		+'<ul class="bs-popup">'						
-			+'<li class="edicio-simple-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Estils')+'<span class="glyphicon glyphicon-map-marker verd"></span></a>   </li>'
-			+'<li class="edicio-simple-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Editar')+'<span class="glyphicon glyphicon-move magenta"></span></a>   </li>'
-			+'<li class="edicio-simple-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#">'+window.lang.convert('Esborrar')+'<span class="glyphicon glyphicon-trash vermell"></span></a>   </li>'													
-		+'</ul>'														
+		+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
+	console.debug(player);
+	if (player.properties.estil) {
+		html+='<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					
+	}
+	else {
+		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span>  </li>';					
+	}
+		
+	html+='</ul>'														
 	+'</div>'
 	
 	+'</div>'	
@@ -1494,7 +1539,7 @@ function modeEditText(){
 	jQuery('#capa_txt').hide();
 	jQuery('#feature_txt').show();
 	var txtTitol=jQuery('#titol_pres').text();
-	var txtDesc=jQuery('#des_pres').text();
+	var txtDesc=jQuery('#descrText').html();
 	jQuery('#titol_edit').val(txtTitol);	
 	jQuery('#des_edit').val(txtDesc);
 	jQuery('.popup_pres').hide();
