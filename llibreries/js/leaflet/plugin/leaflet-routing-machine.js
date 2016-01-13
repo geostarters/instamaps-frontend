@@ -1,4 +1,4 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),(f.L||(f.L={})).Routing=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.L || (g.L = {})).Routing = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 function corslite(url, callback, cors) {
     var sent = false;
 
@@ -402,6 +402,7 @@ if (typeof module !== undefined) module.exports = polyline;
 	L.extend(L.Routing, require('./L.Routing.Line'));
 	L.extend(L.Routing, require('./L.Routing.Plan'));
 	L.extend(L.Routing, require('./L.Routing.OSRM'));
+	L.extend(L.Routing, require('./L.Routing.ErrorControl'));
 
 	L.Routing.Control = L.Routing.Itinerary.extend({
 		options: {
@@ -637,6 +638,8 @@ if (typeof module !== undefined) module.exports = polyline;
 		_updateLineCallback: function(err, routes) {
 			if (!err) {
 				this._updateLines({route: routes[0], alternatives: routes.slice(1) });
+			} else {
+				this._clearLines();
 			}
 		},
 
@@ -702,7 +705,68 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Itinerary":7,"./L.Routing.Line":9,"./L.Routing.OSRM":11,"./L.Routing.Plan":12}],5:[function(require,module,exports){
+},{"./L.Routing.ErrorControl":5,"./L.Routing.Itinerary":8,"./L.Routing.Line":10,"./L.Routing.OSRM":12,"./L.Routing.Plan":13}],5:[function(require,module,exports){
+(function() {
+	'use strict';
+
+	L.Routing = L.Routing || {};
+
+	L.Routing.ErrorControl = L.Control.extend({
+		options: {
+			header: 'Routing error',
+			formatMessage: function(error) {
+				if (error.status < 0) {
+					return 'Calculating the route caused an error. Technical description follows: <code><pre>' +
+						error.message + '</pre></code';
+				} else {
+					return 'The route could not be calculated. ' +
+						error.message;
+				}
+			}
+		},
+
+		initialize: function(routingControl, options) {
+			L.Control.prototype.initialize.call(this, options);
+			routingControl
+				.on('routingerror', L.bind(function(e) {
+					if (this._element) {
+						this._element.children[1].innerHTML = this.options.formatMessage(e.error);
+						this._element.style.visibility = 'visible';
+					}
+				}, this))
+				.on('routingstart', L.bind(function() {
+					if (this._element) {
+						this._element.style.visibility = 'hidden';
+					}
+				}, this));
+		},
+
+		onAdd: function() {
+			var header,
+				message;
+
+			this._element = L.DomUtil.create('div', 'leaflet-bar leaflet-routing-error');
+			this._element.style.visibility = 'hidden';
+
+			header = L.DomUtil.create('h3', null, this._element);
+			message = L.DomUtil.create('span', null, this._element);
+
+			header.innerHTML = this.options.header;
+
+			return this._element;
+		},
+
+		onRemove: function() {
+			delete this._element;
+		}
+	});
+
+	L.Routing.errorControl = function(routingControl, options) {
+		return new L.Routing.ErrorControl(routingControl, options);
+	};
+})();
+
+},{}],6:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -850,7 +914,7 @@ if (typeof module !== undefined) module.exports = polyline;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Localization":10}],6:[function(require,module,exports){
+},{"./L.Routing.Localization":11}],7:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1006,7 +1070,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Autocomplete":3}],7:[function(require,module,exports){
+},{"./L.Routing.Autocomplete":3}],8:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1243,7 +1307,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Formatter":5,"./L.Routing.ItineraryBuilder":8}],8:[function(require,module,exports){
+},{"./L.Routing.Formatter":6,"./L.Routing.ItineraryBuilder":9}],9:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1294,7 +1358,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1440,7 +1504,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function() {
 	'use strict';
 	L.Routing = L.Routing || {};
@@ -1886,7 +1950,7 @@ if (typeof module !== undefined) module.exports = polyline;
 	module.exports = L.Routing;
 })();
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -1943,19 +2007,34 @@ if (typeof module !== undefined) module.exports = polyline;
 			}
 
 			corslite(url, L.bind(function(err, resp) {
-				var data;
+				var data,
+					errorMessage,
+					statusCode;
 
 				clearTimeout(timer);
 				if (!timedOut) {
+					errorMessage = 'HTTP request failed: ' + err;
+					statusCode = -1;
+
 					if (!err) {
-						data = JSON.parse(resp.responseText);
-						this._routeDone(data, wps, callback, context);
-					} else {
-						callback.call(context || callback, {
-							status: -1,
-							message: 'HTTP request failed: ' + err
-						});
+						try {
+							data = JSON.parse(resp.responseText);
+							try {
+								return this._routeDone(data, wps, callback, context);
+							} catch (ex) {
+								statusCode = -3;
+								errorMessage = ex.toString();
+							}
+						} catch (ex) {
+							statusCode = -2;
+							errorMessage = 'Error parsing OSRM response: ' + ex.toString();
+						}
 					}
+
+					callback.call(context || callback, {
+						status: statusCode,
+						message: errorMessage
+					});
 				}
 			}, this));
 
@@ -1969,7 +2048,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			    i;
 
 			context = context || callback;
-			if (response.status !== 0) {
+			if (response.status !== 0 && response.status !== 200) {
 				callback.call(context, {
 					status: response.status,
 					message: response.status_message
@@ -2193,7 +2272,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.Waypoint":13,"corslite":1,"polyline":2}],12:[function(require,module,exports){
+},{"./L.Routing.Waypoint":14,"corslite":1,"polyline":2}],13:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
@@ -2545,7 +2624,7 @@ if (typeof module !== undefined) module.exports = polyline;
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./L.Routing.GeocoderElement":6,"./L.Routing.Waypoint":13}],13:[function(require,module,exports){
+},{"./L.Routing.GeocoderElement":7,"./L.Routing.Waypoint":14}],14:[function(require,module,exports){
 (function (global){
 (function() {
 	'use strict';
