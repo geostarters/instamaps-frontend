@@ -25,11 +25,54 @@ jQuery(document).ready(function() {
 		
 }); // Final document ready
 
+$( window ).resize(function() {
+	var widthW = $( window ).width();
+	var width = $( '#map' ).width();
+	var height = $( '#map' ).height();
+	
+	
+	 if(typeof url('?embed') == "string" || width<=400 || height<=350){
+		 $('.leaflet-control-gps').attr("style","display:none");
+			$('#dv_bt_Find').attr("style","display:none");
+			$('#dv_bt_Routing').attr("style","display:none");	
+			$('.bt_captura').attr("style","display:none");	
+			$('.bt_print').attr("style","display:none");
+			$('.bt_geopdf').attr("style","display:none");
+			$('.control-btn-fons').attr("style","display:none");
+			$('.leaflet-control-mouseposition').attr("style","display:none");
+			$('.leaflet-control-scale').attr("style","display:none");
+			$('.leaflet-control-minimap').attr("style","display:none");
+			activaLlegenda(true);
+			setTimeout("activaLlegenda(false)", 500);
+	 }
+	 if (typeof url('?embed') == "string" && widthW<=360) { 
+			$('.bt_llista').attr("style","display:none");
+			$('.leaflet-control-layers').attr("style","display:none");
+		}
+		else if (typeof url('?embed') == "string") {
+			$('.bt_llista').attr("style","display:block");
+			$('.leaflet-control-layers').attr("style","display:block");
+			activaPanelCapes(false);
+		}
+	
+	
+	
+	
+	var cl = jQuery('.bt_llista span').attr('class');
+	if (cl){
+		if (cl.indexOf('grisfort') == -1) {
+			jQuery('.bt_llista span').removeClass('greenfort');
+			jQuery('.bt_llista span').addClass('grisfort');
+		}
+	}
+	
+});
+
 //Funcio per canviar comportament navbar al visor
 function changeInitVisor(){
 	jQuery('.container').css('width','95%');
 	//TODO ver como hacer para no depender del timeout
-	setTimeout('activaPanelCapes(false)',3000);
+	if (!isIframeOrEmbed()) setTimeout('activaPanelCapes(false)',3000);
 }
 
 function loadWmsVisorSimple(){
@@ -157,8 +200,7 @@ function loadApp(){
           jQuery('#navbar-visor').hide();
           jQuery('#searchBar').css('top', '0');
           addDefaultZoomControl = false;
-          
-         
+        
           
           
           _gaq.push (['_trackEvent', 'visor', 'embed']);
@@ -233,6 +275,7 @@ function loadApp(){
 			}
 		});
 	}
+
 	
 		jQuery('#socialShare_visor').on('click', function(evt){
 			//console.debug('on click social');
@@ -318,8 +361,10 @@ function loadPublicMap(results){
 				
 	//iniciamos los controles
 	initControls().then(function(){
-		if(typeof url('?embed') == "string"){
-			activaLlegenda(false);
+		if (isIframeOrEmbed()){		
+			console.debug("AKI");
+			activaLlegenda(true);
+			setTimeout("activaLlegenda(false)", 500);
 		}
 	});		
 	
@@ -329,7 +374,17 @@ function loadPublicMap(results){
 	loadMapConfig(mapConfig).then(function(){
 		//avisDesarMapa();
 		addFuncioDownloadLayer('visor');
-		activaPanelCapes(true);
+		if (isIframeOrEmbed()){
+			activaPanelCapes(false);
+			var cl = jQuery('.bt_llista span').attr('class');
+			if (cl){
+				if (cl.indexOf('grisfort') == -1) {
+					jQuery('.bt_llista span').removeClass('greenfort');
+					jQuery('.bt_llista span').addClass('grisfort');
+				}
+			}
+		}
+		else activaPanelCapes(true);
 		//Actulitza idioma dels tooltips
 		$("body").on("change-lang", function(event, lang){
 			window.lang.change(lang);
@@ -340,6 +395,7 @@ function loadPublicMap(results){
 		canviaIdioma(web_determinaIdioma());				
 		document.title = mapConfig.nomAplicacio +" - Mapa";
 		
+		
 		var controlFons = new L.IM_controlFons().addTo(map);
 		
 		$.publish('loadMap', map);
@@ -347,6 +403,34 @@ function loadPublicMap(results){
 		map.on('moveend',function(e){
       		$.publish('mapMoveend', this);
       	});
+		
+		var widthW = $( window ).width();
+		
+
+		var width = $( '#map' ).width();
+		var height = $( '#map' ).height();
+		
+		if ( typeof url('?embed') == "string"  || width<=400 || height<=350){
+			$('.leaflet-control-gps').attr("style","display:none");
+			$('#dv_bt_Find').attr("style","display:none");
+			$('#dv_bt_Routing').attr("style","display:none");	
+			$('.bt_captura').attr("style","display:none");	
+			$('.bt_print').attr("style","display:none");
+			$('.bt_geopdf').attr("style","display:none");
+			$('.control-btn-fons').attr("style","display:none");
+			$('.leaflet-control-mouseposition').attr("style","display:none");
+			$('.leaflet-control-scale').attr("style","display:none");
+			$('.leaflet-control-minimap').attr("style","display:none");
+			
+			if (typeof url('?embed') == "string" && widthW<=360) { 
+				$('.bt_llista').attr("style","display:none");
+				$('.leaflet-control-layers').attr("style","display:none");
+			}
+			else if (typeof url('?embed') == "string") {
+				$('.bt_llista').attr("style","display:block");
+				$('.leaflet-control-layers').attr("style","display:block");
+			}
+		}
 		
 	});
 }
@@ -799,9 +883,9 @@ function routingPopup(e) {
 	   
 	    container +='<h4 style="border-bottom:0px;">Càlcul de rutes</h4>';
 	    container +='<button class="btn" title="Ruta inversa" type="button" id="startBtn">Defineix com a origen</button>'+
-	    	'<span class="awesome-marker-icon-green awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" style="position:relative;float:right;margin-top:-5px;"></span>'+
+	    	'<span class="awesome-marker-icon-green awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" id="icona-origen" style="position:relative;float:right;margin-top:-5px;"></span>'+
 	    	'<button class="btn" title="Ruta inversa" type="button" id="destBtn" style="margin-top:10px;width:152px">Defineix com a destí</button>'+
-	    	'<span class="awesome-marker-icon-red awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" style="position:relative;float:right;margin-top:-35px;"></span>';
+	    	'<span class="awesome-marker-icon-red awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" id="icona-desti" style="position:relative;float:right;margin-top:-35px;"></span>';
 	    container += "</div>";
 	
 	    L.popup()
@@ -818,6 +902,16 @@ function routingPopup(e) {
 	    });
 	
 	    jQuery('#destBtn').on('click', function() {
+	        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);	       
+	        map.closePopup();
+	    });
+	    
+	    jQuery('#icona-origen').on('click', function() {
+	    	route.spliceWaypoints(0, 1, e.latlng);	    	
+	    	map.closePopup();
+	    });
+	
+	    jQuery('#icona-desti').on('click', function() {
 	        route.spliceWaypoints(route.getWaypoints().length - 1, 1, e.latlng);	       
 	        map.closePopup();
 	    });
@@ -1180,4 +1274,15 @@ function loadRouteControl(){
 	});
 	
 	//map.on('click', routingPopup);
+}
+
+function isIframeOrEmbed(){
+	var width = $( '#map' ).width();
+	var height = $( '#map' ).height();
+	
+	if ((width<=640 && height<=428) || typeof url('?embed') == "string"){
+		return true;
+	}
+	else return false;
+	
 }
