@@ -25,7 +25,7 @@ function showModalTematicCategories(data){
 		var _this = jQuery(this);
 		var brewerClass = _this.attr('class').replace("ramp ","");
 		jQuery("#dialog_tematic_rangs").data("paleta", brewerClass);
-		if (jQuery('#list_tematic_values').html() != ""){
+		if (jQuery('#list_tematic_values').html() !== ""){
 			updatePaletaRangs();
 		}
 	});
@@ -84,15 +84,39 @@ function showModalTematicCategories(data){
 				jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
+				var dataNames = [];
 				if (visualitzacio.options){
-					var options = JSON.parse(visualitzacio.options);
-					var dataNames = options.propName.split(',');
-					jQuery.each(dataNames, function( index, value ) {
-						fields[value] = value;
-					});
+					//var options = JSON.parse(visualitzacio.options);
+					var options;
+					if(typeof (visualitzacio.options)=="string"){
+						try {
+							options = JSON.parse(visualitzacio.options);
+						}
+						catch (err) {
+							options = visualitzacio.options;	
+						}
+						
+					}else{
+						
+						options = visualitzacio.options;	
+					}
+					
+					if(options.propName){
+						dataNames = options.propName.split(',');
+						jQuery.each(dataNames, function( index, value ) {
+							fields[value] = value;
+						});
+					}else{
+						if (results.geometries && results.geometries.options){
+							dataNames = results.geometries.options.split(',');
+							jQuery.each(dataNames, function( index, value ) {
+								fields[value] = value;
+							});
+						}
+					}
 				}else{
 					if (results.geometries && results.geometries.options){
-						var dataNames = results.geometries.options.split(',');
+						dataNames = results.geometries.options.split(',');
 						jQuery.each(dataNames, function( index, value ) {
 							fields[value] = value;
 						});
@@ -134,7 +158,7 @@ function showModalTematicCategories(data){
 
 function getTipusValuesVisualitzacio(results){
 	//console.debug("getTipusValuesVisualitzacio");
-	if (results.length == 0){
+	if (results.length === 0){
 		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		jQuery('#list_tematic_values').html(warninMSG);
 		jQuery('#dialog_tematic_rangs .btn-success').hide();
@@ -151,10 +175,10 @@ function getTipusValuesVisualitzacio(results){
 			}
 			return isText;
 		});
-		if (nodata.length != 0){
+		if (nodata.length !== 0){
 			jQuery("#dialog_tematic_rangs").data("nodata",true);
 		}
-		if (arr.length == 0){ //rangos
+		if (arr.length === 0){ //rangos
 			jQuery('#tipus_agrupacio_grp').show();
 			jQuery('#num_rangs_grp').show();
 			jQuery('#list_tematic_values').html("");
@@ -205,7 +229,7 @@ function showVisualitzacioDataUnic(values){
 	jQuery("#dialog_tematic_rangs").data("tipusrang","unic");
 	
 	//Ordenar valores
-	values.sort();
+	values.sort(sortByValueMax);
 	
 	var scale = createScale(paleta, values.length);
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
@@ -276,9 +300,9 @@ function div2RangStyle(tematic, tdElem){
 	var rangStyle;
 	
 	var ftype = transformTipusGeometry(tematic.geometrytype);
-		
+	var divElement;	
 	if (ftype == t_marker){
-		var divElement = tdElem.find('div');
+		divElement = tdElem.find('div');
 		rangStyle = {
 			borderColor :  "#ffffff",
 			borderWidth :  2,
@@ -287,13 +311,13 @@ function div2RangStyle(tematic, tdElem){
 			opacity: 90
 		};
 	}else if (ftype == t_polyline){
-		var divElement = tdElem.find('canvas')[0].getContext("2d");
+		divElement = tdElem.find('canvas')[0].getContext("2d");
 		rangStyle = {
 			lineWidth :  divElement.lineWidth,
 			color: divElement.strokeStyle,
 		};
 	}else if (ftype == t_polygon){
-		var divElement = tdElem.find('canvas')[0].getContext("2d");
+		divElement = tdElem.find('canvas')[0].getContext("2d");
 		rangStyle = {
 			borderColor :  divElement.strokeStyle,
 			borderWidth :  divElement.lineWidth,
@@ -320,11 +344,12 @@ function createTematicLayerCategories(event){
 		var _this = jQuery(value);
 		var tdRang, tdMin, tdMax;
 		var tdVal;
+		var rang = {};
+		var rangEstil;
 		if (_this.children().length == 2){
 			tdRang = _this.find('td:eq(0)');
 			tdVal = _this.find('td:eq(1)');
-			var rangEstil = div2RangStyle(tematicFrom, tdVal);
-			var rang = {};
+			rangEstil = div2RangStyle(tematicFrom, tdVal);
 			rang.estil = rangEstil;
 			rang.valueMax = tdRang.text();
 			rang.valueMin = tdRang.text();
@@ -333,8 +358,7 @@ function createTematicLayerCategories(event){
 			tdMin = _this.find('td:eq(0)');
 			tdMax = _this.find('td:eq(1)');
 			tdVal = _this.find('td:eq(2)');
-			var rangEstil = div2RangStyle(tematicFrom, tdVal);
-			var rang = {};
+			rangEstil = div2RangStyle(tematicFrom, tdVal);
 			rang.estil = rangEstil; 
 			rang.valueMin = tdMin.find('input').val();
 			rang.valueMax = tdMax.find('input').val();
@@ -347,12 +371,12 @@ function createTematicLayerCategories(event){
 		dataField: jQuery('#dataField').val().toLowerCase(),
 		labelField: jQuery('#dataField').val().toLowerCase()
 	};
-	
+	var data1 = {};
 	if(visualitzacio.tipus == t_url_file){
-		var data1 = {
-				uid: $.cookie('uid'),
-				businessId1: capaMare.options.businessId
-		}
+		data1 = {
+			uid: $.cookie('uid'),
+			businessId1: capaMare.options.businessId
+		};
 		crearFitxerPolling(data1).then(function(results) {
 			var tmpFile="";
 			if (results.status=="OK"){
@@ -477,13 +501,11 @@ function createTematicLayerCategories(event){
 			}
 					
 		 });
-		
-		
 	}else{
-		var data1 = {
-				uid: $.cookie('uid'),
-				businessId1: capaMare.options.businessId
-		}
+		data1 = {
+			uid: $.cookie('uid'),
+			businessId1: capaMare.options.businessId
+		};
 		crearFitxerPolling(data1).then(function(results) {
 			var tmpFile="";
 			if (results.status=="OK"){
@@ -661,7 +683,7 @@ function createRangsValues(rangs){
 	values = jQuery.grep(values, function( n, i ) {
 		return (n != NODATA_VALUE && jQuery.isNumeric(parseFloat(n)));
 	});
-	values.sort(function(a,b){return a-b});
+	values.sort(function(a,b){return a-b;});
 	
 	var min = parseFloat(values[0]);
 	var max = parseFloat(values[values.length-1]);

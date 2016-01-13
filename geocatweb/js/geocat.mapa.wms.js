@@ -705,7 +705,12 @@ function loadWmsLayer(layer){
 	
 	if(typeof (layer.options)=="string"){
 		
-		jsonOptions = JSON.parse(layer.options);	
+		try {
+			jsonOptions = JSON.parse(layer.options);
+		}
+		catch (err) {
+			jsonOptions = layer.options;	
+		}
 		
 	}else{
 		

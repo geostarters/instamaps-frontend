@@ -1467,10 +1467,13 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		var layOptions; 
 		
 		
-		if(typeof (layer.options)=="string"){
-			
-			layOptions = JSON.parse(layer.options);;	
-			
+		if(typeof (layer.options)=="string"){		
+			try {
+				layOptions = JSON.parse(layer.options);
+			}
+			catch (err) {
+				layOptions = layer.options;		
+			}
 		}else{
 			
 			layOptions = layer.options;	
@@ -1784,8 +1787,14 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			}
 			else if (visualitzacio.options){
 				var options2;
-				if(typeof (visualitzacio.options)=="string"){				
-					options2 = JSON.parse(visualitzacio.options);				
+				if(typeof (visualitzacio.options)=="string"){	
+					try {
+						options2 = JSON.parse(visualitzacio.options);
+					}
+					catch (err) {
+						options2 = visualitzacio.options;
+					}
+									
 				}else{				
 					options2 = visualitzacio.options;	
 				}				
