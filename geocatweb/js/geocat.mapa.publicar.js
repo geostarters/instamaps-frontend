@@ -515,7 +515,11 @@
         	var urlMap = that._getUrlMap(); 
         	urlMap=urlMap+"&title="+nomIndexacio;
         	
+        	urlMap = urlMap.replace('mapa','visor');		
+			urlMap = urlMap.replace('#no-back-button','');
+        	
         	$("#urlVisorMap a").attr("href", urlMap);
+        	
         	$('#urlMap').val(urlMap);
         	$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
         	

@@ -43,7 +43,7 @@ $( window ).resize(function() {
 			$('.leaflet-control-scale').attr("style","display:none");
 			$('.leaflet-control-minimap').attr("style","display:none");
 			activaLlegenda(true);
-			setTimeout("activaLlegenda(false)", 500);
+			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 	 }
 	 if (typeof url('?embed') == "string" && widthW<=360) { 
 			$('.bt_llista').attr("style","display:none");
@@ -362,9 +362,8 @@ function loadPublicMap(results){
 	//iniciamos los controles
 	initControls().then(function(){
 		if (isIframeOrEmbed()){		
-			console.debug("AKI");
 			activaLlegenda(true);
-			setTimeout("activaLlegenda(false)", 500);
+			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 		}
 	});		
 	
