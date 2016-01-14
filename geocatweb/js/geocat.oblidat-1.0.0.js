@@ -34,7 +34,7 @@ jQuery("#login_button").click(function(){
 				else {
 					var providers = results.results;
 					var html ='No és possible recuperar la contrasenya perquè et vas registrar amb: '+providers;					
-					$('#profiler').val(html);
+					$('#profiler').html(html);
 					$('#modal_provider_noticgc').modal('toggle');
 				}
 			}
