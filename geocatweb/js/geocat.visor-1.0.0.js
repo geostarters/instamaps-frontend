@@ -38,7 +38,7 @@ $( window ).resize(function() {
 			$('.bt_captura').attr("style","display:none");	
 			$('.bt_print').attr("style","display:none");
 			$('.bt_geopdf').attr("style","display:none");
-			//$('.control-btn-fons').attr("style","display:none");
+			if(typeof url('?embed') == "string") $('.control-btn-fons').attr("style","display:none");
 			$('.leaflet-control-mouseposition').attr("style","display:none");
 			$('.leaflet-control-scale').attr("style","display:none");
 			$('.leaflet-control-minimap').attr("style","display:none");
