@@ -47,8 +47,7 @@ function reOrderGroupsAndLayers(action){
 	    	 _groupId=index;
 	    	
 	    	 _groupName=gr.text();
-	    	 
-	    	
+	    	 	    	
 		  
 	    	 var _exp=$this.children("label").children('i.label_gl');
 	    		 
@@ -70,10 +69,16 @@ function reOrderGroupsAndLayers(action){
 	    	        z_order=z_order+1; 
 	    	        	    	    
 	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
-	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);	    	    	    	    
+	    	       	    	    	    
 	    	 
 	    	  if(action){
-	    	    
+	    	  
+	    		  
+	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);	
+	    	   
+	    	   
+	    	    if(resp_Layer){
+	    	    	
 	    	    var data = {
 	    	    		mapBusinessId: url('?businessid'),
 	    	    		businessId: resp_Layer.options.businessId, //url('?businessid') 
@@ -91,7 +96,8 @@ function reOrderGroupsAndLayers(action){
 			
 	    	    
 				updateGroupsLayerGroup(data,data2);	
-	    	       //}
+	    	    }
+	    	      
    	    
 	    	  }
 	    	    
@@ -133,12 +139,38 @@ function updateGroupsLayerGroup(data,data2){
 	
 }
 
+var group_sortable1=null;
+var group_sortable2=null;
 
+
+
+function refreshSortablesElements(){
+		
+	updateSortablesElements();
+}
 
 function updateSortablesElements(){
-			
+	
+	
+if(getModeMapa()){
 
-	var group = $("ol.leaflet-control-layers-overlays").sortableTree({
+group_sortable1 = $("ol.leaflet-control-layers-overlays").sortable({
+	 connectWith: "ol.leaflet-control-layers-overlays",
+  change: function( event, ui ) {	 
+	  reOrderGroupsAndLayers(true);
+  }
+});
+
+group_sortable2 = $("ol.ac-large").sortable({
+	 connectWith: "ol.ac-large",
+  change: function( event, ui ) {	
+	 reOrderGroupsAndLayers(true);	  
+  }
+});
+
+}
+/*
+group_sortable1 = $("ol.leaflet-control-layers-overlays").sortableTree({
 		  group: 'no-drop',
 		  handle: 'span.glyphicon-move',
 		  onDragStart: function ($item, container, _super,event) {
@@ -156,6 +188,8 @@ function updateSortablesElements(){
 			  			  
 			  $('.tooltip').hide();	
 			  
+			  console.warn($item);
+			  console.warn(container);
 			    _super($item, container);			    			  
 			    reOrderGroupsAndLayers(true);
 			    
@@ -164,7 +198,7 @@ function updateSortablesElements(){
 		});
 	
 				
-	var layer_in_groups = $("ol.ac-large").sortableTree({
+group_sortable2 = $("ol.ac-large").sortableTree({
 		
 		  group: 'no-drop-layer',
 		  handle: 'div.glyphicon-move',
@@ -183,9 +217,10 @@ function updateSortablesElements(){
 			  $('.tooltip').hide();
 			 
 			  try{				  
-				 
+				  console.warn($item);
+				  console.warn(container);
 			    _super($item, container);
-			    reOrderGroupsAndLayers(true);
+			   reOrderGroupsAndLayers(true);
 			    
 			  }catch(err){
 				  
@@ -195,7 +230,7 @@ function updateSortablesElements(){
 		  }
 		  
 		});
-		
+*/		
 	
 }
 
@@ -210,7 +245,7 @@ function updateSortablesElements(){
 
 function updateEditableElements(){
 		
-	setTimeout(function(){ updateSortablesElements(); }, 3000);	
+	//setTimeout(function(){ updateSortablesElements(); }, 3000);	
 	
 	$('.label_ac .editable').editable({
 		type: 'text',

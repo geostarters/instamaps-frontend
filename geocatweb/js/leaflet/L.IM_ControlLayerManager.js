@@ -130,15 +130,20 @@ L.Control.OrderLayers = L.Control.Layers
 			updateTreeGroupLayers : function(groupId, groupName, businessId,
 					z_order, expanded) {
 
+				try{
+				
 				this._groupList[groupId].groupName = groupName;
 				this._groupList[groupId].name = groupName;
 				this._groupList[groupId].id = groupId;
 				this._groupList[groupId].expanded = expanded;
+				
 				for (layer in this._layers) {
 
 					if (this._layers[layer].layer.options.group
 							&& this._layers[layer].layer.options.businessId == businessId) {
 
+						
+						
 						this._layers[layer].layer.options.group.name = groupName;
 						this._layers[layer].layer.options.group.groupName = groupName;
 						this._layers[layer].layer.options.group.id = groupId;
@@ -167,7 +172,12 @@ L.Control.OrderLayers = L.Control.Layers
 					}
 				}
 
-				this._update();
+				//this._update();
+				
+				}catch(Err){
+					
+					console.debug(Err);
+				}
 
 			},
 
@@ -508,7 +518,8 @@ L.Control.OrderLayers = L.Control.Layers
 				this._addGroup(container, obj, null);
 				if (getModeMapa()) {
 					updateEditableElements();
-					updateSortablesElements();
+					//updateSortablesElements();
+					refreshSortablesElements();
 				}
 			},
 
@@ -1049,7 +1060,7 @@ L.Control.OrderLayers = L.Control.Layers
 					}
 					// Icona Descàrrega sempre
 					//Issue #467: S'ha de respectar el que es selecciona al publicar sobre si una capa és descarregable o no.
-					console.debug(downloadableData);
+					//console.debug(downloadableData);
 					
         			
 					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1
@@ -1154,9 +1165,21 @@ L.Control.OrderLayers = L.Control.Layers
 					title : window.lang.convert("opcions")
 				});
 
-				if (modeMapa)
-					updateEditableElements();
-				map.fireEvent('addItemFinish');
+				if (getModeMapa()){
+					
+					try{
+					updateEditableElements();	
+					refreshSortablesElements();
+					map.fireEvent('addItemFinish');
+					}catch(Err){
+						
+						updateEditableElements();	
+						//refreshSortablesElements();
+					}
+				}
+								
+				
+				
 
 				return _menu_item_checkbox;
 			},
