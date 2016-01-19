@@ -1061,8 +1061,7 @@ L.Control.OrderLayers = L.Control.Layers
 					// Icona Descàrrega sempre
 					//Issue #467: S'ha de respectar el que es selecciona al publicar sobre si una capa és descarregable o no.
 					//console.debug(downloadableData);
-					
-        			
+					        			
 					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1
 							&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
 						if(downloadableData[obj.layer.options.businessId]){
