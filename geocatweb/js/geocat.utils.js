@@ -19,7 +19,7 @@ function isImgURL(str) {
 
 function isBusinessId(str){
 	var pattern = new RegExp('^[0-9a-f]{32}$');
-	return pattern.test(str);	
+	return pattern.test(str);
 }
 
 function isBlank(str) {
@@ -34,7 +34,7 @@ function isHexColor(color){
 function isDefaultMapTitle(str){
 //	var pattern = new RegExp('^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$');
 	var pattern = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[_](?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]$/;
-	return pattern.test(str);	
+	return pattern.test(str);
 }
 
 function isValidValue(value){
@@ -50,7 +50,7 @@ function getTimeStamp() {
     var now = new Date();
     return (now.getFullYear()+'/'+(((now.getMonth() + 1) < 10)
                     ? ("0" + (now.getMonth() + 1))
-                    : ((now.getMonth() + 1))) + '/'+ 
+                    : ((now.getMonth() + 1))) + '/'+
             now.getDate() +'_'+
             ((now.getHours() < 10)
                     ? ("0" + now.getHours())
@@ -67,7 +67,7 @@ function calculateDistance(lLatLngs){
 	var totalDistance = 0;
 	var lastPoint;
 	if(lLatLngs.length>0) lastPoint = lLatLngs[0];
-	
+
 	jQuery.each(lLatLngs, function( i, point){
 		totalDistance += point.distanceTo(lastPoint);
 		lastPoint = point;
@@ -82,13 +82,13 @@ function calculateArea(layer){
 
 function getAreaLayer(layer){
 	var totalArea = 0;
-	
+
 	if (layer._layers){
 		layer.eachLayer(function (layer) {
 			totalArea += getAreaLayer(layer);
 		});
-		
-	}else if(layer.length > 0){ 
+
+	}else if(layer.length > 0){
 		for(var i=0; i<layer.length;i++){
 			var lLatLngs = new L.latLng(0,0);
 			if(layer[i].lat && layer[i].lng){
@@ -96,7 +96,7 @@ function getAreaLayer(layer){
 			}
 			totalArea += L.GeometryUtil.geodesicArea(lLatLngs);
 		}
-		
+
 	}else{
 		var lLatLngs = layer.getLatLngs();
 		totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
@@ -164,7 +164,7 @@ function getMidaFromRadius(radius){
 	if(radius == 8)return 21;
 	else if(radius == 10)return 24;
 	else if(radius == 12)return 30;
-	else if(radius == 14)return 34;	
+	else if(radius == 14)return 34;
 	else return 16;
 }
 
@@ -180,8 +180,8 @@ function getRadiusFromMida(mida){
 	if(mida == "21px")return 8;
 	else if(mida == "24px")return 10;
 	else if(mida == "30px")return 12;
-	else if(mida == "34px")return 14;	
-	else return 6;	
+	else if(mida == "34px")return 14;
+	else return 6;
 }
 
 function getColorAwesomeMarker(markerColor, defaultColor){
@@ -198,25 +198,25 @@ function getColorAwesomeMarker(markerColor, defaultColor){
 
 function parseUrlTextPopUp(txt,key){
 	var parseText = "";
-	if(!$.isNumeric(txt) && (key=='link' || key=='Web')){	
+	if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
 		if( isImgURL(txt)){
 			parseText = '<img width="100" src="'+txt+'"/>';
 		}else if( txt.match("^http")){
 				parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
 		}else{
-			parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';				
+			parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';
 		}
 		return parseText;
-	}	
-	
+	}
+
 	if (!$.isNumeric(txt)) {
-		if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 
+		if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1
 				|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
 			return txt;
 		}
 	}
 
-	var lwords = txt.split(" "); 
+	var lwords = txt.split(" ");
 	for(index in lwords){
 		var text;
 		var word = lwords[index];
@@ -232,12 +232,12 @@ function parseUrlTextPopUp(txt,key){
 							"marginwidth=\"0\" src=\""+word+"\"></iframe>";
 				}else{
 					//console.debug("URL:"+word);
-					text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";	
+					text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
 				}
 			}else{
 				text = word;
 			}
-			
+
 		}else{
 			text = word;
 		}
@@ -252,7 +252,7 @@ function redimensioMapa() {
 			factorH = 0;
 		}else{
 			factorH = jQuery('.navbar').css('height').replace(/[^-\d\.]/g, '');
-		} 
+		}
 		jQuery('#map').css('top', factorH + 'px');
 		jQuery('#map').height(jQuery(window).height() - factorH);
 		jQuery('#map').width(jQuery(window).width() - factorW);
@@ -288,8 +288,9 @@ function activaPanelCapes(obre) {
 		jQuery('.bt_llista span').removeClass('greenfort');
 		jQuery('.bt_llista span').addClass('grisfort');
 	}
-	
+
 	if(getModeMapa()){updateSortablesElements();}
+
 }
 
 function gestionaPopOver(pop) {
@@ -332,7 +333,7 @@ function gestioCookie(from){
 				}else{
 					window.location.href = paramUrl.galeriaPage;
 				}
-			} 
+			}
 			break;
 		case 'loadApp':
 			if (!_cookie){
@@ -380,7 +381,7 @@ function popUp(f, l) {
 			if(key!='gml_id'){
 				if(key=='Name' || key=='Description'){
 					out.push(f.properties[key]);
-				}else if(key=='link' || key=='Web'){				
+				}else if(key=='link' || key=='Web'){
 					ll=f.properties[key];
 					//if(ll.indexOf('.gif')!=-1 || ll.indexOf('.jpg')!=-1){
 					if(isImgURL(ll)){
@@ -410,7 +411,7 @@ function retornaEstilaDO(dataset) {
 	else if(dataset=="campings"){ estil.fillColor = "#62A50B";}
 	else if(dataset=="meteo_comarca"){ estil.fillColor = "#200BA5";}
 	else if(dataset=="meteo_costa"){ estil.fillColor = "#E1EA3A";}
-	else if(dataset=="json_president"){ estil.fillColor ="#0058A5"; estil.color ="#0058A5"; }	
+	else if(dataset=="json_president"){ estil.fillColor ="#0058A5"; estil.color ="#0058A5"; }
 	else{ estil.fillColor = randomColor();}
 	return estil;
 }
@@ -436,9 +437,9 @@ $.extend({
     }
 });
 
-//jQuery.fn.myScrollTo = function(elem) { 
-//    $(this).scrollTop($(this).scrollTop() - $(this).offset().top + $(elem).offset().top); 
-//    return this; 
+//jQuery.fn.myScrollTo = function(elem) {
+//    $(this).scrollTop($(this).scrollTop() - $(this).offset().top + $(elem).offset().top);
+//    return this;
 //};
 
 function getCodiUnic() {
@@ -463,8 +464,8 @@ function getRandomInt(min, max) {
 
 //Comprovar i forcar carrega dun script
 function forceLoadScript(path){
-	
-	var len = $('script[src*="'+path+'"]').length; 
+
+	var len = $('script[src*="'+path+'"]').length;
 	console.debug("len:");
 	console.debug(len);
 	if (len === 0) {
@@ -479,7 +480,7 @@ function forceLoadScript(path){
 	        }
     }else{
     	console.debug('script loaded');
-    }		
+    }
 }
 
 function loadScript(scriptLocationAndName) {
@@ -704,7 +705,7 @@ return hash_map;
 function getModeMapa(){
 
 	return  ($(location).attr('href').indexOf('/mapa.html')!=-1);
-	
+
 }
 
 function sortByKey(array, key) {
@@ -721,12 +722,12 @@ function sortByValueMax(a, b){
 	if (a.value!=undefined) aValue= a.value;
 	else if (a.v!=undefined) aValue=a.v;
 	else aValue = a;
-	
+
 	var bValue;
 	if (b.value!=undefined) bValue= b.value;
 	else if (b.v!=undefined) bValue=b.v;
 	else bValue =b;
-	
+
 	if (floatRegex.test(aValue) && floatRegex.test(bValue)) {
 		if (aValue.indexOf(",")>-1){
 			if (aValue.indexOf(".")>-1){
@@ -777,7 +778,7 @@ function sortByValueMax(a, b){
 		var aName = aValue.toLowerCase();
 		var bName = bValue.toLowerCase();
 		return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
-	}	
+	}
 }
 
 (function($){

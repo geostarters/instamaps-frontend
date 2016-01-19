@@ -80,7 +80,7 @@ L.Control.OrderLayers = L.Control.Layers
 				var _thereIs = false;
 				for (layer in this._layers) {
 
-					
+
 					if (this._layers[layer].layer.options.tipus && this._layers[layer].layer.options.tipus.indexOf(t_wms) != -1) {
 						if (this._layers[layer].layer.options.wmstime == true) {
 							_thereIs = true;
@@ -131,19 +131,19 @@ L.Control.OrderLayers = L.Control.Layers
 					z_order, expanded) {
 
 				try{
-				
+
 				this._groupList[groupId].groupName = groupName;
 				this._groupList[groupId].name = groupName;
 				this._groupList[groupId].id = groupId;
 				this._groupList[groupId].expanded = expanded;
-				
+
 				for (layer in this._layers) {
 
 					if (this._layers[layer].layer.options.group
 							&& this._layers[layer].layer.options.businessId == businessId) {
 
-						
-						
+
+
 						this._layers[layer].layer.options.group.name = groupName;
 						this._layers[layer].layer.options.group.groupName = groupName;
 						this._layers[layer].layer.options.group.id = groupId;
@@ -173,9 +173,9 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 
 				//this._update();
-				
-				}catch(Err){					
-				
+
+				}catch(Err){
+
 					console.debug(Err);
 				}
 
@@ -192,8 +192,8 @@ L.Control.OrderLayers = L.Control.Layers
 
 						this._groupList[group].groupName = newName;
 						this._groupList[group].name = newName;
-						
-					
+
+
 						// this._groupList[group].id=groupId;
 						for (layer in this._layers) {
 
@@ -228,9 +228,9 @@ L.Control.OrderLayers = L.Control.Layers
 			removeGroup : function(groupName, groupId) {
 				// console.info("Entro ha esborra he esborrat: " + groupName +
 				// ":"+ groupId);
-				
-				
-				
+
+
+
 				if (groupName) {
 
 					for (group in this._groupList) {
@@ -369,12 +369,12 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 
 			_on_resize_window : function() {
-				
+
 				/*
-				
+
 				if(containers){
 				for (var c = 0; c < containers.length; c++) {
-					
+
 					containers[c].style.maxHeight = (window.innerHeight - 90) < this
 							._removePxToInt(this._default_maxHeight) ? (window.innerHeight - 90)
 							+ "px"
@@ -383,7 +383,7 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 				}
 			*/
-			
+
 			},
 
 			// remove the px from a css value and convert to a int
@@ -400,33 +400,33 @@ L.Control.OrderLayers = L.Control.Layers
 
 			// _addLayer : function (layer, name, group, overlay) {
 
-			_socVisorInstamaps:function(){				
-				var hoSoc=false;				
-				if(mapConfig.tipusAplicacioId==1 && !getModeMapa()){					
-					hoSoc=true;					
-				}								 
-				return hoSoc;								
+			_socVisorInstamaps:function(){
+				var hoSoc=false;
+				if(mapConfig.tipusAplicacioId==1 && !getModeMapa()){
+					hoSoc=true;
+				}
+				return hoSoc;
 			},
-			
+
 			_createGroupFromScratch : function(position) {
 				//console.info("_createGroupFromScratch: pos " + position);
-				 
+
 				// this._groupList.length);
 				var pos = this._groupList.length;
 				var posTXT;
 				var genericName=window.lang.convert('Capes');
 				var genericPos="";
-				
+
 				pos==0?genericPos="":genericPos=pos;
-				
+
 				this._socVisorInstamaps()?genericName=this._socInstamapsVell:genericName=genericName;
-				
-				
+
+
 				if (position == 1 && pos > 0) { // estic afegint una
 					// capa però ja existeix
 					// un grup
-				
-					
+
+
 					return this.getActiveGroup();
 
 					 //return this._groupList[this._groupList.length-1];
@@ -459,37 +459,37 @@ L.Control.OrderLayers = L.Control.Layers
 
 				var groupLast = this._groupList[this._groupList.length - 1];
 				var notExpanded = false;
-				if (groupLast.expanded==true || groupLast.expanded=="true") {					
-					
+				if (groupLast.expanded==true || groupLast.expanded=="true") {
+
 					return groupLast;
 
 				} else {
-					
+
 					for (j=0; j < this._groupList.length;j++ ){
-						
+
 						var _gr=this._groupList[j];
-						
+
 						if (_gr.expanded==true || _gr.expanded=="true") {
 							notExpanded = true;
-							
+
 							return _gr;
 
 						}
 
-						
-					} 
-					 
-					 
-					
+
+					}
+
+
+
 
 				}
 
-				
+
 				if (!notExpanded) {
 
 					return groupLast;
 				}
-				
+
 
 			},
 
@@ -552,8 +552,8 @@ L.Control.OrderLayers = L.Control.Layers
 			_addGroup : function(container, _obj, _menu_item_checkbox) {
 				// console.warn("_addGroup");
 
-			
-				
+
+
 				var _id;
 				var obj;
 				if (_obj.group) {
@@ -565,10 +565,10 @@ L.Control.OrderLayers = L.Control.Layers
 					try{
 					_id = _obj.layer.options.group.id;
 					}catch(Err){
-						
-					_id= this._domGroups.length -1;	
+
+					_id= this._domGroups.length -1;
 					}
-					
+
 				} else {
 					// console.warn("NO_OBJECTE");
 					// console.warn(_obj);
@@ -583,14 +583,14 @@ L.Control.OrderLayers = L.Control.Layers
 						groupContainer = document.createElement('div');
 						groupContainer.id = 'leaflet-control-accordion-layers-'
 								+ _id;
-						
-						
-							groupContainer.className = 'leaflet-control-accordion-layers';	
-						
+
+
+							groupContainer.className = 'leaflet-control-accordion-layers';
+
 						// verify if group is expanded
 						//	console.warn(obj.group.expanded);
 						var s_expanded = obj.group.expanded ? ' checked = "true" ': '';
-						
+
 						//console.info(s_expanded);
 						// verify if type is exclusive
 						var s_type_exclusive = this.options.exclusive ? ' type="radio" '
@@ -615,20 +615,20 @@ L.Control.OrderLayers = L.Control.Layers
 
 						inputLabel.id = 'lbl_ac_' + _id;
 						;
-						
-						
+
+
 						if(obj.group.name.indexOf(this._socInstamapsVell)==-1){
-						
+
 							inputLabel.className = 'label_ac';
 						}else{
-							inputLabel.className = 'label_ac_novisible';																						
-						}						
-												
+							inputLabel.className = 'label_ac_novisible';
+						}
+
 						var _i = document.createElement('i');
 						_i.id = '_i_' + _id;
 						_i.className = classExpanded
-						inputLabel.appendChild(_i);																							
-							L.DomEvent.on(inputLabel, 'click', this._onExpandGroup,this);																	
+						inputLabel.appendChild(_i);
+							L.DomEvent.on(inputLabel, 'click', this._onExpandGroup,this);
 						spanGroup.className = 'span_ac editable';
 						spanGroup.id = 'ac' + _id;
 						spanGroup.groupId = _id;
@@ -742,7 +742,7 @@ L.Control.OrderLayers = L.Control.Layers
 				var group = layer.options.group;
 
 				var _heCreat = false;
-				
+
 				var _heCreatFromScratch=false;
 
 				if (!group) {
@@ -752,9 +752,9 @@ L.Control.OrderLayers = L.Control.Layers
 					group = this._createGroupFromScratch(1);
 
 					_heCreat = true;
-					
+
 					_heCreatFromScratch=true;
-					
+
 
 				}
 
@@ -810,12 +810,12 @@ L.Control.OrderLayers = L.Control.Layers
 						if (_heCreat) {
 
 							if (getModeMapa()) {
-								
+
 								if(_heCreatFromScratch){
 
 									//console.info("entro");
 								var data = {
-									mapBusinessId: url('?businessid'),	
+									mapBusinessId: url('?businessid'),
 									businessId : this._layers[id].layer.options.businessId, // url('?businessid')
 									uid : $.cookie('uid'),
 									options : JSON.stringify(this._layers[id].layer.options.group)
@@ -823,7 +823,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 								// Ara desactivat
 								updateGroupsLayerGroup(data, null);
-								
+
 								}
 							}
 
@@ -840,9 +840,9 @@ L.Control.OrderLayers = L.Control.Layers
 			},
 
 			_update : function() {
-				
-				
-				
+
+
+
 				if (!this._container) {
 					return;
 				}
@@ -857,11 +857,11 @@ L.Control.OrderLayers = L.Control.Layers
 
 				this._domGroupsTMP = sortByKey(this._domGroupsTMP, "id");
 				this._groupList = sortByKey(this._groupList, "id");
-				if (getModeMapa()) {
+			//	if (getModeMapa()) {
 					this._domGroupsTMP.forEach(function(item, index, array) {
 						that._addGroupFromObject(item);
 					});
-				}
+				//}
 
 				var baseLayersPresent = false, overlaysPresent = false, i, obj;
 				for (i in this._layers) {
@@ -908,7 +908,7 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 			},
 
-			
+
 			_createRadioElement : function(name, checked) {
 
 				var radioHtml = '<input type="radio" class="leaflet-control-layers-selector" name="'
@@ -935,7 +935,7 @@ L.Control.OrderLayers = L.Control.Layers
 				if (obj.overlay) {
 
 					_menu_item_checkbox.className = "leaflet-row";
-					
+
 
 					_menu_item_checkbox.id = 'LI-'
 							+ obj.layer.options.businessId;
@@ -947,10 +947,10 @@ L.Control.OrderLayers = L.Control.Layers
 					// input.className = 'leaflet-control-layers-selector';
 
 					//input.className = 'checkbox_styled hide leaflet-control-layers-selector';
-					
-					
+
+
 					input.className = 'checkbox_styled hide leaflet-control-layers-selector';
-					
+
 				//	input.className = 'leaflet-control-layers-selector';
 
 					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) != -1) {
@@ -972,18 +972,18 @@ L.Control.OrderLayers = L.Control.Layers
 				_leaflet_input.className = "leaflet-input";
 
 				input.layerId = L.Util.stamp(obj.layer);
-				
-				
+
+
 				L.DomEvent.on(input, 'click', this._onInputClick, this);
-				
-				
+
+
 				var label_for = document.createElement('label');
 				var _for = document.createAttribute('for');
 				_for.value = 'input-' + obj.layer.options.businessId;
 				label_for.setAttributeNode(_for);
 				// label_for.innerHTML="--";
-				
-				
+
+
 				_leaflet_input.appendChild(input);
 				_leaflet_input.appendChild(label_for);
 
@@ -1061,13 +1061,13 @@ L.Control.OrderLayers = L.Control.Layers
 					// Icona Descàrrega sempre
 					//Issue #467: S'ha de respectar el que es selecciona al publicar sobre si una capa és descarregable o no.
 					//console.debug(downloadableData);
-					 
+
 					if (getModeMapa()) {
-						
+
 						if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1
 								&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
-							
-		        				
+
+
 									col = L.DomUtil
 											.create(
 													'div',
@@ -1078,14 +1078,14 @@ L.Control.OrderLayers = L.Control.Layers
 									L.DomEvent
 											.on(col, 'click', this._onDownloadClick, this);
 									_menu_item_checkbox.appendChild(col);
-		        				
-							
+
+
 						}
-						
-						
-						
+
+
+
 					}else{
-					
+
 					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1
 							&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
 						if(downloadableData[obj.layer.options.businessId]){
@@ -1108,7 +1108,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 					if (obj.layer.options.tipus
 							&& obj.layer.options.tipus.indexOf(t_wms) != -1) {
-						
+
 						//if (!obj.layer.options.wmstime) {
 
 						col = L.DomUtil
@@ -1189,20 +1189,20 @@ L.Control.OrderLayers = L.Control.Layers
 				});
 
 				if (getModeMapa()){
-					
+
 					try{
-					updateEditableElements();	
+					updateEditableElements();
 					refreshSortablesElements();
 					map.fireEvent('addItemFinish');
 					}catch(Err){
-						
-						updateEditableElements();	
+
+						updateEditableElements();
 						//refreshSortablesElements();
 					}
 				}
-								
-				
-				
+
+
+
 
 				return _menu_item_checkbox;
 			},
@@ -1228,9 +1228,9 @@ L.Control.OrderLayers = L.Control.Layers
 				L.DomEvent
 						.on(input_sublayer, 'click', this._onInputClick, this);
 
-				
-				
-				
+
+
+
 				var name_sublayer = document.createElement('span');
 				name_sublayer.className = 'editable';
 				name_sublayer.idParent = layerIdParent;
@@ -1268,14 +1268,14 @@ L.Control.OrderLayers = L.Control.Layers
 
 			},
 
-			
-			
+
+
 			_onInputClick : function(event) {
-				
-				 
+
+
 
 				// $('ol.ac-large').scrollTo(1138 , 0);
-				 
+
 				var i, input, obj, inputs = this._form
 						.getElementsByTagName('input'), inputsLen = inputs.length;
 
@@ -1285,11 +1285,11 @@ L.Control.OrderLayers = L.Control.Layers
 
 				var currentbid = arguments[0].currentTarget.id.replace(
 						"input-", "");
-				
-				
-				
-				
-				
+
+
+
+
+
 				// console.info(arguments[0].currentTarget.layerIdParent);
 				// tractament en cas heatmap
 				if (arguments[0].currentTarget.layerIdParent) {
@@ -1388,13 +1388,13 @@ L.Control.OrderLayers = L.Control.Layers
 
 				}
 
-			
+
 				this._validateWmsTime(_timeLayers);
-			
+
 				this._handlingClick = false;
-			
+
 				this._refocusOnMap();
-				
+
 
 			},
 
@@ -1522,60 +1522,60 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 			},
 
-			
-			
+
+
 			_onExpandGroup : function(e) {
 
 
 				var cl=e.explicitOriginalTarget;
-				
+
 				if(!cl){
 					cl=e.srcElement;
-					
+
 				}
-				
-				
-		
+
+
+
 				var cls=jQuery(cl).attr('class');
-				
+
 				if(getModeMapa()){
 						if(cls && cls.indexOf('label')!=-1){
-																			
+
 								var _id = e.currentTarget.id;
-								_id = _id.replace('lbl_ac_', '_i_');		
-								if ($('#' + _id).hasClass('glyphicon-triangle-bottom')) {		
+								_id = _id.replace('lbl_ac_', '_i_');
+								if ($('#' + _id).hasClass('glyphicon-triangle-bottom')) {
 									$('#' + _id).removeClass('glyphicon-triangle-bottom');
 									$('#' + _id).addClass('glyphicon-triangle-right');
-				
-								} else if ($('#' + _id).hasClass('glyphicon-triangle-right')) {		
+
+								} else if ($('#' + _id).hasClass('glyphicon-triangle-right')) {
 									$('#' + _id).removeClass('glyphicon-triangle-right');
 									$('#' + _id).addClass('glyphicon-triangle-bottom');
-				
+
 								}
 						}
-				
+
 			}else{
-				
-				
+
+
 				var _id = e.currentTarget.id;
-				_id = _id.replace('lbl_ac_', '_i_');		
-				if ($('#' + _id).hasClass('glyphicon-triangle-bottom')) {		
+				_id = _id.replace('lbl_ac_', '_i_');
+				if ($('#' + _id).hasClass('glyphicon-triangle-bottom')) {
 					$('#' + _id).removeClass('glyphicon-triangle-bottom');
 					$('#' + _id).addClass('glyphicon-triangle-right');
 
-				} else if ($('#' + _id).hasClass('glyphicon-triangle-right')) {		
+				} else if ($('#' + _id).hasClass('glyphicon-triangle-right')) {
 					$('#' + _id).removeClass('glyphicon-triangle-right');
 					$('#' + _id).addClass('glyphicon-triangle-bottom');
 
 				}
-				
-				
-				
-				
-				
-			}		
-						
-						
+
+
+
+
+
+			}
+
+
 
 				if (getModeMapa()) {
 					reOrderGroupsAndLayers(false);
@@ -1588,7 +1588,7 @@ L.Control.OrderLayers = L.Control.Layers
 				$('.tooltip').hide();
 				//L.DomEvent.stop(e);
 				e.stopImmediatePropagation();
-			
+
 				$('#dialog_delete_group').modal('show');
 				$('#dialog_delete_group #nom_group_delete').text(
 						e.currentTarget.groupName);
@@ -1701,9 +1701,9 @@ L.Control.OrderLayers = L.Control.Layers
 				}
 
 				try {
-					
+
 					obj.layer.setOpacity(op);
-					
+
 				} catch (err) {
 					// console.info(op);
 					// obj.layer.options.opacity=op;
