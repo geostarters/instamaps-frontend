@@ -60,6 +60,7 @@ function reOrderGroupsAndLayers(action){
 					_expanded=false;
 				
 				
+					
 				}	
 		
 	    	
