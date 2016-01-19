@@ -288,6 +288,8 @@ function activaPanelCapes(obre) {
 		jQuery('.bt_llista span').removeClass('greenfort');
 		jQuery('.bt_llista span').addClass('grisfort');
 	}
+	
+	if(getModeMapa()){updateSortablesElements();}
 }
 
 function gestionaPopOver(pop) {
