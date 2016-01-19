@@ -174,9 +174,8 @@ L.Control.OrderLayers = L.Control.Layers
 
 				//this._update();
 				
-				}catch(Err){
-					
-					
+				}catch(Err){					
+				
 					console.debug(Err);
 				}
 

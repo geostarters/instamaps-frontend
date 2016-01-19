@@ -292,7 +292,6 @@ function activaPanelCapes(obre) {
 	if(getModeMapa()){updateSortablesElements();}
 }
 
-
 function gestionaPopOver(pop) {
 	//console.debug("gestionaPopOver");
 	jQuery('.popover').popover('hide');

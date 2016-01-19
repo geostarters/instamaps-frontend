@@ -58,8 +58,7 @@ function reOrderGroupsAndLayers(action){
 			if($('#'+_id).hasClass('glyphicon-triangle-right')){
 					
 					_expanded=false;
-				
-				
+								
 					
 				}	
 		
