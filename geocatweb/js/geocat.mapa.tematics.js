@@ -1776,8 +1776,13 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 //		}
 		if (layer.options){
 			var options2;
-			if(typeof (layer.options)=="string"){				
-				options2 = JSON.parse(layer.options);				
+			if(typeof (layer.options)=="string"){		
+				try {
+					options2 = JSON.parse(layer.options);
+				}
+				catch (err) {
+					options2 = layer.options;
+				}						
 			}else{				
 				options2 = layer.options;	
 			}
