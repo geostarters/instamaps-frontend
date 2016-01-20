@@ -206,6 +206,7 @@ L.Control.OrderLayers = L.Control.Layers
 								// groupId;
 								resp_Layer.push(this._layers[layer].layer);
 
+								/*
 								for (sublayer in this._layers[layer]._layers) {
 									this._layers[layer]._layers[sublayer].layer.options.group.name = newName;
 									this._layers[layer]._layers[sublayer].layer.options.group.groupName = newName;
@@ -214,6 +215,7 @@ L.Control.OrderLayers = L.Control.Layers
 									resp_Layer
 											.push(this._layers[layer]._layers[sublayer]);
 								}
+								*/
 
 							}
 						}
