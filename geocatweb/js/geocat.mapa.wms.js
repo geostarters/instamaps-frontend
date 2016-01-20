@@ -718,6 +718,12 @@ function loadWmsLayer(layer){
 	}
 	
 	
+	if(!layer.options){
+		jsonOptions=layer;
+		
+		
+	}
+	
 	
 	var newWMS = L.tileLayer.betterWms(layer.url, {
 	    layers: layer.layers,
