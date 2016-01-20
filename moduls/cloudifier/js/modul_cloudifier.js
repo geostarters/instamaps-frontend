@@ -35,9 +35,7 @@ jQuery(document).ready(function(){
 
 function loadUrlCloudifier(p_url, p_layername, p_crs){
 //	
-	console.debug(p_url);
-	console.debug(p_layername);
-	console.debug(p_crs);
+	
 	
 	var wmsLayer = L.tileLayer.betterWms(p_url, {
 		layers :p_layername,
