@@ -1029,7 +1029,18 @@ function sheetjsw(data, cb, readtype, xls) {
 		case 'xls':
 		case 'xlsx':
 			pending = false;
-			cb(JSON.parse(e.data.d), e.data.t);
+			var edata;
+			if (typeof(e.data.d) == "string"){
+				try {
+					edata = JSON.parse(e.data.d);
+				}
+				catch (err) {
+					edata = e.data.d;	
+				}				
+			}else{				
+				edata = e.data.d;	
+			}
+			cb(edata, e.data.t);
 			break;
 		}
 	};
