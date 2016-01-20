@@ -1248,6 +1248,130 @@ function loadMapLegendEdicio(layer){
 	
 }
 
+
+function loadMapLegendEdicioDinamics(layer){
+	
+	//console.info(layer);
+	
+	//Eliminem de la lleganda tematització anterior
+	$("#mapLegendEdicio").html("");
+	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
+	
+	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';
+	
+	var geometryType = transformTipusGeometry(layer.options.geometryType);
+
+	var rangsEstilsLegend = layer.options.estil_do.estils;
+	
+		if(geometryType == t_marker){
+		
+		jQuery.each(rangsEstilsLegend, function(i, estilRang){
+			var mida = getMidaFromRadius(estilRang.estil.simbolSize);
+			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
+			var color = hexToRgb(estilRang.estil.color);
+			var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+								'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
+								' '+iconSize+'">'+
+							'</div>';
+			
+			var labelNomCategoria = "";
+//			checked = "";						
+			
+			if (estilRang.valueMax == estilRang.valueMin){
+				labelNomCategoria = estilRang.valueMax;
+			}
+			else {
+				labelNomCategoria = estilRang.valueMin+"-"+ estilRang.valueMax;
+			}
+								
+			
+			html += '<div class="visor-legend-row ">';
+			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+								stringStyle+
+							'</div>'+
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+//			
+			html+='</div><div class="visor-separate-legend-row"></div>';	
+			
+		});
+	}else if(geometryType == t_polyline){
+		
+		jQuery.each(rangsEstilsLegend, function(i, estilRang){
+		
+			
+			var color = hexToRgb(estilRang.estil.color);
+			var lineWidth = estilRang.estil.lineWidth;
+			var stringStyle =	'<svg height="20" width="20">'+
+									'<line x1="0" y1="20" x2="20" y2="0" '+
+										'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
+								'</svg>';	
+			
+			var labelNomCategoria = "";
+					
+			
+			if (estilRang.valueMax == estilRang.valueMin){
+				labelNomCategoria = estilRang.valueMax;
+			}
+			else {
+				labelNomCategoria = estilRang.valueMin+"-"+ estilRang.valueMax;
+			}						
+			
+			html += '<div class="visor-legend-row ">';
+			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+								stringStyle+
+							'</div>'+
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+//			
+			html+='</div><div class="visor-separate-legend-row"></div>';
+		});				
+		
+	}else{
+		
+		jQuery.each(rangsEstilsLegend, function(i, estilRang){
+			
+			
+			var color = hexToRgb(estilRang.estil.color);
+			var borderColor = hexToRgb(estilRang.estil.borderColor);
+			var opacity = estilRang.estil.opacity/100;
+			var borderWidth = estilRang.estil.borderWidth;						
+			var stringStyle =	'<svg height="30" width="30">'+
+									'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
+										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
+								'</svg>';	
+			
+			var labelNomCategoria = "";
+			
+			if (estilRang.valueMax == estilRang.valueMin){
+				labelNomCategoria = estilRang.valueMax;
+			}
+			else {
+				labelNomCategoria = estilRang.valueMin+"-"+ estilRang.valueMax;
+			}							
+			
+			html += '<div class="visor-legend-row ">';
+			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+								stringStyle+
+							'</div>'+
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+//			
+			html+='</div><div class="visor-separate-legend-row"></div>';
+		});					
+		
+	}	
+	
+	$("#mapLegendEdicio").html(html);
+	//Afegim de nou les classes i l'scroll
+	$("#mapLegendEdicio").addClass("info");
+	$("#mapLegendEdicio").addClass("legend");
+	$("#mapLegendEdicio").addClass("visor-legend");
+	$("#mapLegendEdicio").addClass("mCustomScrollbar");
+	$("#mapLegendEdicio").mCustomScrollbar();
+	
+	$(".bt_legend").show();
+	activaLlegenda(true);
+	
+}
+
 /**** fi/LLEGENDA TEMATICA MODE EDICIO ****/
 
 

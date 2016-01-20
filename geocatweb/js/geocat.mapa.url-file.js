@@ -794,6 +794,11 @@ function loadURLfileLayer(layer){
 				capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
 				controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origen);
 			}		
+				
+			//Si la capa es tematic categories, afegir llegenda al mode edicio
+			if ($(location).attr('href').indexOf('/mapa.html')!=-1){
+				loadMapLegendEdicioDinamics(capaURLfileLoad);
+			}
 			defer.resolve();
 		});		
 		

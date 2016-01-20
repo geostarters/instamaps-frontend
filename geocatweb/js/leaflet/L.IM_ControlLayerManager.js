@@ -207,8 +207,8 @@ L.Control.OrderLayers = L.Control.Layers
 								resp_Layer.push(this._layers[layer].layer);
 
 								/*
-								for (sublayer in this._layers[layer]._layers) {
-									this._layers[layer]._layers[sublayer].layer.options.group.name = newName;
+								/*for (sublayer in this._layers[layer]._layers) {
+									//this._layers[layer]._layers[sublayer].layer.options.group.name = newName;
 									this._layers[layer]._layers[sublayer].layer.options.group.groupName = newName;
 									// this._layers[layer]._layers[sublayer].layer.options.group.id
 									// = groupId;
@@ -1366,7 +1366,11 @@ L.Control.OrderLayers = L.Control.Layers
 								&& obj.layer.options.tipusRang == tem_clasic) {
 							thisLoadMapLegendEdicio(obj.layer);
 						}
-
+						
+						if (obj.layer.options.dinamic && obj.layer.options.tem == tem_clasic) {
+							thisLoadMapLegendEdicioDinamic(obj.layer);
+						}
+					
 					} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
 						// console.info(obj);
@@ -1814,6 +1818,10 @@ function thisFillModalDataTable(obj) {
 
 function thisLoadMapLegendEdicio(obj) {
 	loadMapLegendEdicio(obj);
+}
+
+function thisLoadMapLegendEdicioDinamic(obj) {
+	loadMapLegendEdicioDinamics(obj);
 }
 
 function thisEmptyMapLegendEdicio(obj) {
