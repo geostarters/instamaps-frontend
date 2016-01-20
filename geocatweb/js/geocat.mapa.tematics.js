@@ -1466,18 +1466,17 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		
 		var layOptions; 
 		
-		
-		if(typeof (layer.options)=="string"){		
+		if(typeof (layer.options)=="string"){	
 			try {
 				layOptions = JSON.parse(layer.options);
 			}
 			catch (err) {
 				layOptions = layer.options;		
 			}
-		}else{
-			
+		}else{			
 			layOptions = layer.options;	
 		}
+		
 		
 		if(layOptions && layOptions.group){
 			
@@ -1513,19 +1512,56 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	
 		}
 		if(hasSource) {
-			var source = jQuery.parseJSON(visualitzacio.options);					
+			//var source = jQuery.parseJSON(visualitzacio.options);	
+			var source;
+			
+			if(typeof (visualitzacio.options)=="string"){	
+				try {
+					source = JSON.parse(visualitzacio.options);
+				}
+				catch (err) {
+					source = visualitzacio.options;		
+				}
+			}else{			
+				source = visualitzacio.options;	
+			}
 			capaVisualitzacio.options.source = source.source;
 		}
 		
 		//Pel cas de del tematic categories, tenir els rangs d'estils
 		if(visualitzacio.options && visualitzacio.options.indexOf("estilsRangs")!=-1) {
-			var options = jQuery.parseJSON(visualitzacio.options);
+			//var options = jQuery.parseJSON(visualitzacio.options);
+			var options;
+			
+			if(typeof (visualitzacio.options)=="string"){	
+				try {
+					options = JSON.parse(visualitzacio.options);
+				}
+				catch (err) {
+					options = visualitzacio.options;		
+				}
+			}else{			
+				options = visualitzacio.options;	
+			}
+			
 			capaVisualitzacio.options.estilsRangs = options.estilsRangs;
 		}
 
 		//Pel cas de del tematic categories, tenir els rangs d'estils
 		if(visualitzacio.options && visualitzacio.options.indexOf("rangsEstilsLegend")!=-1) {
-			var options = jQuery.parseJSON(visualitzacio.options);
+			//var options = jQuery.parseJSON(visualitzacio.options);
+			var options;
+			
+			if(typeof (visualitzacio.options)=="string"){	
+				try {
+					options = JSON.parse(visualitzacio.options);
+				}
+				catch (err) {
+					options = visualitzacio.options;		
+				}
+			}else{			
+				options = visualitzacio.options;	
+			}
 			capaVisualitzacio.options.rangsEstilsLegend = options.rangsEstilsLegend;
 		}		
 		
@@ -1536,7 +1572,16 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		var options;
 		var origen = "";
 		if (layer.options){
-			options = jQuery.parseJSON( layer.options );
+			if(typeof (layer.options)=="string"){	
+				try {
+					options = JSON.parse(layer.options);
+				}
+				catch (err) {
+					options = layer.options;		
+				}
+			}else{			
+				options = layer.options;	
+			}
 		}
 		if(layer.options && options.origen){//Si es una sublayer
 			origen = getLeafletIdFromBusinessId(options.origen);
@@ -1954,3 +1999,16 @@ function sordDesc(property) {
         return result * sortOrder;
     }
 }
+function escapeSpecialChars(jsonString) {
+
+    return jsonString.replace(/\\n/g, "\\n")
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, "\\&")
+          .replace(/\\r/g, "\\r")
+          .replace(/\\t/g, "\\t")
+          .replace(/\\b/g, "\\b")
+          .replace(/\\f/g, "\\f");
+
+  }
+
