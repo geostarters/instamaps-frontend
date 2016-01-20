@@ -7,9 +7,7 @@ function loadVisualitzacioWmsLayer(layer){
 //	console.debug("loadVisualitzacioWmsLayer");
 //	console.debug(layer);
 	
-var jsonOptions;
-	
-	
+	var jsonOptions;	
 	
 	if(typeof (layer.options)=="string"){
 		try {
@@ -149,7 +147,18 @@ function loadVisualitzacioWmsLayerSenseUtfGrid(layer){
 	var wmsLayer =L.tileLayer.betterWms(layer.url, optionsWMS);
 	map.addLayer(wmsLayer);
 	
-	var jsonOptions = JSON.parse(layer.options);
+	var jsonOptions;
+	if(typeof (layer.options)=="string"){
+		try {
+			jsonOptions = JSON.parse(layer.options);
+		}
+		catch (err) {
+			jsonOptions = layer.options;	
+		}
+	}else{		
+		jsonOptions = layer.options;	
+	}	
+	
 	var origen = getLeafletIdFromBusinessId(jsonOptions.origen);
     wmsLayer.options.zIndex = capesOrdre_sublayer;
 	controlCapes.addOverlay(wmsLayer, wmsLayer.options.nom, true,origen);
