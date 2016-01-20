@@ -244,6 +244,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Error: No es pot generar el document":"Error:No se puede generar el documento"
 ,"Esborrar el mapa":"Borrar el mapa"
 ,"Esborrar":"Borrar"
+,"Esborrar grup":"Borrar grupo"
 ,"Escollir el mapa de fons": "Elegir el mapa de fondo"
 ,"Escriu el correu electrònic de les persones que vols convidar a col&#183;laborar en aquest mapa (màxim 5)":"Escribe el correo electrónico de las personas que quieres invitar a colaborar en este mapa (máximo 5)"
 ,"Escull el camp":"Escoge el campo"
@@ -393,6 +394,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Model d'elevacions":"Modelo de elevaciones"
 ,"Mostrar l'ombra del relleu":"Mostrar sombreado del relieve"
 ,"Mostrant":"Mostrando"
+,"Moure grup":"Mover grupo"
+,"Moure":"Mover"	
 ,"Municipis":"Municipios"
 ,"Múltiples formats: KML, GPX, DXF, SHP, GEOJSON, etc.":"Múltiples formatos: KML, GPX, DXF, SHP, GEOJSON, etc."
 
@@ -418,6 +421,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Només faci clic a les icones per anar a la pàgina de descàrrega":"Solo haga click en los íconos para ir a la pagina de descarga"
 ,"Notes":"Notas"
 ,"Nou mapa":"Nuevo mapa"
+,"Nou grup":"Nuevo grupo"
+	
 ,"Nº Rangs":"Nº Rangos"
 
 ,"o amb:":"o con:"
@@ -542,8 +547,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Totes":"Todas"
 ,"Tots els teus mapes:":"Todos tus mapas:"
 ,"Transmissió (tag)":"Transmisión (tag)"
-,"Transperència fons:":"Transparéncia fondo"
-,"Transperència":"Transparéncia"
+,"Transparència fons:":"Transparéncia fondo"
+,"Transparència":"Transparéncia"
 ,"Tria la paleta de colors":"Escoge la paleta de colores"
 ,"Tria la teva opció":"Escoge tu opción"
 ,"Tria una capa per aplicar-hi el filtre":"Escoge una capa para aplicar el filtro"
