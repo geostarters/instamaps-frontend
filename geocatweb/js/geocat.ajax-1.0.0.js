@@ -266,7 +266,8 @@ function getAllServidorsWMSByUser(data){
 	return jQuery.ajax({
 		url: paramUrl.getAllServidorsWMSByUser,
 		data: data,
-		dataType: 'jsonp'
+		method: 'POST'
+//		dataType: 'jsonp'
 	}).promise();
 }
 

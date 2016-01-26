@@ -522,10 +522,12 @@ function loadURLfileLayer(layer){
 		options = layer.options;	
 	}
 	//console.debug("options:");
-	//console.debug(options);
+	console.debug(options);
+	
+	
+
 	
 	if(options.tem == null || options.tem == tem_simple){
-	
 		var estil_do = options.estil_do;
 		var style = options.style;
 		var tipusFile = options.tipusFile;

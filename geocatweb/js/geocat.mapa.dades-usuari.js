@@ -21,7 +21,8 @@ $(function() {
 			data = {
 				uid: $.cookie('uid'),
 				serverName: q,
-				serverType: serverType
+				serverType: serverType,
+				iduser:_UsrID
 			};
 			delay(function(){
 				primerCop="false";
@@ -36,7 +37,8 @@ $(function() {
 			
 			data = {
 				uid: $.cookie('uid'),
-				serverType: serverType
+				serverType: serverType,
+				iduser:_UsrID
 			};
 			primerCop="false";
 			refrescaPopOverMevasDades(data).then(function(results){
@@ -55,7 +57,8 @@ $(function() {
 			data ={
 				uid: $.cookie('uid'),
 				serverName: q,
-				serverType: serverType
+				serverType: serverType,
+				iduser:_UsrID
 			};
 			delay(function(){
 				primerCop="false";
@@ -70,7 +73,8 @@ $(function() {
 			
 			data ={
 				uid: $.cookie('uid'),
-				serverType: serverType
+				serverType: serverType,
+				iduser:_UsrID
 			};
 			primerCop="false";
 			refrescaPopOverMevasDades(data).then(function(results){
@@ -112,18 +116,8 @@ function carregaDadesUsuari(){
 	addHtmlModalErrorMsg();
 	primerCop="true";
 	var data = {uid: $.cookie('uid')};
-	getAllServidorsWMSByUser(data).then(function(results){
-		if (results.status == "ERROR"){
-			//TODO mostrar mensaje de error y hacer alguna accion por ejemplo redirigir a la galeria				
-			return false;
-		}
-		dades1=results;
-		creaPopOverMevasDades();
-	},function(results){
-		//JESS DESCOMENTAR!!!!
-		console.debug(results);
-		//gestioCookie('carregaDadesUsuari');
-	});
+	creaPopOverMevasDades();
+
 }
 
 
@@ -137,7 +131,7 @@ function creaPopOverMevasDades(){
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
 		serverType="";
 		jQuery("#id_sw").empty();
-		var data = {uid: $.cookie('uid')};
+		var data = {uid: $.cookie('uid'),iduser:_UsrID};
 		refrescaPopOverMevasDades(data).then(function(results){
 			actualitzarMevesDades(results);
 		});
@@ -358,8 +352,10 @@ function refrescaPopOverMevasDades(data){
 	var dfd = jQuery.Deferred();
 	
 	getAllServidorsWMSByUser(data).then(function(results){
+		
 		var serverOrigen = [];
 		if (results.results.length>0){
+			dades1=results;
 			jQuery.each(results.results, function(i, item){
 				if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
 					if (item.options === null){
@@ -382,11 +378,13 @@ function refrescaPopOverMevasDades(data){
 			
 			if (!isRandomUser($.cookie('uid'))){
 				var data ={
-					uid: $.cookie('uid')
+					uid: $.cookie('uid'),
+					iduser:_UsrID
 				};
 				getAllServidorsWMSByUser(data).then(function(results){
 					var serverOrigen = [];
 					if (results.results.length>0){
+						dades1=results;
 						jQuery.each(results.results, function(i, item){
 							if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
 								if (item.options === null){
