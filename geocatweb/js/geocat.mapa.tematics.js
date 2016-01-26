@@ -2000,15 +2000,11 @@ function sordDesc(property) {
     }
 }
 function escapeSpecialChars(jsonString) {
-
-    return jsonString.replace(/\\n/g, "\\n")
-          .replace(/\\'/g, "\\'")
-          .replace(/\\"/g, '\\"')
-          .replace(/\\&/g, "\\&")
-          .replace(/\\r/g, "\\r")
-          .replace(/\\t/g, "\\t")
-          .replace(/\\b/g, "\\b")
-          .replace(/\\f/g, "\\f");
-
+	var myJSONString = JSON.stringify(jsonString);
+	var myEscapedJSONString = myJSONString.replace(/\n/g, "\\n");
+	console.debug(myEscapedJSONString);
+	 return myEscapedJSONString;
   }
+
+
 

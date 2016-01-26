@@ -457,13 +457,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			return container;
 		},
 
-		onRemove: function(map) {
-			if (this._line) {
-				map.removeLayer(this._line);
-			}
-			map.removeLayer(this._plan);
-			return L.Routing.Itinerary.prototype.onRemove.call(this, map);
-		},
+		
 
 		getWaypoints: function() {
 			return this._plan.getWaypoints();
@@ -474,6 +468,19 @@ if (typeof module !== undefined) module.exports = polyline;
 			return this;
 		},
 
+		onRemove: function(map) {
+			if (this._line) {
+				map.removeLayer(this._line);
+			}
+			map.removeLayer(this._plan);
+			if (this._alternatives.length >0) {
+				this._alternatives.forEach(function(alt, i) {
+					map.removeLayer(this._alternatives[i]);				
+			}, this);
+			}
+			this.setWaypoints();
+			return L.Routing.Itinerary.prototype.onRemove.call(this, map);
+		},
 		spliceWaypoints: function() {
 			var removed = this._plan.spliceWaypoints.apply(this._plan, arguments);
 			return removed;
