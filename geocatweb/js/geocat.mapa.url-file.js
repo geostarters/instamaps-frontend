@@ -753,22 +753,33 @@ function loadURLfileLayer(layer){
 
 			    	$.each( estil_do.estils, function( index, estil ) {
 			    		if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
-				    			(parseInt(dataFieldValue)>=parseInt(estil.valueMin) && parseInt(dataFieldValue)<=parseInt(estil.valueMax))){//per valors
-			    			if(latlng.feature.geometry.type.toLowerCase() == t_polygon){
+				    			(parseInt(dataFieldValue)>=parseInt(estil.valueMin) && parseInt(dataFieldValue)<=parseInt(estil.valueMax))){//per valors	
+				    		
+			    			if(latlng.feature.geometry.type.toLowerCase() == t_polygon ){		
 			    				latlng.options.weight = 2;
-					    		latlng.options.color = "#ffffff";
+					    		latlng.options.color = estil.estil.borderColor;
 					    		latlng.options.fillColor = estil.estil.color;
 					    		latlng.options.fillOpacity = 0.5;			    					
 					    		latlng.options.opacity = 1;
-		    				}else if(latlng.feature.geometry.type.toLowerCase().indexOf(t_polyline)!=-1 || latlng.feature.geometry.type.toLowerCase().indexOf(t_linestring)!=-1){
+		    				}else if(latlng.feature.geometry.type.toLowerCase().indexOf(t_polyline)!=-1 
+		    						|| latlng.feature.geometry.type.toLowerCase().indexOf(t_linestring)!=-1){
 			    				latlng.options.weight = 2;
 					    		latlng.options.color = estil.estil.color;
 					    		latlng.options.fillOpacity = 1;			    					
 					    		latlng.options.opacity = 1;
+		    				}else if(latlng.feature.geometry.type.toLowerCase() == t_multipolygon ){
+		    					$.each(latlng._layers,function(index,layer){
+		    						layer.options.weight = 2;
+		    						layer.options.color = estil.estil.borderColor;
+		    						layer.options.fillColor = estil.estil.color;
+		    						layer.options.fillOpacity = 0.5;			    					
+		    						layer.options.opacity = 1;
+		    					});			    				
 		    				}
 			    			return false;	
 			    		}
 			    	});	
+			    	console.debug(latlng);
 				    return latlng.bindPopup(html);
 				  }
 		});		
