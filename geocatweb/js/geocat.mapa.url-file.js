@@ -750,36 +750,69 @@ function loadURLfileLayer(layer){
 			    		if(key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
 			    	});	
 			    	html+='</div></div>'; 
-
 			    	$.each( estil_do.estils, function( index, estil ) {
 			    		if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
-				    			(parseInt(dataFieldValue)>=parseInt(estil.valueMin) && parseInt(dataFieldValue)<=parseInt(estil.valueMax))){//per valors	
+				    			(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
 				    		
 			    			if(latlng.feature.geometry.type.toLowerCase() == t_polygon ){		
+			    				/*
 			    				latlng.options.weight = 2;
 					    		latlng.options.color = estil.estil.borderColor;
 					    		latlng.options.fillColor = estil.estil.color;
 					    		latlng.options.fillOpacity = 0.5;			    					
 					    		latlng.options.opacity = 1;
+					    		*/
+					    		latlng.setStyle({
+		    						weight: 2,
+		    						fillColor: estil.estil.color,
+		    						color: estil.estil.borderColor,
+		    						fillOpacity: 0.5,
+		    						opacity: 1
+		    					});
 		    				}else if(latlng.feature.geometry.type.toLowerCase().indexOf(t_polyline)!=-1 
 		    						|| latlng.feature.geometry.type.toLowerCase().indexOf(t_linestring)!=-1){
-			    				latlng.options.weight = 2;
+			    				/*latlng.options.weight = 2;
 					    		latlng.options.color = estil.estil.color;
 					    		latlng.options.fillOpacity = 1;			    					
-					    		latlng.options.opacity = 1;
+					    		latlng.options.opacity = 1;*/
+					    		latlng.setStyle({
+		    						weight: 2,
+		    						color: estil.estil.borderColor,
+		    						fillOpacity: 1,
+		    						opacity: 1
+		    					});
 		    				}else if(latlng.feature.geometry.type.toLowerCase() == t_multipolygon ){
-		    					$.each(latlng._layers,function(index,layer){
+		    					latlng.setStyle({
+		    						weight: 2,
+		    						fillColor: estil.estil.color,
+		    						color: estil.estil.borderColor,
+		    						fillOpacity: 0.5,
+		    						opacity: 1
+		    					});
+		    					/*
+		    					if(!latlng.options){
+		    						latlng.options = {};
+		    					}
+		    					latlng.options.weight = 2;
+					    		latlng.options.color = estil.estil.borderColor;
+					    		latlng.options.fillColor = estil.estil.color;
+					    		latlng.options.fillOpacity = 0.5;			    					
+					    		latlng.options.opacity = 1;
+					    		*/
+		    					/*
+					    		$.each(latlng._layers,function(index,layer){
 		    						layer.options.weight = 2;
 		    						layer.options.color = estil.estil.borderColor;
 		    						layer.options.fillColor = estil.estil.color;
-		    						layer.options.fillOpacity = 0.5;			    					
+		    						layer.options.fillOpacity = 1;			    					
 		    						layer.options.opacity = 1;
-		    					});			    				
-		    				}
+		    					});
+					    		*/
+					    	}
+			    			console.debug(latlng);
 			    			return false;	
 			    		}
 			    	});	
-			    	console.debug(latlng);
 				    return latlng.bindPopup(html);
 				  }
 		});		
