@@ -1187,7 +1187,8 @@ function addDropFileToMap(results) {
 				jQuery('#info_uploadFile').hide();
 			}
 			var dataPopover ={
-					uid: $.cookie('uid')
+					//uid: $.cookie('uid')
+					iduser:_UsrID
 			};
 			// carregarCapa(businessId);
 			refrescaPopOverMevasDades(dataPopover);
