@@ -144,7 +144,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		layerName = mapLegend[layer.options.businessId][0].name;
 		if(mapLegend[layer.options.businessId][0].chck) checked = 'checked="checked"';
 	}
-	
 	//Cluster
 	if(layer.options.tipusRang && layer.options.tipusRang == tem_cluster){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
@@ -197,6 +196,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				size = 'width: '+estil_do.iconSize.x+'px; height: '+estil_do.iconSize.y+'px;';
 			}else{
 				var mida = getMidaFromRadius(estil_do.radius);
+				if (layer.options.tem == tem_size) mida = estil_do.iconSize;
 				size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';
 			}
 			
@@ -260,7 +260,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		//console.debug("LAYER:");
 		//console.debug(layer);
 		
-		if(layer.options.tem && layer.options.tem == tem_clasic){
+		if(layer.options.tem && (layer.options.tem == tem_clasic || layer.options.tem == tem_size)){
 			 
 //				console.debug("layer url_file ");
 //				console.debug(layer);
@@ -280,6 +280,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					jQuery.each(estils, function(i, estilRang){
 						
 						var mida = getMidaFromRadius(estilRang.estil.simbolSize);
+						if (layer.options.tem == tem_size) mida = estilRang.estil.simbolSize; 
 						var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
 						var color = hexToRgb(estilRang.estil.color);
 						var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
@@ -418,6 +419,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					//console.debug(type);
 					
 					var mida = getMidaFromRadius(estil_do.radius);
+					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
 					var color = hexToRgb(estil_do.fillColor);
 					
@@ -510,7 +512,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		var rangs = getRangsFromLayerLegend(layer);
 		//console.debug(rangs);
 		var size = rangs.length;
-		
+		console.debug(layer.options.tipusRang);
 		//Classic tematic
 		if(layer.options.tipusRang && layer.options.tipusRang==tem_clasic){
 			var geometryType = transformTipusGeometry(layer.options.geometryType);
@@ -534,6 +536,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					}
 					
 					var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
+					if (layer.options.tem == tem_size) mida = layer.options.estil[indexEstil].simbolSize;
 					var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
 					var color = hexToRgb(layer.options.estil[indexEstil].color);
 					var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
@@ -650,7 +653,66 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				
 			}
 
-		}else{
+		}else if(layer.options.tipusRang && layer.options.tipusRang==tem_size){
+			
+			
+			var geometryType = transformTipusGeometry(layer.options.geometryType);
+			var i = 0;
+			var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
+			
+			var estilsRangs = layer.options.estilsRangs;
+			var rangsEstilsLegend = layer.options.rangsEstilsLegend;
+//			rangsEstilsLegend.sort(sortByValorMax);
+			
+			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
+			arrRangsEstilsLegend.sort(sortByValueMax);
+			console.debug(arrRangsEstilsLegend);
+			
+			if(geometryType == t_marker){
+
+				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
+					var indexEstil = 0;
+					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
+						indexEstil++;
+					}
+					
+					var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
+					if (layer.options.tipusRang == tem_size) mida =layer.options.estil[indexEstil].simbolSize;
+					var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';
+					console.debug(iconSize);
+					var color = hexToRgb(layer.options.estil[indexEstil].color);
+					var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+										'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
+										' '+iconSize+'">'+
+									'</div>';
+					
+					var labelNomCategoria = "";
+					checked = "";						
+					
+					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					}else{
+						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+						if(labelNomCategoria == "Altres"){
+							labelNomCategoria = window.lang.convert("Altres");
+						}
+					}						
+					
+					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
+					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+					html +=	'<div class="col-md-2 legend-symbol">'+
+										stringStyle+
+									'</div>'+
+									'<div class="col-md-9 legend-name">'+
+										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+									'</div>';				
+					html+='</div>';	
+				});
+			}
+		}
+		else{
 			
 			//Si es simpleTematic, amb el primer element de rang ja tenim prou, no ens cal recorrer tots el rangs 
 			//pq seran tots iguals
@@ -670,6 +732,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							iconSize = 'width: '+mides[0]+'px; height: '+mides[1]+'px;';
 						}else{
 							var mida = getMidaFromRadius(rangs[i].simbolSize);
+							if (layer.options.tem == tem_size) mida = rangs[i].simbolSize;
 							iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';
 						}
 						var color = hexToRgb(rangs[i].color);
@@ -1115,17 +1178,17 @@ function loadMapLegendEdicio(layer){
 	
 	var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 	arrRangsEstilsLegend.sort(sortByValueMax);
-	//console.debug(arrRangsEstilsLegend);
-	
 	if(geometryType == t_marker){
 
 		jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
 			var indexEstil = 0;
 			while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 				indexEstil++;
+				
 			}
-			
+			//console.debug(layer.options.estil[indexEstil].simbolSize);
 			var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
+			if (layer.options.tipusRang == tem_size) mida = layer.options.estil[indexEstil].simbolSize;
 			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
 			var color = hexToRgb(layer.options.estil[indexEstil].color);
 			var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
@@ -1267,6 +1330,7 @@ function loadMapLegendEdicioDinamics(layer){
 		
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 			var mida = getMidaFromRadius(estilRang.estil.simbolSize);
+			if (layer.options.tem == tem_size) mida = estilRang.estil.simbolSize;
 			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
 			var color = hexToRgb(estilRang.estil.color);
 			var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+

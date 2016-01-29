@@ -31,7 +31,7 @@ $( window ).resize(function() {
 	var height = $( '#map' ).height();
 
 
-	 if(typeof url('?embed') == "string" || width<=400 || height<=350){
+	 if(isMobile() || typeof url('?embed') == "string" || width<=400 || height<=350){
 		 $('.leaflet-control-gps').attr("style","display:none");
 			$('#dv_bt_Find').attr("style","display:none");
 			$('#dv_bt_Routing').attr("style","display:none");
@@ -44,7 +44,7 @@ $( window ).resize(function() {
 			activaLlegenda(true);
 			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 	 }
-	 if( width>400){
+	 if(!isMobile() && width>400){
 		 $('.leaflet-control-gps').attr("style","display:block");
 			$('#dv_bt_Find').attr("style","display:block");
 			$('#dv_bt_Routing').attr("style","display:block");
@@ -57,17 +57,17 @@ $( window ).resize(function() {
 			activaLlegenda(true);
 			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 	 }
-	 if (typeof url('?embed') == "string" && widthW<=360) {
+	 	if(!isMobile() && typeof url('?embed') == "string" && widthW<=360) {
 			$('.bt_llista').attr("style","display:none");
 			$('.leaflet-control-layers').attr("style","display:none");
 		}
-		else if (typeof url('?embed') == "string") {
+		else if (!isMobile() && typeof url('?embed') == "string") {
 			$('.bt_llista').attr("style","display:block");
 			$('.leaflet-control-layers').attr("style","display:block");
 			activaPanelCapes(false);
 		}
 
-		if(typeof url('?embed') == "string") {
+		if(!isMobile() && typeof url('?embed') == "string") {
 			$('.control-btn-fons').attr("style","display:none");
 		}
 
