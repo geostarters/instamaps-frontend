@@ -522,7 +522,7 @@ function loadURLfileLayer(layer){
 		options = layer.options;	
 	}
 	//console.debug("options:");
-	console.debug(options);
+	//console.debug(options);
 	
 	
 
@@ -809,7 +809,7 @@ function loadURLfileLayer(layer){
 		    					});
 					    		*/
 					    	}
-			    			console.debug(latlng);
+			    			//console.debug(latlng);
 			    			return false;	
 			    		}
 			    	});	

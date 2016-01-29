@@ -1888,7 +1888,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	}
 	
 		//Si la capa es tematic categories, afegir llegenda al mode edicio
-		if (visualitzacio.tipus == tem_clasic && $(location).attr('href').indexOf('/mapa.html')!=-1){
+		if ((visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_size) && $(location).attr('href').indexOf('/mapa.html')!=-1){
 //			console.debug("Holaaaa");
 			loadMapLegendEdicio(capaVisualitzacio);
 		}
