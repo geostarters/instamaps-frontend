@@ -168,13 +168,30 @@ function fillModalDataTable(obj, geomBid){
 			}else{
 				//Taula no editable pel visor
 				//properties headers
-				for(var x in feature.properties){
+				var isADrawMarker=false;
+				for(var x in feature.properties){					
 					var obj = {
 						title: x.toUpperCase(),
 						field: x.toLowerCase(),
 						sortable: true
 					}
+					if (x=='text' || x=='TEXT') isADrawMarker=true;
+					else isADrawMarker=false;
 					columNames.push(obj);
+				}
+				if (isADrawMarker){
+					var obj = {
+							title: "latitud".toUpperCase(),
+							field: "latitud".toLowerCase(),
+							sortable: true
+						}
+					columNames.push(obj);
+					 obj = {
+								title: "longitud".toUpperCase(),
+								field: "longitud".toLowerCase(),
+								sortable: true
+							}
+					 columNames.push(obj);
 				}
 				
 				//Actions
@@ -223,6 +240,14 @@ function fillModalDataTable(obj, geomBid){
 				geometriesBusinessId = results.geometriesBusinessId;
 				$('#modal_data_table').data("layerServidor", results.layer);
 				
+				var resultats = results.results;
+				var coords = resultats.split("#");  
+				var lon = parseFloat(coords[2]);
+				var lat = parseFloat(coords[1]);
+				resultats = resultats.replace("}]",",\"longitud\":\""+lon.toFixed(5)+"\",\"latitud\":\""+lat.toFixed(5)+"\"}]");
+				
+				console.debug(resultats);
+				
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
 					striped: true,
@@ -235,7 +260,7 @@ function fillModalDataTable(obj, geomBid){
 				    columns: columNames,
 				    showExport: true,
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
-				    data: $.parseJSON(results.results)
+				    data: $.parseJSON(resultats)
 				});				
 
 				$('#modal_data_table').on('editable-save.bs.table', function(event, name, row, 	oldValue, param) {
