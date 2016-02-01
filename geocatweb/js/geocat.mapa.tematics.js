@@ -281,6 +281,7 @@ function createPopupWindowData(player,type, editable, origen){
 	}
 	
 	
+	var isADrawarker=false;
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
 		if(isValidValue(key) && isValidValue(value)){
@@ -306,9 +307,26 @@ function createPopupWindowData(player,type, editable, origen){
 					html+='<div class="popup_data_value">'+txt+'</div>';
 				}
 				html+= '</div>';
+				if (key=='text' || key=='TEXT') isADrawarker=true;
+				else isADrawarker=false;
 			}
 		}
 	});	
+	if (isADrawarker && type=="marker") {
+		var auxLat = player._latlng.lat;
+		auxLat = auxLat.toFixed(5);
+		var auxLon = player._latlng.lng;
+		auxLon = auxLon.toFixed(5);
+		html+='<div class="popup_data_row">';
+		html+='<div class="popup_data_key">Latitud</div>';
+		html+='<div class="popup_data_value">'+auxLat+'</div>';
+		html+= '</div>';
+		
+		html+='<div class="popup_data_row">';
+		html+='<div class="popup_data_key">Longitud</div>';
+		html+='<div class="popup_data_value">'+auxLon+'</div>';
+		html+= '</div>';
+	}
 	
 	if(editable){
 		html+= '<div id="footer_edit"  class="modal-footer">'
