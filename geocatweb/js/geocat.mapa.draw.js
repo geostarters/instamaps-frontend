@@ -1308,13 +1308,25 @@ function createPopUpContent(player,type){
 	
 	var auxNom = window.lang.convert('Nom');
 	var auxText = window.lang.convert('Descripció');
+	var auxLon,auxLat;
 	if(player.properties.data.nom) auxNom = player.properties.data.nom;
 	if(player.properties.data.text) auxText = player.properties.data.text;
-	
+	if (player.options.tipus=="marker" && player._latlng) {
+		auxLat = player._latlng.lat;
+		auxLat= auxLat.toFixed(5);
+		auxLon = player._latlng.lng;
+		auxLon= auxLon.toFixed(5);
+	}
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
 	+'<div id="titol_pres">'+auxNom+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
 	+'<div id="des_pres">'+auxText+' <i class="glyphicon glyphicon-pencil blau"></i></div>';
+	
+	if (player.options.tipus=="marker" && auxLat!=undefined && auxLon!=undefined) {
+		html+='<div id="auxLat">'+auxLat+'</div>'
+		+'<div id="auxLon">'+auxLon+'</div>';
+	}
+
 	
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
@@ -1338,7 +1350,7 @@ function createPopUpContent(player,type){
 		+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
 		+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
 		+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
-	console.debug(player);
+	
 	if (player.properties.estil) {
 		html+='<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					
 	}
@@ -1353,8 +1365,12 @@ function createPopUpContent(player,type){
 	+'<div class="popup_edit">'
 	+'<div style="display:block" id="feature_txt">'
 	+'<input class="form-control" id="titol_edit" type="text" value="'+auxNom+'" placeholder="">'
-	+'<textarea id="des_edit" class="form-control" rows="2">'+auxText+'</textarea>'							
-	+'</div>'	
+	+'<textarea id="des_edit" class="form-control" rows="2">'+auxText+'</textarea>'	;
+	if (player.options.tipus=="marker" && auxLat!=undefined && auxLon!=undefined) {
+		html+='<input class="form-control" id="lat" type="text" value="'+auxLat+'" placeholder="" disabled>'
+		+'<input class="form-control" id="lon" type="text" value="'+auxLon+'" placeholder="" disabled>';
+	}
+	html+='</div>'	
 	+'<div  style="display:block" id="capa_txt">'
 	+'<div id="layer_accio"></div>'
 	+'<input class="form-control" id="capa_edit" type="text" value="'+player.properties.capaGrup+'" placeholder="">'

@@ -412,6 +412,13 @@
 	border: 1px solid #EEEEEE;
 }
 
+ #auxLon, #auxLat {
+	width: 100%;
+	height: 30px;
+	font-size: 14px;
+	border: 1px solid #EEEEEE;
+}
+
 #capa_pres_visor {
 	width: 100%;
 	height: 30px;
