@@ -242,6 +242,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Error en la càrrega de l'arxiu: retorn buit":"Error al cargar el archivo: retorno vacío"
 ,"Error en el tractament de les dades":"Error en el tratamiento de los datos"
 ,"Error: No es pot generar el document":"Error:No se puede generar el documento"
+,"Errors freqüents en carregar arxius a Instamaps":"Errores frecuentes en la carga de archivos en Instamaps"
 ,"Esborrar el mapa":"Borrar el mapa"
 ,"Esborrar":"Borrar"
 ,"Esborrar grup":"Borrar grupo"
@@ -441,6 +442,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Ortofotos històriques":"Ortofotos históricas"
 
 ,"Parcs eòlics":"Parques eólicos"
+,"Per a més informació consultar":"Para más información consultar"
 ,"Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.":"Para lograr la mejor experiencia posible usando nuestro sitio web nosotros recomendamos que usted actualice a una nueva versión de Internet Explorer o use otro navegador web. Una lista de los navegadores web más populares puede ser encontrada debajo."
 ,"Per adreces":"Por direcciones"
 ,"Per capes amb gran volum de dades aquesta operació no està disponible.":"Para capas con gran volumen de datos esta operación no está disponible."
