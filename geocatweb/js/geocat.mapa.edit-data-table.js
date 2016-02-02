@@ -244,9 +244,23 @@ function fillModalDataTable(obj, geomBid){
 				var coords = resultats.split("#");  
 				var lon = parseFloat(coords[2]);
 				var lat = parseFloat(coords[1]);
-				resultats = resultats.replace("}]",",\"longitud\":\""+lon.toFixed(5)+"\",\"latitud\":\""+lat.toFixed(5)+"\"}]");
+				//resultats = resultats.replace("}]",",\"longitud\":\""+lon.toFixed(5)+"\",\"latitud\":\""+lat.toFixed(5)+"\"}]");
 				
-				console.debug(resultats);
+				var resultats2 = $.parseJSON(resultats);
+				var resultatsMod = [];
+				var resultI=0;
+				jQuery.each(resultats2, function(i, result){
+					var coords = result.geometryBBOX.split("#");  
+					var lon = parseFloat(coords[2]);
+					var lat = parseFloat(coords[1]);
+					result.longitud=lon.toFixed(5);
+					result.latitud=lat.toFixed(5);
+					resultatsMod[resultI]=result;
+					resultI++;
+					console.debug(result);
+					
+				});
+				
 				
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
@@ -260,7 +274,7 @@ function fillModalDataTable(obj, geomBid){
 				    columns: columNames,
 				    showExport: true,
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
-				    data: $.parseJSON(resultats)
+				    data: resultatsMod
 				});				
 
 				$('#modal_data_table').on('editable-save.bs.table', function(event, name, row, 	oldValue, param) {
