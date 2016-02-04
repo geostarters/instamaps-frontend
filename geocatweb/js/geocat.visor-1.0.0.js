@@ -259,7 +259,6 @@ function loadApp(){
 			mapacolaboratiu: url('?mapacolaboratiu'),
 			uid: url('?uid')
 		};
-
 		getCacheMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
 				window.location.href = paramUrl.galeriaPage;
@@ -269,23 +268,24 @@ function loadApp(){
 				//mostar modal con contraseña
 				loadPasswordModal();
 			}else{
+				var uidUrl = url('?uid');
+				console.debug(url('?mapacolaboratiu'));
+				console.debug($.cookie('uid'));
+				if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
+					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+					$.cookie('collaborateuid', uidUrl, {path:'/'});
+					window.location.href = paramUrl.loginPage;
+				}
+				else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
+					$.removeCookie('uid', { path: '/' });
+					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+					$.cookie('collaborateuid', uidUrl, {path:'/'});
+					window.location.href = paramUrl.loginPage;
+				}
+				else {
+					//window.location.href = paramUrl.galeriaPage+"?private=1";
+				}
 				loadPublicMap(results);
-			}
-		},function(results){
-			var uidUrl = url('?uid');
-			if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
-				$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-				$.cookie('collaborateuid', uidUrl, {path:'/'});
-				window.location.href = paramUrl.loginPage;
-			}
-			else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
-				$.removeCookie('uid', { path: '/' });
-				$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-				$.cookie('collaborateuid', uidUrl, {path:'/'});
-				window.location.href = paramUrl.loginPage;
-			}
-			else {
-				window.location.href = paramUrl.galeriaPage+"?private=1";
 			}
 		});
 	}
