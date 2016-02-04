@@ -257,7 +257,7 @@ function fillModalDataTable(obj, geomBid){
 					result.latitud=lat.toFixed(5);
 					resultatsMod[resultI]=result;
 					resultI++;
-					console.debug(result);
+					//console.debug(result);
 					
 				});
 				

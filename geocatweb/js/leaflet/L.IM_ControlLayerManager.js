@@ -1363,11 +1363,11 @@ L.Control.OrderLayers = L.Control.Layers
 
 						if (currentbid == obj.layer.options.businessId
 								&& obj.layer.options.tipusRang
-								&& obj.layer.options.tipusRang == tem_clasic) {
+								&& (obj.layer.options.tipusRang == tem_clasic || obj.layer.options.tipusRang == tem_size)) {
 							thisLoadMapLegendEdicio(obj.layer);
 						}
 						
-						if (obj.layer.options.dinamic && obj.layer.options.tem == tem_clasic) {
+						if (obj.layer.options.dinamic && (obj.layer.options.tem == tem_clasic || obj.layer.options.tem == tem_size)) {
 							thisLoadMapLegendEdicioDinamic(obj.layer);
 						}
 					
@@ -1387,9 +1387,15 @@ L.Control.OrderLayers = L.Control.Layers
 						// mostrem la seva llegenda
 						if (currentbid == obj.layer.options.businessId
 								&& obj.layer.options.tipusRang
-								&& obj.layer.options.tipusRang == tem_clasic) {
+								&& (obj.layer.options.tipusRang == tem_clasic|| obj.layer.options.tipusRang == tem_size)) {
 							thisEmptyMapLegendEdicio(obj.layer);
 						}
+						
+						if (currentbid == obj.layer.options.businessId && obj.layer.options.dinamic && 
+								(obj.layer.options.tem == tem_clasic || obj.layer.options.tem == tem_size)) {
+							thisEmptyMapLegendEdicio(obj.layer);
+						}
+						
 					}
 
 				}
