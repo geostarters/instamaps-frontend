@@ -282,8 +282,9 @@ function loadApp(){
 					$.cookie('collaborateuid', uidUrl, {path:'/'});
 					window.location.href = paramUrl.loginPage;
 				}
-				else {
+				else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
 					//window.location.href = paramUrl.galeriaPage+"?private=1";
+					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
 				}
 				loadPublicMap(results);
 			}
