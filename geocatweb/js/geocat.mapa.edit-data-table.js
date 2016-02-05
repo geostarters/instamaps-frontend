@@ -143,6 +143,7 @@ function fillModalDataTable(obj, geomBid){
 			
 			
 			if(modeMapa){
+				var isADrawMarker=false;
 				//properties headers
 				for(var x in feature.properties){
 					var obj = {
@@ -153,8 +154,24 @@ function fillModalDataTable(obj, geomBid){
 							emptytext : '-'
 						}
 					}
+					if (x=='text' || x=='TEXT') isADrawMarker=true;
+					else isADrawMarker=false;
 					columNames.push(obj);
-				}				
+				}		
+				if (isADrawMarker){
+					var obj = {
+							title: "latitud".toUpperCase(),
+							field: "latitud".toLowerCase(),
+							sortable: true
+						}
+					columNames.push(obj);
+					 obj = {
+								title: "longitud".toUpperCase(),
+								field: "longitud".toLowerCase(),
+								sortable: true
+							}
+					 columNames.push(obj);
+				}
 				
 				//Actions
 				var objActions = {

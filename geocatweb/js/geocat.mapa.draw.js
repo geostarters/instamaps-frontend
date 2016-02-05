@@ -831,6 +831,11 @@ function createPopupWindow(layer,type){
 					alert(window.lang.convert('Has de posar un nom de capa'));	
 				}
 			}
+		}else if(accio[0].indexOf("feature_data_table")!=-1){
+		
+			$('#modal_data_table').modal('show');
+			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
+		
 		}else{
 		//accio tanca
 			map.closePopup();
