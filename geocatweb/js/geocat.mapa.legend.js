@@ -11,7 +11,7 @@ function addLegend(){
 	    jQuery.each(mapLegend, function(i, row){
 	    	for (var i = 0; i < row.length; i++) {
 	    		if(row[i].chck){
-	    			console.debug(row[i]);
+	    			//console.debug(row[i]);
 	    			if (row[i].symbol.indexOf("circle")>-1){
 	    				var padding_left="0px";
 	    				var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
@@ -33,7 +33,7 @@ function addLegend(){
 						    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;">'+row[i].name+'</div>'+
 	    							'</div>'+
 	    							'<div class="visor-separate-legend-row"></div>';	    			
-	    			}
+	    			}	    			
 	    		}
 	    	}
 	    });
@@ -220,9 +220,14 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			
 			var icon = "";
 			var colorIcon=""; 
+			var auxColor="";
+	
 			if(estil_do.divColor){
-				var auxColor = hexToRgb(estil_do.divColor);
+				auxColor = hexToRgb(estil_do.divColor);
 				colorIcon = 'color: rgb('+auxColor.r+', '+auxColor.g+', '+auxColor.b+');';
+			} 
+			if(estil_do.fillColor){
+				auxColor = hexToRgb(estil_do.fillColor);
 			} 
 			
 			if(estil_do.icon){
@@ -233,7 +238,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			if (layer.options.tem != tem_size){
 			html +=	'<div class="col-md-2 legend-symbol">'+
 						'<div class="awesome-marker-web awesome-marker-icon-punt_r '+icon+' legend-symbol" '+
-							'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+colorIcon+
+							'style="background-color: rgb('+auxColor.r+', '+auxColor.g+', '+auxColor.b+'); '+
 							' '+size+'">'+
 						'</div>'+
 					'</div>'+
@@ -265,7 +270,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			}
 			html+='</div>';
 //			html+='<div class="separate-legend-subrow" ></div>';		
-			
 		}else{
 			
 			var color = hexToRgb(estil_do.iconColor);
@@ -282,7 +286,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 					'</div>';
 			html+='</div>';
-//			html+='<div class="separate-legend-subrow" ></div>';			
+//			html+='<div class="separate-legend-subrow" ></div>';
+
 		}
 		
 	//URL FILE
@@ -435,10 +440,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					
 					jQuery.each(estils, function(i, estilRang){
 						
-						var color = hexToRgb(estilRang.estil.color);
+						var color = "";
+						if (estilRang.estil.color) color=hexToRgb(estilRang.estil.color);
+						else color=hexToRgb(estilRang.estil.borderColor);
 						var borderColor = hexToRgb(estilRang.estil.borderColor);
 						var opacity = estilRang.estil.opacity/100;
-						var borderWidth = estilRang.estil.borderWidth;						
+						var borderWidth = estilRang.estil.borderWidth;		
+						if (borderWidth==0) borderWidth=1;
 						var stringStyle =	'<svg height="30" width="30">'+
 												'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 													'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
@@ -485,7 +493,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				if(geometrytype == t_marker){
 					//console.debug("type");
 					//console.debug(type);
-					console.debug(estil_do);
+					//console.debug(estil_do);
 					var mida = getMidaFromRadius(estil_do.radius);
 					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
@@ -505,10 +513,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					html+='</div>';
 					
 				}else if(geometrytype == t_polygon){
-					var color = hexToRgb(estil_do.fillColor);
+					var color = "";
+					if (estil_do.fillColor) color=hexToRgb(estil_do.fillColor);
+					else color=hexToRgb(estil_do.color);
 					var borderColor = hexToRgb(estil_do.color);
 					var opacity = estil_do.fillOpacity;
-					var borderWidth = estil_do.weight;						
+					var borderWidth = estil_do.weight;		
+					if (borderWidth==0) borderWidth=1;
 					var polStyle =	'<svg height="30" width="30">'+
 											'<polygon points="5 5, 5 25, 25 25, 25 5" '+
 												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
@@ -580,7 +591,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		var rangs = getRangsFromLayerLegend(layer);
 		//console.debug(rangs);
 		var size = rangs.length;
-		console.debug(layer.options.tipusRang);
+		//console.debug(layer.options.tipusRang);
 		//Classic tematic
 		if(layer.options.tipusRang && layer.options.tipusRang==tem_clasic){
 			var geometryType = transformTipusGeometry(layer.options.geometryType);
@@ -602,7 +613,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 						indexEstil++;
 					}
-					console.debug(layer.options.estil);
+					//console.debug(layer.options.estil);
 					var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
 					if (layer.options.tem == tem_size) mida = layer.options.estil[indexEstil].simbolSize;
 					var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
@@ -684,12 +695,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 						indexEstil++;
 					}
-					
-					var color = hexToRgb(layer.options.estil[indexEstil].color);
+					var color = "";
+					if (layer.options.estil[indexEstil].color) color=hexToRgb(layer.options.estil[indexEstil].color);
+					else color = hexToRgb(layer.options.estil[indexEstil].borderColor);
 					var borderColor = hexToRgb(layer.options.estil[indexEstil].borderColor);
+					
 					var opacity = layer.options.estil[indexEstil].opacity/100;
-					var borderWidth = layer.options.estil[indexEstil].borderWidth;						
+					var borderWidth = layer.options.estil[indexEstil].borderWidth;			
+					if (borderWidth==0) borderWidth=1;
 					var stringStyle =	'<svg height="30" width="30">'+
+					
 											'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 										'</svg>';	
@@ -799,7 +814,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				for(var i=0;i<size;i++){
 					//Si es un punt
 					if(rangs[i].isCanvas || rangs[i].marker.indexOf("punt_r")!=-1){
-						console.debug(rangs[i]);
+						//console.debug(rangs[i]);
 						var iconSize="";
 						if(rangs[i].iconSize){
 							var mides = rangs[i].iconSize.split("#");
@@ -925,11 +940,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				
 				for(var i=0;i<size;i++){
 				
-					var color = hexToRgb(rangs[i].color);
+					var color = "";
+					if (rangs[i].color) color=hexToRgb(rangs[i].color);
+					else color=hexToRgb(rangs[i].borderColor);
 					var borderColor = hexToRgb(rangs[i].borderColor);
 					var opacity = rangs[i].opacity/100;
 					var borderWidth = rangs[i].borderWidth;
-					
+					if (borderWidth==0) borderWidth=1;
 					var obj = {color: color, borderColor: borderColor, opacity:opacity, borderWidth:borderWidth};
 					var existeix = checkPolStyle(obj);					
 					
@@ -1359,10 +1376,13 @@ function loadMapLegendEdicio(layer){
 				indexEstil++;
 			}
 			
-			var color = hexToRgb(layer.options.estil[indexEstil].color);
+			var color = "";
+			if (layer.options.estil[indexEstil].color) color=hexToRgb(layer.options.estil[indexEstil].color);
+			else color=hexToRgb(layer.options.estil[indexEstil].borderColor);
 			var borderColor = hexToRgb(layer.options.estil[indexEstil].borderColor);
 			var opacity = layer.options.estil[indexEstil].opacity/100;
-			var borderWidth = layer.options.estil[indexEstil].borderWidth;						
+			var borderWidth = layer.options.estil[indexEstil].borderWidth;		
+			if (borderWidth==0) borderWidth=1;
 			var stringStyle =	'<svg height="30" width="30">'+
 									'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
@@ -1510,10 +1530,13 @@ function loadMapLegendEdicioDinamics(layer){
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 			
 			
-			var color = hexToRgb(estilRang.estil.color);
+			var color = "";
+			if (estilRang.estil.color) color=hexToRgb(estilRang.estil.color);
+			else color=hexToRgb(estilRang.estil.borderColor);
 			var borderColor = hexToRgb(estilRang.estil.borderColor);
 			var opacity = estilRang.estil.opacity/100;
-			var borderWidth = estilRang.estil.borderWidth;						
+			var borderWidth = estilRang.estil.borderWidth;
+			if (borderWidth==0) borderWidth=1;
 			var stringStyle =	'<svg height="30" width="30">'+
 									'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
