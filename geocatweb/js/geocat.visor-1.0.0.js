@@ -284,7 +284,7 @@ function loadApp(){
 				}
 				else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
 					//window.location.href = paramUrl.galeriaPage+"?private=1";
-					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
+					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=alta";
 				}
 				loadPublicMap(results);
 			}
