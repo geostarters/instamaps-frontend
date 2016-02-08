@@ -324,6 +324,7 @@ function loadPublicMap(results){
 		infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 		//TODO ver como sacar el módulo
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+			_gaq.push(['_setAccount', 'UA-46332195-6']);
 			VisorGeolocal.initUi();
 
 			//console.debug(mapConfig.options);
