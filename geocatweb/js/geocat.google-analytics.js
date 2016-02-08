@@ -3,7 +3,7 @@
  */
   var _gaq = _gaq || [];
 //Diferenciem entre usuari Geolocal i Instamaps
-  if (isGeolocalUser()) _gaq.push(['_setAccount', 'UA-46332195-6']);
+  if (isGeolocalUser() || $(location).attr('href').indexOf('geolocal.html') != -1) _gaq.push(['_setAccount', 'UA-46332195-6']);
   else  _gaq.push(['_setAccount', 'UA-46332195-3']);
 
   
