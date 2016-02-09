@@ -269,8 +269,6 @@ function loadApp(){
 				loadPasswordModal();
 			}else{
 				var uidUrl = url('?uid');
-				console.debug(url('?mapacolaboratiu'));
-				console.debug($.cookie('uid'));
 				if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
 					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
 					$.cookie('collaborateuid', uidUrl, {path:'/'});
@@ -284,7 +282,8 @@ function loadApp(){
 				}
 				else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
 					//window.location.href = paramUrl.galeriaPage+"?private=1";
-					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=alta";
+					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
+					
 				}
 				loadPublicMap(results);
 			}
@@ -305,7 +304,11 @@ function loadPublicMap(results){
 	$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 
 	var nomUser = mapConfig.entitatUid.split("@");
-	var infoHtml = '<p>'+nomUser[0]+'</p>';
+	var nomEntitat = mapConfig.nomEntitat;
+	
+	var infoHtml = '';
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) infoHtml += '<div style="color:#ffffff"><p>'+nomEntitat+'</p>';
+	else infoHtml += '<p>'+nomUser[0]+'</p>';
 
 	if (mapConfig.options){
 		mapConfig.options = $.parseJSON( mapConfig.options );
@@ -320,13 +323,17 @@ function loadPublicMap(results){
 		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
 		$('meta[name="og:image"]').attr('content', urlThumbnail);
 
-		infoHtml += '<p>'+mapConfig.options.description+'</p>';
-		infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+		if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
+		if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+		
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL)  infoHtml += '</div>';
+		
 		//TODO ver como sacar el módulo
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 			_gaq.push(['_setAccount', 'UA-46332195-6']);
 			VisorGeolocal.initUi();
-
+			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
+			$('.img-circle2-icon').hide();
 			//console.debug(mapConfig.options);
 
 			if (mapConfig.options.barColor){
@@ -337,6 +344,7 @@ function loadPublicMap(results){
 				$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
 				$('.navbar-brand').css('color', mapConfig.options.textColor);
 				$('#mapTitle').css('color', mapConfig.options.textColor);
+				$('#mapTitle h3').css('color', '#ffffff');
 				$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
 				$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
 				$('.navbar-form').css('border-color', 'transparent');
@@ -348,16 +356,16 @@ function loadPublicMap(results){
 			}
 
 			if (mapConfig.logo){
-				$('.img-circle2-icon').hide();
+				
 				$('.escut img').prop('src', '/logos/'+mapConfig.logo);
 			}else{
-				$('.logo_instamaps').hide();
+			//	$('.logo_instamaps').hide();
 			}
 		}else{
 			$('.escut').hide();
 		}
 	}
-	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació"></span>');
+	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
 	$('#infoMap').popover({
 		placement : 'bottom',
@@ -366,7 +374,7 @@ function loadPublicMap(results){
 	});
 
 	$('#infoMap').on('show.bs.popover', function () {
-		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));		
 	});
 
 	mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");

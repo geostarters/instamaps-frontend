@@ -641,7 +641,7 @@ function createNewMap(){
 
 	var tipusApp = 'vis';
 
-	if(isGeolocalUser()){
+	if(isGeolocalUser() || (typeof url('?tipus') == "string" && url('?tipus')=="geolocal") ){
 		tipusApp = 'geolo'; //para visores geolocal
 	}
 
@@ -669,8 +669,9 @@ function createNewMap(){
 					param = "&urlwms="+url('?urlwms')+"&layername="+url('?layername');
 				}
 //				console.debug(param);
-
-				window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
+				if (tipusApp=="geolo") window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param+"&tipus=geolocal";
+				else window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
+				
 			}catch(err){
 				gestioCookie('createMap');
 			}
