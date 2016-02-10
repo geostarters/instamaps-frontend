@@ -11,11 +11,29 @@ function addLegend(){
 	    jQuery.each(mapLegend, function(i, row){
 	    	for (var i = 0; i < row.length; i++) {
 	    		if(row[i].chck){
+	    			//console.debug(row[i]);
+	    			if (row[i].symbol.indexOf("circle")>-1){
+	    				var padding_left="0px";
+	    				var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
+	    				midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
+	    				var mida=parseFloat(midaStr);
+	    				if (mida>0 && mida<=6) padding_left="15px";
+	    				else if (mida>6 && mida<=14) padding_left="10px";
+	    				else if (mida>14 && mida<=22) padding_left="5px";
+	    				
+	    				div.innerHTML +='<div class="visor-legend-row">'+
+		    			'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+row[i].symbol+'</div>'+
+		    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+row[i].name+'</div>'+
+		    			'</div>'+
+		    			'<div class="visor-separate-legend-row"></div>';	
+	    			}
+	    			else{
 	    			div.innerHTML +='<div class="visor-legend-row">'+
 						    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
-						    			'<div class="visor-legend-name col-md-8 col-xs-8">'+row[i].name+'</div>'+
+						    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;">'+row[i].name+'</div>'+
 	    							'</div>'+
-	    							'<div class="visor-separate-legend-row"></div>';
+	    							'<div class="visor-separate-legend-row"></div>';	    			
+	    			}	    			
 	    		}
 	    	}
 	    });
@@ -200,12 +218,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';
 			}
 			
-			var color = hexToRgb(estil_do.fillColor);
 			var icon = "";
 			var colorIcon=""; 
+			var auxColor="";
+	
 			if(estil_do.divColor){
-				var auxColor = hexToRgb(estil_do.divColor);
+				auxColor = hexToRgb(estil_do.divColor);
 				colorIcon = 'color: rgb('+auxColor.r+', '+auxColor.g+', '+auxColor.b+');';
+			} 
+			if(estil_do.fillColor){
+				auxColor = hexToRgb(estil_do.fillColor);
 			} 
 			
 			if(estil_do.icon){
@@ -213,18 +235,41 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			}
 			html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 			html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
+			if (layer.options.tem != tem_size){
 			html +=	'<div class="col-md-2 legend-symbol">'+
 						'<div class="awesome-marker-web awesome-marker-icon-punt_r '+icon+' legend-symbol" '+
-							'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+colorIcon+
+							'style="background-color: rgb('+auxColor.r+', '+auxColor.g+', '+auxColor.b+'); '+
 							' '+size+'">'+
 						'</div>'+
 					'</div>'+
 					'<div class="col-md-9 legend-name">'+
 						'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 					'</div>';
+			}else{
+				if(mida>=60) mida=60;
+				var height=mida*2.8;
+				var padding_left="0px";
+				if (mida>0 && mida<=6) padding_left="28px";
+				else if (mida>6 && mida<=14) padding_left="22px";
+				else if (mida>14 && mida<=22) padding_left="16px";
+				else if (mida>22 && mida<=34) padding_left="10px";
+				else if (mida>34 && mida<=40) padding_left="5px";
+				
+				
+				
+				var color = hexToRgb(estil_do.fillColor);
+				html +=	'<div class="col-md-2 legend-symbol" style="padding-left:'+padding_left+'">'+
+						'<svg height="'+height+'">'+
+							'<circle cx="'+mida+'" cy="'+mida+'" r="'+mida+'" '+
+							'style="stroke:white; fill:rgb('+color.r+', '+color.g+', '+color.b+');"></circle>'+
+							'</svg>';
+						'</div>'+
+						'<div class="col-md-9 legend-name" style="padding-left:45px">'+
+							'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+						'</div>';
+			}
 			html+='</div>';
 //			html+='<div class="separate-legend-subrow" ></div>';		
-			
 		}else{
 			
 			var color = hexToRgb(estil_do.iconColor);
@@ -241,7 +286,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 					'</div>';
 			html+='</div>';
-//			html+='<div class="separate-legend-subrow" ></div>';			
+//			html+='<div class="separate-legend-subrow" ></div>';
+
 		}
 		
 	//URL FILE
@@ -283,10 +329,27 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						if (layer.options.tem == tem_size) mida = estilRang.estil.simbolSize; 
 						var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
 						var color = hexToRgb(estilRang.estil.color);
-						var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+						if(mida>=60) mida=60;
+						var height=mida*2.8;
+						var padding_left="0px";
+						if (mida>0 && mida<=6) padding_left="28px";
+						else if (mida>6 && mida<=14) padding_left="22px";
+						else if (mida>14 && mida<=22) padding_left="16px";
+						else if (mida>22 && mida<=34) padding_left="10px";
+						else if (mida>34 && mida<=40) padding_left="5px";
+						
+						
+						
+						var stringStyle =	'<svg height="'+height+'">'+
+											'<circle cx="'+mida+'" cy="'+mida+'" r="'+mida+'" '+
+												'style="stroke:white; fill:rgb('+color.r+', '+color.g+', '+color.b+');"></circle>'+
+											'</svg>';
+						if (layer.options.tem!=tem_size){
+							stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
 											'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
 											' '+iconSize+'">'+
 										'</div>';
+						}
 						
 						var labelNomCategoria = "";
 						checked = "";
@@ -310,12 +373,22 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
-						html +=	'<div class="col-md-2 legend-symbol">'+
+						if (layer.options.tem == tem_size){
+							html +=	'<div class="col-md-2 legend-symbol" style="padding-left:'+padding_left+'">'+
+										stringStyle+
+									'</div>'+
+									'<div class="col-md-9 legend-name" style="padding-left:45px">'+
+										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+									'</div>';
+						}
+						else{
+							html +=	'<div class="col-md-2 legend-symbol">'+
 											stringStyle+
 										'</div>'+
 										'<div class="col-md-9 legend-name">'+
 											'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
-										'</div>';				
+										'</div>';
+						}
 						html+='</div>';	
 						
 					});
@@ -367,10 +440,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					
 					jQuery.each(estils, function(i, estilRang){
 						
-						var color = hexToRgb(estilRang.estil.color);
+						var color = "";
+						if (estilRang.estil.color) color=hexToRgb(estilRang.estil.color);
+						else color=hexToRgb(estilRang.estil.borderColor);
 						var borderColor = hexToRgb(estilRang.estil.borderColor);
 						var opacity = estilRang.estil.opacity/100;
-						var borderWidth = estilRang.estil.borderWidth;						
+						var borderWidth = estilRang.estil.borderWidth;		
+						if (borderWidth==0) borderWidth=1;
 						var stringStyle =	'<svg height="30" width="30">'+
 												'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 													'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
@@ -417,7 +493,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				if(geometrytype == t_marker){
 					//console.debug("type");
 					//console.debug(type);
-					
+					//console.debug(estil_do);
 					var mida = getMidaFromRadius(estil_do.radius);
 					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
@@ -437,10 +513,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					html+='</div>';
 					
 				}else if(geometrytype == t_polygon){
-					var color = hexToRgb(estil_do.fillColor);
+					var color = "";
+					if (estil_do.fillColor) color=hexToRgb(estil_do.fillColor);
+					else color=hexToRgb(estil_do.color);
 					var borderColor = hexToRgb(estil_do.color);
 					var opacity = estil_do.fillOpacity;
-					var borderWidth = estil_do.weight;						
+					var borderWidth = estil_do.weight;		
+					if (borderWidth==0) borderWidth=1;
 					var polStyle =	'<svg height="30" width="30">'+
 											'<polygon points="5 5, 5 25, 25 25, 25 5" '+
 												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
@@ -507,12 +586,12 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		html+='</div>';
 	
 	//VISUALITZACIO
-	}else if(layer.options.tipus == t_visualitzacio){		
+	}else if(layer.options.tipus == t_visualitzacio){
 		
 		var rangs = getRangsFromLayerLegend(layer);
 		//console.debug(rangs);
 		var size = rangs.length;
-		console.debug(layer.options.tipusRang);
+		//console.debug(layer.options.tipusRang);
 		//Classic tematic
 		if(layer.options.tipusRang && layer.options.tipusRang==tem_clasic){
 			var geometryType = transformTipusGeometry(layer.options.geometryType);
@@ -534,7 +613,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 						indexEstil++;
 					}
-					
+					//console.debug(layer.options.estil);
 					var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
 					if (layer.options.tem == tem_size) mida = layer.options.estil[indexEstil].simbolSize;
 					var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
@@ -616,12 +695,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 						indexEstil++;
 					}
-					
-					var color = hexToRgb(layer.options.estil[indexEstil].color);
+					var color = "";
+					if (layer.options.estil[indexEstil].color) color=hexToRgb(layer.options.estil[indexEstil].color);
+					else color = hexToRgb(layer.options.estil[indexEstil].borderColor);
 					var borderColor = hexToRgb(layer.options.estil[indexEstil].borderColor);
+					
 					var opacity = layer.options.estil[indexEstil].opacity/100;
-					var borderWidth = layer.options.estil[indexEstil].borderWidth;						
+					var borderWidth = layer.options.estil[indexEstil].borderWidth;			
+					if (borderWidth==0) borderWidth=1;
 					var stringStyle =	'<svg height="30" width="30">'+
+					
 											'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 										'</svg>';	
@@ -655,7 +738,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 
 		}else if(layer.options.tipusRang && layer.options.tipusRang==tem_size){
 			
-			
 			var geometryType = transformTipusGeometry(layer.options.geometryType);
 			var i = 0;
 			var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
@@ -666,7 +748,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			
 			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 			arrRangsEstilsLegend.sort(sortByValueMax);
-			console.debug(arrRangsEstilsLegend);
 			
 			if(geometryType == t_marker){
 
@@ -675,16 +756,24 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 						indexEstil++;
 					}
-					
 					var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
 					if (layer.options.tipusRang == tem_size) mida =layer.options.estil[indexEstil].simbolSize;
-					var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';
-					console.debug(iconSize);
 					var color = hexToRgb(layer.options.estil[indexEstil].color);
-					var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
-										'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
-										' '+iconSize+'">'+
-									'</div>';
+					if (mida>60) mida=60;
+					var height=mida*2.8;
+					var padding_left="0px";
+					if (mida>0 && mida<=6) padding_left="28px";
+					else if (mida>6 && mida<=14) padding_left="22px";
+					else if (mida>14 && mida<=22) padding_left="16px";
+					else if (mida>22 && mida<=34) padding_left="10px";
+					else if (mida>34 && mida<=40) padding_left="5px";
+					 
+					
+					
+					var stringStyle =	'<svg height="'+height+'">'+
+										'<circle cx="'+mida+'" cy="'+mida+'" r="'+mida+'" '+
+											'style="stroke:white; fill:rgb('+color.r+', '+color.g+', '+color.b+');"></circle>'+
+										'</svg>';
 					
 					var labelNomCategoria = "";
 					checked = "";						
@@ -702,10 +791,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
-					html +=	'<div class="col-md-2 legend-symbol">'+
+					html +=	'<div class="col-md-2 legend-symbol" style="padding-left:'+padding_left+'">'+
 										stringStyle+
 									'</div>'+
-									'<div class="col-md-9 legend-name">'+
+									'<div class="col-md-9 legend-name" style="padding-left:45px">'+
 										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
 									'</div>';				
 					html+='</div>';	
@@ -725,7 +814,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				for(var i=0;i<size;i++){
 					//Si es un punt
 					if(rangs[i].isCanvas || rangs[i].marker.indexOf("punt_r")!=-1){
-						
+						//console.debug(rangs[i]);
 						var iconSize="";
 						if(rangs[i].iconSize){
 							var mides = rangs[i].iconSize.split("#");
@@ -851,11 +940,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				
 				for(var i=0;i<size;i++){
 				
-					var color = hexToRgb(rangs[i].color);
+					var color = "";
+					if (rangs[i].color) color=hexToRgb(rangs[i].color);
+					else color=hexToRgb(rangs[i].borderColor);
 					var borderColor = hexToRgb(rangs[i].borderColor);
 					var opacity = rangs[i].opacity/100;
 					var borderWidth = rangs[i].borderWidth;
-					
+					if (borderWidth==0) borderWidth=1;
 					var obj = {color: color, borderColor: borderColor, opacity:opacity, borderWidth:borderWidth};
 					var existeix = checkPolStyle(obj);					
 					
@@ -1160,7 +1251,7 @@ function emptyMapLegendEdicio(layer){
 
 function loadMapLegendEdicio(layer){
 	
-	//console.info(layer);
+
 	
 	//Eliminem de la lleganda tematització anterior
 	$("#mapLegendEdicio").html("");
@@ -1186,15 +1277,29 @@ function loadMapLegendEdicio(layer){
 				indexEstil++;
 				
 			}
-			//console.debug(layer.options.estil[indexEstil].simbolSize);
 			var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
 			if (layer.options.tipusRang == tem_size) mida = layer.options.estil[indexEstil].simbolSize;
 			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
 			var color = hexToRgb(layer.options.estil[indexEstil].color);
-			var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+			if(mida>=60) mida=60;
+			var height=mida*2.8;
+			var padding_left="0px";
+			if (mida>0 && mida<=6) padding_left="15px";
+			else if (mida>6 && mida<=14) padding_left="10px";
+			else if (mida>14 && mida<=22) padding_left="5px";
+			
+			
+			
+			var stringStyle =	'<svg height="'+height+'">'+
+								'<circle cx="'+mida+'" cy="'+mida+'" r="'+mida+'" '+
+									'style="stroke:white; fill:rgb('+color.r+', '+color.g+', '+color.b+');"></circle>'+
+								'</svg>';
+			if (layer.options.tipusRang!=tem_size){
+				stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
 								'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
 								' '+iconSize+'">'+
 							'</div>';
+			}
 			
 			var labelNomCategoria = "";
 //			checked = "";						
@@ -1211,11 +1316,18 @@ function loadMapLegendEdicio(layer){
 			}						
 			
 			html += '<div class="visor-legend-row ">';
-			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+			if (layer.options.tipusRang == tem_size){
+				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+
+						stringStyle+
+						'</div>'+
+						'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+labelNomCategoria+'</div>';	
+			}
+			else{
+						html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
 							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
-//			
+			}
 			html+='</div><div class="visor-separate-legend-row"></div>';	
 		});
 	}else if(geometryType == t_polyline){
@@ -1264,10 +1376,13 @@ function loadMapLegendEdicio(layer){
 				indexEstil++;
 			}
 			
-			var color = hexToRgb(layer.options.estil[indexEstil].color);
+			var color = "";
+			if (layer.options.estil[indexEstil].color) color=hexToRgb(layer.options.estil[indexEstil].color);
+			else color=hexToRgb(layer.options.estil[indexEstil].borderColor);
 			var borderColor = hexToRgb(layer.options.estil[indexEstil].borderColor);
 			var opacity = layer.options.estil[indexEstil].opacity/100;
-			var borderWidth = layer.options.estil[indexEstil].borderWidth;						
+			var borderWidth = layer.options.estil[indexEstil].borderWidth;		
+			if (borderWidth==0) borderWidth=1;
 			var stringStyle =	'<svg height="30" width="30">'+
 									'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
@@ -1331,13 +1446,26 @@ function loadMapLegendEdicioDinamics(layer){
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 			var mida = getMidaFromRadius(estilRang.estil.simbolSize);
 			if (layer.options.tem == tem_size) mida = estilRang.estil.simbolSize;
-			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
-			var color = hexToRgb(estilRang.estil.color);
-			var stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
-								'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
-								' '+iconSize+'">'+
-							'</div>';
+			var padding_left="0px";
+			if (mida>0 && mida<=6) padding_left="15px";
+			else if (mida>6 && mida<=14) padding_left="10px";
+			else if (mida>14 && mida<=22) padding_left="5px";
 			
+			var color = hexToRgb(estilRang.estil.color);
+			var height=mida*2.8;
+			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
+			
+			var stringStyle =	'<svg height="'+height+'">'+
+								'<circle cx="'+mida+'" cy="'+mida+'" r="'+mida+'" '+
+									'style="stroke:white; fill:rgb('+color.r+', '+color.g+', '+color.b+');"></circle>'+
+								'</svg>';	
+
+			if (layer.options.tem != tem_size) {
+				stringStyle ='<div class="awesome-marker-web awesome-marker-icon-punt_r legend-symbol" '+
+				'style="background-color: rgb('+color.r+', '+color.g+', '+color.b+'); '+
+				' '+iconSize+'">'+
+				'</div>';
+			}	
 			var labelNomCategoria = "";
 //			checked = "";						
 			
@@ -1350,10 +1478,18 @@ function loadMapLegendEdicioDinamics(layer){
 								
 			
 			html += '<div class="visor-legend-row ">';
-			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
+			if (layer.options.tem == tem_size) {
+				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="margin-top:4px;padding-left:'+padding_left+'">'+
+						stringStyle+
+						'</div>'+
+						'<div class="visor-legend-name col-md-8 col-xs-8" style="padding-left:50px;">'+labelNomCategoria+'</div>';
+					}
+			else {
+				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';
+			}
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';	
 			
@@ -1394,10 +1530,13 @@ function loadMapLegendEdicioDinamics(layer){
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 			
 			
-			var color = hexToRgb(estilRang.estil.color);
+			var color = "";
+			if (estilRang.estil.color) color=hexToRgb(estilRang.estil.color);
+			else color=hexToRgb(estilRang.estil.borderColor);
 			var borderColor = hexToRgb(estilRang.estil.borderColor);
 			var opacity = estilRang.estil.opacity/100;
-			var borderWidth = estilRang.estil.borderWidth;						
+			var borderWidth = estilRang.estil.borderWidth;
+			if (borderWidth==0) borderWidth=1;
 			var stringStyle =	'<svg height="30" width="30">'+
 									'<polygon points="5 5, 5 25, 25 25, 25 5" stroke-linejoin="round" '+
 										'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+

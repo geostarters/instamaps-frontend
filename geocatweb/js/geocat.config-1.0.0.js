@@ -60,6 +60,7 @@ var paramUrl = {
 	deleteMap: HOST_APP+"geocat/aplications/map/deleteMap.action?",
 	resetClauMapa: HOST_APP+"geocat/aplications/map/resetClauMapa.action?",
 	loginUser: HOST_APP+"geocat/login.action?",
+	loginToken: HOST_APP+"geocat/loginToken.action?",
 	loginUserIcgc: HOST_APP+"geocat/loginIcgc.action?",
 	logoutUser: HOST_APP+"geocat/logout.action?",
 	signinUser: HOST_APP+"geocat/registreUser.action?",

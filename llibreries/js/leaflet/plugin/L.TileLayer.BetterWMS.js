@@ -26,7 +26,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		
 		
 		//És mol lleig xurro
-		if(evt.originalEvent.target.className.indexOf('tile')!=-1){
+		//if(evt.originalEvent.target.className.indexOf('tile')!=-1){
 		
 		
 		if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
@@ -75,9 +75,23 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 						//console.debug("Error:"+error);
 					}
 					});				
+			}else{
+				
+				
+				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
+				
+				var pop=L.popup({ maxWidth: 800})
+				.setLatLng(evt.latlng)
+				.setContent(dataF).openOn(map);	
+				
+				
+				
+				
 			}
 		}
-		}
+		
+		
+		//}
 		
 	},
 	

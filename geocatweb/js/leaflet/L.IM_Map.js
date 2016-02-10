@@ -69,9 +69,7 @@ var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/
 var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg";
 var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_HIBRIDICGC=urlServerTiles+'/mapcache/tms/1.0.0/hibrid3857@GMTOT/{z}/{x}/{y}.png';
-var URL_ORTOINSTAMAPS=urlServerTiles+'/mapcache/tms/1.0.0/orto3857_12@GMTOT/{z}/{x}/{y}.png';
 
-//var URL_ORTOINSTAMAPS='http://172.70.1.15/mapcache/tms/1.0.0/orto3857_12@GMTOT/{z}/{x}/{y}.png';
 
 //var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_TOPOCOLOR=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
@@ -445,13 +443,13 @@ L.IM_Map = L.Map.extend({
 					this.attributionControl.setPrefix(ESRI_ATTR +" ZL:"+this.getZoom());				
 				}else if(sC==1){ //Cat i altres
 					ORTO_ESRI_L0_19.options.maxZoom=17;			 
-					ORTO_ICC_L0_11.options.maxZoom=12;
+					ORTO_ICC_L0_11.options.maxZoom=11;
 					ORTO_ICC_L12_19.options.maxZoom=20;
 					ORTO_ESRI_L0_19.setOpacity(0.8);					
 					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR +" ZL:"+this.getZoom());	
 				}else if(sC==2){ //Nomes cat
 					ORTO_ESRI_L0_19.setOpacity(0);		 
-					ORTO_ICC_L0_11.options.maxZoom=12;
+					ORTO_ICC_L0_11.options.maxZoom=11;
 					ORTO_ICC_L12_19.options.maxZoom=20;			
 					this.attributionControl.setPrefix(ICGC +" ZL:"+this.getZoom());				
 				}
@@ -735,7 +733,7 @@ L.IM_Map = L.Map.extend({
 		   maxZoom:19}
 		).addTo(_ortoLayers);
 
-/*		
+		
 if(print){
 			ORTO_ICC_L0_11 = new L.TileLayer(URL_ORTOICC,{  	    
 				tms:false,
@@ -759,23 +757,9 @@ if(print){
 			
 			
 		}
-
-		*/
-		
-		
-		ORTO_ICC_L0_11 = new L.TileLayer(URL_ORTOINSTAMAPS,{  	    
-			tms:true,
-			minZoom: 0,
-			maxZoom: 12,	                                                        
-			continuousWorld: true,
-			worldCopyJump: false
-		}).addTo(_ortoLayers);
-		
-		
-		
 		ORTO_ICC_L12_19 = new L.TileLayer(URL_ORTOICC,{  	    
 			tms:false,
-			minZoom: 13,
+			minZoom: 12,
 			maxZoom: 20,	                                                        
 			boundary: catContorn5k, 
 			continuousWorld: true,

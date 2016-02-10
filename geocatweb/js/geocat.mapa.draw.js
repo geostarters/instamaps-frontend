@@ -805,6 +805,7 @@ function createPopupWindow(layer,type){
 			crt_Editing.enable();
 			map.closePopup();
 			
+			
 		}else if(accio[0].indexOf("feature_no")!=-1){
 			jQuery('.popup_pres').show();
 			jQuery('.popup_edit').hide();
@@ -831,6 +832,11 @@ function createPopupWindow(layer,type){
 					alert(window.lang.convert('Has de posar un nom de capa'));	
 				}
 			}
+		}else if(accio[0].indexOf("feature_data_table")!=-1){
+		
+			$('#modal_data_table').modal('show');
+			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
+		
 		}else{
 		//accio tanca
 			map.closePopup();
@@ -1099,7 +1105,6 @@ function getFeatureStyle(f, fId){
 
 function finishAddFeatureToTematic(layer){
 	var type = layer.options.tipus;
-	
 	//Afegir capa edicio a control de capes en cas que sigui nova
 	if (capaUsrActiva.toGeoJSON().features.length == 1) {
 		//Actualitzem zIndex abans d'afegir al control de capes
@@ -1160,8 +1165,7 @@ function updateFeatureNameDescr(layer, titol, descr){
     updateGeometria(data).then(function(results){
 	    if(results.status == 'OK'){
 			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
-			var txt = descr;
-			
+			var txt = descr;			
 			if (!$.isNumeric(txt)) {
 				txt = parseUrlTextPopUp(txt,"");
 				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
@@ -1234,12 +1238,13 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 	
     updateGeometria(data).then(function(results){
 	    if(results.status == 'OK'){
+	    	if (layer.properties.tipusFeature=="marker") createPopupWindow(layer,"marker");
 	    	jQuery('.popup_pres').show();
-
 	    	//Actualitzem visualitzacions de la capa on estava la geometria modificada
 	    	var capaEdicio = controlCapes._layers[capaEdicioLeafletId];
-            jQuery.each(capaEdicio._layers, function(i, sublayer){
-				if(jQuery.type(sublayer.layer.options)== "string"){
+	    	
+	    	jQuery.each(capaEdicio._layers, function(i, sublayer){
+            	if(jQuery.type(sublayer.layer.options)== "string"){
 					sublayer.layer.options = $.parseJSON(sublayer.layer.options);
 				}	            	  
 				//Sublayer visualitzacio, carrego la capa
@@ -1260,7 +1265,7 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 						controlCapes.removeLayer(sublayer);
             		  });
             	  }
-            	  
+            	
               });
 	    	
 	    }else{
@@ -1304,7 +1309,6 @@ function fillCmbCapesUsr(type){
 }
 
 function createPopUpContent(player,type){
-	//console.debug("createPopUpContent");
 	
 	var auxNom = window.lang.convert('Nom');
 	var auxText = window.lang.convert('Descripció');
@@ -1351,12 +1355,12 @@ function createPopUpContent(player,type){
 		+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
 		+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
 	
-	if (player.properties.estil) {
+/*	if (player.properties.estil) {
 		html+='<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					
 	}
 	else {
 		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span>  </li>';					
-	}
+	}*/
 		
 	html+='</ul>'														
 	+'</div>'
