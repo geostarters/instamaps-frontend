@@ -587,6 +587,9 @@ function addControlsInici() {
           new L.Control.Zoom({ position: 'topleft' }).addTo(map);
     }
 
+    ctr_vistaInicial = L.control({
+		position : 'topleft'
+	});
 
 	ctr_shareBT = L.control({
 		position : 'topleft'
@@ -599,7 +602,17 @@ function addControlsInici() {
 	ctr_routingBT = L.control({
 		position : 'topleft'
 	});
+	
+	ctr_vistaInicial.onAdd = function(map) {
 
+		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
+		this._div.id='dv_bt_vistaInicial';
+		this._div.title=window.lang.convert('Vista inicial');
+		this._div.innerHTML = '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>';
+		return this._div;
+	};
+	ctr_vistaInicial.addTo(map);
+	
 	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicació');
 	var ctr_gps = new L.Control.Gps({
 		autoCenter: true,		//move map when gps location change
@@ -902,6 +915,21 @@ function updateLangTooltips(){
 
 		aturaClick(e);
 
+	});
+	
+	jQuery("#dv_bt_vistaInicial").on('click',function(e){
+		if (mapConfig.options.bbox){
+			var bbox = mapConfig.options.bbox.split(",");
+			var southWest = L.latLng(bbox[1], bbox[0]);
+		    var northEast = L.latLng(bbox[3], bbox[2]);
+		    var bounds = L.latLngBounds(southWest, northEast);
+			map.fitBounds( bounds );
+		}
+		else if (mapConfig.options.center){
+			var opcenter = mapConfig.options.center.split(",");
+			map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+		}
+		aturaClick(e);
 	});
 }
 
