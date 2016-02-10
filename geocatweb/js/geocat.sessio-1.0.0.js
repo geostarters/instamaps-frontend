@@ -11,6 +11,20 @@ jQuery(document).ready(function() {
 		trackEventFrom = url('?from');
 	}
 	
+	if(url('?token')){
+		loginToken({token:url('?token')}).then(function(results){
+			if(results.status==='OK'){
+				if (results.uid){
+					$.cookie('uid', results.uid, {path:'/'});
+					$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
+					$.cookie('token', results.token, {path:'/'});
+				}
+				redirectLogin(results, trackEventFrom);
+			}else if(results.results === 'cannot_authenticate'){
+				$('#modal_wrong_user').modal('toggle');						
+			}
+		});
+	}
 });//Fi document ready
 
 jQuery("#login_button").click(function(){
