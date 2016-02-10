@@ -151,6 +151,16 @@ function doLoginIcgc(data){
 	}).promise();
 }
 
+function loginToken(data){
+	return jQuery.ajax({
+		url: paramUrl.loginToken,
+		data: data,
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+
 /* map */
 function createTematicLayerFeature(data){
 	return $.ajax({
@@ -1153,4 +1163,5 @@ function searchCatalegIdec(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+
 

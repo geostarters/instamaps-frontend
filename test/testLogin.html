@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login Test</title>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.21.0.css">
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="http://code.jquery.com/qunit/qunit-1.21.0.js"></script>
+<script type="text/javascript" src="../geocatweb/js/geocat.config-1.0.0.js"></script>
+<script type="text/javascript" src="../geocatweb/js/geocat.ajax-1.0.0.js"></script>
+<script type="text/javascript" src="../llibreries/js/jquery/plugins/url.min.js"></script>
+<script type="text/javascript" src="../geocatweb/js/geocat.sessio-1.0.0.js"></script>
+
+<script type="text/javascript">
+module('Login');
+
+QUnit.config.reorder = false;
+
+QUnit.test( "hello test", function( assert ) {
+	assert.ok( 1 == "1", "Passed!" );
+});
+
+QUnit.test("loginFail", function( assert ) {
+	assert.expect( 3 );
+	var done = assert.async();
+	var done1 = assert.async();
+	
+	createToken({uid: "freadassdf@asdfsd@asdf_asfsda_asdf"}).then(function(results){
+		assert.equal(results.status, "OK", "Status OK");
+		done1();
+		
+		var data = {
+			token: results.results
+		};
+			
+		loginToken(data).then(function(results){
+			console.debug(results);
+			assert.equal(results.status, "ERROR", "Status ERROR");
+			assert.equal(results.results, "EntitatNotFoundException", "Exception tipus");
+			done();
+		});
+		
+	});
+});
+
+QUnit.test("loginExpired", function( assert ) {
+	assert.expect( 2 );
+	var done = assert.async();
+	
+	var data = {
+		token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTUxMDI4OTQsInN1YiI6Imluc3RhbWFwc3xjZGExMSIsIm5iZiI6MTQ1NTA5NTY4OSwiaXNzIjoiaHR0cDovL3d3dy5pbnN0YW1hcHMuY2F0IiwiYXVkIjoiZ2Vvc3RhcnRlcnMiLCJqdGkiOiI0ZDRjOGU1MS05NjllLTRmNmMtYWNiZi05YTllMTM0ZTY4N2MiLCJpYXQiOjE0NTUwOTU2OTR9.ZcqM7grnwQnKYmiaSq_a2krvKKP8nxQcwT15f-XB7hE"
+	};
+	
+	loginToken(data).then(function(results){
+		console.debug(results);
+		assert.equal(results.status, "ERROR", "Status ERROR");
+		assert.equal(results.results, "JWTExpiredException", "Exception tipus");
+		done();
+	});
+	
+});
+
+QUnit.test("loginOK", function( assert ) {
+	assert.expect( 4 );
+	var done = assert.async();
+	var done1 = assert.async();
+	createToken({uid: "bolo"}).then(function(results){
+		assert.equal(results.status, "OK", "Status OK");
+		done1();
+		
+		var data = {
+			token: results.results
+		};
+		
+		loginToken(data).then(function(results){
+			console.debug(results);
+			assert.equal(results.status, "OK", "Status OK");
+			assert.equal(results.results, "login_galeria", "Redirect tipus");
+			assert.equal(results.uid, "bolo", "User id");
+			done();
+		});
+		
+	});
+	
+});
+
+
+</script>
+
+</body>
+</html>
