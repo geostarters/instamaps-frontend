@@ -88,6 +88,11 @@ sendMail(data).then(function(results){
 });
 });
 
+jQuery("#demo_button").click(function(){
+	window.location.href = paramUrl.mapaPage+"?tipus=geolocal";	
+	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio demo geolocal','retention']);
+});
+
 function loginUserIcgc(){
 	//console.debug("loginUserIcgc");
 	checkValidityLogin("_icgc");

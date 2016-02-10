@@ -31,7 +31,7 @@ $( window ).resize(function() {
 	var height = $( '#map' ).height();
 
 
-	 if(isMobile() || typeof url('?embed') == "string" || width<=400 || height<=350){
+	 if(typeof url('?embed') == "string" || width<500 || height<=350){
 		 $('.leaflet-control-gps').attr("style","display:none");
 			$('#dv_bt_Find').attr("style","display:none");
 			$('#dv_bt_Routing').attr("style","display:none");
@@ -44,7 +44,7 @@ $( window ).resize(function() {
 			activaLlegenda(true);
 			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 	 }
-	 if(!isMobile() && width>400){
+	 if(width>500){
 		 $('.leaflet-control-gps').attr("style","display:block");
 			$('#dv_bt_Find').attr("style","display:block");
 			$('#dv_bt_Routing').attr("style","display:block");
@@ -57,19 +57,18 @@ $( window ).resize(function() {
 			activaLlegenda(true);
 			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 	 }
-	 	if(!isMobile() && typeof url('?embed') == "string" && widthW<=360) {
+	 	if(typeof url('?embed') == "string" && widthW<=360) {
 			$('.bt_llista').attr("style","display:none");
 			$('.leaflet-control-layers').attr("style","display:none");
 		}
-		else if (!isMobile() && typeof url('?embed') == "string") {
+		else if (typeof url('?embed') == "string") {
 			$('.bt_llista').attr("style","display:block");
 			$('.leaflet-control-layers').attr("style","display:block");
+			$('.control-btn-fons').attr("style","display:none");
 			activaPanelCapes(false);
 		}
 
-		if(!isMobile() && typeof url('?embed') == "string") {
-			$('.control-btn-fons').attr("style","display:none");
-		}
+	
 
 
 	var cl = jQuery('.bt_llista span').attr('class');
@@ -269,8 +268,6 @@ function loadApp(){
 				loadPasswordModal();
 			}else{
 				var uidUrl = url('?uid');
-				console.debug(url('?mapacolaboratiu'));
-				console.debug($.cookie('uid'));
 				if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
 					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
 					$.cookie('collaborateuid', uidUrl, {path:'/'});
@@ -284,7 +281,8 @@ function loadApp(){
 				}
 				else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
 					//window.location.href = paramUrl.galeriaPage+"?private=1";
-					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=alta";
+					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
+					
 				}
 				loadPublicMap(results);
 			}
@@ -305,7 +303,11 @@ function loadPublicMap(results){
 	$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 
 	var nomUser = mapConfig.entitatUid.split("@");
-	var infoHtml = '<p>'+nomUser[0]+'</p>';
+	var nomEntitat = mapConfig.nomEntitat;
+	
+	var infoHtml = '';
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) infoHtml += '<div style="color:#ffffff"><p>'+nomEntitat+'</p>';
+	else infoHtml += '<p>'+nomUser[0]+'</p>';
 
 	if (mapConfig.options){
 		mapConfig.options = $.parseJSON( mapConfig.options );
@@ -320,13 +322,17 @@ function loadPublicMap(results){
 		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
 		$('meta[name="og:image"]').attr('content', urlThumbnail);
 
-		infoHtml += '<p>'+mapConfig.options.description+'</p>';
-		infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+		if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
+		if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+		
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL)  infoHtml += '</div>';
+		
 		//TODO ver como sacar el módulo
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 			_gaq.push(['_setAccount', 'UA-46332195-6']);
 			VisorGeolocal.initUi();
-
+			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
+			$('.img-circle2-icon').hide();
 			//console.debug(mapConfig.options);
 
 			if (mapConfig.options.barColor){
@@ -337,6 +343,7 @@ function loadPublicMap(results){
 				$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
 				$('.navbar-brand').css('color', mapConfig.options.textColor);
 				$('#mapTitle').css('color', mapConfig.options.textColor);
+				$('#mapTitle h3').css('color', '#ffffff');
 				$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
 				$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
 				$('.navbar-form').css('border-color', 'transparent');
@@ -348,16 +355,16 @@ function loadPublicMap(results){
 			}
 
 			if (mapConfig.logo){
-				$('.img-circle2-icon').hide();
+				
 				$('.escut img').prop('src', '/logos/'+mapConfig.logo);
 			}else{
-				$('.logo_instamaps').hide();
+			//	$('.logo_instamaps').hide();
 			}
 		}else{
 			$('.escut').hide();
 		}
 	}
-	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació"></span>');
+	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
 	$('#infoMap').popover({
 		placement : 'bottom',
@@ -366,7 +373,7 @@ function loadPublicMap(results){
 	});
 
 	$('#infoMap').on('show.bs.popover', function () {
-		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));		
 	});
 
 	mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
@@ -580,6 +587,9 @@ function addControlsInici() {
           new L.Control.Zoom({ position: 'topleft' }).addTo(map);
     }
 
+    ctr_vistaInicial = L.control({
+		position : 'topleft'
+	});
 
 	ctr_shareBT = L.control({
 		position : 'topleft'
@@ -592,7 +602,17 @@ function addControlsInici() {
 	ctr_routingBT = L.control({
 		position : 'topleft'
 	});
+	
+	ctr_vistaInicial.onAdd = function(map) {
 
+		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
+		this._div.id='dv_bt_vistaInicial';
+		this._div.title=window.lang.convert('Vista inicial');
+		this._div.innerHTML = '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>';
+		return this._div;
+	};
+	ctr_vistaInicial.addTo(map);
+	
 	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicació');
 	var ctr_gps = new L.Control.Gps({
 		autoCenter: true,		//move map when gps location change
@@ -895,6 +915,21 @@ function updateLangTooltips(){
 
 		aturaClick(e);
 
+	});
+	
+	jQuery("#dv_bt_vistaInicial").on('click',function(e){
+		if (mapConfig.options.bbox){
+			var bbox = mapConfig.options.bbox.split(",");
+			var southWest = L.latLng(bbox[1], bbox[0]);
+		    var northEast = L.latLng(bbox[3], bbox[2]);
+		    var bounds = L.latLngBounds(southWest, northEast);
+			map.fitBounds( bounds );
+		}
+		else if (mapConfig.options.center){
+			var opcenter = mapConfig.options.center.split(",");
+			map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+		}
+		aturaClick(e);
 	});
 }
 
