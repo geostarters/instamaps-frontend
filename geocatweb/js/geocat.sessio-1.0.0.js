@@ -227,8 +227,8 @@ function redirectLogin(results, from){
 				}
 				else {
 					window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
-					$.removeCookie('collaboratebid',{path: '/' });
-					$.removeCookie('collaborateuid',{path: '/' });
+					//$.removeCookie('collaboratebid',{path: '/' });
+					//$.removeCookie('collaborateuid',{path: '/' });
 				}
 			}
 			else {
