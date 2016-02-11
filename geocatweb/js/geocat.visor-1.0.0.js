@@ -306,6 +306,15 @@ function loadPublicMap(results){
 	var nomEntitat = mapConfig.nomEntitat;
 	
 	var infoHtml = '';
+	
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+		$.cookie('perfil', 'geolocal', {path:'/'});
+		checkUserLogin();
+	}else{
+		$.cookie('perfil', 'instamaps', {path:'/'});
+		checkUserLogin();
+	}
+	
 	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) infoHtml += '<div style="color:#ffffff"><p>'+nomEntitat+'</p>';
 	else infoHtml += '<p>'+nomUser[0]+'</p>';
 

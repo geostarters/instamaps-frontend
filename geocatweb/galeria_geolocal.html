@@ -27,7 +27,7 @@
     <![endif]-->
 
 <link href="http://www.instamaps.cat/instamapsrss/georss.cgi" rel="alternate" type="application/rss+xml" title="GeoRSS Instamaps">
-<title lang="ca">Galeria de mapes InstaMaps</title>
+<title lang="ca">Galeria de mapes InstaMaps.GeoLocal</title>
 </head>
 
 <body id="body-padding-top-60">
@@ -42,12 +42,12 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="brand-txt">InstaMaps</div>
+					<div class="brand-txt">InstaMaps.GeoLocal</div>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right my-nav">
-					<li><a id="hl_index" lang="ca" class="instamaps_galeria" href="../geocatweb/galeria.html">Galeria</a></li>
+					<li><a id="hl_index" lang="ca" class="instamaps_galeria" href="/geocatweb/galeria_geolocal.html">Galeria</a></li>
 					<li><a id="hl_index" lang="ca" target="_blank" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>
 					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
 					<li><a id="hl_contact" lang="ca" target="_blank" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/">FAQs</a></li>
@@ -65,7 +65,7 @@
 					
 					<li id="menu_login">
 						<form class="navbar-form">
-							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" 
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio_geolocal.html" 
 							class="btn bt-sessio instamaps_sessio">Inicia la sessi&oacute;</a>
 						</form>					
 					</li>
@@ -253,7 +253,7 @@
 			{{/each}}
 			</script>
 					
-			<script id="galeriaAdmin-template" type="text/x-handlebars-template">
+					<script id="galeriaAdmin-template" type="text/x-handlebars-template">
 			{{#each results}}
 			 <li>
 				<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
@@ -515,7 +515,7 @@
 			<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
 				<img height="50" src="/llibreries/img/icgc.gif">
 			</a>
-			<span class="instamaps_footer">InstaMaps Beta</span>
+			<span class="instamaps_footer">InstaMaps.Geolocal</span>
 		</div>
 	</footer>
 
@@ -627,9 +627,10 @@
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.utils.js"></script>
+	<script src="/geocatweb/js/instamaps.app-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.galeria-2.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.galeria.app-1.0.0.js"></script>
-	<script src="/geocatweb/js/instamaps.app-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.google-analytics.js"></script>	
+	
 </body>
 </html>

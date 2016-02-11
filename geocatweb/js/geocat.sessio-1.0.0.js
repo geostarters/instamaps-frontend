@@ -1,6 +1,7 @@
 var trackEventFrom = '';
 
 jQuery(document).ready(function() {
+	
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13) {
 	    	jQuery("#login_button").click();

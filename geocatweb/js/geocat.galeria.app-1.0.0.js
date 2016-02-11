@@ -16,15 +16,59 @@ if(typeof url('?uid') == "string"){
 	checkUserLogin();
 }
 
-var galeria = Galeria({
-	tipusApp:1
+$("body").on("change-lang", function(event, lang){
+	$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
 });
 
-galeria.getNumMaps().then(function(results){
-	console.debug(results);
-	if (results.status == "OK"){
-		$('.sp_total_maps').html(results.results);
-	}else{
-		$('.total_maps').hide();
+$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
+
+var galeria;
+//PRIVATE GALLERY
+if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
+	var isGeolocal = isGeolocalUser();
+	
+	galeria = Galeria({
+		tipusApp:1,
+		publica: false,
+		isGeolocal: isGeolocal
+	});
+	
+	var data = {uid: $.cookie('uid')};
+	loadGaleria(data).then(function(results){
+		galeria.drawGaleria(results);
+	});
+	
+	if(aplicacionsGaleria){
+		$('#typesTabs a:last').tab('show');
 	}
-});
+	
+	window.addEventListener("message", galeria.onMessage, true);
+}else{ 
+//PUBLIC GALLERY
+	var isGeolocal = isGeolocalUser();
+	
+	var options = {
+		tipusApp:1,
+		publica: true,
+		isGeolocal: isGeolocal
+	};
+	
+	if(url('file') === "galeria_geolocal.html"){
+		options.tipusApp = 2;
+	}
+	
+	galeria = Galeria(options);
+	
+	galeria.drawGaleria();
+	
+	//cargar el número de mapas
+	galeria.getNumMaps().then(function(results){
+		if (results.status == "OK"){
+			$('.sp_total_maps').html(results.results);
+		}else{
+			$('.total_maps').hide();
+		}
+	});
+}
+
+window.lang.run();
