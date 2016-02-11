@@ -105,6 +105,8 @@ function loadApp(){
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
 			}else{
+				if ($.cookie('collaboratebid')) $.removeCookie('collaboratebid',{path: '/' });
+				if ($.cookie('collaborateuid')) $.removeCookie('collaborateuid',{path: '/' });
 				try{
 					mapConfig = results.results;
 					//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);

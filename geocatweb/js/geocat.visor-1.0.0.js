@@ -1207,6 +1207,23 @@ function loadPasswordModal(){
 					jQuery('#password_msg').removeClass('hide');
 				}else{
 					jQuery('#password_msg').addClass('hide');
+					var uidUrl = url('?uid');
+					if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
+						$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+						$.cookie('collaborateuid', uidUrl, {path:'/'});
+						window.location.href = paramUrl.loginPage;
+					}
+					else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
+						$.removeCookie('uid', { path: '/' });
+						$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+						$.cookie('collaborateuid', uidUrl, {path:'/'});
+						window.location.href = paramUrl.loginPage;
+					}
+					else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
+						//window.location.href = paramUrl.galeriaPage+"?private=1";
+						window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
+						
+					}
 					loadPublicMap(results);
 					jQuery('#dialog_password').modal('hide');
 				}
