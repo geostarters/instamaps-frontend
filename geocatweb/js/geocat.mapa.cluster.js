@@ -512,11 +512,16 @@ function loadTematicCluster(layer, zIndex, layerOptions, capesActiva){
 }
 
 function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva){
-	
 	var options = jQuery.parseJSON(layerOptions);
 
+	var businessId;
+	if (layer.geometriesBusinessId){
+		businessId=layer.geometriesBusinessId
+	}
+	else businessId=options.origen;
+	
 	var data = {
-			businessId: layer.geometriesBusinessId,//businessId id de la visualización de origen
+			businessId: businessId,//businessId id de la visualización de origen
 			uid: $.cookie('uid')//uid id de usuario
 		};	
 	
