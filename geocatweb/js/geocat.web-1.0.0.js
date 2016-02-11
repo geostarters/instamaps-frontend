@@ -588,4 +588,8 @@ function cambiarTitle(){
 			$('.navbar-brand').prop('href','/index.html');
 		}
 	}
+	else if (typeof url('?tipus') == "string" && url('?tipus')=="geolocal"){
+		$('.brand-txt').text("InstaMaps.GeoLocal");
+		$('.navbar-brand').prop('href','/geolocal.html');
+	}
 }

@@ -19,7 +19,7 @@
 	float:left;
 	width:26px;
 	height:26px;
-	background: url('images/gps-icon.png') no-repeat 2px 2px;
+	background: url('images/gps-icon.png') no-repeat 2px -24px;
 	border-radius:4px;
 }
 .leaflet-control-gps .gps-button:hover,
