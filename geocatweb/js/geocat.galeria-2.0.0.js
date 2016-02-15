@@ -137,7 +137,7 @@
 				page:1000
 			};
 			$('#sortbyuser').attr("style","display:none;");
-			var userList = new List('galeriaSort', optionsSearch);
+			userList = new List('galeriaSort', optionsSearch);
 					
 			$('input.search.form-control').on('keyup', function(event){
 				self.updateTotal();
