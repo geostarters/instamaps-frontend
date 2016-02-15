@@ -760,10 +760,15 @@ function createPopupWindow(layer,type){
 			removeGeometriaFromVisualitzacio(data).then(function(results){
 				if(results.status == 'OK'){
 					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
-					map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);
+					var capaBusinessId = map._layers[objEdicio.featureID].properties.capaBusinessId;
+					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
 					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);					
 					//Actualitzem comptador de la capa
-					updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
+					if(map._layers[capaLeafletId]!= undefined) updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
+					else {						
+						updateFeatureCount(capaBusinessId, null);		
+					}
+					
 				}else{
 					console.debug("ERROR deleteFeature");
 				}

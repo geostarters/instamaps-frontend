@@ -18,8 +18,13 @@ L.IM_ControlFons = L.Control.extend({
     	
     	// makes this work on IE touch devices by stopping it from firing a mouseout event when the touch is released
 		container.setAttribute('aria-haspopup', true);
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        var version = 11;
+        if (msie > 0) version = parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)));
 		
-		if (!L.Browser.touch) {
+        if (!L.Browser.touch) {
 			L.DomEvent
 				.disableClickPropagation(container)
 				.disableScrollPropagation(container);
@@ -27,13 +32,19 @@ L.IM_ControlFons = L.Control.extend({
 			L.DomEvent.on(container, 'click', L.DomEvent.stopPropagation);
 		}
     	
+	
 		if (this.options.collapsed){
-    		if (!L.Browser.android) {
-				L.DomEvent.on(container, {
-					mouseenter: this._expand,
-					mouseleave: this._collapse
-				}, this);
+			//#499: Amb IE10 no es carreguen els visors
+			if (msie==0){
+				if (!L.Browser.android) {
+						L.DomEvent.on(container, {
+							mouseenter: this._expand,
+							mouseleave: this._collapse
+						}, this);
+					}
 			}
+			
+    		
     		
     		L.DomEvent.on(container, 'click', this._expand, this);
     		

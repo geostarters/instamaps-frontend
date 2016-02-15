@@ -882,9 +882,12 @@ L.Control.Search = L.Control.extend({
 						'nom':nom,
 						'text':title,
 				};
-				capaUsrActiva.on('layeradd',objecteUserAdded);
-				capaUsrActiva.addLayer(marker);
+			
 				map.addLayer(capaUsrActiva);
+				capaUsrActiva.on('layeradd',objecteUserAdded);
+				
+				marker.addTo(map);
+				capaUsrActiva.addLayer(marker);
 			}
 			else {
 							
