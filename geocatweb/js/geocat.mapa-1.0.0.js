@@ -477,9 +477,6 @@ function loadOrigenWMS(){
 		//TODO parsear las options y el group y dejarlo en json.
 		//TODO quitar el parse de cada tipo de capa.
 		if(value.options && value.capesGroup){
-			//console.debug(typeof (value.options));
-
-
 			var options;
 
 			if(typeof (value.options)=="string"){
@@ -550,8 +547,6 @@ jQuery.each(layer_map.origen, function(index, value){
 		}
 
 	});
-
-
 
 	dfd.resolve(layer_map);
 	return dfd.promise();
@@ -645,6 +640,7 @@ function createNewMap(){
 
 	if(isGeolocalUser() || (typeof url('?tipus') == "string" && url('?tipus')=="geolocal") ){
 		tipusApp = 'geolo'; //para visores geolocal
+		
 	}
 
 	var data = {

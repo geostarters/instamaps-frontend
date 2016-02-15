@@ -213,7 +213,8 @@ var paramUrl = {
 	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?",
 	duplicateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/duplicateVisualitzacioLayer.action?",
 	searchCatalegIdec: HOST_APP+"geocat/aplications/map/searchCatalegIdec.action?",
-	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?"
+	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?",
+	eacat: "https://idp.eacat.net/Logon.aspx?providerID=IDEC"
 }
 
 var paramAplications = {
