@@ -477,7 +477,7 @@ function loadOrigenWMS(){
 		//TODO parsear las options y el group y dejarlo en json.
 		//TODO quitar el parse de cada tipo de capa.
 		if(value.options && value.capesGroup){
-			console.debug(typeof (value.options));
+			//console.debug(typeof (value.options));
 
 
 			var options;
