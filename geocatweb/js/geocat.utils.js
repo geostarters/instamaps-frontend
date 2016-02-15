@@ -727,10 +727,12 @@ function sortByValueMax(a, b){
 	if (b.value!=undefined) bValue= b.value;
 	else if (b.v!=undefined) bValue=b.v;
 	else bValue =b;
-
+	var aValueStr = ""+aValue;
+	var bValueStr = ""+bValue;
 	if (floatRegex.test(aValue) && floatRegex.test(bValue)) {
-		if (aValue.indexOf(",")>-1){
-			if (aValue.indexOf(".")>-1){
+		
+		if (aValueStr.indexOf(",")>-1){
+			if (aValueStr.indexOf(".")>-1){
 				aValue=aValue.replace(".","");
 				aValue=aValue.replace(",",".");
 			}
@@ -738,9 +740,9 @@ function sortByValueMax(a, b){
 				aValue = aValue.replace(",",".");
 			}
 		}
-		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
-		if (bValue.indexOf(",")>-1){
-			if (bValue.indexOf(".")>-1){
+		if (aValueStr.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		if (bValueStr.indexOf(",")>-1){
+			if (bValueStr.indexOf(".")>-1){
 				bValue=bValue.replace(".","");
 				bValue=bValue.replace(",",".");
 			}
@@ -748,12 +750,12 @@ function sortByValueMax(a, b){
 				bValue = bValue.replace(",",".");
 			}
 		}
-		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		if (bValueStr.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
 		return (aValue-bValue);
 	}
 	else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {
-		if (aValue.indexOf(",")>-1){
-			if (aValue.indexOf(".")>-1){
+		if (aValueStr.indexOf(",")>-1){
+			if (aValueStr.indexOf(".")>-1){
 				aValue=aValue.replace(".","");
 				aValue=aValue.replace(",",".");
 			}
@@ -761,9 +763,9 @@ function sortByValueMax(a, b){
 				aValue = aValue.replace(",",".");
 			}
 		}
-		if (aValue.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
-		if (bValue.indexOf(",")>-1){
-			if (bValue.indexOf(".")>-1){
+		if (aValueStr.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		if (bValueStr.indexOf(",")>-1){
+			if (bValueStr.indexOf(".")>-1){
 				bValue=bValue.replace(".","");
 				bValue=bValue.replace(",",".");
 			}
@@ -771,7 +773,7 @@ function sortByValueMax(a, b){
 				bValue = bValue.replace(",",".");
 			}
 		}
-		if (bValue.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		if (bValueStr.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
 		return (aValue-bValue);
 	}
 	else {
