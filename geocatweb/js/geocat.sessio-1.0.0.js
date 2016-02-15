@@ -1,6 +1,7 @@
 var trackEventFrom = '';
 
 jQuery(document).ready(function() {
+	
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13) {
 	    	jQuery("#login_button").click();
@@ -193,6 +194,11 @@ $('#signin_icc').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio icc','retention']);
 	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'icc'}]);
 	$('#dialog_session_icgc').modal('show');
+});
+
+$('#signin_eacat').click(function() {
+	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio eacat','retention']);
+	window.location = paramUrl.eacat;
 });
 
 function fesRegistre(){

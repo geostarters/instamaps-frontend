@@ -291,11 +291,13 @@ function initHover(){
 function checkUserLogin(){
 	var uid = $.cookie('uid');
 	var tipusEntitat = parseInt($.cookie('tipusEntitat'));
+	var logged = false;
 	if(!uid || isRandomUser(uid)){
 		$("#menu_login").show();
 		$("#menu_user").hide();
 		$("#text_username").remove();
 	}else {
+		logged = true;
 		$("#menu_login").hide();
 		$("#menu_user").show();	
 //		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
@@ -311,8 +313,40 @@ function checkUserLogin(){
 	}else{
 		$("#aplicacions").hide();
 	}
+	
+	if(url('file') === "galeria_geolocal.html" || 
+		url('file') === "sessio_geolocal.html" ||
+		url('file') === "geolocal.html" 
+	){
+		$.cookie('perfil', 'geolocal', {path:'/'});
+	}else if(url('file') === "galeria.html" ||
+		url('file') === "sessio.html" ||
+		url('file') === "index.html"
+	){
+		$.cookie('perfil', 'instamaps', {path:'/'});
+	}else{
+		if(!tipusEntitat){
+			var perfil = $.cookie('perfil');
+			switch(perfil){
+				case 'instamaps':
+					tipusEntitat = 1;
+					break;
+				case 'geolocal':
+					tipusEntitat = 2;
+					break;
+				default: tipusEntitat = 1;
+			}
+		}
+		
+		var instamapsOptions = {
+			uid: uid,
+			tipusEntitat: tipusEntitat,
+			logged: logged
+		};
+		var instamaps = Instamaps(instamapsOptions);
+		instamaps.changeBrand('.brand-txt').changeBrandLink('.navbar-brand').changeGaleria('.instamaps_galeria').changeSession('.instamaps_sessio').changeFooter('.instamaps_footer');
+	}
 }
-
 
 function web_menusIdioma(lsLang){
 	jQuery('#ch_idioma li').each(function() {
