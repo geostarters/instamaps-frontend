@@ -82,10 +82,24 @@
 			}
 		},
 		
+		updateTotal: function(){
+			var self = this;
+			if ($('.new_map').is(':visible')){
+				self.escriuResultats(userList.visibleItems.length-1);
+			}else{
+				self.escriuResultats(userList.visibleItems.length);
+			}
+		},
+		
 		escriuResultats: function(total){
 			$('.sp_rs_maps').html(total);
 			$('.sp_total_maps').hide();
 			$('.sp_rs_maps').show();
+			if(total === 0){
+				$('.msg_no_result').removeClass('hide').show();
+			}else{
+				$('.msg_no_result').hide();
+			}
 		},
 		
 		escriuTotal: function(){
@@ -123,19 +137,11 @@
 				page:1000
 			};
 			$('#sortbyuser').attr("style","display:none;");
-			var userList = new List('galeriaSort', optionsSearch);	
-			if ($('.new_map').is(':visible')){
-				self.escriuResultats(userList.visibleItems.length-1);
-			}else{
-				self.escriuResultats(userList.visibleItems.length);
-			}
+			var userList = new List('galeriaSort', optionsSearch);
+						
 						
 			$('input.search.form-control').on('keyup', function(event){
-				if ($('.new_map').is(':visible')){
-					self.escriuResultats(userList.visibleItems.length-1);
-				}else{
-					self.escriuResultats(userList.visibleItems.length);
-				}
+				self.updateTotal();
 			});					
 			
 			$('.new_map').on('click', function(event){
@@ -224,9 +230,9 @@
 								var id=event.target.attributes.id.value;
 								var idC=id.toString().substring(0,10);
 								var data = {
-										convidatEsborrar: $('#'+idC).val(),
-										businessId: $('#dialgo_colaborate').data('businessid'),
-										uid: $.cookie('uid')
+									convidatEsborrar: $('#'+idC).val(),
+									businessId: $('#dialgo_colaborate').data('businessid'),
+									uid: $.cookie('uid')
 								}
 								deleteConvidatByBusinessId(data).then(function(results2){
 									if (results2.status=="OK"){
@@ -395,7 +401,6 @@
 							};
 							sendMail(data).then(function(results){
 								if (results.status=="OK") {
-									console.debug(results);
 									$('#dialgo_colaborate').modal('hide');
 								}
 								else alert(window.lang.convert("Hi ha hagut algun problema amb la tramesa dels correus electrònics"));
@@ -466,12 +471,12 @@
 							var searchdata = {q: q.toLowerCase()};
 							searchdata.tipusApp = self.options.tipusApp;
 							searchGaleriaMaps(searchdata).then(function(results){
-									self.pintaGaleria(results);
-									loading = false;
-									if (searchString && searchString != ""){
-										userList.search(searchString);
-										searchString = null;
-									}
+								self.pintaGaleria(results);
+								loading = false;
+								if (searchString && searchString != ""){
+									userList.search(searchString);
+									searchString = null;
+								}
 							});
 							
 					    }, 400 );
@@ -486,20 +491,19 @@
 			    			//userList.search();
 			    		}
 						var searchString2 = $.trim(q.toLowerCase());
-						console.debug(searchString2);
 						var searchdata = {user: url('?user'),q: searchString2};
 						searchdata.tipusApp = self.options.tipusApp;
 						searchGaleriaMapsByUser(searchdata).then(function(results){
 							if(searchString2 && searchString2 != ""){
-								self.pintaGaleriaMapsByUser(results, searchString);	
+								self.pintaGaleriaMapsByUser(results, searchString);
 							}else{
-								self.pintaGaleriaMapsByUser(results, null);	
+								self.pintaGaleriaMapsByUser(results, null);
 							}
 						});
 					 }, 400 );
 				}
 				else if (q == ""){
-					escriuTotal();
+					self.escriuTotal();
 				}
 			});
 			
@@ -536,9 +540,11 @@
 					var searchdata = {q: searchString.toLowerCase(), page: pageGaleria};
 					searchdata.tipusApp = self.options.tipusApp;
 					searchGaleriaMaps(searchdata).then(function(results){
-						self.pintaGaleria(results);
+						if(results.results.length > 0){
+							self.pintaGaleria(results);	
+						}
 						loading = false;
-						if (searchString && searchString != ""){
+						if (searchString && searchString != "" && userList){
 							userList.search(searchString);
 						}
 						data.tipusApp = self.options.tipusApp;
@@ -914,14 +920,22 @@
 			if (results.results!=undefined && results.results.length>0){
 				self.pintaGaleria(results);
 				loading = false;
-				console.debug(searchString);
 				if (searchString && searchString != ""){
 					userList.search(searchString);
 				}
+				self.updateTotal();
 			}
 			else {
-				var redirect=paramUrl.galeriaPage;
-				window.location.href=redirect;
+				loading = false;
+				self.updateTotal();
+				$('#loadingGaleria').hide();
+				/*
+				if(userList.visibleItems.length === 0){
+					//antes se redireccionaba
+					//var redirect=paramUrl.galeriaPage;
+					//window.location.href=redirect;
+				}
+				*/
 			}
 		}
 

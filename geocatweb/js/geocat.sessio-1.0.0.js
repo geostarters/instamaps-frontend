@@ -196,6 +196,11 @@ $('#signin_icc').click(function() {
 	$('#dialog_session_icgc').modal('show');
 });
 
+$('#signin_eacat').click(function() {
+	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio eacat','retention']);
+	window.location = paramUrl.eacat;
+});
+
 function fesRegistre(){
 	//TODO REVISAR; AQUEST CAL???? NO ES PAS INTERMIG???
 	if(trackEventFrom==null || trackEventFrom=="") trackEventFrom = "inici sessio";
