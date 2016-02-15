@@ -2585,7 +2585,7 @@ function openSpatialJoinModal(){
 		jQuery.each( controlCapes._layers, function( key, value ) {
 			var layerOptions = this.layer.options;
 			var tipusLayer = "";
-			console.debug(this.layer);
+			//console.debug(this.layer);
 			if(this.layer.options.tipus) tipusLayer = this.layer.options.tipus;
 			if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ) {
 				
