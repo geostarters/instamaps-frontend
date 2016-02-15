@@ -36,6 +36,7 @@ if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined
 	var data = {uid: $.cookie('uid')};
 	loadGaleria(data).then(function(results){
 		galeria.drawGaleria(results);
+		galeria.escriuResultats(results.results.length);
 	});
 	
 	if(aplicacionsGaleria){
