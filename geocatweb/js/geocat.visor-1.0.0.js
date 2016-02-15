@@ -315,7 +315,10 @@ function loadPublicMap(results){
 		checkUserLogin();
 	}
 	
-	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) infoHtml += '<div style="color:#ffffff"><p>'+nomEntitat+'</p>';
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) {
+		infoHtml += '<div style="color:#ffffff">';
+		if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
+	}
 	else infoHtml += '<p>'+nomUser[0]+'</p>';
 
 	if (mapConfig.options){
