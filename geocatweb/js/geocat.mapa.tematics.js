@@ -1992,7 +1992,32 @@ function loadCacheVisualitzacioLayer(layer){
 	};
 	
 	var layerWms = layer;
-	getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+	$.get(HOST_APP+'capesuser/'+data.uid+'/'+data.businessId+'.json', function(results) { 
+		if(results){
+				readVisualitzacio(defer, results.results, layer);			
+			}else{				
+				getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+					if(results.status == "OK" ){
+						readVisualitzacio(defer, results.results, layer);			
+					}else{
+						console.debug('getVisualitzacioByBusinessId ERROR');
+						defer.reject();	
+					}	
+				});
+				
+		}		
+	}).fail(function() {
+	   getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+					if(results.status == "OK" ){
+						readVisualitzacio(defer, results.results, layer);			
+					}else{
+						console.debug('getVisualitzacioByBusinessId ERROR');
+						defer.reject();	
+					}	
+				});
+	  });
+
+	/*getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
 			readVisualitzacio(defer, results.results, layer);			
 		}else{
@@ -2002,7 +2027,7 @@ function loadCacheVisualitzacioLayer(layer){
 	},function(results){
 		//console.debug('getTematicLayerByBusinessId ERROR');
 		defer.reject();
-	});
+	});*/
 	return defer.promise();
 }
 
