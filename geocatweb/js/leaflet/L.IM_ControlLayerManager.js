@@ -129,7 +129,7 @@ L.Control.OrderLayers = L.Control.Layers
 
 			updateTreeGroupLayers : function(groupId, groupName, businessId,
 					z_order, expanded) {
-
+				var dfd = $.Deferred();
 				try{
 
 				this._groupList[groupId].groupName = groupName;
@@ -168,17 +168,18 @@ L.Control.OrderLayers = L.Control.Layers
 
 						});
 
-						return this._layers[layer].layer;
+						//return this._layers[layer].layer;
+						dfd.resolve(this._layers[layer].layer);
 					}
 				}
 
 				//this._update();
 
 				}catch(Err){
-
+					dfd.reject(Err);
 					console.debug(Err);
 				}
-
+				return dfd.promise();
 			},
 
 			updateGroupName : function(oldName, newName, groupId) {
@@ -856,23 +857,37 @@ L.Control.OrderLayers = L.Control.Layers
 				this._domGroups.length = 0;
 
 				var that = this;
-
 				this._domGroupsTMP = sortByKey(this._domGroupsTMP, "id");
-				this._groupList = sortByKey(this._groupList, "id");
-			//	if (getModeMapa()) {
+				this._groupList = sortByKey(this._groupList, "id");			
+				
+				//	if (getModeMapa()) {
 					this._domGroupsTMP.forEach(function(item, index, array) {
 						that._addGroupFromObject(item);
 					});
 				//}
 
 				var baseLayersPresent = false, overlaysPresent = false, i, obj;
+				var layerArray=[];
 				for (i in this._layers) {
-					obj = this._layers[i];
+					layerArray.push(this._layers[i]);		
+
+				}
+				layerArray = sortByKeyPath(layerArray, "zIndex");
+				
+				for (i in layerArray) {
+					obj = layerArray[i];
 					this._addItem(obj);
 
 					overlaysPresent = overlaysPresent || obj.overlay;
 					baseLayersPresent = baseLayersPresent || !obj.overlay;
 				}
+				/*for (i in this._layers) {
+					obj = this._layers[i];
+					this._addItem(obj);
+
+					overlaysPresent = overlaysPresent || obj.overlay;
+					baseLayersPresent = baseLayersPresent || !obj.overlay;
+				}*/
 
 			},
 

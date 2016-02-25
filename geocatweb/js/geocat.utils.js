@@ -715,6 +715,14 @@ function sortByKey(array, key) {
     });
 }
 
+function sortByKeyPath(array, key) {
+	
+	return array.sort(function(a, b) {
+		 var x = a.layer.options[key]; var y = b.layer.options[key];
+		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
 function sortByValueMax(a, b){
 	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
 	var floatRegex2 = new RegExp('[-+]?([0-9]*,[0-9]+|[0-9]+)');
@@ -791,6 +799,8 @@ function isMobile() {
 	    return false;
 	 } catch(e){ console.log("Error in isMobile"); return false; }
 }
+
+
 
 (function($){
 	var o = $({});

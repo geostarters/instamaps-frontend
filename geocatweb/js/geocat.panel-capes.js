@@ -38,12 +38,11 @@ function reOrderGroupsAndLayers(action){
 	 var _groupName,_groupId,_groupSubId,_businessId,_expanded;
 	   // $("span.span_ac").each(function( index, element ) {
 	  $("div.leaflet-control-accordion-layers").each(function( index, element ) {
-
-		  var $this = $(this);
+		 var $this = $(this);
 
 
 	    	 var gr=$this.children("label").children('span.span_ac');
-
+	    	 
 	    	 _groupId=index;
 
 	    	 _groupName=gr.text();
@@ -74,30 +73,30 @@ function reOrderGroupsAndLayers(action){
 	    	  if(action){
 
 
-	    	    var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);
+	    	   // var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);
+	    		  controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded).then(function(resp_Layer){
+						
+						if(resp_Layer){
+
+					var data = {
+							mapBusinessId: url('?businessid'),
+							businessId: resp_Layer.options.businessId, //url('?businessid')
+							uid: $.cookie('uid'),
+							options: JSON.stringify(resp_Layer.options.group)
+						 }
+
+					var data2 = {
+							servidorWMSbusinessId:resp_Layer.options.businessId,
+							businessId:url('?businessid'), //url('?businessid')
+							uid: $.cookie('uid'),
+							order: z_order
+						 }
 
 
-	    	    if(resp_Layer){
 
-	    	    var data = {
-	    	    		mapBusinessId: url('?businessid'),
-	    	    		businessId: resp_Layer.options.businessId, //url('?businessid')
-					 	uid: $.cookie('uid'),
-					 	options: JSON.stringify(resp_Layer.options.group)
-					 }
-
-				var data2 = {
-					 	servidorWMSbusinessId:resp_Layer.options.businessId,
-	    	    		businessId:url('?businessid'), //url('?businessid')
-					 	uid: $.cookie('uid'),
-					 	order: z_order
-					 }
-
-
-
-				updateGroupsLayerGroup(data,data2);
-	    	    }
-
+					updateGroupsLayerGroup(data,data2);
+					}
+					});
 
 	    	  }
 
@@ -157,14 +156,14 @@ if(getModeMapa()){
 group_sortable1 = $("ol.leaflet-control-layers-overlays").sortable({
 	 connectWith: "ol.leaflet-control-layers-overlays",
   change: function( event, ui ) {
-	  reOrderGroupsAndLayers(true);
+	  setTimeout(function(){ reOrderGroupsAndLayers(true); }, 1000);
   }
 });
 
 group_sortable2 = $("ol.ac-large").sortable({
 	 connectWith: "ol.ac-large",
   change: function( event, ui ) {
-	 reOrderGroupsAndLayers(true);
+	   setTimeout(function(){ reOrderGroupsAndLayers(true); }, 1000);
   }
 });
 
