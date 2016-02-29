@@ -1316,7 +1316,7 @@ function loadRouteControl(){
 
 
 	plan = new ReversablePlan([], {
-        geocoder: L.Control.Geocoder.nominatim(),
+        geocoder: L.Control.Geocoder.icgc(),
         routeWhileDragging: true,
         language: lang,
         createMarker: function(i, wp) {

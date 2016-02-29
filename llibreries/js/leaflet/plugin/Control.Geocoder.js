@@ -735,5 +735,89 @@
 	L.Control.Geocoder.google = function(key) {
 		return new L.Control.Geocoder.Google(key);
 	};
+	
+	L.Control.Geocoder.ICGC = L.Class.extend({
+		initialize: function() {
+		
+		},
+
+		geocode : function (query, cb, context) {
+			L.Control.Geocoder.jsonp('http://miyazaki.icc.local:8080/geocodificador/json', {
+				metode: 'cercaCaixaUnica',
+				entrada : query,
+				configuracio: 4,
+				obtenirCoordGeografiques:'si'
+			}, function(data) {
+				var results = [];
+				var resultsIndex=0;
+				if (data.length==0){
+					 new L.Control.Geocoder.nominatim().geocode(query,cb,context);
+				}
+				else{
+					for (var i = 0; i <=data.length; i++) {
+						var resource = data[i];
+						if (resource!=null){
+							for (var j=resource.length-1;j>=0;j--){
+								if (resource[j].adrecaXY!=undefined) {
+									results[resultsIndex] = {
+										name: resource[j].adrecaXY,
+										center: L.latLng(resource[j].coordenadesETRS89LonLat.y,resource[j].coordenadesETRS89LonLat.x)
+									};
+								}
+								else {
+									results[resultsIndex] = {
+											name: resource[j].nom,
+											center: L.latLng(resource[j].coordenadesETRS89LonLat.y,resource[j].coordenadesETRS89LonLat.x)
+										};
+								}
+								resultsIndex++;
+							}
+						}
+					}
+				}
+				if (results.length==0){
+					new L.Control.Geocoder.nominatim().geocode(query, cb, context);
+				}
+				cb.call(context, results);
+			}, this, 'jsonp');
+		},
+
+		reverse: function(location, scale, cb, context) {
+			L.Control.Geocoder.jsonp('http://miyazaki.icc.local:8080/geocodificador/json' , {
+				metode: 'geocodificacioInversa',
+				x_lonlatetrs89:location.lng,
+				y_lonlatetrs89:location.lat
+				
+			}, function(data) {
+				var results = [];
+				for (var i = data.length - 1; i >= 0; i--) {
+					var resource = data[i];
+					if (resource.incidencia){
+						 new L.Control.Geocoder.nominatim().reverse(location,scale,cb,context);
+					}
+					else{
+						var resultStr="";
+						if (resource.via!=null && resource.via!="\"null\"") resultStr += resource.via+ " ";
+						if (resource.portalSenar!=null && resource.portalSenar!="\"null\"") resultStr += resource.portalSenar+" ";
+						if (resource.portalParell!=null && resource.portalParell!="\"null\"") resultStr += resource.portalParell+" ";
+						if (resource.municipi!=null && resource.municipi!="\"null\"")  {
+							if (resultStr!="") resultStr +=",";
+							resultStr+=" "+resource.municipi;
+						}
+						results[i] = {
+							name: resultStr,
+							//bbox: L.latLngBounds([bbox[0], bbox[1]], [bbox[2], bbox[3]]),
+							center: L.latLng(location.lat,location.lng)
+						};
+					}
+				}
+				cb.call(context, results);
+			}, this, 'jsonp');
+		}
+	});
+
+	L.Control.Geocoder.icgc = function() {
+		return new L.Control.Geocoder.ICGC();
+	};
 	return L.Control.Geocoder;
 }));
