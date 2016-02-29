@@ -1243,7 +1243,7 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 	
     updateGeometria(data).then(function(results){
 	    if(results.status == 'OK'){
-	    	if (layer.properties.tipusFeature=="marker") createPopupWindow(layer,"marker");
+	    	if (layer.properties.tipusFeature=="marker" && layer.properties.data.nom &&  layer.properties.data.text) createPopupWindow(layer,"marker");
 	    	jQuery('.popup_pres').show();
 	    	//Actualitzem visualitzacions de la capa on estava la geometria modificada
 	    	var capaEdicio = controlCapes._layers[capaEdicioLeafletId];

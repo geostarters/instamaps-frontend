@@ -370,7 +370,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			var v = this._elem.value;
 			function completeResults(results) {
 				this._lastCompletedText = v;
-				if (trySelect && results.length === 1) {
+				if (trySelect && results!=undefined &&  results.length === 1) {
 					this._resultSelected(results[0])();
 				} else {
 					this._setResults(results);

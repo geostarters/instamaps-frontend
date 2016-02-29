@@ -156,7 +156,9 @@
 }
 
 .leaflet-routing-geocoder-result-open {
-    max-height: 800px;
+   /* max-height: 800px;*/
+    max-height:145px;
+    overflow-y:scroll; 
 }
 
 .leaflet-routing-geocoder-selected, .leaflet-routing-geocoder-result tr:hover {
