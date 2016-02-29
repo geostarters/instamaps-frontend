@@ -4981,3 +4981,7 @@ a.leaflet-control-timecontrol:hover {
 }
 
 
+.llista-dadesInstamaps{
+	max-height: 190px;
+    overflow-y: auto;
+}

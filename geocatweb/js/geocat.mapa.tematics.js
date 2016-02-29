@@ -2017,7 +2017,7 @@ function loadCacheVisualitzacioLayer(layer){
 				});
 	  });
 
-	/*getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+/*	getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
 			readVisualitzacio(defer, results.results, layer);			
 		}else{
