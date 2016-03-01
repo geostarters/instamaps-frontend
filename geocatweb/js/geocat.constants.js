@@ -177,7 +177,8 @@ var TIPUS_APLIACIO_GEOLOCAL = 2;
 var nou_model = true;
 
 var instamaps_email = "instamapes@icgc.cat";
-var curs_instamaps = "1er curs InstaMaps";
+//var curs_instamaps = "1er curs InstaMaps";
+var curs_instamaps = "2n curs InstaMaps";
 
 
 //Llistat exemples de dades externes
