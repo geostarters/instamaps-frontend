@@ -98,17 +98,22 @@
         	var that = this;
         	if (isDefaultMapTitle(that.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(that.mapConfig.nomAplicacio);
+        	console.debug(that.mapConfig);
 			if (that.mapConfig.visibilitat == visibilitat_open){
-				$('#visibilitat_chk').bootstrapSwitch('state', true, true);
-				$('.protegit').hide();
+				//$('#visibilitat_chk').bootstrapSwitch('state', true, true);
+				$("input[name=publicitat][value=privat]").prop('checked', true);	
+				$("input[name=privacitat][value=obert]").prop('checked', true);	
+				$('#map_clau').val('');
 			}else{
-				$('#visibilitat_chk').bootstrapSwitch('state', false, false);
+				$("input[name=publicitat][value=privat]").prop('checked', true);				
 				if (that.mapConfig.clau){
-					$('#is_map_protegit').iCheck('check');
+					//$('#is_map_protegit').iCheck('check');
+					$("input[name=privacitat][value=restringit]").prop('checked', true);
 					$('#map_clau').prop('disabled',true);
 					$('#map_clau').val(randomString(10));
 				}else{
-					$('#is_map_protegit').iCheck('uncheck');
+					//$('#is_map_protegit').iCheck('uncheck');
+					$("input[name=privacitat][value=obert]").prop('checked', true);				
 					$('#map_clau').prop('disabled',true);
 					$('#map_clau').val('');
 				}
@@ -129,6 +134,7 @@
 			$( ".text_error" ).remove();
 			$('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
+			
 			
 			if(isGeolocalUser()){ //solo usuarios geolocal
 				//aspecte
@@ -167,6 +173,7 @@
 				if(that.mapConfig.logo){
 					$(".logo").prop('src',"/logos/"+that.mapConfig.logo);
 				}
+				$('#geolocal_tab').attr("style","display:inline");
 			}else{
 				$(".modal-public-aspect").hide();
 			}
@@ -213,6 +220,7 @@
 			$('#urlMap').val(urlMap);
 			$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 			
+			$('a[href^="#id_info').click();
 			//$('.bfh-selectbox').bfhselectbox().bfhfonts({font: 'Arial'});
 		},
         
@@ -252,7 +260,38 @@
             		}
             	});	
 
-            	$('#visibilitat_chk').on('switchChange.bootstrapSwitch', function(event, state) {
+            	
+            	 $('input:radio[name="privacitat"]').change(function() {
+            	        if ($(this).val() == 'obert') {
+            	        	if (that.mapConfig.clau){
+                				$('#map_clau').val('');
+                			}else{
+                				$('#map_clau').prop('disabled',true);
+                			}
+            	        } else {
+            	        	if (that.mapConfig.clau){
+                				$('#map_clau').val(randomString(10));
+                				$('#map_clau').prop('disabled',true);
+                			}else{
+                				$('#map_clau').prop('disabled',false);
+                			}
+            	        }
+            	 });           	
+            	
+            	 
+            	 $('#resetClau').on('click',function(){
+             		var mapData = {
+             			businessId: that.mapConfig.businessId,
+             			uid: that.uid
+             		};
+             		//require ajax
+             		resetClauMapa(mapData).then(function(results){
+             			that.mapConfig.clau = null;
+             			$('#map_clau').val('');
+             		});
+             	});
+            	//Canvis en l'apartat de privacitat
+            	/*$('#visibilitat_chk').on('switchChange.bootstrapSwitch', function(event, state) {
             		if(state.value == true) { //public
             			$('.protegit').hide();
             		}else{ //privat
@@ -294,7 +333,7 @@
             			$('#map_clau').val('');
             		});
             	});
-        		
+        		*/
             	//require dropzone
     			$('#file-logo').dropzone({ 
     			    url: paramUrl.uploadLogo,
@@ -458,7 +497,9 @@
         	
         	var visibilitat = visibilitat_open;
         	
-        	if ($('#visibilitat_chk').bootstrapSwitch('state')){
+        	//if ($('#visibilitat_chk').bootstrapSwitch('state')){
+        	console.debug($("input[name=publicitat]:checked").val());
+        	if ($("input[name=publicitat]:checked").val()=="public"){        	
         		visibilitat = visibilitat_open;
         	}else{
         		visibilitat = visibilitat_privat;
@@ -553,14 +594,15 @@
         	
         	
         	if(!that.mapConfig.clau){
-        		if($('#is_map_protegit').is(':checked')){
+        		//if($('#is_map_protegit').is(':checked')){
+        		if ($("input[name=privacitat]:checked").val()=="restringit"){    	
         			if($.trim($('#map_clau').val()) != ""){
         				data.clauVisor = $.trim($('#map_clau').val());
         			}
         		}
         		this._callPublicarMapa(data, newMap, that.fromCompartir);
         	}else{
-        		if(!$('#is_map_protegit').is(':checked') || visibilitat == visibilitat_open){
+        		if($("input[name=privacitat]:checked").val()=="obert" || visibilitat == visibilitat_open){
         			var mapData = {
         				businessId: that.mapConfig.businessId,
         				uid: that.uid
@@ -640,7 +682,8 @@
         
         _createModalConfigDownload: function(){
         	var count = 0;
-        	var html = '<label class="control-label" lang="ca">'+
+        	var html = 'Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar<br/><br/>'; 
+        	html += '<label class="control-label" lang="ca">'+
         		window.lang.convert('Capes reutilitzables pels altres usuaris:')+
         		'</label>&nbsp;<span class="glyphicon glyphicon-download-alt"></span>';
         	
@@ -681,7 +724,7 @@
         		}
         	});	
         	
-        	$('#dialgo_publicar .modal-body .modal-downloadable').html(html);	
+        	$('#dialgo_publicar #id_reuse').html(html);	
         	
         	$('#div_downloadable input').iCheck({
         	    checkboxClass: 'icheckbox_flat-blue',
