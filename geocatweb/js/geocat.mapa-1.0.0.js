@@ -386,7 +386,7 @@ function updateLangText(){
 	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
 	$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil del mapa"));
 	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
-	$('.bt_publicar>span').html(window.lang.convert("Publicar el mapa"));
+	$('.bt_publicar>span').html(window.lang.convert("Desar / Publicar el mapa"));
 	$('#socialShare>h5').html(window.lang.convert("Compartir"));
 
 }

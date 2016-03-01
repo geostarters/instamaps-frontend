@@ -315,7 +315,7 @@
 				var visibilitatAntiga="P";
 				var idPriv="#privacitat_"+$this.data("businessid");
 				
-				if ($(idPriv).attr("class") == "unlock" ) visibilitatAntiga="O";				
+				if ($(idPriv).attr("class") == "glyphicon glyphicon-eye-open" ) visibilitatAntiga="O";				
 				
 				var visibilitatNova="";
 				var textVisibilitatNova="";
@@ -336,14 +336,14 @@
 				updateMapVisibility(data1).then(function(results){
 					if (results.status=="OK") {
 						if (visibilitatAntiga=="P") {
-							$(idPriv).attr("class", "unlock");
+							$(idPriv).attr("class", "glyphicon glyphicon-eye-open");
 							$this.data("title", window.lang.convert("El mapa és visible a la galeria pública"));
-							$this.attr('title', window.lang.convert("El mapa és visible a la galeria pública")).tooltip('fixTitle').tooltip('show');
+							//$this.attr('title', window.lang.convert("El mapa és visible a la galeria pública")).tooltip('fixTitle').tooltip('show');
 						}
 						else {
-							$(idPriv).attr("class", "lock");
+							$(idPriv).attr("class", "glyphicon glyphicon-eye-close");
 							$this.data("title",window.lang.convert("El mapa només és visible a la teva galeria privada"));
-							$this.attr('title', window.lang.convert("El mapa només és visible a la teva galeria privada")).tooltip('fixTitle').tooltip('show');
+							//$this.attr('title', window.lang.convert("El mapa només és visible a la teva galeria privada")).tooltip('fixTitle').tooltip('show');
 							
 						}
 					}
