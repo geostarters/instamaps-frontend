@@ -783,7 +783,7 @@
 		},
 
 		reverse: function(location, scale, cb, context) {
-			L.Control.Geocoder.jsonp('http://miyazaki.icc.local:8080/geocodificador/json' , {
+			L.Control.Geocoder.jsonp('http://www.icc.cat/geocodificador/json' , {
 				metode: 'geocodificacioInversa',
 				x_lonlatetrs89:location.lng,
 				y_lonlatetrs89:location.lat
