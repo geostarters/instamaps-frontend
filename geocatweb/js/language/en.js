@@ -262,7 +262,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Estat i incidències de trànsit, transport públic, previsió meteorològica i més.":"Conditions and traffic incidents, public transport, weather forecast and more."
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"We are updating the platform. Temporary anomalies can be observed when viewing the data."
 ,"Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?":"We are preparing the next free workshop of InstaMaps, interested?"
-,"Estem preparant dos nous tallers d'InstaMaps (bàsic i avançat), t'interessa?","We are preparing two wokshops of Instamaps (basic and advanced), interested?"
+,"Estem preparant dos nous tallers d'InstaMaps (bàsic i avançat), t'interessa?":"We are preparing two wokshops of Instamaps (basic and advanced), interested?"
 ,"Estil actiu":"Active style"
 ,"Estils d'àrees":"Area styles"
 ,"Estils de línia":"Line styles"
