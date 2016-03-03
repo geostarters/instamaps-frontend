@@ -18,7 +18,7 @@ function cercaCapes(e){
 	    				lDadesInstamaps += '<li><a class="label-dadesInstamaps" href="#" data-url="'+item[0]+'" data-servertype="'+item[2]+'" data-nom="'+item[1]+'">'
 	    						+ item[1]
 	    						+ '</a>'
-	    						+'&nbsp;&nbsp;<a href="http://localhost/geocatweb/visor.html?businessid='+apBusinessIds[item[0]]+'" target="_blank"><span class="glyphicon glyphicon-eye-open" title="Veure al corresponent mapa">'
+	    						+'&nbsp;&nbsp;<a href="http://www.instamaps.cat/geocatweb/visor.html?businessid='+apBusinessIds[item[0]]+'" target="_blank"><span class="glyphicon glyphicon-eye-open" title="Veure al corresponent mapa">'
 	    						+'</span></a>'
 	    						+ '</li>';
 	    			});				

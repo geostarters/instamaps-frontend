@@ -742,7 +742,7 @@
 		},
 
 		geocode : function (query, cb, context) {
-			L.Control.Geocoder.jsonp('http://miyazaki.icc.local:8080/geocodificador/json', {
+			L.Control.Geocoder.jsonp('http://www.icc.cat/geocodificador/json', {
 				metode: 'cercaCaixaUnica',
 				entrada : query,
 				configuracio: 4,

@@ -17,7 +17,7 @@
         },
         
         cache: function(){
-        	this.toolbarContainer = $(this.toolbarContainerId);
+        	this.toolbarContainer = $($(this.toolbarContainerId)[0]) || $([]);
         },
         
         setUiLoaded: function(loaded){
