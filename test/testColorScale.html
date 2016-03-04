@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Color Scale Test</title>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.21.0.css">
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="http://code.jquery.com/qunit/qunit-1.21.0.js"></script>
+<script type="text/javascript" src="../llibreries/js/chroma.min.js"></script>
+<script type="text/javascript" src="../geocatweb/js/instamaps.mapa.color-scale.js"></script>
+
+<script type="text/javascript">
+module('Color Scale');
+
+var scalePaired = ColorScales.createScale('Paired', 4, false);
+var scalePairedInv =  ColorScales.createScale('Paired', 4, true);
+
+
+QUnit.config.reorder = false;
+
+QUnit.test( "hello test", function( assert ) {
+	assert.ok( 1 == "1", "Passed!" );
+});
+
+QUnit.test( "Paired", function( assert ) {
+	assert.expect( 3 );
+	assert.strictEqual( scalePaired(0).hex(), "#a6cee3", "Passed!" );
+	assert.strictEqual( scalePaired(2).hex(), "#f06c45", "Passed!" );
+	assert.strictEqual( scalePaired(4).hex(), "#b15928", "Passed!" );
+});
+
+QUnit.test( "Paired Inv", function( assert ) {
+	assert.expect( 3 );
+	assert.strictEqual( scalePairedInv(0).hex(), "#b15928", "Passed!" );
+	assert.strictEqual( scalePairedInv(2).hex(), "#f06c45", "Passed!" );
+	assert.strictEqual( scalePairedInv(4).hex(), "#a6cee3", "Passed!" );
+});
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

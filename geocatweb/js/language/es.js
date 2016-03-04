@@ -345,6 +345,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Intervals":"Intervalos"
 ,"Introdueix una URL vàlida":"Introduce una URL válida"
 ,"Introdueix un nom vàlid per a la publicació del mapa":"Introduce un nombre válido para la publicación del mapa"
+,"Inverteix paleta":"Invierte paleta"
 ,"I si us voleu inspirar per crear mapes espectaculars podeu consultar la galeria de mapes públics compartits per altres usuaris":"Y si deseas inspiración para crear mapas espectaculares puedes consultar la galería de mapas públicos compartidos por otros usuarios"
 	
 ,"L'adreça he de contenir: Nom carrer, número i  municipi":"La dirección debe contener: Nombre de calle, número y municipio"
