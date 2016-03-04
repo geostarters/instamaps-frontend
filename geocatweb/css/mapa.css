@@ -178,6 +178,12 @@ html,body {
     margin-right: 5px;
 }
 
+.btn-reverse-palete{
+	margin-right: 5px;
+	cursor: pointer;
+	float: right;
+}
+
 /* end Tematics*/
 
 .tooltip {

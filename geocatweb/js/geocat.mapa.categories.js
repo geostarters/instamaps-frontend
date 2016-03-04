@@ -3,24 +3,28 @@
  */
 
 function showModalTematicCategories(data){
-//	console.debug("showModalTematicCategories");
+	//console.debug("showModalTematicCategories");
 	jQuery('.modal').modal('hide');
 	jQuery('#dialog_tematic_rangs').modal('show');
 	
+	//se ponen los off para evitar el doble evento
+	//TODO hay que revisar como evitar el doble evento.
+	jQuery('#dialog_tematic_rangs .btn-success').off('click');
 	jQuery('#dialog_tematic_rangs .btn-success').on('click',function(e){
 		jQuery('#dialog_tematic_rangs').hide();
 		jQuery('#info_uploadFile').show();
 		busy=true;
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html(
-				'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-				'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+			'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+			'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
 		);	
 		createTematicLayerCategories(e);
 	});	
 	
 	jQuery('#palet_warning').hide();
 	
+	jQuery(".ramp").off('click');
 	jQuery(".ramp").on('click',function(evt){
 		var _this = jQuery(this);
 		var brewerClass = _this.attr('class').replace("ramp ","");
@@ -36,6 +40,23 @@ function showModalTematicCategories(data){
 	jQuery('#num_rangs_grp').hide();
 	jQuery('#list_tematic_values').html("");
 	jQuery('#dialog_tematic_rangs .btn-success').hide();
+	
+	jQuery('.btn-reverse-palete').off('click');
+	jQuery('.btn-reverse-palete').on('click',function(evt){
+		var glyp = jQuery('.btn-reverse-palete.glyphicon');
+		var reverse = false;
+		if(glyp.hasClass('glyphicon-arrow-down')){
+			reverse = true;
+			glyp.removeClass('glyphicon-arrow-down').addClass('glyphicon-arrow-up');
+		}else{
+			reverse = false;
+			glyp.removeClass('glyphicon-arrow-up').addClass('glyphicon-arrow-down');
+		}
+		jQuery("#dialog_tematic_rangs").data("reverse",reverse);
+		if (jQuery('#list_tematic_values').html() !== ""){
+			updatePaletaRangs();
+		}
+	});
 	
 	var dataTem={
 		businessId: data.businessid,
@@ -59,21 +80,19 @@ function showModalTematicCategories(data){
 		var html1 = template1({fields:fields});
 		jQuery('#dataField').html(html1);
 		
+		jQuery('#dataField').off('change');
 		jQuery('#dataField').on('change',function(e){
 			var this_ = jQuery(this);
 			if (this_.val() == "---"){
-				
 				jQuery('#tipus_agrupacio_grp').hide();
 				jQuery('#num_rangs_grp').hide();
 				jQuery('#list_tematic_values').html("");
 				jQuery('#dialog_tematic_rangs .btn-success').hide();
-			}else{
-				
+			}else{				
 				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
 					jQuery("#dialog_tematic_rangs").data("values", results);
 					getTipusValuesVisualitzacio(results);
-				});
-				
+				});			
 			}
 		});			
 		
@@ -129,6 +148,7 @@ function showModalTematicCategories(data){
 				var html1 = template1({fields:fields});
 				jQuery('#dataField').html(html1);
 				
+				jQuery('#dataField').off('change');
 				jQuery('#dataField').on('change',function(e){
 					var this_ = jQuery(this);
 					if (this_.val() == "---"){
@@ -226,12 +246,13 @@ function showVisualitzacioDataUnic(values){
 	var defer = jQuery.Deferred();
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
+	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 	jQuery("#dialog_tematic_rangs").data("tipusrang","unic");
 	
 	//Ordenar valores
 	values.sort(sortByValueMax);
-	
-	var scale = createScale(paleta, values.length);
+	paleta = paleta ? paleta : 'Paired';
+	var scale = createScale(paleta, values.length, reverse);
 	var ftype = transformTipusGeometry(visualitzacio.geometryType);
 	var valuesStyle = jQuery.map( values, function( a, i) {
 		return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
@@ -249,20 +270,20 @@ function createIntervalStyle(index, geometryType, paleta, nodata){
 		
 	if (ftype == t_marker){
 		defStyle = jQuery.extend({}, default_circulo_style);
-		defStyle.fillColor = paleta(index);
+		defStyle.fillColor = paleta(index).hex();
 		if(nodata){
 			defStyle.fillColor = NODATA_COLOR;
 		}
 		defStyle.isCanvas = true;		
 	}else if (ftype == t_polyline){
 		defStyle = jQuery.extend({}, default_line_style);
-		defStyle.color = paleta(index);
+		defStyle.color = paleta(index).hex();
 		if(nodata){
 			defStyle.color = NODATA_COLOR;
 		}
 	}else if (ftype == t_polygon){
 		defStyle = jQuery.extend({}, default_area_style);
-		defStyle.color = paleta(index);
+		defStyle.color = paleta(index).hex();
 		if(nodata){
 			defStyle.color = NODATA_COLOR;
 		}
@@ -277,9 +298,10 @@ function showTematicRangs(){
 	var values = jQuery("#dialog_tematic_rangs").data("rangs");
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
+	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 	jQuery("#dialog_tematic_rangs").data("tipusrang","rangs");
-	
-	var scale = createScale(paleta, values.length);
+	paleta = paleta ? paleta : 'Paired';
+	var scale = createScale(paleta, values.length, reverse);
 			
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
@@ -647,6 +669,7 @@ function updatePaletaRangs(){
 	var rangs = jQuery("#dialog_tematic_rangs").data("rangs");
 	
 	var tipusrang = jQuery("#dialog_tematic_rangs").data("tipusrang");
+	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 	
 	var val_leng = 0;
 	if (tipusrang == 'rangs'){
@@ -656,22 +679,22 @@ function updatePaletaRangs(){
 	}
 	
 	var ftype = transformTipusGeometry(tematicFrom.geometrytype);
-	
-	var scale = createScale(paleta, val_leng);
+	paleta = paleta ? paleta : 'Paired';
+	var scale = createScale(paleta, val_leng, reverse);
 		
 	if (ftype == t_marker){
 		jQuery('#list_tematic_values tbody td div').each(function(i, elm){
-			var color = scale(i);
+			var color = scale(i).hex();
 			jQuery(elm).css('background-color', color);
 		});
 	}else if (ftype == t_polyline){
 		jQuery('#list_tematic_values canvas').each(function(i, elm){
-			var color = scale(i);
+			var color = scale(i).hex();
 			addGeometryInitLRang(elm, {style:{color: color}});
 		});
 	}else if (ftype == t_polygon){
 		jQuery('#list_tematic_values canvas').each(function(i, elm){
-			var color = scale(i);
+			var color = scale(i).hex();
 			addGeometryInitPRang(elm, {style:{color: color}});
 		});
 	}
@@ -683,6 +706,7 @@ function createRangsValues(rangs){
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var nodata = jQuery("#dialog_tematic_rangs").data("nodata");
+	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 		
 	values = jQuery.grep(values, function( n, i ) {
 		return (n != NODATA_VALUE && jQuery.isNumeric(parseFloat(n)));
@@ -937,17 +961,7 @@ function readDataVisualitzacio(visualitzacio, key){
 	return defer.promise();
 }
 
-function createScale(paleta, length){
-	var scale;
-	paleta = paleta ? paleta : 'Paired';
-	if (paleta == 'Paired' || paleta == 'Set3' || paleta == 'Set1' || paleta == 'Dark2'){
-		if (length <= 12){
-			scale = chroma.scale(paleta).domain([0,12],12).out('hex');
-		}else{
-			scale = chroma.scale(paleta).domain([0,length],length).out('hex');
-		}
-	}else{
-		scale = chroma.scale(paleta).domain([0,length],length).out('hex');
-	}
+function createScale(paleta, length, reverse){
+	var scale = ColorScales.createScale(paleta, length, reverse);
 	return scale;
 }
