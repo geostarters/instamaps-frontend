@@ -630,14 +630,13 @@ function createPopupWindow(layer,type){
 		    
 			e.preventDefault();
 			e.stopPropagation();		    
-		    
 //		    console.debug('on change select cmbusrcapa');
 			var accio;
 			if(jQuery(this).attr('id').indexOf('-')!=-1){			
 				accio=jQuery(this).attr('id').split("-");				
 			}
 			objEdicio.featureID=accio[1];
-			
+						
 			var toBusinessId = jQuery(this).val().split("#");
 			var fromBusinessId = $(this).data('cmbCapesUsr_old').split("#");
 			//Actualitzem valor antic
@@ -672,7 +671,8 @@ function createPopupWindow(layer,type){
 					var toLayer = controlCapes._layers[''+toBusinessId[1]+''].layer;//map._layers[''+toBusinessId[1]+''];
 					var fromLayer = map._layers[''+fromBusinessId[1]+''];
 					fromLayer.removeLayer(obj);
-
+					console.debug(toLayer);
+					console.debug(obj);
 					//Actualitzem capa activa
 					//Primer desactivo l'event, per si la capaActiva coincideix amb la capa toLayer
 					if(capaUsrActiva) capaUsrActiva.removeEventListener('layeradd');
@@ -682,7 +682,8 @@ function createPopupWindow(layer,type){
 					controlCapes._map.removeLayer(toLayer);
 					controlCapes._map.addLayer(toLayer);					
 					capaUsrActiva = toLayer;
-					capaUsrActiva.on('layeradd',objecteUserAdded);						
+					capaUsrActiva.on('layeradd',objecteUserAdded);			
+					
 					obj.properties.capaBusinessId = capaUsrActiva.options.businessId;
 					obj.properties.capaNom = capaUsrActiva.options.nom;
 					obj.properties.capaLeafletId = capaUsrActiva._leaflet_id;
@@ -693,6 +694,11 @@ function createPopupWindow(layer,type){
 					map.closePopup();
 					obj.openPopup();
 					
+					//Actualitzem l'enllaç d'obrir la finestra de dades
+					var htmlDataTable =jQuery("#feature_data_table_"+accio[1]).html();
+					var stringsDataTableA = htmlDataTable.split("##");
+					jQuery("#feature_data_table_"+accio[1]).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+toLayer._leaflet_id+"##"+stringsDataTableA[4]);
+
 					//NO CAL: com cridem addLayer, de controlCapes, ja s'actualitzen els comptadors de les capes
 					//updateFeatureCount(fromBusinessId, toBusinessId);			
 					
@@ -708,7 +714,8 @@ function createPopupWindow(layer,type){
 		e.stopImmediatePropagation();
 		var accio;
 		if(jQuery(this).attr('id').indexOf('#')!=-1){			
-			accio=jQuery(this).attr('id').split("#");				
+			if (jQuery(this).attr('id').indexOf('##')>-1) accio=jQuery(this).attr('id').split("##");			
+			else accio=jQuery(this).attr('id').split("#");				
 		}
 		objEdicio.featureID=accio[1];
 		
@@ -808,6 +815,7 @@ function createPopupWindow(layer,type){
 				selectedPathOptions: opcionsSel
 			});
 			crt_Editing.enable();
+			
 			map.closePopup();
 			
 			
@@ -840,6 +848,10 @@ function createPopupWindow(layer,type){
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
 		
 			$('#modal_data_table').modal('show');
+			if (controlCapes._layers[accio[3]].layer.options.estil==undefined){
+				controlCapes._layers[accio[3]].layer.options.estil=[];
+				controlCapes._layers[accio[3]].layer.options.estil[0] = map._layers[objEdicio.featureID].properties.estil;
+			}
 			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
 		
 		}else{
@@ -981,6 +993,7 @@ function objecteUserAdded(f){
 				
 				addGeometriaToVisualitzacio(data).then(function(results) {
 					if(results.status === 'OK'){
+					
 //							_this.options.businessId = results.results.businessId;
 //							f.layer.properties.capaBusinessId = results.results.businessId;
 						f.layer.properties.businessId = results.feature.businessId;
@@ -1021,6 +1034,7 @@ function objecteUserAdded(f){
 		
 		addGeometriaToVisualitzacio(data).then(function(results) {
 			if(results.status === 'OK'){
+				
 //					_this.options.businessId = results.results.businessId;
 //					f.layer.properties.capaBusinessId = results.results.businessId;
 				f.layer.properties.businessId = results.feature.businessId;
@@ -1360,12 +1374,12 @@ function createPopUpContent(player,type){
 		+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
 		+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
 	
-/*	if (player.properties.estil) {
-		html+='<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					
+	if (player.properties.estil) {
+		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					
 	}
 	else {
 		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span>  </li>';					
-	}*/
+	}
 		
 	html+='</ul>'														
 	+'</div>'
