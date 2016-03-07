@@ -83,8 +83,7 @@ function addFuncioEditDataTable(){
 }
 
 function fillModalDataTable(obj, geomBid){
-//	console.debug(geomBid);
-//	console.debug(obj);
+	console.debug(obj);
 	var columNames = [];
 	var geometriesBusinessId = "";
 	var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
@@ -109,12 +108,12 @@ function fillModalDataTable(obj, geomBid){
 	
 	$('#modal_data_table').data("capaEdicio", obj);
 	
-	//obj.layer.serverName
+	//obj.layer.serverName	
 	$('#modal_data_table_title').html(obj.name.toUpperCase());	
 	
 	//Primer trobem column names
 	jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
-		
+		console.debug(estil);
 		jQuery.each(estil.geometria.features, function(indexFeature, feature){
 			
 			//Geometry Id
@@ -145,6 +144,7 @@ function fillModalDataTable(obj, geomBid){
 			if(modeMapa){
 				var isADrawMarker=false;
 				//properties headers
+				
 				for(var x in feature.properties){
 					var obj = {
 						title: x.toUpperCase(),
@@ -158,7 +158,7 @@ function fillModalDataTable(obj, geomBid){
 					else isADrawMarker=false;
 					columNames.push(obj);
 				}		
-				if (isADrawMarker){
+				if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt
 					var obj = {
 							title: "latitud".toUpperCase(),
 							field: "latitud".toLowerCase(),
