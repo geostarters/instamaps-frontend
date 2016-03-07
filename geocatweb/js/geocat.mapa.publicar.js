@@ -476,10 +476,39 @@
         	var _map = this.map;
         	options.tags = $('#dialgo_publicar #optTags').val();
         	options.description = $('#dialgo_publicar #optDescripcio').val();
-        	options.center = _map.getCenter().lat+","+_map.getCenter().lng;
+			
+			
+			
+			if(estatMapa3D){
+					
+				disparaEventMapa=false;
+				mapaEstatNOPublicacio=false;					
+				mapaVista3D.getPosicioCamera3D().then(function (cameraPos) {		
+				
+					options.camera3D=cameraPos;								
+				});								
+				
+				
+				mapaVista3D.retornaPosicio2D().then(function (bbox) {
+					
+					options.center = bbox.centerLat+","+bbox.centerLng;
+					options.zoom = bbox.zoomLevel;
+					options.bbox = bbox.lat0+","+bbox.lng0+","+bbox.lat1+","+bbox.lng1;
+
+								
+				});
+				
+																				
+			}else{
+			options.center = _map.getCenter().lat+","+_map.getCenter().lng;
         	options.zoom = _map.getZoom();
         	options.bbox = _map.getBounds().toBBoxString();
+
+				
+			}	
         	
+			
+			
         	var logo = null;
         	if(isGeolocalUser()){
         		//aspecte
@@ -674,6 +703,16 @@
         					$('#nomAplicacio').editable('setValue', that.mapConfig.nomAplicacio);
         					$('#dialgo_url_iframe').modal('show');
         					that._addShareButtons();
+							
+							jQuery('#dialgo_url_iframe').on('hidden.bs.modal', function (e) {
+								if(estatMapa3D){
+																	
+										disparaEventMapa=true;
+										mapaEstatNOPublicacio=true;	
+									}
+								
+							});	
+							
         				}
         			}
         		});
