@@ -978,14 +978,21 @@ L.Control.OrderLayers = L.Control.Layers
 
 						}
 					}
-
+					input.defaultChecked = checked;
+					/*
 			if(jQuery.isEmptyObject(obj._layers)){
 						
 						input.defaultChecked = checked;
 					}else{
-						input.defaultChecked = false;
 						
-					}
+						
+						input.defaultChecked = false;
+						//this._onInputClick();
+						
+				
+				}
+				
+				*/
 
 				} else {
 					input = this._createRadioElement('leaflet-base-layers',
@@ -1270,7 +1277,8 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true
 				label_for.setAttributeNode(_for);
 				// label_for.innerHTML="--";
 
-				jQuery('#input-'+layerIdParent).attr('checked',false);
+				//jQuery('#input-'+layerIdParent).attr('checked',false);
+				
 				col_sublayer.appendChild(input_sublayer);
 				col_sublayer.appendChild(label_for);
 

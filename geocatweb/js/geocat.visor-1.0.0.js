@@ -504,6 +504,10 @@ function initControls(){
 		}
 	}
 
+	
+	//Afegir modul3D
+		 addModul3D();
+	
 	dfd.resolve();
 
 	return dfd.promise();
@@ -537,6 +541,12 @@ function addControlsInici() {
 		var btllista = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_llista\" title=\"Llista de capes\" data-lang-title=\"Llista de capes\"><span class='glyphicon glyphicon-th-list grisfort'></span></div>");
 		this._div.appendChild(btllista[0]);
 
+		
+		//nou Boto 3D
+			var bt3D_2D = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_3D_2D\" title=\"Canviar vista 3D\" data-lang-title=\"Canviar vista 3D\"><span class='text3D'>3D</span></div>");
+			this._div.appendChild(bt3D_2D[0]);
+		
+		
 		var btcamera = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_captura\" title=\"Capturar la vista del mapa\" data-lang-title=\"Capturar la vista del mapa\"><span class='glyphicon glyphicon-camera grisfort'></span></div>");
 		this._div.appendChild(btcamera[0]);
 

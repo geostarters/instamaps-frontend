@@ -45,7 +45,9 @@ function creaAreesDragDropFiles() {
 	
 	if (drgFromMapa == null) {
 
-		drgFromMapa = new window.Dropzone("div#map", drOpcionsMapa);
+		var divMapa="div#map";	
+		estatMapa3D?divMapa="div#map3D":divMapa="div#map";	
+		drgFromMapa = new window.Dropzone(divMapa, drOpcionsMapa);
 
 		drgFromMapa.on("addedfile", function(file) {
 			if(!busy){

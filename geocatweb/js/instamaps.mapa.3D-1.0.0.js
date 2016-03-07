@@ -65,6 +65,10 @@ function addModul3D() {
 	*/
 
 	
+	if(mapConfig.options && mapConfig.options.mapa3D){
+	setTimeout(initMapa3DfromMapConfig(),1000);
+	}
+	
 	
 }
 
@@ -647,9 +651,9 @@ var IM_aplicacio = function (options) {
 
 		jQuery.each(controlCapes._layers, function (i, item) {
 
-			that._utilValidoClassificoTipusCapa(item);
+			that._utilValidoClassificoTipusCapa(item,"layer",null);
 			jQuery.each(item._layers, function (j, item2) {
-				that._utilValidoClassificoTipusCapa(item2);
+				that._utilValidoClassificoTipusCapa(item2,"sublayer",item);
 			});
 		});
 
@@ -658,31 +662,47 @@ var IM_aplicacio = function (options) {
 
 	},
 
-	this._utilValidoClassificoTipusCapa = function (item) {
+	this._utilValidoClassificoTipusCapa = function (item,tipusCapa,item2) {
 
 		//if (document.getElementById('input-'+item.layer.options.businessId) != null) {
-
+		
 		if (item.layer._map != null) {
 
-			if (item.layer.options.tipus != t_heatmap && item.layer.options.tipus != t_cluster && item.layer.options.tipus != t_size) {
+			if (!item.layer.options.tipusRang && item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster ) {
 
 				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
 					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true));
 				}
 			} else {
 				// ACTIVES tipus capes heatmaps,cluster o bombolla TODO
-
+				item.layer.options.businessId=item.layer.options.tipusRang+item2.layer.options.businessId;
+				console.warn(item.layer.options.businessId);
+				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
+					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true));
+				}
+				console.warn(tipusCapa);
+				console.warn(item2);
+				
 			}
 
 		} else { //NO ACTIVES
 
-			if (item.layer.options.tipus != t_heatmap && item.layer.options.tipus != t_cluster && item.layer.options.tipus != t_size) {
-				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
+			//if (item.layer.options.tipus != t_heatmap && item.layer.options.tipus != t_cluster && item.layer.options.tipus != t_size) {
+			if (!item.layer.options.tipusRang && item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster ) {	
+			
+			if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
 					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false));
 				}
 
 			} else {
 				// NO ACTIVES tipus capes heatmaps,cluster o bombolla TODO
+				
+				item.layer.options.businessId=item.layer.options.tipusRang+item2.layer.options.businessId;
+				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
+					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false));
+				}
+				console.warn(tipusCapa);
+				console.warn(item2);
 
 			}
 		} //FI ELSE NO actives
