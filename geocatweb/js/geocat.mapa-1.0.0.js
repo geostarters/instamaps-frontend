@@ -248,6 +248,7 @@ function initControls(){
 //	tradueixMenusToolbar();
 	redimensioMapa();
 	addHtmlModalOldBrowser();
+	addHtmlModalNoWebGL();
 	addHtmlModalExpire();
 	addHtmlModalMessages();
 
@@ -346,7 +347,7 @@ function addControlsInici(){
 		
 		
 		//nou Boto 3D
-			var bt3D_2D = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_3D_2D\" title=\"Canviar vista 3D\" data-lang-title=\"Canviar vista 3D\"><span class='text3D'>3D</span></div>");
+			var bt3D_2D = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_3D_2D\" title=\"Canviar vista\" data-lang-title=\"Canviar vista\"><span class='text3D'>3D</span></div>");
 			this._div.appendChild(bt3D_2D[0]);
 		
 		

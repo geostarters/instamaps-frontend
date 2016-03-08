@@ -47,6 +47,9 @@ function creaAreesDragDropFiles() {
 
 		var divMapa="div#map";	
 		estatMapa3D?divMapa="div#map3D":divMapa="div#map";	
+		
+		
+		
 		drgFromMapa = new window.Dropzone(divMapa, drOpcionsMapa);
 
 		drgFromMapa.on("addedfile", function(file) {
@@ -63,7 +66,7 @@ function creaAreesDragDropFiles() {
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
 			
-//			console.debug(envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer);
+
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);			
 			
 			formData.append("nomArxiu", file.name); 
@@ -663,6 +666,9 @@ function getCategoriaMidaFitxer(midaFitxer){
 }
 
 function enviarArxiu(){
+	
+	
+	
 	ldpercent=0;
 	if(envioArxiu.isDrag){
 		drgFromMapa.uploadFile(drgFromMapa.files[0]);	

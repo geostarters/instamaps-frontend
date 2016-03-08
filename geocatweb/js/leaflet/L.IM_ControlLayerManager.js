@@ -1753,7 +1753,7 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',
 				try {
 
 					obj.layer.setOpacity(op);
-
+				if(estatMapa3D){mapaVista3D.canviaOpacity(obj.layer.options.businessId,op);}
 				} catch (err) {
 					// console.info(op);
 					// obj.layer.options.opacity=op;

@@ -478,22 +478,19 @@
         	options.description = $('#dialgo_publicar #optDescripcio').val();
 			
 			
-			
-			if(estatMapa3D){
-					
+			options.mapa3D=estatMapa3D;
+			if(estatMapa3D){					
 				disparaEventMapa=false;
 				mapaEstatNOPublicacio=false;					
 				mapaVista3D.getPosicioCamera3D().then(function (cameraPos) {		
-				
-					options.camera3D=cameraPos;								
+				options.camera3D=cameraPos;								
 				});								
 				
 				
-				mapaVista3D.retornaPosicio2D().then(function (bbox) {
-					
+				mapaVista3D.retornaPosicio2D().then(function (bbox) {					
 					options.center = bbox.centerLat+","+bbox.centerLng;
 					options.zoom = bbox.zoomLevel;
-					options.bbox = bbox.lat0+","+bbox.lng0+","+bbox.lat1+","+bbox.lng1;
+					options.bbox = bbox.lng0+","+bbox.lat0+","+bbox.lng1+","+bbox.lat1;
 
 								
 				});
@@ -587,6 +584,7 @@
         	
         	urlMap = urlMap.replace('mapa','visor');		
 			urlMap = urlMap.replace('#no-back-button','');
+			urlMap=urlMap+"&3D="+estatMapa3D;
         	
         	$("#urlVisorMap a").attr("href", urlMap);
         	
