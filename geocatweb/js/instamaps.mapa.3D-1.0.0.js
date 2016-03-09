@@ -277,10 +277,15 @@ var IM_aplicacio = function (options) {
 		this.bounds = map.getBounds();
 
 		terreny = new Cesium.CesiumTerrainProvider({
-				url : _urlTerrenys,
-				credit : 'icgc'
+				//url : _urlTerrenys,
+				//credit : 'icgc'
+			
+			url : 'http://assets.agi.com/stk-terrain/world',
+			credit : 'cesium'
+			
 			});
 
+		/*
 		this.gestionaTerrainProvaider(this.bounds.getCenter().lat, this.bounds.getCenter().lng, 'icgc').then(function (terrain) {
 
 			if (terrain != null) {
@@ -288,6 +293,8 @@ var IM_aplicacio = function (options) {
 			}
 
 		});
+		
+		*/
 
 		viewer = new Cesium.Viewer(this.mapId3D, {
 				imageryProvider : false,
@@ -523,6 +530,8 @@ var IM_aplicacio = function (options) {
 			thet.miraPosicioXYZ(movement);
 		}, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
+		
+		/*
 		viewer.camera.moveEnd.addEventListener(function () {
 			disparaEventMapa=true;
 			var windowPosition = new Cesium.Cartesian2(viewer.container.clientWidth / 2, viewer.container.clientHeight / 2);
@@ -539,6 +548,8 @@ var IM_aplicacio = function (options) {
 
 		});
 
+		*/
+		
 		}
 		
 		this.activaEventLeaflet();
@@ -595,7 +606,7 @@ var IM_aplicacio = function (options) {
 	},
 	this._goTo = function (lat, lng) {
 
-	
+	/*
 	viewer.camera.setView({
 				destination : Cesium.Cartesian3.fromDegrees(lng, lat, viewer.camera.positionCartographic.height),
 				orientation : {
@@ -604,16 +615,16 @@ var IM_aplicacio = function (options) {
 					roll : viewer.camera.roll
 				}
 			});
+	*/
 	
 	
 	
-	/*
 	
 		viewer.camera.setView({
-			destination : Cesium.Cartesian3.fromDegrees(lng, lat, 3000)
+			destination : Cesium.Cartesian3.fromDegrees(lng, lat, viewer.camera.positionCartographic.height)
 		});
 		
-	*/	
+	
 
 	},
 
