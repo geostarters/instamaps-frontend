@@ -92,6 +92,7 @@ L.Control.OrderLayers = L.Control.Layers
 				showTimeControl(_thereIs);
 
 				this._update();
+				if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"remove",true);}
 				return this;
 
 			},
@@ -977,8 +978,21 @@ L.Control.OrderLayers = L.Control.Layers
 
 						}
 					}
-
 					input.defaultChecked = checked;
+					/*
+			if(jQuery.isEmptyObject(obj._layers)){
+						
+						input.defaultChecked = checked;
+					}else{
+						
+						
+						input.defaultChecked = false;
+						//this._onInputClick();
+						
+				
+				}
+				
+				*/
 
 				} else {
 					input = this._createRadioElement('leaflet-base-layers',
@@ -1230,6 +1244,7 @@ L.Control.OrderLayers = L.Control.Layers
 					updateEditableElements();
 					refreshSortablesElements();
 					map.fireEvent('addItemFinish');
+if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true);}	
 					}catch(Err){
 
 						updateEditableElements();
@@ -1281,6 +1296,8 @@ L.Control.OrderLayers = L.Control.Layers
 				label_for.setAttributeNode(_for);
 				// label_for.innerHTML="--";
 
+				//jQuery('#input-'+layerIdParent).attr('checked',false);
+				
 				col_sublayer.appendChild(input_sublayer);
 				col_sublayer.appendChild(label_for);
 
@@ -1299,6 +1316,7 @@ L.Control.OrderLayers = L.Control.Layers
 					col_sublayer.layerId = input_sublayer.layerId;
 					col_sublayer.layerIdParent = layerIdParent;
 					row_sublayer.appendChild(col_sublayer);
+			if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(sublayer.layer.options,"add",true);}	
 				}
 				return row_sublayer;
 
@@ -1405,6 +1423,10 @@ L.Control.OrderLayers = L.Control.Layers
 							thisLoadMapLegendEdicioDinamic(obj.layer);
 						}
 					
+//mirem vista 3D
+					
+					if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',true);}
+					
 					} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
 						// console.info(obj);
@@ -1430,6 +1452,7 @@ L.Control.OrderLayers = L.Control.Layers
 							thisEmptyMapLegendEdicio(obj.layer);
 						}
 						
+if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',false);}
 					}
 
 				}
@@ -1749,7 +1772,7 @@ L.Control.OrderLayers = L.Control.Layers
 				try {
 
 					obj.layer.setOpacity(op);
-
+				if(estatMapa3D){mapaVista3D.canviaOpacity(obj.layer.options.businessId,op);}
 				} catch (err) {
 					// console.info(op);
 					// obj.layer.options.opacity=op;

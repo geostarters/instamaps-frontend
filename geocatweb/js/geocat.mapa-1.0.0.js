@@ -248,12 +248,17 @@ function initControls(){
 //	tradueixMenusToolbar();
 	redimensioMapa();
 	addHtmlModalOldBrowser();
+	addHtmlModalNoWebGL();
 	addHtmlModalExpire();
 	addHtmlModalMessages();
 
 	//carrega font de dades
 	generaLListaDadesObertes();
 	generaLlistaServeisWMS();
+//Afegir modul3D
+		 addModul3D();
+		 
+		
 }
 
 function addClicksInici() {
@@ -339,6 +344,14 @@ function addControlsInici(){
 		this._div.appendChild(btllista[0]);
 		//btllista.innerHTML = '<span class="glyphicon glyphicon-th-list grisfort"></span>';
 
+		
+		
+		//nou Boto 3D
+			var bt3D_2D = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_3D_2D\" title=\"Canviar vista\" data-lang-title=\"Canviar vista\"><span class='text3D'>3D</span></div>");
+			this._div.appendChild(bt3D_2D[0]);
+		
+		
+		
 		//var btcamera = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_captura');
 		var btcamera = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_captura\" title=\"Capturar la vista del mapa\" data-lang-title=\"Capturar la vista del mapa\"><span class='glyphicon glyphicon-camera grisfort'></span></div>");
 		this._div.appendChild(btcamera[0]);
