@@ -443,7 +443,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Opcionals":"Opcionales"
 ,"opcions":"opciones"
 ,"Operador":"Operador"
-,"Operació no disponible en modus 3D":"Operación no disponible en modo 3D"
+,"Operacions no disponibles en modus 3D":"Operaciónes no disponibles en modo 3D"
 ,"Ordena per nom":"Ordena por nombre"
 ,"Ordena per usuari":"Ordena por usuari"
 ,"Ordena per data":"Ordena por fecha"

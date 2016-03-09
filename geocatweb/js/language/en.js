@@ -441,7 +441,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Opcional: en blanc s'assignarà un nom automàtic":"Optional: empty will assign an automatic name"
 ,"Opcionals":"Optionals"
 ,"opcions":"options"
-,"Operació no disponible en modus 3D":"Option not supported in 3D mode"
+,"Operacions no disponibles en modus 3D":"Options not supported in 3D mode"
 ,"Operador":"Operator"
 ,"Ordena per nom":"Sort by name"
 ,"Ordena per usuari":"Sort by user"

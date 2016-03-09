@@ -62,9 +62,21 @@
 	position: absolute;
     text-align: center;
     padding: 45px;
-    color: #F1ECEC
+    color: #F1ECEC;
+	z-index:100
 }
 
+
+#not_3d_mini{
+	background-color: rgba(116, 119, 107, 0.87);
+	width: 97%;
+	height: 80px;
+	position: absolute;
+    text-align: center;
+    padding: 20px;
+    color: #F1ECEC;
+	z-index:100
+}
 
 #bt_pinch3D{
         position: absolute;

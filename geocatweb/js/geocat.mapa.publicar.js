@@ -98,7 +98,7 @@
         	var that = this;
         	if (isDefaultMapTitle(that.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(that.mapConfig.nomAplicacio);
-        	console.debug(that.mapConfig);
+        	
 			if (that.mapConfig.visibilitat == visibilitat_open){
 				//$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 				$("input[name=publicitat][value=privat]").prop('checked', true);	
@@ -524,7 +524,7 @@
         	var visibilitat = visibilitat_open;
         	
         	//if ($('#visibilitat_chk').bootstrapSwitch('state')){
-        	console.debug($("input[name=publicitat]:checked").val());
+        	//console.debug($("input[name=publicitat]:checked").val());
         	if ($("input[name=publicitat]:checked").val()=="public"){        	
         		visibilitat = visibilitat_open;
         	}else{

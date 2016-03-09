@@ -103,13 +103,13 @@ function initMapa3DfromMapConfig(){
 		
 		initAmbVistaControlada=true;
 		jQuery('.bt_3D_2D').text('2D');
-		inicialitzaMapa3D();	
+		inicialitzaMapa3D('_fromConfig');	
 	}
 	 
  }	 
 
 
-function inicialitzaMapa3D(){
+function inicialitzaMapa3D(origen){
 	
 	if(browserWebGL){
 		
@@ -122,7 +122,7 @@ function inicialitzaMapa3D(){
 					});
 
 			}
-			mapaVista3D.canviaVisor3D(map, controlCapes);
+			mapaVista3D.canviaVisor3D(map, controlCapes,origen);
 			ActDesOpcionsVista3D(true);
 
 			if (getModeMapa()) {
@@ -144,7 +144,7 @@ function init3D(boto) {
 
 	if(browserWebGL){
 	jQuery(boto).text('2D');
-	inicialitzaMapa3D();
+	inicialitzaMapa3D('_fromBoto');
 	}else{
 	
 	}	
@@ -162,9 +162,11 @@ function init2D(boto) {
 		$("#map3D").fadeOut("slow", function () {
 			jQuery('.leaflet-map-pane').show();
 			jQuery("#map3D").hide();
+			jQuery("#popup3D").hide();
 			//jQuery("#bt_pinch3D").hide();
 		jQuery("#map3D").html('');
 		jQuery("#not_3d").remove();
+		jQuery("#not_3d_mini").remove();
 			map.spin(false);
 		});
 
@@ -203,8 +205,20 @@ function ActDesOpcionsVista3D(activa3D) {
 	if (activa3D) {
 
 		jQuery('#funcio_draw').prepend('<div id="not_3d">' +
-			window.lang.convert('Operació no disponible en modus 3D') +
+			window.lang.convert('Operacions no disponibles en modus 3D') +
 			'</div>');
+			
+			/*
+			jQuery('#funcio_tematics').prepend('<div id="not_3d_mini">' +
+			window.lang.convert('Operacions no disponibles en modus 3D') +
+			'</div>');
+			
+			
+			jQuery('#funcio_SIG').prepend('<div id="not_3d_mini">' +
+			window.lang.convert('Operacions no disponibles en modus 3D') +
+			'</div>');
+			
+			*/
 
 		jQuery('.leaflet-control-minimap').css('visibility','hidden');
 			$.each(crtl, function( index, value ) {
@@ -256,7 +270,7 @@ var IM_aplicacio = function (options) {
 		estatMapa3D = false;
 	},
 
-	this.canviaVisor3D = function (map, controlCapes) {
+	this.canviaVisor3D = function (map, controlCapes,origen) {
 		
 		overLayers3D=[];
 		
@@ -381,7 +395,26 @@ var IM_aplicacio = function (options) {
 		}else{
 			//console.info(rectangle.rectangle);
 		
+				if(origen=='_fromBoto'){
+				
+				/*
+				viewer.camera.setView({
+				destination : rectangle.rectangle,
+				orientation : {
+					heading : Cesium.Math.toRadians(0.0),
+					pitch : Cesium.Math.toRadians(-60.0),
+					roll : 0.0
+				}
+			});
+				
+			*/	
 			viewer.camera.setView({destination : rectangle.rectangle});
+					
+				}else{
+
+				viewer.camera.setView({destination : rectangle.rectangle});
+				
+				}		
 		
 		}
 		
@@ -451,12 +484,20 @@ var IM_aplicacio = function (options) {
 			} else {
 				Cesium.when(featuresPromise, function (features) {
 					
-					//console.warn(features);
+					
 					//console.warn('Number of features: ' + features.length);
 					if (features.length > 0) {
 
-						//console.info(features[0]);
+						
+						
+						
+						if(features[0].data.properties){
+							
+						thet.generaPopup(features[0].data, "vector");
+						}else{
+						
 						thet.generaPopup(features[0], "raster");
+						}
 					}
 				});
 
@@ -467,7 +508,7 @@ var IM_aplicacio = function (options) {
 				//pickedEntities.removeAll();
 				//for (var i = 0; i < pickedObjects.length; ++i) {
 
-				//console.warn(pickedObjects);
+				
 				
 				if (pickedObjects.length > 0) {
 
@@ -554,9 +595,25 @@ var IM_aplicacio = function (options) {
 	},
 	this._goTo = function (lat, lng) {
 
+	
+	viewer.camera.setView({
+				destination : Cesium.Cartesian3.fromDegrees(lng, lat, viewer.camera.positionCartographic.height),
+				orientation : {
+					heading : viewer.camera.heading,
+					pitch : viewer.camera.pitch,
+					roll : viewer.camera.roll
+				}
+			});
+	
+	
+	
+	/*
+	
 		viewer.camera.setView({
 			destination : Cesium.Cartesian3.fromDegrees(lng, lat, 3000)
 		});
+		
+	*/	
 
 	},
 
@@ -595,7 +652,7 @@ var IM_aplicacio = function (options) {
 				jQuery.each(capesActives3D._layers, function (index, layer) {
 					//_imageryLayers.remove(layer, true); //capesActives3D
 					
-					if (layer.id == obj.businessId) {
+					if (layer && layer.id == obj.businessId) {
 						accio == "display" ? layer.show = visible : capesActives3D.remove(layer, true);
 					}
 				});
@@ -644,7 +701,7 @@ var IM_aplicacio = function (options) {
 			msgHTML += '<div class="div_popup_visor"><div class="popup_pres">';
 			var pp = player.properties;
 			$.each(pp, function (key, value) {
-				if (key != "styles" && key != "dataSource") {
+				if (key != "styles" && key != "dataSource" && key != "OGR" && key != "OGR_STYLE") {
 
 					if (isValidValue(value)) {
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50') {
@@ -841,7 +898,7 @@ var IM_aplicacio = function (options) {
 								getFeatureInfoAsXml : false,
 								getFeatureInfoAsGeoJson : false,
 								getFeatureInfoParameters : {
-									info_format : 'text/plain'
+									info_format : 'text/html'
 								},
 								parameters : {
 									transparent : 'true',
@@ -899,7 +956,7 @@ var IM_aplicacio = function (options) {
 		data.businessId = mapConfig.businessId;
 		data.nomAplicacio = mapConfig.nomAplicacio;
 
-		//console.info(data);
+		
 		createMapToWMS(data).then(
 			function (results) {
 			if (results.status == "OK") {
@@ -920,28 +977,34 @@ var IM_aplicacio = function (options) {
 	
 
 	this.addVectortoWMSToMatriuCapes = function (layers, titles, url, visible) {
-//console.warn(url);
+
 		var that = this;
 		jQuery.each(layers, function (i, item) {
 
 			var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
 			var srs = "EPSG:3857";
 
+			
 			var provider = new Cesium.WebMapServiceImageryProvider({
 								url : url,
 								layers : 'Capa_' + item ,
 								enablePickFeatures : true,
 								getFeatureInfoAsXml : false,
-								getFeatureInfoAsGeoJson : false,
+								getFeatureInfoAsGeoJson : true,
 								getFeatureInfoParameters : {
-									info_format : 'text/plain'
+									info_format : 'geojson'
 								},
 								parameters : {
 									transparent : 'true',
 									format : 'image/png',
 									styles : 'default'
 								},
-								maximumLevel : 18,
+								maximumLevel : 19,
+								proxy : {
+									getURL : function (url) {
+										return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
+									}
+								}
 								
 							});
 			
@@ -1016,7 +1079,7 @@ setTimeout(function(){
 
 			if (this.matriuCapes.overlays[i].tipus == "vector") {
 
-				//console.info("addOverlaysVectorsCesium");
+				
 				var vector = this.matriuCapes.overlays[i].item;
 				var visible = this.matriuCapes.overlays[i].show;
 				var gj = vector.layer.toGeoJSONStyles2ToProperties();
@@ -1068,7 +1131,15 @@ setTimeout(function(){
 							
 								numFeatures <= _factorNumVectors ? tmp_feature.tipus = 'vector' : tmp_featuree.tipus = 'vecras';
 
+							}else if(!item.layer.options.source){
+							
+							
+							numFeatures <= _factorNumVectors ? tmp_feature.tipus = 'vector' : tmp_featuree.tipus = 'vecras';
+							//tmp_featuree.tipus = 'vecras';
+							
 							}else{
+								
+								
 								tmp_featuree.tipus = 'vecras';
 								
 							}
@@ -1079,6 +1150,8 @@ setTimeout(function(){
 
 				} else { //son punts
 
+			
+				
 					numFeatures <= (_factorNumVectors * 5) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 				}
@@ -1191,7 +1264,7 @@ setTimeout(function(){
 			var ellipsoid = viewer.scene.globe.ellipsoid;
 			entity.ellipsoid = ellipsoid;
 			
-			////console.info(entity);
+			
 			if (entity.polyline) {
 
 				var entityMatriu = [];
@@ -1220,11 +1293,14 @@ setTimeout(function(){
 
 			} else if (entity.billboard) {
 
+			
+			
 				entity.ellipsoid = ellipsoid;
 				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
 				if (entity.properties.styles.icon) {
 
+				
 					var _alt = parseInt(matriu[i].height + 100)
 
 						var redEllipse = viewer.entities.add({
@@ -1255,8 +1331,31 @@ setTimeout(function(){
 
 						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
 
-						entity.billboard.image = pinBuilder.fromColor(
+						if(colorPUNT.indexOf('punt_r')==-1){
+								entity.billboard.image = pinBuilder.fromColor(
 								Cesium.Color[colorPUNT.toUpperCase()], 48);
+								
+						}else{
+
+						
+					entity.billboard = "";
+					entity.point = {
+						show : true, // default
+						color : Cesium.Color
+						.fromCssColorString(entity.properties.styles.icon.options.fillColor), // default:
+						// //
+						// WHITE
+						pixelSize : (parseInt(entity.properties.styles.icon.options.radius) * 1.5), // default:
+						// // 1
+						outlineColor : Cesium.Color
+						.fromCssColorString(entity.properties.styles.icon.options.color), // default:
+						// //
+						// BLACK
+						outlineWidth : 2
+						// default: 0
+					};
+						
+						}
 
 					} else if (entity.properties.styles.icon.options.iconUrl) {
 
@@ -1272,7 +1371,7 @@ setTimeout(function(){
 				} else if (!entity.properties.styles.icon) {
 
 				
-				
+					
 					entity.billboard = "";
 					entity.point = {
 						show : true, // default
