@@ -356,21 +356,23 @@ function refrescaPopOverMevasDades(data){
 		var serverOrigen = [];
 		if (results.results.length>0){
 			dades1=results;
-			jQuery.each(results.results, function(i, item){
-				if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
-					if (item.options === null){
-						serverOrigen.push(item);
-					}else{
-						var options = jQuery.parseJSON( item.options );
-						
-						if (options.tem == tem_origen || options.tipus == tem_origen || options.tipus ==t_visualitzacio ||  options.tipus ==t_tematic){
+			if (results.status=="OK"){
+				jQuery.each(results.results, function(i, item){
+					if (item.serverType == t_tematic || item.serverType == t_visualitzacio){
+						if (item.options === null){
 							serverOrigen.push(item);
+						}else{
+							var options = jQuery.parseJSON( item.options );
+							
+							if (options.tem == tem_origen || options.tipus == tem_origen || options.tipus ==t_visualitzacio ||  options.tipus ==t_tematic){
+								serverOrigen.push(item);
+							}
 						}
+					}else if(item.serverType == t_wms || item.serverType == t_url_file){
+						serverOrigen.push(item);
 					}
-				}else if(item.serverType == t_wms || item.serverType == t_url_file){
-					serverOrigen.push(item);
-				}
-			});
+				});
+			}
 			dades1.results = serverOrigen;
 			dfd.resolve(dades1);
 		}

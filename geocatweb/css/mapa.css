@@ -4253,6 +4253,11 @@ i.fa {
 }
 
 /*Modal data table*/
+#layer-data-table{
+	width:100%;
+	max-width:100%;
+}
+
 #layer-data-table > thead > tr
 /*,
 #modal_data_table_body .bootstrap-table .table.table-hover.table-striped thead tr */{
@@ -4260,13 +4265,17 @@ i.fa {
     border-color: #bce8f1;
     color: #31708f;	
 }
-
+.fixed-table-container table {
+    width: 98%;
+}
 .fixed-table-container thead th .th-inner {
     background-color: #d9edf7;
     border-color: #bce8f1;
     color: #31708f;	
 }
-
+.fixed-table-header {
+	background-color: #d9edf7;
+}
 #modal_data_table_title {
     font-size: 18px;
     text-align: center;
@@ -4288,6 +4297,14 @@ i.fa {
     padding: 4px;
 }
 #layer-data-table th, #layer-data-table td {width: 100%;}
+.fixed-table-body {
+    height: 100%;
+    overflow-x: auto;
+}
+
+/*.fixed-table-header{
+	display:none !important;
+}*/
 
 .mCustomScrollBox > .mCSB_scrollTools {
     width: 5px;
