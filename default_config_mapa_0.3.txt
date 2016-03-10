@@ -7,7 +7,7 @@
     "funcionalitats": [	"addFuncioRenameMap()",
     					"addFuncioRemoveLayer()", 
     					"addFuncioDownloadLayer('mapa')",
-    					"addControlHillShading()",
+    					
     					"addOpcionsFonsMapes()","creaPopOverMesFonsColor()",
 						"initButtonsTematic()",
 						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",

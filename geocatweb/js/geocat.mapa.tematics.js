@@ -38,6 +38,9 @@ function initButtonsTematic(){
 function showTematicLayersModal(tipus,className){
 //	console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar a cap capa de les que tens en el mapa')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	var warninMSG3D="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar amb modus 3D')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	
+	
 	jQuery('.modal').modal('hide');
 	
 	jQuery('#dialog_layers_tematic').modal('show');
@@ -122,15 +125,26 @@ function showTematicLayersModal(tipus,className){
 							layers.push(this);
 						}
 					}
+				
+
+			
+				
 				}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-					var ftype = transformTipusGeometry(layerOptions.geometryType);
-					//var ftype = layerOptions.geometryType;
-					if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
-						(tipusCapa == t_tematic && ftype == t_marker) ||
-						(tipusCapa == t_url_file && ftype == t_marker) ||
-						(tipusCapa == t_visualitzacio && ftype == t_marker) ||
-						(tipusCapa == t_vis_wms)){
-						layers.push(this);
+					
+					if(estatMapa3D){
+						$('#list_tematic_layers').html(warninMSG3D);
+					
+					}else{
+					
+							var ftype = transformTipusGeometry(layerOptions.geometryType);
+							//var ftype = layerOptions.geometryType;
+							if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
+								(tipusCapa == t_tematic && ftype == t_marker) ||
+								(tipusCapa == t_url_file && ftype == t_marker) ||
+								(tipusCapa == t_visualitzacio && ftype == t_marker) ||
+								(tipusCapa == t_vis_wms)){
+								layers.push(this);
+							}
 					}
 				}else if (tipus==tem_size) {
 					var ftype = transformTipusGeometry(layerOptions.geometryType);
@@ -149,8 +163,14 @@ function showTematicLayersModal(tipus,className){
 		}
 	});// fi each
 	if(layers.length ==0){
+		
+		if(estatMapa3D){
+						$('#list_tematic_layers').html(warninMSG3D);
+					return;
+		}else{
 		$('#list_tematic_layers').html(warninMSG);		
 		return;
+		}
 	}
 	layers = {layers: layers};
 

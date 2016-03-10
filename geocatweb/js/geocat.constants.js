@@ -23,6 +23,10 @@ var _UsrID;
 
 var dades1;
 
+
+//Contants del mapa 3D
+var estatMapa3D=false;
+
 //Evitem error javascript a les pagines html que no carreguen la llibreria de leaflet
 if((urlApp.indexOf('mapa')!=-1)||(urlApp.indexOf('visor')!=-1)){
 //default geometries style

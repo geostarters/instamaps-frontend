@@ -98,7 +98,7 @@
         	var that = this;
         	if (isDefaultMapTitle(that.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(that.mapConfig.nomAplicacio);
-        	console.debug(that.mapConfig);
+        	
 			if (that.mapConfig.visibilitat == visibilitat_open){
 				//$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 				$("input[name=publicitat][value=privat]").prop('checked', true);	
@@ -476,10 +476,36 @@
         	var _map = this.map;
         	options.tags = $('#dialgo_publicar #optTags').val();
         	options.description = $('#dialgo_publicar #optDescripcio').val();
-        	options.center = _map.getCenter().lat+","+_map.getCenter().lng;
+			
+			
+			options.mapa3D=estatMapa3D;
+			if(estatMapa3D){					
+				disparaEventMapa=false;
+				mapaEstatNOPublicacio=false;					
+				mapaVista3D.getPosicioCamera3D().then(function (cameraPos) {		
+				options.camera3D=cameraPos;								
+				});								
+				
+				
+				mapaVista3D.retornaPosicio2D().then(function (bbox) {					
+					options.center = bbox.centerLat+","+bbox.centerLng;
+					options.zoom = bbox.zoomLevel;
+					options.bbox = bbox.lng0+","+bbox.lat0+","+bbox.lng1+","+bbox.lat1;
+
+								
+				});
+				
+																				
+			}else{
+			options.center = _map.getCenter().lat+","+_map.getCenter().lng;
         	options.zoom = _map.getZoom();
         	options.bbox = _map.getBounds().toBBoxString();
+
+				
+			}	
         	
+			
+			
         	var logo = null;
         	if(isGeolocalUser()){
         		//aspecte
@@ -498,7 +524,7 @@
         	var visibilitat = visibilitat_open;
         	
         	//if ($('#visibilitat_chk').bootstrapSwitch('state')){
-        	console.debug($("input[name=publicitat]:checked").val());
+        	//console.debug($("input[name=publicitat]:checked").val());
         	if ($("input[name=publicitat]:checked").val()=="public"){        	
         		visibilitat = visibilitat_open;
         	}else{
@@ -558,6 +584,7 @@
         	
         	urlMap = urlMap.replace('mapa','visor');		
 			urlMap = urlMap.replace('#no-back-button','');
+			urlMap=urlMap+"&3D="+estatMapa3D;
         	
         	$("#urlVisorMap a").attr("href", urlMap);
         	
@@ -674,6 +701,16 @@
         					$('#nomAplicacio').editable('setValue', that.mapConfig.nomAplicacio);
         					$('#dialgo_url_iframe').modal('show');
         					that._addShareButtons();
+							
+							jQuery('#dialgo_url_iframe').on('hidden.bs.modal', function (e) {
+								if(estatMapa3D){
+																	
+										disparaEventMapa=true;
+										mapaEstatNOPublicacio=true;	
+									}
+								
+							});	
+							
         				}
         			}
         		});
