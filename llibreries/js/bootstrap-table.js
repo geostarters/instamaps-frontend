@@ -176,7 +176,7 @@
             toggle: 'glyphicon-list-alt icon-list-alt',
             columns: 'glyphicon-th icon-th'
         },
-
+        ignoreColumn: [],
         rowStyle: function (row, index) {return {};},
 
         rowAttributes: function (row, index) {return {};},
@@ -1330,7 +1330,7 @@
                 'height': '37px',
                 'border-bottom': '1px solid #dddddd',
                 'margin-right': scrollWidth
-            }).find('table').css('width', that.$el.css('width'))
+            }).find('table')//.css('width', that.$el.css('width'))
                 .html('').attr('class', that.$el.attr('class'))
                 .append(that.$header_);
 
@@ -1413,7 +1413,7 @@
         }
 
         if (this.options.height && this.options.showHeader) {
-            this.$container.find('.fixed-table-container').css('padding-bottom', '37px');
+            this.$container.find('.fixed-table-container').css('padding-bottom', '47px');
         }
     };
 
