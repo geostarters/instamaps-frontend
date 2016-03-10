@@ -67,10 +67,17 @@ function addModul3D() {
 	});
 	
 	*/
+	
+	console.warn(mapConfig);
+	
+	console.warn(_UsrID);
+	
+	
 		if( url('?3D')=='true'){
-			setTimeout(initMapa3DfromMapConfig(),5000);			
+			
+			setTimeout(initMapa3DfromMapConfig,2000);			
 		}else if(mapConfig.options && mapConfig.options.mapa3D){			
-			setTimeout(initMapa3DfromMapConfig(),5000);		
+			setTimeout(initMapa3DfromMapConfig,2000);		
 		}
 	
 	
@@ -100,7 +107,7 @@ function initMapa3DfromMapConfig(){
 		
 	
 	if(browserWebGL){
-		
+	
 		initAmbVistaControlada=true;
 		jQuery('.bt_3D_2D').text('2D');
 		inicialitzaMapa3D('_fromConfig');	
@@ -141,7 +148,7 @@ function inicialitzaMapa3D(origen){
 }	
 
 function init3D(boto) {
-
+	map.spin(true);
 	if(browserWebGL){
 	jQuery(boto).text('2D');
 	inicialitzaMapa3D('_fromBoto');
@@ -190,6 +197,11 @@ function init2D(boto) {
 		
 
 	});
+	
+	
+	 viewer=null;
+
+	
 }
 
 function ActDesOpcionsVista3D(activa3D) {
@@ -277,15 +289,14 @@ var IM_aplicacio = function (options) {
 		this.bounds = map.getBounds();
 
 		terreny = new Cesium.CesiumTerrainProvider({
-				//url : _urlTerrenys,
-				//credit : 'icgc'
-			
-			url : 'http://assets.agi.com/stk-terrain/world',
-			credit : 'cesium'
-			
+				url : _urlTerrenys,
+				credit : 'icgc'
+				
+				//url : 'http://assets.agi.com/stk-terrain/world',
+				//credit : 'cesium'
 			});
 
-		/*
+			
 		this.gestionaTerrainProvaider(this.bounds.getCenter().lat, this.bounds.getCenter().lng, 'icgc').then(function (terrain) {
 
 			if (terrain != null) {
@@ -294,7 +305,6 @@ var IM_aplicacio = function (options) {
 
 		});
 		
-		*/
 
 		viewer = new Cesium.Viewer(this.mapId3D, {
 				imageryProvider : false,
@@ -529,9 +539,7 @@ var IM_aplicacio = function (options) {
 		handler.setInputAction(function (movement) {
 			thet.miraPosicioXYZ(movement);
 		}, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
-		
-		/*
+/*
 		viewer.camera.moveEnd.addEventListener(function () {
 			disparaEventMapa=true;
 			var windowPosition = new Cesium.Cartesian2(viewer.container.clientWidth / 2, viewer.container.clientHeight / 2);
@@ -606,7 +614,7 @@ var IM_aplicacio = function (options) {
 	},
 	this._goTo = function (lat, lng) {
 
-	/*
+	
 	viewer.camera.setView({
 				destination : Cesium.Cartesian3.fromDegrees(lng, lat, viewer.camera.positionCartographic.height),
 				orientation : {
@@ -615,16 +623,16 @@ var IM_aplicacio = function (options) {
 					roll : viewer.camera.roll
 				}
 			});
-	*/
 	
 	
 	
+	/*
 	
 		viewer.camera.setView({
-			destination : Cesium.Cartesian3.fromDegrees(lng, lat, viewer.camera.positionCartographic.height)
+			destination : Cesium.Cartesian3.fromDegrees(lng, lat, 3000)
 		});
 		
-	
+	*/	
 
 	},
 
@@ -645,13 +653,12 @@ var IM_aplicacio = function (options) {
 		//accio== remove | display	| add
 
 		
-		//console.warn("actualitzaVistaOverlays");
+		
 		if(mapaEstatNOPublicacio){
-//console.warn("mapaEstatNOPublicacio");
+
 		if (accio == "add") {
-//console.warn("add");
+
 			if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
-//console.warn("Entronadd");
 				this.matriuCapes.overlays = [];
 				this.addOverlaysLayersCesium();
 			}
@@ -882,22 +889,20 @@ var IM_aplicacio = function (options) {
 
 				if (this.matriuCapes.overlays[i].tipus == "raster") {
 
-					//console.warn("HI HA RASTER");
-					//console.warn(this.matriuCapes.overlays[i]);
-					//console.warn("**********************************");
+			
 
 					var raster = this.matriuCapes.overlays[i].item;
 
 					var visible = this.matriuCapes.overlays[i].show;
 					if (raster.layer.options.tipus.indexOf("wms") != -1) {
-						//console.info(raster);
+						
 						var _url = raster.layer._url;
 						if (_url.indexOf('?') == -1) {
 							_url = _url + '?';
 						}
 
 						var opacity = 0.9;
-						//console.debug(raster.layer);
+						
 						if (raster.layer.options.opacity) {
 							opacity = raster.layer.options.opacity;
 						}
@@ -931,9 +936,7 @@ var IM_aplicacio = function (options) {
 					}
 
 				} else if (this.matriuCapes.overlays[i].tipus == "vecras") {
-					//console.warn("HI HA VECRAS");
-					//console.warn(this.matriuCapes.overlays[i]);
-					//console.warn("**********************************");
+				
 
 					_hihaVecras = true;
 					var vecras = this.matriuCapes.overlays[i].item;
@@ -961,15 +964,25 @@ var IM_aplicacio = function (options) {
 
 		var data = matriuCapesLL;
 
+		
 		var that = this;
 		data.request = "createWMSfromMap";
-		data.entitatUid = _UsrID,
+		
 		data.businessId = mapConfig.businessId;
 		data.nomAplicacio = mapConfig.nomAplicacio;
+		data.modeMapa=getModeMapa();
+		
+		getModeMapa()?data.entitatUid = _UsrID : data.entitatUid = mapConfig.servidorsWMS[0].entitatUid;
 
+//console.warn(data.entitatUid);
+		
+		//if(getModeMapa()){
 		
 		createMapToWMS(data).then(
 			function (results) {
+				
+				//console.warn(results);
+				
 			if (results.status == "OK") {
 
 				var url = results.url;
@@ -983,6 +996,19 @@ var IM_aplicacio = function (options) {
 				//console.info(results.msg);
 			}
 		});
+		
+		
+		//}else{  //soc visor
+		
+		//var url=paramUrl.url_mapserver+data.entitatUid+"/"+data.businessId+"?";
+		
+		//that.addVectortoWMSToMatriuCapes(data.id_layers, data.n_layers, url, data.v_layers);
+			
+		//}	
+		
+		
+		
+		
 	},
 	
 	
@@ -995,7 +1021,7 @@ var IM_aplicacio = function (options) {
 			var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
 			var srs = "EPSG:3857";
 
-			
+			/*
 			var provider = new Cesium.WebMapServiceImageryProvider({
 								url : url,
 								layers : 'Capa_' + item ,
@@ -1019,22 +1045,23 @@ var IM_aplicacio = function (options) {
 								
 							});
 			
-			
+			*/
 			/*
-			var provider = new Cesium.UrlTemplateImageryProvider({
-
-					enablePickFeatures : true,
-					
+			
+			
 					pickFeaturesUrl: url + '&tiled=true&' +
 					'transparent=true&format=image%2Fpng&exceptions=inimage&' +
 					'styles=&service=WMS&version=1.1.1&request=GetFeatureInfo&' +
 					'layers=Capa_' + item + '&X={x}&Y={i}&INFO_FORMAT=text%2Fplain&QUERY_LAYERS=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
 					_bbox +
-					'width=256&height=256&',
+			*/
+			var provider = new Cesium.UrlTemplateImageryProvider({
+
+					enablePickFeatures : true,
 					getFeatureInfoAsXml : false,
-					getFeatureInfoAsGeoJson : false,
+					getFeatureInfoAsGeoJson : true,
 					getFeatureInfoParameters : {
-						info_format : 'text/plain'
+						info_format : 'geojson'
 					},
 
 					url : url + '&tiled=true&' +
@@ -1043,12 +1070,12 @@ var IM_aplicacio = function (options) {
 					'layers=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
 					_bbox +
 					'width=256&height=256&',
-					maximumLevel : 17
+					maximumLevel : 18
 				});
 
-				*/
 				
-			setTimeout(that.delayAddImageProvider(provider, visible[i], item), 2000);
+				
+			that.delayAddImageProvider(provider, visible[i], item);
 
 		});
 
@@ -1073,18 +1100,7 @@ setTimeout(function(){
 
 	},
 	this.addOverlaysVectorsCesium = function () {
-		/*
-		 * item.layer.options.businessId;
-		 * item.layer.options.geometryType;
-		 * item.layer.options.nom;
-		 * item.layer.options.tipus;
-		 * item.layer.options.estil
-		 * item.layer.toGeoJSONStyles2ToProperties();
-		 */
-
-		//console.warn(this.matriuCapes.overlays.length);
-
-		//console.warn("4-addOverlaysVectorsCesium");
+		
 		
 		for (var i = 0; i < this.matriuCapes.overlays.length; i++) {
 
@@ -1128,7 +1144,9 @@ setTimeout(function(){
 			"show" : visibilitat,
 			"businessId" : item.layer.options.businessId
 		};
-		var _factorNumVectors = 1000;
+		var _factorNumVectorsPol = 100;
+		var _factorNumVectorsLin = 50;
+		var _factorNumVectorsPunt = 500;
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
@@ -1140,12 +1158,12 @@ setTimeout(function(){
 					
 							if(item.layer.options.source && item.layer.options.source=='geojson'){
 							
-								numFeatures <= _factorNumVectors ? tmp_feature.tipus = 'vector' : tmp_featuree.tipus = 'vecras';
+								numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_featuree.tipus = 'vecras';
 
 							}else if(!item.layer.options.source){
 							
 							
-							numFeatures <= _factorNumVectors ? tmp_feature.tipus = 'vector' : tmp_featuree.tipus = 'vecras';
+							numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_featuree.tipus = 'vecras';
 							//tmp_featuree.tipus = 'vecras';
 							
 							}else{
@@ -1157,13 +1175,13 @@ setTimeout(function(){
 					
 				} else if (item.layer.options.geometryType.indexOf('polyline') != -1) {
 
-					numFeatures <= (_factorNumVectors * 2) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
+					numFeatures <= (_factorNumVectorsLin) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 				} else { //son punts
 
 			
 				
-					numFeatures <= (_factorNumVectors * 5) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
+					numFeatures <= (_factorNumVectorsPunt) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 				}
 				
@@ -1173,7 +1191,7 @@ setTimeout(function(){
 				tmp_feature.tipus = 'vecras';
 			} else {
 
-				numFeatures <= (_factorNumVectors * 2) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
+				numFeatures <= (_factorNumVectorsPol) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 			}
 
@@ -1494,7 +1512,9 @@ setTimeout(function(){
 					_newEntity.polygon.outline = false;
 				}
 
-				viewer.entities.add(_newEntity);
+				
+			
+		viewer.entities.add(_newEntity);
 
 			}
 
@@ -1505,6 +1525,7 @@ setTimeout(function(){
 		////console.info(dataSource);
 		//viewer.dataSources.add(dataSource);
 		map.spin(false);
+		matriu=[];
 		//console.info("arribo final");
 	},
 	
