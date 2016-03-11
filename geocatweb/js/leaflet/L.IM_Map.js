@@ -49,8 +49,8 @@ var urlServerTiles="http://www.instamaps.cat"
 var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
-	//urlServerTiles="http://172.70.1.11"
-	urlServerTiles="http://localhost"
+	urlServerTiles="http://172.70.1.11"
+	//urlServerTiles="http://localhost"
 }
 
 //var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
@@ -187,11 +187,11 @@ L.IM_Map = L.Map.extend({
 
 		if(this.options.typeMap==FONS_TOPOMAP){return _topoLayers;
 		}else if(this.options.typeMap==FONS_ORTOMAP){
-				console.debug(_ortoLayers);
+			//	console.debug(_ortoLayers);
 			return _ortoLayers;
 		}else if(this.options.typeMap==FONS_HIBRIDMAP){return _hibridLayers;
 		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){
-				console.debug(_topoLayersGeo);
+				//console.debug(_topoLayersGeo);
 			return _topoLayersGeo;
 		}else if(this.options.typeMap==FONS_TERRAINMAP){return _terrainLayers;
 		}else if(this.options.typeMap==FONS_TOPOGISMAP){return _grisLayers;
