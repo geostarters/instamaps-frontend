@@ -260,7 +260,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Escull el sistema de referència d'aquest arxiu":"Choose reference system for this file"
 ,"Escull els valors pels que vols filtrar":"Choose the field to filter"
 ,"Escull l'interval":"Select the range"
-,"Escull la capa":"Select the layer"
+,"Escull la capa":"Select the layer" 
 ,"Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar":"Choose the layers of information that other Instamaps users can download and reuse"
 ,"Escull les teves icones i estils personalitzats.":"Choose your icons and custom styles."
 ,"Escull si vols o no generar la llegenda associada al mapa":"Choose whether or not you want to generate the associated map legend"
