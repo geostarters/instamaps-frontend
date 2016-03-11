@@ -18,6 +18,16 @@ if(typeof url('?uid') == "string"){
 
 $("body").on("change-lang", function(event, lang){
 	$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
+	$('#obtenirUrlPublica').attr("placeholder", window.lang.convert("Cerca"));
+	//Canviem textos botons galeria
+	jQuery("#btn-editar").attr('title',window.lang.convert('Editar'));
+	jQuery("#btn-grup").attr('title',window.lang.convert('Col·laborar'));
+	jQuery("#btn-enllacar").attr('title',window.lang.convert('Enllaça'));
+	jQuery("#btn-esborrar").attr('title',window.lang.convert('Esborrar'));
+	jQuery("#btn-privat").attr('title',window.lang.convert('El mapa només és visible a la teva galeria privada'));
+	jQuery("#btn-public").attr('title',window.lang.convert('El mapa és visible a la galeria pública'));
+	
+	
 });
 
 $('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));

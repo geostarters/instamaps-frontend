@@ -1076,7 +1076,8 @@ L.Control.OrderLayers = L.Control.Layers
 						_menu_item_checkbox.appendChild(col);
 					}
 					// Icona Taula de Dades Sempre
-					if (obj.layer.options.source || obj.layer.options.geometryType=="marker" ||  obj.layer.options.geometryType=="polyline" ||  obj.layer.options.geometryType=="polygon") {
+					if ((obj.layer.options.source || obj.layer.options.geometryType=="marker" ||  obj.layer.options.geometryType=="polyline" 
+						||  obj.layer.options.geometryType=="polygon") && !obj.layer.options.dinamic ) {
 						col = L.DomUtil
 								.create(
 										'div',
