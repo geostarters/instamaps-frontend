@@ -209,6 +209,7 @@
 				event.preventDefault();
 				event.stopImmediatePropagation();
 				var $this = $(this);
+
 				$('#dialgo_colaborate').data('businessid', $this.data("businessid")).modal('show');
 				
 				if ($this.data("title")!=undefined) {
