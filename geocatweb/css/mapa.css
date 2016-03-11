@@ -4095,6 +4095,14 @@ i.fa {
 }
 
 
+.bt_house{
+	 height: 26px;
+    width: 26px;
+	background-color: #FFFFFF;
+	    padding: 4px;
+}	
+
+
 .div_hill_verd{
  background-image: url("images/hillshading_verd.png");
     height: 26px;

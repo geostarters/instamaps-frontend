@@ -300,7 +300,8 @@ function ompleCapesMatriu(item){
                  // matriuCapesLL.layers.push('{"type" : "FeatureCollection","features" : ['+matriuFF.join(",")+']}');		  
                   matriuCapesLL.n_layers.push(item.name);
                   matriuCapesLL.id_layers.push(item.layer.options.businessId);
-                  matriuCapesLL.t_layers.push(item.layer.options.geometryType);
+				  var geoM=item.layer.options.geometryType?item.layer.options.geometryType:t_marker;
+                  matriuCapesLL.t_layers.push(geoM);
                   matriuCapesLL.c_layers.push(mainColor);
             }
             

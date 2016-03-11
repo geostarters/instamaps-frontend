@@ -815,7 +815,7 @@
         	    data.entitatUid=_UsrID,
                 data.businessId=mapConfig.businessId;
                 data.nomAplicacio=mapConfig.nomAplicacio;
-                                                            
+                data.modeMapa=getModeMapa();                                           
                 
                createMapToWMS(data).then(
                             

@@ -375,6 +375,26 @@ function addControlsInici(){
 		placement : 'left',
 		container : 'body'
 	});
+	
+	 ctr_vistaInicial = L.control({
+		position : 'topleft'
+	});
+	
+	ctr_vistaInicial.onAdd = function(map) {
+
+		this._div = L.DomUtil.create('div', 'leaflet-bar bt_house');
+		this._div.id='dv_bt_vistaInicial';
+		this._div.title=window.lang.convert('Vista inicial');
+		this._div.innerHTML = '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>';
+		return this._div;
+	};
+	ctr_vistaInicial.addTo(map);
+	
+	
+	
+	
+	
+	
 }
 
 
@@ -386,6 +406,28 @@ function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
+	
+	
+
+jQuery("#dv_bt_vistaInicial").on('click',function(e){
+		if (mapConfig.options && mapConfig.options.bbox){
+			var bbox = mapConfig.options.bbox.split(",");
+			var southWest = L.latLng(bbox[1], bbox[0]);
+		    var northEast = L.latLng(bbox[3], bbox[2]);
+		    var bounds = L.latLngBounds(southWest, northEast);
+			map.fitBounds( bounds );
+		}
+		else if (mapConfig.options && mapConfig.options.center){
+			var opcenter = mapConfig.options.center.split(",");
+			map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+		}else{
+			
+			
+			map.setView([ 41.4324, 1.1453 ], 8);
+		}	
+		aturaClick(e);
+	});	
+	
 
 }
 

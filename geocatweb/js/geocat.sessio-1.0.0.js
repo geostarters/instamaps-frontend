@@ -45,7 +45,7 @@ jQuery("#login_button").click(function(){
 		}
 		
 		doLogin(dataUrl).then(function(results){
-			console.debug(results);
+			//console.debug(results);
 			if(results.status==='OK'){
 				if (results.uid){
 					$.cookie('uid', results.uid, {path:'/'});
