@@ -197,12 +197,36 @@
 				$('#dialgo_publicar .modal-body .modal-legend').hide();
 			}
 			
-			$('#llegenda-title-text').text(window.lang.convert('Llegenda'));
-			$('#publish-public').text(window.lang.convert('Públic'));
-			$('#publish-private').text(window.lang.convert('Privat'));
-			$('#publish-legend-yes').text(window.lang.convert('Si'));
-			$('#publish-legend-no').text(window.lang.convert('No'));
+			
+			//Traducció dels textos del modal de publicar
+    		$('#titlePublicar').text(window.lang.convert($('#titlePublicar').text()));
+    		$('#id_info_tab').text(window.lang.convert($('#id_info_tab').text()));
+    		$('#id_privacitat_tab').text(window.lang.convert($('#id_privacitat_tab').text()));
+    		$('#id_llegenda_tab').text(window.lang.convert($('#id_llegenda_tab').text()));
+    		$('#id_reuse_tab').text(window.lang.convert($('#id_reuse_tab').text()));
+    		
+    		
+    		$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
+		    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
+		    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 
 			$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
+			
+		    
+		    $('#llegendaTitle').text(window.lang.convert($('#llegendaTitle').text()));
+		    $('#textLegend').text(window.lang.convert($('#textLegend').text()));
+		    
+		    $('#checkObert').text(window.lang.convert($('#checkObert').text()));
+		    $('#checkRestringit').text(window.lang.convert($('#checkRestringit').text()));
+		    $('#txtPublic').text(window.lang.convert($('#txtPublic').text()));
+		    $('#txtPrivat').text(window.lang.convert($('#txtPrivat').text()));
+		    $('#checkPublic').text(window.lang.convert($('#checkPublic').text()));
+		    $('#checkPrivat').text(window.lang.convert($('#checkPrivat').text()));
+		    $('#txtVisible').text(window.lang.convert($('#txtVisible').text()));
+		    $('#txtNoVisible').text(window.lang.convert($('#txtNoVisible').text()));
+		    $('#resetClau').text(window.lang.convert($('#resetClau').text()));
+		    
+		    $('#cancelPublicar').text(window.lang.convert($('#cancelPublicar').text()));
+		    $('#okPublicar').text(window.lang.convert($('#okPublicar').text()));
 			
 //			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val()+"&id="+jQuery('#userId').val();
 //			urlMap = urlMap.replace('mapa','visor');
@@ -247,7 +271,8 @@
         	var that = this;
         	$.get("templates/modalPublicar.html",function(data){
         		//TODO ver como pasar el modal container
-        		$('#mapa_modals').append(data);
+        		$('#mapa_modals').append(data);       		
+        		
         		
         		$('.make-switch').bootstrapSwitch();
             	//Configurar Llegenda
@@ -719,7 +744,7 @@
         
         _createModalConfigDownload: function(){
         	var count = 0;
-        	var html = 'Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar<br/><br/>'; 
+        	var html = window.lang.convert('Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar')+'<br/><br/>'; 
         	html += '<label class="control-label" lang="ca">'+
         		window.lang.convert('Capes reutilitzables pels altres usuaris:')+
         		'</label>&nbsp;<span class="glyphicon glyphicon-download-alt"></span>';

@@ -401,6 +401,36 @@ function updateLangText(){
 	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
 	$('.bt_publicar>span').html(window.lang.convert("Desar / Publicar el mapa"));
 	$('#socialShare>h5').html(window.lang.convert("Compartir"));
+	
+	//Traducció dels textos del modal de publicar
+	$('#titlePublicar').text(window.lang.convert('Publicar el mapa'));
+	$('#id_info_tab').text(window.lang.convert('Informació'));
+	$('#id_privacitat_tab').text(window.lang.convert('Privacitat'));
+	$('#id_llegenda_tab').text(window.lang.convert('Llegenda'));
+	$('#id_reuse_tab').text(window.lang.convert('Reutilització'));
+	
+	
+	$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
+    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
+    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 
+	$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
+	
+    
+    $('#llegendaTitle').text(window.lang.convert('Llegenda'));
+    $('#textLegend').text(window.lang.convert('Escull si vols o no generar la llegenda associada al mapa'));
+    
+    $('#checkObert').text(window.lang.convert('Obert'));
+    $('#checkRestringit').text(window.lang.convert('Restringit'));
+    $('#txtPublic').text(window.lang.convert('Tothom amb l\'enllaç pot accedir al mapa'));
+    $('#txtPrivat').text(window.lang.convert('L\'accés al mapa es protegit amb clau'));
+    $('#checkPublic').text(window.lang.convert('Públic'));
+    $('#checkPrivat').text(window.lang.convert('Privat'));
+    $('#txtVisible').text(window.lang.convert('El mapa és visible a la galeria pública'));
+    $('#txtNoVisible').text(window.lang.convert('El mapa només és visible a la teva galeria privada'));
+    $('#resetClau').text(window.lang.convert('Reiniciar'));
+    
+    $('#cancelPublicar').text(window.lang.convert('Cancel·lar'));
+    $('#okPublicar').text(window.lang.convert('Publicar'));
 
 }
 
