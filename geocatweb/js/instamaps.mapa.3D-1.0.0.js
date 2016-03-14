@@ -56,6 +56,13 @@ function addModul3D() {
 
 	});
 
+	jQuery(document).on('click', "#chk_ad_3d", function (e) {
+		$.cookie('msg3D', true, {path:'/'});
+
+	});
+	
+	
+	
 	/*
 	jQuery(document).on('click', "#bt_pinch3D", function (e) {
 
@@ -137,8 +144,15 @@ function inicialitzaMapa3D(origen) {
 }
 
 function init3D(boto) {
-	map.spin(true);
+	
+	
+	
+map.spin(true);
 	if (browserWebGL) {
+		initAmbVistaControlada = false;
+		if(!$.cookie('msg3D')){
+		jQuery("#dialgo_ad_3D").modal('show');
+		}
 		jQuery(boto).text('2D');
 		inicialitzaMapa3D('_fromBoto');
 	} else {}
@@ -172,6 +186,8 @@ function init2D(boto) {
 			creaAreesDragDropFiles();
 		}
 
+		
+		
 		ActDesOpcionsVista3D(false);
 
 		jQuery('label span').each(function (index) {
@@ -414,28 +430,31 @@ var IM_aplicacio = function (options) {
 					});
 */
 				
-					
+					if(terreny.credit.text=='icgc'){
 
-					viewer.camera.flyTo({
-					destination : rectangle.rectangle,
-					duration : 0,
-					complete : function () {
-					setTimeout(function () {
-					viewer.camera.flyTo({
-					destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat,(parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height *1.5))),
-					//destination : rectangle.rectangle3,
-					orientation : {
-					heading : Cesium.Math.toRadians(0.0),
-					pitch : Cesium.Math.toRadians(rectangle._picth), //tilt
-					},
-					easingFunction : Cesium.EasingFunction.LINEAR_NONE
-					});
-					}, 2000);
-					}
-					});
+						viewer.camera.flyTo({
+						destination : rectangle.rectangle,
+						duration : 0,
+						complete : function () {
+						setTimeout(function () {
+						viewer.camera.flyTo({
+						destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat,(parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height *1.5))),
+						//destination : rectangle.rectangle3,
+						orientation : {
+						heading : Cesium.Math.toRadians(0.0),
+						pitch : Cesium.Math.toRadians(rectangle._picth), //tilt
+						},
+						easingFunction : Cesium.EasingFunction.LINEAR_NONE
+						});
+						}, 2000);
+						}
+						});
 					 
-					//viewer.camera.setView({destination : rectangle.rectangle3});
-
+					}else{
+						
+						viewer.camera.setView({destination : rectangle.rectangle3});
+					}
+					
 				} else {
 
 					viewer.camera.setView({
