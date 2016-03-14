@@ -73,6 +73,8 @@ function createTematicLayerBasic(tematic, styles){
 											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									loadDadesObertesLayer(data.results);
+									//Desactivem la capa mare
+									if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									busy=false;
 									jQuery('#info_uploadFile').hide();
 								}else if(data.status.indexOf("ERROR")!=-1 && busy){
@@ -195,6 +197,8 @@ function createTematicLayerBasic(tematic, styles){
 									);									
 									loadURLfileLayer(data.results).then(function(results){				
 											activaPanelCapes(true);
+											//Desactivem la capa mare
+											if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									busy=false;
 									jQuery('#info_uploadFile').hide();		
@@ -360,6 +364,8 @@ function createTematicLayerBasic(tematic, styles){
 								
 									loadCapaFromJSON(data.results).then(function(results){				
 											activaPanelCapes(true);
+											//Desactivem la capa mare
+											if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									
 
@@ -485,6 +491,8 @@ function createTematicLayerBasic(tematic, styles){
 											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									loadTematicLayer(data.results);
+									//Desactivem la capa mare
+									if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									activaPanelCapes(true);
 									
 									
@@ -599,6 +607,8 @@ function createTematicLayerBasic(tematic, styles){
 									var defer = $.Deferred();				
 									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
 										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									busy=false;					
 									jQuery('#info_uploadFile').hide();

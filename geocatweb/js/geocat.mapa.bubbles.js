@@ -665,6 +665,8 @@ function createTematicLayerBubbles(event){
 										busy=false;					
 										jQuery('#info_uploadFile').hide();
 										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									
 								}else if(data.status.indexOf("ERROR")!=-1 && busy){
@@ -787,6 +789,8 @@ function createTematicLayerBubbles(event){
 									
 									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
 										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									busy=false;					
 									jQuery('#info_uploadFile').hide();
