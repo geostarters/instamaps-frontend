@@ -37,7 +37,8 @@ function createHeatMap(capa,tipus){
 							$('#input-'+results.layer.businessId).trigger( "click" );
 							$('#input-'+results.layer.businessId).prop( "checked", true );
 							activaPanelCapes(true);	
-							
+							//Desactivem la capa mare
+							if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 						}else{
 							//TODO error
 							console.debug("createVisualitzacioHeat ERROR");					
@@ -110,7 +111,7 @@ function createHeatMap(capa,tipus){
 							controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
 		//					controlCapes._lastZIndex++;
 							activaPanelCapes(true);
-							
+							if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 						}else{
 							console.debug('error create server in map');					
 						}
@@ -156,6 +157,8 @@ function createHeatMap(capa,tipus){
 							controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
 		//					controlCapes._lastZIndex++;
 							activaPanelCapes(true);
+							//Desactivem la capa mare
+							if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined)	$( "#input-"+capa.layer.options.businessId).click();
 		//					$(".layers-list").mCustomScrollbar({
 		//						   advanced:{
 		//						     autoScrollOnFocus: false,
@@ -221,6 +224,8 @@ function createHeatMap(capa,tipus){
 							controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
 		//					controlCapes._lastZIndex++;
 							activaPanelCapes(true);
+							//Desactivem la capa mare
+							if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 		
 						}else{
 							console.debug("Error add heatmap URL FILE");
@@ -252,8 +257,9 @@ function createHeatMap(capa,tipus){
 								controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, capa.layer._leaflet_id);
 		//						controlCapes._lastZIndex++;
 								activaPanelCapes(true);
-								$('#input-'+results.layer.businessId).trigger( "click" );
-								$('#input-'+results.layer.businessId).prop( "checked", true );
+								//Desactivem la capa mare
+								$('#input-'+results.layer.businessId).click();
+								if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 								
 							}else{
 								//TODO error

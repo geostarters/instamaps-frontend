@@ -440,6 +440,8 @@ function createTematicLayerCategories(event){
 									
 									loadURLfileLayer(data.results).then(function(results){
 										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									busy=false;					
 									jQuery('#info_uploadFile').hide();
@@ -573,6 +575,8 @@ function createTematicLayerCategories(event){
 									var defer = $.Deferred();
 									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
 										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									jQuery('#info_uploadFile').hide();		
 									busy=false;
