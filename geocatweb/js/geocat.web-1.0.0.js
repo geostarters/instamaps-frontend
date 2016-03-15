@@ -603,31 +603,29 @@ function addHtmlModalOldBrowser(){
 }
 
 
-function addHtmlModalNoWebGL(){
-	jQuery('#mapa_modals').append(
-	'	<!-- Modal Old Browser -->'+
-	'		<div id="dialgo_no_webgl" class="modal">'+
-	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
-	'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
-	'						aria-hidden="true">&times;</button>'+
-	'					<h4 lang="ca" class="modal-title">Ups! Ho sentim, no es pot inicialitzar el mapa en 3D.</h4>'+
-	'				</div>'+
-	'				<div class="modal-body">'+
-	'					<div lang="ca">Aquest prototip utilitza Cesium JS, una llibreria per a la creació de mapes en 3D - basada amb WebGL - que per funcionar correctament necessita que tingueu la darrera versió del navegador web i que la tarja gràfica del vostre ordinador tingui carregats els drivers més actuals</div>'+											
-	'				</div>'+
-	'				<div class="modal-footer">'+
-	'					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>'+
-	'				</div>'+
-	'			</div>'+
-	'			<!-- /.modal-content -->'+
-	'		</div>'+
-	'		<!-- /.modal-dialog -->'+
-	'	</div>'+
-	'	<!-- fi Modal Old Browser -->'		
-	);
-}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 
 function isGeolocalUser(){
