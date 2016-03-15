@@ -930,7 +930,7 @@ var IM_aplicacio = function (options) {
 
 		if (item.layer._map != null) {
 
-			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster) {
+			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
 				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
 					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true));
@@ -945,14 +945,15 @@ var IM_aplicacio = function (options) {
 				}
 				 */
 
-				jQuery('label span#' + item.layer._leaflet_id).css('text-decoration', 'line-through');
-
+				jQuery('label span#' + item.layer._leaflet_id).css('text-decoration', 'line-through');				
+				jQuery('.leaflet-bar-timecontrol').hide();
+				
 			}
 
 		} else { //NO ACTIVES
 
 			//if (item.layer.options.tipus != t_heatmap && item.layer.options.tipus != t_cluster && item.layer.options.tipus != t_size) {
-			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster) {
+			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
 				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
 					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false));
@@ -968,6 +969,7 @@ var IM_aplicacio = function (options) {
 				 */
 
 				jQuery('label span#' + item.layer._leaflet_id).css('text-decoration', 'line-through');
+				jQuery('.leaflet-bar-timecontrol').hide();
 
 			}
 		} //FI ELSE NO actives
@@ -994,10 +996,17 @@ var IM_aplicacio = function (options) {
 					var visible = this.matriuCapes.overlays[i].show;
 					if (raster.layer.options.tipus.indexOf("wms") != -1) {
 
+					console.info(raster.layer);
 						var _url = raster.layer._url;
-						if (_url.indexOf('?') == -1) {
-							_url = _url + '?';
-						}
+						
+						if(_url){						
+						
+								if (_url.indexOf('?') == -1) {
+									_url = _url + '?';
+								}
+						}else{
+
+						}						
 
 						var opacity = 0.9;
 
@@ -1313,6 +1322,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 			}
 
+			ff="";
 			return tmp_feature;
 
 		} catch (err) {
