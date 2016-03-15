@@ -96,8 +96,48 @@ function showModalTematicCategories(data){
 			}
 		});			
 		
-	}else{//Si es una visualitzacio
-		getVisualitzacioByBusinessId(dataTem).then(function(results){
+	}else{
+		var dataNames = [];
+		var fields = {};
+		fields[window.lang.convert('Escull el camp')] = '---';
+		dataNames = data.propname.split(',');
+		jQuery.each(dataNames, function( index, value ) {
+			fields[value] = value;
+		});
+		//creamos el select con los campos
+		var source1 = jQuery("#tematic-layers-fields").html();
+		var template1 = Handlebars.compile(source1);
+		var html1 = template1({fields:fields});
+		jQuery('#dataField').html(html1);
+		
+		jQuery('#dataField').off('change');
+		jQuery('#dataField').on('change',function(e){
+			var this_ = jQuery(this);
+			if (this_.val() == "---"){
+				jQuery('#tipus_agrupacio_grp').hide();
+				jQuery('#num_rangs_grp').hide();
+				jQuery('#list_tematic_values').html("");
+				jQuery('#dialog_tematic_rangs .btn-success').hide();
+			}else{
+				var dataVis={
+						businessId1: data.businessid,
+						key: this_.val(),
+						uid: jQuery.cookie('uid')
+				};
+				getValuesFromKeysProperty(dataVis).then(function(results){
+					jQuery("#dialog_tematic_rangs").data("values", results);
+					getTipusValuesVisualitzacio(results);					
+				});
+				/*readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
+					jQuery("#dialog_tematic_rangs").data("values", results);
+					getTipusValuesVisualitzacio(results);
+				});*/
+
+			}
+		});	
+		
+		//Si es una visualitzacio
+		/*getVisualitzacioByBusinessId(dataTem).then(function(results){
 			if (results.status == "OK"){
 				var visualitzacio = results.results;
 				jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
@@ -171,20 +211,20 @@ function showModalTematicCategories(data){
 		},function(results){
 			//TODO error
 			console.debug("getVisualitzacioByBusinessId ERROR");
-		});	
+		});	*/
 	}
 				
 }
 
 function getTipusValuesVisualitzacio(results){
 	//console.debug("getTipusValuesVisualitzacio");
-	if (results.length === 0){
+	if (results.valors.length === 0){
 		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		jQuery('#list_tematic_values').html(warninMSG);
 		jQuery('#dialog_tematic_rangs .btn-success').hide();
 	}else{
 		var nodata = [];
-		var arr = jQuery.grep(results, function( n, i ) {
+		var arr = jQuery.grep(results.valors, function( n, i ) {
 			var isText = false;
 			if (!jQuery.isNumeric(n)){
 				if (n == "Sense valor" || n == "Sin valor" || n == "Empty value" || n == NODATA_VALUE){
@@ -207,7 +247,7 @@ function getTipusValuesVisualitzacio(results){
 				var this_ = jQuery(this);
 				if (this_.val() == "U"){
 					jQuery('#num_rangs_grp').hide();
-					showVisualitzacioDataUnic(results).then(function(results1){
+					showVisualitzacioDataUnic(results.valors,results.geomType).then(function(results1){
 						loadTematicValueTemplate(results1,'unic');
 					});
 				}else{
@@ -226,7 +266,7 @@ function getTipusValuesVisualitzacio(results){
 					jQuery('#list_tematic_values').html("");
 					jQuery('#dialog_tematic_rangs .btn-success').hide();
 				}else{
-					createRangsValues(this_.val());
+					createRangsValues(this_.val(),results.geomType);
 				}
 			});
 			
@@ -234,17 +274,17 @@ function getTipusValuesVisualitzacio(results){
 		}else{ //unicos
 			jQuery('#tipus_agrupacio_grp').hide();
 			jQuery('#num_rangs_grp').hide();
-			showVisualitzacioDataUnic(results).then(function(results1){
+			showVisualitzacioDataUnic(results.valors,results.geomType).then(function(results1){
 				loadTematicValueTemplate(results1,'unic');
 			});
 		}
 	}
 }
 
-function showVisualitzacioDataUnic(values){
+function showVisualitzacioDataUnic(values,geomType){
 	//console.debug("showVisualitzacioDataUnic");
 	var defer = jQuery.Deferred();
-	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
+	//var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 	jQuery("#dialog_tematic_rangs").data("tipusrang","unic");
@@ -252,8 +292,8 @@ function showVisualitzacioDataUnic(values){
 	//Ordenar valores
 	values.sort(sortByValueMax);
 	paleta = paleta ? paleta : 'Paired';
-	var scale = createScale(paleta, values.length, reverse);
-	var ftype = transformTipusGeometry(visualitzacio.geometryType);
+	var scale = createScale(paleta, values.length, reverse);	
+	var ftype = transformTipusGeometry(geomType);	
 	var valuesStyle = jQuery.map( values, function( a, i) {
 		return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 	});
@@ -265,7 +305,6 @@ function showVisualitzacioDataUnic(values){
 function createIntervalStyle(index, geometryType, paleta, nodata){
 	//console.debug("createIntervalStyle");
 	var defStyle;
-		
 	var ftype = transformTipusGeometry(geometryType);
 		
 	if (ftype == t_marker){
@@ -292,11 +331,11 @@ function createIntervalStyle(index, geometryType, paleta, nodata){
 	return defStyle;
 }
 
-function showTematicRangs(){
+function showTematicRangs(geomType){
 	//TODO cambiar nombre a la funcion
 	//console.debug("showTematicRangs");
 	var values = jQuery("#dialog_tematic_rangs").data("rangs");
-	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
+	//var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 	jQuery("#dialog_tematic_rangs").data("tipusrang","rangs");
@@ -305,7 +344,7 @@ function showTematicRangs(){
 			
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
-	var ftype = transformTipusGeometry(visualitzacio.geometryType);
+	var ftype = transformTipusGeometry(geomType);
 	valuesStyle = jQuery.map( values, function( a, i ) {
 		if (a.nodata){
 			return {v: a, style: createIntervalStyle(i,ftype,scale,true), index: i};
@@ -355,7 +394,7 @@ function createTematicLayerCategories(event){
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
-	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
+//	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 //	console.debug(visualitzacio);
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	var capaMare = controlCapes._layers[tematicFrom.leafletid].layer;
@@ -394,7 +433,7 @@ function createTematicLayerCategories(event){
 		labelField: jQuery('#dataField').val().toLowerCase()
 	};
 	var data1 = {};
-	if(visualitzacio.tipus == t_url_file){
+	if(capaMare.tipus == t_url_file){
 		data1 = {
 			uid: $.cookie('uid'),
 			businessId1: capaMare.options.businessId
@@ -665,15 +704,18 @@ function createTematicLayerCategories(event){
 }
 
 function updatePaletaRangs(){
-	//console.debug("updatePaletaRangs");
+	
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	
 	var values = jQuery("#dialog_tematic_rangs").data("values");
+	values = values.valors;
 	var rangs = jQuery("#dialog_tematic_rangs").data("rangs");
 	
 	var tipusrang = jQuery("#dialog_tematic_rangs").data("tipusrang");
 	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
+	
+
 	
 	var val_leng = 0;
 	if (tipusrang == 'rangs'){
@@ -684,6 +726,7 @@ function updatePaletaRangs(){
 	
 	var ftype = transformTipusGeometry(tematicFrom.geometrytype);
 	paleta = paleta ? paleta : 'Paired';
+
 	var scale = createScale(paleta, val_leng, reverse);
 		
 	if (ftype == t_marker){
@@ -704,11 +747,12 @@ function updatePaletaRangs(){
 	}
 }
 
-function createRangsValues(rangs){
+function createRangsValues(rangs,geomType){
 	//console.debug("createRangsValues");
 	var values = jQuery("#dialog_tematic_rangs").data("values");
+	values = values.valors;
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
-	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
+	//var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var nodata = jQuery("#dialog_tematic_rangs").data("nodata");
 	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 		
@@ -738,7 +782,7 @@ function createRangsValues(rangs){
 	}
 	
 	jQuery("#dialog_tematic_rangs").data("rangs", newRangs);
-	showTematicRangs().then(function(results){
+	showTematicRangs(geomType).then(function(results){
 		loadTematicValueTemplate(results,'rangs');
 	});
 }
