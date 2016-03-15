@@ -529,6 +529,7 @@ function addExternalWMS(fromParam) {
 			crs : ActiuWMS.epsg,
 			transparent : true,
 			format : 'image/png',
+			//exceptions:'application/vnd.ogc.se_blank',
 			wmstime:ActiuWMS.wmstime,
 			tileSize:512
 		});
@@ -539,6 +540,7 @@ function addExternalWMS(fromParam) {
 			layers : ActiuWMS.layers,
 			crs : ActiuWMS.epsg,
 			transparent : true,
+			exceptions:'application/vnd.ogc.se_blank',
 			format : 'image/png',
 			wmstime:ActiuWMS.wmstime,
 			tileSize:512
@@ -733,6 +735,7 @@ function loadWmsLayer(layer){
 	    opacity:op ,
 	    crs: layer.epsg,
 		nom :nomServidor ,
+		//exceptions:'application/vnd.ogc.se_blank',
 		tipus: layer.serverType,
 		zIndex :  parseInt(layer.capesOrdre),
 	    businessId: layer.businessId,

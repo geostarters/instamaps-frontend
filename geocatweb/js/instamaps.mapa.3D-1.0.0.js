@@ -56,6 +56,13 @@ function addModul3D() {
 
 	});
 
+	jQuery(document).on('click', "#chk_ad_3d", function (e) {
+		$.cookie('msg3D', true, {path:'/'});
+
+	});
+	
+	
+	
 	/*
 	jQuery(document).on('click', "#bt_pinch3D", function (e) {
 
@@ -137,8 +144,15 @@ function inicialitzaMapa3D(origen) {
 }
 
 function init3D(boto) {
-	map.spin(true);
+	
+	
+	
+map.spin(true);
 	if (browserWebGL) {
+		initAmbVistaControlada = false;
+		if(!$.cookie('msg3D')){
+		jQuery("#dialgo_ad_3D").modal('show');
+		}
 		jQuery(boto).text('2D');
 		inicialitzaMapa3D('_fromBoto');
 	} else {}
@@ -172,6 +186,8 @@ function init2D(boto) {
 			creaAreesDragDropFiles();
 		}
 
+		
+		
 		ActDesOpcionsVista3D(false);
 
 		jQuery('label span').each(function (index) {
@@ -414,28 +430,31 @@ var IM_aplicacio = function (options) {
 					});
 */
 				
-					
+					if(terreny.credit.text=='icgc'){
 
-					viewer.camera.flyTo({
-					destination : rectangle.rectangle,
-					duration : 0,
-					complete : function () {
-					setTimeout(function () {
-					viewer.camera.flyTo({
-					destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat,(parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height *1.5))),
-					//destination : rectangle.rectangle3,
-					orientation : {
-					heading : Cesium.Math.toRadians(0.0),
-					pitch : Cesium.Math.toRadians(rectangle._picth), //tilt
-					},
-					easingFunction : Cesium.EasingFunction.LINEAR_NONE
-					});
-					}, 2000);
-					}
-					});
+						viewer.camera.flyTo({
+						destination : rectangle.rectangle,
+						duration : 0,
+						complete : function () {
+						setTimeout(function () {
+						viewer.camera.flyTo({
+						destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat,(parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height *1.5))),
+						//destination : rectangle.rectangle3,
+						orientation : {
+						heading : Cesium.Math.toRadians(0.0),
+						pitch : Cesium.Math.toRadians(rectangle._picth), //tilt
+						},
+						easingFunction : Cesium.EasingFunction.LINEAR_NONE
+						});
+						}, 2000);
+						}
+						});
 					 
-					//viewer.camera.setView({destination : rectangle.rectangle3});
-
+					}else{
+						
+						viewer.camera.setView({destination : rectangle.rectangle3});
+					}
+					
 				} else {
 
 					viewer.camera.setView({
@@ -1978,3 +1997,69 @@ function detectoCapacitatsWebGL() {
 	}
 	return soc3D;
 }
+
+
+function addHtmlModalNoWebGL(){
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Old Browser -->'+
+	'		<div id="dialgo_no_webgl" class="modal">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title">Ups! Ho sentim, no es pot inicialitzar el mapa en 3D.</h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div lang="ca">Aquest prototip utilitza Cesium JS, una llibreria per a la creació de mapes en 3D - basada amb WebGL - que per funcionar correctament necessita que tingueu la darrera versió del navegador web i que la tarja gràfica del vostre ordinador tingui carregats els drivers més actuals</div>'+											
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- fi Modal Old Browser -->'		
+	);
+	
+	
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal Old Browser -->'+
+	'		<div id="dialgo_ad_3D" class="modal">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
+	'						aria-hidden="true">&times;</button>'+
+	'					<h4 lang="ca" class="modal-title"><span lang="ca">La modalitat 3D està en fase beta.</span> <span style="color:#ffa500" class="fa fa-warning sign"></span> </h4>'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div class="alert-warning"  style="padding:5px"  lang="ca">'+
+	'							<div lang="ca">En el mode 3D podeu seguir utilitzant la majoria de les funcionalitat d\'Instamaps. Amb tot, notareu que algunes es troben de moment deshabilitades.</div><br>'+
+	'							<div lang="ca">La tecnologia WebGL que s’utilitza per la renderització 3D consumeix recursos del vostre maquinari i navegador. En funció del vostre equip obtindreu una millor rendiment. Comproveu que el vostre navegador està actualitzat.</div><br>'+
+	'							<div lang="ca">Us recomanem que per al treball en 3 dimensions utilitzeu preferiblement <b>Chrome</b>, ja que demostra un més alt rendiment.</div>'+
+	'                </div><hr>'+											
+	'					<div>'+
+	'						<div style="float:left"  lang="ca"><img width="70" src="img/nav3d.png"></div>'+															
+	'						<div style=" width: 80%;float:right;padding:5px" class="alert-info">'+
+	'						<div lang="ca"><span>1-</span><span lang="ca">Arrossegueu per rotar i girar la vista. Consells: També podeu orbitar lliurement prement la tecla CTRL i arrossegant el mapa .Fent doble click podreu inicialitzar la vista</span></div><br>'+
+	'							<div lang="ca"><span>2-</span><span lang="ca">Feu clic i arrossegueu per rotar la càmera</span></div>'+
+	'						</div>'+
+	'				</div>'+										
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<span style="float:left"><input id="chk_ad_3d" type="checkbox"><span lang="ca">No mostrar més aquest missatge</span></span>  <button id="old_btn_close" lang="ca" type="button" class="btn btn-info" data-dismiss="modal">Continuar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- fi Modal Old Browser -->'		
+	);
+}
+
+addHtmlModalNoWebGL();
+	

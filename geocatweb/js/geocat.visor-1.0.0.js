@@ -78,6 +78,9 @@ $( window ).resize(function() {
 			jQuery('.bt_llista span').addClass('grisfort');
 		}
 	}
+	
+	
+	if(estatMapa3D){ActDesOpcionsVista3D(true)};
 
 });
 

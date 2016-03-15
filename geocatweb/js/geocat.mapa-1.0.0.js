@@ -248,7 +248,7 @@ function initControls(){
 //	tradueixMenusToolbar();
 	redimensioMapa();
 	addHtmlModalOldBrowser();
-	addHtmlModalNoWebGL();
+	
 	addHtmlModalExpire();
 	addHtmlModalMessages();
 
