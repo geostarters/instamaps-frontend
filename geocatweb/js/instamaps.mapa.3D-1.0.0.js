@@ -201,6 +201,9 @@ function init2D(boto) {
 
 	});
 
+	
+	map.spin(false);
+	
 }
 
 function ActDesOpcionsVista3D(activa3D) {
@@ -234,14 +237,12 @@ function ActDesOpcionsVista3D(activa3D) {
 		jQuery('.leaflet-control-minimap').css('visibility', 'hidden');
 		$.each(crtl, function (index, value) {
 
-			////console.info(jQuery(value));
+		
 			jQuery(value).hide();
 
 		});
 
-		//jQuery(
-
-		//jQuery('.leaflet-control-minimap').css('visibility', 'hidden');
+		
 
 	} else {
 
@@ -933,9 +934,7 @@ var IM_aplicacio = function (options) {
 
 	this._utilValidoClassificoTipusCapa = function (item,numCapes) {
 
-		//if (document.getElementById('input-'+item.layer.options.businessId) != null) {
-
-		//console.info(item.layer);
+	
 
 		if (item.layer._map != null) {
 
@@ -1005,7 +1004,7 @@ var IM_aplicacio = function (options) {
 					var visible = this.matriuCapes.overlays[i].show;
 					if (raster.layer.options.tipus.indexOf("wms") != -1) {
 
-					console.info(raster.layer);
+					
 						var _url = raster.layer._url;
 						
 						if(_url){						
@@ -1119,13 +1118,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 			});
 		}
 
-		//}else{  //soc visor
-
-		//var url=paramUrl.url_mapserver+data.entitatUid+"/"+data.businessId+"?";
-
-		//that.addVectortoWMSToMatriuCapes(data.id_layers, data.n_layers, url, data.v_layers);
-
-		//}
+		
 
 
 	},
@@ -1301,11 +1294,29 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
+				
+				
+				
 					
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
 
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
+						
+						if(tmp_feature.tipus=='vector'){
+							
+							
+						for(var j=0;j < numFeatures;j++){
+					
+									var vertex=ff.features[j].geometry.coordinates[0].length;
+									if(vertex > 500){tmp_feature.msg = 'none';}
+										break;
+										}				
+							}	
+						
+						
+						
+						
 					
 					}else if (item.layer.options.source && item.layer.options.source.indexOf('xls')!=-1) {
 						
@@ -1414,7 +1425,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 			} else if (entity.polygon) {
 
-				//console.info("poligon");
+				
 
 				for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
 
@@ -1517,9 +1528,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 					matriu[i].height = _alt;
 					entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
-					//console.info("addEntitiesVisorCesium");
-
-					//var pinBuilder = new Cesium.PinBuilder();
+					
 
 					var pinBuilder = new PinBuilder_IM();
 					entity.billboard.color = Cesium.Color.WHITE;
