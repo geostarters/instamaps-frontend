@@ -97,6 +97,26 @@ L.Control.OrderLayers = L.Control.Layers
 
 			},
 
+			getCountLayers:function(){
+				
+				var i=0;
+				
+				for (layer in this._layers) {
+
+							i=i+1;
+						for (sublayer in this._layers[layer]._layers) {
+								i=i+1;
+							
+						}
+
+						
+
+					}
+
+				
+				return i;
+				
+			},	
 			getLayersFromGroupId : function(groupId, groupName) {
 				var resp_Layer = [];
 
