@@ -907,11 +907,20 @@ var IM_aplicacio = function (options) {
 
 		var that = this;
 
+		
+		var numCapes=1;
+		
+		try{
+			numCapes=controlCapes.getCountLayers();
+		}catch(Err){
+			numCapes=1;
+		}	
+		
 		jQuery.each(controlCapes._layers, function (i, item) {
 			
-			that._utilValidoClassificoTipusCapa(item);
+			that._utilValidoClassificoTipusCapa(item,numCapes);
 			jQuery.each(item._layers, function (j, item2) {
-				that._utilValidoClassificoTipusCapa(item2);
+				that._utilValidoClassificoTipusCapa(item2,numCapes);
 			});
 		});
 
@@ -922,7 +931,7 @@ var IM_aplicacio = function (options) {
 
 	},
 
-	this._utilValidoClassificoTipusCapa = function (item) {
+	this._utilValidoClassificoTipusCapa = function (item,numCapes) {
 
 		//if (document.getElementById('input-'+item.layer.options.businessId) != null) {
 
@@ -933,7 +942,7 @@ var IM_aplicacio = function (options) {
 			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
 				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true));
+					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true,numCapes));
 				}
 			} else {
 				// ACTIVES tipus capes heatmaps,cluster o bombolla TODO
@@ -956,7 +965,7 @@ var IM_aplicacio = function (options) {
 			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
 				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false));
+					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false,numCapes));
 				}
 
 			} else {
@@ -1250,7 +1259,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 		}
 	},
 
-	this._utilDeterminaTipusItem = function (item, visibilitat) {
+	this._utilDeterminaTipusItem = function (item, visibilitat,numCapes) {
 
 		var tmp_feature = {
 			"item" : item,
@@ -1258,9 +1267,31 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 			"businessId" : item.layer.options.businessId,
 			"msg":'vector'
 		};
-		var _factorNumVectorsPol = 100;
-		var _factorNumVectorsLin = 50;
-		var _factorNumVectorsPunt = 500;
+		
+		var factor=1;
+		
+		switch (numCapes)  {
+        case 1: 
+            factor=3;
+            break;
+
+        case 2: 
+             factor=2.5;
+            break;
+
+        case 3: 
+             factor=2;
+            break;
+			
+		case 4: 
+             factor=1.5;
+            break;	
+    }
+		
+		
+		var _factorNumVectorsPol = 100*factor;
+		var _factorNumVectorsLin = 50*factor;
+		var _factorNumVectorsPunt = 500*factor;
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
