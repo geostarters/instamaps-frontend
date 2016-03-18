@@ -1859,7 +1859,13 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',
 				var obj = this._layers[layerId];
 				if (obj.layer._wmsVersion==undefined){
 					var bounds = obj.layer.getBounds();
-					map.fitBounds(bounds);
+					
+					
+					
+					!estatMapa3D?map.fitBounds(bounds):mapaVista3D._goToBounds(bounds);
+						
+					
+					
 				}
 				else{
 					getWMSLayers(obj.layer._url).then(function(results) {
