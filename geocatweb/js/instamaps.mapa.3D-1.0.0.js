@@ -57,12 +57,12 @@ function addModul3D() {
 	});
 
 	jQuery(document).on('click', "#chk_ad_3d", function (e) {
-		$.cookie('msg3D', true, {path:'/'});
+		$.cookie('msg3D', true, {
+			path : '/'
+		});
 
 	});
-	
-	
-	
+
 	/*
 	jQuery(document).on('click', "#bt_pinch3D", function (e) {
 
@@ -75,17 +75,15 @@ function addModul3D() {
 
 	 */
 
-	
-
 	if (url('?3D') == 'true') {
 
-	var fT=parseInt(mapConfig.servidorsWMS.length*1000/2);
-	
+		var fT = parseInt(mapConfig.servidorsWMS.length * 1000 / 2);
+
 		setTimeout(initMapa3DfromMapConfig, fT);
 	} else if (mapConfig.options && mapConfig.options.mapa3D) {
-		
-		var fT=parseInt(mapConfig.servidorsWMS.length*1000/2);
-		
+
+		var fT = parseInt(mapConfig.servidorsWMS.length * 1000 / 2);
+
 		setTimeout(initMapa3DfromMapConfig, fT);
 	}
 
@@ -144,14 +142,12 @@ function inicialitzaMapa3D(origen) {
 }
 
 function init3D(boto) {
-	
-	
-	
-map.spin(true);
+
+	map.spin(true);
 	if (browserWebGL) {
 		initAmbVistaControlada = false;
-		if(!$.cookie('msg3D')){
-		jQuery("#dialgo_ad_3D").modal('show');
+		if (!$.cookie('msg3D')) {
+			jQuery("#dialgo_ad_3D").modal('show');
 		}
 		jQuery(boto).text('2D');
 		inicialitzaMapa3D('_fromBoto');
@@ -186,8 +182,6 @@ function init2D(boto) {
 			creaAreesDragDropFiles();
 		}
 
-		
-		
 		ActDesOpcionsVista3D(false);
 
 		jQuery('label span').each(function (index) {
@@ -201,9 +195,8 @@ function init2D(boto) {
 
 	});
 
-	
 	map.spin(false);
-	
+
 }
 
 function ActDesOpcionsVista3D(activa3D) {
@@ -237,12 +230,9 @@ function ActDesOpcionsVista3D(activa3D) {
 		jQuery('.leaflet-control-minimap').css('visibility', 'hidden');
 		$.each(crtl, function (index, value) {
 
-		
 			jQuery(value).hide();
 
 		});
-
-		
 
 	} else {
 
@@ -326,8 +316,6 @@ var IM_aplicacio = function (options) {
 				terrainProvider : terreny
 			});
 
-		
-
 		navigationInitialization(this.mapId3D, viewer);
 		scene = viewer.scene;
 		scene.globe.depthTestingAgainstTerrain = true;
@@ -347,8 +335,8 @@ var IM_aplicacio = function (options) {
 			//map.setZoom(parseInt(zz) + 1)
 		}
 		this.bounds = map.getBounds();
-		this.mapZoom=map.getZoom();
-		
+		this.mapZoom = map.getZoom();
+
 		$(".leaflet-map-pane").fadeOut("slow", function () {
 
 			jQuery('#map3D').show();
@@ -375,24 +363,19 @@ var IM_aplicacio = function (options) {
 		});
 		 */
 
-		
-		this.calculaPosicioInici(this.bounds,this.mapZoom).then(function (rectangle) {
+		this.calculaPosicioInici(this.bounds, this.mapZoom).then(function (rectangle) {
 
-			
 			if (initAmbVistaControlada && mapConfig.options) {
-				
+
 				if (mapConfig.options && mapConfig.options.camera3D) {
 
 					var cameraPos = mapConfig.options.camera3D;
 
 					if (cameraPos.indexOf('NaN') == -1) {
 
-						
 						mapaVista3D.setPosicioCamera3D(cameraPos);
 
 					} else {
-
-					
 
 						viewer.camera.setView({
 							destination : rectangle.rectangle
@@ -402,60 +385,56 @@ var IM_aplicacio = function (options) {
 
 				} else {
 
-					
 					viewer.camera.setView({
 						destination : rectangle.rectangle
 					});
 				}
 
 			} else {
-				
 
 				if (origen == '_fromBoto') {
 
-					
+					var _altu = parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height);
 
-					var _altu=parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height);
-					
-				
-					
 					/*
 					viewer.camera.setView({
-						//destination : rectangle.rectangle3,
-						destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat,(_altu)),
-						orientation : {
-							heading : Cesium.Math.toRadians(0.0),
-							pitch : Cesium.Math.toRadians(rectangle._picth),
-							roll : 0.0
-						}
+					//destination : rectangle.rectangle3,
+					destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat,(_altu)),
+					orientation : {
+					heading : Cesium.Math.toRadians(0.0),
+					pitch : Cesium.Math.toRadians(rectangle._picth),
+					roll : 0.0
+					}
 					});
-*/
-				
-					if(terreny.credit.text=='icgc'){
+					 */
+
+					if (terreny.credit.text == 'icgc') {
 
 						viewer.camera.flyTo({
-						destination : rectangle.rectangle,
-						duration : 0,
-						complete : function () {
-						setTimeout(function () {
-						viewer.camera.flyTo({
-						destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat,(parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height *1.5))),
-						//destination : rectangle.rectangle3,
-						orientation : {
-						heading : Cesium.Math.toRadians(0.0),
-						pitch : Cesium.Math.toRadians(rectangle._picth), //tilt
-						},
-						easingFunction : Cesium.EasingFunction.LINEAR_NONE
+							destination : rectangle.rectangle,
+							duration : 0,
+							complete : function () {
+								setTimeout(function () {
+									viewer.camera.flyTo({
+										destination : Cesium.Cartesian3.fromDegrees(rectangle.centerLng, rectangle.newLat, (parseFloat(rectangle.altMetres) + parseFloat(rectangle.newAlt[0].height * 1.5))),
+										//destination : rectangle.rectangle3,
+										orientation : {
+											heading : Cesium.Math.toRadians(0.0),
+											pitch : Cesium.Math.toRadians(rectangle._picth), //tilt
+										},
+										easingFunction : Cesium.EasingFunction.LINEAR_NONE
+									});
+								}, 2000);
+							}
 						});
-						}, 2000);
-						}
+
+					} else {
+
+						viewer.camera.setView({
+							destination : rectangle.rectangle3
 						});
-					 
-					}else{
-						
-						viewer.camera.setView({destination : rectangle.rectangle3});
 					}
-					
+
 				} else {
 
 					viewer.camera.setView({
@@ -520,12 +499,10 @@ var IM_aplicacio = function (options) {
 					jQuery("#popup3D").hide();
 					var pickRay = viewer.camera.getPickRay(movement.position);
 					var featuresPromise = viewer.imageryLayers.pickImageryLayerFeatures(pickRay, viewer.scene);
-					if (!Cesium.defined(featuresPromise)) {
-						
-					} else {
+					if (!Cesium.defined(featuresPromise)) {}
+					else {
 						Cesium.when(featuresPromise, function (features) {
 
-							
 							if (features.length > 0) {
 
 								if (features[0].data.properties) {
@@ -595,11 +572,13 @@ var IM_aplicacio = function (options) {
 
 	this.activaEventLeaflet = function () {
 		var thet = this;
+		
+		
 		map.on('viewreset', function (e) {
 
 			if (estatMapa3D && disparaEventMapa) {
 
-				thet._goToBounds(map.getBounds(),map.getZoom());
+				thet._goToBounds(map.getBounds(), map.getZoom());
 				//thet._goTo(map.getCenter().lat, map.getCenter().lng);
 
 			}
@@ -632,20 +611,22 @@ var IM_aplicacio = function (options) {
 
 	},
 
-	this._goToBounds = function (bounds,mapZoom) {
+	this._goToBounds = function (bounds, mapZoom) {
 
 		//this.calculaPosicioInici(bounds,mapZoom).then(function (rectangle) {
 
-		
+
 		var rectangle = Cesium.Rectangle.fromDegrees((bounds
-						.getWest()),
-					((bounds.getSouth())), (bounds
-						.getEast()),
-					((bounds.getNorth())));
-		
-			viewer.camera.setView({
-				destination : rectangle
-			});
+					.getWest()),
+				((bounds.getSouth())), (bounds
+					.getEast()),
+				((bounds.getNorth())));
+
+				
+				
+		viewer.camera.setView({
+			destination : rectangle
+		});
 
 		//});
 
@@ -688,7 +669,6 @@ var IM_aplicacio = function (options) {
 		//accio== remove | display	| add
 
 
-	
 		if (mapaEstatNOPublicacio) {
 
 			if (accio == "add") {
@@ -706,90 +686,82 @@ var IM_aplicacio = function (options) {
 					//_imageryLayers.remove(layer, true); //capesActives3D
 
 					if (layer && layer.id == obj.businessId) {
-						
-						
-						if(accio == "display"){
+
+						if (accio == "display") {
 							layer.show = visible
-							}else if(accio=="remove"){
+						} else if (accio == "remove") {
 							capesActives3D.remove(layer, true)
-																						
-							
-							}
-						
-						
-						
+
+						}
+
 					}
 				});
 
 				//} else {
 
-				
-				var n=0;
-				
-				for (var f=0; f < viewer.entities.values.length;f++){
-					
-					var feature=viewer.entities.values[f];
-					
-					if(feature && feature.properties){
+
+				var n = 0;
+
+				for (var f = 0; f < viewer.entities.values.length; f++) {
+
+					var feature = viewer.entities.values[f];
+
+					if (feature && feature.properties) {
 						if (feature.properties.dataSource == obj.businessId) {
-							
-							if(accio == "display"){
-							feature.show = visible;	
-						
-							}else if(accio=="remove"){
-								
-								feature.show = false;	
+
+							if (accio == "display") {
+								feature.show = visible;
+
+							} else if (accio == "remove") {
+
+								feature.show = false;
 								/*
 								try{
-							viewer.entities.remove(feature);
+								viewer.entities.remove(feature);
 								}catch(err){
-								console.debug(err);	
-								}	
-									*/													
-							
+								console.debug(err);
+								}
+								 */
+
 							}
-							
-							  
+
 						}
-					}else{
-						console.debug(feature);
-					}	
-					
-				}	
-				
-				
-				
+					} else {
+						//console.debug(feature);
+					}
+
+				}
+
 				/*
 				jQuery.each(viewer.entities.values, function (index, feature) {
-										
-					if(feature && feature.properties){
-						if (feature.properties.dataSource == obj.businessId) {
-							
-							if(accio == "display"){
-							feature.show = visible	
-							}else{
 
-							
-							
-							
-								if(viewer.entities.getById(feature.id)){
-								viewer.entities.removeById(feature.id);
-								
-									
-								}	
-							
-							
-							}
-							
-							  
-						}
-					}else{
-						
-					}	
+				if(feature && feature.properties){
+				if (feature.properties.dataSource == obj.businessId) {
+
+				if(accio == "display"){
+				feature.show = visible
+				}else{
+
+
+
+
+				if(viewer.entities.getById(feature.id)){
+				viewer.entities.removeById(feature.id);
+
+
+				}
+
+
+				}
+
+
+				}
+				}else{
+
+				}
 				});
-*/
-				
-				
+				 */
+
 				//}
 
 			} else {
@@ -885,8 +857,6 @@ var IM_aplicacio = function (options) {
 			for (var i = 0; i < this.matriuCapes.base.length; i++) {
 				var url = this.matriuCapes.base[i]._url;
 
-			
-
 				this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
 
 				var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
@@ -908,40 +878,35 @@ var IM_aplicacio = function (options) {
 
 		var that = this;
 
-		
-		var numCapes=1;
-		
-		try{
-			numCapes=controlCapes.getCountLayers();
-		}catch(Err){
-			numCapes=1;
-		}	
-		
+		var numCapes = 1;
+
+		try {
+			numCapes = controlCapes.getCountLayers();
+		} catch (Err) {
+			numCapes = 1;
+		}
+
 		jQuery.each(controlCapes._layers, function (i, item) {
-			
-			that._utilValidoClassificoTipusCapa(item,numCapes);
+
+			that._utilValidoClassificoTipusCapa(item, numCapes);
 			jQuery.each(item._layers, function (j, item2) {
-				that._utilValidoClassificoTipusCapa(item2,numCapes);
+				that._utilValidoClassificoTipusCapa(item2, numCapes);
 			});
 		});
-
-		
 
 		this.addOverlaysVectorsCesium();
 		this.addOverlaysRastersCesium();
 
 	},
 
-	this._utilValidoClassificoTipusCapa = function (item,numCapes) {
-
-	
+	this._utilValidoClassificoTipusCapa = function (item, numCapes) {
 
 		if (item.layer._map != null) {
 
 			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
 				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true,numCapes));
+					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true, numCapes));
 				}
 			} else {
 				// ACTIVES tipus capes heatmaps,cluster o bombolla TODO
@@ -953,9 +918,9 @@ var IM_aplicacio = function (options) {
 				}
 				 */
 
-				jQuery('label span#' + item.layer._leaflet_id).css('text-decoration', 'line-through');				
+				jQuery('label span#' + item.layer._leaflet_id).css('text-decoration', 'line-through');
 				jQuery('.leaflet-bar-timecontrol').hide();
-				
+
 			}
 
 		} else { //NO ACTIVES
@@ -964,7 +929,7 @@ var IM_aplicacio = function (options) {
 			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
 				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false,numCapes));
+					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false, numCapes));
 				}
 
 			} else {
@@ -1004,24 +969,23 @@ var IM_aplicacio = function (options) {
 					var visible = this.matriuCapes.overlays[i].show;
 					if (raster.layer.options.tipus.indexOf("wms") != -1) {
 
-					
 						var _url = raster.layer._url;
-						
-						if(_url){						
-						
-								if (_url.indexOf('?') == -1) {
-									_url = _url + '?';
-								}
-						}else{
 
-						}						
+						if (_url) {
+
+							if (_url.indexOf('?') == -1) {
+								_url = _url + '?';
+							}
+						} else {}
 
 						var opacity = 0.9;
 
 						if (raster.layer.options.opacity) {
 							opacity = raster.layer.options.opacity;
 						}
-if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat', '172.70.1.31');}
+						if (urlApp.indexOf('172.70.1.11') != -1) {
+							_url = _url.replace('betaserver.icgc.cat', '172.70.1.31');
+						}
 
 						var provider = new Cesium.WebMapServiceImageryProvider({
 								url : _url,
@@ -1101,16 +1065,15 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 				if (results.status == "OK") {
 
-				setTimeout(function(){
-					
-					var url = results.url;
-					if (url.indexOf('?') == -1) {
-						url = url + '?';
-					}
-					that.addVectortoWMSToMatriuCapes(data.id_layers, data.n_layers, url, data.v_layers);
-				},1000);
-				
-				
+					setTimeout(function () {
+
+						var url = results.url;
+						if (url.indexOf('?') == -1) {
+							url = url + '?';
+						}
+						that.addVectortoWMSToMatriuCapes(data.id_layers, data.n_layers, url, data.v_layers);
+					}, 1000);
+
 				} else if (results.status == "VOID") {}
 				else {
 					//console.info(results.msg);
@@ -1118,14 +1081,10 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 			});
 		}
 
-		
-
-
 	},
 
 	this.addVectortoWMSToMatriuCapes = function (layers, titles, url, visible) {
 
-	
 		var that = this;
 		jQuery.each(layers, function (i, item) {
 
@@ -1167,11 +1126,8 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 			_bbox +'&',
 			 */
 
-			
-
 			var provider = new Cesium.UrlTemplateImageryProvider({
 
-					
 					enablePickFeatures : false,
 					getFeatureInfoAsXml : false,
 					getFeatureInfoAsGeoJson : false,
@@ -1225,10 +1181,8 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 				var vector = this.matriuCapes.overlays[i].item;
 				var visible = this.matriuCapes.overlays[i].show;
 				var gj = vector.layer.toGeoJSONStyles2ToProperties();
-				var msg=this.matriuCapes.overlays[i].msg;
+				var msg = this.matriuCapes.overlays[i].msg;
 				var bb = vector.layer.options.businessId;
-
-
 
 				if (jQuery.inArray(bb, overLayers3D) == -1) {
 
@@ -1242,7 +1196,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 						dataSource.id = bb;
 						var dataL = dataSource;
 						var XYZ_Edificis = [];
-						that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible,msg);
+						that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
 
 					}).otherwise(function (error) {
 						//console.warn(error);
@@ -1252,87 +1206,74 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 		}
 	},
 
-	this._utilDeterminaTipusItem = function (item, visibilitat,numCapes) {
+	this._utilDeterminaTipusItem = function (item, visibilitat, numCapes) {
 
 		var tmp_feature = {
 			"item" : item,
 			"show" : visibilitat,
 			"businessId" : item.layer.options.businessId,
-			"msg":'vector'
+			"msg" : 'vector'
 		};
-		
-		var factor=1;
-		
-		switch (numCapes)  {
-        case 1: 
-            factor=3;
-            break;
 
-        case 2: 
-             factor=2.5;
-            break;
+		var factor = 1;
 
-        case 3: 
-             factor=2;
-            break;
-			
-		case 4: 
-             factor=1.5;
-            break;	
-    }
-		
-		
-		var _factorNumVectorsPol = 100*factor;
-		var _factorNumVectorsLin = 50*factor;
-		var _factorNumVectorsPunt = 500*factor;
+		switch (numCapes) {
+		case 1:
+			factor = 3;
+			break;
+
+		case 2:
+			factor = 2.5;
+			break;
+
+		case 3:
+			factor = 2;
+			break;
+
+		case 4:
+			factor = 1.5;
+			break;
+		}
+
+		var _factorNumVectorsPol = 100 * factor;
+		var _factorNumVectorsLin = 50 * factor;
+		var _factorNumVectorsPunt = 500 * factor;
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
 			var numFeatures = ff.features.length;
-			
-		
+
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
-				
-				
-				
-					
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
 
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
-						
-						if(tmp_feature.tipus=='vector'){
-							
-							
-						for(var j=0;j < numFeatures;j++){
-					
-									var vertex=ff.features[j].geometry.coordinates[0].length;
-									if(vertex > 500){tmp_feature.msg = 'none';}
-										break;
-										}				
-							}	
-						
-						
-						
-						
-					
-					}else if (item.layer.options.source && item.layer.options.source.indexOf('xls')!=-1) {
-						
-						
+						if (tmp_feature.tipus == 'vector') {
+
+							for (var j = 0; j < numFeatures; j++) {
+
+								var vertex = ff.features[j].geometry.coordinates[0].length;
+								if (vertex > 500) {
+									tmp_feature.msg = 'none';
+								}
+								break;
+							}
+						}
+
+					} else if (item.layer.options.source && item.layer.options.source.indexOf('xls') != -1) {
+
 						numFeatures <= 1000 ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
-						
+
 						tmp_feature.msg = 'none';
-					
-					
-					}else if (item.layer.options.source && item.layer.options.source.indexOf('csv')!=-1) {
-						
-						
+
+					} else if (item.layer.options.source && item.layer.options.source.indexOf('csv') != -1) {
+
 						numFeatures <= 1000 ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
-						
+
 						tmp_feature.msg = 'none';
-					
+
 					} else if (!item.layer.options.source) {
 
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
@@ -1364,7 +1305,9 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 			}
 
-			ff="";
+			//ff = "";
+			
+			//console.debug(tmp_feature);
 			return tmp_feature;
 
 		} catch (err) {
@@ -1375,94 +1318,89 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 			} else {
 				tmp_feature.tipus = 'raster';
 			}
-
+//console.debug(tmp_feature);
 			return tmp_feature;
 		}
 
 	},
 
-	this.calculaMatriuAlcades = function (dataSource, matriu, hFactor, visible,msg) {
+	this.calculaMatriuAlcades = function (dataSource, matriu, hFactor, visible, msg) {
 
 		//console.warn("calculaMatriuAlcades");
 
-		
-		
+
 		var collection = dataSource.entities;
 		var entities = collection.values;
 		var length = entities.length;
 
 		var that = this;
-		
-		if(msg=='vector'){
-		
-		for (var i = 0; i < length; ++i) {
-			var entity = entities[i];
-			entity.ellipsoid = viewer.scene.globe.ellipsoid;
 
-			//codi enganxat
+		if (msg == 'vector') {
 
-			if (entity.billboard) {
+			for (var i = 0; i < length; ++i) {
+				var entity = entities[i];
+				entity.ellipsoid = viewer.scene.globe.ellipsoid;
 
-				var point = ellipsoid
-					.cartesianToCartographic(entity.position._value)
-					matriu
-					.push(Cesium.Cartographic
-						.fromRadians(
-							point.longitude,
-							point.latitude));
+				//codi enganxat
 
-			} else if (entity.polyline) {
+				if (entity.billboard) {
 
-				for (var j = 0; j < entity.polyline.positions._value.length; ++j) {
 					var point = ellipsoid
-						.cartesianToCartographic(entity.polyline.positions._value[j])
+						.cartesianToCartographic(entity.position._value)
 						matriu
 						.push(Cesium.Cartographic
 							.fromRadians(
 								point.longitude,
 								point.latitude));
+
+				} else if (entity.polyline) {
+
+					for (var j = 0; j < entity.polyline.positions._value.length; ++j) {
+						var point = ellipsoid
+							.cartesianToCartographic(entity.polyline.positions._value[j])
+							matriu
+							.push(Cesium.Cartographic
+								.fromRadians(
+									point.longitude,
+									point.latitude));
+					}
+
+				} else if (entity.polygon) {
+
+					for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
+
+						var point = ellipsoid
+							.cartesianToCartographic(entity.polygon._hierarchy._value.positions[j])
+
+							matriu.push(Cesium.Cartographic
+								.fromRadians(
+									point.longitude,
+									point.latitude));
+					}
+
 				}
 
-			} else if (entity.polygon) {
+			} //fi bicle FOR
 
-				
+			var promise = Cesium.sampleTerrain(terreny, factorTerreny, matriu);
 
-				for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
+			Cesium.when(promise, function (updatedPositions) {
 
-					var point = ellipsoid
-						.cartesianToCartographic(entity.polygon._hierarchy._value.positions[j])
-						
-						matriu.push(Cesium.Cartographic
-							.fromRadians(
-								point.longitude,
-								point.latitude));
-				}
+				that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
 
-			}
+			});
 
-		} //fi bicle FOR
+			map.spin(true);
 
-		var promise = Cesium.sampleTerrain(terreny, factorTerreny, matriu);
+		} else {
 
-		Cesium.when(promise, function (updatedPositions) {
+			that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
 
-			that.addEntitiesVisorCesium(dataSource, matriu, 13, visible,msg);
-
-		});
-
-		map.spin(true);
-		
-		}else{
-			
-		
-		that.addEntitiesVisorCesium(dataSource, matriu, 13, visible,msg);
-		
-		}	
-		
+		}
 
 	},
 
-	this.addEntitiesVisorCesium = function (dataSource, matriu, hfactor, visible,msg) {
+	this.addEntitiesVisorCesium = function (dataSource, matriu, hfactor, visible, msg) {
 
 		//console.warn("addEntitiesVisorCesium");
 
@@ -1508,7 +1446,7 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
 				if (entity.properties.styles.icon) {
-
+//console.info("111");
 					var _alt = parseInt(matriu[i].height + 100)
 
 						var redEllipse = viewer.entities.add({
@@ -1528,13 +1466,11 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 					matriu[i].height = _alt;
 					entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
-					
-
 					var pinBuilder = new PinBuilder_IM();
 					entity.billboard.color = Cesium.Color.WHITE;
-				
-					if (entity.properties.styles.icon.options.markerColor) {
 
+					if (entity.properties.styles.icon.options.markerColor) {
+//console.info("2");
 						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
 
 						if (colorPUNT.indexOf('punt_r') == -1) {
@@ -1564,7 +1500,8 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 					} else if (entity.properties.styles.icon.options.iconUrl) {
 
-						var url = Cesium.buildModuleUrl(entity.properties.styles.icon.options.iconUrl);
+						//var url = Cesium.buildModuleUrl(entity.properties.styles.icon.options.iconUrl);
+						var url = entity.properties.styles.icon.options.iconUrl;
 
 						entity.billboard.image = url;
 						//entity.billboard.image = pinBuilder.fromUrl(url,Cesium.Color.BLUE, 48);
@@ -1597,6 +1534,8 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 					console.debug("No hauria entrar aqui");
 				}
 
+				
+				
 				viewer.entities.add(entity); //add billboard
 			} else if (entity.polygon) {
 
@@ -1622,8 +1561,6 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 				var alcada = 0;
 				var _tenimAlcada = false;
 
-		
-				
 				if (entity.properties.elevation) {
 					alcada = parseInt(entity.properties.elevation);
 					_tenimAlcada = true;
@@ -1641,20 +1578,20 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 					_tenimAlcada = true;
 				} else if (entity.properties.ALTURA) {
 					alcada = parseInt(entity.properties.ALTURA);
-					_tenimAlcada = true;					
+					_tenimAlcada = true;
 				} else if (entity.properties.z) {
 					alcada = parseInt(entity.properties.z);
 					_tenimAlcada = true;
 				} else if (entity.properties.Z) {
 					alcada = parseInt(entity.properties.Z);
-					_tenimAlcada = true;	
-					
+					_tenimAlcada = true;
+
 				} else if (entity.properties.volum) {
 					alcada = parseInt(entity.properties.volum);
 					_tenimAlcada = true;
 				} else if (entity.properties.VOLUM) {
 					alcada = parseInt(entity.properties.VOLUM);
-					_tenimAlcada = true;		
+					_tenimAlcada = true;
 				} else {
 					_tenimAlcada = false;
 
@@ -1663,29 +1600,26 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 				var entityMatriu = [];
 				var _matriuAlcada = [];
 				var _extrudeAlcada;
-				
-				
-				
-				if(msg=='vector'){
-						for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
-							z = z + 1;
-							entityMatriu.push(matriu[z - 1]);
 
-							if (_tenimAlcada) {
+				if (msg == 'vector') {
+					for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
+						z = z + 1;
+						entityMatriu.push(matriu[z - 1]);
 
-								_matriuAlcada.push(matriu[z - 1].height);
-							}
+						if (_tenimAlcada) {
 
+							_matriuAlcada.push(matriu[z - 1].height);
 						}
 
-						var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
+					}
 
-				}else{
-					
-					var cartesianPositions =entity.polygon._hierarchy._value;
-					
-				}	
-			
+					var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
+
+				} else {
+
+					var cartesianPositions = entity.polygon._hierarchy._value;
+
+				}
 
 				var _newEntity = {
 
@@ -1705,10 +1639,10 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 				};
 
 				if (_tenimAlcada) {
-					
-					var terra=0;
-					if(msg=='vector'){
-					terra=(Math.max.apply(Math, _matriuAlcada));
+
+					var terra = 0;
+					if (msg == 'vector') {
+						terra = (Math.max.apply(Math, _matriuAlcada));
 					}
 					_extrudeAlcada = terra + parseInt(alcada);
 					_newEntity.polygon.extrudedHeight = _extrudeAlcada;
@@ -1725,11 +1659,9 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 		dataSource = "";
 
-		
-		
 		map.spin(false);
 		matriu = [];
-		
+
 	},
 
 	this.getPosicioCamera3D = function () {
@@ -1808,11 +1740,8 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 	this._ActivaDesactivaCapa = function (bi, visible) {
 
-		
-
 		for (var i = 0; i < viewer.dataSources.length; i++) {
 
-			
 			viewer.dataSources[i].show = false;
 
 		}
@@ -1833,22 +1762,19 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 
 	},
 
-	this.calculaPosicioInici = function (bounds,mapZoom) {
+	this.calculaPosicioInici = function (bounds, mapZoom) {
 
 		var dfd = $.Deferred();
 
 		try {
-			
+
 			var ns = parseFloat(bounds.getNorth() - bounds.getSouth());
 			var we = parseFloat(bounds.getEast() - bounds.getWest());
 			var ew = parseFloat(bounds.getWest() - bounds.getEast());
-			
-			
-			
+
 			var centerLng = parseFloat(bounds.getEast()) + parseFloat(ew / 2);
 			var centerLat = parseFloat(bounds.getNorth()) - parseFloat(ns / 2);
-			
-			
+
 			var inNS = parseFloat(ns / 2);
 			var inWE = parseFloat(we / 2);
 			var southLat = bounds.getSouth();
@@ -1859,47 +1785,40 @@ if(urlApp.indexOf('172.70.1.11')!=-1){_url = _url.replace('betaserver.icgc.cat',
 						.getEast() - inWE),
 					((bounds.getNorth()) - ns));
 
-			var matriuAlt=[56623104,28311552 ,14155776 ,7077888 ,3538944 ,1769472 ,884736 ,442368 ,221184 ,110592 ,55296 ,27648 ,13824 ,6912 ,3456 ,1728 ,864 ,432 ,216 ,108 ,54 ,27,13,5];
-			var matriuGrauSud=[16,16,16,13 ,10 ,7 ,4 ,2 ,1 ,0.8 ,0.7 ,0.2 ,0.1 ,0.055 ,0.03 ,0.015 ,0.0095 ,0.005 ,0.002 ,0.0015 ,0.0005 ,0.00035 ,0.0002];
-			var matriuPitch=[-73,-73,-73,-71 ,-69 ,-67 ,-65 ,-63 ,-61 ,-59 ,-57 ,-55 ,-53 ,-51 ,-49 ,-47 ,-45 ,-43 ,-41 ,-39 ,-37 ,-35 ,-33];
-	
-			
-		var altMetres=matriuAlt[mapZoom];
-		var grausSud=matriuGrauSud[mapZoom];
-		var _picth=matriuPitch[mapZoom];
+			var matriuAlt = [56623104, 28311552, 14155776, 7077888, 3538944, 1769472, 884736, 442368, 221184, 110592, 55296, 27648, 13824, 6912, 3456, 1728, 864, 432, 216, 108, 54, 27, 13, 5];
+			var matriuGrauSud = [16, 16, 16, 13, 10, 7, 4, 2, 1, 0.8, 0.7, 0.2, 0.1, 0.055, 0.03, 0.015, 0.0095, 0.005, 0.002, 0.0015, 0.0005, 0.00035, 0.0002];
+			var matriuPitch = [-73, -73, -73, -71, -69, -67, -65, -63, -61, -59, -57, -55, -53, -51, -49, -47, -45, -43, -41, -39, -37, -35, -33];
 
-		
-		var distMetres=	altMetres * Math.sin(37.5);
-	var factorLat=Cesium.Math.toDegrees(Math.tan(distMetres/6370000));
-	
-	var newLat=parseFloat(centerLat) - parseFloat(grausSud);
-	
-	
-	
-	var positions = [
-    Cesium.Cartographic.fromDegrees(centerLng, newLat)
-];
-var promise = Cesium.sampleTerrain(terreny, 15, positions);
-Cesium.when(promise, function(updatedPositions) {
-    // positions[0].height and positions[1].height have been updated.
-    // updatedPositions is just a reference to positions.
-});
-	
-	
-	
+			var altMetres = matriuAlt[mapZoom];
+			var grausSud = matriuGrauSud[mapZoom];
+			var _picth = matriuPitch[mapZoom];
+
+			var distMetres = altMetres * Math.sin(37.5);
+			var factorLat = Cesium.Math.toDegrees(Math.tan(distMetres / 6370000));
+
+			var newLat = parseFloat(centerLat) - parseFloat(grausSud);
+
+			var positions = [
+				Cesium.Cartographic.fromDegrees(centerLng, newLat)
+			];
+			var promise = Cesium.sampleTerrain(terreny, 15, positions);
+			Cesium.when(promise, function (updatedPositions) {
+				// positions[0].height and positions[1].height have been updated.
+				// updatedPositions is just a reference to positions.
+			});
+
 			var rectangle3 = Cesium.Rectangle.fromDegrees(
 					(bounds.getWest()),
 					((bounds.getSouth()) - parseFloat(ns / 2)),
 					(bounds.getEast()),
 					((bounds.getNorth()) - parseFloat(ns / 2)));
 
-					
-var rectangle4 = Cesium.Rectangle.fromDegrees(
+			var rectangle4 = Cesium.Rectangle.fromDegrees(
 					(bounds.getWest()),
 					((bounds.getSouth()) + parseFloat(factorLat)),
 					(bounds.getEast()),
-					((bounds.getNorth()) + parseFloat(factorLat)));			
-			
+					((bounds.getNorth()) + parseFloat(factorLat)));
+
 			var rectangle = Cesium.Rectangle.fromDegrees((bounds
 						.getWest()),
 					((bounds.getSouth())), (bounds
@@ -1913,11 +1832,11 @@ var rectangle4 = Cesium.Rectangle.fromDegrees(
 				'rectangle4' : rectangle4,
 				'centerLng' : centerLng,
 				'centerLat' : centerLat,
-				'altMetres':altMetres,
-				'newAlt':positions,
-				'grausSud':grausSud,
-				'_picth':_picth,
-				'newLat':newLat,
+				'altMetres' : altMetres,
+				'newAlt' : positions,
+				'grausSud' : grausSud,
+				'_picth' : _picth,
+				'newLat' : newLat,
 				'southLat' : southLat,
 				'x0' : bounds.getWest(),
 				'y0' : bounds.getSouth(),
@@ -2048,68 +1967,63 @@ function detectoCapacitatsWebGL() {
 	return soc3D;
 }
 
+function addHtmlModalNoWebGL() {
+	jQuery('#mapa_modals').append(
+		'	<!-- Modal Old Browser -->' +
+		'		<div id="dialgo_no_webgl" class="modal">' +
+		'		<div class="modal-dialog">' +
+		'			<div class="modal-content">' +
+		'				<div class="modal-header">' +
+		'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"' +
+		'						aria-hidden="true">&times;</button>' +
+		'					<h4 lang="ca" class="modal-title">Ups! Ho sentim, no es pot inicialitzar el mapa en 3D.</h4>' +
+		'				</div>' +
+		'				<div class="modal-body">' +
+		'					<div lang="ca">Aquest prototip utilitza Cesium JS, una llibreria per a la creació de mapes en 3D - basada amb WebGL - que per funcionar correctament necessita que tingueu la darrera versió del navegador web i que la tarja gràfica del vostre ordinador tingui carregats els drivers més actuals</div>' +
+		'				</div>' +
+		'				<div class="modal-footer">' +
+		'					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>' +
+		'				</div>' +
+		'			</div>' +
+		'			<!-- /.modal-content -->' +
+		'		</div>' +
+		'		<!-- /.modal-dialog -->' +
+		'	</div>' +
+		'	<!-- fi Modal Old Browser -->');
 
-function addHtmlModalNoWebGL(){
 	jQuery('#mapa_modals').append(
-	'	<!-- Modal Old Browser -->'+
-	'		<div id="dialgo_no_webgl" class="modal">'+
-	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
-	'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
-	'						aria-hidden="true">&times;</button>'+
-	'					<h4 lang="ca" class="modal-title">Ups! Ho sentim, no es pot inicialitzar el mapa en 3D.</h4>'+
-	'				</div>'+
-	'				<div class="modal-body">'+
-	'					<div lang="ca">Aquest prototip utilitza Cesium JS, una llibreria per a la creació de mapes en 3D - basada amb WebGL - que per funcionar correctament necessita que tingueu la darrera versió del navegador web i que la tarja gràfica del vostre ordinador tingui carregats els drivers més actuals</div>'+											
-	'				</div>'+
-	'				<div class="modal-footer">'+
-	'					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>'+
-	'				</div>'+
-	'			</div>'+
-	'			<!-- /.modal-content -->'+
-	'		</div>'+
-	'		<!-- /.modal-dialog -->'+
-	'	</div>'+
-	'	<!-- fi Modal Old Browser -->'		
-	);
-	
-	
-	jQuery('#mapa_modals').append(
-	'	<!-- Modal Old Browser -->'+
-	'		<div id="dialgo_ad_3D" class="modal">'+
-	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
-	'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"'+
-	'						aria-hidden="true">&times;</button>'+
-	'					<h4 lang="ca" class="modal-title"><span lang="ca">La modalitat 3D està en fase beta.</span> <span style="color:#ffa500" class="fa fa-warning sign"></span> </h4>'+
-	'				</div>'+
-	'				<div class="modal-body">'+
-	'					<div class="alert-warning"  style="padding:5px"  lang="ca">'+
-	'							<div lang="ca">En el mode 3D podeu seguir utilitzant la majoria de les funcionalitat d\'Instamaps. Amb tot, notareu que algunes es troben de moment deshabilitades.</div><br>'+
-	'							<div lang="ca">La tecnologia WebGL que s’utilitza per la renderització 3D consumeix recursos del vostre maquinari i navegador. En funció del vostre equip obtindreu una millor rendiment. Comproveu que el vostre navegador està actualitzat.</div><br>'+
-	'							<div lang="ca">Us recomanem que per al treball en 3 dimensions utilitzeu preferiblement <b>Chrome</b>, ja que demostra un més alt rendiment.</div>'+
-	'                </div><hr>'+											
-	'					<div>'+
-	'						<div style="float:left"  lang="ca"><img width="70" src="img/nav3d.png"></div>'+															
-	'						<div style=" width: 80%;float:right;padding:5px" class="alert-info">'+
-	'						<div lang="ca"><span>1-</span><span lang="ca">Arrossegueu per rotar i girar la vista. Consells: També podeu orbitar lliurement prement la tecla CTRL i arrossegant el mapa .Fent doble click podreu inicialitzar la vista</span></div><br>'+
-	'							<div lang="ca"><span>2-</span><span lang="ca">Feu clic i arrossegueu per rotar la càmera</span></div>'+
-	'						</div>'+
-	'				</div>'+										
-	'				</div>'+
-	'				<div class="modal-footer">'+
-	'					<span style="float:left"><input id="chk_ad_3d" type="checkbox"><span lang="ca">No mostrar més aquest missatge</span></span>  <button id="old_btn_close" lang="ca" type="button" class="btn btn-info" data-dismiss="modal">Continuar</button>'+
-	'				</div>'+
-	'			</div>'+
-	'			<!-- /.modal-content -->'+
-	'		</div>'+
-	'		<!-- /.modal-dialog -->'+
-	'	</div>'+
-	'	<!-- fi Modal Old Browser -->'		
-	);
+		'	<!-- Modal Old Browser -->' +
+		'		<div id="dialgo_ad_3D" class="modal">' +
+		'		<div class="modal-dialog">' +
+		'			<div class="modal-content">' +
+		'				<div class="modal-header">' +
+		'					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"' +
+		'						aria-hidden="true">&times;</button>' +
+		'					<h4 lang="ca" class="modal-title"><span lang="ca">La modalitat 3D està en fase beta.</span> <span style="color:#ffa500" class="fa fa-warning sign"></span> </h4>' +
+		'				</div>' +
+		'				<div class="modal-body">' +
+		'					<div class="alert-warning"  style="padding:5px"  lang="ca">' +
+		'							<div lang="ca">En el mode 3D podeu seguir utilitzant la majoria de les funcionalitat d\'Instamaps. Amb tot, notareu que algunes es troben de moment deshabilitades.</div><br>' +
+		'							<div lang="ca">La tecnologia WebGL que s’utilitza per la renderització 3D consumeix recursos del vostre maquinari i navegador. En funció del vostre equip obtindreu una millor rendiment. Comproveu que el vostre navegador està actualitzat.</div><br>' +
+		'							<div lang="ca">Us recomanem que per al treball en 3 dimensions utilitzeu preferiblement <b>Chrome</b>, ja que demostra un més alt rendiment.</div>' +
+		'                </div><hr>' +
+		'					<div>' +
+		'						<div style="float:left"  lang="ca"><img width="70" src="img/nav3d.png"></div>' +
+		'						<div style=" width: 80%;float:right;padding:5px" class="alert-info">' +
+		'						<div lang="ca"><span>1-</span><span lang="ca">Arrossegueu per rotar i girar la vista. Consells: També podeu orbitar lliurement prement la tecla CTRL i arrossegant el mapa .Fent doble click podreu inicialitzar la vista</span></div><br>' +
+		'							<div lang="ca"><span>2-</span><span lang="ca">Feu clic i arrossegueu per rotar la càmera</span></div>' +
+		'						</div>' +
+		'				</div>' +
+		'				</div>' +
+		'				<div class="modal-footer">' +
+		'					<span style="float:left"><input id="chk_ad_3d" type="checkbox"><span lang="ca">No mostrar més aquest missatge</span></span>  <button id="old_btn_close" lang="ca" type="button" class="btn btn-info" data-dismiss="modal">Continuar</button>' +
+		'				</div>' +
+		'			</div>' +
+		'			<!-- /.modal-content -->' +
+		'		</div>' +
+		'		<!-- /.modal-dialog -->' +
+		'	</div>' +
+		'	<!-- fi Modal Old Browser -->');
 }
 
 addHtmlModalNoWebGL();
-	

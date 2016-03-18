@@ -295,8 +295,33 @@ function ompleCapesMatriu(item){
 				  
                //   console.info(JSON.stringify(matriuFF));
                  // console.info(matriuFF.join(","));
-                  
+                  try{
 				matriuCapesLL.layers.push(JSON.stringify(L_JSON));
+				
+                  }catch(Err){
+                	  //console.debug(Err);
+                	  var cache = [];
+    				  matriuCapesLL.layers.push(JSON.stringify(L_JSON, function(key, value) {
+    				    if (typeof value === 'object' && value !== null) {
+    				        if (cache.indexOf(value) !== -1) {
+    				            // Circular reference found, discard key
+  				            return;
+   				        }
+    				        // Store value in our collection
+    				        cache.push(value);
+    				    }
+   				    return value;
+   					}));
+    					cache = null;
+                	  
+                	  
+                	  
+                  }
+				
+				
+				
+				
+				
                  // matriuCapesLL.layers.push('{"type" : "FeatureCollection","features" : ['+matriuFF.join(",")+']}');		  
                   matriuCapesLL.n_layers.push(item.name);
                   matriuCapesLL.id_layers.push(item.layer.options.businessId);
