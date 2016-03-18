@@ -575,7 +575,9 @@ var IM_aplicacio = function (options) {
 		
 		
 		map.on('viewreset', function (e) {
-
+		
+		//map.on('zoomend', function (e) {
+			
 			if (estatMapa3D && disparaEventMapa) {
 
 				thet._goToBounds(map.getBounds(), map.getZoom());
