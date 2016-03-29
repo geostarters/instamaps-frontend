@@ -278,6 +278,7 @@ var IM_aplicacio = function (options) {
 		overLayers3D = [];
 
 		this.bounds = map.getBounds();
+		this.center=map.getCenter()
 
 		terreny = new Cesium.CesiumTerrainProvider({
 				url : _urlTerrenys,
@@ -622,7 +623,8 @@ var IM_aplicacio = function (options) {
 		}
 		
 		}catch(Err){
-			
+		
+	_gaq.push(['_trackEvent', 'error3D', Err, 'miraPosicioXYZ', 1]);		
 			
 		}
 
@@ -876,16 +878,50 @@ var IM_aplicacio = function (options) {
 			for (var i = 0; i < this.matriuCapes.base.length; i++) {
 				var url = this.matriuCapes.base[i]._url;
 
+				if(url.indexOf('osm.org')!=-1){
+
+				
+				
+				//console.info(this._miraCentreDins(this.center.lat,this.center.lng));
+			 
+		if	(!this._miraCentreDins(this.center.lat,this.center.lng)){				
+				
 				this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+
+					
+				var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
+							url : url,
+							 //maximumLevel : this.matriuCapes.base[i].options.maxZoom,
+							maximumLevel : 18,
+							 minimumLevel:10
+						}));
+						
+					_imageryLayers.lowerToBottom(BB_layer);
+					baseLayer3D.push(BB_layer);
+		}
+					
+				
+				
+				}else{
+					
+					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
 
 				var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
 							url : url,
 							// maximumLevel : this.matriuCapes.base[i].options.maxZoom,
-							maximumLevel : 18
-							// minimumLevel:this.matriuCapes.base[i].options.minZoom
+							maximumLevel : 18,
+							minimumLevel : 3
+							//minimumLevel:this.matriuCapes.base[i].options.minZoom
 						}));
 				_imageryLayers.lowerToBottom(BB_layer);
 				baseLayer3D.push(BB_layer);
+					
+					
+				}	
+				
+			
+				
+				
 			}
 
 		}
@@ -1006,6 +1042,8 @@ var IM_aplicacio = function (options) {
 							_url = _url.replace('betaserver.icgc.cat', '172.70.1.31');
 						}
 
+						
+						
 						var provider = new Cesium.WebMapServiceImageryProvider({
 								url : _url,
 								layers : raster.layer.wmsParams.layers,
@@ -1021,6 +1059,7 @@ var IM_aplicacio = function (options) {
 									styles : 'default'
 								},
 								maximumLevel : 18,
+								minimumLevel:5,
 								proxy : {
 									getURL : function (url) {
 										return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
@@ -1028,6 +1067,7 @@ var IM_aplicacio = function (options) {
 								}
 							});
 
+						
 						provider.alpha = opacity;
 
 						setTimeout(this.delayAddImageProvider(provider, visible, raster.layer.options.businessId), 1000);
@@ -1160,7 +1200,8 @@ var IM_aplicacio = function (options) {
 					'layers=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
 					_bbox +
 					'width=256&height=256&',
-					maximumLevel : 19
+					maximumLevel : 18,
+					minimumLevel:5
 				});
 
 			//application/vnd.ogc.se_blank
@@ -1580,6 +1621,9 @@ var IM_aplicacio = function (options) {
 				var alcada = 0;
 				var _tenimAlcada = false;
 
+				
+				
+				
 				if (entity.properties.elevation) {
 					alcada = parseInt(entity.properties.elevation);
 					_tenimAlcada = true;
@@ -1639,8 +1683,38 @@ var IM_aplicacio = function (options) {
 					var cartesianPositions = entity.polygon._hierarchy._value;
 
 				}
+var _newEntity;
+				
+				
+				if (_tenimAlcada) {
+					
+					var terra = 0;
+					if (msg == 'vector') {
+						terra = (Math.max.apply(Math, _matriuAlcada));
+					}
+					_extrudeAlcada = terra + parseInt(alcada);
+					_newEntity = {
 
-				var _newEntity = {
+						properties : entity.properties,
+						show : visible,
+						polygon : {
+							hierarchy : cartesianPositions,
+							outline : true,
+							extrudedHeight : _extrudeAlcada,
+							 fill:true,
+							outlineColor : Cesium.Color.fromCssColorString(borderColor),
+						material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
+							// outlineWidth : 3.0,
+							perPositionHeight : true
+							
+
+						}
+				};
+					
+					
+				}else{
+
+				_newEntity = {
 
 					properties : entity.properties,
 					show : visible,
@@ -1656,20 +1730,20 @@ var IM_aplicacio = function (options) {
 
 					}
 				};
+				
+				}	
+				
+				
+				
 
-				if (_tenimAlcada) {
 
-					var terra = 0;
-					if (msg == 'vector') {
-						terra = (Math.max.apply(Math, _matriuAlcada));
-					}
-					_extrudeAlcada = terra + parseInt(alcada);
-					_newEntity.polygon.extrudedHeight = _extrudeAlcada;
-					//_newEntity.polygon.material= Cesium.Color.fromCssColorString(fillColor);
-					_newEntity.polygon.outline = true;
-					_newEntity.polygon.fill = true;
-				}
+					
+				
 
+				
+				
+				
+				
 				viewer.entities.add(_newEntity);
 
 			}
@@ -2027,7 +2101,7 @@ function addHtmlModalNoWebGL() {
 		'							<div lang="ca">Us recomanem que per al treball en 3 dimensions utilitzeu preferiblement <b>Chrome</b>, ja que demostra un més alt rendiment.</div>' +
 		'                </div><hr>' +
 		'					<div>' +
-		'						<div style="float:left"  lang="ca"><img width="70" src="img/nav3d.png"></div>' +
+		'						<div style="float:left;padding-left: 14px;"  lang="ca"><img width="70" src="img/nav3d.png"></div>' +
 		'						<div style=" width: 80%;float:right;padding:5px" class="alert-info">' +
 		'						<div lang="ca"><span>1-</span><span lang="ca">Arrossegueu per rotar i girar la vista. Consells: També podeu orbitar lliurement prement la tecla CTRL i arrossegant el mapa .Fent doble click podreu inicialitzar la vista</span></div><br>' +
 		'							<div lang="ca"><span>2-</span><span lang="ca">Feu clic i arrossegueu per rotar la càmera</span></div>' +
