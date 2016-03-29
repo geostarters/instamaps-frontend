@@ -22,7 +22,8 @@
     $.extend($.fn.bootstrapTable.defaults, {
         showExport: false,
         // 'json', 'xml', 'png', 'csv', 'txt', 'sql', 'doc', 'excel', 'powerpoint', 'pdf'
-        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel']
+        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel'],
+        ignoreColumn:[]
     });
 
     var BootstrapTable = $.fn.bootstrapTable.Constructor,
@@ -71,9 +72,11 @@
                     }
                 });
 
+                var ignoreColumn = this.options.ignoreColumn;
                 $menu.find('li').click(function () {
                     that.$el.tableExport({
                         type: $(this).data('type'),
+                        ignoreColumn: ignoreColumn,
                         escape: false
                     });
                 });

@@ -92,10 +92,31 @@ L.Control.OrderLayers = L.Control.Layers
 				showTimeControl(_thereIs);
 
 				this._update();
+				if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"remove",true);}
 				return this;
 
 			},
 
+			getCountLayers:function(){
+				
+				var i=0;
+				
+				for (layer in this._layers) {
+
+							i=i+1;
+						for (sublayer in this._layers[layer]._layers) {
+								i=i+1;
+							
+						}
+
+						
+
+					}
+
+				
+				return i;
+				
+			},	
 			getLayersFromGroupId : function(groupId, groupName) {
 				var resp_Layer = [];
 
@@ -977,8 +998,21 @@ L.Control.OrderLayers = L.Control.Layers
 
 						}
 					}
-
 					input.defaultChecked = checked;
+					/*
+			if(jQuery.isEmptyObject(obj._layers)){
+						
+						input.defaultChecked = checked;
+					}else{
+						
+						
+						input.defaultChecked = false;
+						//this._onInputClick();
+						
+				
+				}
+				
+				*/
 
 				} else {
 					input = this._createRadioElement('leaflet-base-layers',
@@ -1062,8 +1096,8 @@ L.Control.OrderLayers = L.Control.Layers
 						_menu_item_checkbox.appendChild(col);
 					}
 					// Icona Taula de Dades Sempre
-
-					if (obj.layer.options.source) {
+					if ((obj.layer.options.source || obj.layer.options.geometryType=="marker" ||  obj.layer.options.geometryType=="polyline" 
+						||  obj.layer.options.geometryType=="polygon") && !obj.layer.options.dinamic ) {
 						col = L.DomUtil
 								.create(
 										'div',
@@ -1167,6 +1201,26 @@ L.Control.OrderLayers = L.Control.Layers
 						});
 					}
 
+					//if (getModeMapa()) {
+						col = L.DomUtil
+								.create(
+										'div',
+										'conf-'
+												+ obj.layer.options.businessId
+												+ ' leaflet-zoom glyphicon glyphicon-search subopcio-conf');
+						col.layerId = input.layerId;
+						// L.DomEvent.on(col, 'click', this._onDownClick, this);
+						L.DomEvent.on(col, 'click', this._onZoomClick,
+								this);
+						_menu_item_checkbox.appendChild(col);
+
+						$(col).tooltip({
+							placement : 'bottom',
+							container : 'body',
+							title : window.lang.convert("Zoom a la capa")
+						});
+					//}
+					
 					container = this._overlaysList;
 				} else {
 					container = this._baseLayersList;
@@ -1211,6 +1265,7 @@ L.Control.OrderLayers = L.Control.Layers
 					updateEditableElements();
 					refreshSortablesElements();
 					map.fireEvent('addItemFinish');
+if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true);}	
 					}catch(Err){
 
 						updateEditableElements();
@@ -1262,6 +1317,8 @@ L.Control.OrderLayers = L.Control.Layers
 				label_for.setAttributeNode(_for);
 				// label_for.innerHTML="--";
 
+				//jQuery('#input-'+layerIdParent).attr('checked',false);
+				
 				col_sublayer.appendChild(input_sublayer);
 				col_sublayer.appendChild(label_for);
 
@@ -1280,6 +1337,7 @@ L.Control.OrderLayers = L.Control.Layers
 					col_sublayer.layerId = input_sublayer.layerId;
 					col_sublayer.layerIdParent = layerIdParent;
 					row_sublayer.appendChild(col_sublayer);
+			if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(sublayer.layer.options,"add",true);}	
 				}
 				return row_sublayer;
 
@@ -1386,6 +1444,10 @@ L.Control.OrderLayers = L.Control.Layers
 							thisLoadMapLegendEdicioDinamic(obj.layer);
 						}
 					
+//mirem vista 3D
+					
+					if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',true);}
+					
 					} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 
 						// console.info(obj);
@@ -1411,6 +1473,7 @@ L.Control.OrderLayers = L.Control.Layers
 							thisEmptyMapLegendEdicio(obj.layer);
 						}
 						
+if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',false);}
 					}
 
 				}
@@ -1730,7 +1793,7 @@ L.Control.OrderLayers = L.Control.Layers
 				try {
 
 					obj.layer.setOpacity(op);
-
+				if(estatMapa3D){mapaVista3D.canviaOpacity(obj.layer.options.businessId,op);}
 				} catch (err) {
 					// console.info(op);
 					// obj.layer.options.opacity=op;
@@ -1788,6 +1851,46 @@ L.Control.OrderLayers = L.Control.Layers
 					$('#bt_download_tancar').hide();
 					$('#bt_download_accept').show();
 					$('#modal_download_layer').modal('show');
+				}
+			},
+			_onZoomClick: function(e){
+				$('.tooltip').hide();
+				var layerId = e.currentTarget.layerId;
+				var obj = this._layers[layerId];
+				if (obj.layer._wmsVersion==undefined){
+					var bounds = obj.layer.getBounds();
+					
+					
+					
+					!estatMapa3D?map.fitBounds(bounds):mapaVista3D._goToBounds(bounds);
+						
+					
+					
+				}
+				else{
+					getWMSLayers(obj.layer._url).then(function(results) {
+						
+
+						try{
+							
+						if(results.Capability.Layer.Layer.LatLonBoundingBox){
+							var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
+							WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+						}else if(results.Capability.Layer.LatLonBoundingBox){
+							
+							var bbox = results.Capability.Layer.LatLonBoundingBox;
+							WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+						}else{
+							WMS_BBOX=null;
+						}	
+							
+					
+						} catch (err) {
+							WMS_BBOX=null;
+						}
+						if (WMS_BBOX !=null) map.fitBounds(WMS_BBOX);
+					});
+					
 				}
 			},
 			_showOptions : function(e) {

@@ -92,7 +92,16 @@
 }
 
 
-
+.leaflet-control-layers .leaflet-zoom {
+	float: right;
+	background-repeat: no-repeat;
+	background-position: center;
+    height: 20px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+    display: none;
+}
 
 /*background-image: url(images/arrow-down.png);*/
 .leaflet-control-layers .leaflet-down {
@@ -188,7 +197,8 @@
 .leaflet-control-layers .leaflet-remove:hover,
 .leaflet-control-layers .leaflet-download:hover,
 .leaflet-control-layers .leaflet-data-table:hover,
-.leaflet-control-layers .leaflet-download-visor:hover{
+.leaflet-control-layers .leaflet-download-visor:hover,
+.leaflet-control-layers .leaflet-zoom:hover{
 	 opacity: 1;
 	color:#fcc403:
 }

@@ -45,7 +45,12 @@ function creaAreesDragDropFiles() {
 	
 	if (drgFromMapa == null) {
 
-		drgFromMapa = new window.Dropzone("div#map", drOpcionsMapa);
+		var divMapa="div#map";	
+		estatMapa3D?divMapa="div#map3D":divMapa="div#map";	
+		
+		
+		
+		drgFromMapa = new window.Dropzone(divMapa, drOpcionsMapa);
 
 		drgFromMapa.on("addedfile", function(file) {
 			if(!busy){
@@ -61,7 +66,7 @@ function creaAreesDragDropFiles() {
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
 			
-//			console.debug(envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer);
+
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);			
 			
 			formData.append("nomArxiu", file.name); 
@@ -163,7 +168,7 @@ function creaAreesDragDropFiles() {
 								
 								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 									var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
-									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 									$('#dialog_error_upload_txt').html(msg);
 									$('#dialog_error_upload').modal('show');
 								});
@@ -190,12 +195,12 @@ function creaAreesDragDropFiles() {
 										
 									}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
 										var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
-										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 										$('#dialog_error_upload_txt').html(msg);
 										
 									}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
 										var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
+										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
 										$('#dialog_error_upload_txt').html(msg);
 											
 									}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
@@ -204,7 +209,7 @@ function creaAreesDragDropFiles() {
 									
 									}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
 										var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
-										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
+										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
 										$('#dialog_error_upload_txt').html(msg);
 										
 									}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
@@ -220,7 +225,7 @@ function creaAreesDragDropFiles() {
 								}else{
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 									var msg = window.lang.convert("Error en la càrrega de l'arxiu");
-									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
+									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
 									$('#dialog_error_upload_txt').html(msg);
 								}
 								
@@ -397,7 +402,7 @@ function addFuncioCarregaFitxers(){
 									
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 										var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
-										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 										$('#dialog_error_upload_txt').html(msg);
 										$('#dialog_error_upload').modal('show');
 									});
@@ -426,12 +431,12 @@ function addFuncioCarregaFitxers(){
 											
 										}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
 											var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
-											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 											$('#dialog_error_upload_txt').html(msg);
 											
 										}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
 											var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 											$('#dialog_error_upload_txt').html(msg);
 												
 										}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
@@ -440,7 +445,7 @@ function addFuncioCarregaFitxers(){
 										
 										}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
 											var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
-											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 											$('#dialog_error_upload_txt').html(msg);
 											
 										}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
@@ -456,7 +461,7 @@ function addFuncioCarregaFitxers(){
 									}else{
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 										var msg =window.lang.convert("Error en la càrrega de l'arxiu");
-										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 										$('#dialog_error_upload_txt').html(msg);
 									}
 									
@@ -661,6 +666,9 @@ function getCategoriaMidaFitxer(midaFitxer){
 }
 
 function enviarArxiu(){
+	
+	
+	
 	ldpercent=0;
 	if(envioArxiu.isDrag){
 		drgFromMapa.uploadFile(drgFromMapa.files[0]);	

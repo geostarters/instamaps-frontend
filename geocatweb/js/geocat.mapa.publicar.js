@@ -98,7 +98,7 @@
         	var that = this;
         	if (isDefaultMapTitle(that.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(that.mapConfig.nomAplicacio);
-        	console.debug(that.mapConfig);
+        	
 			if (that.mapConfig.visibilitat == visibilitat_open){
 				//$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 				$("input[name=publicitat][value=privat]").prop('checked', true);	
@@ -197,12 +197,36 @@
 				$('#dialgo_publicar .modal-body .modal-legend').hide();
 			}
 			
-			$('#llegenda-title-text').text(window.lang.convert('Llegenda'));
-			$('#publish-public').text(window.lang.convert('Públic'));
-			$('#publish-private').text(window.lang.convert('Privat'));
-			$('#publish-legend-yes').text(window.lang.convert('Si'));
-			$('#publish-legend-no').text(window.lang.convert('No'));
+			
+			//Traducció dels textos del modal de publicar
+    		$('#titlePublicar').text(window.lang.convert($('#titlePublicar').text()));
+    		$('#id_info_tab').text(window.lang.convert($('#id_info_tab').text()));
+    		$('#id_privacitat_tab').text(window.lang.convert($('#id_privacitat_tab').text()));
+    		$('#id_llegenda_tab').text(window.lang.convert($('#id_llegenda_tab').text()));
+    		$('#id_reuse_tab').text(window.lang.convert($('#id_reuse_tab').text()));
+    		
+    		
+    		$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
+		    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
+		    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 
 			$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
+			
+		    
+		    $('#llegendaTitle').text(window.lang.convert($('#llegendaTitle').text()));
+		    $('#textLegend').text(window.lang.convert($('#textLegend').text()));
+		    
+		    $('#checkObert').text(window.lang.convert($('#checkObert').text()));
+		    $('#checkRestringit').text(window.lang.convert($('#checkRestringit').text()));
+		    $('#txtPublic').text(window.lang.convert($('#txtPublic').text()));
+		    $('#txtPrivat').text(window.lang.convert($('#txtPrivat').text()));
+		    $('#checkPublic').text(window.lang.convert($('#checkPublic').text()));
+		    $('#checkPrivat').text(window.lang.convert($('#checkPrivat').text()));
+		    $('#txtVisible').text(window.lang.convert($('#txtVisible').text()));
+		    $('#txtNoVisible').text(window.lang.convert($('#txtNoVisible').text()));
+		    $('#resetClau').text(window.lang.convert($('#resetClau').text()));
+		    
+		    $('#cancelPublicar').text(window.lang.convert($('#cancelPublicar').text()));
+		    $('#okPublicar').text(window.lang.convert($('#okPublicar').text()));
 			
 //			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val()+"&id="+jQuery('#userId').val();
 //			urlMap = urlMap.replace('mapa','visor');
@@ -247,7 +271,8 @@
         	var that = this;
         	$.get("templates/modalPublicar.html",function(data){
         		//TODO ver como pasar el modal container
-        		$('#mapa_modals').append(data);
+        		$('#mapa_modals').append(data);       		
+        		
         		
         		$('.make-switch').bootstrapSwitch();
             	//Configurar Llegenda
@@ -476,10 +501,36 @@
         	var _map = this.map;
         	options.tags = $('#dialgo_publicar #optTags').val();
         	options.description = $('#dialgo_publicar #optDescripcio').val();
-        	options.center = _map.getCenter().lat+","+_map.getCenter().lng;
+			
+			
+			options.mapa3D=estatMapa3D;
+			if(estatMapa3D){					
+				disparaEventMapa=false;
+				mapaEstatNOPublicacio=false;					
+				mapaVista3D.getPosicioCamera3D().then(function (cameraPos) {		
+				options.camera3D=cameraPos;								
+				});								
+				
+				
+				mapaVista3D.retornaPosicio2D().then(function (bbox) {					
+					options.center = bbox.centerLat+","+bbox.centerLng;
+					options.zoom = bbox.zoomLevel;
+					options.bbox = bbox.lng0+","+bbox.lat0+","+bbox.lng1+","+bbox.lat1;
+
+								
+				});
+				
+																				
+			}else{
+			options.center = _map.getCenter().lat+","+_map.getCenter().lng;
         	options.zoom = _map.getZoom();
         	options.bbox = _map.getBounds().toBBoxString();
+
+				
+			}	
         	
+			
+			
         	var logo = null;
         	if(isGeolocalUser()){
         		//aspecte
@@ -498,7 +549,7 @@
         	var visibilitat = visibilitat_open;
         	
         	//if ($('#visibilitat_chk').bootstrapSwitch('state')){
-        	console.debug($("input[name=publicitat]:checked").val());
+        	//console.debug($("input[name=publicitat]:checked").val());
         	if ($("input[name=publicitat]:checked").val()=="public"){        	
         		visibilitat = visibilitat_open;
         	}else{
@@ -558,6 +609,7 @@
         	
         	urlMap = urlMap.replace('mapa','visor');		
 			urlMap = urlMap.replace('#no-back-button','');
+			urlMap=urlMap+"&3D="+estatMapa3D;
         	
         	$("#urlVisorMap a").attr("href", urlMap);
         	
@@ -674,6 +726,16 @@
         					$('#nomAplicacio').editable('setValue', that.mapConfig.nomAplicacio);
         					$('#dialgo_url_iframe').modal('show');
         					that._addShareButtons();
+							
+							jQuery('#dialgo_url_iframe').on('hidden.bs.modal', function (e) {
+								if(estatMapa3D){
+																	
+										disparaEventMapa=true;
+										mapaEstatNOPublicacio=true;	
+									}
+								
+							});	
+							
         				}
         			}
         		});
@@ -682,7 +744,7 @@
         
         _createModalConfigDownload: function(){
         	var count = 0;
-        	var html = 'Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar<br/><br/>'; 
+        	var html = window.lang.convert('Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar')+'<br/><br/>'; 
         	html += '<label class="control-label" lang="ca">'+
         		window.lang.convert('Capes reutilitzables pels altres usuaris:')+
         		'</label>&nbsp;<span class="glyphicon glyphicon-download-alt"></span>';
@@ -753,7 +815,7 @@
         	    data.entitatUid=_UsrID,
                 data.businessId=mapConfig.businessId;
                 data.nomAplicacio=mapConfig.nomAplicacio;
-                                                            
+                data.modeMapa=getModeMapa();                                           
                 
                createMapToWMS(data).then(
                             

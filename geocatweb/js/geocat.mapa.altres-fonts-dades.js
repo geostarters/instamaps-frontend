@@ -14,7 +14,7 @@ function cercaCapes(e){
 	    			var apBusinessIds = results.apBusinessIds;
 
 	    			jQuery.each(results.results, function(i, item) {
-	    				console.debug(item);
+	    				//console.debug(item);
 	    				lDadesInstamaps += '<li><a class="label-dadesInstamaps" href="#" data-url="'+item[0]+'" data-servertype="'+item[2]+'" data-nom="'+item[1]+'">'
 	    						+ item[1]
 	    						+ '</a>'
@@ -107,7 +107,7 @@ function cercaCapesBtn(){
 				var apBusinessIds = results.apBusinessIds;
 				
 				jQuery.each(results.results, function(i, item) {
-					console.debug(item);
+					//console.debug(item);
 					lDadesInstamaps += '<li><a class="label-dadesInstamaps" href="#" data-url="'+item[0]+'" data-servertype="'+item[2]+'" data-nom="'+item[1]+'">'
 							+ item[1]
 							+ '</a>'
@@ -545,7 +545,7 @@ function addControlAltresFontsDades() {
 								var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
 								var coordX = jQuery("#input-coord-x").val();
 								var coordY = jQuery("#input-coord-y").val();
-								console.debug(opcio);
+								//console.debug(opcio);
 								
 								if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1 && opcio!="codis" && opcio!="adreca"){
 									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");

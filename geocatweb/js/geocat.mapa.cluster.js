@@ -57,6 +57,8 @@ function creaClusterMap(capa) {
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 //					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+					//Desactivem la capa mare
+					if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 //					$(".layers-list").mCustomScrollbar({
 //						   advanced:{
 //						     autoScrollOnFocus: false,
@@ -132,6 +134,8 @@ function creaClusterMap(capa) {
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 
 					activaPanelCapes(true);
+					//Desactivem la capa mare
+					if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 				}else{
 					console.debug('error create server in map');
 				}
@@ -183,6 +187,8 @@ function creaClusterMap(capa) {
 					controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 //					controlCapes._lastZIndex++;
 					activaPanelCapes(true);
+					//Desactivem la capa mare
+					if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 //					$(".layers-list").mCustomScrollbar({
 //						   advanced:{
 //						     autoScrollOnFocus: false,
@@ -261,6 +267,7 @@ function creaClusterMap(capa) {
 						controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 //						controlCapes._lastZIndex++;
 						activaPanelCapes(true);
+						if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 						
 					}else{
 						//TODO error
@@ -298,6 +305,8 @@ function creaClusterMap(capa) {
 								$('#input-'+results.layer.businessId).trigger( "click" );
 								$('#input-'+results.layer.businessId).prop( "checked", true );
 								activaPanelCapes(true);	
+								//Desactivem la capa mare
+								if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 							}else{
 								//TODO error
 								console.debug("createVisualitzacioCluster ERROR");					
@@ -324,6 +333,8 @@ function creaClusterMap(capa) {
 		controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, capa.layer._leaflet_id);
 //		controlCapes._lastZIndex++;
 		activaPanelCapes(true);
+		//Desactivem la capa mare
+		if ($( "#input-"+capa.layer.options.businessId).attr("checked")!=undefined) $( "#input-"+capa.layer.options.businessId).click();
 //		$(".layers-list").mCustomScrollbar({
 //			   advanced:{
 //			     autoScrollOnFocus: false,

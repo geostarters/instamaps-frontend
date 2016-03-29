@@ -122,6 +122,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			//bbox: ""+bounds.getSouth()+","+bounds.getWest()+","+bounds.getNorth()+","+bounds.getEast()+"",
 			height: size.y,
 			width: size.x,
+			//exceptions:'application/vnd.ogc.se_blank',
 			layers: this.wmsParams.layers,
 			query_layers: this.wmsParams.layers,
 			info_format: 'text/html'

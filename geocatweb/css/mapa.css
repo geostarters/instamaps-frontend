@@ -178,6 +178,12 @@ html,body {
     margin-right: 5px;
 }
 
+.btn-reverse-palete{
+	margin-right: 5px;
+	cursor: pointer;
+	float: right;
+}
+
 /* end Tematics*/
 
 .tooltip {
@@ -2057,6 +2063,11 @@ h1,h2,h3,h4,h5,h6 {
 	border-radius: 0;
 	font-size: 12px;
 	overflow: auto;
+	
+}
+
+#layer-data-table .popover{
+	position: fixed;
 }
 
 .etiqueta li {
@@ -4089,6 +4100,14 @@ i.fa {
 }
 
 
+.bt_house{
+	 height: 26px;
+    width: 26px;
+	background-color: #FFFFFF;
+	    padding: 4px;
+}	
+
+
 .div_hill_verd{
  background-image: url("images/hillshading_verd.png");
     height: 26px;
@@ -4247,6 +4266,11 @@ i.fa {
 }
 
 /*Modal data table*/
+#layer-data-table{
+	width:100%;
+	max-width:100%;
+}
+
 #layer-data-table > thead > tr
 /*,
 #modal_data_table_body .bootstrap-table .table.table-hover.table-striped thead tr */{
@@ -4254,13 +4278,17 @@ i.fa {
     border-color: #bce8f1;
     color: #31708f;	
 }
-
+.fixed-table-container table {
+    width: 98%;
+}
 .fixed-table-container thead th .th-inner {
     background-color: #d9edf7;
     border-color: #bce8f1;
     color: #31708f;	
 }
-
+.fixed-table-header {
+	background-color: #d9edf7;
+}
 #modal_data_table_title {
     font-size: 18px;
     text-align: center;
@@ -4282,6 +4310,14 @@ i.fa {
     padding: 4px;
 }
 #layer-data-table th, #layer-data-table td {width: 100%;}
+.fixed-table-body {
+    height: 100%;
+    overflow-x: auto;
+}
+
+/*.fixed-table-header{
+	display:none !important;
+}*/
 
 .mCustomScrollBox > .mCSB_scrollTools {
     width: 5px;
@@ -4984,4 +5020,69 @@ a.leaflet-control-timecontrol:hover {
 .llista-dadesInstamaps{
 	max-height: 190px;
     overflow-y: auto;
+}
+
+.text2D{
+
+font-weight:bold;
+color:#464646;
+cursor:pointer;
+
+
+
+}
+
+
+.text3D{
+
+  color: #464646;
+   font-weight: bold;
+    margin: 0;
+
+/*
+   text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+*/
+
+text-shadow: 0px 1px 0px #999,
+ 0px 2px 0px #ffffff,
+ 0px 3px 0px #777;
+
+
+}
+
+
+   
+   }
+
+.text3D1{
+
+font-weight:bold;
+color:#464646;
+cursor:pointer;
+
+
+ text-shadow: 0 1px 0 #ccc,
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa,
+               0 6px 1px rgba(0,0,0,.1),
+               0 0 5px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.3),
+               0 3px 5px rgba(0,0,0,.2),
+               0 5px 10px rgba(0,0,0,.25),
+               0 10px 10px rgba(0,0,0,.2),
+               0 20px 20px rgba(0,0,0,.15);
+
+
+}
+
+
+.leaflet-control-draw-measure {
+    background-image: url(images/measure-control.png);
+}
+
+.enabled .leaflet-control-draw-measure {
+   border:1px solid #55821D;
+   background-color: #C57E92;
 }

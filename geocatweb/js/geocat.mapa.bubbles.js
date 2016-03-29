@@ -9,6 +9,9 @@ function showModalTematicBubbles(data){
 	
 	jQuery("#dialog_tematic_bubble").data("capamare", data);
 	
+	//se ponen los off para evitar el doble evento
+	//TODO hay que revisar como evitar el doble evento.
+	jQuery('#dialog_tematic_bubble .btn-success').off('click');
 	jQuery('#dialog_tematic_bubble .btn-success').on('click',function(e){
 		jQuery('#dialog_tematic_bubble').hide();
 		jQuery('#info_uploadFile').show();
@@ -71,6 +74,7 @@ function showModalTematicBubbles(data){
 		var html1 = template1({fields:fields});
 		jQuery('#dataFieldBubble').html(html1);
 		
+		jQuery('#dataFieldBubble').off('change');
 		jQuery('#dataFieldBubble').on('change',function(e){
 			var this_ = jQuery(this);
 			if (this_.val() == "---"){
@@ -112,11 +116,26 @@ function showModalTematicBubbles(data){
 						options = visualitzacio.options;	
 					}
 					
-					
+					var dataNames;
+					if(options.propName){
+						dataNames = options.propName.split(',');
+						jQuery.each(dataNames, function( index, value ) {
+							fields[value] = value;
+						});
+					}else{
+						if (results.geometries && results.geometries.options){
+							dataNames = results.geometries.options.split(',');
+							jQuery.each(dataNames, function( index, value ) {
+								fields[value] = value;
+							});
+						}
+					}
+					/*
 					var dataNames = options.propName.split(',');
 					jQuery.each(dataNames, function( index, value ) {
 						fields[value] = value;
 					});
+					*/
 				}else{
 					if (results.geometries && results.geometries.options){
 						var dataNames = results.geometries.options.split(',');
@@ -131,6 +150,7 @@ function showModalTematicBubbles(data){
 				var template1 = Handlebars.compile(source1);
 				var html1 = template1({fields:fields});
 				jQuery('#dataFieldBubble').html(html1);
+				jQuery('#dataFieldBubble').off('change');
 				jQuery('#dataFieldBubble').on('change',function(e){
 					var this_ = jQuery(this);
 					if (this_.val() == "---"){
@@ -255,6 +275,7 @@ function createRangsValuesBubbles(nrangs,rtype){
 	var visualitzacio = jQuery("#dialog_tematic_bubble").data("visualitzacio");
 	var rangs = jQuery("#dialog_tematic_bubble").data("rangs");
 	var nodata = jQuery("#dialog_tematic_bubble").data("nodata");
+	var reverse = jQuery("#dialog_tematic_bubble").data("reverse");
 	
 	values = jQuery.grep(values, function( n, i ) {
 		return (n != NODATA_VALUE && jQuery.isNumeric(parseFloat(n)));
@@ -311,9 +332,11 @@ function showTematicRangsBubbles(){
 	var values = jQuery("#dialog_tematic_bubble").data("rangs");
 	var visualitzacio = jQuery("#dialog_tematic_bubble").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_bubble").data("paleta");
+	var reverse = jQuery("#dialog_tematic_bubble").data("reverse");
 	jQuery("#dialog_tematic_bubble").data("tipusrang","rangs");
 	
-	var scale = createScaleBubbles(paleta, values.length);
+	paleta = paleta ? paleta : '#FFC500';
+	var scale = createScaleBubbles([paleta,paleta], values.length, reverse);
 			
 	var defer = jQuery.Deferred();
 	var valuesStyle = [];
@@ -492,12 +515,9 @@ function changeBubbleMaxValue(value, index){
 	jQuery("#dialog_tematic_bubble").data("rangs", values);
 }
 
-
-function createScaleBubbles(paleta, length){
+function createScaleBubbles(paleta, length, reverse){
 	//console.debug("createScaleBubbles");
-	var scale;
-	paleta = paleta ? paleta : '#FFC500';
-	scale = chroma.scale([paleta,paleta]).domain([0,length],length).out('hex');
+	var scale = ColorScales.createScale(paleta, length, reverse);
 	return scale;
 }
 
@@ -518,7 +538,7 @@ function createBubbleStyle(index, geometryType, paleta, mida, midaMax, nodata){
 		
 	if (ftype == t_marker){
 		defStyle = jQuery.extend({}, default_circulo_style);
-		defStyle.fillColor = paleta(index);
+		defStyle.fillColor = paleta(index).hex();
 		if(nodata){
 			defStyle.fillColor = NODATA_COLOR;
 		}
@@ -545,6 +565,7 @@ function createTematicLayerBubbles(event){
 	var values = jQuery("#dialog_tematic_bubble").data("values");
 	var brangs = jQuery("#dialog_tematic_bubble").data("rangs");
 	var paleta = jQuery("#dialog_tematic_bubble").data("paleta");
+	var reverse = jQuery("#dialog_tematic_bubble").data("reverse");
 	var rangs = [];
 	if (rtype == 'P'){
 		var min = jQuery('#list_tematic_values_bubble input[name=min]').val();
@@ -553,7 +574,10 @@ function createTematicLayerBubbles(event){
 		var midaMax = jQuery('#list_tematic_values_bubble input[name=mida_max]').val();
 		var styleMin = bubble2RangStyle(jQuery('#list_tematic_values_bubble #div_punt_min'));
 		var styleMax = bubble2RangStyle(jQuery('#list_tematic_values_bubble #div_punt_max'));
-		var scale = chroma.scale([styleMin.color, styleMax.color]).domain([min, max]);
+		
+		var scale = ColorScales.createScale([styleMin.color, styleMax.color], [min, max], reverse);
+		//var scale = chroma.scale([styleMin.color, styleMax.color]).domain([min, max]);
+		//var scale = createScale([styleMin.color, styleMax.color], [min, max]);
 		jQuery.each(values,function(index, value){
 			var rangEstil;
 			var size;
@@ -596,8 +620,8 @@ function createTematicLayerBubbles(event){
 	
 	if(visualitzacio.tipus == t_url_file){	
 		var data1 = {
-				uid: $.cookie('uid'),
-				businessId1: capaMare.options.businessId
+			uid: $.cookie('uid'),
+			businessId1: capaMare.options.businessId
 		}
 		crearFitxerPolling(data1).then(function(results) {
 			var tmpFile="";
@@ -641,6 +665,8 @@ function createTematicLayerBubbles(event){
 										busy=false;					
 										jQuery('#info_uploadFile').hide();
 										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									
 								}else if(data.status.indexOf("ERROR")!=-1 && busy){
@@ -763,6 +789,8 @@ function createTematicLayerBubbles(event){
 									
 									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
 										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
 									busy=false;					
 									jQuery('#info_uploadFile').hide();

@@ -248,12 +248,17 @@ function initControls(){
 //	tradueixMenusToolbar();
 	redimensioMapa();
 	addHtmlModalOldBrowser();
+	
 	addHtmlModalExpire();
 	addHtmlModalMessages();
 
 	//carrega font de dades
 	generaLListaDadesObertes();
 	generaLlistaServeisWMS();
+//Afegir modul3D
+		 addModul3D();
+		 
+		
 }
 
 function addClicksInici() {
@@ -339,6 +344,14 @@ function addControlsInici(){
 		this._div.appendChild(btllista[0]);
 		//btllista.innerHTML = '<span class="glyphicon glyphicon-th-list grisfort"></span>';
 
+		
+		
+		//nou Boto 3D
+			var bt3D_2D = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_3D_2D\" title=\"Canviar vista\" data-lang-title=\"Canviar vista\"><span class='text3D'>3D</span></div>");
+			this._div.appendChild(bt3D_2D[0]);
+		
+		
+		
 		//var btcamera = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_captura');
 		var btcamera = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_captura\" title=\"Capturar la vista del mapa\" data-lang-title=\"Capturar la vista del mapa\"><span class='glyphicon glyphicon-camera grisfort'></span></div>");
 		this._div.appendChild(btcamera[0]);
@@ -362,6 +375,26 @@ function addControlsInici(){
 		placement : 'left',
 		container : 'body'
 	});
+	
+	 ctr_vistaInicial = L.control({
+		position : 'topleft'
+	});
+	
+	ctr_vistaInicial.onAdd = function(map) {
+
+		this._div = L.DomUtil.create('div', 'leaflet-bar bt_house');
+		this._div.id='dv_bt_vistaInicial';
+		this._div.title=window.lang.convert('Vista inicial');
+		this._div.innerHTML = '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>';
+		return this._div;
+	};
+	ctr_vistaInicial.addTo(map);
+	
+	
+	
+	
+	
+	
 }
 
 
@@ -373,6 +406,28 @@ function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
+	
+	
+
+jQuery("#dv_bt_vistaInicial").on('click',function(e){
+		if (mapConfig.options && mapConfig.options.bbox){
+			var bbox = mapConfig.options.bbox.split(",");
+			var southWest = L.latLng(bbox[1], bbox[0]);
+		    var northEast = L.latLng(bbox[3], bbox[2]);
+		    var bounds = L.latLngBounds(southWest, northEast);
+			map.fitBounds( bounds );
+		}
+		else if (mapConfig.options && mapConfig.options.center){
+			var opcenter = mapConfig.options.center.split(",");
+			map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+		}else{
+			
+			
+			map.setView([ 41.4324, 1.1453 ], 8);
+		}	
+		aturaClick(e);
+	});	
+	
 
 }
 
@@ -388,6 +443,36 @@ function updateLangText(){
 	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
 	$('.bt_publicar>span').html(window.lang.convert("Desar / Publicar el mapa"));
 	$('#socialShare>h5').html(window.lang.convert("Compartir"));
+	
+	//Traducció dels textos del modal de publicar
+	$('#titlePublicar').text(window.lang.convert('Publicar el mapa'));
+	$('#id_info_tab').text(window.lang.convert('Informació'));
+	$('#id_privacitat_tab').text(window.lang.convert('Privacitat'));
+	$('#id_llegenda_tab').text(window.lang.convert('Llegenda'));
+	$('#id_reuse_tab').text(window.lang.convert('Reutilització'));
+	
+	
+	$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
+    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
+    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 
+	$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
+	
+    
+    $('#llegendaTitle').text(window.lang.convert('Llegenda'));
+    $('#textLegend').text(window.lang.convert('Escull si vols o no generar la llegenda associada al mapa'));
+    
+    $('#checkObert').text(window.lang.convert('Obert'));
+    $('#checkRestringit').text(window.lang.convert('Restringit'));
+    $('#txtPublic').text(window.lang.convert('Tothom amb l\'enllaç pot accedir al mapa'));
+    $('#txtPrivat').text(window.lang.convert('L\'accés al mapa es protegit amb clau'));
+    $('#checkPublic').text(window.lang.convert('Públic'));
+    $('#checkPrivat').text(window.lang.convert('Privat'));
+    $('#txtVisible').text(window.lang.convert('El mapa és visible a la galeria pública'));
+    $('#txtNoVisible').text(window.lang.convert('El mapa només és visible a la teva galeria privada'));
+    $('#resetClau').text(window.lang.convert('Reiniciar'));
+    
+    $('#cancelPublicar').text(window.lang.convert('Cancel·lar'));
+    $('#okPublicar').text(window.lang.convert('Publicar'));
 
 }
 

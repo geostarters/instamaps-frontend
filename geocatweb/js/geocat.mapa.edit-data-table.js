@@ -83,8 +83,7 @@ function addFuncioEditDataTable(){
 }
 
 function fillModalDataTable(obj, geomBid){
-//	console.debug(geomBid);
-//	console.debug(obj);
+	
 	var columNames = [];
 	var geometriesBusinessId = "";
 	var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
@@ -109,7 +108,7 @@ function fillModalDataTable(obj, geomBid){
 	
 	$('#modal_data_table').data("capaEdicio", obj);
 	
-	//obj.layer.serverName
+	//obj.layer.serverName	
 	$('#modal_data_table_title').html(obj.name.toUpperCase());	
 	
 	//Primer trobem column names
@@ -145,6 +144,7 @@ function fillModalDataTable(obj, geomBid){
 			if(modeMapa){
 				var isADrawMarker=false;
 				//properties headers
+				
 				for(var x in feature.properties){
 					var obj = {
 						title: x.toUpperCase(),
@@ -158,7 +158,7 @@ function fillModalDataTable(obj, geomBid){
 					else isADrawMarker=false;
 					columNames.push(obj);
 				}		
-				if (isADrawMarker){
+				if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt
 					var obj = {
 							title: "latitud".toUpperCase(),
 							field: "latitud".toLowerCase(),
@@ -279,6 +279,7 @@ function fillModalDataTable(obj, geomBid){
 				});
 				
 				
+				
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
 					striped: true,
@@ -287,12 +288,15 @@ function fillModalDataTable(obj, geomBid){
 //					clickToSelect: true,
 //					checkboxHeader: true,
 //					showColumns: true,
+//					 showHeader: true,
 					rowStyle: 'rowStyle',
 				    columns: columNames,
-				    showExport: true,
+				    showExport: true,				    
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
+				    ignoreColumn: [columNames.length-4],
 				    data: resultatsMod
-				});				
+				});	
+				
 
 				$('#modal_data_table').on('editable-save.bs.table', function(event, name, row, 	oldValue, param) {
 					event.preventDefault();
@@ -318,7 +322,9 @@ function fillModalDataTable(obj, geomBid){
 							console.debug('error updateGeometriaProperties');
 						});							
 					}
-				});		
+				});	
+				
+				
 				
 			}else{
 				console.debug('error getGeometriesPropertiesLayer');
@@ -332,9 +338,9 @@ function fillModalDataTable(obj, geomBid){
 function rowStyle(row, index) {
 	
 	numRows = numRows + 1;
-    if (row.geometrybid == geomBusinessId) {
+	if (row.geometrybid == geomBusinessId) {
 //    	console.debug("rowStyle:");
-//    	console.debug(row);
+   
 //    	console.debug(index);
     	geomRowIndex = index;
         return {
@@ -360,7 +366,7 @@ function actionFormatter(value, row, index) {
         '<a class="zoomTo" href="javascript:void(0)" title="ZoomTo">',
         '<i class="glyphicon glyphicon-zoom-in data-table-icon-zoom"></i>',            
         '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-remove data-table-icon-remove"></i>',
+        '<i class="glyphicon glyphicon-trash data-table-icon-remove"></i>',
         '</a>'
     ].join('');
 }

@@ -38,6 +38,9 @@ function initButtonsTematic(){
 function showTematicLayersModal(tipus,className){
 //	console.debug("showTematicLayersModal");
 	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar a cap capa de les que tens en el mapa')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	var warninMSG3D="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar amb modus 3D')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	
+	
 	jQuery('.modal').modal('hide');
 	
 	jQuery('#dialog_layers_tematic').modal('show');
@@ -122,15 +125,26 @@ function showTematicLayersModal(tipus,className){
 							layers.push(this);
 						}
 					}
+				
+
+			
+				
 				}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-					var ftype = transformTipusGeometry(layerOptions.geometryType);
-					//var ftype = layerOptions.geometryType;
-					if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
-						(tipusCapa == t_tematic && ftype == t_marker) ||
-						(tipusCapa == t_url_file && ftype == t_marker) ||
-						(tipusCapa == t_visualitzacio && ftype == t_marker) ||
-						(tipusCapa == t_vis_wms)){
-						layers.push(this);
+					
+					if(estatMapa3D){
+						$('#list_tematic_layers').html(warninMSG3D);
+					
+					}else{
+					
+							var ftype = transformTipusGeometry(layerOptions.geometryType);
+							//var ftype = layerOptions.geometryType;
+							if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
+								(tipusCapa == t_tematic && ftype == t_marker) ||
+								(tipusCapa == t_url_file && ftype == t_marker) ||
+								(tipusCapa == t_visualitzacio && ftype == t_marker) ||
+								(tipusCapa == t_vis_wms)){
+								layers.push(this);
+							}
 					}
 				}else if (tipus==tem_size) {
 					var ftype = transformTipusGeometry(layerOptions.geometryType);
@@ -149,8 +163,14 @@ function showTematicLayersModal(tipus,className){
 		}
 	});// fi each
 	if(layers.length ==0){
+		
+		if(estatMapa3D){
+						$('#list_tematic_layers').html(warninMSG3D);
+					return;
+		}else{
 		$('#list_tematic_layers').html(warninMSG);		
 		return;
+		}
 	}
 	layers = {layers: layers};
 
@@ -1254,7 +1274,7 @@ function addHtmlModalCategories(){
 	'					<div id="list_tematic_values"></div>'+
 
 	'					<div id="paletes_colors">'+
-	'						<div lang="ca">Tria la paleta de colors</div>'+
+	'						<div><span lang="ca">Tria la paleta de colors</span><span class="glyphicon glyphicon-arrow-down btn-reverse-palete"></span><span lang="ca" class="btn-reverse-palete">Inverteix paleta</span></div>'+
 	'<div class="ramp BuGn"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(237,248,251)"/><rect y="15" height="15" width="15" fill="rgb(178,226,226)"/><rect y="30" height="15" width="15" fill="rgb(102,194,164)"/><rect y="45" height="15" width="15" fill="rgb(44,162,95)"/><rect y="60" height="15" width="15" fill="rgb(0,109,44)"/></svg></div>'+
 	'<div class="ramp BuPu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(237,248,251)"/><rect y="15" height="15" width="15" fill="rgb(179,205,227)"/><rect y="30" height="15" width="15" fill="rgb(140,150,198)"/><rect y="45" height="15" width="15" fill="rgb(136,86,167)"/><rect y="60" height="15" width="15" fill="rgb(129,15,124)"/></svg></div>'+
 	'<div class="ramp GnBu"><svg height="75" width="15"><rect y="0" height="15" width="15" fill="rgb(240,249,232)"/><rect y="15" height="15" width="15" fill="rgb(186,228,188)"/><rect y="30" height="15" width="15" fill="rgb(123,204,196)"/><rect y="45" height="15" width="15" fill="rgb(67,162,202)"/><rect y="60" height="15" width="15" fill="rgb(8,104,172)"/></svg></div>'+

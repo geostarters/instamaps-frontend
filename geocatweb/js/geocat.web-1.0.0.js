@@ -602,6 +602,32 @@ function addHtmlModalOldBrowser(){
 	);
 }
 
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
 function isGeolocalUser(){
 	var isGeolocal = false;
 	if($.cookie('tipusEntitat')){
