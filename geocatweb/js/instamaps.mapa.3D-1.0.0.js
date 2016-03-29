@@ -91,7 +91,9 @@ function addModul3D() {
 
 function gestionFonsMapa3D() {
 
-	////console.warn("gestionFonsMapa3D");
+	
+	
+	
 	if (estatMapa3D && mapaEstatNOPublicacio) {
 		mapaVista3D.addBaseLayersCesium();
 	}
@@ -531,6 +533,7 @@ var IM_aplicacio = function (options) {
 
 					}
 
+					console.info(disparaEventMapa);
 				}
 
 			}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -579,6 +582,8 @@ var IM_aplicacio = function (options) {
 		//map.on('zoomend', function (e) {
 			
 			if (estatMapa3D && disparaEventMapa) {
+				
+				
 
 				thet._goToBounds(map.getBounds(), map.getZoom());
 				//thet._goTo(map.getCenter().lat, map.getCenter().lng);
@@ -590,8 +595,13 @@ var IM_aplicacio = function (options) {
 	},
 
 	this.miraPosicioXYZ = function (movement) {
+		
+		
+		
 		matriu3 = [];
 
+		try{
+		
 		var ellipsoid = viewer.scene.globe.ellipsoid;
 		var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
 
@@ -609,6 +619,11 @@ var IM_aplicacio = function (options) {
 
 			}
 
+		}
+		
+		}catch(Err){
+			
+			
 		}
 
 	},
@@ -849,6 +864,8 @@ var IM_aplicacio = function (options) {
 
 		if (mapaEstatNOPublicacio) {
 
+			
+			
 			jQuery.each(baseLayer3D, function (index, layer) {
 				_imageryLayers.remove(layer, true); //capesActives3D
 			});
