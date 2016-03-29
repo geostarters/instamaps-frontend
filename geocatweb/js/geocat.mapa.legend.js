@@ -79,7 +79,7 @@ function checkEmptyMapLegend(){
 function createModalConfigLegend(){
 	//Obrim modal llegenda
 
-	var html = '<span lang="ca" id="llegenda-title-text"  style="width:20%;font-size: 18px;">'+window.lang.convert('Llegenda')+'</span><span>&nbsp;&nbsp;&nbsp;&nbsp;Marca els símbols que vols que es visualitzin</span>';
+	var html = '<span lang="ca" id="llegenda-title-text"  style="width:20%;font-size: 18px;">'+window.lang.convert('Llegenda')+'</span><span>&nbsp;&nbsp;&nbsp;&nbsp;'+window.lang.convert('Marca els símbols que vols que es visualitzin')+'</span>';
 	html += '<div class="separate-legend-row-all"></div>';
 	html += '<div class="legend-row">'+
 				'<div class="legend-subrow-all">'+

@@ -366,7 +366,7 @@ function actionFormatter(value, row, index) {
         '<a class="zoomTo" href="javascript:void(0)" title="ZoomTo">',
         '<i class="glyphicon glyphicon-zoom-in data-table-icon-zoom"></i>',            
         '<a class="remove ml10" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-remove data-table-icon-remove"></i>',
+        '<i class="glyphicon glyphicon-trash data-table-icon-remove"></i>',
         '</a>'
     ].join('');
 }
