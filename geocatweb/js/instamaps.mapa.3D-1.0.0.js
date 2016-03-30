@@ -689,13 +689,14 @@ var IM_aplicacio = function (options) {
 
 			} else if ((accio == "display") || (accio == "remove")) {
 
+			var trobatCapa=false;
 				//if (obj.tipus.indexOf("wms") != -1) {
 
 				jQuery.each(capesActives3D._layers, function (index, layer) {
 					//_imageryLayers.remove(layer, true); //capesActives3D
 
 					if (layer && layer.id == obj.businessId) {
-
+						trobatCapa=true;
 						if (accio == "display") {
 							layer.show = visible
 						} else if (accio == "remove") {
@@ -717,7 +718,7 @@ var IM_aplicacio = function (options) {
 
 					if (feature && feature.properties) {
 						if (feature.properties.dataSource == obj.businessId) {
-
+							trobatCapa=true;
 							if (accio == "display") {
 								feature.show = visible;
 
@@ -741,6 +742,17 @@ var IM_aplicacio = function (options) {
 
 				}
 
+				if(!trobatCapa){
+					map.spin(true);
+				//console.debug("No he trobat capa");				
+if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
+					this.matriuCapes.overlays = [];
+					this.addOverlaysLayersCesium();
+						map.spin(false);
+				}
+				
+				}	
+				
 				/*
 				jQuery.each(viewer.entities.values, function (index, feature) {
 
@@ -772,6 +784,9 @@ var IM_aplicacio = function (options) {
 				 */
 
 				//}
+				
+				
+				
 
 			} else {
 
@@ -964,9 +979,9 @@ var IM_aplicacio = function (options) {
 			//if (item.layer.options.tipus != t_heatmap && item.layer.options.tipus != t_cluster && item.layer.options.tipus != t_size) {
 			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
-				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false, numCapes));
-				}
+				//if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
+					//this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false, numCapes));
+				//}
 
 			} else {
 				// NO ACTIVES tipus capes heatmaps,cluster o bombolla TODO
