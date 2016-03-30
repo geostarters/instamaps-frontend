@@ -531,7 +531,7 @@ var IM_aplicacio = function (options) {
 
 					}
 
-					console.info(disparaEventMapa);
+					
 				}
 
 			}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -869,6 +869,8 @@ var IM_aplicacio = function (options) {
 				//var _minimumLevel = this.matriuCapes.base[i].options.maxZoom;
 
 				if (url.indexOf('osm.org') != -1 || url.indexOf('mqcdn.com') != -1  ) {
+					
+					url=url.replace('{s}.mqcdn.com','otile1.mqcdn.com');
 
 					if (!this._miraCentreDins(this.center.lat, this.center.lng)) {
 
@@ -878,7 +880,7 @@ var IM_aplicacio = function (options) {
 									url : url,
 
 									maximumLevel : 18,
-									minimumLevel : 10
+									minimumLevel : 3
 								}));
 
 						_imageryLayers.lowerToBottom(BB_layer);
