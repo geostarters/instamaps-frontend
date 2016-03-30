@@ -1948,8 +1948,11 @@ var IM_aplicacio = function (options) {
 				zoomLevel = 21;
 			} else {
 				zoomLevel = parseInt((-1 * ((Math.log(maxDiff) / Math.log(2)) - (Math.log(360) / Math.log(2)))));
-				if (zoomLevel < 1)
-					zoomLevel = 1;
+				
+				if (zoomLevel > 18){zoomLevel = zoomLevel -2;}
+				
+				if (zoomLevel < 1){zoomLevel = 1;}
+					
 			}
 
 			bbox.centerLat = centerLat;
