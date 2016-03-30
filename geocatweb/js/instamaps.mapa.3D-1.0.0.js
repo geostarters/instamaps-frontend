@@ -45,7 +45,7 @@ function addModul3D() {
 	jQuery('.bt_3D_2D').on('click', function (event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user + '3D', 'label 3D', 1]);
-
+		$('.tooltip').hide();
 		// mirar si el navegador suporta 3d
 		browserWebGL ? canviaVista_3D_2D(this) : mostraMsgNo3D();
 
@@ -868,7 +868,7 @@ var IM_aplicacio = function (options) {
 				//var _maximumLevel = this.matriuCapes.base[i].options.maxZoom;
 				//var _minimumLevel = this.matriuCapes.base[i].options.maxZoom;
 
-				if (url.indexOf('osm.org') != -1) {
+				if (url.indexOf('osm.org') != -1 || url.indexOf('mqcdn.com') != -1  ) {
 
 					if (!this._miraCentreDins(this.center.lat, this.center.lng)) {
 
@@ -1271,17 +1271,20 @@ var IM_aplicacio = function (options) {
 			break;
 		}
 		factor = 3;
-		var _factorNumVectorsPol = 100 * factor;
-		var _factorNumVectorsLin = 50 * factor;
-		var _factorNumVectorsPunt = 500 * factor;
+		var _factorNumVectorsPol = 420 * factor;
+		var _factorNumVectorsLin = 27 * factor;
+		var _factorNumVectorsPunt = 110 * factor;
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
+			
 			var numFeatures = ff.features.length;
 
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
+			
+				
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
 
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
@@ -1291,7 +1294,7 @@ var IM_aplicacio = function (options) {
 							for (var j = 0; j < numFeatures; j++) {
 
 								var vertex = ff.features[j].geometry.coordinates[0].length;
-								if (vertex > 500) {
+								if (vertex > 200) {
 									tmp_feature.msg = 'none';
 								}
 								break;
@@ -1334,6 +1337,8 @@ var IM_aplicacio = function (options) {
 
 			} else if (item.layer.options.tipusRang) {
 
+			
+			
 				tmp_feature.tipus = 'vecras';
 			} else {
 
@@ -1341,13 +1346,15 @@ var IM_aplicacio = function (options) {
 
 			}
 
-			//ff = "";
+			ff = "";
 
-			//console.debug(tmp_feature);
+			
 			return tmp_feature;
 
 		} catch (err) {
 
+			_gaq.push(['_trackEvent', 'error3D', err, '_utilDeterminaTipusItem', 1]);
+		
 			if (item.layer.options.tipusRang) {
 
 				tmp_feature.tipus = 'vecras';
