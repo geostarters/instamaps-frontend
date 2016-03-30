@@ -1289,8 +1289,8 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		}
 		factor = 3;
 		var _factorNumVectorsPol = 420 * factor;
-		var _factorNumVectorsLin = 27 * factor;
-		var _factorNumVectorsPunt = 110 * factor;
+		var _factorNumVectorsLin = 50 * factor;
+		var _factorNumVectorsPunt = 810 * factor;
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
