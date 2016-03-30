@@ -91,9 +91,6 @@ function addModul3D() {
 
 function gestionFonsMapa3D() {
 
-	
-	
-	
 	if (estatMapa3D && mapaEstatNOPublicacio) {
 		mapaVista3D.addBaseLayersCesium();
 	}
@@ -278,9 +275,9 @@ var IM_aplicacio = function (options) {
 		overLayers3D = [];
 
 		this.bounds = map.getBounds();
-		this.center=map.getCenter()
+		this.center = map.getCenter()
 
-		terreny = new Cesium.CesiumTerrainProvider({
+			terreny = new Cesium.CesiumTerrainProvider({
 				url : _urlTerrenys,
 				credit : 'icgc'
 
@@ -576,15 +573,12 @@ var IM_aplicacio = function (options) {
 
 	this.activaEventLeaflet = function () {
 		var thet = this;
-		
-		
+
 		map.on('viewreset', function (e) {
-		
-		//map.on('zoomend', function (e) {
-			
+
+			//map.on('zoomend', function (e) {
+
 			if (estatMapa3D && disparaEventMapa) {
-				
-				
 
 				thet._goToBounds(map.getBounds(), map.getZoom());
 				//thet._goTo(map.getCenter().lat, map.getCenter().lng);
@@ -596,36 +590,34 @@ var IM_aplicacio = function (options) {
 	},
 
 	this.miraPosicioXYZ = function (movement) {
-		
-		
-		
+
 		matriu3 = [];
 
-		try{
-		
-		var ellipsoid = viewer.scene.globe.ellipsoid;
-		var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+		try {
 
-		if (cartesian) {
-			var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-			var lon = Cesium.Math.toDegrees(cartographic.longitude);
-			var lat = Cesium.Math.toDegrees(cartographic.latitude);
-			var lonC = Cesium.Math.toRadians(lon);
-			var latC = Cesium.Math.toRadians(lat);
+			var ellipsoid = viewer.scene.globe.ellipsoid;
+			var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
 
-			if (!isNaN(lonC)) {
+			if (cartesian) {
+				var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+				var lon = Cesium.Math.toDegrees(cartographic.longitude);
+				var lat = Cesium.Math.toDegrees(cartographic.latitude);
+				var lonC = Cesium.Math.toRadians(lon);
+				var latC = Cesium.Math.toRadians(lat);
 
-				var text = '<div>WGS84 ' + lon.toFixed(5) + ' ' + lat.toFixed(5) + '</div>';
-				jQuery('.leaflet-control-mouseposition').html(text);
+				if (!isNaN(lonC)) {
+
+					var text = '<div>WGS84 ' + lon.toFixed(5) + ' ' + lat.toFixed(5) + '</div>';
+					jQuery('.leaflet-control-mouseposition').html(text);
+
+				}
 
 			}
 
-		}
-		
-		}catch(Err){
-		
-	_gaq.push(['_trackEvent', 'error3D', Err, 'miraPosicioXYZ', 1]);		
-			
+		} catch (Err) {
+
+			_gaq.push(['_trackEvent', 'error3D', Err, 'miraPosicioXYZ', 1]);
+
 		}
 
 	},
@@ -641,8 +633,6 @@ var IM_aplicacio = function (options) {
 					.getEast()),
 				((bounds.getNorth())));
 
-				
-				
 		viewer.camera.setView({
 			destination : rectangle
 		});
@@ -866,8 +856,6 @@ var IM_aplicacio = function (options) {
 
 		if (mapaEstatNOPublicacio) {
 
-			
-			
 			jQuery.each(baseLayer3D, function (index, layer) {
 				_imageryLayers.remove(layer, true); //capesActives3D
 			});
@@ -877,51 +865,42 @@ var IM_aplicacio = function (options) {
 			this.matriuCapes.base.reverse();
 			for (var i = 0; i < this.matriuCapes.base.length; i++) {
 				var url = this.matriuCapes.base[i]._url;
+				//var _maximumLevel = this.matriuCapes.base[i].options.maxZoom;
+				//var _minimumLevel = this.matriuCapes.base[i].options.maxZoom;
 
-				if(url.indexOf('osm.org')!=-1){
+				if (url.indexOf('osm.org') != -1) {
 
-				
-				
-				//console.info(this._miraCentreDins(this.center.lat,this.center.lng));
-			 
-		if	(!this._miraCentreDins(this.center.lat,this.center.lng)){				
-				
-				this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+					if (!this._miraCentreDins(this.center.lat, this.center.lng)) {
 
-					
-				var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
-							url : url,
-							 //maximumLevel : this.matriuCapes.base[i].options.maxZoom,
-							maximumLevel : 18,
-							 minimumLevel:10
-						}));
-						
-					_imageryLayers.lowerToBottom(BB_layer);
-					baseLayer3D.push(BB_layer);
-		}
-					
-				
-				
-				}else{
-					
+						this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+
+						var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
+									url : url,
+
+									maximumLevel : 18,
+									minimumLevel : 10
+								}));
+
+						_imageryLayers.lowerToBottom(BB_layer);
+						baseLayer3D.push(BB_layer);
+					}
+
+				} else {
+
 					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
 
-				var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
-							url : url,
-							// maximumLevel : this.matriuCapes.base[i].options.maxZoom,
-							maximumLevel : 18,
-							minimumLevel : 3
-							//minimumLevel:this.matriuCapes.base[i].options.minZoom
-						}));
-				_imageryLayers.lowerToBottom(BB_layer);
-				baseLayer3D.push(BB_layer);
-					
-					
-				}	
-				
-			
-				
-				
+					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
+								url : url,
+
+								maximumLevel : 18,
+								minimumLevel : 3
+
+							}));
+					_imageryLayers.lowerToBottom(BB_layer);
+					baseLayer3D.push(BB_layer);
+
+				}
+
 			}
 
 		}
@@ -929,7 +908,7 @@ var IM_aplicacio = function (options) {
 
 	this.addOverlaysLayersCesium = function () {
 
-		//console.warn("1-addOverlaysLayersCesium");
+	
 
 		var that = this;
 
@@ -1042,8 +1021,6 @@ var IM_aplicacio = function (options) {
 							_url = _url.replace('betaserver.icgc.cat', '172.70.1.31');
 						}
 
-						
-						
 						var provider = new Cesium.WebMapServiceImageryProvider({
 								url : _url,
 								layers : raster.layer.wmsParams.layers,
@@ -1059,7 +1036,7 @@ var IM_aplicacio = function (options) {
 									styles : 'default'
 								},
 								maximumLevel : 18,
-								minimumLevel:5,
+								minimumLevel : 5,
 								proxy : {
 									getURL : function (url) {
 										return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
@@ -1067,7 +1044,6 @@ var IM_aplicacio = function (options) {
 								}
 							});
 
-						
 						provider.alpha = opacity;
 
 						setTimeout(this.delayAddImageProvider(provider, visible, raster.layer.options.businessId), 1000);
@@ -1201,7 +1177,7 @@ var IM_aplicacio = function (options) {
 					_bbox +
 					'width=256&height=256&',
 					maximumLevel : 18,
-					minimumLevel:5
+					minimumLevel : 3
 				});
 
 			//application/vnd.ogc.se_blank
@@ -1223,7 +1199,7 @@ var IM_aplicacio = function (options) {
 
 			_tmpLayer.show = visible;
 			map.spin(false);
-		}, 1000);
+		}, 4000);
 
 		//viewer.imageryLayers.addImageryProvider(provider);
 
@@ -1366,7 +1342,7 @@ var IM_aplicacio = function (options) {
 			}
 
 			//ff = "";
-			
+
 			//console.debug(tmp_feature);
 			return tmp_feature;
 
@@ -1378,7 +1354,7 @@ var IM_aplicacio = function (options) {
 			} else {
 				tmp_feature.tipus = 'raster';
 			}
-//console.debug(tmp_feature);
+			//console.debug(tmp_feature);
 			return tmp_feature;
 		}
 
@@ -1506,7 +1482,7 @@ var IM_aplicacio = function (options) {
 				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
 				if (entity.properties.styles.icon) {
-//console.info("111");
+					//console.info("111");
 					var _alt = parseInt(matriu[i].height + 100)
 
 						var redEllipse = viewer.entities.add({
@@ -1530,7 +1506,7 @@ var IM_aplicacio = function (options) {
 					entity.billboard.color = Cesium.Color.WHITE;
 
 					if (entity.properties.styles.icon.options.markerColor) {
-//console.info("2");
+						//console.info("2");
 						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
 
 						if (colorPUNT.indexOf('punt_r') == -1) {
@@ -1594,8 +1570,6 @@ var IM_aplicacio = function (options) {
 					console.debug("No hauria entrar aqui");
 				}
 
-				
-				
 				viewer.entities.add(entity); //add billboard
 			} else if (entity.polygon) {
 
@@ -1621,9 +1595,6 @@ var IM_aplicacio = function (options) {
 				var alcada = 0;
 				var _tenimAlcada = false;
 
-				
-				
-				
 				if (entity.properties.elevation) {
 					alcada = parseInt(entity.properties.elevation);
 					_tenimAlcada = true;
@@ -1683,11 +1654,10 @@ var IM_aplicacio = function (options) {
 					var cartesianPositions = entity.polygon._hierarchy._value;
 
 				}
-var _newEntity;
-				
-				
+				var _newEntity;
+
 				if (_tenimAlcada) {
-					
+
 					var terra = 0;
 					if (msg == 'vector') {
 						terra = (Math.max.apply(Math, _matriuAlcada));
@@ -1701,49 +1671,36 @@ var _newEntity;
 							hierarchy : cartesianPositions,
 							outline : true,
 							extrudedHeight : _extrudeAlcada,
-							 fill:true,
+							fill : true,
 							outlineColor : Cesium.Color.fromCssColorString(borderColor),
-						material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
+							material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
 							// outlineWidth : 3.0,
 							perPositionHeight : true
-							
 
 						}
-				};
-					
-					
-				}else{
+					};
 
-				_newEntity = {
+				} else {
 
-					properties : entity.properties,
-					show : visible,
-					polygon : {
-						hierarchy : cartesianPositions,
-						outline : true,
-						// fill:true,
-						outlineColor : Cesium.Color.fromCssColorString(borderColor),
-						material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
-						// outlineWidth : 3.0,
-						perPositionHeight : true,
-						// extrudedHeight:3000
+					_newEntity = {
 
-					}
-				};
-				
-				}	
-				
-				
-				
+						properties : entity.properties,
+						show : visible,
+						polygon : {
+							hierarchy : cartesianPositions,
+							outline : true,
+							// fill:true,
+							outlineColor : Cesium.Color.fromCssColorString(borderColor),
+							material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
+							// outlineWidth : 3.0,
+							perPositionHeight : true,
+							// extrudedHeight:3000
 
+						}
+					};
 
-					
-				
+				}
 
-				
-				
-				
-				
 				viewer.entities.add(_newEntity);
 
 			}
