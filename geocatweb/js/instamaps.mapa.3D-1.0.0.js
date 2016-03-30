@@ -1270,7 +1270,7 @@ var IM_aplicacio = function (options) {
 			factor = 1.5;
 			break;
 		}
-
+		factor = 3;
 		var _factorNumVectorsPol = 100 * factor;
 		var _factorNumVectorsLin = 50 * factor;
 		var _factorNumVectorsPunt = 500 * factor;
