@@ -37,9 +37,11 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
         this._container.style.cursor = 'crosshair';
 
         this._updateTooltip();
+        this._map.off('click',L.TileLayer.BetterWMS.getFeatureInfo);
         this._map
             .on('pointermove', this._onMouseMove, this)
-            .on('mousemove', this._onMouseMove, this);
+            .on('mousemove', this._onMouseMove, this)
+            .on('click', this._onClick, this);
     },
 
     _finishShape: function () {
@@ -50,10 +52,20 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
 
         this._updateTooltip();
 
+        var map=this._map;
+    	this._map.eachLayer(function(layer) {
+			if (layer.options
+					&& layer.options.tipus == "wms") {
+				map.on('click',layer.getFeatureInfo,layer);
+			}
+
+		});
+       
         this._map
             .off('pointermove', this._onMouseMove, this)
-            .off('mousemove', this._onMouseMove, this);
-
+            .off('mousemove', this._onMouseMove, this)
+            .off('click', this._onClick, this);
+        
         this._container.style.cursor = '';
     },
 
