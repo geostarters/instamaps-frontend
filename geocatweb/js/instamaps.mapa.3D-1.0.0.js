@@ -1165,7 +1165,7 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		var that = this;
 		//jQuery.each(layers, function (i, item) {
 
-	url=url.replace('172.70.1.11','localhost');
+	//url=url.replace('172.70.1.11','localhost');
 		
 			var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
 			var srs = "EPSG:3857";
@@ -1300,14 +1300,15 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		};
 
 		var factor = 1;
-
+		var mapZoom=this.mapZoom;
 		if(numCapes <= 6){factor=3}	
 		if(numCapes >= 6){factor=1.5}
 		
+		
 	
-		var _factorNumVectorsPol = 450 * factor;
-		var _factorNumVectorsLin = 150 * factor;
-		var _factorNumVectorsPunt = 500 * factor;
+		var _factorNumVectorsPol = 150 * factor;
+		var _factorNumVectorsLin = 200 * factor;
+		var _factorNumVectorsPunt = 300 * factor;
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
@@ -1316,11 +1317,10 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
-
 			
-				
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
-
+					
+				
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
@@ -1332,8 +1332,18 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 									tmp_feature.msg = 'none';
 								}
 								break;
-							}
+							}							
+							
 						}
+						
+						
+							if(mapZoom <= 10 && numFeatures < 3500){
+								
+								tmp_feature.msg = 'none';
+								tmp_feature.tipus = 'vector'
+								
+								
+							}
 
 					} else if (item.layer.options.source && item.layer.options.source.indexOf('xls') != -1) {
 
@@ -1799,6 +1809,8 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		try {
 			if (this._miraCentreDins(lat, lng) && credit != 'icgc') {
 
+				factorTerreny=14
+				
 				terreny = new Cesium.CesiumTerrainProvider({
 						url : _urlTerrenys,
 						credit : 'icgc'
@@ -1809,6 +1821,8 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 			} else if (!this._miraCentreDins(lat, lng) && credit != 'cesium') {
 
+				factorTerreny=11;
+				
 				terreny = new Cesium.CesiumTerrainProvider({
 						url : 'http://assets.agi.com/stk-terrain/world',
 						credit : 'cesium'
