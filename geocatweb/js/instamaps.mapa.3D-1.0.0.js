@@ -1112,7 +1112,28 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 		if (data.c_layers.length > 0) {
 			map.spin(true);
-			createMapToWMS(data).then(
+			
+		for (var z=0; z < data.c_layers.length; z++){	
+			
+			var _newData={};
+			
+			_newData.request = data.request;
+		_newData.businessId = data.id_layers[z];
+		_newData.nomAplicacio = data.nomAplicacio;
+		_newData.modeMapa = data.modeMapa;
+		_newData.entitatUid =data.entitatUid;
+		
+		_newData.layers = [data.layers[z]];
+		_newData.n_layers = [data.n_layers[z]];
+		_newData.id_layers = [data.id_layers[z]];
+		_newData.t_layers = [data.t_layers[z]];
+		_newData.c_layers = [data.c_layers[z]];
+		_newData.v_layers = [data.v_layers[z]];
+		
+	
+			
+			
+			createMapToWMS(_newData).then(
 				function (results) {
 
 				if (results.status == "OK") {
@@ -1123,7 +1144,7 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 						if (url.indexOf('?') == -1) {
 							url = url + '?';
 						}
-						that.addVectortoWMSToMatriuCapes(data.id_layers, data.n_layers, url, data.v_layers);
+						that.addVectortoWMSToMatriuCapes(_newData.id_layers[0], _newData.n_layers[0], url, _newData.v_layers[0]);
 					}, 1000);
 
 				} else if (results.status == "VOID") {}
@@ -1131,22 +1152,29 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 					//console.info(results.msg);
 				}
 			});
-		}
+		
+		
+		}//fi for
+		
+		} //fi bucle
 
 	},
 
 	this.addVectortoWMSToMatriuCapes = function (layers, titles, url, visible) {
 
 		var that = this;
-		jQuery.each(layers, function (i, item) {
+		//jQuery.each(layers, function (i, item) {
 
+	url=url.replace('172.70.1.11','localhost');
+		
 			var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
 			var srs = "EPSG:3857";
 
+		
 			/*
 			var provider = new Cesium.WebMapServiceImageryProvider({
 			url : url,
-			layers : 'Capa_' + item ,
+			layers : 'Capa_' + layers ,
 			enablePickFeatures : true,
 			getFeatureInfoAsXml : false,
 			getFeatureInfoAsGeoJson : true,
@@ -1158,11 +1186,11 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 			format : 'image/png',
 			styles : 'default'
 			},
-			maximumLevel : 18
+			maximumLevel : 19
 
 			});
-			 */
-
+			 
+*/
 			/*
 		,
 			proxy : {
@@ -1178,11 +1206,12 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 			_bbox +'&',
 			 */
 
-			var provider = new Cesium.UrlTemplateImageryProvider({
+			
+			 provider = new Cesium.UrlTemplateImageryProvider({
 
-					enablePickFeatures : false,
+					enablePickFeatures : true,
 					getFeatureInfoAsXml : false,
-					getFeatureInfoAsGeoJson : false,
+					getFeatureInfoAsGeoJson : true,
 					getFeatureInfoParameters : {
 						info_format : 'geojson'
 					},
@@ -1190,19 +1219,21 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 					url : url + '&tiled=true&' +
 					'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
 					'styles=&service=WMS&version=1.1.1&request=GetMap&' +
-					'layers=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
+					'layers=Capa_' + layers + '&srs=' + encodeURI(srs) + '&' +
 					_bbox +
 					'width=256&height=256&',
-					maximumLevel : 18,
+					maximumLevel : 19,
 					minimumLevel : 3
 				});
 
 			//application/vnd.ogc.se_blank
 
-			setTimeout(that.delayAddImageProvider(provider, visible[i], item), 1000);
+			
+			
+			setTimeout(that.delayAddImageProvider(provider, visible, layers), 100);
 			//that.delayAddImageProvider(provider, visible[i], item);
 
-		});
+		//});
 
 	},
 
@@ -1212,12 +1243,12 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		_tmpLayer.id = id;
 		_tmpLayer.show = false;
 
-		setTimeout(function () {
+	setTimeout(function () {
 
 			_tmpLayer.show = visible;
 			map.spin(false);
 		}, 4000);
-
+	
 		//viewer.imageryLayers.addImageryProvider(provider);
 
 		//provider.show=false;
@@ -1270,27 +1301,13 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 		var factor = 1;
 
-		switch (numCapes) {
-		case 1:
-			factor = 3;
-			break;
-
-		case 2:
-			factor = 2.5;
-			break;
-
-		case 3:
-			factor = 2;
-			break;
-
-		case 4:
-			factor = 1.5;
-			break;
-		}
-		factor = 3;
-		var _factorNumVectorsPol = 420 * factor;
-		var _factorNumVectorsLin = 50 * factor;
-		var _factorNumVectorsPunt = 810 * factor;
+		if(numCapes <= 6){factor=3}	
+		if(numCapes >= 6){factor=1.5}
+		
+	
+		var _factorNumVectorsPol = 450 * factor;
+		var _factorNumVectorsLin = 150 * factor;
+		var _factorNumVectorsPunt = 500 * factor;
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
@@ -1401,7 +1418,6 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 				var entity = entities[i];
 				entity.ellipsoid = viewer.scene.globe.ellipsoid;
 
-				//codi enganxat
 
 				if (entity.billboard) {
 
@@ -1466,7 +1482,7 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 		var entities = dataSource.entities.values;
 		var z = 0;
-		//console.warn(entities.length);
+		
 		for (var i = 0; i < entities.length; i++) {
 			var entity = entities[i];
 			entity.show = visible;
