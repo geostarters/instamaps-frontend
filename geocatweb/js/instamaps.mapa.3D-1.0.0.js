@@ -1050,7 +1050,7 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 								parameters : {
 									transparent : 'true',
 									format : 'image/png',
-									styles : 'default'
+									styles : ''
 								},
 								maximumLevel : 18,
 								minimumLevel : 5,
