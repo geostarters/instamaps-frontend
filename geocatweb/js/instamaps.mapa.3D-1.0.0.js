@@ -531,7 +531,6 @@ var IM_aplicacio = function (options) {
 
 					}
 
-					
 				}
 
 			}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -689,14 +688,14 @@ var IM_aplicacio = function (options) {
 
 			} else if ((accio == "display") || (accio == "remove")) {
 
-			var trobatCapa=false;
+				var trobatCapa = false;
 				//if (obj.tipus.indexOf("wms") != -1) {
 
 				jQuery.each(capesActives3D._layers, function (index, layer) {
 					//_imageryLayers.remove(layer, true); //capesActives3D
 
 					if (layer && layer.id == obj.businessId) {
-						trobatCapa=true;
+						trobatCapa = true;
 						if (accio == "display") {
 							layer.show = visible
 						} else if (accio == "remove") {
@@ -718,7 +717,7 @@ var IM_aplicacio = function (options) {
 
 					if (feature && feature.properties) {
 						if (feature.properties.dataSource == obj.businessId) {
-							trobatCapa=true;
+							trobatCapa = true;
 							if (accio == "display") {
 								feature.show = visible;
 
@@ -742,17 +741,17 @@ var IM_aplicacio = function (options) {
 
 				}
 
-				if(!trobatCapa){
+				if (!trobatCapa) {
 					map.spin(true);
-				//console.debug("No he trobat capa");				
-if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
-					this.matriuCapes.overlays = [];
-					this.addOverlaysLayersCesium();
+					//console.debug("No he trobat capa");
+					if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
+						this.matriuCapes.overlays = [];
+						this.addOverlaysLayersCesium();
 						map.spin(false);
+					}
+
 				}
-				
-				}	
-				
+
 				/*
 				jQuery.each(viewer.entities.values, function (index, feature) {
 
@@ -784,9 +783,7 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 				 */
 
 				//}
-				
-				
-				
+
 
 			} else {
 
@@ -883,9 +880,9 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 				//var _maximumLevel = this.matriuCapes.base[i].options.maxZoom;
 				//var _minimumLevel = this.matriuCapes.base[i].options.maxZoom;
 
-				if (url.indexOf('osm.org') != -1 || url.indexOf('mqcdn.com') != -1  ) {
-					
-					url=url.replace('{s}.mqcdn.com','otile1.mqcdn.com');
+				if (url.indexOf('osm.org') != -1 || url.indexOf('mqcdn.com') != -1) {
+
+					url = url.replace('{s}.mqcdn.com', 'otile1.mqcdn.com');
 
 					if (!this._miraCentreDins(this.center.lat, this.center.lng)) {
 
@@ -925,14 +922,29 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 	this.addOverlaysLayersCesium = function () {
 
-	
-
 		var that = this;
 
 		var numCapes = 1;
-
+		var numCapesActives = 0;
 		try {
 			numCapes = controlCapes.getCountLayers();
+
+			jQuery.each(controlCapes._layers, function (i, item) {
+				if (item.layer._map != null) {
+					numCapesActives = numCapesActives + 1;
+				}
+
+				jQuery.each(item._layers, function (j, item2) {
+
+					if (item2.layer._map != null) {
+						numCapesActives = numCapesActives + 1;
+					}
+
+				});
+			});
+
+			numCapes = numCapesActives;
+
 		} catch (Err) {
 			numCapes = 1;
 		}
@@ -980,7 +992,7 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
 				//if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-					//this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false, numCapes));
+				//this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false, numCapes));
 				//}
 
 			} else {
@@ -1112,50 +1124,46 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 		if (data.c_layers.length > 0) {
 			map.spin(true);
-			
-		for (var z=0; z < data.c_layers.length; z++){	
-			
-			var _newData={};
-			
-			_newData.request = data.request;
-		_newData.businessId = data.id_layers[z];
-		_newData.nomAplicacio = data.nomAplicacio;
-		_newData.modeMapa = data.modeMapa;
-		_newData.entitatUid =data.entitatUid;
-		
-		_newData.layers = [data.layers[z]];
-		_newData.n_layers = [data.n_layers[z]];
-		_newData.id_layers = [data.id_layers[z]];
-		_newData.t_layers = [data.t_layers[z]];
-		_newData.c_layers = [data.c_layers[z]];
-		_newData.v_layers = [data.v_layers[z]];
-		
-	
-			
-			
-			createMapToWMS(_newData).then(
-				function (results) {
 
-				if (results.status == "OK") {
+			for (var z = 0; z < data.c_layers.length; z++) {
 
-					setTimeout(function () {
+				var _newData = {};
 
-						var url = results.url;
-						if (url.indexOf('?') == -1) {
-							url = url + '?';
-						}
-						that.addVectortoWMSToMatriuCapes(_newData.id_layers[0], _newData.n_layers[0], url, _newData.v_layers[0]);
-					}, 1000);
+				_newData.request = data.request;
+				_newData.businessId = data.id_layers[z];
+				_newData.nomAplicacio = data.nomAplicacio;
+				_newData.modeMapa = data.modeMapa;
+				_newData.entitatUid = data.entitatUid;
 
-				} else if (results.status == "VOID") {}
-				else {
-					//console.info(results.msg);
-				}
-			});
-		
-		
-		}//fi for
-		
+				_newData.layers = [data.layers[z]];
+				_newData.n_layers = [data.n_layers[z]];
+				_newData.id_layers = [data.id_layers[z]];
+				_newData.t_layers = [data.t_layers[z]];
+				_newData.c_layers = [data.c_layers[z]];
+				_newData.v_layers = [data.v_layers[z]];
+
+				createMapToWMS(_newData).then(
+					function (results) {
+
+					if (results.status == "OK") {
+
+						setTimeout(function () {
+
+							var url = results.url;
+							if (url.indexOf('?') == -1) {
+								url = url + '?';
+							}
+							that.addVectortoWMSToMatriuCapes(_newData.id_layers[0], _newData.n_layers[0], url, _newData.v_layers[0]);
+						}, 1000);
+
+					} else if (results.status == "VOID") {}
+					else {
+						//console.info(results.msg);
+					}
+				});
+
+			} //fi for
+
 		} //fi bucle
 
 	},
@@ -1165,73 +1173,70 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		var that = this;
 		//jQuery.each(layers, function (i, item) {
 
-	//url=url.replace('172.70.1.11','localhost');
-		
-			var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
-			var srs = "EPSG:3857";
+		//url=url.replace('172.70.1.11','localhost');
 
-		
-			/*
-			var provider = new Cesium.WebMapServiceImageryProvider({
-			url : url,
-			layers : 'Capa_' + layers ,
-			enablePickFeatures : true,
-			getFeatureInfoAsXml : false,
-			getFeatureInfoAsGeoJson : true,
-			getFeatureInfoParameters : {
-			info_format : 'geojson'
-			},
-			parameters : {
-			transparent : 'true',
-			format : 'image/png',
-			styles : 'default'
-			},
-			maximumLevel : 19
+		var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
+		var srs = "EPSG:3857";
 
+		/*
+		var provider = new Cesium.WebMapServiceImageryProvider({
+		url : url,
+		layers : 'Capa_' + layers ,
+		enablePickFeatures : true,
+		getFeatureInfoAsXml : false,
+		getFeatureInfoAsGeoJson : true,
+		getFeatureInfoParameters : {
+		info_format : 'geojson'
+		},
+		parameters : {
+		transparent : 'true',
+		format : 'image/png',
+		styles : 'default'
+		},
+		maximumLevel : 19
+
+		});
+
+		 */
+		/*
+	,
+		proxy : {
+		getURL : function (url) {
+		return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
+		}
+		}
+
+		pickFeaturesUrl: url + '&tiled=true&' +
+		'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
+		'styles=&service=WMS&version=1.1.1&request=GetFeatureInfo&' +
+		'layers=Capa_' + item + '&X={x}&Y={i}&INFO_FORMAT=geojson&QUERY_LAYERS=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
+		_bbox +'&',
+		 */
+
+		provider = new Cesium.UrlTemplateImageryProvider({
+
+				enablePickFeatures : true,
+				getFeatureInfoAsXml : false,
+				getFeatureInfoAsGeoJson : true,
+				getFeatureInfoParameters : {
+					info_format : 'geojson'
+				},
+
+				url : url + '&tiled=true&' +
+				'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
+				'styles=&service=WMS&version=1.1.1&request=GetMap&' +
+				'layers=Capa_' + layers + '&srs=' + encodeURI(srs) + '&' +
+				_bbox +
+				'width=256&height=256&',
+				maximumLevel : 19,
+				minimumLevel : 3
 			});
-			 
-*/
-			/*
-		,
-			proxy : {
-			getURL : function (url) {
-			return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
-			}
-			}
 
-			pickFeaturesUrl: url + '&tiled=true&' +
-			'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
-			'styles=&service=WMS&version=1.1.1&request=GetFeatureInfo&' +
-			'layers=Capa_' + item + '&X={x}&Y={i}&INFO_FORMAT=geojson&QUERY_LAYERS=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
-			_bbox +'&',
-			 */
+		//application/vnd.ogc.se_blank
 
-			
-			 provider = new Cesium.UrlTemplateImageryProvider({
 
-					enablePickFeatures : true,
-					getFeatureInfoAsXml : false,
-					getFeatureInfoAsGeoJson : true,
-					getFeatureInfoParameters : {
-						info_format : 'geojson'
-					},
-
-					url : url + '&tiled=true&' +
-					'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
-					'styles=&service=WMS&version=1.1.1&request=GetMap&' +
-					'layers=Capa_' + layers + '&srs=' + encodeURI(srs) + '&' +
-					_bbox +
-					'width=256&height=256&',
-					maximumLevel : 19,
-					minimumLevel : 3
-				});
-
-			//application/vnd.ogc.se_blank
-
-			
-			
-			setTimeout(that.delayAddImageProvider(provider, visible, layers), 100);
-			//that.delayAddImageProvider(provider, visible[i], item);
+		setTimeout(that.delayAddImageProvider(provider, visible, layers), 100);
+		//that.delayAddImageProvider(provider, visible[i], item);
 
 		//});
 
@@ -1243,12 +1248,12 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		_tmpLayer.id = id;
 		_tmpLayer.show = false;
 
-	setTimeout(function () {
+		setTimeout(function () {
 
 			_tmpLayer.show = visible;
 			map.spin(false);
 		}, 4000);
-	
+
 		//viewer.imageryLayers.addImageryProvider(provider);
 
 		//provider.show=false;
@@ -1300,36 +1305,38 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		};
 
 		var factor = 1;
-		var mapZoom=this.mapZoom;
-		if(numCapes <= 6){factor=3}	
-		if(numCapes >= 6){factor=1}
-		
-		
-	
+		var mapZoom = this.mapZoom;
+		if (numCapes <= 6) {
+			factor = 3
+		}
+		if (numCapes >= 6) {
+			factor = 1
+		}
+
 		var _factorNumVectorsPol = 150 * factor;
 		var _factorNumVectorsLin = 100 * factor;
 		var _factorNumVectorsPunt = 300 * factor;
+
 		
-		if(numCapes >= 20){
-			
-		_factorNumVectorsPol = 1 ;
-		_factorNumVectorsLin = 2 ;
-		 _factorNumVectorsPunt = 3 ;
-			
-			
+
+		if (numCapes >= 15) {
+
+			_factorNumVectorsPol = 1;
+			_factorNumVectorsLin = 2;
+			_factorNumVectorsPunt = 3;
+
 		}
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
-			
+
 			var numFeatures = ff.features.length;
 
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
-			
+
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
-					
-				
+
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
@@ -1341,18 +1348,16 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 									tmp_feature.msg = 'none';
 								}
 								break;
-							}							
-							
-						}
-						
-						
-							if(mapZoom <= 10 && numFeatures < 3500){
-								
-								tmp_feature.msg = 'none';
-								tmp_feature.tipus = 'vector'
-								
-								
 							}
+
+						}
+
+						if (mapZoom <= 10 && numFeatures < 3500) {
+
+							tmp_feature.msg = 'none';
+							tmp_feature.tipus = 'vector'
+
+						}
 
 					} else if (item.layer.options.source && item.layer.options.source.indexOf('xls') != -1) {
 
@@ -1390,8 +1395,6 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 			} else if (item.layer.options.tipusRang) {
 
-			
-			
 				tmp_feature.tipus = 'vecras';
 			} else {
 
@@ -1401,13 +1404,12 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 			ff = "";
 
-			
 			return tmp_feature;
 
 		} catch (err) {
 
 			_gaq.push(['_trackEvent', 'error3D', err, '_utilDeterminaTipusItem', 1]);
-		
+
 			if (item.layer.options.tipusRang) {
 
 				tmp_feature.tipus = 'vecras';
@@ -1436,7 +1438,6 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 			for (var i = 0; i < length; ++i) {
 				var entity = entities[i];
 				entity.ellipsoid = viewer.scene.globe.ellipsoid;
-
 
 				if (entity.billboard) {
 
@@ -1501,7 +1502,7 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 		var entities = dataSource.entities.values;
 		var z = 0;
-		
+
 		for (var i = 0; i < entities.length; i++) {
 			var entity = entities[i];
 			entity.show = visible;
@@ -1818,9 +1819,9 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		try {
 			if (this._miraCentreDins(lat, lng) && credit != 'icgc') {
 
-				factorTerreny=14
-				
-				terreny = new Cesium.CesiumTerrainProvider({
+				factorTerreny = 14
+
+					terreny = new Cesium.CesiumTerrainProvider({
 						url : _urlTerrenys,
 						credit : 'icgc'
 
@@ -1830,8 +1831,8 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 
 			} else if (!this._miraCentreDins(lat, lng) && credit != 'cesium') {
 
-				factorTerreny=11;
-				
+				factorTerreny = 11;
+
 				terreny = new Cesium.CesiumTerrainProvider({
 						url : 'http://assets.agi.com/stk-terrain/world',
 						credit : 'cesium'
@@ -2011,11 +2012,15 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 				zoomLevel = 21;
 			} else {
 				zoomLevel = parseInt((-1 * ((Math.log(maxDiff) / Math.log(2)) - (Math.log(360) / Math.log(2)))));
-				
-				if (zoomLevel > 18){zoomLevel = zoomLevel -2;}
-				
-				if (zoomLevel < 1){zoomLevel = 1;}
-					
+
+				if (zoomLevel > 18) {
+					zoomLevel = zoomLevel - 2;
+				}
+
+				if (zoomLevel < 1) {
+					zoomLevel = 1;
+				}
+
 			}
 
 			bbox.centerLat = centerLat;
