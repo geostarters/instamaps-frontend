@@ -1,5 +1,7 @@
 /**
+ * L.Control.Control3D control que permite cambiar entre la vista 2d y 3d del mapa.
  * 
+ * requiere: instamaps.mapa.3D
  */
 L.Control.Control3D = L.Control.extend({
 	options: {
@@ -12,7 +14,8 @@ L.Control.Control3D = L.Control.extend({
 	},
 	
 	onAdd: function(map){
-		var options = this.options,
+		var self = this,
+			options = self.options,
 			stop = L.DomEvent.stopPropagation,
 			container = L.DomUtil.create('div', options.className);
 		
@@ -22,29 +25,29 @@ L.Control.Control3D = L.Control.extend({
 		container.dataset.toggle = 'tooltip';
 		container.dataset.langTitle = options.langTitle;
 		
-		/*
+		self._div = container;
+		
 		L.DomEvent
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
 			.on(container, 'dblclick', stop)
 			.on(container, 'click', this._toggleView, this);
-		*/
 		
-		//TODO crear el control del modulo de 3D 
+		//TODO crear el control del modulo de 3D
 		addModul3D();
 		
 		return container;
 	},
 	
 	onRemove: function (map) {
-		//map.off('mapgeopdf', this._map, this);
+		map.off('map3dmode', this._map, this);
 	},
 	
 	_toggleView: function(e){
 		var _map = this._map;
-		//_map.fire('mapgeopdf'); //to track ga events
-		//TODO crear el modulo de captura
-		//capturaPantalla(CAPTURA_GEOPDF);  //geocat.mapa.canvas
+		_map.fire('map3dmode'); //to track ga events
+		//TODO crear el modulo
+		activaVista3d_2d(this._div) //instamaps.mapa.3D
 	}
 });
 

@@ -46,9 +46,7 @@ function addModul3D() {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user + '3D', 'label 3D', 1]);
 		$('.tooltip').hide();
-		// mirar si el navegador suporta 3d
-		browserWebGL ? canviaVista_3D_2D(this) : mostraMsgNo3D();
-
+		activaVista3d_2d(this);
 	});
 
 	jQuery(document).on('click', "#tanca3D", function (e) {
@@ -87,6 +85,11 @@ function addModul3D() {
 		setTimeout(initMapa3DfromMapConfig, fT);
 	}
 
+}
+
+function activaVista3d_2d(_this){
+	// mirar si el navegador suporta 3d
+	browserWebGL ? canviaVista_3D_2D(_this) : mostraMsgNo3D();
 }
 
 function gestionFonsMapa3D() {

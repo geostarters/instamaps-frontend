@@ -630,6 +630,10 @@
 			_gaq.push(['_trackEvent', 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]);
 		},
 		
+		_map3dmodeEvent: function(){
+			_gaq.push(['_trackEvent', 'mapa', this.tipusUser + '3D', 'label 3D', 1]);
+		},
+		
 		_listenEvents: function(){
 			console.debug("aca");
 			var self = this,
@@ -639,6 +643,7 @@
 				_map.on('mapsnapshot', self._mapsnapshotEvent, self);
 				_map.on('mapprint', self._mapprintEvent, self);
 				_map.on('mapgeopdf', self._mapgeopdfEvent, self);
+				_map.on('map3dmode', self._map3dmodeEvent, self);
 				
 			}
 		}
