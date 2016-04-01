@@ -442,6 +442,7 @@ function defineTipusUser(){
 	}else{
 		tipus_user = t_user_loginat;
 	}
+	return tipus_user;
 }
 
 function logoutUser(){

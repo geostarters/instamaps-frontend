@@ -3,6 +3,7 @@ html,body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 }
 
 #map {
@@ -2004,13 +2005,13 @@ h1,h2,h3,h4,h5,h6 {
     margin-left: 2px;
 }
 
-.greenfort,.greenfort a,.greenfort span {
+.greenfort,.greenfort a,.greenfort div,.greenfort span {
 	color: #55821D;
 	cursor: pointer;
 	font-size: 17px;
 }
 
-.grisfort,.grisfort a,.grisfort div {
+.grisfort,.grisfort a,.grisfort div,.grisfort span {
 	color: #464646 !important;
 	cursor: pointer;
 	font-size: 17px;

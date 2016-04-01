@@ -8,14 +8,7 @@ L.control.coordinates({
 			'prefix': 'ETRS89 UTM 31N',
 			'separator': ' '
 		}).addTo(map);
-
-
-
-
-
-
 */
-
 
 L.Control.Coordinates = L.Control.extend({
   options: {
@@ -46,6 +39,8 @@ L.Control.Coordinates = L.Control.extend({
   },
 
   _onMouseMove: function (e) {
+	var map = this._map;  
+	
 	var sC=map.miraBBContains(map.getBounds());
   
     

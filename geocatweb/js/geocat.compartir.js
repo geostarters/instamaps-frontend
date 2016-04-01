@@ -64,6 +64,8 @@ function addCompartirVisor(){
 	
 	jQuery('.share-square a').attr('target','_blank');
 	
+	/*
+	 * se declara el evento en el control 
 	jQuery("#dv_bt_Share").on('click',function(e){
 		posaClassActiu('#span_bt_Share');
 		jQuery('#socialShare_visor').css('top', (e.clientY - 30) +'px');
@@ -71,6 +73,7 @@ function addCompartirVisor(){
 		jQuery('#socialShare_visor').toggle();
 		aturaClick(e);
 	});
+	*/
 }
 
 function posaClassActiu(_element){
