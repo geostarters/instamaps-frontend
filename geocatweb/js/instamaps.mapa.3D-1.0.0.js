@@ -1302,13 +1302,22 @@ if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 		var factor = 1;
 		var mapZoom=this.mapZoom;
 		if(numCapes <= 6){factor=3}	
-		if(numCapes >= 6){factor=1.5}
+		if(numCapes >= 6){factor=1}
 		
 		
 	
 		var _factorNumVectorsPol = 150 * factor;
-		var _factorNumVectorsLin = 200 * factor;
+		var _factorNumVectorsLin = 100 * factor;
 		var _factorNumVectorsPunt = 300 * factor;
+		
+		if(numCapes >= 20){
+			
+		_factorNumVectorsPol = 1 ;
+		_factorNumVectorsLin = 2 ;
+		 _factorNumVectorsPunt = 3 ;
+			
+			
+		}
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
