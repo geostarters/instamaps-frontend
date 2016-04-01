@@ -56,31 +56,32 @@ function errorCaptura(){
 }
 
 function capturaPantalla(tipus) {
-  if (tipus == CAPTURA_MAPA) {
-    comportamentCaptura(0,'Captura mapa format JPEG','Generant imatge mapa...');
-    ActDesPrintMode(true);
-    setTimeout(function() {
-          generaCaptura(CAPTURA_MAPA, null, null, 2);
-    }, 500);
-  } else if (tipus == CAPTURA_INFORME) {
-    //generaCaptura(CAPTURA_INFORME, null, null, 2);
-    comportamentCaptura(0,'Captura mapa mida A4','Generant imatge mapa...');
-    ActDesPrintMode(true);
-    setTimeout(function() {
-          generaCaptura(CAPTURA_INFORME, null, null, 2);
-    }, 500);
-  } else if (tipus == CAPTURA_GALERIA) {
-    ActDesPrintMode(true);
-    setTimeout(function() {
-          generaCaptura(CAPTURA_GALERIA, null, null, 2);
-    }, 500);
-  } else if (tipus == CAPTURA_GEOPDF) {
-    comportamentCaptura(0,'Captura mapa format GeoPDF','Generant mapa GeoPDF...');
-    ActDesPrintMode(true);
-    setTimeout(function() {
-          generaCaptura(CAPTURA_GEOPDF, null, null, 2);
-    }, 500);
-  }
+	if(estatMapa3D){disparaEventMapa=false;mapaEstatNOPublicacio=false;}
+	if (tipus == CAPTURA_MAPA) {
+		comportamentCaptura(0,'Captura mapa format JPEG','Generant imatge mapa...');
+		ActDesPrintMode(true);
+		setTimeout(function() {
+			generaCaptura(CAPTURA_MAPA, null, null, 2);
+		}, 500);
+	} else if (tipus == CAPTURA_INFORME) {
+		//generaCaptura(CAPTURA_INFORME, null, null, 2);
+		comportamentCaptura(0,'Captura mapa mida A4','Generant imatge mapa...');
+		ActDesPrintMode(true);
+		setTimeout(function() {
+			generaCaptura(CAPTURA_INFORME, null, null, 2);
+		}, 500);
+	} else if (tipus == CAPTURA_GALERIA) {
+		ActDesPrintMode(true);
+		setTimeout(function() {
+			generaCaptura(CAPTURA_GALERIA, null, null, 2);
+		}, 500);
+	} else if (tipus == CAPTURA_GEOPDF) {
+		comportamentCaptura(0,'Captura mapa format GeoPDF','Generant mapa GeoPDF...');
+		ActDesPrintMode(true);
+		setTimeout(function() {
+			generaCaptura(CAPTURA_GEOPDF, null, null, 2);
+		}, 500);
+	}
 }
 
 function pucPassar(item){
@@ -272,12 +273,11 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		w = d.x;
 		h = d.y;
 	}
-	
 	var transform="";
 	jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 	jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore'); 
 	var divActiuCanvas='#map .leaflet-map-pane';
-	if(estatMapa3D){divActiuCanvas='.cesium-widget';}
+	if(estatMapa3D){divActiuCanvas='.cesium-widget';disparaEventMapa=false;mapaEstatNOPublicacio=false;}
 	if (_tipusCaptura == CAPTURA_MAPA) {
 		transform=hackCaptura();
 		var snd = new Audio("/llibreries/sons/camera.wav"); // buffers
@@ -301,6 +301,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 							jQuery('#bt_desc_img').show();
 							comportamentCaptura(1);
 							tornaLLoc(transform);
+							if(estatMapa3D){mapaEstatNOPublicacio=true;}       
 						} else {
 							errorCaptura();
 						}
@@ -371,6 +372,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 							tornaLLoc(transform);						
 							window.open("/geocatweb/print.html", "Imprimir",
 							"resizable=yes,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes")
+							if(estatMapa3D){mapaEstatNOPublicacio=true;}                
 						} else {
 							errorCaptura();
 						}
@@ -443,8 +445,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 							alert("Error");
 						}
 						imgData = "";
-					}
-				);
+					});
 			},
 			useCORS : true,
 			allowTaint : false,

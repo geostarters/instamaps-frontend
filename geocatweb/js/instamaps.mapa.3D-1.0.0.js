@@ -45,7 +45,7 @@ function addModul3D() {
 	jQuery('.bt_3D_2D').on('click', function (event) {
 		aturaClick(event);
 		_gaq.push(['_trackEvent', 'mapa', tipus_user + '3D', 'label 3D', 1]);
-
+		$('.tooltip').hide();
 		// mirar si el navegador suporta 3d
 		browserWebGL ? canviaVista_3D_2D(this) : mostraMsgNo3D();
 
@@ -91,7 +91,6 @@ function addModul3D() {
 
 function gestionFonsMapa3D() {
 
-	////console.warn("gestionFonsMapa3D");
 	if (estatMapa3D && mapaEstatNOPublicacio) {
 		mapaVista3D.addBaseLayersCesium();
 	}
@@ -276,8 +275,9 @@ var IM_aplicacio = function (options) {
 		overLayers3D = [];
 
 		this.bounds = map.getBounds();
+		this.center = map.getCenter()
 
-		terreny = new Cesium.CesiumTerrainProvider({
+			terreny = new Cesium.CesiumTerrainProvider({
 				url : _urlTerrenys,
 				credit : 'icgc'
 
@@ -572,12 +572,11 @@ var IM_aplicacio = function (options) {
 
 	this.activaEventLeaflet = function () {
 		var thet = this;
-		
-		
+
 		map.on('viewreset', function (e) {
-		
-		//map.on('zoomend', function (e) {
-			
+
+			//map.on('zoomend', function (e) {
+
 			if (estatMapa3D && disparaEventMapa) {
 
 				thet._goToBounds(map.getBounds(), map.getZoom());
@@ -590,24 +589,33 @@ var IM_aplicacio = function (options) {
 	},
 
 	this.miraPosicioXYZ = function (movement) {
+
 		matriu3 = [];
 
-		var ellipsoid = viewer.scene.globe.ellipsoid;
-		var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+		try {
 
-		if (cartesian) {
-			var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-			var lon = Cesium.Math.toDegrees(cartographic.longitude);
-			var lat = Cesium.Math.toDegrees(cartographic.latitude);
-			var lonC = Cesium.Math.toRadians(lon);
-			var latC = Cesium.Math.toRadians(lat);
+			var ellipsoid = viewer.scene.globe.ellipsoid;
+			var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
 
-			if (!isNaN(lonC)) {
+			if (cartesian) {
+				var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+				var lon = Cesium.Math.toDegrees(cartographic.longitude);
+				var lat = Cesium.Math.toDegrees(cartographic.latitude);
+				var lonC = Cesium.Math.toRadians(lon);
+				var latC = Cesium.Math.toRadians(lat);
 
-				var text = '<div>WGS84 ' + lon.toFixed(5) + ' ' + lat.toFixed(5) + '</div>';
-				jQuery('.leaflet-control-mouseposition').html(text);
+				if (!isNaN(lonC)) {
+
+					var text = '<div>WGS84 ' + lon.toFixed(5) + ' ' + lat.toFixed(5) + '</div>';
+					jQuery('.leaflet-control-mouseposition').html(text);
+
+				}
 
 			}
+
+		} catch (Err) {
+
+			_gaq.push(['_trackEvent', 'error3D', Err, 'miraPosicioXYZ', 1]);
 
 		}
 
@@ -624,8 +632,6 @@ var IM_aplicacio = function (options) {
 					.getEast()),
 				((bounds.getNorth())));
 
-				
-				
 		viewer.camera.setView({
 			destination : rectangle
 		});
@@ -682,13 +688,14 @@ var IM_aplicacio = function (options) {
 
 			} else if ((accio == "display") || (accio == "remove")) {
 
+				var trobatCapa = false;
 				//if (obj.tipus.indexOf("wms") != -1) {
 
 				jQuery.each(capesActives3D._layers, function (index, layer) {
 					//_imageryLayers.remove(layer, true); //capesActives3D
 
 					if (layer && layer.id == obj.businessId) {
-
+						trobatCapa = true;
 						if (accio == "display") {
 							layer.show = visible
 						} else if (accio == "remove") {
@@ -710,7 +717,7 @@ var IM_aplicacio = function (options) {
 
 					if (feature && feature.properties) {
 						if (feature.properties.dataSource == obj.businessId) {
-
+							trobatCapa = true;
 							if (accio == "display") {
 								feature.show = visible;
 
@@ -730,6 +737,17 @@ var IM_aplicacio = function (options) {
 						}
 					} else {
 						//console.debug(feature);
+					}
+
+				}
+
+				if (!trobatCapa) {
+					map.spin(true);
+					//console.debug("No he trobat capa");
+					if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
+						this.matriuCapes.overlays = [];
+						this.addOverlaysLayersCesium();
+						map.spin(false);
 					}
 
 				}
@@ -765,6 +783,7 @@ var IM_aplicacio = function (options) {
 				 */
 
 				//}
+
 
 			} else {
 
@@ -858,17 +877,44 @@ var IM_aplicacio = function (options) {
 			this.matriuCapes.base.reverse();
 			for (var i = 0; i < this.matriuCapes.base.length; i++) {
 				var url = this.matriuCapes.base[i]._url;
+				//var _maximumLevel = this.matriuCapes.base[i].options.maxZoom;
+				//var _minimumLevel = this.matriuCapes.base[i].options.maxZoom;
 
-				this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+				if (url.indexOf('osm.org') != -1 || url.indexOf('mqcdn.com') != -1) {
 
-				var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
-							url : url,
-							// maximumLevel : this.matriuCapes.base[i].options.maxZoom,
-							maximumLevel : 18
-							// minimumLevel:this.matriuCapes.base[i].options.minZoom
-						}));
-				_imageryLayers.lowerToBottom(BB_layer);
-				baseLayer3D.push(BB_layer);
+					url = url.replace('{s}.mqcdn.com', 'otile1.mqcdn.com');
+
+					if (!this._miraCentreDins(this.center.lat, this.center.lng)) {
+
+						this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+
+						var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
+									url : url,
+
+									maximumLevel : 18,
+									minimumLevel : 3
+								}));
+
+						_imageryLayers.lowerToBottom(BB_layer);
+						baseLayer3D.push(BB_layer);
+					}
+
+				} else {
+
+					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+
+					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
+								url : url,
+
+								maximumLevel : 18,
+								minimumLevel : 3
+
+							}));
+					_imageryLayers.lowerToBottom(BB_layer);
+					baseLayer3D.push(BB_layer);
+
+				}
+
 			}
 
 		}
@@ -876,14 +922,29 @@ var IM_aplicacio = function (options) {
 
 	this.addOverlaysLayersCesium = function () {
 
-		//console.warn("1-addOverlaysLayersCesium");
-
 		var that = this;
 
 		var numCapes = 1;
-
+		var numCapesActives = 0;
 		try {
 			numCapes = controlCapes.getCountLayers();
+
+			jQuery.each(controlCapes._layers, function (i, item) {
+				if (item.layer._map != null) {
+					numCapesActives = numCapesActives + 1;
+				}
+
+				jQuery.each(item._layers, function (j, item2) {
+
+					if (item2.layer._map != null) {
+						numCapesActives = numCapesActives + 1;
+					}
+
+				});
+			});
+
+			numCapes = numCapesActives;
+
 		} catch (Err) {
 			numCapes = 1;
 		}
@@ -930,9 +991,9 @@ var IM_aplicacio = function (options) {
 			//if (item.layer.options.tipus != t_heatmap && item.layer.options.tipus != t_cluster && item.layer.options.tipus != t_size) {
 			if (item.layer.options.tipusRang != tem_heatmap && item.layer.options.tipusRang != tem_cluster && item.layer.options.wmstime != true) {
 
-				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false, numCapes));
-				}
+				//if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
+				//this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false, numCapes));
+				//}
 
 			} else {
 				// NO ACTIVES tipus capes heatmaps,cluster o bombolla TODO
@@ -1001,9 +1062,10 @@ var IM_aplicacio = function (options) {
 								parameters : {
 									transparent : 'true',
 									format : 'image/png',
-									styles : 'default'
+									styles : ''
 								},
 								maximumLevel : 18,
+								minimumLevel : 5,
 								proxy : {
 									getURL : function (url) {
 										return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
@@ -1062,96 +1124,121 @@ var IM_aplicacio = function (options) {
 
 		if (data.c_layers.length > 0) {
 			map.spin(true);
-			createMapToWMS(data).then(
-				function (results) {
 
-				if (results.status == "OK") {
+			for (var z = 0; z < data.c_layers.length; z++) {
 
-					setTimeout(function () {
+				var _newData = {};
 
-						var url = results.url;
-						if (url.indexOf('?') == -1) {
-							url = url + '?';
-						}
-						that.addVectortoWMSToMatriuCapes(data.id_layers, data.n_layers, url, data.v_layers);
-					}, 1000);
+				_newData.request = data.request;
+				_newData.businessId = data.id_layers[z];
+				_newData.nomAplicacio = data.nomAplicacio;
+				_newData.modeMapa = data.modeMapa;
+				_newData.entitatUid = data.entitatUid;
 
-				} else if (results.status == "VOID") {}
-				else {
-					//console.info(results.msg);
-				}
-			});
-		}
+				_newData.layers = [data.layers[z]];
+				_newData.n_layers = [data.n_layers[z]];
+				_newData.id_layers = [data.id_layers[z]];
+				_newData.t_layers = [data.t_layers[z]];
+				_newData.c_layers = [data.c_layers[z]];
+				_newData.v_layers = [data.v_layers[z]];
+
+				createMapToWMS(_newData).then(
+					function (results) {
+
+					if (results.status == "OK") {
+
+						setTimeout(function () {
+
+							var url = results.url;
+							if (url.indexOf('?') == -1) {
+								url = url + '?';
+							}
+							that.addVectortoWMSToMatriuCapes(_newData.id_layers[0], _newData.n_layers[0], url, _newData.v_layers[0]);
+						}, 1000);
+
+					} else if (results.status == "VOID") {}
+					else {
+						//console.info(results.msg);
+					}
+				});
+
+			} //fi for
+
+		} //fi bucle
 
 	},
 
 	this.addVectortoWMSToMatriuCapes = function (layers, titles, url, visible) {
 
 		var that = this;
-		jQuery.each(layers, function (i, item) {
+		//jQuery.each(layers, function (i, item) {
 
-			var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
-			var srs = "EPSG:3857";
+		//url=url.replace('172.70.1.11','localhost');
 
-			/*
-			var provider = new Cesium.WebMapServiceImageryProvider({
-			url : url,
-			layers : 'Capa_' + item ,
-			enablePickFeatures : true,
-			getFeatureInfoAsXml : false,
-			getFeatureInfoAsGeoJson : true,
-			getFeatureInfoParameters : {
-			info_format : 'geojson'
-			},
-			parameters : {
-			transparent : 'true',
-			format : 'image/png',
-			styles : 'default'
-			},
-			maximumLevel : 18
+		var _bbox = 'bbox={westProjected}%2C{southProjected}%2C{eastProjected}%2C{northProjected}&';
+		var srs = "EPSG:3857";
 
-			});
-			 */
-
-			/*
-		,
-			proxy : {
-			getURL : function (url) {
-			return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
-			}
-			}
-
-			pickFeaturesUrl: url + '&tiled=true&' +
-			'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
-			'styles=&service=WMS&version=1.1.1&request=GetFeatureInfo&' +
-			'layers=Capa_' + item + '&X={x}&Y={i}&INFO_FORMAT=geojson&QUERY_LAYERS=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
-			_bbox +'&',
-			 */
-
-			var provider = new Cesium.UrlTemplateImageryProvider({
-
-					enablePickFeatures : false,
-					getFeatureInfoAsXml : false,
-					getFeatureInfoAsGeoJson : false,
-					getFeatureInfoParameters : {
-						info_format : 'geojson'
-					},
-
-					url : url + '&tiled=true&' +
-					'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
-					'styles=&service=WMS&version=1.1.1&request=GetMap&' +
-					'layers=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
-					_bbox +
-					'width=256&height=256&',
-					maximumLevel : 19
-				});
-
-			//application/vnd.ogc.se_blank
-
-			setTimeout(that.delayAddImageProvider(provider, visible[i], item), 1000);
-			//that.delayAddImageProvider(provider, visible[i], item);
+		/*
+		var provider = new Cesium.WebMapServiceImageryProvider({
+		url : url,
+		layers : 'Capa_' + layers ,
+		enablePickFeatures : true,
+		getFeatureInfoAsXml : false,
+		getFeatureInfoAsGeoJson : true,
+		getFeatureInfoParameters : {
+		info_format : 'geojson'
+		},
+		parameters : {
+		transparent : 'true',
+		format : 'image/png',
+		styles : 'default'
+		},
+		maximumLevel : 19
 
 		});
+
+		 */
+		/*
+	,
+		proxy : {
+		getURL : function (url) {
+		return paramUrl.proxy_betterWMS + '?url=' + encodeURIComponent(url);
+		}
+		}
+
+		pickFeaturesUrl: url + '&tiled=true&' +
+		'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
+		'styles=&service=WMS&version=1.1.1&request=GetFeatureInfo&' +
+		'layers=Capa_' + item + '&X={x}&Y={i}&INFO_FORMAT=geojson&QUERY_LAYERS=Capa_' + item + '&srs=' + encodeURI(srs) + '&' +
+		_bbox +'&',
+		 */
+
+		provider = new Cesium.UrlTemplateImageryProvider({
+
+				enablePickFeatures : true,
+				getFeatureInfoAsXml : false,
+				getFeatureInfoAsGeoJson : true,
+				getFeatureInfoParameters : {
+					info_format : 'geojson'
+				},
+
+				url : url + '&tiled=true&' +
+				'transparent=true&format=image%2Fpng&exceptions=application/vnd.ogc.se_blank&' +
+				'styles=&service=WMS&version=1.1.1&request=GetMap&' +
+				'layers=Capa_' + layers + '&srs=' + encodeURI(srs) + '&' +
+				_bbox +
+				'width=256&height=256&',
+				maximumLevel : 19,
+				minimumLevel : 3
+			});
+
+		//application/vnd.ogc.se_blank
+
+
+		setTimeout(that.delayAddImageProvider(provider, visible, layers), 100);
+		//that.delayAddImageProvider(provider, visible[i], item);
+
+		//});
 
 	},
 
@@ -1165,7 +1252,7 @@ var IM_aplicacio = function (options) {
 
 			_tmpLayer.show = visible;
 			map.spin(false);
-		}, 1000);
+		}, 4000);
 
 		//viewer.imageryLayers.addImageryProvider(provider);
 
@@ -1218,31 +1305,31 @@ var IM_aplicacio = function (options) {
 		};
 
 		var factor = 1;
-
-		switch (numCapes) {
-		case 1:
-			factor = 3;
-			break;
-
-		case 2:
-			factor = 2.5;
-			break;
-
-		case 3:
-			factor = 2;
-			break;
-
-		case 4:
-			factor = 1.5;
-			break;
+		var mapZoom = this.mapZoom;
+		if (numCapes <= 6) {
+			factor = 3
+		}
+		if (numCapes >= 6) {
+			factor = 1
 		}
 
-		var _factorNumVectorsPol = 100 * factor;
-		var _factorNumVectorsLin = 50 * factor;
-		var _factorNumVectorsPunt = 500 * factor;
+		var _factorNumVectorsPol = 150 * factor;
+		var _factorNumVectorsLin = 100 * factor;
+		var _factorNumVectorsPunt = 300 * factor;
+
+		
+
+		if (numCapes >= 15) {
+
+			_factorNumVectorsPol = 1;
+			_factorNumVectorsLin = 2;
+			_factorNumVectorsPunt = 3;
+
+		}
 
 		try {
 			var ff = item.layer.toGeoJSONcustom();
+
 			var numFeatures = ff.features.length;
 
 			if (item.layer.options.geometryType) {
@@ -1257,11 +1344,19 @@ var IM_aplicacio = function (options) {
 							for (var j = 0; j < numFeatures; j++) {
 
 								var vertex = ff.features[j].geometry.coordinates[0].length;
-								if (vertex > 500) {
+								if (vertex > 200) {
 									tmp_feature.msg = 'none';
 								}
 								break;
 							}
+
+						}
+
+						if (mapZoom <= 10 && numFeatures < 3500) {
+
+							tmp_feature.msg = 'none';
+							tmp_feature.tipus = 'vector'
+
 						}
 
 					} else if (item.layer.options.source && item.layer.options.source.indexOf('xls') != -1) {
@@ -1307,12 +1402,13 @@ var IM_aplicacio = function (options) {
 
 			}
 
-			//ff = "";
-			
-			//console.debug(tmp_feature);
+			ff = "";
+
 			return tmp_feature;
 
 		} catch (err) {
+
+			_gaq.push(['_trackEvent', 'error3D', err, '_utilDeterminaTipusItem', 1]);
 
 			if (item.layer.options.tipusRang) {
 
@@ -1320,7 +1416,7 @@ var IM_aplicacio = function (options) {
 			} else {
 				tmp_feature.tipus = 'raster';
 			}
-//console.debug(tmp_feature);
+			//console.debug(tmp_feature);
 			return tmp_feature;
 		}
 
@@ -1342,8 +1438,6 @@ var IM_aplicacio = function (options) {
 			for (var i = 0; i < length; ++i) {
 				var entity = entities[i];
 				entity.ellipsoid = viewer.scene.globe.ellipsoid;
-
-				//codi enganxat
 
 				if (entity.billboard) {
 
@@ -1408,7 +1502,7 @@ var IM_aplicacio = function (options) {
 
 		var entities = dataSource.entities.values;
 		var z = 0;
-		//console.warn(entities.length);
+
 		for (var i = 0; i < entities.length; i++) {
 			var entity = entities[i];
 			entity.show = visible;
@@ -1448,7 +1542,7 @@ var IM_aplicacio = function (options) {
 				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
 				if (entity.properties.styles.icon) {
-//console.info("111");
+					//console.info("111");
 					var _alt = parseInt(matriu[i].height + 100)
 
 						var redEllipse = viewer.entities.add({
@@ -1472,7 +1566,7 @@ var IM_aplicacio = function (options) {
 					entity.billboard.color = Cesium.Color.WHITE;
 
 					if (entity.properties.styles.icon.options.markerColor) {
-//console.info("2");
+						//console.info("2");
 						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
 
 						if (colorPUNT.indexOf('punt_r') == -1) {
@@ -1536,8 +1630,6 @@ var IM_aplicacio = function (options) {
 					console.debug("No hauria entrar aqui");
 				}
 
-				
-				
 				viewer.entities.add(entity); //add billboard
 			} else if (entity.polygon) {
 
@@ -1622,23 +1714,7 @@ var IM_aplicacio = function (options) {
 					var cartesianPositions = entity.polygon._hierarchy._value;
 
 				}
-
-				var _newEntity = {
-
-					properties : entity.properties,
-					show : visible,
-					polygon : {
-						hierarchy : cartesianPositions,
-						outline : true,
-						// fill:true,
-						outlineColor : Cesium.Color.fromCssColorString(borderColor),
-						material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
-						// outlineWidth : 3.0,
-						perPositionHeight : true,
-						// extrudedHeight:3000
-
-					}
-				};
+				var _newEntity;
 
 				if (_tenimAlcada) {
 
@@ -1647,10 +1723,42 @@ var IM_aplicacio = function (options) {
 						terra = (Math.max.apply(Math, _matriuAlcada));
 					}
 					_extrudeAlcada = terra + parseInt(alcada);
-					_newEntity.polygon.extrudedHeight = _extrudeAlcada;
-					//_newEntity.polygon.material= Cesium.Color.fromCssColorString(fillColor);
-					_newEntity.polygon.outline = true;
-					_newEntity.polygon.fill = true;
+					_newEntity = {
+
+						properties : entity.properties,
+						show : visible,
+						polygon : {
+							hierarchy : cartesianPositions,
+							outline : true,
+							extrudedHeight : _extrudeAlcada,
+							fill : true,
+							outlineColor : Cesium.Color.fromCssColorString(borderColor),
+							material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
+							// outlineWidth : 3.0,
+							perPositionHeight : true
+
+						}
+					};
+
+				} else {
+
+					_newEntity = {
+
+						properties : entity.properties,
+						show : visible,
+						polygon : {
+							hierarchy : cartesianPositions,
+							outline : true,
+							// fill:true,
+							outlineColor : Cesium.Color.fromCssColorString(borderColor),
+							material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
+							// outlineWidth : 3.0,
+							perPositionHeight : true,
+							// extrudedHeight:3000
+
+						}
+					};
+
 				}
 
 				viewer.entities.add(_newEntity);
@@ -1711,7 +1819,9 @@ var IM_aplicacio = function (options) {
 		try {
 			if (this._miraCentreDins(lat, lng) && credit != 'icgc') {
 
-				terreny = new Cesium.CesiumTerrainProvider({
+				factorTerreny = 14
+
+					terreny = new Cesium.CesiumTerrainProvider({
 						url : _urlTerrenys,
 						credit : 'icgc'
 
@@ -1720,6 +1830,8 @@ var IM_aplicacio = function (options) {
 				dfd.resolve(terreny);
 
 			} else if (!this._miraCentreDins(lat, lng) && credit != 'cesium') {
+
+				factorTerreny = 11;
 
 				terreny = new Cesium.CesiumTerrainProvider({
 						url : 'http://assets.agi.com/stk-terrain/world',
@@ -1900,8 +2012,15 @@ var IM_aplicacio = function (options) {
 				zoomLevel = 21;
 			} else {
 				zoomLevel = parseInt((-1 * ((Math.log(maxDiff) / Math.log(2)) - (Math.log(360) / Math.log(2)))));
-				if (zoomLevel < 1)
+
+				if (zoomLevel > 18) {
+					zoomLevel = zoomLevel - 2;
+				}
+
+				if (zoomLevel < 1) {
 					zoomLevel = 1;
+				}
+
 			}
 
 			bbox.centerLat = centerLat;
@@ -2010,7 +2129,7 @@ function addHtmlModalNoWebGL() {
 		'							<div lang="ca">Us recomanem que per al treball en 3 dimensions utilitzeu preferiblement <b>Chrome</b>, ja que demostra un més alt rendiment.</div>' +
 		'                </div><hr>' +
 		'					<div>' +
-		'						<div style="float:left"  lang="ca"><img width="70" src="img/nav3d.png"></div>' +
+		'						<div style="float:left;padding-left: 14px;"  lang="ca"><img width="70" src="img/nav3d.png"></div>' +
 		'						<div style=" width: 80%;float:right;padding:5px" class="alert-info">' +
 		'						<div lang="ca"><span>1-</span><span lang="ca">Arrossegueu per rotar i girar la vista. Consells: També podeu orbitar lliurement prement la tecla CTRL i arrossegant el mapa .Fent doble click podreu inicialitzar la vista</span></div><br>' +
 		'							<div lang="ca"><span>2-</span><span lang="ca">Feu clic i arrossegueu per rotar la càmera</span></div>' +

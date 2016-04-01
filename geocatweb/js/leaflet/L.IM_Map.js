@@ -41,8 +41,8 @@ var _topoColorLayers=null;
 var _grisLayers=null;
 var _ombraLayer=null;
 
-//var subDomains=['otile1','otile2','otile3','otile4'];
-var subDomains=['a','b','c'];
+var subDomains=['otile1','otile2','otile3','otile4'];
+//var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 
 var urlServerTiles="http://www.instamaps.cat"
@@ -54,8 +54,9 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 }
 
 //var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+var URL_MQ='https://otile1-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
 
-var URL_MQ='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+//var URL_MQ='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
 
 var URL_ESRI='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
