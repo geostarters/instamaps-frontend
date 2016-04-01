@@ -817,31 +817,66 @@ function loadTematicValueTemplate(results, rtype){
 		}
 	}
 	
-	//match ints and floats/decimals
-	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
-	var resultsFloat = [];
-	var i=0;
-	jQuery.grep(results, function( n, i ) {
-		if (floatRegex.test(n.v)) {
-			resultsFloat[i]=n;
-			i++;
+	var resultsNoRepetits=[];
+	if (rtype=='unic'){	
+		var data = {};		
+		jQuery.grep(results,  function( n, i ) {
+				var value = n.v;
+				if(isBlank(value)) value = "nodata";
+				if(!data[value]){
+					data[value] = value;
+					resultsNoRepetits.push(n);
+				}
+		});
+		
+		//match ints and floats/decimals
+		var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+		var resultsFloat = [];
+		var i=0;
+		jQuery.grep(resultsNoRepetits, function( n, i ) {
+			if (floatRegex.test(n.v)) {
+				resultsFloat[i]=n;
+				i++;
+			}
+				
+		});
+	
+		var template1 = Handlebars.compile(source1);
+		var html1 = "";
+		if (resultsFloat.length>0) {
+			resultsFloat.sort(function(a,b){return a.v-b.v;});
+			html1 = template1({values:resultsFloat});
 		}
-			
-	});
-	
-	
-	
-	var template1 = Handlebars.compile(source1);
-	var html1 = "";
-	if (resultsFloat.length>0) {
-		resultsFloat.sort(function(a,b){return a.v-b.v;});
-		html1 = template1({values:resultsFloat});
+		else {
+			resultsNoRepetits.sort();
+			html1 = template1({values:resultsNoRepetits});
+		}
 	}
 	else {
-		results.sort();
-		html1 = template1({values:results});
+		
+		//match ints and floats/decimals
+		var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+		var resultsFloat = [];
+		var i=0;
+		jQuery.grep(results, function( n, i ) {
+			if (floatRegex.test(n.v)) {
+				resultsFloat[i]=n;
+				i++;
+			}
+				
+		});
+		
+		var template1 = Handlebars.compile(source1);
+		var html1 = "";
+		if (resultsFloat.length>0) {
+			resultsFloat.sort(function(a,b){return a.v-b.v;});
+			html1 = template1({values:resultsFloat});
+		}
+		else {
+			results.sort();
+			html1 = template1({values:results});
+		}
 	}
-	
 	
 	
 	jQuery('#list_tematic_values').html(html1);
