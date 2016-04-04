@@ -5,7 +5,9 @@
  * require url.min
  * require leaflet
  * require L.IM_Map
- * require L.IM_controlFons   
+ * require L.IM_controlFons
+ * require jQuery.cookie
+ * require 
  */
 
 ;(function(global, $){
@@ -190,31 +192,25 @@
 		
 		addLayersControl: function(){
 			var self = this,
+			btn_ctr_layers,
+			_mapConfig = self.mapConfig,
 			_map = self.map;
 			
-			controlCapes = L.control.orderlayers(null, null, {
-				collapsed : false,
-				id : 'div_capes'
-			}).addTo(_map);
-
-			_map.on('addItemFinish',function(){
-				$(".layers-list").mCustomScrollbar("destroy");
-				$(".layers-list").mCustomScrollbar({
-				   advanced:{
-				     autoScrollOnFocus: false,
-				     updateOnContentResize: true
-				   }
-				});
+			btn_ctr_layers = L.control.layersBtn({
+				mapConfig: _mapConfig,
+				title: window.lang.convert('Llista de capes')
 			});
+			btn_ctr_layers.addTo(_map);
 			
 			return self;
 		},
 		
 		addOpenInstamapsControl: function(){
 			var self = this,
+			ctr_linkViewMap,
 			_map = self.map;
 			
-			var ctr_linkViewMap = L.control.openInstamaps({
+			ctr_linkViewMap = L.control.openInstamaps({
 				businessid: self.businessid,
 				urlwms: self.urlwms,
 				layername: self.layername,
@@ -365,7 +361,16 @@
 		},
 		
 		addLlegenda: function(){
+			var self = this,
+			ctr_legend,
+			_map = self.map;
 			
+			ctr_legend = L.control.legend({
+				title: window.lang.convert('Llegenda')
+			});
+			ctr_legend.addTo(_map);
+			
+			return self;
 		},
 		
 		addControl3d: function(){
@@ -399,9 +404,6 @@
 			if(!self.fonscontrol){
 				self.addFonsControl();
 			}
-			if(!self.layerscontrol){
-				self.addLayersControl();
-			}
 			if(self.embed){
 				if(!self.openinstamaps){
 					self.addOpenInstamapsControl();
@@ -423,7 +425,7 @@
 				self.addRoutingControl();
 			}
 			if(!self.layerscontrol){
-				
+				self.addLayersControl();
 			}
 			if(!self.control3d){
 				self.addControl3d();
@@ -510,12 +512,250 @@
 			
 			self.loadMapConfig();
 			
+			map.on('loadconfig', self._loadPublicMap, self);
+			
 			jQuery('#div_loading').hide();
 			return self;
 		},
 		
+		_loadPublicMap: function(mapConfig){
+			console.debug(mapConfig);
+			
+			var self = this,
+				nomUser = mapConfig.entitatUid.split("@"),
+				nomEntitat = mapConfig.nomEntitat,
+				infoHtml = '';
+			
+			$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+			
+			if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+				$.cookie('perfil', 'geolocal', {path:'/'});
+				checkUserLogin();
+			}else{
+				$.cookie('perfil', 'instamaps', {path:'/'});
+				checkUserLogin();
+			}
+			
+			if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) {
+				infoHtml += '<div style="color:#ffffff">';
+				if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
+			}
+			else infoHtml += '<p>'+nomUser[0]+'</p>';
+			
+			if (mapConfig.options){
+				var desc=mapConfig.options.description;
+
+				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
+
+				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+				$('meta[name="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+
+				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+				$('meta[name="og:image"]').attr('content', urlThumbnail);
+
+				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
+				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+				
+				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL)  infoHtml += '</div>';
+				
+				//TODO ver como sacar el módulo
+				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+					_gaq.push(['_setAccount', 'UA-46332195-6']);
+					VisorGeolocal.initUi();
+					$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
+					$('.img-circle2-icon').hide();
+
+					if (mapConfig.options.barColor){
+						$('#navbar-visor').css('background-color', mapConfig.options.barColor);
+					}
+
+					if (mapConfig.options.textColor){
+						$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
+						$('.navbar-brand').css('color', mapConfig.options.textColor);
+						$('#mapTitle').css('color', mapConfig.options.textColor);
+						$('#mapTitle h3').css('color', '#ffffff');
+						$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
+						$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
+						$('.navbar-form').css('border-color', 'transparent');
+						$('.bt-sessio').css('border-color', '#ffffff');
+					}
+
+					if (mapConfig.options.fontType){
+						$('#navbar-visor').css('font-family', mapConfig.options.fontType);
+					}
+
+					if (mapConfig.logo){
+						$('.escut img').prop('src', '/logos/'+mapConfig.logo);
+					}
+				}else{
+					$('.escut').hide();
+				}
+			}
+			jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
+
+			$('#infoMap').popover({
+				placement : 'bottom',
+				html: true,
+				content: infoHtml
+			});
+
+			$('#infoMap').on('show.bs.popover', function () {
+				jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));		
+			});
+		
+			//TODO quitar la global ya que se usa en el control de capas.
+			downloadableData = (mapConfig.options && mapConfig.options.downloadable?
+					mapConfig.options.downloadable:[]);
+			
+			mapConfig.newMap = false;
+			$('#nomAplicacio').html(mapConfig.nomAplicacio);
+			
+			self._loadMapConfig(mapConfig).then(function(){
+				
+			});
+			
+		},
+		
+		_loadMapConfig: function(mapConfig){
+			var self = this,
+			_map = self.map,
+			dfd = $.Deferred();
+			
+			if (!$.isEmptyObject( mapConfig )){
+				$('#businessId').val(mapConfig.businessId);
+				//TODO ver los errores de leaflet al cambiar el mapa de fondo
+				//cambiar el mapa de fondo a orto y gris
+				if (mapConfig.options != null){
+					var fons = mapConfig.options.fons;
+					if (fons == 'topoMap'){
+						_map.topoMap();
+					}else if (fons == 'topoMapGeo') {
+						_map.topoMapGeo();
+					}else if (fons == 'ortoMap') {
+						_map.ortoMap();
+					}else if (fons == 'terrainMap') {
+						_map.terrainMap();
+					}else if (fons == 'topoGrisMap') {
+						_map.topoGrisMap();
+					}else if (fons == 'historicOrtoMap') {
+						_map.historicOrtoMap();
+					}else if (fons == 'historicMap') {
+						_map.historicMap();
+					}else if (fons == 'hibridMap'){
+						_map.hibridMap();
+					}else if (fons == 'historicOrtoMap46'){
+						_map.historicOrtoMap46();
+					}else if (fons == 'alcadaMap'){
+						_map.alcadaMap();
+					}else if (fons == 'colorMap') {
+						_map.colorMap(mapConfig.options.fonsColor);
+					}else if (fons == 'naturalMap') {
+						_map.naturalMap();
+					}else if (fons == 'divadminMap') {
+						_map.divadminMap();
+					}
+					_map.setActiveMap(mapConfig.options.fons);
+					_map.setMapColor(mapConfig.options.fonsColor);
+
+					var hash = location.hash;
+					hashControl = new L.Hash(_map);
+					var parsed = hashControl.parseHash(hash);
+
+					if (parsed){
+						hashControl.update();
+					}else{
+						if (mapConfig.options.center){
+							var opcenter = mapConfig.options.center.split(",");
+							_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+						}else if (mapConfig.options.bbox){
+							var bbox = mapConfig.options.bbox.split(",");
+							var southWest = L.latLng(bbox[1], bbox[0]);
+						    var northEast = L.latLng(bbox[3], bbox[2]);
+						    var bounds = L.latLngBounds(southWest, northEast);
+						    _map.fitBounds( bounds );
+						}
+					}
+				}
+				
+				//carga las capas en el mapa
+				self._loadOrigenWMS(mapConfig).then(function(results){
+					var num_origen = 0;
+					$.each(results.origen, function(index, value){
+						loadLayer(value).then(function(){
+							num_origen++;
+							if (num_origen == results.origen.length){
+								$.each(results.sublayers, function(index, value){
+									loadLayer(value);
+								});
+							}
+						});
+					});
+				});
+
+				$('#div_loading').hide();
+				//$(window).trigger('resize');
+			}
+			dfd.resolve();
+			return dfd.promise();
+		},
+		
+		_loadOrigenWMS: function(mapConfig){
+			var dfd = $.Deferred(),
+			layer_map = {origen:[],sublayers:[]};
+			
+			$.each(mapConfig.servidorsWMS, function(index, value){
+				//TODO parsear las options y el group y dejarlo en json.
+				//TODO quitar el parse de cada tipo de capa.
+				if(value.options && value.capesGroup){
+					var options;
+					if(typeof (value.options)=="string"){
+						try {
+							options = JSON.parse(value.options);
+						}
+						catch (err) {
+							options = value.options;
+						}
+					}else{
+						options = value.options;
+					}
+
+					var group = JSON.parse(value.capesGroup);
+					options.group = group;
+					value.options = JSON.stringify(options);
+				}
+				if(value.capesOrdre == capesOrdre_sublayer){
+					layer_map.sublayers.push(value);
+					lsublayers.push(value);
+				}else{
+					layer_map.origen.push(value);
+				}
+			});
+
+			//NOu
+			$.each(layer_map.origen, function(index, value){
+				var jsonOptions;
+				if(typeof (value.options)=="string"){
+					try {
+						jsonOptions = JSON.parse(value.options);
+					}
+					catch (err) {
+						jsonOptions = value.options;
+					}
+				}else{
+					jsonOptions = value.options;
+				}
+
+				if(jsonOptions && jsonOptions.group){
+					controlCapes._addGroupFromObject(jsonOptions.group);
+				}
+			});
+
+			dfd.resolve(layer_map);
+			return dfd.promise();
+		},
+		
 		loadVisorSimple: function(){
-			var self = this;
+			var self = this,
 			layername = self.layername,
 			title = "Mapa  "+ layername +" cloudifier",
 			_map = self.map;
@@ -635,7 +875,6 @@
 		},
 		
 		_listenEvents: function(){
-			console.debug("aca");
 			var self = this,
 				_map = self.map;
 			if(_map){
@@ -644,7 +883,6 @@
 				_map.on('mapprint', self._mapprintEvent, self);
 				_map.on('mapgeopdf', self._mapgeopdfEvent, self);
 				_map.on('map3dmode', self._map3dmodeEvent, self);
-				
 			}
 		}
 	};

@@ -3635,6 +3635,10 @@ i.fa {
 }
 
 /*Llegenda*/
+.bt_legend{
+	clear: left;
+}
+
 .legend {
     line-height: 18px;
     text-weight: bold;

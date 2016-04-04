@@ -41,7 +41,7 @@ L.Control.SearchControl = L.Control.extend({
 			.on(container, 'mousedown', stop)
 			.on(container, 'dblclick', stop)
 			.on(container, 'click', L.DomEvent.preventDefault)
-			.on(container, 'click', this._toggle, this);
+			.on(container, 'click', self._toggle, self);
 		
 		//agregar el control
 		self.control = new L.Control.Search({url: options.searchUrl,
@@ -105,7 +105,7 @@ L.Control.SearchControl = L.Control.extend({
 		var offset = $(this._div).offset();
 		$('#searchBar').css('top', (offset.top - 15) +'px');
 		$('#searchBar').css('left', (offset.left + 35) +'px');
-		$('#searchBar').toggle();
+		$('#searchBar').show();
 	}, 
 	
 	_toggle: function(e){

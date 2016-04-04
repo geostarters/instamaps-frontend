@@ -16,7 +16,7 @@ L.Control.OrderLayers = L.Control.Layers
 				this._handlingClick = false;
 				this._groupList = [];
 				this._domGroups = [];
-				this._socInstamapsVell="_socVisorVellInstamaps_"
+				this._socInstamapsVell="_socVisorVellInstamaps_";
 
 				for (i in baseLayers) {
 					for ( var j in baseLayers[i].layers) {
