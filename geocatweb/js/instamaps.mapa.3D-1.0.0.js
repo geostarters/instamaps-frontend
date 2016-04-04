@@ -482,7 +482,10 @@ var IM_aplicacio = function (options) {
 		this.addBaseLayersCesium();
 
 		//console.warn("addOverlaysLayersCesium");
-		this.miraCapesiExternes();
+		var that=this;
+		setTimeout(function(){			
+			that.miraCapesiExternes();
+		},3000);
 
 		//Afegin Events Cesium hanlers
 
@@ -906,7 +909,7 @@ var IM_aplicacio = function (options) {
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
 								url : url,
 
-								maximumLevel : 18,
+								maximumLevel : 19,
 								minimumLevel : 3
 
 							}));
@@ -1252,7 +1255,7 @@ var IM_aplicacio = function (options) {
 
 			_tmpLayer.show = visible;
 			map.spin(false);
-		}, 4000);
+		}, 3000);
 
 		//viewer.imageryLayers.addImageryProvider(provider);
 
@@ -1262,10 +1265,12 @@ var IM_aplicacio = function (options) {
 
 	},
 	this.addOverlaysVectorsCesium = function () {
-
+var that = this;
 		for (var i = 0; i < this.matriuCapes.overlays.length; i++) {
 
 			if (this.matriuCapes.overlays[i].tipus == "vector") {
+				
+				//setTimeout(function(){
 
 				var vector = this.matriuCapes.overlays[i].item;
 				var visible = this.matriuCapes.overlays[i].show;
@@ -1278,8 +1283,8 @@ var IM_aplicacio = function (options) {
 					overLayers3D.push(bb);
 
 					var promise = Cesium.GeoJsonDataSource.load(gj);
-					var that = this;
-					var ellipsoid = viewer.scene.globe.ellipsoid;
+					
+					//var ellipsoid = viewer.scene.globe.ellipsoid;
 
 					promise.then(function (dataSource) {
 						dataSource.id = bb;
@@ -1288,10 +1293,14 @@ var IM_aplicacio = function (options) {
 						that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
 
 					}).otherwise(function (error) {
-						//console.warn(error);
+						console.warn(error);
 					});
 				}
+			
+			//},500);
+			
 			}
+			
 		}
 	},
 
@@ -1306,24 +1315,24 @@ var IM_aplicacio = function (options) {
 
 		var factor = 1;
 		var mapZoom = this.mapZoom;
-		if (numCapes <= 6) {
+		if (numCapes <= 15) {
 			factor = 3
 		}
-		if (numCapes >= 6) {
+		if (numCapes >= 15) {
 			factor = 1
 		}
 
-		var _factorNumVectorsPol = 150 * factor;
-		var _factorNumVectorsLin = 100 * factor;
-		var _factorNumVectorsPunt = 300 * factor;
+		var _factorNumVectorsPol = 450 * factor;
+		var _factorNumVectorsLin = 300 * factor;
+		var _factorNumVectorsPunt = 500 * factor;
 
 		
 
-		if (numCapes >= 15) {
+		if (numCapes >= 25) {
 
-			_factorNumVectorsPol = 1;
-			_factorNumVectorsLin = 2;
-			_factorNumVectorsPunt = 3;
+			_factorNumVectorsPol = 10;
+			_factorNumVectorsLin = 20;
+			_factorNumVectorsPunt = 30;
 
 		}
 
