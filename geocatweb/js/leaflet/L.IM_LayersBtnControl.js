@@ -1,5 +1,8 @@
 /**
+ * L.Control.LayersBtn control que agrega el control de capas
  * 
+ * require /geocatonline/geocatweb/js/leaflet/L.IM_ControlLayerManager.js
+ * require /geocatonline/llibreries/js/jquery/plugins/jquery.transit.js
  */
 L.Control.LayersBtn = L.Control.extend({
 	options: {
@@ -8,7 +11,8 @@ L.Control.LayersBtn = L.Control.extend({
 		className: 'leaflet-bar  btn btn-default btn-sm grisfort',
 		title: 'Llista de capes',
 		langTitle: 'Llista de capes',
-		html: '<span class="glyphicon glyphicon-th-list"></span>'
+		html: '<span class="glyphicon glyphicon-th-list"></span>',
+		transition: true
 	},
 	
 	onAdd: function(map){
@@ -63,14 +67,26 @@ L.Control.LayersBtn = L.Control.extend({
 		L.DomUtil.removeClass(this._div, 'greenfort');
 		L.DomUtil.addClass(this._div, 'grisfort');
 		var div = this.control.getContainer();
-		$(div).hide();
+		if(this.options.transition){
+			$(div).animate({
+				width : 'hide'
+			});
+		}else{
+			$(div).hide();
+		}
 	},
 	
 	show: function(e){
 		L.DomUtil.removeClass(this._div, 'grisfort');
 		L.DomUtil.addClass(this._div, 'greenfort');
 		var div = this.control.getContainer();
-		$(div).show();
+		if(this.options.transition){
+			$(div).animate({
+				width : 'show'
+			});
+		}else{
+			$(div).show();
+		}
 	},
 	
 	_toggle: function(e){

@@ -2,6 +2,7 @@
  * L.Control.Legend control que crea el boton de la legenda y agrega la legenda al mapa
  * 
  * require /geocatweb/js/leaflet/L.IM_LegendDivControl.js
+ * require /geocatonline/llibreries/js/jquery/plugins/jquery.transit.js
  */
 L.Control.Legend = L.Control.extend({
 	options: {
@@ -11,7 +12,8 @@ L.Control.Legend = L.Control.extend({
 		title: 'Llegenda',
 		html: '<span class="glyphicon glyphicon-list-alt"></span>',
 		id: 'mapLegend',
-		className: 'info legend visor-legend mCustomScrollbar'
+		className: 'info legend visor-legend mCustomScrollbar',
+		transition: true
 	},
 	
 	initialize: function(options){
@@ -42,8 +44,6 @@ L.Control.Legend = L.Control.extend({
 		
 		map.on('loadconfig', this._updateLegend, this);
 		
-		//map.on('loadlegend', this._updateMapConfig, this);
-		
 		self.hide();
 		
 		return container;
@@ -54,11 +54,35 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	hide: function() {
-		$(this._div).hide();
+		var _$this = $(this._div),
+		y2 = _$this.height() +50;
+		if(this.options.transition){
+			_$this.transition({ 
+				x: '250px',
+				y: y2+'px',
+				opacity: 0.1,
+				duration: 500,
+				complete: function(){
+					_$this.hide();
+				}
+			});
+		}else{
+			_$this.hide();
+		}
 	},
 	
 	show: function(e){
-		$(this._div).show();
+		var _$this = $(this._div);
+		_$this.show();
+		if(this.options.transition){
+			_$this.transition({
+				x: '0px',
+				y: '0px',
+				easing: 'in',
+				opacity: 1,
+				duration: 500
+			});
+		}
 	},
 	
 	_updateLegend: function(config){
