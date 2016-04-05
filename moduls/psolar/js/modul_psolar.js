@@ -334,12 +334,20 @@ function addControLSolar() {
 
 		});
 
+		
+		
 		fet = true;
 		return fet;
 	}
 
 	return fet;
 }
+
+function addModul3D(){
+//console.info(jQuery('.bt_3D_2D'));
+		jQuery('.bt_3D_2D').hide();
+		jQuery('#dv_bt_Routing').hide();	
+}	
 
 function updateLLegendaPSolar(params, layer, estat) {
 
