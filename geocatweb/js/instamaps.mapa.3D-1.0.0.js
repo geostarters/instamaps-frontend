@@ -1371,7 +1371,7 @@ var that = this;
 
 								var vertex = ff.features[j].geometry.coordinates[0].length;
 								
-								if (vertex > 1000) {
+								if (vertex > 46000) {
 									tmp_feature.msg = 'none';
 								}
 								break;
