@@ -804,7 +804,7 @@ function isMobile() {
 function isChrome(){
 
 var isChromium = window.chrome,
-var vendorName = window.navigator.vendor;
+vendorName = window.navigator.vendor;
 	
 var _hoSoc=false;
 		
