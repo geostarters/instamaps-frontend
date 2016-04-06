@@ -22,8 +22,19 @@ var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
 var msgHTML = "";
 var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
+var appl='mapa';
+var factorNavegador=1000;
 function addModul3D() {
 
+
+var socChrome=isChrome();
+
+if(socChrome){factorNavegador=500;}
+
+		
+	if(!getModeMapa()){appl='visor';}
+	
+	
 	browserWebGL = detectoCapacitatsWebGL();
 
 	if (browserWebGL) {
@@ -38,13 +49,16 @@ function addModul3D() {
 		'<span id="span_bt_pinch3D" class="glyphicon glyphicon-road grisfort"></span></div>');
 		 */
 
-		_gaq.push(['_trackEvent', 'siWebGL', '', '', 1]);
+		_gaq.push(['_trackEvent', appl, 'siWebGL3D', 'label 3D', 1]);
 
 	}
 
 	jQuery('.bt_3D_2D').on('click', function (event) {
 		aturaClick(event);
-		_gaq.push(['_trackEvent', 'mapa', tipus_user + '3D', 'label 3D', 1]);
+		
+		
+		
+		_gaq.push(['_trackEvent', appl, tipus_user + '3D', 'label 3D', 1]);
 		$('.tooltip').hide();
 		// mirar si el navegador suporta 3d
 		browserWebGL ? canviaVista_3D_2D(this) : mostraMsgNo3D();
@@ -484,8 +498,9 @@ var IM_aplicacio = function (options) {
 		//console.warn("addOverlaysLayersCesium");
 		var that=this;
 		setTimeout(function(){			
+		//console.warn("addOverlaysLayersCesium3");
 			that.miraCapesiExternes();
-		},3000);
+		},factorNavegador*3);
 
 		//Afegin Events Cesium hanlers
 
@@ -1157,7 +1172,7 @@ var IM_aplicacio = function (options) {
 								url = url + '?';
 							}
 							that.addVectortoWMSToMatriuCapes(_newData.id_layers[0], _newData.n_layers[0], url, _newData.v_layers[0]);
-						}, 1000);
+						}, factorNavegador);
 
 					} else if (results.status == "VOID") {}
 					else {
@@ -1255,7 +1270,7 @@ var IM_aplicacio = function (options) {
 
 			_tmpLayer.show = visible;
 			map.spin(false);
-		}, 3000);
+		}, factorNavegador *2);
 
 		//viewer.imageryLayers.addImageryProvider(provider);
 
@@ -1290,8 +1305,9 @@ var that = this;
 						dataSource.id = bb;
 						var dataL = dataSource;
 						var XYZ_Edificis = [];
-						that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
-
+						setTimeout(function(){
+							that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
+						},factorNavegador);
 					}).otherwise(function (error) {
 						console.warn(error);
 					});
@@ -1344,8 +1360,9 @@ var that = this;
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
+				
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
-
+	
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
@@ -1353,7 +1370,8 @@ var that = this;
 							for (var j = 0; j < numFeatures; j++) {
 
 								var vertex = ff.features[j].geometry.coordinates[0].length;
-								if (vertex > 200) {
+								
+								if (vertex > 1000) {
 									tmp_feature.msg = 'none';
 								}
 								break;
@@ -1404,6 +1422,8 @@ var that = this;
 
 			} else if (item.layer.options.tipusRang) {
 
+			
+			
 				tmp_feature.tipus = 'vecras';
 			} else {
 
@@ -1418,6 +1438,8 @@ var that = this;
 		} catch (err) {
 
 			_gaq.push(['_trackEvent', 'error3D', err, '_utilDeterminaTipusItem', 1]);
+			
+			
 
 			if (item.layer.options.tipusRang) {
 
@@ -1425,7 +1447,7 @@ var that = this;
 			} else {
 				tmp_feature.tipus = 'raster';
 			}
-			//console.debug(tmp_feature);
+			
 			return tmp_feature;
 		}
 
@@ -1491,9 +1513,22 @@ var that = this;
 
 			Cesium.when(promise, function (updatedPositions) {
 
-				that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
-
+			if(length >50){
+			
+					setTimeout(function(){
+						that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
+					},factorNavegador);
+			
+			}else{				
+				
+					that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
+			}	
+			
+			
+			
 			});
+
+			
 
 			map.spin(true);
 
@@ -1511,10 +1546,10 @@ var that = this;
 
 		var entities = dataSource.entities.values;
 		var z = 0;
-
+//visible=false;
 		for (var i = 0; i < entities.length; i++) {
 			var entity = entities[i];
-			entity.show = visible;
+			entity.show = false;
 			entity.properties.dataSource = dataSource.id;
 			var ellipsoid = viewer.scene.globe.ellipsoid;
 			entity.ellipsoid = ellipsoid;
@@ -1531,6 +1566,11 @@ var that = this;
 
 				var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
 
+				var colorLin=entity.properties.styles.color;
+				var wLin=entity.properties.styles.weight;
+				if(!colorLin){colorLin="#FFCC00";}
+				if(!wLin){wLin=2;}
+				
 				var _newEntity = {
 
 					properties : entity.properties,
@@ -1539,8 +1579,8 @@ var that = this;
 						positions : cartesianPositions,
 						outline : true,
 						show : visible,
-						width : entity.properties.styles.weight,
-						material : new Cesium.ColorMaterialProperty(Cesium.Color.fromCssColorString(entity.properties.styles.color))
+						width :wLin,
+						material : new Cesium.ColorMaterialProperty(Cesium.Color.fromCssColorString(colorLin))
 					}
 				}
 				viewer.entities.add(_newEntity);
@@ -1586,7 +1626,7 @@ var that = this;
 
 							entity.billboard = "";
 							entity.point = {
-								show : true, // default
+								show : visible, // default
 								color : Cesium.Color
 								.fromCssColorString(entity.properties.styles.icon.options.fillColor), // default:
 								// //
@@ -1619,7 +1659,7 @@ var that = this;
 
 					entity.billboard = "";
 					entity.point = {
-						show : true, // default
+						show : visible, // default
 						color : Cesium.Color
 						.fromCssColorString(entity.properties.styles.fillColor), // default:
 						// //
@@ -2073,7 +2113,7 @@ var that = this;
 function mostraMsgNo3D() {
 	//alert("El seu Navegador no suporta el WebGL");
 	jQuery("#dialgo_no_webgl").modal('show');
-	_gaq.push(['_trackEvent', 'noWebGL', '', '', 1]);
+	_gaq.push(['_trackEvent', appl, 'noWebGL3D', 'label 3D', 1]);
 }
 
 function detectoCapacitatsWebGL() {
