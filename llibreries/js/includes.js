@@ -56,12 +56,21 @@ L.LayerGroup.include({
         	
         	
  if(tipus.indexOf("Multi")!=-1){
-        		// console.info(layer.properties);
-        		 json.styles.fillColor=layer.properties.estil.color;
-        		 json.styles.borderColor=layer.properties.estil.borderColor;
-        		 json.styles.color=layer.properties.estil.borderColor;
-        		 json.styles.weight=layer.properties.estil.borderWidth;
-        		 json.styles.borderWidth=layer.properties.estil.borderWidth;
+	 //Arreglem descàrrega fitxers dinàmics
+	    		 if (layer.properties){		 
+	        		 json.styles.fillColor=layer.properties.estil.color;
+	        		 json.styles.borderColor=layer.properties.estil.borderColor;
+	        		 json.styles.color=layer.properties.estil.borderColor;
+	        		 json.styles.weight=layer.properties.estil.borderWidth;
+	        		 json.styles.borderWidth=layer.properties.estil.borderWidth;
+        		 }
+        		 else if (layer._options.style){
+        			 json.styles.fillColor=layer._options.style.color;
+	        		 json.styles.borderColor=layer._options.style.borderColor;
+	        		 json.styles.color=layer._options.style.borderColor;
+	        		 json.styles.weight=layer._options.style.borderWidth;
+	        		 json.styles.borderWidth=layer._options.style.borderWidth;
+        		 }
              	
               }
         
