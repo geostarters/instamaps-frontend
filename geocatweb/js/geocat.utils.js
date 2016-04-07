@@ -801,6 +801,22 @@ function isMobile() {
 }
 
 
+function isChrome(){
+
+var isChromium = window.chrome,
+vendorName = window.navigator.vendor;
+	
+var _hoSoc=false;
+		
+		if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
+			_hoSoc=true;
+		}
+
+	return _hoSoc;	
+
+	
+}	
+
 
 (function($){
 	var o = $({});

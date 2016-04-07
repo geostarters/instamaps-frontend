@@ -56,8 +56,7 @@ L.LayerGroup.include({
         	
         	
  if(tipus.indexOf("Multi")!=-1){
-	 //Arreglem descàrrega fitxers dinàmics
-	    		 if (layer.properties){		 
+	   		 if (layer.properties){		 
 	        		 json.styles.fillColor=layer.properties.estil.color;
 	        		 json.styles.borderColor=layer.properties.estil.borderColor;
 	        		 json.styles.color=layer.properties.estil.borderColor;
