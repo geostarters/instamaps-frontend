@@ -501,11 +501,13 @@ function initControls(){
 
 	if(mapConfig){
 
-		if(mapConfig.nomEntitat){
+	
+	//console.info(mapConfig);
+		if(mapConfig.tipusAplicacioId==2){
 			//_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
 			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.nomEntitat, mapConfig.nomAplicacio, 1]);
 		}else{
-			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+			//_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
 
 		}
 	}
