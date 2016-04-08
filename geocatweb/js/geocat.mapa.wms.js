@@ -17,16 +17,26 @@ function generaLlistaServeisWMS() {
 			"WMS" : [
 					{
 						"TITOL" : "Base municipal",
-						"ORGANITZAC" : "Institut Cartogràfic de Catalunya",
+						"ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
 						"IDARXIU" : "http://galileo.icc.cat/arcgis/services/icc_limadmin_v_r/MapServer/WMSServer?",
-						"URN" : " urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
+						"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
 					},
+					{
+						"TITOL" : "Delimitació municipal",
+						"ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
+						"IDARXIU" : "http://geoserveis.icc.cat/icc_atlm/wms/service?",
+						"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
+					},
+					
+					
+					/*
 					{
 						"TITOL" : "Mapa Urbanístic",
 						"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
 						"IDARXIU" : "http://tes.gencat.cat/webmap/MUC/Request.aspx?",
 						"URN" : "urn:uuid:e7a15a72-233b-11e2-a4dd-13da4f953834"
 					},
+					*/
 
 					{
 						"TITOL" : "Mapa Cadastral",
@@ -102,27 +112,21 @@ function generaLlistaServeisWMS() {
 		                "IDARXIU" : HOST_APP2+"geotimeservices/catastro_dgc",
 		                "WMST" : true
 					},
-					
-					
-					
+				
 					{
 		                "TITOL" : "Ortofotos per anys",
 		                "ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
 		                "IDARXIU" : HOST_APP2+"geotimeservices/orto_icgc",
 		                "WMST" : true
 					},
-					
-					
+									
 					{
 		                "TITOL" : "Seccions Censals per anys",
 		                "ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
 		                "IDARXIU" : HOST_APP2+"geotimeservices/seccionsc_icgc",
 		                "WMST" : true
 					}
-					
-					
-					
-					
+																			
 					
 			]
 		};	
