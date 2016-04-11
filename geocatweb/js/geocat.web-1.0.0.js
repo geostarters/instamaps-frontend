@@ -602,39 +602,17 @@ function addHtmlModalOldBrowser(){
 	);
 }
 
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
 function isGeolocalUser(){
 	var isGeolocal = false;
+	
+	
 	if($.cookie('tipusEntitat')){
 		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
 			isGeolocal = true;
 		}
 	}
+	
+	
 	return isGeolocal;
 }
 

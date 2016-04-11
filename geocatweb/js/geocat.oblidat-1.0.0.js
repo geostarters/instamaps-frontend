@@ -7,6 +7,8 @@ jQuery(document).ready(function() {
 	    }
 	});
 	
+	$.publish('loadConfig', null);
+	
 });//Fi document ready
 
 jQuery("#login_button").click(function(){
@@ -50,6 +52,5 @@ jQuery("#login_button").click(function(){
 				}
 			}
 		});
-		
 	}
 });

@@ -142,6 +142,13 @@ function loadApp(){
 					addControlsInici();
 
 					addLegendEdicio();
+					
+					$.publish('loadConfig', mapConfig);
+					/*
+					$.subscribe('loadGaEvents', function(e, data){
+						loadEventsGa();
+					});
+					*/
 
 					loadMapConfig(mapConfig).then(function(){
 
