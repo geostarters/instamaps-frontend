@@ -30,6 +30,9 @@ var text_confirma_dades = 'Confirmeu les dades';
 			$('.form-signin-heading').text(window.lang.convert(text_confirma_dades));
 			$('#signin_button').text(window.lang.convert(text_confirma_dades));
 		}
+		
+		$.publish('loadConfig', null);
+		
 	});
 	
 	jQuery("#signin_button").click(function(event){ 
@@ -73,7 +76,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 								content: contingut
 						};
 						sendMail(data).then(function(results){
-							console.debug(results);							
+							//console.debug(results);							
 						});
 						_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
 						
@@ -195,7 +198,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 	}
 	
 	function redirectLogin(results){
-		console.debug(results);
+	//	console.debug(results);
 		if ($.cookie('collaboratebid')) {
 			if ($.cookie('collaborateuid')){
 				if ($.cookie('collaborateuid')!=$.cookie('uid')) {
@@ -229,12 +232,12 @@ var text_confirma_dades = 'Confirmeu les dades';
 	
 	function createContingutEmail(email){
 		
-		console.debug("Create contingut email....");
-		console.debug(email);
+		//console.debug("Create contingut email....");
+		//console.debug(email);
 		uid = email.split("@");
 		
 		user = (uid[0]?uid[0]:email);
-		console.debug(user);
+		//console.debug(user);
 		
 		var contingut = "<br><br>";
 		contingut+= window.lang.convert("Hola");
@@ -266,7 +269,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 		contingut+= "<br>";		
 			
 			
-		console.debug(contingut);
+		//console.debug(contingut);
 		return contingut;
 		
 	}
