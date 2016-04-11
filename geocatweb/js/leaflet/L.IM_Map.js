@@ -93,7 +93,7 @@ var URL_MQ_NATURAL='http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png'
 
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
 
-var URL_TOPOICC_GEO_MON=urlServerTiles+'/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
+var URL_TOPOICC_GEO_MON='http://www.instamaps.cat/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
 
 var URL_TOPOICC_GEO_NATURAL=urlServerTiles+'/mapcache/tms/1.0.0/natural3857@GMTOT/{z}/{x}/{y}.png';
 var URL_TOPONIMS_GEO=urlServerTiles+'/mapcache/tms/1.0.0/toponims3857@GMTOT/{z}/{x}/{y}.png';

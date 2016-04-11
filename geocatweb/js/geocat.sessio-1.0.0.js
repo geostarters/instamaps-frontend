@@ -26,6 +26,9 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
+	
+	$.publish('loadConfig', null);
+	
 });//Fi document ready
 
 jQuery("#login_button").click(function(){
@@ -99,7 +102,7 @@ var data = {
 		content: contingut
 };
 sendMail(data).then(function(results){
-	console.debug(results);							
+	//console.debug(results);							
 });
 });
 
@@ -216,8 +219,8 @@ function redirectLogin(results, from){
 			window.location=GEOCAT02+paramUrl.mapaPage;
 		}
 	}else if(isGeolocalUser() && from != '' && from in paramAplications){
-		console.debug(from);
-		console.debug(results);
+		//console.debug(from);
+		//console.debug(results);
 		var token = $.cookie('token');
 		window.open(paramAplications[from].url+results.uid+"&token="+token);
 		window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1&aplicacions=1";

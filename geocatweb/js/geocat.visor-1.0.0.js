@@ -212,17 +212,9 @@ function loadApp(){
 	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
 
     if(typeof url('?embed') == "string"){
-//        jQuery('#navbar-visor').remove();
           jQuery('#navbar-visor').hide();
           jQuery('#searchBar').css('top', '0');
           addDefaultZoomControl = false;
-
-
-
-          _gaq.push (['_trackEvent', 'visor', 'embed']);
-    }else{
-    	_gaq.push (['_trackEvent', 'visor', 'no embed']);
-
     }
 
     if(typeof url('?businessid') == "string"){
@@ -297,7 +289,6 @@ function loadApp(){
 			//console.debug('on click social');
 		});
 
-		_gaq.push(['_trackPageview']);
 }
 
 function loadPublicMap(results){
@@ -323,7 +314,9 @@ function loadPublicMap(results){
 		if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
 	}
 	else infoHtml += '<p>'+nomUser[0]+'</p>';
-
+	
+	
+	
 	if (mapConfig.options){
 		mapConfig.options = $.parseJSON( mapConfig.options );
 
@@ -344,7 +337,6 @@ function loadPublicMap(results){
 		
 		//TODO ver como sacar el módulo
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
-			_gaq.push(['_setAccount', 'UA-46332195-6']);
 			VisorGeolocal.initUi();
 			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
 			$('.img-circle2-icon').hide();
@@ -378,6 +370,10 @@ function loadPublicMap(results){
 		}else{
 			$('.escut').hide();
 		}
+		$.publish('loadConfig', mapConfig);
+		$.subscribe('loadGaEvents', function(e, data){
+			loadEventsGa();
+		});
 	}
 	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
@@ -436,7 +432,7 @@ function loadPublicMap(results){
 		var controlFons = new L.IM_controlFons().addTo(map);
 
 		$.publish('loadMap', map);
-
+		
 		map.on('moveend',function(e){
       		$.publish('mapMoveend', this);
       	});
@@ -501,11 +497,13 @@ function initControls(){
 
 	if(mapConfig){
 
-		if(mapConfig.nomEntitat){
+	
+	//console.info(mapConfig);
+		if(mapConfig.tipusAplicacioId==2){
 			//_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
-			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.nomEntitat, mapConfig.nomAplicacio, 1]);
+			_gaq.push (['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]);
 		}else{
-			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
+			_gaq.push (['_trackEvent', 'visor', 'visor_instamaps', mapConfig.entitatUid, 1]);
 
 		}
 	}
@@ -1385,4 +1383,12 @@ function isIframeOrEmbed(){
 	}
 	else return false;
 
+}
+
+function loadEventsGa(){
+	if(typeof url('?embed') == "string"){
+        _gaq.push (['_trackEvent', 'visor', 'embed']);
+    }else{
+    	_gaq.push (['_trackEvent', 'visor', 'no embed']);
+    }
 }
