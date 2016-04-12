@@ -944,6 +944,7 @@
 	Galeria.init = function(options){
 		var self = this;
 		self.options = $.extend({}, galeriaOptions, options);
+		$.publish('loadConfig',null);
 	}
 	
 	Galeria.init.prototype = Galeria.prototype;

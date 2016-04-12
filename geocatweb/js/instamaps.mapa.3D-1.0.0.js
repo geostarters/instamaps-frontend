@@ -22,9 +22,19 @@ var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
 var msgHTML = "";
 var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
+var appl='mapa';
+var factorNavegador=1000;
 function addModul3D(config) {
 
 	mapConfig = config || mapConfig;
+	
+
+	var socChrome=isChrome();
+
+	if(socChrome){factorNavegador=500;}
+	
+	if(!getModeMapa()){appl='visor';}
+	
 	
 	browserWebGL = detectoCapacitatsWebGL();
 
@@ -40,13 +50,16 @@ function addModul3D(config) {
 		'<span id="span_bt_pinch3D" class="glyphicon glyphicon-road grisfort"></span></div>');
 		 */
 
-		_gaq.push(['_trackEvent', 'siWebGL', '', '', 1]);
+		_gaq.push(['_trackEvent', appl, 'siWebGL3D', 'label 3D', 1]);
 
 	}
 
 	jQuery('.bt_3D_2D').on('click', function (event) {
 		aturaClick(event);
-		_gaq.push(['_trackEvent', 'mapa', tipus_user + '3D', 'label 3D', 1]);
+		
+		
+		
+		_gaq.push(['_trackEvent', appl, tipus_user + '3D', 'label 3D', 1]);
 		$('.tooltip').hide();
 		activaVista3d_2d(this);
 	});
@@ -117,7 +130,6 @@ function initMapa3DfromMapConfig() {
 
 function inicialitzaMapa3D(origen) {
 	if (browserWebGL) {
-		console.debug(mapaVista3D);
 		if (mapaVista3D == null) {
 			mapaVista3D = new IM_aplicacio({
 				'mapId' : 'map',
@@ -480,7 +492,7 @@ var IM_aplicacio = function (options) {
 		var that=this;
 		setTimeout(function(){			
 			that.miraCapesiExternes();
-		},3000);
+		},factorNavegador*3);
 
 		//Afegin Events Cesium hanlers
 
@@ -1152,7 +1164,7 @@ var IM_aplicacio = function (options) {
 								url = url + '?';
 							}
 							that.addVectortoWMSToMatriuCapes(_newData.id_layers[0], _newData.n_layers[0], url, _newData.v_layers[0]);
-						}, 1000);
+						}, factorNavegador);
 
 					} else if (results.status == "VOID") {}
 					else {
@@ -1250,7 +1262,7 @@ var IM_aplicacio = function (options) {
 
 			_tmpLayer.show = visible;
 			map.spin(false);
-		}, 3000);
+		}, factorNavegador *2);
 
 		//viewer.imageryLayers.addImageryProvider(provider);
 
@@ -1285,8 +1297,9 @@ var that = this;
 						dataSource.id = bb;
 						var dataL = dataSource;
 						var XYZ_Edificis = [];
-						that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
-
+						setTimeout(function(){
+							that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
+						},factorNavegador);
 					}).otherwise(function (error) {
 						console.warn(error);
 					});
@@ -1348,7 +1361,7 @@ var that = this;
 							for (var j = 0; j < numFeatures; j++) {
 
 								var vertex = ff.features[j].geometry.coordinates[0].length;
-								if (vertex > 200) {
+								if (vertex > 46000) {
 									tmp_feature.msg = 'none';
 								}
 								break;
@@ -1420,7 +1433,7 @@ var that = this;
 			} else {
 				tmp_feature.tipus = 'raster';
 			}
-			//console.debug(tmp_feature);
+			
 			return tmp_feature;
 		}
 
@@ -1485,10 +1498,16 @@ var that = this;
 			var promise = Cesium.sampleTerrain(terreny, factorTerreny, matriu);
 
 			Cesium.when(promise, function (updatedPositions) {
-
-				that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
-
+				if(length >50){
+					setTimeout(function(){
+						that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
+					},factorNavegador);
+				}else{				
+					that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
+				}	
 			});
+
+			
 
 			map.spin(true);
 
@@ -1509,7 +1528,7 @@ var that = this;
 
 		for (var i = 0; i < entities.length; i++) {
 			var entity = entities[i];
-			entity.show = visible;
+			entity.show = true;
 			entity.properties.dataSource = dataSource.id;
 			var ellipsoid = viewer.scene.globe.ellipsoid;
 			entity.ellipsoid = ellipsoid;
@@ -1526,6 +1545,11 @@ var that = this;
 
 				var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
 
+				var colorLin=entity.properties.styles.color;
+				var wLin=entity.properties.styles.weight;
+				if(!colorLin){colorLin="#FFCC00";}
+				if(!wLin){wLin=2;}
+				
 				var _newEntity = {
 
 					properties : entity.properties,
@@ -1534,8 +1558,8 @@ var that = this;
 						positions : cartesianPositions,
 						outline : true,
 						show : visible,
-						width : entity.properties.styles.weight,
-						material : new Cesium.ColorMaterialProperty(Cesium.Color.fromCssColorString(entity.properties.styles.color))
+						width :wLin,
+						material : new Cesium.ColorMaterialProperty(Cesium.Color.fromCssColorString(colorLin))
 					}
 				}
 				viewer.entities.add(_newEntity);
@@ -1546,7 +1570,6 @@ var that = this;
 				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
 				if (entity.properties.styles.icon) {
-					//console.info("111");
 					var _alt = parseInt(matriu[i].height + 100)
 
 						var redEllipse = viewer.entities.add({
@@ -1570,7 +1593,7 @@ var that = this;
 					entity.billboard.color = Cesium.Color.WHITE;
 
 					if (entity.properties.styles.icon.options.markerColor) {
-						//console.info("2");
+						
 						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
 
 						if (colorPUNT.indexOf('punt_r') == -1) {
@@ -1581,7 +1604,7 @@ var that = this;
 
 							entity.billboard = "";
 							entity.point = {
-								show : true, // default
+								show : visible, // default
 								color : Cesium.Color
 								.fromCssColorString(entity.properties.styles.icon.options.fillColor), // default:
 								// //
@@ -1614,7 +1637,7 @@ var that = this;
 
 					entity.billboard = "";
 					entity.point = {
-						show : true, // default
+						show : visible, // default
 						color : Cesium.Color
 						.fromCssColorString(entity.properties.styles.fillColor), // default:
 						// //
@@ -2068,7 +2091,7 @@ var that = this;
 function mostraMsgNo3D() {
 	//alert("El seu Navegador no suporta el WebGL");
 	jQuery("#dialgo_no_webgl").modal('show');
-	_gaq.push(['_trackEvent', 'noWebGL', '', '', 1]);
+	_gaq.push(['_trackEvent', appl, 'noWebGL3D', 'label 3D', 1]);
 }
 
 function detectoCapacitatsWebGL() {

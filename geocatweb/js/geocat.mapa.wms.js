@@ -16,16 +16,24 @@ function generaLlistaServeisWMS() {
 		"WMS" : [
 			{
 				"TITOL" : "Base municipal",
-				"ORGANITZAC" : "Institut Cartogràfic de Catalunya",
+				"ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
 				"IDARXIU" : "http://galileo.icc.cat/arcgis/services/icc_limadmin_v_r/MapServer/WMSServer?",
-				"URN" : " urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
+				"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
 			},
+			{
+				"TITOL" : "Delimitació municipal",
+				"ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
+				"IDARXIU" : "http://geoserveis.icc.cat/icc_atlm/wms/service?",
+				"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
+			},
+			/*
 			{
 				"TITOL" : "Mapa Urbanístic",
 				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
 				"IDARXIU" : "http://tes.gencat.cat/webmap/MUC/Request.aspx?",
 				"URN" : "urn:uuid:e7a15a72-233b-11e2-a4dd-13da4f953834"
 			},
+			*/
 			{
 				"TITOL" : "Mapa Cadastral",
 				"ORGANITZAC" : "Dirección General del Catastro",
@@ -33,8 +41,9 @@ function generaLlistaServeisWMS() {
 				"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 			},
 			{ 
-				"TITOL" : "Atermenament i usos de costes", "ORGANITZAC" : "Departament de Territori i Sostenibilitat",
-				"IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?",
+				"TITOL" : "Atermenament i usos de costes",
+				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
+				"IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?", 
 				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
 			},
 			{

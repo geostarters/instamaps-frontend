@@ -372,6 +372,10 @@ function loadPublicMap(results){
 		}else{
 			$('.escut').hide();
 		}
+		$.publish('loadConfig', mapConfig);
+		$.subscribe('loadGaEvents', function(e, data){
+			loadEventsGa();
+		});
 	}
 	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
@@ -484,7 +488,9 @@ function initControls(){
 
 	//posem event per controlar visor
 	if(mapConfig){
-		if(mapConfig.nomEntitat){
+	
+	//console.info(mapConfig);
+		if(mapConfig.tipusAplicacioId==2){
 			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.nomEntitat, mapConfig.nomAplicacio, 1]);
 		}else{
 			_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
@@ -1183,4 +1189,12 @@ function isIframeOrEmbed(){
 	else {
 		return false
 	};
+}
+
+function loadEventsGa(){
+	if(typeof url('?embed') == "string"){
+        _gaq.push (['_trackEvent', 'visor', 'embed']);
+    }else{
+    	_gaq.push (['_trackEvent', 'visor', 'no embed']);
+    }
 }
