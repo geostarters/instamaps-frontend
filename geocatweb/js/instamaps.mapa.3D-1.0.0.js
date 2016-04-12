@@ -29,7 +29,7 @@ function addModul3D() {
 
 var socChrome=isChrome();
 
-if(socChrome){factorNavegador=500;}
+if(socChrome){factorNavegador=600;}
 
 		
 	if(!getModeMapa()){appl='visor';}
@@ -1358,11 +1358,12 @@ var that = this;
 			var numFeatures = ff.features.length;
 
 			if (item.layer.options.geometryType) {
+		
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
 				
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
-	
+
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
@@ -1394,6 +1395,7 @@ var that = this;
 
 					} else if (item.layer.options.source && item.layer.options.source.indexOf('csv') != -1) {
 
+					
 						numFeatures <= 1000 ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						tmp_feature.msg = 'none';
@@ -1405,7 +1407,9 @@ var that = this;
 
 					} else {
 
-						tmp_feature.tipus = 'vecras';
+						
+
+						tmp_feature.tipus = 'vector';
 
 					}
 
@@ -1422,6 +1426,7 @@ var that = this;
 
 			} else if (item.layer.options.tipusRang) {
 
+			
 			
 			
 				tmp_feature.tipus = 'vecras';
