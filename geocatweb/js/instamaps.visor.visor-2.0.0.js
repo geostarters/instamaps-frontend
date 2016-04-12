@@ -31,45 +31,97 @@
 	
 	var visorOptions = {
 		addDefaultZoomControl: true,
-		logosContainerId: '#logos',
+		controls: {},
 		map: map_
 	};
 	
 	var changeInitVisor = function(){
-		jQuery('.container').css('width','95%');
+		$('.container').css('width','95%');
 		//TODO ver como hacer para no depender del timeout
 		//if (!isIframeOrEmbed()) setTimeout('activaPanelCapes(false)',3000);
 	};
 	
-	
 	Visor.prototype = {
 		addLogoInstamap: function(){
 			var self = this;
-   			$.get("templates/logoInstamaps.html",function(data){
-   				self.logosContainer.append(data);
-   			});
-   			return self;
-   		},	
-		
+			$.get("templates/logoInstamaps.html",function(data){
+				self.controls.controlLogos.addLogoHtml(data);
+			});
+   			
+			return self;
+   		},
+   		
+   		removeLogoInstamap: function(){
+			var self = this;
+			self.controls.controlLogos.removeLogo({
+				className: 'logo_instamaps'
+			});
+			
+			return self;
+   		},
+   		
    		resizeMap: function(){
 			var self = this,
+			map = self.map,
+			optionsBtn = {},
 			factorH = 0,
 			factorW = 0,
 			_window = $( window ),
 			widthW = _window.width(),
 			heightW = _window.height(),
-			_map = $('#map'),
-			width = _map.width(),
-			height = _map.height(),
+			_mapDiv = $('#map'),
 			cl = jQuery('.bt_llista span').attr('class');
 			if(self.embed){//Pel cas visor, embeded
 				factorH = 0;
 			}else{
 				factorH = $('.navbar').css('height').replace(/[^-\d\.]/g, '');
 			}
-			_map.css('top', factorH + 'px');
-			_map.height(heightW - factorH);
-			_map.width(widthW - factorW);
+			_mapDiv.css('top', factorH + 'px');
+			_mapDiv.height(heightW - factorH);
+			_mapDiv.width(widthW - factorW);
+						
+			console.debug("Win:" + widthW + ", " + heightW);
+						
+			if(widthW<500 || heightW<=350){
+				optionsBtn = {
+					openInstamaps: true,	
+					home: false,
+					routing: false,
+					search: false,
+					location: false,
+					share: false,
+					snapshot: false,
+					print: false,
+					geopdf: false,
+					c3d: false,
+					mousePosition: false,
+					scale: false,
+					fons: false,
+					legend: false,
+					layers: false,
+					minimap: false
+				};
+			}else{
+				optionsBtn = {
+					openInstamaps: false,	
+					home: true,
+					routing: true,
+					search: true,
+					location: true,
+					share: true,
+					snapshot: true,
+					print: true,
+					geopdf: true,
+					c3d: true,
+					mousePosition: true,
+					scale: true,
+					fons: true,
+					legend: true,
+					layers: true,
+					minimap: true
+				};
+			}
+			self._redrawButtons(optionsBtn);
 			
 			/*
 			if(self.embed || width<500 || height<=350){
@@ -119,6 +171,107 @@
 			*/
 			return self;
 		},
+		
+		_redrawButtons: function(options){
+			var self = this;
+			if(options.home && self.controls.homeControl){
+				self.controls.homeControl.showBtn();
+			}else if(self.controls.homeControl){
+				self.controls.homeControl.hideBtn();
+			}
+			
+			if(options.openInstamaps && self.controls.openInstamapsControl){
+				self.controls.openInstamapsControl.showBtn();
+			}else if(self.controls.openInstamapsControl){
+				self.controls.openInstamapsControl.hideBtn();
+			}
+			
+			if(options.routing && self.controls.routingControl){
+				self.controls.routingControl.showBtn();
+			}else if(self.controls.routingControl){
+				self.controls.routingControl.hideBtn();
+			}
+			
+			if(options.location && self.controls.locationControl){
+				self.controls.locationControl.showBtn();
+			}else if(self.controls.locationControl){
+				self.controls.locationControl.hideBtn();
+			}
+			
+			if(options.share && self.controls.shareControl){
+				self.controls.shareControl.showBtn();
+			}else if(self.controls.shareControl){
+				self.controls.shareControl.hideBtn();
+			}
+			
+			if(options.search && self.controls.searchControl){
+				self.controls.searchControl.showBtn();
+			}else if(self.controls.searchControl){
+				self.controls.searchControl.hideBtn();
+			}
+			
+			if(options.snapshot && self.controls.snapshotControl){
+				self.controls.snapshotControl.showBtn();
+			}else if(self.controls.snapshotControl){
+				self.controls.snapshotControl.hideBtn();
+			}
+			
+			if(options.print && self.controls.printControl){
+				self.controls.printControl.showBtn();
+			}else if(self.controls.printControl){
+				self.controls.printControl.hideBtn();
+			}
+			
+			if(options.geopdf && self.controls.geopdfControl){
+				self.controls.geopdfControl.showBtn();
+			}else if(self.controls.geopdfControl){
+				self.controls.geopdfControl.hideBtn();
+			}
+			
+			if(options.c3d && self.controls.control3d){
+				self.controls.control3d.showBtn();
+			}else if(self.controls.control3d){
+				self.controls.control3d.hideBtn();
+			}
+			
+			if(options.mousePosition && self.controls.mousePositionControl){
+				self.controls.mousePositionControl.show();
+			}else if(self.controls.mousePositionControl){
+				self.controls.mousePositionControl.hide();
+			}
+			
+			if(options.scale && self.controls.scaleControl){
+				self.controls.scaleControl.show();
+			}else if(self.controls.scaleControl){
+				self.controls.scaleControl.hide();
+			}
+			
+			if(options.fons && self.controls.fonsControl){
+				self.controls.fonsControl.show();
+			}else if(self.controls.fonsControl){
+				self.controls.fonsControl.hide();
+			}
+			
+			if(options.legend && self.controls.llegendaControl){
+				self.controls.llegendaControl.showBtn();
+			}else if(self.controls.llegendaControl){
+				self.controls.llegendaControl.hideBtn();
+			}
+			
+			if(options.layers && self.controls.layersControl){
+				self.controls.layersControl.showBtn();
+			}else if(self.controls.layersControl){
+				self.controls.layersControl.hideBtn();
+			}
+			
+			/*
+			if(options.minimap && self.controls.minimapControl){
+				self.controls.minimapControl.showBtn();
+			}else if(self.controls.minimapControl){
+				self.controls.minimapControl.hideBtn();
+			}
+			*/
+		},
    		
 		removeCapes: function(){
 			var self = this;
@@ -130,8 +283,8 @@
 		
 		drawEmbed: function(){
 			var self = this;
-			jQuery('#navbar-visor').hide();
-			jQuery('#searchBar').css('top', '0');
+			$('#navbar-visor').hide();
+			$('#searchBar').css('top', '0');
 			self.addDefaultZoomControl = false;
 			_gaq.push (['_trackEvent', 'visor', 'embed']);
 			return self;
@@ -139,8 +292,9 @@
 		
 		addMousePositionControl: function(){
 			var self = this,
+			ctr_position,
 			_map = self.map;
-			L.control.coordinates({
+			ctr_position = L.control.coordinates({
 	  			position : 'bottomright',
 	  			'emptystring':' ',
 	  			'numDigits': 2,
@@ -150,27 +304,36 @@
 	  			'separator': ' ',
 	  			'showETRS89':true
 	  		}).addTo(_map);
+			
+			self.controls.mousePositionControl = ctr_position;
+			
 			return self;
 		},
 		
 		addScaleControl: function(){
 			var self = this,
+			ctr_scale,
 			_map = self.map;
-			L.control.scale({
+			ctr_scale = L.control.escala({
 				position : 'bottomright', 
 				'metric':true,
 				'imperial':false
 			}).addTo(_map);
+			
+			self.controls.scaleControl = ctr_scale;
+			
 			return self;
 		},
 		
 		addMinimapControl: function(options){
 			var self = this,
 			_minTopo,
+			ctr_minimap,
 			_map = self.map,
 			_options = { 
 				toggleDisplay: true, 
-				autoToggleDisplay: true
+				autoToggleDisplay: false,
+				minimized: true
 			};
 			
 			_options = $.extend(_options, options);
@@ -179,28 +342,42 @@
 				minZoom: 0, 
 				maxZoom: 19, 
 				subdomains:subDomains});
-			new L.Control.MiniMap(_minTopo, _options).addTo(_map);
+			
+			//ctr_minimap = new L.Control.MiniMap(_minTopo, _options).addTo(map);
+			ctr_minimap = L.control.minimapa(_minTopo, _options).addTo(_map)._minimize();
+			
+			self.controls.minimapControl = ctr_minimap;
+			
 			return self;
 		},
 		
 		addFonsControl: function(){
 			var self = this,
+			ctr_fons,
 			_map = self.map;
-			new L.IM_controlFons().addTo(_map);
+			ctr_fons = new L.IM_controlFons().addTo(_map);
+			
+			self.controls.fonsControl = ctr_fons;
+			
 			return self;
 		},
 		
-		addLayersControl: function(){
+		addLayersControl: function(button){
 			var self = this,
 			btn_ctr_layers,
 			_mapConfig = self.mapConfig,
 			_map = self.map;
 			
+			button = (button !== undefined) ? button : true;
+			
 			btn_ctr_layers = L.control.layersBtn({
 				mapConfig: _mapConfig,
-				title: window.lang.convert('Llista de capes')
+				title: window.lang.convert('Llista de capes'),
+				button: button
 			});
 			btn_ctr_layers.addTo(_map);
+			
+			self.controls.layersControl = btn_ctr_layers;
 			
 			return self;
 		},
@@ -220,6 +397,8 @@
 				}
 			});
 			ctr_linkViewMap.addTo(_map);
+			
+			self.controls.openInstamapsControl = ctr_linkViewMap;
 		},
 		
 		addHomeControl: function(){
@@ -234,6 +413,8 @@
 			});
 			ctr_vistaInicial.addTo(_map);
 			
+			self.controls.homeControl = ctr_vistaInicial;
+			
 			return self;
 		},
 		
@@ -247,7 +428,7 @@
 				v_url = v_url.replace('localhost',DOMINI);
 			}
 			shortUrl(v_url).then(function(results){
-				jQuery('#socialShare_visor').share({
+				$('#socialShare_visor').share({
 					networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 					//orientation: 'vertical',
 					//affix: 'left center',
@@ -256,12 +437,15 @@
 				});
 			});	
 			
-			jQuery('.share-square a').attr('target','_blank');
+			$('.share-square a').attr('target','_blank');
 			
 			ctr_shareBT = L.control.share({
 				title: window.lang.convert('Compartir')
 			});
 			ctr_shareBT.addTo(_map);
+			
+			self.controls.shareControl = ctr_shareBT;
+			
 		},
 		
 		addRoutingControl: function(){
@@ -276,6 +460,8 @@
 			
 			ctr_routingBT.addTo(_map);
 			
+			self.controls.routingControl = ctr_routingBT;
+			
 			return self;
 		},
 		
@@ -283,9 +469,11 @@
 			var self = this,
 			ctr_gps,
 			titleGPS = window.lang.convert('Centrar mapa a la seva ubicació'),
+			textErr = window.lang.convert('Error del GPS')
 			_map = self.map;
 			
-			ctr_gps = new L.Control.Gps({
+			//TODO agregar las opciones por defecto al control
+			ctr_gps = L.control.locationControl({
 				autoCenter: true,		//move map when gps location change
 				style: {
 					radius: 6,		//marker circle style
@@ -296,10 +484,13 @@
 					opacity: 1,
 					fillOpacity: 0.5},
 				title: titleGPS,
-				textErr: 'Error del GPS',			//error message on alert notification
-				callErr: null,			//function that run on gps error activating
+				textErr: textErr,	//error message on alert notification
+				callErr: null		//function that run on gps error activating
 			});
+						
 			_map.addControl(ctr_gps);
+			
+			self.controls.locationControl = ctr_gps;
 			
 			return self;
 		},
@@ -318,6 +509,8 @@
 			//TODO generar el control del search
 			//addControlCercaEdit();
 			
+			self.controls.searchControl = ctr_findBT;
+			
 			return self;
 		},
 		
@@ -330,6 +523,8 @@
 				title: window.lang.convert('Capturar la vista del mapa')
 			});
 			ctr_snapshot.addTo(_map);
+			
+			self.controls.snapshotControl = ctr_snapshot;
 			
 			return self;
 		},
@@ -344,6 +539,8 @@
 			});
 			ctr_printmap.addTo(_map);
 			
+			self.controls.printControl = ctr_printmap;
+			
 			return self;
 		},
 		
@@ -356,6 +553,8 @@
 				title: window.lang.convert('Descarrega mapa en format GeoPDF')
 			});
 			ctr_geopdf.addTo(_map);
+			
+			self.controls.geopdfControl = ctr_geopdf;
 			
 			return self;
 		},
@@ -370,6 +569,8 @@
 			});
 			ctr_legend.addTo(_map);
 			
+			self.controls.llegendaControl = ctr_legend;
+			
 			return self;
 		},
 		
@@ -383,6 +584,21 @@
 			});
 			ctr_3d.addTo(_map);
 			
+			self.controls.control3d = ctr_3d;
+			
+			return self;
+		},
+		
+		addControlLogos: function(){
+			var self = this,
+			ctr_logos,
+			_map = self.map;
+			
+			ctr_logos = L.control.logos();
+			ctr_logos.addTo(_map);
+			
+			self.controls.controlLogos = ctr_logos;
+			
 			return self;
 		},
 		
@@ -390,6 +606,16 @@
 			var self = this,
 			_map = self.map;
 			map = self.map;
+			
+			self._listenEvents();
+			return self;
+		},
+		
+		drawControls: function(){
+			var self = this;
+			
+			self.addControlLogos();
+			
 			if(!self.mouseposition){
 				self.addMousePositionControl();
 			}
@@ -398,53 +624,58 @@
 			}
 			if(!self.minimapcontrol){
 				self.addMinimapControl();
-			}else{
-				self.addMinimapControl({toggleDisplay: false});
 			}
+			
 			if(!self.fonscontrol){
 				self.addFonsControl();
 			}
-			if(self.embed){
-				if(!self.openinstamaps){
-					self.addOpenInstamapsControl();
+			if(!self.ltoolbar){
+				if(self.embed){
+					if(!self.openinstamaps ){
+						self.addOpenInstamapsControl();
+					}
+				}
+				if(!self.homecontrol){
+					self.addHomeControl();
+				}
+				if(!self.locationcontrol){
+					self.addLocationControl();
+				}
+				if(!self.sharecontrol){
+					self.addShareControl();
+				}
+				if(!self.searchcontrol){
+					self.addSearchControl();
+				}
+				if(!self.routingcontrol){
+					self.addRoutingControl();
 				}
 			}
-			if(!self.homecontrol){
-				self.addHomeControl();
+			
+			if(!self.rtoolbar){
+				if(!self.layerscontrol){
+					self.addLayersControl();
+				}
+				if(!self.control3d){
+					self.addControl3d();
+				}
+				if(!self.snapshotcontrol){
+					self.addSnapshotControl();
+				}
+				if(!self.printcontrol){
+					self.addPrintControl();
+				}
+				if(!self.geopdfcontrol){
+					self.addGeopdfControl();
+				}
+			}else{
+				self.addLayersControl(false);
 			}
-			if(!self.locationcontrol){
-				self.addLocationControl();
-			}
-			if(!self.sharecontrol){
-				self.addShareControl();
-			}
-			if(!self.searchcontrol){
-				self.addSearchControl();
-			}
-			if(!self.routingcontrol){
-				self.addRoutingControl();
-			}
-			if(!self.layerscontrol){
-				self.addLayersControl();
-			}
-			if(!self.control3d){
-				self.addControl3d();
-			}
-			if(!self.snapshotcontrol){
-				self.addSnapshotControl();
-			}
-			if(!self.printcontrol){
-				self.addPrintControl();
-			}
-			if(!self.geopdfcontrol){
-				self.addGeopdfControl();
-			}
+			
 			if(!self.llegenda){
 				self.addLlegenda();
 			}
 			
-			
-			self._listenEvents();
 			return self;
 		},
 		
@@ -474,7 +705,7 @@
 					self.loadErroPage();
 				}else if (results.status == "PRIVAT"){
 					//ocultar las pelotas
-					jQuery('#div_loading').hide();
+					self._hideLoading();
 					//mostar modal con contraseña
 					loadPasswordModal();
 				}else{
@@ -495,14 +726,12 @@
 						window.location=paramUrl.mapaPage+"?businessid="+_businessid+"&mapacolaboratiu=si";
 						
 					}
-					//loadPublicMap(results);
-					
 					if(results.status === "OK"){
 						var mapConfig = $.parseJSON(results.results);
 						mapConfig.options = $.parseJSON(mapConfig.options);
+						self._mapConfig = mapConfig;
 						_map.fire('loadconfig', mapConfig);
 					}
-					
 				}
 			});
 		},
@@ -514,13 +743,11 @@
 			
 			map.on('loadconfig', self._loadPublicMap, self);
 			
-			jQuery('#div_loading').hide();
+			self._hideLoading();
 			return self;
 		},
 		
 		_loadPublicMap: function(mapConfig){
-			console.debug(mapConfig);
-			
 			var self = this,
 				nomUser = mapConfig.entitatUid.split("@"),
 				nomEntitat = mapConfig.nomEntitat,
@@ -600,7 +827,7 @@
 			});
 
 			$('#infoMap').on('show.bs.popover', function () {
-				jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));		
+				$(this).attr('data-original-title', window.lang.convert($(this).data('lang-title')));		
 			});
 		
 			//TODO quitar la global ya que se usa en el control de capas.
@@ -613,7 +840,6 @@
 			self._loadMapConfig(mapConfig).then(function(){
 				
 			});
-			
 		},
 		
 		_loadMapConfig: function(mapConfig){
@@ -622,6 +848,7 @@
 			dfd = $.Deferred();
 			
 			if (!$.isEmptyObject( mapConfig )){
+				
 				$('#businessId').val(mapConfig.businessId);
 				//TODO ver los errores de leaflet al cambiar el mapa de fondo
 				//cambiar el mapa de fondo a orto y gris
@@ -692,7 +919,7 @@
 					});
 				});
 
-				$('#div_loading').hide();
+				self._hideLoading();	
 				//$(window).trigger('resize');
 			}
 			dfd.resolve();
@@ -731,7 +958,6 @@
 				}
 			});
 
-			//NOu
 			$.each(layer_map.origen, function(index, value){
 				var jsonOptions;
 				if(typeof (value.options)=="string"){
@@ -746,7 +972,9 @@
 				}
 
 				if(jsonOptions && jsonOptions.group){
-					controlCapes._addGroupFromObject(jsonOptions.group);
+					if(controlCapes){
+						controlCapes._addGroupFromObject(jsonOptions.group);
+					}
 				}
 			});
 
@@ -776,7 +1004,7 @@
 			});
 			canviaIdioma(web_determinaIdioma());
 
-			jQuery('#div_loading').hide();
+			self._hideLoading();
 			return self;
 		},
 		
@@ -821,14 +1049,37 @@
 			return self;
 		},
 		
-		draw: function(){
+		_drawVisor: function(){
 			var self = this;
+			console.debug(self);
+		},
+		
+		draw: function(){
+			var self = this,
+			   	_map = self.map;
+			
 			changeInitVisor();
 			
 			$(window).resize(_.debounce(function(){
 				self.resizeMap();
 			},150));
 			
+			if(self.businessid){
+				self.loadMapConfig();
+				_map.on('loadconfig', self._drawVisor, self);
+			}else{
+				if(self.urlwms){ //cloudifier
+					
+					self.fonscontrol = true;
+					self.drawMap().resizeMap();
+					self.loadVisorSimple();
+					self.loadWmsVisorSimple();
+				}else{
+					self.loadErroPage();
+				}
+			}
+			
+			/*
 			if(self.embed){
 				self.drawEmbed();
 			}else{
@@ -844,14 +1095,21 @@
 				if(self.businessid){
 					if(self.embed){
 						self.addLogoInstamap();
+						
+						setTimeout(function(){
+							self.removeLogoInstamap();
+						},5000);
+						
+						
 					}
-					self.drawMap().resizeMap();
+					self.drawMap().resizeMap().drawControls()._hideLoading();
+					
 					self.loadApp();		
 				}else{
 					self.loadErroPage();
 				}
 			}
-			//jQuery(window).trigger('resize');
+			*/
 		},
 		
 		_showRoutingEvent: function(){
@@ -874,6 +1132,12 @@
 			_gaq.push(['_trackEvent', 'mapa', this.tipusUser + '3D', 'label 3D', 1]);
 		},
 		
+		_hideLoading: function(){
+			$('#div_loading').hide();
+			
+			return this;
+		},
+		
 		_listenEvents: function(){
 			var self = this,
 				_map = self.map;
@@ -891,7 +1155,6 @@
 		console.debug(options);
 		var self = this;
 		self = $.extend(self, visorOptions, options);
-		self.logosContainer = $(self.logosContainerId);
 	}
 	
 	Visor.init.prototype = Visor.prototype;

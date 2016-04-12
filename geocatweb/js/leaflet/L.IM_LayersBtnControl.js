@@ -12,20 +12,26 @@ L.Control.LayersBtn = L.Control.extend({
 		title: 'Llista de capes',
 		langTitle: 'Llista de capes',
 		html: '<span class="glyphicon glyphicon-th-list"></span>',
-		transition: true
+		transition: true,
+		button: true
 	},
 	
 	onAdd: function(map){
 		var self = this,
 			options = self.options,
-			stop = L.DomEvent.stopPropagation,
-			container = L.DomUtil.create('div', options.className);
+			container,
+			stop = L.DomEvent.stopPropagation;
 		
-		container.id = options.id;
-		container.innerHTML = options.html;
-		container.title = options.title;
-		container.dataset.toggle = 'tooltip';
-		container.dataset.langTitle = options.langTitle;
+		if(options.button){
+			container = L.DomUtil.create('div', options.className);
+			container.id = options.id;
+			container.innerHTML = options.html;
+			container.title = options.title;
+			container.dataset.toggle = 'tooltip';
+			container.dataset.langTitle = options.langTitle;
+		}else{
+			container = L.DomUtil.create('div', '');
+		}
 		
 		self._div = container;
 		
@@ -55,7 +61,9 @@ L.Control.LayersBtn = L.Control.extend({
 			   }
 			});
 		});
-				
+		
+		self.hide();
+		
 		return container;
 	},
 	
@@ -63,10 +71,27 @@ L.Control.LayersBtn = L.Control.extend({
 		map.off('loadconfig', this._updateMapConfig, this);
 	},
 	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+		var div = this.control.getContainer();
+		$(div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
+		if(!self.control.options.collapsed){
+			var div = this.control.getContainer();
+			$(div).show();
+		}
+	},
+	
 	hide: function() {
 		L.DomUtil.removeClass(this._div, 'greenfort');
 		L.DomUtil.addClass(this._div, 'grisfort');
 		var div = this.control.getContainer();
+		this.control.options.collapsed = true;
 		if(this.options.transition){
 			$(div).animate({
 				width : 'hide'
@@ -80,6 +105,7 @@ L.Control.LayersBtn = L.Control.extend({
 		L.DomUtil.removeClass(this._div, 'grisfort');
 		L.DomUtil.addClass(this._div, 'greenfort');
 		var div = this.control.getContainer();
+		this.control.options.collapsed = false;
 		if(this.options.transition){
 			$(div).animate({
 				width : 'show'

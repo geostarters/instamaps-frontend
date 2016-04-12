@@ -1,5 +1,5 @@
 /**
- * 
+ * TODO Cambiar a la carpeta de leaflet
  */
 L.IM_ControlFons = L.Control.extend({
 	options: {
@@ -9,7 +9,10 @@ L.IM_ControlFons = L.Control.extend({
     
     onAdd: function (map) {
     	this._initLayout();
-		return this._container;
+    	
+    	this._div = this._container;
+    	
+    	return this._container;
     },
     
     _initLayout: function(){
@@ -64,9 +67,7 @@ L.IM_ControlFons = L.Control.extend({
 		container.appendChild(btllista);
 		this._btllista = btllista;
 		btllista.innerHTML = '<small id="sm_tipus" lang="ca">Fons</small>';
-		
-		
-		
+				
 		var llistaFons = L.DomUtil.create('div','leaflet-bar btn btn-default llista-fons');
 		
 		this._addLayers(llistaFons);
@@ -75,6 +76,16 @@ L.IM_ControlFons = L.Control.extend({
 						
 		return container;
     },
+    
+    hide: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	show: function(){
+		var self = this;
+		$(self._div).show();
+	},
     
     _update: function(){
     	

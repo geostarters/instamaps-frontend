@@ -1,4 +1,3 @@
-
 /*
 Exemple 
 L.control.coordinates({
@@ -27,15 +26,33 @@ L.Control.Coordinates = L.Control.extend({
   },
 
   onAdd: function (map) {
-    this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
-    L.DomEvent.disableClickPropagation(this._container);
-    map.on('mousemove', this._onMouseMove, this);
-    this._container.innerHTML=this.options.emptyString;
-    return this._container;
+	var self = this,
+	container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
+	
+	container.innerHTML=self.options.emptyString;
+	
+	self._container = container;
+	self._div = self._container;
+	
+	map.on('mousemove', self._onMouseMove, self);
+	   
+	L.DomEvent.disableClickPropagation(self._container);
+   
+    return self._container;
   },
 
+  hide: function(){
+	var self = this;
+	$(self._div).hide();
+  },
+
+  show: function(){
+	var self = this;
+	$(self._div).show();
+  },
+  
   onRemove: function (map) {
-    map.off('mousemove', this._onMouseMove)
+    map.off('mousemove', this._onMouseMove);
   },
 
   _onMouseMove: function (e) {
@@ -54,14 +71,14 @@ L.Control.Coordinates = L.Control.extend({
 	
 	var value = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
 	
-	var lng = this.options.lngFormatter ? this.options.lngFormatter(e.latlng.lng) : L.Util.formatNum(e.latlng.lng, this.options.numDigits2);
-	var lat = this.options.latFormatter ? this.options.latFormatter(e.latlng.lat) : L.Util.formatNum(e.latlng.lat, this.options.numDigits2);
+	lng = this.options.lngFormatter ? this.options.lngFormatter(e.latlng.lng) : L.Util.formatNum(e.latlng.lng, this.options.numDigits2);
+	lat = this.options.latFormatter ? this.options.latFormatter(e.latlng.lat) : L.Util.formatNum(e.latlng.lat, this.options.numDigits2);
 	
 	var value2 = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
 	
     var prefixAndValue = this.options.prefix + ' ' + value;
     var prefixAndValue2 = this.options.prefix2 + ' ' +value2;
-    if((sC==0)){
+    if((sC===0)){
     	this._container.innerHTML = prefixAndValue2;
     }
     else if((sC==1 || sC==2)){  

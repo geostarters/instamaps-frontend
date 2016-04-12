@@ -55,6 +55,10 @@ html,body {
     max-width: 200px;
 }
 
+.leaflet-control-minimap-toggle-display{
+	background-image: url("images/toggle.png");
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;
@@ -2234,10 +2238,12 @@ i.fa {
 }
 
 /*control fons*/
+/*
 .control-btn-fons{
 	bottom: 50px;
     position: relative;
 }
+*/
 
 .control-btn-fons .llista-fons{
 	width:0px; 

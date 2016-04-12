@@ -39,7 +39,6 @@ L.Control.Legend = L.Control.extend({
 		
 		container.id = options.id;
 		
-		
 		self._div = container;
 		
 		map.on('loadconfig', this._updateLegend, this);
@@ -51,6 +50,18 @@ L.Control.Legend = L.Control.extend({
 	
 	onRemove: function (map) {
 		map.off('loadconfig', this._updateLegend, this);
+	},
+	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+		self.button.hideBtn();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
+		self.button.showBtn();
 	},
 	
 	hide: function() {
@@ -80,7 +91,10 @@ L.Control.Legend = L.Control.extend({
 				y: '0px',
 				easing: 'in',
 				opacity: 1,
-				duration: 500
+				duration: 500,
+				complete: function(){
+					//_$this.h();
+				}
 			});
 		}
 	},
@@ -137,7 +151,7 @@ L.Control.Legend = L.Control.extend({
 	    		if(row[i].chck){
 	    			trobat = true;
 	    		}
-	    	}		
+	    	}
 		});
 		return trobat;
 	},

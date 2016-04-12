@@ -137,24 +137,35 @@ L.Control.RoutingControl = L.Control.extend({
 	},
 	
 	onAdd: function(map){
-		var options = this.options,
-		stop = L.DomEvent.stopPropagation,
-		container = L.DomUtil.create('div', options.className);
+		var self = this,
+			options = self.options,
+			stop = L.DomEvent.stopPropagation,
+			container = L.DomUtil.create('div', options.className);
 		
 		container.id = options.id;
 		container.innerHTML = options.html;
 		container.title = options.title;
 		
-		this._div = container;
+		self._div = container;
 		
 		L.DomEvent
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
 			.on(container, 'dblclick', stop)
 			.on(container, 'click', L.DomEvent.preventDefault)
-			.on(container, 'click', this._toggle, this);
+			.on(container, 'click', self._toggle, self);
 		
 		return container;
+	},
+	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
 	},
 	
 	show: function() {

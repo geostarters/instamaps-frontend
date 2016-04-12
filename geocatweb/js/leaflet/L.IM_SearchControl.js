@@ -44,6 +44,7 @@ L.Control.SearchControl = L.Control.extend({
 			.on(container, 'click', self._toggle, self);
 		
 		//agregar el control
+		//TODO extender el control de origen en lugar de modificarlo
 		self.control = new L.Control.Search({url: options.searchUrl,
 			position:'topcenter',
 			filterJSON: self._filterJSON,
@@ -91,6 +92,16 @@ L.Control.SearchControl = L.Control.extend({
 			else self.control.showAlert(self.control.options.textErr);
 		}
 		return json;
+	},
+	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
 	},
 	
 	hide: function() {

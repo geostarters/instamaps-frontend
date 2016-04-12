@@ -14,7 +14,8 @@ L.Control.Snapshot = L.Control.extend({
 	},
 	
 	onAdd: function(map){
-		var options = this.options,
+		var self = this,
+			options = self.options,
 			stop = L.DomEvent.stopPropagation,
 			container = L.DomUtil.create('div', options.className);
 		
@@ -24,12 +25,25 @@ L.Control.Snapshot = L.Control.extend({
 		container.dataset.toggle = 'tooltip';
 		container.dataset.langTitle = options.langTitle;
 		
+		self._div = container;
+		
 		L.DomEvent
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
 			.on(container, 'dblclick', stop)
-			.on(container, 'click', this._captureMap, this);
+			.on(container, 'click', self._captureMap, self);
+		
 		return container;
+	},
+	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
 	},
 	
 	onRemove: function (map) {

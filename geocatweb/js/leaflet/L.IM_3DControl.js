@@ -31,12 +31,21 @@ L.Control.Control3D = L.Control.extend({
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
 			.on(container, 'dblclick', stop)
-			.on(container, 'click', this._toggleView, this);
+			.on(container, 'click', self._toggleView, self);
 		
-		//TODO crear el control del modulo de 3D
-		addModul3D();
+		map.on('loadconfig', self._addModul3D, self);
 		
 		return container;
+	},
+	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
 	},
 	
 	onRemove: function (map) {
@@ -48,6 +57,11 @@ L.Control.Control3D = L.Control.extend({
 		_map.fire('map3dmode'); //to track ga events
 		//TODO crear el modulo
 		activaVista3d_2d(this._div) //instamaps.mapa.3D
+	},
+	
+	_addModul3D: function(config){
+		//TODO crear el control del modulo de 3D
+		addModul3D(config);
 	}
 });
 

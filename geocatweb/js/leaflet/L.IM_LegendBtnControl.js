@@ -31,6 +31,16 @@ L.Control.LegendBtn = L.Control.extend({
 		return container;
 	},
 	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
+	},
+	
 	hide: function() {
 		L.DomUtil.removeClass(this._div, 'greenfort');
 		L.DomUtil.addClass(this._div, 'grisfort');

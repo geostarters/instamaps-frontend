@@ -13,10 +13,13 @@ L.Control.OpenInstamaps = L.Control.extend({
 	},
 	
 	onAdd: function(map){
-		var options = this.options,
+		var self = this,
+			options = self.options,
 			container = L.DomUtil.create('div', options.className);
 		
 		container.id = options.id;
+		
+		self._div = container;
 		
 		if (options.businessid){
 			options.url += '&businessid='+options.businessid;
@@ -25,10 +28,20 @@ L.Control.OpenInstamaps = L.Control.extend({
 			options.url += '&urlwms='+options.urlwms+'&layername='+options.layername;
 		}
 		
-		this._button = this._createButton(options.html, options.title, '', options.url, container, options.fn);
+		self._button = self._createButton(options.html, options.title, '', options.url, container, options.fn);
 		
 		return container;
-	}, 
+	},
+	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
+	},
 	
 	_createButton: function (html, title, className, url, container, fn) {
 		var link = L.DomUtil.create('a', className, container),
@@ -46,7 +59,6 @@ L.Control.OpenInstamaps = L.Control.extend({
 		
 		return link;
 	}
-	
 });
 
 L.control.openInstamaps = function(options){

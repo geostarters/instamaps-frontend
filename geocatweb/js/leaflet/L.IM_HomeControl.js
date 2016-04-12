@@ -11,7 +11,8 @@ L.Control.Home = L.Control.extend({
 	},
 	
 	onAdd: function(map){
-		var options = this.options,
+		var self = this,
+			options = self.options,
 			stop = L.DomEvent.stopPropagation,
 			container = L.DomUtil.create('div', options.className);
 		
@@ -19,13 +20,15 @@ L.Control.Home = L.Control.extend({
 		container.innerHTML = options.html;
 		container.title = options.title;
 		
-		map.on('loadconfig', this._updateMapConfig, this);
+		self._div = container;
+		
+		map.on('loadconfig', self._updateMapConfig, self);
 		
 		L.DomEvent
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
 			.on(container, 'dblclick', stop)
-			.on(container, 'click', this._goHome, this);
+			.on(container, 'click', self._goHome, self);
 		return container;
 	},
 	
@@ -50,6 +53,16 @@ L.Control.Home = L.Control.extend({
 				_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
 			}
 		}
+	},
+	
+	hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
 	},
 	
 	_updateMapConfig: function(config){

@@ -22,8 +22,10 @@ var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
 var msgHTML = "";
 var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
-function addModul3D() {
+function addModul3D(config) {
 
+	mapConfig = config || mapConfig;
+	
 	browserWebGL = detectoCapacitatsWebGL();
 
 	if (browserWebGL) {
@@ -74,7 +76,6 @@ function addModul3D() {
 	 */
 
 	if (url('?3D') == 'true') {
-
 		var fT = parseInt(mapConfig.servidorsWMS.length * 1000 / 2);
 
 		setTimeout(initMapa3DfromMapConfig, fT);
@@ -107,30 +108,24 @@ function canviaVista_3D_2D(boto, event) {
 }
 
 function initMapa3DfromMapConfig() {
-
 	if (browserWebGL) {
-
 		initAmbVistaControlada = true;
 		jQuery('.bt_3D_2D').text('2D');
 		inicialitzaMapa3D('_fromConfig');
 	}
-
 }
 
 function inicialitzaMapa3D(origen) {
-
 	if (browserWebGL) {
-
+		console.debug(mapaVista3D);
 		if (mapaVista3D == null) {
 			mapaVista3D = new IM_aplicacio({
-					'mapId' : 'map',
-					'mapId3D' : 'map3D'
-				});
-
+				'mapId' : 'map',
+				'mapId3D' : 'map3D'
+			});
 		}
 		mapaVista3D.canviaVisor3D(map, controlCapes, origen);
 		ActDesOpcionsVista3D(true);
-
 		if (getModeMapa()) {
 			if (drgFromMapa) {
 				drgFromMapa.destroy();
@@ -138,13 +133,10 @@ function inicialitzaMapa3D(origen) {
 				creaAreesDragDropFiles();
 			}
 		}
-
 	}
-
 }
 
 function init3D(boto) {
-
 	map.spin(true);
 	if (browserWebGL) {
 		initAmbVistaControlada = false;
