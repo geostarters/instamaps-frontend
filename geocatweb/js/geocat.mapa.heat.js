@@ -461,7 +461,21 @@ function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 
 function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva){
 	
-	var options = jQuery.parseJSON(layerOptions);
+	//var options = jQuery.parseJSON(layerOptions);
+	
+	var options; 
+	if(typeof (layerOptions)=="string"){	
+		try {
+			options = JSON.parse(layerOptions);
+		}
+		catch (err) {
+			options = layerOptions;		
+		}
+	}else{			
+		options = layerOptions;	
+	}
+	
+	
 	var businessId;
 	if (layer.geometriesBusinessId){
 		businessId=layer.geometriesBusinessId
@@ -507,9 +521,10 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva){
 //				map.addLayer(heatLayerActiu);
 //			}
 			
-			if (capesActiva.indexOf("false")==-1){
+			if (capesActiva!=undefined && capesActiva.indexOf("false")==-1){
 				map.addLayer(heatLayerActiu);
 			}
+			else if (capesActiva==undefined) map.addLayer(heatLayerActiu);
 			
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
