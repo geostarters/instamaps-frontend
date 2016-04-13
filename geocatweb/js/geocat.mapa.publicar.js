@@ -98,10 +98,9 @@
         	var that = this;
         	if (isDefaultMapTitle(that.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(that.mapConfig.nomAplicacio);
-        	
-			if (that.mapConfig.visibilitat == visibilitat_open){
+        	if (that.mapConfig.visibilitat == visibilitat_open){
 				//$('#visibilitat_chk').bootstrapSwitch('state', true, true);
-				$("input[name=publicitat][value=privat]").prop('checked', true);	
+				$("input[name=publicitat][value=public]").prop('checked', true);	
 				$("input[name=privacitat][value=obert]").prop('checked', true);	
 				$('#map_clau').val('');
 			}else{

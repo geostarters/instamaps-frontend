@@ -523,7 +523,17 @@ function loadTematicCluster(layer, zIndex, layerOptions, capesActiva){
 }
 
 function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva){
-	var options = jQuery.parseJSON(layerOptions);
+	var options; 
+	if(typeof (layerOptions)=="string"){	
+		try {
+			options = JSON.parse(layerOptions);
+		}
+		catch (err) {
+			options = layerOptions;		
+		}
+	}else{			
+		options = layerOptions;	
+	}
 
 	var businessId;
 	if (layer.geometriesBusinessId){
@@ -559,9 +569,11 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva){
 			clusterLayer.options.tipus = t_visualitzacio;
 			clusterLayer.options.tipusRang = tem_cluster;
 			
-			if (capesActiva.indexOf("false")==-1){
+			if (capesActiva!=undefined && capesActiva.indexOf("false")==-1){
 				map.addLayer(clusterLayer);
 			}		
+			else if (capesActiva==undefined) map.addLayer(clusterLayer);
+			
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 //			controlCapes._lastZIndex++;
