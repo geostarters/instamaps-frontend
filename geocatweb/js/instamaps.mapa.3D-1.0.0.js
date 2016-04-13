@@ -29,7 +29,7 @@ function addModul3D() {
 
 var socChrome=isChrome();
 
-if(socChrome){factorNavegador=500;}
+if(socChrome){factorNavegador=600;}
 
 		
 	if(!getModeMapa()){appl='visor';}
@@ -1358,11 +1358,12 @@ var that = this;
 			var numFeatures = ff.features.length;
 
 			if (item.layer.options.geometryType) {
+		
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
 				
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
-	
+
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
@@ -1394,6 +1395,7 @@ var that = this;
 
 					} else if (item.layer.options.source && item.layer.options.source.indexOf('csv') != -1) {
 
+					
 						numFeatures <= 1000 ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						tmp_feature.msg = 'none';
@@ -1405,7 +1407,9 @@ var that = this;
 
 					} else {
 
-						tmp_feature.tipus = 'vecras';
+						
+
+						tmp_feature.tipus = 'vector';
 
 					}
 
@@ -1422,6 +1426,7 @@ var that = this;
 
 			} else if (item.layer.options.tipusRang) {
 
+			
 			
 			
 				tmp_feature.tipus = 'vecras';
@@ -1549,7 +1554,7 @@ var that = this;
 //visible=false;
 		for (var i = 0; i < entities.length; i++) {
 			var entity = entities[i];
-			entity.show = false;
+			entity.show = true;
 			entity.properties.dataSource = dataSource.id;
 			var ellipsoid = viewer.scene.globe.ellipsoid;
 			entity.ellipsoid = ellipsoid;
@@ -1587,11 +1592,15 @@ var that = this;
 
 			} else if (entity.billboard) {
 
+			
+			
 				entity.ellipsoid = ellipsoid;
 				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
+				
+				
 				if (entity.properties.styles.icon) {
-					//console.info("111");
+			  //console.info(entity.properties.styles);
 					var _alt = parseInt(matriu[i].height + 100)
 
 						var redEllipse = viewer.entities.add({
@@ -1611,14 +1620,18 @@ var that = this;
 					matriu[i].height = _alt;
 					entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
+					//var pinBuilder = new PinBuilder_IM();
 					var pinBuilder = new PinBuilder_IM();
 					entity.billboard.color = Cesium.Color.WHITE;
 
 					if (entity.properties.styles.icon.options.markerColor) {
-						//console.info("2");
+						
 						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
 
 						if (colorPUNT.indexOf('punt_r') == -1) {
+							
+						
+							
 							entity.billboard.image = pinBuilder.fromColor(
 									Cesium.Color[colorPUNT.toUpperCase()], 48);
 
@@ -1648,6 +1661,7 @@ var that = this;
 						//var url = Cesium.buildModuleUrl(entity.properties.styles.icon.options.iconUrl);
 						var url = entity.properties.styles.icon.options.iconUrl;
 
+  
 						entity.billboard.image = url;
 						//entity.billboard.image = pinBuilder.fromUrl(url,Cesium.Color.BLUE, 48);
 
@@ -1678,7 +1692,7 @@ var that = this;
 
 					console.debug("No hauria entrar aqui");
 				}
-
+					
 				viewer.entities.add(entity); //add billboard
 			} else if (entity.polygon) {
 

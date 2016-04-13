@@ -81,5 +81,4 @@ if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined
 		}
 	});
 }
-
 window.lang.run();
