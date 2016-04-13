@@ -31,10 +31,9 @@ function addModul3D(config) {
 
 	var socChrome=isChrome();
 
-	if(socChrome){factorNavegador=500;}
-	
+	if(socChrome){factorNavegador=600;}
+		
 	if(!getModeMapa()){appl='visor';}
-	
 	
 	browserWebGL = detectoCapacitatsWebGL();
 

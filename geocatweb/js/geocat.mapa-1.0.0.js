@@ -86,7 +86,12 @@ function loadApp(){
 		L.control.scale({position : 'bottomright', 'metric':true,'imperial':false}).addTo(map);
 
 		var _minTopo=new L.TileLayer(URL_MQ, {minZoom: 0, maxZoom: 19, subdomains:subDomains});
-		var miniMap = new L.Control.MiniMap(_minTopo, { toggleDisplay: true, autoToggleDisplay: true}).addTo(map);
+		
+		var miniMap = new L.Control.MiniMap(_minTopo, { 
+			toggleDisplay: true, 
+			autoToggleDisplay: true,
+			mapOptions: {trackResize: false}
+		}).addTo(map);
 
 		gestioCookie('loadApp');
 
@@ -302,7 +307,7 @@ function addClicksInici() {
 	});
 
 	jQuery(document).on('click', function(e) {
-        if(e.target.id!='undefined' && e.target.id.indexOf("popovercloseid" )!=-1)
+        if(e!=undefined && e.target!=undefined && e.target.id!=undefined && e.target.id.indexOf("popovercloseid" )!=-1)
         {
        	 var pop=e.target.id.split("#");
        	 var ddv="#"+pop[1];

@@ -162,6 +162,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		layerName = mapLegend[layer.options.businessId][0].name;
 		if(mapLegend[layer.options.businessId][0].chck) checked = 'checked="checked"';
 	}
+	
 	//Cluster
 	if(layer.options.tipusRang && layer.options.tipusRang == tem_cluster){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
@@ -488,12 +489,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				}
 			 
 		 }else{
-				var estil_do = layer.options.estil_do;
-				
+			 	var estil_do = layer.options.estil_do;
+			 	if (layer.options.dinamic) estil_do = layer.options.style;
+			
 				if(geometrytype == t_marker){
 					//console.debug("type");
 					//console.debug(type);
-					//console.debug(estil_do);
+					console.debug(estil_do);
 					var mida = getMidaFromRadius(estil_do.radius);
 					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
@@ -513,6 +515,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					html+='</div>';
 					
 				}else if(geometrytype == t_polygon){
+					//console.debug(estil_do);
 					var color = "";
 					if (estil_do.fillColor) color=hexToRgb(estil_do.fillColor);
 					else color=hexToRgb(estil_do.color);
@@ -537,7 +540,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					html+='</div>';			
 					
 				}else if(geometrytype == t_polyline){
-					var color = hexToRgb(estil_do.fillColor);
+					
+					var color;
+					if (layer.options.dinamic) color = hexToRgb(estil_do.color);
+					else color = hexToRgb(estil_do.fillColor);
 					var lineWidth = estil_do.weight;
 					var lineStyle =	'<svg height="20" width="20">'+
 											'<line  x1="0" y1="20" x2="20" y2="0" '+ 
@@ -1241,7 +1247,6 @@ function addLegendEdicio(){
 }
 
 function emptyMapLegendEdicio(layer){
-	
 	if($("#mapLegendEdicio").data("businessid") == layer.options.businessId ){
 		$("#mapLegendEdicio").html("");
 		activaLlegenda(false);
