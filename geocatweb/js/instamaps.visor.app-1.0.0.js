@@ -2,6 +2,7 @@
  * require geocat.web-1.0.0
  * require url https://github.com/websanova/js-url
  * require geocat.google-analytics.js
+ * requier geocat.utils
  */
 var visorOptions = {
 	uid: url('?uid') || null,
@@ -20,6 +21,7 @@ var visorOptions = {
 	minimapcontrol: url('?minimapcontrol') || null,
 	snapshotcontrol: url('?snapshotcontrol') || null,
 	geopdfcontrol: url('?geopdfcontrol') || null,
+	widgetscontrol: url('?widgetscontrol') || null,
 	fonscontrol: url('?fonscontrol') || null,
 	sharecontrol: url('?sharecontrol') || null,
 	searchcontrol: url('?searchcontrol') || null,
@@ -38,7 +40,8 @@ var visorOptions = {
 };
 
 jQuery(document).ready(function() {
-	_gaq.push(['_trackPageview']);
+	//TODO ver si esto es mejor ponerlo cuando ya esté cargado todo el visor para cojer bien el titulo, etc.
+	//$.publish('trackPageview', null);
 	
 	var tipus_user = defineTipusUser();  //geocat.web-1.0.0
 	

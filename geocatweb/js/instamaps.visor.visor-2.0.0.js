@@ -7,7 +7,8 @@
  * require L.IM_Map
  * require L.IM_controlFons
  * require jQuery.cookie
- * require 
+ * require geocat.utils
+ * require geocat.constants
  */
 
 ;(function(global, $){
@@ -99,7 +100,8 @@
 					fons: false,
 					legend: false,
 					layers: false,
-					minimap: false
+					minimap: false,
+					widgets: false
 				};
 			}else{
 				optionsBtn = {
@@ -118,11 +120,12 @@
 					fons: true,
 					legend: true,
 					layers: true,
-					minimap: true
+					minimap: true,
+					widgets: true
 				};
 			}
 			self._redrawButtons(optionsBtn);
-			
+			map.invalidateSize();
 			/*
 			if(self.embed || width<500 || height<=350){
 				$('.leaflet-control-gps').attr("style","display:none");
@@ -264,13 +267,11 @@
 				self.controls.layersControl.hideBtn();
 			}
 			
-			/*
 			if(options.minimap && self.controls.minimapControl){
 				self.controls.minimapControl.showBtn();
 			}else if(self.controls.minimapControl){
 				self.controls.minimapControl.hideBtn();
 			}
-			*/
 		},
    		
 		removeCapes: function(){
@@ -333,7 +334,8 @@
 			_options = { 
 				toggleDisplay: true, 
 				autoToggleDisplay: false,
-				minimized: true
+				minimized: true,
+				mapOptions: {trackResize: false}
 			};
 			
 			_options = $.extend(_options, options);
@@ -343,7 +345,6 @@
 				maxZoom: 19, 
 				subdomains:subDomains});
 			
-			//ctr_minimap = new L.Control.MiniMap(_minTopo, _options).addTo(map);
 			ctr_minimap = L.control.minimapa(_minTopo, _options).addTo(_map)._minimize();
 			
 			self.controls.minimapControl = ctr_minimap;
@@ -724,26 +725,25 @@
 					else if (_mapacolaboratiu && _uid === $.cookie('uid')) {
 						//window.location.href = paramUrl.galeriaPage+"?private=1";
 						window.location=paramUrl.mapaPage+"?businessid="+_businessid+"&mapacolaboratiu=si";
-						
 					}
 					if(results.status === "OK"){
 						var mapConfig = $.parseJSON(results.results);
 						mapConfig.options = $.parseJSON(mapConfig.options);
 						self._mapConfig = mapConfig;
 						_map.fire('loadconfig', mapConfig);
+						$.publish('loadConfig', mapConfig);
 					}
 				}
 			});
 		},
 		
 		loadApp: function(){
-			var self = this;
+			var self = this,
+			_map = self.map,
+			mapConfig = self._mapConfig;
 			
-			self.loadMapConfig();
+			self._loadPublicMap(mapConfig);
 			
-			map.on('loadconfig', self._loadPublicMap, self);
-			
-			self._hideLoading();
 			return self;
 		},
 		
@@ -755,19 +755,10 @@
 			
 			$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 			
-			if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
-				$.cookie('perfil', 'geolocal', {path:'/'});
-				checkUserLogin();
-			}else{
-				$.cookie('perfil', 'instamaps', {path:'/'});
-				checkUserLogin();
-			}
+			$.cookie('perfil', 'instamaps', {path:'/'});
+			checkUserLogin();
 			
-			if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) {
-				infoHtml += '<div style="color:#ffffff">';
-				if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
-			}
-			else infoHtml += '<p>'+nomUser[0]+'</p>';
+			infoHtml += '<p>'+nomUser[0]+'</p>';
 			
 			if (mapConfig.options){
 				var desc=mapConfig.options.description;
@@ -783,42 +774,9 @@
 				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 				
-				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL)  infoHtml += '</div>';
-				
-				//TODO ver como sacar el módulo
-				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
-					_gaq.push(['_setAccount', 'UA-46332195-6']);
-					VisorGeolocal.initUi();
-					$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
-					$('.img-circle2-icon').hide();
-
-					if (mapConfig.options.barColor){
-						$('#navbar-visor').css('background-color', mapConfig.options.barColor);
-					}
-
-					if (mapConfig.options.textColor){
-						$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
-						$('.navbar-brand').css('color', mapConfig.options.textColor);
-						$('#mapTitle').css('color', mapConfig.options.textColor);
-						$('#mapTitle h3').css('color', '#ffffff');
-						$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
-						$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
-						$('.navbar-form').css('border-color', 'transparent');
-						$('.bt-sessio').css('border-color', '#ffffff');
-					}
-
-					if (mapConfig.options.fontType){
-						$('#navbar-visor').css('font-family', mapConfig.options.fontType);
-					}
-
-					if (mapConfig.logo){
-						$('.escut img').prop('src', '/logos/'+mapConfig.logo);
-					}
-				}else{
-					$('.escut').hide();
-				}
+				$('.escut').hide();
 			}
-			jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
+			$("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
 			$('#infoMap').popover({
 				placement : 'bottom',
@@ -883,25 +841,6 @@
 					}
 					_map.setActiveMap(mapConfig.options.fons);
 					_map.setMapColor(mapConfig.options.fonsColor);
-
-					var hash = location.hash;
-					hashControl = new L.Hash(_map);
-					var parsed = hashControl.parseHash(hash);
-
-					if (parsed){
-						hashControl.update();
-					}else{
-						if (mapConfig.options.center){
-							var opcenter = mapConfig.options.center.split(",");
-							_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
-						}else if (mapConfig.options.bbox){
-							var bbox = mapConfig.options.bbox.split(",");
-							var southWest = L.latLng(bbox[1], bbox[0]);
-						    var northEast = L.latLng(bbox[3], bbox[2]);
-						    var bounds = L.latLngBounds(southWest, northEast);
-						    _map.fitBounds( bounds );
-						}
-					}
 				}
 				
 				//carga las capas en el mapa
@@ -1050,8 +989,50 @@
 		},
 		
 		_drawVisor: function(){
+			var self = this,
+			map = self.map,
+			mapConfig = self._mapConfig;
+			
+			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
+				self._initCenter().drawMap().resizeMap().drawControls().loadApp()._hideLoading();
+			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+				self._initCenter().drawMap().resizeMap().drawControls().loadApp()
+				._drawVisorGeolocal()._hideLoading();
+			}
+			return self;
+		},
+		
+		_drawVisorGeolocal: function(){
 			var self = this;
-			console.debug(self);
+			
+			var visorGeolocal = VisorGeolocal({visor:self}).draw();
+			
+			return self;
+		},
+		
+		_initCenter: function(){
+			var self = this,
+			_map = self.map,
+			mapConfig = self._mapConfig;
+			
+			var hash = location.hash;
+			hashControl = new L.Hash(_map);
+			var parsed = hashControl.parseHash(hash);
+			if (parsed){
+				hashControl.update();
+			}else{
+				if (mapConfig.options.center){
+					var opcenter = mapConfig.options.center.split(",");
+					_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+				}else if (mapConfig.options.bbox){
+					var bbox = mapConfig.options.bbox.split(",");
+					var southWest = L.latLng(bbox[1], bbox[0]);
+				    var northEast = L.latLng(bbox[3], bbox[2]);
+				    var bounds = L.latLngBounds(southWest, northEast);
+				    _map.fitBounds( bounds );
+				}
+			}
+			return self;
 		},
 		
 		draw: function(){
@@ -1067,7 +1048,7 @@
 			if(self.businessid){
 				self.loadMapConfig();
 				_map.on('loadconfig', self._drawVisor, self);
-			}else{
+			}/*else{
 				if(self.urlwms){ //cloudifier
 					
 					self.fonscontrol = true;
@@ -1078,12 +1059,13 @@
 					self.loadErroPage();
 				}
 			}
+			*/
 			
 			/*
 			if(self.embed){
 				self.drawEmbed();
 			}else{
-				_gaq.push (['_trackEvent', 'visor', 'no embed']);
+				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'no embed']});
 			}
 						
 			if(self.urlwms){
@@ -1113,28 +1095,27 @@
 		},
 		
 		_showRoutingEvent: function(){
-			_gaq.push(['_trackEvent', 'visor', this.tipusUser+'routing', 'label routing', 1]);
+			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'routing', 'label routing', 1]});
 		},
 		
 		_mapsnapshotEvent: function(){
-			_gaq.push(['_trackEvent', 'visor', this.tipusUser+'captura pantalla', 'label captura', 1]);
+			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'captura pantalla', 'label captura', 1]});
 		},
 		
 		_mapprintEvent: function(){
-			_gaq.push(['_trackEvent', 'visor', this.tipusUser+'print', 'label print', 1]);
+			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'print', 'label print', 1]});
 		},
 		
 		_mapgeopdfEvent: function(){
-			_gaq.push(['_trackEvent', 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]);
+			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]});
 		},
 		
 		_map3dmodeEvent: function(){
-			_gaq.push(['_trackEvent', 'mapa', this.tipusUser + '3D', 'label 3D', 1]);
+			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser + '3D', 'label 3D', 1]});
 		},
 		
 		_hideLoading: function(){
 			$('#div_loading').hide();
-			
 			return this;
 		},
 		
@@ -1152,7 +1133,6 @@
 	};
 	
 	Visor.init = function(options){
-		console.debug(options);
 		var self = this;
 		self = $.extend(self, visorOptions, options);
 	}
