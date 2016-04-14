@@ -9,7 +9,8 @@ L.Control.MiniMap = L.Control.extend({
 		width: 150,
 		height: 150,
 		aimingRectOptions: {color: "#ff7800", weight: 1, clickable: false},
-		shadowRectOptions: {color: "#000000", weight: 1, clickable: false, opacity:0, fillOpacity:0}
+		shadowRectOptions: {color: "#000000", weight: 1, clickable: false, opacity:0, fillOpacity:0},
+		mapOptions: {} // Allows definition / override of Leaflet map options.
 	},
 	
 	hideText: 'Hide MiniMap',
@@ -36,9 +37,7 @@ L.Control.MiniMap = L.Control.extend({
 		L.DomEvent.disableClickPropagation(this._container);
 		L.DomEvent.on(this._container, 'mousewheel', L.DomEvent.stopPropagation);
 
-
-		this._miniMap = new L.Map(this._container,
-		{
+		var mapOptions = {
 			attributionControl: false,
 			zoomControl: false,
 			zoomAnimation: this.options.zoomAnimation,
@@ -48,8 +47,12 @@ L.Control.MiniMap = L.Control.extend({
 			doubleClickZoom: !this.options.zoomLevelFixed,
 			boxZoom: !this.options.zoomLevelFixed,
 			crs: map.options.crs
-		});
-
+		};
+		
+		mapOptions = L.Util.extend(this.options.mapOptions, mapOptions);
+		
+		this._miniMap = new L.Map(this._container,mapOptions);
+		
 		this._miniMap.addLayer(this._layer);
 
 		//These bools are used to prevent infinite loops of the two maps notifying each other that they've moved.
@@ -74,15 +77,12 @@ L.Control.MiniMap = L.Control.extend({
 			//this._miniMap.on('moveend', this._onMiniMapMoved, this);
 		}, this));
 		
-		
-		
 		return this._container;
 	},
 
 	addTo: function (map) {
 		L.Control.prototype.addTo.call(this, map);
 		this._miniMap.setView(this._mainMap.getCenter(), this._decideZoom(true));
-		////console.info(this._decideMinimized());
 		this._setDisplay(this._decideMinimized());
 		return this;
 	},
@@ -243,9 +243,6 @@ L.Control.MiniMap = L.Control.extend({
 	},
 
 	_decideMinimized: function () {
-		
-		////console.info(this.options.autoToggleDisplay);
-		
 		if (this._userToggledDisplay) {
 			return this._minimized;
 		}

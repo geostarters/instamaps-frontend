@@ -53,6 +53,7 @@ function showModalTematicCategories(data){
 			glyp.removeClass('glyphicon-arrow-up').addClass('glyphicon-arrow-down');
 		}
 		jQuery("#dialog_tematic_rangs").data("reverse",reverse);
+		//console.debug(jQuery("#dialog_tematic_rangs").data("reverse"));
 		if (jQuery('#list_tematic_values').html() !== ""){
 			updatePaletaRangs();
 		}
@@ -91,7 +92,7 @@ function showModalTematicCategories(data){
 			}else{				
 				readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
 					jQuery("#dialog_tematic_rangs").data("values", results);
-					getTipusValuesVisualitzacio(results);
+					getTipusValuesVisualitzacio(results,data.geometrytype);
 				});			
 			}
 		});			
@@ -102,8 +103,13 @@ function showModalTematicCategories(data){
 		fields[window.lang.convert('Escull el camp')] = '---';
 		dataNames = data.propname.split(',');
 		jQuery.each(dataNames, function( index, value ) {
-			fields[value] = value;
+			if (value!='') 	fields[value] = value;
 		});
+		if(data.propname=='null' || data.propname==''){
+			fields['nom']='nom';
+			fields['text']='text';
+		}
+		
 		//creamos el select con los campos
 		var source1 = jQuery("#tematic-layers-fields").html();
 		var template1 = Handlebars.compile(source1);
@@ -216,15 +222,24 @@ function showModalTematicCategories(data){
 				
 }
 
-function getTipusValuesVisualitzacio(results){
+function getTipusValuesVisualitzacio(results,geomType){
 	//console.debug("getTipusValuesVisualitzacio");
-	if (results.valors.length === 0){
+	var resultats;
+	if (results.valors!=undefined) resultats=results.valors;
+	else resultats=results;
+	
+	var geometryType;
+	if (results.geomType!=undefined) geometryType=results.geomType;
+	else geometryType=geomType;
+
+	
+	if (resultats.length === 0){
 		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		jQuery('#list_tematic_values').html(warninMSG);
 		jQuery('#dialog_tematic_rangs .btn-success').hide();
 	}else{
 		var nodata = [];
-		var arr = jQuery.grep(results.valors, function( n, i ) {
+		var arr = jQuery.grep(resultats, function( n, i ) {
 			var isText = false;
 			if (!jQuery.isNumeric(n)){
 				if (n == "Sense valor" || n == "Sin valor" || n == "Empty value" || n == NODATA_VALUE){
@@ -247,7 +262,7 @@ function getTipusValuesVisualitzacio(results){
 				var this_ = jQuery(this);
 				if (this_.val() == "U"){
 					jQuery('#num_rangs_grp').hide();
-					showVisualitzacioDataUnic(results.valors,results.geomType).then(function(results1){
+					showVisualitzacioDataUnic(resultats,geometryType).then(function(results1){
 						loadTematicValueTemplate(results1,'unic');
 					});
 				}else{
@@ -266,7 +281,7 @@ function getTipusValuesVisualitzacio(results){
 					jQuery('#list_tematic_values').html("");
 					jQuery('#dialog_tematic_rangs .btn-success').hide();
 				}else{
-					createRangsValues(this_.val(),results.geomType);
+					createRangsValues(this_.val(),geometryType);
 				}
 			});
 			
@@ -274,7 +289,7 @@ function getTipusValuesVisualitzacio(results){
 		}else{ //unicos
 			jQuery('#tipus_agrupacio_grp').hide();
 			jQuery('#num_rangs_grp').hide();
-			showVisualitzacioDataUnic(results.valors,results.geomType).then(function(results1){
+			showVisualitzacioDataUnic(resultats,geometryType).then(function(results1){
 				loadTematicValueTemplate(results1,'unic');
 			});
 		}
@@ -291,13 +306,15 @@ function showVisualitzacioDataUnic(values,geomType){
 	
 	//Ordenar valores
 	values.sort(sortByValueMax);
+	//console.debug(paleta);
 	paleta = paleta ? paleta : 'Paired';
+	//console.debug(values.length);
 	var scale = createScale(paleta, values.length, reverse);	
 	var ftype = transformTipusGeometry(geomType);	
 	var valuesStyle = jQuery.map( values, function( a, i) {
+		//console.debug(createIntervalStyle(i,ftype,scale));
 		return {v: a, style: createIntervalStyle(i,ftype,scale), index: i};
 	});
-	
 	defer.resolve(valuesStyle);
 	return defer.promise();
 }
@@ -383,7 +400,7 @@ function div2RangStyle(tematic, tdElem){
 			borderColor :  divElement.strokeStyle,
 			borderWidth :  divElement.lineWidth,
 			color: jQuery.Color(divElement.fillStyle).toHexString(),
-			opacity: Math.round(jQuery.Color(divElement.fillStyle).alpha()*100)
+			opacity: Math.round(jQuery.Color(divElement.fillStyle).alpha()*100)		
 		};
 	}
 	return rangStyle;
@@ -409,7 +426,9 @@ function createTematicLayerCategories(event){
 		var rangEstil;
 		if (_this.children().length == 2){
 			tdRang = _this.find('td:eq(0)');
+			//console.debug(tdRang);
 			tdVal = _this.find('td:eq(1)');
+			//console.debug(tdVal);
 			rangEstil = div2RangStyle(tematicFrom, tdVal);
 			rang.estil = rangEstil;
 			rang.valueMax = tdRang.text();
@@ -419,6 +438,9 @@ function createTematicLayerCategories(event){
 			tdMin = _this.find('td:eq(0)');
 			tdMax = _this.find('td:eq(1)');
 			tdVal = _this.find('td:eq(2)');
+			//console.debug(tdMin);
+			//console.debug(tdMax);
+			//console.debug(tdVal);
 			rangEstil = div2RangStyle(tematicFrom, tdVal);
 			rang.estil = rangEstil; 
 			rang.valueMin = tdMin.find('input').val();
@@ -426,7 +448,7 @@ function createTematicLayerCategories(event){
 			rangs.push(rang);
 		}
 	});	
-	
+	//console.debug(rangs);
 	var estils = {
 		estils: rangs,
 		dataField: jQuery('#dataField').val().toLowerCase(),
@@ -529,7 +551,7 @@ function createTematicLayerCategories(event){
 						geometryType: capaMare.options.geometryType,
 						colX: capaMare.options.colX,
 						colY: capaMare.options.colY,
-						dinamic: capaMare.options.dinamic
+						dinamic: capaMare.options.dinamic						
 					};
 			
 					var data = {
@@ -549,9 +571,10 @@ function createTematicLayerCategories(event){
 						options: JSON.stringify(options),
 						tmpFilePath: tmpFile,
 						tipusTematic:"t_url_file",
-						urlTematic:paramUrl.createServidorInMap  
+						urlTematic:paramUrl.createServidorInMap,
+						paleta: jQuery("#dialog_tematic_rangs").data("paleta"),
+						reverse: jQuery("#dialog_tematic_rangs").data("reverse")
 					};
-					
 					callActions(data);
 					/*createServidorInMap(data);/*.then(function(results){
 						busy=false;					
@@ -673,10 +696,12 @@ function createTematicLayerCategories(event){
 						estils: JSON.stringify(estils),
 						tmpFilePath: tmpFile,
 						tipusTematic:"t_visualitzacio_categories",
-						urlTematic:paramUrl.createVisualitzacioTematica  
+						urlTematic:paramUrl.createVisualitzacioTematica,
+						paleta: jQuery("#dialog_tematic_rangs").data("paleta"),
+						reverse: jQuery("#dialog_tematic_rangs").data("reverse")
 					};
-					
 					callActions(data);
+				//	createVisualitzacioTematica(data);
 			}
 			else {
 				jQuery('#info_uploadFile').hide();		
@@ -708,8 +733,9 @@ function updatePaletaRangs(){
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	
-	var values = jQuery("#dialog_tematic_rangs").data("values");
-	values = values.valors;
+	//console.debug( jQuery("#dialog_tematic_rangs").data("values-norepetits"));
+	var values = jQuery("#dialog_tematic_rangs").data("values-norepetits");
+	//values = values;
 	var rangs = jQuery("#dialog_tematic_rangs").data("rangs");
 	
 	var tipusrang = jQuery("#dialog_tematic_rangs").data("tipusrang");
@@ -851,6 +877,7 @@ function loadTematicValueTemplate(results, rtype){
 			resultsNoRepetits.sort();
 			html1 = template1({values:resultsNoRepetits});
 		}
+		jQuery("#dialog_tematic_rangs").data("values-norepetits",resultsNoRepetits);
 	}
 	else {
 		
@@ -920,6 +947,7 @@ function loadTematicValueTemplate(results, rtype){
 		});
 		
 	}else if (ftype == t_polygon){
+		
 		jQuery('#list_tematic_values canvas').each(function(i, val){
 			addGeometryInitPRang(val, results[i]);
 		});
@@ -1048,3 +1076,248 @@ function createScale(paleta, length, reverse){
 	var scale = ColorScales.createScale(paleta, length, reverse);
 	return scale;
 }
+
+
+
+function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,layerMare){
+	var paleta,reverse,dataField,labelField,tipusClasicTematic;
+	if (sublayer.layer.options.paleta!=undefined) paleta = sublayer.layer.options.paleta;
+	if (sublayer.layer.options.reverse!=undefined) reverse = sublayer.layer.options.reverse;
+	if (sublayer.layer.options.dataField!=undefined) dataField = sublayer.layer.options.dataField;
+	if (sublayer.layer.options.labelField!=undefined) labelField = sublayer.layer.options.labelField;
+	if (sublayer.layer.options.tipusClasicTematic!=undefined) tipusClasicTematic = sublayer.layer.options.tipusClasicTematic;
+	//console.debug(sublayer);
+	
+	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+//	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
+	var capaMare = controlCapes._layers[layerMare.layer._leaflet_id].layer;
+//	console.debug(paleta);
+	paleta = paleta ? paleta : 'Paired';
+	var sToCount = $("#count-"+businessIdCapaMare).html();
+	sToCount = sToCount.replace("(", " ");
+	sToCount = sToCount.replace(")", " ");	
+	var toCount = parseInt(sToCount.trim());
+	var scale = createScale(paleta, toCount, reverse);	
+	var ftype = transformTipusGeometry(layerMare.layer.options.geometryType);	
+	var dataVis={
+			businessId1: businessIdCapaMare,
+			key: dataField,
+			uid: jQuery.cookie('uid')
+	};
+	var rangsEstils=[];
+	getValuesFromKeysProperty(dataVis).then(function(results){
+		var valors = results.valors;
+		var resultsNoRepetits=[];
+						
+		if (tipusClasicTematic==undefined || tipusClasicTematic=="unic"){
+			var data = {};		
+			jQuery.grep(valors,  function( n, i ) {
+						var value = n;
+						if(isBlank(value)) value = "nodata";
+							if(!data[value]){
+								data[value] = value;
+								resultsNoRepetits.push(n);
+							}
+			});
+		}
+		var valuesStyle = jQuery.map( resultsNoRepetits, function( a, i) {
+			rangsEstils[i]={v: a, style: createIntervalStyle(i,ftype,scale)};							
+		});
+		loadRangValues(rangsEstils,tipusClasicTematic,layerMare.layer.options.geometryType).then(function(rangs){
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: capaMare.options.businessId
+				};
+				crearFitxerPolling(data1).then(function(results) {
+					var tmpFile="";
+					if (results.status=="OK"){
+						tmpFile = results.tmpFilePath;
+						//Definim interval de polling en funcio de la mida del fitxer
+						var pollTime =3000;
+						//Fem polling
+						(function(){							
+							pollBuffer = function(){
+								$.ajax({
+									url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+									dataType: 'json',
+									type: 'get',
+									success: function(data){
+										
+										jQuery('#dialog_tematic_rangs').hide();
+										jQuery('#info_uploadFile').show();
+										if(data.status.indexOf("PAS 1")!=-1 && busy){
+											
+											jQuery("#div_uploading_txt").html("");
+											jQuery("#div_uploading_txt").html(
+													'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+													'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											);									
+											
+										}else if((data.status.indexOf("PAS 2")!=-1 || data.status.indexOf("PAS 3")!=-1) && busy){
+											jQuery("#div_uploading_txt").html(
+													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+													'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											);										
+										}else if(data.status.indexOf("OK")!=-1 && busy){
+											clearInterval(pollInterval);
+											jQuery("#div_uploading_txt").html("");
+											jQuery("#div_uploading_txt").html(
+													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+													'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											);									
+											var defer = $.Deferred();
+											readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
+												activaPanelCapes(true);
+												//Desactivem la capa mare
+												if ($( "#input-"+businessIdCapaMare).attr("checked")!=undefined) $( "#input-"+businessIdCapaMare).click();
+											});
+											jQuery('#info_uploadFile').hide();		
+											busy=false;
+										}else if(data.status.indexOf("ERROR")!=-1 && busy){
+											console.error("Error calculant l'operació");
+											console.error(data);
+											busy = false;
+											
+											clearInterval(pollInterval);
+											jQuery('#info_uploadFile').hide();
+											
+											$('#dialog_error_upload_txt').html("");
+											
+											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+											
+											$('#dialog_error_upload').modal('show');
+										}
+										else if (!busy){
+											clearInterval(pollInterval);
+											jQuery('#info_uploadFile').hide();
+										}
+									}
+								});
+							};
+							
+							pollInterval = setInterval(function(){
+								pollBuffer();
+							},pollTime);
+							
+						})();
+							var estils = {
+								estils: rangs,
+								dataField: dataField,
+								labelField: dataField
+							};
+							var options = {
+								url: capaMare.options.url,
+								tem: tem_clasic,
+								style: estils,
+								origen: capaMare.options.businessId,
+								tipus : t_url_file,
+								tipusFile: capaMare.options.tipusFile,
+								estil_do: estils,
+								epsgIN: capaMare.options.epsgIN,
+								geometryType: capaMare.options.geometryType,
+								colX: capaMare.options.colX,
+								colY: capaMare.options.colY,
+								dinamic: capaMare.options.dinamic
+							};
+							var data = {
+								businessId: businessIdCapaMare,//businessId id de la visualización de origen
+								uid: $.cookie('uid'),//uid id de usuario
+								mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
+								nom:  sublayer.layer.options.nom,
+								activas: true,
+								order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
+								dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
+								tem: tem_clasic,//visualitzacio.from,//tem_simple
+								estils: JSON.stringify(estils),
+								tipusTematic:"t_visualitzacio_categories",
+								urlTematic:paramUrl.createVisualitzacioTematica,
+								tmpFilePath: tmpFile,
+								paleta: jQuery("#dialog_tematic_rangs").data("paleta"),
+								reverse: jQuery("#dialog_tematic_rangs").data("reverse")
+							};
+							//console.debug("callActions");
+							callActions(data);
+							/*createVisualitzacioTematica(data).then(function(results){
+									var defer = jQuery.Deferred();
+									readVisualitzacio (defer,results.visualitzacio,results.layer).then(function(results2){
+										activaPanelCapes(true);
+										//Desactivem la capa mare
+										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
+									});
+							});*/
+					}
+					else {
+						jQuery('#info_uploadFile').hide();		
+						busy=false;
+					}
+				
+					
+				});	
+				
+			});
+						
+		});
+}
+
+function loadRangValues(rangsEstils,tipusClasicTematic,geometrytype){
+	var defer = jQuery.Deferred();
+	var rangs=[];
+	jQuery.each(rangsEstils, function( index, value ) {
+		console.debug(value);
+		console.debug(tipusClasicTematic);
+		var tdRang, tdMin, tdMax;
+		var tdVal;
+		var rang = {};
+		var rangEstil;
+		if (tipusClasicTematic==undefined || tipusClasicTematic=="unic"){
+			rang.estil = transformStyle(value.style,geometrytype);
+			rang.valueMax = value.v;
+			rang.valueMin = value.v;
+			rangs.push(rang);
+		}else{
+			rang.estil = transformStyle(value.style,geometrytype);
+			rang.valueMax = value.v;
+			rang.valueMin = value.v;
+			rangs.push(rang);
+		}
+	});	
+	defer.resolve(rangs);
+	return defer.promise();
+}
+
+function transformStyle(style,geometrytype){
+	var rangStyle;
+	var ftype = transformTipusGeometry(geometrytype);
+	if (ftype == t_marker){
+		//divElement = tdElem.find('div');
+		rangStyle = {
+			borderColor :  "#ffffff",
+			borderWidth :  2,
+			simbolSize: style.simbolSize,
+			color: style.fillColor,
+			opacity: 90
+		};
+	}else if (ftype == t_polyline){
+		//divElement = tdElem.find('canvas')[0].getContext("2d");
+		rangStyle = {
+			lineWidth :  style.dashArray,
+			color: style.color,
+		};
+	}else if (ftype == t_polygon){
+		
+		//divElement = tdElem.find('canvas')[0].getContext("2d");
+		rangStyle = {
+			borderColor : '#FFFFFF',
+			borderWidth :  '1',
+			color: style.color,
+			fillColor: style.color,
+			fillOpacity: style.opacity,
+			opacity: '75'		//75!
+		};
+		//console.debug(rangStyle);
+	}
+	return rangStyle;
+}
+	
+
+

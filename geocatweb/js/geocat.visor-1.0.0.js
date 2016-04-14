@@ -44,7 +44,7 @@ $( window ).resize(function() {
 			activaLlegenda(true);
 			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 	 }
-	 if(width>500){
+	 else if(width>500){
 		 $('.leaflet-control-gps').attr("style","display:block");
 			$('#dv_bt_Find').attr("style","display:block");
 			$('#dv_bt_Routing').attr("style","display:block");
@@ -52,8 +52,7 @@ $( window ).resize(function() {
 			$('.bt_print').attr("style","display:block");
 			$('.bt_geopdf').attr("style","display:block");
 			$('.leaflet-control-mouseposition').attr("style","display:block");
-			$('.leaflet-control-scale').attr("style","display:block");
-			$('.leaflet-control-minimap').attr("style","display:block");
+			$('.leaflet-control-scale').attr("style","display:block");			
 			activaLlegenda(true);
 			if (typeof url('?llegenda') != "string") setTimeout("activaLlegenda(false)", 500);
 	 }
