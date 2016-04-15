@@ -7,9 +7,11 @@ L.Control.SearchControl = L.Control.extend({
 		id: 'dv_bt_Find',
 		className: 'leaflet-bar btn btn-default btn-sm grisfort',
 		title: 'Cercar',
+		langTitle: 'Cercar',
 		html: '<span id="span_bt_Find" class="fa fa-search"></span>',
 		idInputText: 'ctr_cerca',
-		inputplaceholderText: 'Cercar llocs al món o coordenades  ...'
+		inputplaceholderText: 'Cercar llocs al món o coordenades  ...',
+		tooltip: 'right'
 	},
 	
 	initialize: function(options){
@@ -33,6 +35,10 @@ L.Control.SearchControl = L.Control.extend({
 		container.id = options.id;
 		container.innerHTML = options.html;
 		container.title = options.title;
+		
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
 		

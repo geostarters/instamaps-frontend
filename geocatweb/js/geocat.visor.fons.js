@@ -4,7 +4,10 @@
 L.IM_ControlFons = L.Control.extend({
 	options: {
 		collapsed: true,
-        position: 'bottomleft'
+        position: 'bottomleft',
+        title: 'Escollir el mapa de fons',
+        langTitle: 'Escollir el mapa de fons',
+        tooltip: 'right'
     },
     
     onAdd: function (map) {
@@ -16,11 +19,18 @@ L.IM_ControlFons = L.Control.extend({
     },
     
     _initLayout: function(){
-    	var className = 'control-btn-fons',
+    	var self = this,
+		options = self.options,
+		className = 'control-btn-fons',
 	    container = this._container = L.DomUtil.create('div', className);
     	
     	// makes this work on IE touch devices by stopping it from firing a mouseout event when the touch is released
 		container.setAttribute('aria-haspopup', true);
+		
+		container.title = options.title;
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 
         var ua = window.navigator.userAgent;
         var msie = ua.indexOf("MSIE ");
@@ -77,12 +87,12 @@ L.IM_ControlFons = L.Control.extend({
 		return container;
     },
     
-    hide: function(){
+    hideBtn: function(){
 		var self = this;
 		$(self._div).hide();
 	},
 	
-	show: function(){
+	showBtn: function(){
 		var self = this;
 		$(self._div).show();
 	},

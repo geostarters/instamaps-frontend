@@ -10,7 +10,8 @@ L.Control.Control3D = L.Control.extend({
 		className: 'leaflet-bar btn btn-default btn-sm bt_3D_2D',
 		title: 'Canviar vista',
 		langTitle: 'Canviar vista',
-		html: '<span class="text3D">3D</span>'
+		html: '<span class="text3D">3D</span>',
+		tooltip: 'left'
 	},
 	
 	onAdd: function(map){
@@ -23,6 +24,7 @@ L.Control.Control3D = L.Control.extend({
 		container.innerHTML = options.html;
 		container.title = options.title;
 		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
 		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;

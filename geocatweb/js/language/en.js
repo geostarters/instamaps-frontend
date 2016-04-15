@@ -64,6 +64,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Cal indicar el sistema de referència":"Point out the reference system"
 ,"Cal indicar els camps de les coordenades i el sistema de referència":"Point out fields for coordinates and reference system"
 ,"Cal indicar els camps que contenen l'adreça":"Point out the address fields"
+,"Càlcul de rutes":"Routing"
 ,"Calculant operació":"Calculating operation"
 ,"Camp que conté el codi":"Field containing the code"
 ,"Camps":"Fields"

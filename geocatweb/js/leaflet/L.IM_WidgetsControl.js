@@ -10,6 +10,7 @@ L.Control.Widgets = L.Control.extend({
 		langTitle: 'Ginys',
 		html: '<span class="fa fa-cogs widgets"></span>',
 		modalContainer: '#mapa_modals',
+		tooltip: 'left'
 	},
 	
 	onAdd: function(map){
@@ -22,6 +23,7 @@ L.Control.Widgets = L.Control.extend({
 		container.innerHTML = options.html;
 		container.title = options.title;
 		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
 		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;

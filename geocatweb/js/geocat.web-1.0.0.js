@@ -370,6 +370,7 @@ function canviaIdioma(lsLang){
 //	console.debug(lsLang);
 	window.lang.change(lsLang);
 	$("body").trigger( "change-lang", lsLang );
+	$.publish('change-lang',{lang: lsLang});
 }
 
 function web_determinaIdioma(){

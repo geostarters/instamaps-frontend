@@ -82,7 +82,6 @@
 			nomEntitat = mapConfig.nomEntitat,
 			infoHtml = '';
 			
-			console.debug(mapConfig);
 			//TODO  ver si podemos usar un objeto usuario para almacenar este tipo de cosas.
 			//cambiamos la cookie del perfil
 			$.cookie('perfil', 'geolocal', {path:'/'});
@@ -135,6 +134,14 @@
 			return self;
 		},
 		
+		drawEmbed: function(){
+			var self = this;
+			
+			self.widgetscontrol = true;
+			
+			return self;
+		},
+		
 		draw: function(){
 			var self = this,
 			visor = self.visor,
@@ -147,7 +154,11 @@
 			
 			self._listenEvents();
 			
-			if(!self.rtoolbar){
+			if(visor.embed){
+				self.drawEmbed();
+			}
+			
+			if(!visor.rtoolbar){
 				if(!self.widgetscontrol){
 					self.addWidgetsControl();
 				}

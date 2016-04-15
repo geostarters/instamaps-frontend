@@ -7,7 +7,9 @@ L.Control.Share = L.Control.extend({
 		id: 'dv_bt_Share',
 		className: 'leaflet-bar btn btn-default btn-sm grisfort',
 		title: 'Compartir',
-		html: '<span id="span_bt_Share" class="fa fa-share-alt"></span>'
+		langTitle: 'Compartir',
+		html: '<span id="span_bt_Share" class="fa fa-share-alt"></span>',
+		tooltip: 'right'
 	},
 	
 	onAdd: function(map){
@@ -19,6 +21,10 @@ L.Control.Share = L.Control.extend({
 		container.id = options.id;
 		container.innerHTML = options.html;
 		container.title = options.title;
+		
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
 		

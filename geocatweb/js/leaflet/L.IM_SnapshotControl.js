@@ -10,7 +10,8 @@ L.Control.Snapshot = L.Control.extend({
 		className: 'leaflet-bar btn btn-default btn-sm bt_captura',
 		title: 'Capturar la vista del mapa',
 		langTitle: 'Capturar la vista del mapa',
-		html: '<span class="glyphicon glyphicon-camera grisfort"></span>'
+		html: '<span class="glyphicon glyphicon-camera grisfort"></span>',
+		tooltip: 'left'
 	},
 	
 	onAdd: function(map){
@@ -23,6 +24,7 @@ L.Control.Snapshot = L.Control.extend({
 		container.innerHTML = options.html;
 		container.title = options.title;
 		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
 		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;

@@ -1,5 +1,5 @@
 /**
- * require jQuery
+ * require geocat.ajax-1.0.0
  * require geocat.web-1.0.0
  * require geocat.mapa.edit-data-table
  * require url.min
@@ -9,6 +9,7 @@
  * require jQuery.cookie
  * require geocat.utils
  * require geocat.constants
+ * require instamaps.visor.geolocal
  */
 
 ;(function(global, $){
@@ -80,8 +81,6 @@
 			_mapDiv.css('top', factorH + 'px');
 			_mapDiv.height(heightW - factorH);
 			_mapDiv.width(widthW - factorW);
-						
-			console.debug("Win:" + widthW + ", " + heightW);
 						
 			if(widthW<500 || heightW<=350){
 				optionsBtn = {
@@ -238,21 +237,21 @@
 			}
 			
 			if(options.mousePosition && self.controls.mousePositionControl){
-				self.controls.mousePositionControl.show();
+				self.controls.mousePositionControl.showBtn();
 			}else if(self.controls.mousePositionControl){
-				self.controls.mousePositionControl.hide();
+				self.controls.mousePositionControl.hideBtn();
 			}
 			
 			if(options.scale && self.controls.scaleControl){
-				self.controls.scaleControl.show();
+				self.controls.scaleControl.showBtn();
 			}else if(self.controls.scaleControl){
-				self.controls.scaleControl.hide();
+				self.controls.scaleControl.hideBtn();
 			}
 			
 			if(options.fons && self.controls.fonsControl){
-				self.controls.fonsControl.show();
+				self.controls.fonsControl.showBtn();
 			}else if(self.controls.fonsControl){
-				self.controls.fonsControl.hide();
+				self.controls.fonsControl.hideBtn();
 			}
 			
 			if(options.legend && self.controls.llegendaControl){
@@ -272,8 +271,25 @@
 			}else if(self.controls.minimapControl){
 				self.controls.minimapControl.hideBtn();
 			}
+			return self;
 		},
    		
+		hideControl: function(control){
+			var self = this;
+			if(self.controls[control]){
+				self.controls[control].hideBtn();
+			}
+			return self;
+		},
+		
+		showControl: function(control){
+			var self = this;
+			if(self.controls[control]){
+				self.controls[control].showBtn();
+			}
+			return self;
+		},
+		
 		removeCapes: function(){
 			var self = this;
 			//var map = self.map;
@@ -287,7 +303,28 @@
 			$('#navbar-visor').hide();
 			$('#searchBar').css('top', '0');
 			self.addDefaultZoomControl = false;
-			_gaq.push (['_trackEvent', 'visor', 'embed']);
+			
+			self.mouseposition = true;
+			self.scalecontrol = true;
+			self.minimapcontrol = true;
+			self.fonscontrol = true;
+			
+			self.openinstamaps = false;
+			self.homecontrol = true;
+			self.locationcontrol = true;
+			self.sharecontrol = true;
+			self.searchcontrol = true;
+			self.routingcontrol = true;
+			
+			self.layerscontrol = false;
+			self.control3d = true;
+			self.snapshotcontrol = true;
+			self.printcontrol = true;
+			self.geopdfcontrol = true;
+			
+			self.llegenda = true;
+			
+			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'embed']});
 			return self;
 		},
 		
@@ -356,7 +393,9 @@
 			var self = this,
 			ctr_fons,
 			_map = self.map;
-			ctr_fons = new L.IM_controlFons().addTo(_map);
+			ctr_fons = new L.IM_controlFons({
+				title: window.lang.convert('Escollir el mapa de fons'),
+			}).addTo(_map);
 			
 			self.controls.fonsControl = ctr_fons;
 			
@@ -469,8 +508,6 @@
 		addLocationControl: function(){
 			var self = this,
 			ctr_gps,
-			titleGPS = window.lang.convert('Centrar mapa a la seva ubicació'),
-			textErr = window.lang.convert('Error del GPS')
 			_map = self.map;
 			
 			//TODO agregar las opciones por defecto al control
@@ -484,8 +521,8 @@
 					fillColor: '#e03',
 					opacity: 1,
 					fillOpacity: 0.5},
-				title: titleGPS,
-				textErr: textErr,	//error message on alert notification
+				title: window.lang.convert('Centrar mapa a la seva ubicació'),
+				textErr: window.lang.convert('Error del GPS'),	//error message on alert notification
 				callErr: null		//function that run on gps error activating
 			});
 						
@@ -680,13 +717,67 @@
 			return self;
 		},
 		
-		loadErroPage: function(){
+		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
 			window.location.href = paramUrl.galeriaPage;
 		},
 		
 		loadLoginPage: function(){
 			window.location.href = paramUrl.loginPage;
+		},
+		
+		/*
+		loadMapaColaboratiuPage: function(){
+			window.location = paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
+		},
+		*/
+		
+		_loadPasswordModal: function(){
+			var self = this;		
+			
+			$('#dialog_password').modal('show');
+
+			$('#dialog_password .btn-primary').on('click',function(){
+				var clau = $.trim($('#inputPassword').val());
+				if(clau == ""){
+					$('#password_msg').removeClass('hide');
+				}else{
+					$('#password_msg').addClass('hide');
+					var data = {
+						clauVisor: clau,
+						businessId: url('?businessid')
+					};
+					loadPrivateMapByBusinessId(data).then(function(results){
+						if(results.status == "ERROR"){
+							$('#password_msg').removeClass('hide');
+						}else{
+							$('#password_msg').addClass('hide');
+							var uidUrl = url('?uid');
+							if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
+								$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+								$.cookie('collaborateuid', uidUrl, {path:'/'});
+								self.loadLoginPage();
+							}
+							else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
+								$.removeCookie('uid', { path: '/' });
+								$.cookie('collaboratebid', url('?businessid'), {path:'/'});
+								$.cookie('collaborateuid', uidUrl, {path:'/'});
+								self.loadLoginPage();
+							}
+							/*
+							//TODO ver si esto es correcto porque no debería abrir el mapa desde el visor 
+							else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
+								self.loadMapaColaboratiuPage();
+							}
+							*/
+							self._loadPublicMap(results);
+							$('#dialog_password').modal('hide');
+						}
+					});
+				}
+			});
+			
+			return self;
 		},
 		
 		loadMapConfig: function(){
@@ -703,12 +794,12 @@
 			};
 			getCacheMapByBusinessId(data).then(function(results){
 				if (results.status == "ERROR"){
-					self.loadErroPage();
+					self.loadErrorPage();
 				}else if (results.status == "PRIVAT"){
 					//ocultar las pelotas
 					self._hideLoading();
 					//mostar modal con contraseña
-					loadPasswordModal();
+					self._loadPasswordModal();
 				}else{
 					var uidUrl = _uid;
 					if ( _mapacolaboratiu && !$.cookie('uid')) {
@@ -735,6 +826,8 @@
 					}
 				}
 			});
+			
+			return self;
 		},
 		
 		loadApp: function(){
@@ -803,6 +896,7 @@
 		_loadMapConfig: function(mapConfig){
 			var self = this,
 			_map = self.map,
+			_layers = self.instamapsLayers,
 			dfd = $.Deferred();
 			
 			if (!$.isEmptyObject( mapConfig )){
@@ -844,161 +938,36 @@
 				}
 				
 				//carga las capas en el mapa
-				self._loadOrigenWMS(mapConfig).then(function(results){
-					var num_origen = 0;
-					$.each(results.origen, function(index, value){
-						loadLayer(value).then(function(){
-							num_origen++;
-							if (num_origen == results.origen.length){
-								$.each(results.sublayers, function(index, value){
-									loadLayer(value);
-								});
-							}
-						});
-					});
-				});
-
+				var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
+				_layers._loadAllLayers(mapConfig, controlCapes);
+				
 				self._hideLoading();	
-				//$(window).trigger('resize');
 			}
 			dfd.resolve();
 			return dfd.promise();
 		},
-		
-		_loadOrigenWMS: function(mapConfig){
-			var dfd = $.Deferred(),
-			layer_map = {origen:[],sublayers:[]};
-			
-			$.each(mapConfig.servidorsWMS, function(index, value){
-				//TODO parsear las options y el group y dejarlo en json.
-				//TODO quitar el parse de cada tipo de capa.
-				if(value.options && value.capesGroup){
-					var options;
-					if(typeof (value.options)=="string"){
-						try {
-							options = JSON.parse(value.options);
-						}
-						catch (err) {
-							options = value.options;
-						}
-					}else{
-						options = value.options;
-					}
-
-					var group = JSON.parse(value.capesGroup);
-					options.group = group;
-					value.options = JSON.stringify(options);
-				}
-				if(value.capesOrdre == capesOrdre_sublayer){
-					layer_map.sublayers.push(value);
-					lsublayers.push(value);
-				}else{
-					layer_map.origen.push(value);
-				}
-			});
-
-			$.each(layer_map.origen, function(index, value){
-				var jsonOptions;
-				if(typeof (value.options)=="string"){
-					try {
-						jsonOptions = JSON.parse(value.options);
-					}
-					catch (err) {
-						jsonOptions = value.options;
-					}
-				}else{
-					jsonOptions = value.options;
-				}
-
-				if(jsonOptions && jsonOptions.group){
-					if(controlCapes){
-						controlCapes._addGroupFromObject(jsonOptions.group);
-					}
-				}
-			});
-
-			dfd.resolve(layer_map);
-			return dfd.promise();
-		},
-		
-		loadVisorSimple: function(){
-			var self = this,
-			layername = self.layername,
-			title = "Mapa  "+ layername +" cloudifier",
-			_map = self.map;
-			
-			$('meta[name="og:title"]').attr('content', title);
-			$('#nomAplicacio').html(title);
-			document.title = title;
-			$("#mapTitle").html(title);
-
-			activaPanelCapes(true);
-
-			//Actualitza idioma dels tooltips
-			$("body").on("change-lang", function(event, lang){
-				window.lang.change(lang);
-				window.lang.run(lang);
-				updateLangTooltips();
-				updateLangText();
-			});
-			canviaIdioma(web_determinaIdioma());
-
-			self._hideLoading();
-			return self;
-		},
-		
-		setMapWMSBoundingBox: function(url){
-			getWMSLayers(url).then(function(results) {
-				//Fem Layer.Layer perq des de el cloudifier sempre tindrem nomes una capa
-				var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
-				map.fitBounds([
-			       [bbox["@miny"], bbox["@minx"]],
-			       [bbox["@maxy"], bbox["@maxx"]]
-				]);
-			},function(){
-				console.error("Error getCapabilities");
-				//console.debug(results);
-			});
-		},
-		
-		loadWmsVisorSimple: function(){
-			var self = this;
-			layername = self.layername,
-			map = self.map,
-			layer = {
-				"url": self.urlwms,
-				"servername": layername,
-				"layers": layername,
-			    "imgFormat": "image/png",
-			    "transparency": "true",
-			    "version": "1.1.1",
-			    "opacity": 1,
-			    "epsg": undefined,
-				"serverName": layername,
-				"serverType": t_wms,
-				"capesActiva": "true",
-				"capesCalenta" : "false",
-				"capesOrdre":  "1",
-				"capesVisibilitat":  "true",
-				"visibilitat": "O",
-			    "businessId": "-1"
-			};
-			loadWmsLayer(layer, map);
-			self.setMapWMSBoundingBox(layer.url);
-			return self;
-		},
-		
+				
 		_drawVisor: function(){
 			var self = this,
 			map = self.map,
 			mapConfig = self._mapConfig;
 			
+			if(self.embed){
+				self.drawEmbed();
+			}
+			
 			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
-				self._initCenter().drawMap().resizeMap().drawControls().loadApp()._hideLoading();
+				self._initCenter().drawMap().resizeMap().drawControls().loadApp()._addTooltips()._hideLoading();
+				
+				if(self.embed){
+					self.addLogoInstamap();
+				}
+				
 			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().loadApp()
-				._drawVisorGeolocal()._hideLoading();
+				._drawVisorGeolocal()._addTooltips()._hideLoading();
 			}
+			
 			return self;
 		},
 		
@@ -1006,6 +975,14 @@
 			var self = this;
 			
 			var visorGeolocal = VisorGeolocal({visor:self}).draw();
+			
+			return self;
+		},
+		
+		_drawVisorSimple: function(){
+			var self = this;
+			
+			var visorSimple = VisorSimple({visor:self}).draw();
 			
 			return self;
 		},
@@ -1048,50 +1025,39 @@
 			if(self.businessid){
 				self.loadMapConfig();
 				_map.on('loadconfig', self._drawVisor, self);
-			}/*else{
+			}else{
 				if(self.urlwms){ //cloudifier
-					
-					self.fonscontrol = true;
-					self.drawMap().resizeMap();
-					self.loadVisorSimple();
-					self.loadWmsVisorSimple();
+					if(self.embed){
+						self.drawEmbed();
+					}
+					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
 				}else{
-					self.loadErroPage();
+					self.loadErrorPage();
 				}
 			}
-			*/
 			
-			/*
-			if(self.embed){
-				self.drawEmbed();
-			}else{
+			if(!self.embed){
 				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'no embed']});
 			}
-						
-			if(self.urlwms){
-				self.fonscontrol = true;
-				self.drawMap().resizeMap();
-				self.loadVisorSimple();
-				self.loadWmsVisorSimple();
-			}else{
-				if(self.businessid){
-					if(self.embed){
-						self.addLogoInstamap();
-						
-						setTimeout(function(){
-							self.removeLogoInstamap();
-						},5000);
-						
-						
-					}
-					self.drawMap().resizeMap().drawControls()._hideLoading();
-					
-					self.loadApp();		
-				}else{
-					self.loadErroPage();
-				}
-			}
-			*/
+		},
+		
+		_addTooltips: function(){
+			var self = this;
+			$('[data-toggle="tooltip"]').tooltip({container: 'body'});
+			return self;
+		},
+		
+		_updateLang: function(e, data){
+			var self = this;
+			//TODO esto deberia ir en cada control que es responsable de toda su funcionalidad
+			jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
+				jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+			});
+			//Add tooltip caixa cerca
+			jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
+			jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));
+			
+			return self;
 		},
 		
 		_showRoutingEvent: function(){
@@ -1129,12 +1095,14 @@
 				_map.on('mapgeopdf', self._mapgeopdfEvent, self);
 				_map.on('map3dmode', self._map3dmodeEvent, self);
 			}
+			$.subscribe('change-lang',self._updateLang);
 		}
 	};
 	
 	Visor.init = function(options){
 		var self = this;
 		self = $.extend(self, visorOptions, options);
+		self.instamapsLayers = InstamapsLayers();
 	}
 	
 	Visor.init.prototype = Visor.prototype;

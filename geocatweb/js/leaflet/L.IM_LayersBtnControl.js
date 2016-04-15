@@ -13,7 +13,8 @@ L.Control.LayersBtn = L.Control.extend({
 		langTitle: 'Llista de capes',
 		html: '<span class="glyphicon glyphicon-th-list"></span>',
 		transition: true,
-		button: true
+		button: true,
+		tooltip: 'left'
 	},
 	
 	onAdd: function(map){
@@ -28,6 +29,7 @@ L.Control.LayersBtn = L.Control.extend({
 			container.innerHTML = options.html;
 			container.title = options.title;
 			container.dataset.toggle = 'tooltip';
+			container.dataset.placement = options.tooltip;
 			container.dataset.langTitle = options.langTitle;
 		}else{
 			container = L.DomUtil.create('div', '');

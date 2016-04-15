@@ -41,12 +41,12 @@ L.Control.Coordinates = L.Control.extend({
     return self._container;
   },
 
-  hide: function(){
+  hideBtn: function(){
 	var self = this;
 	$(self._div).hide();
   },
 
-  show: function(){
+  showBtn: function(){
 	var self = this;
 	$(self._div).show();
   },

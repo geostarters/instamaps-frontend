@@ -5,7 +5,10 @@ L.Control.LegendBtn = L.Control.extend({
 	options: {
 		position: 'bottomright',
 		id: 'mapLegend',
-		className: 'info legend visor-legend mCustomScrollbar'
+		className: 'info legend visor-legend mCustomScrollbar',
+		title: 'Llegenda',
+		langTitle: 'Llegenda',
+		tooltip: 'left'
 	},
 	
 	onAdd: function(map){
@@ -17,6 +20,9 @@ L.Control.LegendBtn = L.Control.extend({
 		container.id = options.id;
 		container.innerHTML = options.html;
 		container.title = options.title;
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
 		//map.on('loadlegend', this._updateMapConfig, this);

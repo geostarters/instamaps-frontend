@@ -9,7 +9,9 @@ L.Control.OpenInstamaps = L.Control.extend({
 		id: 'div-linkViewMap',
 		className: 'control-linkViewMap',
 		title: 'Veure a InstaMaps',
-		html: '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>'
+		langTitle: 'Veure a InstaMaps',
+		html: '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>',
+		tooltip: 'right'
 	},
 	
 	onAdd: function(map){
@@ -18,6 +20,10 @@ L.Control.OpenInstamaps = L.Control.extend({
 			container = L.DomUtil.create('div', options.className);
 		
 		container.id = options.id;
+		
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
 		

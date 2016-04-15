@@ -10,7 +10,8 @@ L.Control.Geopdf = L.Control.extend({
 		className: 'leaflet-bar btn btn-default btn-sm bt_geopdf',
 		title: 'Descarrega mapa en format GeoPDF',
 		langTitle: 'Descarrega mapa en format GeoPDF',
-		html: '<span class="fa fa-file-pdf-o geopdf"></span>'
+		html: '<span class="fa fa-file-pdf-o geopdf"></span>',
+		tooltip: 'left'
 	},
 	
 	onAdd: function(map){
@@ -23,6 +24,7 @@ L.Control.Geopdf = L.Control.extend({
 		container.innerHTML = options.html;
 		container.title = options.title;
 		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
 		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;

@@ -10,7 +10,8 @@ L.Control.Printmap = L.Control.extend({
 		className: 'leaflet-bar btn btn-default btn-sm bt_print',
 		title: 'Imprimir la vista del mapa',
 		langTitle: 'Imprimir la vista del mapa',
-		html: '<span class="glyphicon glyphicon-print grisfort"></span>'
+		html: '<span class="glyphicon glyphicon-print grisfort"></span>',
+		tooltip: 'left'
 	},
 	
 	onAdd: function(map){
@@ -23,6 +24,7 @@ L.Control.Printmap = L.Control.extend({
 		container.innerHTML = options.html;
 		container.title = options.title;
 		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
 		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;

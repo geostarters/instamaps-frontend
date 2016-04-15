@@ -11,15 +11,15 @@ L.Control.Escala = L.Control.Scale.extend({
 		return container;
 	},
 	
-	hide: function(){
+	hideBtn: function(){
 		var self = this;
 		$(self._div).hide();
 	},
 	
-	show: function(){
+	showBtn: function(){
 		var self = this;
 		$(self._div).show();
-	},
+	}
 });
 
 L.control.escala = function(options){

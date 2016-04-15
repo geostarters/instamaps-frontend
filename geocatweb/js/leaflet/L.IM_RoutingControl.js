@@ -11,10 +11,12 @@ L.Control.RoutingControl = L.Control.extend({
 		id: 'dv_bt_Routing',
 		className: 'leaflet-bar btn btn-default btn-sm grisfort',
 		title: 'Routing',
+		langTitle: 'Routing',
 		html: '<span id="span_bt_Routing" class="t" style="font-size:16px; margin-top:-2px;">'+
 		'<i class="t-square-rounded" style="-webkit-transform:scale(1.25) scale(0.65) rotate(45deg);-moz-transform:scale(1.25) scale(0.65) rotate(45deg);transform:scale(1.25) scale(0.65) rotate(45deg)"></i>'+
 		'<i class="t-turn-90-l t-c-white" style="-webkit-transform:scale(-1.3, 1.3);-moz-transform:scale(-1.3, 1.3);transform:scale(-1.3, 1.3)"></i>'+
 		'</span>',
+		tooltip: 'right',
 		marker_style_origen: {
 			icon : '',
 			markerColor : 'green',
@@ -78,7 +80,7 @@ L.Control.RoutingControl = L.Control.extend({
 		this._reversablePlan = L.Routing.Plan.extend({
 		    createGeocoders: function() {
 		        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
-		        reverseButton = createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container);
+		        reverseButton = self._createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container);
 		        L.DomEvent.on(reverseButton, 'click', function() {
 		            var waypoints = this.getWaypoints();
 		            this.setWaypoints(waypoints.reverse());
@@ -145,6 +147,10 @@ L.Control.RoutingControl = L.Control.extend({
 		container.id = options.id;
 		container.innerHTML = options.html;
 		container.title = options.title;
+		
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
 		
@@ -249,6 +255,20 @@ L.Control.RoutingControl = L.Control.extend({
 	        _map.closePopup();
 	    });
 
+	}, 
+	
+	_createButton: function(label, container) {
+	    var btn = L.DomUtil.create('button', '', container);
+	    btn.setAttribute('type', 'button');
+	    btn.setAttribute('title','Ruta inversa');
+	    btn.innerHTML = label;
+	    return btn;
+	},
+
+	_createSpan: function(label, container) {
+	    var span = L.DomUtil.create('span', '', container);
+	    span.innerHTML = label;
+	    return span;
 	}
 });
 

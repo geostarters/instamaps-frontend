@@ -7,7 +7,9 @@ L.Control.Home = L.Control.extend({
 		id: 'dv_bt_vistaInicial',
 		className: 'leaflet-bar  btn btn-default btn-sm',
 		title: 'Vista inicial',
-		html: '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>'
+		langTitle: 'Vista inicial',
+		html: '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>',
+		tooltip: 'right'
 	},
 	
 	onAdd: function(map){
@@ -19,6 +21,10 @@ L.Control.Home = L.Control.extend({
 		container.id = options.id;
 		container.innerHTML = options.html;
 		container.title = options.title;
+		
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
 		
