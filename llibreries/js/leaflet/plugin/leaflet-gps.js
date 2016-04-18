@@ -36,8 +36,6 @@ L.Control.Gps = L.Control.extend({
 	},
 
 	initialize: function(options) {
-		console.debug(options);
-		
 		if(options && options.style)
 			options.style = L.Util.extend({}, this.options.style, options.style); 
 		L.Util.setOptions(this, options);

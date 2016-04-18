@@ -726,14 +726,16 @@
 			window.location.href = paramUrl.loginPage;
 		},
 		
-		/*
+		//hace el redirect para que el invitado al colaborativo pueda ver que puede editar el mapa
 		loadMapaColaboratiuPage: function(){
-			window.location = paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
+			var self = this,
+			_businessid = self.businessid;
+			window.location = paramUrl.mapaPage+"?businessid="+_businessid+"&mapacolaboratiu=si";
 		},
-		*/
 		
 		_loadPasswordModal: function(){
-			var self = this;		
+			var self = this,
+			_businessid = self.businessid;
 			
 			$('#dialog_password').modal('show');
 
@@ -745,37 +747,55 @@
 					$('#password_msg').addClass('hide');
 					var data = {
 						clauVisor: clau,
-						businessId: url('?businessid')
+						businessId: _businessid
 					};
 					loadPrivateMapByBusinessId(data).then(function(results){
 						if(results.status == "ERROR"){
 							$('#password_msg').removeClass('hide');
 						}else{
+							self._beforeLoadConfig(results);
 							$('#password_msg').addClass('hide');
-							var uidUrl = url('?uid');
-							if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
-								$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-								$.cookie('collaborateuid', uidUrl, {path:'/'});
-								self.loadLoginPage();
-							}
-							else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
-								$.removeCookie('uid', { path: '/' });
-								$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-								$.cookie('collaborateuid', uidUrl, {path:'/'});
-								self.loadLoginPage();
-							}
-							/*
-							//TODO ver si esto es correcto porque no debería abrir el mapa desde el visor 
-							else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
-								self.loadMapaColaboratiuPage();
-							}
-							*/
-							self._loadPublicMap(results);
 							$('#dialog_password').modal('hide');
 						}
 					});
 				}
 			});
+			
+			return self;
+		},
+		
+		_colaboratiuToLogin: function(){
+			var self = this,
+			_uid = self.uid;
+			$.removeCookie('uid', { path: '/' });
+			$.cookie('collaboratebid', _businessid, {path:'/'});
+			$.cookie('collaborateuid', _uid, {path:'/'});
+			self.loadLoginPage();
+			
+			return self;
+		},
+		
+		_beforeLoadConfig: function(results){
+			var self = this,
+			_map = self.map,
+			_uid = self.uid,
+			_businessid = self.businessid,
+			_mapacolaboratiu = self.mapacolaboratiu;
+			
+			if ( _mapacolaboratiu && !$.cookie('uid')) {
+				self._colaboratiuToLogin();
+			}
+			else if (_mapacolaboratiu && _uid!=$.cookie('uid')) {
+				self._colaboratiuToLogin();
+			}
+			else if (url('?mapacolaboratiu') && _uid==$.cookie('uid')) {
+				self.loadMapaColaboratiuPage();
+			}
+			var mapConfig = $.parseJSON(results.results);
+			mapConfig.options = $.parseJSON(mapConfig.options);
+			self._mapConfig = mapConfig;
+			_map.fire('loadconfig', mapConfig);
+			$.publish('loadConfig', mapConfig);
 			
 			return self;
 		},
@@ -801,29 +821,7 @@
 					//mostar modal con contraseña
 					self._loadPasswordModal();
 				}else{
-					var uidUrl = _uid;
-					if ( _mapacolaboratiu && !$.cookie('uid')) {
-						$.cookie('collaboratebid', _businessid, {path:'/'});
-						$.cookie('collaborateuid', _uid, {path:'/'});
-						self.loadLoginPage();
-					}
-					else if (_mapacolaboratiu && _uid != $.cookie('uid')) {
-						$.removeCookie('uid', { path: '/' });
-						$.cookie('collaboratebid', _businessid, {path:'/'});
-						$.cookie('collaborateuid', _uid, {path:'/'});
-						self.loadLoginPage();
-					}
-					else if (_mapacolaboratiu && _uid === $.cookie('uid')) {
-						//window.location.href = paramUrl.galeriaPage+"?private=1";
-						window.location=paramUrl.mapaPage+"?businessid="+_businessid+"&mapacolaboratiu=si";
-					}
-					if(results.status === "OK"){
-						var mapConfig = $.parseJSON(results.results);
-						mapConfig.options = $.parseJSON(mapConfig.options);
-						self._mapConfig = mapConfig;
-						_map.fire('loadconfig', mapConfig);
-						$.publish('loadConfig', mapConfig);
-					}
+					self._beforeLoadConfig(results);
 				}
 			});
 			

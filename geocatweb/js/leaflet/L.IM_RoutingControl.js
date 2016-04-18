@@ -64,8 +64,28 @@ L.Control.RoutingControl = L.Control.extend({
 			fillOpacity : 0.9,
 			color : "#ffffff",
 			fillColor :"transparent"
+		},
+		originTexts: {
+			title: "Càlcul de rutes",
+			btnStart: "Defineix com a origen",
+			btnEnd: "Defineix com a origen",
+			btnReverse: "Ruta inversa",
+			btnAdd: "Afegir punts",
+			start: "Inici",
+			end: "Destí"
+		},
+		texts: {
+			title: "Càlcul de rutes",
+			btnStart: "Defineix com a origen",
+			btnEnd: "Defineix com a origen",
+			btnReverse: "Ruta inversa",
+			btnAdd: "Afegir punts",
+			start: "Inici",
+			end: "Destí"
 		}
 	},
+	
+	//TODO ver el tema del lang para poder cambiar el idioma del control
 	
 	initialize: function(options) {
 		L.setOptions(this, options);
@@ -80,7 +100,8 @@ L.Control.RoutingControl = L.Control.extend({
 		this._reversablePlan = L.Routing.Plan.extend({
 		    createGeocoders: function() {
 		        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
-		        reverseButton = self._createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container);
+		        title = (window.lang) ? window.lang.convert(options.originTexts.btnReverse) : options.texts.btnReverse,
+		        reverseButton = self._createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container, title, lang);
 		        L.DomEvent.on(reverseButton, 'click', function() {
 		            var waypoints = this.getWaypoints();
 		            this.setWaypoints(waypoints.reverse());
@@ -178,6 +199,8 @@ L.Control.RoutingControl = L.Control.extend({
 		L.DomUtil.removeClass(this._div, 'grisfort');
 		L.DomUtil.addClass(this._div, 'greenfort');
 		var _map = this._map,
+			options = this.options,
+			_texts = options.texts,
 			_route = this._route;
 		
 		_map.fire('showRouting'); //to track ga events
@@ -185,8 +208,19 @@ L.Control.RoutingControl = L.Control.extend({
 		_map.on('click', this._routingPopup, this);
 		_route.addTo(_map);
 		
-		$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">Càlcul de rutes</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
-		$('.leaflet-routing-add-waypoint').attr('title','Afegir punts');
+		if(window.lang){
+			_texts.title = window.lang.convert(options.originTexts.title);
+			_texts.btnReverse = window.lang.convert(options.originTexts.btnReverse);
+			_texts.btnAdd = window.lang.convert(options.originTexts.btnAdd);
+			_texts.start = window.lang.convert(options.originTexts.start);
+			_texts.end = window.lang.convert(options.originTexts.end);
+		}
+		
+		$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">'+_texts.title+'</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
+		$('.leaflet-routing-add-waypoint').attr('title',_texts.btnAdd);
+		$('.leaflet-routing-add-waypoint').attr('lang',options.lang);
+		$('.leaflet-routing-geocoder').first().find('input').attr('placeholder',_texts.start);
+		$('.leaflet-routing-geocoder').last().find('input').attr('placeholder',_texts.end);
 		
 		var offset = $(this._div).offset();
 		
@@ -219,12 +253,21 @@ L.Control.RoutingControl = L.Control.extend({
 	}, 
 	
 	_routingPopup: function(e) {
-		var container ='<div id="contentRoutingPopup">';
-		container +='<h4 style="border-bottom:0px;">Càlcul de rutes</h4>';
-		container +='<button class="btn" title="Ruta inversa" type="button" id="startBtn">Defineix com a origen</button>'+
-		  	'<span class="awesome-marker-icon-green awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" id="icona-origen" style="position:relative;float:right;margin-top:-5px;"></span>'+
-		   	'<button class="btn" title="Ruta inversa" type="button" id="destBtn" style="margin-top:10px;width:152px">Defineix com a destí</button>'+
-		   	'<span class="awesome-marker-icon-red awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" id="icona-desti" style="position:relative;float:right;margin-top:-35px;"></span>';
+		var options = this.options,
+		_texts = options.texts;
+		
+		if(window.lang){
+			_texts.title = window.lang.convert(options.originTexts.title);
+			_texts.btnStart = window.lang.convert(options.originTexts.btnStart);
+			_texts.btnEnd = window.lang.convert(options.originTexts.btnEnd);
+		}
+		
+		var container ='<div id="contentRoutingPopup" class="contentRoutingPopup">';
+		container +='<h4 style="border-bottom:0px;" lang="ca">'+_texts.title+'</h4>';
+		container +='<button class="btn startBtn" lang="ca" type="button" id="startBtn">'+_texts.btnStart+'</button>'+
+		  	'<span class="awesome-marker-icon-green awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable icona icona-origen" id="icona-origen"></span>'+
+		   	'<button class="btn endBtn" lang="ca" type="button" id="destBtn">'+_texts.btnEnd+'</button>'+
+		   	'<span class="awesome-marker-icon-red awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable icona icona-desti" id="icona-desti"></span>';
 		container += "</div>";
 		
 		var _map = this._map,
@@ -257,10 +300,11 @@ L.Control.RoutingControl = L.Control.extend({
 
 	}, 
 	
-	_createButton: function(label, container) {
+	_createButton: function(label, container, title, lang) {
 	    var btn = L.DomUtil.create('button', '', container);
 	    btn.setAttribute('type', 'button');
-	    btn.setAttribute('title','Ruta inversa');
+	    btn.setAttribute('lang', lang);
+	    btn.setAttribute('title', title);
 	    btn.innerHTML = label;
 	    return btn;
 	},

@@ -2465,6 +2465,28 @@ ul.listMunicipis{
 .div-routing-title{
 	background: #686868 none repeat scroll 0 0 !important;
 }
+
+.contentRoutingPopup .btn{
+	width: 152px;
+}
+
+.contentRoutingPopup .endBtn{
+	margin-top:10px;
+}
+
+.contentRoutingPopup .icona{
+	position:relative;
+	float:right;
+}
+
+.contentRoutingPopup .icona-origen{
+	margin-top:-5px;
+}
+
+.contentRoutingPopup .icona-desti{
+	margin-top:-35px;
+}
+
 /*end Routing control*/
 
 /*Time bar*/
