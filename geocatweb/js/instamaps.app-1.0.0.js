@@ -10,8 +10,8 @@
 	var perfils = ["instamaps","geolocal"];
 	
 	var footers = {
-		instamaps: "Instamaps Beta",
-		geolocal: "Instamaps.Geolocal"
+		instamaps: "InstaMaps Beta",
+		geolocal: "InstaMaps.Geolocal"
 	};
 	
 	var galeriaLink = {
@@ -25,13 +25,18 @@
 	};
 	
 	var brand = {
-		instamaps: "Instamaps",
-		geolocal: "Instamaps.GeoLocal"
+		instamaps: "InstaMaps",
+		geolocal: "InstaMaps.GeoLocal"
 	};
 	
 	var brandLink = {
 		instamaps: "/index.html",
 		geolocal: "/geolocal.html"
+	};
+	
+	var contactEmail = {
+		instamaps: "instamapes@icgc.cat",
+		geolocal: "geolocal@icgc.cat"	
 	};
 	
 	var instamapsOptions = {
@@ -114,7 +119,20 @@
 			var msg = footers[self.perfil];
 			$(selector).html(msg);
 			return self;
-		} 
+		}, 
+		
+		changeContact: function(selector){
+			var self = this;
+			if(!$){
+				throw "jQuery not loaded";
+			}
+			if(!selector){
+				throw "Missing jQuery selector";
+			}
+			var msg = contactEmail[self.perfil];
+			$(selector).attr("href","mailto:"+msg);
+			return self;
+		}
 	
 	};
 	
