@@ -95,20 +95,36 @@
 		}, 
 		
 		_loadAllLayers: function(mapConfig, controlCapes){
-			var self = this;
+			var self = this,
+			dfd = $.Deferred();
+			self.waitDeferred = dfd;
 			self._loadOrigenWMS(mapConfig, controlCapes).then(function(results){
 				var num_origen = 0;
+				self.numLayers = results.origen.length + results.sublayers.length;
 				$.each(results.origen, function(index, value){
 					self.loadLayer(value).then(function(){
 						num_origen++;
+						self._waitLoadAll(num_origen);
 						if (num_origen == results.origen.length){
 							$.each(results.sublayers, function(index, value){
-								self.loadLayer(value);
+								self.loadLayer(value).then(function(){
+									num_origen++;
+									self._waitLoadAll(num_origen);
+								});
 							});
 						}
 					});
 				});
 			});
+			return dfd.promise();
+		},
+				
+		_waitLoadAll: function(numLayers){
+			var self = this;
+			if(self.numLayers === numLayers){
+				self.waitDeferred.resolve();
+			}
+			return self;
 		},
 		
 		_loadOrigenWMS: function(mapConfig, controlCapes){

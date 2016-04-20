@@ -46,11 +46,12 @@ L.Control.LayersBtn = L.Control.extend({
 			.on(container, 'click', L.DomEvent.preventDefault)
 			.on(container, 'click', self._toggle, self);
 		
-		
 		self.control = L.control.orderlayers(null, null, {
 			collapsed : false,
-			id : 'div_capes'
-		}).addTo(map)
+			id : 'div_capes',
+			editMode: false,
+			autoUpdate: false
+		}).addTo(map);
 		
 		controlCapes = self.control;
 

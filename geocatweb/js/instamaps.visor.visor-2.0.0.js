@@ -693,6 +693,8 @@
 			if(!self.rtoolbar){
 				if(!self.layerscontrol){
 					self.addLayersControl();
+				}else{
+					self.addLayersControl(false);
 				}
 				if(!self.control3d){
 					self.addControl3d();
@@ -792,7 +794,9 @@
 				self.loadMapaColaboratiuPage();
 			}
 			var mapConfig = $.parseJSON(results.results);
-			mapConfig.options = $.parseJSON(mapConfig.options);
+			if(mapConfig.options){
+				mapConfig.options = $.parseJSON(mapConfig.options);
+			}
 			self._mapConfig = mapConfig;
 			_map.fire('loadconfig', mapConfig);
 			$.publish('loadConfig', mapConfig);
@@ -937,9 +941,11 @@
 				
 				//carga las capas en el mapa
 				var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
-				_layers._loadAllLayers(mapConfig, controlCapes);
+				_layers._loadAllLayers(mapConfig, controlCapes).then(function(){
+					self._updateLayerControl();
+				});
 				
-				self._hideLoading();	
+				self._hideLoading();
 			}
 			dfd.resolve();
 			return dfd.promise();
@@ -996,15 +1002,17 @@
 			if (parsed){
 				hashControl.update();
 			}else{
-				if (mapConfig.options.center){
-					var opcenter = mapConfig.options.center.split(",");
-					_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
-				}else if (mapConfig.options.bbox){
-					var bbox = mapConfig.options.bbox.split(",");
-					var southWest = L.latLng(bbox[1], bbox[0]);
-				    var northEast = L.latLng(bbox[3], bbox[2]);
-				    var bounds = L.latLngBounds(southWest, northEast);
-				    _map.fitBounds( bounds );
+				if(mapConfig.options){
+					if (mapConfig.options.center){
+						var opcenter = mapConfig.options.center.split(",");
+						_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+					}else if (mapConfig.options.bbox){
+						var bbox = mapConfig.options.bbox.split(",");
+						var southWest = L.latLng(bbox[1], bbox[0]);
+					    var northEast = L.latLng(bbox[3], bbox[2]);
+					    var bounds = L.latLngBounds(southWest, northEast);
+					    _map.fitBounds( bounds );
+					}
 				}
 			}
 			return self;
@@ -1055,6 +1063,15 @@
 			jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
 			jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));
 			
+			return self;
+		},
+		
+		_updateLayerControl: function(e, data){
+			var self = this;
+			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
+			if(controlCapes){
+				controlCapes.forceUpdate();
+			}
 			return self;
 		},
 		

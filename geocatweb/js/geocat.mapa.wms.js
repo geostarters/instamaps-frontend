@@ -525,10 +525,11 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 		dimensionsTimeLayer.addTo(_map);
 		dimensionsTimeLayer.bringToFront();
 		dimensionsTimeLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-		
-		controlCapes.addOverlay(dimensionsTimeLayer, _nomServidor, true);
-		controlCapes._lastZIndex++;
-		activaPanelCapes(true);
+		if(controlCapes){
+			controlCapes.addOverlay(dimensionsTimeLayer, _nomServidor, true);
+			controlCapes._lastZIndex++;
+			activaPanelCapes(true);
+		}
 		jQuery('#dialog_dades_ex').modal('hide');	
 		
 		showTimeControl(true);
@@ -537,15 +538,19 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 			if (capesActiva === true || capesActiva === 'true' ){
 				wmsLayer.addTo(_map);
 			}
-			controlCapes.addOverlay(wmsLayer, _nomServidor, true);
-			controlCapes._lastZIndex++;	
+			if(controlCapes){
+				controlCapes.addOverlay(wmsLayer, _nomServidor, true);
+				controlCapes._lastZIndex++;	
+			}
 		}else{
 			_map.addLayer(wmsLayer);
 			wmsLayer.bringToFront();
 			wmsLayer.options.zIndex = controlCapes._lastZIndex+ 1;
-			controlCapes.addOverlay(wmsLayer, _nomServidor, true);
-			controlCapes._lastZIndex++;
-			activaPanelCapes(true);
+			if(controlCapes){
+				controlCapes.addOverlay(wmsLayer, _nomServidor, true);
+				controlCapes._lastZIndex++;
+				activaPanelCapes(true);
+			}
 			jQuery('#dialog_dades_ex').modal('hide');	
 		}
 	}
