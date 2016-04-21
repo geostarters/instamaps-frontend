@@ -88,17 +88,17 @@ L.LayerGroup.include({
          }         
          
          
-         
-         try{
-        	 _newJson = turf.simplify(json, 0.00001, false);
-
-        	 json.geometry=_newJson.geometry;
-        	 
-        	}catch(err){
-        		console.debug(err);
-
-        	}
-         
+         if(json.geometry.type != 'Point'){
+	         try{
+	          _newJson = turf.simplify(json, 0.00001, false);
+	
+	          json.geometry=_newJson.geometry;
+	          
+	         }catch(err){
+	         	console.debug(err);
+	
+	         }
+     }
          
          
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
@@ -177,17 +177,17 @@ L.LayerGroup.include({
          }
 
          
-         
-         try{
-          _newJson = turf.simplify(json, 0.000001, false);
-
-          json.geometry=_newJson.geometry;
-          
-         }catch(err){
-         	console.debug(err);
-
+         if(json.geometry.type != 'Point'){
+		         try{
+		          _newJson = turf.simplify(json, 0.000001, false);
+		
+		          json.geometry=_newJson.geometry;
+		          
+		         }catch(err){
+		         	console.debug(err);
+		
+		         }
          }
-         
          
          
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
