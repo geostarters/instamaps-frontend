@@ -1671,6 +1671,10 @@ var that = this;
 
 				} else if (!entity.properties.styles.icon) {
 
+					var _color="#FFCC00";
+					entity.properties.styles.color?_color=entity.properties.styles.color:_color=_color;
+					
+					
 					entity.billboard = "";
 					entity.point = {
 						show : visible, // default
@@ -1681,7 +1685,7 @@ var that = this;
 						pixelSize : (parseInt(entity.properties.styles.radius) * 1.5), // default:
 						// // 1
 						outlineColor : Cesium.Color
-						.fromCssColorString(entity.properties.styles.color), // default:
+						.fromCssColorString(_color), // default:
 						// //
 						// BLACK
 						outlineWidth : 2
