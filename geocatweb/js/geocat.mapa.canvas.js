@@ -118,7 +118,7 @@ function pucPassar(item){
                                          
                                          
                                          try{
-                                         item.layer.toGeoJSONcustom();
+                                         item.layer.toGeoJSON();
                                          passo=true;
                                          
                                          }catch(err){

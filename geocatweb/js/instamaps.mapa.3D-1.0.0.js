@@ -1353,7 +1353,7 @@ var that = this;
 		}
 
 		try {
-			var ff = item.layer.toGeoJSONcustom();
+			var ff = item.layer.toGeoJSON();
 
 			var numFeatures = ff.features.length;
 
