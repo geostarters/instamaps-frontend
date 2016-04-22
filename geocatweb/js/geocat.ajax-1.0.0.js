@@ -427,9 +427,10 @@ function getWikipediaLayer(data){
 function shortUrl(url){
     return jQuery.ajax({
         url: paramUrl.shortUrl,
-        //data: {longUrl: url, apiKey:'R_12df4059f0e8be1ec2a4564b2357974c', login:'csuportidec'},
-        data: {longUrl: url, apiKey:'R_5767babf83836f942655936714500511', login:'geostarters'},
-        dataType: 'jsonp'
+        contentType: "application/json; charset=utf-8",
+        method: 'POST',
+        data: JSON.stringify({longUrl: url}),
+        dataType: 'json'
     }).promise();
 }
 
