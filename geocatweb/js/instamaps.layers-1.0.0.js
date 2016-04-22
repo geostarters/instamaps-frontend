@@ -20,7 +20,9 @@
 	
 	InstamapsLayers.prototype = {
 		loadLayer: function(value){
-			var defer = $.Deferred();
+			var self = this,
+			_map = self.map,
+			defer = $.Deferred();
 
 			if (value.epsg == "4326"){
 				value.epsg = L.CRS.EPSG4326;
@@ -29,7 +31,7 @@
 			}else if (value.epsg == "23031"){
 				value.epsg = L.CRS.EPSG23031;
 			}else{
-				value.epsg = map.crs;
+				value.epsg = _map.options.crs;
 			}
 
 			//Si la capa es de tipus wms
@@ -45,6 +47,8 @@
 			}else if(value.serverType == t_url_file){
 				loadURLfileLayer(value).then(function(){
 					defer.resolve();
+				},function(result){
+					defer.reject(result);
 				});
 			//Si la capa es de tipus dades obertes
 			}else if(value.serverType == t_geojsonvt){
@@ -55,6 +59,8 @@
 			}else if(value.serverType == t_dades_obertes){
 				loadDadesObertesLayer(value).then(function(){
 					defer.resolve();
+				},function(result){
+					defer.reject(result);
 				});
 			//Si la capa es de tipus xarxes socials
 			}else if(value.serverType == t_xarxes_socials){
@@ -110,9 +116,15 @@
 								self.loadLayer(value).then(function(){
 									num_origen++;
 									self._waitLoadAll(num_origen);
+								},function(){
+									num_origen++;
+									self._waitLoadAll(num_origen);
 								});
 							});
 						}
+					},function(){
+						num_origen++;
+						self._waitLoadAll(num_origen);
 					});
 				});
 			});
@@ -187,7 +199,7 @@
 	
 	InstamapsLayers.init = function(options){
 		var self = this;
-		self = $.extend(self, visorOptions, options);
+		self = $.extend(self, options);
 	};
 	
 	InstamapsLayers.init.prototype = InstamapsLayers.prototype;

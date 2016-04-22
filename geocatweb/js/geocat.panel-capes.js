@@ -1,8 +1,10 @@
+var group_sortable1=null;
+var group_sortable2=null;
+
 /**
  * Funcionalitat edicio nom del mapa
  * */
 function addFuncioRenameMap(){
-
 	$('#nomAplicacio').editable({
 		type: 'text',
 		mode: 'inline',
@@ -32,94 +34,60 @@ function addFuncioRenameMap(){
 }
 
 function reOrderGroupsAndLayers(action){
-	//console.info("reOrderGroupsAndLayers");
-	 var z_order=-1;
-
-	 var _groupName,_groupId,_groupSubId,_businessId,_expanded;
-	   // $("span.span_ac").each(function( index, element ) {
-	  $("div.leaflet-control-accordion-layers").each(function( index, element ) {
-		 var $this = $(this);
-
-
-	    	 var gr=$this.children("label").children('span.span_ac');
-	    	 
-	    	 _groupId=index;
-
-	    	 _groupName=gr.text();
-
-
-	    	 var _exp=$this.children("label").children('i.label_gl');
-
-	    		 var _id=$(_exp).attr("id");
-
-				_expanded=true;
-
-			if($('#'+_id).hasClass('glyphicon-triangle-right')){
-
-					_expanded=false;
-
-
-				}
-
-
-	    	 $this.children("ol.ac-large").children("li.leaflet-row").each(function(){
-	    	        $this; // parent li
-	    	        _businessId=this.id.replace("LI-",""); // child li
-	    	        z_order=z_order+1;
-
-	    	     //  if(_businessId=='e354bfdd53c8422ecd529889d6ab6c99') {
-
-
-	    	  if(action){
-
-
-	    	   // var resp_Layer= controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded);
-	    		  controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded).then(function(resp_Layer){
-						
-						if(resp_Layer){
-
+	var z_order=-1,
+	_groupName, 
+	_groupId, 
+	_groupSubId, 
+	_businessId, 
+	_expanded;
+	
+	$("div.leaflet-control-accordion-layers").each(function( index, element ) {
+		var $this = $(this);
+		var gr=$this.children("label").children('span.span_ac');
+	    _groupId=index;
+	    _groupName=gr.text();
+	    var _exp=$this.children("label").children('i.label_gl');
+	    var _id=$(_exp).attr("id");
+	    _expanded=true;
+		if($('#'+_id).hasClass('glyphicon-triangle-right')){
+			_expanded=false;
+		}
+		$this.children("ol.ac-large").children("li.leaflet-row").each(function(){
+		    $this; // parent li
+		    _businessId=this.id.replace("LI-",""); // child li
+		    z_order=z_order+1;
+		    
+		    if(action){
+		    	controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded).then(function(resp_Layer){
+				if(resp_Layer){
 					var data = {
-							mapBusinessId: url('?businessid'),
-							businessId: resp_Layer.options.businessId, //url('?businessid')
-							uid: $.cookie('uid'),
-							options: JSON.stringify(resp_Layer.options.group)
-						 }
-
+						mapBusinessId: url('?businessid'),
+						businessId: resp_Layer.options.businessId, //url('?businessid')
+						uid: $.cookie('uid'),
+						options: JSON.stringify(resp_Layer.options.group)
+					 };
+					
 					var data2 = {
-							servidorWMSbusinessId:resp_Layer.options.businessId,
-							businessId:url('?businessid'), //url('?businessid')
-							uid: $.cookie('uid'),
-							order: z_order
-						 }
-
-
-
+						servidorWMSbusinessId:resp_Layer.options.businessId,
+						businessId:url('?businessid'), //url('?businessid')
+						uid: $.cookie('uid'),
+						order: z_order
+					 };
+		
 					updateGroupsLayerGroup(data,data2);
-					}
-					});
-
-	    	  }
-
-	    	    });
-
-	  ////console.warn("FI GROUP:");
-	  });
-
-
-
+				}
+		    	});
+		    }
+		});
+	});
 }
 
 function updateGroupsLayerGroup(data,data2){
-
-
 	updateServidorWMSGroup(data).then(function(results){
-
 		if(results.status==='OK'){
-
 			if(data2){
-
+				//TODO validar si es necesario hacer esta llamada
 				updateServerOrderToMap(data2).then(function(results) {
-					//console.debug(results);
 					if (results.status != 'OK')
 						return;// SI no ha anat be el canvi a BD. que
 								// no es faci tampoc a client, i es
@@ -129,234 +97,136 @@ function updateGroupsLayerGroup(data,data2){
 							// faci tampoc a client, i es mostri un
 							// error
 				});
-
 			}
-
 		}
 	});
-
-
 }
 
-var group_sortable1=null;
-var group_sortable2=null;
-
-
-
 function refreshSortablesElements(){
-
 	updateSortablesElements();
 }
 
 function updateSortablesElements(){
-
-
-if(getModeMapa()){
-
-group_sortable1 = $("ol.leaflet-control-layers-overlays").sortable({
-	 connectWith: "ol.leaflet-control-layers-overlays",
-  change: function( event, ui ) {
-	  setTimeout(function(){ reOrderGroupsAndLayers(true); }, 1000);
-  }
-});
-
-group_sortable2 = $("ol.ac-large").sortable({
-	 connectWith: "ol.ac-large",
-  change: function( event, ui ) {
-	   setTimeout(function(){ reOrderGroupsAndLayers(true); }, 1000);
-  }
-});
-
-}
-/*
-group_sortable1 = $("ol.leaflet-control-layers-overlays").sortableTree({
-		  group: 'no-drop',
-		  handle: 'span.glyphicon-move',
-		  onDragStart: function ($item, container, _super,event) {
-
-		    if(!container.options.drop)
-		      $item.clone().insertAfter($item);
-		    _super($item, container);
-		  },
-		  onDrag:function ($item, position, _super, event) {
-
-			  position.left=0;
-			  $item.css(position);
-		  },
-		  onDrop: function ($item, container, _super) {
-
-			  $('.tooltip').hide();
-
-			  console.warn($item);
-			  console.warn(container);
-			    _super($item, container);
-			    reOrderGroupsAndLayers(true);
-
-			  }
-
+	if(getModeMapa()){
+		group_sortable1 = $("ol.leaflet-control-layers-overlays").sortable({
+			connectWith: "ol.leaflet-control-layers-overlays",
+			handle: ".label_ac", //hadle para el drag issue 540
+			change: function( event, ui ) {
+				setTimeout(function(){ reOrderGroupsAndLayers(true); }, 1000);
+			}
 		});
 
-
-group_sortable2 = $("ol.ac-large").sortableTree({
-
-		  group: 'no-drop-layer',
-		  handle: 'div.glyphicon-move',
-		  onDragStart: function ($item, container, _super,event) {
-
-		    if(!container.options.drop)
-		      $item.clone().insertAfter($item);
-		    _super($item, container);
-		  },
-		  onDrag:function ($item, position, _super, event) {
-			  position.left=0;
-			  $item.css(position);
-		  },
-		  onDrop: function ($item, container, _super) {
-
-			  $('.tooltip').hide();
-
-			  try{
-				  console.warn($item);
-				  console.warn(container);
-			    _super($item, container);
-			   reOrderGroupsAndLayers(true);
-
-			  }catch(err){
-
-				  console.info(err);
-			  }
-
-		  }
-
+		group_sortable2 = $("ol.ac-large").sortable({
+			connectWith: "ol.ac-large",
+			change: function( event, ui ) {
+				setTimeout(function(){ reOrderGroupsAndLayers(true); }, 1000);
+			}
 		});
-*/
-
+	}
 }
-
-
-
-
 
 
 /**
  * Funcionalitats edicio noms capes
  * */
-
 function updateEditableElements(){
-
-	//setTimeout(function(){ updateSortablesElements(); }, 3000);
-
 	$('.label_ac .editable').editable({
 		type: 'text',
 		mode: 'inline',
 	    validate: function(value) {
-
 	        if($.trim(value) == '') {
 	        	return {newValue: this.innerHTML};
 	        }
         },
-
 		success: function(response, newName) {
-
 			var oldName=this.groupName;
 			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
-
 			for(i=0;i < resp_Layer.length;i++){
-
 				var data = {
-						mapBusinessId: url('?businessid'),
-					 	businessId: resp_Layer[i].options.businessId, //url('?businessid')
-					 	uid: $.cookie('uid'),
-					 	options: JSON.stringify(resp_Layer[i].options.group)
-					 }
-
+					mapBusinessId: url('?businessid'),
+				 	businessId: resp_Layer[i].options.businessId, //url('?businessid')
+				 	uid: $.cookie('uid'),
+				 	options: JSON.stringify(resp_Layer[i].options.group)
+				 };
 				updateGroupsLayerGroup(data,null);
-
 			}
-
 		}
 	});
 
 	 $('.label_ac .editable').on('shown', function(e, editable) {
-	        jQuery('.group-conf').hide();
+		 jQuery('.group-conf').hide();
+	 });
+	    
+	 $('.label_ac .editable').on('hidden', function(e, editable) {
+		 jQuery('.group-conf').show();
+	 });
 
-	    });
-	    $('.label_ac .editable').on('hidden', function(e, editable) {
-	        jQuery('.group-conf').show();
+	 $('.leaflet-name .editable').editable({
+		 type: 'text',
+		 mode: 'inline',
+		 validate: function(value) {
+			 if($.trim(value) == '') {
+				 return {newValue: this.innerHTML};
+		     }
+		 },
+		 success: function(response, newValue) {
+			 map.closePopup();//Perque no queden desactualitzats
+			 var id = this.id;
+			 var idParent = this.idParent;
+			 //Controlem si es sublayer
+			 var editableLayer;
+			 if(idParent){
+				 editableLayer = controlCapes._layers[this.idParent]._layers[this.id];
+			 }else{
+				 editableLayer = controlCapes._layers[this.id];
+			 }
+			 var op="";
+			 if(editableLayer.layer.options.tipus.indexOf(t_wms) != -1){
+				 op="##"+ editableLayer.layer.options.opacity;
+			 }
+			 var data = {
+				businessId: editableLayer.layer.options.businessId, //url('?businessid')
+				uid: $.cookie('uid'),
+				serverName: newValue + op
+			 };
+			 var oldName = this.innerHTML;
+			 
+			 updateServidorWMSName(data).then(function(results){
+				 if(results.status==='OK'){
+					 _gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
 
-	    });
+					 editableLayer.name = newValue;
+					 editableLayer.layer.options.nom = newValue;
 
-
-	$('.leaflet-name .editable').editable({
-		type: 'text',
-		mode: 'inline',
-	    validate: function(value) {
-		        if($.trim(value) == '') {
-		        	return {newValue: this.innerHTML};
-		        }
-	    },
-		success: function(response, newValue) {
-				map.closePopup();//Perque no queden desactualitzats
-				var id = this.id;
-				var idParent = this.idParent;
-				//Controlem si es sublayer
-				var editableLayer;
-				if(idParent){
-					editableLayer = controlCapes._layers[this.idParent]._layers[this.id];
-				}else{
-					editableLayer = controlCapes._layers[this.id];
-				}
-
-				var op="";
-				if(editableLayer.layer.options.tipus.indexOf(t_wms) != -1){
-					op="##"+ editableLayer.layer.options.opacity;
-
-				}
-				var data = {
-					 	businessId: editableLayer.layer.options.businessId, //url('?businessid')
-					 	uid: $.cookie('uid'),
-					 	serverName: newValue + op
+					 if(editableLayer.layer.options.businessId == $("#mapLegendEdicio").data("businessid")){
+						 $(".titol-legend").html(newValue);
 					 }
-					var oldName = this.innerHTML;
+				 }else{
+					 editableLayer.name = oldName;
+					 $('.leaflet-name label span#'+id).text(results.results.nom);
+				 }
+			 },function(results){
+				 editableLayer.name = oldName;
+				 var obj = $('.leaflet-name label span#'+id).text();
+				 $('.leaflet-name label span#'+id).text(oldName);
+			 });
+		 }
+	 });
 
-					updateServidorWMSName(data).then(function(results){
-						if(results.status==='OK'){
-							_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
-
-							editableLayer.name = newValue;
-							editableLayer.layer.options.nom = newValue;
-
-							if(editableLayer.layer.options.businessId == $("#mapLegendEdicio").data("businessid")){
-								$(".titol-legend").html(newValue);
-							}
-						}else{
-							editableLayer.name = oldName;
-							$('.leaflet-name label span#'+id).text(results.results.nom);
-						}
-					},function(results){
-						editableLayer.name = oldName;
-						var obj = $('.leaflet-name label span#'+id).text();
-						$('.leaflet-name label span#'+id).text(oldName);
-					});
-		}
-	});
-
-    $('.leaflet-name .editable').on('shown', function(e, editable) {
-        jQuery('.opcio-conf').hide();
-        jQuery('.subopcio-conf').hide();
-        jQuery('.leaflet-data-table').hide();
-
-    });
-    $('.leaflet-name .editable').on('hidden', function(e, editable) {
-        jQuery('.opcio-conf').show();
-        jQuery('.leaflet-data-table').show();
-    });
+	 $('.leaflet-name .editable').on('shown', function(e, editable) {
+		 jQuery('.opcio-conf').hide();
+		 jQuery('.subopcio-conf').hide();
+		 jQuery('.leaflet-data-table').hide();
+	 });
+	 $('.leaflet-name .editable').on('hidden', function(e, editable) {
+		 jQuery('.opcio-conf').show();
+		 jQuery('.leaflet-data-table').show();
+	 });
 }
 
 /**
  * Funcionalitat de descarrega de capes
  * */
-
 function addFuncioDownloadLayer(from){
 
 	addHtmlModalDownloadLayer();
@@ -380,13 +250,11 @@ function addFuncioDownloadLayer(from){
 		}
 	});
 
-
 	$('#bt_download_accept').on('click', function(evt){
 		var formatOUT = $('#select-download-format').val();
 		var epsgOUT = $('#select-download-epsg').val();
 		var filename = $('#input-download-name').val();
 		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
-		//console.debug(layer_GeoJSON);
 
 		var data = {
 			cmb_formatOUT: formatOUT,
@@ -415,20 +283,15 @@ function addFuncioDownloadLayer(from){
 		});
 
 	});
-
 }
 
 /**
  * Funcionalitat remove layers
  **/
-
-
 function removeAtomicLayer(data,matriuObj){
 
 	removeServerToMap(data).then(function(results){
 		if(results.status==='OK'){
-
-
 			for(var j=0; j < matriuObj.length;j++){
 			var obj=matriuObj[j];
 			map.closePopup();
@@ -462,21 +325,13 @@ function removeAtomicLayer(data,matriuObj){
 			});
 
 			}
-
-
 		}else{
 			return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
 		}
 	},function(results){
 		return;//SI no ha anat be el canvi a BD. que no es faci tampoc a client, i es mostri un error
 	});
-
-
-
-
 }
-
-
 
 function addFuncioRemoveLayer(){
 
@@ -489,82 +344,51 @@ function addFuncioRemoveLayer(){
 		var obj = $this.data("obj");
 		var matriuObj=[];
 		matriuObj.push(obj);
-
-		 removeAtomicLayer(data,matriuObj);
-
+		removeAtomicLayer(data,matriuObj);
 	});
 
-
 	//Esborra grup capes
-
 	$('#dialog_delete_group .btn-danger').on('click', function(event){
 		var $this = $(this);
 		var group = $this.data("group");
-
-
 		var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId,group.groupName);
-
-
 		var lbusinessId = [];
 		var matriuObj=[];
 			for(i=0; i < matriuCapesGroup.length;i++){
-
 				var obj;
-				//var layerId = e.currentTarget.layerId;
 				var layerIdParent = matriuCapesGroup[i].layerIdParent;
-
 				if(!layerIdParent){
-					 obj = matriuCapesGroup[i];
+					obj = matriuCapesGroup[i];
 					lbusinessId.push(obj.layer.options.businessId);
 					for(j in obj._layers){
 						lbusinessId.push(obj._layers[j].layer.options.businessId);
 					}
 				}else{
-					//var objParent = this._layers[layerIdParent];
-					 obj =matriuCapesGroup[i];
+					obj =matriuCapesGroup[i];
 					lbusinessId.push(obj.layer.options.businessId);
 				}
-
 				matriuObj.push(obj);
 				if(!obj.overlay) {
 					return;
 				}
-
 			}
 
 			if(typeof url('?businessid') == "string"){
 				var data = {
-						businessId: url('?businessid'),
-						uid: $.cookie('uid'),
-						servidorWMSbusinessId:lbusinessId.toString()
-					};
-				//console.info("esborro capes:"+i);
+					businessId: url('?businessid'),
+					uid: $.cookie('uid'),
+					servidorWMSbusinessId:lbusinessId.toString()
+				};
 				removeAtomicLayer(data,matriuObj);
-
 			}
 
-
-			//console.info("Ara esborra grup"+group.groupName);
 			controlCapes.removeGroup(group.groupName,group.groupId);
-
-
-
 	});
-
-
-
-
-
-
-
-
-
 }
 
 /**
  * Funcionalitat addToolTips Panell de capes
  **/
-
 function addTooltipsConfOptions(businessId){
 
 	$(".conf-"+businessId+".leaflet-up").tooltip({
@@ -689,7 +513,6 @@ function addHtmlModalRemoveLayer(){
 	'	<!-- /.modal -->'+
 	'	<!-- Fi Modal delete -->'
 	);
-
 }
 
 

@@ -199,6 +199,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 		var section = document.createElement('section');
 		section.className = 'ac-container ' + className + '-list';
+		
+		var spiner = this._spiner = L.DomUtil.create('div', className + '-spiner');
+		
+		spiner.innerHTML = "<i class='fa fa-refresh fa-spin fa-fw margin-bottom'></i>"+
+		"<span lang='ca'>Carregant, esperi si us plau...</span>";
+		
+		section.appendChild(spiner);
+		
 		var form = this._form = L.DomUtil.create('div', className + '-list');
 
 		if (this.options.title) {
@@ -289,7 +297,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 		return hoSoc;
 	},
-
+	
 	_createGroupFromScratch : function(position) {
 		var pos = this._groupList.length;
 		var posTXT;
@@ -621,6 +629,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				overlaysPresent = overlaysPresent || obj.overlay;
 				baseLayersPresent = baseLayersPresent || !obj.overlay;
 			}
+			
+			this._hideSpiner();
 		}
 	},
 	
@@ -1356,6 +1366,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (WMS_BBOX !=null) map.fitBounds(WMS_BBOX);
 			});
 		}
+	},
+	
+	_hideSpiner: function(){
+		$(this._spiner).hide();
+	},
+	
+	_showSpiner: function(){
+		$(this._spiner).show();
 	},
 	
 	_showOptions : function(e) {

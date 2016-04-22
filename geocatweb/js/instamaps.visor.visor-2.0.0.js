@@ -1117,7 +1117,7 @@
 	Visor.init = function(options){
 		var self = this;
 		self = $.extend(self, visorOptions, options);
-		self.instamapsLayers = InstamapsLayers();
+		self.instamapsLayers = InstamapsLayers(visorOptions);
 	}
 	
 	Visor.init.prototype = Visor.prototype;
