@@ -447,7 +447,7 @@
         		$('#socialSharePublicar').share({
         			networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
         			theme: 'square',
-        			urlToShare: results.data.url
+        			urlToShare: results.id
         		});
         		
         		$('#socialSharePublicar .pop-social').on('click', function(event){

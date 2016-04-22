@@ -36,7 +36,7 @@ function addCompartirMapa(){
 			jQuery('#socialShare').share({
 				networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 				theme: 'square',
-				urlToShare: results.data.url
+				urlToShare: results.id
 			});
 			
 			jQuery('#socialShare .pop-social').on('click', function(event){
@@ -58,7 +58,7 @@ function addCompartirVisor(){
 			//orientation: 'vertical',
 			//affix: 'left center',
 			theme: 'square',
-			urlToShare: results.data.url
+			urlToShare: results.id
 		});
 	});	
 	
