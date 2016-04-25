@@ -473,7 +473,7 @@
 					//orientation: 'vertical',
 					//affix: 'left center',
 					theme: 'square',
-					urlToShare: results.data.url
+					urlToShare: results.id
 				});
 			});	
 			
