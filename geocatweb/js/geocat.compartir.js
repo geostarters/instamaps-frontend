@@ -36,7 +36,7 @@ function addCompartirMapa(){
 			jQuery('#socialShare').share({
 				networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
 				theme: 'square',
-				urlToShare: results.data.url
+				urlToShare: results.id
 			});
 			
 			jQuery('#socialShare .pop-social').on('click', function(event){
@@ -58,12 +58,14 @@ function addCompartirVisor(){
 			//orientation: 'vertical',
 			//affix: 'left center',
 			theme: 'square',
-			urlToShare: results.data.url
+			urlToShare: results.id
 		});
 	});	
 	
 	jQuery('.share-square a').attr('target','_blank');
 	
+	/*
+	 * se declara el evento en el control 
 	jQuery("#dv_bt_Share").on('click',function(e){
 		posaClassActiu('#span_bt_Share');
 		jQuery('#socialShare_visor').css('top', (e.clientY - 30) +'px');
@@ -71,6 +73,7 @@ function addCompartirVisor(){
 		jQuery('#socialShare_visor').toggle();
 		aturaClick(e);
 	});
+	*/
 }
 
 function posaClassActiu(_element){

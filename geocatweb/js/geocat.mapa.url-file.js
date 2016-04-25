@@ -625,9 +625,17 @@ function loadURLfileLayer(layer){
 			    	html+='</div></div>';
 				    return latlng.bindPopup(html);
 				  }
-		});		
+		});	
+		
+		capaURLfileLoad.on('data:progress', function (e) {
+			if (e.error) {
+		    	// handle error
+		    	defer.reject(e.error);
+		    }
+		});
 			
 		capaURLfileLoad.on('data:loaded', function(e){
+			//console.debug(e);
 //			console.debug("capa loaded!");
 			capaURLfileLoad.options = options;
 
@@ -892,6 +900,9 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			estil_do: estil_do,
 			businessId : layer.businessId,
+			middleware:function(data){
+				console.debug(data);
+			},
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
 		    	var pp = feature.properties;
@@ -951,7 +962,7 @@ function loadURLfileLayer(layer){
 				    return latlng.bindPopup(html);
 				  }
 		});
-
+		
 		map.addLayer(capaURLfileLoad);
 		capaURLfileLoad.on('data:loaded', function(e){
 			//console.debug("data:loaded");

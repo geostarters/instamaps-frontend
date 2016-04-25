@@ -123,7 +123,7 @@ var paramUrl = {
 	moveFeatureToTematic: HOST_APP+"geocat/layers/tematic/moveFeatureToTematic.action?",
 	deleteFeature: HOST_APP+"geocat/layers/feature/deleteFeature.action?",
 	updateFeature: HOST_APP+"geocat/layers/feature/updateFeature.action?",
-	shortUrl : "http://api.bit.ly/v3/shorten",
+	shortUrl : "https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDUUud-qayDcS4jmAUpr2PPjxHxu_qVbk0",
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
