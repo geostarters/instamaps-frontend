@@ -1164,5 +1164,18 @@ function searchCatalegIdec(params){
   		dataType: 'jsonp'
 	}).promise();
 }
-
+function addGeometriaToVisualitzacioTematic(params){
+	return jQuery.ajax({
+		url: paramUrl.addGeometriaToVisualitzacioTematic,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+function updateVisualitzacioLayer(params){
+	return jQuery.ajax({
+		url: paramUrl.updateVisualitzacioLayer,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
 

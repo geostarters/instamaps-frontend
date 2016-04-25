@@ -18,7 +18,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 	//HOST_GEOLOCAL = "http://localhost/";
 	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
-	tmpdir="E://temp//";
+	//tmpdir="E://temp//";
 }
 
 var DOMINI = "www.instamaps.cat";
@@ -198,7 +198,7 @@ var paramUrl = {
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
-	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
+	crearFitxerPolling: "http://172.70.1.11/geocat/aplications/map/crearFitxerPolling.action?",
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
 	callActions:"/share/jsp/callActions.jsp?",
 	//loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
@@ -215,7 +215,8 @@ var paramUrl = {
 	searchCatalegIdec: HOST_APP+"geocat/aplications/map/searchCatalegIdec.action?",
 	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?",
 	eacat: "https://idp.eacat.net/Logon.aspx?providerID=IDEC",
-	url_mapserver:HOST_APP+"/geoservicelocal/"
+	url_mapserver:HOST_APP+"/geoservicelocal/",
+	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?"
 }
 
 var paramAplications = {

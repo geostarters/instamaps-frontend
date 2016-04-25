@@ -482,7 +482,7 @@ function updateLangText(){
 function loadMapConfig(mapConfig){
 	//console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
-	var instamapsLayers = InstamapsLayers({map: map});
+	var instamapsLayers = InstamapsLayers({map: map, edit: true});
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
 		//TODO ver los errores de leaflet al cambiar el mapa de fondo
@@ -722,8 +722,6 @@ function loadLayer(value){
 	}
 	return defer.promise();
 }
-
-
 
 
 function createNewMap(){

@@ -936,4 +936,38 @@ textarea {
 #input-camp-codi-urlfile {
     height: 24px;
 }
+.color_etiqueta {
+    background-color: #ffc500;
+    color: #ffc500;
+    height: 25px;
+    width: 30px;
+}
+.leaflet-label {
+	border-width: 0;
+	background:none;
+	margin-top: -35px;	
+}
+.leaflet-label:before,
+.leaflet-label:after {
+	border:0px;
+}
 
+.leaflet-label:before {
+	border:0px;
+}
+
+.leaflet-label:after {
+	border:0px;
+}
+.ocult{
+	display:none;
+}
+/*.leaflet-label:after {
+border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 11px solid;
+    content: " ";
+    position: relative;
+   right: 40px;
+    top: 33px;
+}*/

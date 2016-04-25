@@ -197,7 +197,7 @@ var llista_dadesExternes = {
 	                "urlDadesExternes" : "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
 				},				
 				{
-					"titol" : "Ciutats del mòn",
+					"titol" : "Ciutats del món",
 					"ORGANITZAC" : "Wikipedia",
 					"urlOrganitzacio" : "http://en.wikipedia.org/wiki/List_of_cities_by_longitude",
 					"urlDadesExternes" : "https://raw.githubusercontent.com/mahemoff/geodata/master/cities.geojson",
@@ -205,7 +205,7 @@ var llista_dadesExternes = {
 					"epsgDadesExternes":"EPSG:4326"
 				},
 				{
-					"titol" : "Païssos del mòn",
+					"titol" : "Països del món",
 					"ORGANITZAC" : "Wikimedia Foundation",
 					"urlOrganitzacio" : "https://github.com/wikimedia",
 					"urlDadesExternes" : "https://raw.githubusercontent.com/wikimedia/limn-data/master/geo/maps/world-countries.json",

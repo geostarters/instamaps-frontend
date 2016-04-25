@@ -74,9 +74,16 @@
 					defer.resolve();
 				});
 			}else if(value.serverType == t_visualitzacio){
-				loadCacheVisualitzacioLayer(value).then(function(){
-					defer.resolve();
-				});
+				if (self.edit) {
+					loadVisualitzacioLayer(value).then(function(){
+						defer.resolve();
+					});	
+				}
+				else {
+					loadCacheVisualitzacioLayer(value).then(function(){
+						defer.resolve();
+					});	
+				}
 			}else if(value.serverType == t_heatmap){
 				loadHeatLayer(value);
 				defer.resolve();
