@@ -293,9 +293,6 @@ function loadDOHeatmapLayer(layer){
 	var estil_do = retornaEstilaDO(options.dataset);
 	var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;	
 	
-	console.debug("url_param:");
-	console.debug(url_param);
-	
 	var capaDadaOberta = new L.GeoJSON.AJAX(url_param, {
 		onEachFeature : popUp,
 		nom : layer.serverName,

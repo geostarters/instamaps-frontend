@@ -426,7 +426,7 @@ function getWikipediaLayer(data){
 
 function shortUrl(url){
     return jQuery.ajax({
-        url: paramUrl.shortUrl,
+    	url: paramUrl.shortUrl,
         contentType: "application/json; charset=utf-8",
         method: 'POST',
         data: JSON.stringify({longUrl: url}),
