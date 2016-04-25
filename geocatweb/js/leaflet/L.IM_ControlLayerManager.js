@@ -1137,23 +1137,23 @@ L.Control.OrderLayers = L.Control.Layers
 
 					}else{
 
-					if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1
-							&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
-						if(downloadableData[obj.layer.options.businessId]){
-	        				if(downloadableData[obj.layer.options.businessId][0].chck) {
-								col = L.DomUtil
-										.create(
-												'div',
-												'conf-'
-														+ obj.layer.options.businessId
-														+ ' leaflet-download glyphicon glyphicon-save subopcio-conf');
-								col.layerId = input.layerId;
-								L.DomEvent
-										.on(col, 'click', this._onDownloadClick, this);
-								_menu_item_checkbox.appendChild(col);
-	        				}
+						if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_wms) == -1
+								&& obj.layer.options.tipus.indexOf(t_geojsonvt) == -1) {
+							if(downloadableData[obj.layer.options.businessId]){
+		        				if(downloadableData[obj.layer.options.businessId][0].chck) {
+									col = L.DomUtil
+											.create(
+													'div',
+													'conf-'
+															+ obj.layer.options.businessId
+															+ ' leaflet-download glyphicon glyphicon-save subopcio-conf');
+									col.layerId = input.layerId;
+									L.DomEvent
+											.on(col, 'click', this._onDownloadClick, this);
+									_menu_item_checkbox.appendChild(col);
+		        				}
+							}
 						}
-					}
 					}
 					// Icona Transparència
 
@@ -1219,7 +1219,33 @@ L.Control.OrderLayers = L.Control.Layers
 							container : 'body',
 							title : window.lang.convert("Zoom a la capa")
 						});
+						
+						
 					//}
+						
+						if (getModeMapa()) {
+							if (obj.layer.options.tipus == t_visualitzacio
+									|| obj.layer.options.tipus == t_url_file
+									|| obj.layer.options.tipus == t_json) {
+								col = L.DomUtil
+										.create(
+												'div',
+												'conf-'
+														+ obj.layer.options.businessId
+														+ ' leaflet-zoom glyphicon glyphicon-font subopcio-conf');
+								col.layerId = input.layerId;
+								// L.DomEvent.on(col, 'click', this._onDownClick, this);
+								L.DomEvent.on(col, 'click', this._onEtiquetaClick,
+										this);
+								_menu_item_checkbox.appendChild(col);
+		
+								$(col).tooltip({
+									placement : 'bottom',
+									container : 'body',
+									title : window.lang.convert("Etiquetes de la capa")
+								});
+							}
+						}
 					
 					container = this._overlaysList;
 				} else {
@@ -1348,7 +1374,6 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true
 			_onInputClick : function(event) {
 
 
-
 				// $('ol.ac-large').scrollTo(1138 , 0);
 
 				var i, input, obj, inputs = this._form
@@ -1410,6 +1435,13 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true
 					// console.info(obj);
 					// Afegir
 					if (input.checked && !this._map.hasLayer(obj.layer)) {
+						//Mostrem els labels
+						if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
+								obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
+							jQuery.each(obj.layer._layers, function(i, lay){
+								if (lay.label!=undefined) lay.label.options.opacity=1;
+							});	
+						}
 						// console.info(obj);
 						this._map.addLayer(obj.layer);
 
@@ -1449,8 +1481,14 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true
 					if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',true);}
 					
 					} else if (!input.checked && this._map.hasLayer(obj.layer)) {
-
-						// console.info(obj);
+						//Amaguem els labels
+						if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
+								obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
+							jQuery.each(obj.layer._layers, function(i, lay){
+								if (lay.label!=undefined) lay.label.options.opacity=0;
+							});	
+						}
+						// console.info(obj.layer);
 						// Si es vis_wms, hem d'eliminar tb la capa utfgrid
 						if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
 							var utfGridLayer = this._map._layers[obj.layer.options.utfGridLeafletId];
@@ -1459,6 +1497,8 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true
 
 						// console.info(obj);
 						this._map.removeLayer(obj.layer);
+						
+						
 
 						// Si hem desactivat capa de tipus tematic categories,
 						// mostrem la seva llegenda
@@ -1473,7 +1513,7 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true
 							thisEmptyMapLegendEdicio(obj.layer);
 						}
 						
-if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',false);}
+						if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',false);}
 					}
 
 				}
@@ -1892,6 +1932,78 @@ if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',
 					});
 					
 				}
+			},
+			_onEtiquetaClick : function(e) {
+				$('.tooltip').hide();
+				var layerId = e.currentTarget.layerId;
+				var layerIdParent = e.currentTarget.layerIdParent;
+				var lbusinessId = [];
+				if (!layerIdParent) {
+					var obj = this._layers[layerId];
+					lbusinessId.push(obj.layer.options.businessId);
+					for (i in obj._layers) {
+						lbusinessId
+								.push(obj._layers[i].layer.options.businessId);
+					}
+				} else {
+					var objParent = this._layers[layerIdParent];
+					var obj = objParent._layers[layerId];
+					lbusinessId.push(obj.layer.options.businessId);
+				}
+
+				if (!obj.overlay) {
+					return;
+				}
+
+				if (typeof url('?businessid') == "string") {
+					
+					var data = obj.layer.options;
+					if (data!=undefined){
+						var dataNames = [];
+						var fields = {};
+						fields[window.lang.convert('Escull el camp')] = '---';
+						if (data.propName!=undefined && data.propname!='null' && data.propname!='') {
+							dataNames = data.propName;		
+							jQuery.each(dataNames, function( index, value ) {
+								if (value!='') 	fields[value] = value;
+							});
+						}
+						else{
+							fields['nom']='nom';
+							fields['text']='text';
+						}
+						//creamos el select con los campos
+						var source1 = jQuery("#etiquetes-layers-fields").html();
+						var template1 = Handlebars.compile(source1);
+						var html1 = template1({fields:fields});
+						jQuery('#dataFieldEtiqueta').html(html1);
+						$('#dialog_etiquetes_capa').modal('show');
+						//console.debug(obj.layer.options);
+						$('#dialog_etiquetes_capa #nom_capa_etiqueta').text(obj.layer.options.nom);
+						//console.debug(obj.layer);
+						$('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(obj.layer.options.businessId);
+						$('#dialog_etiquetes_capa #leafletIdCapaEtiqueta').val(obj.layer._leaflet_id);
+						$('#dialog_etiquetes_capa #leafletIdCapaEtiquetaControl').val(layerId);
+						//Si tenim al camp options informació de les etiquetes ho marquem en el formulari
+						if (obj.layer.options.campEtiqueta!=undefined)	$('#dataFieldEtiqueta option[value='+obj.layer.options.campEtiqueta+']').attr('selected','selected');
+						else $('#dataFieldEtiqueta option[value=---]').attr('selected','selected');
+						if (obj.layer.options.fontFamily!=undefined)	$('#font-family option[value='+obj.layer.options.fontFamily+']').attr('selected','selected');
+						else $('#font-family option[value='+obj.layer.options.fontFamily+']').attr('selected','selected');
+						if (obj.layer.options.fontSize!=undefined)	$('#font-size option[value='+obj.layer.options.fontSize+']').attr('selected','selected');
+						else $('#font-size option[value=Arial]').attr('selected','selected');
+						if (obj.layer.options.fontStyle!=undefined)	$('#font-style option[value='+obj.layer.options.fontStyle+']').attr('selected','selected');
+						else $('#font-style option[value=10px]').attr('selected','selected');
+						if (obj.layer.options.fontColor!=undefined)	$('#dv_color_etiqueta').css('background-color',obj.layer.options.fontColor);
+						else 	$('#dv_color_etiqueta').css('background-color','#ffc500');
+						if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
+						else $('input:radio[name=etiqueta][value=geometries]').attr('checked', true);
+						
+					}
+					
+					
+				
+				}
+
 			},
 			_showOptions : function(e) {
 				var layerId = e.currentTarget.layerId;

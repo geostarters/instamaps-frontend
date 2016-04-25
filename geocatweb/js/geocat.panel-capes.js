@@ -31,6 +31,8 @@ function addFuncioRenameMap(){
 	});
 }
 
+
+
 function reOrderGroupsAndLayers(action){
 	//console.info("reOrderGroupsAndLayers");
 	 var z_order=-1;
@@ -598,6 +600,59 @@ function addTooltipsConfOptions(businessId){
 	});
 }
 
+function addFuncioEtiquetesCapa(){
+	addHtmlModalEtiquetesLayer();
+	//Omplim els camps amb el que hi ha guardat a la BBDD
+	
+	
+	$('#colorpalette_etiqueta').colorPalette().on('selectColor', function(e) {   	
+	    $('.color_etiqueta').css('background-color',e.color);		
+	});
+	
+	$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
+		
+		if (jQuery('#dataFieldEtiqueta').val()!=undefined && jQuery('#dataFieldEtiqueta').val()=="---"){
+			alert("Cal escollir un camp per etiquetar");
+		}
+		else {
+			var capaLeafletId = $('#dialog_etiquetes_capa #leafletIdCapaEtiqueta').val();
+			var capaLeafletIdControl = $('#dialog_etiquetes_capa #leafletIdCapaEtiquetaControl').val();
+			var color = rgb2hex($('.color_etiqueta').css('background-color'));
+			
+			var options = {
+					campEtiqueta:jQuery('#dataFieldEtiqueta').val(),
+					fontFamily:jQuery('#font-family').val(),
+					fontSize:jQuery('#font-size').val(),
+					fontStyle:jQuery('#font-style').val(),
+					fontColor:color,
+					opcionsVis:$("input[name=etiqueta]:checked").val()
+			}
+			var layerMap=map._layers[capaLeafletId];
+			//console.debug(layerMap.options);
+			var data={
+					businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
+					uid: $.cookie('uid'),
+					options:  JSON.stringify(options),
+					nom:layerMap.options.nom,
+					tipus:layerMap.options.tipusRang,
+					geometryType:layerMap.options.geometryType
+			};
+			updateVisualitzacioLayer(data).then(function(results){
+				var defer = $.Deferred();
+				readVisualitzacio(defer, results.visualitzacio, results.layer).then(function(results){
+					map.removeLayer(layerMap);
+					//Eliminem la capa de controlCapes
+					controlCapes.removeLayer(controlCapes._layers[capaLeafletIdControl]);
+					activaPanelCapes(true);
+				});
+			});
+		}
+	});
+	
+}
+
+
+
 function addHtmlModalDownloadLayer(){
 
 	jQuery('#mapa_modals').append(
@@ -722,4 +777,96 @@ function addHtmlModalRemoveGroup(){
 	'	<!-- /.modal -->'+
 	'	<!-- Fi Modal delete -->'
 	);
+}
+
+function addHtmlModalEtiquetesLayer(){
+
+	jQuery('#mapa_modals').append(
+	'	<!-- Modal etiquetes layer -->'+
+	'		<div id="dialog_etiquetes_capa" class="modal fade">'+
+	'		<div class="modal-dialog">'+
+	'			<div class="modal-content">'+
+	'				<div class="modal-header">'+
+	'					<button type="button" class="close" data-dismiss="modal"'+
+	'					aria-hidden="true">&times;</button>'+
+	'					<h4 class="modal-title" lang="ca">Etiquetes de la capa <span id="nom_capa_etiqueta"></span></h4>'+
+	'					<input type="hidden" name="businessIdCapaEtiqueta" id="businessIdCapaEtiqueta" value="">'+
+	'					<input type="hidden" name="leafletIdCapaEtiqueta" id="leafletIdCapaEtiqueta" value="">'+
+	'					<input type="hidden" name="leafletIdCapaEtiquetaControl" id="leafletIdCapaEtiquetaControl" value="">'+
+	'				</div>'+
+	'				<div class="modal-body">'+
+	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'						<span>1.</span><span lang="ca">Estil de les etiquetes</span>:'+
+	'					</div>'+
+	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'						<span></span><span lang="ca">Camp</span>:'+
+	'						<select name="dataField" id="dataFieldEtiqueta" style="margin-left:10px; width: 135px;">'+
+	'						</select>'+
+	'					</div>'+
+	'					<script id="etiquetes-layers-fields" type="text/x-handlebars-template">'+
+	'						{{#each fields}}'+
+	'						<option value="{{this}}">{{@key}}</option>'+
+	'						{{/each}}'+
+	'					</script>'+
+	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'						<span lang="ca">Font</span>:'+
+	'						<select name="font-family" id="font-family" style="margin-left:18px; width: 135px;">'+
+	'							<option value="Arial">Arial</option>'+
+	'							<option value="Gill Sans">Gill Sans</option>'+
+	'							<option value="Verdana">Verdana</option>'+
+	'							<option value="Times New Roman">Times New Roman</option>'+
+	'						</select>'+
+	'						&nbsp;&nbsp;&nbsp;<span lang="ca">Mida</span>:'+
+	'						<select name="font-size" id="font-size" style="margin-left:12px">'+
+	'							<option value="10px">10px</option>'+
+	'							<option value="12px">12px</option>'+
+	'							<option value="14px">14px</option>'+
+	'							<option value="16px">16px</option>'+
+	'							<option value="20px">20px</option>'+
+	'							<option value="24px">24px</option>'+
+	'							<option value="30px">30px</option>'+
+	'							<option value="36px">36px</option>'+
+	'							<option value="42px">42px</option>'+
+	'						</select>'+
+	'					</div>'+
+	'					<div class="labels_fields" >'+
+	'						<span lang="ca">Estil</span>:'+
+	'						<select name="font-style" id="font-style" style="margin-left:18px; width: 135px;">'+
+	'							<option value="normal">Normal</option>'+
+	'							<option value="bold">Negreta</option>'+
+	'							<option value="italic">Cursiva</option>'+
+	'						</select>'+
+	'						&nbsp;&nbsp;&nbsp;<span lang="ca">Color</span>:'+
+	'								<div class="btn-group" style="vertical-align:top;">'+
+	'													<a class="btn btn-mini dropdown-toggle"'+
+	'														data-toggle="dropdown" style="margin-top:-5px;">'+
+	'														<div id="dv_color_etiqueta" class="color_etiqueta"></div>'+
+	'													</a>'+
+	'													<ul class="dropdown-menu" style="position:relative;">'+
+	'														<li><div id="colorpalette_etiqueta"></div></li>'+
+	'													</ul>'+
+	'												</div>'+
+	'					</div>'+
+	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'						<span>2.</span><span lang="ca">Visibilitat de les etiquetes</span>:<br/>'+
+	'						<input type="radio" name="etiqueta" id="etiqueta" value="geometries" checked>Geometries'+
+	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="nomesetiqueta">Només etiquetes'+
+	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="etiquetageom">Etiquetes+geometries'+
+	'					</div>'+
+	'				</div>'+
+	'				<div class="modal-footer">'+
+	'					<button lang="ca" type="button" class="btn btn-default"'+
+	'						data-dismiss="modal">Cancel·lar</button>'+
+	'					<button lang="ca" type="button" class="btn btn-success"'+
+	'						data-dismiss="modal">Etiquetar</button>'+
+	'				</div>'+
+	'			</div>'+
+	'			<!-- /.modal-content -->'+
+	'		</div>'+
+	'		<!-- /.modal-dialog -->'+
+	'	</div>'+
+	'	<!-- /.modal -->'+
+	'	<!-- Fi Modal delete -->'
+	);
+
 }
