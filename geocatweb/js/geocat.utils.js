@@ -5,7 +5,7 @@
 function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
     return pattern.test(emailAddress);
-};
+}
 
 function isValidURL(url) {
 	var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
@@ -38,29 +38,25 @@ function isDefaultMapTitle(str){
 }
 
 function isValidValue(value){
-	return (value!="undefined" && value!=undefined && value!=null && value != " " && value != "" && value!="null" && value!=-1 && value!="-1");
+	return (value!=="undefined" && value!==undefined && value!==null && value !== " " && value !== "" && value!=="null" && value!==-1 && value!=="-1");
 }
 
 function toggleCollapseDiv(divName){
-//	console.debug(divName);
 	$(divName).toggle();
 }
 
 function getTimeStamp() {
     var now = new Date();
-    return (now.getFullYear()+'/'+(((now.getMonth() + 1) < 10)
-                    ? ("0" + (now.getMonth() + 1))
-                    : ((now.getMonth() + 1))) + '/'+
-            now.getDate() +'_'+
-            ((now.getHours() < 10)
-                    ? ("0" + now.getHours())
-                    : (now.getHours())) +':'+
-             ((now.getMinutes() < 10)
-                 ? ("0" + now.getMinutes())
-                 : (now.getMinutes())) +':'+
-             ((now.getSeconds() < 10)
-                 ? ("0" + now.getSeconds())
-                 : (now.getSeconds())));
+    return (now.getFullYear()+'/'+(
+    	((now.getMonth() + 1) < 10) ? ("0" + (now.getMonth() + 1)) : ((now.getMonth() + 1)))
+    	+ '/' +
+        now.getDate() +'_'+
+        ((now.getHours() < 10) ? ("0" + now.getHours()) : (now.getHours()))
+        + ':' +
+        ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes()))
+        + ':' +
+        ((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds()))
+    );
 }
 
 function calculateDistance(lLatLngs){
@@ -81,7 +77,8 @@ function calculateArea(layer){
 }
 
 function getAreaLayer(layer){
-	var totalArea = 0;
+	var totalArea = 0,
+		lLatLngs;
 
 	if (layer._layers){
 		layer.eachLayer(function (layer) {
@@ -90,7 +87,7 @@ function getAreaLayer(layer){
 
 	}else if(layer.length > 0){
 		for(var i=0; i<layer.length;i++){
-			var lLatLngs = new L.latLng(0,0);
+			lLatLngs = new L.latLng(0,0);
 			if(layer[i].lat && layer[i].lng){
 				lLatLngs = new L.latLng(layer[i].lat,layer[i].lng);
 			}
@@ -98,7 +95,7 @@ function getAreaLayer(layer){
 		}
 
 	}else{
-		var lLatLngs = layer.getLatLngs();
+		lLatLngs = layer.getLatLngs();
 		totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
 	}
 	return totalArea;
@@ -210,8 +207,8 @@ function parseUrlTextPopUp(txt,key){
 	}
 
 	if (!$.isNumeric(txt)) {
-		if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1
-				|| txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
+		if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
+			txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
 			return txt;
 		}
 	}
@@ -248,6 +245,9 @@ function parseUrlTextPopUp(txt,key){
 
 function redimensioMapa() {
 	jQuery(window).resize(function() {
+		var factorW = 0, 
+		factorH = 0;
+		
 		if(typeof url('?embed') == "string"){//Pel cas visor, embeded
 			factorH = 0;
 		}else{
@@ -398,7 +398,13 @@ function popUp(f, l) {
 	}
 }
 
-function aturaClick(event){try{event.stopImmediatePropagation();}catch(err){console.info(err)}}
+function aturaClick(event){
+	try{
+		event.stopImmediatePropagation();
+	}catch(err){
+		console.info(err);
+	}
+}
 
 //Funcions d'estils
 function retornaEstilaDO(dataset) {
@@ -511,7 +517,7 @@ function htmlentities(string, quote_style, charset, double_encode) {
 
 	  var hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style),
 	    symbol = '';
-	  string = string == null ? '' : string + '';
+	  string = string === null ? '' : string + '';
 
 	  if (!hash_map) {
 	    return false;
@@ -521,7 +527,7 @@ function htmlentities(string, quote_style, charset, double_encode) {
 	    hash_map["'"] = '&#039;';
 	  }
 
-	  if ( !! double_encode || double_encode == null) {
+	  if ( !! double_encode || double_encode === null) {
 	    for (symbol in hash_map) {
 	      if (hash_map.hasOwnProperty(symbol)) {
 	        string = string.split(symbol)
@@ -700,12 +706,8 @@ hash_map[String.fromCharCode(decimal)] = entities[decimal];
 return hash_map;
 }
 
-
-
 function getModeMapa(){
-
 	return  ($(location).attr('href').indexOf('/mapa.html')!=-1);
-
 }
 
 function sortByKey(array, key) {
@@ -830,3 +832,13 @@ var _hoSoc=false;
 		};
 	});
 })(jQuery);
+
+function createClass(name,rules){
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    document.getElementsByTagName('head')[0].appendChild(style);
+    if(!(style.sheet||{}).insertRule) 
+        (style.styleSheet || style.sheet).addRule(name, rules);
+    else
+        style.sheet.insertRule(name+"{"+rules+"}",0);
+}

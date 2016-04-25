@@ -18,6 +18,7 @@
 						,"addControlAltresFontsDades()"
 						,"addFuncioEditDataTable()"
 						,"addHtmlInterficieFuncionsSIG()","creaPopOverMesFuncionsGIS()"
+						,"addFuncioEtiquetesCapa()"
 						],
     "required": ["id", "name", "price"]
 }

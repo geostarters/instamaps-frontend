@@ -447,7 +447,7 @@
         		$('#socialSharePublicar').share({
         			networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
         			theme: 'square',
-        			urlToShare: results.data.url
+        			urlToShare: results.id
         		});
         		
         		$('#socialSharePublicar .pop-social').on('click', function(event){
@@ -459,19 +459,24 @@
         },
         
         _updateDownloadableData: function(){
-        	var downloadableData = {};
+        	var downloadableDataPub = {};
         	$(".downloadable-subrow").each(function(index,element){
         		var businessId = $(element).attr('data-businessid');
         		var obj = {
     				chck : $(element).children( "div.icheckbox_flat-blue").hasClass('checked'),
     				businessId : businessId
         		};
-        		if(!downloadableData[businessId]){
-        			downloadableData[businessId] = [];			
+        		//console.debug(obj);
+        		if(downloadableDataPub[businessId]){
+        			downloadableDataPub[businessId] = [];			
         		}
-        		downloadableData[businessId].push(obj);
+        		if(!downloadableDataPub[businessId]){
+        			downloadableDataPub[businessId] = [];			
+        		}
+        		downloadableDataPub[businessId].push(obj);
         	});	
-        	this.downloadableData = downloadableData;
+        	this.downloadableData = downloadableDataPub;
+        	downloadableData = downloadableDataPub;
         },
         
         _loadPublicarData: function(fromCompartir){
@@ -764,13 +769,14 @@
         		var checked = "";
         		
         		var tipusLayer = "";
-        		if(layer.options.tipus) tipusLayer = layer.options.tipus;
-        		
+        		if(layer.options.tipus) tipusLayer = layer.options.tipus;        		
         		//Si no es WMS
         		if(tipusLayer.indexOf(t_wms)== -1){
         			//Si té checkec definit
         			if(downloadableData[layer.options.businessId]){
-        				if(downloadableData[layer.options.businessId][0].chck) checked = 'checked="checked"';
+        				if(downloadableData[layer.options.businessId][0].chck) {
+        					checked = 'checked="checked"';
+        				}
         			}else{//Sino per defecte check
         				checked = 'checked="checked"'
         			}		

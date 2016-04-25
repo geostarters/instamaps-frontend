@@ -174,7 +174,13 @@ L.Label = L.Class.extend({
 			offset = L.point(this.options.offset);
 
 		// position to the right (right or auto & needs to)
-		if (direction === 'right' || direction === 'auto' && labelPoint.x < centerPoint.x) {
+		if (direction === 'center') {
+				L.DomUtil.addClass(container, 'leaflet-label-center');
+				L.DomUtil.removeClass(container, 'leaflet-label-left');
+				L.DomUtil.removeClass(container, 'leaflet-label-right');
+				pos = pos.add(L.point(-offset.x - (labelWidth / 2), offset.y));
+		}
+		else if (direction === 'right' || direction === 'auto' && labelPoint.x < centerPoint.x) {
 			L.DomUtil.addClass(container, 'leaflet-label-right');
 			L.DomUtil.removeClass(container, 'leaflet-label-left');
 
@@ -185,7 +191,7 @@ L.Label = L.Class.extend({
 
 			pos = pos.add(L.point(-offset.x - labelWidth, offset.y));
 		}
-
+		
 		L.DomUtil.setPosition(container, pos);
 	},
 
@@ -435,9 +441,9 @@ L.Marker.include({
 
 		this._originalUpdateOpacity();
 
-		if (this.label) {
+		/*if (this.label) {
 			this.label.setOpacity(this.options.labelHasSemiTransparency ? this.options.opacity : absoluteOpacity);
-		}
+		}*/
 	},
 
 	_originalSetLatLng: L.Marker.prototype.setLatLng,
@@ -541,5 +547,7 @@ L.FeatureGroup.include({
 		this.invoke('updateLabelContent', content);
 	}
 });
+
+
 
 }(window, document));

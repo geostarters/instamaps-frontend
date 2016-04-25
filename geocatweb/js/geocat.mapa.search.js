@@ -87,8 +87,6 @@ function addControlCercaEdit(){
 
 	//map.addControl(ctr_cercaNomen ); 
 	
-	
-	
 	jQuery('.search-edit a').on("click", function(e) {	
 		var id=jQuery(this).attr('id');
 		if(id=="act_move"){

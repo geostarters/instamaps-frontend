@@ -22,11 +22,12 @@ jQuery(document).ready(function() {
     	localStorage['langJs_currentLang'] = 'ca';
     }
     
-	jQuery("#hl_contact").on('click', function() {
-		jQuery(this).attr('href','mailto:instamapes@icgc.cat');
-		
+    /*
+    jQuery("#hl_contact").on('click', function() {
+    	jQuery(this).attr('href','mailto:instamapes@icgc.cat');
 	});
-    
+    */
+	
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
     	logoutUser();
@@ -324,28 +325,30 @@ function checkUserLogin(){
 		url('file') === "index.html"
 	){
 		$.cookie('perfil', 'instamaps', {path:'/'});
-	}else{
-		if(!tipusEntitat){
-			var perfil = $.cookie('perfil');
-			switch(perfil){
-				case 'instamaps':
-					tipusEntitat = 1;
-					break;
-				case 'geolocal':
-					tipusEntitat = 2;
-					break;
-				default: tipusEntitat = 1;
-			}
-		}
-		
-		var instamapsOptions = {
-			uid: uid,
-			tipusEntitat: tipusEntitat,
-			logged: logged
-		};
-		var instamaps = Instamaps(instamapsOptions);
-		instamaps.changeBrand('.brand-txt').changeBrandLink('.navbar-brand').changeGaleria('.instamaps_galeria').changeSession('.instamaps_sessio').changeFooter('.instamaps_footer');
 	}
+	
+	if(!tipusEntitat){
+		var perfil = $.cookie('perfil');
+		switch(perfil){
+			case 'instamaps':
+				tipusEntitat = 1;
+				break;
+			case 'geolocal':
+				tipusEntitat = 2;
+				break;
+			default: tipusEntitat = 1;
+		}
+	}
+	
+	var instamapsOptions = {
+		uid: uid,
+		tipusEntitat: tipusEntitat,
+		logged: logged
+	};
+	var instamaps = Instamaps(instamapsOptions);
+	instamaps.changeBrand('.brand-txt').changeBrandLink('.navbar-brand')
+	.changeGaleria('.instamaps_galeria').changeSession('.instamaps_sessio')
+	.changeFooter('.instamaps_footer').changeContact('#hl_contact');
 }
 
 function web_menusIdioma(lsLang){
@@ -370,6 +373,7 @@ function canviaIdioma(lsLang){
 //	console.debug(lsLang);
 	window.lang.change(lsLang);
 	$("body").trigger( "change-lang", lsLang );
+	$.publish('change-lang',{lang: lsLang});
 }
 
 function web_determinaIdioma(){
@@ -442,6 +446,7 @@ function defineTipusUser(){
 	}else{
 		tipus_user = t_user_loginat;
 	}
+	return tipus_user;
 }
 
 function logoutUser(){

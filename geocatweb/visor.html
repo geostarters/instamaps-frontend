@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css" />
 <link rel="stylesheet" href="/llibreries/css/bootstrap-table.min.css" />
 <link rel="stylesheet" href="/llibreries/css/bootstrap-select.min.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.label.css" type="text/css">
 
 <!-- 
 <link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
@@ -48,14 +49,11 @@
 
 <link rel="stylesheet" href="/geocatweb/css/L.IM_ControlLayerManager.css" />
 
-
 <!-- 
 Nous CSS per les dimensions
  -->
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet" href="/llibreries/css/leaflet.timedimension.control.css"  />
-
-
 
 <link rel="stylesheet" href="/llibreries/css/jquery.mCustomScrollbar.css"  />
 <link rel="stylesheet" href="/llibreries/css/perfect-scrollbar.css"  />
@@ -184,9 +182,8 @@ Nous CSS per les dimensions
 	</div>
 	<!-- / Fixed navbar -->
 	
-    <div id="searchBar" class="input-group">
-      	<div id="ctr_cerca"></div>
-    </div><!-- /input-group -->		
+    <div id="searchBar" class="input-group"></div><!-- /input-group -->		
+	
 	<div id="map" class="visor"></div>
 	
 	<div id="info_geojsonvt" class="leaflet-control" style="display: none;">
@@ -196,14 +193,15 @@ Nous CSS per les dimensions
 	</div>	
 	
 	<div id="socialShare_visor" class="div_gr5"></div>
+	<!-- 
 	<div id="logos">
 		<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
 			<img height="45" src="/llibreries/img/icgc.png">
 		</a>
 	</div>
+	-->
 	
-	
-		<!-- INIT MODALS -->
+	<!-- INIT MODALS -->
 	<div id="mapa_modals">
 	<!-- Modal descarrega dades -->
 	<div class="modal fade" id="modal_download_layer">
@@ -296,9 +294,6 @@ Nous CSS per les dimensions
 	</div>
 	<!-- fi Modal Captura -->
 	
-		
-	
-	
 	<!-- Modal Imprimir -->
 	<div id="dialog_print" class="modal fade">
 		<div class="modal-dialog">
@@ -318,15 +313,11 @@ Nous CSS per les dimensions
 				</div>
 				
 				<div class="modal-footer">
-					
-				
-				<div id="progress_bar_carrega_img_print" class="progress progress-striped active">					
-						  <div id="prg_bar_img_print" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">					  
-						  <span lang="ca">Generant impressió...</span>
-						 </div>
-						</div>	
-				
-				
+					<div id="progress_bar_carrega_img_print" class="progress progress-striped active">					
+					  <div id="prg_bar_img_print" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">					  
+					  <span lang="ca">Generant impressió...</span>
+					 </div>
+					</div>	
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -366,18 +357,6 @@ Nous CSS per les dimensions
 	</div>
 	<!-- fi Modal Old Browser -->
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<!-- Modal Password -->
 	<div id="dialog_password" class="modal fade" data-backdrop="static">
 		<div class="modal-dialog">
@@ -404,8 +383,6 @@ Nous CSS per les dimensions
 	</div>
 	<!-- fi Modal Password -->
 	
-	
-	
 </div>
 
 
@@ -425,6 +402,7 @@ Nous CSS per les dimensions
 		}
 	}
 	</script>
+	<script src="/llibreries/js/lodash.js"></script>
 	<script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
 	<script src="/llibreries/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
@@ -447,8 +425,9 @@ Nous CSS per les dimensions
 	<script>
 		L_PREFER_CANVAS = true;
 		L_DISABLE_3D = false;
-	</script>	
-	<script src="/llibreries/js/leaflet/leaflet.0.7.7.min.js"></script>
+	</script>
+	<script src="/llibreries/js/leaflet/leaflet-src.js"></script>	
+<!-- 	<script src="/llibreries/js/leaflet/leaflet.0.7.7.min.js"></script> -->
 	<!--<script src="/llibreries/js/leaflet/leaflet.0.7.min.custom.js"></script> -->
 	<script src="/llibreries/js/includes.js"></script>
 	<script src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js" type="text/javascript"></script>
@@ -470,22 +449,34 @@ Nous CSS per les dimensions
 	<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js"	type="text/javascript"></script>
 	<script	src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers-custom.js"	type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet-heat_custom.js" type="text/javascript"></script>
-	
-	
-		
+				
 	<!--  
 	<script src="/llibreries/js/leaflet/plugin/my.leaflet.control.orderlayers.js" type="text/javascript"></script>
 	-->
-	
 	<script src="/geocatweb/js/leaflet/L.IM_ControlLayerManager.js" type="text/javascript"></script>
-	
-	
-	
 	
 	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Map.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/leaflet/L.IM_Coordinates.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_OpenInstamapsControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_HomeControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_ShareControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_RoutingControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_SearchControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_SnapshotControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_PrintControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_GeoPdfControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_3DControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LegendBtnControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LegendControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LayersBtnControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LocationControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_ControlScale.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_MinimapControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LogosControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_WidgetsControl.js" type="text/javascript"></script>
+		
 	<script src="/llibreries/js/leaflet/plugin/TileGeoJSON.Canvas.js" type="text/javascript"></script>
 	<script src="/llibreries/js/leaflet/plugin/leaflet.utfgridWMS.js" type="text/javascript"></script>
 	
@@ -506,31 +497,23 @@ Nous CSS per les dimensions
 	<script src="/llibreries/js/extensions/export/bootstrap-table-export.js"></script>
 	<script src="/llibreries/js/extensions/export/tableExport.js"></script>
 	<script src="/llibreries/js/extensions/export/jquery.base64.js"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.label-src.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_Label.js" type="text/javascript"></script>
 	
 	<script src="/llibreries/js/leaflet/plugin/geojson-vt-dev.js"></script>
 	<!-- 
 	<script src='https://code.createjs.com/easeljs-0.8.0.min.js'></script>	
  -->
- <script src='/llibreries/js/easeljs-0.8.0.min.js'></script>
-
-
+ 	<script src='/llibreries/js/easeljs-0.8.0.min.js'></script>
 
 	<!-- 
 Nous JS per les dimensions
  -->
 	<script src="/llibreries/js/DateFormat.js"></script>
 	<script src="/llibreries/js/iso8601.js"></script>
-	 <script src="/llibreries/js/leaflet/plugin/leaflet.timedimension.custom.js"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.timedimension.custom.js"></script>
 	
-
-
-
-
-
-
-
-
-   <script src="/llibreries/js/leaflet/plugin/leaflet-routing-machine.js"></script>
+    <script src="/llibreries/js/leaflet/plugin/leaflet-routing-machine.js"></script>
     <script src="/llibreries/js/leaflet/plugin/Control.Geocoder.js"></script>
    
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
@@ -538,12 +521,16 @@ Nous JS per les dimensions
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.constants.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
+	
+	<script src="/geocatweb/js/geocat.utils.js"></script>	
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.compartir.js"></script>
-	<script src="/geocatweb/js/geocat.utils.js"></script>	
+	
+	<script src="/geocatweb/js/instamaps.google-analytics.js"></script>
+	
 	<script src="/geocatweb/js/geocat.panel-capes.js" type="text/javascript"></script>	
 	<script src="/geocatweb/js/geocat.mapa.draw.js" type="text/javascript"></script>
-	<script src="/geocatweb/js/geocat.mapa.search.js" type="text/javascript"></script>
+<!-- 	<script src="/geocatweb/js/geocat.mapa.search.js" type="text/javascript"></script> -->
 	<script src="/geocatweb/js/geocat.mapa.wms.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.tematics.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.url-file.js" type="text/javascript"></script>
@@ -554,29 +541,33 @@ Nous JS per les dimensions
  	<script src="/geocatweb/js/geocat.mapa.heat.js" type="text/javascript"></script>
  	<script src="/geocatweb/js/geocat.mapa.cluster.js" type="text/javascript"></script>
  	<script src="/geocatweb/js/geocat.mapa.canvas.js" type="text/javascript"></script>
-	<script src="/geocatweb/js/geocat.mapa.legend.js" type="text/javascript"></script>
+<!-- 	<script src="/geocatweb/js/geocat.mapa.legend.js" type="text/javascript"></script> -->
 	<script src="/geocatweb/js/geocat.mapa.basic.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.categories.js" type="text/javascript"></script>	
 	<script src="/geocatweb/js/geocat.mapa.edit-data-table.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/geocat.mapa.geojsonvt.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/instamaps.layers-1.0.0.js"></script>
+		
 	<script src="/geocatweb/js/geocat.visor.fons.js" type="text/javascript"></script>
 	
 	<!--add no Js 3d -->
 	<script src="/geocatweb/js/instamaps.mapa.3D-1.0.0.js" type="text/javascript"></script>
 	
-	
-	<script src="/geocatweb/js/geocat.visor-1.0.0.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.visor.visor-2.0.0.js"></script>
+	<script src="/geocatweb/js/instamaps.visor.app-1.0.0.js"></script>
+<!-- 	<script src="/geocatweb/js/geocat.visor-1.0.0.js" type="text/javascript"></script> -->
 	<script src="/geocatweb/js/instamaps.geolocal.selectMunicipis.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/instamaps.geolocal.listViewMunicipis.js" type="text/javascript"></script>
-	<script src="/geocatweb/js/instamaps.geolocal.widgets.js" type="text/javascript"></script>
+<!-- 	<script src="/geocatweb/js/instamaps.geolocal.widgets.js" type="text/javascript"></script> -->
 	<script src="/geocatweb/js/instamaps.geolocal.widgets.meteo.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/instamaps.geolocal.widgets.idescat.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/instamaps.geolocal.widgets.cartoteca.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/instamaps.geolocal.widgets.rpuc.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/instamaps.geolocal.widgets.cadastre.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/instamaps.visor.geolocal.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.visor.simple.js" type="text/javascript"></script>
 	<script src="/geocatweb/js/instamaps.app-1.0.0.js"></script>
-	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
 	
 </body>
 </html>
