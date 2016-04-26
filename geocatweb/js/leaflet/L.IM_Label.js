@@ -49,8 +49,7 @@
 	      });
 	    },
 	    unbindLabel: function () {
-	    	console.debug(this);
-			if (this.label) {
+	    	if (this.label) {
 				this._hideLabel();
 				this.label = null;
 				this._showLabelAdded = false;				
