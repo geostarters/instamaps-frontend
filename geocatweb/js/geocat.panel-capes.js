@@ -452,14 +452,20 @@ function addFuncioEtiquetesCapa(){
 					opcionsVis:$("input[name=etiqueta]:checked").val()
 			}
 			var layerMap=map._layers[capaLeafletId];
-			//console.debug(layerMap.options);
+			var optionsMap;
+			if (layerMap==undefined) {
+				layerMap = controlCapes._layers[capaLeafletId];
+				optionsMap=layerMap.layer.options;
+			}
+			else optionsMap=layerMap.options;
+			
 			var data={
 					businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
 					uid: $.cookie('uid'),
 					options:  JSON.stringify(options),
-					nom:layerMap.options.nom,
-					tipus:layerMap.options.tipusRang,
-					geometryType:layerMap.options.geometryType
+					nom:optionsMap.nom,
+					tipus:optionsMap.tipusRang,
+					geometryType:optionsMap.geometryType
 			};
 			updateVisualitzacioLayer(data).then(function(results){
 				var defer = $.Deferred();
@@ -467,7 +473,7 @@ function addFuncioEtiquetesCapa(){
 					map.removeLayer(layerMap);
 					//Eliminem la capa de controlCapes
 					controlCapes.removeLayer(controlCapes._layers[capaLeafletIdControl]);
-					activaPanelCapes(true);
+					//activaPanelCapes(true);
 				});
 			});
 		}
