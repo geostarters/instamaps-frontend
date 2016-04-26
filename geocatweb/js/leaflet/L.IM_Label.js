@@ -5,7 +5,10 @@
 	      if (!this.label || this.label.options !== options) {
 	        this.label = new L.Label(options, this);
 	      }
-
+	      this
+	  		.on('remove', this.hideLabel, this)
+	  		.on('move', this._moveLabel, this)
+	  		.on('add', this._onPolylineAdd, this);
 	      var latlngs = this.getLatLngs();
 	      var nPoint = latlngs.length;
 
@@ -31,7 +34,31 @@
 	      this._showLabel({
 	        latlng: pointM
 	      });
-	    }
+	    },
+	    unbindLabel: function () {
+	    	this
+			.off('remove', this.hideLabel, this)
+			.off('move', this._moveLabel, this)
+			.off('add', this._onPolylineAdd, this);
+	    	if (this.label) {
+				this._hideLabel();
+				this.label = null;
+				this._showLabelAdded = false;				
+			}
+	    	
+			return this;
+		},
+	    hideLabel: function () {
+			if (this.label) {
+				this.label.close();
+			}
+			return this;
+		},
+		_onPolylineAdd: function () {
+			if (this._labelNoHide) {
+				this.showLabel();
+			}
+		}
 	});
 
 	L.Polygon.include({
@@ -40,8 +67,13 @@
 	      if (!this.label || this.label.options !== options) {
 	        this.label = new L.Label(options, this);
 	      }
-	      var pointM = this.getBounds().getCenter();
-	      //console.debug(pointM);
+	  	 this
+	  		.on('remove', this.hideLabel, this)
+	  		.on('move', this._moveLabel, this)
+	  		.on('add', this._onPolygonAdd, this);
+	     
+	  	 var pointM = this.getBounds().getCenter();
+	     
 	      this.label.setContent(content);
 	      this._showLabelAdded = true;
 	      this._showLabel({
@@ -49,12 +81,27 @@
 	      });
 	    },
 	    unbindLabel: function () {
+	    	this
+			.off('remove', this.hideLabel, this)
+			.off('move', this._moveLabel, this)
+			.off('add', this._onPolygonAdd, this);
 	    	if (this.label) {
 				this._hideLabel();
 				this.label = null;
 				this._showLabelAdded = false;				
 			}
 			return this;
+		},
+		hideLabel: function () {
+			if (this.label) {
+				this.label.close();
+			}
+			return this;
+		},
+		_onPolygonAdd: function () {
+			if (this._labelNoHide) {
+				this.showLabel();
+			}
 		}
 	  });
 }(window, document));

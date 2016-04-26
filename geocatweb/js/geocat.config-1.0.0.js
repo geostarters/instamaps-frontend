@@ -198,7 +198,7 @@ var paramUrl = {
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
-	crearFitxerPolling: "http://172.70.1.11/geocat/aplications/map/crearFitxerPolling.action?",
+	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
 	callActions:"/share/jsp/callActions.jsp?",
 	//loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",

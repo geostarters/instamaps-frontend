@@ -796,6 +796,9 @@
 			var mapConfig = $.parseJSON(results.results);
 			if(mapConfig.options){
 				mapConfig.options = $.parseJSON(mapConfig.options);
+				if(mapConfig.options.llegenda === false){
+					self.llegenda = true; //ocultar la llegenda
+				}
 			}
 			self._mapConfig = mapConfig;
 			_map.fire('loadconfig', mapConfig);

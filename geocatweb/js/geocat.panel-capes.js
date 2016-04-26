@@ -468,13 +468,11 @@ function addFuncioEtiquetesCapa(){
 					geometryType:optionsMap.geometryType
 			};
 			updateVisualitzacioLayer(data).then(function(results){
-				var defer = $.Deferred();
-				readVisualitzacio(defer, results.visualitzacio, results.layer).then(function(results){
-					map.removeLayer(layerMap);
-					//Eliminem la capa de controlCapes
-					controlCapes.removeLayer(controlCapes._layers[capaLeafletIdControl]);
-					//activaPanelCapes(true);
-				});
+				map.removeLayer(layerMap);
+				//Eliminem la capa de controlCapes
+				controlCapes.removeLayer(controlCapes._layers[capaLeafletIdControl]);
+				loadVisualitzacioLayer(results.layer);				
+				
 			});
 		}
 	});

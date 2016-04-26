@@ -68,7 +68,7 @@ L.Control.RoutingControl = L.Control.extend({
 		originTexts: {
 			title: "Càlcul de rutes",
 			btnStart: "Defineix com a origen",
-			btnEnd: "Defineix com a origen",
+			btnEnd: "Defineix com a destí",
 			btnReverse: "Ruta inversa",
 			btnAdd: "Afegir punts",
 			start: "Inici",
@@ -77,7 +77,7 @@ L.Control.RoutingControl = L.Control.extend({
 		texts: {
 			title: "Càlcul de rutes",
 			btnStart: "Defineix com a origen",
-			btnEnd: "Defineix com a origen",
+			btnEnd: "Defineix com a destí",
 			btnReverse: "Ruta inversa",
 			btnAdd: "Afegir punts",
 			start: "Inici",
