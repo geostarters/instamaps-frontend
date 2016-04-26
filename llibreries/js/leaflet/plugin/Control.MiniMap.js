@@ -27,7 +27,6 @@ L.Control.MiniMap = L.Control.extend({
 	},
 	
 	onAdd: function (map) {
-
 		this._mainMap = map;
 
 		//Creating the container and stopping events from spilling through to the main map.
@@ -76,7 +75,7 @@ L.Control.MiniMap = L.Control.extend({
 			//this._miniMap.on('move', this._onMiniMapMoving, this);
 			//this._miniMap.on('moveend', this._onMiniMapMoved, this);
 		}, this));
-		
+				
 		return this._container;
 	},
 

@@ -131,6 +131,7 @@ function showModalTematicCategories(data){
 						uid: jQuery.cookie('uid')
 				};
 				getValuesFromKeysProperty(dataVis).then(function(results){
+					console.debug(results);
 					jQuery("#dialog_tematic_rangs").data("values", results);
 					getTipusValuesVisualitzacio(results);					
 				});
@@ -303,7 +304,6 @@ function showVisualitzacioDataUnic(values,geomType){
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
 	jQuery("#dialog_tematic_rangs").data("tipusrang","unic");
-	
 	//Ordenar valores
 	values.sort(sortByValueMax);
 	//console.debug(paleta);
@@ -856,11 +856,12 @@ function loadTematicValueTemplate(results, rtype){
 		});
 		
 		//match ints and floats/decimals
-		var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+		var floatRegex = new RegExp('[-+]?($[0-9]*$.$[0-9]+$|$[0-9]+$)');
 		var resultsFloat = [];
 		var i=0;
 		jQuery.grep(resultsNoRepetits, function( n, i ) {
 			if (floatRegex.test(n.v)) {
+				console.debug(n.v);
 				resultsFloat[i]=n;
 				i++;
 			}
@@ -870,10 +871,12 @@ function loadTematicValueTemplate(results, rtype){
 		var template1 = Handlebars.compile(source1);
 		var html1 = "";
 		if (resultsFloat.length>0) {
+			console.debug(resultsFloat);
 			resultsFloat.sort(function(a,b){return a.v-b.v;});
 			html1 = template1({values:resultsFloat});
 		}
 		else {
+			console.debug(resultsNoRepetits);
 			resultsNoRepetits.sort();
 			html1 = template1({values:resultsNoRepetits});
 		}
@@ -1086,7 +1089,6 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 	if (sublayer.layer.options.dataField!=undefined) dataField = sublayer.layer.options.dataField;
 	if (sublayer.layer.options.labelField!=undefined) labelField = sublayer.layer.options.labelField;
 	if (sublayer.layer.options.tipusClasicTematic!=undefined) tipusClasicTematic = sublayer.layer.options.tipusClasicTematic;
-	//console.debug(sublayer);
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 //	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
@@ -1107,9 +1109,10 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 	var rangsEstils=[];
 	getValuesFromKeysProperty(dataVis).then(function(results){
 		var valors = results.valors;
-		var resultsNoRepetits=[];
+		var resultatsFinals=[];
 						
 		if (tipusClasicTematic==undefined || tipusClasicTematic=="unic"){
+			var resultsNoRepetits=[];
 			var data = {};		
 			jQuery.grep(valors,  function( n, i ) {
 						var value = n;
@@ -1119,11 +1122,39 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 								resultsNoRepetits.push(n);
 							}
 			});
+			//match ints and floats/decimals
+			var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+			var resultsFloat = [];
+			var i=0;
+			jQuery.grep(resultsNoRepetits, function( n, i ) {
+				if (floatRegex.test(n.v)) {
+					resultsFloat[i]=n;
+					i++;
+				}
+					
+			});
+			if (resultsFloat.length>0) resultatsFinals=resultsFloat;
+			else resultatsFinals=resultsNoRepetits;
 		}
-		var valuesStyle = jQuery.map( resultsNoRepetits, function( a, i) {
+		else {
+			//match ints and floats/decimals
+			var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+			var resultsFloat = [];
+			var i=0;
+			jQuery.grep(valors, function( n, i ) {
+				if (floatRegex.test(n.v)) {
+					resultsFloat[i]=n;
+					i++;
+				}
+					
+			});
+			if (resultsFloat.length>0) resultatsFinals=resultsFloat;
+			else resultatsFinals=valors;
+		}
+		var valuesStyle = jQuery.map( resultatsFinals, function( a, i) {
 			rangsEstils[i]={v: a, style: createIntervalStyle(i,ftype,scale)};							
 		});
-		loadRangValues(rangsEstils,tipusClasicTematic,layerMare.layer.options.geometryType).then(function(rangs){
+		loadRangValues(rangsEstils,tipusClasicTematic,layerMare.layer.options.geometryType,sublayer.layer.options.estilsRangs,sublayer.layer.options.estil).then(function(rangs){
 			var data1 = {
 					uid: $.cookie('uid'),
 					businessId1: capaMare.options.businessId
@@ -1259,28 +1290,41 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 		});
 }
 
-function loadRangValues(rangsEstils,tipusClasicTematic,geometrytype){
+function loadRangValues(rangsEstils,tipusClasicTematic,geometrytype,estilsRangs,estilLayer){
 	var defer = jQuery.Deferred();
 	var rangs=[];
-	jQuery.each(rangsEstils, function( index, value ) {
-		console.debug(value);
-		console.debug(tipusClasicTematic);
-		var tdRang, tdMin, tdMax;
-		var tdVal;
-		var rang = {};
-		var rangEstil;
-		if (tipusClasicTematic==undefined || tipusClasicTematic=="unic"){
+	var rangsGuardats=[];
+	if (tipusClasicTematic=="rangs"){
+		jQuery.each(estilsRangs, function( index, value ) {
+			var values =[];
+			values=index.split(" - ");
+        	var indexEstil = 0;
+        	while(indexEstil<estilLayer.length && value!=estilLayer[indexEstil].businessId){
+        			indexEstil++;
+			}
+			var estil = estilLayer[indexEstil];			
+			var tdRang, tdMin, tdMax;
+			var tdVal;
+			var rang = {};
+			rang.estil = transformStyle(estil,geometrytype);
+			rang.valueMax = values[1];
+			rang.valueMin = values[0];
+			rangs.push(rang);
+		});
+	}
+	if (tipusClasicTematic==undefined || tipusClasicTematic=="unic"){
+		jQuery.each(rangsEstils, function( index, value ) {
+			var tdRang, tdMin, tdMax;
+			var tdVal;
+			var rang = {};
 			rang.estil = transformStyle(value.style,geometrytype);
 			rang.valueMax = value.v;
 			rang.valueMin = value.v;
 			rangs.push(rang);
-		}else{
-			rang.estil = transformStyle(value.style,geometrytype);
-			rang.valueMax = value.v;
-			rang.valueMin = value.v;
-			rangs.push(rang);
-		}
-	});	
+			
+		});	
+	}
+	console.debug(rangs);
 	defer.resolve(rangs);
 	return defer.promise();
 }
@@ -1290,15 +1334,21 @@ function transformStyle(style,geometrytype){
 	var ftype = transformTipusGeometry(geometrytype);
 	if (ftype == t_marker){
 		//divElement = tdElem.find('div');
+		var color;
+		if (style.fillColor!=undefined) color=style.fillColor;
+		else if (style.color!=undefined) color=style.color;
 		rangStyle = {
 			borderColor :  "#ffffff",
 			borderWidth :  2,
 			simbolSize: style.simbolSize,
-			color: style.fillColor,
+			color: color,
 			opacity: 90
 		};
 	}else if (ftype == t_polyline){
 		//divElement = tdElem.find('canvas')[0].getContext("2d");
+		var lineWidth;
+		if (style.dashArray!=undefined) lineWidth=style.dashArray;
+		else if (style.lineWidth) lineWidth=style.lineWidth;
 		rangStyle = {
 			lineWidth :  style.dashArray,
 			color: style.color,

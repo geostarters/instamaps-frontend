@@ -731,10 +731,12 @@ function createTematicLayerBubbles(event){
 		        visibilitat: 'O',
 		        url: capaMare.options.url,
 				options: JSON.stringify(options),
-				tmpFilePath: tmpFile
+				tmpFilePath: tmpFile,
+				urlTematic:paramUrl.createServidorInMap,
+				tipusTematic: "t_url_file"
 			};
-			
-			createServidorInMap(data);/*.then(function(results){
+			callActions(data);
+			/*createServidorInMap(data);/*.then(function(results){
 				loadURLfileLayer(results.results).then(function(results){
 					busy=false;					
 					jQuery('#info_uploadFile').hide();
@@ -834,13 +836,15 @@ function createTematicLayerBubbles(event){
 		        nom: capaMare.options.nom+" "+window.lang.convert("Mides"),
 		        activas: true,
 		        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
-		        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
+		        dataField: jQuery('#dataFieldBubble').val(),//¿?¿?¿?¿?
 				tem: tem_size,//visualitzacio.from,//tem_size
 				estils: JSON.stringify(estils),			
-				tmpFilePath: tmpFile
+				tmpFilePath: tmpFile,
+				urlTematic:paramUrl.createVisualitzacioTematica,
+				tipusTematic:"t_visualitzacio_categories"
 			};
-			
-			createVisualitzacioTematica(data);/*.then(function(results){
+			callActions(data);
+			/*createVisualitzacioTematica(data);/*.then(function(results){
 				if(results.status == 'OK'){
 					var defer = $.Deferred();
 					busy=false;					

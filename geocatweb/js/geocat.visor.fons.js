@@ -1,23 +1,36 @@
 /**
- * 
+ * TODO Cambiar a la carpeta de leaflet
  */
 L.IM_ControlFons = L.Control.extend({
 	options: {
 		collapsed: true,
-        position: 'bottomleft'
+        position: 'bottomleft',
+        title: 'Escollir el mapa de fons',
+        langTitle: 'Escollir el mapa de fons',
+        tooltip: 'right'
     },
     
     onAdd: function (map) {
     	this._initLayout();
-		return this._container;
+    	
+    	this._div = this._container;
+    	
+    	return this._container;
     },
     
     _initLayout: function(){
-    	var className = 'control-btn-fons',
+    	var self = this,
+		options = self.options,
+		className = 'control-btn-fons',
 	    container = this._container = L.DomUtil.create('div', className);
     	
     	// makes this work on IE touch devices by stopping it from firing a mouseout event when the touch is released
 		container.setAttribute('aria-haspopup', true);
+		
+		container.title = options.title;
+		container.dataset.toggle = 'tooltip';
+		container.dataset.placement = options.tooltip;
+		container.dataset.langTitle = options.langTitle;
 
         var ua = window.navigator.userAgent;
         var msie = ua.indexOf("MSIE ");
@@ -64,9 +77,7 @@ L.IM_ControlFons = L.Control.extend({
 		container.appendChild(btllista);
 		this._btllista = btllista;
 		btllista.innerHTML = '<small id="sm_tipus" lang="ca">Fons</small>';
-		
-		
-		
+				
 		var llistaFons = L.DomUtil.create('div','leaflet-bar btn btn-default llista-fons');
 		
 		this._addLayers(llistaFons);
@@ -75,6 +86,16 @@ L.IM_ControlFons = L.Control.extend({
 						
 		return container;
     },
+    
+    hideBtn: function(){
+		var self = this;
+		$(self._div).hide();
+	},
+	
+	showBtn: function(){
+		var self = this;
+		$(self._div).show();
+	},
     
     _update: function(){
     	

@@ -24,16 +24,16 @@ var msgHTML = "";
 var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
 var appl='mapa';
 var factorNavegador=1000;
-function addModul3D() {
+function addModul3D(config) {
 
+	mapConfig = config || mapConfig;
+	
 
-var socChrome=isChrome();
+	var socChrome=isChrome();
 
-if(socChrome){factorNavegador=600;}
-
+	if(socChrome){factorNavegador=600;}
 		
 	if(!getModeMapa()){appl='visor';}
-	
 	
 	browserWebGL = detectoCapacitatsWebGL();
 
@@ -60,9 +60,7 @@ if(socChrome){factorNavegador=600;}
 		
 		_gaq.push(['_trackEvent', appl, tipus_user + '3D', 'label 3D', 1]);
 		$('.tooltip').hide();
-		// mirar si el navegador suporta 3d
-		browserWebGL ? canviaVista_3D_2D(this) : mostraMsgNo3D();
-
+		activaVista3d_2d(this);
 	});
 
 	jQuery(document).on('click', "#tanca3D", function (e) {
@@ -90,7 +88,6 @@ if(socChrome){factorNavegador=600;}
 	 */
 
 	if (url('?3D') == 'true') {
-
 		var fT = parseInt(mapConfig.servidorsWMS.length * 1000 / 2);
 
 		setTimeout(initMapa3DfromMapConfig, fT);
@@ -101,6 +98,11 @@ if(socChrome){factorNavegador=600;}
 		setTimeout(initMapa3DfromMapConfig, fT);
 	}
 
+}
+
+function activaVista3d_2d(_this){
+	// mirar si el navegador suporta 3d
+	browserWebGL ? canviaVista_3D_2D(_this) : mostraMsgNo3D();
 }
 
 function gestionFonsMapa3D() {
@@ -118,30 +120,23 @@ function canviaVista_3D_2D(boto, event) {
 }
 
 function initMapa3DfromMapConfig() {
-
 	if (browserWebGL) {
-
 		initAmbVistaControlada = true;
 		jQuery('.bt_3D_2D').text('2D');
 		inicialitzaMapa3D('_fromConfig');
 	}
-
 }
 
 function inicialitzaMapa3D(origen) {
-
 	if (browserWebGL) {
-
 		if (mapaVista3D == null) {
 			mapaVista3D = new IM_aplicacio({
-					'mapId' : 'map',
-					'mapId3D' : 'map3D'
-				});
-
+				'mapId' : 'map',
+				'mapId3D' : 'map3D'
+			});
 		}
 		mapaVista3D.canviaVisor3D(map, controlCapes, origen);
 		ActDesOpcionsVista3D(true);
-
 		if (getModeMapa()) {
 			if (drgFromMapa) {
 				drgFromMapa.destroy();
@@ -149,13 +144,10 @@ function inicialitzaMapa3D(origen) {
 				creaAreesDragDropFiles();
 			}
 		}
-
 	}
-
 }
 
 function init3D(boto) {
-
 	map.spin(true);
 	if (browserWebGL) {
 		initAmbVistaControlada = false;
@@ -498,7 +490,6 @@ var IM_aplicacio = function (options) {
 		//console.warn("addOverlaysLayersCesium");
 		var that=this;
 		setTimeout(function(){			
-		//console.warn("addOverlaysLayersCesium3");
 			that.miraCapesiExternes();
 		},factorNavegador*3);
 
@@ -1358,10 +1349,8 @@ var that = this;
 			var numFeatures = ff.features.length;
 
 			if (item.layer.options.geometryType) {
-		
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
-				
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
 
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
@@ -1371,7 +1360,6 @@ var that = this;
 							for (var j = 0; j < numFeatures; j++) {
 
 								var vertex = ff.features[j].geometry.coordinates[0].length;
-								
 								if (vertex > 46000) {
 									tmp_feature.msg = 'none';
 								}
@@ -1395,7 +1383,6 @@ var that = this;
 
 					} else if (item.layer.options.source && item.layer.options.source.indexOf('csv') != -1) {
 
-					
 						numFeatures <= 1000 ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						tmp_feature.msg = 'none';
@@ -1407,9 +1394,7 @@ var that = this;
 
 					} else {
 
-						
-
-						tmp_feature.tipus = 'vector';
+						tmp_feature.tipus = 'vecras';
 
 					}
 
@@ -1426,9 +1411,6 @@ var that = this;
 
 			} else if (item.layer.options.tipusRang) {
 
-			
-			
-			
 				tmp_feature.tipus = 'vecras';
 			} else {
 
@@ -1443,8 +1425,6 @@ var that = this;
 		} catch (err) {
 
 			_gaq.push(['_trackEvent', 'error3D', err, '_utilDeterminaTipusItem', 1]);
-			
-			
 
 			if (item.layer.options.tipusRang) {
 
@@ -1517,20 +1497,13 @@ var that = this;
 			var promise = Cesium.sampleTerrain(terreny, factorTerreny, matriu);
 
 			Cesium.when(promise, function (updatedPositions) {
-
-			if(length >50){
-			
+				if(length >50){
 					setTimeout(function(){
 						that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
 					},factorNavegador);
-			
-			}else{				
-				
+				}else{				
 					that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
-			}	
-			
-			
-			
+				}	
 			});
 
 			
@@ -1551,7 +1524,7 @@ var that = this;
 
 		var entities = dataSource.entities.values;
 		var z = 0;
-//visible=false;
+
 		for (var i = 0; i < entities.length; i++) {
 			var entity = entities[i];
 			entity.show = true;
@@ -1592,15 +1565,10 @@ var that = this;
 
 			} else if (entity.billboard) {
 
-			
-			
 				entity.ellipsoid = ellipsoid;
 				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
-				
-				
 				if (entity.properties.styles.icon) {
-			  //console.info(entity.properties.styles);
 					var _alt = parseInt(matriu[i].height + 100)
 
 						var redEllipse = viewer.entities.add({
@@ -1620,7 +1588,6 @@ var that = this;
 					matriu[i].height = _alt;
 					entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
 
-					//var pinBuilder = new PinBuilder_IM();
 					var pinBuilder = new PinBuilder_IM();
 					entity.billboard.color = Cesium.Color.WHITE;
 
@@ -1629,9 +1596,6 @@ var that = this;
 						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
 
 						if (colorPUNT.indexOf('punt_r') == -1) {
-							
-						
-							
 							entity.billboard.image = pinBuilder.fromColor(
 									Cesium.Color[colorPUNT.toUpperCase()], 48);
 
@@ -1661,7 +1625,6 @@ var that = this;
 						//var url = Cesium.buildModuleUrl(entity.properties.styles.icon.options.iconUrl);
 						var url = entity.properties.styles.icon.options.iconUrl;
 
-  
 						entity.billboard.image = url;
 						//entity.billboard.image = pinBuilder.fromUrl(url,Cesium.Color.BLUE, 48);
 
@@ -1696,7 +1659,7 @@ var that = this;
 
 					console.debug("No hauria entrar aqui");
 				}
-					
+
 				viewer.entities.add(entity); //add billboard
 			} else if (entity.polygon) {
 

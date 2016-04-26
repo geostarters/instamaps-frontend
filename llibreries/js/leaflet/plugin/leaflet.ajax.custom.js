@@ -429,8 +429,8 @@ function Promise(resolver) {
 				}
             	
             	if(value.status!=undefined && value.status == "ERROR"){
-					console.debug(value);
-            		queued.rejecter(value);
+					//console.debug(value);
+            		queued.rejecter(value);	
             	}else{
             		queued.resolver(value);	
             	}
@@ -688,8 +688,12 @@ L.GeoJSON.AJAX = L.GeoJSON.extend({
 			if (self.ajaxParams.dataType.toLowerCase() === 'json') {
 				L.Util.ajax(url,self.ajaxParams).then(function(d) {
 					var data = self.ajaxParams.middleware(d);
-					self.addData(data);
-					self.fire('data:progress',data);
+					if(data.status && data.status === "ERROR"){
+						self.fire('data:progress',{error:data});
+					}else{
+						self.addData(data);
+						self.fire('data:progress',data);
+					}
 				},function(err){
 					self.fire('data:progress',{error:err});
 				});

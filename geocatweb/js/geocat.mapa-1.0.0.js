@@ -330,7 +330,9 @@ function addControlsInici(){
 
 	controlCapes = L.control.orderlayers(null, null, {
 		collapsed : false,
-		id : 'div_capes'
+		id : 'div_capes',
+		editMode: true,
+		autoUpdate: false
 	}).addTo(map);
 
 	map.on('addItemFinish',function(){
@@ -342,7 +344,6 @@ function addControlsInici(){
 			   }
 		});
 	});
-
 
 	var ctr_llistaCapes = L.control({
 		position : 'topright'
@@ -401,12 +402,6 @@ function addControlsInici(){
 		return this._div;
 	};
 	ctr_vistaInicial.addTo(map);
-	
-	
-	
-	
-	
-	
 }
 
 
@@ -419,9 +414,7 @@ function updateLangTooltips(){
 		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
 	});
 	
-	
-
-jQuery("#dv_bt_vistaInicial").on('click',function(e){
+	jQuery("#dv_bt_vistaInicial").on('click',function(e){
 		if (mapConfig.options && mapConfig.options.bbox){
 			var bbox = mapConfig.options.bbox.split(",");
 			var southWest = L.latLng(bbox[1], bbox[0]);
@@ -439,8 +432,6 @@ jQuery("#dv_bt_vistaInicial").on('click',function(e){
 		}	
 		aturaClick(e);
 	});	
-	
-
 }
 
 function updateLangText(){
@@ -489,8 +480,9 @@ function updateLangText(){
 }
 
 function loadMapConfig(mapConfig){
-//	console.debug(mapConfig);
+	//console.debug(mapConfig);
 	var dfd = jQuery.Deferred();
+	var instamapsLayers = InstamapsLayers({map: map, edit: true});
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
 		//TODO ver los errores de leaflet al cambiar el mapa de fondo
@@ -541,6 +533,12 @@ function loadMapConfig(mapConfig){
 			}
 		}
 
+		instamapsLayers._loadAllLayers(mapConfig, controlCapes).then(function(){
+			//self._updateLayerControl();
+			controlCapes.forceUpdate(true);
+		});
+			
+		/*
 		//carga las capas en el mapa
 		loadOrigenWMS().then(function(results){
 			var num_origen = 0;
@@ -554,12 +552,10 @@ function loadMapConfig(mapConfig){
 					}
 				});
 			});
-
-
 		});
-
+		*/
+		
 		jQuery('#div_loading').hide();
-
 		//console.warn("Capes afegides")
 	}
 
@@ -726,8 +722,6 @@ function loadLayer(value){
 	}
 	return defer.promise();
 }
-
-
 
 
 function createNewMap(){

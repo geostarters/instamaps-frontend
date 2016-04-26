@@ -286,7 +286,7 @@
 					urlMap += "&id="+$this.data("idusr");
 				}
 				shortUrl(urlMap).then(function(results){
-					$('#urlMap').val(results.data.url);
+					$('#urlMap').val(results.id);
 				});
 				$('#urlVisor').attr("href", urlMap);
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
@@ -419,7 +419,7 @@
 				
 				$('#urlPublicaLlarga').val(urlGaleriaUsuari);
 				shortUrl(urlGaleriaUsuari).then(function(results){
-					$('#urlPublicaCurta').val(results.data.url);
+					$('#urlPublicaCurta').val(results.id);
 				});
 				$('#dialog_public_url').modal('show');
 			});
@@ -806,7 +806,7 @@
 				}
 				//$('#urlMap').val(urlMap);
 				shortUrl(urlMap).then(function(results){
-					$('#urlMap').val(results.data.url);
+					$('#urlMap').val(results.id);
 				});
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');

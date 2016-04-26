@@ -426,10 +426,11 @@ function getWikipediaLayer(data){
 
 function shortUrl(url){
     return jQuery.ajax({
-        url: paramUrl.shortUrl,
-        //data: {longUrl: url, apiKey:'R_12df4059f0e8be1ec2a4564b2357974c', login:'csuportidec'},
-        data: {longUrl: url, apiKey:'R_5767babf83836f942655936714500511', login:'geostarters'},
-        dataType: 'jsonp'
+    	url: paramUrl.shortUrl,
+        contentType: "application/json; charset=utf-8",
+        method: 'POST',
+        data: JSON.stringify({longUrl: url}),
+        dataType: 'json'
     }).promise();
 }
 
@@ -1163,5 +1164,18 @@ function searchCatalegIdec(params){
   		dataType: 'jsonp'
 	}).promise();
 }
-
+function addGeometriaToVisualitzacioTematic(params){
+	return jQuery.ajax({
+		url: paramUrl.addGeometriaToVisualitzacioTematic,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
+function updateVisualitzacioLayer(params){
+	return jQuery.ajax({
+		url: paramUrl.updateVisualitzacioLayer,
+		data: params,
+  		dataType: 'jsonp'
+	}).promise();
+}
 
