@@ -535,7 +535,7 @@ function loadMapConfig(mapConfig){
 
 		instamapsLayers._loadAllLayers(mapConfig, controlCapes).then(function(){
 			//self._updateLayerControl();
-			controlCapes.forceUpdate();
+			controlCapes.forceUpdate(true);
 		});
 			
 		/*

@@ -1787,6 +1787,9 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 							polyline.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
 							{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId ,offset: [0, 0]});
 						}
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined &&  optionsVis.opcionsVis=="geometries"){
+							polyline.unbindLabel();
+						}
 					}
 					featureTem.push(polyline);
 				//multiPolygon
@@ -1853,10 +1856,14 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 						polygon = new L.Polygon(llistaLines, geomStyle);
 					}
 					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
-						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
-								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
-							polygon.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
-							{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+								if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
+									polygon.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
+										{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
+								}	
+								if (optionsVis.opcionsVis=="geometries"){
+									polygon.unbindLabel();
+								}
 						}
 					}
 					featureTem.push(polygon);

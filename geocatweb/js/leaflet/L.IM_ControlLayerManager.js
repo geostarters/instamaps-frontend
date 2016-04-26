@@ -36,12 +36,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	onAdd : function(map) {
 		this._initLayout();
 		this._update();
-		//map.on('layeradd', this._onLayerChange, this).on('layerremove', this._onLayerChange, this);
+		map.on('layeradd', this._onLayerChange, this).on('layerremove', this._onLayerChange, this);
 		return this._container;
 	},
 
 	onRemove : function(map) {
-		//map.off('layeradd', this._onLayerChange).off('layerremove', this._onLayerChange);
+		map.off('layeradd', this._onLayerChange).off('layerremove', this._onLayerChange);
 	},
 
 	addBaseLayer : function(layer, name, group) {
@@ -634,7 +634,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 	},
 	
-	forceUpdate: function(){
+	forceUpdate: function(autoUpdate){
+		if(autoUpdate){
+			this.options.autoUpdate = true;
+		}
 		this._update(true);
 	},
 
@@ -1004,7 +1007,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){
-						if (lay.label!=undefined) lay.label.options.opacity=1;
+						if (lay.label!=undefined) lay.label.setOpacity(1);
 					});	
 				}
 				this._map.addLayer(obj.layer);
@@ -1044,7 +1047,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){
-						if (lay.label!=undefined) lay.label.options.opacity=0;
+						if (lay.label!=undefined) lay.label.setOpacity(0);
 					});	
 				}
 				// Si es vis_wms, hem d'eliminar tb la capa utfgrid

@@ -55,9 +55,6 @@ function addModul3D(config) {
 
 	jQuery('.bt_3D_2D').on('click', function (event) {
 		aturaClick(event);
-		
-		
-		
 		_gaq.push(['_trackEvent', appl, tipus_user + '3D', 'label 3D', 1]);
 		$('.tooltip').hide();
 		activaVista3d_2d(this);
@@ -70,7 +67,8 @@ function addModul3D(config) {
 
 	jQuery(document).on('click', "#chk_ad_3d", function (e) {
 		$.cookie('msg3D', true, {
-			path : '/'
+			path : '/',
+			expires: 365
 		});
 
 	});
@@ -114,7 +112,7 @@ function gestionFonsMapa3D() {
 }
 
 function canviaVista_3D_2D(boto, event) {
-
+	console.debug(jQuery(boto).text());
 	(jQuery(boto).text() == '3D') ? init3D(boto) : init2D(boto);
 
 }
