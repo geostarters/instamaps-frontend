@@ -2155,6 +2155,10 @@ i.fa {
     position: relative;	
 }
 
+.bt_3D_2D{
+	cursor: pointer;
+}
+
 .text3D {
     color: #464646;
     font-weight: bold;
