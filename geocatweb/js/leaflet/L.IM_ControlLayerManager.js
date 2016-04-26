@@ -1003,14 +1003,20 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 			// Afegir
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
+				this._map.addLayer(obj.layer);
 				//Mostrem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
-					jQuery.each(obj.layer._layers, function(i, lay){
-						if (lay.label!=undefined) lay.label.setOpacity(1);
+					jQuery.each(obj.layer._layers, function(i, lay){						
+						if (lay.label!=undefined) {
+							lay.label.setOpacity(1);
+							if(lay._showLabel){
+                                lay._showLabel({latlng: lay.label._latlng});
+							}
+						}
 					});	
 				}
-				this._map.addLayer(obj.layer);
+				
 
 				if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
 					var optionsUtfGrid = {
@@ -1047,7 +1053,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){
-						if (lay.label!=undefined) lay.label.setOpacity(0);
+						lay.label.setOpacity(0);
 					});	
 				}
 				// Si es vis_wms, hem d'eliminar tb la capa utfgrid
