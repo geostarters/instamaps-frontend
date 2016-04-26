@@ -6,7 +6,7 @@
 L.Control.Control3D = L.Control.extend({
 	options: {
 		position: 'topright',
-		id: 'dv_bt_geopdf',
+		id: 'dv_bt_3d_2d',
 		className: 'leaflet-bar btn btn-default btn-sm bt_3D_2D',
 		title: 'Canviar vista',
 		langTitle: 'Canviar vista',
@@ -36,6 +36,7 @@ L.Control.Control3D = L.Control.extend({
 			.on(container, 'click', self._toggleView, self);
 		
 		map.on('loadconfig', self._addModul3D, self);
+		map.on('visorconfig', self._addModul3D, self);
 		
 		return container;
 	},
@@ -58,7 +59,7 @@ L.Control.Control3D = L.Control.extend({
 		var _map = this._map;
 		_map.fire('map3dmode'); //to track ga events
 		//TODO crear el modulo
-		activaVista3d_2d(this._div) //instamaps.mapa.3D
+		//activaVista3d_2d(this._div) //instamaps.mapa.3D
 	},
 	
 	_addModul3D: function(config){

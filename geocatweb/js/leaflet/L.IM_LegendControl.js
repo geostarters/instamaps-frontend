@@ -42,6 +42,7 @@ L.Control.Legend = L.Control.extend({
 		self._div = container;
 		
 		map.on('loadconfig', this._updateLegend, this);
+		map.on('visorconfig', this._updateLegend, this);
 		
 		self.hide();
 		
@@ -50,6 +51,7 @@ L.Control.Legend = L.Control.extend({
 	
 	onRemove: function (map) {
 		map.off('loadconfig', this._updateLegend, this);
+		map.off('visorconfig', this._updateLegend, this);
 	},
 	
 	hideBtn: function(){
