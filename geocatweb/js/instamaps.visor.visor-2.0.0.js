@@ -615,10 +615,12 @@
 		addControl3d: function(){
 			var self = this,
 			ctr_3d,
+			mapConfig = self._mapConfig,
 			_map = self.map;
 			
 			ctr_3d = L.control.control3d({
-				title: window.lang.convert('Descarrega mapa en format GeoPDF')
+				title: window.lang.convert('Canviar vista'),
+				mapConfig: mapConfig
 			});
 			ctr_3d.addTo(_map);
 			
