@@ -23,6 +23,7 @@ console.info("modul Rubi arbres");
 
 if (($(location).attr('href').indexOf('/visor.html') != -1)) {
 	$("head").append('<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">');
+	$("head").append('<link rel="stylesheet" href="/moduls/arbres/css/arbres.css">');
 	$("head").append('<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js" type="text/javascript"></script>');
 }
 
@@ -41,10 +42,10 @@ L.Control.addModulArbres = L.Control.extend({
 				srsName : 'EPSG:4326',
 				typeName : 'Arbres:arbres_wfs',
 				version : '1.1.0',
-				maxfeatures : 3000,
+				maxfeatures : 2000,
 				request : 'GetFeature'
 			},
-
+			position : 'topleft',
 			layersWMS : 'arbres_alcada,arbres_ndvi_media'
 
 		},
@@ -56,14 +57,55 @@ L.Control.addModulArbres = L.Control.extend({
 			L.Util.setOptions(this, options);
 		},
 		onAdd : function (map) {
-			console.info(this.geoJsonLayer);
+
 			this.geoJsonLayer.addTo(map);
+
 			//this.getFeatureRequest(null, null, map);
 			this.addControlDrawButtons(this.geoJsonLayer);
-			this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
+			this._container = L.DomUtil.create('div', 'arbres_info'); // create a div
+			this._container.id = 'arbres_info_dv'; // with a class
+
+			this._info_title = L.DomUtil.create('div', 'arbres_info_title'); // create a div
+			this._info_title.id = 'arbres_info_title'; // with a class
+
+
+			this._span = L.DomUtil.create('span', 'tema_verd glyphicon glyphicon-remove group-conf');
+			this._span.id = 'info_tanca';
+			L.DomEvent.on(this._span, 'click', this.closeInfo, this);
+
+			this._info_content = L.DomUtil.create('div', 'arbres_info_content'); // create a div
+			this._info_content.id = 'arbres_info_content'; // with a class
+			L.DomEvent.on(this._info_content, 'click', aturaClick, this);
+			
+			
+			this._info_title.appendChild(this._span);
+
+			this._container.appendChild(this._info_title);
+			this._container.appendChild(this._info_content);
+
+			this.update("", false);
 			return this._container;
 		},
 		onRemove : function (map) {},
+
+		closeInfo : function (e) {
+			this._container.style.display = 'none';
+			this.geoJsonLayer.clearLayers();
+			 changeWMSQueryable(true);
+
+			aturaClick(e);
+
+		},
+
+		update : function (props, show) {
+			/*
+			this._div.innerHTML = '<button aria-hidden="true" id="bt_arbres_close" "data-dismiss="modal" class="close" type="button">×</button>'
+			+ props;
+			 */
+			show ? this._container.style.display = 'block' : this._container.style.display = 'none';
+			this._info_content.innerHTML = props;
+
+		},
 
 		addControlDrawButtons : function (geoJsonLayer) {
 
@@ -90,6 +132,7 @@ L.Control.addModulArbres = L.Control.extend({
 					marker : true,
 				},
 				edit : false,
+				remove : false
 			};
 
 			this.controlDraw = new L.Control.Draw(optionsD);
@@ -97,29 +140,45 @@ L.Control.addModulArbres = L.Control.extend({
 			this.controlDraw.setDrawingOptions({
 				rectangle : {
 					shapeOptions : {
-						color : '#F76504'
+						color : '#FC07FC'
 					}
+					,
+				repeatMode:true
 				},
 				polygon : {
 					shapeOptions : {
-						color : '#F76504'
+						color : '#FC07FC'
 					}
+					,
+				repeatMode:true
 				},
-				marker :false
-				/*
+				//marker : false
+				
 				marker : {
-					icon : L.icon({
-						iconUrl : '/moduls/arbres/img/blank.png',
-						iconSize : [1, 1],
-						iconAnchor : [1, 1]
-					})
+				icon : L.icon({
+				iconUrl : '/moduls/arbres/img/blank.png',
+				iconSize : [1, 1],
+				iconAnchor : [1, 1]
+				}),
+				repeatMode:true
 				}
-				*/
+				 
 			});
 
-			L.drawLocal.draw.toolbar.buttons.polygon = 'Selecció per àrea';
-			L.drawLocal.draw.toolbar.buttons.rectangle = 'Selecció per rectangle';
-			L.drawLocal.draw.toolbar.buttons.marker = 'Selecció per punt';
+			L.drawLocal.draw.toolbar.actions.title = "Cancel.lar";
+			L.drawLocal.draw.toolbar.actions.text = "Cancel.lar";
+
+			//	L.drawLocal.draw.toolbar.finish.title="Acabar";
+			//L.drawLocal.draw.toolbar.finish.text="Acabar";
+
+			//L.drawLocal.draw.toolbar.undo.title="Esborrar últim punt";
+			//L.drawLocal.draw.toolbar.undo.text="Esborrar últim punt";
+
+			L.drawLocal.draw.toolbar.actions.title = "Cancel.lar";
+			L.drawLocal.draw.toolbar.actions.text = "Cancel.lar";
+			L.drawLocal.draw.toolbar.buttons.polygon = 'Selecció arbres dibuixant una àrea';
+			L.drawLocal.draw.toolbar.buttons.rectangle = 'Seleccióna arbres dibuixant un rectangle';
+			L.drawLocal.draw.toolbar.buttons.marker = 'Seleccióna un arbre amb un punt';
 			L.drawLocal.draw.handlers.polygon.tooltip.start = 'Clica per començar a dibuixar una àrea';
 			L.drawLocal.draw.handlers.marker.tooltip.start = 'Clica per seleccionar un arbre';
 			L.drawLocal.draw.handlers.polygon.tooltip.cont = 'Clica per continuar dibuixant una àrea';
@@ -128,55 +187,49 @@ L.Control.addModulArbres = L.Control.extend({
 			L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Deixa anar el ratolí per finalitzar el rectangle';
 
 			map.addControl(this.controlDraw);
-			
-			
+
 			var that = this;
 
-			/*
-			map.off('click');
-			map.on('click',function(e){
-			console.info("He fet click");
-			});
-			 */
+		
 
 			map.on('draw:drawstart', function (e) {
-				console.info("draw start");
+
+				changeWMSQueryable(false);
+
 			});
-			
-			//draw:drawstart
-			//draw:editstart
 
 			map.on('draw:created', function (e) {
 
 				var spatialFilter = 'Within';
 
 				if (e.layerType == "rectangle") {
-					
-					spatialFilter = 'Within';
-				}
-				else if (e.layerType == "polygon") {
-					
-					
-				}else {
-					
+
 					spatialFilter = 'Intersects';
+					that.getFeatureRequest(e.layer.toGML(), spatialFilter, getAreaLayer(e.layer));
+				} else if (e.layerType == "polygon") {
+
+					spatialFilter = 'Within';
+					that.getFeatureRequest(e.layer.toGML(), spatialFilter, getAreaLayer(e.layer));
+				} else {
+					spatialFilter = 'Intersects';
+					that.getFeatureRequest(e.layer.toGML(), spatialFilter, null);
 					
 				}
 
-				that.getFeatureRequest(e.layer.toGML(), spatialFilter);
+				
 
 				//aturaClick(e);
 			});
 
 		},
-		getFeatureRequest : function (geometryGML, spatialFilter) {
+		getFeatureRequest : function (geometryGML, spatialFilter, areaSeleccio) {
 
 			var parameters = L.Util.extend(this.options.parametersWFS);
-			var FILTER = 'FILTER=(<Filter xmlns:gml="http://www.opengis.net/gml" ><'+spatialFilter+'><PropertyName>geom</PropertyName>' + geometryGML + '</'+spatialFilter+'></Filter>)';
+			var FILTER = 'FILTER=(<Filter xmlns:gml="http://www.opengis.net/gml" ><' + spatialFilter + '><PropertyName>geom</PropertyName>' + geometryGML + '</' + spatialFilter + '></Filter>)';
 
 			var BBOX = "bbox=" + map.getBounds().getSouth() + "," + map.getBounds().getWest() + "," + map.getBounds().getNorth() + "," + map.getBounds().getEast();
 
-			console.log(this.options.urlWFS + L.Util.getParamString(parameters) + '&' + FILTER + '&');
+			//console.log(this.options.urlWFS + L.Util.getParamString(parameters) + '&' + FILTER + '&');
 			var that = this;
 
 			$.ajax({
@@ -186,13 +239,12 @@ L.Control.addModulArbres = L.Control.extend({
 				jsonp : "false",
 				jsonpCallback : "parseResponse",
 				success : function (dataGeoJson) {
-					console.info(dataGeoJson);
-					that.handleJson(dataGeoJson);
+					that.handleJson(dataGeoJson, areaSeleccio);
 				}
 			});
 		},
 
-		handleJson : function (dataGeoJson) {
+		handleJson : function (dataGeoJson, areaSeleccio) {
 
 			this.geoJsonLayer.clearLayers();
 			this.geoJsonLayer.addData(dataGeoJson);
@@ -203,6 +255,81 @@ L.Control.addModulArbres = L.Control.extend({
 				opacity : 1,
 				fillOpacity : 0.8
 			});
+
+			this.jsonTemplateInfo(dataGeoJson, areaSeleccio);
+		},
+
+		jsonTemplateInfo : function (dataGeoJson, areaSeleccio) {
+
+			/*
+			properties
+			areaproj:5.40625
+			bat:185.03467
+			cat:91.87488
+			compact:1.1893765
+			gid:302602
+			height:341
+			hsum:60.0099999904633
+			mcsc_raster:null
+			ndvi_median:141.5
+			perimeter:9.803301
+			radieq:1.3118166
+			 */
+
+			var numTT = dataGeoJson.totalFeatures;
+			var numFF = dataGeoJson.features.length;
+			var coberta_percent = 0;
+			var coberta_m2 = 0;
+			var height_acc = 0;
+			var height_min = 0;
+			var bat_kg = 0;
+			var cat_kg = 0;
+			var ndvi_median=0;
+
+			for (i = 0; i < numFF; i++) {
+
+				var ff = dataGeoJson.features[i].properties;
+				coberta_m2 = parseFloat(coberta_m2) + parseFloat(ff.areaproj);
+				height_acc = parseFloat(height_acc) + parseFloat(ff.height);
+
+				bat_kg = parseFloat(bat_kg) + parseFloat(ff.bat);
+				cat_kg = parseFloat(cat_kg) + parseFloat(ff.cat);
+				ndvi_median=ff.ndvi_median;
+			}
+
+			var html = '';
+
+			if(areaSeleccio !=null){
+			
+			coberta_percent = coberta_m2 * 100 / parseFloat(areaSeleccio);
+			height_min = height_acc / parseFloat(numFF);
+
+			html = '<table class="tbl_dades" style="width:100%">' +
+				'<tr><th>Àrea del polígon de selecció:</th><td>' + decimalComa(areaSeleccio.toFixed(1)) + '</td></tr>' +
+				'<tr><th>Nombre d\'abres:</th><td>' + numFF + '</td></tr>' +
+				'<tr><th>Àrea coberta (m<sup>2</sup>):</th><td>' + decimalComa(coberta_m2.toFixed(1)) + ' m<sup>2</sup></td></tr>' +
+				'<tr><th>Àrea coberta (%):</th><td>' + decimalComa(coberta_percent.toFixed(1)) + ' %</td></tr>' +
+				'<tr><th>Alçada mitjana (cm):</th><td>' + decimalComa(height_min.toFixed(1)) + ' cm</td></tr>' +
+				'<tr><th>Biomassa aèria total (kg):</th><td>' + decimalComa(bat_kg.toFixed(1)) + ' kg</td></tr>' +
+				'<tr><th>Carboni aèri total (kg):</th><td>' + decimalComa(cat_kg.toFixed(1)) + ' kg</td></tr>' +
+				'</table>';
+
+			}else{
+
+			
+			html = '<table class="tbl_dades" style="width:100%">' +
+			
+				'<tr><th>Alçada (cm):</th><td>' + decimalComa(height_acc.toFixed(1)) + ' cm</td></tr>' +				
+				'<tr><th>Àrea de capçada (m<sup>2</sup>):</th><td>' + decimalComa(coberta_m2.toFixed(1)) + ' m<sup>2</sup></td></tr>' +
+				'<tr><th>Biomassa aèria total (kg):</th><td>' + decimalComa(bat_kg.toFixed(1)) + ' kg</td></tr>' +
+				'<tr><th>Carboni aèri total (kg):</th><td>' + decimalComa(cat_kg.toFixed(1)) + ' kg</td></tr>' +
+				'<tr><th>NDVI:</th><td>' + decimalComa(ff.ndvi_median.toFixed(1)) + ' </td></tr>' +
+				'</table>';
+
+			}			
+				
+			this.update(html, true);
+			numTT > numFF ? alert("s'han trobat " + numTT + ".La selecció màxima és de " + this.options.parametersWFS.maxfeatures + ".\r Es mostren dades dels" + this.options.parametersWFS.maxfeatures + " primers arbres") : null;
 
 		}
 
@@ -261,13 +388,7 @@ L.Path.include({
 		} else if (this instanceof L.Circle) {
 			console.log("GML TODO: L.Circle");
 
-			// Note: Geoserver doesn't support circles, need to convert this to a polygon
-			//xml += '<gml:Circle srsName="EPSG:4326">';
-			//xml += '<gml:pos>115.832 -31.939</gml:pos>';
-			//xml += '<gml:radius uom="km">0.5</gml:radius>';
-			//xml += '</gml:Circle>';
-
-			//return xml;
+			
 		}
 	},
 

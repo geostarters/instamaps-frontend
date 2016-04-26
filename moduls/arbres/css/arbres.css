@@ -1,0 +1,77 @@
+.arbres_info{
+ background-color: white;
+    border: 1px dashed #bbbbbb;
+ 
+    float: right;
+    left: 47px;
+    max-height: 780px;
+    overflow: auto;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    width: 320px;
+    z-index: 200;
+    display:block;
+	
+}
+
+
+.arbres_infoLL{
+ background-color: white;
+    border: 1px dashed #bbbbbb;
+    z-index: 200;
+    display:none;
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+    border-radius: 0;
+    color: #ffffff;
+}
+
+.arbres_info_title{
+	
+	background-color: white;
+	height:15px
+	
+}
+.arbres_info_content{
+	
+	background-color: #ffffff;
+	
+    padding: 5px;
+	
+}
+
+
+.tbl_dades{
+	 border: 2px solid #ffffff;
+    font-weight: bold;
+    margin: 5px;
+    padding: 0px;
+    width: 99%;
+	font-size: 12px;
+	
+	}
+
+.tbl_dades td{
+	 border: 1px solid #ffffff;
+	 background-color:#f6f6f6;
+}	
+	
+.tbl_dades td, th{
+ width: 50%;
+ padding: 5px;
+}
+}
+
+
+.tbl_chk {
+ width: 99%;
+ font-size: 12px !important;
+}
+
+.tbl_dades input{
+ background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}

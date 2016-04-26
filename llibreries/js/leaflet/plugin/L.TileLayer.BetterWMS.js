@@ -4,7 +4,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		this.creaControlLLegenda(map);
 		// Triggered when the layer is added to a map.
 		// Register a click listener, then do all the upstream WMS things
-		this.options.maxZoom=19;
+		this.options.maxZoom=20;
+		this.options.queryable=true;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		map.on('click', this.getFeatureInfo, this);
 		
@@ -20,15 +21,10 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		this.updateControlLLegenda(params,this.wmsParams.layers,false,this.options.nom,this.options.businessId);
 	},
 	getFeatureInfo: function (evt) {
-		// Make an AJAX request to the server and hope for the best
+		console.info(this.options.queryable);
+		if(this.options.queryable){
 		var params = this.getFeatureInfoUrl(evt.latlng);
-		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
-		
-		
-		//És mol lleig xurro
-		//if(evt.originalEvent.target.className.indexOf('tile')!=-1){
-		
-		console.info(params);
+	
 		if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
 			
 			
@@ -96,7 +92,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		}
 		
 		
-		//}
+		}
 		
 	},
 	
