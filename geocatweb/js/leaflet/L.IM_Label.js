@@ -47,6 +47,15 @@
 	      this._showLabel({
 	        latlng: pointM
 	      });
-	    }
+	    },
+	    unbindLabel: function () {
+	    	console.debug(this);
+			if (this.label) {
+				this._hideLabel();
+				this.label = null;
+				this._showLabelAdded = false;				
+			}
+			return this;
+		}
 	  });
 }(window, document));
