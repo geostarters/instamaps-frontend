@@ -38,6 +38,7 @@ L.Control.LayersBtn = L.Control.extend({
 		self._div = container;
 		
 		map.on('loadconfig', self._updateMapConfig, self);
+		map.on('visorconfig', self._updateMapConfig, self);
 		
 		L.DomEvent
 			.on(container, 'click', stop)
@@ -72,6 +73,7 @@ L.Control.LayersBtn = L.Control.extend({
 	
 	onRemove: function (map) {
 		map.off('loadconfig', this._updateMapConfig, this);
+		map.off('visorconfig', this._updateMapConfig, this);
 	},
 	
 	hideBtn: function(){
