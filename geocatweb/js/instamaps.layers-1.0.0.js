@@ -114,6 +114,9 @@
 			self._loadOrigenWMS(mapConfig, controlCapes).then(function(results){
 				var num_origen = 0;
 				self.numLayers = results.origen.length + results.sublayers.length;
+				if(self.numLayers === 0){
+					self._waitLoadAll(0);
+				}
 				$.each(results.origen, function(index, value){
 					self.loadLayer(value).then(function(){
 						num_origen++;

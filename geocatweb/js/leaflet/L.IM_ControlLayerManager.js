@@ -36,12 +36,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	onAdd : function(map) {
 		this._initLayout();
 		this._update();
-		//map.on('layeradd', this._onLayerChange, this).on('layerremove', this._onLayerChange, this);
+		map.on('layeradd', this._onLayerChange, this).on('layerremove', this._onLayerChange, this);
 		return this._container;
 	},
 
 	onRemove : function(map) {
-		//map.off('layeradd', this._onLayerChange).off('layerremove', this._onLayerChange);
+		map.off('layeradd', this._onLayerChange).off('layerremove', this._onLayerChange);
 	},
 
 	addBaseLayer : function(layer, name, group) {
@@ -634,7 +634,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 	},
 	
-	forceUpdate: function(){
+	forceUpdate: function(autoUpdate){
+		if(autoUpdate){
+			this.options.autoUpdate = true;
+		}
 		this._update(true);
 	},
 
