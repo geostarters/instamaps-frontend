@@ -615,12 +615,10 @@
 		addControl3d: function(){
 			var self = this,
 			ctr_3d,
-			mapConfig = self._mapConfig,
 			_map = self.map;
 			
 			ctr_3d = L.control.control3d({
-				title: window.lang.convert('Canviar vista'),
-				mapConfig: mapConfig
+				title: window.lang.convert('Canviar vista')
 			});
 			ctr_3d.addTo(_map);
 			
@@ -806,6 +804,16 @@
 			return self;
 		},
 		
+		fireLoadConfig: function(){
+			var self = this,
+			_map = self.map,
+			mapConfig = self._mapConfig;
+			
+			_map.fire('visorconfig', mapConfig);
+			
+			return self;
+		},
+		
 		loadMapConfig: function(){
 			var self = this,
 			_map = self.map,
@@ -963,14 +971,14 @@
 			}
 			
 			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
-				self._initCenter().drawMap().resizeMap().drawControls().loadApp()._addTooltips()._hideLoading();
+				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()._addTooltips()._hideLoading();
 				
 				if(self.embed){
 					self.addLogoInstamap();
 				}
 				
 			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
-				self._initCenter().drawMap().resizeMap().drawControls().loadApp()
+				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._hideLoading();
 			}
 			
