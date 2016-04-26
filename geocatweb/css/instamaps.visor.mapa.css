@@ -2155,6 +2155,14 @@ i.fa {
     position: relative;	
 }
 
+.text3D {
+    color: #464646;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 1px 0 #999, 0 2px 0 #ffffff, 0 3px 0 #777;
+    cursor: pointer;
+}
+
 .geopdf,.geopdf a,.geopdf div {
 	color: #464646 !important;
 	cursor: pointer;
