@@ -67,7 +67,8 @@ function addModul3D(config) {
 
 	jQuery(document).on('click', "#chk_ad_3d", function (e) {
 		$.cookie('msg3D', true, {
-			path : '/'
+			path : '/',
+			expires: 365
 		});
 
 	});
