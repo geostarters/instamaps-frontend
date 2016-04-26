@@ -36,15 +36,16 @@
 	      });
 	    },
 	    unbindLabel: function () {
+	    	this
+			.off('remove', this.hideLabel, this)
+			.off('move', this._moveLabel, this)
+			.off('add', this._onPolylineAdd, this);
 	    	if (this.label) {
 				this._hideLabel();
 				this.label = null;
 				this._showLabelAdded = false;				
 			}
-	    	this
-			.off('remove', this.hideLabel, this)
-			.off('move', this._moveLabel, this)
-			.off('add', this._onPolylineAdd, this);
+	    	
 			return this;
 		},
 	    hideLabel: function () {
