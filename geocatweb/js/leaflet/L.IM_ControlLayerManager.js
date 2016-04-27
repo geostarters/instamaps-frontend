@@ -1007,17 +1007,18 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				//Mostrem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
-					jQuery.each(obj.layer._layers, function(i, lay){						
+					jQuery.each(obj.layer._layers, function(i, lay){	
 						if (lay.label!=undefined) {
-							lay.label.setOpacity(1);
+							if(lay.label){
+								lay.label.setOpacity(1);
+							}
 							if(lay._showLabel){
                                 lay._showLabel({latlng: lay.label._latlng});
 							}
 						}
-					});	
+					});
 				}
 				
-
 				if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
 					var optionsUtfGrid = {
 						layers : obj.layer.options.businessId,
@@ -1053,7 +1054,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){
-						lay.label.setOpacity(0);
+						if(lay.label){
+							lay.label.setOpacity(0);
+						}
 					});	
 				}
 				// Si es vis_wms, hem d'eliminar tb la capa utfgrid
@@ -1535,13 +1538,19 @@ function thisFillModalDataTable(obj) {
 }
 
 function thisLoadMapLegendEdicio(obj) {
-	loadMapLegendEdicio(obj);
+	if (getModeMapa()){
+		loadMapLegendEdicio(obj);
+	}
 }
 
 function thisLoadMapLegendEdicioDinamic(obj) {
-	loadMapLegendEdicioDinamics(obj);
+	if (getModeMapa()){
+		loadMapLegendEdicioDinamics(obj);
+	}
 }
 
 function thisEmptyMapLegendEdicio(obj) {
-	emptyMapLegendEdicio(obj);
+	if (getModeMapa()){
+		emptyMapLegendEdicio(obj);
+	}
 }
