@@ -1447,14 +1447,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 
 		if (typeof url('?businessid') == "string") {
-			
 			var data = obj.layer.options;
 			if (data!=undefined){
 				var dataNames = [];
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
 				if (data.propName!=undefined && data.propname!='null' && data.propname!='') {
-					dataNames = data.propName;		
+					dataNames = data.propName;
 					jQuery.each(dataNames, function( index, value ) {
 						if (value!='') 	fields[value] = value;
 					});
@@ -1488,7 +1487,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				else 	$('#dv_color_etiqueta').css('background-color','#ffc500');
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
 				else $('input:radio[name=etiqueta][value=geometries]').attr('checked', true);
-				
 			}
 		}
 	},
