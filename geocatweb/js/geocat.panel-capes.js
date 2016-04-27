@@ -468,11 +468,7 @@ function addFuncioEtiquetesCapa(){
 					geometryType:optionsMap.geometryType
 			};
 			updateVisualitzacioLayer(data).then(function(results){
-				map.removeLayer(layerMap);
-				//Eliminem la capa de controlCapes
-				controlCapes.removeLayer(controlCapes._layers[capaLeafletIdControl]);
-				loadVisualitzacioLayer(results.layer);				
-				
+				loadVisualitzacioLayer(results.layer);			
 			});
 		}
 	});
@@ -621,7 +617,7 @@ function addHtmlModalEtiquetesLayer(){
 	'					<input type="hidden" name="leafletIdCapaEtiqueta" id="leafletIdCapaEtiqueta" value="">'+
 	'					<input type="hidden" name="leafletIdCapaEtiquetaControl" id="leafletIdCapaEtiquetaControl" value="">'+
 	'				</div>'+
-	'				<div class="modal-body">'+
+	'				<div class="modal-body2">'+
 	'					<div class="labels_fields" style="padding-bottom:10px">'+
 	'						<span>1.</span><span lang="ca">Estil de les etiquetes</span>:'+
 	'					</div>'+
@@ -669,16 +665,16 @@ function addHtmlModalEtiquetesLayer(){
 	'														data-toggle="dropdown" style="margin-top:-5px;">'+
 	'														<div id="dv_color_etiqueta" class="color_etiqueta"></div>'+
 	'													</a>'+
-	'													<ul class="dropdown-menu" style="position:relative;">'+
+	'													<ul class="dropdown-menu" >'+
 	'														<li><div id="colorpalette_etiqueta"></div></li>'+
 	'													</ul>'+
 	'												</div>'+
 	'					</div>'+
 	'					<div class="labels_fields" style="padding-bottom:10px">'+
 	'						<span>2.</span><span lang="ca">Visibilitat de les etiquetes</span>:<br/>'+
-	'						<input type="radio" name="etiqueta" id="etiqueta" value="geometries" checked>Geometries'+
+	'						<input type="radio" name="etiqueta" id="etiqueta" value="etiquetageom" checked>Etiquetes+geometries'+
+	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="geometries" >Geometries'+
 	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="nomesetiqueta">Només etiquetes'+
-	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="etiquetageom">Etiquetes+geometries'+
 	'					</div>'+
 	'				</div>'+
 	'				<div class="modal-footer">'+
