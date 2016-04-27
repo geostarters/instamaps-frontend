@@ -1505,7 +1505,7 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	//update del options de la capa
 	var optionsVis = getOptions(visualitzacio);
 	capaVisualitzacio.options = $.extend(capaVisualitzacio.options, optionsVis);
-	if(capaVisualitzacio.options.propName){
+	if(capaVisualitzacio.options.propName && jQuery.type( capaVisualitzacio.options.propName ) === "string"){
 		capaVisualitzacio.options.propName = capaVisualitzacio.options.propName.split(",");
 	}
 		
