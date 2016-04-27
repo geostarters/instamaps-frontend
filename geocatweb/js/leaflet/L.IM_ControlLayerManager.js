@@ -1485,9 +1485,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.fontStyle!=undefined)	$('#font-style option[value='+obj.layer.options.fontStyle+']').attr('selected','selected');
 				else $('#font-style option[value=10px]').attr('selected','selected');
 				if (obj.layer.options.fontColor!=undefined)	$('#dv_color_etiqueta').css('background-color',obj.layer.options.fontColor);
-				else 	$('#dv_color_etiqueta').css('background-color','#ffc500');
+				else 	$('#dv_color_etiqueta').css('background-color','#000000');
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
-				else $('input:radio[name=etiqueta][value=geometries]').attr('checked', true);
+				else $('input:radio[name=etiqueta][value=etiquetageom]').attr('checked', true);
 				
 			}
 		}
