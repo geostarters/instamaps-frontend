@@ -428,7 +428,6 @@ function addFuncioEtiquetesCapa(){
 	addHtmlModalEtiquetesLayer();
 	//Omplim els camps amb el que hi ha guardat a la BBDD
 	
-	
 	$('#colorpalette_etiqueta').colorPalette().on('selectColor', function(e) {   	
 	    $('.color_etiqueta').css('background-color',e.color);		
 	});
@@ -468,17 +467,13 @@ function addFuncioEtiquetesCapa(){
 					geometryType:optionsMap.geometryType
 			};
 			updateVisualitzacioLayer(data).then(function(results){
-				loadVisualitzacioLayer(results.layer);			
+				reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
 			});
 		}
 	});
-	
 }
 
-
-
 function addHtmlModalDownloadLayer(){
-
 	jQuery('#mapa_modals').append(
 	'	<div class="modal fade" id="modal_download_layer">'+
 	'	<div class="modal-dialog">'+

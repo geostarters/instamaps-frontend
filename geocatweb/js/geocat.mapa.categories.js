@@ -131,15 +131,9 @@ function showModalTematicCategories(data){
 						uid: jQuery.cookie('uid')
 				};
 				getValuesFromKeysProperty(dataVis).then(function(results){
-					console.debug(results);
 					jQuery("#dialog_tematic_rangs").data("values", results);
 					getTipusValuesVisualitzacio(results);					
 				});
-				/*readDataVisualitzacio(visualitzacio, this_.val()).then(function(results){
-					jQuery("#dialog_tematic_rangs").data("values", results);
-					getTipusValuesVisualitzacio(results);
-				});*/
-
 			}
 		});	
 		
