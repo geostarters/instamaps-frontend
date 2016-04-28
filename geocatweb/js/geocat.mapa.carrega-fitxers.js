@@ -166,13 +166,11 @@ function creaAreesDragDropFiles() {
 								clearInterval(pollInterval);
 								jQuery('#info_uploadFile').hide();
 								
-								$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
-									var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
-									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
-									$('#dialog_error_upload_txt').html(msg);
-									$('#dialog_error_upload').modal('show');
-								});
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+								var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
+								msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+								$('#dialog_error_upload_txt').html(msg);
+								$('#dialog_error_upload').modal('show');
+								_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 								
 								
 							}else if(data.status.indexOf("ERROR")!=-1){

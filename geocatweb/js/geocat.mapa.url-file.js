@@ -151,7 +151,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			  middleware:function(data){
 			    	//console.debugbug("capaURLfile");
 			    	//console.debug(capaURLfile);				  
-				  
 				  if(data.status && data.status.indexOf("ERROR")!=-1){
 					  processFileError(data, urlFile);
 					  jQuery('#info_uploadFile').hide();
@@ -446,44 +445,44 @@ function processFileError(data, urlFile){
 	if(data.codi){
 		
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques error '+data.codi, urlFile, 1]);
-		
+		var txt_error="";
 		if(data.codi.indexOf("01")!=-1){//cas 01: Erro al descarregar el fitxer zip (download_zip_file)
-			var txt_error = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la descàrrega del fitxer.");
+			txt_error = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la descàrrega del fitxer.");
 			
 		}else if(data.codi.indexOf("02")!=-1){//cas 02: EnviaFileReadyCodiDin a myUtils.jsp ha donat una excepcio
-			var msg = "[02]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+			txt_error = "[02]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 			
 		}else if(data.codi.indexOf("03")!=-1){//cas 03: Error de conversio del fitxer
-			var txt_error = "[03]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+			 txt_error = "[03]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
 //			$('#dialog_error_upload_txt').html(msg);
 			
 		}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-			var txt_error = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+			 txt_error = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
 //				$('#dialog_error_upload_txt').html(msg);
 		
 		}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-			var txt_error = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+			 txt_error = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
 //			$('#dialog_error_upload_txt').html(msg);
 			
 		}else if(data.codi.indexOf("06")!=-1){//cas 06: OGRInfo ha donat resposta fallida
-			var txt_error = "[06]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+			 txt_error = "[06]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 //			$('#dialog_error_upload_txt').html(msg);
 				
 		}else if(data.codi.indexOf("07")!=-1){//cas 07: Num maxim de punts excedit
-			var txt_error = "[07]: " + window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
+			 txt_error = "[07]: " + window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
 //			$('#dialog_error_upload_txt').html(msg);
 		
 		}else if(data.codi.indexOf("08")!=-1){//cas 08: Num maxim de linies/poligons exedit
-			var txt_error = "[08]: " + window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+			 txt_error = "[08]: " + window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
 //			$('#dialog_error_upload_txt').html(msg);
 		
 		}else if(data.codi.indexOf("09")!=-1){//cas 09: Mida de fitxer supera els 25MB permesos per dades externes dinamiques
-			var txt_error = "[09]: " + window.lang.convert("La mida del fitxer supera el límit preestablert per a dades externes dinàmiques (25MB).");
+			 txt_error = "[09]: " + window.lang.convert("La mida del fitxer supera el límit preestablert per a dades externes dinàmiques (25MB).");
 //			$('#dialog_error_upload_txt').html(msg);
 		}			
 		
 	}else{
-		var txt_error = window.lang.convert("Error durant el tractament de les dades");
+		 txt_error = window.lang.convert("Error durant el tractament de les dades");
 	}
 	
 	/*
@@ -498,9 +497,8 @@ function processFileError(data, urlFile){
 	}*/
 	
 	//_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
-	
-	jQuery("#div_url_file_message").html(txt_error);
-	jQuery("#div_url_file_message").show();
+	$('#dialog_error_upload_txt').html(txt_error);
+	$('#dialog_error_upload').modal('show');
 }
 
 function loadURLfileLayer(layer){
