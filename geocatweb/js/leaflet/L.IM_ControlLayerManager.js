@@ -1007,17 +1007,18 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				//Mostrem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
-					jQuery.each(obj.layer._layers, function(i, lay){						
+					jQuery.each(obj.layer._layers, function(i, lay){	
 						if (lay.label!=undefined) {
-							lay.label.setOpacity(1);
+							if(lay.label){
+								lay.label.setOpacity(1);
+							}
 							if(lay._showLabel){
                                 lay._showLabel({latlng: lay.label._latlng});
 							}
 						}
-					});	
+					});
 				}
 				
-
 				if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
 					var optionsUtfGrid = {
 						layers : obj.layer.options.businessId,
@@ -1053,7 +1054,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){
-						lay.label.setOpacity(0);
+						if(lay.label){
+							lay.label.setOpacity(0);
+						}
 					});	
 				}
 				// Si es vis_wms, hem d'eliminar tb la capa utfgrid
@@ -1447,14 +1450,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 
 		if (typeof url('?businessid') == "string") {
-			
 			var data = obj.layer.options;
 			if (data!=undefined){
 				var dataNames = [];
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
 				if (data.propName!=undefined && data.propname!='null' && data.propname!='') {
-					dataNames = data.propName;		
+					dataNames = data.propName;
 					jQuery.each(dataNames, function( index, value ) {
 						if (value!='') 	fields[value] = value;
 					});
@@ -1485,10 +1487,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.fontStyle!=undefined)	$('#font-style option[value='+obj.layer.options.fontStyle+']').attr('selected','selected');
 				else $('#font-style option[value=10px]').attr('selected','selected');
 				if (obj.layer.options.fontColor!=undefined)	$('#dv_color_etiqueta').css('background-color',obj.layer.options.fontColor);
-				else 	$('#dv_color_etiqueta').css('background-color','#ffc500');
+				else 	$('#dv_color_etiqueta').css('background-color','#000000');
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
-				else $('input:radio[name=etiqueta][value=geometries]').attr('checked', true);
-				
+				else $('input:radio[name=etiqueta][value=etiquetageom]').attr('checked', true);
 			}
 		}
 	},
@@ -1537,13 +1538,19 @@ function thisFillModalDataTable(obj) {
 }
 
 function thisLoadMapLegendEdicio(obj) {
-	loadMapLegendEdicio(obj);
+	if (getModeMapa()){
+		loadMapLegendEdicio(obj);
+	}
 }
 
 function thisLoadMapLegendEdicioDinamic(obj) {
-	loadMapLegendEdicioDinamics(obj);
+	if (getModeMapa()){
+		loadMapLegendEdicioDinamics(obj);
+	}
 }
 
 function thisEmptyMapLegendEdicio(obj) {
-	emptyMapLegendEdicio(obj);
+	if (getModeMapa()){
+		emptyMapLegendEdicio(obj);
+	}
 }

@@ -830,7 +830,10 @@ background-color: #9F9F9E;
 	padding: 10px 10px;
 	max-height:600px;
 }
-
+.modal-body2 {
+	padding: 10px 10px;
+	max-height:600px;
+}
 
 .modal-footer {
 	padding-bottom: 10px;

@@ -98,14 +98,12 @@ function showTematicLayersModal(tipus,className){
 	var layers = [];
 	jQuery.each( controlCapes._layers, function( key, value ) {
 		var layerOptions = this.layer.options;
-
-		console.debug(layerOptions);
+		
 		var tipusCapa = layerOptions.tipus;
 		//Si la capa no es multigeometrias
 		if (layerOptions.geometryType != t_multiple){
 			//Si la capa no esta tematitzada
 			if(!layerOptions.tipusRang || layerOptions.tipusRang == tem_origen){
-				console.debug("AQUI:"+tipus);
 				if(tipus==tem_simple) {
 					if (tipusCapa == t_tematic || tipusCapa == t_json || tipusCapa == t_visualitzacio || tipusCapa == t_url_file){ //tematic
 						layers.push(this);
@@ -126,26 +124,19 @@ function showTematicLayersModal(tipus,className){
 							layers.push(this);
 						}
 					}
-				
-
-			
-				
-				}else if (tipus==tem_cluster || tipus==tem_heatmap) {
-					
+				}else if (tipus==tem_cluster || tipus==tem_heatmap) {	
 					if(estatMapa3D){
 						$('#list_tematic_layers').html(warninMSG3D);
-					
 					}else{
-					
-							var ftype = transformTipusGeometry(layerOptions.geometryType);
-							//var ftype = layerOptions.geometryType;
-							if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
-								(tipusCapa == t_tematic && ftype == t_marker) ||
-								(tipusCapa == t_url_file && ftype == t_marker) ||
-								(tipusCapa == t_visualitzacio && ftype == t_marker) ||
-								(tipusCapa == t_vis_wms)){
-								layers.push(this);
-							}
+						var ftype = transformTipusGeometry(layerOptions.geometryType);
+						//var ftype = layerOptions.geometryType;
+						if(tipusCapa == t_dades_obertes || tipusCapa == t_json ||
+							(tipusCapa == t_tematic && ftype == t_marker) ||
+							(tipusCapa == t_url_file && ftype == t_marker) ||
+							(tipusCapa == t_visualitzacio && ftype == t_marker) ||
+							(tipusCapa == t_vis_wms)){
+							layers.push(this);
+						}
 					}
 				}else if (tipus==tem_size) {
 					var ftype = transformTipusGeometry(layerOptions.geometryType);
@@ -1509,6 +1500,55 @@ function loadVisualitzacioLayer(layer,removed){
 	return defer.promise();
 }
 
+function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
+	var defer = $.Deferred();
+	//update del options de la capa
+	var optionsVis = getOptions(visualitzacio);
+	capaVisualitzacio.options = $.extend(capaVisualitzacio.options, optionsVis);
+	if(capaVisualitzacio.options.propName && jQuery.type( capaVisualitzacio.options.propName ) === "string"){
+		capaVisualitzacio.options.propName = capaVisualitzacio.options.propName.split(",");
+	}
+		
+	//limpiar las geometrias
+	capaVisualitzacio.clearLayers();
+	
+	//cargar las geometrias a la capa
+	var layOptions = getOptions(layer);
+	var origen = getOrigenLayer(layer);
+	var hasSource = (optionsVis && (optionsVis.toString().indexOf("source")!=-1) ) 
+	|| (layOptions && (layOptions.toString().indexOf("source")!=-1) );
+	loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+	
+	return defer.promise();
+}
+
+function getOptions(visualitzacio){
+	var visOptions = visualitzacio.options;
+	if(typeof (visOptions)=="string"){	
+		try {
+			optionsVis = JSON.parse(visOptions);
+		}
+		catch (err) {
+			optionsVis = visOptions;		
+		}
+	}else{			
+		optionsVis = visOptions;	
+	}
+	return optionsVis;
+}
+
+function getOrigenLayer(layer){
+	var origen = "",
+	options;
+	if (layer.options){
+		options = getOptions(layer);
+		if(options.origen){//Si es una sublayer
+			origen = getLeafletIdFromBusinessId(options.origen);
+		}
+	}
+	return origen;
+}
+
 function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	var layOptions; 
 	if(typeof (layer.options)=="string"){	
@@ -1522,64 +1562,36 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		layOptions = layer.options;	
 	}
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
-					|| (layOptions && (layOptions.toString().indexOf("source")!=-1) );
+		|| (layOptions && (layOptions.toString().indexOf("source")!=-1) );
 	if(visualitzacio.tipus == tem_heatmap){
-//		loadTematicHeatmap(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva);
 		loadVisualitzacioHeatmap(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva);
 	}else if(visualitzacio.tipus == tem_cluster){
-//		loadTematicCluster(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva);
 		loadVisualitzacioCluster(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva);
 	}else{
-		
 		capaVisualitzacio = new L.FeatureGroup();
-		//console.debug(visualitzacio);
 		if(layOptions && layOptions.group){
-			
 			capaVisualitzacio.options = {
-					businessId : layer.businessId,
-					nom : layer.serverName,
-					tipus : layer.serverType,
-					tipusRang: visualitzacio.tipus, //Â¿?
-					geometryType: visualitzacio.geometryType,
-//					dades: hasDades, //No cal?
-//					rangs: tematic.rangs,
-					estil: visualitzacio.estil,
-//					rangsField: rangsField
-					group: layOptions.group
-				};
-			
+				businessId : layer.businessId,
+				nom : layer.serverName,
+				tipus : layer.serverType,
+				tipusRang: visualitzacio.tipus, 
+				geometryType: visualitzacio.geometryType,
+				estil: visualitzacio.estil,
+				group: layOptions.group
+			};
 		}else{
-		
-		
-		
-		capaVisualitzacio.options = {
-			businessId : layer.businessId,
-			nom : layer.serverName,
-			tipus : layer.serverType,
-			tipusRang: visualitzacio.tipus, //Â¿?
-			geometryType: visualitzacio.geometryType,
-//			dades: hasDades, //No cal?
-//			rangs: tematic.rangs,
-			estil: visualitzacio.estil
-//			rangsField: rangsField
-			//group: layOptions.group
-		};
-	
+			capaVisualitzacio.options = {
+				businessId : layer.businessId,
+				nom : layer.serverName,
+				tipus : layer.serverType,
+				tipusRang: visualitzacio.tipus, 
+				geometryType: visualitzacio.geometryType,
+				estil: visualitzacio.estil
+			};
 		}
 		
 		var visOptions = visualitzacio.options;
-		var optionsVis;
-		
-		if(typeof (visOptions)=="string"){	
-			try {
-				optionsVis = JSON.parse(visOptions);
-			}
-			catch (err) {
-				optionsVis = visOptions;		
-			}
-		}else{			
-			optionsVis = visOptions;	
-		}
+		var optionsVis = getOptions(visualitzacio);
 		
 		if(hasSource) {
 			capaVisualitzacio.options.source = optionsVis.source;
@@ -1628,327 +1640,37 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			if(optionsVis && optionsVis.fontColor!=undefined) capaVisualitzacio.options.fontColor = optionsVis.fontColor;
 			if(optionsVis && optionsVis.fontStyle!=undefined) capaVisualitzacio.options.fontFamily = optionsVis.fontStyle;
 			if(optionsVis && optionsVis.opcionsVis!=undefined) capaVisualitzacio.options.opcionsVisEtiqueta = optionsVis.opcionsVis;
-			
 		}
 		
 		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaVisualitzacio.addTo(map);
 		}	
 		
-		var options;
-		var origen = "";
-		if (layer.options){
-			if(typeof (layer.options)=="string"){	
-				try {
-					options = JSON.parse(layer.options);
-				}
-				catch (err) {
-					options = layer.options;		
-				}
-			}else{			
-				options = layer.options;	
-			}
-		}
-		if(layer.options && options.origen){//Si es una sublayer
-			origen = getLeafletIdFromBusinessId(options.origen);
-		}
+		var origen = getOrigenLayer(layer);
 		
 		//ordenar los estilos de mayor a menor para los bubbles
 		if (visualitzacio.tipus == tem_size){
 			var estilDesc = visualitzacio.estil.sort(sordDesc("simbolSize"));
 			visualitzacio.estil = estilDesc;
 		}
-		if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
-			var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
-			if (optionsVis.fontStyle!=undefined){
-				if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
-				else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
-			}
-			//style+=";border:1px solid red;";
-			
-			createClass('.etiqueta_style_'+visualitzacio.businessId,style);
-		}
-		//Afegim geomatries a la capa
-		//per cada estil de la visualitzacio
-		jQuery.each(visualitzacio.estil, function(index, estil){
-			var geomTypeVis = visualitzacio.geometryType;
-			var geomStyle;
-			
-			if (geomTypeVis === t_marker){
-				geomStyle = createMarkerStyle(estil, estil.geometria.features.length);
-			}else if (geomTypeVis === t_multipoint){
-				geomStyle = createMarkerStyle(estil, estil.geometria.features.length);
-			}else if (geomTypeVis === t_polyline){
-				geomStyle = createLineStyle(estil);
-			}else if (geomTypeVis === t_multilinestring){
-				geomStyle = createLineStyle(estil);
-			}else if (geomTypeVis === t_polygon){
-				geomStyle = createAreaStyle(estil);
-			}else if (geomTypeVis === t_multipolygon){
-				geomStyle = createAreaStyle(estil);
-			}		
-			
-			//per cada geometria d'aquell estil
-			jQuery.each(estil.geometria.features, function(indexGeom, geom){				
-				//console.debug("geom:");
-				var featureTem = [];
-				var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
-//				var geomType = geomTypeVis;
-
-				//MultyPoint
-				if (geomTypeVis === t_marker && geomType === t_multipoint){
-					//TODO revisar que funcione
-					var coords=geom.geometry.coordinates;
-					for (var i = 0; i < coords.length; i++){
-						var c=coords[i];
-						if(!geomStyle.isCanvas){
-							featureTem.push(new L.marker([c[1], c[0]],
-								{icon: rangStyle, isCanvas:false, tipus: t_marker}));
-						}else{
-							featureTem.push(new L.circleMarker([c[1], c[0]],geomStyle));
-						}
-					}
-				//Punt
-				}else if (geomTypeVis === t_marker){
-					var coords=geom.geometry.coordinates;
-					if(!geomStyle.isCanvas){
-						
-						var marker=new L.marker([coords[1],coords[0]],{icon: geomStyle, isCanvas:false,tipus: t_marker});
-						//console.debug(marker);
-						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
-							marker.setOpacity(0);
-						}			
-						
-						if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
-							if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
-									(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") && origen==""){
-								marker.bindLabel(geom.properties[optionsVis.campEtiqueta],
-									{opacity:1, noHide: true, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});
-							}
-						}
-						
-						featureTem.push(marker);
-					}else{
-						
-						var markerCircle=new L.circleMarker([coords[1],coords[0]],geomStyle);
-						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
-							geomStyle = createMarkerStyle(estil, estil.geometria.features.length,0);
-							markerCircle=new L.circleMarker([coords[1],coords[0]],geomStyle);
-						}
-						if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
-							if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
-									(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") && origen==""){
-								markerCircle.bindLabel(geom.properties[optionsVis.campEtiqueta],
-									{opacity:1, noHide: true, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});
-							}
-						}
-						featureTem.push(markerCircle);
-					}
-				//MultiPoint
-				}else if (geomTypeVis === t_polyline && geomType === t_multilinestring){
-					var coords=geom.geometry.coordinates;
-					var llistaLines=[];
-					var llistaLines2=[];
-					
-					for (var i = 0; i < coords.length; i++){
-						var lines=coords[i];
-						var llistaPunts=[];
-						var myPolyline = new L.polyline(llistaPunts,geomStyle);
-						
-						for (var k = 0; k < lines.length; k++){
-							var c=lines[k];
-							var punt=new L.LatLng(c[1], c[0]);
-							myPolyline.addLatLng(punt);
-//							llistaPunts.push(punt);
-						}
-						featureTem.push(myPolyline);
-//						llistaLines.push(llistaPunts);
-//						llistaLines2.push(myPolyline.getLatLngs());
-					}
-//					featureTem = new L.multiPolyline(llistaLines, geomStyle);
-//				
-				//multiLine
-				}else if (geomTypeVis === t_polyline){
-					var coords=geom.geometry.coordinates;
-					var llistaPunts=[];
-					for (var i = 0; i < coords.length; i++){
-						var c=coords[i];
-						var punt=new L.LatLng(c[1], c[0]);
-						llistaPunts.push(punt);
-					}
-					var polyline= (new L.polyline(llistaPunts, geomStyle));
-					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
-						geomStyle = createLineStyle(estil,0);
-						polyline= (new L.polyline(llistaPunts, geomStyle));
-					}
-					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
-						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
-								if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
-									polyline.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
-											{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId ,offset: [0, 0]});
-								}	
-								if (optionsVis.opcionsVis=="geometries"){
-									polyline.hideLabel();
-								}
-						}
-					}
-					featureTem.push(polyline);
-				//multiPolygon
-				}else if(geomTypeVis === t_polygon && geomType === t_multipolygon){
-					
-					
-					var coords=geom.geometry.coordinates;
-					var llistaPoligons=[];
-					for (var p = 0; p < coords.length; p++){
-						var poligons=coords[p];
-						var llistaLines=[];
-						for (var i = 0; i < poligons.length; i++){
-							var lines=poligons[i];
-							var llistaPunts=[];
-							for (var k = 0; k < lines.length; k++){
-								var c=lines[k];
-								var punt=new L.LatLng(c[1], c[0]);
-								llistaPunts.push(punt);
-							}
-							llistaLines.push(llistaPunts);
-						}
-						llistaPoligons.push(llistaLines);
-					}
-//					featureTem = new L.multiPolygon(llistaPoligons, geomStyle);
-				
-					featureTem.push(new L.multiPolygon(llistaPoligons, geomStyle));
-					
-//					var coords=geom.geometry.coordinates;
-//					var llistaPoligons=[];
-//					for (var p = 0; p < coords.length; p++){
-//						var poligonCoord=coords[p];
-//						var llistaPunts=[];
-//						var myPolygon = new L.polygon(llistaPunts,geomStyle);
-//						for (var i = 0; i < poligonCoord.length; i++){
-//							var pol=poligonCoord[i];
-//							for (var j = 0; j < pol.length; j++){
-//								
-//								var c = pol[j];
-//								var punt=new L.LatLng(c[0], c[1]);
-//								myPolygon.addLatLng(punt);
-//							}
-//						}
-//						//llistaPoligons.push(myPolygon);
-//						featureTem.push(myPolygon);
-//					}
-//					//featureTem.push(llistaPoligons, geomStyle);
-//				//polygon
-				}else if (geomTypeVis === t_polygon){
-					var coords=geom.geometry.coordinates;
-					var llistaLines=[];
-					for (var i = 0; i < coords.length; i++){
-						var lines=coords[i];
-						var llistaPunts=[];
-						for (var k = 0; k < lines.length; k++){
-							var c=lines[k];
-							var punt=new L.LatLng(c[1], c[0]);
-							llistaPunts.push(punt);
-						}
-						llistaLines.push(llistaPunts);
-					}
-					var polygon = new L.Polygon(llistaLines, geomStyle);
-					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
-						geomStyle = createAreaStyle(estil,0);
-						polygon = new L.Polygon(llistaLines, geomStyle);
-					}
-					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
-						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
-								if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
-									polygon.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
-										{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
-								}	
-								if (optionsVis.opcionsVis=="geometries"){
-									polygon.hideLabel();
-								}
-						}
-					}
-					featureTem.push(polygon);
-				}
-				
-				jQuery.each(featureTem, function(index, feat){
-					feat.properties = {};
-					feat.properties.businessId = geom.businessId;
-					feat.properties.data = geom.properties;
-					feat.properties.estil = estil;
-					feat.properties.capaLeafletId = capaVisualitzacio._leaflet_id;
-					feat.properties.capaNom = capaVisualitzacio.options.nom;
-					feat.properties.capaBusinessId = capaVisualitzacio.options.businessId;
-					feat.properties.tipusFeature = geomTypeVis;
-					
-					//Cal??
-					if (feat.options){
-						feat.options.tipus = geomTypeVis;
-					}else{
-						feat.options = {tipus: geomTypeVis};
-					}
-					
-					feat.properties.feature = {};
-					feat.properties.feature.geometry = geom.geometry;
-//					console.debug("Add feat:");
-					capaVisualitzacio.addLayer(feat);
-					//console.debug(feat);
-				
-					if(geomTypeVis == t_polygon){
-						feat.properties.mida = calculateArea(feat);
-					}else if(geomTypeVis == t_polyline){
-						feat.properties.mida = calculateDistance(feat.getLatLngs());
-					}
-				
-	//				//Si la capa no ve de fitxer
-					if(!hasSource){
-//						console.debug("no te source, no ve de fitxer");
-						if($(location).attr('href').indexOf('mapa')!=-1 && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-							createPopupWindow(feat,geomTypeVis);
-						}else{
-//							console.debug("Estem mode vis i no es tem origen:");
-//							createPopupWindowVisor(feat,geomTypeVis);
-							createPopupWindowData(feat,geomTypeVis, false, origen);
-						}								
-					}else{
-//						console.debug("Te source, ve de fitxer");
-//						console.debug(capaVisualitzacio);
-						if($(location).attr('href').indexOf('mapa')!=-1 && capaVisualitzacio.options.tipusRang == tem_origen){
-//							console.debug("Estem mode mapa i es tem origen");
-							createPopupWindowData(feat,geomTypeVis, true, origen);
-						}else{
-//							console.debug("Estem mode vis i no es tem origen:");
-//							console.debug(origen);
-							createPopupWindowData(feat,geomTypeVis, false, origen);
-						}
-						
-					}
-					map.closePopup();					
-				});
-				
-			});
-		});	
+		
+		//Afegim geometries a la capa
+		loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 		
 		//Afegim num d'elements al nom de la capa, si és un fitxer
 		if(layer.dragdrop || layer.urlFile){
 			capaVisualitzacio.options.nom = capaVisualitzacio.options.nom;// + " ("+capaTematic.getLayers().length+")";
 			var data = {
-				 	businessId: capaVisualitzacio.options.businessId, //url('?businessid') 
-				 	uid: $.cookie('uid'),
-				 	serverName: capaVisualitzacio.options.nom
-				 }
+			 	businessId: capaVisualitzacio.options.businessId, //url('?businessid') 
+			 	uid: $.cookie('uid'),
+			 	serverName: capaVisualitzacio.options.nom
+			 };
 				
-				updateServidorWMSName(data).then(function(results){
-					/*
-					if(results.status==='OK')console.debug("CapaTematic name changed OK");
-					else console.debug("CapaTematic name changed KO");
-					*/
-				});					
+			updateServidorWMSName(data).then(function(results){
+			
+			});					
 		}
 		
-//		var options;
-//		if (layer.options){
-//			options = jQuery.parseJSON( layer.options );
-//		}
 		if (layer.options){
 			var options2;
 			if(typeof (layer.options)=="string"){		
@@ -2005,11 +1727,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			capaVisualitzacio.options.propName = dataNames;
 		}
 
-		if(layer.options && options.origen){//Si es una sublayer
-//			var origen = getLeafletIdFromBusinessId(options.origen);
-//			if(dataField) capaVisualitzacio.options.dataField = dataField;
-//			console.debug("Leaflet id origen de la sublayer:");
-//			console.debug(origen);
+		if(layer.options && origen !== ""){//Si es una sublayer
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true, origen);
 		}else {
 			if (!layer.capesOrdre){
@@ -2021,17 +1739,244 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			controlCapes._lastZIndex++;
 		}				
 	}
-	
 		
-		//Si la capa es tematic categories, afegir llegenda al mode edicio
-		if ((visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_size) && $(location).attr('href').indexOf('/mapa.html')!=-1){
-			loadMapLegendEdicio(capaVisualitzacio);
-		}
-		
-		defer.resolve(capaVisualitzacio);		
-		return defer.promise();
+	//Si la capa es tematic categories, afegir llegenda al mode edicio
+	if ((visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_size) && $(location).attr('href').indexOf('/mapa.html')!=-1){
+		loadMapLegendEdicio(capaVisualitzacio);
 	}
 	
+	defer.resolve(capaVisualitzacio);		
+	return defer.promise();
+}
+
+function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource){
+	if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
+		var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
+		if (optionsVis.fontStyle!=undefined){
+			if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
+			else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
+		}
+		createClass('.etiqueta_style_'+visualitzacio.businessId,style);
+	}
+	
+	//per cada estil de la visualitzacio
+	jQuery.each(visualitzacio.estil, function(index, estil){
+		var geomTypeVis = visualitzacio.geometryType;
+		var geomStyle;
+		
+		if (geomTypeVis === t_marker){
+			geomStyle = createMarkerStyle(estil, estil.geometria.features.length);
+		}else if (geomTypeVis === t_multipoint){
+			geomStyle = createMarkerStyle(estil, estil.geometria.features.length);
+		}else if (geomTypeVis === t_polyline){
+			geomStyle = createLineStyle(estil);
+		}else if (geomTypeVis === t_multilinestring){
+			geomStyle = createLineStyle(estil);
+		}else if (geomTypeVis === t_polygon){
+			geomStyle = createAreaStyle(estil);
+		}else if (geomTypeVis === t_multipolygon){
+			geomStyle = createAreaStyle(estil);
+		}		
+		
+		//per cada geometria d'aquell estil
+		jQuery.each(estil.geometria.features, function(indexGeom, geom){				
+			var featureTem = [];
+			var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
+
+			//MultyPoint
+			if (geomTypeVis === t_marker && geomType === t_multipoint){
+				//TODO revisar que funcione
+				var coords=geom.geometry.coordinates;
+				for (var i = 0; i < coords.length; i++){
+					var c=coords[i];
+					if(!geomStyle.isCanvas){
+						featureTem.push(new L.marker([c[1], c[0]],
+							{icon: geomStyle, isCanvas:false, tipus: t_marker}));
+					}else{
+						featureTem.push(new L.circleMarker([c[1], c[0]],geomStyle));
+					}
+				}
+			//Punt
+			}else if (geomTypeVis === t_marker){
+				var coords=geom.geometry.coordinates;
+				if(!geomStyle.isCanvas){
+					var marker=new L.marker([coords[1],coords[0]],{icon: geomStyle, isCanvas:false,tipus: t_marker});
+					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
+						marker.setOpacity(0);
+					}			
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
+								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") && origen==""){
+							marker.bindLabel(geom.properties[optionsVis.campEtiqueta],
+								{opacity:1, noHide: true, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});
+						}
+					}
+					featureTem.push(marker);
+				}else{
+					var markerCircle=new L.circleMarker([coords[1],coords[0]],geomStyle);
+					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
+						geomStyle = createMarkerStyle(estil, estil.geometria.features.length,0);
+						markerCircle=new L.circleMarker([coords[1],coords[0]],geomStyle);
+					}
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
+								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") && origen==""){
+							markerCircle.bindLabel(geom.properties[optionsVis.campEtiqueta],
+								{opacity:1, noHide: true, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});
+						}
+					}
+					featureTem.push(markerCircle);
+				}
+			//MultiPoint
+			}else if (geomTypeVis === t_polyline && geomType === t_multilinestring){
+				var coords=geom.geometry.coordinates;
+				var llistaLines=[];
+				var llistaLines2=[];
+				
+				for (var i = 0; i < coords.length; i++){
+					var lines=coords[i];
+					var llistaPunts=[];
+					var myPolyline = new L.polyline(llistaPunts,geomStyle);
+					
+					for (var k = 0; k < lines.length; k++){
+						var c=lines[k];
+						var punt=new L.LatLng(c[1], c[0]);
+						myPolyline.addLatLng(punt);
+					}
+					featureTem.push(myPolyline);
+				}
+
+			//multiLine
+			}else if (geomTypeVis === t_polyline){
+				var coords=geom.geometry.coordinates;
+				var llistaPunts=[];
+				for (var i = 0; i < coords.length; i++){
+					var c=coords[i];
+					var punt=new L.LatLng(c[1], c[0]);
+					llistaPunts.push(punt);
+				}
+				var polyline= (new L.polyline(llistaPunts, geomStyle));
+				if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
+					geomStyle = createLineStyle(estil,0);
+					polyline= (new L.polyline(llistaPunts, geomStyle));
+				}
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+							if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
+								polyline.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
+										{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId ,offset: [0, 0]});
+							}	
+							if (optionsVis.opcionsVis=="geometries"){
+								polyline.hideLabel();
+							}
+					}
+				}
+				featureTem.push(polyline);
+			//multiPolygon
+			}else if(geomTypeVis === t_polygon && geomType === t_multipolygon){
+				var coords=geom.geometry.coordinates;
+				var llistaPoligons=[];
+				for (var p = 0; p < coords.length; p++){
+					var poligons=coords[p];
+					var llistaLines=[];
+					for (var i = 0; i < poligons.length; i++){
+						var lines=poligons[i];
+						var llistaPunts=[];
+						for (var k = 0; k < lines.length; k++){
+							var c=lines[k];
+							var punt=new L.LatLng(c[1], c[0]);
+							llistaPunts.push(punt);
+						}
+						llistaLines.push(llistaPunts);
+					}
+					llistaPoligons.push(llistaLines);
+				}
+				featureTem.push(new L.multiPolygon(llistaPoligons, geomStyle));
+			//polygon
+			}else if (geomTypeVis === t_polygon){
+				var coords=geom.geometry.coordinates;
+				var llistaLines=[];
+				for (var i = 0; i < coords.length; i++){
+					var lines=coords[i];
+					var llistaPunts=[];
+					for (var k = 0; k < lines.length; k++){
+						var c=lines[k];
+						var punt=new L.LatLng(c[1], c[0]);
+						llistaPunts.push(punt);
+					}
+					llistaLines.push(llistaPunts);
+				}
+				var polygon = new L.Polygon(llistaLines, geomStyle);
+				if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
+					geomStyle = createAreaStyle(estil,0);
+					polygon = new L.Polygon(llistaLines, geomStyle);
+				}
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+							if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
+								polygon.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
+									{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
+							}	
+							if (optionsVis.opcionsVis=="geometries"){
+								polygon.hideLabel();
+							}
+					}
+				}
+				featureTem.push(polygon);
+			}
+			jQuery.each(featureTem, function(index, feat){
+				feat.properties = {};
+				feat.properties.businessId = geom.businessId;
+				feat.properties.data = geom.properties;
+				feat.properties.estil = estil;
+				feat.properties.capaLeafletId = capaVisualitzacio._leaflet_id;
+				feat.properties.capaNom = capaVisualitzacio.options.nom;
+				feat.properties.capaBusinessId = capaVisualitzacio.options.businessId;
+				feat.properties.tipusFeature = geomTypeVis;
+				
+				//Cal??
+				if (feat.options){
+					feat.options.tipus = geomTypeVis;
+				}else{
+					feat.options = {tipus: geomTypeVis};
+				}
+				
+				feat.properties.feature = {};
+				feat.properties.feature.geometry = geom.geometry;
+				capaVisualitzacio.addLayer(feat);
+			
+				if(geomTypeVis == t_polygon){
+					feat.properties.mida = calculateArea(feat);
+				}else if(geomTypeVis == t_polyline){
+					feat.properties.mida = calculateDistance(feat.getLatLngs());
+				}
+			
+				//Si la capa no ve de fitxer
+				if(!hasSource){
+					//"no te source, no ve de fitxer");
+					if($(location).attr('href').indexOf('mapa')!=-1 && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
+						createPopupWindow(feat,geomTypeVis);
+					}else{
+						//"Estem mode vis i no es tem origen:"
+						createPopupWindowData(feat,geomTypeVis, false, origen);
+					}								
+				}else{
+					//"Te source, ve de fitxer";
+					if($(location).attr('href').indexOf('mapa')!=-1 && capaVisualitzacio.options.tipusRang == tem_origen){
+						//"Estem mode mapa i es tem origen"
+						createPopupWindowData(feat,geomTypeVis, true, origen);
+					}else{
+						//"Estem mode vis i no es tem origen:"
+						createPopupWindowData(feat,geomTypeVis, false, origen);
+					}
+				}
+				map.closePopup();					
+			});
+		});
+	});	
+	//FIN EACH
+}
+
 /**Funcions per crear un objecte de tipus estil, amb les característiques que li passes
  * per punt, línia, poligon */
 
