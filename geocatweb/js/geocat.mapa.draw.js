@@ -1889,20 +1889,24 @@ function updateFeatureCount(fromBusinessId, toBusinessId){
 	//Actualitzem comptador de la capa
 	if(fromBusinessId){
 		var sFromCount = $("#count-"+fromBusinessId).html();
-		sFromCount = sFromCount.replace("(", " ");
-		sFromCount = sFromCount.replace(")", " ");	
-		var fromCount = parseInt(sFromCount.trim());
-		fromCount=fromCount-1;
-		$("#count-"+fromBusinessId).html(' ('+fromCount+')');		
+		if (sFromCount!=undefined){
+			sFromCount = sFromCount.replace("(", " ");
+			sFromCount = sFromCount.replace(")", " ");	
+			var fromCount = parseInt(sFromCount.trim());
+			fromCount=fromCount-1;
+			$("#count-"+fromBusinessId).html(' ('+fromCount+')');
+		}
 	}
 
 	if(toBusinessId){
 		var sToCount = $("#count-"+toBusinessId).html();
-		sToCount = sToCount.replace("(", " ");
-		sToCount = sToCount.replace(")", " ");	
-		var toCount = parseInt(sToCount.trim());
-		toCount=toCount+1;
-		$("#count-"+toBusinessId).html(' ('+toCount+')');		
+		if (sToCount!=undefined){
+			sToCount = sToCount.replace("(", " ");
+			sToCount = sToCount.replace(")", " ");	
+			var toCount = parseInt(sToCount.trim());
+			toCount=toCount+1;
+			$("#count-"+toBusinessId).html(' ('+toCount+')');		
+		}
 	}
 //	console.debug("Fi updateFeatureCount");
 }

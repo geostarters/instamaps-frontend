@@ -846,9 +846,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				});
 			
 			if (getModeMapa()) {
-				if (obj.layer.options.tipus == t_visualitzacio
+				if ((obj.layer.options.tipus == t_visualitzacio
 						|| obj.layer.options.tipus == t_url_file
-						|| obj.layer.options.tipus == t_json) {
+						|| obj.layer.options.tipus == t_json) && !obj.layer.options.dinamic) {
 					col = L.DomUtil
 							.create(
 									'div',
