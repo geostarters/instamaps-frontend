@@ -61,6 +61,7 @@
         		that._addCartotecaWidget(modalbody);
         		that._addMeteoWidget(modalbody);
             	that._addCadastreWidget(modalbody);
+            	that._addInfoParcelaWidget(modalbody);
             });
         },
         
@@ -92,8 +93,13 @@
         },
         
         _addRPUCWidget: function(container){
-        	this.widgets.rpuc = WidgetRPUC.getWidget();
+        	this.widgets.infoparcela = WidgetRPUC.getWidget();
         	WidgetRPUC.drawButton(container);
+        },
+        
+        _addInfoParcelaWidget: function(container){
+        	this.widgets.rpuc = WidgetInfoparcela.getWidget();
+        	WidgetInfoparcela.drawButton(container);
         },
         
         _addCartotecaWidget: function(container){

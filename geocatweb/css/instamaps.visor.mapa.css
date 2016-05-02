@@ -2351,8 +2351,9 @@ i.fa {
 
 /***********widgets**********/
 .widget-button{
-	width:60px;
-	height:60px;
+	width:50px;
+	height:50px;
+	background-size: 50px 50px;
 	border: 1px solid black;
 	float: left;
 	margin-right: 5px;
@@ -2361,7 +2362,7 @@ i.fa {
 }
 
 .widget-header{
-	min-height: 60px;
+	min-height: 50px;
 	margin-bottom: 5px;
 }
 
@@ -2441,6 +2442,10 @@ ul.listMunicipis{
 
 .widget-cartoteca{
 	background-image: url("images/widget_cartoteca.png");
+}
+
+.widget-infoparcela{
+	background-image: url("images/widget_infoparcela.png");
 }
 /*********** end widgets**********/
 
