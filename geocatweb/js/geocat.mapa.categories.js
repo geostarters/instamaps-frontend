@@ -449,7 +449,7 @@ function createTematicLayerCategories(event){
 		labelField: jQuery('#dataField').val().toLowerCase()
 	};
 	var data1 = {};
-	if(capaMare.tipus == t_url_file){
+	if(capaMare.tipus == t_url_file || tematicFrom.tipus==t_url_file){
 		data1 = {
 			uid: $.cookie('uid'),
 			businessId1: capaMare.options.businessId
