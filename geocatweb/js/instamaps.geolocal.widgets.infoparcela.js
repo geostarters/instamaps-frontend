@@ -7,8 +7,7 @@
 					
 		init: function() {
 			this.url = "http://www.geolocal.cat/geoLocal/infoParcela/?bbox=widget_bbox_municipi&title=widget_nom_municipi";;
-			this.url = "http://localhost/geoLocal/infoParcela/?bbox=widget_bbox_municipi&title=widget_nom_municipi";;
-        	this.containerId = '.drawWidgets';
+			this.containerId = '.drawWidgets';
 			this.cache();
         	this.subscriptions();
         	this.bindEvents();
