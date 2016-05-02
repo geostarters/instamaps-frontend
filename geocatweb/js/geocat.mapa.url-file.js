@@ -48,6 +48,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		var fileId = res[0];
 		urlFile = "https://drive.google.com/uc?export=download&id="+fileId;
 	}
+	else if(urlFile.indexOf("https://www.dropbox.com")!=-1){
+		urlFile = urlFile.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com");		
+	}
 	
 	/*** DINAMIC ***/
 	if(dinamic){
