@@ -87,6 +87,7 @@ L.Control.Widgets = L.Control.extend({
     		that._addCartotecaWidget(modalbody);
     		that._addMeteoWidget(modalbody);
         	that._addCadastreWidget(modalbody);
+        	that._addInfoParcelaWidget(modalbody);
         });
     },
     
@@ -124,6 +125,11 @@ L.Control.Widgets = L.Control.extend({
     _addRPUCWidget: function(container){
     	this.widgets.rpuc = WidgetRPUC.getWidget();
     	WidgetRPUC.drawButton(container);
+    },
+    
+    _addInfoParcelaWidget: function(container){
+    	this.widgets.rpuc = WidgetInfoparcela.getWidget();
+    	WidgetInfoparcela.drawButton(container);
     },
     
     _addCartotecaWidget: function(container){
