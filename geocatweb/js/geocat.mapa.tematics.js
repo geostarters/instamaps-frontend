@@ -1673,6 +1673,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			});					
 		}
 		
+		
 		if (layer.options){
 			var options2;
 			if(typeof (layer.options)=="string"){		
@@ -1685,7 +1686,6 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			}else{				
 				options2 = layer.options;	
 			}
-		
 			if (options2.propName != undefined) {
 				capaVisualitzacio.options.propName = options2.propName;
 			}
@@ -1701,7 +1701,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 									
 				}else{				
 					options2 = visualitzacio.options;	
-				}				
+				}		
 				if (options2.propName != undefined) {
 					var dataNames = options2.propName.split(',');
 					capaVisualitzacio.options.propName = dataNames;
@@ -1722,6 +1722,38 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 				}
 			}
 		}
+		
+		if (capaVisualitzacio.options.propName== undefined) {
+			if (visualitzacio.estil!=undefined && visualitzacio.estil[0]!=undefined){
+				if ( visualitzacio.estil[0].geometria!=undefined &&  visualitzacio.estil[0].geometria.features!=undefined &&
+						visualitzacio.estil[0].geometria.features.length>0){
+					//var props = console.debug(visualitzacio.estil[0].geometria.features[0].properties);
+					
+					var props;
+					if(typeof (visualitzacio.estil[0].geometria.features[0].properties)=="string"){		
+						try {
+							props = JSON.parse(visualitzacio.estil[0].geometria.features[0].properties);
+						}
+						catch (err) {
+							props = visualitzacio.estil[0].geometria.features[0].properties;
+						}						
+					}else{				
+						props = visualitzacio.estil[0].geometria.features[0].properties;	
+					}
+					
+					var dataNames ="";
+					jQuery.each(props, function( index, value ) {
+						dataNames+=index+",";						
+					});
+					capaVisualitzacio.options.propName = dataNames.substring(0,dataNames.length-1);
+
+					//var dataNames = geometries.options.split(',');
+					//capaVisualitzacio.options.propName = dataNames;
+					
+				}
+			}			
+		}
+		//console.debug(capaVisualitzacio);
 		if (capaVisualitzacio.options.propName== undefined) {
 			var dataNames=[];
 			dataNames[0]="nom";

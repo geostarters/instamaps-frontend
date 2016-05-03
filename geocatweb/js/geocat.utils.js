@@ -726,8 +726,8 @@ function sortByKeyPath(array, key) {
 }
 
 function sortByValueMax(a, b){
-	var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
-	var floatRegex2 = new RegExp('[-+]?([0-9]*,[0-9]+|[0-9]+)');
+	var floatRegex = new RegExp('^-?[-+]?([0-9]*.[0-9]+|[0-9]+)');
+	var floatRegex2 = new RegExp('^-?[-+]?([0-9]*,[0-9]+|[0-9]+)');
 	var aValue;
 	if (a.value!=undefined) aValue= a.value;
 	else if (a.v!=undefined) aValue=a.v;

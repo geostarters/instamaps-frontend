@@ -879,7 +879,7 @@ function loadTematicValueTemplate(results, rtype){
 	else {
 		
 		//match ints and floats/decimals
-		var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+		var floatRegex = new RegExp('^-?[-+]?([0-9]*.[0-9]+|[0-9]+)');
 		var resultsFloat = [];
 		var i=0;
 		jQuery.grep(results, function( n, i ) {
@@ -1117,7 +1117,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 							}
 			});
 			//match ints and floats/decimals
-			var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+			var floatRegex = new RegExp('^-?[-+]?([0-9]*.[0-9]+|[0-9]+)');
 			var resultsFloat = [];
 			var i=0;
 			jQuery.grep(resultsNoRepetits, function( n, i ) {
@@ -1132,7 +1132,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 		}
 		else {
 			//match ints and floats/decimals
-			var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+			var floatRegex = new RegExp('^-?[-+]?([0-9]*.[0-9]+|[0-9]+)');
 			var resultsFloat = [];
 			var i=0;
 			jQuery.grep(valors, function( n, i ) {
