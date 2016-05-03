@@ -969,6 +969,12 @@
 			addFuncioDownloadLayer('visor');
 			return self;
 		},
+		
+		_addDataTable(){
+			var self = this;
+			addFuncioEditDataTable();
+			return self;
+		},
 				
 		_drawVisor: function(){
 			var self = this,
@@ -980,7 +986,7 @@
 			}
 			
 			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
-				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()._addTooltips()._addDownloadLayer()._hideLoading();
+				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
 				if(self.embed){
 					self.addLogoInstamap();
@@ -988,7 +994,7 @@
 				
 			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
-				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._hideLoading();
+				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 			}
 			
 			return self;
