@@ -111,9 +111,7 @@ function fillModalDataTable(obj, geomBid){
 	//obj.layer.serverName	
 	$('#modal_data_table_title').html(obj.name.toUpperCase());	
 	
-	console.debug(obj.layer.options);
-	console.debug(controlCapes);
-	
+	var options = obj.layer.options;
 	if (obj.layer.options!=undefined && obj.layer.options.estil!=undefined){
 		//Primer trobem column names
 		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
@@ -148,17 +146,20 @@ function fillModalDataTable(obj, geomBid){
 				if(modeMapa){
 					var isADrawMarker=false;
 					//properties headers
+					//console.debug(feature);
 					
-					for(var x in feature.properties){
+				
+					//console.debug(options.propName);
+					for(var x in options.propName){
 						var obj = {
-							title: x.toUpperCase(),
-							field: x.toLowerCase(),
+							title: options.propName[x].toUpperCase(),
+							field: options.propName[x].toLowerCase(),
 							sortable: true,
 							editable: {
 								emptytext : '-'
 							}
 						}
-						if (x=='text' || x=='TEXT') isADrawMarker=true;
+						if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
 						else isADrawMarker=false;
 						columNames.push(obj);
 					}		
@@ -190,16 +191,19 @@ function fillModalDataTable(obj, geomBid){
 					//Taula no editable pel visor
 					//properties headers
 					var isADrawMarker=false;
-					for(var x in feature.properties){					
+					for(var x in options.propName){
 						var obj = {
-							title: x.toUpperCase(),
-							field: x.toLowerCase(),
-							sortable: true
+							title: options.propName[x].toUpperCase(),
+							field: options.propName[x].toLowerCase(),
+							sortable: true,
+							editable: {
+								emptytext : '-'
+							}
 						}
-						if (x=='text' || x=='TEXT') isADrawMarker=true;
+						if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
 						else isADrawMarker=false;
 						columNames.push(obj);
-					}
+					}	
 					if (isADrawMarker){
 						var obj = {
 								title: "latitud".toUpperCase(),
@@ -275,7 +279,6 @@ function fillModalDataTable(obj, geomBid){
 				var resultatsMod = [];
 				var resultI=0;
 				jQuery.each(resultats2, function(i, result){
-					
 					var coords = result.geometryBBOX.split("#");  
 					var lon = parseFloat(coords[2]);
 					var lat = parseFloat(coords[1]);

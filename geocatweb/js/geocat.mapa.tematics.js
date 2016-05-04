@@ -1635,7 +1635,9 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		}
 		
 		//Per les etiquetes
+		var isCapaAmbEtiquetes=false;
 		if(optionsVis && optionsVis.campEtiqueta!=undefined) {
+			isCapaAmbEtiquetes=true;
 			capaVisualitzacio.options.campEtiqueta = optionsVis.campEtiqueta;
 			if(optionsVis && optionsVis.fontFamily!=undefined) capaVisualitzacio.options.fontFamily = optionsVis.fontFamily;
 			if(optionsVis && optionsVis.fontSize!=undefined) capaVisualitzacio.options.fontSize = optionsVis.fontSize;
@@ -1643,10 +1645,6 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			if(optionsVis && optionsVis.fontStyle!=undefined) capaVisualitzacio.options.fontFamily = optionsVis.fontStyle;
 			if(optionsVis && optionsVis.opcionsVis!=undefined) capaVisualitzacio.options.opcionsVisEtiqueta = optionsVis.opcionsVis;
 		}
-		
-		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
-			capaVisualitzacio.addTo(map);
-		}	
 		
 		var origen = getOrigenLayer(layer);
 		
@@ -1658,6 +1656,17 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		
 		//Afegim geometries a la capa
 		loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+		var isCapaActiva=false;
+		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
+			capaVisualitzacio.addTo(map);
+		}	
+		else if (isCapaAmbEtiquetes){
+			jQuery.each(capaVisualitzacio._layers, function(i, lay){
+				if(lay.label){
+					lay.label.setOpacity(0);
+				}
+			});	
+		}
 		
 		//Afegim num d'elements al nom de la capa, si és un fitxer
 		if(layer.dragdrop || layer.urlFile){

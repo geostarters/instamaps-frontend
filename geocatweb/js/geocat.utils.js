@@ -726,8 +726,8 @@ function sortByKeyPath(array, key) {
 }
 
 function sortByValueMax(a, b){
-	var floatRegex = new RegExp('^-?[-+]?([0-9]*.[0-9]+|[0-9]+)');
-	var floatRegex2 = new RegExp('^-?[-+]?([0-9]*,[0-9]+|[0-9]+)');
+	var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
+	var floatRegex2 = new RegExp('(^-?0\,[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 	var aValue;
 	if (a.value!=undefined) aValue= a.value;
 	else if (a.v!=undefined) aValue=a.v;
@@ -739,8 +739,8 @@ function sortByValueMax(a, b){
 	else bValue =b;
 	var aValueStr = ""+aValue;
 	var bValueStr = ""+bValue;
+	
 	if (floatRegex.test(aValue) && floatRegex.test(bValue)) {
-		
 		if (aValueStr.indexOf(",")>-1){
 			if (aValueStr.indexOf(".")>-1){
 				aValue=aValue.replace(".","");
@@ -750,7 +750,8 @@ function sortByValueMax(a, b){
 				aValue = aValue.replace(",",".");
 			}
 		}
-		if (aValueStr.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
+
 		if (bValueStr.indexOf(",")>-1){
 			if (bValueStr.indexOf(".")>-1){
 				bValue=bValue.replace(".","");
@@ -760,7 +761,7 @@ function sortByValueMax(a, b){
 				bValue = bValue.replace(",",".");
 			}
 		}
-		if (bValueStr.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
 		return (aValue-bValue);
 	}
 	else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {
@@ -773,7 +774,7 @@ function sortByValueMax(a, b){
 				aValue = aValue.replace(",",".");
 			}
 		}
-		if (aValueStr.indexOf("-")>-1) aValue=aValue.substring(0,aValue.indexOf("-"));
+		if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
 		if (bValueStr.indexOf(",")>-1){
 			if (bValueStr.indexOf(".")>-1){
 				bValue=bValue.replace(".","");
@@ -783,7 +784,7 @@ function sortByValueMax(a, b){
 				bValue = bValue.replace(",",".");
 			}
 		}
-		if (bValueStr.indexOf("-")>-1) bValue=bValue.substring(0,bValue.indexOf("-"));
+		if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
 		return (aValue-bValue);
 	}
 	else {
