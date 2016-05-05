@@ -832,6 +832,11 @@ var _hoSoc=false;
 			o[key].apply(o, arguments);
 		};
 	});
+	
+	$('body').on('change', 'input[type="text"], input[type="password"], textarea', function(){
+		$(this).val(cleanScriptCode($(this).val()));
+	});
+	
 })(jQuery);
 
 function createClass(name,rules){
@@ -842,4 +847,12 @@ function createClass(name,rules){
         (style.styleSheet || style.sheet).addRule(name, rules);
     else
         style.sheet.insertRule(name+"{"+rules+"}",0);
+}
+
+function cleanScriptCode(txt){
+	var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+	while (SCRIPT_REGEX.test(txt)) {
+		txt = txt.replace(SCRIPT_REGEX, "");
+	}	
+	return txt;
 }
