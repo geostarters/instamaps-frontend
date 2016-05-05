@@ -60,6 +60,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Blog":"Blog"
 ,"Bàsic":"Basic"
 
+,"CAL CAP LLOC":"HOUSE NOWHERE"	
 ,"Cal indicar el camp que conté l'adreça":"Point out address field"
 ,"Cal indicar el camp que conté el codi":"Point out the code field"
 ,"Cal indicar el sistema de referència":"Point out the reference system"
