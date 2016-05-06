@@ -60,6 +60,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Blog":"Blog"
 ,"Bàsic":"Básico"
 
+,"CAL CAP LLOC":"CASA NINGÚN LUGAR"	
 ,"Cal indicar el camp que conté el codi":"Tienes que indicar el campo que contiene el código"
 ,"Cal indicar el camp que conté l'adreça":"Tienes que indicar el campo que contiene la dirección"
 ,"Cal indicar el sistema de referència":"Tienes que indicar els sistema de referéncia"
@@ -389,6 +390,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"La mida mínima ha de ser inferior a la màxima":"La medida mínima tiene que ser mayor que la máxima"
 ,"La modalitat 3D està en fase beta.":"La modalidad 3D está en fase beta."
 ,"La nova contrassenya ja havia estat utilitzada":"La nueva contraseña ya fue utilizada"
+,"La pàgina que cerqueu no l'hem trobat al nostre servidor.":"La página que busca no la hemos encontrado en nuestro servidor."
 ,"La seva petició s'ha processat. Si no trobes el correu que t'hem enviat, revisa la teva carpeta de correu no desitjat":"Su petición se ha procesado. Si no encuentras el correo que te hemos enviado, revisa tu carpeta de correo no deseado"
 ,"La tecnologia WebGL que s’utilitza per la renderització 3D consumeix recursos del vostre maquinari i navegador. En funció del vostre equip obtindreu una millor rendiment. Comproveu que el vostre navegador està actualitzat.":"La tecnologia WebGL que se utiliza para renderizar en 3D consume recursos de su ordenador y su navegador. En función de su equipo obtendrá un mejor rendimiento. Compruebe que su navegador está actualizado."
 ,"Les contrasenyes han de coincidir.":"Las contraseñas tienen que coincidir."
@@ -444,6 +446,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"No s'han trobat registres":"No se han encontrado registros"
 ,"No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326":"No se pudo visualizar este servicio:Instamaps solo carga servicios WMS globales en EPSG:3857 y EPSG:4326"	
 ,"No mostrar més aquest missatge":"No mostrar más"
+,"No teniu accés a aquesta pàgina":"No tiene acceso a esta página"
 ,"Nodes guifi.net":"Nodos guifi.net"
 ,"Nom capa":"Nombre capa"
 ,"Nom d'usuari no disponible.":"Nombre de usuario no disponible."
@@ -520,6 +523,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Punts dins de polígons":"Puntos dentro polígonos"
 ,"Punts disponibles":"Puntos disponibles"
 
+,"Què podeu fer?":"¿Qué puede hacer?"	
 ,"Quin és el sistema de referència?":"Cual es el sistema de referéncia?"
 
 ,"Radi":"Radio"
@@ -530,6 +534,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Resultat de l'operació":"Resultado de la operación"
 ,"Restringit":"Restringido"
 ,"Reutilització":"Reutilización"
+,"Reviseu l'enllaç que us ha dut fins aquí o bé aneu a":"Revise el enlace que os ha llevado hasta aquí o vaya a"
 ,"Ruta inversa":"Ruta inversa"
 ,"Rutes turístiques":"Rutas turísticas"
 
