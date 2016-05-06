@@ -111,120 +111,147 @@ function fillModalDataTable(obj, geomBid){
 	//obj.layer.serverName	
 	$('#modal_data_table_title').html(obj.name.toUpperCase());	
 	
-	//Primer trobem column names
-	jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
-		
-		jQuery.each(estil.geometria.features, function(indexFeature, feature){
+	var options = obj.layer.options;
+	if (obj.layer.options!=undefined && obj.layer.options.estil!=undefined){
+		//Primer trobem column names
+		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
 			
-			//Geometry Id
-			var objGeomId = {
-					field: 'geometryid',
-					title: 'ID',
-					visible: false
-			}
-			columNames.push(objGeomId);	
-
-			//Geometry Bid 
-			var objGeomBid = {
-					field: 'geometrybid',
-					title: 'BID',
-					visible: false
-			}
-			columNames.push(objGeomBid);			
-			
-			//geometryBBOX
-			var objGeomBBOX = {
-					field: 'geometryBBOX',
-					title: 'BBOX',
-					visible: false 
-			}
-			columNames.push(objGeomBBOX);			
-			
-			
-			if(modeMapa){
-				var isADrawMarker=false;
-				//properties headers
+			jQuery.each(estil.geometria.features, function(indexFeature, feature){
 				
-				for(var x in feature.properties){
-					var obj = {
-						title: x.toUpperCase(),
-						field: x.toLowerCase(),
-						sortable: true,
-						editable: {
-							emptytext : '-'
-						}
-					}
-					if (x=='text' || x=='TEXT') isADrawMarker=true;
-					else isADrawMarker=false;
-					columNames.push(obj);
-				}		
-				if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt
-					var obj = {
-							title: "latitud".toUpperCase(),
-							field: "latitud".toLowerCase(),
-							sortable: true
-						}
-					columNames.push(obj);
-					 obj = {
-								title: "longitud".toUpperCase(),
-								field: "longitud".toLowerCase(),
-								sortable: true
-							}
-					 columNames.push(obj);
+				//Geometry Id
+				var objGeomId = {
+						field: 'geometryid',
+						title: 'ID',
+						visible: false
 				}
-				
-				//Actions
-				var objActions = {
-						title: window.lang.convert("ACCIONS"),
-						field: 'Accions',
-						formatter: 'actionFormatter',
-						events: 'actionEvents'
-				}	
-				columNames.push(objActions);
-				
-			}else{
-				//Taula no editable pel visor
-				//properties headers
-				var isADrawMarker=false;
-				for(var x in feature.properties){					
-					var obj = {
-						title: x.toUpperCase(),
-						field: x.toLowerCase(),
-						sortable: true
-					}
-					if (x=='text' || x=='TEXT') isADrawMarker=true;
-					else isADrawMarker=false;
-					columNames.push(obj);
-				}
-				if (isADrawMarker){
-					var obj = {
-							title: "latitud".toUpperCase(),
-							field: "latitud".toLowerCase(),
-							sortable: true
-						}
-					columNames.push(obj);
-					 obj = {
-								title: "longitud".toUpperCase(),
-								field: "longitud".toLowerCase(),
-								sortable: true
-							}
-					 columNames.push(obj);
-				}
-				
-				//Actions
-				var objActions = {
-						title: window.lang.convert("ACCIONS"),
-						field: 'Accions',
-						formatter: 'actionFormatterVisor',
-						events: 'actionEvents'
-				}	
-				columNames.push(objActions);
-			}
-			return false;
-		});
-		return false;
-	});	
+				columNames.push(objGeomId);	
 	
+				//Geometry Bid 
+				var objGeomBid = {
+						field: 'geometrybid',
+						title: 'BID',
+						visible: false
+				}
+				columNames.push(objGeomBid);			
+				
+				//geometryBBOX
+				var objGeomBBOX = {
+						field: 'geometryBBOX',
+						title: 'BBOX',
+						visible: false 
+				}
+				columNames.push(objGeomBBOX);			
+				
+				
+				if(modeMapa){
+					var isADrawMarker=false;
+					//properties headers
+					//console.debug(feature);
+					
+					if (options.propName!=undefined && options.propName.toString().indexOf("nom,text")==-1) {
+						for(var x in options.propName){							
+							var obj = {
+								title: options.propName[x].toUpperCase(),
+								field: options.propName[x].toLowerCase(),
+								sortable: true,
+								editable: {
+									emptytext : '-'
+								}
+							}
+							if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
+							else isADrawMarker=false;
+							columNames.push(obj);
+						}		
+					}
+					else {
+						for(var x in feature.properties){
+							var obj = {
+								title: x.toUpperCase(),
+								field: x.toLowerCase(),
+								sortable: true,
+								editable: {
+									emptytext : '-'
+								}
+							}
+							if (x=='text' || x=='TEXT') isADrawMarker=true;
+							else isADrawMarker=false;
+							columNames.push(obj);
+						}
+					}
+					if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt
+						var obj = {
+								title: "latitud".toUpperCase(),
+								field: "latitud".toLowerCase(),
+								sortable: true
+							}
+						columNames.push(obj);
+						 obj = {
+									title: "longitud".toUpperCase(),
+									field: "longitud".toLowerCase(),
+									sortable: true
+								}
+						 columNames.push(obj);
+					}
+					
+					//Actions
+					var objActions = {
+							title: window.lang.convert("ACCIONS"),
+							field: 'Accions',
+							formatter: 'actionFormatter',
+							events: 'actionEvents'
+					}	
+					columNames.push(objActions);
+					
+				}else{
+					//Taula no editable pel visor
+					//properties headers
+					var isADrawMarker=false;
+					for(var x in options.propName){
+						var obj = {
+							title: options.propName[x].toUpperCase(),
+							field: options.propName[x].toLowerCase(),
+							sortable: true,
+							editable: {
+								emptytext : '-'
+							}
+						}
+						if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
+						else isADrawMarker=false;
+						columNames.push(obj);
+					}	
+					if (isADrawMarker){
+						var obj = {
+								title: "latitud".toUpperCase(),
+								field: "latitud".toLowerCase(),
+								sortable: true
+							}
+						columNames.push(obj);
+						 obj = {
+									title: "longitud".toUpperCase(),
+									field: "longitud".toLowerCase(),
+									sortable: true
+								}
+						 columNames.push(obj);
+					}
+					
+					//Actions
+					var objActions = {
+							title: window.lang.convert("ACCIONS"),
+							field: 'Accions',
+							formatter: 'actionFormatterVisor',
+							events: 'actionEvents'
+					}	
+					columNames.push(objActions);
+				}
+				return false;
+			});
+			
+			return false;
+		});	
+	}
+	else {
+		
+	}
 	
 	window.actionEvents = {
 		    'click .remove': function (e, value, row, index) {
@@ -270,8 +297,8 @@ function fillModalDataTable(obj, geomBid){
 					var coords = result.geometryBBOX.split("#");  
 					var lon = parseFloat(coords[2]);
 					var lat = parseFloat(coords[1]);
-					result.longitud=lon.toFixed(5);
-					result.latitud=lat.toFixed(5);
+					if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
+					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);
 					resultatsMod[resultI]=result;
 					resultI++;
 					//console.debug(result);

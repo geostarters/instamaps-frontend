@@ -827,7 +827,7 @@ function createPopupWindow(layer,type){
 					}*/
 					
 					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
-				
+					var capaBusinessId = map._layers[objEdicio.featureID].properties.capaBusinessId;
 					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
 					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
 					if(map._layers[capaLeafletId]!= undefined) updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);

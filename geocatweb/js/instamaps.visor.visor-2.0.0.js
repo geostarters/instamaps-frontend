@@ -302,27 +302,32 @@
 			var self = this;
 			$('#navbar-visor').hide();
 			$('#searchBar').css('top', '0');
-			self.addDefaultZoomControl = false;
 			
-			self.mouseposition = true;
-			self.scalecontrol = true;
-			self.minimapcontrol = true;
-			self.fonscontrol = true;
+			//Per defecte embed té el control de zoom, el botó d'obrir finestra Instamaps i el control de capes.
+			self.addDefaultZoomControl = 1;
+			self.openinstamaps = 1;
+			self.layerscontrol = 1;
+			self.ltoolbar=1;
+			self.rtoolbar=1;
 			
-			self.openinstamaps = false;
-			self.homecontrol = true;
-			self.locationcontrol = true;
-			self.sharecontrol = true;
-			self.searchcontrol = true;
-			self.routingcontrol = true;
+			if (!self.mouseposition) self.mouseposition = 0;
+			if (!self.scalecontrol) self.scalecontrol = 0;
+			if (!self.minimapcontrol) self.minimapcontrol = 0;
+			if (!self.fonscontrol) self.fonscontrol = 0;
 			
-			self.layerscontrol = false;
-			self.control3d = true;
-			self.snapshotcontrol = true;
-			self.printcontrol = true;
-			self.geopdfcontrol = true;
+			if (!self.homecontrol) self.homecontrol = 0;
+			if (!self.locationcontrol) self.locationcontrol = 0;
+			if (!self.sharecontrol) self.sharecontrol = 0;
+			if (!self.searchcontrol) self.searchcontrol = 0;
+			if (!self.routingcontrol) self.routingcontrol = 0;
 			
-			self.llegenda = true;
+			if (!self.control3d) self.control3d = 0;
+			if (!self.snapshotcontrol) self.snapshotcontrol = 0;
+			if (!self.printcontrol) self.printcontrol = 0;
+			if (!self.geopdfcontrol) self.geopdfcontrol = 0;
+			
+			if (!self.llegenda) self.llegenda = 0;
+			
 			
 			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'embed']});
 			return self;
@@ -653,67 +658,71 @@
 			var self = this;
 			
 			self.addControlLogos();
-			
-			if(!self.mouseposition){
+			if(self.mouseposition && self.mouseposition=="1"){
 				self.addMousePositionControl();
 			}
-			if(!self.scalecontrol){
+			if(self.scalecontrol && self.scalecontrol=="1"){
 				self.addScaleControl();
 			}
-			if(!self.minimapcontrol){
+			if(self.minimapcontrol && self.minimapcontrol=="1"){
 				self.addMinimapControl();
 			}
-			
-			if(!self.fonscontrol){
+				
+			if(self.fonscontrol && self.fonscontrol=="1"){
 				self.addFonsControl();
 			}
-			if(!self.ltoolbar){
+			
+			if((self.ltoolbar && self.ltoolbar=="1") || (!self.ltoolbar)){
 				if(self.embed){
-					if(!self.openinstamaps ){
+					if((self.openinstamaps && self.openinstamaps=="1") || (!self.openinstamaps)){
 						self.addOpenInstamapsControl();
 					}
 				}
-				if(!self.homecontrol){
+				if(self.homecontrol && self.homecontrol=="1"){
 					self.addHomeControl();
 				}
-				if(!self.locationcontrol){
+				if(self.locationcontrol && self.locationcontrol=="1"){
 					self.addLocationControl();
 				}
-				if(!self.sharecontrol){
+				if(self.sharecontrol && self.sharecontrol=="1"){
 					self.addShareControl();
 				}
-				if(!self.searchcontrol){
+				if(self.searchcontrol && self.searchcontrol=="1"){
 					self.addSearchControl();
 				}
-				if(!self.routingcontrol){
+				if(self.routingcontrol && self.routingcontrol=="1"){
 					self.addRoutingControl();
 				}
+			  
+			
 			}
 			
-			if(!self.rtoolbar){
-				if(!self.layerscontrol){
+			if((self.rtoolbar && self.rtoolbar=="1") || (!self.rtoolbar)){
+				if((self.layerscontrol && self.layerscontrol=="1") || (!self.layerscontrol)){
 					self.addLayersControl();
 				}else{
 					self.addLayersControl(false);
 				}
-				if(!self.control3d){
+			
+				if(self.control3d && self.control3d=="1"){
 					self.addControl3d();
 				}
-				if(!self.snapshotcontrol){
+				if(self.snapshotcontrol && self.snapshotcontrol=="1"){
 					self.addSnapshotControl();
 				}
-				if(!self.printcontrol){
+				if(self.printcontrol && self.printcontrol=="1"){
 					self.addPrintControl();
 				}
-				if(!self.geopdfcontrol){
+				if(self.geopdfcontrol && self.geopdfcontrol=="1"){
 					self.addGeopdfControl();
 				}
+			
 			}else{
 				self.addLayersControl(false);
 			}
 			
-			if(!self.llegenda){
-				self.addLlegenda();
+			if(self.llegenda && self.llegenda=="1"){
+				if (!self.nollegenda) self.addLlegenda();
 			}
 			
 			return self;
@@ -797,7 +806,7 @@
 			if(mapConfig.options){
 				mapConfig.options = $.parseJSON(mapConfig.options);
 				if(mapConfig.options.llegenda === false){
-					self.llegenda = true; //ocultar la llegenda
+					self.nollegenda = "1"; //ocultar la llegenda
 				}
 			}
 			self._mapConfig = mapConfig;
