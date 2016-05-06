@@ -658,17 +658,17 @@
 			var self = this;
 			
 			self.addControlLogos();
-			if(self.mouseposition && self.mouseposition=="1"){
+			if((self.mouseposition && self.mouseposition=="1") || !self.mouseposition){
 				self.addMousePositionControl();
 			}
-			if(self.scalecontrol && self.scalecontrol=="1"){
+			if((self.scalecontrol && self.scalecontrol=="1") || !self.scalecontrol){
 				self.addScaleControl();
 			}
-			if(self.minimapcontrol && self.minimapcontrol=="1"){
+			if((self.minimapcontrol && self.minimapcontrol=="1") || !self.minimapcontrol){
 				self.addMinimapControl();
 			}
 				
-			if(self.fonscontrol && self.fonscontrol=="1"){
+			if((self.fonscontrol && self.fonscontrol=="1") || !self.fonscontrol) {
 				self.addFonsControl();
 			}
 			
@@ -678,19 +678,19 @@
 						self.addOpenInstamapsControl();
 					}
 				}
-				if(self.homecontrol && self.homecontrol=="1"){
+				if((self.homecontrol && self.homecontrol=="1") || !self.homecontrol){
 					self.addHomeControl();
 				}
-				if(self.locationcontrol && self.locationcontrol=="1"){
+				if((self.locationcontrol && self.locationcontrol=="1") || !self.locationcontrol){
 					self.addLocationControl();
 				}
-				if(self.sharecontrol && self.sharecontrol=="1"){
+				if((self.sharecontrol && self.sharecontrol=="1") || !self.sharecontrol){
 					self.addShareControl();
 				}
-				if(self.searchcontrol && self.searchcontrol=="1"){
+				if((self.searchcontrol && self.searchcontrol=="1") || !self.searchcontrol){
 					self.addSearchControl();
 				}
-				if(self.routingcontrol && self.routingcontrol=="1"){
+				if((self.routingcontrol && self.routingcontrol=="1") || !self.routingcontrol){
 					self.addRoutingControl();
 				}
 			  
@@ -704,16 +704,16 @@
 					self.addLayersControl(false);
 				}
 			
-				if(self.control3d && self.control3d=="1"){
+				if((self.control3d && self.control3d=="1") || !self.control3d) {
 					self.addControl3d();
 				}
-				if(self.snapshotcontrol && self.snapshotcontrol=="1"){
+				if((self.snapshotcontrol && self.snapshotcontrol=="1") || !self.snapshotcontrol){
 					self.addSnapshotControl();
 				}
-				if(self.printcontrol && self.printcontrol=="1"){
+				if((self.printcontrol && self.printcontrol=="1") || !self.printcontrol){
 					self.addPrintControl();
 				}
-				if(self.geopdfcontrol && self.geopdfcontrol=="1"){
+				if((self.geopdfcontrol && self.geopdfcontrol=="1") || !self.geopdfcontrol){
 					self.addGeopdfControl();
 				}
 			
@@ -721,7 +721,7 @@
 				self.addLayersControl(false);
 			}
 			
-			if(self.llegenda && self.llegenda=="1"){
+			if((self.llegenda && self.llegenda=="1") || !self.llegenda){
 				if (!self.nollegenda) self.addLlegenda();
 			}
 			
