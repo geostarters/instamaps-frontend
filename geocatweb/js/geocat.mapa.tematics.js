@@ -1515,8 +1515,8 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	//cargar las geometrias a la capa
 	var layOptions = getOptions(layer);
 	var origen = getOrigenLayer(layer);
-	var hasSource = (optionsVis && (optionsVis.toString().indexOf("source")!=-1) ) 
-	|| (layOptions && (layOptions.toString().indexOf("source")!=-1) );
+	var hasSource = (optionsVis && optionsVis.source!=undefined ) 
+	|| (layOptions && layOptions.source!=undefined );
 	capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 	capaVisualitzacio.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
