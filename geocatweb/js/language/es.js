@@ -60,7 +60,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Blog":"Blog"
 ,"Bàsic":"Básico"
 
-,"CAL CAP LLOC":"CAL CAP LLOC"	
+,"CAL CAP LLOC":"PÁRAMO DESOLADO"
 ,"Cal indicar el camp que conté el codi":"Tienes que indicar el campo que contiene el código"
 ,"Cal indicar el camp que conté l'adreça":"Tienes que indicar el campo que contiene la dirección"
 ,"Cal indicar el sistema de referència":"Tienes que indicar els sistema de referéncia"
