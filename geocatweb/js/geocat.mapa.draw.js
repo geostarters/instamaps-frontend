@@ -676,7 +676,7 @@ function createPopupWindow(layer,type){
 					fromLayer.removeLayer(obj);
 					//Actualitzem capa activa
 					//Primer desactivo l'event, per si la capaActiva coincideix amb la capa toLayer
-					if(capaUsrActiva) capaUsrActiva.removeEventListener('layeradd');
+					if(toLayer) toLayer.removeEventListener('layeradd');
 					
 					toLayer.addLayer(obj);
 					//Refresh de la capa
