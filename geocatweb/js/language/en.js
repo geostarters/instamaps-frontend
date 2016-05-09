@@ -60,7 +60,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Blog":"Blog"
 ,"Bàsic":"Basic"
 
-,"CAL CAP LLOC":"HOUSE NOWHERE"	
+,"CAL CAP LLOC":"CAL CAP LLOC"	
 ,"Cal indicar el camp que conté l'adreça":"Point out address field"
 ,"Cal indicar el camp que conté el codi":"Point out the code field"
 ,"Cal indicar el sistema de referència":"Point out the reference system"
@@ -390,6 +390,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"La mida mínima ha de ser inferior a la màxima":"The minimum size must be less than the maximum"
 ,"La modalitat 3D està en fase beta.":"3D mode is in beta"
 ,"La nova contrasenya ja havia estat utilitzada":"The new password was already used"
+,"La pàgina que cerqueu no l'hem trobat al nostre servidor.":"The page you are looking for is not in our servers."
 ,"La seva petició s'ha processat. Si no trobes el correu que t'hem enviat, revisa la teva carpeta de correu no desitjat":"Your request has been processed. If you can't find the email we sent you, check your spam folder"
 ,"La tecnologia WebGL que s’utilitza per la renderització 3D consumeix recursos del vostre maquinari i navegador. En funció del vostre equip obtindreu una millor rendiment. Comproveu que el vostre navegador està actualitzat.":"WebGL technology uses intensively your computer and your browser. Depending on the configuration of your machine you will achieve better performance. Make sure your browser is up to date."
 ,"Les contrasenyes han de coincidir.":"The passwords must match"
@@ -445,6 +446,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"No s'ha pogut esborrar l'usuari. Si us plau torna-ho a provar":"Could not delete the user. Please try again"
 ,"No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326":"Service could not be displayed: Instamaps only loads global WMS services in EPSG:3857 and EPSG:4326"
 ,"No mostrar més aquest missatge":"Don't show this message again"
+,"No teniu accés a aquesta pàgina":"You don’t have access to this page"
 ,"Nodes guifi.net":"guifi.net nodes"
 ,"Nom capa":"Layer name"
 ,"Nom d'usuari no disponible.":"Username not available."
@@ -521,6 +523,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Punts dins de polígons":"Points inside polygons"
 ,"Punts disponibles":"Available points"
 
+,"Què podeu fer?":"What can you do?"
 ,"Quin és el sistema de referència?":"Which is the reference system?"
 
 ,"Rang":"Rank"
@@ -529,8 +532,9 @@ jquery_lang_js.prototype.lang.en = {
 ,"Reiniciar":"Reset"
 ,"Registreu-vos":"Sign up"
 ,"Resultat de l'operació":"Operation result"
-,"Reutilització":"Reuse"
 ,"Restringit":"Restricted"
+,"Reutilització":"Reuse"
+,"Reviseu l'enllaç que us ha dut fins aquí o bé aneu a":"Check the link that brought you here or else go to"
 ,"Rutes turístiques":"Touristic routes"
 
 ,"Saber més":"Learn more"
