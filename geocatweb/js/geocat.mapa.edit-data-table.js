@@ -142,7 +142,7 @@ function fillModalDataTable(obj, geomBid){
 				}
 				columNames.push(objGeomBBOX);			
 				
-				
+				console.debug(modeMapa);
 				if(modeMapa){
 					var isADrawMarker=false;
 					//properties headers
@@ -206,18 +206,29 @@ function fillModalDataTable(obj, geomBid){
 					//Taula no editable pel visor
 					//properties headers
 					var isADrawMarker=false;
-					for(var x in options.propName){
-						var obj = {
-							title: options.propName[x].toUpperCase(),
-							field: options.propName[x].toLowerCase(),
-							sortable: true,
-							editable: {
-								emptytext : '-'
+					if (options.propName!=undefined && options.propName.toString().indexOf("nom,text")==-1) {
+						for(var x in options.propName){							
+							var obj = {
+								title: options.propName[x].toUpperCase(),
+								field: options.propName[x].toLowerCase(),
+								sortable: true
 							}
+							if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
+							else isADrawMarker=false;
+							columNames.push(obj);
+						}		
+					}
+					else {
+						for(var x in feature.properties){
+							var obj = {
+								title: x.toUpperCase(),
+								field: x.toLowerCase(),
+								sortable: true								
+							}
+							if (x=='text' || x=='TEXT') isADrawMarker=true;
+							else isADrawMarker=false;
+							columNames.push(obj);
 						}
-						if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
-						else isADrawMarker=false;
-						columNames.push(obj);
 					}	
 					if (isADrawMarker){
 						var obj = {
