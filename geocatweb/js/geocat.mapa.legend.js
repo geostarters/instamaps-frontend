@@ -8,6 +8,8 @@ function addLegend(){
 
 	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
 	    div.id = "mapLegend";
+		
+		
 	    jQuery.each(mapLegend, function(i, row){
 	    	for (var i = 0; i < row.length; i++) {
 	    		if(row[i].chck){
@@ -61,6 +63,7 @@ function addLegend(){
 /*Control llegenda buida o be, q hagi publicat el mapa amb llegenda, 
 pero cap opcio de la llegenda marcada*/
 function checkEmptyMapLegend(){
+	
 	var trobat = false;
 	if(typeof mapLegend == "string" ) mapLegend = [mapLegend]
 	jQuery.each(mapLegend, function(i, row){
@@ -151,6 +154,8 @@ function createModalConfigLegend(){
 }
 
 function addLayerToLegend(layer, count, layersHtml, layerIdParent){
+	
+	
 	var html = "";
 	html += '<div class="legend-row">';
 	html+='<div class="separate-legend-row"></div>';
@@ -495,7 +500,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				if(geometrytype == t_marker){
 					//console.debug("type");
 					//console.debug(type);
-					console.debug(estil_do);
+					
 					var mida = getMidaFromRadius(estil_do.radius);
 					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
@@ -1007,11 +1012,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		layersHtml.notorder.push(html);
 	}
 	
-	//console.debug("html:");
-	//console.debug(html);
 
-	//console.debug("layersHtml:");
-	//console.debug(layersHtml);	
 	
 	return layersHtml;
 }
@@ -1130,6 +1131,7 @@ function sortObject(obj) {
 }
 
 function updateMapLegendData(){
+	
 	mapLegend = {};
 	$(".legend-subrow").each(function(index,element){
 		

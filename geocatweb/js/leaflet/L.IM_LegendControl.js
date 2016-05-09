@@ -44,6 +44,11 @@ L.Control.Legend = L.Control.extend({
 		map.on('loadconfig', this._updateLegend, this);
 		map.on('visorconfig', this._updateLegend, this);
 		
+		
+		
+			
+		
+		
 		self.hide();
 		
 		return container;
@@ -112,9 +117,27 @@ L.Control.Legend = L.Control.extend({
 		div = self._div;
 		if (self._checkEmptyMapLegend()){
 			var legendhtml = [];
-			jQuery.each(mapLegend, function(i, row){
+			var legendTab=[];
+			var legendCont=[];
+			var legendTabContent=[];
+			
+			legendCont.push('<div id="legend_cont">');
+			legendTab.push('<div id="legend_cont"><ul id="nav_legend" class="nav nav-tabs">');
+			legendTabContent.push('<div class="tab-content">');
+			console.info(mapLegend);
+			var index=0;
+			jQuery.each(mapLegend, function(j, row){
 		    	for (var i = 0; i < row.length; i++) {
 		    		if(row[i].chck){
+					
+					index==0?active=' active':active="";
+					
+					/*
+					legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+row[i].name+'</a></li>');
+					legendTabContent.push('<div class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');	
+
+				*/
+				
 		    			if (row[i].symbol.indexOf("circle")>-1){
 		    				var padding_left="0px";
 		    				var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
@@ -123,23 +146,67 @@ L.Control.Legend = L.Control.extend({
 		    				if (mida>0 && mida<=6) padding_left="15px";
 		    				else if (mida>6 && mida<=14) padding_left="10px";
 		    				else if (mida>14 && mida<=22) padding_left="5px";
+							
+							
+					legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+row[i].name+'</a></li>');
+					legendTabContent.push('<div  style="padding-left:'+padding_left+'" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');	
+							
+							
+							/*
 		    				legendhtml.push($('<div class="visor-legend-row">'+
 					    			'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+row[i].symbol+'</div>'+
 					    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+row[i].name+'</div>'+
 					    			'</div>'+
 					    			'<div class="visor-separate-legend-row"></div>'));
+							*/		
 		    			} else{
+							
+						legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+row[i].name+'</a></li>');
+					legendTabContent.push('<div style="float:right;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');		
+							
+							
+							/*
 		    				legendhtml.push($('<div class="visor-legend-row">'+
 					    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
 					    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;">'+row[i].name+'</div>'+
 									'</div>'+
 									'<div class="visor-separate-legend-row"></div>'));
-		    			}	    			
+							*/		
+		    			}
+						
+						
 		    		}
 		    	}
+			index=index+1;	
 		    });
-			$(div).append(legendhtml);
-			$(div).mCustomScrollbar();
+			
+			
+			legendTab.push('</ul>');
+			legendTabContent.push('</div></div>');
+			//legendCont.push('<div id="legend_cont">');
+			
+			//$(div).append(legendhtml);
+			
+			
+			$(div).append(legendTab.join(""));
+			$(div).append(legendTabContent.join(""));
+			
+			//$(div).mCustomScrollbar();
+			$('.dv_lleg').mCustomScrollbar();
+			
+			 $('#nav_legend').tabdrop();
+			 
+			
+			$(div).on('click', function(e){			
+			changeWMSQueryable(false);
+			});	
+			 
+			 $(div).on('mouseout', function(e){	
+			
+			changeWMSQueryable(true);
+			});	
+			
+			 
 		}
 	},
 	

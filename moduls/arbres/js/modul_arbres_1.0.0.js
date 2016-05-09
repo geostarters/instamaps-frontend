@@ -27,11 +27,14 @@ if (($(location).attr('href').indexOf('/visor.html') != -1)) {
 	$("head").append('<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js" type="text/javascript"></script>');
 }
 
+/*
 setTimeout(function () {
 	L.control.addmodulArbres(new L.geoJson()).addTo(map);
 
 }, 2000);
 
+
+*/
 L.Control.addModulArbres = L.Control.extend({
 
 		options : {
@@ -165,17 +168,17 @@ L.Control.addModulArbres = L.Control.extend({
 				 
 			});
 
-			L.drawLocal.draw.toolbar.actions.title = "Cancel.lar";
-			L.drawLocal.draw.toolbar.actions.text = "Cancel.lar";
+			L.drawLocal.draw.toolbar.actions.title = "Aturar selecció";
+			L.drawLocal.draw.toolbar.actions.text = "Aturar&nbsp;selecció";
 
 			//	L.drawLocal.draw.toolbar.finish.title="Acabar";
 			//L.drawLocal.draw.toolbar.finish.text="Acabar";
 
-			//L.drawLocal.draw.toolbar.undo.title="Esborrar últim punt";
-			//L.drawLocal.draw.toolbar.undo.text="Esborrar últim punt";
+			L.drawLocal.draw.toolbar.undo.title="";
+			L.drawLocal.draw.toolbar.undo.text="&nbsp";
 
-			L.drawLocal.draw.toolbar.actions.title = "Cancel.lar";
-			L.drawLocal.draw.toolbar.actions.text = "Cancel.lar";
+			//L.drawLocal.draw.toolbar.actions.title = "Cancel.lar";
+			//L.drawLocal.draw.toolbar.actions.text = "Cancel.lar";
 			L.drawLocal.draw.toolbar.buttons.polygon = 'Selecció arbres dibuixant una àrea';
 			L.drawLocal.draw.toolbar.buttons.rectangle = 'Seleccióna arbres dibuixant un rectangle';
 			L.drawLocal.draw.toolbar.buttons.marker = 'Seleccióna un arbre amb un punt';
@@ -189,13 +192,20 @@ L.Control.addModulArbres = L.Control.extend({
 			map.addControl(this.controlDraw);
 
 			var that = this;
-
 		
+						
+			map.on('draw:drawstop', function (e) {			
+				changeWMSQueryable(true);
 
-			map.on('draw:drawstart', function (e) {
+			});
+			
+			map.on('draw:editstop', function (e) {			
+				changeWMSQueryable(true);
+			});
+			
 
+			map.on('draw:drawstart', function (e) {			
 				changeWMSQueryable(false);
-
 			});
 
 			map.on('draw:created', function (e) {
