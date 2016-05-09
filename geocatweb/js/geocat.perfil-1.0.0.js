@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
 			old_email = results.results.mail;
 		}else{
 			alert("Error al recuperar les dades");
-			//jQuery('#div_msg').html('<div class="alert alert-warning my-alert" lang="ca"> Nom <a href="#login_user" class="alert-link">d\'usuari</a> o <a href="#login_pass" class="alert-link">contrassenya</a> incorrectes.</div>');
+			//jQuery('#div_msg').html('<div class="alert alert-warning my-alert" lang="ca"> Nom <a href="#login_user" class="alert-link">d\'usuari</a> o <a href="#login_pass" class="alert-link">contrasenya</a> incorrectes.</div>');
 		}			
 	},function(results){
 		alert("Error al recuperar les dades");
@@ -121,7 +121,7 @@ function checkValidityPassword(){
 		$('#perfil_old_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#perfil_old_pass').val().length < 4){
 		$('#perfil_old_pass').addClass("invalid");
-		$('#perfil_old_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 4 caràcters.</span>");
+		$('#perfil_old_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 4 caràcters.</span>");
 	}	
 	
 	if(isBlank($('#perfil_pass').val())){
@@ -129,7 +129,7 @@ function checkValidityPassword(){
 		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#perfil_pass').val().length < 4){
 		$('#perfil_pass').addClass("invalid");
-		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 4 caràcters.</span>");
+		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 4 caràcters.</span>");
 	}else if(isBlank($('#perfil_confirm_pass').val())){
 		$('#perfil_confirm_pass').addClass("invalid");
 		$('#perfil_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");

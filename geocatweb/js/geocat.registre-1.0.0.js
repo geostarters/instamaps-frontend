@@ -178,7 +178,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 			}else if($('#signin_pass').val().length < 4){
 				$('#signin_pass').addClass("invalid");
-				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 4 caràcters.</span>");
+				$('#signin_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 4 caràcters.</span>");
 			}else if(isBlank($('#signin_confirm_pass').val())){
 				$('#signin_confirm_pass').addClass("invalid");
 				$('#signin_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");

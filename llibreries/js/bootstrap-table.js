@@ -1037,6 +1037,8 @@
 
                 value = calculateObjectValue(that.header,
                     that.header.formatters[j], [value, item, i], value);
+                
+                if (value.indexOf("undefined")) value = value.replace("undefined",that.options.undefinedText);
 
                 // handle td's id and class
                 if (item['_' + field + '_id']) {

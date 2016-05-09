@@ -165,7 +165,7 @@ function checkValidityLogin(tipus){
 		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#login_pass'+tipus).val().length < pass_length){
 		$('#login_pass'+tipus).addClass("invalid");
-		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir com a mínim 4 caràcters.</span>");
+		$('#login_pass'+tipus).after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir com a mínim 4 caràcters.</span>");
 	}
 }
   

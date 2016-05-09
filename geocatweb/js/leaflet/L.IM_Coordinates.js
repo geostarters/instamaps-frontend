@@ -14,7 +14,7 @@ L.Control.Coordinates = L.Control.extend({
     position: 'bottomleft',
     separator: ' : ',
     emptyString: '',
-    lngFirst: false,
+    lngFirst: true, //modifiquem el paràmetre per mostrar les coordenades igual que el Vissir (issue #554)
     numDigits: 2,
     numDigits2: 6,
 	crs:new L.Proj.CRS('EPSG:25831',  '+proj=utm +zone=31 +ellps=GRS80 +datum=WGS84 +units=m +no_defs'),

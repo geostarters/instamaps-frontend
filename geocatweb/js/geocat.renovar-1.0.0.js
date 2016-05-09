@@ -56,7 +56,7 @@ function checkValidityPassword(){
 		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
 	}else if($('#perfil_pass').val().length < 4){
 		$('#perfil_pass').addClass("invalid");
-		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">La contrassenya ha de tenir un mínim de 4 caràcters.</span>");
+		$('#perfil_pass').after("<span class=\"text_error\" lang=\"ca\">La contrasenya ha de tenir un mínim de 4 caràcters.</span>");
 	}else if(!($('#perfil_confirm_pass').val())){
 		$('#perfil_confirm_pass').addClass("invalid");
 		$('#perfil_confirm_pass').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
