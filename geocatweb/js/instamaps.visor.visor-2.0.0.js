@@ -658,62 +658,63 @@
 			var self = this;
 			
 			self.addControlLogos();
-			if((self.mouseposition && self.mouseposition=="1") || !self.mouseposition){
+			
+			if((self.mouseposition && self.mouseposition=="1") || self.mouseposition===null){
 				self.addMousePositionControl();
 			}
-			if((self.scalecontrol && self.scalecontrol=="1") || !self.scalecontrol){
+			if((self.scalecontrol && self.scalecontrol=="1") || self.scalecontrol===null){
 				self.addScaleControl();
 			}
-			if((self.minimapcontrol && self.minimapcontrol=="1") || !self.minimapcontrol){
+			if((self.minimapcontrol && self.minimapcontrol=="1") || self.minimapcontrol===null){
 				self.addMinimapControl();
 			}
 				
-			if((self.fonscontrol && self.fonscontrol=="1") || !self.fonscontrol) {
+			if((self.fonscontrol && self.fonscontrol=="1") || self.fonscontrol===null) {
 				self.addFonsControl();
 			}
 			
-			if((self.ltoolbar && self.ltoolbar=="1") || (!self.ltoolbar)){
+			if((self.ltoolbar && self.ltoolbar=="1") || (self.ltoolbar===null)){
 				if(self.embed){
-					if((self.openinstamaps && self.openinstamaps=="1") || (!self.openinstamaps)){
+					if((self.openinstamaps && self.openinstamaps=="1") || (self.openinstamaps===null)){
 						self.addOpenInstamapsControl();
 					}
 				}
-				if((self.homecontrol && self.homecontrol=="1") || !self.homecontrol){
+				if((self.homecontrol && self.homecontrol=="1") || self.homecontrol===null){
 					self.addHomeControl();
 				}
-				if((self.locationcontrol && self.locationcontrol=="1") || !self.locationcontrol){
+				if((self.locationcontrol && self.locationcontrol=="1") || self.locationcontrol===null){
 					self.addLocationControl();
 				}
-				if((self.sharecontrol && self.sharecontrol=="1") || !self.sharecontrol){
+				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
 					self.addShareControl();
 				}
-				if((self.searchcontrol && self.searchcontrol=="1") || !self.searchcontrol){
+				if((self.searchcontrol && self.searchcontrol=="1") || self.searchcontrol===null){
 					self.addSearchControl();
 				}
-				if((self.routingcontrol && self.routingcontrol=="1") || !self.routingcontrol){
+				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null){
 					self.addRoutingControl();
 				}
 			  
 			
 			}
 			
-			if((self.rtoolbar && self.rtoolbar=="1") || (!self.rtoolbar)){
-				if((self.layerscontrol && self.layerscontrol=="1") || (!self.layerscontrol)){
+			if((self.rtoolbar && self.rtoolbar=="1") || (self.rtoolbar===null)){
+				if((self.layerscontrol && self.layerscontrol=="1") || (self.layerscontrol===null)){
 					self.addLayersControl();
 				}else{
 					self.addLayersControl(false);
 				}
 			
-				if((self.control3d && self.control3d=="1") || !self.control3d) {
+				if((self.control3d && self.control3d=="1") || self.control3d===null) {
 					self.addControl3d();
 				}
-				if((self.snapshotcontrol && self.snapshotcontrol=="1") || !self.snapshotcontrol){
+				if((self.snapshotcontrol && self.snapshotcontrol=="1") || self.snapshotcontrol===null){
 					self.addSnapshotControl();
 				}
-				if((self.printcontrol && self.printcontrol=="1") || !self.printcontrol){
+				if((self.printcontrol && self.printcontrol=="1") || self.printcontrol===null){
 					self.addPrintControl();
 				}
-				if((self.geopdfcontrol && self.geopdfcontrol=="1") || !self.geopdfcontrol){
+				if((self.geopdfcontrol && self.geopdfcontrol=="1") || self.geopdfcontrol===null){
 					self.addGeopdfControl();
 				}
 			
@@ -721,7 +722,7 @@
 				self.addLayersControl(false);
 			}
 			
-			if((self.llegenda && self.llegenda=="1") || !self.llegenda){
+			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				if (!self.nollegenda) self.addLlegenda();
 			}
 			
