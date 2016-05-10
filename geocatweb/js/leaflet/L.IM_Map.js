@@ -45,11 +45,13 @@ var subDomains=['otile1','otile2','otile3','otile4'];
 //var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 
-var urlServerTiles="http://www.instamaps.cat"
+var urlServerTiles="http://www.{s}.instamaps.cat"
 var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
-	urlServerTiles="http://172.70.1.11"
+	//urlServerTiles="http://172.70.1.11"
+	urlServerTiles="http://instamaps.{s}.icgc.local"	
+		
 	//urlServerTiles="http://localhost"
 }
 
@@ -93,7 +95,7 @@ var URL_MQ_NATURAL='http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png'
 
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
 
-var URL_TOPOICC_GEO_MON='http://www.instamaps.cat/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
+var URL_TOPOICC_GEO_MON='http://www.{s}.instamaps.cat/mapcache/tms/1.0.0/A250MON@GM14/{z}/{x}/{y}.png';
 
 var URL_TOPOICC_GEO_NATURAL=urlServerTiles+'/mapcache/tms/1.0.0/natural3857@GMTOT/{z}/{x}/{y}.png';
 var URL_TOPONIMS_GEO=urlServerTiles+'/mapcache/tms/1.0.0/toponims3857@GMTOT/{z}/{x}/{y}.png';

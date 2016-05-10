@@ -5,7 +5,6 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		// Triggered when the layer is added to a map.
 		// Register a click listener, then do all the upstream WMS things
 		this.options.maxZoom=20;
-		this.options.queryable=true;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		map.on('click', this.getFeatureInfo, this);
 		
@@ -21,12 +20,16 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		this.updateControlLLegenda(params,this.wmsParams.layers,false,this.options.nom,this.options.businessId);
 	},
 	getFeatureInfo: function (evt) {
-		console.info(this.options.queryable);
-		if(this.options.queryable){
+		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
-	
+		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
+		
+		//console.debug(evt);
+		//És mol lleig xurro
+		//if(evt.originalEvent.target.className.indexOf('tile')!=-1){
+		
+		//console.info(params);
 		if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
-			
 			
 			if (params.indexOf('/geoservicelocal/')!=-1){
 				params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
@@ -39,8 +42,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			.setContent(dataF).openOn(map);	
 			
 		}else{
-		
 			var esNomesWMS = true;
+			var teUtfGrid = false;
 			
 			//De moment, si es un wms creat pel cloudifier, demanem text/pla
 			//mes endavant passarem per ogrinfo i podrem demanar HTML amb template
@@ -53,6 +56,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			for(val in controlCapes._layers){
 				if(controlCapes._layers[val].layer.options.tipus != t_wms){
 					esNomesWMS = false;
+				}
+				if (controlCapes._layers[val].layer.options.tipus == t_vis_wms){
+					teUtfGrid=true;
 				}
 			}
 		
@@ -77,14 +83,15 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					}
 					});				
 			}else{
+				if (!teUtfGrid || params.indexOf('instaserver')==-1) {
+					
 				
-				
-				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
-				
-				var pop=L.popup({ maxWidth: 800})
-				.setLatLng(evt.latlng)
-				.setContent(dataF).openOn(map);	
-				
+					var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
+					
+					var pop=L.popup({ maxWidth: 800})
+					.setLatLng(evt.latlng)
+					.setContent(dataF).openOn(map);	
+				}
 				
 				
 				
@@ -92,7 +99,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		}
 		
 		
-		}
+		//}
 		
 	},
 	

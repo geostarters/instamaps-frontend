@@ -1515,9 +1515,11 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	//cargar las geometrias a la capa
 	var layOptions = getOptions(layer);
 	var origen = getOrigenLayer(layer);
-	var hasSource = (optionsVis && (optionsVis.toString().indexOf("source")!=-1) ) 
-	|| (layOptions && (layOptions.toString().indexOf("source")!=-1) );
+	var hasSource = (optionsVis && optionsVis.source!=undefined ) 
+	|| (layOptions && layOptions.source!=undefined );
+	capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+	capaVisualitzacio.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	
 	return defer.promise();
 }
@@ -1633,7 +1635,9 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 		}
 		
 		//Per les etiquetes
+		var isCapaAmbEtiquetes=false;
 		if(optionsVis && optionsVis.campEtiqueta!=undefined) {
+			isCapaAmbEtiquetes=true;
 			capaVisualitzacio.options.campEtiqueta = optionsVis.campEtiqueta;
 			if(optionsVis && optionsVis.fontFamily!=undefined) capaVisualitzacio.options.fontFamily = optionsVis.fontFamily;
 			if(optionsVis && optionsVis.fontSize!=undefined) capaVisualitzacio.options.fontSize = optionsVis.fontSize;
@@ -1641,10 +1645,6 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			if(optionsVis && optionsVis.fontStyle!=undefined) capaVisualitzacio.options.fontFamily = optionsVis.fontStyle;
 			if(optionsVis && optionsVis.opcionsVis!=undefined) capaVisualitzacio.options.opcionsVisEtiqueta = optionsVis.opcionsVis;
 		}
-		
-		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
-			capaVisualitzacio.addTo(map);
-		}	
 		
 		var origen = getOrigenLayer(layer);
 		
@@ -1654,8 +1654,26 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			visualitzacio.estil = estilDesc;
 		}
 		
-		//Afegim geometries a la capa
-		loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+		
+		var isCapaActiva=false;
+		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
+			capaVisualitzacio.addTo(map);
+			//Afegim geometries a la capa
+			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+		}	
+		else {
+			//Afegim geometries a la capa pero no la capa al mapa
+			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+			if (isCapaAmbEtiquetes){
+				jQuery.each(capaVisualitzacio._layers, function(i, lay){
+					if(lay.label){
+						lay.label.setOpacity(0);
+					}
+				});	
+			}
+		}
+		
+		
 		
 		//Afegim num d'elements al nom de la capa, si és un fitxer
 		if(layer.dragdrop || layer.urlFile){
@@ -1671,6 +1689,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			});					
 		}
 		
+		
 		if (layer.options){
 			var options2;
 			if(typeof (layer.options)=="string"){		
@@ -1683,7 +1702,6 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			}else{				
 				options2 = layer.options;	
 			}
-		
 			if (options2.propName != undefined) {
 				capaVisualitzacio.options.propName = options2.propName;
 			}
@@ -1699,7 +1717,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 									
 				}else{				
 					options2 = visualitzacio.options;	
-				}				
+				}		
 				if (options2.propName != undefined) {
 					var dataNames = options2.propName.split(',');
 					capaVisualitzacio.options.propName = dataNames;
@@ -1720,6 +1738,38 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 				}
 			}
 		}
+		
+		if (capaVisualitzacio.options.propName== undefined) {
+			if (visualitzacio.estil!=undefined && visualitzacio.estil[0]!=undefined){
+				if ( visualitzacio.estil[0].geometria!=undefined &&  visualitzacio.estil[0].geometria.features!=undefined &&
+						visualitzacio.estil[0].geometria.features.length>0){
+					//var props = console.debug(visualitzacio.estil[0].geometria.features[0].properties);
+					
+					var props;
+					if(typeof (visualitzacio.estil[0].geometria.features[0].properties)=="string"){		
+						try {
+							props = JSON.parse(visualitzacio.estil[0].geometria.features[0].properties);
+						}
+						catch (err) {
+							props = visualitzacio.estil[0].geometria.features[0].properties;
+						}						
+					}else{				
+						props = visualitzacio.estil[0].geometria.features[0].properties;	
+					}
+					
+					var dataNames ="";
+					jQuery.each(props, function( index, value ) {
+						dataNames+=index+",";						
+					});
+					capaVisualitzacio.options.propName = dataNames.substring(0,dataNames.length-1);
+
+					//var dataNames = geometries.options.split(',');
+					//capaVisualitzacio.options.propName = dataNames;
+					
+				}
+			}			
+		}
+		//console.debug(capaVisualitzacio);
 		if (capaVisualitzacio.options.propName== undefined) {
 			var dataNames=[];
 			dataNames[0]="nom";
@@ -1933,7 +1983,6 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				feat.properties.capaNom = capaVisualitzacio.options.nom;
 				feat.properties.capaBusinessId = capaVisualitzacio.options.businessId;
 				feat.properties.tipusFeature = geomTypeVis;
-				
 				//Cal??
 				if (feat.options){
 					feat.options.tipus = geomTypeVis;
@@ -2131,25 +2180,122 @@ function escapeSpecialChars(jsonString) {
 function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,tipusModificacio) {
 	//console.debug(layerMare);
 	var isClasicTematic=false;
-	jQuery.each(layerMare._layers, function(i, sublayer){
-		//console.debug(sublayer);
-		if(jQuery.type(sublayer.layer.options)== "string"){
-				sublayer.layer.options = $.parseJSON(sublayer.layer.options);
-		}	            	  
-		//Sublayer visualitzacio, carrego la capa
-		if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
-			//if (sublayer.layer.options.tipusRang=="simpleTematic"){		
-				if (tipusModificacio=="alta" || tipusModificacio=="modificacio"){
-					if (sublayer.layer.options.tipusRang!="clusterTematic" && sublayer.layer.options.tipusRang!="heatmapTematic"){
-						if (sublayer.layer.options.tipusRang=="clasicTematic"){
-							var dataRemove = {
-									businessId: url('?businessid'),
-									uid: $.cookie('uid'),
-									servidorWMSbusinessId:sublayer.layer.options.businessId.toString()
+	if (layerMare!=undefined) {
+		jQuery.each(layerMare._layers, function(i, sublayer){
+			//console.debug(sublayer);
+			if(jQuery.type(sublayer.layer.options)== "string"){
+					sublayer.layer.options = $.parseJSON(sublayer.layer.options);
+			}	            	  
+			//Sublayer visualitzacio, carrego la capa
+			if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
+				//if (sublayer.layer.options.tipusRang=="simpleTematic"){		
+					if (tipusModificacio=="alta" || tipusModificacio=="modificacio"){
+						if (sublayer.layer.options.tipusRang!="clusterTematic" && sublayer.layer.options.tipusRang!="heatmapTematic"){
+							if (sublayer.layer.options.tipusRang=="clasicTematic"){
+								var dataRemove = {
+										businessId: url('?businessid'),
+										uid: $.cookie('uid'),
+										servidorWMSbusinessId:sublayer.layer.options.businessId.toString()
+								};
+								
+								removeLayerFromMap(dataRemove,sublayer);
+					
+								var props;
+								if (layerMare.layer.options.propName!=undefined) props = layerMare.layer.options.propName.toString();
+								else props='["nom","text"]';
+								var data = {
+										businessid: businessIdCapaMare,
+										from:"clasicTematic",
+										geometrytype:layerMare.layer.options.geometryType,
+										leafletid:layerMare.layer._leaflet_id,
+										propname:props,
+										tipus:layerMare.layer.options.tipus
+								};
+								jQuery('#info_uploadFile').show();
+								busy=true;
+								jQuery("#div_uploading_txt").html("");
+								jQuery("#div_uploading_txt").html(
+									'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+									'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+								);
+								createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,layerMare);
+							}
+							else {	
+								//Eliminem la capa de controlCapes
+								controlCapes.removeLayer(sublayer);
+								
+								
+								var rangsJSON2 = getFeatureStyle2(sublayer.layer.options.estil[0],sublayer.layer.options.geometryType);
+								if (features==null){
+									features = {
+											type:feature.layer.options.tipus,
+											id:fId,
+											properties: feature.properties.data,
+											estil: rangsJSON2,
+											geometry: feature.geometry
+									};
+									features = JSON.stringify(features);
+								}
+								var data = {
+										businessId: sublayer.layer.options.businessId,//f.layer.properties.capaBusinessId,//Bid de la visualitzacio
+										uid: jQuery.cookie('uid'),
+										features: features,
+										estilBusinessId: sublayer.layer.options.estil[0].businessId
+								};
+								addGeometriaToVisualitzacioTematic(data).then(function(results) {
+										if(results.status === 'OK'){
+											sublayer.layer.serverName = sublayer.layer.options.nom;
+											sublayer.layer.serverType = sublayer.layer.options.tipus;
+											sublayer.layer.capesActiva = "true";
+											sublayer.layer.options.origen = businessIdCapaMare;	
+											sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
+												
+											//eliminem sublayer del mapa, i recarreguem
+											map.removeLayer(sublayer.layer);
+											loadVisualitzacioLayer(sublayer.layer);
+																			
+										}else{
+											console.debug('addGeometriaToVisualitzacio ERROR');
+										}
+								});
+							}
+						}
+						else {
+							sublayer.layer.serverName = sublayer.layer.options.nom;
+							sublayer.layer.serverType = sublayer.layer.options.tipus;
+							sublayer.layer.capesActiva = "true";
+							sublayer.layer.options.origen = businessIdCapaMare;	
+							sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
+							//eliminem sublayer del mapa, i recarreguem
+							map.removeLayer(sublayer.layer);
+							loadVisualitzacioLayer(sublayer.layer);
+						}
+					}
+					else if (tipusModificacio=="baixa"){
+						  sublayer.layer.serverName = sublayer.layer.options.nom;
+				  		  sublayer.layer.serverType = sublayer.layer.options.tipus;
+				  		  sublayer.layer.capesActiva = "true";
+				  		  sublayer.layer.options.origen =businessIdCapaMare;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
+				  		  //tipusRang
+				  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
+				  		  console.debug(sublayer);
+				  		  //eliminem sublayer del mapa, i recarreguem
+				  		  map.closePopup();
+				  		  map.removeLayer(sublayer.layer);
+				  		  controlCapes.removeLayer(sublayer);
+				  		  loadVisualitzacioLayer(sublayer.layer);
+				  		  
+				  		  
+					}
+					else if (tipusModificacio=="modificacioInfo"){
+						//Modificació informació d'una geometria - cal refer el temàtic.
+						var dataRemove = {
+								businessId: url('?businessid'),
+								uid: $.cookie('uid'),
+								servidorWMSbusinessId:lbusinessId.toString()
 							};
-							
-							removeLayerFromMap(dataRemove,sublayer);
-				
+						removeLayerFromMap(dataRemove,sublayer);
+						if (sublayer.layer.options.tipusRang=="clasicTematic"){
 							var props;
 							if (layerMare.layer.options.propName!=undefined) props = layerMare.layer.options.propName.toString();
 							else props='["nom","text"]';
@@ -2170,106 +2316,11 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 							);
 							createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,layerMare);
 						}
-						else {	
-							//Eliminem la capa de controlCapes
-							controlCapes.removeLayer(sublayer);
-							
-							
-							var rangsJSON2 = getFeatureStyle2(sublayer.layer.options.estil[0],sublayer.layer.options.geometryType);
-							if (features==null){
-								features = {
-										type:feature.layer.options.tipus,
-										id:fId,
-										properties: feature.properties.data,
-										estil: rangsJSON2,
-										geometry: feature.geometry
-								};
-								features = JSON.stringify(features);
-							}
-							var data = {
-									businessId: sublayer.layer.options.businessId,//f.layer.properties.capaBusinessId,//Bid de la visualitzacio
-									uid: jQuery.cookie('uid'),
-									features: features,
-									estilBusinessId: sublayer.layer.options.estil[0].businessId
-							};
-							addGeometriaToVisualitzacioTematic(data).then(function(results) {
-									if(results.status === 'OK'){
-										sublayer.layer.serverName = sublayer.layer.options.nom;
-										sublayer.layer.serverType = sublayer.layer.options.tipus;
-										sublayer.layer.capesActiva = "true";
-										sublayer.layer.options.origen = businessIdCapaMare;	
-										sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-											
-										//eliminem sublayer del mapa, i recarreguem
-										map.removeLayer(sublayer.layer);
-										loadVisualitzacioLayer(sublayer.layer);
-																		
-									}else{
-										console.debug('addGeometriaToVisualitzacio ERROR');
-									}
-							});
-						}
 					}
-					else {
-						sublayer.layer.serverName = sublayer.layer.options.nom;
-						sublayer.layer.serverType = sublayer.layer.options.tipus;
-						sublayer.layer.capesActiva = "true";
-						sublayer.layer.options.origen = businessIdCapaMare;	
-						sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-						//eliminem sublayer del mapa, i recarreguem
-						map.removeLayer(sublayer.layer);
-						loadVisualitzacioLayer(sublayer.layer);
-					}
-				}
-				else if (tipusModificacio=="baixa"){
-					  sublayer.layer.serverName = sublayer.layer.options.nom;
-			  		  sublayer.layer.serverType = sublayer.layer.options.tipus;
-			  		  sublayer.layer.capesActiva = "true";
-			  		  sublayer.layer.options.origen =businessIdCapaMare;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
-			  		  //tipusRang
-			  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-			  		  console.debug(sublayer);
-			  		  //eliminem sublayer del mapa, i recarreguem
-			  		  map.closePopup();
-			  		  map.removeLayer(sublayer.layer);
-			  		  controlCapes.removeLayer(sublayer);
-			  		  loadVisualitzacioLayer(sublayer.layer);
-			  		  
-			  		  
-				}
-				else if (tipusModificacio=="modificacioInfo"){
-					//Modificació informació d'una geometria - cal refer el temàtic.
-					var dataRemove = {
-							businessId: url('?businessid'),
-							uid: $.cookie('uid'),
-							servidorWMSbusinessId:lbusinessId.toString()
-						};
-					removeLayerFromMap(dataRemove,sublayer);
-					if (sublayer.layer.options.tipusRang=="clasicTematic"){
-						var props;
-						if (layerMare.layer.options.propName!=undefined) props = layerMare.layer.options.propName.toString();
-						else props='["nom","text"]';
-						var data = {
-								businessid: businessIdCapaMare,
-								from:"clasicTematic",
-								geometrytype:layerMare.layer.options.geometryType,
-								leafletid:layerMare.layer._leaflet_id,
-								propname:props,
-								tipus:layerMare.layer.options.tipus
-						};
-						jQuery('#info_uploadFile').show();
-						busy=true;
-						jQuery("#div_uploading_txt").html("");
-						jQuery("#div_uploading_txt").html(
-							'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-							'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
-						);
-						createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,layerMare);
-					}
-				}
-			//}
-		}
-	 });
+				//}
+			}
+		 });
+	}
 	
 }
 

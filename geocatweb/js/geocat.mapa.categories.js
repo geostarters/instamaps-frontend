@@ -449,7 +449,7 @@ function createTematicLayerCategories(event){
 		labelField: jQuery('#dataField').val().toLowerCase()
 	};
 	var data1 = {};
-	if(capaMare.tipus == t_url_file){
+	if(capaMare.tipus == t_url_file || tematicFrom.tipus==t_url_file){
 		data1 = {
 			uid: $.cookie('uid'),
 			businessId1: capaMare.options.businessId
@@ -850,12 +850,14 @@ function loadTematicValueTemplate(results, rtype){
 		});
 		
 		//match ints and floats/decimals
-		var floatRegex = new RegExp('[-+]?($[0-9]*$.$[0-9]+$|$[0-9]+$)');
+		var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 		var resultsFloat = [];
 		var i=0;
 		jQuery.grep(resultsNoRepetits, function( n, i ) {
+			//console.debug(n.v);
+			//console.debug(floatRegex.test(n.v));
 			if (floatRegex.test(n.v)) {
-				console.debug(n.v);
+				//console.debug(n.v);
 				resultsFloat[i]=n;
 				i++;
 			}
@@ -865,12 +867,11 @@ function loadTematicValueTemplate(results, rtype){
 		var template1 = Handlebars.compile(source1);
 		var html1 = "";
 		if (resultsFloat.length>0) {
-			console.debug(resultsFloat);
-			resultsFloat.sort(function(a,b){return a.v-b.v;});
+			//resultsFloat.sort(function(a,b){return a.v-b.v;});
+			resultsFloat.sort(sortByValueMax);
 			html1 = template1({values:resultsFloat});
 		}
 		else {
-			console.debug(resultsNoRepetits);
 			resultsNoRepetits.sort();
 			html1 = template1({values:resultsNoRepetits});
 		}
@@ -879,7 +880,7 @@ function loadTematicValueTemplate(results, rtype){
 	else {
 		
 		//match ints and floats/decimals
-		var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+		var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 		var resultsFloat = [];
 		var i=0;
 		jQuery.grep(results, function( n, i ) {
@@ -1117,7 +1118,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 							}
 			});
 			//match ints and floats/decimals
-			var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+			var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 			var resultsFloat = [];
 			var i=0;
 			jQuery.grep(resultsNoRepetits, function( n, i ) {
@@ -1132,7 +1133,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 		}
 		else {
 			//match ints and floats/decimals
-			var floatRegex = new RegExp('[-+]?([0-9]*.[0-9]+|[0-9]+)');
+			var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 			var resultsFloat = [];
 			var i=0;
 			jQuery.grep(valors, function( n, i ) {

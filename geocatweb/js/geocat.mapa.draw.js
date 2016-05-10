@@ -676,7 +676,7 @@ function createPopupWindow(layer,type){
 					fromLayer.removeLayer(obj);
 					//Actualitzem capa activa
 					//Primer desactivo l'event, per si la capaActiva coincideix amb la capa toLayer
-					if(capaUsrActiva) capaUsrActiva.removeEventListener('layeradd');
+					if(toLayer) toLayer.removeEventListener('layeradd');
 					
 					toLayer.addLayer(obj);
 					//Refresh de la capa
@@ -827,7 +827,7 @@ function createPopupWindow(layer,type){
 					}*/
 					
 					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
-				
+					var capaBusinessId = map._layers[objEdicio.featureID].properties.capaBusinessId;
 					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
 					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
 					if(map._layers[capaLeafletId]!= undefined) updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
@@ -1889,20 +1889,24 @@ function updateFeatureCount(fromBusinessId, toBusinessId){
 	//Actualitzem comptador de la capa
 	if(fromBusinessId){
 		var sFromCount = $("#count-"+fromBusinessId).html();
-		sFromCount = sFromCount.replace("(", " ");
-		sFromCount = sFromCount.replace(")", " ");	
-		var fromCount = parseInt(sFromCount.trim());
-		fromCount=fromCount-1;
-		$("#count-"+fromBusinessId).html(' ('+fromCount+')');		
+		if (sFromCount!=undefined){
+			sFromCount = sFromCount.replace("(", " ");
+			sFromCount = sFromCount.replace(")", " ");	
+			var fromCount = parseInt(sFromCount.trim());
+			fromCount=fromCount-1;
+			$("#count-"+fromBusinessId).html(' ('+fromCount+')');
+		}
 	}
 
 	if(toBusinessId){
 		var sToCount = $("#count-"+toBusinessId).html();
-		sToCount = sToCount.replace("(", " ");
-		sToCount = sToCount.replace(")", " ");	
-		var toCount = parseInt(sToCount.trim());
-		toCount=toCount+1;
-		$("#count-"+toBusinessId).html(' ('+toCount+')');		
+		if (sToCount!=undefined){
+			sToCount = sToCount.replace("(", " ");
+			sToCount = sToCount.replace(")", " ");	
+			var toCount = parseInt(sToCount.trim());
+			toCount=toCount+1;
+			$("#count-"+toBusinessId).html(' ('+toCount+')');		
+		}
 	}
 //	console.debug("Fi updateFeatureCount");
 }
