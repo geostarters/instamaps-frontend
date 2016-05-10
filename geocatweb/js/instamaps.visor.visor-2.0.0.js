@@ -974,13 +974,13 @@
 			return dfd.promise();
 		},
 		
-		_addDownloadLayer(){
+		_addDownloadLayer: function(){
 			var self = this;
 			addFuncioDownloadLayer('visor');
 			return self;
 		},
 		
-		_addDataTable(){
+		_addDataTable: function(){
 			var self = this;
 			addFuncioEditDataTable();
 			return self;
