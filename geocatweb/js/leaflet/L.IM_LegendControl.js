@@ -12,7 +12,7 @@ L.Control.Legend = L.Control.extend({
 		title: 'Llegenda',
 		html: '<span class="glyphicon glyphicon-list-alt"></span>',
 		id: 'mapLegend',
-		className: 'info legend visor-legend mCustomScrollbar',
+		className: 'info legend visor-legend ',
 		transition: true
 	},
 	
@@ -123,7 +123,7 @@ L.Control.Legend = L.Control.extend({
 			
 			legendCont.push('<div id="legend_cont">');
 			legendTab.push('<div id="legend_cont"><ul id="nav_legend" class="nav nav-tabs">');
-			legendTabContent.push('<div class="tab-content">');
+			legendTabContent.push('<div class="legendTabCont tab-content">');
 			console.info(mapLegend);
 			var index=0;
 			jQuery.each(mapLegend, function(j, row){
@@ -162,7 +162,7 @@ L.Control.Legend = L.Control.extend({
 		    			} else{
 							
 						legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+row[i].name+'</a></li>');
-					legendTabContent.push('<div style="float:right;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');		
+					legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');		
 							
 							
 							/*
@@ -192,7 +192,7 @@ L.Control.Legend = L.Control.extend({
 			$(div).append(legendTabContent.join(""));
 			
 			//$(div).mCustomScrollbar();
-			$('.dv_lleg').mCustomScrollbar();
+			//$('.dv_lleg').mCustomScrollbar();
 			
 			 $('#nav_legend').tabdrop();
 			 
@@ -205,6 +205,16 @@ L.Control.Legend = L.Control.extend({
 			
 			changeWMSQueryable(true);
 			});	
+			
+			
+			$('.dv_lleg').on('click', function(e){			
+			aturaClick(e);
+			});	
+			$('.legendTabCont').mCustomScrollbar()
+			$('.legendTabCont').on('click', function(e){			
+			aturaClick(e);
+			});	
+			
 			
 			 
 		}

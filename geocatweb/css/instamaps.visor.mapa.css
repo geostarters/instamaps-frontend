@@ -1935,7 +1935,7 @@ i.fa {
 
 .visor-legend{
 	overflow: hidden;
-	width: 200px;
+	width: 270px;
 	max-width: 300px;
 	height: 200px;
 	max-height: 200px;
@@ -2535,3 +2535,21 @@ a.leaflet-control-timecontrol:hover {
     color: #FFC500 !important;
 }
 /*end Time bar*/
+
+
+.dv_lleg{
+
+float: none !important;
+  
+    overflow: auto;
+    text-align: center;
+	
+}	
+
+
+.legendTabCont{
+	
+ color: blue;
+    height: 173px;
+    overflow: auto;
+}
