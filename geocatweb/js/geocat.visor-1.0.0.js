@@ -258,7 +258,7 @@ function loadApp(){
 			}else if (results.status == "PRIVAT"){
 				//ocultar las pelotas
 				jQuery('#div_loading').hide();
-				//mostar modal con contraseña
+				//mostar modal con contraseÃ±a
 				loadPasswordModal();
 			}else{
 				var uidUrl = url('?uid');
@@ -334,7 +334,7 @@ function loadPublicMap(results){
 		
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL)  infoHtml += '</div>';
 		
-		//TODO ver como sacar el módulo
+		//TODO ver como sacar el mÃ³dulo
 		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 			VisorGeolocal.initUi();
 			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
@@ -374,7 +374,7 @@ function loadPublicMap(results){
 			loadEventsGa();
 		});
 	}
-	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
+	jQuery("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="InformaciÃ³" data-lang-title="InformaciÃ³" ></span>');
 
 	$('#infoMap').popover({
 		placement : 'bottom',
@@ -637,7 +637,7 @@ function addControlsInici() {
 	};
 	ctr_vistaInicial.addTo(map);
 	
-	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicació');
+	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicaciÃ³');
 	var ctr_gps = new L.Control.Gps({
 		autoCenter: true,		//move map when gps location change
 		style: {
@@ -928,7 +928,7 @@ function updateLangTooltips(){
 			_gaq.push(['_trackEvent', 'visor', tipus_user+'routing', 'label routing', 1]);
 			map.on('click', routingPopup);
 			route.addTo(map);
-			$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">Càlcul de rutes</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
+			$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">CÃ lcul de rutes</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
 			$('.leaflet-routing-add-waypoint').attr('title','Afegir punts');
 		}
 
@@ -961,10 +961,10 @@ function routingPopup(e) {
 
 		var container ='<div id="contentRoutingPopup">';
 
-	    container +='<h4 style="border-bottom:0px;">Càlcul de rutes</h4>';
+	    container +='<h4 style="border-bottom:0px;">CÃ lcul de rutes</h4>';
 	    container +='<button class="btn" title="Ruta inversa" type="button" id="startBtn">Defineix com a origen</button>'+
 	    	'<span class="awesome-marker-icon-green awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" id="icona-origen" style="position:relative;float:right;margin-top:-5px;"></span>'+
-	    	'<button class="btn" title="Ruta inversa" type="button" id="destBtn" style="margin-top:10px;width:152px">Defineix com a destí</button>'+
+	    	'<button class="btn" title="Ruta inversa" type="button" id="destBtn" style="margin-top:10px;width:152px">Defineix com a destÃ­</button>'+
 	    	'<span class="awesome-marker-icon-red awesome-marker leaflet-zoom-hide leaflet-clickable leaflet-marker-draggable" id="icona-desti" style="position:relative;float:right;margin-top:-35px;"></span>';
 	    container += "</div>";
 
