@@ -201,6 +201,8 @@ jQuery(document).on('keyup', "#txt_URLWMS_cataleg", function(e) {
     	if (cerca === "") {
     		alert(window.lang.convert("Has d'introduïr un valor per fer la cerca"));
     	} else {
+    		cerca = encodeURI(cerca);
+    		
     		var data ={
     			searchInput : cerca	
     		};
