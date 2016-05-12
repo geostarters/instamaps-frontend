@@ -442,7 +442,7 @@ function updateLangText(){
 
 	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.convert("Situar un punt"));
 	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
-	$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil del mapa"));
+	$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil de la capa"));
 	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
 	$('.bt_publicar>span').html(window.lang.convert("Desar / Publicar el mapa"));
 	$('#socialShare>h5').html(window.lang.convert("Compartir"));
@@ -554,6 +554,38 @@ function loadMapConfig(mapConfig){
 			});
 		});
 		*/
+		
+		map.on('zoomend', function (e) {
+			jQuery.each(controlCapes._layers, function(i, obj){				
+					 if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
+								obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
+						 		var zoomInicial = "2";
+						 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
+						 		var zoomFinal = "19";
+						 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
+						 		
+						 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
+									jQuery.each(obj.layer._layers, function(i, lay){
+										if (lay.label!=undefined) {
+											if(lay.label){
+												lay.label.setOpacity(1);
+											}
+											if(lay._showLabel){
+						                        lay._showLabel({latlng: lay.label._latlng});
+											}
+										}
+									});											
+						 		 }
+						 		 else {//amaguem labels
+									jQuery.each(obj.layer._layers, function(i, lay){
+										if(lay.label){
+											lay.label.setOpacity(0);
+										}
+									});										
+								 }
+					}
+			 });
+		});
 		
 		jQuery('#div_loading').hide();
 		//console.warn("Capes afegides")

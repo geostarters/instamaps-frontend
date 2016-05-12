@@ -147,12 +147,24 @@ function fillModalDataTable(obj, geomBid){
 					var isADrawMarker=false;
 					//properties headers
 					//console.debug(feature);
-					
-					if (options.propName!=undefined && options.propName.toString().indexOf("nom,text")==-1) {
-						for(var x in options.propName){							
+					var propName;
+					if(typeof (options.propName)=="string"){	
+						try {
+							propName = JSON.parse(options.propName);
+						}
+						catch (err) {
+							propName = options.propName;		
+						}
+					}else{			
+						propName = options.propName;	
+					}
+					if (propName!=undefined && propName.toString().indexOf("nom,text")==-1) {
+						
+						for(var x in propName){	
+							console.debug(propName[x]);
 							var obj = {
-								title: options.propName[x].toUpperCase(),
-								field: options.propName[x].toLowerCase(),
+								title: propName[x].toUpperCase(),
+								field: propName[x].toLowerCase(),
 								sortable: true,
 								editable: {
 									emptytext : '-'
@@ -300,7 +312,6 @@ function fillModalDataTable(obj, geomBid){
 				var lon = parseFloat(coords[2]);
 				var lat = parseFloat(coords[1]);
 				//resultats = resultats.replace("}]",",\"longitud\":\""+lon.toFixed(5)+"\",\"latitud\":\""+lat.toFixed(5)+"\"}]");
-				
 				var resultats2 = $.parseJSON(resultats);
 				var resultatsMod = [];
 				var resultI=0;
@@ -309,8 +320,18 @@ function fillModalDataTable(obj, geomBid){
 					var lon = parseFloat(coords[2]);
 					var lat = parseFloat(coords[1]);
 					if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
-					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);
+					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);					
+					$.each( result, function( key, value ) {
+						var valorStr=value.toString();
+						if (valorStr.indexOf("src")>-1){
+							value=valorStr.replaceAll('"',"'");//Issue #560
+							console.debug(value);
+							result[key]=value;
+						}
+						
+					});
 					resultatsMod[resultI]=result;
+					
 					resultI++;
 					//console.debug(result);
 					

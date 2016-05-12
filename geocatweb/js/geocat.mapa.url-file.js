@@ -901,9 +901,9 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			estil_do: estil_do,
 			businessId : layer.businessId,
-			middleware:function(data){
+			/*middleware:function(data){
 				console.debug(data);
-			},
+			},*/
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
 		    	var pp = feature.properties;
@@ -964,7 +964,7 @@ function loadURLfileLayer(layer){
 				  }
 		});
 		
-		map.addLayer(capaURLfileLoad);
+		//map.addLayer(capaURLfileLoad);
 		capaURLfileLoad.on('data:loaded', function(e){
 			//console.debug("data:loaded");
 			map.removeLayer(capaURLfileLoad);
@@ -983,11 +983,26 @@ function loadURLfileLayer(layer){
 			
 			clusterLayer.options.businessId = layer.businessId;
 			clusterLayer.options.nom = layer.serverName;
-			clusterLayer.options.zIndex = layer.capesOrdre;
+			if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
+				clusterLayer.options.zIndex = controlCapes._lastZIndex + 1;
+			}else if(layer.capesOrdre != capesOrdre_sublayer){
+				clusterLayer.options.zIndex = parseInt(layer.capesOrdre);
+			}
 			clusterLayer.options.tipus = layer.serverType;
 			clusterLayer.options.dataset = options.dataset;
 			clusterLayer.options.tipusRang = tem_cluster;
 	
+			if(!options.origen){
+				clusterLayer.options.businessId = layer.businessId;
+				controlCapes.addOverlay(clusterLayer, layer.serverName, true);
+				controlCapes._lastZIndex++;	
+			}else{//Si te origen es una sublayer
+				var origen = getLeafletIdFromBusinessId(options.origen);
+				clusterLayer.options.zIndex = capesOrdre_sublayer;
+				controlCapes.addOverlay(clusterLayer, layer.serverName, true, origen);
+			}		
+			defer.resolve();
+			/*
 			if (layer.capesActiva == true || layer.capesActiva == "true"){
 				map.addLayer(clusterLayer);
 			}
@@ -995,7 +1010,7 @@ function loadURLfileLayer(layer){
 			controlCapes.addOverlay(clusterLayer, clusterLayer.options.nom, true, origen);
 	//		controlCapes._lastZIndex++;
 			activaPanelCapes(true);		
-		
+			defer.resolve();*/
 		});		
 
 		
