@@ -47,6 +47,10 @@
 	font-weight: normal;
 }
 
+label.error{
+	text-decoration: line-through;
+}
+
 /*
 .leaflet-control-layers .leaflet-subrow .leaflet-name {
 	float: left;
