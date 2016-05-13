@@ -1471,11 +1471,30 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				var dataNames = [];
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
-				if (data.propName!=undefined && data.propname!='null' && data.propname!='') {
-					dataNames = data.propName;
-					jQuery.each(dataNames, function( index, value ) {
-						if (value!='') 	fields[value] = value;
-					});
+								
+				if (data.propName!=undefined && data.propName!='null' && data.propName!='') {
+					var propName = data.propName;
+					if(typeof (propName)=="string"){	
+						try {
+							dataNames = JSON.parse(propName);
+						}
+						catch (err) {
+							dataNames = propName;		
+						}
+					}else{			
+						dataNames = propName;	
+					}					
+					if (typeof (dataNames)=="string"){
+						 var dataNamesSplit=dataNames.split(",");
+						 jQuery.each(dataNamesSplit, function( index, value ) {
+								if (value!='') 	fields[value] = value;
+						});
+					}
+					else{
+						jQuery.each(dataNames, function( index, value ) {
+							if (value!='') 	fields[value] = value;
+						});
+					}
 				}
 				else{
 					fields['nom']='nom';

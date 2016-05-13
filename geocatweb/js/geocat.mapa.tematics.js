@@ -1866,7 +1866,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
 								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") && origen==""){
 								marker.bindLabel(geom.properties[optionsVis.campEtiqueta],
-								{opacity:1, noHide: true, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});							
+								{opacity:1, noHide: true, clickable:true, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});							
 						}
 						if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
 								(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
@@ -1884,7 +1884,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
 								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") && origen==""){
 								markerCircle.bindLabel(geom.properties[optionsVis.campEtiqueta],
-								{opacity:1, noHide: true, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});						
+								{opacity:1, noHide: true,clickable:true,  direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});						
 						}
 						if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
 								(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
@@ -1930,7 +1930,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
 							if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
 								polyline.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
-										{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId ,offset: [0, 0]});
+										{ noHide: false, direction: 'center',clickable:true, className: "etiqueta_style_"+visualitzacio.businessId ,offset: [0, 0]});
 							}	
 							if (optionsVis.opcionsVis=="geometries"){
 								polyline.hideLabel();
@@ -1985,7 +1985,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
 							if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
 								polygon.bindLabelExPolygon(map,geom.properties[optionsVis.campEtiqueta], 
-									{ noHide: false, direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
+									{ noHide: false, direction: 'center',clickable:true, className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
 							}	
 							if (optionsVis.opcionsVis=="geometries"){
 								polygon.hideLabel();

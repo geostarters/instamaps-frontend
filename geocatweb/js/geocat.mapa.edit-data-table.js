@@ -142,7 +142,7 @@ function fillModalDataTable(obj, geomBid){
 				}
 				columNames.push(objGeomBBOX);			
 				
-				console.debug(modeMapa);
+				//console.debug(modeMapa);
 				if(modeMapa){
 					var isADrawMarker=false;
 					//properties headers
@@ -325,7 +325,7 @@ function fillModalDataTable(obj, geomBid){
 						var valorStr=value.toString();
 						if (valorStr.indexOf("src")>-1){
 							value=valorStr.replaceAll('"',"'");//Issue #560
-							console.debug(value);
+							//console.debug(value);
 							result[key]=value;
 						}
 						
