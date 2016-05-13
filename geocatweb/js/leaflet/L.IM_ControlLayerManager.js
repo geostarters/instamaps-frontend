@@ -1021,14 +1021,30 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){	
-						if (lay.label!=undefined) {
-							if(lay.label){
-								lay.label.setOpacity(1);
-							}
-							if(lay._showLabel){
-                                lay._showLabel({latlng: lay.label._latlng});
-							}
-						}
+						var zoomInicial = "2";
+				 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
+				 		var zoomFinal = "19";
+				 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
+				 		
+				 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
+							jQuery.each(obj.layer._layers, function(i, lay){
+								if (lay.label!=undefined) {
+									if(lay.label){
+										lay.label.setOpacity(1);
+									}
+									if(lay._showLabel){
+				                        lay._showLabel({latlng: lay.label._latlng});
+									}
+								}
+							});											
+				 		 }
+				 		 else {//amaguem labels
+							jQuery.each(obj.layer._layers, function(i, lay){
+								if(lay.label){
+									lay.label.setOpacity(0);
+								}
+							});										
+						 }						
 					});
 				}
 				
@@ -1468,11 +1484,30 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				var dataNames = [];
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
-				if (data.propName!=undefined && data.propname!='null' && data.propname!='') {
-					dataNames = data.propName;
-					jQuery.each(dataNames, function( index, value ) {
-						if (value!='') 	fields[value] = value;
-					});
+								
+				if (data.propName!=undefined && data.propName!='null' && data.propName!='') {
+					var propName = data.propName;
+					if(typeof (propName)=="string"){	
+						try {
+							dataNames = JSON.parse(propName);
+						}
+						catch (err) {
+							dataNames = propName;		
+						}
+					}else{			
+						dataNames = propName;	
+					}					
+					if (typeof (dataNames)=="string"){
+						 var dataNamesSplit=dataNames.split(",");
+						 jQuery.each(dataNamesSplit, function( index, value ) {
+								if (value!='') 	fields[value] = value;
+						});
+					}
+					else{
+						jQuery.each(dataNames, function( index, value ) {
+							if (value!='') 	fields[value] = value;
+						});
+					}
 				}
 				else{
 					fields['nom']='nom';
