@@ -602,6 +602,25 @@
 			return self;
 		},
 		
+		
+		addAppModul:function(modul){
+			var self = this,
+			ctr_arbres,
+			_map = self.map;			
+			if(modul=='arbres'){				
+				$.getScript( "/moduls/" + modul + "/js/modul_"+modul+"_1.0.0.js", function( data, textStatus, jqxhr ) {					 								
+					if (jqxhr.status==200){
+					ctr_arbres=L.control.addmodulArbres(new L.geoJson()).addTo(_map);					
+					self.controls.arbresControl = ctr_arbres;
+					}
+				});										
+			}
+								
+			return self;
+					
+			
+		},
+		
 		addLlegenda: function(){
 			var self = this,
 			ctr_legend,
@@ -724,6 +743,11 @@
 			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				if (!self.nollegenda) self.addLlegenda();
+			}
+			
+			if(self.appmodul){
+				self.addAppModul(self.appmodul);
+				
 			}
 			
 			return self;

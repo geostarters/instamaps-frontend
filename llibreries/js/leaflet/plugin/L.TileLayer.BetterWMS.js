@@ -4,7 +4,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		this.creaControlLLegenda(map);
 		// Triggered when the layer is added to a map.
 		// Register a click listener, then do all the upstream WMS things
-		this.options.maxZoom=19;
+		this.options.maxZoom=20;
+		this.options.queryable=true;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		map.on('click', this.getFeatureInfo, this);
 		
@@ -22,13 +23,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	getFeatureInfo: function (evt) {
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
-		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
 		
-		//console.debug(evt);
-		//És mol lleig xurro
-		//if(evt.originalEvent.target.className.indexOf('tile')!=-1){
+		if(this.options.queryable){
 		
-		//console.info(params);
 		if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
 			
 			if (params.indexOf('/geoservicelocal/')!=-1){
@@ -68,9 +65,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					data: {url: params},
 					success: function (data, status, xhr) {
 						var err = typeof data === 'string' ? null : data;
-			//			showResults(err, evt.latlng, data);
-						//showGetFeatureInfo(err, evt.latlng, data);
-						//console.debug(data);
+		
 						if(data.length > 5){
 							var pop=L.popup({ maxWidth: 800})
 								.setLatLng(evt.latlng)
@@ -78,8 +73,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 						}
 					},
 					error: function (xhr, status, error) {
-			//			showResults(error);
-						//console.debug("Error:"+error);
+		
 					}
 					});				
 			}else{
@@ -98,8 +92,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			}
 		}
 		
+		}//fi querable
 		
-		//}
 		
 	},
 	

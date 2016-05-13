@@ -485,6 +485,7 @@ function createTematicLayerCategories(event){
 											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
+									//console.debug(data);
 									clearInterval(pollInterval);
 									
 									jQuery("#div_uploading_txt").html("");
@@ -770,17 +771,15 @@ function updatePaletaRangs(){
 function createRangsValues(rangs,geomType){
 	//console.debug("createRangsValues");
 	var values = jQuery("#dialog_tematic_rangs").data("values");
-	values = values.valors;
+	if (values.valors!=undefined) values = values.valors;
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	//var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var nodata = jQuery("#dialog_tematic_rangs").data("nodata");
 	var reverse = jQuery("#dialog_tematic_rangs").data("reverse");
-		
 	values = jQuery.grep(values, function( n, i ) {
 		return (n != NODATA_VALUE && jQuery.isNumeric(parseFloat(n)));
 	});
 	values.sort(function(a,b){return a-b;});
-	
 	var min = parseFloat(values[0]);
 	var max = parseFloat(values[values.length-1]);
 	var deltaR = (max - min)/rangs;

@@ -376,22 +376,23 @@ function canviaIdioma(lsLang){
 	$.publish('change-lang',{lang: lsLang});
 }
 
-function web_determinaIdioma(){
-	if(localStorage){
-		var lsLang = localStorage.getItem('langJs_currentLang');
-		if (lsLang != null && lsLang != "null"){
-			window.lang.change(lsLang);
-		}
-	}else{
-		var lsLang = obteValorURL("hl");
+function web_determinaIdioma(){//Determinar idioma per paràmetre
+	if (url('?hl')){
+		var lsLang = url('?hl');//obteValorURL("hl");
 		window.lang.change(lsLang);		
 		jQuery("a[id^='hl_']").each(function(index){
 			var _href=jQuery(this).attr('href');
 			_href.indexOf('?') == -1 ? jQuery(this).attr('href',_href+'?hl='+lsLang): jQuery(this).attr('href',_href+'&hl='+lsLang);
 			
 		});
-				
 	}
+	else if (localStorage){
+		var lsLang = localStorage.getItem('langJs_currentLang');
+		if (lsLang != null && lsLang != "null"){
+			window.lang.change(lsLang);
+		}
+	}
+	
 	return lsLang;
 }	
 
