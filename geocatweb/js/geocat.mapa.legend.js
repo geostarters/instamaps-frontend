@@ -51,7 +51,7 @@ function addLegend(){
 
 		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
 		this._div.appendChild(btllista);
-		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
+		btllista.innerHTML = '<span class="fa fa-list-alt greenfort"></span>';
 
 		return this._div;
 	};
@@ -1141,9 +1141,10 @@ function updateMapLegendData(){
 		var html=$(element).children( ".legend-symbol").html();
 		
 		if(html.indexOf('GetLegendGraphic')!= -1){
-			
+			console.info(html);
 			html=html.replace('width:26px;','');
-			html=html.replace('<img','<br><img');
+			//html=html.replace('<img','<br><img');
+			//html=html.replace('<img','<img');
 		}
 		
 		var obj = {
@@ -1236,7 +1237,7 @@ function addLegendEdicio(){
 
 		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
 		this._div.appendChild(btllista);
-		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
+		btllista.innerHTML = '<span class="fa fa-list-alt greenfort"></span>';
 
 		return this._div;
 	};
@@ -1257,15 +1258,12 @@ function emptyMapLegendEdicio(layer){
 }
 
 function loadMapLegendEdicio(layer){
-	
-
-	
+		
 	//Eliminem de la lleganda tematització anterior
 	$("#mapLegendEdicio").html("");
 	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
 	
-	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';
-	
+	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';	
 	var geometryType = transformTipusGeometry(layer.options.geometryType);
 	var i = 0;
 //	var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda

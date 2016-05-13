@@ -1934,16 +1934,16 @@ i.fa {
 }
 
 .visor-legend{
-	overflow: hidden;
-	width: 270px;
-	max-width: 300px;
-	height: 200px;
-	max-height: 200px;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	padding-bottom: 12px;
-	padding-top: 12px;
-	box-sizing: content-box;
+	
+	    overflow: hidden;
+   max-height: 205px;
+    max-width: 300px;
+    min-width: 210px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    padding-bottom: 5px;
+    padding-top: 2px;
+    box-sizing: content-box;
 }
 
 .visor-legend-row{
@@ -2538,18 +2538,54 @@ a.leaflet-control-timecontrol:hover {
 
 
 .dv_lleg{
-
-float: none !important;
-  
+float: none !important; 
     overflow: auto;
     text-align: center;
-	
+	padding-top: 5px;
 }	
 
 
-.legendTabCont{
-	
- color: blue;
-    height: 173px;
+.dv_lleg img{
+border: 1px solid #aaa
+}	
+
+.legendTabCont{	
+    height: 165px;
     overflow: auto;
+	
+}
+
+.legendTabCont::-webkit-scrollbar {
+    width: 8px;
+}
+.legendTabCont::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+.legendTabCont::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+.legendTabCont::-webkit-scrollbar-thumb:hover {
+    background-color: #F3BC02;
+}
+
+#nav_legend .dropdown-menu {
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+#nav_legend .dropdown-menu::-webkit-scrollbar {
+    width: 8px;
+}
+#nav_legend .dropdown-menu::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+#nav_legend .dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+#nav_legend .dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background-color: #F3BC02;
 }

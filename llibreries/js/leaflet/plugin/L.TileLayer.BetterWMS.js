@@ -23,13 +23,6 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	getFeatureInfo: function (evt) {
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
-		//showResults = L.Util.bind(this.showGetFeatureInfo, this);
-		
-		//console.debug(evt);
-		//És mol lleig xurro
-		//if(evt.originalEvent.target.className.indexOf('tile')!=-1){
-		
-		console.info(this.options.queryable);
 		
 		if(this.options.queryable){
 		

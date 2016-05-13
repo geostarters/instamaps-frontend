@@ -40,11 +40,9 @@ var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
 var _ombraLayer=null;
-
 var subDomains=['otile1','otile2','otile3','otile4'];
 //var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
-
 var urlServerTiles="http://www.{s}.instamaps.cat"
 var urlApp=document.location.href;
 
@@ -66,16 +64,16 @@ var URL_ESRI_T='http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrai
 var URL_MON=urlServerTiles+'/mapcache/tms/1.0.0/mon3857@GM8/{z}/{x}/{y}.jpeg';
 
 
-var URL_TOPOICC='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
+var URL_TOPOICC='http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
 
 //var URL_TOPOICC='http://172.30.22.14/mapproxy/wmts/A250TARJ3857/GLOBAL_MERCATOR/{z}/{x}/{y}.png';
 
-var URL_ORTOICC="http://mapcache.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg";
-var URL_TOPOGRIS='http://mapcache.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
+var URL_ORTOICC="http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg";
+var URL_TOPOGRIS='http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topogris/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_HIBRIDICGC=urlServerTiles+'/mapcache/tms/1.0.0/hibrid3857@GMTOT/{z}/{x}/{y}.png';
 
 
-//var URL_TOPOCOLOR='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
+//var URL_TOPOCOLOR='http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
 var URL_TOPOCOLOR=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
 
 var URL_HISTORIC=urlServerTiles+'/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
@@ -90,7 +88,7 @@ var URL_ALCADAMAP=urlServerTiles+'/mapcache/tms/1.0.0/h_ombra3857@GMTOT/{z}/{x}/
 var URL_MQ_GEO='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
 var URL_MQ_NATURAL='http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
 
-//var URL_TOPOICC_GEO_1='http://mapcache.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.png';
+//var URL_TOPOICC_GEO_1='http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.png';
 
 
 var URL_TOPOICC_GEO_1=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
@@ -657,6 +655,7 @@ L.IM_Map = L.Map.extend({
 			maxZoom: 6,
 			tms:true,
 			continuousWorld: false,
+			subdomains:subDomainsA,
 			worldCopyJump: false,
 		}).addTo(_topoLayers);
 		TOPO_MQ_L7_19 =new L.TileLayer(URL_MQ,{
@@ -672,6 +671,7 @@ L.IM_Map = L.Map.extend({
 				maxZoom: 10,
 				boundary: catContorn,
 				continuousWorld: true,
+				subdomains:subDomainsA,
 				worldCopyJump: false
 			}).addTo(_topoLayers);
 
@@ -681,6 +681,7 @@ L.IM_Map = L.Map.extend({
 				maxZoom: 12,
 				boundary: catContorn,
 				continuousWorld: true,
+				subdomains:subDomainsA,
 				worldCopyJump: false
 			}).addTo(_topoLayers);
 
@@ -692,6 +693,7 @@ L.IM_Map = L.Map.extend({
 				maxZoom: 10,
 				boundary: catContorn,
 				continuousWorld: true,
+				subdomains:subDomainsA,
 				worldCopyJump: false
 			}).addTo(_topoLayers);
 
@@ -703,6 +705,7 @@ L.IM_Map = L.Map.extend({
 				maxZoom: 12,
 				boundary: catContorn,
 				continuousWorld: true,
+				subdomains:subDomainsA,
 				worldCopyJump: false
 			}).addTo(_topoLayers);
 
@@ -713,6 +716,7 @@ L.IM_Map = L.Map.extend({
 			minZoom: 13,
 			maxZoom: 20,
 			continuousWorld: true,
+			subdomains:subDomainsA,
 			worldCopyJump: false
 		}).addTo(_topoLayers);
 		this.addLayer(_topoLayers,true);
@@ -733,6 +737,7 @@ L.IM_Map = L.Map.extend({
 		TOPO_GEO_MON_L0_14=  new L.TileLayer(URL_TOPOICC_GEO_MON, {
 			minZoom: 0,
 			maxZoom: 14,
+			subdomains:subDomainsA,
 			tms:true,
 			continuousWorld: false,
 			worldCopyJump: false,
@@ -862,6 +867,7 @@ this.setActiveMap(FONS_ORTOMAP);
 			tms:true,
 			continuousWorld: true,
 			worldCopyJump: false,
+			subdomains:subDomainsA,
 			minZoom: 8,
 			maxZoom: 18
 

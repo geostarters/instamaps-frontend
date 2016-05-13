@@ -889,3 +889,11 @@ function cleanScriptCode(txt){
 	}	
 	return txt;
 }
+
+
+
+function shortString(str,_length){
+	
+	str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	return str;	
+}	

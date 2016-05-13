@@ -10,9 +10,10 @@ L.Control.Legend = L.Control.extend({
 		idBtn: 'dv_bt_legend',
 		classNameBtn: 'leaflet-bar btn btn-default btn-sm bt_legend grisfort',
 		title: 'Llegenda',
-		html: '<span class="glyphicon glyphicon-list-alt"></span>',
+		html: '<span class="fa fa-list-alt"></span>',
 		id: 'mapLegend',
 		className: 'info legend visor-legend ',
+		
 		transition: true
 	},
 	
@@ -21,6 +22,7 @@ L.Control.Legend = L.Control.extend({
 	
 		var self = this,
 		options = self.options;
+		
 		
 		self.button = L.control.legenbtn({
 			position: options.position,
@@ -35,6 +37,7 @@ L.Control.Legend = L.Control.extend({
 	onAdd: function(map){
 		var self = this,
 			options = self.options,
+			stop = L.DomEvent.stopPropagation,
 			container = L.DomUtil.create('div', options.className);
 		
 		container.id = options.id;
@@ -43,10 +46,20 @@ L.Control.Legend = L.Control.extend({
 		
 		map.on('loadconfig', this._updateLegend, this);
 		map.on('visorconfig', this._updateLegend, this);
-		
-		
-		
-			
+		map.on('activaLegendTab', this._updateTabLegend, this);
+		/*
+		$.subscribe('activaLegendTab', function(evt, obj){
+			console.debug(obj);
+			self._updateTabLegend(obj);
+		});
+		*/
+		/*
+		L.DomEvent
+			.on(container, 'click', stop)
+			.on(container, 'mousedown', stop)
+			.on(container, 'dblclick', stop)
+			.on(container, 'click', L.DomEvent.preventDefault);
+		*/
 		
 		
 		self.hide();
@@ -57,6 +70,7 @@ L.Control.Legend = L.Control.extend({
 	onRemove: function (map) {
 		map.off('loadconfig', this._updateLegend, this);
 		map.off('visorconfig', this._updateLegend, this);
+		map.off('activaLegendTab', this._updateTabLegend, this);
 	},
 	
 	hideBtn: function(){
@@ -87,12 +101,14 @@ L.Control.Legend = L.Control.extend({
 		}else{
 			_$this.hide();
 		}
+		this._redrawTabs();
 	},
 	
 	show: function(e){
-		var _$this = $(this._div);
+		var self = this;
+		var _$this = $(self._div);
 		_$this.show();
-		if(this.options.transition){
+		if(self.options.transition){
 			_$this.transition({
 				x: '0px',
 				y: '0px',
@@ -101,14 +117,60 @@ L.Control.Legend = L.Control.extend({
 				duration: 500,
 				complete: function(){
 					//_$this.h();
+					self._redrawTabs();
+					
 				}
 			});
 		}
+		self._redrawTabs();
 	},
 	
 	_updateLegend: function(config){
+
+		this.servidorsWMS=config.servidorsWMS;
 		this.legend = (config.legend? $.parseJSON( config.legend):"");
 		this._draw();
+	},
+	
+	_redrawTabs: function(){
+		var self = this;
+		if(!$('#nav_legend li:first-child').hasClass('dropdown') || $("#nav_legend li").length > 1){
+			$('#nav_legend').tabdrop('layout');
+		}
+	},
+	
+	_updateTabLegend:function(obje){
+		var self = this;
+		self.fromLayer = true;
+		if(obje.activo){
+			$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');	
+		}
+		/*
+		else{	
+			var lastActive=controlCapes.getCountActiveLayers();		
+			lastActive >0?$('#nav_legend a[href="#tab'+lastActive.id+'"]').tab('show'):$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');										
+		}
+		*/
+	},
+	
+	_getLastActived:function(){	
+	var self = this,
+		mapLegend = self.legend;
+	
+		var lastPos={};
+		var indexPos=0;			
+			jQuery.each(mapLegend, function(j, row){
+		    	for (var i = 0; i < row.length; i++) {
+					if(row[i].chck){
+					lastPos.indexPos=indexPos;
+					lastPos.id=j;									
+					}	
+				}
+				indexPos=indexPos+1;
+			});
+	
+	return lastPos;
+
 	},
 	
 	_draw: function(){
@@ -124,85 +186,71 @@ L.Control.Legend = L.Control.extend({
 			legendCont.push('<div id="legend_cont">');
 			legendTab.push('<div id="legend_cont"><ul id="nav_legend" class="nav nav-tabs">');
 			legendTabContent.push('<div class="legendTabCont tab-content">');
-			console.info(mapLegend);
+			
 			var index=0;
+			var lastPos=self._getLastActived();
+					
+			
 			jQuery.each(mapLegend, function(j, row){
-		    	for (var i = 0; i < row.length; i++) {
-		    		if(row[i].chck){
-					
-					index==0?active=' active':active="";
-					
-					/*
-					legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+row[i].name+'</a></li>');
-					legendTabContent.push('<div class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');	
-
-				*/
 				
-		    			if (row[i].symbol.indexOf("circle")>-1){
-		    				var padding_left="0px";
-		    				var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
-		    				midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
-		    				var mida=parseFloat(midaStr);
-		    				if (mida>0 && mida<=6) padding_left="15px";
-		    				else if (mida>6 && mida<=14) padding_left="10px";
-		    				else if (mida>14 && mida<=22) padding_left="5px";
-							
-							
-					legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+row[i].name+'</a></li>');
-					legendTabContent.push('<div  style="padding-left:'+padding_left+'" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');	
-							
-							
-							/*
-		    				legendhtml.push($('<div class="visor-legend-row">'+
-					    			'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+row[i].symbol+'</div>'+
-					    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+row[i].name+'</div>'+
-					    			'</div>'+
-					    			'<div class="visor-separate-legend-row"></div>'));
-							*/		
-		    			} else{
-							
-						legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+row[i].name+'</a></li>');
-					legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol+'</div>');		
-							
-							
-							/*
-		    				legendhtml.push($('<div class="visor-legend-row">'+
-					    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
-					    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;">'+row[i].name+'</div>'+
-									'</div>'+
-									'<div class="visor-separate-legend-row"></div>'));
-							*/		
-		    			}
-						
-						
-		    		}
-		    	}
-			index=index+1;	
+			var layerType=self._getNameLayer(j);	
+				
+				for (var i = 0; i < row.length; i++) {
+					var padding_left="";
+					var textalg='left';
+					if (row[i].symbol.indexOf("circle")>-1){
+					padding_left="padding-left:0px";
+					textalg='center';
+		    		var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
+		    		midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
+		    		var mida=parseFloat(midaStr);
+		    		if (mida>0 && mida<=6) padding_left="padding-left:15px";
+		    		else if (mida>6 && mida<=14) padding_left="padding-left:10px";
+		    		else if (mida>14 && mida<=22) padding_left="padding-left:5px";
+					}
+					
+					
+					index==lastPos.indexPos?active=' active':active="";
+					index==lastPos.indexPos?self.options.currentTab=j:null;	
+									
+					
+					if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
+					
+					if(layerType.capesOrdre.indexOf('sublayer') ==-1){
+						legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol.replace('<br>','')+'</div>');	
+					}else{
+					
+					if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
+					
+					
+					legendTabContent.push('<div class="visor-legend-row">'+
+					    			'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
+					    			'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
+					    			'</div><div class="visor-separate-legend-row"></div>');	
+									
+					if(i==row.length-1){legendTabContent.push('</div>');}			
+					
+					
+					}
+				}
+			index=index+1;		
 		    });
 			
 			
 			legendTab.push('</ul>');
 			legendTabContent.push('</div></div>');
-			//legendCont.push('<div id="legend_cont">');
-			
-			//$(div).append(legendhtml);
 			
 			
 			$(div).append(legendTab.join(""));
 			$(div).append(legendTabContent.join(""));
-			
-			//$(div).mCustomScrollbar();
-			//$('.dv_lleg').mCustomScrollbar();
-			
-			 $('#nav_legend').tabdrop();
-			 
-			
+			$('#nav_legend').tabdrop();
+		
+						
 			$(div).on('click', function(e){			
 			changeWMSQueryable(false);
 			});	
 			 
-			 $(div).on('mouseout', function(e){	
-			
+			 $(div).on('mouseout', function(e){				
 			changeWMSQueryable(true);
 			});	
 			
@@ -210,15 +258,52 @@ L.Control.Legend = L.Control.extend({
 			$('.dv_lleg').on('click', function(e){			
 			aturaClick(e);
 			});	
-			$('.legendTabCont').mCustomScrollbar()
+			
+			
+			//$('.dv_lleg').mCustomScrollbar();
+			
 			$('.legendTabCont').on('click', function(e){			
 			aturaClick(e);
 			});	
 			
 			
-			 
+			$('.legendTabCont').on('mousedown', function(e){			
+			aturaClick(e);
+			});	
+		
+		//$('#nav_legend').tabdrop();	
+		
+			$(' #nav_legend a[data-toggle="tab"]').on('shown.bs.tab', self._activaCapaTab.bind(self));
+			
 		}
 	},
+	
+	_activaCapaTab: function(e){
+		var self = this;
+		self._redrawTabs();
+		if(!self.fromLayer){
+			var idLayer=$(e.target).attr('href').replace('#tab','');
+			$( "#input-"+idLayer).attr("checked")==undefined ? $("#input-"+idLayer).click():null;
+		}else{
+			self.fromLayer = false;
+		}
+	},
+	
+	_getNameLayer:function(idLayer){		
+		var self = this;
+		servidorsWMS = self.servidorsWMS;
+		var layerType={};
+			if(typeof servidorsWMS === "string" ){servidorsWMS = [servidorsWMS]};
+			$.each(servidorsWMS, function(i, row){			
+					if(row.businessId==idLayer){
+						layerType.serverName=row.serverName.replace('##1','');
+						layerType.capesOrdre=row.capesOrdre;
+
+					}						
+			});			
+			return layerType;		
+	},	
+
 	
 	_checkEmptyMapLegend: function(){
 		var trobat = false,
