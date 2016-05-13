@@ -5095,3 +5095,11 @@ cursor:pointer;
      margin-top: -50px;
      width:100px;
 }
+
+#slider .tooltip-inner{
+	background-color: #686868;
+}
+
+#slider .tooltip-arrow{
+	 border-bottom-color: #686868;
+}

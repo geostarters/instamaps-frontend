@@ -599,7 +599,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Tria la paleta de colors":"Select a color palette"
 ,"Tria la teva opció":"Choose your option"
 ,"Tria una capa per aplicar-hi el filtre":"Choose a layer to apply the filter to"
-,"Triar l'estil del mapa":"Choose map style"
+,"Triar l'estil de la capa":"Choose layer style"
 ,"Triar l'operació":"Choose the operation"
 ,"Triar una capa per aplicar-hi l'estil":"Choose a layer to apply the style to"
 

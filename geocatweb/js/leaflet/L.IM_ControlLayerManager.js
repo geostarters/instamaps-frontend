@@ -55,7 +55,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		this._update();
 		return this;
 	},
-
+	
 	removeLayer : function(obj) {
 		var id = L.stamp(obj.layer);
 		if (!obj.sublayer) {
@@ -90,8 +90,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 		return i;
 	},
-	
-	
 	
 	getLayersFromGroupId : function(groupId, groupName) {
 		var resp_Layer = [];
@@ -690,6 +688,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		input, checked = this._map.hasLayer(obj.layer), 
 		container;
 
+		
+		
 		var _leaflet_input = document.createElement('div');
 		if (obj.overlay) {
 			_menu_item_checkbox.className = "leaflet-row";
@@ -730,6 +730,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		nomCapa.id = input.layerId;
 		nomCapa.innerHTML = ' ' + obj.name;
 
+		if(obj.layer.error){
+			_label_buit.className = 'error';
+		}
+		
 		_label_buit.appendChild(nomCapa);
 
 		if (obj.layer.options.tipus == t_visualitzacio
@@ -915,10 +919,16 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var row_sublayer = L.DomUtil.create('div',
 				'leaflet-row leaflet-subrow');
 
-		var label_sublayer = L.DomUtil.create('label', 'lbl'), input_sublayer, checked = this._map
-				.hasLayer(sublayer.layer);
+		var label_sublayer, 
+			input_sublayer, checked = this._map.hasLayer(sublayer.layer);
 
+		if(sublayer.layer.error){
+			label_sublayer = L.DomUtil.create('label', 'error');
+		}else{
+			label_sublayer = L.DomUtil.create('label', '');
+		}
 		label_sublayer.id =  'lblsub-'+ sublayer.layer.options.businessId;		
+				
 		input_sublayer = L.DomUtil.create('input');
 		input_sublayer.id = 'input-'
 				+ sublayer.layer.options.businessId;
@@ -935,7 +945,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		name_sublayer.className = 'editable';
 		name_sublayer.idParent = layerIdParent;
 		name_sublayer.id = L.stamp(sublayer.layer);
-		
 		name_sublayer.innerHTML = ' ' + sublayer.name;
 
 		var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
@@ -998,6 +1007,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var id, parentId;
 
 		var currentbid = arguments[0].currentTarget.id.replace("input-", "");
+		
 		// tractament en cas heatmap
 		if (arguments[0].currentTarget.layerIdParent) {
 			id = arguments[0].currentTarget.layerId;
@@ -1018,7 +1028,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
 
-			// Si la capa clickada �s heatmap i s'ha d'activar, i la que
+			// Si la capa clickada es  heatmap i s'ha d'activar, i la que
 			// estem tractant tb, no s'ha de mostrar
 			if (isHeat(obj) && checkHeat && obj.layer._leaflet_id != id) {
 				input.checked = false;
@@ -1046,14 +1056,30 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){	
-						if (lay.label!=undefined) {
-							if(lay.label){
-								lay.label.setOpacity(1);
-							}
-							if(lay._showLabel){
-                                lay._showLabel({latlng: lay.label._latlng});
-							}
-						}
+						var zoomInicial = "2";
+				 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
+				 		var zoomFinal = "19";
+				 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
+				 		
+				 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
+							jQuery.each(obj.layer._layers, function(i, lay){
+								if (lay.label!=undefined) {
+									if(lay.label){
+										lay.label.setOpacity(1);
+									}
+									if(lay._showLabel){
+				                        lay._showLabel({latlng: lay.label._latlng});
+									}
+								}
+							});											
+				 		 }
+				 		 else {//amaguem labels
+							jQuery.each(obj.layer._layers, function(i, lay){
+								if(lay.label){
+									lay.label.setOpacity(0);
+								}
+							});										
+						 }						
 					});
 				}
 				
@@ -1496,11 +1522,30 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				var dataNames = [];
 				var fields = {};
 				fields[window.lang.convert('Escull el camp')] = '---';
-				if (data.propName!=undefined && data.propname!='null' && data.propname!='') {
-					dataNames = data.propName;
-					jQuery.each(dataNames, function( index, value ) {
-						if (value!='') 	fields[value] = value;
-					});
+								
+				if (data.propName!=undefined && data.propName!='null' && data.propName!='') {
+					var propName = data.propName;
+					if(typeof (propName)=="string"){	
+						try {
+							dataNames = JSON.parse(propName);
+						}
+						catch (err) {
+							dataNames = propName;		
+						}
+					}else{			
+						dataNames = propName;	
+					}					
+					if (typeof (dataNames)=="string"){
+						 var dataNamesSplit=dataNames.split(",");
+						 jQuery.each(dataNamesSplit, function( index, value ) {
+								if (value!='') 	fields[value] = value;
+						});
+					}
+					else{
+						jQuery.each(dataNames, function( index, value ) {
+							if (value!='') 	fields[value] = value;
+						});
+					}
 				}
 				else{
 					fields['nom']='nom';

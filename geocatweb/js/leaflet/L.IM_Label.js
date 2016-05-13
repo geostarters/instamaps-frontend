@@ -1,7 +1,7 @@
 (function (window, document, undefined) {
 	L.Polyline.include({
 	    bindLabelEx: function (map,content, options) {
-	      this._map=map;
+	    	this._map=map;
 	      if (!this.label || this.label.options !== options) {
 	        this.label = new L.Label(options, this);
 	      }
@@ -54,16 +54,20 @@
 			}
 			return this;
 		},
+		_showLabel: function (e) {
+			this.label.setLatLng(e.latlng);
+			if (this._map!=null) this._map.showLabel(this.label);
+		},
 		_onPolylineAdd: function () {
 			if (this._labelNoHide) {
-				this.showLabel();
+				this._showLabel();
 			}
 		}
 	});
 
 	L.Polygon.include({
-	    bindLabelEx: function (map,content, options) {
-	    	this._map=map;
+	    bindLabelExPolygon: function (map,content, options) {
+	       this._map=map;
 	      if (!this.label || this.label.options !== options) {
 	        this.label = new L.Label(options, this);
 	      }
@@ -98,9 +102,13 @@
 			}
 			return this;
 		},
+		_showLabel: function (e) {
+			this.label.setLatLng(e.latlng);
+			this._map.showLabel(this.label);
+		},
 		_onPolygonAdd: function () {
 			if (this._labelNoHide) {
-				this.showLabel();
+				this._showLabel();
 			}
 		}
 	  });

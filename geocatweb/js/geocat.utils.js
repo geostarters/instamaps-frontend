@@ -97,11 +97,7 @@ function getAreaLayer(layer){
 	}else{
 		lLatLngs = layer.getLatLngs();
 		totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
-	}
-	
-	
-	
-	return totalArea;
+	}	return totalArea;
 }
 
 function transformTipusGeometry(geometrytype){
@@ -217,6 +213,7 @@ function parseUrlTextPopUp(txt,key){
 	}
 
 	var lwords = txt.split(" ");
+	//console.debug(txt);
 	for(index in lwords){
 		var text;
 		var word = lwords[index];
@@ -230,10 +227,10 @@ function parseUrlTextPopUp(txt,key){
 					//console.debug("Iframe:"+word);
 					text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
 							"marginwidth=\"0\" src=\""+word+"\"></iframe>";
-				}else{
-					//console.debug("URL:"+word);
+				}else if (txt.indexOf("<video")==-1){
 					text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
 				}
+				else text=word;
 			}else{
 				text = word;
 			}
@@ -241,6 +238,7 @@ function parseUrlTextPopUp(txt,key){
 		}else{
 			text = word;
 		}
+		//console.debug(parseText);
 		parseText+=" "+text;
 	}
 	return parseText;
@@ -897,3 +895,8 @@ function shortString(str,_length){
 	str.length > _length ?str=(str.substring(0,_length)+"..."):str;
 	return str;	
 }	
+}
+
+String.prototype.replaceAll = function(target, replacement) {
+	  return this.split(target).join(replacement);
+	};
