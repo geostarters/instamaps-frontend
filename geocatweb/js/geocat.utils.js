@@ -97,8 +97,7 @@ function getAreaLayer(layer){
 	}else{
 		lLatLngs = layer.getLatLngs();
 		totalArea = L.GeometryUtil.geodesicArea(lLatLngs);
-	}
-	return totalArea;
+	}	return totalArea;
 }
 
 function transformTipusGeometry(geometrytype){
@@ -818,6 +817,36 @@ var _hoSoc=false;
 }	
 
 
+function changeWMSQueryable(queryable){	
+	map.eachLayer(function (layer) { 
+	  try{	 
+	 
+		layer.options && layer.options.tipus && layer.options.tipus=='wms'?layer.options.queryable=queryable: null	 
+	  }catch(err){
+		  console.debug(err);
+	  }  
+	});
+}	
+
+
+
+function decimalComa(nStr) {
+	nStr += '';
+	nStr = nStr.replace(".", ",");
+
+	x = nStr.split(',');
+	x1 = x[0];
+	x2 = x.length > 1 ? ',' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+
+		x1 = x1.replace(rgx, '$1' + '.' + '$2');
+	}
+	return x1 + x2;
+}
+
+
+
 (function($){
 	var o = $({});
 	$.each({
@@ -852,6 +881,15 @@ function cleanScriptCode(txt){
 		txt = txt.replace(SCRIPT_REGEX, "");
 	}	
 	return txt;
+}
+
+
+
+function shortString(str,_length){
+	
+	str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	return str;	
+}	
 }
 
 String.prototype.replaceAll = function(target, replacement) {

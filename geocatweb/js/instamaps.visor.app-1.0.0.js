@@ -36,7 +36,8 @@ var visorOptions = {
 	staticmap: url('?staticmap') || null,
 	navbar: url('?navbar') || null,
 	rtoolbar: url('?rtoolbar') || null,
-	ltoolbar: url('?ltoolbar') || null
+	ltoolbar: url('?ltoolbar') || null,
+	appmodul: url('?appmodul') || null
 };
 
 jQuery(document).ready(function() {

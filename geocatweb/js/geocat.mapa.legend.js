@@ -8,6 +8,8 @@ function addLegend(){
 
 	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
 	    div.id = "mapLegend";
+		
+		
 	    jQuery.each(mapLegend, function(i, row){
 	    	for (var i = 0; i < row.length; i++) {
 	    		if(row[i].chck){
@@ -49,7 +51,7 @@ function addLegend(){
 
 		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
 		this._div.appendChild(btllista);
-		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
+		btllista.innerHTML = '<span class="fa fa-list-alt greenfort"></span>';
 
 		return this._div;
 	};
@@ -61,6 +63,7 @@ function addLegend(){
 /*Control llegenda buida o be, q hagi publicat el mapa amb llegenda, 
 pero cap opcio de la llegenda marcada*/
 function checkEmptyMapLegend(){
+	
 	var trobat = false;
 	if(typeof mapLegend == "string" ) mapLegend = [mapLegend]
 	jQuery.each(mapLegend, function(i, row){
@@ -151,6 +154,8 @@ function createModalConfigLegend(){
 }
 
 function addLayerToLegend(layer, count, layersHtml, layerIdParent){
+	
+	
 	var html = "";
 	html += '<div class="legend-row">';
 	html+='<div class="separate-legend-row"></div>';
@@ -495,7 +500,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				if(geometrytype == t_marker){
 					//console.debug("type");
 					//console.debug(type);
-					console.debug(estil_do);
+					
 					var mida = getMidaFromRadius(estil_do.radius);
 					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
@@ -1007,11 +1012,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		layersHtml.notorder.push(html);
 	}
 	
-	//console.debug("html:");
-	//console.debug(html);
 
-	//console.debug("layersHtml:");
-	//console.debug(layersHtml);	
 	
 	return layersHtml;
 }
@@ -1130,6 +1131,7 @@ function sortObject(obj) {
 }
 
 function updateMapLegendData(){
+	
 	mapLegend = {};
 	$(".legend-subrow").each(function(index,element){
 		
@@ -1139,9 +1141,10 @@ function updateMapLegendData(){
 		var html=$(element).children( ".legend-symbol").html();
 		
 		if(html.indexOf('GetLegendGraphic')!= -1){
-			
+			console.info(html);
 			html=html.replace('width:26px;','');
-			html=html.replace('<img','<br><img');
+			//html=html.replace('<img','<br><img');
+			//html=html.replace('<img','<img');
 		}
 		
 		var obj = {
@@ -1234,7 +1237,7 @@ function addLegendEdicio(){
 
 		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
 		this._div.appendChild(btllista);
-		btllista.innerHTML = '<span class="glyphicon glyphicon-list-alt greenfort"></span>';
+		btllista.innerHTML = '<span class="fa fa-list-alt greenfort"></span>';
 
 		return this._div;
 	};
@@ -1255,15 +1258,12 @@ function emptyMapLegendEdicio(layer){
 }
 
 function loadMapLegendEdicio(layer){
-	
-
-	
+		
 	//Eliminem de la lleganda tematització anterior
 	$("#mapLegendEdicio").html("");
 	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
 	
-	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';
-	
+	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';	
 	var geometryType = transformTipusGeometry(layer.options.geometryType);
 	var i = 0;
 //	var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda

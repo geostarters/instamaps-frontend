@@ -1,7 +1,7 @@
-.psolar_info{
+.arbres_info{
  background-color: white;
     border: 1px dashed #bbbbbb;
-    display: none;
+ 
     float: right;
     left: 47px;
     max-height: 780px;
@@ -11,12 +11,12 @@
     top: 0;
     width: 320px;
     z-index: 200;
-    display:none;
+    display:block;
 	
 }
 
 
-.psolar_infoLL{
+.arbres_infoLL{
  background-color: white;
     border: 1px dashed #bbbbbb;
     z-index: 200;
@@ -26,33 +26,40 @@
     color: #ffffff;
 }
 
-.leaflet-draw {
-    left: 0 !important;
-    top: 173px !important;
+.arbres_info_title{
+	
+	background-color: white;
+	height:15px
+	
+}
+.arbres_info_content{
+	
+	background-color: #ffffff;
+	
+    padding: 5px;
+	
 }
 
 
-
-
-
-
-
-
-
-
-
-
 .tbl_dades{
-	 border-bottom: 2px solid #333333;
+	 border: 2px solid #ffffff;
     font-weight: bold;
     margin: 5px;
-    padding: 10px;
-    width: 95%;
-	font-size: 11px;
-	}
+    padding: 0px;
+    width: 99%;
+	font-size: 12px;
 	
+	}
+
 .tbl_dades td{
+	 border: 1px solid #ffffff;
+	 background-color:#f6f6f6;
+}	
+	
+.tbl_dades td, th{
  width: 50%;
+ padding: 5px;
+}
 }
 
 
@@ -68,14 +75,3 @@
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
 }
-
-
-#pobre label{ color:#c2c2c2;}
-#regular label{ color:#c2c2c2;}
-#pobre{ background: rgba(59, 27, 0,1);}
-#regular{ background: rgba(187, 105, 16,1);}
-#adequat{ background: rgba(255, 176, 2,1);}
-#adequat_ts{ background: rgba(187, 105, 17,1);}
-#optim{ background: rgba(255, 255, 0,1);}
-
-td label{margin-left: 5px;}

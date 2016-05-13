@@ -919,7 +919,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var row_sublayer = L.DomUtil.create('div',
 				'leaflet-row leaflet-subrow');
 
-		var label_sublayer = L.DomUtil.create('label', 'error'), 
+		var label_sublayer, 
 			input_sublayer, checked = this._map.hasLayer(sublayer.layer);
 
 		if(sublayer.layer.error){
@@ -927,7 +927,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}else{
 			label_sublayer = L.DomUtil.create('label', '');
 		}
-		
+		label_sublayer.id =  'lblsub-'+ sublayer.layer.options.businessId;		
+				
 		input_sublayer = L.DomUtil.create('input');
 		input_sublayer.id = 'input-'
 				+ sublayer.layer.options.businessId;
@@ -971,6 +972,31 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		return row_sublayer;
 	},
 
+	getCountActiveLayers:function(){
+		
+		var i, input, obj, 
+		inputs = this._form.getElementsByTagName('input'), 
+		inputsLen = inputs.length;
+		var j=0;
+		for (i = 0; i < inputsLen; i++) {
+			input = inputs[i];
+			if (!input.layerId) {
+				continue;
+			} else{
+				
+				if (input.checked){
+					j=j+1;
+					obj=input.id.replace("input-", "");
+				}	
+					
+			}
+		
+		}
+		
+		return {total:j, lastActive:obj};
+		
+	},	
+	
 	_onInputClick : function(event) {
 		var i, input, obj, 
 		inputs = this._form.getElementsByTagName('input'), 
@@ -1014,6 +1040,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}
 			}
 
+			if(currentbid === obj.layer.options.businessId){
+				
+					//$.publish('activaLegendTab',{id: currentbid, activo: input.checked});
+					this._map.fire('activaLegendTab',{id: currentbid, activo: input.checked});
+				
+				
+				}
+			
+			
 			// Afegir
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
 				this._map.addLayer(obj.layer);
@@ -1077,6 +1112,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 				//mirem vista 3D
 				if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',true);}
+			
+			
+				
 			
 			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 				//Amaguem els labels
