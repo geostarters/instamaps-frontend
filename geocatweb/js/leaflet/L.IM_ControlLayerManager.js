@@ -55,7 +55,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		this._update();
 		return this;
 	},
-
+	
 	removeLayer : function(obj) {
 		var id = L.stamp(obj.layer);
 		if (!obj.sublayer) {
@@ -688,6 +688,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		input, checked = this._map.hasLayer(obj.layer), 
 		container;
 
+		
+		
 		var _leaflet_input = document.createElement('div');
 		if (obj.overlay) {
 			_menu_item_checkbox.className = "leaflet-row";
@@ -728,6 +730,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		nomCapa.id = input.layerId;
 		nomCapa.innerHTML = ' ' + obj.name;
 
+		if(obj.layer.error){
+			_label_buit.className = 'error';
+		}
+		
 		_label_buit.appendChild(nomCapa);
 
 		if (obj.layer.options.tipus == t_visualitzacio
@@ -913,9 +919,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var row_sublayer = L.DomUtil.create('div',
 				'leaflet-row leaflet-subrow');
 
-		var label_sublayer = L.DomUtil.create('label', ''), input_sublayer, checked = this._map
-				.hasLayer(sublayer.layer);
+		var label_sublayer = L.DomUtil.create('label', 'error'), 
+			input_sublayer, checked = this._map.hasLayer(sublayer.layer);
 
+		if(sublayer.layer.error){
+			label_sublayer = L.DomUtil.create('label', 'error');
+		}else{
+			label_sublayer = L.DomUtil.create('label', '');
+		}
+		
 		input_sublayer = L.DomUtil.create('input');
 		input_sublayer.id = 'input-'
 				+ sublayer.layer.options.businessId;
@@ -969,6 +981,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var id, parentId;
 
 		var currentbid = arguments[0].currentTarget.id.replace("input-", "");
+		
 		// tractament en cas heatmap
 		if (arguments[0].currentTarget.layerIdParent) {
 			id = arguments[0].currentTarget.layerId;
@@ -989,7 +1002,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				obj = this._layers[input.layerIdParent]._layers[input.layerId];
 			}
 
-			// Si la capa clickada �s heatmap i s'ha d'activar, i la que
+			// Si la capa clickada es  heatmap i s'ha d'activar, i la que
 			// estem tractant tb, no s'ha de mostrar
 			if (isHeat(obj) && checkHeat && obj.layer._leaflet_id != id) {
 				input.checked = false;

@@ -801,23 +801,20 @@ function loadURLfileLayer(layer){
 	
 	capaURLfileLoad.on('data:loaded', function(e){
 		var self = this;
-				
+		
 		if(options.tem == null || options.tem == tem_simple){
 			self.options = options;
 			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
-			
 		}else if(options.tem == tem_clasic || options.tem == tem_size){
 			self.options = options;
 			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
 			if ($(location).attr('href').indexOf('/mapa.html')!=-1){
 				loadMapLegendEdicioDinamics(self);
 			}
-			
 		}else if(options.tem == tem_cluster){
 			var clusterLayer = L.markerClusterGroup({
 				singleMarkerMode : true
 			});
-
 			self.eachLayer(function(layer) {
 				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 					title : layer._leaflet_id
@@ -832,7 +829,10 @@ function loadURLfileLayer(layer){
 			clusterLayer.options.tipus = layer.serverType;
 			clusterLayer.options.dataset = options.dataset;
 			clusterLayer.options.tipusRang = tem_cluster;
-
+			if(self.error){
+				clusterLayer.error = true;
+			}
+			
 			addLayerUrlToMap(clusterLayer, layer, controlCapes, options.origen, map);
 			
 		}else if(options.tem == tem_heatmap){
@@ -866,9 +866,10 @@ function loadURLfileLayer(layer){
 			heatLayerActiu.options.zIndex = parseInt(layer.capesOrdre);
 			heatLayerActiu.options.tipus = layer.serverType;
 			heatLayerActiu.options.tipusRang = tem_heatmap;
-
-			addLayerUrlToMap(heatLayerActiu, layer, controlCapes, options.origen, map);
-			
+			if(self.error){
+				heatLayerActiu.error = true;
+			}
+			addLayerUrlToMap(heatLayerActiu, layer, controlCapes, options.origen, map);	
 		}
 		
 		defer.resolve();
@@ -877,17 +878,18 @@ function loadURLfileLayer(layer){
 	capaURLfileLoad.on('data:progress', function (e) {
 		if (e.error) {
 			// handle error
+			var self = this;
+			self.error = true;
 			defer.reject(e.error);
 		}
 	});
-	
+		
 	return defer.promise();
 }
 
 function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){
 	if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 		capaURLfileLoad.addTo(map);
-		//map.addLayer(capaURLfileLoad);
 	}
 
 	if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
