@@ -426,8 +426,27 @@ function addTooltipsConfOptions(businessId){
 
 function addFuncioEtiquetesCapa(){
 	addHtmlModalEtiquetesLayer();
+	var zoomInicial="2";
+	var zoomFinal="19";
 	//Omplim els camps amb el que hi ha guardat a la BBDD
-	
+	$( "#slider" ).slider({
+		range:true,
+        min: 2,
+        max: 19,
+        values: [2,19],
+        start: function( event, ui ) {
+        	$('#slider .ui-slider-handle').first().tooltip('destroy');
+        	$('#slider .ui-slider-handle').last().tooltip('destroy');
+        },
+        stop: function( event, ui ) {
+           //alert(  ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+            zoomInicial=ui.values[0];
+            zoomFinal=ui.values[1];
+            $('#slider .ui-slider-handle').first().tooltip({title: ui.values[0], trigger: 'manual', placement: 'bottom'}).tooltip("show");
+            $('#slider .ui-slider-handle').last().tooltip({title: ui.values[1], trigger: 'manual', placement: 'bottom'}).tooltip("show");
+         }    
+       }
+	);
 	$('#colorpalette_etiqueta').colorPalette().on('selectColor', function(e) {   	
 	    $('.color_etiqueta').css('background-color',e.color);		
 	});
@@ -448,7 +467,9 @@ function addFuncioEtiquetesCapa(){
 					fontSize:jQuery('#font-size').val(),
 					fontStyle:jQuery('#font-style').val(),
 					fontColor:color,
-					opcionsVis:$("input[name=etiqueta]:checked").val()
+					opcionsVis:$("input[name=etiqueta]:checked").val(),
+					zoomInicial:zoomInicial,
+					zoomFinal:zoomFinal
 			}
 			var layerMap=map._layers[capaLeafletId];
 			var optionsMap;
@@ -613,10 +634,10 @@ function addHtmlModalEtiquetesLayer(){
 	'					<input type="hidden" name="leafletIdCapaEtiquetaControl" id="leafletIdCapaEtiquetaControl" value="">'+
 	'				</div>'+
 	'				<div class="modal-body2">'+
-	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'					<div class="labels_fields" style="padding-bottom:6px;">'+
 	'						<span>1.</span><span lang="ca">Estil de les etiquetes</span>:'+
 	'					</div>'+
-	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'					<div class="labels_fields" style="padding-bottom:6px;padding-left:10px;">'+
 	'						<span></span><span lang="ca">Camp</span>:'+
 	'						<select name="dataField" id="dataFieldEtiqueta" style="margin-left:10px; width: 135px;">'+
 	'						</select>'+
@@ -626,9 +647,9 @@ function addHtmlModalEtiquetesLayer(){
 	'						<option value="{{this}}">{{@key}}</option>'+
 	'						{{/each}}'+
 	'					</script>'+
-	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'					<div class="labels_fields" style="padding-bottom:6px;padding-left:10px;">'+
 	'						<span lang="ca">Font</span>:'+
-	'						<select name="font-family" id="font-family" style="margin-left:18px; width: 135px;">'+
+	'						<select name="font-family" id="font-family" style="margin-left:12px; width: 135px;">'+
 	'							<option value="Arial">Arial</option>'+
 	'							<option value="Gill Sans">Gill Sans</option>'+
 	'							<option value="Verdana">Verdana</option>'+
@@ -647,7 +668,7 @@ function addHtmlModalEtiquetesLayer(){
 	'							<option value="42px">42px</option>'+
 	'						</select>'+
 	'					</div>'+
-	'					<div class="labels_fields" >'+
+	'					<div class="labels_fields" style="padding-left:10px;">'+
 	'						<span lang="ca">Estil</span>:'+
 	'						<select name="font-style" id="font-style" style="margin-left:18px; width: 135px;">'+
 	'							<option value="normal">Normal</option>'+
@@ -671,6 +692,10 @@ function addHtmlModalEtiquetesLayer(){
 	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="geometries" >Geometries'+
 	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="nomesetiqueta">Només etiquetes'+
 	'					</div>'+
+	'					<div class="labels_fields">'+
+	'						<span lang="ca">Nivell de zoom:</span><br/>'+
+	'						<div id="slider" style="width:65%;"></div>'+
+	'					</div>'+	
 	'				</div>'+
 	'				<div class="modal-footer">'+
 	'					<button lang="ca" type="button" class="btn btn-default"'+
