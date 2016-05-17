@@ -934,7 +934,6 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             	
             	this._global_dateFormat="YYYY-MM-DD";
             	
-            	 //console.warn(this._global_dateFormat);
             	
             }else{
             	
@@ -969,9 +968,9 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 
     setAvailableTimes: function(times) {
     	
-    	console.info(times);
+    	
         this._availableTimes = L.TimeDimension.Util.parseTimesExpression(times);
-        console.warn(this._availableTimes);
+      
         this._updateTimeDimensionAvailableTimes();
     },
 
