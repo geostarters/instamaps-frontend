@@ -38,7 +38,7 @@ setTimeout(function () {
 L.Control.addModulArbres = L.Control.extend({
 
 		options : {
-			urlWFS : 'http://172.30.22.41:8080/geoserver/Arbres/wms',
+			urlWFS : 'http://geoserver.icgc.cat:8080/geoserver/Arbres/wms',
 			parametersWFS : {
 				service : 'WFS',
 				outputFormat : 'text/javascript',
