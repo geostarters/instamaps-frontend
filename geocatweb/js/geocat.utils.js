@@ -890,7 +890,8 @@ function shortString(str,_length){
 	str.length > _length ?str=(str.substring(0,_length)+"..."):str;
 	return str;	
 }	
-}
+
+
 
 String.prototype.replaceAll = function(target, replacement) {
 	  return this.split(target).join(replacement);
