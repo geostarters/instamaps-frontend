@@ -1,9 +1,9 @@
-
 window.lang = new jquery_lang_js();
 
 var lsLang;
 
 jQuery(document).ready(function() {
+	
 	weball_tornarInici();		
 	window.lang.run();
 	lsLang=web_determinaIdioma();
@@ -22,12 +22,6 @@ jQuery(document).ready(function() {
     	localStorage['langJs_currentLang'] = 'ca';
     }
     
-    /*
-    jQuery("#hl_contact").on('click', function() {
-    	jQuery(this).attr('href','mailto:instamapes@icgc.cat');
-	});
-    */
-	
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
     	logoutUser();
@@ -111,10 +105,8 @@ function insertDataInstamaper(email){
 			email: email,
 			options: curs_instamaps
 	}
-//	console.debug(dataInsert);
 	var insert_error = "";
 	registreInstamaper(dataInsert).then(function(results){
-//		console.debug(results);					
 		if (results.status=="ERROR") {
 			
 			if(results.results == "ORA-00001"){
@@ -129,7 +121,6 @@ function insertDataInstamaper(email){
 		}
 	},function(results){
 		insert_error = " (email no inserit correctament a la taula INSTAMAPERS)";
-//		console.debug(insert_error);
 		defer.resolve(insert_error);
 	});	
 
@@ -146,11 +137,8 @@ function sendEmailInstamaper(email,insert_error, type){//type per saber si es pe
 			esColaboratiu: 'N',
 			businessId: ""
 	};
-//	console.debug(data);
 	sendMail(data).then(function(results){
-//		console.debug(results);					
 		if (results.status=="OK") {
-//			console.debug(results)	;
 			$('#landing-form-message'+type).html(
 					'<div class="alert alert-success alert-dismissible" role="alert">'+
 					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
@@ -172,12 +160,10 @@ function sendEmailInstamaper(email,insert_error, type){//type per saber si es pe
 		);
 	});	
 	
-//	console.debug(".... sendEmailInstamaper");
 }
 
 function landingFormButtonClick(type){
-//	console.debug("CLICK!");
-	
+
 	var email =  $('#landing-form-email'+type).val();
 	
 	if(isBlank(email)){
@@ -203,11 +189,8 @@ function landingFormButtonClick(type){
     	);
 
     	insertDataInstamaper(email).then(function(results){
-//    		console.debug("insertDataInstamaper results:");
-//    		console.debug(results);
     			sendEmailInstamaper(email,results, type);
     		},function(results){
-//    			console.debug("Email ja enviat i apunta't!");
     			$('#landing-form-message'+type).html(
     					'<div class="alert alert-success alert-dismissible" role="alert">'+
     					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
@@ -215,7 +198,6 @@ function landingFormButtonClick(type){
     			);	    			
     		}
     	);
-    	
 	}	
 }
 
@@ -369,8 +351,6 @@ function web_menusIdioma(lsLang){
 
 
 function canviaIdioma(lsLang){
-	//console.info("entro");
-//	console.debug(lsLang);
 	window.lang.change(lsLang);
 	$("body").trigger( "change-lang", lsLang );
 	$.publish('change-lang',{lang: lsLang});
@@ -617,7 +597,6 @@ function isGeolocalUser(){
 			isGeolocal = true;
 		}
 	}
-	
 	
 	return isGeolocal;
 }
