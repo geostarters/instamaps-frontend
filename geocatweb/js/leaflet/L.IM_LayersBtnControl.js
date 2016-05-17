@@ -8,7 +8,7 @@ L.Control.LayersBtn = L.Control.extend({
 	options: {
 		position: 'topright',
 		id: 'dv_bt_layers',
-		className: 'leaflet-bar  btn btn-default btn-sm grisfort',
+		className: 'leaflet-bar btn btn-default btn-sm grisfort',
 		title: 'Llista de capes',
 		langTitle: 'Llista de capes',
 		html: '<span class="glyphicon glyphicon-th-list"></span>',
