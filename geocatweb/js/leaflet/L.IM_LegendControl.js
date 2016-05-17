@@ -144,13 +144,16 @@ L.Control.Legend = L.Control.extend({
 		self.fromLayer = true;
 		if(obje.activo){
 			$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');	
-		}
-		/*
-		else{	
+		}else{	
+			
 			var lastActive=controlCapes.getCountActiveLayers();		
-			lastActive >0?$('#nav_legend a[href="#tab'+lastActive.id+'"]').tab('show'):$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');										
+			
+			
+			lastActive.total >0?$('#nav_legend a[href="#tab'+lastActive.lastActive+'"]').tab('show'):$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');										
+		
+			
 		}
-		*/
+		
 	},
 	
 	_getLastActived:function(){	
