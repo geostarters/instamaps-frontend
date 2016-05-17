@@ -317,7 +317,7 @@ L.Control.addModulArbres = L.Control.extend({
 			height_min = height_acc / parseFloat(numFF);
 
 			html = '<table class="tbl_dades" style="width:100%">' +
-				'<tr><th>Àrea del polígon de selecció:</th><td>' + decimalComa(areaSeleccio.toFixed(1)) + '</td></tr>' +
+				'<tr><th>Àrea del polígon de selecció:</th><td>' + decimalComa(areaSeleccio.toFixed(1)) + ' m<sup>2</sup></td></tr>' +
 				'<tr><th>Nombre d\'abres:</th><td>' + numFF + '</td></tr>' +
 				'<tr><th>Àrea coberta (m<sup>2</sup>):</th><td>' + decimalComa(coberta_m2.toFixed(1)) + ' m<sup>2</sup></td></tr>' +
 				'<tr><th>Àrea coberta (%):</th><td>' + decimalComa(coberta_percent.toFixed(1)) + ' %</td></tr>' +
