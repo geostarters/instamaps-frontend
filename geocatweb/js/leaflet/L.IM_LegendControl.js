@@ -89,6 +89,8 @@ L.Control.Legend = L.Control.extend({
 		var _$this = $(this._div),
 		y2 = _$this.height() +50;
 		if(this.options.transition){
+			_$this.fadeOut({duration: 'fast'});
+			/*
 			_$this.transition({ 
 				x: '250px',
 				y: y2+'px',
@@ -98,6 +100,7 @@ L.Control.Legend = L.Control.extend({
 					_$this.hide();
 				}
 			});
+			*/
 		}else{
 			_$this.hide();
 		}
@@ -109,6 +112,8 @@ L.Control.Legend = L.Control.extend({
 		var _$this = $(self._div);
 		_$this.show();
 		if(self.options.transition){
+			_$this.fadeIn({duration: 'fast'});
+			/*
 			_$this.transition({
 				x: '0px',
 				y: '0px',
@@ -121,6 +126,7 @@ L.Control.Legend = L.Control.extend({
 					
 				}
 			});
+			*/
 		}
 		self._redrawTabs();
 	},
@@ -216,21 +222,16 @@ L.Control.Legend = L.Control.extend({
 					
 					if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
 					
-					if(layerType.capesOrdre.indexOf('sublayer') ==-1){
+					if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 						legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol.replace('<br>','')+'</div>');	
 					}else{
-					
-					if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
-					
-					
-					legendTabContent.push('<div class="visor-legend-row">'+
-					    			'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
-					    			'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
-					    			'</div><div class="visor-separate-legend-row"></div>');	
+						if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
+						legendTabContent.push('<div class="visor-legend-row">'+
+					    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
+					    	'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
+					    	'</div><div class="visor-separate-legend-row"></div>');	
 									
-					if(i==row.length-1){legendTabContent.push('</div>');}			
-					
-					
+						if(i==row.length-1){legendTabContent.push('</div>');}			
 					}
 				}
 			index=index+1;		

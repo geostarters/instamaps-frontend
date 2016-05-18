@@ -884,7 +884,9 @@ function cleanScriptCode(txt){
 }
 
 function shortString(str,_length){
-	str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	if(str){
+		str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	}
 	return str;	
 }	
 

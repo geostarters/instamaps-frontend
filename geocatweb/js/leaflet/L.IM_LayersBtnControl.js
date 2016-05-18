@@ -98,9 +98,7 @@ L.Control.LayersBtn = L.Control.extend({
 		var div = this.control.getContainer();
 		this.control.options.collapsed = true;
 		if(this.options.transition){
-			$(div).animate({
-				width : 'hide'
-			});
+			$(div).fadeOut({duration: 'fast'});
 		}else{
 			$(div).hide();
 		}
@@ -112,9 +110,7 @@ L.Control.LayersBtn = L.Control.extend({
 		var div = this.control.getContainer();
 		this.control.options.collapsed = false;
 		if(this.options.transition){
-			$(div).animate({
-				width : 'show'
-			});
+			$(div).fadeIn({duration: 'fast'});
 		}else{
 			$(div).show();
 		}
