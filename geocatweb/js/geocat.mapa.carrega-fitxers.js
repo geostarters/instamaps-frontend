@@ -515,7 +515,7 @@ function addFuncioCarregaFitxers(){
 		var isOK=false;
 		var colX = jQuery("#cmd_upload_colX").val();
 		var colY = jQuery("#cmd_upload_colY").val();
-		var colWKT=jQuery("#cmd_upload_geom").val();
+		var colWKT=jQuery("#cmd_upload_wkt").val();
 		var srid = jQuery("#select-upload-epsg").val();
 		var tipusCSV=jQuery('input:radio[name="opt_csv_field"]:checked').val();
 		
@@ -787,7 +787,7 @@ function analitzaMatriu(matriu) {
 
 	jQuery('#cmd_upload_colX').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
 	jQuery('#cmd_upload_colY').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_geom').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_wkt').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
 	
 	
 	
@@ -824,12 +824,13 @@ function analitzaMatriu(matriu) {
 
 			
 		} else if (matriu[x].toUpperCase() == "POLIGONO"
-				|| matriu[x].toUpperCase() == "POLIGON"
+				|| matriu[x].toUpperCase() == "POLYGON"
 				|| matriu[x].toUpperCase() == "POINT"
+				|| matriu[x].toUpperCase() == "GEOM"
 				|| matriu[x].toUpperCase() == "LINESTRING") {
 
 			fieldType = "wkt";
-			$('#cmd_upload_geom option:contains("' + matriu[x] + '")').prop(
+			$('#cmd_upload_wkt option:contains("' + matriu[x] + '")').prop(
 					'selected', true);
 //			isCoordinates = true;
 			$('#nav_pill a[href="#opt_coord"]').tab('show');	
@@ -1369,7 +1370,7 @@ function addHtmlModalCarregarFitxers(){
 		'										</ul>'+
 		'                                       <ul id="ul_geom">'+										
 		'											<li lang="ca">Camp geomètric</li>'+
-		'											<li><select style="width: 100%;" id=\'cmd_upload_geom\'></select></li>'+		
+		'											<li><select style="width: 100%;" id=\'cmd_upload_wkt\'></select></li>'+		
 		'										</ul>'+
 		'										<li><label lang="ca">Quin és el sistema de referència?</label></li>'+
 		'										<li>'+
