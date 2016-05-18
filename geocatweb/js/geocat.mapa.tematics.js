@@ -2160,13 +2160,13 @@ function loadCacheVisualitzacioLayer(layer){
 		}		
 	}).fail(function() {
 	   getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
-					if(results.status == "OK" ){
-						readVisualitzacio(defer, results.results, layer);			
-					}else{
-						console.debug('getVisualitzacioByBusinessId ERROR');
-						defer.reject();	
-					}	
-				});
+				if(results.status == "OK" ){
+					readVisualitzacio(defer, results.results, layer);			
+				}else{
+					console.debug('getVisualitzacioByBusinessId ERROR');
+					defer.reject();	
+				}	
+			});
 	  });
 
 /*	getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
