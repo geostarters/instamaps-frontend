@@ -276,13 +276,13 @@ function activaPanelCapes(obre) {
 			width : 'toggle'
 		});
 	}
-	var cl = jQuery('.bt_llista span').attr('class');
+	var cl = jQuery('#dv_bt_layers').attr('class');
 	if (cl.indexOf('grisfort') != -1) {
-		jQuery('.bt_llista span').removeClass('grisfort');
-		jQuery('.bt_llista span').addClass('greenfort');
+		jQuery('#dv_bt_layers').removeClass('grisfort');
+		jQuery('#dv_bt_layers').addClass('greenfort');
 	} else {
-		jQuery('.bt_llista span').removeClass('greenfort');
-		jQuery('.bt_llista span').addClass('grisfort');
+		jQuery('#dv_bt_layers').removeClass('greenfort');
+		jQuery('#dv_bt_layers').addClass('grisfort');
 	}
 
 	if(getModeMapa()){updateSortablesElements();}
@@ -883,16 +883,15 @@ function cleanScriptCode(txt){
 	return txt;
 }
 
-
-
 function shortString(str,_length){
-	
-	str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	if(str){
+		str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	}
 	return str;	
 }	
 
 
 
 String.prototype.replaceAll = function(target, replacement) {
-	  return this.split(target).join(replacement);
-	};
+  return this.split(target).join(replacement);
+};

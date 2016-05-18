@@ -742,7 +742,10 @@
 			}
 			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
-				if (!self.nollegenda) self.addLlegenda();
+				if (!self.nollegenda) {
+					self.addLlegenda();
+					self.controls.llegendaControl.hide();
+				};
 			}
 			
 			if(self.appmodul){

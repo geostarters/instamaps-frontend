@@ -454,11 +454,11 @@ L.TimeDimension.Util = {
             	
             	times = times.replace(/\s/g, "");
                 var dates = times.split(",");
-                
+                console.info(dates);
                 var time;
                 for (var i = 0, l = dates.length; i < l; i++) {
                     time = Date.parse(dates[i]);
-                    ////console.warn(time);
+                    console.warn(time);
                     if (!isNaN(time)) {
                         result.push(time);
                     }
@@ -738,6 +738,9 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
     },
 
     _getLayerForTime: function(time) {
+    	
+    
+    	
         if (time == 0 || time == this._defaultTime) {
             return this._baseLayer;
         }
@@ -750,53 +753,43 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
         }
 
         var wmsParams = this._baseLayer.options;
-		
-		//////console.info(this._layers[time]);
-		
-		
-		
+										
 		if(this._global_dateFormat){
 			if(this._global_dateFormat=='YYYY'){
 				
 				
 				wmsParams.time = new Date(nearestTime).getFullYear();
-				//////console.warn("Envio TIME0");
-				//////console.warn(this._global_dateFormat);
-				//////console.warn(wmsParams.time);
+				
+
+			}else if(this._global_dateFormat=='YYYY-MM'){
+				
+			
+				var _TM=new Date(nearestTime);				
+				
+				wmsParams.time = _TM.getFullYear() +"-"+eval(_TM.getMonth()+1) ;
+				
 			
 			}else if(this._global_dateFormat=='YYYY-MM-DD'){
 				
 			
 				var _TM=new Date(nearestTime);
-				
-				
+								
 				wmsParams.time = _TM.getFullYear() +"-"+eval(_TM.getMonth()+1) +"-"+_TM.getDate() ;
-				
-				
-				//////console.warn("Envio TIME1");
-				//////console.warn(this._global_dateFormat);
-				//////console.warn(wmsParams.time);
+							
 			
 			}else{
 
 			wmsParams.time = new Date(nearestTime).toISOString();
-			//////console.warn("Envio TIME2");
-			//////console.warn(this._global_dateFormat);
-			//////console.warn(wmsParams.time);
 			
 			}			
 			
 		
 		}else{
 			wmsParams.time = new Date(nearestTime).toISOString();
-			//////console.warn("Envio TIME3");
-			//////console.warn(this._global_dateFormat);
-			//////console.warn(wmsParams.time);
+		
 		}
 		
-		
-		//////console.info(new Date(nearestTime).toISOString())
-		//////console.info(new Date(nearestTime).getFullYear());
+				
         //wmsParams.time = new Date(nearestTime).toISOString();
 
         var newLayer = null;
@@ -818,8 +811,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             });
         }).bind(this, newLayer, time));
 
-        // Hack to hide the layer when added to the map.
-        // It will be shown when timeload event is fired from the map (after all layers are loaded)
+       
         newLayer.onAdd = (function(map) {
             Object.getPrototypeOf(this).onAdd.call(this, map);
             this.hide();
@@ -858,20 +850,23 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
         }
         this._capabilitiesRequested = true;
         var wms = this._baseLayer.getURL();
-        var url = wms + "?service=WMS&version=" +
+        var interro="?";
+        if(wms.indexOf('?')>-1){
+        	interro="";
+        	
+        }
+        var url = wms +interro+"service=WMS&version=" +
             this._wmsVersion + "&request=GetCapabilities";
         if (this._proxy) {
-            url = this._proxy + '?url=' + encodeURIComponent(url);
+            url = this._proxy  +'?url=' + encodeURIComponent(url);
         }
         $.get(url, (function(data) {
-			
-		
-            this._defaultTime = Date.parse(this._getDefaultTimeFromCapabilities(data));
-			
-		
-			
+					
+            this._defaultTime = Date.parse(this._getDefaultTimeFromCapabilities(data));			
+	
             this._setDefaultTime = this._setDefaultTime || (this._timeDimension && this._timeDimension.getAvailableTimes().length == 0);
             this.setAvailableTimes(this._parseTimeDimensionFromCapabilities(data));
+                     
             if (this._setDefaultTime && this._timeDimension) {
 				
 		
@@ -887,9 +882,9 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             return $(this).text() === layerName;
         });
         var times = null;
-        if (layerNameElement) {
-            var layer = layerNameElement.parent();
-            times = this._getTimesFromLayerCapabilities(layer);
+        if (layerNameElement) {        	       	
+            var layer = layerNameElement.parent();                     
+            times = this._getTimesFromLayerCapabilities(layer);            
             if (!times) {
                 times = this._getTimesFromLayerCapabilities(layer.parent());
             }
@@ -899,6 +894,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
     },
 
     _getTimesFromLayerCapabilities: function(layer) {
+    	
         var times = null;
         var dimension = layer.find("Dimension[name='time']");
         if (dimension && dimension.length && dimension[0].textContent.length) {
@@ -909,11 +905,13 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
                 times = extent[0].textContent.trim();
             }
         }
+        
+       
         return times;
     },
 
     _getDefaultTimeFromCapabilities: function(xml) {
-        var layers = $(xml).find('Layer[queryable="1"]');
+        var layers = $(xml).find('Layer[queryable="0"]');
         var layerName = this._baseLayer.wmsParams.layers;
         var layerNameElement = layers.find("Name").filter(function(index) {
             return $(this).text() === layerName;
@@ -923,19 +921,19 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             var layer = layerNameElement.parent();
             defaultTime = this._getDefaultTimeFromLayerCapabilities(layer);
 			
-            //console.warn("defaultTime");
-            //console.warn(defaultTime);
-            //console.warn(defaultTime.length);
-			//-11-25T00:00:00.000Z
+           
             if(defaultTime.length ==4){
             	
             	this._global_dateFormat="YYYY";
+            
+            }else if (defaultTime.length ==7){
+            	
+            	this._global_dateFormat="YYYY-MM";	
             		
             }else if (defaultTime.length ==10){
             	
             	this._global_dateFormat="YYYY-MM-DD";
             	
-            	 //console.warn(this._global_dateFormat);
             	
             }else{
             	
@@ -948,6 +946,8 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 			
             }
         }
+        
+        
         return defaultTime;
     },
 
@@ -967,8 +967,10 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 
 
     setAvailableTimes: function(times) {
+    	
+    	
         this._availableTimes = L.TimeDimension.Util.parseTimesExpression(times);
-        //console.warn(this._availableTimes);
+      
         this._updateTimeDimensionAvailableTimes();
     },
 
@@ -1714,9 +1716,15 @@ L.Control.TimeDimension = L.Control.extend({
 
 	_getDisplayDateFormat: function(date){
 		
+	
 		
 		if(this._global_dateFormat=='YYYY'){
 			return this._dateUTC ? date.getFullYear() : date.toLocaleString();
+		
+		}else if(this._global_dateFormat=='YYYY-MM'){
+			
+			return this._dateUTC ? date.getFullYear() : date.toLocaleString();
+			
 			
 		}else if(this._global_dateFormat=='YYYY-MM-DD'){
 			
