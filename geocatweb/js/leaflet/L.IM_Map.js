@@ -54,7 +54,9 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 }
 
 //var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
-var URL_MQ='https://otile1-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
+//var URL_MQ='https://otile1-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
+
+var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 //var URL_MQ='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
