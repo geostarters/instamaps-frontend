@@ -276,13 +276,20 @@ function activaPanelCapes(obre) {
 			width : 'toggle'
 		});
 	}
-	var cl = jQuery('#dv_bt_layers').attr('class');
-	if (cl.indexOf('grisfort') != -1) {
-		jQuery('#dv_bt_layers').removeClass('grisfort');
-		jQuery('#dv_bt_layers').addClass('greenfort');
+	var cl,
+	 btnDiv;
+	if(jQuery('.bt_llista span')){
+		btnDiv = jQuery('.bt_llista span');
+	}else{
+		btnDiv = jQuery('#dv_bt_layers');
+	}
+	cl = btnDiv.attr('class');
+	if (cl && cl.indexOf('grisfort') != -1) {
+		btnDiv.removeClass('grisfort');
+		btnDiv.addClass('greenfort');
 	} else {
-		jQuery('#dv_bt_layers').removeClass('greenfort');
-		jQuery('#dv_bt_layers').addClass('grisfort');
+		btnDiv.removeClass('greenfort');
+		btnDiv.addClass('grisfort');
 	}
 
 	if(getModeMapa()){updateSortablesElements();}
