@@ -1047,11 +1047,11 @@ function addHtmlModalLayersTematic(){
 	'	<!-- Modal Tematics Layers -->'+
 	'		<div class="modal fade" id="dialog_layers_tematic">'+
 	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Triar una capa per aplicar-hi l\'estil</h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Triar una capa per aplicar-hi l\'estil</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success" id="txtTematic">'+
@@ -1089,8 +1089,8 @@ function addHtmlModalCategories(){
 	'	<!-- Modal Tematics Rangs -->'+
 	'		<div class="modal fade" id="dialog_tematic_rangs">'+
 	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
 	'					<h4 class="modal-title" lang="ca">Defineix les categories</h4>'+
@@ -1326,8 +1326,8 @@ function addHtmlModalBubbles(){
 			'<!-- Modal Tematics Bubble -->'+
 			'<div class="modal fade" id="dialog_tematic_bubble">'+
 			'	<div class="modal-dialog">'+
-			'		<div class="modal-content">'+
-			'			<div class="modal-header">'+
+			'		<div class="modal-content panel-primary">'+
+			'			<div class="modal-header panel-heading">'+
 			'				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
 			'				<h4 class="modal-title" lang="ca">Defineix les categories</h4>'+
 			'			</div>'+

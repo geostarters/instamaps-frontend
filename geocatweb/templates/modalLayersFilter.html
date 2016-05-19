@@ -1,0 +1,49 @@
+<!-- Modal Filter Layers -->
+	<div class="modal fade" id="dialog_layers_filter">
+	<div class="modal-dialog">
+		<div class="modal-content panel-primary">
+			<div class="modal-header panel-heading">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">
+					<span lang="ca">Tria una capa per aplicar-hi el filtre</span>
+					<span><a class="faqs_link"
+						href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/"
+						target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-success">
+					<span lang="ca">Aquesta operació retorna aquells elements que acompleixen una condició relativa a la seva informació de texte.</span>'&nbsp;
+					<span lang="ca">Aplicable a punts, línies o polígons.</span><br/><br/>
+					<div class="imagePeu">
+						<img src="css/images/Filtre_1.jpg" class="img1">
+						<span class="peu" lang="ca">Capa d'origen</span>
+						<img src="css/images/Filtre_2.jpg">
+						<span class="peu2" lang="ca">Resultat de l'operació</span>
+					</div>
+					<div style="margin-top:30px;margin-bottom:-20px;">	
+						<span class="glyphicon glyphicon-info-sign"></span>&nbsp;
+						<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span><br/><br/>
+					</div>
+				</div>
+				<script id="filter-layers-template" type="text/x-handlebars-template">
+					<div class="panel-warning">					
+					<ul class="bs-dadesO_USR panel-heading">
+						{{#each layers}}
+						<li><a class="usr_filter_layer lable-usr" data-leafletid="{{layer._leaflet_id}}" data-businessId="{{layer.options.businessId}}" data-geometryType="{{layer.options.geometryType}} " 
+						data-tipus="{{layer.options.tipus}}" data-propName="{{layer.options.propName}}" data-estil="{{layer.options.estil}}">{{name}}</a></li>
+						{{/each}}
+					</ul>	
+					</div>
+				</script>
+				<div id="list_filter_layers"></div>
+			</div>
+			<div class="modal-footer">
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- fi Modal Tematics Layers -->

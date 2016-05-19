@@ -1,0 +1,40 @@
+<!-- Modal Filter -->
+<div class="modal fade" id="dialog_filter_rangs">
+	<div class="modal-dialog">
+		<div class="modal-content panel-primary">
+			<div class="modal-header panel-heading">
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>
+				<h4 class="modal-title">
+					<span lang="ca">Filtre simple</span>
+					<span><a class="faqs_link"
+						href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/"
+						target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="labels_fields">
+				    <input type="hidden" name="visFilter"  id="visFilter" value=""> 
+					<span>1.</span><span lang="ca">Escull el camp per filtrar</span>:
+					<select name="dataField_filter" id="dataField_filter">
+					</select>
+				</div>
+				<script id="tematic-layers-fields" type="text/x-handlebars-template">
+					{{#each fields}}
+						<option value="{{this}}">{{@key}}</option>
+					{{/each}}
+				</script>
+				<br/>				
+				<div id="list_filter_values"></div>
+				<button type="button" class="filtre-avancat" lang="ca">Filtre avançat</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
+        			<button type="button" class="btn btn-success" lang="ca">Filtrar</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- fi Modal Tematics Rangs -->

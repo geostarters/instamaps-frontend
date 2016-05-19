@@ -1,13 +1,9 @@
-
-//var matriuActiva = [];
-//var pending = false
 var drgFromMapa = null;
 var drgFromBoto = null;
 var midaFitxer = 500000000;//en bytes
 var midaFitxerRandom = 10000000;//en bytes
 
 var busy = false; //per controlar si ja estem pujant un fitxer
-
 
 var envioArxiu={isDrag:false,
 	tipusAcc:'gdal', //gdal,adreca,coordenades,codis
@@ -47,9 +43,7 @@ function creaAreesDragDropFiles() {
 
 		var divMapa="div#map";	
 		estatMapa3D?divMapa="div#map3D":divMapa="div#map";	
-		
-		
-		
+				
 		drgFromMapa = new window.Dropzone(divMapa, drOpcionsMapa);
 
 		drgFromMapa.on("addedfile", function(file) {
@@ -1230,11 +1224,11 @@ function addHtmlModalCarregarFitxers(){
 		'	<!-- Modal Carrega dades -->'+
 		'	<div class="modal fade" id="dialog_carrega_dades">'+
 		'	<div class="modal-dialog">'+
-		'		<div class="modal-content">'+
-		'			<div class="modal-header">'+
+		'		<div class="modal-content panel-primary">'+
+		'			<div class="modal-header panel-heading">'+
 		'				<button type="button" class="close" data-dismiss="modal"'+
 		'					aria-hidden="true">&times;</button>'+
-		'				<h4 class="modal-title" lang="ca">Carregar dades</h4>'+
+		'				<h4 class="modal-title"><span lang="ca">Carregar dades</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 		'			</div>'+
 		'			<div class="modal-body">'+
 		'				<div id="div_formats" class="alert alert-success">'+

@@ -59,6 +59,11 @@ html,body {
 	background-image: url("images/toggle.png");
 }
 
+.faqs_link{
+	color: #ffffff;
+	padding-left: 3px; 
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;

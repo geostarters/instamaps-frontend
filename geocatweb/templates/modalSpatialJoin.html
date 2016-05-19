@@ -1,0 +1,99 @@
+<!-- Modal Spatial Join -->
+<div class="modal fade" id="dialog_spatial_join">
+	<div class="modal-dialog">
+		<div class="modal-content panel-primary">
+			<div class="modal-header panel-heading">
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>
+				<h4 class="modal-title">
+					<span lang="ca">Punts dins de polígons</span>
+					<span><a class="faqs_link"
+						href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/"
+						target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-success">
+					<span lang="ca">Aquesta operació crea una nova capa que
+						conté aquells punts que estan continguts dins els polígons d’una
+						altra capa.</span> <span lang="ca">Aplicable a punts.</span>'<br /> <br />
+					<div class="imagePeu">
+						<img src="css/images/spatialJ_1a.png" class="img1"> <span
+							class="peu" lang="ca">Capa d'origen</span> <img
+							src="css/images/spatialJ_1b.png"> <span class="peu2"
+							lang="ca">Resultat de l'operació</span>
+					</div>
+					<div style="margin-top: 30px; margin-bottom: -20px;">
+						<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span
+							lang="ca">Aquesta operació està disponible per capes
+							dibuixades o creades a partir de fitxers de menys de 50Mb.</span> <br />
+						<br />
+					</div>
+				</div>
+				<div id="warning-spatial"></div>
+				<div id="list-layers-spatial-join1">
+					<span class="ca">1. Selecciona les capes que vols relacionar</span>
+					<div class="labels_fields" style="margin-left: 15px;">
+						<span lang="ca">Capa de punts disponibles</span>:<span lang="ca"
+							style="margin-left: 11%">Capa de polígons disponibles</span>:<br />
+						<select name="dataField_spatial_capa1"
+							id="dataField_spatial_capa1" style="width: 30%;">
+							<option value="null">Escull la capa</option>
+						</select> <select name="dataField_spatial_capa2"
+							id="dataField_spatial_capa2" style="margin-left: 8%; width: 30%;">
+							<option value="null">Escull la capa</option>
+						</select>
+						<script id="tematic-spatial-layers1" type="text/x-handlebars-template">
+							{{#each layers}}
+								<option value="{{layer.options.businessId}}___{{layer.options.propName}}">{{name}}</option>
+							{{/each}}
+						</script>
+						<script id="tematic-spatial-layers2" type="text/x-handlebars-template">
+							{{#each layers}}
+								<option value="{{layer.options.businessId}}___{{layer.options.propName}}">{{name}}</option>
+							{{/each}}
+						</script>
+						<br /> <br />
+					</div>
+				</div>
+				<div id="list-fields-spatial-join2">
+					<span class="ca">2. Selecciona el nom i els camps que
+						apareixeran a la capa resultant</span>:
+					<div class="input-group input-group-sm" style="margin-left: 15px;">
+						<span class="input-group-addon" lang="ca">Nom capa
+							resultant</span> <input id="input-spatial-join-name"
+							class="form-control" type="text" style="width: 260px">
+					</div>
+					<br />
+					<div style="margin-left: 15px;">
+						<span id="list_spatial_join_fields"
+							style="float: left; width: 30%; max-height: 90px; overflow-x: hidden; overflow-y: auto;"></span>
+						<span id="list_spatial_join_fields2"
+							style="float: left; margin-left: 50px; width: 30%; max-height: 90px; overflow-x: hidden; overflow-y: auto;"></span>
+					</div>
+					<script id="join-spatial-fields-template" type="text/x-handlebars-template">
+						{{#each fields}}
+							<input type="checkbox" value="{{@key}}" name="listCol1_spatial"/>&nbsp;&nbsp;{{@key}}<br/>
+						{{/each}}
+					</script>
+					<script id="join-spatial-fields-template2" type="text/x-handlebars-template">
+						{{#each fields}}
+							<input type="checkbox" value="{{@key}}" name="listCol2_spatial"/>&nbsp;&nbsp;{{@key}}<br/>
+						{{/each}}
+					</script>
+					<br />
+				</div>
+				<br />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"
+					lang="ca">Tancar</button>
+				<button type="button" class="btn btn-success" lang="ca"
+					id="spatialjoinBtn">Punts dins de polígons</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- fi Modal Column Join -->
