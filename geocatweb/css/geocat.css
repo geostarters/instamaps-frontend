@@ -857,14 +857,18 @@ background-color:#FFFFFF}
 	/*** galeria.html ***/
 	.thumbnail{
 		position: relative;
-		min-height: 240px;
+		min-height: 220px;
 		/*min-height: 225px;*/
+	}
+	
+	#thumbnail-public{
+		min-height: 240px !important;
 	}
 	
 	.thumbnail div.new_map{
 		border: 5px dashed;
     	border-radius: 4px;
- 		height: 215px;
+ 		height: 210px;
  		cursor: pointer;
 	}
 	
@@ -1360,7 +1364,7 @@ h1.big_text{
 }
 
 #btn-grup{
-	padding: 5px !important;
+	padding: 3px 3px 2.5px;
 }
 .input_convidats{
 	margin-bottom:5px;
@@ -1383,7 +1387,9 @@ h1.big_text{
 	font-weight: bold;
 }
 
-
+#btn-editar,#btn-enllacar,#btn-duplicate,#btn-privat,#btn-public,#btn-esborrar{
+	padding: 3px 8px;
+}
 /******** nav-tabs-google style *********/
 .nav-tabs-google > li {
   margin: 0 -1px 0 0;

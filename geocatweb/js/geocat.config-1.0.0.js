@@ -216,7 +216,8 @@ var paramUrl = {
 	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?",
 	eacat: "https://idp.eacat.net/Logon.aspx?providerID=IDEC",
 	url_mapserver:HOST_APP+"/geoservicelocal/",
-	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?"
+	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?",
+	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?"
 }
 
 var paramAplications = {

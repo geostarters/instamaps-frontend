@@ -204,6 +204,8 @@ jquery_lang_js.prototype.lang.es = {
 ,"Dinàmica":"Dinámica"
 ,"Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa":"Dinámico: Se accederá a la fuente de datos cada vez que se cargue la capa"
 ,"Dona'ns el teu correo i et mantindrem informat":"Danos tu correo y te mantendremos informado"
+,"Duplicar":"Duplicar"
+,"Duplicar el mapa":"Duplicar el mapa"
 
 ,"Edició en mode demostració":"Edición en modo demostración"
 ,"Editar":"Editar"
@@ -451,6 +453,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Nom capa":"Nombre capa"
 ,"Nom d'usuari no disponible.":"Nombre de usuario no disponible."
 ,"Nom d'usuari o contrasenya incorrectes.":"Nombre de usuario o contraseña incorrectos."
+,"Nom del nou mapa":"Nombre del mapa nuevo"
 ,"Nom nova capa":"Nombre nueva capa"
 ,"Nom":"Nombre"
 ,"Nom fitxer": "Nombre fichero"

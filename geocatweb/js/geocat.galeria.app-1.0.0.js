@@ -40,14 +40,11 @@ if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined
 	galeria = Galeria({
 		tipusApp:1,
 		publica: false,
-		isGeolocal: isGeolocal
+		isGeolocal: isGeolocal,
+		uid: $.cookie('uid')
 	});
 	
-	var data = {uid: $.cookie('uid')};
-	loadGaleria(data).then(function(results){
-		galeria.drawGaleria(results);
-		galeria.escriuResultats(results.results.length);
-	});
+	galeria.loadGaleria();	
 	
 	if(aplicacionsGaleria){
 		$('#typesTabs a:last').tab('show');

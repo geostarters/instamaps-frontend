@@ -431,6 +431,24 @@
 			$('#typesTabs a[href="#aplicacionsTab"]').on('click',function(){
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'accés aplicacions']);
 			});
+			
+			//Duplicate mapa
+			$('#galeriaRow').on('click', '.btn#btn-duplicate', function(event){
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				var $this = $(this);
+				$('#dialgo_duplicar_mapa').data('businessid', $this.data("businessid"));
+				$('#dialgo_duplicar_mapa #nomMapaDuplicar').val($this.data("nomaplicacio")+"_duplicat");
+				$('#dialgo_duplicar_mapa').modal('show');
+			});
+			
+			$('#dialgo_duplicar_mapa .btn-success').on('click', function(event){
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				var $this = $(this);
+				self.duplicateMap();
+						
+			});
 		},
 		
 		drawPublic: function(){
@@ -913,7 +931,12 @@
 					self.pintaGaleriaConfigurades(results);
 				});
 			}
-		}, 
+		},
+		
+		refresh: function(){
+			var self = this;
+			self.loadGaleria();
+		},
 		
 		pintaGaleriaMapsByUser: function(results, searchString){
 			var self = this;
@@ -937,7 +960,49 @@
 				}
 				*/
 			}
+		}, 
+		
+		loadGaleria: function(){
+			var self = this;
+			self._loadGaleria({uid: self.options.uid}).then(function(results){
+				self.drawGaleria(results);
+				self.escriuResultats(results.results.length);
+			});
+		},
+		
+		_loadGaleria: function(params){
+			return jQuery.ajax({
+				url: paramUrl.getAllMapsByUser,
+		  		data: params,
+		  		method: 'post',
+		  		dataType: 'jsonp'
+			}).promise();
+		},
+		
+		duplicateMap: function(){
+			var self = this;
+			var data ={
+					uid: self.options.uid,
+					businessId: $('#dialgo_duplicar_mapa').data('businessid'),
+					nom: $('#dialgo_duplicar_mapa #nomMapaDuplicar').val()
+			};
+			self._duplicateMap(data).then(function(results){
+				if (results.status == "OK"){
+					self.refresh();
+					$('#dialgo_duplicar_mapa').modal('hide');
+					_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'duplicar aplicacio']);
+				}
+			});		
+		},
+		
+		_duplicateMap: function(params){
+			return jQuery.ajax({
+				url: paramUrl.duplicateMap,
+				data: params,
+		  		dataType: 'jsonp'
+			}).promise();
 		}
+
 
 	};
 	

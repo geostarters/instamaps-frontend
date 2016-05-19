@@ -204,6 +204,8 @@ jquery_lang_js.prototype.lang.en = {
 ,"Disculpeu les molèsties.":"Sorry for the inconvenience."
 ,"Distància":"Distance"
 ,"Dona'ns el teu correo i et mantindrem informat":"Handle us your email and we'll keep you informed"
+,"Duplicar":"Clone"
+,"Duplicar el mapa":"Clone map"
 
 ,"Edició en mode demostració":"Demo mode edition"
 ,"Editar":"Edit"
@@ -451,6 +453,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Nom capa":"Layer name"
 ,"Nom d'usuari no disponible.":"Username not available."
 ,"Nom d'usuari o contrasenya incorrectes.":"Username or password invalid."
+,"Nom del nou mapa":"New map name"
 ,"Nom nova capa":"New layer name"
 ,"Nom":"Name"
 ,"Nom fitxer": "Filename"
