@@ -21,8 +21,7 @@ function getServeiJSONP(purlJson) {
 	jQuery("#txt_URLJSON");
 	var _htmlJSONFields = [];
 
-//	if (isValidURL(purlJson)) {
-		//jQuery('#div_layersJSON').addClass('waiting_animation');
+
 
 		getJSONPServei(purlJson).then(function(results) {
 							var op = [];
@@ -36,6 +35,12 @@ function getServeiJSONP(purlJson) {
 								}
 							}
 
+							if(purlJson.indexOf(paramUrl.presidentJSON)!= -1){
+							
+							creaCapaFromJSON(1);
+							
+							}else{
+							
 							if (!jQuery.isArray(respostaJSON)) {
 								alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
 								return;
@@ -127,10 +132,14 @@ function getServeiJSONP(purlJson) {
 							$('#cmd_json_y option:contains("lat")').prop(
 									'selected', true);
 
+							
+							
+							}
+									
 						});
 		
 		jQuery(document).on('click', "#bt_addJSON", function(e) {
-			creaCapaFromJSON();
+			creaCapaFromJSON(0);
 		});		
 		
 
@@ -143,18 +152,29 @@ function getServeiJSONP(purlJson) {
 
 
 
-function creaCapaFromJSON() {
+function creaCapaFromJSON(directe) {
 
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlJSON, 1]);
 //	_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'tipus':'json', 'url':urlJSON}]);
 	
-	var cmd_json_x = jQuery('#cmd_json_x').val();
-	var cmd_json_y = jQuery('#cmd_json_y').val();
-	var cmd_json_titol = jQuery('#cmd_json_titol').val();
-	var cmd_json_desc = jQuery('#cmd_json_desc').val();
-	var cmd_json_img = jQuery('#cmd_json_img').val();
-	var cmd_json_vin = jQuery('#cmd_json_vin').val();
-
+	
+	var cmd_json_x = "longitude";
+			var cmd_json_y = "latitude";
+			var cmd_json_titol ="titular";
+			var cmd_json_desc = "municipio";
+			var cmd_json_img = "imagen";
+			var cmd_json_vin = "url";
+	
+	
+	if(directe!=1){
+		cmd_json_x = jQuery('#cmd_json_x').val();
+		cmd_json_y = jQuery('#cmd_json_y').val();
+		cmd_json_titol = jQuery('#cmd_json_titol').val();
+		cmd_json_desc = jQuery('#cmd_json_desc').val();
+		cmd_json_img = jQuery('#cmd_json_img').val();
+		cmd_json_vin = jQuery('#cmd_json_vin').val();	
+	}
+	
 	if ((cmd_json_x == "null") || (cmd_json_y == "null")) {
 
 		alert(window.lang.convert("Els camps de coordenades no poden estar buits"));

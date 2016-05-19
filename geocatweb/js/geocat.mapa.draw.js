@@ -14,6 +14,8 @@ var canvas_obj_p,cv_ctx_p;
 var objEdicio={'esticEnEdicio':false,'obroModalFrom':'creaCapa','featureID':null,'esticSobre':false,'edicioPopup':'textFeature'};
 
 
+//colors:[['#ffc500', '#ff7f0b', '#ff4b3a', '#ae59b9', '#00afb5', '#7cbd00', '#90a6a9', '#ebf0f1']]
+
 function addDialegEstilsDraw() {
 	
 	addHtmlInterficieDraw();
