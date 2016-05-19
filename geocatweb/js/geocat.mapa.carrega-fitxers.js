@@ -13,6 +13,8 @@ var envioArxiu={isDrag:false,
 	tipusAcc:'gdal', //gdal,adreca,coordenades,codis
 	colX:null,
 	colY:null,
+	colWKT:null,
+	tipusCSV:null,
 	srid:'EPSG:4326',
 	bid:null,
 	codi:null,
@@ -73,6 +75,8 @@ function creaAreesDragDropFiles() {
 			formData.append("tipusAcc", envioArxiu.tipusAcc); //gdal,coordenades,codis,adreca
 			formData.append("colX", envioArxiu.colX);	
 			formData.append("colY", envioArxiu.colY);
+			formData.append("colWKT", envioArxiu.colWKT);
+			formData.append("tipusCSV", envioArxiu.tipusCSV);
 			formData.append("srid", envioArxiu.srid);
 			formData.append("bid", envioArxiu.bid);
 			formData.append("codiCAMP", envioArxiu.codi);//Nom de la columna de l'excel on esta el codi
@@ -293,6 +297,8 @@ function addFuncioCarregaFitxers(){
 				formData.append("tipusAcc", envioArxiu.tipusAcc); 
 				formData.append("colX", envioArxiu.colX);	
 				formData.append("colY", envioArxiu.colY);
+				formData.append("colWKT", envioArxiu.colWKT);
+				formData.append("tipusCSV", envioArxiu.tipusCSV);
 				formData.append("srid", envioArxiu.srid);
 				formData.append("bid", envioArxiu.bid);
 				formData.append("codiCAMP", envioArxiu.codi);
@@ -509,17 +515,25 @@ function addFuncioCarregaFitxers(){
 		var isOK=false;
 		var colX = jQuery("#cmd_upload_colX").val();
 		var colY = jQuery("#cmd_upload_colY").val();
+		var colWKT=jQuery("#cmd_upload_wkt").val();
 		var srid = jQuery("#select-upload-epsg").val();
+		var tipusCSV=jQuery('input:radio[name="opt_csv_field"]:checked').val();
 		
-		if (colX == "null" || colY == "null" ||srid == "null"  ) {
+		if ((colX == "null" || colY == "null" ||srid == "null")  && tipusCSV=='coords') {
 			isOK = false;
-			alert(window.lang.convert("Cal indicar els camps de les coordenades i el sistema de referència"));
+			alert(window.lang.convert("Cal indicar els camps de les coordenades i el sistema de referència"));		
+		}else if ((srid == "null" || colWKT=="null") && tipusCSV=='wkt') {	
+			isOK = false;
+			alert(window.lang.convert("Cal indicar el camp geomètric i el sistema de referència"));		
 		}else{
 			isOK = true;
 			
 			if(envioArxiu.ext=="csv"){
+				
 				envioArxiu.tipusAcc='gdal'; 
+				
 			}else if(envioArxiu.ext=="txt"){
+				
 					envioArxiu.tipusAcc='gdal'; 	
 			}else{
 				envioArxiu.tipusAcc='coordenades';	
@@ -528,13 +542,23 @@ function addFuncioCarregaFitxers(){
 			 //gdal,adreca,coordenades,codis
 			envioArxiu.colX=colX;
 			envioArxiu.colY=colY;
-			envioArxiu.srid=srid;	
+			envioArxiu.colWKT=colWKT;
+			envioArxiu.srid=srid;
+			envioArxiu.tipusCSV=tipusCSV;			
 			enviarArxiu();
 		}	
 	});	
 	
+	
+	jQuery('input:radio[name="opt_csv_field"]').on('click', function() {				
+		jQuery('#ul_coords').toggle();
+		jQuery('#ul_geom').toggle();		
+	});	
+	
+	
 	jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT	
 		var cc=$('input:radio[name="radio_adre"]:checked').val();
+		
 		//var isOK=false;
 		var isOK=true; //mientras adaptamos el nuevo geocodificador
 		envioArxiu.tipusAcc='adreca'; 
@@ -763,6 +787,10 @@ function analitzaMatriu(matriu) {
 
 	jQuery('#cmd_upload_colX').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
 	jQuery('#cmd_upload_colY').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_wkt').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
+	
+	
+	
 	jQuery('#cmd_upload_adre_0').html("<option value='null'>" + window.lang.convert('Selecciona un adreça sencera')+ "</option>"+op.join(" "));
 	jQuery('#cmd_upload_adre_11').html("<option value='null'>" + window.lang.convert('Selecciona nom carrer i número')+ "</option>"+op.join(" "));
 	jQuery('#cmd_upload_adre_12').html("<option value='null'>" + window.lang.convert('Selecciona municipi')+ "</option>"+op.join(" "));
@@ -794,6 +822,22 @@ function analitzaMatriu(matriu) {
 //			isCoordinates = true;
 			$('#nav_pill a[href="#opt_coord"]').tab('show');
 
+			
+		} else if (matriu[x].toUpperCase() == "POLIGONO"
+				|| matriu[x].toUpperCase() == "POLYGON"
+				|| matriu[x].toUpperCase() == "POINT"
+				|| matriu[x].toUpperCase() == "GEOM"
+				|| matriu[x].toUpperCase() == "LINESTRING") {
+
+			fieldType = "wkt";
+			$('#cmd_upload_wkt option:contains("' + matriu[x] + '")').prop(
+					'selected', true);
+//			isCoordinates = true;
+			$('#nav_pill a[href="#opt_coord"]').tab('show');	
+			//
+			jQuery("#opt_csv_geom").click();
+			
+			
 		} else if (matriu[x].toUpperCase() == "CARRER"
 				|| matriu[x].toUpperCase() == "ADRECA") {
 			fieldType = "adre";
@@ -1239,7 +1283,7 @@ function addHtmlModalCarregarFitxers(){
 		'			<div class="modal-body">'+
 		'				<div id="div_formats" class="alert alert-success">'+
 		'					<span class="glyphicon glyphicon-upload"></span>'+ 
-		'					<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, XLS, XLSX. </strong>'+ 
+		'					<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, geoCSV (WKT), DXF, DGN v7, XLS, XLSX. </strong>'+ 
 		'						<a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/carrega-de-dades-instamaps/" target="_blank">Més informació i exemples</a>'+
 		'				</div>'+
 		'				<div id="div_formats" class="alert alert-success">'+
@@ -1316,12 +1360,18 @@ function addHtmlModalCarregarFitxers(){
 		'							<div id="dv_contentOpt" class="tab-content tab-content-margin5px">'+
 		'								<div class="tab-pane active" id="opt_coord">'+
 		'									<ul class="bs-dadesO_JSON">'+
-		'										<li><label lang="ca">On són les coordenades?</label></li>'+
-		'										<li></li>'+
-		'										<li lang="ca">Coordenada X o Longitud</li>'+
-		'										<li><select style="width: 100%;" id=\'cmd_upload_colX\'></select></li>'+
-		'										<li lang="ca">Coordenada Y o Latitud</li>'+
-		'										<li><select style="width: 100%;" id=\'cmd_upload_colY\'></select></li>'+
+		'										<li style="width:90%"><label lang="ca">On són les coordenades : </label> <input id="opt_csv_coords" type="radio" value="coords" checked name="opt_csv_field"><label lang="ca">Camps XY</label> <input id="opt_csv_geom" type="radio" value="wkt" name="opt_csv_field"><label lang="ca">Geometria WKT</label></li>'+
+		//'										<li></li>'+
+		'                                       <ul id="ul_coords">'+
+		'											<li lang="ca">Coordenada X o Longitud</li>'+
+		'											<li><select style="width: 100%;" id=\'cmd_upload_colX\'></select></li>'+
+		'											<li lang="ca">Coordenada Y o Latitud</li>'+
+		'											<li><select style="width: 100%;" id=\'cmd_upload_colY\'></select></li>'+
+		'										</ul>'+
+		'                                       <ul id="ul_geom">'+										
+		'											<li lang="ca">Camp geomètric</li>'+
+		'											<li><select style="width: 100%;" id=\'cmd_upload_wkt\'></select></li>'+		
+		'										</ul>'+
 		'										<li><label lang="ca">Quin és el sistema de referència?</label></li>'+
 		'										<li>'+
 		'										<select id="select-upload-epsg" style="width: 100%">'+
