@@ -745,10 +745,15 @@ function accionaCarrega(file,isDrag) {
 		} else if (ff.ext == "xls") {
 			obteCampsXLS(file);
 			obroModal = true;
-		} else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "zip") || (ff.ext == "geojson") || (ff.ext == "json")) {
+			
+		} else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "zip") || 
+				(ff.ext == "geojson") || (ff.ext == "json") || (ff.ext == "tif")  || 
+				(ff.ext=="sid") || (ff.ext=="jpg") || (ff.ext=="ecw") ) {
+			
 			jQuery('#dv_optCapa').hide();
 			jQuery('#dv_optSRS').show();
 			obroModal = true;
+			
 		}else{
 			envioArxiu.tipusAcc='gdal'; 
 			enviarArxiu();
@@ -1122,7 +1127,7 @@ function miraFitxer(fitxer) {
 	obj.ext = fitxer.name.split('.').pop().toLowerCase();
 
 	var arr = [ 'shp', 'xls', 'xlsx', 'dgn', 'dxf', 'zip', 'geojson', 'kml',
-			'kmz', 'gml', 'xml', 'gpx', 'txt', 'csv', 'json' ];
+				'kmz', 'gml', 'xml', 'gpx', 'txt', 'csv', 'json', 'jpg', 'tif', 'sid', 'ecw' ];
 	
 	if (jQuery.inArray(obj.ext, arr) != -1) { // hi hso
 	
