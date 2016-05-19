@@ -85,8 +85,6 @@
         			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
         			
         			$.publish('reloadMapConfig','publicar/');
-        			
-        			
         		});
         	}
         },
@@ -133,8 +131,7 @@
 			$( ".text_error" ).remove();
 			$('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
-			
-			
+						
 			if(isGeolocalUser()){ //solo usuarios geolocal
 				//aspecte
 				if (that.mapConfig.options){
@@ -196,14 +193,12 @@
 				$('#dialgo_publicar .modal-body .modal-legend').hide();
 			}
 			
-			
 			//Traducció dels textos del modal de publicar
     		$('#titlePublicar').text(window.lang.convert($('#titlePublicar').text()));
     		$('#id_info_tab').text(window.lang.convert($('#id_info_tab').text()));
     		$('#id_privacitat_tab').text(window.lang.convert($('#id_privacitat_tab').text()));
     		$('#id_llegenda_tab').text(window.lang.convert($('#id_llegenda_tab').text()));
     		$('#id_reuse_tab').text(window.lang.convert($('#id_reuse_tab').text()));
-    		
     		
     		$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
 		    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
