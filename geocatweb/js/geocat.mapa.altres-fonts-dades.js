@@ -339,11 +339,13 @@ function addControlAltresFontsDades() {
 					//console.debug(e);
 					//URL PRESIDENT JSON
 					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
+						/*
 						jQuery("#div_url_file").show();
 						jQuery("#div_url_file").html(
 								'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
 								'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
 						);
+						*/
 						getServeiJSONP(this.dataset.url);
 						
 					}else{//LA RESTA
@@ -368,10 +370,12 @@ function addControlAltresFontsDades() {
 						
 						//URL PRESIDENT JSON
 						if(urlFile.indexOf(paramUrl.presidentJSON)!= -1){
+							/*
 							jQuery("#div_url_file").html(
 									'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
 									'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
 							);
+							*/
 							getServeiJSONP(urlFile);
 							
 						}else{//LA RESTA

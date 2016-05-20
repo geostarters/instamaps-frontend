@@ -536,6 +536,9 @@ function changeDefaultLineStyle(canvas_linia){
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
 	estilTMP.tipus=t_polyline;
+	
+	
+	
 	if(objEdicio.obroModalFrom==from_creaCapa){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}

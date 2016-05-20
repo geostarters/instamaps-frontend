@@ -438,6 +438,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Moure":"Move"
 ,"Municipis":"Municipalities"
 ,"Múltiples formats: KML, GPX, DXF, SHP, GEOJSON, etc.":"Many different formats: KML, GPX, DXF, SHP, GEOJSON, etc."
+,"M'agrada":"Like"
 
 ,"Necessitem les següent informació per processar el fitxer correctament":"We need the following information to process the file correctly"
 ,"Neteja ordre": "Clean sort"

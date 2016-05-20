@@ -189,13 +189,23 @@ var curs_instamaps = "2n curs InstaMaps";
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
 		"dadesExternes" : [
-				
-   				{
+		
+				{
 	                "titol" : "Actes president.cat",
 	                "ORGANITZAC" : "president.cat",
 	                "urlOrganitzacio" : "http://www.president.cat",
 	                "urlDadesExternes" : "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
 				},				
+   				{
+	                "titol" : "Plaques Tectòniques",
+	                "ORGANITZAC" : "earthquake.usgs.gov",
+	                "urlOrganitzacio" : "http://earthquake.usgs.gov",
+	                "urlDadesExternes" : "http://earthquake.usgs.gov/learn/plate-boundaries.kmz",					
+					"formatDadesExternes": t_file_kml,
+					"epsgDadesExternes":"EPSG:4326"
+				},	
+
+				
 				{
 					"titol" : "Ciutats del món",
 					"ORGANITZAC" : "Wikipedia",
@@ -220,6 +230,7 @@ var llista_dadesExternes = {
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
 				},
+				
 				{//https://github.com/FCC/lpfmpoints
 					"titol" : "U.S. Low Power FM station",
 					"ORGANITZAC" : "LPFM",
@@ -227,7 +238,8 @@ var llista_dadesExternes = {
 					"urlDadesExternes" : "https://raw.githubusercontent.com/FCC/lpfmpoints/gh-pages/data/lpfm_points.geojson",
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
-				},				
+				},	
+			
 				{
 					"titol" : "Camí de Sant Jaume",
 					"ORGANITZAC" : "Gencat",
