@@ -945,7 +945,7 @@ function deleteUser(params){
   		dataType: 'jsonp'
 	}).promise();
 }
-
+/*
 function updateRankAplicacio(params){
 	return jQuery.ajax({
 		url: paramUrl.updateRankAplicacio,
@@ -954,6 +954,7 @@ function updateRankAplicacio(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+*/
 function buffer(params){
 	return jQuery.ajax({
 		url: paramUrl.buffer,
