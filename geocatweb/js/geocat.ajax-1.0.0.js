@@ -1,11 +1,4 @@
-function loadGaleria(params){
-	return jQuery.ajax({
-		url: paramUrl.getAllMapsByUser,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp'
-	}).promise();
-}
+
 
 function loadPublicGaleria(params){
 	return jQuery.ajax({
