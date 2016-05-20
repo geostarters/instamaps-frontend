@@ -43,6 +43,10 @@ html,body {
 	padding-left: 3px; 
 }
 
+.edicio-popup a.faqs_link{
+	color: #333333;
+	font-size: 1.46em;
+}
 
 /*Animacio */
 #div_loading{

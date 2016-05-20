@@ -64,6 +64,10 @@ html,body {
 	padding-left: 3px; 
 }
 
+.edicio-popup a.faqs_link{
+	color: #333333;
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;

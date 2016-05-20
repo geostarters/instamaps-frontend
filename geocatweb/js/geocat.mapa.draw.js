@@ -1536,7 +1536,9 @@ function createPopUpContent(player,type){
 	else {
 		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span>  </li>';					
 	}
-		
+	
+	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>';
+	
 	html+='</ul>'														
 	+'</div>'
 	
