@@ -208,7 +208,7 @@ function updateGeometriaEstil(layer, nouEstil){
 	    if(results.status == 'OK'){
 			nouEstil.businessId = results.estilBid;
 			layer.properties.estil = nouEstil;
-			console.debug(layer);
+		
 	    }else{
 	        console.debug("updateGeometria ERROR");
 	    }
@@ -219,6 +219,10 @@ function updateGeometriaEstil(layer, nouEstil){
 
 function activaPuntZ(){
 //	jQuery(".bs-punts li").removeClass("estil_selected");
+
+
+
+
 	jQuery('#div_puntM').removeClass("estil_selected");
 	jQuery('#div_puntZ').addClass("estil_selected");
 	estilP.iconFons=jQuery('#div_punt9').attr('class');
