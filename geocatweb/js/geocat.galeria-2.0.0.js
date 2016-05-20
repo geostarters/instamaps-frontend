@@ -441,10 +441,16 @@
 				$('#dialgo_duplicar_mapa').data('businessid', $this.data("businessid"));
 				$('#dialgo_duplicar_mapa #nomMapaDuplicar').val($this.data("nomaplicacio")+"_duplicat");
 				busy=true;
+				$('#infoDuplicar').attr("style","display:none;");
+				$('#dialgo_duplicar_mapa #cancelarBoto').text("Cancel·lar");
+				$('#dialgo_duplicar_mapa #cancelarBoto').attr("class","btn btn-default");
+				$('#dialgo_duplicar_mapa #cancelarBoto').removeAttr("disabled");
+				$('#dialgo_duplicar_mapa #duplicarBoto').attr("style","display:inline");	
+				$('#infoText').attr("style","display:none;");
 				$('#dialgo_duplicar_mapa').modal('show');
 			});
 			
-			$('#dialgo_duplicar_mapa .btn-success').on('click', function(event){
+			$('#dialgo_duplicar_mapa #duplicarBoto').on('click', function(event){
 				event.preventDefault();
 				event.stopImmediatePropagation();
 				var $this = $(this);
@@ -1004,17 +1010,24 @@
 								success: function(data){
 									//console.debug(data);
 									//$('#dialgo_duplicar_mapa').modal('hide');
-									
-									if(data.status.indexOf("PAS")!=-1 && busy){
+									$('#infoDuplicar').attr("style","display:block;padding:5px;");
 									$('#loadingGaleria_duplicate').attr("style","display:block");
 									$('#dialgo_duplicar_mapa #cancelarBoto').text("Acceptar");
+									$('#dialgo_duplicar_mapa #cancelarBoto').attr("class","btn btn-success btn-default");
 									$('#dialgo_duplicar_mapa #cancelarBoto').attr("disabled", true);
 									$('#dialgo_duplicar_mapa #duplicarBoto').attr("style","display:none");		
 										
+									if(data.status.indexOf("PAS")!=-1 && busy){
+									
 									}else if(data.status.indexOf("OK")!=-1 && busy){
 										busy=false;
 										clearInterval(pollInterval);
-										var spanText = '<span class="ca">Procés finalitzat correctament</span>';
+										$('#infoDuplicar').attr("style","display:none");
+										var urlMapaDuplicat = 'http://localhost/geocatweb/mapa.html?businessid='+data.results.businessId;
+										var spanText = '<span lang="ca" class="status_check">Procés finalitzat correctament</span>';
+										spanText += ' <div id="urlMapDuplicat"><a target="_blank" href="'+urlMapaDuplicat+'">'+
+													' <span lang="ca">Veure el mapa</span><span class="glyphicon glyphicon-share-alt"></span>'+
+													' </a></div>';	
 										$('#infoText').html(spanText);
 										$('#infoText').attr("style","display:block");
 										$('#loadingGaleria_duplicate').attr("style","display:none");
@@ -1023,12 +1036,18 @@
 										self.refresh();		
 										var sort = self.getOrderGaleria();
 										self.reorderGaleria(sort);
-										self.reorderGaleria(sort);
 									}else if(data.status.indexOf("ERROR")!=-1 && busy){
 										console.error("Error calculant l'operació");
 										console.error(data);
 										busy = false;										
 										clearInterval(pollInterval);
+										clearInterval(pollInterval);
+										$('#infoDuplicar').attr("style","display:none");
+										var spanText = '<span lang="ca" class="status_check">Error al duplicar el mapa</span>';
+										$('#infoText').html(spanText);
+										$('#infoText').attr("style","display:block");
+										$('#loadingGaleria_duplicate').attr("style","display:none");
+										$('#dialgo_duplicar_mapa #cancelarBoto').removeAttr("disabled");
 										//error
 									}
 									else if (!busy){
