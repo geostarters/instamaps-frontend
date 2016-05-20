@@ -127,7 +127,7 @@
 						<div class="sortButton">
 						<button class="sort" data-sort="nomAplicacioSort" lang="ca">Ordena per nom</button>
 						<button class="sort" data-sort="byuser" lang="ca" id="sortbyuser">Ordena per usuari</button>
-						<button class="sort" data-sort="dataPublicacio" lang="ca">Ordena per data</button>
+						<button class="sort" data-sort="dataPublicacio" lang="ca" id="botoSortData">Ordena per data</button>
 						</div>
 						<!--  button class="sort cleansort" lang="ca">Neteja ordre</button-->
 						<ul class="list"></ul>
@@ -499,14 +499,36 @@
 					<h4 lang="ca" class="modal-title">Duplicar el mapa</h4>
 				</div>
 				<div class="modal-body">
+					<!-- div id="loadingGaleria_duplicate">
+					<div id="preloader6">
+				        <span></span>
+				        <span></span>
+				        <span></span>
+				        <span></span>
+				    </div>
+				    </div-->
 					<span lang="ca">Nom del nou mapa:</span>
 					<input type="text" value="" id="nomMapaDuplicar" style="width:400px"/>
+					<br/><br/>
+					<div class="alert-success" style="padding:5px">
+					<span class="glyphicon glyphicon-info-sign"></span>
+					<span lang="ca">El procés de duplicar un mapa pot trigar minuts. Espereu si us plau.</span>
+					</div>
+					<div id="loadingGaleria_duplicate" style="display:none;">
+						<div id="preloader6">
+					        <span></span>
+					        <span></span>
+					        <span></span>
+					        <span></span>
+					    </div>
+				    </div>
+				    <div id="infoText" style="display:none"></div>
 				</div>
 				<div class="modal-footer">
 					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Cancel·lar</button>
+						data-dismiss="modal" id="cancelarBoto">Cancel·lar</button>
 					<button lang="ca" type="button" class="btn btn-success btn-default"
-						data-dismiss="modal">Duplicar</button>
+						data-dismiss="modal" id="duplicarBoto">Duplicar</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
