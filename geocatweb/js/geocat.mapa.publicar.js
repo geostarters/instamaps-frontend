@@ -128,6 +128,8 @@
 			}
 			
 			that._createModalConfigDownload();
+			
+			that._createModalVisor();
 
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
@@ -804,6 +806,50 @@
         		},
         		'ifUnchecked': function(event){
         			$('.downloadable-subrow input').iCheck('uncheck');
+        		} 
+        	});
+        },
+        
+        _createModalVisor: function(){
+        	var count = 0;
+        	var html = window.lang.convert('Escull els paràmetres que vols afegir al visor')+'<br/><br/>'; 
+        	html += '<label class="control-label" lang="ca">'+
+        		window.lang.convert('Paràmetres visor:')+
+        		'</label>';
+        	
+        	html += '<div id="div_params_visor">'+
+        			'<div class="separate-visor-row-all"></div>'+
+        			'<div class="visor-subrow-all">'+
+        			'<div class="col-md-9 visor-name-all">'+
+        				window.lang.convert('Tots els paràmetres')+
+        			'</div>'+
+        			'<input id="visor-chck-all" class="col-md-1 download-chck" type="checkbox">'+
+        			'</div>';
+        	html += '<div class="separate-visor-row-all"></div>';	
+        	
+        	jQuery.each(params_visor.paramsVisor, function(key, params) {
+        		html += '<div class="visor-subrow" data-param="'+params.param+'">'+
+				'<div class="col-md-9 visor-name">'+
+					params.text+
+				'</div>'+
+				'<input id="visor-chck" class="col-md-1 visor-chck" type="checkbox"  >'+
+				'</div>';	
+        		html+='<div class="separate-visor-row"></div>';	
+			});				
+		
+        	$('#dialgo_publicar #id_visor').html(html);	
+        	
+        	$('#div_params_visor input').iCheck({
+        	    checkboxClass: 'icheckbox_flat-blue',
+        	    radioClass: 'iradio_flat-blue'
+        	});
+        	
+        	$('.visor-subrow-all input').on({
+        		'ifChecked': function(event){
+        			$('.visor-subrow input').iCheck('check');
+        		},
+        		'ifUnchecked': function(event){
+        			$('.visor-subrow input').iCheck('uncheck');
         		} 
         	});
         },

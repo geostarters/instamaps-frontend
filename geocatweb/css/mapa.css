@@ -3955,7 +3955,8 @@ i.fa {
      position: relative;	
 }
 .legend-name-all,
-.downloadable-name-all{
+.downloadable-name-all,
+.visor-name-all{
 	font-weight: bold;	
 }
 .separate-legend-row-all{
@@ -4089,6 +4090,45 @@ i.fa {
     margin-right: 4%;
 }
 
+#div_params_visor{
+	width: 85%;
+}
+.visor-subrow-all{
+	/*border-bottom: 1px solid #E5E5E5;*/
+	margin-bottom: 5px;
+	margin-top: 5px;
+	overflow: hidden;
+	/*text-align: center;*/	
+}
+.visor-subrow{
+	margin-bottom: 3px;
+	margin-top: 3px;
+	overflow: hidden;
+}
+.visor-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.separate-visor-row-all{
+    border-bottom: 3px solid #E5E5E5;
+ /*   margin-bottom: 5px;
+    padding-top: 5px;
+    overflow: hidden;
+    width: 100%*/
+    margin-left: 3%;
+    margin-right: 4%;
+}
+
+.separate-visor-row{
+    border-bottom: 1px solid #E5E5E5;
+ /*   margin-bottom: 5px;
+    padding-top: 5px;
+    overflow: hidden;
+    width: 100%*/
+    margin-left: 3%;
+    margin-right: 4%;
+}
 /*******************************/
 
 .div_hill_f{
