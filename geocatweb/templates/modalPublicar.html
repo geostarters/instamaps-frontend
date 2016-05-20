@@ -1,128 +1,161 @@
 <!-- Modal Publicar -->
 <div id="dialgo_publicar" class="modal fade" >
 	<div class="modal-dialog">
-  	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 lang="ca" class="modal-title" id="titlePublicar">Publicar el mapa</h4>
-		</div>	
-						<div class="modal-body">
-						<ul class="nav nav-tabs etiqueta">
-							<li><a href="#id_info" id="id_info_tab" lang="ca" data-toggle="tab"">Informaci&oacute;</a></li>
-							<li><a href="#id_privacitat" id="id_privacitat_tab" lang="ca" data-toggle="tab">Privacitat</a></li>
-							<li><a href="#id_llegenda" id="id_llegenda_tab" lang="ca" data-toggle="tab">Llegenda</a></li>
-							<li><a href="#id_reuse" id="id_reuse_tab" lang="ca" data-toggle="tab">Reutilitzaci&oacute;</a></li>
-							<li><a href="#id_visor" id="id_visor_tab" lang="ca" data-toggle="tab">Par&agrave;metres visor</a></li>
-							<li style="display:none;" id="geolocal_tab"><a href="#id_geolocal" lang="ca" data-toggle="tab">Geolocal</a></li>
-						</ul>
-						<div class="tab-content tab-content-margin5px">
-							<div class="tab-pane fade" id="id_info">
-							<section>
-								<fieldset>
-									<input lang="ca" id="nomAplicacioPub" type="text" required
-										class="form-control my-border" placeholder="Nom" value="">
-									<input lang="ca" id="optDescripcio" type="text" 
-										class="form-control my-border" placeholder="Descripció" value=""> 
-									<input lang="ca" id="optTags" type="text" 
-										class="form-control my-border" placeholder="Etiquetes" value="">
-								</fieldset>
-								</section>
-								<div lang="ca" class="alert alert-info">
-									<span class="glyphicon glyphicon-info-sign"></span> 
-									<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
-								</div>
-							</div>
-							<div class="tab-pane fade" id="id_privacitat">
-							<br/>
-							<div lang="ca">
-								<span><span class='fa fa-unlock' style="font-size:20px"></span>&nbsp;&nbsp;<input type="radio" name="privacitat" value="obert">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkObert">Obert</span><span  lang='ca' style="margin-left:30px;" id="txtPublic">Tothom amb l'enlla&ccedil; pot accedir al mapa</span></span><br/>
-								<span><span class='fa fa-lock' style="font-size:20px"></span>&nbsp;&nbsp;&nbsp;<input type="radio" name="privacitat" value="restringit">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkRestringit">Restringit</span><span lang='ca' style="margin-left:8px;" id="txtPrivat">L'acc&eacute;s al mapa es protegit amb clau</span></span>
-								<div class="control-group protegit" style="display:inline;float:right;">								
-									<span class="clau"><input type="password" id="map_clau" maxLength="20" value="Clau" style="width:140px;" disabled></span>
-									<button type="button" id="resetClau" class="btn btn-xs btn-info" lang="ca">Reiniciar</button>
-								</div>	
-							</div>
-							<br/>
-							<div lang="ca">
-								<span><span class='glyphicon glyphicon-eye-open' style="font-size:15px"></span>&nbsp;&nbsp;<input type="radio" name="publicitat" value="public">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkPublic">P&uacute;blic</span><span  lang='ca' style="margin-left:31px;" id="txtVisible">El mapa &eacute;s visible a la galeria p&uacute;blica</span></span><br/>
-								<span><span class='glyphicon glyphicon-eye-close' style="font-size:15px"></span>&nbsp;&nbsp;&nbsp;<input type="radio" name="publicitat" value="privat">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkPrivat">Privat</span><span lang='ca' style="margin-left:30px;" id="txtNoVisible">El mapa nom&eacute;s &eacute;s visible a la teva galeria privada</span></span>
-									</div>
-							
-							</div>
-							<div class="tab-pane fade" id="id_llegenda">
-								<div class="control-switch">
-									<label class="control-label" for="llegenda_chk" lang="ca" id="llegendaTitle">Llegenda</label>
-									<div class="controls">
-										<div tabindex="0" lang="ca">
-											<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" 
-												data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
-												data-on-text="<span id='publish-legend-yes' lang='ca'>Si</span>"
-												data-off-text="<span id='publish-legend-no' lang='ca'>No</span>">
-											&nbsp;&nbsp;&nbsp;&nbsp;<span lang="ca" id="textLegend">Escull si vols o no generar la llegenda associada al mapa</span>
-										</div>
-									</div>
-								</div>
-								<div class="modal-legend"></div>
+	  	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 lang="ca" class="modal-title" id="titlePublicar">Publicar el mapa</h4>
+			</div>	
+			<div class="modal-body">
+				<ul class="nav nav-tabs etiqueta">
+					<li><a href="#id_info" id="id_info_tab" lang="ca" data-toggle="tab"">Informació</a></li>
+					<li><a href="#id_privacitat" id="id_privacitat_tab" lang="ca" data-toggle="tab">Privacitat</a></li>
+					<li><a href="#id_llegenda" id="id_llegenda_tab" lang="ca" data-toggle="tab">Llegenda</a></li>
+					<li><a href="#id_reuse" id="id_reuse_tab" lang="ca" data-toggle="tab">Reutilització</a></li>
+					<li><a href="#id_parametres" id="id_parametres_tab" lang="ca" data-toggle="tab">Paràmetres visor</a></li>
+					<li style="display:none;" id="geolocal_tab"><a href="#id_geolocal" lang="ca" data-toggle="tab">Geolocal</a></li>
+				</ul>
+				<div class="tab-content tab-content-margin5px">
+					<div class="tab-pane fade" id="id_info">
+					<section>
+						<fieldset>
+							<input lang="ca" id="nomAplicacioPub" type="text" required
+								class="form-control my-border" placeholder="Nom" value="">
+							<input lang="ca" id="optDescripcio" type="text" 
+								class="form-control my-border" placeholder="Descripció" value=""> 
+							<input lang="ca" id="optTags" type="text" 
+								class="form-control my-border" placeholder="Etiquetes" value="">
+						</fieldset>
+						</section>
+						<div lang="ca" class="alert alert-info">
+							<span class="glyphicon glyphicon-info-sign"></span> 
+							<span lang="ca" id="publish-warn-text">El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles</span> 
+						</div>
+					</div>
+					<div class="tab-pane fade" id="id_privacitat">
+						<br/>
+						<div lang="ca">
+							<span><span class='fa fa-unlock' style="font-size:20px"></span>&nbsp;&nbsp;<input type="radio" name="privacitat" value="obert">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkObert">Obert</span><span  lang='ca' style="margin-left:30px;" id="txtPublic">Tothom amb l'enlla&ccedil; pot accedir al mapa</span></span><br/>
+							<span><span class='fa fa-lock' style="font-size:20px"></span>&nbsp;&nbsp;&nbsp;<input type="radio" name="privacitat" value="restringit">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkRestringit">Restringit</span><span lang='ca' style="margin-left:8px;" id="txtPrivat">L'acc&eacute;s al mapa es protegit amb clau</span></span>
+							<div class="control-group protegit" style="display:inline;float:right;">								
+								<span class="clau"><input type="password" id="map_clau" maxLength="20" value="Clau" style="width:140px;" disabled></span>
+								<button type="button" id="resetClau" class="btn btn-xs btn-info" lang="ca">Reiniciar</button>
 							</div>	
-							<div class="tab-pane fade" id="id_reuse">
-								<div class="modal-downloadable"></div>
+						</div>
+						<br/>
+						<div lang="ca">
+							<span><span class='glyphicon glyphicon-eye-open' style="font-size:15px"></span>&nbsp;&nbsp;<input type="radio" name="publicitat" value="public">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkPublic">P&uacute;blic</span><span  lang='ca' style="margin-left:31px;" id="txtVisible">El mapa &eacute;s visible a la galeria p&uacute;blica</span></span><br/>
+							<span><span class='glyphicon glyphicon-eye-close' style="font-size:15px"></span>&nbsp;&nbsp;&nbsp;<input type="radio" name="publicitat" value="privat">&nbsp;<span  lang='ca' style="font-size:15px;" id="checkPrivat">Privat</span><span lang='ca' style="margin-left:30px;" id="txtNoVisible">El mapa nom&eacute;s &eacute;s visible a la teva galeria privada</span></span>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="id_llegenda">
+						<div class="control-switch">
+							<label class="control-label" for="llegenda_chk" lang="ca" id="llegendaTitle">Llegenda</label>
+							<div class="controls">
+								<div tabindex="0" lang="ca">
+									<input class="make-switch" name="my-legend-checkbox" id="llegenda_chk" type="checkbox" 
+										data-label-text="<span class='glyphicon glyphicon-transfer'></span>" 
+										data-on-text="<span id='publish-legend-yes' lang='ca'>Si</span>"
+										data-off-text="<span id='publish-legend-no' lang='ca'>No</span>">
+									&nbsp;&nbsp;&nbsp;&nbsp;<span lang="ca" id="textLegend">Escull si vols o no generar la llegenda associada al mapa</span>
+								</div>
 							</div>
-							<div class="tab-pane fade" id="id_visor">
-								<div class="modal-visor"></div>
+						</div>
+						<div class="modal-legend"></div>
+					</div>	
+					<div class="tab-pane fade" id="id_reuse">
+						<div class="modal-downloadable"></div>
+					</div>
+					<div class="tab-pane fade" id="id_parametres">
+						<div lang="ca">Escull els paràmetres que vols afegir al visor</div>
+						<br/>
+						<div class="row">
+							<div lang="ca" class="col-md-8">Paràmetres:</div>
+							<div lang="ca" class="col-md-2 text-center">Visor</div>
+							<div lang="ca" class="col-md-2 text-center">Iframe</div>
+						</div>
+						<div id="div_params_visor" class="row">
+        					<div class="separate-visor-row-all"></div>
+        					<div class="visor-subrow-all">
+        						<div class="col-md-8 visor-name-all" lang="ca">Tots els paràmetres</div>
+        						<div class="col-md-2 text-center">
+        							<input id="visor-chck-all" class="download-chck" type="checkbox">
+        						</div>
+        						<div class="col-md-2 text-center">
+        							<input id="iframe-chck-all" class="col-md-2 download-chck" type="checkbox">
+        						</div>
+        					</div>
+        					<div class="list-parameters"></div>
+        					<script id="list-parameter-fields" type="text/x-handlebars-template">
+								{{#each paramsVisor}}
+									<div class="separate-visor-row"></div>
+									<div class="visor-subrow" data-param={{param}}">
+										<div class="col-md-8 visor-name">{{text}}</div>
+										<div class="col-md-2 text-center">
+											<input id="visor-chck" class="col-md-1 visor-chck" type="checkbox">
+										</div>
+										<div class="col-md-2 text-center">
+											<input id="visor-chck" class="col-md-1 visor-chck" type="checkbox">
+										</div>	
+									</div>
+								{{/each}}
+							</script>
+        				</div>	
+        					
+        					
+        			</div>
+					<div class="tab-pane fade" id="id_geolocal" lang="ca">
+						<div class="row modal-public-aspect">
+							<div class="col-xs-6">
+								<div class=""><label class="control-label" lang="ca">Aspecte</label></div>
+								<div class="">
+									<span lang="ca">Color de la barra superior</span>
+									<div class="btn-group">
+										<input type="text" id="in_fill_menu_bar" class="text_color">
+										<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+											<div id="dv_fill_menu_bar" class="color_selector dv_fill_menu_bar"></div>
+										</a>
+										<ul class="dropdown-menu">
+											<li><div id="colorpalette_menu_bar"></div></li>
+										</ul>
+									</div>
+								</div>
+								<div class="">
+									<span lang="ca">Color del text</span>
+									<div class="btn-group">
+										<input type="text" id="in_color_text_bar" class="text_color">
+										<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+											<div id="dv_color_text_bar" class="color_selector dv_color_text_bar"></div>
+										</a>
+										<ul class="dropdown-menu">
+											<li><div id="colorpalette_text_bar"></div></li>
+										</ul>
+									</div>
+								</div>
+								<div class="text-font">
+									<span lang="ca">Font</span>
+									<div class="bfh-selectbox bfh-fonts" data-font="Arial" data-available="Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana"></div>
+								</div>
+								<div class="form-inline form-group">
+			    					<span lang="ca">Contacte</span>
+			    					<input type="email" class="form-control my-border" id="contacte" placeholder="joan.ros@exemple.cat">
+			  					</div>
 							</div>
-							<div class="tab-pane fade" id="id_geolocal" lang="ca">
-								<div class="row modal-public-aspect">
-									<div class="col-xs-6">
-										<div class=""><label class="control-label" lang="ca">Aspecte</label></div>
-										<div class="">
-											<span lang="ca">Color de la barra superior</span>
-											<div class="btn-group">
-												<input type="text" id="in_fill_menu_bar" class="text_color">
-												<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-													<div id="dv_fill_menu_bar" class="color_selector dv_fill_menu_bar"></div>
-												</a>
-												<ul class="dropdown-menu">
-													<li><div id="colorpalette_menu_bar"></div></li>
-												</ul>
-											</div>
-										</div>
-										<div class="">
-											<span lang="ca">Color del text</span>
-											<div class="btn-group">
-												<input type="text" id="in_color_text_bar" class="text_color">
-												<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-													<div id="dv_color_text_bar" class="color_selector dv_color_text_bar"></div>
-												</a>
-												<ul class="dropdown-menu">
-													<li><div id="colorpalette_text_bar"></div></li>
-												</ul>
-											</div>
-										</div>
-										<div class="text-font">
-											<span lang="ca">Font</span>
-											<div class="bfh-selectbox bfh-fonts" data-font="Arial" data-available="Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana"></div>
-										</div>
-										<div class="form-inline form-group">
-					    					<span lang="ca">Contacte</span>
-					    					<input type="email" class="form-control my-border" id="contacte" placeholder="joan.ros@exemple.cat">
-					  					</div>
-									</div>
-									<div class="col-xs-6">
-										<div class=""><label class="control-label" lang="ca">Escut</label></div>
-										<div class="dropzone" id="file-logo">
-											<img class="logo" src="/logos/blank.gif">
-										</div>
-									</div>
+							<div class="col-xs-6">
+								<div class=""><label class="control-label" lang="ca">Escut</label></div>
+								<div class="dropzone" id="file-logo">
+									<img class="logo" src="/logos/blank.gif">
 								</div>
 							</div>
 						</div>
 					</div>
-	
-		<div class="modal-footer" lang="ca">
-			<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal" id="cancelPublicar">Cancel·lar</button>
-			<button lang="ca" type="button" class="btn btn-primary" id="okPublicar">Publicar</button>
-		</div>
-	</div><!-- /.modal-content -->
+				</div>
+			</div>
+			<div class="modal-footer" lang="ca">
+				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal" id="cancelPublicar">Cancel·lar</button>
+				<button lang="ca" type="button" class="btn btn-primary" id="okPublicar">Publicar</button>
+			</div>
+		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- Fi Modal Publicar -->

@@ -1,13 +1,94 @@
 /*
  * Funcionalitat de publicació del mapa
- * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url 
+ * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url, handlebars 
  */
 (function ( $, window, document, undefined ) {
    "use strict";
    	var Publicar = {
    			
    		mapConfig:null,
-        map:null,	
+        map:null,
+        
+        params_visor: {
+    		"paramsVisor" : [
+    		    {
+					"param": "llegenda",
+					"text":"Llegenda en el visor"
+				},
+				{
+					"param": "mouseposition",
+					"text":"Coordenades del ratolí"
+				},
+				{
+					"param": "layerscontrol",
+					"text":"Control de capes"
+				},
+				{
+					"param": "printcontrol",
+					"text":"Control d'impressió"
+				},
+				{
+					"param": "minimapcontrol",
+					"text":"Control minimapa"
+				},
+				{
+					"param": "snapshotcontrol",
+					"text":"Control captura imatge"
+				},
+				{
+					"param": "geopdfcontrol",
+					"text":"Control GeoPdf"
+				},
+				{
+					"param": "geopdfcontrol",
+					"text":"Control GeoPdf"
+				},
+				{
+					"param": "fonscontrol",
+					"text":"Control de fons"
+				},
+				{
+					"param": "sharecontrol",
+					"text":"Control de compartir en xarxes socials"
+				},
+				{
+					"param": "likecontrol",
+					"text":"Control de M'agrada"
+				},
+				{
+					"param": "searchcontrol",
+					"text":"Control de cerca"
+				},
+				{
+					"param": "routingcontrol",
+					"text":"Control de routing"
+				},
+				{
+					"param": "openinstamaps",
+					"text":"Control de ampliar el mapa"
+				},
+				{
+					"param": "scalecontrol",
+					"text":"Control d'escala"
+				},
+				{
+					"param": "control3d",
+					"text":"Control de 3D"
+				},
+				{
+					"param": "homecontrol",
+					"text":"Control de tornar a la vista inicial"
+				},
+				{
+					"param": "locationcontrol",
+					"text":"Control de localització"
+				},
+				{
+					"param": "zoomcontrol",
+					"text":"Control de zoom"
+				}
+			] 
+        },
    			
         init: function() {
         	this.containerId = '#funcio_publicar';
@@ -811,7 +892,10 @@
         },
         
         _createModalVisor: function(){
-        	var count = 0;
+        	var self = this,
+        	count = 0,
+        	html = "";
+        	/*
         	var html = window.lang.convert('Escull els paràmetres que vols afegir al visor')+'<br/><br/>'; 
         	html += '<label class="control-label" lang="ca">'+
         		window.lang.convert('Paràmetres visor:')+
@@ -825,9 +909,15 @@
         			'</div>'+
         			'<input id="visor-chck-all" class="col-md-1 download-chck" type="checkbox">'+
         			'</div>';
-        	html += '<div class="separate-visor-row-all"></div>';	
+        	html += '<div class="separate-visor-row-all"></div>';
+        	*/
         	
-        	jQuery.each(params_visor.paramsVisor, function(key, params) {
+        	var source = $("#list-parameter-fields").html();
+        	var template = Handlebars.compile(source);
+        	html = template(self.params_visor);
+        	
+        	/*
+        	jQuery.each(self.params_visor.paramsVisor, function(key, params) {
         		html += '<div class="visor-subrow" data-param="'+params.param+'">'+
 				'<div class="col-md-9 visor-name">'+
 					params.text+
@@ -835,16 +925,17 @@
 				'<input id="visor-chck" class="col-md-1 visor-chck" type="checkbox"  >'+
 				'</div>';	
         		html+='<div class="separate-visor-row"></div>';	
-			});				
+			});
+        	*/
 		
-        	$('#dialgo_publicar #id_visor').html(html);	
+        	$('#dialgo_publicar .list-parameters').html(html);	
         	
         	$('#div_params_visor input').iCheck({
         	    checkboxClass: 'icheckbox_flat-blue',
         	    radioClass: 'iradio_flat-blue'
         	});
         	
-        	$('.visor-subrow-all input').on({
+        	$('.visor-subrow-all #visor-chck-all').on({
         		'ifChecked': function(event){
         			$('.visor-subrow input').iCheck('check');
         		},

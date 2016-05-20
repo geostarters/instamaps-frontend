@@ -4082,24 +4082,16 @@ i.fa {
 
 .separate-downloadable-row{
     border-bottom: 1px solid #E5E5E5;
- /*   margin-bottom: 5px;
-    padding-top: 5px;
-    overflow: hidden;
-    width: 100%*/
     margin-left: 3%;
     margin-right: 4%;
 }
 
-#div_params_visor{
-	width: 85%;
-}
 .visor-subrow-all{
-	/*border-bottom: 1px solid #E5E5E5;*/
 	margin-bottom: 5px;
 	margin-top: 5px;
 	overflow: hidden;
-	/*text-align: center;*/	
 }
+
 .visor-subrow{
 	margin-bottom: 3px;
 	margin-top: 3px;
@@ -4112,20 +4104,12 @@ i.fa {
 
 .separate-visor-row-all{
     border-bottom: 3px solid #E5E5E5;
- /*   margin-bottom: 5px;
-    padding-top: 5px;
-    overflow: hidden;
-    width: 100%*/
     margin-left: 3%;
     margin-right: 4%;
 }
 
 .separate-visor-row{
     border-bottom: 1px solid #E5E5E5;
- /*   margin-bottom: 5px;
-    padding-top: 5px;
-    overflow: hidden;
-    width: 100%*/
     margin-left: 3%;
     margin-right: 4%;
 }
