@@ -73,7 +73,7 @@
 			title = "Mapa  "+ layername +" cloudifier",
 			_map = visor.map;
 			
-			$('meta[name="og:title"]').attr('content', title);
+			$('meta[poperty="og:title"]').attr('content', title);
 			$('#nomAplicacio').html(title);
 			document.title = title;
 			$("#mapTitle").html(title);
