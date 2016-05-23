@@ -1068,12 +1068,20 @@
 						uid:self.options.uid,
 						duplicate: 'si',
 						urlDuplicar: paramUrl.duplicateMap,
-						businessIdDuplicar:$('#dialgo_duplicar_mapa').data('businessid'),
-						nomDuplicar: $('#dialgo_duplicar_mapa #nomMapaDuplicar').val(),
+						businessId:$('#dialgo_duplicar_mapa').data('businessid'),
+						nom: $('#dialgo_duplicar_mapa #nomMapaDuplicar').val(),
 						tmpFilePath: tmpFile
 					};
 								
 					callActions(data);
+					/*self._duplicateMap(data).then(function(results){
+					if (results.status == "OK"){
+						self._hideLoading();
+						self.refresh();
+						$('#dialgo_duplicar_mapa').modal('hide');
+						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'duplicar aplicacio']);
+					}
+					});*/	
 				
 				}
 				else {
@@ -1085,14 +1093,7 @@
 			 });
 			
 			
-			/*self._duplicateMap(data).then(function(results){
-				if (results.status == "OK"){
-					self._hideLoading();
-					self.refresh();
-					$('#dialgo_duplicar_mapa').modal('hide');
-					_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'duplicar aplicacio']);
-				}
-			});*/		
+				
 		},
 		
 		_duplicateMap: function(params){
