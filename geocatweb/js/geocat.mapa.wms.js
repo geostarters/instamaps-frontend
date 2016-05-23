@@ -377,6 +377,8 @@ jQuery(document).on('click', "#bt_addWMS", function(e) {
  * */
 function addExternalWMS(fromParam) {
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', ActiuWMS.url, 1]);
+	
+	var dfd = $.Deferred();
 	var _dateFormat=false,
 	nomCapaWMS,
 	wmsLayer;
@@ -458,16 +460,22 @@ function addExternalWMS(fromParam) {
 			options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+1+'","wmstime":'+ActiuWMS.wmstime+'}'
 		};
 		createServidorInMap(data).then(function(results){
+			map.spin(false);
 			if (results.status == "OK"){
 				wmsLayer.options.businessId = results.results.businessId;
 				checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
+				dfd.resolve(true);
 			}else{
 				console.debug('createServidorInMap ERROR');
+				dfd.resolve(false);
 			}
 		});
 	}else{
+		dfd.reject();
 		checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
-	}	
+	}
+	
+	 return dfd.promise();
 }
 
 function showTimeControl(show){
