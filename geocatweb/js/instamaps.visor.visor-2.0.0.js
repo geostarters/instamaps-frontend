@@ -90,6 +90,7 @@
 					search: false,
 					location: false,
 					share: false,
+					like: false,
 					snapshot: false,
 					print: false,
 					geopdf: false,
@@ -110,6 +111,7 @@
 					search: true,
 					location: true,
 					share: true,
+					like: true,
 					snapshot: true,
 					print: true,
 					geopdf: true,
@@ -204,6 +206,12 @@
 				self.controls.shareControl.showBtn();
 			}else if(self.controls.shareControl){
 				self.controls.shareControl.hideBtn();
+			}
+			
+			if(options.like && self.controls.likeControl){
+				self.controls.likeControl.showBtn();
+			}else if(self.controls.likeControl){
+				self.controls.likeControl.hideBtn();
 			}
 			
 			if(options.search && self.controls.searchControl){
@@ -320,6 +328,7 @@
 			if (!self.sharecontrol) self.sharecontrol = 0;
 			if (!self.searchcontrol) self.searchcontrol = 0;
 			if (!self.routingcontrol) self.routingcontrol = 0;
+			if (!self.likecontrol) self.likecontrol = 0;
 			
 			if (!self.control3d) self.control3d = 0;
 			if (!self.snapshotcontrol) self.snapshotcontrol = 0;
@@ -459,6 +468,23 @@
 			ctr_vistaInicial.addTo(_map);
 			
 			self.controls.homeControl = ctr_vistaInicial;
+			
+			return self;
+		},
+		
+		addLikeControl: function(){
+			var self = this,
+			ctr_like,
+			_mapConfig = self.mapConfig,
+			_map = self.map;
+			
+			ctr_like = L.control.like({
+				mapConfig: _mapConfig,
+				title: window.lang.convert("M'agrada")
+			});
+			ctr_like.addTo(_map);
+			
+			self.controls.likeControl = ctr_like;
 			
 			return self;
 		},
@@ -704,16 +730,18 @@
 				if((self.locationcontrol && self.locationcontrol=="1") || self.locationcontrol===null){
 					self.addLocationControl();
 				}
-				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
-					self.addShareControl();
-				}
 				if((self.searchcontrol && self.searchcontrol=="1") || self.searchcontrol===null){
 					self.addSearchControl();
 				}
 				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null){
 					self.addRoutingControl();
 				}
-			  
+				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
+					self.addShareControl();
+				}
+				if((self.likecontrol && self.likecontrol=="1") || self.likecontrol===null){
+					self.addLikeControl();
+				}
 			
 			}
 			
@@ -742,7 +770,10 @@
 			}
 			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
-				if (!self.nollegenda) self.addLlegenda();
+				if (!self.nollegenda) {
+					self.addLlegenda();
+					self.controls.llegendaControl.hide();
+				};
 			}
 			
 			if(self.appmodul){

@@ -1,11 +1,4 @@
-function loadGaleria(params){
-	return jQuery.ajax({
-		url: paramUrl.getAllMapsByUser,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp'
-	}).promise();
-}
+
 
 function loadPublicGaleria(params){
 	return jQuery.ajax({
@@ -945,7 +938,7 @@ function deleteUser(params){
   		dataType: 'jsonp'
 	}).promise();
 }
-
+/*
 function updateRankAplicacio(params){
 	return jQuery.ajax({
 		url: paramUrl.updateRankAplicacio,
@@ -954,6 +947,7 @@ function updateRankAplicacio(params){
   		dataType: 'jsonp'
 	}).promise();
 }
+*/
 function buffer(params){
 	return jQuery.ajax({
 		url: paramUrl.buffer,

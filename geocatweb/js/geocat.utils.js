@@ -276,13 +276,20 @@ function activaPanelCapes(obre) {
 			width : 'toggle'
 		});
 	}
-	var cl = jQuery('.bt_llista span').attr('class');
-	if (cl.indexOf('grisfort') != -1) {
-		jQuery('.bt_llista span').removeClass('grisfort');
-		jQuery('.bt_llista span').addClass('greenfort');
+	var cl,
+	 btnDiv;
+	if(jQuery('.bt_llista span')){
+		btnDiv = jQuery('.bt_llista span');
+	}else{
+		btnDiv = jQuery('#dv_bt_layers');
+	}
+	cl = btnDiv.attr('class');
+	if (cl && cl.indexOf('grisfort') != -1) {
+		btnDiv.removeClass('grisfort');
+		btnDiv.addClass('greenfort');
 	} else {
-		jQuery('.bt_llista span').removeClass('greenfort');
-		jQuery('.bt_llista span').addClass('grisfort');
+		btnDiv.removeClass('greenfort');
+		btnDiv.addClass('grisfort');
 	}
 
 	if(getModeMapa()){updateSortablesElements();}
@@ -420,6 +427,13 @@ function retornaEstilaDO(dataset) {
 
 function randomColor(){
 	return '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+
+
+
+function getRamdomColorFromArray() {
+	var colors = ['#ffc500', '#ff7f0b', '#ff4b3a', '#ae59b9', '#00afb5', '#7cbd00', '#90a6a9', '#ebf0f1'];
+   return colors[Math.floor(Math.random() * colors.length)];
 }
 
 //Comptador mida dun objecte
@@ -884,9 +898,13 @@ function cleanScriptCode(txt){
 }
 
 function shortString(str,_length){
-	str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	if(str){
+		str.length > _length ?str=(str.substring(0,_length)+"..."):str;
+	}
 	return str;	
 }	
+
+
 
 String.prototype.replaceAll = function(target, replacement) {
   return this.split(target).join(replacement);

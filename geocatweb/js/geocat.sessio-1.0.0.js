@@ -34,7 +34,6 @@ jQuery(document).ready(function() {
 jQuery("#login_button").click(function(){
 
 	_gaq.push(['_trackEvent',trackEventFrom,'inici sessio', 'retention']);
-	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'instamapes'}]);
 	
 	checkValidityLogin("");
 	
@@ -48,7 +47,6 @@ jQuery("#login_button").click(function(){
 		}
 		
 		doLogin(dataUrl).then(function(results){
-			//console.debug(results);
 			if(results.status==='OK'){
 				if (results.uid){
 					$.cookie('uid', results.uid, {path:'/'});
@@ -80,7 +78,6 @@ jQuery("#login_button").click(function(){
 				$('#modal_login_ko').modal('toggle');				
 			}				
 		},function(results){
-//			console.debug(results);
 			$('#modal_login_ko').modal('toggle');					
 		});
 	}
@@ -112,7 +109,6 @@ jQuery("#demo_button").click(function(){
 });
 
 function loginUserIcgc(){
-	//console.debug("loginUserIcgc");
 	checkValidityLogin("_icgc");
 	
 	if(! $("span").hasClass( "text_error" )){
@@ -171,31 +167,26 @@ function checkValidityLogin(tipus){
   
 $('#signin_twitter').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio twitter','retention']);
-	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'twitter'}]);
 	window.location = paramUrl.socialAuth+"id=twitter";
 });
 
 $('#signin_facebook').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio facebook','retention']);
-	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'facebook'}]);
 	window.location = paramUrl.socialAuth+"id=facebook";
 });
 
 $('#signin_linkedin').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio linkedin','retention']);
-	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'linkedin'}]);
 	window.location = paramUrl.socialAuth+"id=linkedin";
 });
 
 $('#signin_google').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio google','retention']);
-	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'google'}]);
 	window.location = paramUrl.socialAuth+"id=googleplus";
 });
 
 $('#signin_icc').click(function() {
 	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio icc','retention']);
-	//_kmq.push(['record', 'inici sessio', {'from':trackEventFrom, 'funnel':'retention', 'usuari from':'icc'}]);
 	$('#dialog_session_icgc').modal('show');
 });
 
@@ -219,8 +210,6 @@ function redirectLogin(results, from){
 			window.location=GEOCAT02+paramUrl.mapaPage;
 		}
 	}else if(isGeolocalUser() && from != '' && from in paramAplications){
-		//console.debug(from);
-		//console.debug(results);
 		var token = $.cookie('token');
 		window.open(paramAplications[from].url+results.uid+"&token="+token);
 		window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1&aplicacions=1";
@@ -228,7 +217,6 @@ function redirectLogin(results, from){
 		if ($.cookie('collaboratebid')) {
 			if ($.cookie('collaborateuid')){
 				if ($.cookie('collaborateuid')!=$.cookie('uid')) {
-					//window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
 					alert("No pots donar d'alta el mapa col·laboratiu perquè els usuaris no són iguals")
 					window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1";
 					$.removeCookie('collaboratebid',{path: '/' });
@@ -236,8 +224,6 @@ function redirectLogin(results, from){
 				}
 				else {
 					window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
-					//$.removeCookie('collaboratebid',{path: '/' });
-					//$.removeCookie('collaborateuid',{path: '/' });
 				}
 			}
 			else {

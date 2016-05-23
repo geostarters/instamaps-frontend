@@ -24,6 +24,7 @@ var visorOptions = {
 	widgetscontrol: url('?widgetscontrol') || null,
 	fonscontrol: url('?fonscontrol') || null,
 	sharecontrol: url('?sharecontrol') || null,
+	likecontrol: url('?likecontrol') || null,
 	searchcontrol: url('?searchcontrol') || null,
 	routingcontrol: url('?routingcontrol') || null,
 	openinstamaps: url('?openinstamaps') || null,

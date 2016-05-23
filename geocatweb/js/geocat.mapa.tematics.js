@@ -536,6 +536,9 @@ function changeDefaultLineStyle(canvas_linia){
 	estilTMP.color=canvas_linia.strokeStyle;
 	estilTMP.weight=canvas_linia.lineWidth;
 	estilTMP.tipus=t_polyline;
+	
+	
+	
 	if(objEdicio.obroModalFrom==from_creaCapa){
 		 drawControl.options.polyline.shapeOptions= estilTMP;
 	}
@@ -2160,13 +2163,13 @@ function loadCacheVisualitzacioLayer(layer){
 		}		
 	}).fail(function() {
 	   getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
-					if(results.status == "OK" ){
-						readVisualitzacio(defer, results.results, layer);			
-					}else{
-						console.debug('getVisualitzacioByBusinessId ERROR');
-						defer.reject();	
-					}	
-				});
+				if(results.status == "OK" ){
+					readVisualitzacio(defer, results.results, layer);			
+				}else{
+					console.debug('getVisualitzacioByBusinessId ERROR');
+					defer.reject();	
+				}	
+			});
 	  });
 
 /*	getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
