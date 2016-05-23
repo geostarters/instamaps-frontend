@@ -863,11 +863,45 @@
 				mapConfig.options = $.parseJSON(mapConfig.options);
 				if(mapConfig.options.llegenda === false){
 					self.nollegenda = "1"; //ocultar la llegenda
+					self.llegenda = 0;
 				}
 			}
 			self._mapConfig = mapConfig;
+			
+			self._configControls();
+			
 			_map.fire('loadconfig', mapConfig);
 			$.publish('loadConfig', mapConfig);
+			
+			return self;
+		},
+		
+		_configControls: function(){
+			var self = this,
+			mapConfigOptions = self._mapConfig.options;
+			
+			if(mapConfigOptions.params){
+				var params = mapConfigOptions.params;
+				if(self.embed && (!$.isEmptyObject(params.iframe))){
+					var piframe = params.iframe;
+					$.each(piframe, function(key, value){
+						if(self[key] == 0 || self[key] == 1){
+						
+						}else{
+							self[key] = value;
+						}
+					});
+				}else if(!$.isEmptyObject(params.visor)){
+					var pvisor = params.visor;
+					$.each(pvisor, function(key, value){
+						if(self[key] == 0 || self[key] == 1){
+						
+						}else{
+							self[key] = value;
+						}
+					});
+				}
+			}
 			
 			return self;
 		},

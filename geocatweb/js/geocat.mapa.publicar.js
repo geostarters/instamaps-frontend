@@ -1,13 +1,112 @@
 /*
  * Funcionalitat de publicació del mapa
- * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url 
+ * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url, handlebars 
  */
 (function ( $, window, document, undefined ) {
    "use strict";
    	var Publicar = {
    			
    		mapConfig:null,
-        map:null,	
+        map:null,
+        
+        params_visor: {
+    		"paramsVisor" : [
+				{
+					"param": "zoomcontrol",
+					"text":"Control de zoom",
+					"visor": true,
+					"iframe": true
+				},
+				{
+					"param": "openinstamaps",
+					"text":"Control de ampliar el mapa",
+					"iframe": true
+				},
+				{
+					"param": "homecontrol",
+					"text":"Control de tornar a la vista inicial",
+					"visor": true
+				},
+				{
+					"param": "locationcontrol",
+					"text":"Control de localització",
+					"visor": true
+				},
+				{
+					"param": "searchcontrol",
+					"text":"Control de cerca",
+					"visor": true
+				},
+				{
+					"param": "routingcontrol",
+					"text":"Control de routing",
+					"visor": true
+				},
+				{
+					"param": "sharecontrol",
+					"text":"Control de compartir en xarxes socials",
+					"visor": true
+				},
+				{
+					"param": "likecontrol",
+					"text":"Control de M'agrada",
+					"visor": true,
+					"iframe": true
+				},
+				{
+					"param": "fonscontrol",
+					"text":"Control de fons",
+					"visor": true
+				},
+				{
+					"param": "layerscontrol",
+					"text":"Control de capes",
+					"visor": true,
+					"iframe": true
+				},
+				{
+					"param": "control3d",
+					"text":"Control de 3D",
+					"visor": true
+				},
+				{
+					"param": "snapshotcontrol",
+					"text":"Control captura imatge",
+					"visor": true
+				},
+				{
+					"param": "printcontrol",
+					"text":"Control d'impressió",
+					"visor": true
+				},
+				{
+					"param": "geopdfcontrol",
+					"text":"Control GeoPdf",
+					"visor": true
+				},
+				{
+					"param": "llegenda",
+					"text":"Llegenda en el visor",
+					"visor": true
+				},
+				{
+					"param": "minimapcontrol",
+					"text":"Control minimapa",
+					"visor": true,
+					"iframe": false
+				},
+				{
+					"param": "mouseposition",
+					"text":"Coordenades del ratolí",
+					"visor": true
+				},
+				{
+					"param": "scalecontrol",
+					"text":"Control d'escala",
+					"visor": true
+				}				
+			] 
+        },
    			
         init: function() {
         	this.containerId = '#funcio_publicar';
@@ -85,8 +184,6 @@
         			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
         			
         			$.publish('reloadMapConfig','publicar/');
-        			
-        			
         		});
         	}
         },
@@ -99,19 +196,16 @@
         	if (isDefaultMapTitle(that.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(that.mapConfig.nomAplicacio);
         	if (that.mapConfig.visibilitat == visibilitat_open){
-				//$('#visibilitat_chk').bootstrapSwitch('state', true, true);
 				$("input[name=publicitat][value=public]").prop('checked', true);	
 				$("input[name=privacitat][value=obert]").prop('checked', true);	
 				$('#map_clau').val('');
 			}else{
 				$("input[name=publicitat][value=privat]").prop('checked', true);				
 				if (that.mapConfig.clau){
-					//$('#is_map_protegit').iCheck('check');
 					$("input[name=privacitat][value=restringit]").prop('checked', true);
 					$('#map_clau').prop('disabled',true);
 					$('#map_clau').val(randomString(10));
 				}else{
-					//$('#is_map_protegit').iCheck('uncheck');
 					$("input[name=privacitat][value=obert]").prop('checked', true);				
 					$('#map_clau').prop('disabled',true);
 					$('#map_clau').val('');
@@ -128,6 +222,8 @@
 			}
 			
 			that._createModalConfigDownload();
+			
+			that._createModalVisor();
 
 			$('#dialgo_publicar #nomAplicacioPub').removeClass("invalid");
 			$( ".text_error" ).remove();
@@ -196,21 +292,18 @@
 				$('#dialgo_publicar .modal-body .modal-legend').hide();
 			}
 			
-			
 			//Traducció dels textos del modal de publicar
     		$('#titlePublicar').text(window.lang.convert($('#titlePublicar').text()));
     		$('#id_info_tab').text(window.lang.convert($('#id_info_tab').text()));
     		$('#id_privacitat_tab').text(window.lang.convert($('#id_privacitat_tab').text()));
     		$('#id_llegenda_tab').text(window.lang.convert($('#id_llegenda_tab').text()));
     		$('#id_reuse_tab').text(window.lang.convert($('#id_reuse_tab').text()));
-    		
-    		
+    		    		
     		$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
 		    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
 		    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 
 			$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
-			
-		    
+					    
 		    $('#llegendaTitle').text(window.lang.convert($('#llegendaTitle').text()));
 		    $('#textLegend').text(window.lang.convert($('#textLegend').text()));
 		    
@@ -227,9 +320,6 @@
 		    $('#cancelPublicar').text(window.lang.convert($('#cancelPublicar').text()));
 		    $('#okPublicar').text(window.lang.convert($('#okPublicar').text()));
 			
-//			var urlMap = url('protocol')+'://'+url('hostname')+url('path')+'?businessId='+jQuery('#businessId').val()+"&id="+jQuery('#userId').val();
-//			urlMap = urlMap.replace('mapa','visor');
-			
 			var v_url = window.location.href;
 			if (!url('?id')){
 				v_url += "&id="+$('#userId').val();
@@ -238,13 +328,11 @@
 			var urlMap = v_url.replace('mapa','visor');		
 			urlMap = urlMap.replace('#no-back-button','');
 			
-			//$('#urlVisorMap').html('<a href="'+urlMap+'" target="_blank" lang="ca">Anar a la visualització del mapa&nbsp;&nbsp;<span class="glyphicon glyphicon-share-alt"></span></a>');
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
 			$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 			
 			$('a[href^="#id_info').click();
-			//$('.bfh-selectbox').bfhselectbox().bfhfonts({font: 'Arial'});
 		},
         
         _addHtmlInterficiePublicar: function(){
@@ -272,7 +360,6 @@
         		//TODO ver como pasar el modal container
         		$('#mapa_modals').append(data);       		
         		
-        		
         		$('.make-switch').bootstrapSwitch();
             	//Configurar Llegenda
             	$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
@@ -284,8 +371,7 @@
             		}
             	});	
 
-            	
-            	 $('input:radio[name="privacitat"]').change(function() {
+           	 	$('input:radio[name="privacitat"]').change(function() {
             	        if ($(this).val() == 'obert') {
             	        	if (that.mapConfig.clau){
                 				$('#map_clau').val('');
@@ -300,10 +386,10 @@
                 				$('#map_clau').prop('disabled',false);
                 			}
             	        }
-            	 });           	
+            	});           	
             	
             	 
-            	 $('#resetClau').on('click',function(){
+            	$('#resetClau').on('click',function(){
              		var mapData = {
              			businessId: that.mapConfig.businessId,
              			uid: that.uid
@@ -314,50 +400,6 @@
              			$('#map_clau').val('');
              		});
              	});
-            	//Canvis en l'apartat de privacitat
-            	/*$('#visibilitat_chk').on('switchChange.bootstrapSwitch', function(event, state) {
-            		if(state.value == true) { //public
-            			$('.protegit').hide();
-            		}else{ //privat
-            			$('.protegit').show();
-            		}
-            	});	
-            	
-            	$('#is_map_protegit').iCheck({
-            	    checkboxClass: 'icheckbox_flat-blue',
-            	    radioClass: 'iradio_flat-blue'
-            	});	
-            	
-            	$('#is_map_protegit').on({
-            		'ifChecked': function(event){
-            			if (that.mapConfig.clau){
-            				$('#map_clau').val(randomString(10));
-            				$('#map_clau').prop('disabled',true);
-            			}else{
-            				$('#map_clau').prop('disabled',false);
-            			}	
-            		},
-            		'ifUnchecked': function(event){
-            			if (that.mapConfig.clau){
-            				$('#map_clau').val('');
-            			}else{
-            				$('#map_clau').prop('disabled',true);
-            			}
-            		}
-            	});
-            	
-            	$('#resetClau').on('click',function(){
-            		var mapData = {
-            			businessId: that.mapConfig.businessId,
-            			uid: that.uid
-            		};
-            		//require ajax
-            		resetClauMapa(mapData).then(function(results){
-            			that.mapConfig.clau = null;
-            			$('#map_clau').val('');
-            		});
-            	});
-        		*/
             	//require dropzone
     			$('#file-logo').dropzone({ 
     			    url: paramUrl.uploadLogo,
@@ -466,7 +508,6 @@
     				chck : $(element).children( "div.icheckbox_flat-blue").hasClass('checked'),
     				businessId : businessId
         		};
-        		//console.debug(obj);
         		if(downloadableDataPub[businessId]){
         			downloadableDataPub[businessId] = [];			
         		}
@@ -505,8 +546,7 @@
         	var _map = this.map;
         	options.tags = $('#dialgo_publicar #optTags').val();
         	options.description = $('#dialgo_publicar #optDescripcio').val();
-			
-			
+						
 			options.mapa3D=estatMapa3D;
 			if(estatMapa3D){					
 				disparaEventMapa=false;
@@ -514,28 +554,20 @@
 				mapaVista3D.getPosicioCamera3D().then(function (cameraPos) {		
 				options.camera3D=cameraPos;								
 				});								
-				
-				
+							
 				mapaVista3D.retornaPosicio2D().then(function (bbox) {					
 					options.center = bbox.centerLat+","+bbox.centerLng;
 					options.zoom = bbox.zoomLevel;
 					options.bbox = bbox.lng0+","+bbox.lat0+","+bbox.lng1+","+bbox.lat1;
-
-								
 				});
 				
-																				
 			}else{
-			options.center = _map.getCenter().lat+","+_map.getCenter().lng;
-        	options.zoom = _map.getZoom();
-        	options.bbox = _map.getBounds().toBBoxString();
-
-				
+				options.center = _map.getCenter().lat+","+_map.getCenter().lng;
+				options.zoom = _map.getZoom();
+				options.bbox = _map.getBounds().toBBoxString();
 			}	
         	
-			
-			
-        	var logo = null;
+			var logo = null;
         	if(isGeolocalUser()){
         		//aspecte
             	options.fontType = $('.bfh-selectbox input[type=hidden]').val();
@@ -552,8 +584,6 @@
         	
         	var visibilitat = visibilitat_open;
         	
-        	//if ($('#visibilitat_chk').bootstrapSwitch('state')){
-        	//console.debug($("input[name=publicitat]:checked").val());
         	if ($("input[name=publicitat]:checked").val()=="public"){        	
         		visibilitat = visibilitat_open;
         	}else{
@@ -567,13 +597,15 @@
         		//TODO funcion en el modulo
         		//require geocat.legend
         		updateMapLegendData();
-        	}
-        	else{
+        	}else{
         		mapLegend = {};
         	}
         	
         	//Revisio de capes amb permis de descarrega
         	this._updateDownloadableData();
+        	
+        	//Revisamos los parametros del visor e iframe
+        	this._updateParamsData();
         	
         	options.layers = true;
         	options.social = true;
@@ -582,6 +614,7 @@
         	options.idusr = $('#userId').val();
         	//Issue #467: S'ha de respectar el que es selecciona al publicar sobre si una capa és descarregable o no.
         	options.downloadable = this.downloadableData;
+        	options.params = this.paramsData; 
         	
         	options = JSON.stringify(options);
         		
@@ -594,8 +627,7 @@
         	var layers = $(".leaflet-control-layers-selector").map(function(){
         		return {businessId: this.id.replace('input-',''), activa: $(this).is(':checked')};
         	}).get();
-        	
-        	
+        	        	
         	//Atencio miro estat de les capes
         	reOrderGroupsAndLayers(true); 	
         	
@@ -648,9 +680,7 @@
         	capturaPantalla(CAPTURA_GALERIA);
         	this.createWMSFromMap();
         	
-        	
         	if(!that.mapConfig.clau){
-        		//if($('#is_map_protegit').is(':checked')){
         		if ($("input[name=privacitat]:checked").val()=="restringit"){    	
         			if($.trim($('#map_clau').val()) != ""){
         				data.clauVisor = $.trim($('#map_clau').val());
@@ -733,14 +763,11 @@
 							
 							jQuery('#dialgo_url_iframe').on('hidden.bs.modal', function (e) {
 								if(estatMapa3D){
-																	
-										disparaEventMapa=true;
-										mapaEstatNOPublicacio=true;	
-									}
-								
+									disparaEventMapa=true;
+									mapaEstatNOPublicacio=true;	
+								}
 							});	
-							
-        				}
+						}
         			}
         		});
         	}
@@ -808,45 +835,124 @@
         	});
         },
         
+        _createModalVisor: function(){
+        	var self = this,
+        	count = 0,
+        	html = "";
+        	        	
+        	var source = $("#list-parameter-fields").html();
+        	var template = Handlebars.compile(source);
+        	html = template(self.params_visor);
+        
+        	$('#dialgo_publicar .list-parameters').html(html);	
+        	
+        	$('#div_params_visor input').iCheck({
+        	    checkboxClass: 'icheckbox_flat-blue',
+        	    radioClass: 'iradio_flat-blue'
+        	});
+        	
+        	self._loadConfigParams();
+        	
+        	$('.visor-subrow-all #visor-chck-all').on({
+        		'ifChecked': function(event){
+        			$('.visor-subrow .visor-chck').iCheck('check');
+        		},
+        		'ifUnchecked': function(event){
+        			$('.visor-subrow .visor-chck').iCheck('uncheck');
+        		} 
+        	});
+        	
+        	$('.visor-subrow-all #iframe-chck-all').on({
+        		'ifChecked': function(event){
+        			$('.visor-subrow .iframe-chck').iCheck('check');
+        		},
+        		'ifUnchecked': function(event){
+        			$('.visor-subrow .iframe-chck').iCheck('uncheck');
+        		} 
+        	});
+        },
+        
+        _updateParamsData: function(){
+        	var self = this;
+        	var paramsDataPub = {iframe:{}, visor:{}};
+        	
+        	$('.col-visor div.icheckbox_flat-blue').map(function(){
+        		var _$this = $(this);
+        		var paramname = _$this.closest( ".visor-subrow" ).data('param');
+        		if(_$this.hasClass('checked')){
+        			paramsDataPub.visor[paramname] = 1;
+        		}else{
+        			paramsDataPub.visor[paramname] = 0;
+        		}
+        	});
+        	
+        	$('.col-iframe div.icheckbox_flat-blue').map(function(){
+        		var _$this = $(this);
+        		var paramname = _$this.closest( ".visor-subrow" ).data('param');
+        		if(_$this.hasClass('checked')){
+        			paramsDataPub.iframe[paramname] = 1;
+        		}else{
+        			paramsDataPub.iframe[paramname] = 0;
+        		}
+        	});
+        	self.paramsData = paramsDataPub;
+        },
+        
+        _loadConfigParams: function(){
+        	var self = this,
+        	mapConfig = self.mapConfig;
+        	if(mapConfig.options.params){
+        		var params = mapConfig.options.params;
+        		if(!$.isEmptyObject(params.visor)){
+        			var visor = params.visor;
+        			$.each(visor, function(key, value){
+        				var selector = '.visor-subrow[data-param="'+key+'"]';
+        				var elem = $(selector).find('.visor-chck');
+        				if(value === 1){
+        					elem.iCheck('check');
+        				}else{
+        					elem.iCheck('uncheck');
+                		}
+        			});
+        		}
+        		if(!$.isEmptyObject(params.iframe)){
+        			var iframe = params.iframe;
+        			$.each(iframe, function(key, value){
+        				var selector = '.visor-subrow[data-param="'+key+'"]';
+        				var elem = $(selector).find('.iframe-chck');
+        				if(value === 1){
+        					elem.iCheck('check');
+        				}else{
+        					elem.iCheck('uncheck');
+                		}
+        			});
+        		}
+        	}
+        },
+        
         //********* Nova funcio per crear WMS*************//
-        
-        
         createWMSFromMap:function(){
+        	var data=getCapesVectorActives();
         	
-        	 var data=getCapesVectorActives();
-        	
-        	    data.request="createWMSfromMap";
-               // data.entitatUid=mapConfig.entitatUid;
-        	    data.entitatUid=_UsrID,
-                data.businessId=mapConfig.businessId;
-                data.nomAplicacio=mapConfig.nomAplicacio;
-                data.modeMapa=getModeMapa();                                           
-                
-               createMapToWMS(data).then(
-                            
-                function(results) {
-				   
-				
-                      if (results.status == "OK") {
-                    	  
-                    	  $('#div_urlMapWMS').show();
-                    	  $('#urlMapWMS').val(results.url);
-                      }else  if (results.status == "VOID") {  
-                    	  
-                    	
-                    	  $('#div_urlMapWMS').hide();
-                    	  
-                      }else{
-                    	
-                    	  $('#div_urlMapWMS').hide();
-                    	  $('#urlMapWMS').val(results.msg);
-                    	
-                    	  
-                      }
-        	
-                });
-        	
-        	
+        	data.request="createWMSfromMap";
+            data.entitatUid=_UsrID,
+            data.businessId=mapConfig.businessId;
+            data.nomAplicacio=mapConfig.nomAplicacio;
+            data.modeMapa=getModeMapa();                                           
+            
+            createMapToWMS(data).then(
+                        
+            function(results) {
+            	if (results.status == "OK") {
+            		$('#div_urlMapWMS').show();
+                    $('#urlMapWMS').val(results.url);
+                }else if (results.status == "VOID") {  
+                	$('#div_urlMapWMS').hide();
+                }else{
+                    $('#div_urlMapWMS').hide();
+                    $('#urlMapWMS').val(results.msg);
+                }
+        	});
         },
         /**********Events**************/
         
