@@ -298,114 +298,72 @@
 
       } else if (defaults.type == 'excel' || defaults.type == 'xls' || defaults.type == 'word' || defaults.type == 'doc') {
 
-        var MSDocType = (defaults.type == 'excel' || defaults.type == 'xls') ? 'excel' : 'word';
-        var MSDocExt = (MSDocType == 'excel') ? 'xls' : 'doc';
-        var MSDocSchema = (MSDocExt == 'xls') ? 'xmlns:x="urn:schemas-microsoft-com:office:excel"' : 'xmlns:w="urn:schemas-microsoft-com:office:word"';
+    	//console.log($(this).html());
+			var excel="<table>";
+			// Header
+			$(el).find('thead').find('tr').each(function() {
+				excel += "<tr>";
+				$(this).filter(':visible').find('th').each(function(index,data) {
+					if ($(this).css('display') != 'none'){					
+						if(defaults.ignoreColumn.indexOf(index) == -1){
+							excel += "<td>" + parseString($(this))+ "</td>";
+						}
+					}
+				});	
+				excel += '</tr>';						
+				
+			});					
+			
+			
+			// Row Vs Column
+			var rowCount=1;
+			$(el).find('tbody').find('tr').each(function() {
+				excel += "<tr>";
+				var colCount=0;
+				$(this).filter(':visible').find('td').each(function(index,data) {
+					if ($(this).css('display') != 'none'){	
+						if(defaults.ignoreColumn.indexOf(index) == -1){
+							excel += "<td>"+parseString($(this))+"</td>";
+						}
+					}
+					colCount++;
+				});															
+				rowCount++;
+				excel += '</tr>';
+			});					
+			excel += '</table>'
+			
+			if(defaults.consoleLog == 'true'){
+				console.log(excel);
+			}
+			
+			var excelFile = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:"+defaults.type+"' xmlns='http://www.w3.org/TR/REC-html40'>";
+			excelFile += "<head>";
+			excelFile += "<!--[if gte mso 9]>";
+			excelFile += "<xml>";
+			excelFile += "<x:ExcelWorkbook>";
+			excelFile += "<x:ExcelWorksheets>";
+			excelFile += "<x:ExcelWorksheet>";
+			excelFile += "<x:Name>";
+			excelFile += "{worksheet}";
+			excelFile += "</x:Name>";
+			excelFile += "<x:WorksheetOptions>";
+			excelFile += "<x:DisplayGridlines/>";
+			excelFile += "</x:WorksheetOptions>";
+			excelFile += "</x:ExcelWorksheet>";
+			excelFile += "</x:ExcelWorksheets>";
+			excelFile += "</x:ExcelWorkbook>";
+			excelFile += "</xml>";
+			excelFile += "<![endif]-->";
+			excelFile += "</head>";
+			excelFile += "<body>";
+			excelFile += excel;
+			excelFile += "</body>";
+			excelFile += "</html>";
 
-        rowIndex = 0;
-        var docData = '<table><thead>';
-        // Header
-        $hrows = $(el).find('thead').first().find(defaults.theadSelector);
-        $hrows.each(function () {
-          trData = "";
-          ForEachVisibleCell(this, 'th,td', rowIndex, $hrows.length,
-                  function (cell, row, col) {
-                    if (cell != null) {
-                      trData += '<th style="';
-                      for (var styles in defaults.excelstyles) {
-                        if (defaults.excelstyles.hasOwnProperty(styles)) {
-                          trData += defaults.excelstyles[styles] + ': ' + $(cell).css(defaults.excelstyles[styles]) + ';';
-                        }
-                      }
-                      if ($(cell).is("[colspan]"))
-                        trData += '" colspan="' + $(cell).attr('colspan');
-                      if ($(cell).is("[rowspan]"))
-                        trData += '" rowspan="' + $(cell).attr('rowspan');
-                      trData += '">' + parseString(cell, row, col) + '</th>';
-                    }
-                  });
-          if (trData.length > 0)
-            docData += '<tr>' + trData + '</tr>';
-          rowIndex++;
-        });
-
-        docData += '</thead><tbody>';
-
-        // Row Vs Column
-        $rows = $(el).find('tbody').first().find(defaults.tbodySelector);
-        $rows.each(function () {
-          trData = "";
-          ForEachVisibleCell(this, 'td', rowIndex, $hrows.length + $rows.length,
-                  function (cell, row, col) {
-                    if (cell != null) {
-                      trData += '<td style="';
-                      for (var styles in defaults.excelstyles) {
-                        if (defaults.excelstyles.hasOwnProperty(styles)) {
-                          trData += defaults.excelstyles[styles] + ': ' + $(cell).css(defaults.excelstyles[styles]) + ';';
-                        }
-                      }
-                      if ($(cell).is("[colspan]"))
-                        trData += '" colspan="' + $(cell).attr('colspan');
-                      if ($(cell).is("[rowspan]"))
-                        trData += '" rowspan="' + $(cell).attr('rowspan');
-                      trData += '">' + parseString(cell, row, col) + '</td>';
-                    }
-                  });
-          if (trData.length > 0)
-            docData += '<tr>' + trData + '</tr>';
-          rowIndex++;
-        });
-
-        if (defaults.displayTableName)
-          docData += '<tr><td></td></tr><tr><td></td></tr><tr><td>' + parseString($('<p>' + defaults.tableName + '</p>')) + '</td></tr>';
-
-        docData += '</tbody></table>';
-
-        if (defaults.consoleLog === true)
-          console.log(docData);
-
-        var docFile = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' + MSDocSchema + ' xmlns="http://www.w3.org/TR/REC-html40">';
-        docFile += '<meta http-equiv="content-type" content="application/vnd.ms-' + MSDocType + '; charset=UTF-8">';
-        docFile += "<head>";
-        if (MSDocType === 'excel') {
-          docFile += "<!--[if gte mso 9]>";
-          docFile += "<xml>";
-          docFile += "<x:ExcelWorkbook>";
-          docFile += "<x:ExcelWorksheets>";
-          docFile += "<x:ExcelWorksheet>";
-          docFile += "<x:Name>";
-          docFile += defaults.worksheetName;
-          docFile += "</x:Name>";
-          docFile += "<x:WorksheetOptions>";
-          docFile += "<x:DisplayGridlines/>";
-          docFile += "</x:WorksheetOptions>";
-          docFile += "</x:ExcelWorksheet>";
-          docFile += "</x:ExcelWorksheets>";
-          docFile += "</x:ExcelWorkbook>";
-          docFile += "</xml>";
-          docFile += "<![endif]-->";
-        }
-        docFile += "</head>";
-        docFile += "<body>";
-        docFile += docData;
-        docFile += "</body>";
-        docFile += "</html>";
-
-        if (defaults.outputMode == 'string')
-          return docFile;
-
-        var base64data = base64encode(docFile);
-
-        if (defaults.outputMode === 'base64')
-          return base64data;
-
-        try {
-          var blob = new Blob([docFile], {type: 'application/vnd.ms-' + defaults.type});
-          saveAs(blob, defaults.fileName + '.' + MSDocExt);
-        }
-        catch (e) {
-          downloadFile(defaults.fileName + '.' + MSDocExt, 'data:application/vnd.ms-' + MSDocType + ';base64,' + base64data);
-        }
+			var base64data = "base64," + $.base64.encode(excelFile);
+			window.open('data:application/vnd.ms-'+defaults.type+';filename=exportData.doc;' + base64data);
+		
 
       } else if (defaults.type == 'png') {
         html2canvas($(el)[0], {
