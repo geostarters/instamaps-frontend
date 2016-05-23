@@ -121,7 +121,7 @@ function loadApp(){
 					//});
 					//if (true) { //CANVIAR
 					gestioCookie('diferentUser');
-					$('meta[name="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
+					$('meta[property="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
 
 					if(typeof (mapConfig.options)=="string"){
 						mapConfig.options = $.parseJSON( mapConfig.options );
@@ -130,10 +130,10 @@ function loadApp(){
 					if (mapConfig.options){
 						$('meta[name="description"]').attr('content', mapConfig.options.description);
 
-						$('meta[name="og:description"]').attr('content', mapConfig.options.description);
+						$('meta[property="og:description"]').attr('content', mapConfig.options.description);
 
 						var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-						$('meta[name="og:image"]').attr('content', urlThumbnail);
+						$('meta[property="og:image"]').attr('content', urlThumbnail);
 					}
 
 					mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):[]);
