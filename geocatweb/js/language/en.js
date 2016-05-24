@@ -489,6 +489,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Ortofoto històrica Catalunya 1956-57":"Historical orthophoto of Catalunya 1956-57"
 ,"Ortofotos històriques":"Historical orthophotos"
 
+,"Paràmetres visor":"Viewer parameters"
 ,"Parcs eòlics":"Wind farms"
 ,"Per a més informació consultar":"For more information"
 ,"Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.":"For the best possible experience using our website we recommend that you upgrade to a new version of Internet Explorer or use another web browser. A list of the most popular web browsers can be found below."

@@ -863,11 +863,45 @@
 				mapConfig.options = $.parseJSON(mapConfig.options);
 				if(mapConfig.options.llegenda === false){
 					self.nollegenda = "1"; //ocultar la llegenda
+					self.llegenda = 0;
 				}
 			}
 			self._mapConfig = mapConfig;
+			
+			self._configControls();
+			
 			_map.fire('loadconfig', mapConfig);
 			$.publish('loadConfig', mapConfig);
+			
+			return self;
+		},
+		
+		_configControls: function(){
+			var self = this,
+			mapConfigOptions = self._mapConfig.options;
+			
+			if(mapConfigOptions.params){
+				var params = mapConfigOptions.params;
+				if(self.embed && (!$.isEmptyObject(params.iframe))){
+					var piframe = params.iframe;
+					$.each(piframe, function(key, value){
+						if(self[key] == 0 || self[key] == 1){
+						
+						}else{
+							self[key] = value;
+						}
+					});
+				}else if(!$.isEmptyObject(params.visor)){
+					var pvisor = params.visor;
+					$.each(pvisor, function(key, value){
+						if(self[key] == 0 || self[key] == 1){
+						
+						}else{
+							self[key] = value;
+						}
+					});
+				}
+			}
 			
 			return self;
 		},
@@ -926,7 +960,7 @@
 				nomEntitat = mapConfig.nomEntitat,
 				infoHtml = '';
 			
-			$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+			$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 			
 			$.cookie('perfil', 'instamaps', {path:'/'});
 			checkUserLogin();
@@ -939,10 +973,10 @@
 				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 
 				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-				$('meta[name="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 
 				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-				$('meta[name="og:image"]').attr('content', urlThumbnail);
+				$('meta[property="og:image"]').attr('content', urlThumbnail);
 
 				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
