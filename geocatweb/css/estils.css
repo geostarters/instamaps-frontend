@@ -322,6 +322,7 @@
 	height: 25px;
 	background-color: #FFC500;
 	color: #FFC500;
+	box-shadow: 1px 1px 1px 1px #999999;
 }
 
 .fill_color_icon {
@@ -345,6 +346,7 @@
 	height: 25px;
 	background-color: #FFC500;
 	color: #FFC500;
+	 box-shadow: 1px 1px 1px 1px #999999;
 }
 
 .fill_color_marker {
@@ -359,6 +361,7 @@
 	width: 30px;
 	height: 25px;
 	border: 2px solid #FFC500;
+	box-shadow: 1px 1px 1px 1px #999999;
 }
 
 .leaflet-control-minimap {
