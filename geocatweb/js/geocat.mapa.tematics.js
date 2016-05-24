@@ -1524,10 +1524,18 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	var origen = getOrigenLayer(layer);
 	var hasSource = (optionsVis && optionsVis.source!=undefined ) 
 	|| (layOptions && layOptions.source!=undefined );
-	capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
+	try{
+		capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
+	}catch(err){
+		capaVisualitzacio.layer.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
+	}
 	loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
-	capaVisualitzacio.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	
+	try{
+		capaVisualitzacio.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
+	}catch(err){
+		capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
+	}
 	return defer.promise();
 }
 
@@ -1811,6 +1819,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource){
 	if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
 		var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
+		style+=";text-shadow:1px 1px #ffffff";
 		if (optionsVis.fontStyle!=undefined){
 			if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
 			else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
@@ -1891,7 +1900,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
 								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") && origen==""){
 							markerCircle.bindLabel(geom.properties[optionsVis.campEtiqueta],
-								{opacity:1, noHide: true,clickable:true,  direction: 'center',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});						
+								{opacity:1, noHide: true,clickable:true,  direction: 'altre',className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0]});						
 						}
 						if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
 								(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
@@ -2023,7 +2032,11 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				
 				feat.properties.feature = {};
 				feat.properties.feature.geometry = geom.geometry;
-				capaVisualitzacio.addLayer(feat);
+				try{
+					capaVisualitzacio.addLayer(feat);
+				}catch(err){
+					capaVisualitzacio.layer.addLayer(feat);
+				}
 			
 				if(geomTypeVis == t_polygon){
 					feat.properties.mida = calculateArea(feat);
