@@ -193,9 +193,9 @@ function obrirMenuModal(_menuClass,estat,_from){
 }
 
 function initCanvas(){
-	addGeometryInitP(document.getElementById(canvas_pol.id));
+	addGeometryInitP(document.getElementById(canvas_pol.id),"inicial");
 	addGeometryInitP(document.getElementById(canvas_pol.id+"0"));
-	addGeometryInitL(document.getElementById(canvas_linia.id));	
+	addGeometryInitL(document.getElementById(canvas_linia.id),"inicial");	
 	addGeometryInitL(document.getElementById(canvas_linia.id+"0"));
 	
     $('#colorpalette_pf').colorPalette().on('selectColor', function(e) {   	
@@ -280,7 +280,7 @@ function initCanvas(){
     });
 }
 
-function addGeometryInitL(canvas){
+function addGeometryInitL(canvas,inicial){
 	var	cv_ctx_l=canvas.getContext("2d");
 	cv_ctx_l.clearRect(0, 0, canvas.width, canvas.height);
 	cv_ctx_l.moveTo(0.7,39.42);
@@ -304,10 +304,22 @@ function addGeometryInitL(canvas){
 	cv_ctx_l.lineTo(35.52,0.54);
 	cv_ctx_l.strokeStyle=canvas_linia.strokeStyle;
 	cv_ctx_l.lineWidth=canvas_linia.lineWidth;
+	if (inicial==null || inicial==undefined){
+		cv_ctx_l.shadowColor = '#999999';
+		cv_ctx_l.shadowBlur = 20;
+		cv_ctx_l.shadowOffsetX = 15;
+		cv_ctx_l.shadowOffsetY = 15;
+		cv_ctx_l.stroke(); 	
+		cv_ctx_l.shadowOffsetX = -15;
+		cv_ctx_l.stroke(); 	
+		cv_ctx_l.shadowOffsetY = -15;
+		cv_ctx_l.stroke(); 
+		cv_ctx_l.shadowOffsetX = 15;
+	}
 	cv_ctx_l.stroke(); 	
 }
 
-function addGeometryInitP(canvas){
+function addGeometryInitP(canvas,inicial){
 	var	cv_ctx_p=canvas.getContext("2d");
 	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
 	cv_ctx_p.moveTo(5.13,15.82);
@@ -324,8 +336,23 @@ function addGeometryInitP(canvas){
 //	cv_ctx_p.fillStyle=canvas_pol.fillStyle;
 	cv_ctx_p.lineWidth=canvas_pol.lineWidth;
 //	cv_ctx_p.opacity=canvas_pol.opacity;
-	cv_ctx_p.fill();
-	cv_ctx_p.stroke(); 
+	if (inicial==null || inicial==undefined){
+		cv_ctx_p.shadowColor = '#999999';
+		cv_ctx_p.shadowBlur = 20;
+		cv_ctx_p.shadowOffsetX = 15;
+		cv_ctx_p.shadowOffsetY = 18;	
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 
+		cv_ctx_p.shadowOffsetX = -15;
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 	
+		cv_ctx_p.shadowOffsetY = -18;
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 
+		cv_ctx_p.shadowOffsetX = 15;
+	}	
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 
 }
 
 //Funcio inicialitzar i afegir drawControl

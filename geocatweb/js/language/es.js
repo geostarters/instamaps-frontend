@@ -445,6 +445,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Necessitem les següent informació per processar el fitxer correctament":"Necesitamos las siguiente información para procesar el archivo correctamente"
 ,"Neteja ordre": "Limpiar orden"
 ,"Nit":"Noche"
+,"Nivells de zoom on seran visibles les etiquetes":"Niveles de zoom dónde serán visibles las etiquetas"
 ,"No ha sigut possible canviar la visibilitat del mapa":"No ha sido posible cambiar la visibilidad de tu mapa"
 ,"No hi ha entrades coincidents":"No hay entradas coincidentes"
 ,"No pots aplicar filtre a cap capa del mapa":"No puedes aplicar filtro a ninguna capa del mapa"
