@@ -649,7 +649,7 @@ function addHtmlModalEtiquetesLayer(){
 	'					</script>'+
 	'					<div class="labels_fields" style="padding-bottom:6px;padding-left:10px;">'+
 	'						<span lang="ca">Font</span>:'+
-	'						<select name="font-family" id="font-family" style="margin-left:12px; width: 135px;">'+
+	'						<select name="font-family" id="font-family" style="margin-left:18px; width: 135px;">'+
 	'							<option value="Arial">Arial</option>'+
 	'							<option value="Gill Sans">Gill Sans</option>'+
 	'							<option value="Verdana">Verdana</option>'+
@@ -686,15 +686,15 @@ function addHtmlModalEtiquetesLayer(){
 	'													</ul>'+
 	'												</div>'+
 	'					</div>'+
-	'					<div class="labels_fields" style="padding-bottom:10px">'+
+	'					<div class="labels_fields" style="padding-bottom:5px">'+
 	'						<span>2.</span><span lang="ca">Visibilitat de les etiquetes</span>:<br/>'+
-	'						<input type="radio" name="etiqueta" id="etiqueta" value="etiquetageom" checked>Etiquetes+geometries'+
+	'						<input type="radio" name="etiqueta" id="etiqueta" value="etiquetageom" checked style="margin-left:10px">Etiquetes+geometries'+
 	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="geometries" >Geometries'+
 	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="nomesetiqueta">Només etiquetes'+
 	'					</div>'+
 	'					<div class="labels_fields">'+
-	'						<span lang="ca">Nivell de zoom:</span><br/>'+
-	'						<div id="slider" style="width:65%;"></div>'+
+	'						<span lang="ca" style="margin-left:10px;padding-bottom:2px;">Nivells de zoom on seran visibles les etiquetes</span>:'+
+	'						<div id="slider" style="width:65%;margin-left:16px"></div>'+
 	'					</div>'+	
 	'				</div>'+
 	'				<div class="modal-footer">'+
