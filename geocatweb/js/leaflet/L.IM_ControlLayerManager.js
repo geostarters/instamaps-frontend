@@ -1576,6 +1576,88 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				else 	$('#dv_color_etiqueta').css('background-color','#000000');
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
 				else $('input:radio[name=etiqueta][value=etiquetageom]').attr('checked', true);
+				var zoomInicial = "2";
+		 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
+		 		var zoomFinal = "19";
+		 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
+		 		//Omplim els camps amb el que hi ha guardat a la BBDD
+		 		 var tooltip = function(sliderObj, ui){
+		 			 	
+		                val1            = '<div id="slider_tooltip" style="font-size:10px;">'+ zoomInicial +'</div>';
+		                val2            = '<div id="slider_tooltip" style="font-size:10px;">'+ zoomFinal +'</div>';
+		                if (ui.values[0]==zoomInicial)  sliderObj.children('.ui-slider-handle').first().html(val1);
+		                else  sliderObj.children('.ui-slider-handle').first().html('');
+		                if (ui.values[1]==zoomFinal)   sliderObj.children('.ui-slider-handle').last().html(val2);
+		                else  sliderObj.children('.ui-slider-handle').last().html('');
+		            };
+				$( "#slider" ).slider({
+					range:true,
+			        min: 2,
+			        max: 19,			        
+			        change:function(event,ui){
+		            	//tooltip($(this),ui);  
+		            },
+			        start: function( event, ui ) {
+			        	$('#slider .ui-slider-handle').first().tooltip('destroy');			        
+			        	$('#slider .ui-slider-handle').last().tooltip('destroy');
+			        	
+			        },
+			        stop: function( event, ui ) {
+			        	$('#slider .ui-slider-handle').first().html('');
+			        	$('#slider .ui-slider-handle').last().html('');	
+			           //alert(  ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+			            zoomInicial=ui.values[0];
+			            zoomFinal=ui.values[1];
+			            $('#slider .ui-slider-handle').first().tooltip({title: ui.values[0], trigger: 'manual', placement: 'bottom'}).tooltip("show");
+			            $('#slider .ui-slider-handle').last().tooltip({title: ui.values[1], trigger: 'manual', placement: 'bottom'}).tooltip("show");
+			         }    
+			       }
+				);
+				$( "#slider" ).slider({values: [parseInt(zoomInicial),parseInt(zoomFinal)]});
+				
+				
+				$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
+					
+					if (jQuery('#dataFieldEtiqueta').val()!=undefined && jQuery('#dataFieldEtiqueta').val()=="---"){
+						alert("Cal escollir un camp per etiquetar");
+					}
+					else {
+						var capaLeafletId = $('#dialog_etiquetes_capa #leafletIdCapaEtiqueta').val();
+						var capaLeafletIdControl = $('#dialog_etiquetes_capa #leafletIdCapaEtiquetaControl').val();
+						var color = rgb2hex($('.color_etiqueta').css('background-color'));
+						
+						var options = {
+								campEtiqueta:jQuery('#dataFieldEtiqueta').val(),
+								fontFamily:jQuery('#font-family').val(),
+								fontSize:jQuery('#font-size').val(),
+								fontStyle:jQuery('#font-style').val(),
+								fontColor:color,
+								opcionsVis:$("input[name=etiqueta]:checked").val(),
+								zoomInicial:zoomInicial,
+								zoomFinal:zoomFinal
+						}
+						var layerMap=map._layers[capaLeafletId];
+						var optionsMap;
+						if (layerMap==undefined) {
+							layerMap = controlCapes._layers[capaLeafletId];
+							optionsMap=layerMap.layer.options;
+						}
+						else optionsMap=layerMap.options;
+						
+						var data={
+								businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
+								uid: $.cookie('uid'),
+								options:  JSON.stringify(options),
+								nom:optionsMap.nom,
+								tipus:optionsMap.tipusRang,
+								geometryType:optionsMap.geometryType
+						};
+						updateVisualitzacioLayer(data).then(function(results){
+							reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
+						});
+					}
+				});
+				
 			}
 		}
 	},
