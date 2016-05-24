@@ -901,7 +901,7 @@
         _loadConfigParams: function(){
         	var self = this,
         	mapConfig = self.mapConfig;
-        	if(mapConfig.options.params){
+        	if(mapConfig.options!=null && mapConfig.options.params){
         		var params = mapConfig.options.params;
         		if(!$.isEmptyObject(params.visor)){
         			var visor = params.visor;
