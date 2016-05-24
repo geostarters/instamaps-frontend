@@ -1513,7 +1513,11 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	}
 		
 	//limpiar las geometrias
-	capaVisualitzacio.clearLayers();
+	try{
+		capaVisualitzacio.clearLayers();
+	}catch(err){
+		capaVisualitzacio.layer.clearLayers();
+	}
 	
 	//cargar las geometrias a la capa
 	var layOptions = getOptions(layer);
