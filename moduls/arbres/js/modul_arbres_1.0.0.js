@@ -148,14 +148,14 @@ L.Control.addModulArbres = L.Control.extend({
 			this.controlDraw.setDrawingOptions({
 				rectangle : {
 					shapeOptions : {
-						color : '#FC07FC'
+						color : '#FFCC00'
 					}
 					,
 				repeatMode:true
 				},
 				polygon : {
 					shapeOptions : {
-						color : '#FC07FC'
+						color : '#FFCC00'
 					}
 					,
 				repeatMode:true
@@ -326,7 +326,8 @@ L.Control.addModulArbres = L.Control.extend({
 
 				bat_kg = parseFloat(bat_kg) + parseFloat(ff.bat);
 				cat_kg = parseFloat(cat_kg) + parseFloat(ff.cat);
-				ndvi_median=ff.ndvi_median;
+				ndvi_median=(ff.ndvi_median/100) -1;
+				
 			}
 
 			var html = '';
@@ -355,7 +356,7 @@ L.Control.addModulArbres = L.Control.extend({
 				'<tr><th>Àrea de capçada (m<sup>2</sup>):</th><td>' + decimalComa(coberta_m2.toFixed(1)) + ' m<sup>2</sup></td></tr>' +
 				'<tr><th>Biomassa aèria total (kg):</th><td>' + decimalComa(bat_kg.toFixed(1)) + ' kg</td></tr>' +
 				'<tr><th>Carboni aèri total (kg):</th><td>' + decimalComa(cat_kg.toFixed(1)) + ' kg</td></tr>' +
-				'<tr><th>NDVI:</th><td>' + decimalComa(ff.ndvi_median.toFixed(1)) + ' </td></tr>' +
+				'<tr><th>NDVI:</th><td>' + decimalComa(ndvi_median.toFixed(1)) + ' </td></tr>' +
 				'</table>';
 
 			}			
