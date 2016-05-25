@@ -1593,7 +1593,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				$( "#slider" ).slider({
 					range:true,
 			        min: 2,
-			        max: 19,			        
+			        max: 19,			 
+			        values: [parseInt(zoomInicial),parseInt(zoomFinal)],
 			        change:function(event,ui){
 		            	//tooltip($(this),ui);  
 		            },
@@ -1613,7 +1614,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			         }    
 			       }
 				);
-				$( "#slider" ).slider({values: [parseInt(zoomInicial),parseInt(zoomFinal)]});
 				
 				
 				$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {

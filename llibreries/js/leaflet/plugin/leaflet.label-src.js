@@ -199,7 +199,7 @@ L.Label = L.Class.extend({
 			
 			
 		}
-		console.debug(pos);
+		//console.debug(pos);
 		L.DomUtil.setPosition(container, pos);
 	},
 
