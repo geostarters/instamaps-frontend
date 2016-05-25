@@ -112,7 +112,7 @@ function gestionFonsMapa3D() {
 }
 
 function canviaVista_3D_2D(boto, event) {
-	console.debug(jQuery(boto).text());
+	
 	(jQuery(boto).text() == '3D') ? init3D(boto) : init2D(boto);
 
 }
@@ -218,18 +218,6 @@ function ActDesOpcionsVista3D(activa3D) {
 			window.lang.convert('Operacions no disponibles en modus 3D') +
 			'</div>');
 
-		/*
-		jQuery('#funcio_tematics').prepend('<div id="not_3d_mini">' +
-		window.lang.convert('Operacions no disponibles en modus 3D') +
-		'</div>');
-
-
-		jQuery('#funcio_SIG').prepend('<div id="not_3d_mini">' +
-		window.lang.convert('Operacions no disponibles en modus 3D') +
-		'</div>');
-
-		 */
-
 		jQuery('.leaflet-control-minimap').css('visibility', 'hidden');
 		$.each(crtl, function (index, value) {
 
@@ -245,7 +233,7 @@ function ActDesOpcionsVista3D(activa3D) {
 			jQuery(value).show();
 		});
 
-		//viewer.navigation.destroy();
+	
 		viewer.navigation = undefined;
 
 		jQuery('.leaflet-control-minimap').css('visibility', 'visible');
@@ -502,7 +490,6 @@ var IM_aplicacio = function (options) {
 
 					var pickedObjects = scene.drillPick(movement.position);
 					msgHTML = "";
-					//this.getFeatureInfo(movement.position);
 					jQuery("#popup3D").hide();
 					var pickRay = viewer.camera.getPickRay(movement.position);
 					var featuresPromise = viewer.imageryLayers.pickImageryLayerFeatures(pickRay, viewer.scene);
@@ -759,37 +746,7 @@ var IM_aplicacio = function (options) {
 
 				}
 
-				/*
-				jQuery.each(viewer.entities.values, function (index, feature) {
-
-				if(feature && feature.properties){
-				if (feature.properties.dataSource == obj.businessId) {
-
-				if(accio == "display"){
-				feature.show = visible
-				}else{
-
-
-
-
-				if(viewer.entities.getById(feature.id)){
-				viewer.entities.removeById(feature.id);
-
-
-				}
-
-
-				}
-
-
-				}
-				}else{
-
-				}
-				});
-				 */
-
-				//}
+				
 
 
 			} else {
@@ -979,15 +936,7 @@ var IM_aplicacio = function (options) {
 					this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true, numCapes));
 				}
 			} else {
-				// ACTIVES tipus capes heatmaps,cluster o bombolla TODO
-				/*
-				item.layer.options.businessId=item.layer.options.tipusRang+item2.layer.options.businessId;
-				//console.warn(item.layer.options.businessId);
-				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-				this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, true));
-				}
-				 */
-
+				
 				jQuery('label span#' + item.layer._leaflet_id).css('text-decoration', 'line-through');
 				jQuery('.leaflet-bar-timecontrol').hide();
 
@@ -1003,14 +952,7 @@ var IM_aplicacio = function (options) {
 				//}
 
 			} else {
-				// NO ACTIVES tipus capes heatmaps,cluster o bombolla TODO
-				/*
-				item.layer.options.businessId=item.layer.options.tipusRang+item2.layer.options.businessId;
-				if (jQuery.inArray(item.layer.options.businessId, overLayers3D) == -1) {
-				this.matriuCapes.overlays.push(this._utilDeterminaTipusItem(item, false));
-				}
-				 */
-
+				
 				jQuery('label span#' + item.layer._leaflet_id).css('text-decoration', 'line-through');
 				jQuery('.leaflet-bar-timecontrol').hide();
 
@@ -1269,6 +1211,8 @@ var IM_aplicacio = function (options) {
 
 	},
 	this.addOverlaysVectorsCesium = function () {
+		
+	
 var that = this;
 		for (var i = 0; i < this.matriuCapes.overlays.length; i++) {
 
@@ -1276,9 +1220,10 @@ var that = this;
 				
 				//setTimeout(function(){
 
-				var vector = this.matriuCapes.overlays[i].item;
-				var visible = this.matriuCapes.overlays[i].show;
+				var vector = this.matriuCapes.overlays[i].item;											
+				var visible = this.matriuCapes.overlays[i].show;							
 				var gj = vector.layer.toGeoJSONStyles2ToProperties();
+				
 				var msg = this.matriuCapes.overlays[i].msg;
 				var bb = vector.layer.options.businessId;
 
@@ -1286,17 +1231,19 @@ var that = this;
 
 					overLayers3D.push(bb);
 
+					
+					
 					var promise = Cesium.GeoJsonDataSource.load(gj);
 					
 					//var ellipsoid = viewer.scene.globe.ellipsoid;
 
-					promise.then(function (dataSource) {
+					promise.then(function (dataSource) {															
 						dataSource.id = bb;
 						var dataL = dataSource;
-						var XYZ_Edificis = [];
+						var XYZ_Edificis = [];							
 						setTimeout(function(){
 							that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
-						},factorNavegador);
+						},factorNavegador);												
 					}).otherwise(function (error) {
 						console.warn(error);
 					});
@@ -1344,8 +1291,12 @@ var that = this;
 		try {
 			var ff = item.layer.toGeoJSON();
 
+		
+			
 			var numFeatures = ff.features.length;
 
+			
+			
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
@@ -1398,6 +1349,8 @@ var that = this;
 
 				} else if (item.layer.options.geometryType.indexOf('polyline') != -1) {
 
+				
+				
 					numFeatures <= (_factorNumVectorsLin) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 				} else { //son punts
@@ -1418,6 +1371,8 @@ var that = this;
 
 			ff = "";
 
+			
+			
 			return tmp_feature;
 
 		} catch (err) {
@@ -1518,8 +1473,7 @@ var that = this;
 
 	this.addEntitiesVisorCesium = function (dataSource, matriu, hfactor, visible, msg) {
 
-		//console.warn("addEntitiesVisorCesium");
-
+		
 		var entities = dataSource.entities.values;
 		var z = 0;
 
@@ -1530,8 +1484,12 @@ var that = this;
 			var ellipsoid = viewer.scene.globe.ellipsoid;
 			entity.ellipsoid = ellipsoid;
 
+			
+		
 			if (entity.polyline) {
 
+			
+			
 				var entityMatriu = [];
 
 				for (var j = 0; j < entity.polyline.positions._value.length; ++j) {

@@ -146,20 +146,31 @@ L.LayerGroup.include({
          //Custom: que no es perdin les propietats del feature
          if(jQuery.isEmptyObject(json.properties)){
         	 
+			if(layer.properties.nom){ json.properties.name = layer.properties.nom;}
+					   
+			
+
+			/*
         	 try{
         		 
-        		 if(layer.properties && layer.properties.nom) { json.properties.name = layer.properties.nom; 
+        		 if(layer.properties && layer.properties.nom) { 
+					json.properties.name = layer.properties.nom; 
         		 }else{
         			 json.properties=layer.options; 
         			 
         		 }
         		
         	 }catch(err){
+				 
+				 console.info(err);	
         		 json.properties=layer.options; 
         		
         	 }
         	 
-          
+          */
+		  
+		  
+		  
            if(layer.properties && layer.properties.data){
              jQuery.each(layer.properties.data, function(key, value){
                if(key.indexOf("slot")==-1 && key.indexOf("businessId")==-1){
@@ -190,7 +201,7 @@ L.LayerGroup.include({
         	 }
          }
 
-         
+        
          if(json.geometry.type != 'Point'){
 		         try{
 		          _newJson = turf.simplify(json, 0.000001, false);
@@ -204,6 +215,8 @@ L.LayerGroup.include({
          }
          
          
+		
+		 
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
         }
       });
