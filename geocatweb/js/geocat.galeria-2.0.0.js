@@ -1023,7 +1023,7 @@
 										busy=false;
 										clearInterval(pollInterval);
 										$('#infoDuplicar').attr("style","display:none");
-										var urlMapaDuplicat = 'http://localhost/geocatweb/mapa.html?businessid='+data.results.businessId;
+										var urlMapaDuplicat = 'http://www.instamaps.cat/geocatweb/mapa.html?businessid='+data.results.businessId;
 										var spanText = '<span lang="ca" class="status_check">Procés finalitzat correctament</span>';
 										spanText += ' <div id="urlMapDuplicat"><a target="_blank" href="'+urlMapaDuplicat+'">'+
 													' <span lang="ca">Veure el mapa</span><span class="glyphicon glyphicon-share-alt"></span>'+

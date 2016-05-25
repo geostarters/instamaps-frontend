@@ -1728,6 +1728,8 @@ var that = this;
 
 				} else {
 
+				
+				/*
 					_newEntity = {
 
 						properties : entity.properties,
@@ -1744,7 +1746,14 @@ var that = this;
 
 						}
 					};
+					*/
+				
+					entity.polygon.outline = true;
+					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor),
+					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity)
 
+					_newEntity=entity;
+					
 				}
 
 				viewer.entities.add(_newEntity);
