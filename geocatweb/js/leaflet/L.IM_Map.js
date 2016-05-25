@@ -54,13 +54,12 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 	//urlServerTiles="http://localhost"
 }
 
-//var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
 //var URL_MQ='https://otile1-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
 
-var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+//var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 //var URL_MQ='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
-
 
 var URL_ESRI='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var URL_ESRI_T='http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}';
