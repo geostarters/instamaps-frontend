@@ -621,9 +621,20 @@ function addFuncioCarregaFitxers(){
 	});	
 	
 	
-	jQuery('input:radio[name="opt_csv_field"]').on('click', function() {				
-		jQuery('#ul_coords').toggle();
-		jQuery('#ul_geom').toggle();		
+	jQuery('input:radio[name="opt_csv_field"]').on('click', function() {
+
+		var ori=this.id;
+		
+		if(ori.indexOf('coords')!=-1){
+			jQuery('#ul_coords').show();
+			jQuery('#ul_geom').hide();				
+		}else if(ori.indexOf('geom')!=-1){
+			jQuery('#ul_coords').hide();
+			jQuery('#ul_geom').show();	
+		}else{		
+			jQuery('#ul_coords').toggle();
+			jQuery('#ul_geom').toggle();
+		}		
 	});	
 	
 	
@@ -1648,7 +1659,7 @@ function addHtmlModalCarregarFitxers(){
 		'							<div id="dv_contentOpt" class="tab-content tab-content-margin5px">'+
 		'								<div class="tab-pane active" id="opt_coord">'+
 		'									<ul class="bs-dadesO_JSON">'+
-		'										<li style="width:90%"><label lang="ca">On són les coordenades : </label> <input id="opt_csv_coords" type="radio" value="coords" checked name="opt_csv_field"><label lang="ca">Camps XY</label> <input id="opt_csv_geom" type="radio" value="wkt" name="opt_csv_field"><label lang="ca">Geometria WKT</label></li>'+
+		'										<li style="width:90%"><label lang="ca">On són les coordenades : </label> <input id="opt_csv_coords" type="radio" value="coords" checked name="opt_csv_field"><label lang="ca">Camps XY</label> <input id="opt_csv_geom" type="radio" value="wkt" name="opt_csv_field"><label lang="ca">WKT</label></li>'+
 		//'										<li></li>'+
 		'                                       <ul id="ul_coords">'+
 		'											<li lang="ca">Coordenada X o Longitud</li>'+
