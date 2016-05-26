@@ -8,7 +8,7 @@ var text_confirma_dades = 'Confirmeu les dades';
 		var params = url('?');
 		console.debug(params);
 		console.debug(url('?from'));
-		if(params!=null && params !='' && url('?from')!='null' && url('?from')!="" ){
+		if(params!=null && params !='' && url('?from')!='null' && url('?from')!="social" ){
 			signin_social = true;
 //			alert("Hi ha parametres:"+signin_social);
 			if(url('?FirstName')!='null') $('#signin_name').val(url('?FirstName'));
