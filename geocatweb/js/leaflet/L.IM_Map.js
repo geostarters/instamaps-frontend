@@ -44,22 +44,22 @@ var subDomains=['otile1','otile2','otile3','otile4'];
 //var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 var urlServerTiles="http://www.{s}.instamaps.cat"
+var urlServerTilesW="http://www.instamaps.cat"	
 var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 	//urlServerTiles="http://172.70.1.11"
 	urlServerTiles="http://instamaps.{s}.icgc.local"	
-		
+	urlServerTilesW="http://instamaps.icgc.local"		
 	//urlServerTiles="http://localhost"
 }
 
-//var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
 //var URL_MQ='https://otile1-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
 
-var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+//var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 //var URL_MQ='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
-
 
 var URL_ESRI='http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var URL_ESRI_T='http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}';
@@ -76,7 +76,7 @@ var URL_HIBRIDICGC=urlServerTiles+'/mapcache/tms/1.0.0/hibrid3857@GMTOT/{z}/{x}/
 
 
 //var URL_TOPOCOLOR='http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg';
-var URL_TOPOCOLOR=urlServerTiles+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
+var URL_TOPOCOLOR=urlServerTilesW+'/mapcache/tms/1.0.0/A250TARJ3857@GMTOT/{z}/{x}/{y}.png';
 
 var URL_HISTORIC=urlServerTiles+'/mapcache/tms/1.0.0/cat1936_3857@GM14/{z}/{x}/{y}.png';
 var URL_ORTOINSTAMAPS=urlServerTiles+'/mapcache/tms/1.0.0/orto3857_12@GMTOT/{z}/{x}/{y}.png';

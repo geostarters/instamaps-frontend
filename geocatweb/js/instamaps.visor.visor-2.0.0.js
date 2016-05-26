@@ -90,6 +90,7 @@
 					search: false,
 					location: false,
 					share: false,
+					like: false,
 					snapshot: false,
 					print: false,
 					geopdf: false,
@@ -110,6 +111,7 @@
 					search: true,
 					location: true,
 					share: true,
+					like: true,
 					snapshot: true,
 					print: true,
 					geopdf: true,
@@ -204,6 +206,12 @@
 				self.controls.shareControl.showBtn();
 			}else if(self.controls.shareControl){
 				self.controls.shareControl.hideBtn();
+			}
+			
+			if(options.like && self.controls.likeControl){
+				self.controls.likeControl.showBtn();
+			}else if(self.controls.likeControl){
+				self.controls.likeControl.hideBtn();
 			}
 			
 			if(options.search && self.controls.searchControl){
@@ -320,6 +328,7 @@
 			if (!self.sharecontrol) self.sharecontrol = 0;
 			if (!self.searchcontrol) self.searchcontrol = 0;
 			if (!self.routingcontrol) self.routingcontrol = 0;
+			if (!self.likecontrol) self.likecontrol = 0;
 			
 			if (!self.control3d) self.control3d = 0;
 			if (!self.snapshotcontrol) self.snapshotcontrol = 0;
@@ -459,6 +468,23 @@
 			ctr_vistaInicial.addTo(_map);
 			
 			self.controls.homeControl = ctr_vistaInicial;
+			
+			return self;
+		},
+		
+		addLikeControl: function(){
+			var self = this,
+			ctr_like,
+			_mapConfig = self.mapConfig,
+			_map = self.map;
+			
+			ctr_like = L.control.like({
+				mapConfig: _mapConfig,
+				title: window.lang.convert("M'agrada")
+			});
+			ctr_like.addTo(_map);
+			
+			self.controls.likeControl = ctr_like;
 			
 			return self;
 		},
@@ -704,16 +730,18 @@
 				if((self.locationcontrol && self.locationcontrol=="1") || self.locationcontrol===null){
 					self.addLocationControl();
 				}
-				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
-					self.addShareControl();
-				}
 				if((self.searchcontrol && self.searchcontrol=="1") || self.searchcontrol===null){
 					self.addSearchControl();
 				}
 				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null){
 					self.addRoutingControl();
 				}
-			  
+				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
+					self.addShareControl();
+				}
+				if((self.likecontrol && self.likecontrol=="1") || self.likecontrol===null){
+					self.addLikeControl();
+				}
 			
 			}
 			
@@ -835,11 +863,45 @@
 				mapConfig.options = $.parseJSON(mapConfig.options);
 				if(mapConfig.options.llegenda === false){
 					self.nollegenda = "1"; //ocultar la llegenda
+					self.llegenda = 0;
 				}
 			}
 			self._mapConfig = mapConfig;
+			
+			self._configControls();
+			
 			_map.fire('loadconfig', mapConfig);
 			$.publish('loadConfig', mapConfig);
+			
+			return self;
+		},
+		
+		_configControls: function(){
+			var self = this,
+			mapConfigOptions = self._mapConfig.options;
+			
+			if(mapConfigOptions.params){
+				var params = mapConfigOptions.params;
+				if(self.embed && (!$.isEmptyObject(params.iframe))){
+					var piframe = params.iframe;
+					$.each(piframe, function(key, value){
+						if(self[key] == 0 || self[key] == 1){
+						
+						}else{
+							self[key] = value;
+						}
+					});
+				}else if(!$.isEmptyObject(params.visor)){
+					var pvisor = params.visor;
+					$.each(pvisor, function(key, value){
+						if(self[key] == 0 || self[key] == 1){
+						
+						}else{
+							self[key] = value;
+						}
+					});
+				}
+			}
 			
 			return self;
 		},
@@ -898,7 +960,7 @@
 				nomEntitat = mapConfig.nomEntitat,
 				infoHtml = '';
 			
-			$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+			$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 			
 			$.cookie('perfil', 'instamaps', {path:'/'});
 			checkUserLogin();
@@ -911,10 +973,10 @@
 				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 
 				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-				$('meta[name="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 
 				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-				$('meta[name="og:image"]').attr('content', urlThumbnail);
+				$('meta[property="og:image"]').attr('content', urlThumbnail);
 
 				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';

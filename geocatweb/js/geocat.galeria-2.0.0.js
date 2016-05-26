@@ -16,6 +16,7 @@
 	var mapsGalery = [];
 	var codiUsuari;
 	var tipusEntitat;
+	var busy=false;
 	
 	//TODO definir los templates dentro del modulo
 	var source = $("#galeria-template").html();
@@ -430,6 +431,31 @@
 			
 			$('#typesTabs a[href="#aplicacionsTab"]').on('click',function(){
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'accés aplicacions']);
+			});
+			
+			//Duplicate mapa
+			$('#galeriaRow').on('click', '.btn#btn-duplicate', function(event){
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				var $this = $(this);
+				$('#dialgo_duplicar_mapa').data('businessid', $this.data("businessid"));
+				$('#dialgo_duplicar_mapa #nomMapaDuplicar').val($this.data("nomaplicacio")+"_duplicat");
+				busy=true;
+				$('#infoDuplicar').attr("style","display:none;");
+				$('#dialgo_duplicar_mapa #cancelarBoto').text("Cancel·lar");
+				$('#dialgo_duplicar_mapa #cancelarBoto').attr("class","btn btn-default");
+				$('#dialgo_duplicar_mapa #cancelarBoto').removeAttr("disabled");
+				$('#dialgo_duplicar_mapa #duplicarBoto').attr("style","display:inline");	
+				$('#infoText').attr("style","display:none;");
+				$('#dialgo_duplicar_mapa').modal('show');
+			});
+			
+			$('#dialgo_duplicar_mapa #duplicarBoto').on('click', function(event){
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				var $this = $(this);
+				self.duplicateMap();
+						
 			});
 		},
 		
@@ -913,7 +939,12 @@
 					self.pintaGaleriaConfigurades(results);
 				});
 			}
-		}, 
+		},
+		
+		refresh: function(){
+			var self = this;
+			self.loadGaleria();
+		},
 		
 		pintaGaleriaMapsByUser: function(results, searchString){
 			var self = this;
@@ -937,7 +968,150 @@
 				}
 				*/
 			}
+		}, 
+		
+		loadGaleria: function(){
+			var self = this;
+			self._loadGaleria({uid: self.options.uid}).then(function(results){
+				self.drawGaleria(results);
+				self.escriuResultats(results.results.length);
+			});
+		},
+		
+		_loadGaleria: function(params){
+			return jQuery.ajax({
+				url: paramUrl.getAllMapsByUser,
+		  		data: params,
+		  		method: 'post',
+		  		dataType: 'jsonp'
+			}).promise();
+		},
+		
+		duplicateMap: function(){
+			var self = this;	
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: $('#dialgo_duplicar_mapa').data('businessid')
+			}
+			//Polling
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =1000;
+					//Fem polling
+					(function(){							
+						pollBuffer = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									//console.debug(data);
+									//$('#dialgo_duplicar_mapa').modal('hide');
+									$('#infoDuplicar').attr("style","display:block;padding:5px;");
+									$('#loadingGaleria_duplicate').attr("style","display:block");
+									$('#dialgo_duplicar_mapa #cancelarBoto').text("Acceptar");
+									$('#dialgo_duplicar_mapa #cancelarBoto').attr("class","btn btn-success btn-default");
+									$('#dialgo_duplicar_mapa #cancelarBoto').attr("disabled", true);
+									$('#dialgo_duplicar_mapa #duplicarBoto').attr("style","display:none");		
+										
+									if(data.status.indexOf("PAS")!=-1 && busy){
+									
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+										busy=false;
+										clearInterval(pollInterval);
+										$('#infoDuplicar').attr("style","display:none");
+										var urlMapaDuplicat = 'http://www.instamaps.cat/geocatweb/mapa.html?businessid='+data.results.businessId;
+										var spanText = '<span lang="ca" class="status_check">Procés finalitzat correctament</span>';
+										spanText += ' <div id="urlMapDuplicat"><a target="_blank" href="'+urlMapaDuplicat+'">'+
+													' <span lang="ca">Veure el mapa</span><span class="glyphicon glyphicon-share-alt"></span>'+
+													' </a></div>';	
+										$('#infoText').html(spanText);
+										$('#infoText').attr("style","display:block");
+										$('#loadingGaleria_duplicate').attr("style","display:none");
+										$('#dialgo_duplicar_mapa #cancelarBoto').removeAttr("disabled");
+										userList.clear();
+										self.refresh();		
+										var sort = self.getOrderGaleria();
+										self.reorderGaleria(sort);
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										console.error("Error calculant l'operació");
+										console.error(data);
+										busy = false;										
+										clearInterval(pollInterval);
+										clearInterval(pollInterval);
+										$('#infoDuplicar').attr("style","display:none");
+										var spanText = '<span lang="ca" class="status_check">Error al duplicar el mapa</span>';
+										$('#infoText').html(spanText);
+										$('#infoText').attr("style","display:block");
+										$('#loadingGaleria_duplicate').attr("style","display:none");
+										$('#dialgo_duplicar_mapa #cancelarBoto').removeAttr("disabled");
+										//error
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollBuffer();
+						},pollTime);
+						
+					})();
+					
+					var data ={
+						uid:self.options.uid,
+						duplicate: 'si',
+						urlDuplicar: paramUrl.duplicateMap,
+						businessId:$('#dialgo_duplicar_mapa').data('businessid'),
+						nom: $('#dialgo_duplicar_mapa #nomMapaDuplicar').val(),
+						tmpFilePath: tmpFile
+					};
+								
+					callActions(data);
+					/*self._duplicateMap(data).then(function(results){
+					if (results.status == "OK"){
+						self._hideLoading();
+						self.refresh();
+						$('#dialgo_duplicar_mapa').modal('hide');
+						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'duplicar aplicacio']);
+					}
+					});*/	
+				
+				}
+				else {
+					busy=false;
+				}
+				
+
+				
+			 });
+			
+			
+				
+		},
+		
+		_duplicateMap: function(params){
+			return jQuery.ajax({
+				url: paramUrl.duplicateMap,
+				data: params,
+		  		dataType: 'jsonp'
+			}).promise();
+		},
+		
+		_showLoading: function(){
+			$('#loadingGaleria_duplicate').show();
+		},
+		
+		_hideLoading: function(){
+			$('#loadingGaleria_duplicate').hide();
 		}
+
 
 	};
 	

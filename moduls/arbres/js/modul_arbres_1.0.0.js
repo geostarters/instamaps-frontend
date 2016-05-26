@@ -19,7 +19,7 @@ http://172.30.22.41:8080/geoserver/Arbres/wms?service=WFS&outputFormat=json&srsN
 
  */
 
-console.info("modul Rubi arbres");
+
 
 if (($(location).attr('href').indexOf('/visor.html') != -1)) {
 	$("head").append('<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css">');
@@ -58,6 +58,7 @@ L.Control.addModulArbres = L.Control.extend({
 
 		initialize : function (GeoJsonLayer, options) {
 			this.geoJsonLayer = GeoJsonLayer;
+			this.geoJsonLayerSelect=new L.geoJson();
 			this.controlDraw;
 
 			L.Util.setOptions(this, options);
@@ -65,7 +66,7 @@ L.Control.addModulArbres = L.Control.extend({
 		onAdd : function (map) {
 
 			this.geoJsonLayer.addTo(map);
-
+			this.geoJsonLayerSelect.addTo(map);
 			//this.getFeatureRequest(null, null, map);
 			this.addControlDrawButtons(this.geoJsonLayer);
 			this._container = L.DomUtil.create('div', 'arbres_info'); // create a div
@@ -97,6 +98,7 @@ L.Control.addModulArbres = L.Control.extend({
 		closeInfo : function (e) {
 			this._container.style.display = 'none';
 			this.geoJsonLayer.clearLayers();
+			this.geoJsonLayerSelect.clearLayers();
 			 changeWMSQueryable(true);
 
 			aturaClick(e);
@@ -146,14 +148,14 @@ L.Control.addModulArbres = L.Control.extend({
 			this.controlDraw.setDrawingOptions({
 				rectangle : {
 					shapeOptions : {
-						color : '#FC07FC'
+						color : '#FFCC00'
 					}
 					,
 				repeatMode:true
 				},
 				polygon : {
 					shapeOptions : {
-						color : '#FC07FC'
+						color : '#FFCC00'
 					}
 					,
 				repeatMode:true
@@ -217,15 +219,17 @@ L.Control.addModulArbres = L.Control.extend({
 
 				if (e.layerType == "rectangle") {
 
-					spatialFilter = 'Intersects';
-					that.getFeatureRequest(e.layer.toGML(), spatialFilter, getAreaLayer(e.layer));
+					spatialFilter = 'Within';
+					that.getFeatureRequest(e, spatialFilter, getAreaLayer(e.layer));
+
 				} else if (e.layerType == "polygon") {
 
 					spatialFilter = 'Within';
-					that.getFeatureRequest(e.layer.toGML(), spatialFilter, getAreaLayer(e.layer));
+					that.getFeatureRequest(e, spatialFilter, getAreaLayer(e.layer));
+			
 				} else {
 					spatialFilter = 'Intersects';
-					that.getFeatureRequest(e.layer.toGML(), spatialFilter, null);
+					that.getFeatureRequest(e, spatialFilter, null);
 					
 				}
 
@@ -235,10 +239,10 @@ L.Control.addModulArbres = L.Control.extend({
 			});
 
 		},
-		getFeatureRequest : function (geometryGML, spatialFilter, areaSeleccio) {
+		getFeatureRequest : function (geometry, spatialFilter, areaSeleccio) {
 
 			var parameters = L.Util.extend(this.options.parametersWFS);
-			var FILTER = 'FILTER=(<Filter xmlns:gml="http://www.opengis.net/gml" ><' + spatialFilter + '><PropertyName>geom</PropertyName>' + geometryGML + '</' + spatialFilter + '></Filter>)';
+			var FILTER = 'FILTER=(<Filter xmlns:gml="http://www.opengis.net/gml" ><' + spatialFilter + '><PropertyName>geom</PropertyName>' + geometry.layer.toGML() + '</' + spatialFilter + '></Filter>)';
 
 			var BBOX = "bbox=" + map.getBounds().getSouth() + "," + map.getBounds().getWest() + "," + map.getBounds().getNorth() + "," + map.getBounds().getEast();
 
@@ -252,13 +256,13 @@ L.Control.addModulArbres = L.Control.extend({
 				jsonp : "false",
 				jsonpCallback : "parseResponse",
 				success : function (dataGeoJson) {
-					that.handleJson(dataGeoJson, areaSeleccio);
+					that.handleJson(dataGeoJson, areaSeleccio,geometry);
 				}
 			});
 		},
 
-		handleJson : function (dataGeoJson, areaSeleccio) {
-
+		handleJson : function (dataGeoJson, areaSeleccio,geometry) {
+			this.geoJsonLayerSelect.clearLayers();
 			this.geoJsonLayer.clearLayers();
 			this.geoJsonLayer.addData(dataGeoJson);
 			this.geoJsonLayer.setStyle({
@@ -268,6 +272,21 @@ L.Control.addModulArbres = L.Control.extend({
 				opacity : 1,
 				fillOpacity : 0.8
 			});
+
+
+
+			if(geometry.layerType !="marker"){
+				this.geoJsonLayerSelect.addData(geometry.layer.toGeoJSON());
+				this.geoJsonLayerSelect.setStyle({
+					fillColor : "#FC07FC",
+					color : "#FFCC00",
+					weight : 2,
+					opacity : 1,
+					fillOpacity : 0
+				});
+			}
+
+
 
 			this.jsonTemplateInfo(dataGeoJson, areaSeleccio);
 		},
@@ -307,7 +326,8 @@ L.Control.addModulArbres = L.Control.extend({
 
 				bat_kg = parseFloat(bat_kg) + parseFloat(ff.bat);
 				cat_kg = parseFloat(cat_kg) + parseFloat(ff.cat);
-				ndvi_median=ff.ndvi_median;
+				ndvi_median=(ff.ndvi_median/100) -1;
+				
 			}
 
 			var html = '';
@@ -336,7 +356,7 @@ L.Control.addModulArbres = L.Control.extend({
 				'<tr><th>Àrea de capçada (m<sup>2</sup>):</th><td>' + decimalComa(coberta_m2.toFixed(1)) + ' m<sup>2</sup></td></tr>' +
 				'<tr><th>Biomassa aèria total (kg):</th><td>' + decimalComa(bat_kg.toFixed(1)) + ' kg</td></tr>' +
 				'<tr><th>Carboni aèri total (kg):</th><td>' + decimalComa(cat_kg.toFixed(1)) + ' kg</td></tr>' +
-				'<tr><th>NDVI:</th><td>' + decimalComa(ff.ndvi_median.toFixed(1)) + ' </td></tr>' +
+				'<tr><th>NDVI:</th><td>' + decimalComa(ndvi_median.toFixed(1)) + ' </td></tr>' +
 				'</table>';
 
 			}			

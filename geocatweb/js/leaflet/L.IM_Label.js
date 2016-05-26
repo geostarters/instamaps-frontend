@@ -104,7 +104,7 @@
 		},
 		_showLabel: function (e) {
 			this.label.setLatLng(e.latlng);
-			this._map.showLabel(this.label);
+			if (this._map!=null) this._map.showLabel(this.label);
 		},
 		_onPolygonAdd: function () {
 			if (this._labelNoHide) {

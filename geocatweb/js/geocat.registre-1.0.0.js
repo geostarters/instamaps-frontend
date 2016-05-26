@@ -6,7 +6,9 @@ var text_confirma_dades = 'Confirmeu les dades';
 		$('.waiting_animation').toggle();
 		
 		var params = url('?');
-		if(params!=null && params !='' && url('?from')!="" && !url('?from')){
+		console.debug(params);
+		console.debug(url('?from'));
+		if(params!=null && params !='' && url('?from')!='null' && url('?from')!="" ){
 			signin_social = true;
 //			alert("Hi ha parametres:"+signin_social);
 			if(url('?FirstName')!='null') $('#signin_name').val(url('?FirstName'));

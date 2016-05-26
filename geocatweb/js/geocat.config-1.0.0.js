@@ -198,7 +198,7 @@ var paramUrl = {
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
-	crearFitxerPolling: HOST_APP +"geocat/aplications/map/crearFitxerPolling.action?",
+	crearFitxerPolling: HOST_APP+"/geocat/aplications/map/crearFitxerPolling.action?",
 	filter: HOST_APP+"geocat/aplications/map/filter.action?",
 	callActions:"/share/jsp/callActions.jsp?",
 	//loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
@@ -216,7 +216,8 @@ var paramUrl = {
 	searchGaleriaMapsByUser: HOST_APP+"geocat/aplications/map/searchGaleriaMapsByUser.action?",
 	eacat: "https://idp.eacat.net/Logon.aspx?providerID=IDEC",
 	url_mapserver:HOST_APP+"/geoservicelocal/",
-	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?"
+	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?",
+	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?"
 }
 
 var paramAplications = {

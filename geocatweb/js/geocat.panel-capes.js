@@ -426,27 +426,7 @@ function addTooltipsConfOptions(businessId){
 
 function addFuncioEtiquetesCapa(){
 	addHtmlModalEtiquetesLayer();
-	var zoomInicial="2";
-	var zoomFinal="19";
-	//Omplim els camps amb el que hi ha guardat a la BBDD
-	$( "#slider" ).slider({
-		range:true,
-        min: 2,
-        max: 19,
-        values: [2,19],
-        start: function( event, ui ) {
-        	$('#slider .ui-slider-handle').first().tooltip('destroy');
-        	$('#slider .ui-slider-handle').last().tooltip('destroy');
-        },
-        stop: function( event, ui ) {
-           //alert(  ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-            zoomInicial=ui.values[0];
-            zoomFinal=ui.values[1];
-            $('#slider .ui-slider-handle').first().tooltip({title: ui.values[0], trigger: 'manual', placement: 'bottom'}).tooltip("show");
-            $('#slider .ui-slider-handle').last().tooltip({title: ui.values[1], trigger: 'manual', placement: 'bottom'}).tooltip("show");
-         }    
-       }
-	);
+
 	$('#colorpalette_etiqueta').colorPalette().on('selectColor', function(e) {   	
 	    $('.color_etiqueta').css('background-color',e.color);		
 	});
@@ -470,7 +450,7 @@ function addFuncioEtiquetesCapa(){
 					opcionsVis:$("input[name=etiqueta]:checked").val(),
 					zoomInicial:zoomInicial,
 					zoomFinal:zoomFinal
-			}
+			};
 			var layerMap=map._layers[capaLeafletId];
 			var optionsMap;
 			if (layerMap==undefined) {

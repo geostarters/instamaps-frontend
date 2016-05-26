@@ -13,11 +13,37 @@ var canvas_obj_l,cv_ctx_l;
 var canvas_obj_p,cv_ctx_p;
 var objEdicio={'esticEnEdicio':false,'obroModalFrom':'creaCapa','featureID':null,'esticSobre':false,'edicioPopup':'textFeature'};
 
+function changeRandomDefaults(){
 
-//colors:[['#ffc500', '#ff7f0b', '#ff4b3a', '#ae59b9', '#00afb5', '#7cbd00', '#90a6a9', '#ebf0f1']]
+	var randomColorInit=getRamdomColorFromArray();
+	canvas_linia.strokeStyle=randomColorInit;
+	canvas_pol.strokeStyle=randomColorInit;
+	canvas_pol.fillStyle="rgba("+hexToRgb(randomColorInit).r+", "+hexToRgb(randomColorInit).g+", "+hexToRgb(randomColorInit).b+",0.5)";
+	var colorText=getClassFromColor(randomColorInit)	
+	default_marker_style.markerColor = colorText,
+	default_line_style.color=randomColorInit;
+	default_area_style.color=randomColorInit;
+	default_area_style.borderColor=randomColorInit;
+	default_area_style.fillColor="rgb("+hexToRgb(randomColorInit).r+", "+hexToRgb(randomColorInit).g+", "+hexToRgb(randomColorInit).b+")";	
+	estilP.colorGlif="#000000";
+	estilP.iconFons="awesome-marker-web awesome-marker-icon-"+colorText;
+
+}
+
+function addRandomStyleInit(){
+
+	jQuery('#div_punt').removeClass();
+	jQuery('#div_punt').addClass('awesome-marker-web awesome-marker-icon-'+default_marker_style.markerColor+' fa fa-');	
+	jQuery('#div_punt').css({"font-size":"14px", "width": "28px", "height": "42px", "color": "rgb(0, 0, 0)", "background-color": "transparent"});	
+	changeDefaultLineStyle(canvas_linia);
+	changeDefaultPointStyle(estilP);
+	changeDefaultAreaStyle(canvas_pol);
+
+}
 
 function addDialegEstilsDraw() {
 	
+	changeRandomDefaults();
 	addHtmlInterficieDraw();
 	
 	jQuery('#div_mes_punts').on("click", function(e) {	
@@ -31,6 +57,8 @@ function addDialegEstilsDraw() {
 	jQuery('#div_mes_arees').on("click", function(e) {	
 		obrirMenuModal('#dialog_estils_arees','toggle',from_creaCapa);
 	});
+
+	
 
 }
 
@@ -67,6 +95,8 @@ function obrirMenuModal(_menuClass,estat,_from){
 
 			 var styleProps = $("#div_punt").css(["width","height","color","background-color","font-size"]);
 			 var punt_class = $("#div_punt").attr("class");
+			 
+			 console.info(punt_class);
 			 var lclass = punt_class.split(" ");
 			 //console.debug(punt_class);
 			 //Si es punt inicial per defecte
@@ -78,6 +108,8 @@ function obrirMenuModal(_menuClass,estat,_from){
 						 	markerColor: 'orange',
 						 	tipus: t_marker
 				};
+				
+				console.info(icon);
 				updateDialogStyleSelected(icon);				 
 			 }else if (punt_class.indexOf("punt_r")!=-1){
 				 	
@@ -161,9 +193,9 @@ function obrirMenuModal(_menuClass,estat,_from){
 }
 
 function initCanvas(){
-	addGeometryInitP(document.getElementById(canvas_pol.id));
+	addGeometryInitP(document.getElementById(canvas_pol.id),"inicial");
 	addGeometryInitP(document.getElementById(canvas_pol.id+"0"));
-	addGeometryInitL(document.getElementById(canvas_linia.id));	
+	addGeometryInitL(document.getElementById(canvas_linia.id),"inicial");	
 	addGeometryInitL(document.getElementById(canvas_linia.id+"0"));
 	
     $('#colorpalette_pf').colorPalette().on('selectColor', function(e) {   	
@@ -248,7 +280,7 @@ function initCanvas(){
     });
 }
 
-function addGeometryInitL(canvas){
+function addGeometryInitL(canvas,inicial){
 	var	cv_ctx_l=canvas.getContext("2d");
 	cv_ctx_l.clearRect(0, 0, canvas.width, canvas.height);
 	cv_ctx_l.moveTo(0.7,39.42);
@@ -272,10 +304,22 @@ function addGeometryInitL(canvas){
 	cv_ctx_l.lineTo(35.52,0.54);
 	cv_ctx_l.strokeStyle=canvas_linia.strokeStyle;
 	cv_ctx_l.lineWidth=canvas_linia.lineWidth;
+	if (inicial==null || inicial==undefined){
+		cv_ctx_l.shadowColor = '#999999';
+		cv_ctx_l.shadowBlur = 20;
+		cv_ctx_l.shadowOffsetX = 15;
+		cv_ctx_l.shadowOffsetY = 15;
+		cv_ctx_l.stroke(); 	
+		cv_ctx_l.shadowOffsetX = -15;
+		cv_ctx_l.stroke(); 	
+		cv_ctx_l.shadowOffsetY = -15;
+		cv_ctx_l.stroke(); 
+		cv_ctx_l.shadowOffsetX = 15;
+	}
 	cv_ctx_l.stroke(); 	
 }
 
-function addGeometryInitP(canvas){
+function addGeometryInitP(canvas,inicial){
 	var	cv_ctx_p=canvas.getContext("2d");
 	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
 	cv_ctx_p.moveTo(5.13,15.82);
@@ -292,8 +336,23 @@ function addGeometryInitP(canvas){
 //	cv_ctx_p.fillStyle=canvas_pol.fillStyle;
 	cv_ctx_p.lineWidth=canvas_pol.lineWidth;
 //	cv_ctx_p.opacity=canvas_pol.opacity;
-	cv_ctx_p.fill();
-	cv_ctx_p.stroke(); 
+	if (inicial==null || inicial==undefined){
+		cv_ctx_p.shadowColor = '#999999';
+		cv_ctx_p.shadowBlur = 20;
+		cv_ctx_p.shadowOffsetX = 15;
+		cv_ctx_p.shadowOffsetY = 18;	
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 
+		cv_ctx_p.shadowOffsetX = -15;
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 	
+		cv_ctx_p.shadowOffsetY = -18;
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 
+		cv_ctx_p.shadowOffsetX = 15;
+	}	
+		cv_ctx_p.fill();
+		cv_ctx_p.stroke(); 
 }
 
 //Funcio inicialitzar i afegir drawControl
@@ -342,6 +401,7 @@ function addDrawToolbar() {
 	drawControl = new L.Control.Draw(options);
 	map.addControl(drawControl);
 	addDrawTooltips();
+	addRandomStyleInit();
 }
 
 //function showEditText(accio){
@@ -782,6 +842,8 @@ function createPopupWindow(layer,type){
 			}else{
 				var icon = obj.options;
 			}
+			
+		
 			updateDialogStyleSelected(icon);
 
 			
@@ -1751,7 +1813,7 @@ function modeEditText(){
  * amb el de la feature que es col editar 
  * */
 function updateDialogStyleSelected(icon){
- //  console.debug(icon);
+  
 	if(icon.tipus == t_polyline){
 		
 		canvas_linia.lineWidth = icon.weight;
@@ -1783,6 +1845,7 @@ function updateDialogStyleSelected(icon){
 		jQuery("#div_puntZ").removeClass("estil_selected");
 		jQuery(".bs-glyphicons li").removeClass("estil_selected");		
 		
+		
 		if(icon.isCanvas){//Si es un punt
 			
 			var midaPunt = getMidaFromRadius(icon.radius);
@@ -1792,7 +1855,11 @@ function updateDialogStyleSelected(icon){
 			estilP.colorGlif = icon.iconColor;
 			estilP.divColor = icon.fillColor;
 			estilP.width = midaPunt+'px';
-			estilP.height = midaPunt+'px';				
+			estilP.height = midaPunt+'px';
+
+			
+			
+			
 			
 			jQuery("#div_puntZ").addClass("estil_selected");
 			jQuery("#div_punt9").css("background-color",icon.fillColor);
@@ -1813,6 +1880,7 @@ function updateDialogStyleSelected(icon){
 			estilP.height = midaPunt+'px';
 			estilP.divColor = icon.divColor;
 			
+		
 			jQuery("#div_puntZ").addClass("estil_selected");
 			jQuery("#div_punt9").css("background-color",icon.divColor);
 			$('#cmb_mida_Punt option[value="'+midaPunt+'"]').prop("selected", "selected");
@@ -1832,6 +1900,8 @@ function updateDialogStyleSelected(icon){
 			
 		}else{//Si es marker
 			
+			
+			
 			estilP.iconFons = icon.className+'-web awesome-marker-icon-'+icon.markerColor;
 			estilP.iconGlif = 'fa fa-'+icon.icon;
 			estilP.colorGlif = icon.iconColor;
@@ -1839,6 +1909,8 @@ function updateDialogStyleSelected(icon){
 			estilP.divColor = 'transparent';
 			estilP.width = '28px';
 			estilP.height = '42px';
+			
+			
 			
 			jQuery("#div_puntM").addClass("estil_selected");
 			jQuery("#dv_fill_color_marker").css("background-color",getColorFromClass(icon.markerColor));

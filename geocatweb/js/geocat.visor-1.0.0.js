@@ -185,7 +185,7 @@ function loadVisorSimple(){
 	map.setActiveMap(topoMapGeo);
 	map.setMapColor("");
 
-	$('meta[name="og:title"]').attr('content', "Mapa  "+ url('?layername')+" cloudifier");
+	$('meta[property="og:title"]').attr('content', "Mapa  "+ url('?layername')+" cloudifier");
 	$('#nomAplicacio').html("Mapa "+ url('?layername')+" cloudifier");
 	document.title = "Mapa "+ url('?layername')+" cloudifier";
 	jQuery("#mapTitle").html("Mapa  "+ url('?layername')+" cloudifier");
@@ -293,7 +293,7 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 
-	$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+	$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 
 	var nomUser = mapConfig.entitatUid.split("@");
 	var nomEntitat = mapConfig.nomEntitat;
@@ -324,10 +324,10 @@ function loadPublicMap(results){
 		desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 
 		$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-		$('meta[name="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+		$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 
 		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-		$('meta[name="og:image"]').attr('content', urlThumbnail);
+		$('meta[property="og:image"]').attr('content', urlThumbnail);
 
 		if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
@@ -1579,7 +1579,7 @@ function loadVisorSimple(){
 	map.setActiveMap(topoMapGeo);
 	map.setMapColor("");
 
-	$('meta[name="og:title"]').attr('content', "Mapa  "+ url('?layername')+" cloudifier");
+	$('meta[property="og:title"]').attr('content', "Mapa  "+ url('?layername')+" cloudifier");
 	$('#nomAplicacio').html("Mapa "+ url('?layername')+" cloudifier");
 	document.title = "Mapa "+ url('?layername')+" cloudifier";
 	jQuery("#mapTitle").html("Mapa  "+ url('?layername')+" cloudifier");
@@ -1687,7 +1687,7 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 
-	$('meta[name="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+	$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 
 	var nomUser = mapConfig.entitatUid.split("@");
 	var nomEntitat = mapConfig.nomEntitat;
@@ -1717,11 +1717,11 @@ function loadPublicMap(results){
 
 		desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 
-		$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-		$('meta[name="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+		$('meta[property="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+		$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 
 		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-		$('meta[name="og:image"]').attr('content', urlThumbnail);
+		$('meta[property="og:image"]').attr('content', urlThumbnail);
 
 		if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';

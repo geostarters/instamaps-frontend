@@ -429,6 +429,13 @@ function randomColor(){
 	return '#'+Math.floor(Math.random()*16777215).toString(16);
 }
 
+
+
+function getRamdomColorFromArray() {
+	var colors = ['#ffc500', '#ff7f0b', '#ff4b3a', '#ae59b9', '#00afb5', '#7cbd00', '#90a6a9', '#ebf0f1'];
+   return colors[Math.floor(Math.random() * colors.length)];
+}
+
 //Comptador mida dun objecte
 $.extend({
     keyCount : function(o) {
@@ -896,6 +903,8 @@ function shortString(str,_length){
 	}
 	return str;	
 }	
+
+
 
 String.prototype.replaceAll = function(target, replacement) {
   return this.split(target).join(replacement);

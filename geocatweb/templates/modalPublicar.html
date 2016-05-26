@@ -12,13 +12,14 @@
 			<div class="modal-body">
 				<ul class="nav nav-tabs etiqueta">
 					<li><a href="#id_info" id="id_info_tab" lang="ca"
-						data-toggle="tab"">Informaci&oacute;</a></li>
+						data-toggle="tab"">Informació</a></li>
 					<li><a href="#id_privacitat" id="id_privacitat_tab" lang="ca"
 						data-toggle="tab">Privacitat</a></li>
 					<li><a href="#id_llegenda" id="id_llegenda_tab" lang="ca"
 						data-toggle="tab">Llegenda</a></li>
 					<li><a href="#id_reuse" id="id_reuse_tab" lang="ca"
-						data-toggle="tab">Reutilitzaci&oacute;</a></li>
+						data-toggle="tab">Reutilització</a></li>
+					<li><a href="#id_parametres" id="id_parametres_tab" lang="ca" data-toggle="tab">Paràmetres visor</a></li>
 					<li style="display: none;" id="geolocal_tab"><a
 						href="#id_geolocal" lang="ca" data-toggle="tab">Geolocal</a></li>
 				</ul>
@@ -99,6 +100,50 @@
 					<div class="tab-pane fade" id="id_reuse">
 						<div class="modal-downloadable"></div>
 					</div>
+					<div class="tab-pane fade" id="id_parametres">
+						<div lang="ca">Escull els paràmetres que vols afegir al visor</div>
+						<br/>
+						<div class="row">
+							<div lang="ca" class="col-md-8">Paràmetres:</div>
+							<div lang="ca" class="col-md-2 text-center">Visor</div>
+							<div lang="ca" class="col-md-2 text-center">Iframe</div>
+						</div>
+						<div id="div_params_visor" class="row">
+        					<div class="separate-visor-row-all"></div>
+        					<div class="visor-subrow-all">
+        						<div class="col-md-8 visor-name-all" lang="ca">Tots els paràmetres</div>
+        						<div class="col-md-2 text-center">
+        							<input id="visor-chck-all" class="download-chck" type="checkbox">
+        						</div>
+        						<div class="col-md-2 text-center">
+        							<input id="iframe-chck-all" class="col-md-2 download-chck" type="checkbox">
+        						</div>
+        					</div>
+        					<div class="list-parameters"></div>
+        					<script id="list-parameter-fields" type="text/x-handlebars-template">
+								{{#each paramsVisor}}
+									<div class="separate-visor-row"></div>
+									<div class="visor-subrow" data-param="{{param}}">
+										<div class="col-md-8 visor-name">{{text}}</div>
+										<div class="col-md-2 text-center col-visor">
+											{{#if visor}}
+											<input name="visor-chck" class="col-md-1 visor-chck" type="checkbox" checked>
+											{{else}}
+											<input name="visor-chck" class="col-md-1 visor-chck" type="checkbox">
+											{{/if}}
+										</div>
+										<div class="col-md-2 text-center col-iframe">
+											{{#if iframe}}
+											<input name="iframe-chck" class="col-md-1 iframe-chck" type="checkbox" checked>
+											{{else}}
+											<input name="iframe-chck" class="col-md-1 iframe-chck" type="checkbox" >
+											{{/if}}
+										</div>	
+									</div>
+								{{/each}}
+							</script>
+        				</div>	
+        			</div>
 					<div class="tab-pane fade" id="id_geolocal" lang="ca">
 						<div class="row modal-public-aspect">
 							<div class="col-xs-6">
@@ -129,22 +174,18 @@
 											<li><div id="colorpalette_text_bar"></div></li>
 										</ul>
 									</div>
-								</div>
+								</div>	
 								<div class="text-font">
 									<span lang="ca">Font</span>
-									<div class="bfh-selectbox bfh-fonts" data-font="Arial"
-										data-available="Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana"></div>
+									<div class="bfh-selectbox bfh-fonts" data-font="Arial" data-available="Arial,Calibri,Courier New,Franklin Gothic Medium,Geneva,Helvetica,Times New Roman,Verdana"></div>
 								</div>
 								<div class="form-inline form-group">
-									<span lang="ca">Contacte</span> <input type="email"
-										class="form-control my-border" id="contacte"
-										placeholder="joan.ros@exemple.cat">
-								</div>
+			    					<span lang="ca">Contacte</span>
+			    					<input type="email" class="form-control my-border" id="contacte" placeholder="joan.ros@exemple.cat">
+			  					</div>
 							</div>
 							<div class="col-xs-6">
-								<div class="">
-									<label class="control-label" lang="ca">Escut</label>
-								</div>
+								<div class=""><label class="control-label" lang="ca">Escut</label></div>
 								<div class="dropzone" id="file-logo">
 									<img class="logo" src="/logos/blank.gif">
 								</div>
@@ -153,17 +194,11 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="modal-footer" lang="ca">
-				<button lang="ca" type="button" class="btn btn-default"
-					data-dismiss="modal" id="cancelPublicar">Cancel·lar</button>
-				<button lang="ca" type="button" class="btn btn-primary"
-					id="okPublicar">Publicar</button>
+				<button lang="ca" type="button" class="btn btn-default" data-dismiss="modal" id="cancelPublicar">Cancel·lar</button>
+				<button lang="ca" type="button" class="btn btn-primary" id="okPublicar">Publicar</button>
 			</div>
-		</div>
-		<!-- /.modal-content -->
-	</div>
-	<!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- Fi Modal Publicar -->
