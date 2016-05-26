@@ -251,10 +251,15 @@ L.Label = L.Class.extend({
 	},
 
 	_onMouseClick: function (e) {
+		this._source.openPopup();
+		 e.stopPropagation();
+		  e.preventDefault();
 		if (this.hasEventListeners(e.type)) {
 			L.DomEvent.stopPropagation(e);
 		}
-
+		
+		
+       	 
 		this.fire(e.type, {
 			originalEvent: e
 		});
