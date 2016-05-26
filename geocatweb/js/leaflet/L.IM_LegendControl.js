@@ -136,6 +136,7 @@ L.Control.Legend = L.Control.extend({
 		this.servidorsWMS=config.servidorsWMS;
 		this.legend = (config.legend? $.parseJSON( config.legend):"");
 		this._draw();
+		$('#nav_legend').tabdrop('layout');
 	},
 	
 	_redrawTabs: function(){
@@ -247,7 +248,7 @@ L.Control.Legend = L.Control.extend({
 			
 			$(div).append(legendTab.join(""));
 			$(div).append(legendTabContent.join(""));
-			$('#nav_legend').tabdrop();
+			$('#nav_legend').tabdrop('layout');
 		
 						
 			$(div).on('click', function(e){			
