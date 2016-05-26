@@ -866,6 +866,13 @@ var IM_aplicacio = function (options) {
 				} else {
 
 					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+					
+					
+					url=url.replace('www.a.instamaps','www.instamaps');
+					url=url.replace('www.b.instamaps','www.instamaps');
+					url=url.replace('www.c.instamaps','www.instamaps');
+					
+					
 
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
 								url : url,
