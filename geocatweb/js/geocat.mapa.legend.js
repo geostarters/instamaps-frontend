@@ -1141,7 +1141,7 @@ function updateMapLegendData(){
 		var html=$(element).children( ".legend-symbol").html();
 		
 		if(html.indexOf('GetLegendGraphic')!= -1){
-			console.info(html);
+			
 			html=html.replace('width:26px;','');
 			//html=html.replace('<img','<br><img');
 			//html=html.replace('<img','<img');
