@@ -1716,6 +1716,21 @@ var that = this;
 						terra = (Math.max.apply(Math, _matriuAlcada));
 					}
 					_extrudeAlcada = terra + parseInt(alcada);
+					
+					
+					/*
+					entity.polygon.hierarchy=cartesianPositions
+					entity.polygon.extrudedHeight=_extrudeAlcada
+					entity.polygon.perPositionHeight
+					entity.polygon.outline = true;
+					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor),
+					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity)
+
+					_newEntity=entity;
+					
+					*/
+					
+					
 					_newEntity = {
 
 						properties : entity.properties,
@@ -1733,6 +1748,8 @@ var that = this;
 						}
 					};
 
+					
+					
 				} else {
 
 				
@@ -1756,8 +1773,8 @@ var that = this;
 					*/
 				
 					entity.polygon.outline = true;
-					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor),
-					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity)
+					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
+					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
 
 					_newEntity=entity;
 					
