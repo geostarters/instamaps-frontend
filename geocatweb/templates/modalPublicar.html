@@ -89,20 +89,20 @@
         					<script id="list-parameter-fields" type="text/x-handlebars-template">
 								{{#each paramsVisor}}
 									<div class="separate-visor-row"></div>
-									<div class="visor-subrow" data-param="{{param}}">
-										<div class="col-md-8 visor-name">{{text}}</div>
-										<div class="col-md-2 text-center col-visor">
+									<div class="visor-subrow fluent-row" data-param="{{param}}">
+										<div class="col-xs-8 visor-name">{{text}}</div>
+										<div class="col-xs-2 text-center col-visor">
 											{{#if visor}}
-											<input name="visor-chck" class="col-md-1 visor-chck" type="checkbox" checked>
+											<input name="visor-chck" class="visor-chck" type="checkbox" checked>
 											{{else}}
-											<input name="visor-chck" class="col-md-1 visor-chck" type="checkbox">
+											<input name="visor-chck" class="visor-chck" type="checkbox">
 											{{/if}}
 										</div>
-										<div class="col-md-2 text-center col-iframe">
+										<div class="col-xs-2 text-center col-iframe">
 											{{#if iframe}}
-											<input name="iframe-chck" class="col-md-1 iframe-chck" type="checkbox" checked>
+											<input name="iframe-chck" class="iframe-chck" type="checkbox" checked>
 											{{else}}
-											<input name="iframe-chck" class="col-md-1 iframe-chck" type="checkbox" >
+											<input name="iframe-chck" class="iframe-chck" type="checkbox" >
 											{{/if}}
 										</div>	
 									</div>
