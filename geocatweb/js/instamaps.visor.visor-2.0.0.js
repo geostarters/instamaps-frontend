@@ -834,6 +834,7 @@
 		_colaboratiuToLogin: function(){
 			var self = this,
 			_uid = self.uid;
+			_businessid=self.businessid;
 			$.removeCookie('uid', { path: '/' });
 			$.cookie('collaboratebid', _businessid, {path:'/'});
 			$.cookie('collaborateuid', _uid, {path:'/'});
