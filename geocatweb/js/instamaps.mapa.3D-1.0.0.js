@@ -868,9 +868,8 @@ var IM_aplicacio = function (options) {
 					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
 					
 					
-					url=url.replace('www.a.instamaps','www.instamaps');
-					url=url.replace('www.b.instamaps','www.instamaps');
-					url=url.replace('www.c.instamaps','www.instamaps');
+				
+					url=url.replace('www.{s}.instamaps','www.instamaps');
 					
 					
 
@@ -1719,16 +1718,17 @@ var that = this;
 					
 					
 					/*
-					entity.polygon.hierarchy=cartesianPositions
+					//entity.polygon.hierarchy=cartesianPositions
+					entity.polygon.hierarchy._value=cartesianPositions;
 					entity.polygon.extrudedHeight=_extrudeAlcada
 					entity.polygon.perPositionHeight
 					entity.polygon.outline = true;
-					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor),
-					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity)
+					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
+					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
 
 					_newEntity=entity;
-					
 					*/
+					
 					
 					
 					_newEntity = {
@@ -1771,8 +1771,9 @@ var that = this;
 						}
 					};
 					*/
-				
+					entity.show=visible;
 					entity.polygon.outline = true;
+					entity.polygon.perPositionHeight=true;
 					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
 					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
 
