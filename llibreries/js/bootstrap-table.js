@@ -1036,8 +1036,8 @@
                 style = sprintf('style="%s"', csses.concat(that.header.styles[j]).join('; '));
 
              
-                
-                if (value==undefined || (value!=undefined && value.indexOf("undefined")>-1)) {
+                console.debug(field);
+                if ((value==undefined || (value!=undefined && value.indexOf("undefined")>-1)) && field.toUpperCase()!="ACCIONS") {
                 	value=that.options.undefinedText;
                 }
                 else {
