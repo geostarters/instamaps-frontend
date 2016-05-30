@@ -296,7 +296,7 @@ function createPopupWindowData(player,type, editable, origen){
 	var isADrawarker=false;
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
-		if(isValidValue(key) && isValidValue(value)){
+		if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 					key != 'NOM' && key != 'Nom' && key != 'nom' && 
 					key != 'name' && key != 'Name' && key != 'NAME' &&
@@ -1516,7 +1516,7 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	try{
 		capaVisualitzacio.clearLayers();
 	}catch(err){
-		capaVisualitzacio.layer.clearLayers();
+		if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.clearLayers();
 	}
 	
 	//cargar las geometrias a la capa
@@ -1527,14 +1527,14 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	try{
 		capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	}catch(err){
-		capaVisualitzacio.layer.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
+		if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	}
 	loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 	
 	try{
 		capaVisualitzacio.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}catch(err){
-		capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
+		if (capaVisualitzacio.layer!=undefined) 	capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}
 	return defer.promise();
 }
@@ -2035,7 +2035,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				try{
 					capaVisualitzacio.addLayer(feat);
 				}catch(err){
-					capaVisualitzacio.layer.addLayer(feat);
+					if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.addLayer(feat);
 				}
 			
 				if(geomTypeVis == t_polygon){

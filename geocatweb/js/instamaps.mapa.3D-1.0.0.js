@@ -775,7 +775,7 @@ var IM_aplicacio = function (options) {
 				msgHTML += '<h4>' + player.properties.Name + '</h4>';
 			}
 			if (player.properties.description) {
-				if (!$.isNumeric(player.properties.description))
+				if (!$.isNumeric(player.properties.description) && !validateWkt(player.properties.description))
 					msgHTML += '<div>' + parseUrlTextPopUp(player.properties.description) + '</div>';
 				else
 					msgHTML += '<div>' + player.properties.description + '</div>';
@@ -789,7 +789,7 @@ var IM_aplicacio = function (options) {
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50') {
 							msgHTML += '<div class="popup_data_row">';
 							var txt = value;
-							if (!$.isNumeric(txt) && key != "styles") {
+							if (!$.isNumeric(txt) && key != "styles" && !validateWkt(txt)) {
 
 								txt = parseUrlTextPopUp(value, key);
 

@@ -191,7 +191,7 @@ function createUtfGridLayer(url,options){
 						html+='<div class="popup_data_row width100">';
 						
 						var txt = value;
-	    				if (!$.isNumeric(txt)) {		    				
+	    				if (!$.isNumeric(txt) && !validateWkt(value)){	    				
 		    				txt = parseUrlTextPopUp(value,key);
 		    				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 		    					html+='<div class="popup_data_key">'+key+'</div>';
