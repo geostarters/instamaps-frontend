@@ -1516,7 +1516,7 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	try{
 		capaVisualitzacio.clearLayers();
 	}catch(err){
-		capaVisualitzacio.layer.clearLayers();
+		if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.clearLayers();
 	}
 	
 	//cargar las geometrias a la capa
@@ -1527,14 +1527,14 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	try{
 		capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	}catch(err){
-		capaVisualitzacio.layer.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
+		if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	}
 	loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 	
 	try{
 		capaVisualitzacio.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}catch(err){
-		capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
+		if (capaVisualitzacio.layer!=undefined) 	capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}
 	return defer.promise();
 }
