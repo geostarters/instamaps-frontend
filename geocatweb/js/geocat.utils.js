@@ -193,8 +193,8 @@ function getColorAwesomeMarker(markerColor, defaultColor){
 }
 
 function parseUrlTextPopUp(txt,key){
-	console.debug(txt);
-	console.debug(key);
+	//console.debug(txt);
+	//console.debug(key);
     var parseText = "";
     var isWkt=validateWkt(txt);
     if (!isWkt) {
