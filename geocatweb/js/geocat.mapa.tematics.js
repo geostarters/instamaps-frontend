@@ -2035,7 +2035,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				try{
 					capaVisualitzacio.addLayer(feat);
 				}catch(err){
-					capaVisualitzacio.layer.addLayer(feat);
+					if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.addLayer(feat);
 				}
 			
 				if(geomTypeVis == t_polygon){
