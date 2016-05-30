@@ -193,50 +193,58 @@ function getColorAwesomeMarker(markerColor, defaultColor){
 }
 
 function parseUrlTextPopUp(txt,key){
+	console.debug(txt);
+	console.debug(key);
     var parseText = "";
-    if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
-          if( isImgURL(txt)){
-        	  parseText = '<img width="100" src="'+txt+'"/>';
-          }else if( txt.match("^http")){
-              parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
-          }else{
-              parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';
-          }
-          return parseText;
+    var isWkt=validateWkt(txt);
+    if (!isWkt) {
+	    if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
+	          if( isImgURL(txt)){
+	        	  parseText = '<img width="100" src="'+txt+'"/>';
+	          }else if( txt.match("^http")){
+	              parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
+	          }else{
+	              parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';
+	          }
+	          return parseText;
+	    }
+	
+	    if (!$.isNumeric(txt)) {
+	          if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
+	                 txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
+	                 return txt;
+	          }
+	    }
+	
+	    var lwords = txt.split(" ");
+	    for(index in lwords){
+	          var text;
+	          var word = lwords[index];
+	          if(!$.isNumeric(txt) ){
+	                 if (isValidURL(word)){
+	                        if(isImgURL(word)){
+	                               text = "<img width=\"100\" src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
+	                        }else if (word.indexOf("html?") != -1){
+	                               text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+	                                            "marginwidth=\"0\" src=\""+word+"\"></iframe>";
+	                        }else if (txt.indexOf("<video")==-1){
+	                               text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
+	                        }
+	                        else text=word;
+	                 }else{
+	                        text = word;
+	                 }
+	
+	          }else{
+	                 text = word;
+	          }
+	          parseText+=" "+text;
+	    }
+	    return parseText;
     }
-
-    if (!$.isNumeric(txt)) {
-          if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
-                 txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
-                 return txt;
-          }
+    else {
+    	return "isWkt";
     }
-
-    var lwords = txt.split(" ");
-    for(index in lwords){
-          var text;
-          var word = lwords[index];
-          if(!$.isNumeric(txt) ){
-                 if (isValidURL(word)){
-                        if(isImgURL(word)){
-                               text = "<img width=\"100\" src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
-                        }else if (word.indexOf("html?") != -1){
-                               text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
-                                            "marginwidth=\"0\" src=\""+word+"\"></iframe>";
-                        }else if (txt.indexOf("<video")==-1){
-                               text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
-                        }
-                        else text=word;
-                 }else{
-                        text = word;
-                 }
-
-          }else{
-                 text = word;
-          }
-          parseText+=" "+text;
-    }
-    return parseText;
 }
 
 function redimensioMapa() {
@@ -904,7 +912,10 @@ function shortString(str,_length){
 	return str;	
 }	
 
-
+function validateWkt(txt){
+	var isWkt = txt.indexOf("POLYGON")>-1 || txt.indexOf ("POINT")>-1 || txt.indexOf("LINE")>-1;
+	return isWkt;
+}
 
 String.prototype.replaceAll = function(target, replacement) {
   return this.split(target).join(replacement);
