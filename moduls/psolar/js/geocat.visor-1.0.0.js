@@ -918,6 +918,7 @@ function updateLangTooltips(){
 
 	jQuery("#dv_bt_Routing").on('click',function(e){
 
+	/*
 		posaClassActiu('#span_bt_Routing');
 
 		if ($('.leaflet-routing-container').is(':visible')) {
@@ -938,7 +939,7 @@ function updateLangTooltips(){
 		jQuery('.leaflet-routing-container').css('z-index','100');
 
 		aturaClick(e);
-
+*/
 	});
 	
 	jQuery("#dv_bt_vistaInicial").on('click',function(e){
