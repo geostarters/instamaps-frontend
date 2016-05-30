@@ -247,14 +247,14 @@ function createPopupWindowDadesObertes(player,l){
 		html+='<h4>'+player.properties.Name+'</h4>';
 	}
 	if (player.properties.description){
-		if (!$.isNumeric(player.properties.description)) html+='<div>'+parseUrlTextPopUp(player.properties.description)+'</div>';
+		if (!$.isNumeric(player.properties.description) && !validateWkt(player.properties.description)) html+='<div>'+parseUrlTextPopUp(player.properties.description)+'</div>';
 		else html+='<div>'+player.properties.description+'</div>';
 	}
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	var pp = player.properties;
 
 	$.each( pp, function( key, value ) {
-		if(isValidValue(value)){
+		if(isValidValue(value) && !validateWkt(value)){
 			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 				html+='<div class="popup_data_row">';
 				var txt = value;

@@ -117,7 +117,7 @@ function fillModalDataTable(obj, geomBid){
 		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
 			
 			jQuery.each(estil.geometria.features, function(indexFeature, feature){
-				
+				console.debug(feature);
 				//Geometry Id
 				var objGeomId = {
 						field: 'geometryid',
@@ -142,7 +142,7 @@ function fillModalDataTable(obj, geomBid){
 				}
 				columNames.push(objGeomBBOX);			
 				
-				//console.debug(modeMapa);
+				console.debug(options);
 				if(modeMapa){
 					var isADrawMarker=false;
 					//properties headers
@@ -177,6 +177,7 @@ function fillModalDataTable(obj, geomBid){
 					}
 					else {
 						for(var x in feature.properties){
+							console.debug(x);
 							var obj = {
 								title: x.toUpperCase(),
 								field: x.toLowerCase(),

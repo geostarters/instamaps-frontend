@@ -1036,7 +1036,6 @@
                 style = sprintf('style="%s"', csses.concat(that.header.styles[j]).join('; '));
 
              
-                console.debug(field);
                 if ((value==undefined || (value!=undefined && value.indexOf("undefined")>-1)) && field.toUpperCase()!="ACCIONS") {
                 	value=that.options.undefinedText;
                 }
@@ -1045,7 +1044,7 @@
                                that.header.formatters[j], [value, item, i], value);
                 }
 
-                
+                //console.debug(value);
                 // handle td's id and class
                 if (item['_' + field + '_id']) {
                     id_ = sprintf(' id="%s"', item['_' + field + '_id']);
