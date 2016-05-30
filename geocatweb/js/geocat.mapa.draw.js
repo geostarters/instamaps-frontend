@@ -304,7 +304,8 @@ function addGeometryInitL(canvas,inicial){
 	cv_ctx_l.lineTo(35.52,0.54);
 	cv_ctx_l.strokeStyle=canvas_linia.strokeStyle;
 	cv_ctx_l.lineWidth=canvas_linia.lineWidth;
-	if (inicial==null || inicial==undefined){
+	var idLinia = canvas.id;
+	if ((inicial==null || inicial==undefined) && idLinia=='cv_linia0'){
 		cv_ctx_l.shadowColor = '#999999';
 		cv_ctx_l.shadowBlur = 20;
 		cv_ctx_l.shadowOffsetX = 15;
@@ -336,7 +337,8 @@ function addGeometryInitP(canvas,inicial){
 //	cv_ctx_p.fillStyle=canvas_pol.fillStyle;
 	cv_ctx_p.lineWidth=canvas_pol.lineWidth;
 //	cv_ctx_p.opacity=canvas_pol.opacity;
-	if (inicial==null || inicial==undefined){
+	var idPol = canvas.id;
+	if ((inicial==null || inicial==undefined) && idPol=='cv_pol0'){
 		cv_ctx_p.shadowColor = '#999999';
 		cv_ctx_p.shadowBlur = 20;
 		cv_ctx_p.shadowOffsetX = 15;
@@ -350,7 +352,7 @@ function addGeometryInitP(canvas,inicial){
 		cv_ctx_p.fill();
 		cv_ctx_p.stroke(); 
 		cv_ctx_p.shadowOffsetX = 15;
-	}	
+	}
 		cv_ctx_p.fill();
 		cv_ctx_p.stroke(); 
 }
