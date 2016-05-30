@@ -1035,11 +1035,17 @@
 
                 style = sprintf('style="%s"', csses.concat(that.header.styles[j]).join('; '));
 
-                value = calculateObjectValue(that.header,
-                    that.header.formatters[j], [value, item, i], value);
+             
                 
-                if (value.indexOf("undefined")) value = value.replace("undefined",that.options.undefinedText);
+                if (value==undefined || (value!=undefined && value.indexOf("undefined")>-1)) {
+                	value=that.options.undefinedText;
+                }
+                else {
+                	   value = calculateObjectValue(that.header,
+                               that.header.formatters[j], [value, item, i], value);
+                }
 
+                
                 // handle td's id and class
                 if (item['_' + field + '_id']) {
                     id_ = sprintf(' id="%s"', item['_' + field + '_id']);

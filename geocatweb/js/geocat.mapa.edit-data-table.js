@@ -161,7 +161,7 @@ function fillModalDataTable(obj, geomBid){
 					if (propName!=undefined && propName.toString().indexOf("nom,text")==-1) {
 						
 						for(var x in propName){	
-							console.debug(propName[x]);
+							//console.debug(propName[x]);
 							var obj = {
 								title: propName[x].toUpperCase(),
 								field: propName[x].toLowerCase(),

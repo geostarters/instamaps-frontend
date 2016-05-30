@@ -54,7 +54,7 @@ var CONST_Cost_Manteniment_Anual_TS = 150;
 var totalIrradiacioAnyal_fv;
 var colorParcela = "rgba(255, 255, 0,1)";
 var heFetUnClick = true;
-var capaGeoJSON;
+var capaGeoJSON_SOLAR;
 var drawPSolar;
 var HTML_edificis_fv = new Array();
 var editableLayers;
@@ -271,8 +271,13 @@ function addControLSolar() {
 
 	var fet = false;
 
+	
+	console.info(1111);
 	if (map) {
 
+	
+	
+	
 		infoPSolar = L.control({
 			position : 'topleft'
 		});
@@ -315,6 +320,7 @@ function addControLSolar() {
 				esborraCapes();
 			}
 			aturaClick(e);
+			
 		});
 
 		jQuery('#psolar_info_dv').on('mousedown', function(e) {
@@ -516,9 +522,11 @@ function addDrawToolPSolar() {
 
 function esborraCapes() {
 
-	if (map.hasLayer(capaGeoJSON)) {
-		map.removeLayer(capaGeoJSON);
+	if (map.hasLayer(capaGeoJSON_SOLAR)) {
+	//	map.removeLayer(capaGeoJSON_SOLAR);
 	}
+	
+	
 
 }
 
@@ -1447,7 +1455,7 @@ function iniciaInfoPSolar(capa, geojson) {
 		}
 	}
 
-	capaGeoJSON = L.geoJson(geojson, {
+	capaGeoJSON_SOLAR = L.geoJson(geojson, {
 		style : function(feature) {
 
 			return feature.properties.style;
