@@ -59,6 +59,15 @@ html,body {
 	background-image: url("images/toggle.png");
 }
 
+.faqs_link{
+	color: #ffffff;
+	padding-left: 3px; 
+}
+
+.edicio-popup a.faqs_link{
+	color: #333333;
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;

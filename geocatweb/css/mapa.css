@@ -38,6 +38,16 @@ html,body {
 	left: 270px;
 }
 
+.faqs_link{
+	color: #ffffff;
+	padding-left: 3px; 
+}
+
+.edicio-popup a.faqs_link{
+	color: #333333;
+	font-size: 1.46em;
+}
+
 /*Animacio */
 #div_loading{
 	width: 100%;
@@ -2635,18 +2645,15 @@ background-color: #9F9F9E;
 }
 
 .modal-header h4 {
-	
-	font-size: 13px;
+	font-size: 16px;
     font-weight: bold;
 }
 
 .modal-body {
 	padding: 10px 10px;
-
-	 max-height: 600px;
+	max-height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
-	
 }
 
 #dialog_estils_arees .modal-body{
@@ -4248,6 +4255,11 @@ i.fa {
 .llista-teves-dades li:hover {
 	background-color: #eaeaea;	
 }
+
+.modal-title{
+	font-size: 16px;
+}
+
 #modal-title-teves-dades,
 #modal-title-publicar{
 	font-size: 16px;

@@ -669,25 +669,23 @@ function addHtmlModalDadesExt(){
 	'	<!-- Modal Dades Externes -->'+
 	'		<div class="modal fade" id="dialog_dades_ex" style="width:105%">'+
 	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Explora altres fonts de dades</h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Explora altres fonts de dades</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#explorafonts" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<ul class="nav nav-tabs etiqueta">'+
 	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>'+
 	'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
-	'						<!--  <li><a href="#id_srvj" lang="ca" data-toggle="tab">Serveis JSON</a></li>-->'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
 	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Capes reutilitzables</a></li>'+
-	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades externes</span> <i class="icon icon-dropbox"></i><i class="icon icon-github"></i><i class="icon icon-drive"></i></a></li>'+
+	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades externes</span></a></li>'+
 	'					</ul>'+
 	'					<div class="tab-content tab-content-margin5px">'+
 	'						<div class="tab-pane fade" id="id_do"></div>'+
 	'						<div class="tab-pane fade" id="id_xs"></div>'+
-	'						<!--  <div class="tab-pane fade" id="id_srvj"></div>-->'+
 	'						<div class="tab-pane fade" id="id_srvw"></div>'+
 	'						<div class="tab-pane fade" id="id_capes_instamaps"></div>'+
 	'						<div class="tab-pane fade" id="id_url_file"></div>'+

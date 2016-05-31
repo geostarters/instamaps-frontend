@@ -431,225 +431,73 @@ function addFuncioEtiquetesCapa(){
 	    $('.color_etiqueta').css('background-color',e.color);		
 	});
 	
-	
+	$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
+		
+		if (jQuery('#dataFieldEtiqueta').val()!=undefined && jQuery('#dataFieldEtiqueta').val()=="---"){
+			alert("Cal escollir un camp per etiquetar");
+		}
+		else {
+			var capaLeafletId = $('#dialog_etiquetes_capa #leafletIdCapaEtiqueta').val();
+			var capaLeafletIdControl = $('#dialog_etiquetes_capa #leafletIdCapaEtiquetaControl').val();
+			var color = rgb2hex($('.color_etiqueta').css('background-color'));
+			
+			var options = {
+					campEtiqueta:jQuery('#dataFieldEtiqueta').val(),
+					fontFamily:jQuery('#font-family').val(),
+					fontSize:jQuery('#font-size').val(),
+					fontStyle:jQuery('#font-style').val(),
+					fontColor:color,
+					opcionsVis:$("input[name=etiqueta]:checked").val(),
+					zoomInicial:zoomInicial,
+					zoomFinal:zoomFinal
+			};
+			var layerMap=map._layers[capaLeafletId];
+			var optionsMap;
+			if (layerMap==undefined) {
+				layerMap = controlCapes._layers[capaLeafletId];
+				optionsMap=layerMap.layer.options;
+			}
+			else optionsMap=layerMap.options;
+			
+			var data={
+					businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
+					uid: $.cookie('uid'),
+					options:  JSON.stringify(options),
+					nom:optionsMap.nom,
+					tipus:optionsMap.tipusRang,
+					geometryType:optionsMap.geometryType
+			};
+			updateVisualitzacioLayer(data).then(function(results){
+				reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
+			});
+		}
+	});
 }
 
 function addHtmlModalDownloadLayer(){
-	jQuery('#mapa_modals').append(
-	'	<div class="modal fade" id="modal_download_layer">'+
-	'	<div class="modal-dialog">'+
-	'		<div class="modal-content">'+
-	'			<div class="modal-header">'+
-	'				<button type="button" class="close" data-dismiss="modal"'+
-	'					aria-hidden="true">&times;</button>'+
-	'				<h4 class="modal-title" lang="ca">Descarrega de dades</h4>'+
-	'			</div>'+
-	'			<div lang="ca" class="modal-body">'+
-	'				<div id="modal-body-download">'+
-	'					<div class="input-group input-group-sm">'+
-	'					  <span lang="ca" class="input-group-addon">Guardar com</span>'+
-	'					  <input lang="ca" type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">'+
-	'					</div>'+
-	'					<small class="label label-default" lang="ca">Opcional: en blanc s\'assignarà un nom automàtic</small>'+
-	'					<br><br>'+
-	'					<div>'+
-	'					<span lang="cat">Format:&nbsp;</span>'+
-	'						<select id="select-download-format" class="form-download-format">'+
-	'						  <option value="GeoJSON#.geojson">GeoJSON</option>'+
-	'						  <option value="ESRI Shapefile#.shp">ESRI Shapefile</option>'+
-	'						  <option value="DXF#.dxf">DXF</option>'+
-	'						  <option value="KML#.kml">KML</option>'+
-	'						  <option value="GPX#.gpx">GPX</option>'+
-	'						</select>'+
-	'						<br><br>'+
-	'					EPSG:&nbsp;'+
-	'						<select id="select-download-epsg" class="form-download-epsg">'+
-	'							<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
-	'	              			<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
-	'	              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
-	'	              			<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
-	'	              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
-	'	              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
-	'	              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
-	'						</select>'+
-	'					</div>'+
-	'				</div>'+
-	'				<div id="modal-body-download-error">'+
-	'					<h5><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s\'ha pogut efectuar la descàrrega. Torni a intentar-ho.</span></h5>'+
-	'				</div>'+
-	'				<div id="modal-body-download-not-available">'+
-	'					<h5><span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Capa no disponible per la descàrrega.</span></h5>'+
-	'				</div>'+
-	'			</div>'+
-	'			<div class="modal-footer">'+
-	'		    	<button id="bt_download_accept" lang="ca" type="button" class="btn bt-sessio" data-dismiss="modal">Acceptar</button>'+
-	'		    	<button id="bt_download_tancar" lang="ca" type="button" class="btn bt-sessio" data-dismiss="modal">Acceptar</button>'+
-	'		    </div>'+
-	'		</div>'+
-	'		<!-- /.modal-content -->'+
-	'	</div>'+
-	'	<!-- /.modal-dialog -->'+
-	'</div>'+
-	'<!-- /.modal -->'+
-	'<!-- fi Modal descarrega dades -->'
-	);
+	$.get("templates/modalDownloadLayer.html",function(data){
+		//TODO ver como pasar el modal container
+		$('#mapa_modals').append(data);       		
+	});
 }
 
 function addHtmlModalRemoveLayer(){
-
-	jQuery('#mapa_modals').append(
-	'	<!-- Modal delete layer -->'+
-	'		<div id="dialog_delete_capa" class="modal fade">'+
-	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<!-- <div class="modal-header">'+
-	'					<button type="button" class="close" data-dismiss="modal"'+
-	'						aria-hidden="true">&times;</button>'+
-	'					<h4 lang="ca" class="modal-title">Esborrar el mapa</h4>'+
-	'				</div> -->'+
-	'				<div class="modal-body">'+
-	'					<h4><span lang="ca">Vols esborrar la capa</span> "<span id="nom_capa_delete"></span>" ?</h4>'+
-	'				</div>'+
-	'				<div class="modal-footer">'+
-	'					<button lang="ca" type="button" class="btn btn-default"'+
-	'						data-dismiss="modal">Cancel·lar</button>'+
-	'					<button lang="ca" type="button" class="btn btn-danger"'+
-	'						data-dismiss="modal">Esborrar</button>'+
-	'				</div>'+
-	'			</div>'+
-	'			<!-- /.modal-content -->'+
-	'		</div>'+
-	'		<!-- /.modal-dialog -->'+
-	'	</div>'+
-	'	<!-- /.modal -->'+
-	'	<!-- Fi Modal delete -->'
-	);
+	$.get("templates/modalRemoveLayer.html",function(data){
+		//TODO ver como pasar el modal container
+		$('#mapa_modals').append(data);       		
+	});
 }
 
-
 function addHtmlModalRemoveGroup(){
-
-	jQuery('#mapa_modals').append(
-	'	<!-- Modal delete layer -->'+
-	'		<div id="dialog_delete_group" class="modal fade">'+
-	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<!-- <div class="modal-header">'+
-	'					<button type="button" class="close" data-dismiss="modal"'+
-	'						aria-hidden="true">&times;</button>'+
-	'					<h4 lang="ca" class="modal-title">Esborrar el grup de capes</h4>'+
-	'				</div> -->'+
-	'				<div class="modal-body">'+
-	'					<h4><span lang="ca">Vols esborrar el grup </span> "<span id="nom_group_delete"></span>" i totes les seves capes ?</h4>'+
-	'				</div>'+
-	'				<div class="modal-footer">'+
-	'					<button lang="ca" type="button" class="btn btn-default"'+
-	'						data-dismiss="modal">Cancel·lar</button>'+
-	'					<button lang="ca" type="button" class="btn btn-danger"'+
-	'						data-dismiss="modal">Esborrar</button>'+
-	'				</div>'+
-	'			</div>'+
-	'			<!-- /.modal-content -->'+
-	'		</div>'+
-	'		<!-- /.modal-dialog -->'+
-	'	</div>'+
-	'	<!-- /.modal -->'+
-	'	<!-- Fi Modal delete -->'
-	);
+	$.get("templates/modalRemoveGroup.html",function(data){
+		//TODO ver como pasar el modal container
+		$('#mapa_modals').append(data);       		
+	});
 }
 
 function addHtmlModalEtiquetesLayer(){
-
-	jQuery('#mapa_modals').append(
-	'	<!-- Modal etiquetes layer -->'+
-	'		<div id="dialog_etiquetes_capa" class="modal fade">'+
-	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
-	'					<button type="button" class="close" data-dismiss="modal"'+
-	'					aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Etiquetes de la capa <span id="nom_capa_etiqueta"></span></h4>'+
-	'					<input type="hidden" name="businessIdCapaEtiqueta" id="businessIdCapaEtiqueta" value="">'+
-	'					<input type="hidden" name="leafletIdCapaEtiqueta" id="leafletIdCapaEtiqueta" value="">'+
-	'					<input type="hidden" name="leafletIdCapaEtiquetaControl" id="leafletIdCapaEtiquetaControl" value="">'+
-	'				</div>'+
-	'				<div class="modal-body2">'+
-	'					<div class="labels_fields" style="padding-bottom:6px;">'+
-	'						<span>1.</span><span lang="ca">Estil de les etiquetes</span>:'+
-	'					</div>'+
-	'					<div class="labels_fields" style="padding-bottom:6px;padding-left:10px;">'+
-	'						<span></span><span lang="ca">Camp</span>:'+
-	'						<select name="dataField" id="dataFieldEtiqueta" style="margin-left:10px; width: 135px;">'+
-	'						</select>'+
-	'					</div>'+
-	'					<script id="etiquetes-layers-fields" type="text/x-handlebars-template">'+
-	'						{{#each fields}}'+
-	'						<option value="{{this}}">{{@key}}</option>'+
-	'						{{/each}}'+
-	'					</script>'+
-	'					<div class="labels_fields" style="padding-bottom:6px;padding-left:10px;">'+
-	'						<span lang="ca">Font</span>:'+
-	'						<select name="font-family" id="font-family" style="margin-left:18px; width: 135px;">'+
-	'							<option value="Arial">Arial</option>'+
-	'							<option value="Gill Sans">Gill Sans</option>'+
-	'							<option value="Verdana">Verdana</option>'+
-	'							<option value="Times New Roman">Times New Roman</option>'+
-	'						</select>'+
-	'						&nbsp;&nbsp;&nbsp;<span lang="ca">Mida</span>:'+
-	'						<select name="font-size" id="font-size" style="margin-left:12px">'+
-	'							<option value="10px">10px</option>'+
-	'							<option value="12px">12px</option>'+
-	'							<option value="14px">14px</option>'+
-	'							<option value="16px">16px</option>'+
-	'							<option value="20px">20px</option>'+
-	'							<option value="24px">24px</option>'+
-	'							<option value="30px">30px</option>'+
-	'							<option value="36px">36px</option>'+
-	'							<option value="42px">42px</option>'+
-	'						</select>'+
-	'					</div>'+
-	'					<div class="labels_fields" style="padding-left:10px;">'+
-	'						<span lang="ca">Estil</span>:'+
-	'						<select name="font-style" id="font-style" style="margin-left:18px; width: 135px;">'+
-	'							<option value="normal">Normal</option>'+
-	'							<option value="bold">Negreta</option>'+
-	'							<option value="italic">Cursiva</option>'+
-	'						</select>'+
-	'						&nbsp;&nbsp;&nbsp;<span lang="ca">Color</span>:'+
-	'								<div class="btn-group" style="vertical-align:top;">'+
-	'													<a class="btn btn-mini dropdown-toggle"'+
-	'														data-toggle="dropdown" style="margin-top:-5px;">'+
-	'														<div id="dv_color_etiqueta" class="color_etiqueta"></div>'+
-	'													</a>'+
-	'													<ul class="dropdown-menu" >'+
-	'														<li><div id="colorpalette_etiqueta"></div></li>'+
-	'													</ul>'+
-	'												</div>'+
-	'					</div>'+
-	'					<div class="labels_fields" style="padding-bottom:5px">'+
-	'						<span>2.</span><span lang="ca">Visibilitat de les etiquetes</span>:<br/>'+
-	'						<input type="radio" name="etiqueta" id="etiqueta" value="etiquetageom" checked style="margin-left:10px">Etiquetes+geometries'+
-	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="geometries" >Geometries'+
-	'						&nbsp;&nbsp;<input type="radio" name="etiqueta" id="etiqueta" value="nomesetiqueta">Només etiquetes'+
-	'					</div>'+
-	'					<div class="labels_fields">'+
-	'						<span lang="ca" style="margin-left:10px;padding-bottom:2px;">Nivells de zoom on seran visibles les etiquetes</span>:'+
-	'						<div id="slider" style="width:65%;margin-left:16px"></div>'+
-	'					</div>'+	
-	'				</div>'+
-	'				<div class="modal-footer">'+
-	'					<button lang="ca" type="button" class="btn btn-default"'+
-	'						data-dismiss="modal">Cancel·lar</button>'+
-	'					<button lang="ca" type="button" class="btn btn-success"'+
-	'						data-dismiss="modal">Etiquetar</button>'+
-	'				</div>'+
-	'			</div>'+
-	'			<!-- /.modal-content -->'+
-	'		</div>'+
-	'		<!-- /.modal-dialog -->'+
-	'	</div>'+
-	'	<!-- /.modal -->'+
-	'	<!-- Fi Modal delete -->'
-	);
-
+	$.get("templates/modalEtiquetesLayer.html",function(data){
+		//TODO ver como pasar el modal container
+		$('#mapa_modals').append(data);       		
+	});
 }

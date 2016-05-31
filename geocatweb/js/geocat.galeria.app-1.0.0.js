@@ -26,8 +26,6 @@ $("body").on("change-lang", function(event, lang){
 	jQuery("#btn-esborrar").attr('title',window.lang.convert('Esborrar'));
 	jQuery("#btn-privat").attr('title',window.lang.convert('El mapa només és visible a la teva galeria privada'));
 	jQuery("#btn-public").attr('title',window.lang.convert('El mapa és visible a la galeria pública'));
-	
-	
 });
 
 $('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
