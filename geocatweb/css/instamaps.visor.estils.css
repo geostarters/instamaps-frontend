@@ -921,3 +921,6 @@ div.leaflet-routing-geocoder input:-moz-placeholder { opacity: 0.8; }
 .ocult{
 	display:none;
 }
+.leaflet-popup {
+    z-index: 100;
+}
