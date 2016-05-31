@@ -295,7 +295,7 @@ function addHtmlModalPunts(){
 			'			<div class="modal-header panel-heading">'+
 			'				<button type="button" class="close" data-dismiss="modal"'+
 			'					aria-hidden="true">&times;</button>'+
-			'				<h4 class="modal-title" id="myModalLabel"><span lang="ca">Estils de punts</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
+			'				<h4 class="modal-title" id="myModalLabel"><span lang="ca">Estils de punts</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#estilpunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 			'			</div>'+
 			'			<div class="modal-body">'+
 			'				<table width="100%" class="tbl_taula" border="0" cellspacing="1" cellpadding="1">'+
@@ -568,7 +568,7 @@ function addHtmlModalLinies(){
 	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title"><span lang="ca">Estils de línia</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Estils de línia</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#estilpunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<table width="100%" class="tbl_taula" border="0" cellspacing="1"'+
@@ -642,7 +642,7 @@ function addHtmlModalArees(){
 	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title"><span lang="ca">Estils d\'àrees</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Estils d\'àrees</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#estilpunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<table width="100%" class="tbl_taula" border="0" cellspacing="1"'+

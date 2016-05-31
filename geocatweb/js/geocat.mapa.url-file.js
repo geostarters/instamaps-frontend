@@ -80,7 +80,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				propName = "";
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -111,7 +111,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				propName = "";
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -521,7 +521,7 @@ function loadURLfileLayer(layer){
 				var geom = L.circleMarker(latlng, estil_do);
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -550,7 +550,7 @@ function loadURLfileLayer(layer){
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -604,7 +604,7 @@ function loadURLfileLayer(layer){
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -647,7 +647,7 @@ function loadURLfileLayer(layer){
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -723,7 +723,7 @@ function loadURLfileLayer(layer){
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -752,7 +752,7 @@ function loadURLfileLayer(layer){
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if(isValidValue(value)){
+					if(isValidValue(value) && !validateWkt(value)){
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
@@ -922,7 +922,7 @@ function constructLayer(layer, estil_do){
 		var pp = marker.toGeoJSON().properties;
 		var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		$.each( pp, function( key, value ) {
-			if(isValidValue(value)){
+			if(isValidValue(value) && !validateWkt(value)){
 				if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
 					html+='<div class="popup_data_row">';
 					var txt = value;

@@ -775,7 +775,7 @@ var IM_aplicacio = function (options) {
 				msgHTML += '<h4>' + player.properties.Name + '</h4>';
 			}
 			if (player.properties.description) {
-				if (!$.isNumeric(player.properties.description))
+				if (!$.isNumeric(player.properties.description) && !validateWkt(player.properties.description))
 					msgHTML += '<div>' + parseUrlTextPopUp(player.properties.description) + '</div>';
 				else
 					msgHTML += '<div>' + player.properties.description + '</div>';
@@ -789,7 +789,7 @@ var IM_aplicacio = function (options) {
 						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50') {
 							msgHTML += '<div class="popup_data_row">';
 							var txt = value;
-							if (!$.isNumeric(txt) && key != "styles") {
+							if (!$.isNumeric(txt) && key != "styles" && !validateWkt(txt)) {
 
 								txt = parseUrlTextPopUp(value, key);
 
@@ -866,6 +866,12 @@ var IM_aplicacio = function (options) {
 				} else {
 
 					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+					
+					
+				
+					url=url.replace('www.{s}.instamaps','www.instamaps');
+					
+					
 
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
 								url : url,
@@ -1709,6 +1715,22 @@ var that = this;
 						terra = (Math.max.apply(Math, _matriuAlcada));
 					}
 					_extrudeAlcada = terra + parseInt(alcada);
+					
+					
+					/*
+					//entity.polygon.hierarchy=cartesianPositions
+					entity.polygon.hierarchy._value=cartesianPositions;
+					entity.polygon.extrudedHeight=_extrudeAlcada
+					entity.polygon.perPositionHeight
+					entity.polygon.outline = true;
+					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
+					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
+
+					_newEntity=entity;
+					*/
+					
+					
+					
 					_newEntity = {
 
 						properties : entity.properties,
@@ -1726,6 +1748,8 @@ var that = this;
 						}
 					};
 
+					
+					
 				} else {
 
 				
@@ -1747,10 +1771,11 @@ var that = this;
 						}
 					};
 					*/
-				
+					entity.show=visible;
 					entity.polygon.outline = true;
-					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor),
-					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity)
+					entity.polygon.perPositionHeight=true;
+					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
+					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
 
 					_newEntity=entity;
 					

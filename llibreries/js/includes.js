@@ -87,7 +87,7 @@ L.LayerGroup.include({
         	 }
          }         
          
-         
+         /*
          if(json.geometry.type != 'Point'){
 	         try{
 	          _newJson = turf.simplify(json, 0.00001, false);
@@ -99,7 +99,7 @@ L.LayerGroup.include({
 	
 	         }
      }
-         
+         */
          
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));
        
@@ -201,6 +201,7 @@ L.LayerGroup.include({
         	 }
          }
 
+         /*
         
          if(json.geometry.type != 'Point'){
 		         try{
@@ -214,7 +215,7 @@ L.LayerGroup.include({
 		         }
          }
          
-         
+         */
 		
 		 
          jsons.push(isGeometryCollection ? json.geometry : L.GeoJSON.asFeature(json));

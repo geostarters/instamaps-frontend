@@ -296,7 +296,7 @@ function createPopupWindowData(player,type, editable, origen){
 	var isADrawarker=false;
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	$.each( player.properties.data, function( key, value ) {
-		if(isValidValue(key) && isValidValue(value)){
+		if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 					key != 'NOM' && key != 'Nom' && key != 'nom' && 
 					key != 'name' && key != 'Name' && key != 'NAME' &&
@@ -348,7 +348,7 @@ function createPopupWindowData(player,type, editable, origen){
 						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
+						+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
 						
 					+'</ul>'														
 				+'</div>';	
@@ -1056,7 +1056,7 @@ function addHtmlModalLayersTematic(){
 	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title"><span lang="ca">Triar una capa per aplicar-hi l\'estil</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Triar una capa per aplicar-hi l\'estil</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success" id="txtTematic">'+
@@ -1518,7 +1518,7 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	try{
 		capaVisualitzacio.clearLayers();
 	}catch(err){
-		capaVisualitzacio.layer.clearLayers();
+		if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.clearLayers();
 	}
 	
 	//cargar las geometrias a la capa
@@ -1529,14 +1529,14 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	try{
 		capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	}catch(err){
-		capaVisualitzacio.layer.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
+		if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	}
 	loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 	
 	try{
 		capaVisualitzacio.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}catch(err){
-		capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
+		if (capaVisualitzacio.layer!=undefined) 	capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}
 	return defer.promise();
 }
@@ -2037,7 +2037,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				try{
 					capaVisualitzacio.addLayer(feat);
 				}catch(err){
-					capaVisualitzacio.layer.addLayer(feat);
+					if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.addLayer(feat);
 				}
 			
 				if(geomTypeVis == t_polygon){

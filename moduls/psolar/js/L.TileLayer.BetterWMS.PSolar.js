@@ -2,16 +2,16 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		onAdd : function (map) {
 			// Triggered when the layer is added to a map.
 			// Register a click listener, then do all the upstream WMS things
+			
 			this.options.maxZoom = 19;
 			L.TileLayer.WMS.prototype.onAdd.call(this, map);
 			map.on('click', this.getFeatureInfo, this);
 			addBarraPSolar();
-			activaPanelCapes(true);
-			//if (this.wmsParams.layers.indexOf('irradiacio_global_calculada') != -1) {
-				addControLSolarLL();
-				var params = this.getLegendGraphic();
-				updateLLegendaPSolar(params,this.wmsParams.layers,true);
-			//}
+			activaPanelCapes(true);			
+			addControLSolarLL();
+			var params = this.getLegendGraphic();
+			updateLLegendaPSolar(params,this.wmsParams.layers,true);
+			
 		},
 		onRemove : function (map) {
 			// Triggered when the layer is removed from a map.
@@ -30,6 +30,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		},
 		getFeature : function (feature) {
 
+		var that=this;
+		
 			var newFeature = feature[0];
 			var coords = "";
 			for (var z = 0; z < newFeature.length; z++) {
@@ -45,6 +47,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
 				params = params.replace('betaserver.icgc.cat', '172.70.1.31');
 				params = params.replace('www.instamaps.cat', '172.70.1.11');
+				
+				//params = params.replace('172.70.1.11', 'localhost');
 			}
 			//params=params.replace('betaserver.icgc.cat','84.88.72.98');
 
@@ -52,8 +56,13 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			var paramsWFS = this.wfsFyer(params, this.wmsParams.layers, map.getZoom(), obj, 'area');
 
 			if (paramsWFS.capa != null) {
-				if (map.hasLayer(capaGeoJSON)) {
-					map.removeLayer(capaGeoJSON);
+				if (map.hasLayer(capaGeoJSON_SOLAR)) {
+					map.removeLayer(capaGeoJSON_SOLAR);
+					
+					map.on('click',function(e){ 
+						that.getFeatureInfo(e);
+						});
+					
 				}
 			
 				if((params.indexOf('instamaps.cat')!=-1) || (params.indexOf('instaweb') != -1) || (params.indexOf('172.70.1.11') != -1)){
@@ -83,6 +92,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 										
 										
 									}else{
+				
+				
 				
 				jQuery.ajax({
 					url : paramUrl.proxy_betterWMS,
@@ -142,25 +153,35 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		},
 		getFeatureInfo : function (evt) {
 
+		var that=this;
+		
+		
 			if (heFetUnClick) {
-				tancaFinestra();
-				//var params = this.getFeatureInfoUrl(evt.latlng);
-				var params = this.getFeatureUrl();
-				//showResults = L.Util.bind(this.showGetFeatureInfo, this);
-
+				tancaFinestra();				
+				var params = this.getFeatureUrl();			
 				aturaClick(evt);
 
 				var urlApp = document.location.href;
 				if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
 					params = params.replace('betaserver.icgc.cat', '172.70.1.31');
 					params = params.replace('www.instamaps.cat', '172.70.1.11');
+					
+					//params = params.replace( '172.70.1.11','localhost');
 				}
-				//params=params.replace('betaserver.icgc.cat','84.88.72.98');
+				
+				
 				var paramsWFS = this.wfsFyer(params, this.wmsParams.layers, map.getZoom(), evt.latlng, 'click');
 
 				if (paramsWFS.capa != null) {
-					if (map.hasLayer(capaGeoJSON)) {
-						map.removeLayer(capaGeoJSON);
+					if (map.hasLayer(capaGeoJSON_SOLAR)) {
+						//map.clearLayers(capaGeoJSON_SOLAR);
+						
+						map.removeLayer(capaGeoJSON_SOLAR);	
+						
+						map.on('click',function(e){ 
+						that.getFeatureInfo(e);
+						});
+						
 					}
 					
 
@@ -222,6 +243,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				}//fi if
 			}
 
+			
+			
 		},
 
 		getLegendGraphic : function () {

@@ -6,7 +6,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title">
 					<span lang="ca" id="titlePublicar">Publicar el mapa</span>
-					<span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span>
+					<span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#publicacio" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span>
 				</h4>
 			</div>
 			<div class="modal-body">
@@ -110,33 +110,33 @@
 						</div>
 						<div id="div_params_visor" class="row">
         					<div class="separate-visor-row-all"></div>
-        					<div class="visor-subrow-all">
-        						<div class="col-md-8 visor-name-all" lang="ca">Tots els paràmetres</div>
-        						<div class="col-md-2 text-center">
+        					<div class="visor-subrow-all fluent-row">
+        						<div class="col-xs-8 visor-name-all" lang="ca">Tots els paràmetres</div>
+        						<div class="col-xs-2 text-center">
         							<input id="visor-chck-all" class="download-chck" type="checkbox">
         						</div>
-        						<div class="col-md-2 text-center">
-        							<input id="iframe-chck-all" class="col-md-2 download-chck" type="checkbox">
+        						<div class="col-xs-2 text-center">
+        							<input id="iframe-chck-all" class="download-chck" type="checkbox">
         						</div>
         					</div>
         					<div class="list-parameters"></div>
         					<script id="list-parameter-fields" type="text/x-handlebars-template">
 								{{#each paramsVisor}}
 									<div class="separate-visor-row"></div>
-									<div class="visor-subrow" data-param="{{param}}">
-										<div class="col-md-8 visor-name">{{text}}</div>
-										<div class="col-md-2 text-center col-visor">
+									<div class="visor-subrow fluent-row" data-param="{{param}}">
+										<div class="col-xs-8 visor-name">{{text}}</div>
+										<div class="col-xs-2 text-center col-visor">
 											{{#if visor}}
-											<input name="visor-chck" class="col-md-1 visor-chck" type="checkbox" checked>
+											<input name="visor-chck" class="visor-chck" type="checkbox" checked>
 											{{else}}
-											<input name="visor-chck" class="col-md-1 visor-chck" type="checkbox">
+											<input name="visor-chck" class="visor-chck" type="checkbox">
 											{{/if}}
 										</div>
-										<div class="col-md-2 text-center col-iframe">
+										<div class="col-xs-2 text-center col-iframe">
 											{{#if iframe}}
-											<input name="iframe-chck" class="col-md-1 iframe-chck" type="checkbox" checked>
+											<input name="iframe-chck" class="iframe-chck" type="checkbox" checked>
 											{{else}}
-											<input name="iframe-chck" class="col-md-1 iframe-chck" type="checkbox" >
+											<input name="iframe-chck" class="iframe-chck" type="checkbox" >
 											{{/if}}
 										</div>	
 									</div>
