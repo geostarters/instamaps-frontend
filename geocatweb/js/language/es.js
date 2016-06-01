@@ -24,6 +24,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"amb les teves dades.":"con tus datos."
 ,"Analitzant fitxer":"Analizando fichero"
 ,"Anar a la visualització del mapa":"Ir a la visualización del mapa"
+,"Anar al mapa":"Ir al mapa"
 ,"Aplicable a polígons.":"Se aplica a capas de tipo polígono."
 ,"Aplicable a polígons i punts.":"Se aplica a capas de tipo polígono o punto."
 ,"Aplicable a punts, línies o polígons.":"Se aplica a capas de tipo punto, línea o polígono."
