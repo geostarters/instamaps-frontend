@@ -2599,3 +2599,18 @@ border: 1px solid #aaa
 #nav_legend .dropdown-menu::-webkit-scrollbar-thumb:hover {
     background-color: #F3BC02;
 }
+
+#rank-tooltip {
+ border-radius: 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    float: left;
+    left: 0;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    text-align: start;
+    top: 100%;
+    width: 212px;
+    z-index: 1010;
+}
