@@ -146,51 +146,9 @@ function generaLlistaServeisWMS() {
 	_htmlServeisWMS.push('</ul></div>');
 	_htmlServeisWMS.push('<div id="resultats_idec">');
 	_htmlServeisWMS.push('</div>');
-	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
-	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-default" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
-	_htmlServeisWMS.push('</div>');
-	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
-	_htmlServeisWMS.push('  {{#layer Layer}}');
-	_htmlServeisWMS.push('	  <li>');
-	_htmlServeisWMS.push('      {{#if Name}}');
-	_htmlServeisWMS.push('			{{#if Layer}}');
-	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i></span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
-	_htmlServeisWMS.push('			{{else}}');
-	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" id="{{Title}}" value="{{Name}}"> {{Title}}</span>');
-	_htmlServeisWMS.push('				{{#if Dimension}}');
-	_htmlServeisWMS.push('				<span id="geoservicetime_{{Name}}" class="glyphicon glyphicon-time info-wms"></span>');		
-	_htmlServeisWMS.push('			    {{/if}}');		
-	_htmlServeisWMS.push('			{{/if}}');
-	_htmlServeisWMS.push('		{{else}}');
-	_htmlServeisWMS.push('			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
-	_htmlServeisWMS.push('		{{/if}}');
-	_htmlServeisWMS.push('		{{#if Layer}}');
-	_htmlServeisWMS.push('        <ul>');
-	_htmlServeisWMS.push('        {{> list-template}}');
-	_htmlServeisWMS.push('        </ul>');
-	_htmlServeisWMS.push('        {{/if}}');
-	_htmlServeisWMS.push('    </li>');
-	_htmlServeisWMS.push('	{{/layer}}');
-	_htmlServeisWMS.push('</script>');
-	_htmlServeisWMS.push('<script id="capabilities-template" type="x-handlebars-template">');
-	_htmlServeisWMS.push('    <ul>');
-	_htmlServeisWMS.push('    {{> list-template}}');
-	_htmlServeisWMS.push('    </ul>');
-	_htmlServeisWMS.push('</script>');
-	_htmlServeisWMS.push('<div id="div_layersWMS"  class="tbl tree"></div>');
+	_htmlServeisWMS.push('<div id="div_controlWMS"></div>');
 	_htmlServeisWMS.push('<div id="div_emptyWMS"></div>');
 }
-
-jQuery(document).on('click', "#bt_connWMS", function(e) {
-	var url = $.trim(jQuery('#txt_URLWMS').val());
-	if (url === "") {
-		alert(window.lang.convert("Has d'introduïr una URL del servidor"));
-	} else if (!isValidURL(url)) {
-		alert(window.lang.convert("La URL introduïda no sembla correcte"));
-	} else {
-		getCapabilitiesWMS(url, null);
-	}
-});
 
 jQuery(document).on('keyup', "#txt_URLWMS_cataleg", function(e) {
     var code = e.which; // recommended to use e.which, it's normalized across browsers
@@ -262,115 +220,6 @@ function cercaCataleg(cerca){
 	});
 }
 
-function getCapabilitiesWMS(url, servidor) {
-	var _htmlLayersWMS = [];
-	
-	getWMSLayers(url).then(function(results) {
-		var bbox,
-		souce_capabilities_template = $("#capabilities-template").html(),
-		capabilities_template = Handlebars.compile(souce_capabilities_template);
-		
-		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
-		Handlebars.registerHelper('layer', function(context, options) {
-		  var ret = "";
-		  if (!Handlebars.Utils.isArray(context)){
-			  context = [context];
-		  }
-		  for(var i=0, j=context.length; i<j; i++) {
-			  if (!Handlebars.Utils.isArray(context[i])){
-				  ret = ret + options.fn(context[i]);
-			  }else{
-				  for(var k=0, l=context.length; k<l; k++) {
-					  ret = ret + options.fn(context[i][k]);
-				  }
-			  }
-		  }
-		  return ret;
-		});
-		
-		jQuery('#div_layersWMS').html('');
-		jQuery("#div_layersWMS").show();
-		jQuery('#div_emptyWMS').empty();
-
-		if (servidor === null) {
-			servidor = results.Service.Title;
-		}
-		try{
-			if(results.Capability.Layer.Layer.LatLonBoundingBox){
-				bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
-				WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
-			}else if(results.Capability.Layer.LatLonBoundingBox){
-				bbox = results.Capability.Layer.LatLonBoundingBox;
-				WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
-			}else{
-				WMS_BBOX=null;
-			}	
-		} catch (err) {
-			WMS_BBOX=null;
-		}
-		
-		try {
-			var matriuEPSG = results.Capability.Layer.CRS,
-			epsg = [],
-			html = capabilities_template({Layer: [results.Capability.Layer]});
-			
-			ActiuWMS.servidor = servidor;
-			_NomServer2=ActiuWMS.servidor;
-			ActiuWMS.url = jQuery.trim(url);
-			if (!matriuEPSG) {
-				matriuEPSG = results.Capability.Layer.SRS;
-				if (!matriuEPSG) {
-					matriuEPSG = results.Capability.Layer[0].CRS;
-					
-					if (!matriuEPSG) {
-						matriuEPSG = results.Capability.Layer[0].SRS;
-					}
-				}
-			}
-			if (jQuery.isArray(matriuEPSG)){
-				jQuery.each(matriuEPSG, function(index, value) {
-					epsg.push(value);
-				});
-			}else{
-				epsg.push(matriuEPSG);
-			}
-	
-			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG3857;
-				ActiuWMS.epsgtxt = 'EPSG:3857';
-			} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG3857;
-				ActiuWMS.epsgtxt = 'EPSG:3857';
-			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';
-			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';
-			} else if (jQuery.inArray('EPSG:4258', epsg) != -1) {
-				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';	
-			} else {
-				alert(window.lang.convert("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
-				return;
-			}
-			
-			jQuery('#div_layersWMS').empty().append(html);
-			addTreeEvents();
-			jQuery('#div_emptyWMS').empty();
-			jQuery('#div_emptyWMS').html(
-				'<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >' +
-				window.lang.convert("Afegir capes") + '</button></div>');
-		} catch (err) {
-			jQuery('#div_layersWMS').html('<hr>Error interpretar capabilities: ' + err + '</hr>');
-		}
-	});
-}
-
-jQuery(document).on('click', "#bt_addWMS", function(e) {
-    addExternalWMS(false);
-});
-
 /*
  * fromParam = true -> Si afegim WMS directamente dun parametre de la url
  * fromParam = false -> Si afegim WMS des de la interficie dInstaMaps
@@ -427,8 +276,7 @@ function addExternalWMS(fromParam) {
 		});
 	}
 	
-	nomCapaWMS=ActiuWMS.servidor;
-	
+	nomCapaWMS=ActiuWMS.servidor;	
 	
 	
 	wmsLayer.options.businessId = '-1';
@@ -575,33 +423,3 @@ function loadWmsLayer(layer, _map){
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
 }
 
-function addTreeEvents(){
-	$('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
-    $('.tree li.parent_li > span').on('click', function (e) {
-        var children = $(this).parent('li.parent_li').find(' > ul > li');
-        if (children.is(":visible")) {
-            children.hide('fast');
-            $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open');
-        } else {
-            children.show('fast');
-            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close');
-        }
-        e.stopPropagation();
-    });
-    
-    $('.tree li > span.leaf').on('click', function (e) {
-    	$(this).children('.ckbox_layer').click();
-    });
-    
-    $('.ckbox_layer').on('click', function (e) {
-    	e.stopPropagation();
-    });
-    
-    $('.btn-all').on('click',function(){
-    	$(this).parent('li.parent_li').find('input:checkbox').prop('checked', true);
-	});
-	
-	$('.btn-none').on('click',function(){
-		$(this).parent('li.parent_li').find('input:checkbox').prop('checked', false);
-	});
-}

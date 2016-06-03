@@ -267,10 +267,9 @@ function initControls(){
 	//carrega font de dades
 	generaLListaDadesObertes();
 	generaLlistaServeisWMS();
-//Afegir modul3D
-		 addModul3D();
-		 
-		
+	
+	//Afegir modul3D
+	addModul3D();	
 }
 
 function addClicksInici() {
