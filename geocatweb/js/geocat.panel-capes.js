@@ -230,68 +230,13 @@ function updateEditableElements(){
  * Funcionalitat de descarrega de capes
  * */
 function addFuncioDownloadLayer(from){
-
-	addHtmlModalDownloadLayer();
-
-	//Si la capa conté polígons no es podrà descarregar en format GPX
-	$('#modal_download_layer').on('show.bs.modal', function (e) {
-		  if(download_layer.layer.options.geometryType
-				  && download_layer.layer.options.geometryType==t_polygon){
-			  $("#select-download-format option[value='GPX#.gpx']").attr('disabled','disabled');
-		  }else{
-			  $("#select-download-format option[value='GPX#.gpx']").removeAttr('disabled');
-		  }
-	});
-
-	jQuery('#select-download-format').change(function() {
-		var ext = jQuery(this).val();
-		if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
-		jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
-		}else{
-			jQuery("#select-download-epsg").attr('disabled',false);
-		}
-	});
-
-	$('#bt_download_accept').on('click', function(evt){
-		var formatOUT = $('#select-download-format').val();
-		var epsgOUT = $('#select-download-epsg').val();
-		var filename = $('#input-download-name').val();
-		var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
-
-		var data = {
-			cmb_formatOUT: formatOUT,
-			cmb_epsgOUT: epsgOUT,
-			layer_name: filename,
-			fileIN: JSON.stringify(layer_GeoJSON)
-		};
-
-		_gaq.push(['_trackEvent', from, tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
-
-		getDownloadLayer(data).then(function(results){
-			results = results.trim();
-			if (results == "ERROR"){
-				$('#modal-body-download-error').show();
-				$('#modal-body-download').hide();
-				$('#modal_download_layer .modal-footer').hide();
-				$('#modal_download_layer').modal('show');
-			}else{
-				window.open(GEOCAT02+results,'_blank');
-			}
-		},function(results){
-			$('#modal-body-download-error').show();
-			$('#modal-body-download').hide();
-			$('#modal_download_layer .modal-footer').hide();
-			$('#modal_download_layer').modal('show');
-		});
-
-	});
+	addHtmlModalDownloadLayer(from);
 }
 
 /**
  * Funcionalitat remove layers
  **/
 function removeAtomicLayer(data,matriuObj){
-
 	removeServerToMap(data).then(function(results){
 		if(results.status==='OK'){
 			for(var j=0; j < matriuObj.length;j++){
@@ -336,56 +281,8 @@ function removeAtomicLayer(data,matriuObj){
 }
 
 function addFuncioRemoveLayer(){
-
 	addHtmlModalRemoveLayer();
 	addHtmlModalRemoveGroup();
-
-	$('#dialog_delete_capa .btn-danger').on('click', function(event){
-		var $this = $(this);
-		var data = $this.data("data");
-		var obj = $this.data("obj");
-		var matriuObj=[];
-		matriuObj.push(obj);
-		removeAtomicLayer(data,matriuObj);
-	});
-
-	//Esborra grup capes
-	$('#dialog_delete_group .btn-danger').on('click', function(event){
-		var $this = $(this);
-		var group = $this.data("group");
-		var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId,group.groupName);
-		var lbusinessId = [];
-		var matriuObj=[];
-			for(i=0; i < matriuCapesGroup.length;i++){
-				var obj;
-				var layerIdParent = matriuCapesGroup[i].layerIdParent;
-				if(!layerIdParent){
-					obj = matriuCapesGroup[i];
-					lbusinessId.push(obj.layer.options.businessId);
-					for(j in obj._layers){
-						lbusinessId.push(obj._layers[j].layer.options.businessId);
-					}
-				}else{
-					obj =matriuCapesGroup[i];
-					lbusinessId.push(obj.layer.options.businessId);
-				}
-				matriuObj.push(obj);
-				if(!obj.overlay) {
-					return;
-				}
-			}
-
-			if(typeof url('?businessid') == "string"){
-				var data = {
-					businessId: url('?businessid'),
-					uid: $.cookie('uid'),
-					servidorWMSbusinessId:lbusinessId.toString()
-				};
-				removeAtomicLayer(data,matriuObj);
-			}
-
-			controlCapes.removeGroup(group.groupName,group.groupId);
-	});
 }
 
 /**
@@ -426,78 +323,180 @@ function addTooltipsConfOptions(businessId){
 
 function addFuncioEtiquetesCapa(){
 	addHtmlModalEtiquetesLayer();
-
-	$('#colorpalette_etiqueta').colorPalette().on('selectColor', function(e) {   	
-	    $('.color_etiqueta').css('background-color',e.color);		
-	});
-	
-	$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
-		
-		if (jQuery('#dataFieldEtiqueta').val()!=undefined && jQuery('#dataFieldEtiqueta').val()=="---"){
-			alert("Cal escollir un camp per etiquetar");
-		}
-		else {
-			var capaLeafletId = $('#dialog_etiquetes_capa #leafletIdCapaEtiqueta').val();
-			var capaLeafletIdControl = $('#dialog_etiquetes_capa #leafletIdCapaEtiquetaControl').val();
-			var color = rgb2hex($('.color_etiqueta').css('background-color'));
-			
-			var options = {
-					campEtiqueta:jQuery('#dataFieldEtiqueta').val(),
-					fontFamily:jQuery('#font-family').val(),
-					fontSize:jQuery('#font-size').val(),
-					fontStyle:jQuery('#font-style').val(),
-					fontColor:color,
-					opcionsVis:$("input[name=etiqueta]:checked").val(),
-					zoomInicial:zoomInicial,
-					zoomFinal:zoomFinal
-			};
-			var layerMap=map._layers[capaLeafletId];
-			var optionsMap;
-			if (layerMap==undefined) {
-				layerMap = controlCapes._layers[capaLeafletId];
-				optionsMap=layerMap.layer.options;
-			}
-			else optionsMap=layerMap.options;
-			
-			var data={
-					businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
-					uid: $.cookie('uid'),
-					options:  JSON.stringify(options),
-					nom:optionsMap.nom,
-					tipus:optionsMap.tipusRang,
-					geometryType:optionsMap.geometryType
-			};
-			updateVisualitzacioLayer(data).then(function(results){
-				reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
-			});
-		}
-	});
 }
 
-function addHtmlModalDownloadLayer(){
+function addHtmlModalDownloadLayer(from){
 	$.get("templates/modalDownloadLayer.html",function(data){
 		//TODO ver como pasar el modal container
-		$('#mapa_modals').append(data);       		
+		$('#mapa_modals').append(data);
+		
+		//Si la capa conté polígons no es podrà descarregar en format GPX
+		$('#modal_download_layer').on('show.bs.modal', function (e) {
+			  if(download_layer.layer.options.geometryType
+					  && download_layer.layer.options.geometryType==t_polygon){
+				  $("#select-download-format option[value='GPX#.gpx']").attr('disabled','disabled');
+			  }else{
+				  $("#select-download-format option[value='GPX#.gpx']").removeAttr('disabled');
+			  }
+		});
+
+		jQuery('#select-download-format').change(function() {
+			var ext = jQuery(this).val();
+			if ((ext=="KML#.kml")||(ext=="GPX#.gpx")){
+			jQuery("#select-download-epsg").val("EPSG:4326").attr('disabled',true);
+			}else{
+				jQuery("#select-download-epsg").attr('disabled',false);
+			}
+		});
+
+		$('#bt_download_accept').on('click', function(evt){
+			var formatOUT = $('#select-download-format').val();
+			var epsgOUT = $('#select-download-epsg').val();
+			var filename = $('#input-download-name').val();
+			var layer_GeoJSON = download_layer.layer.toGeoJSONcustom();
+
+			var data = {
+				cmb_formatOUT: formatOUT,
+				cmb_epsgOUT: epsgOUT,
+				layer_name: filename,
+				fileIN: JSON.stringify(layer_GeoJSON)
+			};
+
+			_gaq.push(['_trackEvent', from, tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
+
+			getDownloadLayer(data).then(function(results){
+				results = results.trim();
+				if (results == "ERROR"){
+					$('#modal-body-download-error').show();
+					$('#modal-body-download').hide();
+					$('#modal_download_layer .modal-footer').hide();
+					$('#modal_download_layer').modal('show');
+				}else{
+					window.open(GEOCAT02+results,'_blank');
+				}
+			},function(results){
+				$('#modal-body-download-error').show();
+				$('#modal-body-download').hide();
+				$('#modal_download_layer .modal-footer').hide();
+				$('#modal_download_layer').modal('show');
+			});
+
+		});
+		
 	});
 }
 
 function addHtmlModalRemoveLayer(){
 	$.get("templates/modalRemoveLayer.html",function(data){
 		//TODO ver como pasar el modal container
-		$('#mapa_modals').append(data);       		
+		$('#mapa_modals').append(data);  
+		
+		$('#dialog_delete_capa .btn-danger').on('click', function(event){
+			var $this = $(this);
+			var data = $this.data("data");
+			var obj = $this.data("obj");
+			var matriuObj=[];
+			matriuObj.push(obj);
+			removeAtomicLayer(data,matriuObj);
+		});
 	});
 }
 
 function addHtmlModalRemoveGroup(){
 	$.get("templates/modalRemoveGroup.html",function(data){
 		//TODO ver como pasar el modal container
-		$('#mapa_modals').append(data);       		
+		$('#mapa_modals').append(data); 
+		
+		//Esborra grup capes
+		$('#dialog_delete_group .btn-danger').on('click', function(event){
+			var $this = $(this);
+			var group = $this.data("group");
+			var matriuCapesGroup=controlCapes.getLayersFromGroupId(group.groupId,group.groupName);
+			var lbusinessId = [];
+			var matriuObj=[];
+				for(i=0; i < matriuCapesGroup.length;i++){
+					var obj;
+					var layerIdParent = matriuCapesGroup[i].layerIdParent;
+					if(!layerIdParent){
+						obj = matriuCapesGroup[i];
+						lbusinessId.push(obj.layer.options.businessId);
+						for(j in obj._layers){
+							lbusinessId.push(obj._layers[j].layer.options.businessId);
+						}
+					}else{
+						obj =matriuCapesGroup[i];
+						lbusinessId.push(obj.layer.options.businessId);
+					}
+					matriuObj.push(obj);
+					if(!obj.overlay) {
+						return;
+					}
+				}
+
+				if(typeof url('?businessid') == "string"){
+					var data = {
+						businessId: url('?businessid'),
+						uid: $.cookie('uid'),
+						servidorWMSbusinessId:lbusinessId.toString()
+					};
+					removeAtomicLayer(data,matriuObj);
+				}
+
+				controlCapes.removeGroup(group.groupName,group.groupId);
+		});
 	});
 }
 
 function addHtmlModalEtiquetesLayer(){
 	$.get("templates/modalEtiquetesLayer.html",function(data){
 		//TODO ver como pasar el modal container
-		$('#mapa_modals').append(data);       		
+		$('#mapa_modals').append(data); 
+		
+		$('#colorpalette_etiqueta').colorPalette().on('selectColor', function(e) {   	
+		    $('.color_etiqueta').css('background-color',e.color);		
+		});
+		
+		$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
+			
+			if (jQuery('#dataFieldEtiqueta').val()!=undefined && jQuery('#dataFieldEtiqueta').val()=="---"){
+				alert("Cal escollir un camp per etiquetar");
+			}
+			else {
+				var capaLeafletId = $('#dialog_etiquetes_capa #leafletIdCapaEtiqueta').val();
+				var capaLeafletIdControl = $('#dialog_etiquetes_capa #leafletIdCapaEtiquetaControl').val();
+				var color = rgb2hex($('.color_etiqueta').css('background-color'));
+				var zoomInicial = $( "#slider" ).slider( "values", 0 );
+				var zoomFinal = $( "#slider" ).slider( "values", 1 );
+				var options = {
+						campEtiqueta:jQuery('#dataFieldEtiqueta').val(),
+						fontFamily:jQuery('#font-family').val(),
+						fontSize:jQuery('#font-size').val(),
+						fontStyle:jQuery('#font-style').val(),
+						fontColor:color,
+						opcionsVis:$("input[name=etiqueta]:checked").val(),
+						zoomInicial:zoomInicial,
+						zoomFinal:zoomFinal
+				};
+				var layerMap=map._layers[capaLeafletId];
+				var optionsMap;
+				if (layerMap==undefined) {
+					layerMap = controlCapes._layers[capaLeafletId];
+					optionsMap=layerMap.layer.options;
+				}
+				else optionsMap=layerMap.options;
+				
+				var data={
+						businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
+						uid: $.cookie('uid'),
+						options:  JSON.stringify(options),
+						nom:optionsMap.nom,
+						tipus:optionsMap.tipusRang,
+						geometryType:optionsMap.geometryType
+				};
+				updateVisualitzacioLayer(data).then(function(results){
+					reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
+				});
+			}
+		});
 	});
 }
