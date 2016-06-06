@@ -3,7 +3,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		collapsed : true,
 		position : 'topright',
 		title : 'Title',
-		autoZIndex : false,
+		autoZIndex : true,
 		autoUpdate: true
 	},
 
