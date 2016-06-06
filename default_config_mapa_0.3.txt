@@ -4,21 +4,26 @@
     "description": "Default configuration for InstaMaps",
     "type": "object",
     "funcionalitatsLoginat": ["carregaDadesUsuari()"],
-    "funcionalitats": [	"addFuncioRenameMap()",
-    					"addFuncioRemoveLayer()", 
-    					"addFuncioDownloadLayer('mapa')",
-    					
-    					"addOpcionsFonsMapes()","creaPopOverMesFonsColor()",
-						"initButtonsTematic()",
-						"creaAreesDragDropFiles()","addFuncioCarregaFitxers()",
-						"addControlCercaEdit()",
-						"Publicar.addControl('#funcio_publicar',$.cookie('uid'),$.cookie('collaborateuid'))",
-						"addCompartirMapa()"
-						,"addDialegEstilsDraw()","addDialegEstilsTematics()","addDrawToolbar()","activaEdicioUsuari()"							
-						,"addControlAltresFontsDades()"
-						,"addFuncioEditDataTable()"
-						,"addHtmlInterficieFuncionsSIG()","creaPopOverMesFuncionsGIS()"
-						,"addFuncioEtiquetesCapa()"
-						],
+    "funcionalitats": [	
+    	"addFuncioRenameMap()",
+    	"addFuncioRemoveLayer()", 
+    	"addFuncioDownloadLayer('mapa')",
+ 		"addOpcionsFonsMapes()",
+ 		"creaPopOverMesFonsColor()",
+		"initButtonsTematic()",
+		"creaAreesDragDropFiles()",
+		"addFuncioCarregaFitxers()",
+		"addControlCercaEdit()",
+		"Publicar.addControl('#funcio_publicar',$.cookie('uid'),$.cookie('collaborateuid'))",
+		"addCompartirMapa()",
+		"addDialegEstilsDraw()",
+		"addDialegEstilsTematics()",
+		"addDrawToolbar()",
+		"activaEdicioUsuari()",
+		"addControlAltresFontsDades()",
+		"addFuncioEditDataTable()",
+		"addHtmlInterficieFuncionsSIG()",
+		"addFuncioEtiquetesCapa()"
+	],
     "required": ["id", "name", "price"]
 }

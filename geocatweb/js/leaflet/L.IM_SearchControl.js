@@ -92,10 +92,11 @@ L.Control.SearchControl = L.Control.extend({
 				if (coords) {
 					coordsSplit = coords.split(",");
 					loc = L.latLng(coordsSplit[0], coordsSplit[1] );
-					self.control.showLocation(loc,coords,nom); 
+					console.debug(self);
+					self.showLocation(loc,coords,nom); 
 				}
 			}
-			else self.control.showAlert(self.control.options.textErr);
+			else self.showAlert(self.control.options.textErr);
 		}
 		return json;
 	},

@@ -24,6 +24,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"amb les teves dades.":"with your data"
 ,"Analitzant fitxer":"Analyzing file"
 ,"Anar a la visualització del mapa":"Go to the map display"
+,"Anar al mapa":"Go to the map"
 ,"Aplicable a polígons.":"Applies only to polygon type layers."
 ,"Aplicable a polígons i punts.":"Applicable to point or polygon layers."
 ,"Aplicable a punts, línies o polígons.":"Applicable to point, line or polygon layers."

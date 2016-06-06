@@ -291,11 +291,11 @@ function addHtmlModalPunts(){
 			'<!-- Modal Punts -->'+
 			'<div class="modal fade" id="dialog_estils_punts">'+
 			'	<div class="modal-dialog">'+
-			'		<div class="modal-content">'+
-			'			<div class="modal-header">'+
+			'		<div class="modal-content panel-primary">'+
+			'			<div class="modal-header panel-heading">'+
 			'				<button type="button" class="close" data-dismiss="modal"'+
 			'					aria-hidden="true">&times;</button>'+
-			'				<h4 class="modal-title" lang="ca" id="myModalLabel">Estils de punts</h4>'+
+			'				<h4 class="modal-title" id="myModalLabel"><span lang="ca">Estils de punts</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#estilpunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 			'			</div>'+
 			'			<div class="modal-body">'+
 			'				<table width="100%" class="tbl_taula" border="0" cellspacing="1" cellpadding="1">'+
@@ -564,11 +564,11 @@ function addHtmlModalLinies(){
 	'	<!-- Modal Linies -->'+
 	'		<div class="modal fade" id="dialog_estils_linies">'+
 	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Estils de línia</h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Estils de línia</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#estilpunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<table width="100%" class="tbl_taula" border="0" cellspacing="1"'+
@@ -638,11 +638,11 @@ function addHtmlModalArees(){
 	'	<!-- Modal Arees -->'+
 	'		<div class="modal fade" id="dialog_estils_arees">'+
 	'		<div class="modal-dialog">'+
-	'			<div class="modal-content">'+
-	'				<div class="modal-header">'+
+	'			<div class="modal-content panel-primary">'+
+	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title" lang="ca">Estils d\'àrees</h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Estils d\'àrees</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#estilpunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<table width="100%" class="tbl_taula" border="0" cellspacing="1"'+

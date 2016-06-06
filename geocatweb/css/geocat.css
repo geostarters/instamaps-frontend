@@ -1329,9 +1329,9 @@ h1.big_text{
 }
 
 .thumbnail .rank{
-	float: right;
+	float: left;
     font-size: 8pt;
-    margin-top: -40px;
+    margin-top: -20px;
     position: relative;
 }
 
@@ -1655,6 +1655,10 @@ h1.big_text{
     color: #3c763d;
      font-size: 15px;
      font-weight:bold;
+}
+
+.grisfort, .grisfort a, .grisfort div, .grisfort span {
+    color: rgba(45, 46, 41, 0.6) !important;
 }
 
 @keyframes preloader_6_span {

@@ -60,11 +60,23 @@ L.Control.Like = L.Control.extend({
 			self._liked();
 		}
 		
-		self._updateRankAplicacio(data);
+		self._updateRankAplicacio(data).then(function(results){
+			if (results.status=="OK"){
+				var btnSpan = $(self._div).find('span');
+				btnSpan.tooltip({
+					placement: 'right',
+			        title: results.results,
+			        
+			    }).tooltip('show');
+				setTimeout(function(){
+					btnSpan.tooltip('destroy');
+			    }, 800);
+			}
+		});
 	},
 	
 	_updateRankAplicacio: function(params){
-		return jQuery.ajax({
+		return $.ajax({
 			url: paramUrl.updateRankAplicacio, //geocat.config-1.0.0
 	  		data: params,
 	  		method: 'post',

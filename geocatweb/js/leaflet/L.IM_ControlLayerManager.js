@@ -119,7 +119,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					this._layers[layer].layer.options.group.z_order = z_order;
 					this._layers[layer].layer.options.group.expanded = expanded;
 					this._layers[layer].layer.options.zIndex = z_order;
-					this._layers[layer].layer.setZIndex(z_order);
+					this._layers[layer].layer.setZIndex(parseInt(z_order)+1);
 					map.eachLayer(function(layer) {
 						if (layer.options
 							&& layer.options.businessId == businessId) {

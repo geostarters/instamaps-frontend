@@ -1,0 +1,74 @@
+<!-- Modal Filter -->
+<div class="modal fade" id="dialog_filter_rangs_avancat">
+	<div class="modal-dialog">
+		<div class="modal-content panel-primary">
+			<div class="modal-header panel-heading">
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>
+				<h4 class="modal-title">
+					<span lang="ca">Filtre</span>
+					<span><a class="faqs_link"
+						href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#operacionsgeo"
+						target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<span class="ca">Fes doble-clic sobre els elements per afegir-los al filtre.</span>
+				<div class="labels_fields" >
+				    <input type="hidden" name="visFilter"  id="visFilter" value=""> 
+					<span lang="ca">Camps</span>:<span lang="ca" style="margin-left:31%">Valors</span>:<br/>
+					<select name="dataField_filter_avancat" id="dataField_filter_avancat" style="width: 30%;" size="6">
+					</select>
+					<select name="dataField_filter_avancat2" id="dataField_filter_avancat2" style="margin-left:8%;width:30%;" size="6">
+					</select>
+					<script id="tematic-layers-fields-avancat" type="text/x-handlebars-template">
+						{{#each fields}}
+							<option value="{{this}}">{{@key}}</option>
+						{{/each}}
+					</script>	
+					<script id="tematic-layers-fields-values-avancat" type="text/x-handlebars-template">
+						{{#each fields}}
+							<option value="{{this}}">{{@key}}</option>
+						{{/each}}
+					</script>
+					<br/>
+					<span  style="margin-left:38%">
+						<button type="button" lang="ca" id="valors_unics">Valors únics</button>
+						<button type="button" lang="ca" id="nomes_10_valors">10 primers</button>
+					</span>
+				</div>
+				<br/>
+				<div>
+					<span lang="ca" style="font-size: 13px;font-weight: bold;">Filtre avançat</span><br/>
+					<span lang="ca">Operador</span>:<br/>
+					<button type="button" lang="ca" id="equals">=</button>
+					<button type="button" lang="ca" id="notequals"><></button>
+					<button type="button" lang="ca" id="like">Like</button>
+					<button type="button" lang="ca" id="not">Not Like</button>
+					<button type="button" lang="ca" id="major">></button>
+					<button type="button" lang="ca" id="majorequals">>=</button>	
+					<button type="button" lang="ca" id="menor"><</button>
+					<button type="button" lang="ca" id="menorequals"><=</button>
+					<button type="button" lang="ca" id="and">And</button>
+					<button type="button" lang="ca" id="or">Or</button>
+				</div>
+				<div>
+					<span class="ca">Valor filtre</span>:<br/>
+					<input type="text" id="filtre_avancat"/>&nbsp;<button type="button" lang="ca" id="valorFiltre">Afegir valor</button>
+				</div>
+				<div>
+					<span class="ca">Filtre resultant</span>:</br>
+					<textarea rows="4" cols="50" id="select_filter" readonly></textarea>
+					<br/><input type="checkbox" id="edicio_filtre"/>&nbsp;<span lang="ca">Editar filtre</span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
+       			<button type="button" class="btn btn-success" lang="ca" id="filtrarBtn">Filtrar</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- fi Modal Tematics Rangs -->
