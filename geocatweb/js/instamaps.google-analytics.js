@@ -25,14 +25,23 @@ var _gaq = _gaq || [];
 	});
 	
 	$.subscribe('trackEvent', function(e, data){
-		_gaq.push(data.event);
+		checkIfAnalyticsLoaded(data);
 	});
 	
 	$.subscribe('trackPageview', function(e, data){
 		_gaq.push(['_trackPageview']);
 	});
-	
 })();
+
+function checkIfAnalyticsLoaded(data) {
+	if($.isArray(_gaq)){
+		setTimeout(function(){
+			checkIfAnalyticsLoaded(data);
+		}, 500);
+	}else{
+		_gaq.push(data.event);
+	}
+}
 
  
 (function() {
