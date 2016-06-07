@@ -117,7 +117,7 @@ function fillModalDataTable(obj, geomBid){
 		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
 			
 			jQuery.each(estil.geometria.features, function(indexFeature, feature){
-				console.debug(feature);
+				//console.debug(feature);
 				//Geometry Id
 				var objGeomId = {
 						field: 'geometryid',
@@ -142,7 +142,7 @@ function fillModalDataTable(obj, geomBid){
 				}
 				columNames.push(objGeomBBOX);			
 				
-				console.debug(options);
+				//console.debug(options);
 				if(modeMapa){
 					var isADrawMarker=false;
 					//properties headers
@@ -273,7 +273,82 @@ function fillModalDataTable(obj, geomBid){
 			return false;
 		});	
 	}
-	else {
+	else {//Primer cop que dibuixem una geometria
+		//Geometry Id
+		var objGeomId = {
+				field: 'geometryid',
+				title: 'ID',
+				visible: false
+		}
+		columNames.push(objGeomId);	
+
+		//Geometry Bid 
+		var objGeomBid = {
+				field: 'geometrybid',
+				title: 'BID',
+				visible: false
+		}
+		columNames.push(objGeomBid);			
+		
+		//geometryBBOX
+		var objGeomBBOX = {
+				field: 'geometryBBOX',
+				title: 'BBOX',
+				visible: false 
+		}
+		columNames.push(objGeomBBOX);		
+		//console.debug(options);
+		if(modeMapa){
+			var isADrawMarker=true;
+			//properties headers
+			//console.debug(feature);
+		
+			var obj2 = {
+					title: "nom".toUpperCase(),
+					field: "nom".toLowerCase(),
+					sortable: true,
+					editable: {
+						emptytext : '-'
+					}
+				}
+				
+			columNames.push(obj2);
+			obj2 = {
+					title: "text".toUpperCase(),
+					field: "text".toLowerCase(),
+					sortable: true,
+					editable: {
+						emptytext : '-'
+					}
+				}
+				
+			columNames.push(obj2);
+			
+			if (isADrawMarker && options.geometryType=="marker"){ //Nomes pintem longitud/latitud quan és un punt
+				var obj2 = {
+						title: "latitud".toUpperCase(),
+						field: "latitud".toLowerCase(),
+						sortable: true
+					}
+				columNames.push(obj2);
+				 obj2 = {
+							title: "longitud".toUpperCase(),
+							field: "longitud".toLowerCase(),
+							sortable: true
+						}
+				 columNames.push(obj2);
+			}
+			
+			//Actions
+			var objActions = {
+					title: window.lang.convert("ACCIONS"),
+					field: 'Accions',
+					formatter: 'actionFormatter',
+					events: 'actionEvents'
+			}	
+			columNames.push(objActions);
+			
+		}
 		
 	}
 	
@@ -294,6 +369,7 @@ function fillModalDataTable(obj, geomBid){
 	        }
 		};	
 
+	console.debug(obj);
 	//Portem properties del servidor
 	var data ={
 			businessId: obj.layer.options.businessId,
@@ -329,7 +405,7 @@ function fillModalDataTable(obj, geomBid){
 							//console.debug(value);
 							result[key]=value;
 						}
-						
+						else result[key]=value;
 					});
 					resultatsMod[resultI]=result;
 					
@@ -337,7 +413,6 @@ function fillModalDataTable(obj, geomBid){
 					//console.debug(result);
 					
 				});
-				
 				
 				
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
