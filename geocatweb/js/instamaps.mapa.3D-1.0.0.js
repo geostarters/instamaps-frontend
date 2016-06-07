@@ -1241,7 +1241,7 @@ var that = this;
 					
 					var promise = Cesium.GeoJsonDataSource.load(gj);
 					
-					//var ellipsoid = viewer.scene.globe.ellipsoid;
+					var ellipsoid = viewer.scene.globe.ellipsoid;
 
 					promise.then(function (dataSource) {															
 						dataSource.id = bb;
@@ -1297,17 +1297,18 @@ var that = this;
 		try {
 			var ff = item.layer.toGeoJSON();
 
-		
-			
+					
 			var numFeatures = ff.features.length;
-
 			
 			
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
+			
 					if (item.layer.options.source && item.layer.options.source == 'geojson') {
 
+					
+					
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
@@ -1330,6 +1331,8 @@ var that = this;
 
 						}
 
+					
+						
 					} else if (item.layer.options.source && item.layer.options.source.indexOf('xls') != -1) {
 
 						numFeatures <= 1000 ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
@@ -1344,6 +1347,7 @@ var that = this;
 
 					} else if (!item.layer.options.source) {
 
+					
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 						//tmp_featuree.tipus = 'vecras';
 
@@ -1443,6 +1447,8 @@ var that = this;
 						var point = ellipsoid
 							.cartesianToCartographic(entity.polygon._hierarchy._value.positions[j])
 
+						
+							
 							matriu.push(Cesium.Cartographic
 								.fromRadians(
 									point.longitude,
@@ -1455,7 +1461,11 @@ var that = this;
 
 			var promise = Cesium.sampleTerrain(terreny, factorTerreny, matriu);
 
+			
+			
 			Cesium.when(promise, function (updatedPositions) {
+				
+				
 				if(length >50){
 					setTimeout(function(){
 						that.addEntitiesVisorCesium(dataSource, matriu, 13, visible, msg);
@@ -1623,6 +1633,9 @@ var that = this;
 				}
 
 				viewer.entities.add(entity); //add billboard
+			
+			
+			
 			} else if (entity.polygon) {
 
 				entity.ellipsoid = ellipsoid;
@@ -1687,6 +1700,8 @@ var that = this;
 				var _matriuAlcada = [];
 				var _extrudeAlcada;
 
+				
+				
 				if (msg == 'vector') {
 					for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
 						z = z + 1;
@@ -1701,9 +1716,22 @@ var that = this;
 
 					var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
 
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				} else {
 
 					var cartesianPositions = entity.polygon._hierarchy._value;
+					//var cartesianPositions =Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
 
 				}
 				var _newEntity;
@@ -1715,20 +1743,6 @@ var that = this;
 						terra = (Math.max.apply(Math, _matriuAlcada));
 					}
 					_extrudeAlcada = terra + parseInt(alcada);
-					
-					
-					/*
-					//entity.polygon.hierarchy=cartesianPositions
-					entity.polygon.hierarchy._value=cartesianPositions;
-					entity.polygon.extrudedHeight=_extrudeAlcada
-					entity.polygon.perPositionHeight
-					entity.polygon.outline = true;
-					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
-					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
-
-					_newEntity=entity;
-					*/
-					
 					
 					
 					_newEntity = {
@@ -1753,7 +1767,7 @@ var that = this;
 				} else {
 
 				
-				/*
+				
 					_newEntity = {
 
 						properties : entity.properties,
@@ -1770,7 +1784,9 @@ var that = this;
 
 						}
 					};
-					*/
+					
+					
+					/*
 					entity.show=visible;
 					entity.polygon.outline = true;
 					entity.polygon.perPositionHeight=true;
@@ -1778,7 +1794,7 @@ var that = this;
 					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
 
 					_newEntity=entity;
-					
+					*/
 				}
 
 				viewer.entities.add(_newEntity);
