@@ -220,7 +220,9 @@ var paramUrl = {
 	url_mapserver:HOST_APP+"/geoservicelocal/",
 	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?",
 	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?",
-	urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
+	//urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
+	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
+	
 }
 
 var paramAplications = {

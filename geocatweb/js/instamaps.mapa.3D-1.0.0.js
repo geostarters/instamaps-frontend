@@ -1716,17 +1716,7 @@ var that = this;
 
 					var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
 
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+		
 				
 				} else {
 
