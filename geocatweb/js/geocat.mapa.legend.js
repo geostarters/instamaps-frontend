@@ -1274,6 +1274,9 @@ function loadMapLegendEdicio(layer){
 	
 	var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 	arrRangsEstilsLegend.sort(sortByValueMax);
+	
+	var totalLayers=0;
+	
 	if(geometryType == t_marker){
 
 		jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
@@ -1282,6 +1285,8 @@ function loadMapLegendEdicio(layer){
 				indexEstil++;
 				
 			}
+			totalLayers = totalLayers+layer.options.estil[indexEstil].geometria.features.length;
+			//console.debug(layer.options.estil[indexEstil].geometria.features.length);
 			var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
 			if (layer.options.tipusRang == tem_size) mida = layer.options.estil[indexEstil].simbolSize;
 			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
@@ -1325,13 +1330,13 @@ function loadMapLegendEdicio(layer){
 				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+
 						stringStyle+
 						'</div>'+
-						'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+labelNomCategoria+'</div>';	
+						'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';	
 			}
 			else{
 						html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';				
 			}
 			html+='</div><div class="visor-separate-legend-row"></div>';	
 		});
@@ -1342,7 +1347,7 @@ function loadMapLegendEdicio(layer){
 			while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 				indexEstil++;
 			}
-			
+			totalLayers = totalLayers+layer.options.estil[indexEstil].geometria.features.length;
 			var color = hexToRgb(layer.options.estil[indexEstil].color);
 			var lineWidth = layer.options.estil[indexEstil].lineWidth;
 			var stringStyle =	'<svg height="20" width="20">'+
@@ -1368,7 +1373,7 @@ function loadMapLegendEdicio(layer){
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';				
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});				
@@ -1380,7 +1385,7 @@ function loadMapLegendEdicio(layer){
 			while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 				indexEstil++;
 			}
-			
+			totalLayers = totalLayers+layer.options.estil[indexEstil].geometria.features.length;
 			var color = "";
 			if (layer.options.estil[indexEstil].color) color=hexToRgb(layer.options.estil[indexEstil].color);
 			else color=hexToRgb(layer.options.estil[indexEstil].borderColor);
@@ -1411,13 +1416,13 @@ function loadMapLegendEdicio(layer){
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';				
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});					
 		
 	}	
-	
+	html= html.replace("totalLayers",totalLayers);
 	$("#mapLegendEdicio").html(html);
 	//Afegim de nou les classes i l'scroll
 	$("#mapLegendEdicio").addClass("info");
@@ -1434,20 +1439,29 @@ function loadMapLegendEdicio(layer){
 
 function loadMapLegendEdicioDinamics(layer){
 	
-	//console.info(layer);
-	
 	//Eliminem de la lleganda tematització anterior
 	$("#mapLegendEdicio").html("");
 	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
 	
-	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';
+	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+' ('+layer.getLayers().length+')</div><div class="titol-separate-legend-row"></div>';
 	
 	var geometryType = transformTipusGeometry(layer.options.geometryType);
 
 	var rangsEstilsLegend = layer.options.estil_do.estils;
-	
+	//console.debug(layer);
 		if(geometryType == t_marker){
-		
+			var map={};
+			jQuery.each(layer._layers, function(i, lay){
+				console.debug(lay)
+				var color = lay.options.fillColor;
+				if (color!=undefined){
+					if (map[color]==undefined) map[color]=1;
+					else {
+						var i=map[color];
+						map[color]=i+1;
+					}
+				}
+			});
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 			var mida = getMidaFromRadius(estilRang.estil.simbolSize);
 			if (layer.options.tem == tem_size) mida = estilRang.estil.simbolSize;
@@ -1455,7 +1469,6 @@ function loadMapLegendEdicioDinamics(layer){
 			if (mida>0 && mida<=6) padding_left="15px";
 			else if (mida>6 && mida<=14) padding_left="10px";
 			else if (mida>14 && mida<=22) padding_left="5px";
-			
 			var color = hexToRgb(estilRang.estil.color);
 			var height=mida*2.8;
 			var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
@@ -1487,20 +1500,31 @@ function loadMapLegendEdicioDinamics(layer){
 				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="margin-top:4px;padding-left:'+padding_left+'">'+
 						stringStyle+
 						'</div>'+
-						'<div class="visor-legend-name col-md-8 col-xs-8" style="padding-left:50px;">'+labelNomCategoria+'</div>';
+						'<div class="visor-legend-name col-md-8 col-xs-8" style="padding-left:50px;">'+labelNomCategoria+' ('+map[estilRang.estil.color]+')</div>';	
 					}
 			else {
 				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+map[estilRang.estil.color]+')</div>';
 			}
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';	
 			
 		});
 	}else if(geometryType == t_polyline){
-		
+		var map={};
+		jQuery.each(layer._layers, function(i, lay){
+			console.debug(lay)
+			/*var color = lay.options.fillColor;
+			if (color!=undefined){
+				if (map[color]==undefined) map[color]=1;
+				else {
+					var i=map[color];
+					map[color]=i+1;
+				}
+			}*/
+		});
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 		
 			
@@ -1525,13 +1549,41 @@ function loadMapLegendEdicioDinamics(layer){
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';			
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});				
 		
 	}else{
-		
+		var map={};
+		jQuery.each(layer._layers, function(i, lay){
+			if (lay.options!=undefined){
+				if (lay.options.fillColor!=undefined) {
+					var color = lay.options.fillColor;
+					if (color!=undefined){
+						if (map[color]==undefined) map[color]=1;
+						else {
+							var i=map[color];
+							map[color]=i+1;
+						}
+					}
+				}				
+			}
+			else {
+				if (lay.getLayers()[0].options!=undefined){
+					if (lay.getLayers()[0].options.fillColor!=undefined) {
+						var color = lay.getLayers()[0].options.fillColor;
+						if (color!=undefined){
+							if (map[color]==undefined) map[color]=1;
+							else {
+								var i=map[color];
+								map[color]=i+1;
+							}
+						}
+					}				
+				}
+			}
+		});
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 			
 			
@@ -1560,7 +1612,7 @@ function loadMapLegendEdicioDinamics(layer){
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+map[estilRang.estil.color]+')</div>';
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});					
