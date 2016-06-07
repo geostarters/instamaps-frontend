@@ -1,112 +1,13 @@
 /*
  * Funcionalitat de publicació del mapa
- * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url, handlebars 
+ * require: jquery, geocat.web, geocat.ajax, geocat.utils, geocat.canvas, geocat.legend, geocat.config, dropzone, share, lang, bootstrap.switch, bootstrap.formhelpers, bootstrap.colorpallete, jquery.url 
  */
 (function ( $, window, document, undefined ) {
    "use strict";
    	var Publicar = {
    			
    		mapConfig:null,
-        map:null,
-        
-        params_visor: {
-    		"paramsVisor" : [
-				{
-					"param": "zoomcontrol",
-					"text":"Control de zoom",
-					"visor": true,
-					"iframe": true
-				},
-				{
-					"param": "openinstamaps",
-					"text":"Control de ampliar el mapa",
-					"iframe": true
-				},
-				{
-					"param": "homecontrol",
-					"text":"Control de tornar a la vista inicial",
-					"visor": true
-				},
-				{
-					"param": "locationcontrol",
-					"text":"Control de localització",
-					"visor": true
-				},
-				{
-					"param": "searchcontrol",
-					"text":"Control de cerca",
-					"visor": true
-				},
-				{
-					"param": "routingcontrol",
-					"text":"Control de routing",
-					"visor": true
-				},
-				{
-					"param": "sharecontrol",
-					"text":"Control de compartir en xarxes socials",
-					"visor": true
-				},
-				{
-					"param": "likecontrol",
-					"text":"Control de M'agrada",
-					"visor": true,
-					"iframe": true
-				},
-				{
-					"param": "fonscontrol",
-					"text":"Control de fons",
-					"visor": true
-				},
-				{
-					"param": "layerscontrol",
-					"text":"Control de capes",
-					"visor": true,
-					"iframe": true
-				},
-				{
-					"param": "control3d",
-					"text":"Control de 3D",
-					"visor": true
-				},
-				{
-					"param": "snapshotcontrol",
-					"text":"Control captura imatge",
-					"visor": true
-				},
-				{
-					"param": "printcontrol",
-					"text":"Control d'impressió",
-					"visor": true
-				},
-				{
-					"param": "geopdfcontrol",
-					"text":"Control GeoPdf",
-					"visor": true
-				},
-				{
-					"param": "llegenda",
-					"text":"Llegenda en el visor",
-					"visor": true
-				},
-				{
-					"param": "minimapcontrol",
-					"text":"Control minimapa",
-					"visor": true,
-					"iframe": false
-				},
-				{
-					"param": "mouseposition",
-					"text":"Coordenades del ratolí",
-					"visor": true
-				},
-				{
-					"param": "scalecontrol",
-					"text":"Control d'escala",
-					"visor": true
-				}				
-			] 
-        },
+        map:null,	
    			
         init: function() {
         	this.containerId = '#funcio_publicar';
@@ -229,8 +130,7 @@
 			$( ".text_error" ).remove();
 			$('.modal').modal('hide');
 			$('#dialgo_publicar').modal('show');
-			
-			
+						
 			if(isGeolocalUser()){ //solo usuarios geolocal
 				//aspecte
 				if (that.mapConfig.options){
@@ -298,7 +198,7 @@
     		$('#id_privacitat_tab').text(window.lang.convert($('#id_privacitat_tab').text()));
     		$('#id_llegenda_tab').text(window.lang.convert($('#id_llegenda_tab').text()));
     		$('#id_reuse_tab').text(window.lang.convert($('#id_reuse_tab').text()));
-    		    		
+    		
     		$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
 		    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
 		    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 

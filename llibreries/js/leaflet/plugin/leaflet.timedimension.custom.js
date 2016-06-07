@@ -631,6 +631,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
         this._defaultTime = 0;
         this._availableTimes = [];
         this._capabilitiesRequested = false;
+		this._firstDateAvailable = "";
         if (this._updateTimeDimension || this.options.requestTimeFromCapabilities) {
             this._requestTimeDimensionFromCapabilities();
         }
@@ -753,17 +754,16 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
         }
 
         var wmsParams = this._baseLayer.options;
-										
+		
 		if(this._global_dateFormat){
+
 			if(this._global_dateFormat=='YYYY'){
-				
 				
 				wmsParams.time = new Date(nearestTime).getFullYear();
 				
 
 			}else if(this._global_dateFormat=='YYYY-MM'){
 				
-			
 				var _TM=new Date(nearestTime);				
 				
 				wmsParams.time = _TM.getFullYear() +"-"+eval(_TM.getMonth()+1) ;
@@ -771,14 +771,13 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 			
 			}else if(this._global_dateFormat=='YYYY-MM-DD'){
 				
-			
 				var _TM=new Date(nearestTime);
 								
 				wmsParams.time = _TM.getFullYear() +"-"+eval(_TM.getMonth()+1) +"-"+_TM.getDate() ;
 							
 			
 			}else{
-
+			
 			wmsParams.time = new Date(nearestTime).toISOString();
 			
 			}			
@@ -788,10 +787,21 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 			wmsParams.time = new Date(nearestTime).toISOString();
 		
 		}
-		
+		//console.info(wmsParams.time);
 				
         //wmsParams.time = new Date(nearestTime).toISOString();
-
+		
+		//***********************
+		//* Patch ICGC Sentinel
+		//* El format del param time ha de ser YYYY-MM
+		 var firstYearMonth = this._firstDateAvailable.split("-");
+		 if(parseInt(firstYearMonth[0]) < 2100 && parseInt(firstYearMonth[1]) < 13){
+			 // La data del capabilities es en format Sentinel2 ICGC => 2016-03
+			 // cal que la data enviada al geoservei estigui en el mateix format yyyy-mm
+			 wmsParams.time = wmsParams.time.substr(0,7);
+		 }
+		//***
+		
         var newLayer = null;
         if (this._baseLayer instanceof L.TileLayer) {
             newLayer = L.tileLayer.wms(this._baseLayer.getURL(), wmsParams);
@@ -861,9 +871,9 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             url = this._proxy  +'?url=' + encodeURIComponent(url);
         }
         $.get(url, (function(data) {
-					
+			
             this._defaultTime = Date.parse(this._getDefaultTimeFromCapabilities(data));			
-	
+			
             this._setDefaultTime = this._setDefaultTime || (this._timeDimension && this._timeDimension.getAvailableTimes().length == 0);
             this.setAvailableTimes(this._parseTimeDimensionFromCapabilities(data));
                      
@@ -889,7 +899,8 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
                 times = this._getTimesFromLayerCapabilities(layer.parent());
             }
         }
-     
+		var yearmonth = times.split(",");
+		this._firstDateAvailable = yearmonth[0];
         return times;
     },
 
@@ -921,7 +932,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             var layer = layerNameElement.parent();
             defaultTime = this._getDefaultTimeFromLayerCapabilities(layer);
 			
-           
+            //console.info(defaultTime);
             if(defaultTime.length ==4){
             	
             	this._global_dateFormat="YYYY";
@@ -945,6 +956,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
                 defaultTime = this._getDefaultTimeFromLayerCapabilities(layer.parent());
 			
             }
+			//console.info(defaultTime);
         }
         
         

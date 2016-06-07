@@ -447,6 +447,7 @@
 				$('#dialgo_duplicar_mapa #cancelarBoto').removeAttr("disabled");
 				$('#dialgo_duplicar_mapa #duplicarBoto').attr("style","display:inline");	
 				$('#infoText').attr("style","display:none;");
+				$('#loadingGaleria_duplicate').attr("style","display:none");
 				$('#dialgo_duplicar_mapa').modal('show');
 			});
 			
@@ -1026,7 +1027,7 @@
 										var urlMapaDuplicat = 'http://www.instamaps.cat/geocatweb/mapa.html?businessid='+data.results.businessId;
 										var spanText = '<span lang="ca" class="status_check">Procés finalitzat correctament</span>';
 										spanText += ' <div id="urlMapDuplicat"><a target="_blank" href="'+urlMapaDuplicat+'">'+
-													' <span lang="ca">Veure el mapa</span><span class="glyphicon glyphicon-share-alt"></span>'+
+													' <span lang="ca">Anar al mapa</span><span class="glyphicon glyphicon-share-alt"></span>'+
 													' </a></div>';	
 										$('#infoText').html(spanText);
 										$('#infoText').attr("style","display:block");
@@ -1054,6 +1055,10 @@
 										clearInterval(pollInterval);
 										jQuery('#info_uploadFile').hide();
 									}
+								},
+								error:  function(data){
+									busy=false;
+									$('#loadingGaleria_duplicate').attr("style","display:none");
 								}
 							});
 						};

@@ -1001,7 +1001,7 @@ function createPopupWindow(layer,type){
 			if (layer.properties.data.text){
 				var txt = layer.properties.data.text;
 				
-				if (!$.isNumeric(txt)) {
+				if (!$.isNumeric(txt) && !validateWkt(txt)) {
 					txt = parseUrlTextPopUp(txt,"");
 					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 						jQuery('#des_pres').html('');
@@ -1399,7 +1399,7 @@ function updateFeatureNameDescr(layer, titol, descr){
 	    if(results.status == 'OK'){
 			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
 			var txt = descr;			
-			if (!$.isNumeric(txt)) {
+			if (!$.isNumeric(txt) && !validateWkt(txt)) {
 				txt = parseUrlTextPopUp(txt,"");
 				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 					jQuery('#des_pres').html('');
@@ -1600,7 +1600,9 @@ function createPopUpContent(player,type){
 	else {
 		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span>  </li>';					
 	}
-		
+	
+	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>';
+	
 	html+='</ul>'														
 	+'</div>'
 	

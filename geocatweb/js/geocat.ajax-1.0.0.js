@@ -1173,3 +1173,12 @@ function updateVisualitzacioLayer(params){
 	}).promise();
 }
 
+
+function searchCatalogInspire(params){
+	return jQuery.ajax({
+			url: paramUrl.urlgetInspireCatalog,
+			data: params,
+			dataType: 'jsonp'
+		}).promise();
+}
+
