@@ -189,7 +189,7 @@ function addControlAltresFontsDades() {
 	
 	addHtmlInterficieDadesExt();
 	addHtmlModalDadesExt();
-	
+	var _DadesOficials=new IM_DadesOficials();
 	jQuery(".div_dades_ext").on('click', function() {
 		//gestionaPopOver(this);
 		jQuery('.modal').modal('hide');
@@ -214,6 +214,16 @@ function addControlAltresFontsDades() {
 						addCapaDadesObertes(e.target.id,jQuery(e.target).text());
 					}
 				});
+			}else if (tbA=='#id_ofi'){
+
+				jQuery(tbA).empty();
+				jQuery(tbA).html(_DadesOficials.generaOpcionsHTMLDadesOficials());			
+				jQuery(tbA+" a.label-dof").on('click', function(e) {
+						_DadesOficials.addOpcionsHTMLTipusDadesOficials(this);
+						
+					});
+			
+			
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
@@ -678,6 +688,7 @@ function addHtmlModalDadesExt(){
 	'				<div class="modal-body">'+
 	'					<ul class="nav nav-tabs etiqueta">'+
 	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>'+
+	'						<li><a href="#id_ofi" lang="ca" data-toggle="tab">Dades Oficials</a></li>'+
 	'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
 	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Capes reutilitzables</a></li>'+
@@ -685,6 +696,7 @@ function addHtmlModalDadesExt(){
 	'					</ul>'+
 	'					<div class="tab-content tab-content-margin5px">'+
 	'						<div class="tab-pane fade" id="id_do"></div>'+
+	'						<div class="tab-pane fade" id="id_ofi"></div>'+
 	'						<div class="tab-pane fade" id="id_xs"></div>'+
 	'						<div class="tab-pane fade" id="id_srvw"></div>'+
 	'						<div class="tab-pane fade" id="id_capes_instamaps"></div>'+

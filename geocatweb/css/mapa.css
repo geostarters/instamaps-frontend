@@ -2173,8 +2173,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .label-wms {
-	color: #55990A;
-	
+	color: #55990A;	
 	font-size: 14px;
 }
 
@@ -5138,4 +5137,10 @@ cursor:pointer;
 
 #slider .tooltip-arrow{
 	 border-bottom-color: #686868;
+}
+
+
+.label-dof {
+	color: #EC971F;	
+	font-size: 14px;
 }
