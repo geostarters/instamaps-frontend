@@ -328,7 +328,29 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				var label = layer.options.estil_do.dataField;
 				
 				if(geometrytype == t_marker){
-					
+					var map={};
+					jQuery.each(layer._layers, function(i, lay){
+						if (layer.options.tem=='sizeTematic'){
+							var radius=lay.options.radius;
+							if (radius!=undefined){
+								if (map[radius]==undefined) map[radius]=1;
+								else {
+									var i=map[radius];
+									map[radius]=i+1;
+								}
+							}
+						}
+						else{
+							var color = lay.options.fillColor;
+							if (color!=undefined){
+								if (map[color]==undefined) map[color]=1;
+								else {
+									var i=map[color];
+									map[color]=i+1;
+								}
+							}
+						}
+					});
 					jQuery.each(estils, function(i, estilRang){
 						
 						var mida = getMidaFromRadius(estilRang.estil.simbolSize);
@@ -377,6 +399,18 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							}
 						}						
 						
+
+						if (layer.options.tem=='sizeTematic'){
+							if (labelNomCategoria.indexOf('('+map[estilRang.estil.simbolSize]+')')==-1){
+								labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.simbolSize]+')';
+							}
+						}
+						else{
+							if (labelNomCategoria.indexOf('('+map[estilRang.estil.color]+')')==-1){
+								labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.color]+')';
+							}
+						}
+						
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 						if (layer.options.tem == tem_size){
@@ -384,7 +418,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 										stringStyle+
 									'</div>'+
 									'<div class="col-md-9 legend-name" style="padding-left:45px">'+
-										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+ '">'+
 									'</div>';
 						}
 						else{
@@ -400,7 +434,17 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					});
 
 				}else if(geometrytype == t_polyline){
-					
+					var map={};
+					jQuery.each(layer._layers, function(i, lay){
+						var color = lay.options.color;
+						if (color!=undefined){
+							if (map[color]==undefined) map[color]=1;
+							else {
+								var i=map[color];
+								map[color]=i+1;
+							}
+						}
+					});
 					jQuery.each(estils, function(i, estilRang){
 						
 						var color = hexToRgb(estilRang.estil.color);
@@ -430,6 +474,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							}
 						}						
 						
+						if (labelNomCategoria.indexOf("("+map[estilRang.estil.color]+")")==-1){
+							labelNomCategoria = labelNomCategoria+ " ("+map[estilRang.estil.color]+")";
+						}
+						
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 						html +=	'<div class="col-md-2 legend-symbol">'+
@@ -443,7 +491,36 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					});					
 					
 				}else if(geometrytype == t_polygon){
-					
+					var map={};
+					jQuery.each(layer._layers, function(i, lay){
+						if (lay.options!=undefined){
+							if (lay.options.fillColor!=undefined) {
+								var color = lay.options.fillColor;
+								if (color!=undefined){
+									if (map[color]==undefined) map[color]=1;
+									else {
+										var i=map[color];
+										map[color]=i+1;
+									}
+								}
+							}				
+						}
+						else {
+							if (lay.getLayers()[0].options!=undefined){
+								if (lay.getLayers()[0].options.fillColor!=undefined) {
+									var color = lay.getLayers()[0].options.fillColor;
+									if (color!=undefined){
+										if (map[color]==undefined) map[color]=1;
+										else {
+											var i=map[color];
+											map[color]=i+1;
+										}
+									}
+								}				
+							}
+						}
+					});
+					//console.debug(map);
 					jQuery.each(estils, function(i, estilRang){
 						
 						var color = "";
@@ -478,14 +555,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								labelNomCategoria = window.lang.convert("Altres");
 							}
 						}						
-						
+						if (labelNomCategoria.indexOf("("+map[estilRang.estil.color]+")")==-1){
+							labelNomCategoria = labelNomCategoria+ " ("+map[estilRang.estil.color]+")";
+						}
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 						html +=	'<div class="col-md-2 legend-symbol">'+
 											stringStyle+
 										'</div>'+
 										'<div class="col-md-9 legend-name">'+
-											'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+											'<input type="text" class="form-control my-border" value="'+labelNomCategoria+ '">'+
 										'</div>';				
 						html+='</div>';	
 						
@@ -515,7 +594,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								'</div>'+
 							'</div>'+
 							'<div class="col-md-9 legend-name">'+
-								'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+								'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
 							'</div>';
 					html+='</div>';
 					
@@ -539,7 +618,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								polStyle+
 							'</div>'+
 							'<div class="col-md-9 legend-name">'+
-								'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+								'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
 							'</div>';					
 					
 					html+='</div>';			
@@ -561,7 +640,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								lineStyle +
 							'</div>'+
 							'<div class="col-md-9 legend-name">'+
-								'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+								'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
 							'</div>';					
 					html+='</div>';				
 				}			 
@@ -648,13 +727,17 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						}
 					}						
 					
+					if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+						labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+					}
+					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 					html +=	'<div class="col-md-2 legend-symbol">'+
 										stringStyle+
 									'</div>'+
 									'<div class="col-md-9 legend-name">'+
-										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
+										'<input type="text" class="form-control my-border" value="'+labelNomCategoria +'">'+
 									'</div>';				
 					html+='</div>';	
 				});
@@ -685,8 +768,11 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						if(labelNomCategoria == "Altres"){
 							labelNomCategoria = window.lang.convert("Altres");
 						}
-					}						
-					
+					}	
+
+					if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+						labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+					}
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 					html +=	'<div class="col-md-2 legend-symbol">'+
@@ -733,7 +819,9 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							labelNomCategoria = window.lang.convert("Altres");
 						}
 					}						
-					
+					if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+						labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+					}
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 					html +=	'<div class="col-md-2 legend-symbol">'+
@@ -798,7 +886,21 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						if(labelNomCategoria == "Altres"){
 							labelNomCategoria = window.lang.convert("Altres");
 						}
-					}						
+					}	
+					var map={};
+					jQuery.each(layer._layers, function(i, lay){
+							var radius=lay.options.radius;
+							if (radius!=undefined){
+								if (map[radius]==undefined) map[radius]=1;
+								else {
+									var i=map[radius];
+									map[radius]=i+1;
+								}
+							}
+					});
+					if (map[layer.options.estil[indexEstil].simbolSize]!=undefined && labelNomCategoria.indexOf('('+map[layer.options.estil[indexEstil].simbolSize]+')')==-1){
+						labelNomCategoria = labelNomCategoria +' ('+map[layer.options.estil[indexEstil].simbolSize]+')';
+					}
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -872,7 +974,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 										stringStyle+
 									'</div>'+
 									'<div class="col-md-9 legend-name">'+
-										'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+										'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
 									'</div></div>';								
 						}
 					}else{//Si es un pintxo
@@ -904,7 +1006,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 										stringStyle+
 									'</div>'+
 									'<div class="col-md-9 legend-name">'+
-										'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+										'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
 									'</div></div>';							
 						}
 					}
@@ -941,7 +1043,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 											stringStyle +
 								'</div>'+
 								'<div class="col-md-9 legend-name">'+
-									'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+									'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
 								'</div>';					
 						
 						html+='</div>';						
@@ -984,7 +1086,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 										stringStyle+
 								'</div>'+
 								'<div class="col-md-9 legend-name">'+
-									'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+									'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
 								'</div>';					
 						
 						html+='</div>';
@@ -1263,7 +1365,7 @@ function loadMapLegendEdicio(layer){
 	$("#mapLegendEdicio").html("");
 	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
 	
-	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';	
+	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+' ('+layer.getLayers().length+')</div><div class="titol-separate-legend-row"></div>';	
 	var geometryType = transformTipusGeometry(layer.options.geometryType);
 	var i = 0;
 //	var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
@@ -1325,18 +1427,22 @@ function loadMapLegendEdicio(layer){
 				}
 			}						
 			
+			if (labelNomCategoria.indexOf(' ('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+				labelNomCategoria = labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+			}
+			
 			html += '<div class="visor-legend-row ">';
 			if (layer.options.tipusRang == tem_size){
 				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+
 						stringStyle+
 						'</div>'+
-						'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';	
+						'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+labelNomCategoria+'</div>';	
 			}
 			else{
 						html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
 			}
 			html+='</div><div class="visor-separate-legend-row"></div>';	
 		});
@@ -1367,13 +1473,17 @@ function loadMapLegendEdicio(layer){
 				if(labelNomCategoria == "Altres"){
 					labelNomCategoria = window.lang.convert("Altres");
 				}
-			}						
+			}	
+			
+			if (labelNomCategoria.indexOf(' ('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+				labelNomCategoria = labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+			}
 			
 			html += '<div class="visor-legend-row ">';
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});				
@@ -1410,13 +1520,17 @@ function loadMapLegendEdicio(layer){
 				if(labelNomCategoria == "Altres"){
 					labelNomCategoria = window.lang.convert("Altres");
 				}
-			}						
+			}		
+			
+			if (labelNomCategoria.indexOf(' ('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+				labelNomCategoria = labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+			}
 			
 			html += '<div class="visor-legend-row ">';
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')</div>';				
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';				
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});					
@@ -1448,17 +1562,28 @@ function loadMapLegendEdicioDinamics(layer){
 	var geometryType = transformTipusGeometry(layer.options.geometryType);
 
 	var rangsEstilsLegend = layer.options.estil_do.estils;
-	//console.debug(layer);
+	
 		if(geometryType == t_marker){
 			var map={};
 			jQuery.each(layer._layers, function(i, lay){
-				console.debug(lay)
-				var color = lay.options.fillColor;
-				if (color!=undefined){
-					if (map[color]==undefined) map[color]=1;
-					else {
-						var i=map[color];
-						map[color]=i+1;
+				if (layer.options.tem=='sizeTematic'){
+					var radius=lay.options.radius;
+					if (radius!=undefined){
+						if (map[radius]==undefined) map[radius]=1;
+						else {
+							var i=map[radius];
+							map[radius]=i+1;
+						}
+					}
+				}
+				else{
+					var color = lay.options.fillColor;
+					if (color!=undefined){
+						if (map[color]==undefined) map[color]=1;
+						else {
+							var i=map[color];
+							map[color]=i+1;
+						}
 					}
 				}
 			});
@@ -1493,20 +1618,30 @@ function loadMapLegendEdicioDinamics(layer){
 			else {
 				labelNomCategoria = estilRang.valueMin+"-"+ estilRang.valueMax;
 			}
-								
+			
+			if (layer.options.tem=='sizeTematic'){
+				if (labelNomCategoria.indexOf('('+map[estilRang.estil.simbolSize]+')')==-1){
+					labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.simbolSize]+')';
+				}
+			}
+			else{
+				if (labelNomCategoria.indexOf('('+map[estilRang.estil.color]+')')==-1){
+					labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.color]+')';
+				}
+			}
 			
 			html += '<div class="visor-legend-row ">';
 			if (layer.options.tem == tem_size) {
 				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="margin-top:4px;padding-left:'+padding_left+'">'+
 						stringStyle+
 						'</div>'+
-						'<div class="visor-legend-name col-md-8 col-xs-8" style="padding-left:50px;">'+labelNomCategoria+' ('+map[estilRang.estil.color]+')</div>';	
+						'<div class="visor-legend-name col-md-8 col-xs-8" style="padding-left:50px;">'+labelNomCategoria+'</div>';	
 					}
 			else {
 				html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+map[estilRang.estil.color]+')</div>';
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';
 			}
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';	
@@ -1515,15 +1650,14 @@ function loadMapLegendEdicioDinamics(layer){
 	}else if(geometryType == t_polyline){
 		var map={};
 		jQuery.each(layer._layers, function(i, lay){
-			console.debug(lay)
-			/*var color = lay.options.fillColor;
+			var color = lay.options.color;
 			if (color!=undefined){
 				if (map[color]==undefined) map[color]=1;
 				else {
 					var i=map[color];
 					map[color]=i+1;
 				}
-			}*/
+			}
 		});
 		jQuery.each(rangsEstilsLegend, function(i, estilRang){
 		
@@ -1543,7 +1677,11 @@ function loadMapLegendEdicioDinamics(layer){
 			}
 			else {
 				labelNomCategoria = estilRang.valueMin+"-"+ estilRang.valueMax;
-			}						
+			}	
+			
+			if (labelNomCategoria.indexOf('('+map[estilRang.estil.color]+')')==-1){
+				labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.color]+')';
+			}
 			
 			html += '<div class="visor-legend-row ">';
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
@@ -1606,13 +1744,17 @@ function loadMapLegendEdicioDinamics(layer){
 			}
 			else {
 				labelNomCategoria = estilRang.valueMin+"-"+ estilRang.valueMax;
-			}							
+			}	
+			
+			if (labelNomCategoria.indexOf('('+map[estilRang.estil.color]+')')==-1){
+				labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.color]+')';
+			}
 			
 			html += '<div class="visor-legend-row ">';
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
 								stringStyle+
 							'</div>'+
-							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+' ('+map[estilRang.estil.color]+')</div>';
+							'<div class="visor-legend-name col-md-8 col-xs-8">'+labelNomCategoria+'</div>';
 //			
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});					
