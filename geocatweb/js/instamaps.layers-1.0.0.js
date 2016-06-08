@@ -84,13 +84,6 @@
 						defer.resolve();
 					});	
 				}
-			}else if(value.serverType == t_heatmap){
-				loadHeatLayer(value);
-				defer.resolve();
-
-			}else if(value.serverType == t_cluster){
-				loadClusterLayer(value);
-				defer.resolve();
 			//Si la capa es de tipus vis_wms
 			}else if(value.serverType == t_vis_wms || value.serverType == t_vis_wms_noedit){
 				loadVisualitzacioWmsLayer(value);
@@ -175,7 +168,7 @@
 				}
 				if(value.capesOrdre == capesOrdre_sublayer){
 					layer_map.sublayers.push(value);
-					lsublayers.push(value);
+					lsublayers.push(value); //variable global se tendría que quitar
 				}else{
 					layer_map.origen.push(value);
 				}

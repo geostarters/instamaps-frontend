@@ -287,7 +287,7 @@ function createHeatMap(capa,tipus){
 	
 }
 
-function loadDOHeatmapLayer(layer){
+function loadDOHeatmapLayer(layer, dfd){
 	//console.debug(layer);
 	var options = jQuery.parseJSON( layer.options );
 	var estil_do = retornaEstilaDO(options.dataset);
@@ -343,7 +343,15 @@ function loadDOHeatmapLayer(layer){
 		var origen = getLeafletIdFromBusinessId(options.origen);
 		controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
 //		controlCapes._lastZIndex++;
-		activaPanelCapes(true);		
+		activaPanelCapes(true);
+		
+		if(dfd){
+			try{
+				dfd.resolve();
+			}catch(e){
+				
+			}
+		}
 	});
 }
 

@@ -1193,13 +1193,6 @@ function loadLayer(value){
 		loadCacheVisualitzacioLayer(value).then(function(){
 			defer.resolve();
 		});
-	}else if(value.serverType == t_heatmap){
-		loadHeatLayer(value);
-		defer.resolve();
-
-	}else if(value.serverType == t_cluster){
-		loadClusterLayer(value);
-		defer.resolve();
 	//Si la capa es de tipus vis_wms
 	}else if(value.serverType == t_vis_wms || value.serverType == t_vis_wms_noedit){
 		loadVisualitzacioWmsLayer(value);

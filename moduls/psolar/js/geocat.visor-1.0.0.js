@@ -1098,9 +1098,7 @@ function loadOrigenWMS(){
 				catch (err) {
 					options = value.options;
 				}
-
 			}else{
-
 				options = value.options;
 			}
 
@@ -1116,13 +1114,10 @@ function loadOrigenWMS(){
 		}
 	});
 
-
-//NOu
+	//NOu
 	jQuery.each(layer_map.origen, function(index, value){
-
 		var jsonOptions;
 		if(typeof (value.options)=="string"){
-
 			try {
 				jsonOptions = JSON.parse(value.options);
 			}
@@ -1130,15 +1125,12 @@ function loadOrigenWMS(){
 				jsonOptions = value.options;
 			}
 		}else{
-
 			jsonOptions = value.options;
 		}
-
 		if(jsonOptions && jsonOptions.group){
 			controlCapes._addGroupFromObject(jsonOptions.group);
 		}
 	});
-
 	dfd.resolve(layer_map);
 	return dfd.promise();
 }
@@ -1156,7 +1148,7 @@ function loadLayer(value){
 	}else{
 		value.epsg = map.crs;
 	}
-
+	
 	//Si la capa es de tipus wms
 	if(value.serverType == t_wms){
 		loadWmsLayer(value);
@@ -1194,13 +1186,6 @@ function loadLayer(value){
 		loadCacheVisualitzacioLayer(value).then(function(){
 			defer.resolve();
 		});
-	}else if(value.serverType == t_heatmap){
-		loadHeatLayer(value);
-		defer.resolve();
-
-	}else if(value.serverType == t_cluster){
-		loadClusterLayer(value);
-		defer.resolve();
 	//Si la capa es de tipus vis_wms
 	}else if(value.serverType == t_vis_wms || value.serverType == t_vis_wms_noedit){
 		loadVisualitzacioWmsLayer(value);
