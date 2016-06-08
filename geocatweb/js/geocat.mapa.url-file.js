@@ -686,7 +686,7 @@ function loadURLfileLayer(layer){
 								|| latlng.feature.geometry.type.toLowerCase().indexOf(t_linestring)!=-1){
 							latlng.setStyle({
 								weight: 2,
-								color: estil.estil.borderColor,
+								color: estil.estil.color,
 								fillOpacity: 1,
 								opacity: 1
 							});
