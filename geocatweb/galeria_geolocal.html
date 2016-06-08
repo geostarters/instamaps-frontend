@@ -155,7 +155,7 @@
 				<p class="dataPublicacio hidden">{{dataPublicacio}}</p>
 				<p class="rankSort hidden">{{rank}}</p>
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
-					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
+					<div id="thumbnail-public" class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">
 						{{#if thumbnail}}
 							<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
 						{{else}}
@@ -180,7 +180,8 @@
 							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
 							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 						</div>
-						<div class="data text-right">{{data}}</div>
+						<div class="rank text-left"><span class="fa grisfort fa-heart"></span> {{rank}}</div>
+						 <div class="data text-right">{{data}}</div>
 					</div>
 				</div>
 			 </li>
