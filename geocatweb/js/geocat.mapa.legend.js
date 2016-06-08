@@ -585,6 +585,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
 					var color = hexToRgb(estil_do.fillColor);
 					
+					if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+						layerName=layerName+' ('+layer.getLayers().length+')';
+					}
+					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 					html +=	'<div class="col-md-2 legend-symbol">'+
@@ -594,7 +598,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								'</div>'+
 							'</div>'+
 							'<div class="col-md-9 legend-name">'+
-								'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
+								'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 							'</div>';
 					html+='</div>';
 					
@@ -612,13 +616,17 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 												'style=" fill:rgb('+color.r+', '+color.g+', '+color.b+'); stroke:rgb('+borderColor.r+', '+borderColor.g+', '+borderColor.b+'); stroke-width:'+borderWidth+'; fill-rule:evenodd; fill-opacity:'+opacity+';"></polygon>'+
 										'</svg>';
 					
+					if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+						layerName=layerName+' ('+layer.getLayers().length+')';
+					}
+					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
 					html += '<div class="col-md-2 legend-symbol">'+
 								polStyle+
 							'</div>'+
 							'<div class="col-md-9 legend-name">'+
-								'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
+								'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 							'</div>';					
 					
 					html+='</div>';			
@@ -634,13 +642,17 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 												'style="stroke:rgb('+color.r+', '+color.g+', '+color.b+'); stroke-width:'+lineWidth+';"></line>'+
 										'</svg>';	
 					
+					if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+						layerName=layerName+' ('+layer.getLayers().length+')';
+					}
+					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
 					html += '<div class="col-md-2 legend-symbol">'+
 								lineStyle +
 							'</div>'+
 							'<div class="col-md-9 legend-name">'+
-								'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
+								'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 							'</div>';					
 					html+='</div>';				
 				}			 
@@ -966,7 +978,11 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 								layerName = mapLegend[layer.options.businessId][index].name;
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-							}							
+							}		
+							
+							if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+								layerName=layerName+' ('+layer.getLayers().length+')';
+							}
 							
 							html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 							html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
@@ -974,7 +990,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 										stringStyle+
 									'</div>'+
 									'<div class="col-md-9 legend-name">'+
-										'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
+										'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 									'</div></div>';								
 						}
 					}else{//Si es un pintxo
@@ -998,7 +1014,11 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 								layerName = mapLegend[layer.options.businessId][index].name;
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-							}							
+							}		
+							
+							if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+								layerName=layerName+' ('+layer.getLayers().length+')';
+							}
 							
 							html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 							html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';						
@@ -1006,7 +1026,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 										stringStyle+
 									'</div>'+
 									'<div class="col-md-9 legend-name">'+
-										'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
+										'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 									'</div></div>';							
 						}
 					}
@@ -1036,14 +1056,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}					
-						
+						if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+							layerName=layerName+' ('+layer.getLayers().length+')';
+						}
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
 						html += '<div class="col-md-2 legend-symbol">'+
 											stringStyle +
 								'</div>'+
 								'<div class="col-md-9 legend-name">'+
-									'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
+									'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 								'</div>';					
 						
 						html+='</div>';						
@@ -1079,14 +1101,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}						
-						
+						if (layerName.indexOf('('+layer.getLayers().length+')')==-1){
+							layerName=layerName+' ('+layer.getLayers().length+')';
+						}
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 						html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';					
 						html += '<div class="col-md-2 legend-symbol">'+
 										stringStyle+
 								'</div>'+
 								'<div class="col-md-9 legend-name">'+
-									'<input type="text" class="form-control my-border" value="'+layerName+' ('+layer.getLayers().length+')">'+
+									'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 								'</div>';					
 						
 						html+='</div>';
