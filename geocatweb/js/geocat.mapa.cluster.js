@@ -344,7 +344,7 @@ function creaClusterMap(capa) {
 	}	
 }
 
-function loadDadesObertesClusterLayer(layer){
+function loadDadesObertesClusterLayer(layer, dfd){
 	var options = jQuery.parseJSON( layer.options );
 	var estil_do = retornaEstilaDO(options.dataset);
 	var url_param = paramUrl.dadesObertes + "dataset=" + options.dataset;	
@@ -393,6 +393,13 @@ function loadDadesObertesClusterLayer(layer){
 //		controlCapes._lastZIndex++;
 		activaPanelCapes(true);		
 		
+		if(dfd){
+			try{
+				dfd.resolve();
+			}catch(e){
+				
+			}
+		}
 	});	
 }
 

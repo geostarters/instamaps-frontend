@@ -618,8 +618,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			var baseLayersPresent = false, overlaysPresent = false, i, obj;
 			var layerArray=[];
 			for (i in this._layers) {
-				layerArray.push(this._layers[i]);		
-
+				layerArray.push(this._layers[i]);
 			}
 			layerArray = sortByKeyPath(layerArray, "zIndex");
 			
@@ -686,9 +685,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	_addItem : function(obj) {
 		var _menu_item_checkbox = document.createElement('li'), 
 		input, checked = this._map.hasLayer(obj.layer), 
-		container;
-
-		
+		container;	
 		
 		var _leaflet_input = document.createElement('div');
 		if (obj.overlay) {
@@ -973,7 +970,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 
 	getCountActiveLayers:function(){
-		
 		var i, input, obj, 
 		inputs = this._form.getElementsByTagName('input'), 
 		inputsLen = inputs.length;
@@ -992,9 +988,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			}
 		
 		}
-		
 		return {total:j, lastActive:obj};
-		
 	},	
 	
 	_onInputClick : function(event) {
