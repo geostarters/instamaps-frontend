@@ -464,7 +464,7 @@ function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 	
 }
 
-function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva){
+function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva, dfd){
 	
 	//var options = jQuery.parseJSON(layerOptions);
 	
@@ -534,7 +534,15 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva){
 			var origen = getLeafletIdFromBusinessId(options.origen);
 			controlCapes.addOverlay(heatLayerActiu,	heatLayerActiu.options.nom, true, origen);
 //			controlCapes._lastZIndex++;
-			activaPanelCapes(true);				
+			activaPanelCapes(true);
+			
+			if(dfd){
+				try{
+					dfd.resolve();
+				}catch(e){
+					
+				}
+			}
 			
 		}else{
 			console.debug("getGeometriesColleccioByBusinessId ERROR");					
