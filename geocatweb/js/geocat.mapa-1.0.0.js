@@ -736,13 +736,6 @@ function loadLayer(value){
 		loadVisualitzacioLayer(value).then(function(){
 			defer.resolve();
 		});
-	}else if(value.serverType == t_heatmap){
-		loadHeatLayer(value);
-		defer.resolve();
-
-	}else if(value.serverType == t_cluster){
-		loadClusterLayer(value);
-		defer.resolve();
 	//Si la capa es de tipus vis_wms
 	}else if(value.serverType == t_vis_wms || value.serverType == t_vis_wms_noedit){
 		loadVisualitzacioWmsLayer(value);
@@ -758,7 +751,6 @@ function loadLayer(value){
 
 function createNewMap(){
 	//console.debug("createNewMap");
-
 	var tipusApp = 'vis';
 
 	if(isGeolocalUser() || (typeof url('?tipus') == "string" && url('?tipus')=="geolocal") ){

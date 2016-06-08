@@ -226,11 +226,9 @@ function loadDadesObertesLayer(layer){
 		}		
 		
 	}else if(options.tem == tem_cluster){
-		loadDadesObertesClusterLayer(layer);
-		defer.resolve();
+		loadDadesObertesClusterLayer(layer,defer);
 	}else if(options.tem == tem_heatmap){
-		loadDOHeatmapLayer(layer);
-		defer.resolve();
+		loadDOHeatmapLayer(layer,defer);
 	}
 	return defer.promise();
 }
