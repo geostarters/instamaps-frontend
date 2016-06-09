@@ -1583,11 +1583,11 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 	var hasSource = (visualitzacio.options && (visualitzacio.options.indexOf("source")!=-1) ) 
 		|| (layOptions && (layOptions.toString().indexOf("source")!=-1) );
 	if(visualitzacio.tipus == tem_heatmap){
-		loadVisualitzacioHeatmap(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva);
+		loadVisualitzacioHeatmap(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva, defer);
 	}else if(visualitzacio.tipus == tem_cluster){
-		loadVisualitzacioCluster(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva);
+		loadVisualitzacioCluster(visualitzacio, layer.capesOrdre, layer.options, layer.capesActiva, defer);
 	}else{
-		capaVisualitzacio = new L.FeatureGroup();
+		var capaVisualitzacio = new L.FeatureGroup();
 		if(layOptions && layOptions.group){
 			capaVisualitzacio.options = {
 				businessId : layer.businessId,
@@ -1692,8 +1692,6 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			}
 		}
 		
-		
-		
 		//Afegim num d'elements al nom de la capa, si és un fitxer
 		if(layer.dragdrop || layer.urlFile){
 			capaVisualitzacio.options.nom = capaVisualitzacio.options.nom;// + " ("+capaTematic.getLayers().length+")";
@@ -1707,8 +1705,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			
 			});					
 		}
-		
-		
+			
 		if (layer.options){
 			var options2;
 			if(typeof (layer.options)=="string"){		
@@ -1781,14 +1778,9 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 						dataNames+=index+",";						
 					});
 					capaVisualitzacio.options.propName = dataNames.substring(0,dataNames.length-1);
-
-					//var dataNames = geometries.options.split(',');
-					//capaVisualitzacio.options.propName = dataNames;
-					
 				}
 			}			
 		}
-		//console.debug(capaVisualitzacio);
 		if (capaVisualitzacio.options.propName== undefined) {
 			var dataNames=[];
 			dataNames[0]="nom";
@@ -1806,15 +1798,15 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			}
 			controlCapes.addOverlay(capaVisualitzacio, capaVisualitzacio.options.nom, true);
 			controlCapes._lastZIndex++;
-		}				
-	}
+		}
 		
-	//Si la capa es tematic categories, afegir llegenda al mode edicio
-	if ((visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_size) && $(location).attr('href').indexOf('/mapa.html')!=-1){
-		loadMapLegendEdicio(capaVisualitzacio);
-	}
-	
-	defer.resolve(capaVisualitzacio);		
+		//Si la capa es tematic categories, afegir llegenda al mode edicio
+		if ((visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_size) && $(location).attr('href').indexOf('/mapa.html')!=-1){
+			loadMapLegendEdicio(capaVisualitzacio);
+		}
+		
+		defer.resolve(capaVisualitzacio);
+	}		
 	return defer.promise();
 }
 
