@@ -205,6 +205,7 @@ function cercaCataleg(cerca){
 		lDadesIdec += '</ul>';
 		if (resultats.aaData.length>0) {
 			jQuery('#resultats_idec').html(lDadesIdec);
+			//TODO llamar al control
 			jQuery('#txt_URLWMS').attr("style","display:none");
 			jQuery('#bt_connWMS').attr("style","display:none");
 			jQuery(".label-dadesIdec").on('click', function(e) {
