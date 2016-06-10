@@ -220,6 +220,186 @@ function cercaCataleg(cerca){
 	});
 }
 
+function getCapabilitiesWMS(url, servidor) {
+	var _htmlLayersWMS = [];
+	
+	getWMSLayers(url).then(function(results) {
+		var bbox,
+		souce_capabilities_template = $("#capabilities-template").html(),
+		capabilities_template = Handlebars.compile(souce_capabilities_template);
+		
+		Handlebars.registerPartial( "list-template", $( "#list-template" ).html() );
+		Handlebars.registerHelper('layer', function(context, options) {
+		  var ret = "";
+		  if (!Handlebars.Utils.isArray(context)){
+			  context = [context];
+		  }
+		  for(var i=0, j=context.length; i<j; i++) {
+			  if (!Handlebars.Utils.isArray(context[i])){
+				  ret = ret + options.fn(context[i]);
+			  }else{
+				  for(var k=0, l=context.length; k<l; k++) {
+					  ret = ret + options.fn(context[i][k]);
+				  }
+			  }
+		  }
+		  return ret;
+		});
+		
+		jQuery('#div_layersWMS').html('');
+		jQuery("#div_layersWMS").show();
+		jQuery('#div_emptyWMS').empty();
+
+		if (servidor === null) {
+			servidor = results.Service.Title;
+		}
+		try{
+			if(results.Capability.Layer.Layer.LatLonBoundingBox){
+				bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
+				WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+			}else if(results.Capability.Layer.LatLonBoundingBox){
+				bbox = results.Capability.Layer.LatLonBoundingBox;
+				WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+			}else{
+				WMS_BBOX=null;
+			}	
+		} catch (err) {
+			WMS_BBOX=null;
+		}
+		
+		try {
+			var matriuEPSG = results.Capability.Layer.CRS,
+			epsg = [],
+			html = capabilities_template({Layer: [results.Capability.Layer]});
+			
+			ActiuWMS.servidor = servidor;
+			_NomServer2=ActiuWMS.servidor;
+			ActiuWMS.url = jQuery.trim(url);
+			if (!matriuEPSG) {
+				matriuEPSG = results.Capability.Layer.SRS;
+				if (!matriuEPSG) {
+					matriuEPSG = results.Capability.Layer[0].CRS;
+					
+					if (!matriuEPSG) {
+						matriuEPSG = results.Capability.Layer[0].SRS;
+					}
+				}
+			}
+			if (jQuery.isArray(matriuEPSG)){
+				jQuery.each(matriuEPSG, function(index, value) {
+					epsg.push(value);
+				});
+			}else{
+				epsg.push(matriuEPSG);
+			}
+	
+			if (jQuery.inArray('EPSG:3857', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG3857;
+				ActiuWMS.epsgtxt = 'EPSG:3857';
+			} else if (jQuery.inArray('EPSG:900913', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG3857;
+				ActiuWMS.epsgtxt = 'EPSG:3857';
+			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';
+			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';
+			} else if (jQuery.inArray('EPSG:4258', epsg) != -1) {
+				ActiuWMS.epsg = L.CRS.EPSG4326;
+				ActiuWMS.epsgtxt = '4326';	
+			} else {
+				alert(window.lang.convert("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
+				return;
+			}
+			
+			jQuery('#div_layersWMS').empty().append(html);
+			addTreeEvents();
+			jQuery('#div_emptyWMS').empty();
+			jQuery('#div_emptyWMS').html(
+				'<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >' +
+				window.lang.convert("Afegir capes") + '</button></div>');
+		} catch (err) {
+			jQuery('#div_layersWMS').html('<hr>Error interpretar capabilities: ' + err + '</hr>');
+		}
+	});
+}
+
+function addWmsToMap(wms){
+	var wmsLayer,
+	tipus_user = defineTipusUser();  //geocat.web-1.0.0
+	//$.publish('trackEvent',{event:['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]});
+	//TODO eliminar esto pero primero hay que cargar el instamaps.google-analytics.js en lugar del geocat.google-analytics.js
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]);
+		
+	if(wms.wmstime){
+		wmsLayer = L.tileLayer.wms(wms.url, {
+			layers : wms.layers,
+			crs : wms.epsg,
+			transparent : true,
+			format : 'image/png',
+			wmstime:wms.wmstime,
+			tileSize:512
+		});
+	}else{
+		wmsLayer = L.tileLayer.betterWms(wms.url, {
+			layers : wms.layers,
+			crs : wms.epsg,
+			transparent : true,
+			exceptions:'application/vnd.ogc.se_blank',
+			format : 'image/png',
+			wmstime:wms.wmstime,
+			tileSize:512
+		});
+	}
+	
+	wmsLayer.options.businessId = '-1';
+	wmsLayer.options.nom = wms.servidor;
+	wmsLayer.options.tipus = t_wms;
+	
+	if(typeof url('?businessid') == "string"){
+		var data = {
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: wms.servidor,
+			serverType: t_wms,
+			version: wmsLayer.wmsParams.version,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            order: controlCapes._lastZIndex+1,
+            epsg: ActiuWMS.epsgtxt,
+            imgFormat: 'image/png',
+            infFormat: 'text/html',
+            tiles: true,	            
+            transparency: true,
+            opacity: 1,
+            visibilitat: 'O',
+            url: wms.url,
+            layers: JSON.stringify([{name:wms.layers,title:wms.layers,group:0,check:true,query:true}]),
+            calentas: false,
+            activas: true,
+            visibilitats: true,
+			options: '{"url":"'+wms.url+'","layers":"'+wms.layers+'","opacity":"'+1+'","wmstime":'+wms.wmstime+'}'
+		};
+		createServidorInMap(data).then(function(results){
+			map.spin(false);
+			if (results.status == "OK"){
+				wmsLayer.options.businessId = results.results.businessId;
+				checkAndAddTimeDimensionLayer(wmsLayer,false,wms.servidor);
+				//dfd.resolve(true);
+			}else{
+				console.debug('createServidorInMap ERROR');
+				//dfd.resolve(false);
+			}
+		});
+	}else{
+		//dfd.reject();
+		checkAndAddTimeDimensionLayer(wmsLayer,false,wms.servidor);
+	}
+	
+}
+
 /*
  * fromParam = true -> Si afegim WMS directamente dun parametre de la url
  * fromParam = false -> Si afegim WMS des de la interficie dInstaMaps
@@ -422,4 +602,3 @@ function loadWmsLayer(layer, _map){
 	
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
 }
-
