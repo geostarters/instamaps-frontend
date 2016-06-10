@@ -14,6 +14,7 @@
 		initUi: function(){
 			var self = this;
 			self._div = self.container;
+			self._botons = self.botons;
 			self.loadTemplate();
 			return self;
 		},
@@ -23,14 +24,14 @@
 			$.get("templates/wmsTemplate.html",function(data){
 				self._div.html(data);
 				self._uiloaded = true;
-				$("#div_layersWMS").hide();
+				$(".layers-wms").hide();
 				
-				$("#txt_URLWMS").focus(function() {
+				$(".url-wms").focus(function() {
 					self.clear();
 				});
 				
-				$("#bt_connWMS").on('click', function(e) {
-					var url = $.trim(jQuery('#txt_URLWMS').val());
+				$(".btn-conn-wms").on('click', function(e) {
+					var url = $.trim(jQuery('.url-wms').val());
 					if (url === "") {
 						alert(window.lang.convert("Has d'introduïr una URL del servidor"));
 					} else if (!isValidURL(url)) {
@@ -46,21 +47,21 @@
 		
 		clear: function(){
 			var self = this;
-			$('#div_layersWMS').html('');
-			$("#div_layersWMS").hide();
-			$('#div_emptyWMS').empty();
+			$('.layers-wms').html('');
+			$(".layers-wms").hide();
+			self._botons.empty();
 			return self;
 		},
 		
 		show: function(){
 			var self = this;
-			$("#div_layersWMS").show();
+			$(".layers-wms").show();
 			return self;
 		},
 		
 		getLayers: function(options){
 			var self = this;
-			$("#txt_URLWMS").val(options.url);
+			$(".url-wms").val(options.url);
 			self.url = options.url;
 			self.name = options.name;
 			self.getCapabilities();
@@ -176,19 +177,19 @@
 					
 					self.ActiuWMS = ActiuWMS;
 					
-					$('#div_layersWMS').empty().append(html);
+					$('.layers-wms').empty().append(html);
 					self.addTreeEvents();
-					$('#div_emptyWMS').empty();
-					$('#div_emptyWMS').html(
-						'<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >' +
+					self._botons.empty();
+					self._botons.html(
+						'<div style="float:right"><button lang="ca" class="btn btn-success btn-add-wms" >' +
 						window.lang.convert("Afegir capes") + '</button></div>');
 					
-					$("#bt_addWMS").on('click', function(e) {
+					$(".btn-add-wms").on('click', function(e) {
 					    self.addExternalWMS(false);
 					});
 					
 				} catch (err) {
-					$('#div_layersWMS').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
+					$('.layers-wms').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			});
 			
@@ -199,7 +200,7 @@
 			var self = this,
 			_dateFormat = false;
 			
-			var cc = $('#div_layersWMS input:checked').map(function(){
+			var cc = $('.layers-wms input:checked').map(function(){
 				if($('#geoservicetime_'+this.value).length > 0){
 					_dateFormat = true;
 				}

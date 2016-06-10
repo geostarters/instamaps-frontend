@@ -241,7 +241,7 @@ function addControlAltresFontsDades() {
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
-				var instamapsWms = InstamapsWms({container:$('#div_controlWMS'), proxyUrl: paramUrl.ows2json, callback: addWmsToMap});
+				var instamapsWms = InstamapsWms({container:$('#div_controlWMS'), botons: $('#div_emptyWMS'),proxyUrl: paramUrl.ows2json, callback: addWmsToMap});
 				jQuery(tbA+" a.label-wms").on('click', function(e) {
 					
 					console.info(e.target);
@@ -738,6 +738,7 @@ function addHtmlInterficieDadesExt(){
 		container : 'body'
 	});
 }
+
 
 
 
