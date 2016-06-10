@@ -473,7 +473,7 @@ if (typeof module !== undefined) module.exports = polyline;
 				map.removeLayer(this._line);
 			}
 			map.removeLayer(this._plan);
-			if (this._alternatives.length >0) {
+			if (this._alternatives && this._alternatives.length >0) {
 				this._alternatives.forEach(function(alt, i) {
 					map.removeLayer(this._alternatives[i]);				
 			}, this);
