@@ -9,6 +9,105 @@
    		mapConfig:null,
         map:null,	
    			
+   			 params_visor: {
+    		"paramsVisor" : [
+				{
+					"param": "zoomcontrol",
+					"text":"Control de zoom",
+					"visor": true,
+					"iframe": true
+				},
+				{
+					"param": "openinstamaps",
+					"text":"Control de ampliar el mapa",
+					"iframe": true
+				},
+				{
+					"param": "homecontrol",
+					"text":"Control de tornar a la vista inicial",
+					"visor": true
+				},
+				{
+					"param": "locationcontrol",
+					"text":"Control de localització",
+					"visor": true
+				},
+				{
+					"param": "searchcontrol",
+					"text":"Control de cerca",
+					"visor": true
+				},
+				{
+					"param": "routingcontrol",
+					"text":"Control de routing",
+					"visor": true
+				},
+				{
+					"param": "sharecontrol",
+					"text":"Control de compartir en xarxes socials",
+					"visor": true
+				},
+				{
+					"param": "likecontrol",
+					"text":"Control de M'agrada",
+					"visor": true,
+					"iframe": true
+				},
+				{
+					"param": "fonscontrol",
+					"text":"Control de fons",
+					"visor": true
+				},
+				{
+					"param": "layerscontrol",
+					"text":"Control de capes",
+					"visor": true,
+					"iframe": true
+				},
+				{
+					"param": "control3d",
+					"text":"Control de 3D",
+					"visor": true
+				},
+				{
+					"param": "snapshotcontrol",
+					"text":"Control captura imatge",
+					"visor": true
+				},
+				{
+					"param": "printcontrol",
+					"text":"Control d'impressió",
+					"visor": true
+				},
+				{
+					"param": "geopdfcontrol",
+					"text":"Control GeoPdf",
+					"visor": true
+				},
+				{
+					"param": "llegenda",
+					"text":"Llegenda en el visor",
+					"visor": true
+				},
+				{
+					"param": "minimapcontrol",
+					"text":"Control minimapa",
+					"visor": true,
+					"iframe": false
+				},
+				{
+					"param": "mouseposition",
+					"text":"Coordenades del ratolí",
+					"visor": true
+				},
+				{
+					"param": "scalecontrol",
+					"text":"Control d'escala",
+					"visor": true
+				}				
+			] 
+        },
+        
         init: function() {
         	this.containerId = '#funcio_publicar';
         	//By using the object PROJ you can reference it with "this" (i.e. this.whatever();), easy peazy "namespacing"

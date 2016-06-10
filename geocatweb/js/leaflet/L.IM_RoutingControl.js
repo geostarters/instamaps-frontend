@@ -174,6 +174,7 @@ L.Control.RoutingControl = L.Control.extend({
 		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
+		self._map = map;
 		
 		L.DomEvent
 			.on(container, 'click', stop)
@@ -232,17 +233,20 @@ L.Control.RoutingControl = L.Control.extend({
 	},
 
 	hide: function() {
-		var _map = this._map,
-		_route = this._route;
+		var self = this,
+		_map = self._map,
+		_route = self._route;
 		
-		L.DomUtil.removeClass(this._div, 'greenfort');
-		L.DomUtil.addClass(this._div, 'grisfort');
 		
-		_map.off('click',this._routingPopup);
+		L.DomUtil.removeClass(self._div, 'greenfort');
+		L.DomUtil.addClass(self._div, 'grisfort');
+		console.debug("AQUI");
 		try{
-			_route.removeFrom(_map);
+			_route.removeFrom.call(_route,_map);
 		}catch(e){
 			console.debug(e);
+		}finally{
+			_map.off('click',self._routingPopup, self);
 		}
 		
 	},
@@ -253,6 +257,7 @@ L.Control.RoutingControl = L.Control.extend({
 	}, 
 	
 	_routingPopup: function(e) {
+		console.debug("routing");
 		var options = this.options,
 		_texts = options.texts;
 		
