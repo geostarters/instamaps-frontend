@@ -17,6 +17,10 @@ var IM_DadesOficials = function (options) {
 		_htmlDadesOficials.push('</div>');
 		_htmlDadesOficials.push('<div id="id_ofi_results" 	style="background-color: #fcf8e3;" class="panel-warning">');
 		_htmlDadesOficials.push('</div>');
+		
+		_htmlDadesOficials.push('<div id="div_controlWMS_INSPIRE"></div>');
+		_htmlDadesOficials.push('<div id="div_emptyWMS_INSPIRE"></div>');
+		
 		_htmlDadesOficials.push('<div id="id_ofi_footer" 	style="background-color: #fcf8e3;" class="footer panel-warning">');
 		_htmlDadesOficials.push('<span class="label label-font">' + window.lang.convert("Font")+': <a target="_blank" href="http://inspire-geoportal.ec.europa.eu/discovery/">INSPIRE Catalog</a></span>');
 		_htmlDadesOficials.push('<span lang="ca" class="label" id="inspire_msg"></span></div>');
