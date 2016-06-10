@@ -222,7 +222,7 @@ function addControlAltresFontsDades() {
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
-				var instamapsWms = InstamapsWms({container:$('#div_controlWMS')});
+				var instamapsWms = InstamapsWms({container:$('#div_controlWMS'), proxyUrl: paramUrl.ows2json, callback: addWmsToMap});
 				jQuery(tbA+" a.label-wms").on('click', function(e) {
 					if(e.target.id !="id_srvw"){
 						instamapsWms.getLayers({url: e.target.id, name: $(e.target).text()})
@@ -706,7 +706,6 @@ function addHtmlModalDadesExt(){
 }
 
 function addHtmlInterficieDadesExt(){
-	
 	jQuery("#carregar_dades .div_gr2").append(
 			'<div lang="ca" id="div_dades_ext" class="div_dades_ext" data-toggle="tooltip" title="Explora altres fonts de dades" data-lang-title="Explora altres fonts de dades"></div>'		
 	);
