@@ -186,6 +186,7 @@ function cercaCataleg(cerca){
 		var lDadesIdec = '<ul class="panel-heading llista-dadesIdec">';
 		jQuery.each(resultats.aaData, function( index, wmsidec ) {
 			var titol=wmsidec.TITOL;
+			var titolShort=shortString(titol,27);
 			var desc=wmsidec.DESCRIPCIO;
 			var org =wmsidec.ORGANITZAC;
 			var idarxiu=wmsidec.IDARXIU;
@@ -198,7 +199,7 @@ function cercaCataleg(cerca){
 			var escala=wmsidec.ESCALA;
 			var conjunt=wmsidec.CONJUNT;
 			var temes=wmsidec.TEMES;
-			lDadesIdec += '<li><a class="label-dadesIdec" href="#"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titol;
+			lDadesIdec += '<li><a class="label-dadesIdec" href="#" title="'+titol+'"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titolShort;
 			lDadesIdec += '<a lang="ca" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id='+urn+'&idioma=ca&" target="_blank">';
 			lDadesIdec += '&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a></li>';
 		});

@@ -1168,7 +1168,9 @@ function searchCatalogInspire(params){
 	return jQuery.ajax({
 			url: paramUrl.urlgetInspireCatalog,
 			data: params,
-			dataType: 'jsonp'
+			traditional:true,
+			dataType: 'jsonp',
+			jsonp: 'json.wrf'
 		}).promise();
 }
 

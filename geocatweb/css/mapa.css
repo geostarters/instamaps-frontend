@@ -2966,7 +2966,7 @@ i.fa {
   	border: 0px dashed #DDDDDD;
     color: #000000;
     float: left;
-    font-size: 14px;
+    font-size: 12px;
     /*height: 28px;*/
     line-height: 1.2;
     margin: 0 -1px -1px 0;
@@ -5140,7 +5140,81 @@ cursor:pointer;
 }
 
 
+
+#cmdInspireInit{
+	border: 1px solid #cccccc;
+    color: #555;
+    height: 33px;
+    width: 100%;	
+
+}	
+
+.txt_ext_ofi {
+    height: 33px !important;
+    margin-bottom: 5px;
+    margin-top: 8px;
+}
+
+.bs-dades_oficials {
+	list-style: none outside none;
+	overflow: hidden;
+	/*margin-bottom: 5px;
+	padding-bottom: 1px;
+	padding-left: 0;*/
+}
+
+.bs-dades_oficials li {
+    border: 0px dashed #DDDDDD;
+    color: #000000;
+    float: left;
+    font-size: 12px;
+    /*height: 28px;*/
+    line-height: 0.8;
+    margin: 0 -1px -1px 0;
+    padding: 5px;
+    text-align: left;
+    width: 50%;
+}
+
+
+
 .label-dof {
 	color: #EC971F;	
 	font-size: 14px;
 }
+li >.label-dof:focus {	
+	color:#F75E33;
+	font-weight:normal !important;
+	
+}	
+
+.label-dof:hover {	
+	color:#F75E33;
+	font-weight:normal !important;
+		
+}	
+
+
+.label-dadesInspire{
+	color:#F75E33;
+}
+
+
+#opt_id_inspi{
+
+  background: transparent url("images/inspire2.png") no-repeat scroll 100% 6px;
+    padding: 10px 25px 10px 0;
+   
+   
+}	
+
+.orange{
+	color:#F75E33;
+}	
+
+#inspire_msg{
+	color: #f75e33;
+    float: left;
+    font-size: 9px;
+    margin-top: 10px;	
+}	
