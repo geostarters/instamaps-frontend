@@ -217,26 +217,12 @@ function addControlAltresFontsDades() {
 			}else if (tbA=='#id_ofi'){
 
 				jQuery(tbA).empty();
-				jQuery(tbA).html(_DadesOficials.generaOpcionsHTMLDadesOficials());			
-				
+				jQuery(tbA).html(_DadesOficials.generaOpcionsHTMLDadesOficials());							
 				jQuery(tbA+" a.label-dof").on('click', function(e) {
 						_DadesOficials.addOpcionsHTMLTipusDadesOficials(this);
 						
 					});
-				
-				jQuery(tbA+" a.label-dadesInspire").on('click', function(e) {
-				
-					console.info(e.target);
-					
-					if(e.target.id !="id_ofi"){
-						
-						console.info(e.target);
-						
-						
-					};
-					
-				});
-			
+							
 			
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();

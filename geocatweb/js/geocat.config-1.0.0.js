@@ -222,6 +222,7 @@ var paramUrl = {
 	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?",
 	//urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
 	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
+	urlJsonPCC:"/geocatweb/dades/pcc.json"
 	
 }
 

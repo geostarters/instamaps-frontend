@@ -5201,13 +5201,16 @@ li >.label-dof:focus {
 
 
 #opt_id_inspi{
-
   background: transparent url("images/inspire2.png") no-repeat scroll 100% 6px;
-    padding: 10px 25px 10px 0;
-   
-   
-}	
+    padding: 10px 25px 10px 0;  
+}
 
+/*
+#opt_id_pcc{
+  background: transparent url("images/inspire2.png") no-repeat scroll 100% 6px;
+    padding: 10px 25px 10px 0;  
+}		
+*/
 .orange{
 	color:#F75E33;
 }	
@@ -5218,3 +5221,27 @@ li >.label-dof:focus {
     font-size: 9px;
     margin-top: 10px;	
 }	
+
+
+.txtFocus{	
+	color:red;
+}
+
+
+.pcc_menu{
+	padding: 4px 14px !important;	
+	
+}	
+
+.pcc_menu h4 {
+	font-size:13px !important;
+}	
+
+
+.pcc_ul{	
+	background-color: #fcf8e3 !important;
+    border: 1px dotted #F75E33 !important;
+    margin-bottom: 5px !important;
+    margin-top: 0;		
+}	
+

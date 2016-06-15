@@ -348,7 +348,8 @@ function addWmsToMap(wms){
 			layers : wms.layers,
 			crs : wms.epsg,
 			transparent : true,
-			exceptions:'application/vnd.ogc.se_blank',
+			//exceptions:'application/vnd.ogc.se_blank',
+			exceptions:checkExceptionsType(wms.url),
 			format : 'image/png',
 			wmstime:wms.wmstime,
 			tileSize:512
@@ -451,7 +452,8 @@ function addExternalWMS(fromParam) {
 			layers : ActiuWMS.layers,
 			crs : ActiuWMS.epsg,
 			transparent : true,
-			exceptions:'application/vnd.ogc.se_blank',
+			//exceptions:'application/vnd.ogc.se_blank',
+			exceptions:checkExceptionsType(ActiuWMS.url),
 			format : 'image/png',
 			wmstime:ActiuWMS.wmstime,
 			tileSize:512
@@ -603,4 +605,21 @@ function loadWmsLayer(layer, _map){
 	newWMS.options.group=jsonOptions.group;
 	
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
+}
+
+
+function checkExceptionsType(_server){
+		
+	var exceptions='application/vnd.ogc.se_blank';
+
+		if(_server.indexOf('instamaps.cat')==-1 ||
+		 _server.indexOf('betaserver.icgc')==-1 ||
+		 _server.indexOf('localhost')==-1 ||
+		 _server.indexOf('172.70.1.11')==-1){
+			
+			exceptions='application/vnd.ogc.se_inimage';
+
+		}
+		
+		return exceptions;
 }
