@@ -1375,8 +1375,13 @@ function addLegendEdicio(){
 	activaLlegenda(false);
 }
 
-function emptyMapLegendEdicio(layer){
+function emptyMapLegendEdicio(layer,isOrigen){
 	if($("#mapLegendEdicio").data("businessid") == layer.options.businessId ){
+		$("#mapLegendEdicio").html("");
+		activaLlegenda(false);
+		$(".bt_legend").hide();
+	}
+	else if (isOrigen){
 		$("#mapLegendEdicio").html("");
 		activaLlegenda(false);
 		$(".bt_legend").hide();
