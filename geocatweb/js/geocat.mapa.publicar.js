@@ -218,7 +218,13 @@
 					$('#llegenda_chk').bootstrapSwitch('state', true, true);
 				}else{
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
-				}				
+				}	
+				if (that.mapConfig.options.tipusllegenda && that.mapConfig.options.tipusllegenda=="estatica"){
+					$('#llegenda_chk2').bootstrapSwitch('state', true, true);
+				}
+				else {
+					$('#llegenda_chk2').bootstrapSwitch('state', false, false);
+				}
 			}
 			
 			that._createModalConfigDownload();
@@ -591,6 +597,13 @@
         		
         	//TODO de los botones ver nuevos botones
         	options.llegenda = $('#llegenda_chk').bootstrapSwitch('state');
+        	
+        	if ($('#llegenda_chk2').bootstrapSwitch('state')){
+        		options.tipusllegenda="estatica";
+        	}        		
+        	else{
+        		options.tipusllegenda="dinamica";
+        	}
         	
         	if(options.llegenda){
         		//TODO funcion en el modulo

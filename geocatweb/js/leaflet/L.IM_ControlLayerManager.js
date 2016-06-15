@@ -1011,7 +1011,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 
 		var _timeLayers = [];
-
+		var isLegendLoad=false;
+		
 		for (i = 0; i < inputsLen; i++) {
 			input = inputs[i];
 			if (!input.layerId) {
@@ -1098,12 +1099,18 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						&& obj.layer.options.tipusRang
 						&& (obj.layer.options.tipusRang == tem_clasic || obj.layer.options.tipusRang == tem_size)) {
 					thisLoadMapLegendEdicio(obj.layer);
+					isLegendLoad=true;
+				}
+				else if (!isLegendLoad){
+					thisEmptyMapLegendEdicio(obj.layer,true);
 				}
 				
 				if (obj.layer.options.dinamic && (obj.layer.options.tem == tem_clasic || obj.layer.options.tem == tem_size)) {
 					thisLoadMapLegendEdicioDinamic(obj.layer);
+					isLegendLoad=true;
 				}
-			
+				else if(!isLegendLoad) thisEmptyMapLegendEdicio(obj.layer,true);
+				
 				//mirem vista 3D
 				if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',true);}
 			
@@ -1711,8 +1718,8 @@ function thisLoadMapLegendEdicioDinamic(obj) {
 	}
 }
 
-function thisEmptyMapLegendEdicio(obj) {
+function thisEmptyMapLegendEdicio(obj,isOrigen) {
 	if (getModeMapa()){
-		emptyMapLegendEdicio(obj);
+		emptyMapLegendEdicio(obj,isOrigen);
 	}
 }

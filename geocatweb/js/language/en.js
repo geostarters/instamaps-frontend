@@ -486,6 +486,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Ordena per nom":"Sort by name"
 ,"Ordena per usuari":"Sort by user"
 ,"Ordena per data":"Sort by date"
+,"Ordena per popularitat":"Sort by popularity"
 ,"Orquídea":"Orchid"
 ,"Ortofoto històrica Catalunya 1946":"Historical orthophoto of Catalunya 1946"
 ,"Ortofoto històrica Catalunya 1956-57":"Historical orthophoto of Catalunya 1956-57"

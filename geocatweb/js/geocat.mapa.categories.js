@@ -865,7 +865,7 @@ function loadTematicValueTemplate(results, rtype){
 	
 		var template1 = Handlebars.compile(source1);
 		var html1 = "";
-		if (resultsFloat.length>0) {
+		if (resultsFloat.length>0 && resultsNoRepetits.length == resultsFloat.length) {
 			//resultsFloat.sort(function(a,b){return a.v-b.v;});
 			resultsFloat.sort(sortByValueMax);
 			html1 = template1({values:resultsFloat});
