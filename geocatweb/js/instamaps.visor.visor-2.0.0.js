@@ -1118,6 +1118,8 @@
 			
 			var visorSimple = VisorSimple({visor:self}).draw();
 			
+			_gaq.push(['_trackPageview']);
+			
 			return self;
 		},
 		
