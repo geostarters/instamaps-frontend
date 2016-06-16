@@ -1094,9 +1094,12 @@
 					self.addLogoInstamap();
 				}
 				
+				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'visor_instamaps', mapConfig.entitatUid, 1]});
 			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
+		
+				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]});
 			}
 			
 			return self;
