@@ -861,6 +861,10 @@
             result = escape(result);
           }
 
+          if (defaults.type == 'excel' && result.toString().indexOf("img")>-1){
+        	  result = String(result).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+          }
+          
           if (typeof defaults.onCellData === 'function') {
             result = defaults.onCellData($cell, rowIndex, colIndex, result);
           }
