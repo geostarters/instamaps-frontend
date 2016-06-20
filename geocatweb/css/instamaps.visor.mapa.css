@@ -2614,3 +2614,8 @@ border: 1px solid #aaa
     width: 212px;
     z-index: 1010;
 }
+
+
+#mapLegend{
+	resize:both;
+}

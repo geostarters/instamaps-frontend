@@ -128,6 +128,7 @@
 						<button class="sort" data-sort="nomAplicacioSort" lang="ca">Ordena per nom</button>
 						<button class="sort" data-sort="byuser" lang="ca" id="sortbyuser">Ordena per usuari</button>
 						<button class="sort" data-sort="dataPublicacio" lang="ca" id="botoSortData">Ordena per data</button>
+						<button class="sort" data-sort="rankSort" lang="ca" id="botoSortRank">Ordena per popularitat</button>
 						</div>
 						<!--  button class="sort cleansort" lang="ca">Neteja ordre</button-->
 						<ul class="list"></ul>
@@ -155,11 +156,13 @@
 				<p class="rankSort hidden">{{rank}}</p>
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
 					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" id="thumbnail-public">
-						{{#if thumbnail}}
-							<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
-						{{else}}
-							<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
-						{{/if}}
+						<div class="image">
+							{{#if_equals nomAplicacio 'DUN'}}
+								<img src="{{thumbnail}}" onError="this.src='http://www.instamaps.cat/galeria/20bd7dc2d23cd43822c0ea8076627e12.jpeg'" alt="{{nomAplicacio}}">
+							{{else}}
+								<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
+							{{/if_equals}}
+						</div>
 						<div class="caption text-center nomAplicacio">
 							<h4>{{nomAplicacio}}</h4>
 						</div>
@@ -196,6 +199,7 @@
 				<div class="thumbnail">
 					<div class="caption text-center new_map">
 					<span class="glyphicon glyphicon-plus"></span>
+					<p class="rankSort hidden">-1</p>
 					<div lang="ca">Fer un nou mapa</div>
 					</div>
 				</div>
@@ -211,7 +215,7 @@
 			<p class="rankSort hidden">{{rank}}</p>
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 				<input type="hidden" name="cols" value="{{cookie.uid}}">
-				<div  class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">		
+				<div  class="thumbnail" id="thumbnail-private" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">		
 			    	{{#if thumbnail}}
 			      		<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
 					{{else}}
@@ -254,6 +258,8 @@
 						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" id="btn-enllacar" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 					</div>
 					{{/if_equals}}
+					<div class="rank-private text-left"><span class="fa grisfort fa-heart"></span> {{rank}}</div>
+					<div class="data-private text-right">{{data}}</div>
 				</div>
 			</div>
 			</li>

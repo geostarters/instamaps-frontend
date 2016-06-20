@@ -888,7 +888,8 @@ background-color:#FFFFFF}
 	
 	.thumbnail div.byuser{
 		font-size: 9pt;
-		height: 183px;
+		/*height: 183px;*/
+		margin-top:170px;
 	}
 	
 	.thumbnail a.btn{
@@ -924,6 +925,11 @@ background-color:#FFFFFF}
 		max-height: 272px;
 	}
 	*/
+	
+	.thumbnail .image{
+		height:165px;
+		display:inline;
+	}
 	
 	.thumbnail img:hover{
 		opacity: 0.5;
@@ -1321,6 +1327,10 @@ h1.big_text{
 	font-weight: bold;
 }
 
+#thumbnail-private{
+	min-height:230px !important;	
+}
+
 .thumbnail .data{
 	float: right;
     font-size: 8pt;
@@ -1332,6 +1342,20 @@ h1.big_text{
 	float: left;
     font-size: 8pt;
     margin-top: -20px;
+    position: relative;
+}
+
+.thumbnail .data-private{
+	float: right;
+    font-size: 8pt;
+    margin-top: -2px;
+    position: relative;
+}
+
+.thumbnail .rank-private{
+	float: left;
+    font-size: 8pt;
+    margin-top: -2px;
     position: relative;
 }
 

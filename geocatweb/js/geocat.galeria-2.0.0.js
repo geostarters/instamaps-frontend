@@ -127,7 +127,8 @@
 					val.options = $.parseJSON(val.options);	
 				}
 				val.uid=$.cookie('uid');
-				val.convidats=val.convidats;				
+				val.convidats=val.convidats;	
+				val.data =  new Date(val.dataPublicacio).toLocaleDateString();
 				return val;
 			});
 			var html = template(results);

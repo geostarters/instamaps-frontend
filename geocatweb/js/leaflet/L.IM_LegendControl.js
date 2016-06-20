@@ -13,7 +13,7 @@ L.Control.Legend = L.Control.extend({
 		html: '<span class="fa fa-list-alt"></span>',
 		id: 'mapLegend',
 		className: 'info legend visor-legend ',
-		
+		tipusllegenda: 'dinamica',
 		transition: true
 	},
 	
@@ -53,13 +53,13 @@ L.Control.Legend = L.Control.extend({
 			self._updateTabLegend(obj);
 		});
 		*/
-		/*
+		
 		L.DomEvent
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
 			.on(container, 'dblclick', stop)
 			.on(container, 'click', L.DomEvent.preventDefault);
-		*/
+		
 		
 		
 		self.hide();
@@ -129,6 +129,17 @@ L.Control.Legend = L.Control.extend({
 			*/
 		}
 		self._redrawTabs();
+		$("#nav_legend").on('click', function(event){ //enables click event
+			$("#nav_legend .dropdown-menu").toggle();			
+		});
+		$("#nav_legend .dropdown-menu a").on('click', function(event){
+			var href = $(location).attr('href');
+			href=href.substring(0,href.indexOf("#"));
+		    var objecthref=event.target.href;
+		    objecthref= objecthref.replace(href+'#tab',"");
+		    $('#nav_legend a[href="#tab'+objecthref+'"]').tab('show');
+		});	
+		
 	},
 	
 	_updateLegend: function(config){
@@ -136,13 +147,13 @@ L.Control.Legend = L.Control.extend({
 		this.servidorsWMS=config.servidorsWMS;
 		this.legend = (config.legend? $.parseJSON( config.legend):"");
 		this._draw();
-		$('#nav_legend').tabdrop('layout');
+		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 	},
 	
 	_redrawTabs: function(){
 		var self = this;
 		if(!$('#nav_legend li:first-child').hasClass('dropdown') || $("#nav_legend li").length > 1){
-			$('#nav_legend').tabdrop('layout');
+			$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 		}
 	},
 	
@@ -151,17 +162,13 @@ L.Control.Legend = L.Control.extend({
 		self.fromLayer = true;
 		if(obje.activo){
 			$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');	
-		}else{	
-			
-			var lastActive=controlCapes.getCountActiveLayers();		
-			
-			
+		}else{			
+			var lastActive=controlCapes.getCountActiveLayers();	
 			lastActive.total >0?$('#nav_legend a[href="#tab'+lastActive.lastActive+'"]').tab('show'):$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');										
-		
-			
 		}
-		
 	},
+	
+	
 	
 	_getLastActived:function(){	
 	var self = this,
@@ -189,97 +196,137 @@ L.Control.Legend = L.Control.extend({
 		div = self._div;
 		if (self._checkEmptyMapLegend()){
 			var legendhtml = [];
-			var legendTab=[];
-			var legendCont=[];
-			var legendTabContent=[];
-			
-			legendCont.push('<div id="legend_cont">');
-			legendTab.push('<div id="legend_cont"><ul id="nav_legend" class="nav nav-tabs">');
-			legendTabContent.push('<div class="legendTabCont tab-content">');
-			
-			var index=0;
-			var lastPos=self._getLastActived();
-					
-			
-			jQuery.each(mapLegend, function(j, row){
+			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){			
+				jQuery.each(mapLegend, function(i, row){
+			    	for (var i = 0; i < row.length; i++) {
+			    		if(row[i].chck){
+			    			if (row[i].symbol.indexOf("circle")>-1){
+			    				var padding_left="0px";
+			    				var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
+			    				midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
+			    				var mida=parseFloat(midaStr);
+			    				if (mida>0 && mida<=6) padding_left="15px";
+			    				else if (mida>6 && mida<=14) padding_left="10px";
+			    				else if (mida>14 && mida<=22) padding_left="5px";
+			    				legendhtml.push($('<div class="visor-legend-row">'+
+						    			'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+row[i].symbol+'</div>'+
+						    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+row[i].name+'</div>'+
+						    			'</div>'+
+						    			'<div class="visor-separate-legend-row"></div>'));
+			    			} else{
+			    				legendhtml.push($('<div class="visor-legend-row">'+
+						    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
+						    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;">'+row[i].name+'</div>'+
+										'</div>'+
+										'<div class="visor-separate-legend-row"></div>'));
+			    			}	    			
+			    		}
+			    	}
+			    });
+				$(div).append(legendhtml);
+				$(div).mCustomScrollbar();
+			}
+			else {
+				var legendTab=[];
+				var legendCont=[];
+				var legendTabContent=[];
 				
-			var layerType=self._getNameLayer(j);	
+				legendCont.push('<div id="legend_cont">');
+				legendTab.push('<div id="legend_cont"><ul id="nav_legend" class="nav nav-tabs">');
+				legendTabContent.push('<div class="legendTabCont tab-content">');
 				
-				for (var i = 0; i < row.length; i++) {
-					var padding_left="";
-					var textalg='left';
-					if (row[i].symbol.indexOf("circle")>-1){
-					padding_left="padding-left:0px";
-					textalg='center';
-		    		var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
-		    		midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
-		    		var mida=parseFloat(midaStr);
-		    		if (mida>0 && mida<=6) padding_left="padding-left:15px";
-		    		else if (mida>6 && mida<=14) padding_left="padding-left:10px";
-		    		else if (mida>14 && mida<=22) padding_left="padding-left:5px";
-					}
-					
-					
-					index==lastPos.indexPos?active=' active':active="";
-					index==lastPos.indexPos?self.options.currentTab=j:null;	
-									
-					
-					if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
-					
-					if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
-						legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">'+row[i].symbol.replace('<br>','')+'</div>');	
-					}else{
-						if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
-						legendTabContent.push('<div class="visor-legend-row">'+
-					    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
-					    	'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
-					    	'</div><div class="visor-separate-legend-row"></div>');	
-									
-						if(i==row.length-1){legendTabContent.push('</div>');}			
-					}
-				}
-			index=index+1;		
-		    });
-			
-			
-			legendTab.push('</ul>');
-			legendTabContent.push('</div></div>');
-			
-			
-			$(div).append(legendTab.join(""));
-			$(div).append(legendTabContent.join(""));
-			$('#nav_legend').tabdrop('layout');
-		
+				var index=0;
+				var lastPos=self._getLastActived();
 						
-			$(div).on('click', function(e){			
-			changeWMSQueryable(false);
-			});	
-			 
-			 $(div).on('mouseout', function(e){				
-			changeWMSQueryable(true);
-			});	
+				
+				jQuery.each(mapLegend, function(j, row){
+				
+				var layerType=self._getNameLayer(j);
+				index==lastPos.indexPos?active=' active':active="";
+				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+					legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');
+				}
+				
+					for (var i = 0; i < row.length; i++) {
+						var padding_left="";
+						var textalg='left';
+						if (row[i].symbol.indexOf("circle")>-1){
+							padding_left="padding-left:0px";
+							textalg='center';
+				    		var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
+				    		midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
+				    		var mida=parseFloat(midaStr);
+				    		if (mida>0 && mida<=6) padding_left="padding-left:15px";
+				    		else if (mida>6 && mida<=14) padding_left="padding-left:10px";
+				    		else if (mida>14 && mida<=22) padding_left="padding-left:5px";
+						}
+						
+						
+						index==lastPos.indexPos?active=' active':active="";
+						index==lastPos.indexPos?self.options.currentTab=j:null;	
+										
+						
+						if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
+						
+						if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+							legendTabContent.push(row[i].symbol);
+							legendTabContent.push('<br/>');
+						}else{
+							if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
+							legendTabContent.push('<div class="visor-legend-row">'+
+						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
+						    	'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
+						    	'</div><div class="visor-separate-legend-row"></div>');	
+										
+							if(i==row.length-1){legendTabContent.push('</div>');}			
+						}
+					}
+				index=index+1;
+				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+					legendTabContent.push('</div>');
+				}
+			    });
+				
+				
+								
+				legendTab.push('</ul>');
+				legendTabContent.push('</div></div>');
+				
+				
+				$(div).append(legendTab.join(""));
+				$(div).append(legendTabContent.join(""));
+				$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 			
+							
+				$(div).on('click', function(e){			
+				changeWMSQueryable(false);
+				});	
+				 
+				 $(div).on('mouseout', function(e){				
+				changeWMSQueryable(true);
+				});	
+				
+				
+				$('.dv_lleg').on('click', function(e){			
+				aturaClick(e);
+				});	
+				
+				
+				//$('.dv_lleg').mCustomScrollbar();
+				
+				$('.legendTabCont').on('click', function(e){			
+				aturaClick(e);
+				});	
+				
+				
+				$('.legendTabCont').on('mousedown', function(e){			
+				aturaClick(e);
+				});	
 			
-			$('.dv_lleg').on('click', function(e){			
-			aturaClick(e);
-			});	
+			//$('#nav_legend').tabdrop();	
 			
-			
-			//$('.dv_lleg').mCustomScrollbar();
-			
-			$('.legendTabCont').on('click', function(e){			
-			aturaClick(e);
-			});	
-			
-			
-			$('.legendTabCont').on('mousedown', function(e){			
-			aturaClick(e);
-			});	
-		
-		//$('#nav_legend').tabdrop();	
-		
-			$(' #nav_legend a[data-toggle="tab"]').on('shown.bs.tab', self._activaCapaTab.bind(self));
-			
+				$(' #nav_legend a[data-toggle="tab"]').on('shown.bs.tab', self._activaCapaTab.bind(self));
+			}
 		}
 	},
 	

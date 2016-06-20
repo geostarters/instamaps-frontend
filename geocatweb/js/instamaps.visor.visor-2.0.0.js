@@ -653,7 +653,8 @@
 			_map = self.map;
 			
 			ctr_legend = L.control.legend({
-				title: window.lang.convert('Llegenda')
+				title: window.lang.convert('Llegenda'),
+				tipusllegenda: self.tipusllegenda
 			});
 			ctr_legend.addTo(_map);
 			
@@ -866,6 +867,7 @@
 					self.nollegenda = "1"; //ocultar la llegenda
 					self.llegenda = 0;
 				}
+				self.tipusllegenda=mapConfig.options.tipusllegenda;
 			}
 			self._mapConfig = mapConfig;
 			
