@@ -75,7 +75,7 @@
     };
 
     var calculateObjectValue = function (self, name, args, defaultValue) {
-        if (typeof name === 'string') {
+    	if (typeof name === 'string') {
             // support obj.func1.func2
             var names = name.split('.');
 
@@ -1007,7 +1007,7 @@
 
             if (attributes) {
                 for (var key in attributes) {
-                    htmlAttributes.push(sprintf('%s="%s"', key, escapeHTML(attributes[key])));
+                	 htmlAttributes.push(sprintf('%s="%s"', key, escapeHTML(attributes[key])));
                 }
             }
 
@@ -1095,7 +1095,10 @@
                 } else {
                     value = typeof value === 'undefined' || value === null ?
                         that.options.undefinedText : value;
-
+                    
+                    if (!getModeMapa() && value.toString().indexOf("zoomTo")==-1){
+                    	value = String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                     }
                     text = that.options.cardView ?
                         ['<div class="card-view">',
                             that.options.showHeader ? sprintf('<span class="title" %s>%s</span>', style,
@@ -1111,7 +1114,6 @@
                         text = '';
                     }
                 }
-
                 html.push(text);
             });
 
