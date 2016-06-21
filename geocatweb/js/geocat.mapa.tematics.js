@@ -1514,13 +1514,12 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 		capaVisualitzacio.options.propName = capaVisualitzacio.options.propName.split(",");
 	}
 		
-	//limpiar las geometrias
+	//limpiar las geometrias	
 	try{
 		capaVisualitzacio.clearLayers();
 	}catch(err){
 		if (capaVisualitzacio.layer!=undefined) capaVisualitzacio.layer.clearLayers();
 	}
-	
 	//cargar las geometrias a la capa
 	var layOptions = getOptions(layer);
 	var origen = getOrigenLayer(layer);
@@ -1663,6 +1662,10 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			if(optionsVis && optionsVis.opcionsVis!=undefined) capaVisualitzacio.options.opcionsVisEtiqueta = optionsVis.opcionsVis;
 			if(optionsVis && optionsVis.zoomInicial!=undefined) capaVisualitzacio.options.zoomInicial = optionsVis.zoomInicial;
 			if(optionsVis && optionsVis.zoomFinal!=undefined) capaVisualitzacio.options.zoomFinal = optionsVis.zoomFinal;
+			//Noves opcions de contorn i caixa
+			if(optionsVis && optionsVis.contorn!=undefined) capaVisualitzacio.options.contorn = optionsVis.contorn;
+			if(optionsVis && optionsVis.caixa!=undefined) capaVisualitzacio.options.caixa = optionsVis.caixa;
+			if(optionsVis && optionsVis.caixaColor!=undefined) capaVisualitzacio.options.caixaColor = optionsVis.caixaColor;
 		}
 		
 		var origen = getOrigenLayer(layer);
@@ -1813,14 +1816,21 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource){
 	if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
 		var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
-		style+=";text-shadow:1px 1px #ffffff";
+		if (optionsVis.contorn!=undefined && optionsVis.contorn=="si") {
+			style+=";text-shadow:1px 1px #ffffff";
+		}
+		else 	style+=";text-shadow:0px 0px #ffffff";
 		if (optionsVis.fontStyle!=undefined){
 			if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
 			else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
 		}
+		if (optionsVis.caixa!=undefined && optionsVis.caixa=="si"){
+			style += ";background-color:"+optionsVis.caixaColor;
+		}
+		else style += ";background-color:transparent";
 		createClass('.etiqueta_style_'+visualitzacio.businessId,style);
 	}
-
+	
 	var zoomInicialEtiqueta = "2";
 	if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
 	var zoomFinalEtiqueta = "19";

@@ -1575,6 +1575,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				else $('#font-style option[value=10px]').attr('selected','selected');
 				if (obj.layer.options.fontColor!=undefined)	$('#dv_color_etiqueta').css('background-color',obj.layer.options.fontColor);
 				else 	$('#dv_color_etiqueta').css('background-color','#000000');
+				if (obj.layer.options.caixaColor!=undefined)	$('#dv_color_caixa_etiqueta').css('background-color',obj.layer.options.caixaColor);
+				else 	$('#dv_color_caixa_etiqueta').css('background-color','#000000');
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
 				else $('input:radio[name=etiqueta][value=etiquetageom]').attr('checked', true);
 				var zoomInicial = "2";
@@ -1607,10 +1609,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			        stop: function( event, ui ) {
 			        	$('#slider .ui-slider-handle').first().html('');
 			        	$('#slider .ui-slider-handle').last().html('');	
-			           //alert(  ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-			            zoomInicial=ui.values[0];
-			            zoomFinal=ui.values[1];
-			            $('#slider .ui-slider-handle').first().tooltip({title: ui.values[0], trigger: 'manual', placement: 'bottom'}).tooltip("show");
+			            //alert(  ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+			             $('#slider .ui-slider-handle').first().tooltip({title: ui.values[0], trigger: 'manual', placement: 'bottom'}).tooltip("show");
 			            $('#slider .ui-slider-handle').last().tooltip({title: ui.values[1], trigger: 'manual', placement: 'bottom'}).tooltip("show");
 			         }    
 			       }
@@ -1618,15 +1618,17 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 				
 				$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
-					
+					e.preventDefault();
+					e.stopImmediatePropagation();
 					if (jQuery('#dataFieldEtiqueta').val()!=undefined && jQuery('#dataFieldEtiqueta').val()=="---"){
 						alert("Cal escollir un camp per etiquetar");
 					}
 					else {
 						var capaLeafletId = $('#dialog_etiquetes_capa #leafletIdCapaEtiqueta').val();
 						var capaLeafletIdControl = $('#dialog_etiquetes_capa #leafletIdCapaEtiquetaControl').val();
-						var color = rgb2hex($('.color_etiqueta').css('background-color'));
-						
+						var color = rgb2hex($('#dv_color_etiqueta').css('background-color'));
+						var caixaColor  = rgb2hex($('#dv_color_caixa_etiqueta').css('background-color'));
+						var sliderVals =$("#slider").slider("values");
 						var options = {
 								campEtiqueta:jQuery('#dataFieldEtiqueta').val(),
 								fontFamily:jQuery('#font-family').val(),
@@ -1634,8 +1636,11 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 								fontStyle:jQuery('#font-style').val(),
 								fontColor:color,
 								opcionsVis:$("input[name=etiqueta]:checked").val(),
-								zoomInicial:zoomInicial,
-								zoomFinal:zoomFinal
+								caixaColor: caixaColor,
+								contorn:$("input[name=contorn]:checked").val(),
+								caixa:$("input[name=caixeti]:checked").val(),
+								zoomInicial:sliderVals[0],
+								zoomFinal:sliderVals[1]
 						}
 						var layerMap=map._layers[capaLeafletId];
 						var optionsMap;
@@ -1654,6 +1659,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 								geometryType:optionsMap.geometryType
 						};
 						updateVisualitzacioLayer(data).then(function(results){
+							$('#dialog_etiquetes_capa').modal('hide');
 							reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
 						});
 					}

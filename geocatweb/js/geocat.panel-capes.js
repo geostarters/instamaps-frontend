@@ -453,10 +453,14 @@ function addHtmlModalEtiquetesLayer(){
 		$('#mapa_modals').append(data); 
 		
 		$('#colorpalette_etiqueta').colorPalette().on('selectColor', function(e) {   	
-		    $('.color_etiqueta').css('background-color',e.color);		
+			$('#dv_color_etiqueta').css('background-color',e.color);		
 		});
 		
-		$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
+		$('#colorpalette_caixa_etiqueta').colorPalette().on('selectColor', function(e) {   	
+		    $('#dv_color_caixa_etiqueta').css('background-color',e.color);		
+		});
+		
+		/*$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {
 			
 			if (jQuery('#dataFieldEtiqueta').val()!=undefined && jQuery('#dataFieldEtiqueta').val()=="---"){
 				alert("Cal escollir un camp per etiquetar");
@@ -497,6 +501,6 @@ function addHtmlModalEtiquetesLayer(){
 					reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
 				});
 			}
-		});
+		});*/
 	});
 }
