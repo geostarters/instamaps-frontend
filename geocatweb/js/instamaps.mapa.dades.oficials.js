@@ -8,7 +8,7 @@ var IM_DadesOficials = function (options) {
 
 		var _htmlDadesOficials = [];
 		_htmlDadesOficials.push('<div class="panel-warning">');
-		_htmlDadesOficials.push('<ul class="bs-dadesO panel-heading">');
+		_htmlDadesOficials.push('<ul class="bs-dades_oficials panel-heading">');
 		_htmlDadesOficials.push('<li style="text-align: center"><a class="label-dof" href="#" id="opt_id_pcc">' + window.lang.convert("Pla Cartogràfic de Catalunya-INSPIRE") + '</a></li>');
 		_htmlDadesOficials.push('<li style="text-align: center"><a class="label-dof" href="#" id="opt_id_inspi">' + window.lang.convert("Geoportal INSPIRE") + '</a></li>');
 		_htmlDadesOficials.push('</ul>');
@@ -59,7 +59,7 @@ var IM_DadesOficials = function (options) {
 				var resultats = results.response.numFound;
 				var _htmlGetInitInspire = [];
 				if (countries) {
-					_htmlGetInitInspire.push('<ul class="bs-dadesO panel-heading">');
+					_htmlGetInitInspire.push('<ul class="bs-dades_oficials panel-heading">');
 					_htmlGetInitInspire.push('<li><div style="width:99%"  class="input-group txt_ext_ofi">');
 					_htmlGetInitInspire.push('<select id="cmdInspireInit">');
 					_htmlGetInitInspire.push('<option value="null">' + window.lang.convert("Serveis WMS per Estat") + '</option>');
@@ -128,38 +128,14 @@ var IM_DadesOficials = function (options) {
 				}
 			});
 
-			/*
-			
-			<div class="container"><div class="row"><div class="col-xs-12" style="padding-top:40px;"><select data-selectsplitter-selector>
-              <optgroup label="Category 1">
-                <option value="1">Choice 1</option>
-                <option value="2">Choice 2</option>
-                <option value="3">Choice 3</option>
-                <option value="4">Choice 4</option>
-              </optgroup>
-              <optgroup label="Category 2">
-                <option value="8">Choice 5</option>
-                <option value="6">Choice 6</option>
-                <option value="7">Choice 7</option>
-                <option value="5">Choice 8</option>
-              </optgroup>
-              <optgroup label="Category 3">
-                <option value="5">Choice 9</option>
-                <option value="6">Choice 10</option>
-                <option value="7">Choice 11</option>
-                <option value="8">Choice 12</option>
-              </optgroup>
-            </select> </div></div></div>
-			
-			*/
 			
 			
 			//_htmlGetInitPCC.push('<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">');
 			
-			_htmlGetInitPCC.push('<div class="row"><div class="col-xs-12" style="padding:5px;"><select data-selectsplitter-selector>');
+			_htmlGetInitPCC.push('<div class="row"><div class="col-xs-12"  style="padding-top:5px;"><select id="cmb_pcc" data-selectsplitter-selector>');
 
 			$.each(jQuery.unique(items), function (key, val) {
-				console.info(val);
+			
 				var _valID = treuAccentsiEspais(val);
 
 				_htmlGetInitPCC.push('<optgroup id="_pccul_' + _valID + '" label="'+shortString(val, 85)+'">');
@@ -191,11 +167,23 @@ var IM_DadesOficials = function (options) {
 				var idarxiu = val.url_geoservei;
 				var _valID = treuAccentsiEspais(val.id_cig + " " + val.nom_grup); ;
 				var id = '_pccul_' + _valID;
-				console.info(jQuery('#' + id));
-				jQuery('#' + id).append('<option value="'+key+'"><a class="label-dadesPCC" href="#"  title="' + titol + '" data-nom="' + titol + '" data-wms_url="' + idarxiu + '">' + titolShort+'</a></option>');
+			
+				jQuery('#' + id).append('<option value="'+titol+'##'+idarxiu+'">' + titolShort+'</option>');
 				//jQuery('#' + id).append('<li><a class="label-dadesPCC" href="#"  title="' + titol + '" data-nom="' + titol + '" data-wms_url="' + idarxiu + '">' + titolShort);
 			});
-				$('select[data-selectsplitter-selector]').selectsplitter();
+				$('select[data-selectsplitter-selector]').selectsplitter(				
+				{template:   
+                    '<div class="row" data-selectsplitter-wrapper-selector>' +
+                        '<div class="col-xs-12">' +
+                            '<select class=" cmb_pcc form-control" data-selectsplitter-firstselect-selector></select>' +
+                        '</div>' +
+                        '<div class="clearfix visible-xs-block"></div>' +
+                        '<div class="col-xs-12">' +
+                            '<select id="cmb_pcc_wms" class=" cmb_pcc  form-control" data-selectsplitter-secondselect-selector></select>' +
+                        '</div>' +                        
+				'</div>'});
+				
+				
 			//PCC clic
 			var instamapsWms = InstamapsWms({
 					container : $('#div_controlWMS_OFICIALS'),
@@ -204,11 +192,24 @@ var IM_DadesOficials = function (options) {
 					callback : addWmsToMap
 				});
 
-			jQuery("a.label-dadesPCC").on('click', function (e) {
+			//jQuery("a.label-dadesPCC").on('click', function (e) {
+				
+				jQuery("#cmb_pcc_wms").on('click', function (e) {
+				
+			
+				
 				if (e.target.id != "id_ofi") {
+					
+				var _atrPCC=jQuery(e.target).attr('value').split("##");	
+					
+						console.info(_atrPCC);
 					instamapsWms.getLayers({
-						url : $(e.target).attr('data-wms_url'),
-						name : $(e.target).attr('title')
+						//url : $(e.target).attr('data-wms_url'),
+						//name : $(e.target).attr('title')
+						
+						url :_atrPCC[1],
+						name : _atrPCC[0]
+						
 					});
 					//jQuery("#id_ofi_body").hide();
 					map.setView([41.431, 1.8580], 9);

@@ -22,6 +22,8 @@ var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
 var msgHTML = "";
 var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
+//var _urlTerrenys = 'http://tilemaps1.farm/terrenys/demextes'; //'/cesium/terrenys/demextes'
+
 var appl='mapa';
 var factorNavegador=1000;
 function addModul3D(config) {
@@ -38,10 +40,10 @@ function addModul3D(config) {
 	browserWebGL = detectoCapacitatsWebGL();
 
 	if (browserWebGL) {
-		$("head").append('<link id="cesium_css" href="/llibreries/cesium/Cesium.css" type="text/css" rel="stylesheet" />');
-		$("head").append('<script src="/llibreries/cesium/Cesium.js"  type="text/javascript"></script>');
-		$("head").append('<script src="/llibreries/cesium/Cesium.PinBuilder_IM.js"  type="text/javascript"></script>');
-		$("head").append('<script src="/llibreries/cesium/cesium-navigation.js"  type="text/javascript"></script>');
+		//$("head").append('<link id="cesium_css" href="/llibreries/cesium/Cesium.css" type="text/css" rel="stylesheet" />');
+		//$("head").append('<script src="/llibreries/cesium/Cesium.js"  type="text/javascript"></script>');
+		//$("head").append('<script src="/llibreries/cesium/Cesium.PinBuilder_IM.js"  type="text/javascript"></script>');
+		//$("head").append('<script src="/llibreries/cesium/cesium-navigation.js"  type="text/javascript"></script>');
 		$("body").append('<div id="map3D"></div>');
 		$("body").append('<div id="popup3D"></div>');
 		/*
