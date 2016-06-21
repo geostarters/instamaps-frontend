@@ -61,6 +61,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Blog":"Blog"
 ,"Bàsic":"Básico"
 
+,"Caixetí":"Cajetín"
 ,"CAL CAP LLOC":"PÁRAMO DESOLADO"
 ,"Cal indicar el camp que conté el codi":"Tienes que indicar el campo que contiene el código"
 ,"Cal indicar el camp que conté l'adreça":"Tienes que indicar el campo que contiene la dirección"
@@ -133,6 +134,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Cognom":"Apellido"
 ,"Col·laborador ":"Colaborador "
 ,"Col·laborar":"Colaborar"
+,"Color caixetí":"Color cajetín"
 ,"Color contorn:":"Color contorno"
 ,"Color fons:":"Color fondo"
 ,"Color linia:":"Color línea"
@@ -156,6 +158,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Connecta amb els més de 500 geoserveis catalogats per la":"Conecta con más de 500 geoservicios catalogados por la"
 ,"Consulta les dades":"Consulta los datos"
 ,"Contacte":"Contacto"
+,"Contorn":"Contorno"
 ,"Contrasenya actualitzada correctament":"Contraseña actualizada correctamente"
 ,"Contrasenya antiga":"Contraseña antigua"
 ,"Contrasenya":"Contraseña"

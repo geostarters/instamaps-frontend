@@ -61,6 +61,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Blog":"Blog"
 ,"Bàsic":"Basic"
 
+,"Caixetí":"Text box"
 ,"CAL CAP LLOC":"NOWHERE PLACE"	
 ,"Cal indicar el camp que conté l'adreça":"Point out address field"
 ,"Cal indicar el camp que conté el codi":"Point out the code field"
@@ -133,6 +134,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Cognom":"Surname"
 ,"Col·laborador ":"Contributor "
 ,"Col·laborar":"Contribute"
+,"Color caixetí":"Text box color"
 ,"Color contorn:":"Contour color"
 ,"Color fons:":"Background color"
 ,"Color linia:":"Line color"
@@ -156,6 +158,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Connecta amb els més de 500 geoserveis catalogats per la":"Connect with more than 500 geoservices cataloged by"
 ,"Consulta les dades":"Check the data"
 ,"Contacte":"Contact"
+,"Contorn":"Outline"
 ,"Contrasenya actualitzada correctament":"Password updated succesfully"
 ,"Contrasenya antiga":"Old password"
 ,"Contrasenya":"Password"
