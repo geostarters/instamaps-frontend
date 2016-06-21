@@ -108,10 +108,12 @@ var IM_DadesOficials = function (options) {
 						}
 					});
 				} else {
-					alert(window.lang.convert("Sense resposta del catàleg INSPIRE"));
+					//alert(window.lang.convert("Sense resposta del catàleg INSPIRE"));
+					jQuery('#id_ofi_results').html('<h2>'+window.lang.convert("Sense resposta del catàleg INSPIRE")+'</h2>');
 				}
 			} catch (err) {
-				alert(window.lang.convert("Sense resposta del catàleg INSPIRE"));
+				//alert(window.lang.convert("Sense resposta del catàleg INSPIRE"));
+				jQuery('#id_ofi_results').html('<h2>'+window.lang.convert("Sense resposta del catàleg INSPIRE")+'</h2>');
 			}
 		});
 	}
@@ -202,7 +204,7 @@ var IM_DadesOficials = function (options) {
 					
 				var _atrPCC=jQuery(e.target).attr('value').split("##");	
 					
-						console.info(_atrPCC);
+						
 					instamapsWms.getLayers({
 						//url : $(e.target).attr('data-wms_url'),
 						//name : $(e.target).attr('title')
@@ -361,8 +363,10 @@ var IM_DadesOficials = function (options) {
 
 			} else {
 
-				alert(window.lang.convert("Sense resultats"));
+				//alert(window.lang.convert("Sense resultats"));
+				jQuery('#id_ofi_results').html('<h4>'+window.lang.convert("Sense resultats")+'</h4>');
 				this.resetResultatsOficials();
+				return;
 			}
 
 		});

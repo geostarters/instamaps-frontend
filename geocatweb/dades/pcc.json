@@ -1,0 +1,79 @@
+[
+    {
+        "id_cig": "Grup I - 4",
+        "nom_grup": "Unitats administratives",
+        "nom_instamaps": "Atermenament probable - SNCZI ",
+        "nom_geoservei": "Atermenament probable - SNCZI ",
+        "nom_geoservei_instamaps": "Atermenament probable - SNCZI ",
+        "url_geoservei": "http://wms.magrama.es/sig/agua/DPHEstimado/wms.aspx",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 4",
+        "nom_grup": "Unitats administratives",
+        "nom_instamaps": "Base cartogràfica de l'atermenament i pla d'usos de costes",
+        "nom_geoservei": "Base cartogràfica de l'atermenament i pla d'usos de costes",
+        "nom_geoservei_instamaps": "Base cartogràfica de l'atermenament i pla d'usos de costes",
+        "url_geoservei": "http://sig.gencat.cat/ows/COSTES/wms",
+        "inspire_compliant": "FALSE"
+    },
+    
+   
+    {
+        "id_cig": "Grup I - 9",
+        "nom_grup": "Llocs protegits",
+        "nom_instamaps": "Zones humides",
+        "nom_geoservei": "Zones humides",
+        "nom_geoservei_instamaps": "Zones humides",
+        "url_geoservei": "http://sig.gencat.cat/ows/ESPAIS_NATURALS/wms",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 4",
+        "nom_grup": "Ús del sòl",
+        "nom_instamaps": "Forests públiques",
+        "nom_geoservei": "Forests públiques",
+        "nom_geoservei_instamaps": "Forests públiques",
+        "url_geoservei": "http://sig.gencat.cat/ows/ESPAIS_NATURALS/wms",
+        "inspire_compliant": "FALSE"
+    },
+   
+    {
+        "id_cig": "Grup III - 11",
+        "nom_grup": "Zones subjectes a ordenació, a restriccions o reglamentacions i unitats de notificació",
+        "nom_instamaps": "Àrees de gestió cinegètica de Catalunya",
+        "nom_geoservei": "Àrees de gestió cinegètica de Catalunya",
+        "nom_geoservei_instamaps": "Àrees de gestió cinegètica de Catalunya",
+        "url_geoservei": " http://sig.gencat.cat/ows/FAUNA/wms",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 11",
+        "nom_grup": "Zones subjectes a ordenació, a restriccions o reglamentacions i unitats de notificació",
+        "nom_instamaps": "Zona de pesca controlada",
+        "nom_geoservei": "Zona de pesca controlada",
+        "nom_geoservei_instamaps": "Zona de pesca controlada",
+        "url_geoservei": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 11",
+        "nom_grup": "Zones subjectes a ordenació, a restriccions o reglamentacions i unitats de notificació",
+        "nom_instamaps": "Zones de pesca lliure sense mort",
+        "nom_geoservei": "Zones de pesca lliure sense mort",
+        "nom_geoservei_instamaps": "Zones de pesca lliure sense mort",
+        "url_geoservei": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 12",
+        "nom_grup": "Zones de riscos naturals",
+        "nom_instamaps": "Trams amb risc potencial significatiu o probable - SNCZI ",
+        "nom_geoservei": "Trams amb risc potencial significatiu o probable - SNCZI ",
+        "nom_geoservei_instamaps": "Trams amb risc potencial significatiu o probable - SNCZI ",
+        "url_geoservei": "http://wms.magrama.es/sig/agua/ZI_ARPSIs/wms.aspx",
+        "inspire_compliant": "FALSE"
+    }
+   
+    
+]
