@@ -1658,9 +1658,7 @@ i.fa {
 	text-align: center;
 }
 
-#twitter-collapse{
-	margin: 25px 20px 0 20px;	
-}
+
 
 #id_xs h4{
 	text-align: center;
@@ -3522,7 +3520,8 @@ i.fa {
 }
 
 #twitter-collapse, #wikipedia-collapse{
-	margin: 25px 20px 0 20px;	
+	border: 1px dotted red;
+    margin: 8px 0 0
 }
 
 #id_xs h4{
@@ -4187,22 +4186,22 @@ i.fa {
 .panel-dadesExternes > .panel-heading {
     background-color: #ffe0aa;
     border-color: #ffe0aa;
-    color: #FF6C00;
+    color: #BC5003;
 }
 
 .info-dadesExternes {
-    color: #FF6C00;
+    color: #BC5003;
     font-size: 12px;
     margin-left: 4px;
 }
 
 .label-dadesExternes {
-    color: #FF6C00;
+    color: #BC5003;
     font-size: 14px;
 }
 
 .llista-dadesExternes li a:hover {
-    color: #FF6C00;
+    color: #BC5003;
 }
 
 #label-dinamic{
@@ -5179,7 +5178,7 @@ cursor:pointer;
 
 
 .label-dof {
-	color: #EC971F;	
+	color: #C17203;	
 	font-size: 14px;
 }
 
