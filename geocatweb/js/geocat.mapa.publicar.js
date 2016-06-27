@@ -219,11 +219,13 @@
 				}else{
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
 				}	
-				if (that.mapConfig.options.tipusllegenda && that.mapConfig.options.tipusllegenda=="estatica"){
+				if (that.mapConfig.options.tipusllegenda && that.mapConfig.options.tipusllegenda=="dinamica"){
 					$('#llegenda_chk2').bootstrapSwitch('state', true, true);
+					$('#txt_llegenda_chk2').html("La llegenda permet a l'usuari seleccionar la capa del seu interès.");
 				}
 				else {
 					$('#llegenda_chk2').bootstrapSwitch('state', false, false);
+					$('#txt_llegenda_chk2').html("La llegenda del conjunt de les capes es mostra de manera contínua.");
 				}
 			}
 			
@@ -371,10 +373,23 @@
             		if(state.value == true) {
             			//require geocat.legend
             			createModalConfigLegend();
+            			//mostrar el checkbox de triar tipus de llegenda
+            			$('#div_llegenda_chk2').attr("style","display:block;");
+            			$('#llegenda_chk2').bootstrapSwitch('state', true, true);
             		}else{
             			$('#dialgo_publicar .modal-body .modal-legend').hide();
+            			//ocultar el checkbox de triar tipus de llegenda
+            			$('#div_llegenda_chk2').attr("style","display:none;");
             		}
             	});	
+            	$('input[name="my-legend-checkbox2"]').on('switchChange.bootstrapSwitch', function(event, state) {
+            		if(state.value == true) {
+            			$('#txt_llegenda_chk2').html("La llegenda permet a l'usuari seleccionar la capa del seu interès.");
+    				}
+    				else {
+    					$('#txt_llegenda_chk2').html("La llegenda del conjunt de les capes es mostra de manera contínua.");
+    				}
+            	});
 
            	 	$('input:radio[name="privacitat"]').change(function() {
             	        if ($(this).val() == 'obert') {
@@ -599,10 +614,10 @@
         	options.llegenda = $('#llegenda_chk').bootstrapSwitch('state');
         	
         	if ($('#llegenda_chk2').bootstrapSwitch('state')){
-        		options.tipusllegenda="estatica";
+        		options.tipusllegenda="dinamica";
         	}        		
         	else{
-        		options.tipusllegenda="dinamica";
+        		options.tipusllegenda="estatica";
         	}
         	
         	if(options.llegenda){

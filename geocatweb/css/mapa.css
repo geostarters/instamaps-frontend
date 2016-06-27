@@ -5182,6 +5182,10 @@ cursor:pointer;
 	color: #EC971F;	
 	font-size: 14px;
 }
+
+#div_llegenda_chk2{
+	margin-top:5px;
+}
 li >.label-dof:focus {	
 	color:#F75E33;
 	font-weight:normal !important;

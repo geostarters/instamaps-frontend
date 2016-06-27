@@ -87,6 +87,9 @@
 			$.cookie('perfil', 'geolocal', {path:'/'});
 			checkUserLogin();
 			
+			//cambiamos la cuenta de google
+			_gaq.push(['_setAccount', 'UA-46332195-6']);
+			
 			//cambiamos el info
 			infoHtml += '<div style="color:#ffffff">';
 			if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
@@ -103,7 +106,6 @@
 				$(this).attr('data-original-title', window.lang.convert($(this).data('lang-title')));		
 			});
 			
-			_gaq.push(['_setAccount', 'UA-46332195-6']);
 			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
 			$('.img-circle2-icon').hide();
 
