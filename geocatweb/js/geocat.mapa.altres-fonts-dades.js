@@ -54,7 +54,7 @@ function cercaCapes(e){
 	    						var value = results.results;
 	    						
 	    						_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
-//	    						_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
+
 	    						
 	    						if (value.epsg == "4326"){
 	    							value.epsg = L.CRS.EPSG4326;
@@ -146,7 +146,7 @@ function cercaCapesBtn(){
 							var value = results.results;
 							
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
-//							_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
+
 							
 							if (value.epsg == "4326"){
 								value.epsg = L.CRS.EPSG4326;
@@ -306,7 +306,7 @@ function addControlAltresFontsDades() {
 				jQuery(tbA).empty();
 var label_xarxes = "La informació de les xarxes socials es mostra en funció de l'àrea geogràfica visualitzada."
 				//Carreguem exemples de dades externes 
-				//_htmlServeisWMS.push('<div class="panel-success"><ul class="bs-dadesO panel-heading">');
+
 				var lDadesExternes = '<ul class="bs-dadesO panel-heading llista-dadesExternes">';
 				jQuery.each(llista_dadesExternes.dadesExternes, function(key, dadesExternes) {
 						lDadesExternes += '<li><a class="label-dadesExternes" href="#" data-url="'

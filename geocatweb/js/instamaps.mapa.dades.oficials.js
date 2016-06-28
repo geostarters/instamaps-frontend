@@ -116,6 +116,8 @@ var IM_DadesOficials = function (options) {
 				jQuery('#id_ofi_results').html('<h2>'+window.lang.convert("Sense resposta del catàleg INSPIRE")+'</h2>');
 			}
 		});
+		
+		
 	}
 
 	this.PCC_Interface = function () {
@@ -218,6 +220,12 @@ var IM_DadesOficials = function (options) {
 					jQuery("#div_controlWMS_OFICIALS").show();
 					jQuery("#div_emptyWMS_OFICIALS").show();
 					jQuery("#inspire_msg").html('');
+					
+
+					
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'PCC', _atrPCC[0], 1]);
+
+					
 
 				};
 			});
@@ -358,6 +366,9 @@ var IM_DadesOficials = function (options) {
 										parseFloat(_BBOX[2])]]);
 						}
 
+						
+						_gaq.push(['_trackEvent', 'mapa', tipus_user+'INSPIRE', $(e.target).attr('title'), 1]);
+						
 					};
 				});
 
