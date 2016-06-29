@@ -1908,7 +1908,12 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						}
 						if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
 								(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
-								markerCircle.label.setOpacity(0);
+								try{
+									if (markerCircle.label!=undefined) markerCircle.label.setOpacity(0);
+									else markerCircle.hideLabel();
+								}catch(err){
+									
+								}
 						}
 					}
 					featureTem.push(markerCircle);
