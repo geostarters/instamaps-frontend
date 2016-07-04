@@ -43,7 +43,9 @@ var default_line_style = {
 	    weight: 3,       
 	    color: '#FFC400',
 	    opacity:1,
-	    dashArray: '3'
+	    dashArray: '3',
+	    lineCap:'round',
+	    lineJoin:'round'
 	};
 
 var default_area_style = {
