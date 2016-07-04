@@ -743,25 +743,26 @@
             }) : this.options.data;
 
             this.data = s ? $.grep(this.data, function (item, i) {
-                for (var key in item) {
+            	for (var key in item) {
                     key = $.isNumeric(key) ? parseInt(key, 10) : key;
                     var value = item[key];
-
-                    // Fix #142: search use formated data
+                    var valInicial=value;
+                     // Fix #142: search use formated data
                     value = calculateObjectValue(that.header,
                         that.header.formatters[$.inArray(key, that.header.fields)],
                         [value, item, i], value);
-
-                    var index = $.inArray(key, that.header.fields);
-                    if (index !== -1 && that.header.searchables[index] &&
-                        (typeof value === 'string' ||
-                        typeof value === 'number') &&
-                        (value + '').toLowerCase().indexOf(s) !== -1) {
-                        return true;
-                    }
+                        var index = $.inArray(key, that.header.fields);
+                        if (key!="geometryid" && index !== -1 && that.header.searchables[index] &&
+	                        (typeof value === 'string' ||
+	                        typeof value === 'number') &&
+	                        (valInicial + '').toLowerCase().indexOf(s) !== -1) {
+                        	return true;
+	                    }
                 }
                 return false;
             }) : this.data;
+            
+            console.debug(this.data);
         }
     };
 
