@@ -13,6 +13,9 @@ function addCompartirMapa(){
 	v_url = v_url.replace('localhost',DOMINI);
 	v_url = v_url.replace('mapa','visor');	
 	
+	if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
+	
+	
 	//Compartir en xarxes socials
 	if (isRandomUser($.cookie('uid'))){
 	
@@ -52,6 +55,8 @@ function addCompartirVisor(){
 	if(v_url.indexOf('localhost')!=-1){
 		v_url = v_url.replace('localhost',DOMINI);
 	}
+	if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
+	
 	shortUrl(v_url).then(function(results){
 		jQuery('#socialShare_visor').share({
 			networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],

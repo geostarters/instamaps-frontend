@@ -262,18 +262,18 @@ function loadApp(){
 				loadPasswordModal();
 			}else{
 				var uidUrl = url('?uid');
-				if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
+				if ( url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta" && !$.cookie('uid')) {
 					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
 					$.cookie('collaborateuid', uidUrl, {path:'/'});
 					window.location.href = paramUrl.loginPage;
 				}
-				else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
+				else if (url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta"  && uidUrl!=$.cookie('uid')) {
 					$.removeCookie('uid', { path: '/' });
 					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
 					$.cookie('collaborateuid', uidUrl, {path:'/'});
 					window.location.href = paramUrl.loginPage;
 				}
-				else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
+				else if (url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta"  && uidUrl==$.cookie('uid')) {
 					//window.location.href = paramUrl.galeriaPage+"?private=1";
 					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
 					
@@ -1225,18 +1225,18 @@ function loadPasswordModal(){
 				}else{
 					jQuery('#password_msg').addClass('hide');
 					var uidUrl = url('?uid');
-					if ( url('?mapacolaboratiu') && !$.cookie('uid')) {
+					if ( url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && !$.cookie('uid')) {
 						$.cookie('collaboratebid', url('?businessid'), {path:'/'});
 						$.cookie('collaborateuid', uidUrl, {path:'/'});
 						window.location.href = paramUrl.loginPage;
 					}
-					else if (url('?mapacolaboratiu') && uidUrl!=$.cookie('uid')) {
+					else if (url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && uidUrl!=$.cookie('uid')) {
 						$.removeCookie('uid', { path: '/' });
 						$.cookie('collaboratebid', url('?businessid'), {path:'/'});
 						$.cookie('collaborateuid', uidUrl, {path:'/'});
 						window.location.href = paramUrl.loginPage;
 					}
-					else if (url('?mapacolaboratiu') && uidUrl==$.cookie('uid')) {
+					else if (url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && uidUrl==$.cookie('uid')) {
 						//window.location.href = paramUrl.galeriaPage+"?private=1";
 						window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
 						
