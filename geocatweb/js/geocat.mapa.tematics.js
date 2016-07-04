@@ -1955,7 +1955,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
 							if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
 								polyline.bindLabelEx(map,geom.properties[optionsVis.campEtiqueta], 
-										{ noHide: false, direction: 'center',clickable:true, className: "etiqueta_style_"+visualitzacio.businessId ,offset: [0, 0]});
+										{ noHide: true, direction: 'center',clickable:true, className: "etiqueta_style_"+visualitzacio.businessId ,offset: [0, 0]});
 							}	
 							if (optionsVis.opcionsVis=="geometries"){
 								polyline.hideLabel();
@@ -2010,7 +2010,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
 							if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
 								polygon.bindLabelExPolygon(map,geom.properties[optionsVis.campEtiqueta], 
-									{ noHide: false, direction: 'center',clickable:true, className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
+									{ noHide: true, direction: 'center',clickable:true, className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
 							}	
 							if (optionsVis.opcionsVis=="geometries"){
 								polygon.hideLabel();
