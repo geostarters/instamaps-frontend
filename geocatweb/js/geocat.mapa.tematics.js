@@ -480,11 +480,51 @@ function createPopupWindowData(player,type, editable, origen){
 					fillOpacity: 0.1
 				};
 			
-			crt_Editing=new L.EditToolbar.Edit(map, {
+			crt_Editing=new L.EditToolbar.SnapEdit(map, {
 				featureGroup: capaEdicio,
-				selectedPathOptions: opcionsSel
+				selectedPathOptions: opcionsSel,
+				snapOptions: {
+					guideLayer: guideLayers
+				}
 			});
-			crt_Editing.enable();
+			//crt_Editing.enable();
+			if (capaEdicio.getLayers()[0].snapediting!=undefined) capaEdicio.getLayers()[0].snapediting.enable();
+			else {
+				//Activate snapping
+				if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
+					capaEdicio.getLayers()[0].snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:5});
+				}
+				else{					
+					capaEdicio.getLayers()[0].editing = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
+					capaEdicio.getLayers()[0].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
+				}
+				for(var i = 0;i < guideLayers.length; i++) {
+					console.debug(guideLayers[i].properties.tipusFeature);
+			        // Add every already drawn layer to snap list
+					capaEdicio.getLayers()[0].snapediting.addGuideLayer(guideLayers[i]);
+			        // Add the currently drawn layer to the snap list of the already drawn layers
+					if ( guideLayers[i].snapediting!=undefined){
+						guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
+						guideLayers[i].snapediting.enable();
+					}
+					else {
+						if (guideLayers[i].properties.tipusFeature != undefined && guideLayers[i].properties.tipusFeature=="marker"){
+							guideLayers[i].snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:5});
+						}
+						else{
+							guideLayers[i].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
+						}
+						guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
+						guideLayers[i].snapediting.enable();
+					}
+				 }
+				 capaEdicio.getLayers()[0].snapediting.enable();
+		
+				  // Add to drawnItems
+				 drawnItems.addLayer(layer);
+				 // Add newly drawn feature to list of snappable features
+				guideLayers.push(layer);
+			}
 			map.closePopup();
 			
 		}else if(accio[0].indexOf("feature_no")!=-1){
@@ -2072,6 +2112,13 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						createPopupWindowData(feat,geomTypeVis, false, origen);
 					}
 				}
+				if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
+					feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:5});
+				}
+				else {
+					feat.snapediting = new L.Handler.PolylineSnap(map, feat,{snapDistance:5});
+				}
+				guideLayers.push(feat);
 				map.closePopup();					
 			});
 		});
