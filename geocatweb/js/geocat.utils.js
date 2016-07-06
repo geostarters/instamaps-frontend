@@ -913,7 +913,10 @@ function shortString(str,_length){
 }	
 
 function validateWkt(txt){
-	var isWkt = txt.indexOf("POLYGON")>-1 || txt.indexOf ("POINT")>-1 || txt.indexOf("LINE")>-1;
+	var isWkt = false;
+	if (typeof (txt) == "string") {
+		isWkt = txt.indexOf("POLYGON")>-1 || txt.indexOf ("POINT")>-1 || txt.indexOf("LINE")>-1;
+	}	
 	return isWkt;
 }
 
