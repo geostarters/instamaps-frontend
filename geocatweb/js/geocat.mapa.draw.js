@@ -637,7 +637,7 @@ function activaEdicioUsuari() {
 		        guideLayers[i].snapediting.addGuideLayer(layer);
 		        guideLayers[i].snapediting.enable();
 			 }
-			// layer.snapediting.enable();
+			 layer.snapediting.enable();
 	
 			  // Add to drawnItems
 			 drawnItems.addLayer(layer);
@@ -702,7 +702,7 @@ function activaEdicioUsuari() {
 		        guideLayers[i].snapediting.addGuideLayer(layer);
 		        guideLayers[i].snapediting.enable();
 			 }
-			//layer.snapediting.enable();
+			layer.snapediting.enable();
 	
 			  // Add to drawnItems
 			 drawnItems.addLayer(layer);
