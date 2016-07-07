@@ -1015,7 +1015,8 @@ function createPopupWindow(layer,type){
 			if (capaEdicio.getLayers()[0].snapediting==undefined){
 				//Activate snapping
 				if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
-					capaEdicio.getLayers()[0].snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:5});
+					capaEdicio.getLayers()[0].editing = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
+					capaEdicio.getLayers()[0].snapediting = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
 				}
 				else{					
 					capaEdicio.getLayers()[0].editing = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
