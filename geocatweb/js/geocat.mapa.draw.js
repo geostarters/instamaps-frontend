@@ -570,7 +570,8 @@ function activaEdicioUsuari() {
 			        layer.snapediting.addGuideLayer(guideLayers[i]);
 			        // Add the currently drawn layer to the snap list of the already drawn layers
 			        guideLayers[i].snapediting.addGuideLayer(layer);
-			        guideLayers[i].snapediting.enable();
+			        //guideLayers[i].snapediting.enable();
+			        guideLayers[i].editing.disable();
 			 }
 			 //layer.snapediting.enable();
 
@@ -1039,9 +1040,12 @@ function createPopupWindow(layer,type){
 						guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
 						guideLayers[i].snapediting.enable();
 					}
+					if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
+						guideLayers[i].editing.disable();			
+					}
 				 }
 				 capaEdicio.getLayers()[0].snapediting.enable();
-		
+				 capaEdicio.getLayers()[0].editing.enable();
 				  // Add to drawnItems
 				 drawnItems.addLayer(layer);
 				 // Add newly drawn feature to list of snappable features
