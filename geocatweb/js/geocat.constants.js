@@ -43,7 +43,9 @@ var default_line_style = {
 	    weight: 3,       
 	    color: '#FFC400',
 	    opacity:1,
-	    dashArray: '3'
+	    dashArray: '3',
+	    lineCap:'round',
+	    lineJoin:'round'
 	};
 
 var default_area_style = {
@@ -253,3 +255,5 @@ var llista_dadesExternes = {
 };
 
 var TIPUS_ENTITATS_GEOLOCAL = [2,3,4,5,6,7,8,9];
+
+var guideLayers = new Array();

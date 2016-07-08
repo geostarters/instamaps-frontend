@@ -498,6 +498,8 @@
 			if(v_url.indexOf('localhost')!=-1){
 				v_url = v_url.replace('localhost',DOMINI);
 			}
+			if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
+        	
 			shortUrl(v_url).then(function(results){
 				$('#socialShare_visor').share({
 					networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
@@ -851,13 +853,13 @@
 			_businessid = self.businessid,
 			_mapacolaboratiu = self.mapacolaboratiu;
 			
-			if ( _mapacolaboratiu && !$.cookie('uid')) {
+			if ( _mapacolaboratiu  &&  _mapacolaboratiu=="alta" && !$.cookie('uid')) {
 				self._colaboratiuToLogin();
 			}
-			else if (_mapacolaboratiu && _uid!=$.cookie('uid')) {
+			else if (_mapacolaboratiu &&  _mapacolaboratiu=="alta" && _uid!=$.cookie('uid')) {
 				self._colaboratiuToLogin();
 			}
-			else if (url('?mapacolaboratiu') && _uid==$.cookie('uid')) {
+			else if (url('?mapacolaboratiu') &&  url('?mapacolaboratiu')=="alta" && _uid==$.cookie('uid')) {
 				self.loadMapaColaboratiuPage();
 			}
 			var mapConfig = $.parseJSON(results.results);

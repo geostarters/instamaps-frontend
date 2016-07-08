@@ -502,7 +502,7 @@
         	var that = this;
         	$('#socialSharePublicar').html('');
         	var v_url = that._getUrlMap();
-        	
+        	if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
         	//require ajax
         	shortUrl(v_url).then(function(results){
         		//require share

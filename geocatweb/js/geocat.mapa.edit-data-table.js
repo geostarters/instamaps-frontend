@@ -122,7 +122,8 @@ function fillModalDataTable(obj, geomBid){
 				var objGeomId = {
 						field: 'geometryid',
 						title: 'ID',
-						visible: false
+						visible: false,
+						searchable: false
 				}
 				columNames.push(objGeomId);	
 	
@@ -130,7 +131,8 @@ function fillModalDataTable(obj, geomBid){
 				var objGeomBid = {
 						field: 'geometrybid',
 						title: 'BID',
-						visible: false
+						visible: false,
+						searchable: false
 				}
 				columNames.push(objGeomBid);			
 				
@@ -138,7 +140,8 @@ function fillModalDataTable(obj, geomBid){
 				var objGeomBBOX = {
 						field: 'geometryBBOX',
 						title: 'BBOX',
-						visible: false 
+						visible: false,
+						searchable: false
 				}
 				columNames.push(objGeomBBOX);			
 				
@@ -278,7 +281,8 @@ function fillModalDataTable(obj, geomBid){
 		var objGeomId = {
 				field: 'geometryid',
 				title: 'ID',
-				visible: false
+				visible: false,
+				searchable: false
 		}
 		columNames.push(objGeomId);	
 
@@ -286,7 +290,8 @@ function fillModalDataTable(obj, geomBid){
 		var objGeomBid = {
 				field: 'geometrybid',
 				title: 'BID',
-				visible: false
+				visible: false,
+				searchable: false
 		}
 		columNames.push(objGeomBid);			
 		
@@ -294,7 +299,8 @@ function fillModalDataTable(obj, geomBid){
 		var objGeomBBOX = {
 				field: 'geometryBBOX',
 				title: 'BBOX',
-				visible: false 
+				visible: false,
+				searchable: false
 		}
 		columNames.push(objGeomBBOX);		
 		//console.debug(options);
