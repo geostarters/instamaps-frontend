@@ -5148,3 +5148,7 @@ cursor:pointer;
 #div_llegenda_chk2{
 	margin-top:5px;
 }
+
+.leaflet-editing-icon2{
+	border-radius:50%;
+}

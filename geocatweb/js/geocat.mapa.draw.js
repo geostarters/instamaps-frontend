@@ -398,12 +398,12 @@ function addDrawToolbar() {
 				fillOpacity : 0.5,
 				tipus: t_polygon
 			},
-			snapDistance: 5,
+			snapDistance: 10,
 			guideLayers: guideLayers
 		},
 		marker:{repeatMode:false,
 			icon:L.icon({iconUrl:'/geocatweb/css/images/blank.gif'}),		
-			snapDistance: 5,
+			snapDistance: 10,
 			snapVertices: false,
 			guideLayers: guideLayers
 		},
@@ -564,17 +564,15 @@ function activaEdicioUsuari() {
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 			};
 			//Active snapping
-			layer.snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:5});
+			layer.snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:10});
 			for(var i = 0;i < guideLayers.length; i++) {
 			        // Add every already drawn layer to snap list
 			        layer.snapediting.addGuideLayer(guideLayers[i]);
 			        // Add the currently drawn layer to the snap list of the already drawn layers
 			        guideLayers[i].snapediting.addGuideLayer(layer);
-			        //guideLayers[i].snapediting.enable();
 			        guideLayers[i].editing.disable();
 			 }
-			 //layer.snapediting.enable();
-
+			
 			  // Add to drawnItems
 			 drawnItems.addLayer(layer);
 			 // Add newly drawn feature to list of snappable features
@@ -629,17 +627,16 @@ function activaEdicioUsuari() {
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 			};	
 			//Activate snapping
-			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:5});
+			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
 			for(var i = 0;i < guideLayers.length; i++) {
 		        // Add every already drawn layer to snap list
 		        layer.snapediting.addGuideLayer(guideLayers[i]);
 		        // Add the currently drawn layer to the snap list of the already drawn layers
 		        guideLayers[i].snapediting.addGuideLayer(layer);
-		        guideLayers[i].snapediting.enable();
+		        guideLayers[i].snapediting.disable();
 			 }
-			 layer.snapediting.enable();
-	
-			  // Add to drawnItems
+			 
+			 // Add to drawnItems
 			 drawnItems.addLayer(layer);
 			 // Add newly drawn feature to list of snappable features
 			  guideLayers.push(layer);
@@ -694,15 +691,15 @@ function activaEdicioUsuari() {
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 			};		
 			//Activate snapping
-			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:5});
+			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
 			for(var i = 0;i < guideLayers.length; i++) {
 		        // Add every already drawn layer to snap list
 		        layer.snapediting.addGuideLayer(guideLayers[i]);
 		        // Add the currently drawn layer to the snap list of the already drawn layers
 		        guideLayers[i].snapediting.addGuideLayer(layer);
-		        guideLayers[i].snapediting.enable();
+		        guideLayers[i].snapediting.disable();
 			 }
-			layer.snapediting.enable();
+			
 	
 			  // Add to drawnItems
 			 drawnItems.addLayer(layer);
@@ -1012,45 +1009,8 @@ function createPopupWindow(layer,type){
 				}
 			});
 			crt_Editing.enable();
-			if (capaEdicio.getLayers()[0].snapediting==undefined){
-				//Activate snapping
-				if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
-					capaEdicio.getLayers()[0].editing = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
-					capaEdicio.getLayers()[0].snapediting = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
-				}
-				else{					
-					capaEdicio.getLayers()[0].editing = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
-					capaEdicio.getLayers()[0].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
-				}
-			}
-				for(var i = 0;i < guideLayers.length; i++) {
-					 // Add every already drawn layer to snap list
-					capaEdicio.getLayers()[0].snapediting.addGuideLayer(guideLayers[i]);
-			        // Add the currently drawn layer to the snap list of the already drawn layers
-					if ( guideLayers[i].snapediting!=undefined){
-						guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
-						guideLayers[i].snapediting.enable();
-					}
-					else {
-						if (guideLayers[i].properties.tipusFeature != undefined && guideLayers[i].properties.tipusFeature=="marker"){
-							guideLayers[i].snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:5});
-						}
-						else{
-							guideLayers[i].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:5});
-						}
-						guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
-						guideLayers[i].snapediting.enable();
-					}
-					if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
-						guideLayers[i].editing.disable();			
-					}
-				 }
-				 capaEdicio.getLayers()[0].snapediting.enable();
-				 capaEdicio.getLayers()[0].editing.enable();
-				  // Add to drawnItems
-				 drawnItems.addLayer(layer);
-				 // Add newly drawn feature to list of snappable features
-				guideLayers.push(layer);
+			
+			activarSnapping(capaEdicio);		
 			
 			map.closePopup();
 			
@@ -2175,4 +2135,48 @@ function addHtmlInterficieDraw(){
 	$('#div_mes_punts').tooltip({placement : 'right',container : 'body'});
 	$('#div_mes_linies').tooltip({placement : 'right',container : 'body'});
 	$('#div_mes_arees').tooltip({placement : 'right',container : 'body'});	
+}
+
+function activarSnapping(capaEdicio){
+	if (capaEdicio.getLayers()[0].snapediting==undefined){
+		//Activate snapping
+		if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
+			capaEdicio.getLayers()[0].editing = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+			capaEdicio.getLayers()[0].snapediting = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+		}
+		else{					
+			capaEdicio.getLayers()[0].editing = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+			capaEdicio.getLayers()[0].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+		}
+	}
+		for(var i = 0;i < guideLayers.length; i++) {
+			 // Add every already drawn layer to snap list
+			capaEdicio.getLayers()[0].snapediting.addGuideLayer(guideLayers[i]);
+	        // Add the currently drawn layer to the snap list of the already drawn layers
+			if ( guideLayers[i].snapediting!=undefined){
+				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
+				guideLayers[i].snapediting.enable();
+				guideLayers[i].editing.disable();
+			}
+			else {
+				if (guideLayers[i].properties.tipusFeature != undefined && guideLayers[i].properties.tipusFeature=="marker"){
+					guideLayers[i].snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:10});
+				}
+				else{
+					guideLayers[i].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+				}
+				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
+				guideLayers[i].snapediting.enable();
+				guideLayers[i].editing.disable();
+			}
+			if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
+				guideLayers[i].editing.disable();			
+			}
+		 }
+		 capaEdicio.getLayers()[0].snapediting.enable();
+		 capaEdicio.getLayers()[0].editing.enable();
+		  // Add to drawnItems
+		 drawnItems.addLayer(layer);
+		 // Add newly drawn feature to list of snappable features
+		guideLayers.push(layer);
 }
