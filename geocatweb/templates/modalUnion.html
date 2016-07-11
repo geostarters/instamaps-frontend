@@ -1,32 +1,68 @@
-<!-- Modal Union -->
-<div id="dialog_union" class="modal fade">
+<!-- Modal Column Join -->
+<div class="modal fade" id="dialog_union">
 	<div class="modal-dialog">
 		<div class="modal-content panel-primary">
 			<div class="modal-header panel-heading">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>
 				<h4 class="modal-title">
-					<span lang="ca">Union</span>
+					<span lang="ca">Uni&oacute; de capes</span>
 					<span><a class="faqs_link"
 						href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#operacionsgeo"
 						target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span>
 				</h4>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="max-height:620px;">
 				<div class="alert alert-success">
-					Aquesta operació transmet la informació associada a polígons als
-					punts continguts dins aquests.<br /> <img
-						src="css/images/Tag_1.jpg" style="width: 25%; height: 25%">
-					<img src="css/images/Tag_2.jpg" style="width: 25%; height: 25%">
-					<img src="css/images/Tag_3.jpg" style="width: 25%; height: 25%"><br />
+					<span lang="ca">Aquesta operació combina els registres de dues taules en una de sola.</span>
+					<span lang="ca">Aplicable a punts, línies o polígons.</span><br/><br/>
+					<div class="imagePeu">
+						<img src="css/images/Unio_1.jpg" class="img1">
+						<span class="peu" lang="ca">Taules d'origen</span>
+						<img src="css/images/Unio_2.jpg">
+						<span class="peu2" lang="ca">Resultat de l'operació</span>
+					</div>
+					<div style="margin-top:30px;margin-bottom:-20px;">	
+						<span class="glyphicon glyphicon-info-sign"></span>&nbsp;<span lang="ca">Aquesta operació està disponible per capes dibuixades o creades a partir de fitxers de menys de 50Mb.</span>
+						<br/><br/>
+			 		</div>
+		   		</div>
+				<div id="warning-union"></div>
+				<div id="list-layers-union1">
+					<span class="ca">1. Selecciona les capes a unir:</span>
+					<div class="labels_fields" style="margin-left:15px;">
+						<span lang="ca">Capa1</span>:<span lang="ca" style="margin-left:31%">Capa2</span>:<br/>
+						<select name="dataField_union_capa1" id="dataField_union_capa1" style="width: 30%;">
+							<option value="null">Escull la capa</option>
+						</select>
+						<select name="dataField_union_capa2" id="dataField_union_capa2" style="margin-left:8%;width:30%;">
+							<option value="null">Escull la capa</option>
+						</select>
+						<script id="tematic-union-layers1" type="text/x-handlebars-template">
+							{{#each layers}}
+								<option value="{{layer.options.businessId}}___{{layer.options.geometryType}}">{{name}}</option>
+							{{/each}}
+						</script>	
+						<script id="tematic-union-layers2" type="text/x-handlebars-template">
+							{{#each layers}}
+								<option value="{{layer.options.businessId}}___{{layer.options.geometryType}}">{{name}}</option>
+							{{/each}}
+						</script>
+						<br/><br/>
+					</div>
 				</div>
-				<form id="frm_buffer">
-					<div class="modal-layers-sig"></div>
-				</form>
-			</div>
+				<div id="list-fields-union2">
+					<span class="ca">2. Selecciona el nom de la capa resultant</span>:
+					<div class="input-group input-group-sm" style="margin-left:15px;">
+						<span class="input-group-addon" lang="ca">Nom capa resultant</span>
+						<input id="input-join-name" class="form-control" type="text" style="width:260px">
+					</div>
+					<br/>					
+				</div>
+			</div>		
+			<br/>
 			<div class="modal-footer">
-				<button lang="ca" type="button" class="btn btn-default"
-					data-dismiss="modal">Cancel·lar</button>
-				<button lang="ca" type="button" class="btn btn-primary">Union</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Tancar</button>
+        		<button type="button" class="btn btn-success" lang="ca" id="unionBtn">Unió de capes</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -34,4 +70,4 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<!-- Fi Modal Union -->
+<!-- fi Modal Column Join -->
