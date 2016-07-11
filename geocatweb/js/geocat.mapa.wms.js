@@ -47,10 +47,10 @@ function generaLlistaServeisWMS() {
 				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
 			},
 			{
-				"TITOL" : "Parcs eòlics",
-				"ORGANITZAC" : "Direcció General de Polítiques Ambientals",
-				"IDARXIU" : "http://mapaidec.icc.cat/ogc/geoservei?map=/opt/idec/dades/peolics/parcseolics.map&amp",
-				"URN" : "urn:uuid:3dd3d606-79c8-11e3-aa3b-07b03c41b8e8"
+				"TITOL" : "Establiments industrials",
+				"ORGANITZAC" : "Direccio General de Difusio",
+				"IDARXIU" : "http://pcivil.icgc.cat/ogc/geoservei?map=/opt/idec/dades/pcivil/risc_quimic.map&amp",
+				"URN" : "urn:uuid:0a71e360-7f73-11e4-b2ac-e7f91a2c3576"
 			},
 			{
 				"TITOL" : "Mapes Medi Natural",
@@ -65,10 +65,10 @@ function generaLlistaServeisWMS() {
 				"URN" : "urn:uuid:6434ad48-66df-11e2-8be5-bd1ed7ebebe1"
 			},
 			{
-				"TITOL" : "Rutes turístiques",
+				"TITOL" : "Risc Sísmic",
 				"ORGANITZAC" : "Direccio General de Difusio",
-				"IDARXIU" : "http://delta.icc.cat/cgi-bin/mapserv?map=/opt/idec/dades/probert/idelocal_probert.map&",
-				"URN" : "urn:uuid:6975bcce-2347-11e2-a4dd-13da4f953834"
+				"IDARXIU" : "http://pcivil.icgc.cat/ogc/geoservei?map=/opt/idec/dades/pcivil/risc_sismic.map&",
+				"URN" : "urn:uuid:09e7f2c8-7f73-11e4-b2ac-e7f91a2c3576"
 			},
 			{
 				"TITOL" : "Cobertes del Sòl",
@@ -324,7 +324,7 @@ function getCapabilitiesWMS(url, servidor) {
 		} catch (err) {
 			jQuery('#div_layersWMS').html('<hr>Error interpretar capabilities: ' + err + '</hr>');
 		}
-	});
+	},function(){ console.info("time out")});
 }
 
 function addWmsToMap(wms){

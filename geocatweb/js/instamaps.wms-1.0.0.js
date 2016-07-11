@@ -73,9 +73,10 @@
 			return jQuery.ajax({
 				url: self.proxyUrl,
 				data: data,
-				async: false,
+				async: true,
 				method: 'post',
-				dataType: 'jsonp'
+				dataType: 'jsonp',
+				timeout: 5000
 			}).promise();
 		},
 		
@@ -191,7 +192,11 @@
 				} catch (err) {
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
-			});
+			},function(data,status,error){
+				console.info(status);
+				status.indexOf('parser')!=-1?alert(window.lang.convert("Error en interpretar capabilities")):alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+				
+				});
 			
 			return self;
 		},

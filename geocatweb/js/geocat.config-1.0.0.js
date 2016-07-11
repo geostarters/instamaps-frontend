@@ -11,10 +11,10 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 //	HOST_APP = "http://localhost:8080/";
 	HOST_APP = "http://localhost/";//Local Jess
-	HOST_APP2 = "http://172.70.1.11/";
+	HOST_APP2 = "http://localhost/";
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
-	GEOCAT02 = "http://172.70.1.11";
+	GEOCAT02 = "http://localhost";
 	//GEOCAT02 = "http://localhost";
 	http://172.70.1.11
 	//HOST_GEOLOCAL = "http://localhost/";
@@ -32,6 +32,9 @@ if(urlApp.indexOf('172.70.1.11')!=-1){
 	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
+
+
+
 
 var DOMINI = "www.instamaps.cat";
 

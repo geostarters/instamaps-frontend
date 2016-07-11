@@ -230,7 +230,7 @@ function addControlAltresFontsDades() {
 				var instamapsWms = InstamapsWms({container:$('#div_controlWMS'), botons: $('#div_emptyWMS'),proxyUrl: paramUrl.ows2json, callback: addWmsToMap});
 				jQuery(tbA+" a.label-wms").on('click', function(e) {
 					
-					console.info(e.target);
+					
 					
 					if(e.target.id !="id_srvw"){
 						instamapsWms.getLayers({url: e.target.id, name: $(e.target).text()})
