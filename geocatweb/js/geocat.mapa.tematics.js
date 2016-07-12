@@ -347,7 +347,7 @@ function createPopupWindowData(player,type, editable, origen){
 						+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
 						
 					+'</ul>'														
@@ -359,7 +359,7 @@ function createPopupWindowData(player,type, editable, origen){
 		}
 		html+= '<div id="footer_edit"  class="modal-footer">'
 			+'<ul class="bs-popup">'						
-				+'<li class="consulta-popup"><a id="feature_data_table#'+player._leaflet_id+'#'+type+'#'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.convert('Obrir la taula de dades')+'"></span></a>   </li>'
+				+'<li class="consulta-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.convert('Obrir la taula de dades')+'"></span></a>   </li>'
 			+'</ul>'														
 		+'</div>';			
 	}
@@ -380,8 +380,8 @@ function createPopupWindowData(player,type, editable, origen){
 	jQuery(document).on('click', ".bs-popup li a", function(e) {
 		e.stopImmediatePropagation();
 		var accio;
-		if(jQuery(this).attr('id').indexOf('#')!=-1){			
-			accio=jQuery(this).attr('id').split("#");				
+		if(jQuery(this).attr('id').indexOf('##')!=-1){	
+			accio=jQuery(this).attr('id').split("##");				
 		}
 		objEdicio.featureID=accio[1];
 		
@@ -410,7 +410,25 @@ function createPopupWindowData(player,type, editable, origen){
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
 		
 			$('#modal_data_table').modal('show');
-			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
+			var featureId=objEdicio.featureID;
+			if (featureId==undefined) featureId=accio[2];
+			//console.debug(featureId);
+			console.debug(accio);
+			console.debug(map._layers);
+			console.debug(controlCapes._layers);
+			if (map._layers[featureId]==undefined) {
+				try{
+					if (accio[6]!=undefined) featureId=accio[6];
+					var props=map._layers[featureId].properties;
+					if (props==undefined) props=map._layers[featureId].options;
+					if (accio[3]==undefined)  fillModalDataTable(controlCapes._layers[accio[2]],props.businessId);
+					else fillModalDataTable(controlCapes._layers[accio[3]],props.businessId);
+				}
+				catch(err){
+					console.debug(err);
+				}
+			}
+			else fillModalDataTable(controlCapes._layers[accio[3]],map._layers[featureId].properties.businessId);
 		
 		}else if(accio[0].indexOf("feature_remove")!=-1){
 			map.closePopup();
