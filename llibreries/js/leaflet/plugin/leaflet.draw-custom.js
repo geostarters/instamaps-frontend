@@ -1138,7 +1138,11 @@ L.Edit.Poly = L.Handler.extend({
 		icon: new L.DivIcon({
 			iconSize: new L.Point(8, 8),
 			className: 'leaflet-div-icon leaflet-editing-icon'
-		})
+		}),
+		icon2: new L.DivIcon({
+			iconSize: new L.Point(8, 8),
+			className: 'leaflet-div-icon leaflet-editing-icon2'
+		}), 
 	},
 
 	initialize: function (poly, options) {
@@ -1150,7 +1154,9 @@ L.Edit.Poly = L.Handler.extend({
 		var poly = this._poly;
 
 		if (!(poly instanceof L.Polygon)) {
-			poly.options.editing.fill = false;
+			if (poly.options.editing!=undefined) {
+				poly.options.editing.fill = false;
+			}
 		}
 
 		poly.setStyle(poly.options.editing);
@@ -1192,7 +1198,7 @@ L.Edit.Poly = L.Handler.extend({
 		// TODO refactor holes implementation in Polygon to support it here
 
 		for (i = 0, len = latlngs.length; i < len; i++) {
-
+			console.debug("AKI");
 			marker = this._createMarker(latlngs[i], i);
 			marker.on('click', this._onMarkerClick, this);
 			this._markers.push(marker);
@@ -1230,6 +1236,23 @@ L.Edit.Poly = L.Handler.extend({
 		return marker;
 	},
 
+	_createMarker2: function (latlng, index) {
+		var marker = new L.Marker(latlng, {
+			draggable: true,
+			icon: this.options.icon2
+		});
+
+		marker._origLatLng = latlng;
+		marker._index = index;
+
+		marker.on('drag', this._onMarkerDrag, this);
+		marker.on('dragend', this._fireEdit, this);
+
+		this._markerGroup.addLayer(marker);
+
+		return marker;
+	},
+	
 	_removeMarker: function (marker) {
 		var i = marker._index;
 
@@ -1311,7 +1334,7 @@ L.Edit.Poly = L.Handler.extend({
 
 	_createMiddleMarker: function (marker1, marker2) {
 		var latlng = this._getMiddleLatLng(marker1, marker2),
-		    marker = this._createMarker(latlng),
+		    marker = this._createMarker2(latlng),
 		    onClick,
 		    onDragStart,
 		    onDragEnd;
@@ -1347,9 +1370,9 @@ L.Edit.Poly = L.Handler.extend({
 		onDragEnd = function () {
 			marker.off('dragstart', onDragStart, this);
 			marker.off('dragend', onDragEnd, this);
-
 			this._createMiddleMarker(marker1, marker);
 			this._createMiddleMarker(marker, marker2);
+			marker.setIcon(this.options.icon);
 		};
 
 		onClick = function () {

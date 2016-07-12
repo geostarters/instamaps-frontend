@@ -151,8 +151,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					}else if(geometryType.indexOf("polygon")!=-1){
 						capaURLfile.options.style = polygonStyle;
 					}
-					capaURLfile.addData(data);
-
+					try{
+						capaURLfile.addData(data);
+					}catch(err){
+						console.debug(err);
+					}
+					
 					var llista_options = '{"tipusFile":"'+tipusFile+
 					'","nom":"'+nomCapa+
 					'","propName":"'+propName+
@@ -193,7 +197,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						visibilitats: true,
 						options: llista_options
 					};
-
+					
 					createServidorInMap(data).then(function(results){
 						jQuery('#info_uploadFile').hide();
 						if (results.status == "OK"){

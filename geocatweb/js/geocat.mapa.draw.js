@@ -13,6 +13,8 @@ var canvas_obj_l,cv_ctx_l;
 var canvas_obj_p,cv_ctx_p;
 var objEdicio={'esticEnEdicio':false,'obroModalFrom':'creaCapa','featureID':null,'esticSobre':false,'edicioPopup':'textFeature'};
 
+var drawnItems = new L.FeatureGroup();
+
 function changeRandomDefaults(){
 
 	var randomColorInit=getRamdomColorFromArray();
@@ -370,7 +372,8 @@ function addDrawToolbar() {
 	});
 
 	defaultPunt= L.AwesomeMarkers.icon(default_marker_style);
-
+	map.addLayer(drawnItems);
+	
 	var options = {
 		draw : false,
 		polyline : {
@@ -381,26 +384,37 @@ function addDrawToolbar() {
 				weight : 3,
 				opacity : 1,
 				tipus: t_polyline
-			}
+			},
+			guideLayers: guideLayers
 		},
 		polygon : {
 			allowIntersection : true, // Restricts shapes
 			repeatMode:false,
-			guidelineDistance : 2,
+			guidelineDistance : 2,			
 			shapeOptions : {
 				color : '#FFC400',
 				fillColor: '#FFC400',
 				weight : 3,
 				fillOpacity : 0.5,
 				tipus: t_polygon
-			}
+			},
+			snapDistance: 10,
+			guideLayers: guideLayers
 		},
 		marker:{repeatMode:false,
-			icon:L.icon({iconUrl:'/geocatweb/css/images/blank.gif'})
+			icon:L.icon({iconUrl:'/geocatweb/css/images/blank.gif'}),		
+			snapDistance: 10,
+			snapVertices: false,
+			guideLayers: guideLayers
 		},
-		edit : false
+		edit :{
+		    featureGroup: drawnItems, //REQUIRED!!
+		    remove: false,
+		    edit:false
+		    }
 	};
 	drawControl = new L.Control.Draw(options);
+	
 	map.addControl(drawControl);
 	addDrawTooltips();
 	addRandomStyleInit();
@@ -435,6 +449,12 @@ function activaEdicioUsuari() {
 	
 	//Edicio de feature existent
 	map.on('click',function(e){
+		for(var i = 0;i < guideLayers.length; i++) {
+			if ( guideLayers[i].snapediting!=undefined){
+				guideLayers[i].snapediting.disable();
+				guideLayers[i].editing.disable();
+			}
+		 }
 		if(crt_Editing){
 			crt_Editing.disable();
 		}
@@ -470,10 +490,9 @@ function activaEdicioUsuari() {
 		var type = e.layerType, layer = e.layer;
 		var totalFeature;
 		var tipusCat,tipusCatDes;
-	
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dibuixar geometria', type, 1]);
 		//_kmq.push(['record', 'dibuixar geometria', {'from':'mapa', 'tipus user':tipus_user, 'type':type}]);
-
+		 drawnItems.addLayer(layer);
 		if (type === t_marker) {
 			tipusCat=window.lang.convert('Títol Punt');
 			tipusCatDes=window.lang.convert('Descripció Punt');
@@ -544,7 +563,21 @@ function activaEdicioUsuari() {
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 			};
+			//Active snapping
+			layer.snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:10});
+			for(var i = 0;i < guideLayers.length; i++) {
+			        // Add every already drawn layer to snap list
+			        layer.snapediting.addGuideLayer(guideLayers[i]);
+			        // Add the currently drawn layer to the snap list of the already drawn layers
+			        guideLayers[i].snapediting.addGuideLayer(layer);
+			        guideLayers[i].editing.disable();
+			 }
 			
+			  // Add to drawnItems
+			 drawnItems.addLayer(layer);
+			 // Add newly drawn feature to list of snappable features
+			  guideLayers.push(layer);
+		    
 			capaUsrActiva.addLayer(layer);
 			
 		} else if (type === t_polyline) {
@@ -592,9 +625,23 @@ function activaEdicioUsuari() {
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-			};			
+			};	
+			//Activate snapping
+			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
+			for(var i = 0;i < guideLayers.length; i++) {
+		        // Add every already drawn layer to snap list
+		        layer.snapediting.addGuideLayer(guideLayers[i]);
+		        // Add the currently drawn layer to the snap list of the already drawn layers
+		        guideLayers[i].snapediting.addGuideLayer(layer);
+		        guideLayers[i].snapediting.disable();
+			 }
+			 
+			 // Add to drawnItems
+			 drawnItems.addLayer(layer);
+			 // Add newly drawn feature to list of snappable features
+			  guideLayers.push(layer);
+		   
 			createClass('.polyline-style',"font-family:Verdana;font-size:20px;color:red;");
-			//layer.bindLabelEx( map,'Even polylines can have labels.', { noHide: true, direction: 'center',className: "polyline-style", offset: [0, 0] });
 			capaUsrActiva.addLayer(layer);
 			
 		} else if (type === t_polygon) {
@@ -642,7 +689,22 @@ function activaEdicioUsuari() {
 			layer.properties.data={
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
-			};			
+			};		
+			//Activate snapping
+			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
+			for(var i = 0;i < guideLayers.length; i++) {
+		        // Add every already drawn layer to snap list
+		        layer.snapediting.addGuideLayer(guideLayers[i]);
+		        // Add the currently drawn layer to the snap list of the already drawn layers
+		        guideLayers[i].snapediting.addGuideLayer(layer);
+		        guideLayers[i].snapediting.disable();
+			 }
+			
+	
+			  // Add to drawnItems
+			 drawnItems.addLayer(layer);
+			 // Add newly drawn feature to list of snappable features
+			guideLayers.push(layer);
 			capaUsrActiva.addLayer(layer);			
 		}
 	});
@@ -939,11 +1001,16 @@ function createPopupWindow(layer,type){
 					fillOpacity: 0.1
 				};
 			
-			crt_Editing=new L.EditToolbar.Edit(map, {
+			crt_Editing=new L.EditToolbar.SnapEdit(map, {
 				featureGroup: capaEdicio,
-				selectedPathOptions: opcionsSel
+				selectedPathOptions: opcionsSel,
+				snapOptions: {
+					guideLayer: guideLayers
+				}
 			});
 			crt_Editing.enable();
+			
+			activarSnapping(capaEdicio);		
 			
 			map.closePopup();
 			
@@ -1028,12 +1095,12 @@ function reFillCmbCapesUsr(type, businessIdCapa){
 	var html = "";
 	$.each( controlCapes._layers, function(i,val) {
 		var layer = val.layer.options;
-		if(layer.tipus==t_tematic && layer.geometryType==type && !layer.source){
+		if(layer.tipus==t_tematic && layer.geometryType==type ){
 	        html += "<option value=\"";
 	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
 	        if(businessIdCapa == layer.businessId) html += " selected";
 	        html += ">"+ layer.nom + "</option>";            		
-		}else if(layer.tipus==t_visualitzacio && layer.geometryType==type && !layer.source){
+		}else if(layer.tipus==t_visualitzacio && layer.geometryType==type ){
 	        html += "<option value=\"";
 	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
 	        if(businessIdCapa == layer.businessId) html += " selected";
@@ -1531,7 +1598,7 @@ function fillCmbCapesUsr(type){
 	var html = "";
 	$.each( controlCapes._layers, function(i,val) {
 		var layer = val.layer.options;
-		if(layer.tipus==t_tematic && layer.geometryType==type && !layer.source){
+		if(layer.tipus==t_tematic && layer.geometryType==type ){
 	        html += "<option value=\"";
 	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
 	        if(capaUsrActiva && (capaUsrActiva.options.businessId == layer.businessId)) html += " selected";
@@ -2068,4 +2135,48 @@ function addHtmlInterficieDraw(){
 	$('#div_mes_punts').tooltip({placement : 'right',container : 'body'});
 	$('#div_mes_linies').tooltip({placement : 'right',container : 'body'});
 	$('#div_mes_arees').tooltip({placement : 'right',container : 'body'});	
+}
+
+function activarSnapping(capaEdicio){
+	if (capaEdicio.getLayers()[0].snapediting==undefined){
+		//Activate snapping
+		if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
+			capaEdicio.getLayers()[0].editing = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+			capaEdicio.getLayers()[0].snapediting = new L.Handler.MarkerSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+		}
+		else{					
+			capaEdicio.getLayers()[0].editing = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+			capaEdicio.getLayers()[0].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+		}
+	}
+		for(var i = 0;i < guideLayers.length; i++) {
+			 // Add every already drawn layer to snap list
+			capaEdicio.getLayers()[0].snapediting.addGuideLayer(guideLayers[i]);
+	        // Add the currently drawn layer to the snap list of the already drawn layers
+			if ( guideLayers[i].snapediting!=undefined){
+				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
+				guideLayers[i].snapediting.enable();
+				guideLayers[i].editing.disable();
+			}
+			else {
+				if (guideLayers[i].properties.tipusFeature != undefined && guideLayers[i].properties.tipusFeature=="marker"){
+					guideLayers[i].snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:10});
+				}
+				else{
+					guideLayers[i].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
+				}
+				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
+				guideLayers[i].snapediting.enable();
+				guideLayers[i].editing.disable();
+			}
+			if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
+				guideLayers[i].editing.disable();			
+			}
+		 }
+		 capaEdicio.getLayers()[0].snapediting.enable();
+		 capaEdicio.getLayers()[0].editing.enable();
+		  // Add to drawnItems
+		 drawnItems.addLayer(capaEdicio.getLayers()[0]);
+		 // Add newly drawn feature to list of snappable features
+		guideLayers.push(capaEdicio.getLayers()[0]);
 }

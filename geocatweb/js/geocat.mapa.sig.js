@@ -5,9 +5,9 @@ function addHtmlInterficieFuncionsSIG(){
 		
 		$('.div_gr3_sig [data-toggle="tooltip"]').tooltip({placement : 'bottom',container : 'body'});
 		
-		jQuery("#buffer").on('click',function(e){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);
-			openBufferModal();
+		jQuery("#union").on('click',function(e){
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'union', 1]);
+			openUnionModal();
 			jQuery("#fons_sig").popover('hide');
 		});
 				
@@ -42,6 +42,7 @@ function addHtmlInterficieFuncionsSIG(){
 		addHtmlModalFieldsFilterAvancat();
 		addHtmlModalColumnJoin();
 		addHtmlModalSpatialJoin();
+		addHtmlModalUnion();
 		
 		creaPopOverMesFuncionsGIS();
 	});
@@ -49,6 +50,7 @@ function addHtmlInterficieFuncionsSIG(){
 
 function creaPopOverMesFuncionsGIS() {
 	var html = '<div id="div_menusig" class="div_gr3_fons">'
+		+ '<div id="buffer" lang="ca" class="div_sig_1" data-toggle="tooltip" data-lang-title="Àrea d\'influència" title="Àrea d\'influència"></div>'
 		+  '<div id="interseccio" lang="ca" class="div_sig_2" data-toggle="tooltip" data-lang-title="Intersecar" title="Intersecar"></div>'
 		+  '<div id="tag" lang="ca" class="div_sig_3" data-toggle="tooltip" data-lang-title="Transmissió (tag)" title="Transmissió (tag)"></div>'
 		+  '<div id="centroide" lang="ca" class="div_sig_4" data-toggle="tooltip" data-lang-title="Centre geomètric" title="Centre geomètric"></div>'
@@ -81,10 +83,10 @@ function creaPopOverMesFuncionsGIS() {
 		if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
 		   // is Google chrome
 		  jQuery(".popover").css('height','60px');
-		  jQuery(".popover").css('width','150px');
+		  jQuery(".popover").css('width','190px');
 		} else { 
 			 jQuery(".popover").css('height','60px');
-			 jQuery(".popover").css('width','150px');
+			 jQuery(".popover").css('width','190px');
 		}
 				
 		jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
@@ -94,7 +96,12 @@ function creaPopOverMesFuncionsGIS() {
 	jQuery(document).on('click', "#div_menusig div", function(e) {
 		jQuery('#div_menusig [data-toggle="tooltip"]').tooltip('hide');
 		var funcioSIG = jQuery(this).attr('id');
-				
+		
+		if (funcioSIG == "buffer") {
+			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);
+			openBufferModal();
+			jQuery("#fons_sig").popover('hide');
+		}				
 		if (funcioSIG == "interseccio") {
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'interseccio', 1]);
 			openIntersectionModal();
@@ -2130,6 +2137,266 @@ function openSpatialJoinModal(){
 					markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
 					lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
 					polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+					tmpFilePath:tmpFile
+				};
+				callActions(data);
+			});
+		}
+	});
+}
+
+function openUnionModal(){
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	"<strong>  <span class='fa fa-warning sign'></span></div>";
+	jQuery('.modal').modal('hide');
+	
+	$('#dialog_union #input-join-name').val('');
+	jQuery('#dialog_union').modal('show');
+	
+	$('#dataField_spatial_capa1').empty();
+	$('#dataField_spatial_capa2').empty();
+
+	$('#list_spatial_join_fields').html('');
+	$('#list_spatial_join_fields2').html('');
+	
+	var layers = [];
+	jQuery.each( controlCapes._layers, function( key, value ) {
+		var layerOptions = this.layer.options;
+		var tipusLayer = "";
+		if(this.layer.options.tipus){tipusLayer = this.layer.options.tipus;}
+		if(tipusLayer == t_visualitzacio ||  tipusLayer == t_vis_wms ){layers.push(this);}
+	});
+		
+	if(layers.length ==0){
+		$('#warning-union').html(warninMSG);
+		$('#list-layers-union1').attr("style","display:none;");
+		$('#list-fields-union2').attr("style","display:none;");
+		$('#unionBtn').attr("disabled", true);
+		return;
+	}
+	else {
+		$('#warning-union').html('');	
+		$('#list-layers-union1').attr("style","display:block;");
+		$('#list-fields-union2').attr("style","display:block;");
+		$('#unionBtn').removeAttr("disabled");
+	}
+	layers = {layers: layers};
+	
+	var source = jQuery("#tematic-union-layers1").html();
+	var template = Handlebars.compile(source);
+	var html = template(layers);
+	$('#dataField_union_capa1').html('<option value="null">Escull la capa</option>');
+	var htmlCapa1=$('#dataField_union_capa1').html();		
+	$('#dataField_union_capa1').html(htmlCapa1 + html);
+	
+	var source2 = jQuery("#tematic-union-layers2").html();
+	var template = Handlebars.compile(source2);
+	var html2 = template(layers);
+	$('#dataField_union_capa2').html('<option value="null">Escull la capa</option>');
+	var htmlCapa2=$('#dataField_union_capa2').html();
+	$('#dataField_union_capa2').html(htmlCapa2 + html);
+	
+	jQuery('#dialog_union #dataField_union_capa1').on('change',function(event){
+		if (event.target.value=="null"){
+			$('#dataField_union_capa1').empty();		
+		}
+		else {
+			var geomType1="",geomType2="";	
+			var nomCapa="Unió de capes: ";
+			if ($('#dataField_union_capa1 option:selected').text()!="Escull la capa"){
+				var props =$('#dataField_union_capa1 option:selected').val();
+				props =  props.split('___');
+				var businessId = props[0];
+				geomType1=props[1];
+				nomCapa += $('#dataField_union_capa1 option:selected').text()+",";
+			}
+			if ($('#dataField_union_capa2 option:selected').text()!="Escull la capa"){
+				var props =$('#dataField_union_capa2 option:selected').val();
+				props =  props.split('___');
+				var businessId = props[0];
+				geomType2=props[1];
+				nomCapa += $('#dataField_union_capa2 option:selected').text()+",";
+			}
+			if (geomType1!="" && geomType2!="" && geomType1!=geomType2){
+				$('#dataField_union_capa1').val('null');
+				$('#dataField_union_capa2').val('null');
+				$('#dialog_union #input-join-name').val('');
+				alert("Les capes han de ser del mateix tipus");
+				
+			}
+			else $('#dialog_union #input-join-name').val(nomCapa);
+		}
+	});
+	
+	jQuery('#dialog_union #dataField_union_capa2').on('change',function(event){
+		if (event.target.value=="null"){
+			$('#dataField_union_capa2').empty();		
+		}
+		else {
+			var geomType1="",geomType2="";	
+			var nomCapa="Unió de capes: ";
+			if ($('#dataField_union_capa1 option:selected').text()!="Escull la capa"){
+				var props =$('#dataField_union_capa1 option:selected').val();
+				props =  props.split('___');
+				var businessId = props[0];
+				geomType1=props[1];
+				nomCapa += $('#dataField_union_capa1 option:selected').text()+",";
+			}
+			if ($('#dataField_union_capa2 option:selected').text()!="Escull la capa"){
+				var props =$('#dataField_union_capa2 option:selected').val();
+				props =  props.split('___');
+				var businessId = props[0];
+				geomType2=props[1];
+				nomCapa += $('#dataField_union_capa2 option:selected').text()+",";
+			}
+			if (geomType1!="" && geomType2!="" && geomType1!=geomType2){				
+				$('#dataField_union_capa1').val('null');
+				$('#dataField_union_capa2').val('null');
+				$('#dialog_union #input-join-name').val('');
+				alert("Les capes han de ser del mateix tipus");
+			}
+			else $('#dialog_union #input-join-name').val(nomCapa);
+		}
+	});
+	
+	jQuery('#unionBtn').on('click',function(event){
+		event.stopImmediatePropagation();
+		 if(busy){
+			 	jQuery('#dialog_union').hide();
+				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload').modal('show');
+		}else{
+			busy=true;
+		 	
+			var businessId1_props=$('#dataField_union_capa1').val();
+			var businessId1=businessId1_props.split('___');
+			
+			var businessId2_props=$('#dataField_union_capa2').val();
+			var businessId2=businessId2_props.split('___');
+			
+			var data1 = {
+					uid: $.cookie('uid'),
+					businessId1: businessId1[0],
+					businessId2: businessId2[0]
+			}
+			crearFitxerPolling(data1).then(function(results) {
+				var tmpFile="";
+				if (results.status=="OK"){
+					tmpFile = results.tmpFilePath;
+					//Definim interval de polling en funcio de la mida del fitxer
+					var pollTime =3000;
+					//Fem polling
+					(function(){							
+						pollFiltre = function(){
+							$.ajax({
+								url: paramUrl.polling +"pollingFileName="+ results.tmpFileName,
+								dataType: 'json',
+								type: 'get',
+								success: function(data){
+									jQuery('#dialog_union').hide();
+									jQuery('#info_uploadFile').show();
+									if(data.status.indexOf("ABANS")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'
+										);									
+										
+									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'	
+										);									
+									}else if(data.status.indexOf("OK")!=-1 && busy){
+										clearInterval(pollInterval);
+										
+										jQuery("#div_uploading_txt").html("");
+										jQuery("#div_uploading_txt").html(
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
+										);									
+										jQuery('#dialog_union').modal('hide');
+										if (data.midaFitxer==0){  
+											jQuery('#info_uploadFile').hide();		
+											busy=false;
+											$('#dialog_error_upload_txt').html("");					
+											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+											$('#dialog_error_upload').modal('show');
+										}
+										else {
+											var data2 = {
+												uid: $.cookie('uid'),
+												mapBusinessId: url('?businessid'),
+												serverName:data.serverName,
+												path:data.path,
+												tmpFilePath:data.tmpFilePath,
+												midaFitxer:data.midaFitxer,
+												sourceExtension:'geojson',
+												markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+												lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+												polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol)),
+												propertiesList: data.propertiesList,
+												geomType: data.geomType
+											}
+											doUploadFile(data2).then(function(results){
+												if (results.status="OK") {
+													addDropFileToMap(results);
+													 $('#dialog_spatial_join').modal('hide');
+													 jQuery('#info_uploadFile').hide();
+													 busy=false;
+												}
+												else {
+													jQuery('#info_uploadFile').hide();		
+													busy=false;
+													$('#dialog_error_upload_txt').html("");					
+													$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+													$('#dialog_error_upload').modal('show');
+												}
+											});
+										}
+									}else if(data.status.indexOf("ERROR")!=-1 && busy){
+										busy = false;
+										
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+										
+										$('#dialog_error_upload_txt').html("");											
+										$('#dialog_error_upload_txt').html(window.lang.convert("Error unint taules per columnes"));		
+										$('#dialog_error_upload').modal('show');
+									}
+									else if (!busy){
+										clearInterval(pollInterval);
+										jQuery('#info_uploadFile').hide();
+									}
+								}
+							});
+						};
+						
+						pollInterval = setInterval(function(){
+							pollFiltre();
+						},pollTime);
+						
+					})();
+				}
+				else {
+					jQuery('#info_uploadFile').hide();		
+					busy=false;
+				}
+			
+				var data = {
+					uid: $.cookie('uid'),
+					urlSIG: paramUrl.unionLayers,
+					tipusSIG: "unionLayers",
+					mapBusinessId: url('?businessid'),
+					businessId1: businessId1[0],
+					businessId2: businessId2[0],
+					nom:$('#dialog_union #input-join-name').val(),					
 					tmpFilePath:tmpFile
 				};
 				callActions(data);

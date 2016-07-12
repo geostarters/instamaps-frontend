@@ -201,6 +201,7 @@ var paramUrl = {
 	intersection: HOST_APP+"geocat/aplications/map/intersection.action?",
 	union: HOST_APP+"geocat/aplications/map/union.action?",
 	tag: HOST_APP+"geocat/aplications/map/tag.action?",
+	unionLayers: HOST_APP+"geocat/aplications/map/unionLayers.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
 	crearFitxerPolling: HOST_APP+"/geocat/aplications/map/crearFitxerPolling.action?",

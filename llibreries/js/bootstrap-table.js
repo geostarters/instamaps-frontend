@@ -94,7 +94,7 @@
         if (typeof name === 'function') {
             return name.apply(self, args);
         }
-        return defaultValue;
+       return defaultValue;
     };
 
     var escapeHTML = function (text) {
@@ -743,25 +743,26 @@
             }) : this.options.data;
 
             this.data = s ? $.grep(this.data, function (item, i) {
-                for (var key in item) {
+            	for (var key in item) {
                     key = $.isNumeric(key) ? parseInt(key, 10) : key;
                     var value = item[key];
-
-                    // Fix #142: search use formated data
+                    var valInicial=value;
+                     // Fix #142: search use formated data
                     value = calculateObjectValue(that.header,
                         that.header.formatters[$.inArray(key, that.header.fields)],
                         [value, item, i], value);
-
-                    var index = $.inArray(key, that.header.fields);
-                    if (index !== -1 && that.header.searchables[index] &&
-                        (typeof value === 'string' ||
-                        typeof value === 'number') &&
-                        (value + '').toLowerCase().indexOf(s) !== -1) {
-                        return true;
-                    }
+                        var index = $.inArray(key, that.header.fields);
+                        if (key!="geometryid" && index !== -1 && that.header.searchables[index] &&
+	                        (typeof value === 'string' ||
+	                        typeof value === 'number') &&
+	                        (valInicial + '').toLowerCase().indexOf(s) !== -1) {
+                        	return true;
+	                    }
                 }
                 return false;
             }) : this.data;
+            
+            console.debug(this.data);
         }
     };
 
@@ -1036,13 +1037,13 @@
                 style = sprintf('style="%s"', csses.concat(that.header.styles[j]).join('; '));
 
              
-                if ((value==undefined || (value!=undefined && value.indexOf("undefined")>-1)) && field.toUpperCase()!="ACCIONS") {
+              /*  if ((value==undefined || (value!=undefined && value.indexOf("undefined")>-1)) && field.toUpperCase()!="ACCIONS") {
                 	value=that.options.undefinedText;
                 }
-                else {
+                else {*/
                 	   value = calculateObjectValue(that.header,
                                that.header.formatters[j], [value, item, i], value);
-                }
+                //}
 
                 //console.debug(value);
                 // handle td's id and class
@@ -1095,6 +1096,8 @@
                 } else {
                     value = typeof value === 'undefined' || value === null ?
                         that.options.undefinedText : value;
+                    
+                    if (value.indexOf("undefined")>-1) value=String(value).replace('undefined','-');
                     
                     if (!getModeMapa() && value.toString().indexOf("zoomTo")==-1){
                     	value = String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

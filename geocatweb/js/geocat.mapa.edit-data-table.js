@@ -122,7 +122,8 @@ function fillModalDataTable(obj, geomBid){
 				var objGeomId = {
 						field: 'geometryid',
 						title: 'ID',
-						visible: false
+						visible: false,
+						searchable: false
 				}
 				columNames.push(objGeomId);	
 	
@@ -130,7 +131,8 @@ function fillModalDataTable(obj, geomBid){
 				var objGeomBid = {
 						field: 'geometrybid',
 						title: 'BID',
-						visible: false
+						visible: false,
+						searchable: false
 				}
 				columNames.push(objGeomBid);			
 				
@@ -138,7 +140,8 @@ function fillModalDataTable(obj, geomBid){
 				var objGeomBBOX = {
 						field: 'geometryBBOX',
 						title: 'BBOX',
-						visible: false 
+						visible: false,
+						searchable: false
 				}
 				columNames.push(objGeomBBOX);			
 				
@@ -158,24 +161,22 @@ function fillModalDataTable(obj, geomBid){
 					}else{			
 						propName = options.propName;	
 					}
-					if (propName!=undefined && propName.toString().indexOf("nom,text")==-1) {
-						
+					if (propName!=undefined) {
+						if (propName.indexOf(",")>-1) propName=propName.split(",");
 						for(var x in propName){	
 							//console.debug(propName[x]);
 							var obj = {
 								title: propName[x].toUpperCase(),
 								field: propName[x].toLowerCase(),
 								sortable: true,
-								editable: {
-									emptytext : '-'
-								}
+								editable: true
 							}
-							if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
+							if (propName[x]=='text' || propName[x]=='TEXT') isADrawMarker=true;
 							else isADrawMarker=false;
 							columNames.push(obj);
 						}		
 					}
-					else {
+					else {					
 						for(var x in feature.properties){
 							console.debug(x);
 							var obj = {
@@ -201,7 +202,8 @@ function fillModalDataTable(obj, geomBid){
 						 obj = {
 									title: "longitud".toUpperCase(),
 									field: "longitud".toLowerCase(),
-									sortable: true
+									sortable: true,
+									editable: true
 								}
 						 columNames.push(obj);
 					}
@@ -224,7 +226,8 @@ function fillModalDataTable(obj, geomBid){
 							var obj = {
 								title: options.propName[x].toUpperCase(),
 								field: options.propName[x].toLowerCase(),
-								sortable: true
+								sortable: true,
+								editable: true
 							}
 							if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
 							else isADrawMarker=false;
@@ -236,7 +239,8 @@ function fillModalDataTable(obj, geomBid){
 							var obj = {
 								title: x.toUpperCase(),
 								field: x.toLowerCase(),
-								sortable: true								
+								sortable: true,
+								editable: true
 							}
 							if (x=='text' || x=='TEXT') isADrawMarker=true;
 							else isADrawMarker=false;
@@ -247,13 +251,15 @@ function fillModalDataTable(obj, geomBid){
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
-								sortable: true
+								sortable: true,
+								editable: true
 							}
 						columNames.push(obj);
 						 obj = {
 									title: "longitud".toUpperCase(),
 									field: "longitud".toLowerCase(),
-									sortable: true
+									sortable: true,
+									editable: true
 								}
 						 columNames.push(obj);
 					}
@@ -278,7 +284,8 @@ function fillModalDataTable(obj, geomBid){
 		var objGeomId = {
 				field: 'geometryid',
 				title: 'ID',
-				visible: false
+				visible: false,
+				searchable: false
 		}
 		columNames.push(objGeomId);	
 
@@ -286,7 +293,8 @@ function fillModalDataTable(obj, geomBid){
 		var objGeomBid = {
 				field: 'geometrybid',
 				title: 'BID',
-				visible: false
+				visible: false,
+				searchable: false
 		}
 		columNames.push(objGeomBid);			
 		
@@ -294,7 +302,8 @@ function fillModalDataTable(obj, geomBid){
 		var objGeomBBOX = {
 				field: 'geometryBBOX',
 				title: 'BBOX',
-				visible: false 
+				visible: false,
+				searchable: false
 		}
 		columNames.push(objGeomBBOX);		
 		//console.debug(options);
@@ -369,7 +378,6 @@ function fillModalDataTable(obj, geomBid){
 	        }
 		};	
 
-	console.debug(obj);
 	//Portem properties del servidor
 	var data ={
 			businessId: obj.layer.options.businessId,

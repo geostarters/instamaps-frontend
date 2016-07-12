@@ -2106,6 +2106,19 @@ var that = this;
 				} else if (entity.properties.VOLUM) {
 					alcada = parseInt(entity.properties.VOLUM);
 					_tenimAlcada = true;
+				} else if (entity.properties.text) {
+					//alcada = parseInt(entity.properties.VOLUM);
+					if(entity.properties.text.indexOf('volum#')!=-1){
+						altT=entity.properties.text.replace('volum#','');
+						alcada = parseInt(altT);	
+						_tenimAlcada = true;	
+					}else{
+					
+					_tenimAlcada = false;
+				
+					}
+				
+				
 				} else {
 					_tenimAlcada = false;
 
