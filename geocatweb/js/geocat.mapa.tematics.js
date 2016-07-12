@@ -410,7 +410,11 @@ function createPopupWindowData(player,type, editable, origen){
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
 		
 			$('#modal_data_table').modal('show');
-			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
+			var featureId=objEdicio.featureID;
+			if (featureId==undefined) featureId=accio[2];
+			//console.debug(featureId);
+			//console.debug(accio);
+			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[featureId].properties.businessId);
 		
 		}else if(accio[0].indexOf("feature_remove")!=-1){
 			map.closePopup();
