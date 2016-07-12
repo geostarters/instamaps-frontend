@@ -1773,7 +1773,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 			moveGeometriaToVisualitzacio(data).then(function(resultsMove) {
 				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
 				if(resultsMove.status === 'OK'){
-					
+					var layer=feature._leaflet_id;
 					if(capaUsrActiva) capaUsrActiva.removeLayer(feature);
 					capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
 					//feature.openPopup();
@@ -1796,13 +1796,14 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				    //getRangsFromLayer(capaUsrActiva);
 				    
 					//Actualitzem comptador de la capa
-				    //updateFeatureCount(data.fromBusinessId, data.toBusinessId);		
+				    updateFeatureCount(data.fromBusinessId, data.toBusinessId);		
 				    
-				    actualitzacioTematic(toLayer1,toLayer.options.businessId,"3124",obj,features,"modificacio");
+				    //actualitzacioTematic(toLayer1,toLayer.options.businessId,"3124",obj,features,"modificacio");
 				  //Actualitzem l'enllaç d'obrir la finestra de dades
-					var htmlDataTable =jQuery("#feature_data_table_"+accio[1]).html();
+				    console.debug(layer);
+				   var htmlDataTable =jQuery("#feature_data_table_"+layer).html();
 					var stringsDataTableA = htmlDataTable.split("##");
-					jQuery("#feature_data_table_"+accio[1]).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+capaUsrActiva._leaflet_id+"##"+stringsDataTableA[4]);
+					jQuery("#feature_data_table_"+layer).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+capaUsrActiva._leaflet_id+"##"+stringsDataTableA[4]);
 
 					
 				}else{
