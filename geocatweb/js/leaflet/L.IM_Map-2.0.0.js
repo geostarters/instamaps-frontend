@@ -40,8 +40,8 @@ var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
 var _ombraLayer=null;
-var subDomains=['otile1','otile2','otile3','otile4'];
-//var subDomains=['a','b','c'];
+//var subDomains=['otile1','otile2','otile3','otile4'];
+var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 var urlServerTiles="http://www.{s}.instamaps.cat"
 var urlServerTilesW="http://www.instamaps.cat"	
@@ -72,7 +72,7 @@ var FONS_ALCADAMAP='alcadaMap';
 var FONS_NATURAL='naturalMap';
 var FONS_DIVADMIN='divadminMap';
 
-var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 //var mapaUrl.topoMapMON=urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.jpeg';
 //var mapaUrl.topoMapOSM='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
@@ -107,7 +107,7 @@ var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
 
 var mapaUrl = {	
 	topoMapMON:urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.jpeg',
-	topoMapOSM:'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png',
+	topoMapOSM:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 	topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',
 	
 	topoMapSuauOSM:urlServerTiles+'/mapfactory/wmts/osm_suau/MON3857/{z}/{x}/{y}.png',
