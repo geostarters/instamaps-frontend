@@ -2150,6 +2150,7 @@ function openUnionModal(){
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
+	$('#dialog_union #input-join-name').val('');
 	jQuery('#dialog_union').modal('show');
 	
 	$('#dataField_spatial_capa1').empty();
@@ -2321,7 +2322,7 @@ function openUnionModal(){
 											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
 										);									
 										jQuery('#dialog_union').modal('hide');
-										if (data.midaFitxer==0){
+										if (data.midaFitxer==0){  
 											jQuery('#info_uploadFile').hide();		
 											busy=false;
 											$('#dialog_error_upload_txt').html("");					
@@ -2390,17 +2391,16 @@ function openUnionModal(){
 			
 				var data = {
 					uid: $.cookie('uid'),
-					urlSIG: paramUrl.union,
+					urlSIG: paramUrl.unionLayers,
 					tipusSIG: "unionLayers",
 					mapBusinessId: url('?businessid'),
 					businessId1: businessId1[0],
 					businessId2: businessId2[0],
-					nom:$('#input-join-name').val(),					
+					nom:$('#dialog_union #input-join-name').val(),					
 					tmpFilePath:tmpFile
 				};
 				callActions(data);
 			});
 		}
 	});
-	
 }

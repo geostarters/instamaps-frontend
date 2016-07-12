@@ -1095,12 +1095,12 @@ function reFillCmbCapesUsr(type, businessIdCapa){
 	var html = "";
 	$.each( controlCapes._layers, function(i,val) {
 		var layer = val.layer.options;
-		if(layer.tipus==t_tematic && layer.geometryType==type && !layer.source){
+		if(layer.tipus==t_tematic && layer.geometryType==type ){
 	        html += "<option value=\"";
 	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
 	        if(businessIdCapa == layer.businessId) html += " selected";
 	        html += ">"+ layer.nom + "</option>";            		
-		}else if(layer.tipus==t_visualitzacio && layer.geometryType==type && !layer.source){
+		}else if(layer.tipus==t_visualitzacio && layer.geometryType==type ){
 	        html += "<option value=\"";
 	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
 	        if(businessIdCapa == layer.businessId) html += " selected";
@@ -1598,7 +1598,7 @@ function fillCmbCapesUsr(type){
 	var html = "";
 	$.each( controlCapes._layers, function(i,val) {
 		var layer = val.layer.options;
-		if(layer.tipus==t_tematic && layer.geometryType==type && !layer.source){
+		if(layer.tipus==t_tematic && layer.geometryType==type ){
 	        html += "<option value=\"";
 	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
 	        if(capaUsrActiva && (capaUsrActiva.options.businessId == layer.businessId)) html += " selected";
@@ -2176,7 +2176,7 @@ function activarSnapping(capaEdicio){
 		 capaEdicio.getLayers()[0].snapediting.enable();
 		 capaEdicio.getLayers()[0].editing.enable();
 		  // Add to drawnItems
-		 drawnItems.addLayer(layer);
+		 drawnItems.addLayer(capaEdicio.getLayers()[0]);
 		 // Add newly drawn feature to list of snappable features
-		guideLayers.push(layer);
+		guideLayers.push(capaEdicio.getLayers()[0]);
 }
