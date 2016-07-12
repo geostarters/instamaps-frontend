@@ -40,8 +40,8 @@ var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
 var _ombraLayer=null;
-var subDomains=['otile1','otile2','otile3','otile4'];
-//var subDomains=['a','b','c'];
+//var subDomains=['otile1','otile2','otile3','otile4'];
+var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 var urlServerTiles="http://www.{s}.instamaps.cat"
 var urlServerTilesW="http://www.instamaps.cat"	
@@ -54,10 +54,10 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 	//urlServerTiles="http://localhost"
 }
 
-var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
+//var URL_MQ='http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png';
 //var URL_MQ='https://otile1-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
 
-//var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 //var URL_MQ='http://{s}.tile.osm.org/{z}/{x}/{y}.png';
 
