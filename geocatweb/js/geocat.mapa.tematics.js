@@ -413,9 +413,9 @@ function createPopupWindowData(player,type, editable, origen){
 			var featureId=objEdicio.featureID;
 			if (featureId==undefined) featureId=accio[2];
 			//console.debug(featureId);
-			console.debug(accio);
-			console.debug(map._layers);
-			console.debug(controlCapes._layers);
+			//console.debug(accio);
+		//	console.debug(map._layers);
+		//	console.debug(controlCapes._layers);
 			if (map._layers[featureId]==undefined) {
 				try{
 					if (accio[6]!=undefined) featureId=accio[6];
@@ -2097,13 +2097,17 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						createPopupWindowData(feat,geomTypeVis, false, origen);
 					}
 				}
-				if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
-					feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
+				try{
+					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
+						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
+					}
+					else {
+						feat.snapediting = new L.Handler.PolylineSnap(map, feat,{snapDistance:10});
+					}
+					guideLayers.push(feat);
+				}catch(err){
+					
 				}
-				else {
-					feat.snapediting = new L.Handler.PolylineSnap(map, feat,{snapDistance:10});
-				}
-				guideLayers.push(feat);
 				map.closePopup();					
 			});
 		});
