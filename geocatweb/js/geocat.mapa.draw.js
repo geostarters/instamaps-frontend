@@ -1042,13 +1042,27 @@ function createPopupWindow(layer,type){
 				}
 			}
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
-		
 			$('#modal_data_table').modal('show');
-			if (controlCapes._layers[accio[3]].layer.options.estil==undefined){
-				controlCapes._layers[accio[3]].layer.options.estil=[];
-				controlCapes._layers[accio[3]].layer.options.estil[0] = map._layers[objEdicio.featureID].properties.estil;
+			var featureId=objEdicio.featureID;
+			if (featureId==undefined) featureId=accio[2];
+			//console.debug(featureId);
+			console.debug(accio);
+			console.debug(map._layers);
+			console.debug(controlCapes._layers);
+			if (map._layers[featureId]==undefined) {
+				try{
+					if (accio[6]!=undefined) featureId=accio[6];
+					var props=map._layers[featureId].properties;
+					if (props==undefined) props=map._layers[featureId].options;
+					if (accio[3]==undefined)  fillModalDataTable(controlCapes._layers[accio[2]],props.businessId);
+					else fillModalDataTable(controlCapes._layers[accio[3]],props.businessId);
+				}
+				catch(err){
+					console.debug(err);
+				}
 			}
-			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
+			else fillModalDataTable(controlCapes._layers[accio[3]],map._layers[featureId].properties.businessId);
+		
 		
 		}else{
 		//accio tanca
@@ -1782,7 +1796,14 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				    //getRangsFromLayer(capaUsrActiva);
 				    
 					//Actualitzem comptador de la capa
-				    updateFeatureCount(data.fromBusinessId, data.toBusinessId);					
+				    //updateFeatureCount(data.fromBusinessId, data.toBusinessId);		
+				    
+				    actualitzacioTematic(toLayer1,toLayer.options.businessId,"3124",obj,features,"modificacio");
+				  //Actualitzem l'enllaç d'obrir la finestra de dades
+					var htmlDataTable =jQuery("#feature_data_table_"+accio[1]).html();
+					var stringsDataTableA = htmlDataTable.split("##");
+					jQuery("#feature_data_table_"+accio[1]).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+capaUsrActiva._leaflet_id+"##"+stringsDataTableA[4]);
+
 					
 				}else{
 					console.debug("moveGeometriaToVisualitzacio ERROR");
