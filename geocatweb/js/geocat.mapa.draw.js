@@ -451,8 +451,8 @@ function activaEdicioUsuari() {
 	map.on('click',function(e){
 		for(var i = 0;i < guideLayers.length; i++) {
 			if ( guideLayers[i].snapediting!=undefined){
-				guideLayers[i].snapediting.disable();
-				guideLayers[i].editing.disable();
+				if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
+				if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
 			}
 		 }
 		if(crt_Editing){
