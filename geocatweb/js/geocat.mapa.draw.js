@@ -449,12 +449,10 @@ function activaEdicioUsuari() {
 	
 	//Edicio de feature existent
 	map.on('click',function(e){
-		for(var i = 0;i < guideLayers.length; i++) {
-			if ( guideLayers[i].snapediting!=undefined){
+		for(var i = 0;i < guideLayers.length; i++) {			
 				if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
 				if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
-			}
-		 }
+		}
 		if(crt_Editing){
 			crt_Editing.disable();
 		}
@@ -1671,9 +1669,9 @@ function createPopUpContent(player,type){
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
 		+'<ul class="bs-popup">'						
-		+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
+		+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
 	
 	if (player.properties.estil) {
 		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					

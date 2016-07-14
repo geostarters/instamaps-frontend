@@ -344,9 +344,9 @@ function createPopupWindowData(player,type, editable, origen){
 		html+= '<div id="footer_edit"  class="modal-footer">'
 					+'<ul class="bs-popup">'
 					
-						+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
+						+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'
 						+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
 						
@@ -383,7 +383,8 @@ function createPopupWindowData(player,type, editable, origen){
 		if(jQuery(this).attr('id').indexOf('##')!=-1){	
 			accio=jQuery(this).attr('id').split("##");				
 		}
-		objEdicio.featureID=accio[1];
+		
+		if (accio!=undefined && accio[1]!=undefined) objEdicio.featureID=accio[1];
 		
 		if(accio[0].indexOf("feature_edit")!=-1){
 
