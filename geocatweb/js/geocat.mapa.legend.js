@@ -1269,6 +1269,8 @@ function updateMapLegendData(){
 		if(html.indexOf('GetLegendGraphic')!= -1){
 			
 			html=html.replace('width:26px;','');
+			html=html.replace('png8','png');
+			
 			//html=html.replace('<img','<br><img');
 			//html=html.replace('<img','<img');
 		}
