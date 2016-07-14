@@ -146,17 +146,24 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	
 	getLegendGraphic : function () {
 
+	
+	var _format=this.wmsParams.format;
+	_format=_format.replace('png8','png');
+	
 		params = {
 			request : 'GetLegendGraphic',
 			service : 'WMS',
 			version : this.wmsParams.version,
-			format : this.wmsParams.format,
+			format : _format,
 			layer : this.wmsParams.layers
 
 		};
 
+	
+		
 		return this._url + L.Util.getParamString(params, this._url, true);
 
+		
 		return params;
 
 	},
