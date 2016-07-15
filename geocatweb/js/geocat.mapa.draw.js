@@ -568,7 +568,7 @@ function activaEdicioUsuari() {
 			        layer.snapediting.addGuideLayer(guideLayers[i]);
 			        // Add the currently drawn layer to the snap list of the already drawn layers
 			        guideLayers[i].snapediting.addGuideLayer(layer);
-			        guideLayers[i].editing.disable();
+			        guideLayers[i].snapediting.disable();
 			 }
 			
 			  // Add to drawnItems
