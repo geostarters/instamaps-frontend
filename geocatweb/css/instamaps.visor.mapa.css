@@ -403,7 +403,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .dibuix_punt {
-	background: url('images/galeria_icones_201607.png') no-repeat scroll 2px -312px;
+	background: url('images/galeria_icones.png') no-repeat scroll 2px -312px;
 	width: 29px;
 	height: 46px;
 	margin: auto;
@@ -498,7 +498,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .div_carrega_dades {
-	background: url('images/galeria_icones_201607.png') no-repeat scroll -491px
+	background: url('images/galeria_icones.png') no-repeat scroll -491px
 		-524px rgba(166, 166, 166, 0.5);
 	border: 2px dashed #AAAAAA;
 	height: 55px;
@@ -509,14 +509,14 @@ h1,h2,h3,h4,h5,h6 {
 
 .div_dades_usr {
 	float: left;
-	background: url('images/galeria_icones_201607.png') no-repeat scroll -260px
+	background: url('images/galeria_icones.png') no-repeat scroll -260px
 		-515px rgba(166, 166, 166, 0.5);
 	border: 1px solid #8C8B8A;
 	cursor: pointer;
 }
 
 .div_dades_ext {
-	background: url('images/galeria_icones_201607.png') no-repeat scroll 13px
+	background: url('images/galeria_icones.png') no-repeat scroll 13px
 		-515px rgba(166, 166, 166, 0.5);
 	margin-left: 5px;
 	border: 1px solid #8C8B8A;
@@ -594,103 +594,103 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .div_estil_1 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll 0 -102px
+	background: url("images/galeria_icones.png") no-repeat scroll 0 -102px
 		rgba(208, 208, 208, 0.5);
 	cursor: pointer;
 }
 
 .div_estil_2 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -71px
+	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-102px rgba(208, 208, 208, 0.5);
 	margin-left: 4px;
 	cursor: pointer;
 }
 
 .div_estil_3 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -142px
+	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-102px rgba(208, 208, 208, 0.5);
 	margin-left: 4px;
 	cursor: pointer;
 }
 
 .div_estil_4 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -213px
+	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-102px rgba(208, 208, 208, 0.5);
 	margin-left: 4px;
 	cursor: pointer;
 }
 
 .div_estil_5 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -283px
+	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-102px rgba(208, 208, 208, 0.5);
 	margin-left: 4px;
 	cursor: pointer;
 }
 
 .div_fons_1 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll 0 -32px
+	background: url("images/galeria_icones.png") no-repeat scroll 0 -32px
 		rgba(208, 208, 208, 0.5);
 	cursor: pointer;
 }
 
 .div_fons_2 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -71px
+	background: url("images/galeria_icones.png") no-repeat scroll -71px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_3 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -142px
+	background: url("images/galeria_icones.png") no-repeat scroll -142px
 		-32px rgba(208, 208, 208, 0.5);
 	cursor: pointer;
 	margin-left: 2px;
 }
 
 .div_fons_4 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -213px
+	background: url("images/galeria_icones.png") no-repeat scroll -213px
 		-32px rgba(208, 208, 208, 0.5);
 	cursor: pointer;
 	margin-left: 4px;
 }
 
 .div_fons_5 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -283px
+	background: url("images/galeria_icones.png") no-repeat scroll -283px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_6 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -354px
+	background: url("images/galeria_icones.png") no-repeat scroll -354px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_7 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -425px
+	background: url("images/galeria_icones.png") no-repeat scroll -425px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_8 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -497px
+	background: url("images/galeria_icones.png") no-repeat scroll -497px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 4px;
 	cursor: pointer;
 }
 
 .div_fons_9 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -566px
+	background: url("images/galeria_icones.png") no-repeat scroll -566px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_10 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -638px
+	background: url("images/galeria_icones.png") no-repeat scroll -638px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 4px;
 	cursor: pointer;
@@ -698,48 +698,48 @@ h1,h2,h3,h4,h5,h6 {
 
 
 .div_fons_11 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -709px
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
 		-32px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_12 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll 0px
+	background: url("images/galeria_icones.png") no-repeat scroll 0px
 		-745px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_13 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -709px
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
 		-161px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_14 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -709px
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
 		-101px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_15 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -709px
+	background: url("images/galeria_icones.png") no-repeat scroll -709px
 		-221px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 
 .div_fons_16 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll  -695px
+	background: url("images/galeria_icones.png") no-repeat scroll  -695px
 		-650px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
 }
 .div_fons_17 {
-	background: url("images/galeria_icones_201607.png") no-repeat scroll -744px
+	background: url("images/galeria_icones.png") no-repeat scroll -744px
 			-650px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
@@ -889,7 +889,7 @@ i.fa {
 
 /* Colors */
 .awesome-marker {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	width: 28px;
 	height: 42px;
 	position: absolute;
@@ -926,42 +926,42 @@ i.fa {
 }
 
 .awesome-marker-icon-orange {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: 1px -315px;
 }
 
 .awesome-marker-icon-darkorange {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -69px -315px;
 }
 
 .awesome-marker-icon-red {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -140px -315px;
 }
 
 .awesome-marker-icon-purple {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -211px -315px;
 }
 
 .awesome-marker-icon-blue {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -281px -315px;
 }
 
 .awesome-marker-icon-green {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -352px -315px;
 }
 
 .awesome-marker-icon-darkgray {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -423px -315px;
 }
 
 .awesome-marker-icon-gray {
-	background: url('images/galeria_icones_201607.png') no-repeat 0 0;
+	background: url('images/galeria_icones.png') no-repeat 0 0;
 	background-position: -494px -315px;
 }
 
@@ -1357,18 +1357,18 @@ i.fa {
 		background-color: #FF8300
 	}
 	.div_carrega_dades {
-		background: url('images/galeria_icones_201607.png') no-repeat scroll -490px
+		background: url('images/galeria_icones.png') no-repeat scroll -490px
 			-524px rgba(166, 166, 166, 0.5);
 		margin-left: 5px;
 		margin-right: 5px;
 	}
 	.div_dades_usr {
 		float: left;
-		background: url('images/galeria_icones_201607.png') no-repeat scroll -272px
+		background: url('images/galeria_icones.png') no-repeat scroll -272px
 			-515px rgba(166, 166, 166, 0.5);
 	}
 	.div_dades_ext {
-		background: url('images/galeria_icones_201607.png') no-repeat scroll 3px -515px
+		background: url('images/galeria_icones.png') no-repeat scroll 3px -515px
 			rgba(166, 166, 166, 0.5);
 		margin-left: 5px;
 	}
@@ -1453,7 +1453,7 @@ i.fa {
 		text-align: center;
 	}
 	.dibuix_poligon {
-		background: url('images/galeria_icones_201607.png') no-repeat  scroll 2px -173px;
+		background: url('images/galeria_icones.png') no-repeat  scroll 2px -173px;
 		cursor:pointer;
 		width: 37px;
 		height: 40px;
@@ -1475,18 +1475,18 @@ i.fa {
 		background-color: #FF8300
 	}
 	.div_carrega_dades {
-		background: url('images/galeria_icones_201607.png') no-repeat scroll -520px
+		background: url('images/galeria_icones.png') no-repeat scroll -520px
 			-524px rgba(166, 166, 166, 0.5);
 		margin-left: 5px;
 		margin-right: 5px;
 	}
 	.div_dades_usr {
 		float: left;
-		background: url('images/galeria_icones_201607.png') no-repeat scroll -272px
+		background: url('images/galeria_icones.png') no-repeat scroll -272px
 			-515px rgba(166, 166, 166, 0.5);
 	}
 	.div_dades_ext {
-		background: url('images/galeria_icones_201607.png') no-repeat scroll 3px -515px
+		background: url('images/galeria_icones.png') no-repeat scroll 3px -515px
 			rgba(166, 166, 166, 0.5);
 		margin-left: 5px;
 	}
@@ -1531,20 +1531,20 @@ i.fa {
 	}
 	
 	.div_carrega_dades {
-		background: url('images/galeria_icones_201607.png') no-repeat scroll -290px
+		background: url('images/galeria_icones.png') no-repeat scroll -290px
 			-650px rgba(166, 166, 166, 0.5);
 		height: 35px;
 	}
 	
 	.div_dades_usr {
 		height: 35px;
-		background: url('images/galeria_icones_201607.png') no-repeat scroll 35px
+		background: url('images/galeria_icones.png') no-repeat scroll 35px
 			-650px rgba(166, 166, 166, 0.5);
 	}
 	
 	.div_dades_ext {
 		height: 35px;
-		background: url('images/galeria_icones_201607.png') no-repeat scroll -155px
+		background: url('images/galeria_icones.png') no-repeat scroll -155px
 			-650px rgba(166, 166, 166, 0.5);
 	}	
 	
@@ -1562,91 +1562,91 @@ i.fa {
 	}	
 	
 	.div_fons_1 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll 0 -600px
+		background: url("images/galeria_icones.png") no-repeat scroll 0 -600px
 			rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_2 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -53px
+		background: url("images/galeria_icones.png") no-repeat scroll -53px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_3 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -106px
+		background: url("images/galeria_icones.png") no-repeat scroll -106px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_4 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -159px
+		background: url("images/galeria_icones.png") no-repeat scroll -159px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_5 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -212px
+		background: url("images/galeria_icones.png") no-repeat scroll -212px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_6 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -265px
+		background: url("images/galeria_icones.png") no-repeat scroll -265px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_7 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -318px
+		background: url("images/galeria_icones.png") no-repeat scroll -318px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_8 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -371px
+		background: url("images/galeria_icones.png") no-repeat scroll -371px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_9 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -424px
+		background: url("images/galeria_icones.png") no-repeat scroll -424px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_10 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -477px
+		background: url("images/galeria_icones.png") no-repeat scroll -477px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	
 	.div_fons_11 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -530px
+		background: url("images/galeria_icones.png") no-repeat scroll -530px
 			-600px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}
 	
 	.div_fons_12 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -52px
+		background: url("images/galeria_icones.png") no-repeat scroll -52px
 			-745px rgba(208, 208, 208, 0.5);
 		cursor: pointer;
 	}	
 	.div_fons_13 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -695px
+		background: url("images/galeria_icones.png") no-repeat scroll -695px
 			-600px rgba(208, 208, 208, 0.5);
 		margin-left: 2px;
 		cursor: pointer;
 	}
 	.div_fons_14 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll -642px
+		background: url("images/galeria_icones.png") no-repeat scroll -642px
 			-600px rgba(208, 208, 208, 0.5);
 		margin-left: 2px;
 		cursor: pointer;
 	}
 	.div_fons_15 {
-		background: url("images/galeria_icones_201607.png") no-repeat scroll  -588px
+		background: url("images/galeria_icones.png") no-repeat scroll  -588px
 			-600px rgba(208, 208, 208, 0.5);
 		margin-left: 2px;
 		cursor: pointer;
