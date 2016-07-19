@@ -449,12 +449,10 @@ function activaEdicioUsuari() {
 	
 	//Edicio de feature existent
 	map.on('click',function(e){
-		for(var i = 0;i < guideLayers.length; i++) {
-			if ( guideLayers[i].snapediting!=undefined){
-				guideLayers[i].snapediting.disable();
-				guideLayers[i].editing.disable();
-			}
-		 }
+		for(var i = 0;i < guideLayers.length; i++) {			
+				if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
+				if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
+		}
 		if(crt_Editing){
 			crt_Editing.disable();
 		}
@@ -570,7 +568,7 @@ function activaEdicioUsuari() {
 			        layer.snapediting.addGuideLayer(guideLayers[i]);
 			        // Add the currently drawn layer to the snap list of the already drawn layers
 			        guideLayers[i].snapediting.addGuideLayer(layer);
-			        guideLayers[i].editing.disable();
+			        guideLayers[i].snapediting.disable();
 			 }
 			
 			  // Add to drawnItems
@@ -1042,13 +1040,27 @@ function createPopupWindow(layer,type){
 				}
 			}
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
-		
 			$('#modal_data_table').modal('show');
-			if (controlCapes._layers[accio[3]].layer.options.estil==undefined){
-				controlCapes._layers[accio[3]].layer.options.estil=[];
-				controlCapes._layers[accio[3]].layer.options.estil[0] = map._layers[objEdicio.featureID].properties.estil;
+			var featureId=objEdicio.featureID;
+			if (featureId==undefined) featureId=accio[2];
+			//console.debug(featureId);
+			console.debug(accio);
+			console.debug(map._layers);
+			console.debug(controlCapes._layers);
+			if (map._layers[featureId]==undefined) {
+				try{
+					if (accio[6]!=undefined) featureId=accio[6];
+					var props=map._layers[featureId].properties;
+					if (props==undefined) props=map._layers[featureId].options;
+					if (accio[3]==undefined)  fillModalDataTable(controlCapes._layers[accio[2]],props.businessId);
+					else fillModalDataTable(controlCapes._layers[accio[3]],props.businessId);
+				}
+				catch(err){
+					console.debug(err);
+				}
 			}
-			fillModalDataTable(controlCapes._layers[accio[3]],map._layers[objEdicio.featureID].properties.businessId);
+			else fillModalDataTable(controlCapes._layers[accio[3]],map._layers[featureId].properties.businessId);
+		
 		
 		}else{
 		//accio tanca
@@ -1657,9 +1669,9 @@ function createPopUpContent(player,type){
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
 		+'<ul class="bs-popup">'						
-		+'<li class="edicio-popup"><a id="feature_edit#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_move#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_remove#'+player._leaflet_id+'#'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
+		+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
 	
 	if (player.properties.estil) {
 		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					
@@ -1759,7 +1771,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 			moveGeometriaToVisualitzacio(data).then(function(resultsMove) {
 				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
 				if(resultsMove.status === 'OK'){
-					
+					var layer=feature._leaflet_id;
 					if(capaUsrActiva) capaUsrActiva.removeLayer(feature);
 					capaUsrActiva2.addLayer(feature);//.on('layeradd', objecteUserAdded);
 					//feature.openPopup();
@@ -1782,7 +1794,15 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				    //getRangsFromLayer(capaUsrActiva);
 				    
 					//Actualitzem comptador de la capa
-				    updateFeatureCount(data.fromBusinessId, data.toBusinessId);					
+				    updateFeatureCount(data.fromBusinessId, data.toBusinessId);		
+				    
+				    //actualitzacioTematic(toLayer1,toLayer.options.businessId,"3124",obj,features,"modificacio");
+				  //Actualitzem l'enllaç d'obrir la finestra de dades
+				    console.debug(layer);
+				   var htmlDataTable =jQuery("#feature_data_table_"+layer).html();
+					var stringsDataTableA = htmlDataTable.split("##");
+					jQuery("#feature_data_table_"+layer).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+capaUsrActiva._leaflet_id+"##"+stringsDataTableA[4]);
+
 					
 				}else{
 					console.debug("moveGeometriaToVisualitzacio ERROR");

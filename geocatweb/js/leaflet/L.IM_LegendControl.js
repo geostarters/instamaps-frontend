@@ -248,37 +248,39 @@ L.Control.Legend = L.Control.extend({
 				}
 				
 					for (var i = 0; i < row.length; i++) {
-						var padding_left="";
-						var textalg='left';
-						if (row[i].symbol.indexOf("circle")>-1){
-							padding_left="padding-left:0px";
-							textalg='center';
-				    		var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
-				    		midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
-				    		var mida=parseFloat(midaStr);
-				    		if (mida>0 && mida<=6) padding_left="padding-left:15px";
-				    		else if (mida>6 && mida<=14) padding_left="padding-left:10px";
-				    		else if (mida>14 && mida<=22) padding_left="padding-left:5px";
-						}
-						
-						
-						index==lastPos.indexPos?active=' active':active="";
-						index==lastPos.indexPos?self.options.currentTab=j:null;	
-										
-						
-						if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
-						
-						if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
-							legendTabContent.push(row[i].symbol);
-							legendTabContent.push('<br/>');
-						}else{
-							if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
-							legendTabContent.push('<div class="visor-legend-row">'+
-						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
-						    	'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
-						    	'</div><div class="visor-separate-legend-row"></div>');	
-										
-							if(i==row.length-1){legendTabContent.push('</div>');}			
+						if(row[i].chck){
+							var padding_left="";
+							var textalg='left';
+							if (row[i].symbol.indexOf("circle")>-1){
+								padding_left="padding-left:0px";
+								textalg='center';
+					    		var midaStr = row[i].symbol.substring(row[i].symbol.indexOf("r="),row[i].symbol.indexOf("style"));
+					    		midaStr=midaStr.substring(midaStr.indexOf("=")+2,midaStr.length-2);
+					    		var mida=parseFloat(midaStr);
+					    		if (mida>0 && mida<=6) padding_left="padding-left:15px";
+					    		else if (mida>6 && mida<=14) padding_left="padding-left:10px";
+					    		else if (mida>14 && mida<=22) padding_left="padding-left:5px";
+							}
+							
+							
+							index==lastPos.indexPos?active=' active':active="";
+							index==lastPos.indexPos?self.options.currentTab=j:null;	
+											
+							
+							if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
+							
+							if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+								legendTabContent.push(row[i].symbol);
+								legendTabContent.push('<br/>');
+							}else{
+								if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
+								legendTabContent.push('<div class="visor-legend-row">'+
+							    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
+							    	'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
+							    	'</div><div class="visor-separate-legend-row"></div>');	
+											
+								if(i==row.length-1){legendTabContent.push('</div>');}			
+							}
 						}
 					}
 				index=index+1;

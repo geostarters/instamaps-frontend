@@ -218,14 +218,17 @@
 					$('#llegenda_chk').bootstrapSwitch('state', true, true);
 				}else{
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
-				}	
-				if (that.mapConfig.options.tipusllegenda && that.mapConfig.options.tipusllegenda=="dinamica"){
-					$('#llegenda_chk2').bootstrapSwitch('state', true, true);
-					$('#txt_llegenda_chk2').html("La llegenda permet a l'usuari seleccionar la capa del seu interès.");
 				}
-				else {
-					$('#llegenda_chk2').bootstrapSwitch('state', false, false);
-					$('#txt_llegenda_chk2').html("La llegenda del conjunt de les capes es mostra de manera contínua.");
+				if (that.mapConfig.options.llegenda){
+					$('#div_llegenda_chk2').show();
+					if (that.mapConfig.options.tipusllegenda && that.mapConfig.options.tipusllegenda=="dinamica"){
+						$('#llegenda_chk2').bootstrapSwitch('state', true, true);
+						$('#txt_llegenda_chk2').html("La llegenda permet a l'usuari seleccionar la capa del seu interès.");
+					}
+					else {
+						$('#llegenda_chk2').bootstrapSwitch('state', false, false);
+						$('#txt_llegenda_chk2').html("La llegenda del conjunt de les capes es mostra de manera contínua.");
+					}
 				}
 			}
 			
@@ -366,6 +369,8 @@
         	$.get("templates/modalPublicar.html",function(data){
         		//TODO ver como pasar el modal container
         		$('#mapa_modals').append(data);       		
+        		
+        		
         		
         		$('.make-switch').bootstrapSwitch();
             	//Configurar Llegenda
