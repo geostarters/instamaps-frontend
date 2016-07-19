@@ -845,9 +845,9 @@ var IM_aplicacio = function (options) {
 				//var _maximumLevel = this.matriuCapes.base[i].options.maxZoom;
 				//var _minimumLevel = this.matriuCapes.base[i].options.maxZoom;
 
-				if (url.indexOf('osm.org') != -1 || url.indexOf('mqcdn.com') != -1) {
+				if (url.indexOf('osm.org') != -1 || url.indexOf('openstreetmap.org') != -1) {
 
-					url = url.replace('{s}.mqcdn.com', 'otile1.mqcdn.com');
+					//url = url.replace('{s}.mqcdn.com', 'otile1.mqcdn.com');
 
 					if (!this._miraCentreDins(this.center.lat, this.center.lng)) {
 
