@@ -673,6 +673,7 @@
         	//nomIndexacio=nomIndexacio.replace(/\s/g, "-");
         	nomIndexacio=encodeURI(nomIndexacio);
         	
+        	
         	var urlMap = that._getUrlMap(); 
         	urlMap=urlMap+"&title="+nomIndexacio;
         	
