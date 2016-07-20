@@ -107,14 +107,42 @@
 									<button class="btn btn-success btn_mig" lang="ca" id="load_TXT_coord">Processar arxiu</button>
 								</div>
 								<div class="tab-pane" id="opt_adreca">
-									<div id="div_formats" class="alert alert-info">
-										<span class="glyphicon glyphicon-info-sign"></span> 
-										<span lang="ca">Per codificar per adreces utilitza aquest</span> 
-										<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a> 
-										<span lang="ca">amb les teves dades.</span>
-										<br/>
-										<span lang="ca">Els camps Nom_via, Portal i Municipi són obligatoris.</span>
-									</div>
+									<ul class="bs-dadesO_JSON">
+										<li style="width:90%"><label lang="ca">Format de l'adre&ccedil;a: </label> 
+										<input id="opt_csv_parts" type="radio" value="parts" checked name="opt_adreca_field"><label lang="ca">Dividida en diferents camps</label>
+										<input id="opt_csv_unica" type="radio" value="unica" name="opt_adreca_field"><label lang="ca">En un camp &uacute;nic</label> </li>
+                                       <ul id="ul_adreca_parts">
+                                       		<li lang="ca">Municipi o lloc</li>
+											<li><select style="width: 100%;" id="cmd_upload_municipi"></select></li>
+                                       		<li lang="ca">Nom via</li>
+											<li><select style="width: 100%;" id="cmd_upload_nomVia"></select></li>
+                                       		<li lang="ca">Article via</li>
+											<li><select style="width: 100%;" id="cmd_upload_artVia"></select></li>
+											<li lang="ca">Tipus via</li>
+											<li><select style="width: 100%;" id="cmd_upload_tipVia"></select></li>											
+											<li lang="ca">Portal</li>
+											<li><select style="width: 100%;" id="cmd_upload_portal"></select></li>
+											<li lang="ca">Carretera</li>
+											<li><select style="width: 100%;" id="cmd_upload_carretera"></select></li>
+											<li lang="ca">Punt quilom&egrave;tric</li>
+											<li><select style="width: 100%;" id="cmd_upload_pk"></select></li>
+											<li lang="ca">Top&ograve;nim</li>
+											<li><select style="width: 100%;" id="cmd_upload_topo"></select></li>
+											<li id="upload_num_txt" style="display:none;">Nombre de topònims a retornar:</li>
+											<li id="upload_num" style="display:none;"><select style="width: 100%;" id="cmd_upload_topo_num">
+											<option value="1">1</option>
+											<option value="5">5</option>
+											<option value="10">10</option> 
+											<option value="20">20</option> 
+											<option value="50">50</option>
+											<option value="200">200</option>    
+											</select></li>
+										</ul>
+                                       <ul id="ul_adreca_unica" style="display:none">										
+											<li lang="ca">Camp que cont&eacute; l'adre&ccedil;a &uacute;nica</li>
+											<li><select style="width: 100%;" id="cmd_upload_caixaUnica"></select></li>		
+										</ul>
+									</ul>
 									<button class="btn btn-success btn_mig" lang="ca"
 										id="load_TXT_adre">Processar arxiu</button>
 								</div>
