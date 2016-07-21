@@ -52,8 +52,8 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 	//urlServerTiles="http://instamaps.{s}.icgc.local"	
 	//urlServerTilesW="http://instamaps.icgc.local"	
 
-	urlServerTiles="http://tilemaps1.farm"	
-	urlServerTilesW="http://tilemaps1.farm"	
+	urlServerTiles="http://tilemaps.icgc.cat"	
+	urlServerTilesW="http://tilemaps.icgc.cat"	
 }
 
 

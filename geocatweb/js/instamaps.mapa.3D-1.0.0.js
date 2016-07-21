@@ -21,8 +21,8 @@ var disparaEventMapa = true;
 var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
 var msgHTML = "";
-var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
-//var _urlTerrenys = 'http://tilemaps1.farm/terrenys/demextes'; //'/cesium/terrenys/demextes'
+//var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
+var _urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes'; //'/cesium/terrenys/demextes'
 
 var appl='mapa';
 var factorNavegador=1000;
