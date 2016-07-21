@@ -90,6 +90,7 @@ function creaAreesDragDropFiles() {
 				formData.append("geomType", envioArxiu.geomType);//comarques/municipis
 				formData.append("type", envioArxiu.type);//codis, coordenades
 				formData.append("camps", envioArxiu.camps);
+				formData.append("campUnic", envioArxiu.campUnic);
 				formData.append("ext", envioArxiu.ext);
 				formData.append("uid", $.cookie('uid'));
 				formData.append("mapBusinessId", url('?businessid'));
@@ -318,6 +319,7 @@ function addFuncioCarregaFitxers(){
 						formData.append("geomType", envioArxiu.geomType);
 						formData.append("type", envioArxiu.type);
 						formData.append("camps", envioArxiu.camps);
+						formData.append("campUnic", envioArxiu.campUnic);
 						formData.append("ext", envioArxiu.ext);
 						formData.append("markerStyle", envioArxiu.markerStyle);	
 						formData.append("lineStyle", envioArxiu.lineStyle);	
@@ -556,34 +558,57 @@ function addFuncioCarregaFitxers(){
 			}		
 		});	
 		
+		jQuery("#cmd_upload_topo").change(function(){
+			if (jQuery(this).val()==="topo"){
+				jQuery("#upload_num_txt").attr("style","display:block;");
+				jQuery("#upload_num").attr("style","display:block;");
+			}
+			else {
+				jQuery("#upload_num_txt").attr("style","display:none;");
+				jQuery("#upload_num").attr("style","display:none;");
+			}
+			
+		});						
+		
 		jQuery("#load_TXT_adre").on('click', function() {// fitxer TXT	
-			var cc=$('input:radio[name="radio_adre"]:checked').val();
+			var cc=$('input:radio[name="opt_adreca_field"]:checked').val();
 			
 			var isOK=true; //mientras adaptamos el nuevo geocodificador
 			envioArxiu.tipusAcc='adreca'; 
-			if(cc == '0'){
-		       if (jQuery('#cmd_upload_adre_0').val()!="null"){
+			if(cc == 'parts'){
+				var artVia=jQuery("#cmd_upload_artVia").val();
+				var tipVia=jQuery("#cmd_upload_tipVia").val();
+				var nomVia=jQuery("#cmd_upload_nomVia").val();
+				var portal=jQuery("#cmd_upload_portal").val();
+				var municipi=jQuery("#cmd_upload_municipi").val();
+				var carretera=jQuery("#cmd_upload_carretera").val();
+				var pk=jQuery("#cmd_upload_pk").val();
+				var caixaUnica=jQuery("#cmd_caixaUnica").val();
+				var topo=jQuery("#cmd_upload_topo").val();
+				var toponum=jQuery("#cmd_upload_topo_num").val();
+				
+		       if (nomVia!="null" || municipi!="null" ||  topo!="null"){
 		    	   isOK=true; 
 		    	   envioArxiu.tipusAcc='adreca'; 
-		    	   envioArxiu.camps=jQuery('#cmd_upload_adre_0').val();
+		    	   envioArxiu.camps= artVia+","+tipVia+","+nomVia+","+portal+","+municipi+","+carretera+","+pk+","+topo+","+toponum;
+		    	   console.debug(envioArxiu.camps);
 		       }else{
 		    	   isOK=false;
-		    	   alert(window.lang.convert("Cal indicar el camp que conté l'adreça"));
+		    	   alert(window.lang.convert("Cal indicar algun camp per cerca l'adreça"));
 		    	  
 		       };	      
-		    }else if(cc == '1'){	    	
-		    	var nc=jQuery("#cmd_upload_adre_11").val();
-		    	var mun=jQuery("#cmd_upload_adre_12").val();
+		    }else if(cc == 'unica'){	    	
+		    	var adrecaUnica=jQuery("#cmd_upload_caixaUnica").val();
 		    	
-		    	if((nc!='null') && (mun!='null') ){ 
+		    	if((adrecaUnica!='null')){ 
 		    		 isOK=true; 
 		    		 envioArxiu.tipusAcc='adreca';
-		    		 envioArxiu.camps=nc+","+mun;    		
+		    		 envioArxiu.campUnic=adrecaUnica;    		
 		    	}else{
 		    		 isOK=false;
 			    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
 		    	}
-		    }else if(cc == '2'){	    	
+		    }/*else if(cc == '2'){	    	
 		    	var nc=jQuery("#cmd_upload_adre_21").val();
 		    	var numc=jQuery("#cmd_upload_adre_22").val();
 		    	var mun=jQuery("#cmd_upload_adre_23").val();
@@ -596,7 +621,7 @@ function addFuncioCarregaFitxers(){
 		    		 isOK=false;
 			    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
 		    	}
-		    }	
+		    }*/	
 			if(isOK){enviarArxiu();}
 		});
 
@@ -658,6 +683,21 @@ function addFuncioCarregaFitxers(){
 		    	
 		    }	
 		});
+		
+		jQuery('input:radio[name="opt_adreca_field"]').on('click', function() {
+			var ori=this.id;
+			console.debug(ori);
+			if(ori.indexOf('unica')!=-1){
+				jQuery('#ul_adreca_unica').show();
+				jQuery('#ul_adreca_parts').hide();				
+			}else if(ori.indexOf('parts')!=-1){
+				jQuery('#ul_adreca_unica').hide();
+				jQuery('#ul_adreca_parts').show();	
+			}else{		
+				jQuery('#ul_adreca_unica').toggle();
+				jQuery('#ul_adreca_parts').toggle();
+			}		
+		});	
 	});
 }
 
@@ -801,13 +841,16 @@ function analitzaMatriu(matriu) {
 	jQuery('#cmd_upload_colY').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
 	jQuery('#cmd_upload_wkt').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
 	
-	jQuery('#cmd_upload_adre_0').html("<option value='null'>" + window.lang.convert('Selecciona un adreça sencera')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_adre_11').html("<option value='null'>" + window.lang.convert('Selecciona nom carrer i número')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_adre_12').html("<option value='null'>" + window.lang.convert('Selecciona municipi')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_adre_21').html("<option value='null'>" + window.lang.convert('Selecciona nom carrer')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_adre_22').html("<option value='null'>" + window.lang.convert('Selecciona número')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_adre_23').html("<option value='null'>" + window.lang.convert('Selecciona municipi')+ "</option>"+op.join(" "));
-	
+	jQuery('#cmd_upload_artVia').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_tipVia').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_nomVia').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_portal').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_municipi').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_carretera').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_pk').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_topo').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_caixaUnica').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
+		
 	jQuery('#cmd_upload_codi').html("<option value='null'>" + window.lang.convert('Selecciona un camp amb el codi')+ "</option>"+op.join(" "));
 
 	var fieldType = "";

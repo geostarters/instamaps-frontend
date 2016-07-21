@@ -157,11 +157,11 @@
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
 					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" id="thumbnail-public">
 						<div class="image">
-							{{#if_equals nomAplicacio 'DUN'}}
-								<img src="{{thumbnail}}" onError="this.src='http://www.instamaps.cat/galeria/20bd7dc2d23cd43822c0ea8076627e12.jpeg'" alt="{{nomAplicacio}}">
-							{{else}}
-								<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
-							{{/if_equals}}
+						{{#if thumbnail}}
+			      			<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
+						{{else}}
+							<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
+						{{/if}}						
 						</div>
 						<div class="caption text-center nomAplicacio">
 							<h4>{{nomAplicacio}}</h4>
