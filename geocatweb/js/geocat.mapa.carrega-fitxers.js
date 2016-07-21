@@ -591,6 +591,7 @@ function addFuncioCarregaFitxers(){
 		    	   isOK=true; 
 		    	   envioArxiu.tipusAcc='adreca'; 
 		    	   envioArxiu.camps= artVia+","+tipVia+","+nomVia+","+portal+","+municipi+","+carretera+","+pk+","+topo+","+toponum;
+		    	   envioArxiu.campUnic='';
 		    	   console.debug(envioArxiu.camps);
 		       }else{
 		    	   isOK=false;
@@ -603,7 +604,8 @@ function addFuncioCarregaFitxers(){
 		    	if((adrecaUnica!='null')){ 
 		    		 isOK=true; 
 		    		 envioArxiu.tipusAcc='adreca';
-		    		 envioArxiu.campUnic=adrecaUnica;    		
+		    		 envioArxiu.campUnic=adrecaUnica;    
+		    		 envioArxiu.camps='';
 		    	}else{
 		    		 isOK=false;
 			    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
