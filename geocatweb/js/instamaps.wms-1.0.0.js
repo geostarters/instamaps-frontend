@@ -63,7 +63,8 @@
 			var self = this;
 			$(".url-wms").val(options.url);
 			self.url = options.url;
-			self.name = options.name;
+			self.name = options.name;			
+			options.capa?self.capa=options.capa:self.capa =null;			
 			self.getCapabilities();
 			return self;
 		}, 
@@ -85,8 +86,8 @@
 				ActiuWMS = {};
 			
 			self = $.extend(self, options);
-			
-			var data = {url: self.url};
+			console.info(self.capa);
+			var data = {url: self.url,capa:self.capa};
 			
 			self.getWMSLayers(data).then(function(results) {
 				var bbox, servidor, WMS_BBOX,
@@ -184,7 +185,33 @@
 					self._botons.html(
 						'<div style="float:right"><button lang="ca" class="btn btn-success btn-add-wms" >' +
 						window.lang.convert("Afegir capes") + '</button></div>');
+										
+					if(self.capa){						
+						var ls;
+						var hits=0;
+						if(self.capa.indexOf(",")!=-1){								//hi ha més una capa
+						
+							ls=self.capa.split(",");
+						
+								for(i=0; i < ls.length;i++){
+							hits=hits + self._ckechLayerWMS(ls[i]);
+								}							
+						}else{
+							ls=self.capa;
+							hits=hits + self._ckechLayerWMS(ls);
+						}	
+																		
+						if(hits > 0){
+							 self.addExternalWMS(false);						
+						}else{
+							jQuery("#div_controlWMS_OFICIALS").show();
+							jQuery("#div_emptyWMS_OFICIALS").show();								
+						
+						}						
 					
+					}
+															
+					//ckbox_layer					
 					$(".btn-add-wms").on('click', function(e) {
 					    self.addExternalWMS(false);
 					});
@@ -193,7 +220,7 @@
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){
-				console.info(status);
+				
 				status.indexOf('parser')!=-1?alert(window.lang.convert("Error en interpretar capabilities")):alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				
 				});
@@ -201,6 +228,33 @@
 			return self;
 		},
 		
+		_ckechLayerWMS: function(layerName){
+			var self = this;
+			var hit=0;			
+			jQuery(".ckbox_layer").each(function() {		
+				if(this.value==layerName){				
+				jQuery(this).prop('checked',true);
+				hit=hit +1;				
+				}				
+			});			
+			return hit;			
+		},	
+		
+		_getChekedLayers:function(){
+			var ch=0;
+				 $(".ckbox_layer").each(function() {
+					 
+					
+					 
+					if(jQuery(this).prop('checked')){
+					
+						ch=ch + 1;
+					}
+		return ch;					
+			  });	
+					
+			
+		},	
 		addExternalWMS: function(){
 			var self = this,
 			_dateFormat = false;

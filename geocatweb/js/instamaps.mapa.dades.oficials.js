@@ -144,19 +144,7 @@ var IM_DadesOficials = function (options) {
 
 				_htmlGetInitPCC.push('<optgroup id="_pccul_' + _valID + '" label="'+shortString(val, 85)+'">');
 				_htmlGetInitPCC.push('</optgroup>'); 
-				/*
-				_htmlGetInitPCC.push('<div class="panel panel-default">');
-				_htmlGetInitPCC.push('<div class="panel-heading pcc_menu" role="tab" id="heading"' + key + '><h4 class="panel-title">');
-				_htmlGetInitPCC.push('<a role="button" data-toggle="collapse" data-parent="#accordion" href="#_pccmenu_' + key + '" aria-expanded="true" aria-controls="collapseOne">');
-				_htmlGetInitPCC.push(shortString(val, 85));
-				_htmlGetInitPCC.push('</a>');
-				_htmlGetInitPCC.push('</h4>');
-				_htmlGetInitPCC.push('</div>');
-				_htmlGetInitPCC.push('<div id="_pccmenu_' + key + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">');
-				_htmlGetInitPCC.push('<ul class="pcc_ul" id="_pccul_' + _valID + '"></ul>');
-				_htmlGetInitPCC.push('</div>');
-				_htmlGetInitPCC.push('</div>');
-				*/
+				
 			});
 
 			_htmlGetInitPCC.push('</select></div></div>');
@@ -169,10 +157,11 @@ var IM_DadesOficials = function (options) {
 				var titol = val.nom_instamaps;
 				var titolShort = shortString(titol, 85);
 				var idarxiu = val.url_geoservei;
+				var capa= val.capa;
 				var _valID = treuAccentsiEspais(val.id_cig + " " + val.nom_grup); ;
 				var id = '_pccul_' + _valID;
 			
-				jQuery('#' + id).append('<option value="'+titol+'##'+idarxiu+'">' + titolShort+'</option>');
+				jQuery('#' + id).append('<option value="'+titol+'##'+idarxiu+'##'+capa+'">' + titolShort+'</option>');
 				//jQuery('#' + id).append('<li><a class="label-dadesPCC" href="#"  title="' + titol + '" data-nom="' + titol + '" data-wms_url="' + idarxiu + '">' + titolShort);
 			});
 				$('select[data-selectsplitter-selector]').selectsplitter(				
@@ -204,6 +193,8 @@ var IM_DadesOficials = function (options) {
 				
 				if (e.target.id != "id_ofi") {
 					
+					//console.info(jQuery(e.target));
+					
 				var _atrPCC=jQuery(e.target).attr('value').split("##");	
 					
 						
@@ -212,13 +203,14 @@ var IM_DadesOficials = function (options) {
 						//name : $(e.target).attr('title')
 						
 						url :_atrPCC[1],
-						name : _atrPCC[0]
+						name : _atrPCC[0],
+						capa : _atrPCC[2],
 						
 					});
 					//jQuery("#id_ofi_body").hide();
 					map.setView([41.431, 1.8580], 9);
-					jQuery("#div_controlWMS_OFICIALS").show();
-					jQuery("#div_emptyWMS_OFICIALS").show();
+					//jQuery("#div_controlWMS_OFICIALS").show();
+					//jQuery("#div_emptyWMS_OFICIALS").show();
 					jQuery("#inspire_msg").html('');
 					
 
