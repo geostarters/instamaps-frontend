@@ -160,6 +160,8 @@ L.Control.Legend = L.Control.extend({
 	_updateTabLegend:function(obje){
 		var self = this;
 		self.fromLayer = true;
+		
+		console.info(obje);
 		if(obje.activo){
 			$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');	
 		}else{			
@@ -173,19 +175,31 @@ L.Control.Legend = L.Control.extend({
 	_getLastActived:function(){	
 	var self = this,
 		mapLegend = self.legend;
-	
-		var lastPos={};
+
+		var lastPos={indexPos:0};
 		var indexPos=0;			
 			jQuery.each(mapLegend, function(j, row){
 		    	for (var i = 0; i < row.length; i++) {
 					if(row[i].chck){
-					lastPos.indexPos=indexPos;
+						
+						if(self.servidorsWMS[i] && 
+								self.servidorsWMS[i].capesActiva=="true" ){
+							
+							if(i-1 >lastPos.indexPos){
+							lastPos.indexPos=i-1;
+							}
+							
+						}
+						
 					lastPos.id=j;									
 					}	
 				}
 				indexPos=indexPos+1;
 			});
-	
+			
+			if(lastPos.indexPos==-1){lastPos.indexPos=0}
+			
+			
 	return lastPos;
 
 	},
@@ -237,12 +251,14 @@ L.Control.Legend = L.Control.extend({
 				
 				var index=0;
 				var lastPos=self._getLastActived();
-						
 				
 				jQuery.each(mapLegend, function(j, row){
 				
 				var layerType=self._getNameLayer(j);
 				index==lastPos.indexPos?active=' active':active="";
+				
+				
+				
 				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 					legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');
 				}
@@ -333,6 +349,8 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	_activaCapaTab: function(e){
+		
+		console.info(e);
 		var self = this;
 		self._redrawTabs();
 		if(!self.fromLayer){
