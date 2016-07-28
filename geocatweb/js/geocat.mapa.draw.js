@@ -2194,7 +2194,7 @@ function activarSnapping(capaEdicio){
 			}
 		 }
 		 capaEdicio.getLayers()[0].snapediting.enable();
-		 capaEdicio.getLayers()[0].editing.enable();
+		// capaEdicio.getLayers()[0].editing.enable();
 		  // Add to drawnItems
 		 drawnItems.addLayer(capaEdicio.getLayers()[0]);
 		 // Add newly drawn feature to list of snappable features
