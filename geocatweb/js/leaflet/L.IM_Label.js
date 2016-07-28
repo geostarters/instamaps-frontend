@@ -112,4 +112,52 @@
 			}
 		}
 	  });
+	
+	L.MultiPolygon.include({
+	    bindLabelExPolygon: function (map,content, options) {
+	       this._map=map;
+	      if (!this.label || this.label.options !== options) {
+	        this.label = new L.Label(options, this);
+	      }
+	  	 this
+	  		.on('remove', this.hideLabel, this)
+	  		.on('move', this._moveLabel, this)
+	  		.on('add', this._onPolygonAdd, this);
+	     
+	  	 var pointM = this.getBounds().getCenter();
+	     
+	      this.label.setContent(content);
+	      this._showLabelAdded = true;
+	      this._showLabel({
+	        latlng: pointM
+	      });
+	    },
+	    unbindLabel: function () {
+	    	this
+			.off('remove', this.hideLabel, this)
+			.off('move', this._moveLabel, this)
+			.off('add', this._onPolygonAdd, this);
+	    	if (this.label) {
+				this._hideLabel();
+				this.label = null;
+				this._showLabelAdded = false;				
+			}
+			return this;
+		},
+		hideLabel: function () {
+			if (this.label) {
+				this.label.close();
+			}
+			return this;
+		},
+		_showLabel: function (e) {
+			this.label.setLatLng(e.latlng);
+			if (this._map!=null) this._map.showLabel(this.label);
+		},
+		_onPolygonAdd: function () {
+			if (this._labelNoHide) {
+				this._showLabel();
+			}
+		}
+	  });
 }(window, document));
