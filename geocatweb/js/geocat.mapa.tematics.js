@@ -364,7 +364,7 @@ function createPopupWindowData(player,type, editable, origen){
 		+'</div>';			
 	}
 	
-	html+='</div>';
+	//html+='</div>';
 	
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
