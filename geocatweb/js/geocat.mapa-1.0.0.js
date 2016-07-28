@@ -557,33 +557,7 @@ function loadMapConfig(mapConfig){
 		
 		map.on('zoomend', function (e) {
 			jQuery.each(controlCapes._layers, function(i, obj){				
-					 if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
-								obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
-						 		var zoomInicial = "2";
-						 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-						 		var zoomFinal = "19";
-						 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
-						 		
-						 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
-									jQuery.each(obj.layer._layers, function(i, lay){
-										if (lay.label!=undefined) {
-											if(lay.label){
-												lay.label.setOpacity(1);
-											}
-											if(lay._showLabel){
-						                        lay._showLabel({latlng: lay.label._latlng});
-											}
-										}
-									});											
-						 		 }
-						 		 else {//amaguem labels
-									jQuery.each(obj.layer._layers, function(i, lay){
-										if(lay.label){
-											lay.label.setOpacity(0);
-										}
-									});										
-								 }
-					}
+				refrescarZoomEtiquetes(obj.layer);
 			 });
 		});
 		
@@ -897,6 +871,37 @@ function nobackbutton(){
     window.location.hash="Again-No-back-button" //chrome
     window.onhashchange=function(){window.location.hash="no-back-button";}
 }
+
+function refrescarZoomEtiquetes(obj){
+	if (obj.options.opcionsVisEtiqueta!=undefined && (obj.options.opcionsVisEtiqueta=="nomesetiqueta" ||
+			obj.options.opcionsVisEtiqueta=="etiquetageom")){
+	 		var zoomInicial = "2";
+	 		if (obj.options.zoomInicial) zoomInicial=obj.options.zoomInicial;
+	 		var zoomFinal = "19";
+	 		if (obj.options.zoomFinal) zoomFinal = obj.options.zoomFinal;
+	 		
+	 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
+				jQuery.each(obj._layers, function(i, lay){
+					if (lay.label!=undefined) {
+						if(lay.label){
+							lay.label.setOpacity(1);
+						}
+						if(lay._showLabel){
+	                        lay._showLabel({latlng: lay.label._latlng});
+						}
+					}
+				});											
+	 		 }
+	 		 else {//amaguem labels
+				jQuery.each(obj._layers, function(i, lay){
+					if(lay.label){
+						lay.label.setOpacity(0);
+					}
+				});										
+			 }
+	}
+}
+
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo
 se creara el mapa en la BD y que el si el usuario abandona la página sin publicar se
