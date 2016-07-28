@@ -2176,7 +2176,7 @@ function activarSnapping(capaEdicio){
 			if ( guideLayers[i].snapediting!=undefined){
 				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
 				guideLayers[i].snapediting.enable();
-				guideLayers[i].editing.disable();
+				if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
 			}
 			else {
 				if (guideLayers[i].properties.tipusFeature != undefined && guideLayers[i].properties.tipusFeature=="marker"){
@@ -2187,10 +2187,10 @@ function activarSnapping(capaEdicio){
 				}
 				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
 				guideLayers[i].snapediting.enable();
-				guideLayers[i].editing.disable();
+				if (guideLayers[i].editing!=undefined)  guideLayers[i].editing.disable();
 			}
 			if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
-				guideLayers[i].editing.disable();			
+				if (guideLayers[i].editing!=undefined)  guideLayers[i].editing.disable();			
 			}
 		 }
 		 capaEdicio.getLayers()[0].snapediting.enable();

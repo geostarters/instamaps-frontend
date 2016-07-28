@@ -178,24 +178,22 @@ L.Control.Legend = L.Control.extend({
 
 		var lastPos={indexPos:0};
 		var indexPos=0;			
-			jQuery.each(mapLegend, function(j, row){
-		    	for (var i = 0; i < row.length; i++) {
-					if(row[i].chck){
-						
-						if(self.servidorsWMS[i] && 
-								self.servidorsWMS[i].capesActiva=="true" ){
-							
-							if(i-1 >lastPos.indexPos){
-							lastPos.indexPos=i-1;
-							}
-							
-						}
-						
-					lastPos.id=j;									
-					}	
-				}
-				indexPos=indexPos+1;
-			});
+		var k=0;
+			jQuery.each(self.servidorsWMS, function(j, row){
+				if (self.servidorsWMS[j].capesActiva=="true"){
+					k=0;
+					jQuery.each(mapLegend, function(index, row){
+						k++;
+						for (var i = 0; i < row.length; i++) {							
+				    		if(row[i].chck){
+				    			if (self.servidorsWMS[j].businessId==index){				    				
+				    				lastPos.indexPos=k-1;
+				    			}
+				    		}
+				    	}
+					});
+				}			
+			});				
 			
 			if(lastPos.indexPos==-1){lastPos.indexPos=0}
 			
