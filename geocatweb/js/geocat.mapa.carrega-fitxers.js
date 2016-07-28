@@ -835,8 +835,14 @@ function analitzaMatriu(matriu) {
 	$('#nav_pill a[href="#opt_adreca"]').attr("data-toggle","tab");
 	
 	$.each(matriu, function(index, value) {
+		if (!jQuery.isNumeric(value)){
 		op.push("<option value=\"" + value + "\">" + value.toUpperCase()
 				+ "</option>");
+		}
+		else {
+			op.push("<option value=\"" + value + "\">" + value
+					+ "</option>");	
+		}
 	});
 
 	jQuery('#cmd_upload_colX').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
@@ -857,28 +863,27 @@ function analitzaMatriu(matriu) {
 
 	var fieldType = "";
 	for (var x = 0; x < matriu.length; x++) {
-
-		if (matriu[x].toUpperCase() == "X" || matriu[x].toUpperCase() == "LON"
-				|| matriu[x].toUpperCase() == "LONGITUD") {
+		if (!jQuery.isNumeric(matriu[x]) && (matriu[x].toUpperCase() == "X" || matriu[x].toUpperCase() == "LON"
+				|| matriu[x].toUpperCase() == "LONGITUD")) {
 			fieldType = "colX";
 			$('#cmd_upload_colX option:contains("' + matriu[x] + '")').prop(
 					'selected', true);
 			$('#nav_pill a[href="#opt_coord"]').tab('show');
 
-		} else if (matriu[x].toUpperCase() == "Y"
+		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "Y"
 				|| matriu[x].toUpperCase() == "LAT"
-				|| matriu[x].toUpperCase() == "LATITUD") {
+				|| matriu[x].toUpperCase() == "LATITUD")) {
 
 			fieldType = "colY";
 			$('#cmd_upload_colY option:contains("' + matriu[x] + '")').prop(
 					'selected', true);
 			$('#nav_pill a[href="#opt_coord"]').tab('show');
 
-		} else if (matriu[x].toUpperCase() == "POLIGONO"
+		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "POLIGONO"
 				|| matriu[x].toUpperCase() == "POLYGON"
 				|| matriu[x].toUpperCase() == "POINT"
 				|| matriu[x].toUpperCase() == "GEOM"
-				|| matriu[x].toUpperCase() == "LINESTRING") {
+				|| matriu[x].toUpperCase() == "LINESTRING")) {
 
 			fieldType = "wkt";
 			$('#cmd_upload_wkt option:contains("' + matriu[x] + '")').prop(
@@ -886,31 +891,31 @@ function analitzaMatriu(matriu) {
 			$('#nav_pill a[href="#opt_coord"]').tab('show');	
 			jQuery("#opt_csv_geom").click();
 			
-		} else if (matriu[x].toUpperCase() == "CARRER"
-				|| matriu[x].toUpperCase() == "ADRECA") {
+		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "CARRER"
+				|| matriu[x].toUpperCase() == "ADRECA")) {
 			fieldType = "adre";
 			$('#cmd_upload_adre option:contains("' + matriu[x] + '")').prop(
 					'selected', true);
 			$('#nav_pill a[href="#opt_adreca"]').tab('show');
-		} else if (matriu[x].toUpperCase() == "MUNICIPI"
+		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "MUNICIPI"
 				|| matriu[x].toUpperCase() == "MUNI"
 				|| matriu[x].toUpperCase() == "POPBLA"
-				|| matriu[x].toUpperCase() == "COMARC") {
+				|| matriu[x].toUpperCase() == "COMARC")) {
 			fieldType = "adre";
 			$('#cmd_upload_mun option:contains("' + matriu[x] + '")').prop(
 					'selected', true);
 			$('#nav_pill a[href="#opt_adreca"]').tab('show');
-		} else if (matriu[x].toUpperCase() == "ID"
+		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "ID"
 				|| matriu[x].toUpperCase() == "BID"
-				|| matriu[x].toUpperCase() == "CODI") {
+				|| matriu[x].toUpperCase() == "CODI")) {
 			fieldType = "bid";
-		} else if (matriu[x].toUpperCase() == "CODI_INE"
+		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "CODI_INE"
 				|| matriu[x].toUpperCase() == "CODI INE"
 				|| matriu[x].toUpperCase() == "INE"
 				|| matriu[x].toUpperCase() == "CODI_MUNICAT"
 				|| matriu[x].toUpperCase() == "MUNICAT"
 				|| matriu[x].toUpperCase() == "IDESCAT"
-				|| matriu[x].toUpperCase() == "CADASTRE") {
+				|| matriu[x].toUpperCase() == "CADASTRE")) {
 			fieldType = "codi";
 			$('#cmd_upload_codi option:contains("' + matriu[x] + '")').prop(
 					'selected', true);
