@@ -1563,6 +1563,9 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	}catch(err){
 		if (capaVisualitzacio.layer!=undefined) 	capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}
+	
+	defer.resolve(layer);
+	
 	return defer.promise();
 }
 
