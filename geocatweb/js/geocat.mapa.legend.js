@@ -167,7 +167,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		layerName = mapLegend[layer.options.businessId][0].name;
 		if(mapLegend[layer.options.businessId][0].chck) checked = 'checked="checked"';
 	}
-	
+	html += '<div class="legend-row" style="padding-left:15px">'+layerName+'</div>'; 
 	//Cluster
 	if(layer.options.tipusRang && layer.options.tipusRang == tem_cluster){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';

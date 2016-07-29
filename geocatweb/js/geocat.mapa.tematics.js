@@ -364,7 +364,7 @@ function createPopupWindowData(player,type, editable, origen){
 		+'</div>';			
 	}
 	
-	html+='</div>';
+	//html+='</div>';
 	
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
@@ -1563,6 +1563,9 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	}catch(err){
 		if (capaVisualitzacio.layer!=undefined) 	capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}
+	
+	defer.resolve(layer);
+	
 	return defer.promise();
 }
 
@@ -2012,7 +2015,27 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					}
 					llistaPoligons.push(llistaLines);
 				}
-				featureTem.push(new L.multiPolygon(llistaPoligons, geomStyle));
+				var multipolygon = new L.multiPolygon(llistaPoligons, geomStyle);
+				if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
+					geomStyle = createAreaStyle(estil,0);
+					multipolygon = new L.multiPolygon(llistaLines, geomStyle);
+				}
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+							if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  && origen==""){
+								multipolygon.bindLabelExPolygon(map,geom.properties[optionsVis.campEtiqueta], 
+									{ noHide: true, direction: 'center',clickable:true, className: "etiqueta_style_"+visualitzacio.businessId,offset: [0, 0] });
+							}	
+							if (optionsVis.opcionsVis=="geometries"){
+								multipolygon.hideLabel();
+							}
+							if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+									(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+								multipolygon.hideLabel();
+							}
+					}
+				}
+				featureTem.push(multipolygon);
 			//polygon
 			}else if (geomTypeVis === t_polygon){
 				var coords=geom.geometry.coordinates;
@@ -2101,6 +2124,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
+						feat.dragging.disable(); 
 					}
 					else {
 						feat.snapediting = new L.Handler.PolylineSnap(map, feat,{snapDistance:10});

@@ -108,8 +108,8 @@ var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 var mapaUrl = {	
 	topoMapMON:urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.png',
 	topoMapOSM:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-	//topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',
-	topoMapICGC:urlServerTiles+'/mapfactory/wmts/topo_icgc/CAT3857/{z}/{x}/{y}.png',
+	topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',
+	//topoMapICGC:urlServerTiles+'/mapfactory/wmts/topo_icgc/CAT3857/{z}/{x}/{y}.png',
 	
 	
 	topoMapSuauOSM:urlServerTiles+'/mapfactory/wmts/osm_suau/MON3857/{z}/{x}/{y}.png',

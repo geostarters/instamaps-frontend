@@ -221,7 +221,7 @@
 						uid: $.cookie('uid')
 					}
 					getConvidatsByBusinessId(data1).then(function(results){
-						for (var j=1;j<6;j++){ //Netejem els camps dels convidats
+						for (var j=1;j<11;j++){ //Netejem els camps dels convidats
 							$('#convidats'+j).val("");
 							$('#convidats'+j).prop('disabled',false);
 							$('#convidats'+j).attr("style","margin-bottom:3px;width:88%;");
@@ -379,7 +379,7 @@
 				var idConv="#convidats_"+businessId;
 				var convidats=$(idConv).val();
 				var totalConv=0;
-				for (var i=1;i<6;i++){
+				for (var i=1;i<11;i++){
 					if ($('#convidats'+i) && $('#convidats'+i).val()!="" ) {
 						var convidat=$('#convidats'+i).val();
 						if (convidats.indexOf(convidat)!=-1) {

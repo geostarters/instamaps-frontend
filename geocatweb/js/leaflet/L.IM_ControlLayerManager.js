@@ -1660,7 +1660,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						};
 						updateVisualitzacioLayer(data).then(function(results){
 							$('#dialog_etiquetes_capa').modal('hide');
-							reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map);
+							reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map).then(function(results) {
+								//refresh zoom etiquetes
+								refrescarZoomEtiquetes(results);
+							});
 						});
 					}
 				});
