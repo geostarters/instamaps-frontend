@@ -97,11 +97,6 @@ var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
 //var mapaUrl.topoSuauColor=urlServerTilesW+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png';
 //var URL_MQ_GEO='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
-
-
-
-
-
 //var mapaUrl.topoLimitsSuau=urlServerTiles+'/mapfactory/wmts/limits/MON3857/{z}/{x}/{y}.png';
 
 
