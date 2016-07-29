@@ -452,6 +452,7 @@ function activaEdicioUsuari() {
 		for(var i = 0;i < guideLayers.length; i++) {			
 				if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
 				if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
+				if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.disable(); 
 		}
 		if(crt_Editing){
 			crt_Editing.disable();
@@ -469,6 +470,11 @@ function activaEdicioUsuari() {
 	$('body').click(function(event) {		
 		if(objEdicio.esticEnEdicio){
 			 var target = $(event.target);
+			 for(var i = 0;i < guideLayers.length; i++) {			
+					if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
+					if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
+					if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.disable(); 
+			}
 			 if(crt_Editing){
 				crt_Editing.disable();
 			}
@@ -569,6 +575,7 @@ function activaEdicioUsuari() {
 			        // Add the currently drawn layer to the snap list of the already drawn layers
 			        guideLayers[i].snapediting.addGuideLayer(layer);
 			        guideLayers[i].snapediting.disable();
+			        if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			 }
 			
 			  // Add to drawnItems
@@ -632,6 +639,7 @@ function activaEdicioUsuari() {
 		        // Add the currently drawn layer to the snap list of the already drawn layers
 		        guideLayers[i].snapediting.addGuideLayer(layer);
 		        guideLayers[i].snapediting.disable();
+		        if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			 }
 			 
 			 // Add to drawnItems
@@ -696,6 +704,7 @@ function activaEdicioUsuari() {
 		        // Add the currently drawn layer to the snap list of the already drawn layers
 		        guideLayers[i].snapediting.addGuideLayer(layer);
 		        guideLayers[i].snapediting.disable();
+		        if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			 }
 			
 	
@@ -2177,6 +2186,7 @@ function activarSnapping(capaEdicio){
 				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
 				guideLayers[i].snapediting.enable();
 				if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
+				if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			}
 			else {
 				if (guideLayers[i].properties.tipusFeature != undefined && guideLayers[i].properties.tipusFeature=="marker"){
@@ -2188,9 +2198,11 @@ function activarSnapping(capaEdicio){
 				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
 				guideLayers[i].snapediting.enable();
 				if (guideLayers[i].editing!=undefined)  guideLayers[i].editing.disable();
+				if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			}
 			if (capaEdicio.getLayers()[0].properties.tipusFeature != undefined && capaEdicio.getLayers()[0].properties.tipusFeature=="marker"){
-				if (guideLayers[i].editing!=undefined)  guideLayers[i].editing.disable();			
+				if (guideLayers[i].editing!=undefined)  guideLayers[i].editing.disable();
+				if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			}
 		 }
 		 capaEdicio.getLayers()[0].snapediting.enable();

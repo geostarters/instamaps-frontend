@@ -2124,6 +2124,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
+						feat.dragging.disable(); 
 					}
 					else {
 						feat.snapediting = new L.Handler.PolylineSnap(map, feat,{snapDistance:10});
