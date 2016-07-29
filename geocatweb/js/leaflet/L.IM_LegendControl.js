@@ -14,6 +14,7 @@ L.Control.Legend = L.Control.extend({
 		id: 'mapLegend',
 		className: 'info legend visor-legend ',
 		tipusllegenda: 'dinamica',
+		llegendaOpt: 'tancada',
 		transition: true
 	},
 	
