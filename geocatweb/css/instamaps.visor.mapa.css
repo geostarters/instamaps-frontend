@@ -1945,8 +1945,8 @@ i.fa {
 .visor-legend{
 	
 	    overflow: hidden;
-   max-height: 205px;
-    max-width: 300px;
+  /* max-height: 205px;
+    max-width: 300px;*/
     min-width: 210px;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -2559,7 +2559,7 @@ border: 1px solid #aaa
 }	
 
 .legendTabCont{	
-    max-height: 165px;
+    /*max-height: 165px;*/
     min-height: 150px;
     height: auto;
     overflow: auto;
@@ -2618,4 +2618,6 @@ border: 1px solid #aaa
 
 #mapLegend{
 	resize:both;
+	overflow:auto;
 }
+
