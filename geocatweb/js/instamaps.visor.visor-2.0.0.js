@@ -656,7 +656,8 @@
 			
 			ctr_legend = L.control.legend({
 				title: window.lang.convert('Llegenda'),
-				tipusllegenda: self.tipusllegenda
+				tipusllegenda: self.tipusllegenda,
+				llegendaOpt: self.llegendaOpt
 			});
 			ctr_legend.addTo(_map);
 			
@@ -775,7 +776,7 @@
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				if (!self.nollegenda) {
 					self.addLlegenda();
-					self.controls.llegendaControl.hide();
+					if (self.llegendaOpt==true) self.controls.llegendaControl.hide();
 				};
 			}
 			
@@ -870,6 +871,7 @@
 					self.llegenda = 0;
 				}
 				self.tipusllegenda=mapConfig.options.tipusllegenda;
+				self.llegendaOpt=mapConfig.options.llegendaOpt;
 			}
 			self._mapConfig = mapConfig;
 			
