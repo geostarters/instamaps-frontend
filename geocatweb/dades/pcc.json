@@ -26,7 +26,7 @@
         "nom_grup": "Llocs protegits",
         "nom_instamaps": "Zones humides",
         "nom_geoservei": "Zones humides",
-        "nom_geoservei_instamaps": "Zones humides",
+        "nom_geoservei_instamaps": "Zones humides1",
         "url_geoservei": "http://sig.gencat.cat/ows/ESPAIS_NATURALS/wms",
 		"capa":"ESPAISNATURALS_FORESTS",
         "inspire_compliant": "FALSE"
