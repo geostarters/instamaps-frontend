@@ -683,7 +683,7 @@
         	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;			
         	//nomIndexacio=nomIndexacio.replace(/[^0-9a-zA-Z ]/g, "");
         	//nomIndexacio=nomIndexacio.replace(/\s/g, "-");
-        	nomIndexacio=encodeURI(nomIndexacio);
+			nomIndexacio= encodeURI(nomIndexacio);
         	
         	
         	var urlMap = that._getUrlMap(); 

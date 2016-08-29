@@ -146,7 +146,7 @@ L.LayerGroup.include({
          //Custom: que no es perdin les propietats del feature
          if(jQuery.isEmptyObject(json.properties)){
         	 
-			if(layer.properties.nom){ json.properties.name = layer.properties.nom;}
+			if(layer.properties && layer.properties.nom){ json.properties.name = layer.properties.nom;}
 					   
 			
 

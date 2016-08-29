@@ -22,8 +22,12 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	},
 	getFeatureInfo: function (evt) {
 		// Make an AJAX request to the server and hope for the best
-		var params = this.getFeatureInfoUrl(evt.latlng);
 		
+		console.info("getFeatureInfo");
+		
+		var params = this.getFeatureInfoUrl(evt.latlng);
+		console.info(this.options.queryable);
+		console.info(this.options);
 		if(this.options.queryable){
 		
 		if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
@@ -33,7 +37,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			}
 			
 			var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
-			
+			console.info(dataF);
 			var pop=L.popup({ maxWidth: 800})
 			.setLatLng(evt.latlng)
 			.setContent(dataF).openOn(map);	
@@ -81,10 +85,10 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					
 				
 					var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
-					
 					var pop=L.popup({ maxWidth: 800})
 					.setLatLng(evt.latlng)
 					.setContent(dataF).openOn(map);	
+					
 				}
 				
 				
@@ -94,7 +98,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		
 		}//fi querable
 		
-		
+		return;
 	},
 	
 	getFeatureInfoUrl: function (latlng) {
