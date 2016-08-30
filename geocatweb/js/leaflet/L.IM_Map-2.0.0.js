@@ -43,8 +43,13 @@ var _ombraLayer=null;
 //var subDomains=['otile1','otile2','otile3','otile4'];
 var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
-var urlServerTiles="http://www.{s}.instamaps.cat"
-var urlServerTilesW="http://www.instamaps.cat"	
+//var urlServerTiles="http://www.{s}.instamaps.cat"
+//var urlServerTilesW="http://www.instamaps.cat"	
+
+var urlServerTiles="http://{s}.tilemaps.icgc.cat"	
+var urlServerTilesW="http://{s}.tilemaps.icgc.cat"
+
+
 var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
@@ -52,8 +57,8 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 	//urlServerTiles="http://instamaps.{s}.icgc.local"	
 	//urlServerTilesW="http://instamaps.icgc.local"	
 
-	urlServerTiles="http://tilemaps.icgc.cat"	
-	urlServerTilesW="http://tilemaps.icgc.cat"	
+	urlServerTiles="http://{s}.tilemaps.icgc.cat"	
+	urlServerTilesW="http://{s}.tilemaps.icgc.cat"	
 }
 
 
