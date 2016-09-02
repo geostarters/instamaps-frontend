@@ -151,7 +151,7 @@ HTML_teulades_fv
 
 var HTML_edificis_ts = new Array();
 HTML_edificis_ts
-		.push('<h5>Potencial d\'aprofitament termosolar</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
+		.push('<h5>Potencial d\'aprofitament solar tèrmic</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 				+ '</table><table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global"></span> kWh/any</td></tr></table>'
 				+ '<table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t"></span> m&sup2;</td></tr><tr><td>Àrea instalada:</td><td><span id="fv_area_i"></span> m&sup2;</td></tr>'
 				+ '<tr><td>Nombre de panells:</td> <td><span id="fv_num_panells_span"><input onChange="initEdificisTS(1)" id="fv_num_panells" size="4"  type="text"></span></td></tr>'
@@ -191,7 +191,7 @@ HTML_edificis_ts
 
 var HTML_teulades_ts = new Array();
 HTML_teulades_ts
-		.push('<h5>Potencial d\'aprofitament termosolar</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
+		.push('<h5>Potencial d\'aprofitament solar tèrmic</h5> <table  class="tbl_chk"> <tr> <td id="pobre"><label>Pobre</label></td> <td id="adequat_ts"><label>Adequat</label></td> <td id="optim"><label>Òptim</label></td> </tr>'
 				+ '</table><table class="tbl_dades"><tr><td>Irradiació global:</td><td><span id="fv_global"></span> kWh/any</td></tr></table><table class="tbl_dades"><tr><td>Àrea total:</td><td><span id="fv_area_t"></span> m&sup2;</td></tr>'
 				+ '<tr><td>Inclinació:</td><td><span id="fv_inclina"></span> &deg;</td></tr>'
 				+ '<tr><td>Orientació:</td><td><span id="fv_azimut"></span> &deg;</td></tr>'
