@@ -15,7 +15,7 @@
         
         cache: function(){
         	var that = this;
-        	$.get("dades/municipis4326.json",function(data){
+        	$.get("/geocatweb/dades/municipis4326.json",function(data){
         		that.municipis = data;
         	});
         },

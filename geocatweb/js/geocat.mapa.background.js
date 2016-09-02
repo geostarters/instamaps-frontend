@@ -72,8 +72,8 @@ function creaPopOverMesFonsColor() {
 				+ '<div style="opacity:0.7" id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" data-lang-title="Topogràfic gris" class="div_fons_2"></div>'
 				+ '<div style="opacity:0.7" id="nit" lang="ca" data-toggle="tooltip" title="Nit" data-lang-title="Nit" class="div_fons_6"></div>'
 				+ '<div style="opacity:0.7" id="sepia" lang="ca" data-toggle="tooltip" title="Sèpia" data-lang-title="Sèpia" class="div_fons_7"></div>'
-				+ '<div style="opacity:0.7" id="zombie" lang="ca" data-toggle="tooltip" title="Zombie" data-lang-title="Zombie" class="div_fons_8"></div>'
-				+ '<div style="opacity:0.7" id="orquidea" lang="ca" data-toggle="tooltip" title="Orquídea" data-lang-title="Orquídea" class="div_fons_9"></div>'
+				+ '<div style="opacity:0.7" id="zombie" lang="ca" data-toggle="tooltip" title="Zombie" data-lang-title="Coure" class="div_fons_8"></div>'
+				+ '<div style="opacity:0.7" id="orquidea" lang="ca" data-toggle="tooltip" title="Orquídea" data-lang-title="Blue print" class="div_fons_9"></div>'
 				+ '<div style="opacity:0.7" id="naturalMap" lang="ca" data-toggle="tooltip" title="Natural" data-lang-title="Natural" class="div_fons_17"></div>'
 				+ '<div style="opacity:0.7" id="divadminMap" lang="ca" data-toggle="tooltip" title="Divisions administratives" data-lang-title="Divisions administratives" class="div_fons_16"></div>'
 				+ '</div>',

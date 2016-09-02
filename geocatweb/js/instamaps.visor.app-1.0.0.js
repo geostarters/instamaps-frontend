@@ -49,6 +49,10 @@ jQuery(document).ready(function() {
 	
 	visorOptions.tipusUser = tipus_user;
 	
+	
 	var visor = Visor(visorOptions).draw();
 
+	console.info(visorOptions);
+	
 }); // Final document ready
+
