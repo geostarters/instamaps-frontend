@@ -790,7 +790,8 @@
 		
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
-			window.location.href = paramUrl.galeriaPage;
+			alert(1);
+			//window.location.href = paramUrl.galeriaPage;
 		},
 		
 		loadLoginPage: function(){
@@ -935,6 +936,8 @@
 				mapacolaboratiu: _mapacolaboratiu,
 				uid: _uid	
 			};
+			
+			
 			getCacheMapByBusinessId(data).then(function(results){
 				if (results.status == "ERROR"){
 					self.loadErrorPage();
@@ -1164,6 +1167,7 @@
 				self.resizeMap();
 			},150));
 			
+			
 			if(self.businessid){
 				self.loadMapConfig();
 				_map.on('loadconfig', self._drawVisor, self);
@@ -1174,6 +1178,8 @@
 					}
 					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
 				}else{
+					
+					
 					self.loadErrorPage();
 				}
 			}

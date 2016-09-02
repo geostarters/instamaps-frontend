@@ -1,5 +1,5 @@
 /**
- * Gestió de la creació i carrega de capes de Dades Obertes
+ * Gestió de la creació i carrega de capes de Dades obertes
  */
 
 var _htmlDadesObertes = [];

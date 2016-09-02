@@ -195,7 +195,7 @@ function addControlAltresFontsDades() {
 		jQuery('.modal').modal('hide');
 		$('#dialog_dades_ex').modal('show');
 		$('a[href^="#id_do').click();
-		jQuery('#id_do').html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+		jQuery('#id_do').html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades obertes Gencat</a></span>');
 
 		jQuery("#id_do a.label-explora").on('click', function(e) {
 			if(e.target.id !="id_do"){
@@ -207,7 +207,7 @@ function addControlAltresFontsDades() {
 
 			if (tbA == "#id_do") {
 				jQuery(tbA).empty();
-				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades obertes Gencat</a></span>');
 
 				jQuery(tbA+" a.label-explora").on('click', function(e) {
 					if(e.target.id !="id_do"){
@@ -720,8 +720,8 @@ function addHtmlModalDadesExt(){
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<ul class="nav nav-tabs etiqueta">'+
-	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>'+
-	'						<li><a href="#id_ofi" lang="ca" data-toggle="tab">Dades Oficials</a></li>'+
+	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades obertes</a></li>'+
+	'						<li><a href="#id_ofi" lang="ca" data-toggle="tab">Dades oficials</a></li>'+
 	//'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
 	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Capes reutilitzables</a></li>'+

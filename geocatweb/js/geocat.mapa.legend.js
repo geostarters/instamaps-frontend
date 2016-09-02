@@ -206,7 +206,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				'</div>';		
 		html+='</div>';	
 		
-	//Dades Obertes y JSON
+	//Dades obertes y JSON
 	}else if(layer.options.tipus == t_dades_obertes || layer.options.tipus == t_json){//es un punt
 		
 		
