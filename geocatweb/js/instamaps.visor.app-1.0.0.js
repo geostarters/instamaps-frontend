@@ -48,11 +48,8 @@ jQuery(document).ready(function() {
 	var tipus_user = defineTipusUser();  //geocat.web-1.0.0
 	
 	visorOptions.tipusUser = tipus_user;
-	
-	
+		
 	var visor = Visor(visorOptions).draw();
-
-	console.info(visorOptions);
 	
 }); // Final document ready
 

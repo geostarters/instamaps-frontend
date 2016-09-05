@@ -377,8 +377,6 @@
         		//TODO ver como pasar el modal container
         		$('#mapa_modals').append(data);       		
         		
-        		
-        		
         		$('.make-switch').bootstrapSwitch();
             	//Configurar Llegenda
             	$('input[name="my-legend-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
