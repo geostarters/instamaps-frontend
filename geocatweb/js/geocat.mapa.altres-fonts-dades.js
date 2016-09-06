@@ -70,7 +70,7 @@ function cercaCapes(e){
 	    						}else if((servertype == t_dades_obertes)){
 	    							loadDadesObertesLayer(value);
 	    						}else if(servertype == t_xarxes_socials){
-	    							console.info(servertype);
+	    							
 	    							var options = jQuery.parseJSON( value.options );
 	    							if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
 	    							else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
@@ -720,16 +720,16 @@ function addHtmlModalDadesExt(){
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<ul class="nav nav-tabs etiqueta">'+
-	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades obertes</a></li>'+
 	'						<li><a href="#id_ofi" lang="ca" data-toggle="tab">Dades oficials</a></li>'+
+	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades obertes</a></li>'+
 	//'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
 	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Capes reutilitzables</a></li>'+
 	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades externes</span></a></li>'+
 	'					</ul>'+
 	'					<div class="tab-content tab-content-margin5px">'+
-	'						<div class="tab-pane fade" id="id_do"></div>'+
 	'						<div class="tab-pane fade" id="id_ofi"></div>'+
+	'						<div class="tab-pane fade" id="id_do"></div>'+
 	//'						<div class="tab-pane fade" id="id_xs"></div>'+
 	'						<div class="tab-pane fade" id="id_srvw"></div>'+
 	'						<div class="tab-pane fade" id="id_capes_instamaps"></div>'+
