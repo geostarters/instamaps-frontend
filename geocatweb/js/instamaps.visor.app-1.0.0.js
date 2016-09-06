@@ -41,6 +41,8 @@ var visorOptions = {
 	appmodul: url('?appmodul') || null
 };
 
+var visor; 
+
 jQuery(document).ready(function() {
 	//TODO ver si esto es mejor ponerlo cuando ya esté cargado todo el visor para cojer bien el titulo, etc.
 	//$.publish('trackPageview', null);
@@ -49,7 +51,7 @@ jQuery(document).ready(function() {
 	
 	visorOptions.tipusUser = tipus_user;
 		
-	var visor = Visor(visorOptions).draw();
+	visor = Visor(visorOptions).draw();
 	
 }); // Final document ready
 
