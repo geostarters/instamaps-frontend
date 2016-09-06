@@ -1,15 +1,10 @@
 /*************** LLEGENDA ********************/
 
 function addLegend(){
-	
 	legend = L.control({position: 'bottomright'});
-	
 	legend.onAdd = function (map) {
-
 	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
 	    div.id = "mapLegend";
-		
-		
 	    jQuery.each(mapLegend, function(i, row){
 	    	for (var i = 0; i < row.length; i++) {
 	    		if(row[i].chck){
@@ -22,19 +17,18 @@ function addLegend(){
 	    				if (mida>0 && mida<=6) padding_left="15px";
 	    				else if (mida>6 && mida<=14) padding_left="10px";
 	    				else if (mida>14 && mida<=22) padding_left="5px";
-	    				
 	    				div.innerHTML +='<div class="visor-legend-row">'+
-		    			'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+row[i].symbol+'</div>'+
-		    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+row[i].name+'</div>'+
-		    			'</div>'+
-		    			'<div class="visor-separate-legend-row"></div>';	
+		    				'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-left:'+padding_left+'">'+row[i].symbol+'</div>'+
+		    				'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;width:40%">'+row[i].name+'</div>'+
+		    				'</div>'+
+		    				'<div class="visor-separate-legend-row"></div>';	
 	    			}
 	    			else{
 	    			div.innerHTML +='<div class="visor-legend-row">'+
-						    			'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
-						    			'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;">'+row[i].name+'</div>'+
-	    							'</div>'+
-	    							'<div class="visor-separate-legend-row"></div>';	    			
+						'<div class="visor-legend-symbol col-md-4 col-xs-4">'+row[i].symbol+'</div>'+
+						'<div class="visor-legend-name col-md-8 col-xs-8" style="float:right;">'+row[i].name+'</div>'+
+	    				'</div>'+
+	    				'<div class="visor-separate-legend-row"></div>';	    			
 	    			}	    			
 	    		}
 	    	}
@@ -46,24 +40,19 @@ function addLegend(){
 		position : 'bottomright'
 	});
 	ctr_legend.onAdd = function(map) {
-
 		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
-
 		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
 		this._div.appendChild(btllista);
 		btllista.innerHTML = '<span class="fa fa-list-alt greenfort"></span>';
-
 		return this._div;
 	};
 	ctr_legend.addTo(map);	
 	legend.addTo(map);
 }
 
-
 /*Control llegenda buida o be, q hagi publicat el mapa amb llegenda, 
 pero cap opcio de la llegenda marcada*/
 function checkEmptyMapLegend(){
-	
 	var trobat = false;
 	if(typeof mapLegend == "string" ) mapLegend = [mapLegend]
 	jQuery.each(mapLegend, function(i, row){
@@ -81,7 +70,6 @@ function checkEmptyMapLegend(){
 
 function createModalConfigLegend(){
 	//Obrim modal llegenda
-
 	var html = '<span lang="ca" id="llegenda-title-text"  style="width:20%;font-size: 18px;">'+window.lang.convert('Llegenda')+'</span><span>&nbsp;&nbsp;&nbsp;&nbsp;'+window.lang.convert('Marca els símbols que vols que es visualitzin')+'</span>';
 	html += '<div class="separate-legend-row-all"></div>';
 	html += '<div class="legend-row">'+
@@ -108,7 +96,6 @@ function createModalConfigLegend(){
 		});
 	});
 	
-	//console.debug("Order:");
 	jQuery.each(layersHtml.order, function(i, item){
 		if(isValidValue(item)){
 			html += item;
@@ -119,48 +106,29 @@ function createModalConfigLegend(){
 			html += item;
 		}
 	});
-	
 	html += '</div>';
 	$('#dialgo_publicar .modal-body .modal-legend').html(html);
 	$('#dialgo_publicar .modal-body .modal-legend').show();
-
-	
-	
-//	$('#legend-chck-all').on('click', function(e){
-//		 if($('#legend-chck-all').is(':checked')){
-//			 $('.legend-chck').prop('checked', true);
-//		 }else{
-//			 $('.legend-chck').prop('checked', false);
-//		 }
-//	});	
-	
 	$('.legend-subrow input, .legend-subrow-all input').iCheck({
 	    checkboxClass: 'icheckbox_flat-blue',
 	    radioClass: 'iradio_flat-blue'
 	});	
 	
 	$('.legend-subrow-all input').on('ifChecked', function(event){
-		  //alert(event.type + ' callback');
 		  $('.legend-subrow input').iCheck('check');
 	});
 	
 	$('.legend-subrow-all input').on('ifUnchecked', function(event){
-//		  alert(event.type + ' callback');
 		  $('.legend-subrow input').iCheck('uncheck');
 	});	
 	
 	$('.sortable').sortable();
-	
 }
 
 function addLayerToLegend(layer, count, layersHtml, layerIdParent){
-	
-	
 	var html = "";
 	html += '<div class="legend-row">';
 	html+='<div class="separate-legend-row"></div>';
-		
-	//checked="checked", layer.options.nom
 	var layerName = layer.options.nom;
 	var checked = "";
 	if(mapLegend[layer.options.businessId]){
@@ -172,7 +140,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	if(layer.options.tipusRang && layer.options.tipusRang == tem_cluster){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
-		
 		html += '<div class="col-md-2 legend-symbol">'+
 					'<img src="img/clustering.png" class="btn-paleta" style=""/>'+
 				'</div>'+
@@ -180,7 +147,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 				'</div>';
 		html+='</div>';
-		
 	//Heatmap
 	}else if(layer.options.tipusRang && layer.options.tipusRang == tem_heatmap){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
@@ -192,28 +158,28 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 				'</div>';		
 		html+='</div>';
-//		html+='<div class="separate-legend-subrow" ></div>';
-		
-		
 	}else if(layer.options.tipus == t_wms){
+		var legend_layer = layer.getLegendGraphic();
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
-		html += '<div   class="col-md-2 legend-symbol">'+
-					'<img src="'+layer.getLegendGraphic()+'" class="btn-paleta" style="width:26px;max-width:150px"/>'+
-				'</div>'+
-				'<div class="col-md-9 legend-name">'+
-					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
-				'</div>';		
+		html += '<div class="col-md-2 legend-symbol">';
+			if(!jQuery.isArray(legend_layer)){
+				html += '<img src="'+layer.getLegendGraphic()+'" class="btn-paleta img-legend" style="width:26px;max-width:150px !important"/>';
+			}else{
+				jQuery.each(legend_layer, function(i, lay){
+					html += '<img src="'+lay+'" class="btn-paleta img-legend" style="width:26px;max-width:150px !important"/>';
+				});
+			}
+		html +=	'</div>'+
+			'<div class="col-md-9 legend-name">'+
+				'<input type="text" class="form-control my-border" value="'+layerName+'">'+
+			'</div>';		
 		html+='</div>';	
-		
-	//Dades Obertes y JSON
+	//Dades obertes y JSON
 	}else if(layer.options.tipus == t_dades_obertes || layer.options.tipus == t_json){//es un punt
-		
-		
 		var estil_do = layer.options.estil_do;
 		if(layer.options.options && layer.options.options.estil_do) estil_do = layer.options.options.estil_do;//Si es JSON
 		else if(estil_do.options) estil_do = estil_do.options;
-		
 		if(estil_do.isCanvas || estil_do.markerColor.indexOf("punt_r")!=-1){
 			var size="";
 			if(estil_do.iconSize){
@@ -223,11 +189,9 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				if (layer.options.tem == tem_size) mida = estil_do.iconSize;
 				size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';
 			}
-			
 			var icon = "";
 			var colorIcon=""; 
 			var auxColor="";
-	
 			if(estil_do.divColor){
 				auxColor = hexToRgb(estil_do.divColor);
 				colorIcon = 'color: rgb('+auxColor.r+', '+auxColor.g+', '+auxColor.b+');';
@@ -235,7 +199,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			if(estil_do.fillColor){
 				auxColor = hexToRgb(estil_do.fillColor);
 			} 
-			
 			if(estil_do.icon){
 				icon = "fa fa-"+estil_do.icon;
 			}
@@ -260,9 +223,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				else if (mida>14 && mida<=22) padding_left="16px";
 				else if (mida>22 && mida<=34) padding_left="10px";
 				else if (mida>34 && mida<=40) padding_left="5px";
-				
-				
-				
+
 				var color = hexToRgb(estil_do.fillColor);
 				html +=	'<div class="col-md-2 legend-symbol" style="padding-left:'+padding_left+'">'+
 						'<svg height="'+height+'">'+
@@ -275,11 +236,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						'</div>';
 			}
 			html+='</div>';
-//			html+='<div class="separate-legend-subrow" ></div>';		
 		}else{
-			
 			var color = hexToRgb(estil_do.iconColor);
-//			console.debug(estil_do);
 			html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 			html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
 			html += '<div class="col-md-2 legend-symbol">'+
@@ -292,42 +250,24 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 					'</div>';
 			html+='</div>';
-//			html+='<div class="separate-legend-subrow" ></div>';
-
 		}
-		
 	//URL FILE
 	}else if(layer.options.tipus == t_url_file){
-		//console.debug("Url file");
 		var type = "";
 		var geometrytype = "";
 		jQuery.each(layer._layers, function(i, lay){
-//			html += addLayerToLegend(sublayer.layer, count, sublayer.layerIdParent);
 			geometrytype = lay.feature.geometry.type.toLowerCase(); 
 			return (geometrytype=="");
-			//			break;
 		});		
 		geometrytype = transformTipusGeometry(geometrytype);
 		
-		//console.debug("LAYER:");
-		//console.debug(layer);
-		
 		if(layer.options.tem && (layer.options.tem == tem_clasic || layer.options.tem == tem_size)){
-			 
-//				console.debug("layer url_file ");
-//				console.debug(layer);
+			var i = 0;
+			var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
+			var estils = layer.options.estil_do.estils;
+			var label = layer.options.estil_do.dataField;
 				
-				//console.debug("tem_clasic");
-			 
-				var i = 0;
-				var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
-				
-				//var rangsEstilsLegend = layer.options.rangsEstilsLegend;
-				
-				var estils = layer.options.estil_do.estils;
-				var label = layer.options.estil_do.dataField;
-				
-				if(geometrytype == t_marker){
+			if(geometrytype == t_marker){
 					var map={};
 					jQuery.each(layer._layers, function(i, lay){
 						if (layer.options.tem=='sizeTematic'){
@@ -387,7 +327,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
-//							labelNomCategoria = rangsEstilsLegend[""+layer.options.businessId+""];
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
 							}else{
@@ -398,8 +337,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								labelNomCategoria = window.lang.convert("Altres");
 							}
 						}						
-						
-
 						if (layer.options.tem=='sizeTematic'){
 							if (labelNomCategoria.indexOf('('+map[estilRang.estil.simbolSize]+')')==-1){
 								labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.simbolSize]+')';
@@ -462,7 +399,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
-//							labelNomCategoria = rangsEstilsLegend[""+layer.options.businessId+""];
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
 							}else{
@@ -487,9 +423,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 											'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
 										'</div>';				
 						html+='</div>';	
-						
 					});					
-					
 				}else if(geometrytype == t_polygon){
 					var map={};
 					jQuery.each(layer._layers, function(i, lay){
@@ -520,9 +454,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							}
 						}
 					});
-					//console.debug(map);
 					jQuery.each(estils, function(i, estilRang){
-						
+				
 						var color = "";
 						if (estilRang.estil.color) color=hexToRgb(estilRang.estil.color);
 						else color=hexToRgb(estilRang.estil.borderColor);
@@ -544,7 +477,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
-//							labelNomCategoria = rangsEstilsLegend[""+layer.options.businessId+""];
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
 							}else{
@@ -577,9 +509,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			 	if (layer.options.dinamic) estil_do = layer.options.style;
 			
 				if(geometrytype == t_marker){
-					//console.debug("type");
-					//console.debug(type);
-					
 					var mida = getMidaFromRadius(estil_do.radius);
 					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
 					size = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';			
@@ -603,7 +532,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					html+='</div>';
 					
 				}else if(geometrytype == t_polygon){
-					//console.debug(estil_do);
 					var color = "";
 					if (estil_do.fillColor) color=hexToRgb(estil_do.fillColor);
 					else color=hexToRgb(estil_do.color);
@@ -632,7 +560,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					html+='</div>';			
 					
 				}else if(geometrytype == t_polyline){
-					
 					var color;
 					if (layer.options.dinamic) color = hexToRgb(estil_do.color);
 					else color = hexToRgb(estil_do.fillColor);
@@ -657,7 +584,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					html+='</div>';				
 				}			 
 		 }
-		
 	//XARXES SOCIALS
 	}else if(layer.options.tipus == t_xarxes_socials){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
@@ -689,11 +615,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	
 	//VISUALITZACIO
 	}else if(layer.options.tipus == t_visualitzacio){
-		
 		var rangs = getRangsFromLayerLegend(layer);
-		//console.debug(rangs);
 		var size = rangs.length;
-		//console.debug(layer.options.tipusRang);
 		//Classic tematic
 		if(layer.options.tipusRang && layer.options.tipusRang==tem_clasic){
 			var geometryType = transformTipusGeometry(layer.options.geometryType);
@@ -702,20 +625,14 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			
 			var estilsRangs = layer.options.estilsRangs;
 			var rangsEstilsLegend = layer.options.rangsEstilsLegend;
-//			rangsEstilsLegend.sort(sortByValorMax);
-			
 			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 			arrRangsEstilsLegend.sort(sortByValueMax);
-			//console.debug(arrRangsEstilsLegend);
-			
 			if(geometryType == t_marker){
-
 				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
 					var indexEstil = 0;
 					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
 						indexEstil++;
 					}
-					//console.debug(layer.options.estil);
 					var mida = getMidaFromRadius(layer.options.estil[indexEstil].simbolSize);
 					if (layer.options.tem == tem_size) mida = layer.options.estil[indexEstil].simbolSize;
 					var iconSize = 'width: '+mida+'px; height: '+mida+'px; font-size: 8px;';						
@@ -793,7 +710,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 									'<div class="col-md-9 legend-name">'+
 										'<input type="text" class="form-control my-border" value="'+labelNomCategoria+'">'+
 									'</div>';				
-//					
 					html+='</div>';	
 				});				
 				
@@ -855,7 +771,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			
 			var estilsRangs = layer.options.estilsRangs;
 			var rangsEstilsLegend = layer.options.rangsEstilsLegend;
-//			rangsEstilsLegend.sort(sortByValorMax);
 			
 			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 			arrRangsEstilsLegend.sort(sortByValueMax);
@@ -939,7 +854,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				for(var i=0;i<size;i++){
 					//Si es un punt
 					if(rangs[i].isCanvas || rangs[i].marker.indexOf("punt_r")!=-1){
-						//console.debug(rangs[i]);
 						var iconSize="";
 						if(rangs[i].iconSize){
 							var mides = rangs[i].iconSize.split("#");
@@ -1114,16 +1028,11 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 								'</div>';					
 						
 						html+='</div>';
-					}else{
-//						console.debug("Existeix:")
-//						console.debug(rangs[i].borderColor);
-//						console.debug(borderColor);
 					}
 					
 				}
 			}
 		}		
-		
 	//TEMATIC
 	}
 
@@ -1137,9 +1046,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	}else{
 		layersHtml.notorder.push(html);
 	}
-	
-
-	
 	return layersHtml;
 }
 
@@ -1257,36 +1163,25 @@ function sortObject(obj) {
 }
 
 function updateMapLegendData(){
-	
 	mapLegend = {};
 	$(".legend-subrow").each(function(index,element){
-		
 		var businessId = $(element).attr('data-businessId');
-		
-		
-		var html=$(element).children( ".legend-symbol").html();
-		
+		var html=$(element).children(".legend-symbol").html();
 		if(html.indexOf('GetLegendGraphic')!= -1){
-			
-			html=html.replace('width:26px;','');
+			html=html.replace(/width:26px;/g,'');
 			html=html.replace('png8','png');
-			
-			//html=html.replace('<img','<br><img');
-			//html=html.replace('<img','<img');
 		}
-		
 		var obj = {
-//				chck : $(element).children( ".legend-chck").is(':checked'),
-				chck : $(element).children(".icheckbox_flat-blue").hasClass("checked"),
-				symbol : html,
-				name : $(element).children( ".legend-name").children("input").val(),
-				order: index
+			chck : $(element).children(".icheckbox_flat-blue").hasClass("checked"),
+			symbol : html,
+			name : $(element).children(".legend-name").children("input").val(),
+			order: index
 		};
 		if(!mapLegend[businessId]){
-			mapLegend[businessId] = [];			
+			mapLegend[businessId] = [];
 		}
 		mapLegend[businessId].push(obj);
-	});	
+	});
 }
 
 function findStyleInLegend(legend,stringStyle){
@@ -1346,32 +1241,24 @@ function addHtmlModalLegend(){
 /**** LLEGENDA TEMATICA MODE EDICIO ****/
 
 function addLegendEdicio(){
-	
 	legend = L.control({position: 'bottomright'});
-	
 	legend.onAdd = function (map) {
 	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
 	    div.id = "mapLegendEdicio";
 	    return div;
 	};
-	
-	
 	ctr_legend = L.control({
 		position : 'bottomright'
 	});
 	ctr_legend.onAdd = function(map) {
-
 		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
-
 		var btllista = L.DomUtil.create('div', 'leaflet-bar btn btn-default btn-sm bt_legend');
 		this._div.appendChild(btllista);
 		btllista.innerHTML = '<span class="fa fa-list-alt greenfort"></span>';
-
 		return this._div;
 	};
 	ctr_legend.addTo(map);	
 	legend.addTo(map);
-	
 	$("#mapLegendEdicio").mCustomScrollbar();
 	$(".bt_legend").hide();
 	activaLlegenda(false);
@@ -1809,12 +1696,9 @@ function loadMapLegendEdicioDinamics(layer){
 
 
 function activaLlegenda(obre) {
-	
 	var dfd = $.Deferred();
 	var cl = jQuery('.bt_legend span').attr('class');
 	var funcioObrir = (obre!=undefined ? obre : cl.indexOf('grisfort') != -1);
-	
-//	if (obre || (cl && cl.indexOf('grisfort') != -1)) {
 	if (funcioObrir) {
 		jQuery('.bt_legend span').removeClass('grisfort');
 		jQuery('.bt_legend span').addClass('greenfort');
@@ -1826,13 +1710,9 @@ function activaLlegenda(obre) {
 		var height = $(".visor-legend").height();
 		var y1 = $(".visor-legend").height() - 20;
 		var y2 = $(".visor-legend").height() +50;
-		
 		$(".bt_legend").transition({ x: '225px', y: y1+'px',duration: 500 });
 		$(".visor-legend").transition({ x: '250px', y: y2+'px',  opacity: 0.1,duration: 500 });		
 	}	
-	
 	dfd.resolve();
-	
 	return dfd.promise();
-	
 }

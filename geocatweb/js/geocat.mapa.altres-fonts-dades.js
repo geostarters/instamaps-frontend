@@ -54,7 +54,7 @@ function cercaCapes(e){
 	    						var value = results.results;
 	    						
 	    						_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
-//	    						_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
+
 	    						
 	    						if (value.epsg == "4326"){
 	    							value.epsg = L.CRS.EPSG4326;
@@ -70,7 +70,7 @@ function cercaCapes(e){
 	    						}else if((servertype == t_dades_obertes)){
 	    							loadDadesObertesLayer(value);
 	    						}else if(servertype == t_xarxes_socials){
-	    							
+	    							console.info(servertype);
 	    							var options = jQuery.parseJSON( value.options );
 	    							if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
 	    							else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
@@ -146,7 +146,7 @@ function cercaCapesBtn(){
 							var value = results.results;
 							
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
-//							_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
+
 							
 							if (value.epsg == "4326"){
 								value.epsg = L.CRS.EPSG4326;
@@ -189,13 +189,13 @@ function addControlAltresFontsDades() {
 	
 	addHtmlInterficieDadesExt();
 	addHtmlModalDadesExt();
-	
+	var _DadesOficials=new IM_DadesOficials();
 	jQuery(".div_dades_ext").on('click', function() {
 		//gestionaPopOver(this);
 		jQuery('.modal').modal('hide');
 		$('#dialog_dades_ex').modal('show');
 		$('a[href^="#id_do').click();
-		jQuery('#id_do').html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+		jQuery('#id_do').html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades obertes Gencat</a></span>');
 
 		jQuery("#id_do a.label-explora").on('click', function(e) {
 			if(e.target.id !="id_do"){
@@ -207,7 +207,7 @@ function addControlAltresFontsDades() {
 
 			if (tbA == "#id_do") {
 				jQuery(tbA).empty();
-				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades Obertes Gencat</a></span>');
+				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades obertes Gencat</a></span>');
 
 				jQuery(tbA+" a.label-explora").on('click', function(e) {
 					if(e.target.id !="id_do"){
@@ -216,31 +216,33 @@ function addControlAltresFontsDades() {
 				});
 			}else if (tbA=='#id_ofi'){
 
-			
-			
+				jQuery(tbA).empty();
+				jQuery(tbA).html(_DadesOficials.generaOpcionsHTMLDadesOficials());							
+				jQuery(tbA+" a.label-dof").on('click', function(e) {
+						_DadesOficials.addOpcionsHTMLTipusDadesOficials(this);
+						
+					});
+							
 			
 			}else if(tbA == "#id_srvw"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
+				var instamapsWms = InstamapsWms({container:$('#div_controlWMS'), botons: $('#div_emptyWMS'),proxyUrl: paramUrl.ows2json, callback: addWmsToMap});
 				jQuery(tbA+" a.label-wms").on('click', function(e) {
+					
+					
+					
 					if(e.target.id !="id_srvw"){
+						instamapsWms.getLayers({url: e.target.id, name: $(e.target).text()})
+						/*
 						$("#txt_URLWMS").val(e.target.id);
 						jQuery("#div_layersWMS").empty();
 						jQuery("#div_layersWMS").hide();
 						jQuery('#div_emptyWMS').empty();
 						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
+						*/
 					}
 				});
-				jQuery("#div_layersWMS").hide();
-				
-				
-				$("#txt_URLWMS").focus(function() {
-					jQuery("#div_layersWMS").empty();
-					jQuery("#div_layersWMS").hide();
-					jQuery('#div_emptyWMS').empty();
-				});
-				
-				
 //			}else if(tbA == "#id_srvj"){
 //				jQuery(tbA).empty();
 //				jQuery(tbA).html(_htmlServeisJSON.join(' '));
@@ -250,14 +252,17 @@ function addControlAltresFontsDades() {
 //					}
 //				});		
 			}else if(tbA == "#id_xs"){//Xarxes socials
-				var label_xarxes = "La informació es mostra en funció de l'àrea geogràfica visualitzada."
+				
+				
+				/*
 				jQuery(tbA).html(
 						'<div class="panel-info">'+
 						'<ul class="bs-dadesO_XS panel-heading">'+
+						
 						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseDiv(\'#twitter-collapse\')" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
 						'<li><a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label-xs">Panoramio <i class="fa fa-picture-o"></i></a></li>'+
 						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
-						//'<li><a id="add_wikipedia_layer" href="javascript:toggleCollapseDiv(\'#wikipedia-collapse\')" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
+						
 						'</ul>'+
 						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.convert(label_xarxes)+'</span></div>'+
 						'<div id="twitter-collapse">'+
@@ -290,7 +295,7 @@ function addControlAltresFontsDades() {
 				$('#wikipedia-collapse .input-group .input-group-btn #btn-add-wikipedia-layer').click(function(){
 					addWikipediaLayer();
 				});				
-				
+				*/
 			}else if(tbA == "#id_capes_instamaps"){
 				jQuery(tbA).empty();
 				jQuery(tbA).html('<div class="input-group txt_capes"><input type="text" lang="ca" class="form-control" placeholder="Entrar el nom de la capa que es vol buscar" style="height:33px" id="txt_capesInstamaps" onkeyup="cercaCapes(event);" >'+ 
@@ -299,9 +304,9 @@ function addControlAltresFontsDades() {
 			}
 			else if(tbA == "#id_url_file"){
 				jQuery(tbA).empty();
-
+var label_xarxes = "La informació de les xarxes socials es mostra en funció de l'àrea geogràfica visualitzada."
 				//Carreguem exemples de dades externes 
-				//_htmlServeisWMS.push('<div class="panel-success"><ul class="bs-dadesO panel-heading">');
+
 				var lDadesExternes = '<ul class="bs-dadesO panel-heading llista-dadesExternes">';
 				jQuery.each(llista_dadesExternes.dadesExternes, function(key, dadesExternes) {
 						lDadesExternes += '<li><a class="label-dadesExternes" href="#" data-url="'
@@ -317,7 +322,27 @@ function addControlAltresFontsDades() {
 							+ dadesExternes.urlOrganitzacio
 							+ '"><span class="glyphicon glyphicon-info-sign info-dadesExternes"></span></a>'
 							+ '</li>';
-				});				
+				});		
+
+			lDadesExternes +='<li><a id="add_panoramio_layer" href="#" data-url="panoramio" class="label-dadesExternes">Panoramio <span class="fa fa-picture-o"></span></a></li>';
+			lDadesExternes +='<li><a id="add_wikipedia_layer" href="#" data-url="wikipedia" class="label-dadesExternes">Wikipedia <span class="fa fa-wikipedia-w"></span></a></li>';
+			
+			lDadesExternes +='<li><a id="add_twitter_layer" href="#" data-url="twitter" class="label-dadesExternes">Twitter <span class="fa fa-twitter"></span></a>'+
+				'<div id="twitter-collapse">'+
+							'<div class="input-group">'+
+			      				'<span class="input-group-addon">Hashtag #</span>'+
+			      				'<input id="hashtag_twitter_layer" type="text" class="form-control">'+
+			      				'<span class="input-group-btn">'+
+			      					'<button id="btn-add-twitter-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
+			      				'</span>'+
+				      		'</div>'+
+				      		'</div>'+
+					'</li>';
+			
+						
+
+
+				
 				lDadesExternes += '</ul>';
 				
 				jQuery(tbA).html(
@@ -336,12 +361,18 @@ function addControlAltresFontsDades() {
 						'</div>'+
 						'<div id="div_url_file"  class="tbl_url_file"></div>'
 //						+'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
+						//'<span class="label label-font" lang="ca">'+label_xarxes+'</span>'
 				);
 				
 				jQuery("#div_url_file").hide();
-				
+				$('#twitter-collapse').hide();
+				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
+					addTwitterLayer();
+					$('#dialog_dades_ex').modal('hide');
+				});
 				jQuery(".label-dadesExternes").on('click', function(e) {
-					//console.debug(e);
+					
+					
 					//URL PRESIDENT JSON
 					if(this.dataset.url.indexOf(paramUrl.presidentJSON)!= -1){
 						/*
@@ -351,8 +382,15 @@ function addControlAltresFontsDades() {
 								'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
 						);
 						*/
-						getServeiJSONP(this.dataset.url);
-						
+						getServeiJSONP(this.dataset.url);						
+					}else if (this.dataset.url=="panoramio"){
+						addPanoramioLayer();
+						$('#dialog_dades_ex').modal('hide');
+					}else if (this.dataset.url=="wikipedia"){
+						addWikipediaLayer();	
+						$('#dialog_dades_ex').modal('hide');						
+					}else if (this.dataset.url=="twitter"){
+						toggleCollapseDiv('#twitter-collapse');					
 					}else{//LA RESTA
 						if(!busy){
 							//console.debug("No esta busy.. faig la carrega!");
@@ -682,15 +720,17 @@ function addHtmlModalDadesExt(){
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<ul class="nav nav-tabs etiqueta">'+
-	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades Obertes</a></li>'+
-	'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
+	'						<li><a href="#id_do" lang="ca" data-toggle="tab">Dades obertes</a></li>'+
+	'						<li><a href="#id_ofi" lang="ca" data-toggle="tab">Dades oficials</a></li>'+
+	//'						<li><a href="#id_xs" lang="ca" data-toggle="tab">Xarxes socials</a></li>'+
 	'						<li><a href="#id_srvw" lang="ca" data-toggle="tab">Serveis WMS</a></li>'+
 	'						<li><a href="#id_capes_instamaps" lang="ca" data-toggle="tab">Capes reutilitzables</a></li>'+
 	'						<li><a href="#id_url_file" data-toggle="tab"><span lang="ca">Dades externes</span></a></li>'+
 	'					</ul>'+
 	'					<div class="tab-content tab-content-margin5px">'+
 	'						<div class="tab-pane fade" id="id_do"></div>'+
-	'						<div class="tab-pane fade" id="id_xs"></div>'+
+	'						<div class="tab-pane fade" id="id_ofi"></div>'+
+	//'						<div class="tab-pane fade" id="id_xs"></div>'+
 	'						<div class="tab-pane fade" id="id_srvw"></div>'+
 	'						<div class="tab-pane fade" id="id_capes_instamaps"></div>'+
 	'						<div class="tab-pane fade" id="id_url_file"></div>'+
@@ -712,7 +752,6 @@ function addHtmlModalDadesExt(){
 }
 
 function addHtmlInterficieDadesExt(){
-	
 	jQuery("#carregar_dades .div_gr2").append(
 			'<div lang="ca" id="div_dades_ext" class="div_dades_ext" data-toggle="tooltip" title="Explora altres fonts de dades" data-lang-title="Explora altres fonts de dades"></div>'		
 	);
@@ -722,13 +761,6 @@ function addHtmlInterficieDadesExt(){
 	});
 }
 
-//function toggleCollapseTwitter(){
-//	console.debug('toggleCollapseTwitter');
-//	$('#twitter-collapse').toggle();
-//}
-//
-//function toggleCollapseTwitter(){
-//	console.debug('toggleCollapseTwitter');
-//	$('#twitter-collapse').toggle();
-//}
+
+
 

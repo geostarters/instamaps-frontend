@@ -10,11 +10,16 @@ var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
 //	HOST_APP = "http://localhost:8080/";
+//	HOST_APP = "http://nicosia.icgc.local/";//Local Jess
+//	HOST_APP2 = "http://nicosia.icgc.local/";
 	HOST_APP = "http://localhost/";//Local Jess
-	HOST_APP2 = "http://172.70.1.11/";
+	HOST_APP2 = "http://localhost/";
+	
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
+	//GEOCAT02 = "http://localhost";
+	http://172.70.1.11
 	//HOST_GEOLOCAL = "http://localhost/";
 	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
@@ -30,6 +35,9 @@ if(urlApp.indexOf('172.70.1.11')!=-1){
 	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
+
+
+
 
 var DOMINI = "www.instamaps.cat";
 
@@ -219,7 +227,10 @@ var paramUrl = {
 	url_mapserver:HOST_APP+"/geoservicelocal/",
 	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?",
 	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?",
-	urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
+	//urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
+	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
+	urlJsonPCC:"/geocatweb/dades/pcc.json"
+	
 }
 
 var paramAplications = {

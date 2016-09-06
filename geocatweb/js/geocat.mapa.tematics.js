@@ -1563,6 +1563,9 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	}catch(err){
 		if (capaVisualitzacio.layer!=undefined) 	capaVisualitzacio.layer.on('layeradd',objecteUserAdded);//Deixem activat event layeradd, per la capa activa
 	}
+	
+	defer.resolve(layer);
+	
 	return defer.promise();
 }
 
@@ -2121,6 +2124,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
+						feat.dragging.disable(); 
 					}
 					else {
 						feat.snapediting = new L.Handler.PolylineSnap(map, feat,{snapDistance:10});

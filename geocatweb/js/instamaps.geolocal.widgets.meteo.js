@@ -18,7 +18,7 @@
         cache: function(){
         	var that = this;
         	that.container = $(that.containerId);
-        	$.get("dades/municipisAemet.json",function(data){
+        	$.get("/geocatweb/dades/municipisAemet.json",function(data){
         		that.municipis = data;
         	});
         },

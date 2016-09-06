@@ -1,5 +1,5 @@
 /**
- * Gestió de la creació i carrega de capes de Dades Obertes
+ * Gestió de la creació i carrega de capes de Dades obertes
  */
 
 var _htmlDadesObertes = [];
@@ -22,7 +22,7 @@ function generaLListaDadesObertes() {
 function addCapaDadesObertes(dataset,nom_dataset) {
 
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades obertes', nom_dataset, 1]);
-//	_kmq.push(['record', 'dades obertes', {'from':'mapa', 'tipus user':tipus_user, 'dataset':nom_dataset}]);
+
 	
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;
 	var estil_do = retornaEstilaDO(dataset);

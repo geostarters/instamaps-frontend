@@ -1,0 +1,227 @@
+[
+    {
+        "id_cig": "Grup I - 4",
+        "nom_grup": "Unitats administratives",
+        "nom_instamaps": "Atermenament probable - SNCZI ",
+        "nom_geoservei": "Atermenament probable - SNCZI ",
+        "nom_geoservei_instamaps": "Atermenament probable - SNCZI ",
+        "url_geoservei": "http://wms.magrama.es/sig/agua/DPHEstimado/wms.aspx",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 4",
+        "nom_grup": "Unitats administratives",
+        "nom_instamaps": "Base cartogràfica de l'atermenament i pla d'usos de costes",
+        "nom_geoservei": "Base cartogràfica de l'atermenament i pla d'usos de costes",
+        "nom_geoservei_instamaps": "Base cartogràfica de l'atermenament i pla d'usos de costes",
+        "url_geoservei": "http://sig.gencat.cat/ows/COSTES/wms",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 4",
+        "nom_grup": "Unitats administratives",
+        "nom_instamaps": "Zona de policia",
+        "nom_geoservei": "Zona de policia",
+        "nom_geoservei_instamaps": "Zona de policia",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/ZON/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 4",
+        "nom_grup": "Unitats administratives",
+        "nom_instamaps": "Zona de servitud",
+        "nom_geoservei": "Zona de servitud",
+        "nom_geoservei_instamaps": "Zona de servitud",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/ZON/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Conques hidrogràfiques elementals",
+        "nom_geoservei": "Conques hidrogràfiques elementals",
+        "nom_geoservei_instamaps": "Conques hidrogràfiques elementals",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Conques hidrogràfiques principals",
+        "nom_geoservei": "Conques hidrogràfiques principals",
+        "nom_geoservei_instamaps": "Conques hidrogràfiques principals",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/Mapserver/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Cabals d'avinguda",
+        "nom_geoservei": "Cabals d'avinguda",
+        "nom_geoservei_instamaps": "Cabals d'avinguda",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CABALS/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Demarcacions hidrogràfiques",
+        "nom_geoservei": "Demarcacions hidrogràfiques",
+        "nom_geoservei_instamaps": "Demarcacions hidrogràfiques",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Sistema hídric",
+        "nom_geoservei": "Sistema hídric",
+        "nom_geoservei_instamaps": "Sistema hídric",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/ZON/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Xarxa hidrogràfica principal",
+        "nom_geoservei": "Xarxa hidrogràfica principal",
+        "nom_geoservei_instamaps": "Xarxa hidrogràfica principal",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Xarxa hidrogràfica completa",
+        "nom_geoservei": "Xarxa hidrogràfica completa",
+        "nom_geoservei_instamaps": "Xarxa hidrogràfica completa",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Zona fluvial",
+        "nom_geoservei": "Zona fluvial",
+        "nom_geoservei_instamaps": "Zona fluvial",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/ZON/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 8",
+        "nom_grup": "Hidrografia",
+        "nom_instamaps": "Domini públic hidràulic",
+        "nom_geoservei": "Domini públic hidràulic",
+        "nom_geoservei_instamaps": "Domini públic hidràulic",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/ZON/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup I - 9",
+        "nom_grup": "Llocs protegits",
+        "nom_instamaps": "Zones humides",
+        "nom_geoservei": "Zones humides",
+        "nom_geoservei_instamaps": "Zones humides",
+        "url_geoservei": "http://sig.gencat.cat/ows/ESPAIS_NATURALS/wms",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 4",
+        "nom_grup": "Ús del sòl",
+        "nom_instamaps": "Forests públiques",
+        "nom_geoservei": "Forests públiques",
+        "nom_geoservei_instamaps": "Forests públiques",
+        "url_geoservei": "http://sig.gencat.cat/ows/ESPAIS_NATURALS/wms",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 7",
+        "nom_grup": "Instal·lacions d’observació del medi ambient",
+        "nom_instamaps": "Calats, Cotes Absolutes i Velocitats per diferents conques i períodes de retorn",
+        "nom_geoservei": "Calats, Cotes Absolutes i Velocitats per diferents conques i períodes de retorn",
+        "nom_geoservei_instamaps": "Calats, Cotes Absolutes i Velocitats per diferents conques i períodes de retorn",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CCA/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 11",
+        "nom_grup": "Zones subjectes a ordenació, a restriccions o reglamentacions i unitats de notificació",
+        "nom_instamaps": "Aqüífers S, P i P2",
+        "nom_geoservei": "Aqüífers S, P i P2",
+        "nom_geoservei_instamaps": "Aqüífers S, P i P2",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/AQUIFERS/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 11",
+        "nom_grup": "Zones subjectes a ordenació, a restriccions o reglamentacions i unitats de notificació",
+        "nom_instamaps": "Àrees de gestió cinegètica de Catalunya",
+        "nom_geoservei": "Àrees de gestió cinegètica de Catalunya",
+        "nom_geoservei_instamaps": "Àrees de gestió cinegètica de Catalunya",
+        "url_geoservei": " http://sig.gencat.cat/ows/FAUNA/wms",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 11",
+        "nom_grup": "Zones subjectes a ordenació, a restriccions o reglamentacions i unitats de notificació",
+        "nom_instamaps": "Zona de pesca controlada",
+        "nom_geoservei": "Zona de pesca controlada",
+        "nom_geoservei_instamaps": "Zona de pesca controlada",
+        "url_geoservei": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 11",
+        "nom_grup": "Zones subjectes a ordenació, a restriccions o reglamentacions i unitats de notificació",
+        "nom_instamaps": "Zones de pesca lliure sense mort",
+        "nom_geoservei": "Zones de pesca lliure sense mort",
+        "nom_geoservei_instamaps": "Zones de pesca lliure sense mort",
+        "url_geoservei": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 12",
+        "nom_grup": "Zones de riscos naturals",
+        "nom_instamaps": "Trams amb risc potencial significatiu o probable - SNCZI ",
+        "nom_geoservei": "Trams amb risc potencial significatiu o probable - SNCZI ",
+        "nom_geoservei_instamaps": "Trams amb risc potencial significatiu o probable - SNCZI ",
+        "url_geoservei": "http://wms.magrama.es/sig/agua/ZI_ARPSIs/wms.aspx",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 18",
+        "nom_grup": "Hàbitats i biòtops ",
+        "nom_instamaps": "Hàbitats d'interès comunitari",
+        "nom_geoservei": "Hàbitats d'interès comunitari",
+        "nom_geoservei_instamaps": "Hàbitats d'interès comunitari",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/HABITATS/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 18",
+        "nom_grup": "Hàbitats i biòtops ",
+        "nom_instamaps": "Al·loctonicitat",
+        "nom_geoservei": "Al·loctonicitat",
+        "nom_geoservei_instamaps": "Al·loctonicitat",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/HABITATS/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 18",
+        "nom_grup": "Hàbitats i biòtops ",
+        "nom_instamaps": "Fluvialitat",
+        "nom_geoservei": "Fluvialitat",
+        "nom_geoservei_instamaps": "Fluvialitat",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/HABITATS/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    },
+    {
+        "id_cig": "Grup III - 18",
+        "nom_grup": "Hàbitats i biòtops ",
+        "nom_instamaps": "Hàbitats",
+        "nom_geoservei": "Hàbitats",
+        "nom_geoservei_instamaps": "Hàbitats",
+        "url_geoservei": "http://aca-web.gencat.cat/sig/wms/PUBLIC/HABITATS/MapServer/WMSServer",
+        "inspire_compliant": "FALSE"
+    }
+]

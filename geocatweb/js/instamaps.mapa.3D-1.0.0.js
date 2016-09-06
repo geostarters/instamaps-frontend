@@ -21,14 +21,15 @@ var disparaEventMapa = true;
 var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
 var msgHTML = "";
-var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
+//var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
+var _urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes'; //'/cesium/terrenys/demextes'
+
 var appl='mapa';
 var factorNavegador=1000;
 function addModul3D(config) {
 
 	mapConfig = config || mapConfig;
 	
-
 	var socChrome=isChrome();
 
 	if(socChrome){factorNavegador=600;}
@@ -38,10 +39,10 @@ function addModul3D(config) {
 	browserWebGL = detectoCapacitatsWebGL();
 
 	if (browserWebGL) {
-		$("head").append('<link id="cesium_css" href="/llibreries/cesium/Cesium.css" type="text/css" rel="stylesheet" />');
-		$("head").append('<script src="/llibreries/cesium/Cesium.js"  type="text/javascript"></script>');
-		$("head").append('<script src="/llibreries/cesium/Cesium.PinBuilder_IM.js"  type="text/javascript"></script>');
-		$("head").append('<script src="/llibreries/cesium/cesium-navigation.js"  type="text/javascript"></script>');
+		//$("head").append('<link id="cesium_css" href="/llibreries/cesium/Cesium.css" type="text/css" rel="stylesheet" />');
+		//$("head").append('<script src="/llibreries/cesium/Cesium.js"  type="text/javascript"></script>');
+		//$("head").append('<script src="/llibreries/cesium/Cesium.PinBuilder_IM.js"  type="text/javascript"></script>');
+		//$("head").append('<script src="/llibreries/cesium/cesium-navigation.js"  type="text/javascript"></script>');
 		$("body").append('<div id="map3D"></div>');
 		$("body").append('<div id="popup3D"></div>');
 		/*
@@ -1248,7 +1249,8 @@ var that = this;
 						var dataL = dataSource;
 						var XYZ_Edificis = [];							
 						setTimeout(function(){
-							that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
+						that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
+						//that.calculaMatriuAlcadesClaimTerrain(dataL, XYZ_Edificis, 3, visible, msg);
 						},factorNavegador);												
 					}).otherwise(function (error) {
 						console.warn(error);
@@ -1404,6 +1406,8 @@ var that = this;
 	this.calculaMatriuAlcades = function (dataSource, matriu, hFactor, visible, msg) {
 
 		//console.warn("calculaMatriuAlcades");
+		//Deprecated
+			
 
 
 		var collection = dataSource.entities;
@@ -1487,9 +1491,110 @@ var that = this;
 
 	},
 
-	this.addEntitiesVisorCesium = function (dataSource, matriu, hfactor, visible, msg) {
+	this.calculaMatriuAlcadesClaimTerrain = function (dataSource, matriu, hFactor, visible, msg) {
 
+		console.warn("calculaMatriuAlcadesClaimTerrain");
+
+		var collection = dataSource.entities;
+		var entities = collection.values;
+		var length = entities.length;
+
+		var that = this;
+
+		console.info(entities[0]);
 		
+		if (msg == 'vector' && !entities[0].polyline) {
+				console.info("No hauria entrar");
+			for (var i = 0; i < length; ++i) {
+				var entity = entities[i];
+				entity.ellipsoid = viewer.scene.globe.ellipsoid;
+
+				if (entity.billboard) {
+
+					var point = ellipsoid
+						.cartesianToCartographic(entity.position._value)
+						matriu
+						.push(Cesium.Cartographic
+							.fromRadians(
+								point.longitude,
+								point.latitude));
+
+				} 
+				/*
+				else if (entity.polyline) {
+
+					for (var j = 0; j < entity.polyline.positions._value.length; ++j) {
+						var point = ellipsoid
+							.cartesianToCartographic(entity.polyline.positions._value[j])
+							matriu
+							.push(Cesium.Cartographic
+								.fromRadians(
+									point.longitude,
+									point.latitude));
+					}
+
+				} */
+				else if (entity.polygon) {
+
+					for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
+
+						var point = ellipsoid
+							.cartesianToCartographic(entity.polygon._hierarchy._value.positions[j])
+
+						
+							
+							matriu.push(Cesium.Cartographic
+								.fromRadians(
+									point.longitude,
+									point.latitude));
+					}
+
+				}
+
+			} //fi bicle FOR
+
+			var promise = Cesium.sampleTerrain(terreny, factorTerreny, matriu);
+
+			
+			
+			Cesium.when(promise, function (updatedPositions) {
+				
+				
+				if(length >50){
+					setTimeout(function(){
+						this.addEntitiesVisorCesiumClamTerrain(dataSource, matriu, 13, visible, msg);
+
+				//this.addEntitiesVisorCesiumClamTerrain(dataSource, matriu, 13, visible, msg);						
+					},factorNavegador);
+				}else{				
+					this.addEntitiesVisorCesiumClamTerrain(dataSource, matriu, 13, visible, msg);	
+				}	
+			});
+
+			
+
+			map.spin(true);
+
+		} else {
+
+			this.addEntitiesVisorCesiumClamTerrain(dataSource, matriu, 13, visible, msg);	
+
+		}
+
+	},
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	this.addEntitiesVisorCesiumClamTerrain = function (dataSource, matriu, hfactor, visible, msg) {
+
+		console.warn("addEntitiesVisorCesiumClamTerrain");
 		var entities = dataSource.entities.values;
 		var z = 0;
 
@@ -1504,8 +1609,318 @@ var that = this;
 		
 			if (entity.polyline) {
 
+				var colorLin=entity.properties.styles.color;
+				var wLin=entity.properties.styles.weight;
+				if(!colorLin){colorLin="#FFCC00";}
+				if(!wLin){wLin=2;}
+				
+				
+				console.warn((parseInt(wLin)*2));
+				console.warn(colorLin);
+				var _newEntity = {
+					properties : entity.properties,
+					polyline : {
+						positions : entity.polyline.positions._value,
+						//outline : true,
+						show : visible,
+						width :(parseInt(wLin)*4),
+						material : new Cesium.ColorMaterialProperty(Cesium.Color.fromCssColorString(colorLin)),
+						color : new Cesium.ColorMaterialProperty(Cesium.Color.fromCssColorString(colorLin)),
+						heightReference :Cesium.HeightReference.CLAMP_TO_GROUND
+					}
+				}
+			
+				console.warn(_newEntity);
+			
+				viewer.entities.add(_newEntity);
+				
+
+			} else if (entity.billboard) {
+
+				entity.ellipsoid = ellipsoid;
+				entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
+
+				if (entity.properties.styles.icon) {
+					var _alt = parseInt(matriu[i].height + 100)
+
+						var redEllipse = viewer.entities.add({
+							position : ellipsoid.cartographicToCartesian(matriu[i]),
+							height : matriu[i].height,
+							properties : entity.properties,
+							ellipse : {
+								semiMinorAxis : 0.75,
+								semiMajorAxis : 0.75,
+								perPositionHeight : false,
+								height : matriu[i].height,
+								material : Cesium.Color.WHITE,
+								extrudedHeight : parseInt(_alt)
+							}
+						});
+
+					matriu[i].height = _alt;
+					entity.position._value = ellipsoid.cartographicToCartesian(matriu[i]);
+
+					var pinBuilder = new PinBuilder_IM();
+					entity.billboard.color = Cesium.Color.WHITE;
+
+					if (entity.properties.styles.icon.options.markerColor) {
+						
+						var colorPUNT = entity.properties.styles.icon.options.markerColor; //
+
+						if (colorPUNT.indexOf('punt_r') == -1) {
+							entity.billboard.image = pinBuilder.fromColor(
+									Cesium.Color[colorPUNT.toUpperCase()], 48);
+
+						} else {
+
+							entity.billboard = "";
+							entity.point = {
+								show : visible, // default
+								color : Cesium.Color
+								.fromCssColorString(entity.properties.styles.icon.options.fillColor), // default:
+								// //
+								// WHITE
+								pixelSize : (parseInt(entity.properties.styles.icon.options.radius) * 1.5), // default:
+								// // 1
+								outlineColor : Cesium.Color
+								.fromCssColorString(entity.properties.styles.icon.options.color), // default:
+								// //
+								// BLACK
+								outlineWidth : 2
+								// default: 0
+							};
+
+						}
+
+					} else if (entity.properties.styles.icon.options.iconUrl) {
+
+						//var url = Cesium.buildModuleUrl(entity.properties.styles.icon.options.iconUrl);
+						var url = entity.properties.styles.icon.options.iconUrl;
+
+						entity.billboard.image = url;
+						//entity.billboard.image = pinBuilder.fromUrl(url,Cesium.Color.BLUE, 48);
+
+					}
+
+					//viewer.entities.add(entity);
+
+				} else if (!entity.properties.styles.icon) {
+
+					var _color="#FFCC00";
+					entity.properties.styles.color?_color=entity.properties.styles.color:_color=_color;
+					
+					
+					entity.billboard = "";
+					entity.point = {
+						show : visible, // default
+						color : Cesium.Color
+						.fromCssColorString(entity.properties.styles.fillColor), // default:
+						// //
+						// WHITE
+						pixelSize : (parseInt(entity.properties.styles.radius) * 1.5), // default:
+						// // 1
+						outlineColor : Cesium.Color
+						.fromCssColorString(_color), // default:
+						// //
+						// BLACK
+						outlineWidth : 2
+						// default: 0
+					};
+
+				} else {
+
+					console.debug("No hauria entrar aqui");
+				}
+
+				viewer.entities.add(entity); //add billboard
 			
 			
+			
+			} else if (entity.polygon) {
+
+				entity.ellipsoid = ellipsoid;
+				entity.polygon.perPositionHeight = new Cesium.ConstantProperty(false);
+
+				var borderColor = entity.properties.styles.borderColor ? entity.properties.styles.borderColor : "";
+				var fillOpacity = entity.properties.styles.fillOpacity ? entity.properties.styles.fillOpacity : false;
+				var fillColor = entity.properties.styles.fillColor ? entity.properties.styles.fillColor : "";
+				var outlineWidth = entity.properties.styles.weight;
+
+				if (fillColor == "") {
+					fillColor = entity.properties.styles.color
+				};
+				if (borderColor == "" || borderColor == "#FFC400") {
+					borderColor = entity.properties.styles.color
+				};
+
+				if (!fillOpacity) {
+					fillOpacity = 0.5;
+				};
+
+				var alcada = 0;
+				var _tenimAlcada = false;
+
+				if (entity.properties.elevation) {
+					alcada = parseInt(entity.properties.elevation);
+					_tenimAlcada = true;
+				} else if (entity.properties.ELEVATION) {
+					alcada = parseInt(entity.properties.ELEVATION);
+					_tenimAlcada = true;
+				} else if (entity.properties.height) {
+					alcada = parseInt(entity.properties.height);
+					_tenimAlcada = true;
+				} else if (entity.properties.HEIGHT) {
+					alcada = parseInt(entity.properties.HEIGHT);
+					_tenimAlcada = true;
+				} else if (entity.properties.altura) {
+					alcada = parseInt(entity.properties.altura);
+					_tenimAlcada = true;
+				} else if (entity.properties.ALTURA) {
+					alcada = parseInt(entity.properties.ALTURA);
+					_tenimAlcada = true;
+				} else if (entity.properties.z) {
+					alcada = parseInt(entity.properties.z);
+					_tenimAlcada = true;
+				} else if (entity.properties.Z) {
+					alcada = parseInt(entity.properties.Z);
+					_tenimAlcada = true;
+
+				} else if (entity.properties.volum) {
+					alcada = parseInt(entity.properties.volum);
+					_tenimAlcada = true;
+				} else if (entity.properties.VOLUM) {
+					alcada = parseInt(entity.properties.VOLUM);
+					_tenimAlcada = true;
+				} else {
+					_tenimAlcada = false;
+
+				}
+
+				var entityMatriu = [];
+				var _matriuAlcada = [];
+				var _extrudeAlcada;
+
+				
+				
+				if (msg == 'vector') {
+					for (var j = 0; j < entity.polygon._hierarchy._value.positions.length; ++j) {
+						z = z + 1;
+						entityMatriu.push(matriu[z - 1]);
+
+						if (_tenimAlcada) {
+
+							_matriuAlcada.push(matriu[z - 1].height);
+						}
+
+					}
+
+					var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
+
+		
+				
+				} else {
+
+					var cartesianPositions = entity.polygon._hierarchy._value;
+					//var cartesianPositions =Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
+
+				}
+				var _newEntity;
+
+				if (_tenimAlcada) {
+
+					var terra = 0;
+					if (msg == 'vector') {
+						terra = (Math.max.apply(Math, _matriuAlcada));
+					}
+					_extrudeAlcada = terra + parseInt(alcada);
+					
+					
+					_newEntity = {
+
+						properties : entity.properties,
+						show : visible,
+						polygon : {
+							hierarchy : cartesianPositions,
+							outline : true,
+							extrudedHeight : _extrudeAlcada,
+							fill : true,
+							outlineColor : Cesium.Color.fromCssColorString(borderColor),
+							material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
+							// outlineWidth : 3.0,
+							perPositionHeight : true
+
+						}
+					};
+
+					
+					
+				} else {
+
+				
+				
+					_newEntity = {
+
+						properties : entity.properties,
+						show : visible,
+						polygon : {
+							hierarchy : cartesianPositions,
+							outline : true,
+							// fill:true,
+							outlineColor : Cesium.Color.fromCssColorString(borderColor),
+							material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
+							// outlineWidth : 3.0,
+							//perPositionHeight : true,
+							// extrudedHeight:3000
+							heightReference :Cesium.HeightReference.CLAMP_TO_GROUND
+
+						}
+					};
+					
+					
+					/*
+					entity.show=visible;
+					entity.polygon.outline = true;
+					entity.polygon.perPositionHeight=true;
+					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
+					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
+
+					_newEntity=entity;
+					*/
+				}
+
+				viewer.entities.add(_newEntity);
+
+			}
+
+		} // final for afegim el DataSource
+
+		dataSource = "";
+
+		map.spin(false);
+		matriu = [];
+
+	},
+	
+	
+	
+	
+	
+	this.addEntitiesVisorCesium = function (dataSource, matriu, hfactor, visible, msg) {
+
+	
+		var entities = dataSource.entities.values;
+		var z = 0;
+
+		for (var i = 0; i < entities.length; i++) {
+			var entity = entities[i];
+			entity.show = true;
+			entity.properties.dataSource = dataSource.id;
+			var ellipsoid = viewer.scene.globe.ellipsoid;
+			entity.ellipsoid = ellipsoid;
+
+			
+		
+			if (entity.polyline) {					
 				var entityMatriu = [];
 
 				for (var j = 0; j < entity.polyline.positions._value.length; ++j) {
@@ -1515,12 +1930,10 @@ var that = this;
 				}
 
 				var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
-
 				var colorLin=entity.properties.styles.color;
 				var wLin=entity.properties.styles.weight;
 				if(!colorLin){colorLin="#FFCC00";}
-				if(!wLin){wLin=2;}
-				
+				if(!wLin){wLin=2;}			
 				var _newEntity = {
 
 					properties : entity.properties,
@@ -1533,6 +1946,8 @@ var that = this;
 						material : new Cesium.ColorMaterialProperty(Cesium.Color.fromCssColorString(colorLin))
 					}
 				}
+				
+				
 				viewer.entities.add(_newEntity);
 
 			} else if (entity.billboard) {
@@ -1729,17 +2144,7 @@ var that = this;
 
 					var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
 
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+		
 				
 				} else {
 
@@ -1774,15 +2179,10 @@ var that = this;
 
 						}
 					};
-
-					
-					
+										
 				} else {
-
-				
-				
+								
 					_newEntity = {
-
 						properties : entity.properties,
 						show : visible,
 						polygon : {
@@ -1792,8 +2192,9 @@ var that = this;
 							outlineColor : Cesium.Color.fromCssColorString(borderColor),
 							material : Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity),
 							// outlineWidth : 3.0,
-							perPositionHeight : true,
+							//perPositionHeight : true,
 							// extrudedHeight:3000
+							heightReference : Cesium.HeightReference.CLAMP_TO_GROUND
 
 						}
 					};

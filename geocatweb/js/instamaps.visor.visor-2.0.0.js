@@ -656,7 +656,8 @@
 			
 			ctr_legend = L.control.legend({
 				title: window.lang.convert('Llegenda'),
-				tipusllegenda: self.tipusllegenda
+				tipusllegenda: self.tipusllegenda,
+				llegendaOpt: self.llegendaOpt
 			});
 			ctr_legend.addTo(_map);
 			
@@ -775,7 +776,7 @@
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				if (!self.nollegenda) {
 					self.addLlegenda();
-					self.controls.llegendaControl.hide();
+					if (self.llegendaOpt==true) self.controls.llegendaControl.hide();
 				};
 			}
 			
@@ -789,7 +790,8 @@
 		
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
-			window.location.href = paramUrl.galeriaPage;
+			alert(1);
+			//window.location.href = paramUrl.galeriaPage;
 		},
 		
 		loadLoginPage: function(){
@@ -870,6 +872,7 @@
 					self.llegenda = 0;
 				}
 				self.tipusllegenda=mapConfig.options.tipusllegenda;
+				self.llegendaOpt=mapConfig.options.llegendaOpt;
 			}
 			self._mapConfig = mapConfig;
 			
@@ -933,6 +936,8 @@
 				mapacolaboratiu: _mapacolaboratiu,
 				uid: _uid	
 			};
+			
+			
 			getCacheMapByBusinessId(data).then(function(results){
 				if (results.status == "ERROR"){
 					self.loadErrorPage();
@@ -1162,6 +1167,7 @@
 				self.resizeMap();
 			},150));
 			
+			
 			if(self.businessid){
 				self.loadMapConfig();
 				_map.on('loadconfig', self._drawVisor, self);
@@ -1172,6 +1178,8 @@
 					}
 					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
 				}else{
+					
+					
 					self.loadErrorPage();
 				}
 			}

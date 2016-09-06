@@ -47,10 +47,10 @@ function generaLlistaServeisWMS() {
 				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
 			},
 			{
-				"TITOL" : "Parcs eòlics",
-				"ORGANITZAC" : "Direcció General de Polítiques Ambientals",
-				"IDARXIU" : "http://mapaidec.icc.cat/ogc/geoservei?map=/opt/idec/dades/peolics/parcseolics.map&amp",
-				"URN" : "urn:uuid:3dd3d606-79c8-11e3-aa3b-07b03c41b8e8"
+				"TITOL" : "Establiments industrials",
+				"ORGANITZAC" : "Direccio General de Difusio",
+				"IDARXIU" : "http://pcivil.icgc.cat/ogc/geoservei?map=/opt/idec/dades/pcivil/risc_quimic.map&amp",
+				"URN" : "urn:uuid:0a71e360-7f73-11e4-b2ac-e7f91a2c3576"
 			},
 			{
 				"TITOL" : "Mapes Medi Natural",
@@ -65,10 +65,10 @@ function generaLlistaServeisWMS() {
 				"URN" : "urn:uuid:6434ad48-66df-11e2-8be5-bd1ed7ebebe1"
 			},
 			{
-				"TITOL" : "Rutes turístiques",
+				"TITOL" : "Risc Sísmic",
 				"ORGANITZAC" : "Direccio General de Difusio",
-				"IDARXIU" : "http://delta.icc.cat/cgi-bin/mapserv?map=/opt/idec/dades/probert/idelocal_probert.map&",
-				"URN" : "urn:uuid:6975bcce-2347-11e2-a4dd-13da4f953834"
+				"IDARXIU" : "http://pcivil.icgc.cat/ogc/geoservei?map=/opt/idec/dades/pcivil/risc_sismic.map&",
+				"URN" : "urn:uuid:09e7f2c8-7f73-11e4-b2ac-e7f91a2c3576"
 			},
 			{
 				"TITOL" : "Cobertes del Sòl",
@@ -146,51 +146,9 @@ function generaLlistaServeisWMS() {
 	_htmlServeisWMS.push('</ul></div>');
 	_htmlServeisWMS.push('<div id="resultats_idec">');
 	_htmlServeisWMS.push('</div>');
-	_htmlServeisWMS.push('<div class="input-group txt_ext"><input type="text" lang="ca" id="txt_URLWMS" style="height:33px" placeholder="Entrar URL servei WMS" class="form-control">');
-	_htmlServeisWMS.push('<span class="input-group-btn"><button class="btn btn-default" id="bt_connWMS"  type="button"><span class="glyphicon glyphicon-play"></span></button></span>');
-	_htmlServeisWMS.push('</div>');
-	_htmlServeisWMS.push('<script id="list-template" type="x-handlebars-template">');
-	_htmlServeisWMS.push('  {{#layer Layer}}');
-	_htmlServeisWMS.push('	  <li>');
-	_htmlServeisWMS.push('      {{#if Name}}');
-	_htmlServeisWMS.push('			{{#if Layer}}');
-	_htmlServeisWMS.push('				<span><i class="glyphicon glyphicon-folder-open"></i></span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
-	_htmlServeisWMS.push('			{{else}}');
-	_htmlServeisWMS.push('				<span class="leaf"><input type="checkbox" class="ckbox_layer" id="{{Title}}" value="{{Name}}"> {{Title}}</span>');
-	_htmlServeisWMS.push('				{{#if Dimension}}');
-	_htmlServeisWMS.push('				<span id="geoservicetime_{{Name}}" class="glyphicon glyphicon-time info-wms"></span>');		
-	_htmlServeisWMS.push('			    {{/if}}');		
-	_htmlServeisWMS.push('			{{/if}}');
-	_htmlServeisWMS.push('		{{else}}');
-	_htmlServeisWMS.push('			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>');
-	_htmlServeisWMS.push('		{{/if}}');
-	_htmlServeisWMS.push('		{{#if Layer}}');
-	_htmlServeisWMS.push('        <ul>');
-	_htmlServeisWMS.push('        {{> list-template}}');
-	_htmlServeisWMS.push('        </ul>');
-	_htmlServeisWMS.push('        {{/if}}');
-	_htmlServeisWMS.push('    </li>');
-	_htmlServeisWMS.push('	{{/layer}}');
-	_htmlServeisWMS.push('</script>');
-	_htmlServeisWMS.push('<script id="capabilities-template" type="x-handlebars-template">');
-	_htmlServeisWMS.push('    <ul>');
-	_htmlServeisWMS.push('    {{> list-template}}');
-	_htmlServeisWMS.push('    </ul>');
-	_htmlServeisWMS.push('</script>');
-	_htmlServeisWMS.push('<div id="div_layersWMS"  class="tbl tree"></div>');
+	_htmlServeisWMS.push('<div id="div_controlWMS"></div>');
 	_htmlServeisWMS.push('<div id="div_emptyWMS"></div>');
 }
-
-jQuery(document).on('click', "#bt_connWMS", function(e) {
-	var url = $.trim(jQuery('#txt_URLWMS').val());
-	if (url === "") {
-		alert(window.lang.convert("Has d'introduïr una URL del servidor"));
-	} else if (!isValidURL(url)) {
-		alert(window.lang.convert("La URL introduïda no sembla correcte"));
-	} else {
-		getCapabilitiesWMS(url, null);
-	}
-});
 
 jQuery(document).on('keyup', "#txt_URLWMS_cataleg", function(e) {
     var code = e.which; // recommended to use e.which, it's normalized across browsers
@@ -228,6 +186,7 @@ function cercaCataleg(cerca){
 		var lDadesIdec = '<ul class="panel-heading llista-dadesIdec">';
 		jQuery.each(resultats.aaData, function( index, wmsidec ) {
 			var titol=wmsidec.TITOL;
+			var titolShort=shortString(titol,27);
 			var desc=wmsidec.DESCRIPCIO;
 			var org =wmsidec.ORGANITZAC;
 			var idarxiu=wmsidec.IDARXIU;
@@ -240,13 +199,14 @@ function cercaCataleg(cerca){
 			var escala=wmsidec.ESCALA;
 			var conjunt=wmsidec.CONJUNT;
 			var temes=wmsidec.TEMES;
-			lDadesIdec += '<li><a class="label-dadesIdec" href="#"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titol;
+			lDadesIdec += '<li><a class="label-dadesIdec" href="#" title="'+titol+'"  data-nom="'+titol+'" data-wms_url="'+idarxiu+'">'+titolShort;
 			lDadesIdec += '<a lang="ca" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id='+urn+'&idioma=ca&" target="_blank">';
 			lDadesIdec += '&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a></li>';
 		});
 		lDadesIdec += '</ul>';
 		if (resultats.aaData.length>0) {
 			jQuery('#resultats_idec').html(lDadesIdec);
+			//TODO llamar al control
 			jQuery('#txt_URLWMS').attr("style","display:none");
 			jQuery('#bt_connWMS').attr("style","display:none");
 			jQuery(".label-dadesIdec").on('click', function(e) {
@@ -364,12 +324,84 @@ function getCapabilitiesWMS(url, servidor) {
 		} catch (err) {
 			jQuery('#div_layersWMS').html('<hr>Error interpretar capabilities: ' + err + '</hr>');
 		}
-	});
+	},function(){ console.info("time out")});
 }
 
-jQuery(document).on('click', "#bt_addWMS", function(e) {
-    addExternalWMS(false);
-});
+function addWmsToMap(wms){
+	var wmsLayer,
+	tipus_user = defineTipusUser();  //geocat.web-1.0.0
+	//$.publish('trackEvent',{event:['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]});
+	//TODO eliminar esto pero primero hay que cargar el instamaps.google-analytics.js en lugar del geocat.google-analytics.js
+	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]);
+		
+	if(wms.wmstime){
+		wmsLayer = L.tileLayer.wms(wms.url, {
+			layers : wms.layers,
+			crs : wms.epsg,
+			transparent : true,
+			format : 'image/png',
+			wmstime:wms.wmstime,
+			tileSize:512
+		});
+	}else{
+		wmsLayer = L.tileLayer.betterWms(wms.url, {
+			layers : wms.layers,
+			crs : wms.epsg,
+			transparent : true,
+			//exceptions:'application/vnd.ogc.se_blank',
+			exceptions:checkExceptionsType(wms.url),
+			format : 'image/png',
+			wmstime:wms.wmstime,
+			tileSize:512
+		});
+	}
+	
+	wmsLayer.options.businessId = '-1';
+	wmsLayer.options.nom = wms.servidor;
+	wmsLayer.options.tipus = t_wms;
+	
+	if(typeof url('?businessid') == "string"){
+		var data = {
+			uid:$.cookie('uid'),
+			mapBusinessId: url('?businessid'),
+			serverName: wms.servidor,
+			serverType: t_wms,
+			version: wmsLayer.wmsParams.version,
+			calentas: false,
+            activas: true,
+            visibilitats: true,
+            order: controlCapes._lastZIndex+1,
+            epsg: ActiuWMS.epsgtxt,
+            imgFormat: 'image/png',
+            infFormat: 'text/html',
+            tiles: true,	            
+            transparency: true,
+            opacity: 1,
+            visibilitat: 'O',
+            url: wms.url,
+            layers: JSON.stringify([{name:wms.layers,title:wms.layers,group:0,check:true,query:true}]),
+            calentas: false,
+            activas: true,
+            visibilitats: true,
+			options: '{"url":"'+wms.url+'","layers":"'+wms.layers+'","opacity":"'+1+'","wmstime":'+wms.wmstime+'}'
+		};
+		createServidorInMap(data).then(function(results){
+			map.spin(false);
+			if (results.status == "OK"){
+				wmsLayer.options.businessId = results.results.businessId;
+				checkAndAddTimeDimensionLayer(wmsLayer,false,wms.servidor);
+				//dfd.resolve(true);
+			}else{
+				console.debug('createServidorInMap ERROR');
+				//dfd.resolve(false);
+			}
+		});
+	}else{
+		//dfd.reject();
+		checkAndAddTimeDimensionLayer(wmsLayer,false,wms.servidor);
+	}
+	
+}
 
 /*
  * fromParam = true -> Si afegim WMS directamente dun parametre de la url
@@ -420,15 +452,15 @@ function addExternalWMS(fromParam) {
 			layers : ActiuWMS.layers,
 			crs : ActiuWMS.epsg,
 			transparent : true,
-			exceptions:'application/vnd.ogc.se_blank',
+			//exceptions:'application/vnd.ogc.se_blank',
+			exceptions:checkExceptionsType(ActiuWMS.url),
 			format : 'image/png',
 			wmstime:ActiuWMS.wmstime,
 			tileSize:512
 		});
 	}
 	
-	nomCapaWMS=ActiuWMS.servidor;
-	
+	nomCapaWMS=ActiuWMS.servidor;	
 	
 	
 	wmsLayer.options.businessId = '-1';
@@ -575,33 +607,19 @@ function loadWmsLayer(layer, _map){
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
 }
 
-function addTreeEvents(){
-	$('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
-    $('.tree li.parent_li > span').on('click', function (e) {
-        var children = $(this).parent('li.parent_li').find(' > ul > li');
-        if (children.is(":visible")) {
-            children.hide('fast');
-            $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open');
-        } else {
-            children.show('fast');
-            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close');
-        }
-        e.stopPropagation();
-    });
-    
-    $('.tree li > span.leaf').on('click', function (e) {
-    	$(this).children('.ckbox_layer').click();
-    });
-    
-    $('.ckbox_layer').on('click', function (e) {
-    	e.stopPropagation();
-    });
-    
-    $('.btn-all').on('click',function(){
-    	$(this).parent('li.parent_li').find('input:checkbox').prop('checked', true);
-	});
-	
-	$('.btn-none').on('click',function(){
-		$(this).parent('li.parent_li').find('input:checkbox').prop('checked', false);
-	});
+
+function checkExceptionsType(_server){
+		
+	var exceptions='application/vnd.ogc.se_blank';
+
+		if(_server.indexOf('instamaps.cat')==-1 ||
+		 _server.indexOf('betaserver.icgc')==-1 ||
+		 _server.indexOf('localhost')==-1 ||
+		 _server.indexOf('172.70.1.11')==-1){
+			
+			exceptions='application/vnd.ogc.se_inimage';
+
+		}
+		
+		return exceptions;
 }
