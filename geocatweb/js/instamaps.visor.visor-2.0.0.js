@@ -776,7 +776,9 @@
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				if (!self.nollegenda) {
 					self.addLlegenda();
-					if (self.llegendaOpt==true) self.controls.llegendaControl.hide();
+					if (self.llegendaOpt==false){
+						self.controls.llegendaControl.button.show();
+					}
 				};
 			}
 			
@@ -790,8 +792,7 @@
 		
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
-			alert(1);
-			//window.location.href = paramUrl.galeriaPage;
+			window.location.href = paramUrl.galeriaPage;
 		},
 		
 		loadLoginPage: function(){
@@ -1187,6 +1188,7 @@
 			if(!self.embed){
 				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'no embed']});
 			}
+			return self;
 		},
 		
 		_addTooltips: function(){
