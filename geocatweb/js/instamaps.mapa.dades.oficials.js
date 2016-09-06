@@ -1,11 +1,6 @@
-
-
 var IM_DadesOficials = function (options) {
-
 	this.options = options;
-
 	this.generaOpcionsHTMLDadesOficials = function () {
-
 		var _htmlDadesOficials = [];
 		_htmlDadesOficials.push('<div class="panel-warning">');
 		_htmlDadesOficials.push('<ul class="bs-dades_oficials panel-heading">');
@@ -24,26 +19,21 @@ var IM_DadesOficials = function (options) {
 		//_htmlDadesOficials.push('<span lang="ca" class="label" id="inspire_msg"></span>');
 		_htmlDadesOficials.push('</div>');
 		this.resetResultatsOficials();
-
 		return _htmlDadesOficials.join("");
-
-	}
+	};
 
 	this.resetResultatsOficials = function () {
-
 		jQuery('#id_ofi_results').html('');
 		jQuery('#inspire_msg').html('');
-
-	}
+	};
 
 	this.focusText = function (id) {
 		id.indexOf('opt_id_inspi') != -1 ? jQuery("#opt_id_inspi").addClass('txtFocus') : jQuery("#opt_id_inspi").removeClass('txtFocus');
 		id.indexOf('opt_id_pcc') != -1 ? jQuery("#opt_id_pcc").addClass('txtFocus') : jQuery("#opt_id_pcc").removeClass('txtFocus');
-	}
+	};
 
 	this.INSPIRE_Interface = function () {
 		var _that = this;
-
 		var data = {
 			"wt" : "json",
 			"q" : "*",
@@ -89,10 +79,10 @@ var IM_DadesOficials = function (options) {
 						if (this.value != "null") {
 							var _BBOX = stringBBOXtoArray(EuCountryBBOX[this.value]);
 							map.fitBounds([[
-										parseFloat(_BBOX[1]),
-										parseFloat(_BBOX[0])],
-									[parseFloat(_BBOX[3]),
-										parseFloat(_BBOX[2])]]);
+							  parseFloat(_BBOX[1]),
+			                  parseFloat(_BBOX[0])],
+			                  [parseFloat(_BBOX[3]),
+			                  parseFloat(_BBOX[2])]]);
 							_that.searchFilterInspireCatalog();
 						}
 					});
@@ -108,17 +98,13 @@ var IM_DadesOficials = function (options) {
 						}
 					});
 				} else {
-					//alert(window.lang.convert("Sense resposta del catàleg INSPIRE"));
 					jQuery('#id_ofi_results').html('<h2>'+window.lang.convert("Sense resposta del catàleg INSPIRE")+'</h2>');
 				}
 			} catch (err) {
-				//alert(window.lang.convert("Sense resposta del catàleg INSPIRE"));
 				jQuery('#id_ofi_results').html('<h2>'+window.lang.convert("Sense resposta del catàleg INSPIRE")+'</h2>');
 			}
 		});
-		
-		
-	}
+	};
 
 	this.PCC_Interface = function () {
 		var _that = this;
@@ -126,109 +112,75 @@ var IM_DadesOficials = function (options) {
 		var _htmlGetInitPCC = [];
 
 		$.getJSON(paramUrl.urlJsonPCC, function (data) {
+			//TODO modificar con la nueva estructura del archivo
 			$.each(data, function (key, val) {
-				if (val.id_cig) {
-					items.push(val.id_cig + " " + val.nom_grup);
+				//console.debug(val);
+				//if (val.id_cig) {
+					//items.push(val.id_cig + " " + val.nom_grup);
+				if (val.nom_grup_instamaps) {
+					items.push(val.nom_grup_instamaps);
 				}
 			});
-
-			
-			
-			//_htmlGetInitPCC.push('<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">');
 			
 			_htmlGetInitPCC.push('<div class="row"><div class="col-xs-12"  style="padding-top:5px;"><select id="cmb_pcc" data-selectsplitter-selector>');
-
 			$.each(jQuery.unique(items), function (key, val) {
-			
 				var _valID = treuAccentsiEspais(val);
-
 				_htmlGetInitPCC.push('<optgroup id="_pccul_' + _valID + '" label="'+shortString(val, 85)+'">');
 				_htmlGetInitPCC.push('</optgroup>'); 
-				
 			});
-
 			_htmlGetInitPCC.push('</select></div></div>');
 			
-			//_htmlGetInitPCC.push('</div>');
-
 			jQuery('#id_ofi_body').html(_htmlGetInitPCC.join(""));
 
 			$.each(data, function (key, val) {
-				var titol = val.nom_instamaps;
+				//var titol = val.nom_instamaps;
+				var titol = val.nom_geoservei_instamaps;
 				var titolShort = shortString(titol, 85);
-				var idarxiu = val.url_geoservei;
-				var capa= val.capa;
-				var _valID = treuAccentsiEspais(val.id_cig + " " + val.nom_grup); ;
+				var idarxiu = val.url_geoserveis;
+				//var capa= val.capa;
+				var capa= val.nom_capes_geoservei_instamaps;
+				//var _valID = treuAccentsiEspais(val.id_cig + " " + val.nom_grup); ;
+				var _valID = treuAccentsiEspais(val.nom_grup_instamaps);
 				var id = '_pccul_' + _valID;
-			
 				jQuery('#' + id).append('<option value="'+titol+'##'+idarxiu+'##'+capa+'">' + titolShort+'</option>');
-				//jQuery('#' + id).append('<li><a class="label-dadesPCC" href="#"  title="' + titol + '" data-nom="' + titol + '" data-wms_url="' + idarxiu + '">' + titolShort);
 			});
-				$('select[data-selectsplitter-selector]').selectsplitter(				
+			$('select[data-selectsplitter-selector]').selectsplitter(				
 				{template:   
-                    '<div class="row" data-selectsplitter-wrapper-selector>' +
-                        '<div class="col-xs-12">' +
-                            '<select class=" cmb_pcc form-control" data-selectsplitter-firstselect-selector></select>' +
-                        '</div>' +
-                        '<div class="clearfix visible-xs-block"></div>' +
-                        '<div class="col-xs-12">' +
-                            '<select id="cmb_pcc_wms" class=" cmb_pcc  form-control" data-selectsplitter-secondselect-selector></select>' +
-                        '</div>' +                        
+					'<div class="row" data-selectsplitter-wrapper-selector>' +
+					'<div class="col-xs-12">' +
+					'<select class=" cmb_pcc form-control" data-selectsplitter-firstselect-selector></select>' +
+					'</div>' +
+					'<div class="clearfix visible-xs-block"></div>' +
+					'<div class="col-xs-12">' +
+					'<select id="cmb_pcc_wms" class=" cmb_pcc  form-control" data-selectsplitter-secondselect-selector></select>' +
+					'</div>' +                        
 				'</div>'});
-				
-				
+
 			//PCC clic
 			var instamapsWms = InstamapsWms({
-					container : $('#div_controlWMS_OFICIALS'),
-					botons : $('#div_emptyWMS_OFICIALS'),
-					proxyUrl : paramUrl.ows2json,
-					callback : addWmsToMap
-				});
-
-			//jQuery("a.label-dadesPCC").on('click', function (e) {
-				
-				jQuery("#cmb_pcc_wms").on('click', function (e) {
-				
-			
-				
-				if (e.target.id != "id_ofi") {
-					
-					//console.info(jQuery(e.target));
-					
-				var _atrPCC=jQuery(e.target).attr('value').split("##");	
-					
-						
-					instamapsWms.getLayers({
-						//url : $(e.target).attr('data-wms_url'),
-						//name : $(e.target).attr('title')
-						
-						url :_atrPCC[1],
-						name : _atrPCC[0],
-						capa : _atrPCC[2],
-						
-					});
-					//jQuery("#id_ofi_body").hide();
-					map.setView([41.431, 1.8580], 9);
-					//jQuery("#div_controlWMS_OFICIALS").show();
-					//jQuery("#div_emptyWMS_OFICIALS").show();
-					jQuery("#inspire_msg").html('');
-					
-
-					
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'PCC', _atrPCC[0], 1]);
-
-					
-
-				};
+				container : $('#div_controlWMS_OFICIALS'),
+				botons : $('#div_emptyWMS_OFICIALS'),
+				proxyUrl : paramUrl.ows2json,
+				callback : addWmsToMap
 			});
 
-			//Fi PCC click
-
+			jQuery("#cmb_pcc_wms").on('click', function (e) {
+				if (e.target.id != "id_ofi") {
+					var _atrPCC=jQuery(e.target).attr('value').split("##");	
+					instamapsWms.getLayers({
+						url :_atrPCC[1],
+						name : _atrPCC[0],
+						capa : _atrPCC[2]
+					});
+					map.setView([41.431, 1.8580], 9);
+					jQuery("#inspire_msg").html('');
+					_gaq.push(['_trackEvent', 'mapa', tipus_user+'PCC', _atrPCC[0], 1]);
+				};
+			});//Fi PCC click
 		});
+	};
 
-	}
 	this.addOpcionsHTMLTipusDadesOficials = function (objHTML) {
-
 		var ref = objHTML.id;
 		var _that = this;
 
@@ -248,29 +200,26 @@ var IM_DadesOficials = function (options) {
 		}
 		_that.focusText(ref);
 
-	}
+	};
 
 	this.defineReourceLocator = function (resourceLocator) {
 		var resource = null;
 		jQuery.each(resourceLocator, function (index, _resourceLocator) {
 			if (_resourceLocator.indexOf('.xml') == -1 ||
-				_resourceLocator.indexOf('wmts') == -1 ||
-				_resourceLocator.indexOf('wfs') == -1 ||
-				_resourceLocator.indexOf('.html') == -1 ||
-				_resourceLocator.indexOf('wms') != -1) {
+			  _resourceLocator.indexOf('wmts') == -1 ||
+			  _resourceLocator.indexOf('wfs') == -1 ||
+			  _resourceLocator.indexOf('.html') == -1 ||
+			  _resourceLocator.indexOf('wms') != -1) {
 				_resourceLocator = _resourceLocator.replace("request=getcapabilities", "");
 				_resourceLocator = _resourceLocator.replace("request=GetCapabilities", "");
 				_resourceLocator = _resourceLocator.replace("REQUEST=GetaCapabilities", "");
-
 				resource = _resourceLocator;
 			}
 		});
 		return resource;
-
-	},
+	};
 
 	this.searchFilterInspireCatalog = function () {
-
 		var query = "";
 		var _that = this;
 		var valorPais = jQuery('#cmdInspireInit').val();
@@ -278,7 +227,6 @@ var IM_DadesOficials = function (options) {
 
 		valorPais == "null" ? valorPais = "[* TO *]" : valorPais = valorPais;
 		valorText === "" ? valorText = "*" : valorText = "*" + valorText + "*";
-
 		var data = {
 			"wt" : "json",
 			"q" : "*",
@@ -290,7 +238,6 @@ var IM_DadesOficials = function (options) {
 		};
 
 		searchCatalogInspire(data).then(function (results) {
-
 			var lDadesInspire = [];
 
 			jQuery("#id_ofi_results").show();
@@ -299,11 +246,9 @@ var IM_DadesOficials = function (options) {
 			jQuery("#inspire_msg").hide();
 
 			if (results.response && results.response.docs.length > 0) {
-
 				var resultats = results.response.numFound;
 				lDadesInspire.push('<ul class="panel-heading bs-dades_oficials llista-dadesInspire">');
 				jQuery.each(results.response.docs, function (index, wmsInspire) {
-
 					if (wmsInspire.resourceLocator) {
 						var _rlo = _that.defineReourceLocator(wmsInspire.resourceLocator);
 						if (_rlo) {
@@ -320,7 +265,6 @@ var IM_DadesOficials = function (options) {
 							lDadesInspire.push('<a lang="ca" href="http://inspire-geoportal.ec.europa.eu/resources' + urn + '" target="_blank">');
 							lDadesInspire.push('&nbsp;<span class="glyphicon glyphicon-info-sign orange"></span></a></li>');
 						}
-
 					}
 				});
 
@@ -333,11 +277,11 @@ var IM_DadesOficials = function (options) {
 
 				//new features wz
 				var instamapsWms = InstamapsWms({
-						container : $('#div_controlWMS_OFICIALS'),
-						botons : $('#div_emptyWMS_OFICIALS'),
-						proxyUrl : paramUrl.ows2json,
-						callback : addWmsToMap
-					});
+					container : $('#div_controlWMS_OFICIALS'),
+					botons : $('#div_emptyWMS_OFICIALS'),
+					proxyUrl : paramUrl.ows2json,
+					callback : addWmsToMap
+				});
 
 				jQuery("a.label-dadesInspire").on('click', function (e) {
 					if (e.target.id != "id_ofi") {
@@ -352,28 +296,19 @@ var IM_DadesOficials = function (options) {
 						if ($(e.target).attr('data-bbox') != null) {
 							var _BBOX = stringBBOXtoArray($(e.target).attr('data-bbox'));
 							map.fitBounds([[
-										parseFloat(_BBOX[1]),
-										parseFloat(_BBOX[0])],
-									[parseFloat(_BBOX[3]),
-										parseFloat(_BBOX[2])]]);
+							                parseFloat(_BBOX[1]),
+							                parseFloat(_BBOX[0])],
+							                [parseFloat(_BBOX[3]),
+							                 parseFloat(_BBOX[2])]]);
 						}
-
-						
 						_gaq.push(['_trackEvent', 'mapa', tipus_user+'INSPIRE', $(e.target).attr('title'), 1]);
-						
 					};
 				});
-
 			} else {
-
-				//alert(window.lang.convert("Sense resultats"));
 				jQuery('#id_ofi_results').html('<h4>'+window.lang.convert("Sense resultats")+'</h4>');
 				this.resetResultatsOficials();
 				return;
 			}
-
 		});
-
-	}
-
-} //fi clases
+	};
+}; //fi clases

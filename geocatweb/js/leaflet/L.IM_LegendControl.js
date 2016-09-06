@@ -161,8 +161,6 @@ L.Control.Legend = L.Control.extend({
 	_updateTabLegend:function(obje){
 		var self = this;
 		self.fromLayer = true;
-		
-		console.info(obje);
 		if(obje.activo){
 			$('#nav_legend a[href="#tab'+obje.id+'"]').tab('show');	
 		}else{			
@@ -171,10 +169,8 @@ L.Control.Legend = L.Control.extend({
 		}
 	},
 	
-	
-	
 	_getLastActived:function(){	
-	var self = this,
+		var self = this,
 		mapLegend = self.legend;
 
 		var lastPos={indexPos:0};
@@ -303,53 +299,39 @@ L.Control.Legend = L.Control.extend({
 					legendTabContent.push('</div>');
 				}
 			    });
-				
-				
-								
+											
 				legendTab.push('</ul>');
 				legendTabContent.push('</div></div>');
-				
-				
+							
 				$(div).append(legendTab.join(""));
 				$(div).append(legendTabContent.join(""));
 				$('#nav_legend').tabdrop({offsetTop: -5},'layout');
-			
-							
+										
 				$(div).on('click', function(e){			
-				changeWMSQueryable(false);
+					changeWMSQueryable(false);
 				});	
 				 
 				 $(div).on('mouseout', function(e){				
-				changeWMSQueryable(true);
+					 changeWMSQueryable(true);
 				});	
-				
 				
 				$('.dv_lleg').on('click', function(e){			
-				aturaClick(e);
+					aturaClick(e);
 				});	
-				
-				
-				//$('.dv_lleg').mCustomScrollbar();
 				
 				$('.legendTabCont').on('click', function(e){			
-				aturaClick(e);
+					aturaClick(e);
 				});	
-				
-				
+								
 				$('.legendTabCont').on('mousedown', function(e){			
-				aturaClick(e);
+					aturaClick(e);
 				});	
-			
-			//$('#nav_legend').tabdrop();	
-			
 				$(' #nav_legend a[data-toggle="tab"]').on('shown.bs.tab', self._activaCapaTab.bind(self));
 			}
 		}
 	},
 	
 	_activaCapaTab: function(e){
-		
-		console.info(e);
 		var self = this;
 		self._redrawTabs();
 		if(!self.fromLayer){

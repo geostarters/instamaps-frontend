@@ -86,7 +86,6 @@
 				ActiuWMS = {};
 			
 			self = $.extend(self, options);
-			console.info(self.capa);
 			var data = {url: self.url,capa:self.capa};
 			
 			self.getWMSLayers(data).then(function(results) {
@@ -188,7 +187,6 @@
 										
 					if(self.capa){	
 						
-						//console.info(self.capa);
 						var ls;
 						var hits=0;
 						if(self.capa.indexOf(",")!=-1){								//hi ha més una capa
@@ -212,8 +210,6 @@
 						}						
 					
 					}else{
-						
-						//console.info(self.capa);
 						jQuery("#div_controlWMS_OFICIALS").show();
 						jQuery("#div_emptyWMS_OFICIALS").show();
 						
@@ -228,7 +224,6 @@
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){
-				//console.info(status);
 				status.indexOf('parser')!=-1?alert(window.lang.convert("Error en interpretar capabilities")):alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
 				
 				});
