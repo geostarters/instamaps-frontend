@@ -5272,7 +5272,7 @@ li >.label-dof:focus {
     padding-left: 1px;
     width: 99%;
 	 cursor: pointer;
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 	color: #f75e33;
   background-color: #fcf8e3 !important;
 }	
