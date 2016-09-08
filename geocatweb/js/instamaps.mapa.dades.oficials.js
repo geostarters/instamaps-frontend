@@ -118,7 +118,7 @@ var IM_DadesOficials = function (options) {
 				//if (val.id_cig) {
 					//items.push(val.id_cig + " " + val.nom_grup);
 				if (val.nom_grup_instamaps) {
-					items.push(val.nom_grup_instamaps);
+					items.push($.trim(val.nom_grup_instamaps));
 				}
 			});
 			
@@ -140,7 +140,7 @@ var IM_DadesOficials = function (options) {
 				//var capa= val.capa;
 				var capa= val.nom_capes_geoservei_instamaps;
 				//var _valID = treuAccentsiEspais(val.id_cig + " " + val.nom_grup); ;
-				var _valID = treuAccentsiEspais(val.nom_grup_instamaps);
+				var _valID = treuAccentsiEspais($.trim(val.nom_grup_instamaps));
 				var id = '_pccul_' + _valID;
 				jQuery('#' + id).append('<option value="'+titol+'##'+idarxiu+'##'+capa+'">' + titolShort+'</option>');
 			});
