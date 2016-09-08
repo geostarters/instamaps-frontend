@@ -201,10 +201,14 @@
 					self._botons.html(
 						'<div style="float:right"><button lang="ca" class="btn btn-success btn-add-wms" >' +
 						window.lang.convert("Afegir capes") + '</button></div>');
-										
-					if(self.capa){	
+					
+					//if(self.capa){
+					if(self.hasOwnProperty('capa')){
 						var ls;
 						var hits=0;
+						//para las capas con nombres de números y que solo son dos capas
+						//en el excel puede variar el formato y poner 5.5 en lugar de 5.1
+						self.capa = self.capa.replace(/(\d)\.(\d)/,"$1,$2");
 						if(self.capa.indexOf(",")!=-1){								//hi ha més una capa
 							ls=self.capa.split(",");
 							for(i=0; i < ls.length;i++){
