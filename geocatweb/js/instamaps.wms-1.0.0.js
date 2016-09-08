@@ -64,7 +64,7 @@
 			$(".url-wms").val(options.url);
 			self.url = options.url;
 			self.name = options.name;			
-			options.capa?self.capa=options.capa:self.capa =null;			
+			options.capa ? self.capa=options.capa : self.capa=null;			
 			self.getCapabilities();
 			return self;
 		}, 
@@ -86,7 +86,7 @@
 				ActiuWMS = {};
 			
 			self = $.extend(self, options);
-			var data = {url: self.url,capa:self.capa};
+			var data = {url: self.url, capa:self.capa};
 			
 			self.getWMSLayers(data).then(function(results) {
 				var bbox, servidor, WMS_BBOX,
@@ -109,6 +109,17 @@
 					  }
 				  }
 				  return ret;
+				});
+				Handlebars.registerHelper("debug", function(optionalValue) {
+				  console.log("Current Context");
+				  console.log("====================");
+				  console.log(this);
+				 
+				  if (optionalValue) {
+				    console.log("Value");
+				    console.log("====================");
+				    console.log(optionalValue);
+				  }
 				});
 				
 				self.clear().show();
@@ -133,7 +144,13 @@
 				try {
 					var matriuEPSG = results.Capability.Layer.CRS,
 					epsg = [],
-					html = capabilities_template({Layer: [results.Capability.Layer]});
+					html = "";
+					
+					if($.isArray(results.Capability.Layer)){
+						html = capabilities_template({Layer: results.Capability.Layer});
+					}else{
+						html = capabilities_template({Layer: [results.Capability.Layer]});
+					}
 					
 					ActiuWMS.servidor = servidor || self.name || results.Capability.Layer.Title;
 					ActiuWMS.url = self.url;
@@ -186,35 +203,27 @@
 						window.lang.convert("Afegir capes") + '</button></div>');
 										
 					if(self.capa){	
-						
 						var ls;
 						var hits=0;
 						if(self.capa.indexOf(",")!=-1){								//hi ha més una capa
-						
 							ls=self.capa.split(",");
-						
-								for(i=0; i < ls.length;i++){
-							hits=hits + self._ckechLayerWMS(ls[i]);
-								}							
+							for(i=0; i < ls.length;i++){
+								hits=hits + self._ckechLayerWMS(ls[i]);
+							}							
 						}else{
 							ls=self.capa;
 							hits=hits + self._ckechLayerWMS(ls);
-						}	
-																		
+						}												
 						if(hits > 0){
 							 self.addExternalWMS(false);						
 						}else{
 							jQuery("#div_controlWMS_OFICIALS").show();
 							jQuery("#div_emptyWMS_OFICIALS").show();								
-						
 						}						
-					
 					}else{
 						jQuery("#div_controlWMS_OFICIALS").show();
 						jQuery("#div_emptyWMS_OFICIALS").show();
-						
 					}
-															
 					//ckbox_layer					
 					$(".btn-add-wms").on('click', function(e) {
 					    self.addExternalWMS(false);
@@ -233,7 +242,7 @@
 		
 		_ckechLayerWMS: function(layerName){
 			var self = this;
-			var hit=0;			
+			var hit=0;
 			jQuery(".ckbox_layer").each(function() {		
 				if(this.value==layerName){				
 				jQuery(this).prop('checked',true);
@@ -245,19 +254,14 @@
 		
 		_getChekedLayers:function(){
 			var ch=0;
-				 $(".ckbox_layer").each(function() {
-					 
-					
-					 
-					if(jQuery(this).prop('checked')){
-					
-						ch=ch + 1;
-					}
-		return ch;					
-			  });	
-					
-			
+			$(".ckbox_layer").each(function() {
+				if(jQuery(this).prop('checked')){
+					ch=ch + 1;
+				}
+				return ch;					
+			});	
 		},	
+		
 		addExternalWMS: function(){
 			var self = this,
 			_dateFormat = false;

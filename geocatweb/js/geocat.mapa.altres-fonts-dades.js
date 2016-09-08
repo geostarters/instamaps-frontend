@@ -5,7 +5,7 @@ function cercaCapes(e){
 		var code = e.which; // recommended to use e.which, it's normalized across browsers
 	    if(code==13) {//enter
 	    	var data = {
-	        		searchInput: jQuery("#txt_capesInstamaps").val()
+	        	searchInput: jQuery("#txt_capesInstamaps").val()
 	    	};
 	    	valorCampText=jQuery("#txt_capesInstamaps").val();
 	    	searchCapesPubliques(data).then(function(results){
