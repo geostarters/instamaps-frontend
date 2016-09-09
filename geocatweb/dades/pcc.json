@@ -1,80 +1,5 @@
 [
     {
-        "id_grup_pcc": "Grup 0 - 1",
-        "nom_grup_pcc": "Referencial topogràfic",
-        "nom_grup_instamaps": "Bases cartogràfiques",
-        "id_cig_pcc": "00101",
-        "nom_cig_pcc": "Cartografia topogràfica urbana",
-        "entitat_responsable": "ICGC",
-        "nom_geoservei": "WMS Base topogràfica 1:1.000",
-        "nom_geoservei_instamaps": "Cartografia urbana 1:1 000",
-        "url_geoserveis": "http://geoserveis.icc.cat/icc_ct1m/wms/service?",
-        "nombre_capes_instamaps": "totes",
-        "nom_capes_geoservei_instamaps": "V21_PL,V22_PL,V21_LN,V22_LN,V21_PN,V22_PN,V21_TX_ANNO,V22_TX_ANNO",
-        "OBSERVACIONS": "1. Aquest conjunt d'informació és la suma de 2 geoserveis, el geoservei de l'ICGC i el geoservei de la DIBA\r\n2. En un futur caldrà afegir geoserveis de diferents  municipis",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "Grup 0 - 1",
-        "nom_grup_pcc": "Referencial topogràfic",
-        "nom_grup_instamaps": "Bases cartogràfiques",
-        "id_cig_pcc": "00101",
-        "nom_cig_pcc": "Cartografia topogràfica urbana",
-        "entitat_responsable": "DIBA",
-        "nom_geoservei": "Cartografía topogràfica urbana a escala 1:1.000  (BUE1M)",
-        "nom_geoservei_instamaps": "Cartografia urbana 1:1 000 (DIBA)",
-        "url_geoserveis": "http://sitmun.diba.cat/wms/servlet/BUE1M",
-        "nombre_capes_instamaps": "totes",
-        "nom_capes_geoservei_instamaps": "MTE50_Disponibilitat,BUE1M_411A,BUE1M_412A,BUE1M_221A,BUE1M_211A,BUE1M_211L,BUE1M_111L,BUE1M_111T,BUE1M_311T,BUE1M_211P,BUE1M_111P",
-        "OBSERVACIONS": "1. Aquest conjunt d'informació és la suma de 2 geoserveis, el geoservei de l'ICGC i el geoservei de la DIBA\r\n2. En un futur caldrà afegir geoserveis de diferents  municipis",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "Grup 0 - 1",
-        "nom_grup_pcc": "Referencial topogràfic",
-        "nom_grup_instamaps": "Bases cartogràfiques",
-        "id_cig_pcc": "00104",
-        "nom_cig_pcc": "Base i mapa topogràfics 1:5 000",
-        "entitat_responsable": "ICGC",
-        "nom_geoservei": "WMS Base topogràfica 1:5.000",
-        "nom_geoservei_instamaps": "Cartografia territorial 1:5 000",
-        "url_geoserveis": "http://geoserveis.icc.cat/icc_bt5m/wms/service?",
-        "nombre_capes_instamaps": "totes",
-        "nom_capes_geoservei_instamaps": "02_ALTI_PA,14_ALTI_LN,15_ALTI_LN,16_ALTI_LN,17_ALTI_LN,25_ALTI_LN,42_ALTI_PNTX,43_ALTI_TX,09_HIDR_PA,10_HIDR_PA,13_HIDR_PA,19_HIDR_LN,20_HIDR_LN,21_HIDR_LN,22_HIDR_LN,03_POBL_PA,04_POBL_PA,07_POBL_PA,11_POBL_PA,12_POBL_PA,26_POBL_LN,27_POBL_LN,28_POBL_LN,29_POBL_LN,30_POBL_PN,38_POBL_LN,39_POBL_LN,41_PREF_PNTX,40_TOPO_TX,05_VEGE_PA,06_VEGE_PA,08_VEGE_PA,23_VEGE_LN,24_VEGE_LN,31_VIES_LN,32_VIES_LN,33_VIES_LN,34_VIES_LN,35_VIES_LN,36_VIES_LN,37_VIES_LN",
-        "OBSERVACIONS": "1. Aquest wms correspon al vector to raster, ja que el wms raster to raster és el que serveix com a base de referència a instamaps\r\n2. Té una limitació d'escala entre 1:500 i 1:7 500, treure  la limitació o avisar als usuaris de que la informació només es visualitza a partir d'una escala determinada",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "Grup 0 - 1",
-        "nom_grup_pcc": "Referencial topogràfic",
-        "nom_grup_instamaps": "Bases cartogràfiques",
-        "id_cig_pcc": "00105",
-        "nom_cig_pcc": "Mapa topogràfic 1:10 000",
-        "entitat_responsable": "ICGC",
-        "nom_geoservei": "WMS de mapes i ortofotos vigents",
-        "nom_geoservei_instamaps": "Cartografia territorial 1:10 000",
-        "url_geoserveis": "http://geoserveis.icc.cat/icc_mapesbase/wms/service?",
-        "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "mtc10m",
-        "OBSERVACIONS": "1. WMS raster to raster",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "Grup 0 - 1",
-        "nom_grup_pcc": "Referencial topogràfic",
-        "nom_grup_instamaps": "Bases cartogràfiques",
-        "id_cig_pcc": "00106",
-        "nom_cig_pcc": "Base i mapa topogràfics 1:25 000",
-        "entitat_responsable": "ICGC",
-        "nom_geoservei": "WMS Base topogràfica 1:25.000",
-        "nom_geoservei_instamaps": "Cartografia territorial 1:25 000",
-        "url_geoserveis": "http://geoserveis.icc.cat/icc_bt25m/wms/service?",
-        "nombre_capes_instamaps": "totes",
-        "nom_capes_geoservei_instamaps": "02_ALTI_PA,13_ALTI_LN,14_ALTI_LN,15_ALTI_LN,16_ALTI_LN,26_ALTI_LN,27_ALTI_LN,47_ALTI_PNTX,48_ALTI_TX,11_HIDR_PA,12_HIDR_PA,19_HIDR_PA,20_HIDR_LN,21_HIDR_LN,22_HIDR_LN,23_HIDR_LN,39_HIDR_LN,03_POBL_PA,04_POBL_PA,07_POBL_PA,18_POBL_PA,24_POBL_LN,25_POBL_LN,28_POBL_LN,29_POBL_LN,30_POBL_PN,38_POBL_LN,43_POBL_LN,44_POBL_LN,46_PREF_PNTX,45_TOPO_TX,05_VEGE_PA,06_VEGE_PA,08_VEGE_PA,09_VEGE_LN,10_VEGE_LN,31_VIES_LN,32_VIES_LN,33_VIES_LN,34_VIES_LN,35_VIES_LN,36_VIES_LN,37_VIES_LN,40_VIES_LN,41_VIES_LN,42_VIES_LN",
-        "OBSERVACIONS": "1. Aquest wms correspon al vector to raster, ja que el wms raster se serveix com a base de referència a instamaps\r\n2. Té una limitació d'escala entre 1:7 501 i 1:25 000, treure  la limitació o avisar als usuaris de que la informació només es visualitza a partir d'una escala determinada",
-        "data_carrega": "9/6/16"
-    },
-    {
         "id_grup_pcc": "Grup I - 1",
         "nom_grup_pcc": "Sistemes de coordenades de referència",
         "nom_grup_instamaps": "Coordenades de referència",
@@ -86,7 +11,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_vertexs/wms/service?",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "0.1",
-        "OBSERVACIONS": "1. Visualitzar la firxa dels vèrtex quan el cursor es posiciona a sobre d'un d'ells",
+        "OBSERVACIONS": "1. Visualitzar la firxa dels vèrtex quan el cursor es posiciona a sobre d'un d'ells\r\n2. Pendent resoldre desplegament de capes",
         "data_carrega": "9/6/16"
     },
     {
@@ -172,12 +97,42 @@
         "nom_cig_pcc": "Coordenades de cantonada de fulls",
         "entitat_responsable": "ICGC",
         "nom_geoservei": "WMS Talls ETRS89 (Real Decreto 2071/2007)",
+        "nom_geoservei_instamaps": "Tall geodèsic fulls 1:50 000",
+        "url_geoserveis": "http://geoserveis.icc.cat/icgc_talls_etrs89/wms/service?",
+        "nombre_capes_instamaps": "parcial",
+        "nom_capes_geoservei_instamaps": "T50M_ETRS89_FULL_PC,T50M_ETRS89_IABS_TX,T50M_ETRS89_ISEQ_TX ",
+        "OBSERVACIONS": "1. L'identificacor del full té una rang de visualització entre 1:100 i 1:1 800 000. Decidir si cal treure la limitació, avisar als usuaris o deixar-ho com està",
+        "data_carrega": "9/8/16"
+    },
+    {
+        "id_grup_pcc": "Grup I - 2",
+        "nom_grup_pcc": "Sistema de quadrícules geogràfiques",
+        "nom_grup_instamaps": "Quadrícules geogràfiques",
+        "id_cig_pcc": "10201",
+        "nom_cig_pcc": "Coordenades de cantonada de fulls",
+        "entitat_responsable": "ICGC",
+        "nom_geoservei": "WMS Talls ETRS89 (Real Decreto 2071/2007)",
         "nom_geoservei_instamaps": "Tall geodèsic fulls 1:100 000",
         "url_geoserveis": "http://geoserveis.icc.cat/icgc_talls_etrs89/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "T100M_ETRS89_FULL_PC,T100M_ETRS89_IABS_TX",
         "OBSERVACIONS": "1. L'identificacor del full té una rang de visualització entre 1:100 i 1:3 600 000. Decidir si cal treure la limitació, avisar als usuaris o deixar-ho com està",
         "data_carrega": "9/6/16"
+    },
+    {
+        "id_grup_pcc": "Grup I - 3",
+        "nom_grup_pcc": "Noms geogràfics",
+        "nom_grup_instamaps": "Noms geogràfics",
+        "id_cig_pcc": "10302",
+        "nom_cig_pcc": "Base de dades de toponímia general",
+        "entitat_responsable": "ICGC",
+        "nom_geoservei": "Buscar nom del Geoservei de toponímia vermella",
+        "nom_geoservei_instamaps": "Toponímia de Catalunya",
+        "url_geoserveis": "http://geoserveis.icc.cat/arcgis/services/icc_toponim5m_v_r/MapServer/WMSServer? ",
+        "nombre_capes_instamaps": "totes",
+        "nom_capes_geoservei_instamaps": "Toponimia de la BT-5M v2.0 actualitzada per a VISSIR,1,2,3",
+        "OBSERVACIONS": "1. Demanar URL del geosevei de la toponímia vermella i capes\r\n2. Omplir totes les columnes de l'excel",
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup I - 4",
@@ -221,7 +176,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_limadmin/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "5.1",
-        "OBSERVACIONS": "1. Confirmar si el nom i la descripció de les capes és correcta. La taula que hi ha a la web es confusa, no té la mateixa estructura que les taules dels altres geoserveis\r\n2. Confirmar que el wms antic (galileo) no s'ha de fer servir\r\n3. Confimar que cal publicar els límits administratius a escala 1:50 000. No existeix cap altre geoservei que doni aquesta informació",
+        "OBSERVACIONS": "1. Confirmar si el nom i la descripció de les capes és correcta. La taula que hi ha a la web es confusa, no té la mateixa estructura que les taules dels altres geoserveis\r\n2. Confirmar que el wms antic (galileo) no s'ha de fer servir\r\n3. Confimar que cal publicar els límits administratius a escala 1:50 000. No existeix cap altre geoservei que doni aquesta informació\r\n4. Pendent resoldre desplegament de capes",
         "data_carrega": "9/6/16"
     },
     {
@@ -251,6 +206,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "COSTES:COSTES_ATR_DOMINI_PUBLIC,COSTES:COSTES_ATR_FITES,COSTES:COSTES_ATR_PROTECCIO,COSTES:COSTES_ATR_RIBERA_MAR,COSTES:COSTES_ATR_TRANSIT",
+        "OBSERVACIONS": "1. Al servir les 3 capes juntes, instamaps no mostra la llegenda",
         "data_carrega": "9/6/16"
     },
     {
@@ -265,22 +221,7 @@
         "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/ZON/MapServer/WMSServer",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "ZF,ZS,DPH",
-        "OBSERVACIONS": "1. Pendent definir nou cig del PCC\r\n2. Sembla que inclou la zona fluvial i la zona de servitud, aclaria amb l'ACA",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "Grup I - 4",
-        "nom_grup_pcc": "Unitats administratives",
-        "nom_grup_instamaps": "Dominis públics",
-        "id_cig_pcc": "pendent",
-        "nom_cig_pcc": "Pendent definir nou cig del PCC",
-        "entitat_responsable": "ADM. GENERAL DE L'ESTAT",
-        "nom_geoservei": "Zonificació segons el reglament de DPH - Domini Públic Hidràulic (SNCZI)",
-        "nom_geoservei_instamaps": "Domini públic hidràulic (SNCZI)",
-        "url_geoserveis": "http://wms.magrama.es/sig/Agua/DPHDeslindado/wms.aspx?",
-        "nombre_capes_instamaps": "totes",
-        "nom_capes_geoservei_instamaps": "AM.FloodUnitOfManagement,Cauces con DPH deslindado",
-        "OBSERVACIONS": "1. Pendent definir nou cig del PCC",
+        "OBSERVACIONS": "1. Pendent definir nou cig del PCC\r\n2. Sembla que inclou la zona fluvial i la zona de servitud, aclarir amb l'ACA\r\n3. Al servir més d'una capa instamaps no mostra la llegenda",
         "data_carrega": "9/6/16"
     },
     {
@@ -295,7 +236,7 @@
         "url_geoserveis": "http://wms.magrama.es/sig/agua/DPHCartografico/wms.aspx?",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "AM.FloodUnitOfManagement,Cauces con DPH cartográfico",
-        "OBSERVACIONS": "1. Pendent definir nou cig del PCC",
+        "OBSERVACIONS": "1. Pendent definir nou cig del PCC\r\n2. Geoservei molt lent",
         "data_carrega": "9/6/16"
     },
     {
@@ -310,7 +251,7 @@
         "url_geoserveis": "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "CATASTRO,PARCELA,TXTPARCELAS,MASA,TXTMASA,SUBPARCE,TXTSUBPARCE,CONSTRU,TXTCONSTRU,ELEMLIN,EJES,LIMITES,TEXTOS",
-        "OBSERVACIONS": "1. Buscar getcapabilities del geosevei del catastro: capes\r\n2. Omplir capes a l'excel",
+        "OBSERVACIONS": "1. Buscar getcapabilities del geosevei del catastro: capes\r\n2. Al servir vàries capes, instamaps no presenta la llegenda",
         "data_carrega": "9/6/16"
     },
     {
@@ -639,7 +580,7 @@
         "url_geoserveis": " http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/Mapserver/WMSServer ",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "Conques_elementals,Conques_principals",
-        "OBSERVACIONS": "1. Aclarir que passa amb les conques hidrogràfiques elementals, aparentement no carrega res",
+        "OBSERVACIONS": "1. Aclarir que passa amb les conques hidrogràfiques elementals, aparentement no carrega res\r\n2. Instamaps no ensenya la llegenda\r\n3. La informació és veu molt poc, rosa molt claret",
         "data_carrega": "9/6/16"
     },
     {
@@ -654,7 +595,7 @@
         "url_geoserveis": " http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/Mapserver/WMSServer ",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "Xarxa_de_rius_principal,Xarxa_de_rius_completa",
-        "OBSERVACIONS": "1. Aclarir que passa amb la xarxa de rius completa, aparentement no carrega res",
+        "OBSERVACIONS": "1. Aclarir que passa amb la xarxa de rius completa, aparentement no carrega res\r\n2. Instamaps no ensenya la llegenda\r\n3. La informació és veu molt poc, rosa molt claret",
         "data_carrega": "9/6/16"
     },
     {
@@ -684,7 +625,7 @@
         "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/AQUIFERS/MapServer/WMSServer",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "Aquifers-S",
-        "OBSERVACIONS": "1. Avisar a l'ACA que el mapa que figura a la documentació de la web correspon als protegits\r\n2. Mirar si gestionant l'ordre de les capes es poden publicar totes les capes juntes",
+        "OBSERVACIONS": "1. Avisar a l'ACA que el mapa que figura a la documentació de la web correspon als protegits\r\n2. Mirar si gestionant l'ordre de les capes es poden publicar totes les capes juntes\r\n3. És possible que la llegenda quedi tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -699,7 +640,7 @@
         "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/AQUIFERS/MapServer/WMSServer",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "Aquifers-P2,Aquifers-P",
-        "OBSERVACIONS": "1. Avisar a l'ACA que el mapa que figura a la documentació de la web correspon als protegits\r\n2. Mirar si gestionant l'ordre de les capes es poden publicar totes les capes juntes",
+        "OBSERVACIONS": "1. Avisar a l'ACA que el mapa que figura a la documentació de la web correspon als protegits\r\n2. Mirar si gestionant l'ordre de les capes es poden publicar totes les capes juntes\r\n3. Instamaps no mostra la llegenda",
         "data_carrega": "9/6/16"
     },
     {
@@ -729,7 +670,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "ESPAIS_NATURALS:ESPAISNATURALS_ENPE",
-        "OBSERVACIONS": "1. Confirmar entitat responsable",
+        "OBSERVACIONS": "1. Confirmar entitat responsable\r\n2. La llegenda a instramaps queda tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -753,13 +694,13 @@
         "nom_grup_instamaps": "Llocs protegits",
         "id_cig_pcc": "10902",
         "nom_cig_pcc": "Espais naturals protegits (ENPE, PEIN, NATURA 2000 i plans de protecció especial)",
-        "nom_geoservei": "WMS GisCorp",
+        "nom_geoservei": "WMS DARP",
         "nom_geoservei_instamaps": "Inventari de zones humides",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "ESPAIS_NATURALS:ESPAISNATURALS_ZONHUMIDES",
+        "nom_capes_geoservei_instamaps": "7",
         "OBSERVACIONS": "1. Confirmar entitat responsable\r\n2. Confirmar si el CIG PCC és correcte",
-        "data_carrega": "9/6/16"
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup I - 9",
@@ -814,20 +755,6 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "FLORA:FLORA_FLORAAMENA",
-        "OBSERVACIONS": "1. Confirmar entitat responsable\r\n2. Confirmar si el CIG PCC és correcte",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "Grup I - 9",
-        "nom_grup_pcc": "Llocs protegits",
-        "nom_grup_instamaps": "Llocs protegits",
-        "id_cig_pcc": "10903",
-        "nom_cig_pcc": "Zones de protecció i recuperació d'espècies de fauna, flora i ecosistemes aquàtics continentals",
-        "nom_geoservei": "WMS GisCorp",
-        "nom_geoservei_instamaps": "Zones d'actuació urgent per incendi",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
-        "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "VEGETACIO:VEGETACIO_ZONESACTUACIOURG",
         "OBSERVACIONS": "1. Confirmar entitat responsable\r\n2. Confirmar si el CIG PCC és correcte",
         "data_carrega": "9/6/16"
     },
@@ -996,7 +923,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "USOS_SOL:TERRITORI_M_COBERTES_SOL_V3",
-        "OBSERVACIONS": "1. Només és visualitzable a partir d'1:150 000\r\n2. Confirmar entitat responsable",
+        "OBSERVACIONS": "1. Només és visualitzable a partir d'1:150 000\r\n2. Confirmar entitat responsable\r\n3. Llegenda tallada a instamaps",
         "data_carrega": "9/6/16"
     },
     {
@@ -1010,7 +937,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "USOS_SOL:TERRITORI_M_COBERTES_SOL_V4",
-        "OBSERVACIONS": "1. Només és visualitzable a partir d'1:150 000\r\n2. Confirmar entitat responsable",
+        "OBSERVACIONS": "1. Només és visualitzable a partir d'1:150 000\r\n2. Confirmar entitat responsable\r\n3. Llegenda tallada a instamaps",
         "data_carrega": "9/6/16"
     },
     {
@@ -2522,7 +2449,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2002_gris_PC,2002_gris_TX,2002_blau_PC,2002_blau_TX,2002_verm_PC,2002_verm_TX,2002_verd_PC,2002_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2537,7 +2464,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2003_gris_PC,2003_gris_TX,2003_blau_PC,2003_blau_TX,2003_verm_PC,2003_verm_TX,2003_verd_PC,2003_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2552,7 +2479,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2004_gris_PC,2004_gris_TX,2004_blau_PC,2004_blau_TX,2004_verm_PC,2004_verm_TX,2004_verd_PC,2004_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2567,7 +2494,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2005_gris_PC,2005_gris_TX,2005_blau_PC,2005_blau_TX,2005_verm_PC,2005_verm_TX,2005_verd_PC,2005_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2582,7 +2509,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2006_gris_PC,2006_gris_TX,2006_blau_PC,2006_blau_TX,2006_verm_PC,2006_verm_TX,2006_verd_PC,2006_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2597,7 +2524,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2007_gris_PC,2007_gris_TX,2007_blau_PC,2007_blau_TX,2007_verm_PC,2007_verm_TX,2007_verd_PC,2007_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2612,7 +2539,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2008_gris_PC,2008_gris_TX,2008_blau_PC,2008_blau_TX,2008_verm_PC,2008_verm_TX,2008_verd_PC,2008_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2627,7 +2554,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2009_gris_PC,2009_gris_TX,2009_blau_PC,2009_blau_TX,2009_verm_PC,2009_verm_TX,2009_verd_PC,2009_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2642,7 +2569,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2010_gris_PC,2010_gris_TX,2010_blau_PC,2010_blau_TX,2010_verm_PC,2010_verm_TX,2010_verd_PC,2010_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2657,7 +2584,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2011_gris_PC,2011_gris_TX,2011_blau_PC,2011_blau_TX,2011_verm_PC,2011_verm_TX,2011_verd_PC,2011_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2672,7 +2599,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2012_gris_PC,2012_gris_TX,2012_blau_PC,2012_blau_TX,2012_verm_PC,2012_verm_TX,2012_verd_PC,2012_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2687,7 +2614,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2013_gris_PC,2013_gris_TX,2013_blau_PC,2013_blau_TX,2013_verm_PC,2013_verm_TX,2013_verd_PC,2013_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
     },
     {
@@ -2702,8 +2629,36 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_bseccen/wms/service?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "2014_gris_PC,2014_gris_TX,2014_blau_PC,2014_blau_TX,2014_verm_PC,2014_verm_TX,2014_verd_PC,2014_verd_TX",
-        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes",
+        "OBSERVACIONS": "1. Confirmar que el nom de les capes està bé\r\n2. Confirmar si es pot fer alguna agrupació de capes\r\n3. No surt llegenda, potser estaria bé canviar els colors de cada any",
         "data_carrega": "9/6/16"
+    },
+    {
+        "id_grup_pcc": "Grup III - 3",
+        "nom_grup_pcc": "Sòl",
+        "nom_grup_instamaps": "Sòl",
+        "id_cig_pcc": "30301",
+        "nom_cig_pcc": "Base-mapa de sòls",
+        "entitat_responsable": "ICGC",
+        "nom_geoservei": "WMS web de sòls",
+        "nom_geoservei_instamaps": "Mapa de sòls 1:25 000 ",
+        "url_geoserveis": "http://galileo.icc.cat/arcgis/services/sols/MapServer/WmsServer?",
+        "nombre_capes_instamaps": "totes",
+        "nom_capes_geoservei_instamaps": "0,1,2,3",
+        "OBSERVACIONS": "1. Demanar URL del geoservei de la web de sòls",
+        "data_carrega": "9/8/16"
+    },
+    {
+        "id_grup_pcc": "Grup III - 4",
+        "nom_grup_pcc": "Ús del sòl",
+        "nom_grup_instamaps": "Planejament i ús del sòl",
+        "id_cig_pcc": "30401",
+        "nom_cig_pcc": "Forests públiques i privades",
+        "nom_geoservei": "WMS DARP",
+        "nom_geoservei_instamaps": "Forest públiques",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
+        "nombre_capes_instamaps": "parcial",
+        "nom_capes_geoservei_instamaps": "5",
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup III - 4",
@@ -2716,7 +2671,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "PLANEJAMENT:MUC_AMBIT_MUNICIPAL,PLANEJAMENT:MUC_CLASSIFICACIONS,PLANEJAMENT:MUC_PROTECCIO_TRANSVERSAL,PLANEJAMENT:MUC_QUALIFICACIONS,PLANEJAMENT:MUC_SECTOR_DESENVOLUPAMENT,PLANEJAMENT:MUC_SECTOR_TRANSVERSAL,PLANEJAMENT:MUC_XARXA_PROJECTADA",
-        "OBSERVACIONS": "1. Aclarir si alguna de les capes s'ha de publicar per separat per una tema de visibilitat",
+        "OBSERVACIONS": "1. Aclarir si alguna de les capes s'ha de publicar per separat per una tema de visibilitat\r\n2. No surt la llegenda a instamaps\r\n3. Hi ha algunes capes que només es veuen a partir d'un determinat nivell de zoom",
         "data_carrega": "9/6/16"
     },
     {
@@ -2730,7 +2685,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "PLANEJAMENT:PLANSTP_SISTEMES_URBANS",
-        "OBSERVACIONS": "1. Hi ha una capa que demana usuari i password PLANEJAMENT:PLANSTP_MB_SISTEMA_URBA",
+        "OBSERVACIONS": "1. Hi ha una capa que demana usuari i password PLANEJAMENT:PLANSTP_MB_SISTEMA_URBA\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -2744,7 +2699,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "PLANEJAMENT:PLANSTP_ESPAIS_OBERTS",
-        "OBSERVACIONS": "1. Hi ha una capa que demana usuari i password PLANEJAMENT:PLANSTP_MB_ESPAIS_OBERTS",
+        "OBSERVACIONS": "1. Hi ha una capa que demana usuari i password PLANEJAMENT:PLANSTP_MB_ESPAIS_OBERTS\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -2758,7 +2713,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "ENERGIA:ENERGIA_EOLICA_IMPLANTACIO",
-        "OBSERVACIONS": "1. Pendent assignar CIG PCC",
+        "OBSERVACIONS": "1. Pendent assignar CIG PCC\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -2772,7 +2727,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "COSTES:COSTES_PLA_USOS_ACTIVITATS",
-        "OBSERVACIONS": "1. Pendent assignar CIG PCC",
+        "OBSERVACIONS": "1. Pendent assignar CIG PCC\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -2922,62 +2877,6 @@
         "id_cig_pcc": "pendent",
         "nom_cig_pcc": "Pendent assignar cig del PCC",
         "nom_geoservei": "WMS GisCorp",
-        "nom_geoservei_instamaps": "Preu lloguer per barris BCN 2016",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
-        "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "HABITATGE:HABITATGE_LLOGUER_BARRIS_16",
-        "OBSERVACIONS": "1. Pendent assignar grup i CIG PCC",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "pendent",
-        "nom_grup_pcc": "pendent",
-        "nom_grup_instamaps": "Preu venda i lloguer d’habitatges",
-        "id_cig_pcc": "pendent",
-        "nom_cig_pcc": "Pendent assignar cig del PCC",
-        "nom_geoservei": "WMS GisCorp",
-        "nom_geoservei_instamaps": "Preu lloguer per districtes BCN 2016",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
-        "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "HABITATGE:HABITATGE_LLOGUER_DISTRIC_16",
-        "OBSERVACIONS": "1. Pendent assignar grup i CIG PCC",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "pendent",
-        "nom_grup_pcc": "pendent",
-        "nom_grup_instamaps": "Preu venda i lloguer d’habitatges",
-        "id_cig_pcc": "pendent",
-        "nom_cig_pcc": "Pendent assignar cig del PCC",
-        "nom_geoservei": "WMS GisCorp",
-        "nom_geoservei_instamaps": "Preu lloguer per municipis 2016",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
-        "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "HABITATGE:HABITATGE_LLOGUER_MUNICIP_16",
-        "OBSERVACIONS": "1. Pendent assignar grup i CIG PCC",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "pendent",
-        "nom_grup_pcc": "pendent",
-        "nom_grup_instamaps": "Preu venda i lloguer d’habitatges",
-        "id_cig_pcc": "pendent",
-        "nom_cig_pcc": "Pendent assignar cig del PCC",
-        "nom_geoservei": "WMS GisCorp",
-        "nom_geoservei_instamaps": "Preu lloguer per comarques 2016",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
-        "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "HABITATGE:HABITATGE_LLOGUER_COMARCA_16",
-        "OBSERVACIONS": "1. Pendent assignar grup i CIG PCC",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "pendent",
-        "nom_grup_pcc": "pendent",
-        "nom_grup_instamaps": "Preu venda i lloguer d’habitatges",
-        "id_cig_pcc": "pendent",
-        "nom_cig_pcc": "Pendent assignar cig del PCC",
-        "nom_geoservei": "WMS GisCorp",
         "nom_geoservei_instamaps": "Preu venda per barris BCN 2015",
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
@@ -3010,7 +2909,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "HABITATGE:HABITATGE_COMPRA_MUNICIP_15",
-        "OBSERVACIONS": "1. Pendent assignar grup i CIG PCC",
+        "OBSERVACIONS": "1. Pendent assignar grup i CIG PCC\r\n2. Aclarir si els municipis sense dades les tindran algun dia",
         "data_carrega": "9/6/16"
     },
     {
@@ -3059,20 +2958,6 @@
         "id_grup_pcc": "Grup III - 6",
         "nom_grup_pcc": "Serveis d’utilitat pública i estatals",
         "nom_grup_instamaps": "Xarxes de serveis i equipaments públics",
-        "id_cig_pcc": "30601",
-        "nom_cig_pcc": "Xarxa de telecomunicacions",
-        "nom_geoservei": "WMS GisCorp",
-        "nom_geoservei_instamaps": "Emissores locals radio i televisió ",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
-        "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "TELECOMUNICACIONS:EMISORES_RADIO",
-        "OBSERVACIONS": "1. Aquest últim servei a intranet diu que es tracta d’una zona de proves a Girona\r\n2. A preproducció hi ha més capes, de les quals no han publicat el geoservei",
-        "data_carrega": "9/6/16"
-    },
-    {
-        "id_grup_pcc": "Grup III - 6",
-        "nom_grup_pcc": "Serveis d’utilitat pública i estatals",
-        "nom_grup_instamaps": "Xarxes de serveis i equipaments públics",
         "id_cig_pcc": "30602",
         "nom_cig_pcc": "Xarxa d'abastament d'aigua",
         "nom_geoservei": "WMS GisCorp",
@@ -3108,7 +2993,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "RESIDUS:RESIDUS_CONSTRUCCIO",
-        "OBSERVACIONS": "1. Aclarir si es millor publicar el 3 gestors junts o per separar",
+        "OBSERVACIONS": "1. Aclarir si es millor publicar el 3 gestors junts o per separar\r\n2. Quan es puguin veure le llegendes de vàries capes en un únic geoervei, ajuntar els 2 cigs de residus",
         "data_carrega": "9/6/16"
     },
     {
@@ -3122,7 +3007,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "RESIDUS:RESIDUS_INDUSTRIALS",
-        "OBSERVACIONS": "1. Aclarir si es millor publicar el 3 gestors junts o per separar",
+        "OBSERVACIONS": "1. Aclarir si es millor publicar el 3 gestors junts o per separar\r\n2. Quan es puguin veure le llegendes de vàries capes en un únic geoervei, ajuntar els 2 cigs de residus",
         "data_carrega": "9/6/16"
     },
     {
@@ -3136,7 +3021,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "RESIDUS:RESIDUS_MUNICIPALS",
-        "OBSERVACIONS": "1. Aclarir si es millor publicar el 3 gestors junts o per separar",
+        "OBSERVACIONS": "1. Aclarir si es millor publicar el 3 gestors junts o per separar\r\n2. Quan es puguin veure le llegendes de vàries capes en un únic geoervei, ajuntar els 2 cigs de residus",
         "data_carrega": "9/6/16"
     },
     {
@@ -3150,7 +3035,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "EQUIPAMENTS:EQUIPAMENTS_AREESRECREATIVES",
-        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals",
+        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals\r\n2. instamaps no carrega res",
         "data_carrega": "9/6/16"
     },
     {
@@ -3164,7 +3049,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "EQUIPAMENTS:EQUIPAMENTS_ESTABLIMSPARCS",
-        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals",
+        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals\r\n2. instamaps no carrega res",
         "data_carrega": "9/6/16"
     },
     {
@@ -3178,7 +3063,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "EQUIPAMENTS:EQUIPAMENTS_UNITATS_RECERCA",
-        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals",
+        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals\r\n2. instamaps no carrega res",
         "data_carrega": "9/6/16"
     },
     {
@@ -3192,7 +3077,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "EQUIPAMENTS:EQUIPAMENTS_INSTAL_JUVENILS",
-        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals",
+        "OBSERVACIONS": "1. Decidir si van aquí a espais naturals\r\n2. instamaps no carrega res",
         "data_carrega": "9/6/16"
     },
     {
@@ -3211,7 +3096,7 @@
     {
         "id_grup_pcc": "Grup III - 6",
         "nom_grup_pcc": "Serveis d’utilitat pública i estatals",
-        "nom_grup_instamaps": "Xarxes de serveis i equipaments públics",
+        "nom_grup_instamaps": "Instal·lacions - observació medi ambient",
         "id_cig_pcc": "30701",
         "nom_cig_pcc": "Xarxa d'estacions i registre de dades meteorològiques",
         "nom_geoservei": "WMS GisCorp",
@@ -3224,7 +3109,7 @@
     {
         "id_grup_pcc": "Grup III - 6",
         "nom_grup_pcc": "Serveis d’utilitat pública i estatals",
-        "nom_grup_instamaps": "Xarxes de serveis i equipaments públics",
+        "nom_grup_instamaps": "Instal·lacions - observació medi ambient",
         "id_cig_pcc": "30701",
         "nom_cig_pcc": "Xarxa d'estacions i registre de dades meteorològiques",
         "nom_geoservei": "WMS GisCorp",
@@ -3237,7 +3122,7 @@
     {
         "id_grup_pcc": "Grup III - 6",
         "nom_grup_pcc": "Serveis d’utilitat pública i estatals",
-        "nom_grup_instamaps": "Xarxes de serveis i equipaments públics",
+        "nom_grup_instamaps": "Instal·lacions - observació medi ambient",
         "id_cig_pcc": "30701",
         "nom_cig_pcc": "Xarxa d'estacions i registre de dades meteorològiques",
         "nom_geoservei": "WMS GisCorp",
@@ -3250,7 +3135,7 @@
     {
         "id_grup_pcc": "Grup III - 6",
         "nom_grup_pcc": "Serveis d’utilitat pública i estatals",
-        "nom_grup_instamaps": "Xarxes de serveis i equipaments públics",
+        "nom_grup_instamaps": "Instal·lacions - observació medi ambient",
         "id_cig_pcc": "30701",
         "nom_cig_pcc": "Xarxa d'estacions i registre de dades meteorològiques",
         "nom_geoservei": "WMS GisCorp",
@@ -3263,7 +3148,7 @@
     {
         "id_grup_pcc": "Grup III - 6",
         "nom_grup_pcc": "Serveis d’utilitat pública i estatals",
-        "nom_grup_instamaps": "Xarxes de serveis i equipaments públics",
+        "nom_grup_instamaps": "Instal·lacions - observació medi ambient",
         "id_cig_pcc": "30701",
         "nom_cig_pcc": "Xarxa d'estacions i registre de dades meteorològiques",
         "nom_geoservei": "WMS GisCorp",
@@ -3354,7 +3239,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "FOCUS:FOCUS_ESTABLIMENTS_PRTR",
-        "OBSERVACIONS": "1. Aclarir si es publicaran més dades",
+        "OBSERVACIONS": "1. Aclarir si es publicaran més dades\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -3383,6 +3268,7 @@
         "url_geoserveis": "http://geoserveis.icc.cat/icc_polind/wms/service?",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "0,1,2,3,4,5",
+        "OBSERVACIONS": "1. No surt la llegenda a instamaps",
         "data_carrega": "9/6/16"
     },
     {
@@ -3396,7 +3282,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "FOCUS:FOCUS_EXTRACTIVES,FOCUS:FOCUS_EXTRACTIVES_ABANDONADES,FOCUS:FOCUS_EXTRACTIVES_DOMINI_PUB",
-        "OBSERVACIONS": "1. Pendent confirmar si es publiquen totes les capes juntes o per separat\r\n2. Assignar CIG PCC",
+        "OBSERVACIONS": "1. Pendent confirmar si es publiquen totes les capes juntes o per separat\r\n2. Assignar CIG PCC\r\n3. No surt la llegenda a instamaps",
         "data_carrega": "9/6/16"
     },
     {
@@ -3410,7 +3296,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "AGRICULTURA:AGRICULTURA_INDUSTRIES",
-        "OBSERVACIONS": "1. Pendent confirmar que l'assignació al CIG PCC és correcta",
+        "OBSERVACIONS": "1. Pendent confirmar que l'assignació al CIG PCC és correcta\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -3424,8 +3310,21 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "SIGCORP:AGRICULTURA_PLAREGADIUS",
-        "OBSERVACIONS": "1. Confirmar que passa amb la xarxa de canals",
+        "OBSERVACIONS": "1. Confirmar que passa amb la xarxa de canals\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
+    },
+    {
+        "id_grup_pcc": "Grup III - 9",
+        "nom_grup_pcc": "Instal·lacions agrícoles i d’aqüicultura",
+        "nom_grup_instamaps": "Instal·lacions agrícoles i d’aqüicultura",
+        "id_cig_pcc": "30905",
+        "nom_cig_pcc": "Sistema d'informació geogràfica de parcel·les agrícoles de Catalunya (SIGPAC)",
+        "nom_geoservei": "WMS DARP",
+        "nom_geoservei_instamaps": "SIGPAC",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
+        "nombre_capes_instamaps": "parcial",
+        "nom_capes_geoservei_instamaps": "9,10.11,12,13",
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup III - 11",
@@ -3433,13 +3332,13 @@
         "nom_grup_instamaps": "Zones subjectes a ordenació",
         "id_cig_pcc": "31102",
         "nom_cig_pcc": "Zones vulnerables en relació amb la contaminació de nitrats procedents de fonts agràries",
-        "nom_geoservei": "WMS GisCorp",
+        "nom_geoservei": "WMS DARP",
         "nom_geoservei_instamaps": "Zones vulnerables contaminació nitrats",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "AIGUA:AIGUA_ZONESVULNERNITRATS",
+        "nom_capes_geoservei_instamaps": "6",
         "OBSERVACIONS": "1. Comprovar si l'ACA també ofereix u  geoservei amb aquesta informació",
-        "data_carrega": "9/6/16"
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup III - 11",
@@ -3492,6 +3391,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "JUSTICIA:PARTITSJUDICIALS",
+        "OBSERVACIONS": "1. La llegenda surt tallada, potser es podria afegir el nom del partit judicial al geoservei",
         "data_carrega": "9/6/16"
     },
     {
@@ -3500,13 +3400,13 @@
         "nom_grup_instamaps": "Zones subjectes a ordenació",
         "id_cig_pcc": "31114",
         "nom_cig_pcc": "Àrees de gestió cinegètica i pesca",
-        "nom_geoservei": "WMS GisCorp",
+        "nom_geoservei": "WMS DARP",
         "nom_geoservei_instamaps": "Àrees de gestió cinegètica ",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "FAUNA:FAUNA_AGESCIN",
-        "OBSERVACIONS": "1. Confirmar que el DARP no publicarà aquest geoservei",
-        "data_carrega": "9/6/16"
+        "nom_capes_geoservei_instamaps": "4",
+        "OBSERVACIONS": "1. Confirmar que el DARP no publicarà aquest geoservei\r\n2. La llegenda surt tallada",
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup III - 11",
@@ -3514,13 +3414,13 @@
         "nom_grup_instamaps": "Zones subjectes a ordenació",
         "id_cig_pcc": "31114",
         "nom_cig_pcc": "Àrees de gestió cinegètica i pesca",
-        "nom_geoservei": "WMS GisCorp",
+        "nom_geoservei": "WMS DARP",
         "nom_geoservei_instamaps": "Zones de pesca lliure sense mort",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "FAUNA:FAUNA_ZONESLLIURESENSEMORT",
-        "OBSERVACIONS": "1. Confirmar que el DARP no publicarà aquest geoservei",
-        "data_carrega": "9/6/16"
+        "nom_capes_geoservei_instamaps": "15",
+        "OBSERVACIONS": "1. Confirmar que el DARP no publicarà aquest geoservei\r\n2. la llegenda surt tallada i sense res",
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup III - 11",
@@ -3528,13 +3428,13 @@
         "nom_grup_instamaps": "Zones subjectes a ordenació",
         "id_cig_pcc": "31114",
         "nom_cig_pcc": "Àrees de gestió cinegètica i pesca",
-        "nom_geoservei": "WMS GisCorp",
+        "nom_geoservei": "WMS DARP",
         "nom_geoservei_instamaps": "Zones de pesca controlada ",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "FAUNA:FAUNA_ZONESPESCACONTROLADA",
+        "nom_capes_geoservei_instamaps": "14",
         "OBSERVACIONS": "1. Confirmar que el DARP no publicarà aquest geoservei",
-        "data_carrega": "9/6/16"
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup III - 11",
@@ -3547,6 +3447,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "SEGURETAT:SEGURETAT_AREA_BASICA_POLICIA",
+        "OBSERVACIONS": "1. la llegenda surt tallada, potser es podria afegir el nom a la base",
         "data_carrega": "9/6/16"
     },
     {
@@ -3560,6 +3461,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "SEGURETAT:SEGURETAT_REGIONS_POLICIALS",
+        "OBSERVACIONS": "1. la llegenda surt tallada, potser es podria afegir el nom a la base",
         "data_carrega": "9/6/16"
     },
     {
@@ -3587,7 +3489,7 @@
         "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/MapServer/WMSServer ",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "Demarcacions_hidrografiques",
-        "OBSERVACIONS": "1. Pendent assignar CIG PCC",
+        "OBSERVACIONS": "1. Pendent assignar CIG PCC\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -3601,7 +3503,7 @@
         "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/CONQUES/MapServer/WMSServer ",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "Demarcacions_territorials_ACA",
-        "OBSERVACIONS": "1. Pendent assignar CIG PCC",
+        "OBSERVACIONS": "1. Pendent assignar CIG PCC\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -3615,7 +3517,7 @@
         "url_geoserveis": "http://siurana.icgc.cat/arcgis/services/risc/Riscos_geologics/MapServer/WMSServer?",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "1,2,3,4,5,6,7",
-        "OBSERVACIONS": "1. Pendent confirmar si calen les capes 6 i 7 dels talls",
+        "OBSERVACIONS": "1. Pendent confirmar si calen les capes 6 i 7 dels talls\r\n2. El fons és blanc i no transparent i no té llegenda",
         "data_carrega": "9/6/16"
     },
     {
@@ -3628,7 +3530,7 @@
         "nom_geoservei_instamaps": "Observació del mantell nival",
         "url_geoserveis": "http://siurana.icgc.cat/geoserver/nivoallaus/wms",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "nivoallaus:puntsobservacio,nivoallaus:zonesnivoclima",
+        "nom_capes_geoservei_instamaps": "puntsobservacio,zonesnivoclima",
         "OBSERVACIONS": "1. Conformar si s'ha de fer 3  mapes",
         "data_carrega": "9/6/16"
     },
@@ -3642,7 +3544,7 @@
         "nom_geoservei_instamaps": "Cartografia d’allaus",
         "url_geoserveis": "http://siurana.icgc.cat/geoserver/nivoallaus/wms",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "nivoallaus:zonesallaus,nivoallaus:observacions,nivoallaus:enquestes",
+        "nom_capes_geoservei_instamaps": "zonesallaus_color,zonesallaus,observacions,enquestes",
         "OBSERVACIONS": "1. Conformar si s'ha de fer 3  mapes",
         "data_carrega": "9/6/16"
     },
@@ -3656,7 +3558,7 @@
         "nom_geoservei_instamaps": "Protecció contra les allaus",
         "url_geoserveis": "http://siurana.icgc.cat/geoserver/nivoallaus/wms",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "nivoallaus:proteccions_puntuals,nivoallaus:proteccions_lineals,nivoallaus:proteccions_reforest,nivoallaus:proteccions_acontrol",
+        "nom_capes_geoservei_instamaps": "proteccions_puntuals,proteccions_lineals,proteccions_reforest,proteccions_acontrol",
         "OBSERVACIONS": "1. Conformar si s'ha de fer 3  mapes",
         "data_carrega": "9/6/16"
     },
@@ -3670,8 +3572,8 @@
         "nom_geoservei_instamaps": "Sismologia: epicentres ",
         "url_geoserveis": "http://siurana.icgc.cat/geoserver/sismicitat/wms",
         "nombre_capes_instamaps": "totes",
-        "nom_capes_geoservei_instamaps": "sismicitat:sismicitat_instrumental,sismicitat:epicentres_macrosismics",
-        "OBSERVACIONS": "1. Confimar si les 2 capes es poden publicar juntes",
+        "nom_capes_geoservei_instamaps": "epicentres_macrosismics,sismicitat_instrumental",
+        "OBSERVACIONS": "1. Confimar si les 2 capes es poden publicar juntes\r\n2. El geoservei té tropocientos mil sistemes de refència",
         "data_carrega": "9/6/16"
     },
     {
@@ -3699,7 +3601,7 @@
         "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/LI10_89/MapServer/WMSServer",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "LI_10",
-        "OBSERVACIONS": "1. Es veu molt poc",
+        "OBSERVACIONS": "1. Es veu molt poc o no carrega res",
         "data_carrega": "9/6/16"
     },
     {
@@ -3738,7 +3640,7 @@
         "nom_cig_pcc": "Mapa per a la prevenció del risc d'inundació**",
         "nom_geoservei": "Inundabilitat hidràulica - Zona inundable: T100 anys",
         "nom_geoservei_instamaps": "Zona inundable: T100 anys",
-        "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/LI100_89/MapServer/WMSServe",
+        "url_geoserveis": "http://aca-web.gencat.cat/sig/wms/PUBLIC/LI100_89/MapServer/WMSServer",
         "nombre_capes_instamaps": "totes",
         "nom_capes_geoservei_instamaps": "LI_100",
         "OBSERVACIONS": "1. Es veu molt poc",
@@ -3842,12 +3744,13 @@
         "nom_grup_instamaps": "Regions biogeogràfiques",
         "id_cig_pcc": "31701",
         "nom_cig_pcc": "Mapes de vegetació",
-        "nom_geoservei": "WMS GisCorp",
+        "nom_geoservei": "WMS DARP",
         "nom_geoservei_instamaps": "Herbassars ",
-        "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
+        "url_geoserveis": "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WmsServer?",
         "nombre_capes_instamaps": "parcial",
-        "nom_capes_geoservei_instamaps": "VEGETACIO:VEGETACIO_ZONESHERBASSARS,VEGETACIO:VEGETACIO_HERBASSARS,VEGETACIO:VEGETACIO_GRAUFIABILITAT",
-        "data_carrega": "9/6/16"
+        "nom_capes_geoservei_instamaps": "1,2,3",
+        "OBSERVACIONS": "1. No surt la llegenda",
+        "data_carrega": "9/8/16"
     },
     {
         "id_grup_pcc": "Grup III - 18",
@@ -3860,6 +3763,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "VEGETACIO:VEGETACIO_HABITATS_CATALUNYA",
+        "OBSERVACIONS": "1. la llegenda surt tallada",
         "data_carrega": "9/6/16"
     },
     {
@@ -3873,7 +3777,7 @@
         "url_geoserveis": "http://sig.gencat.cat/ows/wms?",
         "nombre_capes_instamaps": "parcial",
         "nom_capes_geoservei_instamaps": "VEGETACIO:VEGETACIO_HABITAT_INTERES_COM",
-        "OBSERVACIONS": "1. L'ACA també publica aquest geoservei, aclarir qui té la resposnabilitat",
+        "OBSERVACIONS": "1. L'ACA també publica aquest geoservei, aclarir qui té la resposnabilitat\r\n2. La llegenda surt tallada",
         "data_carrega": "9/6/16"
     }
 ]
