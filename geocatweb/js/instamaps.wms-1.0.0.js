@@ -217,9 +217,9 @@
 						}else{
 							ls=self.capa;
 							hits=hits + self._ckechLayerWMS(ls);
-						}												
+						}	
 						if(hits > 0){
-							 self.addExternalWMS(false);						
+							self.addExternalWMS(false);						
 						}else{
 							jQuery("#div_controlWMS_OFICIALS").show();
 							jQuery("#div_emptyWMS_OFICIALS").show();								
@@ -234,6 +234,7 @@
 					});
 					
 				} catch (err) {
+					console.debug(err);
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){
@@ -269,13 +270,15 @@
 		addExternalWMS: function(){
 			var self = this,
 			_dateFormat = false;
-			
+						
 			var cc = $('.layers-wms input:checked').map(function(){
-				if($('#geoservicetime_'+this.value).length > 0){
+				var name = this.value.replace(/:/g,"\\\:");
+				if($('#geoservicetime_'+name).length > 0){
 					_dateFormat = true;
 				}
 				return this.value;
 			});
+			
 			cc = jQuery.makeArray(cc);
 			cc = cc.join(',');
 			
@@ -289,7 +292,6 @@
 					self.callback(self.ActiuWMS);
 				}
 			}
-			
 			return self;
 		},
 		
