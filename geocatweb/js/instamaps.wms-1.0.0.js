@@ -64,7 +64,7 @@
 			$(".url-wms").val(options.url);
 			self.url = options.url;
 			self.name = options.name;			
-			options.capa?self.capa=options.capa:self.capa =null;			
+			options.capa ? self.capa=options.capa : self.capa=null;			
 			self.getCapabilities();
 			return self;
 		}, 
@@ -86,7 +86,7 @@
 				ActiuWMS = {};
 			
 			self = $.extend(self, options);
-			var data = {url: self.url,capa:self.capa};
+			var data = {url: self.url, capa:self.capa};
 			
 			self.getWMSLayers(data).then(function(results) {
 				var bbox, servidor, WMS_BBOX,
@@ -109,6 +109,17 @@
 					  }
 				  }
 				  return ret;
+				});
+				Handlebars.registerHelper("debug", function(optionalValue) {
+				  console.log("Current Context");
+				  console.log("====================");
+				  console.log(this);
+				 
+				  if (optionalValue) {
+				    console.log("Value");
+				    console.log("====================");
+				    console.log(optionalValue);
+				  }
 				});
 				
 				self.clear().show();
@@ -133,7 +144,13 @@
 				try {
 					var matriuEPSG = results.Capability.Layer.CRS,
 					epsg = [],
-					html = capabilities_template({Layer: [results.Capability.Layer]});
+					html = "";
+					
+					if($.isArray(results.Capability.Layer)){
+						html = capabilities_template({Layer: results.Capability.Layer});
+					}else{
+						html = capabilities_template({Layer: [results.Capability.Layer]});
+					}
 					
 					ActiuWMS.servidor = servidor || self.name || results.Capability.Layer.Title;
 					ActiuWMS.url = self.url;
@@ -184,43 +201,40 @@
 					self._botons.html(
 						'<div style="float:right"><button lang="ca" class="btn btn-success btn-add-wms" >' +
 						window.lang.convert("Afegir capes") + '</button></div>');
-										
-					if(self.capa){	
-						
+					
+					//if(self.capa){
+					if(self.hasOwnProperty('capa')){
 						var ls;
 						var hits=0;
+						//para las capas con nombres de números y que solo son dos capas
+						//en el excel puede variar el formato y poner 5.5 en lugar de 5.1
+						self.capa = self.capa.replace(/(\d)\.(\d)/,"$1,$2");
 						if(self.capa.indexOf(",")!=-1){								//hi ha més una capa
-						
 							ls=self.capa.split(",");
-						
-								for(i=0; i < ls.length;i++){
-							hits=hits + self._ckechLayerWMS(ls[i]);
-								}							
+							for(i=0; i < ls.length;i++){
+								hits=hits + self._ckechLayerWMS(ls[i]);
+							}							
 						}else{
 							ls=self.capa;
 							hits=hits + self._ckechLayerWMS(ls);
 						}	
-																		
 						if(hits > 0){
-							 self.addExternalWMS(false);						
+							self.addExternalWMS(false);						
 						}else{
 							jQuery("#div_controlWMS_OFICIALS").show();
 							jQuery("#div_emptyWMS_OFICIALS").show();								
-						
 						}						
-					
 					}else{
 						jQuery("#div_controlWMS_OFICIALS").show();
 						jQuery("#div_emptyWMS_OFICIALS").show();
-						
 					}
-															
 					//ckbox_layer					
 					$(".btn-add-wms").on('click', function(e) {
 					    self.addExternalWMS(false);
 					});
 					
 				} catch (err) {
+					console.debug(err);
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){
@@ -233,7 +247,7 @@
 		
 		_ckechLayerWMS: function(layerName){
 			var self = this;
-			var hit=0;			
+			var hit=0;
 			jQuery(".ckbox_layer").each(function() {		
 				if(this.value==layerName){				
 				jQuery(this).prop('checked',true);
@@ -245,29 +259,26 @@
 		
 		_getChekedLayers:function(){
 			var ch=0;
-				 $(".ckbox_layer").each(function() {
-					 
-					
-					 
-					if(jQuery(this).prop('checked')){
-					
-						ch=ch + 1;
-					}
-		return ch;					
-			  });	
-					
-			
+			$(".ckbox_layer").each(function() {
+				if(jQuery(this).prop('checked')){
+					ch=ch + 1;
+				}
+				return ch;					
+			});	
 		},	
+		
 		addExternalWMS: function(){
 			var self = this,
 			_dateFormat = false;
-			
+						
 			var cc = $('.layers-wms input:checked').map(function(){
-				if($('#geoservicetime_'+this.value).length > 0){
+				var name = this.value.replace(/:/g,"\\\:");
+				if($('#geoservicetime_'+name).length > 0){
 					_dateFormat = true;
 				}
 				return this.value;
 			});
+			
 			cc = jQuery.makeArray(cc);
 			cc = cc.join(',');
 			
@@ -281,7 +292,6 @@
 					self.callback(self.ActiuWMS);
 				}
 			}
-			
 			return self;
 		},
 		
