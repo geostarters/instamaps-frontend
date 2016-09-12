@@ -720,7 +720,7 @@ function activaEdicioUsuari() {
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
 function createPopupWindow(layer,type){
-//	console.debug('createPopupWindow');
+	//console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
 	layer.bindPopup(html,{'offset':[0,-25]});
 	
