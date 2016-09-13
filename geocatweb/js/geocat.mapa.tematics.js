@@ -263,7 +263,7 @@ function loadTematicLayer(layer){
 
 
 function createPopupWindowData(player,type, editable, origen){
-	//console.debug("createPopupWindowData");
+//	console.debug("createPopupWindowData");
 //	console.debug(player);
 	var html='';
 	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
@@ -371,8 +371,6 @@ function createPopupWindowData(player,type, editable, origen){
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
 	player.bindPopup(html,{'offset':[0,-25]});
-	player.on('click', function() { alert('Clicked!'); })
-	
 	
 	//Afegim events/accions al popUp
 	jQuery(document).on('click', ".bs-popup li a", function(e) {

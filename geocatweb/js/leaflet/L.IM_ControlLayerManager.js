@@ -1037,25 +1037,17 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			}
 
 			if(currentbid === obj.layer.options.businessId){
-				//$.publish('activaLegendTab',{id: currentbid, activo: input.checked});
-				this._map.fire('activaLegendTab',{id: currentbid, activo: input.checked});
-			}
-			
-			// Afegir capa
-			if (input.checked && !this._map.hasLayer(obj.layer)) {
-				if (currentbid == obj.layer.options.businessId) {
-					if ( obj.layer.options.tipusRang
-							&& (obj.layer.options.tipusRang == tem_clasic|| obj.layer.options.tipusRang == tem_size)) { 
-							jQuery.each(obj.layer._layers, function(i, lay){
-								console.debug(lay);
-								lay.options.fillOpacity =1;
-							});
-						}
-					else {
-						this._map.addLayer(obj.layer);
-					}
-				}
 				
+					//$.publish('activaLegendTab',{id: currentbid, activo: input.checked});
+					this._map.fire('activaLegendTab',{id: currentbid, activo: input.checked});
+				
+				
+				}
+			
+			
+			// Afegir
+			if (input.checked && !this._map.hasLayer(obj.layer)) {
+				this._map.addLayer(obj.layer);
 				//Mostrem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
@@ -1123,9 +1115,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				//mirem vista 3D
 				if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',true);}
 			
-			} 
-			//Amagar capa
-			else if (!input.checked && this._map.hasLayer(obj.layer)) {
+			
+				
+			
+			} else if (!input.checked && this._map.hasLayer(obj.layer)) {
 				//Amaguem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
@@ -1133,7 +1126,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						if(lay.label){
 							lay.label.setOpacity(0);
 						}
-					});
+					});	
 				}
 				// Si es vis_wms, hem d'eliminar tb la capa utfgrid
 				if (obj.layer.options.tipus && obj.layer.options.tipus.indexOf(t_vis_wms) != -1) {
@@ -1141,18 +1134,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					this._map.removeLayer(utfGridLayer);
 				}
 
-				if (currentbid == obj.layer.options.businessId) {
-					if ( obj.layer.options.tipusRang
-							&& (obj.layer.options.tipusRang == tem_clasic|| obj.layer.options.tipusRang == tem_size)) { 
-							jQuery.each(obj.layer._layers, function(i, lay){
-								console.debug(lay);
-								lay.options.fillOpacity=1;
-							});
-						}
-					else {
-						this._map.removeLayer(obj.layer);
-					}
-				}
+				this._map.removeLayer(obj.layer);
+
 				// Si hem desactivat capa de tipus tematic categories,
 				// mostrem la seva llegenda
 				if (currentbid == obj.layer.options.businessId
