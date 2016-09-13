@@ -7,9 +7,13 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		this.options.maxZoom=20;
 		this.options.queryable=true;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
-		map.on('click', this.getFeatureInfo, this);
-		var params = this.getLegendGraphic();
-		this.updateControlLLegenda(params,this.wmsParams.layers,true,this.options.nom,this.options.businessId);
+		if (this.url && this.url.indexOf('http://betaserver.icgc.cat/geoservice/')==-1){
+			map.on('click', this.getFeatureInfo, this);
+			var params = this.getLegendGraphic();
+			this.updateControlLLegenda(params,this.wmsParams.layers,true,this.options.nom,this.options.businessId);	
+		}
+		
+		
 	},
 	onRemove: function (map) {
 		// Triggered when the layer is removed from a map.

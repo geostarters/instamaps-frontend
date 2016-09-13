@@ -23,8 +23,10 @@
 		},
 		
 		setMapWMSBoundingBox: function(url){
-			
-			getWMSLayers(url).then(function(results) {
+			var instamapsWms = InstamapsWms({
+				loadTemplateParam :false});
+			var dataWMS = {url: url};
+			instamapsWms.getWMSLayers(dataWMS).then(function(results) {
 				//Fem Layer.Layer perq des de el cloudifier sempre tindrem nomes una capa
 				var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
 				map.fitBounds([

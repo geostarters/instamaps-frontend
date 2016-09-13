@@ -224,8 +224,10 @@ function cercaCataleg(cerca){
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
-	
-	getWMSLayers(url).then(function(results) {
+	var instamapsWms = InstamapsWms({
+		loadTemplateParam :false});
+	var dataWMS = {url: url};
+	instamapsWms.getWMSLayers(dataWMS).then(function(results) {
 		var bbox,
 		souce_capabilities_template = $("#capabilities-template").html(),
 		capabilities_template = Handlebars.compile(souce_capabilities_template);
@@ -496,6 +498,29 @@ function addExternalWMS(fromParam) {
 			if (results.status == "OK"){
 				wmsLayer.options.businessId = results.results.businessId;
 				checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
+				//Issue #581: zoom capa cloudifier
+				if (results.results!=undefined && results.results.url!=undefined && results.results.url.indexOf("http://betaserver.icgc.cat/geoservice/")!=-1){
+					var instamapsWms = InstamapsWms({
+						loadTemplateParam :false});
+					var dataWMS = {url: results.results.url};
+					instamapsWms.getWMSLayers(dataWMS).then(function(results2) {
+						try{
+							if(results2.Capability.Layer.Layer.LatLonBoundingBox){
+								var bbox = results2.Capability.Layer.Layer.LatLonBoundingBox;
+								WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+							}else if(results2.Capability.Layer.LatLonBoundingBox){
+								
+								var bbox = results2.Capability.Layer.LatLonBoundingBox;
+								WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+							}else{
+								WMS_BBOX=null;
+							}	
+						} catch (err) {
+							WMS_BBOX=null;
+						}
+						if (WMS_BBOX !=null) map.fitBounds(WMS_BBOX);
+					});
+				}
 				dfd.resolve(true);
 			}else{
 				console.debug('createServidorInMap ERROR');
