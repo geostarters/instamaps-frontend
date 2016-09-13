@@ -1468,7 +1468,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			!estatMapa3D?map.fitBounds(bounds):mapaVista3D._goToBounds(bounds);
 		}
 		else{
-			getWMSLayers(obj.layer._url).then(function(results) {
+			var instamapsWms = InstamapsWms({
+				loadTemplateParam :false});
+			var dataWMS = {url: obj.layer._url};
+			instamapsWms.getWMSLayers(dataWMS).then(function(results) {
 				try{
 					if(results.Capability.Layer.Layer.LatLonBoundingBox){
 						var bbox = results.Capability.Layer.Layer.LatLonBoundingBox;

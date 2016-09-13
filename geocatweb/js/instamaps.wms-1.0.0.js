@@ -15,7 +15,7 @@
 			var self = this;
 			self._div = self.container;
 			self._botons = self.botons;
-			self.loadTemplate();
+			if (self.loadTemplateParam==undefined) self.loadTemplate();
 			return self;
 		},
 		
@@ -28,10 +28,15 @@
 				
 				$(".url-wms").focus(function() {
 					self.clear();
+					//jQuery('#txt_URLWMS').val('');
 				});
-				
+					
 				$(".btn-conn-wms").on('click', function(e) {
-					var url = $.trim(jQuery('.url-wms').val());
+					
+					var input = $(e.target).closest('.txt_ext').find('.url-wms');
+					
+				  var url = $.trim(input.val());
+					
 					if (url === "") {
 						alert(window.lang.convert("Has d'introduïr una URL del servidor"));
 					} else if (!isValidURL(url)) {
@@ -208,16 +213,24 @@
 						var hits=0;
 						//para las capas con nombres de números y que solo son dos capas
 						//en el excel puede variar el formato y poner 5.5 en lugar de 5.1
+						if(self.capa == null){
+							self.capa="null";
+						}
+						
 						self.capa = self.capa.replace(/(\d)\.(\d)/,"$1,$2");
+						
 						if(self.capa.indexOf(",")!=-1){								//hi ha més una capa
 							ls=self.capa.split(",");
 							for(i=0; i < ls.length;i++){
 								hits=hits + self._ckechLayerWMS(ls[i]);
 							}							
 						}else{
+							
 							ls=self.capa;
 							hits=hits + self._ckechLayerWMS(ls);
 						}	
+						
+						
 						if(hits > 0){
 							self.addExternalWMS(false);						
 						}else{
@@ -281,6 +294,20 @@
 			
 			cc = jQuery.makeArray(cc);
 			cc = cc.join(',');
+			
+			
+			var _nomCapesWMS=[];
+			var cc1 = $('.layers-wms input:checked').map(function(){			
+				return this.id;
+			});
+			
+			cc1 = jQuery.makeArray(cc1);	
+			
+			if(cc1.length==1){
+				self.ActiuWMS.servidor=cc1.join(" ");
+			}
+			
+		
 			
 			self.ActiuWMS.wmstime = _dateFormat;
 			

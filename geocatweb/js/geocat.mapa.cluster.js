@@ -279,7 +279,10 @@ function creaClusterMap(capa) {
 				});			
 		}
 		else if (capa.layer.options.tipus == t_vis_wms){
-			getWMSLayers(capa.layer._url).then(function(results) {
+			var instamapsWms = InstamapsWms({
+				loadTemplateParam :false});
+			var dataWMS = {url: capa.layer._url};
+			instamapsWms.getWMSLayers(dataWMS).then(function(results) {
 				var layers = [];
 				layers=results.Capability.Layer.Layer;
 				for (var i=0;i<layers.length;i++){

@@ -224,8 +224,10 @@ function cercaCataleg(cerca){
 
 function getCapabilitiesWMS(url, servidor) {
 	var _htmlLayersWMS = [];
-	
-	getWMSLayers(url).then(function(results) {
+	var instamapsWms = InstamapsWms({
+		loadTemplateParam :false});
+	var dataWMS = {url: url};
+	instamapsWms.getWMSLayers(dataWMS).then(function(results) {
 		var bbox,
 		souce_capabilities_template = $("#capabilities-template").html(),
 		capabilities_template = Handlebars.compile(souce_capabilities_template);
@@ -277,6 +279,8 @@ function getCapabilitiesWMS(url, servidor) {
 			ActiuWMS.servidor = servidor;
 			_NomServer2=ActiuWMS.servidor;
 			ActiuWMS.url = jQuery.trim(url);
+			
+			
 			if (!matriuEPSG) {
 				matriuEPSG = results.Capability.Layer.SRS;
 				if (!matriuEPSG) {
@@ -334,6 +338,10 @@ function addWmsToMap(wms){
 	//TODO eliminar esto pero primero hay que cargar el instamaps.google-analytics.js en lugar del geocat.google-analytics.js
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]);
 		
+
+	
+
+	
 	if(wms.wmstime){
 		wmsLayer = L.tileLayer.wms(wms.url, {
 			layers : wms.layers,
@@ -431,12 +439,18 @@ function addExternalWMS(fromParam) {
 		});
 		
 		cc1 = jQuery.makeArray(cc1);	
+		
 		if(cc1.length==1){
 			ActiuWMS.servidor=cc1.join(" ");
 		}else{
 			ActiuWMS.servidor=_NomServer2;		
 		}
+		
+
 		ActiuWMS.wmstime=_dateFormat;
+		
+		
+		
 	}
 	if(ActiuWMS.wmstime){
 		wmsLayer =L.tileLayer.wms(ActiuWMS.url, {
@@ -496,6 +510,29 @@ function addExternalWMS(fromParam) {
 			if (results.status == "OK"){
 				wmsLayer.options.businessId = results.results.businessId;
 				checkAndAddTimeDimensionLayer(wmsLayer,false,ActiuWMS.servidor);
+				//Issue #581: zoom capa cloudifier
+				if (results.results!=undefined && results.results.url!=undefined && results.results.url.indexOf("http://betaserver.icgc.cat/geoservice/")!=-1){
+					var instamapsWms = InstamapsWms({
+						loadTemplateParam :false});
+					var dataWMS = {url: results.results.url};
+					instamapsWms.getWMSLayers(dataWMS).then(function(results2) {
+						try{
+							if(results2.Capability.Layer.Layer.LatLonBoundingBox){
+								var bbox = results2.Capability.Layer.Layer.LatLonBoundingBox;
+								WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+							}else if(results2.Capability.Layer.LatLonBoundingBox){
+								
+								var bbox = results2.Capability.Layer.LatLonBoundingBox;
+								WMS_BBOX=[[bbox["@miny"], bbox["@minx"]],[bbox["@maxy"], bbox["@maxx"]]];
+							}else{
+								WMS_BBOX=null;
+							}	
+						} catch (err) {
+							WMS_BBOX=null;
+						}
+						if (WMS_BBOX !=null) map.fitBounds(WMS_BBOX);
+					});
+				}
 				dfd.resolve(true);
 			}else{
 				console.debug('createServidorInMap ERROR');
