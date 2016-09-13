@@ -277,6 +277,8 @@ function getCapabilitiesWMS(url, servidor) {
 			ActiuWMS.servidor = servidor;
 			_NomServer2=ActiuWMS.servidor;
 			ActiuWMS.url = jQuery.trim(url);
+			
+			
 			if (!matriuEPSG) {
 				matriuEPSG = results.Capability.Layer.SRS;
 				if (!matriuEPSG) {
@@ -334,6 +336,10 @@ function addWmsToMap(wms){
 	//TODO eliminar esto pero primero hay que cargar el instamaps.google-analytics.js en lugar del geocat.google-analytics.js
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]);
 		
+
+	
+
+	
 	if(wms.wmstime){
 		wmsLayer = L.tileLayer.wms(wms.url, {
 			layers : wms.layers,
@@ -431,12 +437,18 @@ function addExternalWMS(fromParam) {
 		});
 		
 		cc1 = jQuery.makeArray(cc1);	
+		
 		if(cc1.length==1){
 			ActiuWMS.servidor=cc1.join(" ");
 		}else{
 			ActiuWMS.servidor=_NomServer2;		
 		}
+		
+
 		ActiuWMS.wmstime=_dateFormat;
+		
+		
+		
 	}
 	if(ActiuWMS.wmstime){
 		wmsLayer =L.tileLayer.wms(ActiuWMS.url, {
