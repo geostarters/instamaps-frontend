@@ -28,10 +28,15 @@
 				
 				$(".url-wms").focus(function() {
 					self.clear();
+					//jQuery('#txt_URLWMS').val('');
 				});
-				
+					
 				$(".btn-conn-wms").on('click', function(e) {
-					var url = $.trim(jQuery('.url-wms').val());
+					
+					var input = $(e.target).closest('.txt_ext').find('.url-wms');
+					
+				  var url = $.trim(input.val());
+					
 					if (url === "") {
 						alert(window.lang.convert("Has d'introduïr una URL del servidor"));
 					} else if (!isValidURL(url)) {
