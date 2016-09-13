@@ -15,7 +15,7 @@
 			var self = this;
 			self._div = self.container;
 			self._botons = self.botons;
-			self.loadTemplate();
+			if (self.loadTemplateParam==undefined) self.loadTemplate();
 			return self;
 		},
 		

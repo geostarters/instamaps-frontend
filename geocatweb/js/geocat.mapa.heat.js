@@ -7,8 +7,10 @@ function createHeatMap(capa,tipus){
 	var nom = window.lang.convert("Concentració");
 	//Heatmap
 	if (tipus == t_vis_wms){
-		
-		getWMSLayers(capa.layer._url).then(function(results) {
+		var instamapsWms = InstamapsWms({
+			loadTemplateParam :false});
+		var dataWMS = {url: capa.layer._url};
+		instamapsWms.getWMSLayers(dataWMS).then(function(results) {
 			var layers = [];
 			layers=results.Capability.Layer.Layer;
 			for (var i=0;i<layers.length;i++){
