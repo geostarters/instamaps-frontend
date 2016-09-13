@@ -662,6 +662,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if (!this._handlingClick) {
 			this._update();
 		}
+		//parece que esta parte de código no se usa.
 		var type = obj.overlay ? (e.type === 'layeradd' ? 'overlayadd'
 			: 'overlayremove')
 			: (e.type === 'layeradd' ? 'baselayerchange' : null);
