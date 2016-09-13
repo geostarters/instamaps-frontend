@@ -342,16 +342,14 @@ function createPopupWindowData(player,type, editable, origen){
 	
 	if(editable){
 		html+= '<div id="footer_edit"  class="modal-footer">'
-					+'<ul class="bs-popup">'
-					
-						+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'
-						+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
-						
-					+'</ul>'														
-				+'</div>';	
+			+'<ul class="bs-popup">'
+				+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
+			+'</ul>'														
+			+'</div>';	
 	}else{
 		var capaLeafletId = player.properties.capaLeafletId;
 		if(isValidValue(origen)) {
@@ -363,9 +361,7 @@ function createPopupWindowData(player,type, editable, origen){
 			+'</ul>'														
 		+'</div>';			
 	}
-	
-	//html+='</div>';
-	
+
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
@@ -399,7 +395,6 @@ function createPopupWindowData(player,type, editable, origen){
 				var icon = obj.options;
 			}
 			updateDialogStyleSelected(icon);
-
 			
 			if(accio[2].indexOf("marker")!=-1){
 				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
@@ -409,14 +404,10 @@ function createPopupWindowData(player,type, editable, origen){
 				obrirMenuModal('#dialog_estils_linies','toggle',from_creaPopup);
 			}
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
-		
+	
 			$('#modal_data_table').modal('show');
 			var featureId=objEdicio.featureID;
 			if (featureId==undefined) featureId=accio[2];
-			//console.debug(featureId);
-			//console.debug(accio);
-		//	console.debug(map._layers);
-		//	console.debug(controlCapes._layers);
 			if (map._layers[featureId]==undefined) {
 				try{
 					if (accio[6]!=undefined) featureId=accio[6];
@@ -437,15 +428,15 @@ function createPopupWindowData(player,type, editable, origen){
 	            businessId: map._layers[objEdicio.featureID].properties.businessId,
 	            uid: $.cookie('uid')
 	        };
-			
+		
 			var features = {
-					type:"Feature",
-					id: 3124,
-					businessId: map._layers[objEdicio.featureID].properties.businessId,
-					properties: map._layers[objEdicio.featureID].properties.data,
-					estil: map._layers[objEdicio.featureID].properties.estil,
-					geometry: map._layers[objEdicio.featureID].properties.feature.geometry
-				};				
+				type:"Feature",
+				id: 3124,
+				businessId: map._layers[objEdicio.featureID].properties.businessId,
+				properties: map._layers[objEdicio.featureID].properties.data,
+				estil: map._layers[objEdicio.featureID].properties.estil,
+				geometry: map._layers[objEdicio.featureID].properties.feature.geometry
+			};				
 			
 			features = JSON.stringify(features);
 			
@@ -546,6 +537,7 @@ function createPopupWindowData(player,type, editable, origen){
 	});	
 
 	player.on('popupopen', function(e){
+		console.debug(e);
 		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
 			map.closePopup();
 		}
@@ -1494,9 +1486,11 @@ function addHtmlModalBubbles(){
 /*NOU MODEL VISUALITZACIO*/
 function loadVisualitzacioLayer(layer,removed){
 	var businessId;
-	if (layer.businessId!=undefined) businessId=layer.businessId;
-	else if (layer.options.businessId!=undefined) businessId = layer.options.businessId;
-	
+	if (layer.businessId!=undefined){
+		businessId=layer.businessId;
+	}else if (layer.options.businessId!=undefined){
+		businessId = layer.options.businessId;
+	}
 	
 	var defer = $.Deferred();
 	var data={
@@ -1504,16 +1498,13 @@ function loadVisualitzacioLayer(layer,removed){
 		businessId: businessId
 	};
 	
-//	var layerWms = layer;
-	//console.time("loadTematicLayer " + layerWms.serverName);
 	getVisualitzacioByBusinessId(data).then(function(results){
 		if(results.status == "OK" ){
 			if (removed){
 				var data ={
-						businessId: businessId,
-						uid:$.cookie('uid')
-					};
-				
+					businessId: businessId,
+					uid:$.cookie('uid')
+				};
 				var resultats = results.results;
 				getGeometriesPropertiesLayer(data).then(function(results2){
 					 readVisualitzacio(defer, resultats, results2.layer);
@@ -1596,7 +1587,7 @@ function getOrigenLayer(layer){
 	return origen;
 }
 
-function readVisualitzacio(defer, visualitzacio, layer,geometries){
+function readVisualitzacio(defer, visualitzacio, layer, geometries){
 	var layOptions; 
 	if(typeof (layer.options)=="string"){	
 		try {
@@ -1705,12 +1696,12 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 			visualitzacio.estil = estilDesc;
 		}
 		
-		
 		var isCapaActiva=false;
 		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
-			capaVisualitzacio.addTo(map);
+			
 			//Afegim geometries a la capa
 			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+			capaVisualitzacio.addTo(map);
 		}	
 		else {
 			//Afegim geometries a la capa pero no la capa al mapa
@@ -1773,7 +1764,7 @@ function readVisualitzacio(defer, visualitzacio, layer,geometries){
 				else if (geometries!=undefined){
 					if (  geometries.options){
 						var dataNames = geometries.options.split(',');
-						console.debug(dataNames);
+						//console.debug(dataNames);
 						capaVisualitzacio.options.propName = dataNames;
 					}
 				}
@@ -2233,23 +2224,11 @@ function loadCacheVisualitzacioLayer(layer){
 		uid: layer.entitatUid
 	};
 	
-	var layerWms = layer;
 	$.get(HOST_APP+'capesuser/'+data.uid+'/'+data.businessId+'.json', function(results) { 
 		if(results){
-				readVisualitzacio(defer, results.results, layer);			
-			}else{				
-				getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
-					if(results.status == "OK" ){
-						readVisualitzacio(defer, results.results, layer);			
-					}else{
-						console.debug('getVisualitzacioByBusinessId ERROR');
-						defer.reject();	
-					}	
-				});
-				
-		}		
-	}).fail(function() {
-	   getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+			readVisualitzacio(defer, results.results, layer);			
+		}else{				
+			getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
 				if(results.status == "OK" ){
 					readVisualitzacio(defer, results.results, layer);			
 				}else{
@@ -2257,19 +2236,17 @@ function loadCacheVisualitzacioLayer(layer){
 					defer.reject();	
 				}	
 			});
-	  });
-
-/*	getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
-		if(results.status == "OK" ){
-			readVisualitzacio(defer, results.results, layer);			
-		}else{
-			console.debug('getVisualitzacioByBusinessId ERROR');
-			defer.reject();
 		}		
-	},function(results){
-		//console.debug('getTematicLayerByBusinessId ERROR');
-		defer.reject();
-	});*/
+	}).fail(function() {
+	   getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
+			if(results.status == "OK" ){
+				readVisualitzacio(defer, results.results, layer);			
+			}else{
+				console.debug('getVisualitzacioByBusinessId ERROR');
+				defer.reject();	
+			}	
+		});
+	  });
 	return defer.promise();
 }
 
