@@ -33,9 +33,8 @@
 					
 				$(".btn-conn-wms").on('click', function(e) {
 					
-					var input = $(e.target).closest('.txt_ext').find('.url-wms');
-					
-				  var url = $.trim(input.val());
+					var input = $(e.target).closest('.txt_ext').find('.url-wms');					
+				    var url = $.trim(input.val());
 					
 					if (url === "") {
 						alert(window.lang.convert("Has d'introduïr una URL del servidor"));
