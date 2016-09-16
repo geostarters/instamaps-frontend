@@ -285,16 +285,19 @@
 						
 			var cc = $('.layers-wms input:checked').map(function(){
 				var name = this.value.replace(/:/g,"\\\:");
-				if($('#geoservicetime_'+name).length > 0){
-					_dateFormat = true;
+				try{
+					if($('#geoservicetime_'+name).length > 0){
+						_dateFormat = true;
+					}
+				}catch(e){
+					
 				}
 				return this.value;
 			});
 			
 			cc = jQuery.makeArray(cc);
 			cc = cc.join(',');
-			
-			
+						
 			var _nomCapesWMS=[];
 			var cc1 = $('.layers-wms input:checked').map(function(){			
 				return this.id;
@@ -305,9 +308,7 @@
 			if(cc1.length==1){
 				self.ActiuWMS.servidor=cc1.join(" ");
 			}
-			
-		
-			
+						
 			self.ActiuWMS.wmstime = _dateFormat;
 			
 			if(cc.length === 0){
