@@ -26,14 +26,16 @@ function generaLlistaServeisWMS() {
 				"IDARXIU" : "http://geoserveis.icc.cat/icc_atlm/wms/service?",
 				"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
 			},
+			
 			/*
 			{
 				"TITOL" : "Mapa Urbanístic",
 				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
-				"IDARXIU" : "http://tes.gencat.cat/webmap/MUC/Request.aspx?",
+				"IDARXIU" : "http://dtes.gencat.cat/webmap/MUC/service.svc/get?",
 				"URN" : "urn:uuid:e7a15a72-233b-11e2-a4dd-13da4f953834"
 			},
 			*/
+			
 			{
 				"TITOL" : "Mapa Cadastral",
 				"ORGANITZAC" : "Dirección General del Catastro",

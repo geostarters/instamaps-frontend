@@ -20,9 +20,11 @@ var browserWebGL;
 var disparaEventMapa = true;
 var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
+var testModel3D=false;
 var msgHTML = "";
 //var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
 var _urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes'; //'/cesium/terrenys/demextes'
+var _urlModels3D='/terrenys/model3D/test/Prova1_cesium.json';
 
 var appl='mapa';
 var factorNavegador=1000;
@@ -96,6 +98,19 @@ function addModul3D(config) {
 
 		setTimeout(initMapa3DfromMapConfig, fT);
 	}
+	
+	console.info(testModel3D);
+	
+	if (url('?testModel3D') == 'true') {	
+	
+	console.info("entro");
+	
+		testModel3D=true;
+		//_urlTerrenys='http://assets.agi.com/stk-terrain/world';
+		_urlTerrenys='//assets.agi.com/stk-terrain/world';
+	
+	}	
+	
 
 }
 
@@ -274,8 +289,6 @@ var IM_aplicacio = function (options) {
 				url : _urlTerrenys,
 				credit : 'icgc'
 
-				//url : 'http://assets.agi.com/stk-terrain/world',
-				//credit : 'cesium'
 			});
 
 		this.gestionaTerrainProvaider(this.bounds.getCenter().lat, this.bounds.getCenter().lng, 'icgc').then(function (terrain) {
@@ -355,6 +368,8 @@ var IM_aplicacio = function (options) {
 		}
 		});
 		 */
+		 
+			
 
 		this.calculaPosicioInici(this.bounds, this.mapZoom).then(function (rectangle) {
 
@@ -401,7 +416,7 @@ var IM_aplicacio = function (options) {
 					});
 					 */
 
-					if (terreny.credit.text == 'icgc') {
+					if (terreny.credit.text = 'icgc' && !testModel3D) {
 
 						viewer.camera.flyTo({
 							destination : rectangle.rectangle,
@@ -424,7 +439,7 @@ var IM_aplicacio = function (options) {
 					} else {
 
 						viewer.camera.setView({
-							destination : rectangle.rectangle3
+							destination : rectangle.rectangle
 						});
 					}
 
@@ -765,7 +780,7 @@ var IM_aplicacio = function (options) {
 
 	this.generaPopup = function (player, origen) {
 		//var msgHTML = '';
-		if (origen == "vector") {
+		if (origen == "vector" && player.properties) {
 
 			var out = [];
 			if (player.properties.nom && !isBusinessId(player.properties.nom)) {
@@ -888,6 +903,18 @@ var IM_aplicacio = function (options) {
 
 			}
 
+			
+			
+			if(testModel3D){
+					
+							var tileset=viewer.scene.primitives.add( new Cesium.Cesium3DTileset({
+						url: _urlModels3D,
+						maximumScreenSpaceError: 2,
+						maximumNumberOfLoadedTiles: 1000
+					}));	 
+				
+				}	
+			
 		}
 	},
 
@@ -1615,8 +1642,7 @@ var that = this;
 				if(!wLin){wLin=2;}
 				
 				
-				console.warn((parseInt(wLin)*2));
-				console.warn(colorLin);
+				
 				var _newEntity = {
 					properties : entity.properties,
 					polyline : {
