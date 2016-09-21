@@ -81,7 +81,7 @@
 				async: true,
 				method: 'post',
 				dataType: 'jsonp',
-				timeout: 5000
+				timeout: 12000 //timeout WMS
 			}).promise();
 		},
 		
