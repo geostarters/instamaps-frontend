@@ -1102,6 +1102,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					thisLoadMapLegendEdicio(obj.layer);
 					isLegendLoad=true;
 				}
+				else if (obj.layer.options.tipus=="wms"){//per WMS tb s'ha d'omplir
+					thisLoadMapLegendEdicio(obj.layer);
+					isLegendLoad=true;
+				}					
 				else if (!isLegendLoad){
 					thisEmptyMapLegendEdicio(obj.layer,true);
 				}
@@ -1146,6 +1150,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 				if (currentbid == obj.layer.options.businessId && obj.layer.options.dinamic && 
 						(obj.layer.options.tem == tem_clasic || obj.layer.options.tem == tem_size)) {
+					thisEmptyMapLegendEdicio(obj.layer);
+				}
+				if (obj.layer.options.tipus=="wms"){
 					thisEmptyMapLegendEdicio(obj.layer);
 				}
 						
