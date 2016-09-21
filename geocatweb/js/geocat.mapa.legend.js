@@ -158,6 +158,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 				'</div>';		
 		html+='</div>';
+	//WMS
 	}else if(layer.options.tipus == t_wms){
 		var legend_layer = layer.getLegendGraphic();
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
@@ -1283,11 +1284,31 @@ function loadMapLegendEdicio(layer){
 	$("#mapLegendEdicio").html("");
 	$("#mapLegendEdicio").data("businessid",layer.options.businessId);
 	
-	var html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+' ('+layer.getLayers().length+')</div><div class="titol-separate-legend-row"></div>';	
+	var html="";
+	if(layer.options.tipus == t_wms){
+		html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+'</div><div class="titol-separate-legend-row"></div>';
+	}
+	else{
+		html = '<div class="titol-legend col-md-12 col-xs-12">'+layer.options.nom+' ('+layer.getLayers().length+')</div><div class="titol-separate-legend-row"></div>';
+			
+	}
 	var geometryType = transformTipusGeometry(layer.options.geometryType);
 	var i = 0;
 //	var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
-	
+	if(layer.options.tipus == t_wms){	
+		var legend_layer = layer.getLegendGraphic();
+		html += '<div class="visor-legend-row ">';
+		
+		if(!jQuery.isArray(legend_layer)){
+			html += '<img src="'+layer.getLegendGraphic()+'" class="btn-paleta img-legend"/>';
+		}else{
+			jQuery.each(legend_layer, function(i, lay){
+				html += '<img src="'+lay+'" class="btn-paleta img-legend"/>';
+			});
+		}
+		html+='</div><div class="visor-separate-legend-row"></div>';
+	}
+	else{
 	var estilsRangs = layer.options.estilsRangs;
 	var rangsEstilsLegend = layer.options.rangsEstilsLegend;
 //	rangsEstilsLegend.sort(sortByValorMax);
@@ -1453,7 +1474,7 @@ function loadMapLegendEdicio(layer){
 			html+='</div><div class="visor-separate-legend-row"></div>';
 		});					
 		
-	}	
+	}	}
 	html= html.replace("totalLayers",totalLayers);
 	$("#mapLegendEdicio").html(html);
 	//Afegim de nou les classes i l'scroll
