@@ -300,81 +300,16 @@ L.IM_Map = L.Map.extend({
 		return cas;
 	},
 	mirarActivarHill:function(hoMiro,zoom,sC){
-/*
-			if((hoMiro)&&(zoom >=14)&&(sC!=0)){
 
-
-				jQuery('.bt_hill').prop('disabled',false);
-				jQuery('.bt_hill').css('opacity',1);
-
-				if(jQuery('.bt_hill').hasClass('div_hill_verd')){
-					this.setTransActiveMap(0.62,true);
-
-				}
-
-
-			}else{
-
-				jQuery('.bt_hill').prop('disabled',true);
-				jQuery('.bt_hill').css('opacity',0.5);
-				this.setTransActiveMap(1,false);
-
-			}
-
-*/
 
 	},
 	setHillActiu:function(grup,actiu){
-		/*
-		if(actiu){
-
-			if(!this.hasLayer(TOPO_OMBRA_L11_19)){
-				grup.addLayer(TOPO_OMBRA_L11_19);
-			TOPO_OMBRA_L11_19.bringToBack();
-			TOPO_OMBRA_L11_19.setOpacity(1);
-			}
-
-		}else{
-			if(TOPO_OMBRA_L11_19){
-
-					if(this.hasLayer(TOPO_OMBRA_L11_19)){
-					this.removeLayer(TOPO_OMBRA_L11_19);
-					}
-			}
-		}
-*/
+		
 
 	},
 	setTransActiveMap:function(trans,hillActiu){
 
-	/*
-		var f=this.getActiveMap();
-
-		if(f==FONS_TOPOMAP){
-
-				_topoLayers.eachLayer(function (layer) {
-			    layer.setOpacity(trans);
-			});
-
-			this.setHillActiu(_topoLayers,hillActiu);
-
-		}else if(f==FONS_TOPOGISMAP){
-				_grisLayers.eachLayer(function (layer) {
-			    layer.setOpacity(trans);
-			});
-			this.setHillActiu(_grisLayers,hillActiu);
-		}else if(f==FONS_COLORMAP){
-			_topoColorLayers.eachLayer(function (layer) {
-		    layer.setOpacity(trans);
-
-		});
-
-		this.setHillActiu(_topoColorLayers,hillActiu);
-
-		}
-
-*/
-
+	
 
 	},
 	gestionaFons:function(layerAdd){
@@ -436,7 +371,7 @@ L.IM_Map = L.Map.extend({
 
 
 
-					//this.mirarActivarHill(false,this.getZoom(),sC);
+					
 				if(sC==0){
 					TOPO_GEO_MQ_L15_18.setOpacity(1);
 					TOPO_GEO_MON_L0_14.setOpacity(1);

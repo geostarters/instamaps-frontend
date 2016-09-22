@@ -24,7 +24,7 @@ var testModel3D=false;
 var msgHTML = "";
 //var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
 var _urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes'; //'/cesium/terrenys/demextes'
-var _urlModels3D='/cesium/terrenys/model3D/test/Prova1_cesium.json';
+var _urlModels3D='http://imtilemaps1.farm/terrenys/model3D/test/Prova1_cesium.json';
 
 var appl='mapa';
 var factorNavegador=1000;
@@ -99,11 +99,11 @@ function addModul3D(config) {
 		setTimeout(initMapa3DfromMapConfig, fT);
 	}
 	
-	console.info(testModel3D);
+	
 	
 	if (url('?testModel3D') == 'true') {	
 	
-	console.info("entro");
+	
 	
 		testModel3D=true;
 		//_urlTerrenys='http://assets.agi.com/stk-terrain/world';
@@ -1276,8 +1276,8 @@ var that = this;
 						var dataL = dataSource;
 						var XYZ_Edificis = [];							
 						setTimeout(function(){
-						//that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
-						that.calculaMatriuAlcadesClaimTerrain(dataL, XYZ_Edificis, 3, visible, msg);
+						that.calculaMatriuAlcades(dataL, XYZ_Edificis, 3, visible, msg);
+						//that.calculaMatriuAlcadesClaimTerrain(dataL, XYZ_Edificis, 3, visible, msg);
 						},factorNavegador);												
 					}).otherwise(function (error) {
 						console.warn(error);
@@ -1528,7 +1528,7 @@ var that = this;
 
 		var that = this;
 
-		console.info(entities[0]);
+		
 		
 		if (msg == 'vector' && !entities[0].polyline) {
 				console.info("No hauria entrar");
