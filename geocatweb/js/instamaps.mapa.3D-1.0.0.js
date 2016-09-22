@@ -102,9 +102,7 @@ function addModul3D(config) {
 	
 	
 	if (url('?testModel3D') == 'true') {	
-	
-	
-	
+			
 		testModel3D=true;
 		//_urlTerrenys='http://assets.agi.com/stk-terrain/world';
 		_urlTerrenys='//assets.agi.com/stk-terrain/world';
@@ -892,7 +890,7 @@ var IM_aplicacio = function (options) {
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
 								url : url,
 
-								maximumLevel : 19,
+								maximumLevel : 18,
 								minimumLevel : 3
 
 							}));
