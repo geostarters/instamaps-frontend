@@ -426,6 +426,7 @@ function loadTematicHeatmap(layer, zIndex, layerOptions, capesActiva){
 	
 	var arrP=[];
 	$.each(layer.geometries.features.features, function(i, feature) {
+		console.debug(feature.geometry);
 		var d =[feature.geometry.coordinates[1],feature.geometry.coordinates[0],1];	
 		arrP.push(d);			
 	});
@@ -499,10 +500,19 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva, dfd)
 			
 			var arrP=[];
 			$.each(results.geometries.geometria.features, function(i, feature) {
-				var d =[feature.geometry.coordinates[1],feature.geometry.coordinates[0],1];	
-				arrP.push(d);			
+				if (feature.geometry.type=="MultiPoint"){
+					$.each(feature.geometry.coordinates, function(j, coord) {	
+						var d =[coord[1],coord[0],1];	
+						arrP.push(d);	
+					});
+					
+				}
+				else {
+					var d =[feature.geometry.coordinates[1],feature.geometry.coordinates[0],1];	
+					arrP.push(d);				
+				}
 			});
-			
+			//console.debug(arrP);
 			var heatLayerActiu = L.heatLayer(arrP,{radius:20,blur:15,max:1,
 				gradient: {			
 					0.35: "#070751",
