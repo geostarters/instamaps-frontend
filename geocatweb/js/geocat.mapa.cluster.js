@@ -566,12 +566,26 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd)
 			
 			var arrP=[];
 			$.each(results.geometries.geometria.features, function(i, feature) {
-				var marker = L.marker(new L.LatLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]), {
-					//title : layer._leaflet_id
-				});
-				marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");
-				clusterLayer.addLayer(marker);			
+				if (feature.geometry.type=="MultiPoint"){
+					$.each(feature.geometry.coordinates, function(j, coord) {	
+						var marker = L.marker(new L.LatLng(coord[1],coord[0]), {
+							//title : layer._leaflet_id
+						});
+						marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");
+						clusterLayer.addLayer(marker);		
+					});
+					
+				}
+				else {
+					var marker = L.marker(new L.LatLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]), {
+						//title : layer._leaflet_id
+					});
+					marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");
+					clusterLayer.addLayer(marker);				
+				}		
 			});
+			
+			
 			
 			clusterLayer.options.businessId = layer.businessId;
 			clusterLayer.options.nom =layer.nom;
