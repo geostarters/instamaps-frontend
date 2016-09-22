@@ -24,7 +24,7 @@ var testModel3D=false;
 var msgHTML = "";
 //var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
 var _urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes'; //'/cesium/terrenys/demextes'
-var _urlModels3D='http://imtilemaps1.farm/terrenys/model3D/test/Prova1_cesium.json';
+var _urlModels3D='http://tilemaps.icgc.cat/terrenys/model3D/test/Prova1_cesium.json';
 
 var appl='mapa';
 var factorNavegador=1000;
