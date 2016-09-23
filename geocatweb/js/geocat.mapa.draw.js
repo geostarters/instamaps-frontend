@@ -2259,8 +2259,10 @@ function activarSnapping(capaEdicio){
 				else{
 					guideLayers[i].snapediting = new L.Handler.PolylineSnap(map, capaEdicio.getLayers()[0],{snapDistance:10});
 				}
-				guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
-				guideLayers[i].snapediting.enable();
+				if (guideLayers[i].snapediting!=undefined) {
+					guideLayers[i].snapediting.addGuideLayer(capaEdicio.getLayers()[0]);
+					guideLayers[i].snapediting.enable();
+				}
 				if (guideLayers[i].editing!=undefined)  guideLayers[i].editing.disable();
 				if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			}
