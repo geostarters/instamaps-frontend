@@ -866,23 +866,22 @@ var IM_aplicacio = function (options) {
 
 				} else {
 
-					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;
+					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;														
+					//url=url.replace('www.{s}.instamaps','www.instamaps');
 					
 					
-				
-					url=url.replace('www.{s}.instamaps','www.instamaps');
-					
-					
+					var _mxlevel=18;					
+					if(url.indexOf('bases_noutm')!=-1){
+						_mxlevel=19;							
+					}
 
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
 								url : url,
-								maximumLevel : 18,
+								maximumLevel : _mxlevel,
 								minimumLevel : 3
-
 							}));
 					_imageryLayers.lowerToBottom(BB_layer);
 					baseLayer3D.push(BB_layer);
-
 				}
 
 			}
