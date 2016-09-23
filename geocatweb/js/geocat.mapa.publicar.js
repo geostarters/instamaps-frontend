@@ -345,7 +345,7 @@
 		    $('#publish-legend-oberta').text(window.lang.convert($('#publish-legend-oberta').text()));
 		    $('#publish-legend-no').text(window.lang.convert($('#publish-legend-no').text()));
 		    
-		    window.lang.run();
+		    //window.lang.run();
 		    
 		    var v_url = window.location.href;
 			if (!url('?id')){
