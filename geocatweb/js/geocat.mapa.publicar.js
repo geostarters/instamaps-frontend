@@ -8,8 +8,7 @@
    			
    		mapConfig:null,
         map:null,	
-   			
-   			 params_visor: {
+   	 	params_visor: {
     		"paramsVisor" : [
 				{
 					"param": "zoomcontrol",
@@ -182,13 +181,13 @@
         		//publicar el mapa solo para registrados
         		this.button.on('click',function(){
         			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
-        			
         			$.publish('reloadMapConfig','publicar/');
         		});
         	}
         },
         
         _updateModalPublicar: function(){
+        	console.debug("_updateModalPublicar");
         	//actualizar los campos del dialogo publicar
 			       	
         	//require utils
@@ -220,6 +219,7 @@
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
 				}
 				if (that.mapConfig.options.llegenda){
+					
 					$('#div_llegenda_chk2').show();
 					$('#div_llegenda_chk3').attr("style","display:inline;");
 					if (that.mapConfig.options.tipusllegenda && that.mapConfig.options.tipusllegenda=="dinamica"){
@@ -236,6 +236,7 @@
 					else {
 						$('#llegenda_chk3').bootstrapSwitch('state', false, false);
 					}
+					
 				}
 			}
 			
@@ -337,7 +338,17 @@
 		    $('#cancelPublicar').text(window.lang.convert($('#cancelPublicar').text()));
 		    $('#okPublicar').text(window.lang.convert($('#okPublicar').text()));
 			
-			var v_url = window.location.href;
+		    $('#txt_llegenda_chk2').text(window.lang.convert($('#txt_llegenda_chk2').text()));
+		    $('#publish-legend-yes').text(window.lang.convert($('#publish-legend-yes').text()));
+		    $('#publish-legend-tancada').text(window.lang.convert($('#publish-legend-tancada').text()));
+		    $('#publish-legend-dinamica').text(window.lang.convert($('#publish-legend-dinamica').text()));
+		    $('#publish-legend-estatica').text(window.lang.convert($('#publish-legend-estatica').text()));
+		    $('#publish-legend-oberta').text(window.lang.convert($('#publish-legend-oberta').text()));
+		    $('#publish-legend-no').text(window.lang.convert($('#publish-legend-no').text()));
+		    
+		    window.lang.run();
+		    
+		    var v_url = window.location.href;
 			if (!url('?id')){
 				v_url += "&id="+$('#userId').val();
 			}
@@ -397,10 +408,10 @@
             	});	
             	$('input[name="my-legend-checkbox2"]').on('switchChange.bootstrapSwitch', function(event, state) {
             		if(state.value == true) {
-            			$('#txt_llegenda_chk2').html("La llegenda permet a l'usuari seleccionar la capa del seu interès.");
+            			$('#txt_llegenda_chk2').html(window.lang.convert("La llegenda permet a l'usuari seleccionar la capa del seu interès."));
     				}
     				else {
-    					$('#txt_llegenda_chk2').html("La llegenda del conjunt de les capes es mostra de manera contínua.");
+    					$('#txt_llegenda_chk2').html(window.lang.convert("La llegenda del conjunt de les capes es mostra de manera contínua."));
     				}
             	});
 
@@ -420,8 +431,7 @@
                 			}
             	        }
             	});           	
-            	
-            	 
+                       	 
             	$('#resetClau').on('click',function(){
              		var mapData = {
              			businessId: that.mapConfig.businessId,
