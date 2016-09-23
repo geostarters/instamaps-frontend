@@ -971,7 +971,8 @@
 				nomEntitat = mapConfig.nomEntitat,
 				infoHtml = '';
 			
-			$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+			var nomAp = mapConfig.nomAplicacio;
+			$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
 			
 			$.cookie('perfil', 'instamaps', {path:'/'});
 			checkUserLogin();
@@ -982,6 +983,8 @@
 				var desc=mapConfig.options.description;
 
 				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
+				
+				desc = desc.replaceAll("'","\'");
 
 				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
