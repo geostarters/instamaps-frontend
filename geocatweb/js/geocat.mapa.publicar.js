@@ -187,7 +187,6 @@
         },
         
         _updateModalPublicar: function(){
-        	console.debug("_updateModalPublicar");
         	//actualizar los campos del dialogo publicar
 			       	
         	//require utils
