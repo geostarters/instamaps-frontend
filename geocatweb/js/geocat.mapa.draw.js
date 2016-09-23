@@ -1030,7 +1030,7 @@ function createPopupWindow(layer,type){
 			if(objEdicio.edicioPopup=='textFeature'){
 				var txtTitol=jQuery('#titol_edit').val();
 				var txtDesc=jQuery('#des_edit').val();
-				
+				if (txtDesc.indexOf("'")>-1) txtDesc = txtDesc.replaceAll("'",'"');
 				updateFeatureNameDescr(map._layers[objEdicio.featureID],txtTitol,txtDesc);
 
 			}else if(objEdicio.edicioPopup=='textCapa'){
@@ -1710,8 +1710,8 @@ function createPopUpContent(player,type){
 	+'</div>'
 	+'<div class="modal-footer">'
 	+'<ul class="bs-popup">'
-	+'<li><a id="feature_no#'+player._leaflet_id+'#'+type+'"  class="btn btn-default btn-xs">'+window.lang.convert('Cancel·lar')+'</a></li>'			
-	+'<li><a id="feature_ok#'+player._leaflet_id+'#'+type+'"  class="btn btn-success btn-xs">'+window.lang.convert('Acceptar')+'</a></li>'								
+	+'<li><a id="feature_no##'+player._leaflet_id+'##'+type+'"  class="btn btn-default btn-xs">'+window.lang.convert('Cancel·lar')+'</a></li>'			
+	+'<li><a id="feature_ok##'+player._leaflet_id+'##'+type+'"  class="btn btn-success btn-xs">'+window.lang.convert('Acceptar')+'</a></li>'								
 	+'</ul>'														
 	+'</div>'								
 	+'</div>'								

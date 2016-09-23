@@ -512,7 +512,7 @@ function createPopupWindowData(player,type, editable, origen){
 			if(objEdicio.edicioPopup=='textFeature'){
 				var txtTitol=jQuery('#titol_edit').val();
 				var txtDesc=jQuery('#des_edit').val();
-				
+				if (txtDesc.indexOf("'")>-1) txtDesc = txtDesc.replaceAll("'",'"');
 				updateFeatureNameDescr(map._layers[objEdicio.featureID],txtTitol,txtDesc);
 
 			}else if(objEdicio.edicioPopup=='textCapa'){
