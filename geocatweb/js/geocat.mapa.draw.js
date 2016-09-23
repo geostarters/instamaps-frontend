@@ -2273,8 +2273,11 @@ function activarSnapping(capaEdicio){
 				}
 			}
 		 }
-		if (capaEdicio.getLayers()[0].options.isCanvas!=undefined && !capaEdicio.getLayers()[0].options.isCanvas){ 
+		try{
 			capaEdicio.getLayers()[0].snapediting.enable();
+		}
+		catch(exc){
+			
 		}
 		// capaEdicio.getLayers()[0].editing.enable();
 		  // Add to drawnItems
