@@ -305,10 +305,12 @@
 			
 			cc1 = jQuery.makeArray(cc1);	
 			
+			//TODO esto lo debemos activar para la pestaña de WMS y no para las de 
+			//dades oficials
 			if(cc1.length==1){
-				self.ActiuWMS.servidor=cc1.join(" ");
+				//self.ActiuWMS.servidor=cc1.join(" ");
 			}
-						
+			
 			self.ActiuWMS.wmstime = _dateFormat;
 			
 			if(cc.length === 0){
