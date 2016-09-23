@@ -102,9 +102,7 @@ function addModul3D(config) {
 	
 	
 	if (url('?testModel3D') == 'true') {	
-	
-	
-	
+			
 		testModel3D=true;
 		//_urlTerrenys='http://assets.agi.com/stk-terrain/world';
 		_urlTerrenys='//assets.agi.com/stk-terrain/world';
@@ -354,20 +352,7 @@ var IM_aplicacio = function (options) {
 		});
 
 		estatMapa3D = true;
-		//jQuery(".leaflet-map-pane").hide();
-
-		// rectangle = Cesium.Rectangle.fromDegrees(0,40,3,43);
-		// TODO-posar animació
-		/*
-		viewer.camera.setView({
-		destination: rectangle,
-		orientation: {
-		heading: Cesium.Math.toRadians(0.0),
-		pitch: Cesium.Math.toRadians(-45.0),
-		roll: 0.0
-		}
-		});
-		 */
+		
 		 
 			
 
@@ -891,8 +876,7 @@ var IM_aplicacio = function (options) {
 
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
 								url : url,
-
-								maximumLevel : 19,
+								maximumLevel : 18,
 								minimumLevel : 3
 
 							}));

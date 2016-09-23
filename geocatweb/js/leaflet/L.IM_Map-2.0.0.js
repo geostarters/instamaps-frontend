@@ -54,8 +54,8 @@ var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 	
-	//urlServerTiles="http://tilemaps1.farm";	
-	//urlServerTilesW="http://tilemaps1.farm";	
+	//urlServerTiles="http://imtilemaps1.farm";	
+	//urlServerTilesW="http://imtilemaps1.farm";	
 
 	urlServerTiles="http://{s}.tilemaps.icgc.cat";	
 	urlServerTilesW="http://{s}.tilemaps.icgc.cat";	
