@@ -1700,8 +1700,10 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
 			
 			//Afegim geometries a la capa
-			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 			capaVisualitzacio.addTo(map);
+			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+			
+			
 		}	
 		else {
 			//Afegim geometries a la capa pero no la capa al mapa
@@ -1895,7 +1897,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					}
 				}
 			//Punt
-			}else if (geomTypeVis === t_marker){
+			}else if (geomTypeVis === t_marker || geomType === "point"){
 				var coords=geom.geometry.coordinates;
 				if(!geomStyle.isCanvas){
 					var marker=new L.marker([coords[1],coords[0]],{icon: geomStyle, isCanvas:false,tipus: t_marker});
