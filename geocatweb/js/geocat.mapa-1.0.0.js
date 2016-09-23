@@ -121,16 +121,18 @@ function loadApp(){
 					//});
 					//if (true) { //CANVIAR
 					gestioCookie('diferentUser');
-					$('meta[property="og:title"]').attr('content', "InstaMaps: "+mapConfig.nomAplicacio);
+					var nomAp = mapConfig.nomAplicacio;
+					$('meta[property="og:title"]').attr('content', "InstaMaps: "+nomAp.replaceAll("'","\'"));
 
 					if(typeof (mapConfig.options)=="string"){
 						mapConfig.options = $.parseJSON( mapConfig.options );
 					}
 
 					if (mapConfig.options){
-						$('meta[name="description"]').attr('content', mapConfig.options.description);
+						var desc = mapConfig.options.description;
+						$('meta[name="description"]').attr('content', desc.replaceAll("'","\'"));
 
-						$('meta[property="og:description"]').attr('content', mapConfig.options.description);
+						$('meta[property="og:description"]').attr('content', desc.replaceAll("'","\'"));
 
 						var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
 						$('meta[property="og:image"]').attr('content', urlThumbnail);

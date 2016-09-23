@@ -512,7 +512,7 @@ function createPopupWindowData(player,type, editable, origen){
 			if(objEdicio.edicioPopup=='textFeature'){
 				var txtTitol=jQuery('#titol_edit').val();
 				var txtDesc=jQuery('#des_edit').val();
-				
+				if (txtDesc.indexOf("'")>-1) txtDesc = txtDesc.replaceAll("'",'"');
 				updateFeatureNameDescr(map._layers[objEdicio.featureID],txtTitol,txtDesc);
 
 			}else if(objEdicio.edicioPopup=='textCapa'){
@@ -537,7 +537,7 @@ function createPopupWindowData(player,type, editable, origen){
 	});	
 
 	player.on('popupopen', function(e){
-		console.debug(e);
+		//console.debug(e);
 		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
 			map.closePopup();
 		}
@@ -1700,8 +1700,10 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		if (!layer.capesActiva || layer.capesActiva == true || layer.capesActiva == "true"){
 			
 			//Afegim geometries a la capa
-			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 			capaVisualitzacio.addTo(map);
+			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
+			
+			
 		}	
 		else {
 			//Afegim geometries a la capa pero no la capa al mapa
@@ -1895,7 +1897,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					}
 				}
 			//Punt
-			}else if (geomTypeVis === t_marker){
+			}else if (geomTypeVis === t_marker || geomType === "point"){
 				var coords=geom.geometry.coordinates;
 				if(!geomStyle.isCanvas){
 					var marker=new L.marker([coords[1],coords[0]],{icon: geomStyle, isCanvas:false,tipus: t_marker});
@@ -2264,8 +2266,8 @@ function sordDesc(property) {
 function escapeSpecialChars(jsonString) {
 	var myJSONString = JSON.stringify(jsonString);
 	var myEscapedJSONString = myJSONString.replace(/\n/g, "\\n");
-	console.debug(myEscapedJSONString);
-	 return myEscapedJSONString;
+	//console.debug(myEscapedJSONString);
+	return myEscapedJSONString;
   }
 
 function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,tipusModificacio) {
@@ -2369,7 +2371,7 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 				  		  sublayer.layer.options.origen =businessIdCapaMare;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
 				  		  //tipusRang
 				  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-				  		  console.debug(sublayer);
+				  		  //console.debug(sublayer);
 				  		  //eliminem sublayer del mapa, i recarreguem
 				  		  map.closePopup();
 				  		  map.removeLayer(sublayer.layer);
