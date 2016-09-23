@@ -537,7 +537,7 @@ function createPopupWindowData(player,type, editable, origen){
 	});	
 
 	player.on('popupopen', function(e){
-		console.debug(e);
+		//console.debug(e);
 		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
 			map.closePopup();
 		}
@@ -2266,8 +2266,8 @@ function sordDesc(property) {
 function escapeSpecialChars(jsonString) {
 	var myJSONString = JSON.stringify(jsonString);
 	var myEscapedJSONString = myJSONString.replace(/\n/g, "\\n");
-	console.debug(myEscapedJSONString);
-	 return myEscapedJSONString;
+	//console.debug(myEscapedJSONString);
+	return myEscapedJSONString;
   }
 
 function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,tipusModificacio) {
@@ -2371,7 +2371,7 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 				  		  sublayer.layer.options.origen =businessIdCapaMare;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
 				  		  //tipusRang
 				  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-				  		  console.debug(sublayer);
+				  		  //console.debug(sublayer);
 				  		  //eliminem sublayer del mapa, i recarreguem
 				  		  map.closePopup();
 				  		  map.removeLayer(sublayer.layer);
