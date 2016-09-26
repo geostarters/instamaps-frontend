@@ -984,7 +984,7 @@
 
 				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 				
-				desc = desc.replaceAll("'","\'");
+				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
 
 				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');

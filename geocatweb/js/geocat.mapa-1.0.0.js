@@ -130,9 +130,10 @@ function loadApp(){
 
 					if (mapConfig.options){
 						var desc = mapConfig.options.description;
-						$('meta[name="description"]').attr('content', desc.replaceAll("'","\'"));
+						if (desc!=undefined) desc=desc.replaceAll("'","\'");
+						$('meta[name="description"]').attr('content', desc);
 
-						$('meta[property="og:description"]').attr('content', desc.replaceAll("'","\'"));
+						$('meta[property="og:description"]').attr('content', desc);
 
 						var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
 						$('meta[property="og:image"]').attr('content', urlThumbnail);
