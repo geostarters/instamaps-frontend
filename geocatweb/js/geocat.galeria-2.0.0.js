@@ -114,6 +114,27 @@
 			$('.sp_total_maps').hide();
 			$('.sp_rs_maps').show();
 		}, 
+
+		privateSortFunction: function(a, b, options)
+		{
+
+			var aName = a.values()['nomAplicacioSort'];
+			var bName = b.values()['nomAplicacioSort'];
+			var ret = 0;
+			if("" == aName && "" != bName)
+				ret = -1;
+			else if("" != aName && "" == bName)
+				ret = 1;
+			else
+			{
+			
+				options.desc = options.order == "desc" ? true : false;
+				ret = userList.helpers.naturalSort(a.values()[options.valueName], b.values()[options.valueName], options);
+			}
+
+			return ret;
+
+		},
 		
 		drawPrivate: function(results){
 			var self = this;
@@ -136,7 +157,8 @@
 			//Search function
 			var optionsSearch = {
 				valueNames: [ 'nomAplicacioSort','dataPublicacio', 'rankSort' ],
-				page:1000
+				page:1000,
+				sortFunction: self.privateSortFunction
 			};
 			$('#sortbyuser').attr("style","display:none;");
 			userList = new List('galeriaSort', optionsSearch);
