@@ -181,6 +181,22 @@
 				$('#dialgo_delete .btn-danger').data("businessid", $this.data("businessid"));
 				$('#dialgo_delete .btn-danger').data("idusr", $this.data("idusr"));
 			});
+
+			$('#galeriaRow').on('click', '.nomAplicacio', function(event){
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				var $this = $(this);
+				$('#dialog_noViewer').modal('show');
+				$('#dialog_noViewer .nom_mapa').text($this.data("nom"));
+			});
+
+			$('#galeriaRow').on('click', '.descAplicacio', function(event){
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				var $this = $(this);
+				$('#dialog_noViewer').modal('show');
+				$('#dialog_noViewer .nom_mapa').text($this.data("nom"));
+			});
 			
 			$('#dialgo_delete .btn-danger').on('click', function(event){
 				var $this = $(this);
