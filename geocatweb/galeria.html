@@ -221,10 +221,10 @@
 					{{else}}
 						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
-					<div class="caption text-center nomAplicacio">
+					<div class="caption text-center nomAplicacio" data-nom="{{nomAplicacio}}" >
 						<h4>{{nomAplicacio}}</h4>
 					</div>					
-					<div class="caption text-center descAplicacio">
+					<div class="caption text-center descAplicacio" data-nom="{{nomAplicacio}}" >
 						{{#if options.description}}
 							<span class="starwarsmain">
 							<span class="starwarsbody">
@@ -572,6 +572,30 @@
 						data-dismiss="modal">Cancel·lar</button>
 					<button lang="ca" type="button" class="btn btn-primary"
 						data-dismiss="modal">Acceptar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- Fi Modal delete -->
+
+	<!-- Modal visor no disponible -->
+	<div id="dialog_noViewer" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Visor no disponible</h4>
+				</div>
+				<div class="modal-body">
+					<h4><span lang="ca">No es pot visualitzar el mapa</span> "<span class="nom_mapa"></span>"</h4>
+					<span lang="ca">Pots editar-lo fent click al botó d'editar i publicar-lo des d'allà</span>
+				</div>
+				<div class="modal-footer">
+					<button id="bt_noViewer_cancel" lang="ca" type="button" class="btn" data-dismiss="modal">Acceptar</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
