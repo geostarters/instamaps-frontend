@@ -338,6 +338,11 @@ function addHtmlModalDownloadLayer(from){
 			  }else{
 				  $("#select-download-format option[value='GPX#.gpx']").removeAttr('disabled');
 			  }
+
+			  //Reset the modal values
+			  $("#input-download-name").val("");
+			  $("#select-download-format").val($("#select-download-format option:first").val());
+			  $("#select-download-epsg").val($("#select-download-epsg option:first").val());
 		});
 
 		jQuery('#select-download-format').change(function() {
