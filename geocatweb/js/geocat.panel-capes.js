@@ -8,16 +8,16 @@ function addFuncioRenameMap(){
 	$('#nomAplicacio').editable({
 		type: 'text',
 		mode: 'inline',
-	    validate: function(value) {
-	        if($.trim(value) == '') {
-	        	return {newValue: this.innerHTML};
-	        }
-        },
+		validate: function(value) {
+			if($.trim(value) == '') {
+				return {newValue: this.innerHTML};
+			}
+		},
 		success: function(response, newValue) {
 			var data = {
-			 	businessId: url('?businessid'),
-			 	nom: newValue,
-			 	uid: $.cookie('uid')
+				businessId: url('?businessid'),
+				nom: newValue,
+				uid: $.cookie('uid')
 			}
 			updateMapName(data).then(function(results){
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom aplicacio', 'label editar nom', 1]);
@@ -46,21 +46,21 @@ function reOrderGroupsAndLayers(action){
 	$("div.leaflet-control-accordion-layers").each(function( index, element ) {
 		var $this = $(this);
 		var gr=$this.children("label").children('span.span_ac');
-	    _groupId=index;
-	    _groupName=gr.text();
-	    var _exp=$this.children("label").children('i.label_gl');
-	    var _id=$(_exp).attr("id");
-	    _expanded=true;
+		_groupId=index;
+		_groupName=gr.text();
+		var _exp=$this.children("label").children('i.label_gl');
+		var _id=$(_exp).attr("id");
+		_expanded=true;
 		if($('#'+_id).hasClass('glyphicon-triangle-right')){
 			_expanded=false;
 		}
 		$this.children("ol.ac-large").children("li.leaflet-row").each(function(){
-		    $this; // parent li
-		    _businessId=this.id.replace("LI-",""); // child li
-		    z_order=z_order+1;
-		    
-		    if(action){
-		    	controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded).then(function(resp_Layer){
+			$this; // parent li
+			_businessId=this.id.replace("LI-",""); // child li
+			z_order=z_order+1;
+			
+			if(action){
+				controlCapes.updateTreeGroupLayers(_groupId,_groupName,_businessId,z_order,_expanded).then(function(resp_Layer){
 				if(resp_Layer){
 					var data = {
 						mapBusinessId: url('?businessid'),
@@ -78,8 +78,8 @@ function reOrderGroupsAndLayers(action){
 		
 					updateGroupsLayerGroup(data,data2);
 				}
-		    	});
-		    }
+				});
+			}
 		});
 	});
 }
@@ -135,20 +135,20 @@ function updateEditableElements(){
 	$('.label_ac .editable').editable({
 		type: 'text',
 		mode: 'inline',
-	    validate: function(value) {
-	        if($.trim(value) == '') {
-	        	return {newValue: this.innerHTML};
-	        }
-        },
+		validate: function(value) {
+			if($.trim(value) == '') {
+				return {newValue: this.innerHTML};
+			}
+		},
 		success: function(response, newName) {
 			var oldName=this.groupName;
 			var resp_Layer=	controlCapes.updateGroupName(oldName,newName,this.groupId);
 			for(i=0;i < resp_Layer.length;i++){
 				var data = {
 					mapBusinessId: url('?businessid'),
-				 	businessId: resp_Layer[i].options.businessId, //url('?businessid')
-				 	uid: $.cookie('uid'),
-				 	options: JSON.stringify(resp_Layer[i].options.group)
+					businessId: resp_Layer[i].options.businessId, //url('?businessid')
+					uid: $.cookie('uid'),
+					options: JSON.stringify(resp_Layer[i].options.group)
 				 };
 				updateGroupsLayerGroup(data,null);
 			}
@@ -158,7 +158,7 @@ function updateEditableElements(){
 	 $('.label_ac .editable').on('shown', function(e, editable) {
 		 jQuery('.group-conf').hide();
 	 });
-	    
+		
 	 $('.label_ac .editable').on('hidden', function(e, editable) {
 		 jQuery('.group-conf').show();
 	 });
@@ -169,7 +169,7 @@ function updateEditableElements(){
 		 validate: function(value) {
 			 if($.trim(value) == '') {
 				 return {newValue: this.innerHTML};
-		     }
+			 }
 		 },
 		 success: function(response, newValue) {
 			 map.closePopup();//Perque no queden desactualitzats
@@ -338,6 +338,11 @@ function addHtmlModalDownloadLayer(from){
 			  }else{
 				  $("#select-download-format option[value='GPX#.gpx']").removeAttr('disabled');
 			  }
+
+			  //Reset the modal values
+			  $("#input-download-name").val("");
+			  $("#select-download-format").val($("#select-download-format option:first").val());
+			  $("#select-download-epsg").val($("#select-download-epsg option:first").val());
 		});
 
 		jQuery('#select-download-format').change(function() {
@@ -372,7 +377,18 @@ function addHtmlModalDownloadLayer(from){
 					$('#modal_download_layer .modal-footer').hide();
 					$('#modal_download_layer').modal('show');
 				}else{
-					window.open(GEOCAT02+results,'_blank');
+					var iframe = $("#downloadFrame");
+					if(0 == iframe.length)
+					{
+
+						iframe = $("<iframe/>").attr({
+							id: "downloadFrame",
+							style: "visibility:hidden;display:none"
+						}).appendTo('#modal_download_layer');
+					}
+					
+					iframe.attr("src", GEOCAT02 + results)
+
 				}
 			},function(results){
 				$('#modal-body-download-error').show();
@@ -457,7 +473,7 @@ function addHtmlModalEtiquetesLayer(){
 		});
 		
 		$('#colorpalette_caixa_etiqueta').colorPalette().on('selectColor', function(e) {   	
-		    $('#dv_color_caixa_etiqueta').css('background-color',e.color);		
+			$('#dv_color_caixa_etiqueta').css('background-color',e.color);		
 		});
 		
 		/*$('#dialog_etiquetes_capa .btn-success').on('click', function (e) {

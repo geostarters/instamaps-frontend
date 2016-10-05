@@ -114,6 +114,55 @@
 			$('.sp_total_maps').hide();
 			$('.sp_rs_maps').show();
 		}, 
+
+		privateSortFunction: function(a, b, options)
+		{
+
+			var aName = a.values()['nomAplicacioSort'];
+			var bName = b.values()['nomAplicacioSort'];
+			var ret = 0;
+			if("" == aName && "" != bName)
+				ret = -1;
+			else if("" != aName && "" == bName)
+				ret = 1;
+			else
+			{
+			
+				options.desc = options.order == "desc" ? true : false;
+				ret = userList.helpers.naturalSort(a.values()[options.valueName], b.values()[options.valueName], options);
+			}
+
+			return ret;
+
+		},
+
+		privateClicked: function(event, caller)
+		{
+
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			var $this = caller;
+			if(!$this.parent().data("hasoptions"))
+			{
+				
+				$('#dialog_noViewer').modal('show');
+				$('#dialog_noViewer .nom_mapa').text($this.parent().data("nom"));
+
+			}
+			else
+			{
+
+				var appbusinessid = $this.parent().data("businessid");
+				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
+				if ($.trim($this.parent().data("idusr")) != ""){
+					urlMap += "&id="+$this.parent().data("idusr");
+				}
+				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
+				window.open(urlMap);
+
+			}
+
+		},
 		
 		drawPrivate: function(results){
 			var self = this;
@@ -136,7 +185,8 @@
 			//Search function
 			var optionsSearch = {
 				valueNames: [ 'nomAplicacioSort','dataPublicacio', 'rankSort' ],
-				page:1000
+				page:1000,
+				sortFunction: self.privateSortFunction
 			};
 			$('#sortbyuser').attr("style","display:none;");
 			userList = new List('galeriaSort', optionsSearch);
@@ -158,6 +208,10 @@
 				$('#dialgo_delete .nom_mapa').text($this.data("nom"));
 				$('#dialgo_delete .btn-danger').data("businessid", $this.data("businessid"));
 				$('#dialgo_delete .btn-danger').data("idusr", $this.data("idusr"));
+			});
+
+			$('#galeriaRow').on('click', '.descAplicacio', function(event){
+				self.privateClicked(event, $(this));
 			});
 			
 			$('#dialgo_delete .btn-danger').on('click', function(event){

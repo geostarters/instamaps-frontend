@@ -702,7 +702,7 @@ function addHtmlModalArees(){
 	'											</td>'+
 	'										</tr>'+
 	'										<tr>'+
-	'											<td><span lang="ca">Transperència fons:</span></td>'+
+	'											<td><span lang="ca">Transparència fons:</span></td>'+
 	'											<td><select id="cmb_trans" class="form-control">'+
 	'													<option value="0">100%</option>'+
 	'													<option value="0.25">75%</option>'+
