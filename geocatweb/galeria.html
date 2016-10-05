@@ -215,16 +215,16 @@
 			<p class="rankSort hidden">{{rank}}</p>
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 				<input type="hidden" name="cols" value="{{cookie.uid}}">
-				<div  class="thumbnail" id="thumbnail-private" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}">		
+				<div  class="thumbnail" id="thumbnail-private" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" data-nom="{{nomAplicacio}}" data-hasoptions="{{#if options}}true{{else}}false{{/if}}">		
 			    	{{#if thumbnail}}
 			      		<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
 					{{else}}
 						<img src="img/instamapes_icon_color.jpg" alt="{{nomAplicacio}}">
 					{{/if}}
-					<div class="caption text-center nomAplicacio" data-nom="{{nomAplicacio}}" >
+					<div class="caption text-center nomAplicacio">
 						<h4>{{nomAplicacio}}</h4>
 					</div>					
-					<div class="caption text-center descAplicacio" data-nom="{{nomAplicacio}}" >
+					<div class="caption text-center descAplicacio">
 						{{#if options.description}}
 							<span class="starwarsmain">
 							<span class="starwarsbody">
