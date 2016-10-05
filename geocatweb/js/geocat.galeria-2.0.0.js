@@ -135,6 +135,34 @@
 			return ret;
 
 		},
+
+		privateClicked: function(event, caller)
+		{
+
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			var $this = caller;
+			if(!$this.parent().data("hasoptions"))
+			{
+				
+				$('#dialog_noViewer').modal('show');
+				$('#dialog_noViewer .nom_mapa').text($this.parent().data("nom"));
+
+			}
+			else
+			{
+
+				var appbusinessid = $this.parent().data("businessid");
+				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
+				if ($.trim($this.parent().data("idusr")) != ""){
+					urlMap += "&id="+$this.parent().data("idusr");
+				}
+				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
+				window.open(urlMap);
+
+			}
+
+		},
 		
 		drawPrivate: function(results){
 			var self = this;
@@ -182,56 +210,8 @@
 				$('#dialgo_delete .btn-danger').data("idusr", $this.data("idusr"));
 			});
 
-			$('#galeriaRow').on('click', '.nomAplicacio', function(event){
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				var $this = $(this);
-				if(!$this.parent().data("hasoptions"))
-				{
-					
-					$('#dialog_noViewer').modal('show');
-					$('#dialog_noViewer .nom_mapa').text($this.parent().data("nom"));
-
-				}
-				else
-				{
-
-					var appbusinessid = $this.parent().data("businessid");
-					var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
-					if ($.trim($this.parent().data("idusr")) != ""){
-						urlMap += "&id="+$this.parent().data("idusr");
-					}
-					_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
-					window.open(urlMap);
-
-				}
-
-			});
-
 			$('#galeriaRow').on('click', '.descAplicacio', function(event){
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				var $this = $(this);
-				if(!$this.parent().data("hasoptions"))
-				{
-					
-					$('#dialog_noViewer').modal('show');
-					$('#dialog_noViewer .nom_mapa').text($this.parent().data("nom"));
-
-				}
-				else
-				{
-
-					var appbusinessid = $this.parent().data("businessid");
-					var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
-					if ($.trim($this.parent().data("idusr")) != ""){
-						urlMap += "&id="+$this.parent().data("idusr");
-					}
-					_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
-					window.open(urlMap);
-
-				}
-
+				self.privateClicked(event, $(this));
 			});
 			
 			$('#dialgo_delete .btn-danger').on('click', function(event){
