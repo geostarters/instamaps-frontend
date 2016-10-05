@@ -82,6 +82,9 @@ function createModalConfigLegend(){
 	var count = 0;
 	var layersHtml = {order:[], notorder:[]};
 	html += '<div class="sortable">';
+	
+	
+	
 	jQuery.each(controlCapes._layers, function(i, item){
 		controlLegendPoint = [];
 		controlLegendMarker = [];
@@ -123,9 +126,74 @@ function createModalConfigLegend(){
 	});	
 	
 	$('.sortable').sortable();
+	
+	return html;
 }
 
+
+
+function generallegendaMapaEdicio(){
+	
+	
+	var arbreHTML=createModalConfigLegend();
+	
+	var mapLegendTMP = {};
+	
+	
+	$(arbreHTML).find(".legend-subrow").each(function(index,element){
+	
+	var businessId = $(element).attr('data-businessId');
+		var html=$(element).children(".legend-symbol").html();
+		if(html.indexOf('GetLegendGraphic')!= -1){
+			html=html.replace(/width:26px;/g,'');
+			html=html.replace('png8','png');
+		}
+		var obj = {
+			chck : true,
+			symbol : html,
+			name : $(element).children(".legend-name").children("input").val(),
+			order: index
+		};
+		if(!mapLegendTMP[businessId]){
+			mapLegendTMP[businessId] = [];
+		}
+		mapLegendTMP[businessId].push(obj);
+	
+	});
+	
+	/*
+	$.each(arbreHTML.order,function(index,element){
+		
+	});
+*/
+		
+
+	
+	return mapLegendTMP;
+
+}	
+
+
+function obteLListatCapesEditor(idLayer){	
+	var layerType={};
+		jQuery.each(controlCapes._layers, function(i, item){	
+				if(item.layer.options.businessId==idLayer){					
+					layerType.serverName=item.layer.options.nom.replace('##1','');
+					layerType.capesOrdre=""+i+"";					
+				}	
+		});
+		return layerType;		
+}	
+
+
+
+
+
 function addLayerToLegend(layer, count, layersHtml, layerIdParent){
+	
+	
+	
+	
 	var html = "";
 	html += '<div class="legend-row">';
 	html+='<div class="separate-legend-row"></div>';
@@ -1047,6 +1115,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	}else{
 		layersHtml.notorder.push(html);
 	}
+	
+	
 	return layersHtml;
 }
 
@@ -1164,6 +1234,7 @@ function sortObject(obj) {
 }
 
 function updateMapLegendData(){
+	
 	mapLegend = {};
 	$(".legend-subrow").each(function(index,element){
 		var businessId = $(element).attr('data-businessId');
@@ -1183,6 +1254,8 @@ function updateMapLegendData(){
 		}
 		mapLegend[businessId].push(obj);
 	});
+	
+	
 }
 
 function findStyleInLegend(legend,stringStyle){
@@ -1242,6 +1315,29 @@ function addHtmlModalLegend(){
 /**** LLEGENDA TEMATICA MODE EDICIO ****/
 
 function addLegendEdicio(){
+	
+	
+	
+	
+	try{
+
+			ctr_legend = L.control.legend({
+				title: window.lang.convert('Llegenda'),
+				tipusllegenda: "dinamica",  //"dinamica"
+				llegendaOpt: true      //true
+			});
+			ctr_legend.addTo(map);
+	
+	}catch(Err){
+		
+
+	
+		
+	
+	}	
+	
+	
+	/*
 	legend = L.control({position: 'bottomright'});
 	legend.onAdd = function (map) {
 	    var div = L.DomUtil.create('div', 'info legend visor-legend mCustomScrollbar');
@@ -1263,6 +1359,8 @@ function addLegendEdicio(){
 	$("#mapLegendEdicio").mCustomScrollbar();
 	$(".bt_legend").hide();
 	activaLlegenda(false);
+	
+*/	
 }
 
 function emptyMapLegendEdicio(layer,isOrigen){

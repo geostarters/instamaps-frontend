@@ -654,10 +654,13 @@
 			ctr_legend,
 			_map = self.map;
 			
+			
+			
 			ctr_legend = L.control.legend({
 				title: window.lang.convert('Llegenda'),
-				tipusllegenda: self.tipusllegenda,
-				llegendaOpt: self.llegendaOpt
+				tipusllegenda: self.tipusllegenda,  //"dinamica"
+				llegendaOpt: self.llegendaOpt,
+				origenllegenda:'visor'
 			});
 			ctr_legend.addTo(_map);
 			

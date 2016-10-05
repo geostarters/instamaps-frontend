@@ -246,7 +246,7 @@ function removeAtomicLayer(data,matriuObj){
 			//Eliminem la capa de controlCapes
 			controlCapes.removeLayer(obj);
 			//Esborrem la llegenda de la capa eliminada
-			emptyMapLegendEdicio(obj.layer);
+			////emptyMapLegendEdicio(obj.layer);
 			//actualitzem valors zindex de la resta si no es sublayer
 			if(!obj.sublayer){
 				var removeZIndex = obj.layer.options.zIndex;

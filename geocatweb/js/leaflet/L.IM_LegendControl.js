@@ -45,14 +45,10 @@ L.Control.Legend = L.Control.extend({
 		self._div = container;
 		
 		map.on('loadconfig', this._updateLegend, this);
-		map.on('visorconfig', this._updateLegend, this);
+		map.on('visorconfig', this._updateLegend, this);				
 		map.on('activaLegendTab', this._updateTabLegend, this);
-		/*
-		$.subscribe('activaLegendTab', function(evt, obj){
-			console.debug(obj);
-			self._updateTabLegend(obj);
-		});
-		*/
+		map.on('finalLoadConfig', this._redraw, this);
+	
 		
 		L.DomEvent
 			.on(container, 'click', stop)
@@ -67,8 +63,9 @@ L.Control.Legend = L.Control.extend({
 	
 	onRemove: function (map) {
 		map.off('loadconfig', this._updateLegend, this);
-		map.off('visorconfig', this._updateLegend, this);
+		map.off('visorconfig', this._updateLegend, this);				
 		map.off('activaLegendTab', this._updateTabLegend, this);
+		map.off('finalLoadConfig', this._redraw, this);
 	},
 	
 	hideBtn: function(){
@@ -107,8 +104,28 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	_updateLegend: function(config){
+				
+		this.servidorsWMS=config.servidorsWMS;		
+		this.legend = (config.legend? $.parseJSON( config.legend):"");		
+		
+		this._draw();
+		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
+	},
+		
+	_redraw: function(config){
+		
+		
+		
 		this.servidorsWMS=config.servidorsWMS;
-		this.legend = (config.legend? $.parseJSON( config.legend):"");
+		
+				
+		if(this.options && this.options.origenllegenda=="mapa"){
+				this.legend=generallegendaMapaEdicio();
+		}else{
+				this.legend = (config.legend? $.parseJSON( config.legend):"");			
+		}		
+		
+		$(this._div).html('');	
 		this._draw();
 		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 	},
@@ -121,6 +138,8 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	_updateTabLegend:function(obje){
+		
+
 		var self = this;
 		self.fromLayer = true;
 		if(obje.activo){
@@ -137,7 +156,11 @@ L.Control.Legend = L.Control.extend({
 		var lastPos={indexPos:0};
 		var indexPos=0;			
 		var k=0;
+		
+		try{
 		jQuery.each(self.servidorsWMS, function(j, row){
+			
+			
 			if (self.servidorsWMS[j].capesActiva=="true"){
 				k=0;
 				jQuery.each(mapLegend, function(index, row){
@@ -154,14 +177,18 @@ L.Control.Legend = L.Control.extend({
 		});				
 		
 		if(lastPos.indexPos==-1){lastPos.indexPos=0}
-			
-		return lastPos;
+			return lastPos;		
+		}catch(Err){
+			return lastPos;
+		}	
+		
 	},
 	
 	_draw: function(){
 		var self = this,
 		mapLegend = self.legend,
 		div = self._div;
+			
 		if (self._checkEmptyMapLegend()){
 			var legendhtml = [];
 			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){			
@@ -199,11 +226,14 @@ L.Control.Legend = L.Control.extend({
 				var legendCont=[];
 				var legendTabContent=[];
 				
+				
+				
 				legendCont.push('<div id="legend_cont">');
 				legendTab.push('<div id="legend_cont"><ul id="nav_legend" class="nav nav-tabs">');
 				legendTabContent.push('<div class="legendTabCont tab-content">');
 				
 				var index=0;
+				
 				var lastPos=self._getLastActived();
 				
 				jQuery.each(mapLegend, function(j, row){
@@ -216,7 +246,7 @@ L.Control.Legend = L.Control.extend({
 				}
 				
 				for (var i = 0; i < row.length; i++) {
-					if(row[i].chck){
+					if(row[i].chck || self.options.origenllegenda=='mapa'){
 						var padding_left="";
 						var textalg='left';
 						if (row[i].symbol.indexOf("circle")>-1){
@@ -322,7 +352,14 @@ L.Control.Legend = L.Control.extend({
 					layerType.capesOrdre=row.capesOrdre;
 
 				}						
-		});			
+		});	
+
+	if(!layerType.serverName){
+		
+		layerType=obteLListatCapesEditor(idLayer);
+	}	
+		
+		
 		return layerType;		
 	},	
 

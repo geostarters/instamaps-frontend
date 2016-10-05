@@ -705,6 +705,8 @@
         	$('#urlMap').val(urlMap);
         	$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
         	
+			console.info(mapLegend);
+			
         	var data = {
         		nom: nomApp, //jQuery('#dialgo_publicar #nomAplicacio').val(),
         		uid: that.uid,
