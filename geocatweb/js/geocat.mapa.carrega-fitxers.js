@@ -1344,6 +1344,7 @@ function addHtmlModalCarregarFitxers(){
 		$('#mapa_modals').append(data);
 		
 		$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {
+			busy = false;
 			if(envioArxiu.isDrag){
 				drgFromMapa.removeAllFiles(true);
 			}else{
@@ -1353,7 +1354,6 @@ function addHtmlModalCarregarFitxers(){
 		
 		jQuery('#dialog_carrega_dades #bt_upload_cancel').on("click", function(e) {
 			$('#dialog_carrega_dades').modal('hide');
-			busy = false;
 			if(envioArxiu.isDrag){
 				drgFromMapa.uploadFile(drgFromMapa.files[0]);	
 			}else{
