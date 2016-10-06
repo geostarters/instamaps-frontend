@@ -23,7 +23,6 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		var params = this.getLegendGraphic();
 		this.updateControlLLegenda(params,this.wmsParams.layers,false,this.options.nom,this.options.businessId);
 	},
-	
 	getFeatureInfo: function (evt) {
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
