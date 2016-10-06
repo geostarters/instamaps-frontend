@@ -28,7 +28,7 @@
                     pageDesc = "";
                 
                 $.each($(document).find('meta[name="description"]'),function(idx,item){
-                    pageDesc = $(item).attr("content");
+                    pageDesc = $(item).attr("content").replace(/'/g, '');
         		});
                 
                 if(!pageDesc || $.trim(pageDesc) === ""){
