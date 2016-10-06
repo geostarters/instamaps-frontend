@@ -178,7 +178,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		return fet;
 	},
 	updateControlLLegenda :function (params,layer,estat,nom,businessId){
-		//console.debug("updateControlLLegenda");
+		
+		/*
 		if(getModeMapa()){//si estic visor i no hi ha llegenda
 			if($("#mapLegend").length==0 && $("#mapLegendEdicio").length==0){
 				addLegend();
@@ -207,6 +208,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				jQuery('#wms_' + businessId).remove();
 			}
 		}
+		*/
+		
 	}
 });
 
