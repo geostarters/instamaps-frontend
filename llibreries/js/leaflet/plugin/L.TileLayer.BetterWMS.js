@@ -11,8 +11,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			map.on('click', this.getFeatureInfo, this);
 			var params = this.getLegendGraphic();
 			this.updateControlLLegenda(params,this.wmsParams.layers,true,this.options.nom,this.options.businessId);	
-		//}
-		
+		//}		
 		
 	},
 	onRemove: function (map) {
