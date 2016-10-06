@@ -631,8 +631,8 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			this._hideSpiner();
 			
-			map.fire('finalLoadConfig', mapConfig);
-			$.publish('finalLoadConfig', mapConfig);
+			map.fire('onRedrawLegend', mapConfig);
+			$.publish('onRedrawLegend', mapConfig);
 		}
 	},
 	

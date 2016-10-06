@@ -133,13 +133,10 @@ function createModalConfigLegend(){
 
 
 function generallegendaMapaEdicio(){
-	
-	
-	var arbreHTML=createModalConfigLegend();
-	
+		
+	var arbreHTML=createModalConfigLegend();	
 	var mapLegendTMP = {};
-	
-	
+		
 	$(arbreHTML).find(".legend-subrow").each(function(index,element){
 	
 	var businessId = $(element).attr('data-businessId');
@@ -166,9 +163,7 @@ function generallegendaMapaEdicio(){
 		
 	});
 */
-		
-
-	
+			
 	return mapLegendTMP;
 
 }	
@@ -176,11 +171,20 @@ function generallegendaMapaEdicio(){
 
 function obteLListatCapesEditor(idLayer){	
 	var layerType={};
-		jQuery.each(controlCapes._layers, function(i, item){	
+
+		jQuery.each(controlCapes._layers, function(i, item){
 				if(item.layer.options.businessId==idLayer){					
 					layerType.serverName=item.layer.options.nom.replace('##1','');
 					layerType.capesOrdre=""+i+"";					
 				}	
+				
+		jQuery.each(item._layers, function(j, item2){
+				if(item2.layer.options.businessId==idLayer){					
+					layerType.serverName=item2.layer.options.nom.replace('##1','');
+					layerType.capesOrdre=""+j+"";					
+				}			
+			});		
+			
 		});
 		return layerType;		
 }	
@@ -1707,8 +1711,7 @@ function loadMapLegendEdicioDinamics(layer){
 								'</svg>';	
 			
 			var labelNomCategoria = "";
-					
-			
+								
 			if (estilRang.valueMax == estilRang.valueMin){
 				labelNomCategoria = estilRang.valueMax;
 			}

@@ -47,7 +47,7 @@ L.Control.Legend = L.Control.extend({
 		map.on('loadconfig', this._updateLegend, this);
 		map.on('visorconfig', this._updateLegend, this);				
 		map.on('activaLegendTab', this._updateTabLegend, this);
-		map.on('finalLoadConfig', this._redraw, this);
+		map.on('onRedrawLegend', this._redraw, this);
 	
 		
 		L.DomEvent
@@ -65,7 +65,7 @@ L.Control.Legend = L.Control.extend({
 		map.off('loadconfig', this._updateLegend, this);
 		map.off('visorconfig', this._updateLegend, this);				
 		map.off('activaLegendTab', this._updateTabLegend, this);
-		map.off('finalLoadConfig', this._redraw, this);
+		map.off('onRedrawLegend', this._redraw, this);
 	},
 	
 	hideBtn: function(){
@@ -113,18 +113,12 @@ L.Control.Legend = L.Control.extend({
 	},
 		
 	_redraw: function(config){
-		
-		
-		
-		this.servidorsWMS=config.servidorsWMS;
-		
-				
+		//this.servidorsWMS=config.servidorsWMS;						
 		if(this.options && this.options.origenllegenda=="mapa"){
 				this.legend=generallegendaMapaEdicio();
 		}else{
 				this.legend = (config.legend? $.parseJSON( config.legend):"");			
-		}		
-		
+		}				
 		$(this._div).html('');	
 		this._draw();
 		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
@@ -139,7 +133,6 @@ L.Control.Legend = L.Control.extend({
 	
 	_updateTabLegend:function(obje){
 		
-
 		var self = this;
 		self.fromLayer = true;
 		if(obje.activo){
