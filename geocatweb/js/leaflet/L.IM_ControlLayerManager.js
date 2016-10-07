@@ -630,6 +630,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			}
 			
 			this._hideSpiner();
+			
+			map.fire('onRedrawLegend', mapConfig);
+			$.publish('onRedrawLegend', mapConfig);
 		}
 	},
 	
@@ -667,7 +670,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			: 'overlayremove')
 			: (e.type === 'layeradd' ? 'baselayerchange' : null);
 		if (type) {
-			this._map.fire(type, obj);
+			this._map.fire(type, obj);					
 		}
 	},
 
@@ -905,7 +908,12 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				updateEditableElements();
 				refreshSortablesElements();
 				map.fireEvent('addItemFinish');
+				
+				
 				if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,"add",true);}	
+				
+				//generallegendaMapaEdicio();
+				
 			}catch(Err){
 				updateEditableElements();
 			}
@@ -1047,6 +1055,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			// Afegir
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
+				
+				
+				
 				this._map.addLayer(obj.layer);
 				//Mostrem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
@@ -1099,23 +1110,28 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (currentbid == obj.layer.options.businessId
 						&& obj.layer.options.tipusRang
 						&& (obj.layer.options.tipusRang == tem_clasic || obj.layer.options.tipusRang == tem_size)) {
-					thisLoadMapLegendEdicio(obj.layer);
+					//thisLoadMapLegendEdicio(obj.layer);
 					isLegendLoad=true;
 				}
 				else if (obj.layer.options.tipus=="wms"){//per WMS tb s'ha d'omplir
-					thisLoadMapLegendEdicio(obj.layer);
+					//thisLoadMapLegendEdicio(obj.layer);
 					isLegendLoad=true;
 				}					
 				else if (!isLegendLoad){
-					thisEmptyMapLegendEdicio(obj.layer,true);
+					//thisEmptyMapLegendEdicio(obj.layer,true);
 				}
+				
+				
+				
 				
 				if (obj.layer.options.dinamic && (obj.layer.options.tem == tem_clasic || obj.layer.options.tem == tem_size)) {
-					thisLoadMapLegendEdicioDinamic(obj.layer);
+					//thisLoadMapLegendEdicioDinamic(obj.layer);
 					isLegendLoad=true;
 				}
-				else if(!isLegendLoad) thisEmptyMapLegendEdicio(obj.layer,true);
-				
+				else if(!isLegendLoad){
+
+				//thisEmptyMapLegendEdicio(obj.layer,true);
+				}
 				//mirem vista 3D
 				if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(obj.layer.options,'display',true);}
 			

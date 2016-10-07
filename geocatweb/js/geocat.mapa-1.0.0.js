@@ -148,10 +148,21 @@ function loadApp(){
 
 					//Afegim barres d'eines i control de capes
 					addControlsInici();
-
-					addLegendEdicio();
+					//addLegendEdicio();					
 					
-					$.publish('loadConfig', mapConfig);
+					//afegim llegenda
+					
+					ctr_legend = L.control.legend({
+						title: window.lang.convert('Llegenda'),
+						tipusllegenda: "dinamica",  //"dinamica"
+						llegendaOpt: true, //true
+						origenllegenda:'mapa'						
+					});
+					ctr_legend.addTo(map);
+					
+					
+					map.fire('loadconfig', mapConfig);
+					$.publish('loadconfig', mapConfig);
 					/*
 					$.subscribe('loadGaEvents', function(e, data){
 						loadEventsGa();
@@ -277,11 +288,12 @@ function initControls(){
 
 function addClicksInici() {
 
+/*
 	jQuery('.bt_legend').on('click', function(event) {
 		aturaClick(event);
 		activaLlegenda();
 	});
-
+*/
 	jQuery('.bt_llista').on('click', function(event) {
 		aturaClick(event);
 		activaPanelCapes();

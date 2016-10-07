@@ -124,7 +124,7 @@ function generaLlistaServeisWMS() {
 				'">' +
 				window.lang.convert(WMS.TITOL) +
 				'</a>' +
-				'<a target="_blank" lang="ca" title="Servei WMS-TIME" href="http://' +
+				'<a target="_blank" lang="ca" title="Servei WMS-TIME" href="' +
 				WMS.IDARXIU +'&Request=GetCapabilities&service=WMS' +
 				'"><span class="glyphicon glyphicon-time info-wms"></span></a>' +
 				'</li>');

@@ -1163,7 +1163,22 @@ function createPopupWindow(layer,type){
 					jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
 				}
 				
-			}			
+			}
+
+			if(layer.properties.mida)	
+			{
+
+				var text = window.lang.convert("Longitud");
+				if(layer.properties.tipusFeature == t_polygon)
+				{
+
+					text = window.lang.convert("Àrea");
+
+				}
+
+				$("#mida_pres").html("<b>" + text + ":</b> " + layer.properties.mida);
+
+			}
 		}
 	});
 }
@@ -1595,9 +1610,11 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 	    });              
 	    if(layer.properties.tipusFeature == t_polyline){
 	    	feature.geometry.coordinates = lcoordinates;
+	    	layer.properties.mida = calculateDistance(layer.getLatLngs());
 	    }else{
 	    	lcoordinates.push(lcoordinates[0]);
 	    	feature.geometry.coordinates[0] = lcoordinates;
+	    	layer.properties.mida = calculateArea(layer);
 	    }
     }
 	
