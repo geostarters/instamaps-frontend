@@ -872,6 +872,7 @@ textarea {
 }
 .leaflet-routing-container {
 	padding-top:0px !important;
+	width: 250px !important;
 }
 
 div.leaflet-routing-geocoder:first-of-type{
