@@ -84,11 +84,9 @@ function addModul3D(config) {
 	});
 
 	jQuery(document).on('click', "#chk_ad_3d", function (e) {
-		$.cookie('msg3D', true, {
-			path : '/',
+		Cookies.set('msg3D', true, {
 			expires: 365
 		});
-
 	});
 
 	/*
@@ -178,7 +176,7 @@ function init3D(boto) {
 	map.spin(true);
 	if (browserWebGL) {
 		initAmbVistaControlada = false;
-		if (!$.cookie('msg3D')) {
+		if (!Cookies.get('msg3D')) {
 			jQuery("#dialgo_ad_3D").modal('show');
 		}
 		jQuery(boto).text('2D');
@@ -244,7 +242,7 @@ function ActDesOpcionsVista3D(activa3D) {
 	if (activa3D) {
 
 		jQuery('#funcio_draw').prepend('<div id="not_3d">' +
-			window.lang.convert('Operacions no disponibles en modus 3D') +
+			window.lang.translate('Operacions no disponibles en modus 3D') +
 			'</div>');
 
 		jQuery('.leaflet-control-minimap').css('visibility', 'hidden');

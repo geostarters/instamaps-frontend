@@ -4,7 +4,7 @@ function createHeatMap(capa,tipus){
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'heatmap', 1]);
 //	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'heatmap'}]);
 	
-	var nom = window.lang.convert("Concentració");
+	var nom = window.lang.translate("Concentració");
 	//Heatmap
 	if (tipus == t_vis_wms){
 		var instamapsWms = InstamapsWms({
@@ -18,7 +18,7 @@ function createHeatMap(capa,tipus){
 				if (layers[i].Name.indexOf("heatmap")>-1) {
 					var data = {
 							businessId: capa.layer.options.businessId,//businessId id de la visualización de origen
-							uid: $.cookie('uid'),//uid id de usuario
+							uid: Cookies.get('uid'),//uid id de usuario
 				            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
 				            nom: layers[i].Name,//nom nombre de la nueva visualizacion
 				            activas: true,
@@ -81,7 +81,7 @@ function createHeatMap(capa,tipus){
 				//Si capa origen dades obertes, creem nova capa
 				if(capa.layer.options.tipus == t_dades_obertes){
 					data = {
-							uid:$.cookie('uid'),
+							uid:Cookies.get('uid'),
 							mapBusinessId: url('?businessid'),
 							serverName: capa.layer.options.nom+" "+nom,
 							serverType: t_dades_obertes,
@@ -123,7 +123,7 @@ function createHeatMap(capa,tipus){
 				}else if(capa.layer.options.tipus == t_json){
 					
 					var data = {
-						uid:$.cookie('uid'),
+						uid:Cookies.get('uid'),
 						mapBusinessId: url('?businessid'),
 						serverName: capa.layer.options.nom+" "+nom,
 						serverType: t_json,
@@ -192,10 +192,10 @@ function createHeatMap(capa,tipus){
 		//				console.debug(options);			
 					
 					var data = {
-							uid:$.cookie('uid'),
+							uid:Cookies.get('uid'),
 							mapBusinessId: url('?businessid'),
 							serverName: capa.layer.options.nom+" "+nom,
-		//					serverName: capa.layer.options.nom+" "+window.lang.convert("Bàsic"),
+		//					serverName: capa.layer.options.nom+" "+window.lang.translate("Bàsic"),
 							serverType: capa.layer.options.tipus,
 							calentas: false,
 				            activas: true,
@@ -237,7 +237,7 @@ function createHeatMap(capa,tipus){
 				}else if (capa.layer.options.tipus == t_visualitzacio){
 					var data = {
 							businessId: capa.layer.options.businessId,//businessId id de la visualización de origen
-							uid: $.cookie('uid'),//uid id de usuario
+							uid: Cookies.get('uid'),//uid id de usuario
 				            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
 				            nom: capa.layer.options.nom+" "+nom,//nom nombre de la nueva visualizacion
 				            activas: true,
@@ -376,7 +376,7 @@ function loadJsonHeatmapLayer(layer){
 		}
 
 		if (!jQuery.isArray(v_respotaJSON)) {
-			alert(window.lang.convert("No s'ha interpretat bé l'estructura del JSON"));
+			alert(window.lang.translate("No s'ha interpretat bé l'estructura del JSON"));
 			return;
 		}
 		var arrP=[];
@@ -491,7 +491,7 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva, dfd)
 	else businessId=options.origen;
 	var data = {
 			businessId: businessId,//businessId id de la visualización de origen
-			uid: $.cookie('uid')//uid id de usuario
+			uid: Cookies.get('uid')//uid id de usuario
 		};	
 	
 	//Carrego llistat geometries

@@ -44,7 +44,7 @@ function addControlCercaEdit(){
 		zoom: 12,
 		minLength: 3,
 		autoType: false,
-		text: window.lang.convert('Cercar llocs al món o coordenades  ...'),
+		text: window.lang.translate('Cercar llocs al món o coordenades  ...'),
 		idInputText : '#ctr_cerca',
 		zoom : 14,
 		textSize : 22,
@@ -71,7 +71,7 @@ function addControlCercaEdit(){
 		initial:false,
 		textSize : 22,
 		minLength : 1,
-		text : window.lang.convert('Cercar llocs mudialment...'),
+		text : window.lang.translate('Cercar llocs mudialment...'),
 	});*/
 	
 //	ctr_cercaNomen.on('search_locationfound', function(e) {

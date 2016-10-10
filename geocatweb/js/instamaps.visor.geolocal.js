@@ -21,7 +21,7 @@
 			_map = visor.map;
 			
 			ctr_widgets = L.control.widgets({
-				title: window.lang.convert('Ginys')
+				title: window.lang.translate('Ginys')
 			});
 			ctr_widgets.addTo(_map);
 			
@@ -84,7 +84,7 @@
 			
 			//TODO  ver si podemos usar un objeto usuario para almacenar este tipo de cosas.
 			//cambiamos la cookie del perfil
-			$.cookie('perfil', 'geolocal', {path:'/'});
+			Cookies.set('perfil', 'geolocal');
 			checkUserLogin();
 			
 			//cambiamos la cuenta de google
@@ -103,7 +103,7 @@
 				content: infoHtml
 			});
 			$('#infoMap').on('show.bs.popover', function () {
-				$(this).attr('data-original-title', window.lang.convert($(this).data('lang-title')));		
+				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));		
 			});
 			
 			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal

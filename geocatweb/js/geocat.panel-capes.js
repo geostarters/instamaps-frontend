@@ -16,8 +16,8 @@ function addFuncioRenameMap(){
 		success: function(response, newValue) {
 			var data = {
 				businessId: url('?businessid'),
-				nom: newValue,
-				uid: $.cookie('uid')
+			 	nom: newValue,
+			 	uid: Cookies.get('uid')
 			}
 			updateMapName(data).then(function(results){
 				_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom aplicacio', 'label editar nom', 1]);
@@ -65,14 +65,14 @@ function reOrderGroupsAndLayers(action){
 					var data = {
 						mapBusinessId: url('?businessid'),
 						businessId: resp_Layer.options.businessId, //url('?businessid')
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						options: JSON.stringify(resp_Layer.options.group)
 					 };
 					
 					var data2 = {
 						servidorWMSbusinessId:resp_Layer.options.businessId,
 						businessId:url('?businessid'), //url('?businessid')
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						order: z_order
 					 };
 		
@@ -147,8 +147,8 @@ function updateEditableElements(){
 				var data = {
 					mapBusinessId: url('?businessid'),
 					businessId: resp_Layer[i].options.businessId, //url('?businessid')
-					uid: $.cookie('uid'),
-					options: JSON.stringify(resp_Layer[i].options.group)
+				 	uid: Cookies.get('uid'),
+				 	options: JSON.stringify(resp_Layer[i].options.group)
 				 };
 				updateGroupsLayerGroup(data,null);
 			}
@@ -188,7 +188,7 @@ function updateEditableElements(){
 			 }
 			 var data = {
 				businessId: editableLayer.layer.options.businessId, //url('?businessid')
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				serverName: newValue + op
 			 };
 			 var oldName = this.innerHTML;
@@ -293,31 +293,31 @@ function addTooltipsConfOptions(businessId){
 	$(".conf-"+businessId+".leaflet-up").tooltip({
 		placement : 'bottom',
 		container : 'body',
-		title : window.lang.convert("puja")
+		title : window.lang.translate("puja")
 	});
 
 	$(".conf-"+businessId+".leaflet-down").tooltip({
 		placement : 'bottom',
 		container : 'body',
-		title : window.lang.convert("baixa")
+		title : window.lang.translate("baixa")
 	});
 
 	$(".conf-"+businessId+".leaflet-remove").tooltip({
 		placement : 'bottom',
 		container : 'body',
-		title : window.lang.convert("elimina")
+		title : window.lang.translate("elimina")
 	});
 
 	$(".conf-"+businessId+".leaflet-download").tooltip({
 		placement : 'bottom',
 		container : 'body',
-		title : window.lang.convert("descarrega")
+		title : window.lang.translate("descarrega")
 	});
 
 	$(".data-table-"+businessId+".leaflet-data-table").tooltip({
 		placement : 'bottom',
 		container : 'body',
-		title : window.lang.convert("dades")
+		title : window.lang.translate("dades")
 	});
 }
 
@@ -452,7 +452,7 @@ function addHtmlModalRemoveGroup(){
 				if(typeof url('?businessid') == "string"){
 					var data = {
 						businessId: url('?businessid'),
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						servidorWMSbusinessId:lbusinessId.toString()
 					};
 					removeAtomicLayer(data,matriuObj);
@@ -507,7 +507,7 @@ function addHtmlModalEtiquetesLayer(){
 				
 				var data={
 						businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						options:  JSON.stringify(options),
 						nom:optionsMap.nom,
 						tipus:optionsMap.tipusRang,

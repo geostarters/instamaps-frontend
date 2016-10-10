@@ -1,7 +1,6 @@
 var trackEventFrom = '';
 
 jQuery(document).ready(function() {
-	
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13) {
 	    	jQuery("#login_button").click();
@@ -16,9 +15,9 @@ jQuery(document).ready(function() {
 		loginToken({token:url('?token')}).then(function(results){
 			if(results.status==='OK'){
 				if (results.uid){
-					$.cookie('uid', results.uid, {path:'/'});
-					$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
-					$.cookie('token', results.token, {path:'/'});
+					Cookies.set('uid', results.uid);
+					Cookies.set('tipusEntitat', results.tipusEntitat);
+					Cookies.set('token', results.token);
 				}
 				redirectLogin(results, trackEventFrom);
 			}else if(results.results === 'cannot_authenticate'){
@@ -42,19 +41,19 @@ jQuery("#login_button").click(function(){
 		var user_login =jQuery("#login_user").val();
 		var pass_login = jQuery("#login_pass").val();
 		var dataUrl = {user:user_login, password:pass_login};
-		if (isRandomUser($.cookie('uid'))){
-			dataUrl.randomuid = $.cookie('uid');
+		if (isRandomUser(Cookies.get('uid'))){
+			dataUrl.randomuid = Cookies.get('uid');
 		}
 		
 		doLogin(dataUrl).then(function(results){
 			if(results.status==='OK'){
 				if (results.uid){
-					$.cookie('uid', results.uid, {path:'/'});
-					$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
-					$.cookie('token', results.token, {path:'/'});
+					Cookies.set('uid', results.uid);
+					Cookies.set('tipusEntitat', results.tipusEntitat);
+					Cookies.set('token', results.token);
 				}else{
-					$.cookie('uid', user_login, {path:'/'});
-					$.cookie('token', results.token, {path:'/'});
+					Cookies.set('uid', user_login);
+					Cookies.set('token', results.token);
 				}
 				if(results.login_icgc){
 					$('#modal_login_new_icgc').modal('toggle');
@@ -70,8 +69,8 @@ jQuery("#login_button").click(function(){
 				$('#modal_account_block').modal('toggle');						
 			}else if(results.results === 'unregistered_user'){
 				$('#modal_login_ko_donat_baixa').modal('toggle');
-				if ($.cookie('collaboratebid')) $.removeCookie('collaboratebid',{path: '/' });
-				if ($.cookie('collaborateuid')) $.removeCookie('collaborateuid',{path: '/' });	
+				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
+				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');	
 			}else if (results.status === 'MAIL'){
 				window.location = results.url;
 			}else{
@@ -94,7 +93,7 @@ jQuery("#perfil_button_remember").click(function(){
 var contingut= "Tal i com ens has sol·licitat hem procedit a assignar-te una nova contrasenya per l'accés als serveis de la nostra web. Les noves dades d'accés són:";
 var data = {
 		to:$('#perfil_email').val(),
-		subject:window.lang.convert('Instamaps.Recordatori contrasenya'),
+		subject:window.lang.translate('Instamaps.Recordatori contrasenya'),
 		esRecordatoriContrasenya: 'S',
 		content: contingut
 };
@@ -116,14 +115,14 @@ function loginUserIcgc(){
 		var user_login_icgc =jQuery("#login_user_icgc").val();
 		var pass_login_icgc = jQuery("#login_pass_icgc").val();
 		var dataUrl = {user:user_login_icgc, password:pass_login_icgc};
-		if (isRandomUser($.cookie('uid'))){
-			dataUrl.randomuid = $.cookie('uid');
+		if (isRandomUser(Cookies.get('uid'))){
+			dataUrl.randomuid = Cookies.get('uid');
 		}
 		doLoginIcgc(dataUrl).then(function(results){
 			if(results.status==='OK'){
-				$.cookie('uid', results.uid, {path:'/'});
-				$.cookie('tipusEntitat', results.tipusEntitat, {path:'/'});
-				$.cookie('token', results.token, {path:'/'});
+				Cookies.set('uid', results.uid);
+				Cookies.set('tipusEntitat', results.tipusEntitat);
+				Cookies.set('token', results.token);
 				redirectLogin(results, trackEventFrom);
 			}else if (results.status === 'MAIL'){
 				window.location = results.url;
@@ -210,26 +209,26 @@ function redirectLogin(results, from){
 			window.location=GEOCAT02+paramUrl.mapaPage;
 		}
 	}else if(isGeolocalUser() && from != '' && from in paramAplications){
-		var token = $.cookie('token');
+		var token = Cookies.get('token');
 		window.open(paramAplications[from].url+results.uid+"&token="+token);
 		window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1&aplicacions=1";
 	}else{
-		if ($.cookie('collaboratebid')) {
-			if ($.cookie('collaborateuid')){
-				if ($.cookie('collaborateuid')!=$.cookie('uid')) {
+		if (Cookies.get('collaboratebid')) {
+			if (Cookies.get('collaborateuid')){
+				if (Cookies.get('collaborateuid')!=Cookies.get('uid')) {
 					alert("No pots donar d'alta el mapa col·laboratiu perquè els usuaris no són iguals")
 					window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1";
-					$.removeCookie('collaboratebid',{path: '/' });
-					$.removeCookie('collaborateuid',{path: '/' });
+					Cookies.remove('collaboratebid');
+					Cookies.remove('collaborateuid');
 				}
 				else {
-					window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
+					window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+Cookies.get('collaboratebid')+'&uid='+Cookies.get('uid')+'&mapacolaboratiu=alta';
 				}
 			}
 			else {
-				window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+$.cookie('collaboratebid')+'&uid='+$.cookie('uid')+'&mapacolaboratiu=alta';
-				$.removeCookie('collaboratebid',{path: '/' });
-				$.removeCookie('collaborateuid',{path: '/' });
+				window.location=GEOCAT02+paramUrl.visorPage+'?businessid='+Cookies.get('collaboratebid')+'&uid='+Cookies.get('uid')+'&mapacolaboratiu=alta';
+				Cookies.remove('collaboratebid');
+				Cookies.remove('collaborateuid');
 			}
 		}
 		else window.location=GEOCAT02+paramUrl.galeriaPage+"?private=1";

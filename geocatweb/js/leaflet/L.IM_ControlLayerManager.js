@@ -256,7 +256,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			$(this._addButton).tooltip({
 				placement : 'left',
 				container : 'body',
-				title : window.lang.convert("Nou grup")
+				title : window.lang.translate("Nou grup")
 			});
 		}
 
@@ -301,7 +301,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	_createGroupFromScratch : function(position) {
 		var pos = this._groupList.length;
 		var posTXT;
-		var genericName=window.lang.convert('Capes');
+		var genericName=window.lang.translate('Capes');
 		var genericPos="";
 
 		pos==0?genericPos="":genericPos=pos;
@@ -459,7 +459,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					$(col).tooltip({
 						placement : 'left',
 						container : 'body',
-						title : window.lang.convert("Esborrar grup")
+						title : window.lang.translate("Esborrar grup")
 					});
 
 					var col = L.DomUtil.create('span',
@@ -471,7 +471,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					$(col).tooltip({
 						placement : 'left',
 						container : 'body',
-						title : window.lang.convert("Moure grup")
+						title : window.lang.translate("Moure grup")
 					});
 				}
 
@@ -578,7 +578,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 							var data = {
 								mapBusinessId: url('?businessid'),
 								businessId : this._layers[id].layer.options.businessId, // url('?businessid')
-								uid : $.cookie('uid'),
+								uid : Cookies.get('uid'),
 								options : JSON.stringify(this._layers[id].layer.options.group)
 							};
 							// Ara desactivat
@@ -823,7 +823,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				$(col).tooltip({
 					placement : 'bottom',
 					container : 'body',
-					title : window.lang.convert("Transparència")
+					title : window.lang.translate("Transparència")
 				});
 			}
 
@@ -836,7 +836,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				$(col).tooltip({
 					placement : 'bottom',
 					container : 'body',
-					title : window.lang.convert("Moure")
+					title : window.lang.translate("Moure")
 				});
 			}
 
@@ -849,7 +849,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				$(col).tooltip({
 					placement : 'bottom',
 					container : 'body',
-					title : window.lang.convert("Zoom a la capa")
+					title : window.lang.translate("Zoom a la capa")
 				});
 			
 			if (getModeMapa()) {
@@ -871,7 +871,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					$(col).tooltip({
 						placement : 'bottom',
 						container : 'body',
-						title : window.lang.convert("Etiquetes de la capa")
+						title : window.lang.translate("Etiquetes de la capa")
 					});
 				}
 			}
@@ -894,13 +894,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			+ ".leaflet-data-table").tooltip({
 			placement : 'bottom',
 			container : 'body',
-			title : window.lang.convert("dades")
+			title : window.lang.translate("dades")
 		});
 
 		$(".opcio-conf").tooltip({
 			placement : 'bottom',
 			container : 'body',
-			title : window.lang.convert("opcions")
+			title : window.lang.translate("opcions")
 		});
 
 		if (getModeMapa()){
@@ -1217,7 +1217,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 			if (typeof url('?businessid') == "string") {
 				var data = {
-					uid : $.cookie('uid'),
+					uid : Cookies.get('uid'),
 					businessId : url('?businessid'),
 					servidorWMSbusinessId : obj.layer.options.businessId
 							+ ','
@@ -1270,7 +1270,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if (replaceLayer) {
 			if (typeof url('?businessid') == "string") {
 				var data = {
-					uid : $.cookie('uid'),
+					uid : Cookies.get('uid'),
 					businessId : url('?businessid'),
 					servidorWMSbusinessId : obj.layer.options.businessId
 							+ ','
@@ -1368,7 +1368,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if (typeof url('?businessid') == "string") {
 			var data = {
 				businessId : url('?businessid'),
-				uid : $.cookie('uid'),
+				uid : Cookies.get('uid'),
 				servidorWMSbusinessId : lbusinessId.toString()
 			};
 			$('#dialog_delete_capa').modal('show');
@@ -1445,7 +1445,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if (getModeMapa()) {
 			var data = {
 				businessId : obj.layer.options.businessId, // url('?businessid')
-				uid : $.cookie('uid'),
+				uid : Cookies.get('uid'),
 				opacity : op
 			};
 			updateServidorWMSOpacity(data).then(function(results) {
@@ -1549,7 +1549,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if (data!=undefined){
 				var dataNames = [];
 				var fields = {};
-				fields[window.lang.convert('Escull el camp')] = '---';
+				fields[window.lang.translate('Escull el camp')] = '---';
 								
 				if (data.propName!=undefined && data.propName!='null' && data.propName!='') {
 					var propName = data.propName;
@@ -1679,7 +1679,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 						
 						var data={
 								businessId: $('#dialog_etiquetes_capa #businessIdCapaEtiqueta').val(),
-								uid: $.cookie('uid'),
+								uid: Cookies.get('uid'),
 								options:  JSON.stringify(options),
 								nom:optionsMap.nom,
 								tipus:optionsMap.tipusRang,

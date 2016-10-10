@@ -9,7 +9,7 @@ var _gaq = _gaq || [];
 (function() {
 	$.subscribe('loadConfig', function(e, data){
 		var mapConfig = data,
-			perfil = $.cookie('perfil');
+			perfil = Cookies.get('perfil');
 		//Diferenciem entre usuari Geolocal i Instamaps
 		if (isGeolocalUser() || $(location).attr('href').indexOf('geolocal.html') != -1 || perfil === 'geolocal') {	  
 			_gaq.push(['_setAccount', 'UA-46332195-6']);

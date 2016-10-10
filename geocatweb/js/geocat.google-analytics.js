@@ -14,7 +14,7 @@
 		
 	
 		 
-		 var perfil = $.cookie('perfil');
+		 var perfil = Cookies.get('perfil');
 		 
 		
 		 

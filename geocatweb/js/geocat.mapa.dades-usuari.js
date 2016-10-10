@@ -8,7 +8,7 @@ var delay = (function(){
 
 var serverType="";
 var primerCop="";
-var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Encara no has creat cap capa de dades')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 
 $(function() {
 	$(document).on("keyup", 'input.search.form-control', function() {
@@ -19,7 +19,7 @@ $(function() {
 			jQuery("#id_sw").empty();
 			
 			data = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				serverName: q,
 				serverType: serverType,
 				iduser:_UsrID
@@ -36,7 +36,7 @@ $(function() {
 			jQuery("#id_sw").empty();
 			
 			data = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				serverType: serverType,
 				iduser:_UsrID
 			};
@@ -55,7 +55,7 @@ $(function() {
 			jQuery("#id_sw").empty();
 			
 			data ={
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				serverName: q,
 				serverType: serverType,
 				iduser:_UsrID
@@ -72,7 +72,7 @@ $(function() {
 			jQuery("#id_sw").empty();
 			
 			data ={
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				serverType: serverType,
 				iduser:_UsrID
 			};
@@ -115,7 +115,7 @@ function carregaDadesUsuari(){
 	addHtmlModalDadesUsuari();
 	addHtmlModalErrorMsg();
 	primerCop="true";
-	var data = {uid: $.cookie('uid')};
+	var data = {uid: Cookies.get('uid')};
 	creaPopOverMevasDades();
 
 }
@@ -131,7 +131,7 @@ function creaPopOverMevasDades(){
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
 		serverType="";
 		jQuery("#id_sw").empty();
-		var data = {uid: $.cookie('uid'),iduser:_UsrID};
+		var data = {uid: Cookies.get('uid'),iduser:_UsrID};
 		refrescaPopOverMevasDades(data).then(function(results){
 			actualitzarMevesDades(results);
 		});
@@ -176,12 +176,12 @@ function actualitzarMevesDades(results){
 			}
 	     });
 		
-		$('#id_sw>input').attr("placeholder", window.lang.convert("Cerca"));
+		$('#id_sw>input').attr("placeholder", window.lang.translate("Cerca"));
 		
 		$("#listnav-teves-dades").listnav({					
 		    initLetter: '',				    
-		    allText: window.lang.convert('Tots'),
-		    noMatchText: window.lang.convert('No hi ha entrades coincidents'),
+		    allText: window.lang.translate('Tots'),
+		    noMatchText: window.lang.translate('No hi ha entrades coincidents'),
 		    onClick: function(letter){
 		    	if (jQuery("#error-message").length>0) $('#dialog_error_teves_dades').modal('hide');
 		     } 
@@ -192,7 +192,7 @@ function actualitzarMevesDades(results){
 			var _this = jQuery(this);
 		
 			var data = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId: mapConfig.businessId,
 					servidorWMSbusinessId: _this.data("businessid"),
 					layers: _this.data("layers"),
@@ -247,7 +247,7 @@ function actualitzarMevesDades(results){
 			event.stopPropagation();
 			var _this = jQuery(this);
 			var data = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId: _this.data("businessid")
 			};
 			
@@ -280,8 +280,8 @@ function actualitzarMevesDades(results){
 								'">'+nom+"</a>";
 							}
 							var errorMSG="<div id='error-message' class='alert alert-danger'>" +
-							 "<span class='fa fa-warning sign'></span><strong>"+window.lang.convert('La capa ')+_this.data("servername")+
-							 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
+							 "<span class='fa fa-warning sign'></span><strong>"+window.lang.translate('La capa ')+_this.data("servername")+
+							 window.lang.translate(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
 						     "</div>";
 							
 							$('#dialog_error_teves_dades').modal('show');
@@ -313,8 +313,8 @@ function actualitzarMevesDades(results){
 								'">'+nom+"</a>";
 							}
 							var errorMSG="<div  id='error-message' class='alert alert-danger'>" +
-							 "<span class='fa fa-warning sign'></span><strong>"+window.lang.convert('La capa ')+_this.data("servername")+
-							 window.lang.convert(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
+							 "<span class='fa fa-warning sign'></span><strong>"+window.lang.translate('La capa ')+_this.data("servername")+
+							 window.lang.translate(' no es pot esborrar perquè actualment és en ús: ')+visors+"<strong>  " +
 						     "</div>";
 							$('#dialog_error_teves_dades').modal('show');
 							jQuery('#dialog_error_teves_dades #id_sw').append(errorMSG);
@@ -325,7 +325,7 @@ function actualitzarMevesDades(results){
 						$('#dialog_error_teves_dades').modal('hide');
 						globalCounts[''+firstLetter +'']--;
 						var data2 = {
-								uid: $.cookie('uid'),
+								uid: Cookies.get('uid'),
 								businessId: _this.data("businessid")
 						};
 						deleteVisualitzacioLayer(data2).then(function(results){
@@ -335,7 +335,7 @@ function actualitzarMevesDades(results){
 						//Esborra GeoJson creat per el servei WMS						
 						var data3 = {
 							businessId:  _this.data("businessid"),
-							//entitatUid:  $.cookie('uid'),										
+							//entitatUid:  Cookies.get('uid'),										
 							entitatUid: _UsrID,
 							metode: "deleteGeoJSONfromMap"
 						};
@@ -378,9 +378,9 @@ function refrescaPopOverMevasDades(data){
 		}
 		else {//No es troben resultats
 			
-			if (!isRandomUser($.cookie('uid'))){
+			if (!isRandomUser(Cookies.get('uid'))){
 				var data ={
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					iduser:_UsrID
 				};
 				getAllServidorsWMSByUser(data).then(function(results){

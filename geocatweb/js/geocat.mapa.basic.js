@@ -31,7 +31,7 @@ function createTematicLayerBasic(tematic, styles){
 	
 	if(capaMare.options.tipus == t_dades_obertes){
 		var data1 = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId1: capaMare.options.businessId
 		}
 		crearFitxerPolling(data1).then(function(results) {
@@ -55,22 +55,22 @@ function createTematicLayerBasic(tematic, styles){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);									
 									
 								}else if((data.status.indexOf("PAS 2") || data.status.indexOf("PAS 3"))!=-1 && busy){
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
 									clearInterval(pollInterval);
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									loadDadesObertesLayer(data.results);
 									//Desactivem la capa mare
@@ -87,7 +87,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.convert("Error creant el temàtic bàsic"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error creant el temàtic bàsic"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -113,9 +113,9 @@ function createTematicLayerBasic(tematic, styles){
 					};
 				
 					var data = {
-						uid:$.cookie('uid'),
+						uid:Cookies.get('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
+						serverName: capaMare.options.nom+" "+window.lang.translate("Bàsic"),
 						serverType: capaMare.options.tipus,
 						calentas: false,
 				        activas: true,
@@ -154,7 +154,7 @@ function createTematicLayerBasic(tematic, styles){
 		
 	}else if(capaMare.options.tipus == t_url_file){
 		var data1 = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId1: capaMare.options.businessId
 		}
 		crearFitxerPolling(data1).then(function(results) {
@@ -178,22 +178,22 @@ function createTematicLayerBasic(tematic, styles){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);									
 									
 								}else if((data.status.indexOf("PAS 2") || data.status.indexOf("PAS 3"))!=-1 && busy){
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
 									clearInterval(pollInterval);
 																
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									loadURLfileLayer(data.results).then(function(results){				
 											activaPanelCapes(true);
@@ -213,7 +213,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -274,9 +274,9 @@ function createTematicLayerBasic(tematic, styles){
 			//	console.debug(options);
 				
 				var data = {
-					uid:$.cookie('uid'),
+					uid:Cookies.get('uid'),
 					mapBusinessId: url('?businessid'),
-					serverName: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
+					serverName: capaMare.options.nom+" "+window.lang.translate("Bàsic"),
 					serverType: capaMare.options.tipus,
 					calentas: false,
 			        activas: true,
@@ -320,7 +320,7 @@ function createTematicLayerBasic(tematic, styles){
 	}else if(capaMare.options.tipus == t_json){
 
 		var data1 = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId1: capaMare.options.businessId
 		}
 		crearFitxerPolling(data1).then(function(results) {
@@ -344,22 +344,22 @@ function createTematicLayerBasic(tematic, styles){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);									
 									
 								}else if((data.status.indexOf("PAS 2") || data.status.indexOf("PAS 3"))!=-1 && busy){
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
 									clearInterval(pollInterval);	
 								
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 								
 									loadCapaFromJSON(data.results).then(function(results){				
@@ -382,7 +382,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -402,9 +402,9 @@ function createTematicLayerBasic(tematic, styles){
 				
 				var capaMareOptions = capaMare.options.options;
 				var data = {
-					uid:$.cookie('uid'),
+					uid:Cookies.get('uid'),
 					mapBusinessId: url('?businessid'),
-					serverName: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
+					serverName: capaMare.options.nom+" "+window.lang.translate("Bàsic"),
 					serverType: t_json,
 					calentas: false,
 			        activas: true,
@@ -447,7 +447,7 @@ function createTematicLayerBasic(tematic, styles){
 		
 	}else if (tematic.tipus == t_tematic){
 		var data1 = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId1: capaMare.options.businessId
 		}
 		crearFitxerPolling(data1).then(function(results) {
@@ -471,14 +471,14 @@ function createTematicLayerBasic(tematic, styles){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);									
 									
 								}else if((data.status.indexOf("PAS 2") || data.status.indexOf("PAS 3"))!=-1 && busy){
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
 									clearInterval(pollInterval);
@@ -487,8 +487,8 @@ function createTematicLayerBasic(tematic, styles){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									loadTematicLayer(data.results);
 									//Desactivem la capa mare
@@ -506,7 +506,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -528,9 +528,9 @@ function createTematicLayerBasic(tematic, styles){
 					
 					var data = {
 						businessId: tematic.businessid,
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 				        mapBusinessId: url('?businessid'),	           
-				        nom: capaMare.options.nom+" "+window.lang.convert("Bàsic"),
+				        nom: capaMare.options.nom+" "+window.lang.translate("Bàsic"),
 						calentas: false,
 				        activas: true,
 				        visibilitats: true,    
@@ -562,7 +562,7 @@ function createTematicLayerBasic(tematic, styles){
 	//NOU MODEL	
 	}else if (tematic.tipus == t_visualitzacio){
 		var data1 = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId1: capaMare.options.businessId
 		}
 		crearFitxerPolling(data1).then(function(results) {
@@ -586,14 +586,14 @@ function createTematicLayerBasic(tematic, styles){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant temàtic bàsic')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);									
 									
 								}else if((data.status.indexOf("PAS 2") || data.status.indexOf("PAS 3"))!=-1 && busy){
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
 									clearInterval(pollInterval);
@@ -601,8 +601,8 @@ function createTematicLayerBasic(tematic, styles){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									var defer = $.Deferred();				
 									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
@@ -623,7 +623,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -643,9 +643,9 @@ function createTematicLayerBasic(tematic, styles){
 				
 				var data = {
 						businessId: tematic.businessid,//businessId id de la visualización de origen
-						uid: $.cookie('uid'),//uid id de usuario
+						uid: Cookies.get('uid'),//uid id de usuario
 				        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
-				        nom: capaMare.options.nom+" "+window.lang.convert("Bàsic"),//nom nombre de la nueva visualizacion
+				        nom: capaMare.options.nom+" "+window.lang.translate("Bàsic"),//nom nombre de la nueva visualizacion
 				        activas: true,
 				        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
 						tem: tematic.from,//tem_simple

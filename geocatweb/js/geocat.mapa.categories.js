@@ -16,8 +16,8 @@ function showModalTematicCategories(data){
 		busy=true;
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html(
-			'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-			'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+			'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+			'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'
 		);	
 		createTematicLayerCategories(e);
 	});	
@@ -61,14 +61,14 @@ function showModalTematicCategories(data){
 	
 	var dataTem={
 		businessId: data.businessid,
-		uid: jQuery.cookie('uid')
+		uid: Cookies.get('uid')
 	};
 	
 	if(data.tipus == t_url_file){
 		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
 		jQuery("#dialog_tematic_rangs").data("visualitzacio", urlFileLayer.options);
 		var fields = {};
-		fields[window.lang.convert('Escull el camp')] = '---';
+		fields[window.lang.translate('Escull el camp')] = '---';
 		//Recollim propName de les geometries de la capa
 		var dataNames = urlFileLayer.options.propName.split(',');
 		jQuery.each(dataNames, function( index, value ) {
@@ -100,7 +100,7 @@ function showModalTematicCategories(data){
 	}else{
 		var dataNames = [];
 		var fields = {};
-		fields[window.lang.convert('Escull el camp')] = '---';
+		fields[window.lang.translate('Escull el camp')] = '---';
 		dataNames = data.propname.split(',');
 		jQuery.each(dataNames, function( index, value ) {
 			if (value!='') 	fields[value] = value;
@@ -128,7 +128,7 @@ function showModalTematicCategories(data){
 				var dataVis={
 						businessId1: data.businessid,
 						key: this_.val(),
-						uid: jQuery.cookie('uid')
+						uid: Cookies.get('uid')
 				};
 				getValuesFromKeysProperty(dataVis).then(function(results){
 					jQuery("#dialog_tematic_rangs").data("values", results);
@@ -143,7 +143,7 @@ function showModalTematicCategories(data){
 				var visualitzacio = results.results;
 				jQuery("#dialog_tematic_rangs").data("visualitzacio", visualitzacio);
 				var fields = {};
-				fields[window.lang.convert('Escull el camp')] = '---';
+				fields[window.lang.translate('Escull el camp')] = '---';
 				var dataNames = [];
 				if (visualitzacio.options){
 					//var options = JSON.parse(visualitzacio.options);
@@ -229,7 +229,7 @@ function getTipusValuesVisualitzacio(results,geomType){
 
 	
 	if (resultats.length === 0){
-		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		jQuery('#list_tematic_values').html(warninMSG);
 		jQuery('#dialog_tematic_rangs .btn-success').hide();
 	}else{
@@ -451,7 +451,7 @@ function createTematicLayerCategories(event){
 	var data1 = {};
 	if(capaMare.tipus == t_url_file || tematicFrom.tipus==t_url_file){
 		data1 = {
-			uid: $.cookie('uid'),
+			uid: Cookies.get('uid'),
 			businessId1: capaMare.options.businessId
 		};
 		crearFitxerPolling(data1).then(function(results) {
@@ -475,14 +475,14 @@ function createTematicLayerCategories(event){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);									
 									
 								}else if((data.status.indexOf("PAS 2") || data.status.indexOf("PAS 3"))!=-1 && busy){
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
 									//console.debug(data);
@@ -490,8 +490,8 @@ function createTematicLayerCategories(event){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									
 									loadURLfileLayer(data.results).then(function(results){
@@ -512,7 +512,7 @@ function createTematicLayerCategories(event){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -550,9 +550,9 @@ function createTematicLayerCategories(event){
 					};
 			
 					var data = {
-						uid:$.cookie('uid'),
+						uid:Cookies.get('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName: capaMare.options.nom+" "+window.lang.convert("Categories"),
+						serverName: capaMare.options.nom+" "+window.lang.translate("Categories"),
 						serverType: capaMare.options.tipus,
 						calentas: false,
 				        activas: true,
@@ -588,7 +588,7 @@ function createTematicLayerCategories(event){
 		 });
 	}else{
 		data1 = {
-			uid: $.cookie('uid'),
+			uid: Cookies.get('uid'),
 			businessId1: capaMare.options.businessId
 		};
 		crearFitxerPolling(data1).then(function(results) {
@@ -612,22 +612,22 @@ function createTematicLayerCategories(event){
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);									
 									
 								}else if((data.status.indexOf("PAS 2")!=-1 || data.status.indexOf("PAS 3")!=-1) && busy){
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 									);										
 								}else if(data.status.indexOf("OK")!=-1 && busy){
 									clearInterval(pollInterval);
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									var defer = $.Deferred();
 									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
@@ -647,7 +647,7 @@ function createTematicLayerCategories(event){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -681,9 +681,9 @@ function createTematicLayerCategories(event){
 
 				var data = {
 						businessId: tematicFrom.businessid,//businessId id de la visualización de origen
-						uid: $.cookie('uid'),//uid id de usuario
+						uid: Cookies.get('uid'),//uid id de usuario
 				        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
-				        nom: capaMare.options.nom+" "+window.lang.convert("Categories"),
+				        nom: capaMare.options.nom+" "+window.lang.translate("Categories"),
 				        activas: true,
 				        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
 				        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
@@ -1057,7 +1057,7 @@ function readDataVisualitzacio(visualitzacio, key){
 			//var value = feature.properties[key.toLowerCase()];
 			var value = feature.properties[key];
 			//Si es blanc assignem categoria "Sense valor" com una més
-			//if(isBlank(value)) value = window.lang.convert("Sense valor");
+			//if(isBlank(value)) value = window.lang.translate("Sense valor");
 			if(isBlank(value)) value = "nodata";
 			if(!data[value]){
 				data[value] = value;
@@ -1098,7 +1098,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 	var dataVis={
 			businessId1: businessIdCapaMare,
 			key: dataField,
-			uid: jQuery.cookie('uid')
+			uid: Cookies.get('uid')
 	};
 	var rangsEstils=[];
 	getValuesFromKeysProperty(dataVis).then(function(results){
@@ -1150,7 +1150,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 		});
 		loadRangValues(rangsEstils,tipusClasicTematic,layerMare.layer.options.geometryType,sublayer.layer.options.estilsRangs,sublayer.layer.options.estil).then(function(rangs){
 			var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: capaMare.options.businessId
 				};
 				crearFitxerPolling(data1).then(function(results) {
@@ -1174,21 +1174,21 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 											
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-													'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-													'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+													'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+													'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 											);									
 											
 										}else if((data.status.indexOf("PAS 2")!=-1 || data.status.indexOf("PAS 3")!=-1) && busy){
 											jQuery("#div_uploading_txt").html(
-													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-													'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'	
+													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Categories creades')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+													'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'	
 											);										
 										}else if(data.status.indexOf("OK")!=-1 && busy){
 											clearInterval(pollInterval);
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-													'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
+													'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Categories creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+													'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 											);									
 											var defer = $.Deferred();
 											readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
@@ -1208,7 +1208,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 											
 											$('#dialog_error_upload_txt').html("");
 											
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 											
 											$('#dialog_error_upload').modal('show');
 										}
@@ -1246,7 +1246,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 							};
 							var data = {
 								businessId: businessIdCapaMare,//businessId id de la visualización de origen
-								uid: $.cookie('uid'),//uid id de usuario
+								uid: Cookies.get('uid'),//uid id de usuario
 								mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
 								nom:  sublayer.layer.options.nom,
 								activas: true,
