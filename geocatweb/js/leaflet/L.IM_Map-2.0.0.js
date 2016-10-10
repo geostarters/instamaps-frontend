@@ -93,7 +93,7 @@ var mapaUrl = {
 	ortoICGC:"http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg",
 	hibridInstamaps:urlServerTiles+'/mapfactory/wmts/hibrida/CAT3857/{z}/{x}/{y}.png',	
 	terrainEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
-	terrainInstamaps:urlServerTiles+'/mapfactory/wmts/relleu/CAT3857/{z}/{x}/{y}.png',	
+	terrainInstamaps:urlServerTilesW+'/mapfactory/wmts/relleu/CAT3857/{z}/{x}/{y}.png',	
 	ombraInstamaps:urlServerTiles+'/mapfactory/wmts/h_ombra/CAT3857/{z}/{x}/{y}.png',	
 	orto46ICGC:urlServerTiles+'/mapfactory/wmts/orto46/CAT3857/{z}/{x}/{y}.png',	
 	orto55ICGC:urlServerTiles+'/mapfactory/wmts/orto55/CAT3857/{z}/{x}/{y}.png',
@@ -476,13 +476,13 @@ L.IM_Map = L.Map.extend({
 				ESRI_RELLEU_L0_13.setOpacity(1);
 				this.attributionControl.setPrefix(ESRI_ATTR_TERRAIN +this.getCurrentZoomLevel());
 			}else if(sC==1){ //Cat i altres
-				ESRI_RELLEU_L0_13.options.maxZoom=9;
-				ICC_RELLEU_L0_14.options.maxZoom=16;
+				ESRI_RELLEU_L0_13.options.maxZoom=12;
+				ICC_RELLEU_L0_14.options.maxZoom=17;
 				ESRI_RELLEU_L0_13.setOpacity(0.8);
 				this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR_TERRAIN +this.getCurrentZoomLevel());
 			}else if(sC==2){ //Nomes cat
-				ESRI_RELLEU_L0_13.options.maxZoom=zT;
-				ICC_RELLEU_L0_14.options.maxZoom=16;
+				ESRI_RELLEU_L0_13.options.maxZoom=12;
+				ICC_RELLEU_L0_14.options.maxZoom=17;
 				this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 			}
 		}else if(f==FONS_TOPOGISMAP){
@@ -859,7 +859,7 @@ this.setActiveMap(FONS_ORTOMAP);
 
 	terrainMap: function (){
 		this.deletePreviousMap();
-		this.ajustaZoom(16);
+		this.ajustaZoom(17);
 
 		this.setMapColor(null);
 		_terrainLayers=L.layerGroup();
@@ -871,7 +871,7 @@ this.setActiveMap(FONS_ORTOMAP);
 
 		ICC_RELLEU_L0_14= new L.TileLayer(mapaUrl.terrainInstamaps, {
 		   minZoom: 0,
-		   maxZoom: 16,
+		   maxZoom: 17,
 		   tms:false,
 		   continuousWorld: true,
 		   worldCopyJump: false,
