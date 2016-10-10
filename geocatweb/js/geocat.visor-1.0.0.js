@@ -67,9 +67,6 @@ $( window ).resize(function() {
 			activaPanelCapes(false);
 		}
 
-	
-
-
 	var cl = jQuery('.bt_llista span').attr('class');
 	if (cl){
 		if (cl.indexOf('grisfort') == -1) {
@@ -196,7 +193,7 @@ function loadVisorSimple(){
 	//Actualitza idioma dels tooltips
 	$("body").on("change-lang", function(event, lang){
 		window.lang.change(lang);
-		window.lang.run(lang);
+		//window.lang.run(lang);
 		updateLangTooltips();
 		updateLangText();
 	});
@@ -422,7 +419,7 @@ function loadPublicMap(results){
 		//Actulitza idioma dels tooltips
 		$("body").on("change-lang", function(event, lang){
 			window.lang.change(lang);
-			window.lang.run(lang);
+			//window.lang.run(lang);
 			updateLangTooltips();
 			updateLangText();
 		});

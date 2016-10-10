@@ -271,13 +271,8 @@ function addControLSolar() {
 
 	var fet = false;
 
-	
-	console.info(1111);
 	if (map) {
 
-	
-	
-	
 		infoPSolar = L.control({
 			position : 'topleft'
 		});

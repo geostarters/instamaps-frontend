@@ -1,9 +1,9 @@
 var trackEventFrom = '';
 
-jQuery(document).ready(function() {
-	jQuery(document).keypress(function(e) {
+$(document).ready(function() {
+	$(document).keypress(function(e) {
 	    if(e.which == 13) {
-	    	jQuery("#login_button").click();
+	    	$("#login_button").click();
 	    }
 	});
 	
@@ -14,10 +14,9 @@ jQuery(document).ready(function() {
 	
 });//Fi document ready
 
-jQuery("#perfil_button_pass").click(function(){
+$("#perfil_button_pass").click(function(){
 
 	_gaq.push(['_trackEvent',trackEventFrom,'remember password', 'retention']);
-//	_kmq.push(['record', 'remember password', {'from':trackEventFrom, 'funnel':'retention'}]);
 	
 	checkValidityPassword();
 	

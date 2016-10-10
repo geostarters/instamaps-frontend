@@ -42,7 +42,6 @@ function checkIfAnalyticsLoaded(data) {
 		_gaq.push(data.event);
 	}
 }
-
  
 (function() {
 	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

@@ -1,21 +1,21 @@
 var old_email;
-jQuery(document).ready(function() {
+$(document).ready(function() {
 	getNumEntitatsActives().then(function(results){
 		var count = parseInt(results.results);
 		count = getCountText(count);
-		jQuery('.stats_usuaris').html(count);
+		$('.stats_usuaris').html(count);
 	});
 	
 	getNumMapes().then(function(results){
 		var count = parseInt(results.results);
 		count = getCountText(count);
-		jQuery('.stats_mapes').html(count);
+		$('.stats_mapes').html(count);
 	});
 	
 	getNumCapes().then(function(results){
 		var count = parseInt(results.results);
 		count = getCountText(count);
-		jQuery('.stats_capes').html(count);
+		$('.stats_capes').html(count);
 	});
 	
 });
@@ -28,4 +28,3 @@ function getCountText(count){
 	}
 	return count;
 }
-
