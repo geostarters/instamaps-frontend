@@ -347,7 +347,7 @@ L.Control.Legend = L.Control.extend({
 				}						
 		});	
 
-	if(!layerType.serverName){
+	if(!layerType.serverName && getModeMapa()){
 		
 		layerType=obteLListatCapesEditor(idLayer);
 	}	
