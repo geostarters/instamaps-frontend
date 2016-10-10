@@ -1059,6 +1059,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 				
 				this._map.addLayer(obj.layer);
+				//Remove the markers from Spiderify
+				var keys = Object.keys(obj.layer._layers);
+				for(var j=0; j<keys.length; ++j)
+				{
+
+					this._map.oms.addMarker(obj.layer._layers[keys[j]]);
+
+				}
+
 				//Mostrem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
@@ -1155,6 +1164,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}
 
 				this._map.removeLayer(obj.layer);
+				//Remove the markers from Spiderify
+				var keys = Object.keys(obj.layer._layers);
+				for(var j=0; j<keys.length; ++j)
+				{
+
+					this._map.oms.removeMarker(obj.layer._layers[keys[j]]);
+
+				}
 
 				// Si hem desactivat capa de tipus tematic categories,
 				// mostrem la seva llegenda

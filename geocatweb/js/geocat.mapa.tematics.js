@@ -2094,6 +2094,9 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				}else if(geomTypeVis == t_polyline){
 					feat.properties.mida = calculateDistance(feat.getLatLngs());
 				}
+				else if(geomTypeVis == t_marker) {
+					map.oms.addMarker(feat);
+				}
 			
 				//Si la capa no ve de fitxer
 				if(!hasSource){
