@@ -967,6 +967,20 @@
 			
 			return self;
 		},
+
+		_mapNameShortener: function(inName) {
+
+			var name = inName
+			if(60 < name.length)
+			{
+
+				name = "<span title=\"" + inName + "\">" + name.substring(0, 60) + "...</span>";
+
+			}
+
+			return name;
+
+		},
 		
 		_loadPublicMap: function(mapConfig){
 			var self = this,
@@ -1000,7 +1014,7 @@
 				
 				$('.escut').hide();
 			}
-			$("#mapTitle").html(mapConfig.nomAplicacio + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
+			$("#mapTitle").html(self._mapNameShortener(mapConfig.nomAplicacio) + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
 			$('#infoMap').popover({
 				placement : 'bottom',
