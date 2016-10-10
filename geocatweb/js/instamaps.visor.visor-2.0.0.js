@@ -660,6 +660,7 @@
 				llegendaOpt: self.llegendaOpt,
 				origenllegenda:'visor'
 			});
+			
 			ctr_legend.addTo(_map);
 			
 			self.controls.llegendaControl = ctr_legend;
