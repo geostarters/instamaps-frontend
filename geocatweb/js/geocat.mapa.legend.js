@@ -70,13 +70,13 @@ function checkEmptyMapLegend(){
 
 function createModalConfigLegend(){
 	//Obrim modal llegenda
-	var html = '<span lang="ca" id="llegenda-title-text"  style="width:20%;font-size: 18px;">'+window.lang.convert('Llegenda')+'</span><span>&nbsp;&nbsp;&nbsp;&nbsp;'+window.lang.convert('Marca els símbols que vols que es visualitzin')+'</span>';
+	var html = '<span lang="ca" id="llegenda-title-text"  style="width:20%;font-size: 18px;">'+window.lang.translate('Llegenda')+'</span><span>&nbsp;&nbsp;&nbsp;&nbsp;'+window.lang.translate('Marca els símbols que vols que es visualitzin')+'</span>';
 	html += '<div class="separate-legend-row-all"></div>';
 	html += '<div class="legend-row">'+
 				'<div class="legend-subrow-all">'+
 				'<input id="legend-chck-all" class="col-md-1 legend-chck" type="checkbox">'+
 				'<div class="col-md-11 legend-name-all">'+
-					window.lang.convert('Tots')+
+					window.lang.translate('Tots')+
 				'</div>'+
 			'</div>';
 	var count = 0;
@@ -335,7 +335,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							}
 							
 							if(labelNomCategoria == "Altres"){
-								labelNomCategoria = window.lang.convert("Altres");
+								labelNomCategoria = window.lang.translate("Altres");
 							}
 						}						
 						if (layer.options.tem=='sizeTematic'){
@@ -407,7 +407,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							}
 							
 							if(labelNomCategoria == "Altres"){
-								labelNomCategoria = window.lang.convert("Altres");
+								labelNomCategoria = window.lang.translate("Altres");
 							}
 						}						
 						
@@ -485,7 +485,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							}
 							
 							if(labelNomCategoria == "Altres"){
-								labelNomCategoria = window.lang.convert("Altres");
+								labelNomCategoria = window.lang.translate("Altres");
 							}
 						}						
 						if (labelNomCategoria.indexOf("("+map[estilRang.estil.color]+")")==-1){
@@ -653,7 +653,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					}else{
 						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
 						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.convert("Altres");
+							labelNomCategoria = window.lang.translate("Altres");
 						}
 					}						
 					
@@ -696,7 +696,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					}else{
 						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
 						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.convert("Altres");
+							labelNomCategoria = window.lang.translate("Altres");
 						}
 					}	
 
@@ -745,7 +745,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					}else{
 						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
 						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.convert("Altres");
+							labelNomCategoria = window.lang.translate("Altres");
 						}
 					}						
 					if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
@@ -812,7 +812,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					}else{
 						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
 						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.convert("Altres");
+							labelNomCategoria = window.lang.translate("Altres");
 						}
 					}	
 					var map={};
@@ -1362,7 +1362,7 @@ function loadMapLegendEdicio(layer){
 			}else{
 				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
 				if(labelNomCategoria == "Altres"){
-					labelNomCategoria = window.lang.convert("Altres");
+					labelNomCategoria = window.lang.translate("Altres");
 				}
 			}						
 			
@@ -1410,7 +1410,7 @@ function loadMapLegendEdicio(layer){
 			}else{
 				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
 				if(labelNomCategoria == "Altres"){
-					labelNomCategoria = window.lang.convert("Altres");
+					labelNomCategoria = window.lang.translate("Altres");
 				}
 			}	
 			
@@ -1457,7 +1457,7 @@ function loadMapLegendEdicio(layer){
 			}else{
 				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
 				if(labelNomCategoria == "Altres"){
-					labelNomCategoria = window.lang.convert("Altres");
+					labelNomCategoria = window.lang.translate("Altres");
 				}
 			}		
 			

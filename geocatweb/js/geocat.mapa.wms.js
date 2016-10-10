@@ -122,7 +122,7 @@ function generaLlistaServeisWMS() {
 			_htmlServeisWMS.push('<li><a class="label-wms" href="#" id="' +
 				WMS.IDARXIU +
 				'">' +
-				window.lang.convert(WMS.TITOL) +
+				window.lang.translate(WMS.TITOL) +
 				'</a>' +
 				'<a target="_blank" lang="ca" title="Servei WMS-TIME" href="http://' +
 				WMS.IDARXIU +'&Request=GetCapabilities&service=WMS' +
@@ -132,7 +132,7 @@ function generaLlistaServeisWMS() {
 			_htmlServeisWMS.push('<li><a class="label-wms" href="#" id="' +
 				WMS.IDARXIU +
 				'">' +
-				window.lang.convert(WMS.TITOL) +
+				window.lang.translate(WMS.TITOL) +
 				'</a>' +
 				'<a target="_blank" lang="ca" title="Informació dels serveis" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id=' +
 				WMS.URN +
@@ -159,7 +159,7 @@ jQuery(document).on('keyup', "#txt_URLWMS_cataleg", function(e) {
     	e.stopImmediatePropagation();
     	var cerca = $.trim(jQuery('#txt_URLWMS_cataleg').val());
     	if (cerca === "") {
-    		alert(window.lang.convert("Has d'introduïr un valor per fer la cerca"));
+    		alert(window.lang.translate("Has d'introduïr un valor per fer la cerca"));
     	} else {
     		cercaCataleg(cerca);
     		
@@ -170,7 +170,7 @@ jQuery(document).on('keyup', "#txt_URLWMS_cataleg", function(e) {
 jQuery(document).on('click', "#bt_cercaWMS", function(e) {
 	var cerca = $.trim(jQuery('#txt_URLWMS_cataleg').val());
 	if (cerca === "") {
-		alert(window.lang.convert("Has d'introduïr un valor per fer la cerca"));
+		alert(window.lang.translate("Has d'introduïr un valor per fer la cerca"));
 	} else {
 		cercaCataleg(cerca);
 	}
@@ -317,7 +317,7 @@ function getCapabilitiesWMS(url, servidor) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';	
 			} else {
-				alert(window.lang.convert("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
+				alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 				return;
 			}
 			
@@ -326,7 +326,7 @@ function getCapabilitiesWMS(url, servidor) {
 			jQuery('#div_emptyWMS').empty();
 			jQuery('#div_emptyWMS').html(
 				'<div style="float:right"><button lang="ca" id="bt_addWMS" class="btn btn-success" >' +
-				window.lang.convert("Afegir capes") + '</button></div>');
+				window.lang.translate("Afegir capes") + '</button></div>');
 		} catch (err) {
 			jQuery('#div_layersWMS').html('<hr>Error interpretar capabilities: ' + err + '</hr>');
 		}
@@ -372,7 +372,7 @@ function addWmsToMap(wms){
 	
 	if(typeof url('?businessid') == "string"){
 		var data = {
-			uid:$.cookie('uid'),
+			uid:Cookies.get('uid'),
 			mapBusinessId: url('?businessid'),
 			serverName: wms.servidor,
 			serverType: t_wms,
@@ -484,7 +484,7 @@ function addExternalWMS(fromParam) {
 	wmsLayer.options.tipus = t_wms;
 	if(typeof url('?businessid') == "string"){
 		var data = {
-			uid:$.cookie('uid'),
+			uid:Cookies.get('uid'),
 			mapBusinessId: url('?businessid'),
 			serverName: ActiuWMS.servidor,
 			serverType: t_wms,

@@ -530,9 +530,9 @@ function activaEdicioUsuari() {
 		//_kmq.push(['record', 'dibuixar geometria', {'from':'mapa', 'tipus user':tipus_user, 'type':type}]);
 		 drawnItems.addLayer(layer);
 		if (type === t_marker) {
-			tipusCat=window.lang.convert('Títol Punt');
-			tipusCatDes=window.lang.convert('Descripció Punt');
-			var nomDefecteCapa = window.lang.convert('Capa Punt');
+			tipusCat=window.lang.translate('Títol Punt');
+			tipusCatDes=window.lang.translate('Descripció Punt');
+			var nomDefecteCapa = window.lang.translate('Capa Punt');
 			
 			//Mira si és icona
 			if(!defaultPunt.options.isCanvas){
@@ -622,9 +622,9 @@ function activaEdicioUsuari() {
 			capaUsrActiva.addLayer(layer);
 			
 		} else if (type === t_polyline) {
-			tipusCat=window.lang.convert('Títol Línia');
-			tipusCatDes=window.lang.convert('Descripció Línia');
-			var nomDefecteCapa = window.lang.convert('Capa Línia');
+			tipusCat=window.lang.translate('Títol Línia');
+			tipusCatDes=window.lang.translate('Descripció Línia');
+			var nomDefecteCapa = window.lang.translate('Capa Línia');
 			
 			if(capaUsrActiva != null && capaUsrActiva.options.geometryType != t_polyline){
 				capaUsrActiva.removeEventListener('layeradd');
@@ -687,9 +687,9 @@ function activaEdicioUsuari() {
 			capaUsrActiva.addLayer(layer);
 			
 		} else if (type === t_polygon) {
-			tipusCat=window.lang.convert('Títol Polígon');
-			tipusCatDes=window.lang.convert('Descripció Polígon');	
-			var nomDefecteCapa = window.lang.convert('Capa Polígon');
+			tipusCat=window.lang.translate('Títol Polígon');
+			tipusCatDes=window.lang.translate('Descripció Polígon');	
+			var nomDefecteCapa = window.lang.translate('Capa Polígon');
 			var mida = L.GeometryUtil.geodesicArea(layer.getLatLngs());
 			mida = L.GeometryUtil.readableArea(mida,true);
 			
@@ -779,14 +779,14 @@ function createPopupWindow(layer,type){
 		objEdicio.featureID=accio[1];
 		if(accio[0].indexOf("layer_edit")!=-1){
 			objEdicio.edicioPopup='textCapa';
-			jQuery('#layer_accio').text(window.lang.convert('Canviar el nom de la capa'))
+			jQuery('#layer_accio').text(window.lang.translate('Canviar el nom de la capa'))
 			jQuery('#capa_edit').val(jQuery('#cmbCapesUsr').val());
 			modeLayerTextEdit();
 
 		}else if(accio[0].indexOf("layer_add")!=-1){
 			objEdicio.edicioPopup='nouCapa';
-			jQuery('#layer_accio').text(window.lang.convert('Nom nova capa'))
-			jQuery('#capa_edit').val("").attr('placeholder',window.lang.convert('Nova capa'));
+			jQuery('#layer_accio').text(window.lang.translate('Nom nova capa'))
+			jQuery('#capa_edit').val("").attr('placeholder',window.lang.translate('Nova capa'));
 			modeLayerTextEdit();
 		}else{
 			
@@ -833,7 +833,7 @@ function createPopupWindow(layer,type){
 			data= {
 				toBusinessId: toBusinessId[0],//bID de la visualitzacio-capa
 				fromBusinessId: fromBusinessId[0],//bID de la visualitzacio-capa
-				uid: jQuery.cookie('uid'),
+				uid: Cookies.get('uid'),
 				features: features
 			}	
 			
@@ -881,7 +881,7 @@ function createPopupWindow(layer,type){
 								
 								var data = {
 										businessId: sublayer.layer.options.businessId,//f.layer.properties.capaBusinessId,//Bid de la visualitzacio
-										uid: jQuery.cookie('uid'),
+										uid: Cookies.get('uid'),
 										features: features,
 										estilBusinessId: sublayer.layer.options.estil[0].businessId
 								};
@@ -965,7 +965,7 @@ function createPopupWindow(layer,type){
 			map.closePopup();
 			var data = {
 	            businessId: map._layers[objEdicio.featureID].properties.businessId,
-	            uid: $.cookie('uid')
+	            uid: Cookies.get('uid')
 	        };
 			
 			var features = {
@@ -981,7 +981,7 @@ function createPopupWindow(layer,type){
 			
 			var data = {
 				businessId: map._layers[objEdicio.featureID].properties.capaBusinessId,//bID de la visualitzacio-capa
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				features: features
 			};
 			var businessIdCapaOrigen=map._layers[objEdicio.featureID].properties.capaBusinessId;
@@ -1095,13 +1095,13 @@ function createPopupWindow(layer,type){
 					jQuery('.popup_pres').show();
 					jQuery('.popup_edit').hide();
 				}else{
-					alert(window.lang.convert('Has de posar un nom de capa'));	
+					alert(window.lang.translate('Has de posar un nom de capa'));	
 				}
 			}else if(objEdicio.edicioPopup=='nouCapa'){
 				if(jQuery('#capa_edit').val()!=""){
 					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val());
 				}else{
-					alert(window.lang.convert('Has de posar un nom de capa'));	
+					alert(window.lang.translate('Has de posar un nom de capa'));	
 				}
 			}
 		}else if(accio[0].indexOf("feature_data_table")!=-1){
@@ -1226,7 +1226,7 @@ function objecteUserAdded(f){
 		
 		/*NOU MODEL: Crear nova visualització*/
 		var data ={
-				uid: jQuery.cookie('uid'),
+				uid: Cookies.get('uid'),
 				nom: f.layer.properties.capaNom,
 				mapBusinessId: url('?businessid'),
 				geometryType: f.layer.options.tipus,
@@ -1257,7 +1257,7 @@ function objecteUserAdded(f){
 				
 				data = {
 						businessId: f.layer.properties.capaBusinessId,//Bid de la visualitzacio
-						uid: jQuery.cookie('uid'),
+						uid: Cookies.get('uid'),
 						features: features,
 						geometryType: f.layer.options.tipus,
 						options: "text,nom"
@@ -1302,7 +1302,7 @@ function objecteUserAdded(f){
 		
 		data = {
 				businessId: this.options.businessId,//f.layer.properties.capaBusinessId,//Bid de la visualitzacio
-				uid: jQuery.cookie('uid'),
+				uid: Cookies.get('uid'),
 				features: features
 //					geometriaBusinessId: '4c216bc1cdd8b3a69440b45b2713b014'//Bid de la geometria q estas afegint						
 		};		
@@ -1533,7 +1533,7 @@ function updateFeatureNameDescr(layer, titol, descr){
 	features = JSON.stringify(features);
 	
     var data = {
-            uid : jQuery.cookie('uid'),
+            uid : Cookies.get('uid'),
             features : features,
             businessId: layer.properties.businessId
         };      	
@@ -1612,7 +1612,7 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 	features = JSON.stringify(features);
 	
     var data = {
-            uid : jQuery.cookie('uid'),
+            uid : Cookies.get('uid'),
             features : features,
             businessId: layer.properties.businessId
         };      	
@@ -1693,8 +1693,8 @@ function fillCmbCapesUsr(type){
 
 function createPopUpContent(player,type){
 	
-	var auxNom = window.lang.convert('Nom');
-	var auxText = window.lang.convert('Descripció');
+	var auxNom = window.lang.translate('Nom');
+	var auxText = window.lang.translate('Descripció');
 	var auxLon,auxLat;
 	if(player.properties.data.nom) auxNom = player.properties.data.nom;
 	if(player.properties.data.text) auxText = player.properties.data.text;
@@ -1716,15 +1716,15 @@ function createPopUpContent(player,type){
 
 	
 	if(type == t_polyline && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
+		html+='<div id="mida_pres"><b>'+window.lang.translate('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
-		else html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
+		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+player.properties.mida+'</div>';
+		else html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	
 	//+'<div id="capa_pres">'
 	html+='<ul class="bs-ncapa">'
-		+'<li><span lang="ca" class="small">'+window.lang.convert('Capa actual:')+'</span>'
+		+'<li><span lang="ca" class="small">'+window.lang.translate('Capa actual:')+'</span>'
 			+'<select id="cmbCapesUsr-'+player._leaflet_id+'-'+type+'" data-leaflet_id='+player._leaflet_id+'>';
 			html+= fillCmbCapesUsr(type);
 			html+= '</select></li>'
@@ -1734,15 +1734,15 @@ function createPopUpContent(player,type){
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
 		+'<ul class="bs-popup">'						
-		+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>';
+		+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
+		+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
 	
 	if (player.properties.estil) {
-		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>';					
+		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
 	}
 	else {
-		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span>  </li>';					
+		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span>  </li>';					
 	}
 	
 	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>';
@@ -1766,8 +1766,8 @@ function createPopUpContent(player,type){
 	+'</div>'
 	+'<div class="modal-footer">'
 	+'<ul class="bs-popup">'
-	+'<li><a id="feature_no##'+player._leaflet_id+'##'+type+'"  class="btn btn-default btn-xs">'+window.lang.convert('Cancel·lar')+'</a></li>'			
-	+'<li><a id="feature_ok##'+player._leaflet_id+'##'+type+'"  class="btn btn-success btn-xs">'+window.lang.convert('Acceptar')+'</a></li>'								
+	+'<li><a id="feature_no##'+player._leaflet_id+'##'+type+'"  class="btn btn-default btn-xs">'+window.lang.translate('Cancel·lar')+'</a></li>'			
+	+'<li><a id="feature_ok##'+player._leaflet_id+'##'+type+'"  class="btn btn-success btn-xs">'+window.lang.translate('Acceptar')+'</a></li>'								
 	+'</ul>'														
 	+'</div>'								
 	+'</div>'								
@@ -1779,7 +1779,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 	
 	/*NOU MODEL: Crear nova visualització*/
 	var data ={
-			uid: jQuery.cookie('uid'),
+			uid: Cookies.get('uid'),
 			nom: nomNovaCapa,
 			mapBusinessId: url('?businessid'),
 			geometryType: feature.properties.tipusFeature,
@@ -1829,7 +1829,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 			data= {
 				toBusinessId: results.results.businessId,//'4c216bc1cdd8b3a69440b45b2713b000',//bID de la visualitzacio-capa
 				fromBusinessId: feature.properties.capaBusinessId,//'4c216bc1cdd8b3a69440b45b2713b001',//bID de la visualitzacio-capa
-				uid: jQuery.cookie('uid'),
+				uid: Cookies.get('uid'),
 				features: features
 			}	
 			
@@ -1900,7 +1900,7 @@ function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusi
 	data= {
 		toBusinessId: results.results.businessId,//'4c216bc1cdd8b3a69440b45b2713b000',//bID de la visualitzacio-capa
 		fromBusinessId: feature.properties.capaBusinessId,//'4c216bc1cdd8b3a69440b45b2713b001',//bID de la visualitzacio-capa
-		uid: jQuery.cookie('uid'),
+		uid: Cookies.get('uid'),
 		features: features
 	}	
 	
@@ -2148,23 +2148,23 @@ function addDrawTooltips() {
 				marker : {
 					
 					tooltip : {
-						start : window.lang.convert('Fes clic al mapa per posar un punt')
+						start : window.lang.translate('Fes clic al mapa per posar un punt')
 					}
 				},
 				polygon : {
 					tooltip : {
-						start : window.lang.convert('Clica per començar a dibuixar una àrea'),
-						cont : window.lang.convert('Clica per continuar dibuixant una àrea'),
-						end : window.lang.convert('Clica el primer punt per tancar aquesta àrea')
+						start : window.lang.translate('Clica per començar a dibuixar una àrea'),
+						cont : window.lang.translate('Clica per continuar dibuixant una àrea'),
+						end : window.lang.translate('Clica el primer punt per tancar aquesta àrea')
 					}
 				},
 				polyline : {
 					error : '<strong>Error:</strong> àrees no es poden creuar!',
 					
 					tooltip : {
-						start : window.lang.convert('Clica per començar a dibuixar una línia'),
-						cont : window.lang.convert('Clica per continuar dibuixant una línia'),
-						end : window.lang.convert('Clica el darrer punt per acabar la línia')
+						start : window.lang.translate('Clica per començar a dibuixar una línia'),
+						cont : window.lang.translate('Clica per continuar dibuixant una línia'),
+						end : window.lang.translate('Clica el darrer punt per acabar la línia')
 					}
 				}
 			}
@@ -2174,8 +2174,8 @@ function addDrawTooltips() {
 				edit : {
 					
 					tooltip : {
-						text : window.lang.convert("Arrossega els vèrtex o el punt per editar l'objecte"),
-						subtext : window.lang.convert('Fes clic sobre el mapa per finalitzar')
+						text : window.lang.translate("Arrossega els vèrtex o el punt per editar l'objecte"),
+						subtext : window.lang.translate('Fes clic sobre el mapa per finalitzar')
 					}
 				}
 			}

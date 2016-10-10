@@ -55,7 +55,7 @@ function creaAreesDragDropFiles() {
 				busy = true;
 				accionaCarrega(file,envioArxiu.isDrag);
 			}else{
-				$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 				$('#dialog_info_upload').modal('show');
 				drgFromMapa.removeAllFiles(true);
 			}
@@ -74,7 +74,7 @@ function creaAreesDragDropFiles() {
 				formData.append("srs", envioArxiu.srid.toLowerCase());
 				formData.append("format", (envioArxiu.ext== "zip" ? envioArxiu.format : envioArxiu.ext));
 				formData.append("name", envioArxiu.serverName);
-				jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.convert('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
+				jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.translate('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
 				jQuery('#info_uploadFile').show();
 			}else{
 				formData.append("nomArxiu", file.name); 
@@ -92,7 +92,7 @@ function creaAreesDragDropFiles() {
 				formData.append("camps", envioArxiu.camps);
 				formData.append("campUnic", envioArxiu.campUnic);
 				formData.append("ext", envioArxiu.ext);
-				formData.append("uid", $.cookie('uid'));
+				formData.append("uid", Cookies.get('uid'));
 				formData.append("mapBusinessId", url('?businessid'));
 				formData.append("midaFitxer", envioArxiu.midaFitxer);
 				var file = file.name.split(".");
@@ -109,10 +109,10 @@ function creaAreesDragDropFiles() {
 
 				jQuery("#div_uploading_txt").html("");
 				jQuery("#div_uploading_txt").html(
-					'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Pujant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
-					'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'</div>'+
-					'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
-					'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+					'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Pujant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
+					'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'</div>'+
+					'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+					'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 				);				
 				jQuery('#info_uploadFile').show();			
 				jQuery('#info_uploadFile').show();
@@ -131,28 +131,28 @@ function creaAreesDragDropFiles() {
 								if(data.status.indexOf("PAS2")!=-1){
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-										'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-										'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-										'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
-										'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+										'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+										'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+										'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+										'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 									);									
 								}else if(data.status.indexOf("PAS3")!=-1){
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-										'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-										'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-										'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-										'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+										'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+										'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+										'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+										'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 									);									
 								}else if(data.status.indexOf("OK")!=-1){
 									clearInterval(pollInterval);
 									
 									jQuery("#div_uploading_txt").html("");
 									jQuery("#div_uploading_txt").html(
-										'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-										'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-										'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-										'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+										'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+										'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+										'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+										'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 									);									
 									
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
@@ -169,8 +169,8 @@ function creaAreesDragDropFiles() {
 									clearInterval(pollInterval);
 									jQuery('#info_uploadFile').hide();
 									
-									var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
-									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+									var msg = "[08]: " + window.lang.translate("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
+									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 									$('#dialog_error_upload_txt').html(msg);
 									$('#dialog_error_upload').modal('show');
 									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
@@ -188,34 +188,34 @@ function creaAreesDragDropFiles() {
 									if(data.codi){
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 										if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-											var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+											var msg = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
 											$('#dialog_error_upload_txt').html(msg);
 										}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-											var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
-											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+											var msg = "[02]: " + window.lang.translate("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 											$('#dialog_error_upload_txt').html(msg);
 										}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-											var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
+											var msg = "[03]: " + window.lang.translate("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
 											$('#dialog_error_upload_txt').html(msg);
 										}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-											var msg = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+											var msg = "[04]: " + window.lang.translate("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
 												$('#dialog_error_upload_txt').html(msg);
 										}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-											var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
-											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
+											var msg = "[05]: " + window.lang.translate("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+											msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
 											$('#dialog_error_upload_txt').html(msg);
 										}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
-											var msg = "[06]: " + window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+											var msg = "[06]: " + window.lang.translate("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 											$('#dialog_error_upload_txt').html(msg);
 										}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
-											var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+											var msg = "[07]: " + window.lang.translate("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 											$('#dialog_error_upload_txt').html(msg);
 										}
 									}else{
 										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
-										var msg = window.lang.convert("Error en la càrrega de l'arxiu");
-										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
+										var msg = window.lang.translate("Error en la càrrega de l'arxiu");
+										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
 										$('#dialog_error_upload_txt').html(msg);
 									}
 									
@@ -244,7 +244,7 @@ function creaAreesDragDropFiles() {
 				addExternalWMS(true).then(function(success){
 					jQuery('#info_uploadFile').hide();
 					if(!success){
-						var msg = window.lang.convert("Error en la càrrega de l'arxiu");
+						var msg = window.lang.translate("Error en la càrrega de l'arxiu");
 						$('#dialog_error_upload_txt').html(msg);
 					}
 				},function(error){
@@ -285,7 +285,7 @@ function addFuncioCarregaFitxers(){
 						busy = true;
 						accionaCarrega(file, envioArxiu.isDrag);	
 					}else{
-						$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+						$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 						$('#dialog_info_upload').modal('show');
 						drgFromMapa.removeAllFiles(true);
 					}
@@ -302,7 +302,7 @@ function addFuncioCarregaFitxers(){
 						formData.append("srs", envioArxiu.srid.toLowerCase());
 						formData.append("format", (envioArxiu.ext== "zip" ? envioArxiu.format : envioArxiu.ext));
 						formData.append("name", envioArxiu.serverName);
-						jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.convert('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
+						jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.translate('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
 						jQuery('#info_uploadFile').show();
 						
 					}else{
@@ -324,7 +324,7 @@ function addFuncioCarregaFitxers(){
 						formData.append("markerStyle", envioArxiu.markerStyle);	
 						formData.append("lineStyle", envioArxiu.lineStyle);	
 						formData.append("polygonStyle", envioArxiu.polygonStyle);	
-						formData.append("uid", $.cookie('uid'));
+						formData.append("uid", Cookies.get('uid'));
 						formData.append("mapBusinessId", url('?businessid'));
 						formData.append("midaFitxer", envioArxiu.midaFitxer);
 						var file = file.name.split(".");
@@ -339,10 +339,10 @@ function addFuncioCarregaFitxers(){
 	
 						jQuery("#div_uploading_txt").html("");
 						jQuery("#div_uploading_txt").html(
-							'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Pujant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
-							'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'</div>'+
-							'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
-							'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+							'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Pujant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
+							'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'</div>'+
+							'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+							'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 						);					
 						jQuery('#info_uploadFile').show();
 						
@@ -360,27 +360,27 @@ function addFuncioCarregaFitxers(){
 										if(data.status.indexOf("PAS2")!=-1){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
-												'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+												'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("PAS3")!=-1){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("OK")!=-1){
 											clearInterval(pollInterval);
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer pujat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 											);									
 											
 											//addDropFileToMap(data);					
@@ -401,8 +401,8 @@ function addFuncioCarregaFitxers(){
 											$('#dialog_error_upload_txt').html("");
 											
 											$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
-												var msg = "[08]: " + window.lang.convert("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
-												msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+												var msg = "[08]: " + window.lang.translate("Error durant el processament de la informació del fitxer. Comprovi que el fitxer és correcte.");
+												msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 												$('#dialog_error_upload_txt').html(msg);
 												$('#dialog_error_upload').modal('show');
 											});
@@ -422,34 +422,34 @@ function addFuncioCarregaFitxers(){
 												_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
 												
 												if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-													var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+													var msg = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
 													$('#dialog_error_upload_txt').html(msg);
 												}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-													var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
-													msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+													var msg = "[02]: " + window.lang.translate("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+													msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 													$('#dialog_error_upload_txt').html(msg);
 												}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-													var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
-													msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+													var msg = "[03]: " + window.lang.translate("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+													msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 													$('#dialog_error_upload_txt').html(msg);
 												}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-													var msg = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+													var msg = "[04]: " + window.lang.translate("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
 														$('#dialog_error_upload_txt').html(msg);
 												}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-													var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
-													msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+													var msg = "[05]: " + window.lang.translate("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+													msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 													$('#dialog_error_upload_txt').html(msg);
 												}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
-													var msg = "[06]: " + window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+													var msg = "[06]: " + window.lang.translate("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 													$('#dialog_error_upload_txt').html(msg);
 												}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
-													var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+													var msg = "[07]: " + window.lang.translate("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 													$('#dialog_error_upload_txt').html(msg);
 												}
 											}else{
 												_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
-												var msg =window.lang.convert("Error en la càrrega de l'arxiu");
-												msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.convert("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.convert("Errors freqüents en carregar arxius a Instamaps")+"</a>";
+												var msg =window.lang.translate("Error en la càrrega de l'arxiu");
+												msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 												$('#dialog_error_upload_txt').html(msg);
 											}
 											
@@ -478,7 +478,7 @@ function addFuncioCarregaFitxers(){
 						addExternalWMS(true).then(function(success){
 							jQuery('#info_uploadFile').hide();
 							if(!success){
-								var msg = window.lang.convert("Error en la càrrega de l'arxiu");
+								var msg = window.lang.translate("Error en la càrrega de l'arxiu");
 								$('#dialog_error_upload_txt').html(msg);
 							}
 						},function(error){
@@ -518,10 +518,10 @@ function addFuncioCarregaFitxers(){
 			
 			if ((colX == "null" || colY == "null" ||srid == "null")  && tipusCSV=='coords') {
 				isOK = false;
-				alert(window.lang.convert("Cal indicar els camps de les coordenades i el sistema de referència"));		
+				alert(window.lang.translate("Cal indicar els camps de les coordenades i el sistema de referència"));		
 			}else if ((srid == "null" || colWKT=="null") && tipusCSV=='wkt') {	
 				isOK = false;
-				alert(window.lang.convert("Cal indicar el camp geomètric i el sistema de referència"));		
+				alert(window.lang.translate("Cal indicar el camp geomètric i el sistema de referència"));		
 			}else{
 				isOK = true;
 				
@@ -595,7 +595,7 @@ function addFuncioCarregaFitxers(){
 		    	   console.debug(envioArxiu.camps);
 		       }else{
 		    	   isOK=false;
-		    	   alert(window.lang.convert("Cal indicar algun camp per cerca l'adreça"));
+		    	   alert(window.lang.translate("Cal indicar algun camp per cerca l'adreça"));
 		    	  
 		       };	      
 		    }else if(cc == 'unica'){	    	
@@ -608,7 +608,7 @@ function addFuncioCarregaFitxers(){
 		    		 envioArxiu.camps='';
 		    	}else{
 		    		 isOK=false;
-			    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
+			    	 alert(window.lang.translate("Cal indicar els camps que contenen l'adreça"));
 		    	}
 		    }/*else if(cc == '2'){	    	
 		    	var nc=jQuery("#cmd_upload_adre_21").val();
@@ -621,7 +621,7 @@ function addFuncioCarregaFitxers(){
 		    		 envioArxiu.camps=nc+","+numc+","+mun;    		
 		    	}else{
 		    		 isOK=false;
-			    	 alert(window.lang.convert("Cal indicar els camps que contenen l'adreça"));
+			    	 alert(window.lang.translate("Cal indicar els camps que contenen l'adreça"));
 		    	}
 		    }*/	
 			if(isOK){enviarArxiu();}
@@ -638,7 +638,7 @@ function addFuncioCarregaFitxers(){
 				envioArxiu.codiType=jQuery('#cmd_codiType').val();
 			}else{
 		  	   	isOK=false;
-		  	   	alert(window.lang.convert("Cal indicar el camp que conté el codi"));
+		  	   	alert(window.lang.translate("Cal indicar el camp que conté el codi"));
 			 };
 				
 			 if(isOK){enviarArxiu();}
@@ -652,7 +652,7 @@ function addFuncioCarregaFitxers(){
 		  	   envioArxiu.srid=jQuery('#select-upload-ff-epsg').val();
 		     }else{
 		  	   isOK=false;
-		  	   alert(window.lang.convert("Cal indicar el sistema de referència"));
+		  	   alert(window.lang.translate("Cal indicar el sistema de referència"));
 		  	  
 		     };
 		     if(isOK){enviarArxiu();}
@@ -845,21 +845,21 @@ function analitzaMatriu(matriu) {
 		}
 	});
 
-	jQuery('#cmd_upload_colX').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_colY').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_wkt').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_colX').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_colY').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_wkt').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
 	
-	jQuery('#cmd_upload_artVia').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_tipVia').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_nomVia').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_portal').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_municipi').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_carretera').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_pk').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_topo').html("<option value='null'>" + window.lang.convert('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_caixaUnica').html("<option value='null'>" + window.lang.convert('Selecciona un camp')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_artVia').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_tipVia').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_nomVia').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_portal').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_municipi').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_carretera').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_pk').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_topo').html("<option value='null'>" + window.lang.translate('Selecciona un camp si en conté')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_caixaUnica').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
 		
-	jQuery('#cmd_upload_codi').html("<option value='null'>" + window.lang.convert('Selecciona un camp amb el codi')+ "</option>"+op.join(" "));
+	jQuery('#cmd_upload_codi').html("<option value='null'>" + window.lang.translate('Selecciona un camp amb el codi')+ "</option>"+op.join(" "));
 
 	var fieldType = "";
 	for (var x = 0; x < matriu.length; x++) {
@@ -993,7 +993,7 @@ function llegirTitolXLS(workbook) {
 		$('#dialog_carrega_dades').modal('hide');
 		busy = false;
 		$('#dialog_error_upload_txt').html("");
-		var msg = window.lang.convert("Versió incorrecta. No es pot llegir aquest XLS.");
+		var msg = window.lang.translate("Versió incorrecta. No es pot llegir aquest XLS.");
 		$('#dialog_error_upload_txt').html(msg);
 	}
 	return matriuActiva;
@@ -1039,17 +1039,17 @@ function obteCampsXLSX(f) {
 				$('#dialog_carrega_dades').modal('hide');
 				busy = false;
 				$('#dialog_error_upload_txt').html("");
-				var msg = window.lang.convert("No es pot llegir l'arxiu");
+				var msg = window.lang.translate("No es pot llegir l'arxiu");
 				$('#dialog_error_upload_txt').html(msg);
 			}
 		}
 
 		//Comprovem  mida fitxer i si usuari loginat
-		if (isRandomUser($.cookie('uid'))){
+		if (isRandomUser(Cookies.get('uid'))){
 			if(e.target.result.length < midaFitxerRandom){
 				doit();
 			}else{
-				$('#dialog_info_upload_txt').html(window.lang.convert("La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB)."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB)."));
 				$('#dialog_info_upload').modal('show');
 				drgFromMapa.removeAllFiles(true);
 				busy = false;
@@ -1057,7 +1057,7 @@ function obteCampsXLSX(f) {
 		}else if(e.target.result.length < midaFitxer){
 			doit();
 		}else{
-			$('#dialog_info_upload_txt').html(window.lang.convert("La mida del fitxer supera el límit preestablert (500MB)."));
+			$('#dialog_info_upload_txt').html(window.lang.translate("La mida del fitxer supera el límit preestablert (500MB)."));
 			$('#dialog_info_upload').modal('show');
 			drgFromMapa.removeAllFiles(true);
 			busy = false;
@@ -1216,11 +1216,11 @@ function miraFitxer(fitxer) {
 		
 		if(obj.ext=="shp"){
 			obj.isValid = false;
-			obj.msg =  window.lang.convert("El fitxer SHP ha d'anar dins d'un ZIP juntament amb els fitxers SHX i DBF.");	
+			obj.msg =  window.lang.translate("El fitxer SHP ha d'anar dins d'un ZIP juntament amb els fitxers SHX i DBF.");	
 			dfd.resolve(obj);
 		}else{
 			//Comprovem  mida fitxer i si usuari loginat
-			var randomUser = isRandomUser($.cookie('uid'));
+			var randomUser = isRandomUser(Cookies.get('uid'));
 			if( (randomUser && fitxer.size<midaFitxerRandom) || (!randomUser && fitxer.size < midaFitxer) ){
 				
 				if(obj.ext=="zip"){
@@ -1228,7 +1228,7 @@ function miraFitxer(fitxer) {
 					checkFileRaster(fitxer).then(function(res){
 						obj.isValid = !res.formatInvalid;
 						if(res.formatInvalid){
-							obj.msg =  window.lang.convert("Els fitxers TIF, SID i JPG han d'anar dins d'un ZIP juntament amb els seus TFW, SDW, JPW/JGW corresponents.");
+							obj.msg =  window.lang.translate("Els fitxers TIF, SID i JPG han d'anar dins d'un ZIP juntament amb els seus TFW, SDW, JPW/JGW corresponents.");
 						}
 						obj.isShape = res.isShape;
 						dfd.resolve(obj);
@@ -1243,15 +1243,15 @@ function miraFitxer(fitxer) {
 				
 			}else{
 				obj.isValid = false;
-				if(randomUser) obj.msg =  window.lang.convert("La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).");
-				else obj.msg = window.lang.convert("La mida del fitxer supera el límit preestablert (500MB).");
+				if(randomUser) obj.msg =  window.lang.translate("La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB).");
+				else obj.msg = window.lang.translate("La mida del fitxer supera el límit preestablert (500MB).");
 				busy = false;
 				dfd.resolve(obj);
 			}
 		}
 	}else{
 		obj.isValid = false;
-		obj.msg = window.lang.convert("Tipus de fitxer no acceptat");
+		obj.msg = window.lang.translate("Tipus de fitxer no acceptat");
 		dfd.resolve(obj);
 	}
 	

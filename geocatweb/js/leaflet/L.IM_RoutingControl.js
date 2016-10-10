@@ -100,7 +100,7 @@ L.Control.RoutingControl = L.Control.extend({
 		this._reversablePlan = L.Routing.Plan.extend({
 		    createGeocoders: function() {
 		        var container = L.Routing.Plan.prototype.createGeocoders.call(this),
-		        title = (window.lang) ? window.lang.convert(options.originTexts.btnReverse) : options.texts.btnReverse,
+		        title = (window.lang) ? window.lang.translate(options.originTexts.btnReverse) : options.texts.btnReverse,
 		        reverseButton = self._createButton('<span class="glyphicon glyphicon-sort" style="font-size:14px;"></span>', container, title, lang);
 		        L.DomEvent.on(reverseButton, 'click', function() {
 		            var waypoints = this.getWaypoints();
@@ -210,11 +210,11 @@ L.Control.RoutingControl = L.Control.extend({
 		_route.addTo(_map);
 		
 		if(window.lang){
-			_texts.title = window.lang.convert(options.originTexts.title);
-			_texts.btnReverse = window.lang.convert(options.originTexts.btnReverse);
-			_texts.btnAdd = window.lang.convert(options.originTexts.btnAdd);
-			_texts.start = window.lang.convert(options.originTexts.start);
-			_texts.end = window.lang.convert(options.originTexts.end);
+			_texts.title = window.lang.translate(options.originTexts.title);
+			_texts.btnReverse = window.lang.translate(options.originTexts.btnReverse);
+			_texts.btnAdd = window.lang.translate(options.originTexts.btnAdd);
+			_texts.start = window.lang.translate(options.originTexts.start);
+			_texts.end = window.lang.translate(options.originTexts.end);
 		}
 		
 		$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">'+_texts.title+'</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
@@ -262,9 +262,9 @@ L.Control.RoutingControl = L.Control.extend({
 		_texts = options.texts;
 		
 		if(window.lang){
-			_texts.title = window.lang.convert(options.originTexts.title);
-			_texts.btnStart = window.lang.convert(options.originTexts.btnStart);
-			_texts.btnEnd = window.lang.convert(options.originTexts.btnEnd);
+			_texts.title = window.lang.translate(options.originTexts.title);
+			_texts.btnStart = window.lang.translate(options.originTexts.btnStart);
+			_texts.btnEnd = window.lang.translate(options.originTexts.btnEnd);
 		}
 		
 		var container ='<div id="contentRoutingPopup" class="contentRoutingPopup">';

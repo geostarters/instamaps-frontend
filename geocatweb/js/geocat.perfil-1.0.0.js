@@ -1,6 +1,6 @@
 var old_email;
 jQuery(document).ready(function() {
-	var username = $.cookie('uid'); 
+	var username = Cookies.get('uid'); 
 	if (username == undefined){
 		window.location.href = paramUrl.loginPage;
 	}
@@ -40,7 +40,7 @@ jQuery(document).ready(function() {
 			$('#modal_delete_usr_conf').modal('show');
 			$('#button-delete-ok-conf').on('click',function(){
 				var data = {
-						uid: $.cookie('uid')
+						uid: Cookies.get('uid')
 				};
 				deleteUser(data).then(function(results){
 					if (results.status==='OK'){
@@ -63,7 +63,7 @@ jQuery(document).ready(function() {
 			$('#button-delete-ok-conf').on('click',function(){
 //				console.debug($('#deleteOptionValue').val());
 				var data = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					type: $('#deleteOptionValue').val()
 				};
 				deleteUser(data).then(function(results){
@@ -89,11 +89,11 @@ jQuery("#perfil_button_pass").click(function(){
 		$("#modal-message").remove();
 		
 		var data = {
-			uid: $.cookie('uid'), 
+			uid: Cookies.get('uid'), 
             userPassword: old_pass, 
             newPassword: new_pass
         };
-		//updateUserPassword($.cookie('uid'), new_pass, old_pass).then(function(results){
+		//updateUserPassword(Cookies.get('uid'), new_pass, old_pass).then(function(results){
 		updatePasswordIcgc(data).then(function(results){
 			if(results.status==='OK'){
 				$('#modal_pass_ok').modal('toggle');
@@ -147,10 +147,10 @@ jQuery("#perfil_button").click(function(){
 	checkValidityPerfil().then(function(){
 		if(!$("span").hasClass("text_error")){
 			$("#modal-message").remove();
-			updateUserData($.cookie('uid'), name, surname, correu_usuari).then(function(results){
+			updateUserData(Cookies.get('uid'), name, surname, correu_usuari).then(function(results){
 				if(results.status==='OK'){
 					$('#modal_perfil_ok').modal('toggle');
-					$.cookie('uid', results.results.uid, {path:'/'});
+					Cookies.set('uid', results.results.uid);
 					$('#modal_perfil_ok').on('hidden.bs.modal', function (e) {
 						window.location.href = paramUrl.perfilPage;
 					});

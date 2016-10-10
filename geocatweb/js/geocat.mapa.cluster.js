@@ -3,7 +3,7 @@ function creaClusterMap(capa) {
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'cluster', 1]);
 //	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'cluster'}]);
 	
-	var nom = window.lang.convert("Agrupació");
+	var nom = window.lang.translate("Agrupació");
 	
 	var clusterLayer = L.markerClusterGroup({
 		singleMarkerMode : true
@@ -15,7 +15,7 @@ function creaClusterMap(capa) {
 		if(capa.layer.options.tipus == t_dades_obertes){
 			
 			data = {
-					uid:$.cookie('uid'),
+					uid:Cookies.get('uid'),
 					mapBusinessId: url('?businessid'),
 					serverName: capa.layer.options.nom+" "+nom,
 					serverType: t_dades_obertes,
@@ -93,10 +93,10 @@ function creaClusterMap(capa) {
 //				console.debug(options);			
 			
 			var data = {
-					uid:$.cookie('uid'),
+					uid:Cookies.get('uid'),
 					mapBusinessId: url('?businessid'),
 					serverName: capa.layer.options.nom+" "+nom,
-//					serverName: capa.layer.options.nom+" "+window.lang.convert("Bàsic"),
+//					serverName: capa.layer.options.nom+" "+window.lang.translate("Bàsic"),
 					serverType: capa.layer.options.tipus,
 					calentas: false,
 		            activas: true,
@@ -144,7 +144,7 @@ function creaClusterMap(capa) {
 		}else if(capa.layer.options.tipus == t_json){
 			
 			var data = {
-				uid:$.cookie('uid'),
+				uid:Cookies.get('uid'),
 				mapBusinessId: url('?businessid'),
 				serverName: capa.layer.options.nom+" "+nom,
 				serverType: t_json,
@@ -205,7 +205,7 @@ function creaClusterMap(capa) {
 		}else if (capa.layer.options.tipus == t_visualitzacio){
 			var data = {
 					businessId: capa.layer.options.businessId,//businessId id de la visualización de origen
-					uid: $.cookie('uid'),//uid id de usuario
+					uid: Cookies.get('uid'),//uid id de usuario
 		            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
 		            nom: capa.layer.options.nom+" "+nom,//nom nombre de la nueva visualizacion
 		            activas: true,
@@ -236,7 +236,7 @@ function creaClusterMap(capa) {
 											if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 												html+='<div class="popup_data_key">'+key+'</div>';
 												html+='<div class="popup_data_value">'+
-												(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
+												(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
 												'</div>';
 											}else{
 												html+='<div class="popup_data_img_iframe">'+txt+'</div>';
@@ -290,7 +290,7 @@ function creaClusterMap(capa) {
 					if (layers[i].Name.indexOf("cluster")>-1) {
 						var data = {
 								businessId: capa.layer.options.businessId,//businessId id de la visualización de origen
-								uid: $.cookie('uid'),//uid id de usuario
+								uid: Cookies.get('uid'),//uid id de usuario
 					            mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
 					            nom: layers[i].Name,//nom nombre de la nueva visualizacion
 					            activas: true,
@@ -425,7 +425,7 @@ function loadJsonClusterLayer(layer){
 		}
 
 		if (!jQuery.isArray(v_respotaJSON)) {
-			alert(window.lang.convert("No s'ha interpretat bé l'estructura del JSON"));
+			alert(window.lang.translate("No s'ha interpretat bé l'estructura del JSON"));
 			return;
 		}
 		
@@ -553,7 +553,7 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd)
 	
 	var data = {
 			businessId: businessId,//businessId id de la visualización de origen
-			uid: $.cookie('uid')//uid id de usuario
+			uid: Cookies.get('uid')//uid id de usuario
 		};	
 	
 	//Carrego llistat geometries
