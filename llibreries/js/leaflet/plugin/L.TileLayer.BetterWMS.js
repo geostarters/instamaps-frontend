@@ -11,8 +11,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			map.on('click', this.getFeatureInfo, this);
 			var params = this.getLegendGraphic();
 			this.updateControlLLegenda(params,this.wmsParams.layers,true,this.options.nom,this.options.businessId);	
-		//}
-		
+		//}		
 		
 	},
 	onRemove: function (map) {
@@ -26,10 +25,12 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 	getFeatureInfo: function (evt) {
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
+		params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text/html");
 		if(this.options.queryable){
 			if ((params.indexOf('instamaps.cat')!=-1 || params.indexOf('172.70.1.11')!=-1 || params.indexOf('localhost')!=-1) && params.indexOf('instaserver')==-1){
 				if (params.indexOf('/geoservicelocal/')!=-1){
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
+					params = params.replace("INFO_FORMAT=text/html","INFO_FORMAT=text/plain");
 				}
 				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
 				var pop=L.popup({ maxWidth: 800})
