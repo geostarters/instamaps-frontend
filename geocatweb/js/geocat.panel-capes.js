@@ -146,7 +146,7 @@ function updateEditableElements(){
 			for(i=0;i < resp_Layer.length;i++){
 				var data = {
 					mapBusinessId: url('?businessid'),
-					businessId: resp_Layer[i].options.businessId, //url('?businessid')
+				 	businessId: resp_Layer[i].options.businessId, //url('?businessid')
 				 	uid: Cookies.get('uid'),
 				 	options: JSON.stringify(resp_Layer[i].options.group)
 				 };
