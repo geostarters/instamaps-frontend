@@ -110,14 +110,29 @@
 				if(self.numLayers === 0){
 					self._waitLoadAll(0);
 				}
-				$.each(results.origen, function(index, value){
+
+				if (!self.edit)
+				{
+				
 					self.map.oms = new OverlappingMarkerSpiderfier(self.map, {keepSpiderfied : true});
 					var popup = new L.Popup();
 					self.map.oms.addListener('click', function(marker) {
-						popup.setContent(marker.getPopup().getContent());
-						popup.setLatLng(marker.getLatLng());
-						self.map.openPopup(popup);
+
+						if(marker.getPopup)
+						{
+						
+							popup.setContent(marker.getPopup().getContent());
+							popup.setLatLng(marker.getLatLng());
+							self.map.openPopup(popup);
+
+						}
+						
 					});
+
+				}
+
+				$.each(results.origen, function(index, value){
+
 					self.loadLayer(value).then(function(){
 						num_origen++;
 						self._waitLoadAll(num_origen);
