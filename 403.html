@@ -76,41 +76,44 @@ div.marker {
   ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
+<script src="/llibreries/js/jquery/plugins/js.cookie-2.1.3.min.js"></script>
+<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
+<script src="/llibreries/js/jquery/plugins/jquery-lang-3.0.0.js" charset="utf-8" type="text/javascript"></script>
+<!-- 
 <script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
 <script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
-<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>			
+<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+-->
 <script src="/geocatweb/js/geocat.utils.js"></script>
 <script src="/geocatweb/js/geocat.google-analytics.js"></script>
 <script type="text/javascript">
-window.lang = new jquery_lang_js();
-var lsLang;
-jQuery(document).ready(function() {
-	window.lang.run();
-	lsLang=web_determinaIdioma();
-	if (lsLang == null || lsLang == "null"){
-		lsLang = "ca";
-		canviaIdioma(lsLang);
-	}
+window.lang = new Lang();
+lang.dynamic('en', '/geocatweb/js/language/en.json');
+lang.dynamic('es', '/geocatweb/js/language/es.json');
+window.lang.init({
+    defaultLang: 'ca'
 });
+lsLang=web_determinaIdioma();
 
-function web_determinaIdioma(){
-	if(localStorage){
-		var lsLang = localStorage.getItem('langJs_currentLang');
-		if (lsLang != null && lsLang != "null"){
-			window.lang.change(lsLang);
-		}
-	}else{
-		var lsLang = obteValorURL("hl");
+function web_determinaIdioma(){//Determinar idioma per paràmetre
+	if (url('?hl')){
+		var lsLang = url('?hl');//obteValorURL("hl");
 		window.lang.change(lsLang);		
 		jQuery("a[id^='hl_']").each(function(index){
 			var _href=jQuery(this).attr('href');
 			_href.indexOf('?') == -1 ? jQuery(this).attr('href',_href+'?hl='+lsLang): jQuery(this).attr('href',_href+'&hl='+lsLang);
 			
 		});
-				
 	}
+	else if (localStorage){
+		var lsLang = localStorage.getItem('langJs_currentLang');
+		if (lsLang != null && lsLang != "null"){
+			window.lang.change(lsLang);
+		}
+	}
+	
 	return lsLang;
-}	
+}
 </script>
 </body>
 </html>

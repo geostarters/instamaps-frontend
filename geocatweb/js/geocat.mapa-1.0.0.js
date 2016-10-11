@@ -153,7 +153,7 @@ function loadApp(){
 					//afegim llegenda
 					
 					ctr_legend = L.control.legend({
-						title: window.lang.convert('Llegenda'),
+						title: window.lang.translate('Llegenda'),
 						tipusllegenda: "dinamica",  //"dinamica"
 						llegendaOpt: true, //true
 						origenllegenda:'mapa'						

@@ -1168,11 +1168,11 @@ function createPopupWindow(layer,type){
 			if(layer.properties.mida)	
 			{
 
-				var text = window.lang.convert("Longitud");
+				var text = window.lang.translate("Longitud");
 				if(layer.properties.tipusFeature == t_polygon)
 				{
 
-					text = window.lang.convert("Àrea");
+					text = window.lang.translate("Àrea");
 
 				}
 

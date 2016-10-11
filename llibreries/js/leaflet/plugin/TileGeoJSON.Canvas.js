@@ -149,7 +149,7 @@ L.TileLayer.GeoJSON = L.TileLayer.Canvas.extend({
 											if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 												html+='<div class="popup_data_key">'+key+'</div>';
 												html+='<div class="popup_data_value">'+
-												(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
+												(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
 												'</div>';
 											}else{
 												html+='<div class="popup_data_img_iframe">'+txt+'</div>';
