@@ -1857,6 +1857,8 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
 	var zoomFinalEtiqueta = "19";
 	if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
+
+	var canSpiderify = (visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_simple || visualitzacio.tipus == tem_origen);
 	
 	
 	//per cada estil de la visualitzacio
@@ -2093,6 +2095,9 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					feat.properties.mida = calculateArea(feat);
 				}else if(geomTypeVis == t_polyline){
 					feat.properties.mida = calculateDistance(feat.getLatLngs());
+				}
+				else if(geomTypeVis == t_marker && map.hasOwnProperty("oms") && canSpiderify ) {
+					map.oms.addMarker(feat);
 				}
 			
 				//Si la capa no ve de fitxer
