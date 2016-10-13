@@ -436,7 +436,10 @@ function processFileError(data, urlFile){
 		}			
 
 	}else{
-		txt_error = window.lang.convert("Error durant el tractament de les dades");
+		if(data.results && (data.results.indexOf("Not Found")  != -1))
+			txt_error = window.lang.convert("No s'ha trobat el fitxer: ") + "<a href=\"" + urlFile + "\" target=_blank>" + urlFile + "</a>";
+		else
+			txt_error = window.lang.convert("Error durant el tractament de les dades");
 	}
 
 	/*
