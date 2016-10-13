@@ -74,6 +74,7 @@ function checkEmail(user_email){
 
 /* galeria.html */
 
+//solo galeria privada de geolocal para obtener las aplicaciones
 function getUserData(username){
 	return jQuery.ajax({
 		url: paramUrl.getUserSimple,
@@ -85,7 +86,6 @@ function getUserData(username){
 }
 
 /* comuns */
-
 function doLogout(){
 	return jQuery.ajax({
 		url: paramUrl.logoutUser,
