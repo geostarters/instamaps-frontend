@@ -842,6 +842,8 @@ var IM_aplicacio = function (options) {
 					var _mxlevel=18;					
 					if(url.indexOf('bases_noutm')!=-1){
 						_mxlevel=19;							
+					}else if(url.indexOf('relleu')!=-1){
+						_mxlevel=17;	
 					}
 
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
@@ -1276,22 +1278,16 @@ var that = this;
 		}
 
 		try {
-			var ff = item.layer.toGeoJSON();
-
-					
+			var ff = item.layer.toGeoJSON();					
 			var numFeatures = ff.features.length;
-			
-			
+						
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
-			_escriuDebug(item.layer.options,"instamaps.mapa3D-1.0.0",1288);
-					
-					
+						_escriuDebug(item.layer.options,"instamaps.mapa3D-1.0.0",1288);
+										
 					if (item.layer.options.source && item.layer.options.source.indexOf('json')!=-1) {
-
-					
-					
+										
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
