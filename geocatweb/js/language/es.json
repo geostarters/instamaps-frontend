@@ -519,6 +519,7 @@
   "Moure":"Mover",
   "Municipi o lloc":"Municipio o lugar",
   "Municipis":"Municipios",
+  "Municipis en vista":"Municipios en la vista",
   "Múltiples formats: KML, GPX, DXF, SHP, GEOJSON, etc.":"Múltiples formatos: KML, GPX, DXF, SHP, GEOJSON, etc.",
   "M'agrada":"Me gusta",
   
@@ -772,6 +773,8 @@
   "Vull ser le primer":"Quiero ser el primero",
   
   "Xarxes socials":"Redes sociales",
+  
+  "Zoom a la capa":"Zoom a la capa",
   
   " d'Instamaps (creat per ":" de Instamaps (creado por ",
   " esborrat": " eliminado",

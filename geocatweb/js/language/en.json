@@ -519,6 +519,7 @@
   "Moure":"Move",
   "Municipi o lloc":"Municipality or place",	
   "Municipis":"Municipalities",
+  "Municipis en vista":"Municipalities in view",
   "Múltiples formats: KML, GPX, DXF, SHP, GEOJSON, etc.":"Many different formats: KML, GPX, DXF, SHP, GEOJSON, etc.",
   "M'agrada":"Like",
 
@@ -773,6 +774,8 @@
 
   "Xarxes socials":"Social networks",		
 
+  "Zoom a la capa":"Zoom to layer",
+  
   " d'Instamaps (creat per ": "from Instamaps (created by ",
   " esborrat": " erased",
   " registres per pàgina":"records per page",
