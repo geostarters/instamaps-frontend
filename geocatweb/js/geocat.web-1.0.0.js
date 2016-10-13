@@ -16,26 +16,15 @@ jQuery(document).ready(function() {
 		canviaIdioma(lsLang);
 	}
 	web_menusIdioma(lsLang);
+	
 	initHover();
 	checkUserLogin();
-    var currentLang = localStorage.getItem('langJs_currentLang');
-    if(currentLang === 'es')$("#es").addClass("active");
-    else if(currentLang === 'en') $("#en").addClass("active");
-    else {
-    	$("#ca").addClass("active");
-    	localStorage['langJs_currentLang'] = 'ca';
-    }
     
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
     	logoutUser();
-    	//window.location.href = paramUrl.loginPage;
     });
     initCookies();
-    
-//    if(window.location.href.indexOf("index.html")!=-1){
-//    	controlLandingForm();
-//    }
     
     if ($(".centered-form").length > 0){
     	controlLandingForm();
@@ -102,13 +91,12 @@ function controlLandingForm(){
 }
 
 function insertDataInstamaper(email){
-//	console.debug("insertDataInstamaper...");
 	var defer = $.Deferred();
 	
 	var dataInsert = {
-			email: email,
-			options: curs_instamaps
-	}
+		email: email,
+		options: curs_instamaps
+	};
 	var insert_error = "";
 	registreInstamaper(dataInsert).then(function(results){
 		if (results.status=="ERROR") {
@@ -132,14 +120,13 @@ function insertDataInstamaper(email){
 }
 
 function sendEmailInstamaper(email,insert_error, type){//type per saber si es per pantalles petites o grans
-//	console.debug("sendEmailInstamaper ....");
 	var data = {
-			uid: Cookies.get('uid'),
-			to: instamaps_email,// to,
-			subject: curs_instamaps,
-			content: email + insert_error,//contingut,
-			esColaboratiu: 'N',
-			businessId: ""
+		uid: Cookies.get('uid'),
+		to: instamaps_email,// to,
+		subject: curs_instamaps,
+		content: email + insert_error,//contingut,
+		esColaboratiu: 'N',
+		businessId: ""
 	};
 	sendMail(data).then(function(results){
 		if (results.status=="OK") {
@@ -287,7 +274,6 @@ function checkUserLogin(){
 		logged = true;
 		$("#menu_login").hide();
 		$("#menu_user").show();	
-//		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
 		var nomUser = uid.split("@");
 		$("#text_username").text(" "+nomUser[0]);
 		
@@ -340,19 +326,16 @@ function checkUserLogin(){
 function web_menusIdioma(lsLang){
 	jQuery('#ch_idioma li').each(function() {
 		jQuery(this).removeClass('active');
-		if (jQuery(this).attr('id') ==lsLang){
+		if (jQuery(this).attr('id') == lsLang){
 			jQuery(this).addClass('active');
 		}
-	
 		jQuery(this).click(function() {
 			jQuery('#ch_idioma li').removeClass('active');
 			jQuery(this).addClass('active');
-		
 			canviaIdioma(jQuery(this).attr('id'));
 	    });
   });
 }
-
 
 function canviaIdioma(lsLang){
 	window.lang.change(lsLang);
@@ -367,18 +350,16 @@ function web_determinaIdioma(){//Determinar idioma per paràmetre
 		jQuery("a[id^='hl_']").each(function(index){
 			var _href=jQuery(this).attr('href');
 			_href.indexOf('?') == -1 ? jQuery(this).attr('href',_href+'?hl='+lsLang): jQuery(this).attr('href',_href+'&hl='+lsLang);
-			
 		});
 	}
-	else if (localStorage){
-		var lsLang = localStorage.getItem('langJs_currentLang');
+	else if (Cookies.get("langCookie")){
+		var lsLang = Cookies.get("langCookie");
 		if (lsLang != null && lsLang != "null"){
 			window.lang.change(lsLang);
 		}
 	}
-	
 	return lsLang;
-}	
+}
 
 function web_roundCircles(){
 	jQuery('#div_E').on('click', function() {

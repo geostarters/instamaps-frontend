@@ -72,39 +72,12 @@ function checkEmail(user_email){
 		
 }
 
-/* perfil.html */
+/* galeria.html */
 
 function getUserData(username){
 	return jQuery.ajax({
 		url: paramUrl.getUserSimple,
 		data: {uid : username},
-		async: false,
-		method: 'post',
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function updateUserData(username, name, surname, correu_usuari){
-	return jQuery.ajax({
-		url: paramUrl.updateUser,
-		data: {
-            cn: name,
-            sn: surname,
-            uid: username,
-            email: correu_usuari},
-		async: false,
-		method: 'post',
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function updateUserPassword(username, new_pass, old_pass){
-	return jQuery.ajax({
-		url: paramUrl.updatePassword,
-		data: {
-            uid: username, 
-            userPassword: old_pass, 
-            newPassword: new_pass},
 		async: false,
 		method: 'post',
 		dataType: 'jsonp'

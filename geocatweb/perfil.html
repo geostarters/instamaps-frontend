@@ -10,16 +10,12 @@
 <meta name="geo.position" content="41.363892;2.186279" />
 <meta name="language" content="ca" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="img/instamapes.ico" rel="shortcut icon">
+<link href="/img/instamapes.ico" rel="shortcut icon">
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
-<link href="/geocatweb/css/geocat.css" rel="stylesheet">
-<link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
 <link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
-
-<!-- KISSMETRICS SNIPPET -->
-<!-- script src="/geocatweb/js/geocat.kissmetrics.js"></script -->
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -100,22 +96,6 @@
        		<section>
        			<h3 id="text-uid"></h3>
         		<h4 lang="ca" class="form-signin-heading">Administrar compte</h4>
-        		<!-- 
-        		<form id="frm_update_user" >
-	        		<fieldset>
-	        			<br>
-	       				<input lang="ca" id="perfil_name" type="text" required class="form-control my-border" placeholder="Nom">
-	       				<input lang="ca" id="perfil_surname" type="text" required class="form-control my-border" placeholder="Cognom">
-	       				<br>
-	       				<input lang="ca" id="perfil_email" type="email" required class="form-control my-border" placeholder="Correu">
-	        			<br>
-		      			<br>  		
-		        		<p>
-		         			<button id="perfil_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Actualitzar dades</button>
-		         		</p>        			
-	        		</fieldset>
-        		</form>
-        		-->
         		<form id="frm_update_user" >
 	        		<fieldset>
 	        			<br>
@@ -151,56 +131,6 @@
         		
 			</section>
     	</div>
-    	
-    	
-    	<!--div class="my-form-profile">
-		<section>
-        		<h3  lang="ca" class="form-signin-heading">Administrar compte</h3>
-        		
-				<ul class="nav nav-tabs nav-justified">
-				  <li class="active"><a href="#perfil" data-toggle="tab">Perfil</a></li>
-				  <li><a href="#contrasenya" data-toggle="tab">Contrasenya</a></li>
-				</ul>        		
-        		
-        		<div class="tab-content">
-	        		<div class="tab-pane fade active in" id="perfil">
-		        		<form id="frm_update_user">
-			        		<fieldset>
-			        			<br>
-			       				<input lang="ca" id="perfil_name" type="text" required class="form-control my-border" placeholder="Nom">
-			       				<input lang="ca" id="perfil_surname" type="text" required class="form-control my-border" placeholder="Cognom">
-			       				<br>
-			       				<input lang="ca" id="perfil_email" type="email" required class="form-control my-border" placeholder="Correu">
-			        			<br>
-				      			<br>  		
-				        		<p>
-				         			<button  id="perfil_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Actualitzar dades</button>
-				         		</p>        			
-			        		</fieldset>
-		        		</form>
-        			</div>
-				
-					<div class="tab-pane fade" id="contrasenya">     		
-	        		<form>
-		        		<fieldset>
-		        			<br>
-		        			<input lang="ca" id="perfil_old_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrasenya antiga">
-		        			<br>
-		        			<input lang="ca" id="perfil_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrasenya">
-		         			<input lang="ca" id="perfil_confirm_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Confirmar contrasenya">
-		         			<br>
-		         			<br>
-			        		<p>
-			         			<button  id="perfil_button_pass" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Actualitzar contrasenya</button>
-			         		</p>          			
-		        		</fieldset>
-	        		</form>
-	        		</div>
-        		</div>
-        		<br>
-			</section>    	
-    	</div-->
-    	
     	<br>
 
 		<div class="modal fade" id="modal_perfil_ok" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -358,6 +288,17 @@
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
+	<script type="text/javascript">
+	if (!Modernizr.canvas || !Modernizr.sandbox || !Modernizr.csstransitions){
+		document.getElementById("dialgo_old_browser").style.display = "block";
+		document.getElementById("old_icon_close").style.display = "none";
+		document.getElementById("old_btn_close").onclick = function () {
+			window.location = "/index.html";
+		}
+	}
+	</script>
+	
 	<script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/js.cookie-2.1.3.min.js"></script>
@@ -371,12 +312,16 @@
 	-->
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.constants.js"></script>
-	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
+	
+	<script src="/geocatweb/js/instamaps.app-1.0.0.js"></script>
+	
 	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.utils.js"></script>
-	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>		
-	<script src="/geocatweb/js/geocat.perfil-1.0.0.js"></script>
-	<script src="/geocatweb/js/instamaps.app-1.0.0.js"></script>
+	
+	<script src="/geocatweb/js/geocat.registre-1.0.0.js"></script>
+	<script src="/geocatweb/js/instamaps.usuari.perfil-1.0.0.js"></script>		
+	<script src="/geocatweb/js/geocat.perfil-1.0.0.js"></script>	
+	
 	<script src="/geocatweb/js/geocat.google-analytics.js"></script>
 	
 </body>

@@ -105,15 +105,14 @@ function web_determinaIdioma(){//Determinar idioma per paràmetre
 			
 		});
 	}
-	else if (localStorage){
-		var lsLang = localStorage.getItem('langJs_currentLang');
+	else if (Cookies.get("langCookie")){
+		var lsLang = Cookies.get("langCookie");
 		if (lsLang != null && lsLang != "null"){
 			window.lang.change(lsLang);
 		}
 	}
-	
 	return lsLang;
-}
+}	
 </script>
 </body>
 </html>
