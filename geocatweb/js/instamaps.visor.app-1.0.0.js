@@ -38,7 +38,13 @@ var visorOptions = {
 	navbar: url('?navbar') || null,
 	rtoolbar: url('?rtoolbar') || null,
 	ltoolbar: url('?ltoolbar') || null,
-	appmodul: url('?appmodul') || null
+	appmodul: url('?appmodul') || null,
+	lat : url("?lat") || null,
+	lon : url("?lon") || null,
+	zoom : url("?zoom") || null,
+	text: url("?text") || null,
+	link: url("?link") || null,
+	appname: url("?appname") || null
 };
 
 var visor; 
