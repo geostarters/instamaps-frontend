@@ -480,8 +480,8 @@ function updateLangText(){
     
     $('#checkObert').text(window.lang.translate('Obert'));
     $('#checkRestringit').text(window.lang.translate('Restringit'));
-    $('#txtPublic').text(window.lang.translate('Tothom amb l\'enllaç pot accedir al mapa'));
-    $('#txtPrivat').text(window.lang.translate('L\'accés al mapa es protegit amb clau'));
+    $('#txtPublic').text(window.lang.translate("Tothom amb l'enllaç pot accedir al mapa"));
+    $('#txtPrivat').text(window.lang.translate("L'accés al mapa es protegit amb clau"));
     $('#checkPublic').text(window.lang.translate('Públic'));
     $('#checkPrivat').text(window.lang.translate('Privat'));
     $('#txtVisible').text(window.lang.translate('El mapa és visible a la galeria pública'));
