@@ -789,7 +789,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 			wmsParams.time = new Date(nearestTime).toISOString();
 		
 		}
-		//console.info(wmsParams.time);
+	
 				
         //wmsParams.time = new Date(nearestTime).toISOString();
 		
@@ -800,8 +800,15 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 		 if(parseInt(firstYearMonth[0]) < 2100 && parseInt(firstYearMonth[1]) < 13){
 			 // La data del capabilities es en format Sentinel2 ICGC => 2016-03
 			 // cal que la data enviada al geoservei estigui en el mateix format yyyy-mm
+			 
+			
 			 wmsParams.time = wmsParams.time.substr(0,7);
-		 }
+		 }else{
+			 
+			 //else YYYY
+			 
+			 wmsParams.time = wmsParams.time.substr(0,4);
+		 } 
 		//***
 		
         var newLayer = null;
@@ -962,7 +969,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 			
 			if (defaultTime == 0) {
                 defaultTime = this._getDefaultTimeFromLayerCapabilities(layer.parent());
-                this._global_dateFormat="YYYY";
+               // this._global_dateFormat="YYYY";
 			
             }
 			//console.info(defaultTime);
