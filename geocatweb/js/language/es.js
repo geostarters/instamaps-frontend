@@ -487,6 +487,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"No s'ha iniciat la sessió. Torni a intentar-ho.":"No se ha iniciado la sesión. Vuelva a intentarlo."
 ,"No s'ha iniciat la sessió":"No se ha iniciado la sesión"
 ,"No s'ha pogut esborrar l'usuari. Si us plau torna-ho a provar":"No se pudo borrar el usuario. Por favor vuelve a intentarlo"
+,"No s'ha trobat el fitxer: " : "El fichero no se encuentra: "
 ,"No s'han trobat registres":"No se han encontrado registros"
 ,"No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326":"No se pudo visualizar este servicio:Instamaps solo carga servicios WMS globales en EPSG:3857 y EPSG:4326"	
 ,"No mostrar més aquest missatge":"No mostrar más"

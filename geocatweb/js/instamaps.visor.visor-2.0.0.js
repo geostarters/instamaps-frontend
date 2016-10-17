@@ -19,8 +19,8 @@
 	}
 	
 	var map_ = new L.IM_Map('map', {
-	  	zoomAnimation:false,
-        typeMap : 'topoMapGeo',
+	  	zoomAnimation: false,
+        typeMap : "topoMapGeo",
         minZoom: 2,
         maxZoom : 19,
         zoomControl: true,
@@ -956,6 +956,29 @@
 			
 			return self;
 		},
+
+		loadURLConfig: function() {
+
+			var self = this;
+			var hash = location.hash;
+			hashControl = new L.Hash(self.map);
+			var parsed = hashControl.parseHash(hash);
+			self._mapConfig = { 
+				tipusAplicacioId : TIPUS_APLIACIO_INSTAMAPS,
+				nomAplicacio : (self.appname ? self.appname : ""),
+				entitatUid : "@",
+				nomEntitat : "",
+				servidorsWMS : [],
+				options : {
+					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
+					zoom : (parsed ? parsed.zoom : 8),
+					description : (self.text ? self.text : "")
+				}
+			};
+
+			return self;
+
+		},
 		
 		loadApp: function(){
 			var self = this,
@@ -969,11 +992,13 @@
 
 		_mapNameShortener: function(inName) {
 
+			var self = this;
 			var name = inName
-			if(60 < name.length)
+			var maxLength = (self.embed ? 47 : 58);	//Limitem el nombre de caràcters del títol pq no salti de línia
+			if(maxLength < name.length)
 			{
 
-				name = "<span title=\"" + inName + "\">" + name.substring(0, 60) + "...</span>";
+				name = "<span title=\"" + inName + "\">" + name.substring(0, maxLength-3) + "...</span>";
 
 			}
 
@@ -1197,6 +1222,9 @@
 						self.drawEmbed();
 					}
 					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
+				}
+				else if(self.text) {	//map definef by url params
+					self.loadURLConfig()._initCenter()._drawVisor()._addURLMarker();
 				}else{
 					
 					
@@ -1208,6 +1236,29 @@
 				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'no embed']});
 			}
 			return self;
+		},
+
+		_addURLMarker: function() {
+			var self = this;
+			var opcenter = self._mapConfig.options.center.split(",");
+			var defaultPunt = L.AwesomeMarkers.icon(default_marker_style);
+			var marker = L.marker(new L.LatLng(opcenter[0], opcenter[1]), {icon: defaultPunt, 
+					 tipus: t_marker}).addTo(self.map);
+
+			if(self.text)
+			{
+
+				var html = '';
+
+				if(self.link)
+					html += "<a href=\"http://" + self.link + "\" target=\"_blank\">";
+				html += self.text;
+				if(self.link)
+					html += "</a>";
+
+				marker.bindPopup(html);
+
+			}
 		},
 		
 		_addTooltips: function(){

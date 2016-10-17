@@ -232,6 +232,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		html+='</div>';
 	//WMS
 	}else if(layer.options.tipus == t_wms){
+		
+		try{
 		var legend_layer = layer.getLegendGraphic();
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
@@ -248,6 +250,11 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				'<input type="text" class="form-control my-border" value="'+layerName+'">'+
 			'</div>';		
 		html+='</div>';	
+		
+		}catch(exception){
+            
+        }
+
 	//Dades obertes y JSON
 	}else if(layer.options.tipus == t_dades_obertes || layer.options.tipus == t_json){//es un punt
 		var estil_do = layer.options.estil_do;

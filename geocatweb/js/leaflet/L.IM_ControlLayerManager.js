@@ -1054,11 +1054,34 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			
 			// Afegir
+			var canSpiderify = (obj.layer.options.tipusRang == tem_clasic || 
+				obj.layer.options.tipusRang == tem_simple || 
+				obj.layer.options.tipusRang == tem_origen);
 			if (input.checked && !this._map.hasLayer(obj.layer)) {
 				
 				
-				
 				this._map.addLayer(obj.layer);
+
+				if(this._map.hasOwnProperty("oms"))
+				{
+
+					//Add the markers to Spiderify
+					var keys = Object.keys(obj.layer._layers);
+					var num = this._map.oms.markers.length;
+					for(var j=0; j<keys.length; ++j)
+					{
+
+						var aux = obj.layer._layers[keys[j]];
+						if(canSpiderify)
+							this._map.oms.addMarker(aux);
+
+					}
+
+					if(num != this._map.oms.markers.length)
+						this._map.oms.unspiderfy();
+
+				}
+
 				//Mostrem els labels
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
@@ -1155,6 +1178,26 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}
 
 				this._map.removeLayer(obj.layer);
+
+				if(this._map.hasOwnProperty("oms"))
+				{
+				
+					//Remove the markers from Spiderify
+					var keys = Object.keys(obj.layer._layers);
+					var num = this._map.oms.markers.length;
+					for(var j=0; j<keys.length; ++j)
+					{
+
+						var aux = obj.layer._layers[keys[j]];
+						if(canSpiderify)
+							this._map.oms.removeMarker(aux);
+
+					}
+
+					if(num != this._map.oms.markers.length)
+						this._map.oms.unspiderfy();
+
+				}
 
 				// Si hem desactivat capa de tipus tematic categories,
 				// mostrem la seva llegenda

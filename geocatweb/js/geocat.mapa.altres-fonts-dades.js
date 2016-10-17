@@ -473,7 +473,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 														'</div>'+
 										'	         </ul>'+
 										'	      </div>'+
-										'	      <div id="opt_urlfile_adreca" class="tab-pane active">'+
+										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
 										'	         <ul class="pane-excel-urlfile">'+
 										'					<span lang="ca">Per codificar per adreces utilitza aquest</span>'+ 
 										'					<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a>'+ 
