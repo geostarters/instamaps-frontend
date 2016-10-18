@@ -37,9 +37,9 @@
 				    var url = $.trim(input.val());
 					
 					if (url === "") {
-						alert(window.lang.convert("Has d'introduïr una URL del servidor"));
+						alert(window.lang.translate("Has d'introduïr una URL del servidor"));
 					} else if (!isValidURL(url)) {
-						alert(window.lang.convert("La URL introduïda no sembla correcte"));
+						alert(window.lang.translate("La URL introduïda no sembla correcte"));
 					} else {
 						self.getCapabilities({url:url});
 					}
@@ -193,7 +193,7 @@
 						ActiuWMS.epsg = L.CRS.EPSG4326;
 						ActiuWMS.epsgtxt = '4326';	
 					} else {
-						alert(window.lang.convert("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
+						alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 						return;
 					}
 					
@@ -204,7 +204,7 @@
 					self._botons.empty();
 					self._botons.html(
 						'<div style="float:right"><button lang="ca" class="btn btn-success btn-add-wms" >' +
-						window.lang.convert("Afegir capes") + '</button></div>');
+						window.lang.translate("Afegir capes") + '</button></div>');
 					
 					//if(self.capa){
 					if(self.hasOwnProperty('capa')){
@@ -247,10 +247,10 @@
 					
 				} catch (err) {
 					console.debug(err);
-					$('.layers-wms').html('<hr lang="ca">'+window.lang.convert("Error en interpretar capabilities")+': ' + err + '</hr>');
+					$('.layers-wms').html('<hr lang="ca">'+window.lang.translate("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){
-				status.indexOf('parser')!=-1?alert(window.lang.convert("Error en interpretar capabilities")):alert(window.lang.convert("Error: No s'ha pogut executar l'operació"));
+				status.indexOf('parser')!=-1?alert(window.lang.translate("Error en interpretar capabilities")):alert(window.lang.translate("Error: No s'ha pogut executar l'operació"));
 				
 				});
 			
@@ -314,7 +314,7 @@
 			self.ActiuWMS.wmstime = _dateFormat;
 			
 			if(cc.length === 0){
-				alert(window.lang.convert("Has de seleccionar almenys una capa"));
+				alert(window.lang.translate("Has de seleccionar almenys una capa"));
 			}else{
 				self.ActiuWMS.layers = cc;
 				if(self.callback){

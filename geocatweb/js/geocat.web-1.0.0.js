@@ -1,37 +1,30 @@
-window.lang = new jquery_lang_js();
+window.lang = new Lang();
 
 var lsLang;
 
 jQuery(document).ready(function() {
 	
-	weball_tornarInici();		
-	window.lang.run();
+	weball_tornarInici();
+	lang.dynamic('en', '/geocatweb/js/language/en.json');
+	lang.dynamic('es', '/geocatweb/js/language/es.json');
+	window.lang.init({
+        defaultLang: 'ca'
+    });
 	lsLang=web_determinaIdioma();
 	if (lsLang == null || lsLang == "null"){
 		lsLang = "ca";
 		canviaIdioma(lsLang);
 	}
 	web_menusIdioma(lsLang);
+	
 	initHover();
 	checkUserLogin();
-    var currentLang = localStorage.getItem('langJs_currentLang');
-    if(currentLang === 'es')$("#es").addClass("active");
-    else if(currentLang === 'en') $("#en").addClass("active");
-    else {
-    	$("#ca").addClass("active");
-    	localStorage['langJs_currentLang'] = 'ca';
-    }
     
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
     	logoutUser();
-    	//window.location.href = paramUrl.loginPage;
     });
     initCookies();
-    
-//    if(window.location.href.indexOf("index.html")!=-1){
-//    	controlLandingForm();
-//    }
     
     if ($(".centered-form").length > 0){
     	controlLandingForm();
@@ -52,10 +45,10 @@ function initCookies(){
 			onlyshowbanneronce: true
 		},
 		strings: {
-			notificationTitleImplicit: window.lang.convert("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal"),
+			notificationTitleImplicit: window.lang.translate("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal"),
 			seeDetailsImplicit:'',
-			savePreference:window.lang.convert("Acceptar"),
-			allowCookiesImplicit: window.lang.convert("Acceptar")
+			savePreference:window.lang.translate("Acceptar"),
+			allowCookiesImplicit: window.lang.translate("Acceptar")
 		}
 	});
 	
@@ -98,13 +91,12 @@ function controlLandingForm(){
 }
 
 function insertDataInstamaper(email){
-//	console.debug("insertDataInstamaper...");
 	var defer = $.Deferred();
 	
 	var dataInsert = {
-			email: email,
-			options: curs_instamaps
-	}
+		email: email,
+		options: curs_instamaps
+	};
 	var insert_error = "";
 	registreInstamaper(dataInsert).then(function(results){
 		if (results.status=="ERROR") {
@@ -128,35 +120,34 @@ function insertDataInstamaper(email){
 }
 
 function sendEmailInstamaper(email,insert_error, type){//type per saber si es per pantalles petites o grans
-//	console.debug("sendEmailInstamaper ....");
 	var data = {
-			uid: $.cookie('uid'),
-			to: instamaps_email,// to,
-			subject: curs_instamaps,
-			content: email + insert_error,//contingut,
-			esColaboratiu: 'N',
-			businessId: ""
+		uid: Cookies.get('uid'),
+		to: instamaps_email,// to,
+		subject: curs_instamaps,
+		content: email + insert_error,//contingut,
+		esColaboratiu: 'N',
+		businessId: ""
 	};
 	sendMail(data).then(function(results){
 		if (results.status=="OK") {
 			$('#landing-form-message'+type).html(
 					'<div class="alert alert-success alert-dismissible" role="alert">'+
 					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.")+'</div>'
+					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.translate("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.")+'</div>'
 			);				
 		}
 		else {
 			$('#landing-form-message'+type).html(
 					'<div class="alert alert-danger alert-dismissible" role="alert">'+
 					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+					  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.translate("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
 			);
 		}
 	},function(results){
 		$('#landing-form-message'+type).html(
 			'<div class="alert alert-danger alert-dismissible" role="alert">'+
 			  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-			  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
+			  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.translate("Hi ha hagut un problema amb l'enviament del correu. Torni a intentar-ho.")+'</div>'
 		);
 	});	
 	
@@ -171,14 +162,14 @@ function landingFormButtonClick(type){
 		$('#landing-form-message'+type).html(
 				'<div class="alert alert-danger alert-dismissible" role="alert">'+
 				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El camp no pot estar buit")+'</div>'
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.translate("El camp no pot estar buit")+'</div>'
 		);			
 	}else if(!isValidEmailAddress(email)){
 		$('#landing-form-email'+type).addClass("invalid-landing-form");
 		$('#landing-form-message'+type).html(
 				'<div class="alert alert-danger alert-dismissible" role="alert">'+
 				  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.convert("El correu no és correcte")+'</div>'
+				  '<strong><span class="glyphicon glyphicon-warning-sign"></span></strong> '+window.lang.translate("El correu no és correcte")+'</div>'
 		);	
 	}else{
 
@@ -194,7 +185,7 @@ function landingFormButtonClick(type){
     			$('#landing-form-message'+type).html(
     					'<div class="alert alert-success alert-dismissible" role="alert">'+
     					  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-    					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.convert("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.")+'</div>'
+    					  '<strong><span class="glyphicon glyphicon-ok"></span></strong> '+window.lang.translate("Gràcies. Prenem nota del teu correu i t'avisarem quan comencem el proper taller.")+'</div>'
     			);	    			
     		}
     	);
@@ -272,8 +263,8 @@ function initHover(){
 }
 
 function checkUserLogin(){
-	var uid = $.cookie('uid');
-	var tipusEntitat = parseInt($.cookie('tipusEntitat'));
+	var uid = Cookies.get('uid');
+	var tipusEntitat = parseInt(Cookies.get('tipusEntitat'));
 	var logged = false;
 	if(!uid || isRandomUser(uid)){
 		$("#menu_login").show();
@@ -283,7 +274,6 @@ function checkUserLogin(){
 		logged = true;
 		$("#menu_login").hide();
 		$("#menu_user").show();	
-//		$("#text_welcome").append("<span id=\"text_username\"> "+uid+"</span>");
 		var nomUser = uid.split("@");
 		$("#text_username").text(" "+nomUser[0]);
 		
@@ -301,16 +291,16 @@ function checkUserLogin(){
 		url('file') === "sessio_geolocal.html" ||
 		url('file') === "geolocal.html" 
 	){
-		$.cookie('perfil', 'geolocal', {path:'/'});
+		Cookies.set('perfil', 'geolocal');
 	}else if(url('file') === "galeria.html" ||
 		url('file') === "sessio.html" ||
 		url('file') === "index.html"
 	){
-		$.cookie('perfil', 'instamaps', {path:'/'});
+		Cookies.set('perfil', 'instamaps');
 	}
 	
 	if(!tipusEntitat){
-		var perfil = $.cookie('perfil');
+		var perfil = Cookies.get('perfil');
 		switch(perfil){
 			case 'instamaps':
 				tipusEntitat = 1;
@@ -336,19 +326,16 @@ function checkUserLogin(){
 function web_menusIdioma(lsLang){
 	jQuery('#ch_idioma li').each(function() {
 		jQuery(this).removeClass('active');
-		if (jQuery(this).attr('id') ==lsLang){
+		if (jQuery(this).attr('id') == lsLang){
 			jQuery(this).addClass('active');
 		}
-	
 		jQuery(this).click(function() {
 			jQuery('#ch_idioma li').removeClass('active');
 			jQuery(this).addClass('active');
-		
 			canviaIdioma(jQuery(this).attr('id'));
 	    });
   });
 }
-
 
 function canviaIdioma(lsLang){
 	window.lang.change(lsLang);
@@ -363,18 +350,16 @@ function web_determinaIdioma(){//Determinar idioma per paràmetre
 		jQuery("a[id^='hl_']").each(function(index){
 			var _href=jQuery(this).attr('href');
 			_href.indexOf('?') == -1 ? jQuery(this).attr('href',_href+'?hl='+lsLang): jQuery(this).attr('href',_href+'&hl='+lsLang);
-			
 		});
 	}
-	else if (localStorage){
-		var lsLang = localStorage.getItem('langJs_currentLang');
+	else if (Cookies.get("langCookie")){
+		var lsLang = Cookies.get("langCookie");
 		if (lsLang != null && lsLang != "null"){
 			window.lang.change(lsLang);
 		}
 	}
-	
 	return lsLang;
-}	
+}
 
 function web_roundCircles(){
 	jQuery('#div_E').on('click', function() {
@@ -422,7 +407,7 @@ jQuery('#fes-mapa-inici').hide();
 }	
 
 function defineTipusUser(){
-	if(!$.cookie('uid') || $.cookie('uid').indexOf('random')!=-1){
+	if(!Cookies.get('uid') || Cookies.get('uid').indexOf('random')!=-1){
 		tipus_user = t_user_random;
 	}else{
 		tipus_user = t_user_loginat;
@@ -431,21 +416,21 @@ function defineTipusUser(){
 }
 
 function logoutUser(){
-	if (isRandomUser($.cookie('uid'))){
-		deleteRandomUser({uid: $.cookie('uid')});
+	if (isRandomUser(Cookies.get('uid'))){
+		deleteRandomUser({uid: Cookies.get('uid')});
 	}
 	var redirect = "/index.html";
 	if(isGeolocalUser()){
 		redirect = "/geolocal.html";
 	}
-	$.removeCookie('uid', { path: '/' });
-	$.removeCookie('tipusEntitat', { path: '/' });
-	$.removeCookie('token', { path: '/' });
+	Cookies.remove('uid');
+	Cookies.remove('tipusEntitat');
+	Cookies.remove('token');
 	doLogout().then(function(results){
 		if(results.status==='OK'){
-			$.removeCookie('uid', { path: '/' });
-			$.removeCookie('tipusEntitat', { path: '/' });
-			$.removeCookie('token', { path: '/' });
+			Cookies.remove('uid');
+			Cookies.remove('tipusEntitat');
+			Cookies.remove('token');
 			window.location.href=redirect;
 		}else{
 			alert("no logout");
@@ -592,8 +577,8 @@ function isGeolocalUser(){
 	var isGeolocal = false;
 	
 	
-	if($.cookie('tipusEntitat')){
-		if($.inArray(parseInt($.cookie('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
+	if(Cookies.get('tipusEntitat')){
+		if($.inArray(parseInt(Cookies.get('tipusEntitat')),TIPUS_ENTITATS_GEOLOCAL) != -1){
 			isGeolocal = true;
 		}
 	}
@@ -602,7 +587,7 @@ function isGeolocalUser(){
 }
 
 function cambiarTitle(){
-	if($.cookie('tipusEntitat')){
+	if(Cookies.get('tipusEntitat')){
 		if(isGeolocalUser()){
 			$('.brand-txt').text("InstaMaps.GeoLocal");
 			$('.navbar-brand').prop('href','/geolocal.html');

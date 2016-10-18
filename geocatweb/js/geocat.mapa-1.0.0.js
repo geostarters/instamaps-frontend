@@ -2,8 +2,8 @@ jQuery(document).ready(function() {
 
 	if(typeof url('?uid') == "string"){
 		gestioCookie();
-		$.removeCookie('uid', { path: '/' });
-		$.cookie('uid', url('?uid'), {path:'/'});
+		Cookies.remove('uid');
+		Cookies.set('uid', url('?uid'));
 		checkUserLogin();
 	}
 
@@ -15,7 +15,7 @@ jQuery(document).ready(function() {
 	}else{
 		if (tipus_user == t_user_loginat){
 			var data = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId: url('?businessid'),
 					mapacolaboratiu: url('?mapacolaboratiu')
 				};
@@ -97,7 +97,7 @@ function loadApp(){
 
 		var data = {
 			businessId: url('?businessid'),
-			uid: $.cookie('uid'),
+			uid: Cookies.get('uid'),
 			mapacolaboratiu: url('?mapacolaboratiu')
 		};
 
@@ -110,8 +110,8 @@ function loadApp(){
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
 			}else{
-				if ($.cookie('collaboratebid')) $.removeCookie('collaboratebid',{path: '/' });
-				if ($.cookie('collaborateuid')) $.removeCookie('collaborateuid',{path: '/' });
+				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
+				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
 					mapConfig = results.results;
 					//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
@@ -153,7 +153,7 @@ function loadApp(){
 					//afegim llegenda
 					
 					ctr_legend = L.control.legend({
-						title: window.lang.convert('Llegenda'),
+						title: window.lang.translate('Llegenda'),
 						tipusllegenda: "dinamica",  //"dinamica"
 						llegendaOpt: true, //true
 						origenllegenda:'mapa'						
@@ -189,7 +189,7 @@ function loadApp(){
 							$("body").on("change-lang", function(event, lang){
 								addDrawTooltips();//Actualitzem tootltips funcionalitat draw
 								window.lang.change(lang);
-								window.lang.run(lang);
+								//window.lang.run(lang);
 								updateLangTooltips();
 								updateLangText();
 							});
@@ -225,7 +225,7 @@ function loadApp(){
 		});
 		addLeaveModal();
 	}else{
-		if (!$.cookie('uid')){
+		if (!Cookies.get('uid')){
 			createRandomUser().then(function(results){
 				if (results.status==='OK'){
 					var user_login = results.results.uid;
@@ -233,7 +233,7 @@ function loadApp(){
 					var dataUrl = {user:user_login, password:pass_login};
 					doLogin(dataUrl).then(function(results){
 						if(results.status==='OK'){
-							jQuery.cookie('uid', user_login, {path:'/'});
+							Cookies.set('uid', user_login);
 							createNewMap();
 						}
 					});
@@ -411,7 +411,7 @@ function addControlsInici(){
 
 		this._div = L.DomUtil.create('div', 'leaflet-bar bt_house');
 		this._div.id='dv_bt_vistaInicial';
-		this._div.title=window.lang.convert('Vista inicial');
+		this._div.title=window.lang.translate('Vista inicial');
 		this._div.innerHTML = '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>';
 		return this._div;
 	};
@@ -425,7 +425,7 @@ function addToolTipsInici() {
 
 function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
-		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+		jQuery(this).attr('data-original-title', window.lang.translate(jQuery(this).data('lang-title')));
 	});
 	
 	jQuery("#dv_bt_vistaInicial").on('click',function(e){
@@ -451,45 +451,45 @@ function updateLangTooltips(){
 function updateLangText(){
 
 	//Add tooltip caixa cerca
-	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
-	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));
+	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.translate('Cercar llocs o coordenades ...'));
+	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.translate('Cercar llocs o coordenades ...'));
 
-	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.convert("Situar un punt"));
-	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.convert("Dibuixar una línia o un polígon"));
-	$('#funcio_tematics>h5').html(window.lang.convert("Triar l'estil de la capa"));
-	$('#funcio_fonsMapes>h5').html(window.lang.convert("Escollir el mapa de fons"));
-	$('.bt_publicar>span').html(window.lang.convert("Desar / Publicar el mapa"));
-	$('#socialShare>h5').html(window.lang.convert("Compartir"));
+	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.translate("Situar un punt"));
+	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.translate("Dibuixar una línia o un polígon"));
+	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
+	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
+	$('.bt_publicar>span').html(window.lang.translate("Desar / Publicar el mapa"));
+	$('#socialShare>h5').html(window.lang.translate("Compartir"));
 	
 	//Traducció dels textos del modal de publicar
-	$('#titlePublicar').text(window.lang.convert('Publicar el mapa'));
-	$('#id_info_tab').text(window.lang.convert('Informació'));
-	$('#id_privacitat_tab').text(window.lang.convert('Privacitat'));
-	$('#id_llegenda_tab').text(window.lang.convert('Llegenda'));
-	$('#id_reuse_tab').text(window.lang.convert('Reutilització'));
+	$('#titlePublicar').text(window.lang.translate('Publicar el mapa'));
+	$('#id_info_tab').text(window.lang.translate('Informació'));
+	$('#id_privacitat_tab').text(window.lang.translate('Privacitat'));
+	$('#id_llegenda_tab').text(window.lang.translate('Llegenda'));
+	$('#id_reuse_tab').text(window.lang.translate('Reutilització'));
 	
 	
-	$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
-    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
-    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 
-	$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
+	$('#nomAplicacioPub').attr("placeholder", window.lang.translate("Nom"));
+    $('#optDescripcio').attr("placeholder", window.lang.translate("Descripció"));
+    $('#optTags').attr("placeholder", window.lang.translate("Etiquetes")); 
+	$('#publish-warn-text').text(window.lang.translate('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
 	
     
-    $('#llegendaTitle').text(window.lang.convert('Llegenda'));
-    $('#textLegend').text(window.lang.convert('Escull si vols o no generar la llegenda associada al mapa'));
+    $('#llegendaTitle').text(window.lang.translate('Llegenda'));
+    $('#textLegend').text(window.lang.translate('Escull si vols o no generar la llegenda associada al mapa'));
     
-    $('#checkObert').text(window.lang.convert('Obert'));
-    $('#checkRestringit').text(window.lang.convert('Restringit'));
-    $('#txtPublic').text(window.lang.convert('Tothom amb l\'enllaç pot accedir al mapa'));
-    $('#txtPrivat').text(window.lang.convert('L\'accés al mapa es protegit amb clau'));
-    $('#checkPublic').text(window.lang.convert('Públic'));
-    $('#checkPrivat').text(window.lang.convert('Privat'));
-    $('#txtVisible').text(window.lang.convert('El mapa és visible a la galeria pública'));
-    $('#txtNoVisible').text(window.lang.convert('El mapa només és visible a la teva galeria privada'));
-    $('#resetClau').text(window.lang.convert('Reiniciar'));
+    $('#checkObert').text(window.lang.translate('Obert'));
+    $('#checkRestringit').text(window.lang.translate('Restringit'));
+    $('#txtPublic').text(window.lang.translate("Tothom amb l'enllaç pot accedir al mapa"));
+    $('#txtPrivat').text(window.lang.translate("L'accés al mapa es protegit amb clau"));
+    $('#checkPublic').text(window.lang.translate('Públic'));
+    $('#checkPrivat').text(window.lang.translate('Privat'));
+    $('#txtVisible').text(window.lang.translate('El mapa és visible a la galeria pública'));
+    $('#txtNoVisible').text(window.lang.translate('El mapa només és visible a la teva galeria privada'));
+    $('#resetClau').text(window.lang.translate('Reiniciar'));
     
-    $('#cancelPublicar').text(window.lang.convert('Cancel·lar'));
-    $('#okPublicar').text(window.lang.convert('Publicar'));
+    $('#cancelPublicar').text(window.lang.translate('Cancel·lar'));
+    $('#okPublicar').text(window.lang.translate('Publicar'));
 
 }
 
@@ -748,7 +748,7 @@ function createNewMap(){
 
 	var data = {
 		nom: getTimeStamp(),
-		uid: $.cookie('uid'),
+		uid: Cookies.get('uid'),
 		visibilitat: visibilitat_privat,
 		tipusApp: tipusApp,
 	};
@@ -800,7 +800,7 @@ function getBusinessIdOrigenLayers(){
 
 function loadControls(configuracio){
 	//funcionalitats a carregar nomes si esta loginat
-	if ($.cookie('uid')){
+	if (Cookies.get('uid')){
 		jQuery.each(configuracio.funcionalitatsLoginat, function(i, funcionalitatLoginat){
 			eval(funcionalitatLoginat);
 		});
@@ -816,7 +816,7 @@ function loadConfiguracio(configuracio){
 		configuracio = $.parseJSON(mapConfig.configuracio);
 		dfd.resolve(configuracio);
 	}else{
-		jQuery.get('../../default_config_mapa_0.3.txt', function(data) {
+		jQuery.get('../../default_config_mapa_0.4.txt', function(data) {
 			   configuracio = $.parseJSON(data);
 			   dfd.resolve(configuracio);
 		});
@@ -827,7 +827,7 @@ function loadConfiguracio(configuracio){
 function addLeaveModal(){
 	addHtmlModalLeave();
 
-	if (isRandomUser($.cookie('uid'))){
+	if (isRandomUser(Cookies.get('uid'))){
 		jQuery('#hl_sessio1').attr('href', paramUrl.loginPage+"?from=mapa");
 
 		jQuery('.navbar-form .bt-sessio').on('click',function(){
@@ -855,8 +855,8 @@ function addLeaveModal(){
 
 		jQuery(window).on('unload',function(event){
 			_gaq.push(['_trackEvent', 'mapa', tipus_user+'sortir', 'label sortir', 1]);
-			deleteRandomUser({uid: $.cookie('uid')});
-			$.removeCookie('uid', { path: '/' });
+			deleteRandomUser({uid: Cookies.get('uid')});
+			Cookies.remove('uid');
 		});
 	}else{
 		jQuery('#dialgo_leave .btn-primary').on('click',function(){

@@ -324,12 +324,12 @@ function pLeft() {
 }
 
 function gestioCookie(from){
-	var _cookie = $.cookie('uid');
+	var _cookie = Cookies.get('uid');
 
 	switch(from){
 		case 'createMap':
 			if (isRandomUser(_cookie)){
-				$.removeCookie('uid', { path: '/' });
+				Cookies.remove('uid');
 				window.location.href = paramUrl.mainPage;
 			}else{
 				window.location.href = paramUrl.galeriaPage;
@@ -343,7 +343,7 @@ function gestioCookie(from){
 				window.location.href = paramUrl.mainPage;
 			}else{
 				if (isRandomUser(_cookie)){
-					$.removeCookie('uid', { path: '/' });
+					Cookies.remove('uid');
 					jQuery(window).off('beforeunload');
 					//jQuery(window).off('unload');
 					window.location.href = paramUrl.mainPage;
@@ -360,19 +360,19 @@ function gestioCookie(from){
 		case 'diferentUser':
 			var mapacolaboratiu = url('?mapacolaboratiu');
 			if (mapacolaboratiu && mapacolaboratiu=='si'){
-				$.cookie('collaborateuid', url('?uid'), {path:'/'});
+				Cookies.set('collaborateuid', url('?uid'));
 			}
 			else{
-				$.removeCookie('collaborateuid', { path: '/' });
+				Cookies.remove('collaborateuid', { path: '/' });
 				if (mapConfig.entitatUid != _cookie){
-					$.removeCookie('uid', { path: '/' });
+					Cookies.remove('uid');
 					window.location.href = paramUrl.mainPage;
 				}
 			}
 			break;
 		case 'loadMapConfig':
 			if (isRandomUser(_cookie) ){
-				$.removeCookie('uid', { path: '/' });
+				Cookies.remove('uid');
 				jQuery(window).off('beforeunload');
 				window.location.href = paramUrl.mainPage;
 			}else{

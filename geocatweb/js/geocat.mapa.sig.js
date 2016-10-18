@@ -143,7 +143,7 @@ function openBufferModal(){
 	jQuery('#dialog_buffer .btn-primary').on('click',function(event){
 		if(busy){
 			jQuery('#dialog_buffer').hide();
-			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -155,7 +155,7 @@ function openBufferModal(){
 			}else {
 				var businessId = $("input[name='buffer-chck']:checked").parent().attr('data-businessId');
 				var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: businessId
 				};
 				crearFitxerPolling(data1).then(function(results) {
@@ -177,36 +177,36 @@ function openBufferModal(){
 										if(data.status.indexOf("ABANS BUFFER")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("OK")!=-1 && busy){
 											clearInterval(pollInterval);
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 											);		
 											if (data.midaFitxer==0){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));					
+												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var data2 = {
-													uid: $.cookie('uid'),
+													uid: Cookies.get('uid'),
 													mapBusinessId: url('?businessid'),
-													serverName:data.nomCapaOrigen+" "+window.lang.convert("Àrea d'influència"),
+													serverName:data.nomCapaOrigen+" "+window.lang.translate("Àrea d'influència"),
 													path:data.path,
 													tmpFilePath:data.tmpFilePath,
 													midaFitxer:data.midaFitxer,
@@ -227,7 +227,7 @@ function openBufferModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -239,7 +239,7 @@ function openBufferModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));							
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));							
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -253,12 +253,12 @@ function openBufferModal(){
 							},pollTime);
 						})();
 						var data = {
-							uid: $.cookie('uid'),
+							uid: Cookies.get('uid'),
 							urlSIG: paramUrl.buffer,
 							tipusSIG: "buffer",
 							businessId1: businessId,
-							nom:window.lang.convert("Àrea d'influència"),
-							text:window.lang.convert("Àrea d'influència"),
+							nom:window.lang.translate("Àrea d'influència"),
+							text:window.lang.translate("Àrea d'influència"),
 							tmpFilePath: tmpFile,
 							radi: $('#distancia').val()
 						};
@@ -279,7 +279,7 @@ function openIntersectionModal(){
 	jQuery('#dialog_intersection .btn-primary').on('click',function(event){
 		if(busy){
 			jQuery('#dialog_intersection').hide();
-			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -293,7 +293,7 @@ function openIntersectionModal(){
 				var businessId1 = $("input[name='intersect-chck']:checked").parent().attr('data-businessId');
 				var businessId2 = $("input[name='intersect-chck2']:checked").parent().attr('data-businessId');
 				var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: businessId1,
 					businessId2: businessId2
 				};
@@ -316,38 +316,38 @@ function openIntersectionModal(){
 										if(data.status.indexOf("ABANS INTERSECTION")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("OK")!=-1 && busy){
 											clearInterval(pollInterval);
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 											);									
 											if (data.midaFitxer==0){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var name1 = $("input[name='intersect-chck']:checked").parent().attr('data-layername');
 												var name2 = $("input[name='intersect-chck2']:checked").parent().attr('data-layername');
 												var data2 = {
-													uid: $.cookie('uid'),
+													uid: Cookies.get('uid'),
 													mapBusinessId: url('?businessid'),
-													serverName:window.lang.convert("Intersecció")+" "+name1 +" "+name2,
+													serverName:window.lang.translate("Intersecció")+" "+name1 +" "+name2,
 													path:data.path,
 													tmpFilePath:data.tmpFilePath,
 													midaFitxer:data.midaFitxer,
@@ -368,7 +368,7 @@ function openIntersectionModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -379,7 +379,7 @@ function openIntersectionModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -393,13 +393,13 @@ function openIntersectionModal(){
 							},pollTime);
 						})();
 						var data = {
-							uid: $.cookie('uid'),
+							uid: Cookies.get('uid'),
 							urlSIG: paramUrl.intersection,
 							tipusSIG: "intersection",
 							businessId1: businessId1,
 							businessId2: businessId2,
-							nom:window.lang.convert("Intersecció"),
-							text:window.lang.convert("Intersecció"),
+							nom:window.lang.translate("Intersecció"),
+							text:window.lang.translate("Intersecció"),
 							tmpFilePath: tmpFile
 						};
 						callActions(data);
@@ -420,7 +420,7 @@ function openTagModal(){
 		event.stopImmediatePropagation();
 		if(busy){
 			jQuery('#dialog_tag').hide();
-			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -433,7 +433,7 @@ function openTagModal(){
 				var businessId1 = $("input[name='tag-chck']:checked").parent().attr('data-businessId');
 				var businessId2 = $("input[name='tag-chck2']:checked").parent().attr('data-businessId');
 				var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: businessId1,
 					businessId2: businessId2
 				};
@@ -456,37 +456,37 @@ function openTagModal(){
 										if(data.status.indexOf("ABANS TAG")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("OK")!=-1 && busy){
 											clearInterval(pollInterval);
 											
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 											);									
 											if (data.midaFitxer==0){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var data2 = {
-													uid: $.cookie('uid'),
+													uid: Cookies.get('uid'),
 													mapBusinessId: url('?businessid'),
-													serverName:window.lang.convert("Transmissió (tag)")+" "+data.nomCapaOrigen1+" "+data.nomCapaOrigen2,
+													serverName:window.lang.translate("Transmissió (tag)")+" "+data.nomCapaOrigen1+" "+data.nomCapaOrigen2,
 													path:data.path,
 													tmpFilePath:data.tmpFilePath,
 													midaFitxer:data.midaFitxer,
@@ -505,7 +505,7 @@ function openTagModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -516,7 +516,7 @@ function openTagModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));					
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));					
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -533,13 +533,13 @@ function openTagModal(){
 						})();
 						
 						var data = {
-							uid: $.cookie('uid'),
+							uid: Cookies.get('uid'),
 							urlSIG: paramUrl.tag,
 							tipusSIG: "tag",
 							businessId1: businessId1,
 							businessId2: businessId2,
-							nom:window.lang.convert("Transmissió (tag)"),
-							text:window.lang.convert("Transmissió (tag)"),
+							nom:window.lang.translate("Transmissió (tag)"),
+							text:window.lang.translate("Transmissió (tag)"),
 							tmpFilePath: tmpFile
 						};
 						
@@ -562,7 +562,7 @@ function openCentroideModal(){
 		event.stopImmediatePropagation();
 		if(busy){
 			jQuery('#dialog_centroid').hide();
-			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -573,7 +573,7 @@ function openCentroideModal(){
 			}else {
 				var businessId1 = $("input[name='centroide-chck']:checked").parent().attr('data-businessId');
 				var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: businessId1
 				};
 				crearFitxerPolling(data1).then(function(results) {
@@ -595,16 +595,16 @@ function openCentroideModal(){
 										if(data.status.indexOf("ABANS CENTROIDE")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 											);									
 										}else if(data.status.indexOf("OK")!=-1 && busy){
 
@@ -612,21 +612,21 @@ function openCentroideModal(){
 										
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 											);									
 											if (data.midaFitxer==0){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var data2 = {
-													uid: $.cookie('uid'),
+													uid: Cookies.get('uid'),
 													mapBusinessId: url('?businessid'),
-													serverName:data.nomCapaOrigen+" "+window.lang.convert("Centre geomètric"),
+													serverName:data.nomCapaOrigen+" "+window.lang.translate("Centre geomètric"),
 													path:data.path,
 													//tmpFilePath:'E://usuaris//m.ortega//temp//tmp2.geojson',
 													tmpFilePath:data.tmpFilePath,
@@ -649,7 +649,7 @@ function openCentroideModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -660,7 +660,7 @@ function openCentroideModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));										
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -676,12 +676,12 @@ function openCentroideModal(){
 						})();
 					
 						var data = {
-							uid: $.cookie('uid'),
+							uid: Cookies.get('uid'),
 							urlSIG: paramUrl.centroid,
 							tipusSIG: "centroide",
 							businessId1: businessId1,
-							nom:window.lang.convert("Centre geomètric"),
-							text:window.lang.convert("Centre geomètric"),
+							nom:window.lang.translate("Centre geomètric"),
+							text:window.lang.translate("Centre geomètric"),
 							tmpFilePath: tmpFile
 						};
 					
@@ -705,11 +705,11 @@ function addHtmlModalBuffer(){
 }
 
 function createModalConfigLayersBuffer(){
-	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
-		window.lang.convert('Capes disponibles:')+
+		window.lang.translate('Capes disponibles:')+
 		'</label>';
 	
 	jQuery.each(controlCapes._layers, function(i, item){
@@ -747,11 +747,11 @@ function createModalConfigLayersBuffer(){
 }
 
 function createModalConfigLayersCentroide(){
-	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	var count = 0;
 	var html = '<label class="control-label" lang="ca">'+
-		window.lang.convert('Capes disponibles:')+
+		window.lang.translate('Capes disponibles:')+
 		'</label>';
 	
 	jQuery.each(controlCapes._layers, function(i, item){
@@ -800,18 +800,18 @@ function addHtmlModalIntersection(){
 }
 
 function createModalConfigLayers2(tipus){
-	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	var warningMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	var count = 0;
 	var count2 = 0;
 	var countI = 0;
 	var countI2= 0;
 	var html = '<label class="control-label" lang="ca">'+
-		window.lang.convert('Capes disponibles')+":"+
+		window.lang.translate('Capes disponibles')+":"+
 	'</label>';
 	if (tipus=="tag" || tipus=="spatialJoin") {
 		html = '<label class="control-label" lang="ca">'+
-			window.lang.convert('Capes de polígons disponibles')+":"+
+			window.lang.translate('Capes de polígons disponibles')+":"+
 			'</label>';
 	}
 	else if (tipus=="intersection"){
@@ -860,17 +860,17 @@ function createModalConfigLayers2(tipus){
 	html+='';
 	if (tipus=="intersection") {
 		html += '<label class="control-label" lang="ca">'+
-			window.lang.convert('Capes per fer intersecció')+":"+
+			window.lang.translate('Capes per fer intersecció')+":"+
 			'</label>';
 	}
 	if (tipus=="union"){
 		html += '<label class="control-label" lang="ca">'+
-			window.lang.convert('Capes per fer unió')+":"+
+			window.lang.translate('Capes per fer unió')+":"+
 			'</label>';
 	}
 	if (tipus=="tag" || tipus=="spatialJoin") {
 		html += '<label class="control-label" lang="ca">'+
-			window.lang.convert('Capes de punts disponibles')+":"+
+			window.lang.translate('Capes de punts disponibles')+":"+
 			'</label>';
 	}
 	
@@ -980,7 +980,7 @@ function addHtmlModalLayersFilter(){
 
 function showFilterLayersModal(){
 	//console.debug("showTematicLayersModal");
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
@@ -1024,7 +1024,7 @@ function showModalFilterFieldsAvancat(data){
 	
 	var dataTem={
 		businessId: data.businessid,
-		uid: jQuery.cookie('uid')
+		uid: Cookies.get('uid')
 	};
 	$('#visFilter').val(data.businessid);
 	
@@ -1050,7 +1050,7 @@ function showModalFilterFieldsAvancat(data){
 			var this_ = jQuery('#dataField_filter_avancat');
 			readDataUrlFileLayer(urlFileLayer, this_.val()).then(function(results){
 				if (results.length == 0){
-					var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+					var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 				}else{
 					var fields = {};	
 					results.sort(sortByValueMax);
@@ -1087,7 +1087,7 @@ function showModalFilterFieldsAvancat(data){
 			var dataVis={
 				businessId1: data.businessid,
 				key: this_.val(),
-				uid: jQuery.cookie('uid')
+				uid: Cookies.get('uid')
 			};
 			getValuesFromKeysProperty(dataVis).then(function(results){
 				var valors = results.valors;
@@ -1109,7 +1109,7 @@ function showModalFilterFieldsAvancat(data){
 			var dataVis={
 				businessId1: data.businessid,
 				key: this_.val(),
-				uid: jQuery.cookie('uid')
+				uid: Cookies.get('uid')
 			};
 			getValuesFromKeysProperty(dataVis).then(function(results){
 				var valors = results.valors;
@@ -1304,13 +1304,13 @@ function showModalFilterFieldsAvancat(data){
 	jQuery('#filtrarBtn').on('click',function(event){
 		if(busy){
 		 	jQuery('#dialog_filter_rangs_avancat').hide();
-			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
 			event.stopImmediatePropagation();
 			var data1 = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId1: visFilter
 			};
 			crearFitxerPolling(data1).then(function(results) {
@@ -1333,16 +1333,16 @@ function showModalFilterFieldsAvancat(data){
 									if(data.status.indexOf("ABANS FILTRE")!=-1 && busy){
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 										);									
 									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 										);									
 									}else if(data.status.indexOf("OK")!=-1 && busy){
 
@@ -1350,9 +1350,9 @@ function showModalFilterFieldsAvancat(data){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Operació calculada')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 										);									
 										var defer = $.Deferred();
 										jQuery('#dialog_filter_rangs_avancat').modal('hide');
@@ -1371,7 +1371,7 @@ function showModalFilterFieldsAvancat(data){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");										
-										$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l'operació"));	
+										$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));	
 										$('#dialog_error_upload').modal('show');
 										
 										keys="";
@@ -1383,7 +1383,7 @@ function showModalFilterFieldsAvancat(data){
 										jQuery('#dialog_filter_rangs_avancat').modal('hide');
 										jQuery('#info_uploadFile').hide();	
 										$('#dialog_error_upload_txt').html("");					
-										$('#dialog_error_upload_txt').html(window.lang.convert("No hi ha resultats per el filtre"));					
+										$('#dialog_error_upload_txt').html(window.lang.translate("No hi ha resultats per el filtre"));					
 										$('#dialog_error_upload').modal('show');
 										busy=false;
 										keys="";
@@ -1405,7 +1405,7 @@ function showModalFilterFieldsAvancat(data){
 					})();
 					
 					var data = {
-						uid: jQuery.cookie('uid'),
+						uid: Cookies.get('uid'),
 						urlSIG: paramUrl.filter,
 						tipusSIG: "filter",
 						businessId1: visFilter,
@@ -1446,7 +1446,7 @@ function addHtmlModalFieldsFilterAvancat(){
 function getTipusValuesVisualitzacioFilter(results){
 	//console.debug("getTipusValuesVisualitzacio");
 	if (results.length == 0){
-		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+		var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Aquest camp no te valors')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 		jQuery('#list_filter_values').html(warninMSG);
 		jQuery('#dialog_filter_rangs .btn-success').hide();
 	}else{
@@ -1458,7 +1458,7 @@ function getTipusValuesVisualitzacioFilter(results){
 			var check =  "<input type='checkbox' name='filterValue' value='"+escape(n)+"' id='filter_"+i+"' class='col-md-1 download'/>"+n;
 			checkboxes += check +"<br/>" ;
 		});
-		var html = "2. "+window.lang.convert('Escull els valors pels que vols filtrar')+":<br/>";
+		var html = "2. "+window.lang.translate('Escull els valors pels que vols filtrar')+":<br/>";
 		html += checkboxes;
 		var filtres="";
 		var i=0;
@@ -1473,12 +1473,12 @@ function getTipusValuesVisualitzacioFilter(results){
 			});	
 			if(busy){
 				jQuery('#dialog_filter_rangs').hide();
-				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 			}else{
 				busy=true; 
 				var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: $('#visFilter').val()
 				};
 				crearFitxerPolling(data1).then(function(results) {
@@ -1500,25 +1500,25 @@ function getTipusValuesVisualitzacioFilter(results){
 										if(data.status.indexOf("ABANS FILTRE")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'
+												'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'
 											);									
 										}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+												'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'	
 											);									
 										}else if(data.status.indexOf("OK")!=-1 && busy){
 											clearInterval(pollInterval);
 										
 											jQuery("#div_uploading_txt").html("");
 											jQuery("#div_uploading_txt").html(
-												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
+												'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+												'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
 											);									
 										}else if(data.status.indexOf("ERROR")!=-1 && busy){
 											busy = false;
@@ -1528,7 +1528,7 @@ function getTipusValuesVisualitzacioFilter(results){
 											
 											$('#dialog_error_upload_txt').html("");
 											
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error generant filtre"));
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error generant filtre"));
 											
 											
 											$('#dialog_error_upload').modal('show');
@@ -1551,7 +1551,7 @@ function getTipusValuesVisualitzacioFilter(results){
 					}
 					var data = {
 						mapBusinessId: url('?businessid'),
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						businessId: $('#visFilter').val(),
 						campFiltre: $('#dataField_filter option:selected' ).val(),
 						valorsFiltre: filtres,
@@ -1568,7 +1568,7 @@ function getTipusValuesVisualitzacioFilter(results){
 							jQuery('#info_uploadFile').hide();		
 							busy=false;
 							$('#dialog_error_upload_txt').html("");					
-							$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+							$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 							$('#dialog_error_upload').modal('show');
 							
 						}
@@ -1588,7 +1588,7 @@ function addHtmlModalColumnJoin(){
 
 function openColumnJoinModal(){
 	
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
@@ -1652,7 +1652,7 @@ function openColumnJoinModal(){
 			var businessId = props[0];
 			var propName=props[1];
 			var dataNames=propName.split(',');
-			fields[window.lang.convert('Escull el camp')] = '---';
+			fields[window.lang.translate('Escull el camp')] = '---';
 			jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;		
 					fields2[value]=value;
@@ -1693,7 +1693,7 @@ function openColumnJoinModal(){
 			var businessId = props[0];
 			var propName=props[1];
 			var dataNames=propName.split(',');
-			fields[window.lang.convert('Escull el camp')] = '---';
+			fields[window.lang.translate('Escull el camp')] = '---';
 			jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;		
 					fields2[value]=value;
@@ -1725,7 +1725,7 @@ function openColumnJoinModal(){
 	jQuery('#joinBtn').on('click',function(event){
 		if(busy){
 			jQuery('#dialog_column_join').hide();
-			$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true; 
@@ -1746,7 +1746,7 @@ function openColumnJoinModal(){
 			var businessId2_props=$('#dataField_capa2').val();
 			var businessId2=businessId2_props.split('___');
 			var data1 = {
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				businessId1: businessId1[0],
 				businessId2: businessId2[0]
 			};
@@ -1770,26 +1770,26 @@ function openColumnJoinModal(){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'
 										);									
 									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'	
 										);									
 									}else if(data.status.indexOf("OK")!=-1 && busy){
 										clearInterval(pollInterval);
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
 										);									
 										jQuery('#dialog_column_join').modal('hide');
 										
@@ -1804,7 +1804,7 @@ function openColumnJoinModal(){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");											
-										$('#dialog_error_upload_txt').html(window.lang.convert("Error unint taules per columnes"));		
+										$('#dialog_error_upload_txt').html(window.lang.translate("Error unint taules per columnes"));		
 										$('#dialog_error_upload').modal('show');
 									}
 									else if (!busy){
@@ -1827,7 +1827,7 @@ function openColumnJoinModal(){
 				}
 			
 				var data = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					urlSIG: paramUrl.columnJoin,
 					tipusSIG: "columnJoin",
 					mapBusinessId: url('?businessid'),
@@ -1858,7 +1858,7 @@ function addHtmlModalSpatialJoin(){
 }
 
 function openSpatialJoinModal(){
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
@@ -1993,7 +1993,7 @@ function openSpatialJoinModal(){
 		event.stopImmediatePropagation();
 		 if(busy){
 			 	jQuery('#dialog_spatial_join').hide();
-				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 		}else{
 		 busy=true;
@@ -2012,7 +2012,7 @@ function openSpatialJoinModal(){
 			var businessId2=businessId2_props.split('___');
 			
 			var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: businessId1[0],
 					businessId2: businessId2[0]
 			}
@@ -2036,41 +2036,41 @@ function openSpatialJoinModal(){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'
 										);									
 										
 									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'	
 										);									
 									}else if(data.status.indexOf("OK")!=-1 && busy){
 										clearInterval(pollInterval);
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
 										);									
 										jQuery('#dialog_spatial_join').modal('hide');
 										if (data.midaFitxer==0){
 											jQuery('#info_uploadFile').hide();		
 											busy=false;
 											$('#dialog_error_upload_txt').html("");					
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 											$('#dialog_error_upload').modal('show');
 										}
 										else {
 											var data2 = {
-												uid: $.cookie('uid'),
+												uid: Cookies.get('uid'),
 												mapBusinessId: url('?businessid'),
-												serverName:window.lang.convert("Punts dins de polígons:")+" "+data.nomCapaOrigen1+" "+data.nomCapaOrigen2,
+												serverName:window.lang.translate("Punts dins de polígons:")+" "+data.nomCapaOrigen1+" "+data.nomCapaOrigen2,
 												path:data.path,
 												tmpFilePath:data.tmpFilePath,
 												midaFitxer:data.midaFitxer,
@@ -2090,7 +2090,7 @@ function openSpatialJoinModal(){
 													jQuery('#info_uploadFile').hide();		
 													busy=false;
 													$('#dialog_error_upload_txt').html("");					
-													$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+													$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 													$('#dialog_error_upload').modal('show');
 												}
 											});
@@ -2102,7 +2102,7 @@ function openSpatialJoinModal(){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");											
-										$('#dialog_error_upload_txt').html(window.lang.convert("Error unint taules per columnes"));		
+										$('#dialog_error_upload_txt').html(window.lang.translate("Error unint taules per columnes"));		
 										$('#dialog_error_upload').modal('show');
 									}
 									else if (!busy){
@@ -2125,7 +2125,7 @@ function openSpatialJoinModal(){
 				}
 			
 				var data = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					urlSIG: paramUrl.spatialJoin,
 					tipusSIG: "spatialJoin",
 					mapBusinessId: url('?businessid'),
@@ -2146,7 +2146,7 @@ function openSpatialJoinModal(){
 }
 
 function openUnionModal(){
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Cap de les capes carregades permet aquesta operació')+
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Cap de les capes carregades permet aquesta operació')+
 	"<strong>  <span class='fa fa-warning sign'></span></div>";
 	jQuery('.modal').modal('hide');
 	
@@ -2263,7 +2263,7 @@ function openUnionModal(){
 		event.stopImmediatePropagation();
 		 if(busy){
 			 	jQuery('#dialog_union').hide();
-				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -2275,7 +2275,7 @@ function openUnionModal(){
 			var businessId2=businessId2_props.split('___');
 			
 			var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: businessId1[0],
 					businessId2: businessId2[0]
 			}
@@ -2299,39 +2299,39 @@ function openUnionModal(){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Creant geometries')+'</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'
+											'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Calculant operació')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Creant geometries')+'</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'
 										);									
 										
 									}else if(data.status.indexOf("DESPRES")!=-1 && busy){
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Processant la resposta')+'</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+											'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Processant la resposta')+'</div>'	
 										);									
 									}else if(data.status.indexOf("OK")!=-1 && busy){
 										clearInterval(pollInterval);
 										
 										jQuery("#div_uploading_txt").html("");
 										jQuery("#div_uploading_txt").html(
-											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
+											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Calculant operació')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Creant geometries')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+											'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'	
 										);									
 										jQuery('#dialog_union').modal('hide');
 										if (data.midaFitxer==0){  
 											jQuery('#info_uploadFile').hide();		
 											busy=false;
 											$('#dialog_error_upload_txt').html("");					
-											$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 											$('#dialog_error_upload').modal('show');
 										}
 										else {
 											var data2 = {
-												uid: $.cookie('uid'),
+												uid: Cookies.get('uid'),
 												mapBusinessId: url('?businessid'),
 												serverName:data.serverName,
 												path:data.path,
@@ -2355,7 +2355,7 @@ function openUnionModal(){
 													jQuery('#info_uploadFile').hide();		
 													busy=false;
 													$('#dialog_error_upload_txt').html("");					
-													$('#dialog_error_upload_txt').html(window.lang.convert("Error calculant l\'operació"));					
+													$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
 													$('#dialog_error_upload').modal('show');
 												}
 											});
@@ -2367,7 +2367,7 @@ function openUnionModal(){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");											
-										$('#dialog_error_upload_txt').html(window.lang.convert("Error unint taules per columnes"));		
+										$('#dialog_error_upload_txt').html(window.lang.translate("Error unint taules per columnes"));		
 										$('#dialog_error_upload').modal('show');
 									}
 									else if (!busy){
@@ -2390,7 +2390,7 @@ function openUnionModal(){
 				}
 			
 				var data = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					urlSIG: paramUrl.unionLayers,
 					tipusSIG: "unionLayers",
 					mapBusinessId: url('?businessid'),

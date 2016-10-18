@@ -2,10 +2,10 @@
  * MODUL CLOUDIFIER 
  */
 
-jQuery(document).ready(function(){
+$(document).ready(function(){
 	
 	if(!url('?businessid')){
-		if (!$.cookie('uid')){
+		if (!Cookies.get('uid')){
 			createRandomUser().then(function(results){
 				if (results.status==='OK'){
 					var user_login = results.results.uid;
@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 					var dataUrl = {user:user_login, password:pass_login};
 					doLogin(dataUrl).then(function(results){
 						if(results.status==='OK'){
-							jQuery.cookie('uid', user_login, {path:'/'});
+							Cookies.set('uid', user_login);
 							createNewMap(url('?urlcloudifier'), url('?layername'),url('?epsg'));
 						}				
 					});
@@ -49,7 +49,7 @@ function loadUrlCloudifier(p_url, p_layername, p_crs){
 	wmsLayer.options.tipus = t_wms;
 	
 	var data = {
-			uid:$.cookie('uid'),
+			uid:Cookies.get('uid'),
 			mapBusinessId: url('?businessid'),
 			serverName: p_layername,
 			serverType: t_wms,
@@ -95,7 +95,7 @@ function createNewMap(url, layername, epsg){
 	
 	var data = {
 		nom: layername + " cloudifier",//getTimeStamp(),
-		uid: $.cookie('uid'),
+		uid: Cookies.get('uid'),
 		visibilitat: visibilitat_privat,
 		tipusApp: 'vis',
 	};
@@ -107,8 +107,8 @@ function createNewMap(url, layername, epsg){
 		}else{
 			try{
 				mapConfig = results.results;
-				mapConfig.options = jQuery.parseJSON( mapConfig.options );
-				jQuery('#businessId').val(mapConfig.businessId);
+				mapConfig.options = $.parseJSON( mapConfig.options );
+				$('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
 				window.location = paramUrl.visorCloudifier+"?businessid="+mapConfig.businessId+"&urlcloudifier="+url+"&layername="+layername+"&epsg="+epsg;
 			}catch(err){
@@ -119,3 +119,7 @@ function createNewMap(url, layername, epsg){
 	});
 }
 
+function addModul3D(){
+	$('.bt_3D_2D').hide();
+	$('#dv_bt_Routing').hide();	
+}

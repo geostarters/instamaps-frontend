@@ -408,7 +408,7 @@
 			ctr_fons,
 			_map = self.map;
 			ctr_fons = new L.IM_controlFons({
-				title: window.lang.convert('Escollir el mapa de fons'),
+				title: window.lang.translate('Escollir el mapa de fons'),
 			}).addTo(_map);
 			
 			self.controls.fonsControl = ctr_fons;
@@ -426,7 +426,7 @@
 			
 			btn_ctr_layers = L.control.layersBtn({
 				mapConfig: _mapConfig,
-				title: window.lang.convert('Llista de capes'),
+				title: window.lang.translate('Llista de capes'),
 				button: button
 			});
 			btn_ctr_layers.addTo(_map);
@@ -445,7 +445,7 @@
 				businessid: self.businessid,
 				urlwms: self.urlwms,
 				layername: self.layername,
-				title: window.lang.convert('Veure a InstaMaps'),
+				title: window.lang.translate('Veure a InstaMaps'),
 				fn: function(event) {
 					_gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
 				}
@@ -463,7 +463,7 @@
 			
 			ctr_vistaInicial = L.control.home({
 				mapConfig: _mapConfig,
-				title: window.lang.convert('Vista inicial')
+				title: window.lang.translate('Vista inicial')
 			});
 			ctr_vistaInicial.addTo(_map);
 			
@@ -480,7 +480,7 @@
 			
 			ctr_like = L.control.like({
 				mapConfig: _mapConfig,
-				title: window.lang.convert("M'agrada")
+				title: window.lang.translate("M'agrada")
 			});
 			ctr_like.addTo(_map);
 			
@@ -513,7 +513,7 @@
 			$('.share-square a').attr('target','_blank');
 			
 			ctr_shareBT = L.control.share({
-				title: window.lang.convert('Compartir')
+				title: window.lang.translate('Compartir')
 			});
 			ctr_shareBT.addTo(_map);
 			
@@ -527,7 +527,7 @@
 			_map = self.map;
 			
 			ctr_routingBT = L.control.routingControl({
-				title: window.lang.convert('Routing'),
+				title: window.lang.translate('Routing'),
 				lang: web_determinaIdioma()
 			});
 			
@@ -554,8 +554,8 @@
 					fillColor: '#e03',
 					opacity: 1,
 					fillOpacity: 0.5},
-				title: window.lang.convert('Centrar mapa a la seva ubicació'),
-				textErr: window.lang.convert('Error del GPS'),	//error message on alert notification
+				title: window.lang.translate('Centrar mapa a la seva ubicació'),
+				textErr: window.lang.translate('Error del GPS'),	//error message on alert notification
 				callErr: null		//function that run on gps error activating
 			});
 						
@@ -572,9 +572,9 @@
 			_map = self.map;
 			
 			ctr_findBT = L.control.searchControl({
-				title: window.lang.convert('Cercar'),
+				title: window.lang.translate('Cercar'),
 				searchUrl: paramUrl.searchAction+"searchInput={s}",
-				inputplaceholderText: window.lang.convert('Cercar llocs al món o coordenades  ...')
+				inputplaceholderText: window.lang.translate('Cercar llocs al món o coordenades  ...')
 			});
 			_map.addControl(ctr_findBT);
 			//TODO generar el control del search
@@ -591,7 +591,7 @@
 			_map = self.map;
 			
 			ctr_snapshot = L.control.snapshot({
-				title: window.lang.convert('Capturar la vista del mapa')
+				title: window.lang.translate('Capturar la vista del mapa')
 			});
 			ctr_snapshot.addTo(_map);
 			
@@ -606,7 +606,7 @@
 			_map = self.map;
 			
 			ctr_printmap = L.control.printmap({
-				title: window.lang.convert('Imprimir la vista del mapa')
+				title: window.lang.translate('Imprimir la vista del mapa')
 			});
 			ctr_printmap.addTo(_map);
 			
@@ -621,7 +621,7 @@
 			_map = self.map;
 			
 			ctr_geopdf = L.control.geopdf({
-				title: window.lang.convert('Descarrega mapa en format GeoPDF')
+				title: window.lang.translate('Descarrega mapa en format GeoPDF')
 			});
 			ctr_geopdf.addTo(_map);
 			
@@ -654,14 +654,13 @@
 			ctr_legend,
 			_map = self.map;
 			
-			
-			
 			ctr_legend = L.control.legend({
-				title: window.lang.convert('Llegenda'),
+				title: window.lang.translate('Llegenda'),
 				tipusllegenda: self.tipusllegenda,  //"dinamica"
 				llegendaOpt: self.llegendaOpt,
 				origenllegenda:'visor'
 			});
+			
 			ctr_legend.addTo(_map);
 			
 			self.controls.llegendaControl = ctr_legend;
@@ -675,7 +674,7 @@
 			_map = self.map;
 			
 			ctr_3d = L.control.control3d({
-				title: window.lang.convert('Canviar vista')
+				title: window.lang.translate('Canviar vista')
 			});
 			ctr_3d.addTo(_map);
 			
@@ -844,9 +843,9 @@
 			var self = this,
 			_uid = self.uid;
 			_businessid=self.businessid;
-			$.removeCookie('uid', { path: '/' });
-			$.cookie('collaboratebid', _businessid, {path:'/'});
-			$.cookie('collaborateuid', _uid, {path:'/'});
+			Cookies.remove('uid');
+			Cookies.set('collaboratebid', _businessid);
+			Cookies.set('collaborateuid', _uid);
 			self.loadLoginPage();
 			
 			return self;
@@ -859,13 +858,13 @@
 			_businessid = self.businessid,
 			_mapacolaboratiu = self.mapacolaboratiu;
 			
-			if ( _mapacolaboratiu  &&  _mapacolaboratiu=="alta" && !$.cookie('uid')) {
+			if ( _mapacolaboratiu  &&  _mapacolaboratiu=="alta" && !Cookies.get('uid')) {
 				self._colaboratiuToLogin();
 			}
-			else if (_mapacolaboratiu &&  _mapacolaboratiu=="alta" && _uid!=$.cookie('uid')) {
+			else if (_mapacolaboratiu &&  _mapacolaboratiu=="alta" && _uid!=Cookies.get('uid')) {
 				self._colaboratiuToLogin();
 			}
-			else if (url('?mapacolaboratiu') &&  url('?mapacolaboratiu')=="alta" && _uid==$.cookie('uid')) {
+			else if (url('?mapacolaboratiu') &&  url('?mapacolaboratiu')=="alta" && _uid==Cookies.get('uid')) {
 				self.loadMapaColaboratiuPage();
 			}
 			var mapConfig = $.parseJSON(results.results);
@@ -1016,7 +1015,7 @@
 			var nomAp = mapConfig.nomAplicacio;
 			$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
 			
-			$.cookie('perfil', 'instamaps', {path:'/'});
+			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
 			
 			infoHtml += '<p>'+nomUser[0]+'</p>';
@@ -1048,7 +1047,7 @@
 			});
 
 			$('#infoMap').on('show.bs.popover', function () {
-				$(this).attr('data-original-title', window.lang.convert($(this).data('lang-title')));		
+				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));		
 			});
 		
 			//TODO quitar la global ya que se usa en el control de capas.
@@ -1272,11 +1271,11 @@
 			var self = this;
 			//TODO esto deberia ir en cada control que es responsable de toda su funcionalidad
 			jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
-				jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+				jQuery(this).attr('data-original-title', window.lang.translate(jQuery(this).data('lang-title')));
 			});
 			//Add tooltip caixa cerca
-			jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
-			jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));
+			jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.translate('Cercar llocs o coordenades ...'));
+			jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.translate('Cercar llocs o coordenades ...'));
 			
 			return self;
 		},

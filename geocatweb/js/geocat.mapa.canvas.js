@@ -20,8 +20,8 @@ function comportamentCaptura(inicial,titol,text_progress) {
     jQuery('#progress_bar_carrega_img').show();
     jQuery('#dialog_captura').modal('show');
     
-    jQuery('#dialog_captura_title').html(window.lang.convert(titol));
-    jQuery('#dialog_captura_text').html(window.lang.convert(text_progress));            
+    jQuery('#dialog_captura_title').html(window.lang.translate(titol));
+    jQuery('#dialog_captura_text').html(window.lang.translate(text_progress));            
     
     uploadprogress_img();
   }else if(inicial==1){
@@ -52,7 +52,7 @@ function uploadprogress_img() {
 
 function errorCaptura(){
 	comportamentCaptura(2);
-	alert(window.lang.convert("Error: No es pot generar el document"));
+	alert(window.lang.translate("Error: No es pot generar el document"));
 }
 
 function capturaPantalla(tipus) {
@@ -297,7 +297,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 							capturaLlegenda(true);
 							jQuery('#desc_img').attr('href', urlIMG);                                               
 							jQuery('#desc_img').attr('download', 'mapa_captura.jpeg');
-							jQuery('#desc_img').html(window.lang.convert("Desar mapa") +" <i class='fa fa-picture-o'></i>");                   
+							jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-picture-o'></i>");                   
 							jQuery('#bt_desc_img').show();
 							comportamentCaptura(1);
 							tornaLLoc(transform);
@@ -428,7 +428,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 										+ results.UUID;   
 										jQuery('#desc_img').attr('href', urlIMG);
 										jQuery('#desc_img').attr('download', 'mapa_geoPDF.pdf');
-										jQuery('#desc_img').html(window.lang.convert("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
+										jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
 										jQuery('#bt_desc_img').show();
 										comportamentCaptura(3);
 										if (L.Browser.webkit) {
@@ -478,7 +478,7 @@ function capturaLlegenda(ensenyaBoto){
                 			if(ensenyaBoto){  
                 				jQuery('#desc_ll').attr('href', urlIMG);                                          
                 				jQuery('#desc_ll').attr('download', 'llegenda_captura.jpeg');
-                				jQuery('#desc_ll').html(window.lang.convert("Desar llegenda") + " <i class='fa fa-bars'></i>");                                                                     
+                				jQuery('#desc_ll').html(window.lang.translate("Desar llegenda") + " <i class='fa fa-bars'></i>");                                                                     
                 				jQuery('#bt_desc_ll').show();
                 			}else{
                 				jQuery('#ll_canvas').attr('src', urlIMG);

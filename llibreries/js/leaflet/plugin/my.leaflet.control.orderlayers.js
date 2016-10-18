@@ -277,7 +277,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					$(col).tooltip({
 						placement : 'bottom',
 						container : 'body',
-						title : window.lang.convert("Transparència")
+						title : window.lang.translate("Transparència")
 					});
 					
 				}
@@ -330,7 +330,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					$(col).tooltip({
 						placement : 'left',
 						container : 'body',
-						title : window.lang.convert("Descàrrega")
+						title : window.lang.translate("Descàrrega")
 					});
 				}
 				
@@ -348,7 +348,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					$(col).tooltip({
 						placement : 'bottom',
 						container : 'body',
-						title : window.lang.convert("Transparència")
+						title : window.lang.translate("Transparència")
 					});
 					
 				}
@@ -387,13 +387,13 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		$(".data-table-"+obj.layer.options.businessId+".leaflet-data-table").tooltip({
 			placement : 'bottom',
 			container : 'body',
-			title : window.lang.convert("dades")
+			title : window.lang.translate("dades")
 		});
 		
 		$(".opcio-conf").tooltip({
 			placement : 'bottom',
 			container : 'body',
-			title : window.lang.convert("opcions")
+			title : window.lang.translate("opcions")
 		});		
 		
 		if(modeMapa) updateEditableElements();
@@ -564,7 +564,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			if(typeof url('?businessid') == "string"){
 				var data = {
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						businessId: url('?businessid'),
 						servidorWMSbusinessId: obj.layer.options.businessId +','+replaceLayer.layer.options.businessId,
 			            order: newZIndex+','+ (newZIndex+1)
@@ -611,7 +611,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			if(typeof url('?businessid') == "string"){
 				var data = {
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						businessId: url('?businessid'),
 						servidorWMSbusinessId: obj.layer.options.businessId +','+replaceLayer.layer.options.businessId,
 			            order: newZIndex+','+ (newZIndex-1)
@@ -656,7 +656,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if(typeof url('?businessid') == "string"){
 			var data = {
 					businessId: url('?businessid'),
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					servidorWMSbusinessId: lbusinessId.toString()
 				};			
 			
@@ -720,7 +720,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if( getModeMapa()){
 				var data = {
 					 	businessId: obj.layer.options.businessId, //url('?businessid') 
-					 	uid: $.cookie('uid'),
+					 	uid: Cookies.get('uid'),
 					 	serverName: obj.layer.options.nom +"##"+op
 					 }
 				

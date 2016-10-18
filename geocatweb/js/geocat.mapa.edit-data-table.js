@@ -208,7 +208,7 @@ function fillModalDataTable(obj, geomBid){
 					
 					//Actions
 					var objActions = {
-							title: window.lang.convert("ACCIONS"),
+							title: window.lang.translate("ACCIONS"),
 							field: 'Accions',
 							formatter: 'actionFormatter',
 							events: 'actionEvents'
@@ -260,7 +260,7 @@ function fillModalDataTable(obj, geomBid){
 					
 					//Actions
 					var objActions = {
-							title: window.lang.convert("ACCIONS"),
+							title: window.lang.translate("ACCIONS"),
 							field: 'Accions',
 							formatter: 'actionFormatterVisor',
 							events: 'actionEvents'
@@ -341,7 +341,7 @@ function fillModalDataTable(obj, geomBid){
 			
 			//Actions
 			var objActions = {
-					title: window.lang.convert("ACCIONS"),
+					title: window.lang.translate("ACCIONS"),
 					field: 'Accions',
 					formatter: 'actionFormatter',
 					events: 'actionEvents'
@@ -372,7 +372,7 @@ function fillModalDataTable(obj, geomBid){
 	//Portem properties del servidor
 	var data ={
 			businessId: obj.layer.options.businessId,
-			uid:$.cookie('uid')
+			uid:Cookies.get('uid')
 		};
 	
 	
@@ -439,7 +439,7 @@ function fillModalDataTable(obj, geomBid){
 					if(isValidValue(name)){
 						
 						var dataUpdate ={
-								uid:$.cookie('uid'),
+								uid:Cookies.get('uid'),
 								geometryid: row["geometryid"],
 								key:  name,
 								newValue: row[name]
@@ -517,7 +517,7 @@ function removeGeometryDB(geometryid, businessId, geometriesBusinessId){
 	
 	var data ={
 			businessId: businessId,
-			uid:$.cookie('uid'),
+			uid:Cookies.get('uid'),
 			geometryid: geometryid,
 			geometriesBusinessId: geometriesBusinessId
 		};

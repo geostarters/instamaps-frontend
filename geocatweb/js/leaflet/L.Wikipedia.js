@@ -28,7 +28,6 @@ L.Wikipedia = L.FeatureGroup.extend({
 	},
 
 	_load: function(data) {
-		
 		for (var i = 0; i < data.geonames.length; i++) {
 			var wikiL = data.geonames[i];
 			var icoWikipedia = L.AwesomeMarkers.icon({
@@ -52,7 +51,6 @@ L.Wikipedia = L.FeatureGroup.extend({
 			ks.push(key);
 		for(var i = 0; i < ks.length-this.options.maxTotal; i++)
 			this.removeLayer(this._layers[ks[i]]);*/
-		
 		this.fire("loaded");
 	},
 
@@ -77,7 +75,7 @@ L.Wikipedia = L.FeatureGroup.extend({
 		this._zoom = zoom;
 		var _this = this;
 		
-		var language = localStorage.getItem('langJs_currentLang'); 
+		var language = Cookies.get("langCookie"); 
 		if (language == null || language == "null") language = 'ca';
 		var data={
 				north: maxll.lat,
@@ -89,7 +87,6 @@ L.Wikipedia = L.FeatureGroup.extend({
 		};
 		
 		getWikipediaLayer(data).then(function(results){
-//					console.debug('get wikipedia ok');
 					_this._load(results);
 			},function(results){
 //				console.debug('error getting wikipedia layer:'+results);

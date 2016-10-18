@@ -37,8 +37,8 @@ function initButtonsTematic(){
 
 function showTematicLayersModal(tipus,className){
 //	console.debug("showTematicLayersModal");
-	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar a cap capa de les que tens en el mapa')+"<strong>  <span class='fa fa-warning sign'></span></div>";
-	var warninMSG3D="<div class='alert alert-danger'><strong>"+window.lang.convert('Aquest estil no es pot aplicar amb modus 3D')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	var warninMSG="<div class='alert alert-danger'><strong>"+window.lang.translate('Aquest estil no es pot aplicar a cap capa de les que tens en el mapa')+"<strong>  <span class='fa fa-warning sign'></span></div>";
+	var warninMSG3D="<div class='alert alert-danger'><strong>"+window.lang.translate('Aquest estil no es pot aplicar amb modus 3D')+"<strong>  <span class='fa fa-warning sign'></span></div>";
 	
 	
 	jQuery('.modal').modal('hide');
@@ -183,26 +183,26 @@ function showTematicLayersModal(tipus,className){
 		if (tipus == tem_simple){
 			if (ftype == t_marker  || data.tipus == t_dades_obertes || data.tipus == t_json ){
 				if (busy){
-					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
 				}
 				else obrirMenuModal('#dialog_estils_punts','toggle',data);
 			}else if (ftype == t_polyline){
 				if (busy){
-					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
 				}
 				else obrirMenuModal('#dialog_estils_linies','toggle',data);
 			}else if (ftype == t_polygon){
 				if (busy){
-					$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
 				}
 				else obrirMenuModal('#dialog_estils_arees','toggle',data);
 			}
 		}else if(tipus == tem_clasic){
 			if (busy){
-				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 			}
 			else showModalTematicCategories(data);
@@ -214,7 +214,7 @@ function showTematicLayersModal(tipus,className){
 			jQuery('#dialog_layers_tematic').modal('hide');
 		}else if(tipus == tem_size){
 			if (busy){
-				$('#dialog_info_upload_txt').html(window.lang.convert("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 			}
 			else showModalTematicBubbles(data);
@@ -308,7 +308,7 @@ function createPopupWindowData(player,type, editable, origen){
 					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 						html+='<div class="popup_data_key">'+key+'</div>';
 						html+='<div class="popup_data_value">'+
-						(isBlank(txt)?window.lang.convert("Sense valor"):txt)+
+						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
 						'</div>';
 					}else{
 						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
@@ -343,10 +343,10 @@ function createPopupWindowData(player,type, editable, origen){
 	if(editable){
 		html+= '<div id="footer_edit"  class="modal-footer">'
 			+'<ul class="bs-popup">'
-				+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Estils')+'"></span></a>   </li>'
-				+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Editar')+'"></span></a>   </li>'
-				+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Esborrar')+'"></span></a>   </li>'
-				+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.convert('Dades')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>'
+				+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>'
 				+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
 			+'</ul>'														
 			+'</div>';	
@@ -357,16 +357,16 @@ function createPopupWindowData(player,type, editable, origen){
 		}
 		html+= '<div id="footer_edit"  class="modal-footer">'
 			+'<ul class="bs-popup">'						
-				+'<li class="consulta-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.convert('Obrir la taula de dades')+'"></span></a>   </li>'
+				+'<li class="consulta-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Obrir la taula de dades')+'"></span></a>   </li>'
 			+'</ul>'														
 		+'</div>';			
 	}
 
 	if(type == t_polyline && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.convert('Longitud')+':</b> '+player.properties.mida+'</div>';	
+		html+='<div id="mida_pres"><b>'+window.lang.translate('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
-		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+player.properties.mida+'</div>';
-		else html+='<div id="mida_pres"><b>'+window.lang.convert('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
+		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+player.properties.mida+'</div>';
+		else html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
@@ -426,7 +426,7 @@ function createPopupWindowData(player,type, editable, origen){
 			map.closePopup();
 			var data = {
 	            businessId: map._layers[objEdicio.featureID].properties.businessId,
-	            uid: $.cookie('uid')
+	            uid: Cookies.get('uid')
 	        };
 		
 			var features = {
@@ -442,7 +442,7 @@ function createPopupWindowData(player,type, editable, origen){
 			
 			var data = {
 				businessId: map._layers[objEdicio.featureID].properties.capaBusinessId,//bID de la visualitzacio-capa
-				uid: $.cookie('uid'),
+				uid: Cookies.get('uid'),
 				features: features
 			};
 			var businessIdCapaOrigen=map._layers[objEdicio.featureID].properties.capaBusinessId;
@@ -521,13 +521,13 @@ function createPopupWindowData(player,type, editable, origen){
 					jQuery('.popup_pres').show();
 					jQuery('.popup_edit').hide();
 				}else{
-					alert(window.lang.convert('Has de posar un nom de capa'));	
+					alert(window.lang.translate('Has de posar un nom de capa'));	
 				}
 			}else if(objEdicio.edicioPopup=='nouCapa'){
 				if(jQuery('#capa_edit').val()!=""){
 					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val());
 				}else{
-					alert(window.lang.convert('Has de posar un nom de capa'));	
+					alert(window.lang.translate('Has de posar un nom de capa'));	
 				}
 			}
 		}else{
@@ -775,7 +775,7 @@ function getRangsFromLayer(layer){
         
         var data = {
           businessId: tematic.businessid,
-          uid: $.cookie('uid'),
+          uid: Cookies.get('uid'),
           tipusRang: tematic.from,
           rangs: rangs
         };
@@ -1056,11 +1056,11 @@ function addHtmlInterficieTematics(){
 	jQuery('.div_gr3_estils [data-toggle="tooltip"]').tooltip({container : 'body', placement: 'bottom'});
 		
 	/*
-	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Bàsic")});
-	$('#st_Tema').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Categories")});
-	$('#st_Size').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Mides")});	
-	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Concentració")});
-	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert("Agrupació")});
+	$('#st_Color').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate("Bàsic")});
+	$('#st_Tema').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate("Categories")});
+	$('#st_Size').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate("Mides")});	
+	$('#st_Heat').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate("Concentració")});
+	$('#st_Clust').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate("Agrupació")});
 	*/
 }
 
@@ -1134,7 +1134,7 @@ function addHtmlModalCategories(){
 	'						<span>2.</span><span lang="ca">Escull l\'interval</span>:'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">'+
-	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.convert("únic")+'</label>'+
+	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.translate("únic")+'</label>'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
 	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
@@ -1494,7 +1494,7 @@ function loadVisualitzacioLayer(layer,removed){
 	
 	var defer = $.Deferred();
 	var data={
-		uid : jQuery.cookie('uid'),
+		uid : Cookies.get('uid'),
 		businessId: businessId
 	};
 	
@@ -1503,7 +1503,7 @@ function loadVisualitzacioLayer(layer,removed){
 			if (removed){
 				var data ={
 					businessId: businessId,
-					uid:$.cookie('uid')
+					uid:Cookies.get('uid')
 				};
 				var resultats = results.results;
 				getGeometriesPropertiesLayer(data).then(function(results2){
@@ -1722,7 +1722,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 			capaVisualitzacio.options.nom = capaVisualitzacio.options.nom;// + " ("+capaTematic.getLayers().length+")";
 			var data = {
 			 	businessId: capaVisualitzacio.options.businessId, //url('?businessid') 
-			 	uid: $.cookie('uid'),
+			 	uid: Cookies.get('uid'),
 			 	serverName: capaVisualitzacio.options.nom
 			 };
 				
@@ -2292,7 +2292,7 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 							if (sublayer.layer.options.tipusRang=="clasicTematic"){
 								var dataRemove = {
 										businessId: url('?businessid'),
-										uid: $.cookie('uid'),
+										uid: Cookies.get('uid'),
 										servidorWMSbusinessId:sublayer.layer.options.businessId.toString()
 								};
 								
@@ -2313,8 +2313,8 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 								busy=true;
 								jQuery("#div_uploading_txt").html("");
 								jQuery("#div_uploading_txt").html(
-									'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-									'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+									'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+									'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'
 								);
 								createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,layerMare);
 							}
@@ -2336,7 +2336,7 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 								}
 								var data = {
 										businessId: sublayer.layer.options.businessId,//f.layer.properties.capaBusinessId,//Bid de la visualitzacio
-										uid: jQuery.cookie('uid'),
+										uid: Cookies.get('uid'),
 										features: features,
 										estilBusinessId: sublayer.layer.options.estil[0].businessId
 								};
@@ -2389,7 +2389,7 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 						//Modificació informació d'una geometria - cal refer el temàtic.
 						var dataRemove = {
 								businessId: url('?businessid'),
-								uid: $.cookie('uid'),
+								uid: Cookies.get('uid'),
 								servidorWMSbusinessId:lbusinessId.toString()
 							};
 						removeLayerFromMap(dataRemove,sublayer);
@@ -2409,8 +2409,8 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 							busy=true;
 							jQuery("#div_uploading_txt").html("");
 							jQuery("#div_uploading_txt").html(
-								'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-								'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Processant la resposta')+'</div>'
+								'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+								'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'
 							);
 							createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,layerMare);
 						}
