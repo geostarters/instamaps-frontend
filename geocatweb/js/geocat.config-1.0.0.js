@@ -256,7 +256,7 @@ var paramAplications = {
     },
     'carrerer':{
     	"nom":"Gestor de canvis carrerer",
-    	"description":"Gestiona els canvis del carrerer. Ajuda a mantenir la base de carrers de l'ICC.",
+    	"description":"Gestiona els canvis del carrerer. Ajuda a mantenir la base de carrers de l'ICGC.",
     	"img":"img/thumb_ed_carrerer.png",
     	"url":HOST_GEOLOCAL+"EdCarrerer/editorCarrerer.action?codiUsuari="
     },
