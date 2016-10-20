@@ -19,7 +19,6 @@ jQuery(document).ready(function() {
 	
 	initHover();
 	checkUserLogin();
-    
     //dialeg expired
     jQuery('#dialog_session_expired').on('hidden.bs.modal', function (e) {
     	logoutUser();
@@ -29,39 +28,31 @@ jQuery(document).ready(function() {
     if ($(".centered-form").length > 0){
     	controlLandingForm();
     }
-    
     cambiarTitle();
 });
 
 function initCookies(){
-	cc.initialise({
-		cookies: {analytics: {}},
-		settings: {
-			consenttype: "implicit",
-			bannerPosition: "bottom",
-			hideprivacysettingstab: true,
-			ignoreDoNotTrack: true,
-			hideallsitesbutton: false,
-			onlyshowbanneronce: true
-		},
-		strings: {
-			notificationTitleImplicit: window.lang.translate("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal"),
-			seeDetailsImplicit:'',
-			savePreference:window.lang.translate("Acceptar"),
-			allowCookiesImplicit: window.lang.translate("Acceptar")
-		}
+	window.cookieconsent.initialise({
+		cookies: {domain: 'instamaps.cat', analytics: {}},
+		position: 'bottom',
+	    palette:{
+	      popup: {background: "#222222"},
+	      button: {background: "#00b050"}
+	    },
+	    content: {
+    	  message: window.lang.translate("Per tal de fer el seguiment de visites al nostre lloc web, utilitzem galetes. En cap cas emmagatzemem la vostra informació personal"),
+    	  dismiss: window.lang.translate("Acceptar")
+    	},
+	    showLink: false,
+	    dismissOnScroll: true,
+	    law: {
+	      regionalLaw: false,
+	    }
 	});
-	
-	if ($("#cc-tag a span").text() == "Privacy settings"){
-		$("#cc-tag").hide();
-	}
 }
 
-
 function controlLandingForm(){
-	
 	$('.centered-form').transition({ opacity: 100, delay: 600  });
-	
 	//intro per enviament del form
 	jQuery(document).keypress(function(e) {
 	    if(e.which == 13 ) {
