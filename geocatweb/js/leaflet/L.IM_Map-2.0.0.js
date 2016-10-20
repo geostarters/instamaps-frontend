@@ -40,7 +40,7 @@ var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
 var _ombraLayer=null;
-//var subDomains=['otile1','otile2','otile3','otile4'];
+//var subDomains=['otile1','otile2','otile3','otile4'];0
 var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 //var urlServerTiles="http://www.{s}.instamaps.cat"
@@ -54,11 +54,13 @@ var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 	
-	//urlServerTiles="http://imtilemapsdev.icgc.local";	
-	urlServerTilesW="http://imtilemapsdev.icgc.local";	
+	
+	//urlServerTilesW="http://imtilemapsdev.icgc.local";	
+	urlServerTiles="http://{s}.tilemaps.icgc.cat";
+	urlServerTilesW="http://{s}.tilemaps.icgc.cat";
+	
 
-	urlServerTiles="http://{s}.tilemaps.icgc.cat";	
-	//urlServerTilesW="http://{s}.tilemaps.icgc.cat";	
+	
 }
 
 
@@ -69,7 +71,6 @@ var FONS_HIBRIDMAP='hibridMap';
 var FONS_TERRAINMAP='terrainMap';
 var FONS_TOPOGISMAP='topoGrisMap';
 var FONS_COLORMAP='colorMap';
-
 var FONS_HISTORICMAP='historicMap';
 var FONS_HISTORICORTOMAP='historicOrtoMap';
 var FONS_HISTORICORTOMAP46='historicOrtoMap46';

@@ -324,7 +324,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							+ '</li>';
 				});		
 
-			lDadesExternes +='<li><a id="add_panoramio_layer" href="#" data-url="panoramio" class="label-dadesExternes">Panoramio <span class="fa fa-picture-o"></span></a></li>';
+			//lDadesExternes +='<li><a id="add_panoramio_layer" href="#" data-url="panoramio" class="label-dadesExternes">Panoramio <span class="fa fa-picture-o"></span></a></li>';
 			lDadesExternes +='<li><a id="add_wikipedia_layer" href="#" data-url="wikipedia" class="label-dadesExternes">Wikipedia <span class="fa fa-wikipedia-w"></span></a></li>';
 			
 			lDadesExternes +='<li><a id="add_twitter_layer" href="#" data-url="twitter" class="label-dadesExternes">Twitter <span class="fa fa-twitter"></span></a>'+
