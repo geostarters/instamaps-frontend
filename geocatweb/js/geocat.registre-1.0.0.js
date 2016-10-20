@@ -62,6 +62,7 @@ $("#signin_button").click(function(event){
 				dataUrl.randomuid = Cookies.get('uid');
 			}
 			registerUser(reg_url, dataUrl).then(function(results){
+				$("#signin_button").removeClass("disabled");
 				if(results.status==='OK'){
 					//Enviar mail confirmació de registre
 					var contingut= createContingutEmail(id);//window.lang.translate("Registre completat correctament");
@@ -86,22 +87,19 @@ $("#signin_button").click(function(event){
 					
 				}else{
 					
-					if (results.results.indexOf("ja existeix")>-1) {
-						$("#text_registre_ko2").attr("style","display:block;");
-						$("#text_registre_ko").attr("style","display:none;");
-					}
-					else {
-						$("#text_registre_ko").attr("style","display:block;");
-						$("#text_registre_ko2").attr("style","display:none;");
-					}
+					$("#text_registre_ko").html(results.results);
 					$('#modal_registre_ko').modal('toggle');
 					$('.waiting_animation').hide();
 				}					
 			}, function(results){
-				$('#modal_registre_ko').modal('toggle');						
+				$("#text_registre_ko").html("<span class=\"text_error\" lang=\"ca\">El teu registre no s'ha processat correctament.</span>");
+				$('#modal_registre_ko').modal('toggle');
 				$('.waiting_animation').hide();
+				$("#signin_button").removeClass("disabled");
 			});
 		}
+		else
+			$("#signin_button").removeClass("disabled");
 	});
 });
 	
