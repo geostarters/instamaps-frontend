@@ -42,12 +42,25 @@ function generaLlistaServeisWMS() {
 				"IDARXIU" : "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?",
 				"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 			},
+			
+			/*
 			{ 
 				"TITOL" : "Atermenament i usos de costes",
 				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
 				"IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?", 
 				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
 			},
+			
+			*/
+			
+			{ 
+				"TITOL" : "Població de Catalunya 2014 ",
+				"ORGANITZAC" : "Institut d'Estadistica de Catalunya",
+				"IDARXIU" :  HOST_APP2+"geotimeservices/idescat", 
+				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
+			},
+			
+			
 			{
 				"TITOL" : "Establiments industrials",
 				"ORGANITZAC" : "Direccio General de Difusio",
@@ -134,8 +147,10 @@ function generaLlistaServeisWMS() {
 				'">' +
 				window.lang.translate(WMS.TITOL) +
 				'</a>' +
-				'<a target="_blank" lang="ca" title="Informació dels serveis" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id=' +
-				WMS.URN +
+				//'<a target="_blank" lang="ca" title="Informació dels serveis" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id=' +
+				//WMS.URN +
+				'<a target="_blank" lang="ca" title="'+WMS.ORGANITZAC+'" href="' +
+				WMS.IDARXIU +'?Request=GetCapabilities&service=WMS' +
 				'"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>' +
 				'</li>');
 		}
