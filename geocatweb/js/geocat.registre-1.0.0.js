@@ -140,8 +140,8 @@ function checkValiditySignIn(){
 	}
 	
 	if(isBlank($('#signin_surname').val())){
-		$('#signin_surname').addClass("invalid");
-		$('#signin_surname').next(".text_error").removeClass('hide').show();
+		//$('#signin_surname').addClass("invalid");
+		//$('#signin_surname').next(".text_error").removeClass('hide').show();
 	}
 	
 	if(isBlank($('#signin_email').val())){
