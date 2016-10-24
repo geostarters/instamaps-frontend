@@ -261,15 +261,94 @@ function loadTematicLayer(layer){
 	return defer.promise();
 }
 
+function createTrafficLightStyle(color) {
 
-function trafficLightVisualization(key, txt)
-{
-
-	var aux = map._layers;
+	return {
+		borderColor: color,
+		borderWidth: 3,
+		color: color,
+		opacity: 50,
+		geometria: {
+			features: []
+		}
+	};
 
 }
 
-function createPopupWindowData(player,type, editable, origen){
+function trafficLightVisualization(key, pivot, capa)
+{
+
+	var defer = $.Deferred();
+	capa.oldStyle = capa.estil;
+
+	var equalStyle = createTrafficLightStyle("#ffff00");
+	var lowerStyle = createTrafficLightStyle("#ff0000");
+	var higherStyle = createTrafficLightStyle("#00ff00");
+
+	capa.estil = [equalStyle, lowerStyle, higherStyle];
+	capa.options = '{"id":37352865,"businessId":"0ea8f43280eed0a8643dd73396111f24","nom":"MUN_IDESCAT6","geometryType":"polygon","tipus":"origenTematic","options":"{\"source\":\"xls\",\"propName\":\"IDESCAT,Projecte,Any vol,HA carto municipi,HA carto projecte,Plec,Descarregable web,Visualitzable web,RCC,PROPIETARI,VOLUM\"}","entitat":{"id":37297873,"uid":"isaac.besora@icgc.cat","nomEntitatComplert":"Isaac Besora","dataAlta":"Oct 3, 2016 1:41:57 PM","rol":"N","email":"isaac.besora@icgc.cat","status":"A"},"group":{"name":"Capes ","groupName":"Capes ","id":0,"z_order":1,"expanded":true}}';
+	$.each(capa.oldStyle, function(i, estil) {
+		$.each(estil.geometria.features, function(j, feature) {
+
+			var aux = feature;
+			var val = parseFloat(aux.properties[key]);
+			if(val == pivot)
+			{
+
+				//Equal color
+				capa.estil[0].geometria.features.push(feature);
+
+			}
+			else if(val < pivot)
+			{
+
+				//Less than color
+				capa.estil[1].geometria.features.push(feature);
+
+			}
+			else 
+			{
+
+				//Greater than color
+				capa.estil[2].geometria.features.push(feature);
+
+			}
+
+		});
+	});
+
+	var layerOptions = {businessId: "0ea8f43280eed0a8643dd73396111f24",
+		capesActiva: "true",
+		capesCalenta: "false",
+		capesGroup: '{"name":"Capes ","groupName":"Capes ","id":0,"z_order":1,"expanded":true}',
+		capesOrdre: "2",
+		capesVisibilitat: "true",
+		entitatUid: "37297873",
+		epsg: {},
+		id:37352866,
+		imgFormat:"",
+		infFormat:"",
+		layers:null,
+		legend:"",
+		opacity:1,
+		options: '{"id":37352865,"businessId":"0ea8f43280eed0a8643dd73396111f24","nom":"MUN_IDESCAT6","geometryType":"polygon","tipus":"origenTematic","options":"{\"source\":\"xls\",\"propName\":\"IDESCAT,Projecte,Any vol,HA carto municipi,HA carto projecte,Plec,Descarregable web,Visualitzable web,RCC,PROPIETARI,VOLUM\"}","entitat":{"id":37297873,"uid":"isaac.besora@icgc.cat","nomEntitatComplert":"Isaac Besora","dataAlta":"Oct 3, 2016 1:41:57 PM","rol":"N","email":"isaac.besora@icgc.cat","status":"A"},"group":{"name":"Capes ","groupName":"Capes ","id":0,"z_order":1,"expanded":true}}',
+		query:null,
+		serverName:"MUN_IDESCAT6",
+		serverType:"visualitzacio",
+		tiles:"",
+		titles:null,
+		transparency:"",
+		url:"",
+		version:"",
+		visibilitat:"O",
+		source: "xls"
+	};
+
+	return readVisualitzacio(defer, capa, layerOptions);
+
+}
+
+function createPopupWindowData(player,type, editable, origen, capa){
 //	console.debug("createPopupWindowData");
 //	console.debug(player);
 	var html='';
@@ -324,7 +403,7 @@ function createPopupWindowData(player,type, editable, origen){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					html+='<div class="popup_traffic_light"><span class="glyphicon glyphicon-stats" aria-hidden="true" onclick="trafficLightVisualization(\'' + key + '\', \'' + txt + '\');"></span></div>';
+					html+='<div class="popup_traffic_light" data-leafletid="' + player.properties.capaLeafletId + '"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></div>';
 				}
 				html+= '</div>';
 				if (key=='text' || key=='TEXT') isADrawarker=true;
@@ -379,6 +458,17 @@ function createPopupWindowData(player,type, editable, origen){
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
 	player.bindPopup(html,{'offset':[0,-25]});
+
+	//Afegim els events de clicks per al semafòric
+	jQuery(document).on('click', ".popup_traffic_light", function(e) {
+
+		e.stopImmediatePropagation();
+		var layerId = $(this).data("leafletid");
+		var key = $(this).prev().prev().text();
+		var value = parseFloat($(this).prev().text());
+		trafficLightVisualization(key, value, controlCapes._layers[layerId].layer.options);
+
+	});
 	
 	//Afegim events/accions al popUp
 	jQuery(document).on('click', ".bs-popup li a", function(e) {
@@ -2115,16 +2205,16 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						createPopupWindow(feat,geomTypeVis);
 					}else{
 						//"Estem mode vis i no es tem origen:"
-						createPopupWindowData(feat,geomTypeVis, false, origen);
+						createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
 					}								
 				}else{
 					//"Te source, ve de fitxer";
 					if($(location).attr('href').indexOf('mapa')!=-1 && capaVisualitzacio.options.tipusRang == tem_origen){
 						//"Estem mode mapa i es tem origen"
-						createPopupWindowData(feat,geomTypeVis, true, origen);
+						createPopupWindowData(feat,geomTypeVis, true, origen, capaVisualitzacio);
 					}else{
 						//"Estem mode vis i no es tem origen:"
-						createPopupWindowData(feat,geomTypeVis, false, origen);
+						createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
 					}
 				}
 				try{
