@@ -498,9 +498,28 @@ function createPopupWindowData(player,type, editable, origen){
 				}
 			});
 			
-			crt_Editing.enable();
+			//crt_Editing.enable();
 			
-			activarSnapping(capaEdicio);			
+			if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
+				crt_Editing=new L.EditToolbar.Edit(map, {
+					featureGroup: capaEdicio,
+					selectedPathOptions: opcionsSel
+				});
+				crt_Editing.enable();
+			}
+			else {
+				crt_Editing=new L.EditToolbar.SnapEdit(map, {
+					featureGroup: capaEdicio,
+					selectedPathOptions: opcionsSel,
+					snapOptions: {
+						guideLayer: guideLayers
+					}
+				});
+				crt_Editing.enable();
+				//activarSnapping(capaEdicio);
+			}
+			
+			//activarSnapping(capaEdicio);			
 			
 			map.closePopup();
 			
