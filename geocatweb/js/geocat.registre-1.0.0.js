@@ -87,12 +87,12 @@ $("#signin_button").click(function(event){
 					
 				}else{
 					
-					$("#text_registre_ko").html(results.results);
+					$("#text_registre_ko").text(results.results);
 					$('#modal_registre_ko').modal('toggle');
 					$('.waiting_animation').hide();
 				}					
 			}, function(results){
-				$("#text_registre_ko").html("<span class=\"text_error\" lang=\"ca\">El teu registre no s'ha processat correctament.</span>");
+				$("#text_registre_ko").text("El teu registre no s'ha processat correctament");
 				$('#modal_registre_ko').modal('toggle');
 				$('.waiting_animation').hide();
 				$("#signin_button").removeClass("disabled");
