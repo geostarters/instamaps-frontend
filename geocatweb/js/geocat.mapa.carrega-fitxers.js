@@ -781,7 +781,7 @@ function accionaCarrega(file,isDrag) {
 				obroModal = true;
 				
 			} else if (ff.ext == "xls") {
-				obteCampsXLS(file);
+				obteCampsXLSX(file);
 				obroModal = true;
 				
 			} else if( (ff.ext == "tif")  || (ff.ext=="sid") || (ff.ext=="jpg") || (ff.ext=="ecw") || (ff.ext=="zip" && !ff.isShape)) {
@@ -811,7 +811,7 @@ function accionaCarrega(file,isDrag) {
 			}
 
 		}else{ // novalid
-			$('#dialog_info_upload_txt').html(ff.msg);
+			$('#dialog_info_upload_txt').html(window.lang.translate(ff.msg));
 			$('#dialog_info_upload').modal('show');		
 			obroModal = false;
 			busy = false;
@@ -964,6 +964,9 @@ function xlsworker(data, cb) {
 }
 
 function obteCampsXLS(f) {
+	var rABS = typeof FileReader !== 'undefined'
+		&& typeof FileReader.prototype !== 'undefined'
+		&& typeof FileReader.prototype.readAsBinaryString !== 'undefined';
 	var reader = new FileReader();
 	var name = f.name;
 	reader.onload = function(e) {
@@ -1025,10 +1028,10 @@ function obteCampsXLSX(f) {
 			try {
 				var useworker = typeof Worker !== 'undefined';
 				if (useworker) {
-					sheetjsw(data, llegirTitolXLSX, readtype, xls);
+					sheetjsw(data, llegirTitolXLSX, readtype, xls, rABS);
 					return;
 				}
-				if (xls) {
+				if (false) {
 					wb = XLS.read(data, readtype);
 					llegirTitolXLSX(wb, 'XLS');
 				} else {
@@ -1046,7 +1049,8 @@ function obteCampsXLSX(f) {
 
 		//Comprovem  mida fitxer i si usuari loginat
 		if (isRandomUser(Cookies.get('uid'))){
-			if(e.target.result.length < midaFitxerRandom){
+			if((e.target.result.length && e.target.result.length < midaFitxerRandom) ||
+				(e.target.result.byteLength && e.target.result.byteLength < midaFitxerRandom)) {
 				doit();
 			}else{
 				$('#dialog_info_upload_txt').html(window.lang.translate("La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB)."));
@@ -1054,7 +1058,9 @@ function obteCampsXLSX(f) {
 				drgFromMapa.removeAllFiles(true);
 				busy = false;
 			}
-		}else if(e.target.result.length < midaFitxer){
+		}else if((e.target.result.length && e.target.result.length < midaFitxerRandom) ||
+				(e.target.result.byteLength && e.target.result.byteLength < midaFitxerRandom))
+		{
 			doit();
 		}else{
 			$('#dialog_info_upload_txt').html(window.lang.translate("La mida del fitxer supera el límit preestablert (500MB)."));
@@ -1105,7 +1111,7 @@ function fixdata(data) {
 	return o;
 }
 
-function sheetjsw(data, cb, readtype, xls) {
+function sheetjsw(data, cb, readtype, xls, rABS) {
 	var pending = true;
 	var worker = new Worker('/llibreries/js/formats/xlsxworker.js');
 	worker.onmessage = function(e) {
@@ -1118,7 +1124,7 @@ function sheetjsw(data, cb, readtype, xls) {
 			break;
 		case 'xls':
 		case 'xlsx':
-			pending = false;
+			/*pending = false;
 			var edata;
 			if (typeof(e.data.d) == "string"){
 				try {
@@ -1130,10 +1136,16 @@ function sheetjsw(data, cb, readtype, xls) {
 			}else{				
 				edata = e.data.d;	
 			}
-			cb(edata, e.data.t);
+			cb(edata, e.data.t);*/
+			var edata=ab2str(e.data).replace(/\n/g,"\\n").replace(/\r/g,"\\r"); console.log("done"); cb(JSON.parse(xx)); break;
 			break;
 		}
 	};
+	var auxData = data;
+	if(rABS) {
+		var val = s2ab(data);
+		auxData = val[1];
+	}
 	worker.postMessage({
 		d : data,
 		b : readtype,
