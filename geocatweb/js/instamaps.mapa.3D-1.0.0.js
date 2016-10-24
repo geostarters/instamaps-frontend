@@ -22,6 +22,7 @@ var mapaEstatNOPublicacio = true;
 var initAmbVistaControlada = false;
 var testModel3D=false;
 var msgHTML = "";
+var modeDebug3D=true;
 //var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
 var _urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes'; //'/cesium/terrenys/demextes'
 
@@ -84,11 +85,9 @@ function addModul3D(config) {
 	});
 
 	jQuery(document).on('click', "#chk_ad_3d", function (e) {
-		$.cookie('msg3D', true, {
-			path : '/',
+		Cookies.set('msg3D', true, {
 			expires: 365
 		});
-
 	});
 
 	/*
@@ -178,7 +177,7 @@ function init3D(boto) {
 	map.spin(true);
 	if (browserWebGL) {
 		initAmbVistaControlada = false;
-		if (!$.cookie('msg3D')) {
+		if (!Cookies.get('msg3D')) {
 			jQuery("#dialgo_ad_3D").modal('show');
 		}
 		jQuery(boto).text('2D');
@@ -244,12 +243,11 @@ function ActDesOpcionsVista3D(activa3D) {
 	if (activa3D) {
 
 		jQuery('#funcio_draw').prepend('<div id="not_3d">' +
-			window.lang.convert('Operacions no disponibles en modus 3D') +
+			window.lang.translate('Operacions no disponibles en modus 3D') +
 			'</div>');
 
 		jQuery('.leaflet-control-minimap').css('visibility', 'hidden');
 		$.each(crtl, function (index, value) {
-
 			jQuery(value).hide();
 
 		});
@@ -261,10 +259,8 @@ function ActDesOpcionsVista3D(activa3D) {
 		$.each(crtl, function (index, value) {
 			jQuery(value).show();
 		});
-
 	
 		viewer.navigation = undefined;
-
 		jQuery('.leaflet-control-minimap').css('visibility', 'visible');
 
 	}
@@ -361,7 +357,7 @@ var IM_aplicacio = function (options) {
 			jQuery('#map3D').show();
 			document.getElementById('map3D').style.display = 'block';
 			jQuery(".leaflet-map-pane").hide();
-			//map.setZoom(1);
+			
 
 			map.spin(false);
 		});
@@ -529,10 +525,6 @@ var IM_aplicacio = function (options) {
 
 					if (Cesium.defined(pickedObjects)) {
 
-						//pickedEntities.removeAll();
-						//for (var i = 0; i < pickedObjects.length; ++i) {
-
-
 						if (pickedObjects.length > 0) {
 
 							thet.generaPopup(pickedObjects[0].id, "vector");
@@ -550,24 +542,7 @@ var IM_aplicacio = function (options) {
 					thet.miraPosicioXYZ(movement);
 				}
 			}, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-			/*
-			viewer.camera.moveEnd.addEventListener(function () {
-			disparaEventMapa=true;
-			var windowPosition = new Cesium.Cartesian2(viewer.container.clientWidth / 2, viewer.container.clientHeight / 2);
-			var pickPosition = viewer.camera.pickEllipsoid(windowPosition);
-			var pickPositionCartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(pickPosition);
-			var lng = Cesium.Math.toDegrees(pickPositionCartographic.longitude);
-			var lat = Cesium.Math.toDegrees(pickPositionCartographic.latitude);
-			thet.gestionaTerrainProvaider(lat, lng, terreny.credit.text).then(function (terrain) {
-			if (terrain != null) {
-			terreny = terrain;
-			viewer.terrainProvider = terreny;
-			}
-			});
-
-			});
-
-			 */
+			
 
 		}
 
@@ -585,12 +560,9 @@ var IM_aplicacio = function (options) {
 
 		map.on('viewreset', function (e) {
 
-			//map.on('zoomend', function (e) {
-
 			if (estatMapa3D && disparaEventMapa) {
 
-				thet._goToBounds(map.getBounds(), map.getZoom());
-				//thet._goTo(map.getCenter().lat, map.getCenter().lng);
+				thet._goToBounds(map.getBounds(), map.getZoom());				
 
 			}
 
@@ -633,9 +605,6 @@ var IM_aplicacio = function (options) {
 
 	this._goToBounds = function (bounds, mapZoom) {
 
-		//this.calculaPosicioInici(bounds,mapZoom).then(function (rectangle) {
-
-
 		var rectangle = Cesium.Rectangle.fromDegrees((bounds
 					.getWest()),
 				((bounds.getSouth())), (bounds
@@ -646,7 +615,6 @@ var IM_aplicacio = function (options) {
 			destination : rectangle
 		});
 
-		//});
 
 	},
 
@@ -661,13 +629,7 @@ var IM_aplicacio = function (options) {
 			}
 		});
 
-		/*
-
-		viewer.camera.setView({
-		destination : Cesium.Cartesian3.fromDegrees(lng, lat, 3000)
-		});
-
-		 */
+		
 
 	},
 
@@ -699,10 +661,10 @@ var IM_aplicacio = function (options) {
 			} else if ((accio == "display") || (accio == "remove")) {
 
 				var trobatCapa = false;
-				//if (obj.tipus.indexOf("wms") != -1) {
+
 
 				jQuery.each(capesActives3D._layers, function (index, layer) {
-					//_imageryLayers.remove(layer, true); //capesActives3D
+
 
 					if (layer && layer.id == obj.businessId) {
 						trobatCapa = true;
@@ -716,7 +678,7 @@ var IM_aplicacio = function (options) {
 					}
 				});
 
-				//} else {
+
 
 
 				var n = 0;
@@ -734,26 +696,20 @@ var IM_aplicacio = function (options) {
 							} else if (accio == "remove") {
 
 								feature.show = false;
-								/*
-								try{
-								viewer.entities.remove(feature);
-								}catch(err){
-								console.debug(err);
-								}
-								 */
+
 
 							}
 
 						}
 					} else {
-						//console.debug(feature);
+						
 					}
 
 				}
 
 				if (!trobatCapa) {
 					map.spin(true);
-					//console.debug("No he trobat capa");
+
 					if (jQuery.inArray(obj.businessId, overLayers3D) == -1) {
 						this.matriuCapes.overlays = [];
 						this.addOverlaysLayersCesium();
@@ -779,7 +735,7 @@ var IM_aplicacio = function (options) {
 	},
 
 	this.generaPopup = function (player, origen) {
-		//var msgHTML = '';
+
 		if (origen == "vector" && player.properties) {
 
 			var out = [];
@@ -834,7 +790,7 @@ var IM_aplicacio = function (options) {
 
 		}
 
-		var html2 = '<div class="leaflet-popup leaflet-container leaflet-zoom-animated" style="opacity:1"><a id="tanca3D" class="leaflet-popup-close-button" href="#close">×</a>' +
+		var html2 = '<div class="leaflet-popup leaflet-container leaflet-zoom-animated" style="opacity:1"><a id="tanca3D" class="leaflet-popup-close-button" href="#close">Ã—</a>' +
 			'<div class="leaflet-popup-content-wrapper">' +
 			'<div class="leaflet-popup-content" style="width: 301px;">' +
 			msgHTML +
@@ -857,12 +813,10 @@ var IM_aplicacio = function (options) {
 			this.matriuCapes.base.reverse();
 			for (var i = 0; i < this.matriuCapes.base.length; i++) {
 				var url = this.matriuCapes.base[i]._url;
-				//var _maximumLevel = this.matriuCapes.base[i].options.maxZoom;
-				//var _minimumLevel = this.matriuCapes.base[i].options.maxZoom;
+
 
 				if (url.indexOf('osm.org') != -1 || url.indexOf('openstreetmap.org') != -1) {
 
-					//url = url.replace('{s}.mqcdn.com', 'otile1.mqcdn.com');
 
 					if (!this._miraCentreDins(this.center.lat, this.center.lng)) {
 
@@ -882,12 +836,12 @@ var IM_aplicacio = function (options) {
 				} else {
 
 					this.matriuCapes.base[i].options.tms ? url = url.replace('{y}', '{reverseY}') : url;														
-					//url=url.replace('www.{s}.instamaps','www.instamaps');
-					
 					
 					var _mxlevel=18;					
 					if(url.indexOf('bases_noutm')!=-1){
 						_mxlevel=19;							
+					}else if(url.indexOf('relleu')!=-1){
+						_mxlevel=17;	
 					}
 
 					var BB_layer = _imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
@@ -1322,20 +1276,16 @@ var that = this;
 		}
 
 		try {
-			var ff = item.layer.toGeoJSON();
-
-					
+			var ff = item.layer.toGeoJSON();					
 			var numFeatures = ff.features.length;
-			
-			
+						
 			if (item.layer.options.geometryType) {
 				if (item.layer.options.geometryType.indexOf('polygon') != -1) {
 
-			
-					if (item.layer.options.source && item.layer.options.source == 'geojson') {
-
-					
-					
+						_escriuDebug(item.layer.options,"instamaps.mapa3D-1.0.0",1288);
+										
+					if (item.layer.options.source && item.layer.options.source.indexOf('json')!=-1) {
+										
 						numFeatures <= _factorNumVectorsPol ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
 
 						if (tmp_feature.tipus == 'vector') {
@@ -1343,6 +1293,8 @@ var that = this;
 							for (var j = 0; j < numFeatures; j++) {
 
 								var vertex = ff.features[j].geometry.coordinates[0].length;
+								_escriuDebug(vertex,"instamaps.mapa3D-1.0.0",1303);
+								
 								if (vertex > 46000) {
 									tmp_feature.msg = 'none';
 								}
@@ -1392,9 +1344,7 @@ var that = this;
 
 				} else { //son punts
 
-
 					numFeatures <= (_factorNumVectorsPunt) ? tmp_feature.tipus = 'vector' : tmp_feature.tipus = 'vecras';
-
 				}
 
 			} else if (item.layer.options.tipusRang) {
@@ -1408,7 +1358,7 @@ var that = this;
 
 			ff = "";
 
-			
+			_escriuDebug(tmp_feature,"instamaps.mapa3D-1.0.0",1367);
 			
 			return tmp_feature;
 
@@ -1423,6 +1373,8 @@ var that = this;
 				tmp_feature.tipus = 'raster';
 			}
 			
+			_escriuDebug(tmp_feature,"instamaps.mapa3D-1.0.0",1382);
+			
 			return tmp_feature;
 		}
 
@@ -1430,10 +1382,8 @@ var that = this;
 
 	this.calculaMatriuAlcades = function (dataSource, matriu, hFactor, visible, msg) {
 
-		//console.warn("calculaMatriuAlcades");
-		//Deprecated
 			
-
+		_escriuDebug("calculaMatriuAlcades","instamaps.mapa3D-1.0.0",1367);
 
 		var collection = dataSource.entities;
 		var entities = collection.values;
@@ -1493,7 +1443,8 @@ var that = this;
 			
 			
 			Cesium.when(promise, function (updatedPositions) {
-				
+			
+				_escriuDebug(length,"instamaps.mapa3D-1.0.0",1452);
 				
 				if(length >50){
 					setTimeout(function(){
@@ -1753,7 +1704,7 @@ var that = this;
 
 				} else {
 
-					console.debug("No hauria entrar aqui");
+					_escriuDebug("No hauria entrar aqui","instamaps.mapa3D-1.0.0",1713);
 				}
 
 				viewer.entities.add(entity); //add billboard
@@ -1931,7 +1882,8 @@ var that = this;
 	
 	this.addEntitiesVisorCesium = function (dataSource, matriu, hfactor, visible, msg) {
 
-	
+		_escriuDebug("addEntitiesVisorCesium","instamaps.mapa3D-1.0.0",1891);
+		
 		var entities = dataSource.entities.values;
 		var z = 0;
 
@@ -2031,17 +1983,11 @@ var that = this;
 
 						}
 
-					} else if (entity.properties.styles.icon.options.iconUrl) {
-
-						//var url = Cesium.buildModuleUrl(entity.properties.styles.icon.options.iconUrl);
+					} else if (entity.properties.styles.icon.options.iconUrl) {						
 						var url = entity.properties.styles.icon.options.iconUrl;
-
-						entity.billboard.image = url;
-						//entity.billboard.image = pinBuilder.fromUrl(url,Cesium.Color.BLUE, 48);
-
+						entity.billboard.image = url;						
 					}
 
-					//viewer.entities.add(entity);
 
 				} else if (!entity.properties.styles.icon) {
 
@@ -2068,12 +2014,11 @@ var that = this;
 
 				} else {
 
-					console.debug("No hauria entrar aqui");
+					_escriuDebug("No hauria entrar aqui","instamaps.mapa3D-1.0.0",2023);
 				}
 
 				viewer.entities.add(entity); //add billboard
-			
-			
+						
 			
 			} else if (entity.polygon) {
 
@@ -2098,6 +2043,8 @@ var that = this;
 
 				var alcada = 0;
 				var _tenimAlcada = false;
+				
+				_escriuDebug(entity.properties,"instamaps.mapa3D-1.0.0",2053);
 
 				if (entity.properties.elevation) {
 					alcada = parseInt(entity.properties.elevation);
@@ -2343,9 +2290,6 @@ var that = this;
 		obj.x = parseFloat(pos.longitude * (180.0 / Math.PI));
 		obj.y = parseFloat(pos.latitude * (180.0 / Math.PI));
 		obj.z = pos.height;
-		// document.getElementById(div).innerHTML = '<div>Longitud:' +
-		// x.toFixed(5) + '</div><div>Latitud:' + y.toFixed(5) +
-		// '</div><div>Alçada de càmera:' + z.toFixed(0) + ' m</div>';
 		return obj;
 
 	},
@@ -2505,13 +2449,13 @@ var that = this;
 
 		} catch (Err) {
 
-			//console.debug(Err);
+			//_escriuDebug(Err);
 			var bbox = {};
 			bbox.lng0 = map.getBounds().getWest();
 			bbox.lat0 = map.getBounds().getSouth();
 			bbox.lng1 = map.getBounds().getEast();
 			bbox.lat1 = map.getBounds().getNorth();
-			//console.debug(bbox);
+			//_escriuDebug(bbox);
 			dfd.resolve(bbox);
 			//dfd.reject(bbox);
 		}
@@ -2599,7 +2543,7 @@ function addHtmlModalNoWebGL() {
 		'				<div class="modal-body">' +
 		'					<div class="alert-warning"  style="padding:5px"  lang="ca">' +
 		'							<div lang="ca">En el mode 3D podeu seguir utilitzant la majoria de les funcionalitat d\'Instamaps. Amb tot, notareu que algunes es troben de moment deshabilitades.</div><br>' +
-		'							<div lang="ca">La tecnologia WebGL que s’utilitza per la renderització 3D consumeix recursos del vostre maquinari i navegador. En funció del vostre equip obtindreu una millor rendiment. Comproveu que el vostre navegador està actualitzat.</div><br>' +
+		'							<div lang="ca">La tecnologia WebGL que s\'utilitza per la renderització 3D consumeix recursos del vostre maquinari i navegador. En funció del vostre equip obtindreu una millor rendiment. Comproveu que el vostre navegador està actualitzat.</div><br>' +
 		'							<div lang="ca">Us recomanem que per al treball en 3 dimensions utilitzeu preferiblement <b>Chrome</b>, ja que demostra un més alt rendiment.</div>' +
 		'                </div><hr>' +
 		'					<div>' +

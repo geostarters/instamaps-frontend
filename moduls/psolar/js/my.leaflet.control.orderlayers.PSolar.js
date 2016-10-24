@@ -295,7 +295,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					$(col).tooltip({
 						placement : 'left',
 						container : 'body',
-						title : window.lang.convert("Descarrega")
+						title : window.lang.translate("Descarrega")
 					});
 				}
 			}
@@ -451,7 +451,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			if(typeof url('?businessid') == "string"){
 				var data = {
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						businessId: url('?businessid'),
 						servidorWMSbusinessId: obj.layer.options.businessId +','+replaceLayer.layer.options.businessId,
 			            order: newZIndex+','+ (newZIndex+1)
@@ -498,7 +498,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			
 			if(typeof url('?businessid') == "string"){
 				var data = {
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						businessId: url('?businessid'),
 						servidorWMSbusinessId: obj.layer.options.businessId +','+replaceLayer.layer.options.businessId,
 			            order: newZIndex+','+ (newZIndex-1)
@@ -543,7 +543,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		if(typeof url('?businessid') == "string"){
 			var data = {
 					businessId: url('?businessid'),
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					servidorWMSbusinessId: lbusinessId.toString()
 				};			
 			

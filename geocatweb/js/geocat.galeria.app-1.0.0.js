@@ -10,36 +10,38 @@ var aplicacionsGaleria = url('?aplicacions');
 defineTipusUser(); //mira si el usuario es random (geocat.web)
 	
 if(typeof url('?uid') == "string"){
-	$.removeCookie('uid', { path: '/' });
-	$.cookie('uid', url('?uid'), {path:'/'});
+	Cookies.remove('uid');
+	Cookies.set('uid', url('?uid'));
 	privatGaleria = "1";
 	checkUserLogin();
 }
 
 $("body").on("change-lang", function(event, lang){
-	$('#galeriaSort>div>input').attr("placeholder", window.lang.convert("Cerca"));
-	$('#obtenirUrlPublica').attr("placeholder", window.lang.convert("Cerca"));
+	/*
+	$('#galeriaSort>div>input').attr("placeholder", window.lang.translate("Cerca"));
+	$('#obtenirUrlPublica').attr("placeholder", window.lang.translate("Cerca"));
 	//Canviem textos botons galeria
-	jQuery("#btn-editar").attr('title',window.lang.convert('Editar'));
-	jQuery("#btn-grup").attr('title',window.lang.convert('Col·laborar'));
-	jQuery("#btn-enllacar").attr('title',window.lang.convert('Enllaça'));
-	jQuery("#btn-esborrar").attr('title',window.lang.convert('Esborrar'));
-	jQuery("#btn-privat").attr('title',window.lang.convert('El mapa només és visible a la teva galeria privada'));
-	jQuery("#btn-public").attr('title',window.lang.convert('El mapa és visible a la galeria pública'));
+	$("#btn-editar").attr('title',window.lang.translate('Editar'));
+	$("#btn-grup").attr('title',window.lang.translate('Col·laborar'));
+	$("#btn-enllacar").attr('title',window.lang.translate('Enllaça'));
+	$("#btn-esborrar").attr('title',window.lang.translate('Esborrar'));
+	$("#btn-privat").attr('title',window.lang.translate('El mapa només és visible a la teva galeria privada'));
+	$("#btn-public").attr('title',window.lang.translate('El mapa és visible a la galeria pública'));
+	*/
 });
 
-$('#galeriaSort>input').attr("placeholder", window.lang.convert("Cerca"));
+//$('#galeriaSort>input').attr("placeholder", window.lang.translate("Cerca"));
 
 var galeria;
 //PRIVATE GALLERY
-if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined")){
+if ((typeof privatGaleria == "string") && (typeof Cookies.get('uid') !== "undefined")){
 	var isGeolocal = isGeolocalUser();
 	
 	galeria = Galeria({
 		tipusApp:1,
 		publica: false,
 		isGeolocal: isGeolocal,
-		uid: $.cookie('uid')
+		uid: Cookies.get('uid')
 	});
 	
 	galeria.loadGaleria();	
@@ -76,4 +78,4 @@ if ((typeof privatGaleria == "string") && (typeof $.cookie('uid') !== "undefined
 		}
 	});
 }
-window.lang.run();
+//window.lang.run();

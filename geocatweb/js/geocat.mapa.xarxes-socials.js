@@ -20,7 +20,7 @@ function addPanoramioLayer(){
 	
 	if(typeof url('?businessid') == "string"){
 		var data = {
-			uid:$.cookie('uid'),
+			uid:Cookies.get('uid'),
 			mapBusinessId: url('?businessid'),
 			serverName: 'panoramio',
 			serverType: t_xarxes_socials,
@@ -105,7 +105,7 @@ function addTwitterLayer(){
 	//Si el mapa existeix a BD
 	if(typeof url('?businessid') == "string"){	
 		var data = {
-				uid:$.cookie('uid'),
+				uid:Cookies.get('uid'),
 				mapBusinessId: url('?businessid'),
 				serverName: 'twitter #'+ hashtag,
 				serverType: t_xarxes_socials,
@@ -188,7 +188,7 @@ function addWikipediaLayer(){
 	if(typeof url('?businessid') == "string"){
 		
 		var data = {
-			uid:$.cookie('uid'),
+			uid:Cookies.get('uid'),
 			mapBusinessId: url('?businessid'),
 			serverName: 'wikipedia',
 			serverType: t_xarxes_socials,

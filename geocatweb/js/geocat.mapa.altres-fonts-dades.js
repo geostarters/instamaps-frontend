@@ -39,7 +39,7 @@ function cercaCapes(e){
 	    			);
 	    			jQuery("#id_capes_instamaps a.label-dadesInstamaps").on('click', function(e) {
 	    				var data = {
-	    						uid: $.cookie('uid'),
+	    						uid: Cookies.get('uid'),
 	    						mapBusinessId: url('?businessid'),
 	    						businessId: this.dataset.url,
 	    						nom: this.dataset.nom +"_duplicat",
@@ -131,7 +131,7 @@ function cercaCapesBtn(){
 				);
 				jQuery("#id_capes_instamaps a.label-dadesInstamaps").on('click', function(e) {
 					var data = {
-							uid: $.cookie('uid'),
+							uid: Cookies.get('uid'),
 							mapBusinessId: url('?businessid'),
 							businessId: this.dataset.url,
 							nom: this.dataset.nom +"_duplicat",
@@ -264,7 +264,7 @@ function addControlAltresFontsDades() {
 						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
 						
 						'</ul>'+
-						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.convert(label_xarxes)+'</span></div>'+
+						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.translate(label_xarxes)+'</span></div>'+
 						'<div id="twitter-collapse">'+
 							'<div class="input-group">'+
 			      				'<span class="input-group-addon">Hashtag #</span>'+
@@ -316,7 +316,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							+ '" data-epsg="'
 							+ dadesExternes.epsgDadesExternes
 							+ '">'
-							+ window.lang.convert(dadesExternes.titol)
+							+ window.lang.translate(dadesExternes.titol)
 							+ '</a>'
 							+ '<a target="_blank" lang="ca" title="Informació" href="'
 							+ dadesExternes.urlOrganitzacio
@@ -324,7 +324,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							+ '</li>';
 				});		
 
-			lDadesExternes +='<li><a id="add_panoramio_layer" href="#" data-url="panoramio" class="label-dadesExternes">Panoramio <span class="fa fa-picture-o"></span></a></li>';
+			//lDadesExternes +='<li><a id="add_panoramio_layer" href="#" data-url="panoramio" class="label-dadesExternes">Panoramio <span class="fa fa-picture-o"></span></a></li>';
 			lDadesExternes +='<li><a id="add_wikipedia_layer" href="#" data-url="wikipedia" class="label-dadesExternes">Wikipedia <span class="fa fa-wikipedia-w"></span></a></li>';
 			
 			lDadesExternes +='<li><a id="add_twitter_layer" href="#" data-url="twitter" class="label-dadesExternes">Twitter <span class="fa fa-twitter"></span></a>'+
@@ -349,9 +349,9 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 						'<div class="panel-dadesExternes">'+
 							lDadesExternes +
 							//TODO agregar mensaje
-							//'<div>'+window.lang.convert("Entrar URL de dades externes")+' <a lang="ca href="" title="Informació" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></div>'+
+							//'<div>'+window.lang.translate("Entrar URL de dades externes")+' <a lang="ca href="" title="Informació" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></div>'+
 							'<div class="input-group txt_ext">'+
-								'<input type="text" lang="ca" class="form-control" value="" placeholder="'+window.lang.convert("Entrar URL de dades externes")+'" style="height:33px" id="txt_URLfile">'+ 
+								'<input type="text" lang="ca" class="form-control" value="" placeholder="'+window.lang.translate("Entrar URL de dades externes")+'" style="height:33px" id="txt_URLfile">'+ 
 								'<span class="input-group-btn">'+
 									'<button type="button" id="bt_URLfitxer" class="btn btn-success">'+
 										'<span class="glyphicon glyphicon-play"></span>'+
@@ -399,7 +399,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 						}else{
 							//console.debug("Esta busy, no puc carregar");
 							$('#dialog_dades_ex').modal('hide');
-							$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+							$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 							$('#dialog_info_upload').modal('show');
 							//drgFromMapa.removeAllFiles(true);							
 						}
@@ -425,12 +425,12 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							jQuery("#div_url_file").html(
 									'<br>'+
 									'<div class="input-group input-group-sm">'+
-										'<span lang="ca" class="input-group-addon">'+window.lang.convert("Nom capa")+'</span>'+
+										'<span lang="ca" class="input-group-addon">'+window.lang.translate("Nom capa")+'</span>'+
 										'<input type="text" id="input-url-file-name" class="form-control">'+
 									'</div>'+	
 									'<br>'+
 									'<div>'+
-									window.lang.convert("Format")+
+									window.lang.translate("Format")+
 									':&nbsp;'+
 										'<select id="select-url-file-format" class="form-download-format">'+
 										  '<option value=".geojson">GeoJSON</option>'+
@@ -446,34 +446,34 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 										  '<option value=".xls">XLS</option>'+
 										  '<option value=".xlsx">XLSX</option>'+
 										  '<option value=".zip">Zip File</option>'+
-										  '<option value="-1">'+window.lang.convert("Selecciona el Format")+'</option>'+
+										  '<option value="-1">'+window.lang.translate("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+
 										'<div id="input-excel-url-file">'+
 										'	<div class="panel-body">'+
 										'	   <ul class="nav nav-pills nav-pills-urlfile" id="nav_pill">'+
-										'	      <li id="coordenades" class="active"><a lang="ca" data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">'+window.lang.convert("Per coordenades")+'</a></li>'+
-										'	      <li id="adreca"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_adreca" aria-expanded="false">'+window.lang.convert("Per adreces")+'</a></li>'+
-										'	      <li id="codis"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_codi" aria-expanded="false">'+window.lang.convert("Per codis")+'</a></li>'+
+										'	      <li id="coordenades" class="active"><a lang="ca" data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">'+window.lang.translate("Per coordenades")+'</a></li>'+
+										'	      <li id="adreca"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_adreca" aria-expanded="false">'+window.lang.translate("Per adreces")+'</a></li>'+
+										'	      <li id="codis"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_codi" aria-expanded="false">'+window.lang.translate("Per codis")+'</a></li>'+
 										'	   </ul>'+
 										'	   <!-- Tab panes -->		'+					
 										'	   <div class="tab-content-urlfile tab-content" id="div_opt_urlfile">'+
 										'	      <div id="opt_urlfile_coord" class="tab-pane active">'+
 										'	         <ul class="pane-excel-urlfile">'+
-														'<label lang="ca">'+window.lang.convert("On són les coordenades?")+'</label>'+
+														'<label lang="ca">'+window.lang.translate("On són les coordenades?")+'</label>'+
 														'<br>'+
 														'<div class="input-group input-group-sm">'+
-															'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada X o LON")+'</span>'+
+															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada X o LON")+'</span>'+
 															'<input type="text" id="input-coord-x" class="form-control">'+
 														'</div>'+	
 														'<br>'+	
 														'<div class="input-group input-group-sm">'+
-															'<span lang="ca" class="input-group-addon">'+window.lang.convert("Coordenada Y o LAT ")+'</span>'+
+															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada Y o LAT ")+'</span>'+
 															'<input type="text" id="input-coord-y" class="form-control">'+
 														'</div>'+
 										'	         </ul>'+
 										'	      </div>'+
-										'	      <div id="opt_urlfile_adreca" class="tab-pane active">'+
+										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
 										'	         <ul class="pane-excel-urlfile">'+
 										'					<span lang="ca">Per codificar per adreces utilitza aquest</span>'+ 
 										'					<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a>'+ 
@@ -484,14 +484,14 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 										'	      </div>'+
 										'	      <div id="opt_urlfile_codi" class="tab-pane tab-pane-urlfile">'+
 										'	         <ul class="pane-excel-urlfile">'+
-										'	            <li><label lang="ca">'+window.lang.convert("Els teus codis són de")+'</label>:</li>'+
+										'	            <li><label lang="ca">'+window.lang.translate("Els teus codis són de")+'</label>:</li>'+
 										'	            <li>'+
 										'	               <select id="cmd_codiType_Capa_de">'+
-										'	                  <option lang="ca" value="municipis" selected="">'+window.lang.convert("Municipis")+'</option>'+
-										'	                  <option lang="ca" value="comarques">'+window.lang.convert("Comarques")+'</option>'+
+										'	                  <option lang="ca" value="municipis" selected="">'+window.lang.translate("Municipis")+'</option>'+
+										'	                  <option lang="ca" value="comarques">'+window.lang.translate("Comarques")+'</option>'+
 										'	               </select>'+
 										'	            </li>'+
-										'	            <li><label lang="ca">'+window.lang.convert("Tipus codi")+'</label></li>'+
+										'	            <li><label lang="ca">'+window.lang.translate("Tipus codi")+'</label></li>'+
 										'	            <li>'+
 										'	               <select name="select_codiType" id="cmd_codiType_de">'+
 										'	                  <option value="ine">INE (5 digits)</option>'+
@@ -500,10 +500,10 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 										'	                  <option value="cadastre">CADASTRE (5 digits)</option>'+
 										'	               </select>'+
 										'	            </li>'+
-										'	            <li><label lang="ca">'+window.lang.convert("Camp que conté el codi")+'</label></li>'+
+										'	            <li><label lang="ca">'+window.lang.translate("Camp que conté el codi")+'</label></li>'+
 										'	            <li>'+
 															'<div class="input-group input-group-sm">'+
-																'<input type="text" id="input-camp-codi-urlfile" class="form-control" placeholder="'+window.lang.convert("Entrar camp")+'">'+
+																'<input type="text" id="input-camp-codi-urlfile" class="form-control" placeholder="'+window.lang.translate("Entrar camp")+'">'+
 															'</div>'+
 										'	            </li>'+
 										'	         </ul>'+
@@ -521,13 +521,13 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 					              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
 					              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
 					              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
-					              			'<option value="-1">'+window.lang.convert("Selecciona el EPSG")+'</option>'+
+					              			'<option value="-1">'+window.lang.translate("Selecciona el EPSG")+'</option>'+
 										'</select>'+
 										'<br><br>'+								
 										'<input id="dinamic_chck" type="checkbox" checked="checked">'+
-										'&nbsp;'+window.lang.convert("Dinàmica")+
+										'&nbsp;'+window.lang.translate("Dinàmica")+
 										'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
-											window.lang.convert("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
+											window.lang.translate("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
 										'</small>'+
 									'</div>&nbsp;'+
 									'<div>'+
@@ -577,7 +577,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 								jQuery("#select-url-file-epsg").attr('disabled',false);
 							}
 							
-							var nom_capa = window.lang.convert("Capa de fitxer");
+							var nom_capa = window.lang.translate("Capa de fitxer");
 							if(type!="-1") nom_capa+=type;
 							jQuery("#input-url-file-name").val(nom_capa);
 							
@@ -618,7 +618,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 												   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
 									}else{
 										$('#dialog_dades_ex').modal('hide');
-										$('#dialog_info_upload_txt').html(window.lang.convert("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+										$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 										$('#dialog_info_upload').modal('show');										
 									}
 								}
@@ -690,7 +690,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 						jQuery("#div_url_file").html(
 								'<div id="txt_URLfile_error" class="alert alert-danger">'+
 									'<span class="glyphicon glyphicon-warning-sign"> </span> '+
-   									 window.lang.convert("Introdueix una URL vàlida")+
+   									 window.lang.translate("Introdueix una URL vàlida")+
 								'</div>'
 						);
 					}

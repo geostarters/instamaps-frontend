@@ -14,13 +14,10 @@
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
-<link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <link href="/llibreries/css/zocial/zocial.css" rel="stylesheet">
-<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/> 
+<link rel="stylesheet" href="/llibreries/css/cookieconsent-3.0.1.min.css"/> 
 
-<!-- KISSMETRICS SNIPPET -->
-<!-- script src="/geocatweb/js/geocat.kissmetrics.js"></script -->
-
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
@@ -55,8 +52,8 @@
 					-->
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="ca"><a href="#">Catal&agrave;</a></li>
-							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
+							<li id="ca"><a href="#">Català</a></li>
+							<li id="es"><a href="#">Español</a></li>
 							<li id="en"><a href="#">English</a></li>
 						</ul>
 					</li>
@@ -64,7 +61,7 @@
 					<li id="menu_login">
 						<form class="navbar-form">
 							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" 
-							class="btn bt-sessio instamaps_sessio">Inicia la sessi&oacute;</a>
+							class="btn bt-sessio instamaps_sessio">Inicia la sessió</a>
 						</form>					
 					</li>
 					
@@ -102,13 +99,19 @@
         		<fieldset>
         			<input id="randomId" type="hidden" value="">
         			<input lang="ca" id="signin_username" type="hidden" required class="form-control my-border" placeholder="Usuari" autofocus>
+        			<span class="text_error hide" lang="ca">El camp no pot estar buit</span>
         			<input lang="ca" id="signin_email" type="email" required class="form-control my-border" placeholder="Correu">
+        			<span class="text_error hide" lang="ca">El camp no pot estar buit</span>
         			<br>
        				<input lang="ca" id="signin_name" type="text" required class="form-control my-border" placeholder="Nom">
+       				<span class="text_error hide" lang="ca">El camp no pot estar buit</span>
        				<input lang="ca" id="signin_surname" type="text" required class="form-control my-border" placeholder="Cognom">
+       				<span class="text_error hide" lang="ca">El camp no pot estar buit</span>
        				<br>
        				<input lang="ca" id="signin_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Contrasenya">
+         			<span class="text_error hide" lang="ca">El camp no pot estar buit</span>
          			<input lang="ca" id="signin_confirm_pass" type="password" required pattern="{5,}" class="form-control my-border" placeholder="Confirmar contrasenya">
+         			<span class="text_error hide" lang="ca">El camp no pot estar buit</span>
         		</fieldset>
         		<br>
 				
@@ -116,7 +119,7 @@
         		<p>
          		<button  id="signin_button" lang="ca" class="btn btn-lg bt-sessio btn-block" type="button">Registreu-vos</button>
   				<div id="div-avis-legal" lang="ca">
-			  		<span lang="ca">*Fent clic a <i>Registreu-vos</i> accepta la</span> <a href="/geocatweb/politica_privacitat.html" target="_blank" lang="ca">política de privacitat</a>
+			  		<span lang="ca">*Fent clic a <i lang="ca">Registreu-vos</i> accepta la</span> <a href="/geocatweb/politica_privacitat.html" target="_blank" lang="ca">política de privacitat</a>
 			    </div> 
          		</p>
          		
@@ -142,8 +145,7 @@
 		    <div class="modal-content my-modal-content">
 		      <div class="modal-body">
 		        <h4><span class="glyphicon glyphicon-warning-sign yellow"></span>
-		        <span lang="ca" id="text_registre_ko" style="display:none;">L'usuari ja existeix</span>
-		        <span lang="ca" id="text_registre_ko2" style="display:block;">El teu registre no s'ha processat correctament.</span>
+		        <span lang="ca" id="text_registre_ko">L'usuari ja existeix</span>
 		        </h4>
 		      </div>
 		      <div class="modal-footer my-modal-footer">
@@ -213,13 +215,15 @@
 	<script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/leaflet/leaflet.0.7.7.min.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
-	<script src="/llibreries/js/cookieconsent.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/js.cookie-2.1.3.min.js"></script>
+	<script src="/llibreries/js/cookieconsent-3.0.1.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-lang-3.0.0.js" charset="utf-8" type="text/javascript"></script>
+	<!-- 
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
-	
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+	-->
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.constants.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>

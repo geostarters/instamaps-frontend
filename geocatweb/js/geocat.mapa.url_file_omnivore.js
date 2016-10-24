@@ -4,13 +4,13 @@
 
 function createURLfileLayer(urlFile, tipusFile){
 	
-	var nomCapa = window.lang.convert("Capa URL fitxer ");
+	var nomCapa = window.lang.translate("Capa URL fitxer ");
 	nomCapa += tipusFile;
 	var estil_do = retornaEstilaDO(t_url_file);
 	
 	if(typeof url('?businessid') == "string"){
 		var data = {
-			uid:$.cookie('uid'),
+			uid:Cookies.get('uid'),
 			mapBusinessId: url('?businessid'),
 			serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
 			serverType: t_url_file,

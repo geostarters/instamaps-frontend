@@ -181,7 +181,7 @@
         
         var mapquestUrl='http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
         var subDomains=['otile1','otile2','otile3','otile4'];
-        var mapquestAttrib=window.lang.convert('Font')+':<a class="N_labelMin" href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> .';
+        var mapquestAttrib=window.lang.translate('Font')+':<a class="N_labelMin" href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> .';
         
         
         var carte =new L.TileLayer(mapquestUrl,{maxZoom:19, minZoom: 7,attributionControl:true,attribution:mapquestAttrib,subdomains:subDomains});
@@ -194,7 +194,7 @@
        /* 
         var mapquestUrl='http://betaportal.icc.local/tileserver/mundicatfullres/{x}/{y}/{z}.png';
        
-        var mapquestAttrib=window.lang.convert('Font')+':<a class="N_labelMin" href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> .';
+        var mapquestAttrib=window.lang.translate('Font')+':<a class="N_labelMin" href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> .';
         var carte =new L.TileLayer(mapquestUrl,
         		{maxZoom:22,
         	continuousWorld: false,

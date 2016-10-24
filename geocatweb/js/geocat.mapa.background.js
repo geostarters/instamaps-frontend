@@ -181,12 +181,12 @@ function addHtmlInterficieFonsMapes(){
 	
 	$('.div_gr3_fons [data-toggle="tooltip"]').tooltip({placement : 'bottom',container : 'body'});
 	/*
-	$('#div_mesfons').tooltip({placement : 'right',container : 'body',title : window.lang.convert('Més mapes de fons')});
-	$('.div_gr3_fons #topoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Topogràfic')});
-	$('.div_gr3_fons #topoMapGeo').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Simple')});
-	$('.div_gr3_fons #ortoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Imatge')});
-	$('.div_gr3_fons #hibridMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Mapa híbrid')});
-	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.convert('Més mapes de fons')});	
+	$('#div_mesfons').tooltip({placement : 'right',container : 'body',title : window.lang.translate('Més mapes de fons')});
+	$('.div_gr3_fons #topoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Topogràfic')});
+	$('.div_gr3_fons #topoMapGeo').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Simple')});
+	$('.div_gr3_fons #ortoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Imatge')});
+	$('.div_gr3_fons #hibridMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Mapa híbrid')});
+	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Més mapes de fons')});	
 	*/
 
 	

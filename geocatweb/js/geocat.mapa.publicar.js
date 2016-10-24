@@ -214,6 +214,7 @@
 				$('#optTags').val(that.mapConfig.options.tags);	
 				if (that.mapConfig.options.llegenda){
 					$('#llegenda_chk').bootstrapSwitch('state', true, true);
+					createModalConfigLegend();
 				}else{
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
 				}
@@ -310,41 +311,44 @@
 			}
 			
 			//Traducció dels textos del modal de publicar
-    		$('#titlePublicar').text(window.lang.convert($('#titlePublicar').text()));
-    		$('#id_info_tab').text(window.lang.convert($('#id_info_tab').text()));
-    		$('#id_privacitat_tab').text(window.lang.convert($('#id_privacitat_tab').text()));
-    		$('#id_llegenda_tab').text(window.lang.convert($('#id_llegenda_tab').text()));
-    		$('#id_reuse_tab').text(window.lang.convert($('#id_reuse_tab').text()));
+    		$('#titlePublicar').text(window.lang.translate($('#titlePublicar').text()));
+    		$('#id_info_tab').text(window.lang.translate($('#id_info_tab').text()));
+    		$('#id_privacitat_tab').text(window.lang.translate($('#id_privacitat_tab').text()));
+    		$('#id_llegenda_tab').text(window.lang.translate($('#id_llegenda_tab').text()));
+    		$('#id_reuse_tab').text(window.lang.translate($('#id_reuse_tab').text()));
     		
-    		$('#nomAplicacioPub').attr("placeholder", window.lang.convert("Nom"));
-		    $('#optDescripcio').attr("placeholder", window.lang.convert("Descripció"));
-		    $('#optTags').attr("placeholder", window.lang.convert("Etiquetes")); 
-			$('#publish-warn-text').text(window.lang.convert('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
+    		$('#nomAplicacioPub').attr("placeholder", window.lang.translate("Nom"));
+		    $('#optDescripcio').attr("placeholder", window.lang.translate("Descripció"));
+		    $('#optTags').attr("placeholder", window.lang.translate("Etiquetes")); 
+			$('#publish-warn-text').text(window.lang.translate('El mapa es publicarà amb la vista actual: àrea geogràfica, nivell de zoom i capes visibles'));
 					    
-		    $('#llegendaTitle').text(window.lang.convert($('#llegendaTitle').text()));
-		    $('#textLegend').text(window.lang.convert($('#textLegend').text()));
+		    $('#llegendaTitle').text(window.lang.translate($('#llegendaTitle').text()));
+		    $('#textLegend').text(window.lang.translate($('#textLegend').text()));
 		    
-		    $('#checkObert').text(window.lang.convert($('#checkObert').text()));
-		    $('#checkRestringit').text(window.lang.convert($('#checkRestringit').text()));
-		    $('#txtPublic').text(window.lang.convert($('#txtPublic').text()));
-		    $('#txtPrivat').text(window.lang.convert($('#txtPrivat').text()));
-		    $('#checkPublic').text(window.lang.convert($('#checkPublic').text()));
-		    $('#checkPrivat').text(window.lang.convert($('#checkPrivat').text()));
-		    $('#txtVisible').text(window.lang.convert($('#txtVisible').text()));
-		    $('#txtNoVisible').text(window.lang.convert($('#txtNoVisible').text()));
-		    $('#resetClau').text(window.lang.convert($('#resetClau').text()));
+		    $('#checkObert').text(window.lang.translate($('#checkObert').text()));
+		    $('#checkRestringit').text(window.lang.translate($('#checkRestringit').text()));
+		    $('#txtPublic').text(window.lang.translate($('#txtPublic').text()));
+		    $('#txtPrivat').text(window.lang.translate($('#txtPrivat').text()));
+		    $('#checkPublic').text(window.lang.translate($('#checkPublic').text()));
+		    $('#checkPrivat').text(window.lang.translate($('#checkPrivat').text()));
+		    $('#txtVisible').text(window.lang.translate($('#txtVisible').text()));
+		    $('#txtNoVisible').text(window.lang.translate($('#txtNoVisible').text()));
+		    $('#resetClau').text(window.lang.translate($('#resetClau').text()));
 		    
-		    $('#cancelPublicar').text(window.lang.convert($('#cancelPublicar').text()));
-		    $('#okPublicar').text(window.lang.convert($('#okPublicar').text()));
+		    $('#cancelPublicar').text(window.lang.translate($('#cancelPublicar').text()));
+		    $('#okPublicar').text(window.lang.translate($('#okPublicar').text()));
 			
-		    $('#txt_llegenda_chk2').text(window.lang.convert($('#txt_llegenda_chk2').text()));
-		    $('#publish-legend-yes').text(window.lang.convert($('#publish-legend-yes').text()));
-		    $('#publish-legend-tancada').text(window.lang.convert($('#publish-legend-tancada').text()));
-		    $('#publish-legend-dinamica').text(window.lang.convert($('#publish-legend-dinamica').text()));
-		    $('#publish-legend-estatica').text(window.lang.convert($('#publish-legend-estatica').text()));
-		    $('#publish-legend-oberta').text(window.lang.convert($('#publish-legend-oberta').text()));
-		    $('#publish-legend-no').text(window.lang.convert($('#publish-legend-no').text()));
+		    $('#txt_llegenda_chk2').text(window.lang.translate($('#txt_llegenda_chk2').text()));
+		    $('#publish-legend-yes').text(window.lang.translate($('#publish-legend-yes').text()));
+		    $('#publish-legend-tancada').text(window.lang.translate($('#publish-legend-tancada').text()));
+		    $('#publish-legend-dinamica').text(window.lang.translate($('#publish-legend-dinamica').text()));
+		    $('#publish-legend-estatica').text(window.lang.translate($('#publish-legend-estatica').text()));
+		    $('#publish-legend-oberta').text(window.lang.translate($('#publish-legend-oberta').text()));
+		    $('#publish-legend-no').text(window.lang.translate($('#publish-legend-no').text()));
 		    
+		    $('#id_parametres div.visor-name').each(function(){
+		    	$(this).text(window.lang.translate($(this).text()));
+		    });
 		    //window.lang.run();
 		    
 		    var v_url = window.location.href;
@@ -398,6 +402,10 @@
             			$('#llegenda_chk2').bootstrapSwitch('state', true, true);
             			$('#div_llegenda_chk3').attr("style","display:inline;");
             			$('#llegenda_chk3').bootstrapSwitch('state', true, true);
+            			if (that.mapConfig!=undefined && (that.mapConfig.options==null || (that.mapConfig.options!=null && !that.mapConfig.options.llegenda))) {
+            				//Per defecte seleccionem tots si es selecciona que es vol llegenda
+            				$('.legend-subrow-all input').iCheck('check');    				
+            			}
             		}else{
             			$('#dialgo_publicar .modal-body .modal-legend').hide();
             			//ocultar el checkbox de triar tipus de llegenda
@@ -407,10 +415,10 @@
             	});	
             	$('input[name="my-legend-checkbox2"]').on('switchChange.bootstrapSwitch', function(event, state) {
             		if(state.value == true) {
-            			$('#txt_llegenda_chk2').html(window.lang.convert("La llegenda permet a l'usuari seleccionar la capa del seu interès."));
+            			$('#txt_llegenda_chk2').html(window.lang.translate("La llegenda permet a l'usuari seleccionar la capa del seu interès."));
     				}
     				else {
-    					$('#txt_llegenda_chk2').html(window.lang.convert("La llegenda del conjunt de les capes es mostra de manera contínua."));
+    					$('#txt_llegenda_chk2').html(window.lang.translate("La llegenda del conjunt de les capes es mostra de manera contínua."));
     				}
             	});
 
@@ -569,12 +577,12 @@
         		if(isBlank($('#dialgo_publicar #nomAplicacioPub').val())){
         			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
         			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
-        			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.convert('El camp no pot estar buit')+"</span>");
+        			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.translate('El camp no pot estar buit')+"</span>");
         			return false;
         		}else if(isDefaultMapTitle($('#dialgo_publicar #nomAplicacioPub').val())){
         			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
         			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
-        			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.convert("Introdueix un nom vàlid per a la publicació del mapa")+"</span>");
+        			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.translate("Introdueix un nom vàlid per a la publicació del mapa")+"</span>");
         			return false;
         		}
         	}
@@ -830,16 +838,16 @@
         
         _createModalConfigDownload: function(){
         	var count = 0;
-        	var html = window.lang.convert('Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar')+'<br/><br/>'; 
+        	var html = window.lang.translate('Escull les capes de dades que els altres usuaris d\'Instamaps podran baixar-se i reutilitzar')+'<br/><br/>'; 
         	html += '<label class="control-label" lang="ca">'+
-        		window.lang.convert('Capes reutilitzables pels altres usuaris:')+
+        		window.lang.translate('Capes reutilitzables pels altres usuaris:')+
         		'</label>&nbsp;<span class="glyphicon glyphicon-download-alt"></span>';
         	
         	html += '<div id="div_downloadable">'+
         			'<div class="separate-downloadable-row-all"></div>'+
         			'<div class="downloadable-subrow-all">'+
         			'<div class="col-md-9 downloadable-name-all">'+
-        				window.lang.convert('Totes')+
+        				window.lang.translate('Totes')+
         			'</div>'+
         			'<input id="downloadable-chck-all" class="col-md-1 download-chck" type="checkbox">'+
         			'</div>';

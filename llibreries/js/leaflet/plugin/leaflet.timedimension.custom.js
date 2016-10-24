@@ -454,11 +454,11 @@ L.TimeDimension.Util = {
             	
             	times = times.replace(/\s/g, "");
                 var dates = times.split(",");
-                console.info(dates);
+              
                 var time;
                 for (var i = 0, l = dates.length; i < l; i++) {
                     time = Date.parse(dates[i]);
-                    console.warn(time);
+                   
                     if (!isNaN(time)) {
                         result.push(time);
                     }
@@ -756,6 +756,8 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
         var wmsParams = this._baseLayer.options;
 		
 		if(this._global_dateFormat){
+			
+		
 
 			if(this._global_dateFormat=='YYYY'){
 				
@@ -787,7 +789,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 			wmsParams.time = new Date(nearestTime).toISOString();
 		
 		}
-		//console.info(wmsParams.time);
+	
 				
         //wmsParams.time = new Date(nearestTime).toISOString();
 		
@@ -798,8 +800,15 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
 		 if(parseInt(firstYearMonth[0]) < 2100 && parseInt(firstYearMonth[1]) < 13){
 			 // La data del capabilities es en format Sentinel2 ICGC => 2016-03
 			 // cal que la data enviada al geoservei estigui en el mateix format yyyy-mm
+			 
+			
 			 wmsParams.time = wmsParams.time.substr(0,7);
-		 }
+		 }else{
+			 
+			 //else YYYY
+			 
+			 wmsParams.time = wmsParams.time.substr(0,4);
+		 } 
 		//***
 		
         var newLayer = null;
@@ -929,10 +938,12 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
         });
         var defaultTime = 0;
         if (layerNameElement) {
+        	
+        	
             var layer = layerNameElement.parent();
             defaultTime = this._getDefaultTimeFromLayerCapabilities(layer);
 			
-            //console.info(defaultTime);
+           
             if(defaultTime.length ==4){
             	
             	this._global_dateFormat="YYYY";
@@ -944,16 +955,21 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
             }else if (defaultTime.length ==10){
             	
             	this._global_dateFormat="YYYY-MM-DD";
+            
+            }else if (defaultTime.length ==0){
+            	
+            	this._global_dateFormat="YYYY";
             	
             	
             }else{
-            	
-            	this._global_dateFormat="YYYY-MM-DD:HHSS";
+            	            	
+            	this._global_dateFormat="YYYY-MM-DD:HHSS";            	           	            	
             	
             }
 			
 			if (defaultTime == 0) {
                 defaultTime = this._getDefaultTimeFromLayerCapabilities(layer.parent());
+               // this._global_dateFormat="YYYY";
 			
             }
 			//console.info(defaultTime);
@@ -966,6 +982,7 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
     _getDefaultTimeFromLayerCapabilities: function(layer) {
         var defaultTime = 0;
         var dimension = layer.find("Dimension[name='time']");
+       
         if (dimension && dimension.attr("default")) {
             defaultTime = dimension.attr("default");
         } else {
@@ -974,6 +991,8 @@ L.TimeDimension.Layer.WMS = L.TimeDimension.Layer.extend({
                 defaultTime = extent.attr("default");
             }
         }
+        
+      
         return defaultTime;
     },
 

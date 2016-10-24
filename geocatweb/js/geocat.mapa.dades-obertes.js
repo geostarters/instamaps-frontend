@@ -69,11 +69,11 @@ function addCapaDadesObertes(dataset,nom_dataset) {
             
             if(data.status && data.status.indexOf("ERROR")!=-1){
         		if(data.results.indexOf("CONVERT ERROR")!= -1){
-    			var txt_error = window.lang.convert("Error en el tractament de les dades");
+    			var txt_error = window.lang.translate("Error en el tractament de les dades");
     			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
 	    		}
 	    		else{
-	    			var txt_error = window.lang.convert("Impossible accedir a la font de dades");
+	    			var txt_error = window.lang.translate("Impossible accedir a la font de dades");
 	    			jQuery("#div_do_message").html('<div class="alert alert-danger">'+txt_error+'</div>');
 	    		}            	
             }else{
@@ -83,7 +83,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	            	
 	            	if(typeof url('?businessid') == "string"){
 	    				var data = {
-	    					uid:$.cookie('uid'),
+	    					uid:Cookies.get('uid'),
 	    					mapBusinessId: url('?businessid'),
 	    					serverName: nom_dataset,
 	    					serverType: t_dades_obertes,

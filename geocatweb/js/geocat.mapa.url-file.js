@@ -59,12 +59,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		"&uploadFile="+paramUrl.uploadFile+
 		"&colX="+colX+
 		"&colY="+colY+
-		"&uid="+$.cookie('uid');		
+		"&uid="+Cookies.get('uid');		
 
 		$('#dialog_dades_ex').modal('hide');
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
-				window.lang.convert('Carregant dades')+
+				window.lang.translate('Carregant dades')+
 		'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');		
 		jQuery('#info_uploadFile').show();
 
@@ -176,7 +176,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 					//Un cop tinc la capa a client, la creo a servidor
 					var data = {
-						uid:$.cookie('uid'),
+						uid:Cookies.get('uid'),
 						mapBusinessId: url('?businessid'),
 						serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
 						serverType: t_url_file,
@@ -232,13 +232,13 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						}else{
 							console.debug("1.Error a createServidorInMap:"+results.status);
 							_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques error createServidorInMap1', urlFile, 1]);
-							var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+							var txt_error = window.lang.translate("Error durant la càrrega de dades. Torni a intentar-ho");
 							jQuery("#div_url_file_message").html(txt_error);							
 						}
 					},function(results){
 						console.debug("2.Error a createServidorInMap:"+results.status);
 						_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques error createServidorInMap2', urlFile, 1]);
-						var txt_error = window.lang.convert("Error durant la càrrega de dades. Torni a intentar-ho");
+						var txt_error = window.lang.translate("Error durant la càrrega de dades. Torni a intentar-ho");
 						jQuery("#div_url_file_message").html(txt_error);
 						jQuery('#info_uploadFile').hide();
 
@@ -260,7 +260,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			epsgIN: epsgIN,
 			dinamic: dinamic,
 			uploadFile: paramUrl.uploadFile,
-			uid: $.cookie('uid'),
+			uid: Cookies.get('uid'),
 			colX: colX,
 			colY: colY,
 			tipusAcc: tipusAcc,
@@ -277,10 +277,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html(
-			'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.convert('Descarregant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
-			'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'</div>'+
-			'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
-			'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+			'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Descarregant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
+			'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'</div>'+
+			'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+			'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 		);				
 		jQuery('#info_uploadFile').show();			
 		jQuery('#info_uploadFile').show();		
@@ -298,27 +298,27 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						if(data.status.indexOf("PAS2")!=-1){
 							jQuery("#div_uploading_txt").html("");
 							jQuery("#div_uploading_txt").html(
-								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-								'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.convert('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-								'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.convert('Creant geometries')+'</div>'+
-								'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+								'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+								'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+								'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 							);									
 						}else if(data.status.indexOf("PAS3")!=-1){
 							jQuery("#div_uploading_txt").html("");
 							jQuery("#div_uploading_txt").html(
-								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-								'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-								'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.convert('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-								'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.convert('Processant la resposta')+'</div>'//+	
+								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+								'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+								'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+								'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 							);									
 						}else if(data.status.indexOf("OK")!=-1){
 							clearInterval(pollInterval);
 							jQuery("#div_uploading_txt").html("");
 							jQuery("#div_uploading_txt").html(
-								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.convert('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
-								'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.convert('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-								'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.convert('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
-								'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.convert('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+								'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+								'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+								'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+								'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 							);									
 							$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 								if(data.status.indexOf("OK")!=-1){											
@@ -341,41 +341,41 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error '+data.codi, urlFile, 1]);
 
 								if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
-									var msg = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+									var msg = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
 									$('#dialog_error_upload_txt').html(msg);
 
 								}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
-									var msg = "[02]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+									var msg = "[02]: " + window.lang.translate("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
 									$('#dialog_error_upload_txt').html(msg);
 
 								}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
-									var msg = "[03]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+									var msg = "[03]: " + window.lang.translate("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 									$('#dialog_error_upload_txt').html(msg);
 
 								}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-									var msg = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+									var msg = "[04]: " + window.lang.translate("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
 									$('#dialog_error_upload_txt').html(msg);
 
 								}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-									var msg = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+									var msg = "[05]: " + window.lang.translate("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
 									$('#dialog_error_upload_txt').html(msg);
 
 								}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
-									var msg = "[06]: " + window.lang.convert("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+									var msg = "[06]: " + window.lang.translate("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 									$('#dialog_error_upload_txt').html(msg);
 
 								}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
-									var msg = "[07]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+									var msg = "[07]: " + window.lang.translate("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 									$('#dialog_error_upload_txt').html(msg);
 
 								}else if(data.codi.indexOf("08")!=-1){//cas 08: Mida de fitxer supera els 50MB permesos per dades externes dinamiques
-									var msg = "[08]: " + window.lang.convert("La mida del fitxer supera el límit preestablert per a dades externes no dinàmiques (50MB).");
+									var msg = "[08]: " + window.lang.translate("La mida del fitxer supera el límit preestablert per a dades externes no dinàmiques (50MB).");
 									$('#dialog_error_upload_txt').html(msg);
 								}
 
 							}else{
 								_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error sense codi', urlFile, 1]);
-								$('#dialog_error_upload_txt').html(window.lang.convert("Error en la càrrega de l'arxiu"));
+								$('#dialog_error_upload_txt').html(window.lang.translate("Error en la càrrega de l'arxiu"));
 							}
 
 							$('#dialog_error_upload').modal('show');
@@ -401,53 +401,56 @@ function processFileError(data, urlFile){
 		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes dinamiques error '+data.codi, urlFile, 1]);
 		var txt_error="";
 		if(data.codi.indexOf("01")!=-1){//cas 01: Erro al descarregar el fitxer zip (download_zip_file)
-			txt_error = "[01]: " + window.lang.convert("Ha ocorregut un error inesperat durant la descàrrega del fitxer.");
+			txt_error = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la descàrrega del fitxer.");
 
 		}else if(data.codi.indexOf("02")!=-1){//cas 02: EnviaFileReadyCodiDin a myUtils.jsp ha donat una excepcio
-			txt_error = "[02]: " + window.lang.convert("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+			txt_error = "[02]: " + window.lang.translate("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
 
 		}else if(data.codi.indexOf("03")!=-1){//cas 03: Error de conversio del fitxer
-			txt_error = "[03]: " + window.lang.convert("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+			txt_error = "[03]: " + window.lang.translate("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
 //			$('#dialog_error_upload_txt').html(msg);
 
 		}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
-			txt_error = "[04]: " + window.lang.convert("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+			txt_error = "[04]: " + window.lang.translate("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
 //			$('#dialog_error_upload_txt').html(msg);
 
 		}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
-			txt_error = "[05]: " + window.lang.convert("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+			txt_error = "[05]: " + window.lang.translate("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
 //			$('#dialog_error_upload_txt').html(msg);
 
 		}else if(data.codi.indexOf("06")!=-1){//cas 06: OGRInfo ha donat resposta fallida
-			txt_error = "[06]: " + window.lang.convert("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+			txt_error = "[06]: " + window.lang.translate("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
 //			$('#dialog_error_upload_txt').html(msg);
 
 		}else if(data.codi.indexOf("07")!=-1){//cas 07: Num maxim de punts excedit
-			txt_error = "[07]: " + window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
+			txt_error = "[07]: " + window.lang.translate("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
 //			$('#dialog_error_upload_txt').html(msg);
 
 		}else if(data.codi.indexOf("08")!=-1){//cas 08: Num maxim de linies/poligons exedit
-			txt_error = "[08]: " + window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
+			txt_error = "[08]: " + window.lang.translate("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho.");
 //			$('#dialog_error_upload_txt').html(msg);
 
 		}else if(data.codi.indexOf("09")!=-1){//cas 09: Mida de fitxer supera els 25MB permesos per dades externes dinamiques
-			txt_error = "[09]: " + window.lang.convert("La mida del fitxer supera el límit preestablert per a dades externes dinàmiques (25MB).");
+			txt_error = "[09]: " + window.lang.translate("La mida del fitxer supera el límit preestablert per a dades externes dinàmiques (25MB).");
 //			$('#dialog_error_upload_txt').html(msg);
 		}			
 
 	}else{
-		txt_error = window.lang.convert("Error durant el tractament de les dades");
+		if(data.results && (data.results.indexOf("EXCEPTION1")  != -1))
+			txt_error = window.lang.translate("No s'ha trobat el fitxer: ") + "<a href=\"" + urlFile + "\" target=_blank>" + urlFile + "</a>";
+		else
+			txt_error = window.lang.translate("Error durant el tractament de les dades");
 	}
 
 	/*
 	if(data.results.indexOf("CONVERT ERROR")!= -1){
-		var txt_error = window.lang.convert("Error de conversió: format o EPSG incorrectes");
+		var txt_error = window.lang.translate("Error de conversió: format o EPSG incorrectes");
 	}else if(data.results.indexOf("501")!= -1){//+ de 5000 punts
-		txt_error += ": "+window.lang.convert("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
+		txt_error += ": "+window.lang.translate("El número de punts supera el màxim permès. Redueixi a 10000 o menys i torni a intentar-ho");
 	}else if(data.results.indexOf("502")!= -1){//+ de 1000 features
-		txt_error += ": "+window.lang.convert("El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho");
+		txt_error += ": "+window.lang.translate("El número de línies/polígons supera el màxim permès. Redueixi a 2000 o menys i torni a intentar-ho");
 	}else if(data.results.indexOf("503")!= -1){//+ de 6000 geometries
-		txt_error += ": "+window.lang.convert("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
+		txt_error += ": "+window.lang.translate("El número total de geometries supera el màxim permès. Redueixi a 6000 o menys i torni a intentar-ho");
 	}*/
 
 	//_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes error', data.results, 1]);
@@ -493,7 +496,7 @@ function loadURLfileLayer(layer){
 		"&dinamic="+dinamic+
 		"&urlFile="+encodeURIComponent(urlFile)+
 		"&uploadFile="+paramUrl.uploadFile+
-		"&uid="+$.cookie('uid');
+		"&uid="+Cookies.get('uid');
 	
 	var capaURLfileLoad;
 	

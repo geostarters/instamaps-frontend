@@ -183,7 +183,7 @@
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}
-				val.uid=$.cookie('uid');
+				val.uid=Cookies.get('uid');
 				val.convidats=val.convidats;	
 				val.data =  new Date(val.dataPublicacio).toLocaleDateString();
 				return val;
@@ -226,7 +226,7 @@
 				var $this = $(this);
 				var data = {
 					businessId: $this.data("businessid"),
-					uid: $.cookie('uid')
+					uid: Cookies.get('uid')
 				};
 				deleteMap(data).then(function(results){
 					if (results.status == "OK"){
@@ -280,7 +280,7 @@
 					var idConvidats="#convidats_"+$this.data("businessid");
 					var data1 = {
 						businessId: $this.data("businessid"),
-						uid: $.cookie('uid')
+						uid: Cookies.get('uid')
 					}
 					getConvidatsByBusinessId(data1).then(function(results){
 						for (var j=1;j<11;j++){ //Netejem els camps dels convidats
@@ -296,11 +296,11 @@
 								var data = {
 									convidatEsborrar: $('#'+idC).val(),
 									businessId: $('#dialgo_colaborate').data('businessid'),
-									uid: $.cookie('uid')
+									uid: Cookies.get('uid')
 								}
 								deleteConvidatByBusinessId(data).then(function(results2){
 									if (results2.status=="OK"){
-										alert( window.lang.convert("Col·laborador ")+$('#'+idC).val()+window.lang.convert(" esborrat"));
+										alert( window.lang.window.lang.translate("Col·laborador ")+$('#'+idC).val()+window.lang.translate(" esborrat"));
 										$('#'+idC).val("");
 										$('#'+idC).prop('disabled',false);
 										$('#'+idC).attr("style","margin-bottom:3px;width:88%;");
@@ -401,24 +401,24 @@
 				
 				var data1 = {
 						businessId: $this.data("businessid"),
-						uid: $.cookie('uid'),
+						uid: Cookies.get('uid'),
 						visibilitat: visibilitatNova
 				};
 				updateMapVisibility(data1).then(function(results){
 					if (results.status=="OK") {
 						if (visibilitatAntiga=="P") {
 							$(idPriv).attr("class", "glyphicon glyphicon-eye-open");
-							$this.data("title", window.lang.convert("El mapa és visible a la galeria pública"));
-							//$this.attr('title', window.lang.convert("El mapa és visible a la galeria pública")).tooltip('fixTitle').tooltip('show');
+							$this.data("title", window.lang.translate("El mapa és visible a la galeria pública"));
+							//$this.attr('title', window.lang.translate("El mapa és visible a la galeria pública")).tooltip('fixTitle').tooltip('show');
 						}
 						else {
 							$(idPriv).attr("class", "glyphicon glyphicon-eye-close");
-							$this.data("title",window.lang.convert("El mapa només és visible a la teva galeria privada"));
-							//$this.attr('title', window.lang.convert("El mapa només és visible a la teva galeria privada")).tooltip('fixTitle').tooltip('show');
+							$this.data("title",window.lang.translate("El mapa només és visible a la teva galeria privada"));
+							//$this.attr('title', window.lang.translate("El mapa només és visible a la teva galeria privada")).tooltip('fixTitle').tooltip('show');
 							
 						}
 					}
-					else alert(window.lang.convert("No ha sigut possible canviar la visibilitat del mapa"));
+					else alert(window.lang.translate("No ha sigut possible canviar la visibilitat del mapa"));
 				});
 				
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'visibilitat',textVisibilitatNova]);
@@ -441,7 +441,7 @@
 			$('#dialgo_colaborate #convidar').on('click', function(event){
 				var businessId= $('#dialgo_colaborate').data('businessid');
 				var urlMap = HOST_APP+paramUrl.visorPage+'?businessid='+businessId;
-				var contingut= window.lang.convert("Et convido a col&#183;laborar en el mapa ")+"<span style='font-weight:bold'>"+$('#nomAplicacioSort_'+businessId).val()+"</span>"+ window.lang.convert(" d'Instamaps (creat per ")+$('#userAplicacio_'+businessId).val()+window.lang.convert(" ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.")+"<br/>";
+				var contingut= window.lang.translate("Et convido a col&#183;laborar en el mapa ")+"<span style='font-weight:bold'>"+$('#nomAplicacioSort_'+businessId).val()+"</span>"+ window.lang.translate(" d'Instamaps (creat per ")+$('#userAplicacio_'+businessId).val()+window.lang.translate(" ). Clica a l'enllaç per accedir-hi. Hauràs de registrar-te si no ho has fet encara.")+"<br/>";
 				contingut=htmlentities(contingut)+urlMap;
 				var to = "";
 				var idConv="#convidats_"+businessId;
@@ -462,9 +462,9 @@
 
 							totalConv++;
 							var data = {
-								uid: $.cookie('uid'),
+								uid: Cookies.get('uid'),
 								to:to,
-								subject:window.lang.convert('Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;'),
+								subject:window.lang.translate('Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;'),
 								content: contingut,
 								esColaboratiu: 'S',
 								businessId: businessId
@@ -473,7 +473,7 @@
 								if (results.status=="OK") {
 									$('#dialgo_colaborate').modal('hide');
 								}
-								else alert(window.lang.convert("Hi ha hagut algun problema amb la tramesa dels correus electrònics"));
+								else alert(window.lang.translate("Hi ha hagut algun problema amb la tramesa dels correus electrònics"));
 							});
 						}
 					}
@@ -485,7 +485,7 @@
 			
 			$('#galeriaSort #obtenirUrlPublica').on('click', function(event){
 				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'obtenir URL galeria pública']);
-				var urlGaleriaUsuari = "http://www.instamaps.cat/"+paramUrl.galeriaPage.substring(1,paramUrl.galeriaPage.length)+"?user="+$.cookie('uid');
+				var urlGaleriaUsuari = "http://www.instamaps.cat/"+paramUrl.galeriaPage.substring(1,paramUrl.galeriaPage.length)+"?user="+Cookies.get('uid');
 				
 				$('#urlPublicaLlarga').val(urlGaleriaUsuari);
 				shortUrl(urlGaleriaUsuari).then(function(results){
@@ -511,7 +511,7 @@
 				$('#dialgo_duplicar_mapa #nomMapaDuplicar').val($this.data("nomaplicacio")+"_duplicat");
 				busy=true;
 				$('#infoDuplicar').attr("style","display:none;");
-				$('#dialgo_duplicar_mapa #cancelarBoto').text("Cancel·lar");
+				$('#dialgo_duplicar_mapa #cancelarBoto').html("Cancel·lar");
 				$('#dialgo_duplicar_mapa #cancelarBoto').attr("class","btn btn-default");
 				$('#dialgo_duplicar_mapa #cancelarBoto').removeAttr("disabled");
 				$('#dialgo_duplicar_mapa #duplicarBoto').attr("style","display:inline");	
@@ -539,8 +539,8 @@
 			
 			var data = {};
 			data.tipusApp = self.options.tipusApp;
-			if(typeof $.cookie('uid') !== "undefined"){
-				data = {uid: $.cookie('uid')};
+			if(typeof Cookies.get('uid') !== "undefined"){
+				data = {uid: Cookies.get('uid')};
 			}
 				
 			var delay = (function(){
@@ -690,8 +690,8 @@
 				    			var sort = self.getOrderGaleria();
 				    			$('#loadingGaleria').show();
 			    				var data = {};
-								if(typeof $.cookie('uid') !== "undefined"){
-									data = {uid: $.cookie('uid')};
+								if(typeof Cookies.get('uid') !== "undefined"){
+									data = {uid: Cookies.get('uid')};
 								}
 								data.page = pageGaleria;
 								data.ordre = sort.order;
@@ -717,10 +717,10 @@
 			//cambiar el footer
 			$('footer div.container span').text("InstaMaps.Geolocal");
 			
-			getUserData($.cookie('uid')).then(function(results){
+			getUserData(Cookies.get('uid')).then(function(results){
 				loadAplicacionsUser().then(function(results1){
-					codiUsuari = $.cookie('uid');
-					tipusEntitat = $.cookie('tipusEntitat');
+					codiUsuari = Cookies.get('uid');
+					tipusEntitat = Cookies.get('tipusEntitat');
 					self.pintaGaleriaAplicacions(results1, tipusEntitat);
 					getConfiguradesUser({codiUsuari: codiUsuari}).then(function(results){
 						self.pintaGaleriaConfigurades(results);
@@ -743,9 +743,9 @@
 					}
 				}			
 				//usar el cookie token	
-				urlMap += $.cookie('uid')+"&token="+$.cookie('token');
+				urlMap += Cookies.get('uid')+"&token="+Cookies.get('token');
 				if(urlMap.indexOf("EdCarrerer") != -1){
-					urlMap += "&muniIne="+$.cookie('uid').substring(1); 
+					urlMap += "&muniIne="+Cookies.get('uid').substring(1); 
 				}
 				window.open(urlMap);	
 			});
@@ -791,7 +791,7 @@
 						break;
 				}
 				//usar el cookie token
-				urlMap += eliminar[1] + "&token="+$.cookie('token');
+				urlMap += eliminar[1] + "&token="+Cookies.get('token');
 				$('#dialgo_delete_aplicacio .btn-danger').data("url", urlMap);
 			});
 			
@@ -928,7 +928,7 @@
 				var params = {
 					businessId: businessid,
 					rank: $('#dialgo_rank .rank_mapa').val(),
-					uid: $.cookie('uid')
+					uid: Cookies.get('uid')
 				};
 				updateRankAplicacio(params).then(function(results){
 					if (results.status == "OK"){
@@ -1061,7 +1061,7 @@
 		duplicateMap: function(){
 			var self = this;	
 			var data1 = {
-					uid: $.cookie('uid'),
+					uid: Cookies.get('uid'),
 					businessId1: $('#dialgo_duplicar_mapa').data('businessid')
 			}
 			//Polling
@@ -1083,7 +1083,7 @@
 									//$('#dialgo_duplicar_mapa').modal('hide');
 									$('#infoDuplicar').attr("style","display:block;padding:5px;");
 									$('#loadingGaleria_duplicate').attr("style","display:block");
-									$('#dialgo_duplicar_mapa #cancelarBoto').text("Acceptar");
+									$('#dialgo_duplicar_mapa #cancelarBoto').html("Acceptar");
 									$('#dialgo_duplicar_mapa #cancelarBoto').attr("class","btn btn-success btn-default");
 									$('#dialgo_duplicar_mapa #cancelarBoto').attr("disabled", true);
 									$('#dialgo_duplicar_mapa #duplicarBoto').attr("style","display:none");		

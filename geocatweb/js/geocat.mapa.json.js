@@ -42,11 +42,11 @@ function getServeiJSONP(purlJson) {
 							}else{
 							
 							if (!jQuery.isArray(respostaJSON)) {
-								alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
+								alert(window.lang.translate("No s'ha interpretar l'estructura del JSON"));
 								return;
 							}
 							op.push("<option value='null'>"
-									+ window.lang.convert('Selecciona un camp')
+									+ window.lang.translate('Selecciona un camp')
 									+ "</option>");
 							for (key in respostaJSON[0]) {
 								op.push("<option value=" + key + ">" + key
@@ -60,7 +60,7 @@ function getServeiJSONP(purlJson) {
 							_htmlJSONFields.push('<ul class="bs-dadesO_JSON">');
 
 							_htmlJSONFields.push("<li><label>"
-									+ window.lang.convert('Camps necessaris')
+									+ window.lang.translate('Camps necessaris')
 									+ "</label></li>");
 							_htmlJSONFields
 									.push("<li><label>"
@@ -70,43 +70,43 @@ function getServeiJSONP(purlJson) {
 
 							_htmlJSONFields
 									.push("<li>"
-											+ window.lang.convert('Coordenada X o Longitud')
+											+ window.lang.translate('Coordenada X o Longitud')
 											+ "</li>");
 							_htmlJSONFields
 									.push("<li><select  id='cmd_json_x'>"
 											+ op.join(" ") + "</select></li>");
 
 							_htmlJSONFields.push("<li>"
-									+ window.lang.convert('Coordenada Y o Latitud') + "</li>");
+									+ window.lang.translate('Coordenada Y o Latitud') + "</li>");
 							_htmlJSONFields.push("<li><select id='cmd_json_y'>"
 									+ op.join(" ") + "</select></li>");
 
 							_htmlJSONFields.push("<li><label>"
-									+ window.lang.convert('Opcionals')
+									+ window.lang.translate('Opcionals')
 									+ "</label></li>");
 							_htmlJSONFields.push("<li></li>");
 
 							_htmlJSONFields.push("<li>"
-									+ window.lang.convert('Títol') + "</li>");
+									+ window.lang.translate('Títol') + "</li>");
 							_htmlJSONFields
 									.push("<li><select  id='cmd_json_titol'>"
 											+ op.join(" ") + "</select></li>");
 
 							_htmlJSONFields.push("<li>"
-									+ window.lang.convert('Descripció')
+									+ window.lang.translate('Descripció')
 									+ "</li>");
 							_htmlJSONFields
 									.push("<li><select  id='cmd_json_desc'>"
 											+ op.join(" ") + "</select></li>");
 
 							_htmlJSONFields.push("<li>"
-									+ window.lang.convert('Imatge') + "</li>");
+									+ window.lang.translate('Imatge') + "</li>");
 							_htmlJSONFields
 									.push("<li><select  id='cmd_json_img'>"
 											+ op.join(" ") + "</select></li>");
 
 							_htmlJSONFields.push("<li>"
-									+ window.lang.convert('Vincle') + "</li>");
+									+ window.lang.translate('Vincle') + "</li>");
 							_htmlJSONFields
 									.push("<li><select id='cmd_json_vin'>"
 											+ op.join(" ") + "</select></li>");
@@ -145,7 +145,7 @@ function getServeiJSONP(purlJson) {
 
 //	} else {
 //
-//		alert(window.lang.convert("La URL no sembla vàlida"));
+//		alert(window.lang.translate("La URL no sembla vàlida"));
 //		return;
 //	}
 }
@@ -177,7 +177,7 @@ function creaCapaFromJSON(directe) {
 	
 	if ((cmd_json_x == "null") || (cmd_json_y == "null")) {
 
-		alert(window.lang.convert("Els camps de coordenades no poden estar buits"));
+		alert(window.lang.translate("Els camps de coordenades no poden estar buits"));
 		return;
 
 	} else {
@@ -203,7 +203,7 @@ function creaCapaFromJSON(directe) {
 		
 		if(typeof url('?businessid') == "string"){
 			var data = {
-				uid:$.cookie('uid'),
+				uid:Cookies.get('uid'),
 				mapBusinessId: url('?businessid'),
 				serverName: nomCapaJson,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
 				serverType: t_json,
@@ -345,7 +345,7 @@ function loadCapaFromJSON(layer) {
 			}
 	
 			if (!jQuery.isArray(v_respotaJSON)) {
-				alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
+				alert(window.lang.translate("No s'ha interpretar l'estructura del JSON"));
 				return;
 			}
 			
@@ -440,7 +440,7 @@ function loadCapaFromJSON(layer) {
 			activaPanelCapes(true);	
 			return defer.resolve();
 		},function(results){
-			alert(window.lang.convert("No s'ha interpretar l'estructura del JSON"));
+			alert(window.lang.translate("No s'ha interpretar l'estructura del JSON"));
 			return defer.reject();		
 		});
 	}

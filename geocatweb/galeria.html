@@ -14,13 +14,10 @@
 
 <!-- Le styles -->
 <link href="/llibreries/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/llibreries/css/cookieconsent.min.css"/>
-<link href="/geocatweb/css/geocat.css" rel="stylesheet">
+<link rel="stylesheet" href="/llibreries/css/cookieconsent-3.0.1.min.css"/>
 <link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css">
 
-<!-- KISSMETRICS SNIPPET -->
-<!-- script src="/geocatweb/js/geocat.kissmetrics.js"></script -->
-
+<link href="/geocatweb/css/geocat.css" rel="stylesheet">
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
@@ -57,8 +54,8 @@
 					-->
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span> <b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
-							<li id="ca"><a href="#">Catal&agrave;</a></li>
-							<li id="es"><a href="#">Espa&ntilde;ol</a></li>
+							<li id="ca"><a href="#">Català</a></li>
+							<li id="es"><a href="#">Español</a></li>
 							<li id="en"><a href="#">English</a></li>
 						</ul>
 					</li>
@@ -66,7 +63,7 @@
 					<li id="menu_login">
 						<form class="navbar-form">
 							<a lang="ca" id="hl_sessio1" href="/geocatweb/sessio.html" 
-							class="btn bt-sessio instamaps_sessio">Inicia la sessi&oacute;</a>
+							class="btn bt-sessio instamaps_sessio">Inicia la sessió</a>
 						</form>					
 					</li>
 					
@@ -422,7 +419,7 @@
 				</div>
 				<div class="modal-body">
 					<h4><span lang="ca">Segur que vols esborrar el mapa</span> "<span class="nom_mapa"></span>" ?</h4>
-					<span lang="ca">A l’esborrar el mapa desapareixerà tant de la teva galeria com de la pública.</span>
+					<span lang="ca">A l'esborrar el mapa desapareixerà tant de la teva galeria com de la pública.</span>
 				</div>
 				<div class="modal-footer">
 					<button lang="ca" type="button" class="btn btn-default"
@@ -449,7 +446,7 @@
 				</div>
 				<div class="modal-body">
 					<h4><span lang="ca">Segur que vols esborrar la aplicació</span> "<span class="nom_mapa"></span>" ?</h4>
-					<span lang="ca">A l’esborrar la aplicació desapareixerà de la teva galeria.</span>
+					<span lang="ca">A l'esborrar l'aplicació desapareixerà de la teva galeria.</span>
 				</div>
 				<div class="modal-footer">
 					<button lang="ca" type="button" class="btn btn-default"
@@ -514,14 +511,6 @@
 					<h4 lang="ca" class="modal-title">Duplicar el mapa</h4>
 				</div>
 				<div class="modal-body">
-					<!-- div id="loadingGaleria_duplicate">
-					<div id="preloader6">
-				        <span></span>
-				        <span></span>
-				        <span></span>
-				        <span></span>
-				    </div>
-				    </div-->
 					<span lang="ca">Nom del nou mapa:</span>
 					<input type="text" value="" id="nomMapaDuplicar" style="width:400px"/>
 					<br/><br/>
@@ -554,33 +543,6 @@
 	<!-- /.modal -->
 	<!-- Fi Modal duplicar mapa -->
 	
-	
-	<!-- Modal rank -->
-	<div id="dialgo_rank" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content panel-primary">
-				<div class="modal-header panel-heading">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 lang="ca" class="modal-title">Rank el mapa</h4>
-				</div>
-				<div class="modal-body">
-					<h4><span lang="ca">Rank el mapa</span> <input type="text" class="rank_mapa" value=""></h4>
-				</div>
-				<div class="modal-footer">
-					<button lang="ca" type="button" class="btn btn-default"
-						data-dismiss="modal">Cancel·lar</button>
-					<button lang="ca" type="button" class="btn btn-primary"
-						data-dismiss="modal">Acceptar</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<!-- /.modal -->
-	<!-- Fi Modal delete -->
-
 	<!-- Modal visor no disponible -->
 	<div id="dialog_noViewer" class="modal fade">
 		<div class="modal-dialog">
@@ -603,7 +565,7 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
-	<!-- Fi Modal delete -->
+	<!-- Fi Modal visor no disponible -->
 	
 	<footer>
 		<div class="container text-center footer-instamaps">
@@ -676,9 +638,9 @@
 						aria-hidden="true">&times;</button>
 					<h4 class="modal-title" lang="ca">Obtenir URL pública de la galeria</h4>
 				</div>
-				<div lang="ca" class="modal-body">
-					<span class="ca">Enllaç galeria pública:</span><input type="text" id="urlPublicaLlarga" style="width:400px;margin-left:28px;margin-bottom:5px;"><br/>
-					<span class="ca">Enllaç curt galeria pública:</span><input type="text" id="urlPublicaCurta" style="width:400px;margin-left:2px;">
+				<div class="modal-body">
+					<span lang="ca">Enllaç galeria pública:</span><input type="text" id="urlPublicaLlarga" style="width:400px;margin-left:28px;margin-bottom:5px;"><br/>
+					<span lang="ca">Enllaç curt galeria pública:</span><input type="text" id="urlPublicaCurta" style="width:400px;margin-left:2px;">
 				</div>
 				<div class="modal-footer">
 			    	<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-success btn-default" data-dismiss="modal">Acceptar</button>
@@ -709,16 +671,16 @@
 	<script src="/llibreries/js/bootstrap.min.js"></script>
 	<script src="/llibreries/js/leaflet/leaflet.0.7.7.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/list.js"></script>
-	<script src="/llibreries/js/jquery/plugins/jquery.cookie.js"></script>
-	<script src="/llibreries/js/cookieconsent.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/js.cookie-2.1.3.min.js"></script>
+	<script src="/llibreries/js/cookieconsent-3.0.1.min.js"></script>
 	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-lang-3.0.0.js" charset="utf-8" type="text/javascript"></script>
+	<!-- 
 	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
-	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
-	
-	
-		
 	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
 	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+	-->
+	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
 	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
 	<script src="/geocatweb/js/geocat.constants.js"></script>
 	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>

@@ -67,9 +67,6 @@ $( window ).resize(function() {
 			activaPanelCapes(false);
 		}
 
-	
-
-
 	var cl = jQuery('.bt_llista span').attr('class');
 	if (cl){
 		if (cl.indexOf('grisfort') == -1) {
@@ -196,7 +193,7 @@ function loadVisorSimple(){
 	//Actualitza idioma dels tooltips
 	$("body").on("change-lang", function(event, lang){
 		window.lang.change(lang);
-		window.lang.run(lang);
+		//window.lang.run(lang);
 		updateLangTooltips();
 		updateLangText();
 	});
@@ -262,18 +259,18 @@ function loadApp(){
 				loadPasswordModal();
 			}else{
 				var uidUrl = url('?uid');
-				if ( url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta" && !$.cookie('uid')) {
-					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-					$.cookie('collaborateuid', uidUrl, {path:'/'});
+				if ( url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta" && !Cookies.get('uid')) {
+					Cookies.get('collaboratebid', url('?businessid'));
+					Cookies.get('collaborateuid', uidUrl);
 					window.location.href = paramUrl.loginPage;
 				}
-				else if (url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta"  && uidUrl!=$.cookie('uid')) {
-					$.removeCookie('uid', { path: '/' });
-					$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-					$.cookie('collaborateuid', uidUrl, {path:'/'});
+				else if (url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta"  && uidUrl!=Cookies.get('uid')) {
+					Cookies.remove('uid');
+					Cookies.get('collaboratebid', url('?businessid'));
+					Cookies.get('collaborateuid', uidUrl);
 					window.location.href = paramUrl.loginPage;
 				}
-				else if (url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta"  && uidUrl==$.cookie('uid')) {
+				else if (url('?mapacolaboratiu') && url('?mapacolaboratiu')=="alta"  && uidUrl==Cookies.get('uid')) {
 					//window.location.href = paramUrl.galeriaPage+"?private=1";
 					window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
 					
@@ -301,10 +298,10 @@ function loadPublicMap(results){
 	var infoHtml = '';
 	
 	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
-		$.cookie('perfil', 'geolocal', {path:'/'});
+		Cookies.get('perfil', 'geolocal');
 		checkUserLogin();
 	}else{
-		$.cookie('perfil', 'instamaps', {path:'/'});
+		Cookies.get('perfil', 'instamaps');
 		checkUserLogin();
 	}
 	
@@ -385,7 +382,7 @@ function loadPublicMap(results){
 	});
 
 	$('#infoMap').on('show.bs.popover', function () {
-		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));		
+		jQuery(this).attr('data-original-title', window.lang.translate(jQuery(this).data('lang-title')));		
 	});
 
 	mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
@@ -422,7 +419,7 @@ function loadPublicMap(results){
 		//Actulitza idioma dels tooltips
 		$("body").on("change-lang", function(event, lang){
 			window.lang.change(lang);
-			window.lang.run(lang);
+			//window.lang.run(lang);
 			updateLangTooltips();
 			updateLangText();
 		});
@@ -596,10 +593,10 @@ function addControlsInici() {
 
             this._div = L.DomUtil.create('div', 'control-linkViewMap');
             this._div.id='div-linkViewMap';
-            this._div.title=window.lang.convert('Veure a InstaMaps');
+            this._div.title=window.lang.translate('Veure a InstaMaps');
             this._div.innerHTML = '<span id="span-linkViewMap">'+
                                                '<a href="'+urlVisor+'" target="_blank">'+
-                                               //window.lang.convert('Veure a InstaMaps')+
+                                               //window.lang.translate('Veure a InstaMaps')+
                                                '&nbsp;<span class="glyphicon glyphicon-fullscreen grisfort bt-expand"></span>'+
                                                '</a>'+
                                            '</span>';
@@ -633,13 +630,13 @@ function addControlsInici() {
 
 		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
 		this._div.id='dv_bt_vistaInicial';
-		this._div.title=window.lang.convert('Vista inicial');
+		this._div.title=window.lang.translate('Vista inicial');
 		this._div.innerHTML = '<span id="span_bt_vistaInicial" class="fa fa-home grisfort"></span>';
 		return this._div;
 	};
 	ctr_vistaInicial.addTo(map);
 	
-	var titleGPS = window.lang.convert('Centrar mapa a la seva ubicació');
+	var titleGPS = window.lang.translate('Centrar mapa a la seva ubicació');
 	var ctr_gps = new L.Control.Gps({
 		autoCenter: true,		//move map when gps location change
 		style: {
@@ -660,7 +657,7 @@ function addControlsInici() {
 
 		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
 		this._div.id='dv_bt_Share';
-		this._div.title=window.lang.convert('Compartir');
+		this._div.title=window.lang.translate('Compartir');
 		this._div.innerHTML = '<span id="span_bt_Share" class="fa fa-share-alt grisfort"></span>';
 		return this._div;
 	};
@@ -671,7 +668,7 @@ function addControlsInici() {
 
 		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
 		this._div.id='dv_bt_Find';
-		this._div.title=window.lang.convert('Cercar');
+		this._div.title=window.lang.translate('Cercar');
 		this._div.innerHTML = '<span id="span_bt_Find" class="fa fa-search grisfort"></span>';
 		return this._div;
 	};
@@ -681,7 +678,7 @@ function addControlsInici() {
 
 		this._div = L.DomUtil.create('div', 'leaflet-bar  btn btn-default btn-sm');
 		this._div.id='dv_bt_Routing';
-		this._div.title=window.lang.convert('Routing');
+		this._div.title=window.lang.translate('Routing');
 		//this._div.innerHTML = '<span id="span_bt_Routing" class="fa fa-exchange fa-rotate-90 grisfort"></span>';
 		var html ='<span id="span_bt_Routing" class="t" style="font-size:16px; margin-top:-2px;">'+
 		'<i class="t-square-rounded grisfort" style="-webkit-transform:scale(1.25) scale(0.65) rotate(45deg);-moz-transform:scale(1.25) scale(0.65) rotate(45deg);transform:scale(1.25) scale(0.65) rotate(45deg)"></i>'+
@@ -813,28 +810,28 @@ function addToolTipsInici() {
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Llista de capes")
+		title : window.lang.translate("Llista de capes")
 	});
     $('.bt_captura').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Capturar la vista del mapa")
+		title : window.lang.translate("Capturar la vista del mapa")
 	});
 	$('.bt_print').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Imprimir la vista del mapa")
+		title : window.lang.translate("Imprimir la vista del mapa")
 	});
 
 	$('.bt_geopdf').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Descarrega mapa en format GeoPDF")
+		title : window.lang.translate("Descarrega mapa en format GeoPDF")
 	});
 	$('.bt_save').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Desar el mapa actual")
+		title : window.lang.translate("Desar el mapa actual")
 	});
 
 	jQuery.map(jQuery('[data-toggle="tooltip"]'), function (n, i){
@@ -842,7 +839,7 @@ function addToolTipsInici() {
 		if (title == ""){
 			title = $(n).attr('data-original-title');
 		}
-		$(n).attr('data-original-title', window.lang.convert(title));
+		$(n).attr('data-original-title', window.lang.translate(title));
 	    var title = $(n).attr('title', $(n).attr('data-original-title'));
 	});
 	*/
@@ -850,12 +847,12 @@ function addToolTipsInici() {
 
 function updateLangText(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
-		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+		jQuery(this).attr('data-original-title', window.lang.translate(jQuery(this).data('lang-title')));
 	});
 
 	//Add tooltip caixa cerca
-	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.convert('Cercar llocs o coordenades ...'));
-	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.convert('Cercar llocs o coordenades ...'));
+	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.translate('Cercar llocs o coordenades ...'));
+	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.translate('Cercar llocs o coordenades ...'));
 }
 
 function createButton(label, container) {
@@ -874,29 +871,29 @@ function createSpan(label, container) {
 
 function updateLangTooltips(){
 	jQuery('body').on('show.bs.tooltip','[data-toggle="tooltip"]',function(){
-		jQuery(this).attr('data-original-title', window.lang.convert(jQuery(this).data('lang-title')));
+		jQuery(this).attr('data-original-title', window.lang.translate(jQuery(this).data('lang-title')));
 	});
 
 	/*
 	$('.bt_llista').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Llista de capes")
+		title : window.lang.translate("Llista de capes")
 	});
 	$('.bt_captura').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Capturar la vista del mapa")
+		title : window.lang.translate("Capturar la vista del mapa")
 	});
 	$('.bt_print').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Imprimir la vista del mapa")
+		title : window.lang.translate("Imprimir la vista del mapa")
 	});
 	$('.bt_geopdf').tooltip('destroy').tooltip({
 		placement : 'left',
 		container : 'body',
-		title : window.lang.convert("Descarrega mapa en format GeoPDF")
+		title : window.lang.translate("Descarrega mapa en format GeoPDF")
 	});
 
 
@@ -905,7 +902,7 @@ function updateLangTooltips(){
 		if (title == ""){
 			title = $(n).attr('data-original-title');
 		}
-		$(n).attr('data-original-title', window.lang.convert(title));
+		$(n).attr('data-original-title', window.lang.translate(title));
 	    var title = $(n).attr('title', $(n).attr('data-original-title'));
 	});
 	*/
@@ -1227,18 +1224,18 @@ function loadPasswordModal(){
 				}else{
 					jQuery('#password_msg').addClass('hide');
 					var uidUrl = url('?uid');
-					if ( url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && !$.cookie('uid')) {
-						$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-						$.cookie('collaborateuid', uidUrl, {path:'/'});
+					if ( url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && !Cookies.get('uid')) {
+						Cookies.get('collaboratebid', url('?businessid'));
+						Cookies.get('collaborateuid', uidUrl);
 						window.location.href = paramUrl.loginPage;
 					}
-					else if (url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && uidUrl!=$.cookie('uid')) {
-						$.removeCookie('uid', { path: '/' });
-						$.cookie('collaboratebid', url('?businessid'), {path:'/'});
-						$.cookie('collaborateuid', uidUrl, {path:'/'});
+					else if (url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && uidUrl!=Cookies.get('uid')) {
+						Cookies.remove('uid');
+						Cookies.get('collaboratebid', url('?businessid'));
+						Cookies.get('collaborateuid', uidUrl);
 						window.location.href = paramUrl.loginPage;
 					}
-					else if (url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && uidUrl==$.cookie('uid')) {
+					else if (url('?mapacolaboratiu')  && url('?mapacolaboratiu')=="alta" && uidUrl==Cookies.get('uid')) {
 						//window.location.href = paramUrl.galeriaPage+"?private=1";
 						window.location=paramUrl.mapaPage+"?businessid="+url('?businessid')+"&mapacolaboratiu=si";
 						

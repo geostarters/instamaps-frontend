@@ -11,7 +11,7 @@ var ESRI_ATTR_TERRAIN="Tiles © Esri Sources: Esri, USGS, NOAA";
 var ICGC='Font:<a  href="http://www.icc.cat" target="_blank">Institut Cartogràfic i Geològic de Catalunya</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>';
 var ICGC_MON='Font:Mapa del Món (<a  href="http://www.icc.cat" target="_blank">ICGC</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>)';
 var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" target="_blank">ICGC</a> - <a  href="http://www.icc.cat/cat/Home-ICC/Transparencia/Reutilitzacio-de-la-informacio/Condicions-d-us-de-la-geoinformacio-ICGC" target="_blank">CC-BY</a>)';
-var ICGC_HISTOOrto='Font: Vol americà 1956-57 Ministerio de Defensa';
+var ICGC_HISTOOrto='Font:Vol americà 1956-57 Ministerio de Defensa';
 var ICGC_HISTOOrto46='Font:Vol Americà A 1946-47 Ministerio de Defensa';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
 var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17,TOPO_GEO_ICC_L8_17_TOPONIMS;
@@ -40,7 +40,7 @@ var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
 var _ombraLayer=null;
-//var subDomains=['otile1','otile2','otile3','otile4'];
+//var subDomains=['otile1','otile2','otile3','otile4'];0
 var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 //var urlServerTiles="http://www.{s}.instamaps.cat"
@@ -54,11 +54,13 @@ var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 	
-	//urlServerTiles="http://imtilemapsdev.icgc.local";	
-	urlServerTilesW="http://imtilemapsdev.icgc.local";	
+	
+	//urlServerTilesW="http://imtilemapsdev.icgc.local";	
+	urlServerTiles="http://{s}.tilemaps.icgc.cat";
+	urlServerTilesW="http://{s}.tilemaps.icgc.cat";
+	
 
-	urlServerTiles="http://{s}.tilemaps.icgc.cat";	
-	//urlServerTilesW="http://{s}.tilemaps.icgc.cat";	
+	
 }
 
 
@@ -69,7 +71,6 @@ var FONS_HIBRIDMAP='hibridMap';
 var FONS_TERRAINMAP='terrainMap';
 var FONS_TOPOGISMAP='topoGrisMap';
 var FONS_COLORMAP='colorMap';
-
 var FONS_HISTORICMAP='historicMap';
 var FONS_HISTORICORTOMAP='historicOrtoMap';
 var FONS_HISTORICORTOMAP46='historicOrtoMap46';

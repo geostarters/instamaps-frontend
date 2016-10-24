@@ -483,6 +483,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"No ha sigut possible canviar la visibilitat del mapa":"Unable to change the visibility of your map"
 ,"No hi ha entrades coincidents":"No matching entries"
 ,"No pots aplicar filtre a cap capa del mapa":"You can't apply filters to any layer on the map"
+,"No s'ha trobat el fitxer: " : "File not found: "
 ,"No s'han trobat registres":"No records found"
 ,"No s'ha actualitzat la contrasenya":"The password has not been updated"
 ,"No s'ha iniciat la sessió":"Not signed in."

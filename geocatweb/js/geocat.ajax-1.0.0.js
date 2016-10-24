@@ -72,8 +72,9 @@ function checkEmail(user_email){
 		
 }
 
-/* perfil.html */
+/* galeria.html */
 
+//solo galeria privada de geolocal para obtener las aplicaciones
 function getUserData(username){
 	return jQuery.ajax({
 		url: paramUrl.getUserSimple,
@@ -84,35 +85,7 @@ function getUserData(username){
 	}).promise();
 }
 
-function updateUserData(username, name, surname, correu_usuari){
-	return jQuery.ajax({
-		url: paramUrl.updateUser,
-		data: {
-            cn: name,
-            sn: surname,
-            uid: username,
-            email: correu_usuari},
-		async: false,
-		method: 'post',
-		dataType: 'jsonp'
-	}).promise();
-}
-
-function updateUserPassword(username, new_pass, old_pass){
-	return jQuery.ajax({
-		url: paramUrl.updatePassword,
-		data: {
-            uid: username, 
-            userPassword: old_pass, 
-            newPassword: new_pass},
-		async: false,
-		method: 'post',
-		dataType: 'jsonp'
-	}).promise();
-}
-
 /* comuns */
-
 function doLogout(){
 	return jQuery.ajax({
 		url: paramUrl.logoutUser,

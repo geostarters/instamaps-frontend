@@ -1,31 +1,15 @@
 var old_email;
+var perfil;
 jQuery(document).ready(function() {
-	var username = $.cookie('uid'); 
-	if (username == undefined){
+	
+	var uid = Cookies.get('uid'); 
+	if (uid == undefined){
 		window.location.href = paramUrl.loginPage;
 	}
 	
-	$("#text-uid").append(username);
-	
-	getUserData(username).then(function(results){
-//		console.debug(results);
-		if(results.status==='OK'){
-			/*
-			$("#perfil_name").val(results.results.cn);
-			$("#perfil_surname").val(results.results.sn);
-			$("#perfil_email").val(results.results.mail);
-			*/
-			$("#perfil_nomEntitatComplert").val(results.results.nomEntitatComplert);
-			$("#perfil_email").val(results.results.email);
-			old_email = results.results.mail;
-		}else{
-			alert("Error al recuperar les dades");
-			//jQuery('#div_msg').html('<div class="alert alert-warning my-alert" lang="ca"> Nom <a href="#login_user" class="alert-link">d\'usuari</a> o <a href="#login_pass" class="alert-link">contrasenya</a> incorrectes.</div>');
-		}			
-	},function(results){
-		alert("Error al recuperar les dades");
-		//jQuery('#div_msg').html('<div class="alert alert-danger my-alert" lang="ca">No s\'ha iniciat la sessi&oacute;. <strong>Torni a intentar.</strong></div>');
-	});	
+	subscribeEvents();
+		
+	$("#text-uid").append(uid);
 	
 	$('#frm_update_pssw').hide();
 	
@@ -40,7 +24,7 @@ jQuery(document).ready(function() {
 			$('#modal_delete_usr_conf').modal('show');
 			$('#button-delete-ok-conf').on('click',function(){
 				var data = {
-						uid: $.cookie('uid')
+					uid: Cookies.get('uid')
 				};
 				deleteUser(data).then(function(results){
 					if (results.status==='OK'){
@@ -51,31 +35,10 @@ jQuery(document).ready(function() {
 				});
 			});
 		});
-		
-		/*$('#button-delete-ok').on('click',function(){
-			var deleteOpt = $("input[name='optionsDelete']:checked").val();
-			var deleteOptTxt = $.trim($("input[name='optionsDelete']:checked").parent().text());
-			$('#modal_delete_usr').modal('hide');
-			$('#modal_delete_usr_conf').modal('show');
-			$('#deleteOptionText').text(deleteOptTxt);
-			$('#deleteOptionValue').val(deleteOpt);
-			
-			$('#button-delete-ok-conf').on('click',function(){
-//				console.debug($('#deleteOptionValue').val());
-				var data = {
-					uid: $.cookie('uid'),
-					type: $('#deleteOptionValue').val()
-				};
-				deleteUser(data).then(function(results){
-					if (results.status==='OK'){
-						logoutUser();
-					}else{
-						$('#modal_delete_usr_ko').modal('show');
-					}
-				});
-			});
-		});*/
 	});
+	
+	perfil = Perfil({uid: uid});
+	
 });
 
 jQuery("#perfil_button_pass").click(function(){
@@ -89,11 +52,10 @@ jQuery("#perfil_button_pass").click(function(){
 		$("#modal-message").remove();
 		
 		var data = {
-			uid: $.cookie('uid'), 
+			uid: Cookies.get('uid'), 
             userPassword: old_pass, 
             newPassword: new_pass
         };
-		//updateUserPassword($.cookie('uid'), new_pass, old_pass).then(function(results){
 		updatePasswordIcgc(data).then(function(results){
 			if(results.status==='OK'){
 				$('#modal_pass_ok').modal('toggle');
@@ -109,6 +71,22 @@ jQuery("#perfil_button_pass").click(function(){
 		);
 	}
 });
+
+function subscribeEvents(){
+	$.subscribe('initPerfil', function(e, data){
+		data.getPerfil();
+	});
+	
+	$.subscribe('loadPerfil', function(e, data){
+		$("#perfil_nomEntitatComplert").val(data.results.nomEntitatComplert);
+		$("#perfil_email").val(data.results.email);
+		old_email = data.results.mail;
+	});
+	
+	$.subscribe('loadPerfilErr', function(e, data){
+		alert(window.lang.translate(data));		
+	});
+}
 
 function checkValidityPassword(){
 	$('#perfil_old_pass').removeClass("invalid");
@@ -147,10 +125,10 @@ jQuery("#perfil_button").click(function(){
 	checkValidityPerfil().then(function(){
 		if(!$("span").hasClass("text_error")){
 			$("#modal-message").remove();
-			updateUserData($.cookie('uid'), name, surname, correu_usuari).then(function(results){
+			updateUserData(Cookies.get('uid'), name, surname, correu_usuari).then(function(results){
 				if(results.status==='OK'){
 					$('#modal_perfil_ok').modal('toggle');
-					$.cookie('uid', results.results.uid, {path:'/'});
+					Cookies.set('uid', results.results.uid);
 					$('#modal_perfil_ok').on('hidden.bs.modal', function (e) {
 						window.location.href = paramUrl.perfilPage;
 					});
@@ -210,3 +188,19 @@ function checkValidityPerfil(){
 	
 	return defer.promise();
 }
+
+function updateUserData(username, name, surname, correu_usuari){
+	return jQuery.ajax({
+		url: paramUrl.updateUser,
+		data: {
+            cn: name,
+            sn: surname,
+            uid: username,
+            email: correu_usuari
+        },
+		async: false,
+		method: 'post',
+		dataType: 'jsonp'
+	}).promise();
+}
+

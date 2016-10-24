@@ -14,14 +14,13 @@ jQuery(document).ready(function() {
 jQuery("#login_button").click(function(){
 
 	_gaq.push(['_trackEvent',trackEventFrom,'remember password', 'retention']);
-//	_kmq.push(['record', 'remember password', {'from':trackEventFrom, 'funnel':'retention'}]);
 	
 	if(!$('#login_user').val()){
 		$('#login_user').addClass("invalid");
-		$('#login_user').after("<span class=\"text_error\" lang=\"ca\">El camp no pot estar buit</span>");
+		$( ".text_error" ).removeClass('hide').show();
 	}else{
 		$('#login_user').removeClass("invalid");
-		$( ".text_error" ).remove();
+		$( ".text_error" ).hide();
 		
 		var dataUrl = {
 			email: $('#login_user').val(),
@@ -35,7 +34,7 @@ jQuery("#login_button").click(function(){
 				}
 				else {
 					var providers = results.results;
-					var html ='No és possible recuperar la contrasenya perquè et vas registrar amb: '+providers;					
+					var html = providers;					
 					$('#profiler').html(html);
 					$('#modal_provider_noticgc').modal('toggle');
 				}
