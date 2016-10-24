@@ -262,6 +262,13 @@ function loadTematicLayer(layer){
 }
 
 
+function trafficLightVisualization(key, txt)
+{
+
+	var aux = map._layers;
+
+}
+
 function createPopupWindowData(player,type, editable, origen){
 //	console.debug("createPopupWindowData");
 //	console.debug(player);
@@ -317,6 +324,7 @@ function createPopupWindowData(player,type, editable, origen){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
+					html+='<div class="popup_traffic_light"><span class="glyphicon glyphicon-stats" aria-hidden="true" onclick="trafficLightVisualization(\'' + key + '\', \'' + txt + '\');"></span></div>';
 				}
 				html+= '</div>';
 				if (key=='text' || key=='TEXT') isADrawarker=true;
