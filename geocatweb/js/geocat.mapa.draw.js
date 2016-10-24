@@ -498,11 +498,21 @@ function activaEdicioUsuari() {
 				 		
 				 	}
 			}
-			try {
-				updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id, objEdicio.capaEdicioLeafletId);
-			}catch(exc){
-				
-			}
+			 if(objEdicio.esticEnEdicio){			
+					try{
+						updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id, objEdicio.capaEdicioLeafletId);
+					}catch(exc){
+						
+					}
+					if(crt_Editing){
+						try{
+							crt_Editing.disable();
+						}catch(exc){
+							
+						}
+					}
+//					updateFeatureMove(objEdicio.featureID, objEdicio.capaEdicioLeafletId);		
+				}
 		
 			if(crt_Editing){
 				try{
@@ -1068,7 +1078,7 @@ function createPopupWindow(layer,type){
 					}
 				});
 				crt_Editing.enable();
-				activarSnapping(capaEdicio);
+				//activarSnapping(capaEdicio);
 			}
 			
 			
