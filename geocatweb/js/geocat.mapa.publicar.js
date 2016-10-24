@@ -214,6 +214,7 @@
 				$('#optTags').val(that.mapConfig.options.tags);	
 				if (that.mapConfig.options.llegenda){
 					$('#llegenda_chk').bootstrapSwitch('state', true, true);
+					createModalConfigLegend();
 				}else{
 					$('#llegenda_chk').bootstrapSwitch('state', false, false);
 				}
@@ -401,6 +402,10 @@
             			$('#llegenda_chk2').bootstrapSwitch('state', true, true);
             			$('#div_llegenda_chk3').attr("style","display:inline;");
             			$('#llegenda_chk3').bootstrapSwitch('state', true, true);
+            			if (that.mapConfig!=undefined && (that.mapConfig.options==null || (that.mapConfig.options!=null && !that.mapConfig.options.llegenda))) {
+            				//Per defecte seleccionem tots si es selecciona que es vol llegenda
+            				$('.legend-subrow-all input').iCheck('check');    				
+            			}
             		}else{
             			$('#dialgo_publicar .modal-body .modal-legend').hide();
             			//ocultar el checkbox de triar tipus de llegenda
