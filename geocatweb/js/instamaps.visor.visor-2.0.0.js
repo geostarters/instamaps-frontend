@@ -960,6 +960,27 @@
 		loadURLConfig: function() {
 
 			var self = this;
+
+			self.mouseposition = self.mouseposition || false;
+			self.scalecontrol = self.scalecontrol || false;
+			self.minimapcontrol = self.minimapcontrol || false;
+			self.fonscontrol = self.fonscontrol || false;
+			self.homecontrol = self.homecontrol || false;
+			self.locationcontrol = self.locationcontrol || false;
+			self.searchcontrol = self.searchcontrol || false;
+			self.routingcontrol = self.routingcontrol || false;
+			self.sharecontrol = self.sharecontrol || false;
+			self.likecontrol = self.likecontrol || false;
+			self.layerscontrol = self.layerscontrol || false;
+			self.control3d = self.control3d || false;
+			self.snapshotcontrol = self.snapshotcontrol || false;
+			self.printcontrol = self.printcontrol || false;
+			self.geopdfcontrol = self.geopdfcontrol || false;
+			self.rtoolbar = self.rtoolbar || false;
+			self.llegenda = self.llegenda || false;
+			self.appmodul = self.appmodul || false;
+			self.zoomcontrol = self.zoomcontrol || false;
+
 			var hash = location.hash;
 			hashControl = new L.Hash(self.map);
 			var parsed = hashControl.parseHash(hash);
@@ -975,6 +996,13 @@
 					description : (self.text ? self.text : "")
 				}
 			};
+
+			if(!self.zoomcontrol)
+			{
+
+				self.map.removeControl(self.map.zoomControl);
+
+			}
 
 			return self;
 
@@ -1257,6 +1285,7 @@
 					html += "</a>";
 
 				marker.bindPopup(html);
+				marker.openPopup();
 
 			}
 		},
