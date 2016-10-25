@@ -261,93 +261,6 @@ function loadTematicLayer(layer){
 	return defer.promise();
 }
 
-function createTrafficLightStyle(color) {
-
-	return {
-		borderColor: color,
-		borderWidth: 3,
-		color: color,
-		opacity: 50,
-		geometria: {
-			features: []
-		}
-	};
-
-}
-
-function trafficLightVisualization(key, pivot, capa)
-{
-
-	var defer = $.Deferred();
-	capa.oldStyle = capa.estil;
-
-	var equalStyle = createTrafficLightStyle("#ffff00");
-	var lowerStyle = createTrafficLightStyle("#ff0000");
-	var higherStyle = createTrafficLightStyle("#00ff00");
-
-	capa.estil = [equalStyle, lowerStyle, higherStyle];
-	capa.options = '{"id":37352865,"businessId":"0ea8f43280eed0a8643dd73396111f24","nom":"MUN_IDESCAT6","geometryType":"polygon","tipus":"origenTematic","options":"{\"source\":\"xls\",\"propName\":\"IDESCAT,Projecte,Any vol,HA carto municipi,HA carto projecte,Plec,Descarregable web,Visualitzable web,RCC,PROPIETARI,VOLUM\"}","entitat":{"id":37297873,"uid":"isaac.besora@icgc.cat","nomEntitatComplert":"Isaac Besora","dataAlta":"Oct 3, 2016 1:41:57 PM","rol":"N","email":"isaac.besora@icgc.cat","status":"A"},"group":{"name":"Capes ","groupName":"Capes ","id":0,"z_order":1,"expanded":true}}';
-	$.each(capa.oldStyle, function(i, estil) {
-		$.each(estil.geometria.features, function(j, feature) {
-
-			var aux = feature;
-			var val = parseFloat(aux.properties[key]);
-			if(val == pivot)
-			{
-
-				//Equal color
-				capa.estil[0].geometria.features.push(feature);
-
-			}
-			else if(val < pivot)
-			{
-
-				//Less than color
-				capa.estil[1].geometria.features.push(feature);
-
-			}
-			else 
-			{
-
-				//Greater than color
-				capa.estil[2].geometria.features.push(feature);
-
-			}
-
-		});
-	});
-
-	var layerOptions = {businessId: "0ea8f43280eed0a8643dd73396111f24",
-		capesActiva: "true",
-		capesCalenta: "false",
-		capesGroup: '{"name":"Capes ","groupName":"Capes ","id":0,"z_order":1,"expanded":true}',
-		capesOrdre: "2",
-		capesVisibilitat: "true",
-		entitatUid: "37297873",
-		epsg: {},
-		id:37352866,
-		imgFormat:"",
-		infFormat:"",
-		layers:null,
-		legend:"",
-		opacity:1,
-		options: '{"id":37352865,"businessId":"0ea8f43280eed0a8643dd73396111f24","nom":"MUN_IDESCAT6","geometryType":"polygon","tipus":"origenTematic","options":"{\"source\":\"xls\",\"propName\":\"IDESCAT,Projecte,Any vol,HA carto municipi,HA carto projecte,Plec,Descarregable web,Visualitzable web,RCC,PROPIETARI,VOLUM\"}","entitat":{"id":37297873,"uid":"isaac.besora@icgc.cat","nomEntitatComplert":"Isaac Besora","dataAlta":"Oct 3, 2016 1:41:57 PM","rol":"N","email":"isaac.besora@icgc.cat","status":"A"},"group":{"name":"Capes ","groupName":"Capes ","id":0,"z_order":1,"expanded":true}}',
-		query:null,
-		serverName:"MUN_IDESCAT6",
-		serverType:"visualitzacio",
-		tiles:"",
-		titles:null,
-		transparency:"",
-		url:"",
-		version:"",
-		visibilitat:"O",
-		source: "xls"
-	};
-
-	return readVisualitzacio(defer, capa, layerOptions);
-
-}
-
 function createPopupWindowData(player,type, editable, origen, capa){
 //	console.debug("createPopupWindowData");
 //	console.debug(player);
@@ -403,7 +316,13 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					html+='<div class="popup_traffic_light" data-leafletid="' + player.properties.capaLeafletId + '"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></div>';
+					if("" == origen || ("" != origen && capa.options.hasOwnProperty("isTrafficLightFixed") && !capa.options.isTrafficLightFixed))
+					{
+
+						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe
+						html+='<div class="popup_traffic_light" data-leafletid="' + player.properties.capaLeafletId + '" data-origen="' + origen + '"><a href="#" lang="ca"><span class="glyphicon glyphicon-stats" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></span></a></div>';
+						
+					}
 				}
 				html+= '</div>';
 				if (key=='text' || key=='TEXT') isADrawarker=true;
@@ -464,9 +383,31 @@ function createPopupWindowData(player,type, editable, origen, capa){
 
 		e.stopImmediatePropagation();
 		var layerId = $(this).data("leafletid");
+		var parentId = $(this).data("origen");
 		var key = $(this).prev().prev().text();
 		var value = parseFloat($(this).prev().text());
-		trafficLightVisualization(key, value, controlCapes._layers[layerId].layer.options);
+		var layerOptions = null;
+		var createLayer = false;
+		var canUpdate = true;
+		if("" == parentId)
+		{
+
+			//És una capa no temàtica, hem de crear la de visualització
+			layerOptions = controlCapes._layers[layerId].layer.options;
+			createLayer = true;
+
+		}
+		else
+		{
+
+			//És una capa temàtica
+			layerOptions = controlCapes._layers[parentId]._layers[layerId].layer.options;
+			canUpdate = (layerOptions.hasOwnProperty("isTrafficLightFixed") && !layerOptions.isTrafficLightFixed);
+
+		}
+
+		if(canUpdate)
+			trafficLightVisualization(key, value, layerOptions, createLayer);
 
 	});
 	
