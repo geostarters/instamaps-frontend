@@ -187,4 +187,5 @@ border: 1px solid #aaa
 #mapLegend{
 	resize:both;
 	overflow:auto;
+	max-height: 250px;
 }
