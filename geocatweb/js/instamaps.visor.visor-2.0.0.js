@@ -979,6 +979,7 @@
 			self.llegenda = self.llegenda || false;
 			self.appmodul = self.appmodul || false;
 			self.zoomcontrol = self.zoomcontrol || false;
+			self.fons = self.fons || "hibridMap";
 
 			var hash = location.hash;
 			hashControl = new L.Hash(self.map);
@@ -992,7 +993,8 @@
 				options : {
 					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
 					zoom : (parsed ? parsed.zoom : 8),
-					description : (self.text ? self.text : "")
+					description : (self.text ? self.text : ""),
+					fons : self.fons
 				}
 			};
 
