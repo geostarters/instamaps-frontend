@@ -964,7 +964,6 @@
 			self.mouseposition = self.mouseposition || false;
 			self.scalecontrol = self.scalecontrol || false;
 			self.minimapcontrol = self.minimapcontrol || false;
-			self.fonscontrol = self.fonscontrol || false;
 			self.homecontrol = self.homecontrol || false;
 			self.locationcontrol = self.locationcontrol || false;
 			self.searchcontrol = self.searchcontrol || false;
@@ -1279,7 +1278,15 @@
 				var html = '';
 
 				if(self.link)
-					html += "<a href=\"http://" + self.link + "\" target=\"_blank\">";
+				{
+
+					var hasProtocol = (-1 != self.link.indexOf("://"));
+					if(!hasProtocol)
+						html += "<a href=\"http://" + self.link + "\" target=\"_blank\">";
+					else
+						html += "<a href=\"" + self.link + "\" target=\"_blank\">";
+
+				}
 				html += self.text;
 				if(self.link)
 					html += "</a>";
