@@ -316,7 +316,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					if("" == origen || ("" != origen && capa.options.hasOwnProperty("isTrafficLightFixed") && !capa.options.isTrafficLightFixed))
+					if("" == origen || ("" != origen && capa.options.hasOwnProperty("isTrafficLightFixed") && !capa.options.isTrafficLightFixed && (key == capa.options.trafficLightKey)))
 					{
 
 						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe
@@ -386,14 +386,13 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		var parentId = $(this).data("origen");
 		var key = $(this).prev().prev().text();
 		var value = parseFloat($(this).prev().text());
-		var layerOptions = null;
+		var layer = null;
 		var createLayer = false;
-		var canUpdate = true;
 		if("" == parentId)
 		{
 
 			//És una capa no temàtica, hem de crear la de visualització
-			layerOptions = controlCapes._layers[layerId].layer.options;
+			layer = controlCapes._layers[layerId].layer;
 			createLayer = true;
 
 		}
@@ -401,13 +400,13 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		{
 
 			//És una capa temàtica
-			layerOptions = controlCapes._layers[parentId]._layers[layerId].layer.options;
-			canUpdate = (layerOptions.hasOwnProperty("isTrafficLightFixed") && !layerOptions.isTrafficLightFixed);
+			map.removeLayer(controlCapes._layers[parentId]._layers[layerId].layer);
+			controlCapes.removeLayer(controlCapes._layers[parentId]._layers[layerId]);
+			layer = controlCapes._layers[parentId].layer;
 
 		}
 
-		if(canUpdate)
-			trafficLightVisualization(key, value, layerOptions, createLayer);
+		trafficLightVisualization(key, value, layer, createLayer);
 
 	});
 	
@@ -1707,6 +1706,13 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		//Pel cas de del tematic categories, tenir la propietat tipusClasicTematic
 		if(visOptions && visOptions.indexOf("tipusClasicTematic")!=-1) {
 			capaVisualitzacio.options.tipusClasicTematic = optionsVis.tipusClasicTematic;
+		}
+
+		//Pel cas de del tematic semafòric, tenir la propietat isTrafficLightFixed i la 
+		//de l'atribut fixat
+		if(optionsVis && optionsVis.hasOwnProperty("isTrafficLightFixed")) {
+			capaVisualitzacio.options.isTrafficLightFixed = optionsVis.isTrafficLightFixed;
+			capaVisualitzacio.options.trafficLightKey = optionsVis.trafficLightKey;
 		}
 		
 		//Per les etiquetes

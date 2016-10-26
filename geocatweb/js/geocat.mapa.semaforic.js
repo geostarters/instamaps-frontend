@@ -1,10 +1,17 @@
 function createTrafficLightStyle(color) {
 
 	return {
-		borderColor: color,
-		borderWidth: 3,
+		borderColor: "#ffffff",
+		borderWidth: 1,
 		color: color,
 		opacity: 50,
+		label: false,
+		labelHaloWidth: 0,
+		labelSize: 0,
+		lineWidth: 0,
+		opacity: 75,
+		radius: 0,
+		simbolSize: 0,
 		geometria: {
 			features: []
 		}
@@ -12,11 +19,21 @@ function createTrafficLightStyle(color) {
 
 }
 
-function createTrafficLightLayer(key, baseLayer, layerOptions)
+function randomStringAux(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+
+function randomString(length) {
+	return randomStringAux(length, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+}
+
+function createTrafficLightLayer(key, value, baseLayer, layerOptions)
 {
 
 	var newLayer = {};
-	var newOptions = {businessId: baseLayer.businessId,
+	var newOptions = {businessId: randomString(32),
 		capesActiva: "true",
 		capesCalenta: null,
 		capesGroup: "",
@@ -56,18 +73,19 @@ function createTrafficLightLayer(key, baseLayer, layerOptions)
 				id: baseLayer.group.id,
 				z_order: baseLayer.group.z_order,
 				expanded: baseLayer.group.expanded
-			}
+			},
+			isTrafficLightFixed : false,
+			trafficLightKey : key
 		}),
 		query:null,
-		serverName: key + " Semafòric",
+		serverName: key + " Semafòric (" + value + ")",
 		serverType: baseLayer.tipus,
 		tiles:"",
 		titles:null,
 		transparency:"",
 		url:"",
 		version:"",
-		visibilitat:"O",
-		isTrafficLightFixed: false
+		visibilitat:"O"
 	};
 
 	newLayer.options = newOptions.options;
@@ -89,7 +107,7 @@ function trafficLightVisualization(key, pivot, layer, newLayerNeeded)
 {
 
 	var estilCB = ["#ffffbf", "#fc8d59", "#91cf60"];
-	var estilCarto = ["#FFEDA0", "#FEB24C", "#F03B20"];
+	var estilCarto = ["#008080", "#f6edbd", "#ca562c"];
 	var estilActual = estilCarto;
 	var equalStyle = createTrafficLightStyle(estilActual[1]);
 	var lowerStyle = createTrafficLightStyle(estilActual[0]);
@@ -97,19 +115,10 @@ function trafficLightVisualization(key, pivot, layer, newLayerNeeded)
 	var layerToUpdate = layer;
 	var layerOptions = {};
 
-	if(newLayerNeeded)
-	{
-
-		layerToUpdate = createTrafficLightLayer(key, layer, layerOptions);
-
-	}
-	else
-	{
-
-	}
+	layerToUpdate = createTrafficLightLayer(key, pivot, layer.options, layerOptions);
 
 	layerToUpdate.estil = [equalStyle, lowerStyle, higherStyle];
-	$.each(layer.estil, function(i, estil) {
+	$.each(layer.options.estil, function(i, estil) {
 		$.each(estil.geometria.features, function(j, feature) {
 
 			var aux = feature;
@@ -139,11 +148,6 @@ function trafficLightVisualization(key, pivot, layer, newLayerNeeded)
 		});
 	});
 
-	if(newLayerNeeded)
-		return readVisualitzacio($.Deferred(), layerToUpdate, layerOptions);
-	else
-	{
-
-	}
+	return readVisualitzacio($.Deferred(), layerToUpdate, layerOptions);
 
 }
