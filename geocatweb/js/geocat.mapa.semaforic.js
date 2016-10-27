@@ -1,3 +1,14 @@
+function showPaletteSelector()
+{
+
+	$("#mapa_modals").append(
+	'	<div id="interactivePalette">'+
+	'		' + $("#paletes_colors").html() + 
+	'	</div>'
+	);
+
+}
+
 function createTrafficLightStyle(color) {
 
 	return {
@@ -29,7 +40,7 @@ function randomString(length) {
 	return randomStringAux(length, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 }
 
-function createTrafficLightLayer(key, value, baseLayer, layerOptions)
+function createTempTrafficLightLayer(key, value, baseLayer, layerOptions)
 {
 
 	var newLayer = {};
@@ -75,7 +86,8 @@ function createTrafficLightLayer(key, value, baseLayer, layerOptions)
 				expanded: baseLayer.group.expanded
 			},
 			isTrafficLightFixed : false,
-			trafficLightKey : key
+			trafficLightKey : key, 
+			propName: baseLayer.propName.join()
 		}),
 		query:null,
 		serverName: key + " Semafòric (" + value + ")",
@@ -103,51 +115,160 @@ function createTrafficLightLayer(key, value, baseLayer, layerOptions)
 
 }
 
+function setupTematicLayerDialog(layer, key, min, pivot, max)
+{
+
+	//Omplim els valors del diàleg del temàtic per categories
+	$("#dialog_tematic_rangs").data("capamare", {
+		businessid: layer.options.businessId,
+		from: layer.options.from,
+		geometrytype: layer.options.geometryType,
+		leafletid: layer.options.leafletid,
+		propname: layer.options.propName.join(),
+		tipus: layer.options.tipus
+	});
+
+	var src;
+	if (layer.options.geometryType == t_marker)
+	{
+
+		src = $("#tematic-values-rangs-punt-template").html();
+
+	}
+	else if (layer.options.geometryType == t_polyline)
+	{
+
+		src = $("#tematic-values-rangs-polyline-template").html();
+		
+	}
+	else if (layer.options.geometryType == t_polygon)
+	{
+
+		src = $("#tematic-values-rangs-polygon-template").html();
+
+	}
+
+	var template = Handlebars.compile(src);
+	$("#list_tematic_values").html(template({values: [{index:0, v: {min: min, max: pivot-1}}, {index:1, v: {min: pivot, max: pivot}}, {index:2, v:{min: pivot+1, max: max}}]}));
+
+	$("#dialog_tematic_rangs").data("rangs", [{min: min, max: pivot-1}, {min: pivot, max: pivot}, {min: pivot+1, max: max}]);
+	showTematicRangs(layer.options.geometryType);
+	$("#dataField").html("<option value=\"" + key + "\">" + key + "</option>");
+	$("#dataField").val(key);
+	$("#cmb_num_rangs").val(3);
+	$("#dialog_tematic_rangs .labels_fields").hide();
+	$("#palet_warning").hide();
+	$("#list_tematic_values").hide();
+
+	$(".ramp").off('click');
+	$(".ramp").on('click',function(evt){
+		var _this = $(this);
+		var brewerClass = _this.attr('class').replace("ramp ","");
+		$("#dialog_tematic_rangs").data("paleta", brewerClass);
+		if ($('#list_tematic_values').html() !== ""){
+			updatePaletaRangs();
+		}
+	});
+
+	$('.btn-reverse-palete').off('click');
+	$('.btn-reverse-palete').on('click',function(evt){
+		var glyp = $('.btn-reverse-palete.glyphicon');
+		var reverse = false;
+		if(glyp.hasClass('glyphicon-arrow-down')){
+			reverse = true;
+			glyp.removeClass('glyphicon-arrow-down').addClass('glyphicon-arrow-up');
+		}else{
+			reverse = false;
+			glyp.removeClass('glyphicon-arrow-up').addClass('glyphicon-arrow-down');
+		}
+		$("#dialog_tematic_rangs").data("reverse",reverse);
+		if ($('#list_tematic_values').html() !== ""){
+			updatePaletaRangs();
+		}
+	});
+
+	$('#dialog_tematic_rangs .btn-success').off('click');
+	$('#dialog_tematic_rangs .btn-success').on('click',function(e){
+		$('#dialog_tematic_rangs').hide();
+		$('#info_uploadFile').show();
+		busy=true;
+		$("#div_uploading_txt").html("");
+		$("#div_uploading_txt").html(
+			'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+			'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'
+		);	
+		createTematicLayerCategories(e);
+		$("#dialog_tematic_rangs .labels_fields").show();
+		$("#list_tematic_values").show();
+	});
+
+	$(".ramp.YlOrRd").click();
+	//$('#dialog_tematic_rangs').modal("show");
+	showPaletteSelector();
+
+}
+
 function trafficLightVisualization(key, pivot, layer, newLayerNeeded)
 {
 
-	var estilCB = ["#ffffbf", "#fc8d59", "#91cf60"];
-	var estilCarto = ["#008080", "#f6edbd", "#ca562c"];
-	var estilActual = estilCarto;
+	//TODO: Agafar la paleta de la capa, no la última seleccionada
+	var paleta = $("#dialog_tematic_rangs").data("paleta") || "YlOrRd"; 
+	var rangColors = createScale(paleta, 3, false);
+	var estilActual = rangColors.colors(3);
 	var equalStyle = createTrafficLightStyle(estilActual[1]);
 	var lowerStyle = createTrafficLightStyle(estilActual[0]);
 	var higherStyle = createTrafficLightStyle(estilActual[2]);
 	var layerToUpdate = layer;
 	var layerOptions = {};
+	var min = Number.MAX_SAFE_INTEGER;
+	var max = Number.MIN_SAFE_INTEGER;
 
-	layerToUpdate = createTrafficLightLayer(key, pivot, layer.options, layerOptions);
-
-	layerToUpdate.estil = [equalStyle, lowerStyle, higherStyle];
 	$.each(layer.options.estil, function(i, estil) {
 		$.each(estil.geometria.features, function(j, feature) {
 
 			var aux = feature;
 			var val = parseFloat(aux.properties[key]);
+			min = (min > val ? val : min);
+			max = (max < val ? val : max);
 			if(val == pivot)
 			{
 
 				//Equal color
-				layerToUpdate.estil[0].geometria.features.push(feature);
+				equalStyle.geometria.features.push(feature);
 
 			}
 			else if(val < pivot)
 			{
 
 				//Less than color
-				layerToUpdate.estil[1].geometria.features.push(feature);
+				lowerStyle.geometria.features.push(feature);
 
 			}
 			else 
 			{
 
 				//Greater than color
-				layerToUpdate.estil[2].geometria.features.push(feature);
+				higherStyle.geometria.features.push(feature);
 
 			}
 
 		});
 	});
 
-	return readVisualitzacio($.Deferred(), layerToUpdate, layerOptions);
+	layerToUpdate.estil = [equalStyle, lowerStyle, higherStyle];
+	if(newLayerNeeded)
+	{
+
+		setupTematicLayerDialog(layerToUpdate, key, min, pivot, max);
+		layerToUpdate = createTempTrafficLightLayer(key, pivot, layer.options, layerOptions);
+		layerToUpdate.estil = [equalStyle, lowerStyle, higherStyle];
+
+	}
+	else
+	{
+
+	}
+
+	readVisualitzacio($.Deferred(), layerToUpdate, layerOptions);
 
 }

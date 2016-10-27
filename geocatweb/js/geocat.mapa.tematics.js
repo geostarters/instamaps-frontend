@@ -316,10 +316,11 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					if("" == origen || ("" != origen && capa.options.hasOwnProperty("isTrafficLightFixed") && !capa.options.isTrafficLightFixed && (key == capa.options.trafficLightKey)))
+					if(capa.isPropertyNumeric[key] && ("" == origen || ("" != origen && capa.options.hasOwnProperty("isTrafficLightFixed") && !capa.options.isTrafficLightFixed 
+						&& (key == capa.options.trafficLightKey))))
 					{
 
-						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe
+						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
 						html+='<div class="popup_traffic_light" data-leafletid="' + player.properties.capaLeafletId + '" data-origen="' + origen + '"><a href="#" lang="ca"><span class="glyphicon glyphicon-stats" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></span></a></div>';
 						
 					}
@@ -1904,7 +1905,17 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
 
 	var canSpiderify = (visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_simple || visualitzacio.tipus == tem_origen);
+	var props = optionsVis.propName.split(',');
 	
+	if(optionsVis.hasOwnProperty("propName"))
+	{
+	
+		capaVisualitzacio.isPropertyNumeric = new Array(props.length);
+		$.each(props, function(index, prop) {
+			capaVisualitzacio.isPropertyNumeric[prop] = true;
+		});
+
+	}
 	
 	//per cada estil de la visualitzacio
 	jQuery.each(visualitzacio.estil, function(index, estil){
@@ -1923,12 +1934,17 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 			geomStyle = createAreaStyle(estil);
 		}else if (geomTypeVis === t_multipolygon){
 			geomStyle = createAreaStyle(estil);
-		}		
+		}
 		
 		//per cada geometria d'aquell estil
 		jQuery.each(estil.geometria.features, function(indexGeom, geom){				
 			var featureTem = [];
 			var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
+
+			//Actualitzem el vector de propietats de tipus numèrics de la visualització
+			$.each(props, function(index, prop) {
+				capaVisualitzacio.isPropertyNumeric[prop] = capaVisualitzacio.isPropertyNumeric[prop] && $.isNumeric(geom.properties[prop]);
+			});
 
 			//MultyPoint
 			if (geomTypeVis === t_marker && geomType === t_multipoint){
