@@ -2002,7 +2002,7 @@ i.fa {
     padding: 5px 5px 0;
 }
 
-.ramp:hover{
+.ramp:hover, .ramp.active{
 	background-color: #cccccc;
 }
 
@@ -5115,6 +5115,10 @@ li >.label-dof:focus {
   background-color: #fcf8e3 !important;
 }	
 
-
-
-
+#interactivePalette {
+	position:absolute; 
+	bottom:5px; 
+	left: calc(50% - 275px); 
+	box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+	background-color: #ffffff;
+}

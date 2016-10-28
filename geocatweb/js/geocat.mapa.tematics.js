@@ -316,8 +316,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					if(capa.isPropertyNumeric[key] && ("" == origen || ("" != origen && capa.options.hasOwnProperty("isTrafficLightFixed") && !capa.options.isTrafficLightFixed 
-						&& (key == capa.options.trafficLightKey))))
+					if(capa.isPropertyNumeric[key] && ("" == origen || ("" != origen && (key == capa.options.trafficLightKey))))
 					{
 
 						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
@@ -388,13 +387,11 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		var key = $(this).prev().prev().text();
 		var value = parseFloat($(this).prev().text());
 		var layer = null;
-		var createLayer = false;
 		if("" == parentId)
 		{
 
 			//És una capa no temàtica, hem de crear la de visualització
 			layer = controlCapes._layers[layerId].layer;
-			createLayer = true;
 
 		}
 		else
@@ -407,7 +404,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 
 		}
 
-		trafficLightVisualization(key, value, layer, createLayer);
+		Semaforic().render(key, value, layer);
 
 	});
 	
@@ -1709,10 +1706,8 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 			capaVisualitzacio.options.tipusClasicTematic = optionsVis.tipusClasicTematic;
 		}
 
-		//Pel cas de del tematic semafòric, tenir la propietat isTrafficLightFixed i la 
-		//de l'atribut fixat
-		if(optionsVis && optionsVis.hasOwnProperty("isTrafficLightFixed")) {
-			capaVisualitzacio.options.isTrafficLightFixed = optionsVis.isTrafficLightFixed;
+		//Pel cas de del tematic semafòric, tenir la propietat de l'atribut fixat
+		if(optionsVis && optionsVis.hasOwnProperty("trafficLightKey")) {
 			capaVisualitzacio.options.trafficLightKey = optionsVis.trafficLightKey;
 		}
 		
