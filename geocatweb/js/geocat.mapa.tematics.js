@@ -387,24 +387,44 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		var key = $(this).prev().prev().text();
 		var value = parseFloat($(this).prev().text());
 		var layer = null;
+		var control = null;
 		if("" == parentId)
 		{
 
 			//És una capa no temàtica, hem de crear la de visualització
 			layer = controlCapes._layers[layerId].layer;
+			control = Semaforic();
 
 		}
 		else
 		{
 
-			//És una capa temàtica
-			map.removeLayer(controlCapes._layers[parentId]._layers[layerId].layer);
-			controlCapes.removeLayer(controlCapes._layers[parentId]._layers[layerId]);
+			//És una capa temàtica, mirem si és una capa semafòrica fake
 			layer = controlCapes._layers[parentId].layer;
+			if(layer.hasOwnProperty("semaforics") && "undefined" !== typeof layer.semaforics[layerId])
+				control = layer.semaforics[layerId];
+			else
+			{
+
+				control = Semaforic();
+				var businessId = controlCapes._layers[parentId]._layers[layerId].layer.options.businessId;
+				var options = JSON.parse(controlCapes._visLayers[businessId].options);
+				control.setVisualization(controlCapes._layers[parentId]._layers[layerId]);
+				control.setLayer(controlCapes._visLayers[businessId]);
+				control.setLayerOptions(controlCapes._options[businessId]);
+				control.setPalette(options.paleta, options.reverse);
+
+			}
 
 		}
 
-		Semaforic().render(key, value, layer);
+		control.render($.Deferred(), key, value, layer).then(function(data) {
+			if(!layer.hasOwnProperty("semaforics"))
+				layer.semaforics = {};
+		
+			layer.semaforics[data] = control;
+
+		});
 
 	});
 	
@@ -1174,6 +1194,8 @@ function addHtmlModalCategories(){
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
 	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
+	'						<input type="radio" id="rd_tipus_semaforic" name="rd_tipus_agrupacio" value="S">'+
+	'						<label for="rd_tipus_semaforic" lang="ca">semafòric</label>'+
 	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+
 	'<!-- 							<option lang="ca" value="U">Únic</option> -->'+
 	'<!-- 							<option lang="ca" value="R">Rang</option> -->'+
@@ -1321,6 +1343,93 @@ function addHtmlModalCategories(){
 	'						</td></tr>'+
 	'                       {{/if}}'+
 	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-semaforic-punt-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors menors que el de referència</span></td>'+
+	'							<td>'+
+	'							{{#if style.isCanvas}}'+
+	'								<div id="div_punt0" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
+	'							{{else}}'+
+	'								<div id="div_punt0" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
+	'									{{#if style.icon}}'+
+	'										fa-{{style.icon}}"></div>'+	
+	'									{{else}}'+
+	'										"></div>'+
+	'									{{/if}}'+
+	'							{{/if}}'+
+	'						</td></tr>'+
+	'						<tr><td><span lang="ca">Valor de referència</span></td>'+
+	'							<td><input id="refValue" type="text" value="{{value}}" name="ref"></td>'+
+	'							<td>'+
+	'							{{#if style.isCanvas}}'+
+	'								<div id="div_punt1" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
+	'							{{else}}'+
+	'								<div id="div_punt1" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
+	'									{{#if style.icon}}'+
+	'										fa-{{style.icon}}"></div>'+	
+	'									{{else}}'+
+	'										"></div>'+
+	'									{{/if}}'+
+	'							{{/if}}'+
+	'						</td></tr>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors majors que el de referència</span></td>'+
+	'							<td>'+
+	'							{{#if style.isCanvas}}'+
+	'								<div id="div_punt2" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
+	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
+	'							{{else}}'+
+	'								<div id="div_punt2" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
+	'									{{#if style.icon}}'+
+	'										fa-{{style.icon}}"></div>'+	
+	'									{{else}}'+
+	'										"></div>'+
+	'									{{/if}}'+
+	'							{{/if}}'+
+	'						</td></tr>'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-semaforic-polyline-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors menors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol0" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td><span lang="ca">Valor de referència</span></td>'+
+	'							<td><input id="refValue" type="text" value="{{value}}" name="ref"></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol1" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors majors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol2" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-semaforic-polygon-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors menors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol0" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td><span lang="ca">Valor de referència</span></td>'+
+	'							<td><input id="refValue" type="text" value="{{value}}" name="ref"></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol1" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors majors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol2" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
 	'						</tbody>'+
 	'					</table>'+	
 	'					</script>'+
@@ -1546,7 +1655,19 @@ function loadVisualitzacioLayer(layer,removed){
 					 readVisualitzacio(defer, resultats, results2.layer);
 				});
 			}
-			else readVisualitzacio(defer, results.results, layer);			
+			else 
+			{
+
+				if(!controlCapes.hasOwnProperty("_visLayers"))
+				{
+				
+					controlCapes._visLayers = {};
+					controlCapes._options = {};
+				}
+				controlCapes._visLayers[businessId] = results.results;
+				controlCapes._options[businessId] = layer;
+				readVisualitzacio(defer, results.results, layer);
+			}
 		}else{
 			console.debug('getVisualitzacioByBusinessId ERROR');
 			defer.reject();
@@ -1576,7 +1697,8 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	//cargar las geometrias a la capa
 	var layOptions = getOptions(layer);
 	var origen = getOrigenLayer(layer);
-	var hasSource = (optionsVis && optionsVis.source!=undefined ) 
+	var hasSource = (optionsVis && optionsVis.source!=undefined) 
+	|| (optionsVis.options && undefined != optionsVis.options.source)
 	|| (layOptions && layOptions.source!=undefined );
 	try{
 		capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
@@ -2287,12 +2409,23 @@ function loadCacheVisualitzacioLayer(layer){
 		uid: layer.entitatUid
 	};
 	
+	if(!controlCapes.hasOwnProperty("_visLayers"))
+	{
+	
+		controlCapes._visLayers = {};
+		controlCapes._options = {};
+	}
+
 	$.get(HOST_APP+'capesuser/'+data.uid+'/'+data.businessId+'.json', function(results) { 
 		if(results){
+			controlCapes._visLayers[data.businessId] = results.results;
+			controlCapes._options[data.businessId] = layer;
 			readVisualitzacio(defer, results.results, layer);			
 		}else{				
 			getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
 				if(results.status == "OK" ){
+					controlCapes._visLayers[data.businessId] = results.results;
+					controlCapes._options[data.businessId] = layer;
 					readVisualitzacio(defer, results.results, layer);			
 				}else{
 					console.debug('getVisualitzacioByBusinessId ERROR');
@@ -2303,6 +2436,8 @@ function loadCacheVisualitzacioLayer(layer){
 	}).fail(function() {
 	   getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
 			if(results.status == "OK" ){
+				controlCapes._visLayers[data.businessId] = results.results;
+				controlCapes._options[data.businessId] = layer;
 				readVisualitzacio(defer, results.results, layer);			
 			}else{
 				console.debug('getVisualitzacioByBusinessId ERROR');
