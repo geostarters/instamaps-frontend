@@ -316,11 +316,12 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					if(capa.isPropertyNumeric[key] && ("" == origen || ("" != origen && (key == capa.options.trafficLightKey))))
+					if(capa.isPropertyNumeric[key] && (("" == origen && self.edit) || ("" != origen && (key == capa.options.trafficLightKey))))
 					{
 
+						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
 						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-						html+='<div class="popup_traffic_light" data-leafletid="' + player.properties.capaLeafletId + '" data-origen="' + origen + '"><a href="#" lang="ca"><span class="glyphicon glyphicon-stats" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></span></a></div>';
+						html+='<div class="popup_traffic_light" data-leafletid="' + leafletid + '" data-origen="' + origen + '"><a href="#" lang="ca"><span class="glyphicon glyphicon-stats" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></span></a></div>';
 						
 					}
 				}
@@ -391,7 +392,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		if("" == parentId)
 		{
 
-			//És una capa no temàtica, hem de crear la de visualització
+			//És una capa no temàtica, hem de crear la de previsualització
 			layer = controlCapes._layers[layerId].layer;
 			control = Semaforic();
 
@@ -399,13 +400,14 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		else
 		{
 
-			//És una capa temàtica, mirem si és una capa semafòrica fake
+			//És una capa temàtica, mirem si és una capa semafòrica de previsualització
 			layer = controlCapes._layers[parentId].layer;
 			if(layer.hasOwnProperty("semaforics") && "undefined" !== typeof layer.semaforics[layerId])
 				control = layer.semaforics[layerId];
 			else
 			{
 
+				//Utilitzem la capa actual com a capa de semafòric
 				control = Semaforic();
 				var businessId = controlCapes._layers[parentId]._layers[layerId].layer.options.businessId;
 				var options = JSON.parse(controlCapes._visLayers[businessId].options);
@@ -423,6 +425,15 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				layer.semaforics = {};
 		
 			layer.semaforics[data] = control;
+			//Canviem el valor de referència de la capa al control de capes si el conté
+			var prevName = $("#" + layerId + ".editable").text();
+			var refString = window.lang.translate("(Valor de ref: ");
+			var indexValor = prevName.indexOf(refString);
+			if(-1 !== indexValor)
+			{
+				var newName = prevName.substring(0, indexValor+refString.length) + value + ")";
+				$("#" + layerId + ".editable").editable("setValue", newName, true);
+			}
 
 		});
 
@@ -1192,10 +1203,10 @@ function addHtmlModalCategories(){
 	'						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">'+
 	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.translate("únic")+'</label>'+
 	'						<span class="rd_separator"></span>'+
-	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
-	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
 	'						<input type="radio" id="rd_tipus_semaforic" name="rd_tipus_agrupacio" value="S">'+
 	'						<label for="rd_tipus_semaforic" lang="ca">semafòric</label>'+
+	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
+	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
 	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+
 	'<!-- 							<option lang="ca" value="U">Únic</option> -->'+
 	'<!-- 							<option lang="ca" value="R">Rang</option> -->'+
@@ -2022,11 +2033,12 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
 
 	var canSpiderify = (visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_simple || visualitzacio.tipus == tem_origen);
-	var props = optionsVis.propName.split(',');
 	
-	if(optionsVis.hasOwnProperty("propName"))
+	var props = [];
+	if("undefined" !== typeof optionsVis && optionsVis.hasOwnProperty("propName"))
 	{
 	
+		props = optionsVis.propName.split(',');
 		capaVisualitzacio.isPropertyNumeric = new Array(props.length);
 		$.each(props, function(index, prop) {
 			capaVisualitzacio.isPropertyNumeric[prop] = true;

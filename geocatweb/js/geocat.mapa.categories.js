@@ -404,48 +404,76 @@ function div2RangStyle(tematic, tdElem){
 	return rangStyle;
 }
 
-function createTematicLayerCategories(event, extraOptions, extraData){
+function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 //	console.debug("createTematicLayerCategories"); //al guardar
 	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);
 	
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
+	var tipusRang = $("input:radio[name=rd_tipus_agrupacio]:checked").val();
 //	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 //	console.debug(visualitzacio);
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	var capaMare = controlCapes._layers[tematicFrom.leafletid].layer;
 	var rangsTr = jQuery('#list_tematic_values tbody tr');
-		
+
 	var rangs = [];
-	jQuery.each(rangsTr, function( index, value ) {
-		var _this = jQuery(value);
-		var tdRang, tdMin, tdMax;
-		var tdVal;
-		var rang = {};
-		var rangEstil;
-		if (_this.children().length == 2){
-			tdRang = _this.find('td:eq(0)');
-			//console.debug(tdRang);
-			tdVal = _this.find('td:eq(1)');
-			//console.debug(tdVal);
-			rangEstil = div2RangStyle(tematicFrom, tdVal);
-			rang.estil = rangEstil;
-			rang.valueMax = tdRang.text();
-			rang.valueMin = tdRang.text();
+	var layerName = capaMare.options.nom+" "+window.lang.translate("Categories");
+	
+	if("S" != tipusRang)
+	{
+
+		jQuery.each(rangsTr, function( index, value ) {
+			var _this = jQuery(value);
+			var tdRang, tdMin, tdMax;
+			var tdVal;
+			var rang = {};
+			var rangEstil;
+			if (_this.children().length == 2){
+				tdRang = _this.find('td:eq(0)');
+				//console.debug(tdRang);
+				tdVal = _this.find('td:eq(1)');
+				//console.debug(tdVal);
+				rangEstil = div2RangStyle(tematicFrom, tdVal);
+				rang.estil = rangEstil;
+				rang.valueMax = tdRang.text();
+				rang.valueMin = tdRang.text();
+				rangs.push(rang);
+			}else{
+				tdMin = _this.find('td:eq(0)');
+				tdMax = _this.find('td:eq(1)');
+				tdVal = _this.find('td:eq(2)');
+				//console.debug(tdMin);
+				//console.debug(tdMax);
+				//console.debug(tdVal);
+				rangEstil = div2RangStyle(tematicFrom, tdVal);
+				rang.estil = rangEstil; 
+				rang.valueMin = tdMin.find('input').val();
+				rang.valueMax = tdMax.find('input').val();
+				rangs.push(rang);
+			}
+		});
+
+	}
+	else
+	{
+
+		var auxRangs = $("#dialog_tematic_rangs").data("rangs");
+		$.each(auxRangs, function(index, value)
+		{
+
+			var rang = {};
+			rang.estil = div2RangStyle(tematicFrom, $(rangsTr[index]).find("td:last"));
+			rang.valueMin = value.min;
+			rang.valueMax = value.max;
 			rangs.push(rang);
-		}else{
-			tdMin = _this.find('td:eq(0)');
-			tdMax = _this.find('td:eq(1)');
-			tdVal = _this.find('td:eq(2)');
-			//console.debug(tdMin);
-			//console.debug(tdMax);
-			//console.debug(tdVal);
-			rangEstil = div2RangStyle(tematicFrom, tdVal);
-			rang.estil = rangEstil; 
-			rang.valueMin = tdMin.find('input').val();
-			rang.valueMax = tdMax.find('input').val();
-			rangs.push(rang);
-		}
-	});	
+
+		});
+
+		var key = $("#dataField").val();
+		layerName = key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + auxRangs[0].max + ")";
+		extraData = {trafficLightKey: key, trafficLightValue: auxRangs[0].max}
+
+	}
 	//console.debug(rangs);
 	var estils = {
 		estils: rangs,
@@ -502,6 +530,17 @@ function createTematicLayerCategories(event, extraOptions, extraData){
 										activaPanelCapes(true);
 										//Desactivem la capa mare
 										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
+										//L'afegim a les dades guardades
+										if(!controlCapes.hasOwnProperty("_visLayers"))
+										{
+										
+											controlCapes._visLayers = {};
+											controlCapes._options = {};
+										}
+										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
+										controlCapes._options[data.layer.businessId] = data.layer;
+										if("undefined" !== typeof deferred)
+											deferred.resolve();
 									});
 									busy=false;					
 									jQuery('#info_uploadFile').hide();
@@ -557,7 +596,7 @@ function createTematicLayerCategories(event, extraOptions, extraData){
 					var data = {
 						uid:Cookies.get('uid'),
 						mapBusinessId: url('?businessid'),
-						serverName: capaMare.options.nom+" "+window.lang.translate("Categories"),
+						serverName: layerName,
 						serverType: capaMare.options.tipus,
 						calentas: false,
 				        activas: true,
@@ -640,6 +679,17 @@ function createTematicLayerCategories(event, extraOptions, extraData){
 										activaPanelCapes(true);
 										//Desactivem la capa mare
 										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
+										//L'afegim a les dades guardades
+										if(!controlCapes.hasOwnProperty("_visLayers"))
+										{
+										
+											controlCapes._visLayers = {};
+											controlCapes._options = {};
+										}
+										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
+										controlCapes._options[data.layer.businessId] = data.layer;
+										if("undefined" !== typeof deferred)
+											deferred.resolve();
 									});
 									jQuery('#info_uploadFile').hide();		
 									busy=false;
@@ -653,7 +703,7 @@ function createTematicLayerCategories(event, extraOptions, extraData){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -675,7 +725,7 @@ function createTematicLayerCategories(event, extraOptions, extraData){
 						businessId: tematicFrom.businessid,//businessId id de la visualización de origen
 						uid: Cookies.get('uid'),//uid id de usuario
 				        mapBusinessId: url('?businessid'),//mapBusinessId id del mapa donde se agrega la visualización	           
-				        nom: capaMare.options.nom+" "+window.lang.translate("Categories"),
+				        nom: layerName,
 				        activas: true,
 				        order: capesOrdre_sublayer,//order (optional) orden de la capa en el mapa
 				        dataField: jQuery('#dataField').val(),//¿?¿?¿?¿?
@@ -713,6 +763,9 @@ function createTematicLayerCategories(event, extraOptions, extraData){
 	
 	event.preventDefault();
 	event.stopImmediatePropagation();
+
+	if("undefined" !== typeof deferred)
+		return deferred.promise();
 	
 }
 
@@ -779,7 +832,7 @@ function createSemaforicValues(geomType)
 	values.sort(function(a,b){return a-b;});
 	var min = parseFloat(values[0]);
 	var max = parseFloat(values[values.length-1]);
-	var half = (max - min)/2;
+	var half = (max + min)/2;
 
 	//Creem un vector amb els següents rangs:
 	// [valor mínim, valor anterior al valor mig)
@@ -787,12 +840,12 @@ function createSemaforicValues(geomType)
 	// [valor següent al valor mig, valor màxim]
 	var newRangs = [{min: min, max: max}];
 	var i = 0;
-	while (values[i] < half)
+	while (values[i] <= half)
 		i++;
 	
-	newRangs[0].max = values[i-1];
-	newRangs.push({min: values[i-1], max: values[i]});
-	newRangs.push({min: values[i], max: max});
+	newRangs[0].max = parseFloat(values[i-1]);
+	newRangs.push({min: parseFloat(values[i-1]), max: parseFloat(values[i])});
+	newRangs.push({min: parseFloat(values[i]), max: max});
 
 	if (nodata){
 		newRangs.push({min: NODATA_VALUE, max: NODATA_VALUE, nodata:true});
@@ -801,6 +854,7 @@ function createSemaforicValues(geomType)
 	jQuery("#dialog_tematic_rangs").data("rangs", newRangs);
 	showTematicRangs(geomType).then(function(results){
 		loadTematicValueTemplate(results,'semaforic');
+		updatePaletaRangs();
 	});
 
 }

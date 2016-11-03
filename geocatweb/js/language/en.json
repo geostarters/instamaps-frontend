@@ -685,6 +685,7 @@
   "Selecciona un SR":"Choose RS",
   "Selecciona una de les tres possibles combinacions":"Select one of the three possible combinations",
   "semafòric": "traffic light",
+  "Semafòric": "Traffic light",
   "Sense descripció": "No description",
   "Sense valor":"Empty value",
   "Sense resposta del catàleg INSPIRE":"No response from Inspire catalog",
@@ -796,6 +797,7 @@
 
   ", ja que demostra un més alt rendiment.":" because it has superior performance.",
   "<b>InstaMaps:</b><br>Fes el teu mapa":"<b>InstaMaps:</b><br>Make your map",
+  "(Valor de ref: " : "(Reference value: ",
 	
   "10 primers":"Top 10",
 	

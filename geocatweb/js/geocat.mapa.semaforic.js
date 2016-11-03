@@ -134,8 +134,14 @@
 
 				var key = $("#dialog_tematic_rangs #dataField").val();
 				var value = $("#dialog_tematic_rangs").data("rangs")[1].min;
-				var data = {nom: key + " Semafòric (Valor de ref: " + value + ")", trafficLightKey: key, trafficLightValue: value};
-				createTematicLayerCategories(e, {}, data);
+				var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", trafficLightKey: key, trafficLightValue: value};
+				createTematicLayerCategories(e, {}, data, $.Deferred()).then(function() {
+					//Eliminem la capa de previsualització del control de capes
+					map.removeLayer(self._capaVisualitzacio);
+					controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
+					self._fakeLayer = null;
+
+				});
 
 			});
 
