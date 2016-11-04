@@ -1,44 +1,55 @@
 ;(function(global, $){
 	
-	var Semaforic = function(isFake){
-		return new Semaforic._init(isFake);
+	var Semaforic = function(isEditing){
+		return new Semaforic._init(isEditing);
 	}
 	
 	Semaforic.prototype = {
 		_createPaletteSelector: function() 
 		{
 
+			var self = this;
 			var html = 
 			'	<div id="interactivePalette">' +
 			'		<div id="paletteBackground"></div>' +
-			'		<div id="innerPalette" class="panel-primary">' +
-			'			<div class="panel-heading"><span lang="ca">Previsualització</span></div>' +
-			'			<div style="padding-left: 10px;"><h4><span lang="ca">Tria la paleta de colors</span></h4></div>' + 
-			'			<div style="display: inline-block; padding: 10px;">' +
+			'		<div id="innerPalette">' +
+			'			<div><h5 lang="ca" class="paletteTitle">Tria la paleta de colors</h5></div>' + 
+			'			<div>' +
 			'				<div class="paletteLabels">' +
 			'					<div style="height: 20px;">Valors menors</div>' +
 			'					<div style="height: 20px;">Valors iguals</div>' +
 			'					<div style="height: 20px;">Valors majors</div>' +
-			'				</div>';
+			'				</div>' +
+			'				<div class="palettes" style="display: inline-block;">';
 			
 			var palettes = $("#paletes_colors > .ramp");
+			palettes.push("carto");			
+			if(1 == palettes.length)
+				palettes = ["BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu", "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", 
+					"BrBG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral", "Paired", "Set3", "Set1", "Dark2", "carto"];
 			$.each(palettes, function(index, palette) {
-				var palName = $(palette).attr("class").replace("ramp ", "");
-				var scale = createScale(palName, 3, false);
-				html += '				<div class="ramp ' + palName + '">' +
-				'				<svg height="60" width="15">' + 
-				'					<rect y="0" height="20" width="15" fill="' + scale(0.75).hex() + '"/>' + 
-				'					<rect y="20" height="20" width="15" fill="' + scale(1.5).hex() + '"/>' +
-				'					<rect y="40" height="20" width="15" fill="' + scale(2.25).hex() + '"/>' +
-				'				</svg>' +
-				'			</div>';
+				var palName;
+				if($(palette).hasClass("ramp"))
+					palName = $(palette).attr("class").replace("ramp ", "");
+				else
+					palName = palette;
+				var scale = self._createScaleAux(palName, 3, false);
+				html += '					<div class="ramp ' + palName + '">' +
+				'					<svg height="60" width="15">' + 
+				'						<rect y="0" height="20" width="15" fill="' + scale(self._paletteColorValues[0]).hex() + '"/>' + 
+				'						<rect y="20" height="20" width="15" fill="' + scale(self._paletteColorValues[1]).hex() + '"/>' +
+				'						<rect y="40" height="20" width="15" fill="' + scale(self._paletteColorValues[2]).hex() + '"/>' +
+				'					</svg>' +
+				'				</div>';
 			});
 
-			html += '				<div style="text-align: right;">'+
-			'					<div style="display: inline-block;">'+
-			'						<button type="button" class="btn btn-info" lang="ca">Inverteix paleta</button>'+
+			html += '				</div>' + 
+			'				<div class="paletteButtons">'+
+			'					<div style="display: inline-block; float:left;">'+
+			'						<input id="cbSoftColors" type="checkbox"><span style="padding-left: 10px;" lang="ca">' + window.lang.translate('Colors suaus') + '</span>' +
 			'					</div>'+
-			'					<div style="display: inline-block;">'+
+			'					<div class="innerPaletteButtons">'+
+			'						<button type="button" class="btn btn-info" lang="ca">Inverteix paleta</button>'+
 			'						<button type="button" class="btn btn-default" lang="ca">Cancel·lar</button>'+
 			'						<button type="button" class="btn btn-success" lang="ca">Acceptar</button>'+
 			'					</div>'+
@@ -61,6 +72,11 @@
 			'	</div>';
 			$("#mapa_modals").append(html);
 
+			$('#cbSoftColors').iCheck({
+				checkboxClass: 'icheckbox_flat-blue',
+				radioClass: 'iradio_flat-blue'
+			});
+
 			self._isPaletteDialogCreated = true;
 
 		},
@@ -74,13 +90,25 @@
 			aux.on('click',function(evt){
 				var _this = $(this);
 				$("#interactivePalette .ramp.active").removeClass("active");
-				var brewerClass = _this.attr('class').replace("ramp ","").replace("active", "");
+				var brewerClass = _this.attr('class').replace("ramp ","").replace(" active", "");
 				self._palette = brewerClass;
 				_this.addClass("active");
 
 				//Actualitzem també els valors del diàleg del temàtic de categories
-				$("#dialog_tematic_rangs").data("paleta", brewerClass);
-				updatePaletaRangs();
+				if(self._isEditing)
+				{
+
+					if("carto" == brewerClass)
+					{
+
+						brewerClass = ["#008080","#f6edbd","#ca562c"];
+
+					}
+
+					$("#dialog_tematic_rangs").data("paleta", brewerClass);
+					updatePaletaRangs();
+
+				}
 
 				if(null != self._fakeLayer)
 				{
@@ -97,8 +125,13 @@
 			aux.on('click',function(evt){
 				self._isPaletteReversed = !self._isPaletteReversed;
 
-				$("#dialog_tematic_rangs").data("reverse",self._isPaletteReversed);
-				updatePaletaRangs();
+				if(self._isEditing)
+				{
+
+					$("#dialog_tematic_rangs").data("reverse",self._isPaletteReversed);
+					updatePaletaRangs();
+
+				}
 
 				var palettes = $("#interactivePalette .ramp");
 				$.each(palettes, function(index, palette) {
@@ -123,25 +156,32 @@
 			aux = $('#interactivePalette .btn-success');
 			aux.off('click');
 			aux.on('click',function(e){
+
 				$('#interactivePalette').hide();
-				$('#info_uploadFile').show();
-				busy=true;
-				$("#div_uploading_txt").html("");
-				$("#div_uploading_txt").html(
-					'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
-					'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'
-				);
 
-				var key = $("#dialog_tematic_rangs #dataField").val();
-				var value = $("#dialog_tematic_rangs").data("rangs")[1].min;
-				var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", trafficLightKey: key, trafficLightValue: value};
-				createTematicLayerCategories(e, {}, data, $.Deferred()).then(function() {
-					//Eliminem la capa de previsualització del control de capes
-					map.removeLayer(self._capaVisualitzacio);
-					controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
-					self._fakeLayer = null;
+				if(self._isEditing)
+				{
 
-				});
+					$('#info_uploadFile').show();
+					busy=true;
+					$("#div_uploading_txt").html("");
+					$("#div_uploading_txt").html(
+						'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Creant categories')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+						'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Processant la resposta')+'</div>'
+					);
+
+					var key = $("#dialog_tematic_rangs #dataField").val();
+					var value = $("#dialog_tematic_rangs").data("rangs")[1].min;
+					var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", trafficLightKey: key, trafficLightValue: value};
+					createTematicLayerCategories(e, {}, data, $.Deferred()).then(function() {
+						//Eliminem la capa de previsualització del control de capes
+						map.removeLayer(self._capaVisualitzacio);
+						controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
+						self._fakeLayer = null;
+
+					});
+
+				}
 
 			});
 
@@ -163,6 +203,50 @@
 				self._closePalette();
 			});
 
+			$("#cbSoftColors").on("ifToggled", function(e) {
+				self._softColorsCheckboxChanged();
+
+				if(self._isEditing)
+				{
+
+					updatePaletaRangs();
+
+				}
+
+				var palettes = $("#interactivePalette .ramp");
+				$.each(palettes, function(index, palette) {
+					var svg = $(palette).children();
+					var rects = $(svg).children();
+					var paletteName = $(palette).attr("class").replace("ramp ", "").replace(" active", "");
+					var scale = self._createScaleAux(paletteName, 3, self._isPaletteReversed);
+					$(rects[0]).attr("fill", scale(self._paletteColorValues[0]).hex());
+					$(rects[1]).attr("fill", scale(self._paletteColorValues[1]).hex());
+					$(rects[2]).attr("fill", scale(self._paletteColorValues[2]).hex());
+				});
+
+				if(null != self._fakeLayer)
+				{
+
+					//Actualitzem la capa de previsualització
+					self._updateFakeLayer();
+
+				}
+
+			});
+
+		},
+
+		_softColorsCheckboxChanged: function()
+		{
+
+			var self = this;
+			self._useSoftColors = !self._useSoftColors;
+
+			if(self._useSoftColors)
+				self._paletteColorValues = [0.75, 1.5, 2.25];
+			else
+				self._paletteColorValues = [0, 1.5, 3];
+
 		},
 
 		_closePalette: function() 
@@ -172,6 +256,7 @@
 			$('#interactivePalette').hide();
 			map.removeLayer(self._capaVisualitzacio);
 			controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
+			controlCapes.forceUpdate(false);
 			self._fakeLayer = null;
 
 		},
@@ -231,7 +316,8 @@
 
 			var self = this;
 			var newLayer = {};
-			var newOptions = {businessId: randomString(32),
+			var id = randomString(32);
+			var newOptions = {businessId: id,
 				capesActiva: "true",
 				capesCalenta: null,
 				capesGroup: "",
@@ -248,7 +334,7 @@
 				options: JSON.stringify({
 					tem: "clasicTematic",
 					id: null,  //<----
-					businessId: baseLayer.businessId,
+					businessId: id,
 					nom: key + " Semafòric",
 					origen: baseLayer.businessId,
 					geometryType: baseLayer.geometryType,
@@ -276,7 +362,7 @@
 					propName: baseLayer.propName.join()
 				}),
 				query:null,
-				serverName: key + " Semafòric (Valor de ref: " + value + ")",
+				serverName: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")",
 				serverType: baseLayer.tipus,
 				tiles:"",
 				titles:null,
@@ -294,7 +380,26 @@
 			newLayer.nom = newOptions.options.serverName;
 			newLayer.tipus = baseLayer.tipusRang;
 			newLayer.uid = null;//<----
-			newLayer.parentid = baseLayer.leafletid;
+
+			if(baseLayer.hasOwnProperty("leafletid"))
+				newLayer.parentid = baseLayer.leafletid;
+			else
+			{
+
+				var keys = Object.keys(controlCapes._layers);
+				var trobat = false;
+				var key;
+				for(var i=0; i<keys.length && !trobat; ++i)
+				{
+
+					key = keys[i];
+					trobat = (controlCapes._layers[keys[i]].layer.options.businessId == baseLayer.businessId);
+
+				}
+
+				newLayer.parentid = key;
+
+			}
 
 			$.extend(layerOptions, newOptions);
 
@@ -306,48 +411,68 @@
 		{
 
 			var self = this;
-			//Omplim els valors del diàleg del temàtic per categories
-			//i utilitzem el seu click pq es faci el mateix procés que es
-			//faria en un categòric de 3
-			$("#dialog_tematic_rangs").data("capamare", {
-				businessid: layer.options.businessId,
-				from: layer.options.from,
-				geometrytype: layer.options.geometryType,
-				leafletid: layer.options.leafletid,
-				propname: layer.options.propName.join(),
-				tipus: layer.options.tipus
-			});
-
-			var src;
-			if (layer.options.geometryType == t_marker)
+			if(self._isEditing)
 			{
 
-				src = $("#tematic-values-rangs-punt-template").html();
+				//Omplim els valors del diàleg del temàtic per categories
+				//i utilitzem el seu click pq es faci el mateix procés que es
+				//faria en un categòric de 3
+				$("#dialog_tematic_rangs").data("capamare", {
+					businessid: layer.options.businessId,
+					from: layer.options.from,
+					geometrytype: layer.options.geometryType,
+					leafletid: layer.options.leafletid,
+					propname: layer.options.propName.join(),
+					tipus: layer.options.tipus
+				});
+
+				var src;
+				if (layer.options.geometryType == t_marker)
+				{
+
+					src = $("#tematic-values-rangs-punt-template").html();
+
+				}
+				else if (layer.options.geometryType == t_polyline)
+				{
+
+					src = $("#tematic-values-rangs-polyline-template").html();
+					
+				}
+				else if (layer.options.geometryType == t_polygon)
+				{
+
+					src = $("#tematic-values-rangs-polygon-template").html();
+
+				}
+
+				var template = Handlebars.compile(src);
+				$("#list_tematic_values").html(template({values: [{index:0, v: {min: min, max: pivot-1}}, {index:1, v: {min: pivot, max: pivot}}, {index:2, v:{min: pivot+1, max: max}}]}));
+
+				$("#dialog_tematic_rangs").data("rangs", [{min: min, max: pivot-1}, {min: pivot, max: pivot}, {min: pivot+1, max: max}]);
+				showTematicRangs(layer.options.geometryType);
+				$("#dataField").html("<option value=\"" + key + "\">" + key + "</option>");
+				$("#dataField").val(key);
+				$("#cmb_num_rangs").val(3);
 
 			}
-			else if (layer.options.geometryType == t_polyline)
-			{
-
-				src = $("#tematic-values-rangs-polyline-template").html();
-				
-			}
-			else if (layer.options.geometryType == t_polygon)
-			{
-
-				src = $("#tematic-values-rangs-polygon-template").html();
-
-			}
-
-			var template = Handlebars.compile(src);
-			$("#list_tematic_values").html(template({values: [{index:0, v: {min: min, max: pivot-1}}, {index:1, v: {min: pivot, max: pivot}}, {index:2, v:{min: pivot+1, max: max}}]}));
-
-			$("#dialog_tematic_rangs").data("rangs", [{min: min, max: pivot-1}, {min: pivot, max: pivot}, {min: pivot+1, max: max}]);
-			showTematicRangs(layer.options.geometryType);
-			$("#dataField").html("<option value=\"" + key + "\">" + key + "</option>");
-			$("#dataField").val(key);
-			$("#cmb_num_rangs").val(3);
 
 			self._showPaletteSelector();
+
+		},
+
+		_createScaleAux: function(paleta, rang, reversed)
+		{
+
+			var auxPaleta = paleta;
+			if("carto" == auxPaleta)
+			{
+
+				auxPaleta = ["#008080","#f6edbd","#ca562c"];
+
+			}
+
+			return createScale(auxPaleta, rang, reversed);
 
 		},
 
@@ -356,8 +481,12 @@
 
 			//TODO: Agafar la paleta de la capa, no la última seleccionada
 			var self = this;
-			var rangColors = createScale(self._palette, 3, self._isPaletteReversed);
-			var estilActual = [rangColors(0.75).hex(), rangColors(1.5).hex(), rangColors(2.25).hex()];
+			var rangColors = self._createScaleAux(self._palette, 3, self._isPaletteReversed);
+			var estilActual = [
+				rangColors(self._paletteColorValues[0]).hex(), 
+				rangColors(self._paletteColorValues[1]).hex(), 
+				rangColors(self._paletteColorValues[2]).hex()
+			];
 			var equalStyle = self._createTrafficLightStyle(estilActual[1]);
 			var lowerStyle = self._createTrafficLightStyle(estilActual[0]);
 			var higherStyle = self._createTrafficLightStyle(estilActual[2]);
@@ -411,8 +540,9 @@
 				readVisualitzacio($.Deferred(), self._fakeLayer, self._fakeLayerOptions).then(function(data) {
 					self._capaVisualitzacio = data;
 					defer.resolve(data._leaflet_id);
-					$("#interactivePalette .ramp.YlOrRd").click();
+					$("#interactivePalette .ramp.carto").click();
 				});
+				controlCapes.forceUpdate(false);
 
 			}
 			else
@@ -431,10 +561,10 @@
 		{
 
 			var self = this;
-			var scale = createScale(self._palette, 3, self._isPaletteReversed);
-			self._fakeLayer.estil[0].color = scale(0.75).hex();
-			self._fakeLayer.estil[1].color = scale(1.5).hex();
-			self._fakeLayer.estil[2].color = scale(2.25).hex();
+			var scale = self._createScaleAux(self._palette, 3, self._isPaletteReversed);
+			self._fakeLayer.estil[0].color = scale(self._paletteColorValues[0]).hex();
+			self._fakeLayer.estil[1].color = scale(self._paletteColorValues[1]).hex();
+			self._fakeLayer.estil[2].color = scale(self._paletteColorValues[2]).hex();
 
 			//Removes the additional data from the map.
 			reloadVisualitzacioLayer(self._capaVisualitzacio, self._fakeLayer, self._fakeLayerOptions, map);
@@ -472,17 +602,17 @@
 
 	};
 	
-	Semaforic._init = function(isFake){
+	Semaforic._init = function(isEditing){
 
 		var self = this;
 
-		self._isFake = (("undefined" !== typeof isFake) && (isFake));
+		self._isEditing = ("undefined" !== typeof isEditing && isEditing)
 		self._fakeLayer = null;
 		self._fakeLayerOptions = null;
 		self._isInitialized = true;
 
 		self._isPaletteDialogCreated = ( 0 != $("#interactivePalette").length);
-		if(self._isPaletteDialogCreated)
+		if(self._isPaletteDialogCreated && self._isEditing)
 		{
 
 			//Get the parameters from the palette dialog
@@ -494,9 +624,13 @@
 		{
 
 			self._isPaletteReversed = false;
-			self._palette = "YlOrRd";
+			self._palette = "carto";
 
 		}
+
+		$("#cbSoftColors").iCheck('uncheck');
+		self._useSoftColors = false;
+		self._paletteColorValues = [0, 1.5, 3];
 
 		return this;
 	}

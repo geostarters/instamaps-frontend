@@ -5120,8 +5120,11 @@ li >.label-dof:focus {
 	bottom:5px; 
 	left: calc(50% - 275px); 
 	box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
-	background-color: #ffffff;
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+	color: #FFFFFF;
 	z-index: 1001;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 #paletteBackground {
@@ -5133,7 +5136,7 @@ li >.label-dof:focus {
 	width: 100%;
 	z-index: 1000;
 	background-color: #000000;
-	opacity: 0.2;
+	opacity: 0;
 }
 
 .paletteLabels {
@@ -5141,5 +5144,61 @@ li >.label-dof:focus {
 	padding-top: 5px;
 	padding-right: 5px;
 	font-style: italic;
+}
+
+.paletteTitle {
 	font-weight: bold;
+	border-bottom: 1px solid #cccccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(204, 204, 204);
+}
+
+.paletteButtons {
+	padding-top: 5px;
+}
+
+.innerPaletteButtons {
+	display: inline-block; 
+	float:right;
+	padding-bottom: 10px;
+}
+
+.red-circle {
+	width: 10px;
+	height: 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: red;
+	display: inline-block;
+	border: 1px solid black;
+}
+
+.green-circle {
+	width: 10px;
+	height: 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: green;
+	display: inline-block;
+	border: 1px solid black;
+}
+
+.yellow-circle {
+	width: 10px;
+	height: 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: yellow;
+	display: inline-block;
+	border: 1px solid black;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+
+.traffic-light-icon {
+	width: 40px;
 }

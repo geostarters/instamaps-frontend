@@ -1280,7 +1280,8 @@
 
 				if(self.link)
 					html += "<a href=\"http://" + self.link + "\" target=\"_blank\">";
-				html += self.text;
+				else
+					html += parseUrlTextPopUp(self.text);
 				if(self.link)
 					html += "</a>";
 

@@ -309,6 +309,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 						html+='<div class="popup_data_value">'+
 						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
 						'</div>';
+						html += '<div class="traffic-light-icon"></div>';
 					}else{
 						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 					}
@@ -316,13 +317,20 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					if(capa.isPropertyNumeric[key] && (("" == origen && self.edit) || ("" != origen && (key == capa.options.trafficLightKey))))
+					if(capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
 					{
 
 						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
 						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-						html+='<div class="popup_traffic_light" data-leafletid="' + leafletid + '" data-origen="' + origen + '"><a href="#" lang="ca"><span class="glyphicon glyphicon-stats" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></span></a></div>';
+						var icon = '<div class="traffic-light-icon" title="'+window.lang.translate('Fer temàtic de semàfor')+'"><div class="red-circle"></div><div class="yellow-circle"></div><div class="green-circle"></div></div>'
+						html+='<div class="popup_traffic_light" data-leafletid="' + leafletid + '" data-origen="' + origen + '"><a href="#" lang="ca">' + icon + '</a></div>';
 						
+					}
+					else
+					{
+
+						html += '<div class="traffic-light-icon"></div>';
+
 					}
 				}
 				html+= '</div>';
@@ -394,7 +402,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 
 			//És una capa no temàtica, hem de crear la de previsualització
 			layer = controlCapes._layers[layerId].layer;
-			control = Semaforic();
+			control = Semaforic(self.isEditing);
 
 		}
 		else
@@ -407,14 +415,18 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			else
 			{
 
-				//Utilitzem la capa actual com a capa de semafòric
+				//Si hem arribat aquí és que és una capa semafòrica, utilitzem la capa actual
 				control = Semaforic();
 				var businessId = controlCapes._layers[parentId]._layers[layerId].layer.options.businessId;
 				var options = JSON.parse(controlCapes._visLayers[businessId].options);
+				var paletaEstils = [controlCapes._visLayers[businessId].estil[0].color,
+					controlCapes._visLayers[businessId].estil[1].color,
+					controlCapes._visLayers[businessId].estil[2].color
+					]
 				control.setVisualization(controlCapes._layers[parentId]._layers[layerId]);
 				control.setLayer(controlCapes._visLayers[businessId]);
 				control.setLayerOptions(controlCapes._options[businessId]);
-				control.setPalette(options.paleta, options.reverse);
+				control.setPalette(paletaEstils, options.reverse);
 
 			}
 
@@ -432,7 +444,11 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			if(-1 !== indexValor)
 			{
 				var newName = prevName.substring(0, indexValor+refString.length) + value + ")";
-				$("#" + layerId + ".editable").editable("setValue", newName, true);
+
+				if(self.isEditing)
+					$("#" + layerId + ".editable").editable("setValue", newName, true);
+				else
+					$("#" + layerId + ".editable").text(newName);
 			}
 
 		});
