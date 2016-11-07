@@ -993,7 +993,7 @@
 				options : {
 					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
 					zoom : (parsed ? parsed.zoom : 8),
-					description : (self.text ? self.text : ""),
+					description : "",
 					fons : self.fons
 				}
 			};
@@ -1278,8 +1278,9 @@
 			{
 
 				var html = '';
+				var hasValidLink = ((null != self.link) && ("" != self.link.trim()) && isValidURL(self.link));
 
-				if(self.link)
+				if(hasValidLink)
 				{
 
 					var hasProtocol = (-1 != self.link.indexOf("://"));
@@ -1290,7 +1291,7 @@
 
 				}
 				html += self.text;
-				if(self.link)
+				if(hasValidLink)
 					html += "</a>";
 
 				marker.bindPopup(html);
@@ -1299,6 +1300,9 @@
 				_gaq.push(['_trackEvent', 'visor per paràmetres']);
 
 			}
+
+			$("#infoMap").hide();
+			
 		},
 		
 		_addTooltips: function(){
