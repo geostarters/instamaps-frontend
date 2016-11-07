@@ -1021,15 +1021,7 @@
 
 		_mapNameShortener: function(inName) {
 
-			var self = this;
-			var name = inName
-			var maxLength = (self.embed ? 47 : 58);	//Limitem el nombre de caràcters del títol pq no salti de línia
-			if(maxLength < name.length)
-			{
-
-				name = "<span title=\"" + inName + "\">" + name.substring(0, maxLength-3) + "...</span>";
-
-			}
+			name = "<div id='mapNameContainer'><span title=\"" + inName + "\">" + inName + "</span></div>";
 
 			return name;
 
