@@ -1763,9 +1763,21 @@ i.fa {
 .width100{width: 100%;}
 
 .popup-data-img{
-	width: 295px;
 	padding-bottom: 2px;
     padding-top: 2px;
+    max-width: 295px;
+    max-height: 295px;
+    width: auto;
+    height: auto;
+}
+
+.leaflet-popup-content > img {
+	padding-bottom: 2px;
+    padding-top: 2px;
+    max-width: 295px;
+    max-height: 295px;
+    width: auto;
+    height: auto;
 }
 
 /*
