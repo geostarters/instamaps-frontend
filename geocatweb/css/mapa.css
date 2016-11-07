@@ -5127,6 +5127,23 @@ li >.label-dof:focus {
   background-color: #fcf8e3 !important;
 }	
 
+#mapNameContainer {
+	max-width: calc(100vw - 400px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+}
 
+@media (min-width: 1200px) 
+{
 
+	#mapNameContainer {
+		max-width: calc(100vw - 810px);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: inline-block;
+	}
 
+}

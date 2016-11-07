@@ -2451,5 +2451,23 @@ a.leaflet-control-timecontrol:hover {
     z-index: 1010;
 }
 
+#mapNameContainer {
+	max-width: calc(100vw - 400px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+}
 
+@media (min-width: 1200px) 
+{
+	
+	#mapNameContainer {
+		max-width: calc(100vw - 810px);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: inline-block;
+	}
 
+}
