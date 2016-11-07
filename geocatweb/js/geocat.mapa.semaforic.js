@@ -188,6 +188,8 @@
 			aux = $('#interactivePalette .btn-default');
 			aux.off('click');
 			aux.on('click',function(e){
+				//Activem la capa mare
+				$( "#input-" + self._fakeLayer.geometriesBusinessId).click();
 				self._closePalette();
 			});
 
@@ -277,6 +279,7 @@
 		{
 
 			return {
+				businessId : randomString(32),
 				borderColor: "#ffffff",
 				borderWidth: 1,
 				color: color,
@@ -338,7 +341,7 @@
 					nom: key + " Semafòric",
 					origen: baseLayer.businessId,
 					geometryType: baseLayer.geometryType,
-					tipus: baseLayer.tipusRang,
+					tipus: "clasicTematic",
 					options: {
 						source: baseLayer.source,
 						propName: baseLayer.propName.join(),
@@ -378,7 +381,7 @@
 			newLayer.geometryType = baseLayer.geometryType;
 			newLayer.id = null; //<----
 			newLayer.nom = newOptions.options.serverName;
-			newLayer.tipus = baseLayer.tipusRang;
+			newLayer.tipus = "clasicTematic";
 			newLayer.uid = null;//<----
 
 			if(baseLayer.hasOwnProperty("leafletid"))
@@ -527,17 +530,32 @@
 				});
 			});
 
-			layer.estil = [lowerStyle, equalStyle, higherStyle];
 			if(null == self._fakeLayer)
 			{
 
 				self._setupTematicLayerDialog(layer, key, min, pivot, max);
 				layer = self._createTempTrafficLightLayer(key, pivot, layer.options, layerOptions);
-				layer.estil = [lowerStyle, equalStyle, higherStyle];
+
+			}
+
+
+			var aux = JSON.parse(layer.options);
+			layer.estil = [lowerStyle, equalStyle, higherStyle];
+			aux.rangsEstilsLegend = {};
+			aux.rangsEstilsLegend[layer.estil[0].businessId] = key + window.lang.translate(" menors de ") + pivot;
+			aux.rangsEstilsLegend[layer.estil[1].businessId] = key + window.lang.translate(" iguals a ") + pivot;
+			aux.rangsEstilsLegend[layer.estil[2].businessId] = key + window.lang.translate(" majors de ") + pivot;
+			layer.options = JSON.stringify(aux);
+			
+			if(null == self._fakeLayerOptions)
+			{
+
 				self._fakeLayerOptions = layerOptions;
 				self._fakeLayer = layer;
 
 				readVisualitzacio($.Deferred(), self._fakeLayer, self._fakeLayerOptions).then(function(data) {
+					//Desactivem la capa mare
+					if ($( "#input-" + self._fakeLayer.geometriesBusinessId).attr("checked")!=undefined) $( "#input-" + self._fakeLayer.geometriesBusinessId).click();
 					self._capaVisualitzacio = data;
 					defer.resolve(data._leaflet_id);
 					$("#interactivePalette .ramp.carto").click();
@@ -548,8 +566,10 @@
 			else
 			{
 
+				self._capaVisualitzacio.layer.options.rangEstilsLegend = aux.rangsEstilsLegend;
 				reloadVisualitzacioLayer(self._capaVisualitzacio, self._fakeLayer, self._fakeLayerOptions, map);
 				defer.resolve(self._capaVisualitzacio._leaflet_id);
+				controlCapes.forceUpdate(false);
 
 			}
 
