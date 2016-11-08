@@ -14,13 +14,12 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function isValidURL(url) {
-	var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+	var pattern = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9%_:?\+.~#&//=]*)/;
 	return pattern.test(url);
 }
 
 function isImgURL(str) {
-	  var pattern = new RegExp('(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpe?g|gif|png))','i'); // extension
-	  return pattern.test(str);
+	return (/\.(gif|jpg|jpeg|tiff|png)$/i).test(str);
 }
 
 function isBusinessId(str){
@@ -222,30 +221,41 @@ function parseUrlTextPopUp(txt,key){
 	          }
 	    }
 	
-	    var lwords = txt.split(" ");
-	    for(index in lwords){
-	          var text;
-	          var word = lwords[index];
-	          if(!$.isNumeric(txt) ){
-	                 if (isValidURL(word)){
-	                        if(isImgURL(word)){
-	                               text = "<img width=\"100\" src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
-	                        }else if (word.indexOf("html?") != -1){
-	                               text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
-	                                            "marginwidth=\"0\" src=\""+word+"\"></iframe>";
-	                        }else if (txt.indexOf("<video")==-1){
-	                               text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
-	                        }
-	                        else text=word;
-	                 }else{
-	                        text = word;
-	                 }
-	
-	          }else{
-	                 text = word;
-	          }
-	          parseText+=" "+text;
-	    }
+		var lines = txt.split(/\n/);
+		for(lineNum in lines)
+		{
+
+			var line = lines[lineNum];
+		    var lwords = line.split(" ");
+		    for(index in lwords){
+		          var text;
+		          var word = lwords[index];
+		          if(!$.isNumeric(txt) ){
+		                 if (isValidURL(word)){
+		                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')))
+		                        if(isImgURL(word)){
+		                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
+		                        }
+		                        else if (word.indexOf("html?") != -1){
+		                               text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+		                                            "marginwidth=\"0\" src=\""+(!hasProtocol ? "http://" + word : word)+"\"></iframe>";
+		                        }else if (txt.indexOf("<video")==-1){
+		                               text = "<a href=\""+(!hasProtocol ? "http://" + word : word)+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
+		                        }
+		                        else text=word;
+		                 }else{
+		                        text = word;
+		                 }
+		
+		          }else{
+		                 text = word;
+		          }
+		          parseText+=" "+text;
+		    }
+
+		    parseText += "<br />";
+
+		}
 	    return parseText;
     }
     else {

@@ -1763,9 +1763,21 @@ i.fa {
 .width100{width: 100%;}
 
 .popup-data-img{
-	width: 295px;
 	padding-bottom: 2px;
     padding-top: 2px;
+    max-width: 295px;
+    max-height: 295px;
+    width: auto;
+    height: auto;
+}
+
+.leaflet-popup-content > img {
+	padding-bottom: 2px;
+    padding-top: 2px;
+    max-width: 295px;
+    max-height: 295px;
+    width: auto;
+    height: auto;
 }
 
 /*
@@ -5115,6 +5127,23 @@ li >.label-dof:focus {
   background-color: #fcf8e3 !important;
 }	
 
+#mapNameContainer {
+	max-width: calc(100vw - 400px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+}
 
+@media (min-width: 1200px) 
+{
 
+	#mapNameContainer {
+		max-width: calc(100vw - 810px);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: inline-block;
+	}
 
+}

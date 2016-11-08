@@ -993,7 +993,7 @@
 				options : {
 					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
 					zoom : (parsed ? parsed.zoom : 8),
-					description : (self.text ? self.text : ""),
+					description : "",
 					fons : self.fons
 				}
 			};
@@ -1021,15 +1021,7 @@
 
 		_mapNameShortener: function(inName) {
 
-			var self = this;
-			var name = inName
-			var maxLength = (self.embed ? 47 : 58);	//Limitem el nombre de caràcters del títol pq no salti de línia
-			if(maxLength < name.length)
-			{
-
-				name = "<span title=\"" + inName + "\">" + name.substring(0, maxLength-3) + "...</span>";
-
-			}
+			name = "<div id='mapNameContainer'><span title=\"" + inName + "\">" + inName + "</span></div>";
 
 			return name;
 
@@ -1278,8 +1270,9 @@
 			{
 
 				var html = '';
+				var hasValidLink = ((null != self.link) && ("" != self.link.trim()) && isValidURL(self.link));
 
-				if(self.link)
+				if(hasValidLink)
 				{
 
 					var hasProtocol = (-1 != self.link.indexOf("://"));
@@ -1290,7 +1283,7 @@
 
 				}
 				html += self.text;
-				if(self.link)
+				if(hasValidLink)
 					html += "</a>";
 
 				marker.bindPopup(html);
@@ -1299,6 +1292,9 @@
 				_gaq.push(['_trackEvent', 'visor per paràmetres']);
 
 			}
+
+			$("#infoMap").hide();
+			
 		},
 		
 		_addTooltips: function(){
