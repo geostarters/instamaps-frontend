@@ -106,7 +106,7 @@
 					}
 
 					$("#dialog_tematic_rangs").data("paleta", brewerClass);
-					updatePaletaRangs();
+					updatePaletaRangs(self._useSoftColors);
 
 				}
 
@@ -129,7 +129,7 @@
 				{
 
 					$("#dialog_tematic_rangs").data("reverse",self._isPaletteReversed);
-					updatePaletaRangs();
+					updatePaletaRangs(self._useSoftColors);
 
 				}
 
@@ -173,7 +173,23 @@
 					var key = $("#dialog_tematic_rangs #dataField").val();
 					var value = $("#dialog_tematic_rangs").data("rangs")[1].min;
 					var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", trafficLightKey: key, trafficLightValue: value};
-					createTematicLayerCategories(e, {}, data, $.Deferred()).then(function() {
+					createTematicLayerCategories(e, {}, data, $.Deferred()).then(function(layerId) {
+						//Actualitzem la llegenda de la capa
+						var arrRangsEstilsLegend = sortObject(controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend);
+						arrRangsEstilsLegend.sort(sortByValueMax);
+						//Canviem els bId dels estils i dels rangs pq els mantingui en ordre !!! <--------------- !!!! No es fa bé
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[0] = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[arrRangsEstilsLegend[0].key];
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[1] = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[arrRangsEstilsLegend[1].key];
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[2] = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[arrRangsEstilsLegend[2].key];
+						arrRangsEstilsLegend[0].value = key + window.lang.translate(" menor de ") + value;
+						arrRangsEstilsLegend[0].key = 0;
+						arrRangsEstilsLegend[1].value = key + window.lang.translate(" igual a ") + value;
+						arrRangsEstilsLegend[1].key = 1;
+						arrRangsEstilsLegend[2].value = key + window.lang.translate(" major de ") + value;
+						arrRangsEstilsLegend[2].key = 2;
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[0].key] = arrRangsEstilsLegend[0].value;
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[1].key] = arrRangsEstilsLegend[1].value;
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[2].key] = arrRangsEstilsLegend[2].value;
 						//Eliminem la capa de previsualització del control de capes
 						map.removeLayer(self._capaVisualitzacio);
 						controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
@@ -211,7 +227,7 @@
 				if(self._isEditing)
 				{
 
-					updatePaletaRangs();
+					updatePaletaRangs(self._useSoftColors);
 
 				}
 
@@ -275,11 +291,11 @@
 
 		},
 
-		_createTrafficLightStyle: function(color)
+		_createTrafficLightStyle: function(color, bId)
 		{
 
 			return {
-				businessId : randomString(32),
+				businessId : bId,
 				borderColor: "#ffffff",
 				borderWidth: 1,
 				color: color,
@@ -362,6 +378,7 @@
 						expanded: baseLayer.group.expanded
 					},
 					trafficLightKey : key,
+					trafficLightValue: value,
 					propName: baseLayer.propName.join()
 				}),
 				query:null,
@@ -479,26 +496,17 @@
 
 		},
 
-		render: function(defer, key, pivot, inLayer)
+		sortGeometry: function(inStyles, key, pivot)
 		{
 
-			//TODO: Agafar la paleta de la capa, no la última seleccionada
-			var self = this;
-			var rangColors = self._createScaleAux(self._palette, 3, self._isPaletteReversed);
-			var estilActual = [
-				rangColors(self._paletteColorValues[0]).hex(), 
-				rangColors(self._paletteColorValues[1]).hex(), 
-				rangColors(self._paletteColorValues[2]).hex()
-			];
-			var equalStyle = self._createTrafficLightStyle(estilActual[1]);
-			var lowerStyle = self._createTrafficLightStyle(estilActual[0]);
-			var higherStyle = self._createTrafficLightStyle(estilActual[2]);
-			var layerOptions = {};
-			var layer = (null != self._fakeLayer ? self._fakeLayer : inLayer);
+			var styles = inStyles;
 			var min = Number.MAX_SAFE_INTEGER;
 			var max = Number.MIN_SAFE_INTEGER;
+			var equalGeom = [];
+			var lowerGeom = []; 
+			var higherGeom = [];
 
-			$.each(inLayer.options.estil, function(i, estil) {
+			$.each(inStyles, function(i, estil) {
 				$.each(estil.geometria.features, function(j, feature) {
 
 					var aux = feature;
@@ -509,44 +517,75 @@
 					{
 
 						//Equal color
-						equalStyle.geometria.features.push(feature);
+						equalGeom.push(feature);
 
 					}
 					else if(val < pivot)
 					{
 
 						//Less than color
-						lowerStyle.geometria.features.push(feature);
+						lowerGeom.push(feature);
 
 					}
 					else 
 					{
 
 						//Greater than color
-						higherStyle.geometria.features.push(feature);
+						higherGeom.push(feature);
 
 					}
 
 				});
 			});
 
+			return {
+				lowerGeom: lowerGeom,
+				equalGeom: equalGeom,
+				higherGeom: higherGeom,
+				min: min,
+				max: max
+			};
+
+		},
+
+		_renderFakeLayer: function()
+		{
+
+		},
+
+		render: function(defer, key, pivot, inLayer)
+		{			
+
+			var self = this;
+			//Create each style and sort the geometry on each bucket
+			var rangColors = self._createScaleAux(self._palette, 3, self._isPaletteReversed);
+			var estilActual = [
+				rangColors(self._paletteColorValues[0]).hex(), 
+				rangColors(self._paletteColorValues[1]).hex(), 
+				rangColors(self._paletteColorValues[2]).hex()
+			];
+			var lowerStyle = self._createTrafficLightStyle(estilActual[0], 0);
+			var equalStyle = self._createTrafficLightStyle(estilActual[1], 1);
+			var higherStyle = self._createTrafficLightStyle(estilActual[2], 2);
+			var layerOptions = {};
+			var layer = (null != self._fakeLayer ? self._fakeLayer : inLayer);
+
+			var sorted = self.sortGeometry(inLayer.options.estil, key, pivot);
+			equalStyle.geometria.features = sorted.equalGeom;
+			lowerStyle.geometria.features = sorted.lowerGeom;
+			higherStyle.geometria.features = sorted.higherGeom;
+
 			if(null == self._fakeLayer)
 			{
 
-				self._setupTematicLayerDialog(layer, key, min, pivot, max);
+				self._setupTematicLayerDialog(layer, key, sorted.min, pivot, sorted.max);
 				layer = self._createTempTrafficLightLayer(key, pivot, layer.options, layerOptions);
 
 			}
 
-
-			var aux = JSON.parse(layer.options);
 			layer.estil = [lowerStyle, equalStyle, higherStyle];
-			aux.rangsEstilsLegend = {};
-			aux.rangsEstilsLegend[layer.estil[0].businessId] = key + window.lang.translate(" menors de ") + pivot;
-			aux.rangsEstilsLegend[layer.estil[1].businessId] = key + window.lang.translate(" iguals a ") + pivot;
-			aux.rangsEstilsLegend[layer.estil[2].businessId] = key + window.lang.translate(" majors de ") + pivot;
-			layer.options = JSON.stringify(aux);
 			
+			//Draw the layer
 			if(null == self._fakeLayerOptions)
 			{
 
@@ -566,7 +605,69 @@
 			else
 			{
 
-				self._capaVisualitzacio.layer.options.rangEstilsLegend = aux.rangsEstilsLegend;
+				//Update mapConfig legend if exists
+				var lowerThanLabel = key + window.lang.translate(" menor de ") + pivot;
+				var equalToLabel = key + window.lang.translate(" igual a ") + pivot;
+				var higherThanLabel = key + window.lang.translate(" major de ") + pivot;
+				if("" != mapConfig.legend)
+				{
+
+					var auxLegend = JSON.parse(mapConfig.legend);
+					var layerLegend = auxLegend[self._capaVisualitzacio.layer.options.businessId];
+					if(null != layerLegend)
+					{
+
+						//Check which bucket is by its color (should we be using the style businessId?)
+						var lowerThanColor = hexToRgb(layer.estil[0].color);
+						var lowerThanFill = "fill:rgb(" + lowerThanColor.r +", " + lowerThanColor.g+ ", "+lowerThanColor.b+");"
+						var equalToColor = hexToRgb(layer.estil[1].color);
+						var equalToFill = "fill:rgb(" + equalToColor.r +", " + equalToColor.g+ ", "+equalToColor.b+");"
+						var higherThanColor = hexToRgb(layer.estil[2].color);
+						var higherThanFill = "fill:rgb(" + higherThanColor.r +", " + higherThanColor.g+ ", "+higherThanColor.b+");"
+						for(var i=0; i<layerLegend.length; ++i)
+						{
+							
+							if(-1 != layerLegend[i].symbol.indexOf(lowerThanFill))
+							{
+								layerLegend[i].name = lowerThanLabel;
+							}
+							else if(-1 != layerLegend[i].symbol.indexOf(equalToFill))
+							{
+								layerLegend[i].name = equalToLabel;
+							}
+							else if(-1 != layerLegend[i].symbol.indexOf(higherThanFill))
+							{
+								layerLegend[i].name = higherThanLabel;
+							}
+
+						}
+
+						mapConfig.legend = JSON.stringify(auxLegend);
+						mapLegend = auxLegend;
+
+					}
+
+				}
+
+				var aux = JSON.parse(layer.options);
+				aux.rangsEstilsLegend = {};
+				//Ens carreguem el businessId pq mantingui l'ordre al generar la llegenda
+				aux.rangsEstilsLegend[layer.estil[0].businessId] = lowerThanLabel;
+				aux.rangsEstilsLegend[layer.estil[1].businessId] = equalToLabel;
+				aux.rangsEstilsLegend[layer.estil[2].businessId] = higherThanLabel;
+				layer.options = JSON.stringify(aux);
+				self._capaVisualitzacio.layer.options.rangsEstilsLegend = aux.rangsEstilsLegend;
+				self._capaVisualitzacio.layer.options.estil = [lowerStyle, equalStyle, higherStyle];
+
+				//Update the layer properties so they are saved when publishing
+				self._capaVisualitzacio.layer.options.trafficLightValue = pivot;
+				var newName = self._getNewLayerName(self._capaVisualitzacio.name, pivot)
+				self._capaVisualitzacio.layer.options.nom = newName;
+				self._capaVisualitzacio.name = newName;
+				var aux = JSON.parse(self._fakeLayer.options);
+				aux.trafficLightValue = pivot;
+				self._fakeLayer.options = JSON.stringify(aux);
+
 				reloadVisualitzacioLayer(self._capaVisualitzacio, self._fakeLayer, self._fakeLayerOptions, map);
 				defer.resolve(self._capaVisualitzacio._leaflet_id);
 				controlCapes.forceUpdate(false);
@@ -574,6 +675,24 @@
 			}
 
 			return defer.promise();
+
+		},
+
+		_getNewLayerName: function(oldName, pivot)
+		{
+
+			//If the name contains the "Reference value" string, update it with the new value
+			var newName = oldName;
+			var refString = window.lang.translate("(Valor de ref: ");
+			var indexValor = oldName.indexOf(refString);
+			if(-1 !== indexValor)
+			{
+				
+				newName = oldName.substring(0, indexValor+refString.length) + pivot + ")";
+
+			}
+
+			return newName;
 
 		},
 
@@ -630,6 +749,7 @@
 		self._fakeLayer = null;
 		self._fakeLayerOptions = null;
 		self._isInitialized = true;
+		self._capaVisualitzacio = null;
 
 		self._isPaletteDialogCreated = ( 0 != $("#interactivePalette").length);
 		if(self._isPaletteDialogCreated && self._isEditing)
@@ -655,7 +775,9 @@
 		return this;
 	}
 	
-	Semaforic._init.prototype = Semaforic.prototype;	
+	Semaforic._init.prototype = Semaforic.prototype;
+	Semaforic.sortGeometry = Semaforic.prototype.sortGeometry;
+	Semaforic.getUpdatedLayerName = Semaforic.prototype._getNewLayerName;
 	global.Semaforic = Semaforic;
 	
 }(window, jQuery));

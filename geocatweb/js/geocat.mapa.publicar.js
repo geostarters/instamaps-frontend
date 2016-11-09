@@ -731,9 +731,11 @@
 
         	//crear los archivos en disco
         	var layersId = getBusinessIdOrigenLayers();
+        	var trafficLightKeys = getTrafficLightKeys();
         	var laydata = {
         		uid: that.uid,
-        		servidorWMSbusinessId: layersId
+        		servidorWMSbusinessId: layersId,
+        		trafficLightValues: trafficLightKeys
         	};
         	//require ajax
         	publicarCapesMapa(laydata);

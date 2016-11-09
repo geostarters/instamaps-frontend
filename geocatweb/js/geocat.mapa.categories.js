@@ -540,7 +540,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
 										controlCapes._options[data.layer.businessId] = data.layer;
 										if("undefined" !== typeof deferred)
-											deferred.resolve();
+											deferred.resolve(results._leaflet_id);
 									});
 									busy=false;					
 									jQuery('#info_uploadFile').hide();
@@ -689,7 +689,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
 										controlCapes._options[data.layer.businessId] = data.layer;
 										if("undefined" !== typeof deferred)
-											deferred.resolve();
+											deferred.resolve(results._leaflet_id);
 									});
 									jQuery('#info_uploadFile').hide();		
 									busy=false;
@@ -769,8 +769,9 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 	
 }
 
-function updatePaletaRangs(){
+function updatePaletaRangs(softColors){
 	
+	var softColorsUsed = (undefined !== softColors && softColors);
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
 	var tematicFrom = jQuery("#dialog_tematic_rangs").data("capamare");
 	
@@ -790,31 +791,43 @@ function updatePaletaRangs(){
 	}else{
 		val_leng = values.length;
 	}
+
+	//If soft colors are used instead of getting the [0, val_leng] and the rest evenly distributed
+	//we use the half values of each interval
+	//Example: 3 colors from [0, 3]
+	//Non soft colors gets the colors on the [0, 1.5, 3] points
+	//Soft colors gets the colors on the [0.75, 1.5, 2.25] points
 	
 	var ftype = transformTipusGeometry(tematicFrom.geometrytype);
 	paleta = paleta ? paleta : 'Paired';
 
 	var scale = createScale(paleta, val_leng, reverse);
-		
+	
 	if (ftype == t_marker){
 		var elems = $("#list_tematic_values tbody td div");
-		var factor = val_leng/(elems.length+1);
+		var length = (softColors ? elems.length + 1 : elems.length - 1);
+		var factor = val_leng/length;
+		var start = (softColors ? factor : 0);
 		elems.each(function(i, elm){
-			var color = scale(factor + i*factor).hex();
+			var color = scale(start + i*factor).hex();
 			jQuery(elm).css('background-color', color);
 		});
 	}else if (ftype == t_polyline){
 		var elems = $("#list_tematic_values canvas");
-		var factor = val_leng/(elems.length+1);
+		var length = (softColors ? elems.length + 1 : elems.length - 1);
+		var factor = val_leng/length;
+		var start = (softColors ? factor : 0);
 		elems.each(function(i, elm){
-			var color = scale(factor + i*factor).hex();
+			var color = scale(start + i*factor).hex();
 			addGeometryInitLRang(elm, {style:{color: color}});
 		});
 	}else if (ftype == t_polygon){
 		var elems = $("#list_tematic_values canvas");
-		var factor = val_leng/(elems.length+1);
+		var length = (softColors ? elems.length + 1 : elems.length - 1);
+		var factor = val_leng/length;
+		var start = (softColors ? factor : 0);
 		elems.each(function(i, elm){
-			var color = scale(factor + i*factor).hex();
+			var color = scale(start + i*factor).hex();
 			addGeometryInitPRang(elm, {style:{color: color}});
 		});
 	}
