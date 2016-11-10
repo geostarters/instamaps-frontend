@@ -539,7 +539,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 										}
 										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
 										controlCapes._options[data.layer.businessId] = data.layer;
-										if("undefined" !== typeof deferred)
+										if(undefined !== deferred)
 											deferred.resolve(results._leaflet_id);
 									});
 									busy=false;					
@@ -688,7 +688,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 										}
 										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
 										controlCapes._options[data.layer.businessId] = data.layer;
-										if("undefined" !== typeof deferred)
+										if(undefined !== deferred)
 											deferred.resolve(results._leaflet_id);
 									});
 									jQuery('#info_uploadFile').hide();		

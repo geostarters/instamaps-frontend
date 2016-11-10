@@ -94,7 +94,7 @@
 				self._palette = brewerClass;
 				_this.addClass("active");
 
-				//Actualitzem també els valors del diàleg del temàtic de categories
+				//If we are editing, update the values of the category popup
 				if(self._isEditing)
 				{
 
@@ -113,7 +113,7 @@
 				if(null != self._fakeLayer)
 				{
 
-					//Actualitzem la capa de previsualització
+					//Update the previsualization layer
 					self._updateFakeLayer();
 
 				}
@@ -146,7 +146,7 @@
 				if(null != self._fakeLayer)
 				{
 
-					//Actualitzem la capa de previsualització
+					//Update the previsualization layer
 					self._updateFakeLayer();
 
 				}
@@ -174,23 +174,54 @@
 					var value = $("#dialog_tematic_rangs").data("rangs")[1].min;
 					var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", trafficLightKey: key, trafficLightValue: value};
 					createTematicLayerCategories(e, {}, data, $.Deferred()).then(function(layerId) {
-						//Actualitzem la llegenda de la capa
+						//Update the map legend
 						var arrRangsEstilsLegend = sortObject(controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend);
 						arrRangsEstilsLegend.sort(sortByValueMax);
-						//Canviem els bId dels estils i dels rangs pq els mantingui en ordre !!! <--------------- !!!! No es fa bé
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[0] = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[arrRangsEstilsLegend[0].key];
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[1] = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[arrRangsEstilsLegend[1].key];
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[2] = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estils[arrRangsEstilsLegend[2].key];
+						//Change the businessId from the styles and ranges to sort them correctly
+						//(When geocat.mapa.legend.js addLayerToLegend is called, the ranges are sorted by its businessId so they are not guaranteed to 
+						//mantain the lower-equal-bigger legend)
+						var estils = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estil;
+						var nousEstils = [];
+						for(var i=0; i<estils.length; ++i)
+						{
+
+							if(arrRangsEstilsLegend[0].key == estils[i].businessId)
+							{	//Lower style
+
+								nousEstils[0] = estils[i];
+								nousEstils[0].businessId = 0;
+
+							}
+							else if(arrRangsEstilsLegend[1].key == estils[i].businessId)
+							{	//Equal style
+
+								nousEstils[1] = estils[i];
+								nousEstils[1].businessId = 1;
+
+							}
+							else if(arrRangsEstilsLegend[2].key == estils[i].businessId)
+							{	//Bigger style
+
+								nousEstils[2] = estils[i];
+								nousEstils[2].businessId = 2;
+
+							}
+
+						}
+
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estil = nousEstils;
+
 						arrRangsEstilsLegend[0].value = key + window.lang.translate(" menor de ") + value;
 						arrRangsEstilsLegend[0].key = 0;
 						arrRangsEstilsLegend[1].value = key + window.lang.translate(" igual a ") + value;
 						arrRangsEstilsLegend[1].key = 1;
 						arrRangsEstilsLegend[2].value = key + window.lang.translate(" major de ") + value;
 						arrRangsEstilsLegend[2].key = 2;
+						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend = [];
 						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[0].key] = arrRangsEstilsLegend[0].value;
 						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[1].key] = arrRangsEstilsLegend[1].value;
 						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[2].key] = arrRangsEstilsLegend[2].value;
-						//Eliminem la capa de previsualització del control de capes
+						//Remove the previsualization layer from the layer control
 						map.removeLayer(self._capaVisualitzacio);
 						controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
 						self._fakeLayer = null;
@@ -204,7 +235,7 @@
 			aux = $('#interactivePalette .btn-default');
 			aux.off('click');
 			aux.on('click',function(e){
-				//Activem la capa mare
+				//Activate the parent layer
 				$( "#input-" + self._fakeLayer.geometriesBusinessId).click();
 				self._closePalette();
 			});
@@ -245,7 +276,7 @@
 				if(null != self._fakeLayer)
 				{
 
-					//Actualitzem la capa de previsualització
+					//Update the previsualization layer
 					self._updateFakeLayer();
 
 				}
@@ -291,7 +322,7 @@
 
 		},
 
-		_createTrafficLightStyle: function(color, bId)
+		_createTrafficLightStyle: function(color, bId, features)
 		{
 
 			return {
@@ -307,7 +338,7 @@
 				radius: 0,
 				simbolSize: 0,
 				geometria: {
-					features: []
+					features: features
 				}
 			};
 
@@ -401,6 +432,8 @@
 			newLayer.tipus = "clasicTematic";
 			newLayer.uid = null;//<----
 
+			//Set the parentid property. If the baseLayer doesn't have it, look for it on 
+			//the layer control
 			if(baseLayer.hasOwnProperty("leafletid"))
 				newLayer.parentid = baseLayer.leafletid;
 			else
@@ -434,9 +467,8 @@
 			if(self._isEditing)
 			{
 
-				//Omplim els valors del diàleg del temàtic per categories
-				//i utilitzem el seu click pq es faci el mateix procés que es
-				//faria en un categòric de 3
+				//Set the category popup values to use its own click and do the
+				//same process done on a 3 interval category
 				$("#dialog_tematic_rangs").data("capamare", {
 					businessid: layer.options.businessId,
 					from: layer.options.from,
@@ -548,8 +580,28 @@
 
 		},
 
-		_renderFakeLayer: function()
+		_renderFakeLayer: function(defer)
 		{
+
+			var self = this;
+			readVisualitzacio($.Deferred(), self._fakeLayer, self._fakeLayerOptions).then(function(data) {
+				//Desactivem la capa mare
+				if ($( "#input-" + self._fakeLayer.geometriesBusinessId).attr("checked")!=undefined) $( "#input-" + self._fakeLayer.geometriesBusinessId).click();
+				self._capaVisualitzacio = data;
+				defer.resolve(data._leaflet_id);
+				$("#interactivePalette .ramp.carto").click();
+			});
+			controlCapes.forceUpdate(false);
+
+		},
+
+		_renderLayer: function(defer)
+		{
+
+			var self = this;
+			reloadVisualitzacioLayer(self._capaVisualitzacio, self._fakeLayer, self._fakeLayerOptions, map);
+			defer.resolve(self._capaVisualitzacio._leaflet_id);
+			controlCapes.forceUpdate(false);
 
 		},
 
@@ -564,16 +616,14 @@
 				rangColors(self._paletteColorValues[1]).hex(), 
 				rangColors(self._paletteColorValues[2]).hex()
 			];
-			var lowerStyle = self._createTrafficLightStyle(estilActual[0], 0);
-			var equalStyle = self._createTrafficLightStyle(estilActual[1], 1);
-			var higherStyle = self._createTrafficLightStyle(estilActual[2], 2);
+			
 			var layerOptions = {};
 			var layer = (null != self._fakeLayer ? self._fakeLayer : inLayer);
 
 			var sorted = self.sortGeometry(inLayer.options.estil, key, pivot);
-			equalStyle.geometria.features = sorted.equalGeom;
-			lowerStyle.geometria.features = sorted.lowerGeom;
-			higherStyle.geometria.features = sorted.higherGeom;
+			var lowerStyle = self._createTrafficLightStyle(estilActual[0], 0, sorted.lowerGeom);
+			var equalStyle = self._createTrafficLightStyle(estilActual[1], 1, sorted.equalGeom);
+			var higherStyle = self._createTrafficLightStyle(estilActual[2], 2, sorted.higherGeom);
 
 			if(null == self._fakeLayer)
 			{
@@ -591,15 +641,7 @@
 
 				self._fakeLayerOptions = layerOptions;
 				self._fakeLayer = layer;
-
-				readVisualitzacio($.Deferred(), self._fakeLayer, self._fakeLayerOptions).then(function(data) {
-					//Desactivem la capa mare
-					if ($( "#input-" + self._fakeLayer.geometriesBusinessId).attr("checked")!=undefined) $( "#input-" + self._fakeLayer.geometriesBusinessId).click();
-					self._capaVisualitzacio = data;
-					defer.resolve(data._leaflet_id);
-					$("#interactivePalette .ramp.carto").click();
-				});
-				controlCapes.forceUpdate(false);
+				self._renderFakeLayer(defer);				
 
 			}
 			else
@@ -609,72 +651,84 @@
 				var lowerThanLabel = key + window.lang.translate(" menor de ") + pivot;
 				var equalToLabel = key + window.lang.translate(" igual a ") + pivot;
 				var higherThanLabel = key + window.lang.translate(" major de ") + pivot;
-				if("" != mapConfig.legend)
-				{
-
-					var auxLegend = JSON.parse(mapConfig.legend);
-					var layerLegend = auxLegend[self._capaVisualitzacio.layer.options.businessId];
-					if(null != layerLegend)
-					{
-
-						//Check which bucket is by its color (should we be using the style businessId?)
-						var lowerThanColor = hexToRgb(layer.estil[0].color);
-						var lowerThanFill = "fill:rgb(" + lowerThanColor.r +", " + lowerThanColor.g+ ", "+lowerThanColor.b+");"
-						var equalToColor = hexToRgb(layer.estil[1].color);
-						var equalToFill = "fill:rgb(" + equalToColor.r +", " + equalToColor.g+ ", "+equalToColor.b+");"
-						var higherThanColor = hexToRgb(layer.estil[2].color);
-						var higherThanFill = "fill:rgb(" + higherThanColor.r +", " + higherThanColor.g+ ", "+higherThanColor.b+");"
-						for(var i=0; i<layerLegend.length; ++i)
-						{
-							
-							if(-1 != layerLegend[i].symbol.indexOf(lowerThanFill))
-							{
-								layerLegend[i].name = lowerThanLabel;
-							}
-							else if(-1 != layerLegend[i].symbol.indexOf(equalToFill))
-							{
-								layerLegend[i].name = equalToLabel;
-							}
-							else if(-1 != layerLegend[i].symbol.indexOf(higherThanFill))
-							{
-								layerLegend[i].name = higherThanLabel;
-							}
-
-						}
-
-						mapConfig.legend = JSON.stringify(auxLegend);
-						mapLegend = auxLegend;
-
-					}
-
-				}
-
-				var aux = JSON.parse(layer.options);
-				aux.rangsEstilsLegend = {};
-				//Ens carreguem el businessId pq mantingui l'ordre al generar la llegenda
-				aux.rangsEstilsLegend[layer.estil[0].businessId] = lowerThanLabel;
-				aux.rangsEstilsLegend[layer.estil[1].businessId] = equalToLabel;
-				aux.rangsEstilsLegend[layer.estil[2].businessId] = higherThanLabel;
-				layer.options = JSON.stringify(aux);
-				self._capaVisualitzacio.layer.options.rangsEstilsLegend = aux.rangsEstilsLegend;
-				self._capaVisualitzacio.layer.options.estil = [lowerStyle, equalStyle, higherStyle];
-
-				//Update the layer properties so they are saved when publishing
-				self._capaVisualitzacio.layer.options.trafficLightValue = pivot;
-				var newName = self._getNewLayerName(self._capaVisualitzacio.name, pivot)
-				self._capaVisualitzacio.layer.options.nom = newName;
-				self._capaVisualitzacio.name = newName;
-				var aux = JSON.parse(self._fakeLayer.options);
-				aux.trafficLightValue = pivot;
-				self._fakeLayer.options = JSON.stringify(aux);
-
-				reloadVisualitzacioLayer(self._capaVisualitzacio, self._fakeLayer, self._fakeLayerOptions, map);
-				defer.resolve(self._capaVisualitzacio._leaflet_id);
-				controlCapes.forceUpdate(false);
+				self._updateMapLegend(layer, lowerThanLabel, equalToLabel, higherThanLabel);
+				self._updateStyleRangeLegend(layer, lowerThanLabel, equalToLabel, higherThanLabel, 
+					lowerStyle, equalStyle, higherStyle, pivot);
+				self._renderLayer(defer);
 
 			}
 
 			return defer.promise();
+
+		},
+
+		_updateStyleRangeLegend: function(layer, lowerThanLabel, equalToLabel, higherThanLabel, lowerStyle, equalStyle, higherStyle, pivot)
+		{
+
+			var self = this;
+			var aux = JSON.parse(layer.options);
+			aux.rangsEstilsLegend = {};
+			aux.rangsEstilsLegend[layer.estil[0].businessId] = lowerThanLabel;
+			aux.rangsEstilsLegend[layer.estil[1].businessId] = equalToLabel;
+			aux.rangsEstilsLegend[layer.estil[2].businessId] = higherThanLabel;
+			layer.options = JSON.stringify(aux);
+			self._capaVisualitzacio.layer.options.rangsEstilsLegend = aux.rangsEstilsLegend;
+			self._capaVisualitzacio.layer.options.estil = [lowerStyle, equalStyle, higherStyle];
+
+			//Update the layer properties so they are saved when publishing
+			self._capaVisualitzacio.layer.options.trafficLightValue = pivot;
+			var newName = self._getNewLayerName(self._capaVisualitzacio.name, pivot)
+			self._capaVisualitzacio.layer.options.nom = newName;
+			self._capaVisualitzacio.name = newName;
+			var aux = JSON.parse(self._fakeLayer.options);
+			aux.trafficLightValue = pivot;
+			self._fakeLayer.options = JSON.stringify(aux);
+
+		},
+
+		_updateMapLegend: function(layer, lowerThanLabel, equalToLabel, higherThanLabel)
+		{
+
+			var self = this;
+			if("" != mapConfig.legend)
+			{
+
+				var auxLegend = JSON.parse(mapConfig.legend);
+				var layerLegend = auxLegend[self._capaVisualitzacio.layer.options.businessId];
+				if(null != layerLegend)
+				{
+
+					//Check which bucket is by its color (should we be using the style businessId?)
+					var lowerThanColor = hexToRgb(layer.estil[0].color);
+					var lowerThanFill = "fill:rgb(" + lowerThanColor.r +", " + lowerThanColor.g+ ", "+lowerThanColor.b+");"
+					var equalToColor = hexToRgb(layer.estil[1].color);
+					var equalToFill = "fill:rgb(" + equalToColor.r +", " + equalToColor.g+ ", "+equalToColor.b+");"
+					var higherThanColor = hexToRgb(layer.estil[2].color);
+					var higherThanFill = "fill:rgb(" + higherThanColor.r +", " + higherThanColor.g+ ", "+higherThanColor.b+");"
+					for(var i=0; i<layerLegend.length; ++i)
+					{
+						
+						if(-1 != layerLegend[i].symbol.indexOf(lowerThanFill))
+						{
+							layerLegend[i].name = lowerThanLabel;
+						}
+						else if(-1 != layerLegend[i].symbol.indexOf(equalToFill))
+						{
+							layerLegend[i].name = equalToLabel;
+						}
+						else if(-1 != layerLegend[i].symbol.indexOf(higherThanFill))
+						{
+							layerLegend[i].name = higherThanLabel;
+						}
+
+					}
+
+					mapConfig.legend = JSON.stringify(auxLegend);
+					mapLegend = auxLegend;
+
+				}
+
+			}
 
 		},
 
