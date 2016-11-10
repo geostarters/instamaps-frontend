@@ -940,7 +940,6 @@
 				uid: _uid	
 			};
 			
-			
 			getCacheMapByBusinessId(data).then(function(results){
 				if (results.status == "ERROR"){
 					self.loadErrorPage();
@@ -950,7 +949,34 @@
 					//mostar modal con contraseña
 					self._loadPasswordModal();
 				}else{
-					self._beforeLoadConfig(results);
+
+					if(self.INE10)
+					{
+
+						//Carreguem la capa de municipis
+						var data = {
+							businessId: "1municipis",
+							uid: Cookies.get('uid')
+						};
+
+						getCacheVisualitzacioLayerByBusinessId(data).then(function(results2) {
+
+							if (results2.status == "ERROR"){
+								self.loadErrorPage();
+							}else{
+								self._beforeLoadConfig(results);
+							}
+
+						});
+
+					}
+					else
+					{
+					
+						self._beforeLoadConfig(results);
+
+					}
+
 				}
 			});
 			
@@ -1244,11 +1270,10 @@
 					}
 					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
 				}
-				else if(self.text) {	//map definef by url params
+				else if(self.text) {	//map defined by url params
 					self.loadURLConfig()._initCenter()._drawVisor()._addURLMarker();
-				}else{
-					
-					
+				}
+				else{					
 					self.loadErrorPage();
 				}
 			}

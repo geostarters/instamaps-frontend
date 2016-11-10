@@ -45,7 +45,8 @@ var visorOptions = {
 	text: url("?text") || null,
 	link: url("?link") || null,
 	appname: url("?appname") || null,
-	fons: url("?fons") || null
+	fons: url("?fons") || null,
+	INE10: url("?INE10") || null
 };
 
 var visor; 
