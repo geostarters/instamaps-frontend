@@ -23,10 +23,10 @@
 			'				<div class="palettes" style="display: inline-block;">';
 			
 			var palettes = $("#paletes_colors > .ramp");
-			palettes.push("carto");			
+			palettes.splice(0, 0, "carto");
 			if(1 == palettes.length)
-				palettes = ["BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu", "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", 
-					"BrBG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral", "Paired", "Set3", "Set1", "Dark2", "carto"];
+				palettes = ["carto", "BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu", "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", 
+					"BrBG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral", "Paired", "Set3", "Set1", "Dark2"];
 			$.each(palettes, function(index, palette) {
 				var palName;
 				if($(palette).hasClass("ramp"))
@@ -36,9 +36,9 @@
 				var scale = self._createScaleAux(palName, 3, false);
 				html += '					<div class="ramp ' + palName + '">' +
 				'					<svg height="60" width="15">' + 
-				'						<rect y="0" height="20" width="15" fill="' + scale(self._paletteColorValues[0]).hex() + '"/>' + 
-				'						<rect y="20" height="20" width="15" fill="' + scale(self._paletteColorValues[1]).hex() + '"/>' +
-				'						<rect y="40" height="20" width="15" fill="' + scale(self._paletteColorValues[2]).hex() + '"/>' +
+				'						<rect y="0" height="20" width="15" fill="' + scale(self._paletteColorSteps[0]).hex() + '"/>' + 
+				'						<rect y="20" height="20" width="15" fill="' + scale(self._paletteColorSteps[1]).hex() + '"/>' +
+				'						<rect y="40" height="20" width="15" fill="' + scale(self._paletteColorSteps[2]).hex() + '"/>' +
 				'					</svg>' +
 				'				</div>';
 			});
@@ -49,7 +49,7 @@
 			'						<input id="cbSoftColors" type="checkbox"><span style="padding-left: 10px;" lang="ca">' + window.lang.translate('Colors suaus') + '</span>' +
 			'					</div>'+
 			'					<div class="innerPaletteButtons">'+
-			'						<button type="button" class="btn btn-info" lang="ca">Inverteix paleta</button>'+
+			'						<button type="button" class="btn btn-invert-palette"><span lang="ca">Inverteix paleta</span><span id="invert-palette-arrow" class="glyphicon glyphicon-arrow-down"></span></button>'+
 			'						<button type="button" class="btn btn-default" lang="ca">Cancel·lar</button>'+
 			'						<button type="button" class="btn btn-success" lang="ca">Acceptar</button>'+
 			'					</div>'+
@@ -101,7 +101,7 @@
 					if("carto" == brewerClass)
 					{
 
-						brewerClass = ["#008080","#f6edbd","#ca562c"];
+						brewerClass = ["#1a9850","#ffffbf","#d73027"];
 
 					}
 
@@ -110,7 +110,7 @@
 
 				}
 
-				if(null != self._fakeLayer)
+				if(null != self._previsualizationLayer)
 				{
 
 					//Update the previsualization layer
@@ -120,10 +120,23 @@
 
 			});
 
-			aux = $("#interactivePalette .btn-info");
+			aux = $("#interactivePalette .btn-invert-palette");
 			aux.off('click');
 			aux.on('click',function(evt){
 				self._isPaletteReversed = !self._isPaletteReversed;
+
+				if(self._isPaletteReversed)
+				{
+				
+					$("#invert-palette-arrow").removeClass("glyphicon-arrow-down").addClass("glyphicon-arrow-up");
+
+				}
+				else
+				{
+
+					$("#invert-palette-arrow").removeClass("glyphicon-arrow-up").addClass("glyphicon-arrow-down");
+
+				}
 
 				if(self._isEditing)
 				{
@@ -143,7 +156,7 @@
 					$(rects[2]).attr("fill", startColor);
 				});
 
-				if(null != self._fakeLayer)
+				if(null != self._previsualizationLayer)
 				{
 
 					//Update the previsualization layer
@@ -175,12 +188,12 @@
 					var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", trafficLightKey: key, trafficLightValue: value};
 					createTematicLayerCategories(e, {}, data, $.Deferred()).then(function(layerId) {
 						//Update the map legend
-						var arrRangsEstilsLegend = sortObject(controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend);
+						var arrRangsEstilsLegend = sortObject(controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend);
 						arrRangsEstilsLegend.sort(sortByValueMax);
 						//Change the businessId from the styles and ranges to sort them correctly
 						//(When geocat.mapa.legend.js addLayerToLegend is called, the ranges are sorted by its businessId so they are not guaranteed to 
 						//mantain the lower-equal-bigger legend)
-						var estils = controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estil;
+						var estils = controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.estil;
 						var nousEstils = [];
 						for(var i=0; i<estils.length; ++i)
 						{
@@ -209,7 +222,7 @@
 
 						}
 
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.estil = nousEstils;
+						controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.estil = nousEstils;
 
 						arrRangsEstilsLegend[0].value = key + window.lang.translate(" menor de ") + value;
 						arrRangsEstilsLegend[0].key = 0;
@@ -217,14 +230,14 @@
 						arrRangsEstilsLegend[1].key = 1;
 						arrRangsEstilsLegend[2].value = key + window.lang.translate(" major de ") + value;
 						arrRangsEstilsLegend[2].key = 2;
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend = [];
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[0].key] = arrRangsEstilsLegend[0].value;
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[1].key] = arrRangsEstilsLegend[1].value;
-						controlCapes._layers[self._fakeLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[2].key] = arrRangsEstilsLegend[2].value;
+						controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend = [];
+						controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[0].key] = arrRangsEstilsLegend[0].value;
+						controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[1].key] = arrRangsEstilsLegend[1].value;
+						controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend[arrRangsEstilsLegend[2].key] = arrRangsEstilsLegend[2].value;
 						//Remove the previsualization layer from the layer control
 						map.removeLayer(self._capaVisualitzacio);
-						controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
-						self._fakeLayer = null;
+						controlCapes.removeLayer(controlCapes._layers[self._previsualizationLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
+						self._previsualizationLayer = null;
 
 					});
 
@@ -236,7 +249,7 @@
 			aux.off('click');
 			aux.on('click',function(e){
 				//Activate the parent layer
-				$( "#input-" + self._fakeLayer.geometriesBusinessId).click();
+				$( "#input-" + self._previsualizationLayer.geometriesBusinessId).click();
 				self._closePalette();
 			});
 
@@ -268,12 +281,12 @@
 					var rects = $(svg).children();
 					var paletteName = $(palette).attr("class").replace("ramp ", "").replace(" active", "");
 					var scale = self._createScaleAux(paletteName, 3, self._isPaletteReversed);
-					$(rects[0]).attr("fill", scale(self._paletteColorValues[0]).hex());
-					$(rects[1]).attr("fill", scale(self._paletteColorValues[1]).hex());
-					$(rects[2]).attr("fill", scale(self._paletteColorValues[2]).hex());
+					$(rects[0]).attr("fill", scale(self._paletteColorSteps[0]).hex());
+					$(rects[1]).attr("fill", scale(self._paletteColorSteps[1]).hex());
+					$(rects[2]).attr("fill", scale(self._paletteColorSteps[2]).hex());
 				});
 
-				if(null != self._fakeLayer)
+				if(null != self._previsualizationLayer)
 				{
 
 					//Update the previsualization layer
@@ -292,9 +305,9 @@
 			self._useSoftColors = !self._useSoftColors;
 
 			if(self._useSoftColors)
-				self._paletteColorValues = [0.75, 1.5, 2.25];
+				self._paletteColorSteps = [0.75, 1.5, 2.25];
 			else
-				self._paletteColorValues = [0, 1.5, 3];
+				self._paletteColorSteps = [0, 1.5, 3];
 
 		},
 
@@ -304,9 +317,9 @@
 			var self = this;
 			$('#interactivePalette').hide();
 			map.removeLayer(self._capaVisualitzacio);
-			controlCapes.removeLayer(controlCapes._layers[self._fakeLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
+			controlCapes.removeLayer(controlCapes._layers[self._previsualizationLayer.parentid]._layers[self._capaVisualitzacio._leaflet_id]);
 			controlCapes.forceUpdate(false);
-			self._fakeLayer = null;
+			self._previsualizationLayer = null;
 
 		},
 
@@ -516,11 +529,12 @@
 		_createScaleAux: function(paleta, rang, reversed)
 		{
 
+			var self = this;
 			var auxPaleta = paleta;
 			if("carto" == auxPaleta)
 			{
 
-				auxPaleta = ["#008080","#f6edbd","#ca562c"];
+				auxPaleta = self._cartoPaletteColors;
 
 			}
 
@@ -584,9 +598,9 @@
 		{
 
 			var self = this;
-			readVisualitzacio($.Deferred(), self._fakeLayer, self._fakeLayerOptions).then(function(data) {
+			readVisualitzacio($.Deferred(), self._previsualizationLayer, self._previsualizationLayerOptions).then(function(data) {
 				//Desactivem la capa mare
-				if ($( "#input-" + self._fakeLayer.geometriesBusinessId).attr("checked")!=undefined) $( "#input-" + self._fakeLayer.geometriesBusinessId).click();
+				if ($( "#input-" + self._previsualizationLayer.geometriesBusinessId).attr("checked")!=undefined) $( "#input-" + self._previsualizationLayer.geometriesBusinessId).click();
 				self._capaVisualitzacio = data;
 				defer.resolve(data._leaflet_id);
 				$("#interactivePalette .ramp.carto").click();
@@ -599,7 +613,7 @@
 		{
 
 			var self = this;
-			reloadVisualitzacioLayer(self._capaVisualitzacio, self._fakeLayer, self._fakeLayerOptions, map);
+			reloadVisualitzacioLayer(self._capaVisualitzacio, self._previsualizationLayer, self._previsualizationLayerOptions, map);
 			defer.resolve(self._capaVisualitzacio._leaflet_id);
 			controlCapes.forceUpdate(false);
 
@@ -612,20 +626,20 @@
 			//Create each style and sort the geometry on each bucket
 			var rangColors = self._createScaleAux(self._palette, 3, self._isPaletteReversed);
 			var estilActual = [
-				rangColors(self._paletteColorValues[0]).hex(), 
-				rangColors(self._paletteColorValues[1]).hex(), 
-				rangColors(self._paletteColorValues[2]).hex()
+				rangColors(self._paletteColorSteps[0]).hex(), 
+				rangColors(self._paletteColorSteps[1]).hex(), 
+				rangColors(self._paletteColorSteps[2]).hex()
 			];
 			
 			var layerOptions = {};
-			var layer = (null != self._fakeLayer ? self._fakeLayer : inLayer);
+			var layer = (null != self._previsualizationLayer ? self._previsualizationLayer : inLayer);
 
 			var sorted = self.sortGeometry(inLayer.options.estil, key, pivot);
 			var lowerStyle = self._createTrafficLightStyle(estilActual[0], 0, sorted.lowerGeom);
 			var equalStyle = self._createTrafficLightStyle(estilActual[1], 1, sorted.equalGeom);
 			var higherStyle = self._createTrafficLightStyle(estilActual[2], 2, sorted.higherGeom);
 
-			if(null == self._fakeLayer)
+			if(null == self._previsualizationLayer)
 			{
 
 				self._setupTematicLayerDialog(layer, key, sorted.min, pivot, sorted.max);
@@ -636,11 +650,11 @@
 			layer.estil = [lowerStyle, equalStyle, higherStyle];
 			
 			//Draw the layer
-			if(null == self._fakeLayerOptions)
+			if(null == self._previsualizationLayerOptions)
 			{
 
-				self._fakeLayerOptions = layerOptions;
-				self._fakeLayer = layer;
+				self._previsualizationLayerOptions = layerOptions;
+				self._previsualizationLayer = layer;
 				self._renderFakeLayer(defer);				
 
 			}
@@ -680,9 +694,9 @@
 			var newName = self._getNewLayerName(self._capaVisualitzacio.name, pivot)
 			self._capaVisualitzacio.layer.options.nom = newName;
 			self._capaVisualitzacio.name = newName;
-			var aux = JSON.parse(self._fakeLayer.options);
+			var aux = JSON.parse(self._previsualizationLayer.options);
 			aux.trafficLightValue = pivot;
-			self._fakeLayer.options = JSON.stringify(aux);
+			self._previsualizationLayer.options = JSON.stringify(aux);
 
 		},
 
@@ -755,12 +769,12 @@
 
 			var self = this;
 			var scale = self._createScaleAux(self._palette, 3, self._isPaletteReversed);
-			self._fakeLayer.estil[0].color = scale(self._paletteColorValues[0]).hex();
-			self._fakeLayer.estil[1].color = scale(self._paletteColorValues[1]).hex();
-			self._fakeLayer.estil[2].color = scale(self._paletteColorValues[2]).hex();
+			self._previsualizationLayer.estil[0].color = scale(self._paletteColorSteps[0]).hex();
+			self._previsualizationLayer.estil[1].color = scale(self._paletteColorSteps[1]).hex();
+			self._previsualizationLayer.estil[2].color = scale(self._paletteColorSteps[2]).hex();
 
 			//Removes the additional data from the map.
-			reloadVisualitzacioLayer(self._capaVisualitzacio, self._fakeLayer, self._fakeLayerOptions, map);
+			reloadVisualitzacioLayer(self._capaVisualitzacio, self._previsualizationLayer, self._previsualizationLayerOptions, map);
 
 		},
 
@@ -774,14 +788,14 @@
 		setLayer: function(layer)
 		{
 
-			this._fakeLayer = layer;
+			this._previsualizationLayer = layer;
 
 		},
 
 		setLayerOptions: function(options)
 		{
 
-			this._fakeLayerOptions = options;
+			this._previsualizationLayerOptions = options;
 
 		},
 
@@ -800,8 +814,8 @@
 		var self = this;
 
 		self._isEditing = ("undefined" !== typeof isEditing && isEditing)
-		self._fakeLayer = null;
-		self._fakeLayerOptions = null;
+		self._previsualizationLayer = null;
+		self._previsualizationLayerOptions = null;
 		self._isInitialized = true;
 		self._capaVisualitzacio = null;
 
@@ -824,7 +838,8 @@
 
 		$("#cbSoftColors").iCheck('uncheck');
 		self._useSoftColors = false;
-		self._paletteColorValues = [0, 1.5, 3];
+		self._paletteColorSteps = [0, 1.5, 3];
+		self._cartoPaletteColors = ["#00a84b", "#e2e174", "#cc0001"];
 
 		return this;
 	}

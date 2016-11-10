@@ -322,7 +322,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 
 						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
 						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-						var icon = '<div class="traffic-light-icon" title="'+window.lang.translate('Fer temàtic de semàfor')+'"><div class="red-circle"></div><div class="yellow-circle"></div><div class="green-circle"></div></div>'
+						var icon = '<img src="css/images/trafficlight.jpg" class="traffic-light-icon" title="'+window.lang.translate('Fer temàtic de semàfor')+'" />'
 						html+='<div class="popup_traffic_light" data-leafletid="' + leafletid + '" data-origen="' + origen + '"><a href="#" lang="ca">' + icon + '</a></div>';
 						
 					}
