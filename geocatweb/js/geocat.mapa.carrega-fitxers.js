@@ -534,6 +534,7 @@ function obreModalCarregaDades(isDrag) {
 }
 
 function accionaCarrega(file,isDrag) {
+	console.debug("accionaCarrega");
 	if(isDrag){
 		drgFromMapa.options.url = paramUrl.upload_gdal_2015;
 		drgFromMapa.options.paramName = "file";
@@ -549,21 +550,21 @@ function accionaCarrega(file,isDrag) {
 		if (ff.isValid) {
 			//Careguem estils seleccionats per enviar amb el fitxer
 			loadDefaultStyles();
-			
+			var camps="";
 			if ( isDrag) {obreModalCarregaDades(true);}
 			jQuery("#file_name").text(file.name);
 			jQuery("#bt_esborra_ff").show();
 			
 			if ((ff.ext == "csv") || (ff.ext == "txt")) {
-				obteCampsCSV(file);
+				camps = obteCampsCSV(file);
 				obroModal = true;
 				
 			} else if (ff.ext == "xlsx") {
-				obteCampsXLSX(file);
+				camps = obteCampsXLSX(file);
 				obroModal = true;
 				
 			} else if (ff.ext == "xls") {
-				obteCampsXLS(file);
+				camps = obteCampsXLS(file);
 				obroModal = true;
 				
 			} else if( (ff.ext == "tif")  || (ff.ext=="sid") || (ff.ext=="jpg") || (ff.ext=="ecw") || (ff.ext=="zip" && !ff.isShape)) {
@@ -591,6 +592,10 @@ function accionaCarrega(file,isDrag) {
 				enviarArxiu();
 				obroModal = false;
 			}
+
+			console.debug(camps);
+			
+			console.debug(obroModal);
 
 		}else{ // novalid
 			$('#dialog_info_upload_txt').html(ff.msg);
@@ -704,6 +709,7 @@ function analitzaMatriu(matriu) {
 			$('#nav_pill a[href="#opt_codi"]').tab('show');
 		}
 	}
+	return matriu;
 }
 
 function obteCampsCSV(file) {
@@ -723,9 +729,10 @@ function obteCampsCSV(file) {
 		for ( var i = 0; i < csvvalue.length; i++) {
 			matriuActiva.push(csvvalue[i].replace("\r", ""));
 		}
-		analitzaMatriu(matriuActiva);
+		camps = analitzaMatriu(matriuActiva);
 	};
 	reader.readAsText(file);
+	return camps;
 }
 
 function xlsworker(data, cb) {
@@ -759,10 +766,11 @@ function obteCampsXLS(f) {
 			var wb = XLS.read(data, {
 				type : 'binary'
 			});
-						llegirTitolXLS(wb);
+			camps = llegirTitolXLS(wb);
 		}
 	};
 	reader.readAsBinaryString(f);
+	return camps;
 }
 
 function llegirTitolXLS(workbook) {
@@ -788,6 +796,7 @@ function obteCampsXLSX(f) {
 	var matriuActiva = [];
 	var reader = new FileReader();
 	var name = f.name;
+	var camps="";
 	reader.onload = function(e) {
 		var data = e.target.result;
 		var wb, arr, xls;
@@ -806,16 +815,19 @@ function obteCampsXLSX(f) {
 		function doit() {
 			try {
 				var useworker = typeof Worker !== 'undefined';
+				var camps; 
 				if (useworker) {
 					sheetjsw(data, llegirTitolXLSX, readtype, xls);
 					return;
 				}
 				if (xls) {
 					wb = XLS.read(data, readtype);
-					llegirTitolXLSX(wb, 'XLS');
+					camps = llegirTitolXLSX(wb, 'XLS');
+					return camps;
 				} else {
 					wb = XLSX.read(data, readtype);
-					llegirTitolXLSX(wb, 'XLSX');
+					camps = llegirTitolXLSX(wb, 'XLSX');
+					return camps;
 				}
 			} catch (e) {
 				$('#dialog_carrega_dades').modal('hide');
@@ -849,6 +861,7 @@ function obteCampsXLSX(f) {
 		reader.readAsBinaryString(f);
 	else
 		reader.readAsArrayBuffer(f);
+	return camps;
 }
 
 function llegirTitolXLSX(wb, type, sheetidx) {
@@ -1342,6 +1355,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 									$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 										if(data.status.indexOf("OK")!=-1){		
 											//eliminem sublayer del mapa, i recarreguem
+											var layerEd=capaEdicio.layer;
 											map.removeLayer(capaEdicio.layer);
 											controlCapes.removeLayer(capaEdicio);	
 											addDropFileToMap(data,refrescar);											
