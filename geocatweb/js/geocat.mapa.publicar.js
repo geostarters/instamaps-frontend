@@ -369,7 +369,7 @@
         _addHtmlInterficiePublicar: function(){
         	this.container.append(
     			'<div class="'+this.buttonClass+'" data-toggle="tooltip" data-lang-title="Desa\'l i decideix si fer-lo públic o privat" title="Desa\'l i decideix si fer-lo públic o privat">'+
-    			'<span lang="ca">Publicar el mapa</span>'+
+    			'<span lang="ca">Desar / Publicar el mapa</span>'+
     			'</div>'
     		);
         	
