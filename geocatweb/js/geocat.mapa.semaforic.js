@@ -49,7 +49,7 @@
 			'						<input id="cbSoftColors" type="checkbox"><span style="padding-left: 10px;" lang="ca">' + window.lang.translate('Colors suaus') + '</span>' +
 			'					</div>'+
 			'					<div class="innerPaletteButtons">'+
-			'						<button type="button" class="btn btn-invert-palette"><span lang="ca">Inverteix paleta</span><span id="invert-palette-arrow" class="glyphicon glyphicon-arrow-down"></span></button>'+
+			'						<button type="button" class="btn btn-invert-palette"><span lang="ca">Inverteix paleta</span><span id="invert-palette-arrow" class="glyphicon glyphicon-arrow-down" style="padding-left: 5px;"></span></button>'+
 			'						<button type="button" class="btn btn-default" lang="ca">Cancel·lar</button>'+
 			'						<button type="button" class="btn btn-success" lang="ca">Acceptar</button>'+
 			'					</div>'+

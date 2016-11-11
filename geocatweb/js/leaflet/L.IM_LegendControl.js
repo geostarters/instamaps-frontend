@@ -260,10 +260,10 @@ L.Control.Legend = L.Control.extend({
 						
 						if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
 						
-						if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+						/*if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 							legendTabContent.push(row[i].symbol);
 							legendTabContent.push('<br/>');
-						}else{
+						}else{*/
 							if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
 							legendTabContent.push('<div class="visor-legend-row">'+
 						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
@@ -271,7 +271,7 @@ L.Control.Legend = L.Control.extend({
 						    	'</div><div class="visor-separate-legend-row"></div>');	
 										
 							if(i==row.length-1){legendTabContent.push('</div>');}			
-						}
+						//}
 					}
 				}
 				index=index+1;

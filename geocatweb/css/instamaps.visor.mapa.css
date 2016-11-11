@@ -2503,41 +2503,7 @@ a.leaflet-control-timecontrol:hover {
 	padding-bottom: 10px;
 }
 
-.red-circle {
-	width: 10px;
-	height: 10px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	background: red;
-	display: inline-block;
-	border: 1px solid black;
-}
-
-.green-circle {
-	width: 10px;
-	height: 10px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	background: green;
-	display: inline-block;
-	border: 1px solid black;
-}
-
-.yellow-circle {
-	width: 10px;
-	height: 10px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	background: yellow;
-	display: inline-block;
-	border: 1px solid black;
-	margin-right: 2px;
-	margin-left: 2px;
-}
-
 .traffic-light-icon {
-	width: 40px;
+	height: 25px;
+	width: 14px;
 }

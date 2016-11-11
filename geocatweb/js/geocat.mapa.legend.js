@@ -181,7 +181,7 @@ function obteLListatCapesEditor(idLayer){
 		jQuery.each(item._layers, function(j, item2){
 				if(item2.layer.options.businessId==idLayer){					
 					layerType.serverName=item2.layer.options.nom.replace('##1','');
-					layerType.capesOrdre=""+j+"";					
+					layerType.capesOrdre="sublayer";					
 				}			
 			});		
 			
