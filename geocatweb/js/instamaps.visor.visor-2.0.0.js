@@ -1301,10 +1301,17 @@
 					else
 						html += "<a href=\"" + self.link + "\" target=\"_blank\">";
 
-				}
-				html += self.text;
-				if(hasValidLink)
+					html += self.text;
 					html += "</a>";
+
+				}
+				else
+				{
+
+					html += parseUrlTextPopUp(self.text, "");
+
+				}
+					
 
 				marker.bindPopup(html);
 				marker.openPopup();
