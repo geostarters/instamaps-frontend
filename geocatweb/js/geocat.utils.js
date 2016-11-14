@@ -253,7 +253,10 @@ function parseUrlTextPopUp(txt,key){
 		          parseText+=" "+text;
 		    }
 
-		    parseText += "<br />";
+		    if("" == line)
+				parseText += "<br />";
+			else
+				parseText += "\n";
 
 		}
 	    return parseText;
