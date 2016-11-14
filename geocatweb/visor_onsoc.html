@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+<meta charset="UTF-8" />
+<!-- for Facebook -->
+<meta property="fb:app_id" content="620717167980164"/>          
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="http://www.instamaps.cat/geocatweb/img/instamapes_icon_color.jpeg"/>
+<meta property="og:image:type" content="image/jpeg"/>
+<meta property="og:description" content="Sóc aquí - Passa aquí"/>
+<meta name="author" content="InstaMaps" />
+<meta name="description" content="Sóc aquí - Passa aquí" />
+<meta name="robots" content="index,follow" />
+<meta name="geo.region" content="ES-CT" />
+<meta name="geo.placename" content="Barcelona" />
+<meta name="geo.position" content="41.363892;2.186279" />
+<meta name="language" content="ca" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+<link href="img/instamapes.ico" rel="shortcut icon" />
+
+<!-- Le styles -->
+<!--  <link rel="stylesheet" href="/llibreries/css/bootstrap.visor.min.css" />-->
+<link rel="stylesheet" href="/llibreries/css/bootstrap.min.visor.css" />
+<link rel="stylesheet" href="/llibreries/css/glyph.css" />
+<link rel="stylesheet" href="/llibreries/css/cookieconsent-3.0.1.min.css"/> 
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.0.7.7.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.draw.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/MarkerCluster.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/L.Control.MousePosition.css">
+<link rel="stylesheet" href="/llibreries/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="/llibreries/fonts/traffico-release-0.1.8/stylesheets/traffico.css" type="text/css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.awesome-markers.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/Control.MiniMap.css" type="text/css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet-gps.css" type="text/css" />
+<!-- link rel="stylesheet" href="/llibreries/css/leaflet/utfgrid.css" type="text/css"-->
+<link rel="stylesheet" href="/llibreries/css/bootstrap-switch.min.css" />
+<link rel="stylesheet" href="/llibreries/css/bootstrap-table.min.css" />
+<link rel="stylesheet" href="/llibreries/css/bootstrap-select.min.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet.label.css" type="text/css">
+
+<!-- 
+<link rel="stylesheet" href="../llibreries/css/leaflet/my.leaflet.control.orderlayers.css" />
+-->
+
+<link rel="stylesheet" href="/geocatweb/css/L.IM_ControlLayerManager.css" />
+<link rel="stylesheet" href="/geocatweb/css/L.IM_LegendControl.css" />
+
+<!-- 
+Nous CSS per les dimensions
+ -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="/llibreries/css/leaflet.timedimension.control.css"  />
+
+<link rel="stylesheet" href="/llibreries/css/jquery.mCustomScrollbar.css"  />
+<link rel="stylesheet" href="/llibreries/css/perfect-scrollbar.css"  />
+<link rel="stylesheet" id="cesium_css" href="/llibreries/cesium/Cesium.css" type="text/css" />
+<link href="/llibreries/css/jquery.share.css" rel="stylesheet" />
+<link href="/geocatweb/css/instamaps.visor.estils.css" rel="stylesheet" />
+<link href="/geocatweb/css/instamaps.visor.geocat.css" rel="stylesheet" />
+<link href="/geocatweb/css/instamaps.visor.mapa.css" rel="stylesheet" />
+<link href="/geocatweb/css/collapse_visor.css" rel="stylesheet"/>
+<link rel="stylesheet" href="/llibreries/css/leaflet/leaflet-routing-machine.css" />
+
+<!-- KISSMETRICS SNIPPET -->
+<!-- script src="/geocatweb/js/geocat.kissmetrics.js"></script -->
+
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
+    <![endif]-->
+
+<title lang="ca">Mapa InstaMaps</title>
+</head>
+<body>
+<!--  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '620717167980164',
+      xfbml      : true,
+      version    : 'v2.1'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>-->
+<div id="div_loading">
+<div class="loader"> 
+  <span>I</span>
+  <span></span>
+  <span>S</span>
+  <span></span>
+  <span>A</span>
+  <span></span>
+  <span>A</span>
+  <span></span>
+  <span id="ani5">S</span> 
+  <div class="covers">   
+    <span></span>
+    <span id="ani1"><div class="img-circle2-icon descobreix_color">N</div></span>
+    <span></span>
+    <span id="ani2"><div class="img-circle2-icon crea_color">T</div></span>
+    <span></span>
+    <span id="ani3"><div class="img-circle2-icon visualitza_color">M</div></span>
+    <span></span>
+    <span id="ani4"><div class="img-circle2-icon comparteix_color">P</div></span> 
+  </div>
+</div>
+</div>
+
+	<!-- Fixed navbar -->
+	<div id="navbar-visor" class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse"><span class="glyphicon glyphicon-cog groc"></span></button>
+				<a class="navbar-brand" href="/index.html">
+					<div class="img-circle2-icon descobreix_color"></div>
+					<div class="img-circle2-icon crea_color"></div>
+					<div class="img-circle2-icon visualitza_color"></div>
+					<div class="img-circle2-icon comparteix_color"></div>
+					<div class="escut"><img src="/logos/blank.gif"></div>
+					<div class="brand-txt">InstaMaps</div>
+					
+				</a>
+				<span id="mapTitle"></span> 
+			</div>
+			<div class="navbar-collapse collapse">
+				
+				<ul class="nav navbar-nav navbar-right my-nav">
+					
+					<li><a id="hl_index" lang="ca" class="instamaps_galeria" href="/geocatweb/galeria.html" target="_blank">Galeria</a></li>
+					<li><a id="hl_index" lang="ca" href="http://betaportal.icgc.cat/wordpress/category/instamaps/">Blog</a></li>				
+					<li><a id="hl_contact" lang="ca" href="#">Contacte</a></li>
+
+					<li><a id="hl_contact" lang="ca" target="_blank" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/">FAQs</a></li>
+					
+ 					
+ 					<!-- li>
+ 						<div id="socialShare_visor" class="div_gr5"></div>
+ 					</li-->
+ 					
+					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span><b class="caret"></b></a>
+						<ul id="ch_idioma" class="dropdown-menu">
+							<li id="ca"><a href="#">Català</a></li>
+							<li id="es"><a href="#">Español</a></li>
+							<li id="en"><a href="#">English</a></li>
+						</ul></li>
+
+					<li id="menu_login">
+						<form class="navbar-form">
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/mapa.html" onClick="_gaq.push(['_trackEvent', 'visor', 'fer mapa', 'acquisition']);"
+								class="btn bt-sessio instamaps_sessio">Fes el teu mapa</a>
+						</form>
+					</li>
+
+					<li id="menu_user" class="dropdown">
+						<a href="#"	class="dropdown-toggle" data-toggle="dropdown"> &nbsp; <span class="glyphicon glyphicon-user green"></span> <b class="caret"></b></a>
+						<ul id="ch_perfil" class="dropdown-menu">
+							<li><span id="text_welcome" lang="ca">Benvingut</span><span id="text_username"></span></li>
+							<li class="divider" role="presentation"></li>
+							<li id="newMap"><a href="/geocatweb/mapa.html"><span lang="ca">Nou mapa</span></a></li>
+							<li id="galeria"><a href="/geocatweb/galeria.html"><span lang="ca">Els meus mapes</span></a></li>
+							<li id="aplicacions"><a href="/geocatweb/galeria.html"><span lang="ca">Les meves aplicacions</span></a></li>
+							<li id="perfil"><a href="/geocatweb/perfil.html"><span lang="ca">Perfil</span></a></li>
+							<li class="divider" role="presentation"></li>
+							<li id="menu_logout"><a href="javascript:logoutUser()"><span lang="ca">Tanca la sessió</span></a></li>
+						</ul>
+					</li>
+					<!-- <li><a href="/properament.html" class="glyphicon glyphicon-stats"></a></li> -->
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+	<!-- / Fixed navbar -->
+	
+    <div id="searchBar" class="input-group"></div><!-- /input-group -->		
+	
+	<div id="map" class="visor"></div>
+	
+	<div id="info_geojsonvt" class="leaflet-control" style="display: none;">
+		<button type="button" class="close" data-dismiss="modal" id="bt_info_geojsonvt_close" aria-hidden="true">×</button>
+		<div class="div_popup_visor">
+		</div>
+	</div>	
+	
+	<div id="socialShare_visor" class="div_gr5"></div>
+	<!-- 
+	<div id="logos">
+		<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
+			<img height="45" src="/llibreries/img/icgc.png">
+		</a>
+	</div>
+	-->
+	
+	<!-- INIT MODALS -->
+	<div id="mapa_modals">
+	<!-- Modal descarrega dades -->
+	<div class="modal fade" id="modal_download_layer">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" lang="ca"><b>Descarrega de dades</b></h4>
+				</div>
+				<div lang="ca" class="modal-body">
+				
+					<div id="modal-body-download">
+						<div class="input-group input-group-sm">
+						  <span lang="ca" class="input-group-addon">Guardar com</span>
+						  <input type="text" id="input-download-name" class="form-control" placeholder="Nom fitxer">
+						</div>	
+						<small class="label label-default" lang="ca">Opcional: en blanc s'assignarà un nom automàtic</small>				
+						<br><br>
+						<div>
+						Format:&nbsp;
+							<select id="select-download-format" class="form-download-format">
+							  <option value="GeoJSON#.geojson">GeoJSON</option>
+							  <option value="ESRI Shapefile#.shp">ESRI Shapefile</option>
+							  <option value="DXF#.dxf">DXF</option>
+							  <option value="KML#.kml">KML</option>
+							  <option value="GPX#.gpx">GPX</option>
+							</select>
+							<br><br>
+						EPSG:&nbsp;
+							<select id="select-download-epsg" class="form-download-epsg">
+								<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>
+		              			<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>
+		              			<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>
+		              			<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>
+		              			<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>
+		              			<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>
+		              			<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>
+							</select>
+						</div>
+					</div>
+					<div id="modal-body-download-error">
+					<h5><span class="glyphicon glyphicon-warning-sign yellow"></span>&nbsp;<span lang="ca">No s'ha pogut efectuar la descàrrega. Torni a intentar-ho.</span></h5>
+					</div>					
+				</div>
+				<div class="modal-footer">
+			    	<button id="bt_download_accept" lang="ca" type="button" class="btn bt-sessio" data-dismiss="modal">Acceptar</button>
+			    </div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- fi Modal expired -->
+	<!-- fi Modal Leave -->
+	
+<!-- Modal Captura -->
+	<div id="dialog_captura" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" id="dialog_captura_title"  class="modal-title">Captura</h4>
+				</div>
+				<div  style="height:150px;" class="modal-body">					
+					<div style="height:350px;overflow:auto;" id="div_captura">
+						<img id="img_canvas">
+					</div>				
+					<div id="progress_bar_carrega_img" class="progress progress-striped active">
+					
+					  <div id="prg_bar_img" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">
+					  
+					  <span id="dialog_captura_text" lang="ca">Generant imatge...</span>
+					  
+					  </div>
+					</div>	
+					<div class="bt_desc_img" style="display: block;margin-top: 15px;text-align: center;">
+						<a href="#"  class="btn btn-info btn-large desc_img" type="application/octet-stream" download="mapa.jpeg"  lang="ca" target="_blank">Desar mapa</a>
+					</div>	
+				</div>
+				<div class="modal-footer">
+					
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Captura -->
+	
+	<!-- Modal Imprimir -->
+	<div id="dialog_print" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Imprimir</h4>
+				</div>
+				<div  style="height:350px;" class="modal-body">					
+					<div style="height:310px;overflow:auto;" id="div_captura_print">
+						
+					</div>				
+						<div class="bt_desc_img" style="display: block;margin-top: 5px;text-align: center;">
+						<a href="#" class="btn btn-info desc_img" type="application/octet-stream" download="informe.pdf" target="_blank">Generar Informe (PDF)</a>				
+					</div>					
+				</div>
+				
+				<div class="modal-footer">
+					<div id="progress_bar_carrega_img_print" class="progress progress-striped active">					
+					  <div id="prg_bar_img_print" class="progress-bar progress-bar-warning"	role="progressbar" aria-valuenow="60" aria-valuemin="0"	aria-valuemax="100" style="width: 0%;">					  
+					  <span lang="ca">Generant impressió...</span>
+					 </div>
+					</div>	
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Imprimir -->
+	
+	
+	<!-- Modal Old Browser -->
+	<div id="dialgo_old_browser" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="old_icon_close" type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 lang="ca" class="modal-title">Sabia vostè que el seu navegador no està actualitzat?</h4>
+				</div>
+				<div class="modal-body">
+					<div lang="ca">Per aconseguir la millor experiència possible utilitzant el nostre lloc web nosaltres recomanem que vostè actualitzeu a una nova versió d'Internet Explorer o utilitzi un altre navegador web. Una llista dels navegadors web més populars pot ser trobada sota.</div>
+					<div>
+					<a href="http://www.microsoft.com/windows/Internet-explorer/default.aspx" target="_blank"><div class='ie_img browser_img'></div></a>
+					<a href="http://www.mozilla.com/firefox/" target="_blank"><div class='firefox_img browser_img'></div></a>
+					<a href="http://www.apple.com/safari/download/" target="_blank"><div class='safari_img browser_img'></div></a>
+					<a href="http://www.opera.com/download/" target="_blank"><div class='opera_img browser_img'></div></a>
+					<a href="http://www.google.com/chrome" target="_blank"><div class='chrome_img browser_img'></div></a>
+					</div>
+					<div lang="ca">Només faci clic a les icones per anar a la pàgina de descàrrega</div>
+				</div>
+				<div class="modal-footer">
+					<button id="old_btn_close" lang="ca" type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Old Browser -->
+	
+	<!-- Modal Password -->
+	<div id="dialog_password" class="modal fade" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 lang="ca" id="dialog_captura_title"  class="modal-title">Privat</h4>
+				</div>
+				<div style="height:150px;" class="modal-body">					
+					<div class="form-group">
+					    <label for="inputPassword" lang="ca">Contrasenya</label>
+					    <input type="password" class="form-control" id="inputPassword" placeholder="Contrasenya" lang="ca">
+					</div>
+					<div class="form-group">
+						<div id="password_msg" class="alert alert-danger hide" role="alert" lang="ca">Contrasenya incorrecta</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" lang="ca">Acceptar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- fi Modal Password -->
+	
+</div>
+
+
+<!-- 	<div id="mapaFond"></div> -->
+
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
+	<script type="text/javascript">
+	if (!Modernizr.canvas || !Modernizr.sandbox || !Modernizr.csstransitions){
+		document.getElementById("div_loading").style.display = "none";
+		document.getElementById("dialgo_old_browser").style.display = "block";
+		document.getElementById("old_icon_close").style.display = "none";
+		document.getElementById("old_btn_close").onclick = function () {
+			window.location = "/index.html";
+		}
+	}
+	</script>
+	<script src="/llibreries/js/lodash.js"></script>
+	<script src="/llibreries/js/jquery/jquery-2.1.4.min.js"></script>
+	<script src="/llibreries/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="/llibreries/js/bootstrap.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/js.cookie-2.1.3.min.js"></script>
+	<script src="/llibreries/js/cookieconsent-3.0.1.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/url.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery-lang-3.0.0.js" charset="utf-8" type="text/javascript"></script>
+	<!-- 
+	<script src="/llibreries/js/jquery/plugins/jquery-lang.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/es.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/geocatweb/js/language/en.js" charset="utf-8" type="text/javascript"></script>
+	-->	
+	<script src="/llibreries/js/jquery/plugins/jquery.json-2.4.min.js" charset="utf-8" type="text/javascript"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.share.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.color.plus-names-2.1.2.min.js"></script>
+	<!-- script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.concat.min.js"></script-->
+	<script src="/llibreries/js/jquery/plugins/jquery.mCustomScrollbar.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.transit.js"></script>
+	
+	<script src="/llibreries/js/jquery/plugins/jquery.mousewheel.min.js"></script>
+	<script src="/llibreries/js/jquery/plugins/perfect-scrollbar.js"></script>
+	<script src="/llibreries/js/jquery/plugins/jquery.scrollTo.js"></script>
+	
+	<script src="/llibreries/js/dropzone.js" type="text/javascript"></script>
+	<script>
+		L_PREFER_CANVAS = true;
+		L_DISABLE_3D = false;
+	</script>
+	<script src="/llibreries/js/leaflet/leaflet-src.js"></script>	
+<!-- 	<script src="/llibreries/js/leaflet/leaflet.0.7.7.min.js"></script> -->
+	<!--<script src="/llibreries/js/leaflet/leaflet.0.7.min.custom.js"></script> -->
+	<script src="/llibreries/js/includes.js"></script>
+	<script src="/llibreries/js/leaflet/plugin/BoundaryCanvas.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.spin.js"></script>
+	<script src="/llibreries/js/leaflet/plugin/proj4js-compressed.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/proj4leaflet.js"	type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/epsg.leaflet.js"	type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/L.Control.Sidebar.js" type="text/javascript"></script>
+	<!-- <script src="/llibreries/js/leaflet/plugin/leaflet.ajax.min.js"	type="text/javascript"></script-->
+	<script src="/llibreries/js/leaflet/plugin/leaflet.ajax.custom.js"	type="text/javascript"></script>
+	
+	<script src="/llibreries/js/leaflet/plugin/leaflet.markercluster.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/Control.MiniMap.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet-hash.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet-gps.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet-gps.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/L.TileLayer.BetterWMS.js" type="text/javascript"></script>
+	<script src="/llibreries/js/moment.min.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.draw-custom.js"	type="text/javascript"></script>
+	<script	src="/llibreries/js/leaflet/plugin/leaflet.awesome-markers-custom.js"	type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet-heat_custom.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/oms.min.js" type="text/javascript"></script>
+	
+	<!-- new add Turf-->
+	<script src="/llibreries/js/turf/turf.min.js"></script>	
+				
+	<!--  
+	<script src="/llibreries/js/leaflet/plugin/my.leaflet.control.orderlayers.js" type="text/javascript"></script>
+	-->
+	<script src="/geocatweb/js/leaflet/L.IM_ControlLayerManager.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/leaflet/L.IM_Search.js"	type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_Map-2.0.0.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_ColorLayer.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_Coordinates.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_OpenInstamapsControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_HomeControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_ShareControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_RoutingControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_SearchControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_SnapshotControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LikeControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_PrintControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_GeoPdfControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_3DControl.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/leaflet/L.IM_LegendBtnControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LegendControl.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/leaflet/L.IM_LayersBtnControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LocationControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_ControlScale.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_MinimapControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_LogosControl.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_WidgetsControl.js" type="text/javascript"></script>
+		
+	<script src="/llibreries/js/leaflet/plugin/TileGeoJSON.Canvas.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.utfgridWMS.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/leaflet/L.Wikipedia.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.Twitter.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/L.Panoramio.js" type="text/javascript"></script>
+	<script src="/llibreries/js/leaflet/plugin/L.Panoramio.custom.js" type="text/javascript"></script>	
+	<script src="/llibreries/js/handlebars-v1.1.2.js"></script>
+	<script src="/llibreries/js/bootstrap-switch.min.js"></script>
+	<script src="/llibreries/js/bootstrap3-typeahead.min.js"></script>
+	<script src="/llibreries/js/html2canvas.js"	type="text/javascript"></script>
+	<script src="/llibreries/js/bootstrap-colorpalette.js"></script>
+	<script src="/llibreries/js/bootstrap-select.min.js"></script>
+	
+	<script src="/llibreries/js/bootstrap-table.js"></script>
+	<script src="/llibreries/js/bootstrap-table-es-ca-en.min.js"></script>
+	<script src="/llibreries/js/extensions/editable/bootstrap-table-editable.js"></script>
+	<script src="/llibreries/js/extensions/export/bootstrap-table-export.js"></script>
+	<script src="/llibreries/js/extensions/export/tableExport.js"></script>
+	<script src="/llibreries/js/extensions/export/jquery.base64.js"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.label-src.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/leaflet/L.IM_Label.js" type="text/javascript"></script>
+	
+	<script src="/llibreries/js/leaflet/plugin/geojson-vt-dev.js"></script>
+	<!-- 
+	<script src='https://code.createjs.com/easeljs-0.8.0.min.js'></script>	
+ -->
+ 	<script src='/llibreries/js/easeljs-0.8.0.min.js'></script>
+
+	<!-- 
+Nous JS per les dimensions
+ -->
+	<script src="/llibreries/js/DateFormat.js"></script>
+	<script src="/llibreries/js/iso8601.js"></script>
+	<script src="/llibreries/js/leaflet/plugin/leaflet.timedimension.custom.js"></script>
+	
+    <script src="/llibreries/js/leaflet/plugin/leaflet-routing-machine.js"></script>
+    <script src="/llibreries/js/leaflet/plugin/Control.Geocoder.js"></script>
+   	<script src="/geocatweb/js/geocat.config-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.constants.js"></script>
+	<script src="/geocatweb/js/geocat.ajax-1.0.0.js"></script>
+	
+	<script src="/geocatweb/js/geocat.utils.js"></script>	
+	<script src="/geocatweb/js/geocat.web-1.0.0.js"></script>
+	<script src="/geocatweb/js/geocat.compartir.js"></script>
+	
+	<script src="/geocatweb/js/instamaps.google-analytics.js"></script>
+	
+	<script src="/geocatweb/js/geocat.panel-capes.js" type="text/javascript"></script>	
+	<script src="/geocatweb/js/geocat.mapa.draw.js" type="text/javascript"></script>
+<!-- 	<script src="/geocatweb/js/geocat.mapa.search.js" type="text/javascript"></script> -->
+	<script src="/geocatweb/js/geocat.mapa.wms.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.tematics.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.url-file.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.visualitzacioWMS.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.xarxes-socials.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.dades-obertes.js" type="text/javascript"></script>
+ 	<script src="/geocatweb/js/geocat.mapa.json.js" type="text/javascript"></script>
+ 	<script src="/geocatweb/js/geocat.mapa.heat.js" type="text/javascript"></script>
+ 	<script src="/geocatweb/js/geocat.mapa.cluster.js" type="text/javascript"></script>
+ 	<script src="/geocatweb/js/geocat.mapa.canvas.js" type="text/javascript"></script>
+<!-- 	<script src="/geocatweb/js/geocat.mapa.legend.js" type="text/javascript"></script> -->
+	<script src="/geocatweb/js/geocat.mapa.basic.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.categories.js" type="text/javascript"></script>	
+	<script src="/geocatweb/js/geocat.mapa.edit-data-table.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/geocat.mapa.geojsonvt.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/instamaps.layers-1.0.0.js"></script>
+	<script src="/geocatweb/js/instamaps.wms-1.0.0.js"></script>
+	
+		
+	<script src="/geocatweb/js/geocat.visor.fons.js" type="text/javascript"></script>
+	
+	<!--add no Js 3d -->
+	<script src="/geocatweb/js/instamaps.mapa.3D-1.0.0.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/instamaps.visor.visor-2.0.0.js"></script>
+	<script src="/geocatweb/js/instamaps.visor.app-1.0.0.js"></script>
+<!-- 	<script src="/geocatweb/js/geocat.visor-1.0.0.js" type="text/javascript"></script> -->
+	<script src="/geocatweb/js/instamaps.geolocal.selectMunicipis.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.geolocal.listViewMunicipis.js" type="text/javascript"></script>
+<!-- 	<script src="/geocatweb/js/instamaps.geolocal.widgets.js" type="text/javascript"></script> -->
+	<script src="/geocatweb/js/instamaps.geolocal.widgets.meteo.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.geolocal.widgets.idescat.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.geolocal.widgets.cartoteca.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.geolocal.widgets.rpuc.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.geolocal.widgets.cadastre.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.geolocal.widgets.infoparcela.js" type="text/javascript"></script>
+	
+	<script src="/geocatweb/js/instamaps.visor.geolocal.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.visor.simple.js" type="text/javascript"></script>
+	<script src="/geocatweb/js/instamaps.app-1.0.0.js"></script>
+	
+	
+		<!--3D Cesium -->
+	
+	<script src="/llibreries/cesium/Cesium.js"  type="text/javascript"></script>
+	<script src="/llibreries/cesium/Cesium.PinBuilder_IM.js"  type="text/javascript"></script>
+	<script src="/llibreries/cesium/cesium-navigation.js"  type="text/javascript"></script>
+	
+	
+</body>
+</html>
