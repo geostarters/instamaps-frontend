@@ -128,7 +128,6 @@
 				
 				self.clear().show();
 
-				
 				if (servidor == null) {
 					servidor = results.Service.Title;
 				}

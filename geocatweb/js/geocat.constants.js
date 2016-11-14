@@ -102,6 +102,23 @@ var default_circuloglyphon_style = {
 		color : "#ffffff",
 		fillColor :"#FFC500"	
 	};
+
+var default_onsoc_style = {
+		icon : '',
+		markerColor : 'red',
+		divColor:'transparent',
+		iconAnchor : new L.Point(14, 42),
+		iconSize : new L.Point(28, 42),
+		iconColor : '#000000',
+		prefix : 'fa',
+		isCanvas:false,
+		radius:6,
+		opacity:1,
+		weight : 2,
+		fillOpacity : 0.9,
+		color : "#ffffff",
+		fillColor :"transparent"
+	};
 }
 
 //constants

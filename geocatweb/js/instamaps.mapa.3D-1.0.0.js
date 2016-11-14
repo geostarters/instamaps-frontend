@@ -345,6 +345,9 @@ var IM_aplicacio = function (options) {
 		viewer.scene.fog.screenSpaceErrorFactor = 2;
 		capesActives3D = viewer.scene.imageryLayers;
 		_imageryLayers = viewer.imageryLayers;
+		
+		viewer.scene.globe.baseColor =Cesium.Color.fromCssColorString(jQuery('#map').css('background-color'));
+		
 		jQuery("#bt_pinch3D").show();
 		map.spin(true);
 		var zz = parseInt(map.getZoom());

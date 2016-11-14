@@ -1282,7 +1282,7 @@
 		_addURLMarker: function() {
 			var self = this;
 			var opcenter = self._mapConfig.options.center.split(",");
-			var defaultPunt = L.AwesomeMarkers.icon(default_marker_style);
+			var defaultPunt = L.AwesomeMarkers.icon(default_onsoc_style);
 			var marker = L.marker(new L.LatLng(opcenter[0], opcenter[1]), {icon: defaultPunt, 
 					 tipus: t_marker}).addTo(self.map);
 
