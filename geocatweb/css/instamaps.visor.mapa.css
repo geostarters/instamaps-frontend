@@ -745,6 +745,33 @@ h1,h2,h3,h4,h5,h6 {
 	cursor: pointer;
 }
 
+
+.div_fons_18 {
+	background: url("images/galeria_icones.png") no-repeat scroll  -566px -160px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+
+
+.div_fons_blank {
+	    background-color: white;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.div_fons_gris {
+	    background-color: lightgray;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+
+.div_fons_gris_fort {
+	    background-color: gray;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
 .div_gr2 {
 	height: 55px;
 	margin: 10px 10px 0;
@@ -2193,7 +2220,7 @@ i.fa {
 	position: relative;
     width: 148px;
     background: none no-repeat scroll 0 0 rgba(45, 46, 41, 0.9);
-    height: 175px;
+    height: 210px;
     float:right;
     overflow: hidden;
     border: 1px;
@@ -2228,11 +2255,11 @@ i.fa {
 }
 
 .control-btn-fons-expanded .bt_orto {
-  	margin-top:150px;
+  	margin-top:183px;
 }
 
 .control-btn-fons-expanded .bt_topo {
-  margin-top:150px;
+  margin-top:183px;
 }
 
 #info_geojsonvt {
@@ -2471,3 +2498,10 @@ a.leaflet-control-timecontrol:hover {
 	}
 
 }
+
+
+.chk_mascara{
+
+    margin-left: 0 !important;
+	
+}	

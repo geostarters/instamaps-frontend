@@ -43,8 +43,8 @@
         
         draw: function(data){	
         	var that = this;
-        	console.debug(data);
-        	if(that.active){
+        	
+        	if(that.active && data.tipusMunicipi){
         		$(that.containerId).empty();
         		//var codi = data.municipiCodi.substring(0,5);
         		var url = that.url.replace("widget_nom_municipi", data.municipi);

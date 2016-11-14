@@ -425,10 +425,14 @@ function fillModalDataTable(obj, geomBid){
 //					 showHeader: true,
 					rowStyle: 'rowStyle',
 				    columns: columNames,
-				    showExport: true,				    
+				    showExport: true,			
+				    showRefresh: true,
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
 				    ignoreColumn: [columNames.length-4],
-				    data: resultatsMod
+				    data: resultatsMod,
+				    icons: {
+				       refresh: 'glyphicon-refresh'
+				    }
 				});	
 				
 
@@ -457,6 +461,24 @@ function fillModalDataTable(obj, geomBid){
 						});							
 					}
 				});	
+				
+				$('[name="refresh"]').on('click',function(){
+					var capaEdicio = $('#modal_data_table').data("capaEdicio");
+					$('#modal_data_table').hide();
+					carregarModalFitxer(true,obj.layer.options.businessId,obj.name,this.dataset.servertype,capaEdicio);
+					
+					//Tornem a carregar les dades de la visualització
+					/*updateGeometries(data).then(function(results){
+						if (results.status == "OK"){
+							editat = true;
+						}else{
+							console.debug('error updateGeometries');
+						}
+						},function(results){
+							console.debug('error updateGeometries');
+						});							
+					}*/
+				});
 				
 				
 				

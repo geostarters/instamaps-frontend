@@ -349,6 +349,9 @@ function getCapabilitiesWMS(url, servidor) {
 }
 
 function addWmsToMap(wms){
+	
+
+	
 	var wmsLayer,
 	tipus_user = defineTipusUser();  //geocat.web-1.0.0
 	//$.publish('trackEvent',{event:['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]});

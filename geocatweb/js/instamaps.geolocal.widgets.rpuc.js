@@ -42,8 +42,13 @@
         },
         
         draw: function(data){	
+		
+	
         	var that = this;
-        	if(that.active){
+        	if(that.active  && data.tipusMunicipi){
+				
+			
+				
         		$(that.containerId).empty();
         		var codi = data.municipiCodi.substring(0,5);
         		var url = that.url.replace("widget_id_municipi", codi);

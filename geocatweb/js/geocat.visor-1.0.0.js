@@ -290,6 +290,9 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 
+	
+	console.info(mapConfig);
+	
 	$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 
 	var nomUser = mapConfig.entitatUid.split("@");
@@ -297,7 +300,10 @@ function loadPublicMap(results){
 	
 	var infoHtml = '';
 	
-	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+	
+	
+	
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 		Cookies.get('perfil', 'geolocal');
 		checkUserLogin();
 	}else{
@@ -305,7 +311,7 @@ function loadPublicMap(results){
 		checkUserLogin();
 	}
 	
-	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) {
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) {
 		infoHtml += '<div style="color:#ffffff">';
 		if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
 	}
@@ -331,10 +337,10 @@ function loadPublicMap(results){
 		if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 		
-		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL)  infoHtml += '</div>';
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC)  infoHtml += '</div>';
 		
 		//TODO ver como sacar el módulo
-		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 			VisorGeolocal.initUi();
 			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
 			$('.img-circle2-icon').hide();
@@ -998,6 +1004,8 @@ function routingPopup(e) {
 }
 
 function loadMapConfig(mapConfig){
+	
+	
 	var dfd = jQuery.Deferred();
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
@@ -1006,6 +1014,9 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
+				
+				console.info(fons);
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {
@@ -1031,8 +1042,14 @@ function loadMapConfig(mapConfig){
 				}else if (fons == 'naturalMap') {
 					map.naturalMap();
 				}else if (fons == 'divadminMap') {
-					map.divadminMap();
-				}
+					map.divadminMap();			
+				}else if (fons == 'hibridTerrainMap') {
+					map.hibridTerrainMap();			
+				}else if (fons.indexOf('colorBlankMap')!=-1) {
+					console.inf(fons):
+					map.colorBlankMap(fons);	
+				}	
+					
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();

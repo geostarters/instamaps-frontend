@@ -66,7 +66,7 @@
         
         draw: function(data){
         	var that = this;
-        	if(that.active){
+        	if(that.active   && data.tipusMunicipi){
         		var codi = that.getMunicipi(data.municipiCodi);
         		if (codi){
             		var url = that.url.replace("widget_prov_id_municipi", codi);

@@ -527,7 +527,11 @@ function loadMapConfig(mapConfig){
 				}else if (fons == 'naturalMap') {
 					map.naturalMap();
 				}else if (fons == 'divadminMap') {
-					map.divadminMap();
+					map.divadminMap();					
+				}else if (fons == 'hibridTerrainMap') {
+					map.hibridTerrainMap();			
+				}else if (fons.indexOf('colorBlankMap')!=-1) {
+					map.colorBlankMap(fons);					
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);
 				}
