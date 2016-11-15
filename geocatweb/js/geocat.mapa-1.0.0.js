@@ -162,7 +162,7 @@ function loadApp(){
 					
 					
 					map.fire('loadconfig', mapConfig);
-					$.publish('loadconfig', mapConfig);
+					$.publish('loadConfig', mapConfig);
 					/*
 					$.subscribe('loadGaEvents', function(e, data){
 						loadEventsGa();
