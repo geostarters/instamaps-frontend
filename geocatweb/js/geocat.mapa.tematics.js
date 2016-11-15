@@ -2042,30 +2042,20 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
 
 	var canSpiderify = (visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_simple || visualitzacio.tipus == tem_origen);
-	if(visualitzacio.businessId && optionsVis.hasOwnProperty("trafficLightKey") && optionsVis.hasOwnProperty("trafficLightValue"))
+	if(visualitzacio.businessId && optionsVis && optionsVis.hasOwnProperty("trafficLightKey") && optionsVis.hasOwnProperty("trafficLightValue"))
 	{
 
 		//Canviem la visualització perquè pot ser que la del servidor no estigui bé (passa quan un cop creada la capa es publica el mapa
 		//havent canviat el valor pivot de la visualització. En el servidor només s'actualitza el valor i no la geometria associada als estils)
 		var sorted = Semaforic.sortGeometry(visualitzacio.estil, optionsVis.trafficLightKey, optionsVis.trafficLightValue);
 
-		//Actualitzem la geometria dels estils a partir de les geometries ordenades i els seus colors a partir dels de la llegenda
-		var auxLegend = JSON.parse(mapConfig.legend);
-		var layerLegend = auxLegend[visualitzacio.businessId];
-		if(null != layerLegend)
-		{
-
-			visualitzacio.estil[0].geometria.features = sorted.lowerGeom;
-			var start = layerLegend[0].symbol.indexOf("fill:") + 5;
-			visualitzacio.estil[0].color = rgb2hex(layerLegend[0].symbol.substring(start, layerLegend[0].symbol.indexOf(";", start)));
-			visualitzacio.estil[1].geometria.features = sorted.equalGeom;
-			start = layerLegend[1].symbol.indexOf("fill:") + 5;
-			visualitzacio.estil[1].color = rgb2hex(layerLegend[1].symbol.substring(start, layerLegend[1].symbol.indexOf(";", start)));
-			visualitzacio.estil[2].geometria.features = sorted.higherGeom;
-			start = layerLegend[2].symbol.indexOf("fill:") + 5;
-			visualitzacio.estil[2].color = rgb2hex(layerLegend[2].symbol.substring(start, layerLegend[2].symbol.indexOf(";", start)));
-
-		}
+		//Actualitzem la geometria dels estils a partir de les geometries ordenades i els colors que té el semafòric
+		visualitzacio.estil[0].color = optionsVis.trafficLightLowerColor;
+		visualitzacio.estil[1].color = optionsVis.trafficLightEqualColor;
+		visualitzacio.estil[2].color = optionsVis.trafficLightHigherColor;
+		visualitzacio.estil[0].geometria.features = sorted.lowerGeom;
+		visualitzacio.estil[1].geometria.features = sorted.equalGeom;
+		visualitzacio.estil[2].geometria.features = sorted.higherGeom;
 
 		//Actualitzem el nom de la capa
 		visualitzacio.nom = Semaforic.getUpdatedLayerName(visualitzacio.nom, optionsVis.trafficLightValue);

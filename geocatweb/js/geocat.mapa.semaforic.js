@@ -185,7 +185,9 @@
 
 					var key = $("#dialog_tematic_rangs #dataField").val();
 					var value = $("#dialog_tematic_rangs").data("rangs")[1].min;
-					var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", trafficLightKey: key, trafficLightValue: value};
+					var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", 
+						trafficLightKey: key, trafficLightValue: value, trafficLightLowerColor: self._previsualizationLayer.estil[0].color,
+						trafficLightEqualColor: self._previsualizationLayer.estil[1].color, trafficLightHigherColor: self._previsualizationLayer.estil[2].color};
 					createTematicLayerCategories(e, {}, data, $.Deferred()).then(function(layerId) {
 						//Update the map legend
 						var arrRangsEstilsLegend = sortObject(controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.rangsEstilsLegend);
@@ -223,7 +225,7 @@
 						}
 
 						controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.estil = nousEstils;
-
+						controlCapes._visLayers[controlCapes._layers[self._previsualizationLayer.parentid]._layers[layerId].layer.options.businessId].estil = nousEstils;
 						arrRangsEstilsLegend[0].value = key + window.lang.translate(" menor de ") + value;
 						arrRangsEstilsLegend[0].key = 0;
 						arrRangsEstilsLegend[1].value = key + window.lang.translate(" igual a ") + value;
@@ -473,7 +475,7 @@
 
 		},
 
-		_setupTematicLayerDialog: function(layer, key, min, pivot, max)
+		_setupTematicLayerDialog: function(layer, key, pivot, min, highestLowerValue, lowestHigherValue, max)
 		{
 
 			var self = this;
@@ -512,9 +514,9 @@
 				}
 
 				var template = Handlebars.compile(src);
-				$("#list_tematic_values").html(template({values: [{index:0, v: {min: min, max: pivot-1}}, {index:1, v: {min: pivot, max: pivot}}, {index:2, v:{min: pivot+1, max: max}}]}));
+				$("#list_tematic_values").html(template({values: [{index:0, v: {min: min, max: highestLowerValue}}, {index:1, v: {min: pivot, max: pivot}}, {index:2, v:{min: lowestHigherValue, max: max}}]}));
 
-				$("#dialog_tematic_rangs").data("rangs", [{min: min, max: pivot-1}, {min: pivot, max: pivot}, {min: pivot+1, max: max}]);
+				$("#dialog_tematic_rangs").data("rangs", [{min: min, max: highestLowerValue}, {min: pivot, max: pivot}, {min: lowestHigherValue, max: max}]);
 				showTematicRangs(layer.options.geometryType);
 				$("#dataField").html("<option value=\"" + key + "\">" + key + "</option>");
 				$("#dataField").val(key);
@@ -546,11 +548,13 @@
 		{
 
 			var styles = inStyles;
-			var min = Number.MAX_SAFE_INTEGER;
-			var max = Number.MIN_SAFE_INTEGER;
 			var equalGeom = [];
 			var lowerGeom = []; 
 			var higherGeom = [];
+			var highestLowerValue = Number.MIN_SAFE_INTEGER;
+			var lowestHigherValue = Number.MAX_SAFE_INTEGER;
+			var min = Number.MAX_SAFE_INTEGER;
+			var max = Number.MIN_SAFE_INTEGER;
 
 			$.each(inStyles, function(i, estil) {
 				$.each(estil.geometria.features, function(j, feature) {
@@ -571,6 +575,8 @@
 
 						//Less than color
 						lowerGeom.push(feature);
+						if(val >= highestLowerValue)
+							highestLowerValue = val;
 
 					}
 					else 
@@ -578,6 +584,8 @@
 
 						//Greater than color
 						higherGeom.push(feature);
+						if(val < lowestHigherValue)
+							lowestHigherValue = val;
 
 					}
 
@@ -588,7 +596,9 @@
 				lowerGeom: lowerGeom,
 				equalGeom: equalGeom,
 				higherGeom: higherGeom,
-				min: min,
+				highestLowerValue: highestLowerValue,
+				lowestHigherValue: lowestHigherValue,
+				min: min, 
 				max: max
 			};
 
@@ -642,7 +652,7 @@
 			if(null == self._previsualizationLayer)
 			{
 
-				self._setupTematicLayerDialog(layer, key, sorted.min, pivot, sorted.max);
+				self._setupTematicLayerDialog(layer, key, pivot, sorted.min, sorted.highestLowerValue, sorted.lowestHigherValue, sorted.max);
 				layer = self._createTempTrafficLightLayer(key, pivot, layer.options, layerOptions);
 
 			}
@@ -708,37 +718,42 @@
 			{
 
 				var auxLegend = JSON.parse(mapConfig.legend);
-				var layerLegend = auxLegend[self._capaVisualitzacio.layer.options.businessId];
-				if(null != layerLegend)
+				if(null != auxLegend)
 				{
 
-					//Check which bucket is by its color (should we be using the style businessId?)
-					var lowerThanColor = hexToRgb(layer.estil[0].color);
-					var lowerThanFill = "fill:rgb(" + lowerThanColor.r +", " + lowerThanColor.g+ ", "+lowerThanColor.b+");"
-					var equalToColor = hexToRgb(layer.estil[1].color);
-					var equalToFill = "fill:rgb(" + equalToColor.r +", " + equalToColor.g+ ", "+equalToColor.b+");"
-					var higherThanColor = hexToRgb(layer.estil[2].color);
-					var higherThanFill = "fill:rgb(" + higherThanColor.r +", " + higherThanColor.g+ ", "+higherThanColor.b+");"
-					for(var i=0; i<layerLegend.length; ++i)
+					var layerLegend = auxLegend[self._capaVisualitzacio.layer.options.businessId];
+					if(null != layerLegend)
 					{
-						
-						if(-1 != layerLegend[i].symbol.indexOf(lowerThanFill))
+
+						//Check which bucket is by its color (should we be using the style businessId?)
+						var lowerThanColor = hexToRgb(layer.estil[0].color);
+						var lowerThanFill = "fill:rgb(" + lowerThanColor.r +", " + lowerThanColor.g+ ", "+lowerThanColor.b+");"
+						var equalToColor = hexToRgb(layer.estil[1].color);
+						var equalToFill = "fill:rgb(" + equalToColor.r +", " + equalToColor.g+ ", "+equalToColor.b+");"
+						var higherThanColor = hexToRgb(layer.estil[2].color);
+						var higherThanFill = "fill:rgb(" + higherThanColor.r +", " + higherThanColor.g+ ", "+higherThanColor.b+");"
+						for(var i=0; i<layerLegend.length; ++i)
 						{
-							layerLegend[i].name = lowerThanLabel;
+							
+							if(-1 != layerLegend[i].symbol.indexOf(lowerThanFill))
+							{
+								layerLegend[i].name = lowerThanLabel;
+							}
+							else if(-1 != layerLegend[i].symbol.indexOf(equalToFill))
+							{
+								layerLegend[i].name = equalToLabel;
+							}
+							else if(-1 != layerLegend[i].symbol.indexOf(higherThanFill))
+							{
+								layerLegend[i].name = higherThanLabel;
+							}
+
 						}
-						else if(-1 != layerLegend[i].symbol.indexOf(equalToFill))
-						{
-							layerLegend[i].name = equalToLabel;
-						}
-						else if(-1 != layerLegend[i].symbol.indexOf(higherThanFill))
-						{
-							layerLegend[i].name = higherThanLabel;
-						}
+
+						mapConfig.legend = JSON.stringify(auxLegend);
+						mapLegend = auxLegend;
 
 					}
-
-					mapConfig.legend = JSON.stringify(auxLegend);
-					mapLegend = auxLegend;
 
 				}
 
