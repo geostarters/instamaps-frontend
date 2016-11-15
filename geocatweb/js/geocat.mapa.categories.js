@@ -471,7 +471,8 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 
 		var key = $("#dataField").val();
 		layerName = key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + auxRangs[0].max + ")";
-		extraData = {trafficLightKey: key, trafficLightValue: auxRangs[0].max}
+		extraData = {trafficLightKey: key, trafficLightValue: auxRangs[0].max, trafficLightLowerColor: rangs[0].estil.color, 
+			trafficLightEqualColor: rangs[1].estil.color, trafficLightHigherColor: rangs[2].estil.color};
 
 	}
 	//console.debug(rangs);
