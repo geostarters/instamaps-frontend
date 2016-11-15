@@ -490,17 +490,22 @@ function createPopupWindowData(player,type, editable, origen){
 					fillOpacity: 0.1
 				};
 			
-			crt_Editing=new L.EditToolbar.SnapEdit(map, {
+			/*crt_Editing=new L.EditToolbar.SnapEdit(map, {
 				featureGroup: capaEdicio,
 				selectedPathOptions: opcionsSel,
 				snapOptions: {
 					guideLayer: guideLayers
 				}
+			});*/
+			crt_Editing=new L.EditToolbar.Edit(map, {
+				featureGroup: capaEdicio,
+				selectedPathOptions: opcionsSel
 			});
+			crt_Editing.enable();
 			
 			//crt_Editing.enable();
 			
-			if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
+			/*if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
 				crt_Editing=new L.EditToolbar.Edit(map, {
 					featureGroup: capaEdicio,
 					selectedPathOptions: opcionsSel
@@ -517,7 +522,7 @@ function createPopupWindowData(player,type, editable, origen){
 				});
 				crt_Editing.enable();
 				//activarSnapping(capaEdicio);
-			}
+			}*/
 			
 			//activarSnapping(capaEdicio);			
 			
