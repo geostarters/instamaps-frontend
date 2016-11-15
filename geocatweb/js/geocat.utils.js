@@ -19,7 +19,7 @@ function isValidURL(url) {
 }
 
 function isImgURL(str) {
-	return (/\.(gif|jpg|jpeg|tiff|png)$/i).test(str);
+	return (/\.(gif|jpg|jpeg|png)$/i).test(str);
 }
 
 function isBusinessId(str){
