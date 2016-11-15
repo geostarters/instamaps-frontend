@@ -950,32 +950,7 @@
 					self._loadPasswordModal();
 				}else{
 
-					if(self.INE10)
-					{
-
-						//Carreguem la capa de municipis
-						var data = {
-							businessId: "1municipis",
-							uid: Cookies.get('uid')
-						};
-
-						getCacheVisualitzacioLayerByBusinessId(data).then(function(results2) {
-
-							if (results2.status == "ERROR"){
-								self.loadErrorPage();
-							}else{
-								self._beforeLoadConfig(results);
-							}
-
-						});
-
-					}
-					else
-					{
-					
-						self._beforeLoadConfig(results);
-
-					}
+					self._beforeLoadConfig(results);
 
 				}
 			});
@@ -1226,26 +1201,57 @@
 			var self = this,
 			_map = self.map,
 			mapConfig = self._mapConfig;
+
+			var ineFound = false;
+			if(self.INE10)
+			{
+
+				var municipis = ListViewMunicipis.municipis;
+				for(var i=0; i<municipis.length && !ineFound; ++i)
+				{
+
+					ineFound = (municipis[i].municipiCodi == self.INE10);
+					if(ineFound)
+					{
+
+						var data = municipis[i];
+						var bbox = data.bbox.split(",");
+						var southWest = L.latLng(bbox[1], bbox[0]),
+						northEast = L.latLng(bbox[3], bbox[2]),
+						bounds = L.latLngBounds(southWest, northEast);
+						_map.fitBounds(bounds)
+
+					}
+
+				}
+
+			}
+
+			if(!ineFound)
+			{
 			
-			var hash = location.hash;
-			hashControl = new L.Hash(_map);
-			var parsed = hashControl.parseHash(hash);
-			if (parsed){
-				hashControl.update();
-			}else{
-				if(mapConfig.options){
-					if (mapConfig.options.center){
-						var opcenter = mapConfig.options.center.split(",");
-						_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
-					}else if (mapConfig.options.bbox){
-						var bbox = mapConfig.options.bbox.split(",");
-						var southWest = L.latLng(bbox[1], bbox[0]);
-					    var northEast = L.latLng(bbox[3], bbox[2]);
-					    var bounds = L.latLngBounds(southWest, northEast);
-					    _map.fitBounds( bounds );
+				var hash = location.hash;
+				hashControl = new L.Hash(_map);
+				var parsed = hashControl.parseHash(hash);
+				if (parsed){
+					hashControl.update();
+				}else{
+					if(mapConfig.options){
+						if (mapConfig.options.center){
+							var opcenter = mapConfig.options.center.split(",");
+							_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+						}else if (mapConfig.options.bbox){
+							var bbox = mapConfig.options.bbox.split(",");
+							var southWest = L.latLng(bbox[1], bbox[0]);
+						    var northEast = L.latLng(bbox[3], bbox[2]);
+						    var bounds = L.latLngBounds(southWest, northEast);
+						    _map.fitBounds( bounds );
+						}
 					}
 				}
+
 			}
+
 			return self;
 		},
 		
