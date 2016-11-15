@@ -2030,6 +2030,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					llistaPoligons.push(llistaLines);
 				}
 				var multipolygon = new L.multiPolygon(llistaPoligons, geomStyle);
+				multipolygon._options = jQuery.extend({}, multipolygon._options);
 				if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
 					geomStyle = createAreaStyle(estil,0);
 					multipolygon = new L.multiPolygon(llistaLines, geomStyle);

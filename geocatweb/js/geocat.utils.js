@@ -14,7 +14,7 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function isValidURL(url) {
-	var pattern = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9%_:?\+.~#&//=]*)/;
+	var pattern = /((http(s)?|ftp):\/\/.)?(www\.)?[-a-zA-Z0-9:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9%_:?\+.~#&//=]*)/;
 	return pattern.test(url);
 }
 
@@ -232,7 +232,7 @@ function parseUrlTextPopUp(txt,key){
 		          var word = lwords[index];
 		          if(!$.isNumeric(txt) ){
 		                 if (isValidURL(word)){
-		                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')))
+		                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
 		                        if(isImgURL(word)){
 		                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
 		                        }
@@ -253,7 +253,10 @@ function parseUrlTextPopUp(txt,key){
 		          parseText+=" "+text;
 		    }
 
-		    parseText += "<br />";
+		    if("" == line)
+				parseText += "<br />";
+			else
+				parseText += "\n";
 
 		}
 	    return parseText;
