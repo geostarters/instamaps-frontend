@@ -151,7 +151,7 @@
         	this._addHtmlInterficiePublicar();
         	
         	if(this.collaborateuid){
-        		this._addHtmlInterficiePublicarDisable();
+        		//this._addHtmlInterficiePublicarDisable();
         	}
         	
         	this._addHtmlModalPublicar();
@@ -733,7 +733,8 @@
         	var layersId = getBusinessIdOrigenLayers();
         	var laydata = {
         		uid: that.uid,
-        		servidorWMSbusinessId: layersId
+        		servidorWMSbusinessId: layersId,
+        		businessId: that.mapConfig.businessId
         	};
         	//require ajax
         	publicarCapesMapa(laydata);
