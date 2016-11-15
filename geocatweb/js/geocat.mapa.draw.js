@@ -1060,9 +1060,14 @@ function createPopupWindow(layer,type){
 					fillOpacity: 0.1
 				};
 			
+			crt_Editing=new L.EditToolbar.Edit(map, {
+				featureGroup: capaEdicio,
+				selectedPathOptions: opcionsSel
+			});
+			crt_Editing.enable();
 		
 		
-			if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
+		/*	if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
 				crt_Editing=new L.EditToolbar.Edit(map, {
 					featureGroup: capaEdicio,
 					selectedPathOptions: opcionsSel
@@ -1082,7 +1087,7 @@ function createPopupWindow(layer,type){
 			}
 			
 			
-			
+			*/
 			
 			
 			map.closePopup();

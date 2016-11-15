@@ -645,7 +645,7 @@ function loadWmsLayer(layer, _map){
 	if(!layer.options){
 		jsonOptions=layer;
 	}
-	newWMS = L.tileLayer.betterWms(layer.url, {
+	var wmsOptions = {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
 	    transparent: layer.transparency,
@@ -657,10 +657,14 @@ function loadWmsLayer(layer, _map){
 		zIndex :  parseInt(layer.capesOrdre),
 	    businessId: layer.businessId,
 	    tileSize:512
-	});
+	};
+	if(layer.random){
+		wmsOptions.random=layer.random;
+	}
+	newWMS = L.tileLayer.betterWms(layer.url, wmsOptions);
 	newWMS.options.wmstime=jsonOptions.wmstime;
 	newWMS.options.group=jsonOptions.group;
-	
+		
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
 }
 
