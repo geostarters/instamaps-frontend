@@ -1008,6 +1008,9 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
+				
+				console.info(fons);
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {

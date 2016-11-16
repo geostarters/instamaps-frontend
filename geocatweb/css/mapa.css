@@ -5127,6 +5127,27 @@ li >.label-dof:focus {
   background-color: #fcf8e3 !important;
 }	
 
+#mapNameContainer {
+	max-width: calc(100vw - 400px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+}
+
+@media (min-width: 1200px) 
+{
+
+	#mapNameContainer {
+		max-width: calc(100vw - 810px);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: inline-block;
+	}
+
+}
+
 #innerPalette {
 	position:absolute; 
 	bottom:5px; 
@@ -5194,4 +5215,29 @@ li >.label-dof:focus {
 .btn-invert-palette:hover {
 	background-color: #afaeae;
 	border-color: #afaeae;
+}
+
+.div_fons_blank {
+	    background-color: white;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.div_fons_gris {
+	    background-color: lightgray;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+
+.div_fons_gris_fort {
+	    background-color: gray;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.div_fons_18 {
+    background: rgba(208, 208, 208, 0.5) url("images/galeria_icones.png") no-repeat scroll -566px -160px;
+    cursor: pointer;
+    margin-left: 2px;
 }

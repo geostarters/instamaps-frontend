@@ -110,6 +110,9 @@ L.IM_ControlFons = L.Control.extend({
     },
     
     _addLayers: function(container){
+		
+
+		
     	 this._addItem(container,{id:'topoMap',className:'div_fons_1',title:'Topogràfic'});
     	 this._addItem(container,{id:'topoMapGeo',className:'div_fons_12',title:'Simple'});
     	 this._addItem(container,{id:'ortoMap',className:'div_fons_3',title:'Imatge'});
@@ -125,10 +128,18 @@ L.IM_ControlFons = L.Control.extend({
     	 this._addItem(container,{id:'zombie',className:'div_fons_8',title:'Coure'});
     	 this._addItem(container,{id:'orquidea',className:'div_fons_9',title:'BluePrint'});
     	 this._addItem(container,{id:'naturalMap',className:'div_fons_16',title:'Natural'});
-    	 this._addItem(container,{id:'divadminMap',className:'div_fons_17',title:'Divisions administratives'});
+    	 this._addItem(container,{id:'divadminMap',className:'div_fons_17',title:'Divisions administratives'});		 
+		 this._addItem(container,{id:'hibridTerrainMap',className:'div_fons_18',title:'Terreny híbrid'});		
+		 this._addItem(container,{id:'colorBlankMapwhite',className:'div_fons_blank',title:'Fons neutre blanc'});
+		 this._addItem(container,{id:'colorBlankMaplightgray',className:'div_fons_gris',title:'Fons neutre gris'} );
+		 this._addItem(container,{id:'colorBlankMapgray',className:'div_fons_gris_fort',title:'Fons neutre gris fort'});
+		 
+		 
     },
     
     _addItem: function(container, properties){
+		
+	
     	var item = document.createElement('div');
     	item.id = properties.id;
     	item.className = properties.className;
@@ -146,6 +157,8 @@ L.IM_ControlFons = L.Control.extend({
     	var that = this;
     	var _this = evt.target;
     	var fons = $(_this).attr('id');
+		
+		
 		_gaq.push(['_trackEvent', 'visor', tipus_user+'fons', fons, 1]);
 		if (fons == 'topoMap'){
 			this._map.topoMap();
@@ -173,7 +186,15 @@ L.IM_ControlFons = L.Control.extend({
 			
 		}else if (fons == 'divadminMap') {
 			this._map.divadminMap();
+		
+
+		}else if (fons == 'hibridTerrainMap') {
+			this._map.hibridTerrainMap();	
 			
+		}else if (fons.indexOf('colorBlankMap')!=-1) {
+						
+			console.info(fons);			
+			this._map.colorBlankMap(fons);
 			
 		}else{
 			this._map.colorMap(fons);			

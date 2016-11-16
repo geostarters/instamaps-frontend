@@ -404,6 +404,7 @@
 		},
 		
 		addFonsControl: function(){
+			
 			var self = this,
 			ctr_fons,
 			_map = self.map;
@@ -1125,6 +1126,12 @@
 						_map.naturalMap();
 					}else if (fons == 'divadminMap') {
 						_map.divadminMap();
+					}else if (fons == 'hibridTerrainMap') {
+						_map.hibridTerrainMap();				
+					}else if (fons.indexOf('colorBlankMap')!=-1) {						
+					console.info(fons);
+						_map.colorBlankMap(fons);
+					
 					}
 					_map.setActiveMap(mapConfig.options.fons);
 					_map.setMapColor(mapConfig.options.fonsColor);
@@ -1163,6 +1170,8 @@
 				self.drawEmbed();
 			}
 			
+			
+			
 			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
@@ -1176,7 +1185,18 @@
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
 				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]});
-			}
+			
+			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
+				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
+				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
+				
+				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]});
+			
+			}else{
+			
+			alert("No hi ha tipus definit");
+			
+			}		
 			
 			return self;
 		},
