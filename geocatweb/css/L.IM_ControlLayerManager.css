@@ -690,6 +690,11 @@ ol.ac-large li.placeholder:before {
     position: absolute !important;
 }
 
+.leaflet-refresh{
+	float:right;
+	margin-right:4px;
+	cursor:pointer;
+}
 
 
 

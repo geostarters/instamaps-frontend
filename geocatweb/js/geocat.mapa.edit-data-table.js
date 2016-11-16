@@ -177,7 +177,6 @@ function fillModalDataTable(obj, geomBid){
 					}
 					else {
 						for(var x in feature.properties){
-							console.debug(x);
 							var obj = {
 								title: x.toUpperCase(),
 								field: x.toLowerCase(),
@@ -464,7 +463,7 @@ function fillModalDataTable(obj, geomBid){
 				
 				$('[name="refresh"]').on('click',function(){
 					var capaEdicio = $('#modal_data_table').data("capaEdicio");
-					$('#modal_data_table').hide();
+					$('#modal_data_table').modal('hide');
 					carregarModalFitxer(true,obj.layer.options.businessId,obj.name,this.dataset.servertype,capaEdicio);
 					
 					//Tornem a carregar les dades de la visualització

@@ -968,11 +968,18 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		label_sublayer.appendChild(name_sublayer);
 
 		if (modeMapa) {
-			col_sublayer = L.DomUtil.create('div','leaflet-remove glyphicon glyphicon-remove opcio-conf');
+			col_sublayer = L.DomUtil.create('span','leaflet-remove glyphicon glyphicon-remove opcio-conf');
 			L.DomEvent.on(col_sublayer, 'click', this._onRemoveClick, this);
 			col_sublayer.layerId = input_sublayer.layerId;
 			col_sublayer.layerIdParent = layerIdParent;
 			row_sublayer.appendChild(col_sublayer);
+			
+			col_sublayer = L.DomUtil.create('span','leaflet-refresh glyphicon glyphicon-refresh opcio-conf');
+			L.DomEvent.on(col_sublayer, 'click', this._onRefreshClick, this);
+			col_sublayer.layerId = input_sublayer.layerId;
+			col_sublayer.layerIdParent = layerIdParent;
+			row_sublayer.appendChild(col_sublayer);	
+			
 			if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(sublayer.layer.options,"add",true);}	
 		}
 		return row_sublayer;
@@ -1388,6 +1395,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 	_onRemoveClick : function(e) {
 		$('.tooltip').hide();
+		console.debug(e.currentTarget);
 		var layerId = e.currentTarget.layerId;
 		var layerIdParent = e.currentTarget.layerIdParent;
 		var lbusinessId = [];
@@ -1450,7 +1458,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		$('.tooltip').hide();
 
 		$('#modal_data_table').modal('show');
-
+		console.debug($('#modal_data_table'));
 		var layerId = e.currentTarget.layerId;
 		var obj = this._layers[layerId];
 		download_layer = obj;
@@ -1741,6 +1749,18 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		}
 	},
 	
+	_onRefreshClick : function(e) {
+		$('.tooltip').hide();
+		console.debug(e.currentTarget);
+		var layerId = e.currentTarget.layerId;
+		var layerIdParent = e.currentTarget.layerIdParent;
+		console.debug(this._layers);
+		var obj = this._layers[layerIdParent]._layers[layerId];
+		//Refrescar els temàtics: eliminem sublayer del mapa, i recarreguem
+		map.removeLayer(obj.layer);
+		loadVisualitzacioLayer(obj.layer);
+	},
+
 	_showOptions : function(e) {
 		var layerId = e.currentTarget.layerId;
 		var inputs = this._form.getElementsByTagName('input');
