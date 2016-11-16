@@ -31,13 +31,10 @@ var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 	
-	// _urlTerrenys = 'http://imtilemapsdev.icgc.local/terrenys/demextes';
-	_urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes';
+	 _urlTerrenys = 'http://imtilemapsdev.icgc.local/terrenys/dem2out';
+	//_urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes';
 	
 }
-
-
-
 
 
 var _urlModels3D='http://tilemaps.icgc.cat/terrenys/model3D/test/Prova1_cesium.json';
@@ -46,7 +43,13 @@ var appl='mapa';
 var factorNavegador=1000;
 function addModul3D(config) {
 
+	
+	
+	
 	mapConfig = config || mapConfig;
+	
+	
+	
 	
 	var socChrome=isChrome();
 
@@ -342,6 +345,9 @@ var IM_aplicacio = function (options) {
 		viewer.scene.fog.screenSpaceErrorFactor = 2;
 		capesActives3D = viewer.scene.imageryLayers;
 		_imageryLayers = viewer.imageryLayers;
+		
+		viewer.scene.globe.baseColor =Cesium.Color.fromCssColorString(jQuery('#map').css('background-color'));
+		
 		jQuery("#bt_pinch3D").show();
 		map.spin(true);
 		var zz = parseInt(map.getZoom());

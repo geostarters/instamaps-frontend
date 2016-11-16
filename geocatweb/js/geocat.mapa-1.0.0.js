@@ -162,7 +162,7 @@ function loadApp(){
 					
 					
 					map.fire('loadconfig', mapConfig);
-					$.publish('loadconfig', mapConfig);
+					$.publish('loadConfig', mapConfig);
 					/*
 					$.subscribe('loadGaEvents', function(e, data){
 						loadEventsGa();
@@ -527,7 +527,11 @@ function loadMapConfig(mapConfig){
 				}else if (fons == 'naturalMap') {
 					map.naturalMap();
 				}else if (fons == 'divadminMap') {
-					map.divadminMap();
+					map.divadminMap();					
+				}else if (fons == 'hibridTerrainMap') {
+					map.hibridTerrainMap();			
+				}else if (fons.indexOf('colorBlankMap')!=-1) {
+					map.colorBlankMap(fons);					
 				}else if (fons == 'colorMap') {
 					map.colorMap(mapConfig.options.fonsColor);
 				}
@@ -792,6 +796,29 @@ function getBusinessIdOrigenLayers(){
             	  lBusinessId += subitem.layer.options.businessId +",";
               }
           });
+    });
+    lBusinessId = lBusinessId.substring(0, lBusinessId.length - 1);
+    return lBusinessId;
+
+}
+
+function getTrafficLightKeys()
+{
+
+	var lBusinessId = "";
+	jQuery.each(controlCapes._layers, function(i, item){
+		lBusinessId += ",";
+		jQuery.each(item._layers, function(j, subitem){
+			if( subitem.layer.options.tipusRang == tem_simple || subitem.layer.options.tipusRang == tem_clasic)
+			{
+
+				if(subitem.layer.options.hasOwnProperty("trafficLightValue"))
+					lBusinessId += subitem.layer.options.trafficLightValue +",";
+				else
+					lBusinessId += ",";
+
+			}
+		});
     });
     lBusinessId = lBusinessId.substring(0, lBusinessId.length - 1);
     return lBusinessId;

@@ -22,7 +22,10 @@
 	  if (isGeolocalUser() || $(location).attr('href').indexOf('geolocal.html') != -1 || perfil === 'geolocal') {	  
 		_gaq.push(['_setAccount', 'UA-46332195-6']);
 	
-	  }else if (mapConfig && mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+	  }else if (mapConfig && mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL ){
+		_gaq.push(['_setAccount', 'UA-46332195-6']);
+
+	  }else if (mapConfig && mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 		_gaq.push(['_setAccount', 'UA-46332195-6']);
 	
 	  }else{ 

@@ -404,6 +404,7 @@
 		},
 		
 		addFonsControl: function(){
+			
 			var self = this,
 			ctr_fons,
 			_map = self.map;
@@ -964,6 +965,7 @@
 			self.mouseposition = self.mouseposition || false;
 			self.scalecontrol = self.scalecontrol || false;
 			self.minimapcontrol = self.minimapcontrol || false;
+			self.fonscontrol = self.fonscontrol || false;
 			self.homecontrol = self.homecontrol || false;
 			self.locationcontrol = self.locationcontrol || false;
 			self.searchcontrol = self.searchcontrol || false;
@@ -993,7 +995,7 @@
 				options : {
 					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
 					zoom : (parsed ? parsed.zoom : 8),
-					description : "",
+					description : (self.text ? self.text : ""),
 					fons : self.fons
 				}
 			};
@@ -1034,7 +1036,9 @@
 				infoHtml = '';
 			
 			var nomAp = mapConfig.nomAplicacio;
-			$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
+			if ($(location).attr('href').indexOf('/visor.html') != -1) { 
+				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
+			}
 			
 			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
@@ -1047,13 +1051,13 @@
 				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 				
 				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
-
-				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-
-				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-				$('meta[property="og:image"]').attr('content', urlThumbnail);
-
+				if ($(location).attr('href').indexOf('/visor.html') != -1) {
+					$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+					$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+	
+					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+					$('meta[property="og:image"]').attr('content', urlThumbnail);
+				}
 				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 				
@@ -1122,6 +1126,12 @@
 						_map.naturalMap();
 					}else if (fons == 'divadminMap') {
 						_map.divadminMap();
+					}else if (fons == 'hibridTerrainMap') {
+						_map.hibridTerrainMap();				
+					}else if (fons.indexOf('colorBlankMap')!=-1) {						
+					console.info(fons);
+						_map.colorBlankMap(fons);
+					
 					}
 					_map.setActiveMap(mapConfig.options.fons);
 					_map.setMapColor(mapConfig.options.fonsColor);
@@ -1160,6 +1170,8 @@
 				self.drawEmbed();
 			}
 			
+			
+			
 			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
@@ -1173,7 +1185,18 @@
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
 				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]});
-			}
+			
+			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
+				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
+				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
+				
+				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]});
+			
+			}else{
+			
+			alert("No hi ha tipus definit");
+			
+			}		
 			
 			return self;
 		},
@@ -1262,7 +1285,7 @@
 		_addURLMarker: function() {
 			var self = this;
 			var opcenter = self._mapConfig.options.center.split(",");
-			var defaultPunt = L.AwesomeMarkers.icon(default_marker_style);
+			var defaultPunt = L.AwesomeMarkers.icon(default_onsoc_style);
 			var marker = L.marker(new L.LatLng(opcenter[0], opcenter[1]), {icon: defaultPunt, 
 					 tipus: t_marker}).addTo(self.map);
 
@@ -1281,14 +1304,18 @@
 					else
 						html += "<a href=\"" + self.link + "\" target=\"_blank\">";
 
-				}
-				html += self.text;
-				if(hasValidLink)
+					html += self.text;
 					html += "</a>";
+				}
+				else
+				{
 
+					html += parseUrlTextPopUp(self.text, "");
+
+				}
+				
 				marker.bindPopup(html);
 				marker.openPopup();
-
 				_gaq.push(['_trackEvent', 'visor per paràmetres']);
 
 			}

@@ -1069,9 +1069,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				
 				this._map.addLayer(obj.layer);
 
-				if(this._map.hasOwnProperty("oms"))
-				{
-
+				if(this._map.hasOwnProperty("oms") && obj.layer._layers ){
+					
+				
 					//Add the markers to Spiderify
 					var keys = Object.keys(obj.layer._layers);
 					var num = this._map.oms.markers.length;
@@ -1186,8 +1186,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 				this._map.removeLayer(obj.layer);
 
-				if(this._map.hasOwnProperty("oms"))
-				{
+				if(this._map.hasOwnProperty("oms") && obj.layer._layers ){
 				
 					//Remove the markers from Spiderify
 					var keys = Object.keys(obj.layer._layers);

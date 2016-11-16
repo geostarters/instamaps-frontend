@@ -151,7 +151,7 @@
         	this._addHtmlInterficiePublicar();
         	
         	if(this.collaborateuid){
-        		this._addHtmlInterficiePublicarDisable();
+        		//this._addHtmlInterficiePublicarDisable();
         	}
         	
         	this._addHtmlModalPublicar();
@@ -369,7 +369,7 @@
         _addHtmlInterficiePublicar: function(){
         	this.container.append(
     			'<div class="'+this.buttonClass+'" data-toggle="tooltip" data-lang-title="Desa\'l i decideix si fer-lo públic o privat" title="Desa\'l i decideix si fer-lo públic o privat">'+
-    			'<span lang="ca">Publicar el mapa</span>'+
+    			'<span lang="ca">Desar / Publicar el mapa</span>'+
     			'</div>'
     		);
         	
@@ -731,9 +731,12 @@
 
         	//crear los archivos en disco
         	var layersId = getBusinessIdOrigenLayers();
+        	var trafficLightKeys = getTrafficLightKeys();
         	var laydata = {
         		uid: that.uid,
-        		servidorWMSbusinessId: layersId
+        		servidorWMSbusinessId: layersId,
+        		trafficLightValues: trafficLightKeys,
+        		businessId: that.mapConfig.businessId
         	};
         	//require ajax
         	publicarCapesMapa(laydata);

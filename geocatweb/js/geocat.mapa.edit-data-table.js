@@ -350,6 +350,7 @@ function fillModalDataTable(obj, geomBid){
 		}
 		
 	}
+	
 	window.actionEvents = {
 		    'click .remove': function (e, value, row, index) {
 		    	//Afegim parametres al button del dialog, per despres poder fer crida al remove
@@ -377,6 +378,7 @@ function fillModalDataTable(obj, geomBid){
 	getGeometriesPropertiesLayer(data).then(function(results){
 			
 			if (results.status == "OK"){
+				
 				geometriesBusinessId = results.geometriesBusinessId;
 				$('#modal_data_table').data("layerServidor", results.layer);
 				
@@ -410,7 +412,7 @@ function fillModalDataTable(obj, geomBid){
 					
 				});
 				
-					
+				
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
 					striped: true,

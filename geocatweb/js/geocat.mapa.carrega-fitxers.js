@@ -534,7 +534,6 @@ function obreModalCarregaDades(isDrag) {
 }
 
 function accionaCarrega(file,isDrag) {
-	console.debug("accionaCarrega");
 	if(isDrag){
 		drgFromMapa.options.url = paramUrl.upload_gdal_2015;
 		drgFromMapa.options.paramName = "file";

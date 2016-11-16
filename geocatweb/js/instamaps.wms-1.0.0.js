@@ -128,9 +128,11 @@
 				
 				self.clear().show();
 
-				if (servidor === null) {
+				if (servidor == null) {
 					servidor = results.Service.Title;
 				}
+				
+				
 				try{
 					if(results.Capability.Layer.Layer.LatLonBoundingBox){
 						bbox = results.Capability.Layer.Layer.LatLonBoundingBox;
@@ -158,6 +160,8 @@
 					
 					ActiuWMS.servidor = servidor || self.name || results.Capability.Layer.Title;
 					ActiuWMS.url = self.url;
+					
+					
 					
 					if (!matriuEPSG) {
 						matriuEPSG = results.Capability.Layer.SRS;
