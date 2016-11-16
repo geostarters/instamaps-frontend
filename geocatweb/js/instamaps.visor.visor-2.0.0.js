@@ -1318,7 +1318,7 @@
 				marker.openPopup();
 				_gaq.push(['_trackEvent', 'visor per paràmetres']);
 
-
+			}
 
 			$("#infoMap").hide();
 			
