@@ -46,7 +46,7 @@
         
         draw: function(data){
         	var that = this;
-        	if(that.active){
+        	if(that.active   && data.tipusMunicipi){
         		$(that.containerId).empty();
         		var codi = data.codiCadastre;
         		var urlUrbana = that.rutaUrbanaCadastre.replace('_nom_',data.municipiCadastre);

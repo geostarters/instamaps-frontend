@@ -196,6 +196,7 @@ var NODATA_MIDA = 10;
 
 var TIPUS_APLIACIO_INSTAMAPS = 1;
 var TIPUS_APLIACIO_GEOLOCAL = 2;
+var TIPUS_APLIACIO_AOC = 3;
 
 //VAR per nou model de dades
 var nou_model = true;
