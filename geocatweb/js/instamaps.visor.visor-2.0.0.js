@@ -1035,7 +1035,9 @@
 				infoHtml = '';
 			
 			var nomAp = mapConfig.nomAplicacio;
-			$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
+			if ($(location).attr('href').indexOf('/visor.html') != -1) { 
+				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
+			}
 			
 			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
@@ -1048,13 +1050,13 @@
 				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 				
 				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
-
-				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-
-				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-				$('meta[property="og:image"]').attr('content', urlThumbnail);
-
+				if ($(location).attr('href').indexOf('/visor.html') != -1) {
+					$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+					$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+	
+					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+					$('meta[property="og:image"]').attr('content', urlThumbnail);
+				}
 				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 				

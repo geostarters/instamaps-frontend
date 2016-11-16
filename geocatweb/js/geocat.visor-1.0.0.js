@@ -290,20 +290,16 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 
-	
-	console.info(mapConfig);
-	
-	$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+	if ($(location).attr('href').indexOf('/visor.html') != -1) { 
+		$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+	}
 
 	var nomUser = mapConfig.entitatUid.split("@");
 	var nomEntitat = mapConfig.nomEntitat;
 	
 	var infoHtml = '';
 	
-	
-	
-	
-	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 		Cookies.get('perfil', 'geolocal');
 		checkUserLogin();
 	}else{
@@ -311,7 +307,7 @@ function loadPublicMap(results){
 		checkUserLogin();
 	}
 	
-	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) {
+	if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL) {
 		infoHtml += '<div style="color:#ffffff">';
 		if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
 	}
@@ -327,20 +323,20 @@ function loadPublicMap(results){
 		desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 		
 		if (desc!=undefined) desc=desc.replaceAll("'","\'");
-
-		$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-		$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-
-		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-		$('meta[property="og:image"]').attr('content', urlThumbnail);
+		if ($(location).attr('href').indexOf('/visor.html') != -1) {
+			$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+			$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');	
+			var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+			$('meta[property="og:image"]').attr('content', urlThumbnail);
+		}
 
 		if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 		
-		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC)  infoHtml += '</div>';
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL)  infoHtml += '</div>';
 		
 		//TODO ver como sacar el módulo
-		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
+		if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 			VisorGeolocal.initUi();
 			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
 			$('.img-circle2-icon').hide();
@@ -1004,8 +1000,6 @@ function routingPopup(e) {
 }
 
 function loadMapConfig(mapConfig){
-	
-	
 	var dfd = jQuery.Deferred();
 	if (!jQuery.isEmptyObject( mapConfig )){
 		jQuery('#businessId').val(mapConfig.businessId);
@@ -1042,14 +1036,8 @@ function loadMapConfig(mapConfig){
 				}else if (fons == 'naturalMap') {
 					map.naturalMap();
 				}else if (fons == 'divadminMap') {
-					map.divadminMap();			
-				}else if (fons == 'hibridTerrainMap') {
-					map.hibridTerrainMap();			
-				}else if (fons.indexOf('colorBlankMap')!=-1) {
-					console.inf(fons):
-					map.colorBlankMap(fons);	
-				}	
-					
+					map.divadminMap();
+				}
 				map.setActiveMap(mapConfig.options.fons);
 				map.setMapColor(mapConfig.options.fonsColor);
 				//map.gestionaFons();
