@@ -2466,6 +2466,27 @@ a.leaflet-control-timecontrol:hover {
 	padding-right: 10px;
 }
 
+#mapNameContainer {
+	max-width: calc(100vw - 400px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+}
+
+@media (min-width: 1200px) 
+{
+	
+	#mapNameContainer {
+		max-width: calc(100vw - 810px);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: inline-block;
+	}
+
+}
+
 #paletteBackground {
 	position: absolute;
 	top: 0px;

@@ -980,6 +980,7 @@
 			self.llegenda = self.llegenda || false;
 			self.appmodul = self.appmodul || false;
 			self.zoomcontrol = self.zoomcontrol || false;
+			self.fons = self.fons || "hibridMap";
 
 			var hash = location.hash;
 			hashControl = new L.Hash(self.map);
@@ -993,7 +994,8 @@
 				options : {
 					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
 					zoom : (parsed ? parsed.zoom : 8),
-					description : (self.text ? self.text : "")
+					description : (self.text ? self.text : ""),
+					fons : self.fons
 				}
 			};
 
@@ -1020,15 +1022,7 @@
 
 		_mapNameShortener: function(inName) {
 
-			var self = this;
-			var name = inName
-			var maxLength = (self.embed ? 47 : 58);	//Limitem el nombre de caràcters del títol pq no salti de línia
-			if(maxLength < name.length)
-			{
-
-				name = "<span title=\"" + inName + "\">" + name.substring(0, maxLength-3) + "...</span>";
-
-			}
+			name = "<div id='mapNameContainer'><span title=\"" + inName + "\">" + inName + "</span></div>";
 
 			return name;
 
@@ -1041,7 +1035,9 @@
 				infoHtml = '';
 			
 			var nomAp = mapConfig.nomAplicacio;
-			$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
+			if ($(location).attr('href').indexOf('/visor.html') != -1) { 
+				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
+			}
 			
 			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
@@ -1054,13 +1050,13 @@
 				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 				
 				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
-
-				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-
-				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-				$('meta[property="og:image"]').attr('content', urlThumbnail);
-
+				if ($(location).attr('href').indexOf('/visor.html') != -1) {
+					$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+					$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+	
+					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+					$('meta[property="og:image"]').attr('content', urlThumbnail);
+				}
 				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 				
@@ -1269,7 +1265,7 @@
 		_addURLMarker: function() {
 			var self = this;
 			var opcenter = self._mapConfig.options.center.split(",");
-			var defaultPunt = L.AwesomeMarkers.icon(default_marker_style);
+			var defaultPunt = L.AwesomeMarkers.icon(default_onsoc_style);
 			var marker = L.marker(new L.LatLng(opcenter[0], opcenter[1]), {icon: defaultPunt, 
 					 tipus: t_marker}).addTo(self.map);
 
@@ -1277,18 +1273,35 @@
 			{
 
 				var html = '';
+				var hasValidLink = ((null != self.link) && ("" != self.link.trim()) && isValidURL(self.link));
 
-				if(self.link)
-					html += "<a href=\"http://" + self.link + "\" target=\"_blank\">";
-				else
-					html += parseUrlTextPopUp(self.text);
-				if(self.link)
+				if(hasValidLink)
+				{
+
+					var hasProtocol = (-1 != self.link.indexOf("://"));
+					if(!hasProtocol)
+						html += "<a href=\"http://" + self.link + "\" target=\"_blank\">";
+					else
+						html += "<a href=\"" + self.link + "\" target=\"_blank\">";
+
+					html += self.text;
 					html += "</a>";
+				}
+				else
+				{
 
+					html += parseUrlTextPopUp(self.text, "");
+
+				}
+				
 				marker.bindPopup(html);
 				marker.openPopup();
+				_gaq.push(['_trackEvent', 'visor per paràmetres']);
 
-			}
+
+
+			$("#infoMap").hide();
+			
 		},
 		
 		_addTooltips: function(){

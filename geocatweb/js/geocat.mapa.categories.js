@@ -234,6 +234,7 @@ function getTipusValuesVisualitzacio(results,geomType){
 		jQuery('#dialog_tematic_rangs .btn-success').hide();
 	}else{
 		var nodata = [];
+		var esText = false;
 		var arr = jQuery.grep(resultats, function( n, i ) {
 			var isText = false;
 			if (!jQuery.isNumeric(n)){
@@ -296,7 +297,6 @@ function getTipusValuesVisualitzacio(results,geomType){
 }
 
 function showVisualitzacioDataUnic(values,geomType){
-	//console.debug("showVisualitzacioDataUnic");
 	var defer = jQuery.Deferred();
 	//var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
 	var paleta = jQuery("#dialog_tematic_rangs").data("paleta");
@@ -964,22 +964,21 @@ function loadTematicValueTemplate(results, rtype){
 					resultsNoRepetits.push(n);
 				}
 		});
-		
 		//match ints and floats/decimals
 		var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 		var resultsFloat = [];
 		var i=0;
+		var j=0;
 		jQuery.grep(resultsNoRepetits, function( n, i ) {
 			//console.debug(n.v);
-			//console.debug(floatRegex.test(n.v));
+			//console.debug(floatRegex.test(n.v));			
 			if (floatRegex.test(n.v)) {
 				//console.debug(n.v);
-				resultsFloat[i]=n;
-				i++;
+				resultsFloat[j]=n;
+				j++;
 			}
 				
 		});
-	
 		var template1 = Handlebars.compile(source1);
 		var html1 = "";
 		if (resultsFloat.length>0 && resultsNoRepetits.length == resultsFloat.length) {
@@ -988,7 +987,7 @@ function loadTematicValueTemplate(results, rtype){
 			html1 = template1({values:resultsFloat});
 		}
 		else {
-			resultsNoRepetits.sort();
+			resultsNoRepetits.sort(sortByValueMax);
 			html1 = template1({values:resultsNoRepetits});
 		}
 		jQuery("#dialog_tematic_rangs").data("values-norepetits",resultsNoRepetits);

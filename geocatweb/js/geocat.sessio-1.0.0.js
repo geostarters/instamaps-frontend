@@ -48,22 +48,12 @@ jQuery("#login_button").click(function(){
 		doLogin(dataUrl).then(function(results){
 			if(results.status==='OK'){
 				if (results.uid){
-					var cookies = Cookies.withConverter({
-						write: function (value, name) {
-							if ( name === 'uid' ) {
-								//Add " to the string because @ is only a valid Cookie character if it goes between them
-								return '"' + encodeURIComponent(results.uid + "").replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,
-									decodeURIComponent) + '"';
-							}
-						}
-					});
-
-					cookies.set('uid', results.uid);
-					cookies.set('tipusEntitat', results.tipusEntitat);
-					cookies.set('token', results.token);
+					Cookies.set('uid', results.uid);
+					Cookies.set('tipusEntitat', results.tipusEntitat);
+					Cookies.set('token', results.token);
 				}else{
-					cookies.set('uid', user_login);
-					cookies.set('token', results.token);
+					Cookies.set('uid', user_login);
+					Cookies.set('token', results.token);
 				}
 				if(results.login_icgc){
 					$('#modal_login_new_icgc').modal('toggle');
@@ -79,8 +69,8 @@ jQuery("#login_button").click(function(){
 				$('#modal_account_block').modal('toggle');						
 			}else if(results.results === 'unregistered_user'){
 				$('#modal_login_ko_donat_baixa').modal('toggle');
-				if (cookies.get('collaboratebid')) cookies.remove('collaboratebid');
-				if (cookies.get('collaborateuid')) cookies.remove('collaborateuid');	
+				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
+				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');	
 			}else if (results.status === 'MAIL'){
 				window.location = results.url;
 			}else{

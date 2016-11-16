@@ -566,17 +566,41 @@ function createPopupWindowData(player,type, editable, origen, capa){
 					fillOpacity: 0.1
 				};
 			
-			crt_Editing=new L.EditToolbar.SnapEdit(map, {
+			/*crt_Editing=new L.EditToolbar.SnapEdit(map, {
 				featureGroup: capaEdicio,
 				selectedPathOptions: opcionsSel,
 				snapOptions: {
 					guideLayer: guideLayers
 				}
+			});*/
+			crt_Editing=new L.EditToolbar.Edit(map, {
+				featureGroup: capaEdicio,
+				selectedPathOptions: opcionsSel
 			});
-			
 			crt_Editing.enable();
 			
-			activarSnapping(capaEdicio);			
+			//crt_Editing.enable();
+			
+			/*if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
+				crt_Editing=new L.EditToolbar.Edit(map, {
+					featureGroup: capaEdicio,
+					selectedPathOptions: opcionsSel
+				});
+				crt_Editing.enable();
+			}
+			else {
+				crt_Editing=new L.EditToolbar.SnapEdit(map, {
+					featureGroup: capaEdicio,
+					selectedPathOptions: opcionsSel,
+					snapOptions: {
+						guideLayer: guideLayers
+					}
+				});
+				crt_Editing.enable();
+				//activarSnapping(capaEdicio);
+			}*/
+			
+			//activarSnapping(capaEdicio);			
 			
 			map.closePopup();
 			
@@ -2230,6 +2254,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					llistaPoligons.push(llistaLines);
 				}
 				var multipolygon = new L.multiPolygon(llistaPoligons, geomStyle);
+				multipolygon._options = jQuery.extend({}, multipolygon._options);
 				if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta" && origen==""){
 					geomStyle = createAreaStyle(estil,0);
 					multipolygon = new L.multiPolygon(llistaLines, geomStyle);

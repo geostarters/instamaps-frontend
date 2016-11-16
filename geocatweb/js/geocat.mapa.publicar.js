@@ -151,7 +151,7 @@
         	this._addHtmlInterficiePublicar();
         	
         	if(this.collaborateuid){
-        		this._addHtmlInterficiePublicarDisable();
+        		//this._addHtmlInterficiePublicarDisable();
         	}
         	
         	this._addHtmlModalPublicar();
@@ -369,7 +369,7 @@
         _addHtmlInterficiePublicar: function(){
         	this.container.append(
     			'<div class="'+this.buttonClass+'" data-toggle="tooltip" data-lang-title="Desa\'l i decideix si fer-lo públic o privat" title="Desa\'l i decideix si fer-lo públic o privat">'+
-    			'<span lang="ca">Publicar el mapa</span>'+
+    			'<span lang="ca">Desar / Publicar el mapa</span>'+
     			'</div>'
     		);
         	
@@ -713,7 +713,7 @@
         	$('#urlMap').val(urlMap);
         	$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
         	
-			console.info(mapLegend);
+			//console.info(mapLegend);
 			
         	var data = {
         		nom: nomApp, //jQuery('#dialgo_publicar #nomAplicacio').val(),
@@ -735,7 +735,8 @@
         	var laydata = {
         		uid: that.uid,
         		servidorWMSbusinessId: layersId,
-        		trafficLightValues: trafficLightKeys
+        		trafficLightValues: trafficLightKeys,
+        		businessId: that.mapConfig.businessId
         	};
         	//require ajax
         	publicarCapesMapa(laydata);
