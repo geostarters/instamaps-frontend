@@ -35,6 +35,7 @@ jQuery(document).ready(function() {
         defaultLang: 'ca'
     });
 	lsLang=web_determinaIdioma();
+	isEditing = edit = ("mapa" == url('filename'));
 	if (lsLang == null || lsLang == "null"){
 		lsLang = "ca";
 		canviaIdioma(lsLang);

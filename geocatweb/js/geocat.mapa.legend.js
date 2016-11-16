@@ -181,7 +181,7 @@ function obteLListatCapesEditor(idLayer){
 		jQuery.each(item._layers, function(j, item2){
 				if(item2.layer.options.businessId==idLayer){					
 					layerType.serverName=item2.layer.options.nom.replace('##1','');
-					layerType.capesOrdre=""+j+"";					
+					layerType.capesOrdre="sublayer";					
 				}			
 			});		
 			
@@ -711,7 +711,14 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			var estilsRangs = layer.options.estilsRangs;
 			var rangsEstilsLegend = layer.options.rangsEstilsLegend;
 			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
-			arrRangsEstilsLegend.sort(sortByValueMax);
+			if(!layer.options.hasOwnProperty("trafficLightKey"))
+				arrRangsEstilsLegend.sort(sortByValueMax);
+			else
+			{
+
+				//Si és un semafòric no reordenem els valors de la llegenda, ja ens venen ben assignats i el sortByValueMax se'l carrega
+
+			}
 			if(geometryType == t_marker){
 				
 				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){

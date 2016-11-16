@@ -965,6 +965,7 @@
 			self.mouseposition = self.mouseposition || false;
 			self.scalecontrol = self.scalecontrol || false;
 			self.minimapcontrol = self.minimapcontrol || false;
+			self.fonscontrol = self.fonscontrol || false;
 			self.homecontrol = self.homecontrol || false;
 			self.locationcontrol = self.locationcontrol || false;
 			self.searchcontrol = self.searchcontrol || false;
@@ -994,7 +995,7 @@
 				options : {
 					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
 					zoom : (parsed ? parsed.zoom : 8),
-					description : "",
+					description : (self.text ? self.text : ""),
 					fons : self.fons
 				}
 			};
@@ -1305,7 +1306,6 @@
 
 					html += self.text;
 					html += "</a>";
-
 				}
 				else
 				{
@@ -1313,14 +1313,12 @@
 					html += parseUrlTextPopUp(self.text, "");
 
 				}
-					
-
+				
 				marker.bindPopup(html);
 				marker.openPopup();
-
 				_gaq.push(['_trackEvent', 'visor per paràmetres']);
 
-			}
+
 
 			$("#infoMap").hide();
 			

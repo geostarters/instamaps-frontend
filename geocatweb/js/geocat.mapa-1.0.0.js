@@ -802,6 +802,29 @@ function getBusinessIdOrigenLayers(){
 
 }
 
+function getTrafficLightKeys()
+{
+
+	var lBusinessId = "";
+	jQuery.each(controlCapes._layers, function(i, item){
+		lBusinessId += ",";
+		jQuery.each(item._layers, function(j, subitem){
+			if( subitem.layer.options.tipusRang == tem_simple || subitem.layer.options.tipusRang == tem_clasic)
+			{
+
+				if(subitem.layer.options.hasOwnProperty("trafficLightValue"))
+					lBusinessId += subitem.layer.options.trafficLightValue +",";
+				else
+					lBusinessId += ",";
+
+			}
+		});
+    });
+    lBusinessId = lBusinessId.substring(0, lBusinessId.length - 1);
+    return lBusinessId;
+
+}
+
 function loadControls(configuracio){
 	//funcionalitats a carregar nomes si esta loginat
 	if (Cookies.get('uid')){
