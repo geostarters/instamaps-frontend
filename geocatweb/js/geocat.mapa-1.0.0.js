@@ -113,6 +113,7 @@ function loadApp(){
 				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
 				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
+					console.debug(results.results);
 					mapConfig = results.results;
 					//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
 					//jQuery.map( bloquejatJson, function( val, i ) {
@@ -264,6 +265,7 @@ function loadApp(){
 	});
 
 	$.subscribe('updateMapConfig',function(e, data){
+		console.debug(data);
 		mapConfig = data;
 	});
 }
@@ -763,6 +765,7 @@ function createNewMap(){
 			gestioCookie('createMapError');
 		}else{
 			try{
+				console.debug(results.results);
 				mapConfig = results.results;
 				mapConfig.options = jQuery.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);

@@ -1,6 +1,6 @@
 //Global vars
 var map, controlCapes, hashControl;
-var mapConfig = {};
+//var mapConfig = {};
 
 var factorH = 50;
 var factorW = 0;

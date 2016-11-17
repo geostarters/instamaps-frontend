@@ -8,12 +8,12 @@ var _gaq = _gaq || [];
  
 (function() {
 	$.subscribe('loadConfig', function(e, data){
-		var mapConfig = data,
+		var _mapConfig = data,
 			perfil = Cookies.get('perfil');
 		//Diferenciem entre usuari Geolocal i Instamaps
 		if (isGeolocalUser() || $(location).attr('href').indexOf('geolocal.html') != -1 || perfil === 'geolocal') {	  
 			_gaq.push(['_setAccount', 'UA-46332195-6']);
-		}else if (mapConfig && mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
+		}else if (_mapConfig && _mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || _mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 			_gaq.push(['_setAccount', 'UA-46332195-6']);
 		}else{ 
 			_gaq.push(['_setAccount', 'UA-46332195-3']);

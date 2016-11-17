@@ -127,52 +127,6 @@
 			}
 			self._redrawButtons(optionsBtn);
 			map.invalidateSize();
-			/*
-			if(self.embed || width<500 || height<=350){
-				$('.leaflet-control-gps').attr("style","display:none");
-				$('#dv_bt_Find').attr("style","display:none");
-				$('#dv_bt_Routing').attr("style","display:none");
-				$('.bt_captura').attr("style","display:none");
-				$('.bt_print').attr("style","display:none");
-				$('.bt_geopdf').attr("style","display:none");
-				$('.leaflet-control-mouseposition').attr("style","display:none");
-				$('.leaflet-control-scale').attr("style","display:none");
-				$('.leaflet-control-minimap').attr("style","display:none");
-				activaLlegenda(true);
-				if (self.llegenda) setTimeout("activaLlegenda(false)", 500);
-			}
-			if(width>500){
-				$('.leaflet-control-gps').attr("style","display:block");
-				$('#dv_bt_Find').attr("style","display:block");
-				$('#dv_bt_Routing').attr("style","display:block");
-				$('.bt_captura').attr("style","display:block");
-				$('.bt_print').attr("style","display:block");
-				$('.bt_geopdf').attr("style","display:block");
-				$('.leaflet-control-mouseposition').attr("style","display:block");
-				$('.leaflet-control-scale').attr("style","display:block");
-				$('.leaflet-control-minimap').attr("style","display:block");
-				activaLlegenda(true);
-				if (self.llegenda) setTimeout("activaLlegenda(false)", 500);
-			}
-			if(self.embed && widthW<=360) {
-				$('.bt_llista').attr("style","display:none");
-				$('.leaflet-control-layers').attr("style","display:none");
-			}
-			else if (self.embed) {
-				$('.bt_llista').attr("style","display:block");
-				$('.leaflet-control-layers').attr("style","display:block");
-				$('.control-btn-fons').attr("style","display:none");
-				activaPanelCapes(false);
-			}
-			if (cl){
-				if (cl.indexOf('grisfort') == -1) {
-					jQuery('.bt_llista span').removeClass('greenfort');
-					jQuery('.bt_llista span').addClass('grisfort');
-				}
-			}
-			//TODO ver el tema 3D
-			if(estatMapa3D){ActDesOpcionsVista3D(true)};
-			*/
 			return self;
 		},
 		
@@ -420,7 +374,7 @@
 		addLayersControl: function(button){
 			var self = this,
 			btn_ctr_layers,
-			_mapConfig = self.mapConfig,
+			_mapConfig = self._mapConfig,
 			_map = self.map;
 			
 			button = (button !== undefined) ? button : true;
@@ -868,22 +822,22 @@
 			else if (url('?mapacolaboratiu') &&  url('?mapacolaboratiu')=="alta" && _uid==Cookies.get('uid')) {
 				self.loadMapaColaboratiuPage();
 			}
-			var mapConfig = $.parseJSON(results.results);
-			if(mapConfig.options){
-				mapConfig.options = $.parseJSON(mapConfig.options);
-				if(mapConfig.options.llegenda === false){
+			var _mapConfig = $.parseJSON(results.results);
+			if(_mapConfig.options){
+				_mapConfig.options = $.parseJSON(_mapConfig.options);
+				if(_mapConfig.options.llegenda === false){
 					self.nollegenda = "1"; //ocultar la llegenda
 					self.llegenda = 0;
 				}
-				self.tipusllegenda=mapConfig.options.tipusllegenda;
-				self.llegendaOpt=mapConfig.options.llegendaOpt;
+				self.tipusllegenda=_mapConfig.options.tipusllegenda;
+				self.llegendaOpt=_mapConfig.options.llegendaOpt;
 			}
-			self._mapConfig = mapConfig;
+			self._mapConfig = _mapConfig;
 			
 			self._configControls();
 			
-			_map.fire('loadconfig', mapConfig);
-			$.publish('loadConfig', mapConfig);
+			_map.fire('loadconfig', _mapConfig);
+			$.publish('loadConfig', _mapConfig);
 			
 			return self;
 		},
@@ -921,9 +875,9 @@
 		fireLoadConfig: function(){
 			var self = this,
 			_map = self.map,
-			mapConfig = self._mapConfig;
+			_mapConfig = self._mapConfig;
 			
-			_map.fire('visorconfig', mapConfig);
+			_map.fire('visorconfig', _mapConfig);
 			
 			return self;
 		},
@@ -1014,9 +968,9 @@
 		loadApp: function(){
 			var self = this,
 			_map = self.map,
-			mapConfig = self._mapConfig;
+			_mapConfig = self._mapConfig;
 			
-			self._loadPublicMap(mapConfig);
+			self._loadPublicMap(_mapConfig);
 			
 			return self;
 		},
@@ -1029,13 +983,13 @@
 
 		},
 		
-		_loadPublicMap: function(mapConfig){
+		_loadPublicMap: function(_mapConfig){
 			var self = this,
-				nomUser = mapConfig.entitatUid.split("@"),
-				nomEntitat = mapConfig.nomEntitat,
+				nomUser = _mapConfig.entitatUid.split("@"),
+				nomEntitat = _mapConfig.nomEntitat,
 				infoHtml = '';
 			
-			var nomAp = mapConfig.nomAplicacio;
+			var nomAp = _mapConfig.nomAplicacio;
 			if ($(location).attr('href').indexOf('/visor.html') != -1) { 
 				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
 			}
@@ -1045,10 +999,10 @@
 			
 			infoHtml += '<p>'+nomUser[0]+'</p>';
 			
-			if (mapConfig.options){
-				var desc=mapConfig.options.description;
+			if (_mapConfig.options){
+				var desc=_mapConfig.options.description;
 
-				desc==""?desc=mapConfig.nomAplicacio:desc=desc;
+				desc==""?desc=_mapConfig.nomAplicacio:desc=desc;
 				
 				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
 				if ($(location).attr('href').indexOf('/visor.html') != -1) {
@@ -1058,12 +1012,12 @@
 					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
 					$('meta[property="og:image"]').attr('content', urlThumbnail);
 				}
-				if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
-				if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
+				if (_mapConfig.options.description!=undefined) infoHtml += '<p>'+_mapConfig.options.description+'</p>';
+				if (_mapConfig.options.tags!=undefined) infoHtml += '<p>'+_mapConfig.options.tags+'</p>';
 				
 				$('.escut').hide();
 			}
-			$("#mapTitle").html(self._mapNameShortener(mapConfig.nomAplicacio) + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
+			$("#mapTitle").html(self._mapNameShortener(_mapConfig.nomAplicacio) + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
 			$('#infoMap').popover({
 				placement : 'bottom',
@@ -1076,30 +1030,30 @@
 			});
 		
 			//TODO quitar la global ya que se usa en el control de capas.
-			downloadableData = (mapConfig.options && mapConfig.options.downloadable?
-					mapConfig.options.downloadable:[]);
+			downloadableData = (_mapConfig.options && _mapConfig.options.downloadable?
+					_mapConfig.options.downloadable:[]);
 			
-			mapConfig.newMap = false;
-			$('#nomAplicacio').html(mapConfig.nomAplicacio);
+			_mapConfig.newMap = false;
+			$('#nomAplicacio').html(_mapConfig.nomAplicacio);
 			
-			self._loadMapConfig(mapConfig).then(function(){
+			self._loadMapConfig(_mapConfig).then(function(){
 				
 			});
 		},
 		
-		_loadMapConfig: function(mapConfig){
+		_loadMapConfig: function(_mapConfig){
 			var self = this,
 			_map = self.map,
 			_layers = self.instamapsLayers,
 			dfd = $.Deferred();
 			
-			if (!$.isEmptyObject( mapConfig )){
+			if (!$.isEmptyObject( _mapConfig )){
 				
-				$('#businessId').val(mapConfig.businessId);
+				$('#businessId').val(_mapConfig.businessId);
 				//TODO ver los errores de leaflet al cambiar el mapa de fondo
 				//cambiar el mapa de fondo a orto y gris
-				if (mapConfig.options != null){
-					var fons = mapConfig.options.fons;
+				if (_mapConfig.options != null){
+					var fons = _mapConfig.options.fons;
 					if (fons == 'topoMap'){
 						_map.topoMap();
 					}else if (fons == 'topoMapGeo') {
@@ -1121,7 +1075,7 @@
 					}else if (fons == 'alcadaMap'){
 						_map.alcadaMap();
 					}else if (fons == 'colorMap') {
-						_map.colorMap(mapConfig.options.fonsColor);
+						_map.colorMap(_mapConfig.options.fonsColor);
 					}else if (fons == 'naturalMap') {
 						_map.naturalMap();
 					}else if (fons == 'divadminMap') {
@@ -1129,17 +1083,15 @@
 					}else if (fons == 'hibridTerrainMap') {
 						_map.hibridTerrainMap();				
 					}else if (fons.indexOf('colorBlankMap')!=-1) {						
-					console.info(fons);
 						_map.colorBlankMap(fons);
-					
 					}
-					_map.setActiveMap(mapConfig.options.fons);
-					_map.setMapColor(mapConfig.options.fonsColor);
+					_map.setActiveMap(_mapConfig.options.fons);
+					_map.setMapColor(_mapConfig.options.fonsColor);
 				}
 				
 				//carga las capas en el mapa
 				var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
-				_layers._loadAllLayers(mapConfig, controlCapes).then(function(){
+				_layers._loadAllLayers(_mapConfig, controlCapes).then(function(){
 					self._updateLayerControl();
 				});
 				
@@ -1164,33 +1116,31 @@
 		_drawVisor: function(){
 			var self = this,
 			map = self.map,
-			mapConfig = self._mapConfig;
+			_mapConfig = self._mapConfig;
 			
 			if(self.embed){
 				self.drawEmbed();
 			}
-			
-			
-			
-			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
+				
+			if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
 				if(self.embed){
 					self.addLogoInstamap();
 				}
 				
-				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'visor_instamaps', mapConfig.entitatUid, 1]});
-			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
+				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'visor_instamaps', _mapConfig.entitatUid, 1]});
+			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
-				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]});
+				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
 			
-			}else if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
+			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				
-				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]});
+				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
 			
 			}else{
 			
@@ -1222,7 +1172,7 @@
 		_initCenter: function(){
 			var self = this,
 			_map = self.map,
-			mapConfig = self._mapConfig;
+			_mapConfig = self._mapConfig;
 			
 			var hash = location.hash;
 			hashControl = new L.Hash(_map);
@@ -1230,12 +1180,12 @@
 			if (parsed){
 				hashControl.update();
 			}else{
-				if(mapConfig.options){
-					if (mapConfig.options.center){
-						var opcenter = mapConfig.options.center.split(",");
-						_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
-					}else if (mapConfig.options.bbox){
-						var bbox = mapConfig.options.bbox.split(",");
+				if(_mapConfig.options){
+					if (_mapConfig.options.center){
+						var opcenter = _mapConfig.options.center.split(",");
+						_map.setView(L.latLng(opcenter[0], opcenter[1]), _mapConfig.options.zoom);
+					}else if (_mapConfig.options.bbox){
+						var bbox = _mapConfig.options.bbox.split(",");
 						var southWest = L.latLng(bbox[1], bbox[0]);
 					    var northEast = L.latLng(bbox[3], bbox[2]);
 					    var bounds = L.latLngBounds(southWest, northEast);

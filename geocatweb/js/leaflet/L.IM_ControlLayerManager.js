@@ -9,15 +9,17 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 	initialize : function(baseLayers, groupedOverlays, options) {
 		var i, j;
+		
 		L.Util.setOptions(this, options);
-
+		
 		this._layers = {};
 		this._lastZIndex = 0;
 		this._handlingClick = false;
 		this._groupList = [];
 		this._domGroups = [];
 		this._socInstamapsVell="_socVisorVellInstamaps_";
-
+		this._mapConfig = options.mapConfig;
+		
 		for (i in baseLayers) {
 			for ( var j in baseLayers[i].layers) {
 				this._addLayer(baseLayers[i].layers[j], j,
@@ -291,8 +293,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 
 	_socVisorInstamaps:function(){
+		var self = this;
 		var hoSoc=false;
-		if(mapConfig.tipusAplicacioId==1 && !getModeMapa()){
+		if(self._mapConfig.tipusAplicacioId==1 && !getModeMapa()){
 			hoSoc=true;
 		}
 		return hoSoc;
@@ -595,44 +598,44 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	},
 
 	_update : function(makeUpdate) {
-		var redraw = makeUpdate || this.options.autoUpdate;
+		var self = this;
+		var redraw = makeUpdate || self.options.autoUpdate;
 		if(redraw){
-			if (!this._container) {
+			if (!self._container) {
 				return;
 			}
 
-			this._domGroupsTMP = this._groupList;
-			this._groupList = [];
-			this._baseLayersList.innerHTML = '';
-			this._overlaysList.innerHTML = '';
-			this._domGroups.length = 0;
+			self._domGroupsTMP = self._groupList;
+			self._groupList = [];
+			self._baseLayersList.innerHTML = '';
+			self._overlaysList.innerHTML = '';
+			self._domGroups.length = 0;
 
-			var that = this;
-			this._domGroupsTMP = sortByKey(this._domGroupsTMP, "id");
-			this._groupList = sortByKey(this._groupList, "id");			
+			self._domGroupsTMP = sortByKey(self._domGroupsTMP, "id");
+			self._groupList = sortByKey(self._groupList, "id");			
 			
-			this._domGroupsTMP.forEach(function(item, index, array) {
-				that._addGroupFromObject(item);
+			self._domGroupsTMP.forEach(function(item, index, array) {
+				self._addGroupFromObject(item);
 			});
 
 			var baseLayersPresent = false, overlaysPresent = false, i, obj;
 			var layerArray=[];
-			for (i in this._layers) {
-				layerArray.push(this._layers[i]);
+			for (i in self._layers) {
+				layerArray.push(self._layers[i]);
 			}
 			layerArray = sortByKeyPath(layerArray, "zIndex");
 			
 			for (i in layerArray) {
 				obj = layerArray[i];
-				this._addItem(obj);
+				self._addItem(obj);
 				overlaysPresent = overlaysPresent || obj.overlay;
 				baseLayersPresent = baseLayersPresent || !obj.overlay;
 			}
 			
-			this._hideSpiner();
+			self._hideSpiner();
 			
-			map.fire('onRedrawLegend', mapConfig);
-			$.publish('onRedrawLegend', mapConfig);
+			map.fire('onRedrawLegend', self._mapConfig);
+			$.publish('onRedrawLegend', self._mapConfig);
 		}
 	},
 	
@@ -1395,7 +1398,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 	_onRemoveClick : function(e) {
 		$('.tooltip').hide();
-		console.debug(e.currentTarget);
 		var layerId = e.currentTarget.layerId;
 		var layerIdParent = e.currentTarget.layerIdParent;
 		var lbusinessId = [];

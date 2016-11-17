@@ -44,12 +44,11 @@ L.Control.Legend = L.Control.extend({
 		
 		self._div = container;
 		
-		map.on('loadconfig', this._updateLegend, this);
-		map.on('visorconfig', this._updateLegend, this);				
-		map.on('activaLegendTab', this._updateTabLegend, this);
-		map.on('onRedrawLegend', this._redraw, this);
-	
-		
+		map.on('loadconfig', self._updateLegend, self);
+		map.on('visorconfig', self._updateLegend, self);				
+		map.on('activaLegendTab', self._updateTabLegend, self);
+		map.on('onRedrawLegend', self._redraw, self);
+			
 		L.DomEvent
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
@@ -62,10 +61,11 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	onRemove: function (map) {
-		map.off('loadconfig', this._updateLegend, this);
-		map.off('visorconfig', this._updateLegend, this);				
-		map.off('activaLegendTab', this._updateTabLegend, this);
-		map.off('onRedrawLegend', this._redraw, this);
+		var self = this;
+		map.off('loadconfig', self._updateLegend, self);
+		map.off('visorconfig', self._updateLegend, self);				
+		map.off('activaLegendTab', self._updateTabLegend, self);
+		map.off('onRedrawLegend', self._redraw, self);
 	},
 	
 	hideBtn: function(){
@@ -104,23 +104,24 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	_updateLegend: function(config){
-				
-		this.servidorsWMS=config.servidorsWMS;		
-		this.legend = (config.legend? $.parseJSON( config.legend):"");		
+		var self = this;
+		self.servidorsWMS=config.servidorsWMS;		
+		self.legend = (config.legend? $.parseJSON( config.legend):"");		
 		
-		this._draw();
+		self._draw();
 		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 	},
 		
 	_redraw: function(config){
+		var self = this;
 		//this.servidorsWMS=config.servidorsWMS;						
-		if(this.options && this.options.origenllegenda=="mapa"){
-				this.legend=generallegendaMapaEdicio();
+		if(self.options && self.options.origenllegenda=="mapa"){
+			self.legend=generallegendaMapaEdicio();
 		}else{
-				this.legend = (config.legend? $.parseJSON( config.legend):"");			
+			self.legend = (config.legend? $.parseJSON( config.legend):"");			
 		}				
-		$(this._div).html('');	
-		this._draw();
+		$(self._div).html('');	
+		self._draw();
 		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 	},
 	
@@ -181,7 +182,6 @@ L.Control.Legend = L.Control.extend({
 		var self = this,
 		mapLegend = self.legend,
 		div = self._div;
-			
 		if (self._checkEmptyMapLegend()){
 			var legendhtml = [];
 			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){			

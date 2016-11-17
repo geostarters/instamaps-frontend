@@ -388,6 +388,7 @@ function loadPublicMap(results){
 	});
 
 	mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
+	console.debug("AKI");
 	checkEmptyMapLegend();
 
 	downloadableData = (mapConfig.options && mapConfig.options.downloadable?
