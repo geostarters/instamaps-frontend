@@ -367,9 +367,16 @@
 		},
         
         _addHtmlInterficiePublicar: function(){
+        	var txtBoto="";
+        	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!='N'){
+        		txtBoto="Desar / Desbloquejar";
+        	}
+        	else{
+        		txtBoto="Desar / Publicar el mapa";
+        	}
         	this.container.append(
     			'<div class="'+this.buttonClass+'" data-toggle="tooltip" data-lang-title="Desa\'l i decideix si fer-lo públic o privat" title="Desa\'l i decideix si fer-lo públic o privat">'+
-    			'<span lang="ca">Desar / Publicar el mapa</span>'+
+    			'<span lang="ca">'+txtBoto+'</span>'+
     			'</div>'
     		);
         	

@@ -109,7 +109,12 @@ function loadApp(){
 		getMapByBusinessId(data).then(function(results){
 			if (results.status == "ERROR"){
 				gestioCookie('getMapByBusinessId');
-			}else{
+			}
+			else if (results.status == "KO"){
+				alert(results.results);
+				gestioCookie('getMapByBusinessId');
+			}
+			else{
 				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
 				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
@@ -459,7 +464,14 @@ function updateLangText(){
 	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.translate("Dibuixar una línia o un polígon"));
 	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
 	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
-	$('.bt_publicar>span').html(window.lang.translate("Desar / Publicar el mapa"));
+	var txtBoto="";
+	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!='N'){
+		txtBoto="Desar / Desbloquejar";
+	}
+	else{
+		txtBoto="Desar / Publicar el mapa";
+	}
+	$('.bt_publicar>span').html(window.lang.translate(txtBoto));
 	$('#socialShare>h5').html(window.lang.translate("Compartir"));
 	
 	//Traducció dels textos del modal de publicar
