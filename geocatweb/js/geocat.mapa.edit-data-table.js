@@ -412,7 +412,8 @@ function fillModalDataTable(obj, geomBid){
 					
 				});
 				
-				
+				var showRefresh=false;
+				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) showRefresh=true;
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
 					striped: true,
@@ -425,7 +426,7 @@ function fillModalDataTable(obj, geomBid){
 					rowStyle: 'rowStyle',
 				    columns: columNames,
 				    showExport: true,			
-				    showRefresh: true,
+				    showRefresh: showRefresh,
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
 				    ignoreColumn: [columNames.length-4],
 				    data: resultatsMod,
