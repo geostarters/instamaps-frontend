@@ -1,7 +1,6 @@
 /*
 Variables GLOBALS del 3D
  */
-
 var viewer;
 var mapaVista3D = null;
 var capesActives3D;
@@ -26,31 +25,22 @@ var modeDebug3D=true;
 //var _urlTerrenys = '/terrenys/demextes'; //'/cesium/terrenys/demextes'
 var _urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes'; //'/cesium/terrenys/demextes'
 
-
 var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
-	
 	 _urlTerrenys = 'http://imtilemapsdev.icgc.local/terrenys/dem2out';
 	//_urlTerrenys = 'http://tilemaps.icgc.cat/terrenys/demextes';
-	
 }
-
 
 var _urlModels3D='http://tilemaps.icgc.cat/terrenys/model3D/test/Prova1_cesium.json';
 
 var appl='mapa';
 var factorNavegador=1000;
-function addModul3D(config) {
 
+function addModul3D(config) {
+	//console.debug("addModul3D");
 	
-	
-	
-	mapConfig = config || mapConfig;
-	
-	
-	
-	
+	var _mapConfig = config;
 	var socChrome=isChrome();
 
 	if(socChrome){factorNavegador=600;}
@@ -60,19 +50,9 @@ function addModul3D(config) {
 	browserWebGL = detectoCapacitatsWebGL();
 
 	if (browserWebGL) {
-		//$("head").append('<link id="cesium_css" href="/llibreries/cesium/Cesium.css" type="text/css" rel="stylesheet" />');
-		//$("head").append('<script src="/llibreries/cesium/Cesium.js"  type="text/javascript"></script>');
-		//$("head").append('<script src="/llibreries/cesium/Cesium.PinBuilder_IM.js"  type="text/javascript"></script>');
-		//$("head").append('<script src="/llibreries/cesium/cesium-navigation.js"  type="text/javascript"></script>');
 		$("body").append('<div id="map3D"></div>');
 		$("body").append('<div id="popup3D"></div>');
-		/*
-		$("body").append('<div id="bt_pinch3D" class="leaflet-control btn btn-default btn-sm" lang="ca" title="Inclinar vista">'+
-		'<span id="span_bt_pinch3D" class="glyphicon glyphicon-road grisfort"></span></div>');
-		 */
-
 		_gaq.push(['_trackEvent', appl, 'siWebGL3D', 'label 3D', 1]);
-
 	}
 
 	jQuery('.bt_3D_2D').on('click', function (event) {
@@ -93,40 +73,22 @@ function addModul3D(config) {
 		});
 	});
 
-	/*
-	jQuery(document).on('click', "#bt_pinch3D", function (e) {
-
-	if (estatMapa3D) {
-	mapaVista3D.changePitch();
-	}
-
-
-	});
-
-	 */
-
 	if (url('?3D') == 'true') {
-		var fT = parseInt(mapConfig.servidorsWMS.length * 1000 / 2);
-
-		setTimeout(initMapa3DfromMapConfig, fT);
-	} else if (mapConfig.options && mapConfig.options.mapa3D) {
-
-		var fT = parseInt(mapConfig.servidorsWMS.length * 1000 / 2);
-
-		setTimeout(initMapa3DfromMapConfig, fT);
+		var fT = parseInt(_mapConfig.servidorsWMS.length * 1000 / 2);
+		setTimeout(function(){
+			initMapa3DfromMapConfig(_mapConfig);
+		}, fT);
+	} else if (_mapConfig.options && _mapConfig.options.mapa3D) {
+		var fT = parseInt(_mapConfig.servidorsWMS.length * 1000 / 2);
+		setTimeout(function(){
+			initMapa3DfromMapConfig(_mapConfig);
+		}, fT);
 	}
-	
-	
 	
 	if (url('?testModel3D') == 'true') {	
-			
 		testModel3D=true;
-		//_urlTerrenys='http://assets.agi.com/stk-terrain/world';
 		_urlTerrenys='//assets.agi.com/stk-terrain/world';
-	
 	}	
-	
-
 }
 
 function activaVista3d_2d(_this){
@@ -135,33 +97,30 @@ function activaVista3d_2d(_this){
 }
 
 function gestionFonsMapa3D() {
-
 	if (estatMapa3D && mapaEstatNOPublicacio) {
 		mapaVista3D.addBaseLayersCesium();
 	}
-
 }
 
 function canviaVista_3D_2D(boto, event) {
-	
 	(jQuery(boto).text() == '3D') ? init3D(boto) : init2D(boto);
-
 }
 
-function initMapa3DfromMapConfig() {
+function initMapa3DfromMapConfig(config) {
 	if (browserWebGL) {
 		initAmbVistaControlada = true;
 		jQuery('.bt_3D_2D').text('2D');
-		inicialitzaMapa3D('_fromConfig');
+		inicialitzaMapa3D('_fromConfig', config);
 	}
 }
 
-function inicialitzaMapa3D(origen) {
+function inicialitzaMapa3D(origen, config) {
 	if (browserWebGL) {
 		if (mapaVista3D == null) {
 			mapaVista3D = new IM_aplicacio({
 				'mapId' : 'map',
-				'mapId3D' : 'map3D'
+				'mapId3D' : 'map3D', 
+				mapConfig: config
 			});
 		}
 		mapaVista3D.canviaVisor3D(map, controlCapes, origen);
@@ -186,16 +145,13 @@ function init3D(boto) {
 		jQuery(boto).text('2D');
 		inicialitzaMapa3D('_fromBoto');
 	} else {}
-
 }
 
 function init2D(boto) {
 	jQuery(boto).text('3D');
-
 	mapaVista3D.retornaPosicio2D().then(function (bbox) {
 		map.fitBounds([[bbox.lat0, bbox.lng0], [bbox.lat1, bbox.lng1]]);
 		map.spin(true);
-
 		$("#map3D").fadeOut("slow", function () {
 			jQuery('.leaflet-map-pane').show();
 			jQuery("#map3D").hide();
@@ -281,6 +237,7 @@ var IM_aplicacio = function (options) {
 	this.matriuCapes = {};
 	this.matriuCapes.base = [];
 	this.matriuCapes.overlays = [];
+	this.mapConfig = this.options.mapConfig;
 	this.setVisor = function (isLeaflet) {
 		this.leaflet = isLeaflet;
 
@@ -370,16 +327,13 @@ var IM_aplicacio = function (options) {
 
 		estatMapa3D = true;
 		
-		 
-			
-
 		this.calculaPosicioInici(this.bounds, this.mapZoom).then(function (rectangle) {
 
-			if (initAmbVistaControlada && mapConfig.options) {
+			if (initAmbVistaControlada && this.mapConfig.options) {
 
-				if (mapConfig.options && mapConfig.options.camera3D) {
+				if (this.mapConfig.options && this.mapConfig.options.camera3D) {
 
-					var cameraPos = mapConfig.options.camera3D;
+					var cameraPos = this.mapConfig.options.camera3D;
 
 					if (cameraPos.indexOf('NaN') == -1) {
 
@@ -1050,13 +1004,13 @@ var IM_aplicacio = function (options) {
 
 		var that = this;
 		data.request = "createWMSfromMap";
-		data.businessId = mapConfig.businessId;
-		data.nomAplicacio = mapConfig.nomAplicacio;
+		data.businessId = that.mapConfig.businessId;
+		data.nomAplicacio = that.mapConfig.nomAplicacio;
 		data.modeMapa = getModeMapa();
 
-		getModeMapa() ? data.entitatUid = _UsrID : data.entitatUid = mapConfig.servidorsWMS[0].entitatUid;
+		getModeMapa() ? data.entitatUid = _UsrID : data.entitatUid = that.mapConfig.servidorsWMS[0].entitatUid;
 
-		if (mapConfig.entitatUid && mapConfig.entitatUid.indexOf("random_") != -1) {
+		if (that.mapConfig.entitatUid && that.mapConfig.entitatUid.indexOf("random_") != -1) {
 			data.entitatUid = "randomuser"
 
 		}
@@ -2120,8 +2074,6 @@ var that = this;
 					}
 
 					var cartesianPositions = Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(entityMatriu);
-
-		
 				
 				} else {
 
@@ -2175,21 +2127,8 @@ var that = this;
 
 						}
 					};
-					
-					
-					/*
-					entity.show=visible;
-					entity.polygon.outline = true;
-					entity.polygon.perPositionHeight=true;
-					entity.polygon.outlineColor = Cesium.Color.fromCssColorString(borderColor);
-					entity.polygon.material =Cesium.Color.fromCssColorString(fillColor).withAlpha(fillOpacity);
-
-					_newEntity=entity;
-					*/
 				}
-
 				viewer.entities.add(_newEntity);
-
 			}
 
 		} // final for afegim el DataSource
@@ -2400,18 +2339,6 @@ var that = this;
 			var windowPosition = new Cesium.Cartesian2(viewer.container.clientWidth / 2, viewer.container.clientHeight / 2);
 			var pickPosition = viewer.camera.pickEllipsoid(windowPosition);
 			var pickPositionCartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(pickPosition);
-			/*
-			setTimeout(function () {
-			viewer.camera.flyTo({
-			destination : pickPositionCartographic,
-			orientation : {
-			heading : Cesium.Math.toRadians(0.0),
-			pitch : Cesium.Math.toRadians(0.0), //tilt
-			},
-			easingFunction : Cesium.EasingFunction.LINEAR_NONE
-			});
-			}, 2000);
-			 */
 			var posUL = new Cesium.Cartesian2(0, 0);
 			var posLR = new Cesium.Cartesian2(viewer.container.clientWidth, viewer.container.clientHeight);
 			var pickPositionUL = viewer.camera.pickEllipsoid(posUL);
@@ -2444,29 +2371,20 @@ var that = this;
 				if (zoomLevel < 1) {
 					zoomLevel = 1;
 				}
-
 			}
-
 			bbox.centerLat = centerLat;
 			bbox.centerLng = centerLng;
 			bbox.zoomLevel = zoomLevel;
-
 			dfd.resolve(bbox);
-
 		} catch (Err) {
-
-			//_escriuDebug(Err);
 			var bbox = {};
 			bbox.lng0 = map.getBounds().getWest();
 			bbox.lat0 = map.getBounds().getSouth();
 			bbox.lng1 = map.getBounds().getEast();
 			bbox.lat1 = map.getBounds().getNorth();
-			//_escriuDebug(bbox);
 			dfd.resolve(bbox);
-			//dfd.reject(bbox);
 		}
 		return dfd.promise();
-
 	},
 
 	this._miraCentreDins = function (y, x) {
@@ -2486,7 +2404,6 @@ var that = this;
 
 
 function mostraMsgNo3D() {
-	//alert("El seu Navegador no suporta el WebGL");
 	jQuery("#dialgo_no_webgl").modal('show');
 	_gaq.push(['_trackEvent', appl, 'noWebGL3D', 'label 3D', 1]);
 }

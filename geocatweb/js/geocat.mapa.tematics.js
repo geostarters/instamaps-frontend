@@ -524,7 +524,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			var businessIdCapaOrigen=map._layers[objEdicio.featureID].properties.capaBusinessId;
 			removeGeometriaFromVisualitzacio(data).then(function(results){
 				if(results.status == 'OK'){
-					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
+					/*var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
 					var layer = map._layers[objEdicio.featureID];
 					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
 					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
@@ -532,6 +532,21 @@ function createPopupWindowData(player,type, editable, origen, capa){
 					var layerMare = controlCapes._layers[capaLeafletId];
 					//recarrego les sublayers de la capa modificada	
 					actualitzacioTematic(layerMare,businessIdCapaOrigen,null,null,null,"baixa");  
+					*/
+					
+					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
+					var capaBusinessId = map._layers[objEdicio.featureID].properties.capaBusinessId;
+					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
+					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
+					if(map._layers[capaLeafletId]!= undefined) {
+						updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
+					}
+					else {						
+						updateFeatureCount(capaBusinessId, null);		
+					}		
+					 var layer = controlCapes._layers[capaLeafletId];
+					//recarrego les sublayers de la capa modificada	
+					actualitzacioTematic(layer,businessIdCapaOrigen,null,null,null,"baixa");
 					
 				}else{
 					console.debug("ERROR deleteFeature");
@@ -2504,7 +2519,7 @@ function loadCacheVisualitzacioLayer(layer){
 			if(results.status == "OK" ){
 				controlCapes._visLayers[data.businessId] = results.results;
 				controlCapes._options[data.businessId] = layer;
-				readVisualitzacio(defer, results.results, layer);			
+				readVisualitzacio(defer, results.results, layer);
 			}else{
 				console.debug('getVisualitzacioByBusinessId ERROR');
 				defer.reject();	

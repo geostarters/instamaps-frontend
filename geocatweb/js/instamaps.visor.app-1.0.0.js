@@ -49,7 +49,7 @@ var visorOptions = {
 	random: url("?random") || null
 };
 
-var visor; 
+var visor;
 
 jQuery(document).ready(function() {
 	//TODO ver si esto es mejor ponerlo cuando ya esté cargado todo el visor para cojer bien el titulo, etc.

@@ -264,6 +264,7 @@ function loadApp(){
 	});
 
 	$.subscribe('updateMapConfig',function(e, data){
+		console.debug(data);
 		mapConfig = data;
 	});
 }
@@ -283,7 +284,7 @@ function initControls(){
 	generaLlistaServeisWMS();
 	
 	//Afegir modul3D
-	addModul3D();	
+	addModul3D(mapConfig);	
 }
 
 function addClicksInici() {
@@ -763,6 +764,7 @@ function createNewMap(){
 			gestioCookie('createMapError');
 		}else{
 			try{
+				console.debug(results.results);
 				mapConfig = results.results;
 				mapConfig.options = jQuery.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
