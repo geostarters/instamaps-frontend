@@ -295,6 +295,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 	_socVisorInstamaps:function(){
 		var self = this;
 		var hoSoc=false;
+		if (self._mapConfig===undefined) self._mapConfig=mapConfig;
 		if(self._mapConfig.tipusAplicacioId==1 && !getModeMapa()){
 			hoSoc=true;
 		}
@@ -976,13 +977,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			col_sublayer.layerId = input_sublayer.layerId;
 			col_sublayer.layerIdParent = layerIdParent;
 			row_sublayer.appendChild(col_sublayer);
-			
-			col_sublayer = L.DomUtil.create('span','leaflet-refresh glyphicon glyphicon-refresh opcio-conf');
-			L.DomEvent.on(col_sublayer, 'click', this._onRefreshClick, this);
-			col_sublayer.layerId = input_sublayer.layerId;
-			col_sublayer.layerIdParent = layerIdParent;
-			row_sublayer.appendChild(col_sublayer);	
-			
+				
 			if(estatMapa3D){mapaVista3D.actualitzaVistaOverlays(sublayer.layer.options,"add",true);}	
 		}
 		return row_sublayer;

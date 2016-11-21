@@ -113,7 +113,6 @@ function loadApp(){
 				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
 				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
-					console.debug(results.results);
 					mapConfig = results.results;
 					//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
 					//jQuery.map( bloquejatJson, function( val, i ) {
@@ -285,7 +284,7 @@ function initControls(){
 	generaLlistaServeisWMS();
 	
 	//Afegir modul3D
-	addModul3D();	
+	addModul3D(mapConfig);	
 }
 
 function addClicksInici() {

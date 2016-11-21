@@ -184,9 +184,16 @@ L.Control.Legend = L.Control.extend({
 		div = self._div;
 		if (self._checkEmptyMapLegend()){
 			var legendhtml = [];
-			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){			
+			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){
 				jQuery.each(mapLegend, function(i, row){
-			    	for (var i = 0; i < row.length; i++) {
+					var layerType=self._getNameLayer(i);
+					if (row.length>=1 && row[0].chck){
+						legendhtml.push($('<div class="visor-legend-row">'+
+			    			'<div class="visor-legend-name">'+layerType.serverName+'</div>'+
+			    			'</div>'+
+			    			'<div class="visor-separate-legend-row"></div>'));
+					}
+					for (var i = 0; i < row.length; i++) {
 			    		if(row[i].chck){
 			    			if (row[i].symbol.indexOf("circle")>-1){
 			    				var padding_left="0px";
