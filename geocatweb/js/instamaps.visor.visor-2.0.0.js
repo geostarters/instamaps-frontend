@@ -895,7 +895,6 @@
 				uid: _uid	
 			};
 			
-			
 			getCacheMapByBusinessId(data).then(function(results){
 				if (results.status == "ERROR"){
 					self.loadErrorPage();
@@ -905,7 +904,9 @@
 					//mostar modal con contraseña
 					self._loadPasswordModal();
 				}else{
+
 					self._beforeLoadConfig(results);
+
 				}
 			});
 			
@@ -949,7 +950,7 @@
 				options : {
 					center : (parsed ? parsed.center.lat + "," + parsed.center.lng : "41.431,1.8580"),
 					zoom : (parsed ? parsed.zoom : 8),
-					description : (self.text ? self.text : ""),
+					description : "",
 					fons : self.fons
 				}
 			};
@@ -1175,26 +1176,57 @@
 			var self = this,
 			_map = self.map,
 			_mapConfig = self._mapConfig;
+
+			var ineFound = false;
+			if(self.INE10)
+			{
+
+				var municipis = ListViewMunicipis.municipis;
+				for(var i=0; i<municipis.length && !ineFound; ++i)
+				{
+
+					ineFound = (municipis[i].municipiCodi == self.INE10);
+					if(ineFound)
+					{
+
+						var data = municipis[i];
+						var bbox = data.bbox.split(",");
+						var southWest = L.latLng(bbox[1], bbox[0]),
+						northEast = L.latLng(bbox[3], bbox[2]),
+						bounds = L.latLngBounds(southWest, northEast);
+						_map.fitBounds(bounds)
+
+					}
+
+				}
+
+			}
+
+			if(!ineFound)
+			{
 			
-			var hash = location.hash;
-			hashControl = new L.Hash(_map);
-			var parsed = hashControl.parseHash(hash);
-			if (parsed){
-				hashControl.update();
-			}else{
-				if(_mapConfig.options){
-					if (_mapConfig.options.center){
-						var opcenter = _mapConfig.options.center.split(",");
-						_map.setView(L.latLng(opcenter[0], opcenter[1]), _mapConfig.options.zoom);
-					}else if (_mapConfig.options.bbox){
-						var bbox = _mapConfig.options.bbox.split(",");
-						var southWest = L.latLng(bbox[1], bbox[0]);
-					    var northEast = L.latLng(bbox[3], bbox[2]);
-					    var bounds = L.latLngBounds(southWest, northEast);
-					    _map.fitBounds( bounds );
+				var hash = location.hash;
+				hashControl = new L.Hash(_map);
+				var parsed = hashControl.parseHash(hash);
+				if (parsed){
+					hashControl.update();
+				}else{
+					if(mapConfig.options){
+						if (mapConfig.options.center){
+							var opcenter = mapConfig.options.center.split(",");
+							_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+						}else if (mapConfig.options.bbox){
+							var bbox = mapConfig.options.bbox.split(",");
+							var southWest = L.latLng(bbox[1], bbox[0]);
+						    var northEast = L.latLng(bbox[3], bbox[2]);
+						    var bounds = L.latLngBounds(southWest, northEast);
+						    _map.fitBounds( bounds );
+						}
 					}
 				}
+
 			}
+
 			return self;
 		},
 		
@@ -1219,11 +1251,10 @@
 					}
 					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
 				}
-				else if(self.text) {	//map definef by url params
+				else if(self.text) {	//map defined by url params
 					self.loadURLConfig()._initCenter()._drawVisor()._addURLMarker();
-				}else{
-					
-					
+				}
+				else{					
 					self.loadErrorPage();
 				}
 			}
@@ -1258,6 +1289,7 @@
 
 					html += self.text;
 					html += "</a>";
+
 				}
 				else
 				{
