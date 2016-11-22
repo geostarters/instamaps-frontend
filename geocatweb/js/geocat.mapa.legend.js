@@ -356,7 +356,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
 			var estils = layer.options.estil_do.estils;
 			var label = layer.options.estil_do.dataField;
-			console.debug("AQUI");
 			if(geometrytype == t_marker){
 					var map={};
 					jQuery.each(layer._layers, function(i, lay){
@@ -425,7 +424,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							if(labelNomCategoria == "Altres"){
 								labelNomCategoria = window.lang.translate("Altres");
 							}
-							console.debug(labelNomCategoria);
+							
 						}						
 						if (layer.options.tem=='sizeTematic'){
 							if (labelNomCategoria.indexOf('('+map[estilRang.estil.simbolSize]+')')==-1){
@@ -1778,7 +1777,7 @@ function getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil){
 		if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 	}else{
 		labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-		console.debug(labelNomCategoria);
+		
 		if(labelNomCategoria == "Altres"){
 			labelNomCategoria = window.lang.translate("Altres");
 		}
