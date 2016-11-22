@@ -714,10 +714,11 @@
 		{
 
 			var self = this;
-			if("" != mapConfig.legend)
+			var _mapConfig = ("undefined" == typeof visor) ? mapConfig : visor._mapConfig;
+			if(undefined != _mapConfig.legend && "" != _mapConfig.legend)
 			{
 
-				var auxLegend = JSON.parse(mapConfig.legend);
+				var auxLegend = JSON.parse(_mapConfig.legend);
 				if(null != auxLegend)
 				{
 
@@ -750,7 +751,10 @@
 
 						}
 
-						mapConfig.legend = JSON.stringify(auxLegend);
+						if("undefined" == typeof visor)
+							mapConfig = JSON.stringify(auxLegend);
+						else
+							visor._mapConfig.legend = JSON.stringify(auxLegend);
 						mapLegend = auxLegend;
 
 					}
