@@ -269,7 +269,6 @@ function loadApp(){
 	});
 
 	$.subscribe('updateMapConfig',function(e, data){
-		console.debug(data);
 		mapConfig = data;
 	});
 }

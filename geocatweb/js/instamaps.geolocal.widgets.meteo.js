@@ -32,6 +32,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-meteo')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
+        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Meteo']});
         	})
         	.appendTo(container);
         },

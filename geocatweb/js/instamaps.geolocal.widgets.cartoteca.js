@@ -28,6 +28,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-cartoteca')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
+        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Cartoteca']});
         	})
         	.appendTo(container);
         },
