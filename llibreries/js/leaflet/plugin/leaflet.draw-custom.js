@@ -560,12 +560,20 @@ L.Draw.Polyline = L.Draw.Feature.extend({
 	_getMeasurementString: function () {
 		var currentLatLng = this._currentLatLng,
 			previousLatLng = this._markers[this._markers.length - 1].getLatLng(),
-			distance;
+			distance, latlngs = [];
+
+		for(var i=0; i<this._markers.length; ++i)
+			latlngs.push(this._markers[i].getLatLng());
+
+		latlngs.push(this._markers[this._markers.length - 1].getLatLng());
 
 		// calculate the distance from the last fixed point to the mouse position
 		distance = this._measurementRunningTotal + currentLatLng.distanceTo(previousLatLng);
+		distanceStr = L.GeometryUtil.readableDistance(distance, this.options.metric);
+		area = L.GeometryUtil.geodesicArea(latlngs);
+		areaStr = L.GeometryUtil.readableArea(area, this.options.metric);
 
-		return L.GeometryUtil.readableDistance(distance, this.options.metric);
+		return window.lang.translate("Distància") + " " + distanceStr + "<br />" + window.lang.translate("Àrea") + " " + areaStr;
 	},
 
 	_showErrorTooltip: function () {
