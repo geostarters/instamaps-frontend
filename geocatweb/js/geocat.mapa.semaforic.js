@@ -351,7 +351,7 @@
 				labelSize: 0,
 				lineWidth: 0,
 				radius: 0,
-				simbolSize: 0,
+				simbolSize: 6,
 				geometria: {
 					features: features
 				}
@@ -497,19 +497,19 @@
 				if (layer.options.geometryType == t_marker)
 				{
 
-					src = $("#tematic-values-rangs-punt-template").html();
+					src = $("#tematic-values-semaforic-punt-template").html();
 
 				}
 				else if (layer.options.geometryType == t_polyline)
 				{
 
-					src = $("#tematic-values-rangs-polyline-template").html();
+					src = $("#tematic-values-semaforic-polyline-template").html();
 					
 				}
 				else if (layer.options.geometryType == t_polygon)
 				{
 
-					src = $("#tematic-values-rangs-polygon-template").html();
+					src = $("#tematic-values-semaforic-polygon-template").html();
 
 				}
 

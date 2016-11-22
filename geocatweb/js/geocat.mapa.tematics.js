@@ -1410,46 +1410,19 @@ function addHtmlModalCategories(){
 	'						<tbody>'+
 	'						<tr><td colspan="2"><span lang="ca">Valors menors que el de referència</span></td>'+
 	'							<td>'+
-	'							{{#if style.isCanvas}}'+
-	'								<div id="div_punt0" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
-	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
-	'							{{else}}'+
-	'								<div id="div_punt0" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
-	'									{{#if style.icon}}'+
-	'										fa-{{style.icon}}"></div>'+	
-	'									{{else}}'+
-	'										"></div>'+
-	'									{{/if}}'+
-	'							{{/if}}'+
+	'							<div id="div_punt0" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-dropdown-toggle" data-toggle="dropdown"'+ 
+	'								style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: ;"> </div>'+
 	'						</td></tr>'+
 	'						<tr><td><span lang="ca">Valor de referència</span></td>'+
 	'							<td><input id="refValue" type="text" value="{{value}}" name="ref"></td>'+
 	'							<td>'+
-	'							{{#if style.isCanvas}}'+
-	'								<div id="div_punt1" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
-	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
-	'							{{else}}'+
-	'								<div id="div_punt1" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
-	'									{{#if style.icon}}'+
-	'										fa-{{style.icon}}"></div>'+	
-	'									{{else}}'+
-	'										"></div>'+
-	'									{{/if}}'+
-	'							{{/if}}'+
+	'							<div id="div_punt1" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-dropdown-toggle" data-toggle="dropdown"'+ 
+	'								style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: ;"> </div>'+
 	'						</td></tr>'+
 	'						<tr><td colspan="2"><span lang="ca">Valors majors que el de referència</span></td>'+
 	'							<td>'+
-	'							{{#if style.isCanvas}}'+
-	'								<div id="div_punt2" class="awesome-marker-web awesome-marker-icon-punt_r fa fa- dropdown-toggle" data-toggle="dropdown"'+ 
-	'									style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: {{style.fillColor}};"> </div>'+
-	'							{{else}}'+
-	'								<div id="div_punt2" class="awesome-marker-web awesome-marker-icon-{{style.markerColor}} fa'+
-	'									{{#if style.icon}}'+
-	'										fa-{{style.icon}}"></div>'+	
-	'									{{else}}'+
-	'										"></div>'+
-	'									{{/if}}'+
-	'							{{/if}}'+
+	'							<div id="div_punt2" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-dropdown-toggle" data-toggle="dropdown"'+ 
+	'								style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: ;"> </div>'+
 	'						</td></tr>'+
 	'						</tbody>'+
 	'					</table>'+	
