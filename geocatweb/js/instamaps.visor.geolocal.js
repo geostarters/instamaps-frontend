@@ -74,12 +74,12 @@
 			}
 		},
 		
-		_loadPublicMap: function(mapConfig){
+		_loadPublicMap: function(_mapConfig){
 			var self = this,
 			visor = self.visor,
 			map = visor.map,
-			nomUser = mapConfig.entitatUid.split("@"),
-			nomEntitat = mapConfig.nomEntitat,
+			nomUser = _mapConfig.entitatUid.split("@"),
+			nomEntitat = _mapConfig.nomEntitat,
 			infoHtml = '';
 			
 			//TODO  ver si podemos usar un objeto usuario para almacenar este tipo de cosas.
@@ -109,28 +109,28 @@
 			$('.brand-txt').hide();//#496: Traiem "Instamaps" dels visors de Geolocal
 			$('.img-circle2-icon').hide();
 
-			if (mapConfig.options.barColor){
-				$('#navbar-visor').css('background-color', mapConfig.options.barColor);
+			if (_mapConfig.options.barColor){
+				$('#navbar-visor').css('background-color', _mapConfig.options.barColor);
 			}
 
-			if (mapConfig.options.textColor){
-				$('#navbar-visor').css('color', mapConfig.options.textColor).css('border-color', '#ffffff');
-				$('.navbar-brand').css('color', mapConfig.options.textColor);
-				$('#mapTitle').css('color', mapConfig.options.textColor);
+			if (_mapConfig.options.textColor){
+				$('#navbar-visor').css('color', _mapConfig.options.textColor).css('border-color', '#ffffff');
+				$('.navbar-brand').css('color', _mapConfig.options.textColor);
+				$('#mapTitle').css('color', _mapConfig.options.textColor);
 				$('#mapTitle h3').css('color', '#ffffff');
-				$('.navbar-inverse .navbar-nav > li > a').css('color', mapConfig.options.textColor);
-				$('#menu_user > a > span').removeClass('green').css('color', mapConfig.options.textColor);
+				$('.navbar-inverse .navbar-nav > li > a').css('color', _mapConfig.options.textColor);
+				$('#menu_user > a > span').removeClass('green').css('color', _mapConfig.options.textColor);
 				$('.navbar-form').css('border-color', 'transparent');
 				$('.bt-sessio').css('border-color', '#ffffff');
 			}
 
-			if (mapConfig.options.fontType){
-				$('#navbar-visor').css('font-family', mapConfig.options.fontType);
+			if (_mapConfig.options.fontType){
+				$('#navbar-visor').css('font-family', _mapConfig.options.fontType);
 			}
 
 			$('.escut').show();
-			if (mapConfig.logo){
-				$('.escut img').prop('src', '/logos/'+mapConfig.logo);
+			if (_mapConfig.logo){
+				$('.escut img').prop('src', '/logos/'+_mapConfig.logo);
 			}
 			
 			return self;
@@ -148,7 +148,7 @@
 			var self = this,
 			visor = self.visor,
 			map = visor.map,
-			mapConfig = visor._mapConfig;
+			_mapConfig = visor._mapConfig;
 			
 			$(window).resize(_.debounce(function(){
 				self.resizeMap();
@@ -168,7 +168,7 @@
 			
 			self._addLogosGeolocal();
 			
-			self._loadPublicMap(mapConfig);
+			self._loadPublicMap(_mapConfig);
 			
 			return self;
 		},

@@ -52,7 +52,10 @@ L.Control.Control3D = L.Control.extend({
 	},
 	
 	onRemove: function (map) {
-		map.off('map3dmode', this._map, this);
+		var self = this;
+		map.off('map3dmode', self._map, self);
+		map.off('loadconfig', self._addModul3D, self);
+		map.off('visorconfig', self._addModul3D, self);
 	},
 	
 	_toggleView: function(e){
