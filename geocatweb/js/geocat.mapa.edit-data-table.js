@@ -269,7 +269,7 @@ function fillModalDataTable(obj, geomBid){
 				return false;
 			});
 			
-			return false;
+			//return false;
 		});	
 	}
 	else {//Primer cop que dibuixem una geometria
@@ -381,7 +381,6 @@ function fillModalDataTable(obj, geomBid){
 				
 				geometriesBusinessId = results.geometriesBusinessId;
 				$('#modal_data_table').data("layerServidor", results.layer);
-				
 				var resultats = results.results;
 				var coords = resultats.split("#");  
 				var lon = parseFloat(coords[2]);
@@ -411,7 +410,6 @@ function fillModalDataTable(obj, geomBid){
 					//console.debug(result);
 					
 				});
-				
 				var showRefresh=false;
 				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) showRefresh=true;
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({

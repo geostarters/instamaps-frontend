@@ -38,6 +38,7 @@
 			.prop('id', "id_chk_mascara")
         	.on('click',function(){
         		$.publish('changeMask',$(this).prop('checked'));
+        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Mascara']});
         	});
 			
 			var selMaskdiv = $('<div/>').addClass('checkbox');

@@ -237,7 +237,6 @@ L.Control.Legend = L.Control.extend({
 				var lastPos=self._getLastActived();
 				
 				jQuery.each(mapLegend, function(j, row){
-				
 				var layerType=self._getNameLayer(j);
 				index==lastPos.indexPos?active=' active':active="";
 								
@@ -259,7 +258,10 @@ L.Control.Legend = L.Control.extend({
 				    		else if (mida>6 && mida<=14) padding_left="padding-left:10px";
 				    		else if (mida>14 && mida<=22) padding_left="padding-left:5px";
 						}
-						
+						var isWMS=false;
+						if (row[i].symbol.indexOf("GetLegendGraphic")>-1){
+							isWMS=true;
+						}
 						
 						index==lastPos.indexPos?active=' active':active="";
 						index==lastPos.indexPos?self.options.currentTab=j:null;	
@@ -273,9 +275,14 @@ L.Control.Legend = L.Control.extend({
 						}else{*/
 							if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
 							legendTabContent.push('<div class="visor-legend-row">'+
-						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
-						    	'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
+						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>');
+							if (isWMS){
+								legendTabContent.push('</div><div class="visor-separate-legend-row"></div>');	
+							}
+							else {
+								legendTabContent.push('<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
 						    	'</div><div class="visor-separate-legend-row"></div>');	
+							}
 										
 							if(i==row.length-1){legendTabContent.push('</div>');}			
 						//}
