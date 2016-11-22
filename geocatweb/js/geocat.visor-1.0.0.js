@@ -293,7 +293,9 @@ function loadPublicMap(results){
 	if ($(location).attr('href').indexOf('/visor.html') != -1) { 
 		$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 	}
-
+	if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
+		document.title=url('?title');
+	}
 	var nomUser = mapConfig.entitatUid.split("@");
 	var nomEntitat = mapConfig.nomEntitat;
 	

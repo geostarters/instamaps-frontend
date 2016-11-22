@@ -993,7 +993,9 @@
 			if ($(location).attr('href').indexOf('/visor.html') != -1) { 
 				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
 			}
-			
+			if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
+				document.title=url('?title');
+			}
 			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
 			
