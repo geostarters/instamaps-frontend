@@ -414,7 +414,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
@@ -489,7 +489,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
@@ -567,7 +567,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
@@ -748,7 +748,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 					
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);					
-					if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
