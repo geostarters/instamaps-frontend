@@ -441,6 +441,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Llista de capes": "Lista de capas"
 ,"Longitud":"Longitud"
 
+,"Mapa bloquejat per l'usuari:":"Mapa bloqueado por el usuario:"
 ,"Mapa Cadastral":"Mapa Cadastral"
 ,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n"
 ,"Mapa històric Catalunya 1936":"Mapa histórico Cataluña 1936"
@@ -577,6 +578,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Punts dins de polígons":"Puntos dentro polígonos"
 ,"Punts disponibles":"Puntos disponibles"
 
+,"Quan aquest usuari surti de la sessió d'edició podràs treballar amb aquest mapa.":"Cuando este usuario salga de la sesión de edición podrás trabajar con este mapa."
 ,"Què podeu fer?":"¿Qué puede hacer?"	
 ,"Quin és el sistema de referència?":"Cual es el sistema de referéncia?"
 

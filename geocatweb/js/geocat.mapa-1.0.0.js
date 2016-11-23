@@ -111,8 +111,11 @@ function loadApp(){
 				gestioCookie('getMapByBusinessId');
 			}
 			else if (results.status == "KO"){
-				alert(results.results);
-				gestioCookie('getMapByBusinessId');
+				var uidBloq = results.results;
+				var txt = window.lang.translate("Mapa bloquejat per l'usuari:")+uidBloq+".\n";
+				txt += window.lang.translate("Quan aquest usuari surti de la sessió d'edició podràs treballar amb aquest mapa.");
+				alert(txt);
+				gestioCookie('getMapByBusinessId2');
 			}
 			else{
 				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
