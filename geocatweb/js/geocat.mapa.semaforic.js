@@ -676,9 +676,14 @@
 				var lowerThanLabel = key + window.lang.translate(" menor de ") + pivot;
 				var equalToLabel = key + window.lang.translate(" igual a ") + pivot;
 				var higherThanLabel = key + window.lang.translate(" major de ") + pivot;
-				self._updateMapLegend(layer, lowerThanLabel, equalToLabel, higherThanLabel);
-				self._updateStyleRangeLegend(layer, lowerThanLabel, equalToLabel, higherThanLabel, 
-					lowerStyle, equalStyle, higherStyle, pivot);
+				if(self._capaVisualitzacio.hasOwnProperty("layer"))
+				{
+				
+					self._updateMapLegend(layer, lowerThanLabel, equalToLabel, higherThanLabel);
+					self._updateStyleRangeLegend(layer, lowerThanLabel, equalToLabel, higherThanLabel, 
+						lowerStyle, equalStyle, higherStyle, pivot);
+
+				}
 				self._renderLayer(defer);
 
 			}
@@ -723,7 +728,9 @@
 				if(null != auxLegend)
 				{
 
-					var layerLegend = auxLegend[self._capaVisualitzacio.layer.options.businessId];
+					var layerLegend;
+					layerLegend = auxLegend[self._capaVisualitzacio.layer.options.businessId];
+
 					if(null != layerLegend)
 					{
 

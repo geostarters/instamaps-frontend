@@ -2584,3 +2584,12 @@ a.leaflet-control-timecontrol:hover {
 	background-color: #afaeae;
 	border-color: #afaeae;
 }
+
+.popup_traffic_light {
+	background: url("images/galeria_icones.png") no-repeat scroll -290px -800px;
+	background-size: ;
+    margin-left: 2px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+}
