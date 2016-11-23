@@ -2563,11 +2563,6 @@ a.leaflet-control-timecontrol:hover {
 	padding-bottom: 10px;
 }
 
-.traffic-light-icon {
-	height: 25px;
-	width: 14px;
-}
-
 .chk_mascara{
 
     margin-left: 0 !important;
@@ -2585,11 +2580,14 @@ a.leaflet-control-timecontrol:hover {
 	border-color: #afaeae;
 }
 
-.popup_traffic_light {
+.traffic-light-icon {
 	background: url("images/galeria_icones.png") no-repeat scroll -290px -800px;
-	background-size: ;
-    margin-left: 2px;
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 25px;
+}
+
+.traffic-light-icon-empty {
+    width: 20px;
+    height: 25px;
 }

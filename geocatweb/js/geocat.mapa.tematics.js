@@ -309,7 +309,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 						html+='<div class="popup_data_value">'+
 						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
 						'</div>';
-						html += '<div class="traffic-light-icon"></div>';
+						html += '<div class="traffic-light-icon-empty"></div>';
 					}else{
 						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 					}
@@ -322,13 +322,13 @@ function createPopupWindowData(player,type, editable, origen, capa){
 
 						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
 						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-						html+='<div class="popup_traffic_light" class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></div>';
+						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></div>';
 						
 					}
 					else
 					{
 
-						html += '<div class="traffic-light-icon"></div>';
+						html += '<div class="traffic-light-icon-empty"></div>';
 
 					}
 				}
@@ -387,7 +387,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 	player.bindPopup(html,{'offset':[0,-25]});
 
 	//Afegim els events de clicks per al semafòric
-	jQuery(document).on('click', ".popup_traffic_light", function(e) {
+	jQuery(document).on('click', ".traffic-light-icon", function(e) {
 
 		e.stopImmediatePropagation();
 		var layerId = $(this).data("leafletid");

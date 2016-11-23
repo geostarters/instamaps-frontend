@@ -5197,11 +5197,6 @@ li >.label-dof:focus {
 	padding-bottom: 10px;
 }
 
-.traffic-light-icon {
-	height: 25px;
-	width: 14px;
-}
-
 .ramp.active {
 	background-color: #ffc500;
 }
@@ -5242,10 +5237,14 @@ li >.label-dof:focus {
     margin-left: 2px;
 }
 
-.popup_traffic_light {
+.traffic-light-icon {
 	background: url("images/galeria_icones.png") no-repeat scroll -290px -800px;
-    margin-left: 2px;
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 25px;
+}
+
+.traffic-light-icon-empty {
+    width: 20px;
+    height: 25px;
 }
