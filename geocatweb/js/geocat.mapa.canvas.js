@@ -403,7 +403,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		html2canvas(jQuery('#map .leaflet-map-pane'), {
 			onrendered : function(canvas) {
 				ActDesPrintMode(false);
-				var imgData = canvas.toDataURL('image/jpeg', 0.95);
+				var imgData = canvas.toDataURL('image/png', 0.95);
 				imgData = JSON.stringify(imgData.replace(
 					/^data:image\/(png|jpeg);base64,/, ""));
 				uploadImageBase64(imgData).then(
