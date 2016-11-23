@@ -322,7 +322,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 
 						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
 						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Fer temàtic de semàfor')+'"></div>';
+						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
 						
 					}
 					else
@@ -1251,7 +1251,7 @@ function addHtmlModalCategories(){
 	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.translate("únic")+'</label>'+
 	'						<span class="rd_separator"></span>'+
 	'						<input type="radio" id="rd_tipus_semaforic" name="rd_tipus_agrupacio" value="S">'+
-	'						<label for="rd_tipus_semaforic" lang="ca">semafòric</label>'+
+	'						<label for="rd_tipus_semaforic" lang="ca">Escala de color</label>'+
 	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
 	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
 	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+

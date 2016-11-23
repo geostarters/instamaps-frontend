@@ -13,12 +13,13 @@
 			'	<div id="interactivePalette">' +
 			'		<div id="paletteBackground"></div>' +
 			'		<div id="innerPalette">' +
-			'			<div><h5 lang="ca" class="paletteTitle">Tria la paleta de colors</h5></div>' + 
+			'			<div lang="ca" class="paletteTitle">Temàtic per escala de color</div>' + 
+			'			<div lang="ca" style="font-size: 12px;">Tria la paleta de colors</div>' +
 			'			<div>' +
 			'				<div class="paletteLabels">' +
-			'					<div style="height: 20px;">Valors menors</div>' +
-			'					<div style="height: 20px;">Valors iguals</div>' +
-			'					<div style="height: 20px;">Valors majors</div>' +
+			'					<div style="height: 20px;" lang="ca">Valors menors</div>' +
+			'					<div style="height: 20px;" lang="ca">Valors iguals</div>' +
+			'					<div style="height: 20px;" lang="ca">Valors majors</div>' +
 			'				</div>' +
 			'				<div class="palettes" style="display: inline-block;">';
 			
@@ -61,7 +62,7 @@
 			'		<div class="modal-dialog">'+
 			'			<div class="modal-content panel-primary">'+
 			'				<div id="id_sw" class="modal-body">'+
-			'					<h4><span lang="ca">Vols sortir sense guardar els canvis en la capa?</span></h4>' +
+			'					<h4><span lang="ca">Vols sortir sense guardar aquesta escala de color?</span></h4>' +
 			'				</div>'+
 			'				<div class="modal-footer">'+
 			'					<button type="button" class="btn btn-default" data-dismiss="modal" lang="ca">Cancel·lar</button>'+

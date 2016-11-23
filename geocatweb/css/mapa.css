@@ -5177,6 +5177,7 @@ li >.label-dof:focus {
 	padding-top: 5px;
 	padding-right: 5px;
 	font-style: italic;
+	font-size: 12px;
 }
 
 .paletteTitle {
@@ -5185,6 +5186,7 @@ li >.label-dof:focus {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: rgb(204, 204, 204);
+	font-style: 14px;
 }
 
 .paletteButtons {
