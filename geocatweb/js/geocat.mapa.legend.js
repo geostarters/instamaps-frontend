@@ -747,7 +747,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 					
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);					
-					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
+						-1!=index && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -780,7 +781,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 					
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
-					if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
+						-1!=index && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -820,7 +822,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 					
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
-					if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
+						-1!=index && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';

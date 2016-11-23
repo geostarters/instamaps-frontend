@@ -514,6 +514,7 @@
 				}
 
 				var template = Handlebars.compile(src);
+				$("#rd_tipus_semaforic").prop("checked", true);
 				$("#list_tematic_values").html(template({values: [{index:0, v: {min: min, max: highestLowerValue}}, {index:1, v: {min: pivot, max: pivot}}, {index:2, v:{min: lowestHigherValue, max: max}}]}));
 
 				$("#dialog_tematic_rangs").data("rangs", [{min: min, max: highestLowerValue}, {min: pivot, max: pivot}, {min: lowestHigherValue, max: max}]);
