@@ -2572,4 +2572,15 @@ a.leaflet-control-timecontrol:hover {
 
     margin-left: 0 !important;
 	
-}	
+}
+
+.btn-invert-palette {
+	background-color: #cccccc;
+	border-color: #cccccc;
+	color: black;
+}
+
+.btn-invert-palette:hover {
+	background-color: #afaeae;
+	border-color: #afaeae;
+}
