@@ -280,6 +280,7 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = Cookies.get('uid');
+	if (uid===undefined) uid=_UsrID;
 	var tipusEntitat = parseInt(Cookies.get('tipusEntitat'));
 	var logged = false;
 	if(!uid || isRandomUser(uid)){
