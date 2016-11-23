@@ -1151,10 +1151,6 @@ L.Edit.Poly = L.Handler.extend({
 		icon: new L.DivIcon({
 			iconSize: new L.Point(8, 8),
 			className: 'leaflet-div-icon leaflet-editing-icon'
-		}),
-		icon2: new L.DivIcon({
-			iconSize: new L.Point(8, 8),
-			className: 'leaflet-div-icon leaflet-editing-icon2'
 		})
 	},
 
@@ -1337,7 +1333,6 @@ L.Edit.Poly = L.Handler.extend({
 
 		marker.setOpacity(0.6);
 
-		marker.setIcon(this.options.icon2);
 		marker1._middleRight = marker2._middleLeft = marker;
 
 		onDragStart = function () {
@@ -1370,7 +1365,6 @@ L.Edit.Poly = L.Handler.extend({
 
 			this._createMiddleMarker(marker1, marker);
 			this._createMiddleMarker(marker, marker2);
-			marker.setIcon(this.options.icon);
 		};
 
 		onClick = function () {
