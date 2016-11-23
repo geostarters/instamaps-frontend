@@ -799,7 +799,9 @@
         					uid: self.uid
         				};
         				//require ajax
-        				publicarMapConfig(mapData);
+        				publicarMapConfig(mapData).then(function(results){
+        					console.debug(results);
+        				});
         				
         				$('#businessId').val(self.mapConfig.businessId);
         			}
@@ -824,23 +826,31 @@
         				};
         				
         				//require ajax
-        				publicarMapConfig(mapData);
+        				publicarMapConfig(mapData).then(function(results){
+        					var txtPubBoto = $('.bt_publicar>span').html();
+        					if (txtPubBoto.indexOf("Desbloquejar")>-1 || txtPubBoto.indexOf("Desbloquear")>-1 || txtPubBoto.indexOf("unlock")>-1 ){
+        						gestioCookie('getMapByBusinessId2');
+        					}
+        					else {
+        						if(!fromCompartir){
+                					$('#dialgo_publicar').modal('hide');
+                					//update map name en el control de capas
+                					$('#nomAplicacio').text(self.mapConfig.nomAplicacio);
+                					$('#nomAplicacio').editable('setValue', self.mapConfig.nomAplicacio);
+                					$('#dialgo_url_iframe').modal('show');
+                					self._addShareButtons();
+        							
+        							jQuery('#dialgo_url_iframe').on('hidden.bs.modal', function (e) {
+        								if(estatMapa3D){
+        									disparaEventMapa=true;
+        									mapaEstatNOPublicacio=true;	
+        								}
+        							});	
+        						}
+        					}
+        				});
         				
-        				if(!fromCompartir){
-        					$('#dialgo_publicar').modal('hide');
-        					//update map name en el control de capas
-        					$('#nomAplicacio').text(self.mapConfig.nomAplicacio);
-        					$('#nomAplicacio').editable('setValue', self.mapConfig.nomAplicacio);
-        					$('#dialgo_url_iframe').modal('show');
-        					self._addShareButtons();
-							
-							jQuery('#dialgo_url_iframe').on('hidden.bs.modal', function (e) {
-								if(estatMapa3D){
-									disparaEventMapa=true;
-									mapaEstatNOPublicacio=true;	
-								}
-							});	
-						}
+        				
         			}
         		});
         	}

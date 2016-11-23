@@ -441,6 +441,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Llista de capes": "Layers list"
 ,"Longitud":"Length"
 
+,"Mapa bloquejat per l'usuari:":"Map locked by user:"
 ,"Mapa Cadastral":"Cadastral map"
 ,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Collaborative map at Instamaps. Invitation"	
 ,"Mapa històric Catalunya 1936":"Historical map of Catalunya 1936"
@@ -577,6 +578,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Punts dins de polígons":"Points inside polygons"
 ,"Punts disponibles":"Available points"
 
+,"Quan aquest usuari surti de la sessió d'edició podràs treballar amb aquest mapa.":"When this user leaves the editing session you can work with this map."
 ,"Què podeu fer?":"What can you do?"
 ,"Quin és el sistema de referència?":"Which is the reference system?"
 
