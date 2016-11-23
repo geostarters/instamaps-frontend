@@ -285,8 +285,13 @@ L.Draw.Polyline = L.Draw.Feature.extend({
 		delete this._markerGroup;
 		delete this._markers;
 
-		this._map.removeLayer(this._poly);
-		delete this._poly;
+		if(this._poly)
+		{
+		
+			this._map.removeLayer(this._poly);
+			delete this._poly;
+
+		}
 
 		this._mouseMarker
 			.off('mousedown', this._onMouseDown, this)

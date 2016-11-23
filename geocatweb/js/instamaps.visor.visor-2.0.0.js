@@ -1131,18 +1131,18 @@
 				if(self.embed){
 					self.addLogoInstamap();
 				}
-				
+				$(".leaflet-control-draw-measure").hide();	//Eliminem el control de mesura si no és geolocal/AOC
 				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'visor_instamaps', _mapConfig.entitatUid, 1]});
 			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
-				
+				addDrawTooltips();
 				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
 			
 			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
-				
+				addDrawTooltips();
 				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
 			
 			}else{
