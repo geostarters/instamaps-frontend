@@ -496,10 +496,9 @@ function loadURLfileLayer(layer){
 		"&dinamic="+dinamic+
 		"&urlFile="+encodeURIComponent(urlFile)+
 		"&uploadFile="+paramUrl.uploadFile+
-		"&uid="+Cookies.get('uid');
+		"&uid="+_UsrID;
 	
 	var capaURLfileLoad;
-	
 	/**
 	 * ORIGEN O TEMATIC SIMPLE
 	 */	
