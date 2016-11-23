@@ -1094,7 +1094,8 @@
 				
 				//carga las capas en el mapa
 				var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
-				_layers._loadAllLayers(_mapConfig, controlCapes).then(function(){
+				_UsrID = _mapConfig.entitatUid;
+				_layers._loadAllLayers(_mapConfig, controlCapes).then(function(){					
 					self._updateLayerControl();
 				});
 				
