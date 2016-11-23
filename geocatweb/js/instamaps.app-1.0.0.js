@@ -104,7 +104,13 @@
 				throw "Missing jQuery selector";
 			}
 			var msg = galeriaLink[self.perfil];
-			$(selector).attr("href",msg);
+			if (self.perfil=='geolocal'){
+				var msg = "http://www.instamaps.cat/"+paramUrl.galeriaPage.substring(1,paramUrl.galeriaPage.length)+"?user="+self.uid;
+				$(selector).attr("href",msg);				
+			}
+			else {
+				$(selector).attr("href",msg);
+			}
 			return self;
 		},
 		

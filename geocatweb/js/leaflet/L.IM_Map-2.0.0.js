@@ -495,12 +495,12 @@ L.IM_Map = L.Map.extend({
 				this.attributionControl.setPrefix(ESRI_ATTR_TERRAIN +this.getCurrentZoomLevel());
 			}else if(sC==1){ //Cat i altres
 				ESRI_RELLEU_L0_13.options.maxZoom=9;
-				ICC_RELLEU_L0_14.options.maxZoom=16;
+				ICC_RELLEU_L0_14.options.maxZoom=17;
 				ESRI_RELLEU_L0_13.setOpacity(0.8);
 				this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR_TERRAIN +this.getCurrentZoomLevel());
 			}else if(sC==2){ //Nomes cat
 				ESRI_RELLEU_L0_13.options.maxZoom=9;
-				ICC_RELLEU_L0_14.options.maxZoom=16;
+				ICC_RELLEU_L0_14.options.maxZoom=17;
 				this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 			}	
 			
