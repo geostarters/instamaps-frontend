@@ -317,7 +317,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					if(capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
+					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
 					{
 
 						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
@@ -2357,7 +2357,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
 					}
 				}
-				try{
+				/*try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
 						feat.dragging.disable(); 
@@ -2368,7 +2368,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					guideLayers.push(feat);
 				}catch(err){
 					
-				}
+				}*/
 				map.closePopup();					
 			});
 		});
