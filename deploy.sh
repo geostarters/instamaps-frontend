@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# In case that something fails, stops execution
+set -e
+
 cd /usr/local/nginx/html/
 sudo su nginx
 git fetch origin production
