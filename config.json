@@ -1,4 +1,4 @@
 {
   "script":"deploy.sh",
-  "hosts":["root@imweb1.farm", "root@imweb1.farm"]
+  "hosts":["root@imweb1.farm", "root@imweb2.farm"]
 }
