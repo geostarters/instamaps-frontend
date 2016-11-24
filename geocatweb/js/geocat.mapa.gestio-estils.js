@@ -210,6 +210,7 @@ function updateGeometriaEstil(layer, nouEstil){
 			layer.properties.estil = nouEstil;
 		
 		//Refresca Llegenda canvi estil
+		console.debug(mapConfig);
 		map.fire('onRedrawLegend', mapConfig);
 		map.fire('activaLegendTab',{id: layer.properties.capaBusinessId, activo: true});
 		

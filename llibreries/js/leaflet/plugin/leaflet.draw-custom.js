@@ -285,8 +285,13 @@ L.Draw.Polyline = L.Draw.Feature.extend({
 		delete this._markerGroup;
 		delete this._markers;
 
-		this._map.removeLayer(this._poly);
-		delete this._poly;
+		if(this._poly)
+		{
+		
+			this._map.removeLayer(this._poly);
+			delete this._poly;
+
+		}
 
 		this._mouseMarker
 			.off('mousedown', this._onMouseDown, this)
@@ -560,12 +565,20 @@ L.Draw.Polyline = L.Draw.Feature.extend({
 	_getMeasurementString: function () {
 		var currentLatLng = this._currentLatLng,
 			previousLatLng = this._markers[this._markers.length - 1].getLatLng(),
-			distance;
+			distance, latlngs = [];
+
+		for(var i=0; i<this._markers.length; ++i)
+			latlngs.push(this._markers[i].getLatLng());
+
+		latlngs.push(this._markers[this._markers.length - 1].getLatLng());
 
 		// calculate the distance from the last fixed point to the mouse position
 		distance = this._measurementRunningTotal + currentLatLng.distanceTo(previousLatLng);
+		distanceStr = L.GeometryUtil.readableDistance(distance, this.options.metric);
+		area = L.GeometryUtil.geodesicArea(latlngs);
+		areaStr = L.GeometryUtil.readableArea(area, this.options.metric);
 
-		return L.GeometryUtil.readableDistance(distance, this.options.metric);
+		return window.lang.translate("Distància") + " " + distanceStr + "<br />" + window.lang.translate("Àrea") + " " + areaStr;
 	},
 
 	_showErrorTooltip: function () {
@@ -1138,10 +1151,6 @@ L.Edit.Poly = L.Handler.extend({
 		icon: new L.DivIcon({
 			iconSize: new L.Point(8, 8),
 			className: 'leaflet-div-icon leaflet-editing-icon'
-		}),
-		icon2: new L.DivIcon({
-			iconSize: new L.Point(8, 8),
-			className: 'leaflet-div-icon leaflet-editing-icon2'
 		})
 	},
 
@@ -1324,7 +1333,6 @@ L.Edit.Poly = L.Handler.extend({
 
 		marker.setOpacity(0.6);
 
-		marker.setIcon(this.options.icon2);
 		marker1._middleRight = marker2._middleLeft = marker;
 
 		onDragStart = function () {
@@ -1357,7 +1365,6 @@ L.Edit.Poly = L.Handler.extend({
 
 			this._createMiddleMarker(marker1, marker);
 			this._createMiddleMarker(marker, marker2);
-			marker.setIcon(this.options.icon);
 		};
 
 		onClick = function () {

@@ -73,13 +73,15 @@ L.Control.Widgets = L.Control.extend({
 	}, 
 	
 	_addModalWidgets: function(){
+		
+		
     	var that = this;
     	$.get("templates/modalWidgets.html",function(data){
 			//TODO ver como pasar el modal container
     		$(that.options.modalContainer).append(data);
     		var modalbody = $('.dialgo_widgets div.widgets-list');
     		var selectdiv = $('.dialgo_widgets div.selectMunicipi');
-    		var listdiv = $('.dialgo_widgets div.listMunicipis');
+    		var listdiv = $('.dialgo_widgets div.listMunicipis');			
     		that._addSelectMunicipis(selectdiv);
     		that._addListViewMunicipis(listdiv);
     		that._addIdescatWidget(modalbody);
@@ -88,6 +90,7 @@ L.Control.Widgets = L.Control.extend({
     		that._addMeteoWidget(modalbody);
         	that._addCadastreWidget(modalbody);
         	that._addInfoParcelaWidget(modalbody);
+			that._addMascaraWidget(selectdiv);
         });
     },
     
@@ -95,6 +98,7 @@ L.Control.Widgets = L.Control.extend({
     	var select = SelectMunicipis.createSelect();
     	container.append(select);
     	$(select).addClass("selectpicker").selectpicker({liveSearch:true});
+		
     },
     
     _addListViewMunicipis: function(container){
@@ -105,6 +109,7 @@ L.Control.Widgets = L.Control.extend({
       	});
     },
     
+	
     _addMeteoWidget: function(container){
     	this.widgets.meteo = WidgetMeteo.getWidget();
     	WidgetMeteo.drawButton(container);
@@ -131,6 +136,16 @@ L.Control.Widgets = L.Control.extend({
     	this.widgets.rpuc = WidgetInfoparcela.getWidget();
     	WidgetInfoparcela.drawButton(container);
     },
+	
+	
+	 _addMascaraWidget: function(container){
+    	WidgetMascara.getWidget();
+    	WidgetMascara.drawButton(container);
+    },
+	
+	
+	
+	
     
     _addCartotecaWidget: function(container){
     	this.widgets.cartoteca = WidgetCartoteca.getWidget();
@@ -155,6 +170,9 @@ L.Control.Widgets = L.Control.extend({
     		_map = this._map;
     	
     	$.subscribe('changeSelectMunicipis',function(e, data){
+			
+		
+			
     		that.activeMunicipi = data;
     		//zoom al municipio
     		if(data && _map){
@@ -173,6 +191,7 @@ L.Control.Widgets = L.Control.extend({
     		$(data.target).addClass("widget-button-active");
     		data.widget.activate();
     		if(that.activeMunicipi){
+				console.info(that.activeMunicipi);
     			data.widget.draw(that.activeMunicipi);
     		}
     	});

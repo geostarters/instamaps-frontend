@@ -40,16 +40,18 @@ L.Control.Like = L.Control.extend({
 	},
 	
 	onRemove: function (map) {
-		map.off('loadconfig', this._updateMapConfig, this);
-		map.off('visorconfig', this._updateMapConfig, this);
+		var self = this;
+		map.off('loadconfig', self._updateMapConfig, self);
+		map.off('visorconfig', self._updateMapConfig, self);
 	},
 	
 	_like: function(e){
-		var self = this,
-		mapConfig = this.options.mapConfig;
+		var self = this;
+		console.debug(self.options.mapConfig);
+		_mapConfig = self.options.mapConfig;
 		
 		var data = {
-			businessId: mapConfig.businessId
+			businessId: _mapConfig.businessId
 		};
 		
 		if(self._isLiked()){

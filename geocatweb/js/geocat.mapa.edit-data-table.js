@@ -177,7 +177,6 @@ function fillModalDataTable(obj, geomBid){
 					}
 					else {
 						for(var x in feature.properties){
-							console.debug(x);
 							var obj = {
 								title: x.toUpperCase(),
 								field: x.toLowerCase(),
@@ -270,7 +269,7 @@ function fillModalDataTable(obj, geomBid){
 				return false;
 			});
 			
-			return false;
+			//return false;
 		});	
 	}
 	else {//Primer cop que dibuixem una geometria
@@ -382,7 +381,6 @@ function fillModalDataTable(obj, geomBid){
 				
 				geometriesBusinessId = results.geometriesBusinessId;
 				$('#modal_data_table').data("layerServidor", results.layer);
-				
 				var resultats = results.results;
 				var coords = resultats.split("#");  
 				var lon = parseFloat(coords[2]);
@@ -412,8 +410,8 @@ function fillModalDataTable(obj, geomBid){
 					//console.debug(result);
 					
 				});
-				
-				
+				var showRefresh=false;
+				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) showRefresh=true;
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
 					striped: true,
@@ -425,10 +423,14 @@ function fillModalDataTable(obj, geomBid){
 //					 showHeader: true,
 					rowStyle: 'rowStyle',
 				    columns: columNames,
-				    showExport: true,				    
+				    showExport: true,			
+				    showRefresh: showRefresh,
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
 				    ignoreColumn: [columNames.length-4],
-				    data: resultatsMod
+				    data: resultatsMod,
+				    icons: {
+				       refresh: 'glyphicon-refresh'
+				    }
 				});	
 				
 
@@ -457,6 +459,24 @@ function fillModalDataTable(obj, geomBid){
 						});							
 					}
 				});	
+				
+				$('[name="refresh"]').on('click',function(){
+					var capaEdicio = $('#modal_data_table').data("capaEdicio");
+					$('#modal_data_table').modal('hide');
+					carregarModalFitxer(true,obj.layer.options.businessId,obj.name,this.dataset.servertype,capaEdicio);
+					
+					//Tornem a carregar les dades de la visualització
+					/*updateGeometries(data).then(function(results){
+						if (results.status == "OK"){
+							editat = true;
+						}else{
+							console.debug('error updateGeometries');
+						}
+						},function(results){
+							console.debug('error updateGeometries');
+						});							
+					}*/
+				});
 				
 				
 				

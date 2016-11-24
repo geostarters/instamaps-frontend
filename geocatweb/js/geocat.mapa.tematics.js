@@ -261,8 +261,7 @@ function loadTematicLayer(layer){
 	return defer.promise();
 }
 
-
-function createPopupWindowData(player,type, editable, origen){
+function createPopupWindowData(player,type, editable, origen, capa){
 //	console.debug("createPopupWindowData");
 //	console.debug(player);
 	var html='';
@@ -310,6 +309,7 @@ function createPopupWindowData(player,type, editable, origen){
 						html+='<div class="popup_data_value">'+
 						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
 						'</div>';
+						html += '<div class="traffic-light-icon-empty"></div>';
 					}else{
 						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 					}
@@ -317,6 +317,20 @@ function createPopupWindowData(player,type, editable, origen){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
+					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
+					{
+
+						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
+						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
+						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
+						
+					}
+					else
+					{
+
+						html += '<div class="traffic-light-icon-empty"></div>';
+
+					}
 				}
 				html+= '</div>';
 				if (key=='text' || key=='TEXT') isADrawarker=true;
@@ -371,6 +385,67 @@ function createPopupWindowData(player,type, editable, origen){
 	html+='</div>';
 	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
 	player.bindPopup(html,{'offset':[0,-25]});
+
+	//Afegim els events de clicks per al semafòric
+	jQuery(document).on('click', ".traffic-light-icon", function(e) {
+
+		e.stopImmediatePropagation();
+		var layerId = $(this).data("leafletid");
+		var parentId = $(this).data("origen");
+		var key = $(this).prev().prev().text();
+		var value = parseFloat($(this).prev().text());
+		var layer = null;
+		var control = null;
+		if("" == parentId)
+		{
+
+			//És una capa no temàtica, hem de crear la de previsualització
+			layer = controlCapes._layers[layerId].layer;
+			control = Semaforic(self.isEditing);
+
+		}
+		else
+		{
+
+			//És una capa temàtica, mirem si és una capa semafòrica de previsualització
+			layer = controlCapes._layers[parentId].layer;
+			if(layer.hasOwnProperty("semaforics") && "undefined" !== typeof layer.semaforics[layerId])
+				control = layer.semaforics[layerId];
+			else
+			{
+
+				//Si hem arribat aquí és que és una capa semafòrica, utilitzem la capa actual
+				control = Semaforic();
+				var businessId = controlCapes._layers[parentId]._layers[layerId].layer.options.businessId;
+				var options = JSON.parse(controlCapes._visLayers[businessId].options);
+				var paletaEstils = [controlCapes._visLayers[businessId].estil[0].color,
+					controlCapes._visLayers[businessId].estil[1].color,
+					controlCapes._visLayers[businessId].estil[2].color
+					]
+				control.setVisualization(controlCapes._layers[parentId]._layers[layerId]);
+				control.setLayer(controlCapes._visLayers[businessId]);
+				control.setLayerOptions(controlCapes._options[businessId]);
+				control.setPalette(paletaEstils, options.reverse);
+
+			}
+
+		}
+
+		control.render($.Deferred(), key, value, layer).then(function(data) {
+			if(!layer.hasOwnProperty("semaforics"))
+				layer.semaforics = {};
+		
+			layer.semaforics[data] = control;
+			//Canviem el valor de referència de la capa al control de capes si el conté
+			var name = Semaforic.getUpdatedLayerName($("#" + layerId + ".editable").text(), value);
+			if(self.isEditing)
+				$("#" + layerId + ".editable").editable("setValue", name, true);
+			else
+				$("#" + layerId + ".editable").text(name);
+
+		});
+
+	});
 	
 	//Afegim events/accions al popUp
 	jQuery(document).on('click', ".bs-popup li a", function(e) {
@@ -448,7 +523,7 @@ function createPopupWindowData(player,type, editable, origen){
 			var businessIdCapaOrigen=map._layers[objEdicio.featureID].properties.capaBusinessId;
 			removeGeometriaFromVisualitzacio(data).then(function(results){
 				if(results.status == 'OK'){
-					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
+					/*var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
 					var layer = map._layers[objEdicio.featureID];
 					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
 					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
@@ -456,6 +531,21 @@ function createPopupWindowData(player,type, editable, origen){
 					var layerMare = controlCapes._layers[capaLeafletId];
 					//recarrego les sublayers de la capa modificada	
 					actualitzacioTematic(layerMare,businessIdCapaOrigen,null,null,null,"baixa");  
+					*/
+					
+					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
+					var capaBusinessId = map._layers[objEdicio.featureID].properties.capaBusinessId;
+					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
+					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
+					if(map._layers[capaLeafletId]!= undefined) {
+						updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
+					}
+					else {						
+						updateFeatureCount(capaBusinessId, null);		
+					}		
+					 var layer = controlCapes._layers[capaLeafletId];
+					//recarrego les sublayers de la capa modificada	
+					actualitzacioTematic(layer,businessIdCapaOrigen,null,null,null,"baixa");
 					
 				}else{
 					console.debug("ERROR deleteFeature");
@@ -1160,6 +1250,8 @@ function addHtmlModalCategories(){
 	'						<input type="radio" id="rd_tipus_unic" name="rd_tipus_agrupacio" value="U">'+
 	'						<label for="rd_tipus_unic" lang="ca">'+window.lang.translate("únic")+'</label>'+
 	'						<span class="rd_separator"></span>'+
+	'						<input type="radio" id="rd_tipus_semaforic" name="rd_tipus_agrupacio" value="S">'+
+	'						<label for="rd_tipus_semaforic" lang="ca">Escala de color</label>'+
 	'						<input type="radio" id="rd_tipus_rang" name="rd_tipus_agrupacio" value="R">'+
 	'						<label for="rd_tipus_rang" lang="ca">per intervals</label>'+
 	'<!-- 						<select id="cmb_tipus_agrupacio"> -->'+
@@ -1309,6 +1401,66 @@ function addHtmlModalCategories(){
 	'						</td></tr>'+
 	'                       {{/if}}'+
 	'						{{/each}}'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-semaforic-punt-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors menors que el de referència</span></td>'+
+	'							<td>'+
+	'							<div id="div_punt0" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-dropdown-toggle" data-toggle="dropdown"'+ 
+	'								style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: ;"> </div>'+
+	'						</td></tr>'+
+	'						<tr><td><span lang="ca">Valor de referència</span></td>'+
+	'							<td><input id="refValue" type="text" value="{{value}}" name="ref"></td>'+
+	'							<td>'+
+	'							<div id="div_punt1" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-dropdown-toggle" data-toggle="dropdown"'+ 
+	'								style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: ;"> </div>'+
+	'						</td></tr>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors majors que el de referència</span></td>'+
+	'							<td>'+
+	'							<div id="div_punt2" class="awesome-marker-web awesome-marker-icon-punt_r fa fa-dropdown-toggle" data-toggle="dropdown"'+ 
+	'								style="font-size: 8px; width: 16px; height: 16px; color: rgb(51, 51, 51); background-color: ;"> </div>'+
+	'						</td></tr>'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-semaforic-polyline-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors menors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol0" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td><span lang="ca">Valor de referència</span></td>'+
+	'							<td><input id="refValue" type="text" value="{{value}}" name="ref"></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol1" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors majors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol2" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						</tbody>'+
+	'					</table>'+	
+	'					</script>'+
+	'					<script id="tematic-values-semaforic-polygon-template" type="text/x-handlebars-template">'+
+	'					<table class="table">'+
+	'						<tbody>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors menors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol0" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td><span lang="ca">Valor de referència</span></td>'+
+	'							<td><input id="refValue" type="text" value="{{value}}" name="ref"></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol1" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
+	'						<tr><td colspan="2"><span lang="ca">Valors majors que el de referència</span></td>'+
+	'							<td>'+
+	'							<canvas id="cv_pol2" height="30" width="30" class="shadow dropdown-toggle" data-toggle="dropdown"></canvas>'+
+	'						</td></tr>'+
 	'						</tbody>'+
 	'					</table>'+	
 	'					</script>'+
@@ -1534,7 +1686,19 @@ function loadVisualitzacioLayer(layer,removed){
 					 readVisualitzacio(defer, resultats, results2.layer);
 				});
 			}
-			else readVisualitzacio(defer, results.results, layer);			
+			else 
+			{
+
+				if(!controlCapes.hasOwnProperty("_visLayers"))
+				{
+				
+					controlCapes._visLayers = {};
+					controlCapes._options = {};
+				}
+				controlCapes._visLayers[businessId] = results.results;
+				controlCapes._options[businessId] = layer;
+				readVisualitzacio(defer, results.results, layer);
+			}
 		}else{
 			console.debug('getVisualitzacioByBusinessId ERROR');
 			defer.reject();
@@ -1564,7 +1728,8 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	//cargar las geometrias a la capa
 	var layOptions = getOptions(layer);
 	var origen = getOrigenLayer(layer);
-	var hasSource = (optionsVis && optionsVis.source!=undefined ) 
+	var hasSource = (optionsVis && optionsVis.source!=undefined) 
+	|| (optionsVis.options && undefined != optionsVis.options.source)
 	|| (layOptions && layOptions.source!=undefined );
 	try{
 		capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
@@ -1692,6 +1857,11 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 		//Pel cas de del tematic categories, tenir la propietat tipusClasicTematic
 		if(visOptions && visOptions.indexOf("tipusClasicTematic")!=-1) {
 			capaVisualitzacio.options.tipusClasicTematic = optionsVis.tipusClasicTematic;
+		}
+
+		//Pel cas de del tematic semafòric, tenir la propietat de l'atribut fixat
+		if(optionsVis && optionsVis.hasOwnProperty("trafficLightKey")) {
+			capaVisualitzacio.options.trafficLightKey = optionsVis.trafficLightKey;
 		}
 		
 		//Per les etiquetes
@@ -1883,7 +2053,38 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
 
 	var canSpiderify = (visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_simple || visualitzacio.tipus == tem_origen);
+	if(visualitzacio.businessId && optionsVis && optionsVis.hasOwnProperty("trafficLightKey") && optionsVis.hasOwnProperty("trafficLightValue"))
+	{
+
+		//Canviem la visualització perquè pot ser que la del servidor no estigui bé (passa quan un cop creada la capa es publica el mapa
+		//havent canviat el valor pivot de la visualització. En el servidor només s'actualitza el valor i no la geometria associada als estils)
+		var sorted = Semaforic.sortGeometry(visualitzacio.estil, optionsVis.trafficLightKey, optionsVis.trafficLightValue);
+
+		//Actualitzem la geometria dels estils a partir de les geometries ordenades i els colors que té el semafòric
+		visualitzacio.estil[0].color = optionsVis.trafficLightLowerColor;
+		visualitzacio.estil[1].color = optionsVis.trafficLightEqualColor;
+		visualitzacio.estil[2].color = optionsVis.trafficLightHigherColor;
+		visualitzacio.estil[0].geometria.features = sorted.lowerGeom;
+		visualitzacio.estil[1].geometria.features = sorted.equalGeom;
+		visualitzacio.estil[2].geometria.features = sorted.higherGeom;
+
+		//Actualitzem el nom de la capa
+		visualitzacio.nom = Semaforic.getUpdatedLayerName(visualitzacio.nom, optionsVis.trafficLightValue);
+		capaVisualitzacio.options.nom = visualitzacio.nom;
+
+	}
 	
+	var props = [];
+	if("undefined" !== typeof optionsVis && optionsVis.hasOwnProperty("propName"))
+	{
+	
+		props = optionsVis.propName.split(',');
+		capaVisualitzacio.isPropertyNumeric = new Array(props.length);
+		$.each(props, function(index, prop) {
+			capaVisualitzacio.isPropertyNumeric[prop] = true;
+		});
+
+	}
 	
 	//per cada estil de la visualitzacio
 	jQuery.each(visualitzacio.estil, function(index, estil){
@@ -1902,12 +2103,24 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 			geomStyle = createAreaStyle(estil);
 		}else if (geomTypeVis === t_multipolygon){
 			geomStyle = createAreaStyle(estil);
-		}		
+		}
 		
 		//per cada geometria d'aquell estil
 		jQuery.each(estil.geometria.features, function(indexGeom, geom){				
 			var featureTem = [];
 			var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
+
+			//Actualitzem el vector de propietats de tipus numèrics de la visualització
+			//Els que són falsos en algun feature ja no cal repassar-los, els eliminem del 
+			//vector de propietats a comprovar
+			var toRemove = [];
+			$.each(props, function(index, prop) {
+				capaVisualitzacio.isPropertyNumeric[prop] = capaVisualitzacio.isPropertyNumeric[prop] && $.isNumeric(geom.properties[prop]);
+				if(!capaVisualitzacio.isPropertyNumeric[prop])
+					toRemove.push(index);
+			});
+			for(var i=toRemove.length-1; i>=0; i--)
+				props.splice(toRemove[i], 1);
 
 			//MultyPoint
 			if (geomTypeVis === t_marker && geomType === t_multipoint){
@@ -2132,19 +2345,19 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						createPopupWindow(feat,geomTypeVis);
 					}else{
 						//"Estem mode vis i no es tem origen:"
-						createPopupWindowData(feat,geomTypeVis, false, origen);
+						createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
 					}								
 				}else{
 					//"Te source, ve de fitxer";
 					if($(location).attr('href').indexOf('mapa')!=-1 && capaVisualitzacio.options.tipusRang == tem_origen){
 						//"Estem mode mapa i es tem origen"
-						createPopupWindowData(feat,geomTypeVis, true, origen);
+						createPopupWindowData(feat,geomTypeVis, true, origen, capaVisualitzacio);
 					}else{
 						//"Estem mode vis i no es tem origen:"
-						createPopupWindowData(feat,geomTypeVis, false, origen);
+						createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
 					}
 				}
-				try{
+				/*try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
 						feat.dragging.disable(); 
@@ -2155,7 +2368,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					guideLayers.push(feat);
 				}catch(err){
 					
-				}
+				}*/
 				map.closePopup();					
 			});
 		});
@@ -2256,12 +2469,23 @@ function loadCacheVisualitzacioLayer(layer){
 		uid: layer.entitatUid
 	};
 	
+	if(!controlCapes.hasOwnProperty("_visLayers"))
+	{
+	
+		controlCapes._visLayers = {};
+		controlCapes._options = {};
+	}
+
 	$.get(HOST_APP+'capesuser/'+data.uid+'/'+data.businessId+'.json', function(results) { 
 		if(results){
+			controlCapes._visLayers[data.businessId] = results.results;
+			controlCapes._options[data.businessId] = layer;
 			readVisualitzacio(defer, results.results, layer);			
 		}else{				
 			getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
 				if(results.status == "OK" ){
+					controlCapes._visLayers[data.businessId] = results.results;
+					controlCapes._options[data.businessId] = layer;
 					readVisualitzacio(defer, results.results, layer);			
 				}else{
 					console.debug('getVisualitzacioByBusinessId ERROR');
@@ -2272,7 +2496,9 @@ function loadCacheVisualitzacioLayer(layer){
 	}).fail(function() {
 	   getCacheVisualitzacioLayerByBusinessId(data).then(function(results){
 			if(results.status == "OK" ){
-				readVisualitzacio(defer, results.results, layer);			
+				controlCapes._visLayers[data.businessId] = results.results;
+				controlCapes._options[data.businessId] = layer;
+				readVisualitzacio(defer, results.results, layer);
 			}else{
 				console.debug('getVisualitzacioByBusinessId ERROR');
 				defer.reject();	

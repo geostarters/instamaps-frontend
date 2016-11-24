@@ -51,7 +51,8 @@ L.Control.LayersBtn = L.Control.extend({
 			collapsed : false,
 			id : 'div_capes',
 			editMode: false,
-			autoUpdate: false
+			autoUpdate: false,
+			mapConfig: self.options.mapConfig
 		}).addTo(map);
 		
 		controlCapes = self.control;
@@ -72,14 +73,15 @@ L.Control.LayersBtn = L.Control.extend({
 	},
 	
 	onRemove: function (map) {
-		map.off('loadconfig', this._updateMapConfig, this);
-		map.off('visorconfig', this._updateMapConfig, this);
+		var self = this;
+		map.off('loadconfig', self._updateMapConfig, self);
+		map.off('visorconfig', self._updateMapConfig, self);
 	},
 	
 	hideBtn: function(){
 		var self = this;
 		$(self._div).hide();
-		var div = this.control.getContainer();
+		var div = self.control.getContainer();
 		$(div).hide();
 	},
 	
@@ -87,17 +89,18 @@ L.Control.LayersBtn = L.Control.extend({
 		var self = this;
 		$(self._div).show();
 		if(!self.control.options.collapsed){
-			var div = this.control.getContainer();
+			var div = self.control.getContainer();
 			$(div).show();
 		}
 	},
 	
 	hide: function() {
-		L.DomUtil.removeClass(this._div, 'greenfort');
-		L.DomUtil.addClass(this._div, 'grisfort');
-		var div = this.control.getContainer();
-		this.control.options.collapsed = true;
-		if(this.options.transition){
+		var self = this;
+		L.DomUtil.removeClass(self._div, 'greenfort');
+		L.DomUtil.addClass(self._div, 'grisfort');
+		var div = self.control.getContainer();
+		self.control.options.collapsed = true;
+		if(self.options.transition){
 			$(div).fadeOut({duration: 'fast'});
 		}else{
 			$(div).hide();
@@ -105,11 +108,12 @@ L.Control.LayersBtn = L.Control.extend({
 	},
 	
 	show: function(e){
-		L.DomUtil.removeClass(this._div, 'grisfort');
-		L.DomUtil.addClass(this._div, 'greenfort');
-		var div = this.control.getContainer();
-		this.control.options.collapsed = false;
-		if(this.options.transition){
+		var self = this;
+		L.DomUtil.removeClass(self._div, 'grisfort');
+		L.DomUtil.addClass(self._div, 'greenfort');
+		var div = self.control.getContainer();
+		self.control.options.collapsed = false;
+		if(self.options.transition){
 			$(div).fadeIn({duration: 'fast'});
 		}else{
 			$(div).show();
@@ -117,7 +121,8 @@ L.Control.LayersBtn = L.Control.extend({
 	},
 	
 	_toggle: function(e){
-		var collapsed = L.DomUtil.hasClass(this._div, 'grisfort');
+		var self = this;
+		var collapsed = L.DomUtil.hasClass(self._div, 'grisfort');
 		this[collapsed ? 'show' : 'hide']();
 	},
 	

@@ -12,7 +12,6 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
     },
 
     removeHooks: function () {
-        L.Draw.Polyline.prototype.removeHooks.call(this);
 
         this._clearHideErrorTimeout();
 
@@ -26,6 +25,7 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
         this._container.style.cursor = '';
 
         this._removeShape();
+        L.Draw.Polyline.prototype.removeHooks.call(this);
     },
 
     _startShape: function() {
@@ -102,7 +102,12 @@ L.Control.MeasureControl = L.Control.extend({
     },
     options: {
         position: 'topleft',
-        handler: {}
+        handler: {
+            shapeOptions: {
+                fill: true,
+                fillOpacity: 0.2
+            }
+        }
     },
 
     toggle: function() {

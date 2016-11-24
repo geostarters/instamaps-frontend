@@ -35,6 +35,7 @@ jQuery(document).ready(function() {
         defaultLang: 'ca'
     });
 	lsLang=web_determinaIdioma();
+	isEditing = edit = ("mapa" == url('filename'));
 	if (lsLang == null || lsLang == "null"){
 		lsLang = "ca";
 		canviaIdioma(lsLang);
@@ -279,6 +280,7 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = Cookies.get('uid');
+	if (uid===undefined) uid=_UsrID;
 	var tipusEntitat = parseInt(Cookies.get('tipusEntitat'));
 	var logged = false;
 	if(!uid || isRandomUser(uid)){
