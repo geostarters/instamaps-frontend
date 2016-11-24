@@ -4,7 +4,7 @@
 set -e
 
 cd /usr/local/nginx/html/
-sudo su nginx
+su nginx
 git fetch origin production
 git fetch --tags
 git pull origin production
