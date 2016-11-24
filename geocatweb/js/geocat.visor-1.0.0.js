@@ -293,7 +293,9 @@ function loadPublicMap(results){
 	if ($(location).attr('href').indexOf('/visor.html') != -1) { 
 		$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
 	}
-
+	if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
+		document.title=url('?title');
+	}
 	var nomUser = mapConfig.entitatUid.split("@");
 	var nomEntitat = mapConfig.nomEntitat;
 	
@@ -388,6 +390,7 @@ function loadPublicMap(results){
 	});
 
 	mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
+	console.debug("AKI");
 	checkEmptyMapLegend();
 
 	downloadableData = (mapConfig.options && mapConfig.options.downloadable?
@@ -1008,6 +1011,9 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
+				
+				console.info(fons);
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {

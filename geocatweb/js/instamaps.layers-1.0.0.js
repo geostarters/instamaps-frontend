@@ -100,11 +100,12 @@
 			return defer.promise();
 		}, 
 		
-		_loadAllLayers: function(mapConfig, controlCapes){
+		_loadAllLayers: function(_mapConfig, _controlCapes){
 			var self = this,
 			dfd = $.Deferred();
 			self.waitDeferred = dfd;
-			self._loadOrigenWMS(mapConfig, controlCapes).then(function(results){
+			
+			self._loadOrigenWMS(_mapConfig, _controlCapes).then(function(results){
 				var num_origen = 0;
 				self.numLayers = results.origen.length + results.sublayers.length;
 				if(self.numLayers === 0){
@@ -164,11 +165,11 @@
 			return self;
 		},
 		
-		_loadOrigenWMS: function(mapConfig, controlCapes){
+		_loadOrigenWMS: function(_mapConfig, _controlCapes){
 			var dfd = $.Deferred(),
 			layer_map = {origen:[],sublayers:[]};
 			
-			$.each(mapConfig.servidorsWMS, function(index, value){
+			$.each(_mapConfig.servidorsWMS, function(index, value){
 				//TODO parsear las options y el group y dejarlo en json.
 				//TODO quitar el parse de cada tipo de capa.
 				if(value.options && value.capesGroup){
@@ -210,8 +211,8 @@
 				}
 
 				if(jsonOptions && jsonOptions.group){
-					if(controlCapes){
-						controlCapes._addGroupFromObject(jsonOptions.group);
+					if(_controlCapes){
+						_controlCapes._addGroupFromObject(jsonOptions.group);
 					}
 				}
 			});

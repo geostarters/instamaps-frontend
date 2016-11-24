@@ -495,11 +495,15 @@ function loadURLfileLayer(layer){
 		"&epsgIN="+epsgIN+
 		"&dinamic="+dinamic+
 		"&urlFile="+encodeURIComponent(urlFile)+
-		"&uploadFile="+paramUrl.uploadFile+
-		"&uid="+Cookies.get('uid');
+		"&uploadFile="+paramUrl.uploadFile;
+		if ($(location).attr('href').indexOf('/visor.html') != -1) { 
+			param_url +="&uid="+_UsrID;
+		}
+		else {
+			param_url +="&uid="+Cookies.get('uid');	
+		}
 	
 	var capaURLfileLoad;
-	
 	/**
 	 * ORIGEN O TEMATIC SIMPLE
 	 */	

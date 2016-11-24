@@ -45,20 +45,20 @@ L.Control.Home = L.Control.extend({
 	},
 	
 	_goHome: function(e){
-		var mapConfig = this.options.mapConfig,
+		var _mapConfig = this.options.mapConfig,
 			_map = this._map;
 		
-		if(mapConfig){
-			if (mapConfig.options.bbox){
-				var bbox = mapConfig.options.bbox.split(",");
+		if(_mapConfig){
+			if (_mapConfig.options.bbox){
+				var bbox = _mapConfig.options.bbox.split(",");
 				var southWest = L.latLng(bbox[1], bbox[0]);
 			    var northEast = L.latLng(bbox[3], bbox[2]);
 			    var bounds = L.latLngBounds(southWest, northEast);
 			    _map.fitBounds( bounds );
 			}
-			else if (mapConfig.options.center){
-				var opcenter = mapConfig.options.center.split(",");
-				_map.setView(L.latLng(opcenter[0], opcenter[1]), mapConfig.options.zoom);
+			else if (_mapConfig.options.center){
+				var opcenter = _mapConfig.options.center.split(",");
+				_map.setView(L.latLng(opcenter[0], opcenter[1]), _mapConfig.options.zoom);
 			}
 		}
 	},

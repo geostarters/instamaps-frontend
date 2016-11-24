@@ -31,6 +31,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-cadastre')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
+        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Cadastre']});
         	})
         	.appendTo(container);
         },
@@ -46,7 +47,7 @@
         
         draw: function(data){
         	var that = this;
-        	if(that.active){
+        	if(that.active   && data.tipusMunicipi){
         		$(that.containerId).empty();
         		var codi = data.codiCadastre;
         		var urlUrbana = that.rutaUrbanaCadastre.replace('_nom_',data.municipiCadastre);

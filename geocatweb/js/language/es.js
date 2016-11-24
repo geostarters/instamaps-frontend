@@ -211,6 +211,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Descarrega mapa en format GeoPDF":"Descarga mapa en formato GeoPDF"
 ,"Desar mapa":"Guardar mapa"
 ,"Desar mapa GeoPDF":"Guardar mapa GeoPDF"
+,"Desar / Desbloquejar": "Guardar / Desbloquear"
 ,"Desar / Publicar el mapa": "Guardar / Publicar el mapa"
 ,"Desa'l i decideix si fer-lo públic o privat": "Guárdalo y decide si hacerlo público o privado"
 ,"Descàrrega":"Descarga"
@@ -440,6 +441,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Llista de capes": "Lista de capas"
 ,"Longitud":"Longitud"
 
+,"Mapa bloquejat per l'usuari:":"Mapa bloqueado por el usuario:"
 ,"Mapa Cadastral":"Mapa Cadastral"
 ,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Mapa colaborativo en Instamaps. Invitaci&oacute;n"
 ,"Mapa històric Catalunya 1936":"Mapa histórico Cataluña 1936"
@@ -576,6 +578,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Punts dins de polígons":"Puntos dentro polígonos"
 ,"Punts disponibles":"Puntos disponibles"
 
+,"Quan aquest usuari surti de la sessió d'edició podràs treballar amb aquest mapa.":"Cuando este usuario salga de la sesión de edición podrás trabajar con este mapa."
 ,"Què podeu fer?":"¿Qué puede hacer?"	
 ,"Quin és el sistema de referència?":"Cual es el sistema de referéncia?"
 
@@ -637,6 +640,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Taules d'origen":"Tablas de origen"
 ,"Temàtic bàsic creat":"Temático básico creado"
 ,"Temàtic de mides creat":"Temático de medidas creado"
+,"Temàtic per escala de color":"Temático por escala de color"
 ,"Terreny":"Terreno"
 ,"Tipus codi":"Tipos de código"
 ,"Títol":"Título"
@@ -683,6 +687,9 @@ jquery_lang_js.prototype.lang.es = {
 ,"Valor max.":"Valor max."
 ,"Valor min.":"Valor min."
 ,"Valors":"Valores"
+,"Valors iguals":"Equal values"
+,"Valors majors":"Higher values"
+,"Valors menors":"Lower values"
 ,"Valors únics":"Valores únicos"
 ,"Veure": "Ver"
 ,"Veure a InstaMaps": "Ver en InstaMaps"
@@ -701,6 +708,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Visualitza":"Visualiza"
 ,"Vols esborrar la capa":"¿Deseas borrar la capa"
 ,"Vols ser el primer a provar la plataforma?":"Quieres ser el primero en probar la plataforma?"
+,"Vols sortir sense guardar aquesta escala de color?":"Quieres eliminar la escala de color?"
 ,"Vull més informació":"Quiero más información"
 ,"Vull ser le primer":"Quiero ser el primero"
 
