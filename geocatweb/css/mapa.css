@@ -2011,11 +2011,19 @@ i.fa {
 .ramp {
     cursor: pointer;
     float: left;
-    padding: 5px 5px 0;
+    padding: 5px 5px 0px;
+}
+.ramp.border {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 0px;
+    height: 62px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    padding: 0px 0px 0px 0px;
 }
 
-.ramp:hover {
-	background-color: #cccccc;
+.ramp.border:hover {
+	border: 1px solid #cccccc;
 }
 
 .ramp rect{
@@ -5200,7 +5208,7 @@ li >.label-dof:focus {
 }
 
 .ramp.active {
-	background-color: #ffc500;
+	border: 1px solid #ffc500;
 }
 
 .btn-invert-palette {

@@ -470,8 +470,8 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 		});
 
 		var key = $("#dataField").val();
-		layerName = key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + auxRangs[0].max + ")";
-		extraData = {trafficLightKey: key, trafficLightValue: auxRangs[0].max, trafficLightLowerColor: rangs[0].estil.color, 
+		layerName = key + " " + window.lang.translate("Escala de color") + " " + window.lang.translate("(Valor de ref: ") + auxRangs[1].min + ")";
+		extraData = {trafficLightKey: key, trafficLightValue: auxRangs[1].min, trafficLightLowerColor: rangs[0].estil.color, 
 			trafficLightEqualColor: rangs[1].estil.color, trafficLightHigherColor: rangs[2].estil.color};
 
 	}
@@ -1015,7 +1015,7 @@ function loadTematicValueTemplate(results, rtype){
 		else if("semaforic" == rtype)
 		{
 
-			html1 = template1({value:results[0].v.max});
+			html1 = template1({value:results[1].v.min});
 
 		}
 		else {

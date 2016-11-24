@@ -35,7 +35,7 @@
 				else
 					palName = palette;
 				var scale = self._createScaleAux(palName, 3, false);
-				html += '					<div class="ramp ' + palName + '">' +
+				html += '					<div class="ramp border ' + palName + '">' +
 				'					<svg height="60" width="15">' + 
 				'						<rect y="0" height="20" width="15" fill="' + scale(self._paletteColorSteps[0]).hex() + '"/>' + 
 				'						<rect y="20" height="20" width="15" fill="' + scale(self._paletteColorSteps[1]).hex() + '"/>' +
@@ -91,7 +91,7 @@
 			aux.on('click',function(evt){
 				var _this = $(this);
 				$("#interactivePalette .ramp.active").removeClass("active");
-				var brewerClass = _this.attr('class').replace("ramp ","").replace(" active", "");
+				var brewerClass = _this.attr('class').replace("ramp border ","").replace(" active", "");
 				self._palette = brewerClass;
 				_this.addClass("active");
 
@@ -185,8 +185,9 @@
 					);
 
 					var key = $("#dialog_tematic_rangs #dataField").val();
-					var value = $("#dialog_tematic_rangs").data("rangs")[1].min;
-					var data = {nom: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")", 
+					var rangs = $("#dialog_tematic_rangs").data("rangs");
+					var value = rangs[1].min;
+					var data = {nom: key + " " + window.lang.translate("Escala de color") + " " + window.lang.translate("(Valor de ref: ") + value + ")", 
 						trafficLightKey: key, trafficLightValue: value, trafficLightLowerColor: self._previsualizationLayer.estil[0].color,
 						trafficLightEqualColor: self._previsualizationLayer.estil[1].color, trafficLightHigherColor: self._previsualizationLayer.estil[2].color};
 					createTematicLayerCategories(e, {}, data, $.Deferred()).then(function(layerId) {
@@ -282,7 +283,7 @@
 				$.each(palettes, function(index, palette) {
 					var svg = $(palette).children();
 					var rects = $(svg).children();
-					var paletteName = $(palette).attr("class").replace("ramp ", "").replace(" active", "");
+					var paletteName = $(palette).attr("class").replace("ramp border ", "").replace(" active", "");
 					var scale = self._createScaleAux(paletteName, 3, self._isPaletteReversed);
 					$(rects[0]).attr("fill", scale(self._paletteColorSteps[0]).hex());
 					$(rects[1]).attr("fill", scale(self._paletteColorSteps[1]).hex());
@@ -401,7 +402,7 @@
 					tem: "clasicTematic",
 					id: null,  //<----
 					businessId: id,
-					nom: key + " Semafòric",
+					nom: key + " " + window.lang.translate("Escala de color"),
 					origen: baseLayer.businessId,
 					geometryType: baseLayer.geometryType,
 					tipus: "clasicTematic",
@@ -429,7 +430,7 @@
 					propName: baseLayer.propName.join()
 				}),
 				query:null,
-				serverName: key + " " + window.lang.translate("Semafòric") + " " + window.lang.translate("(Valor de ref: ") + value + ")",
+				serverName: key + " " + window.lang.translate("Escala de color") + " " + window.lang.translate("(Valor de ref: ") + value + ")",
 				serverType: baseLayer.tipus,
 				tiles:"",
 				titles:null,
