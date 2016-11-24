@@ -2111,9 +2111,16 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 			var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
 
 			//Actualitzem el vector de propietats de tipus numèrics de la visualització
+			//Els que són falsos en algun feature ja no cal repassar-los, els eliminem del 
+			//vector de propietats a comprovar
+			var toRemove = [];
 			$.each(props, function(index, prop) {
 				capaVisualitzacio.isPropertyNumeric[prop] = capaVisualitzacio.isPropertyNumeric[prop] && $.isNumeric(geom.properties[prop]);
+				if(!capaVisualitzacio.isPropertyNumeric[prop])
+					toRemove.push(index);
 			});
+			for(var i=toRemove.length-1; i>=0; i--)
+				props.splice(toRemove[i], 1);
 
 			//MultyPoint
 			if (geomTypeVis === t_marker && geomType === t_multipoint){
