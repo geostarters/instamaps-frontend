@@ -44,12 +44,11 @@ L.Control.Legend = L.Control.extend({
 		
 		self._div = container;
 		
-		map.on('loadconfig', this._updateLegend, this);
-		map.on('visorconfig', this._updateLegend, this);				
-		map.on('activaLegendTab', this._updateTabLegend, this);
-		map.on('onRedrawLegend', this._redraw, this);
-	
-		
+		map.on('loadconfig', self._updateLegend, self);
+		map.on('visorconfig', self._updateLegend, self);				
+		map.on('activaLegendTab', self._updateTabLegend, self);
+		map.on('onRedrawLegend', self._redraw, self);
+			
 		L.DomEvent
 			.on(container, 'click', stop)
 			.on(container, 'mousedown', stop)
@@ -62,10 +61,11 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	onRemove: function (map) {
-		map.off('loadconfig', this._updateLegend, this);
-		map.off('visorconfig', this._updateLegend, this);				
-		map.off('activaLegendTab', this._updateTabLegend, this);
-		map.off('onRedrawLegend', this._redraw, this);
+		var self = this;
+		map.off('loadconfig', self._updateLegend, self);
+		map.off('visorconfig', self._updateLegend, self);				
+		map.off('activaLegendTab', self._updateTabLegend, self);
+		map.off('onRedrawLegend', self._redraw, self);
 	},
 	
 	hideBtn: function(){
@@ -104,23 +104,24 @@ L.Control.Legend = L.Control.extend({
 	},
 	
 	_updateLegend: function(config){
-				
-		this.servidorsWMS=config.servidorsWMS;		
-		this.legend = (config.legend? $.parseJSON( config.legend):"");		
+		var self = this;
+		self.servidorsWMS=config.servidorsWMS;		
+		self.legend = (config.legend? $.parseJSON( config.legend):"");		
 		
-		this._draw();
+		self._draw();
 		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 	},
 		
 	_redraw: function(config){
+		var self = this;
 		//this.servidorsWMS=config.servidorsWMS;						
-		if(this.options && this.options.origenllegenda=="mapa"){
-				this.legend=generallegendaMapaEdicio();
+		if(self.options && self.options.origenllegenda=="mapa"){
+			self.legend=generallegendaMapaEdicio();
 		}else{
-				this.legend = (config.legend? $.parseJSON( config.legend):"");			
+			self.legend = (config.legend? $.parseJSON( config.legend):"");			
 		}				
-		$(this._div).html('');	
-		this._draw();
+		$(self._div).html('');	
+		self._draw();
 		$('#nav_legend').tabdrop({offsetTop: -5},'layout');
 	},
 	
@@ -181,12 +182,18 @@ L.Control.Legend = L.Control.extend({
 		var self = this,
 		mapLegend = self.legend,
 		div = self._div;
-			
 		if (self._checkEmptyMapLegend()){
 			var legendhtml = [];
-			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){			
+			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){
 				jQuery.each(mapLegend, function(i, row){
-			    	for (var i = 0; i < row.length; i++) {
+					var layerType=self._getNameLayer(i);
+					if (row.length>=1 && row[0].chck){
+						legendhtml.push($('<div class="visor-legend-row">'+
+			    			'<div class="visor-legend-name">'+layerType.serverName+'</div>'+
+			    			'</div>'+
+			    			'<div class="visor-separate-legend-row"></div>'));
+					}
+					for (var i = 0; i < row.length; i++) {
 			    		if(row[i].chck){
 			    			if (row[i].symbol.indexOf("circle")>-1){
 			    				var padding_left="0px";
@@ -230,7 +237,6 @@ L.Control.Legend = L.Control.extend({
 				var lastPos=self._getLastActived();
 				
 				jQuery.each(mapLegend, function(j, row){
-				
 				var layerType=self._getNameLayer(j);
 				index==lastPos.indexPos?active=' active':active="";
 								
@@ -252,7 +258,10 @@ L.Control.Legend = L.Control.extend({
 				    		else if (mida>6 && mida<=14) padding_left="padding-left:10px";
 				    		else if (mida>14 && mida<=22) padding_left="padding-left:5px";
 						}
-						
+						var isWMS=false;
+						if (row[i].symbol.indexOf("GetLegendGraphic")>-1){
+							isWMS=true;
+						}
 						
 						index==lastPos.indexPos?active=' active':active="";
 						index==lastPos.indexPos?self.options.currentTab=j:null;	
@@ -260,18 +269,23 @@ L.Control.Legend = L.Control.extend({
 						
 						if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
 						
-						if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+						/*if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 							legendTabContent.push(row[i].symbol);
 							legendTabContent.push('<br/>');
-						}else{
+						}else{*/
 							if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
 							legendTabContent.push('<div class="visor-legend-row">'+
-						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>'+
-						    	'<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
+						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>');
+							if (isWMS){
+								legendTabContent.push('</div><div class="visor-separate-legend-row"></div>');	
+							}
+							else {
+								legendTabContent.push('<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
 						    	'</div><div class="visor-separate-legend-row"></div>');	
+							}
 										
 							if(i==row.length-1){legendTabContent.push('</div>');}			
-						}
+						//}
 					}
 				}
 				index=index+1;

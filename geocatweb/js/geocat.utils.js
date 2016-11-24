@@ -351,6 +351,16 @@ function gestioCookie(from){
 		case 'createMapError':
 			window.location.href = paramUrl.mainPage;
 			break;
+		case 'getMapByBusinessId2':
+			if (isRandomUser(_cookie)){
+				Cookies.remove('uid');
+				jQuery(window).off('beforeunload');
+				//jQuery(window).off('unload');
+				window.location.href = paramUrl.mainPage;
+			}else{
+				window.location.href = paramUrl.galeriaPage+"?private=1";
+			}
+			break;
 		case 'getMapByBusinessId':
 			if (!_cookie){
 				window.location.href = paramUrl.mainPage;

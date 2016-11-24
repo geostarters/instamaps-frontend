@@ -1327,3 +1327,11 @@ h1.big_text{
     padding: 5px 5px!important;
 }
 
+.leaflet-control-draw-measure {
+    background-image: url(images/measure-control.png);
+}
+
+.enabled .leaflet-control-draw-measure {
+   border:1px solid #55821D;
+   background-color: #C57E92;
+}

@@ -227,6 +227,21 @@ html,body {
 	border-right: 1px solid #868681;
 }
 
+.ramp {
+    cursor: pointer;
+    float: left;
+    padding: 5px 5px 0;
+}
+
+.ramp:hover, .ramp.active{
+	background-color: #cccccc;
+}
+
+.ramp rect{
+    stroke: #333;
+    stroke-width: 0.5px;
+}
+
 .dv_dragdrop {
 	background-color: #F2F2F2;
 	border: 2px dotted #F9A312;
@@ -743,6 +758,33 @@ h1,h2,h3,h4,h5,h6 {
 			-650px rgba(208, 208, 208, 0.5);
 	margin-left: 2px;
 	cursor: pointer;
+}
+
+
+.div_fons_18 {
+	background: url("images/galeria_icones.png") no-repeat scroll  -566px -160px rgba(208, 208, 208, 0.5);
+	margin-left: 2px;
+	cursor: pointer;
+}
+
+
+.div_fons_blank {
+	    background-color: white;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.div_fons_gris {
+	    background-color: lightgray;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+
+.div_fons_gris_fort {
+	    background-color: gray;
+    margin-left: 2px;
+    cursor: pointer;
 }
 
 .div_gr2 {
@@ -2193,7 +2235,7 @@ i.fa {
 	position: relative;
     width: 148px;
     background: none no-repeat scroll 0 0 rgba(45, 46, 41, 0.9);
-    height: 175px;
+    height: 210px;
     float:right;
     overflow: hidden;
     border: 1px;
@@ -2228,11 +2270,11 @@ i.fa {
 }
 
 .control-btn-fons-expanded .bt_orto {
-  	margin-top:150px;
+  	margin-top:183px;
 }
 
 .control-btn-fons-expanded .bt_topo {
-  margin-top:150px;
+  margin-top:183px;
 }
 
 #info_geojsonvt {
@@ -2451,6 +2493,18 @@ a.leaflet-control-timecontrol:hover {
     z-index: 1010;
 }
 
+#innerPalette {
+	position:absolute; 
+	bottom:5px; 
+	left: calc(50% - 275px); 
+	box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+	color: #FFFFFF;
+	z-index: 1001;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 #mapNameContainer {
 	max-width: calc(100vw - 400px);
 	text-overflow: ellipsis;
@@ -2470,4 +2524,72 @@ a.leaflet-control-timecontrol:hover {
 		display: inline-block;
 	}
 
+}
+
+#paletteBackground {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: 1000;
+	background-color: #000000;
+	opacity: 0;
+}
+
+.paletteLabels {
+	float: left;
+	padding-top: 5px;
+	padding-right: 5px;
+	font-style: italic;
+	font-size: 12px;
+}
+
+.paletteTitle {
+	font-weight: bold;
+	border-bottom: 1px solid #cccccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(204, 204, 204);
+	font-style: 14px;
+}
+
+.paletteButtons {
+	padding-top: 5px;
+}
+
+.innerPaletteButtons {
+	display: inline-block; 
+	float:right;
+	padding-bottom: 10px;
+}
+
+.chk_mascara{
+
+    margin-left: 0 !important;
+	
+}
+
+.btn-invert-palette {
+	background-color: #cccccc;
+	border-color: #cccccc;
+	color: black;
+}
+
+.btn-invert-palette:hover {
+	background-color: #afaeae;
+	border-color: #afaeae;
+}
+
+.traffic-light-icon {
+	background: url("images/galeria_icones.png") no-repeat scroll -290px -800px;
+    cursor: pointer;
+    width: 20px;
+    height: 25px;
+}
+
+.traffic-light-icon-empty {
+    width: 20px;
+    height: 25px;
 }

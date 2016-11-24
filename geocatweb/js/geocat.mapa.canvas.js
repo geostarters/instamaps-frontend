@@ -285,7 +285,9 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		html2canvas(jQuery(divActiuCanvas), {
 			onrendered : function(canvas) {
 				ActDesPrintMode(false);
-				var imgData = canvas.toDataURL('image/jpeg', 0.92);
+				var cl=jQuery('#map').css('background-color');
+				
+				var imgData = canvas.toDataURL('image/png', 0.92);
 				imgData = JSON.stringify(imgData.replace(
 					/^data:image\/(png|jpeg);base64,/, ""));
 				uploadImageBase64(imgData).then(
@@ -298,7 +300,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 							comportamentCaptura(1);
 							var $desc_img = jQuery('#dialog_captura').find('.desc_img');
 							$desc_img.prop('href', urlIMG);
-							$desc_img.prop('download', 'mapa_captura.jpeg');
+							$desc_img.prop('download', 'mapa_captura.png');
 							//$desc_img.html("Desar mapa" +" <i class='fa fa-picture-o'></i>");                   
 							//jQuery('#dialog_captura').find('.bt_desc_img').show();
 							tornaLLoc(transform);
@@ -401,7 +403,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		html2canvas(jQuery('#map .leaflet-map-pane'), {
 			onrendered : function(canvas) {
 				ActDesPrintMode(false);
-				var imgData = canvas.toDataURL('image/jpeg', 0.95);
+				var imgData = canvas.toDataURL('image/png', 0.95);
 				imgData = JSON.stringify(imgData.replace(
 					/^data:image\/(png|jpeg);base64,/, ""));
 				uploadImageBase64(imgData).then(

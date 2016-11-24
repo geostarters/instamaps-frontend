@@ -33,7 +33,14 @@
 				colors = chroma.brewer[palete];
 			}
 			if(reverse){
-				colors = colors.slice().reverse();
+
+				if('array' === $.type(palete))
+				{
+					//Chroma always returns two colors so if we have a color array as the palette, reverse that
+					colors = palete.slice().reverse();
+				}
+				else
+					colors = colors.slice().reverse();
 				//colors = colors.reverse();
 				scale = chroma.scale(colors).domain(domain);
 			}

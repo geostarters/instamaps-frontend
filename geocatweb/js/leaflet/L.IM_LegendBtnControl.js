@@ -25,7 +25,6 @@ L.Control.LegendBtn = L.Control.extend({
 		container.dataset.langTitle = options.langTitle;
 		
 		self._div = container;
-		//map.on('loadlegend', this._updateMapConfig, this);
 		
 		L.DomEvent
 			.on(container, 'click', stop)

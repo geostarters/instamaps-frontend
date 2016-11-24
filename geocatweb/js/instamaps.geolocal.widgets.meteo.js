@@ -32,6 +32,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-meteo')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
+        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Meteo']});
         	})
         	.appendTo(container);
         },
@@ -66,7 +67,7 @@
         
         draw: function(data){
         	var that = this;
-        	if(that.active){
+        	if(that.active   && data.tipusMunicipi){
         		var codi = that.getMunicipi(data.municipiCodi);
         		if (codi){
             		var url = that.url.replace("widget_prov_id_municipi", codi);

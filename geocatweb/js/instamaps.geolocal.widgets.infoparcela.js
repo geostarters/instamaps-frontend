@@ -28,6 +28,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-infoparcela')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
+        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_InfoParcela']});
         	})
         	.appendTo(container);
         },
@@ -43,8 +44,8 @@
         
         draw: function(data){	
         	var that = this;
-        	console.debug(data);
-        	if(that.active){
+        	
+        	if(that.active && data.tipusMunicipi){
         		$(that.containerId).empty();
         		//var codi = data.municipiCodi.substring(0,5);
         		var url = that.url.replace("widget_nom_municipi", data.municipi);
