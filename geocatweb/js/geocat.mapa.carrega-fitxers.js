@@ -369,7 +369,7 @@ function addFuncioCarregaFitxers(){
 				var topo=jQuery("#cmd_upload_topo").val();
 				var toponum=jQuery("#cmd_upload_topo_num").val();
 				
-		       if (nomVia!="null" || municipi!="null" ||  topo!="null"){
+		       if (nomVia!="null" || municipi!="null" ||  topo!="null" || carretera!="null"){
 		    	   isOK=true; 
 		    	   envioArxiu.tipusAcc='adreca'; 
 		    	   envioArxiu.camps= artVia+","+tipVia+","+nomVia+","+portal+","+municipi+","+carretera+","+pk+","+topo+","+toponum;
