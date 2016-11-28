@@ -786,7 +786,9 @@ function createTematicLayerBubbles(event){
 									jQuery("#div_uploading_txt").html(
 											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic de mides creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
-									);									
+									);		
+									busy=false;					
+									jQuery('#info_uploadFile').hide();
 									var defer = $.Deferred();
 									
 									readVisualitzacio(defer, data.visualitzacio, data.layer).then(function(results){
@@ -794,8 +796,7 @@ function createTematicLayerBubbles(event){
 										//Desactivem la capa mare
 										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
 									});
-									busy=false;					
-									jQuery('#info_uploadFile').hide();
+									
 									
 								}else if(data.status.indexOf("ERROR")!=-1 && busy){
 									console.error("Error calculant l'operació");

@@ -205,7 +205,7 @@ function parseUrlTextPopUp(txt,key){
     if (!isWkt) {
 	    if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
 	          if( isImgURL(txt)){
-	        	  parseText = '<img width="100" src="'+txt+'"/>';
+	        	  parseText = '<img width="100%" src="'+txt+'"/>';
 	          }else if( txt.match("^http")){
 	              parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
 	          }else{
@@ -237,7 +237,7 @@ function parseUrlTextPopUp(txt,key){
 		                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
 		                        }
 		                        else if (word.indexOf("html?") != -1){
-		                               text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+		                               text = "<iframe width=\"100%\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
 		                                            "marginwidth=\"0\" src=\""+(!hasProtocol ? "http://" + word : word)+"\"></iframe>";
 		                        }else if (txt.indexOf("<video")==-1){
 		                               text = "<a href=\""+(!hasProtocol ? "http://" + word : word)+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";

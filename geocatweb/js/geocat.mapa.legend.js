@@ -210,7 +210,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	
 	
 	var checked = "";
-	if(mapLegend[layer.options.businessId]){
+	if(undefined != mapLegend[layer.options.businessId]){
 		layerName = mapLegend[layer.options.businessId][0].name;
 		if(mapLegend[layer.options.businessId][0].chck) checked = 'checked="checked"';
 	}
@@ -410,7 +410,11 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						
 						var labelNomCategoria = "";
 						checked = "";
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
+						
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -485,7 +489,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						var labelNomCategoria = "";
 						checked = "";
 						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -563,7 +570,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						var labelNomCategoria = "";
 						checked = "";
 						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -744,8 +754,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-					
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					}
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);					
 					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
 						-1!=index && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -778,7 +790,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					}
 					
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
@@ -819,7 +834,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					}
 					
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
@@ -879,7 +897,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					}
 					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 					var map={};
 					jQuery.each(layer._layers, function(i, lay){
@@ -895,7 +916,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					if (map[layer.options.estil[indexEstil].simbolSize]!=undefined && labelNomCategoria.indexOf('('+map[layer.options.estil[indexEstil].simbolSize]+')')==-1){
 						labelNomCategoria = labelNomCategoria +' ('+map[layer.options.estil[indexEstil].simbolSize]+')';
 					}
-					if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					if(undefined!=mapLegend[layer.options.businessId] && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -956,7 +977,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							//Reinicialitzem
 							layerName = layer.options.nom;
 							checked = "";						
-							var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							var index=-1;
+							if (undefined!=mapLegend[layer.options.businessId]) {
+								index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							}
 							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 								layerName = mapLegend[layer.options.businessId][index].name;
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -992,7 +1016,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							//Reinicialitzem
 							layerName = layer.options.nom;
 							checked = "";						
-							var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							var index=-1;
+							if (undefined!=mapLegend[layer.options.businessId]) {
+								index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							}
 							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 								layerName = mapLegend[layer.options.businessId][index].name;
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -1033,7 +1060,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						//Reinicialitzem
 						layerName = layer.options.nom;
 						checked = "";						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -1078,7 +1108,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						//Reinicialitzem
 						layerName = layer.options.nom;
 						checked = "";						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -1105,7 +1138,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	}
 
 	html+='</div>';
-	if(mapLegend[layer.options.businessId]){
+	if(undefined!=mapLegend[layer.options.businessId]){
 		if (mapLegend[layer.options.businessId][0].order >= 0){
 			layersHtml.order[mapLegend[layer.options.businessId][0].order] = html;
 		}else{
@@ -1485,7 +1518,10 @@ function loadMapLegendEdicio(layer){
 			var labelNomCategoria = "";
 			checked = "";						
 			
-			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+			var index=-1;
+			if (undefined!=mapLegend[layer.options.businessId]) {
+				index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+			}
 			labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 			
 			html += '<div class="visor-legend-row ">';
@@ -1520,7 +1556,10 @@ function loadMapLegendEdicio(layer){
 			var labelNomCategoria = "";
 			checked = "";						
 			
-			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+			var index=-1;
+			if (undefined!=mapLegend[layer.options.businessId]) {
+				index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+			}
 			labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 			
 			html += '<div class="visor-legend-row ">';
