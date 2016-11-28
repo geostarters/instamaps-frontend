@@ -211,7 +211,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Descarrega mapa en format GeoPDF":"Descarga mapa en formato GeoPDF"
 ,"Desar mapa":"Guardar mapa"
 ,"Desar mapa GeoPDF":"Guardar mapa GeoPDF"
-,"Desar / Desbloquejar": "Guardar / Desbloquear"
+,"Desar / Sortir": "Guardar / Salir"
 ,"Desar / Publicar el mapa": "Guardar / Publicar el mapa"
 ,"Desa'l i decideix si fer-lo públic o privat": "Guárdalo y decide si hacerlo público o privado"
 ,"Descàrrega":"Descarga"
