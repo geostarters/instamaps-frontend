@@ -1257,6 +1257,8 @@ function createPopupWindow(layer,type){
 			}
 		}
 	});
+
+	return html;
 }
 
 function reFillCmbCapesUsr(type, businessIdCapa){

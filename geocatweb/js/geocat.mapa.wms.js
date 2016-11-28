@@ -587,6 +587,7 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 		});
 		dimensionsTimeLayer.options=wmsLayer.options;
 		dimensionsTimeLayer.addTo(_map);
+		$.publish("addMapLayer");
 		dimensionsTimeLayer.bringToFront();
 		dimensionsTimeLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 		if(controlCapes){
@@ -601,6 +602,7 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 		if(ckeckCapaActiva){
 			if (capesActiva === true || capesActiva === 'true' ){
 				wmsLayer.addTo(_map);
+				$.publish("addMapLayer");
 			}
 			if(controlCapes){
 				controlCapes.addOverlay(wmsLayer, _nomServidor, true);
@@ -666,6 +668,7 @@ function loadWmsLayer(layer, _map){
 	newWMS.options.group=jsonOptions.group;
 		
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
+
 }
 
 
