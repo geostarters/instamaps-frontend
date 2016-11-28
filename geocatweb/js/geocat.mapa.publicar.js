@@ -103,7 +103,13 @@
 					"param": "scalecontrol",
 					"text":"Control d'escala",
 					"visor": true
-				}				
+				},
+				{
+					"param": "colorscalecontrol",
+					"text":"Control d'escala de color",
+					"visor": false,
+					"iframe": false
+				}
 			] 
         },
         
