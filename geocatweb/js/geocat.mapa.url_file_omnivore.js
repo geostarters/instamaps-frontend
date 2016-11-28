@@ -99,6 +99,7 @@ function createURLfileLayer(urlFile, tipusFile){
 				    })
 				    .addTo(map);					
 				}
+				$.publish("addMapLayer");
 				
 //				L.Proj.GeoJSON(capaURLfile.toGeoJSON()).addTo(map);
 				
@@ -320,7 +321,8 @@ function loadURLfileLayer(layer) {
 	    })
 	    .addTo(map);					
 	}
-					
+				
+	$.publish("addMapLayer");	
 	capaURLfile.options.businessId = layer.businessId;
 	capaURLfile.options.nom = layer.serverName;
 	capaURLfile.options.tipus = t_url_file;

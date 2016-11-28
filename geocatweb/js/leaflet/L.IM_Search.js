@@ -158,6 +158,7 @@ L.Control.Search = L.Control.extend({
 		//this.options.layer = layer; //setting this, run only this._recordsFromLayer()
 		this._layer = layer;
 		this._layer.addTo(this._map);
+		$.publish("addMapLayer");
 		if(this._markerLoc)
 			this._layer.addLayer(this._markerLoc);
 		return this;
