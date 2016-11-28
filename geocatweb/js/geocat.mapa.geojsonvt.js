@@ -28,7 +28,7 @@ function loadGeojsonvtLayer(layer){
 //		console.debug("capaURLfileLoad loaded");
 	if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 		canvasTiles.addTo(map);
-		
+		$.publish("addMapLayer");
 		var topPane = map.getPanes().mapPane.getElementsByClassName("leaflet-top-pane");
 //		if(!isValidValue(topPane)){
 		if(topPane.length <= 0){
