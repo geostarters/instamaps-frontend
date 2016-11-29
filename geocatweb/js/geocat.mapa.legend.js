@@ -94,8 +94,16 @@ function createModalConfigLegend(){
 		layersHtml = addLayerToLegend(item.layer, count,layersHtml);
 		count++;
 		jQuery.each(item._layers, function(i, sublayer){
-			layersHtml = addLayerToLegend(sublayer.layer, count, layersHtml, sublayer.layerIdParent );
-			count++;
+			if (sublayer._layers!=undefined && sublayer._layer.length>0){
+				jQuery.each(sublayer._layers, function(i, sublayer2){
+					layersHtml = addLayerToLegend(sublayer2.layer, count, layersHtml, sublayer2.layerIdParent );
+					count++;
+				});
+			}
+			else {
+				layersHtml = addLayerToLegend(sublayer.layer, count, layersHtml, sublayer.layerIdParent );
+				count++;
+			}
 		});
 	});
 	
@@ -116,6 +124,7 @@ function createModalConfigLegend(){
 	    checkboxClass: 'icheckbox_flat-blue',
 	    radioClass: 'iradio_flat-blue'
 	});	
+		
 	
 	$('.legend-subrow-all input').on('ifChecked', function(event){
 		  $('.legend-subrow input').iCheck('check');
@@ -181,7 +190,7 @@ function obteLListatCapesEditor(idLayer){
 		jQuery.each(item._layers, function(j, item2){
 				if(item2.layer.options.businessId==idLayer){					
 					layerType.serverName=item2.layer.options.nom.replace('##1','');
-					layerType.capesOrdre=""+j+"";					
+					layerType.capesOrdre="sublayer";					
 				}			
 			});		
 			
@@ -194,18 +203,19 @@ function obteLListatCapesEditor(idLayer){
 
 
 function addLayerToLegend(layer, count, layersHtml, layerIdParent){
-	
-	
-	
-	
 	var html = "";
 	html += '<div class="legend-row">';
 	html+='<div class="separate-legend-row"></div>';
 	var layerName = layer.options.nom;
+	
+	
 	var checked = "";
-	if(mapLegend[layer.options.businessId]){
+	if(undefined != mapLegend[layer.options.businessId]){
 		layerName = mapLegend[layer.options.businessId][0].name;
 		if(mapLegend[layer.options.businessId][0].chck) checked = 'checked="checked"';
+	}
+	if (layerIdParent!=undefined){
+		 layerName = layer.options.nom;
 	}
 	html += '<div class="legend-row" style="padding-left:15px">'+layerName+'</div>'; 
 	//Cluster
@@ -346,7 +356,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			var controlColorCategoria = [];//per controlar que aquell color no esta afegit ja a la llegenda
 			var estils = layer.options.estil_do.estils;
 			var label = layer.options.estil_do.dataField;
-				
 			if(geometrytype == t_marker){
 					var map={};
 					jQuery.each(layer._layers, function(i, lay){
@@ -401,11 +410,14 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						
 						var labelNomCategoria = "";
 						checked = "";
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
@@ -416,16 +428,19 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							if(labelNomCategoria == "Altres"){
 								labelNomCategoria = window.lang.translate("Altres");
 							}
+							
 						}						
 						if (layer.options.tem=='sizeTematic'){
 							if (labelNomCategoria.indexOf('('+map[estilRang.estil.simbolSize]+')')==-1){
 								labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.simbolSize]+')';
 							}
+							
 						}
 						else{
 							if (labelNomCategoria.indexOf('('+map[estilRang.estil.color]+')')==-1){
 								labelNomCategoria = labelNomCategoria+' ('+map[estilRang.estil.color]+')';
 							}
+							
 						}
 						
 						html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
@@ -474,10 +489,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						var labelNomCategoria = "";
 						checked = "";
 						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
@@ -552,10 +570,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						var labelNomCategoria = "";
 						checked = "";
 						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+							if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 						}else{
 							if(estilRang.valueMax == estilRang.valueMin){
 								labelNomCategoria = estilRang.valueMax;
@@ -706,8 +727,16 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			var estilsRangs = layer.options.estilsRangs;
 			var rangsEstilsLegend = layer.options.rangsEstilsLegend;
 			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
-			arrRangsEstilsLegend.sort(sortByValueMax);
+			if(!layer.options.hasOwnProperty("trafficLightKey"))
+				arrRangsEstilsLegend.sort(sortByValueMax);
+			else
+			{
+
+				//Si és un semafòric no reordenem els valors de la llegenda, ja ens venen ben assignats i el sortByValueMax se'l carrega
+
+			}
 			if(geometryType == t_marker){
+				
 				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
 					var indexEstil = 0;
 					while(indexEstil<layer.options.estil.length && estilRang.key!=layer.options.estil[indexEstil].businessId){
@@ -725,20 +754,13 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-					}else{
-						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.translate("Altres");
-						}
-					}						
-					
-					if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
-						labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 					}
+					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);					
+					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
+						-1!=index && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -768,20 +790,15 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-					}else{
-						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.translate("Altres");
-						}
-					}	
-
-					if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
-						labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 					}
+					
+					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
+					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
+						-1!=index && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 					html +=	'<div class="col-md-2 legend-symbol">'+
@@ -817,19 +834,15 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-					}else{
-						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.translate("Altres");
-						}
-					}						
-					if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
-						labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 					}
+					
+					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
+					if(mapLegend!=undefined && mapLegend[layer.options.businessId]!=undefined && 
+						-1!=index && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 					html +=	'<div class="col-md-2 legend-symbol">'+
@@ -884,16 +897,11 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					var labelNomCategoria = "";
 					checked = "";						
 					
-					var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-					if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-						labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-						if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-					}else{
-						labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-						if(labelNomCategoria == "Altres"){
-							labelNomCategoria = window.lang.translate("Altres");
-						}
-					}	
+					var index=-1;
+					if (undefined!=mapLegend[layer.options.businessId]) {
+						index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+					}
+					labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 					var map={};
 					jQuery.each(layer._layers, function(i, lay){
 							var radius=lay.options.radius;
@@ -908,6 +916,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 					if (map[layer.options.estil[indexEstil].simbolSize]!=undefined && labelNomCategoria.indexOf('('+map[layer.options.estil[indexEstil].simbolSize]+')')==-1){
 						labelNomCategoria = labelNomCategoria +' ('+map[layer.options.estil[indexEstil].simbolSize]+')';
 					}
+					if(undefined!=mapLegend[layer.options.businessId] && mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
 					
 					html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 					html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
@@ -968,7 +977,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							//Reinicialitzem
 							layerName = layer.options.nom;
 							checked = "";						
-							var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							var index=-1;
+							if (undefined!=mapLegend[layer.options.businessId]) {
+								index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							}
 							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 								layerName = mapLegend[layer.options.businessId][index].name;
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -1004,7 +1016,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 							//Reinicialitzem
 							layerName = layer.options.nom;
 							checked = "";						
-							var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							var index=-1;
+							if (undefined!=mapLegend[layer.options.businessId]) {
+								index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+							}
 							if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 								layerName = mapLegend[layer.options.businessId][index].name;
 								if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -1045,7 +1060,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						//Reinicialitzem
 						layerName = layer.options.nom;
 						checked = "";						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -1090,7 +1108,10 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 						//Reinicialitzem
 						layerName = layer.options.nom;
 						checked = "";						
-						var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						var index=-1;
+						if (undefined!=mapLegend[layer.options.businessId]) {
+							index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
+						}
 						if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
 							layerName = mapLegend[layer.options.businessId][index].name;
 							if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
@@ -1117,7 +1138,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 	}
 
 	html+='</div>';
-	if(mapLegend[layer.options.businessId]){
+	if(undefined!=mapLegend[layer.options.businessId]){
 		if (mapLegend[layer.options.businessId][0].order >= 0){
 			layersHtml.order[mapLegend[layer.options.businessId][0].order] = html;
 		}else{
@@ -1245,7 +1266,6 @@ function sortObject(obj) {
 }
 
 function updateMapLegendData(){
-	
 	mapLegend = {};
 	$(".legend-subrow").each(function(index,element){
 		var businessId = $(element).attr('data-businessId');
@@ -1273,7 +1293,6 @@ function findStyleInLegend(legend,stringStyle){
 	var index = -1;
 	for(var i=0; i<legend.length;i++){
 		if(legend[i].symbol.trim() == stringStyle.trim()){
-//		if(stringCompare(legend[i].symbol.trim(),stringStyle.trim())){			
 			index = i;
 			break;
 		}		
@@ -1463,21 +1482,8 @@ function loadMapLegendEdicio(layer){
 			
 			var labelNomCategoria = "";
 //			checked = "";						
-			
 			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-			if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-				labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-				if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-			}else{
-				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-				if(labelNomCategoria == "Altres"){
-					labelNomCategoria = window.lang.translate("Altres");
-				}
-			}						
-			
-			if (labelNomCategoria.indexOf(' ('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
-				labelNomCategoria = labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')';
-			}
+			labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 			
 			html += '<div class="visor-legend-row ">';
 			if (layer.options.tipusRang == tem_size){
@@ -1512,20 +1518,11 @@ function loadMapLegendEdicio(layer){
 			var labelNomCategoria = "";
 			checked = "";						
 			
-			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-			if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-				labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-				if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-			}else{
-				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-				if(labelNomCategoria == "Altres"){
-					labelNomCategoria = window.lang.translate("Altres");
-				}
-			}	
-			
-			if (labelNomCategoria.indexOf(' ('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
-				labelNomCategoria = labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+			var index=-1;
+			if (undefined!=mapLegend[layer.options.businessId]) {
+				index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 			}
+			labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 			
 			html += '<div class="visor-legend-row ">';
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
@@ -1559,20 +1556,11 @@ function loadMapLegendEdicio(layer){
 			var labelNomCategoria = "";
 			checked = "";						
 			
-			var index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
-			if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
-				labelNomCategoria = mapLegend[layer.options.businessId][index].name;
-				if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
-			}else{
-				labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
-				if(labelNomCategoria == "Altres"){
-					labelNomCategoria = window.lang.translate("Altres");
-				}
-			}		
-			
-			if (labelNomCategoria.indexOf(' ('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
-				labelNomCategoria = labelNomCategoria+' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+			var index=-1;
+			if (undefined!=mapLegend[layer.options.businessId]) {
+				index = mapLegend[layer.options.businessId]?findStyleInLegend(mapLegend[layer.options.businessId],stringStyle):-1;
 			}
+			labelNomCategoria = getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil);	
 			
 			html += '<div class="visor-legend-row ">';
 			html +=	'<div class="visor-legend-symbol col-md-4 col-xs-4">'+
@@ -1818,6 +1806,29 @@ function loadMapLegendEdicioDinamics(layer){
 	
 	$(".bt_legend").show();
 	activaLlegenda(true);
+	
+}
+
+function getLabelNomCategoria(layer,rangsEstilsLegend,index,indexEstil){
+	var labelNomCategoria="";
+	if(index != -1){//Si l'ha trobat, fica el seu check i el seu name
+		labelNomCategoria = mapLegend[layer.options.businessId][index].name;
+		if (labelNomCategoria.indexOf(rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""])==-1) {
+			labelNomCategoria=rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+		}
+		if(mapLegend[layer.options.businessId][index].chck == true) checked = 'checked="checked"';
+	}else{
+		labelNomCategoria = rangsEstilsLegend[""+layer.options.estil[indexEstil].businessId+""];
+		
+		if(labelNomCategoria == "Altres"){
+			labelNomCategoria = window.lang.translate("Altres");
+		}
+	}						
+	
+	if (labelNomCategoria.indexOf('('+layer.options.estil[indexEstil].geometria.features.length+')')==-1){
+		labelNomCategoria = labelNomCategoria +' ('+layer.options.estil[indexEstil].geometria.features.length+')';
+	}
+	return labelNomCategoria;
 	
 }
 

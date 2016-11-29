@@ -44,7 +44,10 @@ var visorOptions = {
 	zoom : url("?zoom") || null,
 	text: url("?text") || null,
 	link: url("?link") || null,
-	appname: url("?appname") || null
+	appname: url("?appname") || null,
+	fons: url("?fons") || null,
+	INE10: url("?INE10") || null, 
+	random: url("?random") || null
 };
 
 var visor; 

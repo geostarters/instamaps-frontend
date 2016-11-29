@@ -290,8 +290,12 @@ function loadApp(){
 function loadPublicMap(results){
 	mapConfig = $.parseJSON(results.results);
 
-	$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
-
+	if ($(location).attr('href').indexOf('/visor.html') != -1) { 
+		$('meta[property="og:title"]').attr('content', "Mapa "+mapConfig.nomAplicacio);
+	}
+	if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
+		document.title=url('?title');
+	}
 	var nomUser = mapConfig.entitatUid.split("@");
 	var nomEntitat = mapConfig.nomEntitat;
 	
@@ -321,12 +325,12 @@ function loadPublicMap(results){
 		desc==""?desc=mapConfig.nomAplicacio:desc=desc;
 		
 		if (desc!=undefined) desc=desc.replaceAll("'","\'");
-
-		$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-		$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-
-		var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-		$('meta[property="og:image"]').attr('content', urlThumbnail);
+		if ($(location).attr('href').indexOf('/visor.html') != -1) {
+			$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+			$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');	
+			var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+			$('meta[property="og:image"]').attr('content', urlThumbnail);
+		}
 
 		if (mapConfig.options.description!=undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
 		if (mapConfig.options.tags!=undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
@@ -386,6 +390,7 @@ function loadPublicMap(results){
 	});
 
 	mapLegend = (mapConfig.legend? $.parseJSON( mapConfig.legend):"");
+	console.debug("AKI");
 	checkEmptyMapLegend();
 
 	downloadableData = (mapConfig.options && mapConfig.options.downloadable?
@@ -1006,6 +1011,9 @@ function loadMapConfig(mapConfig){
 		if (mapConfig.options != null){
 			//if (mapConfig.options.fons != 'topoMap'){
 				var fons = mapConfig.options.fons;
+				
+				console.info(fons);
+				
 				if (fons == 'topoMap'){
 					map.topoMap();
 				}else if (fons == 'topoMapGeo') {

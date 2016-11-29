@@ -211,6 +211,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Descarrega mapa en format GeoPDF":"Download map as GeoPDF"
 ,"Desar mapa":"Save map"
 ,"Desar mapa GeoPDF":"Save map as GeoPDF"
+,"Desar / Desbloquejar": "Save / To unlock"
 ,"Desar / Publicar el mapa": "Save / Publish the map"
 ,"Desa'l i decideix si fer-lo públic o privat": "Save it and decide whether to make it public or private"
 ,"Descàrrega":"Download"
@@ -440,6 +441,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Llista de capes": "Layers list"
 ,"Longitud":"Length"
 
+,"Mapa bloquejat per l'usuari:":"Map locked by user:"
 ,"Mapa Cadastral":"Cadastral map"
 ,"Mapa col&#183;laboratiu a Instamaps. Invitaci&oacute;":"Collaborative map at Instamaps. Invitation"	
 ,"Mapa històric Catalunya 1936":"Historical map of Catalunya 1936"
@@ -576,6 +578,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Punts dins de polígons":"Points inside polygons"
 ,"Punts disponibles":"Available points"
 
+,"Quan aquest usuari surti de la sessió d'edició podràs treballar amb aquest mapa.":"When this user leaves the editing session you can work with this map."
 ,"Què podeu fer?":"What can you do?"
 ,"Quin és el sistema de referència?":"Which is the reference system?"
 
@@ -637,6 +640,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Taules d'origen":"Origin tables"
 ,"Temàtic bàsic creat":"Basic map created"
 ,"Temàtic de mides creat":"Measurements created"
+,"Temàtic per escala de color":"Color scale"
 ,"Terreny":"Terrain"
 ,"Tipus codi":"Code type"
 ,"Títol":"Title"
@@ -683,6 +687,9 @@ jquery_lang_js.prototype.lang.en = {
 ,"Valor max.":"Max. Value"
 ,"Valor min.":"Min. Value"
 ,"Valors":"Values"
+,"Valors iguals":"Equal values"
+,"Valors majors":"Higher values"
+,"Valors menors":"Lower values"
 ,"Valors únics":"Unic values"
 ,"Veure": "View"
 ,"Veure a InstaMaps": "View in InstaMaps"
@@ -701,6 +708,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Visualitza":"View"
 ,"Vols esborrar la capa":"Do you want to delete the layer"
 ,"Vols ser el primer a provar la plataforma?":"Do you want to be the first to try it?"
+,"Vols sortir sense guardar aquesta escala de color?":"Do you want to delete the color scale?"
 ,"Vull més informació":"I want more information"
 ,"Vull ser le primer":"I want to be the first"
 

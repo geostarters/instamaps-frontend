@@ -14,13 +14,12 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function isValidURL(url) {
-	var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+	var pattern = /((http(s)?|ftp):\/\/.)?(www\.)?[-a-zA-Z0-9:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9%_:?\+.~#&//=]*)/;
 	return pattern.test(url);
 }
 
 function isImgURL(str) {
-	  var pattern = new RegExp('(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpe?g|gif|png))','i'); // extension
-	  return pattern.test(str);
+	return (/\.(gif|jpg|jpeg|png)$/i).test(str);
 }
 
 function isBusinessId(str){
@@ -206,7 +205,7 @@ function parseUrlTextPopUp(txt,key){
     if (!isWkt) {
 	    if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
 	          if( isImgURL(txt)){
-	        	  parseText = '<img width="100" src="'+txt+'"/>';
+	        	  parseText = '<img width="100%" src="'+txt+'"/>';
 	          }else if( txt.match("^http")){
 	              parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
 	          }else{
@@ -222,30 +221,44 @@ function parseUrlTextPopUp(txt,key){
 	          }
 	    }
 	
-	    var lwords = txt.split(" ");
-	    for(index in lwords){
-	          var text;
-	          var word = lwords[index];
-	          if(!$.isNumeric(txt) ){
-	                 if (isValidURL(word)){
-	                        if(isImgURL(word)){
-	                               text = "<img width=\"100\" src=\""+word+"\" alt=\"img\" class=\"popup-data-img\"/>";
-	                        }else if (word.indexOf("html?") != -1){
-	                               text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
-	                                            "marginwidth=\"0\" src=\""+word+"\"></iframe>";
-	                        }else if (txt.indexOf("<video")==-1){
-	                               text = "<a href=\""+word+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
-	                        }
-	                        else text=word;
-	                 }else{
-	                        text = word;
-	                 }
-	
-	          }else{
-	                 text = word;
-	          }
-	          parseText+=" "+text;
-	    }
+		var lines = txt.split(/\n/);
+		for(lineNum in lines)
+		{
+
+			var line = lines[lineNum];
+		    var lwords = line.split(" ");
+		    for(index in lwords){
+		          var text;
+		          var word = lwords[index];
+		          if(!$.isNumeric(txt) ){
+		                 if (isValidURL(word)){
+		                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
+		                        if(isImgURL(word)){
+		                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
+		                        }
+		                        else if (word.indexOf("html?") != -1){
+		                               text = "<iframe width=\"100%\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+		                                            "marginwidth=\"0\" src=\""+(!hasProtocol ? "http://" + word : word)+"\"></iframe>";
+		                        }else if (txt.indexOf("<video")==-1){
+		                               text = "<a href=\""+(!hasProtocol ? "http://" + word : word)+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
+		                        }
+		                        else text=word;
+		                 }else{
+		                        text = word;
+		                 }
+		
+		          }else{
+		                 text = word;
+		          }
+		          parseText+=" "+text;
+		    }
+
+		    if("" == line)
+				parseText += "<br />";
+			else
+				parseText += "\n";
+
+		}
 	    return parseText;
     }
     else {
@@ -337,6 +350,16 @@ function gestioCookie(from){
 			break;
 		case 'createMapError':
 			window.location.href = paramUrl.mainPage;
+			break;
+		case 'getMapByBusinessId2':
+			if (isRandomUser(_cookie)){
+				Cookies.remove('uid');
+				jQuery(window).off('beforeunload');
+				//jQuery(window).off('unload');
+				window.location.href = paramUrl.mainPage;
+			}else{
+				window.location.href = paramUrl.galeriaPage+"?private=1";
+			}
 			break;
 		case 'getMapByBusinessId':
 			if (!_cookie){
@@ -752,69 +775,72 @@ function sortByKeyPath(array, key) {
 function sortByValueMax(a, b){
 	var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 	var floatRegex2 = new RegExp('(^-?0\,[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
-	var aValue;
-	if (a.value!=undefined) aValue= a.value;
-	else if (a.v!=undefined) aValue=a.v;
-	else aValue = a;
-
-	var bValue;
-	if (b.value!=undefined) bValue= b.value;
-	else if (b.v!=undefined) bValue=b.v;
-	else bValue =b;
-	var aValueStr = ""+aValue;
-	var bValueStr = ""+bValue;
 	
-	if (floatRegex.test(aValue) && floatRegex.test(bValue)) {
-		if (aValueStr.indexOf(",")>-1){
-			if (aValueStr.indexOf(".")>-1){
-				aValue=aValue.replace(".","");
-				aValue=aValue.replace(",",".");
+	if (a!=null && b!=null) {
+		var aValue;
+		if (a.value!=undefined) aValue= a.value;
+		else if (a.v!=undefined) aValue=a.v;
+		else aValue = a;
+	
+		
+		var bValue;
+		if (b.value!=undefined) bValue= b.value;
+		else if (b.v!=undefined) bValue=b.v;
+		else bValue =b;
+		var aValueStr = ""+aValue;
+		var bValueStr = ""+bValue;
+		if (floatRegex.test(aValue) && floatRegex.test(bValue)) {
+			if (aValueStr.indexOf(",")>-1){
+				if (aValueStr.indexOf(".")>-1){
+					aValue=aValue.replace(".","");
+					aValue=aValue.replace(",",".");
+				}
+				else {
+					aValue = aValue.replace(",",".");
+				}
 			}
-			else {
-				aValue = aValue.replace(",",".");
+			if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
+	
+			if (bValueStr.indexOf(",")>-1){
+				if (bValueStr.indexOf(".")>-1){
+					bValue=bValue.replace(".","");
+					bValue=bValue.replace(",",".");
+				}
+				else {
+					bValue = bValue.replace(",",".");
+				}
 			}
+			if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
+			return (aValue-bValue);
 		}
-		if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
-
-		if (bValueStr.indexOf(",")>-1){
-			if (bValueStr.indexOf(".")>-1){
-				bValue=bValue.replace(".","");
-				bValue=bValue.replace(",",".");
+		else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {
+			if (aValueStr.indexOf(",")>-1){
+				if (aValueStr.indexOf(".")>-1){
+					aValue=aValue.replace(".","");
+					aValue=aValue.replace(",",".");
+				}
+				else {
+					aValue = aValue.replace(",",".");
+				}
 			}
-			else {
-				bValue = bValue.replace(",",".");
+			if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
+			if (bValueStr.indexOf(",")>-1){
+				if (bValueStr.indexOf(".")>-1){
+					bValue=bValue.replace(".","");
+					bValue=bValue.replace(",",".");
+				}
+				else {
+					bValue = bValue.replace(",",".");
+				}
 			}
+			if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
+			return (aValue-bValue);
 		}
-		if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
-		return (aValue-bValue);
-	}
-	else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {
-		if (aValueStr.indexOf(",")>-1){
-			if (aValueStr.indexOf(".")>-1){
-				aValue=aValue.replace(".","");
-				aValue=aValue.replace(",",".");
-			}
-			else {
-				aValue = aValue.replace(",",".");
-			}
+		else {
+			var aName = aValueStr.toLowerCase();
+			var bName = bValueStr.toLowerCase();
+			return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
 		}
-		if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
-		if (bValueStr.indexOf(",")>-1){
-			if (bValueStr.indexOf(".")>-1){
-				bValue=bValue.replace(".","");
-				bValue=bValue.replace(",",".");
-			}
-			else {
-				bValue = bValue.replace(",",".");
-			}
-		}
-		if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
-		return (aValue-bValue);
-	}
-	else {
-		var aName = aValue.toLowerCase();
-		var bName = bValue.toLowerCase();
-		return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
 	}
 }
 

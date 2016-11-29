@@ -1763,9 +1763,21 @@ i.fa {
 .width100{width: 100%;}
 
 .popup-data-img{
-	width: 295px;
 	padding-bottom: 2px;
     padding-top: 2px;
+    max-width: 295px;
+    max-height: 295px;
+    width: auto;
+    height: auto;
+}
+
+.leaflet-popup-content > img {
+	padding-bottom: 2px;
+    padding-top: 2px;
+    max-width: 295px;
+    max-height: 295px;
+    width: auto;
+    height: auto;
 }
 
 /*
@@ -1999,11 +2011,19 @@ i.fa {
 .ramp {
     cursor: pointer;
     float: left;
-    padding: 5px 5px 0;
+    padding: 5px 5px 0px;
+}
+.ramp.border {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 0px;
+    height: 62px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    padding: 0px 0px 0px 0px;
 }
 
-.ramp:hover{
-	background-color: #cccccc;
+.ramp.border:hover {
+	border: 1px solid #cccccc;
 }
 
 .ramp rect{
@@ -5115,6 +5135,126 @@ li >.label-dof:focus {
   background-color: #fcf8e3 !important;
 }	
 
+#mapNameContainer {
+	max-width: calc(100vw - 400px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	display: inline-block;
+}
+
+@media (min-width: 1200px) 
+{
+
+	#mapNameContainer {
+		max-width: calc(100vw - 810px);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: inline-block;
+	}
+
+}
+
+#innerPalette {
+	position:absolute; 
+	bottom:5px; 
+	left: calc(50% - 275px); 
+	box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+	background: none repeat scroll 0 0 rgba(45, 46, 41, 0.9);
+	color: #FFFFFF;
+	z-index: 1001;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#paletteBackground {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: 1000;
+	background-color: #000000;
+	opacity: 0;
+}
+
+.paletteLabels {
+	float: left;
+	padding-top: 5px;
+	padding-right: 5px;
+	font-style: italic;
+	font-size: 12px;
+}
+
+.paletteTitle {
+	font-weight: bold;
+	border-bottom: 1px solid #cccccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(204, 204, 204);
+	font-style: 14px;
+}
+
+.paletteButtons {
+	padding-top: 5px;
+}
+
+.innerPaletteButtons {
+	display: inline-block; 
+	float:right;
+	padding-bottom: 10px;
+}
+
+.ramp.active {
+	border: 1px solid #ffc500;
+}
+
+.btn-invert-palette {
+	background-color: #cccccc;
+	border-color: #cccccc;
+	color: black;
+}
+
+.btn-invert-palette:hover {
+	background-color: #afaeae;
+	border-color: #afaeae;
+}
+
+.div_fons_blank {
+	    background-color: white;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.div_fons_gris {
+	    background-color: lightgray;
+    margin-left: 2px;
+    cursor: pointer;
+}
 
 
+.div_fons_gris_fort {
+	    background-color: gray;
+    margin-left: 2px;
+    cursor: pointer;
+}
 
+.div_fons_18 {
+    background: rgba(208, 208, 208, 0.5) url("images/galeria_icones.png") no-repeat scroll -566px -160px;
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+.traffic-light-icon {
+	background: url("images/galeria_icones.png") no-repeat scroll -290px -800px;
+    cursor: pointer;
+    width: 20px;
+    height: 25px;
+}
+
+.traffic-light-icon-empty {
+    width: 20px;
+    height: 25px;
+}

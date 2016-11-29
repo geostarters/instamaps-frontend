@@ -63,6 +63,10 @@
 				"visibilitat": "O",
 			    "businessId": "-1"
 			};
+			if(visor.random){
+				layer.random = visor.random;
+			}
+						
 			loadWmsLayer(layer, map);
 			self.setMapWMSBoundingBox(layer.url);
 			return self;

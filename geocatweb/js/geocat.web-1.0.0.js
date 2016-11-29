@@ -1,9 +1,33 @@
 window.lang = new Lang();
 
 var lsLang;
+var Cookies = Cookies.withConverter({
+	write: function (value, name) {
+		if ( name === 'uid' ) {
+			//Add " to the string because @ is only a valid Cookie character if it goes between them
+			return '"' + encodeURIComponent(value + "").replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,
+				decodeURIComponent) + '"';
+		}
+		else
+		{
+			return value;
+		}
+	},
+	read: function (value, name) {
+		if ( name === 'uid' ) {
+			//Add " to the string because @ is only a valid Cookie character if it goes between them
+			return value.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent).replace(/\"/g, '');
+		}
+		else
+		{
+			return value;
+		}
+	}
+});
 
 jQuery(document).ready(function() {
 	
+
 	weball_tornarInici();
 	lang.dynamic('en', '/geocatweb/js/language/en.json');
 	lang.dynamic('es', '/geocatweb/js/language/es.json');
@@ -11,6 +35,7 @@ jQuery(document).ready(function() {
         defaultLang: 'ca'
     });
 	lsLang=web_determinaIdioma();
+	isEditing = edit = ("mapa" == url('filename'));
 	if (lsLang == null || lsLang == "null"){
 		lsLang = "ca";
 		canviaIdioma(lsLang);
@@ -255,6 +280,7 @@ function initHover(){
 
 function checkUserLogin(){
 	var uid = Cookies.get('uid');
+	if (uid===undefined) uid=_UsrID;
 	var tipusEntitat = parseInt(Cookies.get('tipusEntitat'));
 	var logged = false;
 	if(!uid || isRandomUser(uid)){

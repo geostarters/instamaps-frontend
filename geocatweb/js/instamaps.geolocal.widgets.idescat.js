@@ -28,6 +28,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-idescat')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
+        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Idescat']});
         	})
         	.appendTo(container);
         },
@@ -44,7 +45,7 @@
         
         draw: function(data){
         	var that = this;
-        	if(that.active){
+        	if(that.active   && data.tipusMunicipi){
         		var codi = data.municipiCodi;
         		if (codi){
             		var url = that.url.replace("widget_id_municipi", codi);

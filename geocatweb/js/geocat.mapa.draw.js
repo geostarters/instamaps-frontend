@@ -498,11 +498,21 @@ function activaEdicioUsuari() {
 				 		
 				 	}
 			}
-			try {
-				updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id, objEdicio.capaEdicioLeafletId);
-			}catch(exc){
-				
-			}
+			 if(objEdicio.esticEnEdicio){			
+					try{
+						updateFeatureMove(objEdicio.featureID, crt_Editing._featureGroup._leaflet_id, objEdicio.capaEdicioLeafletId);
+					}catch(exc){
+						
+					}
+					if(crt_Editing){
+						try{
+							crt_Editing.disable();
+						}catch(exc){
+							
+						}
+					}
+//					updateFeatureMove(objEdicio.featureID, objEdicio.capaEdicioLeafletId);		
+				}
 		
 			if(crt_Editing){
 				try{
@@ -599,9 +609,9 @@ function activaEdicioUsuari() {
 					'nom':tipusCat+' '+capaUsrActiva.getLayers().length,
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 			};
-			try{
+			/*try{
 				//Active snapping
-				layer.snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:10});
+				//layer.snapediting = new L.Handler.MarkerSnap(map, layer,{snapDistance:10});
 				for(var i = 0;i < guideLayers.length; i++) {
 				        // Add every already drawn layer to snap list
 				        layer.snapediting.addGuideLayer(guideLayers[i]);
@@ -612,7 +622,7 @@ function activaEdicioUsuari() {
 				 }
 			}catch(exc){
 				
-			}
+			}*/
 			
 			  // Add to drawnItems
 			 drawnItems.addLayer(layer);
@@ -668,7 +678,7 @@ function activaEdicioUsuari() {
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 			};	
 			//Activate snapping
-			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
+			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
 			for(var i = 0;i < guideLayers.length; i++) {
 		        // Add every already drawn layer to snap list
 		        layer.snapediting.addGuideLayer(guideLayers[i]);
@@ -676,7 +686,7 @@ function activaEdicioUsuari() {
 		        guideLayers[i].snapediting.addGuideLayer(layer);
 		        guideLayers[i].snapediting.disable();
 		        if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
-			 }
+			 }*/
 			 
 			 // Add to drawnItems
 			 drawnItems.addLayer(layer);
@@ -733,7 +743,7 @@ function activaEdicioUsuari() {
 					'text':tipusCatDes+' '+capaUsrActiva.getLayers().length,
 			};		
 			//Activate snapping
-			layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
+			/*layer.snapediting = new L.Handler.PolylineSnap(map, layer,{snapDistance:10});
 			for(var i = 0;i < guideLayers.length; i++) {
 		        // Add every already drawn layer to snap list
 		        layer.snapediting.addGuideLayer(guideLayers[i]);
@@ -742,7 +752,7 @@ function activaEdicioUsuari() {
 		        guideLayers[i].snapediting.disable();
 		        if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.enable(); 
 			 }
-			
+			*/
 	
 			  // Add to drawnItems
 			 drawnItems.addLayer(layer);
@@ -1001,7 +1011,9 @@ function createPopupWindow(layer,type){
 					var capaBusinessId = map._layers[objEdicio.featureID].properties.capaBusinessId;
 					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
 					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
-					if(map._layers[capaLeafletId]!= undefined) updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
+					if(map._layers[capaLeafletId]!= undefined) {
+						updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
+					}
 					else {						
 						updateFeatureCount(capaBusinessId, null);		
 					}		
@@ -1050,9 +1062,14 @@ function createPopupWindow(layer,type){
 					fillOpacity: 0.1
 				};
 			
+			crt_Editing=new L.EditToolbar.Edit(map, {
+				featureGroup: capaEdicio,
+				selectedPathOptions: opcionsSel
+			});
+			crt_Editing.enable();
 		
 		
-			if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
+		/*	if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
 				crt_Editing=new L.EditToolbar.Edit(map, {
 					featureGroup: capaEdicio,
 					selectedPathOptions: opcionsSel
@@ -1068,11 +1085,11 @@ function createPopupWindow(layer,type){
 					}
 				});
 				crt_Editing.enable();
-				activarSnapping(capaEdicio);
+				//activarSnapping(capaEdicio);
 			}
 			
 			
-			
+			*/
 			
 			
 			map.closePopup();
@@ -1181,6 +1198,8 @@ function createPopupWindow(layer,type){
 			}
 		}
 	});
+
+	return html;
 }
 
 function reFillCmbCapesUsr(type, businessIdCapa){

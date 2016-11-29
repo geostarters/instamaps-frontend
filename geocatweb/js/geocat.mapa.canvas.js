@@ -13,7 +13,7 @@ var context,
 function comportamentCaptura(inicial,titol,text_progress) {
   if (inicial==0) {
     ldpercent_img = 0;
-    jQuery('#bt_desc_img').hide();
+    jQuery('.bt_desc_img').hide();
     jQuery('#bt_desc_ll').hide();
     jQuery('#div_captura').hide();
     //jQuery('#img_canvas').attr('src', '/llibreries/img/loading.gif');
@@ -26,7 +26,7 @@ function comportamentCaptura(inicial,titol,text_progress) {
     uploadprogress_img();
   }else if(inicial==1){
     jQuery('#progress_bar_carrega_img').hide();
-    jQuery('#bt_desc_img').show();
+    jQuery('.bt_desc_img').show();
     //jQuery('#div_captura').show();
   }else if(inicial==3){
     jQuery('#progress_bar_carrega_img').hide();
@@ -285,7 +285,9 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		html2canvas(jQuery(divActiuCanvas), {
 			onrendered : function(canvas) {
 				ActDesPrintMode(false);
-				var imgData = canvas.toDataURL('image/jpeg', 0.92);
+				var cl=jQuery('#map').css('background-color');
+				
+				var imgData = canvas.toDataURL('image/png', 0.92);
 				imgData = JSON.stringify(imgData.replace(
 					/^data:image\/(png|jpeg);base64,/, ""));
 				uploadImageBase64(imgData).then(
@@ -295,11 +297,12 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 							+ "&request=getCaptura&uuid="
 							+ results.UUID;
 							capturaLlegenda(true);
-							jQuery('#desc_img').attr('href', urlIMG);                                               
-							jQuery('#desc_img').attr('download', 'mapa_captura.jpeg');
-							jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-picture-o'></i>");                   
-							jQuery('#bt_desc_img').show();
 							comportamentCaptura(1);
+							var $desc_img = jQuery('#dialog_captura').find('.desc_img');
+							$desc_img.prop('href', urlIMG);
+							$desc_img.prop('download', 'mapa_captura.png');
+							//$desc_img.html("Desar mapa" +" <i class='fa fa-picture-o'></i>");                   
+							//jQuery('#dialog_captura').find('.bt_desc_img').show();
 							tornaLLoc(transform);
 							if(estatMapa3D){mapaEstatNOPublicacio=true;}       
 						} else {
@@ -400,7 +403,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		html2canvas(jQuery('#map .leaflet-map-pane'), {
 			onrendered : function(canvas) {
 				ActDesPrintMode(false);
-				var imgData = canvas.toDataURL('image/jpeg', 0.95);
+				var imgData = canvas.toDataURL('image/png', 0.95);
 				imgData = JSON.stringify(imgData.replace(
 					/^data:image\/(png|jpeg);base64,/, ""));
 				uploadImageBase64(imgData).then(
@@ -426,10 +429,11 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 										var urlIMG = paramUrl.urlgetMapImage
 										+ "&request=getGeoPDF&uuid="
 										+ results.UUID;   
-										jQuery('#desc_img').attr('href', urlIMG);
-										jQuery('#desc_img').attr('download', 'mapa_geoPDF.pdf');
-										jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
-										jQuery('#bt_desc_img').show();
+										var $desc_img = jQuery('#dialog_captura').find('.desc_img');
+										$desc_img.prop('href', urlIMG);
+										$desc_img.prop('download', 'mapa_geoPDF.pdf');
+										//jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
+										$('#dialog_captura').find('.bt_desc_img').show();
 										comportamentCaptura(3);
 										if (L.Browser.webkit) {
 											tornaLLoc(transform);

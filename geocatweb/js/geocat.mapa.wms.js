@@ -42,12 +42,25 @@ function generaLlistaServeisWMS() {
 				"IDARXIU" : "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?",
 				"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 			},
+			
+			/*
 			{ 
 				"TITOL" : "Atermenament i usos de costes",
 				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
 				"IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?", 
 				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
 			},
+			
+			*/
+			
+			{ 
+				"TITOL" : "Població de Catalunya 2014 ",
+				"ORGANITZAC" : "Institut d'Estadistica de Catalunya",
+				"IDARXIU" :  HOST_APP2+"geotimeservices/idescat", 
+				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
+			},
+			
+			
 			{
 				"TITOL" : "Establiments industrials",
 				"ORGANITZAC" : "Direccio General de Difusio",
@@ -134,8 +147,10 @@ function generaLlistaServeisWMS() {
 				'">' +
 				window.lang.translate(WMS.TITOL) +
 				'</a>' +
-				'<a target="_blank" lang="ca" title="Informació dels serveis" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id=' +
-				WMS.URN +
+				//'<a target="_blank" lang="ca" title="Informació dels serveis" href="http://www.geoportal.cat/wefex/client?idioma=ca&do=cercaAssociacions&resposta=detall&id=' +
+				//WMS.URN +
+				'<a target="_blank" lang="ca" title="'+WMS.ORGANITZAC+'" href="' +
+				WMS.IDARXIU +'?Request=GetCapabilities&service=WMS' +
 				'"><span class="glyphicon glyphicon-info-sign info-wms"></span></a>' +
 				'</li>');
 		}
@@ -334,6 +349,9 @@ function getCapabilitiesWMS(url, servidor) {
 }
 
 function addWmsToMap(wms){
+	
+
+	
 	var wmsLayer,
 	tipus_user = defineTipusUser();  //geocat.web-1.0.0
 	//$.publish('trackEvent',{event:['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]});
@@ -569,6 +587,7 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 		});
 		dimensionsTimeLayer.options=wmsLayer.options;
 		dimensionsTimeLayer.addTo(_map);
+		$.publish("addMapLayer");
 		dimensionsTimeLayer.bringToFront();
 		dimensionsTimeLayer.options.zIndex = controlCapes._lastZIndex+ 1;
 		if(controlCapes){
@@ -583,6 +602,7 @@ function checkAndAddTimeDimensionLayer(wmsLayer,ckeckCapaActiva,_nomServidor,cap
 		if(ckeckCapaActiva){
 			if (capesActiva === true || capesActiva === 'true' ){
 				wmsLayer.addTo(_map);
+				$.publish("addMapLayer");
 			}
 			if(controlCapes){
 				controlCapes.addOverlay(wmsLayer, _nomServidor, true);
@@ -627,7 +647,7 @@ function loadWmsLayer(layer, _map){
 	if(!layer.options){
 		jsonOptions=layer;
 	}
-	newWMS = L.tileLayer.betterWms(layer.url, {
+	var wmsOptions = {
 	    layers: layer.layers,
 	    format: layer.imgFormat,
 	    transparent: layer.transparency,
@@ -639,11 +659,16 @@ function loadWmsLayer(layer, _map){
 		zIndex :  parseInt(layer.capesOrdre),
 	    businessId: layer.businessId,
 	    tileSize:512
-	});
+	};
+	if(layer.random){
+		wmsOptions.random=layer.random;
+	}
+	newWMS = L.tileLayer.betterWms(layer.url, wmsOptions);
 	newWMS.options.wmstime=jsonOptions.wmstime;
 	newWMS.options.group=jsonOptions.group;
-	
+		
 	checkAndAddTimeDimensionLayer(newWMS,true,nomServidor,layer.capesActiva, _map);
+
 }
 
 
