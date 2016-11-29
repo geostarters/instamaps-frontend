@@ -294,6 +294,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 	
 	var isADrawarker=false;
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
+	var esVisor = ($(location).attr('href').indexOf('mapa')==-1);
 	$.each( player.properties.data, function( key, value ) {
 		if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
 			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
@@ -317,7 +318,9 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				else {
 					html+='<div class="popup_data_key">'+key+'</div>';
 					html+='<div class="popup_data_value">'+txt+'</div>';
-					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
+
+					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && 
+						(esVisor && visor.colorscalecontrol && ("" == origen)) || (!esVisor && ("" == origen)) || ("" != origen && (key == capa.options.trafficLightKey)))
 					{
 
 						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
@@ -655,7 +658,9 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
 			map.closePopup();
 		}
-	});	
+	});
+
+	return html;
 }
 
 /*****************************/
@@ -1895,6 +1900,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 			
 			//Afegim geometries a la capa
 			capaVisualitzacio.addTo(map);
+			$.publish("addMapLayer");
 			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 			
 			
@@ -2075,7 +2081,9 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	}
 	
 	var props = [];
-	if("undefined" !== typeof optionsVis && optionsVis.hasOwnProperty("propName"))
+	var checkNumericProperties = false;
+	var veientMapa = ($(location).attr('href').indexOf('mapa')!=-1);
+	if("undefined" !== typeof optionsVis && optionsVis.hasOwnProperty("propName") && !capaVisualitzacio.hasOwnProperty("isPropertyNumeric"))
 	{
 	
 		props = optionsVis.propName.split(',');
@@ -2083,6 +2091,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		$.each(props, function(index, prop) {
 			capaVisualitzacio.isPropertyNumeric[prop] = true;
 		});
+		checkNumericProperties = true;
 
 	}
 	
@@ -2110,17 +2119,22 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 			var featureTem = [];
 			var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
 
-			//Actualitzem el vector de propietats de tipus numèrics de la visualització
-			//Els que són falsos en algun feature ja no cal repassar-los, els eliminem del 
-			//vector de propietats a comprovar
-			var toRemove = [];
-			$.each(props, function(index, prop) {
-				capaVisualitzacio.isPropertyNumeric[prop] = capaVisualitzacio.isPropertyNumeric[prop] && $.isNumeric(geom.properties[prop]);
-				if(!capaVisualitzacio.isPropertyNumeric[prop])
-					toRemove.push(index);
-			});
-			for(var i=toRemove.length-1; i>=0; i--)
-				props.splice(toRemove[i], 1);
+			if(checkNumericProperties)
+			{
+
+				//Actualitzem el vector de propietats de tipus numèrics de la visualització
+				//Els que són falsos en algun feature ja no cal repassar-los, els eliminem del 
+				//vector de propietats a comprovar
+				var toRemove = [];
+				$.each(props, function(index, prop) {
+					capaVisualitzacio.isPropertyNumeric[prop] = capaVisualitzacio.isPropertyNumeric[prop] && $.isNumeric(geom.properties[prop]);
+					if(!capaVisualitzacio.isPropertyNumeric[prop])
+						toRemove.push(index);
+				});
+				for(var i=toRemove.length-1; i>=0; i--)
+					props.splice(toRemove[i], 1);
+
+			}
 
 			//MultyPoint
 			if (geomTypeVis === t_marker && geomType === t_multipoint){
@@ -2338,24 +2352,38 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					map.oms.addMarker(feat);
 				}
 			
-				//Si la capa no ve de fitxer
-				if(!hasSource){
-					//"no te source, no ve de fitxer");
-					if($(location).attr('href').indexOf('mapa')!=-1 && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-						createPopupWindow(feat,geomTypeVis);
+				if(!geom.hasOwnProperty("popupData"))
+				{
+				
+					//Si la capa no ve de fitxer
+					var html;
+					if(!hasSource){
+						//"no te source, no ve de fitxer");
+						if(veientMapa && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
+							html = createPopupWindow(feat,geomTypeVis);
+						}else{
+							//"Estem mode vis i no es tem origen:"
+							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
+						}								
 					}else{
-						//"Estem mode vis i no es tem origen:"
-						createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
-					}								
-				}else{
-					//"Te source, ve de fitxer";
-					if($(location).attr('href').indexOf('mapa')!=-1 && capaVisualitzacio.options.tipusRang == tem_origen){
-						//"Estem mode mapa i es tem origen"
-						createPopupWindowData(feat,geomTypeVis, true, origen, capaVisualitzacio);
-					}else{
-						//"Estem mode vis i no es tem origen:"
-						createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
+						//"Te source, ve de fitxer";
+						if(veientMapa && capaVisualitzacio.options.tipusRang == tem_origen){
+							//"Estem mode mapa i es tem origen"
+							html = createPopupWindowData(feat,geomTypeVis, true, origen, capaVisualitzacio);
+						}else{
+							//"Estem mode vis i no es tem origen:"
+							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
+						}
 					}
+
+					geom.popupData = html;
+
+				}
+				else
+				{
+
+					feat.bindPopup(geom.popupData, {'offset':[0,-25]});
+
 				}
 				/*try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
