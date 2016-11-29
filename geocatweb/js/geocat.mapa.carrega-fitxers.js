@@ -946,60 +946,70 @@ function obteCampsCSV(file) {
 	reader.readAsText(file);
 }
 
-function xlsworker(data, cb) {
-	var worker = new Worker('/llibreries/js/formats/xlsworker.js');
+var X = XLSX;
+var XW = {
+	/* worker message */
+	msg: 'xlsx',
+	/* worker scripts */
+	rABS: '/llibreries/js/formats/xlsxworker2.js',
+	norABS: '/llibreries/js/formats/xlsxworker1.js',
+	noxfer: '/llibreries/js/formats/xlsxworker.js'
+};
+
+function fixdata(data) {
+	var o = "", l = 0, w = 10240;
+	for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+	o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+	return o;
+}
+
+function ab2str(data) {
+	var o = "", l = 0, w = 10240;
+	for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint16Array(data.slice(l*w,l*w+w)));
+	o+=String.fromCharCode.apply(null, new Uint16Array(data.slice(l*w)));
+	return o;
+}
+
+function s2ab(s) {
+	var b = new ArrayBuffer(s.length*2), v = new Uint16Array(b);
+	for (var i=0; i != s.length; ++i) v[i] = s.charCodeAt(i);
+	return [v, b];
+}
+
+function xw_noxfer(data, cb, rABS) {
+	var worker = new Worker(XW.noxfer);
 	worker.onmessage = function(e) {
-		switch (e.data.t) {
-		case 'ready':
-			break;
-		case 'e':
-			console.error(e);
-			break;
-		case 'xls':
-			cb(e.data.d);
-			break;
+		switch(e.data.t) {
+			case 'ready': break;
+			case 'e': console.error(e.data.d); break;
+			case XW.msg: cb(JSON.parse(e.data.d)); break;
 		}
 	};
-	worker.postMessage(data);
+	var arr = rABS ? data : btoa(fixdata(data));
+	worker.postMessage({d:arr,b:rABS});
 }
 
-function obteCampsXLS(f) {
-	var rABS = typeof FileReader !== 'undefined'
-		&& typeof FileReader.prototype !== 'undefined'
-		&& typeof FileReader.prototype.readAsBinaryString !== 'undefined';
-	var reader = new FileReader();
-	var name = f.name;
-	reader.onload = function(e) {
-		var data = e.target.result;
-		var use_worker = true;//CAL?¿?¿?
-		if (use_worker && typeof Worker !== 'undefined') {
-			
-			xlsworker(data, llegirTitolXLS);
-		} else {
-
-			var wb = XLS.read(data, {
-				type : 'binary'
-			});
-						llegirTitolXLS(wb);
+function xw_xfer(data, cb, rABS) {
+	var worker = new Worker(rABS ? XW.rABS : XW.norABS);
+	worker.onmessage = function(e) {
+		switch(e.data.t) {
+			case 'ready': break;
+			case 'e': console.error(e.data.d); break;
+			default: xx=ab2str(e.data).replace(/\n/g,"\\n").replace(/\r/g,"\\r"); console.log("done"); cb(JSON.parse(xx)); break;
 		}
 	};
-	reader.readAsBinaryString(f);
-}
-
-function llegirTitolXLS(workbook) {
-	var matriuActiva = [];
-	if(workbook){
-		var sheetName=workbook.SheetNames[0];
-		matriuActiva = get_columns(workbook.Sheets[sheetName], 'XLS');
-		analitzaMatriu(matriuActiva);
-	}else{
-		$('#dialog_carrega_dades').modal('hide');
-		busy = false;
-		$('#dialog_error_upload_txt').html("");
-		var msg = window.lang.translate("Versió incorrecta. No es pot llegir aquest XLS.");
-		$('#dialog_error_upload_txt').html(msg);
+	if(rABS) {
+		var val = s2ab(data);
+		worker.postMessage(val[1], [val[1]]);
+	} else {
+		worker.postMessage(data, [data]);
 	}
-	return matriuActiva;
+}
+
+function xw(data, cb, rABS) {
+	var transferable = typeof Worker !== 'undefined';
+	if(transferable) xw_xfer(data, cb, rABS);
+	else xw_noxfer(data, cb, rABS);
 }
 
 function obteCampsXLSX(f) {
@@ -1011,31 +1021,19 @@ function obteCampsXLSX(f) {
 	var name = f.name;
 	reader.onload = function(e) {
 		var data = e.target.result;
-		var wb, arr, xls;
-		var readtype = {
-			type : rABS ? 'binary' : 'base64'
-		};
-		if (!rABS) {
-			arr = fixdata(data);
-			data = btoa(arr);
-		}
-		xls = [ 0xd0, 0x3c ].indexOf(data.charCodeAt(0)) > -1;
-		if (!xls && arr)
-			xls = [ 0xd0, 0x3c ].indexOf(arr[0].charCodeAt(0)) > -1;
-		if (rABS && !xls && data.charCodeAt(0) !== 0x50)
-			alert("Error arxiu");
 		function doit() {
 			try {
 				var useworker = typeof Worker !== 'undefined';
-				if (useworker) {
-					sheetjsw(data, llegirTitolXLSX, readtype, xls, rABS);
-					return;
-				}
-				if (false) {
-					wb = XLS.read(data, readtype);
-					llegirTitolXLSX(wb, 'XLS');
+				if(useworker) {
+					xw(data, llegirTitolXLSX, rABS);
 				} else {
-					wb = XLSX.read(data, readtype);
+					var wb;
+					if(rABS) {
+						wb = X.read(data, {type: 'binary'});
+					} else {
+						var arr = fixdata(data);
+						wb = X.read(btoa(arr), {type: 'base64'});
+					}
 					llegirTitolXLSX(wb, 'XLSX');
 				}
 			} catch (e) {
@@ -1078,7 +1076,7 @@ function obteCampsXLSX(f) {
 function llegirTitolXLSX(wb, type, sheetidx) {
 	var matriuActiva = [];
 	var sheet = wb.SheetNames[sheetidx || 0];
-	if (type.toLowerCase() == 'xls' && wb.SSF)
+	if (undefined != type && type.toLowerCase() == 'xls' && wb.SSF)
 		XLS.SSF.load_table(wb.SSF);
 	matriuActiva = get_columns(wb.Sheets[sheet], type);
 	analitzaMatriu(matriuActiva);
@@ -1096,61 +1094,10 @@ function get_columns(sheet, type) {
 		})];
 		if (!val)
 			continue;
-		columnHeaders[C] = type.toLowerCase() == 'xls' ? XLS.utils
+		columnHeaders[C] = (undefined != type && type.toLowerCase() == 'xls') ? XLS.utils
 				.format_cell(val) : val.v;
 	}
 	return columnHeaders;
-}
-
-function fixdata(data) {
-	var o = "", l = 0, w = 10240;
-	for (; l < data.byteLength / w; ++l)
-		o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l
-				* w + w)));
-	o += String.fromCharCode.apply(null, new Uint8Array(data.slice(o.length)));
-	return o;
-}
-
-function sheetjsw(data, cb, readtype, xls, rABS) {
-	var pending = true;
-	var worker = new Worker('/llibreries/js/formats/xlsxworker.js');
-	worker.onmessage = function(e) {
-		switch (e.data.t) {
-		case 'ready':
-			break;
-		case 'e':
-			pending = false;
-			console.error(e.data.d);
-			break;
-		case 'xls':
-		case 'xlsx':
-			/*pending = false;
-			var edata;
-			if (typeof(e.data.d) == "string"){
-				try {
-					edata = JSON.parse(e.data.d);
-				}
-				catch (err) {
-					edata = e.data.d;	
-				}				
-			}else{				
-				edata = e.data.d;	
-			}
-			cb(edata, e.data.t);*/
-			var edata=ab2str(e.data).replace(/\n/g,"\\n").replace(/\r/g,"\\r"); console.log("done"); cb(JSON.parse(xx)); break;
-			break;
-		}
-	};
-	var auxData = data;
-	if(rABS) {
-		var val = s2ab(data);
-		auxData = val[1];
-	}
-	worker.postMessage({
-		d : data,
-		b : readtype,
-		t : xls ? 'xls' : 'xlsx'
-	});
 }
 
 function checkFileRaster(file){
