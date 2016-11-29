@@ -1056,40 +1056,44 @@
 				//TODO ver los errores de leaflet al cambiar el mapa de fondo
 				//cambiar el mapa de fondo a orto y gris
 				if (_mapConfig.options != null){
-					var fons = _mapConfig.options.fons;
-					if (fons == 'topoMap'){
-						_map.topoMap();
-					}else if (fons == 'topoMapGeo') {
-						_map.topoMapGeo();
-					}else if (fons == 'ortoMap') {
-						_map.ortoMap();
-					}else if (fons == 'terrainMap') {
-						_map.terrainMap();
-					}else if (fons == 'topoGrisMap') {
-						_map.topoGrisMap();
-					}else if (fons == 'historicOrtoMap') {
-						_map.historicOrtoMap();
-					}else if (fons == 'historicMap') {
-						_map.historicMap();
-					}else if (fons == 'hibridMap'){
-						_map.hibridMap();
-					}else if (fons == 'historicOrtoMap46'){
-						_map.historicOrtoMap46();
-					}else if (fons == 'alcadaMap'){
-						_map.alcadaMap();
-					}else if (fons == 'colorMap') {
-						_map.colorMap(_mapConfig.options.fonsColor);
-					}else if (fons == 'naturalMap') {
-						_map.naturalMap();
-					}else if (fons == 'divadminMap') {
-						_map.divadminMap();
-					}else if (fons == 'hibridTerrainMap') {
-						_map.hibridTerrainMap();				
-					}else if (fons.indexOf('colorBlankMap')!=-1) {						
-						_map.colorBlankMap(fons);
+					if(_mapConfig.options.hasOwnProperty("fons"))
+					{
+						var fons = _mapConfig.options.fons;
+						if (fons == 'topoMap'){
+							_map.topoMap();
+						}else if (fons == 'topoMapGeo') {
+							_map.topoMapGeo();
+						}else if (fons == 'ortoMap') {
+							_map.ortoMap();
+						}else if (fons == 'terrainMap') {
+							_map.terrainMap();
+						}else if (fons == 'topoGrisMap') {
+							_map.topoGrisMap();
+						}else if (fons == 'historicOrtoMap') {
+							_map.historicOrtoMap();
+						}else if (fons == 'historicMap') {
+							_map.historicMap();
+						}else if (fons == 'hibridMap'){
+							_map.hibridMap();
+						}else if (fons == 'historicOrtoMap46'){
+							_map.historicOrtoMap46();
+						}else if (fons == 'alcadaMap'){
+							_map.alcadaMap();
+						}else if (fons == 'colorMap') {
+							_map.colorMap(_mapConfig.options.fonsColor);
+						}else if (fons == 'naturalMap') {
+							_map.naturalMap();
+						}else if (fons == 'divadminMap') {
+							_map.divadminMap();
+						}else if (fons == 'hibridTerrainMap') {
+							_map.hibridTerrainMap();				
+						}else if (fons.indexOf('colorBlankMap')!=-1) {						
+							_map.colorBlankMap(fons);
+						}
+						_map.setActiveMap(_mapConfig.options.fons);
+						_map.setMapColor(_mapConfig.options.fonsColor);
+						
 					}
-					_map.setActiveMap(_mapConfig.options.fons);
-					_map.setMapColor(_mapConfig.options.fonsColor);
 				}
 				
 				//carga las capas en el mapa
