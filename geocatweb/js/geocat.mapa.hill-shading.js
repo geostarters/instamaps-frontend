@@ -17,7 +17,6 @@ function addControlHillShading(){
 	};
 	
 	ctr_hill.addTo(map);
-	$.publish("addMapLayer");
 	jQuery('.bt_hill').prop( "disabled", true );	
 	
 	jQuery('.bt_hill').on('mousemove',function(e){		

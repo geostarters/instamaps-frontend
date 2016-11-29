@@ -139,7 +139,7 @@ L.IM_Map = L.Map.extend({
 	initialize: function(id,options) {
 		L.Map.prototype.initialize.call(this,id,options);
 		L.Util.setOptions(this, options);
-		var self = this;
+
 		this.activeMap=this.options.typeMap;
 
 		if(this.options.typeMap==FONS_TOPOMAP){this.topoMap();
@@ -166,8 +166,8 @@ L.IM_Map = L.Map.extend({
 			this.gestionaFons(false);
 		});
 		
-		$.subscribe('addMapLayer', function(){
-			self.gestionaFons(true);
+		this.on('layeradd', function(){
+			this.gestionaFons(true);
 		});
 		
 	

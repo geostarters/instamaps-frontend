@@ -39,7 +39,6 @@ function addPanoramioLayer(){
 				panoramio.options.businessId = results.results.businessId;
 				panoramio.options.xarxa_social="panoramio";
 				panoramio.addTo(map);
-				$.publish("addMapLayer");
 				panoramio.options.zIndex = controlCapes._lastZIndex+1;
 				controlCapes.addOverlay(panoramio, 'panoramio', true);
 				controlCapes._lastZIndex++;
@@ -50,7 +49,6 @@ function addPanoramioLayer(){
 		});	
 	}else{
 		panoramio.addTo(map);
-		$.publish("addMapLayer");
 		panoramio.options.zIndex = controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(panoramio, 'panoramio', true);
 		controlCapes._lastZIndex++;
@@ -80,7 +78,6 @@ function loadPanoramioLayer(layer){
 	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		panoramio.addTo(map);
-		$.publish("addMapLayer");
 	}
 	controlCapes.addOverlay(panoramio, layer.serverName, true);
 	controlCapes._lastZIndex++;
@@ -128,7 +125,6 @@ function addTwitterLayer(){
 				twitter.options.xarxa_social="twitter";
 				twitter.options.hashtag=hashtag;
 				twitter.addTo(map);
-				$.publish("addMapLayer");
 				twitter.options.zIndex = controlCapes._lastZIndex+1;
 				controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
 				controlCapes._lastZIndex++;
@@ -139,7 +135,6 @@ function addTwitterLayer(){
 		});	
 	}else{
 		twitter.addTo(map);
-		$.publish("addMapLayer");
 		twitter.options.zIndex = controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(twitter, 'twitter #'+ hashtag, true);
 		controlCapes._lastZIndex++;
@@ -167,7 +162,6 @@ function loadTwitterLayer(layer, hashtag){
 	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		twitter.addTo(map);
-		$.publish("addMapLayer");
 	}
 	controlCapes.addOverlay(twitter, layer.serverName, true);
 	controlCapes._lastZIndex++;
@@ -216,7 +210,6 @@ function addWikipediaLayer(){
 				wikipedia.options.xarxa_social = "wikipedia";				
 				wikipedia.options.key = keyName;								
 				wikipedia.addTo(map);
-				$.publish("addMapLayer");
 				wikipedia.options.zIndex = controlCapes._lastZIndex+1;
 				controlCapes.addOverlay(wikipedia, 'wikipedia', true);
 				controlCapes._lastZIndex++;
@@ -227,8 +220,10 @@ function addWikipediaLayer(){
 		});
 	}else{
 		
+		
+		
+		
 		wikipedia.addTo(map);
-		$.publish("addMapLayer");
 		wikipedia.options.zIndex = controlCapes._lastZIndex+1;
 		controlCapes.addOverlay(wikipedia, 'wikipedia', true);
 		controlCapes._lastZIndex++;
@@ -253,7 +248,6 @@ function loadWikipediaLayer(layer){
 	
 	if (layer.capesActiva == true || layer.capesActiva == "true"){
 		wikipedia.addTo(map);
-		$.publish("addMapLayer");
 	}
 	controlCapes.addOverlay(wikipedia, layer.serverName, true);
 	controlCapes._lastZIndex++;
