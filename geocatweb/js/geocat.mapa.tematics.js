@@ -2082,7 +2082,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		capaVisualitzacio.isPropertyNumeric = new Array(props.length);
 		$.each(props, function(index, prop) {
 			capaVisualitzacio.isPropertyNumeric[prop] = true;
-		});
+		}); 
 
 	}
 	
