@@ -322,61 +322,6 @@ function addGeometryInitL(canvas,inicial){
 	cv_ctx_l.stroke(); 	
 }
 
-function refrescarPopUp(nom,props){
-	var html='';
-	html+='<h4 class="my-text-center">'+nom+'</h4>';
-	
-	
-	var isADrawarker=false;
-	html+='<div class="div_popup_visor"><div class="popup_pres">';
-	$.each(props, function( key, value ) {
-		if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
-			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
-					key != 'NOM' && key != 'Nom' && key != 'nom' && 
-					key != 'name' && key != 'Name' && key != 'NAME' &&
-					key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
-				html+='<div class="popup_data_row">';
-				var txt=value;
-				if (!$.isNumeric(txt)) {
-					txt = parseUrlTextPopUp(value, key);
-					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-						html+='<div class="popup_data_key">'+key+'</div>';
-						html+='<div class="popup_data_value">'+
-						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
-						'</div>';
-						html += '<div class="traffic-light-icon-empty"></div>';
-					}else{
-						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
-					}
-				}
-				else {
-					html+='<div class="popup_data_key">'+key+'</div>';
-					html+='<div class="popup_data_value">'+txt+'</div>';
-					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
-					{
-
-						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
-						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
-						
-					}
-					else
-					{
-
-						html += '<div class="traffic-light-icon-empty"></div>';
-
-					}
-				}
-				html+= '</div>';
-				if (key=='text' || key=='TEXT') isADrawarker=true;
-				else isADrawarker=false;
-			}
-		}
-	});	
-	return html;
-	
-}
-
 function addGeometryInitP(canvas,inicial){
 	var	cv_ctx_p=canvas.getContext("2d");
 	cv_ctx_p.clearRect(0, 0, canvas.width, canvas.height);
@@ -926,62 +871,17 @@ function createPopupWindow(layer,type){
 					//Actualitzem popup del marker
 					//var html = createPopUpContent(obj,obj.options.tipus);
 					//obj.setPopupContent(html);
-					map.closePopup();
-					obj.openPopup();
+					
 					var nom=resultsMove.results.properties.nom;
 					var props=resultsMove.results.properties;
-					var html = refrescarPopup(nom,props);
-					console.debug(html);
+					var html = refrescarPopUp(nom,props);
+					obj.setPopupContent(html);
+					map.closePopup();
+					obj.openPopup();
 					var toLayer1 = controlCapes._layers[''+toBusinessId[1]+''];
-				
-					/*jQuery.each(toLayer1._layers, function(i, sublayer){
-						console.debug(sublayer);
-			        	if(jQuery.type(sublayer.layer.options)== "string"){
-							sublayer.layer.options = $.parseJSON(sublayer.layer.options);
-						}	            	  
-			        	
-						//Sublayer visualitzacio, carrego la capa
-						if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
-			        		  if (sublayer.layer.options.tipusRang=="simpleTematic"){
-			        			map.removeLayer(sublayer.layer);
-								//Eliminem la capa de controlCapes
-								controlCapes.removeLayer(sublayer);
-			        						
-								
-								var data = {
-										businessId: sublayer.layer.options.businessId,//f.layer.properties.capaBusinessId,//Bid de la visualitzacio
-										uid: Cookies.get('uid'),
-										features: features,
-										estilBusinessId: sublayer.layer.options.estil[0].businessId
-								};
-								addGeometriaToVisualitzacioTematic(data).then(function(results) {
-									if(results.status === 'OK'){
-										obj.properties.businessId = results.feature.businessId;
-										obj.properties.estil = results.results.estil[0];
-										obj.properties.feature = results.feature;		
-										sublayer.layer.serverName = sublayer.layer.options.nom;
-								  		sublayer.layer.serverType = sublayer.layer.options.tipus;
-								  		sublayer.layer.capesActiva = "true";
-										sublayer.layer.options.origen = toLayer.options.businessId;	
-										sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-								  		
-								  		//eliminem sublayer del mapa, i recarreguem
-								  		map.removeLayer(sublayer.layer);
-								  		  
-								  		loadVisualitzacioLayer(sublayer.layer);
-														
-									}else{
-										console.debug('addGeometriaToVisualitzacio ERROR');
-									}
-								});
-			        		  }
-			        	  }
-			        	
-			          });*/
 					
 					actualitzacioTematic(toLayer1,toLayer.options.businessId,"3124",obj,features,"modificacio");
-					
-					
+			
 					//Actualitzem l'enllaç d'obrir la finestra de dades
 					var htmlDataTable =jQuery("#feature_data_table_"+accio[1]).html();
 					var stringsDataTableA = htmlDataTable.split("##");

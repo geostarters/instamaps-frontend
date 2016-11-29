@@ -870,6 +870,72 @@ var _hoSoc=false;
 	
 }	
 
+function refrescarPopUp(nom,props){
+	var html='';
+	html+='<h4 class="my-text-center">'+nom+'</h4>';
+	
+	
+	var isADrawarker=false;
+	html+='<div class="div_popup_visor"><div class="popup_pres">';
+	$.each(props, function( key, value ) {
+		if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
+			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
+					key != 'NOM' && key != 'Nom' && key != 'nom' && 
+					key != 'name' && key != 'Name' && key != 'NAME' &&
+					key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
+				html+='<div class="popup_data_row">';
+				var txt=value;
+				if (!$.isNumeric(txt)) {
+					txt = parseUrlTextPopUp(value, key);
+					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+						html+='<div class="popup_data_key">'+key+'</div>';
+						html+='<div class="popup_data_value">'+
+						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
+						'</div>';
+						html += '<div class="traffic-light-icon-empty"></div>';
+					}else{
+						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+					}
+				}
+				else {
+					html+='<div class="popup_data_key">'+key+'</div>';
+					html+='<div class="popup_data_value">'+txt+'</div>';
+					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
+					{
+
+						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
+						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
+						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
+						
+					}
+					else
+					{
+
+						html += '<div class="traffic-light-icon-empty"></div>';
+
+					}
+				}
+				html+= '</div>';
+				if (key=='text' || key=='TEXT') isADrawarker=true;
+				else isADrawarker=false;
+			}
+		}
+	});	
+	html +='<div id="footer_edit"  class="modal-footer">'
+	+'<ul class="bs-popup">'						
+	+'<li class="edicio-popup"><a id="feature_edit" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_move" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_remove" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
+
+	html+='<li class="edicio-popup" id="feature_data_table_"><a id="feature_data_table######" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
+		
+	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>';
+	
+	html+='</ul>'														
+	+'</div>'
+	return html;
+	
+}
 
 function changeWMSQueryable(queryable){	
 	map.eachLayer(function (layer) { 
@@ -988,3 +1054,4 @@ function _escriuDebug(_debug, _scope,_linia){
 	}	
 	
 }
+
