@@ -468,7 +468,7 @@ function updateLangText(){
 	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
 	var txtBoto="";
 	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!='N'){
-		txtBoto="Desar / Sortir";
+		txtBoto="Desar / Desbloquejar";
 	}
 	else{
 		txtBoto="Desar / Publicar el mapa";

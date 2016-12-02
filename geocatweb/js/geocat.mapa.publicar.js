@@ -377,7 +377,7 @@
         _addHtmlInterficiePublicar: function(){
         	var txtBoto="";
         	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!='N'){
-        		txtBoto="Desar / Sortir";
+        		txtBoto="Desar / Desbloquejar";
         	}
         	else{
         		txtBoto="Desar / Publicar el mapa";
@@ -845,7 +845,7 @@
                 					//update map name en el control de capas
                 					$('#nomAplicacio').text(self.mapConfig.nomAplicacio);
                 					$('#nomAplicacio').editable('setValue', self.mapConfig.nomAplicacio);
-                					$('#dialgo_url_iframe .btn-success').text(window.lang.translate("Desar / Sortir"));
+                					$('#dialgo_url_iframe .btn-success').text(window.lang.translate("Desar / Desbloquejar"));
                 					$('#dialgo_url_iframe').modal('show');
                 					self._addShareButtons();
         							
