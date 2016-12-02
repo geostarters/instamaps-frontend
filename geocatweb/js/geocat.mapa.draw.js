@@ -874,9 +874,11 @@ function createPopupWindow(layer,type){
 					
 					var nom=resultsMove.results.properties.nom;
 					var props=resultsMove.results.properties;
-					var html = refrescarPopUp(nom,props);
-					obj.setPopupContent(html);
+					var html = refrescarPopUp(nom,props,obj._leaflet_id,obj.properties.tipusFeature,obj.properties.capaLeafletId);
 					map.closePopup();
+					obj.closePopup();
+					console.debug(obj);
+					obj.bindPopup(html,{'offset':[0,-25]});					
 					obj.openPopup();
 					var toLayer1 = controlCapes._layers[''+toBusinessId[1]+''];
 					
@@ -884,9 +886,10 @@ function createPopupWindow(layer,type){
 			
 					//Actualitzem l'enllaç d'obrir la finestra de dades
 					var htmlDataTable =jQuery("#feature_data_table_"+accio[1]).html();
-					var stringsDataTableA = htmlDataTable.split("##");
-					jQuery("#feature_data_table_"+accio[1]).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+toLayer._leaflet_id+"##"+stringsDataTableA[4]);
-
+					if (undefined != htmlDataTable){
+						var stringsDataTableA = htmlDataTable.split("##");
+						jQuery("#feature_data_table_"+accio[1]).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+toLayer._leaflet_id+"##"+stringsDataTableA[4]);
+					}
 					//NO CAL: com cridem addLayer, de controlCapes, ja s'actualitzen els comptadors de les capes
 					//updateFeatureCount(fromBusinessId, toBusinessId);			
 					
