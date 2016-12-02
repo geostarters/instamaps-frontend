@@ -91,6 +91,7 @@
   "Canviar":"Cambiar",
   "Canviar vista":"Cambiar vista",
   "Canvis del carrerer":"Cambios del callejero",
+  "Cap":"Ninguna",
   "Cap de les capes carregades permet aquesta operació":"Ninguna de las capas cargadas permite esta operación",
   "Capa actual:":"Capa actual:",
   "Capa d'origen":"Capa de origen",
@@ -427,6 +428,7 @@
   "Has oblidat la contrasenya?":"Has olvidado la contraseña?",
   "Has oblidat la teva contrasenya?":"Has olvidado tu contraseña?",
   "Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Hemos actualizado tu cuenta de Instamps. A partir de ahora debes ingresar con tus credenciales del ICGC.",
+  "Hi ha algun error al formulari, revisa'l":"Hay algun error en el formulario, compruebalo",
   "Hi ha hagut algun problema amb la tramesa dels correus electrònics":"Ha habido algún problema en el envio de los correos electrónicos",
   "Hola":"Hola",
   
@@ -454,6 +456,7 @@
   "Introdueix una URL vàlida":"Introduce una URL válida",
   "Introdueix un nom vàlid per a la publicació del mapa":"Introduce un nombre válido para la publicación del mapa",
   "Inverteix paleta":"Invierte paleta",
+  "Invertir capes":"Invierte capas",
   "I si us voleu inspirar per crear mapes espectaculars podeu consultar la galeria de mapes públics compartits per altres usuaris":"Y si deseas inspiración para crear mapas espectaculares puedes consultar la galería de mapas públicos compartidos por otros usuarios",
   
   "L'accés al mapa es protegit amb clau":"El acceso al mapa está protegido con clave",

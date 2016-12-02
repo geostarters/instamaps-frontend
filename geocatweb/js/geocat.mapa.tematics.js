@@ -2117,6 +2117,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		//per cada geometria d'aquell estil
 		jQuery.each(estil.geometria.features, function(indexGeom, geom){				
 			var featureTem = [];
+			if (undefined != geom.geometry){
 			var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
 
 			if(checkNumericProperties)
@@ -2399,6 +2400,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				}*/
 				map.closePopup();					
 			});
+			}
 		});
 	});	
 	//FIN EACH
