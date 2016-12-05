@@ -368,6 +368,8 @@
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
 			$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+
+			$("#publish-form-error").hide();
 			
 			$('a[href^="#id_info').click();
 		},
@@ -785,6 +787,8 @@
         			self._callPublicarMapa(data, newMap, self.fromCompartir);
         		}
         	}
+
+        	$("#publish-form-error").hide();
         	
         },
         
@@ -836,16 +840,12 @@
         				
         				//require ajax
         				publicarMapConfig(mapData).then(function(results){
-        					var txtPubBoto = $('.bt_publicar>span').html();
-        					if (txtPubBoto.indexOf("Desbloquejar")>-1 || txtPubBoto.indexOf("Desbloquear")>-1 || txtPubBoto.indexOf("unlock")>-1 ){
-        						gestioCookie('getMapByBusinessId2');
-        					}
-        					else {
-        						if(!fromCompartir){
+        					     if(!fromCompartir){
                 					$('#dialgo_publicar').modal('hide');
                 					//update map name en el control de capas
                 					$('#nomAplicacio').text(self.mapConfig.nomAplicacio);
                 					$('#nomAplicacio').editable('setValue', self.mapConfig.nomAplicacio);
+                					$('#dialgo_url_iframe .btn-success').text(window.lang.translate("Desar / Desbloquejar"));
                 					$('#dialgo_url_iframe').modal('show');
                 					self._addShareButtons();
         							
@@ -854,9 +854,13 @@
         									disparaEventMapa=true;
         									mapaEstatNOPublicacio=true;	
         								}
+        								var txtPubBoto = $('.bt_publicar>span').html();
+        	        					if (txtPubBoto.indexOf("Sortir")>-1 || txtPubBoto.indexOf("Salir")>-1 || txtPubBoto.indexOf("Exit")>-1 ){
+        	        						gestioCookie('getMapByBusinessId2');
+        	        					}
         							});	
         						}
-        					}
+        					
         				});
         				
         				
