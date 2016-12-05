@@ -1063,7 +1063,6 @@ function _escriuDebug(_debug, _scope,_linia){
 	}	
 	
 }
-
 function controlarBloqueigMapa(){
 	 lockController = SessionTimeout({
 		 warnAfter: 10000,

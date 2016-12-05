@@ -454,13 +454,13 @@ function createPopupWindowData(player,type, editable, origen, capa){
 	jQuery(document).on('click', ".bs-popup li a", function(e) {
 		e.stopImmediatePropagation();
 		var accio;
-		if(undefined != jQuery(this).attr('id') && jQuery(this).attr('id').indexOf('##')!=-1){	
+		if(jQuery(this).attr('id').indexOf('##')!=-1){	
 			accio=jQuery(this).attr('id').split("##");				
 		}
 		
 		if (accio!=undefined && accio[1]!=undefined) objEdicio.featureID=accio[1];
 		
-		if(undefined != accio[0] && accio[0].indexOf("feature_edit")!=-1){
+		if(accio[0].indexOf("feature_edit")!=-1){
 
 			//Update modal estils, amb estil de la feature seleccionada
 			var obj = map._layers[accio[1]];
@@ -481,7 +481,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			}else{
 				obrirMenuModal('#dialog_estils_linies','toggle',from_creaPopup);
 			}
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_data_table")!=-1){
+		}else if(accio[0].indexOf("feature_data_table")!=-1){
 	
 			$('#modal_data_table').modal('show');
 			var featureId=objEdicio.featureID;
@@ -500,7 +500,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			}
 			else fillModalDataTable(controlCapes._layers[accio[3]],map._layers[featureId].properties.businessId);
 		
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_remove")!=-1){
+		}else if(accio[0].indexOf("feature_remove")!=-1){
 			map.closePopup();
 			var data = {
 	            businessId: map._layers[objEdicio.featureID].properties.businessId,
@@ -556,9 +556,9 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			},function(results){
 				console.debug("ERROR deleteFeature");
 			});					
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_text")!=-1){
+		}else if(accio[0].indexOf("feature_text")!=-1){
 			modeEditText();
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_move")!=-1){
+		}else if(accio[0].indexOf("feature_move")!=-1){
 			objEdicio.esticEnEdicio=true;
 			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;	
 			objEdicio.capaEdicioLeafletId = capaLeafletId;//Ho guarda per despres poder actualitzar vis filles
@@ -621,11 +621,11 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			
 			map.closePopup();
 			
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_no")!=-1){
+		}else if(accio[0].indexOf("feature_no")!=-1){
 			jQuery('.popup_pres').show();
 			jQuery('.popup_edit').hide();
 			
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_ok")!=-1){
+		}else if(accio[0].indexOf("feature_ok")!=-1){
 			if(objEdicio.edicioPopup=='textFeature'){
 				var txtTitol=jQuery('#titol_edit').val();
 				var txtDesc=jQuery('#des_edit').val();
