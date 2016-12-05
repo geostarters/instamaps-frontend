@@ -411,6 +411,12 @@ function gestioCookie(from){
 		case 'getMapByBusinessIdError':
 			window.location.href = paramUrl.loginPage;
 			break;
+		case 'mapaBloquejat':
+			//Temps vida cookie bloqueig: 2 hores
+			Cookies.set('lockCookie', _cookie, {
+			    expires: 1/12
+			});
+			break;
 	}
 }
 
@@ -1056,4 +1062,37 @@ function _escriuDebug(_debug, _scope,_linia){
 		console.debug("****************");
 	}	
 	
+}
+function controlarBloqueigMapa(){
+	 lockController = SessionTimeout({
+		 warnAfter: 10000,
+		 redirAfter: 15000,
+         ignoreUserActivity: true,
+         keepAlive: false,
+         logoutButton: window.lang.translate('Sortir'),
+         title: window.lang.translate('Desbloquejar mapa'),
+         message: window.lang.translate('El mapa porta bloquejat dues hores. El vols desbloquejar o continuar treballant?'),
+         onWarn: function(){
+         },
+         onRedir: function () {
+        	// alert(window.lang.translate('El temps de bloqueig del mapa ha caducat.'));
+        	 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 10000);
+        	 $('#dialog_bloqueig_mapa').modal('show');   
+        	
+         }
+   });
+}
+
+function treureBloqueigMapa(){
+	var mapData = {
+  			businessId: url('?businessid'),
+  			uid: Cookies.get('uid')
+  	 };
+	 desbloquejarMapa(mapData).then(function(results){
+			if (results.status=="OK"){
+				treureBloqueigMapa();
+				$('#dialog_bloqueig_mapa').modal('hide');
+				window.location.href = paramUrl.galeriaPage+"?private=1";
+			}
+	});
 }

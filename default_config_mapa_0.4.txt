@@ -23,7 +23,8 @@
 		"addControlAltresFontsDades()",
 		"addFuncioEditDataTable()",
 		"addHtmlInterficieFuncionsSIG()",
-		"addFuncioEtiquetesCapa()"
+		"addFuncioEtiquetesCapa()",
+		"addHtmlModalBloqueigMapa()"
 	],
     "required": ["id", "name", "price"]
 }

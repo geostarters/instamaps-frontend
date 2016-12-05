@@ -789,7 +789,7 @@
         	}
 
         	$("#publish-form-error").hide();
-        	
+        	treureBloqueigMapa();
         },
         
         _callPublicarMapa: function(data, newMap, fromCompartir){

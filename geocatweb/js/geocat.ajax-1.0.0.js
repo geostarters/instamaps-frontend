@@ -1135,8 +1135,6 @@ function updateVisualitzacioLayer(params){
   		dataType: 'jsonp'
 	}).promise();
 }
-
-
 function searchCatalogInspire(params){
 	return jQuery.ajax({
 			url: paramUrl.urlgetInspireCatalog,
@@ -1146,4 +1144,10 @@ function searchCatalogInspire(params){
 			jsonp: 'json.wrf'
 		}).promise();
 }
-
+function desbloquejarMapa(data){
+	return jQuery.ajax({
+		url: paramUrl.desbloquejarMapa,
+		data: data,
+		dataType: 'jsonp'
+	}).promise();
+}
