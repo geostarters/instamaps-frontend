@@ -591,15 +591,18 @@
         			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
         			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
         			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.translate('El camp no pot estar buit')+"</span>");
+        			$("#publish-form-error").show();
         			return false;
         		}else if(isDefaultMapTitle($('#dialgo_publicar #nomAplicacioPub').val())){
         			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
         			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
         			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.translate("Introdueix un nom vàlid per a la publicació del mapa")+"</span>");
+        			$("#publish-form-error").show();
         			return false;
         		}
         	}
         	
+        	$("#publish-form-error").hide();
         	$.publish('getMap','publicar/');
         },
         
