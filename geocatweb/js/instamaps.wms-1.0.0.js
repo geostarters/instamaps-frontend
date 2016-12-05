@@ -158,7 +158,7 @@
 						html = capabilities_template({Layer: [results.Capability.Layer]});
 					}
 					
-					ActiuWMS.servidor = servidor || self.name || results.Capability.Layer.Title;
+					ActiuWMS.servidor = self.name || servidor || results.Capability.Layer.Title;
 					ActiuWMS.url = self.url;
 					
 					
