@@ -731,7 +731,7 @@
 			}
 			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
-				if (!self.nollegenda) {
+				if (!self.nollegenda && self._mapConfig.servidorsWMS.length > 0) {
 					self.addLlegenda();
 					if (self.llegendaOpt==false){
 						self.controls.llegendaControl.button.show();

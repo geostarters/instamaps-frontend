@@ -5258,8 +5258,3 @@ li >.label-dof:focus {
     width: 20px;
     height: 25px;
 }
-
-#publish-form-error {
-	margin: 5px;
-	display: none;
-}

@@ -1057,4 +1057,3 @@ function _escriuDebug(_debug, _scope,_linia){
 	}	
 	
 }
-
