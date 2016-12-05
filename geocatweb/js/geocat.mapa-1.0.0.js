@@ -123,13 +123,15 @@ function loadApp(){
 				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
 					mapConfig = results.results;
-					var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
-					jQuery.map( bloquejatJson, function( val, i ) {
-							if (val.bloquejat==="S") {
-								gestioCookie('mapaBloquejat');
-								controlarBloqueigMapa();
-							}							
-					});
+					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+						var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
+						jQuery.map( bloquejatJson, function( val, i ) {
+								if (val.bloquejat==="S") {
+									gestioCookie('mapaBloquejat');
+									controlarBloqueigMapa();
+								}							
+						});
+					}
 					//if (true) { //CANVIAR
 					gestioCookie('diferentUser');
 					var nomAp = mapConfig.nomAplicacio;
