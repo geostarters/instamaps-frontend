@@ -871,63 +871,25 @@ function createPopupWindow(layer,type){
 					//Actualitzem popup del marker
 					//var html = createPopUpContent(obj,obj.options.tipus);
 					//obj.setPopupContent(html);
+					
+					var nom=resultsMove.results.properties.nom;
+					var props=resultsMove.results.properties;
+					var html = refrescarPopUp(nom,props,obj._leaflet_id,obj.properties.tipusFeature,obj.properties.capaLeafletId);
 					map.closePopup();
+					obj.closePopup();
+					console.debug(obj);
+					obj.bindPopup(html,{'offset':[0,-25]});					
 					obj.openPopup();
 					var toLayer1 = controlCapes._layers[''+toBusinessId[1]+''];
-				
-					/*jQuery.each(toLayer1._layers, function(i, sublayer){
-						console.debug(sublayer);
-			        	if(jQuery.type(sublayer.layer.options)== "string"){
-							sublayer.layer.options = $.parseJSON(sublayer.layer.options);
-						}	            	  
-			        	
-						//Sublayer visualitzacio, carrego la capa
-						if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
-			        		  if (sublayer.layer.options.tipusRang=="simpleTematic"){
-			        			map.removeLayer(sublayer.layer);
-								//Eliminem la capa de controlCapes
-								controlCapes.removeLayer(sublayer);
-			        						
-								
-								var data = {
-										businessId: sublayer.layer.options.businessId,//f.layer.properties.capaBusinessId,//Bid de la visualitzacio
-										uid: Cookies.get('uid'),
-										features: features,
-										estilBusinessId: sublayer.layer.options.estil[0].businessId
-								};
-								addGeometriaToVisualitzacioTematic(data).then(function(results) {
-									if(results.status === 'OK'){
-										obj.properties.businessId = results.feature.businessId;
-										obj.properties.estil = results.results.estil[0];
-										obj.properties.feature = results.feature;		
-										sublayer.layer.serverName = sublayer.layer.options.nom;
-								  		sublayer.layer.serverType = sublayer.layer.options.tipus;
-								  		sublayer.layer.capesActiva = "true";
-										sublayer.layer.options.origen = toLayer.options.businessId;	
-										sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-								  		
-								  		//eliminem sublayer del mapa, i recarreguem
-								  		map.removeLayer(sublayer.layer);
-								  		  
-								  		loadVisualitzacioLayer(sublayer.layer);
-														
-									}else{
-										console.debug('addGeometriaToVisualitzacio ERROR');
-									}
-								});
-			        		  }
-			        	  }
-			        	
-			          });*/
 					
 					actualitzacioTematic(toLayer1,toLayer.options.businessId,"3124",obj,features,"modificacio");
-					
-					
+			
 					//Actualitzem l'enllaç d'obrir la finestra de dades
 					var htmlDataTable =jQuery("#feature_data_table_"+accio[1]).html();
-					var stringsDataTableA = htmlDataTable.split("##");
-					jQuery("#feature_data_table_"+accio[1]).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+toLayer._leaflet_id+"##"+stringsDataTableA[4]);
-
+					if (undefined != htmlDataTable){
+						var stringsDataTableA = htmlDataTable.split("##");
+						jQuery("#feature_data_table_"+accio[1]).html(stringsDataTableA[0]+"##"+stringsDataTableA[1]+"##"+stringsDataTableA[2]+"##"+toLayer._leaflet_id+"##"+stringsDataTableA[4]);
+					}
 					//NO CAL: com cridem addLayer, de controlCapes, ja s'actualitzen els comptadors de les capes
 					//updateFeatureCount(fromBusinessId, toBusinessId);			
 					
@@ -2323,3 +2285,6 @@ function activarSnapping(capaEdicio){
 		 // Add newly drawn feature to list of snappable features
 		guideLayers.push(capaEdicio.getLayers()[0]);
 }
+
+
+
