@@ -1065,18 +1065,18 @@ function _escriuDebug(_debug, _scope,_linia){
 }
 function controlarBloqueigMapa(){
 	 lockController = SessionTimeout({
-		 warnAfter: 10000,
-		 redirAfter: 15000,
+		 warnAfter: 10000,//28700000,
+		 redirAfter: 15000,//28800000,//8 hores = 28800000 ms
          ignoreUserActivity: true,
          keepAlive: false,
          logoutButton: window.lang.translate('Sortir'),
          title: window.lang.translate('Desbloquejar mapa'),
-         message: window.lang.translate('El mapa porta bloquejat dues hores. El vols desbloquejar o continuar treballant?'),
+         message: window.lang.translate('Aquest és un mapa col·laboratiu. Mentre hi treballeu la seva edició queda bloquejada per a la resta de col·laboradors.'+
+        		 'Quan acabeu el vostre treball premeu “Sortir/desbloquejar” per alliberar el bloqueig. Altrament quedarà alliberat automàticament passades 8 hores.'),
          onWarn: function(){
          },
          onRedir: function () {
-        	// alert(window.lang.translate('El temps de bloqueig del mapa ha caducat.'));
-        	 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 10000);
+        	 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 30000);//28980000);//8 hores i 3 minuts = 28980000 ms
         	 $('#dialog_bloqueig_mapa').modal('show');   
         	
          }
@@ -1090,7 +1090,7 @@ function treureBloqueigMapa(){
   	 };
 	 desbloquejarMapa(mapData).then(function(results){
 			if (results.status=="OK"){
-				treureBloqueigMapa();
+				lockController.stop();
 				$('#dialog_bloqueig_mapa').modal('hide');
 				window.location.href = paramUrl.galeriaPage+"?private=1";
 			}
