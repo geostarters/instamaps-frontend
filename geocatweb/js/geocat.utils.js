@@ -1096,3 +1096,20 @@ function treureBloqueigMapa(){
 			}
 	});
 }
+
+function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descripcio){
+	var generatedScript = "{\"@context\":\"http://schema.org\","+
+	    "\"@type\": \"Map\","+
+	    "\"name\":\""+nom+"\","+
+	    "\"url\":\""+url+"\","+
+	    "\"image\":\""+urlImage+"\","+
+	    "\"thumbnailUrl\":\""+urlImage+"\","+
+	    "\"author\": {"+
+	    	"\"@type\":  \"Person\","+
+	    	"\"name\":\""+autor+"\""+
+	  	"},"+
+	   "\"datePublished\":\""+dataPublicacio+"\","+
+	   "\"description\":\""+descripcio+"\""+
+		"}";
+	return generatedScript;
+}
