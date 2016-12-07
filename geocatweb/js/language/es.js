@@ -30,7 +30,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Aplicable a punts, línies o polígons.":"Se aplica a capas de tipo punto, línea o polígono."
 ,"Aplicacions": "Aplicaciones"
 ,"Aquest camp no te valors":"Este campo no tiene valores"
-,"Aquest és un mapa col·laboratiu. Mentre hi treballeu la seva edició queda bloquejada per a la resta de col·laboradors.":"Este es un mapa colaborativo. Mientras esteis trabajando en el mapa su edición quedará bloqueada para la resta de colaboradores."
+,"Aquest és un mapa col·laboratiu. Mentre hi treballeu la seva edició queda bloquejada per a la resta de col·laboradors.":"Este es un mapa colaborativo. Mientras trabajas su edición queda bloqueada para el resto de colaboradores."
 ,"Aquest estil no es pot aplicar a cap capa de les que tens en el mapa":"Este estilo no se puede aplicar a ninguna capa de las que tienes en el mapa"
 ,"Aquest prototip utilitza Cesium JS, una llibreria per a la creació de mapes en 3D - basada amb WebGL - que per funcionar correctament necessita que tingueu la darrera versió del navegador web i que la tarja gràfica del vostre ordinador tingui carregats els drivers més actuals":"Este protoripo utiliza CesiumJS, una libreria para la creación de mapas 3D –basada en WebGL- que para funcionar correctamente necesita la última versión del navegador web y que la tarjeta gráfica de su ordenador disponga de los drivers más actualizados"
 ,"Aquesta capa actualment és en ús i no es pot esborrar":"Esta capa está siendo usada y no se puede borrar"
@@ -581,7 +581,7 @@ jquery_lang_js.prototype.lang.es = {
 ,"Punts dins de polígons":"Puntos dentro polígonos"
 ,"Punts disponibles":"Puntos disponibles"
 
-,"Quan acabeu el vostre treball premeu \"Sortir/desbloquejar\" per alliberar el bloqueig. Altrament quedarà alliberat automàticament passades 8 hores.":"Cuando acabeis vuestro trabajo clicad \"Salir/desploquear\" para liberar el bloqueo. Sinó quedará liberado automáticamente pasadas 8 horas."
+,"Quan acabeu el vostre treball premeu \"Sortir/desbloquejar\" per alliberar el bloqueig. Altrament quedarà alliberat automàticament passades 8 hores.":"Cuando hayas terminado de trabajar pulsa \"Salir/desploquear\" para liberar el bloqueo. De lo contrario quedará liberado automáticamente pasadas 8 horas."
 ,"Quan aquest usuari surti de la sessió d'edició podràs treballar amb aquest mapa.":"Cuando este usuario salga de la sesión de edición podrás trabajar con este mapa."
 ,"Què podeu fer?":"¿Qué puede hacer?"	
 ,"Quin és el sistema de referència?":"Cual es el sistema de referéncia?"

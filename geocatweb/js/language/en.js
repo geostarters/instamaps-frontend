@@ -30,7 +30,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Aplicable a punts, línies o polígons.":"Applicable to point, line or polygon layers."
 ,"Aplicacions": "Applications"
 ,"Aquest camp no te valors":"This field has no value"
-,"Aquest és un mapa col·laboratiu. Mentre hi treballeu la seva edició queda bloquejada per a la resta de col·laboradors.":"Este es un mapa colaborativo. Mientras esteis trabajando en el mapa su edición quedará bloqueada para la resta de colaboradores."
+,"Aquest és un mapa col·laboratiu. Mentre hi treballeu la seva edició queda bloquejada per a la resta de col·laboradors.":"This is a collaborative map. While you work, editing is locked for other contributors."
 ,"Aquest estil no es pot aplicar a cap capa de les que tens en el mapa":"This style can't be applied to any of the layers in you map"
 ,"Aquest prototip utilitza Cesium JS, una llibreria per a la creació de mapes en 3D - basada amb WebGL - que per funcionar correctament necessita que tingueu la darrera versió del navegador web i que la tarja gràfica del vostre ordinador tingui carregats els drivers més actuals":"This prototype uses CesiumJS, a library that creates 3D maps –based in WebGL- that needs the latest version of the web browser to operate, along with the latest drivers for the graphics card of your computer"
 ,"Aquesta capa actualment és en ús i no es pot esborrar":"Layer being used can't be deleted"
@@ -581,7 +581,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Punts dins de polígons":"Points inside polygons"
 ,"Punts disponibles":"Available points"
 
-,"Quan acabeu el vostre treball premeu \"Sortir/desbloquejar\" per alliberar el bloqueig. Altrament quedarà alliberat automàticament passades 8 hores.":"Cuando acabeis vuestro trabajo clicad \"Salir/desploquear\" para liberar el bloqueo. Sinó quedará liberado automáticamente pasadas 8 horas."
+,"Quan acabeu el vostre treball premeu \"Sortir/desbloquejar\" per alliberar el bloqueig. Altrament quedarà alliberat automàticament passades 8 hores.":"Please, when you finish working press \"Exit/unlock\" to release the lock. Otherwise, it will be automatically released after 8 hours."
 ,"Quan aquest usuari surti de la sessió d'edició podràs treballar amb aquest mapa.":"When this user leaves the editing session you can work with this map."
 ,"Què podeu fer?":"What can you do?"
 ,"Quin és el sistema de referència?":"Which is the reference system?"
