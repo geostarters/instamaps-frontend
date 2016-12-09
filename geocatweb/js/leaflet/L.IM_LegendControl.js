@@ -70,13 +70,11 @@ L.Control.Legend = L.Control.extend({
 	
 	hideBtn: function(){
 		var self = this;
-		$(self._div).hide();
 		self.button.hideBtn();
 	},
 	
 	showBtn: function(){
 		var self = this;
-		$(self._div).show();
 		self.button.showBtn();
 	},
 	
