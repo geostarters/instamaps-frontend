@@ -290,7 +290,7 @@
 			if (!self.geopdfcontrol) self.geopdfcontrol = 0;
 			
 			if (!self.llegenda) self.llegenda = 0;
-			
+			if (!self.colorscalecontrol) self.colorscalecontrol = 0;
 			
 			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'embed']});
 			return self;
