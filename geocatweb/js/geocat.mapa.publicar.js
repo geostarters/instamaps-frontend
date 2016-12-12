@@ -370,7 +370,8 @@
         
         _addHtmlInterficiePublicar: function(){
         	var txtBoto="";
-        	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!='N'){
+        	console.debug(mapConfig);
+        	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!=''  && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
         		txtBoto="Desar / Desbloquejar";
         	}
         	else{
@@ -783,7 +784,15 @@
         	}
 
         	$("#publish-form-error").hide();
-        	treureBloqueigMapa();
+        	if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+				var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
+				jQuery.map( bloquejatJson, function( val, i ) {
+						if (val.bloquejat==="S") {
+							treureBloqueigMapa();
+						}							
+				});
+			}
+        	
         },
         
         _callPublicarMapa: function(data, newMap, fromCompartir){

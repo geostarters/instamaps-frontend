@@ -472,7 +472,8 @@ function updateLangText(){
 	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
 	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
 	var txtBoto="";
-	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!='N'){
+	console.debug(mapConfig);
+	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
 		txtBoto="Desar / Desbloquejar";
 	}
 	else{
@@ -783,7 +784,6 @@ function createNewMap(){
 			gestioCookie('createMapError');
 		}else{
 			try{
-				console.debug(results.results);
 				mapConfig = results.results;
 				mapConfig.options = jQuery.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);

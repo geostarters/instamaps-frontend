@@ -1065,8 +1065,8 @@ function _escriuDebug(_debug, _scope,_linia){
 }
 function controlarBloqueigMapa(){
 	 lockController = SessionTimeout({
-		 warnAfter: 10000,//28700000,
-		 redirAfter: 15000,//28800000,//8 hores = 28800000 ms
+		 warnAfter: 28700000, //desenv: 10000,//prod: 28700000,
+		 redirAfter: 28800000, //desenv: 15000,//prod: 8 hores = 28800000 ms
          ignoreUserActivity: true,
          keepAlive: false,
          logoutButton: window.lang.translate('Sortir'),
@@ -1076,7 +1076,7 @@ function controlarBloqueigMapa(){
          onWarn: function(){
          },
          onRedir: function () {
-        	 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 30000);//28980000);//8 hores i 3 minuts = 28980000 ms
+        	 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 28980000);//desenv: 30000); //prod: 8 hores i 3 minuts = 28980000 ms
         	 $('#dialog_bloqueig_mapa').modal('show');   
         	
          }
