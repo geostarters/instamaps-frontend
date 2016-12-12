@@ -850,8 +850,18 @@
 					if (isDefaultMapTitle(val.nomAplicacio)){
 						val.rank = -1;
 					}
-					val.entitatUid = val.entitatUid.split("@")[0];
+					var autor = val.entitatUid;
+					val.entitatUid = autor.split("@")[0];
 					val.data =  new Date(val.dataPublicacio).toLocaleDateString();
+					var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+val.businessId;		
+					var nomApp=val.nomAplicacio;
+					if (undefined!=nomApp){
+						var nomIndexacio=nomApp;			
+			        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;			
+			        	nomIndexacio= encodeURI(nomIndexacio);
+						urlMap += "&title="+nomIndexacio;
+					}
+					val.generatedScript=generarScriptMarkupGoogle(urlMap,val.nomAplicacio,val.thumbnail,autor,val.dataPublicacio,val.description);
 					mapsGalery.push(val);
 					return val;
 				}else{
@@ -870,7 +880,9 @@
 			}else{
 				var html = templatePublic(results);
 			}
-						
+			
+			
+				
 			$('#galeriaSort .list').html(html);						
 			
 			$('#galeriaRow').on('click', '.btn.btn-success', function(event){
@@ -879,6 +891,7 @@
 				event.stopImmediatePropagation();
 				var $this = $(this);
 				var appbusinessid = $this.data("businessid");
+				var nomApp=$this.data("nomapp");
 				if (!appbusinessid){
 					appbusinessid = $this.parent().data("businessid");
 				}
@@ -887,6 +900,13 @@
 					urlMap += "&id="+$this.data("idusr");
 					
 				}
+				if (undefined!=nomApp){
+					var nomIndexacio=nomApp;			
+		        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;			
+		        	nomIndexacio= encodeURI(nomIndexacio);
+					urlMap += "&title="+nomIndexacio;
+				}
+				
 				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'veure mapa']);
 				//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
 				window.open(urlMap);
@@ -963,6 +983,13 @@
 				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
+				}
+				var nomApp=$this.parent().data("nomapp");
+				if (undefined!=nomApp){
+					var nomIndexacio=nomApp;			
+					(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;			
+					 nomIndexacio= encodeURI(nomIndexacio);
+					 urlMap += "&title="+nomIndexacio;
 				}
 				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
 				window.open(urlMap);

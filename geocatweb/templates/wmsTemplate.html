@@ -11,7 +11,7 @@
 	  <li>
       {{#if Name}}
 			{{#if Layer}}
-				<span><i class="glyphicon glyphicon-folder-open"></i></span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>
+				<span><i class="glyphicon glyphicon-folder-open"></i></span><button type="button" class="btn btn-link btn-all" lang="ca">Totes</button>/<button type="button" class="btn btn-link btn-none" lang="ca">Cap</button>/<button type="button" class="btn btn-link btn-invert" lang="ca">Invertir capes</button>
 			{{else}}
 				<span class="leaf"><input type="checkbox" class="ckbox_layer" id="{{Title}}" value="{{Name}}"> {{Title}}</span>
 				{{#if Dimension}}
@@ -19,10 +19,10 @@
 			    {{/if}}		
 			{{/if}}
 		{{else}}
-			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all">Totes</button>/<button type="button" class="btn btn-link btn-none">Cap</button>
+			<span><i class="glyphicon glyphicon-folder-open"></i> {{Title}}</span><button type="button" class="btn btn-link btn-all" lang="ca">Totes</button>/<button type="button" class="btn btn-link btn-none" lang="ca">Cap</button>/<button type="button" class="btn btn-link btn-invert" lang="ca">Invertir capes</button>
 		{{/if}}
 		{{#if Layer}}
-        <ul>
+        <ul class="sublayers_list">
         {{> list-template}}
         </ul>
         {{/if}}

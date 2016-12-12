@@ -731,7 +731,7 @@
 			}
 			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
-				if (!self.nollegenda) {
+				if (!self.nollegenda && self._mapConfig.servidorsWMS.length > 0) {
 					self.addLlegenda();
 					if (self.llegendaOpt==false){
 						self.controls.llegendaControl.button.show();
@@ -1014,10 +1014,22 @@
 	
 					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
 					$('meta[property="og:image"]').attr('content', urlThumbnail);
+					var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+_mapConfig.businessId;		
+					var nomApp=_mapConfig.nomAplicacio;
+					if (undefined!=nomApp){
+						var nomIndexacio=nomApp;			
+			        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;			
+			        	nomIndexacio= encodeURI(nomIndexacio);
+						urlMap += "&title="+nomIndexacio;
+					}
+					var generatedScript="<script type=\"application/ld+json\">"+
+					generarScriptMarkupGoogle(urlMap,nomAp,urlThumbnail,_mapConfig.entitatUid,_mapConfig.dataPublicacio,desc)+
+					"</script>";
+					$('head').append(generatedScript);
 				}
 				if (_mapConfig.options.description!=undefined) infoHtml += '<p>'+_mapConfig.options.description+'</p>';
 				if (_mapConfig.options.tags!=undefined) infoHtml += '<p>'+_mapConfig.options.tags+'</p>';
-				
+
 				$('.escut').hide();
 			}
 			$("#mapTitle").html(self._mapNameShortener(_mapConfig.nomAplicacio) + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');

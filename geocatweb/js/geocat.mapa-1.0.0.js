@@ -1,3 +1,4 @@
+var lockController,timeoutBloqueig;
 jQuery(document).ready(function() {
 
 	if(typeof url('?uid') == "string"){
@@ -117,16 +118,20 @@ function loadApp(){
 				alert(txt);
 				gestioCookie('getMapByBusinessId2');
 			}
-			else{
+			else{				
 				if (Cookies.get('collaboratebid')) Cookies.remove('collaboratebid');
 				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
 					mapConfig = results.results;
-					//var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
-					//jQuery.map( bloquejatJson, function( val, i ) {
-					//		console.debug(val.uid);
-					//		console.debug(val.bloquejat);
-					//});
+					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+						var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
+						jQuery.map( bloquejatJson, function( val, i ) {
+								if (val.bloquejat==="S") {
+									gestioCookie('mapaBloquejat');
+									controlarBloqueigMapa();
+								}							
+						});
+					}
 					//if (true) { //CANVIAR
 					gestioCookie('diferentUser');
 					var nomAp = mapConfig.nomAplicacio;
@@ -958,6 +963,26 @@ function refrescarZoomEtiquetes(obj){
 			 }
 	}
 }
+
+function addHtmlModalBloqueigMapa(){
+	$.get("templates/modalBloqueigMapa.html",function(data){
+		$('#mapa_modals').append(data);		
+		//Desbloquejar el mapa
+		$('#dialog_bloqueig_mapa .btn-danger').on('click', function(event){
+			window.clearTimeout(timeoutBloqueig);
+			$('#dialog_bloqueig_mapa').modal('hide');
+			treureBloqueigMapa();			 
+		});
+		//Continuar treballant amb el mapa
+		$('#dialog_bloqueig_mapa .btn-default').on('click', function(event){
+			window.clearTimeout(timeoutBloqueig);
+			$('#dialog_bloqueig_mapa').modal('hide');
+			//Reinicialitzar el temps del controlador!
+			lockController.start();
+		});
+	});
+}
+
 
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo

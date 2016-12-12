@@ -276,7 +276,16 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 	var transform="";
 	jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 	jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore'); 
-	var divActiuCanvas='#map .leaflet-map-pane';
+	jQuery(".leaflet-top.leaflet-left").attr("data-html2canvas-ignore", "true");
+	jQuery(".leaflet-top.leaflet-right").attr("data-html2canvas-ignore", "true");
+	jQuery(".leaflet-bottom.leaflet-left").attr("data-html2canvas-ignore", "true");
+	jQuery(".leaflet-bottom.leaflet-right div").attr("data-html2canvas-ignore", "true");
+	if(jQuery('#dv_bt_legend').hasClass('greenfort'))
+	{
+		jQuery("#mapLegend").removeAttr("data-html2canvas-ignore");
+		jQuery("#mapLegend div").removeAttr("data-html2canvas-ignore");
+	}
+	var divActiuCanvas='#map';
 	if(estatMapa3D){divActiuCanvas='.cesium-widget';disparaEventMapa=false;mapaEstatNOPublicacio=false;}
 	if (_tipusCaptura == CAPTURA_MAPA) {
 		transform=hackCaptura();
@@ -391,80 +400,82 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 			logging : false
 		});
 	} else if (_tipusCaptura == CAPTURA_GEOPDF) {
-		if (L.Browser.webkit) {
-			transform=hackCaptura();
-		}else{
-			transform=hackCaptura();
-		}
 		jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').attr('data-html2canvas-ignore', 'true');
-		var WF=calculaWF();     
-		var data=getCapesVectorActives();
-		capturaLlegenda(false);
-		html2canvas(jQuery('#map .leaflet-map-pane'), {
-			onrendered : function(canvas) {
-				ActDesPrintMode(false);
-				var imgData = canvas.toDataURL('image/png', 0.95);
-				imgData = JSON.stringify(imgData.replace(
-					/^data:image\/(png|jpeg);base64,/, ""));
-				uploadImageBase64(imgData).then(
-					function(results) {
-						if (results.status == "OK") {                                                                                         
-							data.imgW=WF.imgW;
-							data.imgH=WF.imgH;
-							data.resW=WF.resW;
-							data.resH=WF.resH;
-							data.x=WF.x;
-							data.y=WF.y;
-							data.x1=WF.x1;
-							data.y1=WF.y1;
-							data.request="createGeoPDF";
-							data.uuid=results.UUID;
-							data.entitatUid=mapConfig.entitatUid;
-							data.businessId=mapConfig.businessId;
-							data.nomAplicacio=mapConfig.nomAplicacio;
-							data.llegenda=objLLegenda;
-							createGeoPdfMap(data).then(
-								function(geopdfresults) {
-									if (geopdfresults.status == "OK") {
-										var urlIMG = paramUrl.urlgetMapImage
-										+ "&request=getGeoPDF&uuid="
-										+ results.UUID;   
-										var $desc_img = jQuery('#dialog_captura').find('.desc_img');
-										$desc_img.prop('href', urlIMG);
-										$desc_img.prop('download', 'mapa_geoPDF.pdf');
-										//jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
-										$('#dialog_captura').find('.bt_desc_img').show();
-										comportamentCaptura(3);
-										if (L.Browser.webkit) {
-											tornaLLoc(transform);
-										}else{
-											tornaLLoc(transform);
-										}
-									}else{
-										comportamentCaptura(2);
-										errorCaptura();
-									}
-								});
-						} else {
-							alert("Error");
-						}
-						imgData = "";
-					});
-			},
-			useCORS : true,
-			allowTaint : false,
-			proxy : paramUrl.urlgetImageProxy,
-			background : undefined,
-			width : w,
-			height : h,
-			logging : false
-		});
+		//In some browsers the initial transform is not set correctly
+		//we move the map a pixel so it resets itself
+		map.addOneTimeEventListener('moveend', captureGEOPDF);
+		map.panBy([0,1], {animate: false, noMoveStart: true, duration: 0});
 	}
+
+}
+
+function captureGEOPDF(event) {
+	transform=hackCaptura();
+	var WF=calculaWF();     
+	var data=getCapesVectorActives();
+	capturaLlegenda(false);
+	html2canvas(jQuery('#map .leaflet-map-pane'), {
+		onrendered : function(canvas) {
+			ActDesPrintMode(false);
+			var imgData = canvas.toDataURL('image/png', 0.95);
+			imgData = JSON.stringify(imgData.replace(
+				/^data:image\/(png|jpeg);base64,/, ""));
+			uploadImageBase64(imgData).then(
+				function(results) {
+					if (results.status == "OK") {                                                                                         
+						data.imgW=WF.imgW;
+						data.imgH=WF.imgH;
+						data.resW=WF.resW;
+						data.resH=WF.resH;
+						data.x=WF.x;
+						data.y=WF.y;
+						data.x1=WF.x1;
+						data.y1=WF.y1;
+						data.request="createGeoPDF";
+						data.uuid=results.UUID;
+						data.entitatUid=mapConfig.entitatUid;
+						data.businessId=mapConfig.businessId;
+						data.nomAplicacio=mapConfig.nomAplicacio;
+						data.llegenda=objLLegenda;
+						createGeoPdfMap(data).then(
+							function(geopdfresults) {
+								if (geopdfresults.status == "OK") {
+									var urlIMG = paramUrl.urlgetMapImage
+									+ "&request=getGeoPDF&uuid="
+									+ results.UUID;   
+									var $desc_img = jQuery('#dialog_captura').find('.desc_img');
+									$desc_img.prop('href', urlIMG);
+									$desc_img.prop('download', 'mapa_geoPDF.pdf');
+									//jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
+									$('#dialog_captura').find('.bt_desc_img').show();
+									comportamentCaptura(3);
+									if (!L.Browser.webkit) {
+										tornaLLoc(transform);
+									}
+								}else{
+									comportamentCaptura(2);
+									errorCaptura();
+								}
+							});
+					} else {
+						alert("Error");
+					}
+					imgData = "";
+				});
+		},
+		useCORS : true,
+		allowTaint : false,
+		proxy : paramUrl.urlgetImageProxy,
+		background : undefined,
+		width : w,
+		height : h,
+		logging : false
+	});
 }
 
 function capturaLlegenda(ensenyaBoto){
 	objLLegenda=null;
-	if(jQuery('.bt_legend span').hasClass('greenfort')){
+	if(jQuery('#dv_bt_legend').hasClass('greenfort')){
 		var w = jQuery('#mapLegend').width();
 		var h = jQuery('#mapLegend').height();
 		html2canvas(jQuery('#mapLegend'), {

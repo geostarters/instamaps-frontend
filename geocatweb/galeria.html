@@ -148,11 +148,14 @@
 					<script id="galeriaPublic-template" type="text/x-handlebars-template">
 			{{#each results}}
 			 <li>
+				<script type="application/ld+json">
+					{{{generatedScript}}}
+				<{{!}}/script>
 				<p class="nomAplicacioSort hidden">{{nomAplicacio}}</p>
 				<p class="dataPublicacio hidden">{{dataPublicacio}}</p>
 				<p class="rankSort hidden">{{rank}}</p>
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
-					<div class="thumbnail" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" id="thumbnail-public">
+					<div class="thumbnail" data-nomapp="{{nomAplicacio}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" id="thumbnail-public">
 						<div class="image">
 						{{#if thumbnail}}
 			      			<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
@@ -177,7 +180,7 @@
 						<div class="byuser text-center">{{entitatUid}}</div>
 						
 						<div class="caption text-center btn-acctions">
-							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+							<button type="button" data-nomapp="{{nomAplicacio}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
 							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 						</div>
 						<div class="rank text-left"><span class="fa grisfort fa-heart"></span> {{rank}}</div>
