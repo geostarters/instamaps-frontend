@@ -290,7 +290,7 @@
 			if (!self.geopdfcontrol) self.geopdfcontrol = 0;
 			
 			if (!self.llegenda) self.llegenda = 0;
-			
+			if (!self.colorscalecontrol) self.colorscalecontrol = 0;
 			
 			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'embed']});
 			return self;
@@ -731,7 +731,13 @@
 			}
 			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
-				if (!self.nollegenda && self._mapConfig.servidorsWMS.length > 0) {
+				var hasLayers = false;
+				var leg = JSON.parse(self._mapConfig.legend);
+				var keys = Object.keys(leg);
+				for(var i=0; i<keys.length; ++i)
+					hasLayers = hasLayers || leg[keys[i]][0].chck;
+
+				if (!self.nollegenda && hasLayers) {
 					self.addLlegenda();
 					if (self.llegendaOpt==false){
 						self.controls.llegendaControl.button.show();
@@ -1226,24 +1232,22 @@
 				hashControl = new L.Hash(_map);
 				var parsed = hashControl.parseHash(hash);
 				
-				
-					if(_mapConfig.options){
-						if (_mapConfig.options.center){
-							var opcenter = _mapConfig.options.center.split(",");
-							_map.setView(L.latLng(opcenter[0], opcenter[1]), _mapConfig.options.zoom);
-						}else if (_mapConfig.options.bbox){
-							var bbox = _mapConfig.options.bbox.split(",");
-							var southWest = L.latLng(bbox[1], bbox[0]);
-						    var northEast = L.latLng(bbox[3], bbox[2]);
-						    var bounds = L.latLngBounds(southWest, northEast);
-						   
-						    _map.fitBounds( bounds );
-						}
-					}else if (parsed){
-						
-						hashControl.update();
+				if("" == hash && _mapConfig.options){
+					if (_mapConfig.options.center){
+						var opcenter = _mapConfig.options.center.split(",");
+						_map.setView(L.latLng(opcenter[0], opcenter[1]), _mapConfig.options.zoom);
+					}else if (_mapConfig.options.bbox){
+						var bbox = _mapConfig.options.bbox.split(",");
+						var southWest = L.latLng(bbox[1], bbox[0]);
+					    var northEast = L.latLng(bbox[3], bbox[2]);
+					    var bounds = L.latLngBounds(southWest, northEast);
+					   
+					    _map.fitBounds( bounds );
 					}
-				
+				}else if (parsed){
+					
+					hashControl.update();
+				}
 
 			}
 
