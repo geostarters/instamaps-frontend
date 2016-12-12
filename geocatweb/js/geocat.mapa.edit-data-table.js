@@ -109,7 +109,8 @@ function fillModalDataTable(obj, geomBid){
 	$('#modal_data_table').data("capaEdicio", obj);
 	
 	//obj.layer.serverName	
-	$('#modal_data_table_title').html(obj.name.toUpperCase());	
+	//$('#modal_data_table_title').html(obj.name.toUpperCase());
+	$('#modal_data_table_title').text(obj.name.toUpperCase());	
 	
 	var options = obj.layer.options;
 	if (obj.layer.options!=undefined && obj.layer.options.estil!=undefined){
