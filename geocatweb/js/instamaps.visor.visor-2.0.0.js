@@ -290,7 +290,7 @@
 			if (!self.geopdfcontrol) self.geopdfcontrol = 0;
 			
 			if (!self.llegenda) self.llegenda = 0;
-			if (!self.colorscalecontrol) self.colorscalecontrol = 0;
+			
 			
 			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'embed']});
 			return self;
@@ -1070,7 +1070,6 @@
 				if (_mapConfig.options != null){
 					if(_mapConfig.options.hasOwnProperty("fons"))
 					{
-
 						var fons = _mapConfig.options.fons;
 						if (fons == 'topoMap'){
 							_map.topoMap();
@@ -1105,7 +1104,7 @@
 						}
 						_map.setActiveMap(_mapConfig.options.fons);
 						_map.setMapColor(_mapConfig.options.fonsColor);
-
+						
 					}
 				}
 				
