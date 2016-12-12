@@ -116,7 +116,7 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	    						capaDadaOberta.options.tipus= t_dades_obertes;
 	    						capaDadaOberta.options.nom = nom_dataset;
 	    						capaDadaOberta.addTo(map)
-	    						$.publish("addMapLayer");
+	    						
 	    						
 	    						controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
 	    						controlCapes._lastZIndex++;
@@ -127,7 +127,6 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 	    			}else{
 	    				capaDadaOberta.nom = nom_dataset;// +" ("+datasetLength+")";
 	    				capaDadaOberta.addTo(map);
-	    				$.publish("addMapLayer");
 	    				capaDadaOberta.options.zIndex = controlCapes._lastZIndex+1;
 	    				controlCapes.addOverlay(capaDadaOberta, nom_dataset, true);
 	    				controlCapes._lastZIndex++;
@@ -204,7 +203,6 @@ function loadDadesObertesLayer(layer){
 		
 		if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 			capaDadaOberta.addTo(map);
-			$.publish("addMapLayer");
 		}
 				
 		if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){

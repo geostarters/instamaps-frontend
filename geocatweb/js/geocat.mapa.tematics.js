@@ -2117,9 +2117,14 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		//per cada geometria d'aquell estil
 		jQuery.each(estil.geometria.features, function(indexGeom, geom){				
 			var featureTem = [];
-			if (undefined != geom.geometry){
+			if (undefined!=geom.geometry){
+
 			var geomType = (geom.geometry.type?geom.geometry.type.toLowerCase():geomTypeVis);
 
+			//Actualitzem el vector de propietats de tipus numèrics de la visualització
+			//Els que són falsos en algun feature ja no cal repassar-los, els eliminem del 
+			//vector de propietats a comprovar
+			
 			if(checkNumericProperties)
 			{
 
@@ -2399,7 +2404,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					
 				}*/
 				map.closePopup();					
-			});
+			  });
 			}
 		});
 	});	

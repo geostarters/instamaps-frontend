@@ -281,7 +281,6 @@ function creaCapaFromJSON(directe) {
 					capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
 					capaJSON.options.options.estil_do = estil_do;
 					capaJSON.addTo(map);
-					$.publish("addMapLayer");
 					capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 					controlCapes.addOverlay(capaJSON, capaJSON.options.nom, true);
 					controlCapes._lastZIndex++;
@@ -296,8 +295,7 @@ function creaCapaFromJSON(directe) {
 			});
 			
 		}else{
-			capaJSON.addTo(map);
-			$.publish("addMapLayer");
+			capaJSON.addTo(map)
 			capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 			capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
 			capaJSON.options.options.estil_do = estil_do;
@@ -418,7 +416,6 @@ function loadCapaFromJSON(layer) {
 			capaJSON.options.businessId = layer.businessId;
 			
 			if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
-				$.publish("addMapLayer");
 				capaJSON.addTo(map)
 			}		
 			

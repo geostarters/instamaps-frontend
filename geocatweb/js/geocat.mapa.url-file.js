@@ -224,7 +224,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							capaURLfile.options.nomCampCodi = nomCampCodi;
 
 							capaURLfile.addTo(map);
-							$.publish("addMapLayer");
 							capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 							controlCapes.addOverlay(capaURLfile, nomCapa, true);
 							controlCapes._lastZIndex++;
@@ -902,7 +901,6 @@ function loadURLfileLayer(layer){
 function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){
 	if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 		capaURLfileLoad.addTo(map);
-		$.publish("addMapLayer");
 	}
 
 	if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
@@ -978,7 +976,7 @@ function loadURLfileLayer2(layer) {
 		.on('error', function() {
 			console.debug("Error omnivore");
 		})
-		.addTo(map);
+		.addTo(map);					
 	}else if(tipusFile == t_file_topojson){
 		var capaURLfile = omnivore.topojson(urlFile, null, L.FeatureGroup())
 		.on('ready', function() {
@@ -1035,7 +1033,6 @@ function loadURLfileLayer2(layer) {
 		.addTo(map);					
 	}
 
-	$.publish("addMapLayer");
 	capaURLfile.options.businessId = layer.businessId;
 	capaURLfile.options.nom = layer.serverName;
 	capaURLfile.options.tipus = t_url_file;
