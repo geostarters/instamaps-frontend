@@ -1,2 +1,4 @@
 User-agent: *
-sitemap: http://www.instamaps.cat/sitemap.xml
+Disallow:
+
+Sitemap: http://www.instamaps.cat/sitemap.xml
