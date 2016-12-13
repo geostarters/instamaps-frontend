@@ -472,7 +472,6 @@ function updateLangText(){
 	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
 	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
 	var txtBoto="";
-	console.debug(mapConfig);
 	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
 		txtBoto="Desar / Desbloquejar";
 	}
