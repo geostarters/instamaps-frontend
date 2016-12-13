@@ -732,17 +732,22 @@
 			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				var hasLayers = false;
-				var leg = JSON.parse(self._mapConfig.legend);
-				var keys = Object.keys(leg);
-				for(var i=0; i<keys.length; ++i)
-					hasLayers = hasLayers || leg[keys[i]][0].chck;
+				if(self._mapConfig.hasOwnProperty("legend"))
+				{
+				
+					var leg = JSON.parse(self._mapConfig.legend);
+					var keys = Object.keys(leg);
+					for(var i=0; i<keys.length; ++i)
+						hasLayers = hasLayers || leg[keys[i]][0].chck;
 
-				if (!self.nollegenda && hasLayers) {
-					self.addLlegenda();
-					if (self.llegendaOpt==false){
-						self.controls.llegendaControl.button.show();
-					}
-				};
+					if (!self.nollegenda && hasLayers) {
+						self.addLlegenda();
+						if (self.llegendaOpt==false){
+							self.controls.llegendaControl.button.show();
+						}
+					};
+
+				}
 			}
 			
 			if(self.appmodul){
