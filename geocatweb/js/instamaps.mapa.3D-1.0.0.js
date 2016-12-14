@@ -293,7 +293,7 @@ var IM_aplicacio = function (options) {
 
 		navigationInitialization(this.mapId3D, viewer);
 		scene = viewer.scene;
-		scene.globe.depthTestingAgainstTerrain = true;
+		scene.globe.depthTestAgainstTerrain = true;
 		camera = viewer.scene.camera;
 		ellipsoid = scene.globe.ellipsoid;
 		viewer.scene.globe.enableLighting = true;
@@ -750,7 +750,7 @@ var IM_aplicacio = function (options) {
 
 		}
 
-		var html2 = '<div class="leaflet-popup leaflet-container leaflet-zoom-animated" style="opacity:1"><a id="tanca3D" class="leaflet-popup-close-button" href="#close">x</a>' +
+		var html2 = '<div class="leaflet-popup leaflet-container leaflet-zoom-animated" style="opacity:1"><a id="tanca3D" class="leaflet-popup-close-button" href="#close"><i class="glyphicon glyphicon-remove"></i></a>' +
 			'<div class="leaflet-popup-content-wrapper">' +
 			'<div class="leaflet-popup-content" style="width: 301px;">' +
 			msgHTML +
