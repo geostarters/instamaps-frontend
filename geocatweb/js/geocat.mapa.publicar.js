@@ -375,7 +375,6 @@
         
         _addHtmlInterficiePublicar: function(){
         	var txtBoto="";
-        	console.debug(mapConfig);
         	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!=''  && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
         		txtBoto="Desar / Desbloquejar";
         	}
