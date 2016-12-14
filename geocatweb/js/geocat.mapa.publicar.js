@@ -103,7 +103,12 @@
 					"param": "scalecontrol",
 					"text":"Control d'escala",
 					"visor": true
-				}				
+				},
+				{
+					"param": "colorscalecontrol",
+					"text":"Control d'escala de color",
+  					"visor": false
+  				}
 			] 
         },
         
@@ -362,13 +367,16 @@
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
 			$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+
+			$("#publish-form-error").hide();
 			
 			$('a[href^="#id_info').click();
 		},
         
         _addHtmlInterficiePublicar: function(){
         	var txtBoto="";
-        	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!='N'){
+        	console.debug(mapConfig);
+        	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!=''  && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
         		txtBoto="Desar / Desbloquejar";
         	}
         	else{
@@ -585,15 +593,18 @@
         			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
         			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
         			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.translate('El camp no pot estar buit')+"</span>");
+        			$("#publish-form-error").show();
         			return false;
         		}else if(isDefaultMapTitle($('#dialgo_publicar #nomAplicacioPub').val())){
         			$('#dialgo_publicar #nomAplicacioPub').addClass("invalid");
         			$('#dialgo_publicar #nomAplicacioPub').nextAll('.text_error').remove();
         			$('#dialgo_publicar #nomAplicacioPub').after("<span class=\"text_error\" lang=\"ca\">"+window.lang.translate("Introdueix un nom vàlid per a la publicació del mapa")+"</span>");
+        			$("#publish-form-error").show();
         			return false;
         		}
         	}
         	
+        	$("#publish-form-error").hide();
         	$.publish('getMap','publicar/');
         },
         
@@ -776,6 +787,16 @@
         			self._callPublicarMapa(data, newMap, self.fromCompartir);
         		}
         	}
+
+        	$("#publish-form-error").hide();
+        	if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+				var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
+				jQuery.map( bloquejatJson, function( val, i ) {
+						if (val.bloquejat==="S") {
+							treureBloqueigMapa();
+						}							
+				});
+			}
         	
         },
         

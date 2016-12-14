@@ -91,6 +91,7 @@
   "Canviar":"Change",
   "Canviar vista":"Change view",
   "Canvis del carrerer":"Street map changes",
+  "Cap":"None",
   "Cap de les capes carregades permet aquesta operació":"No layers loaded allows operation",
   "Capa actual:":"Active layer",
   "Capa d'origen":"Origin layer",
@@ -192,6 +193,7 @@
   "Control de tornar a la vista inicial":"Back to initial view control",
   "Control de zoom":"Zoom control",
   "Control d'escala":"Scale control",
+  "Control d'escala de color":"Color scale control",
   "Control d'impressió":"Print control",
   "Control GeoPdf":"GeoPDF control",
   "Control minimapa":"Minimap control",
@@ -426,6 +428,7 @@
   "Has oblidat la contrasenya?":"Forgot password?",
   "Has oblidat la teva contrasenya?":"Have you forgotten your password?",
   "Hem migrat el teu compte d'Instamaps. A partir d'ara has d'ingressar amb les teves credencials de l'ICGC.":"Your Instamaps account has been migrated. You shall now log in with your ICGC credentials.",
+  "Hi ha algun error al formulari, revisa'l":"There's some error on the form, please check it",
   "Hi ha hagut algun problema amb la tramesa dels correus electrònics":"There has been a problem in sending emails",	
   "Hola":"Hello",	
 
@@ -453,6 +456,7 @@
   "Introdueix una URL vàlida":"Please enter a valid URL",
   "Introdueix un nom vàlid per a la publicació del mapa":"Enter a valid name for the publication of the map",
   "Inverteix paleta":"Reverse palette",
+  "Invertir capes":"Reverse layers",
   "I si us voleu inspirar per crear mapes espectaculars podeu consultar la galeria de mapes públics compartits per altres usuaris":"And if you want inspiration to create stunning maps you can check the public gallery of maps shared by other users",
 	
   "L'accés al mapa es protegit amb clau":"The access to the map is protected with password",

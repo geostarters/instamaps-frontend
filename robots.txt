@@ -1,8 +1,4 @@
-# robots.txt
 User-agent: *
-Disallow: 
-Disallow: /llibreries/
-Disallow: /mapcache/
-Disallow: /maps/
-Disallow: /missatges/
-Disallow: /share/
+Disallow:
+
+Sitemap: http://www.instamaps.cat/sitemap.xml

@@ -158,7 +158,7 @@
 						html = capabilities_template({Layer: [results.Capability.Layer]});
 					}
 					
-					ActiuWMS.servidor = servidor || self.name || results.Capability.Layer.Title;
+					ActiuWMS.servidor = self.name || servidor || results.Capability.Layer.Title;
 					ActiuWMS.url = self.url;
 					
 					
@@ -358,6 +358,11 @@
 			
 			$('.btn-none').on('click',function(){
 				$(this).parent('li.parent_li').find('input:checkbox').prop('checked', false);
+			});
+
+			$('.btn-invert').on('click',function(){
+				var ul = $(this).parent("li.parent_li").find(".sublayers_list");
+				ul.children().each(function(i,li){ul.prepend(li)});
 			});
 			
 			return self;

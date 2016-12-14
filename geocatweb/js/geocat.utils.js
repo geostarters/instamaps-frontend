@@ -205,7 +205,7 @@ function parseUrlTextPopUp(txt,key){
     if (!isWkt) {
 	    if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
 	          if( isImgURL(txt)){
-	        	  parseText = '<img width="100" src="'+txt+'"/>';
+	        	  parseText = '<img width="100%" src="'+txt+'"/>';
 	          }else if( txt.match("^http")){
 	              parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
 	          }else{
@@ -237,7 +237,7 @@ function parseUrlTextPopUp(txt,key){
 		                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
 		                        }
 		                        else if (word.indexOf("html?") != -1){
-		                               text = "<iframe width=\"300\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+		                               text = "<iframe width=\"100%\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
 		                                            "marginwidth=\"0\" src=\""+(!hasProtocol ? "http://" + word : word)+"\"></iframe>";
 		                        }else if (txt.indexOf("<video")==-1){
 		                               text = "<a href=\""+(!hasProtocol ? "http://" + word : word)+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
@@ -410,6 +410,12 @@ function gestioCookie(from){
 			break;
 		case 'getMapByBusinessIdError':
 			window.location.href = paramUrl.loginPage;
+			break;
+		case 'mapaBloquejat':
+			//Temps vida cookie bloqueig: 2 hores
+			Cookies.set('lockCookie', _cookie, {
+			    expires: 1/12
+			});
 			break;
 	}
 }
@@ -870,6 +876,75 @@ var _hoSoc=false;
 	
 }	
 
+function refrescarPopUp(nom,props,_leaflet_id,type,capaLeafletId){
+	var html='';
+	html+='<h4 class="my-text-center">'+nom+'</h4>';
+	
+	
+	var isADrawarker=false;
+	html+='<div class="div_popup_visor"><div class="popup_pres">';
+	$.each(props, function( key, value ) {
+		if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
+			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
+					key != 'NOM' && key != 'Nom' && key != 'nom' && 
+					key != 'name' && key != 'Name' && key != 'NAME' &&
+					key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
+				html+='<div class="popup_data_row">';
+				var txt=value;
+				if (!$.isNumeric(txt)) {
+					txt = parseUrlTextPopUp(value, key);
+					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+						html+='<div class="popup_data_key">'+key+'</div>';
+						html+='<div class="popup_data_value">'+
+						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
+						'</div>';
+						html += '<div class="traffic-light-icon-empty"></div>';
+					}else{
+						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+					}
+				}
+				else {
+					html+='<div class="popup_data_key">'+key+'</div>';
+					html+='<div class="popup_data_value">'+txt+'</div>';
+					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && (("" == origen) || ("" != origen && (key == capa.options.trafficLightKey))))
+					{
+
+						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
+						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
+						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
+						
+					}
+					else
+					{
+
+						html += '<div class="traffic-light-icon-empty"></div>';
+
+					}
+				}
+				html+= '</div>';
+				if (key=='text' || key=='TEXT') isADrawarker=true;
+				else isADrawarker=false;
+			}
+		}
+	});	
+	console.debug(_leaflet_id);
+	console.debug(type);
+	console.debug(capaLeafletId);
+	html +='<div id="footer_edit"  class="modal-footer">'
+	+'<ul class="bs-popup">'						
+	+'<li class="edicio-popup"><a id="feature_edit##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_move##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_remove##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
+	html+='<li class="edicio-popup" id="feature_data_table_'+_leaflet_id+'"><a id="feature_data_table##'+_leaflet_id+'##'+type+'##'+capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
+
+		
+	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>';
+	
+	html+='</ul>'														
+	+'</div>'
+	return html;
+	
+}
 
 function changeWMSQueryable(queryable){	
 	map.eachLayer(function (layer) { 
@@ -987,4 +1062,54 @@ function _escriuDebug(_debug, _scope,_linia){
 		console.debug("****************");
 	}	
 	
+}
+function controlarBloqueigMapa(){
+	 lockController = SessionTimeout({
+		 warnAfter: 28700000, //desenv: 10000,//prod: 28700000,
+		 redirAfter: 28800000, //desenv: 15000,//prod: 8 hores = 28800000 ms
+         ignoreUserActivity: true,
+         keepAlive: false,
+         logoutButton: window.lang.translate('Sortir'),
+         title: window.lang.translate('Desbloquejar mapa'),
+         message: window.lang.translate('Aquest és un mapa col·laboratiu. Mentre hi treballeu la seva edició queda bloquejada per a la resta de col·laboradors.'+
+        		 'Quan acabeu el vostre treball premeu “Sortir/desbloquejar” per alliberar el bloqueig. Altrament quedarà alliberat automàticament passades 8 hores.'),
+         onWarn: function(){
+         },
+         onRedir: function () {
+        	 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 28980000);//desenv: 30000); //prod: 8 hores i 3 minuts = 28980000 ms
+        	 $('#dialog_bloqueig_mapa').modal('show');   
+        	
+         }
+   });
+}
+
+function treureBloqueigMapa(){
+	var mapData = {
+  			businessId: url('?businessid'),
+  			uid: Cookies.get('uid')
+  	 };
+	 desbloquejarMapa(mapData).then(function(results){
+			if (results.status=="OK"){
+				lockController.stop();
+				$('#dialog_bloqueig_mapa').modal('hide');
+				window.location.href = paramUrl.galeriaPage+"?private=1";
+			}
+	});
+}
+
+function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descripcio){
+	var generatedScript = "{\"@context\":\"http://schema.org\","+
+	    "\"@type\": \"Map\","+
+	    "\"name\":\""+nom+"\","+
+	    "\"url\":\""+url+"\","+
+	    "\"image\":\""+urlImage+"\","+
+	    "\"thumbnailUrl\":\""+urlImage+"\","+
+	    "\"author\": {"+
+	    	"\"@type\":  \"Person\","+
+	    	"\"name\":\""+autor+"\""+
+	  	"},"+
+	   "\"datePublished\":\""+dataPublicacio+"\","+
+	   "\"description\":\""+descripcio+"\""+
+		"}";
+	return generatedScript;
 }
