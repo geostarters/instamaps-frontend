@@ -276,6 +276,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 	var transform="";
 	jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 	jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore'); 
+	jQuery(".leaflet-sidebar").attr("data-html2canvas-ignore", "true");
 	jQuery(".leaflet-top.leaflet-left").attr("data-html2canvas-ignore", "true");
 	jQuery(".leaflet-top.leaflet-right").attr("data-html2canvas-ignore", "true");
 	jQuery(".leaflet-bottom.leaflet-left").attr("data-html2canvas-ignore", "true");
