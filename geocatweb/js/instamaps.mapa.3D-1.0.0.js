@@ -293,7 +293,7 @@ var IM_aplicacio = function (options) {
 
 		navigationInitialization(this.mapId3D, viewer);
 		scene = viewer.scene;
-		scene.globe.depthTestAgainstTerrain  = true;
+		scene.globe.depthTestAgainstTerrain = true;
 		camera = viewer.scene.camera;
 		ellipsoid = scene.globe.ellipsoid;
 		viewer.scene.globe.enableLighting = true;
