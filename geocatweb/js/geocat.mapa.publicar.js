@@ -1071,8 +1071,10 @@
         	});
         	
         	$.subscribe('publicar/setMap',function(e, data){
-        		self._setMap(data);
-        		self._publicarMapa();
+        		$.when.apply(null, runningActions).done(function() {
+					self._setMap(data);
+					self._publicarMapa();
+        		});
         	});
         	
         	//Here is where the Observer Pattern kicks in nicely
