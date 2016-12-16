@@ -120,8 +120,8 @@ function updateSortablesElements(){
 
 		group_sortable2 = $("ol.ac-large").sortable({
 			connectWith: "ol.ac-large",
-			change: function( event, ui ) {
-				setTimeout(function(){ reOrderGroupsAndLayers(true); }, 1000);
+			stop: function( event, ui ) {
+				reOrderGroupsAndLayers(true);
 			}
 		});
 	}
