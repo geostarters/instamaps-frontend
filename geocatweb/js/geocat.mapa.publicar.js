@@ -788,14 +788,7 @@
         	}
 
         	$("#publish-form-error").hide();
-        	if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
-				var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
-				jQuery.map( bloquejatJson, function( val, i ) {
-						if (val.bloquejat==="S") {
-							treureBloqueigMapa();
-						}							
-				});
-			}
+        	
         	
         },
         
@@ -848,8 +841,13 @@
         				//require ajax
         				publicarMapConfig(mapData).then(function(results){
         					var txtPubBoto = $('.bt_publicar>span').html();
-        					if (txtPubBoto.indexOf("Desbloquejar")>-1 || txtPubBoto.indexOf("Desbloquear")>-1 || txtPubBoto.indexOf("unlock")>-1 ){
-        						gestioCookie('getMapByBusinessId2');
+        					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+        						var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
+        						jQuery.map( bloquejatJson, function( val, i ) {
+        								if (val.bloquejat==="S") {
+        									treureBloqueigMapa();
+        								}							
+        						});
         					}
         					else {
         						if(!fromCompartir){
@@ -1071,8 +1069,10 @@
         	});
         	
         	$.subscribe('publicar/setMap',function(e, data){
-        		self._setMap(data);
-        		self._publicarMapa();
+        		$.when.apply(null, runningActions).done(function() {
+					self._setMap(data);
+					self._publicarMapa();
+        		});
         	});
         	
         	//Here is where the Observer Pattern kicks in nicely
