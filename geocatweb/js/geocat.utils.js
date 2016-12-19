@@ -1071,8 +1071,8 @@ function controlarBloqueigMapa(){
          keepAlive: false,
          logoutButton: window.lang.translate('Sortir'),
          title: window.lang.translate('Desbloquejar mapa'),
-         message: window.lang.translate('Aquest és un mapa col·laboratiu. Mentre hi treballeu la seva edició queda bloquejada per a la resta de col·laboradors.'+
-        		 'Quan acabeu el vostre treball premeu “Sortir/desbloquejar” per alliberar el bloqueig. Altrament quedarà alliberat automàticament passades 8 hores.'),
+         message: window.lang.translate('Han transcorregut 8 hores des que heu iniciat la sessió de treball. Premeu "Continuar treballant" per mantenir-la  oberta, o "desbloquejar" per alliberar el mapa. '+
+        		 						'Si no responeu, el mapa quedarà alliberat en 3 minuts.'),
          onWarn: function(){
          },
          onRedir: function () {
