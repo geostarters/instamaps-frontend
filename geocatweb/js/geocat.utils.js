@@ -1090,9 +1090,11 @@ function treureBloqueigMapa(){
   	 };
 	 desbloquejarMapa(mapData).then(function(results){
 			if (results.status=="OK"){
-				lockController.stop();
-				$('#dialog_bloqueig_mapa').modal('hide');
-				window.location.href = paramUrl.galeriaPage+"?private=1";
+				$.when.apply(null, runningActions).done(function() {
+					lockController.stop();
+					$('#dialog_bloqueig_mapa').modal('hide');
+					window.location.href = paramUrl.galeriaPage+"?private=1";
+        		});
 			}
 	});
 }
