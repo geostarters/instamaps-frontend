@@ -705,7 +705,7 @@
         	}).get();
         	        	
         	//Atencio miro estat de les capes
-        	reOrderGroupsAndLayers(true); 	
+        	//reOrderGroupsAndLayers(true); 	
         	
         	var nomApp = $('#nomAplicacio').html();
         	
