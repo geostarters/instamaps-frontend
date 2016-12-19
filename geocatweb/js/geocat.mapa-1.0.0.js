@@ -208,6 +208,7 @@ function loadApp(){
 							});
 							canviaIdioma(web_determinaIdioma());
 							document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+							addInfoBloqueigMapa(mapConfig);
 						});
 
 						//carreguem WMS en cas que s'hagi passat parametre
@@ -221,6 +222,8 @@ function loadApp(){
 
 							addExternalWMS(true);
 						}
+						
+						
 					});
 					//}
 					//else {
@@ -237,6 +240,7 @@ function loadApp(){
 			gestioCookie('getMapByBusinessIdError');
 		});
 		addLeaveModal();
+	
 	}else{
 		if (!Cookies.get('uid')){
 			createRandomUser().then(function(results){
@@ -576,6 +580,8 @@ function loadMapConfig(mapConfig){
 			controlCapes.forceUpdate(true);
 		});
 			
+		
+		
 		/*
 		//carga las capas en el mapa
 		loadOrigenWMS().then(function(results){
@@ -982,6 +988,25 @@ function addHtmlModalBloqueigMapa(){
 	});
 }
 
+function addHtmlModalInfoBloqueigMapa(){
+	$.get("templates/modalInfoBloqueigMapa.html",function(data){
+		$('#mapa_modals').append(data);		
+		$('#dialog_info_bloqueig_mapa .btn-default').on('click', function(event){
+			$('#dialog_info_bloqueig_mapa').modal('hide');
+		});
+		
+	});
+}
+
+function addInfoBloqueigMapa(mapConfig){
+	addHtmlModalInfoBloqueigMapa();
+	//Si és un mapa col·laboratiu mostrem la finestra de informació de bloqueig
+	if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {
+		setTimeout(function() {
+			$('#dialog_info_bloqueig_mapa').modal('show');
+		}, 1000); 
+	}
+}
 
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo
