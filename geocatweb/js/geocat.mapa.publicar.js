@@ -375,7 +375,8 @@
         
         _addHtmlInterficiePublicar: function(){
         	var txtBoto="";
-        	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!=''  && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
+        	if (mapConfig.bloquejat!=undefined && mapConfig.bloquejat!=''  && mapConfig.bloquejat!='[{}]'
+        		&& mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]' && mapConfig.bloquejat!='[{"uid":null,"bloquejat":null}]'){
         		txtBoto="Desar / Desbloquejar";
         	}
         	else{
@@ -841,7 +842,7 @@
         				//require ajax
         				publicarMapConfig(mapData).then(function(results){
         					var txtPubBoto = $('.bt_publicar>span').html();
-        					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+        					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1 && mapConfig.bloquejat.indexOf("null")==-1) {					
         						var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
         						jQuery.map( bloquejatJson, function( val, i ) {
         								if (val.bloquejat==="S") {

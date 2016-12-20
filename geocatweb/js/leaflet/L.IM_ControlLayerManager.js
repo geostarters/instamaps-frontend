@@ -528,7 +528,6 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				_layers : {}
 			};
 		}
-
 		var group = layer.options.group;
 		var _heCreat = false;
 		var _heCreatFromScratch=false;
@@ -537,9 +536,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			_heCreat = true;
 			_heCreatFromScratch=true;
 		}
+		var groupId;
 		if (group) {
-			var groupId = this._groupList.indexOf(group);
-			if (group.id) {
+			//var groupId = this._groupList.indexOf(group);
+			if (undefined !=group.id) {
 				groupId = group.id;
 				var trobat = false;
 				for (g in this._groupList) {
@@ -554,19 +554,20 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 			}
 			// if not find the group search for the name
-			if (groupId === -1) {
+			/*if (groupId === -1) {
 				for (g in this._groupList) {
 					if (this._groupList[g].groupName == group.groupName) {
 						groupId = g;
 						break;
 					}
 				}
-			}
+			}*/
 
 			if (groupId === -1) {
 				groupId = this._groupList.push(group) - 1;
 			}
 
+			console.debug(groupId);
 			if (this._layers[id]) {
 				this._layers[id].layer.options.group = {
 					name : group.groupName,

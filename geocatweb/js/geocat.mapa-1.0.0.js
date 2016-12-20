@@ -123,7 +123,7 @@ function loadApp(){
 				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
 					mapConfig = results.results;
-					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1 && mapConfig.bloquejat.indexOf("null")==-1) {					
 						var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
 						jQuery.map( bloquejatJson, function( val, i ) {
 								if (val.bloquejat==="S") {
@@ -476,7 +476,8 @@ function updateLangText(){
 	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
 	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
 	var txtBoto="";
-	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
+	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' 
+		&& mapConfig.bloquejat!='[{"bloquejat":"N"}]' && mapConfig.bloquejat!='[{"uid":null,"bloquejat":null}]'){
 		txtBoto="Desar / Desbloquejar";
 	}
 	else{
@@ -1001,7 +1002,7 @@ function addHtmlModalInfoBloqueigMapa(){
 function addInfoBloqueigMapa(mapConfig){
 	addHtmlModalInfoBloqueigMapa();
 	//Si és un mapa col·laboratiu mostrem la finestra de informació de bloqueig
-	if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {
+	if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1  && mapConfig.bloquejat.indexOf("null")==-1) {
 		setTimeout(function() {
 			$('#dialog_info_bloqueig_mapa').modal('show');
 		}, 1000); 
