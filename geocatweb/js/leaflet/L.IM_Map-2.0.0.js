@@ -17,6 +17,9 @@ var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,
 var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17,TOPO_GEO_ICC_L8_17_TOPONIMS;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19,ORTO_ICC_L9_12;
 
+
+var _ortoAurgmentada=null,ORTO_ESRI_L0_19,ORTO_AUGMENTADA_L4_17,ORTO_ICC_L18_20;
+
 var _hibridLayers=null,HIBRID_MQ_L0_18,HIBRID_ICGC_L0_18,HIBRID_ICGC_L13_18;
 var _histoMap=null;
 var _histoOrtoMap=null;
@@ -70,6 +73,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.in
 var FONS_TOPOMAP='topoMap';
 var FONS_TOPOMAP_GEO='topoMapGeo';
 var FONS_ORTOMAP='ortoMap';
+var FONS_ORTOAUGMENTADA='ortoAugmentada';
 var FONS_HIBRIDMAP='hibridMap';
 var FONS_TERRAINMAP='terrainMap';
 var FONS_TOPOGISMAP='topoGrisMap';
@@ -92,34 +96,35 @@ var mapaUrl = {
 	topoMapMON:urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.png',
 	topoMapOSM:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 	topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',	
-	topoMapSuauOSM:urlServerTilesW+'/mapfactory/wmts/osm_suau/CAT3857_15/{z}/{x}/{y}.png',
+	topoMapSuauOSM:urlServerTiles+'/mapfactory/wmts/osm_suau/CAT3857_15/{z}/{x}/{y}.png',
 	topoMapSuauICGC:urlServerTiles+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png',	
 	ortoEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	ortoInstamaps:urlServerTiles+'/mapfactory/wmts/orto_8_12/CAT3857/{z}/{x}/{y}.png',
+	ortoAugmentada:urlServerTilesW+'/mapfactory/wmts/orto_augmentada/CAT3857/{z}/{x}/{y}.png',
 	ortoICGC:"http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg",
 	hibridInstamaps:urlServerTiles+'/mapfactory/wmts/hibrida/CAT3857/{z}/{x}/{y}.png',	
 	terrainEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
-	terrainInstamaps:urlServerTilesW+'/mapfactory/wmts/relleu/CAT3857/{z}/{x}/{y}.png',	
+	terrainInstamaps:urlServerTiles+'/mapfactory/wmts/relleu/CAT3857/{z}/{x}/{y}.png',	
 	ombraInstamaps:urlServerTiles+'/mapfactory/wmts/h_ombra/CAT3857/{z}/{x}/{y}.png',	
 	orto46ICGC:urlServerTiles+'/mapfactory/wmts/orto46/CAT3857/{z}/{x}/{y}.png',	
 	orto55ICGC:urlServerTiles+'/mapfactory/wmts/orto55/CAT3857/{z}/{x}/{y}.png',
 	topo36ICGC:urlServerTiles+'/mapfactory/wmts/cat1936/CAT3857/{z}/{x}/{y}.png',	
-	topoGrisOSM:urlServerTilesW+'/mapfactory/wmts/gris_osm_suau/CAT3857_15/{z}/{x}/{y}.png',
+	topoGrisOSM:urlServerTiles+'/mapfactory/wmts/gris_osm_suau/CAT3857_15/{z}/{x}/{y}.png',
 	topoGrisICGC:urlServerTiles+'/mapfactory/wmts/gris_topo_suau/CAT3857/{z}/{x}/{y}.png',	
 	topoNaturalOSM:'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
 	topoNaturalSuau:urlServerTiles+'/mapfactory/wmts/natural_suau/CAT3857/{z}/{x}/{y}.png',
 	toponimsNaturalSuau:urlServerTiles+'/mapfactory/wmts/toponimia/CAT3857/{z}/{x}/{y}.png',	
     topoLimitsSuau:urlServerTiles+'/mapfactory/wmts/limits/CAT3857/{z}/{x}/{y}.png',
 	fonsBlank:'',
-	hibridTotal:urlServerTilesW+'/mapfactory/wmts/hibrida_total/CAT3857/{z}/{x}/{y}.png',
+	hibridTotal:urlServerTiles+'/mapfactory/wmts/hibrida_total/CAT3857/{z}/{x}/{y}.png',
 	
 	topoSuauColor:{
 		zombie:{suau:urlServerTiles+'/mapfactory/wmts/coure_topo_suau/CAT3857/{z}/{x}/{y}.png',
-				osm:urlServerTilesW+'/mapfactory/wmts/coure_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
+				osm:urlServerTiles+'/mapfactory/wmts/coure_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
 		nit:{suau:urlServerTiles+'/mapfactory/wmts/nit_topo_suau/CAT3857/{z}/{x}/{y}.png',
 			 osm:urlServerTilesW+'/mapfactory/wmts/nit_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
 		orquidea:{suau:urlServerTiles+'/mapfactory/wmts/blueprint_topo_suau/CAT3857/{z}/{x}/{y}.png',
-				  osm:urlServerTilesW+'/mapfactory/wmts/blueprint_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
+				  osm:urlServerTiles+'/mapfactory/wmts/blueprint_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
 		sepia:{suau:urlServerTiles+'/mapfactory/wmts/sepia_topo_suau/CAT3857/{z}/{x}/{y}.png',
 			   osm:urlServerTilesW+'/mapfactory/wmts/sepia_osm_suau/CAT3857_15/{z}/{x}/{y}.png'}
 	}			
@@ -143,7 +148,8 @@ L.IM_Map = L.Map.extend({
 		this.activeMap=this.options.typeMap;
 
 		if(this.options.typeMap==FONS_TOPOMAP){this.topoMap();
-		}else if(this.options.typeMap==FONS_ORTOMAP){this.ortoMap();
+		}else if(this.options.typeMap==FONS_ORTOMAP){this.ortoMap();		
+		}else if(this.options.typeMap==FONS_ORTOAUGMENTADA){this.ortoAugmentada();
 		}else if(this.options.typeMap==FONS_HIBRIDMAP){this.hibridMap();
 		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){this.topoMapGeo();
 		}else if(this.options.typeMap==FONS_TERRAINMAP){this.terrainMap();
@@ -177,13 +183,11 @@ L.IM_Map = L.Map.extend({
 	getLGActiveMap:function(){
 
 		if(this.options.typeMap==FONS_TOPOMAP){return _topoLayers;
-		}else if(this.options.typeMap==FONS_ORTOMAP){
-			
-			return _ortoLayers;
+		}else if(this.options.typeMap==FONS_ORTOMAP){return _ortoLayers;
+		
+		}else if(this.options.typeMap==FONS_ORTOAUGMENTADA){return _ortoAurgmentada;
 		}else if(this.options.typeMap==FONS_HIBRIDMAP){return _hibridLayers;
-		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){
-				
-			return _topoLayersGeo;
+		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){return _topoLayersGeo;
 		}else if(this.options.typeMap==FONS_TERRAINMAP){return _terrainLayers;
 		}else if(this.options.typeMap==FONS_TOPOGISMAP){return _grisLayers;
 		}else if(this.options.typeMap==FONS_COLORMAP){return _topoColorLayers;
@@ -427,6 +431,31 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#1B2C4A');
 				}
 
+			
+		}else if(f==FONS_HIBRIDMAP){
+			//this.mirarActivarHill(false,this.getZoom(),sC);
+			if((sC==0)){ //Fora Cat
+					ORTO_ESRI_L0_19.options.maxZoom=19;
+					ORTO_AUGMENTADA_L4_17.options.maxZoom=zT;
+					ORTO_ICC_L12_19.options.maxZoom=zT;
+					ORTO_ESRI_L0_19.setOpacity(1);
+					this.attributionControl.setPrefix(ESRI_ATTR +this.getCurrentZoomLevel());
+					jQuery('#map').css('backgroundColor','#DDDDDD');
+				}else if(sC==1){ //Cat i altres
+					ORTO_ESRI_L0_19.options.maxZoom=17;
+					ORTO_AUGMENTADA_L4_17.options.maxZoom=17;
+					ORTO_ICC_L12_19.options.maxZoom=20;
+					ORTO_ESRI_L0_19.setOpacity(0.8);
+					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR +this.getCurrentZoomLevel());
+					jQuery('#map').css('backgroundColor','#1B2C4A');
+				}else if(sC==2){ //Nomes cat
+					ORTO_ESRI_L0_19.setOpacity(0);
+					ORTO_AUGMENTADA_L4_17.options.maxZoom=17;
+					ORTO_ICC_L12_19.options.maxZoom=20;
+					this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
+					jQuery('#map').css('backgroundColor','#1B2C4A');
+				}
+		/*	
 
 		}else if(f==FONS_HIBRIDMAP){
 			//this.mirarActivarHill(false,this.getZoom(),sC);
@@ -451,6 +480,8 @@ L.IM_Map = L.Map.extend({
 					this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 					jQuery('#map').css('backgroundColor','#192A46');
 				}
+				
+				*/
 		}else if(f==FONS_TERRAINMAP){
 
 			//this.mirarActivarHill(false,this.getZoom(),sC);
@@ -766,9 +797,44 @@ L.IM_Map = L.Map.extend({
 		}).addTo(_ortoLayers);
 
 		this.addLayer(_ortoLayers,true);
-this.setActiveMap(FONS_ORTOMAP);
+		this.setActiveMap(FONS_ORTOMAP);
 	},
 
+		ortoAugmentada:function(){
+			
+			this.deletePreviousMap();
+			this.ajustaZoom(20);
+			this.setMapColor(null);
+			this.options.typeMap=FONS_ORTOAUGMENTADA;
+			_ortoAurgmentada=L.layerGroup();
+
+			ORTO_ESRI_L0_19 = new L.TileLayer(mapaUrl.ortoEsri,{
+			   minZoom: 0,
+			   maxZoom:19}
+			).addTo(_ortoAurgmentada);
+
+			ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
+				tms:true,
+				minZoom: 4,
+				maxZoom: 17,	                                                        
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_ortoAurgmentada);
+			
+			ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
+				tms:false,
+				minZoom: 18,
+				maxZoom: 20,
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_ortoAurgmentada);
+
+			this.addLayer(_ortoAurgmentada,true);
+			this.setActiveMap(FONS_ORTOAUGMENTADA);
+			
+			
+		},
+	
 
 	naturalMap: function (){
 		this.deletePreviousMap();
@@ -830,7 +896,7 @@ this.setActiveMap(FONS_ORTOMAP);
 
 	},
 
-
+/*
 
 	hibridMap: function (print){
 		this.deletePreviousMap();
@@ -848,16 +914,6 @@ this.setActiveMap(FONS_ORTOMAP);
 
 
 
-/*
-		HIBRID_ICGC_L13_18 = new L.TileLayer(mapaUrl.ortoICGC,{
-			tms:false,
-			minZoom: 13,
-			maxZoom: 18,
-			continuousWorld: true,
-			worldCopyJump: false
-		}).addTo(_hibridLayers);
-*/
-
 			HIBRID_ICGC_L0_18 = new L.TileLayer(mapaUrl.hibridInstamaps,{
 				tms:false,
 				minZoom: 0,
@@ -870,7 +926,59 @@ this.setActiveMap(FONS_ORTOMAP);
 	this.setActiveMap(FONS_HIBRIDMAP);
 	},
 
+*/
+	
+	hibridMap:function(){
+		
+		this.deletePreviousMap();
+		this.ajustaZoom(19);
 
+		this.setMapColor(null);
+		this.options.typeMap=FONS_HIBRIDMAP;
+		_hibridLayers=L.layerGroup();
+
+
+		ORTO_ESRI_L0_19 = new L.TileLayer(mapaUrl.ortoEsri,{
+		   minZoom: 0,
+		   maxZoom:19}
+		).addTo(_hibridLayers);
+
+		ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
+			tms:true,
+			minZoom: 4,
+			maxZoom: 17,	                                                        
+			continuousWorld: true,
+			worldCopyJump: false
+		}).addTo(_hibridLayers);
+		
+		ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
+			tms:false,
+			minZoom: 18,
+			maxZoom: 20,
+			continuousWorld: true,
+			worldCopyJump: false
+		}).addTo(_hibridLayers);
+		
+		
+		
+		TERRAIN_HIBRID_8_18_VECTOR = new L.TileLayer(mapaUrl.hibridTotal,{
+			tms:false,
+			continuousWorld: true,
+			worldCopyJump: false,
+			subdomains:subDomainsA,
+			minZoom: 8,
+			maxZoom: 17
+		}).addTo(_hibridLayers);
+		
+		
+		
+
+		this.addLayer(_hibridLayers,true);
+		this.setActiveMap(FONS_HIBRIDMAP);
+		
+		
+	},
+	
 	hibridTerrainMap: function (){
 		this.deletePreviousMap();
 		this.ajustaZoom(17);
