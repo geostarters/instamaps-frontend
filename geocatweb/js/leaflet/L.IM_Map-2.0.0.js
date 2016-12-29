@@ -100,7 +100,7 @@ var mapaUrl = {
 	topoMapSuauICGC:urlServerTiles+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png',	
 	ortoEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	ortoInstamaps:urlServerTiles+'/mapfactory/wmts/orto_8_12/CAT3857/{z}/{x}/{y}.png',
-	ortoAugmentada:urlServerTilesW+'/mapfactory/wmts/orto_augmentada/CAT3857/{z}/{x}/{y}.png',
+	ortoAugmentada:urlServerTilesW+'/mapfactory/wmts/orto_augmentada/CAT3857/{z}/{x}/{y}.jpeg',
 	ortoICGC:"http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg",
 	hibridInstamaps:urlServerTiles+'/mapfactory/wmts/hibrida/CAT3857/{z}/{x}/{y}.png',	
 	terrainEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
@@ -657,7 +657,6 @@ L.IM_Map = L.Map.extend({
 			TOPO_ICC_L7_10 = new L.TileLayer(mapaUrl.topoMapICGC,{
 				tms:false,
 				minZoom: 7,
-
 				maxZoom: 10,
 				boundary: catContorn,
 				continuousWorld: true,
@@ -800,7 +799,7 @@ L.IM_Map = L.Map.extend({
 		this.setActiveMap(FONS_ORTOMAP);
 	},
 
-		ortoAugmentada:function(){
+		ortoAugmentada:function(print){
 			
 			this.deletePreviousMap();
 			this.ajustaZoom(20);
@@ -813,13 +812,36 @@ L.IM_Map = L.Map.extend({
 			   maxZoom:19}
 			).addTo(_ortoAurgmentada);
 
-			ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
-				tms:true,
-				minZoom: 4,
-				maxZoom: 17,	                                                        
-				continuousWorld: true,
-				worldCopyJump: false
-			}).addTo(_ortoAurgmentada);
+			
+			
+			if(print){
+				ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
+					tms:false,
+					minZoom: 4,
+					maxZoom: 17,			
+					continuousWorld: true,
+					worldCopyJump: false
+				}).addTo(_ortoAurgmentada);
+
+			}else{ //no es true
+
+
+				
+				ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{  	    
+					tms:false,
+					minZoom: 4,
+					maxZoom: 17,
+					boundary: catContorn5k,
+					continuousWorld: true,
+					worldCopyJump: false
+				}).addTo(_ortoAurgmentada);
+				
+
+			}
+			
+			
+	
+			
 			
 			ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
 				tms:false,
@@ -928,7 +950,8 @@ L.IM_Map = L.Map.extend({
 
 */
 	
-	hibridMap:function(){
+	hibridMap:function(print){
+		
 		
 		this.deletePreviousMap();
 		this.ajustaZoom(19);
@@ -943,13 +966,33 @@ L.IM_Map = L.Map.extend({
 		   maxZoom:19}
 		).addTo(_hibridLayers);
 
-		ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
-			tms:true,
-			minZoom: 4,
-			maxZoom: 17,	                                                        
-			continuousWorld: true,
-			worldCopyJump: false
-		}).addTo(_hibridLayers);
+		
+		if(print){
+			ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
+				tms:false,
+				minZoom: 4,
+				maxZoom: 17,			
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_hibridLayers);
+
+		}else{ //no es true
+
+
+			
+			ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{  	    
+				tms:false,
+				minZoom: 4,
+				maxZoom: 17,
+				boundary: catContorn5k,
+				continuousWorld: true,
+				worldCopyJump: false
+			}).addTo(_hibridLayers);
+			
+
+		}
+		
+		
 		
 		ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
 			tms:false,
