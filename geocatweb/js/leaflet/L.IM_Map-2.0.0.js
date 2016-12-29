@@ -100,7 +100,7 @@ var mapaUrl = {
 	topoMapSuauICGC:urlServerTiles+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png',	
 	ortoEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	ortoInstamaps:urlServerTiles+'/mapfactory/wmts/orto_8_12/CAT3857/{z}/{x}/{y}.png',
-	ortoAugmentada:urlServerTilesW+'/mapfactory/wmts/orto_augmentada/MON3857/{z}/{x}/{y}.jpeg',
+	ortoAugmentada:urlServerTilesW+'/mapfactory/wmts/orto_augmentada/CAT3857/{z}/{x}/{y}.jpeg',
 	ortoICGC:"http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg",
 	hibridInstamaps:urlServerTiles+'/mapfactory/wmts/hibrida/CAT3857/{z}/{x}/{y}.png',	
 	terrainEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
@@ -814,51 +814,33 @@ L.IM_Map = L.Map.extend({
 
 			
 			
-			
 			if(print){
 				ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
-					tms:true,
+					tms:false,
 					minZoom: 4,
-					maxZoom: 17,
-					
-					subdomains:subDomainsA,
+					maxZoom: 17,			
 					continuousWorld: true,
 					worldCopyJump: false
 				}).addTo(_ortoAurgmentada);
 
 			}else{ //no es true
 
+
+				
 				ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{  	    
-					tms:true,
+					tms:false,
 					minZoom: 4,
 					maxZoom: 17,
 					boundary: catContorn5k,
 					continuousWorld: true,
-					continuousWorld: true,
 					worldCopyJump: false
 				}).addTo(_ortoAurgmentada);
-
-
+				
 
 			}
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+	
 			
 			
 			ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
@@ -970,6 +952,7 @@ L.IM_Map = L.Map.extend({
 	
 	hibridMap:function(print){
 		
+		
 		this.deletePreviousMap();
 		this.ajustaZoom(19);
 
@@ -986,7 +969,7 @@ L.IM_Map = L.Map.extend({
 		
 		if(print){
 			ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
-				tms:true,
+				tms:false,
 				minZoom: 4,
 				maxZoom: 17,			
 				continuousWorld: true,

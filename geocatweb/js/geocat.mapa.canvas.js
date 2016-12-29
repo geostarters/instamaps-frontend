@@ -525,6 +525,8 @@ function ActDesPrintMode(printMode) {
           map.topoMap(printMode);
     } else if (map.options.typeMap == FONS_ORTOMAP) {
           map.ortoMap(printMode);
+    } else if (map.options.typeMap == FONS_HIBRIDMAP) {
+        	map.hibridMap(printMode);      
     } else if (map.options.typeMap == FONS_TOPOGISMAP) {
           map.topoGrisMap(printMode);
     }
