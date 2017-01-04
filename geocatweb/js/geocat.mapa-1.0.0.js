@@ -123,7 +123,7 @@ function loadApp(){
 				if (Cookies.get('collaborateuid')) Cookies.remove('collaborateuid');
 				try{
 					mapConfig = results.results;
-					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1) {					
+					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1 && mapConfig.bloquejat.indexOf("null")==-1) {					
 						var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
 						jQuery.map( bloquejatJson, function( val, i ) {
 								if (val.bloquejat==="S") {
@@ -208,6 +208,7 @@ function loadApp(){
 							});
 							canviaIdioma(web_determinaIdioma());
 							document.title = "InstaMaps: "+mapConfig.nomAplicacio;
+							addInfoBloqueigMapa(mapConfig);
 						});
 
 						//carreguem WMS en cas que s'hagi passat parametre
@@ -221,6 +222,8 @@ function loadApp(){
 
 							addExternalWMS(true);
 						}
+						
+						
 					});
 					//}
 					//else {
@@ -237,6 +240,7 @@ function loadApp(){
 			gestioCookie('getMapByBusinessIdError');
 		});
 		addLeaveModal();
+	
 	}else{
 		if (!Cookies.get('uid')){
 			createRandomUser().then(function(results){
@@ -472,7 +476,8 @@ function updateLangText(){
 	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
 	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
 	var txtBoto="";
-	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' && mapConfig.bloquejat!='[{"bloquejat":"N"}]'){
+	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N' 
+		&& mapConfig.bloquejat!='[{"bloquejat":"N"}]' && mapConfig.bloquejat!='[{"uid":null,"bloquejat":null}]'){
 		txtBoto="Desar / Desbloquejar";
 	}
 	else{
@@ -576,6 +581,8 @@ function loadMapConfig(mapConfig){
 			controlCapes.forceUpdate(true);
 		});
 			
+		
+		
 		/*
 		//carga las capas en el mapa
 		loadOrigenWMS().then(function(results){
@@ -982,6 +989,25 @@ function addHtmlModalBloqueigMapa(){
 	});
 }
 
+function addHtmlModalInfoBloqueigMapa(){
+	$.get("templates/modalInfoBloqueigMapa.html",function(data){
+		$('#mapa_modals').append(data);		
+		$('#dialog_info_bloqueig_mapa .btn-default').on('click', function(event){
+			$('#dialog_info_bloqueig_mapa').modal('hide');
+		});
+		
+	});
+}
+
+function addInfoBloqueigMapa(mapConfig){
+	addHtmlModalInfoBloqueigMapa();
+	//Si és un mapa col·laboratiu mostrem la finestra de informació de bloqueig
+	if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1  && mapConfig.bloquejat.indexOf("null")==-1) {
+		setTimeout(function() {
+			$('#dialog_info_bloqueig_mapa').modal('show');
+		}, 1000); 
+	}
+}
 
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo

@@ -115,8 +115,8 @@ L.IM_ControlFons = L.Control.extend({
 		
     	 this._addItem(container,{id:'topoMap',className:'div_fons_1',title:'Topogràfic'});
     	 this._addItem(container,{id:'topoMapGeo',className:'div_fons_12',title:'Simple'});
-    	 this._addItem(container,{id:'ortoMap',className:'div_fons_3',title:'Imatge'});
     	 this._addItem(container,{id:'hibridMap',className:'div_fons_13',title:'Mapa híbrid'});
+    	 this._addItem(container,{id:'ortoMap',className:'div_fons_3',title:'Imatge'});    	
     	 this._addItem(container,{id:'terrainMap',className:'div_fons_4',title:'Terreny'});
     	 this._addItem(container,{id:'alcadaMap',className:'div_fons_15',title:'Model d\'elevacions'});
     	 this._addItem(container,{id:'historicOrtoMap',className:'div_fons_11',title:'Ortofoto històrica Catalunya 1956-57'});
