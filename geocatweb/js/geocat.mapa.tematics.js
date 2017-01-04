@@ -2170,7 +2170,8 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						}
 						if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
 								(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
-								marker.label.setOpacity(0);
+							if (marker.label!=undefined) marker.label.setOpacity(0);
+							else marker.hideLabel();
 						}
 					}
 					featureTem.push(marker);
