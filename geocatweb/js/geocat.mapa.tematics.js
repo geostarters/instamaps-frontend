@@ -709,6 +709,9 @@ function changeDefaultPointStyle(estilP) {
 		_iconGlif=estilP.iconGlif.replace('fa fa-','');
 	};
 	
+	if (_iconGlif.indexOf("font")!=-1){
+		_iconGlif = _iconGlif.substring(0,_iconGlif.indexOf(" ")) ;
+	}
 //	console.debug(_iconFons);
 	
 	var _colorGlif=estilP.colorGlif;
@@ -737,8 +740,10 @@ function changeDefaultPointStyle(estilP) {
 			puntTMP.options.isCanvas=true;
 		}else{
 			puntTMP.options.iconAnchor= new L.Point(parseInt(num/2), parseInt(num/2));
-			puntTMP.options.iconSize = new L.Point(num, num);	
+			puntTMP.options.iconSize = new L.Point(num, num);
+			console.debug(puntTMP.options.icon);
 			puntTMP.options.icon=_iconGlif + " "+cssText;
+			console.debug(puntTMP.options.icon);
 			puntTMP.options.isCanvas=false;
 		}
 	}else{ // sóc pinxo

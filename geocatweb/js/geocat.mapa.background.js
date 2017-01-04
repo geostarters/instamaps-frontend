@@ -186,9 +186,14 @@ function addHtmlInterficieFonsMapes(){
 	'	</div>'+
 	'	<div id="menu_init_fons" class="div_gr3_fons">'+
 	'		<div style="opacity:0.7" id="topoMap" lang="ca"  class="div_fons_1" data-toggle="tooltip" data-lang-title="Topogràfic" title="Topogràfic"></div>'+
+	
+	
 	'		<div style="opacity:0.7" id="topoMapGeo" lang="ca" class="div_fons_12" data-toggle="tooltip" data-lang-title="Simple" title="Simple"></div>'+
-	'		<div style="opacity:0.7" id="ortoMap" lang="ca" class="div_fons_3" data-toggle="tooltip" data-lang-title="Imatge" title="Imatge"></div>'+
+	
 	'		<div style="opacity:0.7" id="hibridMap" lang="ca" class="div_fons_13" data-toggle="tooltip" data-lang-title="Mapa híbrid" title="Mapa híbrid"></div>'+
+	
+	'		<div style="opacity:0.7" id="ortoMap" lang="ca" class="div_fons_3" data-toggle="tooltip" data-lang-title="Imatge" title="Imatge"></div>'+
+	
 	'		<div style="opacity:0.7" id="colorMap" lang="ca" class="div_fons_5 pop" data-toggle="tooltip" data-lang-title="Més mapes de fons" title="Més mapes de fons"></div>'+
 	'	</div>'		
 	);
@@ -212,7 +217,7 @@ function addHtmlInterficieFonsMapes(){
 	var mAct=map.getActiveMap();
 	jQuery("#"+mAct).css('opacity','1');
 	jQuery("#"+mAct).css('border','1px solid #FFC500');
-	if(mAct.indexOf('topoMap')==-1 &&mAct.indexOf('topoMapGeo')==-1 && mAct.indexOf('ortoMap')==-1 && mAct.indexOf('hibridMap')==-1){
+	if(mAct.indexOf('topoMap')==-1 &&mAct.indexOf('topoMapGeo')==-1 && mAct.indexOf('ortoMap')==-1 && mAct.indexOf('ortoAugmentada')==-1 && mAct.indexOf('hibridMap')==-1){
 		jQuery("#colorMap").css('opacity','1');
 		jQuery("#colorMap").css('border','1px solid #FFC500');
 	}
