@@ -1017,6 +1017,17 @@ L.IM_Map = L.Map.extend({
 		
 		
 
+		TOPO_GEO_ICC_L8_17_TOPONIMS = new L.TileLayer(mapaUrl.toponimsNaturalSuau,{
+			tms:false,
+			continuousWorld: true,
+			worldCopyJump: false,
+			minZoom: 8,
+			maxZoom: 18
+
+		}).addTo(_hibridLayers);
+
+		
+
 		this.addLayer(_hibridLayers,true);
 		this.setActiveMap(FONS_HIBRIDMAP);
 		
