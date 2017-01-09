@@ -454,6 +454,7 @@ L.IM_Map = L.Map.extend({
 					ORTO_ICC_L12_19.options.maxZoom=20;
 					this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 					jQuery('#map').css('backgroundColor','#1B2C4A');
+					
 				}
 		/*	
 
