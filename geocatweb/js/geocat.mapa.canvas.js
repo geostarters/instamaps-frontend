@@ -86,6 +86,9 @@ function capturaPantalla(tipus) {
 
 function pucPassar(item){
     var passo=false;
+    
+    console.info(item.layer);
+    
     if(document.getElementById('input-'+item.layer.options.businessId)!=null){
     	if(document.getElementById('input-'+item.layer.options.businessId).checked){
     		if(item.layer._map != null && item.layer.options.tipus !=t_wms && 
@@ -101,6 +104,10 @@ function pucPassar(item){
     				passo=false;
     				return passo;
     			}
+    			
+    			
+    			//options.geometrytype	
+    			
     		}
     	}else{
     		passo=false;
@@ -297,7 +304,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 				ActDesPrintMode(false);
 				var cl=jQuery('#map').css('background-color');
 				
-				var imgData = canvas.toDataURL('image/png', 0.92);
+				var imgData = canvas.toDataURL('image/jpeg', 0.92);
 				imgData = JSON.stringify(imgData.replace(
 					/^data:image\/(png|jpeg);base64,/, ""));
 				uploadImageBase64(imgData).then(
@@ -402,6 +409,11 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		});
 	} else if (_tipusCaptura == CAPTURA_GEOPDF) {
 		jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').attr('data-html2canvas-ignore', 'true');
+		
+		//hack Marker com imatge
+		jQuery('#map .leaflet-marker-pane').attr('data-html2canvas-ignore', 'true');
+		
+		
 		//In some browsers the initial transform is not set correctly
 		//we move the map a pixel so it resets itself
 		map.addOneTimeEventListener('moveend', captureGEOPDF);
