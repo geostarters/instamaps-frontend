@@ -281,6 +281,8 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		h = d.y;
 	}
 	var transform="";
+	
+	
 	jQuery('#map .leaflet-marker-pane').find('div').has('.marker-cluster').attr('data-html2canvas-ignore','true');
 	jQuery('#map .leaflet-overlay-pane').find('canvas').not('.leaflet-heatmap-layer').removeAttr('data-html2canvas-ignore'); 
 	jQuery(".leaflet-sidebar").attr("data-html2canvas-ignore", "true");
@@ -288,12 +290,15 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 	jQuery(".leaflet-top.leaflet-right").attr("data-html2canvas-ignore", "true");
 	jQuery(".leaflet-bottom.leaflet-left").attr("data-html2canvas-ignore", "true");
 	jQuery(".leaflet-bottom.leaflet-right div").attr("data-html2canvas-ignore", "true");
+	
 	if(jQuery('#dv_bt_legend').hasClass('greenfort'))
 	{
 		jQuery("#mapLegend").removeAttr("data-html2canvas-ignore");
 		jQuery("#mapLegend div").removeAttr("data-html2canvas-ignore");
 	}
-	var divActiuCanvas='#map';
+	
+	
+	var divActiuCanvas='.leaflet-map-pane';
 	if(estatMapa3D){divActiuCanvas='.cesium-widget';disparaEventMapa=false;mapaEstatNOPublicacio=false;}
 	if (_tipusCaptura == CAPTURA_MAPA) {
 		transform=hackCaptura();
@@ -304,7 +309,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 				ActDesPrintMode(false);
 				var cl=jQuery('#map').css('background-color');
 				
-				var imgData = canvas.toDataURL('image/jpeg', 0.92);
+				var imgData = canvas.toDataURL('image/png', 0.92);
 				imgData = JSON.stringify(imgData.replace(
 					/^data:image\/(png|jpeg);base64,/, ""));
 				uploadImageBase64(imgData).then(
@@ -316,7 +321,9 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 							capturaLlegenda(true);
 							comportamentCaptura(1);
 							var $desc_img = jQuery('#dialog_captura').find('.desc_img');
+							
 							$desc_img.prop('href', urlIMG);
+							
 							$desc_img.prop('download', 'mapa_captura.png');
 							//$desc_img.html("Desar mapa" +" <i class='fa fa-picture-o'></i>");                   
 							//jQuery('#dialog_captura').find('.bt_desc_img').show();
