@@ -19,7 +19,6 @@ var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19,ORTO_ICC_L9_
 
 
 var _ortoAurgmentada=null,ORTO_ESRI_L0_19,ORTO_AUGMENTADA_L4_17,ORTO_ICC_L18_20;
-
 var _hibridLayers=null,HIBRID_MQ_L0_18,HIBRID_ICGC_L0_18,HIBRID_ICGC_L13_18;
 var _histoMap=null;
 var _histoOrtoMap=null;
