@@ -431,7 +431,7 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#1B2C4A');
 				}
 
-			
+		/*
 		}else if(f==FONS_HIBRIDMAP){
 			//this.mirarActivarHill(false,this.getZoom(),sC);
 			if((sC==0)){ //Fora Cat
@@ -456,7 +456,7 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#1B2C4A');
 					
 				}
-		/*	
+		*/	
 
 		}else if(f==FONS_HIBRIDMAP){
 			//this.mirarActivarHill(false,this.getZoom(),sC);
@@ -482,7 +482,7 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#192A46');
 				}
 				
-				*/
+				
 		}else if(f==FONS_TERRAINMAP){
 
 			//this.mirarActivarHill(false,this.getZoom(),sC);
