@@ -19,7 +19,6 @@ var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19,ORTO_ICC_L9_
 
 
 var _ortoAurgmentada=null,ORTO_ESRI_L0_19,ORTO_AUGMENTADA_L4_17,ORTO_ICC_L18_20;
-
 var _hibridLayers=null,HIBRID_MQ_L0_18,HIBRID_ICGC_L0_18,HIBRID_ICGC_L13_18;
 var _histoMap=null;
 var _histoOrtoMap=null;
@@ -42,6 +41,10 @@ var ALCADAMAPA_ICGC_L0_17;
 var DIVADMIN_L0_14;
 var DIVADMIN_L14_18;
 var DIVADMIN_L14_18_TOPO;
+
+var ORTO_HIBRID_8_18_VECTOR;
+var ORTO_HIBRID_L8_17_TOPONIMS;
+var TERRAIN_HIBRID_8_18_VECTOR;
 var _terrainLayers=null;
 var _topoColorLayers=null;
 var _grisLayers=null;
@@ -362,9 +365,6 @@ L.IM_Map = L.Map.extend({
 
 		//var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_ICC_L8_12,TOPO_GEO_ICC_L8_17;
 		}else if(f==FONS_TOPOMAP_GEO){
-
-
-
 					
 				if(sC==0){
 					TOPO_GEO_MQ_L15_18.setOpacity(1);
@@ -431,7 +431,7 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#1B2C4A');
 				}
 
-		/*
+			
 		}else if(f==FONS_HIBRIDMAP){
 			//this.mirarActivarHill(false,this.getZoom(),sC);
 			if((sC==0)){ //Fora Cat
@@ -456,7 +456,27 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#1B2C4A');
 					
 				}
-		*/	
+			
+			if((parseInt(this.getZoom()) >= 7) &&(parseInt(this.getZoom()) <= 11)) {
+				
+				
+				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.4);
+				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(0.8);
+				
+			}else if ((parseInt(this.getZoom()) >= 12) &&(parseInt(this.getZoom()) <= 13)) {
+				
+				
+				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.5);
+				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(0.8);
+				
+			}else{
+				
+				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.8);
+				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(1);
+			}
+			
+			
+		/*	
 
 		}else if(f==FONS_HIBRIDMAP){
 			//this.mirarActivarHill(false,this.getZoom(),sC);
@@ -482,7 +502,7 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#192A46');
 				}
 				
-				
+				*/
 		}else if(f==FONS_TERRAINMAP){
 
 			//this.mirarActivarHill(false,this.getZoom(),sC);
@@ -1005,11 +1025,12 @@ L.IM_Map = L.Map.extend({
 		
 		
 		
-		TERRAIN_HIBRID_8_18_VECTOR = new L.TileLayer(mapaUrl.hibridTotal,{
+		ORTO_HIBRID_8_18_VECTOR = new L.TileLayer(mapaUrl.hibridTotal,{
 			tms:false,
 			continuousWorld: true,
 			worldCopyJump: false,
 			subdomains:subDomainsA,
+			opacity:0.5,
 			minZoom: 8,
 			maxZoom: 17
 		}).addTo(_hibridLayers);
@@ -1017,11 +1038,12 @@ L.IM_Map = L.Map.extend({
 		
 		
 
-		TOPO_GEO_ICC_L8_17_TOPONIMS = new L.TileLayer(mapaUrl.toponimsNaturalSuau,{
+		ORTO_HIBRID_L8_17_TOPONIMS = new L.TileLayer(mapaUrl.toponimsNaturalSuau,{
 			tms:false,
 			continuousWorld: true,
 			worldCopyJump: false,
 			minZoom: 8,
+			opacity:0.8,
 			maxZoom: 18
 
 		}).addTo(_hibridLayers);
