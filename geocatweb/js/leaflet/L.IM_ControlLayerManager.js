@@ -567,7 +567,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				groupId = this._groupList.push(group) - 1;
 			}
 
-			console.debug(groupId);
+			
 			if (this._layers[id]) {
 				this._layers[id].layer.options.group = {
 					name : group.groupName,
