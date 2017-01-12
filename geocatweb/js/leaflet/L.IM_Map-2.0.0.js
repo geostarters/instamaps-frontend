@@ -459,18 +459,18 @@ L.IM_Map = L.Map.extend({
 			
 			if((parseInt(this.getZoom()) >= 7) &&(parseInt(this.getZoom()) <= 11)) {
 				
-				console.info(this.getZoom());
+				
 				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.4);
 				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(0.8);
 				
 			}else if ((parseInt(this.getZoom()) >= 12) &&(parseInt(this.getZoom()) <= 13)) {
 				
-				console.warn(this.getZoom());
+				
 				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.5);
 				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(0.8);
 				
 			}else{
-				console.info(this.getZoom());
+				
 				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.8);
 				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(1);
 			}
