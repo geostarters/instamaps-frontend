@@ -87,7 +87,7 @@ function capturaPantalla(tipus) {
 function pucPassar(item){
     var passo=false;
     
-    console.info(item.layer);
+    
     
     if(document.getElementById('input-'+item.layer.options.businessId)!=null){
     	if(document.getElementById('input-'+item.layer.options.businessId).checked){
@@ -299,6 +299,8 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 	
 	
 	var divActiuCanvas='.leaflet-map-pane';
+	var colorMapBackGround=jQuery('#map').css('background-color');
+	
 	if(estatMapa3D){divActiuCanvas='.cesium-widget';disparaEventMapa=false;mapaEstatNOPublicacio=false;}
 	if (_tipusCaptura == CAPTURA_MAPA) {
 		transform=hackCaptura();
@@ -307,7 +309,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 		html2canvas(jQuery(divActiuCanvas), {
 			onrendered : function(canvas) {
 				ActDesPrintMode(false);
-				var cl=jQuery('#map').css('background-color');
+				
 				
 				var imgData = canvas.toDataURL('image/png', 0.92);
 				imgData = JSON.stringify(imgData.replace(
@@ -338,7 +340,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 			useCORS : true,
 			allowTaint : false,
 			proxy : paramUrl.urlgetImageProxy,
-			background : undefined,
+			background : colorMapBackGround,
 			width : w,
 			height : h,
 			logging : false
@@ -374,7 +376,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 			useCORS : true,
 			allowTaint : false,
 			proxy : paramUrl.urlgetImageProxy,
-			background : undefined,
+			background : colorMapBackGround,
 			width : parseInt(w),
 			height :parseInt(h),
 			logging : false
@@ -409,7 +411,7 @@ function generaCaptura(_tipusCaptura, w, h, factor) {
 			useCORS : true,
 			allowTaint : false,
 			proxy : paramUrl.urlgetImageProxy,
-			background : undefined,
+			background :colorMapBackGround,
 			width : parseInt(w/1.2),
 			height :parseInt(h/1.2),
 			logging : false
@@ -434,6 +436,7 @@ function captureGEOPDF(event) {
 	var WF=calculaWF();     
 	var data=getCapesVectorActives();
 	capturaLlegenda(false);
+	var colorMapBackGround=jQuery('#map').css('background-color');
 	html2canvas(jQuery('#map .leaflet-map-pane'), {
 		onrendered : function(canvas) {
 			ActDesPrintMode(false);
@@ -486,7 +489,7 @@ function captureGEOPDF(event) {
 		useCORS : true,
 		allowTaint : false,
 		proxy : paramUrl.urlgetImageProxy,
-		background : undefined,
+		background : colorMapBackGround,
 		width : w,
 		height : h,
 		logging : false

@@ -193,7 +193,7 @@ L.IM_ControlFons = L.Control.extend({
 			
 		}else if (fons.indexOf('colorBlankMap')!=-1) {
 						
-			console.info(fons);			
+				
 			this._map.colorBlankMap(fons);
 			
 		}else{
