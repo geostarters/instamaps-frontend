@@ -731,10 +731,14 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		var _label_buit = document.createElement('label');
 		var nomCapa = document.createElement('span');
 
-		nomCapa.innerHTML = ' ' + obj.name;
+		
+		var layerName=obj.name;			
+    	(layerName.length > 71)?layerName=layerName.substring(0,71)+"...":layerName;		
+ 
+		nomCapa.innerHTML = ' ' + layerName;
+		//nomCapa.innerHTML = ' ' + obj.name;
 		nomCapa.className = 'editable';
 		nomCapa.id = input.layerId;
-		nomCapa.innerHTML = ' ' + obj.name;
 
 		if(obj.layer.error){
 			_label_buit.className = 'error';
@@ -956,7 +960,10 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		name_sublayer.className = 'editable';
 		name_sublayer.idParent = layerIdParent;
 		name_sublayer.id = L.stamp(sublayer.layer);
-		name_sublayer.innerHTML = ' ' + sublayer.name;
+		var layerName=sublayer.name;			
+    	(layerName.length > 71)?layerName=layerName.substring(0,71)+"...":layerName;			
+ 
+		name_sublayer.innerHTML = ' ' + layerName;
 
 		var col_sublayer = L.DomUtil.create('div', 'leaflet-input');
 		var label_for = document.createElement('label');
