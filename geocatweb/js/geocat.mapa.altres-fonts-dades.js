@@ -407,6 +407,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 				});
 				
 				jQuery("#bt_URLfitxer").on('click', function(e) {
+					jQuery('#bt_URLfitxer').prop("disabled", true);
 					jQuery("#div_url_file").show();
 					var urlFile = $.trim(jQuery("#txt_URLfile").val());
 					if(isValidURL(urlFile)){
@@ -530,12 +531,8 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 											window.lang.translate("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
 										'</small>'+
 									'</div>&nbsp;'+
-									'<div>'+
-										'<span class="input-group-btn">'+
-										'<button type="button" id="bt_URLfitxer_go" class="btn btn-success">'+
-											'<span class="glyphicon glyphicon-play"></span>'+
-										'</button>'+
-										'</span>'+
+									'<div style="float:right">'+
+										'<button id="bt_URLfitxer_go" class="btn btn-success btn-add-wms" lang="ca">Afegir capa</button>'+
 									'</div>'+
 									'<div id="div_url_file_message" class="alert alert-danger"></div>'
 							);
@@ -699,6 +696,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 				$("#txt_URLfile").focus(function() {
 					jQuery("#div_url_file").empty();
 					jQuery("#div_url_file").hide();
+					jQuery('#bt_URLfitxer').prop("disabled", false);
 				});				
 			}		
 		});
