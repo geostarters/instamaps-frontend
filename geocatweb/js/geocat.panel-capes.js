@@ -197,9 +197,13 @@ function updateEditableElements(){
 				 if(results.status==='OK'){
 					 _gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
 
-					 editableLayer.name = newValue;
+					 var layerName=newValue;			
+				    	(layerName.length > 71)?layerName=layerName.substring(0,71)+"...":layerName;		
+				    	
+					 //editableLayer.name = newValue;
+				     editableLayer.name = layerName;	
 					 editableLayer.layer.options.nom = newValue;
-
+					 $('.leaflet-name label span#'+id).text(layerName);
 					 if(editableLayer.layer.options.businessId == $("#mapLegendEdicio").data("businessid")){
 						 $(".titol-legend").html(newValue);
 					 }

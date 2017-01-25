@@ -185,7 +185,13 @@ L.Control.Legend = L.Control.extend({
 			if (self.options.tipusllegenda && self.options.tipusllegenda=="estatica"){
 				jQuery.each(mapLegend, function(i, row){
 					var layerType=self._getNameLayer(i);
-					if (row.length>=1 && row[0].chck){
+					var serverName="";
+					for (var k = 0; k < row.length; k++) {
+						if (row[k].chck) {
+							serverName=layerType.serverName;
+						}
+					}
+					if (row.length>=1 && serverName!=""){
 						legendhtml.push($('<div class="visor-legend-row">'+
 			    			'<div class="visor-legend-name">'+layerType.serverName+'</div>'+
 			    			'</div>'+
@@ -242,8 +248,14 @@ L.Control.Legend = L.Control.extend({
 					legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');
 				}
 				
+				var serverName="";
+				var posServerName=-1;
 				for (var i = 0; i < row.length; i++) {
 					if(row[i].chck || self.options.origenllegenda=='mapa'){
+						if (serverName=="" || serverName!=layerType.serverName) {
+							posServerName=i;
+							serverName=layerType.serverName;							
+						}
 						var padding_left="";
 						var textalg='left';
 						if (row[i].symbol.indexOf("circle")>-1){
@@ -264,14 +276,13 @@ L.Control.Legend = L.Control.extend({
 						index==lastPos.indexPos?active=' active':active="";
 						index==lastPos.indexPos?self.options.currentTab=j:null;	
 										
-						
-						if(i==0){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(layerType.serverName,25)+'</a></li>');}	
+						if(i==posServerName){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(serverName,25)+'</a></li>');}
 						
 						/*if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 							legendTabContent.push(row[i].symbol);
 							legendTabContent.push('<br/>');
 						}else{*/
-							if(i==0){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
+							if(i==posServerName){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
 							legendTabContent.push('<div class="visor-legend-row">'+
 						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>');
 							if (isWMS){
