@@ -222,6 +222,10 @@
 				self.privateClicked(event, $(this));
 			});
 			
+			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
+				$('#dialgo_delete .btn-danger').prop('disabled',true);
+			}
+			
 			$('#dialgo_delete .btn-danger').on('click', function(event){
 				var $this = $(this);
 				var data = {
