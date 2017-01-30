@@ -304,7 +304,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						(function(){							
 							poll = function(){
 								$.ajax({
-									url: paramUrl.polling +"pollingFileName="+ codiUnic + url('?businessid')+".json",
+									url: tmpFilePath,
 									dataType: 'json',
 									type: 'get',
 									success: function(data){
