@@ -1544,16 +1544,15 @@ function desbloquejarMapa(data){
 	runningActions.push(xhr);
 	return xhr.promise();
 }
-function crearFitxerSocrata(params){
+function crearFitxerSocrata(data){
 	var xhr = jQuery.ajax({
 			url: paramUrl.crearFitxerSocrata,
-			contentType: "application/json; charset=utf-8",
-			data: params,
-			traditional:true,
-			dataType: 'jsonp',
+			data: data,
 			method: 'post',
+			dataType: 'jsonp',			
 			complete: actionCompleted
 	});
 	runningActions.push(xhr);
 	return xhr.promise();
 }
+
