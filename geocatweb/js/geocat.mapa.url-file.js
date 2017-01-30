@@ -335,11 +335,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 												'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 												'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
 											);									
-											$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
-												if(data.status.indexOf("OK")!=-1){											
-													addDropFileToMap(data);
-												}								
-											});
+											//$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+											//if(data.status.indexOf("OK")!=-1){											
+											addDropFileToMap(data);
+												//		}								
+											//});
 											_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
 										}else if(data.status.indexOf("ERROR")!=-1){
 											console.error("Error al carregar fitxer:");
