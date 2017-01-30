@@ -271,6 +271,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					urlFile =results.filePath;
 					var midaFitxer = results.midaFitxer;
 					var tmpFilePath = results.tmpFilePath;
+					var tmpFileName = results.tmpFileName;
 					
 					var data2 = {
 							uid: Cookies.get('uid'),
@@ -285,7 +286,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 						};
 													
-						
+					
+					
 						$('#dialog_dades_ex').modal('hide');
 
 						jQuery("#div_uploading_txt").html("");
@@ -304,7 +306,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						(function(){							
 							poll = function(){
 								$.ajax({
-									url: tmpFilePath,
+									url: paramUrl.polling +"pollingFileName="+ tmpFileName,
 									dataType: 'json',
 									type: 'get',
 									success: function(data){
