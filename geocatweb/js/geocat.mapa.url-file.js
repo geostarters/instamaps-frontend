@@ -337,7 +337,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 											);									
 											//$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
 											//if(data.status.indexOf("OK")!=-1){											
-											addDropFileToMap(data);
+											//addDropFileToMap(data);
 												//		}								
 											//});
 											_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlFile, 1]);
@@ -405,7 +405,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 						})();		
 
-						doUploadFile(data2);
+						doUploadFile(data2).then(function(results){
+							addDropFileToMap(results);
+						});
 				}
 				
 			});
