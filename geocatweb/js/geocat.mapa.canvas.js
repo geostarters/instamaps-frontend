@@ -209,21 +209,39 @@ function calculaWF() {
 	var FACT=parseFloat(ff_MM.lat) - parseFloat(pNW.lat) ;
 	var pNW_3557 = L.CRS.EPSG3857.project(pNW);
 	var FACT=parseFloat(ff_3557.y) - parseFloat(pNW_3557.y) ;
+	
+	var _FACT=parseFloat(ff_MM.lat) - parseFloat(pNW.lat) ;
+	
 	var pNE_Pixels = new L.Point(w, h - topMap);
 	var pNE = map.layerPointToLatLng(pNE_Pixels);
 	var pNE_3557 = L.CRS.EPSG3857.project(pNE);
+	
 	var mapW = (pNE_3557.x - pNW_3557.x) / w;
     var mapH = (pNW_3557.y - pNE_3557.y) / h;
-    var nouY=parseFloat(parseFloat(NW.y)-(parseFloat(FACT)));
+
+	var mapW4326 = (pNE.lng - pNW.lng) / w;
+    var mapH4326 = (pNW.lat - pNE.lat) / h;
+	
+    var nouY=parseFloat(parseFloat(NW.y)-(parseFloat(FACT)));	
+	var _nouY=parseFloat(parseFloat(puntIn.lat)-(parseFloat(_FACT)));
+	
 	var WF={};
     WF.imgW=w;
     WF.imgH=h;
-    WF.resW=mapW;
-    WF.resH=mapH;
+    WF.resW=mapW4326;
+    WF.resH=mapH4326;
+	
+    //WF.x=NW.x;
+	 WF.x1=SE.x;
+    WF.y1=nouY
     WF.x=NW.x;
-    WF.y=nouY
-    WF.x1=NW.x;
-    WF.y1=SE.y;
+    WF.y=SE.y;
+	
+	WF.x4326=map.getBounds().getNorthWest().lng;
+    WF.y14326=_nouY;
+    WF.x14326=map.getBounds().getSouthEast().lng;
+    WF.y4326=map.getBounds().getSouthEast().lat;
+	
     return WF;
 }
 
@@ -454,6 +472,10 @@ function captureGEOPDF(event) {
 						data.y=WF.y;
 						data.x1=WF.x1;
 						data.y1=WF.y1;
+						data.x4326=WF.x4326;
+						data.y4326=WF.y4326;
+						data.x14326=WF.x14326;
+						data.y14326=WF.y14326;
 						data.request="createGeoPDF";
 						data.uuid=results.UUID;
 						data.entitatUid=mapConfig.entitatUid;
