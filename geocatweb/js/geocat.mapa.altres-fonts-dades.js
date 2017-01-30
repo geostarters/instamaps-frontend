@@ -421,7 +421,30 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							);
 							*/
 							getServeiJSONP(urlFile);
-							
+						}
+						else if(urlFile.indexOf("socrata")!= -1){
+							jQuery("#div_url_file").html(
+									'<br>'+
+									'<div class="input-group input-group-sm">'+
+										'<span lang="ca" class="input-group-addon">'+window.lang.translate("Nom capa")+'</span>'+
+										'<input type="text" id="input-url-file-name" class="form-control">'+
+									'</div>'+	
+									'<br>'+
+									'<div>'+														
+										'<input id="dinamic_chck" type="checkbox" checked="checked">'+
+										'&nbsp;'+window.lang.translate("Dinàmica")+
+										'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
+											window.lang.translate("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
+										'</small>'+
+									'</div>&nbsp;'+
+									'<div style="float:right">'+
+										'<button id="bt_URLfitxer_go" class="btn btn-success btn-add-wms" lang="ca">Afegir capa</button>'+
+									'</div>'+
+									'<div id="div_url_file_message" class="alert alert-danger"></div>'
+							);
+
+							jQuery("#div_url_file_message").hide();
+							activarEventAfegirCapa("-1");
 						}else{//LA RESTA
 							jQuery("#div_url_file").html(
 									'<br>'+
@@ -574,52 +597,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 								jQuery("#select-url-file-epsg").attr('disabled',false);
 							}
 							
-							var nom_capa = window.lang.translate("Capa de fitxer");
-							if(type!="-1") nom_capa+=type;
-							jQuery("#input-url-file-name").val(nom_capa);
-							
-							jQuery("#bt_URLfitxer_go").on('click', function(e) {
-								e.stopImmediatePropagation();
-								jQuery("#div_url_file_message").empty();
-								jQuery("#div_url_file_message").hide();
-								
-								var urlFile = $.trim(jQuery("#txt_URLfile").val());
-								var type = jQuery("#select-url-file-format").val();
-								var epsg = jQuery("#select-url-file-epsg").val();
-								var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
-								var coordX = jQuery("#input-coord-x").val();
-								var coordY = jQuery("#input-coord-y").val();
-								//console.debug(opcio);
-								
-								if(type.indexOf("-1")!= -1 || epsg.indexOf("-1")!= -1 && opcio!="codis" && opcio!="adreca"){
-									if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
-									if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
-									
-								}else if( (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
-											&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY) ) ){
-									
-									if(!isValidValue(coordX)) jQuery("#input-coord-x").addClass("class_error");
-									if(!isValidValue(coordY)) jQuery("#input-coord-y").addClass("class_error");
-								
-								}else if( (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
-											&&  opcio == "codis" && (!isValidValue(jQuery("#input-camp-codi-urlfile").val())) ){
-									
-									jQuery("#input-camp-codi-urlfile").addClass("class_error");
-								
-								}else{
-									if(!busy){
-										busy = true;
-										createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
-												   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
-												   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
-												   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
-									}else{
-										$('#dialog_dades_ex').modal('hide');
-										$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
-										$('#dialog_info_upload').modal('show');										
-									}
-								}
-							});
+							activarEventAfegirCapa(type);
 							
 							jQuery('#cmd_codiType_Capa_de').on('change',function(e) {
 								var html = "";
@@ -759,6 +737,54 @@ function addHtmlInterficieDadesExt(){
 	});
 }
 
+function activarEventAfegirCapa(type){
+	var nom_capa = window.lang.translate("Capa de fitxer");
+	if(type!=undefined && type!="-1") nom_capa+=type;
+	jQuery("#input-url-file-name").val(nom_capa);
+	
+	jQuery("#bt_URLfitxer_go").on('click', function(e) {
+		e.stopImmediatePropagation();
+		jQuery("#div_url_file_message").empty();
+		jQuery("#div_url_file_message").hide();
+		
+		var urlFile = $.trim(jQuery("#txt_URLfile").val());
+		var type = jQuery("#select-url-file-format").val();
+		var epsg = jQuery("#select-url-file-epsg").val();
+		var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
+		var coordX = jQuery("#input-coord-x").val();
+		var coordY = jQuery("#input-coord-y").val();
+		//console.debug(opcio);
+		
+		if(type!=undefined && type.indexOf("-1")!= -1 || epsg!=undefined && epsg.indexOf("-1")!= -1 && opcio!=undefined && opcio!="codis" && opcio!="adreca"){
+			if(type.indexOf("-1")!= -1) jQuery("#select-url-file-format").addClass("class_error");
+			if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
+			
+		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
+					&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY) ) ){
+			
+			if(!isValidValue(coordX)) jQuery("#input-coord-x").addClass("class_error");
+			if(!isValidValue(coordY)) jQuery("#input-coord-y").addClass("class_error");
+		
+		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
+					&&  opcio == "codis" && (!isValidValue(jQuery("#input-camp-codi-urlfile").val())) ){
+			
+			jQuery("#input-camp-codi-urlfile").addClass("class_error");
+		
+		}else{
+			if(!busy){
+				busy = true;
+				createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
+						   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
+						   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
+						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
+			}else{
+				$('#dialog_dades_ex').modal('hide');
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+				$('#dialog_info_upload').modal('show');										
+			}
+		}
+	});
+}
 
 
 

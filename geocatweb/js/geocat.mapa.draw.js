@@ -445,7 +445,9 @@ function activaEdicioUsuari() {
 		featureActive.enable();
 	});
 
-	map.on('draw:drawstart',function(e){});
+	map.on('draw:drawstart',function(e){
+		map.off('click',L.TileLayer.BetterWMS.getFeatureInfo);		
+	});
 	
 	//Edicio de feature existent
 	map.on('click',function(e){
@@ -1491,6 +1493,13 @@ function finishAddFeatureToTematic(layer){
 		
 	createPopupWindow(layer,type);
 	layer.openPopup();
+	map.eachLayer(function(layer) {
+		if (layer.options
+				&& layer.options.tipus == "wms") {
+			map.on('click',layer.getFeatureInfo,layer);
+		}
+
+	});
 }
 
 function updateFeatureNameDescr(layer, titol, descr){
