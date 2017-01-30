@@ -237,13 +237,13 @@ function activaPuntZ(){
 	jQuery('#div_punt0').css('width',vv+'px');
 	jQuery('#div_punt0').css('height',vv+'px');
 	jQuery('#div_punt0').css('font-size',(vv/2)+"px");
-	console.debug(jquery('#div_punt0'));
+	//console.debug(jquery('#div_punt0'));
 //	jQuery('#div_punt0').css('background-color',jQuery('fill_color_punt').css('background-color'));
 	estilP.divColor=rgb2hex(jQuery('.fill_color_punt').css('background-color'));
 	jQuery('#div_punt0').css('background-color',estilP.divColor);
 	estilP.fontsize=(vv/2)+"px";
 	estilP.size=vv;	
-	console.debug(estilP);
+	//console.debug(estilP);
 }
 
 function activaPuntM(color){
