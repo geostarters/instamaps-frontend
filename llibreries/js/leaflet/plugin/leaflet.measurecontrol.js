@@ -37,7 +37,7 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
         this._container.style.cursor = 'crosshair';
 
         this._updateTooltip();
-        this._map.off('click',L.TileLayer.BetterWMS.getFeatureInfo);
+        map.off('click',L.TileLayer.BetterWMS.getFeatureInfo);
         this._map
             .on('pointermove', this._onMouseMove, this)
             .on('mousemove', this._onMouseMove, this)
