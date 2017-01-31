@@ -1251,6 +1251,7 @@ function addHtmlModalCategories(){
 	'						</select>'+
 	'					</div>'+
 	'					<script id="tematic-layers-fields" type="text/x-handlebars-template">'+
+	'						<option value="---" lang="ca">Escull el camp</option>'+
 	'						{{#each fields}}'+
 	'						<option value="{{this}}">{{@key}}</option>'+
 	'						{{/each}}'+
@@ -1549,6 +1550,7 @@ function addHtmlModalBubbles(){
 			'					</select>'+
 			'				</div>'+
 			'                <script id="tematic-layers-fields-bubble" type="text/x-handlebars-template">'+
+			'						<option value="---" lang="ca">Escull el camp</option>'+
 			'						{{#each fields}}'+
 			'						<option value="{{this}}">{{@key}}</option>'+
 			'						{{/each}}'+

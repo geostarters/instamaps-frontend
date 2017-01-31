@@ -61,7 +61,7 @@ function showModalTematicBubbles(data){
 		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
 		jQuery("#dialog_tematic_bubble").data("visualitzacio", urlFileLayer.options);
 		var fields = {};
-		fields[window.lang.translate('Escull el camp')] = '---';
+		//fields[window.lang.translate('Escull el camp')] = '---';
 		//Recollim propName de les geometries de la capa
 		var dataNames = urlFileLayer.options.propName.split(',');
 		jQuery.each(dataNames, function( index, value ) {
@@ -99,7 +99,7 @@ function showModalTematicBubbles(data){
 				var visualitzacio = results.results;
 				jQuery("#dialog_tematic_bubble").data("visualitzacio", visualitzacio);
 				var fields = {};
-				fields[window.lang.translate('Escull el camp')] = '---';
+				//fields[window.lang.translate('Escull el camp')] = '---';
 				if (visualitzacio.options){
 					//var options = JSON.parse(visualitzacio.options);
 					var options;
