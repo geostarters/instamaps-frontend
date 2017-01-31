@@ -162,33 +162,37 @@ function fillModalDataTable(obj, geomBid){
 					if (propName!=undefined && propName.toString().indexOf("nom,text")==-1) {
 						
 						for(var x in propName){	
-							//console.debug(propName[x]);
-							var obj = {
-								title: propName[x].toUpperCase(),
-								field: propName[x].toLowerCase(),
-								sortable: true,
-								editable: {
-									emptytext : '-'
+							if (propName[x].toLowerCase()!="geomorigen") {
+								//console.debug(propName[x]);
+								var obj = {
+									title: propName[x].toUpperCase(),
+									field: propName[x].toLowerCase(),
+									sortable: true,
+									editable: {
+										emptytext : '-'
+									}
 								}
+								if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
+								else isADrawMarker=false;
+								columNames.push(obj);
 							}
-							if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
-							else isADrawMarker=false;
-							columNames.push(obj);
 						}		
 					}
 					else {
 						for(var x in feature.properties){
-							var obj = {
-								title: x.toUpperCase(),
-								field: x.toLowerCase(),
-								sortable: true,
-								editable: {
-									emptytext : '-'
+							if (x.toLowerCase()!="geomorigen"){
+								var obj = {
+									title: x.toUpperCase(),
+									field: x.toLowerCase(),
+									sortable: true,
+									editable: {
+										emptytext : '-'
+									}
 								}
+								if (x=='text' || x=='TEXT') isADrawMarker=true;
+								else isADrawMarker=false;
+								columNames.push(obj);
 							}
-							if (x=='text' || x=='TEXT') isADrawMarker=true;
-							else isADrawMarker=false;
-							columNames.push(obj);
 						}
 					}
 					if (isADrawMarker && feature.geometry.type=="Point"){ //Nomes pintem longitud/latitud quan és un punt
@@ -220,27 +224,32 @@ function fillModalDataTable(obj, geomBid){
 					//properties headers
 					var isADrawMarker=false;
 					if (options.propName!=undefined && options.propName.toString().indexOf("nom,text")==-1) {
-						for(var x in options.propName){							
-							var obj = {
-								title: options.propName[x].toUpperCase(),
-								field: options.propName[x].toLowerCase(),
-								sortable: true
+						
+							for(var x in options.propName){
+								if (options.propName[x].toLowerCase()!="geomorigen") {
+									var obj = {
+										title: options.propName[x].toUpperCase(),
+										field: options.propName[x].toLowerCase(),
+										sortable: true
+									}
+									if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
+									else isADrawMarker=false;
+									columNames.push(obj);
+								}
 							}
-							if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
-							else isADrawMarker=false;
-							columNames.push(obj);
-						}		
 					}
 					else {
 						for(var x in feature.properties){
-							var obj = {
-								title: x.toUpperCase(),
-								field: x.toLowerCase(),
-								sortable: true								
+							if (x.toLowerCase()!="geomorigen"){
+								var obj = {
+									title: x.toUpperCase(),
+									field: x.toLowerCase(),
+									sortable: true								
+								}
+								if (x=='text' || x=='TEXT') isADrawMarker=true;
+								else isADrawMarker=false;
+								columNames.push(obj);
 							}
-							if (x=='text' || x=='TEXT') isADrawMarker=true;
-							else isADrawMarker=false;
-							columNames.push(obj);
 						}
 					}	
 					if (isADrawMarker){
@@ -398,14 +407,19 @@ function fillModalDataTable(obj, geomBid){
 					if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
 					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);					
 					$.each( result, function( key, value ) {
-						var valorStr=value.toString();
-						if (valorStr.indexOf("src")>-1){
-							value=valorStr.replaceAll('"',"'");//Issue #560
-							//console.debug(value);
-							result[key]=value;
+						if (key.toLowerCase()!="geomorigen"){
+							var valorStr=value.toString();
+							if (valorStr.indexOf("src")>-1){
+								value=valorStr.replaceAll('"',"'");//Issue #560
+								//console.debug(value);
+								result[key]=value;
+							}
+							else result[key]=value;
 						}
-						else result[key]=value;
-						if (key=="geomorigen") haveGeomOrigen=true;
+						else {
+							result[key] = null;
+							delete result[key];
+						}
 					});
 					resultatsMod[resultI]=result;
 					
@@ -414,8 +428,6 @@ function fillModalDataTable(obj, geomBid){
 					
 				});
 				var showRefresh=false;
-				var ignoreCol = columNames.length-4;
-				if (haveGeomOrigen)  ignoreCol=columNames.length-5;
 				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) showRefresh=true;
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
@@ -431,7 +443,7 @@ function fillModalDataTable(obj, geomBid){
 				    showExport: true,			
 				    showRefresh: showRefresh,
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
-				    ignoreColumn: [ignoreCol],
+				    ignoreColumn: [columNames.length-4],
 				    data: resultatsMod,
 				    icons: {
 				       refresh: 'glyphicon-refresh'
