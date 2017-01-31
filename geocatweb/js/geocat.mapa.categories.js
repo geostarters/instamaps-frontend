@@ -68,13 +68,12 @@ function showModalTematicCategories(data){
 		var urlFileLayer = controlCapes._layers[data.leafletid].layer;
 		jQuery("#dialog_tematic_rangs").data("visualitzacio", urlFileLayer.options);
 		var fields = {};
-		fields[window.lang.translate('Escull el camp')] = '---';
+		//fields[window.lang.translate('Escull el camp')] = '---';
 		//Recollim propName de les geometries de la capa
 		var dataNames = urlFileLayer.options.propName.split(',');
 		jQuery.each(dataNames, function( index, value ) {
 			fields[value] = value;
 		});
-		
 		//creamos el select con los campos
 		var source1 = jQuery("#tematic-layers-fields").html();
 		var template1 = Handlebars.compile(source1);
@@ -100,7 +99,7 @@ function showModalTematicCategories(data){
 	}else{
 		var dataNames = [];
 		var fields = {};
-		fields[window.lang.translate('Escull el camp')] = '---';
+		//fields[window.lang.translate('Escull el camp')] = '---';
 		dataNames = data.propname.split(',');
 		jQuery.each(dataNames, function( index, value ) {
 			if (value!='') 	fields[value] = value;
@@ -113,6 +112,8 @@ function showModalTematicCategories(data){
 		//creamos el select con los campos
 		var source1 = jQuery("#tematic-layers-fields").html();
 		var template1 = Handlebars.compile(source1);
+		
+		console.debug(fields);
 		var html1 = template1({fields:fields});
 		jQuery('#dataField').html(html1);
 		
