@@ -296,48 +296,50 @@ function createPopupWindowData(player,type, editable, origen, capa){
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	var esVisor = ($(location).attr('href').indexOf('mapa')==-1);
 	$.each( player.properties.data, function( key, value ) {
-		if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
-			if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
-					key != 'NOM' && key != 'Nom' && key != 'nom' && 
-					key != 'name' && key != 'Name' && key != 'NAME' &&
-					key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
-				html+='<div class="popup_data_row">';
-				var txt=value;
-				if (!$.isNumeric(txt)) {
-					txt = parseUrlTextPopUp(value, key);
-					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+		if (key.toLowerCase()!="geomorigen"){
+			if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
+				if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
+						key != 'NOM' && key != 'Nom' && key != 'nom' && 
+						key != 'name' && key != 'Name' && key != 'NAME' &&
+						key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
+					html+='<div class="popup_data_row">';
+					var txt=value;
+					if (!$.isNumeric(txt)) {
+						txt = parseUrlTextPopUp(value, key);
+						if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+							html+='<div class="popup_data_key">'+key+'</div>';
+							html+='<div class="popup_data_value">'+
+							(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
+							'</div>';
+							html += '<div class="traffic-light-icon-empty"></div>';
+						}else{
+							html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+						}
+					}
+					else {
 						html+='<div class="popup_data_key">'+key+'</div>';
-						html+='<div class="popup_data_value">'+
-						(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
-						'</div>';
-						html += '<div class="traffic-light-icon-empty"></div>';
-					}else{
-						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+						html+='<div class="popup_data_value">'+txt+'</div>';
+	
+						if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && 
+							(esVisor && visor.colorscalecontrol && ("" == origen)) || (!esVisor && ("" == origen)) || ("" != origen && (key == capa.options.trafficLightKey)))
+						{
+	
+							var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
+							//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
+							html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
+							
+						}
+						else
+						{
+	
+							html += '<div class="traffic-light-icon-empty"></div>';
+	
+						}
 					}
+					html+= '</div>';
+					if (key=='text' || key=='TEXT') isADrawarker=true;
+					else isADrawarker=false;
 				}
-				else {
-					html+='<div class="popup_data_key">'+key+'</div>';
-					html+='<div class="popup_data_value">'+txt+'</div>';
-
-					if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && 
-						(esVisor && visor.colorscalecontrol && ("" == origen)) || (!esVisor && ("" == origen)) || ("" != origen && (key == capa.options.trafficLightKey)))
-					{
-
-						var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
-						//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-						html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
-						
-					}
-					else
-					{
-
-						html += '<div class="traffic-light-icon-empty"></div>';
-
-					}
-				}
-				html+= '</div>';
-				if (key=='text' || key=='TEXT') isADrawarker=true;
-				else isADrawarker=false;
 			}
 		}
 	});	
