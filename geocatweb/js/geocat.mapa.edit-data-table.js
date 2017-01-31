@@ -390,6 +390,7 @@ function fillModalDataTable(obj, geomBid){
 				var resultats2 = $.parseJSON(resultats);
 				var resultatsMod = [];
 				var resultI=0;
+				var haveGeomOrigen=false;
 				jQuery.each(resultats2, function(i, result){
 					var coords = result.geometryBBOX.split("#");  
 					var lon = parseFloat(coords[2]);
@@ -404,6 +405,7 @@ function fillModalDataTable(obj, geomBid){
 							result[key]=value;
 						}
 						else result[key]=value;
+						if (key=="geomorigen") haveGeomOrigen=true;
 					});
 					resultatsMod[resultI]=result;
 					
@@ -412,6 +414,8 @@ function fillModalDataTable(obj, geomBid){
 					
 				});
 				var showRefresh=false;
+				var ignoreCol = columNames.length-4;
+				if (haveGeomOrigen)  ignoreCol=columNames.length-5;
 				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) showRefresh=true;
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
 					search: true,
@@ -427,7 +431,7 @@ function fillModalDataTable(obj, geomBid){
 				    showExport: true,			
 				    showRefresh: showRefresh,
 				    exportTypes: ['json', 'csv', 'txt', 'excel'],
-				    ignoreColumn: [columNames.length-4],
+				    ignoreColumn: [ignoreCol],
 				    data: resultatsMod,
 				    icons: {
 				       refresh: 'glyphicon-refresh'
