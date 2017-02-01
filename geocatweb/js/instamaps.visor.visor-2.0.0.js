@@ -729,7 +729,6 @@
 			}else{
 				self.addLayersControl(false);
 			}
-			
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				var hasLayers = false;
 				if(self._mapConfig.hasOwnProperty("legend"))
@@ -737,8 +736,14 @@
 				
 					var leg = JSON.parse(self._mapConfig.legend);
 					var keys = Object.keys(leg);
-					for(var i=0; i<keys.length; ++i)
-						hasLayers = hasLayers || leg[keys[i]][0].chck;
+					for(var i=0; i<keys.length; ++i) {
+						for  (var j=0;j<leg[keys[i]].length;j++){
+							if (hasLayers || leg[keys[i]][j].chck) {
+								hasLayers=hasLayers || leg[keys[i]][j].chck;
+							}
+						}
+						
+					}
 
 					if (!self.nollegenda && hasLayers) {
 						self.addLlegenda();
