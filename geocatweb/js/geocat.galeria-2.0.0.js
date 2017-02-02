@@ -208,6 +208,10 @@
 				window.location.href = paramUrl.mapaPage;
 			});
 			
+			if(Cookies.get('tipusEntitat') == TIPUS_AOC){
+				$('.btn-danger').hide();
+			}
+			
 			$('#galeriaRow').on('click', '.btn.btn-danger', function(event){
 				event.preventDefault();
 				event.stopImmediatePropagation();
@@ -222,9 +226,6 @@
 				self.privateClicked(event, $(this));
 			});
 			
-			if(mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
-				$('#dialgo_delete .btn-danger').prop('disabled',true);
-			}
 			
 			$('#dialgo_delete .btn-danger').on('click', function(event){
 				var $this = $(this);
