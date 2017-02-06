@@ -218,21 +218,29 @@ function calculaWF() {
 	
 	var mapW = (pNE_3557.x - pNW_3557.x) / w;
     var mapH = (pNW_3557.y - pNE_3557.y) / h;
-
-	var mapW4326 = (pNE.lng - pNW.lng) / w;
-    var mapH4326 = (pNW.lat - pNE.lat) / h;
-	
+    
     var nouY=parseFloat(parseFloat(NW.y)-(parseFloat(FACT)));	
 	var _nouY=parseFloat(parseFloat(puntIn.lat)-(parseFloat(_FACT)));
 	
+	var _nouYMIN=parseFloat(parseFloat(puntIn.lat)+ (parseFloat(_FACT)));
+
+	var mapW4326 = (pNE.lng - pNW.lng) / w;
+	
+	var mapH4326 = (pNW.lat - pNE.lat) / h;
+  
 	var WF={};
     WF.imgW=w;
     WF.imgH=h;
     WF.resW=mapW4326;
     WF.resH=mapH4326;
-	
+    
+    /*
+    mapW4326=(mapW4326 - 0.000040);
+    mapH4326=(mapH4326 - 0.000040);
+    */
     //WF.x=NW.x;
-	 WF.x1=SE.x;
+	 
+    WF.x1=SE.x;
     WF.y1=nouY
     WF.x=NW.x;
     WF.y=SE.y;

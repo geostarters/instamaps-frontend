@@ -443,14 +443,14 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#DDDDDD');
 				}else if(sC==1){ //Cat i altres
 					ORTO_ESRI_L0_19.options.maxZoom=17;
-					ORTO_AUGMENTADA_L4_17.options.maxZoom=16;
+					ORTO_AUGMENTADA_L4_17.options.maxZoom=17;
 					ORTO_ICC_L12_19.options.maxZoom=20;
 					ORTO_ESRI_L0_19.setOpacity(0.8);
 					this.attributionControl.setPrefix(ICGC+ ","+ESRI_ATTR +this.getCurrentZoomLevel());
 					jQuery('#map').css('backgroundColor','#1B2C4A');
 				}else if(sC==2){ //Nomes cat
 					ORTO_ESRI_L0_19.setOpacity(0);
-					ORTO_AUGMENTADA_L4_17.options.maxZoom=16;
+					ORTO_AUGMENTADA_L4_17.options.maxZoom=17;
 					ORTO_ICC_L12_19.options.maxZoom=20;
 					this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 					jQuery('#map').css('backgroundColor','#1B2C4A');
@@ -839,7 +839,7 @@ L.IM_Map = L.Map.extend({
 				ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
 					tms:false,
 					minZoom: 4,
-					maxZoom: 16,			
+					maxZoom: 17,			
 					continuousWorld: true,
 					worldCopyJump: false
 				}).addTo(_ortoAurgmentada);
@@ -851,7 +851,7 @@ L.IM_Map = L.Map.extend({
 				ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{  	    
 					tms:false,
 					minZoom: 4,
-					maxZoom: 16,
+					maxZoom: 17,
 					boundary: catContorn5k,
 					continuousWorld: true,
 					worldCopyJump: false
@@ -866,7 +866,7 @@ L.IM_Map = L.Map.extend({
 			
 			ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
 				tms:false,
-				minZoom: 17,
+				minZoom: 18,
 				maxZoom: 20,
 				continuousWorld: true,
 				worldCopyJump: false
