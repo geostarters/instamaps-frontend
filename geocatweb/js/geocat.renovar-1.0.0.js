@@ -11,6 +11,11 @@ $(document).ready(function() {
 		window.location=paramUrl.mainPage;
 	}
 	
+	if (url('?email')){
+		console.debug(url('?email'));
+		$('#login_user').val(url('?email'));
+	}
+	
 	
 });//Fi document ready
 
