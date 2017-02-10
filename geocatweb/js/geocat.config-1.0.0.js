@@ -5,6 +5,7 @@ var HOST_GEOLOCAL = "http://www.geolocal.cat/";
 var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
 var tmpdirPolling = "poll/";
+var renovarPassword = "/geocatweb/renovar.html?token=";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
@@ -230,8 +231,9 @@ var paramUrl = {
 	//urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
 	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
 	urlJsonPCC:"/geocatweb/dades/pcc.json",
-	desbloquejarMapa: HOST_APP+"/geocat/aplications/map/desbloquejar.action",
-	crearFitxerSocrata:  HOST_APP+"geocat/upload/crearFitxerSocrata.action?"
+	desbloquejarMapa: HOST_APP+"/geocat/aplications/map/desbloquejar.action?",
+	crearFitxerSocrata:  HOST_APP+"geocat/upload/crearFitxerSocrata.action?",
+	generateTokenRemember: HOST_APP+"geocat/user/generateTokenRemember.action?"
 	
 }
 

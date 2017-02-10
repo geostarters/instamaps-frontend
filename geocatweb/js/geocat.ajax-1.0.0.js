@@ -1556,3 +1556,14 @@ function crearFitxerSocrata(data){
 	return xhr.promise();
 }
 
+function generateTokenRemember(data){
+	var xhr = jQuery.ajax({
+		url: paramUrl.generateTokenRemember,
+		data: data,
+		method: 'post',
+		dataType: 'jsonp',			
+		complete: actionCompleted
+});
+runningActions.push(xhr);
+return xhr.promise();
+}
