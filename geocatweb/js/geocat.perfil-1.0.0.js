@@ -14,7 +14,17 @@ jQuery(document).ready(function() {
 	$('#frm_update_pssw').hide();
 	
 	$('#btn_update_pssw').on('click',function(){
-		$('#frm_update_pssw').toggle();
+		//Guardar token BBDD
+		var data={
+			email:$('#perfil_email').val()
+		};
+		generateTokenRemember(data).then(function(results){
+			if (results.status==='OK'){
+				window.location=renovarPassword+results.results.informacioAdicional+"&email="+results.results.email;
+			}
+		});
+		//Redireccionar a la pàgina de modificar contrassenya
+		//$('#frm_update_pssw').toggle();
 	});
 	
 	$('#btn_delete_usr').on('click',function(){

@@ -191,11 +191,19 @@ L.Control.Legend = L.Control.extend({
 							serverName=layerType.serverName;
 						}
 					}
-					if (row.length>=1 && serverName!=""){
+					if (row.length>=1 && undefined!=serverName && ""!=serverName){
 						legendhtml.push($('<div class="visor-legend-row">'+
 			    			'<div class="visor-legend-name">'+layerType.serverName+'</div>'+
 			    			'</div>'+
 			    			'<div class="visor-separate-legend-row"></div>'));
+					}
+					else if (row.length>=1 && ""!=row[0].name) {
+						var name=row[0].name;
+							
+						legendhtml.push($('<div class="visor-legend-row">'+
+				    			'<div class="visor-legend-name">'+name.substring(0,name.indexOf("("))+'</div>'+
+				    			'</div>'+
+				    			'<div class="visor-separate-legend-row"></div>'));
 					}
 					for (var i = 0; i < row.length; i++) {
 			    		if(row[i].chck){
@@ -252,9 +260,14 @@ L.Control.Legend = L.Control.extend({
 				var posServerName=-1;
 				for (var i = 0; i < row.length; i++) {
 					if(row[i].chck || self.options.origenllegenda=='mapa'){
-						if (serverName=="" || serverName!=layerType.serverName) {
+						if ((undefined==serverName && ""==serverName) || (undefined!=layerType.serverName && layerType.serverName!=serverName)) {
 							posServerName=i;
 							serverName=layerType.serverName;							
+						}
+						else {
+							posServerName=i;
+							var name=row[i].name;
+							serverName=name.substring(0,name.indexOf("("));
 						}
 						var padding_left="";
 						var textalg='left';
