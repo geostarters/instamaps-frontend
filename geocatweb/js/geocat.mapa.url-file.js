@@ -61,7 +61,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		"&colY="+colY+
 		"&uid="+Cookies.get('uid');		
 		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1)) 	{
+			param_url = urlFile;
+		}
 
 		$('#dialog_dades_ex').modal('hide');
 		jQuery("#div_uploading_txt").html("");
@@ -253,9 +256,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	}else{
 		//console.debug("getUrlFile PROVES NO DINAMICA");
 		var codiUnic = getCodiUnic();
-		if (urlFile.indexOf("socrata")>-1) {
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1)) {
 			var response = $.ajax({ type: "GET",   
-	            url: "https://ctti.azure-westeurope-prod.socrata.com/api/geospatial/u58f-fsr7?method=export&format=GeoJSON",   
+	            url: urlFile,   
 	            async: false
 	          }).responseText;
 			
