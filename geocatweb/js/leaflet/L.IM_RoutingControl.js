@@ -139,7 +139,17 @@ L.Control.RoutingControl = L.Control.extend({
 	        createMarker: createMarker.bind(self)
 	    });
 		
+		//console.debug(lang);
+		
 		this._route = L.Routing.control({
+			router: L.Routing.mapzen('mapzen-aMHsmLA', {
+				language: lang,
+				    costing:'auto',
+				    directions_options: {
+				        language: lang
+				      }
+				    }),
+			 formatter: new L.Routing.mapzenFormatter(),
 	         routeWhileDragging: true,
 	         plan: this._plan,
 	         position: 'topleft',
