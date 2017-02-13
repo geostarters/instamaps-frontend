@@ -66,6 +66,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			param_url = urlFile;
 		}
 
+		if (tipusFile==".json"){
+			var geoJsonData = L.toGeoJSON.convert(urlFile,"point");
+			console.debug(L.toGeoJSON.geoJsonData);
+			//console.debug(L.toGeoJSON.geoJsonData);
+		}
+		else{
 		$('#dialog_dades_ex').modal('hide');
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
@@ -251,7 +257,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				}
 			}
 		});		
-
+	}
 	/*** NO DINAMICA ***/		
 	}else{
 		//console.debug("getUrlFile PROVES NO DINAMICA");

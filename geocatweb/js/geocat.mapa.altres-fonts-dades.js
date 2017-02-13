@@ -456,7 +456,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 									'<div>'+
 									window.lang.translate("Format")+
 									':&nbsp;'+
-										'<select id="select-url-file-format" class="form-download-format">'+
+										'<select id="select-url-file-format" class="form-download-format">'+										 
 										  '<option value=".geojson">GeoJSON</option>'+
 										  '<option value=".shp">ESRI Shapefile</option>'+
 										  '<option value=".dxf">DXF</option>'+
@@ -470,6 +470,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 										  '<option value=".xls">XLS</option>'+
 										  '<option value=".xlsx">XLSX</option>'+
 										  '<option value=".zip">Zip File</option>'+
+										  '<option value=".json">JSON</option>'+
 										  '<option value="-1">'+window.lang.translate("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+
