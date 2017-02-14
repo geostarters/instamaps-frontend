@@ -70,9 +70,10 @@
 				},
 				{
 					"param": "snapshotcontrol",
-					"text":"Control captura imatge",
+					"text":"Control d'exportar mapa",
 					"visor": true
 				},
+				/*
 				{
 					"param": "printcontrol",
 					"text":"Control d'impressió",
@@ -83,6 +84,7 @@
 					"text":"Control GeoPdf",
 					"visor": true
 				},
+				*/
 				{
 					"param": "llegenda",
 					"text":"Llegenda en el visor",
