@@ -37,9 +37,10 @@ $(function () {
                     });
                 	//console.debug(geoJsonData);
                 });
+                L.toGeoJSON.geoJsonData = geoJsonData;
             });
-            L.toGeoJSON.geoJsonData = geoJsonData;
-            return geoJsonData;
+           
+            return L.toGeoJSON.geoJsonData;
            
         }
 
