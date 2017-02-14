@@ -2593,3 +2593,31 @@ a.leaflet-control-timecontrol:hover {
     width: 20px;
     height: 25px;
 }
+
+
+.div_barraexport{
+	position:absolute;
+	display:none;
+	
+
+}
+
+.div_gr40 div:hover {
+	border-bottom: 1px dotted #FFC500;
+}
+
+.div_gr40 {
+	
+	margin: 10px 5px 0;
+	float: auto;
+	z-index: 10;
+}
+
+.div_gr40 div {
+	float: left;
+	margin-left: 2px;
+	margin-bottom: 15px;
+	width: 29px;
+	height: 27px;
+	
+}

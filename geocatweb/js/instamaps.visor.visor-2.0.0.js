@@ -91,9 +91,10 @@
 					location: false,
 					share: false,
 					like: false,
+					
 					snapshot: false,
-					print: false,
-					geopdf: false,
+					//print: false,
+					//geopdf: false,
 					c3d: false,
 					mousePosition: false,
 					scale: false,
@@ -112,9 +113,10 @@
 					location: true,
 					share: true,
 					like: true,
+					
 					snapshot: true,
-					print: true,
-					geopdf: true,
+					//print: true,
+					//geopdf: true,
 					c3d: true,
 					mousePosition: true,
 					scale: true,
@@ -174,12 +176,17 @@
 				self.controls.searchControl.hideBtn();
 			}
 			
+			
+			
+			
+			
 			if(options.snapshot && self.controls.snapshotControl){
 				self.controls.snapshotControl.showBtn();
 			}else if(self.controls.snapshotControl){
 				self.controls.snapshotControl.hideBtn();
 			}
 			
+			/*
 			if(options.print && self.controls.printControl){
 				self.controls.printControl.showBtn();
 			}else if(self.controls.printControl){
@@ -191,6 +198,8 @@
 			}else if(self.controls.geopdfControl){
 				self.controls.geopdfControl.hideBtn();
 			}
+			
+			*/
 			
 			if(options.c3d && self.controls.control3d){
 				self.controls.control3d.showBtn();
@@ -285,7 +294,12 @@
 			if (!self.likecontrol) self.likecontrol = 0;
 			
 			if (!self.control3d) self.control3d = 0;
+			
+			
+			
+			
 			if (!self.snapshotcontrol) self.snapshotcontrol = 0;
+			
 			if (!self.printcontrol) self.printcontrol = 0;
 			if (!self.geopdfcontrol) self.geopdfcontrol = 0;
 			
@@ -540,6 +554,26 @@
 			return self;
 		},
 		
+		
+		
+		
+		addSnapshotControl: function(){
+			var self = this,
+			ctr_snapshot,
+			_map = self.map;
+			
+			ctr_snapshot = L.control.mapExport({
+				title: window.lang.translate('Capturar la vista del mapa')
+			});
+			ctr_snapshot.addTo(_map);
+			
+			self.controls.snapshotControl = ctr_snapshot;
+			
+			return self;
+		},
+		
+		
+		/*
 		addSnapshotControl: function(){
 			var self = this,
 			ctr_snapshot,
@@ -584,7 +618,7 @@
 			
 			return self;
 		},
-		
+		*/
 		
 		addAppModul:function(modul){
 			var self = this,
@@ -716,15 +750,25 @@
 				if((self.control3d && self.control3d=="1") || self.control3d===null) {
 					self.addControl3d();
 				}
+				
+				
+				
 				if((self.snapshotcontrol && self.snapshotcontrol=="1") || self.snapshotcontrol===null){
+					
+					
 					self.addSnapshotControl();
+				}else if((self.printcontrol && self.printcontrol=="1") || self.printcontrol===null){
+					
+					
+				//	self.addSnapshotControl();
 				}
-				if((self.printcontrol && self.printcontrol=="1") || self.printcontrol===null){
-					self.addPrintControl();
+				else if ((self.geopdfcontrol && self.geopdfcontrol=="1") || self.geopdfcontrol===null){
+					
+					
+				//	self.addSnapshotControl();
 				}
-				if((self.geopdfcontrol && self.geopdfcontrol=="1") || self.geopdfcontrol===null){
-					self.addGeopdfControl();
-				}
+				
+				
 			
 			}else{
 				self.addLayersControl(false);
@@ -945,9 +989,16 @@
 			self.likecontrol = self.likecontrol || false;
 			self.layerscontrol = self.layerscontrol || false;
 			self.control3d = self.control3d || false;
+			
+			
 			self.snapshotcontrol = self.snapshotcontrol || false;
+			
 			self.printcontrol = self.printcontrol || false;
 			self.geopdfcontrol = self.geopdfcontrol || false;
+			
+			
+			
+			
 			self.rtoolbar = self.rtoolbar || false;
 			self.llegenda = self.llegenda || false;
 			self.appmodul = self.appmodul || false;
@@ -1375,9 +1426,11 @@
 		},
 		
 		_mapsnapshotEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'captura pantalla', 'label captura', 1]});
+			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'export mapa', 'label export maps', 1]});
 		},
 		
+		
+		/*
 		_mapprintEvent: function(){
 			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'print', 'label print', 1]});
 		},
@@ -1385,7 +1438,7 @@
 		_mapgeopdfEvent: function(){
 			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]});
 		},
-		
+		*/
 		_map3dmodeEvent: function(){
 			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser + '3D', 'label 3D', 1]});
 		},
