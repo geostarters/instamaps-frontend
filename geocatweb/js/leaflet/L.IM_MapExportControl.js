@@ -88,18 +88,16 @@ L.Control.MapExport = L.Control
 								function() {
 
 									
-									console.info(tipus_user + 'geotiff');
+									
 									try{
-										console.info(1);
-										$.publish('trackEvent',{event:['_trackEvent', 'visor','geotiff', 'label geotiff', 1]});
-										console.info(_gaq);
+										
+										$.publish('trackEvent',{event:['_trackEvent', 'visor','geotiff', 'label geotiff', 1]});										
 										_gaq.push([ '_trackEvent', _scope,
 											tipus_user + 'geotiff',
 											'label geotiff', 1 ]);
 										console.info(3);
 									}catch(err){
-										
-										console.info(err);
+																				
 										_gaq.push([ '_trackEvent', _scope,
 											tipus_user + 'geotiff',
 											'label geotiff', 1 ]);
