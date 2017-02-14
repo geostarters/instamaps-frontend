@@ -392,7 +392,7 @@ function addControlsInici(){
 	ctr_llistaCapes.onAdd = function(map) {
 
 		this._div = L.DomUtil.create('div', 'div_barrabotons btn-group-vertical');
-		this._div_H_Export= L.DomUtil.create('div', 'div_barraexport div_gr40');
+		//this._div_H_Export= L.DomUtil.create('div', 'div_barraexport div_gr40');
 
 		var btllista = jQuery("<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_llista\" title=\"Llista de capes\" data-lang-title=\"Llista de capes\"><span class='glyphicon glyphicon-th-list grisfort'></span></div>");
 		this._div.appendChild(btllista[0]);
@@ -410,7 +410,7 @@ function addControlsInici(){
 	ctr_llistaCapes.addTo(map);
 
 	ctr_exportMap = L.control.mapExport({
-				title: window.lang.translate('Exportar mapa')
+				title: window.lang.translate('Exportar i imprimir mapa')
 			});
 	ctr_exportMap.addTo(map);
 
