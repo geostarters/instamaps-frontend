@@ -40,7 +40,7 @@ var estilP={
 	};
 
 var default_line_style = {
-	    weight: 3,       
+	    weight: 3,
 	    color: '#FFC400',
 	    opacity:1,
 	    dashArray: '3',
@@ -100,7 +100,7 @@ var default_circuloglyphon_style = {
 		weight : 2,
 		fillOpacity : 0.9,
 		color : "#ffffff",
-		fillColor :"#FFC500"	
+		fillColor :"#FFC500"
 	};
 
 var default_onsoc_style = {
@@ -132,7 +132,7 @@ var t_visualitzacio = "visualitzacio";
 var t_url_file = "url_file";
 var t_vis_wms = "vis_wms";
 var t_vis_wms_noedit = "vis_wms_noeditable";
-	
+
 /**tipus estandar instamaps**/
 var t_polyline = "polyline";
 var t_polygon = "polygon";
@@ -189,7 +189,8 @@ var CAPTURA_GALERIA = "captura_galeria";
 var CAPTURA_INFORME = "captura_informe";
 var CAPTURA_FONS = "captura_fons";
 var CAPTURA_GEOPDF = "captura_geopdf";
-
+var CAPTURA_MAPA_GEOTIFF="captura_mapa_geotiff";
+CAPTURA_MAPA_GEOPACKAGE="captura_mapa_geopackage";
 var NODATA_VALUE = "nodata";
 var NODATA_COLOR = "#CCCCCC";
 var NODATA_MIDA = 10;
@@ -212,23 +213,23 @@ var curs_instamaps = "5e curs InstaMaps";
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
 		"dadesExternes" : [
-		
+
 				{
 	                "titol" : "Actes president.cat",
 	                "ORGANITZAC" : "president.cat",
 	                "urlOrganitzacio" : "http://www.president.cat",
 	                "urlDadesExternes" : "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
-				},				
+				},
    				{
 	                "titol" : "Plaques Tectòniques",
 	                "ORGANITZAC" : "earthquake.usgs.gov",
 	                "urlOrganitzacio" : "http://earthquake.usgs.gov",
-	                "urlDadesExternes" : "http://earthquake.usgs.gov/learn/plate-boundaries.kmz",					
+	                "urlDadesExternes" : "http://earthquake.usgs.gov/learn/plate-boundaries.kmz",
 					"formatDadesExternes": t_file_kml,
 					"epsgDadesExternes":"EPSG:4326"
-				},	
+				},
 
-				
+
 				{
 					"titol" : "Ciutats del món",
 					"ORGANITZAC" : "Wikipedia",
@@ -244,7 +245,7 @@ var llista_dadesExternes = {
 					"urlDadesExternes" : "https://raw.githubusercontent.com/wikimedia/limn-data/master/geo/maps/world-countries.json",
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
-				},				
+				},
 				{
 					"titol" : "Huracans a l'Atlàntic al 2004",
 					"ORGANITZAC" : "Unisys weather",
@@ -253,7 +254,7 @@ var llista_dadesExternes = {
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
 				},
-				
+
 				{//https://github.com/FCC/lpfmpoints
 					"titol" : "U.S. Low Power FM station",
 					"ORGANITZAC" : "LPFM",
@@ -261,8 +262,8 @@ var llista_dadesExternes = {
 					"urlDadesExternes" : "https://raw.githubusercontent.com/FCC/lpfmpoints/gh-pages/data/lpfm_points.geojson",
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
-				},	
-			
+				},
+
 				{
 					"titol" : "Camí de Sant Jaume",
 					"ORGANITZAC" : "Gencat",
@@ -271,7 +272,7 @@ var llista_dadesExternes = {
 					"formatDadesExternes": t_file_kml,
 					"epsgDadesExternes":"EPSG:4326"
 				}
-		] 
+		]
 };
 
 var TIPUS_ENTITATS_GEOLOCAL = [2,3,4,5,6,7,8,9];

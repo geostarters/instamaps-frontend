@@ -179,7 +179,25 @@
 			$('#galeriaSort #obtenirUrlPublica').show();
 			
 			results.results = jQuery.map( results.results, function( val, i ) {
-				val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+				///val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+			
+			try{
+				
+				var d1=new Date(val.dataActualitzacio);
+				var d = new Date();
+				d.setFullYear(2016, 11, 22);				
+				if(d1 > d){
+					val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";					
+				}else{					
+					val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+				}
+								
+			}catch(err){				
+				val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";				
+			}
+			
+			
+				
 				if (val.options){
 					val.options = $.parseJSON(val.options);	
 				}
@@ -849,6 +867,24 @@
 					businessIds.push(val.businessId);
 					//val.thumbnail = paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + val.businessId;
 					val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+					
+					
+					try{
+						
+						var d1=new Date(val.dataActualitzacio);
+						var d = new Date();
+						d.setFullYear(2016, 11, 22);				
+						if(d1 > d){
+							val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";					
+						}else{					
+							val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+						}
+										
+					}catch(err){				
+						val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";				
+					}
+					
+					
 					if (val.options){
 						val.options = $.parseJSON(val.options);	
 					}

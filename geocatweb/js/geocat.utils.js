@@ -295,14 +295,15 @@ function getLeafletIdFromBusinessId(businessId){
 }
 
 function activaPanelCapes(obre) {
+	
 	if (obre) {
-		jQuery('.leaflet-control-layers').animate({
-			width : 'show'
-		});
+		
+		jQuery('.leaflet-control-layers').toggle();
+		
+		//jQuery('.leaflet-control-layers').fadeOut({duration: 'fast'});
 	} else {
-		jQuery('.leaflet-control-layers').animate({
-			width : 'toggle'
-		});
+		//jQuery('.leaflet-control-layers').fadeOut({duration: 'fast'});
+		jQuery('.leaflet-control-layers').toggle();
 	}
 	var cl,
 	 btnDiv;
