@@ -79,11 +79,13 @@ function capturaPantalla(tipus) {
 
 
     } else if (tipus == CAPTURA_MAPA_GEOPACKAGE) {
-		
+    	
 		if(checkDataVectorlayers()){
 					comportamentCaptura(0, 'Descarrega les capes vectorials en format GeoPackage', 'Es genera un arxiu GeoPackage (base de dades) que conté només les capes vectorials del mapa i els seus atributs.');
-					ActDesPrintMode(true);
+					//ActDesPrintMode(true);
 					setTimeout(function() {
+						
+						
 						generaCaptura(CAPTURA_MAPA_GEOPACKAGE, null, null, 2);
 
 
