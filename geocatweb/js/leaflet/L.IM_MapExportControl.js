@@ -7,8 +7,8 @@ L.Control.MapExport = L.Control
 				position : 'topright',
 				id : 'dv_bt_mapExport',
 				className : 'leaflet-bar btn btn-default btn-sm bt_exportfile grisfort',
-				title : 'Exportar Mapa',
-				langTitle : 'Exportar Mapa',
+				title : 'Exportar i imprimir mapa',
+				langTitle : 'Exportar i imprimir mapa',
 				html : '<span class="glyphicon glyphicon-paste"></span>',
 				tooltip : 'bottom'
 			},
@@ -22,8 +22,8 @@ L.Control.MapExport = L.Control
 				container.title = options.title;
 
 				container.dataset.toggle = 'tooltip';
-				container.dataset.placement = options.tooltip;
-				container.dataset.langTitle = options.langTitle;
+				container.dataset.placement = window.lang.translate(options.tooltip);
+				container.dataset.langTitle = window.lang.translate(options.langTitle);
 
 				self._div = container;
 
@@ -102,13 +102,15 @@ L.Control.MapExport = L.Control
 
 				var btgeopkg = jQuery(
 						"<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_geopkg\" title=\"Descarrega vectors en format GeoPackage\" data-lang-title=\"Descarrega vectors en format GeoPackage\"><span class='fa fa-database grisfort'></span></div>")
-						.on(
-								'click',
+						.on('click',
 								function(event) {
+									
 									aturaClick(event);
 									_gaq.push([ '_trackEvent', _scope,
 											tipus_user + 'geopkg',
 											'label geopkg', 1 ]);
+									
+									
 									capturaPantalla(CAPTURA_MAPA_GEOPACKAGE);
 									self.hide()
 								});
@@ -150,6 +152,7 @@ L.Control.MapExport = L.Control
 				$('.div_barraexport').css('top', (offset.top - 10) + 'px');
 				$('.div_barraexport').css('left', (offset.left - leftO) + 'px');
 				$('.div_barraexport').show();
+				jQuery('.leaflet-control-layers').hide();
 			},
 
 			_toggle : function(e) {
