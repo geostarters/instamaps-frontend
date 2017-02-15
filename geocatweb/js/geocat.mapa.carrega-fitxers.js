@@ -330,13 +330,20 @@ function addFuncioCarregaFitxers(){
 			
 			if(ori.indexOf('coords')!=-1){
 				jQuery('#ul_coords').show();
-				jQuery('#ul_geom').hide();				
+				jQuery('#ul_geom').hide();
+				jQuery('#ul_unic').hide();	
 			}else if(ori.indexOf('geom')!=-1){
 				jQuery('#ul_coords').hide();
 				jQuery('#ul_geom').show();	
+				jQuery('#ul_unic').hide();	
+			}else if(ori.indexOf('unic')!=-1){
+					jQuery('#ul_coords').hide();
+					jQuery('#ul_geom').hide();	
+					jQuery('#ul_unic').show();	
 			}else{		
 				jQuery('#ul_coords').toggle();
 				jQuery('#ul_geom').toggle();
+				jQuery('#ul_unic').toggle();
 			}		
 		});	
 		
