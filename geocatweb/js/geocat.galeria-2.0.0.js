@@ -181,20 +181,25 @@
 			results.results = jQuery.map( results.results, function( val, i ) {
 				///val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
 			
-			try{
-				
-				var d1=new Date(val.dataActualitzacio);
-				var d = new Date();
-				d.setFullYear(2016, 11, 22);				
-				if(d1 > d){
-					val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";					
-				}else{					
-					val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+				try{
+					
+					var data;
+					val.dataActualitzacio?data=val.dataActualitzacio:data=val.dataPublicacio;
+					
+					var d1=new Date(data);
+					var d = new Date();
+					d.setFullYear(2016, 11, 22);				
+					if(d1 > d){
+						val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";					
+					}else{					
+						val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
+					}
+									
+				}catch(err){	
+					
+					
+					val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";				
 				}
-								
-			}catch(err){				
-				val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";				
-			}
 			
 			
 				
@@ -871,7 +876,10 @@
 					
 					try{
 						
-						var d1=new Date(val.dataActualitzacio);
+						var data;
+						val.dataActualitzacio?data=val.dataActualitzacio:data=val.dataPublicacio;
+						
+						var d1=new Date(data);
 						var d = new Date();
 						d.setFullYear(2016, 11, 22);				
 						if(d1 > d){
@@ -880,8 +888,10 @@
 							val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
 						}
 										
-					}catch(err){				
-						val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".png";				
+					}catch(err){	
+						
+						
+						val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";				
 					}
 					
 					
