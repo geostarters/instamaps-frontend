@@ -7,8 +7,8 @@ L.Control.MapExport = L.Control
 				position : 'topright',
 				id : 'dv_bt_mapExport',
 				className : 'leaflet-bar btn btn-default btn-sm bt_exportfile grisfort',
-				title : 'Exportar Mapa',
-				langTitle : 'Exportar Mapa',
+				title : 'Exportar i imprimir mapa',
+				langTitle : 'Exportar i imprimir mapa',
 				html : '<span class="glyphicon glyphicon-paste"></span>',
 				tooltip : 'bottom'
 			},
@@ -22,17 +22,19 @@ L.Control.MapExport = L.Control
 				container.title = options.title;
 
 				container.dataset.toggle = 'tooltip';
-				container.dataset.placement = options.tooltip;
-				container.dataset.langTitle = options.langTitle;
+				container.dataset.placement = window.lang.translate(options.tooltip);
+				container.dataset.langTitle = window.lang.translate(options.langTitle);
 
 				self._div = container;
 
-				var _scope='visor';
-				var tipus_user="";
-				getModeMapa()?_scope='mapa':_scope='visor';
-				
-				if(_scope=='mapa') {tipus_user = defineTipusUser();}
-				
+				var _scope = 'visor';
+				var tipus_user = "";
+				getModeMapa() ? _scope = 'mapa' : _scope = 'visor';
+
+				if (_scope == 'mapa') {
+					tipus_user = defineTipusUser();
+				}
+
 				this._div_H_Export = L.DomUtil.create('div',
 						'div_barraexport div_gr40');
 
@@ -40,9 +42,9 @@ L.Control.MapExport = L.Control
 						"<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_captura\" title=\"Capturar la vista del mapa\" data-lang-title=\"Capturar la vista del mapa\"><span class='glyphicon glyphicon-camera grisfort'></span></div>")
 						.on(
 								'click',
-								function() {
+								function(event) {
 									aturaClick(event);
-									_gaq.push([ '_trackEvent',_scope,
+									_gaq.push([ '_trackEvent', _scope,
 											tipus_user + 'captura pantalla',
 											'label captura', 1 ]);
 									capturaPantalla(CAPTURA_MAPA);
@@ -55,7 +57,7 @@ L.Control.MapExport = L.Control
 						"<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_print\" title=\"Imprimir la vista del mapa\" data-lang-title=\"Imprimir la vista del mapa\"><span class='glyphicon glyphicon-print grisfort'></span></div>")
 						.on(
 								'click',
-								function() {
+								function(event) {
 
 									aturaClick(event);
 									_gaq.push([ '_trackEvent', _scope,
@@ -70,7 +72,7 @@ L.Control.MapExport = L.Control
 						"<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_geopdf\" title=\"Descarrega mapa en format GeoPDF\" data-lang-title=\"Descarrega mapa en format GeoPDF\"><span class='fa fa-file-pdf-o geopdf'></span></div>")
 						.on(
 								'click',
-								function() {
+								function(event) {
 
 									aturaClick(event);
 									_gaq.push([ '_trackEvent', _scope,
@@ -85,41 +87,30 @@ L.Control.MapExport = L.Control
 						"<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_geotiff\" title=\"Descarrega mapa en format GeoTiff\" data-lang-title=\"Descarrega mapa en format GeoTiff\"><span class='fa fa-file-image-o grisfort'></span></div>")
 						.on(
 								'click',
-								function() {
+								function(event) {
+									aturaClick(event);
 
-									
-									console.info(tipus_user + 'geotiff');
-									try{
-										console.info(1);
-										$.publish('trackEvent',{event:['_trackEvent', 'visor','geotiff', 'label geotiff', 1]});
-										console.info(_gaq);
-										_gaq.push([ '_trackEvent', _scope,
+									_gaq.push([ '_trackEvent', _scope,
 											tipus_user + 'geotiff',
 											'label geotiff', 1 ]);
-										console.info(3);
-									}catch(err){
-										
-										console.info(err);
-										_gaq.push([ '_trackEvent', _scope,
-											tipus_user + 'geotiff',
-											'label geotiff', 1 ]);
-										
-									}
+
 									capturaPantalla(CAPTURA_MAPA_GEOTIFF);
 									self.hide();
-									aturaClick(event);
+
 								});
 				this._div_H_Export.appendChild(btgeotiff[0]);
 
 				var btgeopkg = jQuery(
 						"<div data-toggle=\"tooltip\" class=\"leaflet-bar btn btn-default btn-sm bt_geopkg\" title=\"Descarrega vectors en format GeoPackage\" data-lang-title=\"Descarrega vectors en format GeoPackage\"><span class='fa fa-database grisfort'></span></div>")
-						.on(
-								'click',
-								function() {
+						.on('click',
+								function(event) {
+									
 									aturaClick(event);
 									_gaq.push([ '_trackEvent', _scope,
 											tipus_user + 'geopkg',
 											'label geopkg', 1 ]);
+									
+									
 									capturaPantalla(CAPTURA_MAPA_GEOPACKAGE);
 									self.hide()
 								});
@@ -161,6 +152,7 @@ L.Control.MapExport = L.Control
 				$('.div_barraexport').css('top', (offset.top - 10) + 'px');
 				$('.div_barraexport').css('left', (offset.left - leftO) + 'px');
 				$('.div_barraexport').show();
+				jQuery('.leaflet-control-layers').hide();
 			},
 
 			_toggle : function(e) {
