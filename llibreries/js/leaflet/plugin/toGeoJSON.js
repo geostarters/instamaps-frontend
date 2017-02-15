@@ -31,11 +31,10 @@ $(function () {
                         "type": "Feature",
                         "geometry": {
                             "type": geometryType,
-                            "coordinates": [value.longitud, value.latitud]
+                            "coordinates": [ parseFloat(value.longitud),  parseFloat(value.latitud)]
                         },
                         "properties": value
                     });
-                	//console.debug(geoJsonData);
                 });
                 L.toGeoJSON.geoJsonData = geoJsonData;
             });

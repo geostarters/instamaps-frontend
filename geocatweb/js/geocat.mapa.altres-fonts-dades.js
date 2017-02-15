@@ -422,7 +422,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							*/
 							getServeiJSONP(urlFile);
 						}
-						else if(urlFile.indexOf("socrata")!= -1){
+						else if(urlFile.indexOf("socrata")!= -1 && urlFile.indexOf("method=export&format=GeoJSON")!= -1){
 							jQuery("#div_url_file").html(
 									'<br>'+
 									'<div class="input-group input-group-sm">'+
@@ -496,6 +496,11 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada Y o LAT ")+'</span>'+
 															'<input type="text" id="input-coord-y" class="form-control">'+
 														'</div>'+
+														'<br>'+	
+														'<div class="input-group input-group-sm">'+
+														'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenades en un sol camp")+'</span>'+
+														'<input type="text" id="input-coord-xy" class="form-control">'+
+													'</div>'+	
 										'	         </ul>'+
 										'	      </div>'+
 										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
@@ -754,6 +759,7 @@ function activarEventAfegirCapa(type){
 		var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
 		var coordX = jQuery("#input-coord-x").val();
 		var coordY = jQuery("#input-coord-y").val();
+		var coordXY = jQuery("#input-coord-xy").val();
 		//console.debug(opcio);
 		
 		if(type!=undefined && type.indexOf("-1")!= -1 || epsg!=undefined && epsg.indexOf("-1")!= -1 && opcio!=undefined && opcio!="codis" && opcio!="adreca"){
@@ -761,10 +767,11 @@ function activarEventAfegirCapa(type){
 			if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 			
 		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
-					&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY) ) ){
+					&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY)  || !isValidValue(coordXY)) ){
 			
 			if(!isValidValue(coordX)) jQuery("#input-coord-x").addClass("class_error");
 			if(!isValidValue(coordY)) jQuery("#input-coord-y").addClass("class_error");
+			if(!isValidValue(coordXY)) jQuery("#input-coord-xy").addClass("class_error");
 		
 		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
 					&&  opcio == "codis" && (!isValidValue(jQuery("#input-camp-codi-urlfile").val())) ){
@@ -777,7 +784,8 @@ function activarEventAfegirCapa(type){
 				createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 						   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
 						   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
-						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
+						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val(),
+						   jQuery("#input-coord-xy").val());
 			}else{
 				$('#dialog_dades_ex').modal('hide');
 				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));

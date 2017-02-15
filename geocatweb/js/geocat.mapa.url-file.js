@@ -1,7 +1,7 @@
 /**
  * 
  */
-function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi){
+function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi, colXY){
 	//Estil defecte
 	var estil_do = retornaEstilaDO(t_url_file);
 	var estil_lin_pol = estil_do;
@@ -59,15 +59,17 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		"&uploadFile="+paramUrl.uploadFile+
 		"&colX="+colX+
 		"&colY="+colY+
+		"&colXY="+colXY+
 		"&uid="+Cookies.get('uid');		
 		
-		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+		if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
+				urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
 				&& (urlFile.indexOf("dropbox")==-1)) 	{
 			param_url = urlFile;
 		}
 
 		if (tipusFile==".json"){
-			 L.toGeoJSON.convert(urlFile,"point").then(function(){
+			 L.toGeoJSON.convert(urlFile,"Point").then(function(){
 				 var dataSocrata={
 							serverName: nomCapa,
 							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
@@ -329,6 +331,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					'", "geometryType":"'+geometryType+
 					'","colX":"'+colX+
 					'","colY":"'+colY+
+					'","colXY:"'+colXY+
 					'", "dinamic":"'+dinamic+
 					'", "tipusAcc":"'+tipusAcc+
 					'", "tipusCodi":"'+tipusCodi+
@@ -379,6 +382,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							capaURLfile.options.geometryType = geometryType;
 							capaURLfile.options.colX = colX;
 							capaURLfile.options.colY = colY;
+							capaURLfile.options.colXY = colXY;
 							capaURLfile.options.dinamic = dinamic;
 							capaURLfile.options.propName = propName;
 							capaURLfile.options.tipusAcc = tipusAcc;
@@ -414,8 +418,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	}else{
 		//console.debug("getUrlFile PROVES NO DINAMICA");
 		var codiUnic = getCodiUnic();
-		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) {
+		if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
+				urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1)) 	{
 			var response = $.ajax({ type: "GET",   
 	            url: urlFile,   
 	            async: false
@@ -586,6 +591,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					uid: Cookies.get('uid'),
 					colX: colX,
 					colY: colY,
+					colXY: colXY,
 					tipusAcc: tipusAcc,
 					tipusFont: tipusFont,
 					tipusCodi: tipusCodi,
@@ -809,6 +815,7 @@ function loadURLfileLayer(layer){
 	var epsgIN = options.epsgIN;
 	var colX = options.colX;
 	var colY = options.colY;
+	var colXY = options.colXY;
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
 	
@@ -820,6 +827,7 @@ function loadURLfileLayer(layer){
 	var param_url = paramUrl.urlFileDin +  "tipusFile=" + tipusFile+
 		"&colX="+colX+
 		"&colY="+colY+
+		"&colXY="+colXY+
 		"&epsgIN="+epsgIN+
 		"&dinamic="+dinamic+
 		"&urlFile="+encodeURIComponent(urlFile)+
@@ -1401,9 +1409,10 @@ function loadUrlFileHeatmapLayer(layer){
 	var epsgIN = options.epsgIN;
 	var colX = options.colX;
 	var colY = options.colY;
+	var colXY = options.colXY;
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
-	var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);	
+	var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&colXY="+colXY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);	
 
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 		nom : layer.serverName,
