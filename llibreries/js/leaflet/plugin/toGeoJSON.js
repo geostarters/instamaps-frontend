@@ -25,8 +25,12 @@ $(function () {
                 	return !!item.latitud && !! item.longitud;
                 });
 
+                var keys = [];
                 //For each object create a new GeoJSON object
                 $.each(filteredData, function (index, value, array) {
+                	Object.keys(value).forEach(function(k) {
+                		if (!keys.get(k)) keys.push(k);
+                	});
                 	geoJsonData.push({
                         "type": "Feature",
                         "geometry": {
@@ -37,6 +41,7 @@ $(function () {
                     });
                 });
                 L.toGeoJSON.geoJsonData = geoJsonData;
+                console.debug(keys);
             });
            
             return L.toGeoJSON.geoJsonData;
