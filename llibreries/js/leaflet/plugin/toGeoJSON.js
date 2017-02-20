@@ -26,11 +26,19 @@ $(function () {
                 });
 
                 var keys = [];
-                //For each object create a new GeoJSON object
                 $.each(filteredData, function (index, value, array) {
                 	Object.keys(value).forEach(function(k) {
-                		if (!keys.get(k)) keys.push(k);
+                		if (keys.indexOf(k) == -1) keys.push(k);
                 	});
+                });
+                //For each object create a new GeoJSON object
+                $.each(filteredData, function (index, value, array) {
+                	 $.each(keys, function (index2, value2, array2) {
+                		 if (!value.hasOwnProperty(value2)){
+                			 value[value2]="";
+                		 }
+                	 });
+                	console.debug(value);
                 	geoJsonData.push({
                         "type": "Feature",
                         "geometry": {
