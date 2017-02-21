@@ -19,6 +19,7 @@ L.Control.Minimapa = L.Control.MiniMap.extend({
 	showBtn: function(){
 		var self = this;
 		$(self._div).show();
+		$.publish('analyticsEvent',{event:['visor','button#miniMapa','label miniMapa', 5]});
 	}
 });
 

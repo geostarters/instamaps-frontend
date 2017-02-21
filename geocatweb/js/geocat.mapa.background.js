@@ -2,13 +2,16 @@
  * Funcionalitat de canvis de fons dels mapes
  * */
 function addOpcionsFonsMapes() {
-	
+
 	addHtmlInterficieFonsMapes();
-	
+
 	jQuery('.div_gr3_fons div').on('click', function() {
 		var fons = jQuery(this).attr('id');
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
-		//_kmq.push.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
+		
+
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'fons', fons, 1]});
+
+
 		if (fons == 'topoMap') {
 			map.topoMap();
 			jQuery("#colorMap").popover('hide');
@@ -24,30 +27,30 @@ function addOpcionsFonsMapes() {
 		}else if (fons == 'hibridMap') {
 			map.hibridMap();
 			jQuery("#colorMap").popover('hide');
-		
+
 		} else if (fons == 'colorMap') {
 			gestionaPopOver(this);
-		} 
-		
+		}
+
 		if(fons == 'colorMap') {
-			
-			
-					
+
+
+
 			jQuery("#"+map.getActiveMap()).css('opacity','1');
-			jQuery("#"+map.getActiveMap()).css('border','1px solid #FFC500');		
-			
-				jQuery("#menu_init_fons div").each(function( index ) {					
+			jQuery("#"+map.getActiveMap()).css('border','1px solid #FFC500');
+
+				jQuery("#menu_init_fons div").each(function( index ) {
 					jQuery(this).css('opacity','0.9');
 					jQuery(this).css('border','0px solid #FFC500');
 				});
 		}else{
-		
+
 			jQuery(".div_gr3_fons div").each(function( index ) {
 				jQuery(this).css('opacity','0.9');
 				jQuery(this).css('border','0px solid #FFC500');
 			});
 		}
-	
+
 		jQuery(this).css('opacity','1');
 		jQuery(this).css('border','1px solid #FFC500');
 
@@ -56,7 +59,7 @@ function addOpcionsFonsMapes() {
 
 
 function creaPopOverMesFons() {
-	
+
 }
 
 function creaPopOverMesFonsColor() {
@@ -64,7 +67,7 @@ function creaPopOverMesFonsColor() {
 	.popover(
 	{
 		content : '<div id="div_menufons" class="div_gr3_fons">'
-			
+
 			+ '<div id="naturalMap" lang="ca" data-toggle="tooltip" title="Natural" data-lang-title="Natural" class="div_fons_17"></div>'
 			+ '<div id="topoGrisMap" lang="ca" data-toggle="tooltip" title="Topogràfic gris" data-lang-title="Topogràfic gris" class="div_fons_2"></div>'
 			+ '<div id="sepia" lang="ca" data-toggle="tooltip" title="Sèpia" data-lang-title="Sèpia" class="div_fons_7"></div>'
@@ -76,57 +79,57 @@ function creaPopOverMesFonsColor() {
 			+ '<div id="nit" lang="ca" data-toggle="tooltip" title="Nit" data-lang-title="Nit" class="div_fons_6"></div>'
 			+ '<div id="historicMap" lang="ca" data-toggle="tooltip" title="Mapa històric Catalunya 1936" data-lang-title="Mapa històric Catalunya 1936" class="div_fons_10"></div>'
 			+ '<div id="alcadaMap" lang="ca" data-toggle="tooltip" title="Model d\'elevacions" data-lang-title="Model d\'elevacions" class="div_fons_15"></div>'
-			+ '<div id="divadminMap" lang="ca" data-toggle="tooltip" title="Divisions administratives" data-lang-title="Divisions administratives" class="div_fons_16"></div>'	
+			+ '<div id="divadminMap" lang="ca" data-toggle="tooltip" title="Divisions administratives" data-lang-title="Divisions administratives" class="div_fons_16"></div>'
 			+ '<div id="hibridTerrainMap" lang="ca" data-toggle="tooltip" title="Terreny hibrid" data-lang-title="Terreny hibrid" class="div_fons_18"></div>'
 			+ '<div id="colorBlankMapwhite" lang="ca" data-toggle="tooltip" title="Fons blanc" data-lang-title="Fons neutre blanc" class="div_fons_blank"></div>'
 			+ '<div id="colorBlankMaplightgray" lang="ca" data-toggle="tooltip" title="Fons blanc" data-lang-title="Fons neutre gris" class="div_fons_gris"></div>'
 			+ '<div id="colorBlankMapgray" lang="ca" data-toggle="tooltip" title="Fons blanc" data-lang-title="Fons neutre gris fort" class="div_fons_gris_fort"></div>'
-			
+
 				+ '</div>',
 		container : 'body',
 		html : true,
 		trigger : 'manual',
 		selector: '[rel="popover"]'
 	});
-	
+
 	jQuery("#colorMap").on('show.bs.popover',function(){
 		jQuery(this).attr('data-original-title','');
 	});
-	
+
 	// please note, that IE11 now returns undefined again for window.chrome
 	var isChromium = window.chrome,
 	    vendorName = window.navigator.vendor;
-	
+
 	jQuery("#colorMap").on('click',function(e){
 		jQuery('#div_menufons [data-toggle="tooltip"]').tooltip({
 			placement : 'top',
 			container : 'body'
 		});
-		
+
 		$('.popover:not(.in)').hide().detach();
-		
+
 		if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc.") {
 		   // is Google chrome
 		  jQuery(".popover").css('height','195px');
 		  jQuery(".popover").css('width','200px');
-		} else { 
+		} else {
 			 jQuery(".popover").css('height','190px');
 			 jQuery(".popover").css('width','190px');
 		}
-				
+
 		jQuery(".popover").css('background-color','rgba(60, 62, 54, 0.9)');
 		jQuery(".popover").css('z-index','1000');
 	});
-	
+
 	jQuery(document).on('click', "#div_menufons div", function(e) {
 		jQuery('#div_menufons [data-toggle="tooltip"]').tooltip('hide');
 		var fons = jQuery(this).attr('id');
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'fons', fons, 1]);
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'fons', fons, 1]});
 		//_kmq.push.push(['record', 'fons', {'from':'mapa', 'tipus user':tipus_user, 'tipus fons':fons}]);
-		
-		
-		
-		
+
+
+
+
 		if (fons == 'topoGrisMap') {
 			map.topoGrisMap();
 			jQuery("#colorMap").popover('hide');
@@ -151,53 +154,53 @@ function creaPopOverMesFonsColor() {
 		}else if (fons == 'divadminMap') {
 			map.divadminMap();
 			jQuery("#colorMap").popover('hide');
-			
+
 		}else if (fons == 'hibridTerrainMap') {
 			map.hibridTerrainMap();
-			jQuery("#colorMap").popover('hide');				
-			
+			jQuery("#colorMap").popover('hide');
+
 		}else if (fons.indexOf('colorBlankMap')!=-1) {
 						map.colorBlankMap(fons);
 			jQuery("#colorMap").popover('hide');
 
-			
+
 		}else{
-			map.colorMap(fons);			
+			map.colorMap(fons);
 			jQuery("#colorMap").popover('hide');
 		}
-		
-		
+
+
 		jQuery("#div_menufons  div").each(function( index ) {
 			jQuery(this).css('opacity','0.7');
 			jQuery(this).css('border','0px solid #FFC500');
 		});
-		jQuery(this).css('opacity','1');		
+		jQuery(this).css('opacity','1');
 		jQuery("#colorMap").css('opacity','1');
 		jQuery(this).css('border','1px solid #FFC500');
-		
+
 	});
 }
 
 function addHtmlInterficieFonsMapes(){
-	
+
 	jQuery("#funcio_fonsMapes").append(
 	'	<h5 lang="ca">Escollir el mapa de fons</h5>'+
 	'		<div class="add_costat_r2">'+
 	'	</div>'+
 	'	<div id="menu_init_fons" class="div_gr3_fons">'+
 	'		<div style="opacity:0.7" id="topoMap" lang="ca"  class="div_fons_1" data-toggle="tooltip" data-lang-title="Topogràfic" title="Topogràfic"></div>'+
-	
-	
+
+
 	'		<div style="opacity:0.7" id="topoMapGeo" lang="ca" class="div_fons_12" data-toggle="tooltip" data-lang-title="Simple" title="Simple"></div>'+
-	
+
 	'		<div style="opacity:0.7" id="hibridMap" lang="ca" class="div_fons_13" data-toggle="tooltip" data-lang-title="Mapa híbrid" title="Mapa híbrid"></div>'+
-	
+
 	'		<div style="opacity:0.7" id="ortoMap" lang="ca" class="div_fons_3" data-toggle="tooltip" data-lang-title="Imatge" title="Imatge"></div>'+
-	
+
 	'		<div style="opacity:0.7" id="colorMap" lang="ca" class="div_fons_5 pop" data-toggle="tooltip" data-lang-title="Més mapes de fons" title="Més mapes de fons"></div>'+
-	'	</div>'		
+	'	</div>'
 	);
-	
+
 	$('.div_gr3_fons [data-toggle="tooltip"]').tooltip({placement : 'bottom',container : 'body'});
 	/*
 	$('#div_mesfons').tooltip({placement : 'right',container : 'body',title : window.lang.translate('Més mapes de fons')});
@@ -205,15 +208,15 @@ function addHtmlInterficieFonsMapes(){
 	$('.div_gr3_fons #topoMapGeo').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Simple')});
 	$('.div_gr3_fons #ortoMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Imatge')});
 	$('.div_gr3_fons #hibridMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Mapa híbrid')});
-	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Més mapes de fons')});	
+	$('.div_gr3_fons #colorMap').tooltip({placement : 'bottom',container : 'body',title : window.lang.translate('Més mapes de fons')});
 	*/
 
-	
+
 	jQuery(".div_gr3_fons div").each(function( index ) {
 		jQuery(this).css('opacity','0.7');
 		jQuery(this).css('border','0px solid #FFC500');
 	});
-	
+
 	var mAct=map.getActiveMap();
 	jQuery("#"+mAct).css('opacity','1');
 	jQuery("#"+mAct).css('border','1px solid #FFC500');
@@ -225,4 +228,3 @@ function addHtmlInterficieFonsMapes(){
 
 
 }
-

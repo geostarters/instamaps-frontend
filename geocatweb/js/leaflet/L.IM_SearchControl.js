@@ -96,7 +96,10 @@ L.Control.SearchControl = L.Control.extend({
 					self.showLocation(loc,coords,nom); 
 				}
 			}
-			else self.showAlert(self.control.options.textErr);
+			else{
+				
+			self.showAlert(window.lang.translate("No trobat"));
+			}
 		}
 		return json;
 	},
@@ -129,6 +132,7 @@ L.Control.SearchControl = L.Control.extend({
 	_toggle: function(e){
 		var collapsed = L.DomUtil.hasClass(this._div, 'grisfort');
 		this[collapsed ? 'show' : 'hide']();
+		$.publish('analyticsEvent',{event:['visor','button#cercaTopo','label cercaTopo', 6]});
 	},
 });
 

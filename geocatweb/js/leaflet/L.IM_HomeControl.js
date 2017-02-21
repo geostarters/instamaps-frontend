@@ -48,6 +48,7 @@ L.Control.Home = L.Control.extend({
 		var _mapConfig = this.options.mapConfig,
 			_map = this._map;
 		
+		
 		if(_mapConfig){
 			if (_mapConfig.options.bbox){
 				var bbox = _mapConfig.options.bbox.split(",");
@@ -61,6 +62,10 @@ L.Control.Home = L.Control.extend({
 				_map.setView(L.latLng(opcenter[0], opcenter[1]), _mapConfig.options.zoom);
 			}
 		}
+		
+		$.publish('analyticsEvent',{event:[ 'visor', 'button#home','label home']});
+		
+		
 	},
 	
 	hideBtn: function(){

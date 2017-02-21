@@ -28,7 +28,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-rpuc')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
-        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Rpuc']});
+        		$.publish('analyticsEvent',{event:[ 'visor', 'widget_Rpuc']});
         	})
         	.appendTo(container);
         },

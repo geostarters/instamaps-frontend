@@ -61,6 +61,7 @@ L.Control.Share = L.Control.extend({
 		$('#socialShare_visor').css('top', (offset.top - 15) +'px');
 		$('#socialShare_visor').css('left', (offset.left + 35) +'px');
 		$('#socialShare_visor').show();
+		$.publish('analyticsEvent',{event:['visor','button#share','label share', 9]});
 	}, 
 	
 	_toggle: function(e){

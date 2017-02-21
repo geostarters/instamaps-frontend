@@ -2,7 +2,7 @@
  * 
  */
 var _gaq = _gaq || [];
-
+//mapa
 (function() {
 
 	$.subscribe('loadConfig', function(e, data) {

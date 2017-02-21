@@ -98,7 +98,7 @@ L.Control.Legend = L.Control.extend({
 			_$this.fadeIn({duration: 'fast'});
 		}
 		self._redrawTabs();
-		
+		$.publish('analyticsEvent',{event:['visor','button#llegenda','label llegenda', 4]});
 	},
 	
 	_updateLegend: function(config){
@@ -368,6 +368,7 @@ L.Control.Legend = L.Control.extend({
 		}else{
 			self.fromLayer = false;
 		}
+		$.publish('analyticsEvent',{event:['visor','button#activaLlegendaTab','label activaLlegendaTab', 4]});
 	},
 	
 	_getNameLayer:function(idLayer){		

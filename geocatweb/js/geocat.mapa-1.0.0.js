@@ -225,14 +225,10 @@ function loadApp(){
 
 
 					});
-					//}
-					//else {
-					//	alert("Aquest mapa està bloquejat per un altre usuari");
-					//	window.location.href = paramUrl.galeriaPage;
-					//}
+					
 				}catch(err){
-					console.debug(err);
-
+	
+					$.publish('analyticsEvent',{event:['erro', 'getMapByBusinessId',err]});
 					gestioCookie('loadMapConfig');
 				}
 			}
@@ -314,33 +310,34 @@ function addClicksInici() {
 	jQuery('.bt_llista').on('click', function(event) {
 		aturaClick(event);
 		activaPanelCapes();
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'llistaCapes', 'label llistaCapes', 1]});
 	});
 	
 	jQuery('.bt_geotiff').on('click', function(event) {
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'geotiff', 'label geotiff', 1]);
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'geotiff', 'label geotiff', 1]});
 		
 	});	
 
 	jQuery('#dv_bt_mapExport').on('click', function(event) {
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'exportmap', 'label exportmap', 1]);
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'exportmap', 'label exportmap', 1]});
 		
 	});	
 	
 	jQuery('.bt_captura').on('click', function(event) {
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'captura pantalla', 'label captura', 1]);
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'captura pantalla', 'label captura', 1]});
 	});
 
 	jQuery('.bt_print').on('click', function(event) {
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'print', 'label print', 1]);
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'print', 'label print', 1]});
 	});
 
 	jQuery('.bt_geopdf').on('click', function(event) {		
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'geopdf', 'label geopdf', 1]);
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'geopdf', 'label geopdf', 1]});
 
 	});
 
 	jQuery('.bt_geopkg').on('click', function(event) {		
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'geotiff', 'label geopkg', 1]);	
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'geotiff', 'label geopkg', 1]});	
 	});
 
 	
@@ -804,6 +801,7 @@ function createNewMap(){
 				else window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 
 			}catch(err){
+				$.publish('analyticsEvent',{event:['erro', 'createMap',err]});
 				gestioCookie('createMap');
 			}
 		}
@@ -907,7 +905,7 @@ function addLeaveModal(){
 		});
 
 		jQuery(window).on('unload',function(event){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'sortir', 'label sortir', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'sortir', 'label sortir', 1]});
 			deleteRandomUser({uid: Cookies.get('uid')});
 			Cookies.remove('uid');
 		});

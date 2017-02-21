@@ -154,9 +154,7 @@ function getServeiJSONP(purlJson) {
 
 function creaCapaFromJSON(directe) {
 
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades externes', urlJSON, 1]);
-//	_kmq.push(['record', 'dades externes', {'from':'mapa', 'tipus user':tipus_user, 'tipus':'json', 'url':urlJSON}]);
-	
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes', urlJSON, 1]});
 	
 	var cmd_json_x = "longitude";
 			var cmd_json_y = "latitude";

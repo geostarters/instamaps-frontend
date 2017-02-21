@@ -113,7 +113,7 @@ function showModalTematicCategories(data){
 		var source1 = jQuery("#tematic-layers-fields").html();
 		var template1 = Handlebars.compile(source1);
 		
-		console.debug(fields);
+		
 		var html1 = template1({fields:fields});
 		jQuery('#dataField').html(html1);
 		
@@ -407,8 +407,8 @@ function div2RangStyle(tematic, tdElem){
 
 function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 //	console.debug("createTematicLayerCategories"); //al guardar
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'categories', 1]);
-	
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'categories', 1]});
+	console.info("ok");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tipusRang = $("input:radio[name=rd_tipus_agrupacio]:checked").val();
 //	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
