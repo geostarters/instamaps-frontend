@@ -91,6 +91,7 @@ L.Control.LayersBtn = L.Control.extend({
 		if(!self.control.options.collapsed){
 			var div = self.control.getContainer();
 			$(div).show();
+			
 		}
 	},
 	
@@ -118,12 +119,14 @@ L.Control.LayersBtn = L.Control.extend({
 		}else{
 			$(div).show();
 		}
+		$.publish('analyticsEvent',{event:['visor','button#llistaCapes','label llistaCapes', 3]});
 	},
 	
 	_toggle: function(e){
 		var self = this;
 		var collapsed = L.DomUtil.hasClass(self._div, 'grisfort');
 		this[collapsed ? 'show' : 'hide']();
+		
 	},
 	
 	_updateMapConfig: function(config){

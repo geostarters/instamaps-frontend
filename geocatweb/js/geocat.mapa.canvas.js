@@ -247,25 +247,17 @@ function calculaWF() {
     var FACT = parseFloat(ff_MM.lat) - parseFloat(pNW.lat);
     var pNW_3557 = L.CRS.EPSG3857.project(pNW);
     var FACT = parseFloat(ff_3557.y) - parseFloat(pNW_3557.y);
-
     var _FACT = parseFloat(ff_MM.lat) - parseFloat(pNW.lat);
-
     var pNE_Pixels = new L.Point(w, h - topMap);
     var pNE = map.layerPointToLatLng(pNE_Pixels);
     var pNE_3557 = L.CRS.EPSG3857.project(pNE);
-
     var mapW = (pNE_3557.x - pNW_3557.x) / w;
     var mapH = (pNW_3557.y - pNE_3557.y) / h;
-
     var nouY = parseFloat(parseFloat(NW.y) - (parseFloat(FACT)));
     var _nouY = parseFloat(parseFloat(puntIn.lat) - (parseFloat(_FACT)));
-
     var _nouYMIN = parseFloat(parseFloat(puntIn.lat) + (parseFloat(_FACT)));
-
     var mapW4326 = (pNE.lng - pNW.lng) / w;
-
     var mapH4326 = (pNW.lat - pNE.lat) / h;
-
     var WF = {};
     WF.imgW = w;
     WF.imgH = h;

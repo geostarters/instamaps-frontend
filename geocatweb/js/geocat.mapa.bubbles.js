@@ -554,8 +554,8 @@ function createBubbleStyle(index, geometryType, paleta, mida, midaMax, nodata){
 }
 
 function createTematicLayerBubbles(event){
-//	console.debug("createTematicLayerBubbles"); //al guardar
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'bubbles', 1]);
+
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'bubbles', 1]});
 	
 	var tematic = jQuery("#dialog_tematic_bubble").data("tematic");
 	var visualitzacio = jQuery("#dialog_tematic_bubble").data("visualitzacio");

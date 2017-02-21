@@ -168,7 +168,7 @@
         	if (isRandomUser(this.uid)){
         		this.button.on('click',function(){
         			$('.modal').modal('hide');
-        			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
+        			$.publish('analyticsEvent',{event:['mapa', tipus_user+'publicar', 'pre-publicar', 1]});
         			
         			$('#dialgo_publicar_random').modal('show');
         			
@@ -187,7 +187,7 @@
         	}else{
         		//publicar el mapa solo para registrados
         		this.button.on('click',function(){
-        			_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', 'pre-publicar', 1]);
+        			$.publish('analyticsEvent',{event:['mapa', tipus_user+'publicar', 'pre-publicar', 1]});
         			$.publish('reloadMapConfig','publicar/');
         		});
         	}
@@ -560,7 +560,7 @@
         		});
         		
         		$('#socialSharePublicar .pop-social').on('click', function(event){
-        			_gaq.push(['_trackEvent', $(this).attr('data-from'), tipus_user+'compartir-publicar', $(this).attr('data-type'), 1]);
+        			$.publish('analyticsEvent',{event:[$(this).attr('data-from'), tipus_user+'compartir-publicar', $(this).attr('data-type'), 1]});
         			window.open($(this).attr('href'),'t','toolbar=0,resizable=1,status=0,width=640,height=528');
                     return false;
         		});				
@@ -747,7 +747,7 @@
         	};
         	
         	//Enregistrem tipus de fons i visibilitat
-        	_gaq.push(['_trackEvent', 'mapa', tipus_user+'publicar', visibilitat+"#"+_map.options.typeMap, 1]);
+        	$.publish('analyticsEvent',{event:['mapa', tipus_user+'publicar', visibilitat+"#"+_map.options.typeMap, 1]});
 
         	//crear los archivos en disco
         	var layersId = getBusinessIdOrigenLayers();

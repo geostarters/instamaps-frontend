@@ -33,7 +33,9 @@ L.Control.MapExport = L.Control
 
 				if (_scope == 'mapa') {
 					tipus_user = defineTipusUser();
-				}
+				}else{
+					tipus_user ="button#";
+				}	
 
 				this._div_H_Export = L.DomUtil.create('div',
 						'div_barraexport div_gr40');
@@ -44,9 +46,9 @@ L.Control.MapExport = L.Control
 								'click',
 								function(event) {
 									aturaClick(event);
-									_gaq.push([ '_trackEvent', _scope,
+									$.publish('analyticsEvent',{event:[ _scope,
 											tipus_user + 'captura pantalla',
-											'label captura', 1 ]);
+											'label captura', 1]});
 									capturaPantalla(CAPTURA_MAPA);
 									self.hide()
 								});
@@ -60,9 +62,9 @@ L.Control.MapExport = L.Control
 								function(event) {
 
 									aturaClick(event);
-									_gaq.push([ '_trackEvent', _scope,
+									$.publish('analyticsEvent',{event:[ _scope,
 											tipus_user + 'print',
-											'label print', 1 ]);
+											'label print', 1]});
 									capturaPantalla(CAPTURA_INFORME);
 									self.hide();
 								});
@@ -75,9 +77,9 @@ L.Control.MapExport = L.Control
 								function(event) {
 
 									aturaClick(event);
-									_gaq.push([ '_trackEvent', _scope,
+									$.publish('analyticsEvent',{event:[ _scope,
 											tipus_user + 'geopdf',
-											'label geopdf', 1 ]);
+											'label geopdf', 1]});
 									capturaPantalla(CAPTURA_GEOPDF);
 									self.hide();
 								});
@@ -90,9 +92,9 @@ L.Control.MapExport = L.Control
 								function(event) {
 									aturaClick(event);
 
-									_gaq.push([ '_trackEvent', _scope,
+									$.publish('analyticsEvent',{event:[ _scope,
 											tipus_user + 'geotiff',
-											'label geotiff', 1 ]);
+											'label geotiff', 1]});
 
 									capturaPantalla(CAPTURA_MAPA_GEOTIFF);
 									self.hide();
@@ -106,9 +108,9 @@ L.Control.MapExport = L.Control
 								function(event) {
 									
 									aturaClick(event);
-									_gaq.push([ '_trackEvent', _scope,
+									$.publish('analyticsEvent',{event:[ _scope,
 											tipus_user + 'geopkg',
-											'label geopkg', 1 ]);
+											'label geopkg', 1]});
 									
 									
 									capturaPantalla(CAPTURA_MAPA_GEOPACKAGE);

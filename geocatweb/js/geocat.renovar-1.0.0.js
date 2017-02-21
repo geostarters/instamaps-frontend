@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 $("#perfil_button_pass").click(function(){
 
-	_gaq.push(['_trackEvent',trackEventFrom,'remember password', 'retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom,'remember password', 'retention']});
 	
 	checkValidityPassword();
 	

@@ -18,7 +18,7 @@ var _gaq = _gaq || [];
 		}else{ 
 			_gaq.push(['_setAccount', 'UA-46332195-3']);
 		}
-	  	_gaq.push(['_trackPageview']);
+	  	$.publish('trackPageview', null);
 
 		//TODO poner el subscriber
 		$.publish('loadGaEvents');
@@ -29,7 +29,7 @@ var _gaq = _gaq || [];
 	});
 	
 	$.subscribe('trackPageview', function(e, data){
-		_gaq.push(['_trackPageview']);
+		$.publish('trackPageview', null);
 	});
 })();
 
