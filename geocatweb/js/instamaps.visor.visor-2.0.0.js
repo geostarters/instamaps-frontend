@@ -950,7 +950,6 @@
 
 			return self;
 		},
-<<<<<<< HEAD
 		
 		_loadCacheMap: function(_businessid,_uid,_mapacolaboratiu){
 			var self=this;
@@ -1014,49 +1013,20 @@
 			
 		},
 		
-=======
-
->>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
 		loadMapConfig: function(){
 			var self = this,
 			_map = self.map,
 			_uid = self.uid,
 			_businessid = self.businessid,
-<<<<<<< HEAD
 			_mapacolaboratiu = self.mapacolaboratiu;
 						
 			self._loadCacheMap(_businessid,_uid,_mapacolaboratiu);
 			
-=======
-			_mapacolaboratiu = self.mapacolaboratiu,
-			data = {
-				businessId: _businessid,
-				id: _uid,
-				mapacolaboratiu: _mapacolaboratiu,
-				uid: _uid
-			};
 
-			getCacheMapByBusinessId(data).then(function(results){
-				if (results.status == "ERROR"){
-					self.loadErrorPage();
-				}else if (results.status == "PRIVAT"){
-					//ocultar las pelotas
-					self._hideLoading();
-					//mostar modal con contraseña
-					self._loadPasswordModal();
-				}else{
-
-					self._beforeLoadConfig(results);
-
-				}
-			});
-
->>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
 			return self;
 		},
 		
-		
-		
+	
 
 		loadURLConfig: function() {
 
@@ -1409,12 +1379,7 @@
 			$(window).resize(_.debounce(function(){
 				self.resizeMap();
 			},150));
-<<<<<<< HEAD
-			
-=======
 
-
->>>>>>> branch 'master' of http://montmajor.icc.local/v.pascual/geocatonline.git
 			if(self.businessid){
 				self.loadMapConfig();
 				_map.on('loadconfig', self._drawVisor, self);
