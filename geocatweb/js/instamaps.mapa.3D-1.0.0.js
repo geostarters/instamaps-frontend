@@ -2470,7 +2470,7 @@ function addHtmlModalNoWebGL() {
 		'							<div lang="ca">Us recomanem que per al treball en 3 dimensions utilitzeu preferiblement <b>Chrome</b>, ja que demostra un més alt rendiment.</div>' +
 		'                </div><hr>' +
 		'					<div>' +
-		'						<div style="float:left;padding-left: 14px;"  lang="ca"><img width="70" src="img/nav3d.png"></div>' +
+		'						<div style="float:left;padding-left: 14px;"  lang="ca"><img width="70" src="/geocatweb/img/nav3d.png"></div>' +
 		'						<div style=" width: 80%;float:right;padding:5px" class="alert-info">' +
 		'						<div lang="ca"><span>1-</span><span lang="ca">Arrossegueu per rotar i girar la vista. Consells: També podeu orbitar lliurement prement la tecla CTRL i arrossegant el mapa .Fent doble click podreu inicialitzar la vista</span></div><br>' +
 		'							<div lang="ca"><span>2-</span><span lang="ca">Feu clic i arrossegueu per rotar la càmera</span></div>' +

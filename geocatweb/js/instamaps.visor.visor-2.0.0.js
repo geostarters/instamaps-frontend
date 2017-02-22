@@ -882,7 +882,9 @@
 			else if (url('?mapacolaboratiu') &&  url('?mapacolaboratiu')=="alta" && _uid==Cookies.get('uid')) {
 				self.loadMapaColaboratiuPage();
 			}
-			var _mapConfig = $.parseJSON(results.results);
+			var _mapConfig;
+			if (undefined != results.results) _mapConfig= $.parseJSON(results.results);
+			else _mapConfig=results;
 			if(_mapConfig.options){
 				_mapConfig.options = $.parseJSON(_mapConfig.options);
 				if(_mapConfig.options.llegenda === false){
@@ -942,36 +944,82 @@
 			return self;
 		},
 		
+		_loadCacheMap: function(_businessid,_uid,_mapacolaboratiu){
+			var self=this;
+			if (_uid==null){
+				if (undefined != url('?id')) _uid=url('?id');
+				else {
+					var pathname = ""+window.location.pathname;
+					pathname = pathname.substring(0,pathname.lastIndexOf("/"));
+					_uid = pathname.substring(pathname.lastIndexOf("/")+1,pathname.length);
+				}
+			}
+			//console.debug(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json');
+			$.get(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json', function(results) { 
+				if(results){
+					self._beforeLoadConfig(results);
+				}
+				else {
+					var data = {
+							businessId: _businessid,
+							id: _uid,
+							mapacolaboratiu: _mapacolaboratiu,
+							uid: _uid	
+						};
+					getCacheMapByBusinessId(data).then(function(results){
+						if (results.status == "ERROR"){
+							self.loadErrorPage();
+						}else if (results.status == "PRIVAT"){
+							//ocultar las pelotas
+							self._hideLoading();
+							//mostar modal con contraseña
+							self._loadPasswordModal();
+						}else{
+			
+							self._beforeLoadConfig(results);
+			
+						}
+					});
+				}
+			}).fail(function() {
+				var data = {
+						businessId: _businessid,
+						id: _uid,
+						mapacolaboratiu: _mapacolaboratiu,
+						uid: _uid	
+					};
+				getCacheMapByBusinessId(data).then(function(results){
+					if (results.status == "ERROR"){
+						self.loadErrorPage();
+					}else if (results.status == "PRIVAT"){
+						//ocultar las pelotas
+						self._hideLoading();
+						//mostar modal con contraseña
+						self._loadPasswordModal();
+					}else{
+		
+						self._beforeLoadConfig(results);
+		
+					}
+				});
+			});
+			
+		},
+		
 		loadMapConfig: function(){
 			var self = this,
 			_map = self.map,
 			_uid = self.uid,
 			_businessid = self.businessid,
-			_mapacolaboratiu = self.mapacolaboratiu,
-			data = {
-				businessId: _businessid,
-				id: _uid,
-				mapacolaboratiu: _mapacolaboratiu,
-				uid: _uid	
-			};
-			
-			getCacheMapByBusinessId(data).then(function(results){
-				if (results.status == "ERROR"){
-					self.loadErrorPage();
-				}else if (results.status == "PRIVAT"){
-					//ocultar las pelotas
-					self._hideLoading();
-					//mostar modal con contraseña
-					self._loadPasswordModal();
-				}else{
-
-					self._beforeLoadConfig(results);
-
-				}
-			});
+			_mapacolaboratiu = self.mapacolaboratiu;
+						
+			self._loadCacheMap(_businessid,_uid,_mapacolaboratiu);
 			
 			return self;
 		},
+		
+		
+		
 
 		loadURLConfig: function() {
 
@@ -1324,7 +1372,6 @@
 			$(window).resize(_.debounce(function(){
 				self.resizeMap();
 			},150));
-			
 			
 			if(self.businessid){
 				self.loadMapConfig();

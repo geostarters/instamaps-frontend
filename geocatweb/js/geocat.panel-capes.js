@@ -330,7 +330,7 @@ function addFuncioEtiquetesCapa(){
 }
 
 function addHtmlModalDownloadLayer(from){
-	$.get("templates/modalDownloadLayer.html",function(data){
+	$.get("/geocatweb/templates/modalDownloadLayer.html",function(data){
 		//TODO ver como pasar el modal container
 		$('#mapa_modals').append(data);
 		

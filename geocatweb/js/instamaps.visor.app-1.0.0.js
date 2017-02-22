@@ -59,7 +59,14 @@ jQuery(document).ready(function() {
 	var tipus_user = defineTipusUser();  //geocat.web-1.0.0
 	
 	visorOptions.tipusUser = tipus_user;
-		
+	
+	if (visorOptions.businessid==null){
+		var loc=window.location;
+		var locStr=loc+"";
+		locStr=locStr.substring(locStr.lastIndexOf("/")+1,locStr.indexOf(".html"));
+		locStr=locStr.substring(0,locStr.indexOf("_"));
+		visorOptions.businessid=locStr;
+	}
 	visor = Visor(visorOptions).draw();
 	
 }); // Final document ready
