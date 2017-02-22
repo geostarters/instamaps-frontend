@@ -73,7 +73,7 @@ html,body {
 	width: 100%;
 	height: 100%;
 	/*background-color:#FFFFFF;*/
-	display: block;
+	display: flex;
 	overflow: hidden;
     position: absolute;
     top: 0;
@@ -2631,9 +2631,8 @@ a.leaflet-control-timecontrol:hover {
     -ms-animation: preloader_6 5s infinite linear;
     -o-animation: preloader_6 5s infinite linear;
     animation: preloader_6 5s infinite linear;
-    /*margin-left: 92px;
-    margin-right: 82px;*/
-    margin: 15px 82px 15px 92px;
+    /*margin: 15px 82px 15px 92px;*/
+    margin: auto;
 }
 
 #preloader6 span{
