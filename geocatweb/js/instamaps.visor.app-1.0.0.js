@@ -61,11 +61,9 @@ jQuery(document).ready(function() {
 	visorOptions.tipusUser = tipus_user;
 	
 	if (visorOptions.businessid==null){
-		var loc=window.location;
-		var locStr=loc+"";
-		locStr=locStr.substring(locStr.lastIndexOf("/")+1,locStr.indexOf(".html"));
-		locStr=locStr.substring(0,locStr.indexOf("_"));
-		visorOptions.businessid=locStr;
+		var filename = url('filename');
+		var busid = filename.substring(0,filename.indexOf("_"));
+		visorOptions.businessid=busid;
 	}
 	visor = Visor(visorOptions).draw();
 	

@@ -954,11 +954,11 @@
 		_loadCacheMap: function(_businessid,_uid,_mapacolaboratiu){
 			var self=this;
 			if (_uid==null){
-				if (undefined != url('?id')) _uid=url('?id');
+				if (undefined != url('?id')){ 
+					_uid=url('?id');
+				}
 				else {
-					var pathname = ""+window.location.pathname;
-					pathname = pathname.substring(0,pathname.lastIndexOf("/"));
-					_uid = pathname.substring(pathname.lastIndexOf("/")+1,pathname.length);
+					_uid = url(-2);
 				}
 			}
 			//console.debug(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json');
