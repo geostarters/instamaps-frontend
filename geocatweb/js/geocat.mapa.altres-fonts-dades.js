@@ -53,7 +53,7 @@ function cercaCapes(e){
 	    						
 	    						var value = results.results;
 	    						
-	    						_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
+	    						$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades instamaps', servertype, 1]});
 
 	    						
 	    						if (value.epsg == "4326"){
@@ -145,7 +145,7 @@ function cercaCapesBtn(){
 							
 							var value = results.results;
 							
-							_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
+							$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades instamaps', servertype, 1]});
 
 							
 							if (value.epsg == "4326"){

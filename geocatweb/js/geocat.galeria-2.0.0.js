@@ -165,7 +165,7 @@
 				if ($.trim($this.parent().data("idusr")) != ""){
 					urlMap += "&id="+$this.parent().data("idusr");
 				}
-				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
+				$.publish('analyticsEvent',{event:['galeria privada', tipus_user+'veure mapa']});
 				window.open(urlMap);
 
 			}
@@ -227,7 +227,7 @@
 			});					
 			
 			$('.new_map').on('click', function(event){
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'fer mapa'/*, 'acquisition'*/]);
+				$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'fer mapa'/*, 'acquisition'*/]});
 				window.location.href = paramUrl.mapaPage;
 			});
 			
@@ -260,7 +260,7 @@
 					if (results.status == "OK"){
 						$('#'+$this.data("businessid")).remove();
 						$('#dialgo_delete').modal('hide');
-						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]);
+						$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'esborrar mapa'/*, 'acquisition'*/]});
 						self.updateResultats();
 						
 						var data2 = {
@@ -291,9 +291,9 @@
 				var urlMap = paramUrl.mapaPage+"?businessid="+$this.data("businessid");
 				if ($this.data("colaboracio")) {
 					urlMap = urlMap +"&mapacolaboratiu=si";
-					_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'editar mapa','col.laboratiu']);
+					$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'editar mapa','col.laboratiu']});
 				}	
-				else _gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'editar mapa','no col.laboratiu']);
+				else $.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'editar mapa','no col.laboratiu']});
 				window.location.href = urlMap;
 			});
 			
@@ -366,7 +366,7 @@
 					
 					$('#businessIdConvidar').val($this.data("businessid"));
 				}
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'preconvidar']);
+				$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'preconvidar']});
 			});
 			
 			$('#galeriaRow').on('click', '.btn.btn-primary', function(event){
@@ -386,7 +386,7 @@
 					$('#urlVisor').attr("href", urlMap);
 					$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 					$('#dialgo_url_iframe').modal('show');
-					_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'enllaça mapa', 'referral', 1]);
+					$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'enllaça mapa', 'referral']});
 
 				}
 
@@ -401,7 +401,7 @@
 				if ($.trim($this.data("idusr")) != ""){
 					urlMap += "&id="+$this.data("idusr");
 				}
-				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
+				$.publish('analyticsEvent',{event:['galeria privada', tipus_user+'veure mapa']});
 				window.open(urlMap);
 			});
 			
@@ -449,7 +449,7 @@
 					else alert(window.lang.translate("No ha sigut possible canviar la visibilitat del mapa"));
 				});
 				
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'visibilitat',textVisibilitatNova]);
+				$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'visibilitat',textVisibilitatNova]});
 				
 			});			
 
@@ -507,12 +507,12 @@
 					}
 				}
 				
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'convidar',totalConv]);
+				$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'convidar',totalConv]});
 				
 			});
 			
 			$('#galeriaSort #obtenirUrlPublica').on('click', function(event){
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'obtenir URL galeria pública']);
+				$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'obtenir URL galeria pública']});
 				var urlGaleriaUsuari = "http://www.instamaps.cat/"+paramUrl.galeriaPage.substring(1,paramUrl.galeriaPage.length)+"?user="+Cookies.get('uid');
 				
 				$('#urlPublicaLlarga').val(urlGaleriaUsuari);
@@ -523,11 +523,11 @@
 			});
 			
 			$('#typesTabs a[href="#galeriaTab"]').on('click',function(){
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'accés galeria de mapes']);
+				$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'accés galeria de mapes']});
 			});
 			
 			$('#typesTabs a[href="#aplicacionsTab"]').on('click',function(){
-				_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'accés aplicacions']);
+				$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'accés aplicacions']});
 			});
 			
 			//Duplicate mapa
@@ -632,7 +632,9 @@
 			});
 			
 			$('#geoRss').on('click', function(event){
-				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'rss']);
+				//$.publish('analyticsEvent',{event:['galeria publica', tipus_user+'rss']});
+				
+				$.publish('analyticsEvent',{event:[ 'galeria publica', tipus_user+'rss']});
 			});
 			
 			$('#galeriaSort > button.sort').on('click',function(event){
@@ -829,7 +831,7 @@
 					if (results.status == "OK"){
 						$('#'+$this.data("businessid")).remove();
 						$('#dialgo_delete_aplicacio').modal('hide');
-						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'esborrar aplicacio']);
+						$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'esborrar aplicacio']});
 					}
 				});
 			});
@@ -958,7 +960,7 @@
 					urlMap += "&title="+nomIndexacio;
 				}
 				
-				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'veure mapa']);
+				$.publish('analyticsEvent',{event:['galeria publica', tipus_user+'veure mapa']});
 				//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
 				window.open(urlMap);
 			});
@@ -978,7 +980,7 @@
 				$('#urlVisor').attr("href", urlMap);
 				$('#iframeMap').val('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
 				$('#dialgo_url_iframe').modal('show');
-				_gaq.push(['_trackEvent', 'galeria publica', tipus_user+'enllaça mapa', 'referral', 1]);
+				$.publish('analyticsEvent',{event:['galeria publica', tipus_user+'enllaça mapa', 'referral']});
 				//_kmq.push(['record', 'enllaça mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
 			});
 			
@@ -1042,7 +1044,7 @@
 					 nomIndexacio= encodeURI(nomIndexacio);
 					 urlMap += "&title="+nomIndexacio;
 				}
-				_gaq.push(['_trackEvent', 'galeria privada', tipus_user+'veure mapa']);
+				$.publish('analyticsEvent',{event:['galeria privada', tipus_user+'veure mapa']});
 				window.open(urlMap);
 			});
 			
@@ -1232,7 +1234,7 @@
 						self._hideLoading();
 						self.refresh();
 						$('#dialgo_duplicar_mapa').modal('hide');
-						_gaq.push(['_trackEvent', 'galeria privada', t_user_loginat+'duplicar aplicacio']);
+						$.publish('analyticsEvent',{event:['galeria privada', t_user_loginat+'duplicar aplicacio']});
 					}
 					});*/	
 				

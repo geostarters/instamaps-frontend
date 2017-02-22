@@ -229,7 +229,7 @@ function cercaCataleg(cerca){
 			jQuery(".label-dadesIdec").on('click', function(e) {
 				jQuery('#resultats_idec').empty();
 				var urlWMS= this.dataset.wms_url;
-				_gaq.push(['_trackEvent', 'mapa', tipus_user+'afegir WMS catàleg IDEC', this.dataset.nom, 1]);
+				$.publish('analyticsEvent',{event:['mapa', tipus_user+'afegir WMS catàleg IDEC', this.dataset.nom, 1]});
 				jQuery('#txt_URLWMS').attr("style","display:block;height:33px;");
 				jQuery('#bt_connWMS').attr("style","display:inline");
 				jQuery('#txt_URLWMS').val(urlWMS);
@@ -354,9 +354,9 @@ function addWmsToMap(wms){
 	
 	var wmsLayer,
 	tipus_user = defineTipusUser();  //geocat.web-1.0.0
-	//$.publish('trackEvent',{event:['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]});
+	//$.publish('analyticsEvent',{event:[ 'mapa', tipus_user+'wms', wms.url, 1]});
 	//TODO eliminar esto pero primero hay que cargar el instamaps.google-analytics.js en lugar del geocat.google-analytics.js
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', wms.url, 1]);
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'wms', wms.url, 1]});
 		
 
 	
@@ -436,7 +436,7 @@ function addWmsToMap(wms){
  * fromParam = false -> Si afegim WMS des de la interficie dInstaMaps
  * */
 function addExternalWMS(fromParam) {
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wms', ActiuWMS.url, 1]);
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'wms', ActiuWMS.url, 1]});
 	
 	var dfd = $.Deferred();
 	var _dateFormat=false,

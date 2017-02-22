@@ -538,7 +538,7 @@ function activaEdicioUsuari() {
 		var type = e.layerType, layer = e.layer;
 		var totalFeature;
 		var tipusCat,tipusCatDes;
-		_gaq.push(['_trackEvent', 'mapa', tipus_user+'dibuixar geometria', type, 1]);
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'dibuixar geometria', type, 1]});
 		//_kmq.push(['record', 'dibuixar geometria', {'from':'mapa', 'tipus user':tipus_user, 'type':type}]);
 		 drawnItems.addLayer(layer);
 		if (type === t_marker) {
@@ -1089,10 +1089,7 @@ function createPopupWindow(layer,type){
 			$('#modal_data_table').modal('show');
 			var featureId=objEdicio.featureID;
 			if (featureId==undefined) featureId=accio[2];
-			//console.debug(featureId);
-			console.debug(accio);
-			console.debug(map._layers);
-			console.debug(controlCapes._layers);
+			
 			if (map._layers[featureId]==undefined) {
 				try{
 					if (accio[6]!=undefined) featureId=accio[6];
@@ -1102,7 +1099,8 @@ function createPopupWindow(layer,type){
 					else fillModalDataTable(controlCapes._layers[accio[3]],props.businessId);
 				}
 				catch(err){
-					console.debug(err);
+					$.publish('analyticsEvent',{event:['erro', 'feature_data_table',err]});
+					
 				}
 			}
 			else fillModalDataTable(controlCapes._layers[accio[3]],map._layers[featureId].properties.businessId);

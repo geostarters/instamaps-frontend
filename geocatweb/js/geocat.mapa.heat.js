@@ -1,8 +1,7 @@
 
 function createHeatMap(capa,tipus){
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'heatmap', 1]);
-//	_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'heatmap'}]);
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'heatmap', 1]});
 	
 	var nom = window.lang.translate("Concentració");
 	//Heatmap
@@ -557,11 +556,13 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva, dfd)
 			}
 			
 		}else{
-			console.debug("getGeometriesColleccioByBusinessId ERROR");					
+			console.debug("getGeometriesColleccioByBusinessId ERROR");	
+$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId']});			
 		}
 	},function(results){
 		//TODO error
 		console.debug("getGeometriesColleccioByBusinessId ERROR");
+		$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId']});
 	});	
 }
 

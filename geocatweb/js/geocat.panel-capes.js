@@ -20,7 +20,7 @@ function addFuncioRenameMap(){
 			 	uid: Cookies.get('uid')
 			}
 			updateMapName(data).then(function(results){
-				_gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom aplicacio', 'label editar nom', 1]);
+				$.publish('analyticsEvent',{event:['mapa', tipus_user+'editar nom aplicacio', 'label editar nom', 1]});
 
 				if(results.status=='OK'){
 					$('#dialgo_publicar #nomAplicacioPub').val(results.results);
@@ -195,7 +195,7 @@ function updateEditableElements(){
 			 
 			 updateServidorWMSName(data).then(function(results){
 				 if(results.status==='OK'){
-					 _gaq.push(['_trackEvent', 'mapa', tipus_user+'editar nom capa', 'label editar nom', 1]);
+					 $.publish('analyticsEvent',{event:['mapa', tipus_user+'editar nom capa', 'label editar nom', 1]});
 
 					 var layerName=newValue;			
 				    	(layerName.length > 71)?layerName=layerName.substring(0,71)+"...":layerName;		
@@ -371,7 +371,7 @@ function addHtmlModalDownloadLayer(from){
 				fileIN: JSON.stringify(layer_GeoJSON)
 			};
 
-			_gaq.push(['_trackEvent', from, tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]);
+			$.publish('analyticsEvent',{event:[from, tipus_user+'descarregar capa', formatOUT+"-"+epsgOUT, 1]});
 
 			getDownloadLayer(data).then(function(results){
 				results = results.trim();

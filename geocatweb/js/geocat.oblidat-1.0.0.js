@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
 
 jQuery("#login_button").click(function(){
 
-	_gaq.push(['_trackEvent',trackEventFrom,'remember password', 'retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom,'remember password', 'retention']});
 	
 	if(!$('#login_user').val()){
 		$('#login_user').addClass("invalid");

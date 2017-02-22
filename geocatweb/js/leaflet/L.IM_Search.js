@@ -8,17 +8,7 @@ Based on git@github.com:stefanocudini/leaflet-search.git
 
 L.Control.Search = L.Control.extend({
 	includes: L.Mixin.Events,
-	//
-	//	Name					Data passed			Description
-	//
-	//Managed Events:
-	//	search_locationfound	{latlng, title}     fired after moved and show markerLocation
-	//  search_collapsed		{}					fired after control was collapsed
-	//
-	//Public methods:
-	//  setLayer()				L.LayerGroup()      set layer search at runtime
-	//  showAlert()             'Text message'      Show alert message
-	//
+
 	options: {
 		url: '',					//url for search by ajax request, ex: "search.php?q={s}"
 		jsonpParam: null,			//jsonp param name for search by jsonp service, ex: "callback"
@@ -51,6 +41,7 @@ L.Control.Search = L.Control.extend({
 		textErr: 'No trobat',
 		textEdit:'Edit',//error message
 		textLoad:'',
+		scope:'visor',
 		position: 'topcenter'
 		//TODO add option collapsed, like control.layers
 	},
@@ -172,6 +163,7 @@ L.Control.Search = L.Control.extend({
 		this.timerAlert = setTimeout(function() {
 			that.hideAlert();
 		},this.options.autoCollapseTime);
+		$.publish('analyticsEvent',{event:[this.options.scope,'input#cercaTopoFAIL',this._input.value, 8]});
 		return this;
 	},
 	
@@ -496,9 +488,14 @@ L.Control.Search = L.Control.extend({
 			
 			
 			var fdata = that._filterJSON(data);//_filterJSON defined in inizialize...
+			
 			callAfter(fdata);
 		}
-		if (this.options.url.indexOf("geocodificador")>-1) text=escape(text);
+		if (this.options.url.indexOf("geocodificador")>-1) {
+			
+			text=escape(text);
+			
+		}
 				
 		var script = L.DomUtil.create('script','search-jsonp', document.getElementsByTagName('body')[0] ),	
 			url = L.Util.template(this.options.url+'&'+this.options.jsonpParam+'=L.Control.Search.callJsonp', {s: text}); //parsing url
@@ -801,11 +798,8 @@ L.Control.Search = L.Control.extend({
 			else
 			{
 				var loc = this._getLocation(this._input.value);
+				$.publish('analyticsEvent',{event:[this.options.scope,'input#cercaTopoOK',this._input.value, 8]});
 				
-				//if(loc===false)
-					//this.showAlert();
-				//else
-				//{
 					this.showLocation(loc, this._input.value,this._input.value);
 					this.fire('search_locationfound', {
 							latlng: loc,

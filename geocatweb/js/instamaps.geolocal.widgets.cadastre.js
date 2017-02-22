@@ -31,7 +31,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-cadastre')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
-        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Cadastre']});
+        		$.publish('analyticsEvent',{event:[ 'visor', 'widget_Cadastre']});
         	})
         	.appendTo(container);
         },

@@ -28,7 +28,7 @@
         	$('<div/>').addClass('widget-button').addClass('widget-idescat')
         	.on('click',function(){
         		$.publish('widgetActivated',{'target':this,'widget':that});
-        		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widget_Idescat']});
+        		$.publish('analyticsEvent',{event:[ 'visor', 'widget_Idescat']});
         	})
         	.appendTo(container);
         },
