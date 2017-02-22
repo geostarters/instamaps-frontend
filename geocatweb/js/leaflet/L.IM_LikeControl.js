@@ -47,7 +47,7 @@ L.Control.Like = L.Control.extend({
 	
 	_like: function(e){
 		var self = this;
-		console.debug(self.options.mapConfig);
+		
 		_mapConfig = self.options.mapConfig;
 		
 		var data = {
@@ -62,6 +62,8 @@ L.Control.Like = L.Control.extend({
 			self._liked();
 		}
 		
+		
+		
 		self._updateRankAplicacio(data).then(function(results){
 			if (results.status=="OK"){
 				var btnSpan = $(self._div).find('span');
@@ -73,6 +75,9 @@ L.Control.Like = L.Control.extend({
 				setTimeout(function(){
 					btnSpan.tooltip('destroy');
 			    }, 800);
+				
+				$.publish('analyticsEvent',{event:[ 'visor', 'button#like','label like']});
+				
 			}
 		});
 	},

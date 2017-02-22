@@ -159,7 +159,7 @@ L.IM_ControlFons = L.Control.extend({
     	var fons = $(_this).attr('id');
 		
 		
-		_gaq.push(['_trackEvent', 'visor', tipus_user+'fons', fons, 1]);
+		$.publish('analyticsEvent',{event:[ 'visor', 'button#fons', fons, 1]});
 		if (fons == 'topoMap'){
 			this._map.topoMap();
 		}else if (fons == 'topoMapGeo') {

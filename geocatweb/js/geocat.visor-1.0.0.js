@@ -129,15 +129,18 @@ function setMapWMSBoundingBox(url){
 
 function loadVisorSimple(){
 
-	_gaq.push(['_trackPageview']);
+	
+	
+	$.publish('trackPageview', null);
+	
 	var addDefaultZoomControl = true;//per poder definir si es embed la posicio que jo vull
 	if(typeof url('?embed') == "string"){
 	      jQuery('#navbar-visor').hide();
 	      jQuery('#searchBar').css('top', '0');
 	      addDefaultZoomControl = false;
-	      _gaq.push(['_trackEvent', 'visor', 'embed']);
+	      $.publish('analyticsEvent',{event:[ 'visor', 'embed']});
 	}else{
-		_gaq.push(['_trackEvent', 'visor', 'no embed']);
+	$.publish('analyticsEvent',{event:[ 'visor', 'no embed']});
 
 	}
 
@@ -504,9 +507,9 @@ function initControls(){
 	//console.info(mapConfig);
 		if(mapConfig.tipusAplicacioId==2){
 			//_gaq.push (['_trackEvent', 'visor_entitat', mapConfig.entitatUid, mapConfig.nomAplicacio, 1]);
-			_gaq.push (['_trackEvent', 'visor','visor_entitat', mapConfig.nomEntitat, 1]);
+			$.publish('analyticsEvent',{event:['visor','visor_entitat', mapConfig.nomEntitat, 1]});
 		}else{
-			_gaq.push (['_trackEvent', 'visor', 'visor_instamaps', mapConfig.entitatUid, 1]);
+			$.publish('analyticsEvent',{event:[ 'visor', 'visor_instamaps', mapConfig.entitatUid, 1]});
 
 		}
 	}
@@ -610,7 +613,7 @@ function addControlsInici() {
           };
           ctr_linkViewMap.addTo(map);
           jQuery('#span-linkViewMap a').on('click', function(event) {
-        	  _gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
+        	  _gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]});
           });
           new L.Control.Zoom({ position: 'topleft' }).addTo(map);
     }
@@ -726,19 +729,19 @@ function addClicksInici() {
 
 
 		aturaClick(event);
-		_gaq.push(['_trackEvent', 'visor', tipus_user+'captura pantalla', 'label captura', 1]);
+		$.publish('analyticsEvent',{event:[ 'visor', tipus_user+'captura pantalla', 'label captura', 1]});
 		capturaPantalla(CAPTURA_MAPA);
 	});
 
 	jQuery('.bt_print').on('click', function(event) {
 		aturaClick(event);
-		_gaq.push(['_trackEvent', 'visor', tipus_user+'print', 'label print', 1]);
+		$.publish('analyticsEvent',{event:[ 'visor', tipus_user+'print', 'label print', 1]});
 		capturaPantalla(CAPTURA_INFORME);
 	});
 
 	jQuery('.bt_geopdf').on('click', function(event) {
 		aturaClick(event);
-		_gaq.push(['_trackEvent', 'visor', tipus_user+'geopdf', 'label geopdf', 1]);
+		$.publish('analyticsEvent',{event:[ 'visor', tipus_user+'geopdf', 'label geopdf', 1]});
 		capturaPantalla(CAPTURA_GEOPDF);
 	});
 
@@ -929,7 +932,7 @@ function updateLangTooltips(){
 			route.removeFrom(map);
 		}
 		else {
-			_gaq.push(['_trackEvent', 'visor', tipus_user+'routing', 'label routing', 1]);
+			$.publish('analyticsEvent',{event:[ 'visor', tipus_user+'routing', 'label routing', 1]});
 			map.on('click', routingPopup);
 			route.addTo(map);
 			$('.leaflet-routing-geocoders').before( '<div class="div-routing-title"><span lang="ca" class="routing-title">Càlcul de rutes</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" class="div-routing-title" style="display:inline;"><span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' );
@@ -1386,8 +1389,10 @@ function isIframeOrEmbed(){
 
 function loadEventsGa(){
 	if(typeof url('?embed') == "string"){
-        _gaq.push (['_trackEvent', 'visor', 'embed']);
+        //_gaq.push (['_trackEvent', 'visor', 'embed']);
+		$.publish('analyticsEvent',{event:[ 'visor', 'embed']});
     }else{
-    	_gaq.push (['_trackEvent', 'visor', 'no embed']);
+    	//_gaq.push (['_trackEvent', 'visor', 'no embed']);
+		$.publish('analyticsEvent',{event:[ 'visor', 'no embed']});
     }
 }

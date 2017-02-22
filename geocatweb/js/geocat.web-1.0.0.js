@@ -261,19 +261,19 @@ function initHover(){
 	jQuery('#div_PC').on('click', function(e) {
 		e.preventDefault();
 		console.debug(this);
-		_gaq.push(['_trackEvent', 'aplicacions', t_user_loginat+'protecció civil']);
+	$.publish('analyticsEvent',{event:[ 'aplicacions', t_user_loginat+'protecció civil']});
 		document.location.href = paramUrl.loginGeolocalPage + "?from=pcivil";
 	});
 	jQuery('#div_IP').on('click', function(e) {
 		e.preventDefault();
 		console.debug(this);
-		_gaq.push(['_trackEvent', 'aplicacions', t_user_loginat+'infoParcela']);
+	$.publish('analyticsEvent',{event:[ 'aplicacions', t_user_loginat+'infoParcela']});
 		document.location.href = paramUrl.loginGeolocalPage + "?from=infoparcela";
 	});
 	jQuery('#div_CC').on('click', function(e) {
 		e.preventDefault();
 		console.debug(this);
-		_gaq.push(['_trackEvent', 'aplicacions', t_user_loginat+'carrerer']);
+	$.publish('analyticsEvent',{event:[ 'aplicacions', t_user_loginat+'carrerer']});
 		document.location.href = paramUrl.loginGeolocalPage + "?from=carrerer";
 	});
 }
@@ -540,11 +540,11 @@ function addHtmlModalLeave(){
 		'				</div>'+
 		'				<div class="modal-footer">'+
 		'					<button lang="ca" type="button" class="btn bt-sessio"'+ 
-		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'inici sessio\', \'modal inici mapa\']);">Inicia la sessió</button>'+
+		'							onClick="$.publish(\'analyticsEvent\',{event:[\'mapa\', \'inici sessio\', \'modal inici mapa\']);">Inicia la sessió</button>'+
 		'					<button lang="ca" type="button" class="btn bt_orange"'+ 
-		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'registre\', \'modal inici mapa\']);">Crea un compte</button>'+
+		'							onClick="$.publish(\'analyticsEvent\',{event:[\'mapa\', \'registre\', \'modal inici mapa\']);">Crea un compte</button>'+
 		'					<button id="btn-guest" lang="ca" type="button" class="btn btn-default" data-dismiss="modal"'+ 
-		'							onClick="_gaq.push([\'_trackEvent\', \'mapa\', \'guest\', \'modal inici mapa\']);">Més tard</button>'+
+		'							onClick="$.publish(\'analyticsEvent\',{event:[\'mapa\', \'guest\', \'modal inici mapa\']);">Més tard</button>'+
 		'				</div>'+
 		'			</div>'+
 		'			<!-- /.modal-content -->'+

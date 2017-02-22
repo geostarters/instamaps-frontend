@@ -52,12 +52,12 @@ function addModul3D(config) {
 	if (browserWebGL) {
 		$("body").append('<div id="map3D"></div>');
 		$("body").append('<div id="popup3D"></div>');
-		_gaq.push(['_trackEvent', appl, 'siWebGL3D', 'label 3D', 1]);
+		$.publish('analyticsEvent',{event:[ appl, 'siWebGL3D', 'label 3D', 1]});
 	}
 
 	jQuery('.bt_3D_2D').on('click', function (event) {
 		aturaClick(event);
-		_gaq.push(['_trackEvent', appl, tipus_user + '3D', 'label 3D', 1]);
+		$.publish('analyticsEvent',{event:[ appl, tipus_user + '3D', 'label 3D', 1]});
 		$('.tooltip').hide();
 		activaVista3d_2d(this);
 	});
@@ -557,7 +557,7 @@ var IM_aplicacio = function (options) {
 
 		} catch (Err) {
 
-			_gaq.push(['_trackEvent', 'error3D', Err, 'miraPosicioXYZ', 1]);
+			$.publish('analyticsEvent',{event:[ 'error3D', Err, 'miraPosicioXYZ', 1]});
 
 		}
 
@@ -1324,7 +1324,7 @@ var that = this;
 
 		} catch (err) {
 
-			_gaq.push(['_trackEvent', 'error3D', err, '_utilDeterminaTipusItem', 1]);
+			$.publish('analyticsEvent',{event:[ 'error3D', err, '_utilDeterminaTipusItem', 1]});
 
 			if (item.layer.options.tipusRang) {
 
@@ -2405,7 +2405,7 @@ var that = this;
 
 function mostraMsgNo3D() {
 	jQuery("#dialgo_no_webgl").modal('show');
-	_gaq.push(['_trackEvent', appl, 'noWebGL3D', 'label 3D', 1]);
+	$.publish('analyticsEvent',{event:[ appl, 'noWebGL3D', 'label 3D', 1]});
 }
 
 function detectoCapacitatsWebGL() {

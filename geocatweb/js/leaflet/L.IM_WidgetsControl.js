@@ -187,7 +187,7 @@ L.Control.Widgets = L.Control.extend({
     	$.subscribe('widgetActivated',function(e, data){
     		that.deactivateWidgets();
     		var classWidget = $(data.target).attr('class').split(" ")[1];
-    		$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widgets', classWidget, 1]});
+    		$.publish('analyticsEvent',{event:[ 'visor', 'widgets', classWidget, 1]});
     		$(data.target).addClass("widget-button-active");
     		data.widget.activate();
     		if(that.activeMunicipi){

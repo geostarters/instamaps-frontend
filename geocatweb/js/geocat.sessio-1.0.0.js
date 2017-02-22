@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 
 jQuery("#login_button").click(function(){
 
-	_gaq.push(['_trackEvent',trackEventFrom,'inici sessio', 'retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom,'inici sessio', 'retention']});
 	
 	checkValidityLogin("");
 	
@@ -104,7 +104,7 @@ sendMail(data).then(function(results){
 
 jQuery("#demo_button").click(function(){
 	window.location.href = paramUrl.mapaPage+"?tipus=geolocal";	
-	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio demo geolocal','retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom, 'inici sessio demo geolocal','retention']});
 });
 
 function loginUserIcgc(){
@@ -165,39 +165,39 @@ function checkValidityLogin(tipus){
 }
   
 $('#signin_twitter').click(function() {
-	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio twitter','retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom, 'inici sessio twitter','retention']});
 	window.location = paramUrl.socialAuth+"id=twitter";
 });
 
 $('#signin_facebook').click(function() {
-	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio facebook','retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom, 'inici sessio facebook','retention']});
 	window.location = paramUrl.socialAuth+"id=facebook";
 });
 
 $('#signin_linkedin').click(function() {
-	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio linkedin','retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom, 'inici sessio linkedin','retention']});
 	window.location = paramUrl.socialAuth+"id=linkedin";
 });
 
 $('#signin_google').click(function() {
-	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio google','retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom, 'inici sessio google','retention']});
 	window.location = paramUrl.socialAuth+"id=googleplus";
 });
 
 $('#signin_icc').click(function() {
-	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio icc','retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom, 'inici sessio icc','retention']});
 	$('#dialog_session_icgc').modal('show');
 });
 
 $('#signin_eacat').click(function() {
-	_gaq.push(['_trackEvent',trackEventFrom, 'inici sessio eacat','retention']);
+	$.publish('analyticsEvent',{event:[trackEventFrom, 'inici sessio eacat','retention']});
 	window.location = paramUrl.eacat;
 });
 
 function fesRegistre(){
 	//TODO REVISAR; AQUEST CAL???? NO ES PAS INTERMIG???
 	if(trackEventFrom==null || trackEventFrom=="") trackEventFrom = "inici sessio";
-	_gaq.push(['_trackEvent', trackEventFrom,'registre', 'pre-activation']);
+	$.publish('analyticsEvent',{event:[ trackEventFrom,'registre', 'pre-activation']});
 	window.location = "registre.html?from="+trackEventFrom;
 }
 

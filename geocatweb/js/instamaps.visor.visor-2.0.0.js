@@ -233,6 +233,7 @@
 			
 			if(options.layers && self.controls.layersControl){
 				self.controls.layersControl.showBtn();
+				console.info(1212);
 			}else if(self.controls.layersControl){
 				self.controls.layersControl.hideBtn();
 			}
@@ -306,7 +307,7 @@
 			if (!self.llegenda) self.llegenda = 0;
 			if (!self.colorscalecontrol) self.colorscalecontrol = 0;
 			
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'embed']});
+			$.publish('analyticsEvent',{event:[ 'visor', 'embed']});
 			return self;
 		},
 		
@@ -415,8 +416,8 @@
 				urlwms: self.urlwms,
 				layername: self.layername,
 				title: window.lang.translate('Veure a InstaMaps'),
-				fn: function(event) {
-					_gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
+				fn: function(event) {					
+					$.publish('analyticsEvent',{event:['visor', 'button#veureInstamaps', 'label embed', 1]});
 				}
 			});
 			ctr_linkViewMap.addTo(_map);
@@ -1264,18 +1265,18 @@
 					self.addLogoInstamap();
 				}
 				$(".leaflet-control-draw-measure").hide();	//Eliminem el control de mesura si no és geolocal/AOC
-				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'visor_instamaps', _mapConfig.entitatUid, 1]});
+				$.publish('analyticsEvent',{event:[ 'visor', 'visor_instamaps', _mapConfig.entitatUid, 1]});
 			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				addDrawTooltips();
-				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
+				$.publish('analyticsEvent',{event:[ 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
 			
 			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				addDrawTooltips();
-				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
+				$.publish('analyticsEvent',{event:[ 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
 			
 			}else{
 			
@@ -1299,7 +1300,7 @@
 			
 			var visorSimple = VisorSimple({visor:self}).draw();
 			
-			_gaq.push(['_trackPageview']);
+			$.publish('trackPageview', null);
 			
 			return self;
 		},
@@ -1392,7 +1393,7 @@
 			}
 			
 			if(!self.embed){
-				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'no embed']});
+				$.publish('analyticsEvent',{event:[ 'visor', 'no embed']});
 			}
 			return self;
 		},
@@ -1432,7 +1433,7 @@
 				
 				marker.bindPopup(html);
 				marker.openPopup();
-				_gaq.push(['_trackEvent', 'visor per paràmetres']);
+				$.publish('analyticsEvent',{event:[ 'visor','parametres']});
 
 			}
 
@@ -1469,25 +1470,25 @@
 		},
 		
 		_showRoutingEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'routing', 'label routing', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', 'button#routing', 'label routing', 1]});
 		},
 		
 		_mapsnapshotEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'export mapa', 'label export maps', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', 'button#export_mapa', 'label export maps', 1]});
 		},
 		
 		
 		/*
 		_mapprintEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'print', 'label print', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', this.tipusUser+'print', 'label print', 1]});
 		},
 		
 		_mapgeopdfEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]});
 		},
 		*/
 		_map3dmodeEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser + '3D', 'label 3D', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', 'button#3D', 'label 3D', 1]});
 		},
 		
 		_hideLoading: function(){

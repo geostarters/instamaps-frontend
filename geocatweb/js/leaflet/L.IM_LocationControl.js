@@ -34,9 +34,21 @@ L.Control.LocationControl = L.Control.Gps.extend({
 		container.dataset.placement = options.tooltip;
 		container.dataset.langTitle = options.langTitle;
 		
+		self._map
+			.on('locationfound', this._publishFound, self)
+			.on('locationerror', this._publishError, self);
+		
 		self._div = container;
 		return container;
 	},
+	
+	_publishFound:function(){
+		$.publish('analyticsEvent',{event:['visor','input#GPS_OK','label GPS', 10]});
+	},	
+	
+	_publishError:function(){
+		$.publish('analyticsEvent',{event:['visor','input#GPS_FAIL','label GPS', 10]});
+	},	
 	
 	hideBtn: function(){
 		var self = this;

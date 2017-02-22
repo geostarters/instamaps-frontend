@@ -206,7 +206,7 @@ function actualitzarMevesDades(results){
 				if(results.status==='OK'){
 					
 					var value = results.results;
-					_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar meves dades', value.serverType, 1]);
+					$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar meves dades', value.serverType, 1]});
 //							_kmq.push(['record', 'carregar meves dades', {'from':'mapa', 'tipus user':tipus_user, 'tipus layer':value.serverType}]);
 					
 					if (value.epsg == "4326"){

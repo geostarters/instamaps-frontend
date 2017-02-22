@@ -88,8 +88,8 @@
 			checkUserLogin();
 			
 			//cambiamos la cuenta de google
-			_gaq.push(['_setAccount', 'UA-46332195-6']);
-			
+			//_gaq.push(['_setAccount', 'UA-46332195-6']);
+			ga('create', 'UA-46332195-6', 'auto');
 			//cambiamos el info
 			infoHtml += '<div style="color:#ffffff">';
 			if (nomEntitat!=undefined) infoHtml +='<p>'+nomEntitat+'</p>';
@@ -188,7 +188,7 @@
 		},
 		
 		_showwigetsEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'widgets']});
+			$.publish('analyticsEvent',{event:[ 'visor', 'widgets']});
 		},
 		
 		_listenEvents: function(){

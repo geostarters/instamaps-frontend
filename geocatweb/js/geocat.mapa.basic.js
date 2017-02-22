@@ -4,30 +4,13 @@
 
 function createTematicLayerBasic(tematic, styles){
 	var defer = $.Deferred();
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'estils', 'basic', 1]);
-	//_kmq.push(['record', 'estils', {'from':'mapa', 'tipus user':tipus_user, 'tipus tematic':'basic'}]);
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'basic', 1]});
+	
 	
 	var rangs = getRangsFromStyles(tematic, styles);
 	var capaMare = controlCapes._layers[tematic.leafletid].layer;
 	
-//	if (jQuery.isArray(styles)){
-//		
-//	}else{
-////		var layer = controlCapes._layers[tematic.leafletid];
-////		if (tematic.geometrytype == t_marker){
-////			jQuery.each(capaMare._layers, function( key, value ) {	
-////				canviaStyleSinglePoint(styles,this,capaMare,false)
-////			});
-////		}else if (tematic.geometrytype == t_polyline){
-////			jQuery.each(layer.layer._layers, function( key, value ) {
-////				this.setStyle(styles);
-////			});
-////		}else if (tematic.geometrytype == t_polygon){
-////			jQuery.each(layer.layer._layers, function( key, value ) {
-////				this.setStyle(styles);
-////			});
-////		}
-//	}
+
 	
 	if(capaMare.options.tipus == t_dades_obertes){
 		var data1 = {

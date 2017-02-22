@@ -21,7 +21,7 @@ function generaLListaDadesObertes() {
 
 function addCapaDadesObertes(dataset,nom_dataset) {
 
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'dades obertes', nom_dataset, 1]);
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades obertes', nom_dataset, 1]});
 
 	
 	var param_url = paramUrl.dadesObertes + "dataset=" + dataset;

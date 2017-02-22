@@ -7,7 +7,7 @@
 
 function addPanoramioLayer(){
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'panoramio', 'label panoramio', 1]);
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'panoramio', 'label panoramio', 1]});
 	//_kmq.push(['record', 'panoramio', {'from':'mapa', 'tipus user':tipus_user}]);
 	
 	var panoramio = new L.Panoramio.custom({
@@ -85,7 +85,7 @@ function loadPanoramioLayer(layer){
 
 function addTwitterLayer(){
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'twitter', hashtag, 1]);	
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'twitter', hashtag, 1]});	
 	//_kmq.push(['record', 'twitter', {'from':'mapa', 'tipus user':tipus_user, 'hashtag':hashtag}]);
 	
 	var hashtag = $('#twitter-collapse .input-group #hashtag_twitter_layer').val();
@@ -173,7 +173,7 @@ function loadTwitterLayer(layer, hashtag){
 
 function addWikipediaLayer(){	
 	
-	_gaq.push(['_trackEvent', 'mapa', tipus_user+'wikipedia', 'label wikipedia', 1]);
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'wikipedia', 'label wikipedia', 1]});
 	//_kmq.push(['record', 'wikipedia', {'from':'mapa', 'tipus user':tipus_user}]);
 	
 	var keyName = $('#wikipedia-collapse .input-group #name_wikipedia_layer').val();	
