@@ -4,9 +4,10 @@ L.Spinner = {
             // start spinning !
     		if (!this._spinner) {
     			this._spinner = L.DomUtil.get(this.options.spinerDiv);
+    			this._spinning = 0;
     		}
     		if (this._spinner) {
-    			this._spinner.style.display = 'block';
+    			this._spinner.style.display = 'flex';
     		}
     		this._spinning++;
         }

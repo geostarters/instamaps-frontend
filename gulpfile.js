@@ -10,6 +10,7 @@ var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var del = require('del');
 var pump = require('pump');
+var merge2 = require('merge2');
 var runSequence = require('run-sequence');
 var Q = require('q');
 
@@ -331,12 +332,23 @@ gulp.task('images', function() {
 });
 
 gulp.task('revreplace', function(){
+  runSequence('revreplace_template','revreplace_visor');
+});
+
+gulp.task('revreplace_template', function(){
   var manifest = gulp.src(config.revManifestPath);
   return gulp.src(config.srcFolder + "/template_visor.html")
     .pipe(revReplace({manifest: manifest}))
     .pipe(gulp.dest(config.distFolder));
 });
 
+gulp.task('revreplace_visor', function(){
+  var manifest = gulp.src(config.revManifestPath);
+  return gulp.src(config.srcFolder + "/visor.html")
+    .pipe(revReplace({manifest: manifest}))
+    .pipe(gulp.dest(config.distFolder));
+});
+	 
 gulp.task('clean', function() {
   del.sync(config.revManifestPath);
   del.sync(config.distFolder+'/css/*');
