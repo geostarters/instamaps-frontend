@@ -28,7 +28,8 @@
 	    timeDimensionControl: true,
 	    timeDimensionControlOptions:{
 	    	speedSlider:false
-	    }
+	    },
+	    spinerDiv: 'div_loading'
 	}).setView([ 41.431, 1.8580 ], 8);
 
 	var visorOptions = {
@@ -176,10 +177,6 @@
 				self.controls.searchControl.hideBtn();
 			}
 
-
-
-
-
 			if(options.snapshot && self.controls.snapshotControl){
 				self.controls.snapshotControl.showBtn();
 			}else if(self.controls.snapshotControl){
@@ -295,9 +292,6 @@
 			if (!self.likecontrol) self.likecontrol = 0;
 
 			if (!self.control3d) self.control3d = 0;
-
-
-
 
 			if (!self.snapshotcontrol) self.snapshotcontrol = 0;
 
@@ -487,10 +481,6 @@
 			});
 			ctr_shareBT.addTo(_map);
 
-
-
-
-
 			self.controls.shareControl = ctr_shareBT;
 
 		},
@@ -558,9 +548,6 @@
 
 			return self;
 		},
-
-
-
 
 		addSnapshotControl: function(){
 			var self = this,
@@ -1022,11 +1009,9 @@
 						
 			self._loadCacheMap(_businessid,_uid,_mapacolaboratiu);
 			
-
 			return self;
 		},
 		
-	
 
 		loadURLConfig: function() {
 
@@ -1045,14 +1030,10 @@
 			self.layerscontrol = self.layerscontrol || false;
 			self.control3d = self.control3d || false;
 
-
 			self.snapshotcontrol = self.snapshotcontrol || false;
 
 			self.printcontrol = self.printcontrol || false;
 			self.geopdfcontrol = self.geopdfcontrol || false;
-
-
-
 
 			self.rtoolbar = self.rtoolbar || false;
 			self.llegenda = self.llegenda || false;
@@ -1077,15 +1058,11 @@
 				}
 			};
 
-			if(!self.zoomcontrol)
-			{
-
+			if(!self.zoomcontrol){
 				self.map.removeControl(self.map.zoomControl);
-
 			}
 
 			return self;
-
 		},
 
 		loadApp: function(){
@@ -1099,11 +1076,8 @@
 		},
 
 		_mapNameShortener: function(inName) {
-
 			name = "<div id='mapNameContainer'><span title=\"" + inName + "\">" + inName + "</span></div>";
-
 			return name;
-
 		},
 
 		_loadPublicMap: function(_mapConfig){
