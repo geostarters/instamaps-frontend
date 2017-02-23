@@ -950,8 +950,14 @@
 			}
 			//console.debug(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json');
 			$.get(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json', function(results) { 
-				if(results){
-					self._beforeLoadConfig(results);
+				if(results){	
+					if (results.clau){
+						//ocultar las pelotas
+						self._hideLoading();
+						//mostar modal con contraseña
+						self._loadPasswordModal();
+					}
+					else self._beforeLoadConfig(results);
 				}
 				else {
 					var data = {
