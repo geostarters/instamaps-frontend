@@ -127,7 +127,7 @@ function creaPopOverMevasDades(){
 		jQuery('.modal').modal('hide');
 		$('#cercaTevesDades').attr("style","width:98%");
 		$('#dialog_teves_dades').modal('show');
-				
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'button_teves_dades', 'mapa_click_button', 1]});	
 		//Per tenir actualitzar canvis: remove layers, add layers, etc
 		serverType="";
 		jQuery("#id_sw").empty();
