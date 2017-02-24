@@ -518,7 +518,7 @@ function enviarArxiu(){
 function obreModalCarregaDades(isDrag) {
 
 	$('#dialog_carrega_dades').modal('show');
-	
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'button_carrega_dades', 'mapa_click_button', 1]});
 	if(isDrag){
 		$('#upload_file').attr('disabled',true);
 	}else{
@@ -571,7 +571,7 @@ function accionaCarrega(file,isDrag) {
 					drgFromMapa.options.url = "/cloudifier/";
 					drgFromMapa.options.paramName = "clientfile";
 				}else{
-					console.info("is from BOTO!");
+					
 					drgFromBoto.options.url = "/cloudifier/";
 					drgFromBoto.options.paramName = "clientfile";
 				}
@@ -918,16 +918,19 @@ function checkFileRaster(file){
 			}else if(jQuery.inArray("tif", extArray)!=-1){
 				envioArxiu.format = "tif";
 				res.formatInvalid = res.formatInvalid && false;
+			}else if(jQuery.inArray("tiff", extArray)!=-1){
+				envioArxiu.format = "tiff";
+				res.formatInvalid = res.formatInvalid && false;	
 			}else if(jQuery.inArray("ecw", extArray)!=-1){
 				envioArxiu.format = "ecw";
 				res.formatInvalid = res.formatInvalid && false;
 			}
 
 			if (!res.formatInvalid) { // hi hso
-				console.debug("Hi ha alguna extensio valida...");
-				if(jQuery.inArray("tif", extArray)!=-1 || jQuery.inArray("sid", extArray)!=-1 || jQuery.inArray("jpg", extArray)!=-1){
+				
+				if(jQuery.inArray("tif", extArray)!=-1 || jQuery.inArray("tiff", extArray)!=-1 || jQuery.inArray("sid", extArray)!=-1 || jQuery.inArray("jpg", extArray)!=-1){
 					res.formatInvalid = (jQuery.inArray("sdw", extArray)==-1) && (jQuery.inArray("tfw", extArray)==-1) && (jQuery.inArray("jpw", extArray)==-1) && (jQuery.inArray("jgw", extArray)==-1);
-					console.debug("es geotiif o mrsid o geo-jpg");
+					
 				}
 				dfd.resolve(res);
 			}else{
@@ -950,11 +953,11 @@ function miraFitxer(fitxer) {
 	obj.ext = fitxer.name.split('.').pop().toLowerCase();
 
 	var arr = [ 'shp', 'xls', 'xlsx', 'dgn', 'dxf', 'zip', 'geojson', 'kml',
-				'kmz', 'gml', 'xml', 'gpx', 'txt', 'csv', 'json', 'jpg', 'tif', 'sid', 'ecw' ];
+				'kmz', 'gml', 'xml', 'gpx', 'txt', 'csv', 'json', 'jpg', 'tif','tiff', 'sid', 'ecw' ];
 	
 	if (jQuery.inArray(obj.ext, arr) != -1) { // hi hso
 		
-		console.debug("Extensio:"+ obj.ext);
+	
 		
 		if(obj.ext=="shp"){
 			obj.isValid = false;
@@ -1209,8 +1212,8 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 			
 			$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades menu', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});				
 			
-			if( envioArxiu.ext == "tif" || (envioArxiu.ext=="sid") || (envioArxiu.ext=="jpg") || (envioArxiu.ext=="ecw") 
-					|| envioArxiu.format == "tif" || (envioArxiu.format =="sid") || (envioArxiu.format =="jpg") ){	
+			if( envioArxiu.ext == "tiff" || envioArxiu.ext == "tif" || (envioArxiu.ext=="sid") || (envioArxiu.ext=="jpg") || (envioArxiu.ext=="ecw") 
+					|| envioArxiu.format == "tif" || envioArxiu.format == "tiff" || (envioArxiu.format =="sid") || (envioArxiu.format =="jpg") ){	
 				
 				$('#dialog_carrega_dades').modal('hide');
 				formData.append("srs", envioArxiu.srid.toLowerCase());

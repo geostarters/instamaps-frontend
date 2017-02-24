@@ -8,7 +8,7 @@ var _gaq = _gaq || [];
 		var _mapConfig = {};
 		var perfil = Cookies.get('perfil');
 		var _userID="0000";
-		var _userDimension="entitatUser";
+		var _userDimension=window.location.href;
 		var visibilitat="none";
 		if(data){
 			_mapConfig =data;
@@ -23,16 +23,16 @@ var _gaq = _gaq || [];
 		}else if (_mapConfig && _mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL || _mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 			ga('create', 'UA-46332195-6', 'auto');
 		}else{
-
 			ga('create', 'UA-46332195-3', 'auto');
 		}
 
+		console.info(_userDimension);
 
 		ga('set', 'transport', 'beacon');
-	  ga('send', 'pageview');
+		ga('send', 'pageview');
 		ga('set', 'dimension1', _userDimension);
 		ga('set', 'userId', _userID);
-		ga('send', 'event', 'aplicacio','visibilitat',visibilitat,2);
+		//ga('send', 'event', 'aplicacio','visibilitat',visibilitat,2);
 
 		//TODO poner el subscriber
 		$.publish('loadGaEvents');
@@ -73,11 +73,11 @@ function addAnalyticsEvent(dataEvents){
 			dataEventArray.length==4?label_num=dataEventArray[3]:label_num=label_num;
 			dataEventArray.length<=2?event_label=event_label:event_label=dataEventArray[2];
 													// category,action,label
-/*
+			/*
 			console.info(dataEventArray[0])	;
 			console.info(dataEventArray[1])	;
 			console.info(event_label)	;
-			*/													
+			*/												
 			ga('send', 'event', dataEventArray[0],dataEventArray[1],event_label,label_num);
 		}catch(err){
 
