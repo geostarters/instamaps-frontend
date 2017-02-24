@@ -230,7 +230,6 @@
 
 			if(options.layers && self.controls.layersControl){
 				self.controls.layersControl.showBtn();
-				console.info(1212);
 			}else if(self.controls.layersControl){
 				self.controls.layersControl.hideBtn();
 			}

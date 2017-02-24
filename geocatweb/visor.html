@@ -23,10 +23,9 @@
 <link href="img/instamapes.ico" rel="shortcut icon" />
 
 <!-- Le styles -->
-<link href="/geocatweb/dist/css/jquery-05ca5dfb12.css" rel="stylesheet" type="text/css" />
-<link href="/geocatweb/dist/css/leaflet-dd929dadb6.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="/llibreries/cesium/Cesium.css" type="text/css" id="cesium_css"/>
-<link href="/geocatweb/dist/css/instamaps-b7959f8e0d.css" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/jquery.css" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/leaflet.css" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/instamaps.css" rel="stylesheet" type="text/css" />
 <!-- /Le styles -->
 
 
@@ -41,7 +40,6 @@
            <span></span>
            <span></span>
        </div>
-</div>
 
 	<!-- Fixed navbar -->
 	<div id="navbar-visor" class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -305,14 +303,6 @@
 </div>
 <!-- fi Modal Captura -->
 
-
-
-
-
-
-
-
-
 	<!-- Modal Password -->
 	<div id="dialog_password" class="modal fade" data-backdrop="static">
 		<div class="modal-dialog">
@@ -342,31 +332,26 @@
 </div>
 
 
-<!-- 	<div id="mapaFond"></div> -->
-	<!-- Le javascript -->
-	<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
-	<script type="text/javascript">
-	if (!Modernizr.canvas || !Modernizr.sandbox || !Modernizr.csstransitions){
-		document.getElementById("div_loading").style.display = "none";
-		document.getElementById("dialgo_old_browser").style.display = "block";
-		document.getElementById("old_icon_close").style.display = "none";
-		document.getElementById("old_btn_close").onclick = function () {
-			window.location = "/index.html";
-		}
+<!-- Le javascript -->
+<script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
+<script type="text/javascript">
+if (!Modernizr.canvas || !Modernizr.sandbox || !Modernizr.csstransitions){
+	document.getElementById("div_loading").style.display = "none";
+	document.getElementById("dialgo_old_browser").style.display = "block";
+	document.getElementById("old_icon_close").style.display = "none";
+	document.getElementById("old_btn_close").onclick = function () {
+		window.location = "/index.html";
 	}
-	</script>
-  <script src="/geocatweb/dist/js/jquery-655b0ab30d.js" charset="utf-8" type="text/javascript"></script>
-  <script>
-		L_PREFER_CANVAS = true;
-		L_DISABLE_3D = false;
-	</script>
-	<script src="/geocatweb/dist/js/leaflet-9cfe88d287.js" charset="utf-8" type="text/javascript"></script>
-  <script src="/geocatweb/dist/js/instamaps-b0fac89797.js" charset="utf-8" type="text/javascript"></script>
-	<!--3D Cesium -->
-	<script src="/llibreries/cesium/Cesium.js"  type="text/javascript"></script>
-	<script src="/llibreries/cesium/Cesium.PinBuilder_IM.js"  type="text/javascript"></script>
-	<script src="/llibreries/cesium/cesium-navigation.js"  type="text/javascript"></script>
-  <!-- /Le javascript -->
-
+}
+</script>
+<script src="/geocatweb/dist/js/jquery.js" charset="utf-8" type="text/javascript"></script>
+<script>
+	L_PREFER_CANVAS = true;
+	L_DISABLE_3D = false;
+</script>
+<script src="/geocatweb/dist/js/leaflet.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/dist/js/instamaps.js" charset="utf-8" type="text/javascript"></script>
+ <!-- /Le javascript -->
+ 
 </body>
 </html>
