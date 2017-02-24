@@ -728,18 +728,22 @@
         	//nomIndexacio=nomIndexacio.replace(/\s/g, "-");
 			nomIndexacio= encodeURI(nomIndexacio);
 
+			var urlMap;
 			 var nomVisor = self.mapConfig.nom_visor;
-			 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
-			 var urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
+			 if (nomVisor!=null) {
+				 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
+				 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
+			 }
+			 else {
 
-/*
-        	var urlMap = self._getUrlMap();
-        	urlMap=urlMap+"&title="+nomIndexacio;
+	        	urlMap = self._getUrlMap();
+	        	urlMap=urlMap+"&title="+nomIndexacio;
+	
+	        	urlMap = urlMap.replace('mapa','visor');
+				urlMap = urlMap.replace('#no-back-button','');
+				urlMap=urlMap+"&3D="+estatMapa3D;
 
-        	urlMap = urlMap.replace('mapa','visor');
-			urlMap = urlMap.replace('#no-back-button','');
-			urlMap=urlMap+"&3D="+estatMapa3D;
-*/
+			 }
         	$("#urlVisorMap a").attr("href", urlMap);
 
         	$('#urlMap').val(urlMap);
