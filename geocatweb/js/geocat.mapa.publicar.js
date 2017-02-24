@@ -358,19 +358,15 @@
 		    });
 		    //window.lang.run();
 
-		    //http://localhost/instavisor/5940372/9708ea5727a22b8e12c171af997bbbcb/prova_visor.html
-		    var nomVisor = self.mapConfig.nom_visor;
-		    nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
-		    var urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
-		    
-		    /*  
+		     
+		     
 		    var v_url = window.location.href;
 			if (!url('?id')){
 				v_url += "&id="+$('#userId').val();
 			}
 			v_url = v_url.replace('localhost',DOMINI);
 			var urlMap = v_url.replace('mapa','visor');
-			urlMap = urlMap.replace('#no-back-button','');*/
+			urlMap = urlMap.replace('#no-back-button','');
 
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
