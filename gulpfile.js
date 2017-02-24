@@ -10,13 +10,13 @@ var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var del = require('del');
 var pump = require('pump');
-var merge2 = require('merge2');
 var runSequence = require('run-sequence');
 var Q = require('q');
 
 var config = {
   srcFolder: 'geocatweb',
   distFolder: 'geocatweb/dist',
+  templateFolder: 'geocatweb/templates',
   dirCssInstamaps: 'geocatweb/css',
   dirCssVendors: 'llibreries/css',
   dirVendors: 'llibreries',
@@ -337,16 +337,16 @@ gulp.task('revreplace', function(){
 
 gulp.task('revreplace_template', function(){
   var manifest = gulp.src(config.revManifestPath);
-  return gulp.src(config.srcFolder + "/template_visor.html")
+  return gulp.src(config.templateFolder + "/template_visor.html")
     .pipe(revReplace({manifest: manifest}))
     .pipe(gulp.dest(config.distFolder));
 });
 
 gulp.task('revreplace_visor', function(){
   var manifest = gulp.src(config.revManifestPath);
-  return gulp.src(config.srcFolder + "/visor.html")
+  return gulp.src(config.templateFolder + "/visor.html")
     .pipe(revReplace({manifest: manifest}))
-    .pipe(gulp.dest(config.distFolder));
+    .pipe(gulp.dest(config.srcFolder));
 });
 	 
 gulp.task('clean', function() {

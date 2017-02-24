@@ -61,8 +61,7 @@ jQuery(document).ready(function() {
 	visorOptions.tipusUser = tipus_user;
 	
 	if (visorOptions.businessid==null){
-		var filename = url('filename');
-		var busid = filename.substring(0,filename.indexOf("_"));
+		var busid = url(-2);
 		visorOptions.businessid=busid;
 	}
 	visor = Visor(visorOptions).draw();
