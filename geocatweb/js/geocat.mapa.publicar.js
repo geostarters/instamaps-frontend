@@ -371,7 +371,7 @@
 			 if (nomVisor!=null) {
 				 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
 				 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
-				 urlMap=urlMap+"&3D="+estatMapa3D;
+				 urlMap=urlMap+"?3D="+estatMapa3D;
 			 }
 			 else {
 
@@ -574,7 +574,7 @@
 			 if (nomVisor!=null) {
 				 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
 				 v_url = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
-				 v_url= v_url+"&3D="+estatMapa3D;
+				 v_url= v_url+"?3D="+estatMapa3D;
 			 }
 			 
         	
@@ -760,7 +760,7 @@
 			 if (nomVisor!=null) {
 				 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
 				 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
-				 urlMap=urlMap+"&3D="+estatMapa3D;
+				 urlMap=urlMap+"?3D="+estatMapa3D;
 			 }
 			 else {
 
