@@ -376,7 +376,6 @@
 			 else {
 
 	        	urlMap = self._getUrlMap();
-	        	urlMap=urlMap+"&title="+nomIndexacio;
 	
 	        	urlMap = urlMap.replace('mapa','visor');
 				urlMap = urlMap.replace('#no-back-button','');
