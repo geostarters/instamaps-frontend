@@ -258,7 +258,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/geocat.utils.js',
     config.dirJsInstamaps+'/geocat.web-1.0.0.js',
     config.dirJsInstamaps+'/geocat.compartir.js',
-    config.dirJsInstamaps+'/instamaps.google-analytics.js',
+    config.dirJsInstamaps+'/instamaps.analytics-2.0.0.js',
     config.dirJsInstamaps+'/geocat.panel-capes.js',
     config.dirJsInstamaps+'/geocat.mapa.draw.js',
     config.dirJsInstamaps+'/geocat.mapa.wms.js',
