@@ -196,6 +196,8 @@ function addControlAltresFontsDades() {
 		$('#dialog_dades_ex').modal('show');
 		$.publish('analyticsEvent',{event:['mapa', tipus_user+'button_altres_fons_dades', 'mapa_click_button', 1]});
 		
+		
+		
 		$('a[href^="#id_do').click();
 		jQuery('#id_do').html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades obertes Gencat</a></span>');
 

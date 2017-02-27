@@ -195,9 +195,9 @@
 
         _updateModalPublicar: function(){
         	//actualizar los campos del dialogo publicar
+
         	//require utils
         	var self = this;
-        	
         	if (isDefaultMapTitle(self.mapConfig.nomAplicacio)) $('#nomAplicacioPub').val("");
 			else $('#nomAplicacioPub').val(self.mapConfig.nomAplicacio);
         	if (self.mapConfig.visibilitat == visibilitat_open){
@@ -358,33 +358,13 @@
 		    });
 		    //window.lang.run();
 
-		     
-		     
 		    var v_url = window.location.href;
 			if (!url('?id')){
 				v_url += "&id="+$('#userId').val();
 			}
 			v_url = v_url.replace('localhost',DOMINI);
-			
-			var urlMap ="";
-			 var nomVisor = self.mapConfig.nom_visor;
-			 if (nomVisor!=null) {
-				 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
-				 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
-				 urlMap=urlMap+"?3D="+estatMapa3D;
-			 }
-			 else {
-
-	        	urlMap = self._getUrlMap();
-	        	urlMap=urlMap+"&title="+nomIndexacio;
-	
-	        	urlMap = urlMap.replace('mapa','visor');
-				urlMap = urlMap.replace('#no-back-button','');
-				urlMap=urlMap+"&3D="+estatMapa3D;
-
-			 }
-			
-			
+			var urlMap = v_url.replace('mapa','visor');
+			urlMap = urlMap.replace('#no-back-button','');
 
 			$("#urlVisorMap a").attr("href", urlMap);
 			$('#urlMap').val(urlMap);
@@ -569,15 +549,6 @@
         	var self = this;
         	$('#socialSharePublicar').html('');
         	var v_url = self._getUrlMap();
-        	
-        	 var nomVisor = self.mapConfig.nom_visor;
-			 if (nomVisor!=null) {
-				 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
-				 v_url = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
-				 v_url= v_url+"?3D="+estatMapa3D;
-			 }
-			 
-        	
         	if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
         	//require ajax
         	shortUrl(v_url).then(function(results){
@@ -755,23 +726,14 @@
         	//nomIndexacio=nomIndexacio.replace(/\s/g, "-");
 			nomIndexacio= encodeURI(nomIndexacio);
 
-			var urlMap;
-			 var nomVisor = self.mapConfig.nom_visor;
-			 if (nomVisor!=null) {
-				 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
-				 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
-				 urlMap=urlMap+"?3D="+estatMapa3D;
-			 }
-			 else {
 
-	        	urlMap = self._getUrlMap();
-	        	urlMap=urlMap+"&title="+nomIndexacio;
-	
-	        	urlMap = urlMap.replace('mapa','visor');
-				urlMap = urlMap.replace('#no-back-button','');
-				urlMap=urlMap+"&3D="+estatMapa3D;
+        	var urlMap = self._getUrlMap();
+        	urlMap=urlMap+"&title="+nomIndexacio;
 
-			 }
+        	urlMap = urlMap.replace('mapa','visor');
+			urlMap = urlMap.replace('#no-back-button','');
+			urlMap=urlMap+"&3D="+estatMapa3D;
+
         	$("#urlVisorMap a").attr("href", urlMap);
 
         	$('#urlMap').val(urlMap);
