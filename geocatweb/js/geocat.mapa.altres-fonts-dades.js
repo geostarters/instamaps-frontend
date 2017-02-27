@@ -1,96 +1,96 @@
 /**
- * 
+ * geocat.mapa.altres-fonts-dades
  */
 function cercaCapes(e){
-		var code = e.which; // recommended to use e.which, it's normalized across browsers
-	    if(code==13) {//enter
-	    	var data = {
-	        	searchInput: jQuery("#txt_capesInstamaps").val()
-	    	};
-	    	valorCampText=jQuery("#txt_capesInstamaps").val();
-	    	searchCapesPubliques(data).then(function(results){
-	    		if(results.status == 'OK'){
-	    			var lDadesInstamaps = '<ul class="bs-dadesO panel-heading llista-dadesInstamaps">';
-	    			var apBusinessIds = results.apBusinessIds;
+	var code = e.which; // recommended to use e.which, it's normalized across browsers
+    if(code==13) {//enter
+    	var data = {
+        	searchInput: jQuery("#txt_capesInstamaps").val()
+    	};
+    	valorCampText=jQuery("#txt_capesInstamaps").val();
+    	searchCapesPubliques(data).then(function(results){
+    		if(results.status == 'OK'){
+    			var lDadesInstamaps = '<ul class="bs-dadesO panel-heading llista-dadesInstamaps">';
+    			var apBusinessIds = results.apBusinessIds;
 
-	    			jQuery.each(results.results, function(i, item) {
-	    				//console.debug(item);
-	    				lDadesInstamaps += '<li><a class="label-dadesInstamaps" href="#" data-url="'+item[0]+'" data-servertype="'+item[2]+'" data-nom="'+item[1]+'">'
-	    						+ item[1]
-	    						+ '</a>'
-	    						+'&nbsp;&nbsp;<a href="http://www.instamaps.cat/geocatweb/visor.html?businessid='+apBusinessIds[item[0]]+'" target="_blank"><span class="glyphicon glyphicon-eye-open" title="Veure al corresponent mapa">'
-	    						+'</span></a>'
-	    						+ '</li>';
-	    			});				
-	    		
-	    			lDadesInstamaps += '</ul>';
-	    			jQuery("#id_capes_instamaps").html(
-	    					'<div class="panel-dadesInstamaps">'+									
-	    					'<div class="input-group txt_capes">'+
-	    						'<input type="text" lang="ca" class="form-control" value="'+data.searchInput+'" placeholder="Entra el nom de la capa que vols buscar" style="height:33px" id="txt_capesInstamaps" onkeyup="cercaCapes(event);">'+ 
-	    						'<span class="input-group-btn">'+
-	    							'<button type="button" id="bt_capesInstamaps" class="btn btn-success" onclick="cercaCapesBtn();">'+
-	    								'<span class="glyphicon glyphicon-play"></span>'+
-	    							'</button>'+
-	    						'</span>'+
-	    					'</div>'+
-	    					lDadesInstamaps +
-	    				'</div>'
-	    			);
-	    			jQuery("#id_capes_instamaps a.label-dadesInstamaps").on('click', function(e) {
-	    				var data = {
-	    						uid: Cookies.get('uid'),
-	    						mapBusinessId: url('?businessid'),
-	    						businessId: this.dataset.url,
-	    						nom: this.dataset.nom +"_duplicat",
-	    						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
-	    						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
-	    						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
-	    				};	
-	    				var servertype = this.dataset.servertype;
-	    				duplicateVisualitzacioLayer(data).then(function(results){
-	    					if(results.status==='OK'){
-	    						
-	    						var value = results.results;
-	    						
-	    						$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades instamaps', servertype, 1]});
+    			jQuery.each(results.results, function(i, item) {
+    				//console.debug(item);
+    				lDadesInstamaps += '<li><a class="label-dadesInstamaps" href="#" data-url="'+item[0]+'" data-servertype="'+item[2]+'" data-nom="'+item[1]+'">'
+    						+ item[1]
+    						+ '</a>'
+    						+'&nbsp;&nbsp;<a href="http://www.instamaps.cat/geocatweb/visor.html?businessid='+apBusinessIds[item[0]]+'" target="_blank"><span class="glyphicon glyphicon-eye-open" title="Veure al corresponent mapa">'
+    						+'</span></a>'
+    						+ '</li>';
+    			});				
+    		
+    			lDadesInstamaps += '</ul>';
+    			jQuery("#id_capes_instamaps").html(
+    					'<div class="panel-dadesInstamaps">'+									
+    					'<div class="input-group txt_capes">'+
+    						'<input type="text" lang="ca" class="form-control" value="'+data.searchInput+'" placeholder="Entra el nom de la capa que vols buscar" style="height:33px" id="txt_capesInstamaps" onkeyup="cercaCapes(event);">'+ 
+    						'<span class="input-group-btn">'+
+    							'<button type="button" id="bt_capesInstamaps" class="btn btn-success" onclick="cercaCapesBtn();">'+
+    								'<span class="glyphicon glyphicon-play"></span>'+
+    							'</button>'+
+    						'</span>'+
+    					'</div>'+
+    					lDadesInstamaps +
+    				'</div>'
+    			);
+    			jQuery("#id_capes_instamaps a.label-dadesInstamaps").on('click', function(e) {
+    				var data = {
+    						uid: Cookies.get('uid'),
+    						mapBusinessId: url('?businessid'),
+    						businessId: this.dataset.url,
+    						nom: this.dataset.nom +"_duplicat",
+    						markerStyle:JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+    						lineStyle:JSON.stringify(getLineRangFromStyle(canvas_linia)),
+    						polygonStyle:JSON.stringify(getPolygonRangFromStyle(canvas_pol))
+    				};	
+    				var servertype = this.dataset.servertype;
+    				duplicateVisualitzacioLayer(data).then(function(results){
+    					if(results.status==='OK'){
+    						
+    						var value = results.results;
+    						
+    						$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades instamaps', servertype, 1]});
 
-	    						
-	    						if (value.epsg == "4326"){
-	    							value.epsg = L.CRS.EPSG4326;
-	    						}else if (value.epsg == "25831"){
-	    							value.epsg = L.CRS.EPSG25831;
-	    						}else if (value.epsg == "23031"){
-	    							value.epsg = L.CRS.EPSG23031;
-	    						}else{
-	    							value.epsg = map.crs;
-	    						}							
-	    						if(servertype == t_wms){
-	    							loadWmsLayer(value);
-	    						}else if((servertype == t_dades_obertes)){
-	    							loadDadesObertesLayer(value);
-	    						}else if(servertype == t_xarxes_socials){
-	    							
-	    							var options = jQuery.parseJSON( value.options );
-	    							if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
-	    							else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
-	    							else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
-	    							
-	    						}else if(servertype == t_tematic){
-	    							loadTematicLayer(value);
-	    						}else if(servertype == t_visualitzacio){
-	    							loadVisualitzacioLayer(value);
-	    						}							
-	    						$('#dialog_dades_ex').modal('hide');
-	    						activaPanelCapes(true);
-	    					}
-	    				});								
-	    				
-	    			});
-	    			
-	    		}
-	    	});
-	    }
+    						
+    						if (value.epsg == "4326"){
+    							value.epsg = L.CRS.EPSG4326;
+    						}else if (value.epsg == "25831"){
+    							value.epsg = L.CRS.EPSG25831;
+    						}else if (value.epsg == "23031"){
+    							value.epsg = L.CRS.EPSG23031;
+    						}else{
+    							value.epsg = map.crs;
+    						}							
+    						if(servertype == t_wms){
+    							loadWmsLayer(value);
+    						}else if((servertype == t_dades_obertes)){
+    							loadDadesObertesLayer(value);
+    						}else if(servertype == t_xarxes_socials){
+    							
+    							var options = jQuery.parseJSON( value.options );
+    							if(options.xarxa_social == 'twitter') loadTwitterLayer(value, options.hashtag);
+    							else if(options.xarxa_social == 'panoramio') loadPanoramioLayer(value);
+    							else if(options.xarxa_social == 'wikipedia') loadWikipediaLayer(value);
+    							
+    						}else if(servertype == t_tematic){
+    							loadTematicLayer(value);
+    						}else if(servertype == t_visualitzacio){
+    							loadVisualitzacioLayer(value);
+    						}							
+    						$('#dialog_dades_ex').modal('hide');
+    						activaPanelCapes(true);
+    					}
+    				});								
+    				
+    			});
+    			
+    		}
+    	});
+    }
 }
 
 function cercaCapesBtn(){
