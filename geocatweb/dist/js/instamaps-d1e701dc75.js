@@ -28787,10 +28787,7 @@ addHtmlModalNoWebGL();
 					location: false,
 					share: false,
 					like: false,
-
 					snapshot: false,
-					//print: false,
-					//geopdf: false,
 					c3d: false,
 					mousePosition: false,
 					scale: false,
@@ -28809,10 +28806,7 @@ addHtmlModalNoWebGL();
 					location: true,
 					share: true,
 					like: true,
-
 					snapshot: true,
-					//print: true,
-					//geopdf: true,
 					c3d: true,
 					mousePosition: true,
 					scale: true,
@@ -28878,21 +28872,6 @@ addHtmlModalNoWebGL();
 				self.controls.snapshotControl.hideBtn();
 			}
 
-			/*
-			if(options.print && self.controls.printControl){
-				self.controls.printControl.showBtn();
-			}else if(self.controls.printControl){
-				self.controls.printControl.hideBtn();
-			}
-
-			if(options.geopdf && self.controls.geopdfControl){
-				self.controls.geopdfControl.showBtn();
-			}else if(self.controls.geopdfControl){
-				self.controls.geopdfControl.hideBtn();
-			}
-
-			*/
-
 			if(options.c3d && self.controls.control3d){
 				self.controls.control3d.showBtn();
 			}else if(self.controls.control3d){
@@ -28955,8 +28934,6 @@ addHtmlModalNoWebGL();
 
 		removeCapes: function(){
 			var self = this;
-			//var map = self.map;
-			//map.removeControl(self.controlCapes);
 			$('.bt_llista').hide();
 			return self;
 		},
@@ -31706,4 +31683,4 @@ jQuery(document).ready(function() {
 	global.Instamaps = Instamaps; 
 	
 }(window, jQuery));
-//# sourceMappingURL=instamaps-a1e1af074c.js.map
+//# sourceMappingURL=instamaps-d1e701dc75.js.map
