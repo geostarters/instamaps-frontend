@@ -91,7 +91,6 @@ function cercaCapes(e){
 	    		}
 	    	});
 	    }
-	
 }
 
 function cercaCapesBtn(){
