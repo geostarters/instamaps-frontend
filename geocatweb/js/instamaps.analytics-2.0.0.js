@@ -44,7 +44,7 @@ var _gaq = _gaq || [];
 	});
 
 	$.subscribe('trackPageview', function(e, data){
-		//$.publish('trackPageview', null);
+		
 		 ga('send', 'pageview');
 	});
 

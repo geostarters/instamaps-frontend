@@ -773,6 +773,7 @@
         	this.createWMSFromMap();
 
   $.publish('analyticsEvent',{event:['mapa', '1#opt_publicar', 'tipusPub_'+$("input[name=privacitat]:checked").val(), 10]});
+  $.publish('analyticsEvent',{event:['mapa', '1#opt_publicar', 'tipusPubPublicitat_'+$("input[name=publicitat]:checked").val(), 10]});
 
         	if(!self.mapConfig.clau){
         		if ($("input[name=privacitat]:checked").val()=="restringit"){
