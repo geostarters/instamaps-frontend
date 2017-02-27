@@ -6,25 +6,25 @@ function addHtmlInterficieFuncionsSIG(){
 		$('.div_gr3_sig [data-toggle="tooltip"]').tooltip({placement : 'bottom',container : 'body'});
 		
 		jQuery("#union").on('click',function(e){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'union', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'union', 1]});
 			openUnionModal();
 			jQuery("#fons_sig").popover('hide');
 		});
 				
 		jQuery("#filtre").on('click',function(e){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'filter', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'filter', 1]});
 			openFilterModal();
 			jQuery("#fons_sig").popover('hide');
 		});
 		
 		jQuery("#columnJoin").on('click',function(e){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'columnJoin', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'columnJoin', 1]});
 			openColumnJoinModal();
 			jQuery("#fons_sig").popover('hide');
 		});
 		
 		jQuery("#spatialJoin").on('click',function(e){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'spatialJoin', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'spatialJoin', 1]});
 			openSpatialJoinModal();
 			jQuery("#fons_sig").popover('hide');
 		});
@@ -98,22 +98,22 @@ function creaPopOverMesFuncionsGIS() {
 		var funcioSIG = jQuery(this).attr('id');
 		
 		if (funcioSIG == "buffer") {
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'buffer', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'buffer', 1]});
 			openBufferModal();
 			jQuery("#fons_sig").popover('hide');
 		}				
 		if (funcioSIG == "interseccio") {
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'interseccio', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'interseccio', 1]});
 			openIntersectionModal();
 			jQuery("#fons_sig").popover('hide');
 		}
 		if (funcioSIG == "tag"){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'tag', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'tag', 1]});
 			openTagModal();
 			jQuery("#fons_sig").popover('hide');
 		}
 		if (funcioSIG == "centroide"){
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'gis', 'centroide', 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'gis', 'centroide', 1]});
 			openCentroideModal();
 			jQuery("#fons_sig").popover('hide');
 		}

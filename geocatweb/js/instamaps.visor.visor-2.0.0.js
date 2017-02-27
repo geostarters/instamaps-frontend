@@ -13,11 +13,11 @@
  */
 
 ;(function(global, $){
-	
+
 	var Visor = function(options){
 		return new Visor.init(options);
 	}
-	
+
 	var map_ = new L.IM_Map('map', {
 	  	zoomAnimation: false,
         typeMap : "topoMapGeo",
@@ -28,40 +28,41 @@
 	    timeDimensionControl: true,
 	    timeDimensionControlOptions:{
 	    	speedSlider:false
-	    }
+	    },
+	    spinerDiv: 'div_loading'
 	}).setView([ 41.431, 1.8580 ], 8);
-	
+
 	var visorOptions = {
 		addDefaultZoomControl: true,
 		controls: {},
 		map: map_
 	};
-	
+
 	var changeInitVisor = function(){
 		$('.container').css('width','95%');
 		//TODO ver como hacer para no depender del timeout
 		//if (!isIframeOrEmbed()) setTimeout('activaPanelCapes(false)',3000);
 	};
-	
+
 	Visor.prototype = {
 		addLogoInstamap: function(){
 			var self = this;
 			$.get("templates/logoInstamaps.html",function(data){
 				self.controls.controlLogos.addLogoHtml(data);
 			});
-   			
+
 			return self;
    		},
-   		
+
    		removeLogoInstamap: function(){
 			var self = this;
 			self.controls.controlLogos.removeLogo({
 				className: 'logo_instamaps'
 			});
-			
+
 			return self;
    		},
-   		
+
    		resizeMap: function(){
 			var self = this,
 			map = self.map,
@@ -81,17 +82,17 @@
 			_mapDiv.css('top', factorH + 'px');
 			_mapDiv.height(heightW - factorH);
 			_mapDiv.width(widthW - factorW);
-						
+
 			if(widthW<500 || heightW<=350){
 				optionsBtn = {
-					openInstamaps: true,	
+					openInstamaps: true,
 					home: false,
 					routing: false,
 					search: false,
 					location: false,
 					share: false,
 					like: false,
-					
+
 					snapshot: false,
 					//print: false,
 					//geopdf: false,
@@ -106,14 +107,14 @@
 				};
 			}else{
 				optionsBtn = {
-					openInstamaps: false,	
+					openInstamaps: false,
 					home: true,
 					routing: true,
 					search: true,
 					location: true,
 					share: true,
 					like: true,
-					
+
 					snapshot: true,
 					//print: true,
 					//geopdf: true,
@@ -131,7 +132,7 @@
 			map.invalidateSize();
 			return self;
 		},
-		
+
 		_redrawButtons: function(options){
 			var self = this;
 			if(options.home && self.controls.homeControl){
@@ -139,104 +140,100 @@
 			}else if(self.controls.homeControl){
 				self.controls.homeControl.hideBtn();
 			}
-			
+
 			if(options.openInstamaps && self.controls.openInstamapsControl){
 				self.controls.openInstamapsControl.showBtn();
 			}else if(self.controls.openInstamapsControl){
 				self.controls.openInstamapsControl.hideBtn();
 			}
-			
+
 			if(options.routing && self.controls.routingControl){
 				self.controls.routingControl.showBtn();
 			}else if(self.controls.routingControl){
 				self.controls.routingControl.hideBtn();
 			}
-			
+
 			if(options.location && self.controls.locationControl){
 				self.controls.locationControl.showBtn();
 			}else if(self.controls.locationControl){
 				self.controls.locationControl.hideBtn();
 			}
-			
+
 			if(options.share && self.controls.shareControl){
 				self.controls.shareControl.showBtn();
 			}else if(self.controls.shareControl){
 				self.controls.shareControl.hideBtn();
 			}
-			
+
 			if(options.like && self.controls.likeControl){
 				self.controls.likeControl.showBtn();
 			}else if(self.controls.likeControl){
 				self.controls.likeControl.hideBtn();
 			}
-			
+
 			if(options.search && self.controls.searchControl){
 				self.controls.searchControl.showBtn();
 			}else if(self.controls.searchControl){
 				self.controls.searchControl.hideBtn();
 			}
-			
-			
-			
-			
-			
+
 			if(options.snapshot && self.controls.snapshotControl){
 				self.controls.snapshotControl.showBtn();
 			}else if(self.controls.snapshotControl){
 				self.controls.snapshotControl.hideBtn();
 			}
-			
+
 			/*
 			if(options.print && self.controls.printControl){
 				self.controls.printControl.showBtn();
 			}else if(self.controls.printControl){
 				self.controls.printControl.hideBtn();
 			}
-			
+
 			if(options.geopdf && self.controls.geopdfControl){
 				self.controls.geopdfControl.showBtn();
 			}else if(self.controls.geopdfControl){
 				self.controls.geopdfControl.hideBtn();
 			}
-			
+
 			*/
-			
+
 			if(options.c3d && self.controls.control3d){
 				self.controls.control3d.showBtn();
 			}else if(self.controls.control3d){
 				self.controls.control3d.hideBtn();
 			}
-			
+
 			if(options.mousePosition && self.controls.mousePositionControl){
 				self.controls.mousePositionControl.showBtn();
 			}else if(self.controls.mousePositionControl){
 				self.controls.mousePositionControl.hideBtn();
 			}
-			
+
 			if(options.scale && self.controls.scaleControl){
 				self.controls.scaleControl.showBtn();
 			}else if(self.controls.scaleControl){
 				self.controls.scaleControl.hideBtn();
 			}
-			
+
 			if(options.fons && self.controls.fonsControl){
 				self.controls.fonsControl.showBtn();
 			}else if(self.controls.fonsControl){
 				self.controls.fonsControl.hideBtn();
 			}
-			
+
 			if(options.legend && self.controls.llegendaControl){
 				self.controls.llegendaControl.showBtn();
 			}else if(self.controls.llegendaControl){
 				self.controls.llegendaControl.hideBtn();
 			}
-			
+
 			if(options.layers && self.controls.layersControl){
 				self.controls.layersControl.showBtn();
 			}else if(self.controls.layersControl){
 				self.controls.layersControl.hideBtn();
 			}
-			
+
 			if(options.minimap && self.controls.minimapControl){
 				self.controls.minimapControl.showBtn();
 			}else if(self.controls.minimapControl){
@@ -244,7 +241,7 @@
 			}
 			return self;
 		},
-   		
+
 		hideControl: function(control){
 			var self = this;
 			if(self.controls[control]){
@@ -252,7 +249,7 @@
 			}
 			return self;
 		},
-		
+
 		showControl: function(control){
 			var self = this;
 			if(self.controls[control]){
@@ -260,7 +257,7 @@
 			}
 			return self;
 		},
-		
+
 		removeCapes: function(){
 			var self = this;
 			//var map = self.map;
@@ -268,48 +265,45 @@
 			$('.bt_llista').hide();
 			return self;
 		},
-		
+
 		drawEmbed: function(){
 			var self = this;
 			$('#navbar-visor').hide();
 			$('#searchBar').css('top', '0');
-			
+
 			//Per defecte embed té el control de zoom, el botó d'obrir finestra Instamaps i el control de capes.
 			self.addDefaultZoomControl = 1;
 			self.openinstamaps = 1;
 			self.layerscontrol = 1;
 			self.ltoolbar=1;
 			self.rtoolbar=1;
-			
+
 			if (!self.mouseposition) self.mouseposition = 0;
 			if (!self.scalecontrol) self.scalecontrol = 0;
 			if (!self.minimapcontrol) self.minimapcontrol = 0;
 			if (!self.fonscontrol) self.fonscontrol = 0;
-			
+
 			if (!self.homecontrol) self.homecontrol = 0;
 			if (!self.locationcontrol) self.locationcontrol = 0;
 			if (!self.sharecontrol) self.sharecontrol = 0;
 			if (!self.searchcontrol) self.searchcontrol = 0;
 			if (!self.routingcontrol) self.routingcontrol = 0;
 			if (!self.likecontrol) self.likecontrol = 0;
-			
+
 			if (!self.control3d) self.control3d = 0;
-			
-			
-			
-			
+
 			if (!self.snapshotcontrol) self.snapshotcontrol = 0;
-			
+
 			if (!self.printcontrol) self.printcontrol = 0;
 			if (!self.geopdfcontrol) self.geopdfcontrol = 0;
-			
+
 			if (!self.llegenda) self.llegenda = 0;
 			if (!self.colorscalecontrol) self.colorscalecontrol = 0;
-			
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', 'embed']});
+
+			$.publish('analyticsEvent',{event:[ 'visor', 'embed']});
 			return self;
 		},
-		
+
 		addMousePositionControl: function(){
 			var self = this,
 			ctr_position,
@@ -324,151 +318,151 @@
 	  			'separator': ' ',
 	  			'showETRS89':true
 	  		}).addTo(_map);
-			
+
 			self.controls.mousePositionControl = ctr_position;
-			
+
 			return self;
 		},
-		
+
 		addScaleControl: function(){
 			var self = this,
 			ctr_scale,
 			_map = self.map;
 			ctr_scale = L.control.escala({
-				position : 'bottomright', 
+				position : 'bottomright',
 				'metric':true,
 				'imperial':false
 			}).addTo(_map);
-			
+
 			self.controls.scaleControl = ctr_scale;
-			
+
 			return self;
 		},
-		
+
 		addMinimapControl: function(options){
 			var self = this,
 			_minTopo,
 			ctr_minimap,
 			_map = self.map,
-			_options = { 
-				toggleDisplay: true, 
+			_options = {
+				toggleDisplay: true,
 				autoToggleDisplay: false,
 				minimized: true,
 				mapOptions: {trackResize: false}
 			};
-			
+
 			_options = $.extend(_options, options);
-			
+
 			_minTopo = new L.TileLayer(URL_MQ, {
-				minZoom: 0, 
-				maxZoom: 19, 
+				minZoom: 0,
+				maxZoom: 19,
 				subdomains:subDomains});
-			
+
 			ctr_minimap = L.control.minimapa(_minTopo, _options).addTo(_map)._minimize();
-			
+
 			self.controls.minimapControl = ctr_minimap;
-			
+
 			return self;
 		},
-		
+
 		addFonsControl: function(){
-			
+
 			var self = this,
 			ctr_fons,
 			_map = self.map;
 			ctr_fons = new L.IM_controlFons({
 				title: window.lang.translate('Escollir el mapa de fons'),
 			}).addTo(_map);
-			
+
 			self.controls.fonsControl = ctr_fons;
-			
+
 			return self;
 		},
-		
+
 		addLayersControl: function(button){
 			var self = this,
 			btn_ctr_layers,
 			_mapConfig = self._mapConfig,
 			_map = self.map;
-			
+
 			button = (button !== undefined) ? button : true;
-			
+
 			btn_ctr_layers = L.control.layersBtn({
 				mapConfig: _mapConfig,
 				title: window.lang.translate('Llista de capes'),
 				button: button
 			});
 			btn_ctr_layers.addTo(_map);
-			
+
 			self.controls.layersControl = btn_ctr_layers;
-			
+
 			return self;
 		},
-		
+
 		addOpenInstamapsControl: function(){
 			var self = this,
 			ctr_linkViewMap,
 			_map = self.map;
-			
+
 			ctr_linkViewMap = L.control.openInstamaps({
 				businessid: self.businessid,
 				urlwms: self.urlwms,
 				layername: self.layername,
 				title: window.lang.translate('Veure a InstaMaps'),
 				fn: function(event) {
-					_gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]);
+					$.publish('analyticsEvent',{event:['visor', 'button#veureInstamaps', 'label embed', 1]});
 				}
 			});
 			ctr_linkViewMap.addTo(_map);
-			
+
 			self.controls.openInstamapsControl = ctr_linkViewMap;
 		},
-		
+
 		addHomeControl: function(){
 			var self = this,
 			ctr_vistaInicial,
 			_mapConfig = self.mapConfig,
 			_map = self.map;
-			
+
 			ctr_vistaInicial = L.control.home({
 				mapConfig: _mapConfig,
 				title: window.lang.translate('Vista inicial')
 			});
 			ctr_vistaInicial.addTo(_map);
-			
+
 			self.controls.homeControl = ctr_vistaInicial;
-			
+
 			return self;
 		},
-		
+
 		addLikeControl: function(){
 			var self = this,
 			ctr_like,
 			_mapConfig = self.mapConfig,
 			_map = self.map;
-			
+
 			ctr_like = L.control.like({
 				mapConfig: _mapConfig,
 				title: window.lang.translate("M'agrada")
 			});
 			ctr_like.addTo(_map);
-			
+
 			self.controls.likeControl = ctr_like;
-			
+
 			return self;
 		},
-		
+
 		addShareControl: function(){
 			var self = this,
 			ctr_shareBT,
 			v_url = window.location.href,
 			_map = self.map;
-			
+
 			if(v_url.indexOf('localhost')!=-1){
 				v_url = v_url.replace('localhost',DOMINI);
 			}
 			if (v_url.indexOf("mapacolaboratiu=si")>-1) v_url=v_url.replace("&mapacolaboratiu=si","");
-        	
+
 			shortUrl(v_url).then(function(results){
 				$('#socialShare_visor').share({
 					networks: ['email','facebook','googleplus','twitter','linkedin','pinterest'],
@@ -477,41 +471,41 @@
 					theme: 'square',
 					urlToShare: results.id
 				});
-			});	
-			
+			});
+
 			$('.share-square a').attr('target','_blank');
-			
+
 			ctr_shareBT = L.control.share({
 				title: window.lang.translate('Compartir')
 			});
 			ctr_shareBT.addTo(_map);
-			
+
 			self.controls.shareControl = ctr_shareBT;
-			
+
 		},
-		
+
 		addRoutingControl: function(){
 			var self = this,
 			ctr_routingBT,
 			_map = self.map;
-			
+
 			ctr_routingBT = L.control.routingControl({
 				title: window.lang.translate('Routing'),
 				lang: web_determinaIdioma()
 			});
-			
+
 			ctr_routingBT.addTo(_map);
-			
+
 			self.controls.routingControl = ctr_routingBT;
-			
+
 			return self;
 		},
-		
+
 		addLocationControl: function(){
 			var self = this,
 			ctr_gps,
 			_map = self.map;
-			
+
 			//TODO agregar las opciones por defecto al control
 			ctr_gps = L.control.locationControl({
 				autoCenter: true,		//move map when gps location change
@@ -527,19 +521,19 @@
 				textErr: window.lang.translate('Error del GPS'),	//error message on alert notification
 				callErr: null		//function that run on gps error activating
 			});
-						
+
 			_map.addControl(ctr_gps);
-			
+
 			self.controls.locationControl = ctr_gps;
-			
+
 			return self;
 		},
-		
+
 		addSearchControl: function(){
 			var self = this,
 			ctr_findBT,
 			_map = self.map;
-			
+
 			ctr_findBT = L.control.searchControl({
 				title: window.lang.translate('Cercar'),
 				searchUrl: paramUrl.searchAction+"searchInput={s}",
@@ -548,157 +542,154 @@
 			_map.addControl(ctr_findBT);
 			//TODO generar el control del search
 			//addControlCercaEdit();
-			
+
 			self.controls.searchControl = ctr_findBT;
-			
+
 			return self;
 		},
-		
-		
-		
-		
+
 		addSnapshotControl: function(){
 			var self = this,
 			ctr_snapshot,
 			_map = self.map;
-			
+
 			ctr_snapshot = L.control.mapExport({
 				title: window.lang.translate('Capturar la vista del mapa')
 			});
 			ctr_snapshot.addTo(_map);
-			
+
 			self.controls.snapshotControl = ctr_snapshot;
-			
+
 			return self;
 		},
-		
-		
+
+
 		/*
 		addSnapshotControl: function(){
 			var self = this,
 			ctr_snapshot,
 			_map = self.map;
-			
+
 			ctr_snapshot = L.control.snapshot({
 				title: window.lang.translate('Capturar la vista del mapa')
 			});
 			ctr_snapshot.addTo(_map);
-			
+
 			self.controls.snapshotControl = ctr_snapshot;
-			
+
 			return self;
 		},
-		
+
 		addPrintControl: function(){
 			var self = this,
 			ctr_printmap,
 			_map = self.map;
-			
+
 			ctr_printmap = L.control.printmap({
 				title: window.lang.translate('Imprimir la vista del mapa')
 			});
 			ctr_printmap.addTo(_map);
-			
+
 			self.controls.printControl = ctr_printmap;
-			
+
 			return self;
 		},
-		
+
 		addGeopdfControl: function(){
 			var self = this,
 			ctr_geopdf,
 			_map = self.map;
-			
+
 			ctr_geopdf = L.control.geopdf({
 				title: window.lang.translate('Descarrega mapa en format GeoPDF')
 			});
 			ctr_geopdf.addTo(_map);
-			
+
 			self.controls.geopdfControl = ctr_geopdf;
-			
+
 			return self;
 		},
 		*/
-		
+
 		addAppModul:function(modul){
 			var self = this,
 			ctr_arbres,
-			_map = self.map;			
-			if(modul=='arbres'){				
-				$.getScript( "/moduls/" + modul + "/js/modul_"+modul+"_1.0.0.js", function( data, textStatus, jqxhr ) {					 								
+			_map = self.map;
+			if(modul=='arbres'){
+				$.getScript( "/moduls/" + modul + "/js/modul_"+modul+"_1.0.0.js", function( data, textStatus, jqxhr ) {
 					if (jqxhr.status==200){
-					ctr_arbres=L.control.addmodulArbres(new L.geoJson()).addTo(_map);					
+					ctr_arbres=L.control.addmodulArbres(new L.geoJson()).addTo(_map);
 					self.controls.arbresControl = ctr_arbres;
 					}
-				});										
+				});
 			}
-								
+
 			return self;
-					
-			
+
+
 		},
-		
+
 		addLlegenda: function(){
 			var self = this,
 			ctr_legend,
 			_map = self.map;
-			
+
 			ctr_legend = L.control.legend({
 				title: window.lang.translate('Llegenda'),
 				tipusllegenda: self.tipusllegenda,  //"dinamica"
 				llegendaOpt: self.llegendaOpt,
 				origenllegenda:'visor'
 			});
-			
+
 			ctr_legend.addTo(_map);
-			
+
 			self.controls.llegendaControl = ctr_legend;
-			
+
 			return self;
 		},
-		
+
 		addControl3d: function(){
 			var self = this,
 			ctr_3d,
 			_map = self.map;
-			
+
 			ctr_3d = L.control.control3d({
 				title: window.lang.translate('Canviar vista')
 			});
 			ctr_3d.addTo(_map);
-			
+
 			self.controls.control3d = ctr_3d;
-			
+
 			return self;
 		},
-		
+
 		addControlLogos: function(){
 			var self = this,
 			ctr_logos,
 			_map = self.map;
-			
+
 			ctr_logos = L.control.logos();
 			ctr_logos.addTo(_map);
-			
+
 			self.controls.controlLogos = ctr_logos;
-			
+
 			return self;
 		},
-		
+
 		drawMap: function(){
 			var self = this,
 			_map = self.map;
 			map = self.map;
-			
+
 			self._listenEvents();
 			return self;
 		},
-		
+
 		drawControls: function(){
 			var self = this;
-			
+
 			self.addControlLogos();
-			
+
 			if((self.mouseposition && self.mouseposition=="1") || self.mouseposition===null){
 				self.addMousePositionControl();
 			}
@@ -708,11 +699,11 @@
 			if((self.minimapcontrol && self.minimapcontrol=="1") || self.minimapcontrol===null){
 				self.addMinimapControl();
 			}
-				
+
 			if((self.fonscontrol && self.fonscontrol=="1") || self.fonscontrol===null) {
 				self.addFonsControl();
 			}
-			
+
 			if((self.ltoolbar && self.ltoolbar=="1") || (self.ltoolbar===null)){
 				if(self.embed){
 					if((self.openinstamaps && self.openinstamaps=="1") || (self.openinstamaps===null)){
@@ -736,40 +727,41 @@
 				}
 				if((self.likecontrol && self.likecontrol=="1") || self.likecontrol===null){
 					self.addLikeControl();
+
 				}
-			
+
 			}
-			
+
 			if((self.rtoolbar && self.rtoolbar=="1") || (self.rtoolbar===null)){
 				if((self.layerscontrol && self.layerscontrol=="1") || (self.layerscontrol===null)){
 					self.addLayersControl();
 				}else{
 					self.addLayersControl(false);
 				}
-			
+
 				if((self.control3d && self.control3d=="1") || self.control3d===null) {
 					self.addControl3d();
 				}
-				
-				
-				
+
+
+
 				if((self.snapshotcontrol && self.snapshotcontrol=="1") || self.snapshotcontrol===null){
-					
-					
+
+
 					self.addSnapshotControl();
 				}else if((self.printcontrol && self.printcontrol=="1") || self.printcontrol===null){
-					
-					
+
+
 				//	self.addSnapshotControl();
 				}
 				else if ((self.geopdfcontrol && self.geopdfcontrol=="1") || self.geopdfcontrol===null){
-					
-					
+
+
 				//	self.addSnapshotControl();
 				}
-				
-				
-			
+
+
+
 			}else{
 				self.addLayersControl(false);
 			}
@@ -777,7 +769,7 @@
 				var hasLayers = false;
 				if(self._mapConfig.hasOwnProperty("legend"))
 				{
-				
+
 					var leg = JSON.parse(self._mapConfig.legend);
 					var keys = Object.keys(leg);
 					for(var i=0; i<keys.length; ++i) {
@@ -786,7 +778,7 @@
 								hasLayers=hasLayers || leg[keys[i]][j].chck;
 							}
 						}
-						
+
 					}
 
 					if (!self.nollegenda && hasLayers) {
@@ -798,35 +790,36 @@
 
 				}
 			}
-			
+
 			if(self.appmodul){
 				self.addAppModul(self.appmodul);
-				
+
 			}
-			
+
 			return self;
 		},
-		
+
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
-			window.location.href = paramUrl.galeriaPage;
+			console.debug("error");
+			//window.location.href = paramUrl.galeriaPage;
 		},
-		
+
 		loadLoginPage: function(){
 			window.location.href = paramUrl.loginPage;
 		},
-		
+
 		//hace el redirect para que el invitado al colaborativo pueda ver que puede editar el mapa
 		loadMapaColaboratiuPage: function(){
 			var self = this,
 			_businessid = self.businessid;
 			window.location = paramUrl.mapaPage+"?businessid="+_businessid+"&mapacolaboratiu=si";
 		},
-		
+
 		_loadPasswordModal: function(){
 			var self = this,
 			_businessid = self.businessid;
-			
+
 			$('#dialog_password').modal('show');
 
 			$('#dialog_password .btn-primary').on('click',function(){
@@ -850,10 +843,10 @@
 					});
 				}
 			});
-			
+
 			return self;
 		},
-		
+
 		_colaboratiuToLogin: function(){
 			var self = this,
 			_uid = self.uid;
@@ -862,17 +855,17 @@
 			Cookies.set('collaboratebid', _businessid);
 			Cookies.set('collaborateuid', _uid);
 			self.loadLoginPage();
-			
+
 			return self;
 		},
-		
+
 		_beforeLoadConfig: function(results){
 			var self = this,
 			_map = self.map,
 			_uid = self.uid,
 			_businessid = self.businessid,
 			_mapacolaboratiu = self.mapacolaboratiu;
-			
+
 			if ( _mapacolaboratiu  &&  _mapacolaboratiu=="alta" && !Cookies.get('uid')) {
 				self._colaboratiuToLogin();
 			}
@@ -882,7 +875,9 @@
 			else if (url('?mapacolaboratiu') &&  url('?mapacolaboratiu')=="alta" && _uid==Cookies.get('uid')) {
 				self.loadMapaColaboratiuPage();
 			}
-			var _mapConfig = $.parseJSON(results.results);
+			var _mapConfig;
+			if (undefined != results.results) _mapConfig= $.parseJSON(results.results);
+			else _mapConfig=results;
 			if(_mapConfig.options){
 				_mapConfig.options = $.parseJSON(_mapConfig.options);
 				if(_mapConfig.options.llegenda === false){
@@ -893,26 +888,26 @@
 				self.llegendaOpt=_mapConfig.options.llegendaOpt;
 			}
 			self._mapConfig = _mapConfig;
-			
+
 			self._configControls();
-			
+
 			_map.fire('loadconfig', _mapConfig);
 			$.publish('loadConfig', _mapConfig);
-			
+
 			return self;
 		},
-		
+
 		_configControls: function(){
 			var self = this,
 			mapConfigOptions = self._mapConfig.options;
-			
+
 			if(mapConfigOptions.params){
 				var params = mapConfigOptions.params;
 				if(self.embed && (!$.isEmptyObject(params.iframe))){
 					var piframe = params.iframe;
 					$.each(piframe, function(key, value){
 						if(self[key] == 0 || self[key] == 1){
-						
+
 						}else{
 							self[key] = value;
 						}
@@ -921,25 +916,93 @@
 					var pvisor = params.visor;
 					$.each(pvisor, function(key, value){
 						if(self[key] == 0 || self[key] == 1){
-						
+
 						}else{
 							self[key] = value;
 						}
 					});
 				}
 			}
-			
+
 			return self;
 		},
-		
+
 		fireLoadConfig: function(){
 			var self = this,
 			_map = self.map,
 			_mapConfig = self._mapConfig;
-			
+
 			_map.fire('visorconfig', _mapConfig);
-			
+
 			return self;
+		},
+		
+		_loadCacheMap: function(_businessid,_uid,_mapacolaboratiu){
+			var self=this;
+			if (_uid==null){
+				if (undefined != url('?id')){ 
+					_uid=url('?id');
+				}
+				else {
+					_uid = url(-3);
+				}
+			}
+			//console.debug(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json');
+			$.get(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json', function(results) { 
+				if(results){	
+					if (results.clau){
+						//ocultar las pelotas
+						self._hideLoading();
+						//mostar modal con contraseña
+						self._loadPasswordModal();
+					}
+					else self._beforeLoadConfig(results);
+				}
+				else {
+					var data = {
+							businessId: _businessid,
+							id: _uid,
+							mapacolaboratiu: _mapacolaboratiu,
+							uid: _uid	
+						};
+					getCacheMapByBusinessId(data).then(function(results){
+						if (results.status == "ERROR"){
+							self.loadErrorPage();
+						}else if (results.status == "PRIVAT"){
+							//ocultar las pelotas
+							self._hideLoading();
+							//mostar modal con contraseña
+							self._loadPasswordModal();
+						}else{
+			
+							self._beforeLoadConfig(results);
+			
+						}
+					});
+				}
+			}).fail(function() {
+				var data = {
+						businessId: _businessid,
+						id: _uid,
+						mapacolaboratiu: _mapacolaboratiu,
+						uid: _uid	
+					};
+				getCacheMapByBusinessId(data).then(function(results){
+					if (results.status == "ERROR"){
+						self.loadErrorPage();
+					}else if (results.status == "PRIVAT"){
+						//ocultar las pelotas
+						self._hideLoading();
+						//mostar modal con contraseña
+						self._loadPasswordModal();
+					}else{
+		
+						self._beforeLoadConfig(results);
+		
+					}
+				});
+			});
+			
 		},
 		
 		loadMapConfig: function(){
@@ -947,31 +1010,13 @@
 			_map = self.map,
 			_uid = self.uid,
 			_businessid = self.businessid,
-			_mapacolaboratiu = self.mapacolaboratiu,
-			data = {
-				businessId: _businessid,
-				id: _uid,
-				mapacolaboratiu: _mapacolaboratiu,
-				uid: _uid	
-			};
-			
-			getCacheMapByBusinessId(data).then(function(results){
-				if (results.status == "ERROR"){
-					self.loadErrorPage();
-				}else if (results.status == "PRIVAT"){
-					//ocultar las pelotas
-					self._hideLoading();
-					//mostar modal con contraseña
-					self._loadPasswordModal();
-				}else{
-
-					self._beforeLoadConfig(results);
-
-				}
-			});
+			_mapacolaboratiu = self.mapacolaboratiu;
+						
+			self._loadCacheMap(_businessid,_uid,_mapacolaboratiu);
 			
 			return self;
 		},
+		
 
 		loadURLConfig: function() {
 
@@ -989,16 +1034,12 @@
 			self.likecontrol = self.likecontrol || false;
 			self.layerscontrol = self.layerscontrol || false;
 			self.control3d = self.control3d || false;
-			
-			
+
 			self.snapshotcontrol = self.snapshotcontrol || false;
-			
+
 			self.printcontrol = self.printcontrol || false;
 			self.geopdfcontrol = self.geopdfcontrol || false;
-			
-			
-			
-			
+
 			self.rtoolbar = self.rtoolbar || false;
 			self.llegenda = self.llegenda || false;
 			self.appmodul = self.appmodul || false;
@@ -1008,7 +1049,7 @@
 			var hash = location.hash;
 			hashControl = new L.Hash(self.map);
 			var parsed = hashControl.parseHash(hash);
-			self._mapConfig = { 
+			self._mapConfig = {
 				tipusAplicacioId : TIPUS_APLIACIO_INSTAMAPS,
 				nomAplicacio : (self.appname ? self.appname : ""),
 				entitatUid : "@",
@@ -1022,43 +1063,36 @@
 				}
 			};
 
-			if(!self.zoomcontrol)
-			{
-
+			if(!self.zoomcontrol){
 				self.map.removeControl(self.map.zoomControl);
-
 			}
 
 			return self;
-
 		},
-		
+
 		loadApp: function(){
 			var self = this,
 			_map = self.map,
 			_mapConfig = self._mapConfig;
-			
+
 			self._loadPublicMap(_mapConfig);
-			
+
 			return self;
 		},
 
 		_mapNameShortener: function(inName) {
-
 			name = "<div id='mapNameContainer'><span title=\"" + inName + "\">" + inName + "</span></div>";
-
 			return name;
-
 		},
-		
+
 		_loadPublicMap: function(_mapConfig){
 			var self = this,
 				nomUser = _mapConfig.entitatUid.split("@"),
 				nomEntitat = _mapConfig.nomEntitat,
 				infoHtml = '';
-			
+
 			var nomAp = _mapConfig.nomAplicacio;
-			if ($(location).attr('href').indexOf('/visor.html') != -1) { 
+			if ($(location).attr('href').indexOf('/visor.html') != -1) {
 				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
 			}
 			if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
@@ -1066,26 +1100,26 @@
 			}
 			Cookies.set('perfil', 'instamaps');
 			checkUserLogin();
-			
+
 			infoHtml += '<p>'+nomUser[0]+'</p>';
-			
+
 			if (_mapConfig.options){
 				var desc=_mapConfig.options.description;
 
 				desc==""?desc=_mapConfig.nomAplicacio:desc=desc;
-				
+
 				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
 				if ($(location).attr('href').indexOf('/visor.html') != -1) {
 					$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 					$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-	
+
 					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
 					$('meta[property="og:image"]').attr('content', urlThumbnail);
-					var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+_mapConfig.businessId;		
+					var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+_mapConfig.businessId;
 					var nomApp=_mapConfig.nomAplicacio;
 					if (undefined!=nomApp){
-						var nomIndexacio=nomApp;			
-			        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;			
+						var nomIndexacio=nomApp;
+			        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
 			        	nomIndexacio= encodeURI(nomIndexacio);
 						urlMap += "&title="+nomIndexacio;
 					}
@@ -1108,29 +1142,29 @@
 			});
 
 			$('#infoMap').on('show.bs.popover', function () {
-				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));		
+				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));
 			});
-		
+
 			//TODO quitar la global ya que se usa en el control de capas.
 			downloadableData = (_mapConfig.options && _mapConfig.options.downloadable?
 					_mapConfig.options.downloadable:[]);
-			
+
 			_mapConfig.newMap = false;
 			$('#nomAplicacio').html(_mapConfig.nomAplicacio);
-			
+
 			self._loadMapConfig(_mapConfig).then(function(){
-				
+
 			});
 		},
-		
+
 		_loadMapConfig: function(_mapConfig){
 			var self = this,
 			_map = self.map,
 			_layers = self.instamapsLayers,
 			dfd = $.Deferred();
-			
+
 			if (!$.isEmptyObject( _mapConfig )){
-				
+
 				$('#businessId').val(_mapConfig.businessId);
 				//TODO ver los errores de leaflet al cambiar el mapa de fondo
 				//cambiar el mapa de fondo a orto y gris
@@ -1165,97 +1199,97 @@
 						}else if (fons == 'divadminMap') {
 							_map.divadminMap();
 						}else if (fons == 'hibridTerrainMap') {
-							_map.hibridTerrainMap();				
-						}else if (fons.indexOf('colorBlankMap')!=-1) {						
+							_map.hibridTerrainMap();
+						}else if (fons.indexOf('colorBlankMap')!=-1) {
 							_map.colorBlankMap(fons);
 						}
 						_map.setActiveMap(_mapConfig.options.fons);
 						_map.setMapColor(_mapConfig.options.fonsColor);
-						
+
 					}
 				}
-				
+
 				//carga las capas en el mapa
 				var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
 				_UsrID = _mapConfig.entitatUid;
-				_layers._loadAllLayers(_mapConfig, controlCapes).then(function(){					
+				_layers._loadAllLayers(_mapConfig, controlCapes).then(function(){
 					self._updateLayerControl();
 				});
-				
+
 				self._hideLoading();
 			}
 			dfd.resolve();
 			return dfd.promise();
 		},
-		
+
 		_addDownloadLayer: function(){
 			var self = this;
 			addFuncioDownloadLayer('visor');
 			return self;
 		},
-		
+
 		_addDataTable: function(){
 			var self = this;
 			addFuncioEditDataTable();
 			return self;
 		},
-				
+
 		_drawVisor: function(){
 			var self = this,
 			map = self.map,
 			_mapConfig = self._mapConfig;
-			
+
 			if(self.embed){
 				self.drawEmbed();
 			}
-				
+
 			if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_INSTAMAPS){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
-				
+
 				if(self.embed){
 					self.addLogoInstamap();
 				}
 				$(".leaflet-control-draw-measure").hide();	//Eliminem el control de mesura si no és geolocal/AOC
-				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'visor_instamaps', _mapConfig.entitatUid, 1]});
+				$.publish('analyticsEvent',{event:[ 'visor', 'visor_instamaps', _mapConfig.entitatUid, 1]});
 			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_GEOLOCAL){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				addDrawTooltips();
-				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
-			
+				$.publish('analyticsEvent',{event:[ 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
+
 			}else if(_mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC){
 				self._initCenter().drawMap().resizeMap().drawControls().fireLoadConfig().loadApp()
 				._drawVisorGeolocal()._addTooltips()._addDownloadLayer()._addDataTable()._hideLoading();
 				addDrawTooltips();
-				$.publish('trackEvent',{event:['_trackEvent', 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
-			
+				$.publish('analyticsEvent',{event:[ 'visor','visor_entitat', _mapConfig.nomEntitat, 1]});
+
 			}else{
-			
+
 			alert("No hi ha tipus definit");
-			
-			}		
-			
+
+			}
+
 			return self;
 		},
-		
+
 		_drawVisorGeolocal: function(){
 			var self = this;
-			
+
 			var visorGeolocal = VisorGeolocal({visor:self}).draw();
-			
+
 			return self;
 		},
-		
+
 		_drawVisorSimple: function(){
 			var self = this;
-			
+
 			var visorSimple = VisorSimple({visor:self}).draw();
-			
-			_gaq.push(['_trackPageview']);
-			
+
+			$.publish('trackPageview', null);
+
 			return self;
 		},
-		
+
 		_initCenter: function(){
 			var self = this,
 			_map = self.map,
@@ -1288,11 +1322,11 @@
 
 			if(!ineFound)
 			{
-			
+
 				var hash = location.hash;
 				hashControl = new L.Hash(_map);
 				var parsed = hashControl.parseHash(hash);
-				
+
 				if("" == hash && _mapConfig.options){
 					if (_mapConfig.options.center){
 						var opcenter = _mapConfig.options.center.split(",");
@@ -1302,11 +1336,11 @@
 						var southWest = L.latLng(bbox[1], bbox[0]);
 					    var northEast = L.latLng(bbox[3], bbox[2]);
 					    var bounds = L.latLngBounds(southWest, northEast);
-					   
+
 					    _map.fitBounds( bounds );
 					}
 				}else if (parsed){
-					
+
 					hashControl.update();
 				}
 
@@ -1314,18 +1348,17 @@
 
 			return self;
 		},
-		
+
 		draw: function(){
 			var self = this,
 			   	_map = self.map;
-			
+
 			changeInitVisor();
-			
+
 			$(window).resize(_.debounce(function(){
 				self.resizeMap();
 			},150));
-			
-			
+
 			if(self.businessid){
 				self.loadMapConfig();
 				_map.on('loadconfig', self._drawVisor, self);
@@ -1339,13 +1372,13 @@
 				else if(self.text) {	//map defined by url params
 					self.loadURLConfig()._initCenter()._drawVisor()._addURLMarker();
 				}
-				else{					
+				else{
 					self.loadErrorPage();
 				}
 			}
-			
+
 			if(!self.embed){
-				$.publish('trackEvent',{event:['_trackEvent', 'visor', 'no embed']});
+				$.publish('analyticsEvent',{event:[ 'visor', 'no embed']});
 			}
 			return self;
 		},
@@ -1354,7 +1387,7 @@
 			var self = this;
 			var opcenter = self._mapConfig.options.center.split(",");
 			var defaultPunt = L.AwesomeMarkers.icon(default_onsoc_style);
-			var marker = L.marker(new L.LatLng(opcenter[0], opcenter[1]), {icon: defaultPunt, 
+			var marker = L.marker(new L.LatLng(opcenter[0], opcenter[1]), {icon: defaultPunt,
 					 tipus: t_marker}).addTo(self.map);
 
 			if(self.text)
@@ -1382,23 +1415,23 @@
 					html += parseUrlTextPopUp(self.text, "");
 
 				}
-				
+
 				marker.bindPopup(html);
 				marker.openPopup();
-				_gaq.push(['_trackEvent', 'visor per paràmetres']);
+				$.publish('analyticsEvent',{event:[ 'visor','parametres']});
 
 			}
 
 			$("#infoMap").hide();
-			
+
 		},
-		
+
 		_addTooltips: function(){
 			var self = this;
 			$('[data-toggle="tooltip"]').tooltip({container: 'body'});
 			return self;
 		},
-		
+
 		_updateLang: function(e, data){
 			var self = this;
 			//TODO esto deberia ir en cada control que es responsable de toda su funcionalidad
@@ -1408,10 +1441,10 @@
 			//Add tooltip caixa cerca
 			jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.translate('Cercar llocs o coordenades ...'));
 			jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.translate('Cercar llocs o coordenades ...'));
-			
+
 			return self;
 		},
-		
+
 		_updateLayerControl: function(e, data){
 			var self = this;
 			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
@@ -1420,34 +1453,34 @@
 			}
 			return self;
 		},
-		
+
 		_showRoutingEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'routing', 'label routing', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', 'button#routing', 'label routing', 1]});
 		},
-		
+
 		_mapsnapshotEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'export mapa', 'label export maps', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', 'button#export_mapa', 'label export maps', 1]});
 		},
-		
-		
+
+
 		/*
 		_mapprintEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'print', 'label print', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', this.tipusUser+'print', 'label print', 1]});
 		},
-		
+
 		_mapgeopdfEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', this.tipusUser+'geopdf', 'label geopdf', 1]});
 		},
 		*/
 		_map3dmodeEvent: function(){
-			$.publish('trackEvent',{event:['_trackEvent', 'visor', this.tipusUser + '3D', 'label 3D', 1]});
+			$.publish('analyticsEvent',{event:[ 'visor', 'button#3D', 'label 3D', 1]});
 		},
-		
+
 		_hideLoading: function(){
 			$('#div_loading').hide();
 			return this;
 		},
-		
+
 		_listenEvents: function(){
 			var self = this,
 				_map = self.map;
@@ -1464,14 +1497,14 @@
 		_gestionaEtiquetes: function(){
 			var self=this;
 			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
-			jQuery.each(controlCapes._layers, function(i, obj){				
+			jQuery.each(controlCapes._layers, function(i, obj){
 				 if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 							obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					 		var zoomInicial = "2";
 					 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
 					 		var zoomFinal = "19";
 					 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
-					 		
+
 					 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
 								jQuery.each(obj.layer._layers, function(i, lay){
 									if (lay.label!=undefined) {
@@ -1482,29 +1515,29 @@
 					                        lay._showLabel({latlng: lay.label._latlng});
 										}
 									}
-								});											
+								});
 					 		 }
 					 		 else {//amaguem labels
 								jQuery.each(obj.layer._layers, function(i, lay){
 									if(lay.label){
 										lay.label.setOpacity(0);
 									}
-								});										
+								});
 							 }
 				}
 			});
 		}
 
 	};
-	
+
 	Visor.init = function(options){
 		var self = this;
 		self = $.extend(self, visorOptions, options);
 		self.instamapsLayers = InstamapsLayers(visorOptions);
 	}
-	
+
 	Visor.init.prototype = Visor.prototype;
-	
+
 	global.Visor = Visor;
-	
+
 }(window, jQuery));

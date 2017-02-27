@@ -68,7 +68,7 @@ function creaAreesDragDropFiles() {
 		});
 		
 		drgFromMapa.on("sending", function(file, xhr, formData) {
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades drag&drop', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades drag&drop', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 			
 			if( envioArxiu.ext == "tif" || (envioArxiu.ext=="sid") || (envioArxiu.ext=="jpg") || (envioArxiu.ext=="ecw") 
 					|| envioArxiu.format == "tif" || (envioArxiu.format =="sid") || (envioArxiu.format =="jpg") ){	
@@ -164,7 +164,7 @@ function creaAreesDragDropFiles() {
 												addDropFileToMap(data);
 										 }							
 									});
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+									$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 								}else if(data.status.indexOf("KO")!=-1){
 									console.error("Error al carregar fitxer:");
 									console.error(data);
@@ -177,7 +177,7 @@ function creaAreesDragDropFiles() {
 									msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 									$('#dialog_error_upload_txt').html(msg);
 									$('#dialog_error_upload').modal('show');
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+									$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 									
 								}else if(data.status.indexOf("ERROR")!=-1){
 									console.error("Error al carregar fitxer:");
@@ -190,7 +190,7 @@ function creaAreesDragDropFiles() {
 									$('#dialog_error_upload_txt').html("");
 									
 									if(data.codi){
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+										$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 										if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
 											var msg = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
 											$('#dialog_error_upload_txt').html(msg);
@@ -217,7 +217,7 @@ function creaAreesDragDropFiles() {
 											$('#dialog_error_upload_txt').html(msg);
 										}
 									}else{
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+										$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 										var msg = window.lang.translate("Error en la càrrega de l'arxiu");
 										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";										
 										$('#dialog_error_upload_txt').html(msg);
@@ -536,7 +536,7 @@ function enviarArxiu(){
 function obreModalCarregaDades(isDrag) {
 
 	$('#dialog_carrega_dades').modal('show');
-	
+	$.publish('analyticsEvent',{event:['mapa', tipus_user+'button_carrega_dades', 'mapa_click_button', 1]});
 	if(isDrag){
 		$('#upload_file').attr('disabled',true);
 	}else{
@@ -589,7 +589,7 @@ function accionaCarrega(file,isDrag) {
 					drgFromMapa.options.url = "/cloudifier/";
 					drgFromMapa.options.paramName = "clientfile";
 				}else{
-					console.info("is from BOTO!");
+					
 					drgFromBoto.options.url = "/cloudifier/";
 					drgFromBoto.options.paramName = "clientfile";
 				}
@@ -853,6 +853,7 @@ function obteCampsXLSX(f) {
 				$('#dialog_error_upload_txt').html("");
 				var msg = window.lang.translate("No es pot llegir l'arxiu");
 				$('#dialog_error_upload_txt').html(msg);
+				$.publish('analyticsEvent',{event:['erro', 'obteCampsXLSX',e]});
 			}
 		}
 
@@ -946,16 +947,19 @@ function checkFileRaster(file){
 			}else if(jQuery.inArray("tif", extArray)!=-1){
 				envioArxiu.format = "tif";
 				res.formatInvalid = res.formatInvalid && false;
+			}else if(jQuery.inArray("tiff", extArray)!=-1){
+				envioArxiu.format = "tiff";
+				res.formatInvalid = res.formatInvalid && false;	
 			}else if(jQuery.inArray("ecw", extArray)!=-1){
 				envioArxiu.format = "ecw";
 				res.formatInvalid = res.formatInvalid && false;
 			}
 
 			if (!res.formatInvalid) { // hi hso
-				console.debug("Hi ha alguna extensio valida...");
-				if(jQuery.inArray("tif", extArray)!=-1 || jQuery.inArray("sid", extArray)!=-1 || jQuery.inArray("jpg", extArray)!=-1){
+				
+				if(jQuery.inArray("tif", extArray)!=-1 || jQuery.inArray("tiff", extArray)!=-1 || jQuery.inArray("sid", extArray)!=-1 || jQuery.inArray("jpg", extArray)!=-1){
 					res.formatInvalid = (jQuery.inArray("sdw", extArray)==-1) && (jQuery.inArray("tfw", extArray)==-1) && (jQuery.inArray("jpw", extArray)==-1) && (jQuery.inArray("jgw", extArray)==-1);
-					console.debug("es geotiif o mrsid o geo-jpg");
+					
 				}
 				dfd.resolve(res);
 			}else{
@@ -978,11 +982,11 @@ function miraFitxer(fitxer) {
 	obj.ext = fitxer.name.split('.').pop().toLowerCase();
 
 	var arr = [ 'shp', 'xls', 'xlsx', 'dgn', 'dxf', 'zip', 'geojson', 'kml',
-				'kmz', 'gml', 'xml', 'gpx', 'txt', 'csv', 'json', 'jpg', 'tif', 'sid', 'ecw' ];
+				'kmz', 'gml', 'xml', 'gpx', 'txt', 'csv', 'json', 'jpg', 'tif','tiff', 'sid', 'ecw' ];
 	
 	if (jQuery.inArray(obj.ext, arr) != -1) { // hi hso
 		
-		console.debug("Extensio:"+ obj.ext);
+	
 		
 		if(obj.ext=="shp"){
 			obj.isValid = false;
@@ -1235,10 +1239,10 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 				});
 			}*/
 			
-			_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades menu', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);				
+			$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades menu', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});				
 			
-			if( envioArxiu.ext == "tif" || (envioArxiu.ext=="sid") || (envioArxiu.ext=="jpg") || (envioArxiu.ext=="ecw") 
-					|| envioArxiu.format == "tif" || (envioArxiu.format =="sid") || (envioArxiu.format =="jpg") ){	
+			if( envioArxiu.ext == "tiff" || envioArxiu.ext == "tif" || (envioArxiu.ext=="sid") || (envioArxiu.ext=="jpg") || (envioArxiu.ext=="ecw") 
+					|| envioArxiu.format == "tif" || envioArxiu.format == "tiff" || (envioArxiu.format =="sid") || (envioArxiu.format =="jpg") ){	
 				
 				$('#dialog_carrega_dades').modal('hide');
 				formData.append("srs", envioArxiu.srid.toLowerCase());
@@ -1339,7 +1343,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 										}								
 									});
 									
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+									$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades ok', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 								
 								}else if(data.status.indexOf("KO")!=-1){
 									busy = false;
@@ -1356,7 +1360,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 										$('#dialog_error_upload').modal('show');
 									});
 									
-									_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+									$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 								}else if(data.status.indexOf("ERROR")!=-1){
 									console.error("Error al carregar fitxer:");
 									console.error(data);
@@ -1368,7 +1372,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 									$('#dialog_error_upload_txt').html("");
 									
 									if(data.codi){
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+										$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades error '+data.codi, envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 										
 										if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
 											var msg = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
@@ -1396,7 +1400,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 											$('#dialog_error_upload_txt').html(msg);
 										}
 									}else{
-										_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]);
+										$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades error sense codi', envioArxiu.ext+"#"+envioArxiu.categoriaMidaFitxer, 1]});
 										var msg =window.lang.translate("Error en la càrrega de l'arxiu");
 										msg += "<br/><br/><span style='font-weight:normal'>"+window.lang.translate("Per a més informació consultar")+": </span><a href='http://betaportal.icgc.cat/wordpress/errors_carregar_arxius/' target='_blank'>"+window.lang.translate("Errors freqüents en carregar arxius a Instamaps")+"</a>";
 										$('#dialog_error_upload_txt').html(msg);

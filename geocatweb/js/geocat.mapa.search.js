@@ -49,6 +49,7 @@ function addControlCercaEdit(){
 		zoom : 14,
 		textSize : 22,
 		autoCollapseTime: 3200,
+		scope:'mapa',
 		textEdit:'<a id="act_end" href="#" >Finaltzar Edicio <span class="glyphicon glyphicon-check"></span></a>'
 		
 	}).addTo(map);

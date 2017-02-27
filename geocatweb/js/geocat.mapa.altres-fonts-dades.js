@@ -53,7 +53,7 @@ function cercaCapes(e){
 	    						
 	    						var value = results.results;
 	    						
-	    						_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
+	    						$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades instamaps', servertype, 1]});
 
 	    						
 	    						if (value.epsg == "4326"){
@@ -145,7 +145,7 @@ function cercaCapesBtn(){
 							
 							var value = results.results;
 							
-							_gaq.push(['_trackEvent', 'mapa', tipus_user+'carregar dades instamaps', servertype, 1]);
+							$.publish('analyticsEvent',{event:['mapa', tipus_user+'carregar dades instamaps', servertype, 1]});
 
 							
 							if (value.epsg == "4326"){
@@ -194,6 +194,10 @@ function addControlAltresFontsDades() {
 		//gestionaPopOver(this);
 		jQuery('.modal').modal('hide');
 		$('#dialog_dades_ex').modal('show');
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'button_altres_fons_dades', 'mapa_click_button', 1]});
+		
+		
+		
 		$('a[href^="#id_do').click();
 		jQuery('#id_do').html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades obertes Gencat</a></span>');
 
@@ -206,6 +210,8 @@ function addControlAltresFontsDades() {
 			var tbA = e.target.attributes.href.value;
 
 			if (tbA == "#id_do") {
+				
+		$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_dades_obertes', 'modal_click_tab', 1]});
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlDadesObertes.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://www20.gencat.cat/portal/site/dadesobertes">Dades obertes Gencat</a></span>');
 
@@ -216,6 +222,8 @@ function addControlAltresFontsDades() {
 				});
 			}else if (tbA=='#id_ofi'){
 
+				$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_dades_oficials', 'modal_click_tab', 1]});
+				
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_DadesOficials.generaOpcionsHTMLDadesOficials());							
 				jQuery(tbA+" a.label-dof").on('click', function(e) {
@@ -225,6 +233,7 @@ function addControlAltresFontsDades() {
 							
 			
 			}else if(tbA == "#id_srvw"){
+				$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_serveis_wms', 'modal_click_tab', 1]});
 				jQuery(tbA).empty();
 				jQuery(tbA).html(_htmlServeisWMS.join(' ')+'<span class="label label-font">Font: <a target="_blank" href="http://catalegidec.icc.cat">Cat&agrave;leg IDEC</a></span>');
 				var instamapsWms = InstamapsWms({container:$('#div_controlWMS'), botons: $('#div_emptyWMS'),proxyUrl: paramUrl.ows2json, callback: addWmsToMap});
@@ -297,12 +306,15 @@ function addControlAltresFontsDades() {
 				});				
 				*/
 			}else if(tbA == "#id_capes_instamaps"){
+				
+				$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_capes_reutilitzables', 'modal_click_tab', 1]});
 				jQuery(tbA).empty();
 				jQuery(tbA).html('<div class="input-group txt_capes"><input type="text" lang="ca" class="form-control" placeholder="Entrar el nom de la capa que es vol buscar" style="height:33px" id="txt_capesInstamaps" onkeyup="cercaCapes(event);" >'+ 
 						'<span class="input-group-btn"><button type="button" id="bt_capesInstamaps" class="btn btn-success" onclick="cercaCapesBtn();"><span class="glyphicon glyphicon-play"></span></button></span> </div>');				
 				
 			}
 			else if(tbA == "#id_url_file"){
+				$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_dades_externes', 'modal_click_tab', 1]});
 				jQuery(tbA).empty();
 var label_xarxes = "La informació de les xarxes socials es mostra en funció de l'àrea geogràfica visualitzada."
 				//Carreguem exemples de dades externes 
@@ -401,6 +413,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							$('#dialog_dades_ex').modal('hide');
 							$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 							$('#dialog_info_upload').modal('show');
+							
 							//drgFromMapa.removeAllFiles(true);							
 						}
 					}
@@ -789,7 +802,8 @@ function activarEventAfegirCapa(type){
 			}else{
 				$('#dialog_dades_ex').modal('hide');
 				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
-				$('#dialog_info_upload').modal('show');										
+				$('#dialog_info_upload').modal('show');		
+				
 			}
 		}
 	});

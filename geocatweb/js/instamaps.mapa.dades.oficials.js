@@ -174,7 +174,7 @@ var IM_DadesOficials = function (options) {
 					});
 					map.setView([41.431, 1.8580], 9);
 					jQuery("#inspire_msg").html('');
-					_gaq.push(['_trackEvent', 'mapa', tipus_user+'PCC', _atrPCC[0], 1]);
+					$.publish('analyticsEvent',{event:[ 'mapa', tipus_user+'PCC', _atrPCC[0], 1]});
 				};
 			});//Fi PCC click
 		});
@@ -301,7 +301,7 @@ var IM_DadesOficials = function (options) {
 							                [parseFloat(_BBOX[3]),
 							                 parseFloat(_BBOX[2])]]);
 						}
-						_gaq.push(['_trackEvent', 'mapa', tipus_user+'INSPIRE', $(e.target).attr('title'), 1]);
+						$.publish('analyticsEvent',{event:[ 'mapa', tipus_user+'INSPIRE', $(e.target).attr('title'), 1]});
 					};
 				});
 			} else {

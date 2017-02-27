@@ -75,7 +75,7 @@ $("#signin_button").click(function(event){
 					sendMail(data).then(function(results){
 						//console.debug(results);							
 					});
-					_gaq.push(['_trackEvent', trackEventFrom, 'registre', 'activation']);
+					$.publish('analyticsEvent',{event:[ trackEventFrom, 'registre', 'activation']});
 					
 					Cookies.set('uid', id);
 					$('#modal_registre_ok').modal('toggle');						
