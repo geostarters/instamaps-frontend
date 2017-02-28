@@ -29471,8 +29471,8 @@ addHtmlModalNoWebGL();
 
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
-			console.debug("error");
-			//window.location.href = paramUrl.galeriaPage;
+			//console.debug("error");
+			window.location.href = paramUrl.galeriaPage;
 		},
 
 		loadLoginPage: function(){
@@ -31681,4 +31681,4 @@ jQuery(document).ready(function() {
 	global.Instamaps = Instamaps; 
 	
 }(window, jQuery));
-//# sourceMappingURL=instamaps-4ab1f6ab6c.js.map
+//# sourceMappingURL=instamaps-df518008a7.js.map
