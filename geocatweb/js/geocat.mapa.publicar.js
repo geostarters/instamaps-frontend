@@ -375,6 +375,11 @@
 			 }
 			 else {
 
+			 	var nomApp = $('#nomAplicacio').html();
+			 	var nomIndexacio=nomApp;
+        		(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
+				nomIndexacio= encodeURI(nomIndexacio);
+
 	        	urlMap = self._getUrlMap();
 	        	urlMap=urlMap+"&title="+nomIndexacio;
 	
