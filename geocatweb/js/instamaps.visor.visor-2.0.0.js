@@ -39,8 +39,6 @@
 
 	var changeInitVisor = function(){
 		$('.container').css('width','95%');
-		//TODO ver como hacer para no depender del timeout
-		//if (!isIframeOrEmbed()) setTimeout('activaPanelCapes(false)',3000);
 	};
 
 	Visor.prototype = {
