@@ -139,21 +139,24 @@ L.Control.RoutingControl = L.Control.extend({
 	        createMarker: createMarker.bind(self)
 	    });
 		
-		//console.debug(lang);
+		var language="ca-ES";
+		if (lang=="ca") language="ca-ES";
+		else if (lang="es") language="es-ES";
+		else language="en-US";
 		
 		this._route = L.Routing.control({
 			router: L.Routing.mapzen('mapzen-aMHsmLA', {
 				language: lang,
 				    costing:'auto',
 				    directions_options: {
-				        language: lang
+				        language: language
 				      }
 				    }),
 			 formatter: new L.Routing.mapzenFormatter(),
 	         routeWhileDragging: true,
 	         plan: this._plan,
 	         position: 'topleft',
-	         language: lang,
+	         language: language,
 		     showAlternatives: true,
 		     lineOptions: {
 	            styles: [

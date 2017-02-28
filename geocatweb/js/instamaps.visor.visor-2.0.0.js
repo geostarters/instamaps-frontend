@@ -28,7 +28,8 @@
 	    timeDimensionControl: true,
 	    timeDimensionControlOptions:{
 	    	speedSlider:false
-	    }
+	    },
+	    spinerDiv: 'div_loading'
 	}).setView([ 41.431, 1.8580 ], 8);
 
 	var visorOptions = {
@@ -168,10 +169,6 @@
 				self.controls.searchControl.hideBtn();
 			}
 
-
-
-
-
 			if(options.snapshot && self.controls.snapshotControl){
 				self.controls.snapshotControl.showBtn();
 			}else if(self.controls.snapshotControl){
@@ -210,7 +207,6 @@
 
 			if(options.layers && self.controls.layersControl){
 				self.controls.layersControl.showBtn();
-				console.info(1212);
 			}else if(self.controls.layersControl){
 				self.controls.layersControl.hideBtn();
 			}
@@ -270,9 +266,6 @@
 			if (!self.likecontrol) self.likecontrol = 0;
 
 			if (!self.control3d) self.control3d = 0;
-
-
-
 
 			if (!self.snapshotcontrol) self.snapshotcontrol = 0;
 
@@ -462,10 +455,6 @@
 			});
 			ctr_shareBT.addTo(_map);
 
-
-
-
-
 			self.controls.shareControl = ctr_shareBT;
 
 		},
@@ -533,9 +522,6 @@
 
 			return self;
 		},
-
-
-
 
 		addSnapshotControl: function(){
 			var self = this,
@@ -790,6 +776,7 @@
 
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
+			//console.debug("error");
 			window.location.href = paramUrl.galeriaPage;
 		},
 
@@ -863,7 +850,9 @@
 			else if (url('?mapacolaboratiu') &&  url('?mapacolaboratiu')=="alta" && _uid==Cookies.get('uid')) {
 				self.loadMapaColaboratiuPage();
 			}
-			var _mapConfig = $.parseJSON(results.results);
+			var _mapConfig;
+			if (undefined != results.results) _mapConfig= $.parseJSON(results.results);
+			else _mapConfig=results;
 			if(_mapConfig.options){
 				_mapConfig.options = $.parseJSON(_mapConfig.options);
 				if(_mapConfig.options.llegenda === false){
@@ -922,37 +911,87 @@
 
 			return self;
 		},
-
+		
+		_loadCacheMap: function(_businessid,_uid,_mapacolaboratiu){
+			var self=this;
+			if (_uid==null){
+				if (undefined != url('?id')){ 
+					_uid=url('?id');
+				}
+				else {
+					_uid = url(-3);
+				}
+			}
+			//console.debug(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json');
+			$.get(HOST_APP+'capesuser/'+_uid+'/'+_businessid+'.json', function(results) { 
+				if(results){	
+					if (results.clau){
+						//ocultar las pelotas
+						self._hideLoading();
+						//mostar modal con contraseña
+						self._loadPasswordModal();
+					}
+					else self._beforeLoadConfig(results);
+				}
+				else {
+					var data = {
+							businessId: _businessid,
+							id: _uid,
+							mapacolaboratiu: _mapacolaboratiu,
+							uid: _uid	
+						};
+					getCacheMapByBusinessId(data).then(function(results){
+						if (results.status == "ERROR"){
+							self.loadErrorPage();
+						}else if (results.status == "PRIVAT"){
+							//ocultar las pelotas
+							self._hideLoading();
+							//mostar modal con contraseña
+							self._loadPasswordModal();
+						}else{
+			
+							self._beforeLoadConfig(results);
+			
+						}
+					});
+				}
+			}).fail(function() {
+				var data = {
+						businessId: _businessid,
+						id: _uid,
+						mapacolaboratiu: _mapacolaboratiu,
+						uid: _uid	
+					};
+				getCacheMapByBusinessId(data).then(function(results){
+					if (results.status == "ERROR"){
+						self.loadErrorPage();
+					}else if (results.status == "PRIVAT"){
+						//ocultar las pelotas
+						self._hideLoading();
+						//mostar modal con contraseña
+						self._loadPasswordModal();
+					}else{
+		
+						self._beforeLoadConfig(results);
+		
+					}
+				});
+			});
+			
+		},
+		
 		loadMapConfig: function(){
 			var self = this,
 			_map = self.map,
 			_uid = self.uid,
 			_businessid = self.businessid,
-			_mapacolaboratiu = self.mapacolaboratiu,
-			data = {
-				businessId: _businessid,
-				id: _uid,
-				mapacolaboratiu: _mapacolaboratiu,
-				uid: _uid
-			};
-
-			getCacheMapByBusinessId(data).then(function(results){
-				if (results.status == "ERROR"){
-					self.loadErrorPage();
-				}else if (results.status == "PRIVAT"){
-					//ocultar las pelotas
-					self._hideLoading();
-					//mostar modal con contraseña
-					self._loadPasswordModal();
-				}else{
-
-					self._beforeLoadConfig(results);
-
-				}
-			});
-
+			_mapacolaboratiu = self.mapacolaboratiu;
+						
+			self._loadCacheMap(_businessid,_uid,_mapacolaboratiu);
+			
 			return self;
 		},
+		
 
 		loadURLConfig: function() {
 
@@ -971,14 +1010,10 @@
 			self.layerscontrol = self.layerscontrol || false;
 			self.control3d = self.control3d || false;
 
-
 			self.snapshotcontrol = self.snapshotcontrol || false;
 
 			self.printcontrol = self.printcontrol || false;
 			self.geopdfcontrol = self.geopdfcontrol || false;
-
-
-
 
 			self.rtoolbar = self.rtoolbar || false;
 			self.llegenda = self.llegenda || false;
@@ -1003,15 +1038,11 @@
 				}
 			};
 
-			if(!self.zoomcontrol)
-			{
-
+			if(!self.zoomcontrol){
 				self.map.removeControl(self.map.zoomControl);
-
 			}
 
 			return self;
-
 		},
 
 		loadApp: function(){
@@ -1025,11 +1056,8 @@
 		},
 
 		_mapNameShortener: function(inName) {
-
 			name = "<div id='mapNameContainer'><span title=\"" + inName + "\">" + inName + "</span></div>";
-
 			return name;
-
 		},
 
 		_loadPublicMap: function(_mapConfig){
@@ -1305,7 +1333,6 @@
 			$(window).resize(_.debounce(function(){
 				self.resizeMap();
 			},150));
-
 
 			if(self.businessid){
 				self.loadMapConfig();

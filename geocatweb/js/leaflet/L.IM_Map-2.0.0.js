@@ -92,9 +92,6 @@ var FONS_HIBRIDTERRAIN='hibridTerrainMap';
 
 var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-
-
-
 var mapaUrl = {	
 	topoMapMON:urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.png',
 	topoMapOSM:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -120,7 +117,6 @@ var mapaUrl = {
     topoLimitsSuau:urlServerTiles+'/mapfactory/wmts/limits/CAT3857/{z}/{x}/{y}.png',
 	fonsBlank:'',
 	hibridTotal:urlServerTiles+'/mapfactory/wmts/hibrida_total/CAT3857/{z}/{x}/{y}.png',
-	
 	topoSuauColor:{
 		zombie:{suau:urlServerTiles+'/mapfactory/wmts/coure_topo_suau/CAT3857/{z}/{x}/{y}.png',
 				osm:urlServerTiles+'/mapfactory/wmts/coure_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
@@ -131,8 +127,6 @@ var mapaUrl = {
 		sepia:{suau:urlServerTiles+'/mapfactory/wmts/sepia_topo_suau/CAT3857/{z}/{x}/{y}.png',
 			   osm:urlServerTilesW+'/mapfactory/wmts/sepia_osm_suau/CAT3857_15/{z}/{x}/{y}.png'}
 	}			
-					
-	
 }	
 
 
@@ -311,9 +305,6 @@ L.IM_Map = L.Map.extend({
 	},
 	gestionaFons:function(layerAdd){
 		var sC=this.miraBBContains(this.getBounds());
-
-
-
 		var f=this.getActiveMap();
 		var zT=14;
 
