@@ -329,6 +329,9 @@ gulp.task('images', function() {
   .on('end', function() {console.log('finished images!')});
   app.copy(config.srcFolder+'/img/*',config.distFolder+'/img')
   .on('end', function() {console.log('finished images!')});
+  app.copy(config.dirCssVendors+'/images/*',config.distFolder+'/css/images')
+  .on('end', function() {console.log('finished images!')});
+  
 });
 
 gulp.task('revreplace', function(){
