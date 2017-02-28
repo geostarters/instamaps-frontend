@@ -28735,8 +28735,6 @@ addHtmlModalNoWebGL();
 
 	var changeInitVisor = function(){
 		$('.container').css('width','95%');
-		//TODO ver como hacer para no depender del timeout
-		//if (!isIframeOrEmbed()) setTimeout('activaPanelCapes(false)',3000);
 	};
 
 	Visor.prototype = {
@@ -31683,4 +31681,4 @@ jQuery(document).ready(function() {
 	global.Instamaps = Instamaps; 
 	
 }(window, jQuery));
-//# sourceMappingURL=instamaps-d1e701dc75.js.map
+//# sourceMappingURL=instamaps-4ab1f6ab6c.js.map
