@@ -10197,6 +10197,7 @@ L.Control.Sidebar = L.Control.extend({
         }
     },
 
+    
     hide: function () {
         if (this.isVisible()) {
             L.DomUtil.removeClass(this._container, 'visible');
@@ -23589,4 +23590,4 @@ L.Routing.mapzenFormatter = L.routing.mapzenFormatter;
 	return L.Control.Geocoder;
 }));
 
-//# sourceMappingURL=leaflet-9cfe88d287.js.map
+//# sourceMappingURL=leaflet-2e7f591336.js.map
