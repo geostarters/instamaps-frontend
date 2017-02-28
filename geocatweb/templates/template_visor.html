@@ -4,14 +4,14 @@
 <meta charset="UTF-8" />
 <!-- for Facebook -->
 <meta property="fb:app_id" content="620717167980164"/>
-<meta property="og:title" content="Mapa d'InstaMaps"/>
+<meta property="og:title" content="{og_title}"/>
 <meta property="og:type" content="website"/>
-<meta property="og:image" content="http://www.instamaps.cat/geocatweb/img/instamapes_icon_color.jpeg"/>
+<meta property="og:image" content="{og_image}"/>
 <meta property="og:image:type" content="image/jpeg"/>
-<meta property="og:url" content="http://www.instamaps.cat"/>
-<meta property="og:description" content="InstaMaps ofereix eines per a la creaci&oacute; de mapes i visors. &Eacute;s gratuïta i oberta a tothom"/>
-<meta name="author" content="InstaMaps" />
-<meta name="description" content="InstaMaps ofereix eines per a la creaci&oacute; de mapes i visors. &Eacute;s gratuïta i oberta a tothom" />
+<meta property="og:url" content="{og_url}"/>
+<meta property="og:description" content="{og_desc}"/>
+<meta name="author" content="{autor}" />
+<meta name="description" content="{descripcio}" />
 <meta name="robots" content="index,follow" />
 <meta name="geo.region" content="ES-CT" />
 <meta name="geo.placename" content="Barcelona" />
@@ -23,24 +23,47 @@
 <link href="img/instamapes.ico" rel="shortcut icon" />
 
 <!-- Le styles -->
-<link href="/geocatweb/dist/css/jquery-a0706c5754.css" rel="stylesheet" type="text/css" />
-<link href="/geocatweb/dist/css/leaflet-4a80df2e74.css" rel="stylesheet" type="text/css" />
-<link href="/geocatweb/dist/css/instamaps-7a9f2146e2.css" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/jquery.css" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/leaflet.css" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/instamaps.css" rel="stylesheet" type="text/css" />
 <!-- /Le styles -->
 
+<!-- KISSMETRICS SNIPPET -->
+<!-- script src="/geocatweb/js/geocat.kissmetrics.js"></script -->
 
-<title lang="ca">Mapa InstaMaps</title>
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
+    <![endif]-->
+
+<title lang="ca">{title}</title>
 </head>
 <body>
+<!--  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '620717167980164',
+      xfbml      : true,
+      version    : 'v2.1'
+    });
+  };
 
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>-->
 <div id="div_loading">
 	<div id="preloader6">
-	    <span></span>
-	    <span></span>
-	    <span></span>
-	    <span></span>
-	</div>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </div>
+
 	<!-- Fixed navbar -->
 	<div id="navbar-visor" class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 		<div class="container">
@@ -68,6 +91,10 @@
 
 					<li><a id="hl_contact" lang="ca" target="_blank" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/">FAQs</a></li>
 
+
+ 					<!-- li>
+ 						<div id="socialShare_visor" class="div_gr5"></div>
+ 					</li-->
 
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span lang="ca">Idioma</span><b class="caret"></b></a>
 						<ul id="ch_idioma" class="dropdown-menu">
@@ -147,7 +174,6 @@
 						Format:&nbsp;
 							<select id="select-download-format" class="form-download-format">
 							  <option value="GeoJSON#.geojson">GeoJSON</option>
-							  <option value="GPKG#.gpkg">GeoPackage</option>
 							  <option value="ESRI Shapefile#.shp">ESRI Shapefile</option>
 							  <option value="DXF#.dxf">DXF</option>
 							  <option value="KML#.kml">KML</option>
@@ -189,10 +215,9 @@
 				<div class="modal-header panel-heading">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h5 lang="ca" id="dialog_captura_title"  class="modal-title"></h5>
+					<h4 lang="ca" id="dialog_captura_title"  class="modal-title">Captura</h4>
 				</div>
-				<div  style="height:190px;" class="modal-body">
-				<div class="alert alert-info" id="div_msg_export"></div>
+				<div  style="height:150px;" class="modal-body">
 					<div style="height:350px;overflow:auto;" id="div_captura">
 						<img id="img_canvas">
 					</div>
@@ -281,28 +306,6 @@
 	</div>
 	<!-- fi Modal Old Browser -->
 
-
-
-
-
-	<!-- Modal Error upload fitxers -->
-<div id="dialog_error_upload" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div  id="dialog_error_upload_txt" class="modal-body" lang="ca">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal" lang="ca">
-					Acceptar
-				</button>
-			</div>
-		</div>
-		<!-- /.modal-content -->
-	</div>
-	<!-- /.modal-dialog -->
-</div>
-<!-- fi Modal Captura -->
-
 	<!-- Modal Password -->
 	<div id="dialog_password" class="modal fade" data-backdrop="static">
 		<div class="modal-dialog">
@@ -328,9 +331,7 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- fi Modal Password -->
-
 </div>
-
 
 <!-- Le javascript -->
 <script src="/llibreries/js/modernizr-2.8.2.min.js"></script>
@@ -344,14 +345,13 @@ if (!Modernizr.canvas || !Modernizr.sandbox || !Modernizr.csstransitions){
 	}
 }
 </script>
-<script src="/geocatweb/dist/js/jquery-655b0ab30d.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/dist/js/jquery.js" charset="utf-8" type="text/javascript"></script>
 <script>
 	L_PREFER_CANVAS = true;
 	L_DISABLE_3D = false;
 </script>
-<script src="/geocatweb/dist/js/leaflet-2e7f591336.js" charset="utf-8" type="text/javascript"></script>
-<script src="/geocatweb/dist/js/instamaps-bd772ccade.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/dist/js/leaflet.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/dist/js/instamaps.js" charset="utf-8" type="text/javascript"></script>
  <!-- /Le javascript -->
- 
 </body>
 </html>
