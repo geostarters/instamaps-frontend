@@ -661,6 +661,10 @@ function loadWmsLayer(layer, _map){
 	if(layer.random){
 		wmsOptions.random=layer.random;
 	}
+
+	if(layer.hasOwnProperty("capesOrdre"))
+		wmsOptions.zIndex = layer.capesOrdre;
+
 	newWMS = L.tileLayer.betterWms(layer.url, wmsOptions);
 	newWMS.options.wmstime=jsonOptions.wmstime;
 	newWMS.options.group=jsonOptions.group;
