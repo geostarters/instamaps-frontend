@@ -91,10 +91,7 @@
 					location: false,
 					share: false,
 					like: false,
-
 					snapshot: false,
-					//print: false,
-					//geopdf: false,
 					c3d: false,
 					mousePosition: false,
 					scale: false,
@@ -113,10 +110,7 @@
 					location: true,
 					share: true,
 					like: true,
-
 					snapshot: true,
-					//print: true,
-					//geopdf: true,
 					c3d: true,
 					mousePosition: true,
 					scale: true,
@@ -186,21 +180,6 @@
 				self.controls.snapshotControl.hideBtn();
 			}
 
-			/*
-			if(options.print && self.controls.printControl){
-				self.controls.printControl.showBtn();
-			}else if(self.controls.printControl){
-				self.controls.printControl.hideBtn();
-			}
-
-			if(options.geopdf && self.controls.geopdfControl){
-				self.controls.geopdfControl.showBtn();
-			}else if(self.controls.geopdfControl){
-				self.controls.geopdfControl.hideBtn();
-			}
-
-			*/
-
 			if(options.c3d && self.controls.control3d){
 				self.controls.control3d.showBtn();
 			}else if(self.controls.control3d){
@@ -264,8 +243,6 @@
 
 		removeCapes: function(){
 			var self = this;
-			//var map = self.map;
-			//map.removeControl(self.controlCapes);
 			$('.bt_llista').hide();
 			return self;
 		},
