@@ -3242,8 +3242,8 @@ html,body {
 #div_loading{
 	width: 100%;
 	height: 100%;
-	background-color:#FFFFFF;
-	display: block;
+	/*background-color:#FFFFFF;*/
+	display: flex;
 	overflow: hidden;
     position: absolute;
     top: 0;
@@ -5791,6 +5791,125 @@ a.leaflet-control-timecontrol:hover {
 	height: 27px;
 	
 }
+
+#preloader6{
+    position:relative;
+    width: 42px;
+    height: 42px;
+	-webkit-animation: preloader_6 5s infinite linear;
+   	-moz-animation: preloader_6 5s infinite linear;
+    -ms-animation: preloader_6 5s infinite linear;
+    -o-animation: preloader_6 5s infinite linear;
+    animation: preloader_6 5s infinite linear;
+    /*margin: 15px 82px 15px 92px;*/
+    margin: auto;
+}
+
+#preloader6 span{
+    width:20px;
+    height:20px;
+    position:absolute;
+    background:red;
+    display:block;
+-webkit-animation: preloader_6_span 1s infinite linear;
+   -moz-animation: preloader_6_span 1s infinite linear;
+    -ms-animation: preloader_6_span 1s infinite linear;
+     -o-animation: preloader_6_span 1s infinite linear;
+        animation: preloader_6_span 1s infinite linear;
+    border-radius: 20px;
+}
+
+
+
+#preloader6 span:nth-child(1){
+/*background:#2ecc71;*/
+ background-image: linear-gradient(to bottom, #FF9900, #FFDE00);
+}
+#preloader6 span:nth-child(2){
+	left:22px;
+/*background:#9b59b6;*/
+	background-image: linear-gradient(to bottom, #569908, #A8CB17);
+    -webkit-animation-delay: .2s;
+    -moz-animation-delay: .2s;
+    -ms-animation-delay: .2s;
+    -o-animation-delay: .2s;
+    animation-delay: .2s;
+}
+#preloader6 span:nth-child(3){
+	top:22px;
+/*background:#3498db;*/
+	background-image: linear-gradient(to bottom, #3B5998 , #196ED1);
+	-webkit-animation-delay: .4s;
+	-moz-animation-delay: .4s;
+	-ms-animation-delay: .4s;
+	-o-animation-delay: .4s;
+	animation-delay: .4s;
+}
+#preloader6 span:nth-child(4){
+	top:22px;
+	left:22px;
+	/*background:#f1c40f;*/
+	background-image: linear-gradient(to bottom, #59B5D6, #00C0F7);
+	animation-delay: .6s;
+	-webkit-animation-delay: .6s;
+	-moz-animation-delay: .6s;
+	-ms-animation-delay: .6s;
+	-o-animation-delay: .6s;
+	animation-delay: .6s;
+}
+
+
+
+@keyframes preloader_6_span {
+   0% { transform:scale(1); }
+   50% { transform:scale(0.5); }
+   100% { transform:scale(1); }
+}
+@-moz-keyframes preloader_6_span {
+   0% { transform:scale(1); }
+   50% { transform:scale(0.5); }
+   100% { transform:scale(1); }
+}
+@-ms-keyframes preloader_6_span {
+   0% { transform:scale(1); }
+   50% { transform:scale(0.5); }
+   100% { transform:scale(1); }
+}
+@-webkit-keyframes preloader_6_span {
+   0% { transform:scale(1); }
+   50% { transform:scale(0.5); }
+   100% { transform:scale(1); }
+}
+@-o-keyframes preloader_6_span {
+   0% { transform:scale(1); }
+   50% { transform:scale(0.5); }
+   100% { transform:scale(1); }
+}
+@keyframes preloader_6 {
+	0% {transform: rotate(0deg);}
+    50% {transform: rotate(180deg);}
+    100% {transform: rotate(360deg);}
+}
+@-moz-keyframes preloader_6 {
+	0% {transform: rotate(0deg);}
+    50% {transform: rotate(180deg);}
+    100% {transform: rotate(360deg);}
+}
+@-ms-keyframes preloader_6 {
+	0% {transform: rotate(0deg);}
+    50% {transform: rotate(180deg);}
+    100% {transform: rotate(360deg);}
+}
+@-webkit-keyframes preloader_6 {
+	0% {transform: rotate(0deg);}
+    50% {transform: rotate(180deg);}
+    100% {transform: rotate(360deg);}
+}
+@-o-keyframes preloader_6 {
+	0% {transform: rotate(0deg);}
+    50% {transform: rotate(180deg);}
+    100% {transform: rotate(360deg);}
+}
 @media (min-width:1992px){.dl-horizontal dt{float:left;width:160px;clear:left;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;} .dl-horizontal dd{margin-left:180px;}.dl-horizontal dd:before,.dl-horizontal dd:after{content:" ";display:table;} .dl-horizontal dd:after{clear:both;} .dl-horizontal dd:before,.dl-horizontal dd:after{content:" ";display:table;} .dl-horizontal dd:after{clear:both;}}abbr[title],abbr[data-original-title]{cursor:help;border-bottom:1px dotted #999999;}
 @media (min-width:1992px){.dl-horizontal dt{float:left;width:160px;clear:left;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;} .dl-horizontal dd{margin-left:180px;}.dl-horizontal dd:before,.dl-horizontal dd:after{content:" ";display:table;} .dl-horizontal dd:after{clear:both;} .dl-horizontal dd:before,.dl-horizontal dd:after{content:" ";display:table;} .dl-horizontal dd:after{clear:both;}}abbr[title],abbr[data-original-title]{cursor:help;border-bottom:1px dotted #999999;}
 
@@ -5819,4 +5938,4 @@ a.leaflet-control-timecontrol:hover {
 @media (min-width:768px) and (max-width:991px){.hidden-sm,tr.hidden-sm,th.hidden-sm,td.hidden-sm{display:none !important;}}@media (min-width:1992px) and (max-width:1199px){.hidden-sm.hidden-md,tr.hidden-sm.hidden-md,th.hidden-sm.hidden-md,td.hidden-sm.hidden-md{display:none !important;}}
 @media (min-width:1992px) and (max-width:1199px){.hidden-md,tr.hidden-md,th.hidden-md,td.hidden-md{display:none !important;}}@media (min-width:1200px){.hidden-md.hidden-lg,tr.hidden-md.hidden-lg,th.hidden-md.hidden-lg,td.hidden-md.hidden-lg{display:none !important;}}
 @media (min-width:1992px) and (max-width:1199px){.hidden-lg.hidden-md,tr.hidden-lg.hidden-md,th.hidden-lg.hidden-md,td.hidden-lg.hidden-md{display:none !important;}}
-/*# sourceMappingURL=instamaps-7a9f2146e2.css.map */
+/*# sourceMappingURL=instamaps-b7959f8e0d.css.map */
