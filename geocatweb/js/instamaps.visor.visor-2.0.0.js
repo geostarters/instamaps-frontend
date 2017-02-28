@@ -776,8 +776,8 @@
 
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
-			console.debug("error");
-			//window.location.href = paramUrl.galeriaPage;
+			//console.debug("error");
+			window.location.href = paramUrl.galeriaPage;
 		},
 
 		loadLoginPage: function(){

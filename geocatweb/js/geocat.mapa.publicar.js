@@ -375,6 +375,11 @@
 			 }
 			 else {
 
+			 	var nomApp = $('#nomAplicacio').html();
+			 	var nomIndexacio=nomApp;
+        		(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
+				nomIndexacio= encodeURI(nomIndexacio);
+
 	        	urlMap = self._getUrlMap();
 	
 	        	urlMap = urlMap.replace('mapa','visor');
@@ -896,6 +901,30 @@
 
         				//require ajax
         				publicarMapConfig(mapData).then(function(results){
+        					self.mapConfig.nom_visor = results.results.nom_visor;
+        					var urlMap ="";
+        					 var nomVisor = self.mapConfig.nom_visor;
+        					 if (nomVisor!=null) {
+        						 nomVisor = nomVisor.replace(self.mapConfig.businessId+"_","");
+        						 urlMap = url('protocol') + "://"+ url('hostname') +"/instavisor/" +$('#userId').val()+ "/"+ self.mapConfig.businessId + "/" +nomVisor;
+        						 urlMap=urlMap+"?3D="+estatMapa3D;
+        					 }
+        					 else {
+
+        			        	urlMap = self._getUrlMap();
+        			
+        			        	urlMap = urlMap.replace('mapa','visor');
+        						urlMap = urlMap.replace('#no-back-button','');
+        						urlMap=urlMap+"&3D="+estatMapa3D;
+
+        					 }
+        					
+        					
+
+        					$("#urlVisorMap a").attr("href", urlMap);
+        					$('#urlMap').val(urlMap);
+        					$('#iframeMap').val('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+urlMap+'&embed=1" ></iframe>');
+
         					var txtPubBoto = $('.bt_publicar>span').html();
         					if (typeof mapConfig.bloquejat == "string" && mapConfig.bloquejat.indexOf("bloquejat")>-1 && mapConfig.bloquejat.indexOf("null")==-1) {
         						var bloquejatJson=$.parseJSON(mapConfig.bloquejat);
