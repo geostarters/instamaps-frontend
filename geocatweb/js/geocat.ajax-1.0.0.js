@@ -445,7 +445,7 @@ function updateTematicRangs(data){
 	});
 }
 
-function createRandomUser(){
+function createRandomUser(data){
 	return createXHR({
 		url: paramUrl.createRandomUser, 
 		data: data
@@ -633,8 +633,7 @@ function updatePasswordIcgc(data){
 function createVisualitzacioLayer(data){
 	return createXHR({
 		url: paramUrl.createVisualitzacioLayer, 
-		data: data, 
-		async: false,
+		data: data,
 		method: 'post'
 	});
 }

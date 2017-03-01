@@ -1651,6 +1651,7 @@ function openColumnJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			fields[window.lang.translate('Escull el camp')] = '---';
 			jQuery.each(dataNames, function( index, value ) {
@@ -1692,6 +1693,7 @@ function openColumnJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			fields[window.lang.translate('Escull el camp')] = '---';
 			jQuery.each(dataNames, function( index, value ) {
@@ -1934,6 +1936,7 @@ function openSpatialJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;						
@@ -1966,6 +1969,7 @@ function openSpatialJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;						
