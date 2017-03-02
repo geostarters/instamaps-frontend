@@ -15,7 +15,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP2 = "http://nicosia.icgc.local/";
 	HOST_APP = "http://localhost/";//Local Jess
 	HOST_APP2 = "http://localhost/";
-	
+
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
@@ -52,6 +52,7 @@ var paramUrl = {
 	loginGeolocalPage:"/geocatweb/sessio_geolocal.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
+	instaVisorFolder:"instavisor/",
 	visorCloudifier:"/geocatweb/visor_cloudifier.html",
 	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
@@ -110,14 +111,14 @@ var paramUrl = {
 	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
 	deleteServerRemoved: HOST_APP+"geocat/aplications/map/deleteServerRemoved.action?",
 	updateServidorWMSName: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSName.action?",
-	
-	
+
+
 	//nous updates
-	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",	
+	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",
 	updateServidorWMSGroup: HOST_APP+"geocat/aplications/map/updateServidorWMSGroup.action?",
 	updateServidorWMSOpacity: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOpacity.action?",
-	
-	
+
+
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
@@ -148,7 +149,7 @@ var paramUrl = {
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
 	upload_gdal_nou: HOST_APP+"share/jsp/upload_gdal_nou.jsp?",
 	upload_gdal_2015: HOST_APP+"share/jsp/upload_gdal_2015.jsp?",
-	polling: HOST_APP+"share/jsp/polling.jsp?",	
+	polling: HOST_APP+"share/jsp/polling.jsp?",
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json",
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
@@ -158,9 +159,9 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
-	
+
 	urlMapToWMS:"/share/jsp/getMapToWMS.jsp?",
-	
+
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
 	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinInstamaper: HOST_APP+"geocat/registreInstamaper.action?",
@@ -234,7 +235,7 @@ var paramUrl = {
 	desbloquejarMapa: HOST_APP+"/geocat/aplications/map/desbloquejar.action?",
 	crearFitxerSocrata:  HOST_APP+"geocat/upload/crearFitxerSocrata.action?",
 	generateTokenRemember: HOST_APP+"geocat/user/generateTokenRemember.action?"
-	
+
 }
 
 var paramAplications = {
@@ -250,7 +251,7 @@ var paramAplications = {
     	"img":"img/thumb_ed_infoparcela.png",
     	"url":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela.action?fallback=infoparcela&codiUsuari=",
     	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
-    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId=" 
+    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId="
     },
     'peolics':{
     	"nom":"Editor de Parcs Eòlics",
@@ -294,7 +295,7 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 	//$('.waiting_animation').show();
 	if (typeof map !== 'undefined'){
 		try {map.spin(true);} catch (Err) {}
-		
+
 	}
 });
 

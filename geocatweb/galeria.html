@@ -168,7 +168,7 @@
 				<p class="dataPublicacio hidden">{{dataPublicacio}}</p>
 				<p class="rankSort hidden">{{rank}}</p>
 				<div id="{{businessId}}" class="col-sm-6 col-md-3">
-					<div class="thumbnail" data-nomapp="{{nomAplicacio}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" id="thumbnail-public">
+					<div class="thumbnail" data-nomapp="{{nomAplicacio}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  id="thumbnail-public">
 						<div class="image">
 						{{#if thumbnail}}
 			      			<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
@@ -193,8 +193,8 @@
 						<div class="byuser text-center">{{entitatUid}}</div>
 
 						<div class="caption text-center btn-acctions">
-							<button type="button" data-nomapp="{{nomAplicacio}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+							<button type="button" data-nomapp="{{nomAplicacio}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
 						</div>
 						<div class="rank text-left"><span class="fa grisfort fa-heart"></span> {{rank}}</div>
 						<div class="data text-right">{{data}}</div>
@@ -228,7 +228,7 @@
 			<p class="rankSort hidden">{{rank}}</p>
 			<div id="{{businessId}}" class="col-sm-6 col-md-3">
 				<input type="hidden" name="cols" value="{{cookie.uid}}">
-				<div  class="thumbnail" id="thumbnail-private" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" data-nom="{{nomAplicacio}}" data-hasoptions="{{#if options}}true{{else}}false{{/if}}">
+				<div  class="thumbnail" id="thumbnail-private" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  data-nom="{{nomAplicacio}}" data-hasoptions="{{#if options}}true{{else}}false{{/if}}">
 			    	{{#if thumbnail}}
 			      		<img src="{{thumbnail}}" onError="this.src='img/instamapes_icon_color.jpg'" alt="{{nomAplicacio}}">
 					{{else}}
@@ -251,25 +251,25 @@
 					{{#if_equals entitatUid uid}}
 					<div class="caption text-center btn-acctions" >
 						<input type="hidden" id="convidats_{{businessId}}" value="{{convidats}}">
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-warning btn-tooltip" id="btn-editar" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
-						<button type="button" data-id="{{id}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" id="btn-grup" data-toggle="tooltip" data-placement="bottom" data-title="Col·laborar" title="Col·laborar" lang="ca"><span class="group"></span></button>
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" id="btn-enllacar" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-info btn-tooltip" id="btn-duplicate" data-toggle="tooltip" data-placement="bottom" data-title="Duplicar mapa" data-nomAplicacio="{{nomAplicacio}}" title="Duplicar mapa" lang="ca"><span class="glyphicon glyphicon-duplicate"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-warning btn-tooltip" id="btn-editar" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca"><span class="glyphicon glyphicon-edit"></span></button>
+						<button type="button" data-id="{{id}}" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-success btn-tooltip" id="btn-grup" data-toggle="tooltip" data-placement="bottom" data-title="Col·laborar" title="Col·laborar" lang="ca"><span class="group"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-primary btn-tooltip" id="btn-enllacar" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-info btn-tooltip" id="btn-duplicate" data-toggle="tooltip" data-placement="bottom" data-title="Duplicar mapa" data-nomAplicacio="{{nomAplicacio}}" title="Duplicar mapa" lang="ca"><span class="glyphicon glyphicon-duplicate"></span></button>
 						{{#if_equals visibilitat 'P'}}
-							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-visibility btn-tooltip" data-toggle="tooltip" id="btn-privat" data-placement="bottom" data-title="El mapa només és visible a la teva galeria privada" title="El mapa només és visible a la teva galeria privada" lang="ca" id="canviar_visibilitat">
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-visibility btn-tooltip" data-toggle="tooltip" id="btn-privat" data-placement="bottom" data-title="El mapa només és visible a la teva galeria privada" title="El mapa només és visible a la teva galeria privada" lang="ca" id="canviar_visibilitat">
 							<span id="privacitat_{{businessId}}" class="glyphicon glyphicon-eye-close"  style="color:white"></span>
 						{{else}}
-							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-visibility btn-tooltip" data-toggle="tooltip" id="btn-public" data-placement="bottom" data-title="El mapa és visible a la galeria pública" title="El mapa és visible a la galeria pública" lang="ca" id="canviar_visibilitat">
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-visibility btn-tooltip" data-toggle="tooltip" id="btn-public" data-placement="bottom" data-title="El mapa és visible a la galeria pública" title="El mapa és visible a la galeria pública" lang="ca" id="canviar_visibilitat">
 							<span id="privacitat_{{businessId}}" class="glyphicon glyphicon-eye-open"  style="color:white"></span>
 						{{/if_equals}}
 						</button>
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" data-nom="{{nomAplicacio}}" class="btn btn-danger btn-tooltip" id="btn-esborrar" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-trash"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  data-nom="{{nomAplicacio}}" class="btn btn-danger btn-tooltip" id="btn-esborrar" data-toggle="tooltip" data-placement="bottom" data-title="Esborrar" title="Esborrar" lang="ca"><span class="glyphicon glyphicon-trash"></span></button>
 					</div>
 					{{else}}
 					<div class="caption text-center btn-acctions" >
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-warning btn-tooltip" id="btn-editar" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca" data-colaboracio="colaborador"><span class="glyphicon glyphicon-edit"></span></button>
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" id="btn-enllacar" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
-						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-info btn-tooltip" id="btn-duplicate" data-toggle="tooltip" data-placement="bottom" data-title="Duplicar mapa" data-nomAplicacio="{{nomAplicacio}}" title="Duplicar mapa" lang="ca"><span class="glyphicon glyphicon-duplicate"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-warning btn-tooltip" id="btn-editar" data-toggle="tooltip" data-placement="bottom" data-title="Editar" title="Editar" lang="ca" data-colaboracio="colaborador"><span class="glyphicon glyphicon-edit"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-primary btn-tooltip" id="btn-enllacar" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+						<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-info btn-tooltip" id="btn-duplicate" data-toggle="tooltip" data-placement="bottom" data-title="Duplicar mapa" data-nomAplicacio="{{nomAplicacio}}" title="Duplicar mapa" lang="ca"><span class="glyphicon glyphicon-duplicate"></span></button>
 					</div>
 					{{/if_equals}}
 					<div class="rank-private text-left"><span class="fa grisfort fa-heart"></span> {{rank}}</div>
@@ -309,9 +309,9 @@
 						</div>
 						<div class="byuser text-center">{{entitatUid}}</div>
 						<div class="caption text-center btn-acctions">
-							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
-							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
-							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}" data-rank="{{rank}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Rank" title="Rank" lang="ca"><span class="glyphicon glyphicon-star"></span></button>
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-success btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Veure" title="Veure" lang="ca"><span class="glyphicon glyphicon-new-window"></span></button>
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  class="btn btn-primary btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Enllaça" title="Enllaça" lang="ca"><span class="glyphicon glyphicon-link"></span></button>
+							<button type="button" data-businessid="{{businessId}}" data-idusr="{{options.idusr}}"  data-nomvisor="{{nom_visor}}"  data-rank="{{rank}}" class="btn btn-warning btn-tooltip" data-toggle="tooltip" data-placement="bottom" data-title="Rank" title="Rank" lang="ca"><span class="glyphicon glyphicon-star"></span></button>
 						</div>
 						<div class="data text-right">{{data}}</div>
 						<div class="rank text-right">{{rank}}</div>
