@@ -164,6 +164,8 @@
         	this._addHtmlModalPublicar();
         	this._addHtmlModalIframePublicar();
 
+        	$('#optDescripcio').summernote();
+
         	//require web
         	if (isRandomUser(this.uid)){
         		this.button.on('click',function(){
@@ -543,6 +545,18 @@
     				self._loadPublicarData(false);
     			});
 
+    			$('#optDescripcio').summernote({
+    				lang: 'ca-ES',
+    				toolbar: [
+    					['font', ['color', 'bold', 'italic', 'underline', 'fontname', 'fontsize']],
+    					['paragraph', ['ol', 'ul', 'paragraph']],
+    					['style', ['table', 'link', 'hr']]
+    				],
+    				dialogsInBody: true,
+    				disableDragAndDrop: true,
+    				height: 250
+    			});
+
         	});
 
         	$.get("templates/modalPublicarRandom.html",function(data){
@@ -651,7 +665,8 @@
         	var options = {};
         	var _map = this.map;
         	options.tags = $('#dialgo_publicar #optTags').val();
-        	options.description = $('#dialgo_publicar #optDescripcio').val();
+        	options.description = $('#dialgo_publicar #optDescripcio').summernote('code');
+        	options.open = $('#dialgo_publicar #cbAtles').is(':checked');
 
 			options.mapa3D=estatMapa3D;
 			if(estatMapa3D){

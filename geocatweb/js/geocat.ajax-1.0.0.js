@@ -441,7 +441,7 @@ function updateTematicRangs(data){
 		url: paramUrl.updateTematicRangs, 
 		data: data,
 		method: 'post',
-		dataType: 'Intelligent Guess (xml, json, script, or html)'
+		dataType: ''
 	});
 }
 
@@ -480,7 +480,7 @@ function duplicateTematicLayer(data){
 		url: paramUrl.duplicateTematicLayer, 
 		data: data,
 		method: 'post',
-		dataType: 'Intelligent Guess (xml, json, script, or html)'
+		dataType: ''
 	});
 }
 
@@ -524,7 +524,7 @@ function publicarCapesMapa(data){
 		url: paramUrl.publicarCapesMapa, 
 		data: data, 
 		method: 'post',
-		dataType: 'Intelligent Guess (xml, json, script, or html)'
+		dataType: ''
 	});
 }
 
@@ -533,7 +533,7 @@ function publicarMapConfig(data){
 		url: paramUrl.publicarMapConfig, 
 		data: data, 
 		method: 'post',
-		dataType: 'Intelligent Guess (xml, json, script, or html)'
+		dataType: ''
 	});
 }
 
