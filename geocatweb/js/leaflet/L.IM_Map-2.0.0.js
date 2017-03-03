@@ -92,11 +92,13 @@ var FONS_HIBRIDTERRAIN='hibridTerrainMap';
 
 var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
+//Nou osm_suau_fast
+
 var mapaUrl = {
 	topoMapMON:urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.png',
 	topoMapOSM:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 	topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',
-	topoMapSuauOSM:urlServerTiles+'/mapfactory/wmts/osm_suau/CAT3857_15/{z}/{x}/{y}.jpeg',
+	topoMapSuauOSM:urlServerTiles+'/mapfactory/wmts/osm_suau/CAT3857_15/{z}/{x}/{y}.png',
 	topoMapSuauICGC:urlServerTiles+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png',
 	ortoEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	ortoInstamaps:urlServerTiles+'/mapfactory/wmts/orto_8_12/CAT3857/{z}/{x}/{y}.png',
@@ -109,7 +111,7 @@ var mapaUrl = {
 	orto46ICGC:urlServerTiles+'/mapfactory/wmts/orto46/CAT3857/{z}/{x}/{y}.png',
 	orto55ICGC:urlServerTiles+'/mapfactory/wmts/orto55/CAT3857/{z}/{x}/{y}.png',
 	topo36ICGC:urlServerTiles+'/mapfactory/wmts/cat1936/CAT3857/{z}/{x}/{y}.png',
-	topoGrisOSM:urlServerTiles+'/mapfactory/wmts/gris_osm_suau/CAT3857_15/{z}/{x}/{y}.jpeg',
+	topoGrisOSM:urlServerTiles+'/mapfactory/wmts/gris_osm_suau/CAT3857_15/{z}/{x}/{y}.png',
 	topoGrisICGC:urlServerTiles+'/mapfactory/wmts/gris_topo_suau/CAT3857/{z}/{x}/{y}.png',
 	topoNaturalOSM:'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
 	topoNaturalSuau:urlServerTiles+'/mapfactory/wmts/natural_suau/CAT3857/{z}/{x}/{y}.png',
@@ -119,13 +121,13 @@ var mapaUrl = {
 	hibridTotal:urlServerTiles+'/mapfactory/wmts/hibrida_total/CAT3857/{z}/{x}/{y}.png',
 	topoSuauColor:{
 		zombie:{suau:urlServerTiles+'/mapfactory/wmts/coure_topo_suau/CAT3857/{z}/{x}/{y}.png',
-				osm:urlServerTiles+'/mapfactory/wmts/coure_osm_suau/CAT3857_15/{z}/{x}/{y}.jpeg'},
+				osm:urlServerTiles+'/mapfactory/wmts/coure_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
 		nit:{suau:urlServerTiles+'/mapfactory/wmts/nit_topo_suau/CAT3857/{z}/{x}/{y}.png',
-			 osm:urlServerTilesW+'/mapfactory/wmts/nit_osm_suau/CAT3857_15/{z}/{x}/{y}.jpeg'},
+			 osm:urlServerTilesW+'/mapfactory/wmts/nit_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
 		orquidea:{suau:urlServerTiles+'/mapfactory/wmts/blueprint_topo_suau/CAT3857/{z}/{x}/{y}.png',
-				  osm:urlServerTiles+'/mapfactory/wmts/blueprint_osm_suau/CAT3857_15/{z}/{x}/{y}.jpeg'},
+				  osm:urlServerTiles+'/mapfactory/wmts/blueprint_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
 		sepia:{suau:urlServerTiles+'/mapfactory/wmts/sepia_topo_suau/CAT3857/{z}/{x}/{y}.png',
-			   osm:urlServerTilesW+'/mapfactory/wmts/sepia_osm_suau/CAT3857_15/{z}/{x}/{y}.jpeg'}
+			   osm:urlServerTilesW+'/mapfactory/wmts/sepia_osm_suau/CAT3857_15/{z}/{x}/{y}.png'}
 	}
 }
 

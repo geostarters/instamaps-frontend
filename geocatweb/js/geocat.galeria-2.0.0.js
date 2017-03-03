@@ -157,14 +157,12 @@
 			event.preventDefault();
 			event.stopImmediatePropagation();
 			var $this = caller;
+			var self=this;
 			if(!this.shouldShowNoViewerModal($this.parent().data("hasoptions"), $this.parent().data("nom")))
 			{
 
 				var appbusinessid = $this.parent().data("businessid");
 				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
-
-
-
 				if ($.trim($this.parent().data("idusr")) != ""){
 					urlMap += "&id="+$this.parent().data("idusr");
 				}
@@ -172,9 +170,9 @@
 
 								var nomVisor=$this.parent().data("nomvisor");
 
-								if (undefined!=nomVisor && nomVisor!=""){
-									urlMap=HOST_APP+paramUrl.instaVisorFolder+$this.parent().data("idusr")+"/"+appbusinessid+"/"+nomVisor;
-
+								if (undefined!=nomVisor && nomVisor!=""){																			
+									urlMap=self.generaVincleInstaVisor($this.parent().data("idusr"),appbusinessid,nomVisor);
+								
 								}
 
 
@@ -400,7 +398,7 @@
 
 					var nomVisor=$this.data("nomvisor");
 					if (undefined!=nomVisor && nomVisor!=""){
-						urlMap=HOST_APP+paramUrl.instaVisorFolder+$this.data("idusr")+"/"+$this.data("businessid")+"/"+nomVisor;
+						urlMap=self.generaVincleInstaVisor($this.data("idusr"),$this.data("businessid"),nomVisor);
 
 					}
 
@@ -429,9 +427,8 @@
 
 
 				var nomVisor=$this.parent().data("nomvisor");
-				if (undefined!=nomVisor && nomVisor!=""){
-					urlMap=HOST_APP+paramUrl.instaVisorFolder+$this.parent().data("idusr")+"/"+appbusinessid+"/"+nomVisor;
-
+				if (undefined!=nomVisor && nomVisor!=""){										
+					urlMap=self.generaVincleInstaVisor($this.parent().data("idusr"),appbusinessid,nomVisor);
 				}
 
 
@@ -951,14 +948,12 @@
 						urlMap += "&title="+nomIndexacio;
 					}
 
+					
 					var nomVisor=val.nom_visor;
-					if (undefined!=nomVisor && nomVisor!=""){
-
-						urlMap=HOST_APP+paramUrl.instaVisorFolder+val.options.idusr+"/"+val.businessId+"/"+nomVisor;
-
-
+					if (undefined!=nomVisor && nomVisor!=""){						
+						urlMap=self.generaVincleInstaVisor(val.options.idusr,val.businessId,nomVisor);
 					}
-
+					
 
 					val.generatedScript=generarScriptMarkupGoogle(urlMap,val.nomAplicacio,val.thumbnail,autor,val.dataPublicacio,val.description);
 					mapsGalery.push(val);
@@ -991,12 +986,19 @@
 				var $this = $(this);
 				var appbusinessid = $this.data("businessid");
 				var nomApp=$this.data("nomapp");
+				var idrusr=$this.data("idusr");
+				
+				if (!idrusr){
+					idrusr = $this.parent().data("idusr");
+				}
+				
+				
 				if (!appbusinessid){
 					appbusinessid = $this.parent().data("businessid");
 				}
 				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
-				if ($.trim($this.data("idusr")) != ""){
-					urlMap += "&id="+$this.data("idusr");
+				if ($.trim(idrusr) != ""){
+					urlMap += "&id="+idrusr;
 
 				}
 				if (undefined!=nomApp){
@@ -1008,13 +1010,17 @@
 
 
 				var nomVisor=$this.data("nomvisor");
-				if (undefined!=nomVisor && nomVisor!=""){
-					urlMap=HOST_APP+paramUrl.instaVisorFolder+$this.data("idusr")+"/"+appbusinessid+"/"+nomVisor;
+				if (!nomVisor){
+					nomVisor = $this.parent().data("nomvisor");
+				}
+				
+				if (undefined!=nomVisor && nomVisor!=""){					
+					urlMap=self.generaVincleInstaVisor(idrusr,appbusinessid,nomVisor);				
 				}
 
 
 				$.publish('analyticsEvent',{event:['galeria publica', tipus_user+'veure mapa']});
-				//_kmq.push(['record', 'veure mapa', {'from':'galeria publica', 'tipus user':tipus_user}]);
+				
 				window.open(urlMap);
 			});
 
@@ -1029,9 +1035,8 @@
 				//$('#urlMap').val(urlMap);
 
 				var nomVisor=$this.data("nomvisor");
-				if (undefined!=nomVisor && nomVisor!=""){
-					urlMap=HOST_APP+paramUrl.instaVisorFolder+$this.data("idusr")+"/"+$this.data("businessid")+"/"+nomVisor;
-
+				if (undefined!=nomVisor && nomVisor!=""){					
+					urlMap=self.generaVincleInstaVisor($this.data("idusr"),$this.data("businessid"),nomVisor);
 				}
 
 
@@ -1097,7 +1102,7 @@
 				var appbusinessid = appbusinessid = $this.parent().data("businessid");
 				var urlMap = paramUrl.visorPage+"?businessid="+appbusinessid;
 				if ($.trim($this.data("idusr")) != ""){
-					urlMap += "&id="+$this.data("idusr");
+					urlMap += "&id="+$this.parent().data("idusr");
 				}
 				var nomApp=$this.parent().data("nomapp");
 				if (undefined!=nomApp){
@@ -1108,10 +1113,11 @@
 				}
 
 
-				var nomVisor=$this.data("nomvisor");
-				if (undefined!=nomVisor && nomVisor!=""){
-					urlMap=HOST_APP+paramUrl.instaVisorFolder+$this.data("idusr")+"/"+appbusinessid+"/"+nomVisor;
-
+			
+				
+				var nomVisor=$this.parent().data("nomvisor");
+				if (undefined!=nomVisor && nomVisor!=""){								
+					urlMap=self.generaVincleInstaVisor($this.parent().data("idusr"),appbusinessid,nomVisor);
 				}
 
 				$.publish('analyticsEvent',{event:['galeria privada', tipus_user+'veure mapa']});
@@ -1197,6 +1203,22 @@
 				self.drawGaleria(results);
 				self.escriuResultats(results.results.length);
 			});
+		},
+		
+		
+		generaVincleInstaVisor:function(idusr,mapaId,nomVisor){
+			var urlMap;	
+			
+			try{								
+				urlMap=HOST_APP+paramUrl.instaVisorFolder+idusr+"/"+mapaId+"/"+nomVisor.replace(mapaId+"_","");
+				return urlMap;
+			}catch(err){
+				urlMap = paramUrl.visorPage+"?businessid="+mapaId;
+				return urlMap;
+			}
+			
+		
+		
 		},
 
 		_loadGaleria: function(params){
