@@ -1078,6 +1078,7 @@
 
 			infoHtml += '<p>'+nomUser[0]+'</p>';
 
+			var showDescriptionAsAtlas = false;
 			if (_mapConfig.options){
 				var desc=_mapConfig.options.description;
 
@@ -1107,18 +1108,61 @@
 				if (_mapConfig.options.tags!=undefined) infoHtml += '<p>'+_mapConfig.options.tags+'</p>';
 
 				$('.escut').hide();
+				showDescriptionAsAtlas = (_mapConfig.options.hasOwnProperty("descriptionAsAtlas") ? _mapConfig.options.descriptionAsAtlas : false);
 			}
-			$("#mapTitle").html(self._mapNameShortener(_mapConfig.nomAplicacio) + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
+			var titleHTML = self._mapNameShortener(_mapConfig.nomAplicacio);
+			var popupContainer = false;
+			var popupAnimation = true;
+			var popupPlacement = 'bottom';
+			var popupTrigger = 'click';
+			var popupTemplate = '<div class="popover" role="tooltip"><div class="popover-arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>';
+			var containerName = '#infoMap';
 
-			$('#infoMap').popover({
-				placement : 'bottom',
+			if(!showDescriptionAsAtlas)
+			{
+
+				titleHTML += '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>';
+
+			}
+			else
+			{
+
+				containerName = 'body';
+				popupContainer = 'body';
+				popupAnimation = false;
+				popupPlacement = 'left';
+				popupContainer = 'body';
+				popupTrigger = 'manual';
+				popupTemplate = '<div class="popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>';
+
+			}
+
+			$(containerName).popover({
+				container: popupContainer,
+				animation: popupAnimation,
+				placement : popupPlacement,
 				html: true,
-				content: infoHtml
+				content: infoHtml,
+				trigger: popupTrigger,
+				template: popupTemplate
 			});
 
-			$('#infoMap').on('show.bs.popover', function () {
-				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));
-			});
+			$("#mapTitle").html(titleHTML);
+
+			if(!showDescriptionAsAtlas)
+			{
+			
+				$('#infoMap').on('show.bs.popover', function () {
+					$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));
+				});
+
+			}
+			else
+			{
+
+				$('#infoMap').attr('data-original-title', window.lang.translate($(this).data('lang-title')));
+
+			}
 
 			//TODO quitar la global ya que se usa en el control de capas.
 			downloadableData = (_mapConfig.options && _mapConfig.options.downloadable?
