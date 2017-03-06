@@ -75,7 +75,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
 					};
 					
-				console.debug(dataSocrata);
+				//console.debug(dataSocrata);
 				crearFitxerSocrata(dataSocrata).then(function(results){
 					if (results.status="OK"){
 						urlFile =results.filePath;
@@ -416,22 +416,35 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	}
 	/*** NO DINAMICA ***/		
 	}else{
+		var dataSocrata;
+		var isJson=false;
+		if (tipusFile==".json"){
+			isJson=true;
+			L.toGeoJSON.convert(urlFile,"Point").then(function(){
+				 dataSocrata={
+							serverName: nomCapa,
+							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+					};
+			});
+		}
+		
 		//console.debug("getUrlFile PROVES NO DINAMICA");
 		var codiUnic = getCodiUnic();
-		if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
-				urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) 	{
-			var response = $.ajax({ type: "GET",   
-	            url: urlFile,   
-	            async: false
-	          }).responseText;
+		if (((urlFile.indexOf("socrata")>-1 && (urlFile.indexOf("method=export&format=GeoJSON")>-1 || 
+			  urlFile.indexOf("https")>-1))  && urlFile.indexOf("drive")==-1  && urlFile.indexOf("dropbox")==-1) || isJson) 	{
 			
-			
-			var dataSocrata={
-					serverName: nomCapa,
-					jsonSocrata: response
-			};
-			
+			if (isJson==false){
+				var response = $.ajax({ type: "GET",   
+		            url: urlFile,   
+		            async: false
+		          }).responseText;
+				
+				
+				 dataSocrata={
+						serverName: nomCapa,
+						jsonSocrata: response
+				};
+			}
 			
 			crearFitxerSocrata(dataSocrata).then(function(results){
 				if (results.status="OK"){
