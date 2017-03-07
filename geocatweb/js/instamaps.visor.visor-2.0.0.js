@@ -1110,44 +1110,29 @@
 				$('.escut').hide();
 				showDescriptionAsAtlas = (_mapConfig.options.hasOwnProperty("descriptionAsAtlas") ? _mapConfig.options.descriptionAsAtlas : false);
 			}
+
 			var titleHTML = self._mapNameShortener(_mapConfig.nomAplicacio);
-			var popupContainer = false;
-			var popupAnimation = true;
-			var popupPlacement = 'bottom';
-			var popupTrigger = 'click';
-			var popupTemplate = '<div class="popover" role="tooltip"><div class="popover-arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>';
-			var containerName = '#infoMap';
 
 			if(!showDescriptionAsAtlas)
 			{
 
+				//Show the description when the info button is clicked
 				titleHTML += '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>';
 
 			}
 			else
 			{
 
-				containerName = 'body';
-				popupContainer = 'body';
-				popupAnimation = false;
-				popupPlacement = 'left';
-				popupContainer = 'body';
-				popupTrigger = 'manual';
-				popupTemplate = '<div class="popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>';
-
 			}
 
-			$(containerName).popover({
-				container: popupContainer,
-				animation: popupAnimation,
-				placement : popupPlacement,
+			$("#mapTitle").html(titleHTML);
+
+			$('#infoMap').popover({
+				placement : 'bottom',
 				html: true,
 				content: infoHtml,
-				trigger: popupTrigger,
-				template: popupTemplate
+				trigger: 'click',
 			});
-
-			$("#mapTitle").html(titleHTML);
 
 			if(!showDescriptionAsAtlas)
 			{
@@ -1159,8 +1144,6 @@
 			}
 			else
 			{
-
-				$('#infoMap').attr('data-original-title', window.lang.translate($(this).data('lang-title')));
 
 			}
 
