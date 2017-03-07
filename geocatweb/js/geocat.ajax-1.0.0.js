@@ -13,13 +13,21 @@ function addXHR(jqXHR, settings)
 
 }
 
+function completedWithErrors(jqXHR, status, error)
+{
+
+	console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
+
+}
+
 function createXHR(inOptions)
 {
 
 	var options = {
   		dataType: 'jsonp',
 		complete: actionCompleted,
-		beforeSend: addXHR
+		beforeSend: addXHR,
+		error: completedWithErrors
 	};
 
 	jQuery.extend(options, inOptions);
@@ -368,6 +376,7 @@ function getWikipediaLayer(data){
 function shortUrl(url){
 	return createXHR({
 		url: paramUrl.shortUrl, 
+		dataType: 'json',
 		contentType: "application/json; charset=utf-8",
 		method: 'post',
 		data: JSON.stringify({longUrl: url}),
@@ -447,8 +456,7 @@ function updateTematicRangs(data){
 
 function createRandomUser(data){
 	return createXHR({
-		url: paramUrl.createRandomUser, 
-		data: data
+		url: paramUrl.createRandomUser
 	});
 }
 
@@ -500,22 +508,19 @@ function renewPassword(data){
 
 function getNumEntitatsActives(){
 	return createXHR({
-		url: paramUrl.getNumEntitatsActives, 
-		data: data
+		url: paramUrl.getNumEntitatsActives
 	});
 }
 
 function getNumMapes(){
 	return createXHR({
-		url: paramUrl.getNumMapes, 
-		data: data
+		url: paramUrl.getNumMapes
 	});
 }
 
 function getNumCapes(){
 	return createXHR({
-		url: paramUrl.getNumCapes, 
-		data: data
+		url: paramUrl.getNumCapes
 	});
 }
 
@@ -591,6 +596,7 @@ function uploadImageBase64(data){
 	return createXHR({
 		url: paramUrl.urluploadBase64, 
 		data: data,
+		dataType: 'json',
 		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		method: 'post'
 	});
@@ -600,6 +606,7 @@ function createGeoPdfMap(data){
 	return createXHR({
 		url: paramUrl.urlgetMapImage, 
 		data: data,
+		dataType: 'json',
 		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		method: 'post'
 	});
@@ -609,6 +616,7 @@ function createMapToWMS(data){
 	return createXHR({
 		url: paramUrl.urlMapToWMS, 
 		data: data,
+		dataType: 'json',
 		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		method: 'post'
 	});
