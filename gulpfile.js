@@ -11,6 +11,7 @@ var revReplace = require('gulp-rev-replace');
 var del = require('del');
 var pump = require('pump');
 var runSequence = require('run-sequence');
+var jsValidate = require('gulp-jsvalidate');
 var Q = require('q');
 
 var config = {
@@ -296,7 +297,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/instamaps.app-1.0.0.js'
   ], 'instamaps.js');
 
-  pipeline.run(app.addScript);
+  return pipeline.run(app.addScript);
 
 });
 
@@ -361,8 +362,21 @@ gulp.task('clean', function() {
 });
 
 gulp.task('build',function(callback){
-  runSequence('clean',
-  ['styles','fonts','images','scripts'])
+  runSequence('validateJS', 'clean',
+  ['styles','fonts','images','scripts'], 
+  callback)
+});
+
+gulp.task('build+',function(callback){
+  runSequence('build', 'revreplace', callback);
+});
+
+gulp.task('validateJS', function() {
+
+  return gulp.src([config.dirJsInstamaps + '/leaflet/*.js',
+    config.dirJsInstamaps + '/*.js']
+  ).pipe(jsValidate());
+
 });
 
 

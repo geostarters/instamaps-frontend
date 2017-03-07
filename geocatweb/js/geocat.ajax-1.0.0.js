@@ -447,8 +447,7 @@ function updateTematicRangs(data){
 
 function createRandomUser(){
 	return createXHR({
-		url: paramUrl.createRandomUser, 
-		data: data
+		url: paramUrl.createRandomUser
 	});
 }
 
@@ -500,22 +499,19 @@ function renewPassword(data){
 
 function getNumEntitatsActives(){
 	return createXHR({
-		url: paramUrl.getNumEntitatsActives, 
-		data: data
+		url: paramUrl.getNumEntitatsActives
 	});
 }
 
 function getNumMapes(){
 	return createXHR({
-		url: paramUrl.getNumMapes, 
-		data: data
+		url: paramUrl.getNumMapes
 	});
 }
 
 function getNumCapes(){
 	return createXHR({
-		url: paramUrl.getNumCapes, 
-		data: data
+		url: paramUrl.getNumCapes
 	});
 }
 

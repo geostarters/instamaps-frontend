@@ -247,6 +247,21 @@
 					}
 
 				}
+
+				if(self.mapConfig.options.description)
+    			{
+
+    				$('#optDescripcio').summernote('code', self.mapConfig.options.description);
+
+    			}
+
+    			if(self.mapConfig.options.descriptionAsAtlas)
+    			{
+    			
+    				$('#cbAtles').prop('checked', self.mapConfig.options.descriptionAsAtlas);
+
+    			}
+
 			}
 
 			self._createModalConfigDownload();
@@ -660,7 +675,7 @@
 
         _publicarMapa: function(){
 
-      $.publish('analyticsEvent',{event:['mapa', '1#bt_publicar', 'publicar_mapa', 10]});
+			$.publish('analyticsEvent',{event:['mapa', '1#bt_publicar', 'publicar_mapa', 10]});
         	var self = this;
         	var options = {};
         	var _map = this.map;
@@ -759,7 +774,7 @@
         		return {businessId: this.id.replace('input-',''), activa: $(this).is(':checked')};
         	}).get();
 
-  $.publish('analyticsEvent',{event:['mapa', '1#num_capes_publicades', layers.length, 10]});
+			$.publish('analyticsEvent',{event:['mapa', '1#num_capes_publicades', layers.length, 10]});
 
         	//Atencio miro estat de les capes
         	//reOrderGroupsAndLayers(true);

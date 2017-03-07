@@ -1060,72 +1060,14 @@
 			return name;
 		},
 
-		_loadPublicMap: function(_mapConfig){
-			var self = this,
-				nomUser = _mapConfig.entitatUid.split("@"),
-				nomEntitat = _mapConfig.nomEntitat,
-				infoHtml = '';
+		_createPopup: function(mapConfig) {
 
-			var nomAp = _mapConfig.nomAplicacio;
-			if ($(location).attr('href').indexOf('/visor.html') != -1) {
-				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
-			}
-			if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
-				document.title=url('?title');
-			}
-			Cookies.set('perfil', 'instamaps');
-			checkUserLogin();
+			var self = this;
+			var nomUser = mapConfig.entitatUid.split("@")[0];
+			var infoHtml = '<p>' + nomUser + '</p>';
 
-			infoHtml += '<p>'+nomUser[0]+'</p>';
-
-			var showDescriptionAsAtlas = false;
-			if (_mapConfig.options){
-				var desc=_mapConfig.options.description;
-
-				desc==""?desc=_mapConfig.nomAplicacio:desc=desc;
-
-				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
-				if ($(location).attr('href').indexOf('/visor.html') != -1) {
-					$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-					$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-
-					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-					$('meta[property="og:image"]').attr('content', urlThumbnail);
-					var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+_mapConfig.businessId;
-					var nomApp=_mapConfig.nomAplicacio;
-					if (undefined!=nomApp){
-						var nomIndexacio=nomApp;
-			        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
-			        	nomIndexacio= encodeURI(nomIndexacio);
-						urlMap += "&title="+nomIndexacio;
-					}
-					var generatedScript="<script type=\"application/ld+json\">"+
-					generarScriptMarkupGoogle(urlMap,nomAp,urlThumbnail,_mapConfig.entitatUid,_mapConfig.dataPublicacio,desc)+
-					"</script>";
-					$('head').append(generatedScript);
-				}
-				if (_mapConfig.options.description!=undefined) infoHtml += '<p>'+_mapConfig.options.description+'</p>';
-				if (_mapConfig.options.tags!=undefined) infoHtml += '<p>'+_mapConfig.options.tags+'</p>';
-
-				$('.escut').hide();
-				showDescriptionAsAtlas = (_mapConfig.options.hasOwnProperty("descriptionAsAtlas") ? _mapConfig.options.descriptionAsAtlas : false);
-			}
-
-			var titleHTML = self._mapNameShortener(_mapConfig.nomAplicacio);
-
-			if(!showDescriptionAsAtlas)
-			{
-
-				//Show the description when the info button is clicked
-				titleHTML += '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>';
-
-			}
-			else
-			{
-
-			}
-
-			$("#mapTitle").html(titleHTML);
+			if (mapConfig.options.description != undefined) infoHtml += '<p>'+mapConfig.options.description+'</p>';
+			if (mapConfig.options.tags != undefined) infoHtml += '<p>'+mapConfig.options.tags+'</p>';
 
 			$('#infoMap').popover({
 				placement : 'bottom',
@@ -1134,16 +1076,116 @@
 				trigger: 'click',
 			});
 
+			$('#infoMap').on('show.bs.popover', function () {
+				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));
+			});
+
+		},
+
+		_createAtlasPanel(mapConfig) {
+
+			var self = this;
+			var infoHtml = '<h3 class="popover-title" lang="ca" style="background-color:#000; color:#fff;">' + 
+				window.lang.translate('Informació') + 
+				'</h3>';
+
+			if (mapConfig.options.description != undefined) 
+			{
+
+				infoHtml += '<div class="popover-content" style="color:#FFF;"><p>' + 
+					mapConfig.options.description + 
+					'</p></div>';
+
+				$('body').append('<div id="atlasPanel" class="atlasPanel">' + infoHtml + '</div>');
+
+			}
+
+		},
+
+		_setMetaTags: function(mapConfig) {
+
+			var nomApp = mapConfig.nomAplicacio;
+			$('meta[property="og:title"]').attr('content', "Mapa " + nomApp.replaceAll("'","\'"));
+
+			if(mapConfig.options)
+			{
+
+				var desc = mapConfig.options.description;
+				desc = ("" == desc) ? nomAp : desc;
+
+				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
+				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+
+				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+				$('meta[property="og:image"]').attr('content', urlThumbnail);
+				var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+mapConfig.businessId;
+
+				if (undefined!=nomApp){
+					var nomIndexacio=nomApp;
+		        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
+		        	nomIndexacio= encodeURI(nomIndexacio);
+					urlMap += "&title="+nomIndexacio;
+				}
+
+				var generatedScript="<script type=\"application/ld+json\">"+
+				generarScriptMarkupGoogle(urlMap,nomApp,urlThumbnail,mapConfig.entitatUid,mapConfig.dataPublicacio,desc)+
+				"</script>";
+
+				$('head').append(generatedScript);
+
+			}
+
+		},
+
+		_setMapTitle(mapConfig, showInfoIcon)
+		{
+
+			var self = this;
+			var titleHTML = self._mapNameShortener(mapConfig.nomAplicacio);
+
+			if(showInfoIcon)
+			{
+
+				//Show the description when the info button is clicked
+				titleHTML += '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>';
+
+			}
+
+			$("#mapTitle").html(titleHTML);
+
+		},
+
+		_loadPublicMap: function(_mapConfig){
+			var self = this;
+
+			var showDescriptionAsAtlas = _mapConfig.options && 
+				_mapConfig.options.hasOwnProperty("descriptionAsAtlas") && 
+				_mapConfig.options.descriptionAsAtlas;
+
+			Cookies.set('perfil', 'instamaps');
+			checkUserLogin();
+			
+			self._setMapTitle(_mapConfig, !showDescriptionAsAtlas);
+			if ($(location).attr('href').indexOf('/visor.html') != -1) {
+				self._setMetaTags(_mapConfig);
+			}
+
+			if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
+				document.title = url('?title');
+			}
+			
+
 			if(!showDescriptionAsAtlas)
 			{
-			
-				$('#infoMap').on('show.bs.popover', function () {
-					$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));
-				});
+
+				self._createPopup(_mapConfig);
 
 			}
 			else
 			{
+
+				self._createAtlasPanel(_mapConfig);
 
 			}
 
@@ -1154,9 +1196,8 @@
 			_mapConfig.newMap = false;
 			$('#nomAplicacio').html(_mapConfig.nomAplicacio);
 
-			self._loadMapConfig(_mapConfig).then(function(){
+			self._loadMapConfig(_mapConfig);
 
-			});
 		},
 
 		_loadMapConfig: function(_mapConfig){

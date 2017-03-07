@@ -56,11 +56,10 @@ function activaModul() {
 		script.src = "/llibreries/js/leaflet/plugin/L.TileLayer.BetterWMS.js";
 		jQuery("body").append(script);
 
-		dfd.resolve();
+		dfd.resolve();*/
 	}
 
 	return dfd.promise();
 
 };
-
 
