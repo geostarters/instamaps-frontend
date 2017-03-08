@@ -385,6 +385,7 @@
 				layername: self.layername,
 				title: window.lang.translate('Veure a InstaMaps'),
 				fn: function(event) {
+					
 					$.publish('analyticsEvent',{event:['visor', 'button#veureInstamaps', 'label embed', 1]});
 				}
 			});
@@ -1434,7 +1435,7 @@
 		},
 
 		_mapsnapshotEvent: function(){
-			$.publish('analyticsEvent',{event:[ 'visor', 'button#export_mapa', 'label export maps', 1]});
+			//$.publish('analyticsEvent',{event:['visor', 'button#exportmapa', 'label exportmap', 1]});		
 		},
 
 

@@ -57,7 +57,7 @@ function creaAreesDragDropFiles() {
 				busy = true;
 				accionaCarrega(file,envioArxiu.isDrag);
 			}else{
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 				$('#dialog_info_upload').modal('show');
 				drgFromMapa.removeAllFiles(true);
 			}
@@ -611,8 +611,8 @@ function accionaCarrega(file,isDrag) {
 			}
 
 		}else{ // novalid
-			$('#dialog_info_upload_txt').html(window.lang.translate(ff.msg));
-			$('#dialog_info_upload').modal('show');		
+			$('#dialog_info_upload_txt').text(window.lang.translate(ff.msg));
+			$('#dialog_info_upload').modal('show');
 			obroModal = false;
 			busy = false;
 			if(isDrag){
@@ -863,7 +863,7 @@ function obteCampsXLSX(f) {
 				(e.target.result.byteLength && e.target.result.byteLength < midaFitxerRandom)) {
 				doit();
 			}else{
-				$('#dialog_info_upload_txt').html(window.lang.translate("La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB)."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("La mida del fitxer supera el límit preestablert per usuaris que no han iniciat sessió (10MB)."));
 				$('#dialog_info_upload').modal('show');
 				drgFromMapa.removeAllFiles(true);
 				busy = false;
@@ -873,7 +873,7 @@ function obteCampsXLSX(f) {
 		{
 			doit();
 		}else{
-			$('#dialog_info_upload_txt').html(window.lang.translate("La mida del fitxer supera el límit preestablert (500MB)."));
+			$('#dialog_info_upload_txt').text(window.lang.translate("La mida del fitxer supera el límit preestablert (500MB)."));
 			$('#dialog_info_upload').modal('show');
 			drgFromMapa.removeAllFiles(true);
 			busy = false;
@@ -1185,7 +1185,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 				busy = true;
 				accionaCarrega(file, envioArxiu.isDrag);	
 			}else{
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 				$('#dialog_info_upload').modal('show');
 				drgFromMapa.removeAllFiles(true);
 			}

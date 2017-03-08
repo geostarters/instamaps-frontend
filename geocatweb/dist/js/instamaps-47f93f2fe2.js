@@ -593,9 +593,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}
 			}
 		}
-		if (this.options.autoZIndex && layer.setZIndex) {
+		if (this.options.autoZIndex && layer.setZIndex && !layer.options.hasOwnProperty("zIndex")) {
 			this._lastZIndex++;
 			layer.setZIndex(this._lastZIndex);
+		}
+		else if(layer.options.hasOwnProperty("zIndex"))
+		{
+
+			this._lastZIndex = (layer.zIndex > this._lastZIndex) ? layer.zIndex : this._lastZIndex;
+
 		}
 	},
 
@@ -2937,23 +2943,23 @@ var _ombraLayer=null;
 var subDomains=['a','b','c'];
 var subDomainsA=['a','b','c'];
 //var urlServerTiles="http://www.{s}.instamaps.cat"
-//var urlServerTilesW="http://www.instamaps.cat"	
+//var urlServerTilesW="http://www.instamaps.cat"
 
-var urlServerTiles="http://{s}.tilemaps.icgc.cat";	
+var urlServerTiles="http://{s}.tilemaps.icgc.cat";
 var urlServerTilesW="http://{s}.tilemaps.icgc.cat";
 
 
 var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
-	
-	//urlServerTiles="http://imtilemapsdev.icgc.local";
-	urlServerTilesW="http://imtilemapsdev.icgc.local";	
-	urlServerTiles="http://{s}.tilemaps.icgc.cat";
-	//urlServerTilesW="http://{s}.tilemaps.icgc.cat";
-	
 
-	
+	//urlServerTiles="http://imtilemapsdev.icgc.local";
+	urlServerTilesW="http://imtilemapsdev.icgc.local";
+	urlServerTiles="http://imtilemapsdev.icgc.local";
+	//urlServerTilesW="http://{s}.tilemaps.icgc.cat";
+
+
+
 }
 
 
@@ -2976,28 +2982,30 @@ var FONS_HIBRIDTERRAIN='hibridTerrainMap';
 
 var URL_MQ='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-var mapaUrl = {	
+//Nou osm_suau_fast
+
+var mapaUrl = {
 	topoMapMON:urlServerTiles+'/mapfactory/wmts/mon_cat/MON3857/{z}/{x}/{y}.png',
 	topoMapOSM:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-	topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',	
+	topoMapICGC:'http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/topo/GRID3857/{z}/{x}/{y}.jpeg',
 	topoMapSuauOSM:urlServerTiles+'/mapfactory/wmts/osm_suau/CAT3857_15/{z}/{x}/{y}.png',
-	topoMapSuauICGC:urlServerTiles+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png',	
+	topoMapSuauICGC:urlServerTiles+'/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png',
 	ortoEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	ortoInstamaps:urlServerTiles+'/mapfactory/wmts/orto_8_12/CAT3857/{z}/{x}/{y}.png',
 	ortoAugmentada:urlServerTilesW+'/mapfactory/wmts/orto_augmentada/CAT3857/{z}/{x}/{y}.jpeg',
 	ortoICGC:"http://mapcache.{s}.icc.cat/map/bases_noutm/wmts/orto/GRID3857/{z}/{x}/{y}.jpeg",
-	hibridInstamaps:urlServerTiles+'/mapfactory/wmts/hibrida/CAT3857/{z}/{x}/{y}.png',	
+	hibridInstamaps:urlServerTiles+'/mapfactory/wmts/hibrida/CAT3857/{z}/{x}/{y}.png',
 	terrainEsri:'http://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
-	terrainInstamaps:urlServerTiles+'/mapfactory/wmts/relleu/CAT3857/{z}/{x}/{y}.png',	
-	ombraInstamaps:urlServerTiles+'/mapfactory/wmts/h_ombra/CAT3857/{z}/{x}/{y}.png',	
-	orto46ICGC:urlServerTiles+'/mapfactory/wmts/orto46/CAT3857/{z}/{x}/{y}.png',	
+	terrainInstamaps:urlServerTiles+'/mapfactory/wmts/relleu/CAT3857/{z}/{x}/{y}.png',
+	ombraInstamaps:urlServerTiles+'/mapfactory/wmts/h_ombra/CAT3857/{z}/{x}/{y}.png',
+	orto46ICGC:urlServerTiles+'/mapfactory/wmts/orto46/CAT3857/{z}/{x}/{y}.png',
 	orto55ICGC:urlServerTiles+'/mapfactory/wmts/orto55/CAT3857/{z}/{x}/{y}.png',
-	topo36ICGC:urlServerTiles+'/mapfactory/wmts/cat1936/CAT3857/{z}/{x}/{y}.png',	
+	topo36ICGC:urlServerTiles+'/mapfactory/wmts/cat1936/CAT3857/{z}/{x}/{y}.png',
 	topoGrisOSM:urlServerTiles+'/mapfactory/wmts/gris_osm_suau/CAT3857_15/{z}/{x}/{y}.png',
-	topoGrisICGC:urlServerTiles+'/mapfactory/wmts/gris_topo_suau/CAT3857/{z}/{x}/{y}.png',	
+	topoGrisICGC:urlServerTiles+'/mapfactory/wmts/gris_topo_suau/CAT3857/{z}/{x}/{y}.png',
 	topoNaturalOSM:'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
 	topoNaturalSuau:urlServerTiles+'/mapfactory/wmts/natural_suau/CAT3857/{z}/{x}/{y}.png',
-	toponimsNaturalSuau:urlServerTiles+'/mapfactory/wmts/toponimia/CAT3857/{z}/{x}/{y}.png',	
+	toponimsNaturalSuau:urlServerTiles+'/mapfactory/wmts/toponimia/CAT3857/{z}/{x}/{y}.png',
     topoLimitsSuau:urlServerTiles+'/mapfactory/wmts/limits/CAT3857/{z}/{x}/{y}.png',
 	fonsBlank:'',
 	hibridTotal:urlServerTiles+'/mapfactory/wmts/hibrida_total/CAT3857/{z}/{x}/{y}.png',
@@ -3010,8 +3018,8 @@ var mapaUrl = {
 				  osm:urlServerTiles+'/mapfactory/wmts/blueprint_osm_suau/CAT3857_15/{z}/{x}/{y}.png'},
 		sepia:{suau:urlServerTiles+'/mapfactory/wmts/sepia_topo_suau/CAT3857/{z}/{x}/{y}.png',
 			   osm:urlServerTilesW+'/mapfactory/wmts/sepia_osm_suau/CAT3857_15/{z}/{x}/{y}.png'}
-	}			
-}	
+	}
+}
 
 
 L.IM_Map = L.Map.extend({
@@ -3029,7 +3037,7 @@ L.IM_Map = L.Map.extend({
 		this.activeMap=this.options.typeMap;
 
 		if(this.options.typeMap==FONS_TOPOMAP){this.topoMap();
-		}else if(this.options.typeMap==FONS_ORTOMAP){this.ortoMap();		
+		}else if(this.options.typeMap==FONS_ORTOMAP){this.ortoMap();
 		}else if(this.options.typeMap==FONS_ORTOAUGMENTADA){this.ortoAugmentada();
 		}else if(this.options.typeMap==FONS_HIBRIDMAP){this.hibridMap();
 		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){this.topoMapGeo();
@@ -3047,25 +3055,25 @@ L.IM_Map = L.Map.extend({
 		}else{
 		this.activeMap=FONS_TOPOMAP;this.topoMap();
 		}
-		
+
 
 		this.on('moveend', function(){
 			this.gestionaFons(false);
 		});
-		
+
 		this.on('layeradd', function(){
 			this.gestionaFons(true);
 		});
-		
-	
-		
+
+
+
 	},
 	//Funcio nova 3D
 	getLGActiveMap:function(){
 
 		if(this.options.typeMap==FONS_TOPOMAP){return _topoLayers;
 		}else if(this.options.typeMap==FONS_ORTOMAP){return _ortoLayers;
-		
+
 		}else if(this.options.typeMap==FONS_ORTOAUGMENTADA){return _ortoAurgmentada;
 		}else if(this.options.typeMap==FONS_HIBRIDMAP){return _hibridLayers;
 		}else if(this.options.typeMap==FONS_TOPOMAP_GEO){return _topoLayersGeo;
@@ -3090,19 +3098,19 @@ L.IM_Map = L.Map.extend({
 	},
 
 	getCurrentZoomLevel:function(){
-		
+
 		if(estatMapa3D){
 
 			return "";
 		}else{
-			
+
 			return " ZL:"+this.getZoom();
-		
-		}		
-		
-		
-		
-	},	
+
+		}
+
+
+
+	},
 	setActiveMap:function(typeMap){
 		this.options.typeMap = typeMap;
 
@@ -3179,12 +3187,12 @@ L.IM_Map = L.Map.extend({
 
 	},
 	setHillActiu:function(grup,actiu){
-		
+
 
 	},
 	setTransActiveMap:function(trans,hillActiu){
 
-	
+
 
 	},
 	gestionaFons:function(layerAdd){
@@ -3235,12 +3243,12 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L7_10.options.maxZoom=10;
 				this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 				jQuery('#map').css('backgroundColor','#E0EAF3');
-				
+
 			}
 
 		//var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_ICC_L8_12,TOPO_GEO_ICC_L8_17;
 		}else if(f==FONS_TOPOMAP_GEO){
-					
+
 				if(sC==0){
 					TOPO_GEO_MQ_L15_18.setOpacity(1);
 					TOPO_GEO_MON_L0_14.setOpacity(1);
@@ -3306,7 +3314,7 @@ L.IM_Map = L.Map.extend({
 					jQuery('#map').css('backgroundColor','#1B2C4A');
 				}
 
-			
+
 		}else if(f==FONS_HIBRIDMAP){
 			//this.mirarActivarHill(false,this.getZoom(),sC);
 			if((sC==0)){ //Fora Cat
@@ -3329,29 +3337,29 @@ L.IM_Map = L.Map.extend({
 					ORTO_ICC_L12_19.options.maxZoom=20;
 					this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 					jQuery('#map').css('backgroundColor','#1B2C4A');
-					
+
 				}
-			
+
 			if((parseInt(this.getZoom()) >= 7) &&(parseInt(this.getZoom()) <= 11)) {
-				
-				
+
+
 				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.4);
 				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(0.8);
-				
+
 			}else if ((parseInt(this.getZoom()) >= 12) &&(parseInt(this.getZoom()) <= 13)) {
-				
-				
+
+
 				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.5);
 				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(0.8);
-				
+
 			}else{
-				
+
 				ORTO_HIBRID_8_18_VECTOR.setOpacity(0.8);
 				ORTO_HIBRID_L8_17_TOPONIMS.setOpacity(1);
 			}
-			
-			
-		/*	
+
+
+		/*
 
 		}else if(f==FONS_HIBRIDMAP){
 			//this.mirarActivarHill(false,this.getZoom(),sC);
@@ -3376,7 +3384,7 @@ L.IM_Map = L.Map.extend({
 					this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 					jQuery('#map').css('backgroundColor','#192A46');
 				}
-				
+
 				*/
 		}else if(f==FONS_TERRAINMAP){
 
@@ -3401,12 +3409,12 @@ L.IM_Map = L.Map.extend({
 				ICC_RELLEU_L0_14.options.maxZoom=17;
 				this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 			}
-		
+
 		}else if(f.indexOf('colorBlankMap')!=-1){
-		
+
 			this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
-		
-		
+
+
 		}else if(f==FONS_HIBRIDTERRAIN){
 
 			//this.mirarActivarHill(false,this.getZoom(),sC);
@@ -3429,8 +3437,8 @@ L.IM_Map = L.Map.extend({
 				ESRI_RELLEU_L0_13.options.maxZoom=9;
 				ICC_RELLEU_L0_14.options.maxZoom=17;
 				this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
-			}	
-			
+			}
+
 		}else if(f==FONS_TOPOGISMAP){
 
 			//this.mirarActivarHill(true,this.getZoom(),sC);
@@ -3443,10 +3451,10 @@ L.IM_Map = L.Map.extend({
 				//ICC_TOPO_GRIS_L7_10.options.maxZoom=zT;
 				if(this.getZoom() <= 6){
 					this.attributionControl.setPrefix(MQ_ATTR +this.getCurrentZoomLevel());
-				
+
 				}else{
 					this.attributionControl.setPrefix(ICGC_MON +this.getCurrentZoomLevel());
-					
+
 				}
 			}else if(sC==1){
 				MQ_TOPO_GRIS_L15_19.setOpacity(1);
@@ -3673,14 +3681,14 @@ L.IM_Map = L.Map.extend({
 
 
 
-		ORTO_ICC_L0_11 = new L.TileLayer(mapaUrl.ortoInstamaps,{  	    
+		ORTO_ICC_L0_11 = new L.TileLayer(mapaUrl.ortoInstamaps,{
 			tms:false,
 			minZoom: 0,
-			maxZoom: 12,	                                                        
+			maxZoom: 12,
 			continuousWorld: true,
 			worldCopyJump: false
 		}).addTo(_ortoLayers);
-		
+
 
 
 		ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
@@ -3696,7 +3704,7 @@ L.IM_Map = L.Map.extend({
 	},
 
 		ortoAugmentada:function(print){
-			
+
 			this.deletePreviousMap();
 			this.ajustaZoom(20);
 			this.setMapColor(null);
@@ -3708,13 +3716,13 @@ L.IM_Map = L.Map.extend({
 			   maxZoom:19}
 			).addTo(_ortoAurgmentada);
 
-			
-			
+
+
 			if(print){
-				ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
+				ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{
 					tms:false,
 					minZoom: 4,
-					maxZoom: 17,			
+					maxZoom: 17,
 					continuousWorld: true,
 					worldCopyJump: false
 				}).addTo(_ortoAurgmentada);
@@ -3722,8 +3730,8 @@ L.IM_Map = L.Map.extend({
 			}else{ //no es true
 
 
-				
-				ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{  	    
+
+				ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{
 					tms:false,
 					minZoom: 4,
 					maxZoom: 17,
@@ -3731,14 +3739,14 @@ L.IM_Map = L.Map.extend({
 					continuousWorld: true,
 					worldCopyJump: false
 				}).addTo(_ortoAurgmentada);
-				
+
 
 			}
-			
-			
-	
-			
-			
+
+
+
+
+
 			ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
 				tms:false,
 				minZoom: 18,
@@ -3749,10 +3757,10 @@ L.IM_Map = L.Map.extend({
 
 			this.addLayer(_ortoAurgmentada,true);
 			this.setActiveMap(FONS_ORTOAUGMENTADA);
-			
-			
+
+
 		},
-	
+
 
 	naturalMap: function (){
 		this.deletePreviousMap();
@@ -3845,10 +3853,10 @@ L.IM_Map = L.Map.extend({
 	},
 
 */
-	
+
 	hibridMap:function(print){
-		
-		
+
+
 		this.deletePreviousMap();
 		this.ajustaZoom(19);
 
@@ -3862,12 +3870,12 @@ L.IM_Map = L.Map.extend({
 		   maxZoom:19}
 		).addTo(_hibridLayers);
 
-		
+
 		if(print){
-			ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{  	    
+			ORTO_AUGMENTADA_L4_17 = new L.TileLayer(mapaUrl.ortoAugmentada,{
 				tms:false,
 				minZoom: 4,
-				maxZoom: 16,			
+				maxZoom: 16,
 				continuousWorld: true,
 				worldCopyJump: false
 			}).addTo(_hibridLayers);
@@ -3875,8 +3883,8 @@ L.IM_Map = L.Map.extend({
 		}else{ //no es true
 
 
-			
-			ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{  	    
+
+			ORTO_AUGMENTADA_L4_17 = new L.TileLayer.boundaryCanvas(mapaUrl.ortoAugmentada,{
 				tms:false,
 				minZoom: 4,
 				maxZoom: 16,
@@ -3884,12 +3892,12 @@ L.IM_Map = L.Map.extend({
 				continuousWorld: true,
 				worldCopyJump: false
 			}).addTo(_hibridLayers);
-			
+
 
 		}
-		
-		
-		
+
+
+
 		ORTO_ICC_L12_19 = new L.TileLayer(mapaUrl.ortoICGC,{
 			tms:false,
 			minZoom: 17,
@@ -3897,9 +3905,9 @@ L.IM_Map = L.Map.extend({
 			continuousWorld: true,
 			worldCopyJump: false
 		}).addTo(_hibridLayers);
-		
-		
-		
+
+
+
 		ORTO_HIBRID_8_18_VECTOR = new L.TileLayer(mapaUrl.hibridTotal,{
 			tms:false,
 			continuousWorld: true,
@@ -3909,9 +3917,9 @@ L.IM_Map = L.Map.extend({
 			minZoom: 8,
 			maxZoom: 17
 		}).addTo(_hibridLayers);
-		
-		
-		
+
+
+
 
 		ORTO_HIBRID_L8_17_TOPONIMS = new L.TileLayer(mapaUrl.toponimsNaturalSuau,{
 			tms:false,
@@ -3923,14 +3931,14 @@ L.IM_Map = L.Map.extend({
 
 		}).addTo(_hibridLayers);
 
-		
+
 
 		this.addLayer(_hibridLayers,true);
 		this.setActiveMap(FONS_HIBRIDMAP);
-		
-		
+
+
 	},
-	
+
 	hibridTerrainMap: function (){
 		this.deletePreviousMap();
 		this.ajustaZoom(17);
@@ -3951,8 +3959,8 @@ L.IM_Map = L.Map.extend({
 		   worldCopyJump: false,
 		}).addTo(_hibridTerrainMap);
 
-		
-		
+
+
 		TERRAIN_HIBRID_8_18_VECTOR = new L.TileLayer(mapaUrl.hibridTotal,{
 			tms:false,
 			continuousWorld: true,
@@ -3962,9 +3970,9 @@ L.IM_Map = L.Map.extend({
 			maxZoom: 17
 
 		}).addTo(_hibridTerrainMap);
-		
-			
-		
+
+
+
 		/*
 		TERRAIN_HIBRID_8_18_TOPO1 = new L.TileLayer(mapaUrl.topoNaturalSuau,{
 			tms:false,
@@ -3985,13 +3993,13 @@ L.IM_Map = L.Map.extend({
 			maxZoom: 17
 
 		}).addTo(_hibridTerrainMap);
-		
-		
+
+
 		this.addLayer(_hibridTerrainMap,true);
 			this.setActiveMap(FONS_HIBRIDTERRAIN);
 	},
-	
-	
+
+
 
 	terrainMap: function (){
 		this.deletePreviousMap();
@@ -4023,7 +4031,7 @@ L.IM_Map = L.Map.extend({
 
 		this.setMapColor(null);
 		_grisLayers=L.layerGroup();
-	
+
 
 		MQ_TOPO_GRIS_L0_14 =new L.TileLayer(mapaUrl.topoGrisOSM,{
 			minZoom: 0,
@@ -4038,7 +4046,7 @@ L.IM_Map = L.Map.extend({
 			color:'gris',
 			subdomains:subDomains
 		}).addTo(_grisLayers);
-		
+
 		ICC_TOPO_GRIS_L11_19 = new L.TileLayer(mapaUrl.topoGrisICGC,{
 			tms:false,
 			minZoom: 15,
@@ -4061,7 +4069,7 @@ L.IM_Map = L.Map.extend({
 		this.setMapColor(color);
 		_topoColorLayers=L.layerGroup();
 
-		
+
 		COLOR_TOPO_ICC_L0_6= new L.TileLayer(mapaUrl.topoSuauColor[color].osm, {
 			minZoom: 0,
 			maxZoom: 14,
@@ -4112,12 +4120,12 @@ L.IM_Map = L.Map.extend({
 	},
 
 	colorBlankMap:function(color){
-		
+
 		this.deletePreviousMap();
 		FONS_COLORBLANK=color;
 		color=color.replace('colorBlankMap','');
 		this.setMapColor(null);
-		
+
 		this.options.typeMap=FONS_COLORBLANK;
 		//this.ajustaZoom(14);
 		_colorBlankMap=L.layerGroup();
@@ -4132,11 +4140,11 @@ L.IM_Map = L.Map.extend({
 
 		this.addLayer(_colorBlankMap,true);
 	this.setActiveMap(FONS_COLORBLANK);
-	jQuery('#map').css('backgroundColor',color);	
-		
-		
+	jQuery('#map').css('backgroundColor',color);
+
+
 	},
-	
+
 	divadminMap:function(){
 		this.deletePreviousMap();
 
@@ -4290,7 +4298,7 @@ this.setActiveMap(FONS_DIVADMIN);
 		else if(this.hasLayer(_alcadesMap)){this.removeLayer(_alcadesMap);return}
 		else if(this.hasLayer(_colorBlankMap)){this.removeLayer(_colorBlankMap);return}
 		else if(this.hasLayer(_hibridTerrainMap)){this.removeLayer(_hibridTerrainMap);return}
-		
+
 	}
 	//fi default metode
 });
@@ -6297,7 +6305,8 @@ L.Control.Legend = L.Control.extend({
 		}else{
 			self.fromLayer = false;
 		}
-		$.publish('analyticsEvent',{event:['visor','button#activaLlegendaTab','label activaLlegendaTab', 4]});
+		
+		
 	},
 	
 	_getNameLayer:function(idLayer){		
@@ -6914,6 +6923,7 @@ L.Control.MapExport = L.Control
 				container.dataset.langTitle = window.lang.translate(options.langTitle);
 
 				self._div = container;
+				self._map=map;
 
 				var _scope = 'visor';
 				var tipus_user = "";
@@ -7034,15 +7044,22 @@ L.Control.MapExport = L.Control
 			},
 
 			show : function(e) {
-
+				var _map = this._map;
 				L.DomUtil.removeClass(this._div, 'grisfort');
 				L.DomUtil.addClass(this._div, 'greenfort');
 				var leftO = ($(this._div_H_Export).width() + parseInt(10));
 				var offset = $(this._div).offset();
 				$('.div_barraexport').css('top', (offset.top - 10) + 'px');
 				$('.div_barraexport').css('left', (offset.left - leftO) + 'px');
-				$('.div_barraexport').show();
+				$('.div_barraexport').show();				
 				jQuery('.leaflet-control-layers').hide();
+				
+				var _scope = 'visor';
+				var tipus_user = "";
+				getModeMapa() ? _scope = 'mapa' : _scope = 'visor';
+				
+				$.publish('analyticsEvent',{event:[ _scope,
+					tipus_user + 'exportmapa', 'label exportmap', 1]});		
 			},
 
 			_toggle : function(e) {
@@ -7533,7 +7550,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP2 = "http://nicosia.icgc.local/";
 	HOST_APP = "http://localhost/";//Local Jess
 	HOST_APP2 = "http://localhost/";
-	
+
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
@@ -7570,6 +7587,7 @@ var paramUrl = {
 	loginGeolocalPage:"/geocatweb/sessio_geolocal.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
+	instaVisorFolder:"instavisor/",
 	visorCloudifier:"/geocatweb/visor_cloudifier.html",
 	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
@@ -7628,14 +7646,14 @@ var paramUrl = {
 	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
 	deleteServerRemoved: HOST_APP+"geocat/aplications/map/deleteServerRemoved.action?",
 	updateServidorWMSName: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSName.action?",
-	
-	
+
+
 	//nous updates
-	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",	
+	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",
 	updateServidorWMSGroup: HOST_APP+"geocat/aplications/map/updateServidorWMSGroup.action?",
 	updateServidorWMSOpacity: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOpacity.action?",
-	
-	
+
+
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
@@ -7666,7 +7684,7 @@ var paramUrl = {
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
 	upload_gdal_nou: HOST_APP+"share/jsp/upload_gdal_nou.jsp?",
 	upload_gdal_2015: HOST_APP+"share/jsp/upload_gdal_2015.jsp?",
-	polling: HOST_APP+"share/jsp/polling.jsp?",	
+	polling: HOST_APP+"share/jsp/polling.jsp?",
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json",
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
@@ -7676,9 +7694,9 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
-	
+
 	urlMapToWMS:"/share/jsp/getMapToWMS.jsp?",
-	
+
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
 	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinInstamaper: HOST_APP+"geocat/registreInstamaper.action?",
@@ -7752,7 +7770,7 @@ var paramUrl = {
 	desbloquejarMapa: HOST_APP+"/geocat/aplications/map/desbloquejar.action?",
 	crearFitxerSocrata:  HOST_APP+"geocat/upload/crearFitxerSocrata.action?",
 	generateTokenRemember: HOST_APP+"geocat/user/generateTokenRemember.action?"
-	
+
 }
 
 var paramAplications = {
@@ -7768,7 +7786,7 @@ var paramAplications = {
     	"img":"img/thumb_ed_infoparcela.png",
     	"url":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela.action?fallback=infoparcela&codiUsuari=",
     	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
-    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId=" 
+    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId="
     },
     'peolics':{
     	"nom":"Editor de Parcs Eòlics",
@@ -7812,7 +7830,7 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 	//$('.waiting_animation').show();
 	if (typeof map !== 'undefined'){
 		try {map.spin(true);} catch (Err) {}
-		
+
 	}
 });
 
@@ -8133,1566 +8151,1030 @@ function actionCompleted(jqXHR, status) {
 	runningActions.splice(index, 1);
 }
 
-function loadPublicGaleria(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getAllPublicsMaps,
-		data: params,
+function addXHR(jqXHR, settings)
+{
+
+	runningActions.push(jqXHR);
+
+}
+
+function completedWithErrors(jqXHR, status, error)
+{
+
+	console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
+
+}
+
+function createXHR(inOptions)
+{
+
+	var options = {
   		dataType: 'jsonp',
-		complete: actionCompleted
-	});
-	runningActions.push(xhr);
+		complete: actionCompleted,
+		beforeSend: addXHR,
+		error: completedWithErrors
+	};
+
+	jQuery.extend(options, inOptions);
+
+	var xhr = jQuery.ajax(options);
 	return xhr.promise();
+
+}
+
+function loadPublicGaleria(params){
+	return createXHR(
+		{url: paramUrl.getAllPublicsMaps, 
+		data: params
+	});
 }
 
 function loadNumGaleria(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumGaleria,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumGaleria
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 function searchGaleriaMaps(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchGaleriaMaps,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchGaleriaMaps, 
+		data: params 
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function searchGaleriaMapsByUser(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchGaleriaMapsByUser,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchGaleriaMapsByUser, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteMap,
+	return createXHR({
+		url: paramUrl.deleteMap, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* registre.html */
 
 function registerUser(url, dataUrl){
-	var xhr = jQuery.ajax({
-		url: url,
+	return createXHR({
+		url: url, 
 		data: dataUrl,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();		
 }
 
 function checkUsername(username){
-	  var xhr = jQuery.ajax({
-			url: paramUrl.validateUsername,
-			data: {uid:username},
-			method: 'post',
-			dataType: 'jsonp',
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.validateUsername, 
+		data: {uid: username},
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function checkEmail(user_email){
-	  var xhr = jQuery.ajax({
-			url: paramUrl.validateEmail,
-			data: {email: user_email},
-			method: 'post',
-			dataType: 'jsonp',
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.validateEmail, 
+		data: {email: user_email},
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* galeria.html */
 
 //solo galeria privada de geolocal para obtener las aplicaciones
 function getUserData(username){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getUserSimple,
+	return createXHR({
+		url: paramUrl.getUserSimple, 
 		data: {uid : username},
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* comuns */
 function doLogout(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.logoutUser,
+	return createXHR({
+		url: paramUrl.logoutUser, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* sessio.html */
 
 function doLogin(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loginUser,
+	return createXHR({
+		url: paramUrl.loginUser, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doLoginIcgc(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loginUserIcgc,
+	return createXHR({
+		url: paramUrl.loginUserIcgc, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function loginToken(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loginToken,
+	return createXHR({
+		url: paramUrl.loginToken, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* map */
 function createTematicLayerFeature(data){
-	var xhr = $.ajax({
-		url: paramUrl.createTematicLayerFeature,
+	return createXHR({
+		url: paramUrl.createTematicLayerFeature, 
 		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function addFeatureToTematic(data){
-	var xhr = $.ajax({
-		url: paramUrl.addFeatureToTematic,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addFeatureToTematic, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getTematicLayerByBusinessId(data){
-	var xhr = $.ajax({
-		url: paramUrl.getTematicLayerByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getTematicLayerByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getCacheVisualitzacioLayerByBusinessId(data){
-	var xhr = $.ajax({
-		url: paramUrl.getCacheVisualitzacioLayerByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getCacheVisualitzacioLayerByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createFeature(data){
-	var xhr = $.ajax({
-		url: paramUrl.createFeature,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createFeature, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createData(data){
-	var xhr = $.ajax({
-		url: paramUrl.createData,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createData, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createRang(data){
-	var xhr = $.ajax({
-		url: paramUrl.createRang,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createRang, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getLListaDadesObertes(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.dadesObertes,
-		data: {metode:'getDatasets'},
+	return createXHR({
+		url: paramUrl.dadesObertes, 
+		data: {metode: 'getDatasets'},
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getMapByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getMapByBusinessId,
-		//url: paramUrl.getMapById,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getMapByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getCacheMapByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getCacheMapByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getCacheMapByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-/*//Local
 function updateMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMap,
+	return createXHR({
+		url: paramUrl.updateMap, 
 		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
-}*/
-
-function updateMap(data){
-	var xhr = jQuery.ajax({
-//		url: paramUrl.proxy + "?url=" + paramUrl.updateMap + "&uid="+data.uid,
-		url: paramUrl.updateMap,
-		data: data,
-		method: 'POST',
-//		dataType: 'jsonp',
-		complete: actionCompleted
-	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getAllServidorsWMSByUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getAllServidorsWMSByUser,
+	return createXHR({
+		url: paramUrl.getAllServidorsWMSByUser, 
 		data: data,
-		method: 'POST',
-//		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function addServerToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addServerToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addServerToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getAllTematicLayerByUid(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getAllTematicLayerByUid,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getAllTematicLayerByUid, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteTematicLayerAll(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteTematicLayerAll,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteTematicLayerAll, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doUpdateMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServersOrderToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServersOrderToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServersOrderToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 function updateServerOrderToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServerOrderToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServerOrderToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateMapName(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMapName,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateMapName, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getTwitterLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getTwitterLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getTwitterLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function removeServerToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.removeServerToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.removeServerToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteServerRemoved(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteServerRemoved,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteServerRemoved, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServidorWMSName(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSName,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServidorWMSName, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 function updateServidorWMSOptions(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSOptions,
+	return createXHR({
+		url: paramUrl.updateServidorWMSOptions, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServidorWMSGroup(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSGroup,
+	return createXHR({
+		url: paramUrl.updateServidorWMSGroup, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServidorWMSOpacity(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSOpacity,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServidorWMSOpacity, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 
 function addServerToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addServerToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addServerToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createServidorInMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createServidorInMap,
+	return createXHR({
+		url: paramUrl.createServidorInMap, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getWikipediaLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getWikipediaLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getWikipediaLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function shortUrl(url){
-    var xhr = jQuery.ajax({
-    	url: paramUrl.shortUrl,
-        contentType: "application/json; charset=utf-8",
-        method: 'POST',
-        data: JSON.stringify({longUrl: url}),
-        dataType: 'json',
-    	complete: actionCompleted
+	return createXHR({
+		url: paramUrl.shortUrl, 
+		dataType: 'json',
+		contentType: "application/json; charset=utf-8",
+		method: 'post',
+		data: JSON.stringify({longUrl: url}),
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doReadFile(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.readFile,
-		data: data,
-		//async: false,
-		//method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.readFile, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doUploadFile(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.uploadFile,
-		data: data,
-		//async: false,
-		//method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.uploadFile, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getDownloadLayer(data){
-	var xhr = jQuery.ajax({
-		//url: paramUrl.proxy_download,
-		url: paramUrl.download_layer,
+	return createXHR({
+		url: paramUrl.download_layer, 
 		data: data,
-		type: "POST",
-//		dataType: 'html'
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteServidorWMS(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteServidorWMS,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteServidorWMS, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createTematicLayerEmpty(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createTematicLayerEmpty,
-		data: data,
+	return createXHR({
+		url: paramUrl.createTematicLayerEmpty, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function moveFeatureToTematic(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.moveFeatureToTematic,
+	return createXHR({
+		url: paramUrl.moveFeatureToTematic, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteFeature(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteFeature,
+	return createXHR({
+		url: paramUrl.deleteFeature, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateFeature(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateFeature,
+	return createXHR({
+		url: paramUrl.updateFeature, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateTematicRangs(data){
-    var xhr = jQuery.ajax({
-    	//url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
-        url: paramUrl.updateTematicRangs,
-        data: data,
-        method: 'post',
-    	complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateTematicRangs, 
+		data: data,
+		method: 'post',
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createRandomUser(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createRandomUser,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createRandomUser
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteRandomUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteRandomUser,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteRandomUser, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getJSONPServei(url){
-	var xhr = jQuery.ajax({
-		url: paramUrl.json2jsonp,
-		data: {url:url},
+	return createXHR({
+		url: paramUrl.json2jsonp, 
+		data: { url: url},
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-	});
-	runningActions.push(xhr);
-	return xhr.promise()
-	.fail(function(msg,err) {
-		console.info(err);
+		method: 'post'
 	});
 }
 
 function updateServidorWMS(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMS,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServidorWMS, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function duplicateTematicLayer(data){
-	var xhr = jQuery.ajax({
-		//url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
-		url: paramUrl.duplicateTematicLayer,
+	return createXHR({
+		url: paramUrl.duplicateTematicLayer, 
 		data: data,
 		method: 'post',
-		complete: actionCompleted
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function reminderMail(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.reminderMail,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.reminderMail, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function renewPassword(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.renewPassword,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.renewPassword, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getNumEntitatsActives(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumEntitatsActives,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumEntitatsActives
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getNumMapes(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumMapes,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumMapes
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getNumCapes(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumCapes,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumCapes
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function publicarCapesMapa(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.publicarCapesMapa,
-		data: data,
+	return createXHR({
+		url: paramUrl.publicarCapesMapa, 
+		data: data, 
 		method: 'post',
-		//dataType: 'jsonp',
-		complete: actionCompleted
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function publicarMapConfig(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.publicarMapConfig,
-		data: data,
+	return createXHR({
+		url: paramUrl.publicarMapConfig, 
+		data: data, 
 		method: 'post',
-		complete: actionCompleted
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFile(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFile,
-		data: data,
+	return createXHR({
+		url: paramUrl.urlFile, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteUser,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteUser, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFileProves(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFileProves,
+	return createXHR({
+		url: paramUrl.urlFileProves, 
 		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false, 
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFileNoDin(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFileNoDin,
+	return createXHR({
+		url: paramUrl.urlFileNoDin, 
 		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false, 
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFileDin(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFileDin,
+	return createXHR({
+		url: paramUrl.urlFileDin, 
 		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false, 
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUserSimple(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getUserSimple,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getUserSimple, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function uploadImageBase64(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urluploadBase64,		
-		data: data,		
-		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-		method: 'POST',
+	return createXHR({
+		url: paramUrl.urluploadBase64, 
+		data: data,
 		dataType: 'json',
-		complete: actionCompleted
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
-}	
-
+}
 
 function createGeoPdfMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlgetMapImage,
-		data: data,	
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		method: 'POST',
+	return createXHR({
+		url: paramUrl.urlgetMapImage, 
+		data: data,
 		dataType: 'json',
-		complete: actionCompleted
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }	
-
-
 
 function createMapToWMS(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlMapToWMS,
-		data: data,	
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		method: 'POST',
+	return createXHR({
+		url: paramUrl.urlMapToWMS, 
+		data: data,
 		dataType: 'json',
-		complete: actionCompleted
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }	
 
-
-
-//esborra imatge galeria
-
 function deleteImageGaleria(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlgetMapImage,
-		data:data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.urlgetMapImage, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
-
-
-
-
 
 function updatePasswordIcgc(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updatePasswordIcgc,
-		data: data,
+	return createXHR({
+		url: paramUrl.updatePasswordIcgc, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-
-/*FUNCIONS NOU MODEL*/
 function createVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioLayer,
-		data: data,
+	return createXHR({
+		url: paramUrl.createVisualitzacioLayer, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function addGeometriaToVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addGeometriaToVisualitzacio,
+	return createXHR({
+		url: paramUrl.addGeometriaToVisualitzacio, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function moveGeometriaToVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.moveGeometriaToVisualitzacio,
+	return createXHR({
+		url: paramUrl.moveGeometriaToVisualitzacio, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateGeometria(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateGeometria,
+	return createXHR({
+		url: paramUrl.updateGeometria, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function modificarEstiloGeometria(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.modificarEstiloGeometria,
+	return createXHR({
+		url: paramUrl.modificarEstiloGeometria, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function removeGeometriaFromVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.removeGeometriaFromVisualitzacio,
+	return createXHR({
+		url: paramUrl.removeGeometriaFromVisualitzacio, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateNameVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateNameVisualitzacioLayer,
+	return createXHR({
+		url: paramUrl.updateNameVisualitzacioLayer, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteVisualitzacioLayer,
+	return createXHR({
+		url: paramUrl.deleteVisualitzacioLayer, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getVisualitzacioByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getVisualitzacioByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getVisualitzacioByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createVisualitzacioSimple(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioSimple,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createVisualitzacioSimple, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createVisualitzacioTematica(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioTematica,
+	return createXHR({
+		url: paramUrl.createVisualitzacioTematica, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createVisualitzacioHeatCluster(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioHeatCluster,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createVisualitzacioHeatCluster, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getGeometriesColleccioByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getGeometriesColleccioByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getGeometriesColleccioByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-/*Data Table*/
-
 function getGeometriesPropertiesLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getGeometriesPropertiesLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getGeometriesPropertiesLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function removeGeometriaFromProperties(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.removeGeometriaFromProperties,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.removeGeometriaFromProperties, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateGeometriaProperties(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateGeometriaProperties,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateGeometriaProperties, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-/* galeria.html */
 function updateMapVisibility(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMapVisibility,
+	return createXHR({
+		url: paramUrl.updateMapVisibility, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function sendMail(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.sendMail,
+	return createXHR({
+		url: paramUrl.sendMail, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function loadMapsColaboracio(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getEntitatsAplicacioRolByUidColaborador,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getEntitatsAplicacioRolByUidColaborador, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function getEntitatsColaboradorsByAplicacio(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getEntitatsColaboradorsByAplicacio,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getEntitatsColaboradorsByAplicacio, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function getConvidatsByBusinessId(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getConvidatsByBusinessId,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getConvidatsByBusinessId, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function deleteConvidatByBusinessId(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteConvidatByBusinessId,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteConvidatByBusinessId, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function deleteUser(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteUser,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteUser, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
-/*
-function updateRankAplicacio(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateRankAplicacio,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
-});
-runningActions.push(xhr);
-return xhr.promise();
-}
-*/
+
 function buffer(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.buffer,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.buffer, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function centroid(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.centroid,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.centroid, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function intersection(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.intersection,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.intersection, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function union(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.union,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.union, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function tag(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.tag,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.tag, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function getVisualitzacioSimpleByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getVisualitzacioSimpleByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getVisualitzacioSimpleByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function filterVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.filterVisualitzacio,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.filterVisualitzacio, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function registreInstamaper(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.signinInstamaper,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.signinInstamaper, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function crearFitxerPolling(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.crearFitxerPolling,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.crearFitxerPolling, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function resetClauMapa(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.resetClauMapa,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.resetClauMapa, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function loadPrivateMapByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loadPrivateMapByBusinessId,
-		method: 'post',
+	return createXHR({
+		url: paramUrl.loadPrivateMapByBusinessId, 
 		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function filter(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.filter,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.filter, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function callActions(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.callActions,
+	return createXHR({
+		url: paramUrl.callActions, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function loadAplicacionsUser(){
-	/*
-	var xhr = jQuery.ajax({
-		url: paramUrl.loadAplicacionsUser,
-		method: 'get',
-		dataType: 'json'
-		complete: actionCompleted
-});
-runningActions.push(xhr);
-return xhr.promise();
-	*/
 	var defer = jQuery.Deferred();
 	defer.resolve(perfilConfig);
 	return defer.promise();
 }
 
 function getUser(username){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getUser,
+	return createXHR({
+		url: paramUrl.getUser, 
 		data: {uid : username},
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getConfiguradesUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getConfiguradesUser,
+	return createXHR({
+		url: paramUrl.getConfiguradesUser, 
 		data: data,
 		crossDomain: true,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteAplicacionsGeolocal(url){
-	var xhr = jQuery.ajax({
-		url: url,
+	return createXHR({
+		url: url, 
 		crossDomain: true,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createToken(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createToken,
+	return createXHR({
+		url: paramUrl.createToken, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getValuesFromKeysProperty(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getValuesFromKeysProperty,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getValuesFromKeysProperty, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function columnJoin(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.columnJoin,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.columnJoin, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function spatialJoin(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.spatialJoin,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.spatialJoin, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function searchCapesPubliques(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchCapesPubliques,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchCapesPubliques, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function addServerDuplicateToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addServerDuplicateToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addServerDuplicateToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function duplicateVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.duplicateVisualitzacioLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.duplicateVisualitzacioLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function searchCatalegIdec(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchCatalegIdec,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchCatalegIdec, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function addGeometriaToVisualitzacioTematic(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addGeometriaToVisualitzacioTematic,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addGeometriaToVisualitzacioTematic, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function updateVisualitzacioLayer(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateVisualitzacioLayer,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateVisualitzacioLayer, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function searchCatalogInspire(params){
-	var xhr = jQuery.ajax({
-			url: paramUrl.urlgetInspireCatalog,
-			data: params,
-			traditional:true,
-			dataType: 'jsonp',
-			jsonp: 'json.wrf',
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.urlgetInspireCatalog, 
+		data: params,
+		traditional: true,
+		jsonp: 'json.wrf'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function desbloquejarMapa(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.desbloquejarMapa,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.desbloquejarMapa, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function crearFitxerSocrata(data){
-	var xhr = jQuery.ajax({
-			url: paramUrl.crearFitxerSocrata,
-			data: data,
-			method: 'post',
-			dataType: 'jsonp',			
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.crearFitxerSocrata, 
+		data: data,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function generateTokenRemember(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.generateTokenRemember,
+	return createXHR({
+		url: paramUrl.generateTokenRemember, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',			
-		complete: actionCompleted
-});
-runningActions.push(xhr);
-return xhr.promise();
+		method: 'post'
+	});
 }
 
 /**
@@ -11564,13 +11046,13 @@ var _gaq = _gaq || [];
 			ga('create', 'UA-46332195-3', 'auto');
 		}
 
-		console.info(_userDimension);
+		
 
 		ga('set', 'transport', 'beacon');
 		ga('send', 'pageview');
 		ga('set', 'dimension1', _userDimension);
 		ga('set', 'userId', _userID);
-		//ga('send', 'event', 'aplicacio','visibilitat',visibilitat,2);
+		
 
 		//TODO poner el subscriber
 		$.publish('loadGaEvents');
@@ -11582,7 +11064,7 @@ var _gaq = _gaq || [];
 	});
 
 	$.subscribe('trackPageview', function(e, data){
-		
+
 		 ga('send', 'pageview');
 	});
 
@@ -11615,7 +11097,7 @@ function addAnalyticsEvent(dataEvents){
 			console.info(dataEventArray[0])	;
 			console.info(dataEventArray[1])	;
 			console.info(event_label)	;
-			*/												
+			*/
 			ga('send', 'event', dataEventArray[0],dataEventArray[1],event_label,label_num);
 		}catch(err){
 
@@ -11647,19 +11129,7 @@ function checkIfAnalyticsLoaded(data) {
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- /*
-	console.info("entro");
-	ga = document.createElement('script');
-	ga.type = 'text/javascript';
-	ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl'
-			: 'http://www')
-			+ '.google-analytics.com/analytics.js';
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(ga, s);
 
-
-		*/
 
 })();
 
@@ -15169,6 +14639,10 @@ function loadWmsLayer(layer, _map){
 	if(layer.random){
 		wmsOptions.random=layer.random;
 	}
+
+	if(layer.hasOwnProperty("capesOrdre"))
+		wmsOptions.zIndex = layer.capesOrdre;
+
 	newWMS = L.tileLayer.betterWms(layer.url, wmsOptions);
 	newWMS.options.wmstime=jsonOptions.wmstime;
 	newWMS.options.group=jsonOptions.group;
@@ -22626,6 +22100,9 @@ function rag2deg(deg) {
 			aux.off('click');
 			aux.on('click',function(e){
 
+				$.publish('analyticsEvent',{event:['mapa', 'bt_semaforic']});
+				
+				
 				$('#interactivePalette').hide();
 
 				if(self._isEditing)
@@ -29080,6 +28557,7 @@ addHtmlModalNoWebGL();
 				layername: self.layername,
 				title: window.lang.translate('Veure a InstaMaps'),
 				fn: function(event) {
+					
 					$.publish('analyticsEvent',{event:['visor', 'button#veureInstamaps', 'label embed', 1]});
 				}
 			});
@@ -30129,7 +29607,7 @@ addHtmlModalNoWebGL();
 		},
 
 		_mapsnapshotEvent: function(){
-			$.publish('analyticsEvent',{event:[ 'visor', 'button#export_mapa', 'label export maps', 1]});
+			//$.publish('analyticsEvent',{event:['visor', 'button#exportmapa', 'label exportmap', 1]});		
 		},
 
 
@@ -31681,4 +31159,4 @@ jQuery(document).ready(function() {
 	global.Instamaps = Instamaps; 
 	
 }(window, jQuery));
-//# sourceMappingURL=instamaps-df518008a7.js.map
+//# sourceMappingURL=instamaps-47f93f2fe2.js.map
