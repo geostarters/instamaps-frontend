@@ -368,7 +368,8 @@ L.Control.Legend = L.Control.extend({
 		}else{
 			self.fromLayer = false;
 		}
-		$.publish('analyticsEvent',{event:['visor','button#activaLlegendaTab','label activaLlegendaTab', 4]});
+		
+		
 	},
 	
 	_getNameLayer:function(idLayer){		

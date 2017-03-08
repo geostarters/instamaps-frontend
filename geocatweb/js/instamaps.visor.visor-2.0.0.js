@@ -1434,7 +1434,7 @@
 		},
 
 		_mapsnapshotEvent: function(){
-			$.publish('analyticsEvent',{event:[ 'visor', 'button#export_mapa', 'label export maps', 1]});
+			//$.publish('analyticsEvent',{event:['visor', 'button#exportmapa', 'label exportmap', 1]});		
 		},
 
 
