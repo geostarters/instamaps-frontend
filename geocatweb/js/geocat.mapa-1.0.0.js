@@ -319,7 +319,7 @@ function addClicksInici() {
 	});	
 
 	jQuery('#dv_bt_mapExport').on('click', function(event) {
-		$.publish('analyticsEvent',{event:['mapa', tipus_user+'exportmap', 'label exportmap', 1]});
+		//$.publish('analyticsEvent',{event:['mapa', tipus_user+'exportmap', 'label exportmap', 1]});
 		
 	});	
 	
