@@ -600,6 +600,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							else if(urlFile.indexOf(t_file_txt)!=-1) type = t_file_txt;
 							else if(urlFile.indexOf(t_file_dgn)!=-1) type = t_file_dgn;
 							else if(urlFile.indexOf(t_file_gml)!=-1) type = t_file_gml;
+							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_json;
 							
 							$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
 							
@@ -607,6 +608,10 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',true);
 							}else if(type==".xls" || type==".xlsx" || type==".csv" || type==".txt"){
+								jQuery("#input-excel-url-file").show();
+								$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+								$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+							}else if(type==".json"){
 								jQuery("#input-excel-url-file").show();
 								$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
 								$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
@@ -670,8 +675,15 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 //									jQuery("#input-excel-url-file").hide();
 								}else if((ext==".xls")||(ext==".xlsx") || (ext==".csv") || (ext==".txt") ){
 									jQuery("#input-excel-url-file").show();
+									$('#input-excel-url-file .nav-pills-urlfile li#codis').show();
+									$('#input-excel-url-file .nav-pills-urlfile li#adreca').show();
 									$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
 									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+								}else if(ext==".json"){
+									jQuery("#input-excel-url-file").show();
+									$('a[href^="#opt_urlfile_coord').click();
+									$('#input-excel-url-file .nav-pills-urlfile li#codis').hide();
+									$('#input-excel-url-file .nav-pills-urlfile li#adreca').hide();
 								}else{
 									jQuery("#select-url-file-epsg").attr('disabled',false);
 //									jQuery("#input-excel-url-file").hide();
