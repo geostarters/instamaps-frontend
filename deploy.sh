@@ -11,3 +11,6 @@ git pull origin production
 chown -R nginx:nginx *
 chmod 777 -Rf maps
 chmod 777 -Rf mapcache
+cd geocatonline
+gulp build+
+wget http://localhost/geocat/aplications/map/replaceVisorFiles.action
