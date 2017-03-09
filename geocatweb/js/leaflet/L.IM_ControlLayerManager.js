@@ -593,9 +593,15 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				}
 			}
 		}
-		if (this.options.autoZIndex && layer.setZIndex) {
+		if (this.options.autoZIndex && layer.setZIndex && !layer.options.hasOwnProperty("zIndex")) {
 			this._lastZIndex++;
 			layer.setZIndex(this._lastZIndex);
+		}
+		else if(layer.options.hasOwnProperty("zIndex"))
+		{
+
+			this._lastZIndex = (layer.zIndex > this._lastZIndex) ? layer.zIndex : this._lastZIndex;
+
 		}
 	},
 

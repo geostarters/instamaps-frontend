@@ -171,6 +171,9 @@
 			aux.off('click');
 			aux.on('click',function(e){
 
+				$.publish('analyticsEvent',{event:['mapa', 'bt_semaforic']});
+				
+				
 				$('#interactivePalette').hide();
 
 				if(self._isEditing)

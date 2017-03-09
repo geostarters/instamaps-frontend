@@ -26,6 +26,7 @@ L.Control.MapExport = L.Control
 				container.dataset.langTitle = window.lang.translate(options.langTitle);
 
 				self._div = container;
+				self._map=map;
 
 				var _scope = 'visor';
 				var tipus_user = "";
@@ -146,15 +147,22 @@ L.Control.MapExport = L.Control
 			},
 
 			show : function(e) {
-
+				var _map = this._map;
 				L.DomUtil.removeClass(this._div, 'grisfort');
 				L.DomUtil.addClass(this._div, 'greenfort');
 				var leftO = ($(this._div_H_Export).width() + parseInt(10));
 				var offset = $(this._div).offset();
 				$('.div_barraexport').css('top', (offset.top - 10) + 'px');
 				$('.div_barraexport').css('left', (offset.left - leftO) + 'px');
-				$('.div_barraexport').show();
+				$('.div_barraexport').show();				
 				jQuery('.leaflet-control-layers').hide();
+				
+				var _scope = 'visor';
+				var tipus_user = "";
+				getModeMapa() ? _scope = 'mapa' : _scope = 'visor';
+				
+				$.publish('analyticsEvent',{event:[ _scope,
+					tipus_user + 'exportmapa', 'label exportmap', 1]});		
 			},
 
 			_toggle : function(e) {

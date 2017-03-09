@@ -6,1564 +6,1028 @@ function actionCompleted(jqXHR, status) {
 	runningActions.splice(index, 1);
 }
 
-function loadPublicGaleria(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getAllPublicsMaps,
-		data: params,
+function addXHR(jqXHR, settings)
+{
+
+	runningActions.push(jqXHR);
+
+}
+
+function completedWithErrors(jqXHR, status, error)
+{
+
+	console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
+
+}
+
+function createXHR(inOptions)
+{
+
+	var options = {
   		dataType: 'jsonp',
-		complete: actionCompleted
-	});
-	runningActions.push(xhr);
+		complete: actionCompleted,
+		beforeSend: addXHR,
+		error: completedWithErrors
+	};
+
+	jQuery.extend(options, inOptions);
+
+	var xhr = jQuery.ajax(options);
 	return xhr.promise();
+
+}
+
+function loadPublicGaleria(params){
+	return createXHR(
+		{url: paramUrl.getAllPublicsMaps, 
+		data: params
+	});
 }
 
 function loadNumGaleria(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumGaleria,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumGaleria
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 function searchGaleriaMaps(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchGaleriaMaps,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchGaleriaMaps, 
+		data: params 
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function searchGaleriaMapsByUser(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchGaleriaMapsByUser,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchGaleriaMapsByUser, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteMap,
+	return createXHR({
+		url: paramUrl.deleteMap, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* registre.html */
 
 function registerUser(url, dataUrl){
-	var xhr = jQuery.ajax({
-		url: url,
+	return createXHR({
+		url: url, 
 		data: dataUrl,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();		
 }
 
 function checkUsername(username){
-	  var xhr = jQuery.ajax({
-			url: paramUrl.validateUsername,
-			data: {uid:username},
-			method: 'post',
-			dataType: 'jsonp',
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.validateUsername, 
+		data: {uid: username},
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function checkEmail(user_email){
-	  var xhr = jQuery.ajax({
-			url: paramUrl.validateEmail,
-			data: {email: user_email},
-			method: 'post',
-			dataType: 'jsonp',
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.validateEmail, 
+		data: {email: user_email},
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* galeria.html */
 
 //solo galeria privada de geolocal para obtener las aplicaciones
 function getUserData(username){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getUserSimple,
+	return createXHR({
+		url: paramUrl.getUserSimple, 
 		data: {uid : username},
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* comuns */
 function doLogout(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.logoutUser,
+	return createXHR({
+		url: paramUrl.logoutUser, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* sessio.html */
 
 function doLogin(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loginUser,
+	return createXHR({
+		url: paramUrl.loginUser, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doLoginIcgc(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loginUserIcgc,
+	return createXHR({
+		url: paramUrl.loginUserIcgc, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function loginToken(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loginToken,
+	return createXHR({
+		url: paramUrl.loginToken, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 /* map */
 function createTematicLayerFeature(data){
-	var xhr = $.ajax({
-		url: paramUrl.createTematicLayerFeature,
+	return createXHR({
+		url: paramUrl.createTematicLayerFeature, 
 		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function addFeatureToTematic(data){
-	var xhr = $.ajax({
-		url: paramUrl.addFeatureToTematic,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addFeatureToTematic, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getTematicLayerByBusinessId(data){
-	var xhr = $.ajax({
-		url: paramUrl.getTematicLayerByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getTematicLayerByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getCacheVisualitzacioLayerByBusinessId(data){
-	var xhr = $.ajax({
-		url: paramUrl.getCacheVisualitzacioLayerByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getCacheVisualitzacioLayerByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createFeature(data){
-	var xhr = $.ajax({
-		url: paramUrl.createFeature,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createFeature, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createData(data){
-	var xhr = $.ajax({
-		url: paramUrl.createData,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createData, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createRang(data){
-	var xhr = $.ajax({
-		url: paramUrl.createRang,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createRang, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getLListaDadesObertes(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.dadesObertes,
-		data: {metode:'getDatasets'},
+	return createXHR({
+		url: paramUrl.dadesObertes, 
+		data: {metode: 'getDatasets'},
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getMapByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getMapByBusinessId,
-		//url: paramUrl.getMapById,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getMapByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getCacheMapByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getCacheMapByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getCacheMapByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-/*//Local
 function updateMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMap,
+	return createXHR({
+		url: paramUrl.updateMap, 
 		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
-}*/
-
-function updateMap(data){
-	var xhr = jQuery.ajax({
-//		url: paramUrl.proxy + "?url=" + paramUrl.updateMap + "&uid="+data.uid,
-		url: paramUrl.updateMap,
-		data: data,
-		method: 'POST',
-//		dataType: 'jsonp',
-		complete: actionCompleted
-	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getAllServidorsWMSByUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getAllServidorsWMSByUser,
+	return createXHR({
+		url: paramUrl.getAllServidorsWMSByUser, 
 		data: data,
-		method: 'POST',
-//		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function addServerToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addServerToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addServerToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getAllTematicLayerByUid(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getAllTematicLayerByUid,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getAllTematicLayerByUid, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteTematicLayerAll(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteTematicLayerAll,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteTematicLayerAll, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doUpdateMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServersOrderToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServersOrderToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServersOrderToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 function updateServerOrderToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServerOrderToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServerOrderToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateMapName(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMapName,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateMapName, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getTwitterLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getTwitterLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getTwitterLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function removeServerToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.removeServerToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.removeServerToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteServerRemoved(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteServerRemoved,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteServerRemoved, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServidorWMSName(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSName,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServidorWMSName, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 function updateServidorWMSOptions(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSOptions,
+	return createXHR({
+		url: paramUrl.updateServidorWMSOptions, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServidorWMSGroup(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSGroup,
+	return createXHR({
+		url: paramUrl.updateServidorWMSGroup, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateServidorWMSOpacity(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMSOpacity,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServidorWMSOpacity, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 
 
 function addServerToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addServerToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addServerToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createServidorInMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createServidorInMap,
+	return createXHR({
+		url: paramUrl.createServidorInMap, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getWikipediaLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getWikipediaLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getWikipediaLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function shortUrl(url){
-    var xhr = jQuery.ajax({
-    	url: paramUrl.shortUrl,
-        contentType: "application/json; charset=utf-8",
-        method: 'POST',
-        data: JSON.stringify({longUrl: url}),
-        dataType: 'json',
-    	complete: actionCompleted
+	return createXHR({
+		url: paramUrl.shortUrl, 
+		dataType: 'json',
+		contentType: "application/json; charset=utf-8",
+		method: 'post',
+		data: JSON.stringify({longUrl: url}),
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doReadFile(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.readFile,
-		data: data,
-		//async: false,
-		//method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.readFile, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function doUploadFile(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.uploadFile,
-		data: data,
-		//async: false,
-		//method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.uploadFile, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getDownloadLayer(data){
-	var xhr = jQuery.ajax({
-		//url: paramUrl.proxy_download,
-		url: paramUrl.download_layer,
+	return createXHR({
+		url: paramUrl.download_layer, 
 		data: data,
-		type: "POST",
-//		dataType: 'html'
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteServidorWMS(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteServidorWMS,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteServidorWMS, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createTematicLayerEmpty(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createTematicLayerEmpty,
-		data: data,
+	return createXHR({
+		url: paramUrl.createTematicLayerEmpty, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function moveFeatureToTematic(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.moveFeatureToTematic,
+	return createXHR({
+		url: paramUrl.moveFeatureToTematic, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteFeature(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteFeature,
+	return createXHR({
+		url: paramUrl.deleteFeature, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateFeature(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateFeature,
+	return createXHR({
+		url: paramUrl.updateFeature, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateTematicRangs(data){
-    var xhr = jQuery.ajax({
-    	//url: paramUrl.proxy + "?url=" + paramUrl.updateTematicRangs + "&uid="+data.uid,
-        url: paramUrl.updateTematicRangs,
-        data: data,
-        method: 'post',
-    	complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateTematicRangs, 
+		data: data,
+		method: 'post',
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createRandomUser(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createRandomUser,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createRandomUser
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteRandomUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteRandomUser,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteRandomUser, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getJSONPServei(url){
-	var xhr = jQuery.ajax({
-		url: paramUrl.json2jsonp,
-		data: {url:url},
+	return createXHR({
+		url: paramUrl.json2jsonp, 
+		data: { url: url},
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-	});
-	runningActions.push(xhr);
-	return xhr.promise()
-	.fail(function(msg,err) {
-		console.info(err);
+		method: 'post'
 	});
 }
 
 function updateServidorWMS(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateServidorWMS,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateServidorWMS, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function duplicateTematicLayer(data){
-	var xhr = jQuery.ajax({
-		//url: paramUrl.proxy + "?url=" + paramUrl.duplicateTematicLayer + "&uid="+data.uid,
-		url: paramUrl.duplicateTematicLayer,
+	return createXHR({
+		url: paramUrl.duplicateTematicLayer, 
 		data: data,
 		method: 'post',
-		complete: actionCompleted
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function reminderMail(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.reminderMail,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.reminderMail, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function renewPassword(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.renewPassword,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.renewPassword, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getNumEntitatsActives(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumEntitatsActives,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumEntitatsActives
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getNumMapes(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumMapes,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumMapes
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getNumCapes(){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getNumCapes,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getNumCapes
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function publicarCapesMapa(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.publicarCapesMapa,
-		data: data,
+	return createXHR({
+		url: paramUrl.publicarCapesMapa, 
+		data: data, 
 		method: 'post',
-		//dataType: 'jsonp',
-		complete: actionCompleted
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function publicarMapConfig(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.publicarMapConfig,
-		data: data,
+	return createXHR({
+		url: paramUrl.publicarMapConfig, 
+		data: data, 
 		method: 'post',
-		complete: actionCompleted
+		dataType: ''
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFile(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFile,
-		data: data,
+	return createXHR({
+		url: paramUrl.urlFile, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteUser,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteUser, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFileProves(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFileProves,
+	return createXHR({
+		url: paramUrl.urlFileProves, 
 		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false, 
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFileNoDin(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFileNoDin,
+	return createXHR({
+		url: paramUrl.urlFileNoDin, 
 		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false, 
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUrlFileDin(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlFileDin,
+	return createXHR({
+		url: paramUrl.urlFileDin, 
 		data: data,
-		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		async: false, 
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getUserSimple(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getUserSimple,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getUserSimple, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function uploadImageBase64(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urluploadBase64,		
-		data: data,		
-		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-		method: 'POST',
+	return createXHR({
+		url: paramUrl.urluploadBase64, 
+		data: data,
 		dataType: 'json',
-		complete: actionCompleted
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
-}	
-
+}
 
 function createGeoPdfMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlgetMapImage,
-		data: data,	
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		method: 'POST',
+	return createXHR({
+		url: paramUrl.urlgetMapImage, 
+		data: data,
 		dataType: 'json',
-		complete: actionCompleted
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }	
-
-
 
 function createMapToWMS(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlMapToWMS,
-		data: data,	
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-		method: 'POST',
+	return createXHR({
+		url: paramUrl.urlMapToWMS, 
+		data: data,
 		dataType: 'json',
-		complete: actionCompleted
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }	
 
-
-
-//esborra imatge galeria
-
 function deleteImageGaleria(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.urlgetMapImage,
-		data:data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.urlgetMapImage, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
-
-
-
-
 
 function updatePasswordIcgc(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updatePasswordIcgc,
-		data: data,
+	return createXHR({
+		url: paramUrl.updatePasswordIcgc, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-
-/*FUNCIONS NOU MODEL*/
 function createVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioLayer,
-		data: data,
+	return createXHR({
+		url: paramUrl.createVisualitzacioLayer, 
+		data: data, 
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function addGeometriaToVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addGeometriaToVisualitzacio,
+	return createXHR({
+		url: paramUrl.addGeometriaToVisualitzacio, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function moveGeometriaToVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.moveGeometriaToVisualitzacio,
+	return createXHR({
+		url: paramUrl.moveGeometriaToVisualitzacio, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateGeometria(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateGeometria,
+	return createXHR({
+		url: paramUrl.updateGeometria, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function modificarEstiloGeometria(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.modificarEstiloGeometria,
+	return createXHR({
+		url: paramUrl.modificarEstiloGeometria, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function removeGeometriaFromVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.removeGeometriaFromVisualitzacio,
+	return createXHR({
+		url: paramUrl.removeGeometriaFromVisualitzacio, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateNameVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateNameVisualitzacioLayer,
+	return createXHR({
+		url: paramUrl.updateNameVisualitzacioLayer, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteVisualitzacioLayer,
+	return createXHR({
+		url: paramUrl.deleteVisualitzacioLayer, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getVisualitzacioByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getVisualitzacioByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getVisualitzacioByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createVisualitzacioSimple(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioSimple,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createVisualitzacioSimple, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createVisualitzacioTematica(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioTematica,
+	return createXHR({
+		url: paramUrl.createVisualitzacioTematica, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createVisualitzacioHeatCluster(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createVisualitzacioHeatCluster,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.createVisualitzacioHeatCluster, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getGeometriesColleccioByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getGeometriesColleccioByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getGeometriesColleccioByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-/*Data Table*/
-
 function getGeometriesPropertiesLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getGeometriesPropertiesLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getGeometriesPropertiesLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function removeGeometriaFromProperties(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.removeGeometriaFromProperties,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.removeGeometriaFromProperties, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function updateGeometriaProperties(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateGeometriaProperties,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateGeometriaProperties, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
-/* galeria.html */
 function updateMapVisibility(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateMapVisibility,
+	return createXHR({
+		url: paramUrl.updateMapVisibility, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function sendMail(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.sendMail,
+	return createXHR({
+		url: paramUrl.sendMail, 
 		data: data,
-		method: 'post',
-        dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function loadMapsColaboracio(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getEntitatsAplicacioRolByUidColaborador,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getEntitatsAplicacioRolByUidColaborador, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function getEntitatsColaboradorsByAplicacio(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getEntitatsColaboradorsByAplicacio,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getEntitatsColaboradorsByAplicacio, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function getConvidatsByBusinessId(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getConvidatsByBusinessId,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getConvidatsByBusinessId, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function deleteConvidatByBusinessId(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteConvidatByBusinessId,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteConvidatByBusinessId, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function deleteUser(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.deleteUser,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.deleteUser, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
-/*
-function updateRankAplicacio(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateRankAplicacio,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
-});
-runningActions.push(xhr);
-return xhr.promise();
-}
-*/
+
 function buffer(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.buffer,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.buffer, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function centroid(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.centroid,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.centroid, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function intersection(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.intersection,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.intersection, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function union(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.union,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.union, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function tag(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.tag,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.tag, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function getVisualitzacioSimpleByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getVisualitzacioSimpleByBusinessId,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getVisualitzacioSimpleByBusinessId, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function filterVisualitzacio(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.filterVisualitzacio,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.filterVisualitzacio, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function registreInstamaper(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.signinInstamaper,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.signinInstamaper, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function crearFitxerPolling(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.crearFitxerPolling,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.crearFitxerPolling, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function resetClauMapa(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.resetClauMapa,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.resetClauMapa, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function loadPrivateMapByBusinessId(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.loadPrivateMapByBusinessId,
-		method: 'post',
+	return createXHR({
+		url: paramUrl.loadPrivateMapByBusinessId, 
 		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function filter(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.filter,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.filter, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function callActions(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.callActions,
+	return createXHR({
+		url: paramUrl.callActions, 
 		data: data,
 		async: false,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function loadAplicacionsUser(){
-	/*
-	var xhr = jQuery.ajax({
-		url: paramUrl.loadAplicacionsUser,
-		method: 'get',
-		dataType: 'json'
-		complete: actionCompleted
-});
-runningActions.push(xhr);
-return xhr.promise();
-	*/
 	var defer = jQuery.Deferred();
 	defer.resolve(perfilConfig);
 	return defer.promise();
 }
 
 function getUser(username){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getUser,
+	return createXHR({
+		url: paramUrl.getUser, 
 		data: {uid : username},
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getConfiguradesUser(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getConfiguradesUser,
+	return createXHR({
+		url: paramUrl.getConfiguradesUser, 
 		data: data,
 		crossDomain: true,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function deleteAplicacionsGeolocal(url){
-	var xhr = jQuery.ajax({
-		url: url,
+	return createXHR({
+		url: url, 
 		crossDomain: true,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function createToken(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.createToken,
+	return createXHR({
+		url: paramUrl.createToken, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',
-		complete: actionCompleted
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function getValuesFromKeysProperty(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.getValuesFromKeysProperty,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.getValuesFromKeysProperty, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function columnJoin(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.columnJoin,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.columnJoin, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function spatialJoin(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.spatialJoin,
-  		data: params,
-  		method: 'post',
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.spatialJoin, 
+		data: params,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function searchCapesPubliques(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchCapesPubliques,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchCapesPubliques, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function addServerDuplicateToMap(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addServerDuplicateToMap,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addServerDuplicateToMap, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function duplicateVisualitzacioLayer(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.duplicateVisualitzacioLayer,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.duplicateVisualitzacioLayer, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function searchCatalegIdec(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.searchCatalegIdec,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.searchCatalegIdec, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function addGeometriaToVisualitzacioTematic(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.addGeometriaToVisualitzacioTematic,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.addGeometriaToVisualitzacioTematic, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function updateVisualitzacioLayer(params){
-	var xhr = jQuery.ajax({
-		url: paramUrl.updateVisualitzacioLayer,
-		data: params,
-  		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.updateVisualitzacioLayer, 
+		data: params
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function searchCatalogInspire(params){
-	var xhr = jQuery.ajax({
-			url: paramUrl.urlgetInspireCatalog,
-			data: params,
-			traditional:true,
-			dataType: 'jsonp',
-			jsonp: 'json.wrf',
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.urlgetInspireCatalog, 
+		data: params,
+		traditional: true,
+		jsonp: 'json.wrf'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function desbloquejarMapa(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.desbloquejarMapa,
-		data: data,
-		dataType: 'jsonp',
-		complete: actionCompleted
+	return createXHR({
+		url: paramUrl.desbloquejarMapa, 
+		data: data
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 function crearFitxerSocrata(data){
-	var xhr = jQuery.ajax({
-			url: paramUrl.crearFitxerSocrata,
-			data: data,
-			method: 'post',
-			dataType: 'jsonp',			
-			complete: actionCompleted
+	return createXHR({
+		url: paramUrl.crearFitxerSocrata, 
+		data: data,
+		method: 'post'
 	});
-	runningActions.push(xhr);
-	return xhr.promise();
 }
 
 function generateTokenRemember(data){
-	var xhr = jQuery.ajax({
-		url: paramUrl.generateTokenRemember,
+	return createXHR({
+		url: paramUrl.generateTokenRemember, 
 		data: data,
-		method: 'post',
-		dataType: 'jsonp',			
-		complete: actionCompleted
-});
-runningActions.push(xhr);
-return xhr.promise();
+		method: 'post'
+	});
 }

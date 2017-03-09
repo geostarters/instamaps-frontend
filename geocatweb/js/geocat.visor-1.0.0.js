@@ -613,7 +613,7 @@ function addControlsInici() {
           };
           ctr_linkViewMap.addTo(map);
           jQuery('#span-linkViewMap a').on('click', function(event) {
-        	  _gaq.push (['_trackEvent', 'visor', 'veure a instamaps', 'label embed', 1]});
+        	 
           });
           new L.Control.Zoom({ position: 'topleft' }).addTo(map);
     }

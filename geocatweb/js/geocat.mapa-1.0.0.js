@@ -319,7 +319,7 @@ function addClicksInici() {
 	});	
 
 	jQuery('#dv_bt_mapExport').on('click', function(event) {
-		$.publish('analyticsEvent',{event:['mapa', tipus_user+'exportmap', 'label exportmap', 1]});
+		//$.publish('analyticsEvent',{event:['mapa', tipus_user+'exportmap', 'label exportmap', 1]});
 		
 	});	
 	
@@ -938,8 +938,11 @@ function nobackbutton(){
 }
 
 function refrescarZoomEtiquetes(obj){
-	if (obj.options.opcionsVisEtiqueta!=undefined && (obj.options.opcionsVisEtiqueta=="nomesetiqueta" ||
-			obj.options.opcionsVisEtiqueta=="etiquetageom")){
+	var optionsVis;
+	if (obj.options.opcionsVis!=undefined) optionsVis = obj.options.opcionsVis;
+	else optionsVis = obj.options.opcionsVisEtiqueta;
+	if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
+			optionsVis=="etiquetageom")){
 	 		var zoomInicial = "2";
 	 		if (obj.options.zoomInicial) zoomInicial=obj.options.zoomInicial;
 	 		var zoomFinal = "19";
