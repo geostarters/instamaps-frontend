@@ -32,7 +32,7 @@ function addCompartirMapa(){
 			event.preventDefault();
 			jQuery('.modal').modal('hide');
 			$('#dialgo_messages').modal('show');
-			$('#dialgo_messages .modal-body').html(window.lang.translate(msg_noguarda));
+			$('#dialgo_messages .modal-body').text(window.lang.translate(msg_noguarda));
 		});
 	}else{
 		shortUrl(v_url).then(function(results){
