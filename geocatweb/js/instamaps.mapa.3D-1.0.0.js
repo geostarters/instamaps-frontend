@@ -429,7 +429,7 @@ var IM_aplicacio = function (options) {
 				}
 			}
 		} catch (Err) {
-			$.publish('analyticsEvent',{event:[ 'error3D', Err, 'miraPosicioXYZ', 1]});
+			//$.publish('analyticsEvent',{event:[ 'error3D', Err, 'miraPosicioXYZ', 1]});
 		}
 	};
 
@@ -908,7 +908,7 @@ var IM_aplicacio = function (options) {
 			_escriuDebug(tmp_feature,"instamaps.mapa3D-1.0.0",1367);
 			return tmp_feature;
 		} catch (err) {
-			$.publish('analyticsEvent',{event:[ 'error3D', err, '_utilDeterminaTipusItem', 1]});
+		//	$.publish('analyticsEvent',{event:[ 'error3D', err, '_utilDeterminaTipusItem', 1]});
 			if (item.layer.options.tipusRang) {
 				tmp_feature.tipus = 'vecras';
 			} else {

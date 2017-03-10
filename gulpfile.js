@@ -7,6 +7,7 @@ var util = require('gulp-util');
 var plumber = require('gulp-plumber');
 var uglify = require('gulp-uglify');
 var rev = require('gulp-rev');
+var revUrlhash = require('gulp-rev-urlhash');
 var revReplace = require('gulp-rev-replace');
 var del = require('del');
 var pump = require('pump');
@@ -41,11 +42,13 @@ app.addStyle = function(paths, outputFilename) {
     .pipe(gulpif(config.sourceMaps, sourcemaps.init())) //solo en desarrollo tambien se puede hacer con un if como el cleanCSS
     .pipe(concat('css/'+outputFilename))
     .pipe(config.production ? cleanCSS() : util.noop()) //solo en produccion
-    .pipe(rev())
+    //.pipe(rev())
+    .pipe(revUrlhash())
     .pipe(gulpif(config.sourceMaps, sourcemaps.write('.')))
     .pipe(gulp.dest(config.distFolder))
     // write the rev-manifest.json file for gulp-rev
-    .pipe(rev.manifest(config.revManifestPath, {merge: true}))
+    //.pipe(rev.manifest(config.revManifestPath, {merge: true}))
+    .pipe(revUrlhash.manifest(config.revManifestPath, {merge: true}))
     .pipe(gulp.dest('.')).on('end', function() { console.log('end '+outputFilename)});
 };
 
@@ -61,13 +64,13 @@ app.addScript = function(paths, outputFilename) {
       util.log(util.colors.red('[Error]'), err.toString());
       this.emit('end');
     }) : util.noop()) //solo en produccion
-    .pipe(rev())
+    //.pipe(rev())
+    .pipe(revUrlhash())
     .pipe(gulpif(config.sourceMaps, sourcemaps.write('.')))
     .pipe(gulp.dest(config.distFolder))
     // write the rev-manifest.json file for gulp-rev
-    .pipe(rev.manifest(config.revManifestPath, {
-      merge: true
-    }))
+    //.pipe(rev.manifest(config.revManifestPath, { merge: true}))
+    .pipe(revUrlhash.manifest(config.revManifestPath, { merge: true}))
     .pipe(gulp.dest('.')).on('end', function() { console.log('end '+outputFilename)});
 };
 
