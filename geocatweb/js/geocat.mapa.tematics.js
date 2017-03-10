@@ -183,26 +183,26 @@ function showTematicLayersModal(tipus,className){
 		if (tipus == tem_simple){
 			if (ftype == t_marker  || data.tipus == t_dades_obertes || data.tipus == t_json ){
 				if (busy){
-					$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
 				}
 				else obrirMenuModal('#dialog_estils_punts','toggle',data);
 			}else if (ftype == t_polyline){
 				if (busy){
-					$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
 				}
 				else obrirMenuModal('#dialog_estils_linies','toggle',data);
 			}else if (ftype == t_polygon){
 				if (busy){
-					$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+					$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 					$('#dialog_info_upload').modal('show');
 				}
 				else obrirMenuModal('#dialog_estils_arees','toggle',data);
 			}
 		}else if(tipus == tem_clasic){
 			if (busy){
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 			}
 			else showModalTematicCategories(data);
@@ -214,7 +214,7 @@ function showTematicLayersModal(tipus,className){
 			jQuery('#dialog_layers_tematic').modal('hide');
 		}else if(tipus == tem_size){
 			if (busy){
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 			}
 			else showModalTematicBubbles(data);

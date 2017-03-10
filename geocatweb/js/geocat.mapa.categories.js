@@ -557,7 +557,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -705,7 +705,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -1331,7 +1331,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 											
 											$('#dialog_error_upload_txt').html("");
 											
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 											
 											$('#dialog_error_upload').modal('show');
 										}
