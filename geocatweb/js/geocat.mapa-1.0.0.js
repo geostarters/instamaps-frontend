@@ -222,12 +222,14 @@ function loadApp(){
 
 							addExternalWMS(true);
 						}
+						
+						
 
 
 					});
 					
 				}catch(err){
-	
+					console.debug(err);
 					$.publish('analyticsEvent',{event:['erro', 'getMapByBusinessId',err]});
 					gestioCookie('loadMapConfig');
 				}
@@ -790,11 +792,24 @@ function createNewMap(){
 				mapConfig.options = jQuery.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
-
+				var urlFile="";
+				var tipusFile="";
+				if (window.localStorage){
+					if (window.localStorage.getItem("url")) urlFile=window.localStorage.getItem("url");
+				}
+				if (window.localStorage){
+					if (window.localStorage.getItem("format")) tipusFile=window.localStorage.getItem("format");
+				}
 				//Si hi ha parametre enllac servei wms, etc
 				var param = "";
 				if(typeof url('?urlwms') == "string"){
 					param = "&urlwms="+url('?urlwms')+"&layername="+url('?layername');
+				}
+				if (urlFile!=""){
+					param += "&url="+urlFile;
+				}
+				if (tipusFile!=""){
+					param += "&format="+tipusFile;
 				}
 //				console.debug(param);
 				if (tipusApp=="geolo") window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param+"&tipus=geolocal";
@@ -987,6 +1002,30 @@ function addHtmlModalBloqueigMapa(){
 			lockController.start();
 		});
 	});
+
+	if(typeof url('?url') == "string"){
+		var urlFile = url('?url');
+		var tipusFile="geojson";
+		if(typeof url('?format') == "string"){
+			tipusFile=url('?format');
+		}
+		if (tipusFile.toLowerCase().indexOf("geojson")>-1) tipusFile=".geojson";
+		if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
+		if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
+		if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
+		createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","").then(function(){
+			deleteLocalStorage();
+		});
+	}
+}
+
+function deleteLocalStorage(){
+	try{
+		if(window.localStorage){
+			window.localStorage.removeItem("url");
+			window.localStorage.removeItem("format");
+		}
+	}catch(e){}
 }
 
 function addHtmlModalInfoBloqueigMapa(){
@@ -1008,6 +1047,7 @@ function addInfoBloqueigMapa(mapConfig){
 		}, 1000);
 	}
 }
+
 
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo

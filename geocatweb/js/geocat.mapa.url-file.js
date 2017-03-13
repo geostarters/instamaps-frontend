@@ -186,6 +186,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					}
 					try{
 						capaURLfile.addData(data);
+						var bounds = capaURLfile.getBounds();
+						map.fitBounds(bounds);
 					}catch(err){
 						console.debug(err);
 					}
