@@ -1,7 +1,7 @@
 /**
  * 
  */
-function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi){
+function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi, colXY){
 	//Estil defecte
 	var estil_do = retornaEstilaDO(t_url_file);
 	var estil_lin_pol = estil_do;
@@ -59,13 +59,33 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		"&uploadFile="+paramUrl.uploadFile+
 		"&colX="+colX+
 		"&colY="+colY+
+		"&colXY="+colXY+
 		"&uid="+Cookies.get('uid');		
 		
-		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+		if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
+				urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
 				&& (urlFile.indexOf("dropbox")==-1)) 	{
 			param_url = urlFile;
 		}
 
+		if (tipusFile==".json"){
+			 L.toGeoJSON.convert(urlFile,"Point",colX,colY,colXY).then(function(){
+				 var dataSocrata={
+							serverName: nomCapa,
+							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+					};
+					
+				//console.debug(dataSocrata);
+				crearFitxerSocrata(dataSocrata).then(function(results){
+					if (results.status="OK"){
+						param_url =results.filePath;
+					}
+					
+				});
+			 });
+			
+			//console.debug(L.toGeoJSON.geoJsonData);
+		}
 		$('#dialog_dades_ex').modal('hide');
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
@@ -73,6 +93,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');		
 		jQuery('#info_uploadFile').show();
 
+		if (param_url.indexOf("/opt/")>-1){
+			param_url=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+			urlFile=param_url;
+		}
+		
+		
 		var capaURLfile = new L.GeoJSON.AJAX(param_url, {
 			nom : nomCapa,
 			tipus : t_url_file,
@@ -111,6 +137,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				return geom.bindPopup(html);
 			},
 			onEachFeature : function(feature, latlng) {
+				console.debug(feature);
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				propName = "";
@@ -142,6 +169,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				return latlng.bindPopup(html);
 			},			  
 			middleware:function(data){
+				console.debug(data);
 				if(data.status && data.status.indexOf("ERROR")!=-1){
 					processFileError(data, urlFile);
 					jQuery('#info_uploadFile').hide();
@@ -158,6 +186,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					}
 					try{
 						capaURLfile.addData(data);
+						var bounds = capaURLfile.getBounds();
+						map.fitBounds(bounds);
 					}catch(err){
 						console.debug(err);
 					}
@@ -171,6 +201,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					'", "geometryType":"'+geometryType+
 					'","colX":"'+colX+
 					'","colY":"'+colY+
+					'","colXY:"'+colXY+
 					'", "dinamic":"'+dinamic+
 					'", "tipusAcc":"'+tipusAcc+
 					'", "tipusCodi":"'+tipusCodi+
@@ -221,6 +252,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							capaURLfile.options.geometryType = geometryType;
 							capaURLfile.options.colX = colX;
 							capaURLfile.options.colY = colY;
+							capaURLfile.options.colXY = colXY;
 							capaURLfile.options.dinamic = dinamic;
 							capaURLfile.options.propName = propName;
 							capaURLfile.options.tipusAcc = tipusAcc;
@@ -251,24 +283,38 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				}
 			}
 		});		
-
+	
 	/*** NO DINAMICA ***/		
 	}else{
+		var dataSocrata;
+		var isJson=false;
+		if (tipusFile==".json"){
+			isJson=true;
+			L.toGeoJSON.convert(urlFile,"Point",colX,colY,colXY).then(function(){
+				 dataSocrata={
+							serverName: nomCapa,
+							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+					};
+			});
+		}
+		
 		//console.debug("getUrlFile PROVES NO DINAMICA");
 		var codiUnic = getCodiUnic();
-		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) {
-			var response = $.ajax({ type: "GET",   
-	            url: urlFile,   
-	            async: false
-	          }).responseText;
+		if (((urlFile.indexOf("socrata")>-1 && (urlFile.indexOf("method=export&format=GeoJSON")>-1 || 
+			  urlFile.indexOf("https")>-1))  && urlFile.indexOf("drive")==-1  && urlFile.indexOf("dropbox")==-1) || isJson) 	{
 			
-			
-			var dataSocrata={
-					serverName: nomCapa,
-					jsonSocrata: response
-			};
-			
+			if (isJson==false){
+				var response = $.ajax({ type: "GET",   
+		            url: urlFile,   
+		            async: false
+		          }).responseText;
+				
+				
+				 dataSocrata={
+						serverName: nomCapa,
+						jsonSocrata: response
+				};
+			}
 			
 			crearFitxerSocrata(dataSocrata).then(function(results){
 				if (results.status="OK"){
@@ -428,6 +474,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					uid: Cookies.get('uid'),
 					colX: colX,
 					colY: colY,
+					colXY: colXY,
 					tipusAcc: tipusAcc,
 					tipusFont: tipusFont,
 					tipusCodi: tipusCodi,
@@ -651,6 +698,7 @@ function loadURLfileLayer(layer){
 	var epsgIN = options.epsgIN;
 	var colX = options.colX;
 	var colY = options.colY;
+	var colXY = options.colXY;
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
 	
@@ -662,6 +710,7 @@ function loadURLfileLayer(layer){
 	var param_url = paramUrl.urlFileDin +  "tipusFile=" + tipusFile+
 		"&colX="+colX+
 		"&colY="+colY+
+		"&colXY="+colXY+
 		"&epsgIN="+epsgIN+
 		"&dinamic="+dinamic+
 		"&urlFile="+encodeURIComponent(urlFile)+
@@ -1243,9 +1292,10 @@ function loadUrlFileHeatmapLayer(layer){
 	var epsgIN = options.epsgIN;
 	var colX = options.colX;
 	var colY = options.colY;
+	var colXY = options.colXY;
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
-	var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);	
+	var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&colXY="+colXY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);	
 
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 		nom : layer.serverName,

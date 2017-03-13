@@ -434,7 +434,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							*/
 							getServeiJSONP(urlFile);
 						}
-						else if(urlFile.indexOf("socrata")!= -1){
+						else if(urlFile.indexOf("socrata")!= -1 && urlFile.indexOf("method=export&format=GeoJSON")!= -1){
 							jQuery("#div_url_file").html(
 									'<br>'+
 									'<div class="input-group input-group-sm">'+
@@ -468,7 +468,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 									'<div>'+
 									window.lang.translate("Format")+
 									':&nbsp;'+
-										'<select id="select-url-file-format" class="form-download-format">'+
+										'<select id="select-url-file-format" class="form-download-format">'+										 
 										  '<option value=".geojson">GeoJSON</option>'+
 										  '<option value=".shp">ESRI Shapefile</option>'+
 										  '<option value=".dxf">DXF</option>'+
@@ -482,6 +482,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 										  '<option value=".xls">XLS</option>'+
 										  '<option value=".xlsx">XLSX</option>'+
 										  '<option value=".zip">Zip File</option>'+
+										  '<option value=".json">JSON</option>'+
 										  '<option value="-1">'+window.lang.translate("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+
@@ -507,6 +508,11 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada Y o LAT ")+'</span>'+
 															'<input type="text" id="input-coord-y" class="form-control">'+
 														'</div>'+
+														'<br>'+	
+														'<div class="input-group input-group-sm">'+
+														'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenades en un sol camp")+'</span>'+
+														'<input type="text" id="input-coord-xy" class="form-control">'+
+													'</div>'+	
 										'	         </ul>'+
 										'	      </div>'+
 										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
@@ -594,6 +600,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							else if(urlFile.indexOf(t_file_txt)!=-1) type = t_file_txt;
 							else if(urlFile.indexOf(t_file_dgn)!=-1) type = t_file_dgn;
 							else if(urlFile.indexOf(t_file_gml)!=-1) type = t_file_gml;
+							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_json;
 							
 							$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
 							
@@ -601,6 +608,10 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
 								jQuery("#select-url-file-epsg").attr('disabled',true);
 							}else if(type==".xls" || type==".xlsx" || type==".csv" || type==".txt"){
+								jQuery("#input-excel-url-file").show();
+								$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+								$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+							}else if(type==".json"){
 								jQuery("#input-excel-url-file").show();
 								$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
 								$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
@@ -664,8 +675,15 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 //									jQuery("#input-excel-url-file").hide();
 								}else if((ext==".xls")||(ext==".xlsx") || (ext==".csv") || (ext==".txt") ){
 									jQuery("#input-excel-url-file").show();
+									$('#input-excel-url-file .nav-pills-urlfile li#codis').show();
+									$('#input-excel-url-file .nav-pills-urlfile li#adreca').show();
 									$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
 									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+								}else if(ext==".json"){
+									jQuery("#input-excel-url-file").show();
+									$('a[href^="#opt_urlfile_coord').click();
+									$('#input-excel-url-file .nav-pills-urlfile li#codis').hide();
+									$('#input-excel-url-file .nav-pills-urlfile li#adreca').hide();
 								}else{
 									jQuery("#select-url-file-epsg").attr('disabled',false);
 //									jQuery("#input-excel-url-file").hide();
@@ -765,6 +783,7 @@ function activarEventAfegirCapa(type){
 		var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
 		var coordX = jQuery("#input-coord-x").val();
 		var coordY = jQuery("#input-coord-y").val();
+		var coordXY = jQuery("#input-coord-xy").val();
 		//console.debug(opcio);
 		
 		if(type!=undefined && type.indexOf("-1")!= -1 || epsg!=undefined && epsg.indexOf("-1")!= -1 && opcio!=undefined && opcio!="codis" && opcio!="adreca"){
@@ -772,10 +791,11 @@ function activarEventAfegirCapa(type){
 			if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 			
 		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
-					&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY) ) ){
+					&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY)  || !isValidValue(coordXY)) ){
 			
 			if(!isValidValue(coordX)) jQuery("#input-coord-x").addClass("class_error");
 			if(!isValidValue(coordY)) jQuery("#input-coord-y").addClass("class_error");
+			if(!isValidValue(coordXY)) jQuery("#input-coord-xy").addClass("class_error");
 		
 		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
 					&&  opcio == "codis" && (!isValidValue(jQuery("#input-camp-codi-urlfile").val())) ){
@@ -788,7 +808,8 @@ function activarEventAfegirCapa(type){
 				createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 						   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
 						   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
-						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
+						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val(),
+						   jQuery("#input-coord-xy").val());
 			}else{
 				$('#dialog_dades_ex').modal('hide');
 				$('#dialog_info_upload_txt').text(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
