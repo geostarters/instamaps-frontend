@@ -440,7 +440,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 											}else{
 												$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes error sense codi', urlFile, 1]});
-												$('#dialog_error_upload_txt').html(window.lang.translate("Error en la càrrega de l'arxiu"));
+												$('#dialog_error_upload_txt').text(window.lang.translate("Error en la càrrega de l'arxiu"));
 											}
 
 											$('#dialog_error_upload').modal('show');
@@ -589,7 +589,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 									}else{
 										$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes error sense codi', urlFile, 1]});
-										$('#dialog_error_upload_txt').html(window.lang.translate("Error en la càrrega de l'arxiu"));
+										$('#dialog_error_upload_txt').text(window.lang.translate("Error en la càrrega de l'arxiu"));
 									}
 
 									$('#dialog_error_upload').modal('show');

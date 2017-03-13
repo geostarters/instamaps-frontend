@@ -410,7 +410,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 						}else{
 							//console.debug("Esta busy, no puc carregar");
 							$('#dialog_dades_ex').modal('hide');
-							$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+							$('#dialog_info_upload_txt').text(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 							$('#dialog_info_upload').modal('show');
 							
 							//drgFromMapa.removeAllFiles(true);							
@@ -812,7 +812,7 @@ function activarEventAfegirCapa(type){
 						   jQuery("#input-coord-xy").val());
 			}else{
 				$('#dialog_dades_ex').modal('hide');
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 				$('#dialog_info_upload').modal('show');		
 				
 			}

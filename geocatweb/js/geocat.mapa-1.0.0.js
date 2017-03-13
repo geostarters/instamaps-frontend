@@ -469,10 +469,10 @@ function updateLangText(){
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.translate('Cercar llocs o coordenades ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.translate('Cercar llocs o coordenades ...'));
 
-	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.translate("Situar un punt"));
-	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.translate("Dibuixar una línia o un polígon"));
-	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
-	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
+	$('#funcio_draw #funcio_draw_titol_1').text(window.lang.translate("Situar un punt"));
+	$('#funcio_draw #funcio_draw_titol_2').text(window.lang.translate("Dibuixar una línia o un polígon"));
+	$('#funcio_tematics>h5').text(window.lang.translate("Triar l'estil de la capa"));
+	$('#funcio_fonsMapes>h5').text(window.lang.translate("Escollir el mapa de fons"));
 	var txtBoto="";
 	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N'
 		&& mapConfig.bloquejat!='[{"bloquejat":"N"}]' && mapConfig.bloquejat!='[{"uid":null,"bloquejat":null}]'){
@@ -481,8 +481,8 @@ function updateLangText(){
 	else{
 		txtBoto="Desar / Publicar el mapa";
 	}
-	$('.bt_publicar>span').html(window.lang.translate(txtBoto));
-	$('#socialShare>h5').html(window.lang.translate("Compartir"));
+	$('.bt_publicar>span').text(window.lang.translate(txtBoto));
+	$('#socialShare>h5').text(window.lang.translate("Compartir"));
 
 	//Traducció dels textos del modal de publicar
 	$('#titlePublicar').text(window.lang.translate('Publicar el mapa'));
