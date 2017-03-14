@@ -299,7 +299,7 @@ function addFuncioCarregaFitxers(){
 			var colX = jQuery("#cmd_upload_colX").val();
 			var colY = jQuery("#cmd_upload_colY").val();
 			var colWKT=jQuery("#cmd_upload_wkt").val();
-			var colXY=;//jQuery("#cmd_upload_colXY").val();
+			var colXY="";//jQuery("#cmd_upload_colXY").val();
 			var separador=jQuery("#separador").val();
 			var srid = jQuery("#select-upload-epsg").val();
 			var tipusCSV=jQuery('input:radio[name="opt_csv_field"]:checked').val();
