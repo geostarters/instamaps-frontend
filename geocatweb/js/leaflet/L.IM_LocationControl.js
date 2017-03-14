@@ -29,6 +29,7 @@ L.Control.LocationControl = L.Control.Gps.extend({
 		options = self.options;
 		var container = L.Control.Gps.prototype.onAdd.call(self, map);
 		
+		container.id = options.id;
 		container.title = options.title;
 		container.dataset.toggle = 'tooltip';
 		container.dataset.placement = options.tooltip;
@@ -59,6 +60,20 @@ L.Control.LocationControl = L.Control.Gps.extend({
 		var self = this;
 		$(self._div).show();
 	},
+
+	moveToSidebar: function(sidebarId)
+	{
+
+		var self = this;
+		
+		var buttonHTML = '<li title="' + window.lang.translate(self.options.langTitle) + 
+			'" lang="ca"><a id="' + self.options.id + '-btn" role="tab"></a></li>';
+		$(sidebarId + ' .leftTopBar').append(buttonHTML);
+
+		$('#' + self.options.id).appendTo('#' + self.options.id + '-btn');
+		$('.gps-alert').remove();
+
+	}
 });
 
 L.control.locationControl = function(options){

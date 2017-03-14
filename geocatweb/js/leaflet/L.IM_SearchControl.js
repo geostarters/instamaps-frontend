@@ -11,7 +11,8 @@ L.Control.SearchControl = L.Control.extend({
 		html: '<span id="span_bt_Find" class="fa fa-search"></span>',
 		idInputText: 'ctr_cerca',
 		inputplaceholderText: 'Cercar llocs al món o coordenades  ...',
-		tooltip: 'right'
+		tooltip: 'right',
+		resultsContainer : ''
 	},
 	
 	initialize: function(options){
@@ -63,7 +64,9 @@ L.Control.SearchControl = L.Control.extend({
 			idInputText : '#'+options.idInputText,
 			zoom : 14,
 			textSize : 22,
-			autoCollapseTime: 3200
+			autoCollapseTime: 3200,
+			resultsContainer: options.resultsContainer,
+			disableAutoCollapse: options.disableAutoCollapse
 		}).addTo(map);
 		
 		return container;
@@ -134,6 +137,27 @@ L.Control.SearchControl = L.Control.extend({
 		this[collapsed ? 'show' : 'hide']();
 		$.publish('analyticsEvent',{event:['visor','button#cercaTopo','label cercaTopo', 6]});
 	},
+
+	moveToSidebar: function(sidebarId)
+	{
+
+		var self = this;
+		var buttonHTML = '<li><a href="#searchPanel" id="searchTab" role="tab">' +
+			self.options.html + '</a></li>';
+
+		var bodyHTML = '<div id="searchPanel" class="sidebar-pane sidebar-outer-pane">' +
+			'<h1 class="sidebar-header" lang="ca">' +
+				self.options.title + 
+				'<span class="sidebar-close" id="infoClose"><i class="fa fa-caret-left"></i></span>' +
+			'</h1><div class="scrollable-pane"><div id="search-content"></div></div></div>';
+		
+		$(sidebarId + ' .leftTopBar').append(buttonHTML);
+		$(sidebarId + ' .sidebar-content').append(bodyHTML);
+		$('#searchBar').appendTo('#search-content');
+		$('#' + self.options.resultsContainer).appendTo('#search-content');
+		$('#searchBar').show();
+
+	}
 });
 
 L.control.searchControl = function(options){

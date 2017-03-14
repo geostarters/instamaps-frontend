@@ -80,6 +80,21 @@ L.Control.Home = L.Control.extend({
 	
 	_updateMapConfig: function(config){
 		this.options.mapConfig = config;
+	},
+
+	moveToSidebar: function(sidebarId)
+	{
+
+		var self = this;
+		
+		var buttonHTML = '<li title="' + window.lang.translate(self.options.langTitle) + 
+			'" lang="ca"><a id="' + self.options.id + '" role="tab">' + 
+			'<span class="fa fa-home grisfort"></span></a></li>';
+		$('#' + self.options.id).remove();
+
+		$(sidebarId + ' .leftTopBar').append(buttonHTML);
+		$('#' + self.options.id).on('click', function() { self._goHome(); });
+
 	}
 });
 
