@@ -59,7 +59,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		"&uploadFile="+paramUrl.uploadFile+
 		"&colX="+colX+
 		"&colY="+colY+
-		"&colXY="+colXY+
+		//"&colXY="+colXY+
 		"&uid="+Cookies.get('uid');		
 		
 		if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
@@ -106,7 +106,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			"&uploadFile="+paramUrl.uploadFile+
 			"&colX="+colX+
 			"&colY="+colY+
-			"&colXY="+colXY+
+			//"&colXY="+colXY+
 			"&uid="+Cookies.get('uid');		
 		}
 		
@@ -213,7 +213,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					'", "geometryType":"'+geometryType+
 					'","colX":"'+colX+
 					'","colY":"'+colY+
-					'","colXY:"'+colXY+
+					//'","colXY:"'+colXY+
 					'", "dinamic":"'+dinamic+
 					'", "tipusAcc":"'+tipusAcc+
 					'", "tipusCodi":"'+tipusCodi+
@@ -264,7 +264,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							capaURLfile.options.geometryType = geometryType;
 							capaURLfile.options.colX = colX;
 							capaURLfile.options.colY = colY;
-							capaURLfile.options.colXY = colXY;
+						//	capaURLfile.options.colXY = colXY;
 							capaURLfile.options.dinamic = dinamic;
 							capaURLfile.options.propName = propName;
 							capaURLfile.options.tipusAcc = tipusAcc;
@@ -486,7 +486,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					uid: Cookies.get('uid'),
 					colX: colX,
 					colY: colY,
-					colXY: colXY,
+					//colXY: colXY,
 					tipusAcc: tipusAcc,
 					tipusFont: tipusFont,
 					tipusCodi: tipusCodi,
@@ -722,7 +722,7 @@ function loadURLfileLayer(layer){
 	var param_url = paramUrl.urlFileDin +  "tipusFile=" + tipusFile+
 		"&colX="+colX+
 		"&colY="+colY+
-		"&colXY="+colXY+
+		//"&colXY="+colXY+
 		"&epsgIN="+epsgIN+
 		"&dinamic="+dinamic+
 		"&urlFile="+encodeURIComponent(urlFile)+
@@ -1307,7 +1307,7 @@ function loadUrlFileHeatmapLayer(layer){
 	var colXY = options.colXY;
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
-	var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+"&colXY="+colXY+"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);	
+	var param_url = paramUrl.urlFileDin + "tipusFile=" + tipusFile+"&colX="+colX+"&colY="+colY+/*"&colXY="+colXY+*/"&epsgIN="+epsgIN+"&dinamic="+dinamic+"&urlFile="+encodeURIComponent(urlFile);	
 
 	var capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 		nom : layer.serverName,
