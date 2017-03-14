@@ -135,7 +135,8 @@ gulp.task('styles', function() {
     config.dirCssVendors+'/leaflet/leaflet.label.css',
     config.dirCssVendors+'/leaflet.timedimension.control.css',
     config.dirCssVendors+'/leaflet/leaflet-routing-machine.css',
-    config.dirCssVendors+'/leaflet/lrm-mapzen.css'
+    config.dirCssVendors+'/leaflet/lrm-mapzen.css',
+    config.dirCssVendors+'/leaflet/leaflet-sidebar.min.css'
   ], 'leaflet.css');
 
   pipeline.add([
@@ -221,7 +222,8 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/leaflet/plugin/leaflet.timedimension.custom.js',
     config.dirJsVendors+'/leaflet/plugin/leaflet-routing-machine.js',
     config.dirJsVendors+'/leaflet/plugin/lrm-mapzen.js',
-    config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js'
+    config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js',
+    config.dirJsVendors+'/leaflet/plugin/leaflet-sidebar.min.js'
   ], 'leaflet.js');
 
   pipeline.add([
@@ -313,8 +315,8 @@ gulp.task('compress', function(cb){
 });
 
 gulp.task('watch', function() {
-    gulp.watch(config.dirCssInstamaps+config.cssPattern, ['styles']);
-    gulp.watch(config.dirJsInstamaps+config.jsPattern, ['scripts']);
+    gulp.watch(config.dirCssInstamaps+config.cssPattern, ['build+']);
+    gulp.watch(config.dirJsInstamaps+config.jsPattern, ['build+']);
 });
 
 gulp.task('fonts', function() {
