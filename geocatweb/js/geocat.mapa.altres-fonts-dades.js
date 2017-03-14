@@ -509,10 +509,6 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 															'<input type="text" id="input-coord-y" class="form-control">'+
 														'</div>'+
 														'<br>'+	
-														'<div class="input-group input-group-sm">'+
-														'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenades en un sol camp")+'</span>'+
-														'<input type="text" id="input-coord-xy" class="form-control">'+
-													'</div>'+	
 										'	         </ul>'+
 										'	      </div>'+
 										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
