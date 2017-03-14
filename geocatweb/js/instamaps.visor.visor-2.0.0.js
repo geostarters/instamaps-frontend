@@ -685,7 +685,7 @@
 						self.addOpenInstamapsControl();
 					}
 				}
-				if((self.homecontrol && self.homecontrol=="1") || self.homecontrol===null){
+				if((self.homecontrol && self.homecontrol=="1") || self.homecontrol===null || self.urlFile==null){
 					self.addHomeControl();
 				}
 				if((self.locationcontrol && self.locationcontrol=="1") || self.locationcontrol===null){
@@ -694,13 +694,13 @@
 				if((self.searchcontrol && self.searchcontrol=="1") || self.searchcontrol===null){
 					self.addSearchControl();
 				}
-				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null){
+				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null || self.urlFile==null){
 					self.addRoutingControl();
 				}
-				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
+				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null || self.urlFile==null){
 					self.addShareControl();
 				}
-				if((self.likecontrol && self.likecontrol=="1") || self.likecontrol===null){
+				if((self.likecontrol && self.likecontrol=="1") || self.likecontrol===null || self.urlFile==null){
 					self.addLikeControl();
 
 				}
@@ -1368,7 +1368,11 @@
 			var urlFile = self.urlFile;
 			var tipusFile = "geojson";
 			if (self.tipusFile && self.tipusFile!="") tipusFile=self.tipusFile;
+			self.controls.homeControl.hideBtn();
 			self.controls.layersControl.hideBtn();
+			self.controls.routingControl.hideBtn();
+			self.controls.shareControl.hideBtn();
+			self.controls.likeControl.hideBtn();
 			if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
 				urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
 				var res = urlFile.split("/");
@@ -1400,7 +1404,8 @@
 			var estil_do = retornaEstilaDO();
 			var estil_lin_pol = estil_do;
 			//Recuperem estils de la barra d'eines
-			var lineStyle = getLineRangFromStyle(canvas_linia);
+			var canvas_linia2={"id":"cv_linia","strokeStyle":"#ff0000","lineWidth":"3","tipus":"linia","opacity":"100"};
+			var lineStyle = getLineRangFromStyle(canvas_linia2);
 			lineStyle.weight = lineStyle.lineWidth;
 
 			var polygonStyle = getPolygonRangFromStyle(canvas_pol);
