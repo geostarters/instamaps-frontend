@@ -27,7 +27,7 @@ var envioArxiu={isDrag:false,
 	midaFitxer: null,
 	serverName: null,
 	format : "",
-	colXY:null,
+	//colXY:null,
 	separadorXY:""
 };
 
@@ -84,7 +84,7 @@ function creaAreesDragDropFiles() {
 				formData.append("colX", envioArxiu.colX);	
 				formData.append("colY", envioArxiu.colY);
 				formData.append("colWKT", envioArxiu.colWKT);
-				formData.append("colXY",envioArxiu.colXY);
+				//formData.append("colXY",envioArxiu.colXY);
 				formData.append("separadorXY",envioArxiu.separadorXY);
 				formData.append("tipusCSV", envioArxiu.tipusCSV);
 				formData.append("srid", envioArxiu.srid);
@@ -299,7 +299,7 @@ function addFuncioCarregaFitxers(){
 			var colX = jQuery("#cmd_upload_colX").val();
 			var colY = jQuery("#cmd_upload_colY").val();
 			var colWKT=jQuery("#cmd_upload_wkt").val();
-			var colXY=jQuery("#cmd_upload_colXY").val();
+			var colXY=;//jQuery("#cmd_upload_colXY").val();
 			var separador=jQuery("#separador").val();
 			var srid = jQuery("#select-upload-epsg").val();
 			var tipusCSV=jQuery('input:radio[name="opt_csv_field"]:checked').val();
@@ -310,10 +310,10 @@ function addFuncioCarregaFitxers(){
 			}else if ((srid == "null" || colWKT=="null") && tipusCSV=='wkt') {	
 				isOK = false;
 				alert(window.lang.translate("Cal indicar el camp geomètric i el sistema de referència"));		
-			}else if ((colXY == "null" || srid == "null")  && tipusCSV=='unic') {
+			/*}else if ((colXY == "null" || srid == "null")  && tipusCSV=='unic') {
 					isOK = false;
 					alert(window.lang.translate("Cal indicar el camp únic de les coordenades i el sistema de referència"));		
-			}else{
+			*/}else{
 				isOK = true;
 				
 				if(envioArxiu.ext=="csv"){
@@ -327,7 +327,7 @@ function addFuncioCarregaFitxers(){
 				 //gdal,adreca,coordenades,codis
 				envioArxiu.colX=colX;
 				envioArxiu.colY=colY;
-				envioArxiu.colXY=colXY;
+				//envioArxiu.colXY=colXY;
 				envioArxiu.separadorXY=separador;
 				envioArxiu.colWKT=colWKT;
 				envioArxiu.srid=srid;
@@ -647,7 +647,7 @@ function analitzaMatriu(matriu) {
 
 	jQuery('#cmd_upload_colX').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
 	jQuery('#cmd_upload_colY').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
-	jQuery('#cmd_upload_colXY').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
+	//jQuery('#cmd_upload_colXY').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
 	
 	jQuery('#cmd_upload_wkt').html("<option value='null'>" + window.lang.translate('Selecciona un camp')+ "</option>"+op.join(" "));
 	
@@ -681,16 +681,16 @@ function analitzaMatriu(matriu) {
 					'selected', true);
 			$('#nav_pill a[href="#opt_coord"]').tab('show');
 
-		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "LOCATION"
+		}/* else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "LOCATION"
 				|| matriu[x].toUpperCase() == "LOC"
 				|| matriu[x].toUpperCase() == "LOCALITZACIO")) {
 
-			fieldType = "colXY";
-			$('#cmd_upload_colXY option:contains("' + matriu[x] + '")').prop(
-					'selected', true);
+			//fieldType = "colXY";
+		//	$('#cmd_upload_colXY option:contains("' + matriu[x] + '")').prop(
+		//			'selected', true);
 			$('#nav_pill a[href="#opt_coord"]').tab('show');
 
-		} else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "POLIGONO"
+		} */else if (!jQuery.isNumeric(matriu[x]) &&  (matriu[x].toUpperCase() == "POLIGONO"
 				|| matriu[x].toUpperCase() == "POLYGON"
 				|| matriu[x].toUpperCase() == "POINT"
 				|| matriu[x].toUpperCase() == "GEOM"
