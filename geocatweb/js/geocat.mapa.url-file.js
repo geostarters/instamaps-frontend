@@ -94,8 +94,20 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		jQuery('#info_uploadFile').show();
 
 		if (param_url.indexOf("/opt/")>-1){
-			param_url=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
-			urlFile=param_url;
+			urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+			param_url = paramUrl.urlFileDin	+"tipusFile=" + tipusFile+
+			"&tipusAcc="+tipusAcc+
+			"&tipusCodi="+tipusCodi+
+			"&tipusFont="+tipusFont+
+			"&nomCampCodi="+nomCampCodi+
+			"&urlFile="+encodeURIComponent(urlFile)+
+			"&epsgIN="+epsgIN+
+			"&dinamic="+dinamic+
+			"&uploadFile="+paramUrl.uploadFile+
+			"&colX="+colX+
+			"&colY="+colY+
+			"&colXY="+colXY+
+			"&uid="+Cookies.get('uid');		
 		}
 		
 		

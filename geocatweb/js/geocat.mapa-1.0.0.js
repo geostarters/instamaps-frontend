@@ -1013,9 +1013,8 @@ function addHtmlModalBloqueigMapa(){
 		if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
 		if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
 		if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
-		createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","").then(function(){
-			deleteLocalStorage();
-		});
+		deleteLocalStorage();
+		createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
 	}
 }
 
