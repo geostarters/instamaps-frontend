@@ -753,7 +753,21 @@ function loadURLfileLayer(layer){
 			"&nomCampCodi="+nomCampCodi;
 
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
+			urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
+			var res = urlFile.split("/");
+			var fileId = res[0];
+			urlFile = "https://drive.google.com/uc?export=download&id="+fileId;
+		}
+		else if(urlFile.indexOf("https://www.dropbox.com")!=-1){
+			urlFile = urlFile.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com");		
+		}
+		
+		if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
+					urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+					&& (urlFile.indexOf("dropbox")==-1)) 	{
+				param_url = urlFile;
+			}
 		
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
