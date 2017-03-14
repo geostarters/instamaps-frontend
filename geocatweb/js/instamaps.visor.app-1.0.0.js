@@ -47,7 +47,9 @@ var visorOptions = {
 	appname: url("?appname") || null,
 	fons: url("?fons") || null,
 	INE10: url("?INE10") || null, 
-	random: url("?random") || null
+	random: url("?random") || null,
+	urlFile: url("?url") || null,
+	tipusFile: url("?format") || null
 };
 
 var visor; 
@@ -65,6 +67,7 @@ jQuery(document).ready(function() {
 		visorOptions.businessid=busid;
 	}
 	visor = Visor(visorOptions).draw();
+	
 	
 }); // Final document ready
 

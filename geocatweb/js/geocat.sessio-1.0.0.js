@@ -202,7 +202,11 @@ function fesRegistre(){
 }
 
 function redirectLogin(results, from){
-	if(results.results === 'login_map'){
+	var urlFile="";
+	if (window.localStorage){
+		if (window.localStorage.getItem("url")) urlFile=window.localStorage.getItem("url");
+	}
+	if(results.results === 'login_map' || urlFile!=""){
 		if (results.mapBusinessId){
 			window.location=GEOCAT02+paramUrl.mapaPage+"?businessid="+results.mapBusinessId;
 		}else{

@@ -456,10 +456,10 @@
             	});
             	$('input[name="my-legend-checkbox2"]').on('switchChange.bootstrapSwitch', function(event, state) {
             		if(state.value == true) {
-            			$('#txt_llegenda_chk2').html(window.lang.translate("La llegenda permet a l'usuari seleccionar la capa del seu interès."));
+            			$('#txt_llegenda_chk2').text(window.lang.translate("La llegenda permet a l'usuari seleccionar la capa del seu interès."));
     				}
     				else {
-    					$('#txt_llegenda_chk2').html(window.lang.translate("La llegenda del conjunt de les capes es mostra de manera contínua."));
+    					$('#txt_llegenda_chk2').text(window.lang.translate("La llegenda del conjunt de les capes es mostra de manera contínua."));
     				}
             	});
 

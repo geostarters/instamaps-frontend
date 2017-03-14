@@ -215,10 +215,13 @@ function parseUrlTextPopUp(txt,key){
 		    }
 		
 		    if (!$.isNumeric(txt)) {
+		    	if (typeof txt === "string") {
 		          if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
 		                 txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
 		                 return txt;
 		          }
+		    	}
+		    	else return txt;
 		    }
 		
 			var lines = txt.split(/\n/);
@@ -231,7 +234,7 @@ function parseUrlTextPopUp(txt,key){
 			          var text;
 			          var word = lwords[index];
 			          if(!$.isNumeric(txt) ){
-			                 if (isValidURL(word)){
+			                 if (isValidURL(word) && typeof word === "string"){
 			                 		var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
 			                        if(isImgURL(word)){
 			                               text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";

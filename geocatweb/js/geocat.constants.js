@@ -175,6 +175,7 @@ var t_file_dxf = ".dxf";
 var t_file_dgn = ".dgn";
 var t_file_xls = ".xls";
 var t_file_xlsx = ".xlsx";
+var t_file_json = ".json";
 
 var t_user_loginat = '1#';
 var t_user_random = '0#';

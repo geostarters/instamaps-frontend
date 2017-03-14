@@ -222,12 +222,14 @@ function loadApp(){
 
 							addExternalWMS(true);
 						}
+						
+						
 
 
 					});
 					
 				}catch(err){
-	
+					console.debug(err);
 					$.publish('analyticsEvent',{event:['erro', 'getMapByBusinessId',err]});
 					gestioCookie('loadMapConfig');
 				}
@@ -467,10 +469,10 @@ function updateLangText(){
 	jQuery(".leaflet-control-search .search-button, .glyphicon-search").attr('title',window.lang.translate('Cercar llocs o coordenades ...'));
 	jQuery(".leaflet-control-search .search-input").attr('placeholder',window.lang.translate('Cercar llocs o coordenades ...'));
 
-	$('#funcio_draw #funcio_draw_titol_1').html(window.lang.translate("Situar un punt"));
-	$('#funcio_draw #funcio_draw_titol_2').html(window.lang.translate("Dibuixar una línia o un polígon"));
-	$('#funcio_tematics>h5').html(window.lang.translate("Triar l'estil de la capa"));
-	$('#funcio_fonsMapes>h5').html(window.lang.translate("Escollir el mapa de fons"));
+	$('#funcio_draw #funcio_draw_titol_1').text(window.lang.translate("Situar un punt"));
+	$('#funcio_draw #funcio_draw_titol_2').text(window.lang.translate("Dibuixar una línia o un polígon"));
+	$('#funcio_tematics>h5').text(window.lang.translate("Triar l'estil de la capa"));
+	$('#funcio_fonsMapes>h5').text(window.lang.translate("Escollir el mapa de fons"));
 	var txtBoto="";
 	if (mapConfig.bloquejat!=undefined  && mapConfig.bloquejat!='' && mapConfig.bloquejat!='[{}]' && mapConfig.bloquejat!='N'
 		&& mapConfig.bloquejat!='[{"bloquejat":"N"}]' && mapConfig.bloquejat!='[{"uid":null,"bloquejat":null}]'){
@@ -479,8 +481,8 @@ function updateLangText(){
 	else{
 		txtBoto="Desar / Publicar el mapa";
 	}
-	$('.bt_publicar>span').html(window.lang.translate(txtBoto));
-	$('#socialShare>h5').html(window.lang.translate("Compartir"));
+	$('.bt_publicar>span').text(window.lang.translate(txtBoto));
+	$('#socialShare>h5').text(window.lang.translate("Compartir"));
 
 	//Traducció dels textos del modal de publicar
 	$('#titlePublicar').text(window.lang.translate('Publicar el mapa'));
@@ -790,11 +792,24 @@ function createNewMap(){
 				mapConfig.options = jQuery.parseJSON( mapConfig.options );
 				jQuery('#businessId').val(mapConfig.businessId);
 				mapConfig.newMap = false;
-
+				var urlFile="";
+				var tipusFile="";
+				if (window.localStorage){
+					if (window.localStorage.getItem("url")) urlFile=window.localStorage.getItem("url");
+				}
+				if (window.localStorage){
+					if (window.localStorage.getItem("format")) tipusFile=window.localStorage.getItem("format");
+				}
 				//Si hi ha parametre enllac servei wms, etc
 				var param = "";
 				if(typeof url('?urlwms') == "string"){
 					param = "&urlwms="+url('?urlwms')+"&layername="+url('?layername');
+				}
+				if (urlFile!=""){
+					param += "&url="+urlFile;
+				}
+				if (tipusFile!=""){
+					param += "&format="+tipusFile;
 				}
 //				console.debug(param);
 				if (tipusApp=="geolo") window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param+"&tipus=geolocal";
@@ -987,6 +1002,29 @@ function addHtmlModalBloqueigMapa(){
 			lockController.start();
 		});
 	});
+
+	if(typeof url('?url') == "string"){
+		var urlFile = url('?url');
+		var tipusFile="geojson";
+		if(typeof url('?format') == "string"){
+			tipusFile=url('?format');
+		}
+		if (tipusFile.toLowerCase().indexOf("geojson")>-1) tipusFile=".geojson";
+		if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
+		if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
+		if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
+		deleteLocalStorage();
+		createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
+	}
+}
+
+function deleteLocalStorage(){
+	try{
+		if(window.localStorage){
+			window.localStorage.removeItem("url");
+			window.localStorage.removeItem("format");
+		}
+	}catch(e){}
 }
 
 function addHtmlModalInfoBloqueigMapa(){
@@ -1008,6 +1046,7 @@ function addInfoBloqueigMapa(mapConfig){
 		}, 1000);
 	}
 }
+
 
 /*TODO estas funciones estaban pensadas para prevenir al usaurio al abandonar
 la pagína sin publicar el mapa. La idea era que al entrar en un mapa nuevo

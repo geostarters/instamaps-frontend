@@ -22,10 +22,7 @@ function comportamentCaptura(inicial, titol, text_progress) {
 
         jQuery('#dialog_captura_title').text(window.lang.translate(titol));
         
-        jQuery('#div_msg_export').html(window.lang.translate(text_progress));
-        
-        
-        //jQuery('#dialog_captura_text').html(window.lang.translate(text_progress));
+        jQuery('#div_msg_export').text(window.lang.translate(text_progress));
 
         uploadprogress_img();
     } else if (inicial == 1) {
@@ -578,7 +575,7 @@ function checkDataVectorlayers(){
 
 	if( data.layers.length ==0){
 			$('#dialog_error_upload_txt').html("");
-				$('#dialog_error_upload_txt').html(window.lang.translate("Aquest mapa no té capes vector. No es pot generar un vector GeoPackage"));										
+				$('#dialog_error_upload_txt').text(window.lang.translate("Aquest mapa no té capes vector. No es pot generar un vector GeoPackage"));										
 				$('#dialog_error_upload').modal('show');
 			return false;
 	}else{
@@ -607,7 +604,6 @@ function captureGEOPackage(event) {
                 var $desc_img = jQuery('#dialog_captura').find('.desc_img');
                 $desc_img.prop('href', urlIMG);
                 $desc_img.prop('download', 'mapa_geoPackage.gpkg');
-                //jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
                 comportamentCaptura(3);
                 $('#dialog_captura').find('.bt_desc_img').show();
 
@@ -622,7 +618,7 @@ function captureGEOPackage(event) {
 		
 
 		$('#dialog_error_upload_txt').html("");
-		$('#dialog_error_upload_txt').html(window.lang.translate("Aquest mapa no té capes vector. No es pot genera GeoPackage"));										
+		$('#dialog_error_upload_txt').text(window.lang.translate("Aquest mapa no té capes vector. No es pot genera GeoPackage"));										
 		$('#dialog_error_upload').modal('show');
 		
 	}	
@@ -680,7 +676,6 @@ function captureGEOPDF(event) {
                                     var $desc_img = jQuery('#dialog_captura').find('.desc_img');
                                     $desc_img.prop('href', urlIMG);
                                     $desc_img.prop('download', 'mapa_geoPDF.pdf');
-                                    //jQuery('#desc_img').html(window.lang.translate("Desar mapa") +" <i class='fa fa-file-pdf-o'></i>");
                                     $('#dialog_captura').find('.bt_desc_img').show();
                                     comportamentCaptura(3);
                                     if (!L.Browser.webkit) {
