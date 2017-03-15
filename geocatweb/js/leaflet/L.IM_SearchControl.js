@@ -154,7 +154,15 @@ L.Control.SearchControl = L.Control.extend({
 		$(sidebarId + ' .leftTopBar').append(buttonHTML);
 		$(sidebarId + ' .sidebar-content').append(bodyHTML);
 		$('#searchBar').appendTo('#search-content');
-		$('#' + self.options.resultsContainer).appendTo('#search-content');
+		$('<div id="search-results-panel"></div').appendTo('#search-content');
+		$('#' + self.options.resultsContainer).appendTo('#search-results-panel');
+		$('#searchBar').css('width', 'calc(100% - 35px)');
+		$('#searchBar').css('position', 'relative');
+		$('#searchBar').css('top', '0px');
+		$('#searchBar').css('height', '50px');
+		$('#searchBar .leaflet-center').css('width', '100%');
+		$('#searchBar .leaflet-control-search').css('width', '100%');
+		$('#search-input').css('width', '100%');
 		$('#searchBar').show();
 
 	}

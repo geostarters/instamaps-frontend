@@ -424,6 +424,7 @@
 			});
 			ctr_like.addTo(_map);
 			//self.addControlToSidebar('#leftSidebar', ctr_like);
+			ctr_like.moveToSidebar('#leftSidebar');
 
 			self.controls.likeControl = ctr_like;
 
@@ -458,6 +459,7 @@
 			});
 			ctr_shareBT.addTo(_map);
 			//self.addControlToSidebar('#leftSidebar', ctr_shareBT);
+			ctr_shareBT.moveToSidebar('#leftSidebar');
 
 			self.controls.shareControl = ctr_shareBT;
 
@@ -475,6 +477,7 @@
 
 			ctr_routingBT.addTo(_map);
 			//self.addControlToSidebar('#leftSidebar', ctr_routingBT);
+			ctr_routingBT.moveToSidebar('#leftSidebar');
 
 			self.controls.routingControl = ctr_routingBT;
 
