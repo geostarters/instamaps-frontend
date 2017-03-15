@@ -1373,6 +1373,8 @@
 			self.controls.routingControl.hideBtn();
 			self.controls.shareControl.hideBtn();
 			self.controls.likeControl.hideBtn();
+			self.controls.control3d.hideBtn();
+			self.controls.snapshotControl.hideBtn();
 			if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
 				urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
 				var res = urlFile.split("/");
@@ -1455,7 +1457,6 @@
 					return geom.bindPopup(html);
 				},
 				onEachFeature : function(feature, latlng) {
-					console.debug(feature);
 					var pp = feature.properties;
 					var html ='<div class="div_popup_visor"><div class="popup_pres">';
 					propName = "";
@@ -1512,6 +1513,7 @@
 					}
 				}
 			});		
+			return self;
 		},
 		saveLocalStorage:function(){
 			var self = this;
