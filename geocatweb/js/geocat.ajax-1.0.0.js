@@ -401,7 +401,8 @@ function getDownloadLayer(data){
 	return createXHR({
 		url: paramUrl.download_layer, 
 		data: data,
-		method: 'post'
+		method: 'post',
+		dataType: 'html'
 	});
 }
 
