@@ -1344,6 +1344,9 @@
 					}
 					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
 				}
+				else if(self.urlFile && self.text){
+					self.loadURLConfig().drawMap().resizeMap().drawControls()._loadUrlFile()._addURLMarker()._hideLoading();
+				}
 				else if(self.text) {	//map defined by url params
 					self.loadURLConfig()._initCenter()._drawVisor()._addURLMarker();
 				}
@@ -1367,14 +1370,16 @@
 			var map = self.map;
 			var urlFile = self.urlFile;
 			var tipusFile = "geojson";
+			
 			if (self.tipusFile && self.tipusFile!="") tipusFile=self.tipusFile;
-			self.controls.homeControl.hideBtn();
-			self.controls.layersControl.hideBtn();
-			self.controls.routingControl.hideBtn();
-			self.controls.shareControl.hideBtn();
-			self.controls.likeControl.hideBtn();
-			self.controls.control3d.hideBtn();
-			self.controls.snapshotControl.hideBtn();
+			if (self.controls.homeControl!=undefined) self.controls.homeControl.hideBtn();
+			if (self.controls.layersControl!=undefined) self.controls.layersControl.hideBtn();
+			if (self.controls.routingControl!=undefined) self.controls.routingControl.hideBtn();
+			if (self.controls.shareControl!=undefined) self.controls.shareControl.hideBtn();
+			if (self.controls.likeControl!=undefined) self.controls.likeControl.hideBtn();
+			if (self.controls.control3d!=undefined) self.controls.control3d.hideBtn();
+			if (self.controls.snapshotControl!=undefined) self.controls.snapshotControl.hideBtn();
+			
 			if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
 				urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
 				var res = urlFile.split("/");
@@ -1572,7 +1577,7 @@
 			}
 
 			$("#infoMap").hide();
-
+			return self;
 		},
 
 		_addTooltips: function(){
