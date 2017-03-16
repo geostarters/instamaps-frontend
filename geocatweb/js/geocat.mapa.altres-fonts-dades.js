@@ -779,7 +779,6 @@ function activarEventAfegirCapa(type){
 		var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
 		var coordX = jQuery("#input-coord-x").val();
 		var coordY = jQuery("#input-coord-y").val();
-		var coordXY = jQuery("#input-coord-xy").val();
 		//console.debug(opcio);
 		
 		if(type!=undefined && type.indexOf("-1")!= -1 || epsg!=undefined && epsg.indexOf("-1")!= -1 && opcio!=undefined && opcio!="codis" && opcio!="adreca"){
@@ -787,11 +786,10 @@ function activarEventAfegirCapa(type){
 			if(epsg.indexOf("-1")!= -1) jQuery("#select-url-file-epsg").addClass("class_error");
 			
 		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
-					&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY)  || !isValidValue(coordXY)) ){
+					&&  opcio == "coordenades" && (!isValidValue(coordX) || !isValidValue(coordY) ) ){
 			
 			if(!isValidValue(coordX)) jQuery("#input-coord-x").addClass("class_error");
 			if(!isValidValue(coordY)) jQuery("#input-coord-y").addClass("class_error");
-			if(!isValidValue(coordXY)) jQuery("#input-coord-xy").addClass("class_error");
 		
 		}else if( type!=undefined && (type==".xls" || type==".xlsx" || type==".csv" || type==".txt") 
 					&&  opcio == "codis" && (!isValidValue(jQuery("#input-camp-codi-urlfile").val())) ){
@@ -804,11 +802,10 @@ function activarEventAfegirCapa(type){
 				createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 						   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
 						   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
-						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val(),
-						   jQuery("#input-coord-xy").val());
+						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
 			}else{
 				$('#dialog_dades_ex').modal('hide');
-				$('#dialog_info_upload_txt').text(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
+				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 				$('#dialog_info_upload').modal('show');		
 				
 			}
