@@ -191,7 +191,7 @@
 
 			results.results = jQuery.map( results.results, function( val, i ) {
 				///val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
-
+				console.debug(val);
 				try{
 
 					var data;
@@ -213,7 +213,6 @@
 
 					val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
 				}
-
 
 
 				if (val.options){
@@ -937,7 +936,7 @@
 					var autor = val.entitatUid;
 					val.entitatUid = autor.split("@")[0];
 					val.data =  new Date(val.dataPublicacio).toLocaleDateString();
-
+						
 					var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+val.businessId;
 					var nomApp=val.nomAplicacio;
 
@@ -1208,7 +1207,10 @@
 		
 		generaVincleInstaVisor:function(idusr,mapaId,nomVisor){
 			var urlMap;	
-			
+			var propietariMapa=$('#iduserAplicacio_'+mapaId).val();
+			if (idusr!=propietariMapa){
+				idusr=propietariMapa;
+			}
 			try{								
 				urlMap=HOST_APP+paramUrl.instaVisorFolder+idusr+"/"+mapaId+"/"+nomVisor.replace(mapaId+"_","");
 				return urlMap;
