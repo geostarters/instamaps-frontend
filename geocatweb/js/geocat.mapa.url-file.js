@@ -694,6 +694,11 @@ function loadURLfileLayer(layer){
 		//SOCRATA		
 		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
 		
+		var optionsVis =  options;
+		if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta"){
+			style.opacity=0;
+			style.fillOpacity=0;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
@@ -728,6 +733,45 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 				var popup = L.popup().setContent(html);
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
+					var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
+					if (optionsVis.contorn!=undefined && optionsVis.contorn=="si") {
+						style+=";text-shadow:1px 1px #ffffff";
+					}
+					else 	style+=";text-shadow:0px 0px #ffffff";
+					if (optionsVis.fontStyle!=undefined){
+						if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
+						else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
+					}
+					if (optionsVis.caixa!=undefined && optionsVis.caixa=="si"){
+						style += ";background-color:"+optionsVis.caixaColor;
+					}
+					else style += ";background-color:transparent";
+					createClass('.etiqueta_style_'+layer.businessId,style);
+				}
+				var zoomInicialEtiqueta = "2";
+				if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
+				var zoomFinalEtiqueta = "19";
+				if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
+							(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") ){
+						geom.bindLabel(pp[optionsVis.campEtiqueta],
+							{opacity:1, noHide: true,clickable:true,  direction: 'altre',className: "etiqueta_style_"+layer.businessId,offset: [0, 0]});						
+					}
+					if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+							(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+							try{
+								if (geom.label!=undefined) geom.label.setOpacity(0);
+								else geom.hideLabel();
+							}catch(err){
+								
+							}
+					}
+				}
+				
+				
+				
 				return geom.bindPopup(popup);
 			},
 			onEachFeature : function(feature, latlng) {
@@ -756,6 +800,81 @@ function loadURLfileLayer(layer){
 					}
 				});		
 				html+='</div></div>';
+				var tipus = feature.geometry.type; 
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
+					var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
+					if (optionsVis.contorn!=undefined && optionsVis.contorn=="si") {
+						style+=";text-shadow:1px 1px #ffffff";
+					}
+					else 	style+=";text-shadow:0px 0px #ffffff";
+					if (optionsVis.fontStyle!=undefined){
+						if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
+						else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
+					}
+					if (optionsVis.caixa!=undefined && optionsVis.caixa=="si"){
+						style += ";background-color:"+optionsVis.caixaColor;
+					}
+					else style += ";background-color:transparent";
+					createClass('.etiqueta_style_'+layer.businessId,style);
+				}
+				var zoomInicialEtiqueta = "2";
+				if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
+				var zoomFinalEtiqueta = "19";
+				if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
+				if (tipus=="Point") {
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
+								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")){
+							latlng.bindLabel(pp[optionsVis.campEtiqueta],
+								{opacity:1, noHide: true,clickable:true,  direction: 'altre',className: "etiqueta_style_"+layer.businessId,offset: [0, 0]});						
+						}
+						if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+								(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+								try{
+									if (latlng.label!=undefined) latlng.label.setOpacity(0);
+									else latlng.hideLabel();
+								}catch(err){
+									
+								}
+						}
+					}
+				}
+				else if (tipus=="LineString"){
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+								if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  ){
+									latlng.bindLabelEx(map,pp[optionsVis.campEtiqueta], 
+											{ noHide: true, direction: 'center',className: "etiqueta_style_"+layer.businessId,clickable:true, offset: [0, 0]});
+								}	
+								if (optionsVis.opcionsVis=="geometries"){
+									latlng.hideLabel();
+								}
+								if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+										(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+									latlng.hideLabel();
+								}
+						}
+					}
+					//latlng.bindLabelEx(map,"prova3", { noHide: true, direction: 'center',clickable:true, offset: [0, 0]});
+				}
+				else if (tipus=="Polygon"){
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+								if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  ){
+									latlng.bindLabelExPolygon(map,pp[optionsVis.campEtiqueta], 
+										{ noHide: true, direction: 'center',className: "etiqueta_style_"+layer.businessId,clickable:true,offset: [0, 0] });
+								}	
+								if (optionsVis.opcionsVis=="geometries"){
+									latlng.hideLabel();
+								}
+								if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+										(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+									latlng.hideLabel();
+								}
+						}
+					}
+					//latlng.bindLabelExPolygon(map,"prova4",	{ noHide: true, direction: 'center',clickable:true, offset: [0, 0] });
+				}
 				return latlng.bindPopup(html);
 			}
 		});	
@@ -1076,10 +1195,7 @@ function loadURLfileLayer(layer){
 	return defer.promise();
 }
 
-function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){
-	if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
-		capaURLfileLoad.addTo(map);
-	}
+function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){	
 
 	if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
 		capaURLfileLoad.options.zIndex = controlCapes._lastZIndex + 1;
@@ -1096,6 +1212,12 @@ function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){
 		capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
 		controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origenL);
 	}
+	
+	if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
+		capaURLfileLoad.addTo(map);
+	}
+	
+	
 }
 
 function constructLayer(layer, estil_do){

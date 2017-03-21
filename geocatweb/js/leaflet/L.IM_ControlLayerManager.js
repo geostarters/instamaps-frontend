@@ -870,7 +870,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if (getModeMapa()) {
 				if ((obj.layer.options.tipus == t_visualitzacio
 						|| obj.layer.options.tipus == t_url_file
-						|| obj.layer.options.tipus == t_json) && !obj.layer.options.dinamic) {
+						|| obj.layer.options.tipus == t_json) ) {
 					col = L.DomUtil
 							.create(
 									'div',
@@ -1747,11 +1747,30 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 								geometryType:optionsMap.geometryType
 						};
 						updateVisualitzacioLayer(data).then(function(results){
-							$('#dialog_etiquetes_capa').modal('hide');
-							reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map).then(function(results) {
-								//refresh zoom etiquetes
-								refrescarZoomEtiquetes(results);
-							});
+							if (results.status=="OK"){
+								$('#dialog_etiquetes_capa').modal('hide');
+								reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map).then(function(results) {
+									//refresh zoom etiquetes
+									refrescarZoomEtiquetes(results);
+								});
+							}
+							else if (results.status="ERROR"){
+								updateServidorWMSOptions(data).then(function(results){
+									map.removeLayer(layerMap);
+									var id = L.stamp(obj.layer);
+									
+									if (!obj.sublayer) {
+										delete controlCapes._layers[id];
+									} else {
+										delete controlCapes._layers[obj.layerIdParent]._layers[id];
+									}								
+									loadURLfileLayer(results.results).then(function(results) {
+										//refresh zoom etiquetes									
+										refrescarZoomEtiquetes(results);
+									});									
+									$('#dialog_etiquetes_capa').modal('hide');
+								});
+							}
 						});
 					}
 				});
