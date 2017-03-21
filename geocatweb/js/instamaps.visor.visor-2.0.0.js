@@ -683,6 +683,32 @@
 
 		},
 
+		moveZoomControlToSidebar: function(sidebarId)
+		{
+
+			var self = this;
+		
+			var buttonsHTML = '<li id="zoomInCtrl"></li><li id="zoomOutCtrl"></li>';
+			$('#' + sidebarId + ' .leftTopBar').append(buttonsHTML);
+
+			$('.leaflet-control-zoom-in').appendTo('#zoomInCtrl');
+			$('.leaflet-control-zoom-in').attr('href', '');
+			$('.leaflet-control-zoom-out').appendTo('#zoomOutCtrl');
+			$('.leaflet-control-zoom-out').attr('href', '');
+
+		},
+
+		sidebarLoaded: function(sidebarId)
+		{
+
+			$('#info-panel').mCustomScrollbar({
+				theme: 'rounded-dots-dark',
+				scrollbarPosition: 'outside',
+				scrollButtons: {enable: true}
+			});
+
+		},
+
 		drawMap: function(){
 			var self = this,
 			_map = self.map;
@@ -696,6 +722,8 @@
 			var self = this;
 
 			self.addControlLogos();
+
+			self.moveZoomControlToSidebar('leftSidebar');
 
 			if((self.mouseposition && self.mouseposition=="1") || self.mouseposition===null){
 				self.addMousePositionControl();
@@ -1116,7 +1144,7 @@
 			}
 
 			var nomUser = mapConfig.entitatUid.split("@")[0];
-			infoHtml += '<div class="scrollable-pane mCustomScrollbar" data-mcs-theme="dark" style="background-color:' + color  + 
+			infoHtml += '<div id="info-panel" class="scrollable-pane" style="background-color:' + color  + 
 				'"><div id="info-content"><p>' + description + '</p>';
 			infoHtml += '<p><span lang="ca">Autor:</span>' + nomUser + '</p></div></div>';
 
@@ -1126,9 +1154,10 @@
 			{
 
 				self.controls.leftSidebar.open('infoPanel');
-				$('#infoClose').hide();
 
 			}
+
+			self.sidebarLoaded('leftSidebar');
 
 		},
 

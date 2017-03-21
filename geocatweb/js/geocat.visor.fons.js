@@ -252,7 +252,9 @@ L.IM_ControlFons = L.Control.extend({
 			self._addSidebarItem('#fons-content', $(btnsFons[i]));
 
 		}
-		
+
+		$('.control-btn-fons').remove();
+
 	}
 
 });

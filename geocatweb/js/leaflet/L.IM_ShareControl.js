@@ -95,6 +95,7 @@ L.Control.Share = L.Control.extend({
 		$('#socialShare_visor').css('width', '205px');
 		$('#socialShare_visor').css('background-color', '#ffffff');
 		$('#socialShare_visor').show();
+		$('#' + self.options.id).remove();
 
 		$('#socialShare_visor .pop-social').on('click', function(event){
 			$.publish('analyticsEvent',{event:['visor', 'compartir-publicar', $(this).attr('data-type'), 1]});

@@ -358,6 +358,7 @@ L.Control.RoutingControl = L.Control.extend({
 
 		$('#routingPanel .scrollable-pane').css('overflow-y', 'hidden');
 
+		$('#' + self.options.id).remove();
 		self._map.on('click', self._routingPopup, self);
 		self._route.addTo(self._map);
 		$('.leaflet-routing-container').appendTo('#routing-content');

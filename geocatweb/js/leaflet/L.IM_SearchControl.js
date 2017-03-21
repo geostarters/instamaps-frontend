@@ -164,6 +164,7 @@ L.Control.SearchControl = L.Control.extend({
 		$('#searchBar .leaflet-control-search').css('width', '100%');
 		$('#search-input').css('width', '100%');
 		$('#searchBar').show();
+		$('#' + self.options.id).remove();
 
 	}
 });
