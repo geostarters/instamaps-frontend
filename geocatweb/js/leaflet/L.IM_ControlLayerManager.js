@@ -1757,13 +1757,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 							else if (results.status="ERROR"){
 								updateServidorWMSOptions(data).then(function(results){
 									map.removeLayer(layerMap);
-									var id = L.stamp(obj.layer);
-									
-									if (!obj.sublayer) {
-										delete controlCapes._layers[id];
-									} else {
-										delete controlCapes._layers[obj.layerIdParent]._layers[id];
-									}								
+									var id = layerMap._leaflet_id;
+									delete controlCapes._layers[id];
+																	
 									loadURLfileLayer(results.results).then(function(results) {
 										//refresh zoom etiquetes									
 										refrescarZoomEtiquetes(results);
