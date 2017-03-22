@@ -10,4 +10,6 @@
 /maps
 /assets
 /node_modules
-/geocatweb/dist
+/geocatweb/visor.html
+/geocatweb/dist/*
+/geocatweb/dist/

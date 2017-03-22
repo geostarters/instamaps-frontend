@@ -132,27 +132,51 @@
 
 				}
 
-				$.each(results.origen, function(index, value){
-
-					self.loadLayer(value).then(function(){
+				var resultats ={};
+				//businessIdMapa=796aad9d9e4b1846469b25172316910e
+				if (_mapConfig.businessId='796aad9d9e4b1846469b25172316910e'){//TODO esborrar
+					console.debug(results);
+					self.loadLayer(results.origen[0]).then(function(){
 						num_origen++;
 						self._waitLoadAll(num_origen);
-						if (num_origen == results.origen.length){
-							$.each(results.sublayers, function(index, value){
-								self.loadLayer(value).then(function(){
-									num_origen++;
-									self._waitLoadAll(num_origen);
-								},function(){
-									num_origen++;
-									self._waitLoadAll(num_origen);
-								});
+						setTimeout(function(){
+							self.loadLayer(results.origen[1]).then(function(){
+								num_origen++;
+								self._waitLoadAll(num_origen);
+								
+							},function(){
+								num_origen++;
+								self._waitLoadAll(num_origen);
 							});
-						}
+						},500);
+						
 					},function(){
 						num_origen++;
 						self._waitLoadAll(num_origen);
 					});
-				});
+				}
+				else {				
+					$.each(results.origen, function(index, value){
+						self.loadLayer(value).then(function(){
+							num_origen++;
+							self._waitLoadAll(num_origen);
+							if (num_origen == results.origen.length){
+								$.each(results.sublayers, function(index, value){
+									self.loadLayer(value).then(function(){
+										num_origen++;
+										self._waitLoadAll(num_origen);
+									},function(){
+										num_origen++;
+										self._waitLoadAll(num_origen);
+									});
+								});
+							}
+						},function(){
+							num_origen++;
+							self._waitLoadAll(num_origen);
+						});
+					});
+				}
 			});
 			return dfd.promise();
 		},
