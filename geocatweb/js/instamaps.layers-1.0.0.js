@@ -134,7 +134,7 @@
 
 				var resultats ={};
 				//businessIdMapa=796aad9d9e4b1846469b25172316910e
-				if (_mapConfig.businessId='796aad9d9e4b1846469b25172316910e'){//TODO esborrar
+				if ('796aad9d9e4b1846469b25172316910e'==_mapConfig.businessId){//TODO esborrar
 					console.debug(results);
 					self.loadLayer(results.origen[0]).then(function(){
 						num_origen++;
