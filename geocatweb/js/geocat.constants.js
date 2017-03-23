@@ -41,7 +41,7 @@ var estilP={
 
 var default_line_style = {
 	    weight: 3,
-	    color: '#FFC400',
+	    color: '#FF0000',
 	    opacity:1,
 	    dashArray: '3',
 	    lineCap:'round',
@@ -51,17 +51,17 @@ var default_line_style = {
 var default_area_style = {
 	    weight: 3,
 	    opacity: 1,
-	    color: '#FFC400',
+	    color: '#FF0000',
 	    dashArray: '3',
 	    fillColor: "rgb(255,196,0)",//hexToRgb('#FFC400'),
-	    borderColor: '#FFC400',
+	    borderColor: '#FF0000',
 	    borderWidth: '3',
 	    fillOpacity: 0.5
 	};
 
 var default_marker_style = {
 		icon : '',
-		markerColor : 'orange',
+		markerColor : 'red',
 		divColor:'transparent',
 		iconAnchor : new L.Point(14, 42),
 		iconSize : new L.Point(28, 42),
@@ -82,7 +82,7 @@ var default_circulo_style = {
 		borderWidth: 2,
 		opacity: 90,
 		borderColor : "#ffffff",
-		color :"#FFC500",
+		color :"#FF0000",
 		lineWidth: 3,
 	};
 
