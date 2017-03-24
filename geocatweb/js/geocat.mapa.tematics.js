@@ -3,7 +3,6 @@
  * Funcions tematics generals*
  * */
 
-
 function initButtonsTematic(){
 	
 	addHtmlInterficieTematics();
@@ -388,8 +387,6 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		else html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	html+='</div>';
-	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
-	player.bindPopup(html,{'offset':[0,-25]});
 
 	//Afegim els events de clicks per al semafòric
 	jQuery(document).on('click', ".traffic-light-icon", function(e) {
@@ -2392,14 +2389,17 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					}
 
 					geom.popupData = html;
+					feat.properties.popupData = geom.popupData;
 
 				}
 				else
 				{
 
-					feat.bindPopup(geom.popupData, {'offset':[0,-25]});
-
 				}
+
+				feat.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feat, e, controlCapes);
+				});
 				/*try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});

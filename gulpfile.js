@@ -224,7 +224,8 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/leaflet/plugin/leaflet.timedimension.custom.js',
     config.dirJsVendors+'/leaflet/plugin/leaflet-routing-machine.js',
     config.dirJsVendors+'/leaflet/plugin/lrm-mapzen.js',
-    config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js'
+    config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js',
+    config.dirJsVendors+'/leaflet/plugin/leaflet-pip.js'
   ], 'leaflet.js');
 
   pipeline.add([

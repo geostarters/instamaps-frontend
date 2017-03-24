@@ -770,7 +770,6 @@ function activaEdicioUsuari() {
 function createPopupWindow(layer,type){
 //	console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
-	layer.bindPopup(html,{'offset':[0,-25]});
 	
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -1750,7 +1749,7 @@ function createPopUpContent(player,type){
 		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span>  </li>';					
 	}
 	
-	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>';
+	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></li>';
 	
 	html+='</ul>'														
 	+'</div>'

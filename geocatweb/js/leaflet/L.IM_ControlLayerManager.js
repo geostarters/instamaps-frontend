@@ -104,6 +104,58 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		return resp_Layer;
 	},
 
+	getVisibleLayers: function(includeVisualizations) 
+	{
+		
+		var self = this;
+		var visibles = [];
+		var bIncludeVis = includeVisualizations || false;
+
+		Array.prototype.push.apply(visibles, 
+			self.getVisibleLayersAux(self._layers, bIncludeVis));
+
+		return visibles;
+
+	},
+
+	getVisibleLayersAux: function(layers, includeVisualizations)
+	{
+
+		var self = this;
+		var visibles = [];
+		var keys = Object.keys(layers);
+
+		if(0 != keys.length)
+		{
+		
+			for(var i=0, len=keys.length; i<len; ++i)
+			{
+
+				var layer = layers[keys[i]];
+				if(null != layer.layer._map)
+				{
+
+					visibles.push(layer);
+
+				}
+
+				if(includeVisualizations && layer._layers)
+				{
+
+					Array.prototype.push.apply(visibles, 
+						self.getVisibleLayersAux(layer._layers, 
+							includeVisualizations));
+
+				}
+
+			}
+
+		}
+
+		return visibles;
+
+	},
+
 	updateTreeGroupLayers : function(groupId, groupName, businessId, z_order, expanded) {
 		var dfd = $.Deferred();
 		try{
