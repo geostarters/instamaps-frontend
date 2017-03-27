@@ -979,6 +979,9 @@ textarea {
 .leaflet-popup {
     z-index:100;
 }
+.glyphicons-brush:before {
+	content: url(../../llibreries/img/glyphicons_235_brush.png);
+}
 /*.leaflet-label:after {
 border-left: 8px solid transparent;
     border-right: 8px solid transparent;

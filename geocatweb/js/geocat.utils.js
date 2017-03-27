@@ -937,7 +937,7 @@ function refrescarPopUp(nom,props,_leaflet_id,type,capaLeafletId){
 	console.debug(capaLeafletId);
 	html +='<div id="footer_edit"  class="modal-footer">'
 	+'<ul class="bs-popup">'						
-	+'<li class="edicio-popup"><a id="feature_edit##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_edit##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicons-brush verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
 	+'<li class="edicio-popup"><a id="feature_move##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
 	+'<li class="edicio-popup"><a id="feature_remove##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
 	html+='<li class="edicio-popup" id="feature_data_table_'+_leaflet_id+'"><a id="feature_data_table##'+_leaflet_id+'##'+type+'##'+capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
