@@ -437,6 +437,7 @@ function addHtmlModalPunts(){
 			'								<li><span class="fa fa-flask"></span></li>'+
 			'								<li><span class="fa fa-female"></span></li>'+
 			'								<li><span class="fa fa-male"></span></li>'+
+			'								<li><span class="fa geostart-toilets"></span></li>'+
 			'								<li><span class="fa fa-facebook"></span></li>'+
 			'								<li><span class="fa fa-smile-o"></span></li>'+
 			'								<li><span class="fa fa-fighter-jet"></span></li>'+
@@ -537,13 +538,15 @@ function addHtmlModalPunts(){
 			'								<li><span class="fa fa-subway"></span></li>'+
 			'								<li><span class="fa fa-ship"></span></li>'+
 			'								<li><span class="fa fa-train"></span></li>'+
-			
-			
-			
-			
-			
-			
-			
+			'								<li><span class="fa geostart-rocket"></span></li>'+
+			'								<li><span class="fa geostart-avenc4"></span></li>'+
+			'								<li><span class="fa geostart-avenc5"></span></li>'+
+			'								<li><span class="fa geostart-avenc6"></span></li>'+
+			'								<li><span class="fa geostart-bauma4"></span></li>'+		
+			'								<li><span class="fa geostart-cova4"></span></li>'+			
+			'								<li><span class="fa geostart-palette"></span></li>'+	
+			'								<li><span class="fa geostart-zoo"></span></li>'+
+			'								<li><span class="fa geostart-dog-park"></span></li>'+			
 			'							</ul>'+
 			'						</div>'+
 			'					</td>'+

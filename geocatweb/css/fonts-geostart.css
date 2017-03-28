@@ -1,0 +1,94 @@
+/**
+geostart Webfont
+*/
+@font-face {
+	font-family: 'geostart';
+	src: url('fonts/geostart.eot?1490277913754');
+	src: url('fonts/geostart.eot?#iefix-1490277913754') format('embedded-opentype'),
+		url('fonts/geostart.woff2?1490277913754') format('woff2'),
+		url('fonts/geostart.woff?1490277913754') format('woff'),
+		url('fonts/geostart.ttf?1490277913754') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^='geostart-'],
+[class*=' geostart-'] {
+	font-family: 'geostart';
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 1;
+	font-weight: normal;
+	font-style: normal;
+	speak: none;
+	text-decoration: inherit;
+	font-size: inherit;
+	text-transform: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/*
+Glyphs list
+*/
+
+.geostart-airport:before {
+	content: '\ea01';
+}
+
+.geostart-avenc4:before {
+	content: '\ea02';
+}
+
+.geostart-avenc5:before {
+	content: '\ea03';
+}
+
+.geostart-avenc6:before {
+	content: '\ea04';
+}
+
+.geostart-bauma4:before {
+	content: '\ea05';
+}
+
+.geostart-bicycle:before {
+	content: '\ea06';
+}
+
+.geostart-cova4:before {
+	content: '\ea07';
+}
+
+.geostart-dog-park:before {
+	content: '\ea08';
+}
+
+.geostart-ferry:before {
+	content: '\ea09';
+}
+
+.geostart-palette:before {
+	content: '\ea0a';
+}
+
+.geostart-park:before {
+	content: '\ea0b';
+}
+
+.geostart-restaurant:before {
+	content: '\ea0c';
+}
+
+.geostart-rocket:before {
+	content: '\ea0d';
+}
+
+.geostart-toilets:before {
+	content: '\ea0e';
+}
+
+.geostart-zoo:before {
+	content: '\ea0f';
+}
