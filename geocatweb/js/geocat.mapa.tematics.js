@@ -1909,6 +1909,7 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 			
 			//Afegim geometries a la capa
 			capaVisualitzacio.addTo(map);
+			if (capaVisualitzacio.options.zIndex=="1") 	capaVisualitzacio.bringToFront();
 			$.publish("addMapLayer");
 			loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, origen, map, hasSource);
 			
