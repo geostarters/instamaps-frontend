@@ -1409,16 +1409,19 @@
 				param_url = urlFile;
 			}
 			var estil_do = retornaEstilaDO();
-			var estil_lin_pol = estil_do;
+			estil_do.fillColor="#ff0000";
+			estil_do.color="#ff0000";
+			
 			//Recuperem estils de la barra d'eines
 			var canvas_linia2={"id":"cv_linia","strokeStyle":"#ff0000","lineWidth":"3","tipus":"linia","opacity":"100"};
 			var lineStyle = getLineRangFromStyle(canvas_linia2);
 			lineStyle.weight = lineStyle.lineWidth;
+			lineStyle.color="#ff0000";
 
 			var polygonStyle = getPolygonRangFromStyle(canvas_pol);
 			polygonStyle.weight = polygonStyle.borderWidth;//lineWidth;
-			polygonStyle.fillColor = polygonStyle.color;
-			polygonStyle.color = polygonStyle.borderColor;
+			polygonStyle.fillColor = "#ff0000";
+			polygonStyle.color = "#ff0000";
 			polygonStyle.fillOpacity = polygonStyle.opacity/100; 
 			polygonStyle.opacity = 1;
 			
@@ -1428,7 +1431,7 @@
 				nom : "urlFile",
 				tipus : tipusFile,
 				estil_do: estil_do,
-				style: estil_lin_pol,//Estil de poligons i linies
+				style: polygonStyle,//Estil de poligons i linies
 				pointToLayer : function(feature, latlng) {
 					var geom = L.circleMarker(latlng, estil_do);
 					var pp = feature.properties;
