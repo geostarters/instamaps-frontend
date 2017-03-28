@@ -1739,18 +1739,23 @@ function createPopUpContent(player,type){
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
 		+'<ul class="bs-popup">'						
-		+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
-		+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
+		+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="geostart-palette gris-semifosc font18" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>';
+		if(type == t_polyline || type == t_polygon){
+			html+='<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-pencil gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>';
+		}	
+		else {
+			html+='<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Moure')+'"></span></a>   </li>';
+		}
+		html+='<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
 	
 	if (player.properties.estil) {
-		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
+		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
 	}
 	else {
-		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span>  </li>';					
+		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span>  </li>';					
 	}
 	
-	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>';
+	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>';
 	
 	html+='</ul>'														
 	+'</div>'
