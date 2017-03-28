@@ -979,6 +979,9 @@ textarea {
 .leaflet-popup {
     z-index:100;
 }
+.nomargin{
+	margin:0px !important;
+}
 /*.leaflet-label:after {
 border-left: 8px solid transparent;
     border-right: 8px solid transparent;

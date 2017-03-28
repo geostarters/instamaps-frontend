@@ -11,7 +11,7 @@
 		options: {
 			addSublayers: false,
 			hideExtraTabs: true,
-			maxVisibleTabs: 3,
+			maxVisibleTabs: 1,
 			id: 'mng',
 			class: 'popup',
 			html: ''
@@ -58,38 +58,45 @@
 
 				if('' != content)
 				{
-
-					lis.push(self.createTabTitle(title, i, tabWidth, (i<options.maxVisibleTabs)));
+					if (self.numTabs>1){
+						lis.push(self.createTabTitle(title, i, tabWidth, (i<options.maxVisibleTabs)));
+					}
 					contents.push(self.createTabContent(content, i));
-
+					
+					
 				}
 
 			}
 
-			var html = '<div id="popup-' + options.id + '" class="' + options.class + '">' + 
-				'<ul class="nav nav-tabs pagination">';
-
-			if(hasHiddenTabs)
-			{
-
-				html += '<li id="popup-' + options.id + '-prev" class="disabled" data-tabOffset=0>' +
-					'<a href="#" aria-label="Previous">' + 
-					'<span aria-hidden="true">&laquo;</span></a></li>';
+			if (self.numTabs>1){
+				var html = '<div id="popup-' + options.id + '" class="' + options.class + '">' + 
+					'<ul class="nav nav-tabs pagination nomargin">';
+	
+				if(hasHiddenTabs)
+				{
+	
+					html += '<li id="popup-' + options.id + '-prev" class="disabled" data-tabOffset=0>' +
+						'<a href="#" aria-label="Previous">' + 
+						'<span aria-hidden="true">&laquo;</span></a></li>';
+				}
+	
+				html += lis.join('');
+	
+				if(hasHiddenTabs)
+				{
+	
+					html += '<li id="popup-' + options.id + '-next">' +
+						'<a href="#" aria-label="Next">' +
+						'<span aria-hidden="true">&raquo;</span></a></li>';
+	
+				}
+	
+				html += '</ul><div class="tab-content">' + contents.join('') + '</div></div>';
 			}
-
-			html += lis.join('');
-
-			if(hasHiddenTabs)
-			{
-
-				html += '<li id="popup-' + options.id + '-next">' +
-					'<a href="#" aria-label="Next">' +
-					'<span aria-hidden="true">&raquo;</span></a></li>';
-
+			else {
+				var html = '<div id="popup-' + options.id + '" class="' + options.class + '">' ;
+				html += '<div class="tab-content">' + contents.join('') + '</div></div>';
 			}
-
-			html += '</ul><div class="tab-content">' + contents.join('') + '</div></div>';
-
 			self.options.html = html;
 
 		},
@@ -256,15 +263,27 @@
 			var $btnPrev = $('#popup-' + self.options.id + '-prev');
 			var offset = Number.parseInt($btnPrev.data('taboffset'));
 			var maxVisible = offset + self.options.maxVisibleTabs;
-
+			var currentTabId = 0;
+			
 			for(var i=0, len=self.numTabs; i<len; ++i)
 			{
 
 				var current = $($tabs[i]);
-				var display = (i < offset || i > maxVisible) ? 'none' : 'block';
+				var display = (i <= offset || i > maxVisible) ? 'none' : 'block';
 				current.css('display', display);
-
+				if ('block' == display) {
+					$('a[href^="#popup-mng-content-'+i).click();
+					currentTabId=i;
+				}
 			}
+			
+			
+			var displayNext = (currentTabId==self.numTabs-1) ? 'none' : 'block';
+			$('#popup-mng-next').css('display', displayNext);
+			
+			var displayPrev = (currentTabId==0) ? 'none' : 'block';
+			$('#popup-mng-prev').css('display', displayPrev);
+			
 
 		}
 	
