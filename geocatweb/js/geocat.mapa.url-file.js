@@ -108,7 +108,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				return geom.bindPopup(html);
+				geom.properties = { capaNom: nomCapa };
+				geom.popupData = html;
+
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+				});
+
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
@@ -139,7 +146,13 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				return latlng.bindPopup(html);
+				latlng.properties = { capaNom: nomCapa };
+				latlng.popupData = html;
+
+				latlng.on('click', function(e) {
+					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+				});
+				return latlng;
 			},			  
 			middleware:function(data){
 				if(data.status && data.status.indexOf("ERROR")!=-1){
@@ -770,9 +783,14 @@ function loadURLfileLayer(layer){
 					}
 				}
 				
+				geom.properties = { capaNom: layer.serverName };
+				geom.popupData = html;
+
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+				});
 				
-				
-				return geom.bindPopup(popup);
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
@@ -875,7 +893,15 @@ function loadURLfileLayer(layer){
 					}
 					//latlng.bindLabelExPolygon(map,"prova4",	{ noHide: true, direction: 'center',clickable:true, offset: [0, 0] });
 				}
-				return latlng.bindPopup(html);
+
+				latlng.properties = { capaNom: layer.serverName };
+				latlng.popupData = html;
+
+				latlng.on('click', function(e) {
+					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+				});
+
+				return latlng;
 			}
 		});	
 	}	
@@ -945,7 +971,12 @@ function loadURLfileLayer(layer){
 
 				});
 				var geom = L.circleMarker(latlng, estilGeom);		    	
-				var popup = L.popup().setContent(html);
+				geom.properties = { capaNom: layer.serverName };
+				geom.popupData = html;
+
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+				});
 				return geom.bindPopup(popup);
 			},
 			onEachFeature : function(feature, latlng) {
@@ -1008,7 +1039,15 @@ function loadURLfileLayer(layer){
 						return false;	
 					}
 				});	
-				return latlng.bindPopup(html);
+
+				latlng.properties = { capaNom: layer.serverName };
+				latlng.popupData = html;
+
+				latlng.on('click', function(e) {
+					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+				});
+
+				return latlng;
 			}
 		});	
 	}	
@@ -1051,9 +1090,14 @@ function loadURLfileLayer(layer){
 						}
 					}
 				});		
-				html+='</div></div>';    	
-				var popup = L.popup().setContent(html);
-				return geom.bindPopup(popup);
+				html+='</div></div>'; 
+				geom.properties = { capaNom: layer.serverName };
+				geom.popupData = html;
+
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+				});
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
@@ -1081,7 +1125,13 @@ function loadURLfileLayer(layer){
 					}
 				});		
 				html+='</div></div>';
-				return latlng.bindPopup(html);
+				latlng.properties = { capaNom: layer.serverName };
+				latlng.popupData = html;
+
+				latlng.on('click', function(e) {
+					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+				});
+				return latlng;
 			}
 		});
 	}
@@ -1255,7 +1305,14 @@ function constructLayer(layer, estil_do){
 			}
 		});		
 		html+='</div></div>';    	
-		geom.bindPopup(html);
+
+		geom.properties = { capaNom: layer.serverName };
+		geom.popupData = html;
+
+		geom.on('click', function(e) {
+			PopupManager().createMergedDataPopup(geom, e, controlCapes);
+		});
+		
 		layer.removeLayer(marker);
 		layer.addLayer(geom);
 	});

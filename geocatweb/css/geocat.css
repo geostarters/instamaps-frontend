@@ -1741,3 +1741,8 @@ h1.big_text{
     100% {transform: rotate(360deg);}
 }
 
+.popupTitleTab {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}

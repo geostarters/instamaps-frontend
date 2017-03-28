@@ -257,6 +257,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/leaflet/L.Wikipedia.js',
     config.dirJsInstamaps+'/leaflet/L.Twitter.js',
     config.dirJsInstamaps+'/leaflet/L.IM_Label.js',
+    config.dirJsInstamaps+'/leaflet/L.IM_PopupManager.js',
     config.dirJsInstamaps+'/geocat.config-1.0.0.js',
     config.dirJsInstamaps+'/geocat.constants.js',
     config.dirJsInstamaps+'/geocat.ajax-1.0.0.js',

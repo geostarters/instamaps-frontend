@@ -365,7 +365,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 				+'<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
 				+'<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>'
 				+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>'
-				+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></li>'
+				+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></li>'
 			+'</ul>'														
 			+'</div>';	
 	}else{
@@ -379,7 +379,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 			+'</ul>'														
 		+'</div>';			
 	}
-
+	html+='</div>'; //.popup_pres
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.translate('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
@@ -1197,7 +1197,7 @@ function addHtmlModalLayersTematic(){
 	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title"><span lang="ca">Triar una capa per aplicar-hi l\'estil</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Triar una capa per aplicar-hi l\'estil</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success" id="txtTematic">'+
@@ -2388,8 +2388,10 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						}
 					}
 
-					geom.popupData = html;
-					feat.properties.popupData = geom.popupData;
+					feat.properties.popupData = html;
+					feat.properties.feature.properties = { 
+						capaNom: feat.properties.capaNom,
+						popupData: html };
 
 				}
 				else

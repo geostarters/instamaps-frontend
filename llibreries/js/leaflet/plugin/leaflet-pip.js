@@ -1,3 +1,12 @@
+/*
+  Mapbox PointInPolygon
+  https://github.com/mapbox/leaflet-pip
+
+  Modified by: Isaac Besora 
+  Last modified: 27/03/2017
+  Why: Added PointInPoint intersections
+*/
+
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.leafletPip = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 var gju = require('geojson-utils');
@@ -10,26 +19,96 @@ function isPoly(l) {
         ['Polygon', 'MultiPolygon'].indexOf(l.properties.feature.geometry.type) !== -1;
 }
 
+function isPoint(l) 
+{
+
+  var feature = l.feature || l.properties.feature;
+
+  return feature &&
+    feature.geometry &&
+    feature.geometry.type &&
+    ['Point'].indexOf(feature.geometry.type) !== -1;
+
+}
+
+function getRadius(l)
+{
+
+  var radius = 6;
+  if(l._radius)
+  {
+  
+    radius = l._radius;
+
+  }
+  else if(l.properties &&
+    l.properties.estil &&
+    l.properties.iconSize)
+  {
+
+    radius = l.properties.iconSize.split('#')[1];
+
+  } 
+
+  return Number.parseInt(radius);
+
+}
+
+function getFeature(l)
+{
+
+  var feature = l;
+  if(l.feature)
+  {
+
+    feature = l.feature;
+
+  }
+  else if(l.properties &&
+    l.properties.feature)
+  {
+
+    feature = l.properties.feature;
+
+  }
+
+  return feature;
+
+}
+
 var leafletPip = {
-    bassackwards: false,
-    pointInLayer: function(p, layer, first) {
-        if (typeof p.lat === 'number') p = [p.lng, p.lat];
-        else if (leafletPip.bassackwards) p = p.concat().reverse();
+  bassackwards: false,
+  pointInLayer: function(p, layer, first) {
+    if (typeof p.lat === 'number') p = [p.lng, p.lat];
+    else if (leafletPip.bassackwards) p = p.concat().reverse();
 
-        var results = [];
+    var results = [];
 
-        layer.eachLayer(function(l) {
-            if (first && results.length) return;
+    layer.eachLayer(function(l) {
 
-            if (isPoly(l) && gju.pointInPolygon({
-                type: 'Point',
-                coordinates: p
-            }, l.toGeoJSON().geometry)) {
-                results.push(l);
-            }
-        });
-        return results;
-    }
+      if (isPoly(l) && gju.pointInPolygon({
+          type: 'Point',
+          coordinates: p
+      }, l.toGeoJSON().geometry)) {
+          results.push(l);
+      }
+      else 
+      {
+
+        var radius = getRadius(l);
+        var feature = getFeature(l);
+        if(isPoint(l) && gju.pointInPoint({
+              type: 'Point',
+              coordinates: p
+          }, l.toGeoJSON().geometry, radius))
+        {
+          results.push(feature);
+        }
+
+      }
+    });
+    return results;
+  }
 };
 
 module.exports = leafletPip;
@@ -168,6 +247,25 @@ module.exports = leafletPip;
     }
 
     return insidePoly
+  }
+
+  gju.pointInPoint = function (a, b, radius) {
+
+    var coordsA = a.coordinates;
+    var coordsB = b.coordinates;
+    var aLL = L.latLng(coordsA[1], coordsA[0]);
+    var bLL = L.latLng(coordsB[1], coordsB[0]);
+    var zoom = map.getZoom();
+
+    aScreen = map.project(aLL, zoom);
+    bScreen = map.project(bLL, zoom);
+
+    var xInc = Math.abs(aScreen.x - bScreen.x);
+    var yInc = Math.abs(aScreen.y - bScreen.y);
+    var dist = Math.ceil(Math.sqrt(xInc*xInc + yInc*yInc));
+
+    return dist <= radius;
+
   }
 
   gju.numberToRadius = function (number) {

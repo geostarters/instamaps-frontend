@@ -36,8 +36,9 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 		businessId : '-1',
 		geometryType:t_marker,
 		pointToLayer : function(feature, latlng) {
+			var marker = null;
 			if(dataset.indexOf('meteo')!=-1){
-				return L.marker(latlng, {icon:L.icon({					
+				marker = L.marker(latlng, {icon:L.icon({					
 					    iconUrl: feature.style.iconUrl,
 					    iconSize:     [44, 44], 
 					    iconAnchor:   [22, 22], 				   
@@ -48,22 +49,27 @@ function addCapaDadesObertes(dataset,nom_dataset) {
 				var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
 				var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
 				var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
-				return L.marker(latlng, {icon:L.icon({					
+				marker = L.marker(latlng, {icon:L.icon({					
 				    iconUrl: imgInci,
 				    iconSize:     [30, 26], 
 				    iconAnchor:   [15, 13], 				   
 				    popupAnchor:  [-3, -3] 
 			})});
 			}else if(dataset.indexOf('cameres')!=-1){
-				return L.marker(latlng, {icon:L.icon({					
+				marker = L.marker(latlng, {icon:L.icon({					
 				    iconUrl: "/geocatweb/img/st_came.png",
 				    iconSize:     [30, 26], 
 				    iconAnchor:   [15, 13], 				   
 				    popupAnchor:  [-3, -3] 
 			})});
 			}else{
-			return L.circleMarker(latlng, estil_do);
+				marker = L.circleMarker(latlng, estil_do);
 			}
+			marker.properties = { capaNom: nom_dataset };
+			marker.on('click', function(e) {
+				PopupManager().createMergedDataPopup(marker, e, controlCapes);
+			});
+			return marker;
 		},
 		middleware:function(data){
             
@@ -159,38 +165,44 @@ function loadDadesObertesLayer(layer){
 			dataType : "jsonp",
 			estil_do : estil_do, //per la llegenda
 			pointToLayer : function(feature, latlng) {
+				var marker = null;
 				if(options.dataset.indexOf('meteo')!=-1){
-					return L.marker(latlng, {icon:L.icon({					
+					marker = L.marker(latlng, {icon:L.icon({					
 						    iconUrl: feature.style.iconUrl,
 						    iconSize:     [44, 44], 
 						    iconAnchor:   [22, 22], 				   
-						    popupAnchor:  [-3, -3] 
+						    popupAnchor:  [-3, -3]
 					})});
 				}else if(options.dataset.indexOf('incidencies')!=-1){
 					var inci=feature.properties.descripcio_tipus;
 					var arr = ["Obres", "Retenció", "Cons", "Meterologia" ];
 					var arrIM = ["st_obre.png", "st_rete.png", "st_cons.png", "st_mete.png" ];
 					var imgInci="/geocatweb/img/"+arrIM[jQuery.inArray( inci, arr )];
-					return L.marker(latlng, {icon:L.icon({					
+					marker = L.marker(latlng, {icon:L.icon({					
 					    iconUrl: imgInci,
 					    iconSize:     [30, 26], 
 					    iconAnchor:   [15, 13], 				   
-					    popupAnchor:  [-3, -3] 
+					    popupAnchor:  [-3, -3]
 					})});
 				}else if(options.dataset.indexOf('cameres')!=-1){
-					return L.marker(latlng, {icon:L.icon({					
+					marker = L.marker(latlng, {icon:L.icon({					
 					    iconUrl: "/geocatweb/img/st_came.png",
 					    iconSize:     [30, 26], 
 					    iconAnchor:   [15, 13], 				   
-					    popupAnchor:  [-3, -3] 
+					    popupAnchor:  [-3, -3]
 					})});
 				}else{
 					if (estil_do.isCanvas){
-						return L.circleMarker(latlng, estil_do);
+						marker = L.circleMarker(latlng, estil_do);
 					}else{
-						return L.marker(latlng, {icon:estil_do,isCanvas:false, tipus: t_marker});
+						marker = L.marker(latlng, {icon:estil_do, isCanvas:false, tipus: t_marker});
 					}
 				}
+				marker.properties = { capaNom: layer.serverName };
+				marker.on('click', function(e) {
+					PopupManager().createMergedDataPopup(marker, e, controlCapes);
+				});
+				return marker;
 			}
 		});	
 		
@@ -276,5 +288,6 @@ function createPopupWindowDadesObertes(player,l){
 	});	
 	
 	html+='</div></div>';
-	l.bindPopup(html,{'offset':[0,-25]});
+	player.properties.popupData = html;
+	player.properties.capaNom = l.properties.capaNom;
 }
