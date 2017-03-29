@@ -108,12 +108,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				geom.properties = { capaNom: nomCapa };
-				geom.popupData = html;
-
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
 				geom.on('click', function(e) {
-					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
+				
 
 				return geom;
 			},
@@ -146,9 +146,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				latlng.properties = { capaNom: nomCapa };
-				latlng.popupData = html;
-
+				latlng.feature.properties.capaNom = layer.serverName;
+				latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: layer.serverName,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
 				latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 				});
@@ -724,7 +729,7 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){							
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -783,12 +788,13 @@ function loadURLfileLayer(layer){
 					}
 				}
 				
-				geom.properties = { capaNom: layer.serverName };
-				geom.popupData = html;
-
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
 				geom.on('click', function(e) {
-					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
+				
+				
 				
 				return geom;
 			},
@@ -894,14 +900,19 @@ function loadURLfileLayer(layer){
 					//latlng.bindLabelExPolygon(map,"prova4",	{ noHide: true, direction: 'center',clickable:true, offset: [0, 0] });
 				}
 
-				latlng.properties = { capaNom: layer.serverName };
-				latlng.popupData = html;
-
+				latlng.feature.properties.capaNom = layer.serverName;
+				latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: layer.serverName,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
 				latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 				});
-
-				return latlng;
+				
+				//return PopupManager().createMergedDataPopup(feature, e, controlCapes);;
 			}
 		});	
 	}	
@@ -971,13 +982,13 @@ function loadURLfileLayer(layer){
 
 				});
 				var geom = L.circleMarker(latlng, estilGeom);		    	
-				geom.properties = { capaNom: layer.serverName };
-				geom.popupData = html;
-
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
 				geom.on('click', function(e) {
-					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
-				return geom.bindPopup(popup);
+				
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
@@ -1040,9 +1051,14 @@ function loadURLfileLayer(layer){
 					}
 				});	
 
-				latlng.properties = { capaNom: layer.serverName };
-				latlng.popupData = html;
-
+				latlng.feature.properties.capaNom = layer.serverName;
+				latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: layer.serverName,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
 				latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 				});
@@ -1091,12 +1107,12 @@ function loadURLfileLayer(layer){
 					}
 				});		
 				html+='</div></div>'; 
-				geom.properties = { capaNom: layer.serverName };
-				geom.popupData = html;
-
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
 				geom.on('click', function(e) {
-					PopupManager().createMergedDataPopup(geom, e, controlCapes);
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
+				
 				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
@@ -1125,9 +1141,14 @@ function loadURLfileLayer(layer){
 					}
 				});		
 				html+='</div></div>';
-				latlng.properties = { capaNom: layer.serverName };
-				latlng.popupData = html;
-
+				latlng.feature.properties.capaNom = layer.serverName;
+				latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: layer.serverName,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
 				latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
 				});
@@ -1151,8 +1172,15 @@ function loadURLfileLayer(layer){
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				var popup = L.popup().setContent("");
-				return geom.bindPopup(popup);
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
+				});
+				
+				/*var popup = L.popup().setContent("");
+				return geom.bindPopup(popup);*/
+				return geom;
 			}
 		});
 	}
@@ -1435,6 +1463,12 @@ function loadUrlFileHeatmapLayer(layer){
 		businessId : layer.businessId,
 		pointToLayer : function(feature, latlng) {
 			var geom = L.circleMarker(latlng, estil_do);
+			feature.properties.capaNom=layer.serverName;
+			feature.properties.popupData=html;
+			geom.on('click', function(e) {
+				PopupManager().createMergedDataPopup(feature, e, controlCapes);
+			});
+			
 		}
 	});		
 

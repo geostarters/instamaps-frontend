@@ -982,6 +982,9 @@ textarea {
 .nomargin{
 	margin:0px !important;
 }
+.margin1{
+	margin-left:1px !important;
+}
 /*.leaflet-label:after {
 border-left: 8px solid transparent;
     border-right: 8px solid transparent;

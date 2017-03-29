@@ -74,8 +74,9 @@
 	
 				if(hasHiddenTabs)
 				{
+				
 	
-					html += '<li id="popup-' + options.id + '-prev" class="disabled" data-tabOffset=0>' +
+					html += '<li id="popup-' + options.id + '-prev" data-tabOffset=0 class="margin1">' +
 						'<a href="#" aria-label="Previous">' + 
 						'<span aria-hidden="true">&laquo;</span></a></li>';
 				}
@@ -85,7 +86,7 @@
 				if(hasHiddenTabs)
 				{
 	
-					html += '<li id="popup-' + options.id + '-next">' +
+					html += '<li id="popup-' + options.id + '-next" class="margin1">' +
 						'<a href="#" aria-label="Next">' +
 						'<span aria-hidden="true">&raquo;</span></a></li>';
 	
@@ -107,13 +108,16 @@
 			var self = this;
 			var options = self.options;
 			var isActive = (0 == index);
-
+			
+			
 			return '<li id="popup-' + options.id + '-tab-' + index + '" class="' + 
-				(isActive ? ' active' : '') + '" style="' + 
+				(isActive ? ' active margin1' : 'margin1') + ' " style="' + 
 				(isVisible ? '' : 'display:none') + '"><a href="#popup-' + 
 				options.id + '-content-' + index + '" data-toggle="tab" class="popupTitleTab" style="' + 
-				'width: ' + tabWidth + 'px">' +
+				'width: ' + tabWidth + 'px" >' +
 				name + '</a></li>'
+				
+			
 
 		},
 
@@ -131,6 +135,7 @@
 
 		createMergedDataPopup: function(feat, event, control) 
 		{
+		
 
 			var self = this;
 			var visibleLayers = control.getVisibleLayers(self.options.addSublayers);
@@ -180,16 +185,18 @@
 				}
 
 			}
+			
+		
 
 			$.when.apply(asyncs).done(function() {
 
 				self.createPopupContents(matches);
 				if(0 != matches.length)
 				{
-				
 					var popup = L.popup().setLatLng(event.latlng)
 						.setContent(self.options.html).openOn(map);
 
+					self.updateVisibleTabTitles();
 					$('#popup-' + self.options.id + '-prev').on('click', function(e) {
 						self.previousTab(e);
 					});
@@ -211,18 +218,8 @@
 			var offset = Number.parseInt($btn.data('taboffset')) - 1;
 			$btn.data('taboffset', offset);
 
-			if(0 == offset)
-			{
-
-				$btn.addClass('disabled');
-
-			}
-			else
-			{
-
-				$btn.removeClass('disabled');
-
-			}
+			var displayPrev = (0 == offset || -1 == offset) ? 'none' : 'block';
+			$('#popup-mng-prev').css('display', displayPrev);
 
 			self.updateVisibleTabTitles();
 
@@ -237,19 +234,9 @@
 			var offset = Number.parseInt($btnPrev.data('taboffset')) + 1;
 			$btnPrev.data('taboffset', offset);
 
-			if((offset + self.numVisibleTabs) >= self.numTabs )
-			{
-
-				$btn.addClass('disabled');
-
-			}
-			else
-			{
-
-				$btn.removeClass('disabled');
-
-			}
-
+			var displayNext = ((offset + self.numVisibleTabs) >= self.numTabs) ? 'none' : 'block';
+			$('#popup-mng-next').css('display', displayNext);
+			
 			self.updateVisibleTabTitles();
 
 		},
