@@ -770,7 +770,7 @@ function activaEdicioUsuari() {
 function createPopupWindow(layer,type){
 //	console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
-	
+	layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
 		modeEditText();
@@ -1118,7 +1118,7 @@ function createPopupWindow(layer,type){
 			//actualitzem popup
 			jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'').html(reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId));
 			if (layer.properties.data.nom){
-				jQuery('#titol_pres').text(layer.properties.data.nom).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+				jQuery('#titol_pres').text(layer.properties.data.nom).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 			}
 			if (layer.properties.data.text){
 				var txt = layer.properties.data.text;
@@ -1128,17 +1128,17 @@ function createPopupWindow(layer,type){
 					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 						jQuery('#des_pres').html('');
 						jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
-						jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+						jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 					}else{
 						jQuery('#des_pres').html('');
 						jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
-						jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+						jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 					}
 				}
 				else {
 					jQuery('#des_pres').html('');
 					jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
-					jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+					jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 				}
 				
 			}
@@ -1543,24 +1543,24 @@ function updateFeatureNameDescr(layer, titol, descr){
     
     updateGeometria(data).then(function(results){
 	    if(results.status == 'OK'){
-			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+			jQuery('#titol_pres').text(titol).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 			var txt = descr;			
 			if (!$.isNumeric(txt) && !validateWkt(txt)) {
 				txt = parseUrlTextPopUp(txt,"");
 				if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
 					jQuery('#des_pres').html('');
 					jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
-					jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+					jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 				}else{
 					jQuery('#des_pres').html('');
 					jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
-					jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+					jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 				}
 			}
 			else {
 				jQuery('#des_pres').html('');
 				jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+descr+'</span>');
-				jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil blau"></i>');
+				jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 			}
 			
 			jQuery('.popup_pres').show();
@@ -1675,19 +1675,25 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
     objEdicio.esticEnEdicio=false;
 }
 
-function fillCmbCapesUsr(type){
+function fillCmbCapesUsr(type,_leaflet_id){
 	var html = "";
-	$.each( controlCapes._layers, function(i,val) {
-		var layer = val.layer.options;
+	$.each( controlCapes._visLayers, function(i,val) {
+		var layer = val;
+		if (undefined != val.layer) layer = val.layer.options;
+			
+		var isVisualitzacio = (layer.tipus==t_visualitzacio || layer.tipus==tem_origen || layer.tipus==tem_simple || layer.tipus==tem_clasic ||
+							layer.tipus==tem_heatmap || layer.tipus==tem_cluster);
+			
+	
 		if(layer.tipus==t_tematic && layer.geometryType==type ){
 	        html += "<option value=\"";
-	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
+	        html += layer.businessId +"#"+_leaflet_id+"\"";
 	        if(capaUsrActiva && (capaUsrActiva.options.businessId == layer.businessId)) html += " selected";
 	        html += ">"+ layer.nom + "</option>";
 	    //nou model    
-		}else if(layer.tipus==t_visualitzacio && layer.geometryType==type /*&& !layer.source*/){
+		}else if(isVisualitzacio && layer.geometryType==type /*&& !layer.source*/){
 	        html += "<option value=\"";
-	        html += layer.businessId +"#"+val.layer._leaflet_id+"\"";
+	        html += layer.businessId +"#"+_leaflet_id+"\"";
 	        if(capaUsrActiva && (capaUsrActiva.options.businessId == layer.businessId)) html += " selected";
 	        html += ">"+ layer.nom + "</option>";
 		}
@@ -1710,8 +1716,8 @@ function createPopUpContent(player,type){
 	}
 	var html='<div class="div_popup">' 
 	+'<div class="popup_pres">'							
-	+'<div id="titol_pres">'+auxNom+' <i class="glyphicon glyphicon-pencil blau"></i></div>'	
-	+'<div id="des_pres">'+auxText+' <i class="glyphicon glyphicon-pencil blau"></i></div>';
+	+'<div id="titol_pres">'+auxNom+' <i class="glyphicon glyphicon-pencil gris-semifosc"></i></div>'	
+	+'<div id="des_pres">'+auxText+' <i class="glyphicon glyphicon-pencil gris-semifosc"></i></div>';
 	
 	if (player.options.tipus=="marker" && auxLat!=undefined && auxLon!=undefined) {
 		html+='<div id="auxLat">'+auxLat+'</div>'
@@ -1730,10 +1736,10 @@ function createPopUpContent(player,type){
 	html+='<ul class="bs-ncapa">'
 		+'<li><span lang="ca" class="small">'+window.lang.translate('Capa actual:')+'</span>'
 			+'<select id="cmbCapesUsr-'+player._leaflet_id+'-'+type+'" data-leaflet_id='+player._leaflet_id+'>';
-			html+= fillCmbCapesUsr(type);
+			html+= fillCmbCapesUsr(type,player._leaflet_id);
 			html+= '</select></li>'
 		//+'<li><a id="layer_edit#'+player._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
-	+'<li><a id="layer_add#'+player._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus verd12"></span></a></li>'
+	+'<li><a id="layer_add#'+player._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus gris-semifosc"></span></a></li>'
 	+'</ul>'	
 	//'</div>'	
 	+'<div id="footer_edit"  class="modal-footer">'
