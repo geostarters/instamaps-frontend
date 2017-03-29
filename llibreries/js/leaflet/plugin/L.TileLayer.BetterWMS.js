@@ -8,7 +8,10 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		this.options.queryable=true;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		//if (this.url && this.url.indexOf('http://betaserver.icgc.cat/geoservice/')==-1){
-			map.on('click', this.getFeatureInfo, this);
+			map.on('click', function(e) {
+				PopupManager().createMergedDataPopup(this, e, controlCapes)
+			});
+			//map.on('click', this.getFeatureInfo, this);
 			var params = this.getLegendGraphic();
 			this.updateControlLLegenda(params,this.wmsParams.layers,true,this.options.nom,this.options.businessId);	
 		//}		
@@ -18,11 +21,26 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		// Triggered when the layer is removed from a map.
 		// Unregister a click listener, then do all the upstream WMS things
 		L.TileLayer.WMS.prototype.onRemove.call(this, map);
-		map.off('click', this.getFeatureInfo, this);
+		//map.off('click', this.getFeatureInfo, this);
 		var params = this.getLegendGraphic();
 		this.updateControlLLegenda(params,this.wmsParams.layers,false,this.options.nom,this.options.businessId);
 	},
 	getFeatureInfo: function (evt) {
+
+		this.getPopupContent(evt).then(function(data) {
+
+			var pop = L.popup({maxWidth: 800})
+				.setLatLng(evt.latlng)
+				.setContent(dataF).openOn(map);
+
+		});
+
+	},
+
+	getPopupContent: function(evt) {
+
+		var defer = $.Deferred();
+
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
 		params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text/html");
@@ -32,10 +50,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
 					params = params.replace("INFO_FORMAT=text/html","INFO_FORMAT=text/plain");
 				}
-				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
-				var pop=L.popup({ maxWidth: 800})
-					.setLatLng(evt.latlng)
-					.setContent(dataF).openOn(map);	
+				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
+				defer.resolve(dataF);
 			}else{
 				var esNomesWMS = true;
 				var teUtfGrid = false;
@@ -61,9 +77,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 							var err = typeof data === 'string' ? null : data;
 
 							if(data.length > 5){
-								var pop=L.popup({ maxWidth: 800})
-								.setLatLng(evt.latlng)
-								.setContent(data).openOn(map);					
+								defer.resolve(data);
 							}
 						},
 						error: function (xhr, status, error) {
@@ -72,15 +86,20 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					});				
 				}else{
 					if (!teUtfGrid || params.indexOf('instaserver')==-1) {
-						var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
-						var pop=L.popup({ maxWidth: 800})
-							.setLatLng(evt.latlng)
-							.setContent(dataF).openOn(map);	
+						var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
+						defer.resolve(dataF);
 					}
 				}
 			}
-		}//fi querable
-		return;
+		}
+		else
+		{
+
+			defer.resolve('');
+
+		}
+
+		return defer.promise();
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();

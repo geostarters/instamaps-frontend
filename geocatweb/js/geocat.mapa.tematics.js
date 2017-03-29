@@ -358,7 +358,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		html+='<div class="popup_data_value">'+auxLon+'</div>';
 		html+= '</div>';
 	}
-	console.debug(type);
+	
 	if(editable){
 		html+= '<div id="footer_edit"  class="modal-footer">'
 			+'<ul class="bs-popup">'
@@ -381,11 +381,11 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		}
 		html+= '<div id="footer_edit"  class="modal-footer">'
 			+'<ul class="bs-popup">'						
-				+'<li class="consulta-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt  gris-semifosc" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Obrir la taula de dades')+'"></span></a>   </li>'
+				+'<li class="consulta-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Obrir la taula de dades')+'"></span></a>   </li>'
 			+'</ul>'														
 		+'</div>';			
 	}
-
+	html+='</div>'; //.popup_pres
 	if(type == t_polyline && player.properties.mida){
 		html+='<div id="mida_pres"><b>'+window.lang.translate('Longitud')+':</b> '+player.properties.mida+'</div>';	
 	}else if(type == t_polygon && player.properties.mida){
@@ -393,8 +393,6 @@ function createPopupWindowData(player,type, editable, origen, capa){
 		else html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
 	}
 	html+='</div>';
-	//he quitado el openPopup() ya que si la capa no està activa no se ha cargado en el mapa y da error.
-	player.bindPopup(html,{'offset':[0,-25]});
 
 	//Afegim els events de clicks per al semafòric
 	jQuery(document).on('click', ".traffic-light-icon", function(e) {
@@ -1205,7 +1203,7 @@ function addHtmlModalLayersTematic(){
 	'				<div class="modal-header panel-heading">'+
 	'					<button type="button" class="close" data-dismiss="modal"'+
 	'						aria-hidden="true">&times;</button>'+
-	'					<h4 class="modal-title"><span lang="ca">Triar una capa per aplicar-hi l\'estil</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></span></h4>'+
+	'					<h4 class="modal-title"><span lang="ca">Triar una capa per aplicar-hi l\'estil</span><span><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><i class="fa fa-question-circle-o fa-lg fa-fw"></i></a></h4>'+
 	'				</div>'+
 	'				<div class="modal-body">'+
 	'					<div class="alert alert-success" id="txtTematic">'+
@@ -2397,15 +2395,20 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						}
 					}
 
-					geom.popupData = html;
+					feat.properties.popupData = html;
+					feat.properties.feature.properties = { 
+						capaNom: feat.properties.capaNom,
+						popupData: html };
 
 				}
 				else
 				{
 
-					feat.bindPopup(geom.popupData, {'offset':[0,-25]});
-
 				}
+
+				feat.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feat, e, controlCapes);
+				});
 				/*try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});

@@ -770,7 +770,6 @@ function activaEdicioUsuari() {
 function createPopupWindow(layer,type){
 //	console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
-	layer.bindPopup(html,{'offset':[0,-25]});
 	
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -1756,7 +1755,6 @@ function createPopUpContent(player,type){
 	}
 	
 	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>';
-	
 	html+='</ul>'														
 	+'</div>'
 	

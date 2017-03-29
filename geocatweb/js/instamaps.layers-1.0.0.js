@@ -117,7 +117,7 @@
 				
 					self.map.oms = new OverlappingMarkerSpiderfier(self.map, {keepSpiderfied : false});
 					var popup = new L.Popup();
-					self.map.oms.addListener('click', function(marker) {
+					/*self.map.oms.addListener('click', function(marker) {
 
 						if(marker.getPopup)
 						{
@@ -128,7 +128,7 @@
 
 						}
 						
-					});
+					});*/
 
 				}
 
