@@ -31,6 +31,14 @@ function isPoint(l)
 
 }
 
+function isLine(l) {
+    return l.properties &&
+        l.properties.feature &&
+        l.properties.feature.geometry &&
+        l.properties.feature.geometry.type &&
+        ['LineString', 'MultiLineString'].indexOf(l.properties.feature.geometry.type) !== -1;
+}
+
 function getRadius(l)
 {
 
@@ -92,7 +100,13 @@ var leafletPip = {
       }, l.toGeoJSON().geometry)) {
           results.push(l);
       }
-      else 
+      else if(isLine(l)&& gju.pointInLine({
+          type: 'Point',
+          coordinates: p
+      }, l)) {
+          results.push(l);
+      }      
+      else
       {
 
         var radius = getRadius(l);
@@ -246,7 +260,7 @@ module.exports = leafletPip;
       }
     }
 
-    return insidePoly
+    return insidePoly;
   }
 
   gju.pointInPoint = function (a, b, radius) {
@@ -267,6 +281,16 @@ module.exports = leafletPip;
     return dist <= radius;
 
   }
+  
+  gju.pointInLine = function (p,line) {
+	  var coordsP = p.coordinates;
+	  var punt2 = new L.LatLng(coordsP[1], coordsP[0]);
+	  var puntMin = punt2.distanceTo(L.GeometryUtil.closest(map,line, punt2));
+	  if (puntMin>=0 && puntMin<=1000) return true;
+	  else  return false;
+  }
+  
+
 
   gju.numberToRadius = function (number) {
     return number * Math.PI / 180;
@@ -518,7 +542,7 @@ module.exports = leafletPip;
         coordinates: [o.lng, o.lat]
       }
     });
-  }
+  },
 
   // http://www.movable-type.co.uk/scripts/latlong.html#destPoint
   gju.destinationPoint = function (pt, brng, dist) {

@@ -173,11 +173,9 @@
 				}
 				else
 				{
-
 					var match = leafletPip.pointInLayer(event.latlng, currentLayer.layer, false);
 					for(var j=0, lenJ=match.length; j<lenJ; ++j)
 					{
-
 						matches.push(match[j]);
 
 					}
@@ -272,6 +270,136 @@
 			$('#popup-mng-prev').css('display', displayPrev);
 			
 
+		},
+		lineify: function(inputGeom) {
+			var self = this;
+		    var outputLines = {
+		        "type": "GeometryCollection",
+		            "geometries": []
+		    }
+		    switch (inputGeom.type) {
+		        case "GeometryCollection":
+		            for (var i in inputGeom.geometries) {
+		                var geomLines = self.lineify(inputGeom.geometries[i]);
+		                if (geomLines) {
+		                    for (var j in geomLines.geometries) {
+		                        outputLines.geometries.push(geomLines.geometries[j]);
+		                    }
+		                } else {
+		                    outputLines = false;
+		                }
+		            }
+		            break;
+		        case "Feature":
+		            var geomLines = self.lineify(inputGeom.geometry);
+		            if (geomLines) {
+		                for (var j in geomLines.geometries) {
+		                    outputLines.geometries.push(geomLines.geometries[j]);
+		                }
+		            } else {
+		                outputLines = false;
+		            }
+		            break;
+		        case "FeatureCollection":
+		            for (var i in inputGeom.features) {
+		                var geomLines = self.lineify(inputGeom.features[i].geometry);
+		                if (geomLines) {
+		                    for (var j in geomLines.geometries) {
+		                        outputLines.geometries.push(geomLines.geometries[j]);
+		                    }
+		                } else {
+		                    outputLines = false;
+		                }
+		            }
+		            break;
+		        case "LineString":
+		            outputLines.geometries.push(inputGeom);
+		            break;
+		        case "MultiLineString":
+		        case "Polygon":
+		            for (var i in inputGeom.coordinates) {
+		                outputLines.geometries.push({
+		                    "type": "LineString",
+		                        "coordinates": inputGeom.coordinates[i]
+		                });
+		            }
+		            break;
+		        case "MultiPolygon":
+		            for (var i in inputGeom.coordinates) {
+		                for (var j in inputGeom.coordinates[i]) {
+		                    outputLines.geometries.push({
+		                        "type": "LineString",
+		                            "coordinates": inputGeom.coordinates[i][j]
+		                    });
+		                }
+		            }
+		            break;
+		        default:
+		            outputLines = false;
+		    }
+		    return outputLines;
+		},
+		crossCheck: function(baseLayer, drawLayer) {
+			var self=this;
+		    var baseJson = baseLayer.toGeoJSON(),
+		        drawJson = drawLayer.toGeoJSON(),
+		        baseLines = self.lineify(baseJson),
+		        drawLines = self.lineify(drawJson),
+		        crossPoints = {
+		            type: "GeometryCollection",
+		            geometries: []
+		        };
+		    if (baseLines && drawLines) {
+		        for (var i in drawLines.geometries) {
+		            for (var j in baseLines.geometries) {
+		                var crossTest = self.lineStringsIntersect(drawLines.geometries[i], baseLines.geometries[j]);
+		                if (crossTest) {
+		                    for (var k in crossTest) {
+		                        crossPoints.geometries.push(crossTest[k]);
+		                    }
+		                }
+		            }
+		        }
+		    }
+		    if (crossPoints.geometries.length>0) return true;
+		    else return false;
+		},
+		lineStringsIntersect: function(l1, l2) {
+		    var intersects = [];
+		    for (var i = 0; i <= l1.coordinates.length - 2; ++i) {
+		        for (var j = 0; j <= l2.coordinates.length - 2; ++j) {
+		            var a1Latlon = L.latLng(l1.coordinates[i][1], l1.coordinates[i][0]),
+		                a2Latlon = L.latLng(l1.coordinates[i + 1][1], l1.coordinates[i + 1][0]),
+		                b1Latlon = L.latLng(l2.coordinates[j][1], l2.coordinates[j][0]),
+		                b2Latlon = L.latLng(l2.coordinates[j + 1][1], l2.coordinates[j + 1][0]),
+		                a1 = L.Projection.SphericalMercator.project(a1Latlon),
+		                a2 = L.Projection.SphericalMercator.project(a2Latlon),
+		                b1 = L.Projection.SphericalMercator.project(b1Latlon),
+		                b2 = L.Projection.SphericalMercator.project(b2Latlon),
+		                ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x),
+		                ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x),
+		                u_b = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
+		            if (u_b != 0) {
+		                var ua = ua_t / u_b,
+		                    ub = ub_t / u_b;
+		                if (0 <= ua && ua <= 1 && 0 <= ub && ub <= 1) {
+		                    var pt_x = a1.x + ua * (a2.x - a1.x),
+		                        pt_y = a1.y + ua * (a2.y - a1.y),
+		                        pt_xy = {
+		                            "x": pt_x,
+		                                "y": pt_y
+		                        },
+		                        pt_latlon = L.Projection.SphericalMercator.unproject(pt_xy);
+		                    intersects.push({
+		                        'type': 'Point',
+		                            'coordinates': [pt_latlon.lng, pt_latlon.lat]
+		                    });
+		                }
+		            }
+		        }
+		    }
+		    if (intersects.length == 0) intersects = false;
+		    return intersects;
 		}
 	
 	};
