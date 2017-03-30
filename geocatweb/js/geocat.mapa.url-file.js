@@ -108,7 +108,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				feature.properties.capaNom=layer.serverName;
+				feature.properties.capaNom=nomCapa;
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
@@ -146,7 +146,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				latlng.feature.properties.capaNom = layer.serverName;
+				latlng.feature.properties.capaNom = nomCapa;
 				latlng.feature.properties.popupData=html;
 				latlng.properties={
 					capaNom: layer.serverName,
