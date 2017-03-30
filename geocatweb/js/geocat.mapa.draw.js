@@ -1677,7 +1677,10 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 
 function fillCmbCapesUsr(type,_leaflet_id){
 	var html = "";
-	$.each( controlCapes._visLayers, function(i,val) {
+	var layers;
+	if (undefined != controlCapes._visLayers) layers = controlCapes._visLayers;
+	else if (undefined != controlCapes._layers) layers = controlCapes._layers;
+	$.each( layers, function(i,val) {
 		var layer = val;
 		if (undefined != val.layer) layer = val.layer.options;
 			
