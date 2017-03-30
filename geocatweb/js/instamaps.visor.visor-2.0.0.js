@@ -1655,8 +1655,11 @@
 			var self=this;
 			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
 			jQuery.each(controlCapes._layers, function(i, obj){
-				 if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
-							obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
+				var optionsVis;
+				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.options.opcionsVis;
+				else if (obj.options!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
+				 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
+						 optionsVis=="etiquetageom")){
 					 		var zoomInicial = "2";
 					 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
 					 		var zoomFinal = "19";
