@@ -1656,8 +1656,11 @@
 			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
 			jQuery.each(controlCapes._layers, function(i, obj){
 				var optionsVis;
-				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.options.opcionsVis;
-				else if (obj.options!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
+				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.layer.options.opcionsVis;
+				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVisEtiqueta!=undefined) optionsVis = obj.layer.options.opcionsVisEtiqueta;
+				else if (obj.options!=undefined && obj.optionsobj.opcionsVis!=undefined)  optionsVis = obj.options.opcionsVis;
+				else if (obj.options!=undefined && obj.optionsobj.opcionsVisEtiqueta!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
+			
 				 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
 						 optionsVis=="etiquetageom")){
 					 		var zoomInicial = "2";
