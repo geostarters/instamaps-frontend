@@ -103,7 +103,7 @@ var leafletPip = {
       else if(isLine(l)&& gju.pointInLine({
           type: 'Point',
           coordinates: p
-      }, l)) {
+      }, l.toGeoJSON())) {
           results.push(l);
       }      
       else
@@ -283,13 +283,37 @@ module.exports = leafletPip;
   }
   
   gju.pointInLine = function (p,line) {
-	  var coordsP = p.coordinates;
-	  var punt2 = new L.LatLng(coordsP[1], coordsP[0]);
-	  var puntMin = punt2.distanceTo(L.GeometryUtil.closest(map,line, punt2));
-	  if (puntMin>=0 && puntMin<=1000) return true;
-	  else  return false;
+	  var coords=line.geometry.coordinates;
+	  var isInLine=false;
+	  for ( var i = 0; i < coords.length-1; i++ )
+		{
+		  var line1=coords[i];
+		  var line2=coords[i+1];
+		  isInLine = gju.calcIsInsideThickLineSegment(line2, line1, p.coordinates, 1);
+		}
+	  return isInLine;
+	  
   }
   
+
+  gju.calcIsInsideThickLineSegment = function(line1, line2, pnt, lineThickness) {
+	  var L2 = (((line2[0] - line1[0]) * (line2[0] - line1[0])) + ((line2[1] - line1[1]) * (line2[1] - line1[1])));
+	  if (L2 == 0) return false;
+	  var r = (((pnt[0] - line1[0]) * (line2[0] - line1[0])) + ((pnt[1] - line1[1]) * (line2[1] - line1[1]))) / L2;
+
+	  //Assume line thickness is circular
+	  if (r < 0) {
+	    //Outside line1
+	    return (Math.sqrt(((line1[0] - pnt[0]) * (line1[0] - pnt[0])) + ((line1[1] - pnt[1]) * (line1[1] - pnt[1]))) <= lineThickness);
+	  } else if ((0 <= r) && (r <= 1)) {
+	    //On the line segment
+	    var s = (((line1[1] - pnt[1]) * (line2[0] - line1[0])) - ((line1[0] - pnt[0]) * (line2[1] - line1[1]))) / L2;
+	    return (Math.abs(s) * Math.sqrt(L2) <= lineThickness);
+	  } else {
+	    //Outside line2
+	    return (Math.sqrt(((line2[0] - pnt[0]) * (line2[0] - pnt[0])) + ((line2[1] - pnt[1]) * (line2[1] - pnt[1]))) <= lineThickness);
+	  }
+	}
 
 
   gju.numberToRadius = function (number) {
