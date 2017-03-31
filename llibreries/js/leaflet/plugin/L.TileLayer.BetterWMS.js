@@ -31,7 +31,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 
 			var pop = L.popup({maxWidth: 800})
 				.setLatLng(evt.latlng)
-				.setContent(dataF).openOn(map);
+				.setContent(data).openOn(map);
 
 		});
 

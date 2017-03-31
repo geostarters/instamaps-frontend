@@ -103,7 +103,7 @@ var leafletPip = {
       else if(isLine(l)&& gju.pointInLine({
           type: 'Point',
           coordinates: p
-      }, l.toGeoJSON())) {
+      }, l.toGeoJSON(), l.properties.estil.lineWidth)) {
           results.push(l);
       }      
       else
@@ -282,14 +282,19 @@ module.exports = leafletPip;
 
   }
   
-  gju.pointInLine = function (p,line) {
-	  var coords=line.geometry.coordinates;
-	  var isInLine=false;
-	  for ( var i = 0; i < coords.length-1; i++ )
+  gju.pointInLine = function (p, line, thickness) {
+
+	  var coords = line.geometry.coordinates;
+	  var isInLine = false;
+    var zoom = map.getZoom();
+    var pt = map.project(p.coordinates, zoom);
+	  for ( var i = 0; i < coords.length-1 && !isInLine; i++ )
 		{
-		  var line1=coords[i];
-		  var line2=coords[i+1];
-		  isInLine = gju.calcIsInsideThickLineSegment(line2, line1, p.coordinates, 1);
+
+		  var line1 = map.project(coords[i], zoom);
+		  var line2 = map.project(coords[i+1], zoom);
+		  isInLine = gju.calcIsInsideThickLineSegment(line2, line1, pt, thickness);
+
 		}
 	  return isInLine;
 	  
@@ -297,21 +302,31 @@ module.exports = leafletPip;
   
 
   gju.calcIsInsideThickLineSegment = function(line1, line2, pnt, lineThickness) {
-	  var L2 = (((line2[0] - line1[0]) * (line2[0] - line1[0])) + ((line2[1] - line1[1]) * (line2[1] - line1[1])));
+    var line2X = line2.x
+    , line1X = line1.x
+    , line2Y = line2.y
+    , line1Y = line1.y
+    , pntX = pnt.x
+    , pntY = pnt.y;
+
+	  var L2 = (((line2X - line1X) * (line2X - line1X)) + ((line2Y - line1Y) * (line2Y - line1Y)));
 	  if (L2 == 0) return false;
-	  var r = (((pnt[0] - line1[0]) * (line2[0] - line1[0])) + ((pnt[1] - line1[1]) * (line2[1] - line1[1]))) / L2;
+	  var r = (((pntX - line1X) * (line2X - line1X)) + ((pntY - line1Y) * (line2Y - line1Y))) / L2;
 
 	  //Assume line thickness is circular
 	  if (r < 0) {
 	    //Outside line1
-	    return (Math.sqrt(((line1[0] - pnt[0]) * (line1[0] - pnt[0])) + ((line1[1] - pnt[1]) * (line1[1] - pnt[1]))) <= lineThickness);
+      var dist = Math.sqrt(((line1X - pntX) * (line1X - pntX)) + ((line1Y - pntY) * (line1Y - pntY)));
+	    return (dist <= lineThickness);
 	  } else if ((0 <= r) && (r <= 1)) {
 	    //On the line segment
-	    var s = (((line1[1] - pnt[1]) * (line2[0] - line1[0])) - ((line1[0] - pnt[0]) * (line2[1] - line1[1]))) / L2;
-	    return (Math.abs(s) * Math.sqrt(L2) <= lineThickness);
+      var s = (((line1Y - pntY) * (line2X - line1X)) - ((line1X - pntX) * (line2Y - line1Y))) / L2;
+      var dist = Math.abs(s) * Math.sqrt(L2);
+	    return (dist <= lineThickness);
 	  } else {
 	    //Outside line2
-	    return (Math.sqrt(((line2[0] - pnt[0]) * (line2[0] - pnt[0])) + ((line2[1] - pnt[1]) * (line2[1] - pnt[1]))) <= lineThickness);
+      var dist = Math.sqrt(((line2X - pntX) * (line2X - pntX)) + ((line2Y - pntY) * (line2Y - pntY)));
+	    return (dist <= lineThickness);
 	  }
 	}
 
