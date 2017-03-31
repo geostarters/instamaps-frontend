@@ -138,6 +138,11 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 					visibles.push(layer);
 
 				}
+				else if(null == layer.layer._map && undefined != layer._layers && self.getCountSubLayers(layer._layers)>0)
+				{ 
+					//Comprovem si hi ha sublayers actives
+					visibles.push(layer);
+				}
 
 				if(includeVisualizations && layer._layers)
 				{
@@ -154,6 +159,17 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 
 		return visibles;
 
+	},
+	
+	getCountSubLayers:function(_layers){
+		var i=0;
+		for (layer in _layers) {
+			var layer2 = _layers[layer];
+			if(null != layer2.layer._map) {
+				i=i+1;	
+			}					
+		}
+		return i;
 	},
 
 	updateTreeGroupLayers : function(groupId, groupName, businessId, z_order, expanded) {
