@@ -31,6 +31,14 @@ function isPoint(l)
 
 }
 
+function isLine(l) {
+    return l.properties &&
+        l.properties.feature &&
+        l.properties.feature.geometry &&
+        l.properties.feature.geometry.type &&
+        ['LineString', 'MultiLineString'].indexOf(l.properties.feature.geometry.type) !== -1;
+}
+
 function getRadius(l)
 {
 
@@ -92,7 +100,13 @@ var leafletPip = {
       }, l.toGeoJSON().geometry)) {
           results.push(l);
       }
-      else 
+      else if(isLine(l)&& gju.pointInLine({
+          type: 'Point',
+          coordinates: p
+      }, l.toGeoJSON(), l.properties.estil.lineWidth)) {
+          results.push(l);
+      }      
+      else
       {
 
         var radius = getRadius(l);
@@ -246,7 +260,7 @@ module.exports = leafletPip;
       }
     }
 
-    return insidePoly
+    return insidePoly;
   }
 
   gju.pointInPoint = function (a, b, radius) {
@@ -267,6 +281,55 @@ module.exports = leafletPip;
     return dist <= radius;
 
   }
+  
+  gju.pointInLine = function (p, line, thickness) {
+
+	  var coords = line.geometry.coordinates;
+	  var isInLine = false;
+    var zoom = map.getZoom();
+    var pt = map.project(p.coordinates, zoom);
+	  for ( var i = 0; i < coords.length-1 && !isInLine; i++ )
+		{
+
+		  var line1 = map.project(coords[i], zoom);
+		  var line2 = map.project(coords[i+1], zoom);
+		  isInLine = gju.calcIsInsideThickLineSegment(line2, line1, pt, thickness);
+
+		}
+	  return isInLine;
+	  
+  }
+  
+
+  gju.calcIsInsideThickLineSegment = function(line1, line2, pnt, lineThickness) {
+    var line2X = line2.x
+    , line1X = line1.x
+    , line2Y = line2.y
+    , line1Y = line1.y
+    , pntX = pnt.x
+    , pntY = pnt.y;
+
+	  var L2 = (((line2X - line1X) * (line2X - line1X)) + ((line2Y - line1Y) * (line2Y - line1Y)));
+	  if (L2 == 0) return false;
+	  var r = (((pntX - line1X) * (line2X - line1X)) + ((pntY - line1Y) * (line2Y - line1Y))) / L2;
+
+	  //Assume line thickness is circular
+	  if (r < 0) {
+	    //Outside line1
+      var dist = Math.sqrt(((line1X - pntX) * (line1X - pntX)) + ((line1Y - pntY) * (line1Y - pntY)));
+	    return (dist <= lineThickness);
+	  } else if ((0 <= r) && (r <= 1)) {
+	    //On the line segment
+      var s = (((line1Y - pntY) * (line2X - line1X)) - ((line1X - pntX) * (line2Y - line1Y))) / L2;
+      var dist = Math.abs(s) * Math.sqrt(L2);
+	    return (dist <= lineThickness);
+	  } else {
+	    //Outside line2
+      var dist = Math.sqrt(((line2X - pntX) * (line2X - pntX)) + ((line2Y - pntY) * (line2Y - pntY)));
+	    return (dist <= lineThickness);
+	  }
+	}
+
 
   gju.numberToRadius = function (number) {
     return number * Math.PI / 180;
@@ -518,7 +581,7 @@ module.exports = leafletPip;
         coordinates: [o.lng, o.lat]
       }
     });
-  }
+  },
 
   // http://www.movable-type.co.uk/scripts/latlong.html#destPoint
   gju.destinationPoint = function (pt, brng, dist) {

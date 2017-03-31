@@ -2407,7 +2407,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 				}
 
 				feat.on('click', function(e) {
-					PopupManager().createMergedDataPopup(feat, e, controlCapes);
+					PopupManager().createMergedDataPopup(e.target, e, controlCapes);
 				});
 				/*try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){

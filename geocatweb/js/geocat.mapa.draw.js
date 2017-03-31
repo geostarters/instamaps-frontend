@@ -770,7 +770,7 @@ function activaEdicioUsuari() {
 function createPopupWindow(layer,type){
 //	console.debug('createPopupWindow');
 	var html = createPopUpContent(layer,type);
-	layer.bindPopup(html,{'offset':[0,-25]});
+	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
 		modeEditText();
