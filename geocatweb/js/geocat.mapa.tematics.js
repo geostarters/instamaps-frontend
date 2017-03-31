@@ -2406,9 +2406,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 
 				}
 
-				feat.on('click', function(e) {
-					PopupManager().createMergedDataPopup(e.target, e, controlCapes);
-				});
+				feat.on('click', creaPopupUnic);
 				/*try{
 					if (geomTypeVis===t_marker || geomTypeVis===t_multipoint){
 						feat.snapediting = new L.Handler.MarkerSnap(map, feat,{snapDistance:10});
@@ -2427,6 +2425,12 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		});
 	});	
 	//FIN EACH
+}
+
+function creaPopupUnic(e) {
+
+	PopupManager().createMergedDataPopup(e.target, e, controlCapes);
+
 }
 
 /**Funcions per crear un objecte de tipus estil, amb les característiques que li passes
