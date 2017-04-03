@@ -613,6 +613,13 @@ textarea {
 	margin-left: 1px;
 }
 
+.gris-semifosc,.gris-semifosc a,.gris-semifosc span {
+	color: #464646;
+	cursor: pointer;
+	font-size: 17px;
+	margin-left: 1px;
+}
+
 .blau12 {
 	color: #065299;
 	cursor: pointer;
@@ -666,6 +673,14 @@ textarea {
 
 .font17 {
 	font-size: 17px !important;
+}
+
+.font18 {
+	font-size: 18px !important;
+}
+
+.font21 {
+	font-size: 21px !important;
 }
 
 
@@ -978,6 +993,12 @@ textarea {
 }
 .leaflet-popup {
     z-index:100;
+}
+.nomargin{
+	margin:0px !important;
+}
+.margin1{
+	margin-left:1px !important;
 }
 /*.leaflet-label:after {
 border-left: 8px solid transparent;
