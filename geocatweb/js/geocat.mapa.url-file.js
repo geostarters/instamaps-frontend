@@ -149,7 +149,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				latlng.feature.properties.capaNom = nomCapa;
 				latlng.feature.properties.popupData=html;
 				latlng.properties={
-					capaNom: layer.serverName,
+					capaNom: nomCapa,
 					popupData:html,
 					feature: latlng.feature,
 					data: latlng.feature.properties
