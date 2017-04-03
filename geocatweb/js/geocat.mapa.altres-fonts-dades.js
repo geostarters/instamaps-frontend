@@ -482,7 +482,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 										  '<option value=".xls">XLS</option>'+
 										  '<option value=".xlsx">XLSX</option>'+
 										  '<option value=".zip">Zip File</option>'+
-										  //'<option value=".json">JSON</option>'+
+										  '<option value=".json">JSON</option>'+
 										  '<option value="-1">'+window.lang.translate("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+

@@ -66,6 +66,25 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			param_url = urlFile;
 		}
 
+	if (tipusFile==".json"){
+			 L.toGeoJSON.convert(urlFile,"Point",colX,colY).then(function(){
+				 var dataSocrata={
+							serverName: nomCapa,
+							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+					};
+					
+				//console.debug(dataSocrata);
+				crearFitxerSocrata(dataSocrata).then(function(results){
+					if (results.status="OK"){
+						param_url =results.filePath;
+					}
+					
+				});
+			 });
+			
+			//console.debug(L.toGeoJSON.geoJsonData);
+		}
+		
 		$('#dialog_dades_ex').modal('hide');
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
@@ -73,6 +92,24 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');		
 		jQuery('#info_uploadFile').show();
 
+
+	   if (param_url.indexOf("/opt/")>-1){
+			urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+			param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
+			"&tipusAcc="+tipusAcc+
+			"&tipusCodi="+tipusCodi+
+			"&tipusFont="+tipusFont+
+			"&nomCampCodi="+nomCampCodi+
+			"&urlFile="+encodeURIComponent(urlFile)+
+			"&epsgIN="+epsgIN+
+			"&dinamic="+dinamic+
+			"&uploadFile="+paramUrl.uploadFile+
+			"&colX="+colX+
+			"&colY="+colY+
+			//"&colXY="+colXY+
+			"&uid="+Cookies.get('uid');		
+		}
+		
 		var capaURLfile = new L.GeoJSON.AJAX(param_url, {
 			nom : nomCapa,
 			tipus : t_url_file,
@@ -272,21 +309,35 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 	/*** NO DINAMICA ***/		
 	}else{
+		var dataSocrata;
+		var isJson=false;
+		if (tipusFile==".json"){
+			isJson=true;
+			L.toGeoJSON.convert(urlFile,"Point",colX,colY).then(function(){
+				 dataSocrata={
+							serverName: nomCapa,
+							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+					};
+			});
+		}
+		
 		//console.debug("getUrlFile PROVES NO DINAMICA");
 		var codiUnic = getCodiUnic();
-		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) {
-			var response = $.ajax({ type: "GET",   
-	            url: urlFile,   
-	            async: false
-	          }).responseText;
+		if (((urlFile.indexOf("socrata")>-1 && (urlFile.indexOf("method=export&format=GeoJSON")>-1 || 
+			  urlFile.indexOf("https")>-1))  && urlFile.indexOf("drive")==-1  && urlFile.indexOf("dropbox")==-1) || isJson) 	{
 			
-			
-			var dataSocrata={
-					serverName: nomCapa,
-					jsonSocrata: response
-			};
-			
+			if (isJson==false){
+				var response = $.ajax({ type: "GET",   
+		            url: urlFile,   
+		            async: false
+		          }).responseText;
+				
+				
+				 dataSocrata={
+						serverName: nomCapa,
+						jsonSocrata: response
+				};
+			}
 			
 			crearFitxerSocrata(dataSocrata).then(function(results){
 				if (results.status="OK"){
