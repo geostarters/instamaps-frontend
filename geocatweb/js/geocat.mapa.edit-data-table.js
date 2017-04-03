@@ -4,6 +4,40 @@ var geomBusinessId = '-1';
 var geomRowIndex = 0;
 var numRows = 0;
 
+function reloadSingleLayer(capaEdicio, layerServidor) {
+
+	map.closePopup();
+	map.removeLayer(capaEdicio.layer);
+	controlCapes.removeLayer(capaEdicio);
+	
+	//Recarrego la capa origen
+	loadVisualitzacioLayer(layerServidor).then(function(results){
+		//recarrego les sublayers si les te
+		jQuery.each(capaEdicio._layers, function(i, sublayer){
+			
+			if(jQuery.type(capaEdicio.layer.options)== "string"){
+				capaEdicio.layer.options = $.parseJSON(capaEdicio.layer.options);
+			}	            	  
+			//Sublayer visualitzacio, carrego la capa
+			if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
+		  		  sublayer.layer.serverName = sublayer.layer.options.nom;
+		  		  sublayer.layer.serverType = sublayer.layer.options.tipus;
+		  		  sublayer.layer.capesActiva = "true";
+		  		  sublayer.layer.options.origen = capaEdicio.layer.options.businessId;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
+		  		  //tipusRang
+		  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
+		  		  sublayer.layer.options = JSON.stringify(sublayer.layer.options);
+		  		  
+		  		  //eliminem sublayer del mapa, i recarreguem
+		  		  map.closePopup();
+		  		  map.removeLayer(sublayer.layer);
+		  		  
+		  		  loadVisualitzacioLayer(sublayer.layer);
+	  	  	}
+		});	
+	});		
+
+}
 
 function addFuncioEditDataTable(){
 	
@@ -41,36 +75,8 @@ function addFuncioEditDataTable(){
 //			console.debug(layerServidor);	
 			
 			//Eliminem la capa de controlCapes i mapa
-			map.closePopup();
-			map.removeLayer(capaEdicio.layer);
-			controlCapes.removeLayer(capaEdicio);			
+			reloadSingleLayer(capaEdicio, layerServidor);
 			
-			//Recarrego la capa origen
-			loadVisualitzacioLayer(layerServidor).then(function(results){
-				//recarrego les sublayers si les te
-				jQuery.each(capaEdicio._layers, function(i, sublayer){
-					
-					if(jQuery.type(capaEdicio.layer.options)== "string"){
-						capaEdicio.layer.options = $.parseJSON(capaEdicio.layer.options);
-					}	            	  
-					//Sublayer visualitzacio, carrego la capa
-					if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
-				  		  sublayer.layer.serverName = sublayer.layer.options.nom;
-				  		  sublayer.layer.serverType = sublayer.layer.options.tipus;
-				  		  sublayer.layer.capesActiva = "true";
-				  		  sublayer.layer.options.origen = capaEdicio.layer.options.businessId;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
-				  		  //tipusRang
-				  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-				  		  sublayer.layer.options = JSON.stringify(sublayer.layer.options);
-				  		  
-				  		  //eliminem sublayer del mapa, i recarreguem
-				  		  map.closePopup();
-				  		  map.removeLayer(sublayer.layer);
-				  		  
-				  		  loadVisualitzacioLayer(sublayer.layer);
-			  	  	}
-				});	
-			});		
 		}
 		editat = false;
 		geomBusinessId = '-1';
