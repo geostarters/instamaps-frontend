@@ -296,7 +296,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	var esVisor = ($(location).attr('href').indexOf('mapa')==-1);
 	$.each( player.properties.data, function( key, value ) {
-		if (key.toLowerCase()!="geomorigen"){
+		if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata"){
 			if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
 				if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 						key != 'NOM' && key != 'Nom' && key != 'nom' && 
