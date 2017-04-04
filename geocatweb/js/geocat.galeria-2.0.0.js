@@ -1208,7 +1208,7 @@
 		generaVincleInstaVisor:function(idusr,mapaId,nomVisor){
 			var urlMap;	
 			var propietariMapa=$('#iduserAplicacio_'+mapaId).val();
-			if (idusr!=propietariMapa){
+			if (undefined!=propietariMapa && idusr!=propietariMapa){
 				idusr=propietariMapa;
 			}
 			try{								
