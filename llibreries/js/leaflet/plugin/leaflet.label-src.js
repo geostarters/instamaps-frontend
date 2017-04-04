@@ -38,9 +38,10 @@ L.Label = L.Class.extend({
 	onAdd: function (map) {
 		this._map = map;
 
-		this._pane = this.options.pane ? map._panes[this.options.pane] :
+		if (null!=map){
+			this._pane = this.options.pane ? map._panes[this.options.pane] :
 			this._source instanceof L.Marker ? map._panes.markerPane : map._panes.popupPane;
-
+		}
 		if (!this._container) {
 			this._initLayout();
 		}
@@ -53,29 +54,32 @@ L.Label = L.Class.extend({
 
 		this.setOpacity(this.options.opacity);
 
-		map
+		if (null!=map) {
+			map
 			.on('moveend', this._onMoveEnd, this)
 			.on('viewreset', this._onViewReset, this);
-
-		if (this._animated) {
+		}
+		
+		if (this._animated && null!=map) {
 			map.on('zoomanim', this._zoomAnimation, this);
 		}
 
 		if (L.Browser.touch && !this.options.noHide) {
 			L.DomEvent.on(this._container, 'click', this.close, this);
-			map.on('click', this.close, this);
+			if (null!=map) map.on('click', this.close, this);
 		}
 	},
 
 	onRemove: function (map) {
 		this._pane.removeChild(this._container);
 
-		map.off({
-			zoomanim: this._zoomAnimation,
-			moveend: this._onMoveEnd,
-			viewreset: this._onViewReset
-		}, this);
-
+		if (null!=map) {
+			map.off({
+				zoomanim: this._zoomAnimation,
+				moveend: this._onMoveEnd,
+				viewreset: this._onViewReset
+			}, this);
+		}
 		this._removeInteraction();
 
 		this._map = null;
@@ -160,8 +164,11 @@ L.Label = L.Class.extend({
 	},
 
 	_updatePosition: function () {
-		var pos = this._map.latLngToLayerPoint(this._latlng);
-
+		var pos;
+		if (this._map){
+			 pos = this._map.latLngToLayerPoint(this._latlng);
+		}
+		
 		this._setPosition(pos);
 	},
 
@@ -204,7 +211,9 @@ L.Label = L.Class.extend({
 	},
 
 	_zoomAnimation: function (opt) {
-		var pos = this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).round();
+		var map=this._map;
+		var pos;
+		if (null!=map)  this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).round();
 
 		this._setPosition(pos);
 	},
@@ -289,7 +298,7 @@ L.BaseMarkerMethods = {
 	showLabel: function () {
 		if (this.label && this._map) {
 			this.label.setLatLng(this._latlng);
-			this._map.showLabel(this.label);
+			if (null!=this._map) this._map.showLabel(this.label);
 		}
 
 		return this;
@@ -522,7 +531,7 @@ L.Path.include({
 
 	_showLabel: function (e) {
 		this.label.setLatLng(e.latlng);
-		this._map.showLabel(this.label);
+		if (null!=this._map) this._map.showLabel(this.label);
 	},
 
 	_moveLabel: function (e) {
