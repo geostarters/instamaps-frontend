@@ -69,27 +69,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 						teUtfGrid=true;
 					}
 				}
-				if(esNomesWMS){
-					$.ajax({
-						url: paramUrl.proxy_betterWMS,
-						data: {url: params},
-						success: function (data, status, xhr) {
-							var err = typeof data === 'string' ? null : data;
-
-							if(data.length > 5){
-								defer.resolve(data);
-							}
-						},
-						error: function (xhr, status, error) {
-
-						}
-					});				
-				}else{
-					if (!teUtfGrid || params.indexOf('instaserver')==-1) {
-						var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
-						defer.resolve(dataF);
-					}
-				}
+				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
+				defer.resolve(dataF);
 			}
 		}
 		else

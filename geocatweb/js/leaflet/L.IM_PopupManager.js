@@ -89,7 +89,7 @@
 	
 					html += '<li id="popup-' + options.id + '-prev" data-tabOffset=0 class="margin1">' +
 						'<a href="#" aria-label="Previous">' + 
-						'<span aria-hidden="true">&laquo;</span></a></li>';
+						'<span aria-hidden="true" class="tabArrow">&laquo;</span></a></li>';
 				}
 	
 				html += lis.join('');
@@ -99,7 +99,7 @@
 	
 					html += '<li id="popup-' + options.id + '-next" class="margin1">' +
 						'<a href="#" aria-label="Next">' +
-						'<span aria-hidden="true">&raquo;</span></a></li>';
+						'<span aria-hidden="true" class="tabArrow">&raquo;</span></a></li>';
 	
 				}
 	
@@ -237,7 +237,7 @@
 			$btn.data('taboffset', offset);
 
 			var displayPrev = (0 == offset || -1 == offset) ? 'none' : 'block';
-			$('#popup-mng-prev').css('display', displayPrev);
+			$('#popup-' + self.options.id + '-prev').css('display', displayPrev);
 
 			self.updateVisibleTabTitles();
 
@@ -253,7 +253,7 @@
 			$btnPrev.data('taboffset', offset);
 
 			var displayNext = ((offset + self.numVisibleTabs) >= self.numTabs) ? 'none' : 'block';
-			$('#popup-mng-next').css('display', displayNext);
+			$('#popup-' + self.options.id + '-next').css('display', displayNext);
 			
 			self.updateVisibleTabTitles();
 
@@ -277,17 +277,17 @@
 				var display = (i < offset || i >= maxVisible) ? 'none' : 'block';
 				current.css('display', display);
 				if ('block' == display) {
-					$('a[href^="#popup-mng-content-'+i).click();
+					$('a[href^="#popup-' + self.options.id + '-content-'+i).click();
 					currentTabId=i;
 				}
 			}
 			
 			
 			var displayNext = (currentTabId==self.numTabs-1) ? 'none' : 'block';
-			$('#popup-mng-next').css('display', displayNext);
+			$('#popup-' + self.options.id + '-next').css('display', displayNext);
 			
 			var displayPrev = (currentTabId==0) ? 'none' : 'block';
-			$('#popup-mng-prev').css('display', displayPrev);
+			$('#popup-' + self.options.id + '-prev').css('display', displayPrev);
 			
 
 		}
