@@ -34,6 +34,17 @@
 			var popupWidth = 220;
 			var tabWidth = popupWidth/numVisibleTabs;
 
+			matches.sort(function(a, b) {
+				if(a.isWMS && b.isWMS)
+					return 0;
+				else if(!a.isWMS)
+					return -1;
+				else if(!b.isWMS)
+					return 1;
+				else 
+					return 0;
+			});
+
 			for(var i=0, len=matches.length; i<len; ++i)
 			{
 
@@ -58,7 +69,7 @@
 
 				if('' != content)
 				{
-					if (self.numTabs>1){
+					if (1 < self.numTabs){
 						lis.push(self.createTabTitle(title, i, tabWidth, (i<options.maxVisibleTabs)));
 					}
 					contents.push(self.createTabContent(content, i));
@@ -78,7 +89,7 @@
 	
 					html += '<li id="popup-' + options.id + '-prev" data-tabOffset=0 class="margin1">' +
 						'<a href="#" aria-label="Previous">' + 
-						'<span aria-hidden="true">&laquo;</span></a></li>';
+						'<span aria-hidden="true" class="tabArrow">&laquo;</span></a></li>';
 				}
 	
 				html += lis.join('');
@@ -88,7 +99,7 @@
 	
 					html += '<li id="popup-' + options.id + '-next" class="margin1">' +
 						'<a href="#" aria-label="Next">' +
-						'<span aria-hidden="true">&raquo;</span></a></li>';
+						'<span aria-hidden="true" class="tabArrow">&raquo;</span></a></li>';
 	
 				}
 	
@@ -190,8 +201,6 @@
 				}
 
 			}
-			
-		
 
 			$.when.apply(asyncs).done(function() {
 
@@ -228,7 +237,7 @@
 			$btn.data('taboffset', offset);
 
 			var displayPrev = (0 == offset || -1 == offset) ? 'none' : 'block';
-			$('#popup-mng-prev').css('display', displayPrev);
+			$('#popup-' + self.options.id + '-prev').css('display', displayPrev);
 
 			self.updateVisibleTabTitles();
 
@@ -244,7 +253,7 @@
 			$btnPrev.data('taboffset', offset);
 
 			var displayNext = ((offset + self.numVisibleTabs) >= self.numTabs) ? 'none' : 'block';
-			$('#popup-mng-next').css('display', displayNext);
+			$('#popup-' + self.options.id + '-next').css('display', displayNext);
 			
 			self.updateVisibleTabTitles();
 
@@ -265,20 +274,20 @@
 			{
 
 				var current = $($tabs[i]);
-				var display = (i <= offset || i > maxVisible) ? 'none' : 'block';
+				var display = (i < offset || i >= maxVisible) ? 'none' : 'block';
 				current.css('display', display);
 				if ('block' == display) {
-					$('a[href^="#popup-mng-content-'+i).click();
+					$('a[href^="#popup-' + self.options.id + '-content-'+i).click();
 					currentTabId=i;
 				}
 			}
 			
 			
 			var displayNext = (currentTabId==self.numTabs-1) ? 'none' : 'block';
-			$('#popup-mng-next').css('display', displayNext);
+			$('#popup-' + self.options.id + '-next').css('display', displayNext);
 			
 			var displayPrev = (currentTabId==0) ? 'none' : 'block';
-			$('#popup-mng-prev').css('display', displayPrev);
+			$('#popup-' + self.options.id + '-prev').css('display', displayPrev);
 			
 
 		}
