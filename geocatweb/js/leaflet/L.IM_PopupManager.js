@@ -34,6 +34,17 @@
 			var popupWidth = 220;
 			var tabWidth = popupWidth/numVisibleTabs;
 
+			matches.sort(function(a, b) {
+				if(a.isWMS && b.isWMS)
+					return 0;
+				else if(!a.isWMS)
+					return -1;
+				else if(!b.isWMS)
+					return 1;
+				else 
+					return 0;
+			});
+
 			for(var i=0, len=matches.length; i<len; ++i)
 			{
 
@@ -58,7 +69,7 @@
 
 				if('' != content)
 				{
-					if (self.numTabs>1){
+					if (1 < self.numTabs){
 						lis.push(self.createTabTitle(title, i, tabWidth, (i<options.maxVisibleTabs)));
 					}
 					contents.push(self.createTabContent(content, i));
@@ -190,8 +201,6 @@
 				}
 
 			}
-			
-		
 
 			$.when.apply(asyncs).done(function() {
 
@@ -265,7 +274,7 @@
 			{
 
 				var current = $($tabs[i]);
-				var display = (i <= offset || i > maxVisible) ? 'none' : 'block';
+				var display = (i < offset || i >= maxVisible) ? 'none' : 'block';
 				current.css('display', display);
 				if ('block' == display) {
 					$('a[href^="#popup-mng-content-'+i).click();
