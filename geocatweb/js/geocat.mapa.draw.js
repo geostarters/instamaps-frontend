@@ -448,18 +448,24 @@ function activaEdicioUsuari() {
 	map.on('draw:drawstart',function(e){
 		map.off('click',L.TileLayer.BetterWMS.getFeatureInfo);		
 	});
+
+	map.on('draw:created',function(e){
+		map.on('click',function(e) {
+			PopupManager().createMergedDataPopup(e.target, e, controlCapes)
+		});		
+	});
 	
 	//Edicio de feature existent
 	map.on('click',function(e){
 		for(var i = 0;i < guideLayers.length; i++) {			
 				
-					if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
-					if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
-				try{
-					if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.disable();
-				}catch(exc){
+			if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
+			if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
+			try{
+				if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.disable();
+			}catch(exc){
 					
-				}
+			}
 		}
 		
 		if(objEdicio.esticEnEdicio){			
