@@ -1457,7 +1457,15 @@ function finishAddFeatureToTematic(layer){
 	var html = createPopupWindow(layer,type);
 	layer.properties.feature.properties.popupData = html;
 	layer.properties.feature.properties.capaNom = capaUsrActiva.options.nom;
-	PopupManager().createMergedDataPopup(layer, {latlng: layer._latlng}, controlCapes);
+	layer.properties.popupData = html;
+	layer.properties.capaNom = capaUsrActiva.options.nom;
+	if (layer.properties.tipusFeature=="polygon" || layer.properties.tipusFeature=="polyline"){
+		PopupManager().createMergedDataPopup(layer, {latlng: layer._latlngs[0]}, controlCapes);
+	}
+	else {
+		PopupManager().createMergedDataPopup(layer, {latlng: layer._latlng}, controlCapes);
+	}
+
 }
 
 function updateFeatureNameDescr(layer, titol, descr){
@@ -1870,7 +1878,12 @@ function moveFeatureToLayer(feature_businessId,layer_fromBusinessId,layer_toBusi
 //			var html = createPopUpContent(feature,feature.options.tipus);
 			//feature.setPopupContent(html);
 			map.closePopup();
-			PopupManager().createMergedDataPopup(feature, {latlng: feature._latlng}, controlCapes);
+			if (layer.properties.tipusFeature=="polygon" || layer.properties.tipusFeature=="polyline"){
+				PopupManager().createMergedDataPopup(feature, {latlng: feature._latlngs[0]}, controlCapes);
+			}
+			else {
+				PopupManager().createMergedDataPopup(feature, {latlng: feature._latlng}, controlCapes);
+			}
 			
 			//update rangs
 		    //getRangsFromLayer(capaUsrActiva);

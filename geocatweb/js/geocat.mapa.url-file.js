@@ -183,10 +183,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				latlng.feature.properties.capaNom = nomCapa;
-				latlng.feature.properties.popupData=html;
+				//latlng.feature.properties.capaNom = nomCapa;
+				//latlng.feature.properties.popupData=html;
 				latlng.properties={
-					capaNom: layer.serverName,
+					capaNom: nomCapa,
 					popupData:html,
 					feature: latlng.feature,
 					data: latlng.feature.properties
@@ -761,7 +761,10 @@ function loadURLfileLayer(layer){
 			"&nomCampCodi="+nomCampCodi;
 
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1)) 	{
+			param_url = urlFile;
+		}
 		
 		var optionsVis =  options;
 		if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta"){
@@ -951,8 +954,8 @@ function loadURLfileLayer(layer){
 					//latlng.bindLabelExPolygon(map,"prova4",	{ noHide: true, direction: 'center',clickable:true, offset: [0, 0] });
 				}
 
-				latlng.feature.properties.capaNom = layer.serverName;
-				latlng.feature.properties.popupData=html;
+				//latlng.feature.properties.capaNom = layer.serverName;
+				//latlng.feature.properties.popupData=html;
 				latlng.properties={
 					capaNom: layer.serverName,
 					popupData:html,

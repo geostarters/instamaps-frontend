@@ -685,7 +685,7 @@
 						self.addOpenInstamapsControl();
 					}
 				}
-				if((self.homecontrol && self.homecontrol=="1") || self.homecontrol===null || self.urlFile==null){
+				if((self.homecontrol && self.homecontrol=="1") || self.homecontrol===null ){
 					self.addHomeControl();
 				}
 				if((self.locationcontrol && self.locationcontrol=="1") || self.locationcontrol===null){
@@ -694,13 +694,13 @@
 				if((self.searchcontrol && self.searchcontrol=="1") || self.searchcontrol===null){
 					self.addSearchControl();
 				}
-				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null || self.urlFile==null){
+				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null ){
 					self.addRoutingControl();
 				}
-				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null || self.urlFile==null){
+				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
 					self.addShareControl();
 				}
-				if((self.likecontrol && self.likecontrol=="1") || self.likecontrol===null || self.urlFile==null){
+				if((self.likecontrol && self.likecontrol=="1") || self.likecontrol===null){
 					self.addLikeControl();
 
 				}

@@ -5291,3 +5291,8 @@ li >.label-dof:focus {
 	height: 32px;
 	
 }
+
+.tabArrow {
+	font-size: 16px;
+	font-weight: 900;
+}
