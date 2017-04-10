@@ -148,7 +148,7 @@ var paramUrl = {
 	download_layer: HOST_APP+"share/jsp/download_layer.jsp?",
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
 	upload_gdal_nou: HOST_APP+"share/jsp/upload_gdal_nou.jsp?",
-	upload_gdal_2015: HOST_APP+"share/jsp/upload_gdal_2015.jsp?",
+	upload_gdal_2015: HOST_APP+"share/jsp/upload_gdal_2017.jsp?",
 	polling: HOST_APP+"share/jsp/polling.jsp?",
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json",
