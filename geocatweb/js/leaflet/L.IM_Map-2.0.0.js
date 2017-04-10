@@ -63,10 +63,10 @@ var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 
+	
+	//urlServerTilesW="http://imtilemapsdev.icgc.local";
 	//urlServerTiles="http://imtilemapsdev.icgc.local";
-	urlServerTilesW="http://imtilemapsdev.icgc.local";
-	urlServerTiles="http://imtilemapsdev.icgc.local";
-	//urlServerTilesW="http://{s}.tilemaps.icgc.cat";
+	
 
 
 
