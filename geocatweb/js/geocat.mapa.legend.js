@@ -735,6 +735,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				//Si és un semafòric no reordenem els valors de la llegenda, ja ens venen ben assignats i el sortByValueMax se'l carrega
 
 			}
+			console.debug(arrRangsEstilsLegend);
 			if(geometryType == t_marker){
 				
 				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
@@ -867,7 +868,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			
 			var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 			arrRangsEstilsLegend.sort(sortByValueMax);
-			
+			console.debug(arrRangsEstilsLegend);
 			if(geometryType == t_marker){
 
 				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
@@ -1443,6 +1444,7 @@ function loadMapLegendEdicio(layer){
 	
 	var arrRangsEstilsLegend = sortObject(rangsEstilsLegend);
 	arrRangsEstilsLegend.sort(sortByValueMax);
+	console.debug(arrRangsEstilsLegend);
 	
 	var totalLayers=0;
 	
