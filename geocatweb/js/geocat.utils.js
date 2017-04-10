@@ -784,6 +784,7 @@ function sortByKeyPath(array, key) {
 }
 
 function sortByValueMax(a, b){
+
 	var floatRegex = new RegExp('(^-?0\.[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 	var floatRegex2 = new RegExp('(^-?0\,[0-9]*[1-9]+[0-9]*$)|(^-?[1-9]+[0-9]*((\.[0-9]*[1-9]+[0-9]*$)|(\.[0-9]+)))|(^-?[1-9]+[0-9]*$)|(^0$){1}');
 	
@@ -800,51 +801,39 @@ function sortByValueMax(a, b){
 		else bValue =b;
 		var aValueStr = ""+aValue;
 		var bValueStr = ""+bValue;
-		if (floatRegex.test(aValue) && floatRegex.test(bValue)) {
-			if (aValueStr.indexOf(",")>-1){
-				if (aValueStr.indexOf(".")>-1){
-					aValue=aValue.replace(".","");
-					aValue=aValue.replace(",",".");
-				}
-				else {
-					aValue = aValue.replace(",",".");
-				}
+		
+		if (aValueStr.indexOf(",")>-1){
+			if (aValueStr.indexOf(".")>-1){
+				aValue=aValue.replace(".","");
+				aValue=aValue.replace(",",".");
 			}
-			if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
-	
-			if (bValueStr.indexOf(",")>-1){
-				if (bValueStr.indexOf(".")>-1){
-					bValue=bValue.replace(".","");
-					bValue=bValue.replace(",",".");
-				}
-				else {
-					bValue = bValue.replace(",",".");
-				}
+			else {
+				aValue = aValue.replace(",",".");
 			}
-			if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
+		}
+		if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") {
+			aValue=aValue.substring(0,aValue.indexOf("-"));
+			aValue=aValue.replace(" ","");
+		}
+
+		if (bValueStr.indexOf(",")>-1){
+			if (bValueStr.indexOf(".")>-1){
+				bValue=bValue.replace(".","");
+				bValue=bValue.replace(",",".");
+			}
+			else {
+				bValue = bValue.replace(",",".");
+			}
+		}
+		if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") {
+			bValue=bValue.substring(0,bValue.indexOf("-"));
+			bValue=bValue.replace(" ","");
+		}
+		
+		if (floatRegex.test(aValue) && floatRegex.test(bValue)) {			
 			return (aValue-bValue);
 		}
-		else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {
-			if (aValueStr.indexOf(",")>-1){
-				if (aValueStr.indexOf(".")>-1){
-					aValue=aValue.replace(".","");
-					aValue=aValue.replace(",",".");
-				}
-				else {
-					aValue = aValue.replace(",",".");
-				}
-			}
-			if (aValueStr.indexOf("-")>-1 && aValue.substring(0,aValue.indexOf("-"))!="") aValue=aValue.substring(0,aValue.indexOf("-"));
-			if (bValueStr.indexOf(",")>-1){
-				if (bValueStr.indexOf(".")>-1){
-					bValue=bValue.replace(".","");
-					bValue=bValue.replace(",",".");
-				}
-				else {
-					bValue = bValue.replace(",",".");
-				}
-			}
-			if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
+		else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {		
 			return (aValue-bValue);
 		}
 		else {
