@@ -7,6 +7,8 @@ cd /usr/local/nginx/html/
 su nginx
 git fetch origin production
 git fetch --tags
+rm geocatweb/dist/template_visor.html
+rm geocatweb/visor.html
 git pull origin production
 chown -R nginx:nginx *
 chmod 777 -Rf maps

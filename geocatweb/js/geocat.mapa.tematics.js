@@ -294,7 +294,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 	
 	var isADrawarker=false;
 	html+='<div class="div_popup_visor"><div class="popup_pres">';
-	var esVisor = ($(location).attr('href').indexOf('mapa')==-1);
+	var esVisor = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
 	$.each( player.properties.data, function( key, value ) {
 		if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata"){
 			if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
@@ -2095,7 +2095,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	
 	var props = [];
 	var checkNumericProperties = false;
-	var veientMapa = ($(location).attr('href').indexOf('mapa')!=-1);
+	var veientMapa = (-1 == $(location).attr('href').indexOf('instavisor')) && (-1 == $(location).attr('href').indexOf('visor'));
 	if("undefined" !== typeof optionsVis && optionsVis.hasOwnProperty("propName") && !capaVisualitzacio.hasOwnProperty("isPropertyNumeric"))
 	{
 	
@@ -2379,7 +2379,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					if(!hasSource){
 						//"no te source, no ve de fitxer");
 						if(veientMapa && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-							html = createPopupWindow(feat,geomTypeVis);
+							html = createPopupWindow(feat,geomTypeVis, false);
 						}else{
 							//"Estem mode vis i no es tem origen:"
 							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);

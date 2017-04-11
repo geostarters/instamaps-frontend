@@ -299,6 +299,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/instamaps.geolocal.widgets.mascara.js',
     config.dirJsInstamaps+'/instamaps.visor.geolocal.js',
     config.dirJsInstamaps+'/instamaps.visor.simple.js',
+    config.dirJsInstamaps+'/instamaps.mapa.color-scale.js',
     config.dirJsInstamaps+'/instamaps.app-1.0.0.js'
   ], 'instamaps.js');
 

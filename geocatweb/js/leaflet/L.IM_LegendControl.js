@@ -251,7 +251,6 @@ L.Control.Legend = L.Control.extend({
 				jQuery.each(mapLegend, function(j, row){
 				var layerType=self._getNameLayer(j);
 				index==lastPos.indexPos?active=' active':active="";
-								
 				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 					legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');
 				}
@@ -263,13 +262,14 @@ L.Control.Legend = L.Control.extend({
 					if(row[i].chck || self.options.origenllegenda=='mapa'){
 						if ((undefined==serverName && ""==serverName) || (undefined!=layerType.serverName && layerType.serverName!=serverName)) {
 							posServerName=i;
-							serverName=layerType.serverName;							
+							serverName=layerType.serverName;	
 						}
 						else {
 							posServerName=i;
 							var name=row[i].name;
 							serverName=name.substring(0,name.indexOf("("));
 						}
+						
 						var padding_left="";
 						var textalg='left';
 						if (row[i].symbol.indexOf("circle")>-1){
@@ -289,7 +289,7 @@ L.Control.Legend = L.Control.extend({
 						
 						index==lastPos.indexPos?active=' active':active="";
 						index==lastPos.indexPos?self.options.currentTab=j:null;	
-										
+							
 						if(i==posServerName && !serverNameTrobat)
 						{
 							legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(serverName,25)+'</a></li>');
@@ -300,7 +300,7 @@ L.Control.Legend = L.Control.extend({
 							legendTabContent.push(row[i].symbol);
 							legendTabContent.push('<br/>');
 						}else{*/
-							if(i==posServerName){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
+							if(i==posServerName  && serverNameTrobat){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
 							legendTabContent.push('<div class="visor-legend-row">'+
 						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>');
 							if (isWMS){
@@ -310,15 +310,19 @@ L.Control.Legend = L.Control.extend({
 								legendTabContent.push('<div class="visor-legend-name col-md-8 col-xs-8" style="text-align:'+textalg+' ;padding-top:5px;">'+row[i].name+'</div>'+
 						    	'</div><div class="visor-separate-legend-row"></div>');	
 							}
-										
-							if(i==row.length-1){legendTabContent.push('</div>');}			
+							if(i==row.length-1){
+								legendTabContent.push('</div>');
+								if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') >-1){
+									legendTabContent.push('</div></div>');
+								}
+								serverNameTrobat=false;
+							}			
 						//}
 					}
 				}
 				index=index+1;
-				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
-					legendTabContent.push('</div>');
-				}
+				legendTabContent.push('</div>');
+				
 			    });
 				
 				legendTab.push('</ul>');

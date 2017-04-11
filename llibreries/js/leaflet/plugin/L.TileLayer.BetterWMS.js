@@ -31,16 +31,20 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 
 			var pop = L.popup({maxWidth: 800})
 				.setLatLng(evt.latlng)
-				.setContent(data).openOn(map);
+				.setContent(data.content).openOn(map);
 
 		});
 
 	},
 
-	getPopupContent: function(evt) {
+	getPopupContent: function(evt, index) {
 
 		var defer = $.Deferred();
 
+		var ret = {
+			index : index || 0,
+			content : ''
+		};
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
 		params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text/html");
@@ -50,37 +54,41 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
 					params = params.replace("INFO_FORMAT=text/html","INFO_FORMAT=text/plain");
 				}
-				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
-				defer.resolve(dataF);
 			}else{
-				var esNomesWMS = true;
-				var teUtfGrid = false;
 				//De moment, si es un wms creat pel cloudifier, demanem text/pla
 				//mes endavant passarem per ogrinfo i podrem demanar HTML amb template
 				//per mostrar la informacio
 				if (params.indexOf('http://betaserver.icgc.cat/geoservice/')!=-1){
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
 				}
-				for(val in controlCapes._layers){
-					if(controlCapes._layers[val].layer.options.tipus != t_wms){
-						esNomesWMS = false;
-					}
-					if (controlCapes._layers[val].layer.options.tipus == t_vis_wms){
-						teUtfGrid=true;
-					}
-				}
-				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
-				defer.resolve(dataF);
+				
 			}
+			
+			$.ajax({
+				url: paramUrl.proxy_betterWMS,
+				data: {url: params},
+				success: function (data, status, xhr) {
+					var err = typeof data === 'string' ? null : data;
+					if(data.length > 5){
+						ret.content = data;
+						defer.resolve(ret);
+					}
+				},
+				error: function (xhr, status, error) {
+					ret.content = "<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
+					defer.resolve(ret);
+				}
+			});
+
 		}
 		else
 		{
 
-			defer.resolve('');
+			defer.resolve(ret);
 
 		}
 
-		return defer.promise();
+		return defer;
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
