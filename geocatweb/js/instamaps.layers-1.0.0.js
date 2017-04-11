@@ -116,19 +116,22 @@
 				{
 				
 					self.map.oms = new OverlappingMarkerSpiderfier(self.map, {keepSpiderfied : false});
-					var popup = new L.Popup();
-					/*self.map.oms.addListener('click', function(marker) {
+					self.map.oms.addListener('click', function(marker) {
 
-						if(marker.getPopup)
-						{
+						PopupManager().createMergedDataPopup(marker, {latlng: marker._latlng}, controlCapes);
 						
-							popup.setContent(marker.getPopup().getContent());
-							popup.setLatLng(marker.getLatLng());
-							self.map.openPopup(popup);
+					});
+
+					self.map.oms.addListener('spiderfy', function(spiderified, unspiderified) {
+
+						if(spiderified.length)
+						{
+
+							PopupManager().createMergedDataPopup(spiderified[0], {latlng: spiderified[0]._omsData.usualPosition}, controlCapes);
 
 						}
 						
-					});*/
+					});
 
 				}
 

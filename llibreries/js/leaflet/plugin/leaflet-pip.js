@@ -84,6 +84,29 @@ function getFeature(l)
 
 }
 
+function getGeometry(l)
+{
+
+  var geometry = { type: 'Point',
+  }
+  if(l._oms && l._omsData && l._omsData.usualPosition)
+  {
+
+    geometry.coordinates = [l._omsData.usualPosition.lng, 
+      l._omsData.usualPosition.lat];
+
+  }
+  else
+  {
+
+    geometry.coordinates = l.properties.feature.geometry.coordinates;
+
+  }
+
+  return geometry;
+
+}
+
 var leafletPip = {
   bassackwards: false,
   pointInLayer: function(p, layer, first) {
@@ -111,10 +134,11 @@ var leafletPip = {
 
         var radius = getRadius(l);
         var feature = getFeature(l);
+        var geometry = getGeometry(l);
         if(isPoint(l) && gju.pointInPoint({
               type: 'Point',
               coordinates: p
-          }, l.toGeoJSON().geometry, radius))
+          }, geometry, radius))
         {
           results.push(feature);
         }

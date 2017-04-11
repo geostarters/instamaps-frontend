@@ -448,18 +448,24 @@ function activaEdicioUsuari() {
 	map.on('draw:drawstart',function(e){
 		map.off('click',L.TileLayer.BetterWMS.getFeatureInfo);		
 	});
+
+	map.on('draw:created',function(e){
+		map.on('click',function(e) {
+			PopupManager().createMergedDataPopup(e.target, e, controlCapes)
+		});		
+	});
 	
 	//Edicio de feature existent
 	map.on('click',function(e){
 		for(var i = 0;i < guideLayers.length; i++) {			
 				
-					if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
-					if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
-				try{
-					if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.disable();
-				}catch(exc){
+			if (guideLayers[i].snapediting!=undefined)  guideLayers[i].snapediting.disable();
+			if (guideLayers[i].editing!=undefined) guideLayers[i].editing.disable();
+			try{
+				if (guideLayers[i].dragging!=undefined) guideLayers[i].dragging.disable();
+			}catch(exc){
 					
-				}
+			}
 		}
 		
 		if(objEdicio.esticEnEdicio){			
@@ -767,9 +773,9 @@ function activaEdicioUsuari() {
 }
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
-function createPopupWindow(layer,type){
+function createPopupWindow(layer,type, editant){
 //	console.debug('createPopupWindow');
-	var html = createPopUpContent(layer,type);
+	var html = createPopUpContent(layer,type, editant);
 	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -1074,9 +1080,14 @@ function createPopupWindow(layer,type){
 
 	layer.on('click', function(e){
 		layer.off('click', creaPopupUnic);	//En el geocat.mapa.tematic >> loadGeometriesToLayer se n'assigna un
-		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
+		if(objEdicio.esticEnEdicio){
+			//Si s'esta editant no es pot editar altre element
 			map.closePopup();
-		}else{
+		}
+		else if(layer._oms) {
+			//Si és un marker de l'spiderifier, ja es tracta el click en els seus events
+		}
+		else{
 			//actualitzem popup
 			PopupManager().createMergedDataPopup(e.target, e, controlCapes).then(function() {
 				var html = reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId);
@@ -1672,7 +1683,9 @@ function fillCmbCapesUsr(type,_leaflet_id){
 	return html;
 }
 
-function createPopUpContent(player,type){
+function createPopUpContent(player,type, editant){
+
+	var isEditing = (undefined == typeof editant ? true : editant);
 	
 	var auxNom = window.lang.translate('Nom');
 	var auxText = window.lang.translate('Descripció');
@@ -1712,8 +1725,11 @@ function createPopUpContent(player,type){
 		//+'<li><a id="layer_edit#'+player._leaflet_id+'#'+type+'" lang="ca" title="Canviar el nom de la capa" href="#"><span class="glyphicon glyphicon-pencil blau12"></span></a></li>'
 	+'<li><a id="layer_add#'+player._leaflet_id+'#'+type+'" lang="ca" title="Crear una nova capa" href="#"><span class="glyphicon glyphicon-plus gris-semifosc"></span></a></li>'
 	+'</ul>'	
-	//'</div>'	
-	+'<div id="footer_edit"  class="modal-footer">'
+	//'</div>'
+	if(isEditing)
+	{
+
+		html += '<div id="footer_edit"  class="modal-footer">'
 		+'<ul class="bs-popup">'						
 		+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="geostart-palette gris-semifosc font18" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>';
 		if(type == t_polyline || type == t_polygon){
@@ -1724,18 +1740,20 @@ function createPopUpContent(player,type){
 		}
 		html+='<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
 	
-	if (player.properties.estil) {
-		html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
-	}
-	else {
-		html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span>  </li>';					
+		if (player.properties.estil) {
+			html+='<li class="edicio-popup" id="feature_data_table_'+player._leaflet_id+'"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
+		}
+		else {
+			html+='<li class="edicio-popup"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span>  </li>';					
+		}
+	
+		html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>';
+		html+='</ul>'														
+		+'</div>'
+
 	}
 	
-	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>';
-	html+='</ul>'														
-	+'</div>'
-	
-	+'</div>'	
+	html += '</div>'	
 	+'<div class="popup_edit">'
 	+'<div style="display:block" id="feature_txt">'
 	+'<input class="form-control" id="titol_edit" type="text" value="'+auxNom+'" placeholder="">'

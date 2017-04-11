@@ -258,6 +258,7 @@ L.Control.Legend = L.Control.extend({
 				
 				var serverName="";
 				var posServerName=-1;
+				var serverNameTrobat=false;
 				for (var i = 0; i < row.length; i++) {
 					if(row[i].chck || self.options.origenllegenda=='mapa'){
 						if ((undefined==serverName && ""==serverName) || (undefined!=layerType.serverName && layerType.serverName!=serverName)) {
@@ -289,7 +290,11 @@ L.Control.Legend = L.Control.extend({
 						index==lastPos.indexPos?active=' active':active="";
 						index==lastPos.indexPos?self.options.currentTab=j:null;	
 										
-						if(i==posServerName){legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(serverName,25)+'</a></li>');}
+						if(i==posServerName && !serverNameTrobat)
+						{
+							legendTab.push('<li class="'+active+'"><a href="#tab'+j+'" data-toggle="tab">'+shortString(serverName,25)+'</a></li>');
+							serverNameTrobat=true;
+						}
 						
 						/*if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 							legendTabContent.push(row[i].symbol);

@@ -159,7 +159,6 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
-
 	urlMapToWMS:"/share/jsp/getMapToWMS.jsp?",
 
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
