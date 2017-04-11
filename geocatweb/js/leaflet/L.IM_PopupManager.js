@@ -209,7 +209,7 @@
 			self.createPopupContents(matches);
 			if(0 != matches.length)
 			{
-				var popup = L.popup().setLatLng(event.latlng)
+				L.popup().setLatLng(event.latlng)
 					.setContent(self.options.html).openOn(map);
 
 				self.updateVisibleTabTitles();
@@ -221,6 +221,7 @@
 				});
 
 			}
+
 			deferred.resolve();
 
 			return deferred;
