@@ -735,7 +735,6 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 				//Si és un semafòric no reordenem els valors de la llegenda, ja ens venen ben assignats i el sortByValueMax se'l carrega
 
 			}
-			console.debug(arrRangsEstilsLegend);
 			if(geometryType == t_marker){
 				
 				jQuery.each(arrRangsEstilsLegend, function(i, estilRang){
