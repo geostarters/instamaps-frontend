@@ -162,7 +162,6 @@
 			$('#popup-' + self.options.id + ' .tab-content').empty();
 
 			var matches = [];
-			var asyncs = [];
 			for(var i=0, len=visibleLayers.length; i<len; ++i)
 			{
 
@@ -177,16 +176,20 @@
 						currentLayer.layer.wmsParams);
 					tileWMS.options.queryable = currentLayer.layer.options.queryable;
 					tileWMS._map = map;
-					var asyncr = tileWMS.getPopupContent(event).then(function(content) {
+					var loader = '<div id="preloader6" style="margin-left:calc(50% - 24px);">' +
+						'<span></span><span></span><span></span><span></span>' +
+						'</div>';
+					matches.push({isWMS: true, 
+						name: currentLayer.layer.options.nom, 
+						content: '<div id="wms-content-' + self.options.id + '-' + i + '" class="noOverflow">' + loader + '</div>',
+						isQueryable: currentLayer.layer.options.queryable
+					});
+					var asyncr = tileWMS.getPopupContent(event, i).then(function(data) {
 
-						matches.push({isWMS: true, 
-							name: currentLayer.layer.options.nom, 
-							content: content,
-							isQueryable: currentLayer.layer.options.queryable
-						});
+						$('#wms-content-' + self.options.id + '-' + data.index).html(data.content);
+						$('#wms-content-' + self.options.id + '-' + data.index).removeClass('noOverflow');
 
 					});
-					asyncs.push(asyncr);
 
 				}
 				else
@@ -194,6 +197,7 @@
 					var match = leafletPip.pointInLayer(event.latlng, currentLayer.layer, false);
 					for(var j=0, lenJ=match.length; j<lenJ; ++j)
 					{
+
 						matches.push(match[j]);
 
 					}
@@ -202,29 +206,25 @@
 
 			}
 
-			$.when.apply(asyncs).done(function() {
+			self.createPopupContents(matches);
+			if(0 != matches.length)
+			{
+				L.popup().setLatLng(event.latlng)
+					.setContent(self.options.html).openOn(map);
 
-				self.createPopupContents(matches);
-				if(0 != matches.length)
-				{
-					var popup = L.popup().setLatLng(event.latlng)
-						.setContent(self.options.html).openOn(map);
+				self.updateVisibleTabTitles();
+				$('#popup-' + self.options.id + '-prev').on('click', function(e) {
+					self.previousTab(e);
+				});
+				$('#popup-' + self.options.id + '-next').on('click', function(e) {
+					self.nextTab(e);
+				});
 
-					self.updateVisibleTabTitles();
-					$('#popup-' + self.options.id + '-prev').on('click', function(e) {
-						self.previousTab(e);
-					});
-					$('#popup-' + self.options.id + '-next').on('click', function(e) {
-						self.nextTab(e);
-					});
+			}
 
-				}
+			deferred.resolve();
 
-				deferred.resolve();
-
-			});
-
-			return deferred.promise();
+			return deferred;
 		
 		},
 

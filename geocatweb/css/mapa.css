@@ -5296,3 +5296,7 @@ li >.label-dof:focus {
 	font-size: 16px;
 	font-weight: 900;
 }
+
+.noOverflow {
+	overflow: hidden;
+}
