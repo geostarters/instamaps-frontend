@@ -95,7 +95,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 	   if (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 ){
 		    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
-		    else  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+		    else  urlFile="http://172.70.1.11/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
 			param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
 			"&tipusAcc="+tipusAcc+
 			"&tipusCodi="+tipusCodi+
@@ -129,10 +129,15 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
 								txt = parseUrlTextPopUp(value,key);
-								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-									html+='<div class="popup_data_key">'+key+'</div>';
-									html+='<div class="popup_data_value">'+txt+'</div>';
-								}else{
+								if (typeof txt == 'string' || txt instanceof String) {
+									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}else{
+										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									}
+								}
+								else{
 									html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 								}
 							}
