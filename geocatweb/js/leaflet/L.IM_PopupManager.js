@@ -31,7 +31,7 @@
 			self.numTabs = matches.length;
 			var hasHiddenTabs = numVisibleTabs > options.maxVisibleTabs && options.hideExtraTabs;
 			numVisibleTabs = hasHiddenTabs ? options.maxVisibleTabs : numVisibleTabs;
-			var popupWidth = 220;
+			var popupWidth = 200;
 			var tabWidth = popupWidth/numVisibleTabs;
 
 			matches.sort(function(a, b) {
@@ -125,7 +125,7 @@
 				(isActive ? ' active margin1' : 'margin1') + ' " style="' + 
 				(isVisible ? '' : 'display:none') + '"><a href="#popup-' + 
 				options.id + '-content-' + index + '" data-toggle="tab" class="popupTitleTab" style="' + 
-				'width: ' + tabWidth + 'px" >' +
+				'width: ' + tabWidth + 'px; text-overflow: ellipsis;" >' +
 				name + '</a></li>'
 				
 			

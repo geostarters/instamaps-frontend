@@ -2095,7 +2095,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 	
 	var props = [];
 	var checkNumericProperties = false;
-	var veientMapa = (-1 == $(location).attr('href').indexOf('instavisor')) && (-1 == $(location).attr('href').indexOf('visor'));
+	var veientMapa = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
 	if("undefined" !== typeof optionsVis && optionsVis.hasOwnProperty("propName") && !capaVisualitzacio.hasOwnProperty("isPropertyNumeric"))
 	{
 	
@@ -2378,19 +2378,19 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					var html;
 					if(!hasSource){
 						//"no te source, no ve de fitxer");
-						if(veientMapa && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-							html = createPopupWindow(feat,geomTypeVis, false);
+						if(!veientMapa && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
+							html = createPopupWindow(feat,geomTypeVis, true);
 						}else{
-							//"Estem mode vis i no es tem origen:"
+							//"Estem mode vis o no es tem origen:"
 							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
 						}								
 					}else{
 						//"Te source, ve de fitxer";
-						if(veientMapa && capaVisualitzacio.options.tipusRang == tem_origen){
+						if(!veientMapa && capaVisualitzacio.options.tipusRang == tem_origen){
 							//"Estem mode mapa i es tem origen"
 							html = createPopupWindowData(feat,geomTypeVis, true, origen, capaVisualitzacio);
 						}else{
-							//"Estem mode vis i no es tem origen:"
+							//"Estem mode vis o no es tem origen:"
 							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
 						}
 					}
