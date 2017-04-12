@@ -252,7 +252,7 @@ L.Label = L.Class.extend({
 			events = ['dblclick', 'mousedown', 'mouseover', 'mouseout', 'contextmenu'];
 
 		L.DomUtil.removeClass(container, 'leaflet-clickable');
-		L.DomEvent.off(container, 'click', this._onMouseClick, this);
+		L.DomEvent.off(container, 'click', function(e) { this._onMouseClick(e); }, this);
 
 		for (var i = 0; i < events.length; i++) {
 			L.DomEvent.off(container, events[i], this._fireMouseEvent, this);
@@ -260,18 +260,12 @@ L.Label = L.Class.extend({
 	},
 
 	_onMouseClick: function (e) {
-		this._source.openPopup();
-		 e.stopPropagation();
-		  e.preventDefault();
-		if (this.hasEventListeners(e.type)) {
-			L.DomEvent.stopPropagation(e);
-		}
-		
-		
-       	 
-		this.fire(e.type, {
-			originalEvent: e
-		});
+
+		var self = this;
+		PopupManager().createMergedDataPopup(this._source, {latlng: this._source._latlng}, controlCapes);
+		L.DomEvent.preventDefault(e);
+		L.DomEvent.stopPropagation(e);
+
 	},
 
 	_fireMouseEvent: function (e) {
