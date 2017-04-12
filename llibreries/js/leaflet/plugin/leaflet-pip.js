@@ -96,10 +96,15 @@ function getGeometry(l)
       l._omsData.usualPosition.lat];
 
   }
-  else
+  else if(l.properties.feature)
   {
 
     geometry.coordinates = l.properties.feature.geometry.coordinates;
+
+  }
+  else {
+
+    geometry.coordinates = l.feature.geometry.coordinates;
 
   }
 
