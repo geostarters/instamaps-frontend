@@ -116,7 +116,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			//exceptions:'application/vnd.ogc.se_blank',
 			layers: this.wmsParams.layers,
 			query_layers: this.wmsParams.layers,
-			info_format: 'text/html'
+			info_format: 'text/html',
+			feature_count: '18'	//18 perquè es va fer el dia 18/04/2017
 		};
 		params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
 		params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
