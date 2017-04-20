@@ -49,7 +49,9 @@ var visorOptions = {
 	INE10: url("?INE10") || null, 
 	random: url("?random") || null,
 	urlFile: url("?url") || null,
-	tipusFile: url("?format") || null
+	tipusFile: url("?format") || null,
+	coordX: url("?coordX") || null,
+	coordY: url("?coordY") || null
 };
 
 var visor; 

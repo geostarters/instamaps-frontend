@@ -509,6 +509,16 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 															'<input type="text" id="input-coord-y" class="form-control">'+
 														'</div>'+
 														'<br>'+	
+														'<div class="input-group input-group-sm">'+
+															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada en un camp ")+'</span>'+
+															'<input type="text" id="input-coord-xy" class="form-control">'+
+														'</div>'+
+													    '<br>'+	
+														'<div class="input-group input-group-sm">'+
+														   '<span lang="ca" class="input-group-addon">'+window.lang.translate("Separador coordenada en un camp ")+'</span>'+
+														   '<input type="text" id="input-separador" class="form-control">'+
+													    '</div>'+
+												        '<br>'+														  
 										'	         </ul>'+
 										'	      </div>'+
 										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
@@ -802,7 +812,8 @@ function activarEventAfegirCapa(type){
 				createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 						   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
 						   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
-						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
+						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val(),
+						   jQuery("#input-coord-xy").val(),jQuery("#input-separador").val(),);
 			}else{
 				$('#dialog_dades_ex').modal('hide');
 				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));

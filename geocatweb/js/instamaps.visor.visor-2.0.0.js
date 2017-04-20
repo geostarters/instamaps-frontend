@@ -1369,6 +1369,8 @@
 			var self = this;
 			var map = self.map;
 			var urlFile = self.urlFile;
+			var colX=self.coordX;
+			var colY=self.coordY;
 			var tipusFile = "geojson";
 			
 			if (self.tipusFile && self.tipusFile!="") tipusFile=self.tipusFile;
@@ -1380,34 +1382,6 @@
 			if (self.controls.control3d!=undefined) self.controls.control3d.hideBtn();
 			if (self.controls.snapshotControl!=undefined) self.controls.snapshotControl.hideBtn();
 			
-			if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
-				urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
-				var res = urlFile.split("/");
-				var fileId = res[0];
-				urlFile = "https://drive.google.com/uc?export=download&id="+fileId;
-			}
-			else if(urlFile.indexOf("https://www.dropbox.com")!=-1){
-				urlFile = urlFile.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com");		
-			}
-			
-			if (tipusFile.toLowerCase().indexOf("geojson")>-1) tipusFile=".geojson";
-			if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
-			if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
-			if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
-			
-			var param_url = paramUrl.urlFileDin	+
-			"tipusFile=" + tipusFile+
-			"&urlFile="+encodeURIComponent(urlFile)+
-			"&epsgIN=EPSG:4326"+			
-			"&dinamic=true"+
-			"&uploadFile="+paramUrl.uploadFile+		
-			"&uid="+Cookies.get('uid');		
-			
-			if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
-					urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-					&& (urlFile.indexOf("dropbox")==-1)) 	{
-				param_url = urlFile;
-			}
 			var estil_do = retornaEstilaDO();
 			estil_do.fillColor="#ff0000";
 			estil_do.color="#ff0000";
@@ -1426,101 +1400,266 @@
 			polygonStyle.opacity = 1;
 			
 			
-			
-			var capaURLfile = new L.GeoJSON.AJAX(param_url, {
-				nom : "urlFile",
-				tipus : tipusFile,
-				estil_do: estil_do,
-				style: polygonStyle,//Estil de poligons i linies
-				pointToLayer : function(feature, latlng) {
-					var geom = L.circleMarker(latlng, estil_do);
-					var pp = feature.properties;
-					var html ='<div class="div_popup_visor"><div class="popup_pres">';
-					propName = "";
-					$.each( pp, function( key, value ) {
-						propName = propName+key+",";
-						if(isValidValue(value) && !validateWkt(value)){
-							if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
-								html+='<div class="popup_data_row">';
-								var txt = value;
-								if (!$.isNumeric(txt)) {		    				
-									txt = parseUrlTextPopUp(value,key);
-									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-										html+='<div class="popup_data_key">'+key+'</div>';
-										html+='<div class="popup_data_value">'+txt+'</div>';
-									}else{
-										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
-									}
-								}
-								else {
-									html+='<div class="popup_data_key">'+key+'</div>';
-									html+='<div class="popup_data_value">'+txt+'</div>';
-								}
-								html+= '</div>';
-							}
-						}
-					});	
-					propName = propName.substr(0, propName.length-1);
-					html+='</div></div>'; 
-					return geom.bindPopup(html);
-				},
-				onEachFeature : function(feature, latlng) {
-					var pp = feature.properties;
-					var html ='<div class="div_popup_visor"><div class="popup_pres">';
-					propName = "";
-					$.each( pp, function( key, value ) {
-						propName = propName+key+",";
-						if(isValidValue(value) && !validateWkt(value)){
-							if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
-								html+='<div class="popup_data_row">';
-								var txt = value;
-								if (!$.isNumeric(txt)) {		    				
-									txt = parseUrlTextPopUp(value,key);
-									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-										html+='<div class="popup_data_key">'+key+'</div>';
-										html+='<div class="popup_data_value">'+txt+'</div>';
-									}else{
-										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
-									}
-								}
-								else {
-									html+='<div class="popup_data_key">'+key+'</div>';
-									html+='<div class="popup_data_value">'+txt+'</div>';
-								}
-								html+= '</div>';
-							}
-						}
-					});	
-					propName = propName.substr(0, propName.length-1);
-					html+='</div></div>'; 
-					return latlng.bindPopup(html);
-				},
-				middleware:function(data){
-					if(data.status && data.status.indexOf("ERROR")!=-1){
-						processFileError(data, urlFile);
-						jQuery('#info_uploadFile').hide();
-					}else{
-						var stringData = JSON.stringify(data);
-						var geometryType = defineGeometryType(stringData);
+			if (tipusFile=="json"){
+				 L.toGeoJSON.convert(urlFile,"Point",colX,colY).then(function(){
+					 var dataSocrata={
+								serverName: "Capa fitxer",
+								jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+						};
+						
+					//console.debug(dataSocrata);
+					crearFitxerSocrata(dataSocrata).then(function(results){
+						if (results.status="OK"){
+							param_url =results.filePath;
+							$('#dialog_dades_ex').modal('hide');
+							jQuery("#div_uploading_txt").html("");
+							jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
+									window.lang.translate('Carregant dades')+
+							'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');		
+							jQuery('#info_uploadFile').show();
 
-						if(geometryType.indexOf("point")!=-1){
-							capaURLfile.options.style = estil_do;
-						}else if(geometryType.indexOf("line")!=-1){
-							capaURLfile.options.style = lineStyle;
-						}else if(geometryType.indexOf("polygon")!=-1){
-							capaURLfile.options.style = polygonStyle;
+
+						   if (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 ){
+							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+							    else  urlFile="http://172.70.1.11/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+								param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
+								"&urlFile="+encodeURIComponent(urlFile)+
+								"&epsgIN=EPSG:4326"+	
+								"&dinamic=true"+
+								"&uploadFile="+paramUrl.uploadFile+							
+								"&uid="+Cookies.get('uid');		
+							}
+						   
+						   var capaURLfile = new L.GeoJSON.AJAX(param_url, {
+								nom : "urlFile",
+								tipus : tipusFile,
+								estil_do: estil_do,
+								style: polygonStyle,//Estil de poligons i linies
+								pointToLayer : function(feature, latlng) {
+									var geom = L.circleMarker(latlng, estil_do);
+									var pp = feature.properties;
+									var html ='<div class="div_popup_visor"><div class="popup_pres">';
+									propName = "";
+									$.each( pp, function( key, value ) {
+										propName = propName+key+",";
+										if (typeof value == 'string' || value instanceof String) {
+											if(isValidValue(value) && !validateWkt(value)){
+												if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+													html+='<div class="popup_data_row">';
+													var txt = value;
+													if (!$.isNumeric(txt)) {		    				
+														txt = parseUrlTextPopUp(value,key);
+														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txt+'</div>';
+														}else{
+															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														}
+													}
+													else {
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txt+'</div>';
+													}
+													html+= '</div>';
+												}
+											}
+										}
+									});	
+									propName = propName.substr(0, propName.length-1);
+									html+='</div></div>'; 
+									return geom.bindPopup(html);
+								},
+								onEachFeature : function(feature, latlng) {
+									var pp = feature.properties;
+									var html ='<div class="div_popup_visor"><div class="popup_pres">';
+									propName = "";
+									$.each( pp, function( key, value ) {
+										propName = propName+key+",";
+										if (typeof value == 'string' || value instanceof String) {
+											if(isValidValue(value) && !validateWkt(value)){
+												if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+													html+='<div class="popup_data_row">';
+													var txt = value;
+													if (!$.isNumeric(txt)) {		    				
+														txt = parseUrlTextPopUp(value,key);
+														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txt+'</div>';
+														}else{
+															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														}
+													}
+													else {
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txt+'</div>';
+													}
+													html+= '</div>';
+												}
+											}
+										}
+									});	
+									propName = propName.substr(0, propName.length-1);
+									html+='</div></div>'; 
+									return latlng.bindPopup(html);
+								},
+								middleware:function(data){
+									if(data.status && data.status.indexOf("ERROR")!=-1){
+										processFileError(data, urlFile);
+										jQuery('#info_uploadFile').hide();
+									}else{
+										var stringData = JSON.stringify(data);
+										var geometryType = defineGeometryType(stringData);
+				
+										if(geometryType.indexOf("point")!=-1){
+											capaURLfile.options.style = estil_do;
+										}else if(geometryType.indexOf("line")!=-1){
+											capaURLfile.options.style = lineStyle;
+										}else if(geometryType.indexOf("polygon")!=-1){
+											capaURLfile.options.style = polygonStyle;
+										}
+										try{
+											capaURLfile.addData(data);
+											capaURLfile.addTo(map);
+											var bounds = capaURLfile.getBounds();
+											map.fitBounds(bounds);
+										}catch(err){
+											console.debug(err);
+										}
+									}
+								}
+							});
 						}
-						try{
-							capaURLfile.addData(data);
-							capaURLfile.addTo(map);
-							var bounds = capaURLfile.getBounds();
-							map.fitBounds(bounds);
-						}catch(err){
-							console.debug(err);
+					});
+				 });
+			}
+						
+			else{	   
+			
+				if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
+					urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
+					var res = urlFile.split("/");
+					var fileId = res[0];
+					urlFile = "https://drive.google.com/uc?export=download&id="+fileId;
+				}
+				else if(urlFile.indexOf("https://www.dropbox.com")!=-1){
+					urlFile = urlFile.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com");		
+				}
+				
+				if (tipusFile.toLowerCase().indexOf("geojson")>-1) tipusFile=".geojson";
+				if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
+				if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
+				if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
+				
+				var param_url = paramUrl.urlFileDin	+
+				"tipusFile=" + tipusFile+
+				"&urlFile="+encodeURIComponent(urlFile)+
+				"&epsgIN=EPSG:4326"+			
+				"&dinamic=true"+
+				"&uploadFile="+paramUrl.uploadFile+		
+				"&uid="+Cookies.get('uid');		
+				
+				if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
+						urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+						&& (urlFile.indexOf("dropbox")==-1)) 	{
+					param_url = urlFile;
+				}
+								
+				
+				var capaURLfile = new L.GeoJSON.AJAX(param_url, {
+					nom : "urlFile",
+					tipus : tipusFile,
+					estil_do: estil_do,
+					style: polygonStyle,//Estil de poligons i linies
+					pointToLayer : function(feature, latlng) {
+						var geom = L.circleMarker(latlng, estil_do);
+						var pp = feature.properties;
+						var html ='<div class="div_popup_visor"><div class="popup_pres">';
+						propName = "";
+						$.each( pp, function( key, value ) {
+							propName = propName+key+",";
+							if(isValidValue(value) && !validateWkt(value)){
+								if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+									html+='<div class="popup_data_row">';
+									var txt = value;
+									if (!$.isNumeric(txt)) {		    				
+										txt = parseUrlTextPopUp(value,key);
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+									}
+									else {
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}
+									html+= '</div>';
+								}
+							}
+						});	
+						propName = propName.substr(0, propName.length-1);
+						html+='</div></div>'; 
+						return geom.bindPopup(html);
+					},
+					onEachFeature : function(feature, latlng) {
+						var pp = feature.properties;
+						var html ='<div class="div_popup_visor"><div class="popup_pres">';
+						propName = "";
+						$.each( pp, function( key, value ) {
+							propName = propName+key+",";
+							if(isValidValue(value) && !validateWkt(value)){
+								if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+									html+='<div class="popup_data_row">';
+									var txt = value;
+									if (!$.isNumeric(txt)) {		    				
+										txt = parseUrlTextPopUp(value,key);
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+									}
+									else {
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}
+									html+= '</div>';
+								}
+							}
+						});	
+						propName = propName.substr(0, propName.length-1);
+						html+='</div></div>'; 
+						return latlng.bindPopup(html);
+					},
+					middleware:function(data){
+						if(data.status && data.status.indexOf("ERROR")!=-1){
+							processFileError(data, urlFile);
+							jQuery('#info_uploadFile').hide();
+						}else{
+							var stringData = JSON.stringify(data);
+							var geometryType = defineGeometryType(stringData);
+	
+							if(geometryType.indexOf("point")!=-1){
+								capaURLfile.options.style = estil_do;
+							}else if(geometryType.indexOf("line")!=-1){
+								capaURLfile.options.style = lineStyle;
+							}else if(geometryType.indexOf("polygon")!=-1){
+								capaURLfile.options.style = polygonStyle;
+							}
+							try{
+								capaURLfile.addData(data);
+								capaURLfile.addTo(map);
+								var bounds = capaURLfile.getBounds();
+								map.fitBounds(bounds);
+							}catch(err){
+								console.debug(err);
+							}
 						}
 					}
-				}
-			});		
+				});		
+			}
 			return self;
 		},
 		saveLocalStorage:function(){
