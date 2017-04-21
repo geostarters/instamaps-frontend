@@ -191,7 +191,6 @@
 
 			results.results = jQuery.map( results.results, function( val, i ) {
 				///val.thumbnail = HOST_APP+"galeria/"+ val.businessId+".jpeg";
-				console.debug(val);
 				try{
 
 					var data;
@@ -933,7 +932,7 @@
 					if (isDefaultMapTitle(val.nomAplicacio)){
 						val.rank = -1;
 					}
-					var autor = val.entitatUid;
+					var autor = val.usuari;
 					val.entitatUid = autor.split("@")[0];
 					val.data =  new Date(val.dataPublicacio).toLocaleDateString();
 						

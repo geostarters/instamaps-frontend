@@ -9,13 +9,14 @@ $(function () {
         //An empty array to hold GeoJSON data
         var geoJsonData = [];
 
+       
         //Method to be revealed for retrieving data
         function getData(url) {
             return $.getJSON(url);
         }
 
         //Method to be revealed for converting JSON to GeoJSON
-        function convert(url, geometryType, lat, lon, localitzacio) {
+        function convert(url, geometryType, lat, lon, localitzacio, separador) {
 
             //Use promise from getData
             return getData(url).done(function (data) {
@@ -46,7 +47,7 @@ $(function () {
 	                		 }
 	                	 });
 	                	var localitzacio = value[localitzacio];
-	                	var localitzacioSplit = localitzacio.split(",");
+	                	var localitzacioSplit = localitzacio.split(separador);
 	                	geoJsonData.push({
 	                        "type": "Feature",
 	                        "geometry": {

@@ -554,16 +554,22 @@ function accionaCarrega(file,isDrag) {
 			jQuery("#file_name").text(file.name);
 			jQuery("#bt_esborra_ff").show();
 			
-			if ((ff.ext == "csv") || (ff.ext == "txt")) {
+			if ((ff.ext == "csv") || (ff.ext == "txt")) {				
+				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
+				$('#nav_pill a[href="#opt_codi"]').css('display','block');
 				obteCampsCSV(file);
 				obroModal = true;
 				
-			} else if (ff.ext == "xlsx") {
+			} else if (ff.ext == "xlsx") {				
+				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
+				$('#nav_pill a[href="#opt_codi"]').css('display','block');
 				obteCampsXLSX(file);
 				obroModal = true;
 				
 			} else if (ff.ext == "xls") {
-				obteCampsXLSX(file);
+				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
+				$('#nav_pill a[href="#opt_codi"]').css('display','block');
+				obteCampsXLSX(file);				
 				obroModal = true;
 				
 			} else if( (ff.ext == "tif")  || (ff.ext=="sid") || (ff.ext=="jpg") || (ff.ext=="ecw") || (ff.ext=="zip" && !ff.isShape)) {
@@ -581,12 +587,23 @@ function accionaCarrega(file,isDrag) {
 				jQuery('#dv_optSRS').show();
 				obroModal = true;
 				
-			}else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "geojson") || (ff.ext == "json") || (ff.ext=="zip" && ff.isShape)) {
+			}else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "geojson") ||  (ff.ext=="zip" && ff.isShape)) {
 				jQuery('#dv_optCapa').hide();
 				jQuery('#dv_optSRS').show();
 				obroModal = true;
 				
-			}else{
+			}else if ((ff.ext == "json")){
+				jQuery('#dv_optCapa').show();
+				$('#nav_pill a[href="#opt_adreca"]').css('display','none');
+				$('#nav_pill a[href="#opt_codi"]').css('display','none');
+				$('#ul_coords #coordX1').css('display','none');
+				$('#ul_coords #coordY1').css('display','none');
+				$('#ul_coords #coordX2').css('display','block');
+				$('#ul_coords #coordY2').css('display','block');
+				jQuery('#dv_optSRS').hide();
+				obroModal = true;
+			}
+			else{	
 				envioArxiu.tipusAcc='gdal'; 
 				enviarArxiu();
 				obroModal = false;
