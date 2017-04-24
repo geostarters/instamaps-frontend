@@ -1419,7 +1419,7 @@
 							jQuery('#info_uploadFile').show();
 
 
-						   if (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 ){
+						   if (undefined!=param_url && (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 )){
 							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
 							    else  urlFile="http://172.70.1.11/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
 								param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
