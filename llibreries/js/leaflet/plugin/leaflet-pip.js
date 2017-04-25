@@ -39,26 +39,30 @@ function isLine(l) {
         ['LineString', 'MultiLineString'].indexOf(l.properties.feature.geometry.type) !== -1;
 }
 
-function getRadius(l)
+function getBoundingBox(l)
 {
 
-  var radius = 6;
+  var bbox = [0, 0, 0, 0];  //NW, SE
   if(l._radius)
   {
   
-    radius = l._radius;
+    var radius = Number.parseInt(l._radius);
+    bbox = [-radius, -radius, radius, radius];
 
   }
   else if(l.properties &&
     l.properties.estil &&
-    l.properties.iconSize)
+    l.properties.estil.iconSize)
   {
 
-    radius = l.properties.iconSize.split('#')[1];
+    var radius = l.properties.estil.iconSize.split('#');
+    var radiusX = Number.parseInt(radius[0]) / 2;
+    var radiusY = Number.parseInt(radius[1]);
+    bbox = [-radiusX, -radiusY, radiusX, 0];
 
   } 
 
-  return Number.parseInt(radius);
+  return bbox;
 
 }
 
@@ -137,13 +141,13 @@ var leafletPip = {
       else
       {
 
-        var radius = getRadius(l);
+        var bbox = getBoundingBox(l);
         var feature = getFeature(l);
         var geometry = getGeometry(l);
         if(isPoint(l) && gju.pointInPoint({
               type: 'Point',
               coordinates: p
-          }, geometry, radius))
+          }, geometry, bbox))
         {
           results.push(feature);
         }
@@ -292,22 +296,24 @@ module.exports = leafletPip;
     return insidePoly;
   }
 
-  gju.pointInPoint = function (a, b, radius) {
+  gju.pointInPoint = function (src, target, bbox) {
+    //src is the point we are checking (the click event one)
+    //target is the point we must check with (the marker center)
 
-    var coordsA = a.coordinates;
-    var coordsB = b.coordinates;
-    var aLL = L.latLng(coordsA[1], coordsA[0]);
-    var bLL = L.latLng(coordsB[1], coordsB[0]);
+    var coordsSrc = src.coordinates;
+    var coordsTarget = target.coordinates;
+    var srcLL = L.latLng(coordsSrc[1], coordsSrc[0]);
+    var targetLL = L.latLng(coordsTarget[1], coordsTarget[0]);
     var zoom = map.getZoom();
 
-    aScreen = map.project(aLL, zoom);
-    bScreen = map.project(bLL, zoom);
+    srcScreen = map.project(srcLL, zoom);
+    targetScreen = map.project(targetLL, zoom);
 
-    var xInc = Math.abs(aScreen.x - bScreen.x);
-    var yInc = Math.abs(aScreen.y - bScreen.y);
-    var dist = Math.ceil(Math.sqrt(xInc*xInc + yInc*yInc));
+    var xInc = srcScreen.x - targetScreen.x;
+    var yInc = srcScreen.y - targetScreen.y;
+    var isInside = (bbox[0]<=xInc && bbox[1]<=yInc && xInc<=bbox[2] && yInc<=bbox[3]);
 
-    return dist <= radius;
+    return isInside;
 
   }
   

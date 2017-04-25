@@ -291,6 +291,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 											capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 											controlCapes.addOverlay(capaURLfile, nomCapa, true);
 											controlCapes._lastZIndex++;
+											var bounds = capaURLfile.getBounds();
+											map.fitBounds(bounds);
 											activaPanelCapes(true);	
 
 										}else{
@@ -527,6 +529,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 							controlCapes.addOverlay(capaURLfile, nomCapa, true);
 							controlCapes._lastZIndex++;
+							var bounds = capaURLfile.getBounds();
+							map.fitBounds(bounds);
 							activaPanelCapes(true);	
 
 						}else{
