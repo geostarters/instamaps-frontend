@@ -1465,7 +1465,7 @@ function finishAddFeatureToTematic(layer){
 			updateFeatureCount(null, capaUsrActiva.options.businessId);
 	}
 		
-	var html = createPopupWindow(layer,type);
+	var html = createPopupWindow(layer,type, true);
 	layer.properties.feature.properties.popupData = html;
 	layer.properties.feature.properties.capaNom = capaUsrActiva.options.nom;
 	layer.properties.popupData = html;

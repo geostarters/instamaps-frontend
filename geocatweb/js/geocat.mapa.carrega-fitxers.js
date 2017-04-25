@@ -76,6 +76,10 @@ function creaAreesDragDropFiles() {
 				formData.append("name", envioArxiu.serverName);
 				jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.translate('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
 				jQuery('#info_uploadFile').show();
+			}else if (envioArxiu.ext == "json"){
+				createURLfileLayer(urlFile, "."+ff.ext,  jQuery("#select-upload-epsg").val(), false,file.name, 
+						   jQuery("#ul_coords #coordX2").val(),jQuery("#ul_coords #coordY2").val(),
+						   'coords');
 			}else{
 				formData.append("nomArxiu", file.name); 
 				formData.append("tipusAcc", envioArxiu.tipusAcc); //gdal,coordenades,codis,adreca
@@ -554,16 +558,22 @@ function accionaCarrega(file,isDrag) {
 			jQuery("#file_name").text(file.name);
 			jQuery("#bt_esborra_ff").show();
 			
-			if ((ff.ext == "csv") || (ff.ext == "txt")) {
+			if ((ff.ext == "csv") || (ff.ext == "txt")) {				
+				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
+				$('#nav_pill a[href="#opt_codi"]').css('display','block');
 				obteCampsCSV(file);
 				obroModal = true;
 				
-			} else if (ff.ext == "xlsx") {
+			} else if (ff.ext == "xlsx") {				
+				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
+				$('#nav_pill a[href="#opt_codi"]').css('display','block');
 				obteCampsXLSX(file);
 				obroModal = true;
 				
 			} else if (ff.ext == "xls") {
-				obteCampsXLSX(file);
+				$('#nav_pill a[href="#opt_adreca"]').css('display','block');
+				$('#nav_pill a[href="#opt_codi"]').css('display','block');
+				obteCampsXLSX(file);				
 				obroModal = true;
 				
 			} else if( (ff.ext == "tif")  || (ff.ext=="sid") || (ff.ext=="jpg") || (ff.ext=="ecw") || (ff.ext=="zip" && !ff.isShape)) {
@@ -581,12 +591,23 @@ function accionaCarrega(file,isDrag) {
 				jQuery('#dv_optSRS').show();
 				obroModal = true;
 				
-			}else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "geojson") || (ff.ext == "json") || (ff.ext=="zip" && ff.isShape)) {
+			}else if ((ff.ext == "dgn") || (ff.ext == "dxf") || (ff.ext == "geojson") ||  (ff.ext=="zip" && ff.isShape)) {
 				jQuery('#dv_optCapa').hide();
 				jQuery('#dv_optSRS').show();
 				obroModal = true;
 				
-			}else{
+			}else if ((ff.ext == "json")){
+				jQuery('#dv_optCapa').show();
+				$('#nav_pill a[href="#opt_adreca"]').css('display','none');
+				$('#nav_pill a[href="#opt_codi"]').css('display','none');
+				$('#ul_coords #coordX1').css('display','none');
+				$('#ul_coords #coordY1').css('display','none');
+				$('#ul_coords #coordX2').css('display','block');
+				$('#ul_coords #coordY2').css('display','block');
+				jQuery('#dv_optSRS').hide();				
+				obroModal = true;
+			}
+			else{	
 				envioArxiu.tipusAcc='gdal'; 
 				enviarArxiu();
 				obroModal = false;
@@ -1222,6 +1243,33 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 				jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.translate('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
 				jQuery('#info_uploadFile').show();
 				
+			}
+			else if (envioArxiu.ext == "json"){
+			/*	var reader = new FileReader();
+				reader.onload = function(e) {
+					 var dataSocrata={
+								serverName: file.name,
+								jsonSocrata: e.target.result
+						};
+						
+					//console.debug(dataSocrata);
+					crearFitxerSocrata(dataSocrata).then(function(results){
+						if (results.status=="OK"){
+							var urlFile;
+							var param_url = results.filePath;
+							if (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 ){
+							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+							    else  urlFile="http://172.70.1.11/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+							}
+							createURLfileLayer(urlFile, "."+envioArxiu.ext,  jQuery("#select-upload-epsg").val(), false,file.name, 
+									   jQuery("#ul_coords #coordX2").val(),jQuery("#ul_coords #coordY2").val(),
+									   'coords');
+						}					
+					});
+					
+				};
+				reader.readAsText(file);
+*/
 			}else{
 				formData.append("nomArxiu", file.name); 
 				formData.append("tipusAcc", envioArxiu.tipusAcc); 

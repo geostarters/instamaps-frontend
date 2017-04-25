@@ -482,7 +482,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 										  '<option value=".xls">XLS</option>'+
 										  '<option value=".xlsx">XLSX</option>'+
 										  '<option value=".zip">Zip File</option>'+
-										  //'<option value=".json">JSON</option>'+
+										  '<option value=".json">JSON</option>'+
 										  '<option value="-1">'+window.lang.translate("Selecciona el Format")+'</option>'+
 										'</select>'+
 										'<br><br>'+
@@ -508,7 +508,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada Y o LAT ")+'</span>'+
 															'<input type="text" id="input-coord-y" class="form-control">'+
 														'</div>'+
-														'<br>'+	
+														'<br>'+														  
 										'	         </ul>'+
 										'	      </div>'+
 										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
