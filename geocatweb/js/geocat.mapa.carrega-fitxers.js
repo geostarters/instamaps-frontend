@@ -76,6 +76,10 @@ function creaAreesDragDropFiles() {
 				formData.append("name", envioArxiu.serverName);
 				jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.translate('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
 				jQuery('#info_uploadFile').show();
+			}else if (envioArxiu.ext == "json"){
+				createURLfileLayer(urlFile, "."+ff.ext,  jQuery("#select-upload-epsg").val(), false,file.name, 
+						   jQuery("#ul_coords #coordX2").val(),jQuery("#ul_coords #coordY2").val(),
+						   'coords');
 			}else{
 				formData.append("nomArxiu", file.name); 
 				formData.append("tipusAcc", envioArxiu.tipusAcc); //gdal,coordenades,codis,adreca
@@ -600,7 +604,7 @@ function accionaCarrega(file,isDrag) {
 				$('#ul_coords #coordY1').css('display','none');
 				$('#ul_coords #coordX2').css('display','block');
 				$('#ul_coords #coordY2').css('display','block');
-				jQuery('#dv_optSRS').hide();
+				jQuery('#dv_optSRS').hide();				
 				obroModal = true;
 			}
 			else{	
@@ -1239,6 +1243,33 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 				jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.translate('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
 				jQuery('#info_uploadFile').show();
 				
+			}
+			else if (envioArxiu.ext == "json"){
+			/*	var reader = new FileReader();
+				reader.onload = function(e) {
+					 var dataSocrata={
+								serverName: file.name,
+								jsonSocrata: e.target.result
+						};
+						
+					//console.debug(dataSocrata);
+					crearFitxerSocrata(dataSocrata).then(function(results){
+						if (results.status=="OK"){
+							var urlFile;
+							var param_url = results.filePath;
+							if (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 ){
+							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+							    else  urlFile="http://172.70.1.11/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+							}
+							createURLfileLayer(urlFile, "."+envioArxiu.ext,  jQuery("#select-upload-epsg").val(), false,file.name, 
+									   jQuery("#ul_coords #coordX2").val(),jQuery("#ul_coords #coordY2").val(),
+									   'coords');
+						}					
+					});
+					
+				};
+				reader.readAsText(file);
+*/
 			}else{
 				formData.append("nomArxiu", file.name); 
 				formData.append("tipusAcc", envioArxiu.tipusAcc); 

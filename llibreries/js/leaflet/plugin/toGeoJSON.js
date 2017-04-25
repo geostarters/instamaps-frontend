@@ -17,8 +17,7 @@ $(function () {
 
         //Method to be revealed for converting JSON to GeoJSON
         function convert(url, geometryType, lat, lon, localitzacio, separador) {
-
-            //Use promise from getData
+        	//Use promise from getData
             return getData(url).done(function (data) {
             	 //Filter to only use objects with Latitude and Longitude
             	var dades = data;
