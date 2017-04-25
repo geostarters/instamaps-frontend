@@ -1245,7 +1245,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 				
 			}
 			else if (envioArxiu.ext == "json"){
-				var reader = new FileReader();
+			/*	var reader = new FileReader();
 				reader.onload = function(e) {
 					 var dataSocrata={
 								serverName: file.name,
@@ -1269,7 +1269,7 @@ function carregarModalFitxer(refrescar,businessId,name,servertype,capaEdicio){
 					
 				};
 				reader.readAsText(file);
-
+*/
 			}else{
 				formData.append("nomArxiu", file.name); 
 				formData.append("tipusAcc", envioArxiu.tipusAcc); 
