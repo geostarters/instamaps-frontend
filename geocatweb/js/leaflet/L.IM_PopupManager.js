@@ -171,7 +171,8 @@
 
 				if(currentLayer.layer.options &&
 					currentLayer.layer.options.tipus && 
-					t_wms == currentLayer.layer.options.tipus)
+					(t_wms == currentLayer.layer.options.tipus) ||
+					(t_vis_wms == currentLayer.layer.options.tipus))
 				{
 
 					var tileWMS = L.tileLayer.betterWms(currentLayer.layer._url, 
