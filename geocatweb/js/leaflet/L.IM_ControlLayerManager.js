@@ -859,11 +859,24 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			// Icona Taula de Dades Sempre
 			if ((obj.layer.options.source || obj.layer.options.geometryType=="marker" ||  obj.layer.options.geometryType=="polyline" 
 				||  obj.layer.options.geometryType=="polygon") && !obj.layer.options.dinamic ) {
-				col = L.DomUtil.create('div',
-					'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-				_menu_item_checkbox.appendChild(col);
+				if (getModeMapa()){
+					col = L.DomUtil.create('div',
+						'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+					_menu_item_checkbox.appendChild(col);
+				}
+				else {
+					if(downloadableData[obj.layer.options.businessId]){
+	    				if(downloadableData[obj.layer.options.businessId][0].chck) {
+	    					col = L.DomUtil.create('div',
+	    							'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
+	    						col.layerId = input.layerId;
+	    						L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+	    						_menu_item_checkbox.appendChild(col);
+	    				}
+					}
+				}
 			}
 			// Icona Descàrrega sempre
 			//Issue #467: S'ha de respectar el que es selecciona al publicar sobre si una capa és descarregable o no.
