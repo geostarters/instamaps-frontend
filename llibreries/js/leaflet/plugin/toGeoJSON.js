@@ -12,17 +12,31 @@ $(function () {
        
         //Method to be revealed for retrieving data
         function getData(url) {
-            return $.getJSON(url);
+        	var urlProxy = HOST_APP+paramUrl.proxy_betterWMS + "?url="+url;
+        	return jQuery.ajax({
+				url: urlProxy,
+				async: false,
+				method: 'get'
+			}).promise();
+			//return $.getJSON(urlProxy);
         }
 
         //Method to be revealed for converting JSON to GeoJSON
         function convert(url, geometryType, lat, lon, localitzacio, separador) {
         	//Use promise from getData
-            return getData(url).done(function (data) {
+            return getData(url).then(function(results)  {
             	 //Filter to only use objects with Latitude and Longitude
-            	var dades = data;
+            	var dades = results;
             	  var keys = [];
-            	if (data.datasets!=undefined) dades=data.datasets;
+            	if (dades.datasets!=undefined) dades=dades.datasets;
+            	else if (dades.data!=undefined) dades=dades.data;
+            	
+            	if (Object.keys(dades).length<=2){
+            		for (var key in dades) {
+            			var value = dades[key];
+            			if (value instanceof Array) dades=dades[key];
+            		}
+            	}
             	
                 var filteredData = dades.filter(function (item) {
                 	return !!item[lat] && !!item[lon];
@@ -91,6 +105,20 @@ $(function () {
             geoJsonData = [];
             L.toGeoJSON.geoJsonData = geoJsonData;
         }
+        
+        function createCORSRequest(method, url) {
+        	$.ajax({
+				url: paramUrl.proxy_betterWMS,
+				data: {url: url},
+				success: function (data, status, xhr) {
+					console.debug(data);
+					
+				},
+				error: function (xhr, status, error) {
+					console.debug(error);
+				}
+			});
+      	}
 
         //Reveal methods and GeoJSON data
         return {
