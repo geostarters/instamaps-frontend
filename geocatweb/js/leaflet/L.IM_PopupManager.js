@@ -150,11 +150,13 @@
 			var self = this;
 			var deferred = $.Deferred();
 			var visibleLayers = control.getVisibleLayers(self.options.addSublayers);
+			var latlng = event.latlng;
 
 			if(event.originalEvent) {
 				
 				event.originalEvent.stopImmediatePropagation();
 				event.originalEvent.preventDefault();
+				latlng = map.mouseEventToLatLng(event.originalEvent);
 
 			}
 
@@ -194,7 +196,7 @@
 				}
 				else
 				{
-					var match = leafletPip.pointInLayer(event.latlng, currentLayer.layer, false);
+					var match = leafletPip.pointInLayer(latlng, currentLayer.layer, false);
 					for(var j=0, lenJ=match.length; j<lenJ; ++j)
 					{
 
@@ -209,7 +211,7 @@
 			self.createPopupContents(matches);
 			if(0 != matches.length)
 			{
-				L.popup().setLatLng(event.latlng)
+				L.popup({'offset':[0,-25]}).setLatLng(latlng)
 					.setContent(self.options.html).openOn(map);
 
 				self.updateVisibleTabTitles();
