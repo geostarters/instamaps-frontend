@@ -12,7 +12,8 @@ $(function () {
        
         //Method to be revealed for retrieving data
         function getData(url) {
-            return $.getJSON(url);
+        	var urlProxy = paramUrl.proxy_betterWMS + "?url="+url;
+			return $.getJSON(urlProxy);
         }
 
         //Method to be revealed for converting JSON to GeoJSON
@@ -91,6 +92,20 @@ $(function () {
             geoJsonData = [];
             L.toGeoJSON.geoJsonData = geoJsonData;
         }
+        
+        function createCORSRequest(method, url) {
+        	$.ajax({
+				url: paramUrl.proxy_betterWMS,
+				data: {url: url},
+				success: function (data, status, xhr) {
+					console.debug(data);
+					
+				},
+				error: function (xhr, status, error) {
+					console.debug(error);
+				}
+			});
+      	}
 
         //Reveal methods and GeoJSON data
         return {
