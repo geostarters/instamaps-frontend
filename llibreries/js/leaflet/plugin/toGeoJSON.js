@@ -13,7 +13,12 @@ $(function () {
         //Method to be revealed for retrieving data
         function getData(url) {
         	var urlProxy = paramUrl.proxy_betterWMS + "?url="+url;
-			return $.getJSON(urlProxy);
+        	return jQuery.ajax({
+				url: urlProxy,
+				async: false,
+				method: 'post'
+			}).promise();
+			//return $.getJSON(urlProxy);
         }
 
         //Method to be revealed for converting JSON to GeoJSON
