@@ -144,6 +144,60 @@
 
 		},
 
+		setPopupData: function(data, index)
+		{
+
+			var self = this;
+			$('#wms-content-' + self.options.id + '-' + index).html(data);
+			$('#wms-content-' + self.options.id + '-' + index).removeClass('noOverflow');
+
+		},
+
+		doWMSRequest: function(layer, event, index)
+		{
+
+			var self = this;
+			var tileWMS = L.tileLayer.betterWms(layer._url, layer.wmsParams);
+			tileWMS.options.queryable = layer.options.queryable;
+			tileWMS._map = map;
+		
+			tileWMS.getPopupContent(event, index).then(function(data) {
+
+				self.setPopupData(data.content, index);
+
+			});
+
+		},
+
+		doUTFGridWMS: function(layer, event, index)
+		{
+
+			var self = this;
+			var utfGrid = new L.UtfGrid(layer._url, 
+				createOptionsUtfGrid(layer.wmsParams, layer.options));
+			utfGrid._map = map;
+			utfGrid._update().then(function() {
+				var data = utfGrid.createPopup(utfGrid._objectForEvent(event).data);
+				self.setPopupData(data, index);
+			});
+
+		},
+
+		addWMSMatch: function(layer, index, matches) {
+
+			var self = this;
+			var loader = '<div id="preloader6" style="margin-left:calc(50% - 24px);">' +
+				'<span></span><span></span><span></span><span></span>' +
+				'</div>';
+
+			matches.push({isWMS: true, 
+				name: layer.options.nom, 
+				content: '<div id="wms-content-' + self.options.id + '-' + index + '" class="noOverflow">' + loader + '</div>',
+				isQueryable: layer.options.queryable
+			});
+
+		},
+
 		createMergedDataPopup: function(feat, event, control) 
 		{
 		
@@ -175,24 +229,19 @@
 					(t_vis_wms == currentLayer.layer.options.tipus))
 				{
 
-					var tileWMS = L.tileLayer.betterWms(currentLayer.layer._url, 
-						currentLayer.layer.wmsParams);
-					tileWMS.options.queryable = currentLayer.layer.options.queryable;
-					tileWMS._map = map;
-					var loader = '<div id="preloader6" style="margin-left:calc(50% - 24px);">' +
-						'<span></span><span></span><span></span><span></span>' +
-						'</div>';
-					matches.push({isWMS: true, 
-						name: currentLayer.layer.options.nom, 
-						content: '<div id="wms-content-' + self.options.id + '-' + i + '" class="noOverflow">' + loader + '</div>',
-						isQueryable: currentLayer.layer.options.queryable
-					});
-					var asyncr = tileWMS.getPopupContent(event, i).then(function(data) {
+					self.addWMSMatch(currentLayer.layer, i, matches);
 
-						$('#wms-content-' + self.options.id + '-' + data.index).html(data.content);
-						$('#wms-content-' + self.options.id + '-' + data.index).removeClass('noOverflow');
+					if(t_wms == currentLayer.layer.options.tipus)
+					{
 
-					});
+						self.doWMSRequest(currentLayer.layer, event, i);
+
+					}
+					else {
+
+						self.doUTFGridWMS(currentLayer.layer, event, i)
+
+					}
 
 				}
 				else
