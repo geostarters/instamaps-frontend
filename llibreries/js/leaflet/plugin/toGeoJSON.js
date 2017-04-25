@@ -65,7 +65,7 @@ $(function () {
 	                        "type": "Feature",
 	                        "geometry": {
 	                            "type": geometryType,
-	                            "coordinates": [ parseFloat(localitzacioSplit[0]),  parseFloat(localitzacioSplit[1])]
+	                            "coordinates": [ parseFloat(localitzacioSplit[1]),  parseFloat(localitzacioSplit[0])]
 	                        },
 	                        "properties": value
 	                    });
@@ -88,7 +88,7 @@ $(function () {
                              "type": "Feature",
                              "geometry": {
                                  "type": geometryType,
-                                 "coordinates": [ parseFloat(value[lon]),  parseFloat(value[lat])]
+                                 "coordinates": [ parseFloat(value[lat]),  parseFloat(value[lon])]
                              },
                              "properties": value
                          });
