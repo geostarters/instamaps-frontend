@@ -117,7 +117,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								$.each( pp, function( key, value ) {
 									propName = propName+key+",";
 									if(isValidValue(value) && !validateWkt(value)){
-										if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+										if ( key != 'businessId' && key != 'slotd50'){
 											var txt = value;
 											if (typeof txt == "string") {
 												html+='<div class="popup_data_row">';
@@ -162,7 +162,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								$.each( pp, function( key, value ) {
 									propName = propName+key+",";
 									if(isValidValue(value) && !validateWkt(value)){
-										if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+										if ( key != 'businessId' && key != 'slotd50'){
 											
 											var txt = value;
 											if (typeof txt == "string") {
@@ -291,6 +291,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 											capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 											controlCapes.addOverlay(capaURLfile, nomCapa, true);
 											controlCapes._lastZIndex++;
+											var bounds = capaURLfile.getBounds();
+											map.fitBounds(bounds);
 											activaPanelCapes(true);	
 
 										}else{
@@ -358,7 +360,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -401,7 +403,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -527,6 +529,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 							controlCapes.addOverlay(capaURLfile, nomCapa, true);
 							controlCapes._lastZIndex++;
+							var bounds = capaURLfile.getBounds();
+							map.fitBounds(bounds);
 							activaPanelCapes(true);	
 
 						}else{
@@ -1173,7 +1177,7 @@ function loadURLfileLayer(layer){
 				$.each( pp, function( key, value ) {
 					if (typeof value == "string") {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){							
+						if ( key != 'businessId' && key != 'slotd50'){							
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1249,7 +1253,7 @@ function loadURLfileLayer(layer){
 				$.each( pp, function( key, value ) {
 					if (typeof value == "string") {
 						if(isValidValue(value) && !validateWkt(value)){
-							if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+							if ( key != 'businessId' && key != 'slotd50'){
 								html+='<div class="popup_data_row">';
 								var txt = value;
 								if (!$.isNumeric(txt)) {		    				
@@ -1395,7 +1399,7 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1443,7 +1447,7 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1533,7 +1537,7 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1567,7 +1571,7 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -1759,7 +1763,7 @@ function constructLayer(layer, estil_do){
 		var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		$.each( pp, function( key, value ) {
 			if(isValidValue(value) && !validateWkt(value)){
-				if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+				if ( key != 'businessId' && key != 'slotd50'){
 					html+='<div class="popup_data_row">';
 					var txt = value;
 					if (!$.isNumeric(txt)) {		    				

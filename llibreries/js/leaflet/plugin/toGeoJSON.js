@@ -12,11 +12,11 @@ $(function () {
        
         //Method to be revealed for retrieving data
         function getData(url) {
-        	var urlProxy = paramUrl.proxy_betterWMS + "?url="+url;
+        	var urlProxy = HOST_APP+paramUrl.proxy_betterWMS + "?url="+url;
         	return jQuery.ajax({
 				url: urlProxy,
 				async: false,
-				method: 'post'
+				method: 'get'
 			}).promise();
 			//return $.getJSON(urlProxy);
         }
@@ -24,11 +24,19 @@ $(function () {
         //Method to be revealed for converting JSON to GeoJSON
         function convert(url, geometryType, lat, lon, localitzacio, separador) {
         	//Use promise from getData
-            return getData(url).done(function (data) {
+            return getData(url).then(function(results)  {
             	 //Filter to only use objects with Latitude and Longitude
-            	var dades = data;
+            	var dades = results;
             	  var keys = [];
-            	if (data.datasets!=undefined) dades=data.datasets;
+            	if (dades.datasets!=undefined) dades=dades.datasets;
+            	else if (dades.data!=undefined) dades=dades.data;
+            	
+            	if (Object.keys(dades).length<=2){
+            		for (var key in dades) {
+            			var value = dades[key];
+            			if (value instanceof Array) dades=dades[key];
+            		}
+            	}
             	
                 var filteredData = dades.filter(function (item) {
                 	return !!item[lat] && !!item[lon];
@@ -57,7 +65,7 @@ $(function () {
 	                        "type": "Feature",
 	                        "geometry": {
 	                            "type": geometryType,
-	                            "coordinates": [ parseFloat(localitzacioSplit[0]),  parseFloat(localitzacioSplit[1])]
+	                            "coordinates": [ parseFloat(localitzacioSplit[1]),  parseFloat(localitzacioSplit[0])]
 	                        },
 	                        "properties": value
 	                    });
@@ -80,7 +88,7 @@ $(function () {
                              "type": "Feature",
                              "geometry": {
                                  "type": geometryType,
-                                 "coordinates": [ parseFloat(value[lon]),  parseFloat(value[lat])]
+                                 "coordinates": [ parseFloat(value[lat]),  parseFloat(value[lon])]
                              },
                              "properties": value
                          });

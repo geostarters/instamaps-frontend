@@ -144,17 +144,73 @@
 
 		},
 
+		setPopupData: function(data, index)
+		{
+
+			var self = this;
+			$('#wms-content-' + self.options.id + '-' + index).html(data);
+			$('#wms-content-' + self.options.id + '-' + index).removeClass('noOverflow');
+
+		},
+
+		doWMSRequest: function(layer, event, index)
+		{
+
+			var self = this;
+			var tileWMS = L.tileLayer.betterWms(layer._url, layer.wmsParams);
+			tileWMS.options.queryable = layer.options.queryable;
+			tileWMS._map = map;
+		
+			tileWMS.getPopupContent(event, index).then(function(data) {
+
+				self.setPopupData(data.content, index);
+
+			});
+
+		},
+
+		doUTFGridWMS: function(layer, event, index)
+		{
+
+			var self = this;
+			var utfGrid = new L.UtfGrid(layer._url, 
+				createOptionsUtfGrid(layer.wmsParams, layer.options));
+			utfGrid._map = map;
+			utfGrid._update().then(function() {
+				var data = utfGrid.createPopup(utfGrid._objectForEvent(event).data);
+				self.setPopupData(data, index);
+			});
+
+		},
+
+		addWMSMatch: function(layer, index, matches) {
+
+			var self = this;
+			var loader = '<div id="preloader6" style="margin-left:calc(50% - 24px);">' +
+				'<span></span><span></span><span></span><span></span>' +
+				'</div>';
+
+			matches.push({isWMS: true, 
+				name: layer.options.nom, 
+				content: '<div id="wms-content-' + self.options.id + '-' + index + '" class="noOverflow">' + loader + '</div>',
+				isQueryable: layer.options.queryable
+			});
+
+		},
+
 		createMergedDataPopup: function(feat, event, control) 
 		{
 		
 			var self = this;
 			var deferred = $.Deferred();
 			var visibleLayers = control.getVisibleLayers(self.options.addSublayers);
+			var latlng = event.latlng;
 
 			if(event.originalEvent) {
 				
 				event.originalEvent.stopImmediatePropagation();
 				event.originalEvent.preventDefault();
+				latlng = map.mouseEventToLatLng(event.originalEvent);
 
 			}
 
@@ -169,32 +225,28 @@
 
 				if(currentLayer.layer.options &&
 					currentLayer.layer.options.tipus && 
-					t_wms == currentLayer.layer.options.tipus)
+					(t_wms == currentLayer.layer.options.tipus) ||
+					(t_vis_wms == currentLayer.layer.options.tipus))
 				{
 
-					var tileWMS = L.tileLayer.betterWms(currentLayer.layer._url, 
-						currentLayer.layer.wmsParams);
-					tileWMS.options.queryable = currentLayer.layer.options.queryable;
-					tileWMS._map = map;
-					var loader = '<div id="preloader6" style="margin-left:calc(50% - 24px);">' +
-						'<span></span><span></span><span></span><span></span>' +
-						'</div>';
-					matches.push({isWMS: true, 
-						name: currentLayer.layer.options.nom, 
-						content: '<div id="wms-content-' + self.options.id + '-' + i + '" class="noOverflow">' + loader + '</div>',
-						isQueryable: currentLayer.layer.options.queryable
-					});
-					var asyncr = tileWMS.getPopupContent(event, i).then(function(data) {
+					self.addWMSMatch(currentLayer.layer, i, matches);
 
-						$('#wms-content-' + self.options.id + '-' + data.index).html(data.content);
-						$('#wms-content-' + self.options.id + '-' + data.index).removeClass('noOverflow');
+					if(t_wms == currentLayer.layer.options.tipus)
+					{
 
-					});
+						self.doWMSRequest(currentLayer.layer, event, i);
+
+					}
+					else {
+
+						self.doUTFGridWMS(currentLayer.layer, event, i)
+
+					}
 
 				}
 				else
 				{
-					var match = leafletPip.pointInLayer(event.latlng, currentLayer.layer, false);
+					var match = leafletPip.pointInLayer(latlng, currentLayer.layer, false);
 					for(var j=0, lenJ=match.length; j<lenJ; ++j)
 					{
 
@@ -209,7 +261,7 @@
 			self.createPopupContents(matches);
 			if(0 != matches.length)
 			{
-				L.popup().setLatLng(event.latlng)
+				L.popup({'offset':[0,-25]}).setLatLng(latlng)
 					.setContent(self.options.html).openOn(map);
 
 				self.updateVisibleTabTitles();

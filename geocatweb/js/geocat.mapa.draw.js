@@ -1603,7 +1603,14 @@ function updateFeatureMove(featureID, capaEdicioID, capaEdicioLeafletId){
 	
     updateGeometria(data).then(function(results){
 	    if(results.status == 'OK'){
-	    	if (layer.properties.tipusFeature=="marker" && layer.properties.data.nom &&  layer.properties.data.text) createPopupWindow(layer,"marker");
+	    	if (layer.properties.tipusFeature=="marker" && layer.properties.data.nom &&  layer.properties.data.text) {
+
+	    		var html = createPopupWindow(layer, "marker", true);
+				layer.properties.feature.properties.popupData = html;
+				layer.properties.popupData = html;
+
+	    	}
+
 	    	jQuery('.popup_pres').show();
 	    	//Actualitzem visualitzacions de la capa on estava la geometria modificada
 	    	var capaEdicio = controlCapes._layers[capaEdicioLeafletId];
