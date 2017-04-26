@@ -1,11 +1,11 @@
 /**
  * 
  */
-
+console.info("add");
 function loadVisualitzacioWmsLayer(layer){
 	
-//	console.debug("loadVisualitzacioWmsLayer");
-//	console.debug(layer);
+	console.debug("loadVisualitzacioWmsLayer");
+	console.debug(layer);
 	
 	var jsonOptions;	
 	
@@ -130,6 +130,8 @@ function loadVisualitzacioWmsLayer(layer){
 }
 
 function loadVisualitzacioWmsLayerSenseUtfGrid(layer){
+	
+	console.info(layer);
 	var defer = $.Deferred();
 	var optionsWMS = {
 	        layers : layer.serverName,
