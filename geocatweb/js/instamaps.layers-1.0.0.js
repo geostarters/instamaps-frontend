@@ -24,11 +24,11 @@
 			_map = self.map,
 			defer = $.Deferred();
 
-			if (value.epsg == "4326"){
+			if (value.epsg && value.epsg.indexOf("4326")!=-1){
 				value.epsg = L.CRS.EPSG4326;
-			}else if (value.epsg == "25831"){
+			}else if (value.epsg && value.epsg.indexOf("25831")!=-1){
 				value.epsg = L.CRS.EPSG25831;
-			}else if (value.epsg == "23031"){
+			}else if (value.epsg && value.epsg.indexOf("23031")!=-1){
 				value.epsg = L.CRS.EPSG23031;
 			}else{
 				value.epsg = _map.options.crs;
@@ -138,7 +138,7 @@
 				var resultats ={};
 				//businessIdMapa=796aad9d9e4b1846469b25172316910e
 				if ('796aad9d9e4b1846469b25172316910e'==_mapConfig.businessId){//TODO esborrar
-					console.debug(results);
+					
 					self.loadLayer(results.origen[0]).then(function(){
 						num_origen++;
 						self._waitLoadAll(num_origen);

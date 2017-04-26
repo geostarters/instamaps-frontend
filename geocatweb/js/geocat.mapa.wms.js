@@ -324,13 +324,13 @@ function getCapabilitiesWMS(url, servidor) {
 				ActiuWMS.epsgtxt = 'EPSG:3857';
 			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';
+				ActiuWMS.epsgtxt = 'EPSG:4326';
 			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';
 			} else if (jQuery.inArray('EPSG:4258', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';	
+				ActiuWMS.epsgtxt = 'EPSG:4326';	
 			} else {
 				alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 				return;
@@ -388,6 +388,8 @@ function addWmsToMap(wms){
 	wmsLayer.options.nom = wms.servidor;
 	wmsLayer.options.tipus = t_wms;
 	
+	
+	
 	if(typeof url('?businessid') == "string"){
 		var data = {
 			uid:Cookies.get('uid'),
@@ -399,7 +401,7 @@ function addWmsToMap(wms){
             activas: true,
             visibilitats: true,
             order: controlCapes._lastZIndex+1,
-            epsg: ActiuWMS.epsgtxt,
+            epsg: ActiuWMS.epsg,
             imgFormat: 'image/png',
             infFormat: 'text/html',
             tiles: true,	            
@@ -407,12 +409,14 @@ function addWmsToMap(wms){
             opacity: 1,
             visibilitat: 'O',
             url: wms.url,
-            layers: JSON.stringify([{name:wms.layers,title:wms.layers,group:0,check:true,query:true}]),
+            layers: JSON.stringify([{name:wms.layers,title:wms.layers,group:0,check:true,query:true,epsg:ActiuWMS.epsg}]),
             calentas: false,
             activas: true,
             visibilitats: true,
-			options: '{"url":"'+wms.url+'","layers":"'+wms.layers+'","opacity":"'+1+'","wmstime":'+wms.wmstime+'}'
+			options: '{"url":"'+wms.url+'","layers":"'+wms.layers+'","opacity":"'+1+'","wmstime":'+wms.wmstime+',"epsg":"EPSG:4326"}'
 		};
+		
+		
 		createServidorInMap(data).then(function(results){
 			map.spin(false);
 			if (results.status == "OK"){
@@ -525,6 +529,8 @@ function addExternalWMS(fromParam) {
             visibilitats: true,
 			options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+1+'","wmstime":'+ActiuWMS.wmstime+'}'
 		};
+		
+		
 		createServidorInMap(data).then(function(results){
 			map.spin(false);
 			if (results.status == "OK"){
@@ -626,6 +632,8 @@ function loadWmsLayer(layer, _map){
 	jsonOptions,
 	newWMS,
 	nomServidor = layer.serverName;
+	
+	
 	
 	if(layer.serverName.indexOf('##') !=-1){
 		var valors = layer.serverName.split("##");
