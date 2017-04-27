@@ -1442,26 +1442,32 @@
 									propName = "";
 									$.each( pp, function( key, value ) {
 										propName = propName+key+",";
-										if (typeof value == 'string' || value instanceof String) {
-											if(isValidValue(value) && !validateWkt(value)){
-												if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+										if(isValidValue(value) && !validateWkt(value)){
+											if ( key != 'businessId' && key != 'slotd50'){
+												
+												var txt = value;
 													html+='<div class="popup_data_row">';
-													var txt = value;
 													if (!$.isNumeric(txt)) {		    				
 														txt = parseUrlTextPopUp(value,key);
-														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+														if (typeof txt == 'string' || txt instanceof String) {
+															if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+																html+='<div class="popup_data_key">'+key+'</div>';
+																html+='<div class="popup_data_value">'+txt+'</div>';
+															}else{
+																html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															}
+														}
+														else{
 															html+='<div class="popup_data_key">'+key+'</div>';
 															html+='<div class="popup_data_value">'+txt+'</div>';
-														}else{
-															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 														}
 													}
-													else {
+													else if (!(txt instanceof Object)){
 														html+='<div class="popup_data_key">'+key+'</div>';
 														html+='<div class="popup_data_value">'+txt+'</div>';
 													}
 													html+= '</div>';
-												}
+												
 											}
 										}
 									});	
@@ -1475,26 +1481,32 @@
 									propName = "";
 									$.each( pp, function( key, value ) {
 										propName = propName+key+",";
-										if (typeof value == 'string' || value instanceof String) {
-											if(isValidValue(value) && !validateWkt(value)){
-												if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+										if(isValidValue(value) && !validateWkt(value)){
+											if ( key != 'businessId' && key != 'slotd50'){
+												
+												var txt = value;
 													html+='<div class="popup_data_row">';
-													var txt = value;
 													if (!$.isNumeric(txt)) {		    				
 														txt = parseUrlTextPopUp(value,key);
-														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+														if (typeof txt == 'string' || txt instanceof String) {
+															if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+																html+='<div class="popup_data_key">'+key+'</div>';
+																html+='<div class="popup_data_value">'+txt+'</div>';
+															}else{
+																html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															}
+														}
+														else{
 															html+='<div class="popup_data_key">'+key+'</div>';
 															html+='<div class="popup_data_value">'+txt+'</div>';
-														}else{
-															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 														}
 													}
-													else {
+													else if (!(txt instanceof Object)){
 														html+='<div class="popup_data_key">'+key+'</div>';
 														html+='<div class="popup_data_value">'+txt+'</div>';
 													}
 													html+= '</div>';
-												}
+												
 											}
 										}
 									});	
