@@ -69,7 +69,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		if (tipusFile==".json"){
 			 L.toGeoJSON.empty();
 			 L.toGeoJSON.convert(urlFile,"Point",colX,colY, colXY, separador).then(function(){
-				 var dataSocrata={
+				 
+				  
+				  var dataSocrata={
 							serverName: nomCapa,
 							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
 					};
@@ -119,7 +121,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									if(isValidValue(value) && !validateWkt(value)){
 										if ( key != 'businessId' && key != 'slotd50'){
 											var txt = value;
-											if (typeof txt == "string") {
 												html+='<div class="popup_data_row">';
 												if (!$.isNumeric(txt)) {		    				
 													txt = parseUrlTextPopUp(value,key);
@@ -135,12 +136,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 													}
 												}
-												else {
+												else if (!(txt instanceof Object)){
 													html+='<div class="popup_data_key">'+key+'</div>';
 													html+='<div class="popup_data_value">'+txt+'</div>';
 												}
 												html+= '</div>';
-											}
+											
 										}
 									}
 								});	
@@ -165,23 +166,27 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 										if ( key != 'businessId' && key != 'slotd50'){
 											
 											var txt = value;
-											if (typeof txt == "string") {
 												html+='<div class="popup_data_row">';
 												if (!$.isNumeric(txt)) {		    				
 													txt = parseUrlTextPopUp(value,key);
-													if( txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-														html+='<div class="popup_data_key">'+key+'</div>';
-														html+='<div class="popup_data_value">'+txt+'</div>';
-													}else{
+													if (typeof txt == 'string' || txt instanceof String) {
+														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txt+'</div>';
+														}else{
+															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														}
+													}
+													else{
 														html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 													}
 												}
-												else {
+												else if (!(txt instanceof Object)){
 													html+='<div class="popup_data_key">'+key+'</div>';
 													html+='<div class="popup_data_value">'+txt+'</div>';
 												}
 												html+= '</div>';
-											}
+											
 										}
 									}
 								});	
@@ -1962,4 +1967,6 @@ function loadUrlFileHeatmapLayer(layer){
 	});
 
 }
+
+
 
