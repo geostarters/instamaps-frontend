@@ -133,8 +133,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														}
 													}
 													else{
+														var txtVal=txt;
+														try{
+															txtVal = JSON.stringify(txt);
+														}catch(e){
+															
+														}																	
 														html+='<div class="popup_data_key">'+key+'</div>';
-														html+='<div class="popup_data_value">'+txt+'</div>';
+														html+='<div class="popup_data_value">'+txtVal+'</div>';
 													}
 												}
 												else if (!(txt instanceof Object)){
@@ -179,8 +185,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														}
 													}
 													else{
+														var txtVal=txt;
+														try{
+															txtVal = JSON.stringify(txt);
+														}catch(e){
+															
+														}																	
 														html+='<div class="popup_data_key">'+key+'</div>';
-														html+='<div class="popup_data_value">'+txt+'</div>';
+														html+='<div class="popup_data_value">'+txtVal+'</div>';
 													}
 												}
 												else if (!(txt instanceof Object)){
@@ -384,7 +396,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									}
 								}
 								else{
-									html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									var txtVal=txt;
+									try{
+										txtVal = JSON.stringify(txt);
+									}catch(e){
+										
+									}																	
+									html+='<div class="popup_data_key">'+key+'</div>';
+									html+='<div class="popup_data_value">'+txtVal+'</div>';
 								}
 							}
 							else {
@@ -1203,8 +1222,14 @@ function loadURLfileLayer(layer){
 									}
 								}
 								else{
+									var txtVal=txt;
+									try{
+										txtVal = JSON.stringify(txt);
+									}catch(e){
+										
+									}																	
 									html+='<div class="popup_data_key">'+key+'</div>';
-									html+='<div class="popup_data_value">'+txt+'</div>';
+									html+='<div class="popup_data_value">'+txtVal+'</div>';
 								}
 							}
 							else {
@@ -1284,8 +1309,14 @@ function loadURLfileLayer(layer){
 										}
 									}
 									else{
+										var txtVal=txt;
+										try{
+											txtVal = JSON.stringify(txt);
+										}catch(e){
+											
+										}																	
 										html+='<div class="popup_data_key">'+key+'</div>';
-										html+='<div class="popup_data_value">'+txt+'</div>';
+										html+='<div class="popup_data_value">'+txtVal+'</div>';
 									}
 								}
 								else {
