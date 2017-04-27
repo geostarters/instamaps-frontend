@@ -113,7 +113,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							style: estil_lin_pol,//Estil de poligons i linies
 							pointToLayer : function(feature, latlng) {
 								var geom = L.circleMarker(latlng, estil_do);
-								var pp = feature.properties;
+								/*var pp = feature.properties;
 								var html ='<div class="div_popup_visor"><div class="popup_pres">';
 								propName = "";
 								$.each( pp, function( key, value ) {
@@ -152,7 +152,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								feature.properties.popupData=html;
 								geom.on('click', function(e) {
 									PopupManager().createMergedDataPopup(feature, e, controlCapes);
-								});
+								});*/
 								
 
 								return geom;
@@ -361,7 +361,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			style: estil_lin_pol,//Estil de poligons i linies
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				var pp = feature.properties;
+				/*var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				propName = "";
 				$.each( pp, function( key, value ) {
@@ -399,7 +399,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
-				
+				*/
 
 				return geom;
 			},
