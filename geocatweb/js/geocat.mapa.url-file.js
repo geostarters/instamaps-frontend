@@ -1180,7 +1180,7 @@ function loadURLfileLayer(layer){
 			pointToLayer : function(feature, latlng) {
 				var pp = feature.properties;
 				var geom = L.circleMarker(latlng, estil_do);
-				var html ='<div class="div_popup_visor"><div class="popup_pres">';
+				/*var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
 						if ( key != 'businessId' && key != 'slotd50'){							
@@ -1255,7 +1255,7 @@ function loadURLfileLayer(layer){
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
 				
-				
+				*/
 				
 				return geom;
 			},
@@ -1410,8 +1410,17 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
+				var estilGeom; //ficat default point style????
+				$.each( estil_do.estils, function( index, estil ) {
+					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
+							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+						estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+						return false;	
+					}
 
-				var pp = feature.properties;
+				});
+				var geom = L.circleMarker(latlng, estilGeom);		 
+				/*var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
@@ -1440,21 +1449,13 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 
-				var estilGeom; //ficat default point style????
-				$.each( estil_do.estils, function( index, estil ) {
-					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
-							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
-						estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-						return false;	
-					}
-
-				});
-				var geom = L.circleMarker(latlng, estilGeom);		    	
+				
+				   	
 				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
-				});
+				});*/
 				
 				return geom;
 			},
@@ -1550,7 +1551,7 @@ function loadURLfileLayer(layer){
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				var pp = feature.properties;
+				/*var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
@@ -1580,7 +1581,7 @@ function loadURLfileLayer(layer){
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
-				
+				*/
 				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
@@ -1640,13 +1641,13 @@ function loadURLfileLayer(layer){
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				feature.properties.capaNom=layer.serverName;
+				/*feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
 				
-				/*var popup = L.popup().setContent("");
+				var popup = L.popup().setContent("");
 				return geom.bindPopup(popup);*/
 				return geom;
 			}
