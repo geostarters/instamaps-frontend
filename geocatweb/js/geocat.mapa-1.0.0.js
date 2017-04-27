@@ -696,8 +696,8 @@ jQuery.each(layer_map.origen, function(index, value){
 
 function loadLayer(value){
 
-	//console.info("loadLayer");
-	//console.info(value);
+	console.info("loadLayer");
+	console.info(value);
 	var defer = $.Deferred();
 
 	if (value.epsg == "4326"){
