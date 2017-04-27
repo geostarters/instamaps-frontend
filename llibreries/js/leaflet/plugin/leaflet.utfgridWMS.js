@@ -190,9 +190,11 @@ L.UtfGrid = L.Class.extend({
 	_update: function () {
 		var bounds = this._map.getPixelBounds(),
 		    zoom = this._map.getZoom(),
-		    tileSize = this.options.tileSize;
+		    tileSize = this.options.tileSize,
+		    deferred = $.Deferred();
 
 		if (zoom > this.options.maxZoom || zoom < this.options.minZoom) {
+			deferred.resolve();
 			return;
 		}
 
@@ -204,6 +206,8 @@ L.UtfGrid = L.Class.extend({
 				Math.floor(bounds.max.y / tileSize)),
 				max = this._map.options.crs.scale(zoom) / tileSize;
 
+		var asyncs = [];
+
 		//Load all required ones
 		for (var x = nwTilePoint.x; x <= seTilePoint.x; x++) {
 			for (var y = nwTilePoint.y; y <= seTilePoint.y; y++) {
@@ -214,14 +218,22 @@ L.UtfGrid = L.Class.extend({
 				if (!this._cache.hasOwnProperty(key)) {
 					this._cache[key] = null;
 
+					var async = null;
 					if (this.options.useJsonP) {
-						this._loadTileP(zoom, xw, yw);
+						async = this._loadTileP(zoom, xw, yw);
 					} else {
-						this._loadTile(zoom, xw, yw);
+						async = this._loadTile(zoom, xw, yw);
 					}
+					asyncs.push(async);
 				}
 			}
 		}
+
+		$.when.apply($, asyncs).then(function() {
+			deferred.resolve();
+		});
+
+		return deferred;
 	},
 
 	_loadTileP: function (zoom, x, y) {
@@ -229,7 +241,8 @@ L.UtfGrid = L.Class.extend({
 		    key = zoom + '_' + x + '_' + y,
 		    functionName = 'lu_' + key,
 		    wk = this._windowKey,
-		    self = this;
+		    self = this,
+		    deferred = $.Deferred();
 
 		var url = L.Util.template(this._url, L.Util.extend({
 			s: L.TileLayer.prototype._getSubdomain.call(this, { x: x, y: y }),
@@ -239,40 +252,15 @@ L.UtfGrid = L.Class.extend({
 			cb: wk + '.' + functionName
 		}, this.options));
 
-		
-		/*var map = this._map,
-		crs = map.options.crs,
-
-		tileSize = this.options.tileSize,
-
-	
-		
-		bounds = this._map.getBounds();
-		var SRS="EPSG:4326";
-		var bbox=bounds.toBBoxString();
-		if(SRS.indexOf('3857')!=-1){
-				var NW = L.CRS.EPSG3857.project(bounds.getNorthWest());
-				var SE = L.CRS.EPSG3857.project(bounds.getSouthEast());
-				  
-				 bbox=NW.x+","+SE.y+","+SE.x+","+NW.y;
-			
-			}
-		*/
 		var tilePoint = new L.Point(x,y);
 				
-		  var map = this._map,
-	          crs = map.options.crs,
-	          tileSize = this.options.tileSize,
-		  nwPoint = tilePoint.multiplyBy(tileSize),
-		  sePoint = nwPoint.add([tileSize, tileSize]),
-
-		  //nw = crs.project(map.unproject(nwPoint, zoom)),
-		  //se = crs.project(map.unproject(sePoint, zoom)),
-
-		  bbox = [nwPoint.x, sePoint.y, sePoint.x, nwPoint.y].join(','),
-			
-		url = url + (L.Util.getParamString(this.wmsParams)).replace("?","") + "&bbox=" + bbox;
-		
+		var map = this._map,
+	    	crs = map.options.crs,
+	    	tileSize = this.options.tileSize,
+			nwPoint = tilePoint.multiplyBy(tileSize),
+			sePoint = nwPoint.add([tileSize, tileSize]),
+			bbox = [nwPoint.x, sePoint.y, sePoint.x, nwPoint.y].join(','),
+			url = url + (L.Util.getParamString(this.wmsParams)).replace("?","") + "&bbox=" + bbox;
 				
 		var script = document.createElement('script');
 		script.setAttribute("type", "text/javascript");
@@ -281,58 +269,48 @@ L.UtfGrid = L.Class.extend({
 		window[wk][functionName] = function (data) {
 			self._cache[key] = data;
 			delete window[wk][functionName];
-			//head.removeChild(script);
+			deferred.resolve();
 		};
 
 		head.appendChild(script);
+
+		return deferred;
 	},
 
 	_loadTile: function (zoom, x, y) {
+		var deferred = $.Deferred();
 		var url = L.Util.template(this._url, L.Util.extend({
 			s: L.TileLayer.prototype._getSubdomain.call(this, { x: x, y: y }),
 			z: zoom,
 			x: x,
 			y: y
-		}, this.options));
-		
-		
-		/*bounds = this._map.getBounds();
-		var SRS="EPSG:4326";
-		var bbox=bounds.toBBoxString();
-		if(SRS.indexOf('3857')!=-1){
-				var NW = L.CRS.EPSG3857.project(bounds.getNorthWest());
-				var SE = L.CRS.EPSG3857.project(bounds.getSouthEast());
-				  
-				 bbox=NW.x+","+SE.y+","+SE.x+","+NW.y;
-			
-			}
-		*/
+		}, this.options));	  
+		  
+		var tilePoint = new L.Point(x,y);
+		var tileSize = this.options.tileSize,
+		nwPoint = tilePoint.multiplyBy(tileSize),
+		sePoint = nwPoint.add([tileSize, tileSize]),
+		nw = this._map.unproject(nwPoint),
+		se = this._map.unproject(sePoint);
 
+		var my_crs = this._map.options.crs; // get the CRS
+		var my_proj = my_crs.projection; // get the projection
+		// transform the lat lon Point to a utm point
+		var nw_utm = my_proj.project(nw); 
+		var se_utm = my_proj.project(se); 
+		bbox = [nw.lng, se.lat, se.lng, nw.lat].join(','),
 
-		  
-		  
-		  var tilePoint = new L.Point(x,y);
-		  var tileSize = this.options.tileSize,
-          nwPoint = tilePoint.multiplyBy(tileSize),
-          sePoint = nwPoint.add([tileSize, tileSize]),
-          nw = this._map.unproject(nwPoint),
-          se = this._map.unproject(sePoint);
-		  
-		  var my_crs = this._map.options.crs; // get the CRS
-		  var my_proj = my_crs.projection; // get the projection
-		  // transform the lat lon Point to a utm point
-		  var nw_utm = my_proj.project(nw); 
-		  var se_utm = my_proj.project(se); 
-          bbox = [nw.lng, se.lat, se.lng, nw.lat].join(','),
-			
 		url = url + (L.Util.getParamString(this.wmsParams)).replace("?","") + "&bbox=" + bbox;
 
-		
+
 		var key = zoom + '_' + x + '_' + y;
 		var self = this;
 		L.Util.ajaxGrid(url, function (data) {
 			self._cache[key] = data;
+			deferred.resolve();
 		});
+
+		return deferred;
 	},
 
 	_utfDecode: function (c) {
@@ -345,12 +323,16 @@ L.UtfGrid = L.Class.extend({
 		return c - 32;
 	},
 	openPopUp: function(data){
+
+		var html = createPopup(data);
 		
-//		jQuery('#bt_info_geojsonvt_close').on('click', function (e) {
-////			jQuery('#info_geojsonvt .div_popup_visor').html('');
-//			jQuery('#info_geojsonvt').hide();
-//		});
+		jQuery('#info_utfgrid .div_popup').html(html);
+		jQuery('#info_utfgrid').css("border", "none");
+		jQuery('#info_utfgrid').show();		
 		
+	},
+	createPopup: function(data) {
+
 		var html ='';
 		html+='<div class="popup_pres">';
 		$.each( data, function( key, value ) {
@@ -370,11 +352,8 @@ L.UtfGrid = L.Class.extend({
 		});
 		
 		html+= '</div>';
-		
-		jQuery('#info_utfgrid .div_popup').html(html);
-		jQuery('#info_utfgrid').css("border", "none");
-		jQuery('#info_utfgrid').show();		
-		
+
+		return html;
 	}
 	
 });

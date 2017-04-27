@@ -69,7 +69,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		if (tipusFile==".json"){
 			 L.toGeoJSON.empty();
 			 L.toGeoJSON.convert(urlFile,"Point",colX,colY, colXY, separador).then(function(){
-				 var dataSocrata={
+				 
+				  
+				  var dataSocrata={
 							serverName: nomCapa,
 							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
 					};
@@ -119,7 +121,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									if(isValidValue(value) && !validateWkt(value)){
 										if ( key != 'businessId' && key != 'slotd50'){
 											var txt = value;
-											if (typeof txt == "string") {
 												html+='<div class="popup_data_row">';
 												if (!$.isNumeric(txt)) {		    				
 													txt = parseUrlTextPopUp(value,key);
@@ -132,15 +133,16 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														}
 													}
 													else{
-														html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txt+'</div>';
 													}
 												}
-												else {
+												else if (!(txt instanceof Object)){
 													html+='<div class="popup_data_key">'+key+'</div>';
 													html+='<div class="popup_data_value">'+txt+'</div>';
 												}
 												html+= '</div>';
-											}
+											
 										}
 									}
 								});	
@@ -165,23 +167,28 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 										if ( key != 'businessId' && key != 'slotd50'){
 											
 											var txt = value;
-											if (typeof txt == "string") {
 												html+='<div class="popup_data_row">';
 												if (!$.isNumeric(txt)) {		    				
 													txt = parseUrlTextPopUp(value,key);
-													if( txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+													if (typeof txt == 'string' || txt instanceof String) {
+														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txt+'</div>';
+														}else{
+															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														}
+													}
+													else{
 														html+='<div class="popup_data_key">'+key+'</div>';
 														html+='<div class="popup_data_value">'+txt+'</div>';
-													}else{
-														html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 													}
 												}
-												else {
+												else if (!(txt instanceof Object)){
 													html+='<div class="popup_data_key">'+key+'</div>';
 													html+='<div class="popup_data_value">'+txt+'</div>';
 												}
 												html+= '</div>';
-											}
+											
 										}
 									}
 								});	
@@ -195,9 +202,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									feature: latlng.feature,
 									data: latlng.feature.properties
 								};
-								latlng.on('click', function(e) {
-									PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-								});
+								var tipus = feature.geometry.type; 
+								if (tipus != 'Point'){
+										latlng.on('click', function(e) {
+										PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+									});
+								}
 								return latlng;
 							},			  
 							middleware:function(data){
@@ -433,9 +443,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
+				var tipus=feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+					});
+				}
 				return latlng;
 			},			  
 			middleware:function(data){
@@ -1175,18 +1188,23 @@ function loadURLfileLayer(layer){
 				var geom = L.circleMarker(latlng, estil_do);
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if (typeof value == "string") {
 					if(isValidValue(value) && !validateWkt(value)){
 						if ( key != 'businessId' && key != 'slotd50'){							
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
 								txt = parseUrlTextPopUp(value,key);
-								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+								if (typeof txt == 'string' || txt instanceof String) {
+									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}else{
+										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									}
+								}
+								else{
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+txt+'</div>';
-								}else{
-									html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 								}
 							}
 							else {
@@ -1196,7 +1214,7 @@ function loadURLfileLayer(layer){
 							html+= '</div>';
 						}
 					}
-					}
+					
 				});	
 				html+='</div></div>';    	
 				var popup = L.popup().setContent(html);
@@ -1251,18 +1269,23 @@ function loadURLfileLayer(layer){
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if (typeof value == "string") {
 						if(isValidValue(value) && !validateWkt(value)){
 							if ( key != 'businessId' && key != 'slotd50'){
 								html+='<div class="popup_data_row">';
 								var txt = value;
 								if (!$.isNumeric(txt)) {		    				
 									txt = parseUrlTextPopUp(value,key);
-									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+									if (typeof txt == 'string' || txt instanceof String) {
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+									}
+									else{
 										html+='<div class="popup_data_key">'+key+'</div>';
 										html+='<div class="popup_data_value">'+txt+'</div>';
-									}else{
-										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 									}
 								}
 								else {
@@ -1272,7 +1295,7 @@ function loadURLfileLayer(layer){
 								html+= '</div>';
 							}
 						}
-					}
+					
 				});		
 				html+='</div></div>';
 				var tipus = feature.geometry.type; 
@@ -1359,9 +1382,11 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
-					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
 				
 				//return PopupManager().createMergedDataPopup(feature, e, controlCapes);;
 			}
@@ -1393,7 +1418,16 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
+				var estilGeom; //ficat default point style????
+				$.each( estil_do.estils, function( index, estil ) {
+					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
+							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+						estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+						return false;	
+					}
 
+				});
+				var geom = L.circleMarker(latlng, estilGeom);		 
 				var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
@@ -1423,16 +1457,8 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 
-				var estilGeom; //ficat default point style????
-				$.each( estil_do.estils, function( index, estil ) {
-					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
-							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
-						estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-						return false;	
-					}
-
-				});
-				var geom = L.circleMarker(latlng, estilGeom);		    	
+				
+				   	
 				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
@@ -1510,9 +1536,12 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
-					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+				var tipus = feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
 
 				return latlng;
 			}
@@ -1600,9 +1629,12 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
-					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+				var tipus = feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
 				return latlng;
 			}
 		});
@@ -1962,4 +1994,6 @@ function loadUrlFileHeatmapLayer(layer){
 	});
 
 }
+
+
 
