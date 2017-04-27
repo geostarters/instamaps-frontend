@@ -133,7 +133,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														}
 													}
 													else{
-														html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txt+'</div>';
 													}
 												}
 												else if (!(txt instanceof Object)){
@@ -178,7 +179,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														}
 													}
 													else{
-														html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txt+'</div>';
 													}
 												}
 												else if (!(txt instanceof Object)){
@@ -1180,18 +1182,23 @@ function loadURLfileLayer(layer){
 				var geom = L.circleMarker(latlng, estil_do);
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if (typeof value == "string") {
 					if(isValidValue(value) && !validateWkt(value)){
 						if ( key != 'businessId' && key != 'slotd50'){							
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
 								txt = parseUrlTextPopUp(value,key);
-								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+								if (typeof txt == 'string' || txt instanceof String) {
+									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}else{
+										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									}
+								}
+								else{
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+txt+'</div>';
-								}else{
-									html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 								}
 							}
 							else {
@@ -1201,7 +1208,7 @@ function loadURLfileLayer(layer){
 							html+= '</div>';
 						}
 					}
-					}
+					
 				});	
 				html+='</div></div>';    	
 				var popup = L.popup().setContent(html);
@@ -1256,18 +1263,23 @@ function loadURLfileLayer(layer){
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if (typeof value == "string") {
 						if(isValidValue(value) && !validateWkt(value)){
 							if ( key != 'businessId' && key != 'slotd50'){
 								html+='<div class="popup_data_row">';
 								var txt = value;
 								if (!$.isNumeric(txt)) {		    				
 									txt = parseUrlTextPopUp(value,key);
-									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+									if (typeof txt == 'string' || txt instanceof String) {
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+									}
+									else{
 										html+='<div class="popup_data_key">'+key+'</div>';
 										html+='<div class="popup_data_value">'+txt+'</div>';
-									}else{
-										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 									}
 								}
 								else {
@@ -1277,7 +1289,7 @@ function loadURLfileLayer(layer){
 								html+= '</div>';
 							}
 						}
-					}
+					
 				});		
 				html+='</div></div>';
 				var tipus = feature.geometry.type; 
