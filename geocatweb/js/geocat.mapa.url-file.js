@@ -113,7 +113,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							style: estil_lin_pol,//Estil de poligons i linies
 							pointToLayer : function(feature, latlng) {
 								var geom = L.circleMarker(latlng, estil_do);
-								/*var pp = feature.properties;
+								var pp = feature.properties;
 								var html ='<div class="div_popup_visor"><div class="popup_pres">';
 								propName = "";
 								$.each( pp, function( key, value ) {
@@ -152,7 +152,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								feature.properties.popupData=html;
 								geom.on('click', function(e) {
 									PopupManager().createMergedDataPopup(feature, e, controlCapes);
-								});*/
+								});
 								
 
 								return geom;
@@ -202,9 +202,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									feature: latlng.feature,
 									data: latlng.feature.properties
 								};
-								latlng.on('click', function(e) {
-									PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-								});
+								var tipus = feature.geometry.type; 
+								if (tipus != 'Point'){
+										latlng.on('click', function(e) {
+										PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+									});
+								}
 								return latlng;
 							},			  
 							middleware:function(data){
@@ -361,7 +364,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			style: estil_lin_pol,//Estil de poligons i linies
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				/*var pp = feature.properties;
+				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				propName = "";
 				$.each( pp, function( key, value ) {
@@ -399,7 +402,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
-				*/
+				
 
 				return geom;
 			},
@@ -440,9 +443,12 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
+				var tipus=feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
 					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+					});
+				}
 				return latlng;
 			},			  
 			middleware:function(data){
@@ -1180,7 +1186,7 @@ function loadURLfileLayer(layer){
 			pointToLayer : function(feature, latlng) {
 				var pp = feature.properties;
 				var geom = L.circleMarker(latlng, estil_do);
-				/*var html ='<div class="div_popup_visor"><div class="popup_pres">';
+				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
 						if ( key != 'businessId' && key != 'slotd50'){							
@@ -1255,7 +1261,7 @@ function loadURLfileLayer(layer){
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
 				
-				*/
+				
 				
 				return geom;
 			},
@@ -1376,9 +1382,11 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
-					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
 				
 				//return PopupManager().createMergedDataPopup(feature, e, controlCapes);;
 			}
@@ -1420,7 +1428,7 @@ function loadURLfileLayer(layer){
 
 				});
 				var geom = L.circleMarker(latlng, estilGeom);		 
-				/*var pp = feature.properties;
+				var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
@@ -1455,7 +1463,7 @@ function loadURLfileLayer(layer){
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
-				});*/
+				});
 				
 				return geom;
 			},
@@ -1528,9 +1536,12 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
-					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+				var tipus = feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
 
 				return latlng;
 			}
@@ -1551,7 +1562,7 @@ function loadURLfileLayer(layer){
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				/*var pp = feature.properties;
+				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
@@ -1581,7 +1592,7 @@ function loadURLfileLayer(layer){
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
-				*/
+				
 				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
@@ -1618,9 +1629,12 @@ function loadURLfileLayer(layer){
 					feature: latlng.feature,
 					data: latlng.feature.properties
 				};
-				latlng.on('click', function(e) {
-					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
-				});
+				var tipus = feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
 				return latlng;
 			}
 		});
@@ -1641,13 +1655,13 @@ function loadURLfileLayer(layer){
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				/*feature.properties.capaNom=layer.serverName;
+				feature.properties.capaNom=layer.serverName;
 				feature.properties.popupData=html;
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
 				
-				var popup = L.popup().setContent("");
+				/*var popup = L.popup().setContent("");
 				return geom.bindPopup(popup);*/
 				return geom;
 			}
