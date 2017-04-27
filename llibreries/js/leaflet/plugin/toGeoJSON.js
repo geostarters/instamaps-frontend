@@ -23,6 +23,18 @@ $(function () {
 
         //Method to be revealed for converting JSON to GeoJSON
         function convert(url, geometryType, lat, lon, localitzacio, separador) {
+        	var convArrToObj = function(array){
+        	    var thisEleObj = new Object();
+        	    if(typeof array == "object"){
+        	        for(var i in array){
+        	            var thisEle = convArrToObj(array[i]);
+        	            thisEleObj[i] = thisEle;
+        	        }
+        	    }else {
+        	        thisEleObj = array;
+        	    }
+        	    return thisEleObj;
+        	};
         	//Use promise from getData
             return getData(url).then(function(results)  {
             	 //Filter to only use objects with Latitude and Longitude
@@ -54,6 +66,9 @@ $(function () {
 	                });
 	                //For each object create a new GeoJSON object
 	                $.each(filteredData2, function (index, value, array) {
+	                	if (value instanceof Array){
+                   		 	value=convArrToObj(value);
+                   		}
 	                	 $.each(keys, function (index2, value2, array2) {
 	                		 if (!value.hasOwnProperty(value2)){
 	                			 value[value2]="";
@@ -74,12 +89,15 @@ $(function () {
                 else {
                 	 $.each(filteredData, function (index, value, array) {
                      	Object.keys(value).forEach(function(k) {
-                     		if (keys.indexOf(k) == -1) keys.push(k);
+                     		if (keys.indexOf(k) == -1) keys.push(k.toString());
                      	});
                      });
                 	 //For each object create a new GeoJSON object
                      $.each(filteredData, function (index, value, array) {
-                     	 $.each(keys, function (index2, value2, array2) {
+                    	 if (value instanceof Array){
+                    		 value=convArrToObj(value);
+                    	 }
+                    	 $.each(keys, function (index2, value2, array2) {
                      		 if (!value.hasOwnProperty(value2)){
                      			 value[value2]="";
                      		 }
