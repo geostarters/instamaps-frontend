@@ -12,7 +12,7 @@ $(function () {
        
         //Method to be revealed for retrieving data
         function getData(url) {
-        	var urlProxy = HOST_APP+paramUrl.proxy_betterWMS + "?url="+url;
+        	var urlProxy = HOST_APP+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(url);
         	return jQuery.ajax({
 				url: urlProxy,
 				async: false,
@@ -43,15 +43,28 @@ $(function () {
             	if (dades.datasets!=undefined) dades=dades.datasets;
             	else if (dades.data!=undefined) dades=dades.data;
             	
-            	if (Object.keys(dades).length<=2){
-            		for (var key in dades) {
-            			var value = dades[key];
-            			if (value instanceof Array) dades=dades[key];
-            		}
+            	if (typeof dades.filter != "function") { 
+	            	for (var key in dades) {
+	            			var value = dades[key];
+	            			if (value instanceof Array) dades=dades[key];
+	            	}
             	}
             	
+            	var splitlat;
+            	if (lat.indexOf(".")>-1){
+            		splitlat = lat.split(".");
+            	}
+            	var splitlon;
+            	if (lon.indexOf(".")>-1){
+            		splitlon = lon.split(".");
+            	}
                 var filteredData = dades.filter(function (item) {
-                	return !!item[lat] && !!item[lon];
+                	if (splitlat!=undefined && splitlon!=undefined){
+                		return !!item[splitlat[0]][splitlat[1]] &&  !!item[splitlon[0]][splitlon[1]] ;
+                	}
+                	else{
+                		return !!item[lat] && !!item[lon];
+                	}
                 });
                 
                 if (filteredData.length==0){
@@ -102,11 +115,20 @@ $(function () {
                      			 value[value2]="";
                      		 }
                      	 });
+                    	 var lat,lon;
+                    	 if (splitlat!=undefined && splitlon!=undefined){
+                     		lat=value[splitlat[0]][splitlat[1]];
+                     		lon=value[splitlon[0]][splitlon[1]] ;
+                     	}
+                     	else{
+                     		lat=value[lat];
+                     		lon=value[lon];
+                     	}
                      	geoJsonData.push({
                              "type": "Feature",
                              "geometry": {
                                  "type": geometryType,
-                                 "coordinates": [ parseFloat(value[lat]),  parseFloat(value[lon])]
+                                 "coordinates": [ parseFloat(lat),  parseFloat(lon)]
                              },
                              "properties": value
                          });
