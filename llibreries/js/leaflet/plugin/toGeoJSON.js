@@ -161,12 +161,18 @@ $(function () {
       	}
         
         // Changes XML to JSON
-        function xmlToJson(url) {
+        function urlToXml(url){
         	var xml;
         	getData(url).then(function(results)  {
         		xml=results;
-        		// Create the return object
-            	var obj = {};
+        		var results2= xmlToJson(xml);
+        		console.debug(results2);      		
+        	});
+        }
+        function xmlToJson(xml) {
+        	var xml;
+        	// Create the return object
+            var obj = {};
 
             	if (xml.nodeType == 1) { // element
             		// do attributes
@@ -198,9 +204,7 @@ $(function () {
             			}
             		}
             	}
-            	console.debug(obj);
             	return obj;
-        	});
         	
         }
 
@@ -210,6 +214,7 @@ $(function () {
             convert: convert,
             empty: empty,
             geoJsonData: geoJsonData,
+            urlToXml: urlToXml,
             xmlToJson: xmlToJson
         };
 
