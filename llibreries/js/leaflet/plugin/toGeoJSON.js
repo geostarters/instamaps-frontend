@@ -115,20 +115,20 @@ $(function () {
                      			 value[value2]="";
                      		 }
                      	 });
-                    	 var lat,lon;
+                    	 var latitud,longitud;
                     	 if (splitlat!=undefined && splitlon!=undefined){
-                     		lat=value[splitlat[0]][splitlat[1]];
-                     		lon=value[splitlon[0]][splitlon[1]] ;
+                    		 latitud=value[splitlat[0]][splitlat[1]];
+                    		 longitud=value[splitlon[0]][splitlon[1]] ;
                      	}
                      	else{
-                     		lat=value[lat];
-                     		lon=value[lon];
+                     		latitud=value[lat];
+                     		longitud=value[lon];
                      	}
                      	geoJsonData.push({
                              "type": "Feature",
                              "geometry": {
                                  "type": geometryType,
-                                 "coordinates": [ parseFloat(lat),  parseFloat(lon)]
+                                 "coordinates": [ parseFloat(latitud),  parseFloat(longitud)]
                              },
                              "properties": value
                          });
@@ -159,13 +159,58 @@ $(function () {
 				}
 			});
       	}
+        
+        // Changes XML to JSON
+        function xmlToJson(url) {
+        	var xml;
+        	getData(url).then(function(results)  {
+        		xml=results;
+        		// Create the return object
+            	var obj = {};
+
+            	if (xml.nodeType == 1) { // element
+            		// do attributes
+            		if (xml.attributes.length > 0) {
+            		obj["@attributes"] = {};
+            			for (var j = 0; j < xml.attributes.length; j++) {
+            				var attribute = xml.attributes.item(j);
+            				obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+            			}
+            		}
+            	} else if (xml.nodeType == 3) { // text
+            		obj = xml.nodeValue;
+            	}
+
+            	// do children
+            	if (xml.hasChildNodes()) {
+            		for(var i = 0; i < xml.childNodes.length; i++) {
+            			var item = xml.childNodes.item(i);
+            			var nodeName = item.nodeName;
+            			if (typeof(obj[nodeName]) == "undefined") {
+            				obj[nodeName] = L.toGeoJSON.xmlToJson(item);
+            			} else {
+            				if (typeof(obj[nodeName].push) == "undefined") {
+            					var old = obj[nodeName];
+            					obj[nodeName] = [];
+            					obj[nodeName].push(old);
+            				}
+            				obj[nodeName].push(L.toGeoJSON.xmlToJson(item));
+            			}
+            		}
+            	}
+            	console.debug(obj);
+            	return obj;
+        	});
+        	
+        }
 
         //Reveal methods and GeoJSON data
         return {
             getData: getData,
             convert: convert,
             empty: empty,
-            geoJsonData: geoJsonData
+            geoJsonData: geoJsonData,
+            xmlToJson: xmlToJson
         };
 
     }());
