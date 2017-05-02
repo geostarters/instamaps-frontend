@@ -170,11 +170,12 @@ function showModalTematicBubbles(data){
 				});
 			}else{
 				//TODO error
-				console.debug("getVisualitzacioByBusinessId ERROR");				
+				console.debug("getVisualitzacioByBusinessId ERROR");	
+				$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId','bubble']});
 			}
 		},function(results){
 			//TODO error
-			console.debug("getVisualitzacioByBusinessId ERROR");
+			$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId','bubble']});
 		});	
 	}
 	

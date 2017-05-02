@@ -198,6 +198,7 @@
 						ActiuWMS.epsgtxt = '4326';	
 					} else {
 						alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
+						$.publish('analyticsEvent',{event:['error', 'Error EPSG WMS capabilities',ActiuWMS.url]});
 						return;
 					}
 					
@@ -251,6 +252,9 @@
 					
 				} catch (err) {
 					console.debug(err);
+					
+					$.publish('analyticsEvent',{event:['error', 'Error capabilities',ActiuWMS.url]});
+					
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.translate("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){

@@ -777,6 +777,7 @@
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
 			//console.debug("error");
+			$.publish('analyticsEvent',{event:['error', 'loadingPage','loadErrorPage']});	
 			window.location.href = paramUrl.galeriaPage;
 		},
 
@@ -1548,6 +1549,7 @@
 											map.fitBounds(bounds);
 										}catch(err){
 											console.debug(err);
+											$.publish('analyticsEvent',{event:['error', 'CapaUrlFile2',JSON.stringify(err)]});	
 										}
 									}
 								}
@@ -1679,6 +1681,7 @@
 								map.fitBounds(bounds);
 							}catch(err){
 								console.debug(err);
+								$.publish('analyticsEvent',{event:['error', 'CapaUrlFile3',JSON.stringify(err)]});
 							}
 						}
 					}

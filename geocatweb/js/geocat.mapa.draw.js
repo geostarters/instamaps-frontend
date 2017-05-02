@@ -1065,7 +1065,7 @@ function createPopupWindow(layer,type, editant){
 					else fillModalDataTable(controlCapes._layers[accio[3]],props.businessId);
 				}
 				catch(err){
-					$.publish('analyticsEvent',{event:['erro', 'feature_data_table',err]});
+					$.publish('analyticsEvent',{event:['error', 'feature_data_table',JSON.stringify(err) ]});
 					
 				}
 			}
