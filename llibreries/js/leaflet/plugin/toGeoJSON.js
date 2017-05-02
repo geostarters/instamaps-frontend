@@ -168,9 +168,7 @@ $(function () {
             getData: getData,
             convert: convert,
             empty: empty,
-            geoJsonData: geoJsonData,
-            urlToXml: urlToXml,
-            xmlToJson: xmlToJson
+            geoJsonData: geoJsonData
         };
 
     }());
