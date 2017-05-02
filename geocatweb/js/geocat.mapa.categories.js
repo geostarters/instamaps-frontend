@@ -408,7 +408,7 @@ function div2RangStyle(tematic, tdElem){
 function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 //	console.debug("createTematicLayerCategories"); //al guardar
 	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'categories', 1]});
-	console.info("ok");
+	//console.info("ok");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tipusRang = $("input:radio[name=rd_tipus_agrupacio]:checked").val();
 //	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");

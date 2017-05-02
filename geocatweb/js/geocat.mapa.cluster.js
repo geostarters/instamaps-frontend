@@ -607,15 +607,19 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd)
 				try{
 					dfd.resolve();
 				}catch(e){
+					$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId_catch',JSON.stringify(e)]});	
+					
 					
 				}
 			}
 			
 		}else{
-			console.debug("getGeometriesColleccioByBusinessId ERROR");					
+			console.debug("getGeometriesColleccioByBusinessId ERROR");	
+			$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId','else']});
 		}
 	},function(results){
 		//TODO error
 		console.debug("getGeometriesColleccioByBusinessId ERROR");
+		$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId',JSON.stringify(results)]});
 	});	
 }

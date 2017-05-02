@@ -229,8 +229,8 @@ function loadApp(){
 					});
 					
 				}catch(err){
-					console.debug(err);
-					$.publish('analyticsEvent',{event:['erro', 'getMapByBusinessId',err]});
+					//console.debug(err);
+					$.publish('analyticsEvent',{event:['error', 'getMapByBusinessId',JSON.stringify(err)]});
 					gestioCookie('loadMapConfig');
 				}
 			}
@@ -816,7 +816,7 @@ function createNewMap(){
 				else window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 
 			}catch(err){
-				$.publish('analyticsEvent',{event:['erro', 'createMap',err]});
+				$.publish('analyticsEvent',{event:['error', 'createMap',JSON.stringify(err)]});
 				gestioCookie('createMap');
 			}
 		}

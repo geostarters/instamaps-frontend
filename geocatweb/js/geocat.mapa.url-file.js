@@ -68,8 +68,6 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 		if (tipusFile==".json"){
 			 L.toGeoJSON.empty();
-			 var xml = L.toGeoJSON.urlToXml(urlFile);
-			 console.debug(xml);
 			 L.toGeoJSON.convert(urlFile,"Point",colX,colY, colXY, separador).then(function(){
 				 
 				  
@@ -139,7 +137,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														try{
 															txtVal = JSON.stringify(txt);
 														}catch(e){
-															
+															$.publish('analyticsEvent',{event:['error', 'Error JsonTOPopup',JSON.stringify(e)]});	
 														}																	
 														html+='<div class="popup_data_key">'+key+'</div>';
 														html+='<div class="popup_data_value">'+txtVal+'</div>';
@@ -191,7 +189,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 														try{
 															txtVal = JSON.stringify(txt);
 														}catch(e){
-															
+															$.publish('analyticsEvent',{event:['error', 'JsonToPopup2',JSON.stringify(e)]});
 														}																	
 														html+='<div class="popup_data_key">'+key+'</div>';
 														html+='<div class="popup_data_value">'+txtVal+'</div>';
@@ -243,6 +241,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 										capaURLfile.addData(data);
 									}catch(err){
 										console.debug(err);
+										$.publish('analyticsEvent',{event:['error', 'capaURLFile',JSON.stringify(err)]});	
 									}
 									
 									var llista_options = '{"tipusFile":"'+tipusFile+
@@ -491,6 +490,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						capaURLfile.addData(data);
 					}catch(err){
 						console.debug(err);
+						$.publish('analyticsEvent',{event:['error', 'capaURLFile2',JSON.stringify(err)]});	
 					}
 					
 					var llista_options = '{"tipusFile":"'+tipusFile+
@@ -1064,7 +1064,7 @@ function processFileError(data, urlFile){
 
 		$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes dinamiques error '+data.codi, urlFile, 1]});
 		var txt_error="";
-		if(data.codi.indexOf("01")!=-1){//cas 01: Erro al descarregar el fitxer zip (download_zip_file)
+		if(data.codi.indexOf("01")!=-1){//cas 01: Error al descarregar el fitxer zip (download_zip_file)
 			txt_error = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la descàrrega del fitxer.");
 
 		}else if(data.codi.indexOf("02")!=-1){//cas 02: EnviaFileReadyCodiDin a myUtils.jsp ha donat una excepcio
@@ -1228,7 +1228,7 @@ function loadURLfileLayer(layer){
 									try{
 										txtVal = JSON.stringify(txt);
 									}catch(e){
-										
+										$.publish('analyticsEvent',{event:['error', 'txtVal',JSON.stringify(err)]});
 									}																	
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+txtVal+'</div>';
@@ -1365,7 +1365,7 @@ function loadURLfileLayer(layer){
 									if (latlng.label!=undefined) latlng.label.setOpacity(0);
 									else latlng.hideLabel();
 								}catch(err){
-									
+									$.publish('analyticsEvent',{event:['error', 'ZoomEtiquetaPoint',JSON.stringify(err)]});	
 								}
 						}
 					}
@@ -2027,6 +2027,3 @@ function loadUrlFileHeatmapLayer(layer){
 	});
 
 }
-
-
-
