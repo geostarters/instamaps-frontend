@@ -68,6 +68,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 
 		if (tipusFile==".json"){
 			 L.toGeoJSON.empty();
+			 var xml = L.toGeoJSON.urlToXml(urlFile);
+			 console.debug(xml);
 			 L.toGeoJSON.convert(urlFile,"Point",colX,colY, colXY, separador).then(function(){
 				 
 				  
