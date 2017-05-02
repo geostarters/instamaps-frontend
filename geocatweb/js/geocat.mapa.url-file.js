@@ -2027,6 +2027,3 @@ function loadUrlFileHeatmapLayer(layer){
 	});
 
 }
-
-
-
