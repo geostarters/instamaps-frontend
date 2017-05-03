@@ -396,7 +396,13 @@
             halign = sprintf('text-align: %s; ', column.halign ? column.halign : column.align);
             align = sprintf('text-align: %s; ', column.align);
             style = sprintf('vertical-align: %s; ', column.valign);
-            style += sprintf('width: %spx; ', column.checkbox || column.radio ? 36 : column.width);
+           // style += sprintf('width: %spx; ', column.checkbox || column.radio ? 36 : column.width);
+            if (column.width.indexOf("%")>-1){
+            	 style += sprintf('width: %s; ', column.width);
+            }
+            else  {
+            	style += sprintf('width: %spx; ', column.checkbox || column.radio ? 36 : column.width);
+            }
 
             visibleColumns.push(column);
             that.header.fields.push(column.field);

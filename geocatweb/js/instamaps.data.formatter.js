@@ -17,10 +17,11 @@
 	
 			return '<select class="dataTableSelect" data-column="' + name + '">' + 
 			'	<option value="t">Text</option>' +
-			'	<option value="€">Moneda(€)</option>' +
-			'	<option value="$">Moneda($)</option>' +
+			'	<option value="€">Número (€)</option>' +
+			'	<option value="$">Número ($)</option>' +
 			'	<option value="n">Número</option>' +
-			'</select>';
+			'</select>';/*+
+			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
 		},
 
 		formatValue: function(inValue, format) {
@@ -139,7 +140,7 @@
 
 					//Error. A valid number has an integer part grouped in groups of length 3 except 
 					//the first one
-
+					return "error";
 				}
 				else {
 
