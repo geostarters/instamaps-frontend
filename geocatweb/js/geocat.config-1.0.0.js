@@ -124,6 +124,7 @@ var paramUrl = {
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
 	uploadFile:  HOST_APP3+"geocat/upload/uploadFile.action?",
+	uploadFile2:  HOST_APP+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://www.icc.cat/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",

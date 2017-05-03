@@ -392,7 +392,7 @@ function doReadFile(data){
 
 function doUploadFile(data){
 	return createXHR({
-		url: paramUrl.uploadFile, 
+		url: paramUrl.uploadFile2, 
 		data: data
 	});
 }
