@@ -195,7 +195,7 @@ var paramUrl = {
 	removeGeometriaFromVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromVisualitzacio.action?",
 	createVisualitzacioSimple: HOST_APP3+"geocat/layers/visualitzacio/createVisualitzacioSimple.action?",
 	createVisualitzacioTematica: HOST_APP3+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
-	createVisualitzacioHeatCluster: HOST_APP3+"geocat/layers/visualitzacio/createVisualitzacioHeatCluster.action?",
+	createVisualitzacioHeatCluster: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioHeatCluster.action?",
 	getGeometriesColleccioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getGeometriesColleccioByBusinessId.action?",
 	getGeometriesPropertiesLayer: HOST_APP+"geocat/layers/visualitzacio/getGeometriesPropertiesLayer.action?",
 	removeGeometriaFromProperties: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromProperties.action?",
