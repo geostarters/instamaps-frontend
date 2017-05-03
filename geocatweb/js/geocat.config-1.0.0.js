@@ -6,6 +6,7 @@ var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
 var tmpdirPolling = "poll/";
 var renovarPassword = "/geocatweb/renovar.html?token=";
+var HOST_APP3 = "http://www.instamaps.cat/";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
@@ -122,7 +123,7 @@ var paramUrl = {
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
-	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
+	uploadFile:  HOST_APP3+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://www.icc.cat/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
