@@ -232,7 +232,7 @@ var paramUrl = {
 	eacat: "https://idp.eacat.net/Logon.aspx?providerID=IDEC",
 	url_mapserver:HOST_APP+"/geoservicelocal/",
 	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?",
-	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?",
+	duplicateMap: HOST_APP3+"geocat/aplications/map/duplicateMap.action?",
 	//urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
 	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
 	urlJsonPCC:"/geocatweb/dades/pcc.json",
