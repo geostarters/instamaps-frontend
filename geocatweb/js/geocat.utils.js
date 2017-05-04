@@ -50,6 +50,7 @@ function toggleCollapseDiv(divName){
 	$(divName).toggle();
 }
 
+
 function getTimeStamp() {
     var now = new Date();
     return (now.getFullYear()+'/'+(
@@ -1108,4 +1109,20 @@ function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descrip
 	   "\"description\":\""+descripcio+"\""+
 		"}";
 	return generatedScript;
+}
+
+
+function httpOrhttps(_url,_invers){
+		
+	if (location.protocol == 'https:' && !_invers){
+		_url=_url.replace('http:','https:');
+	}else if (location.protocol == 'https:' && _invers){
+		_url=_url.replace('https:','http:');
+	}else if (location.protocol == 'http:' && !_invers){
+		_url=_url.replace('https:','http:');
+	}else if (location.protocol == 'http:' && _invers){
+		_url=_url.replace('http:','https:');
+	}	
+	
+	return _url;
 }

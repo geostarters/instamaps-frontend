@@ -80,6 +80,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				crearFitxerSocrata(dataSocrata).then(function(results){
 					if (results.status="OK"){
 						param_url =results.filePath;
+						console.info(21);
 						$('#dialog_dades_ex').modal('hide');
 						jQuery("#div_uploading_txt").html("");
 						jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
@@ -343,8 +344,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			//console.debug(L.toGeoJSON.geoJsonData);
 		}
 		else{
-		
+			console.info(221);
 		$('#dialog_dades_ex').modal('hide');
+		$('#dialog_carrega_dades').modal('hide');
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
 				window.lang.translate('Carregant dades')+
@@ -619,7 +621,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								};
 															
 							
-							
+							console.info(31);
 								$('#dialog_dades_ex').modal('hide');
 
 								jQuery("#div_uploading_txt").html("");
@@ -784,7 +786,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 						};
 													
-					
+					console.info(41);
 					
 						$('#dialog_dades_ex').modal('hide');
 
@@ -932,7 +934,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 				};
 
-						
+			console.info(51);
 				
 				$('#dialog_dades_ex').modal('hide');
 

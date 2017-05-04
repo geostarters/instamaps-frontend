@@ -80,7 +80,8 @@ function cercaCapes(e){
     							loadTematicLayer(value);
     						}else if(servertype == t_visualitzacio){
     							loadVisualitzacioLayer(value);
-    						}							
+    						}	
+    						console.info(1);
     						$('#dialog_dades_ex').modal('hide');
     						activaPanelCapes(true);
     					}
@@ -171,7 +172,8 @@ function cercaCapesBtn(){
 								loadTematicLayer(value);
 							}else if(servertype == t_visualitzacio){
 								loadVisualitzacioLayer(value);
-							}							
+							}	
+							console.info(2);
 							$('#dialog_dades_ex').modal('hide');
 							activaPanelCapes(true);
 						}
@@ -185,8 +187,7 @@ function cercaCapesBtn(){
 }
 
 function addControlAltresFontsDades() {
-	alert(12);
-	console.info(111444);
+	
 	addHtmlInterficieDadesExt();
 	addHtmlModalDadesExt();
 	var _DadesOficials=new IM_DadesOficials();
@@ -410,6 +411,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
 						}else{
 							//console.debug("Esta busy, no puc carregar");
+							console.info(19);
 							$('#dialog_dades_ex').modal('hide');
 							$('#dialog_info_upload_txt').text(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 							$('#dialog_info_upload').modal('show');
@@ -418,12 +420,9 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 						}
 					}
 				});
-				alert(122);
-				jQuery("#bt_URLfitxer").on('click', function(e) {
-					console.info(1);
-					alert(123);
-					addFormDadesExternes(this,"#txt_URLfile","#div_url_file");
-					
+				
+				jQuery("#bt_URLfitxer").on('click', function(e) {					
+					addFormDadesExternes(this,"#txt_URLfile","#div_url_file");					
 				});
 				
 				
@@ -444,12 +443,12 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 
 
 function addFormDadesExternes(_divButton,_input,_container){
-	alert(00);
-	console.info(jQuery(_container));
-	//jQuery(_container).empty();
+	
+	jQuery(_container).empty();
 	jQuery(this).prop("disabled", true);
 	jQuery(_container).show();
 	var urlFile = $.trim(jQuery(_input).val());
+	console.info(urlFile);
 	if(isValidURL(urlFile)){
 		
 		//URL PRESIDENT JSON
@@ -484,7 +483,7 @@ function addFormDadesExternes(_divButton,_input,_container){
 			);
 
 			jQuery("#div_url_file_message").hide();
-			activarEventAfegirCapa("-1");
+			activarEventAfegirCapa("-1",_input);
 		}else{//LA RESTA
 			jQuery(_container).html(
 					'<br>'+
@@ -644,7 +643,7 @@ function addFormDadesExternes(_divButton,_input,_container){
 				jQuery("#select-url-file-epsg").attr('disabled',false);
 			}
 			
-			activarEventAfegirCapa(type);
+			activarEventAfegirCapa(type,_input);
 			
 			jQuery('#cmd_codiType_Capa_de').on('change',function(e) {
 				var html = "";
@@ -727,17 +726,6 @@ function addFormDadesExternes(_divButton,_input,_container){
 	
 }
 
-
-
-
-
-
-
-
-
-
-
-
 function addHtmlModalDadesExt(){
 	
 	jQuery('#mapa_modals').append(
@@ -781,6 +769,14 @@ function addHtmlModalDadesExt(){
 	'	<!-- fi Modal Dades Externes -->'		
 	);
 	
+	
+	
+	$('#dialog_dades_ex').on('hide.bs.modal', function (event) {	
+		console.info("tanc0");
+		jQuery("#div_url_file").empty();
+		jQuery("#div_url_file").hide();
+	});
+	
 }
 
 function addHtmlInterficieDadesExt(){
@@ -793,7 +789,8 @@ function addHtmlInterficieDadesExt(){
 	});
 }
 
-function activarEventAfegirCapa(type){
+
+function activarEventAfegirCapa(type,_input){
 	var nom_capa = window.lang.translate("Capa de fitxer");
 	if(type!=undefined && type!="-1") nom_capa+=type;
 	jQuery("#input-url-file-name").val(nom_capa);
@@ -803,7 +800,7 @@ function activarEventAfegirCapa(type){
 		jQuery("#div_url_file_message").empty();
 		jQuery("#div_url_file_message").hide();
 		
-		var urlFile = $.trim(jQuery("#txt_URLfile").val());
+		var urlFile = $.trim(jQuery(_input).val());
 		var type = jQuery("#select-url-file-format").val();
 		var epsg = jQuery("#select-url-file-epsg").val();
 		var opcio = jQuery('.nav-pills-urlfile .active').attr('id');
@@ -834,7 +831,9 @@ function activarEventAfegirCapa(type){
 						   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
 						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
 			}else{
+				console.info(20);
 				$('#dialog_dades_ex').modal('hide');
+				$('#dialog_carrega_dades').modal('hide');
 				$('#dialog_info_upload_txt').html(window.lang.translate("S'està processant un arxiu. Si us plau, espereu que aquest acabi."));
 				$('#dialog_info_upload').modal('show');		
 				
@@ -844,7 +843,7 @@ function activarEventAfegirCapa(type){
 }
 
 
-alert(2666);
+
 
 
 

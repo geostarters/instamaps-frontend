@@ -1124,27 +1124,35 @@ function addHtmlModalCarregarFitxers(){
 		
 		$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {
 			busy = false;
-			if(envioArxiu.isDrag){
-				drgFromMapa.removeAllFiles(true);
-			}else{
-				if (drgFromBoto != null) drgFromBoto.removeAllFiles(true);
-			}
+			jQuery("#div_url_file_front").empty();
+			jQuery("#div_url_file_front").hide();
+			try{
+					if(envioArxiu.isDrag){
+						drgFromMapa.removeAllFiles(true);
+					}else{
+						if (drgFromBoto != null) drgFromBoto.removeAllFiles(true);
+					}
+			}catch(err){}
 		});
 		
 		jQuery('#dialog_carrega_dades #bt_upload_cancel').on("click", function(e) {
 			$('#dialog_carrega_dades').modal('hide');
-			if(envioArxiu.isDrag){
-				drgFromMapa.uploadFile(drgFromMapa.files[0]);	
-			}else{
-				drgFromBoto.uploadFile(drgFromBoto.files[0]);;
-			}
+			jQuery("#div_url_file_front").empty();
+			jQuery("#div_url_file_front").hide();
+			try{
+					if(envioArxiu.isDrag){
+						drgFromMapa.uploadFile(drgFromMapa.files[0]);	
+					}else{
+						drgFromBoto.uploadFile(drgFromBoto.files[0]);;
+					}
+			
+			}catch(err){}
 		});	
 		
 		
 		
 		jQuery("#bt_URLfitxer_front").on('click', function(e) {
 			
-			alert(124);
 			addFormDadesExternes(this,"#txt_URLfile_front","#div_url_file_front");
 			
 		});
