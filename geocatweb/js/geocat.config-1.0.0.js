@@ -1,11 +1,12 @@
-var HOST_APP = "http://www.instamaps.cat/";
-var GEOCAT02 = "http://www.instamaps.cat";
-var HOST_APP2 = "http://www.instamaps.cat/";
+var HOST_APP = "https://www.instamaps.cat/";
+var GEOCAT02 = "https://www.instamaps.cat";
+var HOST_APP2 = "https://www.instamaps.cat/";
 var HOST_GEOLOCAL = "http://www.geolocal.cat/";
 var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
 var tmpdirPolling = "poll/";
 var renovarPassword = "/geocatweb/renovar.html?token=";
+var HOST_APP3 = "http://www.instamaps.cat/";
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
@@ -15,6 +16,7 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP2 = "http://nicosia.icgc.local/";
 	HOST_APP = "http://localhost/";//Local Jess
 	HOST_APP2 = "http://localhost/";
+	HOST_APP3 = "http://localhost/";
 
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
@@ -31,6 +33,7 @@ var DOMINI = "www.instamaps.cat";
 if(urlApp.indexOf('172.70.1.11')!=-1){
 	HOST_APP = "http://172.70.1.11/";
 	HOST_APP2 = "http://172.70.1.11/";
+	HOST_APP3 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.11";
 	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
@@ -122,7 +125,8 @@ var paramUrl = {
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
-	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
+	uploadFile:  HOST_APP3+"geocat/upload/uploadFile.action?",
+	uploadFile2:  HOST_APP+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://www.icc.cat/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
@@ -191,8 +195,8 @@ var paramUrl = {
 	moveGeometriaToEstil: HOST_APP+"geocat/layers/visualitzacio/moveGeometriaToEstil.action?",
 	modificarEstiloGeometria: HOST_APP+"geocat/layers/visualitzacio/modificarEstiloGeometria.action?",
 	removeGeometriaFromVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromVisualitzacio.action?",
-	createVisualitzacioSimple: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioSimple.action?",
-	createVisualitzacioTematica: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
+	createVisualitzacioSimple: HOST_APP3+"geocat/layers/visualitzacio/createVisualitzacioSimple.action?",
+	createVisualitzacioTematica: HOST_APP3+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
 	createVisualitzacioHeatCluster: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioHeatCluster.action?",
 	getGeometriesColleccioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getGeometriesColleccioByBusinessId.action?",
 	getGeometriesPropertiesLayer: HOST_APP+"geocat/layers/visualitzacio/getGeometriesPropertiesLayer.action?",
@@ -201,25 +205,25 @@ var paramUrl = {
 	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?",
 	createMapFile:  HOST_APP+"geocat/layers/visualitzacio/createMapFile.action?",
 	searchAction: HOST_APP+"geocat/aplications/map/search.action?",
-	buffer: HOST_APP+"geocat/aplications/map/buffer.action?",
-	centroid: HOST_APP+"geocat/aplications/map/centroid.action?",
-	intersection: HOST_APP+"geocat/aplications/map/intersection.action?",
-	union: HOST_APP+"geocat/aplications/map/union.action?",
-	tag: HOST_APP+"geocat/aplications/map/tag.action?",
-	unionLayers: HOST_APP+"geocat/aplications/map/unionLayers.action?",
+	buffer: HOST_APP3+"geocat/aplications/map/buffer.action?",
+	centroid: HOST_APP3+"geocat/aplications/map/centroid.action?",
+	intersection: HOST_APP3+"geocat/aplications/map/intersection.action?",
+	union: HOST_APP3+"geocat/aplications/map/union.action?",
+	tag: HOST_APP3+"geocat/aplications/map/tag.action?",
+	unionLayers: HOST_APP3+"geocat/aplications/map/unionLayers.action?",
+	filter: HOST_APP3+"geocat/aplications/map/filter.action?",
+	columnJoin: HOST_APP3 +"geocat/aplications/map/columnJoin.action?",
+	spatialJoin: HOST_APP3 +"geocat/aplications/map/spatialJoin.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
-	crearFitxerPolling: HOST_APP+"/geocat/aplications/map/crearFitxerPolling.action?",
-	filter: HOST_APP+"geocat/aplications/map/filter.action?",
+	crearFitxerPolling: HOST_APP+"/geocat/aplications/map/crearFitxerPolling.action?",	
 	callActions:"/share/jsp/callActions.jsp?",
 	//loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
 	getConfiguradesUser: HOST_GEOLOCAL+"PRG/eines/getConfiguradesUser.action?",
 	prgIncasol: HOST_GEOLOCAL,
 	createToken: HOST_APP +"/geocat/createToken.action?",
 	uploadLogo: HOST_APP +"share/jsp/uploadLogo.jsp?",
-	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",
-	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
-	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?",
+	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",	
 	searchCapesPubliques: HOST_APP+"geocat/aplications/map/searchCapesPubliques.action?",
 	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?",
 	duplicateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/duplicateVisualitzacioLayer.action?",
