@@ -237,7 +237,7 @@ var paramUrl = {
 	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
 	urlJsonPCC:"/geocatweb/dades/pcc.json",
 	desbloquejarMapa: HOST_APP+"/geocat/aplications/map/desbloquejar.action?",
-	crearFitxerSocrata:  HOST_APP+"geocat/upload/crearFitxerSocrata.action?",
+	crearFitxerSocrata:  HOST_APP3+"geocat/upload/crearFitxerSocrata.action?",
 	generateTokenRemember: HOST_APP+"geocat/user/generateTokenRemember.action?"
 
 }
