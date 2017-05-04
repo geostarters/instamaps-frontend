@@ -1421,8 +1421,8 @@
 
 
 						   if (undefined!=param_url && (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 )){
-							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
-							    else  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+							    else  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
 								param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
 								"&urlFile="+encodeURIComponent(urlFile)+
 								"&epsgIN=EPSG:4326"+	
