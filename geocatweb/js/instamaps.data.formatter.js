@@ -13,13 +13,21 @@
 			thousandsSeparator : '.'
 		},
 
-		createOptions: function(name) {
-	
+		createOptions: function(name,selectVal) {
+			var selectedT='';
+			selectVal=='t'?selectedT='selected':selectedT='';	
+			var selectedEuro='';
+			selectVal=='€'?selectedEuro='selected':selectedEuro='';	
+			var selectedDolar='';
+			selectVal=='$'?selectedDolar='selected':selectedDolar='';	
+			var selectedN='';
+			selectVal=='n'?selectedN='selected':selectedN='';	
+			
 			return '<select class="dataTableSelect" data-column="' + name + '">' + 
-			'	<option value="t">Text</option>' +
-			'	<option value="€">Número (€)</option>' +
-			'	<option value="$">Número ($)</option>' +
-			'	<option value="n">Número</option>' +
+			'	<option value="t"'+selectedT+'>Text</option>' +
+			'	<option value="€"'+selectedEuro+'>Número (€)</option>' +
+			'	<option value="$"'+selectedDolar+'>Número ($)</option>' +
+			'	<option value="n"'+selectedN+'>Número</option>' +
 			'</select>';/*+
 			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
 		},
@@ -140,7 +148,7 @@
 
 					//Error. A valid number has an integer part grouped in groups of length 3 except 
 					//the first one
-					return "error";
+					//return "error";
 				}
 				else {
 

@@ -773,9 +773,9 @@ function activaEdicioUsuari() {
 }
 
 //Funcio que crea Pop up de la feature quan te opcio d'edicio
-function createPopupWindow(layer,type, editant){
+function createPopupWindow(layer,type, editant,propFormat){
 //	console.debug('createPopupWindow');
-	var html = createPopUpContent(layer,type, editant);
+	var html = createPopUpContent(layer,type, editant,propFormat);
 	//layer.bindPopup(html,{'offset':[0,-25]});
 	//eventos del popup
 	jQuery(document).on('click', "#titol_pres", function(e) {
@@ -1451,7 +1451,6 @@ function getFeatureStyle2(estil,tipus){
 }
 
 function finishAddFeatureToTematic(layer){
-	
 	var type = layer.options.tipus;
 	//Afegir capa edicio a control de capes en cas que sigui nova
 	if (capaUsrActiva.toGeoJSON().features.length == 1 ) {
@@ -1690,8 +1689,8 @@ function fillCmbCapesUsr(type,_leaflet_id){
 	return html;
 }
 
-function createPopUpContent(player,type, editant){
-
+function createPopUpContent(player,type, editant, propFormat){
+	console.debug(propFormat);
 	var isEditing = (undefined == typeof editant ? true : editant);
 	
 	var auxNom = window.lang.translate('Nom');

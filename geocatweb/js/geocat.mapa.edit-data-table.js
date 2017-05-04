@@ -499,6 +499,13 @@ function fillModalDataTable(obj, geomBid){
 				var lat = parseFloat(coords[1]);
 				//resultats = resultats.replace("}]",",\"longitud\":\""+lon.toFixed(5)+"\",\"latitud\":\""+lat.toFixed(5)+"\"}]");
 				var resultats2 = $.parseJSON(resultats);
+				var propFormat; 
+				if (results.layer.options!=undefined){
+					var opts = $.parseJSON(results.layer.options);
+					if (opts.propFormat!=undefined){
+						propFormat= opts.propFormat;
+					}
+				}
 				var resultatsMod = [];
 				var resultI=0;
 				var haveGeomOrigen=false;
@@ -510,13 +517,18 @@ function fillModalDataTable(obj, geomBid){
 					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);
 					$.each( result, function( key, value ) {
 						if (key.toLowerCase()!="geomorigen"){
-							var valorStr=value.toString();
-							if (valorStr.indexOf("src")>-1){
-								value=valorStr.replaceAll('"',"'");//Issue #560
-								//console.debug(value);
-								result[key]=value;
+							if (propFormat!=undefined && propFormat[key]!=undefined){
+								 result[key]= dataFormatter.formatValue(value, propFormat[key]);
 							}
-							else result[key]=value;
+							else {
+								var valorStr=value.toString();
+								if (valorStr.indexOf("src")>-1){
+									value=valorStr.replaceAll('"',"'");//Issue #560
+									//console.debug(value);
+									result[key]=value;
+								}
+								else result[key]=value;
+							}
 						}
 						else {
 							result[key] = null;
@@ -533,8 +545,12 @@ function fillModalDataTable(obj, geomBid){
 				var selectsRow = {};
 				$.each(columNames, function(i, name) {
 					if("Accions" != name.field) {
-
-						selectsRow[name.field] = dataFormatter.createOptions(name.field);
+						if (propFormat!=undefined && propFormat[name.field]!=undefined){
+							selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
+						}
+						else{
+							selectsRow[name.field] = dataFormatter.createOptions(name.field);
+						}
 
 					}
 
