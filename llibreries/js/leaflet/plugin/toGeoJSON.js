@@ -12,7 +12,7 @@ $(function () {
        
         //Method to be revealed for retrieving data
         function getData(url) {
-        	var urlProxy = HOST_APP+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(url);
+        	var urlProxy = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(url);
         	return jQuery.ajax({
 				url: urlProxy,
 				async: false,
