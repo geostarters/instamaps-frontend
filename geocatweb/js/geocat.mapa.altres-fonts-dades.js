@@ -185,7 +185,8 @@ function cercaCapesBtn(){
 }
 
 function addControlAltresFontsDades() {
-	
+	alert(12);
+	console.info(111444);
 	addHtmlInterficieDadesExt();
 	addHtmlModalDadesExt();
 	var _DadesOficials=new IM_DadesOficials();
@@ -417,295 +418,324 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 						}
 					}
 				});
-				
+				alert(122);
 				jQuery("#bt_URLfitxer").on('click', function(e) {
-					jQuery('#bt_URLfitxer').prop("disabled", true);
-					jQuery("#div_url_file").show();
-					var urlFile = $.trim(jQuery("#txt_URLfile").val());
-					if(isValidURL(urlFile)){
-						
-						//URL PRESIDENT JSON
-						if(urlFile.indexOf(paramUrl.presidentJSON)!= -1){
-							/*
-							jQuery("#div_url_file").html(
-									'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
-									'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
-							);
-							*/
-							getServeiJSONP(urlFile);
-						}
-						else if(urlFile.indexOf("socrata")!= -1 && urlFile.indexOf("method=export&format=GeoJSON")!= -1){
-							jQuery("#div_url_file").html(
-									'<br>'+
-									'<div class="input-group input-group-sm">'+
-										'<span lang="ca" class="input-group-addon">'+window.lang.translate("Nom capa")+'</span>'+
-										'<input type="text" id="input-url-file-name" class="form-control">'+
-									'</div>'+	
-									'<br>'+
-									'<div>'+														
-										'<input id="dinamic_chck" type="checkbox" checked="checked">'+
-										'&nbsp;'+window.lang.translate("Dinàmica")+
-										'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
-											window.lang.translate("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
-										'</small>'+
-									'</div>&nbsp;'+
-									'<div style="float:right">'+
-										'<button id="bt_URLfitxer_go" class="btn btn-success btn-add-wms" lang="ca">Afegir capa</button>'+
-									'</div>'+
-									'<div id="div_url_file_message" class="alert alert-danger"></div>'
-							);
-
-							jQuery("#div_url_file_message").hide();
-							activarEventAfegirCapa("-1");
-						}else{//LA RESTA
-							jQuery("#div_url_file").html(
-									'<br>'+
-									'<div class="input-group input-group-sm">'+
-										'<span lang="ca" class="input-group-addon">'+window.lang.translate("Nom capa")+'</span>'+
-										'<input type="text" id="input-url-file-name" class="form-control">'+
-									'</div>'+	
-									'<br>'+
-									'<div>'+
-									window.lang.translate("Format")+
-									':&nbsp;'+
-										'<select id="select-url-file-format" class="form-download-format">'+										 
-										  '<option value=".geojson">GeoJSON</option>'+
-										  '<option value=".shp">ESRI Shapefile</option>'+
-										  '<option value=".dxf">DXF</option>'+
-										  '<option value=".dgn">DGN</option>'+
-										  '<option value=".kml">KML</option>'+
-										  '<option value=".gpx">GPX</option>'+
-										  '<option value=".gml">GML</option>'+
-										  '<option value=".kmz">KMZ</option>'+
-										  '<option value=".csv">CSV</option>'+
-										  '<option value=".txt">TXT</option>'+
-										  '<option value=".xls">XLS</option>'+
-										  '<option value=".xlsx">XLSX</option>'+
-										  '<option value=".zip">Zip File</option>'+
-										  '<option value=".json">JSON</option>'+
-										  '<option value="-1">'+window.lang.translate("Selecciona el Format")+'</option>'+
-										'</select>'+
-										'<br><br>'+
-										'<div id="input-excel-url-file">'+
-										'	<div class="panel-body">'+
-										'	   <ul class="nav nav-pills nav-pills-urlfile" id="nav_pill">'+
-										'	      <li id="coordenades" class="active"><a lang="ca" data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">'+window.lang.translate("Per coordenades")+'</a></li>'+
-										'	      <li id="adreca"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_adreca" aria-expanded="false">'+window.lang.translate("Per adreces")+'</a></li>'+
-										'	      <li id="codis"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_codi" aria-expanded="false">'+window.lang.translate("Per codis")+'</a></li>'+
-										'	   </ul>'+
-										'	   <!-- Tab panes -->		'+					
-										'	   <div class="tab-content-urlfile tab-content" id="div_opt_urlfile">'+
-										'	      <div id="opt_urlfile_coord" class="tab-pane active">'+
-										'	         <ul class="pane-excel-urlfile">'+
-														'<label lang="ca">'+window.lang.translate("On són les coordenades?")+'</label>'+
-														'<br>'+
-														'<div class="input-group input-group-sm">'+
-															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada X o LON")+'</span>'+
-															'<input type="text" id="input-coord-x" class="form-control">'+
-														'</div>'+	
-														'<br>'+	
-														'<div class="input-group input-group-sm">'+
-															'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada Y o LAT ")+'</span>'+
-															'<input type="text" id="input-coord-y" class="form-control">'+
-														'</div>'+
-														'<br>'+														  
-										'	         </ul>'+
-										'	      </div>'+
-										'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
-										'	         <ul class="pane-excel-urlfile">'+
-										'					<span lang="ca">Per codificar per adreces utilitza aquest</span>'+ 
-										'					<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a>'+ 
-										'					<span lang="ca">amb les teves dades.</span>'+
-										'					<br/>'+
-										'					<span lang="ca">Els camps Nom_via, Portal i Municipi són obligatoris.</span>'+
-										'	         </ul>'+
-										'	      </div>'+
-										'	      <div id="opt_urlfile_codi" class="tab-pane tab-pane-urlfile">'+
-										'	         <ul class="pane-excel-urlfile">'+
-										'	            <li><label lang="ca">'+window.lang.translate("Els teus codis són de")+'</label>:</li>'+
-										'	            <li>'+
-										'	               <select id="cmd_codiType_Capa_de">'+
-										'	                  <option lang="ca" value="municipis" selected="">'+window.lang.translate("Municipis")+'</option>'+
-										'	                  <option lang="ca" value="comarques">'+window.lang.translate("Comarques")+'</option>'+
-										'	               </select>'+
-										'	            </li>'+
-										'	            <li><label lang="ca">'+window.lang.translate("Tipus codi")+'</label></li>'+
-										'	            <li>'+
-										'	               <select name="select_codiType" id="cmd_codiType_de">'+
-										'	                  <option value="ine">INE (5 digits)</option>'+
-										'	                  <option value="idescat">IDESCAT (6 digits)</option>'+
-										'	                  <option value="municat">MUNICAT (10 digits)</option>'+
-										'	                  <option value="cadastre">CADASTRE (5 digits)</option>'+
-										'	               </select>'+
-										'	            </li>'+
-										'	            <li><label lang="ca">'+window.lang.translate("Camp que conté el codi")+'</label></li>'+
-										'	            <li>'+
-															'<div class="input-group input-group-sm">'+
-																'<input type="text" id="input-camp-codi-urlfile" class="form-control" placeholder="'+window.lang.translate("Entrar camp")+'">'+
-															'</div>'+
-										'	            </li>'+
-										'	         </ul>'+
-										'	      </div>'+
-										'	   </div>'+
-										'	</div>'+											
-										'</div>'+
-										'<br>'+
-									'EPSG:&nbsp;'+
-										'<select id="select-url-file-epsg" class="form-download-epsg">'+
-											'<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
-					              			'<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
-					              			'<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
-					              			'<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
-					              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
-					              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
-					              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
-					              			'<option value="-1">'+window.lang.translate("Selecciona el EPSG")+'</option>'+
-										'</select>'+
-										'<br><br>'+								
-										'<input id="dinamic_chck" type="checkbox" checked="checked">'+
-										'&nbsp;'+window.lang.translate("Dinàmica")+
-										'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
-											window.lang.translate("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
-										'</small>'+
-									'</div>&nbsp;'+
-									'<div style="float:right">'+
-										'<button id="bt_URLfitxer_go" class="btn btn-success btn-add-wms" lang="ca">Afegir capa</button>'+
-									'</div>'+
-									'<div id="div_url_file_message" class="alert alert-danger"></div>'
-							);
-							
-							$('#opt_urlfile_codi').on('click',function(){
-								//console.debug("click opt_urlfile_codi");
-							});
-							
-							jQuery("#div_url_file_message").hide();
-							jQuery("#input-excel-url-file").hide();
-							
-							//Comprovem tipus del file
-							var type = "-1";
-							if(urlFile.indexOf(t_file_kml)!=-1) type = t_file_kml;
-							else if(urlFile.indexOf(t_file_gpx)!=-1) type = t_file_gpx;
-							else if(urlFile.indexOf(t_file_shp)!=-1) type = t_file_shp;
-							else if(urlFile.indexOf(t_file_dxf)!=-1) type = t_file_dxf;
-							else if(urlFile.indexOf(t_file_xlsx)!=-1) type = t_file_xlsx;
-							else if(urlFile.indexOf(t_file_xls)!=-1) type = t_file_xls;
-							else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
-							else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
-							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
-							else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
-							else if(urlFile.indexOf(t_file_txt)!=-1) type = t_file_txt;
-							else if(urlFile.indexOf(t_file_dgn)!=-1) type = t_file_dgn;
-							else if(urlFile.indexOf(t_file_gml)!=-1) type = t_file_gml;
-							else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_json;
-							
-							$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
-							
-							if (type==".kml" ||type==".gpx" || type==".gml"){
-								$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
-								jQuery("#select-url-file-epsg").attr('disabled',true);
-							}else if(type==".xls" || type==".xlsx" || type==".csv" || type==".txt"){
-								jQuery("#input-excel-url-file").show();
-								$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
-								$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
-							}else if(type==".json"){
-								jQuery("#input-excel-url-file").show();
-								$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
-								$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
-							}else{
-								$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
-								jQuery("#select-url-file-epsg").attr('disabled',false);
-							}
-							
-							activarEventAfegirCapa(type);
-							
-							jQuery('#cmd_codiType_Capa_de').on('change',function(e) {
-								var html = "";
-								if (jQuery(this).val() == "municipis") {
-									html = "<option value='ine'>INE (5 digits)</option><option value='idescat'>IDESCAT (6 digits)</option><option value='municat'>MUNICAT (10 digits)</option><option value='cadastre'>CADASTRE (5 digits)</option>";
-								} else {
-									html = "<option value='ine'>NUM_COMARCA (2 digits)</option><option value='municat'>MUNICAT (10 digits)</option>";
-								}
-								jQuery('#cmd_codiType_de').html(html);
-							});
-							
-							jQuery('.nav-pills-urlfile #codis').on('click', function(){
-								jQuery("#select-url-file-epsg").attr('disabled',true);
-							});
-							
-							jQuery('.nav-pills-urlfile #coordenades').on('click', function(){
-								jQuery("#select-url-file-epsg").attr('disabled',false);
-							});
-							
-							jQuery('.nav-pills-urlfile #adreca').on('click', function(){
-								jQuery("#select-url-file-epsg").attr('disabled',true);
-							});
-							
-							jQuery("#input-coord-x").focus(function() {
-								jQuery(this).removeClass("class_error");
-							});	
-							
-							jQuery("#input-coord-y").focus(function() {
-								jQuery(this).removeClass("class_error");
-							});
-							
-							jQuery("#input-camp-codi-urlfile").focus(function() {
-								jQuery(this).removeClass("class_error");
-							});
-							
-							jQuery("#select-url-file-epsg").change(function(){
-								jQuery(this).removeClass("class_error");
-								jQuery("#div_url_file_message").empty();
-								jQuery("#div_url_file_message").hide();
-							});						
-							
-							jQuery('#select-url-file-format').change(function() {
-								jQuery(this).removeClass("class_error");
-								jQuery("#div_url_file_message").empty();
-								jQuery("#div_url_file_message").hide();
-								jQuery("#input-excel-url-file").hide();
-								
-								var ext = jQuery(this).val();
-								if ((ext==".kml")||(ext==".gpx") ||(ext==".gml")){
-									$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
-									jQuery("#select-url-file-epsg").attr('disabled',true);
-//									jQuery("#input-excel-url-file").hide();
-								}else if((ext==".xls")||(ext==".xlsx") || (ext==".csv") || (ext==".txt") ){
-									jQuery("#input-excel-url-file").show();
-									$('#input-excel-url-file .nav-pills-urlfile li#codis').show();
-									$('#input-excel-url-file .nav-pills-urlfile li#adreca').show();
-									$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
-									$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
-								}else if(ext==".json"){
-									jQuery("#input-excel-url-file").show();
-									$('a[href^="#opt_urlfile_coord').click();
-									$('#input-excel-url-file .nav-pills-urlfile li#codis').hide();
-									$('#input-excel-url-file .nav-pills-urlfile li#adreca').hide();
-								}else{
-									jQuery("#select-url-file-epsg").attr('disabled',false);
-//									jQuery("#input-excel-url-file").hide();
-								}
-							});								
-						}
-						
-					}else{
-						jQuery("#div_url_file").html(
-								'<div id="txt_URLfile_error" class="alert alert-danger">'+
-									'<span class="glyphicon glyphicon-warning-sign"> </span> '+
-   									 window.lang.translate("Introdueix una URL vàlida")+
-								'</div>'
-						);
-					}
+					console.info(1);
+					alert(123);
+					addFormDadesExternes(this,"#txt_URLfile","#div_url_file");
+					
 				});
+				
+				
+				
 				
 				$("#txt_URLfile").focus(function() {
 					jQuery("#div_url_file").empty();
 					jQuery("#div_url_file").hide();
 					jQuery('#bt_URLfitxer').prop("disabled", false);
-				});				
+				});
+				
+
 			}		
 		});
 	})
 }
+
+
+
+function addFormDadesExternes(_divButton,_input,_container){
+	alert(00);
+	console.info(jQuery(_container));
+	//jQuery(_container).empty();
+	jQuery(this).prop("disabled", true);
+	jQuery(_container).show();
+	var urlFile = $.trim(jQuery(_input).val());
+	if(isValidURL(urlFile)){
+		
+		//URL PRESIDENT JSON
+		if(urlFile.indexOf(paramUrl.presidentJSON)!= -1){
+			/*
+			jQuery(_container).html(
+					'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
+					'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
+			);
+			*/
+			getServeiJSONP(urlFile);
+		}
+		else if(urlFile.indexOf("socrata")!= -1 && urlFile.indexOf("method=export&format=GeoJSON")!= -1){
+			jQuery(_container).html(
+					'<br>'+
+					'<div class="input-group input-group-sm">'+
+						'<span lang="ca" class="input-group-addon">'+window.lang.translate("Nom capa")+'</span>'+
+						'<input type="text" id="input-url-file-name" class="form-control">'+
+					'</div>'+	
+					'<br>'+
+					'<div>'+														
+						'<input id="dinamic_chck" type="checkbox" checked="checked">'+
+						'&nbsp;'+window.lang.translate("Dinàmica")+
+						'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
+							window.lang.translate("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
+						'</small>'+
+					'</div>&nbsp;'+
+					'<div style="float:right">'+
+						'<button id="bt_URLfitxer_go" class="btn btn-success btn-add-wms" lang="ca">Afegir capa</button>'+
+					'</div>'+
+					'<div id="div_url_file_message" class="alert alert-danger"></div>'
+			);
+
+			jQuery("#div_url_file_message").hide();
+			activarEventAfegirCapa("-1");
+		}else{//LA RESTA
+			jQuery(_container).html(
+					'<br>'+
+					'<div class="input-group input-group-sm">'+
+						'<span lang="ca" class="input-group-addon">'+window.lang.translate("Nom capa")+'</span>'+
+						'<input type="text" id="input-url-file-name" class="form-control">'+
+					'</div>'+	
+					'<br>'+
+					'<div>'+
+					window.lang.translate("Format")+
+					':&nbsp;'+
+						'<select id="select-url-file-format" class="form-download-format">'+										 
+						  '<option value=".geojson">GeoJSON</option>'+
+						  '<option value=".shp">ESRI Shapefile</option>'+
+						  '<option value=".dxf">DXF</option>'+
+						  '<option value=".dgn">DGN</option>'+
+						  '<option value=".kml">KML</option>'+
+						  '<option value=".gpx">GPX</option>'+
+						  '<option value=".gml">GML</option>'+
+						  '<option value=".kmz">KMZ</option>'+
+						  '<option value=".csv">CSV</option>'+
+						  '<option value=".txt">TXT</option>'+
+						  '<option value=".xls">XLS</option>'+
+						  '<option value=".xlsx">XLSX</option>'+
+						  '<option value=".zip">Zip File</option>'+
+						  '<option value=".json">JSON</option>'+
+						  '<option value="-1">'+window.lang.translate("Selecciona el Format")+'</option>'+
+						'</select>'+
+						'<br><br>'+
+						'<div id="input-excel-url-file">'+
+						'	<div class="panel-body">'+
+						'	   <ul class="nav nav-pills nav-pills-urlfile" id="nav_pill">'+
+						'	      <li id="coordenades" class="active"><a lang="ca" data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">'+window.lang.translate("Per coordenades")+'</a></li>'+
+						'	      <li id="adreca"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_adreca" aria-expanded="false">'+window.lang.translate("Per adreces")+'</a></li>'+
+						'	      <li id="codis"  class=""><a lang="ca" data-toggle="tab" href="#opt_urlfile_codi" aria-expanded="false">'+window.lang.translate("Per codis")+'</a></li>'+
+						'	   </ul>'+
+						'	   <!-- Tab panes -->		'+					
+						'	   <div class="tab-content-urlfile tab-content" id="div_opt_urlfile">'+
+						'	      <div id="opt_urlfile_coord" class="tab-pane active">'+
+						'	         <ul class="pane-excel-urlfile">'+
+										'<label lang="ca">'+window.lang.translate("On són les coordenades?")+'</label>'+
+										'<br>'+
+										'<div class="input-group input-group-sm">'+
+											'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada X o LON")+'</span>'+
+											'<input type="text" id="input-coord-x" class="form-control">'+
+										'</div>'+	
+										'<br>'+	
+										'<div class="input-group input-group-sm">'+
+											'<span lang="ca" class="input-group-addon">'+window.lang.translate("Coordenada Y o LAT ")+'</span>'+
+											'<input type="text" id="input-coord-y" class="form-control">'+
+										'</div>'+
+										'<br>'+														  
+						'	         </ul>'+
+						'	      </div>'+
+						'	      <div id="opt_urlfile_adreca" class="tab-pane">'+
+						'	         <ul class="pane-excel-urlfile">'+
+						'					<span lang="ca">Per codificar per adreces utilitza aquest</span>'+ 
+						'					<a class="alert-link" lang="ca"	href="dades/exemple_geocod_adreces.xlsx">arxiu tipus</a>'+ 
+						'					<span lang="ca">amb les teves dades.</span>'+
+						'					<br/>'+
+						'					<span lang="ca">Els camps Nom_via, Portal i Municipi són obligatoris.</span>'+
+						'	         </ul>'+
+						'	      </div>'+
+						'	      <div id="opt_urlfile_codi" class="tab-pane tab-pane-urlfile">'+
+						'	         <ul class="pane-excel-urlfile">'+
+						'	            <li><label lang="ca">'+window.lang.translate("Els teus codis són de")+'</label>:</li>'+
+						'	            <li>'+
+						'	               <select id="cmd_codiType_Capa_de">'+
+						'	                  <option lang="ca" value="municipis" selected="">'+window.lang.translate("Municipis")+'</option>'+
+						'	                  <option lang="ca" value="comarques">'+window.lang.translate("Comarques")+'</option>'+
+						'	               </select>'+
+						'	            </li>'+
+						'	            <li><label lang="ca">'+window.lang.translate("Tipus codi")+'</label></li>'+
+						'	            <li>'+
+						'	               <select name="select_codiType" id="cmd_codiType_de">'+
+						'	                  <option value="ine">INE (5 digits)</option>'+
+						'	                  <option value="idescat">IDESCAT (6 digits)</option>'+
+						'	                  <option value="municat">MUNICAT (10 digits)</option>'+
+						'	                  <option value="cadastre">CADASTRE (5 digits)</option>'+
+						'	               </select>'+
+						'	            </li>'+
+						'	            <li><label lang="ca">'+window.lang.translate("Camp que conté el codi")+'</label></li>'+
+						'	            <li>'+
+											'<div class="input-group input-group-sm">'+
+												'<input type="text" id="input-camp-codi-urlfile" class="form-control" placeholder="'+window.lang.translate("Entrar camp")+'">'+
+											'</div>'+
+						'	            </li>'+
+						'	         </ul>'+
+						'	      </div>'+
+						'	   </div>'+
+						'	</div>'+											
+						'</div>'+
+						'<br>'+
+					'EPSG:&nbsp;'+
+						'<select id="select-url-file-epsg" class="form-download-epsg">'+
+							'<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat, lon) - G.G)</option>'+
+	              			'<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N Easting,Northing o X,Y)</option>'+
+	              			'<option value="EPSG:25831">EPSG:25831 (ETRS89-UTM 31N Easting,Northing o X,Y)</option>'+
+	              			'<option value="EPSG:4258">EPSG:4258 INSPIRE(ETRS89 geogràfiques (lat, lon) - G.G)</option>'+
+	              			'<option value="EPSG:4230">EPSG:4230 (ED50 geogràfiques (lat, lon) - G.G)</option>'+
+	              			'<option value="EPSG:32631">EPSG:32631 (WGS84 31N Easting,Northing o X,Y)</option>'+
+	              			'<option value="EPSG:3857">EPSG:3857 (WGS84 Pseudo-Mercator Easting,Northing o X,Y)</option>'+
+	              			'<option value="-1">'+window.lang.translate("Selecciona el EPSG")+'</option>'+
+						'</select>'+
+						'<br><br>'+								
+						'<input id="dinamic_chck" type="checkbox" checked="checked">'+
+						'&nbsp;'+window.lang.translate("Dinàmica")+
+						'<br><small lang="ca" class="label label-success" id="label-dinamic">'+
+							window.lang.translate("Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa")+
+						'</small>'+
+					'</div>&nbsp;'+
+					'<div style="float:right">'+
+						'<button id="bt_URLfitxer_go" class="btn btn-success btn-add-wms" lang="ca">Afegir capa</button>'+
+					'</div>'+
+					'<div id="div_url_file_message" class="alert alert-danger"></div>'
+			);
+			
+			$('#opt_urlfile_codi').on('click',function(){
+				//console.debug("click opt_urlfile_codi");
+			});
+			
+			jQuery("#div_url_file_message").hide();
+			jQuery("#input-excel-url-file").hide();
+			
+			//Comprovem tipus del file
+			var type = "-1";
+			if(urlFile.indexOf(t_file_kml)!=-1) type = t_file_kml;
+			else if(urlFile.indexOf(t_file_gpx)!=-1) type = t_file_gpx;
+			else if(urlFile.indexOf(t_file_shp)!=-1) type = t_file_shp;
+			else if(urlFile.indexOf(t_file_dxf)!=-1) type = t_file_dxf;
+			else if(urlFile.indexOf(t_file_xlsx)!=-1) type = t_file_xlsx;
+			else if(urlFile.indexOf(t_file_xls)!=-1) type = t_file_xls;
+			else if(urlFile.indexOf(t_file_topojson)!=-1) type = t_file_geojson;
+			else if(urlFile.indexOf(t_file_geojson)!=-1) type = t_file_geojson;
+			else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_geojson;
+			else if(urlFile.indexOf(t_file_csv)!=-1) type = t_file_csv;
+			else if(urlFile.indexOf(t_file_txt)!=-1) type = t_file_txt;
+			else if(urlFile.indexOf(t_file_dgn)!=-1) type = t_file_dgn;
+			else if(urlFile.indexOf(t_file_gml)!=-1) type = t_file_gml;
+			else if(urlFile.indexOf(t_file_json)!=-1) type = t_file_json;
+			
+			$('#select-url-file-format option[value="'+type+'"]').prop("selected", "selected");
+			
+			if (type==".kml" ||type==".gpx" || type==".gml"){
+				$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
+				jQuery("#select-url-file-epsg").attr('disabled',true);
+			}else if(type==".xls" || type==".xlsx" || type==".csv" || type==".txt"){
+				jQuery("#input-excel-url-file").show();
+				$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+				$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+			}else if(type==".json"){
+				jQuery("#input-excel-url-file").show();
+				$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+				$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+			}else{
+				$('#select-url-file-epsg option[value="-1"]').prop("selected", "selected");
+				jQuery("#select-url-file-epsg").attr('disabled',false);
+			}
+			
+			activarEventAfegirCapa(type);
+			
+			jQuery('#cmd_codiType_Capa_de').on('change',function(e) {
+				var html = "";
+				if (jQuery(this).val() == "municipis") {
+					html = "<option value='ine'>INE (5 digits)</option><option value='idescat'>IDESCAT (6 digits)</option><option value='municat'>MUNICAT (10 digits)</option><option value='cadastre'>CADASTRE (5 digits)</option>";
+				} else {
+					html = "<option value='ine'>NUM_COMARCA (2 digits)</option><option value='municat'>MUNICAT (10 digits)</option>";
+				}
+				jQuery('#cmd_codiType_de').html(html);
+			});
+			
+			jQuery('.nav-pills-urlfile #codis').on('click', function(){
+				jQuery("#select-url-file-epsg").attr('disabled',true);
+			});
+			
+			jQuery('.nav-pills-urlfile #coordenades').on('click', function(){
+				jQuery("#select-url-file-epsg").attr('disabled',false);
+			});
+			
+			jQuery('.nav-pills-urlfile #adreca').on('click', function(){
+				jQuery("#select-url-file-epsg").attr('disabled',true);
+			});
+			
+			jQuery("#input-coord-x").focus(function() {
+				jQuery(this).removeClass("class_error");
+			});	
+			
+			jQuery("#input-coord-y").focus(function() {
+				jQuery(this).removeClass("class_error");
+			});
+			
+			jQuery("#input-camp-codi-urlfile").focus(function() {
+				jQuery(this).removeClass("class_error");
+			});
+			
+			jQuery("#select-url-file-epsg").change(function(){
+				jQuery(this).removeClass("class_error");
+				jQuery("#div_url_file_message").empty();
+				jQuery("#div_url_file_message").hide();
+			});						
+			
+			jQuery('#select-url-file-format').change(function() {
+				jQuery(this).removeClass("class_error");
+				jQuery("#div_url_file_message").empty();
+				jQuery("#div_url_file_message").hide();
+				jQuery("#input-excel-url-file").hide();
+				
+				var ext = jQuery(this).val();
+				if ((ext==".kml")||(ext==".gpx") ||(ext==".gml")){
+					$('#select-url-file-epsg option[value="EPSG:4326"]').prop("selected", "selected");
+					jQuery("#select-url-file-epsg").attr('disabled',true);
+//					jQuery("#input-excel-url-file").hide();
+				}else if((ext==".xls")||(ext==".xlsx") || (ext==".csv") || (ext==".txt") ){
+					jQuery("#input-excel-url-file").show();
+					$('#input-excel-url-file .nav-pills-urlfile li#codis').show();
+					$('#input-excel-url-file .nav-pills-urlfile li#adreca').show();
+					$('#input-excel-url-file .nav-pills-urlfile li#codis').removeClass("disabled");
+					$('#input-excel-url-file .nav-pills-urlfile li a[href="#opt_urlfile_codi"]').attr("data-toggle","tab");
+				}else if(ext==".json"){
+					jQuery("#input-excel-url-file").show();
+					$('a[href^="#opt_urlfile_coord').click();
+					$('#input-excel-url-file .nav-pills-urlfile li#codis').hide();
+					$('#input-excel-url-file .nav-pills-urlfile li#adreca').hide();
+				}else{
+					jQuery("#select-url-file-epsg").attr('disabled',false);
+//					jQuery("#input-excel-url-file").hide();
+				}
+			});								
+		}
+		
+	}else{
+		jQuery(_container).html(
+				'<div id="txt_URLfile_error" class="alert alert-danger">'+
+					'<span class="glyphicon glyphicon-warning-sign"> </span> '+
+						 window.lang.translate("Introdueix una URL vàlida")+
+				'</div>'
+		);
+	}
+
+	
+}
+
+
+
+
+
+
+
+
+
+
 
 
 function addHtmlModalDadesExt(){
@@ -812,6 +842,9 @@ function activarEventAfegirCapa(type){
 		}
 	});
 }
+
+
+alert(2666);
 
 
 

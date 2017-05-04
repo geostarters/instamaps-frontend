@@ -1116,6 +1116,8 @@ function loadDefaultStyles(){
 
 function addHtmlModalCarregarFitxers(){
 	var dfd = $.Deferred();
+	
+	
 	$.get("templates/modalCarregarFitxers.html",function(data){
 		//TODO ver como pasar el modal container
 		$('#mapa_modals').append(data);
@@ -1137,6 +1139,25 @@ function addHtmlModalCarregarFitxers(){
 				drgFromBoto.uploadFile(drgFromBoto.files[0]);;
 			}
 		});	
+		
+		
+		
+		jQuery("#bt_URLfitxer_front").on('click', function(e) {
+			
+			alert(124);
+			addFormDadesExternes(this,"#txt_URLfile_front","#div_url_file_front");
+			
+		});
+		$("#txt_URLfile_front").focus(function() {
+			jQuery("#div_url_file_front").empty();
+			jQuery("#div_url_file_front").hide();
+			jQuery('#bt_URLfitxer_front').prop("disabled", false);
+		});
+		
+		
+		
+		
+		
 		dfd.resolve();
 	});
 	return dfd.promise();
