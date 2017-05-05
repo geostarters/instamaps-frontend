@@ -8,6 +8,21 @@ var tmpdirPolling = "poll/";
 var renovarPassword = "/geocatweb/renovar.html?token=";
 var HOST_APP3 = "http://www.instamaps.cat/";
 
+function httpOrhttps(_url,_invers){
+    
+    if (location.protocol == 'https:' && !_invers){
+        _url=_url.replace('http:','https:');
+    }else if (location.protocol == 'https:' && _invers){
+        _url=_url.replace('https:','http:');
+    }else if (location.protocol == 'http:' && !_invers){
+        _url=_url.replace('https:','http:');
+    }/*else if (location.protocol == 'http:' && _invers){
+        _url=_url.replace('http:','https:');
+    }  */  
+    
+    return _url;
+}
+
 HOST_APP = httpOrhttps(HOST_APP,false);
 GEOCAT02 = httpOrhttps(GEOCAT02,false);
 HOST_APP2 = httpOrhttps(HOST_APP2,false);
