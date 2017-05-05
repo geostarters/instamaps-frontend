@@ -8,6 +8,10 @@ var tmpdirPolling = "poll/";
 var renovarPassword = "/geocatweb/renovar.html?token=";
 var HOST_APP3 = "http://www.instamaps.cat/";
 
+HOST_APP = httpOrhttps(HOST_APP,false);
+GEOCAT02 = httpOrhttps(GEOCAT02,false);
+HOST_APP2 = httpOrhttps(HOST_APP2,false);
+
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
