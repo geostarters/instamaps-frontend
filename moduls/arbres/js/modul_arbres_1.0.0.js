@@ -38,10 +38,15 @@ setTimeout(function () {
 
 //urlWFS : 'http://geoserver.icgc.cat:8080/geoserver/Arbres/wms',
 //urlWFS : 'http://172.30.22.42:8080/geoserver/Arbres/wms',
+
+var _protocol="https";
+if (location.protocol != 'http:') {_protocol="http";}
+
+
 L.Control.addModulArbres = L.Control.extend({
 
 		options : {
-			urlWFS : 'http://geoserver.icgc.cat:8080/geoserver/arbres/wms',
+			urlWFS : _protocol+'://geoserver.icgc.cat:8080/geoserver/arbres/wms',
 			parametersWFS : {
 				service : 'WFS',
 				outputFormat : 'text/javascript',

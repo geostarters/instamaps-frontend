@@ -54,7 +54,9 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 
 
 			var paramsWFS = this.wfsFyer(params, this.wmsParams.layers, map.getZoom(), obj, 'area');
-
+						
+			if (location.protocol == 'https:'){paramsWFS.url=paramsWFS.url.replace('http:','https:');}
+			
 			if (paramsWFS.capa != null) {
 				if (map.hasLayer(capaGeoJSON_SOLAR)) {
 					map.removeLayer(capaGeoJSON_SOLAR);
@@ -159,7 +161,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			if (heFetUnClick) {
 				tancaFinestra();				
 				var params = this.getFeatureUrl();			
-				aturaClick(evt);
+			//	aturaClick(evt);
 
 				var urlApp = document.location.href;
 				if ((urlApp.indexOf('localhost') != -1) || (urlApp.indexOf('.local') != -1) || (urlApp.indexOf('172.70.1.11') != -1)) {
@@ -172,6 +174,14 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				
 				var paramsWFS = this.wfsFyer(params, this.wmsParams.layers, map.getZoom(), evt.latlng, 'click');
 
+				
+				
+			
+				
+				if (location.protocol == 'https:'){paramsWFS.url=paramsWFS.url.replace('http:','https:');}
+				
+				
+				
 				if (paramsWFS.capa != null) {
 					if (map.hasLayer(capaGeoJSON_SOLAR)) {
 						//map.clearLayers(capaGeoJSON_SOLAR);

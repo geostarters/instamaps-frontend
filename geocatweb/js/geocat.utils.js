@@ -1109,3 +1109,5 @@ function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descrip
 		"}";
 	return generatedScript;
 }
+
+
