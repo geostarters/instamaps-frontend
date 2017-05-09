@@ -72,28 +72,19 @@ function addFuncioEditDataTable(){
 					options:  JSON.stringify(optionsNoves)					
 			};
 			updateServidorWMSOptions(data).then(function(results){
-				console.debug(results);
+				var layerServidor = $('#modal_data_table').data("layerServidor");				
+				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();				
+				//Eliminem la capa de controlCapes i mapa
+				reloadSingleLayer(capaEdicio, layerServidor);
 			});
 		}
 		
 		//si hem editat dades recarreguem la capa per visualitzar els canvis
-		if(editat){
-//			console.debug("Tanquem modal data table");
-			  
-	    	//Actualitzem visualitzacions de la capa on estava la geometria modificada
-			//controlCapes._layers[capaEdicioLeafletId];
-//			console.debug("capaEdicio:");
-//			console.debug(capaEdicio);
+		if(editat && $.isEmptyObject(options)){
 			var layerServidor = $('#modal_data_table').data("layerServidor");
-			
 			layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
-			
-//			console.debug("layerServidor:");
-//			console.debug(layerServidor);	
-			
 			//Eliminem la capa de controlCapes i mapa
 			reloadSingleLayer(capaEdicio, layerServidor);
-			
 		}
 		editat = false;
 		geomBusinessId = '-1';
@@ -108,7 +99,7 @@ function addFuncioEditDataTable(){
 function editableColumnFormatter(inValue, row, index, name, pk) {
 
 	var value = inValue;
-
+	console.debug(value);
 	if(0 == index) {
 		//Data type row
 	}
@@ -174,13 +165,14 @@ function fillModalDataTable(obj, geomBid){
 	$('#modal_data_table_title').text(obj.name.toUpperCase());	
 	
 	var options = obj.layer.options;
+	var totalColumns=1;
 	if (obj.layer.options!=undefined && obj.layer.options.estil!=undefined){
 		
 		//Primer trobem column names
 		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
 			
 			jQuery.each(estil.geometria.features, function(indexFeature, feature){
-				var totalColumns=1;
+				
 				
 				var isADrawMarker=false;
 				
@@ -386,6 +378,9 @@ function fillModalDataTable(obj, geomBid){
 	}
 	else {//Primer cop que dibuixem una geometria
 		//Geometry Id
+		totalColumns = totalColumns+ 2;
+		
+		widthColumn = 100/totalColumns;
 		var objGeomId = {
 				field: 'geometryid',
 				title: 'ID',
@@ -418,6 +413,7 @@ function fillModalDataTable(obj, geomBid){
 					title: "nom".toUpperCase(),
 					field: "nom".toLowerCase(),
 					sortable: true,
+					width:widthColumn+"% !important",
 					editable: {
 						emptytext : '-'
 					}
@@ -428,6 +424,7 @@ function fillModalDataTable(obj, geomBid){
 					title: "text".toUpperCase(),
 					field: "text".toLowerCase(),
 					sortable: true,
+					width:widthColumn+"% !important",
 					editable: {
 						emptytext : '-'
 					}
@@ -439,12 +436,14 @@ function fillModalDataTable(obj, geomBid){
 				var obj2 = {
 						title: "latitud".toUpperCase(),
 						field: "latitud".toLowerCase(),
+						width:widthColumn+"% !important",
 						sortable: true
 					}
 				columNames.push(obj2);
 				 obj2 = {
 							title: "longitud".toUpperCase(),
 							field: "longitud".toLowerCase(),
+							width:widthColumn+"% !important",
 							sortable: true
 						}
 				 columNames.push(obj2);
@@ -455,7 +454,8 @@ function fillModalDataTable(obj, geomBid){
 					title: window.lang.translate("ACCIONS"),
 					field: 'Accions',
 					formatter: 'actionFormatter',
-					events: 'actionEvents'
+					events: 'actionEvents',
+					width:widthColumn+"% !important",
 			}	
 			columNames.push(objActions);
 			
@@ -544,14 +544,19 @@ function fillModalDataTable(obj, geomBid){
 				//Add the first row with the column type selection
 				var selectsRow = {};
 				$.each(columNames, function(i, name) {
-					if("Accions" != name.field) {
+					var nameF = name.field.toLowerCase();
+					if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
+							&& "geometryBBOX"!= nameF && "geometrybid"!= nameF) {
 						if (propFormat!=undefined && propFormat[name.field]!=undefined){
 							selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
 						}
 						else{
-							selectsRow[name.field] = dataFormatter.createOptions(name.field);
+							selectsRow[name.field] = dataFormatter.createOptions(name.field,'t');
 						}
 
+					}
+					else if ("latitud"== nameF && "longitud"== nameF){
+						selectsRow[name.field] = "";
 					}
 
 				});

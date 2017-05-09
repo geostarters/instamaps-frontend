@@ -43,7 +43,7 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup(layer._popup._content);
+						marker.bindPopup(layer.properties.popupData);
 						clusterLayer.addLayer(marker);
 					});					
 					
@@ -120,7 +120,7 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup(layer._popup._content);
+						marker.bindPopup(layer.properties.popupData);
 						clusterLayer.addLayer(marker);
 					});					
 					
@@ -173,7 +173,7 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup(layer._popup._content);
+						marker.bindPopup(layer.properties.popupData);
 						clusterLayer.addLayer(marker);
 					});					
 					
@@ -377,7 +377,7 @@ function loadDadesObertesClusterLayer(layer, dfd){
 			var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 				title : layer._leaflet_id
 			});
-			marker.bindPopup(layer._popup._content);
+			marker.bindPopup(layer.properties.popupData);
 			clusterLayer.addLayer(marker);
 		});	
 		
@@ -440,7 +440,7 @@ function loadJsonClusterLayer(layer){
 			var pp = L.marker(new L.LatLng(parseFloat(lat), parseFloat(lon)), {
 				title : layer._leaflet_id
 			});
-//			marker.bindPopup(layer._popup._content);
+//			marker.bindPopup(layer.properties.popupData);
 //			var pp = L.circleMarker([ lat, lon ], estil_do);
 
 			pp.properties = {};

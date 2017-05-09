@@ -265,6 +265,7 @@ function createPopupWindowData(player,type, editable, origen, capa){
 //	console.debug("createPopupWindowData");
 //	console.debug(player);
 	var html='';
+	var propFormat = capa.options.propFormat;
 	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
 		html+='<h4 class="my-text-center">'+player.properties.data.nom+'</h4>';
 	}else if (player.properties.data.Nom && !isBusinessId(player.properties.data.Nom)){
@@ -307,6 +308,9 @@ function createPopupWindowData(player,type, editable, origen, capa){
 					if (!$.isNumeric(txt)) {
 						txt = parseUrlTextPopUp(value, key);
 						if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+							if (propFormat!=undefined && propFormat[key]!=undefined){
+								txt= dataFormatter.formatValue(txt, propFormat[key]);
+							}
 							html+='<div class="popup_data_key">'+key+'</div>';
 							html+='<div class="popup_data_value">'+
 							(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
@@ -317,6 +321,9 @@ function createPopupWindowData(player,type, editable, origen, capa){
 						}
 					}
 					else {
+						if (propFormat!=undefined && propFormat[key]!=undefined){
+							txt= dataFormatter.formatValue(txt, propFormat[key]);
+						}
 						html+='<div class="popup_data_key">'+key+'</div>';
 						html+='<div class="popup_data_value">'+txt+'</div>';
 	
@@ -2373,15 +2380,15 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					map.oms.addMarker(feat);
 				}
 			
-				if(!geom.hasOwnProperty("popupData"))
-				{
+				/*if(!geom.hasOwnProperty("popupData"))
+				{*/
 				
 					//Si la capa no ve de fitxer
 					var html;
 					if(!hasSource){
 						//"no te source, no ve de fitxer");
 						if(!veientMapa && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-							html = createPopupWindow(feat,geomTypeVis, true,capaVisualitzacio.propFormat);
+							html = createPopupWindow(feat,geomTypeVis, true,capaVisualitzacio.options.propFormat);
 						}else{
 							//"Estem mode vis o no es tem origen:"
 							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
@@ -2402,11 +2409,11 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						capaNom: feat.properties.capaNom,
 						popupData: html };
 
-				}
+				/*}
 				else
 				{
 
-				}
+				}*/
 
 				feat.on('click', creaPopupUnic);
 				/*try{

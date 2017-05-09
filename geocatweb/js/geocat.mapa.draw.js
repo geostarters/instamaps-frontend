@@ -1092,7 +1092,7 @@ function createPopupWindow(layer,type, editant,propFormat){
 			PopupManager().createMergedDataPopup(e.target, e, controlCapes).then(function() {
 				var html = reFillCmbCapesUsr(layer.options.tipus, layer.properties.capaBusinessId);
 				jQuery('#cmbCapesUsr-'+layer._leaflet_id+'-'+layer.options.tipus+'-'+layer.properties.capaLeafletId).html(html);
-				if (layer.properties.data.nom){
+				/*if (layer.properties.data.nom){
 					jQuery('#titol_pres').text(layer.properties.data.nom).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 				}
 				if (layer.properties.data.text){
@@ -1101,8 +1101,12 @@ function createPopupWindow(layer,type, editant,propFormat){
 					if (!$.isNumeric(txt) && !validateWkt(txt)) {
 						txt = parseUrlTextPopUp(txt,"");
 						if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+							var auxText = layer.properties.data.text;
+							if (propFormat!=undefined && propFormat['text']!=undefined){
+								auxText= dataFormatter.formatValue(auxText, propFormat['text']);
+							}
 							jQuery('#des_pres').html('');
-							jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
+							jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+auxText+'</span>');
 							jQuery('#des_pres').append(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 						}else{
 							jQuery('#des_pres').html('');
@@ -1111,8 +1115,12 @@ function createPopupWindow(layer,type, editant,propFormat){
 						}
 					}
 					else {
+						var auxText = layer.properties.data.text;
+						if (propFormat!=undefined && propFormat['text']!=undefined){
+							auxText= dataFormatter.formatValue(auxText, propFormat['text']);
+						}
 						jQuery('#des_pres').html('');
-						jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+layer.properties.data.text+'</span>');
+						jQuery('#des_pres').append('<span id="descrText" style="display:none;">'+auxText+'</span>');
 						jQuery('#des_pres').text(txt).append(' <i class="glyphicon glyphicon-pencil gris-semifosc"></i>');
 					}
 					
@@ -1131,7 +1139,7 @@ function createPopupWindow(layer,type, editant,propFormat){
 
 					$("#mida_pres").html("<b>" + text + ":</b> " + layer.properties.mida);
 
-				}
+				}*/
 			});
 		}
 
@@ -1690,14 +1698,23 @@ function fillCmbCapesUsr(type,_leaflet_id){
 }
 
 function createPopUpContent(player,type, editant, propFormat){
-	console.debug(propFormat);
 	var isEditing = (undefined == typeof editant ? true : editant);
 	
 	var auxNom = window.lang.translate('Nom');
 	var auxText = window.lang.translate('Descripció');
 	var auxLon,auxLat;
-	if(player.properties.data.nom) auxNom = player.properties.data.nom;
-	if(player.properties.data.text) auxText = player.properties.data.text;
+	if(player.properties.data.nom) {
+		auxNom = player.properties.data.nom;
+		if (propFormat!=undefined && propFormat['nom']!=undefined){
+			auxNom= dataFormatter.formatValue(auxNom, propFormat['nom']);
+		}		
+	}
+	if(player.properties.data.text) {
+		auxText = player.properties.data.text;
+		if (propFormat!=undefined && propFormat['text']!=undefined){
+			auxText= dataFormatter.formatValue(auxText, propFormat['text']);
+		}
+	}
 	if (player.options.tipus=="marker" && player._latlng) {
 		auxLat = player._latlng.lat;
 		auxLat= auxLat.toFixed(5);

@@ -40,8 +40,7 @@
             	var result = _formatter ? _formatter(value, row, index, column.field, row[that.options.idField]) : value;
                 if(!column.withoutLink)
                 {
-                
-                    return ['<a href="javascript:void(0)"',
+                	 return ['<a href="javascript:void(0)"',
                         ' data-name="' + column.field + '"',
                         ' data-pk="' + row[that.options.idField] + '"',
                         ' data-value="' + result + '"',
