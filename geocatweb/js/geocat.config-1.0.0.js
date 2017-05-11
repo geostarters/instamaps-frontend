@@ -8,6 +8,25 @@ var tmpdirPolling = "poll/";
 var renovarPassword = "/geocatweb/renovar.html?token=";
 var HOST_APP3 = "http://www.instamaps.cat/";
 
+function httpOrhttps(_url,_invers){
+    
+    if (location.protocol == 'https:' && !_invers){
+        _url=_url.replace('http:','https:');
+    }else if (location.protocol == 'https:' && _invers){
+        _url=_url.replace('https:','http:');
+    }else if (location.protocol == 'http:' && !_invers){
+        _url=_url.replace('https:','http:');
+    }/*else if (location.protocol == 'http:' && _invers){
+        _url=_url.replace('http:','https:');
+    }  */  
+    
+    return _url;
+}
+
+HOST_APP = httpOrhttps(HOST_APP,false);
+GEOCAT02 = httpOrhttps(GEOCAT02,false);
+HOST_APP2 = httpOrhttps(HOST_APP2,false);
+
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP = "http://172.70.1.12/";
@@ -232,7 +251,7 @@ var paramUrl = {
 	eacat: "https://idp.eacat.net/Logon.aspx?providerID=IDEC",
 	url_mapserver:HOST_APP+"/geoservicelocal/",
 	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?",
-	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?",
+	duplicateMap: HOST_APP3+"geocat/aplications/map/duplicateMap.action?",
 	//urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
 	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
 	urlJsonPCC:"/geocatweb/dades/pcc.json",
@@ -244,22 +263,22 @@ var paramUrl = {
 
 var paramAplications = {
 	'pcivil':{
-		"nom":"Protecció civil",
-		"description":"Gestiona la informació relativa a Protecció civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuació prioritària en cas d'una emergència.",
+		"nom":"ProtecciÃ³ civil",
+		"description":"Gestiona la informaciÃ³ relativa a ProtecciÃ³ civil per augmentar la seguretat dels ciutadans. Identifica els punts d'actuaciÃ³ prioritÃ ria en cas d'una emergÃ¨ncia.",
 		"img":"img/thumb_ed_pcivil.png",
 		"url":HOST_GEOLOCAL+"geoLocal/crearAplicacionEditorPcivil.jsp?codiUsuari="
 	},
     'infoparcela':{
     	"nom":"InfoParcela",
-    	"description":"Permet realitzar un document amb informació referent a la parcel·la.",
+    	"description":"Permet realitzar un document amb informaciÃ³ referent a la parcelÂ·la.",
     	"img":"img/thumb_ed_infoparcela.png",
     	"url":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela.action?fallback=infoparcela&codiUsuari=",
     	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
     	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId="
     },
     'peolics':{
-    	"nom":"Editor de Parcs Eòlics",
-    	"description":"Actualitza la informació dels parcs eòlics. Col·labora mantenint la informació.",
+    	"nom":"Editor de Parcs EÃ²lics",
+    	"description":"Actualitza la informaciÃ³ dels parcs eÃ²lics. ColÂ·labora mantenint la informaciÃ³.",
     	"img":"img/thumb_ed_peolics.png",
     	"url":HOST_GEOLOCAL+"geoLocal/crearAplicacionEditorParcsEolics.jsp?codiUsuari="
     },
@@ -270,7 +289,7 @@ var paramAplications = {
     	"url":HOST_GEOLOCAL+"EdCarrerer/editorCarrerer.action?codiUsuari="
     },
     'incasol':{
-    	"nom":"Visors INCASÒL",
+    	"nom":"Visors INCASÃ’L",
     	"description":"Ja pots tenir un visor de mapes a la teva web!. Crea els teus propis visors personalitzats i afegeix-hi la teva cartografia.",
     	"img":"img/thumb_ed_incasol.png",
     	"url":HOST_GEOLOCAL+"PRG/aplicacions/incasol.action?",

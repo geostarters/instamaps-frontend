@@ -244,68 +244,14 @@ function addControlAltresFontsDades() {
 					
 					if(e.target.id !="id_srvw"){
 						instamapsWms.getLayers({url: e.target.id, name: $(e.target).text()})
-						/*
-						$("#txt_URLWMS").val(e.target.id);
-						jQuery("#div_layersWMS").empty();
-						jQuery("#div_layersWMS").hide();
-						jQuery('#div_emptyWMS').empty();
-						getCapabilitiesWMS(e.target.id,jQuery(e.target).text());
-						*/
+						
 					}
 				});
-//			}else if(tbA == "#id_srvj"){
-//				jQuery(tbA).empty();
-//				jQuery(tbA).html(_htmlServeisJSON.join(' '));
-//				jQuery("#bt_connJSON").on('click', function(e) {
-//					if(e.target.id !="#id_srvj"){
-//						getServeiJSONP(jQuery("#txt_URLJSON").val());
-//					}
-//				});		
+	
 			}else if(tbA == "#id_xs"){//Xarxes socials
 				
 				
-				/*
-				jQuery(tbA).html(
-						'<div class="panel-info">'+
-						'<ul class="bs-dadesO_XS panel-heading">'+
-						
-						'<li><a id="add_twitter_layer" href="javascript:toggleCollapseDiv(\'#twitter-collapse\')" class="label-xs">Twitter <i class="fa fa-twitter"></i></a></li>'+
-						'<li><a id="add_panoramio_layer" href="javascript:addPanoramioLayer();" class="label-xs">Panoramio <i class="fa fa-picture-o"></i></a></li>'+
-						'<li><a id="add_wikipedia_layer" href="javascript:addWikipediaLayer();" class="label-xs">Wikipedia <i class="fa fa-book"></i></a></li>'+
-						
-						'</ul>'+
-						'<div class="panel-body"><span class="label-xarxes" lang="ca">'+window.lang.translate(label_xarxes)+'</span></div>'+
-						'<div id="twitter-collapse">'+
-							'<div class="input-group">'+
-			      				'<span class="input-group-addon">Hashtag #</span>'+
-			      				'<input id="hashtag_twitter_layer" type="text" class="form-control">'+
-			      				'<span class="input-group-btn">'+
-			      					'<button id="btn-add-twitter-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
-			      				'</span>'+
-				      		'</div>'+
-				      		'</div>'+
-			      		'</div>'+
-						'<div id="wikipedia-collapse">'+
-							'<div class="input-group">'+
-			      				'<span class="input-group-addon">Paraula clau #</span>'+
-			      				'<input id="name_wikipedia_layer" type="text" class="form-control">'+
-			      				'<span class="input-group-btn">'+
-			      					'<button id="btn-add-wikipedia-layer" class="btn btn-primary editable-submit" type="button"><i class="glyphicon glyphicon-ok"></i></button>'+
-			      				'</span>'+
-				      		'</div>'+
-				      		'</div>'+
-			      		'</div>'			      		
-				);
-				$('#twitter-collapse').hide();
-				$('#twitter-collapse .input-group .input-group-btn #btn-add-twitter-layer').click(function(){
-					addTwitterLayer();
-				});
-
-				$('#wikipedia-collapse').hide();
-				$('#wikipedia-collapse .input-group .input-group-btn #btn-add-wikipedia-layer').click(function(){
-					addWikipediaLayer();
-				});				
-				*/
+				
 			}else if(tbA == "#id_capes_instamaps"){
 				
 				$.publish('analyticsEvent',{event:['mapa', tipus_user+'tab_capes_reutilitzables', 'modal_click_tab', 1]});
@@ -363,6 +309,8 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							lDadesExternes +
 							//TODO agregar mensaje
 							//'<div>'+window.lang.translate("Entrar URL de dades externes")+' <a lang="ca href="" title="Informació" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></div>'+
+							'<div id="container_altres_fonts_dades" class="input-group txt_ext">'
+						/*	
 							'<div class="input-group txt_ext">'+
 								'<input type="text" lang="ca" class="form-control" value="" placeholder="'+window.lang.translate("Entrar URL de dades externes")+'" style="height:33px" id="txt_URLfile">'+ 
 								'<span class="input-group-btn">'+
@@ -373,6 +321,8 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 							'</div>'+
 						'</div>'+
 						'<div id="div_url_file"  class="tbl_url_file"></div>'
+						*/
+						
 //						+'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
 						//'<span class="label label-font" lang="ca">'+label_xarxes+'</span>'
 				);
@@ -421,6 +371,10 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 					}
 				});
 				
+				var _instamapsDadesExternes = new InstamapsDadesExternes(
+				{container:$('#container_altres_fonts_dades'});
+				
+				/*
 				jQuery("#bt_URLfitxer").on('click', function(e) {					
 					addFormDadesExternes(this,"#txt_URLfile","#div_url_file");					
 				});
@@ -433,7 +387,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 					jQuery("#div_url_file").hide();
 					jQuery('#bt_URLfitxer').prop("disabled", false);
 				});
-				
+				**
 
 			}		
 		});
@@ -450,18 +404,13 @@ function addFormDadesExternes(_divButton,_input,_container){
 	var urlFile = $.trim(jQuery(_input).val());
 	console.info(urlFile);
 	if(isValidURL(urlFile)){
-		
-		//URL PRESIDENT JSON
+
 		if(urlFile.indexOf(paramUrl.presidentJSON)!= -1){
-			/*
-			jQuery(_container).html(
-					'<div style="height:230px;overflow:auto" id="div_layersJSON"  class="tbl"></div>'+
-					'<div id="div_emptyJSON" style="height: 35px;margin-top: 2px"></div>'
-			);
-			*/
+			
 			getServeiJSONP(urlFile);
 		}
 		else if(urlFile.indexOf("socrata")!= -1 && urlFile.indexOf("method=export&format=GeoJSON")!= -1){
+			/*
 			jQuery(_container).html(
 					'<br>'+
 					'<div class="input-group input-group-sm">'+
@@ -481,10 +430,12 @@ function addFormDadesExternes(_divButton,_input,_container){
 					'</div>'+
 					'<div id="div_url_file_message" class="alert alert-danger"></div>'
 			);
-
+*/
 			jQuery("#div_url_file_message").hide();
 			activarEventAfegirCapa("-1",_input);
 		}else{//LA RESTA
+		
+			/*
 			jQuery(_container).html(
 					'<br>'+
 					'<div class="input-group input-group-sm">'+
@@ -600,7 +551,7 @@ function addFormDadesExternes(_divButton,_input,_container){
 					'</div>'+
 					'<div id="div_url_file_message" class="alert alert-danger"></div>'
 			);
-			
+			*/
 			$('#opt_urlfile_codi').on('click',function(){
 				//console.debug("click opt_urlfile_codi");
 			});

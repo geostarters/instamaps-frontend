@@ -1150,7 +1150,10 @@ function addHtmlModalCarregarFitxers(){
 		});	
 		
 		
+		var _instamapsDadesExternes = new InstamapsDadesExternes({container:$('#container_dades_externes')});
 		
+		
+		/*
 		jQuery("#bt_URLfitxer_front").on('click', function(e) {
 			
 			addFormDadesExternes(this,"#txt_URLfile_front","#div_url_file_front");
@@ -1162,7 +1165,7 @@ function addHtmlModalCarregarFitxers(){
 			jQuery('#bt_URLfitxer_front').prop("disabled", false);
 		});
 		
-		
+		*/
 		
 		
 		

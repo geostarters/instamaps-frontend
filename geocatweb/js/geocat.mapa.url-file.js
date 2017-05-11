@@ -80,8 +80,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				crearFitxerSocrata(dataSocrata).then(function(results){
 					if (results.status="OK"){
 						param_url =results.filePath;
-						console.info(21);
+						
 						$('#dialog_dades_ex').modal('hide');
+						$('#dialog_carrega_dades').modal('hide');
 						jQuery("#div_uploading_txt").html("");
 						jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
 								window.lang.translate('Carregant dades')+
@@ -621,9 +622,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 								};
 															
 							
-							console.info(31);
+							
 								$('#dialog_dades_ex').modal('hide');
-
+								$('#dialog_carrega_dades').modal('hide');
 								jQuery("#div_uploading_txt").html("");
 								jQuery("#div_uploading_txt").html(
 									'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Descarregant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
@@ -632,7 +633,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 								);				
 								jQuery('#info_uploadFile').show();			
-								jQuery('#info_uploadFile').show();		
+								
 
 								var pollTime = 2000;
 
@@ -786,10 +787,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 						};
 													
-					console.info(41);
+					
 					
 						$('#dialog_dades_ex').modal('hide');
-
+						$('#dialog_carrega_dades').modal('hide');
 						jQuery("#div_uploading_txt").html("");
 						jQuery("#div_uploading_txt").html(
 							'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Descarregant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
@@ -798,7 +799,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 						);				
 						jQuery('#info_uploadFile').show();			
-						jQuery('#info_uploadFile').show();		
+						
 
 						var pollTime = 2000;
 
@@ -934,10 +935,10 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
 				};
 
-			console.info(51);
+			
 				
 				$('#dialog_dades_ex').modal('hide');
-
+				$('#dialog_carrega_dades').modal('hide');
 				jQuery("#div_uploading_txt").html("");
 				jQuery("#div_uploading_txt").html(
 					'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Descarregant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
@@ -946,7 +947,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 					'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
 				);				
 				jQuery('#info_uploadFile').show();			
-				jQuery('#info_uploadFile').show();		
+			
 
 				var pollTime = 2000;
 
