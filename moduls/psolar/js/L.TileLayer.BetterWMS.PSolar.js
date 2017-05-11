@@ -55,7 +55,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 
 			var paramsWFS = this.wfsFyer(params, this.wmsParams.layers, map.getZoom(), obj, 'area');
 						
-			if (location.protocol != 'https:'){paramsWFS.url=paramsWFS.url.replace('https:','http:');}
+			if (location.protocol == 'https:'){paramsWFS.url=paramsWFS.url.replace('http:','https:');}
 			
 			if (paramsWFS.capa != null) {
 				if (map.hasLayer(capaGeoJSON_SOLAR)) {
@@ -178,7 +178,7 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 				
 			
 				
-				if (location.protocol != 'https:'){paramsWFS.url=paramsWFS.url.replace('https:','http:');}
+				if (location.protocol == 'https:'){paramsWFS.url=paramsWFS.url.replace('http:','https:');}
 				
 				
 				
