@@ -855,6 +855,7 @@ textarea {
 
 #div_formats{
 	font-size: 12px !important;	
+	    opacity: 0.9 !important;
 }
 #dv_optCapa{	
 	 margin: 11px;
