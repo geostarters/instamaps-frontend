@@ -11,16 +11,7 @@ $(function () {
 
        
         //Method to be revealed for retrieving data
-<<<<<<< HEAD
-        function getData(url,isxml) {
-        	var urlProxy = HOST_APP+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(url);
-        		return jQuery.ajax({
-					url: urlProxy,
-					async: false,
-					method: 'get'
-				}).promise();
-        	
-=======
+
         function getData(url) {
         	var urlProxy = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(url);
         	urlProxy = httpOrhttps(urlProxy,false);
@@ -29,7 +20,7 @@ $(function () {
 				async: false,
 				method: 'get'
 			}).promise();
->>>>>>> refs/remotes/origin/production
+
 			//return $.getJSON(urlProxy);
         }
 

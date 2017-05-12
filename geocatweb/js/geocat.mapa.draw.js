@@ -1079,7 +1079,7 @@ function createPopupWindow(layer,type, editant){
 	});
 
 	layer.on('click', function(e){
-		layer.off('click', creaPopupUnic);	//En el geocat.mapa.tematic >> loadGeometriesToLayer se n'assigna un
+		layer.off('click', creaPopupUnic);	
 		if(objEdicio.esticEnEdicio){
 			//Si s'esta editant no es pot editar altre element
 			map.closePopup();
