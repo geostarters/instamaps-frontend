@@ -345,7 +345,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			//console.debug(L.toGeoJSON.geoJsonData);
 		}
 		else{
-			console.info(221);
+		
 		$('#dialog_dades_ex').modal('hide');
 		$('#dialog_carrega_dades').modal('hide');
 		jQuery("#div_uploading_txt").html("");

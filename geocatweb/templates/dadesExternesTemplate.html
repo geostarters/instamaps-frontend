@@ -2,12 +2,13 @@
 <br>
 <div class="input-group input-group-sm">
 	<span lang="ca" class="input-group-addon">Nom capa</span> <input
-		type="text" id="input-url-file-name" class="form-control">
+		type="text" id="input-url-file-name"
+		class="form-control input-url-file-name_de">
 </div>
 <br>
 <div>
 	Format :&nbsp; <select id="select-url-file-format"
-		class="form-download-format">
+		class="form-download-format select-url-file-format_de">
 		<option value=".geojson">GeoJSON</option>
 		<option value=".shp">ESRI Shapefile</option>
 		<option value=".dxf">DXF</option>
@@ -23,13 +24,12 @@
 		<option value=".zip">Zip File</option>
 		<option value=".json">JSON</option>
 		<option value="-1">Selecciona el Format</option>
-	</select> <br>
-	<br>
-	<div id="input-excel-url-file">
+	</select> <br> <br>
+	<div id="input-excel-url-file" class="input-excel-url-file_de">
 		<div class="panel-body">
 			<ul class="nav nav-pills nav-pills-urlfile" id="nav_pill">
-				<li id="coordenades" class="active"><a lang="ca"
-					data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">Per
+				<li id="coordenades" class="active">
+				<a lang="ca" data-toggle="tab" href="#opt_urlfile_coord" aria-expanded="true">Per
 						coordenades</a></li>
 				<li id="adreca" class=""><a lang="ca" data-toggle="tab"
 					href="#opt_urlfile_adreca" aria-expanded="false">Per adreces</a></li>
@@ -37,23 +37,27 @@
 					href="#opt_urlfile_codi" aria-expanded="false">Per codis</a></li>
 			</ul>
 			<!-- Tab panes -->
-			<div id="opt_urlfile_coord" class="tab-pane active">
+			 <div class="tab-content">
+			<div id="opt_urlfile_coord"
+				class="tab-pane active opt_urlfile_coord_de">
 				<ul class="pane-excel-urlfile">
 					<label lang="ca">On són les coordenades?</label>
 					<br>
 					<div class="input-group input-group-sm">
 						<span lang="ca" class="input-group-addon">Coordenada X o
-							LON</span> <input type="text" id="input-coord-x" class="form-control">
+							LON</span> <input type="text" id="input-coord-x"
+							class="form-control input-coord-x_de">
 					</div>
 					<br>
 					<div class="input-group input-group-sm">
 						<span lang="ca" class="input-group-addon">Coordenada Y o
-							LAT </span> <input type="text" id="input-coord-y" class="form-control">
+							LAT </span> <input type="text" id="input-coord-y"
+							class="form-control input-coord-y_de">
 					</div>
 					<br>
 				</ul>
 			</div>
-			<div id="opt_urlfile_adreca" class="tab-pane">
+			<div id="opt_urlfile_adreca" class="tab-pane opt_urlfile_adreca_de">
 				<ul class="pane-excel-urlfile">
 					<span lang="ca">Per codificar per adreces utilitza aquest</span>
 					<a class="alert-link" lang="ca"
@@ -64,15 +68,18 @@
 						obligatoris.</span>
 				</ul>
 			</div>
-			<div id="opt_urlfile_codi" class="tab-pane tab-pane-urlfile">
+			<div id="opt_urlfile_codi"
+				class="tab-pane tab-pane-urlfile opt_urlfile_codi_de">
 				<ul class="pane-excel-urlfile">
 					<li><label lang="ca">Els teus codis són de</label>:</li>
-					<li><select id="cmd_codiType_Capa_de">
+					<li><select class="cmd_codiType_Capa_de"
+						id="cmd_codiType_Capa_de">
 							<option lang="ca" value="municipis" selected="">Municipis</option>
 							<option lang="ca" value="comarques">Comarques</option>
 					</select></li>
 					<li><label lang="ca">Tipus codi</label></li>
-					<li><select name="select_codiType" id="cmd_codiType_de">
+					<li><select name="select_codiType" class="cmd_codiType_de"
+						id="cmd_codiType_de">
 							<option value="ine">INE (5 digits)</option>
 							<option value="idescat">IDESCAT (6 digits)</option>
 							<option value="municat">MUNICAT (10 digits)</option>
@@ -82,17 +89,20 @@
 					<li>
 						<div class="input-group input-group-sm">
 							<input type="text" id="input-camp-codi-urlfile"
-								class="form-control" placeholder="Entrar camp'">
+								class="form-control input-camp-codi-urlfile_de"
+								placeholder="Entrar camp'">
 						</div>
 					</li>
 				</ul>
 			</div>
 		</div>
+		</div>
 	</div>
 </div>
 <br>
 EPSG:&nbsp;
-<select id="select-url-file-epsg" class="form-download-epsg">
+<select id="select-url-file-epsg"
+	class="form-download-epsg select-url-file-epsg_de">
 	<option value="EPSG:4326">EPSG:4326 (WGS84 geogràfiques (lat,
 		lon) - G.G)</option>
 	<option value="EPSG:23031"><b>EPSG:23031</b> (ED50-UTM 31N
@@ -112,8 +122,9 @@ EPSG:&nbsp;
 </select>
 <br>
 <br>
-<input id="dinamic_chck" type="checkbox" checked="checked">
-'&nbsp;Dinàmica
+<input id="dinamic_chck" class="dinamic_chck_de" type="checkbox"
+	checked="checked">
+&nbsp;Dinàmica
 <br>
 <small lang="ca" class="label label-success" id="label-dinamic">
 	Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa
@@ -121,7 +132,9 @@ EPSG:&nbsp;
 </div>
 &nbsp;
 <div style="float: right">
-	<button id="bt_URLfitxer_go" class="btn btn-success btn-add-wms"
-		lang="ca">Afegir capa</button>
+	<button id="bt_URLfitxer_go"
+		class="btn btn-success btn-add-wms bt_URLfitxer_go_de" lang="ca">Afegir
+		capa</button>
 </div>
-<div id="div_url_file_message" class="alert alert-danger"></div>
+<div id="div_url_file_message"
+	class="alert alert-danger div_url_file_message_de"></div>

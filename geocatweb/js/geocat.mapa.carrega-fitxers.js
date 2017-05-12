@@ -1153,21 +1153,9 @@ function addHtmlModalCarregarFitxers(){
 		var _instamapsDadesExternes = new InstamapsDadesExternes({container:$('#container_dades_externes')});
 		
 		
-		/*
-		jQuery("#bt_URLfitxer_front").on('click', function(e) {
-			
-			addFormDadesExternes(this,"#txt_URLfile_front","#div_url_file_front");
-			
-		});
-		$("#txt_URLfile_front").focus(function() {
-			jQuery("#div_url_file_front").empty();
-			jQuery("#div_url_file_front").hide();
-			jQuery('#bt_URLfitxer_front').prop("disabled", false);
-		});
-		
-		*/
-		
-		
+		$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {	
+					_instamapsDadesExternes.clear();
+				});		
 		
 		dfd.resolve();
 	});

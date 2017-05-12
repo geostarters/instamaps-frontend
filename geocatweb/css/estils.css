@@ -585,6 +585,16 @@ textarea {
 	margin-left: 1px;
 }
 
+
+.blanc,.blanc a,.blanc span {
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 18px;
+	margin-left: 1px;
+}
+
+
+
 .blau,.blau a,.blau span {
 	color: #065299;
 	cursor: pointer;
