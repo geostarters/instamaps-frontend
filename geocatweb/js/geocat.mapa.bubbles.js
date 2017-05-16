@@ -661,7 +661,7 @@ function createTematicLayerBubbles(event){
 											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic de mides creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
-									loadURLfileLayer(data.results).then(function(results){
+									new InstamapsUrlFile().loadURLfileLayer(data.results).then(function(results){
 										busy=false;					
 										jQuery('#info_uploadFile').hide();
 										activaPanelCapes(true);

@@ -77,7 +77,7 @@ function creaAreesDragDropFiles() {
 				jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca">'+window.lang.translate('Processant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');
 				jQuery('#info_uploadFile').show();
 			}else if (envioArxiu.ext == "json"){
-				createURLfileLayer(urlFile, "."+ff.ext,  jQuery("#select-upload-epsg").val(), false,file.name, 
+				new InstamapsUrlFile().createURLfileLayer(urlFile, "."+ff.ext,  jQuery("#select-upload-epsg").val(), false,file.name, 
 						   jQuery("#ul_coords #coordX2").val(),jQuery("#ul_coords #coordY2").val(),
 						   'coords');
 			}else{

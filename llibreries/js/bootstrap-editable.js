@@ -1529,7 +1529,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             //attach handler activating editable. In disabled mode it just prevent default action (useful for links)
             if(this.options.toggle !== 'manual') {
             	if (this.$element.context.getAttribute("data-value")!=null && (this.$element.context.getAttribute("data-value").indexOf("<select")>-1 ||
-            			this.$element.context.getAttribute("data-value").indexOf("&lt;select")>-1)){
+            			this.$element.context.getAttribute("data-value").indexOf("&lt;select")>-1 )){
             		  this.$element.attr('tabindex', -1); //do not stop focus on element when toggled manually
             	}
             	else {

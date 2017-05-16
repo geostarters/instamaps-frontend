@@ -45,7 +45,7 @@
 				});
 			//Si la capa es de tipus url file
 			}else if(value.serverType == t_url_file){
-				loadURLfileLayer(value).then(function(){
+				new InstamapsUrlFile().loadURLfileLayer(value).then(function(){
 					defer.resolve();
 				},function(result){
 					defer.reject(result);

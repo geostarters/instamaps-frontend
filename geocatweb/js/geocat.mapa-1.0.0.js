@@ -721,7 +721,7 @@ function loadLayer(value){
 		});
 		//Si la capa es de tipus url file
 	}else if(value.serverType == t_url_file){
-		loadURLfileLayer(value).then(function(){
+		new InstamapsUrlFile().loadURLfileLayer(value).then(function(){
 			defer.resolve();
 		});
 	//Si la capa es de tipus geojsonVT
@@ -1014,7 +1014,7 @@ function addHtmlModalBloqueigMapa(){
 		if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
 		if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
 		deleteLocalStorage();
-		createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
+		new InstamapsUrlFile().createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
 	}
 }
 

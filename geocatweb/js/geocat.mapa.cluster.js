@@ -216,43 +216,21 @@ function creaClusterMap(capa) {
 				
 				createVisualitzacioHeatCluster(data).then(function(results){
 					if(results.status == 'OK'){
-						
+						var esVisor = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
 						capa.layer.eachLayer(function(layer) {
-							console.debug(layer);
+							
 							var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 								title : layer._leaflet_id
 							});
-							var html='';
-							$.each( layer.properties.data, function( key, value ) {
-								if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
-									if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
-											key != 'NOM' && key != 'Nom' && key != 'nom' && 
-											key != 'name' && key != 'Name' && key != 'NAME' &&
-											key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
-										html+='<div class="popup_data_row">';
-										var txt = value;
-										if (!$.isNumeric(txt)) {
-											txt = parseUrlTextPopUp(value, key);
-											if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-												html+='<div class="popup_data_key">'+key+'</div>';
-												html+='<div class="popup_data_value">'+
-												(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
-												'</div>';
-											}else{
-												html+='<div class="popup_data_img_iframe">'+txt+'</div>';
-											}
-										}
-										else {
-											html+='<div class="popup_data_key">'+key+'</div>';
-											html+='<div class="popup_data_value">'+txt+'</div>';
-										}
-										html+= '</div>';
-									}
-								}
-							});	
-							
+							var data2={
+									type: t_marker,
+									editable: false,
+									origen: getOrigenLayer(layer),
+									capa: capa,
+									esVisor: esVisor
+								};
+							var html = PopupManager().createPopupHtml(layer, data2);//player es feature
 							marker.bindPopup(html);
-							//marker.bindPopup("<b>"+layer.properties.data.nom+"</b><br><b>"+layer.properties.data.text+"</b>");
 							
 							clusterLayer.addLayer(marker);
 						});

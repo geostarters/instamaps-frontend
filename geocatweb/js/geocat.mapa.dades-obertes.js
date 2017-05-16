@@ -247,47 +247,16 @@ function loadDadesObertesLayer(layer){
 
 function createPopupWindowDadesObertes(player,l){
 	//console.debug("createPopupWindowData");
-	var html='';
-	var out = [];
-	if (player.properties.nom && !isBusinessId(player.properties.nom)){
-		html+='<h4>'+player.properties.nom+'</h4>';
-	}else if(player.properties.name && !isBusinessId(player.properties.name)){
-		html+='<h4>'+player.properties.name+'</h4>';
-	}else if(player.properties.Name && !isBusinessId(player.properties.Name)){
-		html+='<h4>'+player.properties.Name+'</h4>';
-	}
-	if (player.properties.description){
-		if (!$.isNumeric(player.properties.description) && !validateWkt(player.properties.description)) html+='<div>'+parseUrlTextPopUp(player.properties.description)+'</div>';
-		else html+='<div>'+player.properties.description+'</div>';
-	}
-	html+='<div class="div_popup_visor"><div class="popup_pres">';
-	var pp = player.properties;
-
-	$.each( pp, function( key, value ) {
-		if(isValidValue(value) && !validateWkt(value)){
-			if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
-				html+='<div class="popup_data_row">';
-				var txt = value;
-				if (!$.isNumeric(txt)) {
-					txt = parseUrlTextPopUp(value,key);				
-				
-					if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-						html+='<div class="popup_data_key">'+key+'</div>';
-						html+='<div class="popup_data_value">'+txt+'</div>';
-					}else{
-						html+='<div class="popup_data_img_iframe">'+txt+'</div>';
-					}
-				}
-				else {
-					html+='<div class="popup_data_key">'+key+'</div>';
-					html+='<div class="popup_data_value">'+txt+'</div>';
-				}
-				html+= '</div>';
-			}
-		}
-	});	
+	var esVisor = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
+	var data={
+			type: t_marker,
+			editable: false,
+			origen: getOrigenLayer(l),
+			capa: l,
+			esVisor: esVisor
+		};
+	var html = PopupManager().createPopupHtml(player, data, true);//player es feature
 	
-	html+='</div></div>';
 	player.properties.popupData = html;
 	player.properties.capaNom = l.properties.capaNom;
 }

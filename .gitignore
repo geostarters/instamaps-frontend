@@ -7,9 +7,9 @@
 /edumet
 /metedu
 /mapcache
-/maps
-/assets
-/node_modules
-/geocatweb/visor.html
-/geocatweb/dist/*
-/geocatweb/dist/
+maps
+assets
+node_modules
+geocatweb/visor.html
+geocatweb/dist/*
+geocatweb/dist/

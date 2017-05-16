@@ -406,7 +406,7 @@ var label_xarxes = "La informació de les xarxes socials es mostra en funció de
 						if(!busy){
 							//console.debug("No esta busy.. faig la carrega!");
 							busy = true;
-							createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
+							new InstamapsUrlFile().createURLfileLayer(this.dataset.url, this.dataset.format, this.dataset.epsg, false, this.text);
 						}else{
 							//console.debug("Esta busy, no puc carregar");
 							$('#dialog_dades_ex').modal('hide');
@@ -799,7 +799,7 @@ function activarEventAfegirCapa(type){
 		}else{
 			if(!busy){
 				busy = true;
-				createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
+				new InstamapsUrlFile().createURLfileLayer(urlFile, type, epsg, $("#dinamic_chck").is(':checked'),jQuery("#input-url-file-name").val(), 
 						   jQuery("#input-coord-x").val(),jQuery("#input-coord-y").val(),
 						   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
 						   jQuery('#cmd_codiType_Capa_de').val(), jQuery('#cmd_codiType_de').val(), jQuery("#input-camp-codi-urlfile").val());
