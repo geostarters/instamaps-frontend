@@ -958,9 +958,9 @@ function refrescarZoomEtiquetes(obj){
 	else optionsVis = obj.options.opcionsVisEtiqueta;
 	if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
 			optionsVis=="etiquetageom")){
-	 		var zoomInicial = "2";
+			var zoomInicial = zoomInicialEt;
 	 		if (obj.options.zoomInicial) zoomInicial=obj.options.zoomInicial;
-	 		var zoomFinal = "19";
+	 		var zoomFinal = zoomFinalEt;
 	 		if (obj.options.zoomFinal) zoomFinal = obj.options.zoomFinal;
 
 	 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels

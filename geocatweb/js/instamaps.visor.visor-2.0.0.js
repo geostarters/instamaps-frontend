@@ -1829,9 +1829,9 @@
 			
 				 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
 						 optionsVis=="etiquetageom")){
-					 		var zoomInicial = "2";
+					 		var zoomInicial = zoomInicialEt;
 					 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-					 		var zoomFinal = "19";
+					 		var zoomFinal = zoomFinalEt;
 					 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
 
 					 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels

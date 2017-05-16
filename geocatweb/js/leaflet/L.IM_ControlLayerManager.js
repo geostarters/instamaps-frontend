@@ -1186,9 +1186,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){	
-						var zoomInicial = "2";
+						var zoomInicial = zoomInicialEt;
 				 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-				 		var zoomFinal = "19";
+				 		var zoomFinal = zoomFinalEt;
 				 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
 				 		
 				 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
@@ -1748,9 +1748,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				else 	$('#dv_color_caixa_etiqueta').css('background-color','#000000');
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
 				else $('input:radio[name=etiqueta][value=etiquetageom]').attr('checked', true);
-				var zoomInicial = "2";
+				var zoomInicial = zoomInicialEt;
 		 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-		 		var zoomFinal = "19";
+		 		var zoomFinal = zoomFinalEt;
 		 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
 		 		//Omplim els camps amb el que hi ha guardat a la BBDD
 		 		 var tooltip = function(sliderObj, ui){
@@ -1765,7 +1765,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				$( "#slider" ).slider({
 					range:true,
 			        min: 2,
-			        max: 19,			 
+			        max: 20,			 
 			        values: [parseInt(zoomInicial),parseInt(zoomFinal)],
 			        change:function(event,ui){
 		            	//tooltip($(this),ui);  

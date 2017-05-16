@@ -30,9 +30,9 @@
 					else style += ";background-color:transparent";
 					createClass('.etiqueta_style_'+layer.businessId,style);
 				}
-				var zoomInicialEtiqueta = "2";
+				var zoomInicialEtiqueta = zoomInicialEt;
 				if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
-				var zoomFinalEtiqueta = "19";
+				var zoomFinalEtiqueta = zoomFinalEt;
 				if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
 				if (tipus=="Point") {
 					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {

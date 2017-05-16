@@ -295,4 +295,7 @@ var TIPUS_ADMIN = 0;
 var TIPUS_INSTAMAPS = 1;
 var TIPUS_AOC = 10;
 
+var zoomInicialEt = "2";
+var zoomFinalEt = "20";
+
 var guideLayers = new Array();

@@ -1686,9 +1686,9 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		createClass('.etiqueta_style_'+visualitzacio.businessId,style);
 	}
 	
-	var zoomInicialEtiqueta = "2";
+	var zoomInicialEtiqueta = zoomInicialEt;
 	if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
-	var zoomFinalEtiqueta = "19";
+	var zoomFinalEtiqueta = zoomFinalEt;
 	if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
 
 	var canSpiderify = (visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_simple || visualitzacio.tipus == tem_origen);
