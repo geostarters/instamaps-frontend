@@ -9,7 +9,7 @@ $(function () {
         //An empty array to hold GeoJSON data
         var geoJsonData = [];
 
-       
+      
         //Method to be revealed for retrieving data
 
         function getData(url) {
