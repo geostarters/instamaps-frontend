@@ -83,7 +83,8 @@
 			if (feature.properties.data!=undefined) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
 			$.each( properties, function( key, value ) {
-				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata"){
+				if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata" &&
+						key.toLowerCase()!="capanom" && key.toLowerCase()!="propname"){
 					if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
 						if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
 								key != 'NOM' && key != 'Nom' && key != 'nom' && 

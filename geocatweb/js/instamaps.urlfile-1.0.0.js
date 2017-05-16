@@ -422,7 +422,7 @@
 				var defer = $.Deferred();
 				options.nom = layer.serverName;
 				options.businessId = layer.businessId;
-				self.capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+				self.capaURLfile = new L.GeoJSON.AJAX(param_url, {
 					nom : layer.serverName,
 					tipus : layer.serverType,
 					geometryType: geometryType,
@@ -448,7 +448,7 @@
 				var defer = $.Deferred();
 				param_url += "&tem="+tem_cluster;	
 				
-				self.capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+				self.capaURLfile = new L.GeoJSON.AJAX(param_url, {
 					nom : layer.serverName,
 					tipus : layer.serverType,
 					geometryType: geometryType,
@@ -471,7 +471,7 @@
 				var self = this;	
 				var defer = $.Deferred();
 				param_url += "&tem="+tem_heatmap;	
-				self.capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
+				self.capaURLfile= new L.GeoJSON.AJAX(param_url, {
 					nom : layer.serverName,
 					tipus : layer.serverType,
 					geometryType: geometryType,
