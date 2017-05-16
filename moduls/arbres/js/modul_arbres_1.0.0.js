@@ -1,4 +1,5 @@
 
+
 /*
 http://172.30.22.41:8080/geoserver/Arbres/wms?
 service=WFS&
@@ -40,13 +41,13 @@ setTimeout(function () {
 //urlWFS : 'http://172.30.22.42:8080/geoserver/Arbres/wms',
 
 var _protocol="https";
-if (location.protocol != 'http:') {_protocol="http";}
+if (location.protocol != 'https:'){_protocol="http";}
 
 
 L.Control.addModulArbres = L.Control.extend({
 
 		options : {
-			urlWFS : _protocol+'://geoserver.icgc.cat:8080/geoserver/arbres/wms',
+			urlWFS : _protocol+':geoserveis.icgc.cat/rubi_arbres/wms/service ',
 			parametersWFS : {
 				service : 'WFS',
 				outputFormat : 'text/javascript',
@@ -448,3 +449,4 @@ L.Marker.include({
 		return xml;
 	}
 });
+

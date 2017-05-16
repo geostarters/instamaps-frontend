@@ -1116,27 +1116,47 @@ function loadDefaultStyles(){
 
 function addHtmlModalCarregarFitxers(){
 	var dfd = $.Deferred();
+	
+	
 	$.get("templates/modalCarregarFitxers.html",function(data){
 		//TODO ver como pasar el modal container
 		$('#mapa_modals').append(data);
 		
 		$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {
 			busy = false;
-			if(envioArxiu.isDrag){
-				drgFromMapa.removeAllFiles(true);
-			}else{
-				if (drgFromBoto != null) drgFromBoto.removeAllFiles(true);
-			}
+			jQuery("#div_url_file_front").empty();
+			jQuery("#div_url_file_front").hide();
+			try{
+					if(envioArxiu.isDrag){
+						drgFromMapa.removeAllFiles(true);
+					}else{
+						if (drgFromBoto != null) drgFromBoto.removeAllFiles(true);
+					}
+			}catch(err){}
 		});
 		
 		jQuery('#dialog_carrega_dades #bt_upload_cancel').on("click", function(e) {
 			$('#dialog_carrega_dades').modal('hide');
-			if(envioArxiu.isDrag){
-				drgFromMapa.uploadFile(drgFromMapa.files[0]);	
-			}else{
-				drgFromBoto.uploadFile(drgFromBoto.files[0]);;
-			}
+			jQuery("#div_url_file_front").empty();
+			jQuery("#div_url_file_front").hide();
+			try{
+					if(envioArxiu.isDrag){
+						drgFromMapa.uploadFile(drgFromMapa.files[0]);	
+					}else{
+						drgFromBoto.uploadFile(drgFromBoto.files[0]);;
+					}
+			
+			}catch(err){}
 		});	
+		
+		
+		var _instamapsDadesExternes = new InstamapsDadesExternes({container:$('#container_dades_externes')});
+		
+		
+		$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {	
+					_instamapsDadesExternes.clear();
+				});		
+		
 		dfd.resolve();
 	});
 	return dfd.promise();

@@ -50,6 +50,7 @@ function toggleCollapseDiv(divName){
 	$(divName).toggle();
 }
 
+
 function getTimeStamp() {
     var now = new Date();
     return (now.getFullYear()+'/'+(
