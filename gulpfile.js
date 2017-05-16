@@ -282,6 +282,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/geocat.mapa.basic.js',
     config.dirJsInstamaps+'/geocat.mapa.categories.js',
     config.dirJsInstamaps+'/instamaps.data.formatter.js',
+    config.dirJsInstamaps+'/instamaps.urlfile-1.0.0.js',
     config.dirJsInstamaps+'/geocat.mapa.edit-data-table.js',
     config.dirJsInstamaps+'/instamaps.layers-1.0.0.js',
     config.dirJsInstamaps+'/instamaps.wms-1.0.0.js',
