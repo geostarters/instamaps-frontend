@@ -739,7 +739,7 @@
 			self.createPopupContents(matches);
 			if(0 != matches.length)
 			{
-				L.popup({'offset':[0,-25]}).setLatLng(latlng)
+				L.popup({'offset':[0,-25],'autoPan':false}).setLatLng(latlng)
 					.setContent(self.options.html).openOn(map);
 
 				self.updateVisibleTabTitles();

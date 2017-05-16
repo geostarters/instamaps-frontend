@@ -50,6 +50,7 @@ function toggleCollapseDiv(divName){
 	$(divName).toggle();
 }
 
+
 function getTimeStamp() {
     var now = new Date();
     return (now.getFullYear()+'/'+(
@@ -1109,3 +1110,5 @@ function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descrip
 		"}";
 	return generatedScript;
 }
+
+

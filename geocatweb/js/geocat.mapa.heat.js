@@ -557,12 +557,12 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva, dfd)
 			
 		}else{
 			console.debug("getGeometriesColleccioByBusinessId ERROR");	
-$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId']});			
+$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId','heatmap']});			
 		}
 	},function(results){
 		//TODO error
 		console.debug("getGeometriesColleccioByBusinessId ERROR");
-		$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId']});
+		$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId','heatmap']});
 	});	
 }
 

@@ -27,14 +27,7 @@ function generaLlistaServeisWMS() {
 				"URN" : "urn:uuid:761da3ce-233c-11e2-a4dd-13da4f953834"
 			},
 			
-			/*
-			{
-				"TITOL" : "Mapa Urbanístic",
-				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
-				"IDARXIU" : "http://dtes.gencat.cat/webmap/MUC/service.svc/get?",
-				"URN" : "urn:uuid:e7a15a72-233b-11e2-a4dd-13da4f953834"
-			},
-			*/
+			
 			
 			{
 				"TITOL" : "Mapa Cadastral",
@@ -43,15 +36,7 @@ function generaLlistaServeisWMS() {
 				"URN" : "urn:uuid:260c0ccb-233c-11e2-a4dd-13da4f953834"
 			},
 			
-			/*
-			{ 
-				"TITOL" : "Atermenament i usos de costes",
-				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
-				"IDARXIU" : "http://sig.gencat.cat/ows/COSTES/wms?", 
-				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
-			},
 			
-			*/
 			
 			{ 
 				"TITOL" : "Població de Catalunya 2014 ",
@@ -67,12 +52,7 @@ function generaLlistaServeisWMS() {
 				"IDARXIU" : "http://pcivil.icgc.cat/ogc/geoservei?map=/opt/idec/dades/pcivil/risc_quimic.map&amp",
 				"URN" : "urn:uuid:0a71e360-7f73-11e4-b2ac-e7f91a2c3576"
 			},
-			{
-				"TITOL" : "Mapes Medi Natural",
-				"ORGANITZAC" : "Departament d'Agricultura, Ramaderia, Pesca, Alimentació i Medi Natural",
-				"IDARXIU" : "http://magrana.gencat.cat/SIG_ws/services/PUBLIC_OGC/MapServer/WMSServer?",
-				"URN" : "urn:uuid:6661c209-1462-11e3-8d85-e315c0a1d933"
-			},
+			
 			{
 				"TITOL" : "Ortofotos històriques",
 				"ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
@@ -91,24 +71,14 @@ function generaLlistaServeisWMS() {
 				"IDARXIU" : "http://www.opengis.uab.es/cgi-bin/MCSC/MiraMon.cgi?",
 				"URN" : "urn:uuid:54012596-233b-11e2-a4dd-13da4f953834"
 			},
-			{
-				"TITOL" : "Mapes Ambientals",
-				"ORGANITZAC" : "Departament de Territori i Sostenibilitat",
-				"IDARXIU" : "http://sima.gencat.cat/DMAH_ws/SIMA_OGC/MapServer/WMSServer?",
-				"URN" : "urn:uuid:e84cb5ba-233b-11e2-a4dd-13da4f953834"
-			},
+			
 			{
 				"TITOL" : "Nodes guifi.net",
 				"ORGANITZAC" : "GUIFI.NET",
 				"IDARXIU" : "http://guifi.net/cgi-bin/mapserv?map=/home/guifi/maps.guifi.net/guifimaps/GMap.map&",
 				"URN" : "urn:uuid:63013742-233c-11e2-a4dd-13da4f953834"
 			},
-			{
-                "TITOL" : "Mapa trànsit en temps real",
-                "ORGANITZAC" : "Servei Català de Trànsit ",
-                "IDARXIU" : "http://sctwms.gencat.cat/WMS/mapserv.exe?map=//sctbrsscc05/AGATA/EstatdelTransit.map&amp",
-                "URN" : "urn:uuid:fe8365ca-233c-11e2-a4dd-13da4f953834"
-			},
+			
 			{
                 "TITOL" : "Mapa Cadastral per anys",
                 "ORGANITZAC" : "Dirección General de Cadastro",
@@ -324,13 +294,13 @@ function getCapabilitiesWMS(url, servidor) {
 				ActiuWMS.epsgtxt = 'EPSG:3857';
 			} else if (jQuery.inArray('EPSG:4326', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';
+				ActiuWMS.epsgtxt = 'EPSG:4326';
 			} else if (jQuery.inArray('CRS:84', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
 				ActiuWMS.epsgtxt = '4326';
 			} else if (jQuery.inArray('EPSG:4258', epsg) != -1) {
 				ActiuWMS.epsg = L.CRS.EPSG4326;
-				ActiuWMS.epsgtxt = '4326';	
+				ActiuWMS.epsgtxt = 'EPSG:4326';	
 			} else {
 				alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
 				return;
@@ -388,6 +358,8 @@ function addWmsToMap(wms){
 	wmsLayer.options.nom = wms.servidor;
 	wmsLayer.options.tipus = t_wms;
 	
+	
+	
 	if(typeof url('?businessid') == "string"){
 		var data = {
 			uid:Cookies.get('uid'),
@@ -399,7 +371,7 @@ function addWmsToMap(wms){
             activas: true,
             visibilitats: true,
             order: controlCapes._lastZIndex+1,
-            epsg: ActiuWMS.epsgtxt,
+            epsg: ActiuWMS.epsg,
             imgFormat: 'image/png',
             infFormat: 'text/html',
             tiles: true,	            
@@ -407,12 +379,14 @@ function addWmsToMap(wms){
             opacity: 1,
             visibilitat: 'O',
             url: wms.url,
-            layers: JSON.stringify([{name:wms.layers,title:wms.layers,group:0,check:true,query:true}]),
+            layers: JSON.stringify([{name:wms.layers,title:wms.layers,group:0,check:true,query:true,epsg:ActiuWMS.epsg}]),
             calentas: false,
             activas: true,
             visibilitats: true,
-			options: '{"url":"'+wms.url+'","layers":"'+wms.layers+'","opacity":"'+1+'","wmstime":'+wms.wmstime+'}'
+			options: '{"url":"'+wms.url+'","layers":"'+wms.layers+'","opacity":"'+1+'","wmstime":'+wms.wmstime+',"epsg":"EPSG:4326"}'
 		};
+		
+		
 		createServidorInMap(data).then(function(results){
 			map.spin(false);
 			if (results.status == "OK"){
@@ -525,6 +499,8 @@ function addExternalWMS(fromParam) {
             visibilitats: true,
 			options: '{"url":"'+ActiuWMS.url+'","layers":"'+ActiuWMS.layers+'","opacity":"'+1+'","wmstime":'+ActiuWMS.wmstime+'}'
 		};
+		
+		
 		createServidorInMap(data).then(function(results){
 			map.spin(false);
 			if (results.status == "OK"){
@@ -626,6 +602,8 @@ function loadWmsLayer(layer, _map){
 	jsonOptions,
 	newWMS,
 	nomServidor = layer.serverName;
+	
+	
 	
 	if(layer.serverName.indexOf('##') !=-1){
 		var valors = layer.serverName.split("##");

@@ -1360,8 +1360,7 @@ function addLegendEdicio(){
 	
 	}catch(Err){
 		
-
-	
+		$.publish('analyticsEvent',{event:['error', 'AddLlegendaEdicio',JSON.stringify(Err)]});
 		
 	
 	}	

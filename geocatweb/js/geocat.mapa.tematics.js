@@ -530,6 +530,7 @@ function getRangsFromLayer(layer){
         },function(results){
 			//TODO error
 			console.debug("getRangsFromLayer ERROR");
+			$.publish('analyticsEvent',{event:['error', 'getRangsFromLayerERROR',JSON.stringify(results)]});
 		});
 	}
 }
@@ -1337,6 +1338,7 @@ function loadVisualitzacioLayer(layer,removed){
 			defer.reject();
 		}
 	},function(results){
+		$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId3',JSON.stringify(results)]});
 		console.debug('getVisualitzacioByBusinessId ERROR');
 		defer.reject();
 	});
@@ -1824,7 +1826,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 									if (markerCircle.label!=undefined) markerCircle.label.setOpacity(0);
 									else markerCircle.hideLabel();
 								}catch(err){
-									
+									$.publish('analyticsEvent',{event:['error', 'ZoomEtiqueta',JSON.stringify(err)]});	
 								}
 						}
 					}
@@ -2176,6 +2178,7 @@ function loadCacheVisualitzacioLayer(layer){
 				readVisualitzacio(defer, results.results, layer);
 			}else{
 				console.debug('getVisualitzacioByBusinessId ERROR');
+				$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId4',JSON.stringify(results)]});
 				defer.reject();	
 			}	
 		});
@@ -2280,6 +2283,7 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 																			
 										}else{
 											console.debug('addGeometriaToVisualitzacio ERROR');
+											$.publish('analyticsEvent',{event:['error', 'addGeometriaToVisualitzacio',JSON.stringify(results)]});
 										}
 								});
 							}

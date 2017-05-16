@@ -285,6 +285,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/geocat.mapa.edit-data-table.js',
     config.dirJsInstamaps+'/instamaps.layers-1.0.0.js',
     config.dirJsInstamaps+'/instamaps.wms-1.0.0.js',
+    config.dirJsInstamaps+'/instamaps.dades.externes-2.0.0.js',
     config.dirJsInstamaps+'/geocat.visor.fons.js',
     config.dirJsInstamaps+'/instamaps.mapa.3D-1.0.0.js',
     config.dirJsInstamaps+'/instamaps.visor.visor-2.0.0.js',

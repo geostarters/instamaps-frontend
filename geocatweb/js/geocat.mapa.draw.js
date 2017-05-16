@@ -1065,7 +1065,7 @@ function createPopupWindow(layer,type, editant,propFormat){
 					else fillModalDataTable(controlCapes._layers[accio[3]],props.businessId);
 				}
 				catch(err){
-					$.publish('analyticsEvent',{event:['erro', 'feature_data_table',err]});
+					$.publish('analyticsEvent',{event:['error', 'feature_data_table',JSON.stringify(err) ]});
 					
 				}
 			}
@@ -1079,7 +1079,7 @@ function createPopupWindow(layer,type, editant,propFormat){
 	});
 
 	layer.on('click', function(e){
-		layer.off('click', creaPopupUnic);	//En el geocat.mapa.tematic >> loadGeometriesToLayer se n'assigna un
+		layer.off('click', creaPopupUnic);	
 		if(objEdicio.esticEnEdicio){
 			//Si s'esta editant no es pot editar altre element
 			map.closePopup();

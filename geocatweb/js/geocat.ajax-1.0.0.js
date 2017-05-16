@@ -16,7 +16,7 @@ function addXHR(jqXHR, settings)
 function completedWithErrors(jqXHR, status, error)
 {
 
-	console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
+	//console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
 
 }
 
@@ -392,7 +392,7 @@ function doReadFile(data){
 
 function doUploadFile(data){
 	return createXHR({
-		url: paramUrl.uploadFile, 
+		url: paramUrl.uploadFile2, 
 		data: data
 	});
 }

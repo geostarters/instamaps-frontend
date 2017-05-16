@@ -777,6 +777,7 @@
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
 			//console.debug("error");
+			$.publish('analyticsEvent',{event:['error', 'loadingPage','loadErrorPage']});	
 			window.location.href = paramUrl.galeriaPage;
 		},
 
@@ -1420,8 +1421,8 @@
 
 
 						   if (undefined!=param_url && (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 )){
-							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
-							    else  urlFile=HOST_APP+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+							    else  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
 								param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
 								"&urlFile="+encodeURIComponent(urlFile)+
 								"&epsgIN=EPSG:4326"+	
@@ -1442,26 +1443,38 @@
 									propName = "";
 									$.each( pp, function( key, value ) {
 										propName = propName+key+",";
-										if (typeof value == 'string' || value instanceof String) {
-											if(isValidValue(value) && !validateWkt(value)){
-												if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+										if(isValidValue(value) && !validateWkt(value)){
+											if ( key != 'businessId' && key != 'slotd50'){
+												
+												var txt = value;
 													html+='<div class="popup_data_row">';
-													var txt = value;
 													if (!$.isNumeric(txt)) {		    				
 														txt = parseUrlTextPopUp(value,key);
-														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+														if (typeof txt == 'string' || txt instanceof String) {
+															if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+																html+='<div class="popup_data_key">'+key+'</div>';
+																html+='<div class="popup_data_value">'+txt+'</div>';
+															}else{
+																html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															}
+														}
+														else{
+															var txtVal=txt;
+															try{
+																txtVal = JSON.stringify(txt);
+															}catch(e){
+																
+															}																	
 															html+='<div class="popup_data_key">'+key+'</div>';
-															html+='<div class="popup_data_value">'+txt+'</div>';
-														}else{
-															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															html+='<div class="popup_data_value">'+txtVal+'</div>';
 														}
 													}
-													else {
+													else if (!(txt instanceof Object)){
 														html+='<div class="popup_data_key">'+key+'</div>';
 														html+='<div class="popup_data_value">'+txt+'</div>';
 													}
 													html+= '</div>';
-												}
+												
 											}
 										}
 									});	
@@ -1475,26 +1488,38 @@
 									propName = "";
 									$.each( pp, function( key, value ) {
 										propName = propName+key+",";
-										if (typeof value == 'string' || value instanceof String) {
-											if(isValidValue(value) && !validateWkt(value)){
-												if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+										if(isValidValue(value) && !validateWkt(value)){
+											if ( key != 'businessId' && key != 'slotd50'){
+												
+												var txt = value;
 													html+='<div class="popup_data_row">';
-													var txt = value;
 													if (!$.isNumeric(txt)) {		    				
 														txt = parseUrlTextPopUp(value,key);
-														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+														if (typeof txt == 'string' || txt instanceof String) {
+															if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+																html+='<div class="popup_data_key">'+key+'</div>';
+																html+='<div class="popup_data_value">'+txt+'</div>';
+															}else{
+																html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															}
+														}
+														else{
+															var txtVal=txt;
+															try{
+																txtVal = JSON.stringify(txt);
+															}catch(e){
+																
+															}																	
 															html+='<div class="popup_data_key">'+key+'</div>';
-															html+='<div class="popup_data_value">'+txt+'</div>';
-														}else{
-															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															html+='<div class="popup_data_value">'+txtVal+'</div>';
 														}
 													}
-													else {
+													else if (!(txt instanceof Object)){
 														html+='<div class="popup_data_key">'+key+'</div>';
 														html+='<div class="popup_data_value">'+txt+'</div>';
 													}
 													html+= '</div>';
-												}
+												
 											}
 										}
 									});	
@@ -1524,6 +1549,7 @@
 											map.fitBounds(bounds);
 										}catch(err){
 											console.debug(err);
+											$.publish('analyticsEvent',{event:['error', 'CapaUrlFile2',JSON.stringify(err)]});	
 										}
 									}
 								}
@@ -1655,6 +1681,7 @@
 								map.fitBounds(bounds);
 							}catch(err){
 								console.debug(err);
+								$.publish('analyticsEvent',{event:['error', 'CapaUrlFile3',JSON.stringify(err)]});
 							}
 						}
 					}
