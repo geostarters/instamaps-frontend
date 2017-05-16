@@ -229,13 +229,13 @@
 			return propName;
 		},
 		
-		createPopupHtml: function(feature, data, dadesObertes, dataFieldValue,estil_do){
+		createPopupHtml: function(feature, data, dadesObertes, dataFieldValue,estil_do,dinamic){
 			var html='';
 			if (this._getNameField(feature)!='') html+='<h4 class="my-text-center">'+this._getNameField(feature)+'</h4>';
 			html+='<div class="div_popup_visor"><div class="popup_pres">';
 			html+=this._getPropertiesHtml(feature,data,dataFieldValue,estil_do);			
-			if(!dadesObertes) html+=this._addGeometriesProps(feature,data.type);
-			if(!dadesObertes) html+=this._addActionButtons(feature,data);
+			if(!dadesObertes && !dinamic) html+=this._addGeometriesProps(feature,data.type);
+			if(!dadesObertes && !dinamic) html+=this._addActionButtons(feature,data);
 			html+='</div>'; //.popup_pres
 			html+='</div>';//.div_popup_visor
 			return html;

@@ -122,7 +122,7 @@
 				}else{
 					if(!busy){
 						busy = true;
-						createURLfileLayer(urlFile, type, epsg, $(".dinamic_chck_de").is(':checked'),$(".input-url-file-name_de").val(),
+						new InstamapsUrlFile().createURLfileLayer(urlFile, type, epsg, $(".dinamic_chck_de").is(':checked'),$(".input-url-file-name_de").val(),
 								   $(".input-coord-x_de").val(),$(".input-coord-y_de").val(),
 								   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
 								   jQuery('.cmd_codiType_Capa_de').val(), jQuery('.cmd_codiType_de').val(), $(".input-camp-codi-urlfile_de").val());

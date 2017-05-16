@@ -100,7 +100,7 @@
 					capa: self.capaURLfile,
 					esVisor: self._esVisor()
 				};
-				var html =  PopupManager().createPopupHtml(feature, data,false, self.dataFieldValue,self.estil_do);
+				var html =  PopupManager().createPopupHtml(feature, data,false, self.dataFieldValue,self.estil_do,true);
 				if (self.optionsVis!=undefined) {
 					var tipus = feature.geometry.type;		
 					self.gestioEtiquetes(geom,tipus);
@@ -137,7 +137,7 @@
 					capa: self.capaURLfile,
 					esVisor: self._esVisor()
 				};
-				var html =  PopupManager().createPopupHtml(feature, data,false, self.dataFieldValue,self.estil_do);
+				var html =  PopupManager().createPopupHtml(feature, data,false, self.dataFieldValue,self.estil_do,true);
 				if (self.optionsVis!=undefined) {
 					var tipus = feature.geometry.type;					
 					self.gestioEtiquetes(latlng,tipus);
@@ -766,7 +766,8 @@
 						controlCapes._lastZIndex++;
 						var bounds = capaURLfile.getBounds();
 						map.fitBounds(bounds);
-						activaPanelCapes(true);	
+						activaPanelCapes(true);
+						self.capaURLfile=capaURLfile;
 					}else{
 						console.debug("1.Error a createServidorInMap:"+results.status);
 						$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes dinamiques error createServidorInMap1', urlFile, 1]});

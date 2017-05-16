@@ -609,6 +609,8 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 			 	var estil_do = layer.options.estil_do;
 			 	if (layer.options.dinamic) estil_do = layer.options.style;
 			
+			 	if (estil_do==undefined) estil_do=retornaEstilaDO(t_url_file);
+			 	
 				if(geometrytype == t_marker){
 					var mida = getMidaFromRadius(estil_do.radius);
 					if (layer.options.tem == tem_size) mida = estil_do.simbolSize;
