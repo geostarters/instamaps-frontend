@@ -414,7 +414,7 @@
 						capaURLfileLoad: self.capaURLfile,
 						options: options,
 						layer: layer,
-						origen: getOrigenLayer(self.capaURLfile)
+						origen: options.origen
 				}
 				
 				defer.resolve(capaURLOpts);
@@ -438,7 +438,7 @@
 						capaURLfileLoad: self.capaURLfile,
 						options: options,
 						layer: layer,
-						origen: getOrigenLayer(self.capaURLfile)
+						origen: options.origen
 				}
 				
 				defer.resolve(capaURLOpts);
@@ -464,7 +464,7 @@
 						capaURLfileLoad: self.capaURLfile,
 						options: options,
 						layer: layer,
-						origen: getOrigenLayer(self.capaURLfile)
+						origen: options.origen
 				}
 				
 				defer.resolve(capaURLOpts);
@@ -486,7 +486,7 @@
 						capaURLfileLoad: self.capaURLfile,
 						options: options,
 						layer: layer,
-						origen: getOrigenLayer(self.capaURLfile)
+						origen: options.origen
 				}
 				defer.resolve(capaURLOpts);
 				return defer.promise();
