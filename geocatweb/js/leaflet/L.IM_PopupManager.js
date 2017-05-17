@@ -72,7 +72,7 @@
 			return isADrawMarker;
 		},
 		
-		_getPropertiesHtml: function(feature,data,dataFieldValue,estil_do){
+		_getPropertiesHtml: function(feature,data,estil_do){
 			var html="";
 			var propFormat="";
 			var capa=data.capa;
@@ -134,7 +134,6 @@
 							
 						}
 					}
-					if(estil_do!=undefined && key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
 				}
 			});	
 			return html;
@@ -230,11 +229,21 @@
 			return propName;
 		},
 		
-		createPopupHtml: function(feature, data, dadesObertes, dataFieldValue,estil_do,dinamic){
+		getDataFieldValue: function(feature,estil_do){
+			var properties;
+			if (feature.properties.data!=undefined) properties=feature.properties.data;
+			else if (feature.properties!=undefined) properties=feature.properties;
+			$.each( properties, function( key, value ) {
+				if(estil_do!=undefined && key.toLowerCase()==estil_do.dataField) dataFieldValue = value;
+			});
+			return dataFieldValue;
+		},
+		
+		createPopupHtml: function(feature, data, dadesObertes, estil_do,dinamic){
 			var html='';
 			if (this._getNameField(feature)!='') html+='<h4 class="my-text-center">'+this._getNameField(feature)+'</h4>';
 			html+='<div class="div_popup_visor"><div class="popup_pres">';
-			html+=this._getPropertiesHtml(feature,data,dataFieldValue,estil_do);			
+			html+=this._getPropertiesHtml(feature,data,estil_do);			
 			if(!dadesObertes && !dinamic) html+=this._addGeometriesProps(feature,data.type);
 			if(!dadesObertes && !dinamic) html+=this._addActionButtons(feature,data);
 			html+='</div>'; //.popup_pres

@@ -100,7 +100,8 @@
 					capa: self.capaURLfile,
 					esVisor: self._esVisor()
 				};
-				var html =  PopupManager().createPopupHtml(feature, data,false, self.dataFieldValue,self.estil_do,true);
+				var html =  PopupManager().createPopupHtml(feature, data,false, self.estil_do,true);
+				self.dataFieldValue = PopupManager().getDataFieldValue(feature,self.estil_do);
 				if (self.optionsVis!=undefined) {
 					var tipus = feature.geometry.type;		
 					self.gestioEtiquetes(geom,tipus);
@@ -139,7 +140,8 @@
 					capa: self.capaURLfile,
 					esVisor: self._esVisor()
 				};
-				var html =  PopupManager().createPopupHtml(feature, data,false, self.dataFieldValue,self.estil_do,true);
+				var html =  PopupManager().createPopupHtml(feature, data,false, self.estil_do,true);
+				self.dataFieldValue = PopupManager().getDataFieldValue(feature,self.estil_do);
 				if (self.optionsVis!=undefined) {
 					var tipus = feature.geometry.type;					
 					self.gestioEtiquetes(latlng,tipus);
