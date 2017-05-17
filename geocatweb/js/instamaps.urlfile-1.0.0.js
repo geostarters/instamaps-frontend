@@ -108,8 +108,8 @@
 				var estilGeom=self.estil_do; 
 				if (self.estil_do!=undefined && self.estil_do.estils!=undefined){
 					$.each( self.estil_do.estils, function( index, estil ) {
-						if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
-								(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+						if((estil.valueMax == estil.ValueMin && self.dataFieldValue == estil.valueMax) || //rang unic
+								(self.dataFieldValue>=estil.valueMin && self.dataFieldValue<=estil.valueMax)){//per valors
 							estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
 							return false;	
 						}
@@ -144,8 +144,8 @@
 				}
 				if (self.estil_do!=undefined && self.estil_do.estils!=undefined){
 					$.each( self.estil_do.estils, function( index, estil ) {
-						if((estil.valueMax == estil.valueMin && dataFieldValue == estil.valueMax) || //rang unic
-								(parseFloat(dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
+						if((estil.valueMax == estil.valueMin && self.dataFieldValue == estil.valueMax) || //rang unic
+								(parseFloat(self.dataFieldValue)>=parseFloat(estil.valueMin) && parseFloat(self.dataFieldValue)<=parseFloat(estil.valueMax))){//per valors	
 							if(latlng.feature.geometry.type.toLowerCase() == t_polygon ){		
 								latlng.setStyle({
 									weight: 2,
@@ -608,11 +608,15 @@
 				var tipusFont = options.tipusFont;
 				var nomCampCodi = options.nomCampCodi;
 				
-				var estil_do = options.estil_do;
+				var estil_do;
+				if (options.estil_do!=undefined) estil_do=options.estil_do;
+				else if (options.style!=undefined) estil_do=options.style;
+				
+				
 				if(options.tem == tem_heatmap){
 					estil_do = retornaEstilaDO(t_url_file); //TODO revisar si se puede quitar esto
 				}
-				
+				self.estil_do=estil_do;
 				if (tipusFile==".json") tipusFile=".geojson";
 				
 				var param_url = self.getParamUrl(tipusFile,tipusAcc,tipusCodi,tipusFont,nomCampCodi,urlFile,epsgIN,dinamic,colX,colY);
