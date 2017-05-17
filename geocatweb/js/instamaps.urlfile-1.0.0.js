@@ -118,7 +118,9 @@
 				var geom = L.circleMarker(latlng, estilGeom);		    
 				feature.properties.capaNom=self.nomCapa;
 				feature.properties.popupData=html;
-				feature.properties.propName=PopupManager().getPropName(feature);
+				var propName=PopupManager().getPropName(feature);
+				feature.properties.propName=propName;
+				if (self.capaURLfile.options.propName==undefined) self.capaURLfile.options.propName=propName;
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
@@ -176,6 +178,7 @@
 					});	
 				}
 				var propName = PopupManager().getPropName(feature);
+				if (self.capaURLfile.options.propName==undefined) self.capaURLfile.options.propName=propName;
 				latlng.properties={
 					capaNom: self.nomCapa,
 					popupData:html,
@@ -674,7 +677,6 @@
 					capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
 					controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origenL);
 				}
-				
 				if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
 					capaURLfileLoad.addTo(map);
 				}
