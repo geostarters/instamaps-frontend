@@ -1112,3 +1112,6 @@ function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descrip
 }
 
 
+
+
+
