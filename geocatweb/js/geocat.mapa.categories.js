@@ -539,7 +539,8 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 											controlCapes._visLayers = {};
 											controlCapes._options = {};
 										}
-										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
+										if (data.visualitzacio!=undefined)
+											controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
 										controlCapes._options[data.layer.businessId] = data.layer;
 										if(undefined !== deferred)
 											deferred.resolve(results._leaflet_id);
