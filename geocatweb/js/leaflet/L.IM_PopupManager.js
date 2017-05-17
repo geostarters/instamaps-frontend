@@ -230,7 +230,7 @@
 		},
 		
 		getDataFieldValue: function(feature,estil_do){
-			var properties;
+			var properties,dataFieldValue;
 			if (feature.properties.data!=undefined) properties=feature.properties.data;
 			else if (feature.properties!=undefined) properties=feature.properties;
 			$.each( properties, function( key, value ) {
