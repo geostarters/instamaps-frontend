@@ -120,7 +120,7 @@
 				feature.properties.popupData=html;
 				var propName=PopupManager().getPropName(feature);
 				feature.properties.propName=propName;
-				if (self.capaURLfile.options.propName==undefined) self.capaURLfile.options.propName=propName;
+				self.capaURLfile.options.propName=propName;
 				geom.on('click', function(e) {
 					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
@@ -178,7 +178,7 @@
 					});	
 				}
 				var propName = PopupManager().getPropName(feature);
-				if (self.capaURLfile.options.propName==undefined) self.capaURLfile.options.propName=propName;
+				self.capaURLfile.options.propName=propName;
 				latlng.properties={
 					capaNom: self.nomCapa,
 					popupData:html,
