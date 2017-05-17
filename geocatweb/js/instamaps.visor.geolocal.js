@@ -150,9 +150,15 @@
 			map = visor.map,
 			_mapConfig = visor._mapConfig;
 			
-			$(window).resize(_.debounce(function(){
-				self.resizeMap();
-			},150));
+			try{
+				$(window).resize(_.debounce(function(){
+					self.resizeMap();
+				},150));
+			}
+			catch(e){
+				
+			}
+			
 			
 			self._listenEvents();
 			

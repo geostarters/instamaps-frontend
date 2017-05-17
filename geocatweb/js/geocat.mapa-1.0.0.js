@@ -721,7 +721,7 @@ function loadLayer(value){
 		});
 		//Si la capa es de tipus url file
 	}else if(value.serverType == t_url_file){
-		loadURLfileLayer(value).then(function(){
+		new InstamapsUrlFile().loadURLfileLayer(value).then(function(){
 			defer.resolve();
 		});
 	//Si la capa es de tipus geojsonVT
@@ -958,9 +958,9 @@ function refrescarZoomEtiquetes(obj){
 	else optionsVis = obj.options.opcionsVisEtiqueta;
 	if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
 			optionsVis=="etiquetageom")){
-	 		var zoomInicial = "2";
+			var zoomInicial = zoomInicialEt;
 	 		if (obj.options.zoomInicial) zoomInicial=obj.options.zoomInicial;
-	 		var zoomFinal = "19";
+	 		var zoomFinal = zoomFinalEt;
 	 		if (obj.options.zoomFinal) zoomFinal = obj.options.zoomFinal;
 
 	 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
@@ -1014,7 +1014,7 @@ function addHtmlModalBloqueigMapa(){
 		if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
 		if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
 		deleteLocalStorage();
-		createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
+		new InstamapsUrlFile().createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
 	}
 }
 

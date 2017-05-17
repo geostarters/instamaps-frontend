@@ -125,7 +125,9 @@ var leafletPip = {
     var results = [];
 
     layer.eachLayer(function(l) {
-
+      var lineWidth;
+      if (isLine(l) && l.properties.estil!=undefined && l.properties.estil.lineWidth!=undefined) lineWidth= l.properties.estil.lineWidth;
+      else if (isLine(l) && l.options!=undefined && l.options.lineWidth!=undefined) lineWidth=l.options.lineWidth;
       if (isPoly(l) && gju.pointInPolygon({
           type: 'Point',
           coordinates: p
@@ -135,7 +137,7 @@ var leafletPip = {
       else if(isLine(l)&& gju.pointInLine({
           type: 'Point',
           coordinates: p
-      }, l.toGeoJSON(), l.properties.estil.lineWidth)) {
+      }, l.toGeoJSON(), lineWidth)) {
           results.push(l);
       }      
       else

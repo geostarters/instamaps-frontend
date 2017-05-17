@@ -528,7 +528,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
 									
-									loadURLfileLayer(data.results).then(function(results){
+									new InstamapsUrlFile().loadURLfileLayer(data.results).then(function(results){
 										activaPanelCapes(true);
 										//Desactivem la capa mare
 										if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();
@@ -539,7 +539,8 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 											controlCapes._visLayers = {};
 											controlCapes._options = {};
 										}
-										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
+										if (data.visualitzacio!=undefined)
+											controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
 										controlCapes._options[data.layer.businessId] = data.layer;
 										if(undefined !== deferred)
 											deferred.resolve(results._leaflet_id);
