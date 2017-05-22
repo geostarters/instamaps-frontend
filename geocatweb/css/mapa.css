@@ -4070,7 +4070,7 @@ i.fa {
     color: #BC5003;
 }
 
-#label-dinamic{
+#label-dinamic, #label-estatic{
 	font-size: 90%;
 	line-height: 3;
 }
