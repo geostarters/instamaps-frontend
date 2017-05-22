@@ -122,12 +122,17 @@ EPSG:&nbsp;
 </select>
 <br>
 <br>
-<input id="dinamic_chck" class="dinamic_chck_de" type="checkbox"
-	checked="checked">
-&nbsp;Dinàmica
+<input class="make-switch" name="dinamic-checkbox"
+										id="dinamic_chck" type="checkbox"
+										data-label-text="<span class='glyphicon glyphicon-transfer'></span>"
+										data-on-text="<span id='dinamic-yes' lang='ca'>Est&aacute;tic</span>"
+										data-off-text="<span id='dinamic-no' lang='ca'>Din&aacute;mic</span>"/>
 <br>
 <small lang="ca" class="label label-success" id="label-dinamic">
-	Dinàmic: S'accedirà a la font de dades cada cop que es carregui la capa
+	Dinàmic: S'accedirà a l'arxiu cada cop que es carregui la capa
+</small>
+<small lang="ca" class="label label-success" id="label-estatic">
+	Estàtic: Les dades es guardaran a la Base de dades d'Instamaps
 </small>
 </div>
 &nbsp;

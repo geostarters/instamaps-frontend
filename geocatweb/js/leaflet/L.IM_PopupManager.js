@@ -140,12 +140,12 @@
 		},
 		_addGeometriesProps: function(feature, type){
 			var html = "";
-			if (type==t_marker && feature.geometry.type==t_point) {
+			if (type==t_marker && undefined!=feature.geometry && feature.geometry.type==t_point) {
 				html+=this._addLatLongToMarker(feature);
 			}
-			else if(type == t_polyline && feature.properties.mida && feature.geometry.type==t_linestring){
+			else if(type == t_polyline && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_linestring){
 				html+=this._addLengthToLine(feature);
-			}else if(type == t_polygon && feature.properties.mida && feature.geometry.type==t_polygon){
+			}else if(type == t_polygon && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_polygon){
 				html+=this._addAreaToPolygon(feature);
 			}
 			return html;

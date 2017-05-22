@@ -1841,7 +1841,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 									var id = layerMap._leaflet_id;
 									delete controlCapes._layers[id];
 																	
-									new InstamapsUrlFile().loadURLfileLayer(results.results).then(function(results) {
+									loadURLfileLayer(results.results).then(function(results) {
 										//refresh zoom etiquetes									
 										refrescarZoomEtiquetes(results);
 									});									
