@@ -313,7 +313,7 @@ L.Control.Legend = L.Control.extend({
 							if(i==row.length-1){
 								legendTabContent.push('</div>');
 								if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') >-1){
-									legendTabContent.push('</div></div>');
+									legendTabContent.push('</div>');
 								}
 								serverNameTrobat=false;
 							}			
@@ -321,8 +321,9 @@ L.Control.Legend = L.Control.extend({
 					}
 				}
 				index=index+1;
-				legendTabContent.push('</div>');
-				
+				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+					legendTabContent.push('</div>');
+				}
 			    });
 				
 				legendTab.push('</ul>');
