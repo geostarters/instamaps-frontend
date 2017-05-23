@@ -64,8 +64,8 @@ var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 
 	
-	//urlServerTilesW="http://imtilemapsdev.icgc.local";
-	//urlServerTiles="http://imtilemapsdev.icgc.local";
+	urlServerTilesW="http://imtilemapsdev.icgc.local";
+	urlServerTiles="http://imtilemapsdev.icgc.local";
 	
 
 
@@ -906,7 +906,7 @@ L.IM_Map = L.Map.extend({
 
 		}).addTo(_naturalMap);
 
-
+/*
 		TOPO_GEO_ICC_L8_17_TOPONIMS = new L.TileLayer(mapaUrl.toponimsNaturalSuau,{
 			tms:false,
 			continuousWorld: true,
@@ -917,7 +917,7 @@ L.IM_Map = L.Map.extend({
 		}).addTo(_naturalMap);
 
 
-
+*/
 
 
 

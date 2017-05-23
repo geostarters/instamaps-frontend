@@ -208,59 +208,73 @@ var instamaps_email = "instamapes@icgc.cat";
 //var curs_instamaps = "2n curs InstaMaps";
 //var curs_instamaps = "3r curs InstaMaps";
 //var curs_instamaps = "4rt curs InstaMaps";
-var curs_instamaps = "5e curs InstaMaps";
-
+//var curs_instamaps = "5e curs InstaMaps";
+var curs_instamaps = "6e curs InstaMaps";
 
 //Llistat exemples de dades externes
 var llista_dadesExternes = {
 		"dadesExternes" : [
 
-				{
-	                "titol" : "Actes president.cat",
-	                "ORGANITZAC" : "president.cat",
-	                "urlOrganitzacio" : "http://www.president.cat",
-	                "urlDadesExternes" : "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json?"
-				},
+			{
+				"titol" : "Països del món",
+				"ORGANITZAC" : "Natural Earth Data",
+				"urlOrganitzacio" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_0_countries.geojson",
+				"urlDadesExternes" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_0_countries.geojson",
+				"formatDadesExternes": t_file_geojson,
+				"epsgDadesExternes":"EPSG:4326"
+			},
    				{
-	                "titol" : "Plaques Tectòniques",
-	                "ORGANITZAC" : "earthquake.usgs.gov",
-	                "urlOrganitzacio" : "http://earthquake.usgs.gov",
-	                "urlDadesExternes" : "http://earthquake.usgs.gov/learn/plate-boundaries.kmz",
-					"formatDadesExternes": t_file_kml,
+	                "titol" : "Rius del Món",
+	                "ORGANITZAC" : "Natural Earth Data",
+	                "urlOrganitzacio" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_rivers_lake_centerlines_scale_rank.geojson",
+	                "urlDadesExternes" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_rivers_lake_centerlines_scale_rank.geojson",
+					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
 				},
-
-
+											
 				{
 					"titol" : "Ciutats del món",
-					"ORGANITZAC" : "Wikipedia",
-					"urlOrganitzacio" : "http://en.wikipedia.org/wiki/List_of_cities_by_longitude",
-					"urlDadesExternes" : "https://raw.githubusercontent.com/mahemoff/geodata/master/cities.geojson",
+					"ORGANITZAC" : "Natural Earth Data",
+					"urlOrganitzacio" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_populated_places.geojson",
+					"urlDadesExternes" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_populated_places.geojson",
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
 				},
+								
 				{
-					"titol" : "Països del món",
-					"ORGANITZAC" : "Wikimedia Foundation",
-					"urlOrganitzacio" : "https://github.com/wikimedia",
-					"urlDadesExternes" : "https://raw.githubusercontent.com/wikimedia/limn-data/master/geo/maps/world-countries.json",
+					"titol" : "Ports del món",
+					"ORGANITZAC" : "Natural Earth Data",
+					"urlOrganitzacio" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_ports.geojson",
+					"urlDadesExternes" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_ports.geojson",
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
 				},
+				
+				
 				{
-					"titol" : "Huracans a l'Atlàntic al 2004",
-					"ORGANITZAC" : "Unisys weather",
-					"urlOrganitzacio" : "http://weather.unisys.com/hurricane/atlantic/2004H/index.html",
-					"urlDadesExternes" : "https://raw.githubusercontent.com/colemanm/hurricanes/master/fl_2004_hurricanes.geojson",
+					"titol" : "Zones en litigi",
+					"ORGANITZAC" : "Natural Earth Data",
+					"urlOrganitzacio" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_admin_0_disputed_areas_scale_rank_minor_islands.geojson",
+					"urlDadesExternes" : "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_admin_0_disputed_areas_scale_rank_minor_islands.geojson",
+					"formatDadesExternes": t_file_geojson,
+					"epsgDadesExternes":"EPSG:4326"
+				},
+							
+				
+				{
+					"titol" : "Comarques de Catalunya",
+					"ORGANITZAC" : "ICGC",
+					"urlOrganitzacio" : "https://raw.githubusercontent.com/geostarters/dades/master/Comarques_Catalunya_EPSG4326.geojson",
+					"urlDadesExternes" : "https://raw.githubusercontent.com/geostarters/dades/master/Comarques_Catalunya_EPSG4326.geojson",
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
 				},
 
-				{//https://github.com/FCC/lpfmpoints
-					"titol" : "U.S. Low Power FM station",
-					"ORGANITZAC" : "LPFM",
-					"urlOrganitzacio" : "http://www.fcc.gov/encyclopedia/low-power-fm-broadcast-radio-stations-lpfm",
-					"urlDadesExternes" : "https://raw.githubusercontent.com/FCC/lpfmpoints/gh-pages/data/lpfm_points.geojson",
+				{
+					"titol" : "Municipis de Catalunya",
+					"ORGANITZAC" : "ICGC",
+					"urlOrganitzacio" : "https://raw.githubusercontent.com/geostarters/dades/master/Municipis_Catalunya_EPSG4326.geojson",
+					"urlDadesExternes" : "https://raw.githubusercontent.com/geostarters/dades/master/Municipis_Catalunya_EPSG4326.geojson",
 					"formatDadesExternes": t_file_geojson,
 					"epsgDadesExternes":"EPSG:4326"
 				},
@@ -280,5 +294,8 @@ var TIPUS_ENTITATS_GEOLOCAL = [2,3,4,5,6,7,8,9];
 var TIPUS_ADMIN = 0;
 var TIPUS_INSTAMAPS = 1;
 var TIPUS_AOC = 10;
+
+var zoomInicialEt = "2";
+var zoomFinalEt = "20";
 
 var guideLayers = new Array();

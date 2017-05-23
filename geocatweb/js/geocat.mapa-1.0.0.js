@@ -229,8 +229,8 @@ function loadApp(){
 					});
 					
 				}catch(err){
-					console.debug(err);
-					$.publish('analyticsEvent',{event:['erro', 'getMapByBusinessId',err]});
+					//console.debug(err);
+					$.publish('analyticsEvent',{event:['error', 'getMapByBusinessId',JSON.stringify(err)]});
 					gestioCookie('loadMapConfig');
 				}
 			}
@@ -816,7 +816,7 @@ function createNewMap(){
 				else window.location = paramUrl.mapaPage+"?businessid="+mapConfig.businessId+param;
 
 			}catch(err){
-				$.publish('analyticsEvent',{event:['erro', 'createMap',err]});
+				$.publish('analyticsEvent',{event:['error', 'createMap',JSON.stringify(err)]});
 				gestioCookie('createMap');
 			}
 		}
@@ -958,9 +958,9 @@ function refrescarZoomEtiquetes(obj){
 	else optionsVis = obj.options.opcionsVisEtiqueta;
 	if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
 			optionsVis=="etiquetageom")){
-	 		var zoomInicial = "2";
+			var zoomInicial = zoomInicialEt;
 	 		if (obj.options.zoomInicial) zoomInicial=obj.options.zoomInicial;
-	 		var zoomFinal = "19";
+	 		var zoomFinal = zoomFinalEt;
 	 		if (obj.options.zoomFinal) zoomFinal = obj.options.zoomFinal;
 
 	 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
@@ -1014,7 +1014,7 @@ function addHtmlModalBloqueigMapa(){
 		if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
 		if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
 		deleteLocalStorage();
-		createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
+		new InstamapsUrlFile().createURLfileLayer(urlFile, tipusFile, "EPSG:4326", true,"Capa urlFile","","","","","","","");
 	}
 }
 

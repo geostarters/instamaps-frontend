@@ -18,7 +18,7 @@ function filterJSON(rawjson) {
 		if (jsonData.resultats.length>0){
 			var coords= jsonData.resultats[0].coordenades;
 			var nom = jsonData.resultats[0].nom;
-			console.debug(jsonData);
+			//console.debug(jsonData);
 			var coordsSplit = [];
 			if (coords) {
 				coordsSplit = coords.split(",");

@@ -865,10 +865,6 @@ background-color: #9F9F9E;
 	 font-size: 13px;
 }
 
-.btn-upload {
-	height:30px;
-	width:110px;
-}
 
 #dialog_tematic_rangs .labels_fields{
 	display: inline;
@@ -1200,16 +1196,7 @@ i.fa {
  background-color: #EEEEEE;
 }
 
-.tbl_url_file{
- /*border: 1px dashed #DDDDDD;*/
- width:100%;
- background-color: #EEEEEE;
- /*min-height:50px;
- max-height: 270px;*/
- height: auto;
- overflow:auto;
- padding: 0 15px 15px 15px;
-}
+
 
 .bs-glyphicons {
 	list-style: none outside none;
@@ -2718,7 +2705,7 @@ background-color: #9F9F9E;
 
 .btn-upload {
 	height:30px;
-	width:110px;
+	/*width:110px;*/
 }
 
 
@@ -3019,8 +3006,9 @@ i.fa {
 .tbl_url_file{
  /*border: 1px dashed #DDDDDD;*/
  width:100%;
+ /*
  background-color: #EEEEEE;
- /*min-height:50px;
+ min-height:50px;
  max-height: 270px;*/
  height: auto;
  overflow:auto;
@@ -4082,7 +4070,7 @@ i.fa {
     color: #BC5003;
 }
 
-#label-dinamic{
+#label-dinamic, #label-estatic{
 	font-size: 90%;
 	line-height: 3;
 }

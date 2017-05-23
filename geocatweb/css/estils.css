@@ -585,6 +585,16 @@ textarea {
 	margin-left: 1px;
 }
 
+
+.blanc,.blanc a,.blanc span {
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 18px;
+	margin-left: 1px;
+}
+
+
+
 .blau,.blau a,.blau span {
 	color: #065299;
 	cursor: pointer;
@@ -845,6 +855,7 @@ textarea {
 
 #div_formats{
 	font-size: 12px !important;	
+	    opacity: 0.9 !important;
 }
 #dv_optCapa{	
 	 margin: 11px;

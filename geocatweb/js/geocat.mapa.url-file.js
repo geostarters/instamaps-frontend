@@ -1449,7 +1449,7 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
-				var estilGeom; //ficat default point style????
+				var estilGeom=self.estil_do;  //ficat default point style????
 				$.each( estil_do.estils, function( index, estil ) {
 					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
 							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors

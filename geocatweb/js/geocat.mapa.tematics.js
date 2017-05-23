@@ -262,402 +262,18 @@ function loadTematicLayer(layer){
 }
 
 function createPopupWindowData(player,type, editable, origen, capa){
-//	console.debug("createPopupWindowData");
-//	console.debug(player);
-	var html='';
-	if (player.properties.data.nom && !isBusinessId(player.properties.data.nom)){
-		html+='<h4 class="my-text-center">'+player.properties.data.nom+'</h4>';
-	}else if (player.properties.data.Nom && !isBusinessId(player.properties.data.Nom)){
-		html+='<h4 class="my-text-center">'+player.properties.data.Nom+'</h4>';
-	}else if (player.properties.data.NOM && !isBusinessId(player.properties.data.NOM)){
-		html+='<h4 class="my-text-center">'+player.properties.data.NOM+'</h4>';
-	}else if(player.properties.name && !isBusinessId(player.properties.name)){
-		html+='<h4 class="my-text-center">'+player.properties.name+'</h4>';
-	}else if(player.properties.data.name && !isBusinessId(player.properties.data.name)){
-		html+='<h4 class="my-text-center">'+player.properties.data.name+'</h4>';
-	}else if(player.properties.data.Name && !isBusinessId(player.properties.data.Name)){
-		html+='<h4 class="my-text-center">'+player.properties.data.Name+'</h4>';
-	}else if(player.properties.data.NAME && !isBusinessId(player.properties.data.NAME)){
-		html+='<h4 class="my-text-center">'+player.properties.data.NAME+'</h4>';
-	}else if(player.properties.nom && !isBusinessId(player.properties.nom)){
-		html+='<h4 class="my-text-center">'+player.properties.nom+'</h4>';
-	}else if(player.properties.nombre && !isBusinessId(player.properties.nombre)){
-		html+='<h4 class="my-text-center">'+player.properties.nombre+'</h4>';
-	}else if(player.properties.data.nombre && !isBusinessId(player.properties.data.nombre)){
-		html+='<h4 class="my-text-center">'+player.properties.data.nombre+'</h4>';
-	}else if(player.properties.data.nombre && !isBusinessId(player.properties.data.nombre)){
-		html+='<h4 class="my-text-center">'+player.properties.data.nombre+'</h4>';
-	}else if(player.properties.data.NOMBRE && !isBusinessId(player.properties.data.NOMBRE)){
-		html+='<h4 class="my-text-center">'+player.properties.data.NOMBRE+'</h4>';
-	}
-	
-	
-	var isADrawarker=false;
-	html+='<div class="div_popup_visor"><div class="popup_pres">';
 	var esVisor = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
-	$.each( player.properties.data, function( key, value ) {
-		if (key.toLowerCase()!="geomorigen" && key.toLowerCase()!="nomcapa" && key.toLowerCase()!="popupdata"){
-			if(isValidValue(key) && isValidValue(value) && !validateWkt(value)){
-				if (key != 'id' && key != 'businessId' && key != 'slotd50' && 
-						key != 'NOM' && key != 'Nom' && key != 'nom' && 
-						key != 'name' && key != 'Name' && key != 'NAME' &&
-						key != 'nombre' && key != 'Nombre' && key != 'NOMBRE'){
-					html+='<div class="popup_data_row">';
-					var txt=value;
-					if (!$.isNumeric(txt)) {
-						txt = parseUrlTextPopUp(value, key);
-						if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-							html+='<div class="popup_data_key">'+key+'</div>';
-							html+='<div class="popup_data_value">'+
-							(isBlank(txt)?window.lang.translate("Sense valor"):txt)+
-							'</div>';
-							html += '<div class="traffic-light-icon-empty"></div>';
-						}else{
-							html+='<div class="popup_data_img_iframe">'+txt+'</div>';
-						}
-					}
-					else {
-						html+='<div class="popup_data_key">'+key+'</div>';
-						html+='<div class="popup_data_value">'+txt+'</div>';
+	var data={
+		type: type,
+		editable: editable,
+		origen: origen,
+		capa: capa,
+		esVisor: esVisor
+	};
+	var html = PopupManager().createPopupHtml(player, data);//player es feature
 	
-						if(undefined != capa.isPropertyNumeric && capa.isPropertyNumeric[key] && 
-							(esVisor && visor.colorscalecontrol && ("" == origen)) || (!esVisor && ("" == origen)) || ("" != origen && (key == capa.options.trafficLightKey)))
-						{
+	PopupManager().addEventsPopup();
 	
-							var leafletid = (("undefined" !== typeof player.properties.capaLeafletId) ? player.properties.capaLeafletId : (capa.hasOwnProperty("layer") ? capa.layer._leaflet_id : ""));
-							//Només ensenyem la icona del semafòric si és una capa no temàtica o bé si ho és però és semafòrica sense semàfor fixe (sempre que el camp sigui numèric)
-							html+='<div class="traffic-light-icon" data-leafletid="' + leafletid + '" data-origen="' + origen + '" title="'+window.lang.translate('Temàtic per escala de color')+'"></div>';
-							
-						}
-						else
-						{
-	
-							html += '<div class="traffic-light-icon-empty"></div>';
-	
-						}
-					}
-					html+= '</div>';
-					if (key=='text' || key=='TEXT') isADrawarker=true;
-					else isADrawarker=false;
-				}
-			}
-		}
-	});	
-	if (isADrawarker && type=="marker") {
-		var auxLat = player._latlng.lat;
-		auxLat = auxLat.toFixed(5);
-		var auxLon = player._latlng.lng;
-		auxLon = auxLon.toFixed(5);
-		html+='<div class="popup_data_row">';
-		html+='<div class="popup_data_key">Latitud</div>';
-		html+='<div class="popup_data_value">'+auxLat+'</div>';
-		html+= '</div>';
-		
-		html+='<div class="popup_data_row">';
-		html+='<div class="popup_data_key">Longitud</div>';
-		html+='<div class="popup_data_value">'+auxLon+'</div>';
-		html+= '</div>';
-	}
-	
-	if(editable){
-		html+= '<div id="footer_edit"  class="modal-footer">'
-			+'<ul class="bs-popup">'
-				+'<li class="edicio-popup"><a id="feature_edit##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="geostart-palette gris-semifosc font18" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>';
-				if(type == t_polyline || type == t_polygon){
-					html+='<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-pencil gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>';
-				}	
-				else {
-					html+='<li class="edicio-popup"><a id="feature_move##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Moure')+'"></span></a>   </li>';
-				}
-				html+='<li class="edicio-popup"><a id="feature_remove##'+player._leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>'
-				+'<li class="edicio-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+player.properties.capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>'
-				+'<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#mapestematics" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>'
-			+'</ul>'														
-			+'</div>';	
-	}else{
-		var capaLeafletId = player.properties.capaLeafletId;
-		if(isValidValue(origen)) {
-			capaLeafletId = origen; 
-		}
-		html+= '<div id="footer_edit"  class="modal-footer">'
-			+'<ul class="bs-popup">'						
-				+'<li class="consulta-popup"><a id="feature_data_table##'+player._leaflet_id+'##'+type+'##'+capaLeafletId+'" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau-left" data-toggle="tooltip" data-placement="right" title="'+window.lang.translate('Obrir la taula de dades')+'"></span></a>   </li>'
-			+'</ul>'														
-		+'</div>';			
-	}
-	html+='</div>'; //.popup_pres
-	if(type == t_polyline && player.properties.mida){
-		html+='<div id="mida_pres"><b>'+window.lang.translate('Longitud')+':</b> '+player.properties.mida+'</div>';	
-	}else if(type == t_polygon && player.properties.mida){
-		if (player.properties.mida.indexOf("NaN")==-1)	html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+player.properties.mida+'</div>';
-		else html+='<div id="mida_pres"><b>'+window.lang.translate('Àrea')+':</b> '+L.GeometryUtil.readableArea(L.GeometryUtil.geodesicArea(player.getLatLngs()),true)+'</div>';
-	}
-	html+='</div>';
-
-	//Afegim els events de clicks per al semafòric
-	jQuery(document).on('click', ".traffic-light-icon", function(e) {
-
-		e.stopImmediatePropagation();
-		var layerId = $(this).data("leafletid");
-		var parentId = $(this).data("origen");
-		var key = $(this).prev().prev().text();
-		var value = parseFloat($(this).prev().text());
-		var layer = null;
-		var control = null;
-		if("" == parentId)
-		{
-
-			//És una capa no temàtica, hem de crear la de previsualització
-			layer = controlCapes._layers[layerId].layer;
-			control = Semaforic(self.isEditing);
-
-		}
-		else
-		{
-
-			//És una capa temàtica, mirem si és una capa semafòrica de previsualització
-			layer = controlCapes._layers[parentId].layer;
-			if(layer.hasOwnProperty("semaforics") && "undefined" !== typeof layer.semaforics[layerId])
-				control = layer.semaforics[layerId];
-			else
-			{
-
-				//Si hem arribat aquí és que és una capa semafòrica, utilitzem la capa actual
-				control = Semaforic();
-				var businessId = controlCapes._layers[parentId]._layers[layerId].layer.options.businessId;
-				var options = JSON.parse(controlCapes._visLayers[businessId].options);
-				var paletaEstils = [controlCapes._visLayers[businessId].estil[0].color,
-					controlCapes._visLayers[businessId].estil[1].color,
-					controlCapes._visLayers[businessId].estil[2].color
-					]
-				control.setVisualization(controlCapes._layers[parentId]._layers[layerId]);
-				control.setLayer(controlCapes._visLayers[businessId]);
-				control.setLayerOptions(controlCapes._options[businessId]);
-				control.setPalette(paletaEstils, options.reverse);
-
-			}
-
-		}
-
-		control.render($.Deferred(), key, value, layer).then(function(data) {
-			if(!layer.hasOwnProperty("semaforics"))
-				layer.semaforics = {};
-		
-			layer.semaforics[data] = control;
-			//Canviem el valor de referència de la capa al control de capes si el conté
-			var name = Semaforic.getUpdatedLayerName($("#" + layerId + ".editable").text(), value);
-			if(self.isEditing)
-				$("#" + layerId + ".editable").editable("setValue", name, true);
-			else
-				$("#" + layerId + ".editable").text(name);
-
-		});
-
-	});
-	
-	//Afegim events/accions al popUp
-	jQuery(document).on('click', ".bs-popup li a", function(e) {
-		e.stopImmediatePropagation();
-		var accio;
-		if(undefined != jQuery(this).attr('id') && jQuery(this).attr('id').indexOf('##')!=-1){	
-			accio=jQuery(this).attr('id').split("##");				
-		}
-		
-		if (accio!=undefined && accio[1]!=undefined) objEdicio.featureID=accio[1];
-		
-		if(undefined != accio[0] && accio[0].indexOf("feature_edit")!=-1){
-
-			//Update modal estils, amb estil de la feature seleccionada
-			var obj = map._layers[accio[1]];
-			//console.debug(obj);
-			if(obj.options.icon /*|| obj.options.icon.options.markerColor.indexOf("punt_r")!=-1*/){
-				var icon = obj.options.icon.options;	
-			}else if(obj._options){
-				var icon = obj._options;
-			}else{
-				var icon = obj.options;
-			}
-			updateDialogStyleSelected(icon);
-			
-			if(accio[2].indexOf("marker")!=-1){
-				obrirMenuModal('#dialog_estils_punts','toggle',from_creaPopup);
-			}else if(accio[2].indexOf("polygon")!=-1){
-				obrirMenuModal('#dialog_estils_arees','toggle',from_creaPopup);
-			}else{
-				obrirMenuModal('#dialog_estils_linies','toggle',from_creaPopup);
-			}
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_data_table")!=-1){
-	
-			$('#modal_data_table').modal('show');
-			var featureId=objEdicio.featureID;
-			if (featureId==undefined) featureId=accio[2];
-			if (map._layers[featureId]==undefined) {
-				try{
-					if (accio[6]!=undefined) featureId=accio[6];
-					var props=map._layers[featureId].properties;
-					if (props==undefined) props=map._layers[featureId].options;
-					if (accio[3]==undefined)  fillModalDataTable(controlCapes._layers[accio[2]],props.businessId);
-					else fillModalDataTable(controlCapes._layers[accio[3]],props.businessId);
-				}
-				catch(err){
-					console.debug(err);
-				}
-			}
-			else fillModalDataTable(controlCapes._layers[accio[3]],map._layers[featureId].properties.businessId);
-		
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_remove")!=-1){
-			map.closePopup();
-			var data = {
-	            businessId: map._layers[objEdicio.featureID].properties.businessId,
-	            uid: Cookies.get('uid')
-	        };
-		
-			var features = {
-				type:"Feature",
-				id: 3124,
-				businessId: map._layers[objEdicio.featureID].properties.businessId,
-				properties: map._layers[objEdicio.featureID].properties.data,
-				estil: map._layers[objEdicio.featureID].properties.estil,
-				geometry: map._layers[objEdicio.featureID].properties.feature.geometry
-			};				
-			
-			features = JSON.stringify(features);
-			
-			var data = {
-				businessId: map._layers[objEdicio.featureID].properties.capaBusinessId,//bID de la visualitzacio-capa
-				uid: Cookies.get('uid'),
-				features: features
-			};
-			var businessIdCapaOrigen=map._layers[objEdicio.featureID].properties.capaBusinessId;
-			removeGeometriaFromVisualitzacio(data).then(function(results){
-				if(results.status == 'OK'){
-					/*var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
-					var layer = map._layers[objEdicio.featureID];
-					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
-					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
-					var layerMap=map._layers[capaLeafletId];
-					var layerMare = controlCapes._layers[capaLeafletId];
-					//recarrego les sublayers de la capa modificada	
-					actualitzacioTematic(layerMare,businessIdCapaOrigen,null,null,null,"baixa");  
-					*/
-					
-					var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;
-					var capaBusinessId = map._layers[objEdicio.featureID].properties.capaBusinessId;
-					if(map._layers[capaLeafletId]!= undefined) map._layers[capaLeafletId].removeLayer(map._layers[objEdicio.featureID]);					
-					if(map._layers[objEdicio.featureID]!= null) map.removeLayer(map._layers[objEdicio.featureID]);	
-					if(map._layers[capaLeafletId]!= undefined) {
-						updateFeatureCount(map._layers[capaLeafletId].options.businessId, null);
-					}
-					else {						
-						updateFeatureCount(capaBusinessId, null);		
-					}		
-					 var layer = controlCapes._layers[capaLeafletId];
-					//recarrego les sublayers de la capa modificada	
-					actualitzacioTematic(layer,businessIdCapaOrigen,null,null,null,"baixa");
-					
-				}else{
-					console.debug("ERROR deleteFeature");
-				}
-			},function(results){
-				console.debug("ERROR deleteFeature");
-			});					
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_text")!=-1){
-			modeEditText();
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_move")!=-1){
-			objEdicio.esticEnEdicio=true;
-			var capaLeafletId = map._layers[objEdicio.featureID].properties.capaLeafletId;	
-			objEdicio.capaEdicioLeafletId = capaLeafletId;//Ho guarda per despres poder actualitzar vis filles
-			//Actualitzem capa activa
-			if (capaUsrActiva){
-				capaUsrActiva.removeEventListener('layeradd');
-			}
-			capaUsrActiva = map._layers[capaLeafletId];
-			
-			var capaEdicio = new L.FeatureGroup();
-			capaEdicio.addLayer(map._layers[objEdicio.featureID]);
-			capaUsrActiva.removeLayer(map._layers[objEdicio.featureID]);
-			map.addLayer(capaEdicio);
-			
-			var opcionsSel={
-					color: '#FF1EE5',
-					"weight": 7,
-					opacity: 0.6,
-					dashArray: '1, 1',
-					fill: true,
-					fillColor: '#fe57a1',
-					fillOpacity: 0.1
-				};
-			
-			/*crt_Editing=new L.EditToolbar.SnapEdit(map, {
-				featureGroup: capaEdicio,
-				selectedPathOptions: opcionsSel,
-				snapOptions: {
-					guideLayer: guideLayers
-				}
-			});*/
-			crt_Editing=new L.EditToolbar.Edit(map, {
-				featureGroup: capaEdicio,
-				selectedPathOptions: opcionsSel
-			});
-			crt_Editing.enable();
-			
-			//crt_Editing.enable();
-			
-			/*if(map._layers[objEdicio.featureID].properties.tipusFeature=="marker" && map._layers[objEdicio.featureID].options.isCanvas){
-				crt_Editing=new L.EditToolbar.Edit(map, {
-					featureGroup: capaEdicio,
-					selectedPathOptions: opcionsSel
-				});
-				crt_Editing.enable();
-			}
-			else {
-				crt_Editing=new L.EditToolbar.SnapEdit(map, {
-					featureGroup: capaEdicio,
-					selectedPathOptions: opcionsSel,
-					snapOptions: {
-						guideLayer: guideLayers
-					}
-				});
-				crt_Editing.enable();
-				//activarSnapping(capaEdicio);
-			}*/
-			
-			//activarSnapping(capaEdicio);			
-			
-			map.closePopup();
-			
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_no")!=-1){
-			jQuery('.popup_pres').show();
-			jQuery('.popup_edit').hide();
-			
-		}else if(undefined != accio[0] && accio[0].indexOf("feature_ok")!=-1){
-			if(objEdicio.edicioPopup=='textFeature'){
-				var txtTitol=jQuery('#titol_edit').val();
-				var txtDesc=jQuery('#des_edit').val();
-				if (txtDesc.indexOf("'")>-1) txtDesc = txtDesc.replaceAll("'",'"');
-				updateFeatureNameDescr(map._layers[objEdicio.featureID],txtTitol,txtDesc);
-
-			}else if(objEdicio.edicioPopup=='textCapa'){
-				if(jQuery('#capa_edit').val()!=""){
-					jQuery('#cmbCapesUsr option:selected').text(jQuery('#capa_edit').val());	
-					jQuery('.popup_pres').show();
-					jQuery('.popup_edit').hide();
-				}else{
-					alert(window.lang.translate('Has de posar un nom de capa'));	
-				}
-			}else if(objEdicio.edicioPopup=='nouCapa'){
-				if(jQuery('#capa_edit').val()!=""){
-					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val());
-				}else{
-					alert(window.lang.translate('Has de posar un nom de capa'));	
-				}
-			}
-		}else{
-		//accio tanca
-			map.closePopup();
-		}
-	});	
-
 	player.on('popupopen', function(e){
 		//console.debug(e);
 		if(objEdicio.esticEnEdicio){//Si s'esta editant no es pot editar altre element
@@ -914,6 +530,7 @@ function getRangsFromLayer(layer){
         },function(results){
 			//TODO error
 			console.debug("getRangsFromLayer ERROR");
+			$.publish('analyticsEvent',{event:['error', 'getRangsFromLayerERROR',JSON.stringify(results)]});
 		});
 	}
 }
@@ -1721,6 +1338,7 @@ function loadVisualitzacioLayer(layer,removed){
 			defer.reject();
 		}
 	},function(results){
+		$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId3',JSON.stringify(results)]});
 		console.debug('getVisualitzacioByBusinessId ERROR');
 		defer.reject();
 	});
@@ -1745,9 +1363,9 @@ function reloadVisualitzacioLayer(capaVisualitzacio, visualitzacio, layer, map){
 	//cargar las geometrias a la capa
 	var layOptions = getOptions(layer);
 	var origen = getOrigenLayer(layer);
-	var hasSource = (optionsVis && optionsVis.source!=undefined) 
-	|| (optionsVis.options && undefined != optionsVis.options.source)
-	|| (layOptions && layOptions.source!=undefined );
+	var hasSource = (optionsVis!=undefined && optionsVis.source!=undefined) 
+	|| (optionsVis!=undefined && optionsVis.options && undefined != optionsVis.options.source)
+	|| (layOptions!=undefined && layOptions.source!=undefined );
 	try{
 		capaVisualitzacio.off('layeradd',objecteUserAdded);//Deixem desactivat event layeradd, per la capa activa
 	}catch(err){
@@ -1821,7 +1439,8 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 				tipusRang: visualitzacio.tipus, 
 				geometryType: visualitzacio.geometryType,
 				estil: visualitzacio.estil,
-				group: layOptions.group
+				group: layOptions.group,
+				propFormat: layOptions.propFormat
 			};
 		}else{
 			capaVisualitzacio.options = {
@@ -1830,7 +1449,8 @@ function readVisualitzacio(defer, visualitzacio, layer, geometries){
 				tipus : layer.serverType,
 				tipusRang: visualitzacio.tipus, 
 				geometryType: visualitzacio.geometryType,
-				estil: visualitzacio.estil
+				estil: visualitzacio.estil,
+				propFormat: layOptions.propFormat
 			};
 		}
 		
@@ -2066,9 +1686,9 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 		createClass('.etiqueta_style_'+visualitzacio.businessId,style);
 	}
 	
-	var zoomInicialEtiqueta = "2";
+	var zoomInicialEtiqueta = zoomInicialEt;
 	if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
-	var zoomFinalEtiqueta = "19";
+	var zoomFinalEtiqueta = zoomFinalEt;
 	if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
 
 	var canSpiderify = (visualitzacio.tipus == tem_clasic || visualitzacio.tipus == tem_simple || visualitzacio.tipus == tem_origen);
@@ -2206,7 +1826,7 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 									if (markerCircle.label!=undefined) markerCircle.label.setOpacity(0);
 									else markerCircle.hideLabel();
 								}catch(err){
-									
+									$.publish('analyticsEvent',{event:['error', 'ZoomEtiqueta',JSON.stringify(err)]});	
 								}
 						}
 					}
@@ -2371,15 +1991,15 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 					map.oms.addMarker(feat);
 				}
 			
-				if(!geom.hasOwnProperty("popupData"))
-				{
+				/*if(!geom.hasOwnProperty("popupData"))
+				{*/
 				
 					//Si la capa no ve de fitxer
 					var html;
 					if(!hasSource){
 						//"no te source, no ve de fitxer");
 						if(!veientMapa && ((capaVisualitzacio.options.tipusRang == tem_origen) || !capaVisualitzacio.options.tipusRang) ){
-							html = createPopupWindow(feat,geomTypeVis, true);
+							html = createPopupWindow(feat,geomTypeVis, true,capaVisualitzacio.options.propFormat);
 						}else{
 							//"Estem mode vis o no es tem origen:"
 							html = createPopupWindowData(feat,geomTypeVis, false, origen, capaVisualitzacio);
@@ -2400,11 +2020,11 @@ function loadGeometriesToLayer(capaVisualitzacio, visualitzacio, optionsVis, ori
 						capaNom: feat.properties.capaNom,
 						popupData: html };
 
-				}
+				/*}
 				else
 				{
 
-				}
+				}*/
 
 				feat.on('click', creaPopupUnic);
 				/*try{
@@ -2558,6 +2178,7 @@ function loadCacheVisualitzacioLayer(layer){
 				readVisualitzacio(defer, results.results, layer);
 			}else{
 				console.debug('getVisualitzacioByBusinessId ERROR');
+				$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId4',JSON.stringify(results)]});
 				defer.reject();	
 			}	
 		});
@@ -2662,6 +2283,7 @@ function actualitzacioTematic(layerMare,businessIdCapaMare,fId,feature,features,
 																			
 										}else{
 											console.debug('addGeometriaToVisualitzacio ERROR');
+											$.publish('analyticsEvent',{event:['error', 'addGeometriaToVisualitzacio',JSON.stringify(results)]});
 										}
 								});
 							}

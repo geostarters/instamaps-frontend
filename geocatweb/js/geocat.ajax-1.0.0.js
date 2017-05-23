@@ -16,7 +16,7 @@ function addXHR(jqXHR, settings)
 function completedWithErrors(jqXHR, status, error)
 {
 
-	console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
+	//console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
 
 }
 

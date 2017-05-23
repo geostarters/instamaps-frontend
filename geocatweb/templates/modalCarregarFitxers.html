@@ -11,10 +11,32 @@
 				</h4>
 			</div>
 			<div class="modal-body">
+			
+			
+			<ul class="nav nav-tabs etiqueta">
+  				<li class="active">
+  				<a data-toggle="tab" href="#opt_local">
+  				<i class="fa fa-folder-open" aria-hidden="true"></i> Local				
+  				</a></li>
+  				<li><a data-toggle="tab" href="#opt_remot">				
+  				<i class="fa fa-cloud" aria-hidden="true"></i> Núvol
+  				</a></li>
+		    </ul>
+			
+			<div class="tab-content">
+			<!-- inici tab local -->
+						
+  			<div id="opt_local" class="tab-pane fade in active">
+					
+			
 				<div id="div_formats" class="alert alert-success">
 					<span class="glyphicon glyphicon-upload"></span> 
-					<span lang="ca">Formats suportats</span>: <strong>KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV, geoCSV (WKT), DXF, DGN v7, XLS, XLSX, JPG, SID, TIF i ECW.</strong> 
-					<a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/carrega-de-dades-instamaps/" target="_blank">Més informació i exemples</a>
+					<span lang="ca">Formats suportats </span>:<br> 
+					KML, KMZ, GeoJSON, GML, SHP(ZIP),	GPX, TXT, CSV,
+					 geoCSV (WKT), DXF, DGN v7, XLS, XLSX, JPG, SID, TIF i ECW.
+					 
+					
+					<br><a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/carrega-de-dades-instamaps/" target="_blank">Veure més informació i exemples <i class="fa fa-external-link-square" aria-hidden="true"></i></a>
 				</div>
 				<div id="div_formats" class="alert alert-success">
 					<strong><span class="glyphicon glyphicon-warning-sign"></span>&nbsp;<span lang="ca">Atenció</span>: </strong><span lang="ca">Per fitxers amb gran quantitat de dades el procés pot tardar uns minuts</span>		
@@ -23,7 +45,7 @@
 					<tr>
 						<td><input type="hidden" id="formFile" value="false">
 							<input type="hidden" id="file_path" value="">
-							<button lang="ca" type="button" class="btn btn-success btn-upload"  name="upload" id="upload_file">Carrega arxiu</button> 
+							<button lang="ca" type="button" class="btn btn-success btn-upload"  name="upload" id="upload_file">Carrega arxiu <i class="fa fa-upload" aria-hidden="true"></i></button> 
 						</td>
 						<td>
 							<div id="file_name" style="font-size: 100%"	class="label label-default"></div>
@@ -59,6 +81,31 @@
 							<button class="btn btn-success btn_mig" lang="ca" id="load_FF_SRS_coord">Processar arxiu</button>
 						</div>
 					</div>
+				</div>
+				
+			
+			</div>	
+				
+			<div id="opt_remot" class="tab-pane fade">
+			
+			<div id="div_formats" class="alert alert-success">
+					<span class="glyphicon glyphicon-upload"></span> 
+					<span lang="ca">Serveis suportats </span>:<br> 
+					DropBox <i class="fa fa-dropbox" aria-hidden="true"></i>,
+					 Google Drive <i class="fa fa-google-plus-square" aria-hidden="true"></i>, GitHub <i class="fa fa-github" aria-hidden="true"></i>,
+					  Socrata, CKAN <span lang="ca">i fitxers via</span>
+					   HTTP o HTTPS
+					
+					<br><a class="alert-link" lang="ca"	href="http://betaportal.icgc.cat/wordpress/treballar-amb-instamaps-des-del-google-drive/" target="_blank">Veure més informació i exemples <i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+				</div>
+				
+				<div id="container_dades_externes"></div>
+			
+			
+			   
+			</div>	
+				
+		<!-- fi tab local -->		
 				</div>
 				<div id="dv_optCapa">
 					<div class="panel panel-danger">
@@ -177,9 +224,13 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="modal-footer">
+				<!--  
 					<button id="bt_upload_cancel" lang="ca" type="button" class="btn btn-default" >Cancel·lar</button>
+				---->
 				</div>
+				
 			</div>
 			<!-- /.modal-content -->
 		</div>
