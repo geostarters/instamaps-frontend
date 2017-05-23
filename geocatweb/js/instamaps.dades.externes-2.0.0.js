@@ -136,7 +136,6 @@
 								   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
 								   jQuery('.cmd_codiType_Capa_de').val(), jQuery('.cmd_codiType_de').val(), $(".input-camp-codi-urlfile_de").val());
 
-
 					}else{
 						self.clear();
 						$('#dialog_dades_ex').modal('hide');
