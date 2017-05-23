@@ -147,10 +147,8 @@
 
 		addFormDadesExternes:function(urlFile){
 
-
 			var self = this;
 			self.show();
-
 
 			if(urlFile.indexOf(paramUrl.presidentJSON)!= -1){
 				getServeiJSONP(urlFile);
