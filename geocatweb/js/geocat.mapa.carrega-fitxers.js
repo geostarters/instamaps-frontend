@@ -282,6 +282,11 @@ function addHtmlModals(){
 	return dfd.promise();
 }
 
+
+
+
+
+
 function addFuncioCarregaFitxers(){
 	addHtmlInterficieCarregarFitxers();
 	addHtmlModals().then(function(){
@@ -1156,11 +1161,65 @@ function addHtmlModalCarregarFitxers(){
 		$('#dialog_carrega_dades').on('hide.bs.modal', function (event) {	
 					_instamapsDadesExternes.clear();
 				});		
-		
+		addSearchOptionsEPSG();
 		dfd.resolve();
 	});
 	return dfd.promise();
 }
+
+function addSearchOptionsEPSG(){
+	
+	
+	try{
+	 $(".js-data-example-ajax").select2();
+	
+}catch(err){
+	
+	console.info(err);
+}
+	
+	
+	
+	/*
+	
+	$(".js-data-example-ajax").select2({
+		  ajax: {
+		    url: "https://api.github.com/search/repositories",
+		    dataType: 'json',
+		    delay: 250,
+		    data: function (params) {
+		      return {
+		        q: params.term, // search term
+		        page: params.page
+		      };
+		    },
+		    processResults: function (data, params) {
+		      // parse the results into the format expected by Select2
+		      // since we are using custom formatting functions we do not need to
+		      // alter the remote JSON data, except to indicate that infinite
+		      // scrolling can be used
+		      params.page = params.page || 1;
+
+		      return {
+		        results: data.items,
+		        pagination: {
+		          more: (params.page * 30) < data.total_count
+		        }
+		      };
+		    },
+		    cache: true
+		  },
+		  //escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+		  minimumInputLength: 3
+		  //templateResult: formatRepo, // omitted for brevity, see the source of this page
+		 // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+		});
+	
+	
+	*/
+	
+	
+};
 
 function addHtmlModalErrorUpload(){
 	var dfd = $.Deferred();
