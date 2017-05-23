@@ -251,9 +251,9 @@ L.Control.Legend = L.Control.extend({
 				jQuery.each(mapLegend, function(j, row){
 				var layerType=self._getNameLayer(j);
 				index==lastPos.indexPos?active=' active':active="";
-				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
+				//if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
 					legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');
-				}
+				//}
 				
 				var serverName="";
 				var posServerName=-1;
@@ -300,7 +300,7 @@ L.Control.Legend = L.Control.extend({
 							legendTabContent.push(row[i].symbol);
 							legendTabContent.push('<br/>');
 						}else{*/
-							if(i==posServerName  && serverNameTrobat){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
+							//if(i==posServerName  && serverNameTrobat){legendTabContent.push('<div  class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');}
 							legendTabContent.push('<div class="visor-legend-row">'+
 						    	'<div class="visor-legend-symbol col-md-4 col-xs-4" style="padding-top:1px;'+padding_left+'">'+row[i].symbol+'</div>');
 							if (isWMS){
@@ -311,19 +311,14 @@ L.Control.Legend = L.Control.extend({
 						    	'</div><div class="visor-separate-legend-row"></div>');	
 							}
 							if(i==row.length-1){
-								legendTabContent.push('</div>');
-								if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') >-1){
-									legendTabContent.push('</div>');
-								}
+								legendTabContent.push('</div>');								
 								serverNameTrobat=false;
 							}			
 						//}
 					}
 				}
 				index=index+1;
-				if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
-					legendTabContent.push('</div>');
-				}
+				
 			    });
 				
 				legendTab.push('</ul>');
