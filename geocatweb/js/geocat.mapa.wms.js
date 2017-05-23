@@ -41,7 +41,7 @@ function generaLlistaServeisWMS() {
 			{ 
 				"TITOL" : "Població de Catalunya 2014 ",
 				"ORGANITZAC" : "Institut d'Estadistica de Catalunya",
-				"IDARXIU" :  HOST_APP2+"geotimeservices/idescat", 
+				"IDARXIU" :  "http://www.instamaps.cat/geotimeservices/idescat", 
 				"URN" :"urn:uuid:873ee728-cc2c-11e2-a37e-f96b77832722"
 			},
 			
@@ -82,19 +82,19 @@ function generaLlistaServeisWMS() {
 			{
                 "TITOL" : "Mapa Cadastral per anys",
                 "ORGANITZAC" : "Dirección General de Cadastro",
-                "IDARXIU" : HOST_APP2+"geotimeservices/catastro_dgc",
+                "IDARXIU" : "http://www.instamaps.cat/geotimeservices/catastro_dgc",
                 "WMST" : true
 			},
 			{
                 "TITOL" : "Ortofotos per anys",
                 "ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
-                "IDARXIU" : HOST_APP2+"geotimeservices/orto_icgc",
+                "IDARXIU" : "http://www.instamaps.cat/geotimeservices/orto_icgc",
                 "WMST" : true
 			},
 			{
                 "TITOL" : "Seccions Censals per anys",
                 "ORGANITZAC" : "Institut Cartogràfic i Geològic de Catalunya",
-                "IDARXIU" : HOST_APP2+"geotimeservices/seccionsc_icgc",
+                "IDARXIU" :"http://www.instamaps.cat/geotimeservices/seccionsc_icgc",
                 "WMST" : true
 			}
 		]
