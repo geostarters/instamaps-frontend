@@ -23,7 +23,7 @@
 				self._uiloaded = true;
 				$(".div_dadesExternes_menu").hide();
 				$(".input_dadesExternes_url").focus(function() {
-					self.clear();
+					//self.clear();
 				});
 
 
@@ -51,6 +51,8 @@
 		send:function(url){
 			var self = this;
 			if (url === "") {
+				
+				
 				alert(window.lang.translate("Has d'introduïr una URL del servidor"));
 			} else if (!isValidURL(url)) {
 				//alert(window.lang.translate("La URL introduïda no sembla correcte"));
