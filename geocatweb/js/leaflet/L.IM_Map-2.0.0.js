@@ -64,8 +64,8 @@ var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 
 	
-	urlServerTilesW="http://imtilemapsdev.icgc.local";
-	urlServerTiles="http://imtilemapsdev.icgc.local";
+	//urlServerTilesW="http://imtilemapsdev.icgc.local";
+	//urlServerTiles="http://imtilemapsdev.icgc.local";
 	
 
 
@@ -321,6 +321,7 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L7_10.options.maxZoom=zT;
 				TOPO_ICC_L11_12.options.maxZoom=zT;
 				TOPO_ICC_L12_19.options.maxZoom=zT;
+				TOPO_ICC_L12_19.setOpacity(0);
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(MQ_ATTR +this.getCurrentZoomLevel());
 					//TOPO_ICC_L0_6
@@ -336,6 +337,7 @@ L.IM_Map = L.Map.extend({
 				TOPO_MQ_L7_19.options.maxZoom=19;
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=20;
+				TOPO_ICC_L12_19.setOpacity(1);
 				TOPO_ICC_L7_10.options.maxZoom=10;
 				if(this.getZoom() > 6){
 					this.attributionControl.setPrefix(ICGC+ " - "+MQ_ATTR +this.getCurrentZoomLevel());
@@ -351,6 +353,7 @@ L.IM_Map = L.Map.extend({
 				TOPO_ICC_L11_12.options.maxZoom=12;
 				TOPO_ICC_L12_19.options.maxZoom=20;
 				TOPO_ICC_L7_10.options.maxZoom=10;
+				TOPO_ICC_L12_19.setOpacity(1);
 				this.attributionControl.setPrefix(ICGC +this.getCurrentZoomLevel());
 				jQuery('#map').css('backgroundColor','#E0EAF3');
 
