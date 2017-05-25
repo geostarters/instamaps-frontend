@@ -52,17 +52,17 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		"&tipusAcc="+tipusAcc+
 		"&tipusCodi="+tipusCodi+
 		"&tipusFont="+tipusFont+
-		"&nomCampCodi="+nomCampCodi+
-		"&urlFile="+encodeURIComponent(urlFile)+
+		"&nomCampCodi="+nomCampCodi+		
 		"&epsgIN="+epsgIN+
 		"&dinamic="+dinamic+
 		"&uploadFile="+paramUrl.uploadFile+
 		"&colX="+colX+
 		"&colY="+colY+
-		"&uid="+Cookies.get('uid');		
+		"&uid="+Cookies.get('uid')+
+		"&urlFile="+encodeURIComponent(urlFile);
 		
 		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) 	{
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
 			param_url = urlFile;
 		}
 
