@@ -148,7 +148,7 @@
 
 					//Error. A valid number has an integer part grouped in groups of length 3 except 
 					//the first one
-					return "error";
+					//return "error";
 				}
 				else {
 
@@ -156,7 +156,7 @@
 
 						if(hasMultipleThousands && hasMultipleDecimal) {
 							//Error. A valid number can only have multiple occurrences of a separator, not both
-							return "error";
+							//return "error";
 						}
 						else if((hasMultipleThousands && !hasMultipleDecimal) || (!hasMultipleThousands && hasMultipleDecimal)) {   
 
@@ -195,13 +195,13 @@
 					//Can't really know if it's a greater-than-999 number or a decimal one
 					//so we leave it as it is. Take for example 1.578 (is it 1 thousand 5 hundred 78 or 
 					//1 point 5 hundred 78?)
-						return "error";
+						//return "error";
 					}
 					else if(hasDecimalSeparator) {
 					//Can't really know if it's a greater-than-999 number or a decimal one
 					//so we leave it as it is. Take for example 1,578 (is it 1 thousand 5 hundred 78 or 
 					//1 point 5 hundred 78?)
-						return "error";
+						//return "error";
 					}
 					else {
 
