@@ -17,16 +17,16 @@
 			var selectedT='';
 			selectVal=='t'?selectedT='selected':selectedT='';	
 			var selectedEuro='';
-			selectVal=='€'?selectedEuro='selected':selectedEuro='';	
+			selectVal=='euro'?selectedEuro='selected':selectedEuro='';	
 			var selectedDolar='';
-			selectVal=='$'?selectedDolar='selected':selectedDolar='';	
+			selectVal=='dolar'?selectedDolar='selected':selectedDolar='';	
 			var selectedN='';
 			selectVal=='n'?selectedN='selected':selectedN='';	
 			
 			return '<select class="dataTableSelect" data-column="' + name + '">' + 
 			'	<option value="t"'+selectedT+'>Text</option>' +
-			'	<option value="€"'+selectedEuro+'>Número (€)</option>' +
-			'	<option value="$"'+selectedDolar+'>Número ($)</option>' +
+			'	<option value="euro"'+selectedEuro+'>Número (€)</option>' +
+			'	<option value="dolar"'+selectedDolar+'>Número ($)</option>' +
 			'	<option value="n"'+selectedN+'>Número</option>' +
 			'</select>';/*+
 			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
@@ -42,9 +42,9 @@
 
 			if("t" == format)
 				value = self.formatToText(value);
-			else if("€" == format)
+			else if("euro" == format)
 				value = self.formatToEuro(value);
-			else if("$" == format)
+			else if("dolar" == format)
 				value = self.formatToDollar(value);
 			else if("n" == format)
 				value = self.formatToNumber(value);
