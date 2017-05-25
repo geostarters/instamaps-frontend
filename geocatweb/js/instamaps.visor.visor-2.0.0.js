@@ -1575,18 +1575,21 @@
 				if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
 				if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
 				if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
+				if (tipusFile.toLowerCase().indexOf("csv")>-1) tipusFile=".csv";
 				
 				var param_url = paramUrl.urlFileDin	+
-				"tipusFile=" + tipusFile+
-				"&urlFile="+encodeURIComponent(urlFile)+
+				"tipusFile=" + tipusFile+				
 				"&epsgIN=EPSG:4326"+			
 				"&dinamic=true"+
 				"&uploadFile="+paramUrl.uploadFile+		
-				"&uid="+Cookies.get('uid');		
+				"&uid="+Cookies.get('uid')+
+				"&colX="+colX+
+				"&colY="+colY+
+				"&urlFile="+encodeURIComponent(urlFile);
 				
 				if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
 						urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-						&& (urlFile.indexOf("dropbox")==-1)) 	{
+						&& (urlFile.indexOf("dropbox")==-1)  && (urlFile.indexOf("csv")==-1)) 	{
 					param_url = urlFile;
 				}
 								
