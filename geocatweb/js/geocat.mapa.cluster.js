@@ -1,5 +1,5 @@
 function creaClusterMap(capa) {
-
+	var esVisor = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
 	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'cluster', 1]});
 
 	
@@ -43,7 +43,15 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup(layer.properties.popupData);
+						var data2={
+								type: t_marker,
+								editable: false,
+								origen: getOrigenLayer(layer),
+								capa: capa,
+								esVisor: esVisor
+							};
+						var html = PopupManager().createPopupHtml(layer, data2);//player es feature
+						marker.bindPopup(html);
 						clusterLayer.addLayer(marker);
 					});					
 					
@@ -120,7 +128,15 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup(layer.properties.popupData);
+						var data2={
+								type: t_marker,
+								editable: false,
+								origen: getOrigenLayer(layer),
+								capa: capa,
+								esVisor: esVisor
+							};
+						var html = PopupManager().createPopupHtml(layer, data2);//player es feature
+						marker.bindPopup(html);
 						clusterLayer.addLayer(marker);
 					});					
 					
@@ -173,7 +189,15 @@ function creaClusterMap(capa) {
 						var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 							title : layer._leaflet_id
 						});
-						marker.bindPopup(layer.properties.popupData);
+						var data2={
+								type: t_marker,
+								editable: false,
+								origen: getOrigenLayer(layer),
+								capa: capa,
+								esVisor: esVisor
+							};
+						var html = PopupManager().createPopupHtml(layer, data2);//player es feature
+						marker.bindPopup(html);
 						clusterLayer.addLayer(marker);
 					});					
 					
@@ -216,7 +240,7 @@ function creaClusterMap(capa) {
 				
 				createVisualitzacioHeatCluster(data).then(function(results){
 					if(results.status == 'OK'){
-						var esVisor = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
+						
 						capa.layer.eachLayer(function(layer) {
 							
 							var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
@@ -342,7 +366,6 @@ function loadDadesObertesClusterLayer(layer, dfd){
 			return L.circleMarker(latlng, estil_do);
 		}	
 	});
-	
 //	map.addLayer(capaDadaOberta);
 	capaDadaOberta.on('data:loaded', function(e){
 		//console.debug("data:loaded");
@@ -355,7 +378,7 @@ function loadDadesObertesClusterLayer(layer, dfd){
 			var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 				title : layer._leaflet_id
 			});
-			marker.bindPopup(layer.properties.popupData);
+			marker.bindPopup(layer._popup._content);
 			clusterLayer.addLayer(marker);
 		});	
 		
@@ -533,6 +556,7 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd)
 			businessId: businessId,//businessId id de la visualización de origen
 			uid: Cookies.get('uid')//uid id de usuario
 		};	
+	var esVisor = (-1 != $(location).attr('href').indexOf('instavisor')) || (-1 != $(location).attr('href').indexOf('visor'));
 	
 	//Carrego llistat geometries
 	getGeometriesColleccioByBusinessId(data).then(function(results){
@@ -543,13 +567,22 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd)
 			});				
 			
 			var arrP=[];
+			
 			$.each(results.geometries.geometria.features, function(i, feature) {
 				if (feature.geometry.type=="MultiPoint"){
 					$.each(feature.geometry.coordinates, function(j, coord) {	
 						var marker = L.marker(new L.LatLng(coord[1],coord[0]), {
 							//title : layer._leaflet_id
 						});
-						marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");
+						var data2={
+								type: t_marker,
+								editable: false,
+								origen: getOrigenLayer(feature),
+								capa: results.geometries.geometria.features,
+								esVisor: esVisor
+							};
+						var html = PopupManager().createPopupHtml(feature, data2);//player es feature
+						marker.bindPopup(html);
 						clusterLayer.addLayer(marker);		
 					});
 					
@@ -558,7 +591,15 @@ function loadVisualitzacioCluster(layer, zIndex, layerOptions, capesActiva, dfd)
 					var marker = L.marker(new L.LatLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]), {
 						//title : layer._leaflet_id
 					});
-					marker.bindPopup("<b>"+feature.properties.nom+"</b><br><b>"+feature.properties.text+"</b>");
+					var data2={
+							type: t_marker,
+							editable: false,
+							origen: getOrigenLayer(feature),
+							capa:  results.geometries.geometria.features,
+							esVisor: esVisor
+						};
+					var html = PopupManager().createPopupHtml(feature, data2);//player es feature
+					marker.bindPopup(html);
 					clusterLayer.addLayer(marker);				
 				}		
 			});
