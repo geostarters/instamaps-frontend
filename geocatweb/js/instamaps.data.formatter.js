@@ -17,16 +17,16 @@
 			var selectedT='';
 			selectVal=='t'?selectedT='selected':selectedT='';	
 			var selectedEuro='';
-			selectVal=='€'?selectedEuro='selected':selectedEuro='';	
+			selectVal=='euro'?selectedEuro='selected':selectedEuro='';	
 			var selectedDolar='';
-			selectVal=='$'?selectedDolar='selected':selectedDolar='';	
+			selectVal=='dolar'?selectedDolar='selected':selectedDolar='';	
 			var selectedN='';
 			selectVal=='n'?selectedN='selected':selectedN='';	
 			
 			return '<select class="dataTableSelect" data-column="' + name + '">' + 
 			'	<option value="t"'+selectedT+'>Text</option>' +
-			'	<option value="€"'+selectedEuro+'>Número (€)</option>' +
-			'	<option value="$"'+selectedDolar+'>Número ($)</option>' +
+			'	<option value="euro"'+selectedEuro+'>Número (€)</option>' +
+			'	<option value="dolar"'+selectedDolar+'>Número ($)</option>' +
 			'	<option value="n"'+selectedN+'>Número</option>' +
 			'</select>';/*+
 			'<span id="privacitat_'+name+ '" class="glyphicon glyphicon-eye-open" style="float:right"></span>';*/
@@ -42,9 +42,9 @@
 
 			if("t" == format)
 				value = self.formatToText(value);
-			else if("€" == format)
+			else if("euro" == format)
 				value = self.formatToEuro(value);
-			else if("$" == format)
+			else if("dolar" == format)
 				value = self.formatToDollar(value);
 			else if("n" == format)
 				value = self.formatToNumber(value);
@@ -148,7 +148,7 @@
 
 					//Error. A valid number has an integer part grouped in groups of length 3 except 
 					//the first one
-					return "error";
+					//return "error";
 				}
 				else {
 
@@ -156,7 +156,7 @@
 
 						if(hasMultipleThousands && hasMultipleDecimal) {
 							//Error. A valid number can only have multiple occurrences of a separator, not both
-							return "error";
+							//return "error";
 						}
 						else if((hasMultipleThousands && !hasMultipleDecimal) || (!hasMultipleThousands && hasMultipleDecimal)) {   
 
@@ -195,13 +195,13 @@
 					//Can't really know if it's a greater-than-999 number or a decimal one
 					//so we leave it as it is. Take for example 1.578 (is it 1 thousand 5 hundred 78 or 
 					//1 point 5 hundred 78?)
-						return "error";
+						//return "error";
 					}
 					else if(hasDecimalSeparator) {
 					//Can't really know if it's a greater-than-999 number or a decimal one
 					//so we leave it as it is. Take for example 1,578 (is it 1 thousand 5 hundred 78 or 
 					//1 point 5 hundred 78?)
-						return "error";
+						//return "error";
 					}
 					else {
 

@@ -95,8 +95,8 @@
 							if (!$.isNumeric(txt)) {
 								txt = parseUrlTextPopUp(value, key);
 								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-									if (propFormat!=undefined && propFormat[key]!=undefined){
-										txt= dataFormatter.formatValue(txt, propFormat[key]);
+									if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
+										txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 									}
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+
@@ -108,8 +108,8 @@
 								}
 							}
 							else {
-								if (propFormat!=undefined && propFormat[key]!=undefined){
-									txt= dataFormatter.formatValue(txt, propFormat[key]);
+								if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
+									txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 								}
 								html+='<div class="popup_data_key">'+key+'</div>';
 								html+='<div class="popup_data_value">'+txt+'</div>';
