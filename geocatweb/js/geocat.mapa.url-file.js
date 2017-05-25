@@ -48,6 +48,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	if(dinamic){
 		busy = false;
 		var propName = "";
+		if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+			urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+        	urlFile = httpOrhttps(urlFile,false);
+		}
+		
 		var param_url = paramUrl.urlFileDin	+"tipusFile=" + tipusFile+
 		"&tipusAcc="+tipusAcc+
 		"&tipusCodi="+tipusCodi+
@@ -66,6 +71,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 			param_url = urlFile;
 		}
 
+		
+		
 		if (tipusFile==".json"){
 			 L.toGeoJSON.empty();
 			 L.toGeoJSON.convert(urlFile,"Point",colX,colY, colXY, separador).then(function(){

@@ -1571,6 +1571,11 @@
 					urlFile = urlFile.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com");		
 				}
 				
+				if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+					urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+		        	urlFile = httpOrhttps(urlFile,false);
+				}
+				
 				if (tipusFile.toLowerCase().indexOf("geojson")>-1) tipusFile=".geojson";
 				if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
 				if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
