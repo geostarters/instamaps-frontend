@@ -98,7 +98,7 @@
 
 			var value = self.removeDecorators(inValue);
 			if(self.isNumber(value))
-				value = value + '€';
+				value =  self.formatToNumber(value) + ' €';
 
 			return value;
 
@@ -110,7 +110,7 @@
 
 			var value = self.removeDecorators(inValue);
 			if(self.isNumber(value))
-				value = value + '$';
+				value = self.formatToNumber(value) + ' $';
 
 			return value;
 
