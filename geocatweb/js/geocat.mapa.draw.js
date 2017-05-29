@@ -825,7 +825,7 @@ function createPopupWindow(layer,type, editant,propFormat){
 				accio=jQuery(this).attr('id').split("-");				
 			}
 			objEdicio.featureID=accio[1];
-						
+			console.debug(accio);			
 			var toBusinessId = jQuery(this).val().split("#");
 			var fromBusinessId = $(this).data('cmbCapesUsr_old').split("#");
 			//Actualitzem valor antic
@@ -1046,7 +1046,7 @@ function createPopupWindow(layer,type, editant,propFormat){
 				}
 			}else if(objEdicio.edicioPopup=='nouCapa'){
 				if(jQuery('#capa_edit').val()!=""){
-					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val());
+					generaNovaCapaUsuari(map._layers[objEdicio.featureID],jQuery('#capa_edit').val(), map._layers[objEdicio.featureID].properties.capaLeafletId);
 				}else{
 					alert(window.lang.translate('Has de posar un nom de capa'));	
 				}
@@ -1801,7 +1801,7 @@ function createPopUpContent(player,type, editant, propFormat){
 	return html;
 }
 
-function generaNovaCapaUsuari(feature,nomNovaCapa){
+function generaNovaCapaUsuari(feature,nomNovaCapa,leafletID){
 	
 	/*NOU MODEL: Crear nova visualització*/
 	var data ={
@@ -1862,8 +1862,7 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 			moveGeometriaToVisualitzacio(data).then(function(resultsMove) {
 				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
 				if(resultsMove.status === 'OK'){
-					
-					reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], resultsMove.layerFrom);
+					reloadSingleLayer(controlCapes._layers[leafletID], resultsMove.layerFrom);
 					reloadSingleLayer(controlCapes._layers[capaUsrActiva2._leaflet_id], resultsMove.layerTo);
 					
 				}else{
