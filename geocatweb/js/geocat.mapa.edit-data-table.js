@@ -99,7 +99,7 @@ function addFuncioEditDataTable(){
 function editableColumnFormatter(inValue, row, index, name, pk) {
 
 	var value = inValue;
-	console.debug(value);
+	//console.debug(value);
 	if(0 == index) {
 		//Data type row
 	}
@@ -542,25 +542,27 @@ function fillModalDataTable(obj, geomBid){
 					
 				});
 				//Add the first row with the column type selection
-				var selectsRow = {};
-				$.each(columNames, function(i, name) {
-					var nameF = name.field.toLowerCase();
-					if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
-							&& "geometryBBOX"!= nameF && "geometrybid"!= nameF) {
-						if (propFormat!=undefined && propFormat[name.field]!=undefined){
-							selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
+				if (modeMapa){
+					var selectsRow = {};
+					$.each(columNames, function(i, name) {
+						var nameF = name.field.toLowerCase();
+						if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
+								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF) {						
+							if (propFormat!=undefined && propFormat[name.field]!=undefined){
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
+							}
+							else{
+								selectsRow[name.field] = dataFormatter.createOptions(name.field,'t');
+							}
+	
 						}
-						else{
-							selectsRow[name.field] = dataFormatter.createOptions(name.field,'t');
+						else if ("latitud"== nameF && "longitud"== nameF){
+							selectsRow[name.field] = "";
 						}
-
-					}
-					else if ("latitud"== nameF && "longitud"== nameF){
-						selectsRow[name.field] = "";
-					}
-
-				});
-				resultatsMod.unshift(selectsRow);
+	
+					});
+					resultatsMod.unshift(selectsRow);
+				}
 
 				var showRefresh=false;
 				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) showRefresh=true;

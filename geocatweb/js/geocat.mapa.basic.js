@@ -178,7 +178,7 @@ function createTematicLayerBasic(tematic, styles){
 											'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Temàtic bàsic creat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
 											'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Processant la resposta')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'
 									);									
-									new InstamapsUrlFile().loadURLfileLayer(data.results).then(function(results){				
+									loadURLfileLayer(data.results).then(function(results){				
 											activaPanelCapes(true);
 											//Desactivem la capa mare
 											if ($( "#input-"+capaMare.options.businessId).attr("checked")!=undefined) $( "#input-"+capaMare.options.businessId).click();

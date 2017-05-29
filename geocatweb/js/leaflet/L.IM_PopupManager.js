@@ -95,8 +95,8 @@
 							if (!$.isNumeric(txt)) {
 								txt = parseUrlTextPopUp(value, key);
 								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
-									if (propFormat!=undefined && propFormat[key]!=undefined){
-										txt= dataFormatter.formatValue(txt, propFormat[key]);
+									if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
+										txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 									}
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+
@@ -108,8 +108,8 @@
 								}
 							}
 							else {
-								if (propFormat!=undefined && propFormat[key]!=undefined){
-									txt= dataFormatter.formatValue(txt, propFormat[key]);
+								if (propFormat!=undefined && propFormat[key.toLowerCase()]!=undefined){
+									txt= dataFormatter.formatValue(txt, propFormat[key.toLowerCase()]);
 								}
 								html+='<div class="popup_data_key">'+key+'</div>';
 								html+='<div class="popup_data_value">'+txt+'</div>';
@@ -140,12 +140,12 @@
 		},
 		_addGeometriesProps: function(feature, type){
 			var html = "";
-			if (type==t_marker && feature.geometry.type==t_point) {
+			if (type==t_marker && undefined!=feature.geometry && feature.geometry.type==t_point) {
 				html+=this._addLatLongToMarker(feature);
 			}
-			else if(type == t_polyline && feature.properties.mida && feature.geometry.type==t_linestring){
+			else if(type == t_polyline && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_linestring){
 				html+=this._addLengthToLine(feature);
-			}else if(type == t_polygon && feature.properties.mida && feature.geometry.type==t_polygon){
+			}else if(type == t_polygon && feature.properties.mida &&  undefined!=feature.geometry && feature.geometry.type==t_polygon){
 				html+=this._addAreaToPolygon(feature);
 			}
 			return html;

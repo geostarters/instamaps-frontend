@@ -223,7 +223,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';
 		html += '<div class="col-md-2 legend-symbol">'+
-					'<img src="img/clustering.png" class="btn-paleta" style=""/>'+
+					'<img src="/geocatweb/img/clustering.png" class="btn-paleta" style=""/>'+
 				'</div>'+
 				'<div class="col-md-9 legend-name">'+
 					'<input type="text" class="form-control my-border" value="'+layerName+'">'+
@@ -234,7 +234,7 @@ function addLayerToLegend(layer, count, layersHtml, layerIdParent){
 		html += '<div class="legend-subrow" data-businessid="'+layer.options.businessId+'">';
 		html += '<input class="col-md-1 legend-chck" type="checkbox" '+checked+' >';	
 		html += '<div class="col-md-2 legend-symbol">'+
-					'<img src="img/heatmap.png" class="btn-paleta" style=""/>'+
+					'<img src="/geocatweb/img/heatmap.png" class="btn-paleta" style=""/>'+
 				'</div>'+
 				'<div class="col-md-9 legend-name">'+
 					'<input type="text" class="form-control my-border" value="'+layerName+'">'+

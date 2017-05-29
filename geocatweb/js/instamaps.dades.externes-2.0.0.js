@@ -23,7 +23,7 @@
 				self._uiloaded = true;
 				$(".div_dadesExternes_menu").hide();
 				$(".input_dadesExternes_url").focus(function() {
-					self.clear();
+					//self.clear();
 				});
 
 
@@ -51,6 +51,8 @@
 		send:function(url){
 			var self = this;
 			if (url === "") {
+				
+				
 				alert(window.lang.translate("Has d'introduïr una URL del servidor"));
 			} else if (!isValidURL(url)) {
 				//alert(window.lang.translate("La URL introduïda no sembla correcte"));
@@ -122,11 +124,17 @@
 				}else{
 					if(!busy){
 						busy = true;
-						new InstamapsUrlFile().createURLfileLayer(urlFile, type, epsg, $(".dinamic_chck_de").is(':checked'),$(".input-url-file-name_de").val(),
+						var dinamic;
+						if ($('#dinamic_chck').bootstrapSwitch('state')){
+			        		dinamic=false;
+			        	}
+			        	else{
+			        		dinamic=true;
+			        	}
+						createURLfileLayer(urlFile, type, epsg, dinamic,$(".input-url-file-name_de").val(),
 								   $(".input-coord-x_de").val(),$(".input-coord-y_de").val(),
 								   jQuery('.nav-pills-urlfile .active').attr('id'),//per coordenades o codis o adreces
 								   jQuery('.cmd_codiType_Capa_de').val(), jQuery('.cmd_codiType_de').val(), $(".input-camp-codi-urlfile_de").val());
-
 
 					}else{
 						self.clear();
@@ -166,6 +174,19 @@
 
 					try{
 					$(".div_dadesExternes_menu").html(data);
+					$('.make-switch').bootstrapSwitch();
+					$('#dinamic_chk').bootstrapSwitch('state', true, true);
+					$('#label-estatic').attr("style","display:none;");
+					$('input[name="dinamic-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	            		if(state.value == true) {
+	            			$('#label-dinamic').attr("style","display:none;");
+	            			$('#label-estatic').attr("style","display:inline;");
+	            		}
+	            		else {
+	            			$('#label-dinamic').attr("style","display:inline;");
+	            			$('#label-estatic').attr("style","display:none;");
+	            		}
+					});
 					$(".div_url_file_message_de").hide();
 					$(".input-excel-url-file_de").hide();
 					var type = "-1";

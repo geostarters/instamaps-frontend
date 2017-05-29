@@ -48,7 +48,7 @@ var visorOptions = {
 	fons: url("?fons") || null,
 	INE10: url("?INE10") || null, 
 	random: url("?random") || null,
-	urlFile: url("?url") || null,
+	//urlFile: url("?url") || null,
 	tipusFile: url("?format") || null,
 	coordX: url("?coordX") || null,
 	coordY: url("?coordY") || null
@@ -59,6 +59,9 @@ var visor;
 jQuery(document).ready(function() {
 	//TODO ver si esto es mejor ponerlo cuando ya esté cargado todo el visor para cojer bien el titulo, etc.
 	//$.publish('trackPageview', null);
+	var urlFile = url("query");
+	if (urlFile) urlFile = urlFile.substring(urlFile.indexOf("&url=")+5);
+	visorOptions.urlFile = urlFile;
 	
 	var tipus_user = defineTipusUser();  //geocat.web-1.0.0
 	
