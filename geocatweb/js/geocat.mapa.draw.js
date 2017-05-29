@@ -1863,7 +1863,8 @@ function generaNovaCapaUsuari(feature,nomNovaCapa){
 				console.debug("moveGeometriaToVisualitzacio:"+ resultsMove.status);
 				if(resultsMove.status === 'OK'){
 					
-					reloadSingleLayer(controlCapes._layers[accio[3]], resultsMove.layer);
+					reloadSingleLayer(controlCapes._layers[capaUsrActiva._leaflet_id], resultsMove.layerFrom);
+					reloadSingleLayer(controlCapes._layers[capaUsrActiva2._leaflet_id], resultsMove.layerTo);
 					
 				}else{
 					console.debug("moveGeometriaToVisualitzacio ERROR");
