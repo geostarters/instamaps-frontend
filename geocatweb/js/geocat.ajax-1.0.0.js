@@ -920,8 +920,10 @@ function getUser(username){
 
 function getConfiguradesUser(data){
 	var url_config = paramUrl.getConfiguradesUser + jQuery.param(data);
+	var urlProxy=HOST_APP3+paramUrl.proxy_betterWMS + "?url="+ encodeURIComponent(url_config);
+	urlProxy = httpOrhttps(urlProxy,false);
 	return createXHR({
-		url: HOST_APP3+paramUrl.proxy_betterWMS + "?url="+ encodeURIComponent(url_config), 
+		url: urlProxy, 
 		crossDomain: true,
 		dataType: 'json',
 		method: 'get'
