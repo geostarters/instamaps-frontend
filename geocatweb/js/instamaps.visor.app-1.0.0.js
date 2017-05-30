@@ -60,7 +60,8 @@ jQuery(document).ready(function() {
 	//TODO ver si esto es mejor ponerlo cuando ya esté cargado todo el visor para cojer bien el titulo, etc.
 	//$.publish('trackPageview', null);
 	var urlFile = url("query");
-	if (urlFile) urlFile = urlFile.substring(urlFile.indexOf("&url=")+5);
+	if (urlFile && urlFile.indexOf("&url=")>-1) urlFile = urlFile.substring(urlFile.indexOf("&url=")+5);
+	else urlFile=null;
 	visorOptions.urlFile = urlFile;
 	
 	var tipus_user = defineTipusUser();  //geocat.web-1.0.0
