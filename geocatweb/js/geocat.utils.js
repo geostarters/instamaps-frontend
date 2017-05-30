@@ -776,10 +776,14 @@ function sortByKey(array, key) {
     });
 }
 
-function sortByKeyPath(array, key) {
+function sortByKeyPath(array, key, isNumeric) {
 	
 	return array.sort(function(a, b) {
 		 var x = a.layer.options[key]; var y = b.layer.options[key];
+		 if (isNumeric) {
+			 x=parseFloat(x);
+			 y=parseFloat(y);
+		 }
 		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 }
