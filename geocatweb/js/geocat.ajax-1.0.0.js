@@ -919,11 +919,12 @@ function getUser(username){
 }
 
 function getConfiguradesUser(data){
+	var url_config = paramUrl.getConfiguradesUser + jQuery.param(data);
 	return createXHR({
-		url: paramUrl.getConfiguradesUser, 
-		data: data,
+		url: HOST_APP3+paramUrl.proxy_betterWMS + "?url="+ encodeURIComponent(url_config), 
 		crossDomain: true,
-		method: 'post'
+		dataType: 'json',
+		method: 'get'
 	});
 }
 

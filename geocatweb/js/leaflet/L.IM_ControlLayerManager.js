@@ -699,7 +699,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			for (i in self._layers) {
 				layerArray.push(self._layers[i]);
 			}
-			layerArray = sortByKeyPath(layerArray, "zIndex");
+			layerArray = sortByKeyPath(layerArray, "zIndex", true);
 			
 			for (i in layerArray) {
 				obj = layerArray[i];
