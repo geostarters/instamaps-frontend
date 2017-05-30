@@ -60,8 +60,6 @@ if(urlApp.indexOf('172.70.1.11')!=-1){
 }
 
 
-
-
 var DOMINI = "www.instamaps.cat";
 
 var paramUrl = {
