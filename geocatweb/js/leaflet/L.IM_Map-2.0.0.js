@@ -749,7 +749,7 @@ L.IM_Map = L.Map.extend({
 		
 
 		TOPO_GEO_MON_L0_14=  new L.TileLayer(mapaUrl.topoMapSuauOSM, {
-			minZoom: 1,
+			minZoom: 7,
 			maxZoom: 14,
 			subdomains:subDomainsA,
 			tms:false,
