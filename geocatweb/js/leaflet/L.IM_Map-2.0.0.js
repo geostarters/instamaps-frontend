@@ -63,10 +63,10 @@ var urlApp=document.location.href;
 
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)||(urlApp.indexOf('172.70.1.11')!=-1)){
 
-	
-	//urlServerTilesW="http://imtilemapsdev.icgc.local";
-	//urlServerTiles="http://imtilemapsdev.icgc.local";
-	
+
+	urlServerTilesW="http://imtilemapsdev.icgc.local";
+	urlServerTiles="http://imtilemapsdev.icgc.local";
+
 
 
 
@@ -901,7 +901,7 @@ L.IM_Map = L.Map.extend({
 
 		TOPO_GEO_ICC_L8_17 = new L.TileLayer(mapaUrl.topoNaturalSuau,{
 			tms:false,
-			continuousWorld: true,
+			continuousWorld: false,
 			worldCopyJump: false,
 			subdomains:subDomainsA,
 			minZoom: 8,
