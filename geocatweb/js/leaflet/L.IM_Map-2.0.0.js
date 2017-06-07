@@ -739,17 +739,17 @@ L.IM_Map = L.Map.extend({
 		this.setMapColor(null);
 		_topoLayersGeo=L.layerGroup();
 
-		
+		/*
 		TOPO_GEO_MQ_L1_6 = new L.TileLayer(mapaUrl.topoMapOSM,{
 			minZoom: 1,
 			maxZoom:6,
 
 			subdomains:subDomains}
 		).addTo(_topoLayersGeo);
-		
+		*/
 
 		TOPO_GEO_MON_L0_14=  new L.TileLayer(mapaUrl.topoMapSuauOSM, {
-			minZoom: 7,
+			minZoom: 1,
 			maxZoom: 14,
 			subdomains:subDomainsA,
 			tms:false,
