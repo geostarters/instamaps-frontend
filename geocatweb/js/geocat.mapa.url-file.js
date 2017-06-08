@@ -48,9 +48,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	if(dinamic){
 		busy = false;
 		var propName = "";
+		var urlFileHttps=urlFile;
 		if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
-			urlFile = HOST_APP+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
-        }
+			urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+        	//urlFile = httpOrhttps(urlFile,true);
+		}
 		
 		var param_url = paramUrl.urlFileDin	+"tipusFile=" + tipusFile+
 		"&tipusAcc="+tipusAcc+
@@ -267,6 +269,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 									',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}';
 
 									//Un cop tinc la capa a client, la creo a servidor
+									if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+										urlFile = urlFileHttps;
+									}
 									var data = {
 										uid:Cookies.get('uid'),
 										mapBusinessId: url('?businessid'),
@@ -1151,6 +1156,11 @@ function loadURLfileLayer(layer){
 	var colY = options.colY;
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
+	
+	if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+		urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+    	//urlFile = httpOrhttps(urlFile,true);
+	}
 	
 	var estil_do = options.estil_do;
 	if(options.tem == tem_heatmap){
