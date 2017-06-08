@@ -49,7 +49,9 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		busy = false;
 		var propName = "";
 		var urlFileHttps=urlFile;
+		var isHttps=false;
 		if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+			isHttps=true;
 			urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
         	//urlFile = httpOrhttps(urlFile,true);
 		}
@@ -500,6 +502,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						capaURLfile.addData(data);
 					}catch(err){
 						console.debug(err);
+					}
+					
+					//Un cop tinc la capa a client, la creo a servidor
+					if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+						urlFile = urlFileHttps;
 					}
 					
 					var llista_options = '{"tipusFile":"'+tipusFile+
