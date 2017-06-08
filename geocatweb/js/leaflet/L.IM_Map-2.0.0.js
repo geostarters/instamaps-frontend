@@ -14,7 +14,7 @@ var ICGC_HISTO='Font:Mapa de Catalunya 1936 (<a  href="http://www.icc.cat" targe
 var ICGC_HISTOOrto='Font:Vol americà 1956-57 Ministerio de Defensa';
 var ICGC_HISTOOrto46='Font:Vol Americà A 1946-47 Ministerio de Defensa';
 var _topoLayers=null,TOPO_ICC_L0_6,TOPO_MQ_L7_19,TOPO_ICC_L7_10,TOPO_ICC_L11_12,TOPO_ICC_L12_19;
-var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17,TOPO_GEO_ICC_L8_17_TOPONIMS;
+var _topoLayersGeo=null,TOPO_GEO_MQ_L15_18,TOPO_GEO_MQ_L1_6,TOPO_GEO_MON_L0_14,TOPO_GEO_ICC_L8_12,TOPO_GEO_OMBRA_L8_12,TOPO_GEO_ICC_L8_17,TOPO_GEO_ICC_L8_17_TOPONIMS;
 var _ortoLayers=null,ORTO_ESRI_L0_19,ORTO_ICC_L0_11,ORTO_ICC_L12_19,ORTO_ICC_L9_12;
 
 
@@ -739,9 +739,17 @@ L.IM_Map = L.Map.extend({
 		this.setMapColor(null);
 		_topoLayersGeo=L.layerGroup();
 
+		/*
+		TOPO_GEO_MQ_L1_6 = new L.TileLayer(mapaUrl.topoMapOSM,{
+			minZoom: 1,
+			maxZoom:6,
+
+			subdomains:subDomains}
+		).addTo(_topoLayersGeo);
+		*/
 
 		TOPO_GEO_MON_L0_14=  new L.TileLayer(mapaUrl.topoMapSuauOSM, {
-			minZoom: 0,
+			minZoom: 1,
 			maxZoom: 14,
 			subdomains:subDomainsA,
 			tms:false,
