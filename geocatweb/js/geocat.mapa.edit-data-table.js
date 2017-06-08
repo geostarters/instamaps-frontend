@@ -4,7 +4,7 @@ var geomBusinessId = '-1';
 var geomRowIndex = 0;
 var numRows = 0;
 var dataFormatter = new DataFormatter();
-var options={};
+var optionsF={};
 
 function reloadSingleLayer(capaEdicio, layerServidor) {
 
@@ -62,9 +62,9 @@ function addFuncioEditDataTable(){
 //		console.debug(controlCapes);
 		//Update options amb les propietats de cada camp
 		
-		if (!$.isEmptyObject(options)){
+		if (!$.isEmptyObject(optionsF)){
 			var optionsNoves = {
-					propFormat: options	
+					propFormat: optionsF	
 				};
 			var data={
 					businessId:  capaEdicio.layer.options.businessId,
@@ -73,14 +73,15 @@ function addFuncioEditDataTable(){
 			};
 			updateServidorWMSOptions(data).then(function(results){
 				var layerServidor = $('#modal_data_table').data("layerServidor");				
-				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();				
+				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();		
+				optionsF={};
 				//Eliminem la capa de controlCapes i mapa
 				reloadSingleLayer(capaEdicio, layerServidor);
 			});
 		}
 		
 		//si hem editat dades recarreguem la capa per visualitzar els canvis
-		if(editat && $.isEmptyObject(options)){
+		if(editat && $.isEmptyObject(optionsF)){
 			var layerServidor = $('#modal_data_table').data("layerServidor");
 			layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
 			//Eliminem la capa de controlCapes i mapa
@@ -548,7 +549,10 @@ function fillModalDataTable(obj, geomBid){
 						var nameF = name.field.toLowerCase();
 						if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
 								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF) {						
-							if (propFormat!=undefined && propFormat[name.field]!=undefined){
+							if (!$.isEmptyObject(optionsF) && optionsF[name.field]!=undefined){
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field]);
+							}
+							else if (propFormat!=undefined && propFormat[name.field]!=undefined){
 								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
 							}
 							else{
@@ -664,9 +668,9 @@ function dataTableSelectChanged(ctx) {
 		}
 
 	}
-	$elem.bootstrapTable('load', data);
-	options[column]=format;
-	$('.dataTableSelect[data-column=' + column + ']').val(format);
+	//$elem.bootstrapTable('load', data);
+	optionsF[column]=format;
+	$('.dataTableSelect[data-column="' + column + '"]').val(format);
 	$('.dataTableSelect').on('change', function() {
 		dataTableSelectChanged(this);
 	});
