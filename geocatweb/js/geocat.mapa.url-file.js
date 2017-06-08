@@ -1208,12 +1208,12 @@ function loadURLfileLayer(layer){
 			"&tipusFont="+tipusFont+
 			"&nomCampCodi="+nomCampCodi;
 
-		//SOCRATA		
+		//SOCRATA	
 		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) 	{
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
 			param_url = urlFile;
 		}
-		
+				
 		var optionsVis =  options;
 		if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta"){
 			style.opacity=0;
@@ -1464,7 +1464,11 @@ function loadURLfileLayer(layer){
 			"&nomCampCodi="+nomCampCodi;
 
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
+		//if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
 		
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
@@ -1607,7 +1611,10 @@ function loadURLfileLayer(layer){
 	else if(options.tem == tem_cluster){
 		param_url += "&tem="+tem_cluster;	
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
@@ -1700,7 +1707,10 @@ function loadURLfileLayer(layer){
 				
 		param_url += "&tem="+tem_heatmap;	
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
