@@ -768,7 +768,6 @@
                 return false;
             }) : this.data;
             
-            console.debug(this.data);
         }
     };
 
