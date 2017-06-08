@@ -49,9 +49,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		busy = false;
 		var propName = "";
 		if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
-			urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
-        	urlFile = httpOrhttps(urlFile,false);
-		}
+			urlFile = HOST_APP+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+        }
 		
 		var param_url = paramUrl.urlFileDin	+"tipusFile=" + tipusFile+
 		"&tipusAcc="+tipusAcc+
