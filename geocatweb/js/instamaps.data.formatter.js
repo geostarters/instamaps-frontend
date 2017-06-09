@@ -49,6 +49,7 @@
 			else if("n" == format)
 				value = self.formatToNumber(value);
 
+						
 			return value;
 
 		},
@@ -97,9 +98,11 @@
 			var self = this;
 
 			var value = self.removeDecorators(inValue);
-			if(self.isNumber(value))
+			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
-
+			}
+			else value="error";
+			
 			return value;
 
 		},
@@ -109,9 +112,10 @@
 			var self = this;
 
 			var value = self.removeDecorators(inValue);
-			if(self.isNumber(value))
+			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
-
+			}
+			else value="error";
 			return value;
 
 		},
@@ -191,36 +195,58 @@
 						}
 
 					}
-					else if(hasThousandsSeparator) {
-					//Can't really know if it's a greater-than-999 number or a decimal one
-					//so we leave it as it is. Take for example 1.578 (is it 1 thousand 5 hundred 78 or 
-					//1 point 5 hundred 78?)
-						return "error";
-					}
-					else if(hasDecimalSeparator) {
-					//Can't really know if it's a greater-than-999 number or a decimal one
-					//so we leave it as it is. Take for example 1,578 (is it 1 thousand 5 hundred 78 or 
-					//1 point 5 hundred 78?)
-						return "error";
-					}
-					else {
-
+					else 
+					{
+						
 						//Split string into groups of 3 starting from the back
-						var i = value.length % 3;
-						var integerPart = i ? [ value.substr( 0, i ) ] : [];
-						for(var len=value.length ; i < len ; i += 3 ) {
+						integerPart = integerPart[0];
+						var i = integerPart.length % 3;
+						var integerPartArray = i ? [ integerPart.substr( 0, i ) ] : [];
+						for(var len=integerPart.length ; i < len ; i += 3 ) {
 
-							integerPart.push( value.substr( i, 3 ) );
+							integerPartArray.push( integerPart.substr( i, 3 ) );
 
 						}
-						value = integerPart.join(self.options.thousandsSeparator);
-
+						
+						integerPart = integerPartArray;
+						
+						if(hasThousandsSeparator || hasDecimalSeparator) {
+						//Can't really know if it's a greater-than-999 number or a decimal one
+						//so we leave it as it is. Take for example 1.578 (is it 1 thousand 5 hundred 78 or 
+						//1 point 5 hundred 78?)
+							if (decimalPart && decimalPart.length!=3){
+								value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
+							}
+							else {
+								if (integerPart.length == 1 )	return "error";
+								else {
+									value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
+								}
+							}
+							
+						}
+						else {
+	
+							value = integerPart.join(self.options.thousandsSeparator);
+	
+						}
+						
 					}
 
 				}
 			}
+			else return "error";
 
 			return value;
+		},
+		
+		removeErrorSpan: function(inValue){
+			var val = inValue;
+			if (inValue.indexOf("")>-1){
+				val = val.replace("<span style='color:red'>","");
+				val = val.replace("</span>","");
+			}
+			return val;
 		}
 
 	};

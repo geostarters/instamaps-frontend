@@ -72,6 +72,7 @@ function addFuncioEditDataTable(){
 					options:  JSON.stringify(optionsNoves)					
 			};
 			updateServidorWMSOptions(data).then(function(results){
+				$('#modal_data_table').data("layerServidor", results.results);
 				var layerServidor = $('#modal_data_table').data("layerServidor");				
 				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();		
 				optionsF={};
@@ -107,6 +108,7 @@ function editableColumnFormatter(inValue, row, index, name, pk) {
 	else {
 
 		value = dataFormatter.formatValue(inValue);
+		if (value.indexOf("error")>-1) value=inValue;
 		return ['<a href="javascript:void(0)"',
 			' data-name="' + name + '"',
 			' data-pk="' + pk + '"',
@@ -120,7 +122,6 @@ function editableColumnFormatter(inValue, row, index, name, pk) {
 }
 
 function nonEditableColumnFormatter(inValue, row, index, name, pk) {
-
 	var value = inValue;
 
 	if(0 == index) {
@@ -128,9 +129,10 @@ function nonEditableColumnFormatter(inValue, row, index, name, pk) {
 	}
 	else {
 		value = dataFormatter.formatValue(inValue);
+		if (value.indexOf("error")>-1) value=inValue;
 	}
 
-	return inValue;
+	return value;
 
 }
 
@@ -519,7 +521,13 @@ function fillModalDataTable(obj, geomBid){
 					$.each( result, function( key, value ) {
 						if (key.toLowerCase()!="geomorigen"){
 							if (propFormat!=undefined && propFormat[key]!=undefined){
-								 result[key]= dataFormatter.formatValue(value, propFormat[key]);
+								var formatValue=dataFormatter.formatValue(value, propFormat[key]);
+								if (formatValue.indexOf("error")>-1) {
+									result[key]= value;
+								}
+								else {
+									result[key]= formatValue;
+								}
 							}
 							else {
 								var valorStr=value.toString();
@@ -610,6 +618,15 @@ function fillModalDataTable(obj, geomBid){
 							if (results.status == "OK"){
 //								console.debug(results);
 								editat = true;
+								var format = $('.dataTableSelect[data-column="' + name + '"]').val();
+								var formatValue=row[name];
+								if (format!='t'){
+									formatValue = dataFormatter.formatValue(row[name], format);
+								}
+								console.debug(formatValue);
+								if (formatValue.indexOf("error")>-1){
+									$('#dialogo_formatValue').modal('show');
+								}
 							}else{
 								console.debug('error updateGeometriaProperties');
 							}
@@ -659,17 +676,22 @@ function dataTableSelectChanged(ctx) {
 	for(var i=1, len=data.length; i<len; ++i)
 	{
 		var formatValue = dataFormatter.formatValue(data[i][column], format);
-		if (formatValue=="error"){//TODO
-			data[i][column]="<span id='error' style='color:red'>"+data[i][column]+"</span>";
+		formatValue = dataFormatter.removeErrorSpan(formatValue);
+		if (formatValue.indexOf("error")>-1){//TODO
+			data[i][column]="<span style='color:red'>"+data[i][column]+"</span>";
 		}
 		else
-		{
+		{		
 			data[i][column] =formatValue;
 		}
 
 	}
-	//$elem.bootstrapTable('load', data);
+	$elem.bootstrapTable('load', data);
+	var options1=optionsF;
 	optionsF[column]=format;
+	$.each(optionsF, function(i) {
+		$('.dataTableSelect[data-column="' + i + '"]').val(optionsF[i]);
+	});
 	$('.dataTableSelect[data-column="' + column + '"]').val(format);
 	$('.dataTableSelect').on('change', function() {
 		dataTableSelectChanged(this);
