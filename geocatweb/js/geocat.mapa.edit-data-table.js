@@ -617,6 +617,7 @@ function fillModalDataTable(obj, geomBid){
 						var formatValue = dataFormatter.formatValue(row[name], format);
 						if (formatValue.indexOf("error")>-1){
 							alert("Hi ha incongruències amb el nou valor i el format seleccionat");
+							hiHaError = false;
 						}
 						else{
 							var dataUpdate ={
@@ -702,7 +703,9 @@ function dataTableSelectChanged(ctx) {
 		}
 		
 	}
-	if (totalErrors>0) alert("Hi ha "+totalErrors+ " incongruències. Si us plau reviseu les dades marcades en vermell. No es pot canviar el format a "+format);
+	if (totalErrors>0) {
+		alert("Hi ha "+totalErrors+ " incongruències. Si us plau reviseu les dades marcades en vermell. No es pot canviar el format a "+format);
+	}
 	$elem.bootstrapTable('load', data);
 	var options1=optionsF;
 	if (!hiHaError) {
@@ -714,6 +717,8 @@ function dataTableSelectChanged(ctx) {
 	}
 	else {
 		$('.dataTableSelect[data-column="' + column + '"]').val("t");
+		hiHaError = false;
+		totalErrors=0;
 	}
 	$('.dataTableSelect').on('change', function() {
 		dataTableSelectChanged(this);
