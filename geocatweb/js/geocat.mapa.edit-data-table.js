@@ -616,7 +616,7 @@ function fillModalDataTable(obj, geomBid){
 						var format = $('.dataTableSelect[data-column="' + name + '"]').val();
 						var formatValue = dataFormatter.formatValue(row[name], format);
 						if (formatValue.indexOf("error")>-1){
-							alert("Hi ha incongruències amb el nou valor i el format seleccionat");
+							alert("Format no permés. Adapta’l al format 123.45,67 o 12345,67.");
 							hiHaError = false;
 						}
 						else{
@@ -704,7 +704,7 @@ function dataTableSelectChanged(ctx) {
 		
 	}
 	if (totalErrors>0) {
-		alert("Hi ha "+totalErrors+ " incongruències. Si us plau reviseu les dades marcades en vermell. No es pot canviar el format a "+format);
+		alert("Hem remarcat en vermell " +totalErrors +"a valors dubtosos. Si us plau, adapta’ls al format 123.45,67 o 12345,67, i torna a canviar el format de la columna.);
 	}
 	$elem.bootstrapTable('load', data);
 	var options1=optionsF;
