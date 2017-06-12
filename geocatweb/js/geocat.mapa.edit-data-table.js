@@ -684,6 +684,7 @@ function dataTableSelectChanged(ctx) {
 	{
 		var formatValue = dataFormatter.formatValue(data[i][column], format);
 		formatValue = dataFormatter.removeErrorSpan(formatValue);
+			
 		if (formatValue.indexOf("error")>-1){//TODO
 			data[i][column]="<span style='color:red'>"+data[i][column]+"</span>";
 			totalErrors++;

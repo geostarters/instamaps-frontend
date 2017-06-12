@@ -88,10 +88,6 @@
 				value = value.slice(0, -1);
 
 			}
-			if (inValue.indexOf("color:red")>-1){
-				value = self.removeErrorSpan(inValue);
-			}
-
 			return value;
 
 		},
@@ -129,6 +125,7 @@
 			var self = this;
 			
 			var value = self.removeDecorators(inValue);
+			value = self.removeErrorSpan(inValue);
 			if(self.isNumber(value))
 			{
 
@@ -221,7 +218,7 @@
 								value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
 							}
 							else {
-								if (integerPart.length == 1 )	return "error";
+								if (integerPart.length == 1 && integerPart[0].length == 3)	return "error";
 								else {
 									value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
 								}
