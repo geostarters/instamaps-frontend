@@ -5,6 +5,7 @@ var geomRowIndex = 0;
 var numRows = 0;
 var dataFormatter = new DataFormatter();
 var optionsF={};
+var hiHaError = false;
 
 function reloadSingleLayer(capaEdicio, layerServidor) {
 
@@ -101,14 +102,18 @@ function addFuncioEditDataTable(){
 function editableColumnFormatter(inValue, row, index, name, pk) {
 
 	var value = inValue;
+	
+	var format = $('.dataTableSelect[data-column="' + name + '"]').val();
 	//console.debug(value);
 	if(0 == index) {
 		//Data type row
 	}
 	else {
 
-		value = dataFormatter.formatValue(inValue);
-		if (value.indexOf("error")>-1) value=inValue;
+		value = dataFormatter.formatValue(inValue,format);
+		if (value.indexOf("error")>-1) {
+			value=inValue;
+		}
 		return ['<a href="javascript:void(0)"',
 			' data-name="' + name + '"',
 			' data-pk="' + pk + '"',
@@ -544,6 +549,7 @@ function fillModalDataTable(obj, geomBid){
 							delete result[key];
 						}
 					});
+					
 					resultatsMod[resultI]=result;
 					
 					resultI++;
@@ -606,33 +612,32 @@ function fillModalDataTable(obj, geomBid){
 					event.stopImmediatePropagation();					
 					
 					if(isValidValue(name)){
-						
-						var dataUpdate ={
-								uid:Cookies.get('uid'),
-								geometryid: row["geometryid"],
-								key:  name,
-								newValue: row[name]
-							};
-//						console.debug(dataUpdate);
-						updateGeometriaProperties(dataUpdate).then(function(results){
-							if (results.status == "OK"){
-//								console.debug(results);
-								editat = true;
-								var format = $('.dataTableSelect[data-column="' + name + '"]').val();
-								var formatValue=row[name];
-								if (format!='t'){
-									formatValue = dataFormatter.formatValue(row[name], format);
+						var newValue = row[name];
+						var format = $('.dataTableSelect[data-column="' + name + '"]').val();
+						var formatValue = dataFormatter.formatValue(row[name], format);
+						if (formatValue.indexOf("error")>-1){
+							alert("Hi ha incongruències amb el nou valor i el format seleccionat");
+						}
+						else{
+							var dataUpdate ={
+									uid:Cookies.get('uid'),
+									geometryid: row["geometryid"],
+									key:  name,
+									newValue: row[name]
+								};
+							updateGeometriaProperties(dataUpdate).then(function(results){
+								if (results.status == "OK"){
+									editat = true;
+									var format = $('.dataTableSelect[data-column="' + name + '"]').val();
+									var formatValue=row[name];
+									formatValue = dataFormatter.formatValue(row[name], format);								
+								}else{
+									console.debug('error updateGeometriaProperties');
 								}
-								console.debug(formatValue);
-								if (formatValue.indexOf("error")>-1){
-									$('#dialogo_formatValue').modal('show');
-								}
-							}else{
+							},function(results){
 								console.debug('error updateGeometriaProperties');
-							}
-						},function(results){
-							console.debug('error updateGeometriaProperties');
-						});							
+							});		
+						}
 					}
 				});	
 				
@@ -673,12 +678,15 @@ function dataTableSelectChanged(ctx) {
 	var $elem = $('#modal_data_table_body #layer-data-table');
 	var data = $elem.bootstrapTable('getData', false);
 	var column = $(ctx).data('column');
+	var totalErrors = 0;
 	for(var i=1, len=data.length; i<len; ++i)
 	{
 		var formatValue = dataFormatter.formatValue(data[i][column], format);
 		formatValue = dataFormatter.removeErrorSpan(formatValue);
 		if (formatValue.indexOf("error")>-1){//TODO
 			data[i][column]="<span style='color:red'>"+data[i][column]+"</span>";
+			totalErrors++;
+			hiHaError=true;
 		}
 		else
 		{		
@@ -686,13 +694,27 @@ function dataTableSelectChanged(ctx) {
 		}
 
 	}
+	if (hiHaError){
+		for(var i=1, len=data.length; i<len; ++i)
+		{
+		var formatValue = dataFormatter.formatValue(data[i][column], "t");		
+		data[i][column] =formatValue;		
+		}
+		
+	}
+	if (totalErrors>0) alert("Hi ha "+totalErrors+ " incongruències. Si us plau reviseu les dades marcades en vermell. No es pot canviar el format a "+format);
 	$elem.bootstrapTable('load', data);
 	var options1=optionsF;
-	optionsF[column]=format;
-	$.each(optionsF, function(i) {
-		$('.dataTableSelect[data-column="' + i + '"]').val(optionsF[i]);
-	});
-	$('.dataTableSelect[data-column="' + column + '"]').val(format);
+	if (!hiHaError) {
+		optionsF[column]=format;
+		$.each(optionsF, function(i) {
+			$('.dataTableSelect[data-column="' + i + '"]').val(optionsF[i]);
+		});
+		$('.dataTableSelect[data-column="' + column + '"]').val(format);
+	}
+	else {
+		$('.dataTableSelect[data-column="' + column + '"]').val("t");
+	}
 	$('.dataTableSelect').on('change', function() {
 		dataTableSelectChanged(this);
 	});
