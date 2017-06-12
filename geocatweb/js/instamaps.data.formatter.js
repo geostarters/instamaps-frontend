@@ -88,6 +88,9 @@
 				value = value.slice(0, -1);
 
 			}
+			if (inValue.indexOf("color:red")>-1){
+				value = self.removeErrorSpan(inValue);
+			}
 
 			return value;
 
