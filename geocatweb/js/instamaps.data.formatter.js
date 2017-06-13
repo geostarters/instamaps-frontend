@@ -86,7 +86,7 @@
 			var value = inValue;
 			if(self.isEuro(inValue) || self.isDollar(inValue)) {
 
-				value = value.slice(0, -1);
+				value = value.replace("$", "").replace("€", "");
 
 			}
 			return value.trim();
@@ -97,7 +97,7 @@
 
 			var self = this;
 
-			var value = self.removeDecorators(value);
+			var value = self.removeDecorators(inValue);
 			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
 			}
@@ -111,7 +111,7 @@
 
 			var self = this;
 
-			var value = self.removeDecorators(value);
+			var value = self.removeDecorators(inValue);
 			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
 			}
@@ -125,7 +125,7 @@
 			//Formats to 1.234,2556677
 			var self = this;
 			
-			var value =  self.removeDecorators(value);
+			var value =  self.removeDecorators(inValue);
 			if(self.isNumber(value))
 			{
 
@@ -137,7 +137,7 @@
 				var hasMultipleThousands = (2 < numThousands);
 				var hasDecimalSeparator = (1 < numDecimals);
 				var hasMultipleDecimal = (2 < numDecimals);
-				var integerPart = hasThousandsSeparator ? decimals[0].split(self.options.thousandsSeparator) : thousands[0].split(self.options.decimalSeparator);
+				var integerPart = hasThousandsSeparator ? decimals[0].split(self.options.thousandsSeparator) : [thousands[0].split(self.options.decimalSeparator)[0]];
 				var decimalPart = hasDecimalSeparator ? decimals[1] : thousands[1];
 
 				if(hasThousandsSeparator && !hasMultipleThousands && !hasDecimalSeparator && 3 != integerPart[1].length) { 
