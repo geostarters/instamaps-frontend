@@ -706,7 +706,8 @@ function dataTableSelectChanged(ctx) {
 		
 	}
 	if (totalErrors>0) {
-		alert("Hem remarcat en vermell " +totalErrors +" valors dubtosos. Si us plau, adapta’ls al format 123.45,67 o 12345,67, i torna a canviar el format de la columna.");
+		if (totalErrors>1) alert("Hem remarcat en vermell " +totalErrors +" valors dubtosos. Si us plau, adapta’ls al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
+		else alert("Hem remarcat en vermell " +totalErrors +" valor dubtós. Si us plau, adapta’ls al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
 	}
 	$elem.bootstrapTable('load', data);
 	var options1=optionsF;

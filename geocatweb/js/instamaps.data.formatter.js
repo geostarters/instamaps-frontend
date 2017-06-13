@@ -56,8 +56,8 @@
 
 		formatToText: function(inValue) {
 			var self = this;
-			var value = self.removeErrorSpan(inValue);
-			return self.removeDecorators(value);
+			//var value = self.removeErrorSpan(inValue);
+			return self.removeDecorators(inValue);
 
 		},
 
@@ -97,8 +97,7 @@
 
 			var self = this;
 
-			var value = self.removeErrorSpan(inValue);
-			value = self.removeDecorators(value);
+			var value = self.removeDecorators(value);
 			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
 			}
@@ -112,8 +111,7 @@
 
 			var self = this;
 
-			var value = self.removeErrorSpan(inValue);
-			value = self.removeDecorators(value);
+			var value = self.removeDecorators(value);
 			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
 			}
@@ -127,8 +125,7 @@
 			//Formats to 1.234,2556677
 			var self = this;
 			
-			var value = self.removeErrorSpan(inValue);
-			value = self.removeDecorators(value);
+			var value =  self.removeDecorators(value);
 			if(self.isNumber(value))
 			{
 
