@@ -56,7 +56,8 @@
 
 		formatToText: function(inValue) {
 			var self = this;
-			return self.removeDecorators(inValue);
+			var value = self.removeErrorSpan(inValue);
+			return self.removeDecorators(value);
 
 		},
 
@@ -88,7 +89,7 @@
 				value = value.slice(0, -1);
 
 			}
-			return value;
+			return value.trim();
 
 		},
 
@@ -96,7 +97,8 @@
 
 			var self = this;
 
-			var value = self.removeDecorators(inValue);
+			var value = self.removeErrorSpan(inValue);
+			value = self.removeDecorators(value);
 			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
 			}
@@ -110,7 +112,8 @@
 
 			var self = this;
 
-			var value = self.removeDecorators(inValue);
+			var value = self.removeErrorSpan(inValue);
+			value = self.removeDecorators(value);
 			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
 			}
@@ -124,8 +127,8 @@
 			//Formats to 1.234,2556677
 			var self = this;
 			
-			var value = self.removeDecorators(inValue);
-			value = self.removeErrorSpan(inValue);
+			var value = self.removeErrorSpan(inValue);
+			value = self.removeDecorators(value);
 			if(self.isNumber(value))
 			{
 
@@ -137,8 +140,14 @@
 				var hasMultipleThousands = (2 < numThousands);
 				var hasDecimalSeparator = (1 < numDecimals);
 				var hasMultipleDecimal = (2 < numDecimals);
-				var integerPart = hasMultipleThousands ? decimals[0].split(self.options.thousandsSeparator) : thousands[0].split(self.options.decimalSeparator);
-				var decimalPart = hasMultipleThousands ? decimals[1] : thousands[1];
+				var integerPart = hasThousandsSeparator ? decimals[0].split(self.options.thousandsSeparator) : thousands[0].split(self.options.decimalSeparator);
+				var decimalPart = hasDecimalSeparator ? decimals[1] : thousands[1];
+
+				if(hasThousandsSeparator && !hasMultipleThousands && !hasDecimalSeparator && 3 != integerPart[1].length) { 
+					//The separator is swapped
+					decimalPart = [integerPart[1]];
+					integerPart = [integerPart[0]];
+				}
 
 				//check if the integer part is grouped in groups of length 3 except the first one
 				var isLength3 = true;
@@ -199,7 +208,7 @@
 					{
 						
 						//Split string into groups of 3 starting from the back
-						integerPart = integerPart[0];
+						integerPart = integerPart.join('');
 						var i = integerPart.length % 3;
 						var integerPartArray = i ? [ integerPart.substr( 0, i ) ] : [];
 						for(var len=integerPart.length ; i < len ; i += 3 ) {
@@ -213,16 +222,11 @@
 						if(hasThousandsSeparator || hasDecimalSeparator) {
 						//Can't really know if it's a greater-than-999 number or a decimal one
 						//so we leave it as it is. Take for example 1.578 (is it 1 thousand 5 hundred 78 or 
-						//1 point 5 hundred 78?)
+						//1 point 5 hundred 78?). That's unless the decimal part is different than 3
 							if (decimalPart && decimalPart.length!=3){
 								value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
 							}
-							else {
-								if (integerPart.length == 1 && integerPart[0].length == 3)	return "error";
-								else {
-									value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
-								}
-							}
+							else if (integerPart.length == 1 && integerPart[0].length == 3)	return "error";
 							
 						}
 						else {

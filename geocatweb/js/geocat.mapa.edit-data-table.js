@@ -620,6 +620,9 @@ function fillModalDataTable(obj, geomBid){
 							hiHaError = false;
 						}
 						else{
+							//Trigger an update to format the value
+							//If we had the cell name we could modify it directly...
+							dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
 							var dataUpdate ={
 									uid:Cookies.get('uid'),
 									geometryid: row["geometryid"],
@@ -629,9 +632,7 @@ function fillModalDataTable(obj, geomBid){
 							updateGeometriaProperties(dataUpdate).then(function(results){
 								if (results.status == "OK"){
 									editat = true;
-									var format = $('.dataTableSelect[data-column="' + name + '"]').val();
-									var formatValue=row[name];
-									formatValue = dataFormatter.formatValue(row[name], format);								
+									row[name] = formatValue;
 								}else{
 									console.debug('error updateGeometriaProperties');
 								}
@@ -721,7 +722,8 @@ function dataTableSelectChanged(ctx) {
 		hiHaError = false;
 		totalErrors=0;
 	}
-	$('.dataTableSelect').on('change', function() {
+
+	$('.dataTableSelect').on('change', function() {	//Afegim altre cop l'event pq el bootstrapTable('load') refà la taula
 		dataTableSelectChanged(this);
 	});
 }
