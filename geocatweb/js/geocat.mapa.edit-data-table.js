@@ -623,7 +623,7 @@ function fillModalDataTable(obj, geomBid){
 						else{
 							//Trigger an update to format the value
 							//If we had the cell name we could modify it directly...
-							dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
+							//dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
 							var dataUpdate ={
 									uid:Cookies.get('uid'),
 									geometryid: row["geometryid"],
@@ -707,7 +707,7 @@ function dataTableSelectChanged(ctx, showAlert) {
 
 	if (totalErrors>0 && doAlert) {
 		if (totalErrors>1) alert("Hem remarcat en vermell " +totalErrors +" valors dubtosos. Si us plau, adapta’ls al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
-		else alert("Hem remarcat en vermell " +totalErrors +" valor dubtós. Si us plau, adapta’ls al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
+		else alert("Hem remarcat en vermell " +totalErrors +" valor dubtós. Si us plau, adapta’l al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
 	}
 
 	$elem.bootstrapTable('load', data);
