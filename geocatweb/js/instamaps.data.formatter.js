@@ -49,12 +49,14 @@
 			else if("n" == format)
 				value = self.formatToNumber(value);
 
+						
 			return value;
 
 		},
 
 		formatToText: function(inValue) {
 			var self = this;
+			//var value = self.removeErrorSpan(inValue);
 			return self.removeDecorators(inValue);
 
 		},
@@ -73,7 +75,7 @@
 
 		isNumber: function(value) {
 
-			return (0 < (value.match(/^(\d+|\d{1,3}([,\.]\d{3})*)([\.,]\d+)?$/) || []).length);
+			return (0 < (value.match(/^(\d+|\d{1,3}([\.]\d{3})*)([,]\d+)?$/) || []).length);
 
 		},
 
@@ -84,11 +86,10 @@
 			var value = inValue;
 			if(self.isEuro(inValue) || self.isDollar(inValue)) {
 
-				value = value.slice(0, -1);
+				value = value.replace("$", "").replace("€", "");
 
 			}
-
-			return value;
+			return value.trim();
 
 		},
 
@@ -97,9 +98,11 @@
 			var self = this;
 
 			var value = self.removeDecorators(inValue);
-			if(self.isNumber(value))
+			if(self.isNumber(value)) {
 				value =  self.formatToNumber(value) + ' €';
-
+			}
+			else value="error";
+			
 			return value;
 
 		},
@@ -109,9 +112,10 @@
 			var self = this;
 
 			var value = self.removeDecorators(inValue);
-			if(self.isNumber(value))
+			if(self.isNumber(value)) {
 				value = self.formatToNumber(value) + ' $';
-
+			}
+			else value="error";
 			return value;
 
 		},
@@ -121,106 +125,49 @@
 			//Formats to 1.234,2556677
 			var self = this;
 			
-			var value = self.removeDecorators(inValue);
+			var value =  self.removeDecorators(inValue);
 			if(self.isNumber(value))
 			{
 
 				var thousands = value.split(self.options.thousandsSeparator);
 				var decimals = value.split(self.options.decimalSeparator);
-				var numThousands = thousands.length;
-				var numDecimals = decimals.length;
-				var hasThousandsSeparator = (1 < numThousands);
-				var hasMultipleThousands = (2 < numThousands);
-				var hasDecimalSeparator = (1 < numDecimals);
-				var hasMultipleDecimal = (2 < numDecimals);
-				var integerPart = hasMultipleThousands ? decimals[0].split(self.options.thousandsSeparator) : thousands[0].split(self.options.decimalSeparator);
-				var decimalPart = hasMultipleThousands ? decimals[1] : thousands[1];
+				var hasDecimalSeparator = (1 < decimals.length);
+				var hasThousandsSeparator = (1 < thousands.length);
+				var integerPart = decimals[0].split(self.options.thousandsSeparator);
+				var decimalPart = hasDecimalSeparator ? decimals[1] : [];
 
-				//check if the integer part is grouped in groups of length 3 except the first one
-				var isLength3 = true;
-				for(var i=1, len=integerPart.length; i<len && isLength3; ++i) {
+				if(!hasThousandsSeparator)
+				{
 
-					isLength3 = isLength3 && (3 == integerPart[i].length);
+					//Split in groups of 3 from the end
+					integerPart = integerPart.join('');
+					var i = integerPart.length % 3;
+					var integerPartArray = i ? [ integerPart.substr( 0, i ) ] : [];
+					for(var len=integerPart.length ; i < len ; i += 3 ) {
+
+						integerPartArray.push( integerPart.substr( i, 3 ) );
+
+					}
+					
+					integerPart = integerPartArray;
 
 				}
 
-				if(!isLength3) {
+				value = integerPart.join(self.options.thousandsSeparator) + (hasDecimalSeparator ? self.options.decimalSeparator + decimalPart : '');
 
-					//Error. A valid number has an integer part grouped in groups of length 3 except 
-					//the first one
-					//return "error";
-				}
-				else {
-
-					if(hasThousandsSeparator && hasDecimalSeparator) {
-
-						if(hasMultipleThousands && hasMultipleDecimal) {
-							//Error. A valid number can only have multiple occurrences of a separator, not both
-							//return "error";
-						}
-						else if((hasMultipleThousands && !hasMultipleDecimal) || (!hasMultipleThousands && hasMultipleDecimal)) {   
-
-							if(hasMultipleThousands) {
-								//It's already a good formatted number
-							}
-							else {
-
-								//Inverted separators 1,300,500.278
-								//integerPart is (1, 300 and 500)
-								//decimalPart is (278)
-								value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
-
-							}
-
-						}
-						else {
-
-							//Just a separator of both types. Find which one comes first
-							var commaPos = value.indexOf(self.options.decimalSeparator);
-							var pointPos = value.indexOf(self.options.thousandsSeparator);
-							if(pointPos < commaPos)	{
-								//It's already a good formatted number
-							}
-							else {
-
-								//Inverted separators 1,300.2789
-								value = integerPart.join(self.options.thousandsSeparator) + self.options.decimalSeparator + decimalPart;
-
-							}
-
-						}
-
-					}
-					else if(hasThousandsSeparator) {
-					//Can't really know if it's a greater-than-999 number or a decimal one
-					//so we leave it as it is. Take for example 1.578 (is it 1 thousand 5 hundred 78 or 
-					//1 point 5 hundred 78?)
-						//return "error";
-					}
-					else if(hasDecimalSeparator) {
-					//Can't really know if it's a greater-than-999 number or a decimal one
-					//so we leave it as it is. Take for example 1,578 (is it 1 thousand 5 hundred 78 or 
-					//1 point 5 hundred 78?)
-						//return "error";
-					}
-					else {
-
-						//Split string into groups of 3 starting from the back
-						var i = value.length % 3;
-						var integerPart = i ? [ value.substr( 0, i ) ] : [];
-						for(var len=value.length ; i < len ; i += 3 ) {
-
-							integerPart.push( value.substr( i, 3 ) );
-
-						}
-						value = integerPart.join(self.options.thousandsSeparator);
-
-					}
-
-				}
 			}
+			else return "error";
 
 			return value;
+		},
+		
+		removeErrorSpan: function(inValue){
+			var val = inValue;
+			if (inValue.indexOf("")>-1){
+				val = val.replace("<span style='color:red'>","");
+				val = val.replace("</span>","");
+			}
+			return val;
 		}
 
 	};
