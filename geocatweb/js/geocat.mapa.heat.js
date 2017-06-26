@@ -2,7 +2,7 @@
 function createHeatMap(capa,tipus){
 	
 	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'heatmap', 1]});
-	
+	tipus=capa.layer.options.tipus;
 	var nom = window.lang.translate("Concentració");
 	//Heatmap
 	if (tipus == t_vis_wms){
