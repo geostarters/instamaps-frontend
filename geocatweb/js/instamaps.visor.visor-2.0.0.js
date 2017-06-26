@@ -1325,6 +1325,16 @@
 			return self;
 		},
 
+		_drawControlsVisorBuit:function(){
+			var self=this;
+			self.addMousePositionControl();
+			self.addScaleControl();
+			self.addMinimapControl();
+			self.addFonsControl();
+			self.addLocationControl();
+			self.addSearchControl();
+			return self;
+		},
 		draw: function(){
 			var self = this,
 			   	_map = self.map;
@@ -1355,7 +1365,9 @@
 					self.drawMap().resizeMap().drawControls()._loadUrlFile()._hideLoading();
 				}
 				else{
-					self.loadErrorPage();
+					//self.loadErrorPage();
+					//Carreguem visor buit
+					self.drawMap().resizeMap()._drawControlsVisorBuit()._hideLoading();
 				}
 			}
 
@@ -1364,6 +1376,7 @@
 			}
 			return self;
 		},
+		
 
 		_loadUrlFile: function() {
 			

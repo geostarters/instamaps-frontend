@@ -7,7 +7,7 @@
 	};
 	
 	var _options = {
-		proxyUrl: "http://www.instamaps.cat/share/jsp/ows2json.jsp?"	
+		proxyUrl: "https://www.instamaps.cat/share/jsp/ows2json.jsp?"	
 	};
 	
 	InstamapsWms.prototype = {
