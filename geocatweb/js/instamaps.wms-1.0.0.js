@@ -90,7 +90,9 @@
 				ActiuWMS = {};
 			
 			self = $.extend(self, options);
-			var data = {url: self.url, capa:self.capa};
+			var url1 = self.url;
+			if (url1.indexOf("https://www.instamaps.cat")>-1) url1=url1.replace("https","http");
+			var data = {url: url1, capa:self.capa};
 			
 			self.getWMSLayers(data).then(function(results) {
 				var bbox, servidor, WMS_BBOX,
