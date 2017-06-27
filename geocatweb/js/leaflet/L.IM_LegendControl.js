@@ -249,10 +249,11 @@ L.Control.Legend = L.Control.extend({
 				var lastPos=self._getLastActived();
 				
 				jQuery.each(mapLegend, function(j, row){
+					
 				var layerType=self._getNameLayer(j);
 				index==lastPos.indexPos?active=' active':active="";
 				//if(layerType.capesOrdre && layerType.capesOrdre.indexOf('sublayer') ==-1){
-					legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');
+				if (row[0].chck || self.options.origenllegenda=='mapa') legendTabContent.push('<div style="padding-top:10px;" class="dv_lleg tab-pane'+active+'" id="tab'+j+'">');
 				//}
 				
 				var serverName="";
