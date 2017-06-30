@@ -1752,7 +1752,7 @@ function loadURLfileLayer(layer){
 				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 					title : layer._leaflet_id
 				});
-				marker.bindPopup(layer._popup._content);
+				marker.bindPopup(layer.properties.popupData);
 				clusterLayer.addLayer(marker);
 			});
 			
