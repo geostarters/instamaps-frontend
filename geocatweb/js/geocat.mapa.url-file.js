@@ -1737,10 +1737,10 @@ function loadURLfileLayer(layer){
 		
 		if(options.tem == null || options.tem == tem_simple){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 		}else if(options.tem == tem_clasic || options.tem == tem_size){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 			if ($(location).attr('href').indexOf('/mapa.html')!=-1){
 				loadMapLegendEdicioDinamics(self);
 			}
