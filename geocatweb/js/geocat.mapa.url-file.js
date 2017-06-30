@@ -1748,11 +1748,11 @@ function loadURLfileLayer(layer){
 			var clusterLayer = L.markerClusterGroup({
 				singleMarkerMode : true
 			});
-			layer.eachLayer(function(layer2) {
-				var marker = L.marker(new L.LatLng(layer2.getLatLng().lat, layer2.getLatLng().lng), {
-					title : layer2._leaflet_id
+			capaURLfileLoad.eachLayer(function(layer) {
+				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
+					title : layer._leaflet_id
 				});
-				marker.bindPopup(layer2._popup._content);
+				marker.bindPopup(layer._popup._content);
 				clusterLayer.addLayer(marker);
 			});
 			
@@ -1771,7 +1771,7 @@ function loadURLfileLayer(layer){
 		}else if(options.tem == tem_heatmap){
 			var arrP=[];
 			self.options = options;
-			self.eachLayer(function(layer){
+			capaURLfileLoad.eachLayer(function(layer){
 				var d = [layer.getLatLng().lat,layer.getLatLng().lng,1];	
 				arrP.push(d);	
 			});
