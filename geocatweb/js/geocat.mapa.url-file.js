@@ -1748,11 +1748,11 @@ function loadURLfileLayer(layer){
 			var clusterLayer = L.markerClusterGroup({
 				singleMarkerMode : true
 			});
-			capaURLfileLoad.eachLayer(function(layer) {
-				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
-					title : layer._leaflet_id
+			layer.eachLayer(function(layer2) {
+				var marker = L.marker(new L.LatLng(layer2.getLatLng().lat, layer2.getLatLng().lng), {
+					title : layer2._leaflet_id
 				});
-				marker.bindPopup(layer._popup._content);
+				marker.bindPopup(layer2._popup._content);
 				clusterLayer.addLayer(marker);
 			});
 			
