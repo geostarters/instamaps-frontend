@@ -1748,7 +1748,7 @@ function loadURLfileLayer(layer){
 			var clusterLayer = L.markerClusterGroup({
 				singleMarkerMode : true
 			});
-			self.eachLayer(function(layer) {
+			capaURLfileLoad.eachLayer(function(layer) {
 				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 					title : layer._leaflet_id
 				});
