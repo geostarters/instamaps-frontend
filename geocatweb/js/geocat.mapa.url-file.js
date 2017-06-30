@@ -1737,10 +1737,10 @@ function loadURLfileLayer(layer){
 		
 		if(options.tem == null || options.tem == tem_simple){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 		}else if(options.tem == tem_clasic || options.tem == tem_size){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 			if ($(location).attr('href').indexOf('/mapa.html')!=-1){
 				loadMapLegendEdicioDinamics(self);
 			}
@@ -1748,11 +1748,11 @@ function loadURLfileLayer(layer){
 			var clusterLayer = L.markerClusterGroup({
 				singleMarkerMode : true
 			});
-			self.eachLayer(function(layer) {
+			capaURLfileLoad.eachLayer(function(layer) {
 				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 					title : layer._leaflet_id
 				});
-				marker.bindPopup(layer._popup._content);
+				marker.bindPopup(layer.properties.popupData);
 				clusterLayer.addLayer(marker);
 			});
 			
@@ -1771,7 +1771,7 @@ function loadURLfileLayer(layer){
 		}else if(options.tem == tem_heatmap){
 			var arrP=[];
 			self.options = options;
-			self.eachLayer(function(layer){
+			capaURLfileLoad.eachLayer(function(layer){
 				var d = [layer.getLatLng().lat,layer.getLatLng().lng,1];	
 				arrP.push(d);	
 			});

@@ -51,7 +51,8 @@ var visorOptions = {
 	//urlFile: url("?url") || null,
 	tipusFile: url("?format") || null,
 	coordX: url("?coordX") || null,
-	coordY: url("?coordY") || null
+	coordY: url("?coordY") || null,
+	epsg: url("?epsg") || null
 };
 
 var visor; 
