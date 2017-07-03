@@ -408,7 +408,7 @@ function div2RangStyle(tematic, tdElem){
 function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 //	console.debug("createTematicLayerCategories"); //al guardar
 	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'categories', 1]});
-	console.info("ok");
+	//console.info("ok");
 	var tematic = jQuery("#dialog_tematic_rangs").data("tematic");
 	var tipusRang = $("input:radio[name=rd_tipus_agrupacio]:checked").val();
 //	var visualitzacio = jQuery("#dialog_tematic_rangs").data("visualitzacio");
@@ -539,7 +539,8 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 											controlCapes._visLayers = {};
 											controlCapes._options = {};
 										}
-										controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
+										if (data.visualitzacio!=undefined)
+											controlCapes._visLayers[data.layer.businessId] = data.visualitzacio;
 										controlCapes._options[data.layer.businessId] = data.layer;
 										if(undefined !== deferred)
 											deferred.resolve(results._leaflet_id);
@@ -557,7 +558,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -705,7 +706,7 @@ function createTematicLayerCategories(event, extraOptions, extraData, deferred){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -1331,7 +1332,7 @@ function createTematicCategoriesActualitzat(data,sublayer,businessIdCapaMare,lay
 											
 											$('#dialog_error_upload_txt').html("");
 											
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 											
 											$('#dialog_error_upload').modal('show');
 										}

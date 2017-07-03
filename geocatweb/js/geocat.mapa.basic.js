@@ -70,7 +70,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error creant el temàtic bàsic"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error creant el temàtic bàsic"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -196,7 +196,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -365,7 +365,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -489,7 +489,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -606,7 +606,7 @@ function createTematicLayerBasic(tematic, styles){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}

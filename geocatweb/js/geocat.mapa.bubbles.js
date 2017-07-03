@@ -170,11 +170,12 @@ function showModalTematicBubbles(data){
 				});
 			}else{
 				//TODO error
-				console.debug("getVisualitzacioByBusinessId ERROR");				
+				console.debug("getVisualitzacioByBusinessId ERROR");	
+				$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId','bubble']});
 			}
 		},function(results){
 			//TODO error
-			console.debug("getVisualitzacioByBusinessId ERROR");
+			$.publish('analyticsEvent',{event:['error', 'getVisualitzacioByBusinessId','bubble']});
 		});	
 	}
 	
@@ -679,7 +680,7 @@ function createTematicLayerBubbles(event){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}
@@ -808,7 +809,7 @@ function createTematicLayerBubbles(event){
 									
 									$('#dialog_error_upload_txt').html("");
 									
-									$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+									$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 									
 									$('#dialog_error_upload').modal('show');
 								}

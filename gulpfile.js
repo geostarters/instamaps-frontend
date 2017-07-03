@@ -7,6 +7,7 @@ var util = require('gulp-util');
 var plumber = require('gulp-plumber');
 var uglify = require('gulp-uglify');
 var rev = require('gulp-rev');
+var revUrlhash = require('gulp-rev-urlhash');
 var revReplace = require('gulp-rev-replace');
 var del = require('del');
 var pump = require('pump');
@@ -41,11 +42,13 @@ app.addStyle = function(paths, outputFilename) {
     .pipe(gulpif(config.sourceMaps, sourcemaps.init())) //solo en desarrollo tambien se puede hacer con un if como el cleanCSS
     .pipe(concat('css/'+outputFilename))
     .pipe(config.production ? cleanCSS() : util.noop()) //solo en produccion
-    .pipe(rev())
+    //.pipe(rev())
+    .pipe(revUrlhash())
     .pipe(gulpif(config.sourceMaps, sourcemaps.write('.')))
     .pipe(gulp.dest(config.distFolder))
     // write the rev-manifest.json file for gulp-rev
-    .pipe(rev.manifest(config.revManifestPath, {merge: true}))
+    //.pipe(rev.manifest(config.revManifestPath, {merge: true}))
+    .pipe(revUrlhash.manifest(config.revManifestPath, {merge: true}))
     .pipe(gulp.dest('.')).on('end', function() { console.log('end '+outputFilename)});
 };
 
@@ -61,13 +64,13 @@ app.addScript = function(paths, outputFilename) {
       util.log(util.colors.red('[Error]'), err.toString());
       this.emit('end');
     }) : util.noop()) //solo en produccion
-    .pipe(rev())
+    //.pipe(rev())
+    .pipe(revUrlhash())
     .pipe(gulpif(config.sourceMaps, sourcemaps.write('.')))
     .pipe(gulp.dest(config.distFolder))
     // write the rev-manifest.json file for gulp-rev
-    .pipe(rev.manifest(config.revManifestPath, {
-      merge: true
-    }))
+    //.pipe(rev.manifest(config.revManifestPath, { merge: true}))
+    .pipe(revUrlhash.manifest(config.revManifestPath, { merge: true}))
     .pipe(gulp.dest('.')).on('end', function() { console.log('end '+outputFilename)});
 };
 
@@ -135,8 +138,7 @@ gulp.task('styles', function() {
     config.dirCssVendors+'/leaflet/leaflet.label.css',
     config.dirCssVendors+'/leaflet.timedimension.control.css',
     config.dirCssVendors+'/leaflet/leaflet-routing-machine.css',
-    config.dirCssVendors+'/leaflet/lrm-mapzen.css',
-    config.dirCssVendors+'/leaflet/leaflet-sidebar.min.css'
+    config.dirCssVendors+'/leaflet/lrm-mapzen.css'
   ], 'leaflet.css');
 
   pipeline.add([
@@ -224,6 +226,9 @@ gulp.task('scripts', function() {
     config.dirJsVendors+'/leaflet/plugin/lrm-mapzen.js',
     config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js',
     config.dirJsVendors+'/leaflet/plugin/leaflet-sidebar.min.js'
+    config.dirJsVendors+'/leaflet/plugin/Control.Geocoder.js',
+    config.dirJsVendors+'/leaflet/plugin/leaflet-pip.js',
+    config.dirJsVendors+'/leaflet/plugin/toGeoJSON.js'
   ], 'leaflet.js');
 
   pipeline.add([
@@ -255,6 +260,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/leaflet/L.Wikipedia.js',
     config.dirJsInstamaps+'/leaflet/L.Twitter.js',
     config.dirJsInstamaps+'/leaflet/L.IM_Label.js',
+    config.dirJsInstamaps+'/leaflet/L.IM_PopupManager.js',
     config.dirJsInstamaps+'/geocat.config-1.0.0.js',
     config.dirJsInstamaps+'/geocat.constants.js',
     config.dirJsInstamaps+'/geocat.ajax-1.0.0.js',
@@ -277,9 +283,12 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/geocat.mapa.semaforic.js',
     config.dirJsInstamaps+'/geocat.mapa.basic.js',
     config.dirJsInstamaps+'/geocat.mapa.categories.js',
+    config.dirJsInstamaps+'/instamaps.data.formatter.js',
+    config.dirJsInstamaps+'/instamaps.urlfile-1.0.0.js',
     config.dirJsInstamaps+'/geocat.mapa.edit-data-table.js',
     config.dirJsInstamaps+'/instamaps.layers-1.0.0.js',
     config.dirJsInstamaps+'/instamaps.wms-1.0.0.js',
+    config.dirJsInstamaps+'/instamaps.dades.externes-2.0.0.js',
     config.dirJsInstamaps+'/geocat.visor.fons.js',
     config.dirJsInstamaps+'/instamaps.mapa.3D-1.0.0.js',
     config.dirJsInstamaps+'/instamaps.visor.visor-2.0.0.js',
@@ -296,6 +305,7 @@ gulp.task('scripts', function() {
     config.dirJsInstamaps+'/instamaps.geolocal.widgets.mascara.js',
     config.dirJsInstamaps+'/instamaps.visor.geolocal.js',
     config.dirJsInstamaps+'/instamaps.visor.simple.js',
+    config.dirJsInstamaps+'/instamaps.mapa.color-scale.js',
     config.dirJsInstamaps+'/instamaps.app-1.0.0.js'
   ], 'instamaps.js');
 
@@ -354,7 +364,7 @@ gulp.task('revreplace_visor', function(){
     .pipe(revReplace({manifest: manifest}))
     .pipe(gulp.dest(config.srcFolder));
 });
-	 
+   
 gulp.task('clean', function() {
   del.sync(config.revManifestPath);
   del.sync(config.distFolder+'/css/*');

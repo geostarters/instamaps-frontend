@@ -2,13 +2,15 @@
 function createHeatMap(capa,tipus){
 	
 	$.publish('analyticsEvent',{event:['mapa', tipus_user+'estils', 'heatmap', 1]});
-	
+	tipus=capa.layer.options.tipus;
 	var nom = window.lang.translate("Concentració");
 	//Heatmap
 	if (tipus == t_vis_wms){
 		var instamapsWms = InstamapsWms({
 			loadTemplateParam :false});
-		var dataWMS = {url: capa.layer._url};
+		var url1 = capa.layer._url;
+		if (url1.indexOf("https://www.instamaps.cat")>-1) url1=url1.replace("https","http");
+		var dataWMS = {url: url1};
 		instamapsWms.getWMSLayers(dataWMS).then(function(results) {
 			var layers = [];
 			layers=results.Capability.Layer.Layer;
@@ -557,12 +559,12 @@ function loadVisualitzacioHeatmap(layer, zIndex, layerOptions, capesActiva, dfd)
 			
 		}else{
 			console.debug("getGeometriesColleccioByBusinessId ERROR");	
-$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId']});			
+$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId','heatmap']});			
 		}
 	},function(results){
 		//TODO error
 		console.debug("getGeometriesColleccioByBusinessId ERROR");
-		$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId']});
+		$.publish('analyticsEvent',{event:['error', 'getGeometriesColleccioByBusinessId','heatmap']});
 	});	
 }
 

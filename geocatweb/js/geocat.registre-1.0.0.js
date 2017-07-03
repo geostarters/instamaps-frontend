@@ -130,6 +130,9 @@ function checkValiditySignIn(){
 		}, function(results){
 			$('#signin_username').addClass("invalid");
 			$('#signin_username').next(".text_error").removeClass('hide').show().html("Error de xarxa. Torni a intentar-ho");
+			
+			$.publish('analyticsEvent',{event:['error', 'signin_username',JSON.stringify(results)]});
+
 			deferUser.reject();
 		});
 	}
@@ -162,6 +165,8 @@ function checkValiditySignIn(){
 		}, function(results){
 			$('#signin_email').addClass("invalid");
 			$('#signin_email').next(".text_error").removeClass('hide').show().html("Error de xarxa. Torni a intentar-ho");
+			
+			$.publish('analyticsEvent',{event:['error', 'signin_email',JSON.stringify(results)]});
 			deferEmail.reject();
 		});
 	}
@@ -185,6 +190,8 @@ function checkValiditySignIn(){
 	$.when(deferEmail, deferUser).done(function(){
 		defer.resolve();
 	}).fail(function(){
+		
+		$.publish('analyticsEvent',{event:['error', 'failSignin','registre']});
 		defer.reject();
 	});
 	

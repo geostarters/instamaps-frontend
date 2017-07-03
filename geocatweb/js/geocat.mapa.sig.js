@@ -143,7 +143,7 @@ function openBufferModal(){
 	jQuery('#dialog_buffer .btn-primary').on('click',function(event){
 		if(busy){
 			jQuery('#dialog_buffer').hide();
-			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -200,7 +200,7 @@ function openBufferModal(){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));					
+												$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var data2 = {
@@ -227,7 +227,7 @@ function openBufferModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -239,7 +239,7 @@ function openBufferModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));							
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));							
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -279,7 +279,7 @@ function openIntersectionModal(){
 	jQuery('#dialog_intersection .btn-primary').on('click',function(event){
 		if(busy){
 			jQuery('#dialog_intersection').hide();
-			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -339,7 +339,7 @@ function openIntersectionModal(){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+												$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var name1 = $("input[name='intersect-chck']:checked").parent().attr('data-layername');
@@ -368,7 +368,7 @@ function openIntersectionModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -379,7 +379,7 @@ function openIntersectionModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -420,7 +420,7 @@ function openTagModal(){
 		event.stopImmediatePropagation();
 		if(busy){
 			jQuery('#dialog_tag').hide();
-			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -480,7 +480,7 @@ function openTagModal(){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+												$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var data2 = {
@@ -505,7 +505,7 @@ function openTagModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -516,7 +516,7 @@ function openTagModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));					
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));					
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -562,7 +562,7 @@ function openCentroideModal(){
 		event.stopImmediatePropagation();
 		if(busy){
 			jQuery('#dialog_centroid').hide();
-			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -620,7 +620,7 @@ function openCentroideModal(){
 												jQuery('#info_uploadFile').hide();		
 												busy=false;
 												$('#dialog_error_upload_txt').html("");					
-												$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+												$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 												$('#dialog_error_upload').modal('show');
 											}else {
 												var data2 = {
@@ -649,7 +649,7 @@ function openCentroideModal(){
 														jQuery('#info_uploadFile').hide();		
 														busy=false;
 														$('#dialog_error_upload_txt').html("");					
-														$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+														$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 														$('#dialog_error_upload').modal('show');
 													}
 												});
@@ -660,7 +660,7 @@ function openCentroideModal(){
 											jQuery('#info_uploadFile').hide();
 											
 											$('#dialog_error_upload_txt').html("");										
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));										
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));										
 											$('#dialog_error_upload').modal('show');
 										}else if (!busy){
 											clearInterval(pollInterval);
@@ -1304,7 +1304,7 @@ function showModalFilterFieldsAvancat(data){
 	jQuery('#filtrarBtn').on('click',function(event){
 		if(busy){
 		 	jQuery('#dialog_filter_rangs_avancat').hide();
-			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -1371,7 +1371,7 @@ function showModalFilterFieldsAvancat(data){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");										
-										$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l'operació"));	
+										$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l'operació"));	
 										$('#dialog_error_upload').modal('show');
 										
 										keys="";
@@ -1383,7 +1383,7 @@ function showModalFilterFieldsAvancat(data){
 										jQuery('#dialog_filter_rangs_avancat').modal('hide');
 										jQuery('#info_uploadFile').hide();	
 										$('#dialog_error_upload_txt').html("");					
-										$('#dialog_error_upload_txt').html(window.lang.translate("No hi ha resultats per el filtre"));					
+										$('#dialog_error_upload_txt').text(window.lang.translate("No hi ha resultats per el filtre"));					
 										$('#dialog_error_upload').modal('show');
 										busy=false;
 										keys="";
@@ -1473,7 +1473,7 @@ function getTipusValuesVisualitzacioFilter(results){
 			});	
 			if(busy){
 				jQuery('#dialog_filter_rangs').hide();
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 			}else{
 				busy=true; 
@@ -1528,7 +1528,7 @@ function getTipusValuesVisualitzacioFilter(results){
 											
 											$('#dialog_error_upload_txt').html("");
 											
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error generant filtre"));
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error generant filtre"));
 											
 											
 											$('#dialog_error_upload').modal('show');
@@ -1568,7 +1568,7 @@ function getTipusValuesVisualitzacioFilter(results){
 							jQuery('#info_uploadFile').hide();		
 							busy=false;
 							$('#dialog_error_upload_txt').html("");					
-							$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+							$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 							$('#dialog_error_upload').modal('show');
 							
 						}
@@ -1651,6 +1651,7 @@ function openColumnJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			fields[window.lang.translate('Escull el camp')] = '---';
 			jQuery.each(dataNames, function( index, value ) {
@@ -1692,6 +1693,7 @@ function openColumnJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			fields[window.lang.translate('Escull el camp')] = '---';
 			jQuery.each(dataNames, function( index, value ) {
@@ -1725,7 +1727,7 @@ function openColumnJoinModal(){
 	jQuery('#joinBtn').on('click',function(event){
 		if(busy){
 			jQuery('#dialog_column_join').hide();
-			$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+			$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 			$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true; 
@@ -1804,7 +1806,7 @@ function openColumnJoinModal(){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");											
-										$('#dialog_error_upload_txt').html(window.lang.translate("Error unint taules per columnes"));		
+										$('#dialog_error_upload_txt').text(window.lang.translate("Error unint taules per columnes"));		
 										$('#dialog_error_upload').modal('show');
 									}
 									else if (!busy){
@@ -1934,6 +1936,7 @@ function openSpatialJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;						
@@ -1966,6 +1969,7 @@ function openSpatialJoinModal(){
 			var props = event.target.value.split('___');
 			var businessId = props[0];
 			var propName=props[1];
+			if (propName=="") propName="nom,text";
 			var dataNames=propName.split(',');
 			jQuery.each(dataNames, function( index, value ) {
 					fields[value] = value;						
@@ -1993,7 +1997,7 @@ function openSpatialJoinModal(){
 		event.stopImmediatePropagation();
 		 if(busy){
 			 	jQuery('#dialog_spatial_join').hide();
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 		}else{
 		 busy=true;
@@ -2063,7 +2067,7 @@ function openSpatialJoinModal(){
 											jQuery('#info_uploadFile').hide();		
 											busy=false;
 											$('#dialog_error_upload_txt').html("");					
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 											$('#dialog_error_upload').modal('show');
 										}
 										else {
@@ -2090,7 +2094,7 @@ function openSpatialJoinModal(){
 													jQuery('#info_uploadFile').hide();		
 													busy=false;
 													$('#dialog_error_upload_txt').html("");					
-													$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+													$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 													$('#dialog_error_upload').modal('show');
 												}
 											});
@@ -2102,7 +2106,7 @@ function openSpatialJoinModal(){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");											
-										$('#dialog_error_upload_txt').html(window.lang.translate("Error unint taules per columnes"));		
+										$('#dialog_error_upload_txt').text(window.lang.translate("Error unint taules per columnes"));		
 										$('#dialog_error_upload').modal('show');
 									}
 									else if (!busy){
@@ -2263,7 +2267,7 @@ function openUnionModal(){
 		event.stopImmediatePropagation();
 		 if(busy){
 			 	jQuery('#dialog_union').hide();
-				$('#dialog_info_upload_txt').html(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
+				$('#dialog_info_upload_txt').text(window.lang.translate("S'està executant una operació. Si us plau, espereu que aquesta acabi."));
 				$('#dialog_info_upload').modal('show');
 		}else{
 			busy=true;
@@ -2326,7 +2330,7 @@ function openUnionModal(){
 											jQuery('#info_uploadFile').hide();		
 											busy=false;
 											$('#dialog_error_upload_txt').html("");					
-											$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+											$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 											$('#dialog_error_upload').modal('show');
 										}
 										else {
@@ -2355,7 +2359,7 @@ function openUnionModal(){
 													jQuery('#info_uploadFile').hide();		
 													busy=false;
 													$('#dialog_error_upload_txt').html("");					
-													$('#dialog_error_upload_txt').html(window.lang.translate("Error calculant l\'operació"));					
+													$('#dialog_error_upload_txt').text(window.lang.translate("Error calculant l\'operació"));					
 													$('#dialog_error_upload').modal('show');
 												}
 											});
@@ -2367,7 +2371,7 @@ function openUnionModal(){
 										jQuery('#info_uploadFile').hide();
 										
 										$('#dialog_error_upload_txt').html("");											
-										$('#dialog_error_upload_txt').html(window.lang.translate("Error unint taules per columnes"));		
+										$('#dialog_error_upload_txt').text(window.lang.translate("Error unint taules per columnes"));		
 										$('#dialog_error_upload').modal('show');
 									}
 									else if (!busy){

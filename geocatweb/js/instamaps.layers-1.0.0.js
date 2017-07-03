@@ -24,11 +24,11 @@
 			_map = self.map,
 			defer = $.Deferred();
 
-			if (value.epsg == "4326"){
+			if (value.epsg && value.epsg.indexOf("4326")!=-1){
 				value.epsg = L.CRS.EPSG4326;
-			}else if (value.epsg == "25831"){
+			}else if (value.epsg && value.epsg.indexOf("25831")!=-1){
 				value.epsg = L.CRS.EPSG25831;
-			}else if (value.epsg == "23031"){
+			}else if (value.epsg && value.epsg.indexOf("23031")!=-1){
 				value.epsg = L.CRS.EPSG23031;
 			}else{
 				value.epsg = _map.options.crs;
@@ -116,15 +116,18 @@
 				{
 				
 					self.map.oms = new OverlappingMarkerSpiderfier(self.map, {keepSpiderfied : false});
-					var popup = new L.Popup();
 					self.map.oms.addListener('click', function(marker) {
 
-						if(marker.getPopup)
-						{
+						PopupManager().createMergedDataPopup(marker, {latlng: marker._latlng}, controlCapes);
 						
-							popup.setContent(marker.getPopup().getContent());
-							popup.setLatLng(marker.getLatLng());
-							self.map.openPopup(popup);
+					});
+
+					self.map.oms.addListener('spiderfy', function(spiderified, unspiderified) {
+
+						if(spiderified.length)
+						{
+
+							PopupManager().createMergedDataPopup(spiderified[0], {latlng: spiderified[0]._omsData.usualPosition}, controlCapes);
 
 						}
 						
@@ -132,27 +135,51 @@
 
 				}
 
-				$.each(results.origen, function(index, value){
-
-					self.loadLayer(value).then(function(){
+				var resultats ={};
+				//businessIdMapa=796aad9d9e4b1846469b25172316910e
+				if ('796aad9d9e4b1846469b25172316910e'==_mapConfig.businessId){//TODO esborrar
+					
+					self.loadLayer(results.origen[0]).then(function(){
 						num_origen++;
 						self._waitLoadAll(num_origen);
-						if (num_origen == results.origen.length){
-							$.each(results.sublayers, function(index, value){
-								self.loadLayer(value).then(function(){
-									num_origen++;
-									self._waitLoadAll(num_origen);
-								},function(){
-									num_origen++;
-									self._waitLoadAll(num_origen);
-								});
+						setTimeout(function(){
+							self.loadLayer(results.origen[1]).then(function(){
+								num_origen++;
+								self._waitLoadAll(num_origen);
+								
+							},function(){
+								num_origen++;
+								self._waitLoadAll(num_origen);
 							});
-						}
+						},500);
+						
 					},function(){
 						num_origen++;
 						self._waitLoadAll(num_origen);
 					});
-				});
+				}
+				else {				
+					$.each(results.origen, function(index, value){
+						self.loadLayer(value).then(function(){
+							num_origen++;
+							self._waitLoadAll(num_origen);
+							if (num_origen == results.origen.length){
+								$.each(results.sublayers, function(index, value){
+									self.loadLayer(value).then(function(){
+										num_origen++;
+										self._waitLoadAll(num_origen);
+									},function(){
+										num_origen++;
+										self._waitLoadAll(num_origen);
+									});
+								});
+							}
+						},function(){
+							num_origen++;
+							self._waitLoadAll(num_origen);
+						});
+					});
+				}
 			});
 			return dfd.promise();
 		},

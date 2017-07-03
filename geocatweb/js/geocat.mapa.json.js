@@ -264,16 +264,25 @@ function creaCapaFromJSON(directe) {
 							empty = empty && false;
 						}
 
+						pp.properties.popupData = '';
+
 						if(!empty){
-							pp.bindPopup("<div id='nom-popup-json'>" + pp.properties.nom + "</div><div>"
-									+ pp.properties.text + "</div><div id='image-popup-json'>"
-									+ pp.properties.img + "</div><div>" + pp.properties.vincle
-									+ "</div>");
+							pp.properties.popupData = "<div id='nom-popup-json'>" + pp.properties.nom + "</div><div>"
+								+ pp.properties.text + "</div><div id='image-popup-json'>"
+								+ pp.properties.img + "</div><div>" + pp.properties.vincle
+								+ "</div>";
+							pp.properties.capaNom = nomCapaJson;
+							pp.on('click', function(e) {
+								PopupManager().createMergedDataPopup(pp, e, controlCapes);
+							});
+
 						}
+
 						pp.addTo(capaJSON);
 					}
 
 //					jQuery('#dialog_dades_ex').modal('toggle');
+					console.info(20);
 					jQuery('#dialog_dades_ex').modal('hide');	
 					capaJSON.options.businessId = results.results.businessId;
 					capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
@@ -293,7 +302,7 @@ function creaCapaFromJSON(directe) {
 			});
 			
 		}else{
-			capaJSON.addTo(map)
+			capaJSON.addTo(map);
 			capaJSON.options.zIndex = controlCapes._lastZIndex+1; 
 			capaJSON.options.options = jQuery.parseJSON('{"x":"'+cmd_json_x+'", "y":"'+cmd_json_y+'","titol":"'+cmd_json_titol+'","descripcio":"'+cmd_json_desc+'", "imatge":"'+cmd_json_img+'","vincle":"'+cmd_json_vin+'"}');
 			capaJSON.options.options.estil_do = estil_do;
@@ -401,12 +410,20 @@ function loadCapaFromJSON(layer) {
 							+ v_respotaJSON[key][options.vincle] + '</a>';
 					empty = empty && false;
 				}
+
+				pp.properties.popupData = '';
 	
 				if(!empty){
-					pp.bindPopup("<div id='nom-popup-json'>" + pp.properties.nom + "</div><div id='text-popup-json'>"
-							+ pp.properties.text + "</div><div id='image-popup-json'>"
-							+ pp.properties.img + "</div><div>" + pp.properties.vincle
-							+ "</div>");
+
+					pp.properties.popupData = "<div id='nom-popup-json'>" + pp.properties.nom + "</div><div id='text-popup-json'>"
+						+ pp.properties.text + "</div><div id='image-popup-json'>"
+						+ pp.properties.img + "</div><div>" + pp.properties.vincle
+						+ "</div>";
+					pp.properties.capaNom = layer.serverName;
+					pp.on('click', function(e) {
+						PopupManager().createMergedDataPopup(pp, e, controlCapes);
+					});
+
 				}
 				pp.addTo(capaJSON);
 			}

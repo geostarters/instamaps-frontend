@@ -3,7 +3,44 @@ var editat = false;
 var geomBusinessId = '-1';
 var geomRowIndex = 0;
 var numRows = 0;
+var dataFormatter = new DataFormatter();
+var optionsF={};
+var hiHaError = false;
 
+function reloadSingleLayer(capaEdicio, layerServidor) {
+
+	map.closePopup();
+	map.removeLayer(capaEdicio.layer);
+	controlCapes.removeLayer(capaEdicio);
+	
+	//Recarrego la capa origen
+	loadVisualitzacioLayer(layerServidor).then(function(results){
+		//recarrego les sublayers si les te
+		jQuery.each(capaEdicio._layers, function(i, sublayer){
+			
+			if(jQuery.type(capaEdicio.layer.options)== "string"){
+				capaEdicio.layer.options = $.parseJSON(capaEdicio.layer.options);
+			}	            	  
+			//Sublayer visualitzacio, carrego la capa
+			if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
+		  		  sublayer.layer.serverName = sublayer.layer.options.nom;
+		  		  sublayer.layer.serverType = sublayer.layer.options.tipus;
+		  		  sublayer.layer.capesActiva = "true";
+		  		  sublayer.layer.options.origen = capaEdicio.layer.options.businessId;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
+		  		  //tipusRang
+		  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
+		  		  sublayer.layer.options = JSON.stringify(sublayer.layer.options);
+		  		  
+		  		  //eliminem sublayer del mapa, i recarreguem
+		  		  map.closePopup();
+		  		  map.removeLayer(sublayer.layer);
+		  		  
+		  		  loadVisualitzacioLayer(sublayer.layer);
+	  	  	}
+		});	
+	});		
+
+}
 
 function addFuncioEditDataTable(){
 	
@@ -22,55 +59,35 @@ function addFuncioEditDataTable(){
 	});
 	
 	$('#modal_data_table').on('hidden.bs.modal', function (e) {
-		
+		var capaEdicio = $('#modal_data_table').data("capaEdicio");
 //		console.debug(controlCapes);
+		//Update options amb les propietats de cada camp
+		
+		if (!$.isEmptyObject(optionsF)){
+			var optionsNoves = {
+					propFormat: optionsF	
+				};
+			var data={
+					businessId:  capaEdicio.layer.options.businessId,
+					uid: Cookies.get('uid'),
+					options:  JSON.stringify(optionsNoves)					
+			};
+			updateServidorWMSOptions(data).then(function(results){
+				$('#modal_data_table').data("layerServidor", results.results);
+				var layerServidor = $('#modal_data_table').data("layerServidor");				
+				layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();		
+				optionsF={};
+				//Eliminem la capa de controlCapes i mapa
+				reloadSingleLayer(capaEdicio, layerServidor);
+			});
+		}
 		
 		//si hem editat dades recarreguem la capa per visualitzar els canvis
-		if(editat){
-//			console.debug("Tanquem modal data table");
-			  
-	    	//Actualitzem visualitzacions de la capa on estava la geometria modificada
-			var capaEdicio = $('#modal_data_table').data("capaEdicio");//controlCapes._layers[capaEdicioLeafletId];
-//			console.debug("capaEdicio:");
-//			console.debug(capaEdicio);
+		if(editat && $.isEmptyObject(optionsF)){
 			var layerServidor = $('#modal_data_table').data("layerServidor");
-			
 			layerServidor.capesOrdre = capaEdicio.layer.options.zIndex.toString();
-			
-//			console.debug("layerServidor:");
-//			console.debug(layerServidor);	
-			
 			//Eliminem la capa de controlCapes i mapa
-			map.closePopup();
-			map.removeLayer(capaEdicio.layer);
-			controlCapes.removeLayer(capaEdicio);			
-			
-			//Recarrego la capa origen
-			loadVisualitzacioLayer(layerServidor).then(function(results){
-				//recarrego les sublayers si les te
-				jQuery.each(capaEdicio._layers, function(i, sublayer){
-					
-					if(jQuery.type(capaEdicio.layer.options)== "string"){
-						capaEdicio.layer.options = $.parseJSON(capaEdicio.layer.options);
-					}	            	  
-					//Sublayer visualitzacio, carrego la capa
-					if(sublayer.layer.options.tipus.indexOf(t_visualitzacio)!=-1){
-				  		  sublayer.layer.serverName = sublayer.layer.options.nom;
-				  		  sublayer.layer.serverType = sublayer.layer.options.tipus;
-				  		  sublayer.layer.capesActiva = "true";
-				  		  sublayer.layer.options.origen = capaEdicio.layer.options.businessId;//layer.properties.capaBusinessId;//BusinessIdCapaorigen
-				  		  //tipusRang
-				  		  sublayer.layer.businessId = sublayer.layer.options.businessId;//Si no, no ho trobarà després
-				  		  sublayer.layer.options = JSON.stringify(sublayer.layer.options);
-				  		  
-				  		  //eliminem sublayer del mapa, i recarreguem
-				  		  map.closePopup();
-				  		  map.removeLayer(sublayer.layer);
-				  		  
-				  		  loadVisualitzacioLayer(sublayer.layer);
-			  	  	}
-				});	
-			});		
+			reloadSingleLayer(capaEdicio, layerServidor);
 		}
 		editat = false;
 		geomBusinessId = '-1';
@@ -82,9 +99,52 @@ function addFuncioEditDataTable(){
 	
 }
 
+function editableColumnFormatter(inValue, row, index, name, pk) {
+
+	var value = inValue;
+	
+	var format = $('.dataTableSelect[data-column="' + name + '"]').val();
+	//console.debug(value);
+	if(0 == index) {
+		//Data type row
+	}
+	else {
+
+		value = dataFormatter.formatValue(inValue,format);
+		if (value.indexOf("error")>-1) {
+			value=inValue;
+		}
+		return ['<a href="javascript:void(0)"',
+			' data-name="' + name + '"',
+			' data-pk="' + pk + '"',
+			' data-value="' + value.replace("<span style='color:red'>","").replace("</span>","") + '"',
+			'>' + value + '</a>'
+			].join('');
+	}
+
+	return value;
+
+}
+
+function nonEditableColumnFormatter(inValue, row, index, name, pk) {
+	var value = inValue;
+
+	if(0 == index) {
+		//Data type row
+	}
+	else {
+		value = dataFormatter.formatValue(inValue);
+		if (value.indexOf("error")>-1) value=inValue;
+	}
+
+	return value;
+
+}
+
 function fillModalDataTable(obj, geomBid){
 	
 	var columNames = [];
+	var widthColumn;
 	var geometriesBusinessId = "";
 	var modeMapa = ($(location).attr('href').indexOf('/mapa.html')!=-1);
 	
@@ -113,11 +173,39 @@ function fillModalDataTable(obj, geomBid){
 	$('#modal_data_table_title').text(obj.name.toUpperCase());	
 	
 	var options = obj.layer.options;
+	var totalColumns=1;
 	if (obj.layer.options!=undefined && obj.layer.options.estil!=undefined){
+		
 		//Primer trobem column names
 		jQuery.each(obj.layer.options.estil, function(indexEstil, estil){
 			
 			jQuery.each(estil.geometria.features, function(indexFeature, feature){
+				
+				
+				var isADrawMarker=false;
+				
+				
+				if (feature.properties!=undefined && feature.properties.length!=undefined) {
+					totalColumns = totalColumns + feature.properties.length;
+					for(var x in feature.properties){	
+						if (!isADrawMarker && (x=='text' || x=='TEXT')) {
+							isADrawMarker=true;
+						}				
+						else if (!isADrawMarker) isADrawMarker=false;
+					}
+				}
+				if (options.propName!=undefined && options.propName.length!=undefined) {
+					totalColumns = totalColumns + options.propName.length;
+					for(var x in options.propName){	
+						if (!isADrawMarker && (options.propName[x]=='text' || options.propName[x]=='TEXT')) {
+							isADrawMarker=true;
+						}				
+						else if (!isADrawMarker) isADrawMarker=false;
+					}
+				}
+				if (isADrawMarker && feature.geometry.type=="Point") totalColumns = totalColumns + 2;
+				
+				 widthColumn = 100/totalColumns;
 				//console.debug(feature);
 				//Geometry Id
 				var objGeomId = {
@@ -145,7 +233,6 @@ function fillModalDataTable(obj, geomBid){
 				
 				//console.debug(options);
 				if(modeMapa){
-					var isADrawMarker=false;
 					//properties headers
 					//console.debug(feature);
 					var propName;
@@ -170,10 +257,12 @@ function fillModalDataTable(obj, geomBid){
 									sortable: true,
 									editable: {
 										emptytext : '-'
-									}
+									},
+									formatter: editableColumnFormatter,
+									withoutLink: true,
+									width:widthColumn+"% !important"
 								}
-								if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
-								else isADrawMarker=false;
+							
 								columNames.push(obj);
 							}
 						}		
@@ -187,7 +276,10 @@ function fillModalDataTable(obj, geomBid){
 									sortable: true,
 									editable: {
 										emptytext : '-'
-									}
+									},
+									formatter: editableColumnFormatter,
+									withoutLink: true,
+									width:widthColumn+"% !important"
 								}
 								if (x=='text' || x=='TEXT') isADrawMarker=true;
 								else isADrawMarker=false;
@@ -199,13 +291,15 @@ function fillModalDataTable(obj, geomBid){
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
-								sortable: true
+								sortable: true,
+								width:widthColumn+"%"
 							}
 						columNames.push(obj);
 						 obj = {
 									title: "longitud".toUpperCase(),
 									field: "longitud".toLowerCase(),
-									sortable: true
+									sortable: true,
+									width:widthColumn+"% !important"
 								}
 						 columNames.push(obj);
 					}
@@ -215,14 +309,14 @@ function fillModalDataTable(obj, geomBid){
 							title: window.lang.translate("ACCIONS"),
 							field: 'Accions',
 							formatter: 'actionFormatter',
-							events: 'actionEvents'
+							events: 'actionEvents',
+							width:widthColumn+"% !important"
 					}	
 					columNames.push(objActions);
 					
 				}else{
 					//Taula no editable pel visor
 					//properties headers
-					var isADrawMarker=false;
 					if (options.propName!=undefined && options.propName.toString().indexOf("nom,text")==-1) {
 						
 							for(var x in options.propName){
@@ -230,7 +324,10 @@ function fillModalDataTable(obj, geomBid){
 									var obj = {
 										title: options.propName[x].toUpperCase(),
 										field: options.propName[x].toLowerCase(),
-										sortable: true
+										sortable: true,
+										formatter: nonEditableColumnFormatter,
+										withoutLink: true,
+										width:widthColumn+"% !important"
 									}
 									if (options.propName[x]=='text' || options.propName[x]=='TEXT') isADrawMarker=true;
 									else isADrawMarker=false;
@@ -244,7 +341,10 @@ function fillModalDataTable(obj, geomBid){
 								var obj = {
 									title: x.toUpperCase(),
 									field: x.toLowerCase(),
-									sortable: true								
+									sortable: true,
+									formatter: nonEditableColumnFormatter,
+									withoutLink: true,
+									width:widthColumn+"% !important"				
 								}
 								if (x=='text' || x=='TEXT') isADrawMarker=true;
 								else isADrawMarker=false;
@@ -256,13 +356,15 @@ function fillModalDataTable(obj, geomBid){
 						var obj = {
 								title: "latitud".toUpperCase(),
 								field: "latitud".toLowerCase(),
-								sortable: true
+								sortable: true,
+								width:widthColumn+"% !important"
 							}
 						columNames.push(obj);
 						 obj = {
 									title: "longitud".toUpperCase(),
 									field: "longitud".toLowerCase(),
-									sortable: true
+									sortable: true,
+									width:widthColumn+"% !important"
 								}
 						 columNames.push(obj);
 					}
@@ -284,6 +386,9 @@ function fillModalDataTable(obj, geomBid){
 	}
 	else {//Primer cop que dibuixem una geometria
 		//Geometry Id
+		totalColumns = totalColumns+ 2;
+		
+		widthColumn = 100/totalColumns;
 		var objGeomId = {
 				field: 'geometryid',
 				title: 'ID',
@@ -316,6 +421,7 @@ function fillModalDataTable(obj, geomBid){
 					title: "nom".toUpperCase(),
 					field: "nom".toLowerCase(),
 					sortable: true,
+					width:widthColumn+"% !important",
 					editable: {
 						emptytext : '-'
 					}
@@ -326,6 +432,7 @@ function fillModalDataTable(obj, geomBid){
 					title: "text".toUpperCase(),
 					field: "text".toLowerCase(),
 					sortable: true,
+					width:widthColumn+"% !important",
 					editable: {
 						emptytext : '-'
 					}
@@ -337,12 +444,14 @@ function fillModalDataTable(obj, geomBid){
 				var obj2 = {
 						title: "latitud".toUpperCase(),
 						field: "latitud".toLowerCase(),
+						width:widthColumn+"% !important",
 						sortable: true
 					}
 				columNames.push(obj2);
 				 obj2 = {
 							title: "longitud".toUpperCase(),
 							field: "longitud".toLowerCase(),
+							width:widthColumn+"% !important",
 							sortable: true
 						}
 				 columNames.push(obj2);
@@ -353,7 +462,8 @@ function fillModalDataTable(obj, geomBid){
 					title: window.lang.translate("ACCIONS"),
 					field: 'Accions',
 					formatter: 'actionFormatter',
-					events: 'actionEvents'
+					events: 'actionEvents',
+					width:widthColumn+"% !important",
 			}	
 			columNames.push(objActions);
 			
@@ -392,11 +502,18 @@ function fillModalDataTable(obj, geomBid){
 				geometriesBusinessId = results.geometriesBusinessId;
 				$('#modal_data_table').data("layerServidor", results.layer);
 				var resultats = results.results;
-				var coords = resultats.split("#");  
+				var coords = resultats.split("#");
 				var lon = parseFloat(coords[2]);
 				var lat = parseFloat(coords[1]);
 				//resultats = resultats.replace("}]",",\"longitud\":\""+lon.toFixed(5)+"\",\"latitud\":\""+lat.toFixed(5)+"\"}]");
 				var resultats2 = $.parseJSON(resultats);
+				var propFormat; 
+				if (results.layer.options!=undefined){
+					var opts = $.parseJSON(results.layer.options);
+					if (opts.propFormat!=undefined){
+						propFormat= opts.propFormat;
+					}
+				}
 				var resultatsMod = [];
 				var resultI=0;
 				var haveGeomOrigen=false;
@@ -405,28 +522,66 @@ function fillModalDataTable(obj, geomBid){
 					var lon = parseFloat(coords[2]);
 					var lat = parseFloat(coords[1]);
 					if (result.longitud==undefined)  result.longitud=lon.toFixed(5);
-					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);					
+					if (result.latitud==undefined)  result.latitud=lat.toFixed(5);
 					$.each( result, function( key, value ) {
 						if (key.toLowerCase()!="geomorigen"){
-							var valorStr=value.toString();
-							if (valorStr.indexOf("src")>-1){
-								value=valorStr.replaceAll('"',"'");//Issue #560
-								//console.debug(value);
-								result[key]=value;
+							if (propFormat!=undefined && propFormat[key]!=undefined){
+								var formatValue=dataFormatter.formatValue(value, propFormat[key]);
+								if (formatValue.indexOf("error")>-1) {
+									result[key]= value;
+								}
+								else {
+									result[key]= formatValue;
+								}
 							}
-							else result[key]=value;
+							else {
+								var valorStr=value.toString();
+								if (valorStr.indexOf("src")>-1){
+									value=valorStr.replaceAll('"',"'");//Issue #560
+									//console.debug(value);
+									result[key]=value;
+								}
+								else result[key]=value;
+							}
 						}
 						else {
 							result[key] = null;
 							delete result[key];
 						}
 					});
+					
 					resultatsMod[resultI]=result;
 					
 					resultI++;
 					//console.debug(result);
 					
 				});
+				//Add the first row with the column type selection
+				if (modeMapa){
+					var selectsRow = {};
+					$.each(columNames, function(i, name) {
+						var nameF = name.field.toLowerCase();
+						if("accions" != nameF && "geometryid"!= nameF && "latitud"!= nameF && "longitud"!= nameF
+								&& "geometryBBOX"!= nameF && "geometrybid"!= nameF) {						
+							if (!$.isEmptyObject(optionsF) && optionsF[name.field]!=undefined){
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, optionsF[name.field]);
+							}
+							else if (propFormat!=undefined && propFormat[name.field]!=undefined){
+								selectsRow[name.field] = dataFormatter.createOptions(name.field, propFormat[name.field]);
+							}
+							else{
+								selectsRow[name.field] = dataFormatter.createOptions(name.field,'t');
+							}
+	
+						}
+						else if ("latitud"== nameF && "longitud"== nameF){
+							selectsRow[name.field] = "";
+						}
+	
+					});
+					resultatsMod.unshift(selectsRow);
+				}
+
 				var showRefresh=false;
 				if (mapConfig.tipusAplicacioId == TIPUS_APLIACIO_AOC) showRefresh=true;
 				$('#modal_data_table_body #layer-data-table').bootstrapTable({
@@ -447,7 +602,8 @@ function fillModalDataTable(obj, geomBid){
 				    data: resultatsMod,
 				    icons: {
 				       refresh: 'glyphicon-refresh'
-				    }
+				    },
+				    width: widthColumn
 				});	
 				
 
@@ -456,24 +612,35 @@ function fillModalDataTable(obj, geomBid){
 					event.stopImmediatePropagation();					
 					
 					if(isValidValue(name)){
-						
-						var dataUpdate ={
-								uid:Cookies.get('uid'),
-								geometryid: row["geometryid"],
-								key:  name,
-								newValue: row[name]
-							};
-//						console.debug(dataUpdate);
-						updateGeometriaProperties(dataUpdate).then(function(results){
-							if (results.status == "OK"){
-//								console.debug(results);
-								editat = true;
-							}else{
+						var newValue = row[name];
+						var format = $('.dataTableSelect[data-column="' + name + '"]').val();
+						var formatValue = dataFormatter.formatValue(row[name], format);
+						if (formatValue.indexOf("error")>-1){
+							alert("Format no permés. Adapta’l al format 123.45,67 o 12345,67.");
+							hiHaError = false;
+							dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'), false);
+						}
+						else{
+							//Trigger an update to format the value
+							//If we had the cell name we could modify it directly...
+							//dataTableSelectChanged($('.dataTableSelect[data-column="' + name + '"]'));
+							var dataUpdate ={
+									uid:Cookies.get('uid'),
+									geometryid: row["geometryid"],
+									key:  name,
+									newValue: row[name]
+								};
+							updateGeometriaProperties(dataUpdate).then(function(results){
+								if (results.status == "OK"){
+									editat = true;
+									row[name] = formatValue;
+								}else{
+									console.debug('error updateGeometriaProperties');
+								}
+							},function(results){
 								console.debug('error updateGeometriaProperties');
-							}
-						},function(results){
-							console.debug('error updateGeometriaProperties');
-						});							
+							});		
+						}
 					}
 				});	
 				
@@ -494,8 +661,11 @@ function fillModalDataTable(obj, geomBid){
 						});							
 					}*/
 				});
-				
-				
+
+				$('.dataTableSelect').on('change', function() {
+					dataTableSelectChanged(this);
+				});				
+			
 				
 			}else{
 				console.debug('error getGeometriesPropertiesLayer');
@@ -504,6 +674,62 @@ function fillModalDataTable(obj, geomBid){
 			console.debug('error getGeometriesPropertiesLayer');
 		});
 	
+}
+
+function dataTableSelectChanged(ctx, showAlert) {
+	var doAlert = (undefined == showAlert ? true : showAlert);
+	var format = $(ctx).val();
+	var $elem = $('#modal_data_table_body #layer-data-table');
+	var data = $elem.bootstrapTable('getData', false);
+	var column = $(ctx).data('column');
+	var totalErrors = 0;
+	for(var i=1, len=data.length; i<len; ++i)
+	{
+		var formatValue = dataFormatter.formatValue(dataFormatter.removeErrorSpan(data[i][column]), format);
+			
+		if (formatValue.indexOf("error")>-1 || formatValue.indexOf("span") > -1){//TODO
+			if(-1 == data[i][column].indexOf("span"))
+				data[i][column]="<span style='color:red'>"+data[i][column]+"</span>";
+
+			totalErrors++;
+			hiHaError=true;
+		}
+		else
+		{		
+			data[i][column] =formatValue;
+		}
+
+	}
+
+	if (hiHaError){
+		$('.dataTableSelect[data-column="' + column + '"]').val("t");
+	}
+
+	if (totalErrors>0 && doAlert) {
+		if (totalErrors>1) alert("Hem remarcat en vermell " +totalErrors +" valors dubtosos. Si us plau, adapta’ls al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
+		else alert("Hem remarcat en vermell " +totalErrors +" valor dubtós. Si us plau, adapta’l al format 12.345,67 o 12345,67, i torna a canviar el format de la columna.");
+	}
+
+	$elem.bootstrapTable('load', data);
+
+	if (!hiHaError) {
+		optionsF[column]=format;
+		$.each(optionsF, function(i) {
+			$('.dataTableSelect[data-column="' + i + '"]').val(optionsF[i]);
+		});
+		$('.dataTableSelect[data-column="' + column + '"]').val(format);
+	}
+	else {
+		$('.dataTableSelect[data-column="' + column + '"]').val("t");
+		totalErrors=0;
+		hiHaError = false;
+	}
+
+	var options1=optionsF;
+
+	$('.dataTableSelect').on('change', function() {	//Afegim altre cop l'event pq el bootstrapTable('load') refà la taula
+		dataTableSelectChanged(this);
+	});
 }
 
 function rowStyle(row, index) {
@@ -591,7 +817,7 @@ function addHtmlModalDataTable(){
 	'				<div id="modal_data_table_body" class="modal-body">'+
 //	'					<div id="div-table">'+
 //	'						<div class="cell-left">'+
-	'							<div id="layer-data-table"></div>'+
+	'							<table id="layer-data-table"></table>'+
 //	'						</div>'+
 //	'						<div class="cell-right"></div>'+
 //	'						<div class="clearfix"></div>'+

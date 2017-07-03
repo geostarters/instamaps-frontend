@@ -26,13 +26,13 @@ var _gaq = _gaq || [];
 			ga('create', 'UA-46332195-3', 'auto');
 		}
 
-		console.info(_userDimension);
+		
 
 		ga('set', 'transport', 'beacon');
 		ga('send', 'pageview');
 		ga('set', 'dimension1', _userDimension);
 		ga('set', 'userId', _userID);
-		//ga('send', 'event', 'aplicacio','visibilitat',visibilitat,2);
+		
 
 		//TODO poner el subscriber
 		$.publish('loadGaEvents');
@@ -44,7 +44,7 @@ var _gaq = _gaq || [];
 	});
 
 	$.subscribe('trackPageview', function(e, data){
-		
+
 		 ga('send', 'pageview');
 	});
 
@@ -77,7 +77,7 @@ function addAnalyticsEvent(dataEvents){
 			console.info(dataEventArray[0])	;
 			console.info(dataEventArray[1])	;
 			console.info(event_label)	;
-			*/												
+			*/
 			ga('send', 'event', dataEventArray[0],dataEventArray[1],event_label,label_num);
 		}catch(err){
 
@@ -109,19 +109,7 @@ function checkIfAnalyticsLoaded(data) {
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- /*
-	console.info("entro");
-	ga = document.createElement('script');
-	ga.type = 'text/javascript';
-	ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl'
-			: 'http://www')
-			+ '.google-analytics.com/analytics.js';
-	var s = document.getElementsByTagName('script')[0];
-	s.parentNode.insertBefore(ga, s);
 
-
-		*/
 
 })();
 

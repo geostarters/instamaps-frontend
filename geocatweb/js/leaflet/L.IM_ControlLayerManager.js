@@ -104,6 +104,74 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 		return resp_Layer;
 	},
 
+	getVisibleLayers: function(includeVisualizations) 
+	{
+		
+		var self = this;
+		var visibles = [];
+		var bIncludeVis = includeVisualizations || false;
+
+		Array.prototype.push.apply(visibles, 
+			self.getVisibleLayersAux(self._layers, bIncludeVis));
+
+		return visibles;
+
+	},
+
+	getVisibleLayersAux: function(layers, includeVisualizations)
+	{
+
+		var self = this;
+		var visibles = [];
+		var keys = Object.keys(layers);
+
+		if(0 != keys.length)
+		{
+		
+			for(var i=0, len=keys.length; i<len; ++i)
+			{
+
+				var layer = layers[keys[i]];
+				if(null != layer.layer._map)
+				{
+
+					visibles.push(layer);
+
+				}
+				else if(null == layer.layer._map && undefined != layer._layers && self.getCountSubLayers(layer._layers)>0)
+				{ 
+					//Comprovem si hi ha sublayers actives
+					visibles.push(layer);
+				}
+
+				if(includeVisualizations && layer._layers)
+				{
+
+					Array.prototype.push.apply(visibles, 
+						self.getVisibleLayersAux(layer._layers, 
+							includeVisualizations));
+
+				}
+
+			}
+
+		}
+
+		return visibles;
+
+	},
+	
+	getCountSubLayers:function(_layers){
+		var i=0;
+		for (layer in _layers) {
+			var layer2 = _layers[layer];
+			if(null != layer2.layer._map) {
+				i=i+1;	
+			}					
+		}
+		return i;
+	},
+
 	updateTreeGroupLayers : function(groupId, groupName, businessId, z_order, expanded) {
 		var dfd = $.Deferred();
 		try{
@@ -631,7 +699,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			for (i in self._layers) {
 				layerArray.push(self._layers[i]);
 			}
-			layerArray = sortByKeyPath(layerArray, "zIndex");
+			layerArray = sortByKeyPath(layerArray, "zIndex", true);
 			
 			for (i in layerArray) {
 				obj = layerArray[i];
@@ -791,11 +859,24 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			// Icona Taula de Dades Sempre
 			if ((obj.layer.options.source || obj.layer.options.geometryType=="marker" ||  obj.layer.options.geometryType=="polyline" 
 				||  obj.layer.options.geometryType=="polygon") && !obj.layer.options.dinamic ) {
-				col = L.DomUtil.create('div',
-					'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
-				col.layerId = input.layerId;
-				L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
-				_menu_item_checkbox.appendChild(col);
+				if (getModeMapa()){
+					col = L.DomUtil.create('div',
+						'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
+					col.layerId = input.layerId;
+					L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+					_menu_item_checkbox.appendChild(col);
+				}
+				else {
+					if(downloadableData[obj.layer.options.businessId]){
+	    				if(downloadableData[obj.layer.options.businessId][0].chck) {
+	    					col = L.DomUtil.create('div',
+	    							'data-table-'+ obj.layer.options.businessId+ ' leaflet-data-table glyphicon glyphicon-list-alt');
+	    						col.layerId = input.layerId;
+	    						L.DomEvent.on(col, 'click', this._onOpenDataTable, this);
+	    						_menu_item_checkbox.appendChild(col);
+	    				}
+					}
+				}
 			}
 			// Icona Descàrrega sempre
 			//Issue #467: S'ha de respectar el que es selecciona al publicar sobre si una capa és descarregable o no.
@@ -870,7 +951,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 			if (getModeMapa()) {
 				if ((obj.layer.options.tipus == t_visualitzacio
 						|| obj.layer.options.tipus == t_url_file
-						|| obj.layer.options.tipus == t_json) && !obj.layer.options.dinamic) {
+						|| obj.layer.options.tipus == t_json) ) {
 					col = L.DomUtil
 							.create(
 									'div',
@@ -1105,9 +1186,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
 					obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
 					jQuery.each(obj.layer._layers, function(i, lay){	
-						var zoomInicial = "2";
+						var zoomInicial = zoomInicialEt;
 				 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-				 		var zoomFinal = "19";
+				 		var zoomFinal = zoomFinalEt;
 				 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
 				 		
 				 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
@@ -1667,9 +1748,9 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				else 	$('#dv_color_caixa_etiqueta').css('background-color','#000000');
 				if (obj.layer.options.opcionsVisEtiqueta!=undefined) $('input:radio[name=etiqueta][value='+obj.layer.options.opcionsVisEtiqueta+']').attr('checked', true);
 				else $('input:radio[name=etiqueta][value=etiquetageom]').attr('checked', true);
-				var zoomInicial = "2";
+				var zoomInicial = zoomInicialEt;
 		 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-		 		var zoomFinal = "19";
+		 		var zoomFinal = zoomFinalEt;
 		 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
 		 		//Omplim els camps amb el que hi ha guardat a la BBDD
 		 		 var tooltip = function(sliderObj, ui){
@@ -1684,7 +1765,7 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 				$( "#slider" ).slider({
 					range:true,
 			        min: 2,
-			        max: 19,			 
+			        max: 20,			 
 			        values: [parseInt(zoomInicial),parseInt(zoomFinal)],
 			        change:function(event,ui){
 		            	//tooltip($(this),ui);  
@@ -1747,11 +1828,26 @@ L.Control.OrderLayers = L.Control.Layers.extend({
 								geometryType:optionsMap.geometryType
 						};
 						updateVisualitzacioLayer(data).then(function(results){
-							$('#dialog_etiquetes_capa').modal('hide');
-							reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map).then(function(results) {
-								//refresh zoom etiquetes
-								refrescarZoomEtiquetes(results);
-							});
+							if (results.status=="OK"){
+								$('#dialog_etiquetes_capa').modal('hide');
+								reloadVisualitzacioLayer(layerMap, results.visualitzacio, results.layer, map).then(function(results) {
+									//refresh zoom etiquetes
+									refrescarZoomEtiquetes(results);
+								});
+							}
+							else if (results.status="ERROR"){
+								updateServidorWMSOptions(data).then(function(results){
+									map.removeLayer(layerMap);
+									var id = layerMap._leaflet_id;
+									delete controlCapes._layers[id];
+																	
+									loadURLfileLayer(results.results).then(function(results) {
+										//refresh zoom etiquetes									
+										refrescarZoomEtiquetes(results);
+									});									
+									$('#dialog_etiquetes_capa').modal('hide');
+								});
+							}
 						});
 					}
 				});

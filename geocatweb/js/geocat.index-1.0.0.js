@@ -2,8 +2,7 @@ jQuery(document).ready(function() {
 
 	weball_tornarInici();	
 	
-//	$(".title-white", this).hover(swapImageIn, swapImageOut);
-//  $(".img-hover", this).hover(swapImageIn, swapImageOut);
+
 
 	$("#div_E").hover(function(){
 		console.info("entro");
@@ -19,12 +18,7 @@ jQuery(document).ready(function() {
 	});
 });
 
-//function swapImageIn(e) {
-//this.src = this.src.replace("_", "_pujat");
-//}
-//function swapImageOut (e) {
-//this.src = this.src.replace("_pujat", "_");
-//}
+
 
 function web_roundCircles(){
 	jQuery('#div_E').on('click', function() {

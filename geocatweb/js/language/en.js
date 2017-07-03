@@ -315,6 +315,7 @@ jquery_lang_js.prototype.lang.en = {
 ,"Estem en procés d'actualització. Podeu observar anomalies temporals a la visualització de les dades.":"We are updating the platform. Temporary anomalies can be observed when viewing the data."
 ,"Estem preparant el proper taller gratuït d'InstaMaps, t'interessa?":"We are preparing the next free workshop of InstaMaps, interested?"
 ,"Estem preparant dos nous tallers d'InstaMaps (bàsic i avançat), t'interessa?":"We are preparing two wokshops of Instamaps (basic and advanced), interested?"
+,"Estem preparant un nou taller d'InstaMaps (nivell bàsic), t'interessa?":"We are preparing the next workshop of InstaMaps (basic level), interested?"
 ,"Estil":"Style"
 ,"Estil actiu":"Active style"
 ,"Estil de les etiquetes":"Label style"

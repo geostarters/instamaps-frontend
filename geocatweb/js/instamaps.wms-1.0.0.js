@@ -7,7 +7,7 @@
 	};
 	
 	var _options = {
-		proxyUrl: "http://www.instamaps.cat/share/jsp/ows2json.jsp?"	
+		proxyUrl: "https://www.instamaps.cat/share/jsp/ows2json.jsp?"	
 	};
 	
 	InstamapsWms.prototype = {
@@ -90,7 +90,9 @@
 				ActiuWMS = {};
 			
 			self = $.extend(self, options);
-			var data = {url: self.url, capa:self.capa};
+			var url1 = self.url;
+			if (url1.indexOf("https://www.instamaps.cat")>-1) url1=url1.replace("https","http");
+			var data = {url: url1, capa:self.capa};
 			
 			self.getWMSLayers(data).then(function(results) {
 				var bbox, servidor, WMS_BBOX,
@@ -198,6 +200,7 @@
 						ActiuWMS.epsgtxt = '4326';	
 					} else {
 						alert(window.lang.translate("No s'ha pogut visualitzar aquest servei: Instamaps només carrega serveis WMS globals en EPSG:3857 i EPSG:4326"));
+						$.publish('analyticsEvent',{event:['error', 'Error EPSG WMS capabilities',ActiuWMS.url]});
 						return;
 					}
 					
@@ -251,6 +254,9 @@
 					
 				} catch (err) {
 					console.debug(err);
+					
+					$.publish('analyticsEvent',{event:['error', 'Error capabilities',ActiuWMS.url]});
+					
 					$('.layers-wms').html('<hr lang="ca">'+window.lang.translate("Error en interpretar capabilities")+': ' + err + '</hr>');
 				}
 			},function(data,status,error){

@@ -47,7 +47,7 @@ function addModul3D(config) {
 		loadCesiumCssJs();
 		$("body").append('<div id="map3D"></div>');
 		$("body").append('<div id="popup3D"></div>');
-		$.publish('analyticsEvent',{event:[ appl, 'siWebGL3D', 'label 3D', 1]});
+		//$.publish('analyticsEvent',{event:[ appl, 'siWebGL3D', 'label 3D', 1]});
 	}
 
 	jQuery('.bt_3D_2D').on('click', function (event) {
@@ -429,7 +429,7 @@ var IM_aplicacio = function (options) {
 				}
 			}
 		} catch (Err) {
-			$.publish('analyticsEvent',{event:[ 'error3D', Err, 'miraPosicioXYZ', 1]});
+			$.publish('analyticsEvent',{event:[ 'error','miraPosicioXYZ3d', JSON.stringify(Err) , 1]});
 		}
 	};
 
@@ -908,7 +908,7 @@ var IM_aplicacio = function (options) {
 			_escriuDebug(tmp_feature,"instamaps.mapa3D-1.0.0",1367);
 			return tmp_feature;
 		} catch (err) {
-			$.publish('analyticsEvent',{event:[ 'error3D', err, '_utilDeterminaTipusItem', 1]});
+		//	$.publish('analyticsEvent',{event:[ 'error3D', err, '_utilDeterminaTipusItem', 1]});
 			if (item.layer.options.tipusRang) {
 				tmp_feature.tipus = 'vecras';
 			} else {
@@ -1410,6 +1410,8 @@ var IM_aplicacio = function (options) {
 
 			dfd.resolve(cameraPos);
 		} catch (Err) {
+			
+			$.publish('analyticsEvent',{event:[ 'error','getPosicioCamer3D', JSON.stringify(Err) , 1]});	
 			dfd.reject(Err);
 		}
 		return dfd.promise();
@@ -1453,6 +1455,9 @@ var IM_aplicacio = function (options) {
 				dfd.resolve(null);
 			}
 		} catch (Err) {
+			
+			$.publish('analyticsEvent',{event:[ 'error','gestioTerrainProvaider', JSON.stringify(Err) , 1]});
+			
 			dfd.reject(Err);
 		}
 		return dfd.promise();
@@ -1613,7 +1618,7 @@ var IM_aplicacio = function (options) {
 
 function mostraMsgNo3D() {
 	jQuery("#dialgo_no_webgl").modal('show');
-	$.publish('analyticsEvent',{event:[ appl, 'noWebGL3D', 'label 3D', 1]});
+	//$.publish('analyticsEvent',{event:[ appl, 'noWebGL3D', 'label 3D', 1]});
 }
 
 function detectoCapacitatsWebGL() {

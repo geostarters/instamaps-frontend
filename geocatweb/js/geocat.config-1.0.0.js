@@ -1,11 +1,31 @@
-var HOST_APP = "http://www.instamaps.cat/";
-var GEOCAT02 = "http://www.instamaps.cat";
-var HOST_APP2 = "http://www.instamaps.cat/";
+var HOST_APP = "https://www.instamaps.cat/";
+var GEOCAT02 = "https://www.instamaps.cat";
+var HOST_APP2 = "https://www.instamaps.cat/";
 var HOST_GEOLOCAL = "http://www.geolocal.cat/";
 var proxydir = "maps";
 var tmpdir = "/opt/geocat/maps/tmp/";
 var tmpdirPolling = "poll/";
 var renovarPassword = "/geocatweb/renovar.html?token=";
+var HOST_APP3 = "http://www.instamaps.cat/";
+
+function httpOrhttps(_url,_invers){
+    
+    if (location.protocol == 'https:' && !_invers){
+        _url=_url.replace('http:','https:');
+    }else if (location.protocol == 'https:' && _invers){
+        _url=_url.replace('https:','http:');
+    }else if (location.protocol == 'http:' && !_invers){
+        _url=_url.replace('https:','http:');
+    }/*else if (location.protocol == 'http:' && _invers){
+        _url=_url.replace('http:','https:');
+    }  */  
+    
+    return _url;
+}
+
+HOST_APP = httpOrhttps(HOST_APP,false);
+GEOCAT02 = httpOrhttps(GEOCAT02,false);
+HOST_APP2 = httpOrhttps(HOST_APP2,false);
 
 var urlApp=document.location.href;
 if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
@@ -15,7 +35,8 @@ if((urlApp.indexOf('localhost')!=-1)||(urlApp.indexOf('.local')!=-1)){
 //	HOST_APP2 = "http://nicosia.icgc.local/";
 	HOST_APP = "http://localhost/";//Local Jess
 	HOST_APP2 = "http://localhost/";
-	
+	HOST_APP3 = "http://localhost/";
+
 //	HOST_APP = "http://localhost/";//Local Jess
 //	GEOCAT02 = "http://localhost:8181";
 	GEOCAT02 = "http://localhost";
@@ -31,13 +52,12 @@ var DOMINI = "www.instamaps.cat";
 if(urlApp.indexOf('172.70.1.11')!=-1){
 	HOST_APP = "http://172.70.1.11/";
 	HOST_APP2 = "http://172.70.1.11/";
+	HOST_APP3 = "http://172.70.1.11/";
 //	HOST_APP = "http://localhost:8080/";
 	GEOCAT02 = "http://172.70.1.11";
 	HOST_GEOLOCAL = "http://geolocaldev.icgc.local/";
 	proxydir="maps"; //he creat un director maps al meu Apache
 }
-
-
 
 
 var DOMINI = "www.instamaps.cat";
@@ -52,6 +72,7 @@ var paramUrl = {
 	loginGeolocalPage:"/geocatweb/sessio_geolocal.html",
 	mapaPage:"/geocatweb/mapa.html",
 	visorPage:"/geocatweb/visor.html",
+	instaVisorFolder:"instavisor/",
 	visorCloudifier:"/geocatweb/visor_cloudifier.html",
 	registrePage:"/geocatweb/registre.html",
 	galeriaPage:"/geocatweb/galeria.html",
@@ -110,18 +131,19 @@ var paramUrl = {
 	removeServerToMap: HOST_APP+"geocat/aplications/map/removeServerToMap.action?",
 	deleteServerRemoved: HOST_APP+"geocat/aplications/map/deleteServerRemoved.action?",
 	updateServidorWMSName: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSName.action?",
-	
-	
+
+
 	//nous updates
-	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",	
+	updateServidorWMSOptions: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOptions.action?",
 	updateServidorWMSGroup: HOST_APP+"geocat/aplications/map/updateServidorWMSGroup.action?",
 	updateServidorWMSOpacity: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMSOpacity.action?",
-	
-	
+
+
 	addServerToMap: HOST_APP+"geocat/aplications/map/addServerToMap.action?",
 	createServidorInMap: HOST_APP+"geocat/layers/servidor/wms/createServidorInMap.action?",
 	readFile: HOST_APP+"geocat/upload/readFile.action?",
-	uploadFile:  HOST_APP+"geocat/upload/uploadFile.action?",
+	uploadFile:  HOST_APP3+"geocat/upload/uploadFile.action?",
+	uploadFile2:  HOST_APP+"geocat/upload/uploadFile.action?",
 	urlGeoCoder:"http://www.icc.cat/geocodificador/json?maxresultats=10&obtenirCoordGeografiques=si&metode=localitzaToponim&ordre=alfabetic&trobaTots=no&nom={s}&",
 	ows2json:GEOCAT02+"/share/jsp/ows2json.jsp?",
 	json2jsonp:HOST_APP+"share/jsp/json2jsonp.jsp?",
@@ -136,6 +158,7 @@ var paramUrl = {
 	getWikipediaLayer: "http://api.geonames.org/wikipediaBoundingBoxJSON?",
 	updateTematicRangs: HOST_APP+"geocat/layers/tematic/updateTematicRangs.action",
 	createRandomUser: HOST_APP+"geocat/createRandomUser.action?",
+	
 	updateServidorWMS: HOST_APP+"geocat/layers/servidor/wms/updateServidorWMS.action?",
 	deleteRandomUser: HOST_APP+"geocat/deleteRandomUser.action?",
 	duplicateTematicLayer: HOST_APP+"geocat/layers/tematic/duplicateTematicLayer.action?",
@@ -147,8 +170,8 @@ var paramUrl = {
 	download_layer: HOST_APP+"share/jsp/download_layer.jsp?",
 	upload_gdal: HOST_APP+"share/jsp/upload_gdal.jsp?",
 	upload_gdal_nou: HOST_APP+"share/jsp/upload_gdal_nou.jsp?",
-	upload_gdal_2015: HOST_APP+"share/jsp/upload_gdal_2015.jsp?",
-	polling: HOST_APP+"share/jsp/polling.jsp?",	
+	upload_gdal_2015: HOST_APP+"share/jsp/upload_gdal_2017.jsp?",
+	polling: HOST_APP+"share/jsp/polling.jsp?",
 	publicarCapesMapa: HOST_APP+"geocat/aplications/map/publicarCapesMapa.action?",
 	presidentJSON: "http://www.president.cat/pres_gov/dades/president/actes-territori-ca.json",
 	deleteUser: HOST_APP+"geocat/user/deleteUser.action?",
@@ -158,9 +181,8 @@ var paramUrl = {
 	urluploadBase64:"/share/jsp/uploadBase64.jsp?",
 	urlgetMapImage:"/share/jsp/getMapImage.jsp?",
 	urlgetImageProxy:"/share/jsp/getImageProxy.jsp?",
-	
 	urlMapToWMS:"/share/jsp/getMapToWMS.jsp?",
-	
+
 	updatePasswordIcgc: HOST_APP+"geocat/user/updatePasswordIcgc.action?",
 	signinUserIcgc: HOST_APP+"geocat/registreUserIcgc.action?",
 	signinInstamaper: HOST_APP+"geocat/registreInstamaper.action?",
@@ -190,8 +212,8 @@ var paramUrl = {
 	moveGeometriaToEstil: HOST_APP+"geocat/layers/visualitzacio/moveGeometriaToEstil.action?",
 	modificarEstiloGeometria: HOST_APP+"geocat/layers/visualitzacio/modificarEstiloGeometria.action?",
 	removeGeometriaFromVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/removeGeometriaFromVisualitzacio.action?",
-	createVisualitzacioSimple: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioSimple.action?",
-	createVisualitzacioTematica: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
+	createVisualitzacioSimple: HOST_APP3+"geocat/layers/visualitzacio/createVisualitzacioSimple.action?",
+	createVisualitzacioTematica: HOST_APP3+"geocat/layers/visualitzacio/createVisualitzacioTematica.action?",
 	createVisualitzacioHeatCluster: HOST_APP+"geocat/layers/visualitzacio/createVisualitzacioHeatCluster.action?",
 	getGeometriesColleccioByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getGeometriesColleccioByBusinessId.action?",
 	getGeometriesPropertiesLayer: HOST_APP+"geocat/layers/visualitzacio/getGeometriesPropertiesLayer.action?",
@@ -200,25 +222,25 @@ var paramUrl = {
 	updateRankAplicacio: HOST_APP+"geocat/aplications/map/updateRankAplicacio.action?",
 	createMapFile:  HOST_APP+"geocat/layers/visualitzacio/createMapFile.action?",
 	searchAction: HOST_APP+"geocat/aplications/map/search.action?",
-	buffer: HOST_APP+"geocat/aplications/map/buffer.action?",
-	centroid: HOST_APP+"geocat/aplications/map/centroid.action?",
-	intersection: HOST_APP+"geocat/aplications/map/intersection.action?",
-	union: HOST_APP+"geocat/aplications/map/union.action?",
-	tag: HOST_APP+"geocat/aplications/map/tag.action?",
-	unionLayers: HOST_APP+"geocat/aplications/map/unionLayers.action?",
+	buffer: HOST_APP3+"geocat/aplications/map/buffer.action?",
+	centroid: HOST_APP3+"geocat/aplications/map/centroid.action?",
+	intersection: HOST_APP3+"geocat/aplications/map/intersection.action?",
+	union: HOST_APP3+"geocat/aplications/map/union.action?",
+	tag: HOST_APP3+"geocat/aplications/map/tag.action?",
+	unionLayers: HOST_APP3+"geocat/aplications/map/unionLayers.action?",
+	filter: HOST_APP3+"geocat/aplications/map/filter.action?",
+	columnJoin: HOST_APP3 +"geocat/aplications/map/columnJoin.action?",
+	spatialJoin: HOST_APP3 +"geocat/aplications/map/spatialJoin.action?",
 	getVisualitzacioSimpleByBusinessId: HOST_APP+"geocat/layers/visualitzacio/getVisualitzacioSimpleByBusinessId.action?",
 	filterVisualitzacio: HOST_APP+"geocat/layers/visualitzacio/filterVisualitzacio.action?",
-	crearFitxerPolling: HOST_APP+"/geocat/aplications/map/crearFitxerPolling.action?",
-	filter: HOST_APP+"geocat/aplications/map/filter.action?",
+	crearFitxerPolling: HOST_APP+"/geocat/aplications/map/crearFitxerPolling.action?",	
 	callActions:"/share/jsp/callActions.jsp?",
 	//loadAplicacionsUser: "/geocatweb/dades/aplicacions_geolocal.json",
 	getConfiguradesUser: HOST_GEOLOCAL+"PRG/eines/getConfiguradesUser.action?",
 	prgIncasol: HOST_GEOLOCAL,
 	createToken: HOST_APP +"/geocat/createToken.action?",
 	uploadLogo: HOST_APP +"share/jsp/uploadLogo.jsp?",
-	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",
-	columnJoin: HOST_APP +"geocat/aplications/map/columnJoin.action?",
-	spatialJoin: HOST_APP +"geocat/aplications/map/spatialJoin.action?",
+	getValuesFromKeysProperty: HOST_APP +"geocat/aplications/map/getValuesFromKeysProperty.action?",	
 	searchCapesPubliques: HOST_APP+"geocat/aplications/map/searchCapesPubliques.action?",
 	addServerDuplicateToMap: HOST_APP+"geocat/aplications/map/addServerDuplicateToMap.action?",
 	duplicateVisualitzacioLayer: HOST_APP+"geocat/layers/visualitzacio/duplicateVisualitzacioLayer.action?",
@@ -227,14 +249,14 @@ var paramUrl = {
 	eacat: "https://idp.eacat.net/Logon.aspx?providerID=IDEC",
 	url_mapserver:HOST_APP+"/geoservicelocal/",
 	addGeometriaToVisualitzacioTematic: HOST_APP+"geocat/layers/visualitzacio/addGeometriaToVisualitzacioTematic.action?",
-	duplicateMap: HOST_APP+"geocat/aplications/map/duplicateMap.action?",
+	duplicateMap: HOST_APP3+"geocat/aplications/map/duplicateMap.action?",
 	//urlgetInspireCatalog:HOST_APP +"/share/jsp/getInspireCatalog.jsp?",
 	urlgetInspireCatalog:"http://inspire-geoportal.ec.europa.eu/solr/select?",
 	urlJsonPCC:"/geocatweb/dades/pcc.json",
 	desbloquejarMapa: HOST_APP+"/geocat/aplications/map/desbloquejar.action?",
 	crearFitxerSocrata:  HOST_APP+"geocat/upload/crearFitxerSocrata.action?",
 	generateTokenRemember: HOST_APP+"geocat/user/generateTokenRemember.action?"
-	
+
 }
 
 var paramAplications = {
@@ -250,7 +272,7 @@ var paramAplications = {
     	"img":"img/thumb_ed_infoparcela.png",
     	"url":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela.action?fallback=infoparcela&codiUsuari=",
     	"eliminar":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/eliminar_geolocal.action?businessId=",
-    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId=" 
+    	"editor":HOST_GEOLOCAL+"PRG/aplicacions/infoparcela/modificar.action?businessId="
     },
     'peolics':{
     	"nom":"Editor de Parcs Eòlics",
@@ -294,7 +316,7 @@ $( document ).ajaxSend(function( event, jqxhr, settings ) {
 	//$('.waiting_animation').show();
 	if (typeof map !== 'undefined'){
 		try {map.spin(true);} catch (Err) {}
-		
+
 	}
 });
 

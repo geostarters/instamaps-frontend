@@ -1,7 +1,7 @@
 /**
  * 
  */
-function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi){
+function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, colY, tipusAcc, tipusFont, tipusCodi, nomCampCodi, colXY, separador){
 	//Estil defecte
 	var estil_do = retornaEstilaDO(t_url_file);
 	var estil_lin_pol = estil_do;
@@ -48,24 +48,314 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 	if(dinamic){
 		busy = false;
 		var propName = "";
+		var urlFileHttps=urlFile;
+		var isHttps=false;
+		if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+			isHttps=true;
+			urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+        	//urlFile = httpOrhttps(urlFile,true);
+		}
+		
 		var param_url = paramUrl.urlFileDin	+"tipusFile=" + tipusFile+
 		"&tipusAcc="+tipusAcc+
 		"&tipusCodi="+tipusCodi+
 		"&tipusFont="+tipusFont+
-		"&nomCampCodi="+nomCampCodi+
-		"&urlFile="+encodeURIComponent(urlFile)+
+		"&nomCampCodi="+nomCampCodi+		
 		"&epsgIN="+epsgIN+
 		"&dinamic="+dinamic+
 		"&uploadFile="+paramUrl.uploadFile+
 		"&colX="+colX+
 		"&colY="+colY+
-		"&uid="+Cookies.get('uid');		
+		"&uid="+Cookies.get('uid')+
+		"&urlFile="+encodeURIComponent(urlFile);
 		
 		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) 	{
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
 			param_url = urlFile;
 		}
 
+		
+		
+		if (tipusFile==".json"){
+			 L.toGeoJSON.empty();
+			 L.toGeoJSON.convert(urlFile,"Point",colX,colY, colXY, separador).then(function(){
+				 
+				  
+				  var dataSocrata={
+							serverName: nomCapa,
+							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+					};
+					
+				//console.debug(dataSocrata);
+				crearFitxerSocrata(dataSocrata).then(function(results){
+					if (results.status="OK"){
+						param_url =results.filePath;
+						$('#dialog_dades_ex').modal('hide');
+						jQuery("#div_uploading_txt").html("");
+						jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
+								window.lang.translate('Carregant dades')+
+						'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');		
+						jQuery('#info_uploadFile').show();
+
+
+					   if (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 ){
+						    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+						    else  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+							param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
+							"&tipusAcc="+tipusAcc+
+							"&tipusCodi="+tipusCodi+
+							"&tipusFont="+tipusFont+
+							"&nomCampCodi="+nomCampCodi+
+							"&urlFile="+encodeURIComponent(urlFile)+
+							"&epsgIN="+epsgIN+
+							"&dinamic="+dinamic+
+							"&uploadFile="+paramUrl.uploadFile+
+							"&colX="+colX+
+							"&colY="+colY+
+							//"&colXY="+colXY+
+							"&uid="+Cookies.get('uid');		
+						}
+						
+						var capaURLfile = new L.GeoJSON.AJAX(param_url, {
+							nom : nomCapa,
+							tipus : t_url_file,
+							estil_do: estil_do,
+							style: estil_lin_pol,//Estil de poligons i linies
+							pointToLayer : function(feature, latlng) {
+								var geom = L.circleMarker(latlng, estil_do);
+								var pp = feature.properties;
+								var html ='<div class="div_popup_visor"><div class="popup_pres">';
+								propName = "";
+								$.each( pp, function( key, value ) {
+									propName = propName+key+",";
+									if(isValidValue(value) && !validateWkt(value)){
+										if ( key != 'businessId' && key != 'slotd50'){
+											var txt = value;
+												html+='<div class="popup_data_row">';
+												if (!$.isNumeric(txt)) {		    				
+													txt = parseUrlTextPopUp(value,key);
+													if (typeof txt == 'string' || txt instanceof String) {
+														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txt+'</div>';
+														}else{
+															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														}
+													}
+													else{
+														var txtVal=txt;
+														try{
+															txtVal = JSON.stringify(txt);
+														}catch(e){
+															
+														}																	
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txtVal+'</div>';
+													}
+												}
+												else if (!(txt instanceof Object)){
+													html+='<div class="popup_data_key">'+key+'</div>';
+													html+='<div class="popup_data_value">'+txt+'</div>';
+												}
+												html+= '</div>';
+											
+										}
+									}
+								});	
+								propName = propName.substr(0, propName.length-1);
+								html+='</div></div>'; 
+								feature.properties.capaNom=nomCapa;
+								feature.properties.popupData=html;
+								geom.on('click', function(e) {
+									PopupManager().createMergedDataPopup(feature, e, controlCapes);
+								});
+								
+
+								return geom;
+							},
+							onEachFeature : function(feature, latlng) {
+								var pp = feature.properties;
+								var html ='<div class="div_popup_visor"><div class="popup_pres">';
+								propName = "";
+								$.each( pp, function( key, value ) {
+									propName = propName+key+",";
+									if(isValidValue(value) && !validateWkt(value)){
+										if ( key != 'businessId' && key != 'slotd50'){
+											
+											var txt = value;
+												html+='<div class="popup_data_row">';
+												if (!$.isNumeric(txt)) {		    				
+													txt = parseUrlTextPopUp(value,key);
+													if (typeof txt == 'string' || txt instanceof String) {
+														if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txt+'</div>';
+														}else{
+															html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+														}
+													}
+													else{
+														var txtVal=txt;
+														try{
+															txtVal = JSON.stringify(txt);
+														}catch(e){
+															
+														}																	
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txtVal+'</div>';
+													}
+												}
+												else if (!(txt instanceof Object)){
+													html+='<div class="popup_data_key">'+key+'</div>';
+													html+='<div class="popup_data_value">'+txt+'</div>';
+												}
+												html+= '</div>';
+											
+										}
+									}
+								});	
+								propName = propName.substr(0, propName.length-1);
+								html+='</div></div>'; 
+								//latlng.feature.properties.capaNom = nomCapa;
+								//latlng.feature.properties.popupData=html;
+								latlng.properties={
+									capaNom: nomCapa,
+									popupData:html,
+									feature: latlng.feature,
+									data: latlng.feature.properties
+								};
+								var tipus = feature.geometry.type; 
+								if (tipus != 'Point'){
+										latlng.on('click', function(e) {
+										PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+									});
+								}
+								return latlng;
+							},			  
+							middleware:function(data){
+								if(data.status && data.status.indexOf("ERROR")!=-1){
+									processFileError(data, urlFile);
+									jQuery('#info_uploadFile').hide();
+								}else{
+									var stringData = JSON.stringify(data);
+									var geometryType = defineGeometryType(stringData);
+
+									if(geometryType.indexOf("point")!=-1){
+										capaURLfile.options.style = estil_do;
+									}else if(geometryType.indexOf("line")!=-1){
+										capaURLfile.options.style = lineStyle;
+									}else if(geometryType.indexOf("polygon")!=-1){
+										capaURLfile.options.style = polygonStyle;
+									}
+									try{
+										capaURLfile.addData(data);
+									}catch(err){
+										console.debug(err);
+									}
+									
+									var llista_options = '{"tipusFile":"'+tipusFile+
+									'","nom":"'+nomCapa+
+									'","propName":"'+propName+
+									'","url":"'+urlFile+
+									'","tipus":"'+t_url_file+
+									'","epsgIN":"'+epsgIN+
+									'", "geometryType":"'+geometryType+
+									'","colX":"'+colX+
+									'","colY":"'+colY+
+									'", "dinamic":"'+dinamic+
+									'", "tipusAcc":"'+tipusAcc+
+									'", "tipusCodi":"'+tipusCodi+
+									'", "tipusFont":"'+tipusFont+
+									'", "nomCampCodi":"'+nomCampCodi+
+									'", "style":'+JSON.stringify(capaURLfile.options.style)+
+									',"estil_do":{"radius":"'+estil_do.radius+'","fillColor":"'+estil_do.fillColor+'","color":"'+estil_do.color+'","weight":"'+estil_do.weight+'","opacity":"'+estil_do.opacity+'","fillOpacity":"'+estil_do.fillOpacity+'","isCanvas":"'+estil_do.isCanvas+'"}}';
+
+									//Un cop tinc la capa a client, la creo a servidor
+									if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+										urlFile = urlFileHttps;
+									}
+									var data = {
+										uid:Cookies.get('uid'),
+										mapBusinessId: url('?businessid'),
+										serverName: nomCapa,//+' '+ (parseInt(controlCapes._lastZIndex) + 1),
+										serverType: t_url_file,
+										calentas: false,
+										activas: true,
+										visibilitats: true,
+										order: controlCapes._lastZIndex+1,
+										epsg: '4326',
+										imgFormat: 'image/png',
+										infFormat: 'text/html',
+										tiles: true,	            
+										transparency: true,
+										opacity: 1,
+										visibilitat: 'O',
+										url: urlFile,//Provar jQuery("#txt_URLJSON")
+										calentas: false,
+										activas: true,
+										visibilitats: true,
+										options: llista_options
+									};
+									
+									createServidorInMap(data).then(function(results){
+										jQuery('#info_uploadFile').hide();
+										if (results.status == "OK"){
+											$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes dinamiques', urlFile, 1]});
+
+											jQuery('#dialog_dades_ex').modal('hide');					
+
+											capaURLfile.options.businessId = results.results.businessId;
+											capaURLfile.options.nom = nomCapa;
+											capaURLfile.options.tipus = t_url_file;
+											capaURLfile.options.url = urlFile;
+											capaURLfile.options.epsgIN = epsgIN;
+											capaURLfile.options.tipusFile = tipusFile;
+											capaURLfile.options.options = jQuery.parseJSON('{"tipusFile":"'+tipusFile+'"}');
+											capaURLfile.options.options.estil_do = estil_do;
+											capaURLfile.options.geometryType = geometryType;
+											capaURLfile.options.colX = colX;
+											capaURLfile.options.colY = colY;
+											capaURLfile.options.dinamic = dinamic;
+											capaURLfile.options.propName = propName;
+											capaURLfile.options.tipusAcc = tipusAcc;
+											capaURLfile.options.tipusCodi = tipusCodi;
+											capaURLfile.options.tipusFont = tipusFont;
+											capaURLfile.options.nomCampCodi = nomCampCodi;
+
+											capaURLfile.addTo(map);
+											capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
+											controlCapes.addOverlay(capaURLfile, nomCapa, true);
+											controlCapes._lastZIndex++;
+											var bounds = capaURLfile.getBounds();
+											map.fitBounds(bounds);
+											activaPanelCapes(true);	
+
+										}else{
+											console.debug("1.Error a createServidorInMap:"+results.status);
+											$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes dinamiques error createServidorInMap1', urlFile, 1]});
+											var txt_error = window.lang.translate("Error durant la càrrega de dades. Torni a intentar-ho");
+											jQuery("#div_url_file_message").html(txt_error);							
+										}
+									},function(results){
+										console.debug("2.Error a createServidorInMap:"+results.status);
+										$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes dinamiques error createServidorInMap2', urlFile, 1]});
+										var txt_error = window.lang.translate("Error durant la càrrega de dades. Torni a intentar-ho");
+										jQuery("#div_url_file_message").html(txt_error);
+										jQuery('#info_uploadFile').hide();
+
+									});
+								}
+							}
+						});	
+					}
+					
+				});
+			 });
+			
+			//console.debug(L.toGeoJSON.geoJsonData);
+		}
+		else{
+		
 		$('#dialog_dades_ex').modal('hide');
 		jQuery("#div_uploading_txt").html("");
 		jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
@@ -73,6 +363,25 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 		'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');		
 		jQuery('#info_uploadFile').show();
 
+
+	   if (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 ){
+		    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+		    else  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+			param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
+			"&tipusAcc="+tipusAcc+
+			"&tipusCodi="+tipusCodi+
+			"&tipusFont="+tipusFont+
+			"&nomCampCodi="+nomCampCodi+
+			"&urlFile="+encodeURIComponent(urlFile)+
+			"&epsgIN="+epsgIN+
+			"&dinamic="+dinamic+
+			"&uploadFile="+paramUrl.uploadFile+
+			"&colX="+colX+
+			"&colY="+colY+
+			//"&colXY="+colXY+
+			"&uid="+Cookies.get('uid');		
+		}
+		
 		var capaURLfile = new L.GeoJSON.AJAX(param_url, {
 			nom : nomCapa,
 			tipus : t_url_file,
@@ -86,16 +395,28 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
 								txt = parseUrlTextPopUp(value,key);
-								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+								if (typeof txt == 'string' || txt instanceof String) {
+									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}else{
+										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									}
+								}
+								else{
+									var txtVal=txt;
+									try{
+										txtVal = JSON.stringify(txt);
+									}catch(e){
+										
+									}																	
 									html+='<div class="popup_data_key">'+key+'</div>';
-									html+='<div class="popup_data_value">'+txt+'</div>';
-								}else{
-									html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									html+='<div class="popup_data_value">'+txtVal+'</div>';
 								}
 							}
 							else {
@@ -108,7 +429,14 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				return geom.bindPopup(html);
+				feature.properties.capaNom=nomCapa;
+				feature.properties.popupData=html;
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
+				});
+				
+
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
@@ -117,7 +445,7 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				$.each( pp, function( key, value ) {
 					propName = propName+key+",";
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -139,7 +467,21 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				});	
 				propName = propName.substr(0, propName.length-1);
 				html+='</div></div>'; 
-				return latlng.bindPopup(html);
+				//latlng.feature.properties.capaNom = nomCapa;
+				//latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: nomCapa,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
+				var tipus=feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+					PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
+				return latlng;
 			},			  
 			middleware:function(data){
 				if(data.status && data.status.indexOf("ERROR")!=-1){
@@ -160,6 +502,11 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 						capaURLfile.addData(data);
 					}catch(err){
 						console.debug(err);
+					}
+					
+					//Un cop tinc la capa a client, la creo a servidor
+					if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+						urlFile = urlFileHttps;
 					}
 					
 					var llista_options = '{"tipusFile":"'+tipusFile+
@@ -232,6 +579,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 							capaURLfile.options.zIndex = controlCapes._lastZIndex+1; 
 							controlCapes.addOverlay(capaURLfile, nomCapa, true);
 							controlCapes._lastZIndex++;
+							var bounds = capaURLfile.getBounds();
+							map.fitBounds(bounds);
 							activaPanelCapes(true);	
 
 						}else{
@@ -251,24 +600,185 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				}
 			}
 		});		
-
+		}
 	/*** NO DINAMICA ***/		
 	}else{
+		var dataSocrata;
+		var isJson=false;
+		if (tipusFile==".json"){
+			isJson=true;
+			L.toGeoJSON.empty();
+			L.toGeoJSON.convert(urlFile,"Point",colX,colY, colXY, separador).then(function(){
+				 dataSocrata={
+							serverName: nomCapa,
+							jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+					};
+				 
+				 crearFitxerSocrata(dataSocrata).then(function(results){
+						if (results.status="OK"){
+							urlFile =results.filePath;
+							var midaFitxer = results.midaFitxer;
+							var tmpFilePath = results.tmpFilePath;
+							var tmpFileName = results.tmpFileName;
+							
+							var data2 = {
+									uid: Cookies.get('uid'),
+									mapBusinessId: url('?businessid'),
+									serverName:nomCapa,
+									path:urlFile,
+									tmpFilePath:tmpFilePath,
+									midaFitxer:midaFitxer,
+									sourceExtension:'geojson',
+									markerStyle: JSON.stringify(getMarkerRangFromStyle(defaultPunt)),
+									lineStyle: JSON.stringify(getLineRangFromStyle(canvas_linia)),
+									polygonStyle: JSON.stringify(getPolygonRangFromStyle(canvas_pol))
+								};
+															
+							
+							
+								$('#dialog_dades_ex').modal('hide');
+
+								jQuery("#div_uploading_txt").html("");
+								jQuery("#div_uploading_txt").html(
+									'<div id="div_upload_step1" class="status_current" lang="ca">1. '+window.lang.translate('Descarregant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>'+
+									'<div id="div_upload_step2" class="status_uncheck" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'</div>'+
+									'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+									'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
+								);				
+								jQuery('#info_uploadFile').show();			
+								jQuery('#info_uploadFile').show();		
+
+								var pollTime = 2000;
+
+								//Fem polling
+								(function(){							
+									poll = function(){
+										$.ajax({
+											url: paramUrl.polling +"pollingFileName="+ tmpFileName,
+											dataType: 'json',
+											type: 'get',
+											success: function(data){
+												if(data.status.indexOf("PAS2")!=-1){
+													jQuery("#div_uploading_txt").html("");
+													jQuery("#div_uploading_txt").html(
+														'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+														'<div id="div_upload_step2" class="status_current" lang="ca">2. '+window.lang.translate('Analitzant fitxer')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+														'<div id="div_upload_step3" class="status_uncheck" lang="ca">3. '+window.lang.translate('Creant geometries')+'</div>'+
+														'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
+													);									
+												}else if(data.status.indexOf("PAS3")!=-1){
+													jQuery("#div_uploading_txt").html("");
+													jQuery("#div_uploading_txt").html(
+														'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+														'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+														'<div id="div_upload_step3" class="status_current" lang="ca">3. '+window.lang.translate('Creant geometries')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'+
+														'<div id="div_upload_step4" class="status_uncheck" lang="ca">4. '+window.lang.translate('Processant la resposta')+'</div>'//+	
+													);									
+												}else if(data.status.indexOf("OK")!=-1){
+													clearInterval(pollInterval);
+													jQuery("#div_uploading_txt").html("");
+													jQuery("#div_uploading_txt").html(
+														'<div id="div_upload_step1" class="status_check" lang="ca">1. '+window.lang.translate('Fitxer descarregat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span></div>'+
+														'<div id="div_upload_step2" class="status_check" lang="ca">2. '+window.lang.translate('Fitxer analitzat')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+														'<div id="div_upload_step3" class="status_check" lang="ca">3. '+window.lang.translate('Geometries creades')+' <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>'+
+														'<div id="div_upload_step4" class="status_current" lang="ca">4. '+window.lang.translate('Processant la resposta')+'<span class="one">.</span><span class="two">.</span><span class="three">.</div>'//+	
+													);									
+													//$.get(HOST_APP+tmpdirPolling +codiUnic + url('?businessid')+"_response.json", function(data) { 
+													//if(data.status.indexOf("OK")!=-1){											
+													//addDropFileToMap(data);
+														//		}								
+													//});
+													$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes', urlFile, 1]});
+												}else if(data.status.indexOf("ERROR")!=-1){
+													console.error("Error al carregar fitxer:");
+													console.error(data);
+													busy = false;
+
+													clearInterval(pollInterval);
+													jQuery('#info_uploadFile').hide();
+
+													$('#dialog_error_upload_txt').html("");
+
+													if(data.codi){
+
+														$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes error '+data.codi, urlFile, 1]});
+
+														if(data.codi.indexOf("01")!=-1){//cas 01: Exception durant el tractament del fitxer
+															var msg = "[01]: " + window.lang.translate("Ha ocorregut un error inesperat durant la càrrega del fitxer.");
+															$('#dialog_error_upload_txt').html(msg);
+
+														}else if(data.codi.indexOf("02")!=-1){//cas 02: Error durant les conversions de format del fitxer
+															var msg = "[02]: " + window.lang.translate("Error durant el procés de conversió de format del fitxer. Comprovi que el fitxer és correcte.");
+															$('#dialog_error_upload_txt').html(msg);
+
+														}else if(data.codi.indexOf("03")!=-1){//cas 03: OGRInfo ha donat resposta fallida
+															var msg = "[03]: " + window.lang.translate("Error durant l'anàlisi de la informació del fitxer. Comprovi que el fitxer és correcte.");
+															$('#dialog_error_upload_txt').html(msg);
+
+														}else if(data.codi.indexOf("04")!=-1){//cas 04: OGRInfo ha donat una excepció
+															var msg = "[04]: " + window.lang.translate("Ha ocorregut un error inesperat durant l'anàlisi de la informació del fitxer.");
+															$('#dialog_error_upload_txt').html(msg);
+
+														}else if(data.codi.indexOf("05")!=-1){//cas 05: OGRInfo ha tornat resposta buida
+															var msg = "[05]: " + window.lang.translate("L'anàlisi de la informació del fitxer no ha tornat resultats. Comprovi el fitxer i torni a intentar-ho.");
+															$('#dialog_error_upload_txt').html(msg);
+
+														}else if(data.codi.indexOf("06")!=-1){//cas 06: Accedeix a fileDefault_Error, no li ha arribat be el nom del fitxer
+															var msg = "[06]: " + window.lang.translate("Problema de comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+															$('#dialog_error_upload_txt').html(msg);
+
+														}else if(data.codi.indexOf("07")!=-1){//cas 07: EnviaFileReady a myUtils.jsp ha donat una excepcio
+															var msg = "[07]: " + window.lang.translate("Ha ocorregut un error inesperat durant la comunicació amb el servidor. Si us plau, torni a intentar-ho.");
+															$('#dialog_error_upload_txt').html(msg);
+
+														}else if(data.codi.indexOf("08")!=-1){//cas 08: Mida de fitxer supera els 50MB permesos per dades externes dinamiques
+															var msg = "[08]: " + window.lang.translate("La mida del fitxer supera el límit preestablert per a dades externes no dinàmiques (50MB).");
+															$('#dialog_error_upload_txt').html(msg);
+														}
+
+													}else{
+														$.publish('analyticsEvent',{event:['mapa', tipus_user+'dades externes error sense codi', urlFile, 1]});
+														$('#dialog_error_upload_txt').html(window.lang.translate("Error en la càrrega de l'arxiu"));
+													}
+
+													$('#dialog_error_upload').modal('show');
+												}
+											}
+										});
+									};
+
+									pollInterval = setInterval(function(){
+										poll();
+									},pollTime);
+
+								})();		
+
+								doUploadFile(data2).then(function(results){
+									addDropFileToMap(results);
+								});
+						}
+						
+					});
+			});
+		}
+		else{
 		//console.debug("getUrlFile PROVES NO DINAMICA");
 		var codiUnic = getCodiUnic();
-		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
-				&& (urlFile.indexOf("dropbox")==-1)) {
-			var response = $.ajax({ type: "GET",   
-	            url: urlFile,   
-	            async: false
-	          }).responseText;
+		if (((urlFile.indexOf("socrata")>-1 && (urlFile.indexOf("method=export&format=GeoJSON")>-1 || 
+			  urlFile.indexOf("https")>-1))  && urlFile.indexOf("drive")==-1  && urlFile.indexOf("dropbox")==-1) || isJson) 	{
 			
-			
-			var dataSocrata={
-					serverName: nomCapa,
-					jsonSocrata: response
-			};
-			
+			if (isJson==false){
+				var response = $.ajax({ type: "GET",   
+		            url: urlFile,   
+		            async: false
+		          }).responseText;
+				
+				
+				 dataSocrata={
+						serverName: nomCapa,
+						jsonSocrata: response
+				};
+			}
 			
 			crearFitxerSocrata(dataSocrata).then(function(results){
 				if (results.status="OK"){
@@ -558,8 +1068,8 @@ function createURLfileLayer(urlFile, tipusFile, epsgIN, dinamic, nomCapa, colX, 
 				})();		
 
 				getUrlFileNoDin(data);
+			}
 		}
-		
 		
 	}
 }
@@ -654,10 +1164,17 @@ function loadURLfileLayer(layer){
 	var urlFile = layer.url;
 	var dinamic = options.dinamic;
 	
+	if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+		urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+    	//urlFile = httpOrhttps(urlFile,true);
+	}
+	
 	var estil_do = options.estil_do;
 	if(options.tem == tem_heatmap){
 		estil_do = retornaEstilaDO(t_url_file); //TODO revisar si se puede quitar esto
 	}
+	
+	if (tipusFile==".json") tipusFile=".geojson";
 	
 	var param_url = paramUrl.urlFileDin +  "tipusFile=" + tipusFile+
 		"&colX="+colX+
@@ -691,9 +1208,17 @@ function loadURLfileLayer(layer){
 			"&tipusFont="+tipusFont+
 			"&nomCampCodi="+nomCampCodi;
 
-		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
-		
+		//SOCRATA	
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
+				
+		var optionsVis =  options;
+		if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && optionsVis.opcionsVis=="nomesetiqueta"){
+			style.opacity=0;
+			style.fillOpacity=0;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
@@ -706,16 +1231,28 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){							
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
 								txt = parseUrlTextPopUp(value,key);
-								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+								if (typeof txt == 'string' || txt instanceof String) {
+									if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}else{
+										html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									}
+								}
+								else{
+									var txtVal=txt;
+									try{
+										txtVal = JSON.stringify(txt);
+									}catch(e){
+										
+									}																	
 									html+='<div class="popup_data_key">'+key+'</div>';
-									html+='<div class="popup_data_value">'+txt+'</div>';
-								}else{
-									html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+									html+='<div class="popup_data_value">'+txtVal+'</div>';
 								}
 							}
 							else {
@@ -725,38 +1262,187 @@ function loadURLfileLayer(layer){
 							html+= '</div>';
 						}
 					}
+					
 				});	
 				html+='</div></div>';    	
 				var popup = L.popup().setContent(html);
-				return geom.bindPopup(popup);
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
+					var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
+					if (optionsVis.contorn!=undefined && optionsVis.contorn=="si") {
+						style+=";text-shadow:1px 1px #ffffff";
+					}
+					else 	style+=";text-shadow:0px 0px #ffffff";
+					if (optionsVis.fontStyle!=undefined){
+						if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
+						else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
+					}
+					if (optionsVis.caixa!=undefined && optionsVis.caixa=="si"){
+						style += ";background-color:"+optionsVis.caixaColor;
+					}
+					else style += ";background-color:transparent";
+					createClass('.etiqueta_style_'+layer.businessId,style);
+				}
+				var zoomInicialEtiqueta = "2";
+				if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
+				var zoomFinalEtiqueta = "19";
+				if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+					if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
+							(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom") ){
+						geom.bindLabel(pp[optionsVis.campEtiqueta],
+							{opacity:1, noHide: true,clickable:true,  direction: 'altre',className: "etiqueta_style_"+layer.businessId,offset: [0, 0]});						
+					}
+					if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+							(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+							try{
+								if (geom.label!=undefined) geom.label.setOpacity(0);
+								else geom.hideLabel();
+							}catch(err){
+								
+							}
+					}
+				}
+				
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
+				});
+				
+				
+				
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
-					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
-							html+='<div class="popup_data_row">';
-							var txt = value;
-							if (!$.isNumeric(txt)) {		    				
-								txt = parseUrlTextPopUp(value,key);
-								if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+						if(isValidValue(value) && !validateWkt(value)){
+							if ( key != 'businessId' && key != 'slotd50'){
+								html+='<div class="popup_data_row">';
+								var txt = value;
+								if (!$.isNumeric(txt)) {		    				
+									txt = parseUrlTextPopUp(value,key);
+									if (typeof txt == 'string' || txt instanceof String) {
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+									}
+									else{
+										var txtVal=txt;
+										try{
+											txtVal = JSON.stringify(txt);
+										}catch(e){
+											
+										}																	
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txtVal+'</div>';
+									}
+								}
+								else {
 									html+='<div class="popup_data_key">'+key+'</div>';
 									html+='<div class="popup_data_value">'+txt+'</div>';
-								}else{
-									html+='<div class="popup_data_img_iframe">'+txt+'</div>';
 								}
+								html+= '</div>';
 							}
-							else {
-								html+='<div class="popup_data_key">'+key+'</div>';
-								html+='<div class="popup_data_value">'+txt+'</div>';
-							}
-							html+= '</div>';
 						}
-					}
+					
 				});		
 				html+='</div></div>';
-				return latlng.bindPopup(html);
+				var tipus = feature.geometry.type; 
+				if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined){
+					var style = "font-family:"+optionsVis.fontFamily+";font-size:"+optionsVis.fontSize+";color:"+optionsVis.fontColor;
+					if (optionsVis.contorn!=undefined && optionsVis.contorn=="si") {
+						style+=";text-shadow:1px 1px #ffffff";
+					}
+					else 	style+=";text-shadow:0px 0px #ffffff";
+					if (optionsVis.fontStyle!=undefined){
+						if (optionsVis.fontStyle=="normal" || optionsVis.fontStyle=="bold") style+= ";font-weight:"+optionsVis.fontStyle;
+						else if (optionsVis.fontStyle=="italic") style+= ";font-style:"+optionsVis.fontStyle;
+					}
+					if (optionsVis.caixa!=undefined && optionsVis.caixa=="si"){
+						style += ";background-color:"+optionsVis.caixaColor;
+					}
+					else style += ";background-color:transparent";
+					createClass('.etiqueta_style_'+layer.businessId,style);
+				}
+				var zoomInicialEtiqueta = "2";
+				if (optionsVis!=undefined && optionsVis.zoomInicial!=undefined) zoomInicialEtiqueta=optionsVis.zoomInicial;
+				var zoomFinalEtiqueta = "19";
+				if (optionsVis!=undefined && optionsVis.zoomFinal!=undefined)  zoomFinalEtiqueta=optionsVis.zoomFinal;
+				if (tipus=="Point") {
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined && 
+								(optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")){
+							latlng.bindLabel(pp[optionsVis.campEtiqueta],
+								{opacity:1, noHide: true,clickable:true,  direction: 'altre',className: "etiqueta_style_"+layer.businessId,offset: [0, 0]});						
+						}
+						if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+								(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+								try{
+									if (latlng.label!=undefined) latlng.label.setOpacity(0);
+									else latlng.hideLabel();
+								}catch(err){
+									
+								}
+						}
+					}
+				}
+				else if (tipus=="LineString"){
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+								if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  ){
+									latlng.bindLabelEx(map,pp[optionsVis.campEtiqueta], 
+											{ noHide: true, direction: 'center',className: "etiqueta_style_"+layer.businessId,clickable:true, offset: [0, 0]});
+								}	
+								if (optionsVis.opcionsVis=="geometries"){
+									latlng.hideLabel();
+								}
+								if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+										(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+									latlng.hideLabel();
+								}
+						}
+					}
+					//latlng.bindLabelEx(map,"prova3", { noHide: true, direction: 'center',clickable:true, offset: [0, 0]});
+				}
+				else if (tipus=="Polygon"){
+					if (optionsVis!=undefined && optionsVis.campEtiqueta!=undefined) {
+						if (optionsVis!=undefined && optionsVis.opcionsVis!=undefined) {
+								if ((optionsVis.opcionsVis=="nomesetiqueta" || optionsVis.opcionsVis=="etiquetageom")  ){
+									latlng.bindLabelExPolygon(map,pp[optionsVis.campEtiqueta], 
+										{ noHide: true, direction: 'center',className: "etiqueta_style_"+layer.businessId,clickable:true,offset: [0, 0] });
+								}	
+								if (optionsVis.opcionsVis=="geometries"){
+									latlng.hideLabel();
+								}
+								if ((zoomInicialEtiqueta!=undefined && map.getZoom()<zoomInicialEtiqueta) ||
+										(zoomFinalEtiqueta!=undefined && map.getZoom() > zoomFinalEtiqueta)) {//ocultem labels
+									latlng.hideLabel();
+								}
+						}
+					}
+					//latlng.bindLabelExPolygon(map,"prova4",	{ noHide: true, direction: 'center',clickable:true, offset: [0, 0] });
+				}
+
+				//latlng.feature.properties.capaNom = layer.serverName;
+				//latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: layer.serverName,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
+				
+				//return PopupManager().createMergedDataPopup(feature, e, controlCapes);;
 			}
 		});	
 	}	
@@ -778,7 +1464,11 @@ function loadURLfileLayer(layer){
 			"&nomCampCodi="+nomCampCodi;
 
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
+		//if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
 		
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
@@ -786,13 +1476,22 @@ function loadURLfileLayer(layer){
 			geometryType: geometryType,
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
+				var estilGeom=self.estil_do;  //ficat default point style????
+				$.each( estil_do.estils, function( index, estil ) {
+					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
+							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
+						estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
+						return false;	
+					}
 
+				});
+				var geom = L.circleMarker(latlng, estilGeom);		 
 				var pp = feature.properties;
 				var dataFieldValue = "";
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -816,18 +1515,15 @@ function loadURLfileLayer(layer){
 				});	
 				html+='</div></div>';    	
 
-				var estilGeom; //ficat default point style????
-				$.each( estil_do.estils, function( index, estil ) {
-					if((estil.valueMax == estil.ValueMin && dataFieldValue == estil.valueMax) || //rang unic
-							(dataFieldValue>=estil.valueMin && dataFieldValue<=estil.valueMax)){//per valors
-						estilGeom = { radius : estil.estil.simbolSize, fillColor : estil.estil.color, color : "#ffffff", weight : 2, opacity : 1, fillOpacity : 0.8, isCanvas: true };
-						return false;	
-					}
-
+				
+				   	
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
 				});
-				var geom = L.circleMarker(latlng, estilGeom);		    	
-				var popup = L.popup().setContent(html);
-				return geom.bindPopup(popup);
+				
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
@@ -835,7 +1531,7 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -889,7 +1585,23 @@ function loadURLfileLayer(layer){
 						return false;	
 					}
 				});	
-				return latlng.bindPopup(html);
+
+				latlng.feature.properties.capaNom = layer.serverName;
+				latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: layer.serverName,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
+				var tipus = feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
+
+				return latlng;
 			}
 		});	
 	}	
@@ -899,7 +1611,10 @@ function loadURLfileLayer(layer){
 	else if(options.tem == tem_cluster){
 		param_url += "&tem="+tem_cluster;	
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
@@ -912,7 +1627,7 @@ function loadURLfileLayer(layer){
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -932,16 +1647,21 @@ function loadURLfileLayer(layer){
 						}
 					}
 				});		
-				html+='</div></div>';    	
-				var popup = L.popup().setContent(html);
-				return geom.bindPopup(popup);
+				html+='</div></div>'; 
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
+				});
+				
+				return geom;
 			},
 			onEachFeature : function(feature, latlng) {
 				var pp = feature.properties;
 				var html ='<div class="div_popup_visor"><div class="popup_pres">';
 				$.each( pp, function( key, value ) {
 					if(isValidValue(value) && !validateWkt(value)){
-						if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+						if ( key != 'businessId' && key != 'slotd50'){
 							html+='<div class="popup_data_row">';
 							var txt = value;
 							if (!$.isNumeric(txt)) {		    				
@@ -962,7 +1682,21 @@ function loadURLfileLayer(layer){
 					}
 				});		
 				html+='</div></div>';
-				return latlng.bindPopup(html);
+				latlng.feature.properties.capaNom = layer.serverName;
+				latlng.feature.properties.popupData=html;
+				latlng.properties={
+					capaNom: layer.serverName,
+					popupData:html,
+					feature: latlng.feature,
+					data: latlng.feature.properties
+				};
+				var tipus = feature.geometry.type;
+				if (tipus != 'Point'){
+					latlng.on('click', function(e) {
+						PopupManager().createMergedDataPopup(latlng, e, controlCapes);
+					});
+				}
+				return latlng;
 			}
 		});
 	}
@@ -973,7 +1707,10 @@ function loadURLfileLayer(layer){
 				
 		param_url += "&tem="+tem_heatmap;	
 		//SOCRATA		
-		if (urlFile.indexOf("socrata")>-1)	param_url = urlFile;
+		if ((urlFile.indexOf("socrata")>-1 || urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+				&& (urlFile.indexOf("dropbox")==-1) && (urlFile.indexOf("csv")==-1)) 	{
+			param_url = urlFile;
+		}
 		capaURLfileLoad = new L.GeoJSON.AJAX(param_url, {
 			nom : layer.serverName,
 			tipus : layer.serverType,
@@ -982,8 +1719,15 @@ function loadURLfileLayer(layer){
 			businessId : layer.businessId,
 			pointToLayer : function(feature, latlng) {
 				var geom = L.circleMarker(latlng, estil_do);
-				var popup = L.popup().setContent("");
-				return geom.bindPopup(popup);
+				feature.properties.capaNom=layer.serverName;
+				feature.properties.popupData=html;
+				geom.on('click', function(e) {
+					PopupManager().createMergedDataPopup(feature, e, controlCapes);
+				});
+				
+				/*var popup = L.popup().setContent("");
+				return geom.bindPopup(popup);*/
+				return geom;
 			}
 		});
 	}
@@ -993,10 +1737,10 @@ function loadURLfileLayer(layer){
 		
 		if(options.tem == null || options.tem == tem_simple){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 		}else if(options.tem == tem_clasic || options.tem == tem_size){
 			self.options = options;
-			addLayerUrlToMap(self, layer, controlCapes, options.origen, map);
+			addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, options.origen, map);
 			if ($(location).attr('href').indexOf('/mapa.html')!=-1){
 				loadMapLegendEdicioDinamics(self);
 			}
@@ -1004,11 +1748,11 @@ function loadURLfileLayer(layer){
 			var clusterLayer = L.markerClusterGroup({
 				singleMarkerMode : true
 			});
-			self.eachLayer(function(layer) {
+			capaURLfileLoad.eachLayer(function(layer) {
 				var marker = L.marker(new L.LatLng(layer.getLatLng().lat, layer.getLatLng().lng), {
 					title : layer._leaflet_id
 				});
-				marker.bindPopup(layer._popup._content);
+				marker.bindPopup(layer.properties.popupData);
 				clusterLayer.addLayer(marker);
 			});
 			
@@ -1027,7 +1771,7 @@ function loadURLfileLayer(layer){
 		}else if(options.tem == tem_heatmap){
 			var arrP=[];
 			self.options = options;
-			self.eachLayer(function(layer){
+			capaURLfileLoad.eachLayer(function(layer){
 				var d = [layer.getLatLng().lat,layer.getLatLng().lng,1];	
 				arrP.push(d);	
 			});
@@ -1076,10 +1820,7 @@ function loadURLfileLayer(layer){
 	return defer.promise();
 }
 
-function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){
-	if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
-		capaURLfileLoad.addTo(map);
-	}
+function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){	
 
 	if (!layer.capesOrdre || layer.capesOrdre == null || layer.capesOrdre == 'null'){
 		capaURLfileLoad.options.zIndex = controlCapes._lastZIndex + 1;
@@ -1096,6 +1837,12 @@ function addLayerUrlToMap(capaURLfileLoad, layer, controlCapes, origen, map){
 		capaURLfileLoad.options.zIndex = capesOrdre_sublayer;
 		controlCapes.addOverlay(capaURLfileLoad, layer.serverName, true, origenL);
 	}
+	
+	if (layer.capesActiva== null || layer.capesActiva == 'null' || layer.capesActiva == true || layer.capesActiva == "true"){
+		capaURLfileLoad.addTo(map);
+	}
+	
+	
 }
 
 function constructLayer(layer, estil_do){
@@ -1112,7 +1859,7 @@ function constructLayer(layer, estil_do){
 		var html ='<div class="div_popup_visor"><div class="popup_pres">';
 		$.each( pp, function( key, value ) {
 			if(isValidValue(value) && !validateWkt(value)){
-				if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+				if ( key != 'businessId' && key != 'slotd50'){
 					html+='<div class="popup_data_row">';
 					var txt = value;
 					if (!$.isNumeric(txt)) {		    				
@@ -1133,7 +1880,14 @@ function constructLayer(layer, estil_do){
 			}
 		});		
 		html+='</div></div>';    	
-		geom.bindPopup(html);
+
+		geom.properties = { capaNom: layer.serverName };
+		geom.popupData = html;
+
+		geom.on('click', function(e) {
+			PopupManager().createMergedDataPopup(geom, e, controlCapes);
+		});
+		
 		layer.removeLayer(marker);
 		layer.addLayer(geom);
 	});
@@ -1256,6 +2010,12 @@ function loadUrlFileHeatmapLayer(layer){
 		businessId : layer.businessId,
 		pointToLayer : function(feature, latlng) {
 			var geom = L.circleMarker(latlng, estil_do);
+			feature.properties.capaNom=layer.serverName;
+			feature.properties.popupData=html;
+			geom.on('click', function(e) {
+				PopupManager().createMergedDataPopup(feature, e, controlCapes);
+			});
+			
 		}
 	});		
 
@@ -1298,4 +2058,6 @@ function loadUrlFileHeatmapLayer(layer){
 	});
 
 }
+
+
 

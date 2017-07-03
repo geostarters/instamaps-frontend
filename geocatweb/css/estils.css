@@ -590,6 +590,16 @@ textarea {
 	margin-left: 1px;
 }
 
+
+.blanc,.blanc a,.blanc span {
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 18px;
+	margin-left: 1px;
+}
+
+
+
 .blau,.blau a,.blau span {
 	color: #065299;
 	cursor: pointer;
@@ -613,6 +623,13 @@ textarea {
 
 .vermell,.vermell a,.vermell span {
 	color: #990632;
+	cursor: pointer;
+	font-size: 17px;
+	margin-left: 1px;
+}
+
+.gris-semifosc,.gris-semifosc a,.gris-semifosc span {
+	color: #464646;
 	cursor: pointer;
 	font-size: 17px;
 	margin-left: 1px;
@@ -671,6 +688,14 @@ textarea {
 
 .font17 {
 	font-size: 17px !important;
+}
+
+.font18 {
+	font-size: 18px !important;
+}
+
+.font21 {
+	font-size: 21px !important;
 }
 
 
@@ -835,6 +860,7 @@ textarea {
 
 #div_formats{
 	font-size: 12px !important;	
+	    opacity: 0.9 !important;
 }
 #dv_optCapa{	
 	 margin: 11px;
@@ -983,6 +1009,12 @@ textarea {
 }
 .leaflet-popup {
     z-index:100;
+}
+.nomargin{
+	margin:0px !important;
+}
+.margin1{
+	margin-left:1px !important;
 }
 /*.leaflet-label:after {
 border-left: 8px solid transparent;

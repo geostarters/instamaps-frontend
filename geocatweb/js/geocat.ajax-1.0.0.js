@@ -13,13 +13,21 @@ function addXHR(jqXHR, settings)
 
 }
 
+function completedWithErrors(jqXHR, status, error)
+{
+
+	//console.log("!!!!!!!!!!!!!!!" + error.message + " stack: " + error.stack);
+
+}
+
 function createXHR(inOptions)
 {
 
 	var options = {
   		dataType: 'jsonp',
 		complete: actionCompleted,
-		beforeSend: addXHR
+		beforeSend: addXHR,
+		error: completedWithErrors
 	};
 
 	jQuery.extend(options, inOptions);
@@ -368,6 +376,7 @@ function getWikipediaLayer(data){
 function shortUrl(url){
 	return createXHR({
 		url: paramUrl.shortUrl, 
+		dataType: 'json',
 		contentType: "application/json; charset=utf-8",
 		method: 'post',
 		data: JSON.stringify({longUrl: url}),
@@ -383,7 +392,7 @@ function doReadFile(data){
 
 function doUploadFile(data){
 	return createXHR({
-		url: paramUrl.uploadFile, 
+		url: paramUrl.uploadFile2, 
 		data: data
 	});
 }
@@ -392,7 +401,8 @@ function getDownloadLayer(data){
 	return createXHR({
 		url: paramUrl.download_layer, 
 		data: data,
-		method: 'post'
+		method: 'post',
+		dataType: 'html'
 	});
 }
 
@@ -445,7 +455,7 @@ function updateTematicRangs(data){
 	});
 }
 
-function createRandomUser(){
+function createRandomUser(data){
 	return createXHR({
 		url: paramUrl.createRandomUser
 	});
@@ -587,6 +597,7 @@ function uploadImageBase64(data){
 	return createXHR({
 		url: paramUrl.urluploadBase64, 
 		data: data,
+		dataType: 'json',
 		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		method: 'post'
 	});
@@ -596,6 +607,7 @@ function createGeoPdfMap(data){
 	return createXHR({
 		url: paramUrl.urlgetMapImage, 
 		data: data,
+		dataType: 'json',
 		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		method: 'post'
 	});
@@ -605,6 +617,7 @@ function createMapToWMS(data){
 	return createXHR({
 		url: paramUrl.urlMapToWMS, 
 		data: data,
+		dataType: 'json',
 		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		method: 'post'
 	});
@@ -629,8 +642,7 @@ function updatePasswordIcgc(data){
 function createVisualitzacioLayer(data){
 	return createXHR({
 		url: paramUrl.createVisualitzacioLayer, 
-		data: data, 
-		async: false,
+		data: data,
 		method: 'post'
 	});
 }
@@ -907,11 +919,14 @@ function getUser(username){
 }
 
 function getConfiguradesUser(data){
+	var url_config = paramUrl.getConfiguradesUser + jQuery.param(data);
+	var urlProxy=HOST_APP3+paramUrl.proxy_betterWMS + "?url="+ encodeURIComponent(url_config);
+	urlProxy = httpOrhttps(urlProxy,false);
 	return createXHR({
-		url: paramUrl.getConfiguradesUser, 
-		data: data,
+		url: urlProxy, 
 		crossDomain: true,
-		method: 'post'
+		dataType: 'json',
+		method: 'get'
 	});
 }
 

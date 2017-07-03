@@ -2,7 +2,6 @@
  * require geocat.ajax-1.0.0
  * require geocat.web-1.0.0
  * require geocat.mapa.edit-data-table
- * require url.min
  * require leaflet
  * require L.IM_Map
  * require L.IM_controlFons
@@ -386,6 +385,7 @@
 				layername: self.layername,
 				title: window.lang.translate('Veure a InstaMaps'),
 				fn: function(event) {
+					
 					$.publish('analyticsEvent',{event:['visor', 'button#veureInstamaps', 'label embed', 1]});
 				}
 			});
@@ -745,7 +745,7 @@
 						self.addOpenInstamapsControl();
 					}
 				}
-				if((self.homecontrol && self.homecontrol=="1") || self.homecontrol===null){
+				if((self.homecontrol && self.homecontrol=="1") || self.homecontrol===null ){
 					self.addHomeControl();
 				}
 				if((self.locationcontrol && self.locationcontrol=="1") || self.locationcontrol===null){
@@ -754,7 +754,7 @@
 				if((self.searchcontrol && self.searchcontrol=="1") || self.searchcontrol===null){
 					self.addSearchControl();
 				}
-				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null){
+				if((self.routingcontrol && self.routingcontrol=="1") || self.routingcontrol===null ){
 					self.addRoutingControl();
 				}
 				if((self.sharecontrol && self.sharecontrol=="1") || self.sharecontrol===null){
@@ -804,7 +804,7 @@
 			}
 			if((self.llegenda && self.llegenda=="1") || self.llegenda===null){
 				var hasLayers = false;
-				if(self._mapConfig.hasOwnProperty("legend"))
+				if(self._mapConfig && self._mapConfig.hasOwnProperty("legend"))
 				{
 
 					var leg = JSON.parse(self._mapConfig.legend);
@@ -839,6 +839,7 @@
 		loadErrorPage: function(){
 			//TODO redirect a la pagina de error 404
 			//console.debug("error");
+			$.publish('analyticsEvent',{event:['error', 'loadingPage','loadErrorPage']});	
 			window.location.href = paramUrl.galeriaPage;
 		},
 
@@ -1430,6 +1431,16 @@
 			return self;
 		},
 
+		_drawControlsVisorBuit:function(){
+			var self=this;
+			self.addMousePositionControl();
+			self.addScaleControl();
+			self.addMinimapControl();
+			self.addFonsControl();
+			self.addLocationControl();
+			self.addSearchControl();
+			return self;
+		},
 		draw: function(){
 			var self = this,
 			   	_map = self.map;
@@ -1440,7 +1451,7 @@
 				self.resizeMap();
 			},150));
 
-			if(self.businessid){
+			if(self.businessid && self.businessid!="geocatweb"){
 				self.loadMapConfig();
 				_map.on('loadconfig', self._drawVisor, self);
 			}else{
@@ -1450,11 +1461,19 @@
 					}
 					self.drawMap().resizeMap().drawControls()._drawVisorSimple()._hideLoading();
 				}
+				else if(self.urlFile && self.text){
+					self.loadURLConfig().drawMap().resizeMap().drawControls()._loadUrlFile()._addURLMarker()._hideLoading();
+				}
 				else if(self.text) {	//map defined by url params
 					self.loadURLConfig()._initCenter()._drawVisor()._addURLMarker();
 				}
+				else if(self.urlFile){
+					self.drawMap().resizeMap().drawControls()._loadUrlFile()._hideLoading();
+				}
 				else{
-					self.loadErrorPage();
+					//self.loadErrorPage();
+					//Carreguem visor buit
+					self.drawMap().resizeMap()._drawControlsVisorBuit()._hideLoading();
 				}
 			}
 
@@ -1463,7 +1482,376 @@
 			}
 			return self;
 		},
+		
 
+		_loadUrlFile: function() {
+			
+			var self = this;
+			var map = self.map;
+			var urlFile = self.urlFile;
+			var colX=self.coordX;
+			var colY=self.coordY;
+			var tipusFile = "geojson";
+			
+			if (self.tipusFile && self.tipusFile!="") tipusFile=self.tipusFile;
+			if (self.controls.homeControl!=undefined) self.controls.homeControl.hideBtn();
+			if (self.controls.layersControl!=undefined) self.controls.layersControl.hideBtn();
+			if (self.controls.routingControl!=undefined) self.controls.routingControl.hideBtn();
+			if (self.controls.shareControl!=undefined) self.controls.shareControl.hideBtn();
+			if (self.controls.likeControl!=undefined) self.controls.likeControl.hideBtn();
+			if (self.controls.control3d!=undefined) self.controls.control3d.hideBtn();
+			if (self.controls.snapshotControl!=undefined) self.controls.snapshotControl.hideBtn();
+			
+			var estil_do = retornaEstilaDO();
+			estil_do.fillColor="#ff0000";
+			estil_do.color="#ff0000";
+			
+			//Recuperem estils de la barra d'eines
+			var canvas_linia2={"id":"cv_linia","strokeStyle":"#ff0000","lineWidth":"3","tipus":"linia","opacity":"100"};
+			var lineStyle = getLineRangFromStyle(canvas_linia2);
+			lineStyle.weight = lineStyle.lineWidth;
+			lineStyle.color="#ff0000";
+
+			var polygonStyle = getPolygonRangFromStyle(canvas_pol);
+			polygonStyle.weight = polygonStyle.borderWidth;//lineWidth;
+			polygonStyle.fillColor = "#ff0000";
+			polygonStyle.color = "#ff0000";
+			polygonStyle.fillOpacity = polygonStyle.opacity/100; 
+			polygonStyle.opacity = 1;
+			
+			
+			if (tipusFile=="json"){
+				 L.toGeoJSON.convert(urlFile,"Point",colX,colY).then(function(){
+					 var dataSocrata={
+								serverName: "Capa fitxer",
+								jsonSocrata: JSON.stringify(L.toGeoJSON.geoJsonData)
+						};
+						
+					//console.debug(dataSocrata);
+					crearFitxerSocrata(dataSocrata).then(function(results){
+						if (results.status="OK"){
+							param_url =results.filePath;
+							$('#dialog_dades_ex').modal('hide');
+							jQuery("#div_uploading_txt").html("");
+							jQuery("#div_uploading_txt").html('<div id="div_upload_step1" class="status_current" lang="ca"> '+
+									window.lang.translate('Carregant dades')+
+							'<span class="one">.</span><span class="two">.</span><span class="three">.</span></div>');		
+							jQuery('#info_uploadFile').show();
+
+
+						   if (undefined!=param_url && (param_url.indexOf("/opt/")>-1 || param_url.indexOf("\\temp\\")>-1 )){
+							    if (param_url.indexOf("\\temp\\")>-1)  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("\\")+1,param_url.length);
+							    else  urlFile=HOST_APP3+"/jsonfiles/"+param_url.substring(param_url.lastIndexOf("/")+1,param_url.length);
+								param_url = paramUrl.urlFileDin	+"tipusFile=" + ".geojson"+
+								"&urlFile="+encodeURIComponent(urlFile)+
+								"&epsgIN=EPSG:4326"+	
+								"&dinamic=true"+
+								"&uploadFile="+paramUrl.uploadFile+							
+								"&uid="+Cookies.get('uid');		
+							}
+						   
+						   var capaURLfile = new L.GeoJSON.AJAX(param_url, {
+								nom : "urlFile",
+								tipus : tipusFile,
+								estil_do: estil_do,
+								style: polygonStyle,//Estil de poligons i linies
+								pointToLayer : function(feature, latlng) {
+									var geom = L.circleMarker(latlng, estil_do);
+									var pp = feature.properties;
+									var html ='<div class="div_popup_visor"><div class="popup_pres">';
+									propName = "";
+									$.each( pp, function( key, value ) {
+										propName = propName+key+",";
+										if(isValidValue(value) && !validateWkt(value)){
+											if ( key != 'businessId' && key != 'slotd50'){
+												
+												var txt = value;
+													html+='<div class="popup_data_row">';
+													if (!$.isNumeric(txt)) {		    				
+														txt = parseUrlTextPopUp(value,key);
+														if (typeof txt == 'string' || txt instanceof String) {
+															if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+																html+='<div class="popup_data_key">'+key+'</div>';
+																html+='<div class="popup_data_value">'+txt+'</div>';
+															}else{
+																html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															}
+														}
+														else{
+															var txtVal=txt;
+															try{
+																txtVal = JSON.stringify(txt);
+															}catch(e){
+																
+															}																	
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txtVal+'</div>';
+														}
+													}
+													else if (!(txt instanceof Object)){
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txt+'</div>';
+													}
+													html+= '</div>';
+												
+											}
+										}
+									});	
+									propName = propName.substr(0, propName.length-1);
+									html+='</div></div>'; 
+									return geom.bindPopup(html);
+								},
+								onEachFeature : function(feature, latlng) {
+									var pp = feature.properties;
+									var html ='<div class="div_popup_visor"><div class="popup_pres">';
+									propName = "";
+									$.each( pp, function( key, value ) {
+										propName = propName+key+",";
+										if(isValidValue(value) && !validateWkt(value)){
+											if ( key != 'businessId' && key != 'slotd50'){
+												
+												var txt = value;
+													html+='<div class="popup_data_row">';
+													if (!$.isNumeric(txt)) {		    				
+														txt = parseUrlTextPopUp(value,key);
+														if (typeof txt == 'string' || txt instanceof String) {
+															if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+																html+='<div class="popup_data_key">'+key+'</div>';
+																html+='<div class="popup_data_value">'+txt+'</div>';
+															}else{
+																html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+															}
+														}
+														else{
+															var txtVal=txt;
+															try{
+																txtVal = JSON.stringify(txt);
+															}catch(e){
+																
+															}																	
+															html+='<div class="popup_data_key">'+key+'</div>';
+															html+='<div class="popup_data_value">'+txtVal+'</div>';
+														}
+													}
+													else if (!(txt instanceof Object)){
+														html+='<div class="popup_data_key">'+key+'</div>';
+														html+='<div class="popup_data_value">'+txt+'</div>';
+													}
+													html+= '</div>';
+												
+											}
+										}
+									});	
+									propName = propName.substr(0, propName.length-1);
+									html+='</div></div>'; 
+									return latlng.bindPopup(html);
+								},
+								middleware:function(data){
+									if(data.status && data.status.indexOf("ERROR")!=-1){
+										processFileError(data, urlFile);
+										jQuery('#info_uploadFile').hide();
+									}else{
+										var stringData = JSON.stringify(data);
+										var geometryType = defineGeometryType(stringData);
+				
+										if(geometryType.indexOf("point")!=-1){
+											capaURLfile.options.style = estil_do;
+										}else if(geometryType.indexOf("line")!=-1){
+											capaURLfile.options.style = lineStyle;
+										}else if(geometryType.indexOf("polygon")!=-1){
+											capaURLfile.options.style = polygonStyle;
+										}
+										try{
+											capaURLfile.addData(data);
+											capaURLfile.addTo(map);
+											var bounds = capaURLfile.getBounds();
+											map.fitBounds(bounds);
+										}catch(err){
+											console.debug(err);
+											$.publish('analyticsEvent',{event:['error', 'CapaUrlFile2',JSON.stringify(err)]});	
+										}
+									}
+								}
+							});
+						}
+					});
+				 });
+			}
+						
+			else{	   
+			
+				if(urlFile.indexOf("https://drive.google.com/file/d/")!=-1){
+					urlFile = urlFile.replace("https://drive.google.com/file/d/", "");
+					var res = urlFile.split("/");
+					var fileId = res[0];
+					urlFile = "https://drive.google.com/uc?export=download&id="+fileId;
+				}
+				else if(urlFile.indexOf("https://www.dropbox.com")!=-1){
+					urlFile = urlFile.replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com");		
+				}
+				
+				if (urlFile.indexOf("https")>-1 && urlFile.indexOf("csv")>-1) {
+					urlFile = HOST_APP3+paramUrl.proxy_betterWMS + "?url="+encodeURIComponent(urlFile);
+		        	//urlFile = httpOrhttps(urlFile,false);
+				}
+				
+				if (tipusFile.toLowerCase().indexOf("geojson")>-1) tipusFile=".geojson";
+				if (tipusFile.toLowerCase().indexOf("kml")>-1) tipusFile=".kml";
+				if (tipusFile.toLowerCase().indexOf("kmz")>-1) tipusFile=".kmz";
+				if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
+				if (tipusFile.toLowerCase().indexOf("csv")>-1) tipusFile=".csv";
+				if (tipusFile.toLowerCase().indexOf("xls")>-1) {
+					if (tipusFile.toLowerCase().indexOf("xls")>-1) tipusFile=".xlsx";
+					else tipusFile=".xls";
+				}						
+				if (tipusFile.toLowerCase().indexOf("txt")>-1) tipusFile=".txt";
+				
+				var epsg ="EPSG:4326";
+				
+				if (self.epsg && self.epsg!="") epsg=self.epsg;
+				
+				if (epsg.indexOf("4326")>-1) epsg="EPSG:4326";
+				else if (epsg.indexOf("23031")>-1) epsg="EPSG:23031";
+				else if (epsg.indexOf("25831")>-1) epsg="EPSG:25831";
+				else if (epsg.indexOf("4258")>-1) epsg="EPSG:4258";
+				else if (epsg.indexOf("4230")>-1) epsg="EPSG:4230";
+				else if (epsg.indexOf("32631")>-1) epsg="EPSG:32631";
+				else if (epsg.indexOf("3857")>-1) epsg="EPSG:3857";
+				
+				
+				var param_url = paramUrl.urlFileDin	+
+				"tipusFile=" + tipusFile+				
+				"&epsgIN="+ epsg+				
+				"&dinamic=true"+
+				"&uploadFile="+paramUrl.uploadFile+		
+				"&uid="+Cookies.get('uid')+
+				"&colX="+colX+
+				"&colY="+colY+
+				"&urlFile="+encodeURIComponent(urlFile)+
+				"&tipusAcc=coordenades";
+				
+				if (((urlFile.indexOf("socrata")>-1 && urlFile.indexOf("method=export&format=GeoJSON")>-1) || 
+						urlFile.indexOf("https")>-1) && (urlFile.indexOf("drive")==-1)
+						&& (urlFile.indexOf("dropbox")==-1)  && (urlFile.indexOf("csv")==-1)) 	{
+					param_url = urlFile;
+				}
+								
+				
+				var capaURLfile = new L.GeoJSON.AJAX(param_url, {
+					nom : "urlFile",
+					tipus : tipusFile,
+					estil_do: estil_do,
+					style: polygonStyle,//Estil de poligons i linies
+					pointToLayer : function(feature, latlng) {
+						var geom = L.circleMarker(latlng, estil_do);
+						var pp = feature.properties;
+						var html ='<div class="div_popup_visor"><div class="popup_pres">';
+						propName = "";
+						$.each( pp, function( key, value ) {
+							propName = propName+key+",";
+							if(isValidValue(value) && !validateWkt(value)){
+								if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+									html+='<div class="popup_data_row">';
+									var txt = value;
+									if (!$.isNumeric(txt)) {		    				
+										txt = parseUrlTextPopUp(value,key);
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+									}
+									else {
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}
+									html+= '</div>';
+								}
+							}
+						});	
+						propName = propName.substr(0, propName.length-1);
+						html+='</div></div>'; 
+						return geom.bindPopup(html);
+					},
+					onEachFeature : function(feature, latlng) {
+						var pp = feature.properties;
+						var html ='<div class="div_popup_visor"><div class="popup_pres">';
+						propName = "";
+						$.each( pp, function( key, value ) {
+							propName = propName+key+",";
+							if(isValidValue(value) && !validateWkt(value)){
+								if (key != 'name' && key != 'Name' && key != 'description' && key != 'id' && key != 'businessId' && key != 'slotd50'){
+									html+='<div class="popup_data_row">';
+									var txt = value;
+									if (!$.isNumeric(txt)) {		    				
+										txt = parseUrlTextPopUp(value,key);
+										if(txt.indexOf("iframe")==-1 && txt.indexOf("img")==-1){
+											html+='<div class="popup_data_key">'+key+'</div>';
+											html+='<div class="popup_data_value">'+txt+'</div>';
+										}else{
+											html+='<div class="popup_data_img_iframe">'+txt+'</div>';
+										}
+									}
+									else {
+										html+='<div class="popup_data_key">'+key+'</div>';
+										html+='<div class="popup_data_value">'+txt+'</div>';
+									}
+									html+= '</div>';
+								}
+							}
+						});	
+						propName = propName.substr(0, propName.length-1);
+						html+='</div></div>'; 
+						return latlng.bindPopup(html);
+					},
+					middleware:function(data){
+						if(data.status && data.status.indexOf("ERROR")!=-1){
+							processFileError(data, urlFile);
+							jQuery('#info_uploadFile').hide();
+						}else{
+							var stringData = JSON.stringify(data);
+							var geometryType = defineGeometryType(stringData);
+	
+							if(geometryType.indexOf("point")!=-1){
+								capaURLfile.options.style = estil_do;
+							}else if(geometryType.indexOf("line")!=-1){
+								capaURLfile.options.style = lineStyle;
+							}else if(geometryType.indexOf("polygon")!=-1){
+								capaURLfile.options.style = polygonStyle;
+							}
+							try{
+								capaURLfile.addData(data);
+								capaURLfile.addTo(map);
+								var bounds = capaURLfile.getBounds();
+								map.fitBounds(bounds);
+							}catch(err){
+								console.debug(err);
+								$.publish('analyticsEvent',{event:['error', 'CapaUrlFile3',JSON.stringify(err)]});
+							}
+						}
+					}
+				});		
+			}
+			return self;
+		},
+		saveLocalStorage:function(){
+			var self = this;
+			if (self.urlFile){
+				try{
+					if(window.localStorage){
+						window.localStorage.setItem("url",self.urlFile);
+					}
+				}catch(e){}
+			}
+			if (self.tipusFile){
+				try{
+					if(window.localStorage){
+						window.localStorage.setItem("format",self.tipusFile);
+					}
+				}catch(e){}
+			}
+		},
 		_addURLMarker: function() {
 			var self = this;
 			var opcenter = self._mapConfig.options.center.split(",");
@@ -1504,7 +1892,7 @@
 			}
 
 			$("#infoMap").hide();
-
+			return self;
 		},
 
 		_addTooltips: function(){
@@ -1540,7 +1928,7 @@
 		},
 
 		_mapsnapshotEvent: function(){
-			$.publish('analyticsEvent',{event:[ 'visor', 'button#export_mapa', 'label export maps', 1]});
+			//$.publish('analyticsEvent',{event:['visor', 'button#exportmapa', 'label exportmap', 1]});		
 		},
 
 
@@ -1579,11 +1967,17 @@
 			var self=this;
 			var controlCapes = (self.controls.layersControl) ? self.controls.layersControl.control : null;
 			jQuery.each(controlCapes._layers, function(i, obj){
-				 if (obj.layer.options.opcionsVisEtiqueta!=undefined && (obj.layer.options.opcionsVisEtiqueta=="nomesetiqueta" ||
-							obj.layer.options.opcionsVisEtiqueta=="etiquetageom")){
-					 		var zoomInicial = "2";
+				var optionsVis;
+				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVis!=undefined) optionsVis = obj.layer.options.opcionsVis;
+				if (obj.layer!=undefined && obj.layer.options!=undefined && obj.layer.options.opcionsVisEtiqueta!=undefined) optionsVis = obj.layer.options.opcionsVisEtiqueta;
+				else if (obj.options!=undefined && obj.optionsobj.opcionsVis!=undefined)  optionsVis = obj.options.opcionsVis;
+				else if (obj.options!=undefined && obj.optionsobj.opcionsVisEtiqueta!=undefined) optionsVis = obj.options.opcionsVisEtiqueta;
+			
+				 if (optionsVis!=undefined && (optionsVis=="nomesetiqueta" ||
+						 optionsVis=="etiquetageom")){
+					 		var zoomInicial = zoomInicialEt;
 					 		if (obj.layer.options.zoomInicial) zoomInicial=obj.layer.options.zoomInicial;
-					 		var zoomFinal = "19";
+					 		var zoomFinal = zoomFinalEt;
 					 		if (obj.layer.options.zoomFinal) zoomFinal = obj.layer.options.zoomFinal;
 
 					 		if ( map.getZoom()>=zoomInicial &&  map.getZoom() <= zoomFinal) {//mostrem labels
@@ -1615,10 +2009,19 @@
 		var self = this;
 		self = $.extend(self, visorOptions, options);
 		self.instamapsLayers = InstamapsLayers(visorOptions);
+		$('#hl_sessio1').on('click',function(){
+			_gaq.push(['_trackEvent', 'visor', 'fer mapa', 'acquisition']);
+			self.saveLocalStorage();			
+		});
+		$('#newMap a').on('click',function(){
+			self.saveLocalStorage();			
+		});
 	}
 
 	Visor.init.prototype = Visor.prototype;
 
 	global.Visor = Visor;
+	
+	
 
 }(window, jQuery));

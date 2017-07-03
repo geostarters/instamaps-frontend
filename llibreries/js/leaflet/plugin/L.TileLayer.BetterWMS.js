@@ -8,7 +8,10 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		this.options.queryable=true;
 		L.TileLayer.WMS.prototype.onAdd.call(this, map);
 		//if (this.url && this.url.indexOf('http://betaserver.icgc.cat/geoservice/')==-1){
-			map.on('click', this.getFeatureInfo, this);
+			map.on('click', function(e) {
+				PopupManager().createMergedDataPopup(this, e, controlCapes)
+			});
+			//map.on('click', this.getFeatureInfo, this);
 			var params = this.getLegendGraphic();
 			this.updateControlLLegenda(params,this.wmsParams.layers,true,this.options.nom,this.options.businessId);	
 		//}		
@@ -18,11 +21,30 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 		// Triggered when the layer is removed from a map.
 		// Unregister a click listener, then do all the upstream WMS things
 		L.TileLayer.WMS.prototype.onRemove.call(this, map);
-		map.off('click', this.getFeatureInfo, this);
+		//map.off('click', this.getFeatureInfo, this);
 		var params = this.getLegendGraphic();
 		this.updateControlLLegenda(params,this.wmsParams.layers,false,this.options.nom,this.options.businessId);
 	},
 	getFeatureInfo: function (evt) {
+
+		this.getPopupContent(evt).then(function(data) {
+
+			var pop = L.popup({maxWidth: 800})
+				.setLatLng(evt.latlng)
+				.setContent(data.content).openOn(map);
+
+		});
+
+	},
+
+	getPopupContent: function(evt, index) {
+
+		var defer = $.Deferred();
+
+		var ret = {
+			index : index || 0,
+			content : ''
+		};
 		// Make an AJAX request to the server and hope for the best
 		var params = this.getFeatureInfoUrl(evt.latlng);
 		params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text/html");
@@ -32,55 +54,41 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
 					params = params.replace("INFO_FORMAT=text/html","INFO_FORMAT=text/plain");
 				}
-				var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
-				var pop=L.popup({ maxWidth: 800})
-					.setLatLng(evt.latlng)
-					.setContent(dataF).openOn(map);	
 			}else{
-				var esNomesWMS = true;
-				var teUtfGrid = false;
 				//De moment, si es un wms creat pel cloudifier, demanem text/pla
 				//mes endavant passarem per ogrinfo i podrem demanar HTML amb template
 				//per mostrar la informacio
 				if (params.indexOf('http://betaserver.icgc.cat/geoservice/')!=-1){
 					params = params.replace("INFO_FORMAT=text%2Fhtml","INFO_FORMAT=text%2Fplain");
 				}
-				for(val in controlCapes._layers){
-					if(controlCapes._layers[val].layer.options.tipus != t_wms){
-						esNomesWMS = false;
-					}
-					if (controlCapes._layers[val].layer.options.tipus == t_vis_wms){
-						teUtfGrid=true;
-					}
-				}
-				if(esNomesWMS){
-					$.ajax({
-						url: paramUrl.proxy_betterWMS,
-						data: {url: params},
-						success: function (data, status, xhr) {
-							var err = typeof data === 'string' ? null : data;
-
-							if(data.length > 5){
-								var pop=L.popup({ maxWidth: 800})
-								.setLatLng(evt.latlng)
-								.setContent(data).openOn(map);					
-							}
-						},
-						error: function (xhr, status, error) {
-
-						}
-					});				
-				}else{
-					if (!teUtfGrid || params.indexOf('instaserver')==-1) {
-						var dataF="<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe></div>";
-						var pop=L.popup({ maxWidth: 800})
-							.setLatLng(evt.latlng)
-							.setContent(dataF).openOn(map);	
-					}
-				}
+				
 			}
-		}//fi querable
-		return;
+			
+			$.ajax({
+				url: paramUrl.proxy_betterWMS,
+				data: {url: params},
+				success: function (data, status, xhr) {
+					var err = typeof data === 'string' ? null : data;
+					if(data.length > 5){
+						ret.content = data;
+						defer.resolve(ret);
+					}
+				},
+				error: function (xhr, status, error) {
+					ret.content = "<iframe style=\"display: block; width:300px; height:200px;border:none;\"  src="+params+" ></iframe>";
+					defer.resolve(ret);
+				}
+			});
+
+		}
+		else
+		{
+
+			defer.resolve(ret);
+
+		}
+
+		return defer;
 	},
 	getFeatureInfoUrl: function (latlng) {
 		var bounds = this._map.getBounds();
@@ -108,7 +116,8 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
 			//exceptions:'application/vnd.ogc.se_blank',
 			layers: this.wmsParams.layers,
 			query_layers: this.wmsParams.layers,
-			info_format: 'text/html'
+			info_format: 'text/html',
+			feature_count: '18'	//18 perquè es va fer el dia 18/04/2017
 		};
 		params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
 		params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
