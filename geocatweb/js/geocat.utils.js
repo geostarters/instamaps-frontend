@@ -9,8 +9,8 @@ var _globalDebug=false;
 
 
 function isValidEmailAddress(emailAddress) {
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-    return pattern.test(emailAddress);
+	var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+	return pattern.test(emailAddress);
 }
 
 function isValidURL(url) {
@@ -28,7 +28,7 @@ function isBusinessId(str){
 }
 
 function isBlank(str) {
-    return (!str || (/^\s*$/).test(str));
+	return (!str || (/^\s*$/).test(str));
 }
 
 function isHexColor(color){
@@ -52,17 +52,17 @@ function toggleCollapseDiv(divName){
 
 
 function getTimeStamp() {
-    var now = new Date();
-    return (now.getFullYear()+'/'+(
-    	((now.getMonth() + 1) < 10) ? ("0" + (now.getMonth() + 1)) : ((now.getMonth() + 1)))
-    	+ '/' +
-        now.getDate() +'_'+
-        ((now.getHours() < 10) ? ("0" + now.getHours()) : (now.getHours()))
-        + ':' +
-        ((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes()))
-        + ':' +
-        ((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds()))
-    );
+	var now = new Date();
+	return (now.getFullYear()+'/'+(
+		((now.getMonth() + 1) < 10) ? ("0" + (now.getMonth() + 1)) : ((now.getMonth() + 1)))
+		+ '/' +
+		now.getDate() +'_'+
+		((now.getHours() < 10) ? ("0" + now.getHours()) : (now.getHours()))
+		+ ':' +
+		((now.getMinutes() < 10) ? ("0" + now.getMinutes()) : (now.getMinutes()))
+		+ ':' +
+		((now.getSeconds() < 10) ? ("0" + now.getSeconds()) : (now.getSeconds()))
+	);
 }
 
 function calculateDistance(lLatLngs){
@@ -124,22 +124,22 @@ function transformTipusGeometry(geometrytype){
 }
 
 function hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : {r:0,g:0,b:0};
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r: parseInt(result[1], 16),
+		g: parseInt(result[2], 16),
+		b: parseInt(result[3], 16)
+	} : {r:0,g:0,b:0};
 }
 
 function hexToRgba(hex, opacity) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-        a: opacity,
-    } : {r:0,g:0,b:0,a:1};
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r: parseInt(result[1], 16),
+		g: parseInt(result[2], 16),
+		b: parseInt(result[3], 16),
+		a: opacity,
+	} : {r:0,g:0,b:0,a:1};
 }
 
 function hex(x) {
@@ -201,26 +201,28 @@ function getColorAwesomeMarker(markerColor, defaultColor){
 function parseUrlTextPopUp(txt,key){
 	//console.debug(txt);
 	if (key.toLowerCase() != "geomorigen"){
-	    var parseText = "";
-	    var isWkt=validateWkt(txt);
-	    if (!isWkt) {
-		    if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
-		          if( isImgURL(txt)){
-		        	  parseText = '<img width="100%" src="'+txt+'"/>';
-		          }else if( txt.match("^http")){
-		              parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
-		          }else{
-		              parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';
-		          }
-		          return parseText;
-		    }
+		var parseText = "";
+		var isWkt=validateWkt(txt);
+		if (!isWkt) {
+			if(!$.isNumeric(txt) && (key=='link' || key=='Web')){
+				  if( isImgURL(txt)){
+					  parseText = '<img width="100%" src="'+txt+'"/>';
+				  }else if( txt.match("^http")){
+					  parseText = '<a target="_blank" href="'+txt+'"/>'+txt+'</a>';
+				  }else{
+					  parseText = '<a target="_blank" href="http://'+txt+'"/>'+txt+'</a>';
+				  }
+				  return parseText;
+			}
 		
+<<<<<<< HEAD
 			if (!$.isNumeric(txt)) {
 				  if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
 						 txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
 						 return txt;
 				  }
 			}
+=======
 		    if (!$.isNumeric(txt)) {
 		    	if (typeof txt === "string") {
 		          if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
@@ -230,12 +232,14 @@ function parseUrlTextPopUp(txt,key){
 		    	}
 		    	else return txt;
 		    }
+>>>>>>> refs/remotes/origin/master
 		
 			var lines = txt.split(/\n/);
 			for(lineNum in lines)
 			{
 	
 				var line = lines[lineNum];
+<<<<<<< HEAD
 				var lwords = line.split(" ");
 				for(index in lwords){
 					  var text;
@@ -256,6 +260,7 @@ function parseUrlTextPopUp(txt,key){
 							 }else{
 									text = word;
 							 }
+=======
 			    var lwords = line.split(" ");
 			    for(index in lwords){
 			          var text;
@@ -276,24 +281,25 @@ function parseUrlTextPopUp(txt,key){
 			                 }else{
 			                        text = word;
 			                 }
+>>>>>>> refs/remotes/origin/master
 			
-			          }else{
-			                 text = word;
-			          }
-			          parseText+=" "+text;
-			    }
+					  }else{
+							 text = word;
+					  }
+					  parseText+=" "+text;
+				}
 	
-			    if("" == line)
+				if("" == line)
 					parseText += "<br />";
 				else
 					parseText += "\n";
 	
 			}
-		    return parseText;
-	    }
-	    else {
-	    	return "isWkt";
-	    }
+			return parseText;
+		}
+		else {
+			return "isWkt";
+		}
 	}
 }
 
@@ -446,7 +452,7 @@ function gestioCookie(from){
 		case 'mapaBloquejat':
 			//Temps vida cookie bloqueig: 2 hores
 			Cookies.set('lockCookie', _cookie, {
-			    expires: 1/12
+				expires: 1/12
 			});
 			break;
 	}
@@ -513,19 +519,19 @@ function getRamdomColorFromArray() {
 
 //Comptador mida dun objecte
 $.extend({
-    keyCount : function(o) {
-        if(typeof o == "object") {
-            var i, count = 0;
-            for(i in o) {
-                if(o.hasOwnProperty(i)) {
-                    count++;
-                }
-            }
-            return count;
-        } else {
-            return false;
-        }
-    }
+	keyCount : function(o) {
+		if(typeof o == "object") {
+			var i, count = 0;
+			for(i in o) {
+				if(o.hasOwnProperty(i)) {
+					count++;
+				}
+			}
+			return count;
+		} else {
+			return false;
+		}
+	}
 });
 
 //jQuery.fn.myScrollTo = function(elem) {
@@ -535,22 +541,22 @@ $.extend({
 
 function getCodiUnic() {
 //	console.debug("getCodiUnic");
-    return  randomString(2) + Math.floor(Math.random() * (999 + 1)) + "_";
+	return  randomString(2) + Math.floor(Math.random() * (999 + 1)) + "_";
 }
 
 function randomString(len, charSet) {
-    charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    var randomString = '';
-    for (var i = 0; i < len; i++) {
-    	var randomPoz = Math.floor(Math.random() * charSet.length);
-    	randomString += charSet.substring(randomPoz,randomPoz+1);
-    }
+	charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	var randomString = '';
+	for (var i = 0; i < len; i++) {
+		var randomPoz = Math.floor(Math.random() * charSet.length);
+		randomString += charSet.substring(randomPoz,randomPoz+1);
+	}
 //    console.debug(randomString);
-    return randomString;
+	return randomString;
 }
 
 function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 //Comprovar i forcar carrega dun script
@@ -560,26 +566,26 @@ function forceLoadScript(path){
 	console.debug("len:");
 	console.debug(len);
 	if (len === 0) {
-	        console.debug('script not loaded');
-	        loadScript(path);
+			console.debug('script not loaded');
+			loadScript(path);
 
-	        if ($('script[src*="'+path+'"]').length === 0) {
-	        	console.debug('still not loaded');
-	        }
-	        else {
-	        	console.debug('loaded now');
-	        }
-    }else{
-    	console.debug('script loaded');
-    }
+			if ($('script[src*="'+path+'"]').length === 0) {
+				console.debug('still not loaded');
+			}
+			else {
+				console.debug('loaded now');
+			}
+	}else{
+		console.debug('script loaded');
+	}
 }
 
 function loadScript(scriptLocationAndName) {
-    var head = document.getElementsByTagName('head')[0];
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = scriptLocationAndName;
-    head.appendChild(script);
+	var head = document.getElementsByTagName('head')[0];
+	var script = document.createElement('script');
+	script.type = 'text/javascript';
+	script.src = scriptLocationAndName;
+	head.appendChild(script);
 }
 
 function htmlentities(string, quote_style, charset, double_encode) {
@@ -601,7 +607,7 @@ function htmlentities(string, quote_style, charset, double_encode) {
 	  //   returns 2: 'foo&#039;bar'
 
 	  var hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style),
-	    symbol = '';
+		symbol = '';
 	  string = string === null ? '' : string + '';
 
 	  if (!hash_map) {
@@ -609,27 +615,27 @@ function htmlentities(string, quote_style, charset, double_encode) {
 	  }
 
 	  if (quote_style && quote_style === 'ENT_QUOTES') {
-	    hash_map["'"] = '&#039;';
+		hash_map["'"] = '&#039;';
 	  }
 
 	  if ( !! double_encode || double_encode === null) {
-	    for (symbol in hash_map) {
-	      if (hash_map.hasOwnProperty(symbol)) {
-	        string = string.split(symbol)
-	          .join(hash_map[symbol]);
-	      }
-	    }
+		for (symbol in hash_map) {
+		  if (hash_map.hasOwnProperty(symbol)) {
+			string = string.split(symbol)
+			  .join(hash_map[symbol]);
+		  }
+		}
 	  } else {
-	    string = string.replace(/([\s\S]*?)(&(?:#\d+|#x[\da-f]+|[a-zA-Z][\da-z]*);|$)/g, function (ignore, text, entity) {
-	      for (symbol in hash_map) {
-	        if (hash_map.hasOwnProperty(symbol)) {
-	          text = text.split(symbol)
-	            .join(hash_map[symbol]);
-	        }
-	      }
+		string = string.replace(/([\s\S]*?)(&(?:#\d+|#x[\da-f]+|[a-zA-Z][\da-z]*);|$)/g, function (ignore, text, entity) {
+		  for (symbol in hash_map) {
+			if (hash_map.hasOwnProperty(symbol)) {
+			  text = text.split(symbol)
+				.join(hash_map[symbol]);
+			}
+		  }
 
-	      return text + entity;
-	    });
+		  return text + entity;
+		});
 	  }
 
 	  return string;
@@ -796,10 +802,10 @@ function getModeMapa(){
 }
 
 function sortByKey(array, key) {
-    return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
+	return array.sort(function(a, b) {
+		var x = a[key]; var y = b[key];
+		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	});
 }
 
 function sortByKeyPath(array, key, isNumeric) {
@@ -811,7 +817,7 @@ function sortByKeyPath(array, key, isNumeric) {
 			 y=parseFloat(y);
 		 }
 		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
+	});
 }
 
 function sortByValueMax(a, b){
@@ -855,7 +861,16 @@ function sortByValueMax(a, b){
 			else {
 				bValue = bValue.replace(",",".");
 			}
-			if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
+		}
+		if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") {
+			bValue=bValue.substring(0,bValue.indexOf("-"));
+			bValue=bValue.replace(" ","");
+		}
+		
+		if (floatRegex.test(aValue) && floatRegex.test(bValue)) {			
+			return (aValue-bValue);
+		}
+		else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {		
 			return (aValue-bValue);
 		}
 		else {
@@ -868,10 +883,10 @@ function sortByValueMax(a, b){
 
 function isMobile() {
 	 try {
-	    if(/Android|webOS|iPhone|iPad|iPod|pocket|psp|kindle|avantgo|blazer|midori|Tablet|Palm|maemo|plucker|phone|BlackBerry|symbian|IEMobile|mobile|ZuneWP7|Windows Phone|Opera Mini/i.test(navigator.userAgent)) {
-	     return true;
-	    };
-	    return false;
+		if(/Android|webOS|iPhone|iPad|iPod|pocket|psp|kindle|avantgo|blazer|midori|Tablet|Palm|maemo|plucker|phone|BlackBerry|symbian|IEMobile|mobile|ZuneWP7|Windows Phone|Opera Mini/i.test(navigator.userAgent)) {
+		 return true;
+		};
+		return false;
 	 } catch(e){ console.log("Error in isMobile"); return false; }
 }
 
@@ -948,10 +963,10 @@ function refrescarPopUp(nom,props,_leaflet_id,type,capaLeafletId){
 	console.debug(capaLeafletId);
 	html +='<div id="footer_edit"  class="modal-footer">'
 	+'<ul class="bs-popup">'						
-	+'<li class="edicio-popup"><a id="feature_edit##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
-	+'<li class="edicio-popup"><a id="feature_move##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
-	+'<li class="edicio-popup"><a id="feature_remove##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
-	html+='<li class="edicio-popup" id="feature_data_table_'+_leaflet_id+'"><a id="feature_data_table##'+_leaflet_id+'##'+type+'##'+capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
+	+'<li class="edicio-popup"><a id="feature_edit##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicons-palette gris-semifosc font18" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_move##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_remove##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
+	html+='<li class="edicio-popup" id="feature_data_table_'+_leaflet_id+'"><a id="feature_data_table##'+_leaflet_id+'##'+type+'##'+capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
 
 		
 	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>';
@@ -1011,13 +1026,13 @@ function decimalComa(nStr) {
 })(jQuery);
 
 function createClass(name,rules){
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    document.getElementsByTagName('head')[0].appendChild(style);
-    if(!(style.sheet||{}).insertRule) 
-        (style.styleSheet || style.sheet).addRule(name, rules);
-    else
-        style.sheet.insertRule(name+"{"+rules+"}",0);
+	var style = document.createElement('style');
+	style.type = 'text/css';
+	document.getElementsByTagName('head')[0].appendChild(style);
+	if(!(style.sheet||{}).insertRule) 
+		(style.styleSheet || style.sheet).addRule(name, rules);
+	else
+		style.sheet.insertRule(name+"{"+rules+"}",0);
 }
 
 function cleanScriptCode(txt){
@@ -1083,53 +1098,63 @@ function controlarBloqueigMapa(){
 	 lockController = SessionTimeout({
 		 warnAfter: 28700000, //desenv: 10000,//prod: 28700000,
 		 redirAfter: 28800000, //desenv: 15000,//prod: 8 hores = 28800000 ms
-         ignoreUserActivity: true,
-         keepAlive: false,
-         logoutButton: window.lang.translate('Sortir'),
-         title: window.lang.translate('Desbloquejar mapa'),
-         message: window.lang.translate('Han transcorregut 8 hores des que heu iniciat la sessió de treball. Premeu "Continuar treballant" per mantenir-la  oberta, o "desbloquejar" per alliberar el mapa. '+
-        		 						'Si no responeu, el mapa quedarà alliberat en 3 minuts.'),
-         onWarn: function(){
-         },
-         onRedir: function () {
-        	 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 28980000);//desenv: 30000); //prod: 8 hores i 3 minuts = 28980000 ms
-        	 $('#dialog_bloqueig_mapa').modal('show');   
-        	
-         }
+		 ignoreUserActivity: true,
+		 keepAlive: false,
+		 logoutButton: window.lang.translate('Sortir'),
+		 title: window.lang.translate('Desbloquejar mapa'),
+		 message: window.lang.translate('Han transcorregut 8 hores des que heu iniciat la sessió de treball. Premeu "Continuar treballant" per mantenir-la  oberta, o "desbloquejar" per alliberar el mapa. '+
+										'Si no responeu, el mapa quedarà alliberat en 3 minuts.'),
+		 onWarn: function(){
+		 },
+		 onRedir: function () {
+			 timeoutBloqueig = window.setTimeout("treureBloqueigMapa()", 28980000);//desenv: 30000); //prod: 8 hores i 3 minuts = 28980000 ms
+			 $('#dialog_bloqueig_mapa').modal('show');   
+			
+		 }
    });
 }
 
 function treureBloqueigMapa(){
 	var mapData = {
-  			businessId: url('?businessid'),
-  			uid: Cookies.get('uid')
-  	 };
+			businessId: url('?businessid'),
+			uid: Cookies.get('uid')
+	 };
 	 desbloquejarMapa(mapData).then(function(results){
 			if (results.status=="OK"){
 				$.when.apply(null, runningActions).done(function() {
 					lockController.stop();
 					$('#dialog_bloqueig_mapa').modal('hide');
 					window.location.href = paramUrl.galeriaPage+"?private=1";
-        		});
+				});
 			}
 	});
 }
 
 function generarScriptMarkupGoogle(url,nom,urlImage,autor,dataPublicacio,descripcio){
 	var generatedScript = "{\"@context\":\"http://schema.org\","+
-	    "\"@type\": \"Map\","+
-	    "\"name\":\""+nom+"\","+
-	    "\"url\":\""+url+"\","+
-	    "\"image\":\""+urlImage+"\","+
-	    "\"thumbnailUrl\":\""+urlImage+"\","+
-	    "\"author\": {"+
-	    	"\"@type\":  \"Person\","+
-	    	"\"name\":\""+autor+"\""+
-	  	"},"+
+		"\"@type\": \"Map\","+
+		"\"name\":\""+nom+"\","+
+		"\"url\":\""+url+"\","+
+		"\"image\":\""+urlImage+"\","+
+		"\"thumbnailUrl\":\""+urlImage+"\","+
+		"\"author\": {"+
+			"\"@type\":  \"Person\","+
+			"\"name\":\""+autor+"\""+
+		"},"+
 	   "\"datePublished\":\""+dataPublicacio+"\","+
 	   "\"description\":\""+descripcio+"\""+
 		"}";
 	return generatedScript;
 }
 
+
+function hex32rgba(color, alpha)
+{
+
+	var components = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+	return 'rgba(' + parseInt(components[1], 16) + ', ' + 
+		parseInt(components[2], 16) + ', ' + parseInt(components[3], 16) + ', ' +
+		alpha + ')';
+
+}
 
