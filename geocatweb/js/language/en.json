@@ -59,6 +59,7 @@
   "arxiu tipus":"example file",
   "Aspecte":"Appearance",
   "Atenció":"Attention",
+  "Autor:":"Author",
 
   "baixa":"down",
   "Base municipal":"Municipal base",
@@ -295,6 +296,7 @@
   "Enllaça servidors WMS i TMS, i afegeix serveis JSON.":"Link to WMS and TMS servers, and add JSON services.",
   "Enllaça":"Link",
   "Ens ajudes? Omple l'enquesta (1 minut)":"Can you help us? Fill out the survey (1 minute)",
+  "Ensenyar com a atles":"Show as atlas",
   "Entra en mode demostració":"Enter demo mode",
   "Entrar URL de dades externes":"Enter URL of external data",
   "Entendre com utilitzeu aquesta eina i quines funcionalitats trobeu a faltar és clau pel seu desenvolupament.":"Understanding how you use this tool and what other functionalitites you'd like to see is key for future developments.",

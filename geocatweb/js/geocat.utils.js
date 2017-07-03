@@ -215,6 +215,12 @@ function parseUrlTextPopUp(txt,key){
 		          return parseText;
 		    }
 		
+			if (!$.isNumeric(txt)) {
+				  if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
+						 txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
+						 return txt;
+				  }
+			}
 		    if (!$.isNumeric(txt)) {
 		    	if (typeof txt === "string") {
 		          if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
@@ -230,6 +236,26 @@ function parseUrlTextPopUp(txt,key){
 			{
 	
 				var line = lines[lineNum];
+				var lwords = line.split(" ");
+				for(index in lwords){
+					  var text;
+					  var word = lwords[index];
+					  if(!$.isNumeric(txt) ){
+							 if (isValidURL(word)){
+									var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
+									if(isImgURL(word)){
+										   text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
+									}
+									else if (word.indexOf("html?") != -1){
+										   text = "<iframe width=\"100%\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
+														"marginwidth=\"0\" src=\""+(!hasProtocol ? "http://" + word : word)+"\"></iframe>";
+									}else if (txt.indexOf("<video")==-1){
+										   text = "<a href=\""+(!hasProtocol ? "http://" + word : word)+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
+									}
+									else text=word;
+							 }else{
+									text = word;
+							 }
 			    var lwords = line.split(" ");
 			    for(index in lwords){
 			          var text;
@@ -579,7 +605,7 @@ function htmlentities(string, quote_style, charset, double_encode) {
 	  string = string === null ? '' : string + '';
 
 	  if (!hash_map) {
-	    return false;
+		return false;
 	  }
 
 	  if (quote_style && quote_style === 'ENT_QUOTES') {
@@ -829,16 +855,7 @@ function sortByValueMax(a, b){
 			else {
 				bValue = bValue.replace(",",".");
 			}
-		}
-		if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") {
-			bValue=bValue.substring(0,bValue.indexOf("-"));
-			bValue=bValue.replace(" ","");
-		}
-		
-		if (floatRegex.test(aValue) && floatRegex.test(bValue)) {			
-			return (aValue-bValue);
-		}
-		else if (floatRegex2.test(aValue) && floatRegex2.test(bValue)) {		
+			if (bValueStr.indexOf("-")>-1 && bValue.substring(0,bValue.indexOf("-"))!="") bValue=bValue.substring(0,bValue.indexOf("-"));
 			return (aValue-bValue);
 		}
 		else {
@@ -931,10 +948,10 @@ function refrescarPopUp(nom,props,_leaflet_id,type,capaLeafletId){
 	console.debug(capaLeafletId);
 	html +='<div id="footer_edit"  class="modal-footer">'
 	+'<ul class="bs-popup">'						
-	+'<li class="edicio-popup"><a id="feature_edit##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicons-palette gris-semifosc font18" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
-	+'<li class="edicio-popup"><a id="feature_move##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
-	+'<li class="edicio-popup"><a id="feature_remove##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
-	html+='<li class="edicio-popup" id="feature_data_table_'+_leaflet_id+'"><a id="feature_data_table##'+_leaflet_id+'##'+type+'##'+capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt gris-semifosc" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
+	+'<li class="edicio-popup"><a id="feature_edit##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-map-marker verd" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Estils')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_move##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-move magenta" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Editar')+'"></span></a>   </li>'
+	+'<li class="edicio-popup"><a id="feature_remove##'+_leaflet_id+'##'+type+'" lang="ca" href="#"><span class="glyphicon glyphicon-trash vermell" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Esborrar')+'"></span></a>   </li>';
+	html+='<li class="edicio-popup" id="feature_data_table_'+_leaflet_id+'"><a id="feature_data_table##'+_leaflet_id+'##'+type+'##'+capaLeafletId+'##" lang="ca" href="#"><span class="glyphicon glyphicon-list-alt blau" data-toggle="tooltip" data-placement="bottom" title="'+window.lang.translate('Dades')+'"></span></a>   </li>';					
 
 		
 	html+='<li class="edicio-popup"><a class="faqs_link" href="http://betaportal.icgc.cat/wordpress/faq-dinstamaps/#finestrapunt" target="_blank"><span class="fa fa-question-circle-o gris-semifosc font21"></span></a></span></li>';

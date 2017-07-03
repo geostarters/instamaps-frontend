@@ -331,7 +331,40 @@ L.Control.RoutingControl = L.Control.extend({
 	    var span = L.DomUtil.create('span', '', container);
 	    span.innerHTML = label;
 	    return span;
+	},
+
+	moveToSidebar: function(sidebarId)
+	{
+
+		var self = this;
+		var buttonHTML = '<li><a href="#routingPanel" id="routingTab" role="tab">' +
+			self.options.html + '</a></li>';
+
+		var bodyHTML = '<div id="routingPanel" class="sidebar-pane sidebar-outer-pane">' +
+			'<h1 class="sidebar-header" lang="ca">' +
+				'<div><span lang="ca" class="routing-title">' + 
+					self.options.texts.title + 
+				'</span>&nbsp;<a href="http://www.liedman.net/leaflet-routing-machine/" target="_blank" style="display:inline;">' +
+				'<span class="glyphicon glyphicon-info-sign white" style="font-size:14px;"></a></div>' + 
+				'<span class="sidebar-close" id="infoClose"><i class="fa fa-caret-left"></i></span>' +
+			'</h1><div class="scrollable-pane"><div id="routing-content"></div></div></div>';
+		
+		$(sidebarId + ' .leftTopBar').append(buttonHTML);
+		$(sidebarId + ' .sidebar-content').append(bodyHTML);
+		
+		$('#routingPanel').on('click', function() {
+			self._map.fire('showRouting');
+		});
+
+		$('#routingPanel .scrollable-pane').css('overflow-y', 'hidden');
+
+		$('#' + self.options.id).remove();
+		self._map.on('click', self._routingPopup, self);
+		self._route.addTo(self._map);
+		$('.leaflet-routing-container').appendTo('#routing-content');
+
 	}
+
 });
 
 L.control.routingControl = function(options){

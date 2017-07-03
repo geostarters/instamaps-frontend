@@ -135,18 +135,18 @@
 }
 
 .leaflet-control-search .search-button {
-    background-color: #FFFFFF;
-    /*border: 1px solid #8C0224;*/
-    cursor: pointer;
-    font-size: 14px;
-    height: 31px;
-    line-height: 1.42857;
-    padding: 6px 8px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
-    width: 46px;
-    border-radius: 0;
+	background-color: #FFFFFF;
+	/*border: 1px solid #8C0224;*/
+	cursor: pointer;
+	font-size: 14px;
+	height: 31px;
+	line-height: 1.42857;
+	padding: 6px 8px;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	width: 46px;
+	border-radius: 0;
 }
 
 .leaflet-control-search .search-tooltip {
@@ -814,7 +814,7 @@ textarea {
 }
 
 .popup_data_img_iframe {
-    width: 300px;
+	width: 300px;
 }
 
 #routing{
@@ -839,16 +839,16 @@ textarea {
 
 .routing-input{
 	color: white;
-    font-size: 15px;
-    height: 24px !important;
-    line-height: 24px;
-    margin: 0 !important;
-    outline: 0 none;
-    padding: 0 !important;
-    transition-duration: 0.3s;
-    transition-property: color;
-    width: 100%;
-    background-color:transparent;
+	font-size: 15px;
+	height: 24px !important;
+	line-height: 24px;
+	margin: 0 !important;
+	outline: 0 none;
+	padding: 0 !important;
+	transition-duration: 0.3s;
+	transition-property: color;
+	width: 100%;
+	background-color:transparent;
 }
 
 .blanc, .blanc a, blanc div {
@@ -927,4 +927,9 @@ div.leaflet-routing-geocoder input:-moz-placeholder { opacity: 0.8; }
 }
 .nomargin{
 	margin:0px !important;
+}
+
+#routing-content .leaflet-routing-alt {
+	height: 100%;
+	max-height: 700px;
 }

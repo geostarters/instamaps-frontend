@@ -347,6 +347,7 @@
 			ctr_fons = new L.IM_controlFons({
 				title: window.lang.translate('Escollir el mapa de fons'),
 			}).addTo(_map);
+			ctr_fons.moveToSidebar('#leftSidebar');
 
 			self.controls.fonsControl = ctr_fons;
 
@@ -404,6 +405,7 @@
 				title: window.lang.translate('Vista inicial')
 			});
 			ctr_vistaInicial.addTo(_map);
+			ctr_vistaInicial.moveToSidebar('#leftSidebar');
 
 			self.controls.homeControl = ctr_vistaInicial;
 
@@ -421,6 +423,8 @@
 				title: window.lang.translate("M'agrada")
 			});
 			ctr_like.addTo(_map);
+			//self.addControlToSidebar('#leftSidebar', ctr_like);
+			ctr_like.moveToSidebar('#leftSidebar');
 
 			self.controls.likeControl = ctr_like;
 
@@ -454,6 +458,8 @@
 				title: window.lang.translate('Compartir')
 			});
 			ctr_shareBT.addTo(_map);
+			//self.addControlToSidebar('#leftSidebar', ctr_shareBT);
+			ctr_shareBT.moveToSidebar('#leftSidebar');
 
 			self.controls.shareControl = ctr_shareBT;
 
@@ -470,6 +476,8 @@
 			});
 
 			ctr_routingBT.addTo(_map);
+			//self.addControlToSidebar('#leftSidebar', ctr_routingBT);
+			ctr_routingBT.moveToSidebar('#leftSidebar');
 
 			self.controls.routingControl = ctr_routingBT;
 
@@ -498,6 +506,7 @@
 			});
 
 			_map.addControl(ctr_gps);
+			ctr_gps.moveToSidebar('#leftSidebar');
 
 			self.controls.locationControl = ctr_gps;
 
@@ -512,11 +521,15 @@
 			ctr_findBT = L.control.searchControl({
 				title: window.lang.translate('Cercar'),
 				searchUrl: paramUrl.searchAction+"searchInput={s}",
-				inputplaceholderText: window.lang.translate('Cercar llocs al món o coordenades  ...')
+				inputplaceholderText: window.lang.translate('Cercar llocs al món o coordenades  ...'),
+				resultsContainer: 'searchResults',
+				disableAutoCollapse: true
 			});
 			_map.addControl(ctr_findBT);
+			//self.addControlToSidebar('#leftSidebar', ctr_findBT);
 			//TODO generar el control del search
 			//addControlCercaEdit();
+			ctr_findBT.moveToSidebar('#leftSidebar');
 
 			self.controls.searchControl = ctr_findBT;
 
@@ -638,6 +651,16 @@
 			return self;
 		},
 
+		addControlSidebar: function(containerId) {
+
+			var self = this;
+			var ctr_ls = L.control.sidebar(containerId).addTo(self.map);
+			self.controls.leftSidebar = ctr_ls;
+
+			return self;
+
+		},
+
 		addControlLogos: function(){
 			var self = this,
 			ctr_logos,
@@ -649,6 +672,41 @@
 			self.controls.controlLogos = ctr_logos;
 
 			return self;
+		},
+
+		addControlToSidebar: function(sidebarId, control)
+		{
+
+			//Add the icon as a button to the sidebar and the 
+			//contents as a new panel
+			$(sidebarId + ' .sidebar-content').append(control.getContainer());
+
+		},
+
+		moveZoomControlToSidebar: function(sidebarId)
+		{
+
+			var self = this;
+		
+			var buttonsHTML = '<li id="zoomInCtrl"></li><li id="zoomOutCtrl"></li>';
+			$('#' + sidebarId + ' .leftTopBar').append(buttonsHTML);
+
+			$('.leaflet-control-zoom-in').appendTo('#zoomInCtrl');
+			$('.leaflet-control-zoom-in').attr('href', '');
+			$('.leaflet-control-zoom-out').appendTo('#zoomOutCtrl');
+			$('.leaflet-control-zoom-out').attr('href', '');
+
+		},
+
+		sidebarLoaded: function(sidebarId)
+		{
+
+			$('#info-panel').mCustomScrollbar({
+				theme: 'rounded-dots-dark',
+				scrollbarPosition: 'outside',
+				scrollButtons: {enable: true}
+			});
+
 		},
 
 		drawMap: function(){
@@ -664,6 +722,8 @@
 			var self = this;
 
 			self.addControlLogos();
+
+			self.moveZoomControlToSidebar('leftSidebar');
 
 			if((self.mouseposition && self.mouseposition=="1") || self.mouseposition===null){
 				self.addMousePositionControl();
@@ -706,6 +766,8 @@
 				}
 
 			}
+
+			self.addControlSidebar('leftSidebar');
 
 			if((self.rtoolbar && self.rtoolbar=="1") || (self.rtoolbar===null)){
 				if((self.layerscontrol && self.layerscontrol=="1") || (self.layerscontrol===null)){
@@ -1061,65 +1123,110 @@
 			return name;
 		},
 
-		_loadPublicMap: function(_mapConfig){
-			var self = this,
-				nomUser = _mapConfig.entitatUid.split("@"),
-				nomEntitat = _mapConfig.nomEntitat,
-				infoHtml = '';
+		_createInfoPanel(mapConfig) {
 
-			var nomAp = _mapConfig.nomAplicacio;
-			if ($(location).attr('href').indexOf('/visor.html') != -1) {
-				$('meta[property="og:title"]').attr('content', "Mapa "+nomAp.replaceAll("'","\'"));
+			var self = this;
+			var infoHtml = '';
+
+			var color = "#fff";
+			var description = "";
+			if (undefined != mapConfig.options.description) 
+			{
+
+				description = mapConfig.options.description;
+
 			}
-			if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
-				document.title=url('?title');
+
+			if(undefined != mapConfig.options.descriptionColor)
+			{
+				
+				color = mapConfig.options.descriptionColor;
+
 			}
-			Cookies.set('perfil', 'instamaps');
-			checkUserLogin();
 
-			infoHtml += '<p>'+nomUser[0]+'</p>';
+			var nomUser = mapConfig.entitatUid.split("@")[0];
+			infoHtml += '<div id="info-panel" class="scrollable-pane" style="background-color:' + color  + 
+				'"><div id="info-content"><p>' + description + '</p>';
+			infoHtml += '<p><span lang="ca">Autor:</span>' + nomUser + '</p></div></div>';
 
-			if (_mapConfig.options){
-				var desc=_mapConfig.options.description;
+			$('#infoPanel').append(infoHtml);
 
-				desc==""?desc=_mapConfig.nomAplicacio:desc=desc;
+			if(undefined != mapConfig.options.descriptionAsAtlas && mapConfig.options.descriptionAsAtlas)
+			{
+
+				self.controls.leftSidebar.open('infoPanel');
+
+			}
+
+			self.sidebarLoaded('leftSidebar');
+
+		},
+
+		_setMetaTags: function(mapConfig) {
+
+			var nomApp = mapConfig.nomAplicacio;
+			$('meta[property="og:title"]').attr('content', "Mapa " + nomApp.replaceAll("'","\'"));
+
+			if(mapConfig.options)
+			{
+
+				var desc = mapConfig.options.description;
+				desc = ("" == desc) ? nomAp : desc;
 
 				if (desc!=undefined)  desc = desc.replaceAll("'","\'");
-				if ($(location).attr('href').indexOf('/visor.html') != -1) {
-					$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
-					$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+				$('meta[name="description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
+				$('meta[property="og:description"]').attr('content', desc+' - Fet amb InstaMaps.cat');
 
-					var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
-					$('meta[property="og:image"]').attr('content', urlThumbnail);
-					var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+_mapConfig.businessId;
-					var nomApp=_mapConfig.nomAplicacio;
-					if (undefined!=nomApp){
-						var nomIndexacio=nomApp;
-			        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
-			        	nomIndexacio= encodeURI(nomIndexacio);
-						urlMap += "&title="+nomIndexacio;
-					}
-					var generatedScript="<script type=\"application/ld+json\">"+
-					generarScriptMarkupGoogle(urlMap,nomAp,urlThumbnail,_mapConfig.entitatUid,_mapConfig.dataPublicacio,desc)+
-					"</script>";
-					$('head').append(generatedScript);
+				var urlThumbnail = GEOCAT02 + paramUrl.urlgetMapImage+ "&request=getGaleria&update=false&businessid=" + url('?businessid');
+				$('meta[property="og:image"]').attr('content', urlThumbnail);
+				var urlMap = HOST_APP+paramUrl.visorPage+"?businessid="+mapConfig.businessId;
+
+				if (undefined!=nomApp){
+					var nomIndexacio=nomApp;
+		        	(nomIndexacio.length > 100)?nomIndexacio=nomIndexacio.substring(0,100):nomIndexacio;
+		        	nomIndexacio= encodeURI(nomIndexacio);
+					urlMap += "&title="+nomIndexacio;
 				}
-				if (_mapConfig.options.description!=undefined) infoHtml += '<p>'+_mapConfig.options.description+'</p>';
-				if (_mapConfig.options.tags!=undefined) infoHtml += '<p>'+_mapConfig.options.tags+'</p>';
 
-				$('.escut').hide();
+				var generatedScript="<script type=\"application/ld+json\">"+
+				generarScriptMarkupGoogle(urlMap,nomApp,urlThumbnail,mapConfig.entitatUid,mapConfig.dataPublicacio,desc)+
+				"</script>";
+
+				$('head').append(generatedScript);
+
 			}
-			$("#mapTitle").html(self._mapNameShortener(_mapConfig.nomAplicacio) + '<span id="infoMap" lang="ca" class="glyphicon glyphicon-info-sign pop" data-toggle="popover" title="Informació" data-lang-title="Informació" ></span>');
 
-			$('#infoMap').popover({
-				placement : 'bottom',
-				html: true,
-				content: infoHtml
-			});
+		},
 
-			$('#infoMap').on('show.bs.popover', function () {
-				$(this).attr('data-original-title', window.lang.translate($(this).data('lang-title')));
-			});
+		_setMapTitle(mapConfig)
+		{
+
+			var self = this;
+			var titleHTML = self._mapNameShortener(mapConfig.nomAplicacio);
+			$("#mapTitle").html(titleHTML);
+
+		},
+
+		_loadPublicMap: function(_mapConfig){
+			var self = this;
+
+			var showDescriptionAsAtlas = _mapConfig.options && 
+				_mapConfig.options.hasOwnProperty("descriptionAsAtlas") && 
+				_mapConfig.options.descriptionAsAtlas;
+
+			Cookies.set('perfil', 'instamaps');
+			checkUserLogin();
+			
+			self._setMapTitle(_mapConfig);
+			if ($(location).attr('href').indexOf('/visor.html') != -1) {
+				self._setMetaTags(_mapConfig);
+			}
+
+			if ($(location).attr('href').indexOf('/visor_onsoc.html') != -1) {
+				document.title = url('?title');
+			}
+
+			self._createInfoPanel(_mapConfig);
 
 			//TODO quitar la global ya que se usa en el control de capas.
 			downloadableData = (_mapConfig.options && _mapConfig.options.downloadable?
@@ -1128,9 +1235,8 @@
 			_mapConfig.newMap = false;
 			$('#nomAplicacio').html(_mapConfig.nomAplicacio);
 
-			self._loadMapConfig(_mapConfig).then(function(){
+			self._loadMapConfig(_mapConfig);
 
-			});
 		},
 
 		_loadMapConfig: function(_mapConfig){

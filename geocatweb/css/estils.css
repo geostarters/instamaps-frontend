@@ -164,7 +164,8 @@
     z-index: 1010;
 }
 
-.leaflet-control-search .search-tip {
+.leaflet-control-search .search-tip, 
+#searchResults .search-tip {
 	
 	 background-color: #FFFFFF;
     border-bottom: 1px dotted #5E5E5E;
@@ -181,7 +182,11 @@
 .leaflet-control-search .search-tip-select,
 .leaflet-control-search .search-tip:hover,
 .leaflet-control-search .search-button:hover,
-.leaflet-control-search .btn-default2:hover{
+.leaflet-control-search .btn-default2:hover,
+#searchResults .search-tip-select,
+#searchResults .search-tip:hover,
+#searchResults .search-button:hover,
+#searchResults .btn-default2:hover{
     background-color: #ededed;
     border-color: #adadad;
     color: #333333;

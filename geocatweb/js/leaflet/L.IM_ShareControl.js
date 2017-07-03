@@ -76,6 +76,33 @@ L.Control.Share = L.Control.extend({
 		this[collapsed ? 'show' : 'hide']();
 	},
 
+	moveToSidebar: function(sidebarId)
+	{
+
+		var self = this;
+		var buttonHTML = '<li><a href="#sharePanel" id="shareTab" role="tab">' +
+			self.options.html + '</a></li>';
+
+		var bodyHTML = '<div id="sharePanel" class="sidebar-pane sidebar-outer-pane">' +
+			'<h1 class="sidebar-header" lang="ca">' +
+				self.options.title + 
+				'<span class="sidebar-close" id="infoClose"><i class="fa fa-caret-left"></i></span>' +
+			'</h1><div class="scrollable-pane"><div id="share-content"></div></div></div>';
+		
+		$(sidebarId + ' .leftTopBar').append(buttonHTML);
+		$(sidebarId + ' .sidebar-content').append(bodyHTML);
+		$('#socialShare_visor').appendTo('#share-content');
+		$('#socialShare_visor').css('width', '205px');
+		$('#socialShare_visor').css('background-color', '#ffffff');
+		$('#socialShare_visor').show();
+		$('#' + self.options.id).remove();
+
+		$('#socialShare_visor .pop-social').on('click', function(event){
+			$.publish('analyticsEvent',{event:['visor', 'compartir-publicar', $(this).attr('data-type'), 1]});
+		});
+
+	}
+
 });
 
 L.control.share = function(options){
