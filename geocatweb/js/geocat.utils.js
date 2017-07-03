@@ -215,14 +215,8 @@ function parseUrlTextPopUp(txt,key){
 				  return parseText;
 			}
 		
-<<<<<<< HEAD
-			if (!$.isNumeric(txt)) {
-				  if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
-						 txt.indexOf("<img")!= -1 || txt.indexOf("<iframe")!= -1 ){
-						 return txt;
-				  }
-			}
-=======
+
+
 		    if (!$.isNumeric(txt)) {
 		    	if (typeof txt === "string") {
 		          if(txt.indexOf("href")!= -1 || txt.indexOf("<a")!= -1 || 
@@ -232,35 +226,14 @@ function parseUrlTextPopUp(txt,key){
 		    	}
 		    	else return txt;
 		    }
->>>>>>> refs/remotes/origin/master
+
 		
 			var lines = txt.split(/\n/);
 			for(lineNum in lines)
 			{
 	
 				var line = lines[lineNum];
-<<<<<<< HEAD
-				var lwords = line.split(" ");
-				for(index in lwords){
-					  var text;
-					  var word = lwords[index];
-					  if(!$.isNumeric(txt) ){
-							 if (isValidURL(word)){
-									var hasProtocol = ((-1 != word.indexOf('http://')) || (-1 != word.indexOf('https://')) || (-1 != word.indexOf('ftp://')))
-									if(isImgURL(word)){
-										   text = "<img src=\"" + (!hasProtocol ? "http://" + word : word) + "\" alt=\"img\" class=\"popup-data-img\"/>";
-									}
-									else if (word.indexOf("html?") != -1){
-										   text = "<iframe width=\"100%\" height=\"200\" frameborder=\"0\" marginheight=\"0\""+
-														"marginwidth=\"0\" src=\""+(!hasProtocol ? "http://" + word : word)+"\"></iframe>";
-									}else if (txt.indexOf("<video")==-1){
-										   text = "<a href=\""+(!hasProtocol ? "http://" + word : word)+"\" target=\"_blank\">"+word.replace("http://", "")+"</a>";
-									}
-									else text=word;
-							 }else{
-									text = word;
-							 }
-=======
+
 			    var lwords = line.split(" ");
 			    for(index in lwords){
 			          var text;
@@ -281,7 +254,6 @@ function parseUrlTextPopUp(txt,key){
 			                 }else{
 			                        text = word;
 			                 }
->>>>>>> refs/remotes/origin/master
 			
 					  }else{
 							 text = word;
