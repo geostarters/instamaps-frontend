@@ -362,7 +362,9 @@ L.Control.Search = L.Control.extend({
 		else
 			tool = L.DomUtil.get(self.options.resultsContainer);
 
-		tool.style.display = 'none';
+		if (tool!=null) {
+			tool.style.display = 'none';
+		
 
 		var that = this;
 		L.DomEvent
@@ -375,6 +377,7 @@ L.Control.Search = L.Control.extend({
 			.on(tool, 'mouseover', function(e) {
 				that.collapseDelayedStop();
 			}, this);
+		}
 		return tool;
 	},
 

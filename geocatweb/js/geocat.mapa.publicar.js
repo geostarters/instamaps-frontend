@@ -719,7 +719,7 @@
         	options.tags = $('#dialgo_publicar #optTags').val();
         	options.description = $('#dialgo_publicar #optDescripcio').summernote('code');
         	options.descriptionAsAtlas = $('#dialgo_publicar #cbAtles').is(':checked');
-        	options.descriptionColor = self.mapConfig.options.descriptionColor;
+        	if (self.mapConfig.options && self.mapConfig.options.descriptionColor) options.descriptionColor = self.mapConfig.options.descriptionColor;
 
 			options.mapa3D=estatMapa3D;
 			if(estatMapa3D){

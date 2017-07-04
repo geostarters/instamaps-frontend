@@ -23,9 +23,9 @@
 <link href="img/instamapes.ico" rel="shortcut icon" />
 
 <!-- Le styles -->
-<link href="/geocatweb/dist/css/jquery-05ca5dfb12.css" rel="stylesheet" type="text/css" />
-<link href="/geocatweb/dist/css/leaflet-dd929dadb6.css" rel="stylesheet" type="text/css" />
-<link href="/geocatweb/dist/css/instamaps-b7959f8e0d.css" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/jquery.css?v=195288c163" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/leaflet.css?v=32fcdb83ae" rel="stylesheet" type="text/css" />
+<link href="/geocatweb/dist/css/instamaps.css?v=be18b4eb15" rel="stylesheet" type="text/css" />
 <!-- /Le styles -->
 
 
@@ -52,7 +52,6 @@
 					<div class="img-circle2-icon crea_color"></div>
 					<div class="img-circle2-icon visualitza_color"></div>
 					<div class="img-circle2-icon comparteix_color"></div>
-					<div class="escut"><img src="/logos/blank.gif"></div>
 					<div class="brand-txt">InstaMaps</div>
 
 				</a>
@@ -78,7 +77,7 @@
 
 					<li id="menu_login">
 						<form class="navbar-form">
-							<a lang="ca" id="hl_sessio1" href="/geocatweb/mapa.html" onClick="_gaq.push(['_trackEvent', 'visor', 'fer mapa', 'acquisition']);"
+							<a lang="ca" id="hl_sessio1" href="/geocatweb/mapa.html" 
 								class="btn bt-sessio instamaps_sessio">Fes el teu mapa</a>
 						</form>
 					</li>
@@ -103,8 +102,29 @@
 		</div>
 	</div>
 	<!-- / Fixed navbar -->
+	<div id="leftSidebar" class="sidebar collapsed">
+		<div class="sidebar-tabs">
+			<ul role="tablist" class="leftTopBar">
+				<li lang="ca" title="Informació" data-lang-title="Informació">
+					<a href="#infoPanel" role="tab">
+						<span id="infoMap" class="glyphicon glyphicon-info-sign"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="sidebar-content">
+			<div id="infoPanel" class="sidebar-pane sidebar-outer-pane">
+				<h1 class="sidebar-header" lang="ca">
+					Informació 
+					<span class="sidebar-close" id="infoClose"><i class="fa fa-caret-left"></i></span>
+				</h1>
+			</div>
+		</div>
+	</div>
 
-    <div id="searchBar" class="input-group"></div><!-- /input-group -->
+	<div id="searchBar" class="input-group"></div>
+	<div id="searchResults"></div>
+	<div id="socialShare_visor" class="div_gr5"></div>
 
 	<div id="map" class="visor"></div>
 
@@ -113,8 +133,6 @@
 		<div class="div_popup_visor">
 		</div>
 	</div>
-
-	<div id="socialShare_visor" class="div_gr5"></div>
 	<!--
 	<div id="logos">
 		<a class="logo_footer" href="http://www.icgc.cat" title="Institut Cartogràfic i Geològic de Catalunya" target="_blank">
@@ -344,13 +362,13 @@ if (!Modernizr.canvas || !Modernizr.sandbox || !Modernizr.csstransitions){
 	}
 }
 </script>
-<script src="/geocatweb/dist/js/jquery-655b0ab30d.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/dist/js/jquery.js?v=13028b2102" charset="utf-8" type="text/javascript"></script>
 <script>
 	L_PREFER_CANVAS = true;
 	L_DISABLE_3D = false;
 </script>
-<script src="/geocatweb/dist/js/leaflet-2e7f591336.js" charset="utf-8" type="text/javascript"></script>
-<script src="/geocatweb/dist/js/instamaps-df518008a7.js" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/dist/js/leaflet.js?v=2c725ba359" charset="utf-8" type="text/javascript"></script>
+<script src="/geocatweb/dist/js/instamaps.js?v=b3022aecc8" charset="utf-8" type="text/javascript"></script>
  <!-- /Le javascript -->
  
 </body>
