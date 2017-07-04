@@ -865,6 +865,10 @@ background-color: #9F9F9E;
 	 font-size: 13px;
 }
 
+.btn-upload {
+	height:30px;
+	width:110px;
+}
 
 #dialog_tematic_rangs .labels_fields{
 	display: inline;

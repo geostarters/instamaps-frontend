@@ -362,7 +362,7 @@ L.Control.Search = L.Control.extend({
 		else
 			tool = L.DomUtil.get(self.options.resultsContainer);
 
-		if (tool!=null) {
+		if (tool!=null ) {
 			tool.style.display = 'none';
 		
 

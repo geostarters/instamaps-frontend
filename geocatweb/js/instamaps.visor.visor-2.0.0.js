@@ -2,6 +2,7 @@
  * require geocat.ajax-1.0.0
  * require geocat.web-1.0.0
  * require geocat.mapa.edit-data-table
+ * require url.min
  * require leaflet
  * require L.IM_Map
  * require L.IM_controlFons
