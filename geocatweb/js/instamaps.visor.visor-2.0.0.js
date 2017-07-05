@@ -1702,7 +1702,7 @@
 				if (tipusFile.toLowerCase().indexOf("gpx")>-1) tipusFile=".gpx";
 				if (tipusFile.toLowerCase().indexOf("csv")>-1) tipusFile=".csv";
 				if (tipusFile.toLowerCase().indexOf("xls")>-1) {
-					if (tipusFile.toLowerCase().indexOf("xls")>-1) tipusFile=".xlsx";
+					if (tipusFile.toLowerCase().indexOf("xlsx")>-1) tipusFile=".xlsx";
 					else tipusFile=".xls";
 				}						
 				if (tipusFile.toLowerCase().indexOf("txt")>-1) tipusFile=".txt";
